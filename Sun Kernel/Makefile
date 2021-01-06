@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 5
-PATCHLEVEL = 11
-SUBLEVEL = 0
-EXTRAVERSION = -rc2
-NAME = Kleptomaniac Octopus
+PATCHLEVEL = 10
+SUBLEVEL = 1
+EXTRAVERSION = -rc1
+NAME = Picasso
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -378,14 +378,6 @@ ifeq ($(ARCH),i386)
 endif
 ifeq ($(ARCH),x86_64)
         SRCARCH := x86
-endif
-
-# Additional ARCH settings for sparc
-ifeq ($(ARCH),sparc32)
-       SRCARCH := sparc
-endif
-ifeq ($(ARCH),sparc64)
-       SRCARCH := sparc
 endif
 
 # Additional ARCH settings for sh
