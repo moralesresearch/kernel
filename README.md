@@ -14,3 +14,9 @@ several of them using the Restructured Text markup notation.
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
+
+## Sun Kernel (based on Linux)
+The Sun Kernel is based on Linux to provide the most prominent features to the end user, and new technologies within the kernel, for example, livepatching, which patches your system while running without needing a reboot.
+We will soon be adding support for ZFS on the kernel and for Sun/OS!
+
+We expect to release the kernel by April or June of 2021!
