@@ -3,7 +3,7 @@ VERSION = 5
 PATCHLEVEL = 10
 SUBLEVEL = 5
 EXTRAVERSION =
-NAME = Kleptomaniac Octopus
+NAME = Sunrise
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
