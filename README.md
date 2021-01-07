@@ -19,4 +19,4 @@ the problems which may result by upgrading your kernel.
 The Sun Kernel is based on Linux to provide the most prominent features to the end user, and new technologies within the kernel, for example, livepatching, which patches your system while running without needing a reboot.
 We will soon be adding support for ZFS on the kernel and for Sun/OS!
 
-We expect to release the kernel by April or June of 2021!
+We expect to release the Sun kernel v5.11 by April or June of 2021!
