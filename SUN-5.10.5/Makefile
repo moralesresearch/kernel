@@ -3,7 +3,7 @@ VERSION = 5
 PATCHLEVEL = 10
 SUBLEVEL = 5
 EXTRAVERSION =
-NAME = Sunrise
+NAME = Van Gogh
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
