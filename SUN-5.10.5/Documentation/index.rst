@@ -1,14 +1,14 @@
 .. SPDX-License-Identifier: GPL-2.0
 
 
-.. The Linux Kernel documentation master file, created by
-   sphinx-quickstart on Fri Feb 12 13:51:46 2016.
+.. The Sun Kernel documentation master file, created by
+   sphinx-quickstart on January 1, 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 .. _linux_doc:
 
-The Linux Kernel documentation
+The Sun Kernel documentation
 ==============================
 
 This is the top level of the kernel's documentation tree.  Kernel
