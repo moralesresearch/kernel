@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0 */
+/* SPDX-License-Identifier: BSD-3 */
 #ifndef _LINUX_UTS_H
 #define _LINUX_UTS_H
 
@@ -18,3 +18,4 @@
 #endif
 
 #endif
+/* (C) 2021 SunOS Linux */
