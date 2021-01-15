@@ -3,7 +3,7 @@ VERSION = 5
 PATCHLEVEL = 10
 SUBLEVEL = 6
 EXTRAVERSION =
-NAME = Kleptomaniac Octopus
+NAME = Van Gogh
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
