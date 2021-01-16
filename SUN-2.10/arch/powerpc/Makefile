@@ -3,11 +3,10 @@
 # for "archclean" and "archdep" for cleaning up and making dependencies for
 # this architecture.
 #
-# This file is subject to the terms and conditions of the GNU General Public
-# License.  See the file "COPYING" in the main directory of this archive
+# This file is subject to the terms and conditions of the BSD-3 License.  See the file "COPYING" in the main directory of this archive
 # for more details.
 #
-# Copyright (C) 1994 by Linus Torvalds
+# Copyright (C) 2021 by Abdon Morales
 # Changes for PPC by Gary Thomas
 # Rewritten by Cort Dougan and Paul Mackerras
 #
