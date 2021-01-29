@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 1
 PATCHLEVEL = 10
-SUBLEVEL = 10
+SUBLEVEL = 8
 EXTRAVERSION =
 NAME = Van Gogh
 
