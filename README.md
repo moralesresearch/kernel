@@ -1,4 +1,4 @@
-# Sun Kernel v1.10.9 (Stable)
+# Sun Kernel v1.11 (Stable)
 There are several guides for kernel developers and users. These guides can
 be rendered in a number of formats, like HTML and PDF. Please read
 Documentation/admin-guide/README.rst first.
