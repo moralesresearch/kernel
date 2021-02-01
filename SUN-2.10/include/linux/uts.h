@@ -6,7 +6,7 @@
  * Defines for what uname() should return 
  */
 #ifndef UTS_SYSNAME
-#define UTS_SYSNAME "Sun"
+#define UTS_SYSNAME "Sun" /* This is the name for the kernel */
 #endif
 
 #ifndef UTS_NODENAME
