@@ -1,9 +1,8 @@
-# SPDX-License-Identifier: GPL-3.0
 VERSION = 1
-PATCHLEVEL = 10
-SUBLEVEL = 9
-EXTRAVERSION = 1
-NAME = Van Gogh
+PATCHLEVEL = 11
+SUBLEVEL = 0
+EXTRAVERSION =
+NAME = Van Gogh (Revised)
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
