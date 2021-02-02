@@ -1,4 +1,4 @@
-# Sun Kernel v1.10.9 (Stable)
+# Sun Kernel v1.11 (Stable)
 There are several guides for kernel developers and users. These guides can
 be rendered in a number of formats, like HTML and PDF. Please read
 Documentation/admin-guide/README.rst first.
@@ -18,5 +18,3 @@ the problems which may result by upgrading your kernel.
 ## Sun Kernel (based on Linux)
 The Sun Kernel is based on Linux to provide the most prominent features to the end user, and new technologies within the kernel, for example, livepatching **(Only applies for Ubuntu systems)** , which patches your system while running without needing a reboot.
 We will soon be adding support for ZFS on the kernel and for Sun/OS!
-
-We expect to release the Sun kernel v2.10 by April or June of 2021!
