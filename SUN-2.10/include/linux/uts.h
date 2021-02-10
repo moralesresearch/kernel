@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0 */
+/* SPDX-License-Identifier: FRL-v1.0 */
 #ifndef _LINUX_UTS_H
 #define _LINUX_UTS_H
 
@@ -6,7 +6,7 @@
  * Defines for what uname() should return 
  */
 #ifndef UTS_SYSNAME
-#define UTS_SYSNAME "Sun" /* This is the name for the kernel */
+#define UTS_SYSNAME "Sun"
 #endif
 
 #ifndef UTS_NODENAME
