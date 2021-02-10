@@ -972,6 +972,7 @@ static int io_setup_async_rw(struct io_kiocb *req, const struct iovec *iovec,
 			     const struct iovec *fast_iov,
 			     struct iov_iter *iter, bool force);
 static void io_req_drop_files(struct io_kiocb *req);
+static void io_req_task_queue(struct io_kiocb *req);
 
 static struct kmem_cache *req_cachep;
 
@@ -1502,18 +1503,11 @@ static void __io_queue_deferred(struct io_ring_ctx *ctx)
 	do {
 		struct io_defer_entry *de = list_first_entry(&ctx->defer_list,
 						struct io_defer_entry, list);
-		struct io_kiocb *link;
 
 		if (req_need_defer(de->req, de->seq))
 			break;
 		list_del_init(&de->list);
-		/* punt-init is done before queueing for defer */
-		link = __io_queue_async_work(de->req);
-		if (link) {
-			__io_queue_linked_timeout(link);
-			/* drop submission reference */
-			io_put_req_deferred(link, 1);
-		}
+		io_req_task_queue(de->req);
 		kfree(de);
 	} while (!list_empty(&ctx->defer_list));
 }
@@ -8788,12 +8782,6 @@ static void io_uring_cancel_task_requests(struct io_ring_ctx *ctx,
 
 	if ((ctx->flags & IORING_SETUP_SQPOLL) && ctx->sq_data) {
 		atomic_dec(&task->io_uring->in_idle);
-		/*
-		 * If the files that are going away are the ones in the thread
-		 * identity, clear them out.
-		 */
-		if (task->io_uring->identity->files == files)
-			task->io_uring->identity->files = NULL;
 		io_sq_thread_unpark(ctx->sq_data);
 	}
 }
