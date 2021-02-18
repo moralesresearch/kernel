@@ -2,9 +2,8 @@
 VERSION = 2
 PATCHLEVEL = 10
 SUBLEVEL = 0
-EXTRAVERSION = -rc7
-NAME = Picasso (RC7)
-# (RC7) Marked as final
+EXTRAVERSION =
+NAME = Picasso
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
