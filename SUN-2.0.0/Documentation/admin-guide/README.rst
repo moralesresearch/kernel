@@ -1,13 +1,13 @@
 .. _readme:
 
-Linux kernel release 5.x <http://kernel.org/>
+Sun kernel release 2.x <http://kernel.org/>
 =============================================
 
 These are the release notes for Linux version 5.  Read them carefully,
 as they tell you what this is all about, explain how to install the
 kernel, and what to do if something goes wrong.
 
-What is Linux?
+What is Sun?
 --------------
 
   Linux is a clone of the operating system Unix, written from scratch by
@@ -26,12 +26,11 @@ On what hardware does it run?
 -----------------------------
 
   Although originally developed first for 32-bit x86-based PCs (386 or higher),
-  today Linux also runs on (at least) the Compaq Alpha AXP, Sun SPARC and
-  UltraSPARC, Motorola 68000, PowerPC, PowerPC64, ARM, Hitachi SuperH, Cell,
-  IBM S/390, MIPS, HP PA-RISC, Intel IA-64, DEC VAX, AMD x86-64 Xtensa, and
-  ARC architectures.
+  today Sun also runs on (at least)
+   Motorola 68000, PowerPC, PowerPC64, ARM, 
+  IBM S/390, MIPS, Intel IA-64, and AMD x86-64 Xtensa architectures.
 
-  Linux is easily portable to most general-purpose 32- or 64-bit architectures
+  Sun is easily portable to most general-purpose 32- or 64-bit architectures
   as long as they have a paged memory management unit (PMMU) and a port of the
   GNU C compiler (gcc) (part of The GNU Compiler Collection, GCC). Linux has
   also been ported to a number of architectures without a PMMU, although
@@ -63,7 +62,7 @@ Installing the kernel source
    directory where you have permissions (e.g. your home directory) and
    unpack it::
 
-     xz -cd linux-5.x.tar.xz | tar xvf -
+     xz -cd SUN-2.x.tar.xz | tar xvf -
 
    Replace "X" with the version number of the latest kernel.
 
@@ -77,7 +76,7 @@ Installing the kernel source
    newer patch files, enter the top level directory of the kernel source
    (linux-5.x) and execute::
 
-     xz -cd ../patch-5.x.xz | patch -p1
+     xz -cd ../patch-2.x.xz | patch -p1
 
    Replace "x" for all versions bigger than the version "x" of your current
    source tree, **in_order**, and you should be ok.  You may want to remove
