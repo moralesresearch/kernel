@@ -1,0 +1,11 @@
+[default]
+name=Default
+runtime=host
+toolchain=gcc:/usr/bin/x86_64-pc-linux-gnu-gcc
+config-opts=
+run-opts=
+prefix=/home/abdonmorales/.cache/gnome-builder/install/Sun-Kernel/host
+app-id=
+postbuild=
+prebuild=
+default=true

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 2
-PATCHLEVEL = 10
+PATCHLEVEL = 0
 SUBLEVEL = 0
 EXTRAVERSION =
 NAME = Picasso
