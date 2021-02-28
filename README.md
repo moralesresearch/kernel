@@ -1,4 +1,4 @@
-# Sun Kernel v2.1.0
+# Sun Kernel v2.1.2
 Sun Kernel is a proprietary kernel in development  for Sun/OS and will soon support all Arch distros (that are based around Arch)
 
 There are several guides for kernel developers and users. These guides can
