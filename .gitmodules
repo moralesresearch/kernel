@@ -1,0 +1,3 @@
+[submodule "sun-logos"]
+	path = sun-logos
+	url = https://github.com/SunOS-Linux/sun-logos
