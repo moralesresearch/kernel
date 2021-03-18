@@ -1,6 +1,5 @@
 # Sun Kernel v1.11.3 [LTM] (Long Term Maintenance)
-Sun Kernel is a proprietary kernel in development  for Sun/OS and will soon support all Arch distros (that are based around Arch)
-
+Sun Kernel is a proprietary kernel for Sun/OS and all Linux distrobutions
 There are several guides for kernel developers and users. These guides can
 be rendered in a number of formats, like HTML and PDF. Please read
 Documentation/admin-guide/README.rst first.
