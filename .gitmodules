@@ -1,3 +1,3 @@
-[submodule "sun-logos"]
+[submodule "images"]
 	path = sun-logos/images
 	url = https://github.com/SunOS-Linux/sun-logos
