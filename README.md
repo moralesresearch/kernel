@@ -1,4 +1,4 @@
-# Sun Kernel v2.1.4
+# Sun Kernel v1.11.3 for ARM (RaspberryPi and other)
 Sun Kernel is a proprietary kernel for Sun/OS and all Linux distros
 
 There are several guides for kernel developers and users. These guides can
