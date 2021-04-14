@@ -1,5 +1,5 @@
-# Sun Kernel v2.1.4
-Sun Kernel is a proprietary kernel for Sun/OS and all Linux distros
+# MR (Linux/SUN) Kernel v2.1.5
+The MR Kernel is a proprietary kernel for Sun/OS and all Linux distros
 
 There are several guides for kernel developers and users. These guides can
 be rendered in a number of formats, like HTML and PDF. Please read
