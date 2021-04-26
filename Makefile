@@ -1,17 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 2
-<<<<<<< HEAD
 PATCHLEVEL = 2
 SUBLEVEL = 0
 EXTRAVERSION =
 NAME = Kahlo
-=======
-PATCHLEVEL = 1
-SUBLEVEL = 5
-EXTRAVERSION = -STABLE
-NAME = Picasso (Revision 1)
->>>>>>> stable
-
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
 # More info can be located in ./README
