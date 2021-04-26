@@ -2,8 +2,8 @@
 VERSION = 2
 PATCHLEVEL = 2
 SUBLEVEL = 0
-EXTRAVERSION = -rc5
-NAME = Kahlo (Final RC)
+EXTRAVERSION =
+NAME = Kahlo
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"

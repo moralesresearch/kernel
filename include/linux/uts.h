@@ -6,7 +6,7 @@
  * Defines for what uname() should return 
  */
 #ifndef UTS_SYSNAME
-#define UTS_SYSNAME "Morales Research - SUN"
+#define UTS_SYSNAME "SUN-Morales Research"
 #endif
 
 #ifndef UTS_NODENAME
