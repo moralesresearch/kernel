@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config TRACE_IRQFLAGS_SUPPORT
+	def_bool y
+
+config EARLY_PRINTK
+	def_bool y
+
+<<<<<<< HEAD
+config DEBUG_ENTRY
+	bool "Debug low-level entry code"
+	depends on DEBUG_KERNEL
+	help
+	  This option enables sanity checks in s390 low-level entry code.
+	  Some of these sanity checks may slow down kernel entries and
+	  exits or otherwise impact performance.
+=======
+config DEBUG_USER_ASCE
+	bool "Debug User ASCE"
+	help
+	  Check on exit to user space that address space control
+	  elements are setup correctly.
+>>>>>>> stable
+
+	  If unsure, say N.
