@@ -1,9 +1,9 @@
 #Do not use the spec to build RPMS!!!!
 
-Name:           sun-kernel
+Name:           kernel
 Version:        2.2.1
 Release:        2%{?dist}
-Summary:       The Sun Kernel 
+Summary:       The MR-Sun Kernel 
 
 #Group:          
 License:      FRL  
