@@ -1,9 +1,9 @@
 .. _readme:
 
-Linux kernel release 5.x <http://kernel.org/>
+MR-Sun Kernel release 2.2.x
 =============================================
 
-These are the release notes for Linux version 5.  Read them carefully,
+These are the release notes for SUN Kernel version 2.  Read them carefully,
 as they tell you what this is all about, explain how to install the
 kernel, and what to do if something goes wrong.
 
@@ -63,7 +63,7 @@ Installing the kernel source
    directory where you have permissions (e.g. your home directory) and
    unpack it::
 
-     xz -cd linux-5.x.tar.xz | tar xvf -
+     xz -cd kernel-2.x.tar.xz | tar xvf -
 
    Replace "X" with the version number of the latest kernel.
 
@@ -72,12 +72,12 @@ Installing the kernel source
    files.  They should match the library, and not get messed up by
    whatever the kernel-du-jour happens to be.
 
- - You can also upgrade between 5.x releases by patching.  Patches are
+ - You can also upgrade between 2.x releases by patching.  Patches are
    distributed in the xz format.  To install by patching, get all the
    newer patch files, enter the top level directory of the kernel source
-   (linux-5.x) and execute::
+   (kernel-2.x) and execute::
 
-     xz -cd ../patch-5.x.xz | patch -p1
+     xz -cd ../patch-2.x.xz | patch -p1
 
    Replace "x" for all versions bigger than the version "x" of your current
    source tree, **in_order**, and you should be ok.  You may want to remove
