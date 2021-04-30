@@ -1,3 +1,5 @@
+#Do not use the spec to build RPMS!!!!
+
 Name:           sun-kernel
 Version:        2.2.1
 Release:        1%{?dist}
