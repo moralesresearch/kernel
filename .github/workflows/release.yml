@@ -9,7 +9,7 @@ name: Create Release
 jobs:
   build:
     name: Sun Kernel
-    runs-on: arch
+    runs-on: centos
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v5.11
+          tag_name: v
           release_name: Sun Kernel
           body: |
             Changes in this Release
