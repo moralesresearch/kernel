@@ -113,7 +113,7 @@ Summary: The MR-Sun kernel
 %define patchlevel 12
 
 # allow pkg_release to have configurable %%{?dist} tag
-%define specrelease 198%{?buildid}%{?dist}
+%define specrelease 1%{?buildid}%{?dist}
 
 %define pkg_release %{specrelease}
 
@@ -206,7 +206,7 @@ Summary: The MR-Sun kernel
 %define debugbuildsenabled 1
 
 # The kernel tarball/base version
-%define kversion 5.12
+%define kversion 2.2.0
 
 %if 0%{?fedora}
 # Kernel headers are being split out into a separate package
