@@ -5,7 +5,7 @@ Version:        2.2.1
 Release:        1%{?dist}
 Summary:       The Sun Kernel 
 
-Group:          
+#Group:          
 License:      FRL  
 URL:  https://github.com/Morales-Research-Corporation/kernel          
 Source0:    https://github.com/Morales-Research-Corporation/kernel    
