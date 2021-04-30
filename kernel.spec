@@ -2791,6 +2791,10 @@ fi
 #
 #
 %changelog
+* Thu Apr 29 2021 Abdon Morales <abdonmorales@sunoslinux.com> 2.2.0-1
+- Updated (abdon.morales13_2022@outlook.com)
+- Updated versioning (abdon.morales13_2022@outlook.com)
+
 * Thu Apr 29 2021 Abdon Morales <abdonmorales@sunoslinux.com> 5.12.0-198
 - new package built with tito
 
