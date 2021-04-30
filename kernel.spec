@@ -57,7 +57,7 @@
 %define _binary_payload w3T.xzdio
 %endif
 
-Summary: The Linux kernel
+Summary: The MR-Sun kernel
 
 # For a kernel released for public testing, released_kernel should be 1.
 # For internal testing builds during development, it should be 0.
@@ -106,8 +106,8 @@ Summary: The Linux kernel
 %define primary_target rhel
 %endif
 
-%define rpmversion 5.12.0
-%define pkgrelease 198
+%define rpmversion 2.2.0
+%define pkgrelease 1
 
 # This is needed to do merge window version magic
 %define patchlevel 12
