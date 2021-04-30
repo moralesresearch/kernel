@@ -1,5 +1,7 @@
+#Do not use the spec to build RPMS!!!!
+
 Name:           sun-kernel
-Version:        2.2.0
+Version:        2.2.1
 Release:        1%{?dist}
 Summary:       The Sun Kernel 
 
@@ -18,4 +20,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
-* Fri Apr 30 2021 Abdon Morales - 2.2.0
+* Thu Apr 29 2021 Abdon Morales - 2.2.0
+- Inital package commit for tito/rpm
+* Fri Apr 30 2021 Abdon Morales - 2.2.1
+- Updated spec file with placeholder so tito can work correctly
