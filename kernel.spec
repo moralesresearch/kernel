@@ -1,8 +1,8 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        2.2.1
-Release:        2%{?dist}
+Version:        2.2.2
+Release:        2%{?dist}.sol
 Summary:       The MR-Sun Kernel 
 
 #Group:          
