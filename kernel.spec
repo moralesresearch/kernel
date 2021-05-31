@@ -2,7 +2,7 @@
 
 Name:           kernel
 Version:        2.2.1
-Release:        2%{?dist}
+Release:        1%{?dist}.sol
 Summary:       The MR-Sun Kernel 
 
 #Group:          
@@ -20,6 +20,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Mon May 31 2021 Abdon Morales <abdon.morales13_2022@outlook.com> 2.2.2
+- Adding pacthes for some of kernel files
+- Updated some of the core architectures (arm, ppc, x86)
 * Fri Apr 30 2021 Abdon Morales <abdonmorales@sunoslinux.com> 2.2.1-2
 - Updated placeholder spec
 - Tito updated with the correct settings
