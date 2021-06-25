@@ -104,7 +104,11 @@ sottomissione delle patch, in particolare
     l'iniezione di fallimenti specifici per il sottosistema.
 
 22) Il nuovo codice è stato compilato con ``gcc -W`` (usate
+<<<<<<< HEAD
     ``make KCFLAGS=-W``).  Questo genererà molti avvisi, ma è ottimo
+=======
+    ``make EXTRA_CFLAGS=-W``).  Questo genererà molti avvisi, ma è ottimo
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     per scovare bachi come  "warning: comparison between signed and unsigned".
 
 23) La patch è stata verificata dopo essere stata inclusa nella serie di patch

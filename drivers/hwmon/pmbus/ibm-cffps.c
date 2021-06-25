@@ -472,7 +472,11 @@ static struct pmbus_driver_info ibm_cffps_info[] = {
 };
 
 static struct pmbus_platform_data ibm_cffps_pdata = {
+<<<<<<< HEAD
 	.flags = PMBUS_SKIP_STATUS_CHECK | PMBUS_NO_CAPABILITY,
+=======
+	.flags = PMBUS_SKIP_STATUS_CHECK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int ibm_cffps_probe(struct i2c_client *client)

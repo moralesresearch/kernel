@@ -186,7 +186,11 @@ static void i40iw_enable_intr(struct i40iw_sc_dev *dev, u32 msix_id)
 
 /**
  * i40iw_dpc - tasklet for aeq and ceq 0
+<<<<<<< HEAD
  * @t: Timer context to fetch pointer to iwarp device
+=======
+ * @data: iwarp device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void i40iw_dpc(struct tasklet_struct *t)
 {
@@ -200,7 +204,11 @@ static void i40iw_dpc(struct tasklet_struct *t)
 
 /**
  * i40iw_ceq_dpc - dpc handler for CEQ
+<<<<<<< HEAD
  * @t: Timer context to fetch pointer to CEQ data
+=======
+ * @data: data points to CEQ
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void i40iw_ceq_dpc(struct tasklet_struct *t)
 {
@@ -227,7 +235,11 @@ static irqreturn_t i40iw_irq_handler(int irq, void *data)
 /**
  * i40iw_destroy_cqp  - destroy control qp
  * @iwdev: iwarp device
+<<<<<<< HEAD
  * @free_hwcqp: 1 if CQP should be destroyed
+=======
+ * @create_done: 1 if cqp create poll was success
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Issue destroy cqp request and
  * free the resources associated with the cqp
@@ -253,7 +265,11 @@ static void i40iw_destroy_cqp(struct i40iw_device *iwdev, bool free_hwcqp)
 /**
  * i40iw_disable_irqs - disable device interrupts
  * @dev: hardware control device structure
+<<<<<<< HEAD
  * @msix_vec: msix vector to disable irq
+=======
+ * @msic_vec: msix vector to disable irq
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dev_id: parameter to pass to free_irq (used during irq setup)
  *
  * The function is called when destroying aeq/ceq
@@ -394,9 +410,14 @@ static enum i40iw_hmc_rsrc_type iw_hmc_obj_types[] = {
 
 /**
  * i40iw_close_hmc_objects_type - delete hmc objects of a given type
+<<<<<<< HEAD
  * @dev: iwarp device
  * @obj_type: the hmc object type to be deleted
  * @hmc_info: pointer to the HMC configuration information
+=======
+ * @iwdev: iwarp device
+ * @obj_type: the hmc object type to be deleted
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @is_pf: true if the function is PF otherwise false
  * @reset: true if called before reset
  */
@@ -438,7 +459,10 @@ static void i40iw_del_hmc_objects(struct i40iw_sc_dev *dev,
 
 /**
  * i40iw_ceq_handler - interrupt handler for ceq
+<<<<<<< HEAD
  * @irq: interrupt request number
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @data: ceq pointer
  */
 static irqreturn_t i40iw_ceq_handler(int irq, void *data)
@@ -1779,7 +1803,10 @@ static void i40iw_l2param_change(struct i40e_info *ldev, struct i40e_client *cli
 /**
  * i40iw_close - client interface operation close for iwarp/uda device
  * @ldev: lan device information
+<<<<<<< HEAD
  * @reset: true if called before reset
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @client: client to close
  *
  * Called by the lan driver during the processing of client unregister

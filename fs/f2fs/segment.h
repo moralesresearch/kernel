@@ -361,6 +361,7 @@ static inline unsigned int get_valid_blocks(struct f2fs_sb_info *sbi,
 }
 
 static inline unsigned int get_ckpt_valid_blocks(struct f2fs_sb_info *sbi,
+<<<<<<< HEAD
 				unsigned int segno, bool use_section)
 {
 	if (use_section && __is_large_section(sbi)) {
@@ -375,6 +376,10 @@ static inline unsigned int get_ckpt_valid_blocks(struct f2fs_sb_info *sbi,
 		}
 		return blocks;
 	}
+=======
+				unsigned int segno)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return get_seg_entry(sbi, segno)->ckpt_valid_blocks;
 }
 
@@ -863,7 +868,15 @@ static inline int nr_pages_to_skip(struct f2fs_sb_info *sbi, int type)
 	else if (type == NODE)
 		return 8 * sbi->blocks_per_seg;
 	else if (type == META)
+<<<<<<< HEAD
 		return 8 * BIO_MAX_VECS;
+=======
+<<<<<<< HEAD
+		return 8 * BIO_MAX_VECS;
+=======
+		return 8 * BIO_MAX_PAGES;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		return 0;
 }
@@ -880,7 +893,15 @@ static inline long nr_pages_to_write(struct f2fs_sb_info *sbi, int type,
 		return 0;
 
 	nr_to_write = wbc->nr_to_write;
+<<<<<<< HEAD
 	desired = BIO_MAX_VECS;
+=======
+<<<<<<< HEAD
+	desired = BIO_MAX_VECS;
+=======
+	desired = BIO_MAX_PAGES;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type == NODE)
 		desired <<= 1;
 

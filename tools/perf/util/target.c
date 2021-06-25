@@ -56,6 +56,7 @@ enum target_errno target__validate(struct target *target)
 			ret = TARGET_ERRNO__UID_OVERRIDE_SYSTEM;
 	}
 
+<<<<<<< HEAD
 	/* BPF and CPU are mutually exclusive */
 	if (target->bpf_str && target->cpu_list) {
 		target->cpu_list = NULL;
@@ -84,6 +85,8 @@ enum target_errno target__validate(struct target *target)
 			ret = TARGET_ERRNO__BPF_OVERRIDE_THREAD;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* THREAD and SYSTEM/CPU are mutually exclusive */
 	if (target->per_thread && (target->system_wide || target->cpu_list)) {
 		target->per_thread = false;
@@ -137,10 +140,13 @@ static const char *target__error_str[] = {
 	"PID/TID switch overriding SYSTEM",
 	"UID switch overriding SYSTEM",
 	"SYSTEM/CPU switch overriding PER-THREAD",
+<<<<<<< HEAD
 	"BPF switch overriding CPU",
 	"BPF switch overriding PID/TID",
 	"BPF switch overriding UID",
 	"BPF switch overriding THREAD",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"Invalid User: %s",
 	"Problems obtaining information for user %s",
 };
@@ -166,7 +172,11 @@ int target__strerror(struct target *target, int errnum,
 
 	switch (errnum) {
 	case TARGET_ERRNO__PID_OVERRIDE_CPU ...
+<<<<<<< HEAD
 	     TARGET_ERRNO__BPF_OVERRIDE_THREAD:
+=======
+	     TARGET_ERRNO__SYSTEM_OVERRIDE_THREAD:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		snprintf(buf, buflen, "%s", msg);
 		break;
 

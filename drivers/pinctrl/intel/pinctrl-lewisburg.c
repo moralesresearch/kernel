@@ -299,9 +299,15 @@ static const struct pinctrl_pin_desc lbg_pins[] = {
 static const struct intel_community lbg_communities[] = {
 	LBG_COMMUNITY(0, 0, 71),
 	LBG_COMMUNITY(1, 72, 132),
+<<<<<<< HEAD
 	LBG_COMMUNITY(3, 133, 143),
 	LBG_COMMUNITY(4, 144, 178),
 	LBG_COMMUNITY(5, 179, 246),
+=======
+	LBG_COMMUNITY(3, 133, 144),
+	LBG_COMMUNITY(4, 145, 180),
+	LBG_COMMUNITY(5, 181, 246),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct intel_pinctrl_soc_data lbg_soc_data = {

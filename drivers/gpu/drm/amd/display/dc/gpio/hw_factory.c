@@ -119,3 +119,20 @@ bool dal_hw_factory_init(
 		return false;
 	}
 }
+<<<<<<< HEAD
+=======
+
+void dal_hw_factory_destroy(
+	struct dc_context *ctx,
+	struct hw_factory **factory)
+{
+	if (!factory || !*factory) {
+		BREAK_TO_DEBUGGER();
+		return;
+	}
+
+	kfree(*factory);
+
+	*factory = NULL;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

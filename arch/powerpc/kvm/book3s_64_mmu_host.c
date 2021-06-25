@@ -8,7 +8,10 @@
  */
 
 #include <linux/kvm_host.h>
+<<<<<<< HEAD
 #include <linux/pkeys.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/kvm_ppc.h>
 #include <asm/kvm_book3s.h>
@@ -134,7 +137,10 @@ int kvmppc_mmu_map_page(struct kvm_vcpu *vcpu, struct kvmppc_pte *orig_pte,
 	else
 		kvmppc_mmu_flush_icache(pfn);
 
+<<<<<<< HEAD
 	rflags |= pte_to_hpte_pkey_bits(0, HPTE_USE_KERNEL_KEY);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rflags = (rflags & ~HPTE_R_WIMG) | orig_pte->wimg;
 
 	/*

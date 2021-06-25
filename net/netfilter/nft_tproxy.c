@@ -13,9 +13,15 @@
 #endif
 
 struct nft_tproxy {
+<<<<<<< HEAD
 	u8	sreg_addr;
 	u8	sreg_port;
 	u8	family;
+=======
+	enum nft_registers      sreg_addr:8;
+	enum nft_registers      sreg_port:8;
+	u8			family;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void nft_tproxy_eval_v4(const struct nft_expr *expr,
@@ -247,15 +253,25 @@ static int nft_tproxy_init(const struct nft_ctx *ctx,
 	}
 
 	if (tb[NFTA_TPROXY_REG_ADDR]) {
+<<<<<<< HEAD
 		err = nft_parse_register_load(tb[NFTA_TPROXY_REG_ADDR],
 					      &priv->sreg_addr, alen);
+=======
+		priv->sreg_addr = nft_parse_register(tb[NFTA_TPROXY_REG_ADDR]);
+		err = nft_validate_register_load(priv->sreg_addr, alen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0)
 			return err;
 	}
 
 	if (tb[NFTA_TPROXY_REG_PORT]) {
+<<<<<<< HEAD
 		err = nft_parse_register_load(tb[NFTA_TPROXY_REG_PORT],
 					      &priv->sreg_port, sizeof(u16));
+=======
+		priv->sreg_port = nft_parse_register(tb[NFTA_TPROXY_REG_PORT]);
+		err = nft_validate_register_load(priv->sreg_port, sizeof(u16));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0)
 			return err;
 	}

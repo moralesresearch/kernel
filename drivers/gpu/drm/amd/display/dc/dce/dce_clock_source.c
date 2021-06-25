@@ -113,6 +113,10 @@ static const struct spread_spectrum_data *get_ss_data_entry(
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * calculate_fb_and_fractional_fb_divider - Calculates feedback and fractional
  *                                          feedback dividers values
  *
@@ -126,6 +130,25 @@ static const struct spread_spectrum_data *get_ss_data_entry(
  *			    calculated fract feedback divider value
  *
  * return:
+<<<<<<< HEAD
+=======
+=======
+ * Function: calculate_fb_and_fractional_fb_divider
+ *
+ * * DESCRIPTION: Calculates feedback and fractional feedback dividers values
+ *
+ *PARAMETERS:
+ * targetPixelClock             Desired frequency in 100 Hz
+ * ref_divider                  Reference divider (already known)
+ * postDivider                  Post Divider (already known)
+ * feedback_divider_param       Pointer where to store
+ *					calculated feedback divider value
+ * fract_feedback_divider_param Pointer where to store
+ *					calculated fract feedback divider value
+ *
+ *RETURNS:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * It fills the locations pointed by feedback_divider_param
  *					and fract_feedback_divider_param
  * It returns	- true if feedback divider not 0
@@ -174,6 +197,10 @@ static bool calculate_fb_and_fractional_fb_divider(
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * calc_fb_divider_checking_tolerance - Calculates Feedback and
  *                                      Fractional Feedback divider values
  *		                        for passed Reference and Post divider,
@@ -190,6 +217,27 @@ static bool calculate_fb_and_fractional_fb_divider(
  *  It returns	- true if error is within tolerance
  *		- false if error is not within tolerance
  */
+<<<<<<< HEAD
+=======
+=======
+*calc_fb_divider_checking_tolerance
+*
+*DESCRIPTION: Calculates Feedback and Fractional Feedback divider values
+*		for passed Reference and Post divider, checking for tolerance.
+*PARAMETERS:
+* pll_settings		Pointer to structure
+* ref_divider		Reference divider (already known)
+* postDivider		Post Divider (already known)
+* tolerance		Tolerance for Calculated Pixel Clock to be within
+*
+*RETURNS:
+* It fills the PLLSettings structure with PLL Dividers values
+* if calculated values are within required tolerance
+* It returns	- true if error is within tolerance
+*		- false if error is not within tolerance
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool calc_fb_divider_checking_tolerance(
 		struct calc_pll_clock_source *calc_pll_cs,
 		struct pll_settings *pll_settings,
@@ -240,7 +288,15 @@ static bool calc_fb_divider_checking_tolerance(
 		pll_settings->calculated_pix_clk_100hz =
 			actual_calculated_clock_100hz;
 		pll_settings->vco_freq =
+<<<<<<< HEAD
 			div_u64((u64)actual_calculated_clock_100hz * post_divider, 10);
+=======
+<<<<<<< HEAD
+			div_u64((u64)actual_calculated_clock_100hz * post_divider, 10);
+=======
+			actual_calculated_clock_100hz * post_divider / 10;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	}
 	return false;
@@ -459,7 +515,15 @@ static bool pll_adjust_pix_clk(
 	return false;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Calculate PLL Dividers for given Clock Value.
  * First will call VBIOS Adjust Exec table to check if requested Pixel clock
  * will be Adjusted based on usage.

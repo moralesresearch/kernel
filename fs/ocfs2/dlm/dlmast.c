@@ -165,6 +165,19 @@ void __dlm_queue_bast(struct dlm_ctxt *dlm, struct dlm_lock *lock)
 	spin_unlock(&lock->spinlock);
 }
 
+<<<<<<< HEAD
+=======
+void dlm_queue_bast(struct dlm_ctxt *dlm, struct dlm_lock *lock)
+{
+	BUG_ON(!dlm);
+	BUG_ON(!lock);
+
+	spin_lock(&dlm->ast_lock);
+	__dlm_queue_bast(dlm, lock);
+	spin_unlock(&dlm->ast_lock);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void dlm_update_lvb(struct dlm_ctxt *dlm, struct dlm_lock_resource *res,
 			   struct dlm_lock *lock)
 {

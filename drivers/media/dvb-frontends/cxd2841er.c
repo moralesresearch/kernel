@@ -3338,7 +3338,11 @@ static int cxd2841er_set_frontend_s(struct dvb_frontend *fe)
 		cxd2841er_tuner_set(fe);
 
 	cxd2841er_tune_done(priv);
+<<<<<<< HEAD
 	timeout = DIV_ROUND_UP(3000000, symbol_rate) + 150;
+=======
+	timeout = ((3000000 + (symbol_rate - 1)) / symbol_rate) + 150;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i = 0;
 	do {

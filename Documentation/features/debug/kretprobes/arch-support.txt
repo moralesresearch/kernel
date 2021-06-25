@@ -10,6 +10,10 @@
     |         arc: |  ok  |
     |         arm: |  ok  |
     |       arm64: |  ok  |
+<<<<<<< HEAD
+=======
+    |         c6x: | TODO |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     |        csky: |  ok  |
     |       h8300: | TODO |
     |     hexagon: | TODO |
@@ -22,7 +26,11 @@
     |    openrisc: | TODO |
     |      parisc: |  ok  |
     |     powerpc: |  ok  |
+<<<<<<< HEAD
     |       riscv: |  ok  |
+=======
+    |       riscv: | TODO |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     |        s390: |  ok  |
     |          sh: |  ok  |
     |       sparc: |  ok  |

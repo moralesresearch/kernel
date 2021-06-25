@@ -74,6 +74,7 @@ struct dmcu_funcs {
 	bool (*is_dmcu_initialized)(struct dmcu *dmcu);
 	bool (*lock_phy)(struct dmcu *dmcu);
 	bool (*unlock_phy)(struct dmcu *dmcu);
+<<<<<<< HEAD
 	bool (*send_edid_cea)(struct dmcu *dmcu,
 			int offset,
 			int total_length,
@@ -84,6 +85,8 @@ struct dmcu_funcs {
 			int *min_frame_rate,
 			int *max_frame_rate);
 	bool (*recv_edid_cea_ack)(struct dmcu *dmcu, int *offset);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #endif

@@ -402,6 +402,17 @@ struct smcd_dev *smcd_alloc_dev(struct device *parent, const char *name,
 		return NULL;
 	}
 
+<<<<<<< HEAD
+	smcd->event_wq = alloc_ordered_workqueue("ism_evt_wq-%s)",
+						 WQ_MEM_RECLAIM, name);
+	if (!smcd->event_wq) {
+		kfree(smcd->conn);
+		kfree(smcd);
+		return NULL;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smcd->dev.parent = parent;
 	smcd->dev.release = smcd_release;
 	device_initialize(&smcd->dev);
@@ -415,6 +426,8 @@ struct smcd_dev *smcd_alloc_dev(struct device *parent, const char *name,
 	INIT_LIST_HEAD(&smcd->vlan);
 	INIT_LIST_HEAD(&smcd->lgr_list);
 	init_waitqueue_head(&smcd->lgrs_deleted);
+<<<<<<< HEAD
+=======
 	smcd->event_wq = alloc_ordered_workqueue("ism_evt_wq-%s)",
 						 WQ_MEM_RECLAIM, name);
 	if (!smcd->event_wq) {
@@ -422,12 +435,18 @@ struct smcd_dev *smcd_alloc_dev(struct device *parent, const char *name,
 		kfree(smcd);
 		return NULL;
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return smcd;
 }
 EXPORT_SYMBOL_GPL(smcd_alloc_dev);
 
 int smcd_register_dev(struct smcd_dev *smcd)
 {
+<<<<<<< HEAD
+	int rc;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&smcd_dev_list.mutex);
 	if (list_empty(&smcd_dev_list.list)) {
 		u8 *system_eid = NULL;
@@ -447,7 +466,18 @@ int smcd_register_dev(struct smcd_dev *smcd)
 			    dev_name(&smcd->dev), smcd->pnetid,
 			    smcd->pnetid_by_user ? " (user defined)" : "");
 
+<<<<<<< HEAD
+	rc = device_add(&smcd->dev);
+	if (rc) {
+		mutex_lock(&smcd_dev_list.mutex);
+		list_del(&smcd->list);
+		mutex_unlock(&smcd_dev_list.mutex);
+	}
+
+	return rc;
+=======
 	return device_add(&smcd->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(smcd_register_dev);
 

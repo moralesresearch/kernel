@@ -191,8 +191,13 @@ err_free_channel:
 	return ERR_PTR(err);
 }
 
+<<<<<<< HEAD
 struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
 					       const char *name)
+=======
+static struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
+						      const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iio_channel *chan = NULL;
 
@@ -230,7 +235,10 @@ struct iio_channel *of_iio_channel_get_by_name(struct device_node *np,
 
 	return chan;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(of_iio_channel_get_by_name);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct iio_channel *of_iio_channel_get_all(struct device *dev)
 {
@@ -273,6 +281,15 @@ error_free_chans:
 
 #else /* CONFIG_OF */
 
+<<<<<<< HEAD
+=======
+static inline struct iio_channel *
+of_iio_channel_get_by_name(struct device_node *np, const char *name)
+{
+	return NULL;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct iio_channel *of_iio_channel_get_all(struct device *dev)
 {
 	return NULL;
@@ -388,6 +405,7 @@ struct iio_channel *devm_iio_channel_get(struct device *dev,
 }
 EXPORT_SYMBOL_GPL(devm_iio_channel_get);
 
+<<<<<<< HEAD
 struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
 						    struct device_node *np,
 						    const char *channel_name)
@@ -411,6 +429,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
 }
 EXPORT_SYMBOL_GPL(devm_of_iio_channel_get_by_name);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct iio_channel *iio_channel_get_all(struct device *dev)
 {
 	const char *name;

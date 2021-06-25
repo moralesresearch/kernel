@@ -72,7 +72,11 @@ struct coreboot_device {
 /* A driver for handling devices described in coreboot tables. */
 struct coreboot_driver {
 	int (*probe)(struct coreboot_device *);
+<<<<<<< HEAD
 	void (*remove)(struct coreboot_device *);
+=======
+	int (*remove)(struct coreboot_device *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_driver drv;
 	u32 tag;
 };

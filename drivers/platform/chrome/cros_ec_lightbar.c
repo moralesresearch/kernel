@@ -523,7 +523,11 @@ static struct attribute *__lb_cmds_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group cros_ec_lightbar_attr_group = {
+=======
+static struct attribute_group cros_ec_lightbar_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "lightbar",
 	.attrs = __lb_cmds_attrs,
 };

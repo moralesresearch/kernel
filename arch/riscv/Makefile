@@ -12,8 +12,11 @@ OBJCOPYFLAGS    := -O binary
 LDFLAGS_vmlinux :=
 ifeq ($(CONFIG_DYNAMIC_FTRACE),y)
 	LDFLAGS_vmlinux := --no-relax
+<<<<<<< HEAD
 	KBUILD_CPPFLAGS += -DCC_USING_PATCHABLE_FUNCTION_ENTRY
 	CC_FLAGS_FTRACE := -fpatchable-function-entry=8
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif
 
 ifeq ($(CONFIG_64BIT)$(CONFIG_CMODEL_MEDLOW),yy)
@@ -38,6 +41,18 @@ else
 	KBUILD_LDFLAGS += -melf32lriscv
 endif
 
+<<<<<<< HEAD
+ifeq ($(CONFIG_LD_IS_LLD),y)
+	KBUILD_CFLAGS += -mno-relax
+	KBUILD_AFLAGS += -mno-relax
+ifneq ($(LLVM_IAS),1)
+	KBUILD_CFLAGS += -Wa,-mno-relax
+	KBUILD_AFLAGS += -Wa,-mno-relax
+endif
+endif
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # ISA string setting
 riscv-march-$(CONFIG_ARCH_RV32I)	:= rv32ima
 riscv-march-$(CONFIG_ARCH_RV64I)	:= rv64ima
@@ -67,6 +82,7 @@ KBUILD_CFLAGS_MODULE += $(call cc-option,-mno-relax)
 # architectures.  It's faster to have GCC emit only aligned accesses.
 KBUILD_CFLAGS += $(call cc-option,-mstrict-align)
 
+<<<<<<< HEAD
 ifeq ($(CONFIG_STACKPROTECTOR_PER_TASK),y)
 prepare: stack_protector_prepare
 stack_protector_prepare: prepare0
@@ -77,6 +93,8 @@ stack_protector_prepare: prepare0
 					include/generated/asm-offsets.h))
 endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # arch specific predefines for sparse
 CHECKFLAGS += -D__riscv -D__riscv_xlen=$(BITS)
 
@@ -95,7 +113,11 @@ PHONY += vdso_install
 vdso_install:
 	$(Q)$(MAKE) $(build)=arch/riscv/kernel/vdso $@
 
+<<<<<<< HEAD
 ifeq ($(CONFIG_RISCV_M_MODE)$(CONFIG_SOC_CANAAN),yy)
+=======
+ifeq ($(CONFIG_RISCV_M_MODE)$(CONFIG_SOC_KENDRYTE),yy)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 KBUILD_IMAGE := $(boot)/loader.bin
 else
 KBUILD_IMAGE := $(boot)/Image.gz

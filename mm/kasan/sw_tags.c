@@ -57,7 +57,11 @@ void __init kasan_init_sw_tags(void)
  * sequence has in fact positive effect, since interrupts that randomly skew
  * PRNG at unpredictable points do only good.
  */
+<<<<<<< HEAD
 u8 kasan_random_tag(void)
+=======
+u8 random_tag(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 state = this_cpu_read(prng_state);
 
@@ -67,7 +71,11 @@ u8 kasan_random_tag(void)
 	return (u8)(state % (KASAN_TAG_MAX + 1));
 }
 
+<<<<<<< HEAD
 bool kasan_check_range(unsigned long addr, size_t size, bool write,
+=======
+bool check_memory_region(unsigned long addr, size_t size, bool write,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				unsigned long ret_ip)
 {
 	u8 tag;
@@ -118,24 +126,41 @@ bool kasan_check_range(unsigned long addr, size_t size, bool write,
 	return true;
 }
 
+<<<<<<< HEAD
 bool kasan_byte_accessible(const void *addr)
+=======
+bool check_invalid_free(void *addr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 tag = get_tag(addr);
 	u8 shadow_byte = READ_ONCE(*(u8 *)kasan_mem_to_shadow(kasan_reset_tag(addr)));
 
+<<<<<<< HEAD
 	return (shadow_byte != KASAN_TAG_INVALID) &&
 		(tag == KASAN_TAG_KERNEL || tag == shadow_byte);
+=======
+	return (shadow_byte == KASAN_TAG_INVALID) ||
+		(tag != KASAN_TAG_KERNEL && tag != shadow_byte);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define DEFINE_HWASAN_LOAD_STORE(size)					\
 	void __hwasan_load##size##_noabort(unsigned long addr)		\
 	{								\
+<<<<<<< HEAD
 		kasan_check_range(addr, size, false, _RET_IP_);	\
+=======
+		check_memory_region(addr, size, false, _RET_IP_);	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 	EXPORT_SYMBOL(__hwasan_load##size##_noabort);			\
 	void __hwasan_store##size##_noabort(unsigned long addr)		\
 	{								\
+<<<<<<< HEAD
 		kasan_check_range(addr, size, true, _RET_IP_);		\
+=======
+		check_memory_region(addr, size, true, _RET_IP_);	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 	EXPORT_SYMBOL(__hwasan_store##size##_noabort)
 
@@ -147,19 +172,31 @@ DEFINE_HWASAN_LOAD_STORE(16);
 
 void __hwasan_loadN_noabort(unsigned long addr, unsigned long size)
 {
+<<<<<<< HEAD
 	kasan_check_range(addr, size, false, _RET_IP_);
+=======
+	check_memory_region(addr, size, false, _RET_IP_);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__hwasan_loadN_noabort);
 
 void __hwasan_storeN_noabort(unsigned long addr, unsigned long size)
 {
+<<<<<<< HEAD
 	kasan_check_range(addr, size, true, _RET_IP_);
+=======
+	check_memory_region(addr, size, true, _RET_IP_);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__hwasan_storeN_noabort);
 
 void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size)
 {
+<<<<<<< HEAD
 	kasan_poison((void *)addr, size, tag);
+=======
+	poison_range((void *)addr, size, tag);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__hwasan_tag_memory);
 

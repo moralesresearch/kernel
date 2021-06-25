@@ -9,7 +9,10 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <test_progs.h>
+<<<<<<< HEAD
 #include <linux/ring_buffer.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ima.skel.h"
 
@@ -32,6 +35,7 @@ static int run_measured_process(const char *measured_dir, u32 *monitored_pid)
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 static u64 ima_hash_from_bpf;
 
 static int process_sample(void *ctx, void *data, size_t len)
@@ -44,6 +48,11 @@ void test_test_ima(void)
 {
 	char measured_dir_template[] = "/tmp/ima_measuredXXXXXX";
 	struct ring_buffer *ringbuf;
+=======
+void test_test_ima(void)
+{
+	char measured_dir_template[] = "/tmp/ima_measuredXXXXXX";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *measured_dir;
 	char cmd[256];
 
@@ -54,11 +63,14 @@ void test_test_ima(void)
 	if (CHECK(!skel, "skel_load", "skeleton failed\n"))
 		goto close_prog;
 
+<<<<<<< HEAD
 	ringbuf = ring_buffer__new(bpf_map__fd(skel->maps.ringbuf),
 				   process_sample, NULL, NULL);
 	if (!ASSERT_OK_PTR(ringbuf, "ringbuf"))
 		goto close_prog;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = ima__attach(skel);
 	if (CHECK(err, "attach", "attach failed: %d\n", err))
 		goto close_prog;
@@ -75,9 +87,17 @@ void test_test_ima(void)
 	if (CHECK(err, "run_measured_process", "err = %d\n", err))
 		goto close_clean;
 
+<<<<<<< HEAD
 	err = ring_buffer__consume(ringbuf);
 	ASSERT_EQ(err, 1, "num_samples_or_err");
 	ASSERT_NEQ(ima_hash_from_bpf, 0, "ima_hash");
+=======
+	CHECK(skel->data->ima_hash_ret < 0, "ima_hash_ret",
+	      "ima_hash_ret = %ld\n", skel->data->ima_hash_ret);
+
+	CHECK(skel->bss->ima_hash == 0, "ima_hash",
+	      "ima_hash = %lu\n", skel->bss->ima_hash);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 close_clean:
 	snprintf(cmd, sizeof(cmd), "./ima_setup.sh cleanup %s", measured_dir);

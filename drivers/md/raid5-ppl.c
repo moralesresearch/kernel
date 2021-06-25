@@ -496,7 +496,11 @@ static void ppl_submit_iounit(struct ppl_io_unit *io)
 		if (!bio_add_page(bio, sh->ppl_page, PAGE_SIZE, 0)) {
 			struct bio *prev = bio;
 
+<<<<<<< HEAD
 			bio = bio_alloc_bioset(GFP_NOIO, BIO_MAX_VECS,
+=======
+			bio = bio_alloc_bioset(GFP_NOIO, BIO_MAX_PAGES,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					       &ppl_conf->bs);
 			bio->bi_opf = prev->bi_opf;
 			bio->bi_write_hint = prev->bi_write_hint;
@@ -1037,7 +1041,11 @@ static int ppl_recover(struct ppl_log *log, struct ppl_header *pplhdr,
 	}
 
 	/* flush the disk cache after recovery if necessary */
+<<<<<<< HEAD
 	ret = blkdev_issue_flush(rdev->bdev);
+=======
+	ret = blkdev_issue_flush(rdev->bdev, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	__free_page(page);
 	return ret;

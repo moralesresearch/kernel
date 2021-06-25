@@ -770,6 +770,17 @@
 		ti,max-div = <2>;
 	};
 
+<<<<<<< HEAD
+=======
+	sha2md5_fck: sha2md5_fck@15c8 {
+		#clock-cells = <0>;
+		compatible = "ti,gate-clock";
+		clocks = <&l3_div_ck>;
+		ti,bit-shift = <1>;
+		reg = <0x15c8>;
+	};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usb_phy_cm_clk32k: usb_phy_cm_clk32k@640 {
 		#clock-cells = <0>;
 		compatible = "ti,gate-clock";

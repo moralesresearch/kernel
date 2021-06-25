@@ -35,7 +35,10 @@
 
 #include "i915_drv.h"
 #include "gt/intel_context.h"
+<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_ring.h"
 #include "gvt.h"
 #include "trace.h"

@@ -510,6 +510,7 @@ static void vlan_dev_set_lockdep_class(struct net_device *dev)
 	netdev_for_each_tx_queue(dev, vlan_dev_set_lockdep_one, NULL);
 }
 
+<<<<<<< HEAD
 static __be16 vlan_parse_protocol(const struct sk_buff *skb)
 {
 	struct vlan_ethhdr *veth = (struct vlan_ethhdr *)(skb->data);
@@ -521,6 +522,11 @@ static const struct header_ops vlan_header_ops = {
 	.create	 = vlan_dev_hard_header,
 	.parse	 = eth_header_parse,
 	.parse_protocol = vlan_parse_protocol,
+=======
+static const struct header_ops vlan_header_ops = {
+	.create	 = vlan_dev_hard_header,
+	.parse	 = eth_header_parse,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int vlan_passthru_hard_header(struct sk_buff *skb, struct net_device *dev,
@@ -540,7 +546,10 @@ static int vlan_passthru_hard_header(struct sk_buff *skb, struct net_device *dev
 static const struct header_ops vlan_passthru_header_ops = {
 	.create	 = vlan_passthru_hard_header,
 	.parse	 = eth_header_parse,
+<<<<<<< HEAD
 	.parse_protocol = vlan_parse_protocol,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct device_type vlan_type = {

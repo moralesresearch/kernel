@@ -46,8 +46,13 @@
  *    - Make vid/did overridable
  *    - make it look like usb1 if usb1 mode forced
  */
+<<<<<<< HEAD
 #define KERNEL_REL	bin2bcd(LINUX_VERSION_MAJOR)
 #define KERNEL_VER	bin2bcd(LINUX_VERSION_PATCHLEVEL)
+=======
+#define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
+#define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum {
 	AST_VHUB_STR_INDEX_MAX = 4,

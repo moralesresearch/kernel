@@ -157,7 +157,10 @@ static void mtk_eint_ack(struct irq_data *d)
 static int mtk_eint_set_type(struct irq_data *d, unsigned int type)
 {
 	struct mtk_eint *eint = irq_data_get_irq_chip_data(d);
+<<<<<<< HEAD
 	bool masked;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 mask = BIT(d->hwirq & 0x1f);
 	void __iomem *reg;
 
@@ -174,6 +177,7 @@ static int mtk_eint_set_type(struct irq_data *d, unsigned int type)
 	else
 		eint->dual_edge[d->hwirq] = 0;
 
+<<<<<<< HEAD
 	if (!mtk_eint_get_mask(eint, d->hwirq)) {
 		mtk_eint_mask(d);
 		masked = false;
@@ -181,6 +185,8 @@ static int mtk_eint_set_type(struct irq_data *d, unsigned int type)
 		masked = true;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type & (IRQ_TYPE_LEVEL_LOW | IRQ_TYPE_EDGE_FALLING)) {
 		reg = mtk_eint_get_offset(eint, d->hwirq, eint->regs->pol_clr);
 		writel(mask, reg);
@@ -197,9 +203,14 @@ static int mtk_eint_set_type(struct irq_data *d, unsigned int type)
 		writel(mask, reg);
 	}
 
+<<<<<<< HEAD
 	mtk_eint_ack(d);
 	if (!masked)
 		mtk_eint_unmask(d);
+=======
+	if (eint->dual_edge[d->hwirq])
+		mtk_eint_flip_edge(eint, d->hwirq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

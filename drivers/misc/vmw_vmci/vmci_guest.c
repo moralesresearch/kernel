@@ -168,7 +168,11 @@ static int vmci_check_host_caps(struct pci_dev *pdev)
 				VMCI_UTIL_NUM_RESOURCES * sizeof(u32);
 	struct vmci_datagram *check_msg;
 
+<<<<<<< HEAD
 	check_msg = kzalloc(msg_size, GFP_KERNEL);
+=======
+	check_msg = kmalloc(msg_size, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!check_msg) {
 		dev_err(&pdev->dev, "%s: Insufficient memory\n", __func__);
 		return -ENOMEM;

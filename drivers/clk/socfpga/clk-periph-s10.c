@@ -15,6 +15,7 @@
 
 #define to_periph_clk(p) container_of(p, struct socfpga_periph_clk, hw.hw)
 
+<<<<<<< HEAD
 static unsigned long n5x_clk_peri_c_clk_recalc_rate(struct clk_hw *hwclk,
 					     unsigned long parent_rate)
 {
@@ -30,6 +31,8 @@ static unsigned long n5x_clk_peri_c_clk_recalc_rate(struct clk_hw *hwclk,
 	return parent_rate / div;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned long clk_peri_c_clk_recalc_rate(struct clk_hw *hwclk,
 					     unsigned long parent_rate)
 {
@@ -78,11 +81,14 @@ static u8 clk_periclk_get_parent(struct clk_hw *hwclk)
 	return parent;
 }
 
+<<<<<<< HEAD
 static const struct clk_ops n5x_peri_c_clk_ops = {
 	.recalc_rate = n5x_clk_peri_c_clk_recalc_rate,
 	.get_parent = clk_periclk_get_parent,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct clk_ops peri_c_clk_ops = {
 	.recalc_rate = clk_peri_c_clk_recalc_rate,
 	.get_parent = clk_periclk_get_parent,
@@ -127,6 +133,7 @@ struct clk *s10_register_periph(const struct stratix10_perip_c_clock *clks,
 	return clk;
 }
 
+<<<<<<< HEAD
 struct clk *n5x_register_periph(const struct n5x_perip_c_clock *clks,
 				void __iomem *regbase)
 {
@@ -160,6 +167,8 @@ struct clk *n5x_register_periph(const struct n5x_perip_c_clock *clks,
 	return clk;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct clk *s10_register_cnt_periph(const struct stratix10_perip_cnt_clock *clks,
 				    void __iomem *regbase)
 {

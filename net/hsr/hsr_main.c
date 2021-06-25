@@ -131,6 +131,7 @@ struct hsr_port *hsr_port_get_hsr(struct hsr_priv *hsr, enum hsr_port_type pt)
 	return NULL;
 }
 
+<<<<<<< HEAD
 int hsr_get_version(struct net_device *dev, enum hsr_version *ver)
 {
 	struct hsr_priv *hsr;
@@ -142,6 +143,8 @@ int hsr_get_version(struct net_device *dev, enum hsr_version *ver)
 }
 EXPORT_SYMBOL(hsr_get_version);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct notifier_block hsr_nb = {
 	.notifier_call = hsr_netdev_notify,	/* Slave event notifications */
 };

@@ -118,6 +118,12 @@ void i965_disable_vblank(struct drm_crtc *crtc);
 void ilk_disable_vblank(struct drm_crtc *crtc);
 void bdw_disable_vblank(struct drm_crtc *crtc);
 
+<<<<<<< HEAD
+=======
+void skl_enable_flip_done(struct intel_crtc *crtc);
+void skl_disable_flip_done(struct intel_crtc *crtc);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void gen2_irq_reset(struct intel_uncore *uncore);
 void gen3_irq_reset(struct intel_uncore *uncore, i915_reg_t imr,
 		    i915_reg_t iir, i915_reg_t ier);

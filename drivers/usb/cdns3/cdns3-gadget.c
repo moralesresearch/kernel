@@ -2006,7 +2006,11 @@ static void cdns3_configure_dmult(struct cdns3_device *priv_dev,
 		else
 			mask = BIT(priv_ep->num);
 
+<<<<<<< HEAD
+		if (priv_ep->type != USB_ENDPOINT_XFER_ISOC  && !priv_ep->dir) {
+=======
 		if (priv_ep->type != USB_ENDPOINT_XFER_ISOC) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cdns3_set_register_bit(&regs->tdl_from_trb, mask);
 			cdns3_set_register_bit(&regs->tdl_beh, mask);
 			cdns3_set_register_bit(&regs->tdl_beh2, mask);
@@ -2045,15 +2049,23 @@ int cdns3_ep_config(struct cdns3_endpoint *priv_ep, bool enable)
 	case USB_ENDPOINT_XFER_INT:
 		ep_cfg = EP_CFG_EPTYPE(USB_ENDPOINT_XFER_INT);
 
+<<<<<<< HEAD
+		if (priv_dev->dev_ver >= DEV_VER_V2 && !priv_ep->dir)
+=======
 		if ((priv_dev->dev_ver == DEV_VER_V2 && !priv_ep->dir) ||
 		    priv_dev->dev_ver > DEV_VER_V2)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ep_cfg |= EP_CFG_TDL_CHK;
 		break;
 	case USB_ENDPOINT_XFER_BULK:
 		ep_cfg = EP_CFG_EPTYPE(USB_ENDPOINT_XFER_BULK);
 
+<<<<<<< HEAD
+		if (priv_dev->dev_ver >= DEV_VER_V2 && !priv_ep->dir)
+=======
 		if ((priv_dev->dev_ver == DEV_VER_V2  && !priv_ep->dir) ||
 		    priv_dev->dev_ver > DEV_VER_V2)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ep_cfg |= EP_CFG_TDL_CHK;
 		break;
 	default:
@@ -3255,8 +3267,15 @@ static int __cdns3_gadget_init(struct cdns *cdns)
 	pm_runtime_get_sync(cdns->dev);
 
 	ret = cdns3_gadget_start(cdns);
+<<<<<<< HEAD
+	if (ret) {
+		pm_runtime_put_sync(cdns->dev);
+		return ret;
+	}
+=======
 	if (ret)
 		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Because interrupt line can be shared with other components in

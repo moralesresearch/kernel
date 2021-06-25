@@ -1045,8 +1045,11 @@ int uclogic_params_init(struct uclogic_params *params,
 			uclogic_params_init_with_pen_unused(&p);
 		}
 		break;
+<<<<<<< HEAD
 	case VID_PID(USB_VENDOR_ID_TRUST,
 		     USB_DEVICE_ID_TRUST_PANORA_TABLET):
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case VID_PID(USB_VENDOR_ID_UGEE,
 		     USB_DEVICE_ID_UGEE_TABLET_G5):
 		/* Ignore non-pen interfaces */

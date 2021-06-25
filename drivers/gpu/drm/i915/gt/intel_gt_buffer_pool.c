@@ -145,8 +145,12 @@ static void pool_retire(struct i915_active *ref)
 }
 
 static struct intel_gt_buffer_pool_node *
+<<<<<<< HEAD
 node_create(struct intel_gt_buffer_pool *pool, size_t sz,
 	    enum i915_map_type type)
+=======
+node_create(struct intel_gt_buffer_pool *pool, size_t sz)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_gt *gt = to_gt(pool);
 	struct intel_gt_buffer_pool_node *node;
@@ -170,14 +174,21 @@ node_create(struct intel_gt_buffer_pool *pool, size_t sz,
 
 	i915_gem_object_set_readonly(obj);
 
+<<<<<<< HEAD
 	node->type = type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	node->obj = obj;
 	return node;
 }
 
 struct intel_gt_buffer_pool_node *
+<<<<<<< HEAD
 intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size,
 			 enum i915_map_type type)
+=======
+intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_gt_buffer_pool *pool = &gt->buffer_pool;
 	struct intel_gt_buffer_pool_node *node;
@@ -194,9 +205,12 @@ intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size,
 		if (node->obj->base.size < size)
 			continue;
 
+<<<<<<< HEAD
 		if (node->type != type)
 			continue;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		age = READ_ONCE(node->age);
 		if (!age)
 			continue;
@@ -211,7 +225,11 @@ intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size,
 	rcu_read_unlock();
 
 	if (&node->link == list) {
+<<<<<<< HEAD
 		node = node_create(pool, size, type);
+=======
+		node = node_create(pool, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ERR(node))
 			return node;
 	}

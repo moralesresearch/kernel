@@ -67,8 +67,11 @@
 #include <net/sock.h>
 #include <net/scm.h>
 #include <net/netlink.h>
+<<<<<<< HEAD
 #define CREATE_TRACE_POINTS
 #include <trace/events/netlink.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "af_netlink.h"
 
@@ -149,12 +152,15 @@ static BLOCKING_NOTIFIER_HEAD(netlink_chain);
 
 static const struct rhashtable_params netlink_rhashtable_params;
 
+<<<<<<< HEAD
 void do_trace_netlink_extack(const char *msg)
 {
 	trace_netlink_extack(msg);
 }
 EXPORT_SYMBOL(do_trace_netlink_extack);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline u32 netlink_group_mask(u32 group)
 {
 	return group ? 1 << (group - 1) : 0;
@@ -461,11 +467,21 @@ void netlink_table_ungrab(void)
 static inline void
 netlink_lock_table(void)
 {
+<<<<<<< HEAD
+	unsigned long flags;
+
+	/* read_lock() synchronizes us to netlink_table_grab */
+
+	read_lock_irqsave(&nl_table_lock, flags);
+	atomic_inc(&nl_table_users);
+	read_unlock_irqrestore(&nl_table_lock, flags);
+=======
 	/* read_lock() synchronizes us to netlink_table_grab */
 
 	read_lock(&nl_table_lock);
 	atomic_inc(&nl_table_users);
 	read_unlock(&nl_table_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void
@@ -1019,6 +1035,10 @@ static int netlink_bind(struct socket *sock, struct sockaddr *addr,
 			return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	netlink_lock_table();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (nlk->netlink_bind && groups) {
 		int group;
 
@@ -1030,14 +1050,21 @@ static int netlink_bind(struct socket *sock, struct sockaddr *addr,
 			if (!err)
 				continue;
 			netlink_undo_bind(group, groups, sk);
+<<<<<<< HEAD
 			return err;
+=======
+			goto unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	/* No need for barriers here as we return to user-space without
 	 * using any of the bound attributes.
 	 */
+<<<<<<< HEAD
 	netlink_lock_table();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!bound) {
 		err = nladdr->nl_pid ?
 			netlink_insert(sk, nladdr->nl_pid) :

@@ -501,6 +501,7 @@ Developer only needs to provide a sub feature driver with matched feature id.
 FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
 could be a reference.
 
+<<<<<<< HEAD
 Location of DFLs on a PCI Device
 ================================
 The original method for finding a DFL on a PCI device assumed the start of the
@@ -529,6 +530,8 @@ zero.
 Being able to specify more than one DFL per BAR has been considered, but it
 was determined the use case did not provide value.  Specifying a single DFL
 per BAR simplifies the implementation and allows for extra error checking.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Open discussion
 ===============

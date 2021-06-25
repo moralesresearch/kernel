@@ -282,6 +282,11 @@ static void do_signal(struct task_struct *tsk)
 
 void do_notify_resume(struct pt_regs *regs, unsigned long thread_info_flags)
 {
+<<<<<<< HEAD
+=======
+	user_exit();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (thread_info_flags & _TIF_UPROBE)
 		uprobe_notify_resume(regs);
 
@@ -297,6 +302,11 @@ void do_notify_resume(struct pt_regs *regs, unsigned long thread_info_flags)
 		tracehook_notify_resume(regs);
 		rseq_handle_notify_resume(NULL, regs);
 	}
+<<<<<<< HEAD
+=======
+
+	user_enter();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static unsigned long get_tm_stackpointer(struct task_struct *tsk)

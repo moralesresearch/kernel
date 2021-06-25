@@ -85,7 +85,11 @@ nv50_devinit_disable(struct nvkm_devinit *init)
 	u64 disable = 0ULL;
 
 	if (!(r001540 & 0x40000000))
+<<<<<<< HEAD
 		nvkm_subdev_disable(device, NVKM_ENGINE_MPEG, 0);
+=======
+		disable |= (1ULL << NVKM_ENGINE_MPEG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return disable;
 }
@@ -101,8 +105,13 @@ nv50_devinit_preinit(struct nvkm_devinit *base)
 	 * missing, assume it's a secondary gpu which requires post
 	 */
 	if (!base->post) {
+<<<<<<< HEAD
 		nvkm_devinit_disable(base);
 		if (!device->disp)
+=======
+		u64 disable = nvkm_devinit_disable(base);
+		if (disable & (1ULL << NVKM_ENGINE_DISP))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			base->post = true;
 	}
 
@@ -148,8 +157,14 @@ nv50_devinit_init(struct nvkm_devinit *base)
 }
 
 int
+<<<<<<< HEAD
 nv50_devinit_new_(const struct nvkm_devinit_func *func, struct nvkm_device *device,
 		  enum nvkm_subdev_type type, int inst, struct nvkm_devinit **pinit)
+=======
+nv50_devinit_new_(const struct nvkm_devinit_func *func,
+		  struct nvkm_device *device, int index,
+		  struct nvkm_devinit **pinit)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv50_devinit *init;
 
@@ -157,7 +172,11 @@ nv50_devinit_new_(const struct nvkm_devinit_func *func, struct nvkm_device *devi
 		return -ENOMEM;
 	*pinit = &init->base;
 
+<<<<<<< HEAD
 	nvkm_devinit_ctor(func, device, type, inst, &init->base);
+=======
+	nvkm_devinit_ctor(func, device, index, &init->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -171,8 +190,15 @@ nv50_devinit = {
 };
 
 int
+<<<<<<< HEAD
 nv50_devinit_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		 struct nvkm_devinit **pinit)
 {
 	return nv50_devinit_new_(&nv50_devinit, device, type, inst, pinit);
+=======
+nv50_devinit_new(struct nvkm_device *device, int index,
+		 struct nvkm_devinit **pinit)
+{
+	return nv50_devinit_new_(&nv50_devinit, device, index, pinit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

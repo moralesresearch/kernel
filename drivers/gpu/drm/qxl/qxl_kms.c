@@ -111,6 +111,10 @@ int qxl_device_init(struct qxl_device *qdev,
 {
 	int r, sb;
 
+<<<<<<< HEAD
+=======
+	qdev->ddev.pdev = pdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, &qdev->ddev);
 
 	mutex_init(&qdev->gem.mutex);

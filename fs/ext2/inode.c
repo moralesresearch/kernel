@@ -1638,8 +1638,13 @@ int ext2_write_inode(struct inode *inode, struct writeback_control *wbc)
 	return __ext2_write_inode(inode, wbc->sync_mode == WB_SYNC_ALL);
 }
 
+<<<<<<< HEAD
 int ext2_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		 struct kstat *stat, u32 request_mask, unsigned int query_flags)
+=======
+int ext2_getattr(const struct path *path, struct kstat *stat,
+		u32 request_mask, unsigned int query_flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(path->dentry);
 	struct ext2_inode_info *ei = EXT2_I(inode);
@@ -1660,17 +1665,29 @@ int ext2_getattr(struct user_namespace *mnt_userns, const struct path *path,
 			STATX_ATTR_IMMUTABLE |
 			STATX_ATTR_NODUMP);
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
 	return 0;
 }
 
 int ext2_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		 struct iattr *iattr)
+=======
+	generic_fillattr(inode, stat);
+	return 0;
+}
+
+int ext2_setattr(struct dentry *dentry, struct iattr *iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int error;
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, iattr);
+=======
+	error = setattr_prepare(dentry, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -1690,9 +1707,15 @@ int ext2_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		if (error)
 			return error;
 	}
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, iattr);
 	if (iattr->ia_valid & ATTR_MODE)
 		error = posix_acl_chmod(&init_user_ns, inode, inode->i_mode);
+=======
+	setattr_copy(inode, iattr);
+	if (iattr->ia_valid & ATTR_MODE)
+		error = posix_acl_chmod(inode, inode->i_mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 	return error;

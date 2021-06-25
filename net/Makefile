@@ -6,6 +6,7 @@
 # Rewritten to use lists instead of if-statements.
 #
 
+<<<<<<< HEAD
 obj-y				:= devres.o socket.o core/
 
 obj-$(CONFIG_COMPAT)		+= compat.o
@@ -13,12 +14,26 @@ obj-$(CONFIG_COMPAT)		+= compat.o
 # LLC has to be linked before the files in net/802/
 obj-$(CONFIG_LLC)		+= llc/
 obj-y				+= ethernet/ 802/ sched/ netlink/ bpf/ ethtool/
+=======
+obj-$(CONFIG_NET)		:= devres.o socket.o core/
+
+tmp-$(CONFIG_COMPAT) 		:= compat.o
+obj-$(CONFIG_NET)		+= $(tmp-y)
+
+# LLC has to be linked before the files in net/802/
+obj-$(CONFIG_LLC)		+= llc/
+obj-$(CONFIG_NET)		+= ethernet/ 802/ sched/ netlink/ bpf/ ethtool/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_NETFILTER)		+= netfilter/
 obj-$(CONFIG_INET)		+= ipv4/
 obj-$(CONFIG_TLS)		+= tls/
 obj-$(CONFIG_XFRM)		+= xfrm/
 obj-$(CONFIG_UNIX_SCM)		+= unix/
+<<<<<<< HEAD
 obj-y				+= ipv6/
+=======
+obj-$(CONFIG_NET)		+= ipv6/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_BPFILTER)		+= bpfilter/
 obj-$(CONFIG_PACKET)		+= packet/
 obj-$(CONFIG_NET_KEY)		+= key/
@@ -55,12 +70,24 @@ obj-$(CONFIG_SMC)		+= smc/
 obj-$(CONFIG_RFKILL)		+= rfkill/
 obj-$(CONFIG_NET_9P)		+= 9p/
 obj-$(CONFIG_CAIF)		+= caif/
+<<<<<<< HEAD
 obj-$(CONFIG_DCB)		+= dcb/
+=======
+ifneq ($(CONFIG_DCB),)
+obj-y				+= dcb/
+endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_6LOWPAN)		+= 6lowpan/
 obj-$(CONFIG_IEEE802154)	+= ieee802154/
 obj-$(CONFIG_MAC802154)		+= mac802154/
 
+<<<<<<< HEAD
 obj-$(CONFIG_SYSCTL)		+= sysctl_net.o
+=======
+ifeq ($(CONFIG_NET),y)
+obj-$(CONFIG_SYSCTL)		+= sysctl_net.o
+endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_DNS_RESOLVER)	+= dns_resolver/
 obj-$(CONFIG_CEPH_LIB)		+= ceph/
 obj-$(CONFIG_BATMAN_ADV)	+= batman-adv/
@@ -72,8 +99,17 @@ obj-$(CONFIG_VSOCKETS)	+= vmw_vsock/
 obj-$(CONFIG_MPLS)		+= mpls/
 obj-$(CONFIG_NET_NSH)		+= nsh/
 obj-$(CONFIG_HSR)		+= hsr/
+<<<<<<< HEAD
 obj-$(CONFIG_NET_SWITCHDEV)	+= switchdev/
 obj-$(CONFIG_NET_L3_MASTER_DEV)	+= l3mdev/
+=======
+ifneq ($(CONFIG_NET_SWITCHDEV),)
+obj-y				+= switchdev/
+endif
+ifneq ($(CONFIG_NET_L3_MASTER_DEV),)
+obj-y				+= l3mdev/
+endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_QRTR)		+= qrtr/
 obj-$(CONFIG_NET_NCSI)		+= ncsi/
 obj-$(CONFIG_XDP_SOCKETS)	+= xdp/

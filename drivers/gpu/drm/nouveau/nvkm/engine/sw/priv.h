@@ -5,8 +5,13 @@
 #include <engine/sw.h>
 struct nvkm_sw_chan;
 
+<<<<<<< HEAD
 int nvkm_sw_new_(const struct nvkm_sw_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		 struct nvkm_sw **);
+=======
+int nvkm_sw_new_(const struct nvkm_sw_func *, struct nvkm_device *,
+		 int index, struct nvkm_sw **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_sw_chan_sclass {
 	int (*ctor)(struct nvkm_sw_chan *, const struct nvkm_oclass *,

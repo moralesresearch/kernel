@@ -63,6 +63,10 @@ static inline void cpu_switch_mm(pgd_t *pgd, struct mm_struct *mm)
 extern u64 idmap_t0sz;
 extern u64 idmap_ptrs_per_pgd;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Ensure TCR.T0SZ is set to the provided value.
  */
@@ -73,6 +77,36 @@ static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
 	if ((tcr & TCR_T0SZ_MASK) >> TCR_T0SZ_OFFSET == t0sz)
 		return;
 
+<<<<<<< HEAD
+=======
+=======
+static inline bool __cpu_uses_extended_idmap(void)
+{
+	return unlikely(idmap_t0sz != TCR_T0SZ(vabits_actual));
+}
+
+/*
+ * True if the extended ID map requires an extra level of translation table
+ * to be configured.
+ */
+static inline bool __cpu_uses_extended_idmap_level(void)
+{
+	return ARM64_HW_PGTABLE_LEVELS(64 - idmap_t0sz) > CONFIG_PGTABLE_LEVELS;
+}
+
+/*
+ * Set TCR.T0SZ to its default value (based on VA_BITS)
+ */
+static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
+{
+	unsigned long tcr;
+
+	if (!__cpu_uses_extended_idmap())
+		return;
+
+	tcr = read_sysreg(tcr_el1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcr &= ~TCR_T0SZ_MASK;
 	tcr |= t0sz << TCR_T0SZ_OFFSET;
 	write_sysreg(tcr, tcr_el1);

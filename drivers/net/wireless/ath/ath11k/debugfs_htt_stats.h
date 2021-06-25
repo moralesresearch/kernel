@@ -1656,6 +1656,7 @@ struct htt_tx_sounding_stats_tlv {
 };
 
 struct htt_pdev_obss_pd_stats_tlv {
+<<<<<<< HEAD
 	u32 num_obss_tx_ppdu_success;
 	u32 num_obss_tx_ppdu_failure;
 	u32 num_sr_tx_transmissions;
@@ -1669,6 +1670,10 @@ struct htt_pdev_obss_pd_stats_tlv {
 	u32 num_psr_opportunities;
 	u32 num_psr_ppdu_tried;
 	u32 num_psr_ppdu_success;
+=======
+	u32        num_obss_tx_ppdu_success;
+	u32        num_obss_tx_ppdu_failure;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct htt_ring_backpressure_stats_tlv {

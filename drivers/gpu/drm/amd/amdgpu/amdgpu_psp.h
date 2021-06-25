@@ -30,7 +30,10 @@
 #include "ta_xgmi_if.h"
 #include "ta_ras_if.h"
 #include "ta_rap_if.h"
+<<<<<<< HEAD
 #include "ta_secureDisplay_if.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PSP_FENCE_BUFFER_SIZE	0x1000
 #define PSP_CMD_BUFFER_SIZE	0x1000
@@ -41,7 +44,10 @@
 #define PSP_HDCP_SHARED_MEM_SIZE	0x4000
 #define PSP_DTM_SHARED_MEM_SIZE	0x4000
 #define PSP_RAP_SHARED_MEM_SIZE	0x4000
+<<<<<<< HEAD
 #define PSP_SECUREDISPLAY_SHARED_MEM_SIZE	0x4000
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PSP_SHARED_MEM_SIZE		0x4000
 #define PSP_FW_NAME_LEN		0x24
 
@@ -76,6 +82,10 @@ struct psp_ring
 	uint64_t			ring_mem_mc_addr;
 	void				*ring_mem_handle;
 	uint32_t			ring_size;
+<<<<<<< HEAD
+	uint32_t			ring_wptr;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* More registers may will be supported */
@@ -173,6 +183,7 @@ struct psp_rap_context {
 	struct mutex		mutex;
 };
 
+<<<<<<< HEAD
 struct psp_securedisplay_context {
 	bool			securedisplay_initialized;
 	uint32_t		session_id;
@@ -182,6 +193,8 @@ struct psp_securedisplay_context {
 	struct mutex		mutex;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MEM_TRAIN_SYSTEM_SIGNATURE		0x54534942
 #define GDDR6_MEM_TRAINING_DATA_SIZE_IN_BYTES	0x1000
 #define GDDR6_MEM_TRAINING_OFFSET		0x8000
@@ -309,17 +322,23 @@ struct psp_context
 	uint32_t			ta_rap_ucode_size;
 	uint8_t				*ta_rap_start_addr;
 
+<<<<<<< HEAD
 	uint32_t			ta_securedisplay_ucode_version;
 	uint32_t			ta_securedisplay_ucode_size;
 	uint8_t				*ta_securedisplay_start_addr;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct psp_asd_context		asd_context;
 	struct psp_xgmi_context		xgmi_context;
 	struct psp_ras_context		ras;
 	struct psp_hdcp_context 	hdcp_context;
 	struct psp_dtm_context		dtm_context;
 	struct psp_rap_context		rap_context;
+<<<<<<< HEAD
 	struct psp_securedisplay_context	securedisplay_context;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mutex			mutex;
 	struct psp_memory_training_context mem_train_ctx;
 };
@@ -396,7 +415,10 @@ int psp_ras_trigger_error(struct psp_context *psp,
 int psp_hdcp_invoke(struct psp_context *psp, uint32_t ta_cmd_id);
 int psp_dtm_invoke(struct psp_context *psp, uint32_t ta_cmd_id);
 int psp_rap_invoke(struct psp_context *psp, uint32_t ta_cmd_id);
+<<<<<<< HEAD
 int psp_securedisplay_invoke(struct psp_context *psp, uint32_t ta_cmd_id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int psp_rlc_autoload_start(struct psp_context *psp);
 

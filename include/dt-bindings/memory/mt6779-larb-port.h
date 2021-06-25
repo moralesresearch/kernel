@@ -4,10 +4,17 @@
  * Author: Chao Hao <chao.hao@mediatek.com>
  */
 
+<<<<<<< HEAD
 #ifndef _DT_BINDINGS_MEMORY_MT6779_LARB_PORT_H_
 #define _DT_BINDINGS_MEMORY_MT6779_LARB_PORT_H_
 
 #include <dt-bindings/memory/mtk-memory-port.h>
+=======
+#ifndef _DTS_IOMMU_PORT_MT6779_H_
+#define _DTS_IOMMU_PORT_MT6779_H_
+
+#define MTK_M4U_ID(larb, port)		 (((larb) << 5) | (port))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define M4U_LARB0_ID			 0
 #define M4U_LARB1_ID			 1

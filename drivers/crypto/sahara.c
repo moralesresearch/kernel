@@ -1350,6 +1350,15 @@ static void sahara_unregister_algs(struct sahara_dev *dev)
 			crypto_unregister_ahash(&sha_v4_algs[i]);
 }
 
+<<<<<<< HEAD
+=======
+static const struct platform_device_id sahara_platform_ids[] = {
+	{ .name = "sahara-imx27" },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(platform, sahara_platform_ids);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id sahara_dt_ids[] = {
 	{ .compatible = "fsl,imx53-sahara" },
 	{ .compatible = "fsl,imx27-sahara" },
@@ -1534,6 +1543,10 @@ static struct platform_driver sahara_driver = {
 		.name	= SAHARA_NAME,
 		.of_match_table = sahara_dt_ids,
 	},
+<<<<<<< HEAD
+=======
+	.id_table = sahara_platform_ids,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 module_platform_driver(sahara_driver);

@@ -309,6 +309,10 @@ proc_dolongvec_minmax_bpf_restricted(struct ctl_table *table, int write,
 #endif
 
 static struct ctl_table net_core_table[] = {
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_NET
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.procname	= "wmem_max",
 		.data		= &sysctl_wmem_max,
@@ -506,6 +510,10 @@ static struct ctl_table net_core_table[] = {
 		.proc_handler	= set_default_qdisc
 	},
 #endif
+<<<<<<< HEAD
+=======
+#endif /* CONFIG_NET */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.procname	= "netdev_budget",
 		.data		= &netdev_budget,

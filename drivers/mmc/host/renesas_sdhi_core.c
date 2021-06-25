@@ -679,14 +679,29 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
 
 	/* Issue CMD19 twice for each tap */
 	for (i = 0; i < 2 * priv->tap_num; i++) {
+<<<<<<< HEAD
+		int cmd_error;
+
+		/* Set sampling clock position */
+		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
+
+		if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0)
+=======
 		/* Set sampling clock position */
 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
 
 		if (mmc_send_tuning(mmc, opcode, NULL) == 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			set_bit(i, priv->taps);
 
 		if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
 			set_bit(i, priv->smpcmp);
+<<<<<<< HEAD
+
+		if (cmd_error)
+			mmc_abort_tuning(mmc, opcode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = renesas_sdhi_select_tuning(host);
@@ -768,12 +783,19 @@ static bool renesas_sdhi_auto_correction(struct tmio_mmc_host *host)
 	return false;
 }
 
+<<<<<<< HEAD
 static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host,
 					 struct mmc_request *mrq)
 {
 	struct renesas_sdhi *priv = host_to_priv(host);
 	bool use_4tap = priv->quirks && priv->quirks->hs400_4taps;
 	bool ret = false;
+=======
+static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host)
+{
+	struct renesas_sdhi *priv = host_to_priv(host);
+	bool use_4tap = priv->quirks && priv->quirks->hs400_4taps;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Skip checking SCC errors when running on 4 taps in HS400 mode as
@@ -787,6 +809,7 @@ static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host,
 	if (mmc_doing_tune(host->mmc))
 		return false;
 
+<<<<<<< HEAD
 	if (((mrq->cmd->error == -ETIMEDOUT) ||
 	     (mrq->data && mrq->data->error == -ETIMEDOUT)) &&
 	    ((host->mmc->caps & MMC_CAP_NONREMOVABLE) ||
@@ -800,6 +823,13 @@ static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host,
 		ret |= renesas_sdhi_manual_correction(host, use_4tap);
 
 	return ret;
+=======
+	if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL) &
+	    SH_MOBILE_SDHI_SCC_RVSCNTL_RVSEN)
+		return renesas_sdhi_auto_correction(host);
+
+	return renesas_sdhi_manual_correction(host, use_4tap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int renesas_sdhi_wait_idle(struct tmio_mmc_host *host, u32 bit)
@@ -926,7 +956,11 @@ static const struct soc_device_attribute sdhi_quirks_match[]  = {
 	{ .soc_id = "r8a7795", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps2367 },
 	{ .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
 	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &sdhi_quirks_r8a7796_es13 },
+<<<<<<< HEAD
+	{ .soc_id = "r8a77961", .data = &sdhi_quirks_bad_taps1357 },
+=======
 	{ .soc_id = "r8a7796", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps1357 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .soc_id = "r8a77965", .data = &sdhi_quirks_r8a77965 },
 	{ .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
 	{ .soc_id = "r8a77990", .data = &sdhi_quirks_r8a77990 },

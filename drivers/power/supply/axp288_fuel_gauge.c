@@ -732,12 +732,15 @@ static const struct dmi_system_id axp288_fuel_gauge_blacklist[] = {
 			DMI_MATCH(DMI_BOARD_VERSION, "V1.1"),
 		},
 	},
+<<<<<<< HEAD
 	{	/* Mele PCG03 Mini PC */
 		.matches = {
 			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Mini PC"),
 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "Mini PC"),
 		},
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		/* Minix Neo Z83-4 mini PC */
 		.matches = {

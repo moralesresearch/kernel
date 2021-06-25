@@ -30,7 +30,11 @@
 #define SEC(NAME) __attribute__((section(NAME), used))
 
 #ifndef __always_inline
+<<<<<<< HEAD
 #define __always_inline inline __attribute__((always_inline))
+=======
+#define __always_inline __attribute__((always_inline))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #ifndef __noinline
 #define __noinline __attribute__((noinline))

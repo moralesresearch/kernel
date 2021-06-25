@@ -129,9 +129,15 @@ void rtl92e_set_reg(struct net_device *dev, u8 variable, u8 *val)
 		RegRCR = rtl92e_readl(dev, RCR);
 		priv->ReceiveConfig = RegRCR;
 
+<<<<<<< HEAD
 		if (Type)
 			RegRCR |= (RCR_CBSSID);
 		else
+=======
+		if (Type == true)
+			RegRCR |= (RCR_CBSSID);
+		else if (Type == false)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			RegRCR &= (~RCR_CBSSID);
 
 		rtl92e_writel(dev, RCR, RegRCR);

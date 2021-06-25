@@ -276,8 +276,11 @@ static ssize_t vfio_ccw_mdev_write_io_region(struct vfio_ccw_private *private,
 	}
 
 	vfio_ccw_fsm_event(private, VFIO_CCW_EVENT_IO_REQ);
+<<<<<<< HEAD
+=======
 	if (region->ret_code != 0)
 		private->state = VFIO_CCW_STATE_IDLE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = (region->ret_code != 0) ? region->ret_code : count;
 
 out_unlock:

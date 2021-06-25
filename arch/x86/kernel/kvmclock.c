@@ -20,7 +20,10 @@
 #include <asm/hypervisor.h>
 #include <asm/mem_encrypt.h>
 #include <asm/x86_init.h>
+<<<<<<< HEAD
+=======
 #include <asm/reboot.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/kvmclock.h>
 
 static int kvmclock __initdata = 1;
@@ -203,6 +206,11 @@ static void kvm_setup_secondary_clock(void)
 }
 #endif
 
+<<<<<<< HEAD
+void kvmclock_disable(void)
+{
+	native_write_msr(msr_kvm_system_time, 0, 0);
+=======
 /*
  * After the clock is registered, the host will keep writing to the
  * registered memory location. If the guest happens to shutdown, this memory
@@ -225,6 +233,7 @@ static void kvm_shutdown(void)
 	native_write_msr(msr_kvm_system_time, 0, 0);
 	kvm_disable_steal_time();
 	native_machine_shutdown();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init kvmclock_init_mem(void)
@@ -351,10 +360,13 @@ void __init kvmclock_init(void)
 #endif
 	x86_platform.save_sched_clock_state = kvm_save_sched_clock_state;
 	x86_platform.restore_sched_clock_state = kvm_restore_sched_clock_state;
+<<<<<<< HEAD
+=======
 	machine_ops.shutdown  = kvm_shutdown;
 #ifdef CONFIG_KEXEC_CORE
 	machine_ops.crash_shutdown  = kvm_crash_shutdown;
 #endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kvm_get_preset_lpj();
 
 	/*

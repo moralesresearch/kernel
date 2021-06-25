@@ -137,7 +137,11 @@ efivarfs_ioc_setxflags(struct file *file, void __user *arg)
 	unsigned int oldflags = efivarfs_getflags(inode);
 	int error;
 
+<<<<<<< HEAD
 	if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+	if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EACCES;
 
 	if (copy_from_user(&flags, arg, sizeof(flags)))

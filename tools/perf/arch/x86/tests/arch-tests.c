@@ -31,10 +31,13 @@ struct test arch_tests[] = {
 	},
 #endif
 	{
+<<<<<<< HEAD
 		.desc = "x86 Sample parsing",
 		.func = test__x86_sample_parsing,
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.func = NULL,
 	},
 

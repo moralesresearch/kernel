@@ -31,6 +31,11 @@
     System Programming Guide; Section 9.11. (1997 edition - PPro).
 */
 
+<<<<<<< HEAD
+=======
+#define DEBUG
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/types.h> /* FIXME: kvm_para.h needs this */
 
 #include <linux/stop_machine.h>

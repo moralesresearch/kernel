@@ -746,12 +746,40 @@ static int vpe_elfload(struct vpe *v)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static int getcwd(char *buff, int size)
+{
+	mm_segment_t old_fs;
+	int ret;
+
+	old_fs = get_fs();
+	set_fs(KERNEL_DS);
+
+	ret = sys_getcwd(buff, size);
+
+	set_fs(old_fs);
+
+	return ret;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* checks VPE is unused and gets ready to load program	*/
 static int vpe_open(struct inode *inode, struct file *filp)
 {
 	enum vpe_state state;
 	struct vpe_notifications *notifier;
 	struct vpe *v;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	int ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (VPE_MODULE_MINOR != iminor(inode)) {
 		/* assume only 1 device at the moment. */
@@ -787,6 +815,18 @@ static int vpe_open(struct inode *inode, struct file *filp)
 	v->plen = P_SIZE;
 	v->load_addr = NULL;
 	v->len = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	v->cwd[0] = 0;
+	ret = getcwd(v->cwd, VPE_PATH_MAX);
+	if (ret < 0)
+		pr_warn("VPE loader: open, getcwd returned %d\n", ret);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v->shared_ptr = NULL;
 	v->__start = 0;
 
@@ -893,6 +933,23 @@ int vpe_notify(int index, struct vpe_notifications *notify)
 }
 EXPORT_SYMBOL(vpe_notify);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+char *vpe_getcwd(int index)
+{
+	struct vpe *v = get_vpe(index);
+
+	if (v == NULL)
+		return NULL;
+
+	return v->cwd;
+}
+EXPORT_SYMBOL(vpe_getcwd);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 module_init(vpe_module_init);
 module_exit(vpe_module_exit);
 MODULE_DESCRIPTION("MIPS VPE Loader");

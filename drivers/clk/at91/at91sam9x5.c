@@ -302,33 +302,58 @@ static void __init at91sam9g15_pmc_setup(struct device_node *np)
 {
 	at91sam9x5_pmc_setup(np, at91sam9g15_periphck, true);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9g15_pmc, "atmel,at91sam9g15-pmc", at91sam9g15_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9g15_pmc, "atmel,at91sam9g15-pmc",
+		      at91sam9g15_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9g25_pmc_setup(struct device_node *np)
 {
 	at91sam9x5_pmc_setup(np, at91sam9g25_periphck, false);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9g25_pmc, "atmel,at91sam9g25-pmc", at91sam9g25_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9g25_pmc, "atmel,at91sam9g25-pmc",
+		      at91sam9g25_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9g35_pmc_setup(struct device_node *np)
 {
 	at91sam9x5_pmc_setup(np, at91sam9g35_periphck, true);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9g35_pmc, "atmel,at91sam9g35-pmc", at91sam9g35_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9g35_pmc, "atmel,at91sam9g35-pmc",
+		      at91sam9g35_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9x25_pmc_setup(struct device_node *np)
 {
 	at91sam9x5_pmc_setup(np, at91sam9x25_periphck, false);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9x25_pmc, "atmel,at91sam9x25-pmc", at91sam9x25_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9x25_pmc, "atmel,at91sam9x25-pmc",
+		      at91sam9x25_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9x35_pmc_setup(struct device_node *np)
 {
 	at91sam9x5_pmc_setup(np, at91sam9x35_periphck, true);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9x35_pmc, "atmel,at91sam9x35-pmc", at91sam9x35_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9x35_pmc, "atmel,at91sam9x35-pmc",
+		      at91sam9x35_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

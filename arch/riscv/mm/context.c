@@ -2,6 +2,7 @@
 /*
  * Copyright (C) 2012 Regents of the University of California
  * Copyright (C) 2017 SiFive
+<<<<<<< HEAD
  * Copyright (C) 2021 Western Digital Corporation or its affiliates.
  */
 
@@ -12,10 +13,16 @@
 #include <linux/slab.h>
 #include <linux/spinlock.h>
 #include <linux/static_key.h>
+=======
+ */
+
+#include <linux/mm.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/tlbflush.h>
 #include <asm/cacheflush.h>
 #include <asm/mmu_context.h>
 
+<<<<<<< HEAD
 #ifdef CONFIG_MMU
 
 static DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
@@ -269,6 +276,8 @@ static inline void set_mm(struct mm_struct *mm, unsigned int cpu)
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * When necessary, performs a deferred icache flush for the given MM context,
  * on the local CPU.  RISC-V has no direct mechanism for instruction cache
@@ -318,7 +327,14 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
 	cpumask_clear_cpu(cpu, mm_cpumask(prev));
 	cpumask_set_cpu(cpu, mm_cpumask(next));
 
+<<<<<<< HEAD
 	set_mm(next, cpu);
+=======
+#ifdef CONFIG_MMU
+	csr_write(CSR_SATP, virt_to_pfn(next->pgd) | SATP_MODE);
+	local_flush_tlb_all();
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	flush_icache_deferred(next);
 }

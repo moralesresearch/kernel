@@ -9,13 +9,19 @@
 #ifndef __LINUX_PCI_EPF_H
 #define __LINUX_PCI_EPF_H
 
+<<<<<<< HEAD
 #include <linux/configfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/device.h>
 #include <linux/mod_devicetable.h>
 #include <linux/pci.h>
 
 struct pci_epf;
+<<<<<<< HEAD
 enum pci_epc_interface_type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum pci_notify_event {
 	CORE_INIT,
@@ -23,7 +29,10 @@ enum pci_notify_event {
 };
 
 enum pci_barno {
+<<<<<<< HEAD
 	NO_BAR = -1,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BAR_0,
 	BAR_1,
 	BAR_2,
@@ -63,13 +72,19 @@ struct pci_epf_header {
  * @bind: ops to perform when a EPC device has been bound to EPF device
  * @unbind: ops to perform when a binding has been lost between a EPC device
  *	    and EPF device
+<<<<<<< HEAD
  * @add_cfs: ops to initialize function specific configfs attributes
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct pci_epf_ops {
 	int	(*bind)(struct pci_epf *epf);
 	void	(*unbind)(struct pci_epf *epf);
+<<<<<<< HEAD
 	struct config_group *(*add_cfs)(struct pci_epf *epf,
 					struct config_group *group);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -124,12 +139,15 @@ struct pci_epf_bar {
  * @list: to add pci_epf as a list of PCI endpoint functions to pci_epc
  * @nb: notifier block to notify EPF of any EPC events (like linkup)
  * @lock: mutex to protect pci_epf_ops
+<<<<<<< HEAD
  * @sec_epc: the secondary EPC device to which this EPF device is bound
  * @sec_epc_list: to add pci_epf as list of PCI endpoint functions to secondary
  *   EPC device
  * @sec_epc_bar: represents the BAR of EPF device associated with secondary EPC
  * @sec_epc_func_no: unique (physical) function number within the secondary EPC
  * @group: configfs group associated with the EPF device
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct pci_epf {
 	struct device		dev;
@@ -146,6 +164,7 @@ struct pci_epf {
 	struct notifier_block   nb;
 	/* mutex to protect against concurrent access of pci_epf_ops */
 	struct mutex		lock;
+<<<<<<< HEAD
 
 	/* Below members are to attach secondary EPC to an endpoint function */
 	struct pci_epc		*sec_epc;
@@ -153,6 +172,8 @@ struct pci_epf {
 	struct pci_epf_bar	sec_epc_bar[6];
 	u8			sec_epc_func_no;
 	struct config_group	*group;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -183,12 +204,18 @@ static inline void *epf_get_drvdata(struct pci_epf *epf)
 	return dev_get_drvdata(&epf->dev);
 }
 
+<<<<<<< HEAD
+=======
+const struct pci_epf_device_id *
+pci_epf_match_device(const struct pci_epf_device_id *id, struct pci_epf *epf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct pci_epf *pci_epf_create(const char *name);
 void pci_epf_destroy(struct pci_epf *epf);
 int __pci_epf_register_driver(struct pci_epf_driver *driver,
 			      struct module *owner);
 void pci_epf_unregister_driver(struct pci_epf_driver *driver);
 void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
+<<<<<<< HEAD
 			  size_t align, enum pci_epc_interface_type type);
 void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
 			enum pci_epc_interface_type type);
@@ -196,4 +223,10 @@ int pci_epf_bind(struct pci_epf *epf);
 void pci_epf_unbind(struct pci_epf *epf);
 struct config_group *pci_epf_type_add_cfs(struct pci_epf *epf,
 					  struct config_group *group);
+=======
+			  size_t align);
+void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar);
+int pci_epf_bind(struct pci_epf *epf);
+void pci_epf_unbind(struct pci_epf *epf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_PCI_EPF_H */

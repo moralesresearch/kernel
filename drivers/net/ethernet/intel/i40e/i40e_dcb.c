@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright(c) 2013 - 2021 Intel Corporation. */
+=======
+/* Copyright(c) 2013 - 2018 Intel Corporation. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "i40e_adminq.h"
 #include "i40e_prototype.h"
@@ -933,6 +937,7 @@ i40e_status i40e_init_dcb(struct i40e_hw *hw, bool enable_mib_change)
 }
 
 /**
+<<<<<<< HEAD
  * i40e_get_fw_lldp_status
  * @hw: pointer to the hw struct
  * @lldp_status: pointer to the status enum
@@ -1880,6 +1885,8 @@ void i40e_dcb_hw_rx_pb_config(struct i40e_hw *hw,
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * _i40e_read_lldp_cfg - generic read of LLDP Configuration data from NVM
  * @hw: pointer to the HW structure
  * @lldp_cfg: pointer to hold lldp configuration variables

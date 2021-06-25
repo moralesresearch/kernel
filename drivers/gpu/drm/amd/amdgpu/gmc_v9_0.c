@@ -31,6 +31,11 @@
 #include "amdgpu_atomfirmware.h"
 #include "amdgpu_gem.h"
 
+<<<<<<< HEAD
+=======
+#include "hdp/hdp_4_0_offset.h"
+#include "hdp/hdp_4_0_sh_mask.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gc/gc_9_0_sh_mask.h"
 #include "dce/dce_12_0_offset.h"
 #include "dce/dce_12_0_sh_mask.h"
@@ -239,6 +244,7 @@ static const char *mmhub_client_ids_vega20[][2] = {
 };
 
 static const char *mmhub_client_ids_arcturus[][2] = {
+<<<<<<< HEAD
 	[0][0] = "DBGU1",
 	[1][0] = "XDP",
 	[2][0] = "MP1",
@@ -277,6 +283,62 @@ static const char *mmhub_client_ids_arcturus[][2] = {
 	[262][1] = "SDMA6",
 	[263][1] = "SDMA7",
 	[384][1] = "OSS",
+=======
+	[2][0] = "MP1",
+	[3][0] = "MP0",
+	[10][0] = "UTCL2",
+	[13][0] = "OSS",
+	[14][0] = "HDP",
+	[15][0] = "SDMA0",
+	[32+15][0] = "SDMA1",
+	[64+15][0] = "SDMA2",
+	[96+15][0] = "SDMA3",
+	[128+15][0] = "SDMA4",
+	[160+11][0] = "JPEG",
+	[160+12][0] = "VCN",
+	[160+13][0] = "VCNU",
+	[160+15][0] = "SDMA5",
+	[192+10][0] = "UTCL2",
+	[192+11][0] = "JPEG1",
+	[192+12][0] = "VCN1",
+	[192+13][0] = "VCN1U",
+	[192+15][0] = "SDMA6",
+	[224+15][0] = "SDMA7",
+	[0][1] = "DBGU1",
+	[1][1] = "XDP",
+	[2][1] = "MP1",
+	[3][1] = "MP0",
+	[13][1] = "OSS",
+	[14][1] = "HDP",
+	[15][1] = "SDMA0",
+	[32+15][1] = "SDMA1",
+	[64+15][1] = "SDMA2",
+	[96+15][1] = "SDMA3",
+	[128+15][1] = "SDMA4",
+	[160+11][1] = "JPEG",
+	[160+12][1] = "VCN",
+	[160+13][1] = "VCNU",
+	[160+15][1] = "SDMA5",
+	[192+11][1] = "JPEG1",
+	[192+12][1] = "VCN1",
+	[192+13][1] = "VCN1U",
+	[192+15][1] = "SDMA6",
+	[224+15][1] = "SDMA7",
+};
+
+static const u32 golden_settings_vega10_hdp[] =
+{
+	0xf64, 0x0fffffff, 0x00000000,
+	0xf65, 0x0fffffff, 0x00000000,
+	0xf66, 0x0fffffff, 0x00000000,
+	0xf67, 0x0fffffff, 0x00000000,
+	0xf68, 0x0fffffff, 0x00000000,
+	0xf6a, 0x0fffffff, 0x00000000,
+	0xf6b, 0x0fffffff, 0x00000000,
+	0xf6c, 0x0fffffff, 0x00000000,
+	0xf6d, 0x0fffffff, 0x00000000,
+	0xf6e, 0x0fffffff, 0x00000000,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct soc15_reg_golden golden_settings_mmhub_1_0_0[] =
@@ -1553,6 +1615,10 @@ static int gmc_v9_0_hw_init(void *handle)
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 	bool value;
 	int r, i;
+<<<<<<< HEAD
+=======
+	u32 tmp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The sequence of these two function calls matters.*/
 	gmc_v9_0_init_golden_registers(adev);
@@ -1564,6 +1630,7 @@ static int gmc_v9_0_hw_init(void *handle)
 		WREG32_FIELD15(DCE, 0, VGA_RENDER_CONTROL, VGA_VSTATUS_CNTL, 0);
 	}
 
+<<<<<<< HEAD
 	if (adev->mmhub.funcs->update_power_gating)
 		adev->mmhub.funcs->update_power_gating(adev, true);
 
@@ -1571,6 +1638,33 @@ static int gmc_v9_0_hw_init(void *handle)
 
 	/* After HDP is initialized, flush HDP.*/
 	adev->hdp.funcs->flush_hdp(adev, NULL);
+=======
+	amdgpu_device_program_register_sequence(adev,
+						golden_settings_vega10_hdp,
+						ARRAY_SIZE(golden_settings_vega10_hdp));
+
+	if (adev->mmhub.funcs->update_power_gating)
+		adev->mmhub.funcs->update_power_gating(adev, true);
+
+	switch (adev->asic_type) {
+	case CHIP_ARCTURUS:
+		WREG32_FIELD15(HDP, 0, HDP_MMHUB_CNTL, HDP_MMHUB_GCC, 1);
+		break;
+	default:
+		break;
+	}
+
+	WREG32_FIELD15(HDP, 0, HDP_MISC_CNTL, FLUSH_INVALIDATE_CACHE, 1);
+
+	tmp = RREG32_SOC15(HDP, 0, mmHDP_HOST_PATH_CNTL);
+	WREG32_SOC15(HDP, 0, mmHDP_HOST_PATH_CNTL, tmp);
+
+	WREG32_SOC15(HDP, 0, mmHDP_NONSURFACE_BASE, (adev->gmc.vram_start >> 8));
+	WREG32_SOC15(HDP, 0, mmHDP_NONSURFACE_BASE_HI, (adev->gmc.vram_start >> 40));
+
+	/* After HDP is initialized, flush HDP.*/
+	adev->nbio.funcs->hdp_flush(adev, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (amdgpu_vm_fault_stop == AMDGPU_VM_FAULT_STOP_ALWAYS)
 		value = false;

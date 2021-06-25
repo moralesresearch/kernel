@@ -1,7 +1,11 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2019-2021 Linaro Ltd.
+=======
+ * Copyright (C) 2019-2020 Linaro Ltd.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #ifndef _IPA_TABLE_H_
 #define _IPA_TABLE_H_
@@ -52,12 +56,15 @@ static inline bool ipa_filter_map_valid(struct ipa *ipa, u32 filter_mask)
 #endif /* !IPA_VALIDATE */
 
 /**
+<<<<<<< HEAD
  * ipa_table_hash_support() - Return true if hashed tables are supported
  * @ipa:	IPA pointer
  */
 bool ipa_table_hash_support(struct ipa *ipa);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ipa_table_reset() - Reset filter and route tables entries to "none"
  * @ipa:	IPA pointer
  * @modem:	Whether to reset modem or AP entries

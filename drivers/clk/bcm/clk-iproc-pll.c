@@ -704,7 +704,11 @@ static const struct clk_ops iproc_clk_ops = {
 	.set_rate = iproc_clk_set_rate,
 };
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Some PLLs require the PLL SW override bit to be set before changes can be
  * applied to the PLL
  */

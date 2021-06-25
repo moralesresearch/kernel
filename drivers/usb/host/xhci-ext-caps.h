@@ -7,9 +7,14 @@
  * Author: Sarah Sharp
  * Some code borrowed from the Linux EHCI driver.
  */
+<<<<<<< HEAD
 
 /* HC should halt within 16 ms, but use 32 ms as some hosts take longer */
 #define XHCI_MAX_HALT_USEC	(32 * 1000)
+=======
+/* Up to 16 ms to halt an HC */
+#define XHCI_MAX_HALT_USEC	(16*1000)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* HC not running - set to 1 when run/stop bit is cleared. */
 #define XHCI_STS_HALT		(1<<0)
 

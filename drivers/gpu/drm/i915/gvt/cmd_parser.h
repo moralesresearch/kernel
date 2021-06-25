@@ -40,7 +40,10 @@
 
 struct intel_gvt;
 struct intel_shadow_wa_ctx;
+<<<<<<< HEAD
 struct intel_vgpu;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct intel_vgpu_workload;
 
 void intel_gvt_clean_cmd_parser(struct intel_gvt *gvt);
@@ -51,8 +54,11 @@ int intel_gvt_scan_and_shadow_ringbuffer(struct intel_vgpu_workload *workload);
 
 int intel_gvt_scan_and_shadow_wa_ctx(struct intel_shadow_wa_ctx *wa_ctx);
 
+<<<<<<< HEAD
 void intel_gvt_update_reg_whitelist(struct intel_vgpu *vgpu);
 
 int intel_gvt_scan_engine_context(struct intel_vgpu_workload *workload);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

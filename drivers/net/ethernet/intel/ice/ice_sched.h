@@ -8,7 +8,10 @@
 
 #define ICE_QGRP_LAYER_OFFSET	2
 #define ICE_VSI_LAYER_OFFSET	4
+<<<<<<< HEAD
 #define ICE_AGG_LAYER_OFFSET	6
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_SCHED_INVAL_LAYER_NUM	0xFF
 /* Burst size is a 12 bits register that is configured while creating the RL
  * profile(s). MSB is a granularity bit and tells the granularity type
@@ -24,16 +27,23 @@
 	((BIT(11) - 1) * 64) /* In Bytes */
 #define ICE_MAX_BURST_SIZE_KBYTE_GRANULARITY	ICE_MAX_BURST_SIZE_ALLOWED
 
+<<<<<<< HEAD
+=======
+#define ICE_RL_PROF_FREQUENCY 446000000
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_RL_PROF_ACCURACY_BYTES 128
 #define ICE_RL_PROF_MULTIPLIER 10000
 #define ICE_RL_PROF_TS_MULTIPLIER 32
 #define ICE_RL_PROF_FRACTION 512
 
+<<<<<<< HEAD
 #define ICE_PSM_CLK_367MHZ_IN_HZ 367647059
 #define ICE_PSM_CLK_416MHZ_IN_HZ 416666667
 #define ICE_PSM_CLK_446MHZ_IN_HZ 446428571
 #define ICE_PSM_CLK_390MHZ_IN_HZ 390625000
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* BW rate limit profile parameters list entry along
  * with bandwidth maintained per layer in port info
  */
@@ -48,8 +58,11 @@ struct ice_sched_agg_vsi_info {
 	struct list_head list_entry;
 	DECLARE_BITMAP(tc_bitmap, ICE_MAX_TRAFFIC_CLASS);
 	u16 vsi_handle;
+<<<<<<< HEAD
 	/* save aggregator VSI TC bitmap */
 	DECLARE_BITMAP(replay_tc_bitmap, ICE_MAX_TRAFFIC_CLASS);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ice_sched_agg_info {
@@ -58,8 +71,11 @@ struct ice_sched_agg_info {
 	DECLARE_BITMAP(tc_bitmap, ICE_MAX_TRAFFIC_CLASS);
 	u32 agg_id;
 	enum ice_agg_type agg_type;
+<<<<<<< HEAD
 	/* save aggregator TC bitmap */
 	DECLARE_BITMAP(replay_tc_bitmap, ICE_MAX_TRAFFIC_CLASS);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* FW AQ command calls */
@@ -69,8 +85,11 @@ ice_aq_query_sched_elems(struct ice_hw *hw, u16 elems_req,
 			 u16 *elems_ret, struct ice_sq_cd *cd);
 enum ice_status ice_sched_init_port(struct ice_port_info *pi);
 enum ice_status ice_sched_query_res_alloc(struct ice_hw *hw);
+<<<<<<< HEAD
 void ice_sched_get_psm_clk_freq(struct ice_hw *hw);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ice_sched_clear_port(struct ice_port_info *pi);
 void ice_sched_cleanup_all(struct ice_hw *hw);
 void ice_sched_clear_agg(struct ice_hw *hw);
@@ -89,6 +108,7 @@ enum ice_status
 ice_sched_cfg_vsi(struct ice_port_info *pi, u16 vsi_handle, u8 tc, u16 maxqs,
 		  u8 owner, bool enable);
 enum ice_status ice_rm_vsi_lan_cfg(struct ice_port_info *pi, u16 vsi_handle);
+<<<<<<< HEAD
 
 /* Tx scheduler rate limiter functions */
 enum ice_status
@@ -97,6 +117,8 @@ ice_cfg_agg(struct ice_port_info *pi, u32 agg_id,
 enum ice_status
 ice_move_vsi_to_agg(struct ice_port_info *pi, u32 agg_id, u16 vsi_handle,
 		    u8 tc_bitmap);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ice_status
 ice_cfg_q_bw_lmt(struct ice_port_info *pi, u16 vsi_handle, u8 tc,
 		 u16 q_handle, enum ice_rl_type rl_type, u32 bw);
@@ -104,9 +126,12 @@ enum ice_status
 ice_cfg_q_bw_dflt_lmt(struct ice_port_info *pi, u16 vsi_handle, u8 tc,
 		      u16 q_handle, enum ice_rl_type rl_type);
 enum ice_status ice_cfg_rl_burst_size(struct ice_hw *hw, u32 bytes);
+<<<<<<< HEAD
 void ice_sched_replay_agg_vsi_preinit(struct ice_hw *hw);
 void ice_sched_replay_agg(struct ice_hw *hw);
 enum ice_status ice_replay_vsi_agg(struct ice_hw *hw, u16 vsi_handle);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ice_status
 ice_sched_replay_q_bw(struct ice_port_info *pi, struct ice_q_ctx *q_ctx);
 #endif /* _ICE_SCHED_H_ */

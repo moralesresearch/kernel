@@ -86,11 +86,17 @@ const struct super_operations nfs_sops = {
 };
 EXPORT_SYMBOL_GPL(nfs_sops);
 
+<<<<<<< HEAD
 #ifdef CONFIG_NFS_V4_2
 static const struct nfs_ssc_client_ops nfs_ssc_clnt_ops_tbl = {
 	.sco_sb_deactive = nfs_sb_deactive,
 };
 #endif
+=======
+static const struct nfs_ssc_client_ops nfs_ssc_clnt_ops_tbl = {
+	.sco_sb_deactive = nfs_sb_deactive,
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if IS_ENABLED(CONFIG_NFS_V4)
 static int __init register_nfs4_fs(void)
@@ -113,21 +119,32 @@ static void unregister_nfs4_fs(void)
 }
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_NFS_V4_2
 static void nfs_ssc_register_ops(void)
 {
 #ifdef CONFIG_NFSD_V4
 	nfs_ssc_register(&nfs_ssc_clnt_ops_tbl);
 #endif
+=======
+static void nfs_ssc_register_ops(void)
+{
+	nfs_ssc_register(&nfs_ssc_clnt_ops_tbl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nfs_ssc_unregister_ops(void)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_NFSD_V4
 	nfs_ssc_unregister(&nfs_ssc_clnt_ops_tbl);
 #endif
 }
 #endif /* CONFIG_NFS_V4_2 */
+=======
+	nfs_ssc_unregister(&nfs_ssc_clnt_ops_tbl);
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct shrinker acl_shrinker = {
 	.count_objects	= nfs_access_cache_count,
@@ -156,9 +173,13 @@ int __init register_nfs_fs(void)
 	ret = register_shrinker(&acl_shrinker);
 	if (ret < 0)
 		goto error_3;
+<<<<<<< HEAD
 #ifdef CONFIG_NFS_V4_2
 	nfs_ssc_register_ops();
 #endif
+=======
+	nfs_ssc_register_ops();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 error_3:
 	nfs_unregister_sysctl();
@@ -178,9 +199,13 @@ void __exit unregister_nfs_fs(void)
 	unregister_shrinker(&acl_shrinker);
 	nfs_unregister_sysctl();
 	unregister_nfs4_fs();
+<<<<<<< HEAD
 #ifdef CONFIG_NFS_V4_2
 	nfs_ssc_unregister_ops();
 #endif
+=======
+	nfs_ssc_unregister_ops();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unregister_filesystem(&nfs_fs_type);
 }
 
@@ -523,6 +548,7 @@ static void nfs_show_mount_options(struct seq_file *m, struct nfs_server *nfss,
 		seq_puts(m, ",local_lock=flock");
 	else
 		seq_puts(m, ",local_lock=posix");
+<<<<<<< HEAD
 
 	if (nfss->flags & NFS_MOUNT_WRITE_EAGER) {
 		if (nfss->flags & NFS_MOUNT_WRITE_WAIT)
@@ -530,6 +556,8 @@ static void nfs_show_mount_options(struct seq_file *m, struct nfs_server *nfss,
 		else
 			seq_puts(m, ",write=eager");
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

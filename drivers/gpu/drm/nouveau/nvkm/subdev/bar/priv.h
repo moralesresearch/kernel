@@ -5,7 +5,11 @@
 #include <subdev/bar.h>
 
 void nvkm_bar_ctor(const struct nvkm_bar_func *, struct nvkm_device *,
+<<<<<<< HEAD
 		   enum nvkm_subdev_type, int, struct nvkm_bar *);
+=======
+		   int, struct nvkm_bar *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_bar_func {
 	void *(*dtor)(struct nvkm_bar *);

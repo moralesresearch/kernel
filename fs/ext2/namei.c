@@ -100,9 +100,13 @@ struct dentry *ext2_get_parent(struct dentry *child)
  * If the create succeeds, we fill in the inode information
  * with d_instantiate(). 
  */
+<<<<<<< HEAD
 static int ext2_create (struct user_namespace * mnt_userns,
 			struct inode * dir, struct dentry * dentry,
 			umode_t mode, bool excl)
+=======
+static int ext2_create (struct inode * dir, struct dentry * dentry, umode_t mode, bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	int err;
@@ -120,8 +124,12 @@ static int ext2_create (struct user_namespace * mnt_userns,
 	return ext2_add_nondir(dentry, inode);
 }
 
+<<<<<<< HEAD
 static int ext2_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode)
+=======
+static int ext2_tmpfile(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = ext2_new_inode(dir, mode, NULL);
 	if (IS_ERR(inode))
@@ -134,8 +142,12 @@ static int ext2_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int ext2_mknod (struct user_namespace * mnt_userns, struct inode * dir,
 	struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+static int ext2_mknod (struct inode * dir, struct dentry *dentry, umode_t mode, dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode;
 	int err;
@@ -155,8 +167,13 @@ static int ext2_mknod (struct user_namespace * mnt_userns, struct inode * dir,
 	return err;
 }
 
+<<<<<<< HEAD
 static int ext2_symlink (struct user_namespace * mnt_userns, struct inode * dir,
 	struct dentry * dentry, const char * symname)
+=======
+static int ext2_symlink (struct inode * dir, struct dentry * dentry,
+	const char * symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block * sb = dir->i_sb;
 	int err = -ENAMETOOLONG;
@@ -229,8 +246,12 @@ static int ext2_link (struct dentry * old_dentry, struct inode * dir,
 	return err;
 }
 
+<<<<<<< HEAD
 static int ext2_mkdir(struct user_namespace * mnt_userns,
 	struct inode * dir, struct dentry * dentry, umode_t mode)
+=======
+static int ext2_mkdir(struct inode * dir, struct dentry * dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode;
 	int err;
@@ -320,9 +341,14 @@ static int ext2_rmdir (struct inode * dir, struct dentry *dentry)
 	return err;
 }
 
+<<<<<<< HEAD
 static int ext2_rename (struct user_namespace * mnt_userns,
 			struct inode * old_dir, struct dentry * old_dentry,
 			struct inode * new_dir, struct dentry * new_dentry,
+=======
+static int ext2_rename (struct inode * old_dir, struct dentry * old_dentry,
+			struct inode * new_dir,	struct dentry * new_dentry,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			unsigned int flags)
 {
 	struct inode * old_inode = d_inode(old_dentry);

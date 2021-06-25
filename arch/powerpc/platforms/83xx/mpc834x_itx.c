@@ -70,7 +70,10 @@ define_machine(mpc834x_itx) {
 	.name			= "MPC834x ITX",
 	.probe			= mpc834x_itx_probe,
 	.setup_arch		= mpc834x_itx_setup_arch,
+<<<<<<< HEAD
 	.discover_phbs  	= mpc83xx_setup_pci,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= mpc83xx_ipic_init_IRQ,
 	.get_irq		= ipic_get_irq,
 	.restart		= mpc83xx_restart,

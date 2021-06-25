@@ -193,6 +193,7 @@ static void ish_clr_host_rdy(struct ishtp_device *dev)
 	ish_reg_write(dev, IPC_REG_HOST_COMM, host_status);
 }
 
+<<<<<<< HEAD
 static bool ish_chk_host_rdy(struct ishtp_device *dev)
 {
 	uint32_t host_status = ish_reg_read(dev, IPC_REG_HOST_COMM);
@@ -220,6 +221,8 @@ void ish_set_host_ready(struct ishtp_device *dev)
 	set_host_ready(dev);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * _ishtp_read_hdr() - Read message header
  * @dev: ISHTP device pointer

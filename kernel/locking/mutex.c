@@ -86,6 +86,22 @@ bool mutex_is_locked(struct mutex *lock)
 }
 EXPORT_SYMBOL(mutex_is_locked);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+__must_check enum mutex_trylock_recursive_enum
+mutex_trylock_recursive(struct mutex *lock)
+{
+	if (unlikely(__mutex_owner(lock) == current))
+		return MUTEX_TRYLOCK_RECURSIVE;
+
+	return mutex_trylock(lock);
+}
+EXPORT_SYMBOL(mutex_trylock_recursive);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline unsigned long __owner_flags(unsigned long owner)
 {
 	return owner & MUTEX_FLAGS;
@@ -194,7 +210,11 @@ static inline bool __mutex_waiter_is_first(struct mutex *lock, struct mutex_wait
  * Add @waiter to a given location in the lock wait_list and set the
  * FLAG_WAITERS flag if it's the first waiter.
  */
+<<<<<<< HEAD
 static void
+=======
+static void __sched
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __mutex_add_waiter(struct mutex *lock, struct mutex_waiter *waiter,
 		   struct list_head *list)
 {
@@ -205,6 +225,7 @@ __mutex_add_waiter(struct mutex *lock, struct mutex_waiter *waiter,
 		__mutex_set_flag(lock, MUTEX_FLAG_WAITERS);
 }
 
+<<<<<<< HEAD
 static void
 __mutex_remove_waiter(struct mutex *lock, struct mutex_waiter *waiter)
 {
@@ -215,6 +236,8 @@ __mutex_remove_waiter(struct mutex *lock, struct mutex_waiter *waiter)
 	debug_mutex_remove_waiter(lock, waiter, current);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Give up ownership to a specific task, when @task = NULL, this is equivalent
  * to a regular unlock. Sets PICKUP on a handoff, clears HANDOF, preserves
@@ -1071,7 +1094,13 @@ acquired:
 			__ww_mutex_check_waiters(lock, ww_ctx);
 	}
 
+<<<<<<< HEAD
 	__mutex_remove_waiter(lock, &waiter);
+=======
+	mutex_remove_waiter(lock, &waiter, current);
+	if (likely(list_empty(&lock->wait_list)))
+		__mutex_clear_flag(lock, MUTEX_FLAGS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	debug_mutex_free_waiter(&waiter);
 
@@ -1088,7 +1117,11 @@ skip_wait:
 
 err:
 	__set_current_state(TASK_RUNNING);
+<<<<<<< HEAD
 	__mutex_remove_waiter(lock, &waiter);
+=======
+	mutex_remove_waiter(lock, &waiter, current);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_early_kill:
 	spin_unlock(&lock->wait_lock);
 	debug_mutex_free_waiter(&waiter);

@@ -1,8 +1,19 @@
+<<<<<<< HEAD
 /* SPDX-License-Identifier: GPL-2.0-only */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Copyright (C) 2015 Atmel
  *
  * Boris Brezillon <boris.brezillon@free-electrons.com
+<<<<<<< HEAD
+=======
+ *
+ * This file is licensed under the terms of the GNU General Public
+ * License version 2.  This program is licensed "as is" without any
+ * warranty of any kind, whether express or implied.
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef __AT91_SOC_H
@@ -12,19 +23,28 @@
 
 struct at91_soc {
 	u32 cidr_match;
+<<<<<<< HEAD
 	u32 cidr_mask;
 	u32 version_mask;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 exid_match;
 	const char *name;
 	const char *family;
 };
 
+<<<<<<< HEAD
 #define AT91_SOC(__cidr, __cidr_mask, __version_mask, __exid,	\
 		 __name, __family)				\
 	{							\
 		.cidr_match = (__cidr),				\
 		.cidr_mask = (__cidr_mask),			\
 		.version_mask = (__version_mask),		\
+=======
+#define AT91_SOC(__cidr, __exid, __name, __family)		\
+	{							\
+		.cidr_match = (__cidr),				\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.exid_match = (__exid),				\
 		.name = (__name),				\
 		.family = (__family),				\
@@ -44,7 +64,10 @@ at91_soc_init(const struct at91_soc *socs);
 #define AT91SAM9X5_CIDR_MATCH		0x019a05a0
 #define AT91SAM9N12_CIDR_MATCH		0x019a07a0
 #define SAM9X60_CIDR_MATCH		0x019b35a0
+<<<<<<< HEAD
 #define SAMA7G5_CIDR_MATCH		0x00162100
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define AT91SAM9M11_EXID_MATCH		0x00000001
 #define AT91SAM9M10_EXID_MATCH		0x00000002
@@ -66,11 +89,14 @@ at91_soc_init(const struct at91_soc *socs);
 #define SAM9X60_D1G_EXID_MATCH		0x00000010
 #define SAM9X60_D6K_EXID_MATCH		0x00000011
 
+<<<<<<< HEAD
 #define SAMA7G51_EXID_MATCH		0x3
 #define SAMA7G52_EXID_MATCH		0x2
 #define SAMA7G53_EXID_MATCH		0x1
 #define SAMA7G54_EXID_MATCH		0x0
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define AT91SAM9XE128_CIDR_MATCH	0x329973a0
 #define AT91SAM9XE256_CIDR_MATCH	0x329a93a0
 #define AT91SAM9XE512_CIDR_MATCH	0x329aa3a0

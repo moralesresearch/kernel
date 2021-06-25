@@ -33,6 +33,7 @@
 #ifndef __LIB_CLOCK_H__
 #define __LIB_CLOCK_H__
 
+<<<<<<< HEAD
 static inline bool mlx5_is_real_time_rq(struct mlx5_core_dev *mdev)
 {
 	u8 rq_ts_format_cap = MLX5_CAP_GEN(mdev, rq_ts_format);
@@ -51,6 +52,8 @@ static inline bool mlx5_is_real_time_sq(struct mlx5_core_dev *mdev)
 
 typedef ktime_t (*cqe_ts_to_ns)(struct mlx5_clock *, u64);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_PTP_1588_CLOCK)
 void mlx5_init_clock(struct mlx5_core_dev *mdev);
 void mlx5_cleanup_clock(struct mlx5_core_dev *mdev);
@@ -63,18 +66,26 @@ static inline int mlx5_clock_get_ptp_index(struct mlx5_core_dev *mdev)
 static inline ktime_t mlx5_timecounter_cyc2time(struct mlx5_clock *clock,
 						u64 timestamp)
 {
+<<<<<<< HEAD
 	struct mlx5_timer *timer = &clock->timer;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int seq;
 	u64 nsec;
 
 	do {
 		seq = read_seqbegin(&clock->lock);
+<<<<<<< HEAD
 		nsec = timecounter_cyc2time(&timer->tc, timestamp);
+=======
+		nsec = timecounter_cyc2time(&clock->tc, timestamp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} while (read_seqretry(&clock->lock, seq));
 
 	return ns_to_ktime(nsec);
 }
 
+<<<<<<< HEAD
 #define REAL_TIME_TO_NS(hi, low) (((u64)hi) * NSEC_PER_SEC + ((u64)low))
 
 static inline ktime_t mlx5_real_time_cyc2time(struct mlx5_clock *clock,
@@ -84,6 +95,8 @@ static inline ktime_t mlx5_real_time_cyc2time(struct mlx5_clock *clock,
 
 	return ns_to_ktime(time);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline void mlx5_init_clock(struct mlx5_core_dev *mdev) {}
 static inline void mlx5_cleanup_clock(struct mlx5_core_dev *mdev) {}
@@ -97,12 +110,15 @@ static inline ktime_t mlx5_timecounter_cyc2time(struct mlx5_clock *clock,
 {
 	return 0;
 }
+<<<<<<< HEAD
 
 static inline ktime_t mlx5_real_time_cyc2time(struct mlx5_clock *clock,
 					      u64 timestamp)
 {
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif

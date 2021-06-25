@@ -4,7 +4,10 @@ config DRM_INGENIC
 	depends on DRM
 	depends on CMA
 	depends on OF
+<<<<<<< HEAD
 	depends on COMMON_CLK
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DRM_BRIDGE
 	select DRM_PANEL_BRIDGE
 	select DRM_KMS_HELPER

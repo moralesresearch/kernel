@@ -1825,7 +1825,11 @@ static ssize_t wacom_show_speed(struct device *dev,
 	struct hid_device *hdev = to_hid_device(dev);
 	struct wacom *wacom = hid_get_drvdata(hdev);
 
+<<<<<<< HEAD
 	return sysfs_emit(buf, "%i\n", wacom->wacom_wac.bt_high_speed);
+=======
+	return snprintf(buf, PAGE_SIZE, "%i\n", wacom->wacom_wac.bt_high_speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t wacom_store_speed(struct device *dev,

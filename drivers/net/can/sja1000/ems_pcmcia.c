@@ -21,6 +21,10 @@
 
 MODULE_AUTHOR("Markus Plessing <plessing@ems-wuensche.com>");
 MODULE_DESCRIPTION("Socket-CAN driver for EMS CPC-CARD cards");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("EMS CPC-CARD CAN card");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL v2");
 
 #define EMS_PCMCIA_MAX_CHAN 2

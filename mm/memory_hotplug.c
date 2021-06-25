@@ -67,17 +67,42 @@ void put_online_mems(void)
 bool movable_node_enabled = false;
 
 #ifndef CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE
+<<<<<<< HEAD
 int mhp_default_online_type = MMOP_OFFLINE;
 #else
 int mhp_default_online_type = MMOP_ONLINE;
+=======
+<<<<<<< HEAD
+int mhp_default_online_type = MMOP_OFFLINE;
+#else
+int mhp_default_online_type = MMOP_ONLINE;
+=======
+int memhp_default_online_type = MMOP_OFFLINE;
+#else
+int memhp_default_online_type = MMOP_ONLINE;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int __init setup_memhp_default_state(char *str)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const int online_type = mhp_online_type_from_str(str);
 
 	if (online_type >= 0)
 		mhp_default_online_type = online_type;
+<<<<<<< HEAD
+=======
+=======
+	const int online_type = memhp_online_type_from_str(str);
+
+	if (online_type >= 0)
+		memhp_default_online_type = online_type;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 1;
 }
@@ -107,9 +132,18 @@ static struct resource *register_memory_resource(u64 start, u64 size,
 	if (strcmp(resource_name, "System RAM"))
 		flags |= IORESOURCE_SYSRAM_DRIVER_MANAGED;
 
+<<<<<<< HEAD
 	if (!mhp_range_allowed(start, size, true))
 		return ERR_PTR(-E2BIG);
 
+=======
+<<<<<<< HEAD
+	if (!mhp_range_allowed(start, size, true))
+		return ERR_PTR(-E2BIG);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Make sure value parsed from 'mem=' only restricts memory adding
 	 * while booting, so that memory hotplug won't be impacted. Please
@@ -287,6 +321,10 @@ static int check_pfn_span(unsigned long pfn, unsigned long nr_pages,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Return page for the valid pfn only if the page is online. All pfn
  * walkers which rely on the fully initialized page->flags and others
@@ -334,6 +372,26 @@ struct page *pfn_to_online_page(unsigned long pfn)
 	return pfn_to_page(pfn);
 }
 EXPORT_SYMBOL_GPL(pfn_to_online_page);
+<<<<<<< HEAD
+=======
+=======
+static int check_hotplug_memory_addressable(unsigned long pfn,
+					    unsigned long nr_pages)
+{
+	const u64 max_addr = PFN_PHYS(pfn + nr_pages) - 1;
+
+	if (max_addr >> MAX_PHYSMEM_BITS) {
+		const u64 max_allowed = (1ull << (MAX_PHYSMEM_BITS + 1)) - 1;
+		WARN(1,
+		     "Hotplugged memory exceeds maximum addressable address, range=%#llx-%#llx, maximum=%#llx\n",
+		     (u64)PFN_PHYS(pfn), max_addr, max_allowed);
+		return -E2BIG;
+	}
+
+	return 0;
+}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Reasonably generic function for adding memory.  It is
@@ -352,7 +410,17 @@ int __ref __add_pages(int nid, unsigned long pfn, unsigned long nr_pages,
 	if (WARN_ON_ONCE(!params->pgprot.pgprot))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	VM_BUG_ON(!mhp_range_allowed(PFN_PHYS(pfn), nr_pages * PAGE_SIZE, false));
+=======
+<<<<<<< HEAD
+	VM_BUG_ON(!mhp_range_allowed(PFN_PHYS(pfn), nr_pages * PAGE_SIZE, false));
+=======
+	err = check_hotplug_memory_addressable(pfn, nr_pages);
+	if (err)
+		return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (altmap) {
 		/*
@@ -478,19 +546,43 @@ static void update_pgdat_span(struct pglist_data *pgdat)
 
 	for (zone = pgdat->node_zones;
 	     zone < pgdat->node_zones + MAX_NR_ZONES; zone++) {
+<<<<<<< HEAD
 		unsigned long end_pfn = zone_end_pfn(zone);
+=======
+<<<<<<< HEAD
+		unsigned long end_pfn = zone_end_pfn(zone);
+=======
+		unsigned long zone_end_pfn = zone->zone_start_pfn +
+					     zone->spanned_pages;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* No need to lock the zones, they can't change. */
 		if (!zone->spanned_pages)
 			continue;
 		if (!node_end_pfn) {
 			node_start_pfn = zone->zone_start_pfn;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			node_end_pfn = end_pfn;
 			continue;
 		}
 
 		if (end_pfn > node_end_pfn)
 			node_end_pfn = end_pfn;
+<<<<<<< HEAD
+=======
+=======
+			node_end_pfn = zone_end_pfn;
+			continue;
+		}
+
+		if (zone_end_pfn > node_end_pfn)
+			node_end_pfn = zone_end_pfn;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (zone->zone_start_pfn < node_start_pfn)
 			node_start_pfn = zone->zone_start_pfn;
 	}
@@ -710,6 +802,10 @@ static void __meminit resize_pgdat_range(struct pglist_data *pgdat, unsigned lon
 	pgdat->node_spanned_pages = max(start_pfn + nr_pages, old_end_pfn) - pgdat->node_start_pfn;
 
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void section_taint_zone_device(unsigned long pfn)
 {
@@ -718,6 +814,11 @@ static void section_taint_zone_device(unsigned long pfn)
 	ms->section_mem_map |= SECTION_TAINT_ZONE_DEVICE;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Associate the pfn range with the given zone, initializing the memmaps
  * and resizing the pgdat/zone data to span the added pages. After this
@@ -748,6 +849,10 @@ void __ref move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
 	pgdat_resize_unlock(pgdat, &flags);
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Subsection population requires care in pfn_to_online_page().
 	 * Set the taint to enable the slow path detection of
 	 * ZONE_DEVICE pages in an otherwise  ZONE_{NORMAL,MOVABLE}
@@ -761,12 +866,25 @@ void __ref move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
 	}
 
 	/*
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * TODO now we have a visible range of pages which are not associated
 	 * with their zone properly. Not nice but set_pfnblock_flags_mask
 	 * expects the zone spans the pfn range. All the pages in the range
 	 * are reserved so nobody should be touching them so we should be safe
 	 */
+<<<<<<< HEAD
 	memmap_init_range(nr_pages, nid, zone_idx(zone), start_pfn, 0,
+=======
+<<<<<<< HEAD
+	memmap_init_range(nr_pages, nid, zone_idx(zone), start_pfn, 0,
+=======
+	memmap_init_zone(nr_pages, nid, zone_idx(zone), start_pfn, 0,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 MEMINIT_HOTPLUG, altmap, migratetype);
 
 	set_zone_contiguous(zone);
@@ -1060,7 +1178,15 @@ static int check_hotplug_memory_range(u64 start, u64 size)
 
 static int online_memory_block(struct memory_block *mem, void *arg)
 {
+<<<<<<< HEAD
 	mem->online_type = mhp_default_online_type;
+=======
+<<<<<<< HEAD
+	mem->online_type = mhp_default_online_type;
+=======
+	mem->online_type = memhp_default_online_type;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return device_online(&mem->dev);
 }
 
@@ -1137,11 +1263,25 @@ int __ref add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
 	 * In case we're allowed to merge the resource, flag it and trigger
 	 * merging now that adding succeeded.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mhp_flags & MHP_MERGE_RESOURCE)
 		merge_system_ram_resource(res);
 
 	/* online pages if requested */
 	if (mhp_default_online_type != MMOP_OFFLINE)
+<<<<<<< HEAD
+=======
+=======
+	if (mhp_flags & MEMHP_MERGE_RESOURCE)
+		merge_system_ram_resource(res);
+
+	/* online pages if requested */
+	if (memhp_default_online_type != MMOP_OFFLINE)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		walk_memory_blocks(start, size, NULL, online_memory_block);
 
 	return ret;
@@ -1233,6 +1373,10 @@ out_unlock:
 }
 EXPORT_SYMBOL_GPL(add_memory_driver_managed);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Platforms should define arch_get_mappable_range() that provides
  * maximum possible addressable physical memory range for which the
@@ -1288,6 +1432,11 @@ bool mhp_range_allowed(u64 start, u64 size, bool need_mapping)
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_MEMORY_HOTREMOVE
 /*
  * Confirm all pages in a range [start, end) belong to the same zone (skipping
@@ -1368,6 +1517,10 @@ static int scan_movable_pages(unsigned long start, unsigned long end,
 		if (!PageHuge(page))
 			continue;
 		head = compound_head(page);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * This test is racy as we hold no reference or lock.  The
 		 * hugetlb page could have been free'ed and head is no longer
@@ -1376,6 +1529,12 @@ static int scan_movable_pages(unsigned long start, unsigned long end,
 		 * code must deal with these scenarios.
 		 */
 		if (HPageMigratable(head))
+<<<<<<< HEAD
+=======
+=======
+		if (page_huge_active(head))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto found;
 		skip = compound_nr(head) - (page - head);
 		pfn += skip - 1;

@@ -2223,6 +2223,11 @@ static char *fmt_single_name(struct device *dev, int *id)
 		return NULL;
 
 	name = devm_kstrdup(dev, devname, GFP_KERNEL);
+<<<<<<< HEAD
+	if (!name)
+		return NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* are we a "%s.%d" name (platform and SPI components) */
 	found = strstr(name, dev->driver->name);

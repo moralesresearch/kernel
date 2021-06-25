@@ -979,14 +979,24 @@ static __poll_t userfaultfd_poll(struct file *file, poll_table *wait)
 
 static const struct file_operations userfaultfd_fops;
 
+<<<<<<< HEAD
 static int resolve_userfault_fork(struct userfaultfd_ctx *new,
 				  struct inode *inode,
+=======
+static int resolve_userfault_fork(struct userfaultfd_ctx *ctx,
+				  struct userfaultfd_ctx *new,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  struct uffd_msg *msg)
 {
 	int fd;
 
+<<<<<<< HEAD
 	fd = anon_inode_getfd_secure("[userfaultfd]", &userfaultfd_fops, new,
 			O_RDWR | (new->flags & UFFD_SHARED_FCNTL_FLAGS), inode);
+=======
+	fd = anon_inode_getfd("[userfaultfd]", &userfaultfd_fops, new,
+			      O_RDWR | (new->flags & UFFD_SHARED_FCNTL_FLAGS));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fd < 0)
 		return fd;
 
@@ -996,7 +1006,11 @@ static int resolve_userfault_fork(struct userfaultfd_ctx *new,
 }
 
 static ssize_t userfaultfd_ctx_read(struct userfaultfd_ctx *ctx, int no_wait,
+<<<<<<< HEAD
 				    struct uffd_msg *msg, struct inode *inode)
+=======
+				    struct uffd_msg *msg)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ssize_t ret;
 	DECLARE_WAITQUEUE(wait, current);
@@ -1107,7 +1121,11 @@ static ssize_t userfaultfd_ctx_read(struct userfaultfd_ctx *ctx, int no_wait,
 	spin_unlock_irq(&ctx->fd_wqh.lock);
 
 	if (!ret && msg->event == UFFD_EVENT_FORK) {
+<<<<<<< HEAD
 		ret = resolve_userfault_fork(fork_nctx, inode, msg);
+=======
+		ret = resolve_userfault_fork(ctx, fork_nctx, msg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_lock_irq(&ctx->event_wqh.lock);
 		if (!list_empty(&fork_event)) {
 			/*
@@ -1167,7 +1185,10 @@ static ssize_t userfaultfd_read(struct file *file, char __user *buf,
 	ssize_t _ret, ret = 0;
 	struct uffd_msg msg;
 	int no_wait = file->f_flags & O_NONBLOCK;
+<<<<<<< HEAD
 	struct inode *inode = file_inode(file);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ctx->state == UFFD_STATE_WAIT_API)
 		return -EINVAL;
@@ -1175,7 +1196,11 @@ static ssize_t userfaultfd_read(struct file *file, char __user *buf,
 	for (;;) {
 		if (count < sizeof(msg))
 			return ret ? ret : -EINVAL;
+<<<<<<< HEAD
 		_ret = userfaultfd_ctx_read(ctx, no_wait, &msg, inode);
+=======
+		_ret = userfaultfd_ctx_read(ctx, no_wait, &msg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (_ret < 0)
 			return ret ? ret : _ret;
 		if (copy_to_user((__u64 __user *) buf, &msg, sizeof(msg)))
@@ -2000,8 +2025,13 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
 	/* prevent the mm struct to be freed */
 	mmgrab(ctx->mm);
 
+<<<<<<< HEAD
 	fd = anon_inode_getfd_secure("[userfaultfd]", &userfaultfd_fops, ctx,
 			O_RDWR | (flags & UFFD_SHARED_FCNTL_FLAGS), NULL);
+=======
+	fd = anon_inode_getfd("[userfaultfd]", &userfaultfd_fops, ctx,
+			      O_RDWR | (flags & UFFD_SHARED_FCNTL_FLAGS));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fd < 0) {
 		mmdrop(ctx->mm);
 		kmem_cache_free(userfaultfd_ctx_cachep, ctx);

@@ -8,7 +8,10 @@
 #include "ste-ab8505.dtsi"
 #include "ste-dbx5x0-pinctrl.dtsi"
 #include <dt-bindings/gpio/gpio.h>
+<<<<<<< HEAD
 #include <dt-bindings/leds/common.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 
@@ -119,6 +122,7 @@
 		pinctrl-0 = <&gpio_backlight_default_mode>;
 	};
 
+<<<<<<< HEAD
 	/* Richtek RT8515GQW Flash LED Driver IC */
 	flash {
 		compatible = "richtek,rt8515";
@@ -145,6 +149,8 @@
 		};
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c-gpio-0 {
 		compatible = "i2c-gpio";
 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
@@ -174,7 +180,11 @@
 
 	soc {
 		// External Micro SD slot
+<<<<<<< HEAD
 		mmc@80126000 {
+=======
+		sdi0_per1@80126000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 			max-frequency = <100000000>;
 			bus-width = <4>;
@@ -196,7 +206,11 @@
 		};
 
 		// WLAN SDIO channel
+<<<<<<< HEAD
 		mmc@80118000 {
+=======
+		sdi1_per2@80118000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 			max-frequency = <50000000>;
 			bus-width = <4>;
@@ -223,7 +237,11 @@
 		};
 
 		// eMMC
+<<<<<<< HEAD
 		mmc@80005000 {
+=======
+		sdi2_per3@80005000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 		        max-frequency = <100000000>;
 			bus-width = <8>;
@@ -514,6 +532,7 @@
 			};
 		};
 	};
+<<<<<<< HEAD
 	flash {
 		gpio_flash_default_mode: flash_default {
 			skomer_cfg1 {
@@ -522,6 +541,8 @@
 			};
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* GPIO that enables the 2.9V SD card level translator */
 	sd-level-translator {
 		sd_level_translator_default: sd_level_translator_default {

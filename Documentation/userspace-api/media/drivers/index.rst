@@ -31,7 +31,10 @@ For more details see the file COPYING in the source distribution of Linux.
 	:maxdepth: 5
 	:numbered:
 
+<<<<<<< HEAD
 	ccs
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cx2341x-uapi
 	imx-uapi
 	max2175

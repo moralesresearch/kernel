@@ -33,7 +33,11 @@ int smp_query_cpu_stopped(unsigned int pcpu);
 #define QCSS_HARDWARE_ERROR -1
 #define QCSS_HARDWARE_BUSY -2
 #else
+<<<<<<< HEAD
 static inline void smp_init_pseries(void) { }
+=======
+static inline void smp_init_pseries(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 extern void pseries_kexec_cpu_down(int crash_shutdown, int secondary);

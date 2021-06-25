@@ -55,8 +55,11 @@
 #define MLX5E_DECLARE_PTP_CH_STAT(type, fld) "ptp_ch_"#fld, offsetof(type, fld)
 #define MLX5E_DECLARE_PTP_CQ_STAT(type, fld) "ptp_cq%d_"#fld, offsetof(type, fld)
 
+<<<<<<< HEAD
 #define MLX5E_DECLARE_QOS_TX_STAT(type, fld) "qos_tx%d_"#fld, offsetof(type, fld)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct counter_desc {
 	char		format[ETH_GSTRING_LEN];
 	size_t		offset; /* Byte offset */
@@ -191,6 +194,10 @@ struct mlx5e_sw_stats {
 #ifdef CONFIG_MLX5_EN_TLS
 	u64 tx_tls_encrypted_packets;
 	u64 tx_tls_encrypted_bytes;
+<<<<<<< HEAD
+=======
+	u64 tx_tls_ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 tx_tls_ooo;
 	u64 tx_tls_dump_packets;
 	u64 tx_tls_dump_bytes;
@@ -201,6 +208,11 @@ struct mlx5e_sw_stats {
 
 	u64 rx_tls_decrypted_packets;
 	u64 rx_tls_decrypted_bytes;
+<<<<<<< HEAD
+=======
+	u64 rx_tls_ctx;
+	u64 rx_tls_del;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 rx_tls_resync_req_pkt;
 	u64 rx_tls_resync_req_start;
 	u64 rx_tls_resync_req_end;
@@ -331,6 +343,11 @@ struct mlx5e_rq_stats {
 #ifdef CONFIG_MLX5_EN_TLS
 	u64 tls_decrypted_packets;
 	u64 tls_decrypted_bytes;
+<<<<<<< HEAD
+=======
+	u64 tls_ctx;
+	u64 tls_del;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 tls_resync_req_pkt;
 	u64 tls_resync_req_start;
 	u64 tls_resync_req_end;
@@ -359,6 +376,10 @@ struct mlx5e_sq_stats {
 #ifdef CONFIG_MLX5_EN_TLS
 	u64 tls_encrypted_packets;
 	u64 tls_encrypted_bytes;
+<<<<<<< HEAD
+=======
+	u64 tls_ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 tls_ooo;
 	u64 tls_dump_packets;
 	u64 tls_dump_bytes;

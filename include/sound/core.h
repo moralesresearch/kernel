@@ -122,9 +122,12 @@ struct snd_card {
 
 	size_t total_pcm_alloc_bytes;	/* total amount of allocated buffers */
 	struct mutex memory_mutex;	/* protection for the above */
+<<<<<<< HEAD
 #ifdef CONFIG_SND_DEBUG
 	struct dentry *debugfs_root;    /* debugfs root for card */
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_PM
 	unsigned int power_state;	/* power state */
@@ -183,9 +186,12 @@ static inline struct device *snd_card_get_device_link(struct snd_card *card)
 extern int snd_major;
 extern int snd_ecards_limit;
 extern struct class *sound_class;
+<<<<<<< HEAD
 #ifdef CONFIG_SND_DEBUG
 extern struct dentry *sound_debugfs_root;
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void snd_request_card(int card);
 

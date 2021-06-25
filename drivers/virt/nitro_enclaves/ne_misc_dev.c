@@ -1524,8 +1524,12 @@ static const struct file_operations ne_enclave_fops = {
  *			  enclave file descriptor to be further used for enclave
  *			  resources handling e.g. memory regions and CPUs.
  * @ne_pci_dev :	Private data associated with the PCI device.
+<<<<<<< HEAD
  * @slot_uid:		User pointer to store the generated unique slot id
  *			associated with an enclave to.
+=======
+ * @slot_uid:		Generated unique slot id associated with an enclave.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Context: Process context. This function is called with the ne_pci_dev enclave
  *	    mutex held.
@@ -1533,7 +1537,11 @@ static const struct file_operations ne_enclave_fops = {
  * * Enclave fd on success.
  * * Negative return value on failure.
  */
+<<<<<<< HEAD
 static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 __user *slot_uid)
+=======
+static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 *slot_uid)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ne_pci_dev_cmd_reply cmd_reply = {};
 	int enclave_fd = -1;
@@ -1635,6 +1643,7 @@ static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 __user *slot_ui
 
 	list_add(&ne_enclave->enclave_list_entry, &ne_pci_dev->enclaves_list);
 
+<<<<<<< HEAD
 	if (copy_to_user(slot_uid, &ne_enclave->slot_uid, sizeof(ne_enclave->slot_uid))) {
 		/*
 		 * As we're holding the only reference to 'enclave_file', fput()
@@ -1647,6 +1656,9 @@ static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 __user *slot_ui
 
 		return -EFAULT;
 	}
+=======
+	*slot_uid = ne_enclave->slot_uid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fd_install(enclave_fd, enclave_file);
 
@@ -1683,6 +1695,7 @@ static long ne_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	switch (cmd) {
 	case NE_CREATE_VM: {
 		int enclave_fd = -1;
+<<<<<<< HEAD
 		struct ne_pci_dev *ne_pci_dev = ne_devs.ne_pci_dev;
 		u64 __user *slot_uid = (void __user *)arg;
 
@@ -1690,6 +1703,36 @@ static long ne_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		enclave_fd = ne_create_vm_ioctl(ne_pci_dev, slot_uid);
 		mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
 
+=======
+		struct file *enclave_file = NULL;
+		struct ne_pci_dev *ne_pci_dev = ne_devs.ne_pci_dev;
+		int rc = -EINVAL;
+		u64 slot_uid = 0;
+
+		mutex_lock(&ne_pci_dev->enclaves_list_mutex);
+
+		enclave_fd = ne_create_vm_ioctl(ne_pci_dev, &slot_uid);
+		if (enclave_fd < 0) {
+			rc = enclave_fd;
+
+			mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
+
+			return rc;
+		}
+
+		mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
+
+		if (copy_to_user((void __user *)arg, &slot_uid, sizeof(slot_uid))) {
+			enclave_file = fget(enclave_fd);
+			/* Decrement file refs to have release() called. */
+			fput(enclave_file);
+			fput(enclave_file);
+			put_unused_fd(enclave_fd);
+
+			return -EFAULT;
+		}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return enclave_fd;
 	}
 

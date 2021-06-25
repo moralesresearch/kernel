@@ -20,7 +20,10 @@
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_fb_cma_helper.h>
 #include <drm/drm_gem_cma_helper.h>
+<<<<<<< HEAD
 #include <drm/drm_managed.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_probe_helper.h>
 #include <drm/drm_vblank.h>
 
@@ -164,6 +167,10 @@ static void ipu_disable_vblank(struct drm_crtc *crtc)
 
 static const struct drm_crtc_funcs ipu_crtc_funcs = {
 	.set_config = drm_atomic_helper_set_config,
+<<<<<<< HEAD
+=======
+	.destroy = drm_crtc_cleanup,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.page_flip = drm_atomic_helper_page_flip,
 	.reset = imx_drm_crtc_reset,
 	.atomic_duplicate_state = imx_drm_crtc_duplicate_state,
@@ -322,23 +329,34 @@ static const struct drm_crtc_helper_funcs ipu_helper_funcs = {
 	.atomic_enable = ipu_crtc_atomic_enable,
 };
 
+<<<<<<< HEAD
 static void ipu_put_resources(struct drm_device *dev, void *ptr)
 {
 	struct ipu_crtc *ipu_crtc = ptr;
 
+=======
+static void ipu_put_resources(struct ipu_crtc *ipu_crtc)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!IS_ERR_OR_NULL(ipu_crtc->dc))
 		ipu_dc_put(ipu_crtc->dc);
 	if (!IS_ERR_OR_NULL(ipu_crtc->di))
 		ipu_di_put(ipu_crtc->di);
 }
 
+<<<<<<< HEAD
 static int ipu_get_resources(struct drm_device *dev, struct ipu_crtc *ipu_crtc,
 			     struct ipu_client_platformdata *pdata)
+=======
+static int ipu_get_resources(struct ipu_crtc *ipu_crtc,
+		struct ipu_client_platformdata *pdata)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
 	int ret;
 
 	ipu_crtc->dc = ipu_dc_get(ipu, pdata->dc);
+<<<<<<< HEAD
 	if (IS_ERR(ipu_crtc->dc))
 		return PTR_ERR(ipu_crtc->dc);
 
@@ -389,6 +407,60 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
 		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
 			ret);
 		return ret;
+=======
+	if (IS_ERR(ipu_crtc->dc)) {
+		ret = PTR_ERR(ipu_crtc->dc);
+		goto err_out;
+	}
+
+	ipu_crtc->di = ipu_di_get(ipu, pdata->di);
+	if (IS_ERR(ipu_crtc->di)) {
+		ret = PTR_ERR(ipu_crtc->di);
+		goto err_out;
+	}
+
+	return 0;
+err_out:
+	ipu_put_resources(ipu_crtc);
+
+	return ret;
+}
+
+static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
+	struct ipu_client_platformdata *pdata, struct drm_device *drm)
+{
+	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
+	struct drm_crtc *crtc = &ipu_crtc->base;
+	int dp = -EINVAL;
+	int ret;
+
+	ret = ipu_get_resources(ipu_crtc, pdata);
+	if (ret) {
+		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
+				ret);
+		return ret;
+	}
+
+	if (pdata->dp >= 0)
+		dp = IPU_DP_FLOW_SYNC_BG;
+	ipu_crtc->plane[0] = ipu_plane_init(drm, ipu, pdata->dma[0], dp, 0,
+					    DRM_PLANE_TYPE_PRIMARY);
+	if (IS_ERR(ipu_crtc->plane[0])) {
+		ret = PTR_ERR(ipu_crtc->plane[0]);
+		goto err_put_resources;
+	}
+
+	crtc->port = pdata->of_node;
+	drm_crtc_helper_add(crtc, &ipu_helper_funcs);
+	drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base, NULL,
+				  &ipu_crtc_funcs, NULL);
+
+	ret = ipu_plane_get_resources(ipu_crtc->plane[0]);
+	if (ret) {
+		dev_err(ipu_crtc->dev, "getting plane 0 resources failed with %d.\n",
+			ret);
+		goto err_put_resources;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* If this crtc is using the DP, add an overlay plane */
@@ -397,8 +469,21 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
 						IPU_DP_FLOW_SYNC_FG,
 						drm_crtc_mask(&ipu_crtc->base),
 						DRM_PLANE_TYPE_OVERLAY);
+<<<<<<< HEAD
 		if (IS_ERR(ipu_crtc->plane[1]))
 			ipu_crtc->plane[1] = NULL;
+=======
+		if (IS_ERR(ipu_crtc->plane[1])) {
+			ipu_crtc->plane[1] = NULL;
+		} else {
+			ret = ipu_plane_get_resources(ipu_crtc->plane[1]);
+			if (ret) {
+				dev_err(ipu_crtc->dev, "getting plane 1 "
+					"resources failed with %d.\n", ret);
+				goto err_put_plane0_res;
+			}
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ipu_crtc->irq = ipu_plane_irq(ipu_crtc->plane[0]);
@@ -406,21 +491,71 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
 			"imx_drm", ipu_crtc);
 	if (ret < 0) {
 		dev_err(ipu_crtc->dev, "irq request failed with %d.\n", ret);
+<<<<<<< HEAD
 		return ret;
+=======
+		goto err_put_plane1_res;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	/* Only enable IRQ when we actually need it to trigger work. */
 	disable_irq(ipu_crtc->irq);
 
 	return 0;
+<<<<<<< HEAD
+=======
+
+err_put_plane1_res:
+	if (ipu_crtc->plane[1])
+		ipu_plane_put_resources(ipu_crtc->plane[1]);
+err_put_plane0_res:
+	ipu_plane_put_resources(ipu_crtc->plane[0]);
+err_put_resources:
+	ipu_put_resources(ipu_crtc);
+
+	return ret;
+}
+
+static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+{
+	struct ipu_client_platformdata *pdata = dev->platform_data;
+	struct drm_device *drm = data;
+	struct ipu_crtc *ipu_crtc;
+
+	ipu_crtc = dev_get_drvdata(dev);
+	memset(ipu_crtc, 0, sizeof(*ipu_crtc));
+
+	ipu_crtc->dev = dev;
+
+	return ipu_crtc_init(ipu_crtc, pdata, drm);
+}
+
+static void ipu_drm_unbind(struct device *dev, struct device *master,
+	void *data)
+{
+	struct ipu_crtc *ipu_crtc = dev_get_drvdata(dev);
+
+	ipu_put_resources(ipu_crtc);
+	if (ipu_crtc->plane[1])
+		ipu_plane_put_resources(ipu_crtc->plane[1]);
+	ipu_plane_put_resources(ipu_crtc->plane[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct component_ops ipu_crtc_ops = {
 	.bind = ipu_drm_bind,
+<<<<<<< HEAD
+=======
+	.unbind = ipu_drm_unbind,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int ipu_drm_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
+<<<<<<< HEAD
+=======
+	struct ipu_crtc *ipu_crtc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (!dev->platform_data)
@@ -430,6 +565,15 @@ static int ipu_drm_probe(struct platform_device *pdev)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+=======
+	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
+	if (!ipu_crtc)
+		return -ENOMEM;
+
+	dev_set_drvdata(dev, ipu_crtc);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return component_add(dev, &ipu_crtc_ops);
 }
 

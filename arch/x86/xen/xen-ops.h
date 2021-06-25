@@ -131,12 +131,21 @@ static inline void __init xen_efi_init(struct boot_params *boot_params)
 __visible void xen_irq_enable_direct(void);
 __visible void xen_irq_disable_direct(void);
 __visible unsigned long xen_save_fl_direct(void);
+<<<<<<< HEAD
+=======
+__visible void xen_restore_fl_direct(unsigned long);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 __visible unsigned long xen_read_cr2(void);
 __visible unsigned long xen_read_cr2_direct(void);
 
 /* These are not functions, and cannot be called normally */
 __visible void xen_iret(void);
+<<<<<<< HEAD
+=======
+__visible void xen_sysret32(void);
+__visible void xen_sysret64(void);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern int xen_panic_handler_init(void);
 

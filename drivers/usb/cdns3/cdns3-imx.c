@@ -250,7 +250,11 @@ static void cdns3_set_wakeup(struct cdns_imx *data, bool enable)
 static int cdns_imx_platform_suspend(struct device *dev,
 		bool suspend, bool wakeup)
 {
+<<<<<<< HEAD
 	struct cdns *cdns = dev_get_drvdata(dev);
+=======
+	struct cdns3 *cdns = dev_get_drvdata(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *parent = dev->parent;
 	struct cdns_imx *data = dev_get_drvdata(parent);
 	void __iomem *otg_regs = (void __iomem *)(cdns->otg_regs);

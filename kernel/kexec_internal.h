@@ -13,6 +13,11 @@ void kimage_terminate(struct kimage *image);
 int kimage_is_destination_range(struct kimage *image,
 				unsigned long start, unsigned long end);
 
+<<<<<<< HEAD
+=======
+int machine_kexec_post_load(struct kimage *image);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern struct mutex kexec_mutex;
 
 #ifdef CONFIG_KEXEC_FILE

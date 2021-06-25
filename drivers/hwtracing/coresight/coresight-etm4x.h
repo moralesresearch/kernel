@@ -45,6 +45,7 @@
 #define TRCVDSACCTLR			0x0A4
 #define TRCVDARCCTLR			0x0A8
 /* Derived resources registers */
+<<<<<<< HEAD
 #define TRCSEQEVRn(n)			(0x100 + (n * 4)) /* n = 0-2 */
 #define TRCSEQRSTEVR			0x118
 #define TRCSEQSTR			0x11C
@@ -52,6 +53,15 @@
 #define TRCCNTRLDVRn(n)			(0x140 + (n * 4)) /* n = 0-3 */
 #define TRCCNTCTLRn(n)			(0x150 + (n * 4)) /* n = 0-3 */
 #define TRCCNTVRn(n)			(0x160 + (n * 4)) /* n = 0-3 */
+=======
+#define TRCSEQEVRn(n)			(0x100 + (n * 4))
+#define TRCSEQRSTEVR			0x118
+#define TRCSEQSTR			0x11C
+#define TRCEXTINSELR			0x120
+#define TRCCNTRLDVRn(n)			(0x140 + (n * 4))
+#define TRCCNTCTLRn(n)			(0x150 + (n * 4))
+#define TRCCNTVRn(n)			(0x160 + (n * 4))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ID registers */
 #define TRCIDR8				0x180
 #define TRCIDR9				0x184
@@ -60,7 +70,11 @@
 #define TRCIDR12			0x190
 #define TRCIDR13			0x194
 #define TRCIMSPEC0			0x1C0
+<<<<<<< HEAD
 #define TRCIMSPECn(n)			(0x1C0 + (n * 4)) /* n = 1-7 */
+=======
+#define TRCIMSPECn(n)			(0x1C0 + (n * 4))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TRCIDR0				0x1E0
 #define TRCIDR1				0x1E4
 #define TRCIDR2				0x1E8
@@ -69,12 +83,18 @@
 #define TRCIDR5				0x1F4
 #define TRCIDR6				0x1F8
 #define TRCIDR7				0x1FC
+<<<<<<< HEAD
 /*
  * Resource selection registers, n = 2-31.
  * First pair (regs 0, 1) is always present and is reserved.
  */
 #define TRCRSCTLRn(n)			(0x200 + (n * 4))
 /* Single-shot comparator registers, n = 0-7 */
+=======
+/* Resource selection registers */
+#define TRCRSCTLRn(n)			(0x200 + (n * 4))
+/* Single-shot comparator registers */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TRCSSCCRn(n)			(0x280 + (n * 4))
 #define TRCSSCSRn(n)			(0x2A0 + (n * 4))
 #define TRCSSPCICRn(n)			(0x2C0 + (n * 4))
@@ -84,6 +104,7 @@
 #define TRCPDCR				0x310
 #define TRCPDSR				0x314
 /* Trace registers (0x318-0xEFC) */
+<<<<<<< HEAD
 /* Address Comparator registers n = 0-15 */
 #define TRCACVRn(n)			(0x400 + (n * 8))
 #define TRCACATRn(n)			(0x480 + (n * 8))
@@ -91,6 +112,13 @@
 #define TRCDVCVRn(n)			(0x500 + (n * 16))
 #define TRCDVCMRn(n)			(0x580 + (n * 16))
 /* ContextID/Virtual ContextID comparators, n = 0-7 */
+=======
+/* Comparator registers */
+#define TRCACVRn(n)			(0x400 + (n * 8))
+#define TRCACATRn(n)			(0x480 + (n * 8))
+#define TRCDVCVRn(n)			(0x500 + (n * 16))
+#define TRCDVCMRn(n)			(0x580 + (n * 16))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TRCCIDCVRn(n)			(0x600 + (n * 8))
 #define TRCVMIDCVRn(n)			(0x640 + (n * 8))
 #define TRCCIDCCTLR0			0x680
@@ -126,6 +154,7 @@
 #define TRCCIDR2			0xFF8
 #define TRCCIDR3			0xFFC
 
+<<<<<<< HEAD
 /*
  * System instructions to access ETM registers.
  * See ETMv4.4 spec ARM IHI0064F section 4.3.6 System instructions
@@ -452,6 +481,8 @@
 	} while (0)
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ETMv4 resources */
 #define ETM_MAX_NR_PE			8
 #define ETMv4_MAX_CNTR			4
@@ -468,6 +499,10 @@
 #define ETM_MAX_RES_SEL			32
 #define ETM_MAX_SS_CMP			8
 
+<<<<<<< HEAD
+=======
+#define ETM_ARCH_V4			0x40
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ETMv4_SYNC_MASK			0x1F
 #define ETM_CYC_THRESHOLD_MASK		0xFFF
 #define ETM_CYC_THRESHOLD_DEFAULT       0x100
@@ -505,6 +540,7 @@
 					 ETM_MODE_EXCL_KERN | \
 					 ETM_MODE_EXCL_USER)
 
+<<<<<<< HEAD
 /*
  * TRCDEVARCH Bit field definitions
  * Bits[31:21]	- ARCHITECT = Always Arm Ltd.
@@ -547,10 +583,13 @@
 #define ETM_DEVARCH_ETMv4x_ARCH						\
 	(ETM_DEVARCH_ARCHITECT_ARM | ETM_DEVARCH_ARCHID_ETMv4x | ETM_DEVARCH_PRESENT)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TRCSTATR_IDLE_BIT		0
 #define TRCSTATR_PMSTABLE_BIT		1
 #define ETM_DEFAULT_ADDR_COMP		0
 
+<<<<<<< HEAD
 #define TRCSSCSRn_PC			BIT(3)
 
 /* PowerDown Control Register bits */
@@ -649,6 +688,32 @@ static inline u8 etm_trcidr_to_arch(u32 trcidr1)
 	return ETM_ARCH_VERSION(ETM_TRCIDR1_ARCH_MAJOR(trcidr1),
 				ETM_TRCIDR1_ARCH_MINOR(trcidr1));
 }
+=======
+/* PowerDown Control Register bits */
+#define TRCPDCR_PU			BIT(3)
+
+/* secure state access levels - TRCACATRn */
+#define ETM_EXLEVEL_S_APP		BIT(8)
+#define ETM_EXLEVEL_S_OS		BIT(9)
+#define ETM_EXLEVEL_S_HYP		BIT(10)
+#define ETM_EXLEVEL_S_MON		BIT(11)
+/* non-secure state access levels - TRCACATRn */
+#define ETM_EXLEVEL_NS_APP		BIT(12)
+#define ETM_EXLEVEL_NS_OS		BIT(13)
+#define ETM_EXLEVEL_NS_HYP		BIT(14)
+#define ETM_EXLEVEL_NS_NA		BIT(15)
+
+/* access level control in TRCVICTLR - same bits as TRCACATRn but shifted */
+#define ETM_EXLEVEL_LSHIFT_TRCVICTLR	8
+
+/* secure / non secure masks - TRCVICTLR, IDR3 */
+#define ETM_EXLEVEL_S_VICTLR_MASK	GENMASK(19, 16)
+/* NS MON (EL3) mode never implemented */
+#define ETM_EXLEVEL_NS_VICTLR_MASK	GENMASK(22, 20)
+
+/* Interpretation of resource numbers change at ETM v4.3 architecture */
+#define ETM4X_ARCH_4V3	0x43
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum etm_impdef_type {
 	ETM4_IMPDEF_HISI_CORE_COMMIT,
@@ -702,7 +767,11 @@ enum etm_impdef_type {
  * @vmid_mask0:	VM ID comparator mask for comparator 0-3.
  * @vmid_mask1:	VM ID comparator mask for comparator 4-7.
  * @ext_inp:	External input selection.
+<<<<<<< HEAD
  * @s_ex_level: Secure ELs where tracing is supported.
+=======
+ * @arch:	ETM architecture version (for arch dependent config).
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct etmv4_config {
 	u32				mode;
@@ -746,7 +815,11 @@ struct etmv4_config {
 	u32				vmid_mask0;
 	u32				vmid_mask1;
 	u32				ext_inp;
+<<<<<<< HEAD
 	u8				s_ex_level;
+=======
+	u8				arch;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -815,7 +888,11 @@ struct etmv4_save_state {
  * @spinlock:   Only one at a time pls.
  * @mode:	This tracer's mode, i.e sysFS, Perf or disabled.
  * @cpu:        The cpu this component is affined to.
+<<<<<<< HEAD
  * @arch:       ETM architecture version.
+=======
+ * @arch:       ETM version number.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @nr_pe:	The number of processing entity available for tracing.
  * @nr_pe_cmp:	The number of processing entity comparator inputs that are
  *		available for tracing.
@@ -937,7 +1014,10 @@ enum etm_addr_ctxtype {
 
 extern const struct attribute_group *coresight_etmv4_groups[];
 void etm4_config_trace_mode(struct etmv4_config *config);
+<<<<<<< HEAD
 
 u64 etm4x_sysreg_read(u32 offset, bool _relaxed, bool _64bit);
 void etm4x_sysreg_write(u64 val, u32 offset, bool _relaxed, bool _64bit);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

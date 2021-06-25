@@ -1191,7 +1191,15 @@ static const struct v4l2_async_notifier_operations imx7_csi_notify_ops = {
 
 static int imx7_csi_async_register(struct imx7_csi *csi)
 {
+<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
+=======
+<<<<<<< HEAD
+	struct v4l2_async_subdev *asd;
+=======
+	struct v4l2_async_subdev *asd = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fwnode_handle *ep;
 	int ret;
 
@@ -1200,6 +1208,10 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
 	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi->dev), 0, 0,
 					     FWNODE_GRAPH_ENDPOINT_NEXT);
 	if (ep) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
 			&csi->notifier, ep, struct v4l2_async_subdev);
 
@@ -1207,6 +1219,24 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
 
 		if (IS_ERR(asd)) {
 			ret = PTR_ERR(asd);
+<<<<<<< HEAD
+=======
+=======
+		asd = kzalloc(sizeof(*asd), GFP_KERNEL);
+		if (!asd) {
+			fwnode_handle_put(ep);
+			return -ENOMEM;
+		}
+
+		ret = v4l2_async_notifier_add_fwnode_remote_subdev(
+			&csi->notifier, ep, asd);
+
+		fwnode_handle_put(ep);
+
+		if (ret) {
+			kfree(asd);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* OK if asd already exists */
 			if (ret != -EEXIST)
 				return ret;

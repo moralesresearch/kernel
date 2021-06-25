@@ -321,6 +321,7 @@ static const struct config_entry config_table[] = {
 	},
 #endif
 
+<<<<<<< HEAD
 /* Alder Lake */
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_ALDERLAKE)
 	{
@@ -331,8 +332,14 @@ static const struct config_entry config_table[] = {
 		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
 		.device = 0x51c8,
 	},
+	{
+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+		.device = 0x51cc,
+	},
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct config_entry *snd_intel_dsp_find_config
@@ -464,6 +471,7 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
 }
 EXPORT_SYMBOL_GPL(snd_intel_dsp_driver_probe);
 
+<<<<<<< HEAD
 /* Should we default to SOF or SST for BYT/CHT ? */
 #if IS_ENABLED(CONFIG_SND_INTEL_BYT_PREFER_SOF) || \
     !IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI)
@@ -472,12 +480,15 @@ EXPORT_SYMBOL_GPL(snd_intel_dsp_driver_probe);
 #define FLAG_SST_OR_SOF_BYT	FLAG_SST
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * configuration table
  * - the order of similar ACPI ID entries is important!
  * - the first successful match will win
  */
 static const struct config_entry acpi_config_table[] = {
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI) || \
     IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL)
 /* BayTrail */
@@ -488,6 +499,31 @@ static const struct config_entry acpi_config_table[] = {
 /* CherryTrail */
 	{
 		.flags = FLAG_SST_OR_SOF_BYT,
+=======
+/* BayTrail */
+#if IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI)
+	{
+		.flags = FLAG_SST,
+		.acpi_hid = "80860F28",
+	},
+#endif
+#if IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL)
+	{
+		.flags = FLAG_SOF,
+		.acpi_hid = "80860F28",
+	},
+#endif
+/* CherryTrail */
+#if IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI)
+	{
+		.flags = FLAG_SST,
+		.acpi_hid = "808622A8",
+	},
+#endif
+#if IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL)
+	{
+		.flags = FLAG_SOF,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.acpi_hid = "808622A8",
 	},
 #endif
@@ -557,4 +593,8 @@ EXPORT_SYMBOL_GPL(snd_intel_acpi_dsp_driver_probe);
 
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("Intel DSP config driver");
+<<<<<<< HEAD
 MODULE_IMPORT_NS(SND_INTEL_SOUNDWIRE_ACPI);
+=======
+MODULE_IMPORT_NS(SOUNDWIRE_INTEL_INIT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

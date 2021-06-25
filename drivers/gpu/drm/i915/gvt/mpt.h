@@ -33,8 +33,11 @@
 #ifndef _GVT_MPT_H_
 #define _GVT_MPT_H_
 
+<<<<<<< HEAD
 #include "gvt.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * DOC: Hypervisor Service APIs for GVT-g Core Logic
  *

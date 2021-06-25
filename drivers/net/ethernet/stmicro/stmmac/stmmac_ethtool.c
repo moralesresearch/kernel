@@ -268,10 +268,13 @@ static void stmmac_ethtool_getdrvinfo(struct net_device *dev,
 		strlcpy(info->driver, MAC100_ETHTOOL_NAME,
 			sizeof(info->driver));
 
+<<<<<<< HEAD
 	if (priv->plat->pdev) {
 		strlcpy(info->bus_info, pci_name(priv->plat->pdev),
 			sizeof(info->bus_info));
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	strlcpy(info->version, DRV_MODULE_VERSION, sizeof(info->version));
 }
 

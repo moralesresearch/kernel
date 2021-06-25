@@ -17,6 +17,10 @@
 #include "osdep_service.h"
 #include "drv_types.h"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _drv_emerg_			1
 #define _drv_alert_			2
 #define _drv_crit_			3
@@ -27,6 +31,10 @@
 #define _drv_dump_			8
 #define	_drv_debug_			9
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _module_rtl871x_xmit_c_		BIT(0)
 #define _module_xmit_osdep_c_		BIT(1)
 #define _module_rtl871x_recv_c_		BIT(2)

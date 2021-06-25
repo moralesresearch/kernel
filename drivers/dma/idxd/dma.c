@@ -14,10 +14,14 @@
 
 static inline struct idxd_wq *to_idxd_wq(struct dma_chan *c)
 {
+<<<<<<< HEAD
 	struct idxd_dma_chan *idxd_chan;
 
 	idxd_chan = container_of(c, struct idxd_dma_chan, chan);
 	return idxd_chan->wq;
+=======
+	return container_of(c, struct idxd_wq, dma_chan);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void idxd_dma_complete_txd(struct idxd_desc *desc,
@@ -138,7 +142,11 @@ static void idxd_dma_issue_pending(struct dma_chan *dma_chan)
 {
 }
 
+<<<<<<< HEAD
 static dma_cookie_t idxd_dma_tx_submit(struct dma_async_tx_descriptor *tx)
+=======
+dma_cookie_t idxd_dma_tx_submit(struct dma_async_tx_descriptor *tx)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dma_chan *c = tx->chan;
 	struct idxd_wq *wq = to_idxd_wq(c);
@@ -159,13 +167,17 @@ static dma_cookie_t idxd_dma_tx_submit(struct dma_async_tx_descriptor *tx)
 
 static void idxd_dma_release(struct dma_device *device)
 {
+<<<<<<< HEAD
 	struct idxd_dma_dev *idxd_dma = container_of(device, struct idxd_dma_dev, dma);
 
 	kfree(idxd_dma);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int idxd_register_dma_device(struct idxd_device *idxd)
 {
+<<<<<<< HEAD
 	struct idxd_dma_dev *idxd_dma;
 	struct dma_device *dma;
 	struct device *dev = &idxd->pdev->dev;
@@ -178,6 +190,12 @@ int idxd_register_dma_device(struct idxd_device *idxd)
 	dma = &idxd_dma->dma;
 	INIT_LIST_HEAD(&dma->channels);
 	dma->dev = dev;
+=======
+	struct dma_device *dma = &idxd->dma_dev;
+
+	INIT_LIST_HEAD(&dma->channels);
+	dma->dev = &idxd->pdev->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dma_cap_set(DMA_PRIVATE, dma->cap_mask);
 	dma_cap_set(DMA_COMPLETION_NO_ORDER, dma->cap_mask);
@@ -193,6 +211,7 @@ int idxd_register_dma_device(struct idxd_device *idxd)
 	dma->device_alloc_chan_resources = idxd_dma_alloc_chan_resources;
 	dma->device_free_chan_resources = idxd_dma_free_chan_resources;
 
+<<<<<<< HEAD
 	rc = dma_async_device_register(dma);
 	if (rc < 0) {
 		kfree(idxd_dma);
@@ -206,16 +225,24 @@ int idxd_register_dma_device(struct idxd_device *idxd)
 	 */
 	idxd->idxd_dma = idxd_dma;
 	return 0;
+=======
+	return dma_async_device_register(&idxd->dma_dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void idxd_unregister_dma_device(struct idxd_device *idxd)
 {
+<<<<<<< HEAD
 	dma_async_device_unregister(&idxd->idxd_dma->dma);
+=======
+	dma_async_device_unregister(&idxd->dma_dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int idxd_register_dma_channel(struct idxd_wq *wq)
 {
 	struct idxd_device *idxd = wq->idxd;
+<<<<<<< HEAD
 	struct dma_device *dma = &idxd->idxd_dma->dma;
 	struct device *dev = &idxd->pdev->dev;
 	struct idxd_dma_chan *idxd_chan;
@@ -246,12 +273,25 @@ int idxd_register_dma_channel(struct idxd_wq *wq)
 	wq->idxd_chan = idxd_chan;
 	idxd_chan->wq = wq;
 	get_device(&wq->conf_dev);
+=======
+	struct dma_device *dma = &idxd->dma_dev;
+	struct dma_chan *chan = &wq->dma_chan;
+	int rc;
+
+	memset(&wq->dma_chan, 0, sizeof(struct dma_chan));
+	chan->device = dma;
+	list_add_tail(&chan->device_node, &dma->channels);
+	rc = dma_async_device_channel_register(dma, chan);
+	if (rc < 0)
+		return rc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 void idxd_unregister_dma_channel(struct idxd_wq *wq)
 {
+<<<<<<< HEAD
 	struct idxd_dma_chan *idxd_chan = wq->idxd_chan;
 	struct dma_chan *chan = &idxd_chan->chan;
 	struct idxd_dma_dev *idxd_dma = wq->idxd->idxd_dma;
@@ -261,4 +301,10 @@ void idxd_unregister_dma_channel(struct idxd_wq *wq)
 	kfree(wq->idxd_chan);
 	wq->idxd_chan = NULL;
 	put_device(&wq->conf_dev);
+=======
+	struct dma_chan *chan = &wq->dma_chan;
+
+	dma_async_device_channel_unregister(&wq->idxd->dma_dev, chan);
+	list_del(&chan->device_node);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

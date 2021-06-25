@@ -67,6 +67,7 @@ enum {
 	MLX5_MTPPS_FS_ENH_OUT_PER_ADJ		= BIT(0x7),
 };
 
+<<<<<<< HEAD
 static bool mlx5_real_time_mode(struct mlx5_core_dev *mdev)
 {
 	return (mlx5_is_real_time_rq(mdev) || mlx5_is_real_time_sq(mdev));
@@ -112,23 +113,54 @@ static u64 mlx5_read_time(struct mlx5_core_dev *dev,
 
 	return real_time ? REAL_TIME_TO_NS(timer_h1, timer_l) :
 			   (u64)timer_l | (u64)timer_h1 << 32;
+=======
+static u64 mlx5_read_internal_timer(struct mlx5_core_dev *dev,
+				    struct ptp_system_timestamp *sts)
+{
+	u32 timer_h, timer_h1, timer_l;
+
+	timer_h = ioread32be(&dev->iseg->internal_timer_h);
+	ptp_read_system_prets(sts);
+	timer_l = ioread32be(&dev->iseg->internal_timer_l);
+	ptp_read_system_postts(sts);
+	timer_h1 = ioread32be(&dev->iseg->internal_timer_h);
+	if (timer_h != timer_h1) {
+		/* wrap around */
+		ptp_read_system_prets(sts);
+		timer_l = ioread32be(&dev->iseg->internal_timer_l);
+		ptp_read_system_postts(sts);
+	}
+
+	return (u64)timer_l | (u64)timer_h1 << 32;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u64 read_internal_timer(const struct cyclecounter *cc)
 {
+<<<<<<< HEAD
 	struct mlx5_timer *timer = container_of(cc, struct mlx5_timer, cycles);
 	struct mlx5_clock *clock = container_of(timer, struct mlx5_clock, timer);
 	struct mlx5_core_dev *mdev = container_of(clock, struct mlx5_core_dev,
 						  clock);
 
 	return mlx5_read_time(mdev, NULL, false) & cc->mask;
+=======
+	struct mlx5_clock *clock = container_of(cc, struct mlx5_clock, cycles);
+	struct mlx5_core_dev *mdev = container_of(clock, struct mlx5_core_dev,
+						  clock);
+
+	return mlx5_read_internal_timer(mdev, NULL) & cc->mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mlx5_update_clock_info_page(struct mlx5_core_dev *mdev)
 {
 	struct mlx5_ib_clock_info *clock_info = mdev->clock_info;
 	struct mlx5_clock *clock = &mdev->clock;
+<<<<<<< HEAD
 	struct mlx5_timer *timer;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 sign;
 
 	if (!clock_info)
@@ -138,11 +170,18 @@ static void mlx5_update_clock_info_page(struct mlx5_core_dev *mdev)
 	smp_store_mb(clock_info->sign,
 		     sign | MLX5_IB_CLOCK_INFO_KERNEL_UPDATING);
 
+<<<<<<< HEAD
 	timer = &clock->timer;
 	clock_info->cycles = timer->tc.cycle_last;
 	clock_info->mult   = timer->cycles.mult;
 	clock_info->nsec   = timer->tc.nsec;
 	clock_info->frac   = timer->tc.frac;
+=======
+	clock_info->cycles = clock->tc.cycle_last;
+	clock_info->mult   = clock->cycles.mult;
+	clock_info->nsec   = clock->tc.nsec;
+	clock_info->frac   = clock->tc.frac;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	smp_store_release(&clock_info->sign,
 			  sign + MLX5_IB_CLOCK_INFO_KERNEL_UPDATING * 2);
@@ -181,6 +220,7 @@ static void mlx5_timestamp_overflow(struct work_struct *work)
 {
 	struct delayed_work *dwork = to_delayed_work(work);
 	struct mlx5_core_dev *mdev;
+<<<<<<< HEAD
 	struct mlx5_timer *timer;
 	struct mlx5_clock *clock;
 	unsigned long flags;
@@ -213,11 +253,24 @@ static int mlx5_ptp_settime_real_time(struct mlx5_core_dev *mdev,
 	MLX5_SET(mtutc_reg, in, utc_nsec, ts->tv_nsec);
 
 	return mlx5_set_mtutc(mdev, in, sizeof(in));
+=======
+	struct mlx5_clock *clock;
+	unsigned long flags;
+
+	clock = container_of(dwork, struct mlx5_clock, overflow_work);
+	mdev = container_of(clock, struct mlx5_core_dev, clock);
+	write_seqlock_irqsave(&clock->lock, flags);
+	timecounter_read(&clock->tc);
+	mlx5_update_clock_info_page(mdev);
+	write_sequnlock_irqrestore(&clock->lock, flags);
+	schedule_delayed_work(&clock->overflow_work, clock->overflow_period);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mlx5_ptp_settime(struct ptp_clock_info *ptp, const struct timespec64 *ts)
 {
 	struct mlx5_clock *clock = container_of(ptp, struct mlx5_clock, ptp_info);
+<<<<<<< HEAD
 	struct mlx5_timer *timer = &clock->timer;
 	struct mlx5_core_dev *mdev;
 	unsigned long flags;
@@ -230,12 +283,22 @@ static int mlx5_ptp_settime(struct ptp_clock_info *ptp, const struct timespec64 
 
 	write_seqlock_irqsave(&clock->lock, flags);
 	timecounter_init(&timer->tc, &timer->cycles, timespec64_to_ns(ts));
+=======
+	u64 ns = timespec64_to_ns(ts);
+	struct mlx5_core_dev *mdev;
+	unsigned long flags;
+
+	mdev = container_of(clock, struct mlx5_core_dev, clock);
+	write_seqlock_irqsave(&clock->lock, flags);
+	timecounter_init(&clock->tc, &clock->cycles, ns);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_update_clock_info_page(mdev);
 	write_sequnlock_irqrestore(&clock->lock, flags);
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static
 struct timespec64 mlx5_ptp_gettimex_real_time(struct mlx5_core_dev *mdev,
 					      struct ptp_system_timestamp *sts)
@@ -248,16 +311,22 @@ struct timespec64 mlx5_ptp_gettimex_real_time(struct mlx5_core_dev *mdev,
 	return ts;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mlx5_ptp_gettimex(struct ptp_clock_info *ptp, struct timespec64 *ts,
 			     struct ptp_system_timestamp *sts)
 {
 	struct mlx5_clock *clock = container_of(ptp, struct mlx5_clock, ptp_info);
+<<<<<<< HEAD
 	struct mlx5_timer *timer = &clock->timer;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_core_dev *mdev;
 	unsigned long flags;
 	u64 cycles, ns;
 
 	mdev = container_of(clock, struct mlx5_core_dev, clock);
+<<<<<<< HEAD
 	if (mlx5_real_time_mode(mdev)) {
 		*ts = mlx5_ptp_gettimex_real_time(mdev, sts);
 		goto out;
@@ -294,11 +363,22 @@ static int mlx5_ptp_adjtime_real_time(struct mlx5_core_dev *mdev, s64 delta)
 	MLX5_SET(mtutc_reg, in, time_adjustment, delta);
 
 	return mlx5_set_mtutc(mdev, in, sizeof(in));
+=======
+	write_seqlock_irqsave(&clock->lock, flags);
+	cycles = mlx5_read_internal_timer(mdev, sts);
+	ns = timecounter_cyc2time(&clock->tc, cycles);
+	write_sequnlock_irqrestore(&clock->lock, flags);
+
+	*ts = ns_to_timespec64(ns);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mlx5_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
 {
 	struct mlx5_clock *clock = container_of(ptp, struct mlx5_clock, ptp_info);
+<<<<<<< HEAD
 	struct mlx5_timer *timer = &clock->timer;
 	struct mlx5_core_dev *mdev;
 	unsigned long flags;
@@ -311,12 +391,21 @@ static int mlx5_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
 		return err;
 	write_seqlock_irqsave(&clock->lock, flags);
 	timecounter_adjtime(&timer->tc, delta);
+=======
+	struct mlx5_core_dev *mdev;
+	unsigned long flags;
+
+	mdev = container_of(clock, struct mlx5_core_dev, clock);
+	write_seqlock_irqsave(&clock->lock, flags);
+	timecounter_adjtime(&clock->tc, delta);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_update_clock_info_page(mdev);
 	write_sequnlock_irqrestore(&clock->lock, flags);
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static int mlx5_ptp_adjfreq_real_time(struct mlx5_core_dev *mdev, s32 freq)
 {
 	u32 in[MLX5_ST_SZ_DW(mtutc_reg)] = {};
@@ -334,23 +423,33 @@ static int mlx5_ptp_adjfreq(struct ptp_clock_info *ptp, s32 delta)
 {
 	struct mlx5_clock *clock = container_of(ptp, struct mlx5_clock, ptp_info);
 	struct mlx5_timer *timer = &clock->timer;
+=======
+static int mlx5_ptp_adjfreq(struct ptp_clock_info *ptp, s32 delta)
+{
+	struct mlx5_clock *clock = container_of(ptp, struct mlx5_clock, ptp_info);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_core_dev *mdev;
 	unsigned long flags;
 	int neg_adj = 0;
 	u32 diff;
 	u64 adj;
+<<<<<<< HEAD
 	int err;
 
 	mdev = container_of(clock, struct mlx5_core_dev, clock);
 	err = mlx5_ptp_adjfreq_real_time(mdev, delta);
 	if (err)
 		return err;
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (delta < 0) {
 		neg_adj = 1;
 		delta = -delta;
 	}
 
+<<<<<<< HEAD
 	adj = timer->nominal_c_mult;
 	adj *= delta;
 	diff = div_u64(adj, 1000000000ULL);
@@ -359,6 +458,17 @@ static int mlx5_ptp_adjfreq(struct ptp_clock_info *ptp, s32 delta)
 	timecounter_read(&timer->tc);
 	timer->cycles.mult = neg_adj ? timer->nominal_c_mult - diff :
 				       timer->nominal_c_mult + diff;
+=======
+	adj = clock->nominal_c_mult;
+	adj *= delta;
+	diff = div_u64(adj, 1000000000ULL);
+
+	mdev = container_of(clock, struct mlx5_core_dev, clock);
+	write_seqlock_irqsave(&clock->lock, flags);
+	timecounter_read(&clock->tc);
+	clock->cycles.mult = neg_adj ? clock->nominal_c_mult - diff :
+				       clock->nominal_c_mult + diff;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_update_clock_info_page(mdev);
 	write_sequnlock_irqrestore(&clock->lock, flags);
 
@@ -427,6 +537,7 @@ static int mlx5_extts_configure(struct ptp_clock_info *ptp,
 			       MLX5_EVENT_MODE_REPETETIVE & on);
 }
 
+<<<<<<< HEAD
 static u64 find_target_cycles(struct mlx5_core_dev *mdev, s64 target_ns)
 {
 	struct mlx5_clock *clock = &mdev->clock;
@@ -466,6 +577,8 @@ static u64 perout_conf_real_time(s64 sec, u32 nsec)
 	return (u64)nsec | (u64)sec << 32;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mlx5_perout_configure(struct ptp_clock_info *ptp,
 				 struct ptp_clock_request *rq,
 				 int on)
@@ -475,9 +588,17 @@ static int mlx5_perout_configure(struct ptp_clock_info *ptp,
 	struct mlx5_core_dev *mdev =
 			container_of(clock, struct mlx5_core_dev, clock);
 	u32 in[MLX5_ST_SZ_DW(mtpps_reg)] = {0};
+<<<<<<< HEAD
 	struct timespec64 ts;
 	u32 field_select = 0;
 	u64 time_stamp = 0;
+=======
+	u64 nsec_now, nsec_delta, time_stamp = 0;
+	u64 cycles_now, cycles_delta;
+	struct timespec64 ts;
+	unsigned long flags;
+	u32 field_select = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 pin_mode = 0;
 	u8 pattern = 0;
 	int pin = -1;
@@ -494,16 +615,24 @@ static int mlx5_perout_configure(struct ptp_clock_info *ptp,
 	if (rq->perout.index >= clock->ptp_info.n_pins)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	field_select = MLX5_MTPPS_FS_ENABLE;
 	pin = ptp_find_pin(clock->ptp, PTP_PF_PEROUT, rq->perout.index);
+=======
+	pin = ptp_find_pin(clock->ptp, PTP_PF_PEROUT,
+			   rq->perout.index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pin < 0)
 		return -EBUSY;
 
 	if (on) {
+<<<<<<< HEAD
 		bool rt_mode = mlx5_real_time_mode(mdev);
 		u32 nsec;
 		s64 sec;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pin_mode = MLX5_PIN_MODE_OUT;
 		pattern = MLX5_OUT_PATTERN_PERIODIC;
 		ts.tv_sec = rq->perout.period.sec;
@@ -513,6 +642,7 @@ static int mlx5_perout_configure(struct ptp_clock_info *ptp,
 		if ((ns >> 1) != 500000000LL)
 			return -EINVAL;
 
+<<<<<<< HEAD
 		nsec = rq->perout.start.nsec;
 		sec = rq->perout.start.sec;
 
@@ -525,6 +655,25 @@ static int mlx5_perout_configure(struct ptp_clock_info *ptp,
 		field_select |= MLX5_MTPPS_FS_PIN_MODE |
 				MLX5_MTPPS_FS_PATTERN |
 				MLX5_MTPPS_FS_TIME_STAMP;
+=======
+		ts.tv_sec = rq->perout.start.sec;
+		ts.tv_nsec = rq->perout.start.nsec;
+		ns = timespec64_to_ns(&ts);
+		cycles_now = mlx5_read_internal_timer(mdev, NULL);
+		write_seqlock_irqsave(&clock->lock, flags);
+		nsec_now = timecounter_cyc2time(&clock->tc, cycles_now);
+		nsec_delta = ns - nsec_now;
+		cycles_delta = div64_u64(nsec_delta << clock->cycles.shift,
+					 clock->cycles.mult);
+		write_sequnlock_irqrestore(&clock->lock, flags);
+		time_stamp = cycles_now + cycles_delta;
+		field_select = MLX5_MTPPS_FS_PIN_MODE |
+			       MLX5_MTPPS_FS_PATTERN |
+			       MLX5_MTPPS_FS_ENABLE |
+			       MLX5_MTPPS_FS_TIME_STAMP;
+	} else {
+		field_select = MLX5_MTPPS_FS_ENABLE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	MLX5_SET(mtpps_reg, in, pin, pin);
@@ -695,6 +844,7 @@ static void mlx5_get_pps_caps(struct mlx5_core_dev *mdev)
 	clock->pps_info.pin_caps[7] = MLX5_GET(mtpps_reg, out, cap_pin_7_mode);
 }
 
+<<<<<<< HEAD
 static void ts_next_sec(struct timespec64 *ts)
 {
 	ts->tv_sec += 1;
@@ -720,25 +870,41 @@ static u64 perout_conf_next_event_timer(struct mlx5_core_dev *mdev,
 			 find_target_cycles(mdev, target_ns);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mlx5_pps_event(struct notifier_block *nb,
 			  unsigned long type, void *data)
 {
 	struct mlx5_clock *clock = mlx5_nb_cof(nb, struct mlx5_clock, pps_nb);
 	struct ptp_clock_event ptp_event;
+<<<<<<< HEAD
 	struct mlx5_eqe *eqe = data;
 	int pin = eqe->data.pps.pin;
 	struct mlx5_core_dev *mdev;
 	unsigned long flags;
 	u64 ns;
+=======
+	u64 cycles_now, cycles_delta;
+	u64 nsec_now, nsec_delta, ns;
+	struct mlx5_eqe *eqe = data;
+	int pin = eqe->data.pps.pin;
+	struct mlx5_core_dev *mdev;
+	struct timespec64 ts;
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mdev = container_of(clock, struct mlx5_core_dev, clock);
 
 	switch (clock->ptp_info.pin_config[pin].func) {
 	case PTP_PF_EXTTS:
 		ptp_event.index = pin;
+<<<<<<< HEAD
 		ptp_event.timestamp = mlx5_real_time_mode(mdev) ?
 			mlx5_real_time_cyc2time(clock,
 						be64_to_cpu(eqe->data.pps.time_stamp)) :
+=======
+		ptp_event.timestamp =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mlx5_timecounter_cyc2time(clock,
 						  be64_to_cpu(eqe->data.pps.time_stamp));
 		if (clock->pps_info.enabled) {
@@ -752,9 +918,23 @@ static int mlx5_pps_event(struct notifier_block *nb,
 		ptp_clock_event(clock->ptp, &ptp_event);
 		break;
 	case PTP_PF_PEROUT:
+<<<<<<< HEAD
 		ns = perout_conf_next_event_timer(mdev, clock);
 		write_seqlock_irqsave(&clock->lock, flags);
 		clock->pps_info.start[pin] = ns;
+=======
+		mlx5_ptp_gettimex(&clock->ptp_info, &ts, NULL);
+		cycles_now = mlx5_read_internal_timer(mdev, NULL);
+		ts.tv_sec += 1;
+		ts.tv_nsec = 0;
+		ns = timespec64_to_ns(&ts);
+		write_seqlock_irqsave(&clock->lock, flags);
+		nsec_now = timecounter_cyc2time(&clock->tc, cycles_now);
+		nsec_delta = ns - nsec_now;
+		cycles_delta = div64_u64(nsec_delta << clock->cycles.shift,
+					 clock->cycles.mult);
+		clock->pps_info.start[pin] = cycles_now + cycles_delta;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		write_sequnlock_irqrestore(&clock->lock, flags);
 		schedule_work(&clock->pps_info.out_work);
 		break;
@@ -766,6 +946,7 @@ static int mlx5_pps_event(struct notifier_block *nb,
 	return NOTIFY_OK;
 }
 
+<<<<<<< HEAD
 static void mlx5_timecounter_init(struct mlx5_core_dev *mdev)
 {
 	struct mlx5_clock *clock = &mdev->clock;
@@ -792,6 +973,31 @@ static void mlx5_init_overflow_period(struct mlx5_clock *clock)
 	u64 overflow_cycles;
 	u64 frac = 0;
 	u64 ns;
+=======
+void mlx5_init_clock(struct mlx5_core_dev *mdev)
+{
+	struct mlx5_clock *clock = &mdev->clock;
+	u64 overflow_cycles;
+	u64 ns;
+	u64 frac = 0;
+	u32 dev_freq;
+
+	dev_freq = MLX5_CAP_GEN(mdev, device_frequency_khz);
+	if (!dev_freq) {
+		mlx5_core_warn(mdev, "invalid device_frequency_khz, aborting HW clock init\n");
+		return;
+	}
+	seqlock_init(&clock->lock);
+	clock->cycles.read = read_internal_timer;
+	clock->cycles.shift = MLX5_CYCLES_SHIFT;
+	clock->cycles.mult = clocksource_khz2mult(dev_freq,
+						  clock->cycles.shift);
+	clock->nominal_c_mult = clock->cycles.mult;
+	clock->cycles.mask = CLOCKSOURCE_MASK(41);
+
+	timecounter_init(&clock->tc, &clock->cycles,
+			 ktime_to_ns(ktime_get_real()));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Calculate period in seconds to call the overflow watchdog - to make
 	 * sure counter is checked at least twice every wrap around.
@@ -800,6 +1006,7 @@ static void mlx5_init_overflow_period(struct mlx5_clock *clock)
 	 * multiplied by clock multiplier where the result doesn't exceed
 	 * 64bits.
 	 */
+<<<<<<< HEAD
 	overflow_cycles = div64_u64(~0ULL >> 1, timer->cycles.mult);
 	overflow_cycles = min(overflow_cycles, div_u64(timer->cycles.mask, 3));
 
@@ -871,6 +1078,34 @@ void mlx5_init_clock(struct mlx5_core_dev *mdev)
 	seqlock_init(&clock->lock);
 	mlx5_init_timer_clock(mdev);
 	INIT_WORK(&clock->pps_info.out_work, mlx5_pps_out);
+=======
+	overflow_cycles = div64_u64(~0ULL >> 1, clock->cycles.mult);
+	overflow_cycles = min(overflow_cycles, div_u64(clock->cycles.mask, 3));
+
+	ns = cyclecounter_cyc2ns(&clock->cycles, overflow_cycles,
+				 frac, &frac);
+	do_div(ns, NSEC_PER_SEC / HZ);
+	clock->overflow_period = ns;
+
+	mdev->clock_info =
+		(struct mlx5_ib_clock_info *)get_zeroed_page(GFP_KERNEL);
+	if (mdev->clock_info) {
+		mdev->clock_info->nsec = clock->tc.nsec;
+		mdev->clock_info->cycles = clock->tc.cycle_last;
+		mdev->clock_info->mask = clock->cycles.mask;
+		mdev->clock_info->mult = clock->nominal_c_mult;
+		mdev->clock_info->shift = clock->cycles.shift;
+		mdev->clock_info->frac = clock->tc.frac;
+		mdev->clock_info->overflow_period = clock->overflow_period;
+	}
+
+	INIT_WORK(&clock->pps_info.out_work, mlx5_pps_out);
+	INIT_DELAYED_WORK(&clock->overflow_work, mlx5_timestamp_overflow);
+	if (clock->overflow_period)
+		schedule_delayed_work(&clock->overflow_work, 0);
+	else
+		mlx5_core_warn(mdev, "invalid overflow period, overflow_work is not scheduled\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Configure the PHC */
 	clock->ptp_info = mlx5_ptp_clock_info;
@@ -907,7 +1142,11 @@ void mlx5_cleanup_clock(struct mlx5_core_dev *mdev)
 	}
 
 	cancel_work_sync(&clock->pps_info.out_work);
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&clock->timer.overflow_work);
+=======
+	cancel_delayed_work_sync(&clock->overflow_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (mdev->clock_info) {
 		free_page((unsigned long)mdev->clock_info);

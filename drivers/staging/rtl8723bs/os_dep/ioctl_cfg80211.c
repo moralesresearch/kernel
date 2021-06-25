@@ -2359,7 +2359,11 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame, 
 	DBG_871X(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(padapter));
 
 	{
+<<<<<<< HEAD
+		struct station_info sinfo = {};
+=======
 		struct station_info sinfo;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u8 ie_offset;
 		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
 			ie_offset = _ASOCREQ_IE_OFFSET_;
@@ -2516,7 +2520,11 @@ fail:
 
 	dev_kfree_skb_any(skb);
 
+<<<<<<< HEAD
 	return NETDEV_TX_OK;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 }
 
@@ -2579,7 +2587,11 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
 	mon_wdev->iftype = NL80211_IFTYPE_MONITOR;
 	mon_ndev->ieee80211_ptr = mon_wdev;
 
+<<<<<<< HEAD
+	ret = cfg80211_register_netdevice(mon_ndev);
+=======
 	ret = register_netdevice(mon_ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		goto out;
 	}
@@ -2661,7 +2673,11 @@ static int cfg80211_rtw_del_virtual_intf(struct wiphy *wiphy,
 	adapter = rtw_netdev_priv(ndev);
 	pwdev_priv = adapter_wdev_data(adapter);
 
+<<<<<<< HEAD
+	cfg80211_unregister_netdevice(ndev);
+=======
 	unregister_netdevice(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ndev == pwdev_priv->pmon_ndev) {
 		pwdev_priv->pmon_ndev = NULL;

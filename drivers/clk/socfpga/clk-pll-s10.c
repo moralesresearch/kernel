@@ -27,16 +27,20 @@
 #define SWCTRLBTCLKSEL_MASK		0x200
 #define SWCTRLBTCLKSEL_SHIFT		9
 
+<<<<<<< HEAD
 #define SOCFPGA_N5X_PLLDIV_FDIV_MASK	GENMASK(16, 8)
 #define SOCFPGA_N5X_PLLDIV_FDIV_SHIFT	8
 #define SOCFPGA_N5X_PLLDIV_RDIV_MASK	GENMASK(5, 0)
 #define SOCFPGA_N5X_PLLDIV_QDIV_MASK	GENMASK(26, 24)
 #define SOCFPGA_N5X_PLLDIV_QDIV_SHIFT	24
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SOCFPGA_BOOT_CLK		"boot_clk"
 
 #define to_socfpga_clk(p) container_of(p, struct socfpga_pll, hw.hw)
 
+<<<<<<< HEAD
 static unsigned long n5x_clk_pll_recalc_rate(struct clk_hw *hwclk,
 						unsigned long parent_rate)
 {
@@ -58,6 +62,8 @@ static unsigned long n5x_clk_pll_recalc_rate(struct clk_hw *hwclk,
 	return ((parent_rate * 2 * (fdiv + 1)) / ((rdiv + 1) * power));
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned long agilex_clk_pll_recalc_rate(struct clk_hw *hwclk,
 						unsigned long parent_rate)
 {
@@ -150,6 +156,7 @@ static int clk_pll_prepare(struct clk_hw *hwclk)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int n5x_clk_pll_prepare(struct clk_hw *hwclk)
 {
 	struct socfpga_pll *socfpgaclk = to_socfpga_clk(hwclk);
@@ -169,6 +176,8 @@ static const struct clk_ops n5x_clk_pll_ops = {
 	.prepare = n5x_clk_pll_prepare,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct clk_ops agilex_clk_pll_ops = {
 	.recalc_rate = agilex_clk_pll_recalc_rate,
 	.get_parent = clk_pll_get_parent,
@@ -260,6 +269,7 @@ struct clk *agilex_register_pll(const struct stratix10_pll_clock *clks,
 	}
 	return clk;
 }
+<<<<<<< HEAD
 
 struct clk *n5x_register_pll(const struct stratix10_pll_clock *clks,
 			     void __iomem *reg)
@@ -297,3 +307,5 @@ struct clk *n5x_register_pll(const struct stratix10_pll_clock *clks,
 	}
 	return clk;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

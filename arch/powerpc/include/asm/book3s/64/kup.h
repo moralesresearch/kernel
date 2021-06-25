@@ -339,7 +339,11 @@ static inline unsigned long get_kuap(void)
 	 * This has no effect in terms of actually blocking things on hash,
 	 * so it doesn't break anything.
 	 */
+<<<<<<< HEAD
 	if (!mmu_has_feature(MMU_FTR_BOOK3S_KUAP))
+=======
+	if (!early_mmu_has_feature(MMU_FTR_BOOK3S_KUAP))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AMR_KUAP_BLOCKED;
 
 	return mfspr(SPRN_AMR);
@@ -347,7 +351,11 @@ static inline unsigned long get_kuap(void)
 
 static inline void set_kuap(unsigned long value)
 {
+<<<<<<< HEAD
 	if (!mmu_has_feature(MMU_FTR_BOOK3S_KUAP))
+=======
+	if (!early_mmu_has_feature(MMU_FTR_BOOK3S_KUAP))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	/*

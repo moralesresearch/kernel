@@ -807,7 +807,10 @@ static long vfio_pci_ioctl(void *device_data,
 		struct vfio_device_info info;
 		struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
 		unsigned long capsz;
+<<<<<<< HEAD
 		int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		minsz = offsetofend(struct vfio_device_info, num_irqs);
 
@@ -833,10 +836,20 @@ static long vfio_pci_ioctl(void *device_data,
 		info.num_regions = VFIO_PCI_NUM_REGIONS + vdev->num_regions;
 		info.num_irqs = VFIO_PCI_NUM_IRQS;
 
+<<<<<<< HEAD
 		ret = vfio_pci_info_zdev_add_caps(vdev, &caps);
 		if (ret && ret != -ENODEV) {
 			pci_warn(vdev->pdev, "Failed to setup zPCI info capabilities\n");
 			return ret;
+=======
+		if (IS_ENABLED(CONFIG_VFIO_PCI_ZDEV)) {
+			int ret = vfio_pci_info_zdev_add_caps(vdev, &caps);
+
+			if (ret && ret != -ENODEV) {
+				pci_warn(vdev->pdev, "Failed to setup zPCI info capabilities\n");
+				return ret;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (caps.size) {
@@ -1656,8 +1669,11 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
 
 	index = vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
 
+<<<<<<< HEAD
 	if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
 		return -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vma->vm_end < vma->vm_start)
 		return -EINVAL;
 	if ((vma->vm_flags & VM_SHARED) == 0)
@@ -1666,7 +1682,11 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
 		int regnum = index - VFIO_PCI_NUM_REGIONS;
 		struct vfio_pci_region *region = vdev->region + regnum;
 
+<<<<<<< HEAD
 		if (region->ops && region->ops->mmap &&
+=======
+		if (region && region->ops && region->ops->mmap &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    (region->flags & VFIO_REGION_INFO_FLAG_MMAP))
 			return region->ops->mmap(vdev, region, vma);
 		return -EINVAL;
@@ -1924,6 +1944,7 @@ static int vfio_pci_bus_notifier(struct notifier_block *nb,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int vfio_pci_vf_init(struct vfio_pci_device *vdev)
 {
 	struct pci_dev *pdev = vdev->pdev;
@@ -1986,6 +2007,8 @@ static void vfio_pci_vga_uninit(struct vfio_pci_device *vdev)
 					      VGA_RSRC_LEGACY_MEM);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 {
 	struct vfio_pci_device *vdev;
@@ -2032,6 +2055,7 @@ static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	INIT_LIST_HEAD(&vdev->vma_list);
 	init_rwsem(&vdev->memory_lock);
 
+<<<<<<< HEAD
 	ret = vfio_pci_reflck_attach(vdev);
 	if (ret)
 		goto out_free;
@@ -2041,6 +2065,37 @@ static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	ret = vfio_pci_vga_init(vdev);
 	if (ret)
 		goto out_vf;
+=======
+	ret = vfio_add_group_dev(&pdev->dev, &vfio_pci_ops, vdev);
+	if (ret)
+		goto out_free;
+
+	ret = vfio_pci_reflck_attach(vdev);
+	if (ret)
+		goto out_del_group_dev;
+
+	if (pdev->is_physfn) {
+		vdev->vf_token = kzalloc(sizeof(*vdev->vf_token), GFP_KERNEL);
+		if (!vdev->vf_token) {
+			ret = -ENOMEM;
+			goto out_reflck;
+		}
+
+		mutex_init(&vdev->vf_token->lock);
+		uuid_gen(&vdev->vf_token->uuid);
+
+		vdev->nb.notifier_call = vfio_pci_bus_notifier;
+		ret = bus_register_notifier(&pci_bus_type, &vdev->nb);
+		if (ret)
+			goto out_vf_token;
+	}
+
+	if (vfio_pci_is_vga(pdev)) {
+		vga_client_register(pdev, vdev, NULL, vfio_pci_set_vga_decode);
+		vga_set_legacy_decoding(pdev,
+					vfio_pci_set_vga_decode(vdev, false));
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vfio_pci_probe_power_state(vdev);
 
@@ -2058,6 +2113,7 @@ static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		vfio_pci_set_power_state(vdev, PCI_D3hot);
 	}
 
+<<<<<<< HEAD
 	ret = vfio_add_group_dev(&pdev->dev, &vfio_pci_ops, vdev);
 	if (ret)
 		goto out_power;
@@ -2072,6 +2128,17 @@ out_reflck:
 	vfio_pci_reflck_put(vdev->reflck);
 out_free:
 	kfree(vdev->pm_save);
+=======
+	return ret;
+
+out_vf_token:
+	kfree(vdev->vf_token);
+out_reflck:
+	vfio_pci_reflck_put(vdev->reflck);
+out_del_group_dev:
+	vfio_del_group_dev(&pdev->dev);
+out_free:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(vdev);
 out_group_put:
 	vfio_iommu_group_put(group, &pdev->dev);
@@ -2088,19 +2155,48 @@ static void vfio_pci_remove(struct pci_dev *pdev)
 	if (!vdev)
 		return;
 
+<<<<<<< HEAD
 	vfio_pci_vf_uninit(vdev);
 	vfio_pci_reflck_put(vdev->reflck);
 	vfio_pci_vga_uninit(vdev);
 
 	vfio_iommu_group_put(pdev->dev.iommu_group, &pdev->dev);
+=======
+	if (vdev->vf_token) {
+		WARN_ON(vdev->vf_token->users);
+		mutex_destroy(&vdev->vf_token->lock);
+		kfree(vdev->vf_token);
+	}
+
+	if (vdev->nb.notifier_call)
+		bus_unregister_notifier(&pci_bus_type, &vdev->nb);
+
+	vfio_pci_reflck_put(vdev->reflck);
+
+	vfio_iommu_group_put(pdev->dev.iommu_group, &pdev->dev);
+	kfree(vdev->region);
+	mutex_destroy(&vdev->ioeventfds_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!disable_idle_d3)
 		vfio_pci_set_power_state(vdev, PCI_D0);
 
+<<<<<<< HEAD
 	mutex_destroy(&vdev->ioeventfds_lock);
 	kfree(vdev->region);
 	kfree(vdev->pm_save);
 	kfree(vdev);
+=======
+	kfree(vdev->pm_save);
+	kfree(vdev);
+
+	if (vfio_pci_is_vga(pdev)) {
+		vga_client_register(pdev, NULL, NULL, NULL);
+		vga_set_legacy_decoding(pdev,
+				VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM |
+				VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static pci_ers_result_t vfio_pci_aer_err_detected(struct pci_dev *pdev,

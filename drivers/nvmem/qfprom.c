@@ -127,6 +127,7 @@ static void qfprom_disable_fuse_blowing(const struct qfprom_priv *priv,
 {
 	int ret;
 
+<<<<<<< HEAD
 	/*
 	 * This may be a shared rail and may be able to run at a lower rate
 	 * when we're not blowing fuses.  At the moment, the regulator framework
@@ -137,6 +138,8 @@ static void qfprom_disable_fuse_blowing(const struct qfprom_priv *priv,
 	if (ret)
 		dev_warn(priv->dev, "Failed to set 0 voltage (ignoring)\n");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = regulator_disable(priv->vcc);
 	if (ret)
 		dev_warn(priv->dev, "Failed to disable regulator (ignoring)\n");
@@ -182,6 +185,7 @@ static int qfprom_enable_fuse_blowing(const struct qfprom_priv *priv,
 		goto err_clk_prepared;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Hardware requires 1.8V min for fuse blowing; this may be
 	 * a rail shared do don't specify a max--regulator constraints
@@ -193,6 +197,8 @@ static int qfprom_enable_fuse_blowing(const struct qfprom_priv *priv,
 		goto err_clk_rate_set;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = regulator_enable(priv->vcc);
 	if (ret) {
 		dev_err(priv->dev, "Failed to enable regulator\n");

@@ -299,6 +299,7 @@ static inline void btrfs_mod_outstanding_extents(struct btrfs_inode *inode,
 						  mod);
 }
 
+<<<<<<< HEAD
 /*
  * Called every time after doing a buffered, direct IO or memory mapped write.
  *
@@ -314,6 +315,8 @@ static inline void btrfs_set_inode_last_sub_trans(struct btrfs_inode *inode)
 	spin_unlock(&inode->lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int btrfs_inode_in_log(struct btrfs_inode *inode, u64 generation)
 {
 	int ret = 0;
@@ -340,8 +343,12 @@ struct btrfs_dio_private {
 	struct inode *inode;
 	u64 logical_offset;
 	u64 disk_bytenr;
+<<<<<<< HEAD
 	/* Used for bio::bi_size */
 	u32 bytes;
+=======
+	u64 bytes;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * References to this structure. There is one reference per in-flight

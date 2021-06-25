@@ -470,14 +470,22 @@ static int cachefiles_attr_changed(struct fscache_object *_object)
 		_debug("discard tail %llx", oi_size);
 		newattrs.ia_valid = ATTR_SIZE;
 		newattrs.ia_size = oi_size & PAGE_MASK;
+<<<<<<< HEAD
 		ret = notify_change(&init_user_ns, object->backer, &newattrs, NULL);
+=======
+		ret = notify_change(object->backer, &newattrs, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto truncate_failed;
 	}
 
 	newattrs.ia_valid = ATTR_SIZE;
 	newattrs.ia_size = ni_size;
+<<<<<<< HEAD
 	ret = notify_change(&init_user_ns, object->backer, &newattrs, NULL);
+=======
+	ret = notify_change(object->backer, &newattrs, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 truncate_failed:
 	inode_unlock(d_inode(object->backer));

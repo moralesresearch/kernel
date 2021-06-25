@@ -63,6 +63,7 @@ struct rcu_cblist {
 #define RCU_NEXT_TAIL		3
 #define RCU_CBLIST_NSEGS	4
 
+<<<<<<< HEAD
 
 /*
  *                     ==NOCB Offloading state machine==
@@ -179,6 +180,8 @@ struct rcu_cblist {
 #define SEGCBLIST_KTHREAD_GP	BIT(3)
 #define SEGCBLIST_OFFLOADED	BIT(4)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct rcu_segcblist {
 	struct rcu_head *head;
 	struct rcu_head **tails[RCU_CBLIST_NSEGS];
@@ -188,8 +191,13 @@ struct rcu_segcblist {
 #else
 	long len;
 #endif
+<<<<<<< HEAD
 	long seglen[RCU_CBLIST_NSEGS];
 	u8 flags;
+=======
+	u8 enabled;
+	u8 offloaded;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define RCU_SEGCBLIST_INITIALIZER(n) \

@@ -820,9 +820,12 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
 
 	/* Prefer parsed partitions over driver-provided fallback */
 	ret = parse_mtd_partitions(mtd, types, parser_data);
+<<<<<<< HEAD
 	if (ret == -EPROBE_DEFER)
 		goto out;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret > 0)
 		ret = 0;
 	else if (nr_parts)

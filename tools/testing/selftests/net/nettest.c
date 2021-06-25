@@ -9,7 +9,10 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+<<<<<<< HEAD
 #include <sys/wait.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/tcp.h>
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -18,7 +21,10 @@
 #include <fcntl.h>
 #include <libgen.h>
 #include <limits.h>
+<<<<<<< HEAD
 #include <sched.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,8 +42,11 @@
 
 #define DEFAULT_PORT 12345
 
+<<<<<<< HEAD
 #define NS_PREFIX "/run/netns/"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef MAX
 #define MAX(a, b)  ((a) > (b) ? (a) : (b))
 #endif
@@ -47,15 +56,21 @@
 
 struct sock_args {
 	/* local address */
+<<<<<<< HEAD
 	const char *local_addr_str;
 	const char *client_local_addr_str;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct in_addr  in;
 		struct in6_addr in6;
 	} local_addr;
 
 	/* remote address */
+<<<<<<< HEAD
 	const char *remote_addr_str;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct in_addr  in;
 		struct in6_addr in6;
@@ -80,6 +95,7 @@ struct sock_args {
 	int use_setsockopt;
 	int use_cmsg;
 	const char *dev;
+<<<<<<< HEAD
 	const char *server_dev;
 	int ifindex;
 
@@ -90,6 +106,12 @@ struct sock_args {
 	const char *client_pw;
 	/* prefix for MD5 password */
 	const char *md5_prefix_str;
+=======
+	int ifindex;
+
+	const char *password;
+	/* prefix for MD5 password */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct sockaddr_in v4;
 		struct sockaddr_in6 v6;
@@ -97,19 +119,28 @@ struct sock_args {
 	unsigned int prefix_len;
 
 	/* expected addresses and device index for connection */
+<<<<<<< HEAD
 	const char *expected_dev;
 	const char *expected_server_dev;
 	int expected_ifindex;
 
 	/* local address */
 	const char *expected_laddr_str;
+=======
+	int expected_ifindex;
+
+	/* local address */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct in_addr  in;
 		struct in6_addr in6;
 	} expected_laddr;
 
 	/* remote address */
+<<<<<<< HEAD
 	const char *expected_raddr_str;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct in_addr  in;
 		struct in6_addr in6;
@@ -203,7 +234,11 @@ static void log_address(const char *desc, struct sockaddr *sa)
 	if (sa->sa_family == AF_INET) {
 		struct sockaddr_in *s = (struct sockaddr_in *) sa;
 
+<<<<<<< HEAD
 		log_msg("%s %s:%d\n",
+=======
+		log_msg("%s %s:%d",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			desc,
 			inet_ntop(AF_INET, &s->sin_addr, addrstr,
 				  sizeof(addrstr)),
@@ -212,13 +247,18 @@ static void log_address(const char *desc, struct sockaddr *sa)
 	} else if (sa->sa_family == AF_INET6) {
 		struct sockaddr_in6 *s6 = (struct sockaddr_in6 *) sa;
 
+<<<<<<< HEAD
 		log_msg("%s [%s]:%d\n",
+=======
+		log_msg("%s [%s]:%d",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			desc,
 			inet_ntop(AF_INET6, &s6->sin6_addr, addrstr,
 				  sizeof(addrstr)),
 			ntohs(s6->sin6_port));
 	}
 
+<<<<<<< HEAD
 	fflush(stdout);
 }
 
@@ -241,6 +281,11 @@ static int switch_ns(const char *ns)
 	close(fd);
 
 	return ret;
+=======
+	printf("\n");
+
+	fflush(stdout);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int tcp_md5sig(int sd, void *addr, socklen_t alen, struct sock_args *args)
@@ -295,13 +340,21 @@ static int tcp_md5_remote(int sd, struct sock_args *args)
 	switch (args->version) {
 	case AF_INET:
 		sin.sin_port = htons(args->port);
+<<<<<<< HEAD
 		sin.sin_addr = args->md5_prefix.v4.sin_addr;
+=======
+		sin.sin_addr = args->remote_addr.in;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		addr = &sin;
 		alen = sizeof(sin);
 		break;
 	case AF_INET6:
 		sin6.sin6_port = htons(args->port);
+<<<<<<< HEAD
 		sin6.sin6_addr = args->md5_prefix.v6.sin6_addr;
+=======
+		sin6.sin6_addr = args->remote_addr.in6;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		addr = &sin6;
 		alen = sizeof(sin6);
 		break;
@@ -558,6 +611,7 @@ static int str_to_uint(const char *str, int min, int max, unsigned int *value)
 	return -1;
 }
 
+<<<<<<< HEAD
 static int resolve_devices(struct sock_args *args)
 {
 	if (args->dev) {
@@ -585,6 +639,8 @@ static int resolve_devices(struct sock_args *args)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int expected_addr_match(struct sockaddr *sa, void *expected,
 			       const char *desc)
 {
@@ -596,7 +652,11 @@ static int expected_addr_match(struct sockaddr *sa, void *expected,
 		struct in_addr *exp_in = (struct in_addr *) expected;
 
 		if (s->sin_addr.s_addr != exp_in->s_addr) {
+<<<<<<< HEAD
 			log_error("%s address does not match expected %s\n",
+=======
+			log_error("%s address does not match expected %s",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  desc,
 				  inet_ntop(AF_INET, exp_in,
 					    addrstr, sizeof(addrstr)));
@@ -607,14 +667,22 @@ static int expected_addr_match(struct sockaddr *sa, void *expected,
 		struct in6_addr *exp_in = (struct in6_addr *) expected;
 
 		if (memcmp(&s6->sin6_addr, exp_in, sizeof(*exp_in))) {
+<<<<<<< HEAD
 			log_error("%s address does not match expected %s\n",
+=======
+			log_error("%s address does not match expected %s",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  desc,
 				  inet_ntop(AF_INET6, exp_in,
 					    addrstr, sizeof(addrstr)));
 			rc = 1;
 		}
 	} else {
+<<<<<<< HEAD
 		log_error("%s address does not match expected - unknown family\n",
+=======
+		log_error("%s address does not match expected - unknown family",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  desc);
 		rc = 1;
 	}
@@ -662,6 +730,7 @@ static int show_sockstat(int sd, struct sock_args *args)
 	return rc;
 }
 
+<<<<<<< HEAD
 enum addr_type {
 	ADDR_TYPE_LOCAL,
 	ADDR_TYPE_REMOTE,
@@ -816,6 +885,8 @@ static int validate_addresses(struct sock_args *args)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int get_index_from_cmsg(struct msghdr *m)
 {
 	struct cmsghdr *cm;
@@ -1397,6 +1468,7 @@ err:
 	return -1;
 }
 
+<<<<<<< HEAD
 static void ipc_write(int fd, int message)
 {
 	/* Not in both_mode, so there's no process to signal */
@@ -1410,6 +1482,10 @@ static void ipc_write(int fd, int message)
 static int do_server(struct sock_args *args, int ipc_fd)
 {
 	/* ipc_fd = -1 if no parent process to signal */
+=======
+static int do_server(struct sock_args *args)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct timeval timeout = { .tv_sec = prog_timeout }, *ptval = NULL;
 	unsigned char addr[sizeof(struct sockaddr_in6)] = {};
 	socklen_t alen = sizeof(addr);
@@ -1418,6 +1494,7 @@ static int do_server(struct sock_args *args, int ipc_fd)
 	fd_set rfds;
 	int rc;
 
+<<<<<<< HEAD
 	if (args->serverns) {
 		if (switch_ns(args->serverns)) {
 			log_error("Could not set server netns to %s\n",
@@ -1432,6 +1509,8 @@ static int do_server(struct sock_args *args, int ipc_fd)
 	if (resolve_devices(args) || validate_addresses(args))
 		goto err_exit;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (prog_timeout)
 		ptval = &timeout;
 
@@ -1441,16 +1520,26 @@ static int do_server(struct sock_args *args, int ipc_fd)
 		lsd = lsock_init(args);
 
 	if (lsd < 0)
+<<<<<<< HEAD
 		goto err_exit;
 
 	if (args->bind_test_only) {
 		close(lsd);
 		ipc_write(ipc_fd, 1);
+=======
+		return 1;
+
+	if (args->bind_test_only) {
+		close(lsd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
 	if (args->type != SOCK_STREAM) {
+<<<<<<< HEAD
 		ipc_write(ipc_fd, 1);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = msg_loop(0, lsd, (void *) addr, alen, args);
 		close(lsd);
 		return rc;
@@ -1458,11 +1547,19 @@ static int do_server(struct sock_args *args, int ipc_fd)
 
 	if (args->password && tcp_md5_remote(lsd, args)) {
 		close(lsd);
+<<<<<<< HEAD
 		goto err_exit;
 	}
 
 	ipc_write(ipc_fd, 1);
 	while (1) {
+=======
+		return 1;
+	}
+
+	while (1) {
+		log_msg("\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		log_msg("waiting for client connection.\n");
 		FD_ZERO(&rfds);
 		FD_SET(lsd, &rfds);
@@ -1508,9 +1605,12 @@ static int do_server(struct sock_args *args, int ipc_fd)
 	close(lsd);
 
 	return rc;
+<<<<<<< HEAD
 err_exit:
 	ipc_write(ipc_fd, 0);
 	return 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int wait_for_connect(int sd)
@@ -1622,6 +1722,7 @@ static int do_client(struct sock_args *args)
 		return 1;
 	}
 
+<<<<<<< HEAD
 	if (args->clientns) {
 		if (switch_ns(args->clientns)) {
 			log_error("Could not set client netns to %s\n",
@@ -1642,6 +1743,8 @@ static int do_client(struct sock_args *args)
 	if (args->use_setsockopt || args->use_cmsg)
 		args->dev = NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (args->version) {
 	case AF_INET:
 		sin.sin_port = htons(args->port);
@@ -1661,8 +1764,11 @@ static int do_client(struct sock_args *args)
 		break;
 	}
 
+<<<<<<< HEAD
 	args->password = args->client_pw;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (args->has_grp)
 		sd = msock_client(args);
 	else
@@ -1688,6 +1794,135 @@ out:
 	return rc;
 }
 
+<<<<<<< HEAD
+=======
+enum addr_type {
+	ADDR_TYPE_LOCAL,
+	ADDR_TYPE_REMOTE,
+	ADDR_TYPE_MCAST,
+	ADDR_TYPE_EXPECTED_LOCAL,
+	ADDR_TYPE_EXPECTED_REMOTE,
+	ADDR_TYPE_MD5_PREFIX,
+};
+
+static int convert_addr(struct sock_args *args, const char *_str,
+			enum addr_type atype)
+{
+	int pfx_len_max = args->version == AF_INET6 ? 128 : 32;
+	int family = args->version;
+	char *str, *dev, *sep;
+	struct in6_addr *in6;
+	struct in_addr  *in;
+	const char *desc;
+	void *addr;
+	int rc = 0;
+
+	str = strdup(_str);
+	if (!str)
+		return -ENOMEM;
+
+	switch (atype) {
+	case ADDR_TYPE_LOCAL:
+		desc = "local";
+		addr = &args->local_addr;
+		break;
+	case ADDR_TYPE_REMOTE:
+		desc = "remote";
+		addr = &args->remote_addr;
+		break;
+	case ADDR_TYPE_MCAST:
+		desc = "mcast grp";
+		addr = &args->grp;
+		break;
+	case ADDR_TYPE_EXPECTED_LOCAL:
+		desc = "expected local";
+		addr = &args->expected_laddr;
+		break;
+	case ADDR_TYPE_EXPECTED_REMOTE:
+		desc = "expected remote";
+		addr = &args->expected_raddr;
+		break;
+	case ADDR_TYPE_MD5_PREFIX:
+		desc = "md5 prefix";
+		if (family == AF_INET) {
+			args->md5_prefix.v4.sin_family = AF_INET;
+			addr = &args->md5_prefix.v4.sin_addr;
+		} else if (family == AF_INET6) {
+			args->md5_prefix.v6.sin6_family = AF_INET6;
+			addr = &args->md5_prefix.v6.sin6_addr;
+		} else
+			return 1;
+
+		sep = strchr(str, '/');
+		if (sep) {
+			*sep = '\0';
+			sep++;
+			if (str_to_uint(sep, 1, pfx_len_max,
+					&args->prefix_len) != 0) {
+				fprintf(stderr, "Invalid port\n");
+				return 1;
+			}
+		} else {
+			args->prefix_len = pfx_len_max;
+		}
+		break;
+	default:
+		log_error("unknown address type");
+		exit(1);
+	}
+
+	switch (family) {
+	case AF_INET:
+		in  = (struct in_addr *) addr;
+		if (str) {
+			if (inet_pton(AF_INET, str, in) == 0) {
+				log_error("Invalid %s IP address\n", desc);
+				rc = -1;
+				goto out;
+			}
+		} else {
+			in->s_addr = htonl(INADDR_ANY);
+		}
+		break;
+
+	case AF_INET6:
+		dev = strchr(str, '%');
+		if (dev) {
+			*dev = '\0';
+			dev++;
+		}
+
+		in6 = (struct in6_addr *) addr;
+		if (str) {
+			if (inet_pton(AF_INET6, str, in6) == 0) {
+				log_error("Invalid %s IPv6 address\n", desc);
+				rc = -1;
+				goto out;
+			}
+		} else {
+			*in6 = in6addr_any;
+		}
+		if (dev) {
+			args->scope_id = get_ifidx(dev);
+			if (args->scope_id < 0) {
+				log_error("Invalid scope on %s IPv6 address\n",
+					  desc);
+				rc = -1;
+				goto out;
+			}
+		}
+		break;
+
+	default:
+		log_error("Invalid address family\n");
+	}
+
+out:
+	free(str);
+	return rc;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static char *random_msg(int len)
 {
 	int i, n = 0, olen = len + 1;
@@ -1711,6 +1946,7 @@ static char *random_msg(int len)
 	return m;
 }
 
+<<<<<<< HEAD
 static int ipc_child(int fd, struct sock_args *args)
 {
 	char *outbuf, *errbuf;
@@ -1773,6 +2009,9 @@ static int ipc_parent(int cpid, int fd, struct sock_args *args)
 }
 
 #define GETOPT_STR  "sr:l:c:p:t:g:P:DRn:M:X:m:d:I:BN:O:SCi6L:0:1:2:3:Fbq"
+=======
+#define GETOPT_STR  "sr:l:p:t:g:P:DRn:M:m:d:SCi6L:0:1:2:Fbq"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void print_usage(char *prog)
 {
@@ -1786,18 +2025,27 @@ static void print_usage(char *prog)
 	"    -t            timeout seconds (default: none)\n"
 	"\n"
 	"Optional:\n"
+<<<<<<< HEAD
 	"    -B            do both client and server via fork and IPC\n"
 	"    -N ns         set client to network namespace ns (requires root)\n"
 	"    -O ns         set server to network namespace ns (requires root)\n"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"    -F            Restart server loop\n"
 	"    -6            IPv6 (default is IPv4)\n"
 	"    -P proto      protocol for socket: icmp, ospf (default: none)\n"
 	"    -D|R          datagram (D) / raw (R) socket (default stream)\n"
+<<<<<<< HEAD
 	"    -l addr       local address to bind to in server mode\n"
 	"    -c addr       local address to bind to in client mode\n"
 	"\n"
 	"    -d dev        bind socket to given device name\n"
 	"    -I dev        bind socket to given device name - server mode\n"
+=======
+	"    -l addr       local address to bind to\n"
+	"\n"
+	"    -d dev        bind socket to given device name\n"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"    -S            use setsockopt (IP_UNICAST_IF or IP_MULTICAST_IF)\n"
 	"                  to set device binding\n"
 	"    -C            use cmsg and IP_PKTINFO to specify device binding\n"
@@ -1806,7 +2054,10 @@ static void print_usage(char *prog)
 	"    -n num        number of times to send message\n"
 	"\n"
 	"    -M password   use MD5 sum protection\n"
+<<<<<<< HEAD
 	"    -X password   MD5 password for client mode\n"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"    -m prefix/len prefix and length to use for MD5 key\n"
 	"    -g grp        multicast group (e.g., 239.1.1.1)\n"
 	"    -i            interactive mode (default is echo and terminate)\n"
@@ -1814,7 +2065,10 @@ static void print_usage(char *prog)
 	"    -0 addr       Expected local address\n"
 	"    -1 addr       Expected remote address\n"
 	"    -2 dev        Expected device name (or index) to receive packet\n"
+<<<<<<< HEAD
 	"    -3 dev        Expected device name (or index) to receive packets - server mode\n"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"\n"
 	"    -b            Bind test only.\n"
 	"    -q            Be quiet. Run test without printing anything.\n"
@@ -1829,11 +2083,16 @@ int main(int argc, char *argv[])
 		.port    = DEFAULT_PORT,
 	};
 	struct protoent *pe;
+<<<<<<< HEAD
 	int both_mode = 0;
 	unsigned int tmp;
 	int forever = 0;
 	int fd[2];
 	int cpid;
+=======
+	unsigned int tmp;
+	int forever = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* process inputs */
 	extern char *optarg;
@@ -1845,9 +2104,12 @@ int main(int argc, char *argv[])
 
 	while ((rc = getopt(argc, argv, GETOPT_STR)) != -1) {
 		switch (rc) {
+<<<<<<< HEAD
 		case 'B':
 			both_mode = 1;
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case 's':
 			server_mode = 1;
 			break;
@@ -1856,6 +2118,7 @@ int main(int argc, char *argv[])
 			break;
 		case 'l':
 			args.has_local_ip = 1;
+<<<<<<< HEAD
 			args.local_addr_str = optarg;
 			break;
 		case 'r':
@@ -1865,6 +2128,15 @@ int main(int argc, char *argv[])
 		case 'c':
 			args.has_local_ip = 1;
 			args.client_local_addr_str = optarg;
+=======
+			if (convert_addr(&args, optarg, ADDR_TYPE_LOCAL) < 0)
+				return 1;
+			break;
+		case 'r':
+			args.has_remote_ip = 1;
+			if (convert_addr(&args, optarg, ADDR_TYPE_REMOTE) < 0)
+				return 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case 'p':
 			if (str_to_uint(optarg, 1, 65535, &tmp) != 0) {
@@ -1904,23 +2176,32 @@ int main(int argc, char *argv[])
 		case 'n':
 			iter = atoi(optarg);
 			break;
+<<<<<<< HEAD
 		case 'N':
 			args.clientns = optarg;
 			break;
 		case 'O':
 			args.serverns = optarg;
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case 'L':
 			msg = random_msg(atoi(optarg));
 			break;
 		case 'M':
 			args.password = optarg;
 			break;
+<<<<<<< HEAD
 		case 'X':
 			args.client_pw = optarg;
 			break;
 		case 'm':
 			args.md5_prefix_str = optarg;
+=======
+		case 'm':
+			if (convert_addr(&args, optarg, ADDR_TYPE_MD5_PREFIX) < 0)
+				return 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case 'S':
 			args.use_setsockopt = 1;
@@ -1930,9 +2211,17 @@ int main(int argc, char *argv[])
 			break;
 		case 'd':
 			args.dev = optarg;
+<<<<<<< HEAD
 			break;
 		case 'I':
 			args.server_dev = optarg;
+=======
+			args.ifindex = get_ifidx(optarg);
+			if (args.ifindex < 0) {
+				fprintf(stderr, "Invalid device name\n");
+				return 1;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case 'i':
 			interactive = 1;
@@ -1951,6 +2240,7 @@ int main(int argc, char *argv[])
 			break;
 		case '0':
 			args.has_expected_laddr = 1;
+<<<<<<< HEAD
 			args.expected_laddr_str = optarg;
 			break;
 		case '1':
@@ -1962,6 +2252,30 @@ int main(int argc, char *argv[])
 			break;
 		case '3':
 			args.expected_server_dev = optarg;
+=======
+			if (convert_addr(&args, optarg,
+					 ADDR_TYPE_EXPECTED_LOCAL))
+				return 1;
+			break;
+		case '1':
+			args.has_expected_raddr = 1;
+			if (convert_addr(&args, optarg,
+					 ADDR_TYPE_EXPECTED_REMOTE))
+				return 1;
+
+			break;
+		case '2':
+			if (str_to_uint(optarg, 0, INT_MAX, &tmp) == 0) {
+				args.expected_ifindex = (int)tmp;
+			} else {
+				args.expected_ifindex = get_ifidx(optarg);
+				if (args.expected_ifindex < 0) {
+					fprintf(stderr,
+						"Invalid expected device\n");
+					return 1;
+				}
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case 'q':
 			quiet = 1;
@@ -1973,17 +2287,35 @@ int main(int argc, char *argv[])
 	}
 
 	if (args.password &&
+<<<<<<< HEAD
 	    ((!args.has_remote_ip && !args.md5_prefix_str) ||
 	      args.type != SOCK_STREAM)) {
+=======
+	    ((!args.has_remote_ip && !args.prefix_len) || args.type != SOCK_STREAM)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		log_error("MD5 passwords apply to TCP only and require a remote ip for the password\n");
 		return 1;
 	}
 
+<<<<<<< HEAD
 	if (args.md5_prefix_str && !args.password) {
+=======
+	if (args.prefix_len && !args.password) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		log_error("Prefix range for MD5 protection specified without a password\n");
 		return 1;
 	}
 
+<<<<<<< HEAD
+=======
+	if ((args.use_setsockopt || args.use_cmsg) && !args.ifindex) {
+		fprintf(stderr, "Device binding not specified\n");
+		return 1;
+	}
+	if (args.use_setsockopt || args.use_cmsg)
+		args.dev = NULL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (iter == 0) {
 		fprintf(stderr, "Invalid number of messages to send\n");
 		return 1;
@@ -2000,7 +2332,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+<<<<<<< HEAD
 	if ((both_mode || !server_mode) && !args.has_grp &&
+=======
+	if (!server_mode && !args.has_grp &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    !args.has_remote_ip && !args.has_local_ip) {
 		fprintf(stderr,
 			"Local (server mode) or remote IP (client IP) required\n");
@@ -2012,6 +2348,7 @@ int main(int argc, char *argv[])
 		msg = NULL;
 	}
 
+<<<<<<< HEAD
 	if (both_mode) {
 		if (pipe(fd) < 0) {
 			perror("pipe");
@@ -2032,6 +2369,11 @@ int main(int argc, char *argv[])
 	if (server_mode) {
 		do {
 			rc = do_server(&args, -1);
+=======
+	if (server_mode) {
+		do {
+			rc = do_server(&args);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} while (forever);
 
 		return rc;

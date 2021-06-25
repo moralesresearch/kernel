@@ -378,7 +378,11 @@ static int i2c_gpio_init_recovery(struct i2c_adapter *adap)
 static int i2c_init_recovery(struct i2c_adapter *adap)
 {
 	struct i2c_bus_recovery_info *bri = adap->bus_recovery_info;
+<<<<<<< HEAD
 	char *err_str, *err_level = KERN_ERR;
+=======
+	char *err_str;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!bri)
 		return 0;
@@ -387,8 +391,12 @@ static int i2c_init_recovery(struct i2c_adapter *adap)
 		return -EPROBE_DEFER;
 
 	if (!bri->recover_bus) {
+<<<<<<< HEAD
 		err_str = "no suitable method provided";
 		err_level = KERN_DEBUG;
+=======
+		err_str = "no recover_bus() found";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err;
 	}
 
@@ -415,7 +423,11 @@ static int i2c_init_recovery(struct i2c_adapter *adap)
 
 	return 0;
  err:
+<<<<<<< HEAD
 	dev_printk(err_level, &adap->dev, "Not using recovery: %s\n", err_str);
+=======
+	dev_err(&adap->dev, "Not using recovery: %s\n", err_str);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	adap->bus_recovery_info = NULL;
 
 	return -EINVAL;

@@ -34,6 +34,7 @@
 	non-removable;
 	status = "okay";
 };
+<<<<<<< HEAD
 
 &uart1 {
 	pinctrl-names = "default";
@@ -49,3 +50,5 @@
 		max-speed = <1500000>;
 	};
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

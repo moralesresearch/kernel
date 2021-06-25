@@ -272,7 +272,11 @@ struct hnae3_ring_chain_node {
 };
 
 #define HNAE3_IS_TX_RING(node) \
+<<<<<<< HEAD
 	(((node)->flag & 1 << HNAE3_RING_TYPE_B) == HNAE3_RING_TYPE_TX)
+=======
+	(((node)->flag & (1 << HNAE3_RING_TYPE_B)) == HNAE3_RING_TYPE_TX)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* device specification info from firmware */
 struct hnae3_dev_specs {
@@ -284,14 +288,21 @@ struct hnae3_dev_specs {
 	u16 int_ql_max; /* max value of interrupt coalesce based on INT_QL */
 	u16 max_int_gl; /* max value of interrupt coalesce based on INT_GL */
 	u8 max_non_tso_bd_num; /* max BD number of one non-TSO packet */
+<<<<<<< HEAD
 	u16 max_frm_size;
 	u16 max_qset_num;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct hnae3_client_ops {
 	int (*init_instance)(struct hnae3_handle *handle);
 	void (*uninit_instance)(struct hnae3_handle *handle, bool reset);
 	void (*link_status_change)(struct hnae3_handle *handle, bool state);
+<<<<<<< HEAD
+=======
+	int (*setup_tc)(struct hnae3_handle *handle, u8 tc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int (*reset_notify)(struct hnae3_handle *handle,
 			    enum hnae3_reset_notify_type type);
 	void (*process_hw_error)(struct hnae3_handle *handle,
@@ -411,6 +422,11 @@ struct hnae3_ae_dev {
  *   Get the len of the regs dump
  * get_rss_key_size()
  *   Get rss key size
+<<<<<<< HEAD
+=======
+ * get_rss_indir_size()
+ *   Get rss indirection table size
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * get_rss()
  *   Get rss table
  * set_rss()
@@ -464,8 +480,11 @@ struct hnae3_ae_dev {
  *   Delete clsflower rule
  * cls_flower_active
  *   Check if any cls flower rule exist
+<<<<<<< HEAD
  * dbg_read_cmd
  *   Execute debugfs read command.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct hnae3_ae_ops {
 	int (*init_ae_dev)(struct hnae3_ae_dev *ae_dev);
@@ -554,6 +573,10 @@ struct hnae3_ae_ops {
 	int (*get_regs_len)(struct hnae3_handle *handle);
 
 	u32 (*get_rss_key_size)(struct hnae3_handle *handle);
+<<<<<<< HEAD
+=======
+	u32 (*get_rss_indir_size)(struct hnae3_handle *handle);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int (*get_rss)(struct hnae3_handle *handle, u32 *indir, u8 *key,
 		       u8 *hfunc);
 	int (*set_rss)(struct hnae3_handle *handle, const u32 *indir,
@@ -620,8 +643,11 @@ struct hnae3_ae_ops {
 	int (*add_arfs_entry)(struct hnae3_handle *handle, u16 queue_id,
 			      u16 flow_id, struct flow_keys *fkeys);
 	int (*dbg_run_cmd)(struct hnae3_handle *handle, const char *cmd_buf);
+<<<<<<< HEAD
 	int (*dbg_read_cmd)(struct hnae3_handle *handle, const char *cmd_buf,
 			    char *buf, int len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_ers_result_t (*handle_hw_ras_error)(struct hnae3_ae_dev *ae_dev);
 	bool (*get_hw_reset_stat)(struct hnae3_handle *handle);
 	bool (*ae_dev_resetting)(struct hnae3_handle *handle);
@@ -775,6 +801,7 @@ struct hnae3_handle {
 #define hnae3_get_field(origin, mask, shift) (((origin) & (mask)) >> (shift))
 
 #define hnae3_set_bit(origin, shift, val) \
+<<<<<<< HEAD
 	hnae3_set_field(origin, 0x1 << (shift), shift, val)
 #define hnae3_get_bit(origin, shift) \
 	hnae3_get_field(origin, 0x1 << (shift), shift)
@@ -782,6 +809,11 @@ struct hnae3_handle {
 #define HNAE3_DBG_TM_NODES		"tm_nodes"
 #define HNAE3_DBG_TM_PRI		"tm_priority"
 #define HNAE3_DBG_TM_QSET		"tm_qset"
+=======
+	hnae3_set_field((origin), (0x1 << (shift)), (shift), (val))
+#define hnae3_get_bit(origin, shift) \
+	hnae3_get_field((origin), (0x1 << (shift)), (shift))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int hnae3_register_ae_dev(struct hnae3_ae_dev *ae_dev);
 void hnae3_unregister_ae_dev(struct hnae3_ae_dev *ae_dev);

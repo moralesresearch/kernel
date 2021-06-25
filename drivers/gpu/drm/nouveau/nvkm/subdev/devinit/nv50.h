@@ -9,7 +9,11 @@ struct nv50_devinit {
 	u32 r001540;
 };
 
+<<<<<<< HEAD
 int nv50_devinit_new_(const struct nvkm_devinit_func *, struct nvkm_device *, enum nvkm_subdev_type,
+=======
+int nv50_devinit_new_(const struct nvkm_devinit_func *, struct nvkm_device *,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      int, struct nvkm_devinit **);
 void nv50_devinit_preinit(struct nvkm_devinit *);
 void nv50_devinit_init(struct nvkm_devinit *);

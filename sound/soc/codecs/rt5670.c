@@ -629,6 +629,7 @@ static SOC_ENUM_SINGLE_DECL(rt5670_if2_dac_enum, RT5670_DIG_INF1_DATA,
 static SOC_ENUM_SINGLE_DECL(rt5670_if2_adc_enum, RT5670_DIG_INF1_DATA,
 				RT5670_IF2_ADC_SEL_SFT, rt5670_data_select);
 
+<<<<<<< HEAD
 /*
  * For reliable output-mute LED control we need a "DAC1 Playback Switch" control.
  * We emulate this by only clearing the RT5670_M_DAC1_L/_R AD_DA_MIXER register
@@ -681,17 +682,31 @@ static int rt5670_dac1_playback_switch_put(struct snd_kcontrol *kcontrol,
 
 static const struct snd_kcontrol_new rt5670_snd_controls[] = {
 	/* Headphone Output Volume */
+=======
+static const struct snd_kcontrol_new rt5670_snd_controls[] = {
+	/* Headphone Output Volume */
+	SOC_DOUBLE("HP Playback Switch", RT5670_HP_VOL,
+		RT5670_L_MUTE_SFT, RT5670_R_MUTE_SFT, 1, 1),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SOC_DOUBLE_TLV("HP Playback Volume", RT5670_HP_VOL,
 		RT5670_L_VOL_SFT, RT5670_R_VOL_SFT,
 		39, 1, out_vol_tlv),
 	/* OUTPUT Control */
+<<<<<<< HEAD
+=======
+	SOC_DOUBLE("OUT Channel Switch", RT5670_LOUT1,
+		RT5670_VOL_L_SFT, RT5670_VOL_R_SFT, 1, 1),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SOC_DOUBLE_TLV("OUT Playback Volume", RT5670_LOUT1,
 		RT5670_L_VOL_SFT, RT5670_R_VOL_SFT, 39, 1, out_vol_tlv),
 	/* DAC Digital Volume */
 	SOC_DOUBLE("DAC2 Playback Switch", RT5670_DAC_CTRL,
 		RT5670_M_DAC_L2_VOL_SFT, RT5670_M_DAC_R2_VOL_SFT, 1, 1),
+<<<<<<< HEAD
 	SOC_DOUBLE_EXT("DAC1 Playback Switch", SND_SOC_NOPM, 0, 1, 1, 0,
 			rt5670_dac1_playback_switch_get, rt5670_dac1_playback_switch_put),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SOC_DOUBLE_TLV("DAC1 Playback Volume", RT5670_DAC1_DIG_VOL,
 			RT5670_L_VOL_SFT, RT5670_R_VOL_SFT,
 			175, 0, dac_vol_tlv),
@@ -961,6 +976,7 @@ static const struct snd_kcontrol_new rt5670_mono_adc_r_mix[] = {
 			RT5670_M_MONO_ADC_R2_SFT, 1, 1),
 };
 
+<<<<<<< HEAD
 /* See comment above rt5670_update_ad_da_mixer_dac1_m_bits() */
 static int rt5670_put_dac1_mix_dac1_switch(struct snd_kcontrol *kcontrol,
 					   struct snd_ctl_elem_value *ucontrol)
@@ -993,12 +1009,24 @@ static const struct snd_kcontrol_new rt5670_dac_l_mix[] = {
 	SOC_DAPM_SINGLE("Stereo ADC Switch", RT5670_AD_DA_MIXER,
 			RT5670_M_ADCMIX_L_SFT, 1, 1),
 	SOC_DAPM_SINGLE_RT5670_DAC1_SW("DAC1 Switch", 0),
+=======
+static const struct snd_kcontrol_new rt5670_dac_l_mix[] = {
+	SOC_DAPM_SINGLE("Stereo ADC Switch", RT5670_AD_DA_MIXER,
+			RT5670_M_ADCMIX_L_SFT, 1, 1),
+	SOC_DAPM_SINGLE("DAC1 Switch", RT5670_AD_DA_MIXER,
+			RT5670_M_DAC1_L_SFT, 1, 1),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_kcontrol_new rt5670_dac_r_mix[] = {
 	SOC_DAPM_SINGLE("Stereo ADC Switch", RT5670_AD_DA_MIXER,
 			RT5670_M_ADCMIX_R_SFT, 1, 1),
+<<<<<<< HEAD
 	SOC_DAPM_SINGLE_RT5670_DAC1_SW("DAC1 Switch", 1),
+=======
+	SOC_DAPM_SINGLE("DAC1 Switch", RT5670_AD_DA_MIXER,
+			RT5670_M_DAC1_R_SFT, 1, 1),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_kcontrol_new rt5670_sto_dac_l_mix[] = {
@@ -1730,10 +1758,19 @@ static const struct snd_soc_dapm_widget rt5670_dapm_widgets[] = {
 			    RT5670_PWR_ADC_S1F_BIT, 0, NULL, 0),
 	SND_SOC_DAPM_SUPPLY("ADC Stereo2 Filter", RT5670_PWR_DIG2,
 			    RT5670_PWR_ADC_S2F_BIT, 0, NULL, 0),
+<<<<<<< HEAD
 	SND_SOC_DAPM_MIXER("Sto1 ADC MIXL", SND_SOC_NOPM, 0, 0,
 			   rt5670_sto1_adc_l_mix, ARRAY_SIZE(rt5670_sto1_adc_l_mix)),
 	SND_SOC_DAPM_MIXER("Sto1 ADC MIXR", SND_SOC_NOPM, 0, 0,
 			   rt5670_sto1_adc_r_mix, ARRAY_SIZE(rt5670_sto1_adc_r_mix)),
+=======
+	SND_SOC_DAPM_MIXER("Sto1 ADC MIXL", RT5670_STO1_ADC_DIG_VOL,
+			   RT5670_L_MUTE_SFT, 1, rt5670_sto1_adc_l_mix,
+			   ARRAY_SIZE(rt5670_sto1_adc_l_mix)),
+	SND_SOC_DAPM_MIXER("Sto1 ADC MIXR", RT5670_STO1_ADC_DIG_VOL,
+			   RT5670_R_MUTE_SFT, 1, rt5670_sto1_adc_r_mix,
+			   ARRAY_SIZE(rt5670_sto1_adc_r_mix)),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SND_SOC_DAPM_MIXER("Sto2 ADC MIXL", SND_SOC_NOPM, 0, 0,
 			   rt5670_sto2_adc_l_mix,
 			   ARRAY_SIZE(rt5670_sto2_adc_l_mix)),
@@ -2813,7 +2850,11 @@ static struct snd_soc_dai_driver rt5670_dai[] = {
 			.formats = RT5670_FORMATS,
 		},
 		.ops = &rt5670_aif_dai_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "rt5670-aif2",
@@ -2833,7 +2874,11 @@ static struct snd_soc_dai_driver rt5670_dai[] = {
 			.formats = RT5670_FORMATS,
 		},
 		.ops = &rt5670_aif_dai_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -2982,6 +3027,7 @@ static const struct dmi_system_id dmi_platform_intel_quirks[] = {
 	},
 	{
 		.callback = rt5670_quirk_cb,
+<<<<<<< HEAD
 		.ident = "Dell Venue 10 Pro 5055",
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
@@ -2994,6 +3040,8 @@ static const struct dmi_system_id dmi_platform_intel_quirks[] = {
 	},
 	{
 		.callback = rt5670_quirk_cb,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ident = "Aegex 10 tablet (RU2)",
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "AEGEX"),
@@ -3083,6 +3131,7 @@ static int rt5670_i2c_probe(struct i2c_client *i2c,
 		dev_info(&i2c->dev, "quirk JD mode 3\n");
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Enable the emulated "DAC1 Playback Switch" by default to avoid
 	 * muting the output with older UCM profiles.
@@ -3093,6 +3142,8 @@ static int rt5670_i2c_probe(struct i2c_client *i2c,
 	rt5670->dac1_mixl_dac1_switch = true;
 	rt5670->dac1_mixr_dac1_switch = true;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rt5670->regmap = devm_regmap_init_i2c(i2c, &rt5670_regmap);
 	if (IS_ERR(rt5670->regmap)) {
 		ret = PTR_ERR(rt5670->regmap);

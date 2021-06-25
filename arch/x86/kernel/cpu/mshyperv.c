@@ -31,11 +31,14 @@
 #include <asm/reboot.h>
 #include <asm/nmi.h>
 #include <clocksource/hyperv_timer.h>
+<<<<<<< HEAD
 #include <asm/numa.h>
 
 /* Is Linux running as the root partition? */
 bool hv_root_partition;
 EXPORT_SYMBOL_GPL(hv_root_partition);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct ms_hyperv_info ms_hyperv;
 EXPORT_SYMBOL_GPL(ms_hyperv);
@@ -231,6 +234,7 @@ static void __init hv_smp_prepare_boot_cpu(void)
 	hv_init_spinlocks();
 #endif
 }
+<<<<<<< HEAD
 
 static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
 {
@@ -257,6 +261,8 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
 	}
 #endif
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static void __init ms_hyperv_init_platform(void)
@@ -274,7 +280,10 @@ static void __init ms_hyperv_init_platform(void)
 	 * Extract the features and hints
 	 */
 	ms_hyperv.features = cpuid_eax(HYPERV_CPUID_FEATURES);
+<<<<<<< HEAD
 	ms_hyperv.features_b = cpuid_ebx(HYPERV_CPUID_FEATURES);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
 	ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
 
@@ -288,6 +297,7 @@ static void __init ms_hyperv_init_platform(void)
 		 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
 
 	/*
+<<<<<<< HEAD
 	 * Check CPU management privilege.
 	 *
 	 * To mirror what Windows does we should extract CPU management
@@ -304,6 +314,8 @@ static void __init ms_hyperv_init_platform(void)
 	}
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Extract host information.
 	 */
 	if (cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS) >=
@@ -325,6 +337,7 @@ static void __init ms_hyperv_init_platform(void)
 		x86_platform.calibrate_cpu = hv_get_tsc_khz;
 	}
 
+<<<<<<< HEAD
 	if (ms_hyperv.features_b & HV_ISOLATION) {
 		ms_hyperv.isolation_config_a = cpuid_eax(HYPERV_CPUID_ISOLATION_CONFIG);
 		ms_hyperv.isolation_config_b = cpuid_ebx(HYPERV_CPUID_ISOLATION_CONFIG);
@@ -333,6 +346,8 @@ static void __init ms_hyperv_init_platform(void)
 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ms_hyperv.hints & HV_X64_ENLIGHTENED_VMCS_RECOMMENDED) {
 		ms_hyperv.nested_features =
 			cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
@@ -422,8 +437,11 @@ static void __init ms_hyperv_init_platform(void)
 
 # ifdef CONFIG_SMP
 	smp_ops.smp_prepare_boot_cpu = hv_smp_prepare_boot_cpu;
+<<<<<<< HEAD
 	if (hv_root_partition)
 		smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # endif
 
 	/*

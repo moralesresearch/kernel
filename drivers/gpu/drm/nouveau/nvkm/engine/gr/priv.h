@@ -7,8 +7,13 @@
 struct nvkm_fb_tile;
 struct nvkm_fifo_chan;
 
+<<<<<<< HEAD
 int nvkm_gr_ctor(const struct nvkm_gr_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		 bool enable, struct nvkm_gr *);
+=======
+int nvkm_gr_ctor(const struct nvkm_gr_func *, struct nvkm_device *,
+		 int index, bool enable, struct nvkm_gr *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool nv04_gr_idle(struct nvkm_gr *);
 

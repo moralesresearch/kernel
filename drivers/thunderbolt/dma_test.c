@@ -7,6 +7,10 @@
  *	    Mika Westerberg <mika.westerberg@linux.intel.com>
  */
 
+<<<<<<< HEAD
+=======
+#include <linux/acpi.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/completion.h>
 #include <linux/debugfs.h>
 #include <linux/module.h>
@@ -298,12 +302,21 @@ static int dma_test_submit_tx(struct dma_test *dt, size_t npackets)
 		tf->frame.size = 0; /* means 4096 */
 		tf->dma_test = dt;
 
+<<<<<<< HEAD
 		tf->data = kmemdup(dma_test_pattern, DMA_TEST_FRAME_SIZE, GFP_KERNEL);
+=======
+		tf->data = kzalloc(DMA_TEST_FRAME_SIZE, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!tf->data) {
 			kfree(tf);
 			return -ENOMEM;
 		}
 
+<<<<<<< HEAD
+=======
+		memcpy(tf->data, dma_test_pattern, DMA_TEST_FRAME_SIZE);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dma_addr = dma_map_single(dma_dev, tf->data, DMA_TEST_FRAME_SIZE,
 					  DMA_TO_DEVICE);
 		if (dma_mapping_error(dma_dev, dma_addr)) {

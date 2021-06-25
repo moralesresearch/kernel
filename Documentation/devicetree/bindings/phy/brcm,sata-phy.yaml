@@ -99,7 +99,12 @@ patternProperties:
 if:
   properties:
     compatible:
+<<<<<<< HEAD
       const: brcm,iproc-ns2-sata-phy
+=======
+      items:
+        const: brcm,iproc-ns2-sata-phy
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 then:
   properties:
     reg:

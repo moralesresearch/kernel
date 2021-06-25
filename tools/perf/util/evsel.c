@@ -25,7 +25,10 @@
 #include <stdlib.h>
 #include <perf/evsel.h>
 #include "asm/bug.h"
+<<<<<<< HEAD
 #include "bpf_counter.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "callchain.h"
 #include "cgroup.h"
 #include "counts.h"
@@ -46,7 +49,10 @@
 #include "string2.h"
 #include "memswap.h"
 #include "util.h"
+<<<<<<< HEAD
 #include "hashmap.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../perf-sys.h"
 #include "util/parse-branch-options.h"
 #include <internal/xyarray.h>
@@ -249,7 +255,10 @@ void evsel__init(struct evsel *evsel,
 	evsel->bpf_obj	   = NULL;
 	evsel->bpf_fd	   = -1;
 	INIT_LIST_HEAD(&evsel->config_terms);
+<<<<<<< HEAD
 	INIT_LIST_HEAD(&evsel->bpf_counter_list);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	perf_evsel__object.init(evsel);
 	evsel->sample_size = __evsel__sample_size(attr->sample_type);
 	evsel__calc_id_pos(evsel);
@@ -1015,11 +1024,14 @@ struct evsel_config_term *__evsel__get_config_term(struct evsel *evsel, enum evs
 	return found_term;
 }
 
+<<<<<<< HEAD
 void __weak arch_evsel__set_sample_weight(struct evsel *evsel)
 {
 	evsel__set_sample_bit(evsel, WEIGHT);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The enable_on_exec/disabled value strategy:
  *
@@ -1174,6 +1186,7 @@ void evsel__config(struct evsel *evsel, struct record_opts *opts,
 	}
 
 	if (opts->sample_weight)
+<<<<<<< HEAD
 		arch_evsel__set_sample_weight(evsel);
 
 	attr->task     = track;
@@ -1182,6 +1195,14 @@ void evsel__config(struct evsel *evsel, struct record_opts *opts,
 	attr->comm     = track;
 	attr->build_id = track && opts->build_id;
 
+=======
+		evsel__set_sample_bit(evsel, WEIGHT);
+
+	attr->task  = track;
+	attr->mmap  = track;
+	attr->mmap2 = track && !perf_missing_features.mmap2;
+	attr->comm  = track;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * ksymbol is tracked separately with text poke because it needs to be
 	 * system wide and enabled immediately.
@@ -1201,9 +1222,12 @@ void evsel__config(struct evsel *evsel, struct record_opts *opts,
 	if (opts->sample_data_page_size)
 		evsel__set_sample_bit(evsel, DATA_PAGE_SIZE);
 
+<<<<<<< HEAD
 	if (opts->sample_code_page_size)
 		evsel__set_sample_bit(evsel, CODE_PAGE_SIZE);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (opts->record_switch_events)
 		attr->context_switch = track;
 
@@ -1379,7 +1403,10 @@ void evsel__exit(struct evsel *evsel)
 {
 	assert(list_empty(&evsel->core.node));
 	assert(evsel->evlist == NULL);
+<<<<<<< HEAD
 	bpf_counter__destroy(evsel);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	evsel__free_counts(evsel);
 	perf_evsel__free_fd(&evsel->core);
 	perf_evsel__free_id(&evsel->core);
@@ -1391,9 +1418,13 @@ void evsel__exit(struct evsel *evsel)
 	zfree(&evsel->group_name);
 	zfree(&evsel->name);
 	zfree(&evsel->pmu_name);
+<<<<<<< HEAD
 	evsel__zero_per_pkg(evsel);
 	hashmap__free(evsel->per_pkg_mask);
 	evsel->per_pkg_mask = NULL;
+=======
+	zfree(&evsel->per_pkg_mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zfree(&evsel->metric_events);
 	perf_evsel__object.fini(evsel);
 }
@@ -1751,10 +1782,13 @@ static int evsel__open_cpu(struct evsel *evsel, struct perf_cpu_map *cpus,
 	}
 
 fallback_missing_features:
+<<<<<<< HEAD
 	if (perf_missing_features.weight_struct) {
 		evsel__set_sample_bit(evsel, WEIGHT);
 		evsel__reset_sample_bit(evsel, WEIGHT_STRUCT);
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (perf_missing_features.clockid_wrong)
 		evsel->core.attr.clockid = CLOCK_MONOTONIC; /* should always work */
 	if (perf_missing_features.clockid) {
@@ -1801,8 +1835,11 @@ retry_open:
 
 			FD(evsel, cpu, thread) = fd;
 
+<<<<<<< HEAD
 			bpf_counter__install_pe(evsel, cpu, fd);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (unlikely(test_attr__enabled)) {
 				test_attr__open(&evsel->core.attr, pid, cpus->map[cpu],
 						fd, group_fd, flags);
@@ -1895,6 +1932,7 @@ try_fallback:
 	 * Must probe features in the order they were added to the
 	 * perf_event_attr interface.
 	 */
+<<<<<<< HEAD
 	if (!perf_missing_features.weight_struct &&
 	    (evsel->core.attr.sample_type & PERF_SAMPLE_WEIGHT_STRUCT)) {
 		perf_missing_features.weight_struct = true;
@@ -1906,6 +1944,9 @@ try_fallback:
 		pr_debug2_peo("Kernel has no PERF_SAMPLE_CODE_PAGE_SIZE support, bailing out\n");
 		goto out_close;
 	} else if (!perf_missing_features.data_page_size &&
+=======
+        if (!perf_missing_features.data_page_size &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (evsel->core.attr.sample_type & PERF_SAMPLE_DATA_PAGE_SIZE)) {
 		perf_missing_features.data_page_size = true;
 		pr_debug2_peo("Kernel has no PERF_SAMPLE_DATA_PAGE_SIZE support, bailing out\n");
@@ -2108,6 +2149,7 @@ perf_event__check_size(union perf_event *event, unsigned int sample_size)
 	return 0;
 }
 
+<<<<<<< HEAD
 void __weak arch_perf_parse_sample_weight(struct perf_sample *data,
 					  const __u64 *array,
 					  u64 type __maybe_unused)
@@ -2115,6 +2157,8 @@ void __weak arch_perf_parse_sample_weight(struct perf_sample *data,
 	data->weight = *array;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int evsel__parse_sample(struct evsel *evsel, union perf_event *event,
 			struct perf_sample *data)
 {
@@ -2355,9 +2399,15 @@ int evsel__parse_sample(struct evsel *evsel, union perf_event *event,
 		}
 	}
 
+<<<<<<< HEAD
 	if (type & PERF_SAMPLE_WEIGHT_TYPE) {
 		OVERFLOW_CHECK_u64(array);
 		arch_perf_parse_sample_weight(data, array, type);
+=======
+	if (type & PERF_SAMPLE_WEIGHT) {
+		OVERFLOW_CHECK_u64(array);
+		data->weight = *array;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		array++;
 	}
 
@@ -2408,12 +2458,15 @@ int evsel__parse_sample(struct evsel *evsel, union perf_event *event,
 		array++;
 	}
 
+<<<<<<< HEAD
 	data->code_page_size = 0;
 	if (type & PERF_SAMPLE_CODE_PAGE_SIZE) {
 		data->code_page_size = *array;
 		array++;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type & PERF_SAMPLE_AUX) {
 		OVERFLOW_CHECK_u64(array);
 		sz = *array++;
@@ -2723,8 +2776,11 @@ int evsel__open_strerror(struct evsel *evsel, struct target *target,
 	"We found oprofile daemon running, please stop it and try again.");
 		break;
 	case EINVAL:
+<<<<<<< HEAD
 		if (evsel->core.attr.sample_type & PERF_SAMPLE_CODE_PAGE_SIZE && perf_missing_features.code_page_size)
 			return scnprintf(msg, size, "Asking for the code page size isn't supported by this kernel.");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (evsel->core.attr.sample_type & PERF_SAMPLE_DATA_PAGE_SIZE && perf_missing_features.data_page_size)
 			return scnprintf(msg, size, "Asking for the data page size isn't supported by this kernel.");
 		if (evsel->core.attr.write_backward && perf_missing_features.write_backward)
@@ -2736,9 +2792,12 @@ int evsel__open_strerror(struct evsel *evsel, struct target *target,
 		if (perf_missing_features.aux_output)
 			return scnprintf(msg, size, "The 'aux_output' feature is not supported, update the kernel.");
 		break;
+<<<<<<< HEAD
 	case ENODATA:
 		return scnprintf(msg, size, "Cannot collect data source with the load latency event alone. "
 				 "Please add an auxiliary event in front of the load latency event.");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}
@@ -2784,6 +2843,7 @@ int evsel__store_ids(struct evsel *evsel, struct evlist *evlist)
 
 	return store_evsel_ids(evsel, evlist);
 }
+<<<<<<< HEAD
 
 void evsel__zero_per_pkg(struct evsel *evsel)
 {
@@ -2797,3 +2857,5 @@ void evsel__zero_per_pkg(struct evsel *evsel)
 		hashmap__clear(evsel->per_pkg_mask);
 	}
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

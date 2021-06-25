@@ -676,7 +676,11 @@ static bool intel_fbc_hw_tracking_covers_screen(struct intel_crtc *crtc)
 }
 
 static bool tiling_is_valid(struct drm_i915_private *dev_priv,
+<<<<<<< HEAD
 			    u64 modifier)
+=======
+			    uint64_t modifier)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (modifier) {
 	case DRM_FORMAT_MOD_LINEAR:
@@ -742,8 +746,11 @@ static void intel_fbc_update_state_cache(struct intel_crtc *crtc,
 		cache->fence_id = plane_state->vma->fence->id;
 	else
 		cache->fence_id = -1;
+<<<<<<< HEAD
 
 	cache->psr2_active = crtc_state->has_psr2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool intel_fbc_cfb_size_changed(struct drm_i915_private *dev_priv)
@@ -916,6 +923,7 @@ static bool intel_fbc_can_activate(struct intel_crtc *crtc)
 		return false;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Tigerlake is not supporting FBC with PSR2.
 	 * Recommendation is to keep this combination disabled
@@ -926,6 +934,8 @@ static bool intel_fbc_can_activate(struct intel_crtc *crtc)
 		return false;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 }
 
@@ -1445,6 +1455,16 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *dev_priv)
 	if (!HAS_FBC(dev_priv))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Fbc is causing random underruns in CI execution on TGL platforms.
+	 * Disabling the same while the problem is being debugged and analyzed.
+	 */
+	if (IS_TIGERLAKE(dev_priv))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_BROADWELL(dev_priv) || INTEL_GEN(dev_priv) >= 9)
 		return 1;
 

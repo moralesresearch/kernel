@@ -263,8 +263,13 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
 	struct page *page;
 	struct page_ext *page_ext;
 	struct page_owner *page_owner;
+<<<<<<< HEAD
 	unsigned long pfn, block_end_pfn;
 	unsigned long end_pfn = zone_end_pfn(zone);
+=======
+	unsigned long pfn = zone->zone_start_pfn, block_end_pfn;
+	unsigned long end_pfn = pfn + zone->spanned_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long count[MIGRATE_TYPES] = { 0, };
 	int pageblock_mt, page_mt;
 	int i;

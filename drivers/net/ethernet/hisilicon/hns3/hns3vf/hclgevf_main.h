@@ -113,7 +113,12 @@
 #define HCLGEVF_RSS_HASH_ALGO_SIMPLE	1
 #define HCLGEVF_RSS_HASH_ALGO_SYMMETRIC	2
 #define HCLGEVF_RSS_HASH_ALGO_MASK	0xf
+<<<<<<< HEAD
 
+=======
+#define HCLGEVF_RSS_CFG_TBL_NUM \
+	(HCLGEVF_RSS_IND_TBL_SIZE / HCLGEVF_RSS_CFG_TBL_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HCLGEVF_RSS_INPUT_TUPLE_OTHER	GENMASK(3, 0)
 #define HCLGEVF_RSS_INPUT_TUPLE_SCTP	GENMASK(4, 0)
 #define HCLGEVF_D_PORT_BIT		BIT(0)
@@ -124,8 +129,11 @@
 #define HCLGEVF_RSS_INPUT_TUPLE_SCTP_NO_PORT	\
 	(HCLGEVF_D_IP_BIT | HCLGEVF_S_IP_BIT | HCLGEVF_V_TAG_BIT)
 
+<<<<<<< HEAD
 #define HCLGEVF_MAC_MAX_FRAME		9728
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HCLGEVF_STATS_TIMER_INTERVAL	36U
 
 enum hclgevf_evt_cause {
@@ -218,8 +226,12 @@ struct hclgevf_rss_cfg {
 	u32 hash_algo;
 	u32 rss_size;
 	u8 hw_tc_map;
+<<<<<<< HEAD
 	/* shadow table */
 	u8 *rss_indirection_tbl;
+=======
+	u8  rss_indirection_tbl[HCLGEVF_RSS_IND_TBL_SIZE]; /* shadow table */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hclgevf_rss_tuple_cfg rss_tuple_sets;
 };
 

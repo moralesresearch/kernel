@@ -80,6 +80,7 @@ const char *const bpf_alu_string[16] = {
 	[BPF_END >> 4]  = "endian",
 };
 
+<<<<<<< HEAD
 static const char *const bpf_atomic_alu_string[16] = {
 	[BPF_ADD >> 4]  = "add",
 	[BPF_AND >> 4]  = "and",
@@ -87,6 +88,8 @@ static const char *const bpf_atomic_alu_string[16] = {
 	[BPF_XOR >> 4]  = "xor",
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *const bpf_ldst_string[] = {
 	[BPF_W >> 3]  = "u32",
 	[BPF_H >> 3]  = "u16",
@@ -160,6 +163,7 @@ void print_bpf_insn(const struct bpf_insn_cbs *cbs,
 				bpf_ldst_string[BPF_SIZE(insn->code) >> 3],
 				insn->dst_reg,
 				insn->off, insn->src_reg);
+<<<<<<< HEAD
 		else if (BPF_MODE(insn->code) == BPF_ATOMIC &&
 			 (insn->imm == BPF_ADD || insn->imm == BPF_AND ||
 			  insn->imm == BPF_OR || insn->imm == BPF_XOR)) {
@@ -198,6 +202,16 @@ void print_bpf_insn(const struct bpf_insn_cbs *cbs,
 		} else {
 			verbose(cbs->private_data, "BUG_%02x\n", insn->code);
 		}
+=======
+		else if (BPF_MODE(insn->code) == BPF_XADD)
+			verbose(cbs->private_data, "(%02x) lock *(%s *)(r%d %+d) += r%d\n",
+				insn->code,
+				bpf_ldst_string[BPF_SIZE(insn->code) >> 3],
+				insn->dst_reg, insn->off,
+				insn->src_reg);
+		else
+			verbose(cbs->private_data, "BUG_%02x\n", insn->code);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (class == BPF_ST) {
 		if (BPF_MODE(insn->code) != BPF_MEM) {
 			verbose(cbs->private_data, "BUG_st_%02x\n", insn->code);

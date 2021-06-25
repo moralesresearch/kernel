@@ -20,6 +20,11 @@
 /* below hacked up for staging integration */
 #define GPIO_VBUS 0 /* GPIO_P153 on KZM9D */
 #define INT_VBUS 0 /* IRQ for GPIO_P153 */
+<<<<<<< HEAD
+=======
+struct gpio_desc *vbus_gpio;
+int vbus_irq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*------------ Board dependence(Wait) */
 

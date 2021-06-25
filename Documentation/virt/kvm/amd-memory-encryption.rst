@@ -263,6 +263,7 @@ Returns: 0 on success, -negative on error
                 __u32 trans_len;
         };
 
+<<<<<<< HEAD
 10. KVM_SEV_GET_ATTESTATION_REPORT
 ----------------------------------
 
@@ -284,6 +285,8 @@ Returns: 0 on success, -negative on error
                 __u32 len;
         };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 References
 ==========
 

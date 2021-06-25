@@ -42,7 +42,11 @@ static void rtw_ops_wake_tx_queue(struct ieee80211_hw *hw,
 		list_add_tail(&rtwtxq->list, &rtwdev->txqs);
 	spin_unlock_bh(&rtwdev->txq_lock);
 
+<<<<<<< HEAD
 	queue_work(rtwdev->tx_wq, &rtwdev->tx_work);
+=======
+	tasklet_schedule(&rtwdev->tx_tasklet);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int rtw_ops_start(struct ieee80211_hw *hw)

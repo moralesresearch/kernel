@@ -133,7 +133,11 @@ void snd_hdac_link_free_all(struct hdac_bus *bus)
 EXPORT_SYMBOL_GPL(snd_hdac_link_free_all);
 
 /**
+<<<<<<< HEAD
  * snd_hdac_ext_bus_get_link - get link based on codec name
+=======
+ * snd_hdac_ext_bus_get_link_index - get link based on codec name
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bus: the pointer to HDAC bus object
  * @codec_name: codec name
  */
@@ -332,6 +336,7 @@ int snd_hdac_ext_bus_link_put(struct hdac_bus *bus,
 	return ret;
 }
 EXPORT_SYMBOL_GPL(snd_hdac_ext_bus_link_put);
+<<<<<<< HEAD
 
 static void hdac_ext_codec_link_up(struct hdac_device *codec)
 {
@@ -369,3 +374,5 @@ void snd_hdac_ext_bus_link_power(struct hdac_device *codec, bool enable)
 		hdac_ext_codec_link_down(codec);
 }
 EXPORT_SYMBOL_GPL(snd_hdac_ext_bus_link_power);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

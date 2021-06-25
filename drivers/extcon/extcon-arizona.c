@@ -601,7 +601,11 @@ static irqreturn_t arizona_hpdet_irq(int irq, void *data)
 	struct arizona *arizona = info->arizona;
 	int id_gpio = arizona->pdata.hpdet_id_gpio;
 	unsigned int report = EXTCON_JACK_HEADPHONE;
+<<<<<<< HEAD
 	int ret, reading, state;
+=======
+	int ret, reading;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool mic = false;
 
 	mutex_lock(&info->lock);
@@ -614,11 +618,20 @@ static irqreturn_t arizona_hpdet_irq(int irq, void *data)
 	}
 
 	/* If the cable was removed while measuring ignore the result */
+<<<<<<< HEAD
 	state = extcon_get_state(info->edev, EXTCON_MECHANICAL);
 	if (state < 0) {
 		dev_err(arizona->dev, "Failed to check cable state: %d\n", state);
 		goto out;
 	} else if (!state) {
+=======
+	ret = extcon_get_state(info->edev, EXTCON_MECHANICAL);
+	if (ret < 0) {
+		dev_err(arizona->dev, "Failed to check cable state: %d\n",
+			ret);
+		goto out;
+	} else if (!ret) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_dbg(arizona->dev, "Ignoring HPDET for removed cable\n");
 		goto done;
 	}
@@ -666,7 +679,11 @@ done:
 		gpio_set_value_cansleep(id_gpio, 0);
 
 	/* If we have a mic then reenable MICDET */
+<<<<<<< HEAD
 	if (state && (mic || info->mic))
+=======
+	if (mic || info->mic)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		arizona_start_mic(info);
 
 	if (info->hpdet_active) {
@@ -674,9 +691,13 @@ done:
 		info->hpdet_active = false;
 	}
 
+<<<<<<< HEAD
 	/* Do not set hp_det done when the cable has been unplugged */
 	if (state)
 		info->hpdet_done = true;
+=======
+	info->hpdet_done = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	mutex_unlock(&info->lock);
@@ -1760,6 +1781,28 @@ static int arizona_extcon_remove(struct platform_device *pdev)
 	bool change;
 	int ret;
 
+<<<<<<< HEAD
+=======
+	ret = regmap_update_bits_check(arizona->regmap, ARIZONA_MIC_DETECT_1,
+				       ARIZONA_MICD_ENA, 0,
+				       &change);
+	if (ret < 0) {
+		dev_err(&pdev->dev, "Failed to disable micd on remove: %d\n",
+			ret);
+	} else if (change) {
+		regulator_disable(info->micvdd);
+		pm_runtime_put(info->dev);
+	}
+
+	gpiod_put(info->micd_pol_gpio);
+
+	pm_runtime_disable(&pdev->dev);
+
+	regmap_update_bits(arizona->regmap,
+			   ARIZONA_MICD_CLAMP_CONTROL,
+			   ARIZONA_MICD_CLAMP_MODE_MASK, 0);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (info->micd_clamp) {
 		jack_irq_rise = ARIZONA_IRQ_MICD_CLAMP_RISE;
 		jack_irq_fall = ARIZONA_IRQ_MICD_CLAMP_FALL;
@@ -1775,6 +1818,7 @@ static int arizona_extcon_remove(struct platform_device *pdev)
 	arizona_free_irq(arizona, jack_irq_rise, info);
 	arizona_free_irq(arizona, jack_irq_fall, info);
 	cancel_delayed_work_sync(&info->hpdet_work);
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&info->micd_detect_work);
 	cancel_delayed_work_sync(&info->micd_timeout_work);
 
@@ -1792,14 +1836,19 @@ static int arizona_extcon_remove(struct platform_device *pdev)
 	regmap_update_bits(arizona->regmap,
 			   ARIZONA_MICD_CLAMP_CONTROL,
 			   ARIZONA_MICD_CLAMP_MODE_MASK, 0);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regmap_update_bits(arizona->regmap, ARIZONA_JACK_DETECT_ANALOGUE,
 			   ARIZONA_JD1_ENA, 0);
 	arizona_clk32k_disable(arizona);
 
+<<<<<<< HEAD
 	gpiod_put(info->micd_pol_gpio);
 
 	pm_runtime_disable(&pdev->dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

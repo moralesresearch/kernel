@@ -137,7 +137,11 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
 {
 	struct ipmb_dev *ipmb_dev = to_ipmb_dev(file);
 	u8 rq_sa, netf_rq_lun, msg_len;
+<<<<<<< HEAD
 	struct i2c_client *temp_client;
+=======
+	union i2c_smbus_data data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 msg[MAX_MSG_LEN];
 	ssize_t ret;
 
@@ -160,6 +164,7 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
 	}
 
 	/*
+<<<<<<< HEAD
 	 * subtract rq_sa and netf_rq_lun from the length of the msg. Fill the
 	 * temporary client. Note that its use is an exception for IPMI.
 	 */
@@ -175,6 +180,23 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
 	kfree(temp_client);
 
 	return ret < 0 ? ret : count;
+=======
+	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+	 * i2c_smbus_xfer
+	 */
+	msg_len = msg[IPMB_MSG_LEN_IDX] - SMBUS_MSG_HEADER_LENGTH;
+	if (msg_len > I2C_SMBUS_BLOCK_MAX)
+		msg_len = I2C_SMBUS_BLOCK_MAX;
+
+	data.block[0] = msg_len;
+	memcpy(&data.block[1], msg + SMBUS_MSG_IDX_OFFSET, msg_len);
+	ret = i2c_smbus_xfer(ipmb_dev->client->adapter, rq_sa,
+			     ipmb_dev->client->flags,
+			     I2C_SMBUS_WRITE, netf_rq_lun,
+			     I2C_SMBUS_BLOCK_DATA, &data);
+
+	return ret ? : count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __poll_t ipmb_poll(struct file *file, poll_table *wait)

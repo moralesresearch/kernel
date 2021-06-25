@@ -454,7 +454,11 @@ static int add_bo_to_vm(struct amdgpu_device *adev, struct kgd_mem *mem,
 	struct amdgpu_bo *bo = mem->bo;
 	uint64_t va = mem->va;
 	struct list_head *list_bo_va = &mem->bo_va_list;
+<<<<<<< HEAD
 	unsigned long bo_size = bo->tbo.base.size;
+=======
+	unsigned long bo_size = bo->tbo.mem.size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!va) {
 		pr_err("Invalid VA when adding BO to VM\n");
@@ -1277,7 +1281,11 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
 		struct kgd_dev *kgd, struct kgd_mem *mem, uint64_t *size)
 {
 	struct amdkfd_process_info *process_info = mem->process_info;
+<<<<<<< HEAD
 	unsigned long bo_size = mem->bo->tbo.base.size;
+=======
+	unsigned long bo_size = mem->bo->tbo.mem.size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct kfd_bo_va_list *entry, *tmp;
 	struct bo_vm_reservation_context ctx;
 	struct ttm_validate_buffer *bo_list_entry;
@@ -1398,7 +1406,11 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
 	mutex_lock(&mem->lock);
 
 	domain = mem->domain;
+<<<<<<< HEAD
 	bo_size = bo->tbo.base.size;
+=======
+	bo_size = bo->tbo.mem.size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pr_debug("Map VA 0x%llx - 0x%llx to vm %p domain %s\n",
 			mem->va,
@@ -1502,7 +1514,11 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
 	struct amdkfd_process_info *process_info =
 		((struct amdgpu_vm *)vm)->process_info;
+<<<<<<< HEAD
 	unsigned long bo_size = mem->bo->tbo.base.size;
+=======
+	unsigned long bo_size = mem->bo->tbo.mem.size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct kfd_bo_va_list *entry;
 	struct bo_vm_reservation_context ctx;
 	int ret;

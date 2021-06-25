@@ -26,11 +26,14 @@ static const char * const npc_flow_names[] = {
 	[NPC_DIP_IPV4]	= "ipv4 destination ip",
 	[NPC_SIP_IPV6]	= "ipv6 source ip",
 	[NPC_DIP_IPV6]	= "ipv6 destination ip",
+<<<<<<< HEAD
 	[NPC_IPPROTO_TCP] = "ip proto tcp",
 	[NPC_IPPROTO_UDP] = "ip proto udp",
 	[NPC_IPPROTO_SCTP] = "ip proto sctp",
 	[NPC_IPPROTO_AH] = "ip proto AH",
 	[NPC_IPPROTO_ESP] = "ip proto ESP",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[NPC_SPORT_TCP]	= "tcp source port",
 	[NPC_DPORT_TCP]	= "tcp destination port",
 	[NPC_SPORT_UDP]	= "udp source port",
@@ -217,6 +220,7 @@ static bool npc_check_overlap(struct rvu *rvu, int blkaddr,
 	return false;
 }
 
+<<<<<<< HEAD
 static bool npc_check_field(struct rvu *rvu, int blkaddr, enum key_fields type,
 			    u8 intf)
 {
@@ -224,6 +228,15 @@ static bool npc_check_field(struct rvu *rvu, int blkaddr, enum key_fields type,
 	    npc_check_overlap(rvu, blkaddr, type, 0, intf))
 		return false;
 	return true;
+=======
+static int npc_check_field(struct rvu *rvu, int blkaddr, enum key_fields type,
+			   u8 intf)
+{
+	if (!npc_is_field_present(rvu, type, intf) ||
+	    npc_check_overlap(rvu, blkaddr, type, 0, intf))
+		return -EOPNOTSUPP;
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void npc_scan_parse_result(struct npc_mcam *mcam, u8 bit_number,
@@ -274,7 +287,11 @@ static void npc_scan_parse_result(struct npc_mcam *mcam, u8 bit_number,
 		break;
 	default:
 		return;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	npc_set_kw_masks(mcam, type, nr_bits, kwi, offset, intf);
 }
 
@@ -453,13 +470,22 @@ static void npc_set_features(struct rvu *rvu, int blkaddr, u8 intf)
 	struct npc_mcam *mcam = &rvu->hw->mcam;
 	u64 *features = &mcam->rx_features;
 	u64 tcp_udp_sctp;
+<<<<<<< HEAD
 	int hdr;
+=======
+	int err, hdr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (is_npc_intf_tx(intf))
 		features = &mcam->tx_features;
 
 	for (hdr = NPC_DMAC; hdr < NPC_HEADER_FIELDS_MAX; hdr++) {
+<<<<<<< HEAD
 		if (npc_check_field(rvu, blkaddr, hdr, intf))
+=======
+		err = npc_check_field(rvu, blkaddr, hdr, intf);
+		if (!err)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*features |= BIT_ULL(hdr);
 	}
 
@@ -468,6 +494,7 @@ static void npc_set_features(struct rvu *rvu, int blkaddr, u8 intf)
 		       BIT_ULL(NPC_SPORT_SCTP) | BIT_ULL(NPC_DPORT_SCTP);
 
 	/* for tcp/udp/sctp corresponding layer type should be in the key */
+<<<<<<< HEAD
 	if (*features & tcp_udp_sctp) {
 		if (!npc_check_field(rvu, blkaddr, NPC_LD, intf))
 			*features &= ~tcp_udp_sctp;
@@ -488,6 +515,15 @@ static void npc_set_features(struct rvu *rvu, int blkaddr, u8 intf)
 	/* for vlan corresponding layer type should be in the key */
 	if (*features & BIT_ULL(NPC_OUTER_VID))
 		if (!npc_check_field(rvu, blkaddr, NPC_LB, intf))
+=======
+	if (*features & tcp_udp_sctp)
+		if (npc_check_field(rvu, blkaddr, NPC_LD, intf))
+			*features &= ~tcp_udp_sctp;
+
+	/* for vlan corresponding layer type should be in the key */
+	if (*features & BIT_ULL(NPC_OUTER_VID))
+		if (npc_check_field(rvu, blkaddr, NPC_LB, intf))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*features &= ~BIT_ULL(NPC_OUTER_VID);
 }
 
@@ -760,6 +796,7 @@ static void npc_update_flow(struct rvu *rvu, struct mcam_entry *entry,
 		return;
 
 	/* For tcp/udp/sctp LTYPE should be present in entry */
+<<<<<<< HEAD
 	if (features & BIT_ULL(NPC_IPPROTO_TCP))
 		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_TCP,
 				 0, ~0ULL, 0, intf);
@@ -767,6 +804,15 @@ static void npc_update_flow(struct rvu *rvu, struct mcam_entry *entry,
 		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_UDP,
 				 0, ~0ULL, 0, intf);
 	if (features & BIT_ULL(NPC_IPPROTO_SCTP))
+=======
+	if (features & (BIT_ULL(NPC_SPORT_TCP) | BIT_ULL(NPC_DPORT_TCP)))
+		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_TCP,
+				 0, ~0ULL, 0, intf);
+	if (features & (BIT_ULL(NPC_SPORT_UDP) | BIT_ULL(NPC_DPORT_UDP)))
+		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_UDP,
+				 0, ~0ULL, 0, intf);
+	if (features & (BIT_ULL(NPC_SPORT_SCTP) | BIT_ULL(NPC_DPORT_SCTP)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_SCTP,
 				 0, ~0ULL, 0, intf);
 
@@ -775,6 +821,7 @@ static void npc_update_flow(struct rvu *rvu, struct mcam_entry *entry,
 				 NPC_LT_LB_STAG_QINQ | NPC_LT_LB_CTAG, 0,
 				 NPC_LT_LB_STAG_QINQ & NPC_LT_LB_CTAG, 0, intf);
 
+<<<<<<< HEAD
 	/* For AH, LTYPE should be present in entry */
 	if (features & BIT_ULL(NPC_IPPROTO_AH))
 		npc_update_entry(rvu, NPC_LD, entry, NPC_LT_LD_AH,
@@ -784,6 +831,8 @@ static void npc_update_flow(struct rvu *rvu, struct mcam_entry *entry,
 		npc_update_entry(rvu, NPC_LE, entry, NPC_LT_LE_ESP,
 				 0, ~0ULL, 0, intf);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NPC_WRITE_FLOW(field, member, val_lo, val_hi, mask_lo, mask_hi)	      \
 do {									      \
 	if (features & BIT_ULL((field))) {				      \

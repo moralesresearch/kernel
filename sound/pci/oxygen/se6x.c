@@ -29,6 +29,10 @@
 MODULE_AUTHOR("Clemens Ladisch <clemens@ladisch.de>");
 MODULE_DESCRIPTION("Studio Evolution SE6X driver");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Studio Evolution,SE6X}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;

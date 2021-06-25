@@ -137,6 +137,7 @@ properties:
     maxItems: 7
     $ref: /schemas/types.yaml#/definitions/uint32-array
 
+<<<<<<< HEAD
   sink-vdos:
     description: An array of u32 with each entry, a Vendor Defined Message Object (VDO),
       providing additional information corresponding to the product, the detailed bit
@@ -149,12 +150,15 @@ properties:
     maxItems: 6
     $ref: /schemas/types.yaml#/definitions/uint32-array
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   op-sink-microwatt:
     description: Sink required operating power in microwatt, if source can't
       offer the power, Capability Mismatch is set. Required for power sink and
       power dual role.
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
     description: OF graph bindings modeling any data bus to the connector
       unless the bus is between parent node and the connector. Since a single
@@ -172,6 +176,24 @@ properties:
 
       port@2:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    description: OF graph bindings (specified in bindings/graph.txt) that model
+      any data bus to the connector unless the bus is between parent node and
+      the connector. Since a single connector can have multiple data buses every
+      bus has an assigned OF graph port number as described below.
+    type: object
+    properties:
+      port@0:
+        type: object
+        description: High Speed (HS), present in all connectors.
+
+      port@1:
+        type: object
+        description: Super Speed (SS), present in SS capable connectors.
+
+      port@2:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: Sideband Use (SBU), present in USB-C. This describes the
           alternate mode connection of which SBU is a part.
 

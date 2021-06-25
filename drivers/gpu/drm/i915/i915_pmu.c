@@ -26,6 +26,11 @@
 	 BIT(I915_SAMPLE_WAIT) | \
 	 BIT(I915_SAMPLE_SEMA))
 
+<<<<<<< HEAD
+=======
+#define ENGINE_SAMPLE_BITS (1 << I915_PMU_SAMPLE_BITS)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static cpumask_t i915_pmu_cpumask;
 static unsigned int i915_pmu_target_cpu = -1;
 
@@ -54,6 +59,7 @@ static bool is_engine_config(u64 config)
 	return config < __I915_PMU_OTHER(0);
 }
 
+<<<<<<< HEAD
 static unsigned int other_bit(const u64 config)
 {
 	unsigned int val;
@@ -80,16 +86,28 @@ static unsigned int other_bit(const u64 config)
 }
 
 static unsigned int config_bit(const u64 config)
+=======
+static unsigned int config_enabled_bit(u64 config)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (is_engine_config(config))
 		return engine_config_sample(config);
 	else
+<<<<<<< HEAD
 		return other_bit(config);
 }
 
 static u64 config_mask(u64 config)
 {
 	return BIT_ULL(config_bit(config));
+=======
+		return ENGINE_SAMPLE_BITS + (config - __I915_PMU_OTHER(0));
+}
+
+static u64 config_enabled_mask(u64 config)
+{
+	return BIT_ULL(config_enabled_bit(config));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool is_engine_event(struct perf_event *event)
@@ -97,15 +115,25 @@ static bool is_engine_event(struct perf_event *event)
 	return is_engine_config(event->attr.config);
 }
 
+<<<<<<< HEAD
 static unsigned int event_bit(struct perf_event *event)
 {
 	return config_bit(event->attr.config);
+=======
+static unsigned int event_enabled_bit(struct perf_event *event)
+{
+	return config_enabled_bit(event->attr.config);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
 {
 	struct drm_i915_private *i915 = container_of(pmu, typeof(*i915), pmu);
+<<<<<<< HEAD
 	u32 enable;
+=======
+	u64 enable;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Only some counters need the sampling timer.
@@ -118,8 +146,13 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
 	 * Mask out all the ones which do not need the timer, or in
 	 * other words keep all the ones that could need the timer.
 	 */
+<<<<<<< HEAD
 	enable &= config_mask(I915_PMU_ACTUAL_FREQUENCY) |
 		  config_mask(I915_PMU_REQUESTED_FREQUENCY) |
+=======
+	enable &= config_enabled_mask(I915_PMU_ACTUAL_FREQUENCY) |
+		  config_enabled_mask(I915_PMU_REQUESTED_FREQUENCY) |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  ENGINE_SAMPLE_MASK;
 
 	/*
@@ -160,9 +193,17 @@ static u64 __get_rc6(struct intel_gt *gt)
 	return val;
 }
 
+<<<<<<< HEAD
 static inline s64 ktime_since_raw(const ktime_t kt)
 {
 	return ktime_to_ns(ktime_sub(ktime_get_raw(), kt));
+=======
+#if IS_ENABLED(CONFIG_PM)
+
+static inline s64 ktime_since(const ktime_t kt)
+{
+	return ktime_to_ns(ktime_sub(ktime_get(), kt));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u64 get_rc6(struct intel_gt *gt)
@@ -191,7 +232,11 @@ static u64 get_rc6(struct intel_gt *gt)
 		 * on top of the last known real value, as the approximated RC6
 		 * counter value.
 		 */
+<<<<<<< HEAD
 		val = ktime_since_raw(pmu->sleep_last);
+=======
+		val = ktime_since(pmu->sleep_last);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		val += pmu->sample[__I915_SAMPLE_RC6].cur;
 	}
 
@@ -214,7 +259,11 @@ static void init_rc6(struct i915_pmu *pmu)
 		pmu->sample[__I915_SAMPLE_RC6].cur = __get_rc6(&i915->gt);
 		pmu->sample[__I915_SAMPLE_RC6_LAST_REPORTED].cur =
 					pmu->sample[__I915_SAMPLE_RC6].cur;
+<<<<<<< HEAD
 		pmu->sleep_last = ktime_get_raw();
+=======
+		pmu->sleep_last = ktime_get();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -223,9 +272,27 @@ static void park_rc6(struct drm_i915_private *i915)
 	struct i915_pmu *pmu = &i915->pmu;
 
 	pmu->sample[__I915_SAMPLE_RC6].cur = __get_rc6(&i915->gt);
+<<<<<<< HEAD
 	pmu->sleep_last = ktime_get_raw();
 }
 
+=======
+	pmu->sleep_last = ktime_get();
+}
+
+#else
+
+static u64 get_rc6(struct intel_gt *gt)
+{
+	return __get_rc6(gt);
+}
+
+static void init_rc6(struct i915_pmu *pmu) { }
+static void park_rc6(struct drm_i915_private *i915) {}
+
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __i915_pmu_maybe_start_timer(struct i915_pmu *pmu)
 {
 	if (!pmu->timer_enabled && pmu_needs_timer(pmu, true)) {
@@ -364,8 +431,13 @@ add_sample_mult(struct i915_pmu_sample *sample, u32 val, u32 mul)
 static bool frequency_sampling_enabled(struct i915_pmu *pmu)
 {
 	return pmu->enable &
+<<<<<<< HEAD
 	       (config_mask(I915_PMU_ACTUAL_FREQUENCY) |
 		config_mask(I915_PMU_REQUESTED_FREQUENCY));
+=======
+	       (config_enabled_mask(I915_PMU_ACTUAL_FREQUENCY) |
+		config_enabled_mask(I915_PMU_REQUESTED_FREQUENCY));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void
@@ -383,7 +455,11 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
 	if (!intel_gt_pm_get_if_awake(gt))
 		return;
 
+<<<<<<< HEAD
 	if (pmu->enable & config_mask(I915_PMU_ACTUAL_FREQUENCY)) {
+=======
+	if (pmu->enable & config_enabled_mask(I915_PMU_ACTUAL_FREQUENCY)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u32 val;
 
 		/*
@@ -405,7 +481,11 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
 				intel_gpu_freq(rps, val), period_ns / 1000);
 	}
 
+<<<<<<< HEAD
 	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
+=======
+	if (pmu->enable & config_enabled_mask(I915_PMU_REQUESTED_FREQUENCY)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_REQ],
 				intel_gpu_freq(rps, rps->cur_freq),
 				period_ns / 1000);
@@ -492,8 +572,11 @@ config_status(struct drm_i915_private *i915, u64 config)
 		if (!HAS_RC6(i915))
 			return -ENODEV;
 		break;
+<<<<<<< HEAD
 	case I915_PMU_SOFTWARE_GT_AWAKE_TIME:
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -ENOENT;
 	}
@@ -601,9 +684,12 @@ static u64 __i915_pmu_event_read(struct perf_event *event)
 		case I915_PMU_RC6_RESIDENCY:
 			val = get_rc6(&i915->gt);
 			break;
+<<<<<<< HEAD
 		case I915_PMU_SOFTWARE_GT_AWAKE_TIME:
 			val = ktime_to_ns(intel_gt_get_awake_time(&i915->gt));
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -636,6 +722,7 @@ static void i915_pmu_enable(struct perf_event *event)
 {
 	struct drm_i915_private *i915 =
 		container_of(event->pmu, typeof(*i915), pmu.base);
+<<<<<<< HEAD
 	struct i915_pmu *pmu = &i915->pmu;
 	unsigned long flags;
 	unsigned int bit;
@@ -643,6 +730,11 @@ static void i915_pmu_enable(struct perf_event *event)
 	bit = event_bit(event);
 	if (bit == -1)
 		goto update;
+=======
+	unsigned int bit = event_enabled_bit(event);
+	struct i915_pmu *pmu = &i915->pmu;
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irqsave(&pmu->lock, flags);
 
@@ -688,7 +780,10 @@ static void i915_pmu_enable(struct perf_event *event)
 
 	spin_unlock_irqrestore(&pmu->lock, flags);
 
+<<<<<<< HEAD
 update:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Store the current counter value so we can report the correct delta
 	 * for all listeners. Even when the event was already enabled and has
@@ -701,6 +796,7 @@ static void i915_pmu_disable(struct perf_event *event)
 {
 	struct drm_i915_private *i915 =
 		container_of(event->pmu, typeof(*i915), pmu.base);
+<<<<<<< HEAD
 	unsigned int bit = event_bit(event);
 	struct i915_pmu *pmu = &i915->pmu;
 	unsigned long flags;
@@ -708,6 +804,12 @@ static void i915_pmu_disable(struct perf_event *event)
 	if (bit == -1)
 		return;
 
+=======
+	unsigned int bit = event_enabled_bit(event);
+	struct i915_pmu *pmu = &i915->pmu;
+	unsigned long flags;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&pmu->lock, flags);
 
 	if (is_engine_event(event)) {
@@ -904,7 +1006,10 @@ create_event_attributes(struct i915_pmu *pmu)
 		__event(I915_PMU_REQUESTED_FREQUENCY, "requested-frequency", "M"),
 		__event(I915_PMU_INTERRUPTS, "interrupts", NULL),
 		__event(I915_PMU_RC6_RESIDENCY, "rc6-residency", "ns"),
+<<<<<<< HEAD
 		__event(I915_PMU_SOFTWARE_GT_AWAKE_TIME, "software-gt-awake-time", "ns"),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	static const struct {
 		enum drm_i915_pmu_engine_sample sample;

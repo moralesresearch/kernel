@@ -229,6 +229,7 @@ struct detailed_timing {
 				    DRM_EDID_YCBCR420_DC_36 | \
 				    DRM_EDID_YCBCR420_DC_30)
 
+<<<<<<< HEAD
 /* HDMI 2.1 additional fields */
 #define DRM_EDID_MAX_FRL_RATE_MASK		0xf0
 #define DRM_EDID_FAPA_START_LOCATION		(1 << 0)
@@ -259,6 +260,8 @@ struct detailed_timing {
 #define DRM_EDID_DSC_MAX_SLICES			0xf
 #define DRM_EDID_DSC_TOTAL_CHUNK_KBYTES		0x3f
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ELD Header Block */
 #define DRM_ELD_HEADER_BLOCK_SIZE	4
 

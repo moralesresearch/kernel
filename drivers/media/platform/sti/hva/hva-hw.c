@@ -447,7 +447,10 @@ int hva_hw_runtime_resume(struct device *dev)
 	if (clk_set_rate(hva->clk, CLK_RATE)) {
 		dev_err(dev, "%s     failed to set clock frequency\n",
 			HVA_PREFIX);
+<<<<<<< HEAD
 		clk_disable_unprepare(hva->clk);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 

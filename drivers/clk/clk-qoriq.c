@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright 2013 Freescale Semiconductor, Inc.
+<<<<<<< HEAD
  * Copyright 2021 NXP
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * clock driver for Freescale QorIQ SoCs.
  */
@@ -565,9 +568,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 1, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) | BIT(CGA_PLL3) |
 			    BIT(CGB_PLL1) | BIT(CGB_PLL2),
+=======
+		.pll_mask = 0x3f,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -583,9 +590,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 1, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) | BIT(CGA_PLL3) |
 			    BIT(CGB_PLL1) | BIT(CGB_PLL2),
+=======
+		.pll_mask = 0x3f,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -596,8 +607,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x03,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,ls1028a-clockgen",
@@ -611,8 +626,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 0, 0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_VER3 | CG_LITTLE_ENDIAN,
 	},
 	{
@@ -627,8 +646,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -643,8 +666,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -658,8 +685,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_VER3 | CG_LITTLE_ENDIAN,
 	},
 	{
@@ -670,7 +701,11 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) | BIT(CGA_PLL1),
+=======
+		.pll_mask = 0x03,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,ls2080a-clockgen",
@@ -680,9 +715,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) |
 			    BIT(CGB_PLL1) | BIT(CGB_PLL2),
+=======
+		.pll_mask = 0x37,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_VER3 | CG_LITTLE_ENDIAN,
 	},
 	{
@@ -693,9 +732,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 0, 0, 1, 1, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) |
 			    BIT(CGB_PLL1) | BIT(CGB_PLL2),
+=======
+		.pll_mask = 0x37,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_VER3 | CG_LITTLE_ENDIAN,
 	},
 	{
@@ -708,8 +751,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,p3041-clockgen",
@@ -721,8 +768,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,p4080-clockgen",
@@ -734,9 +785,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 0, 0, 1, 1, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) |
 			    BIT(CGA_PLL3) | BIT(CGA_PLL4),
+=======
+		.pll_mask = 0x1f,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,p5020-clockgen",
@@ -748,8 +803,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,p5040-clockgen",
@@ -761,8 +820,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 1, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) | BIT(CGA_PLL3),
+=======
+		.pll_mask = 0x0f,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compat = "fsl,t1023-clockgen",
@@ -777,7 +840,11 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) | BIT(CGA_PLL1),
+=======
+		.pll_mask = 0x03,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -790,8 +857,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 0, 0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -807,8 +878,12 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2),
+=======
+		.pll_mask = 0x07,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{
@@ -824,9 +899,13 @@ static const struct clockgen_chipinfo chipinfo[] = {
 		.cmux_to_group = {
 			0, 0, 1, -1
 		},
+<<<<<<< HEAD
 		.pll_mask = BIT(PLATFORM_PLL) |
 			    BIT(CGA_PLL1) | BIT(CGA_PLL2) | BIT(CGA_PLL3) |
 			    BIT(CGB_PLL1) | BIT(CGB_PLL2),
+=======
+		.pll_mask = 0x3f,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.flags = CG_PLL_8BIT,
 	},
 	{},

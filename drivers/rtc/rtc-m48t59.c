@@ -313,6 +313,14 @@ static const struct rtc_class_ops m48t59_rtc_ops = {
 	.alarm_irq_enable = m48t59_rtc_alarm_irq_enable,
 };
 
+<<<<<<< HEAD
+=======
+static const struct rtc_class_ops m48t02_rtc_ops = {
+	.read_time	= m48t59_rtc_read_time,
+	.set_time	= m48t59_rtc_set_time,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int m48t59_nvram_read(void *priv, unsigned int offset, void *val,
 			     size_t size)
 {
@@ -361,6 +369,10 @@ static int m48t59_rtc_probe(struct platform_device *pdev)
 	struct m48t59_private *m48t59 = NULL;
 	struct resource *res;
 	int ret = -ENOMEM;
+<<<<<<< HEAD
+=======
+	const struct rtc_class_ops *ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvmem_config nvmem_cfg = {
 		.name = "m48t59-",
 		.word_size = 1,
@@ -432,6 +444,7 @@ static int m48t59_rtc_probe(struct platform_device *pdev)
 		if (ret)
 			return ret;
 	}
+<<<<<<< HEAD
 
 	m48t59->rtc = devm_rtc_allocate_device(&pdev->dev);
 	if (IS_ERR(m48t59->rtc))
@@ -447,6 +460,19 @@ static int m48t59_rtc_probe(struct platform_device *pdev)
 		break;
 	case M48T59RTC_TYPE_M48T08:
 		clear_bit(RTC_FEATURE_ALARM, m48t59->rtc->features);
+=======
+	switch (pdata->type) {
+	case M48T59RTC_TYPE_M48T59:
+		ops = &m48t59_rtc_ops;
+		pdata->offset = 0x1ff0;
+		break;
+	case M48T59RTC_TYPE_M48T02:
+		ops = &m48t02_rtc_ops;
+		pdata->offset = 0x7f0;
+		break;
+	case M48T59RTC_TYPE_M48T08:
+		ops = &m48t02_rtc_ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pdata->offset = 0x1ff0;
 		break;
 	default:
@@ -457,7 +483,15 @@ static int m48t59_rtc_probe(struct platform_device *pdev)
 	spin_lock_init(&m48t59->lock);
 	platform_set_drvdata(pdev, m48t59);
 
+<<<<<<< HEAD
 	m48t59->rtc->ops = &m48t59_rtc_ops;
+=======
+	m48t59->rtc = devm_rtc_allocate_device(&pdev->dev);
+	if (IS_ERR(m48t59->rtc))
+		return PTR_ERR(m48t59->rtc);
+
+	m48t59->rtc->ops = ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nvmem_cfg.size = pdata->offset;
 	ret = devm_rtc_nvmem_register(m48t59->rtc, &nvmem_cfg);

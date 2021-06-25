@@ -140,10 +140,17 @@ int usb_wwan_get_serial_info(struct tty_struct *tty,
 	ss->line            = port->minor;
 	ss->port            = port->port_number;
 	ss->baud_base       = tty_get_baud_rate(port->port.tty);
+<<<<<<< HEAD
 	ss->close_delay	    = jiffies_to_msecs(port->port.close_delay) / 10;
 	ss->closing_wait    = port->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
 				 ASYNC_CLOSING_WAIT_NONE :
 				 jiffies_to_msecs(port->port.closing_wait) / 10;
+=======
+	ss->close_delay	    = port->port.close_delay / 10;
+	ss->closing_wait    = port->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+				 ASYNC_CLOSING_WAIT_NONE :
+				 port->port.closing_wait / 10;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(usb_wwan_get_serial_info);
@@ -155,10 +162,16 @@ int usb_wwan_set_serial_info(struct tty_struct *tty,
 	unsigned int closing_wait, close_delay;
 	int retval = 0;
 
+<<<<<<< HEAD
 	close_delay = msecs_to_jiffies(ss->close_delay * 10);
 	closing_wait = ss->closing_wait == ASYNC_CLOSING_WAIT_NONE ?
 			ASYNC_CLOSING_WAIT_NONE :
 			msecs_to_jiffies(ss->closing_wait * 10);
+=======
+	close_delay = ss->close_delay * 10;
+	closing_wait = ss->closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+			ASYNC_CLOSING_WAIT_NONE : ss->closing_wait * 10;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&port->port.mutex);
 
@@ -545,7 +558,11 @@ bail_out_error:
 }
 EXPORT_SYMBOL_GPL(usb_wwan_port_probe);
 
+<<<<<<< HEAD
 void usb_wwan_port_remove(struct usb_serial_port *port)
+=======
+int usb_wwan_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	struct usb_wwan_port_private *portdata;
@@ -563,6 +580,11 @@ void usb_wwan_port_remove(struct usb_serial_port *port)
 	}
 
 	kfree(portdata);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(usb_wwan_port_remove);
 

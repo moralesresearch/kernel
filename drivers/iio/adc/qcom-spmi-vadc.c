@@ -7,7 +7,14 @@
 #include <linux/completion.h>
 #include <linux/delay.h>
 #include <linux/err.h>
+<<<<<<< HEAD
 #include <linux/iio/adc/qcom-vadc-common.h>
+=======
+<<<<<<< HEAD
+#include <linux/iio/adc/qcom-vadc-common.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/iio/iio.h>
 #include <linux/interrupt.h>
 #include <linux/kernel.h>
@@ -21,6 +28,14 @@
 
 #include <dt-bindings/iio/qcom,spmi-vadc.h>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include "qcom-vadc-common.h"
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* VADC register and bit definitions */
 #define VADC_REVISION2				0x1
 #define VADC_REVISION2_SUPPORTED_VADC		1

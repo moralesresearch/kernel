@@ -912,7 +912,10 @@ static int pmic_mpp_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id pmic_mpp_of_match[] = {
+<<<<<<< HEAD
 	{ .compatible = "qcom,pm8019-mpp" },	/* 6 MPP's */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "qcom,pm8841-mpp" },	/* 4 MPP's */
 	{ .compatible = "qcom,pm8916-mpp" },	/* 4 MPP's */
 	{ .compatible = "qcom,pm8941-mpp" },	/* 8 MPP's */

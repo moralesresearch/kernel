@@ -69,10 +69,18 @@ out_clk:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void nmk_rng_remove(struct amba_device *dev)
 {
 	amba_release_regions(dev);
 	clk_disable(rng_clk);
+=======
+static int nmk_rng_remove(struct amba_device *dev)
+{
+	amba_release_regions(dev);
+	clk_disable(rng_clk);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id nmk_rng_ids[] = {

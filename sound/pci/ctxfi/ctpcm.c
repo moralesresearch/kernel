@@ -433,7 +433,11 @@ int ct_alsa_pcm_create(struct ct_atc *atc,
 	pcm->private_data = atc;
 	pcm->info_flags = 0;
 	pcm->dev_subclass = SNDRV_PCM_SUBCLASS_GENERIC_MIX;
+<<<<<<< HEAD
 	strscpy(pcm->name, device_name, sizeof(pcm->name));
+=======
+	strlcpy(pcm->name, device_name, sizeof(pcm->name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &ct_pcm_playback_ops);
 

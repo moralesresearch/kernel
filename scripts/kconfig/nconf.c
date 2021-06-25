@@ -504,8 +504,13 @@ static int get_mext_match(const char *match_str, match_f flag)
 	else if (flag == FIND_NEXT_MATCH_UP)
 		--match_start;
 
+<<<<<<< HEAD
 	match_start = (match_start + items_num) % items_num;
 	index = match_start;
+=======
+	index = match_start;
+	index = (index + items_num) % items_num;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (true) {
 		char *str = k_menu_items[index].str;
 		if (strcasestr(str, match_str) != NULL)

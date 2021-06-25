@@ -278,7 +278,11 @@ nv50_disp_chan_child_get(struct nvkm_object *object, int index,
 	const struct nvkm_device_oclass *oclass = NULL;
 
 	if (chan->func->bind)
+<<<<<<< HEAD
 		sclass->engine = nvkm_device_engine(device, NVKM_ENGINE_DMAOBJ, 0);
+=======
+		sclass->engine = nvkm_device_engine(device, NVKM_ENGINE_DMAOBJ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		sclass->engine = NULL;
 

@@ -50,9 +50,17 @@ properties:
       Definition of the regulator used as digital power supply.
 
   port:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
     description:
       A node containing an output port node.
+=======
+    type: object
+    description:
+      A node containing an output port node with an endpoint definition
+      as documented in
+      Documentation/devicetree/bindings/media/video-interfaces.txt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible

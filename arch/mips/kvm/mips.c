@@ -148,7 +148,15 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
 	default:
 		/* Unsupported KVM type */
 		return -EINVAL;
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Allocate page table to map GPA -> RPA */
 	kvm->arch.gpa_mm.pgd = kvm_pgd_alloc();

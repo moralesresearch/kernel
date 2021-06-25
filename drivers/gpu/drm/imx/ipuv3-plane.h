@@ -41,6 +41,12 @@ int ipu_plane_mode_set(struct ipu_plane *plane, struct drm_crtc *crtc,
 		       uint32_t src_x, uint32_t src_y, uint32_t src_w,
 		       uint32_t src_h, bool interlaced);
 
+<<<<<<< HEAD
+=======
+int ipu_plane_get_resources(struct ipu_plane *plane);
+void ipu_plane_put_resources(struct ipu_plane *plane);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ipu_plane_irq(struct ipu_plane *plane);
 
 void ipu_plane_disable(struct ipu_plane *ipu_plane, bool disable_dp_channel);

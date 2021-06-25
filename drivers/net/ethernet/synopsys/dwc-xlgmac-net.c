@@ -654,7 +654,11 @@ static int xlgmac_open(struct net_device *netdev)
 	pdata->rx_buf_size = ret;
 
 	/* Allocate the channels and rings */
+<<<<<<< HEAD
 	ret = desc_ops->alloc_channels_and_rings(pdata);
+=======
+	ret = desc_ops->alloc_channles_and_rings(pdata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 

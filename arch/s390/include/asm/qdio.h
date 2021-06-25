@@ -246,8 +246,39 @@ struct slsb {
 	u8 val[QDIO_MAX_BUFFERS_PER_Q];
 } __attribute__ ((packed, aligned(256)));
 
+<<<<<<< HEAD
 /* qdio adapter-characteristics-1 flag */
 #define CHSC_AC1_INITIATE_INPUTQ	0x80
+=======
+/**
+ * struct qdio_outbuf_state - SBAL related asynchronous operation information
+ *   (for communication with upper layer programs)
+ *   (only required for use with completion queues)
+<<<<<<< HEAD
+=======
+ * @flags: flags indicating state of buffer
+>>>>>>> stable
+ * @user: pointer to upper layer program's state information related to SBAL
+ *        (stored in user1 data of QAOB)
+ */
+struct qdio_outbuf_state {
+<<<<<<< HEAD
+	void *user;
+};
+
+=======
+	u8 flags;
+	void *user;
+};
+
+#define QDIO_OUTBUF_STATE_FLAG_PENDING	0x01
+
+>>>>>>> stable
+#define CHSC_AC1_INITIATE_INPUTQ	0x80
+
+
+/* qdio adapter-characteristics-1 flag */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define AC1_SIGA_INPUT_NEEDED		0x40	/* process input queues */
 #define AC1_SIGA_OUTPUT_NEEDED		0x20	/* process output queues */
 #define AC1_SIGA_SYNC_NEEDED		0x10	/* ask hypervisor to sync */
@@ -298,7 +329,14 @@ typedef void qdio_handler_t(struct ccw_device *, unsigned int, int,
 #define QDIO_ERROR_GET_BUF_STATE		0x0002
 #define QDIO_ERROR_SET_BUF_STATE		0x0004
 #define QDIO_ERROR_SLSB_STATE			0x0100
+<<<<<<< HEAD
 #define QDIO_ERROR_SLSB_PENDING			0x0200
+=======
+<<<<<<< HEAD
+#define QDIO_ERROR_SLSB_PENDING			0x0200
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define QDIO_ERROR_FATAL			0x00ff
 #define QDIO_ERROR_TEMPORARY			0xff00
@@ -320,11 +358,23 @@ typedef void qdio_handler_t(struct ccw_device *, unsigned int, int,
  * @no_output_qs: number of output queues
  * @input_handler: handler to be called for input queues
  * @output_handler: handler to be called for output queues
+<<<<<<< HEAD
  * @irq_poll: Data IRQ polling handler
+=======
+<<<<<<< HEAD
+ * @irq_poll: Data IRQ polling handler
+=======
+ * @irq_poll: Data IRQ polling handler (NULL when not supported)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @scan_threshold: # of in-use buffers that triggers scan on output queue
  * @int_parm: interruption parameter
  * @input_sbal_addr_array:  per-queue array, each element points to 128 SBALs
  * @output_sbal_addr_array: per-queue array, each element points to 128 SBALs
+<<<<<<< HEAD
+=======
+ * @output_sbal_state_array: no_output_qs * 128 state info (for CQ or NULL)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct qdio_initialize {
 	unsigned char q_format;
@@ -343,6 +393,10 @@ struct qdio_initialize {
 	unsigned long int_parm;
 	struct qdio_buffer ***input_sbal_addr_array;
 	struct qdio_buffer ***output_sbal_addr_array;
+<<<<<<< HEAD
+=======
+	struct qdio_outbuf_state *output_sbal_state_array;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define QDIO_STATE_INACTIVE		0x00000002 /* after qdio_cleanup */
@@ -363,10 +417,16 @@ extern int qdio_allocate(struct ccw_device *cdev, unsigned int no_input_qs,
 extern int qdio_establish(struct ccw_device *cdev,
 			  struct qdio_initialize *init_data);
 extern int qdio_activate(struct ccw_device *);
+<<<<<<< HEAD
 extern struct qaob *qdio_allocate_aob(void);
 extern void qdio_release_aob(struct qaob *);
 extern int do_QDIO(struct ccw_device *cdev, unsigned int callflags, int q_nr,
 		   unsigned int bufnr, unsigned int count, struct qaob *aob);
+=======
+extern void qdio_release_aob(struct qaob *);
+extern int do_QDIO(struct ccw_device *, unsigned int, int, unsigned int,
+		   unsigned int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int qdio_start_irq(struct ccw_device *cdev);
 extern int qdio_stop_irq(struct ccw_device *cdev);
 extern int qdio_get_next_buffers(struct ccw_device *, int, int *, int *);

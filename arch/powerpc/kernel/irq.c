@@ -54,7 +54,14 @@
 #include <linux/pgtable.h>
 
 #include <linux/uaccess.h>
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+<<<<<<< HEAD
+#include <asm/interrupt.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/cache.h>
@@ -66,7 +73,14 @@
 #include <asm/livepatch.h>
 #include <asm/asm-prototypes.h>
 #include <asm/hw_irq.h>
+<<<<<<< HEAD
 #include <asm/softirq_stack.h>
+=======
+<<<<<<< HEAD
+#include <asm/softirq_stack.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_PPC64
 #include <asm/paca.h>
@@ -671,6 +685,14 @@ void __do_irq(struct pt_regs *regs)
 {
 	unsigned int irq;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	irq_enter();
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trace_irq_entry(regs);
 
 	/*
@@ -690,9 +712,23 @@ void __do_irq(struct pt_regs *regs)
 		generic_handle_irq(irq);
 
 	trace_irq_exit(regs);
+<<<<<<< HEAD
 }
 
 DEFINE_INTERRUPT_HANDLER_ASYNC(do_IRQ)
+=======
+<<<<<<< HEAD
+}
+
+DEFINE_INTERRUPT_HANDLER_ASYNC(do_IRQ)
+=======
+
+	irq_exit();
+}
+
+void do_IRQ(struct pt_regs *regs)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pt_regs *old_regs = set_irq_regs(regs);
 	void *cursp, *irqsp, *sirqsp;

@@ -319,10 +319,15 @@ static void brcmf_fw_strip_multi_v2(struct nvram_parser *nvp, u16 domain_nr,
 	u8 *nvram;
 
 	nvram = kzalloc(nvp->nvram_len + 1 + 3 + sizeof(u32), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!nvram) {
 		nvp->nvram_len = 0;
 		return;
 	}
+=======
+	if (!nvram)
+		goto fail;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Copy all valid entries, release old nvram and assign new one.
 	 * Valid entries are of type pcie/X/Y/ where X = domain_nr and
@@ -352,6 +357,13 @@ static void brcmf_fw_strip_multi_v2(struct nvram_parser *nvp, u16 domain_nr,
 	kfree(nvp->nvram);
 	nvp->nvram = nvram;
 	nvp->nvram_len = j;
+<<<<<<< HEAD
+=======
+	return;
+fail:
+	kfree(nvram);
+	nvp->nvram_len = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void brcmf_fw_add_defaults(struct nvram_parser *nvp)

@@ -217,7 +217,11 @@ void __init pseries_add_gpage(u64 addr, u64 page_size, unsigned long number_of_p
 	}
 }
 
+<<<<<<< HEAD
 static int __init pseries_alloc_bootmem_huge_page(struct hstate *hstate)
+=======
+int __init pseries_alloc_bootmem_huge_page(struct hstate *hstate)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct huge_bootmem_page *m;
 	if (nr_gpages == 0)
@@ -663,6 +667,27 @@ static int __init hugetlbpage_init(void)
 
 arch_initcall(hugetlbpage_init);
 
+<<<<<<< HEAD
+=======
+void flush_dcache_icache_hugepage(struct page *page)
+{
+	int i;
+	void *start;
+
+	BUG_ON(!PageCompound(page));
+
+	for (i = 0; i < compound_nr(page); i++) {
+		if (!PageHighMem(page)) {
+			__flush_dcache_icache(page_address(page+i));
+		} else {
+			start = kmap_atomic(page+i);
+			__flush_dcache_icache(start);
+			kunmap_atomic(start);
+		}
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init gigantic_hugetlb_cma_reserve(void)
 {
 	unsigned long order = 0;

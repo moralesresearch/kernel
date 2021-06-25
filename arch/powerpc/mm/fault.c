@@ -34,7 +34,10 @@
 #include <linux/uaccess.h>
 
 #include <asm/firmware.h>
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/page.h>
 #include <asm/mmu.h>
 #include <asm/mmu_context.h>
@@ -378,16 +381,30 @@ static void sanity_check_fault(bool is_write, bool is_user,
 
 /*
  * For 600- and 800-family processors, the error_code parameter is DSISR
+<<<<<<< HEAD
  * for a data fault, SRR1 for an instruction fault.
  * For 400-family processors the error_code parameter is ESR for a data fault,
  * 0 for an instruction fault.
  * For 64-bit processors, the error_code parameter is DSISR for a data access
  * fault, SRR1 & 0x08000000 for an instruction access fault.
+=======
+ * for a data fault, SRR1 for an instruction fault. For 400-family processors
+ * the error_code parameter is ESR for a data fault, 0 for an instruction
+ * fault.
+ * For 64-bit processors, the error_code parameter is
+ *  - DSISR for a non-SLB data access fault,
+ *  - SRR1 & 0x08000000 for a non-SLB instruction access fault
+ *  - 0 any SLB fault.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The return value is 0 if the fault was handled, or the signal
  * number if this is a kernel fault that can't be handled here.
  */
+<<<<<<< HEAD
 static int ___do_page_fault(struct pt_regs *regs, unsigned long address,
+=======
+static int __do_page_fault(struct pt_regs *regs, unsigned long address,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   unsigned long error_code)
 {
 	struct vm_area_struct * vma;
@@ -434,7 +451,13 @@ static int ___do_page_fault(struct pt_regs *regs, unsigned long address,
 		return bad_area_nosemaphore(regs, address);
 	}
 
+<<<<<<< HEAD
 	interrupt_cond_local_irq_enable(regs);
+=======
+	/* We restore the interrupt state now */
+	if (!arch_irq_disabled_regs(regs))
+		local_irq_enable();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 
@@ -537,6 +560,7 @@ retry:
 
 	return 0;
 }
+<<<<<<< HEAD
 NOKPROBE_SYMBOL(___do_page_fault);
 
 static long __do_page_fault(struct pt_regs *regs)
@@ -575,13 +599,40 @@ long hash__do_page_fault(struct pt_regs *regs)
 }
 NOKPROBE_SYMBOL(hash__do_page_fault);
 #endif
+=======
+NOKPROBE_SYMBOL(__do_page_fault);
+
+int do_page_fault(struct pt_regs *regs, unsigned long address,
+		  unsigned long error_code)
+{
+	const struct exception_table_entry *entry;
+	enum ctx_state prev_state = exception_enter();
+	int rc = __do_page_fault(regs, address, error_code);
+	exception_exit(prev_state);
+	if (likely(!rc))
+		return 0;
+
+	entry = search_exception_tables(regs->nip);
+	if (unlikely(!entry))
+		return rc;
+
+	instruction_pointer_set(regs, extable_fixup(entry));
+
+	return 0;
+}
+NOKPROBE_SYMBOL(do_page_fault);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * bad_page_fault is called when we have a bad access from the kernel.
  * It is called from the DSI and ISI handlers in head.S and from some
  * of the procedures in traps.c.
  */
+<<<<<<< HEAD
 void __bad_page_fault(struct pt_regs *regs, int sig)
+=======
+void __bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int is_write = page_fault_is_write(regs->dsisr);
 
@@ -619,7 +670,11 @@ void __bad_page_fault(struct pt_regs *regs, int sig)
 	die("Kernel access of bad area", regs, sig);
 }
 
+<<<<<<< HEAD
 void bad_page_fault(struct pt_regs *regs, int sig)
+=======
+void bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct exception_table_entry *entry;
 
@@ -628,6 +683,7 @@ void bad_page_fault(struct pt_regs *regs, int sig)
 	if (entry)
 		instruction_pointer_set(regs, extable_fixup(entry));
 	else
+<<<<<<< HEAD
 		__bad_page_fault(regs, sig);
 }
 
@@ -637,3 +693,7 @@ DEFINE_INTERRUPT_HANDLER(do_bad_page_fault_segv)
 	bad_page_fault(regs, SIGSEGV);
 }
 #endif
+=======
+		__bad_page_fault(regs, address, sig);
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -239,7 +239,11 @@ static inline void setup_initial_memory_limit(phys_addr_t first_memblock_base,
 #ifdef CONFIG_PPC_PSERIES
 extern void radix_init_pseries(void);
 #else
+<<<<<<< HEAD
 static inline void radix_init_pseries(void) { }
+=======
+static inline void radix_init_pseries(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_HOTPLUG_CPU

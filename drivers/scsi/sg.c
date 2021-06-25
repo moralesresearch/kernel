@@ -829,7 +829,12 @@ sg_common_write(Sg_fd * sfp, Sg_request * srp,
 
 	srp->rq->timeout = timeout;
 	kref_get(&sfp->f_ref); /* sg_rq_end_io() does kref_put(). */
+<<<<<<< HEAD
 	blk_execute_rq_nowait(sdp->disk, srp->rq, at_head, sg_rq_end_io);
+=======
+	blk_execute_rq_nowait(sdp->device->request_queue, sdp->disk,
+			      srp->rq, at_head, sg_rq_end_io);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

@@ -14,6 +14,7 @@ maintainers:
 
 properties:
   compatible:
+<<<<<<< HEAD
     oneOf:
       - items:
           - enum:
@@ -46,6 +47,10 @@ properties:
               - snps,hsdk-v1.0-ohci
           - const: generic-ohci
       - const: generic-ohci
+=======
+    contains:
+      const: generic-ohci
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1
@@ -101,7 +106,11 @@ properties:
       Overrides the detected port count
 
   phys:
+<<<<<<< HEAD
     maxItems: 1
+=======
+    description: PHY specifier for the USB PHY
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   phy-names:
     const: usb

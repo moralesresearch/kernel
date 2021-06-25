@@ -26,7 +26,10 @@ ext2_xattr_trusted_get(const struct xattr_handler *handler,
 
 static int
 ext2_xattr_trusted_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 		       struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       struct dentry *unused, struct inode *inode,
 		       const char *name, const void *value,
 		       size_t size, int flags)

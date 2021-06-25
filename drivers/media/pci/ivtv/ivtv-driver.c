@@ -275,6 +275,12 @@ MODULE_PARM_DESC(ivtv_first_minor, "Set device node number assigned to first car
 
 MODULE_AUTHOR("Kevin Thayer, Chris Kennedy, Hans Verkuil");
 MODULE_DESCRIPTION("CX23415/CX23416 driver");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE
+    ("CX23415/CX23416 MPEG2 encoder (WinTV PVR-150/250/350/500,\n"
+		"\t\t\tYuan MPG series and similar)");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 MODULE_VERSION(IVTV_VERSION);
@@ -870,11 +876,14 @@ static int ivtv_setup_pci(struct ivtv *itv, struct pci_dev *pdev,
 		pci_read_config_word(pdev, PCI_COMMAND, &cmd);
 		if (!(cmd & PCI_COMMAND_MASTER)) {
 			IVTV_ERR("Bus Mastering is not enabled\n");
+<<<<<<< HEAD
 			if (itv->has_cx23415)
 				release_mem_region(itv->base_addr + IVTV_DECODER_OFFSET,
 						   IVTV_DECODER_SIZE);
 			release_mem_region(itv->base_addr, IVTV_ENCODER_SIZE);
 			release_mem_region(itv->base_addr + IVTV_REG_OFFSET, IVTV_REG_SIZE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENXIO;
 		}
 	}

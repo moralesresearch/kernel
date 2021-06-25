@@ -956,7 +956,16 @@ static int netsec_process_rx(struct netsec_priv *priv, int budget)
 	u32 xdp_act = 0;
 	int done = 0;
 
+<<<<<<< HEAD
 	xdp_init_buff(&xdp, PAGE_SIZE, &dring->xdp_rxq);
+=======
+<<<<<<< HEAD
+	xdp_init_buff(&xdp, PAGE_SIZE, &dring->xdp_rxq);
+=======
+	xdp.rxq = &dring->xdp_rxq;
+	xdp.frame_sz = PAGE_SIZE;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_read_lock();
 	xdp_prog = READ_ONCE(priv->xdp_prog);
@@ -1015,8 +1024,20 @@ static int netsec_process_rx(struct netsec_priv *priv, int budget)
 					dma_dir);
 		prefetch(desc->addr);
 
+<<<<<<< HEAD
 		xdp_prepare_buff(&xdp, desc->addr, NETSEC_RXBUF_HEADROOM,
 				 pkt_len, false);
+=======
+<<<<<<< HEAD
+		xdp_prepare_buff(&xdp, desc->addr, NETSEC_RXBUF_HEADROOM,
+				 pkt_len, false);
+=======
+		xdp.data_hard_start = desc->addr;
+		xdp.data = desc->addr + NETSEC_RXBUF_HEADROOM;
+		xdp_set_data_meta_invalid(&xdp);
+		xdp.data_end = xdp.data + pkt_len;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (xdp_prog) {
 			xdp_result = netsec_run_xdp(priv, xdp_prog, &xdp);

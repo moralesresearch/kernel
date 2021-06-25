@@ -1205,6 +1205,10 @@ static noinline int bpf_jit_insn(struct bpf_jit *jit, struct bpf_prog *fp,
 		jit->seen |= SEEN_MEM;
 		break;
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * BPF_ATOMIC
 	 */
 	case BPF_STX | BPF_ATOMIC | BPF_DW:
@@ -1222,6 +1226,23 @@ static noinline int bpf_jit_insn(struct bpf_jit *jit, struct bpf_prog *fp,
 		EMIT6_DISP_LH(0xeb000000,
 			      BPF_SIZE(insn->code) == BPF_W ? 0x00fa : 0x00ea,
 			      REG_W0, src_reg, dst_reg, off);
+<<<<<<< HEAD
+=======
+=======
+	 * BPF_STX XADD (atomic_add)
+	 */
+	case BPF_STX | BPF_XADD | BPF_W: /* *(u32 *)(dst + off) += src */
+		/* laal %w0,%src,off(%dst) */
+		EMIT6_DISP_LH(0xeb000000, 0x00fa, REG_W0, src_reg,
+			      dst_reg, off);
+		jit->seen |= SEEN_MEM;
+		break;
+	case BPF_STX | BPF_XADD | BPF_DW: /* *(u64 *)(dst + off) += src */
+		/* laalg %w0,%src,off(%dst) */
+		EMIT6_DISP_LH(0xeb000000, 0x00ea, REG_W0, src_reg,
+			      dst_reg, off);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		jit->seen |= SEEN_MEM;
 		break;
 	/*

@@ -983,6 +983,10 @@ static inline bool arch_faults_on_old_pte(void)
 
 	return !cpu_has_hw_af();
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define arch_faults_on_old_pte		arch_faults_on_old_pte
 
 /*
@@ -994,6 +998,12 @@ static inline bool arch_wants_old_prefaulted_pte(void)
 	return !arch_faults_on_old_pte();
 }
 #define arch_wants_old_prefaulted_pte	arch_wants_old_prefaulted_pte
+<<<<<<< HEAD
+=======
+=======
+#define arch_faults_on_old_pte arch_faults_on_old_pte
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* !__ASSEMBLY__ */
 

@@ -398,6 +398,12 @@ static const struct regmap_config cs42l42_regmap = {
 	.reg_defaults = cs42l42_reg_defaults,
 	.num_reg_defaults = ARRAY_SIZE(cs42l42_reg_defaults),
 	.cache_type = REGCACHE_RBTREE,
+<<<<<<< HEAD
+
+	.use_single_read = true,
+	.use_single_write = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static DECLARE_TLV_DB_SCALE(adc_tlv, -9600, 100, false);
@@ -511,6 +517,49 @@ static const struct snd_soc_dapm_route cs42l42_audio_map[] = {
 	{"HP", NULL, "HPDRV"}
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static int cs42l42_set_bias_level(struct snd_soc_component *component,
+					enum snd_soc_bias_level level)
+{
+	struct cs42l42_private *cs42l42 = snd_soc_component_get_drvdata(component);
+	int ret;
+
+	switch (level) {
+	case SND_SOC_BIAS_ON:
+		break;
+	case SND_SOC_BIAS_PREPARE:
+		break;
+	case SND_SOC_BIAS_STANDBY:
+		if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF) {
+			regcache_cache_only(cs42l42->regmap, false);
+			regcache_sync(cs42l42->regmap);
+			ret = regulator_bulk_enable(
+						ARRAY_SIZE(cs42l42->supplies),
+						cs42l42->supplies);
+			if (ret != 0) {
+				dev_err(component->dev,
+					"Failed to enable regulators: %d\n",
+					ret);
+				return ret;
+			}
+		}
+		break;
+	case SND_SOC_BIAS_OFF:
+
+		regcache_cache_only(cs42l42->regmap, true);
+		regulator_bulk_disable(ARRAY_SIZE(cs42l42->supplies),
+						    cs42l42->supplies);
+		break;
+	}
+
+	return 0;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cs42l42_component_probe(struct snd_soc_component *component)
 {
 	struct cs42l42_private *cs42l42 =
@@ -523,6 +572,13 @@ static int cs42l42_component_probe(struct snd_soc_component *component)
 
 static const struct snd_soc_component_driver soc_component_dev_cs42l42 = {
 	.probe			= cs42l42_component_probe,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	.set_bias_level		= cs42l42_set_bias_level,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dapm_widgets		= cs42l42_dapm_widgets,
 	.num_dapm_widgets	= ARRAY_SIZE(cs42l42_dapm_widgets),
 	.dapm_routes		= cs42l42_audio_map,

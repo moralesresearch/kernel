@@ -60,8 +60,11 @@ source "drivers/net/dsa/qca/Kconfig"
 
 source "drivers/net/dsa/sja1105/Kconfig"
 
+<<<<<<< HEAD
 source "drivers/net/dsa/xrs700x/Kconfig"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config NET_DSA_QCA8K
 	tristate "Qualcomm Atheros QCA8K Ethernet switch family support"
 	depends on NET_DSA

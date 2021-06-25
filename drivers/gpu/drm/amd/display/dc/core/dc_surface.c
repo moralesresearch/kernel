@@ -115,7 +115,11 @@ struct dc_plane_state *dc_create_plane_state(struct dc *dc)
 	return plane_state;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *****************************************************************************
  *  Function: dc_plane_get_status
  *

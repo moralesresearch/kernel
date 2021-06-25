@@ -79,8 +79,11 @@ struct tegra_usb_phy {
 	bool is_ulpi_phy;
 	struct gpio_desc *reset_gpio;
 	struct reset_control *pad_rst;
+<<<<<<< HEAD
 	bool wakeup_enabled;
 	bool pad_wakeup;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool powered_on;
 };
 

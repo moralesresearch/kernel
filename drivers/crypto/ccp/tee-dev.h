@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: MIT */
 /*
+<<<<<<< HEAD
  * Copyright (C) 2019,2021 Advanced Micro Devices, Inc.
+=======
+ * Copyright 2019 Advanced Micro Devices, Inc.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Author: Rijo Thomas <Rijo-john.Thomas@amd.com>
  * Author: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
@@ -18,7 +22,11 @@
 #include <linux/mutex.h>
 
 #define TEE_DEFAULT_TIMEOUT		10
+<<<<<<< HEAD
 #define MAX_BUFFER_SIZE			988
+=======
+#define MAX_BUFFER_SIZE			992
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum tee_ring_cmd_id - TEE interface commands for ring buffer configuration
@@ -82,6 +90,7 @@ enum tee_cmd_state {
 };
 
 /**
+<<<<<<< HEAD
  * enum cmd_resp_state - TEE command's response status maintained by driver
  * @CMD_RESPONSE_INVALID:      initial state when no command is written to ring
  * @CMD_WAITING_FOR_RESPONSE:  driver waiting for response from TEE
@@ -96,6 +105,8 @@ enum cmd_resp_state {
 };
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct tee_ring_cmd - Structure of the command buffer in TEE ring
  * @cmd_id:      refers to &enum tee_cmd_id. Command id for the ring buffer
  *               interface
@@ -105,7 +116,10 @@ enum cmd_resp_state {
  * @pdata:       private data (currently unused)
  * @res1:        reserved region
  * @buf:         TEE command specific buffer
+<<<<<<< HEAD
  * @flag:	 refers to &enum cmd_resp_state
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct tee_ring_cmd {
 	u32 cmd_id;
@@ -115,7 +129,10 @@ struct tee_ring_cmd {
 	u64 pdata;
 	u32 res1[2];
 	u8 buf[MAX_BUFFER_SIZE];
+<<<<<<< HEAD
 	u32 flag;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Total size: 1024 bytes */
 } __packed;

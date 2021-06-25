@@ -1377,6 +1377,13 @@ static struct phy_driver ksphy_driver[] = {
 	.driver_data	= &ksz9021_type,
 	.probe		= kszphy_probe,
 	.config_init	= ksz9131_config_init,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	.read_status	= genphy_read_status,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.config_intr	= kszphy_config_intr,
 	.handle_interrupt = kszphy_handle_interrupt,
 	.get_sset_count = kszphy_get_sset_count,
@@ -1397,7 +1404,15 @@ static struct phy_driver ksphy_driver[] = {
 }, {
 	.phy_id		= PHY_ID_KSZ886X,
 	.phy_id_mask	= MICREL_PHY_ID_MASK,
+<<<<<<< HEAD
 	.name		= "Micrel KSZ8851 Ethernet MAC or KSZ886X Switch",
+=======
+<<<<<<< HEAD
+	.name		= "Micrel KSZ8851 Ethernet MAC or KSZ886X Switch",
+=======
+	.name		= "Micrel KSZ886X Switch",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* PHY_BASIC_FEATURES */
 	.config_init	= kszphy_config_init,
 	.suspend	= genphy_suspend,

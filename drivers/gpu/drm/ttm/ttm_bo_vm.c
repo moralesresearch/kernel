@@ -31,6 +31,10 @@
 
 #define pr_fmt(fmt) "[TTM] " fmt
 
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
 #include <drm/drm_vma_manager.h>
@@ -198,7 +202,11 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
 
 	/* Fault should not cross bo boundary. */
 	page_offset &= ~(fault_page_size - 1);
+<<<<<<< HEAD
 	if (page_offset + fault_page_size > bo->mem.num_pages)
+=======
+	if (page_offset + fault_page_size > bo->num_pages)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out_fallback;
 
 	if (bo->mem.bus.is_iomem)
@@ -306,7 +314,11 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
 	page_last = vma_pages(vma) + vma->vm_pgoff -
 		drm_vma_node_start(&bo->base.vma_node);
 
+<<<<<<< HEAD
 	if (unlikely(page_offset >= bo->mem.num_pages))
+=======
+	if (unlikely(page_offset >= bo->num_pages))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return VM_FAULT_SIGBUS;
 
 	prot = ttm_io_prot(bo, &bo->mem, prot);
@@ -469,7 +481,11 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
 		 << PAGE_SHIFT);
 	int ret;
 
+<<<<<<< HEAD
 	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->mem.num_pages)
+=======
+	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->num_pages)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EIO;
 
 	ret = ttm_bo_reserve(bo, true, false, NULL);

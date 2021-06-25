@@ -50,11 +50,20 @@ static struct clk_branch gpucc_cxo_clk = {
 	},
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct pll_vco fabia_vco[] = {
 	{ 249600000, 2000000000, 0 },
 	{ 125000000, 1000000000, 1 },
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct clk_div_table post_div_table_fabia_even[] = {
 	{ 0x0, 1 },
 	{ 0x1, 2 },
@@ -66,13 +75,29 @@ static const struct clk_div_table post_div_table_fabia_even[] = {
 static struct clk_alpha_pll gpupll0 = {
 	.offset = 0x0,
 	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_FABIA],
+<<<<<<< HEAD
 	.vco_table = fabia_vco,
 	.num_vco = ARRAY_SIZE(fabia_vco),
+=======
+<<<<<<< HEAD
+	.vco_table = fabia_vco,
+	.num_vco = ARRAY_SIZE(fabia_vco),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "gpupll0",
 		.parent_hws = (const struct clk_hw *[]){ &gpucc_cxo_clk.clkr.hw },
 		.num_parents = 1,
+<<<<<<< HEAD
 		.ops = &clk_alpha_pll_fabia_ops,
+=======
+<<<<<<< HEAD
+		.ops = &clk_alpha_pll_fabia_ops,
+=======
+		.ops = &clk_alpha_pll_fixed_fabia_ops,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -87,7 +112,14 @@ static struct clk_alpha_pll_postdiv gpupll0_out_even = {
 		.name = "gpupll0_out_even",
 		.parent_hws = (const struct clk_hw *[]){ &gpupll0.clkr.hw },
 		.num_parents = 1,
+<<<<<<< HEAD
 		.flags = CLK_SET_RATE_PARENT,
+=======
+<<<<<<< HEAD
+		.flags = CLK_SET_RATE_PARENT,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ops = &clk_alpha_pll_postdiv_fabia_ops,
 	},
 };

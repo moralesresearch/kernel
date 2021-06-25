@@ -356,7 +356,10 @@ bpf-output					{ return sym(yyscanner, PERF_TYPE_SOFTWARE, PERF_COUNT_SW_BPF_OUT
 cycles-ct				|
 cycles-t				|
 mem-loads				|
+<<<<<<< HEAD
 mem-loads-aux				|
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 mem-stores				|
 topdown-[a-z-]+				|
 tx-capacity-[a-z-]+			|

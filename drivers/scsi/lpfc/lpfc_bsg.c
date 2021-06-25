@@ -5376,9 +5376,15 @@ lpfc_check_fwlog_support(struct lpfc_hba *phba)
 
 	ras_fwlog = &phba->ras_fwlog;
 
+<<<<<<< HEAD
 	if (!ras_fwlog->ras_hwsupport)
 		return -EACCES;
 	else if (!ras_fwlog->ras_enabled)
+=======
+	if (ras_fwlog->ras_hwsupport == false)
+		return -EACCES;
+	else if (ras_fwlog->ras_enabled == false)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EPERM;
 	else
 		return 0;

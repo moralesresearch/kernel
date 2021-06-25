@@ -62,7 +62,11 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led {
+=======
+		blue {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a10s-wobo-i5:blue:usr";
 			gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>;
 			default-state = "on";

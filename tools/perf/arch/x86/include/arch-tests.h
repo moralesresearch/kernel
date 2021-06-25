@@ -10,7 +10,10 @@ int test__rdpmc(struct test *test __maybe_unused, int subtest);
 int test__insn_x86(struct test *test __maybe_unused, int subtest);
 int test__intel_pt_pkt_decoder(struct test *test, int subtest);
 int test__bp_modify(struct test *test, int subtest);
+<<<<<<< HEAD
 int test__x86_sample_parsing(struct test *test, int subtest);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef HAVE_DWARF_UNWIND_SUPPORT
 struct thread;

@@ -266,7 +266,11 @@ static int pucan_handle_can_rx(struct peak_canfd_priv *priv,
 		unsigned long flags;
 
 		spin_lock_irqsave(&priv->echo_lock, flags);
+<<<<<<< HEAD
 		can_get_echo_skb(priv->ndev, msg->client, NULL);
+=======
+		can_get_echo_skb(priv->ndev, msg->client);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* count bytes of the echo instead of skb */
 		stats->tx_bytes += cf_len;
@@ -716,7 +720,11 @@ static netdev_tx_t peak_canfd_start_xmit(struct sk_buff *skb,
 	spin_lock_irqsave(&priv->echo_lock, flags);
 
 	/* prepare and save echo skb in internal slot */
+<<<<<<< HEAD
 	can_put_echo_skb(skb, ndev, priv->echo_idx, 0);
+=======
+	can_put_echo_skb(skb, ndev, priv->echo_idx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* move echo index to the next slot */
 	priv->echo_idx = (priv->echo_idx + 1) % priv->can.echo_skb_max;

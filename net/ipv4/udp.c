@@ -596,12 +596,15 @@ void udp_encap_enable(void)
 }
 EXPORT_SYMBOL(udp_encap_enable);
 
+<<<<<<< HEAD
 void udp_encap_disable(void)
 {
 	static_branch_dec(&udp_encap_needed_key);
 }
 EXPORT_SYMBOL(udp_encap_disable);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Handler for tunnels with arbitrary destination ports: no socket lookup, go
  * through error handlers in encapsulations looking for a match.
  */
@@ -1130,7 +1133,11 @@ int udp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
 		rcu_read_unlock();
 	}
 
+<<<<<<< HEAD
 	if (cgroup_bpf_enabled(BPF_CGROUP_UDP4_SENDMSG) && !connected) {
+=======
+	if (cgroup_bpf_enabled && !connected) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = BPF_CGROUP_RUN_PROG_UDP4_SENDMSG_LOCK(sk,
 					    (struct sockaddr *)usin, &ipc.addr);
 		if (err)
@@ -1864,8 +1871,14 @@ try_again:
 		memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
 		*addr_len = sizeof(*sin);
 
+<<<<<<< HEAD
 		BPF_CGROUP_RUN_PROG_UDP4_RECVMSG_LOCK(sk,
 						      (struct sockaddr *)sin);
+=======
+		if (cgroup_bpf_enabled)
+			BPF_CGROUP_RUN_PROG_UDP4_RECVMSG_LOCK(sk,
+							(struct sockaddr *)sin);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (udp_sk(sk)->gro_enabled)
@@ -2576,6 +2589,12 @@ void udp_destroy_sock(struct sock *sk)
 {
 	struct udp_sock *up = udp_sk(sk);
 	bool slow = lock_sock_fast(sk);
+<<<<<<< HEAD
+
+	/* protects from races with udp_abort() */
+	sock_set_flag(sk, SOCK_DEAD);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	udp_flush_pending_frames(sk);
 	unlock_sock_fast(sk, slow);
 	if (static_branch_unlikely(&udp_encap_needed_key)) {
@@ -2664,12 +2683,18 @@ int udp_lib_setsockopt(struct sock *sk, int level, int optname,
 
 	case UDP_GRO:
 		lock_sock(sk);
+<<<<<<< HEAD
 
 		/* when enabling GRO, accept the related GSO packet type */
 		if (valbool)
 			udp_tunnel_encap_enable(sk->sk_socket);
 		up->gro_enabled = valbool;
 		up->accept_udp_l4 = valbool;
+=======
+		if (valbool)
+			udp_tunnel_encap_enable(sk->sk_socket);
+		up->gro_enabled = valbool;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		release_sock(sk);
 		break;
 
@@ -2757,10 +2782,13 @@ int udp_lib_getsockopt(struct sock *sk, int level, int optname,
 		val = up->gso_size;
 		break;
 
+<<<<<<< HEAD
 	case UDP_GRO:
 		val = up->gro_enabled;
 		break;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* The following two cannot be changed on UDP sockets, the return is
 	 * always 0 (which corresponds to the full checksum coverage of UDP). */
 	case UDPLITE_SEND_CSCOV:
@@ -2826,10 +2854,23 @@ int udp_abort(struct sock *sk, int err)
 {
 	lock_sock(sk);
 
+<<<<<<< HEAD
+	/* udp{v6}_destroy_sock() sets it under the sk lock, avoid racing
+	 * with close()
+	 */
+	if (sock_flag(sk, SOCK_DEAD))
+		goto out;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sk->sk_err = err;
 	sk->sk_error_report(sk);
 	__udp_disconnect(sk, 0);
 
+<<<<<<< HEAD
+out:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	release_sock(sk);
 
 	return 0;

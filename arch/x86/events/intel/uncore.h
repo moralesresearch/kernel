@@ -124,6 +124,10 @@ struct intel_uncore_extra_reg {
 };
 
 struct intel_uncore_box {
+<<<<<<< HEAD
+=======
+	int pci_phys_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int dieid;	/* Logical die ID */
 	int n_active;	/* number of active events */
 	int n_events;
@@ -172,11 +176,19 @@ struct freerunning_counters {
 struct pci2phy_map {
 	struct list_head list;
 	int segment;
+<<<<<<< HEAD
 	int pbus_to_dieid[256];
 };
 
 struct pci2phy_map *__find_pci2phy_map(int segment);
 int uncore_pcibus_to_dieid(struct pci_bus *bus);
+=======
+	int pbus_to_physid[256];
+};
+
+struct pci2phy_map *__find_pci2phy_map(int segment);
+int uncore_pcibus_to_physid(struct pci_bus *bus);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ssize_t uncore_event_show(struct device *dev,
 			  struct device_attribute *attr, char *buf);

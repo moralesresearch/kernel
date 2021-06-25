@@ -353,9 +353,15 @@ struct snd_soc_dai_driver {
 	/* DAI capabilities */
 	struct snd_soc_pcm_stream capture;
 	struct snd_soc_pcm_stream playback;
+<<<<<<< HEAD
 	unsigned int symmetric_rate:1;
 	unsigned int symmetric_channels:1;
 	unsigned int symmetric_sample_bits:1;
+=======
+	unsigned int symmetric_rates:1;
+	unsigned int symmetric_channels:1;
+	unsigned int symmetric_samplebits:1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* probe ordering - for components with runtime dependencies */
 	int probe_order;

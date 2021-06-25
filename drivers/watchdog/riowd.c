@@ -46,6 +46,10 @@
 
 MODULE_AUTHOR("David S. Miller <davem@davemloft.net>");
 MODULE_DESCRIPTION("Hardware watchdog driver for Sun RIO");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("watchdog");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 #define DRIVER_NAME	"riowd"

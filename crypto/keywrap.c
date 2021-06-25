@@ -85,7 +85,10 @@
 #include <linux/crypto.h>
 #include <linux/scatterlist.h>
 #include <crypto/scatterwalk.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/skcipher.h>
 
 struct crypto_kw_block {
@@ -317,4 +320,7 @@ MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
 MODULE_DESCRIPTION("Key Wrapping (RFC3394 / NIST SP800-38F)");
 MODULE_ALIAS_CRYPTO("kw");
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

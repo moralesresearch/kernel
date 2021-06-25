@@ -465,6 +465,7 @@ static void mip4_report_keys(struct mip4_ts *ts, u8 *packet)
 static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
 {
 	int id;
+<<<<<<< HEAD
 	bool __always_unused hover;
 	bool __always_unused palm;
 	bool state;
@@ -472,6 +473,15 @@ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
 	u8 __always_unused pressure_stage = 0;
 	u8 pressure;
 	u8 __always_unused size;
+=======
+	bool hover;
+	bool palm;
+	bool state;
+	u16 x, y;
+	u8 pressure_stage = 0;
+	u8 pressure;
+	u8 size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 touch_major;
 	u8 touch_minor;
 

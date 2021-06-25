@@ -24,6 +24,7 @@ allOf:
 
 properties:
   compatible:
+<<<<<<< HEAD
     oneOf:
       - items:
           - enum:
@@ -71,6 +72,10 @@ properties:
       - enum:
           - generic-ehci
           - usb-ehci
+=======
+    contains:
+      const: generic-ehci
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     minItems: 1
@@ -128,7 +133,11 @@ properties:
       Phandle of a companion.
 
   phys:
+<<<<<<< HEAD
     maxItems: 1
+=======
+    description: PHY specifier for the USB PHY
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   phy-names:
     const: usb
@@ -146,7 +155,11 @@ additionalProperties: false
 examples:
   - |
     usb@e0000300 {
+<<<<<<< HEAD
         compatible = "ibm,usb-ehci-440epx", "usb-ehci";
+=======
+        compatible = "ibm,usb-ehci-440epx", "generic-ehci";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         interrupt-parent = <&UIC0>;
         interrupts = <0x1a 4>;
         reg = <0xe0000300 90>, <0xe0000390 70>;

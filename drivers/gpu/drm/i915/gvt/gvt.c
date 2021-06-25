@@ -126,7 +126,11 @@ static bool intel_get_gvt_attrs(struct attribute_group ***intel_vgpu_type_groups
 	return true;
 }
 
+<<<<<<< HEAD
 static int intel_gvt_init_vgpu_type_groups(struct intel_gvt *gvt)
+=======
+static bool intel_gvt_init_vgpu_type_groups(struct intel_gvt *gvt)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i, j;
 	struct intel_vgpu_type *type;
@@ -144,7 +148,11 @@ static int intel_gvt_init_vgpu_type_groups(struct intel_gvt *gvt)
 		gvt_vgpu_type_groups[i] = group;
 	}
 
+<<<<<<< HEAD
 	return 0;
+=======
+	return true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unwind:
 	for (j = 0; j < i; j++) {
@@ -152,7 +160,11 @@ unwind:
 		kfree(group);
 	}
 
+<<<<<<< HEAD
 	return -ENOMEM;
+=======
+	return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void intel_gvt_cleanup_vgpu_type_groups(struct intel_gvt *gvt)
@@ -360,7 +372,11 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
 		goto out_clean_thread;
 
 	ret = intel_gvt_init_vgpu_type_groups(gvt);
+<<<<<<< HEAD
 	if (ret) {
+=======
+	if (ret == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gvt_err("failed to init vgpu type groups: %d\n", ret);
 		goto out_clean_types;
 	}

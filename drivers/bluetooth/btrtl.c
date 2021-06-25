@@ -38,6 +38,7 @@
 	.hci_ver = (hciv), \
 	.hci_bus = (bus)
 
+<<<<<<< HEAD
 enum btrtl_chip_id {
 	CHIP_ID_8723A,
 	CHIP_ID_8723B,
@@ -51,6 +52,8 @@ enum btrtl_chip_id {
 	CHIP_ID_8852A = 18,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct id_table {
 	__u16 match_flags;
 	__u16 lmp_subver;
@@ -71,7 +74,10 @@ struct btrtl_device_info {
 	u8 *cfg_data;
 	int cfg_len;
 	bool drop_fw;
+<<<<<<< HEAD
 	int project_id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct id_table ic_id_table[] = {
@@ -321,10 +327,15 @@ static int rtlbt_parse_firmware(struct hci_dev *hdev,
 
 	/* Find project_id in table */
 	for (i = 0; i < ARRAY_SIZE(project_id_to_lmp_subver); i++) {
+<<<<<<< HEAD
 		if (project_id == project_id_to_lmp_subver[i].id) {
 			btrtl_dev->project_id = project_id;
 			break;
 		}
+=======
+		if (project_id == project_id_to_lmp_subver[i].id)
+			break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (i >= ARRAY_SIZE(project_id_to_lmp_subver)) {
@@ -674,12 +685,15 @@ out_free:
 		}
 	}
 
+<<<<<<< HEAD
 	/* RTL8822CE supports the Microsoft vendor extension and uses 0xFCF0
 	 * for VsMsftOpCode.
 	 */
 	if (lmp_subver == RTL_ROM_LMP_8822B)
 		hci_set_msft_opcode(hdev, 0xFCF0);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return btrtl_dev;
 
 err_free:
@@ -730,11 +744,17 @@ int btrtl_setup_realtek(struct hci_dev *hdev)
 
 	ret = btrtl_download_firmware(hdev, btrtl_dev);
 
+<<<<<<< HEAD
+=======
+	btrtl_free(btrtl_dev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Enable controller to do both LE scan and BR/EDR inquiry
 	 * simultaneously.
 	 */
 	set_bit(HCI_QUIRK_SIMULTANEOUS_DISCOVERY, &hdev->quirks);
 
+<<<<<<< HEAD
 	/* Enable central-peripheral role (able to create new connections with
 	 * an existing connection in slave role).
 	 */
@@ -752,6 +772,8 @@ int btrtl_setup_realtek(struct hci_dev *hdev)
 	}
 
 	btrtl_free(btrtl_dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 EXPORT_SYMBOL_GPL(btrtl_setup_realtek);

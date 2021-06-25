@@ -56,7 +56,11 @@ static int write_mmp_block(struct super_block *sb, struct buffer_head *bh)
 	wait_on_buffer(bh);
 	sb_end_write(sb);
 	if (unlikely(!buffer_uptodate(bh)))
+<<<<<<< HEAD
 		return -EIO;
+=======
+		return 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

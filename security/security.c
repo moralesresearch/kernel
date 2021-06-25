@@ -1059,6 +1059,7 @@ out:
 }
 EXPORT_SYMBOL(security_inode_init_security);
 
+<<<<<<< HEAD
 int security_inode_init_security_anon(struct inode *inode,
 				      const struct qstr *name,
 				      const struct inode *context_inode)
@@ -1067,6 +1068,8 @@ int security_inode_init_security_anon(struct inode *inode,
 			     context_inode);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int security_old_inode_init_security(struct inode *inode, struct inode *dir,
 				     const struct qstr *qstr, const char **name,
 				     void **value, size_t *len)
@@ -1288,8 +1291,12 @@ int security_inode_getattr(const struct path *path)
 	return call_int_hook(inode_getattr, 0, path);
 }
 
+<<<<<<< HEAD
 int security_inode_setxattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry, const char *name,
+=======
+int security_inode_setxattr(struct dentry *dentry, const char *name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    const void *value, size_t size, int flags)
 {
 	int ret;
@@ -1300,8 +1307,13 @@ int security_inode_setxattr(struct user_namespace *mnt_userns,
 	 * SELinux and Smack integrate the cap call,
 	 * so assume that all LSMs supplying this call do so.
 	 */
+<<<<<<< HEAD
 	ret = call_int_hook(inode_setxattr, 1, mnt_userns, dentry, name, value,
 			    size, flags);
+=======
+	ret = call_int_hook(inode_setxattr, 1, dentry, name, value, size,
+				flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret == 1)
 		ret = cap_inode_setxattr(dentry, name, value, size, flags);
@@ -1336,8 +1348,12 @@ int security_inode_listxattr(struct dentry *dentry)
 	return call_int_hook(inode_listxattr, 0, dentry);
 }
 
+<<<<<<< HEAD
 int security_inode_removexattr(struct user_namespace *mnt_userns,
 			       struct dentry *dentry, const char *name)
+=======
+int security_inode_removexattr(struct dentry *dentry, const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 
@@ -1347,9 +1363,15 @@ int security_inode_removexattr(struct user_namespace *mnt_userns,
 	 * SELinux and Smack integrate the cap call,
 	 * so assume that all LSMs supplying this call do so.
 	 */
+<<<<<<< HEAD
 	ret = call_int_hook(inode_removexattr, 1, mnt_userns, dentry, name);
 	if (ret == 1)
 		ret = cap_inode_removexattr(mnt_userns, dentry, name);
+=======
+	ret = call_int_hook(inode_removexattr, 1, dentry, name);
+	if (ret == 1)
+		ret = cap_inode_removexattr(dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 	ret = ima_inode_removexattr(dentry, name);
@@ -1363,6 +1385,7 @@ int security_inode_need_killpriv(struct dentry *dentry)
 	return call_int_hook(inode_need_killpriv, 0, dentry);
 }
 
+<<<<<<< HEAD
 int security_inode_killpriv(struct user_namespace *mnt_userns,
 			    struct dentry *dentry)
 {
@@ -1372,6 +1395,14 @@ int security_inode_killpriv(struct user_namespace *mnt_userns,
 int security_inode_getsecurity(struct user_namespace *mnt_userns,
 			       struct inode *inode, const char *name,
 			       void **buffer, bool alloc)
+=======
+int security_inode_killpriv(struct dentry *dentry)
+{
+	return call_int_hook(inode_killpriv, 0, dentry);
+}
+
+int security_inode_getsecurity(struct inode *inode, const char *name, void **buffer, bool alloc)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct security_hook_list *hp;
 	int rc;
@@ -1382,7 +1413,11 @@ int security_inode_getsecurity(struct user_namespace *mnt_userns,
 	 * Only one module will provide an attribute with a given name.
 	 */
 	hlist_for_each_entry(hp, &security_hook_heads.inode_getsecurity, list) {
+<<<<<<< HEAD
 		rc = hp->hook.inode_getsecurity(mnt_userns, inode, name, buffer, alloc);
+=======
+		rc = hp->hook.inode_getsecurity(inode, name, buffer, alloc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc != LSM_RET_DEFAULT(inode_getsecurity))
 			return rc;
 	}

@@ -170,7 +170,11 @@ static int vmw_stdu_define_st(struct vmw_private *dev_priv,
 		SVGA3dCmdDefineGBScreenTarget body;
 	} *cmd;
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -188,7 +192,11 @@ static int vmw_stdu_define_st(struct vmw_private *dev_priv,
 	stdu->base.set_gui_x = cmd->body.xRoot;
 	stdu->base.set_gui_y = cmd->body.yRoot;
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	stdu->defined = true;
 	stdu->display_width  = mode->hdisplay;
@@ -229,7 +237,11 @@ static int vmw_stdu_bind_st(struct vmw_private *dev_priv,
 	memset(&image, 0, sizeof(image));
 	image.sid = res ? res->id : SVGA3D_INVALID_ID;
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -239,7 +251,11 @@ static int vmw_stdu_bind_st(struct vmw_private *dev_priv,
 	cmd->body.stid   = stdu->base.unit;
 	cmd->body.image  = image;
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -293,7 +309,11 @@ static int vmw_stdu_update_st(struct vmw_private *dev_priv,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -301,7 +321,11 @@ static int vmw_stdu_update_st(struct vmw_private *dev_priv,
 				 0, stdu->display_width,
 				 0, stdu->display_height);
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -329,7 +353,11 @@ static int vmw_stdu_destroy_st(struct vmw_private *dev_priv,
 	if (unlikely(!stdu->defined))
 		return 0;
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -338,7 +366,11 @@ static int vmw_stdu_destroy_st(struct vmw_private *dev_priv,
 
 	cmd->body.stid   = stdu->base.unit;
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Force sync */
 	ret = vmw_fallback_wait(dev_priv, false, true, 0, false, 3*HZ);
@@ -499,7 +531,11 @@ static void vmw_stdu_bo_fifo_commit(struct vmw_kms_dirty *dirty)
 	size_t blit_size = sizeof(*blit) * dirty->num_hits + sizeof(*suffix);
 
 	if (!dirty->num_hits) {
+<<<<<<< HEAD
 		vmw_cmd_commit(dirty->dev_priv, 0);
+=======
+		vmw_fifo_commit(dirty->dev_priv, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -512,7 +548,11 @@ static void vmw_stdu_bo_fifo_commit(struct vmw_kms_dirty *dirty)
 	cmd->body.host.mipmap = 0;
 	cmd->body.transfer = ddirty->transfer;
 	suffix->suffixSize = sizeof(*suffix);
+<<<<<<< HEAD
 	suffix->maximumOffset = ddirty->buf->base.base.size;
+=======
+	suffix->maximumOffset = ddirty->buf->base.num_pages * PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ddirty->transfer == SVGA3D_WRITE_HOST_VRAM) {
 		blit_size += sizeof(struct vmw_stdu_update);
@@ -522,7 +562,11 @@ static void vmw_stdu_bo_fifo_commit(struct vmw_kms_dirty *dirty)
 					 ddirty->top, ddirty->bottom);
 	}
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dirty->dev_priv, sizeof(*cmd) + blit_size);
+=======
+	vmw_fifo_commit(dirty->dev_priv, sizeof(*cmd) + blit_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	stdu->display_srf->res.res_dirty = true;
 	ddirty->left = ddirty->top = S32_MAX;
@@ -628,7 +672,11 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
 
 
 		dev_priv = vmw_priv(stdu->base.crtc.dev);
+<<<<<<< HEAD
 		cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+		cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!cmd)
 			goto out_cleanup;
 
@@ -636,7 +684,11 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
 					 region.x1, region.x2,
 					 region.y1, region.y2);
 
+<<<<<<< HEAD
 		vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+		vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 out_cleanup:
@@ -795,7 +847,11 @@ static void vmw_kms_stdu_surface_fifo_commit(struct vmw_kms_dirty *dirty)
 	size_t commit_size;
 
 	if (!dirty->num_hits) {
+<<<<<<< HEAD
 		vmw_cmd_commit(dirty->dev_priv, 0);
+=======
+		vmw_fifo_commit(dirty->dev_priv, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -817,7 +873,11 @@ static void vmw_kms_stdu_surface_fifo_commit(struct vmw_kms_dirty *dirty)
 	vmw_stdu_populate_update(update, stdu->base.unit, sdirty->left,
 				 sdirty->right, sdirty->top, sdirty->bottom);
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dirty->dev_priv, commit_size);
+=======
+	vmw_fifo_commit(dirty->dev_priv, commit_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sdirty->left = sdirty->top = S32_MAX;
 	sdirty->right = sdirty->bottom = S32_MIN;
@@ -1238,7 +1298,11 @@ static uint32_t vmw_stdu_bo_populate_update(struct vmw_du_update_plane  *update,
 	vfbbo = container_of(update->vfb, typeof(*vfbbo), base);
 
 	suffix->suffixSize = sizeof(*suffix);
+<<<<<<< HEAD
 	suffix->maximumOffset = vfbbo->buffer->base.base.size;
+=======
+	suffix->maximumOffset = vfbbo->buffer->base.num_pages * PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vmw_stdu_populate_update(&suffix[1], stdu->base.unit, bb->x1, bb->x2,
 				 bb->y1, bb->y2);
@@ -1713,7 +1777,11 @@ static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs = {
 static int vmw_stdu_init(struct vmw_private *dev_priv, unsigned unit)
 {
 	struct vmw_screen_target_display_unit *stdu;
+<<<<<<< HEAD
 	struct drm_device *dev = &dev_priv->drm;
+=======
+	struct drm_device *dev = dev_priv->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_connector *connector;
 	struct drm_encoder *encoder;
 	struct drm_plane *primary, *cursor;
@@ -1861,7 +1929,11 @@ static void vmw_stdu_destroy(struct vmw_screen_target_display_unit *stdu)
  */
 int vmw_kms_stdu_init_display(struct vmw_private *dev_priv)
 {
+<<<<<<< HEAD
 	struct drm_device *dev = &dev_priv->drm;
+=======
+	struct drm_device *dev = dev_priv->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret;
 
 

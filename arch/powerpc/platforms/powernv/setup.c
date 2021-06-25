@@ -180,6 +180,12 @@ static void __init pnv_setup_arch(void)
 	/* Initialize SMP */
 	pnv_smp_init();
 
+<<<<<<< HEAD
+=======
+	/* Setup PCI */
+	pnv_pci_init();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Setup RTC and NVRAM callbacks */
 	if (firmware_has_feature(FW_FEATURE_OPAL))
 		opal_nvram_init();
@@ -544,7 +550,10 @@ define_machine(powernv) {
 	.init_IRQ		= pnv_init_IRQ,
 	.show_cpuinfo		= pnv_show_cpuinfo,
 	.get_proc_freq          = pnv_get_proc_freq,
+<<<<<<< HEAD
 	.discover_phbs		= pnv_pci_init,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.progress		= pnv_progress,
 	.machine_shutdown	= pnv_shutdown,
 	.power_save             = NULL,

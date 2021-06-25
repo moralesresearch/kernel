@@ -64,7 +64,10 @@
 #include <asm/mmu_context.h>
 #include <asm/cpu_has_feature.h>
 #include <asm/kasan.h>
+<<<<<<< HEAD
 #include <asm/mce.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "setup.h"
 
@@ -238,17 +241,31 @@ static int show_cpuinfo(struct seq_file *m, void *v)
 	maj = (pvr >> 8) & 0xFF;
 	min = pvr & 0xFF;
 
+<<<<<<< HEAD
 	seq_printf(m, "processor\t: %lu\ncpu\t\t: ", cpu_id);
 
 	if (cur_cpu_spec->pvr_mask && cur_cpu_spec->cpu_name)
 		seq_puts(m, cur_cpu_spec->cpu_name);
+=======
+	seq_printf(m, "processor\t: %lu\n", cpu_id);
+	seq_printf(m, "cpu\t\t: ");
+
+	if (cur_cpu_spec->pvr_mask && cur_cpu_spec->cpu_name)
+		seq_printf(m, "%s", cur_cpu_spec->cpu_name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		seq_printf(m, "unknown (%08x)", pvr);
 
 	if (cpu_has_feature(CPU_FTR_ALTIVEC))
+<<<<<<< HEAD
 		seq_puts(m, ", altivec supported");
 
 	seq_putc(m, '\n');
+=======
+		seq_printf(m, ", altivec supported");
+
+	seq_printf(m, "\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_TAU
 	if (cpu_has_feature(CPU_FTR_TAU)) {
@@ -327,7 +344,11 @@ static int show_cpuinfo(struct seq_file *m, void *v)
 		seq_printf(m, "bogomips\t: %lu.%02lu\n", loops_per_jiffy / (500000 / HZ),
 			   (loops_per_jiffy / (5000 / HZ)) % 100);
 
+<<<<<<< HEAD
 	seq_putc(m, '\n');
+=======
+	seq_printf(m, "\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If this is the last cpu, print the summary */
 	if (cpumask_next(cpu_id, cpu_online_mask) >= nr_cpu_ids)
@@ -938,7 +959,10 @@ void __init setup_arch(char **cmdline_p)
 	exc_lvl_early_init();
 	emergency_stack_init();
 
+<<<<<<< HEAD
 	mce_init();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smp_release_cpus();
 
 	initmem_init();

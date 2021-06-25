@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2013-2015, Mellanox Technologies. All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2020, Intel Corporation. All rights reserved.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This software is available to you under a choice of one of two
  * licenses.  You may choose to be licensed under the terms of the GNU
@@ -37,8 +40,11 @@
 #include <linux/debugfs.h>
 #include <linux/export.h>
 #include <linux/delay.h>
+<<<<<<< HEAD
 #include <linux/dma-buf.h>
 #include <linux/dma-resv.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <rdma/ib_umem.h>
 #include <rdma/ib_umem_odp.h>
 #include <rdma/ib_verbs.h>
@@ -158,7 +164,10 @@ static void create_mkey_callback(int status, struct mlx5_async_work *context)
 	mr->mmkey.type = MLX5_MKEY_MR;
 	mr->mmkey.key |= mlx5_idx_to_mkey(
 		MLX5_GET(create_mkey_out, mr->out, mkey_index));
+<<<<<<< HEAD
 	init_waitqueue_head(&mr->mmkey.wait);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	WRITE_ONCE(dev->cache.last_add, jiffies);
 
@@ -590,8 +599,11 @@ struct mlx5_ib_mr *mlx5_mr_cache_alloc(struct mlx5_ib_dev *dev,
 		ent->available_mrs--;
 		queue_adjust_cache_locked(ent);
 		spin_unlock_irq(&ent->lock);
+<<<<<<< HEAD
 
 		mlx5_clear_mr(mr);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	mr->access_flags = access_flags;
 	return mr;
@@ -617,14 +629,26 @@ static struct mlx5_ib_mr *get_cache_mr(struct mlx5_cache_ent *req_ent)
 			ent->available_mrs--;
 			queue_adjust_cache_locked(ent);
 			spin_unlock_irq(&ent->lock);
+<<<<<<< HEAD
 			mlx5_clear_mr(mr);
 			return mr;
+=======
+			break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		queue_adjust_cache_locked(ent);
 		spin_unlock_irq(&ent->lock);
 	}
+<<<<<<< HEAD
 	req_ent->miss++;
 	return NULL;
+=======
+
+	if (!mr)
+		req_ent->miss++;
+
+	return mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void detach_mr_from_cache(struct mlx5_ib_mr *mr)
@@ -764,10 +788,17 @@ int mlx5_mr_cache_init(struct mlx5_ib_dev *dev)
 		ent->xlt = (1 << ent->order) * sizeof(struct mlx5_mtt) /
 			   MLX5_IB_UMR_OCTOWORD;
 		ent->access_mode = MLX5_MKC_ACCESS_MODE_MTT;
+<<<<<<< HEAD
+		if ((dev->mdev->profile.mask & MLX5_PROF_MASK_MR_CACHE) &&
+		    !dev->is_rep && mlx5_core_is_pf(dev->mdev) &&
+		    mlx5_ib_can_load_pas_with_umr(dev, 0))
+			ent->limit = dev->mdev->profile.mr_cache[i].limit;
+=======
 		if ((dev->mdev->profile->mask & MLX5_PROF_MASK_MR_CACHE) &&
 		    !dev->is_rep && mlx5_core_is_pf(dev->mdev) &&
 		    mlx5_ib_can_load_pas_with_umr(dev, 0))
 			ent->limit = dev->mdev->profile->mr_cache[i].limit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			ent->limit = 0;
 		spin_lock_irq(&ent->lock);
@@ -939,6 +970,7 @@ static void set_mr_fields(struct mlx5_ib_dev *dev, struct mlx5_ib_mr *mr,
 	mr->access_flags = access_flags;
 }
 
+<<<<<<< HEAD
 static unsigned int mlx5_umem_dmabuf_default_pgsz(struct ib_umem *umem,
 						  u64 iova)
 {
@@ -950,6 +982,8 @@ static unsigned int mlx5_umem_dmabuf_default_pgsz(struct ib_umem *umem,
 	return PAGE_SIZE;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct mlx5_ib_mr *alloc_cacheable_mr(struct ib_pd *pd,
 					     struct ib_umem *umem, u64 iova,
 					     int access_flags)
@@ -959,11 +993,15 @@ static struct mlx5_ib_mr *alloc_cacheable_mr(struct ib_pd *pd,
 	struct mlx5_ib_mr *mr;
 	unsigned int page_size;
 
+<<<<<<< HEAD
 	if (umem->is_dmabuf)
 		page_size = mlx5_umem_dmabuf_default_pgsz(umem, iova);
 	else
 		page_size = mlx5_umem_find_best_pgsz(umem, mkc, log_page_size,
 						     0, iova);
+=======
+	page_size = mlx5_umem_find_best_pgsz(umem, mkc, log_page_size, 0, iova);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON(!page_size))
 		return ERR_PTR(-EINVAL);
 	ent = mr_cache_ent_from_order(
@@ -993,10 +1031,19 @@ static struct mlx5_ib_mr *alloc_cacheable_mr(struct ib_pd *pd,
 
 	mr->ibmr.pd = pd;
 	mr->umem = umem;
+<<<<<<< HEAD
+=======
+	mr->access_flags = access_flags;
+	mr->desc_size = sizeof(struct mlx5_mtt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mr->mmkey.iova = iova;
 	mr->mmkey.size = umem->length;
 	mr->mmkey.pd = to_mpd(pd)->pdn;
 	mr->page_shift = order_base_2(page_size);
+<<<<<<< HEAD
+=======
+	mr->umem = umem;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	set_mr_fields(dev, mr, umem->length, access_flags);
 
 	return mr;
@@ -1217,10 +1264,15 @@ int mlx5_ib_update_xlt(struct mlx5_ib_mr *mr, u64 idx, int npages,
 
 /*
  * Send the DMA list to the HW for a normal MR using UMR.
+<<<<<<< HEAD
  * Dmabuf MR is handled in a similar way, except that the MLX5_IB_UPD_XLT_ZAP
  * flag may be used.
  */
 int mlx5_ib_update_mr_pas(struct mlx5_ib_mr *mr, unsigned int flags)
+=======
+ */
+static int mlx5_ib_update_mr_pas(struct mlx5_ib_mr *mr, unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mlx5_ib_dev *dev = mr_to_mdev(mr);
 	struct device *ddev = &dev->mdev->pdev->dev;
@@ -1262,10 +1314,13 @@ int mlx5_ib_update_mr_pas(struct mlx5_ib_mr *mr, unsigned int flags)
 		cur_mtt->ptag =
 			cpu_to_be64(rdma_block_iter_dma_address(&biter) |
 				    MLX5_IB_MTT_PRESENT);
+<<<<<<< HEAD
 
 		if (mr->umem->is_dmabuf && (flags & MLX5_IB_UPD_XLT_ZAP))
 			cur_mtt->ptag = 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cur_mtt++;
 	}
 
@@ -1550,7 +1605,14 @@ static struct ib_mr *create_user_odp_mr(struct ib_pd *pd, u64 start, u64 length,
 	}
 
 	odp->private = mr;
+<<<<<<< HEAD
 	err = mlx5r_store_odp_mkey(dev, &mr->mmkey);
+=======
+	init_waitqueue_head(&mr->q_deferred_work);
+	atomic_set(&mr->num_deferred_work, 0);
+	err = xa_err(xa_store(&dev->odp_mkeys, mlx5_base_mkey(mr->mmkey.key),
+			      &mr->mmkey, GFP_KERNEL));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_dereg_mr;
 
@@ -1586,6 +1648,7 @@ struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
 	return create_real_mr(pd, umem, iova, access_flags);
 }
 
+<<<<<<< HEAD
 static void mlx5_ib_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
 {
 	struct ib_umem_dmabuf *umem_dmabuf = attach->importer_priv;
@@ -1661,6 +1724,8 @@ err_dereg_mr:
 	return ERR_PTR(err);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * mlx5_mr_cache_invalidate - Fence all DMA on the MR
  * @mr: The MR to fence
@@ -1834,8 +1899,13 @@ struct ib_mr *mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
 				return ERR_PTR(err);
 			return NULL;
 		}
+<<<<<<< HEAD
 		/* DM or ODP MR's don't have a normal umem so we can't re-use it */
 		if (!mr->umem || is_odp_mr(mr) || is_dmabuf_mr(mr))
+=======
+		/* DM or ODP MR's don't have a umem so we can't re-use it */
+		if (!mr->umem || is_odp_mr(mr))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto recreate;
 
 		/*
@@ -1854,10 +1924,17 @@ struct ib_mr *mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
 	}
 
 	/*
+<<<<<<< HEAD
 	 * DM doesn't have a PAS list so we can't re-use it, odp/dmabuf does
 	 * but the logic around releasing the umem is different
 	 */
 	if (!mr->umem || is_odp_mr(mr) || is_dmabuf_mr(mr))
+=======
+	 * DM doesn't have a PAS list so we can't re-use it, odp does but the
+	 * logic around releasing the umem is different
+	 */
+	if (!mr->umem || is_odp_mr(mr))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto recreate;
 
 	if (!(new_access_flags & IB_ACCESS_ON_DEMAND) &&
@@ -1970,8 +2047,11 @@ static void dereg_mr(struct mlx5_ib_dev *dev, struct mlx5_ib_mr *mr)
 	/* Stop all DMA */
 	if (is_odp_mr(mr))
 		mlx5_ib_fence_odp_mr(mr);
+<<<<<<< HEAD
 	else if (is_dmabuf_mr(mr))
 		mlx5_ib_fence_dmabuf_mr(mr);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		clean_mr(dev, mr);
 
@@ -2323,7 +2403,13 @@ int mlx5_ib_alloc_mw(struct ib_mw *ibmw, struct ib_udata *udata)
 	}
 
 	if (IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING)) {
+<<<<<<< HEAD
 		err = mlx5r_store_odp_mkey(dev, &mw->mmkey);
+=======
+		err = xa_err(xa_store(&dev->odp_mkeys,
+				      mlx5_base_mkey(mw->mmkey.key), &mw->mmkey,
+				      GFP_KERNEL));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto free_mkey;
 	}
@@ -2343,6 +2429,7 @@ int mlx5_ib_dealloc_mw(struct ib_mw *mw)
 	struct mlx5_ib_dev *dev = to_mdev(mw->device);
 	struct mlx5_ib_mw *mmw = to_mmw(mw);
 
+<<<<<<< HEAD
 	if (IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING) &&
 	    xa_erase(&dev->odp_mkeys, mlx5_base_mkey(mmw->mmkey.key)))
 		/*
@@ -2350,6 +2437,16 @@ int mlx5_ib_dealloc_mw(struct ib_mw *mw)
 		 * if the user bound an ODP MR to this MW.
 		 */
 		mlx5r_deref_wait_odp_mkey(&mmw->mmkey);
+=======
+	if (IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING)) {
+		xa_erase(&dev->odp_mkeys, mlx5_base_mkey(mmw->mmkey.key));
+		/*
+		 * pagefault_single_data_segment() may be accessing mmw under
+		 * SRCU if the user bound an ODP MR to this MW.
+		 */
+		synchronize_srcu(&dev->odp_srcu);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return mlx5_core_destroy_mkey(dev->mdev, &mmw->mmkey);
 }

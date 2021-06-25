@@ -13,7 +13,15 @@
 #include <linux/timex.h>
 #include <linux/types.h>
 #include <linux/time.h>
+<<<<<<< HEAD
 #include <asm/alternative.h>
+=======
+<<<<<<< HEAD
+#include <asm/alternative.h>
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/vtimer.h>
 #include <asm/vtime.h>
 #include <asm/cpu_mf.h>
@@ -128,6 +136,10 @@ static int do_account_vtime(struct task_struct *tsk)
 
 	timer = S390_lowcore.last_update_timer;
 	clock = S390_lowcore.last_update_clock;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Use STORE CLOCK by default, STORE CLOCK FAST if available. */
 	alternative_io("stpt %0\n .insn s,0xb2050000,%1\n",
 		       "stpt %0\n .insn s,0xb27c0000,%1\n",
@@ -135,6 +147,21 @@ static int do_account_vtime(struct task_struct *tsk)
 		       ASM_OUTPUT2("=Q" (S390_lowcore.last_update_timer),
 				   "=Q" (S390_lowcore.last_update_clock)),
 		       ASM_NO_INPUT_CLOBBER("cc"));
+<<<<<<< HEAD
+=======
+=======
+	asm volatile(
+		"	stpt	%0\n"	/* Store current cpu timer value */
+#ifdef CONFIG_HAVE_MARCH_Z9_109_FEATURES
+		"	stckf	%1"	/* Store current tod clock value */
+#else
+		"	stck	%1"	/* Store current tod clock value */
+#endif
+		: "=Q" (S390_lowcore.last_update_timer),
+		  "=Q" (S390_lowcore.last_update_clock)
+		: : "cc");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clock = S390_lowcore.last_update_clock - clock;
 	timer -= S390_lowcore.last_update_timer;
 

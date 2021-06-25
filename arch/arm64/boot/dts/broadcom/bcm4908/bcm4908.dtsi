@@ -108,7 +108,15 @@
 		compatible = "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <1>;
+<<<<<<< HEAD
 		ranges = <0x00 0x00 0x80000000 0x281000>;
+=======
+<<<<<<< HEAD
+		ranges = <0x00 0x00 0x80000000 0x281000>;
+=======
+		ranges = <0x00 0x00 0x80000000 0x10000>;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		usb@c300 {
 			compatible = "generic-ehci";
@@ -130,8 +138,14 @@
 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
 			status = "disabled";
 		};
+<<<<<<< HEAD
 
 		bus@80000 {
+=======
+<<<<<<< HEAD
+
+		ethernet-switch@80000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "simple-bus";
 			#size-cells = <1>;
 			#address-cells = <1>;
@@ -228,6 +242,11 @@
 				#power-domain-cells = <1>;
 			};
 		};
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	bus@ff800000 {
@@ -275,6 +294,10 @@
 			};
 		};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		misc@2600 {
 			compatible = "brcm,misc", "simple-mfd";
 			reg = <0x2600 0xe4>;
@@ -290,6 +313,11 @@
 			};
 		};
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reboot {
 			compatible = "syscon-reboot";
 			regmap = <&timer>;

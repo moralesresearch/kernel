@@ -40,9 +40,13 @@ description: |
         sdm630
         sdm660
         sdm845
+<<<<<<< HEAD
         sdx55
         sm8250
         sm8350
+=======
+        sm8250
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   The 'board' element must be one of the following strings:
 
@@ -171,11 +175,14 @@ properties:
 
       - items:
           - enum:
+<<<<<<< HEAD
               - qcom,sdx55-mtp
           - const: qcom,sdx55
 
       - items:
           - enum:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               - qcom,ipq6018-cp01-c1
           - const: qcom,ipq6018
 
@@ -185,11 +192,14 @@ properties:
               - qcom,sm8250-mtp
           - const: qcom,sm8250
 
+<<<<<<< HEAD
       - items:
           - enum:
               - qcom,sm8350-mtp
           - const: qcom,sm8350
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 additionalProperties: true
 
 ...

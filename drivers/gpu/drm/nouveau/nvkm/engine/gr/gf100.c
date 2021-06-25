@@ -2087,8 +2087,13 @@ gf100_gr_flcn = {
 };
 
 int
+<<<<<<< HEAD
 gf100_gr_new_(const struct gf100_gr_fwif *fwif, struct nvkm_device *device,
 	      enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
+=======
+gf100_gr_new_(const struct gf100_gr_fwif *fwif,
+	      struct nvkm_device *device, int index, struct nvkm_gr **pgr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gf100_gr *gr;
 	int ret;
@@ -2097,7 +2102,11 @@ gf100_gr_new_(const struct gf100_gr_fwif *fwif, struct nvkm_device *device,
 		return -ENOMEM;
 	*pgr = &gr->base;
 
+<<<<<<< HEAD
 	ret = nvkm_gr_ctor(&gf100_gr_, device, type, inst, true, &gr->base);
+=======
+	ret = nvkm_gr_ctor(&gf100_gr_, device, index, true, &gr->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -2483,7 +2492,13 @@ gf100_gr_fwif[] = {
 };
 
 int
+<<<<<<< HEAD
 gf100_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
 {
 	return gf100_gr_new_(gf100_gr_fwif, device, type, inst, pgr);
+=======
+gf100_gr_new(struct nvkm_device *device, int index, struct nvkm_gr **pgr)
+{
+	return gf100_gr_new_(gf100_gr_fwif, device, index, pgr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

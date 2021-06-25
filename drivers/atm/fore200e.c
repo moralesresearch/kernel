@@ -100,6 +100,11 @@ static LIST_HEAD(fore200e_boards);
 
 MODULE_AUTHOR("Christophe Lizzi - credits to Uwe Dannowski and Heikki Vatiainen");
 MODULE_DESCRIPTION("FORE Systems 200E-series ATM driver - version " FORE200E_VERSION);
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("PCA-200E, SBA-200E");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const int fore200e_rx_buf_nbr[ BUFFER_SCHEME_NBR ][ BUFFER_MAGN_NBR ] = {
     { BUFFER_S1_NBR, BUFFER_L1_NBR },

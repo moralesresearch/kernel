@@ -3736,7 +3736,11 @@ default_chipset:
 	if (err)
 		goto free_irq;
 
+<<<<<<< HEAD
 	platform_set_drvdata(pdev, info);
+=======
+	dev_set_drvdata(&pdev->dev, info);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = register_framebuffer(info);
 	if (err)
@@ -3764,7 +3768,11 @@ release:
 
 static int __exit amifb_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct fb_info *info = platform_get_drvdata(pdev);
+=======
+	struct fb_info *info = dev_get_drvdata(&pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unregister_framebuffer(info);
 	fb_dealloc_cmap(&info->cmap);

@@ -1488,7 +1488,11 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
 
 	mmc_of_parse_voltage(np, &host->ocr_mask);
 
+<<<<<<< HEAD
 	if (esdhc_is_usdhc(imx_data) && !IS_ERR(imx_data->pinctrl)) {
+=======
+	if (esdhc_is_usdhc(imx_data)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		imx_data->pins_100mhz = pinctrl_lookup_state(imx_data->pinctrl,
 						ESDHC_PINCTRL_STATE_100MHZ);
 		imx_data->pins_200mhz = pinctrl_lookup_state(imx_data->pinctrl,

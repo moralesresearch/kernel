@@ -1520,16 +1520,35 @@ valid:
 	return ap;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Warn and return error if the kprobe is being re-registered since
  * there must be a software bug.
  */
 static inline int warn_kprobe_rereg(struct kprobe *p)
+<<<<<<< HEAD
+=======
+=======
+/* Return error if the kprobe is being re-registered */
+static inline int check_kprobe_rereg(struct kprobe *p)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0;
 
 	mutex_lock(&kprobe_mutex);
+<<<<<<< HEAD
 	if (WARN_ON_ONCE(__get_valid_kprobe(p)))
+=======
+<<<<<<< HEAD
+	if (WARN_ON_ONCE(__get_valid_kprobe(p)))
+=======
+	if (__get_valid_kprobe(p))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EINVAL;
 	mutex_unlock(&kprobe_mutex);
 
@@ -1617,7 +1636,15 @@ int register_kprobe(struct kprobe *p)
 		return PTR_ERR(addr);
 	p->addr = addr;
 
+<<<<<<< HEAD
 	ret = warn_kprobe_rereg(p);
+=======
+<<<<<<< HEAD
+	ret = warn_kprobe_rereg(p);
+=======
+	ret = check_kprobe_rereg(p);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1998,7 +2025,15 @@ int register_kretprobe(struct kretprobe *rp)
 		return ret;
 
 	/* If only rp->kp.addr is specified, check reregistering kprobes */
+<<<<<<< HEAD
 	if (rp->kp.addr && warn_kprobe_rereg(&rp->kp))
+=======
+<<<<<<< HEAD
+	if (rp->kp.addr && warn_kprobe_rereg(&rp->kp))
+=======
+	if (rp->kp.addr && check_kprobe_rereg(&rp->kp))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	if (kretprobe_blacklist_size) {

@@ -488,8 +488,13 @@ static int mtk_nfc_exec_instr(struct nand_chip *chip,
 		return 0;
 	case NAND_OP_WAITRDY_INSTR:
 		return readl_poll_timeout(nfc->regs + NFI_STA, status,
+<<<<<<< HEAD
 					  !(status & STA_BUSY), 20,
 					  instr->ctx.waitrdy.timeout_ms * 1000);
+=======
+					  status & STA_BUSY, 20,
+					  instr->ctx.waitrdy.timeout_ms);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}

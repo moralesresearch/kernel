@@ -196,7 +196,11 @@ intel_gpio_create(struct drm_psb_private *dev_priv, u32 pin)
 		 "gma500 GPIO%c", "?BACDE?F"[pin]);
 	gpio->adapter.owner = THIS_MODULE;
 	gpio->adapter.algo_data	= &gpio->algo;
+<<<<<<< HEAD
 	gpio->adapter.dev.parent = dev_priv->dev->dev;
+=======
+	gpio->adapter.dev.parent = &dev_priv->dev->pdev->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gpio->algo.setsda = set_data;
 	gpio->algo.setscl = set_clock;
 	gpio->algo.getsda = get_data;
@@ -417,7 +421,11 @@ int gma_intel_setup_gmbus(struct drm_device *dev)
 			 "gma500 gmbus %s",
 			 names[i]);
 
+<<<<<<< HEAD
 		bus->adapter.dev.parent = dev->dev;
+=======
+		bus->adapter.dev.parent = &dev->pdev->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bus->adapter.algo_data	= dev_priv;
 
 		bus->adapter.algo = &gmbus_algorithm;

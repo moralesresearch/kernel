@@ -30,14 +30,23 @@ void
 gf100_pmu_reset(struct nvkm_pmu *pmu)
 {
 	struct nvkm_device *device = pmu->subdev.device;
+<<<<<<< HEAD
 	nvkm_mc_disable(device, NVKM_SUBDEV_PMU, 0);
 	nvkm_mc_enable(device, NVKM_SUBDEV_PMU, 0);
+=======
+	nvkm_mc_disable(device, NVKM_SUBDEV_PMU);
+	nvkm_mc_enable(device, NVKM_SUBDEV_PMU);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool
 gf100_pmu_enabled(struct nvkm_pmu *pmu)
 {
+<<<<<<< HEAD
 	return nvkm_mc_enabled(pmu->subdev.device, NVKM_SUBDEV_PMU, 0);
+=======
+	return nvkm_mc_enabled(pmu->subdev.device, NVKM_SUBDEV_PMU);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct nvkm_pmu_func
@@ -69,8 +78,14 @@ gf100_pmu_fwif[] = {
 };
 
 int
+<<<<<<< HEAD
 gf100_pmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_pmu **ppmu)
 {
 	return nvkm_pmu_new_(gf100_pmu_fwif, device, type, inst, ppmu);
+=======
+gf100_pmu_new(struct nvkm_device *device, int index, struct nvkm_pmu **ppmu)
+{
+	return nvkm_pmu_new_(gf100_pmu_fwif, device, index, ppmu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -911,7 +911,11 @@ static void iavf_print_link_message(struct iavf_adapter *adapter)
 		return;
 	}
 
+<<<<<<< HEAD
 	speed = kzalloc(IAVF_MAX_SPEED_STRLEN, GFP_KERNEL);
+=======
+	speed = kcalloc(1, IAVF_MAX_SPEED_STRLEN, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!speed)
 		return;
 

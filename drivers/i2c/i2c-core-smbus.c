@@ -323,7 +323,12 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 	 */
 	unsigned char msgbuf0[I2C_SMBUS_BLOCK_MAX+3];
 	unsigned char msgbuf1[I2C_SMBUS_BLOCK_MAX+2];
+<<<<<<< HEAD
 	int nmsgs = read_write == I2C_SMBUS_READ ? 2 : 1;
+=======
+	int num = read_write == I2C_SMBUS_READ ? 2 : 1;
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 partial_pec = 0;
 	int status;
 	struct i2c_msg msg[2] = {
@@ -339,8 +344,11 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 			.buf = msgbuf1,
 		},
 	};
+<<<<<<< HEAD
 	bool wants_pec = ((flags & I2C_CLIENT_PEC) && size != I2C_SMBUS_QUICK
 			  && size != I2C_SMBUS_I2C_BLOCK_DATA);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	msgbuf0[0] = command;
 	switch (size) {
@@ -349,13 +357,21 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 		/* Special case: The read/write field is used as data */
 		msg[0].flags = flags | (read_write == I2C_SMBUS_READ ?
 					I2C_M_RD : 0);
+<<<<<<< HEAD
 		nmsgs = 1;
+=======
+		num = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case I2C_SMBUS_BYTE:
 		if (read_write == I2C_SMBUS_READ) {
 			/* Special case: only a read! */
 			msg[0].flags = I2C_M_RD | flags;
+<<<<<<< HEAD
 			nmsgs = 1;
+=======
+			num = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	case I2C_SMBUS_BYTE_DATA:
@@ -376,7 +392,11 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 		}
 		break;
 	case I2C_SMBUS_PROC_CALL:
+<<<<<<< HEAD
 		nmsgs = 2; /* Special case */
+=======
+		num = 2; /* Special case */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		read_write = I2C_SMBUS_READ;
 		msg[0].len = 3;
 		msg[1].len = 2;
@@ -399,11 +419,20 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 			}
 
 			i2c_smbus_try_get_dmabuf(&msg[0], command);
+<<<<<<< HEAD
 			memcpy(msg[0].buf + 1, data->block, msg[0].len - 1);
 		}
 		break;
 	case I2C_SMBUS_BLOCK_PROC_CALL:
 		nmsgs = 2; /* Another special case */
+=======
+			for (i = 1; i < msg[0].len; i++)
+				msg[0].buf[i] = data->block[i - 1];
+		}
+		break;
+	case I2C_SMBUS_BLOCK_PROC_CALL:
+		num = 2; /* Another special case */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		read_write = I2C_SMBUS_READ;
 		if (data->block[0] > I2C_SMBUS_BLOCK_MAX) {
 			dev_err(&adapter->dev,
@@ -414,7 +443,12 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 
 		msg[0].len = data->block[0] + 2;
 		i2c_smbus_try_get_dmabuf(&msg[0], command);
+<<<<<<< HEAD
 		memcpy(msg[0].buf + 1, data->block, msg[0].len - 1);
+=======
+		for (i = 1; i < msg[0].len; i++)
+			msg[0].buf[i] = data->block[i - 1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		msg[1].flags |= I2C_M_RECV_LEN;
 		msg[1].len = 1; /* block length will be added by
@@ -436,7 +470,12 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 			msg[0].len = data->block[0] + 1;
 
 			i2c_smbus_try_get_dmabuf(&msg[0], command);
+<<<<<<< HEAD
 			memcpy(msg[0].buf + 1, data->block + 1, data->block[0]);
+=======
+			for (i = 1; i <= data->block[0]; i++)
+				msg[0].buf[i] = data->block[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	default:
@@ -444,15 +483,25 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
 	if (wants_pec) {
 		/* Compute PEC if first message is a write */
 		if (!(msg[0].flags & I2C_M_RD)) {
 			if (nmsgs == 1) /* Write only */
+=======
+	i = ((flags & I2C_CLIENT_PEC) && size != I2C_SMBUS_QUICK
+				      && size != I2C_SMBUS_I2C_BLOCK_DATA);
+	if (i) {
+		/* Compute PEC if first message is a write */
+		if (!(msg[0].flags & I2C_M_RD)) {
+			if (num == 1) /* Write only */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				i2c_smbus_add_pec(&msg[0]);
 			else /* Write followed by read */
 				partial_pec = i2c_smbus_msg_pec(0, &msg[0]);
 		}
 		/* Ask for PEC if last message is a read */
+<<<<<<< HEAD
 		if (msg[nmsgs - 1].flags & I2C_M_RD)
 			msg[nmsgs - 1].len++;
 	}
@@ -461,14 +510,29 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 	if (status < 0)
 		goto cleanup;
 	if (status != nmsgs) {
+=======
+		if (msg[num-1].flags & I2C_M_RD)
+			msg[num-1].len++;
+	}
+
+	status = __i2c_transfer(adapter, msg, num);
+	if (status < 0)
+		goto cleanup;
+	if (status != num) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		status = -EIO;
 		goto cleanup;
 	}
 	status = 0;
 
 	/* Check PEC if last message is a read */
+<<<<<<< HEAD
 	if (wants_pec && (msg[nmsgs - 1].flags & I2C_M_RD)) {
 		status = i2c_smbus_check_pec(partial_pec, &msg[nmsgs - 1]);
+=======
+	if (i && (msg[num-1].flags & I2C_M_RD)) {
+		status = i2c_smbus_check_pec(partial_pec, &msg[num-1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status < 0)
 			goto cleanup;
 	}
@@ -486,7 +550,12 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 			data->word = msgbuf1[0] | (msgbuf1[1] << 8);
 			break;
 		case I2C_SMBUS_I2C_BLOCK_DATA:
+<<<<<<< HEAD
 			memcpy(data->block + 1, msg[1].buf, data->block[0]);
+=======
+			for (i = 0; i < data->block[0]; i++)
+				data->block[i + 1] = msg[1].buf[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case I2C_SMBUS_BLOCK_DATA:
 		case I2C_SMBUS_BLOCK_PROC_CALL:
@@ -497,7 +566,12 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
 				status = -EPROTO;
 				goto cleanup;
 			}
+<<<<<<< HEAD
 			memcpy(data->block, msg[1].buf, msg[1].buf[0] + 1);
+=======
+			for (i = 0; i < msg[1].buf[0] + 1; i++)
+				data->block[i] = msg[1].buf[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 

@@ -84,7 +84,10 @@ struct mlxsw_core {
 	struct mlxsw_thermal *thermal;
 	struct mlxsw_core_port *ports;
 	unsigned int max_ports;
+<<<<<<< HEAD
 	atomic_t active_ports_count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool fw_flash_in_progress;
 	struct {
 		struct devlink_health_reporter *fw_fatal;
@@ -97,6 +100,7 @@ struct mlxsw_core {
 
 #define MLXSW_PORT_MAX_PORTS_DEFAULT	0x40
 
+<<<<<<< HEAD
 static u64 mlxsw_ports_occ_get(void *priv)
 {
 	struct mlxsw_core *mlxsw_core = priv;
@@ -127,6 +131,10 @@ static int mlxsw_ports_init(struct mlxsw_core *mlxsw_core, bool reload)
 	struct devlink *devlink = priv_to_devlink(mlxsw_core);
 	int err;
 
+=======
+static int mlxsw_ports_init(struct mlxsw_core *mlxsw_core)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Switch ports are numbered from 1 to queried value */
 	if (MLXSW_CORE_RES_VALID(mlxsw_core, MAX_SYSTEM_PORT))
 		mlxsw_core->max_ports = MLXSW_CORE_RES_GET(mlxsw_core,
@@ -139,6 +147,7 @@ static int mlxsw_ports_init(struct mlxsw_core *mlxsw_core, bool reload)
 	if (!mlxsw_core->ports)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (!reload) {
 		err = mlxsw_core_resources_ports_register(mlxsw_core);
 		if (err)
@@ -163,6 +172,13 @@ static void mlxsw_ports_fini(struct mlxsw_core *mlxsw_core, bool reload)
 	if (!reload)
 		devlink_resources_unregister(priv_to_devlink(mlxsw_core), NULL);
 
+=======
+	return 0;
+}
+
+static void mlxsw_ports_fini(struct mlxsw_core *mlxsw_core)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(mlxsw_core->ports);
 }
 
@@ -1945,7 +1961,11 @@ __mlxsw_core_bus_device_register(const struct mlxsw_bus_info *mlxsw_bus_info,
 			goto err_register_resources;
 	}
 
+<<<<<<< HEAD
 	err = mlxsw_ports_init(mlxsw_core, reload);
+=======
+	err = mlxsw_ports_init(mlxsw_core);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_ports_init;
 
@@ -2034,7 +2054,11 @@ err_devlink_register:
 err_emad_init:
 	kfree(mlxsw_core->lag.mapping);
 err_alloc_lag_mapping:
+<<<<<<< HEAD
 	mlxsw_ports_fini(mlxsw_core, reload);
+=======
+	mlxsw_ports_fini(mlxsw_core);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_ports_init:
 	if (!reload)
 		devlink_resources_unregister(devlink, NULL);
@@ -2104,7 +2128,11 @@ void mlxsw_core_bus_device_unregister(struct mlxsw_core *mlxsw_core,
 		devlink_unregister(devlink);
 	mlxsw_emad_fini(mlxsw_core);
 	kfree(mlxsw_core->lag.mapping);
+<<<<<<< HEAD
 	mlxsw_ports_fini(mlxsw_core, reload);
+=======
+	mlxsw_ports_fini(mlxsw_core);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!reload)
 		devlink_resources_unregister(devlink, NULL);
 	mlxsw_core->bus->fini(mlxsw_core->bus_priv);
@@ -2803,6 +2831,7 @@ int mlxsw_core_port_init(struct mlxsw_core *mlxsw_core, u8 local_port,
 			 const unsigned char *switch_id,
 			 unsigned char switch_id_len)
 {
+<<<<<<< HEAD
 	int err;
 
 	err = __mlxsw_core_port_init(mlxsw_core, local_port,
@@ -2815,13 +2844,23 @@ int mlxsw_core_port_init(struct mlxsw_core *mlxsw_core, u8 local_port,
 
 	atomic_inc(&mlxsw_core->active_ports_count);
 	return 0;
+=======
+	return __mlxsw_core_port_init(mlxsw_core, local_port,
+				      DEVLINK_PORT_FLAVOUR_PHYSICAL,
+				      port_number, split, split_port_subnumber,
+				      splittable, lanes,
+				      switch_id, switch_id_len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(mlxsw_core_port_init);
 
 void mlxsw_core_port_fini(struct mlxsw_core *mlxsw_core, u8 local_port)
 {
+<<<<<<< HEAD
 	atomic_dec(&mlxsw_core->active_ports_count);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__mlxsw_core_port_fini(mlxsw_core, local_port);
 }
 EXPORT_SYMBOL(mlxsw_core_port_fini);

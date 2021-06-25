@@ -93,6 +93,7 @@ TRACE_EVENT(kvm_hv_hypercall,
 );
 
 /*
+<<<<<<< HEAD
  * Tracepoint for Xen hypercall.
  */
 TRACE_EVENT(kvm_xen_hypercall,
@@ -129,6 +130,8 @@ TRACE_EVENT(kvm_xen_hypercall,
 
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Tracepoint for PIO.
  */
 
@@ -292,7 +295,11 @@ TRACE_EVENT(name,							     \
 		__entry->guest_rip	= kvm_rip_read(vcpu);		     \
 		__entry->isa            = isa;				     \
 		__entry->vcpu_id        = vcpu->vcpu_id;		     \
+<<<<<<< HEAD
 		static_call(kvm_x86_get_exit_info)(vcpu, &__entry->info1,    \
+=======
+		kvm_x86_ops.get_exit_info(vcpu, &__entry->info1,	     \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  &__entry->info2,		     \
 					  &__entry->intr_info,		     \
 					  &__entry->error_code);	     \
@@ -774,7 +781,11 @@ TRACE_EVENT(kvm_emulate_insn,
 		),
 
 	TP_fast_assign(
+<<<<<<< HEAD
 		__entry->csbase = static_call(kvm_x86_get_segment_base)(vcpu, VCPU_SREG_CS);
+=======
+		__entry->csbase = kvm_x86_ops.get_segment_base(vcpu, VCPU_SREG_CS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->len = vcpu->arch.emulate_ctxt->fetch.ptr
 			       - vcpu->arch.emulate_ctxt->fetch.data;
 		__entry->rip = vcpu->arch.emulate_ctxt->_eip - __entry->len;
@@ -1550,16 +1561,28 @@ TRACE_EVENT(kvm_nested_vmenter_failed,
 	TP_ARGS(msg, err),
 
 	TP_STRUCT__entry(
+<<<<<<< HEAD
+		__string(msg, msg)
+=======
 		__field(const char *, msg)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__field(u32, err)
 	),
 
 	TP_fast_assign(
+<<<<<<< HEAD
+		__assign_str(msg, msg);
+		__entry->err = err;
+	),
+
+	TP_printk("%s%s", __get_str(msg), !__entry->err ? "" :
+=======
 		__entry->msg = msg;
 		__entry->err = err;
 	),
 
 	TP_printk("%s%s", __entry->msg, !__entry->err ? "" :
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__print_symbolic(__entry->err, VMX_VMENTER_INSTRUCTION_ERRORS))
 );
 

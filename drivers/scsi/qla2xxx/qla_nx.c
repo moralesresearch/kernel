@@ -1063,8 +1063,12 @@ qla82xx_write_flash_dword(struct qla_hw_data *ha, uint32_t flashaddr,
 		return ret;
 	}
 
+<<<<<<< HEAD
 	ret = qla82xx_flash_set_write_enable(ha);
 	if (ret < 0)
+=======
+	if (qla82xx_flash_set_write_enable(ha))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto done_write;
 
 	qla82xx_wr_32(ha, QLA82XX_ROMUSB_ROM_WDATA, data);

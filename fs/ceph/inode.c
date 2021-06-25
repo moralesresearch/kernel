@@ -56,9 +56,12 @@ struct inode *ceph_get_inode(struct super_block *sb, struct ceph_vino vino)
 {
 	struct inode *inode;
 
+<<<<<<< HEAD
 	if (ceph_vino_is_reserved(vino))
 		return ERR_PTR(-EREMOTEIO);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode = iget5_locked(sb, (unsigned long)vino.ino, ceph_ino_compare,
 			     ceph_set_ino_cb, &vino);
 	if (!inode)
@@ -90,6 +93,7 @@ struct inode *ceph_get_snapdir(struct inode *parent)
 	inode->i_mtime = parent->i_mtime;
 	inode->i_ctime = parent->i_ctime;
 	inode->i_atime = parent->i_atime;
+<<<<<<< HEAD
 	ci->i_rbytes = 0;
 	ci->i_btime = ceph_inode(parent)->i_btime;
 
@@ -99,6 +103,16 @@ struct inode *ceph_get_snapdir(struct inode *parent)
 		ci->i_snap_caps = CEPH_CAP_PIN; /* so we can open */
 		unlock_new_inode(inode);
 	}
+=======
+	inode->i_op = &ceph_snapdir_iops;
+	inode->i_fop = &ceph_snapdir_fops;
+	ci->i_snap_caps = CEPH_CAP_PIN; /* so we can open */
+	ci->i_rbytes = 0;
+	ci->i_btime = ceph_inode(parent)->i_btime;
+
+	if (inode->i_state & I_NEW)
+		unlock_new_inode(inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return inode;
 }
@@ -1820,6 +1834,7 @@ void ceph_async_iput(struct inode *inode)
 	}
 }
 
+<<<<<<< HEAD
 void ceph_queue_inode_work(struct inode *inode, int work_bit)
 {
 	struct ceph_fs_client *fsc = ceph_inode_to_client(inode);
@@ -1831,6 +1846,62 @@ void ceph_queue_inode_work(struct inode *inode, int work_bit)
 		dout("queue_inode_work %p, mask=%lx\n", inode, ci->i_work_mask);
 	} else {
 		dout("queue_inode_work %p already queued, mask=%lx\n",
+=======
+/*
+ * Write back inode data in a worker thread.  (This can't be done
+ * in the message handler context.)
+ */
+void ceph_queue_writeback(struct inode *inode)
+{
+	struct ceph_inode_info *ci = ceph_inode(inode);
+	set_bit(CEPH_I_WORK_WRITEBACK, &ci->i_work_mask);
+
+	ihold(inode);
+	if (queue_work(ceph_inode_to_client(inode)->inode_wq,
+		       &ci->i_work)) {
+		dout("ceph_queue_writeback %p\n", inode);
+	} else {
+		dout("ceph_queue_writeback %p already queued, mask=%lx\n",
+		     inode, ci->i_work_mask);
+		iput(inode);
+	}
+}
+
+/*
+ * queue an async invalidation
+ */
+void ceph_queue_invalidate(struct inode *inode)
+{
+	struct ceph_inode_info *ci = ceph_inode(inode);
+	set_bit(CEPH_I_WORK_INVALIDATE_PAGES, &ci->i_work_mask);
+
+	ihold(inode);
+	if (queue_work(ceph_inode_to_client(inode)->inode_wq,
+		       &ceph_inode(inode)->i_work)) {
+		dout("ceph_queue_invalidate %p\n", inode);
+	} else {
+		dout("ceph_queue_invalidate %p already queued, mask=%lx\n",
+		     inode, ci->i_work_mask);
+		iput(inode);
+	}
+}
+
+/*
+ * Queue an async vmtruncate.  If we fail to queue work, we will handle
+ * the truncation the next time we call __ceph_do_pending_vmtruncate.
+ */
+void ceph_queue_vmtruncate(struct inode *inode)
+{
+	struct ceph_inode_info *ci = ceph_inode(inode);
+	set_bit(CEPH_I_WORK_VMTRUNCATE, &ci->i_work_mask);
+
+	ihold(inode);
+	if (queue_work(ceph_inode_to_client(inode)->inode_wq,
+		       &ci->i_work)) {
+		dout("ceph_queue_vmtruncate %p\n", inode);
+	} else {
+		dout("ceph_queue_vmtruncate %p already queued, mask=%lx\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     inode, ci->i_work_mask);
 		iput(inode);
 	}
@@ -1867,7 +1938,10 @@ static void ceph_do_invalidate_pages(struct inode *inode)
 	orig_gen = ci->i_rdcache_gen;
 	spin_unlock(&ci->i_ceph_lock);
 
+<<<<<<< HEAD
 	ceph_fscache_invalidate(inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (invalidate_inode_pages2(inode->i_mapping) < 0) {
 		pr_err("invalidate_pages %p fails\n", inode);
 	}
@@ -1970,12 +2044,15 @@ static void ceph_inode_work(struct work_struct *work)
 	if (test_and_clear_bit(CEPH_I_WORK_VMTRUNCATE, &ci->i_work_mask))
 		__ceph_do_pending_vmtruncate(inode);
 
+<<<<<<< HEAD
 	if (test_and_clear_bit(CEPH_I_WORK_CHECK_CAPS, &ci->i_work_mask))
 		ceph_check_caps(ci, 0, NULL);
 
 	if (test_and_clear_bit(CEPH_I_WORK_FLUSH_SNAPS, &ci->i_work_mask))
 		ceph_flush_snaps(ci, NULL);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iput(inode);
 }
 
@@ -2206,8 +2283,12 @@ int __ceph_setattr(struct inode *inode, struct iattr *attr)
 /*
  * setattr
  */
+<<<<<<< HEAD
 int ceph_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		 struct iattr *attr)
+=======
+int ceph_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct ceph_fs_client *fsc = ceph_inode_to_client(inode);
@@ -2216,7 +2297,11 @@ int ceph_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	if (ceph_snap(inode) != CEPH_NOSNAP)
 		return -EROFS;
 
+<<<<<<< HEAD
 	err = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	err = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err != 0)
 		return err;
 
@@ -2231,7 +2316,11 @@ int ceph_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	err = __ceph_setattr(inode, attr);
 
 	if (err >= 0 && (attr->ia_valid & ATTR_MODE))
+<<<<<<< HEAD
 		err = posix_acl_chmod(&init_user_ns, inode, attr->ia_mode);
+=======
+		err = posix_acl_chmod(inode, attr->ia_mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -2290,8 +2379,12 @@ int __ceph_do_getattr(struct inode *inode, struct page *locked_page,
  * Check inode permissions.  We verify we have a valid value for
  * the AUTH cap, then call the generic handler.
  */
+<<<<<<< HEAD
 int ceph_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		    int mask)
+=======
+int ceph_permission(struct inode *inode, int mask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
@@ -2301,7 +2394,11 @@ int ceph_permission(struct user_namespace *mnt_userns, struct inode *inode,
 	err = ceph_do_getattr(inode, CEPH_CAP_AUTH_SHARED, false);
 
 	if (!err)
+<<<<<<< HEAD
 		err = generic_permission(&init_user_ns, inode, mask);
+=======
+		err = generic_permission(inode, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -2338,8 +2435,13 @@ static int statx_to_caps(u32 want, umode_t mode)
  * Get all the attributes. If we have sufficient caps for the requested attrs,
  * then we can avoid talking to the MDS at all.
  */
+<<<<<<< HEAD
 int ceph_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		 struct kstat *stat, u32 request_mask, unsigned int flags)
+=======
+int ceph_getattr(const struct path *path, struct kstat *stat,
+		 u32 request_mask, unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(path->dentry);
 	struct ceph_inode_info *ci = ceph_inode(inode);
@@ -2355,7 +2457,11 @@ int ceph_getattr(struct user_namespace *mnt_userns, const struct path *path,
 			return err;
 	}
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
+=======
+	generic_fillattr(inode, stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->ino = ceph_present_inode(inode);
 
 	/*

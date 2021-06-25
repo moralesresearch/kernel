@@ -336,19 +336,31 @@ static int wled3_sync_toggle(struct wled *wled)
 	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
 
 	rc = regmap_update_bits(wled->regmap,
+<<<<<<< HEAD
 				wled->sink_addr + WLED3_SINK_REG_SYNC,
+=======
+				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				mask, mask);
 	if (rc < 0)
 		return rc;
 
 	rc = regmap_update_bits(wled->regmap,
+<<<<<<< HEAD
 				wled->sink_addr + WLED3_SINK_REG_SYNC,
+=======
+				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				mask, WLED3_SINK_REG_SYNC_CLEAR);
 
 	return rc;
 }
 
+<<<<<<< HEAD
 static int wled5_mod_sync_toggle(struct wled *wled)
+=======
+static int wled5_sync_toggle(struct wled *wled)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc;
 	u8 val;
@@ -445,6 +457,7 @@ static int wled_update_status(struct backlight_device *bl)
 			goto unlock_mutex;
 		}
 
+<<<<<<< HEAD
 		if (wled->version < 5) {
 			rc = wled->wled_sync_toggle(wled);
 			if (rc < 0) {
@@ -462,6 +475,12 @@ static int wled_update_status(struct backlight_device *bl)
 					rc);
 				goto unlock_mutex;
 			}
+=======
+		rc = wled->wled_sync_toggle(wled);
+		if (rc < 0) {
+			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+			goto unlock_mutex;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1472,7 +1491,11 @@ static int wled_configure(struct wled *wled)
 		size = ARRAY_SIZE(wled5_opts);
 		*cfg = wled5_config_defaults;
 		wled->wled_set_brightness = wled5_set_brightness;
+<<<<<<< HEAD
 		wled->wled_sync_toggle = wled3_sync_toggle;
+=======
+		wled->wled_sync_toggle = wled5_sync_toggle;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		wled->wled_cabc_config = wled5_cabc_config;
 		wled->wled_ovp_delay = wled5_ovp_delay;
 		wled->wled_auto_detection_required =
@@ -1705,7 +1728,11 @@ static int wled_probe(struct platform_device *pdev)
 
 static int wled_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct wled *wled = platform_get_drvdata(pdev);
+=======
+	struct wled *wled = dev_get_drvdata(&pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_destroy(&wled->lock);
 	cancel_delayed_work_sync(&wled->ovp_work);

@@ -15,7 +15,14 @@ struct mount;
 struct shrink_control;
 struct fs_context;
 struct user_namespace;
+<<<<<<< HEAD
 struct pipe_inode_info;
+=======
+<<<<<<< HEAD
+struct pipe_inode_info;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * block_dev.c
@@ -74,7 +81,15 @@ extern int vfs_path_lookup(struct dentry *, struct vfsmount *,
 			   const char *, unsigned int, struct path *);
 long do_rmdir(int dfd, struct filename *name);
 long do_unlinkat(int dfd, struct filename *name);
+<<<<<<< HEAD
 int may_linkat(struct user_namespace *mnt_userns, struct path *link);
+=======
+<<<<<<< HEAD
+int may_linkat(struct user_namespace *mnt_userns, struct path *link);
+=======
+int may_linkat(struct path *link);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int do_renameat2(int olddfd, struct filename *oldname, int newdfd,
 		 struct filename *newname, unsigned int flags);
 
@@ -195,6 +210,10 @@ int sb_init_dio_done_wq(struct super_block *sb);
  */
 int do_statx(int dfd, const char __user *filename, unsigned flags,
 	     unsigned int mask, struct statx __user *buffer);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * fs/splice.c:
@@ -203,3 +222,8 @@ long splice_file_to_pipe(struct file *in,
 			 struct pipe_inode_info *opipe,
 			 loff_t *offset,
 			 size_t len, unsigned int flags);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -70,9 +70,12 @@
  *					checksum. Trying to program image again
  *					might solve this.
  *
+<<<<<<< HEAD
  * CPU_BOOT_ERR0_PLL_FAIL		PLL settings failed, meaning that one
  *					of the PLLs remains in REF_CLK
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * CPU_BOOT_ERR0_ENABLED		Error registers enabled.
  *					This is a main indication that the
  *					running FW populates the error
@@ -91,7 +94,10 @@
 #define CPU_BOOT_ERR0_EFUSE_FAIL		(1 << 9)
 #define CPU_BOOT_ERR0_PRI_IMG_VER_FAIL		(1 << 10)
 #define CPU_BOOT_ERR0_SEC_IMG_VER_FAIL		(1 << 11)
+<<<<<<< HEAD
 #define CPU_BOOT_ERR0_PLL_FAIL			(1 << 12)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CPU_BOOT_ERR0_ENABLED			(1 << 31)
 
 /*
@@ -154,14 +160,18 @@
  * CPU_BOOT_DEV_STS0_PLL_INFO_EN	FW retrieval of PLL info is enabled.
  *					Initialized in: linux
  *
+<<<<<<< HEAD
  * CPU_BOOT_DEV_STS0_SP_SRAM_EN		SP SRAM is initialized and available
  *					for use.
  *					Initialized in: preboot
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * CPU_BOOT_DEV_STS0_CLK_GATE_EN	Clock Gating enabled.
  *					FW initialized Clock Gating.
  *					Initialized in: preboot
  *
+<<<<<<< HEAD
  * CPU_BOOT_DEV_STS0_HBM_ECC_EN		HBM ECC handling Enabled.
  *					FW handles HBM ECC indications.
  *					Initialized in: linux
@@ -170,6 +180,8 @@
  *					is set to the PI counter.
  *					Initialized in: linux
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * CPU_BOOT_DEV_STS0_ENABLED		Device status register enabled.
  *					This is a main indication that the
  *					running FW populates the device status
@@ -191,10 +203,14 @@
 #define CPU_BOOT_DEV_STS0_DRAM_SCR_EN			(1 << 9)
 #define CPU_BOOT_DEV_STS0_FW_HARD_RST_EN		(1 << 10)
 #define CPU_BOOT_DEV_STS0_PLL_INFO_EN			(1 << 11)
+<<<<<<< HEAD
 #define CPU_BOOT_DEV_STS0_SP_SRAM_EN			(1 << 12)
 #define CPU_BOOT_DEV_STS0_CLK_GATE_EN			(1 << 13)
 #define CPU_BOOT_DEV_STS0_HBM_ECC_EN			(1 << 14)
 #define CPU_BOOT_DEV_STS0_PKT_PI_ACK_EN			(1 << 15)
+=======
+#define CPU_BOOT_DEV_STS0_CLK_GATE_EN			(1 << 13)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CPU_BOOT_DEV_STS0_ENABLED			(1 << 31)
 
 enum cpu_boot_status {

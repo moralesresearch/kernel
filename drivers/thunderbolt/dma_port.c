@@ -335,8 +335,11 @@ static int dma_port_flash_write_block(struct tb_dma_port *dma, u32 address,
 	/* Write the block to MAIL_DATA registers */
 	ret = dma_port_write(sw->tb->ctl, buf, tb_route(sw), dma->port,
 			    dma->base + MAIL_DATA, dwords, DMA_PORT_TIMEOUT);
+<<<<<<< HEAD
 	if (ret)
 		return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	in = MAIL_IN_CMD_FLASH_WRITE << MAIL_IN_CMD_SHIFT;
 
@@ -366,6 +369,17 @@ int dma_port_flash_read(struct tb_dma_port *dma, unsigned int address,
 			void *buf, size_t size)
 {
 	unsigned int retries = DMA_PORT_RETRIES;
+<<<<<<< HEAD
+
+	do {
+		unsigned int offset;
+		size_t nbytes;
+		int ret;
+
+		offset = address & 3;
+		nbytes = min_t(size_t, size + offset, MAIL_DATA_DWORDS * 4);
+
+=======
 	unsigned int offset;
 
 	offset = address & 3;
@@ -375,6 +389,7 @@ int dma_port_flash_read(struct tb_dma_port *dma, unsigned int address,
 		u32 nbytes = min_t(u32, size, MAIL_DATA_DWORDS * 4);
 		int ret;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = dma_port_flash_read_block(dma, address, dma->buf,
 						ALIGN(nbytes, 4));
 		if (ret) {
@@ -386,6 +401,10 @@ int dma_port_flash_read(struct tb_dma_port *dma, unsigned int address,
 			return ret;
 		}
 
+<<<<<<< HEAD
+		nbytes -= offset;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(buf, dma->buf + offset, nbytes);
 
 		size -= nbytes;

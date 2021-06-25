@@ -325,7 +325,11 @@ static int max77620_gpio_probe(struct platform_device *pdev)
 	girq->parents = NULL;
 	girq->default_type = IRQ_TYPE_NONE;
 	girq->handler = handle_edge_irq;
+<<<<<<< HEAD
 	girq->init_hw = max77620_gpio_irq_init_hw;
+=======
+	girq->init_hw = max77620_gpio_irq_init_hw,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	girq->threaded = true;
 
 	platform_set_drvdata(pdev, mgpio);

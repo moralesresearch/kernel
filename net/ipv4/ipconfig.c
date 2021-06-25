@@ -61,6 +61,10 @@
 #include <linux/export.h>
 #include <net/net_namespace.h>
 #include <net/arp.h>
+<<<<<<< HEAD
+=======
+#include <net/dsa.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/ip.h>
 #include <net/ipconfig.h>
 #include <net/route.h>
@@ -217,9 +221,15 @@ static int __init ic_open_devs(void)
 	last = &ic_first_dev;
 	rtnl_lock();
 
+<<<<<<< HEAD
 	/* bring loopback device up first */
 	for_each_netdev(&init_net, dev) {
 		if (!(dev->flags & IFF_LOOPBACK))
+=======
+	/* bring loopback and DSA master network devices up first */
+	for_each_netdev(&init_net, dev) {
+		if (!(dev->flags & IFF_LOOPBACK) && !netdev_uses_dsa(dev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		if (dev_change_flags(dev, dev->flags | IFF_UP, NULL) < 0)
 			pr_err("IP-Config: Failed to open %s\n", dev->name);
@@ -304,18 +314,24 @@ have_carrier:
 	return 0;
 }
 
+<<<<<<< HEAD
 /* Close all network interfaces except the one we've autoconfigured, and its
  * lowers, in case it's a stacked virtual interface.
  */
 static void __init ic_close_devs(void)
 {
 	struct net_device *selected_dev = ic_dev ? ic_dev->dev : NULL;
+=======
+static void __init ic_close_devs(void)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ic_device *d, *next;
 	struct net_device *dev;
 
 	rtnl_lock();
 	next = ic_first_dev;
 	while ((d = next)) {
+<<<<<<< HEAD
 		bool bring_down = (d != ic_dev);
 		struct net_device *lower;
 		struct list_head *iter;
@@ -332,6 +348,11 @@ static void __init ic_close_devs(void)
 			}
 		}
 		if (bring_down) {
+=======
+		next = d->next;
+		dev = d->dev;
+		if (d != ic_dev && !netdev_uses_dsa(dev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pr_debug("IP-Config: Downing %s\n", dev->name);
 			dev_change_flags(dev, d->flags, NULL);
 		}
@@ -886,7 +907,11 @@ static void __init ic_bootp_send_if(struct ic_device *d, unsigned long jiffies_d
 
 
 /*
+<<<<<<< HEAD
+ *  Copy BOOTP-supplied string
+=======
  *  Copy BOOTP-supplied string if not already set.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int __init ic_bootp_string(char *dest, char *src, int len, int max)
 {
@@ -935,12 +960,24 @@ static void __init ic_do_bootp_ext(u8 *ext)
 		}
 		break;
 	case 12:	/* Host name */
+<<<<<<< HEAD
+		if (!ic_host_name_set) {
+			ic_bootp_string(utsname()->nodename, ext+1, *ext,
+					__NEW_UTS_LEN);
+			ic_host_name_set = 1;
+		}
+		break;
+	case 15:	/* Domain name (DNS) */
+		if (!ic_domain[0])
+			ic_bootp_string(ic_domain, ext+1, *ext, sizeof(ic_domain));
+=======
 		ic_bootp_string(utsname()->nodename, ext+1, *ext,
 				__NEW_UTS_LEN);
 		ic_host_name_set = 1;
 		break;
 	case 15:	/* Domain name (DNS) */
 		ic_bootp_string(ic_domain, ext+1, *ext, sizeof(ic_domain));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case 17:	/* Root path */
 		if (!root_server_path[0])

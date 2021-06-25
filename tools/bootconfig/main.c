@@ -399,6 +399,10 @@ static int apply_xbc(const char *path, const char *xbc_path)
 	}
 	/* TODO: Ensure the @path is initramfs/initrd image */
 	if (fstat(fd, &stat) < 0) {
+<<<<<<< HEAD
+		ret = -errno;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("Failed to get the size of %s\n", path);
 		goto out;
 	}

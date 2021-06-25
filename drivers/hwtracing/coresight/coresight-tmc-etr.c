@@ -1040,7 +1040,11 @@ static int tmc_etr_enable_hw(struct tmc_drvdata *drvdata,
 	rc = tmc_etr_enable_catu(drvdata, etr_buf);
 	if (rc)
 		return rc;
+<<<<<<< HEAD
 	rc = coresight_claim_device(drvdata->csdev);
+=======
+	rc = coresight_claim_device(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rc) {
 		drvdata->etr_buf = etr_buf;
 		__tmc_etr_enable_hw(drvdata);
@@ -1134,7 +1138,11 @@ void tmc_etr_disable_hw(struct tmc_drvdata *drvdata)
 	__tmc_etr_disable_hw(drvdata);
 	/* Disable CATU device if this ETR is connected to one */
 	tmc_etr_disable_catu(drvdata);
+<<<<<<< HEAD
 	coresight_disclaim_device(drvdata->csdev);
+=======
+	coresight_disclaim_device(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Reset the ETR buf used by hardware */
 	drvdata->etr_buf = NULL;
 }

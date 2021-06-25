@@ -15,7 +15,14 @@ description: |-
   processing capability to connect CSI2 image-sensor modules to the
   DRA72x device.
 
+<<<<<<< HEAD
   CAL supports 2 camera port nodes on MIPI bus.
+=======
+  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+  should contain a 'port' child node with child 'endpoint' node. Please
+  refer to the bindings defined in
+  Documentation/devicetree/bindings/media/video-interfaces.txt.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 properties:
   compatible:
@@ -64,6 +71,7 @@ properties:
       Documentation/devicetree/bindings/power/power_domain.txt
     maxItems: 1
 
+<<<<<<< HEAD
   ports:
     $ref: /schemas/graph.yaml#/properties/ports
 
@@ -77,6 +85,33 @@ properties:
           endpoint:
             $ref: video-interfaces.yaml#
             unevaluatedProperties: false
+=======
+  # See ./video-interfaces.txt for details
+  ports:
+    type: object
+    additionalProperties: false
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+        additionalProperties: false
+
+        properties:
+          reg:
+            const: 0
+            description: CSI2 Port #0
+
+        patternProperties:
+          endpoint:
+            type: object
+            additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             properties:
               clock-lanes:
@@ -86,6 +121,7 @@ properties:
                 minItems: 1
                 maxItems: 4
 
+<<<<<<< HEAD
       port@1:
         $ref: /schemas/graph.yaml#/$defs/port-base
         unevaluatedProperties: false
@@ -95,6 +131,26 @@ properties:
           endpoint:
             $ref: video-interfaces.yaml#
             unevaluatedProperties: false
+=======
+              remote-endpoint: true
+
+        required:
+          - reg
+
+      port@1:
+        type: object
+        additionalProperties: false
+
+        properties:
+          reg:
+            const: 1
+            description: CSI2 Port #1
+
+        patternProperties:
+          endpoint:
+            type: object
+            additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             properties:
               clock-lanes:
@@ -104,7 +160,18 @@ properties:
                 minItems: 1
                 maxItems: 4
 
+<<<<<<< HEAD
     required:
+=======
+              remote-endpoint: true
+
+        required:
+          - reg
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - port@0
 
 required:

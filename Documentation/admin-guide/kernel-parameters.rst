@@ -60,7 +60,11 @@ Note that for the special case of a range one can split the range into equal
 sized groups and for each group use some amount from the beginning of that
 group:
 
+<<<<<<< HEAD
 	<cpu number>-<cpu number>:<used size>/<group size>
+=======
+	<cpu number>-cpu number>:<used size>/<group size>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 For example one can add to the command line following parameter:
 

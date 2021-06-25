@@ -165,7 +165,10 @@ tcl_ring_sel:
 	ti.pkt_offset = 0;
 	ti.lmac_id = ar->lmac_id;
 	ti.bss_ast_hash = arvif->ast_hash;
+<<<<<<< HEAD
 	ti.bss_ast_idx = arvif->ast_idx;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ti.dscp_tid_tbl_idx = 0;
 
 	if (skb->ip_summed == CHECKSUM_PARTIAL &&

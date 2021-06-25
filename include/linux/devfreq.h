@@ -137,7 +137,10 @@ struct devfreq_stats {
  *		using devfreq.
  * @profile:	device-specific devfreq profile
  * @governor:	method how to choose frequency based on the usage.
+<<<<<<< HEAD
  * @opp_table:	Reference to OPP table of dev.parent, if one exists.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @nb:		notifier block used to notify devfreq object that it should
  *		reevaluate operable frequencies. Devfreq users may use
  *		devfreq.nb to the corresponding register notifier call chain.
@@ -174,7 +177,10 @@ struct devfreq {
 	struct device dev;
 	struct devfreq_dev_profile *profile;
 	const struct devfreq_governor *governor;
+<<<<<<< HEAD
 	struct opp_table *opp_table;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct notifier_block nb;
 	struct delayed_work work;
 

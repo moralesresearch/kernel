@@ -547,6 +547,7 @@ static inline const char *mlx5_qp_state_str(int state)
 	}
 }
 
+<<<<<<< HEAD
 static inline int mlx5_get_qp_default_ts(struct mlx5_core_dev *dev)
 {
 	return !MLX5_CAP_ROCE(dev, qp_ts_format) ?
@@ -554,4 +555,6 @@ static inline int mlx5_get_qp_default_ts(struct mlx5_core_dev *dev)
 		       MLX5_QPC_TIMESTAMP_FORMAT_DEFAULT;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* MLX5_QP_H */

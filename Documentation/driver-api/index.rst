@@ -35,7 +35,10 @@ available subsections can be seen below.
    usb/index
    firewire
    pci/index
+<<<<<<< HEAD
    cxl/index
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    spi
    i2c
    ipmb
@@ -94,12 +97,19 @@ available subsections can be seen below.
    pps
    ptp
    phy/index
+<<<<<<< HEAD
+=======
+   pti_intel_mid
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    pwm
    pldmfw/index
    rfkill
    serial/index
    sm501
+<<<<<<< HEAD
    surface_aggregator/index
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    switchtec
    sync_file
    vfio-mediated-device

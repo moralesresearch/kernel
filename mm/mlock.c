@@ -278,7 +278,12 @@ static void __munlock_pagevec(struct pagevec *pvec, struct zone *zone)
 			 */
 			if (TestClearPageLRU(page)) {
 				lruvec = relock_page_lruvec_irq(page, lruvec);
+<<<<<<< HEAD
 				del_page_from_lru_list(page, lruvec);
+=======
+				del_page_from_lru_list(page, lruvec,
+							page_lru(page));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				continue;
 			} else
 				__munlock_isolation_failed(page);
@@ -622,7 +627,11 @@ static unsigned long count_mm_mlocked_page_nr(struct mm_struct *mm,
 
 	vma = find_vma(mm, start);
 	if (vma == NULL)
+<<<<<<< HEAD
 		return 0;
+=======
+		vma = mm->mmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (; vma ; vma = vma->vm_next) {
 		if (start >= vma->vm_end)

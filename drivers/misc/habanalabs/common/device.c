@@ -160,9 +160,18 @@ static int hl_mmap(struct file *filp, struct vm_area_struct *vma)
 	switch (vm_pgoff & HL_MMAP_TYPE_MASK) {
 	case HL_MMAP_TYPE_CB:
 		return hl_cb_mmap(hpriv, vma);
+<<<<<<< HEAD
 
 	case HL_MMAP_TYPE_BLOCK:
 		return hl_hw_block_mmap(hpriv, vma);
+=======
+<<<<<<< HEAD
+
+	case HL_MMAP_TYPE_BLOCK:
+		return hl_hw_block_mmap(hpriv, vma);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return -EINVAL;
@@ -394,6 +403,13 @@ static int device_early_init(struct hl_device *hdev)
 
 	mutex_init(&hdev->send_cpu_message_lock);
 	mutex_init(&hdev->debug_lock);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	mutex_init(&hdev->mmu_cache_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&hdev->cs_mirror_list);
 	spin_lock_init(&hdev->cs_mirror_lock);
 	INIT_LIST_HEAD(&hdev->fpriv_list);
@@ -434,6 +450,13 @@ static void device_early_fini(struct hl_device *hdev)
 {
 	int i;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	mutex_destroy(&hdev->mmu_cache_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&hdev->debug_lock);
 	mutex_destroy(&hdev->send_cpu_message_lock);
 
@@ -1187,6 +1210,10 @@ kill_processes:
 	atomic_set(&hdev->in_reset, 0);
 	hdev->needs_reset = false;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_notice(hdev->dev, "Successfully finished resetting the device\n");
 
 	if (hard_reset) {
@@ -1201,6 +1228,17 @@ kill_processes:
 	} else {
 		hdev->soft_reset_cnt++;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (hard_reset)
+		hdev->hard_reset_cnt++;
+	else
+		hdev->soft_reset_cnt++;
+
+	dev_warn(hdev->dev, "Successfully finished resetting the device\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -1351,16 +1389,33 @@ int hl_device_init(struct hl_device *hdev, struct class *hclass)
 
 	hdev->compute_ctx = NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hl_debugfs_add_device(hdev);
 
 	/* debugfs nodes are created in hl_ctx_init so it must be called after
 	 * hl_debugfs_add_device.
 	 */
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = hl_ctx_init(hdev, hdev->kernel_ctx, true);
 	if (rc) {
 		dev_err(hdev->dev, "failed to initialize kernel context\n");
 		kfree(hdev->kernel_ctx);
+<<<<<<< HEAD
 		goto remove_device_from_debugfs;
+=======
+<<<<<<< HEAD
+		goto remove_device_from_debugfs;
+=======
+		goto mmu_fini;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	rc = hl_cb_pool_init(hdev);
@@ -1369,6 +1424,14 @@ int hl_device_init(struct hl_device *hdev, struct class *hclass)
 		goto release_ctx;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	hl_debugfs_add_device(hdev);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * From this point, in case of an error, add char devices and create
 	 * sysfs nodes as part of the error flow, to allow debugging.
@@ -1451,6 +1514,10 @@ int hl_device_init(struct hl_device *hdev, struct class *hclass)
 
 	hdev->init_done = true;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* After initialization is done, we are ready to receive events from
 	 * the F/W. We can't do it before because we will ignore events and if
 	 * those events are fatal, we won't know about it and the device will
@@ -1458,14 +1525,27 @@ int hl_device_init(struct hl_device *hdev, struct class *hclass)
 	 */
 	hdev->asic_funcs->enable_events_from_fw(hdev);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 release_ctx:
 	if (hl_ctx_put(hdev->kernel_ctx) != 1)
 		dev_err(hdev->dev,
 			"kernel ctx is still alive on initialization failure\n");
+<<<<<<< HEAD
 remove_device_from_debugfs:
 	hl_debugfs_remove_device(hdev);
+=======
+<<<<<<< HEAD
+remove_device_from_debugfs:
+	hl_debugfs_remove_device(hdev);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 mmu_fini:
 	hl_mmu_fini(hdev);
 eq_fini:
@@ -1531,8 +1611,17 @@ void hl_device_fini(struct hl_device *hdev)
 		usleep_range(50, 200);
 		rc = atomic_cmpxchg(&hdev->in_reset, 0, 1);
 		if (ktime_compare(ktime_get(), timeout) > 0) {
+<<<<<<< HEAD
 			dev_crit(hdev->dev,
 				"Failed to remove device because reset function did not finish\n");
+=======
+<<<<<<< HEAD
+			dev_crit(hdev->dev,
+				"Failed to remove device because reset function did not finish\n");
+=======
+			WARN(1, "Failed to remove device because reset function did not finish\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return;
 		}
 	}
@@ -1565,6 +1654,14 @@ void hl_device_fini(struct hl_device *hdev)
 
 	device_late_fini(hdev);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	hl_debugfs_remove_device(hdev);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Halt the engines and disable interrupts so we won't get any more
 	 * completions from H/W and we won't have any accesses from the
@@ -1598,8 +1695,16 @@ void hl_device_fini(struct hl_device *hdev)
 	if ((hdev->kernel_ctx) && (hl_ctx_put(hdev->kernel_ctx) != 1))
 		dev_err(hdev->dev, "kernel ctx is still alive\n");
 
+<<<<<<< HEAD
 	hl_debugfs_remove_device(hdev);
 
+=======
+<<<<<<< HEAD
+	hl_debugfs_remove_device(hdev);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hl_vm_fini(hdev);
 
 	hl_mmu_fini(hdev);

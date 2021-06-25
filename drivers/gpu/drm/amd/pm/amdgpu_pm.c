@@ -36,7 +36,14 @@
 #include <linux/hwmon-sysfs.h>
 #include <linux/nospec.h>
 #include <linux/pm_runtime.h>
+<<<<<<< HEAD
 #include <asm/processor.h>
+=======
+<<<<<<< HEAD
+#include <asm/processor.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "hwmgr.h"
 
 static const struct cg_flag_name clocks[] = {
@@ -731,18 +738,36 @@ static ssize_t amdgpu_set_pp_table(struct device *dev,
  *
  * - minimum and maximum engine clock labeled OD_SCLK
  *
+<<<<<<< HEAD
  * - minimum(not available for Vega20 and Navi1x) and maximum memory
  *   clock labeled OD_MCLK
+=======
+<<<<<<< HEAD
+ * - minimum(not available for Vega20 and Navi1x) and maximum memory
+ *   clock labeled OD_MCLK
+=======
+ * - maximum memory clock labeled OD_MCLK
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * - three <frequency, voltage> points labeled OD_VDDC_CURVE.
  *   They can be used to calibrate the sclk voltage curve.
  *
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * - voltage offset(in mV) applied on target voltage calculation.
  *   This is available for Sienna Cichlid, Navy Flounder and Dimgrey
  *   Cavefish. For these ASICs, the target voltage calculation can be
  *   illustrated by "voltage = voltage calculated from v/f curve +
  *   overdrive vddgfx offset"
  *
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * - a list of valid ranges for sclk, mclk, and voltage curve points
  *   labeled OD_RANGE
  *
@@ -763,11 +788,20 @@ static ssize_t amdgpu_set_pp_table(struct device *dev,
  *   600mV. "vc 2 1000 1000" will update point3 with clock set
  *   as 1000Mhz and voltage 1000mV.
  *
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *   To update the voltage offset applied for gfxclk/voltage calculation,
  *   enter the new value by writing a string that contains "vo offset".
  *   This is supported by Sienna Cichlid, Navy Flounder and Dimgrey Cavefish.
  *   And the offset can be a positive or negative value.
  *
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * - When you have edited all of the states as needed, write "c" (commit)
  *   to the file to commit your changes
  *
@@ -800,8 +834,16 @@ static ssize_t amdgpu_set_pp_od_clk_voltage(struct device *dev,
 
 	if (*buf == 's')
 		type = PP_OD_EDIT_SCLK_VDDC_TABLE;
+<<<<<<< HEAD
 	else if (*buf == 'p')
 		type = PP_OD_EDIT_CCLK_VDDC_TABLE;
+=======
+<<<<<<< HEAD
+	else if (*buf == 'p')
+		type = PP_OD_EDIT_CCLK_VDDC_TABLE;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (*buf == 'm')
 		type = PP_OD_EDIT_MCLK_VDDC_TABLE;
 	else if(*buf == 'r')
@@ -810,8 +852,16 @@ static ssize_t amdgpu_set_pp_od_clk_voltage(struct device *dev,
 		type = PP_OD_COMMIT_DPM_TABLE;
 	else if (!strncmp(buf, "vc", 2))
 		type = PP_OD_EDIT_VDDC_CURVE;
+<<<<<<< HEAD
 	else if (!strncmp(buf, "vo", 2))
 		type = PP_OD_EDIT_VDDGFX_OFFSET;
+=======
+<<<<<<< HEAD
+	else if (!strncmp(buf, "vo", 2))
+		type = PP_OD_EDIT_VDDGFX_OFFSET;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		return -EINVAL;
 
@@ -819,6 +869,10 @@ static ssize_t amdgpu_set_pp_od_clk_voltage(struct device *dev,
 
 	tmp_str = buf_cpy;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((type == PP_OD_EDIT_VDDC_CURVE) ||
 	     (type == PP_OD_EDIT_VDDGFX_OFFSET))
 		tmp_str++;
@@ -827,6 +881,17 @@ static ssize_t amdgpu_set_pp_od_clk_voltage(struct device *dev,
 	while ((sub_str = strsep(&tmp_str, delimiter)) != NULL) {
 		if (strlen(sub_str) == 0)
 			continue;
+<<<<<<< HEAD
+=======
+=======
+	if (type == PP_OD_EDIT_VDDC_CURVE)
+		tmp_str++;
+	while (isspace(*++tmp_str));
+
+	while (tmp_str[0]) {
+		sub_str = strsep(&tmp_str, delimiter);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = kstrtol(sub_str, 0, &parameter[parameter_size]);
 		if (ret)
 			return -EINVAL;
@@ -917,9 +982,19 @@ static ssize_t amdgpu_get_pp_od_clk_voltage(struct device *dev,
 		size = smu_print_clk_levels(&adev->smu, SMU_OD_SCLK, buf);
 		size += smu_print_clk_levels(&adev->smu, SMU_OD_MCLK, buf+size);
 		size += smu_print_clk_levels(&adev->smu, SMU_OD_VDDC_CURVE, buf+size);
+<<<<<<< HEAD
 		size += smu_print_clk_levels(&adev->smu, SMU_OD_VDDGFX_OFFSET, buf+size);
 		size += smu_print_clk_levels(&adev->smu, SMU_OD_RANGE, buf+size);
 		size += smu_print_clk_levels(&adev->smu, SMU_OD_CCLK, buf+size);
+=======
+<<<<<<< HEAD
+		size += smu_print_clk_levels(&adev->smu, SMU_OD_VDDGFX_OFFSET, buf+size);
+		size += smu_print_clk_levels(&adev->smu, SMU_OD_RANGE, buf+size);
+		size += smu_print_clk_levels(&adev->smu, SMU_OD_CCLK, buf+size);
+=======
+		size += smu_print_clk_levels(&adev->smu, SMU_OD_RANGE, buf+size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (adev->powerplay.pp_funcs->print_clock_levels) {
 		size = amdgpu_dpm_print_clock_levels(adev, OD_SCLK, buf);
 		size += amdgpu_dpm_print_clock_levels(adev, OD_MCLK, buf+size);
@@ -1108,7 +1183,16 @@ static ssize_t amdgpu_read_mask(const char *buf, size_t count, uint32_t *mask)
 	memcpy(buf_cpy, buf, bytes);
 	buf_cpy[bytes] = '\0';
 	tmp = buf_cpy;
+<<<<<<< HEAD
 	while ((sub_str = strsep(&tmp, delimiter)) != NULL) {
+=======
+<<<<<<< HEAD
+	while ((sub_str = strsep(&tmp, delimiter)) != NULL) {
+=======
+	while (tmp[0]) {
+		sub_str = strsep(&tmp, delimiter);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (strlen(sub_str)) {
 			ret = kstrtoul(sub_str, 0, &level);
 			if (ret || level > 31)
@@ -1366,6 +1450,10 @@ static ssize_t amdgpu_set_pp_dpm_fclk(struct device *dev,
 	return count;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t amdgpu_get_pp_dpm_vclk(struct device *dev,
 		struct device_attribute *attr,
 		char *buf)
@@ -1498,6 +1586,11 @@ static ssize_t amdgpu_set_pp_dpm_dclk(struct device *dev,
 	return count;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t amdgpu_get_pp_dpm_dcefclk(struct device *dev,
 		struct device_attribute *attr,
 		char *buf)
@@ -1869,9 +1962,20 @@ static ssize_t amdgpu_set_pp_power_profile_mode(struct device *dev,
 			i++;
 		memcpy(buf_cpy, buf, count-i);
 		tmp_str = buf_cpy;
+<<<<<<< HEAD
 		while ((sub_str = strsep(&tmp_str, delimiter)) != NULL) {
 			if (strlen(sub_str) == 0)
 				continue;
+=======
+<<<<<<< HEAD
+		while ((sub_str = strsep(&tmp_str, delimiter)) != NULL) {
+			if (strlen(sub_str) == 0)
+				continue;
+=======
+		while (tmp_str[0]) {
+			sub_str = strsep(&tmp_str, delimiter);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = kstrtol(sub_str, 0, &parameter[parameter_size]);
 			if (ret)
 				return -EINVAL;
@@ -2178,8 +2282,16 @@ static struct amdgpu_device_attr amdgpu_device_attrs[] = {
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_mclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_socclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_fclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
+<<<<<<< HEAD
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_vclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_dclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
+=======
+<<<<<<< HEAD
+	AMDGPU_DEVICE_ATTR_RW(pp_dpm_vclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
+	AMDGPU_DEVICE_ATTR_RW(pp_dpm_dclk,				ATTR_FLAG_BASIC|ATTR_FLAG_ONEVF),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_dcefclk,				ATTR_FLAG_BASIC),
 	AMDGPU_DEVICE_ATTR_RW(pp_dpm_pcie,				ATTR_FLAG_BASIC),
 	AMDGPU_DEVICE_ATTR_RW(pp_sclk_od,				ATTR_FLAG_BASIC),
@@ -2222,8 +2334,17 @@ static int default_attr_update(struct amdgpu_device *adev, struct amdgpu_device_
 	} else if (DEVICE_ATTR_IS(pp_od_clk_voltage)) {
 		*states = ATTR_STATE_UNSUPPORTED;
 		if ((is_support_sw_smu(adev) && adev->smu.od_enabled) ||
+<<<<<<< HEAD
 		    (is_support_sw_smu(adev) && adev->smu.is_apu) ||
 			(!is_support_sw_smu(adev) && hwmgr->od_enabled))
+=======
+<<<<<<< HEAD
+		    (is_support_sw_smu(adev) && adev->smu.is_apu) ||
+			(!is_support_sw_smu(adev) && hwmgr->od_enabled))
+=======
+		    (!is_support_sw_smu(adev) && hwmgr->od_enabled))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*states = ATTR_STATE_SUPPORTED;
 	} else if (DEVICE_ATTR_IS(mem_busy_percent)) {
 		if (adev->flags & AMD_IS_APU || asic_type == CHIP_VEGA10)
@@ -2243,12 +2364,21 @@ static int default_attr_update(struct amdgpu_device *adev, struct amdgpu_device_
 	} else if (DEVICE_ATTR_IS(gpu_metrics)) {
 		if (asic_type < CHIP_VEGA12)
 			*states = ATTR_STATE_UNSUPPORTED;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (DEVICE_ATTR_IS(pp_dpm_vclk)) {
 		if (!(asic_type == CHIP_VANGOGH))
 			*states = ATTR_STATE_UNSUPPORTED;
 	} else if (DEVICE_ATTR_IS(pp_dpm_dclk)) {
 		if (!(asic_type == CHIP_VANGOGH))
 			*states = ATTR_STATE_UNSUPPORTED;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (asic_type == CHIP_ARCTURUS) {
@@ -3059,8 +3189,17 @@ static ssize_t amdgpu_hwmon_show_power_cap_max(struct device *dev,
 					 char *buf)
 {
 	struct amdgpu_device *adev = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int limit_type = to_sensor_dev_attr(attr)->index;
 	uint32_t limit = limit_type << 24;
+=======
+<<<<<<< HEAD
+	int limit_type = to_sensor_dev_attr(attr)->index;
+	uint32_t limit = limit_type << 24;
+=======
+	uint32_t limit = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssize_t size;
 	int r;
 
@@ -3074,7 +3213,15 @@ static ssize_t amdgpu_hwmon_show_power_cap_max(struct device *dev,
 	}
 
 	if (is_support_sw_smu(adev)) {
+<<<<<<< HEAD
 		smu_get_power_limit(&adev->smu, &limit, SMU_PPT_LIMIT_MAX);
+=======
+<<<<<<< HEAD
+		smu_get_power_limit(&adev->smu, &limit, SMU_PPT_LIMIT_MAX);
+=======
+		smu_get_power_limit(&adev->smu, &limit, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		size = snprintf(buf, PAGE_SIZE, "%u\n", limit * 1000000);
 	} else if (adev->powerplay.pp_funcs && adev->powerplay.pp_funcs->get_power_limit) {
 		adev->powerplay.pp_funcs->get_power_limit(adev->powerplay.pp_handle, &limit, true);
@@ -3094,8 +3241,17 @@ static ssize_t amdgpu_hwmon_show_power_cap(struct device *dev,
 					 char *buf)
 {
 	struct amdgpu_device *adev = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int limit_type = to_sensor_dev_attr(attr)->index;
 	uint32_t limit = limit_type << 24;
+=======
+<<<<<<< HEAD
+	int limit_type = to_sensor_dev_attr(attr)->index;
+	uint32_t limit = limit_type << 24;
+=======
+	uint32_t limit = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssize_t size;
 	int r;
 
@@ -3109,7 +3265,15 @@ static ssize_t amdgpu_hwmon_show_power_cap(struct device *dev,
 	}
 
 	if (is_support_sw_smu(adev)) {
+<<<<<<< HEAD
 		smu_get_power_limit(&adev->smu, &limit, SMU_PPT_LIMIT_CURRENT);
+=======
+<<<<<<< HEAD
+		smu_get_power_limit(&adev->smu, &limit, SMU_PPT_LIMIT_CURRENT);
+=======
+		smu_get_power_limit(&adev->smu, &limit, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		size = snprintf(buf, PAGE_SIZE, "%u\n", limit * 1000000);
 	} else if (adev->powerplay.pp_funcs && adev->powerplay.pp_funcs->get_power_limit) {
 		adev->powerplay.pp_funcs->get_power_limit(adev->powerplay.pp_handle, &limit, false);
@@ -3124,6 +3288,10 @@ static ssize_t amdgpu_hwmon_show_power_cap(struct device *dev,
 	return size;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t amdgpu_hwmon_show_power_label(struct device *dev,
 					 struct device_attribute *attr,
 					 char *buf)
@@ -3133,6 +3301,11 @@ static ssize_t amdgpu_hwmon_show_power_label(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%s\n",
 		limit_type == SMU_FAST_PPT_LIMIT ? "fastPPT" : "slowPPT");
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t amdgpu_hwmon_set_power_cap(struct device *dev,
 		struct device_attribute *attr,
@@ -3140,7 +3313,14 @@ static ssize_t amdgpu_hwmon_set_power_cap(struct device *dev,
 		size_t count)
 {
 	struct amdgpu_device *adev = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int limit_type = to_sensor_dev_attr(attr)->index;
+=======
+<<<<<<< HEAD
+	int limit_type = to_sensor_dev_attr(attr)->index;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 	u32 value;
 
@@ -3155,7 +3335,15 @@ static ssize_t amdgpu_hwmon_set_power_cap(struct device *dev,
 		return err;
 
 	value = value / 1000000; /* convert to Watt */
+<<<<<<< HEAD
 	value |= limit_type << 24;
+=======
+<<<<<<< HEAD
+	value |= limit_type << 24;
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = pm_runtime_get_sync(adev_to_drm(adev)->dev);
 	if (err < 0) {
@@ -3367,12 +3555,21 @@ static SENSOR_DEVICE_ATTR(power1_average, S_IRUGO, amdgpu_hwmon_show_power_avg, 
 static SENSOR_DEVICE_ATTR(power1_cap_max, S_IRUGO, amdgpu_hwmon_show_power_cap_max, NULL, 0);
 static SENSOR_DEVICE_ATTR(power1_cap_min, S_IRUGO, amdgpu_hwmon_show_power_cap_min, NULL, 0);
 static SENSOR_DEVICE_ATTR(power1_cap, S_IRUGO | S_IWUSR, amdgpu_hwmon_show_power_cap, amdgpu_hwmon_set_power_cap, 0);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static SENSOR_DEVICE_ATTR(power1_label, S_IRUGO, amdgpu_hwmon_show_power_label, NULL, 0);
 static SENSOR_DEVICE_ATTR(power2_average, S_IRUGO, amdgpu_hwmon_show_power_avg, NULL, 1);
 static SENSOR_DEVICE_ATTR(power2_cap_max, S_IRUGO, amdgpu_hwmon_show_power_cap_max, NULL, 1);
 static SENSOR_DEVICE_ATTR(power2_cap_min, S_IRUGO, amdgpu_hwmon_show_power_cap_min, NULL, 1);
 static SENSOR_DEVICE_ATTR(power2_cap, S_IRUGO | S_IWUSR, amdgpu_hwmon_show_power_cap, amdgpu_hwmon_set_power_cap, 1);
 static SENSOR_DEVICE_ATTR(power2_label, S_IRUGO, amdgpu_hwmon_show_power_label, NULL, 1);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static SENSOR_DEVICE_ATTR(freq1_input, S_IRUGO, amdgpu_hwmon_show_sclk, NULL, 0);
 static SENSOR_DEVICE_ATTR(freq1_label, S_IRUGO, amdgpu_hwmon_show_sclk_label, NULL, 0);
 static SENSOR_DEVICE_ATTR(freq2_input, S_IRUGO, amdgpu_hwmon_show_mclk, NULL, 0);
@@ -3411,12 +3608,21 @@ static struct attribute *hwmon_attributes[] = {
 	&sensor_dev_attr_power1_cap_max.dev_attr.attr,
 	&sensor_dev_attr_power1_cap_min.dev_attr.attr,
 	&sensor_dev_attr_power1_cap.dev_attr.attr,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&sensor_dev_attr_power1_label.dev_attr.attr,
 	&sensor_dev_attr_power2_average.dev_attr.attr,
 	&sensor_dev_attr_power2_cap_max.dev_attr.attr,
 	&sensor_dev_attr_power2_cap_min.dev_attr.attr,
 	&sensor_dev_attr_power2_cap.dev_attr.attr,
 	&sensor_dev_attr_power2_label.dev_attr.attr,
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&sensor_dev_attr_freq1_input.dev_attr.attr,
 	&sensor_dev_attr_freq1_label.dev_attr.attr,
 	&sensor_dev_attr_freq2_input.dev_attr.attr,
@@ -3509,9 +3715,20 @@ static umode_t hwmon_attributes_visible(struct kobject *kobj,
 			effective_mode &= ~S_IWUSR;
 	}
 
+<<<<<<< HEAD
 	if (((adev->family == AMDGPU_FAMILY_SI) ||
 		 ((adev->flags & AMD_IS_APU) &&
 	      (adev->asic_type != CHIP_VANGOGH))) &&	/* not implemented yet */
+=======
+<<<<<<< HEAD
+	if (((adev->family == AMDGPU_FAMILY_SI) ||
+		 ((adev->flags & AMD_IS_APU) &&
+	      (adev->asic_type != CHIP_VANGOGH))) &&	/* not implemented yet */
+=======
+	if (((adev->flags & AMD_IS_APU) ||
+	     adev->family == AMDGPU_FAMILY_SI) &&	/* not implemented yet */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (attr == &sensor_dev_attr_power1_cap_max.dev_attr.attr ||
 	     attr == &sensor_dev_attr_power1_cap_min.dev_attr.attr||
 	     attr == &sensor_dev_attr_power1_cap.dev_attr.attr))
@@ -3574,6 +3791,10 @@ static umode_t hwmon_attributes_visible(struct kobject *kobj,
 	     attr == &sensor_dev_attr_temp3_label.dev_attr.attr))
 		return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* only Vangogh has fast PPT limit and power labels */
 	if (!(adev->asic_type == CHIP_VANGOGH) &&
 	    (attr == &sensor_dev_attr_power2_average.dev_attr.attr ||
@@ -3584,6 +3805,11 @@ static umode_t hwmon_attributes_visible(struct kobject *kobj,
 		 attr == &sensor_dev_attr_power1_label.dev_attr.attr))
 		return 0;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return effective_mode;
 }
 
@@ -3662,6 +3888,10 @@ void amdgpu_pm_sysfs_fini(struct amdgpu_device *adev)
  */
 #if defined(CONFIG_DEBUG_FS)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void amdgpu_debugfs_prints_cpu_info(struct seq_file *m,
 					   struct amdgpu_device *adev) {
 	uint16_t *p_val;
@@ -3683,6 +3913,11 @@ static void amdgpu_debugfs_prints_cpu_info(struct seq_file *m,
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int amdgpu_debugfs_pm_info_pp(struct seq_file *m, struct amdgpu_device *adev)
 {
 	uint32_t value;
@@ -3693,9 +3928,18 @@ static int amdgpu_debugfs_pm_info_pp(struct seq_file *m, struct amdgpu_device *a
 	/* GPU Clocks */
 	size = sizeof(value);
 	seq_printf(m, "GFX Clocks and Power:\n");
+<<<<<<< HEAD
 
 	amdgpu_debugfs_prints_cpu_info(m, adev);
 
+=======
+<<<<<<< HEAD
+
+	amdgpu_debugfs_prints_cpu_info(m, adev);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!amdgpu_dpm_read_sensor(adev, AMDGPU_PP_SENSOR_GFX_MCLK, (void *)&value, &size))
 		seq_printf(m, "\t%u MHz (MCLK)\n", value/100);
 	if (!amdgpu_dpm_read_sensor(adev, AMDGPU_PP_SENSOR_GFX_SCLK, (void *)&value, &size))

@@ -471,6 +471,7 @@ static int rv8803_nvram_read(void *priv, unsigned int offset,
 	return 0;
 }
 
+<<<<<<< HEAD
 static const struct rtc_class_ops rv8803_rtc_ops = {
 	.read_time = rv8803_get_time,
 	.set_time = rv8803_set_time,
@@ -478,6 +479,12 @@ static const struct rtc_class_ops rv8803_rtc_ops = {
 	.read_alarm = rv8803_get_alarm,
 	.set_alarm = rv8803_set_alarm,
 	.alarm_irq_enable = rv8803_alarm_irq_enable,
+=======
+static struct rtc_class_ops rv8803_rtc_ops = {
+	.read_time = rv8803_get_time,
+	.set_time = rv8803_set_time,
+	.ioctl = rv8803_ioctl,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int rx8900_trickle_charger_init(struct rv8803_data *rv8803)
@@ -570,10 +577,19 @@ static int rv8803_probe(struct i2c_client *client,
 		if (err) {
 			dev_warn(&client->dev, "unable to request IRQ, alarms disabled\n");
 			client->irq = 0;
+<<<<<<< HEAD
 		}
 	}
 	if (!client->irq)
 		clear_bit(RTC_FEATURE_ALARM, rv8803->rtc->features);
+=======
+		} else {
+			rv8803_rtc_ops.read_alarm = rv8803_get_alarm;
+			rv8803_rtc_ops.set_alarm = rv8803_set_alarm;
+			rv8803_rtc_ops.alarm_irq_enable = rv8803_alarm_irq_enable;
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = rv8803_write_reg(rv8803->client, RV8803_EXT, RV8803_EXT_WADA);
 	if (err)
@@ -607,7 +623,11 @@ static const struct i2c_device_id rv8803_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, rv8803_id);
 
+<<<<<<< HEAD
 static const __maybe_unused struct of_device_id rv8803_of_match[] = {
+=======
+static const struct of_device_id rv8803_of_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.compatible = "microcrystal,rv8803",
 		.data = (void *)rv_8803

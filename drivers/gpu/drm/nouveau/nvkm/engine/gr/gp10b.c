@@ -94,7 +94,13 @@ gp10b_gr_fwif[] = {
 };
 
 int
+<<<<<<< HEAD
 gp10b_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
 {
 	return gf100_gr_new_(gp10b_gr_fwif, device, type, inst, pgr);
+=======
+gp10b_gr_new(struct nvkm_device *device, int index, struct nvkm_gr **pgr)
+{
+	return gf100_gr_new_(gp10b_gr_fwif, device, index, pgr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -127,6 +127,12 @@ struct stm32_usart_info stm32h7_info = {
 /* Dummy bits */
 #define USART_SR_DUMMY_RX	BIT(16)
 
+<<<<<<< HEAD
+=======
+/* USART_ICR (F7) */
+#define USART_CR_TC		BIT(6)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* USART_DR */
 #define USART_DR_MASK		GENMASK(8, 0)
 
@@ -256,7 +262,11 @@ struct stm32_usart_info stm32h7_info = {
 struct stm32_port {
 	struct uart_port port;
 	struct clk *clk;
+<<<<<<< HEAD
 	const struct stm32_usart_info *info;
+=======
+	struct stm32_usart_info *info;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dma_chan *rx_ch;  /* dma rx channel            */
 	dma_addr_t rx_dma_buf;   /* dma rx buffer bus address */
 	unsigned char *rx_buf;   /* dma rx buffer cpu address */

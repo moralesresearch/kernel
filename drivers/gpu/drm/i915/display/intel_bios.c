@@ -1623,6 +1623,7 @@ static const u8 icp_ddc_pin_map[] = {
 	[TGL_DDC_BUS_PORT_6] = GMBUS_PIN_14_TC6_TGP,
 };
 
+<<<<<<< HEAD
 static const u8 rkl_pch_tgp_ddc_pin_map[] = {
 	[ICL_DDC_BUS_DDI_A] = GMBUS_PIN_1_BXT,
 	[ICL_DDC_BUS_DDI_B] = GMBUS_PIN_2_BXT,
@@ -1630,6 +1631,8 @@ static const u8 rkl_pch_tgp_ddc_pin_map[] = {
 	[RKL_DDC_BUS_DDI_E] = GMBUS_PIN_10_TC2_ICP,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 map_ddc_pin(struct drm_i915_private *dev_priv, u8 vbt_pin)
 {
 	const u8 *ddc_pin_map;
@@ -1637,9 +1640,12 @@ static u8 map_ddc_pin(struct drm_i915_private *dev_priv, u8 vbt_pin)
 
 	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1) {
 		return vbt_pin;
+<<<<<<< HEAD
 	} else if (IS_ROCKETLAKE(dev_priv) && INTEL_PCH_TYPE(dev_priv) == PCH_TGP) {
 		ddc_pin_map = rkl_pch_tgp_ddc_pin_map;
 		n_entries = ARRAY_SIZE(rkl_pch_tgp_ddc_pin_map);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP) {
 		ddc_pin_map = icp_ddc_pin_map;
 		n_entries = ARRAY_SIZE(icp_ddc_pin_map);
@@ -2565,11 +2571,24 @@ static void fill_dsc(struct intel_crtc_state *crtc_state,
 			      crtc_state->dsc.slice_count);
 
 	/*
+<<<<<<< HEAD
 	 * The VBT rc_buffer_block_size and rc_buffer_size definitions
 	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63.
 	 */
 	vdsc_cfg->rc_model_size = drm_dsc_dp_rc_buffer_size(dsc->rc_buffer_block_size,
 							    dsc->rc_buffer_size);
+=======
+	 * FIXME: Use VBT rc_buffer_block_size and rc_buffer_size for the
+	 * implementation specific physical rate buffer size. Currently we use
+	 * the required rate buffer model size calculated in
+	 * drm_dsc_compute_rc_parameters() according to VESA DSC Annex E.
+	 *
+	 * The VBT rc_buffer_block_size and rc_buffer_size definitions
+	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63. The DP DSC
+	 * implementation should also use the DPCD (or perhaps VBT for eDP)
+	 * provided value for the buffer size.
+	 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* FIXME: DSI spec says bpc + 1 for this one */
 	vdsc_cfg->line_buf_depth = VBT_DSC_LINE_BUFFER_DEPTH(dsc->line_buffer_depth);

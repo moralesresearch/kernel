@@ -94,6 +94,7 @@ out:
 }
 EXPORT_SYMBOL_GPL(qca_read_soc_version);
 
+<<<<<<< HEAD
 static int qca_read_fw_build_info(struct hci_dev *hdev)
 {
 	struct sk_buff *skb;
@@ -141,6 +142,8 @@ out:
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int qca_send_reset(struct hci_dev *hdev)
 {
 	struct sk_buff *skb;
@@ -564,6 +567,7 @@ int qca_uart_setup(struct hci_dev *hdev, uint8_t baudrate,
 			return err;
 	}
 
+<<<<<<< HEAD
 	/* WCN399x supports the Microsoft vendor extension with 0xFD70 as the
 	 * VsMsftOpCode.
 	 */
@@ -577,6 +581,8 @@ int qca_uart_setup(struct hci_dev *hdev, uint8_t baudrate,
 		break;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Perform HCI reset */
 	err = qca_send_reset(hdev);
 	if (err < 0) {
@@ -584,6 +590,7 @@ int qca_uart_setup(struct hci_dev *hdev, uint8_t baudrate,
 		return err;
 	}
 
+<<<<<<< HEAD
 	if (soc_type == QCA_WCN3991) {
 		/* get fw build info */
 		err = qca_read_fw_build_info(hdev);
@@ -591,6 +598,8 @@ int qca_uart_setup(struct hci_dev *hdev, uint8_t baudrate,
 			return err;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bt_dev_info(hdev, "QCA setup on UART is completed");
 
 	return 0;

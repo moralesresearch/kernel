@@ -452,7 +452,11 @@ static void keyring_describe(const struct key *keyring, struct seq_file *m)
 struct keyring_read_iterator_context {
 	size_t			buflen;
 	size_t			count;
+<<<<<<< HEAD
 	key_serial_t		*buffer;
+=======
+	key_serial_t __user	*buffer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int keyring_read_iterator(const void *object, void *data)
@@ -479,7 +483,11 @@ static int keyring_read_iterator(const void *object, void *data)
  * times.
  */
 static long keyring_read(const struct key *keyring,
+<<<<<<< HEAD
 			 char *buffer, size_t buflen)
+=======
+			 char __user *buffer, size_t buflen)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct keyring_read_iterator_context ctx;
 	long ret;
@@ -491,7 +499,11 @@ static long keyring_read(const struct key *keyring,
 
 	/* Copy as many key IDs as fit into the buffer */
 	if (buffer && buflen) {
+<<<<<<< HEAD
 		ctx.buffer = (key_serial_t *)buffer;
+=======
+		ctx.buffer = (key_serial_t __user *)buffer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ctx.buflen = buflen;
 		ctx.count = 0;
 		ret = assoc_array_iterate(&keyring->keys,
@@ -881,7 +893,11 @@ found:
  *
  * Keys are matched to the type provided and are then filtered by the match
  * function, which is given the description to use in any way it sees fit.  The
+<<<<<<< HEAD
  * match function may use any attributes of a key that it wishes to
+=======
+ * match function may use any attributes of a key that it wishes to to
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * determine the match.  Normally the match function from the key type would be
  * used.
  *
@@ -1204,7 +1220,11 @@ static int keyring_detect_cycle_iterator(const void *object,
 }
 
 /*
+<<<<<<< HEAD
  * See if a cycle will be created by inserting acyclic tree B in acyclic
+=======
+ * See if a cycle will will be created by inserting acyclic tree B in acyclic
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * tree A at the topmost level (ie: as a direct child of A).
  *
  * Since we are adding B to A at the top level, checking for cycles should just

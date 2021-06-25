@@ -244,7 +244,11 @@ struct dc_stream_status *dc_stream_get_status(
 }
 
 #ifndef TRIM_FSFT
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_optimize_timing_for_fsft() - dc to optimize timing
  */
 bool dc_optimize_timing_for_fsft(
@@ -260,7 +264,12 @@ bool dc_optimize_timing_for_fsft(
 }
 #endif
 
+<<<<<<< HEAD
 /*
+=======
+
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_stream_set_cursor_attributes() - Update cursor attributes and set cursor surface address
  */
 bool dc_stream_set_cursor_attributes(

@@ -31,6 +31,22 @@ static atomic_t num_events;
 /* Used to avoid races in calling reserve/release_pmc_hardware */
 static DEFINE_MUTEX(pmc_reserve_mutex);
 
+<<<<<<< HEAD
+=======
+/*
+ * If interrupts were soft-disabled when a PMU interrupt occurs, treat
+ * it as an NMI.
+ */
+static inline int perf_intr_is_nmi(struct pt_regs *regs)
+{
+#ifdef __powerpc64__
+	return (regs->softe & IRQS_DISABLED);
+#else
+	return 0;
+#endif
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void perf_event_interrupt(struct pt_regs *regs);
 
 /*
@@ -646,6 +662,16 @@ static void perf_event_interrupt(struct pt_regs *regs)
 	struct perf_event *event;
 	unsigned long val;
 	int found = 0;
+<<<<<<< HEAD
+=======
+	int nmi;
+
+	nmi = perf_intr_is_nmi(regs);
+	if (nmi)
+		nmi_enter();
+	else
+		irq_enter();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < ppmu->n_counter; ++i) {
 		event = cpuhw->event[i];
@@ -670,6 +696,14 @@ static void perf_event_interrupt(struct pt_regs *regs)
 	mtmsr(mfmsr() | MSR_PMM);
 	mtpmr(PMRN_PMGC0, PMGC0_PMIE | PMGC0_FCECE);
 	isync();
+<<<<<<< HEAD
+=======
+
+	if (nmi)
+		nmi_exit();
+	else
+		irq_exit();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hw_perf_event_setup(int cpu)

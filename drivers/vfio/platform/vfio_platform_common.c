@@ -289,7 +289,11 @@ err_irq:
 	vfio_platform_regions_cleanup(vdev);
 err_reg:
 	mutex_unlock(&driver_lock);
+<<<<<<< HEAD
+	module_put(vdev->parent_module);
+=======
 	module_put(THIS_MODULE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 

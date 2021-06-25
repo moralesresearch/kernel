@@ -929,7 +929,12 @@ static int get_serial_info(struct tty_struct *tty, struct serial_struct *ss)
 {
 	struct acm *acm = tty->driver_data;
 
+<<<<<<< HEAD
 	ss->line = acm->minor;
+=======
+	ss->xmit_fifo_size = acm->writesize;
+	ss->baud_base = le32_to_cpu(acm->line.dwDTERate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ss->close_delay	= jiffies_to_msecs(acm->port.close_delay) / 10;
 	ss->closing_wait = acm->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
 				ASYNC_CLOSING_WAIT_NONE :
@@ -941,6 +946,10 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
 {
 	struct acm *acm = tty->driver_data;
 	unsigned int closing_wait, close_delay;
+<<<<<<< HEAD
+=======
+	unsigned int old_closing_wait, old_close_delay;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int retval = 0;
 
 	close_delay = msecs_to_jiffies(ss->close_delay * 10);
@@ -948,12 +957,29 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
 			ASYNC_CLOSING_WAIT_NONE :
 			msecs_to_jiffies(ss->closing_wait * 10);
 
+<<<<<<< HEAD
 	mutex_lock(&acm->port.mutex);
 
 	if (!capable(CAP_SYS_ADMIN)) {
 		if ((close_delay != acm->port.close_delay) ||
 		    (closing_wait != acm->port.closing_wait))
 			retval = -EPERM;
+=======
+	/* we must redo the rounding here, so that the values match */
+	old_close_delay	= jiffies_to_msecs(acm->port.close_delay) / 10;
+	old_closing_wait = acm->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+				ASYNC_CLOSING_WAIT_NONE :
+				jiffies_to_msecs(acm->port.closing_wait) / 10;
+
+	mutex_lock(&acm->port.mutex);
+
+	if (!capable(CAP_SYS_ADMIN)) {
+		if ((ss->close_delay != old_close_delay) ||
+		    (ss->closing_wait != old_closing_wait))
+			retval = -EPERM;
+		else
+			retval = -EOPNOTSUPP;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		acm->port.close_delay  = close_delay;
 		acm->port.closing_wait = closing_wait;
@@ -1299,6 +1325,19 @@ skip_normal_probe:
 	if (!combined_interfaces && intf != control_interface)
 		return -ENODEV;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (!combined_interfaces && usb_interface_claimed(data_interface)) {
+		/* valid in this context */
+		dev_dbg(&intf->dev, "The data interface isn't available\n");
+		return -EBUSY;
+	}
+
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (data_interface->cur_altsetting->desc.bNumEndpoints < 2 ||
 	    control_interface->cur_altsetting->desc.bNumEndpoints == 0)
 		return -EINVAL;
@@ -1319,8 +1358,18 @@ made_compressed_probe:
 	dev_dbg(&intf->dev, "interfaces are valid\n");
 
 	acm = kzalloc(sizeof(struct acm), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!acm)
 		return -ENOMEM;
+=======
+<<<<<<< HEAD
+	if (!acm)
+		return -ENOMEM;
+=======
+	if (acm == NULL)
+		goto alloc_fail;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tty_port_init(&acm->port);
 	acm->port.ops = &acm_port_ops;
@@ -1337,7 +1386,15 @@ made_compressed_probe:
 
 	minor = acm_alloc_minor(acm);
 	if (minor < 0)
+<<<<<<< HEAD
 		goto err_put_port;
+=======
+<<<<<<< HEAD
+		goto err_put_port;
+=======
+		goto alloc_fail1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	acm->minor = minor;
 	acm->dev = usb_dev;
@@ -1368,6 +1425,10 @@ made_compressed_probe:
 
 	buf = usb_alloc_coherent(usb_dev, ctrlsize, GFP_KERNEL, &acm->ctrl_dma);
 	if (!buf)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_put_port;
 	acm->ctrl_buffer = buf;
 
@@ -1377,6 +1438,20 @@ made_compressed_probe:
 	acm->ctrlurb = usb_alloc_urb(0, GFP_KERNEL);
 	if (!acm->ctrlurb)
 		goto err_free_write_buffers;
+<<<<<<< HEAD
+=======
+=======
+		goto alloc_fail1;
+	acm->ctrl_buffer = buf;
+
+	if (acm_write_buffers_alloc(acm) < 0)
+		goto alloc_fail2;
+
+	acm->ctrlurb = usb_alloc_urb(0, GFP_KERNEL);
+	if (!acm->ctrlurb)
+		goto alloc_fail3;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < num_rx_buf; i++) {
 		struct acm_rb *rb = &(acm->read_buffers[i]);
@@ -1385,13 +1460,29 @@ made_compressed_probe:
 		rb->base = usb_alloc_coherent(acm->dev, readsize, GFP_KERNEL,
 								&rb->dma);
 		if (!rb->base)
+<<<<<<< HEAD
 			goto err_free_read_urbs;
+=======
+<<<<<<< HEAD
+			goto err_free_read_urbs;
+=======
+			goto alloc_fail4;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rb->index = i;
 		rb->instance = acm;
 
 		urb = usb_alloc_urb(0, GFP_KERNEL);
 		if (!urb)
+<<<<<<< HEAD
 			goto err_free_read_urbs;
+=======
+<<<<<<< HEAD
+			goto err_free_read_urbs;
+=======
+			goto alloc_fail4;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 		urb->transfer_dma = rb->dma;
@@ -1412,8 +1503,18 @@ made_compressed_probe:
 		struct acm_wb *snd = &(acm->wb[i]);
 
 		snd->urb = usb_alloc_urb(0, GFP_KERNEL);
+<<<<<<< HEAD
 		if (!snd->urb)
 			goto err_free_write_urbs;
+=======
+<<<<<<< HEAD
+		if (!snd->urb)
+			goto err_free_write_urbs;
+=======
+		if (snd->urb == NULL)
+			goto alloc_fail5;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (usb_endpoint_xfer_int(epwrite))
 			usb_fill_int_urb(snd->urb, usb_dev, acm->out,
@@ -1431,7 +1532,15 @@ made_compressed_probe:
 
 	i = device_create_file(&intf->dev, &dev_attr_bmCapabilities);
 	if (i < 0)
+<<<<<<< HEAD
 		goto err_free_write_urbs;
+=======
+<<<<<<< HEAD
+		goto err_free_write_urbs;
+=======
+		goto alloc_fail5;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (h.usb_cdc_country_functional_desc) { /* export the country data */
 		struct usb_cdc_country_functional_desc * cfd =
@@ -1476,21 +1585,48 @@ skip_countries:
 	acm->nb_index = 0;
 	acm->nb_size = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dev_info(&intf->dev, "ttyACM%d: USB ACM device\n", minor);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	acm->line.dwDTERate = cpu_to_le32(9600);
 	acm->line.bDataBits = 8;
 	acm_set_line(acm, &acm->line);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!acm->combined_interfaces) {
 		rv = usb_driver_claim_interface(&acm_driver, data_interface, acm);
 		if (rv)
 			goto err_remove_files;
 	}
+<<<<<<< HEAD
+=======
+=======
+	usb_driver_claim_interface(&acm_driver, data_interface, acm);
+	usb_set_intfdata(data_interface, acm);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tty_dev = tty_port_register_device(&acm->port, acm_tty_driver, minor,
 			&control_interface->dev);
 	if (IS_ERR(tty_dev)) {
 		rv = PTR_ERR(tty_dev);
+<<<<<<< HEAD
 		goto err_release_data_interface;
+=======
+<<<<<<< HEAD
+		goto err_release_data_interface;
+=======
+		goto alloc_fail6;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (quirks & CLEAR_HALT_CONDITIONS) {
@@ -1498,17 +1634,35 @@ skip_countries:
 		usb_clear_halt(usb_dev, acm->out);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_info(&intf->dev, "ttyACM%d: USB ACM device\n", minor);
 
 	return 0;
 
 err_release_data_interface:
+<<<<<<< HEAD
+=======
+=======
+	return 0;
+alloc_fail6:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!acm->combined_interfaces) {
 		/* Clear driver data so that disconnect() returns early. */
 		usb_set_intfdata(data_interface, NULL);
 		usb_driver_release_interface(&acm_driver, data_interface);
 	}
+<<<<<<< HEAD
 err_remove_files:
+=======
+<<<<<<< HEAD
+err_remove_files:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (acm->country_codes) {
 		device_remove_file(&acm->control->dev,
 				&dev_attr_wCountryCodes);
@@ -1516,14 +1670,32 @@ err_remove_files:
 				&dev_attr_iCountryCodeRelDate);
 	}
 	device_remove_file(&acm->control->dev, &dev_attr_bmCapabilities);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_write_urbs:
 	for (i = 0; i < ACM_NW; i++)
 		usb_free_urb(acm->wb[i].urb);
 err_free_read_urbs:
+<<<<<<< HEAD
+=======
+=======
+alloc_fail5:
+	usb_set_intfdata(intf, NULL);
+	for (i = 0; i < ACM_NW; i++)
+		usb_free_urb(acm->wb[i].urb);
+alloc_fail4:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < num_rx_buf; i++)
 		usb_free_urb(acm->read_urbs[i]);
 	acm_read_buffers_free(acm);
 	usb_free_urb(acm->ctrlurb);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_write_buffers:
 	acm_write_buffers_free(acm);
 err_free_ctrl_buffer:
@@ -1531,6 +1703,18 @@ err_free_ctrl_buffer:
 err_put_port:
 	tty_port_put(&acm->port);
 
+<<<<<<< HEAD
+=======
+=======
+alloc_fail3:
+	acm_write_buffers_free(acm);
+alloc_fail2:
+	usb_free_coherent(usb_dev, ctrlsize, acm->ctrl_buffer, acm->ctrl_dma);
+alloc_fail1:
+	tty_port_put(&acm->port);
+alloc_fail:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rv;
 }
 
@@ -1624,13 +1808,20 @@ static int acm_resume(struct usb_interface *intf)
 	struct urb *urb;
 	int rv = 0;
 
+<<<<<<< HEAD
+=======
+	acm_unpoison_urbs(acm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irq(&acm->write_lock);
 
 	if (--acm->susp_count)
 		goto out;
 
+<<<<<<< HEAD
 	acm_unpoison_urbs(acm);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tty_port_initialized(&acm->port)) {
 		rv = usb_submit_urb(acm->ctrlurb, GFP_ATOMIC);
 
@@ -1912,12 +2103,21 @@ static const struct usb_device_id acm_ids[] = {
 	},
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_USB_SERIAL_XR)
 	{ USB_DEVICE(0x04e2, 0x1410),   /* Ignore XR21V141X USB to Serial converter */
 	.driver_info = IGNORE_DEVICE,
 	},
 #endif
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*Samsung phone in firmware update mode */
 	{ USB_DEVICE(0x04e8, 0x685d),
 	.driver_info = IGNORE_DEVICE,

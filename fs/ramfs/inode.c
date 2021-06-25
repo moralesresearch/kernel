@@ -67,7 +67,11 @@ struct inode *ramfs_get_inode(struct super_block *sb,
 
 	if (inode) {
 		inode->i_ino = get_next_ino();
+<<<<<<< HEAD
 		inode_init_owner(&init_user_ns, inode, dir, mode);
+=======
+		inode_init_owner(inode, dir, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode->i_mapping->a_ops = &ramfs_aops;
 		mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
 		mapping_set_unevictable(inode->i_mapping);
@@ -101,8 +105,12 @@ struct inode *ramfs_get_inode(struct super_block *sb,
  */
 /* SMP-safe */
 static int
+<<<<<<< HEAD
 ramfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	    struct dentry *dentry, umode_t mode, dev_t dev)
+=======
+ramfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode = ramfs_get_inode(dir->i_sb, dir, mode, dev);
 	int error = -ENOSPC;
@@ -116,15 +124,22 @@ ramfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	return error;
 }
 
+<<<<<<< HEAD
 static int ramfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
 {
 	int retval = ramfs_mknod(&init_user_ns, dir, dentry, mode | S_IFDIR, 0);
+=======
+static int ramfs_mkdir(struct inode * dir, struct dentry * dentry, umode_t mode)
+{
+	int retval = ramfs_mknod(dir, dentry, mode | S_IFDIR, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!retval)
 		inc_nlink(dir);
 	return retval;
 }
 
+<<<<<<< HEAD
 static int ramfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode, bool excl)
 {
@@ -133,6 +148,14 @@ static int ramfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 
 static int ramfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			 struct dentry *dentry, const char *symname)
+=======
+static int ramfs_create(struct inode *dir, struct dentry *dentry, umode_t mode, bool excl)
+{
+	return ramfs_mknod(dir, dentry, mode | S_IFREG, 0);
+}
+
+static int ramfs_symlink(struct inode * dir, struct dentry *dentry, const char * symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	int error = -ENOSPC;
@@ -151,6 +174,7 @@ static int ramfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 	return error;
 }
 
+<<<<<<< HEAD
 static int ramfs_tmpfile(struct user_namespace *mnt_userns,
 			 struct inode *dir, struct dentry *dentry, umode_t mode)
 {
@@ -163,6 +187,8 @@ static int ramfs_tmpfile(struct user_namespace *mnt_userns,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct inode_operations ramfs_dir_inode_operations = {
 	.create		= ramfs_create,
 	.lookup		= simple_lookup,
@@ -173,7 +199,10 @@ static const struct inode_operations ramfs_dir_inode_operations = {
 	.rmdir		= simple_rmdir,
 	.mknod		= ramfs_mknod,
 	.rename		= simple_rename,
+<<<<<<< HEAD
 	.tmpfile	= ramfs_tmpfile,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*

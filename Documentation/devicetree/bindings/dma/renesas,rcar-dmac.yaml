@@ -14,6 +14,7 @@ allOf:
 
 properties:
   compatible:
+<<<<<<< HEAD
     oneOf:
       - items:
           - enum:
@@ -45,6 +46,36 @@ properties:
           - const: renesas,dmac-r8a779a0 # R-Car V3U
 
   reg: true
+=======
+    items:
+      - enum:
+          - renesas,dmac-r8a7742  # RZ/G1H
+          - renesas,dmac-r8a7743  # RZ/G1M
+          - renesas,dmac-r8a7744  # RZ/G1N
+          - renesas,dmac-r8a7745  # RZ/G1E
+          - renesas,dmac-r8a77470 # RZ/G1C
+          - renesas,dmac-r8a774a1 # RZ/G2M
+          - renesas,dmac-r8a774b1 # RZ/G2N
+          - renesas,dmac-r8a774c0 # RZ/G2E
+          - renesas,dmac-r8a774e1 # RZ/G2H
+          - renesas,dmac-r8a7790  # R-Car H2
+          - renesas,dmac-r8a7791  # R-Car M2-W
+          - renesas,dmac-r8a7792  # R-Car V2H
+          - renesas,dmac-r8a7793  # R-Car M2-N
+          - renesas,dmac-r8a7794  # R-Car E2
+          - renesas,dmac-r8a7795  # R-Car H3
+          - renesas,dmac-r8a7796  # R-Car M3-W
+          - renesas,dmac-r8a77961 # R-Car M3-W+
+          - renesas,dmac-r8a77965 # R-Car M3-N
+          - renesas,dmac-r8a77970 # R-Car V3M
+          - renesas,dmac-r8a77980 # R-Car V3H
+          - renesas,dmac-r8a77990 # R-Car E3
+          - renesas,dmac-r8a77995 # R-Car D3
+      - const: renesas,rcar-dmac
+
+  reg:
+    maxItems: 1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   interrupts:
     minItems: 9
@@ -113,6 +144,7 @@ required:
   - power-domains
   - resets
 
+<<<<<<< HEAD
 if:
   properties:
     compatible:
@@ -130,6 +162,8 @@ else:
     reg:
       maxItems: 1
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 additionalProperties: false
 
 examples:

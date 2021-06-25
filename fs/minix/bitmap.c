@@ -252,7 +252,11 @@ struct inode *minix_new_inode(const struct inode *dir, umode_t mode, int *error)
 		iput(inode);
 		return NULL;
 	}
+<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
+=======
+	inode_init_owner(inode, dir, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_ino = j;
 	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
 	inode->i_blocks = 0;

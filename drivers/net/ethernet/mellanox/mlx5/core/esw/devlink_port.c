@@ -122,6 +122,7 @@ struct devlink_port *mlx5_esw_offloads_devlink_port(struct mlx5_eswitch *esw, u1
 	vport = mlx5_eswitch_get_vport(esw, vport_num);
 	return vport->dl_port;
 }
+<<<<<<< HEAD
 
 int mlx5_esw_devlink_sf_port_register(struct mlx5_eswitch *esw, struct devlink_port *dl_port,
 				      u16 vport_num, u32 sfnum)
@@ -163,3 +164,5 @@ void mlx5_esw_devlink_sf_port_unregister(struct mlx5_eswitch *esw, u16 vport_num
 	devlink_port_unregister(vport->dl_port);
 	vport->dl_port = NULL;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

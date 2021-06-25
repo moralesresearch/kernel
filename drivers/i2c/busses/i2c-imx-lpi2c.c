@@ -259,7 +259,11 @@ static int lpi2c_imx_master_enable(struct lpi2c_imx_struct *lpi2c_imx)
 	unsigned int temp;
 	int ret;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(lpi2c_imx->adapter.dev.parent);
+=======
+	ret = pm_runtime_get_sync(lpi2c_imx->adapter.dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

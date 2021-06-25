@@ -2756,19 +2756,43 @@ extern int ext4fs_dirhash(const struct inode *dir, const char *name, int len,
 
 /* ialloc.c */
 extern int ext4_mark_inode_used(struct super_block *sb, int ino);
+<<<<<<< HEAD
 extern struct inode *__ext4_new_inode(struct user_namespace *, handle_t *,
 				      struct inode *, umode_t,
+=======
+<<<<<<< HEAD
+extern struct inode *__ext4_new_inode(struct user_namespace *, handle_t *,
+				      struct inode *, umode_t,
+=======
+extern struct inode *__ext4_new_inode(handle_t *, struct inode *, umode_t,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      const struct qstr *qstr, __u32 goal,
 				      uid_t *owner, __u32 i_flags,
 				      int handle_type, unsigned int line_no,
 				      int nblocks);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ext4_new_inode(handle, dir, mode, qstr, goal, owner, i_flags)          \
 	__ext4_new_inode(&init_user_ns, (handle), (dir), (mode), (qstr),       \
 			 (goal), (owner), i_flags, 0, 0, 0)
 #define ext4_new_inode_start_handle(mnt_userns, dir, mode, qstr, goal, owner, \
 				    type, nblocks)		    \
 	__ext4_new_inode((mnt_userns), NULL, (dir), (mode), (qstr), (goal), (owner), \
+<<<<<<< HEAD
+=======
+=======
+#define ext4_new_inode(handle, dir, mode, qstr, goal, owner, i_flags) \
+	__ext4_new_inode((handle), (dir), (mode), (qstr), (goal), (owner), \
+			 i_flags, 0, 0, 0)
+#define ext4_new_inode_start_handle(dir, mode, qstr, goal, owner, \
+				    type, nblocks)		    \
+	__ext4_new_inode(NULL, (dir), (mode), (qstr), (goal), (owner), \
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 0, (type), __LINE__, (nblocks))
 
 
@@ -2881,6 +2905,10 @@ extern struct inode *__ext4_iget(struct super_block *sb, unsigned long ino,
 	__ext4_iget((sb), (ino), (flags), __func__, __LINE__)
 
 extern int  ext4_write_inode(struct inode *, struct writeback_control *);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int  ext4_setattr(struct user_namespace *, struct dentry *,
 			 struct iattr *);
 extern int  ext4_getattr(struct user_namespace *, const struct path *,
@@ -2889,6 +2917,16 @@ extern void ext4_evict_inode(struct inode *);
 extern void ext4_clear_inode(struct inode *);
 extern int  ext4_file_getattr(struct user_namespace *, const struct path *,
 			      struct kstat *, u32, unsigned int);
+<<<<<<< HEAD
+=======
+=======
+extern int  ext4_setattr(struct dentry *, struct iattr *);
+extern int  ext4_getattr(const struct path *, struct kstat *, u32, unsigned int);
+extern void ext4_evict_inode(struct inode *);
+extern void ext4_clear_inode(struct inode *);
+extern int  ext4_file_getattr(const struct path *, struct kstat *, u32, unsigned int);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int  ext4_sync_inode(handle_t *, struct inode *);
 extern void ext4_dirty_inode(struct inode *, int);
 extern int ext4_change_inode_journal_flag(struct inode *, int);

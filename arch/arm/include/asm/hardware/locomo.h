@@ -188,7 +188,11 @@ struct locomo_driver {
 	struct device_driver	drv;
 	unsigned int		devid;
 	int (*probe)(struct locomo_dev *);
+<<<<<<< HEAD
 	void (*remove)(struct locomo_dev *);
+=======
+	int (*remove)(struct locomo_dev *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define LOCOMO_DRV(_d)	container_of((_d), struct locomo_driver, drv)

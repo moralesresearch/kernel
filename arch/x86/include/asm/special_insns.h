@@ -243,10 +243,17 @@ static inline void serialize(void)
 }
 
 /* The dst parameter must be 64-bytes aligned */
+<<<<<<< HEAD
 static inline void movdir64b(void __iomem *dst, const void *src)
 {
 	const struct { char _[64]; } *__src = src;
 	struct { char _[64]; } __iomem *__dst = dst;
+=======
+static inline void movdir64b(void *dst, const void *src)
+{
+	const struct { char _[64]; } *__src = src;
+	struct { char _[64]; } *__dst = dst;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * MOVDIR64B %(rdx), rax.
@@ -286,7 +293,11 @@ static inline void movdir64b(void __iomem *dst, const void *src)
 static inline int enqcmds(void __iomem *dst, const void *src)
 {
 	const struct { char _[64]; } *__src = src;
+<<<<<<< HEAD
 	struct { char _[64]; } __iomem *__dst = dst;
+=======
+	struct { char _[64]; } *__dst = dst;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int zf;
 
 	/*

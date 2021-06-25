@@ -40,7 +40,10 @@
 
 	rgmii_phy1: ethernet-phy@1 {
 		reg = <1>;
+<<<<<<< HEAD
 		qca,smarteee-tw-us-1g = <24>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 
@@ -135,6 +138,11 @@
 	rtc@51 {
 		compatible = "nxp,pcf2129";
 		reg = <0x51>;
+<<<<<<< HEAD
+=======
+		// IRQ10_B
+		interrupts = <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

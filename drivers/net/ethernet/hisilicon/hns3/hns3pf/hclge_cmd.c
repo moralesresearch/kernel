@@ -189,6 +189,7 @@ static bool hclge_is_special_opcode(u16 opcode)
 	return false;
 }
 
+<<<<<<< HEAD
 struct errcode {
 	u32 imp_errcode;
 	int common_errno;
@@ -234,6 +235,38 @@ static int hclge_cmd_convert_err_code(u16 desc_ret)
 			return hclge_cmd_errcode[i].common_errno;
 
 	return -EIO;
+=======
+static int hclge_cmd_convert_err_code(u16 desc_ret)
+{
+	switch (desc_ret) {
+	case HCLGE_CMD_EXEC_SUCCESS:
+		return 0;
+	case HCLGE_CMD_NO_AUTH:
+		return -EPERM;
+	case HCLGE_CMD_NOT_SUPPORTED:
+		return -EOPNOTSUPP;
+	case HCLGE_CMD_QUEUE_FULL:
+		return -EXFULL;
+	case HCLGE_CMD_NEXT_ERR:
+		return -ENOSR;
+	case HCLGE_CMD_UNEXE_ERR:
+		return -ENOTBLK;
+	case HCLGE_CMD_PARA_ERR:
+		return -EINVAL;
+	case HCLGE_CMD_RESULT_ERR:
+		return -ERANGE;
+	case HCLGE_CMD_TIMEOUT:
+		return -ETIME;
+	case HCLGE_CMD_HILINK_ERR:
+		return -ENOLINK;
+	case HCLGE_CMD_QUEUE_ILLEGAL:
+		return -ENXIO;
+	case HCLGE_CMD_INVALID:
+		return -EBADR;
+	default:
+		return -EIO;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hclge_cmd_check_retval(struct hclge_hw *hw, struct hclge_desc *desc,
@@ -259,6 +292,7 @@ static int hclge_cmd_check_retval(struct hclge_hw *hw, struct hclge_desc *desc,
 	return hclge_cmd_convert_err_code(desc_ret);
 }
 
+<<<<<<< HEAD
 static int hclge_cmd_check_result(struct hclge_hw *hw, struct hclge_desc *desc,
 				  int num, int ntc)
 {
@@ -297,6 +331,8 @@ static int hclge_cmd_check_result(struct hclge_hw *hw, struct hclge_desc *desc,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * hclge_cmd_send - send command to command queue
  * @hw: pointer to the hw struct
@@ -310,7 +346,15 @@ int hclge_cmd_send(struct hclge_hw *hw, struct hclge_desc *desc, int num)
 {
 	struct hclge_dev *hdev = container_of(hw, struct hclge_dev, hw);
 	struct hclge_cmq_ring *csq = &hw->cmq.csq;
+<<<<<<< HEAD
 	int ret;
+=======
+	struct hclge_desc *desc_to_use;
+	bool complete = false;
+	u32 timeout = 0;
+	int handle = 0;
+	int retval;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ntc;
 
 	spin_lock_bh(&hw->cmq.csq.lock);
@@ -334,17 +378,62 @@ int hclge_cmd_send(struct hclge_hw *hw, struct hclge_desc *desc, int num)
 	 * which will be use for hardware to write back
 	 */
 	ntc = hw->cmq.csq.next_to_use;
+<<<<<<< HEAD
 
 	hclge_cmd_copy_desc(hw, desc, num);
+=======
+	while (handle < num) {
+		desc_to_use = &hw->cmq.csq.desc[hw->cmq.csq.next_to_use];
+		*desc_to_use = desc[handle];
+		(hw->cmq.csq.next_to_use)++;
+		if (hw->cmq.csq.next_to_use >= hw->cmq.csq.desc_num)
+			hw->cmq.csq.next_to_use = 0;
+		handle++;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Write to hardware */
 	hclge_write_dev(hw, HCLGE_NIC_CSQ_TAIL_REG, hw->cmq.csq.next_to_use);
 
+<<<<<<< HEAD
 	ret = hclge_cmd_check_result(hw, desc, num, ntc);
 
 	spin_unlock_bh(&hw->cmq.csq.lock);
 
 	return ret;
+=======
+	/**
+	 * If the command is sync, wait for the firmware to write back,
+	 * if multi descriptors to be sent, use the first one to check
+	 */
+	if (HCLGE_SEND_SYNC(le16_to_cpu(desc->flag))) {
+		do {
+			if (hclge_cmd_csq_done(hw)) {
+				complete = true;
+				break;
+			}
+			udelay(1);
+			timeout++;
+		} while (timeout < hw->cmq.tx_timeout);
+	}
+
+	if (!complete)
+		retval = -EBADE;
+	else
+		retval = hclge_cmd_check_retval(hw, desc, num, ntc);
+
+	/* Clean the command send queue */
+	handle = hclge_cmd_csq_clean(hw);
+	if (handle < 0)
+		retval = handle;
+	else if (handle != num)
+		dev_warn(&hdev->pdev->dev,
+			 "cleaned %d, need to clean %d\n", handle, num);
+
+	spin_unlock_bh(&hw->cmq.csq.lock);
+
+	return retval;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hclge_set_default_capability(struct hclge_dev *hdev)
@@ -380,6 +469,7 @@ static void hclge_parse_capability(struct hclge_dev *hdev,
 		set_bit(HNAE3_DEV_SUPPORT_FD_FORWARD_TC_B, ae_dev->caps);
 }
 
+<<<<<<< HEAD
 static __le32 hclge_build_api_caps(void)
 {
 	u32 api_caps = 0;
@@ -389,6 +479,8 @@ static __le32 hclge_build_api_caps(void)
 	return cpu_to_le32(api_caps);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum hclge_cmd_status
 hclge_cmd_query_version_and_capability(struct hclge_dev *hdev)
 {
@@ -399,7 +491,10 @@ hclge_cmd_query_version_and_capability(struct hclge_dev *hdev)
 
 	hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_QUERY_FW_VER, 1);
 	resp = (struct hclge_query_version_cmd *)desc.data;
+<<<<<<< HEAD
 	resp->api_caps = hclge_build_api_caps();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = hclge_cmd_send(&hdev->hw, &desc, 1);
 	if (ret)

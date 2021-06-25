@@ -122,7 +122,11 @@ static struct inode *bpf_get_inode(struct super_block *sb,
 	inode->i_mtime = inode->i_atime;
 	inode->i_ctime = inode->i_atime;
 
+<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
+=======
+	inode_init_owner(inode, dir, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return inode;
 }
@@ -152,8 +156,12 @@ static void bpf_dentry_finalize(struct dentry *dentry, struct inode *inode,
 	dir->i_ctime = dir->i_mtime;
 }
 
+<<<<<<< HEAD
 static int bpf_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		     struct dentry *dentry, umode_t mode)
+=======
+static int bpf_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 
@@ -382,8 +390,13 @@ bpf_lookup(struct inode *dir, struct dentry *dentry, unsigned flags)
 	return simple_lookup(dir, dentry, flags);
 }
 
+<<<<<<< HEAD
 static int bpf_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, const char *target)
+=======
+static int bpf_symlink(struct inode *dir, struct dentry *dentry,
+		       const char *target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	char *link = kstrdup(target, GFP_USER | __GFP_NOWARN);
 	struct inode *inode;
@@ -508,7 +521,11 @@ static void *bpf_obj_do_get(const char __user *pathname,
 		return ERR_PTR(ret);
 
 	inode = d_backing_inode(path.dentry);
+<<<<<<< HEAD
 	ret = path_permission(&path, ACC_MODE(flags));
+=======
+	ret = inode_permission(inode, ACC_MODE(flags));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		goto out;
 
@@ -543,11 +560,19 @@ int bpf_obj_get_user(const char __user *pathname, int flags)
 		return PTR_ERR(raw);
 
 	if (type == BPF_TYPE_PROG)
+<<<<<<< HEAD
 		ret = (f_flags != O_RDWR) ? -EINVAL : bpf_prog_new_fd(raw);
 	else if (type == BPF_TYPE_MAP)
 		ret = bpf_map_new_fd(raw, f_flags);
 	else if (type == BPF_TYPE_LINK)
 		ret = (f_flags != O_RDWR) ? -EINVAL : bpf_link_new_fd(raw);
+=======
+		ret = bpf_prog_new_fd(raw);
+	else if (type == BPF_TYPE_MAP)
+		ret = bpf_map_new_fd(raw, f_flags);
+	else if (type == BPF_TYPE_LINK)
+		ret = bpf_link_new_fd(raw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		return -ENOENT;
 
@@ -559,7 +584,11 @@ int bpf_obj_get_user(const char __user *pathname, int flags)
 static struct bpf_prog *__get_prog_inode(struct inode *inode, enum bpf_prog_type type)
 {
 	struct bpf_prog *prog;
+<<<<<<< HEAD
 	int ret = inode_permission(&init_user_ns, inode, MAY_READ);
+=======
+	int ret = inode_permission(inode, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ERR_PTR(ret);
 

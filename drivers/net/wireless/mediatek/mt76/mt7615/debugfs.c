@@ -21,6 +21,7 @@ mt7615_radar_pattern_set(void *data, u64 val)
 DEFINE_DEBUGFS_ATTRIBUTE(fops_radar_pattern, NULL,
 			 mt7615_radar_pattern_set, "%lld\n");
 
+<<<<<<< HEAD
 static int mt7615_config(void *data, u64 val)
 {
 	struct mt7615_dev *dev = data;
@@ -35,6 +36,8 @@ static int mt7615_config(void *data, u64 val)
 
 DEFINE_DEBUGFS_ATTRIBUTE(fops_config, NULL, mt7615_config, "%lld\n");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int
 mt7615_scs_set(void *data, u64 val)
 {
@@ -539,9 +542,12 @@ int mt7615_init_debugfs(struct mt7615_dev *dev)
 	debugfs_create_u32("rf_regidx", 0600, dir, &dev->debugfs_rf_reg);
 	debugfs_create_file_unsafe("rf_regval", 0600, dir, dev,
 				   &fops_rf_reg);
+<<<<<<< HEAD
 	if (is_mt7663(&dev->mt76))
 		debugfs_create_file("chip_config", 0600, dir, dev,
 				    &fops_config);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mt76_is_sdio(&dev->mt76))
 		debugfs_create_devm_seqfile(dev->mt76.dev, "sched-quota", dir,
 					    mt7663s_sched_quota_read);

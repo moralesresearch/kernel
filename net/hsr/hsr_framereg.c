@@ -279,8 +279,16 @@ void hsr_handle_sup_frame(struct hsr_frame_info *frame)
 		skb = frame->skb_hsr;
 	else if (frame->skb_prp)
 		skb = frame->skb_prp;
+<<<<<<< HEAD
 	else if (frame->skb_std)
 		skb = frame->skb_std;
+=======
+<<<<<<< HEAD
+	else if (frame->skb_std)
+		skb = frame->skb_std;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb)
 		return;
 

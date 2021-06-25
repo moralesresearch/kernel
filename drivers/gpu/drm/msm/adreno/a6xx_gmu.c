@@ -134,7 +134,15 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
 
 	if (!gmu->legacy) {
 		a6xx_hfi_set_freq(gmu, perf_index);
+<<<<<<< HEAD
 		dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+=======
+<<<<<<< HEAD
+		dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+=======
+		dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm_runtime_put(gmu->dev);
 		return;
 	}
@@ -158,7 +166,15 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
 	if (ret)
 		dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
 
+<<<<<<< HEAD
 	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+=======
+<<<<<<< HEAD
+	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+=======
+	dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_put(gmu->dev);
 }
 
@@ -245,8 +261,14 @@ static int a6xx_gmu_hfi_start(struct a6xx_gmu *gmu)
 	return ret;
 }
 
+<<<<<<< HEAD
 struct a6xx_gmu_oob_bits {
 	int set, ack, set_new, ack_new, clear, clear_new;
+=======
+<<<<<<< HEAD
+struct a6xx_gmu_oob_bits {
+	int set, ack, set_new, ack_new;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *name;
 };
 
@@ -260,8 +282,11 @@ static const struct a6xx_gmu_oob_bits a6xx_gmu_oob_bits[] = {
 		.ack = 24,
 		.set_new = 30,
 		.ack_new = 31,
+<<<<<<< HEAD
 		.clear = 24,
 		.clear_new = 31,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	[GMU_OOB_PERFCOUNTER_SET] = {
@@ -270,31 +295,49 @@ static const struct a6xx_gmu_oob_bits a6xx_gmu_oob_bits[] = {
 		.ack = 25,
 		.set_new = 28,
 		.ack_new = 30,
+<<<<<<< HEAD
 		.clear = 25,
 		.clear_new = 29,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	[GMU_OOB_BOOT_SLUMBER] = {
 		.name = "BOOT_SLUMBER",
 		.set = 22,
 		.ack = 30,
+<<<<<<< HEAD
 		.clear = 30,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	[GMU_OOB_DCVS_SET] = {
 		.name = "GPU_DCVS",
 		.set = 23,
 		.ack = 31,
+<<<<<<< HEAD
 		.clear = 31,
 	},
 };
 
+=======
+	},
+};
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Trigger a OOB (out of band) request to the GMU */
 int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
 {
 	int ret;
 	u32 val;
 	int request, ack;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
 		return -EINVAL;
@@ -311,6 +354,46 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
 				      a6xx_gmu_oob_bits[state].name);
 			return -EINVAL;
 		}
+<<<<<<< HEAD
+=======
+=======
+	const char *name;
+
+	switch (state) {
+	case GMU_OOB_GPU_SET:
+		if (gmu->legacy) {
+			request = GMU_OOB_GPU_SET_REQUEST;
+			ack = GMU_OOB_GPU_SET_ACK;
+		} else {
+			request = GMU_OOB_GPU_SET_REQUEST_NEW;
+			ack = GMU_OOB_GPU_SET_ACK_NEW;
+		}
+		name = "GPU_SET";
+		break;
+	case GMU_OOB_PERFCOUNTER_SET:
+		if (gmu->legacy) {
+			request = GMU_OOB_PERFCOUNTER_REQUEST;
+			ack = GMU_OOB_PERFCOUNTER_ACK;
+		} else {
+			request = GMU_OOB_PERFCOUNTER_REQUEST_NEW;
+			ack = GMU_OOB_PERFCOUNTER_ACK_NEW;
+		}
+		name = "PERFCOUNTER";
+		break;
+	case GMU_OOB_BOOT_SLUMBER:
+		request = GMU_OOB_BOOT_SLUMBER_REQUEST;
+		ack = GMU_OOB_BOOT_SLUMBER_ACK;
+		name = "BOOT_SLUMBER";
+		break;
+	case GMU_OOB_DCVS_SET:
+		request = GMU_OOB_DCVS_REQUEST;
+		ack = GMU_OOB_DCVS_ACK;
+		name = "GPU_DCVS";
+		break;
+	default:
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Trigger the equested OOB operation */
@@ -323,7 +406,15 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
 	if (ret)
 		DRM_DEV_ERROR(gmu->dev,
 			"Timeout waiting for GMU OOB set %s: 0x%x\n",
+<<<<<<< HEAD
 				a6xx_gmu_oob_bits[state].name,
+=======
+<<<<<<< HEAD
+				a6xx_gmu_oob_bits[state].name,
+=======
+				name,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				gmu_read(gmu, REG_A6XX_GMU_GMU2HOST_INTR_INFO));
 
 	/* Clear the acknowledge interrupt */
@@ -335,17 +426,61 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
 /* Clear a pending OOB state in the GMU */
 void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int bit;
 
 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
 		return;
 
 	if (gmu->legacy)
+<<<<<<< HEAD
 		bit = a6xx_gmu_oob_bits[state].clear;
 	else
 		bit = a6xx_gmu_oob_bits[state].clear_new;
 
 	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, 1 << bit);
+=======
+		bit = a6xx_gmu_oob_bits[state].ack;
+	else
+		bit = a6xx_gmu_oob_bits[state].ack_new;
+
+	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, 1 << bit);
+=======
+	if (!gmu->legacy) {
+		if (state == GMU_OOB_GPU_SET) {
+			gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+				1 << GMU_OOB_GPU_SET_CLEAR_NEW);
+		} else {
+			WARN_ON(state != GMU_OOB_PERFCOUNTER_SET);
+			gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+				1 << GMU_OOB_PERFCOUNTER_CLEAR_NEW);
+		}
+		return;
+	}
+
+	switch (state) {
+	case GMU_OOB_GPU_SET:
+		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+			1 << GMU_OOB_GPU_SET_CLEAR);
+		break;
+	case GMU_OOB_PERFCOUNTER_SET:
+		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+			1 << GMU_OOB_PERFCOUNTER_CLEAR);
+		break;
+	case GMU_OOB_BOOT_SLUMBER:
+		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+			1 << GMU_OOB_BOOT_SLUMBER_CLEAR);
+		break;
+	case GMU_OOB_DCVS_SET:
+		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+			1 << GMU_OOB_DCVS_CLEAR);
+		break;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Enable CPU control of SPTP power power collapse */
@@ -891,7 +1026,15 @@ static void a6xx_gmu_set_initial_bw(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
 	if (IS_ERR_OR_NULL(gpu_opp))
 		return;
 
+<<<<<<< HEAD
 	dev_pm_opp_set_opp(&gpu->pdev->dev, gpu_opp);
+=======
+<<<<<<< HEAD
+	dev_pm_opp_set_opp(&gpu->pdev->dev, gpu_opp);
+=======
+	dev_pm_opp_set_bw(&gpu->pdev->dev, gpu_opp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_pm_opp_put(gpu_opp);
 }
 
@@ -1097,7 +1240,15 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
 		a6xx_gmu_shutdown(gmu);
 
 	/* Remove the bus vote */
+<<<<<<< HEAD
 	dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
+=======
+<<<<<<< HEAD
+	dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
+=======
+	dev_pm_opp_set_bw(&gpu->pdev->dev, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Make sure the GX domain is off before turning off the GMU (CX)

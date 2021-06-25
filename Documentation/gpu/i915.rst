@@ -428,7 +428,11 @@ User Batchbuffer Execution
 Logical Rings, Logical Ring Contexts and Execlists
 --------------------------------------------------
 
+<<<<<<< HEAD
 .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+=======
+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    :doc: Logical Rings, Logical Ring Contexts and Execlists
 
 Global GTT views

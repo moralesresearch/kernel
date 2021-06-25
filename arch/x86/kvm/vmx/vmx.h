@@ -70,6 +70,7 @@ struct pt_desc {
 	struct pt_ctx guest;
 };
 
+<<<<<<< HEAD
 union vmx_exit_reason {
 	struct {
 		u32	basic			: 16;
@@ -118,6 +119,8 @@ struct lbr_desc {
 	bool msr_passthrough;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The nested_vmx structure is part of vcpu_vmx, and holds information we need
  * for correct emulation of VMX (i.e., nested VMX) on this vcpu.
@@ -165,7 +168,10 @@ struct nested_vmx {
 
 	bool change_vmcs01_virtual_apic_mode;
 	bool reload_vmcs01_apic_access_page;
+<<<<<<< HEAD
 	bool update_vmcs01_cpu_dirty_logging;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Enlightened VMCS has been enabled. It does not mean that L1 has to
@@ -293,7 +299,11 @@ struct vcpu_vmx {
 	int vpid;
 	bool emulation_required;
 
+<<<<<<< HEAD
 	union vmx_exit_reason exit_reason;
+=======
+	u32 exit_reason;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Posted interrupt descriptor */
 	struct pi_desc pi_desc;
@@ -328,7 +338,10 @@ struct vcpu_vmx {
 	u64 ept_pointer;
 
 	struct pt_desc pt_desc;
+<<<<<<< HEAD
 	struct lbr_desc lbr_desc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Save desired MSR intercept (read: pass-through) state */
 #define MAX_POSSIBLE_PASSTHROUGH_MSRS	13
@@ -379,7 +392,11 @@ void vmx_set_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
 u64 construct_eptp(struct kvm_vcpu *vcpu, unsigned long root_hpa,
 		   int root_level);
 
+<<<<<<< HEAD
 void vmx_update_exception_bitmap(struct kvm_vcpu *vcpu);
+=======
+void update_exception_bitmap(struct kvm_vcpu *vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void vmx_update_msr_bitmap(struct kvm_vcpu *vcpu);
 bool vmx_nmi_blocked(struct kvm_vcpu *vcpu);
 bool vmx_interrupt_blocked(struct kvm_vcpu *vcpu);
@@ -389,12 +406,17 @@ void vmx_set_virtual_apic_mode(struct kvm_vcpu *vcpu);
 struct vmx_uret_msr *vmx_find_uret_msr(struct vcpu_vmx *vmx, u32 msr);
 void pt_update_intercept_for_msr(struct kvm_vcpu *vcpu);
 void vmx_update_host_rsp(struct vcpu_vmx *vmx, unsigned long host_rsp);
+<<<<<<< HEAD
 bool __vmx_vcpu_run(struct vcpu_vmx *vmx, unsigned long *regs, bool launched);
 int vmx_find_loadstore_msr_slot(struct vmx_msrs *m, u32 msr);
 void vmx_ept_load_pdptrs(struct kvm_vcpu *vcpu);
 void vmx_set_intercept_for_msr(struct kvm_vcpu *vcpu,
 	u32 msr, int type, bool value);
 void vmx_update_cpu_dirty_logging(struct kvm_vcpu *vcpu);
+=======
+int vmx_find_loadstore_msr_slot(struct vmx_msrs *m, u32 msr);
+void vmx_ept_load_pdptrs(struct kvm_vcpu *vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline u8 vmx_get_rvi(void)
 {

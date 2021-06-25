@@ -511,7 +511,10 @@ static const struct of_device_id reserved_mem_matches[] = {
 	{ .compatible = "qcom,rmtfs-mem" },
 	{ .compatible = "qcom,cmd-db" },
 	{ .compatible = "ramoops" },
+<<<<<<< HEAD
 	{ .compatible = "nvmem-rmem" },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 
@@ -688,7 +691,11 @@ static int of_platform_notify(struct notifier_block *nb,
 		pdev_parent = of_find_device_by_node(rd->dn->parent);
 		pdev = of_platform_device_create(rd->dn, NULL,
 				pdev_parent ? &pdev_parent->dev : NULL);
+<<<<<<< HEAD
 		platform_device_put(pdev_parent);
+=======
+		of_dev_put(pdev_parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (pdev == NULL) {
 			pr_err("%s: failed to create for '%pOF'\n",
@@ -713,7 +720,11 @@ static int of_platform_notify(struct notifier_block *nb,
 		of_platform_device_destroy(&pdev->dev, &children_left);
 
 		/* and put the reference of the find */
+<<<<<<< HEAD
 		platform_device_put(pdev);
+=======
+		of_dev_put(pdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 

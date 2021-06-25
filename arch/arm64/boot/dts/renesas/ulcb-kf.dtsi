@@ -16,7 +16,10 @@
 	aliases {
 		serial1 = &hscif0;
 		serial2 = &scif1;
+<<<<<<< HEAD
 		mmc2 = &sdhi3;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	clksndsel: clksndsel {

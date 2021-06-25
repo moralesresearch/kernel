@@ -108,7 +108,14 @@ struct intel_pt {
 	u64 exstop_id;
 	u64 pwrx_id;
 	u64 cbr_id;
+<<<<<<< HEAD
 	u64 psb_id;
+=======
+<<<<<<< HEAD
+	u64 psb_id;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bool sample_pebs;
 	struct evsel *pebs_evsel;
@@ -163,9 +170,18 @@ struct intel_pt_queue {
 	int switch_state;
 	pid_t next_tid;
 	struct thread *thread;
+<<<<<<< HEAD
 	struct machine *guest_machine;
 	struct thread *unknown_guest_thread;
 	pid_t guest_machine_pid;
+=======
+<<<<<<< HEAD
+	struct machine *guest_machine;
+	struct thread *unknown_guest_thread;
+	pid_t guest_machine_pid;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool exclude_kernel;
 	bool have_sample;
 	u64 time;
@@ -553,6 +569,10 @@ static void intel_pt_cache_invalidate(struct dso *dso, struct machine *machine,
 	auxtrace_cache__remove(dso->auxtrace_cache, offset);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool intel_pt_guest_kernel_ip(uint64_t ip)
 {
 	/* Assumes 64-bit kernel */
@@ -568,10 +588,22 @@ static inline u8 intel_pt_nr_cpumode(struct intel_pt_queue *ptq, uint64_t ip, bo
 	}
 
 	return ip >= ptq->pt->kernel_start ?
+<<<<<<< HEAD
+=======
+=======
+static inline u8 intel_pt_cpumode(struct intel_pt *pt, uint64_t ip)
+{
+	return ip >= pt->kernel_start ?
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       PERF_RECORD_MISC_KERNEL :
 	       PERF_RECORD_MISC_USER;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline u8 intel_pt_cpumode(struct intel_pt_queue *ptq, uint64_t from_ip, uint64_t to_ip)
 {
 	/* No support for non-zero CS base */
@@ -606,6 +638,11 @@ static int intel_pt_get_guest(struct intel_pt_queue *ptq)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int intel_pt_walk_next_insn(struct intel_pt_insn *intel_pt_insn,
 				   uint64_t *insn_cnt_ptr, uint64_t *ip,
 				   uint64_t to_ip, uint64_t max_insn_cnt,
@@ -622,13 +659,24 @@ static int intel_pt_walk_next_insn(struct intel_pt_insn *intel_pt_insn,
 	u64 offset, start_offset, start_ip;
 	u64 insn_cnt = 0;
 	bool one_map = true;
+<<<<<<< HEAD
 	bool nr;
+=======
+<<<<<<< HEAD
+	bool nr;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	intel_pt_insn->length = 0;
 
 	if (to_ip && *ip == to_ip)
 		goto out_no_cache;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr = ptq->state->to_nr;
 	cpumode = intel_pt_nr_cpumode(ptq, *ip, nr);
 
@@ -645,6 +693,18 @@ static int intel_pt_walk_next_insn(struct intel_pt_insn *intel_pt_insn,
 				return -EINVAL;
 			thread = ptq->pt->unknown_thread;
 		}
+<<<<<<< HEAD
+=======
+=======
+	cpumode = intel_pt_cpumode(ptq->pt, *ip);
+
+	thread = ptq->thread;
+	if (!thread) {
+		if (cpumode != PERF_RECORD_MISC_KERNEL)
+			return -EINVAL;
+		thread = ptq->pt->unknown_thread;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	while (1) {
@@ -707,8 +767,15 @@ static int intel_pt_walk_next_insn(struct intel_pt_insn *intel_pt_insn,
 
 			*ip += intel_pt_insn->length;
 
+<<<<<<< HEAD
+			if (to_ip && *ip == to_ip) {
+				intel_pt_insn->length = 0;
+				goto out_no_cache;
+			}
+=======
 			if (to_ip && *ip == to_ip)
 				goto out_no_cache;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (*ip >= al.map->end)
 				break;
@@ -792,6 +859,10 @@ static int __intel_pt_pgd_ip(uint64_t ip, void *data)
 	u8 cpumode;
 	u64 offset;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ptq->state->to_nr) {
 		if (intel_pt_guest_kernel_ip(ip))
 			return intel_pt_match_pgd_ip(ptq->pt, ip, ip, NULL);
@@ -800,6 +871,13 @@ static int __intel_pt_pgd_ip(uint64_t ip, void *data)
 	} else if (ip >= ptq->pt->kernel_start) {
 		return intel_pt_match_pgd_ip(ptq->pt, ip, ip, NULL);
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (ip >= ptq->pt->kernel_start)
+		return intel_pt_match_pgd_ip(ptq->pt, ip, ip, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpumode = PERF_RECORD_MISC_USER;
 
@@ -1166,7 +1244,14 @@ static void intel_pt_free_queue(void *priv)
 	if (!ptq)
 		return;
 	thread__zput(ptq->thread);
+<<<<<<< HEAD
 	thread__zput(ptq->unknown_guest_thread);
+=======
+<<<<<<< HEAD
+	thread__zput(ptq->unknown_guest_thread);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_pt_decoder_free(ptq->decoder);
 	zfree(&ptq->event_buf);
 	zfree(&ptq->last_branch);
@@ -1198,9 +1283,17 @@ static void intel_pt_set_pid_tid_cpu(struct intel_pt *pt,
 
 static void intel_pt_sample_flags(struct intel_pt_queue *ptq)
 {
+<<<<<<< HEAD
+	ptq->insn_len = 0;
 	if (ptq->state->flags & INTEL_PT_ABORT_TX) {
 		ptq->flags = PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_TX_ABORT;
 	} else if (ptq->state->flags & INTEL_PT_ASYNC) {
+=======
+	if (ptq->state->flags & INTEL_PT_ABORT_TX) {
+		ptq->flags = PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_TX_ABORT;
+	} else if (ptq->state->flags & INTEL_PT_ASYNC) {
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ptq->state->to_ip)
 			ptq->flags = PERF_IP_FLAG_BRANCH |
 				     PERF_IP_FLAG_TRACE_END;
@@ -1211,6 +1304,18 @@ static void intel_pt_sample_flags(struct intel_pt_queue *ptq)
 			ptq->flags = PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_CALL |
 				     PERF_IP_FLAG_ASYNC |
 				     PERF_IP_FLAG_INTERRUPT;
+<<<<<<< HEAD
+=======
+=======
+		if (ptq->state->to_ip)
+			ptq->flags = PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_CALL |
+				     PERF_IP_FLAG_ASYNC |
+				     PERF_IP_FLAG_INTERRUPT;
+		else
+			ptq->flags = PERF_IP_FLAG_BRANCH |
+				     PERF_IP_FLAG_TRACE_END;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ptq->insn_len = 0;
 	} else {
 		if (ptq->state->from_ip)
@@ -1384,8 +1489,18 @@ static void intel_pt_prep_b_sample(struct intel_pt *pt,
 		sample->time = tsc_to_perf_time(ptq->timestamp, &pt->tc);
 
 	sample->ip = ptq->state->from_ip;
+<<<<<<< HEAD
 	sample->addr = ptq->state->to_ip;
 	sample->cpumode = intel_pt_cpumode(ptq, sample->ip, sample->addr);
+=======
+<<<<<<< HEAD
+	sample->addr = ptq->state->to_ip;
+	sample->cpumode = intel_pt_cpumode(ptq, sample->ip, sample->addr);
+=======
+	sample->cpumode = intel_pt_cpumode(pt, sample->ip);
+	sample->addr = ptq->state->to_ip;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sample->period = 1;
 	sample->flags = ptq->flags;
 
@@ -1618,6 +1733,10 @@ static int intel_pt_synth_cbr_sample(struct intel_pt_queue *ptq)
 					    pt->pwr_events_sample_type);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int intel_pt_synth_psb_sample(struct intel_pt_queue *ptq)
 {
 	struct intel_pt *pt = ptq->pt;
@@ -1644,6 +1763,11 @@ static int intel_pt_synth_psb_sample(struct intel_pt_queue *ptq)
 					    pt->pwr_events_sample_type);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int intel_pt_synth_mwait_sample(struct intel_pt_queue *ptq)
 {
 	struct intel_pt *pt = ptq->pt;
@@ -1902,7 +2026,18 @@ static int intel_pt_synth_pebs_sample(struct intel_pt_queue *ptq)
 	else
 		sample.ip = ptq->state->from_ip;
 
+<<<<<<< HEAD
 	cpumode = intel_pt_cpumode(ptq, sample.ip, 0);
+=======
+<<<<<<< HEAD
+	cpumode = intel_pt_cpumode(ptq, sample.ip, 0);
+=======
+	/* No support for guest mode at this time */
+	cpumode = sample.ip < ptq->pt->kernel_start ?
+		  PERF_RECORD_MISC_USER :
+		  PERF_RECORD_MISC_KERNEL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	event->sample.header.misc = cpumode | PERF_RECORD_MISC_EXACT_IP;
 
@@ -1961,11 +2096,23 @@ static int intel_pt_synth_pebs_sample(struct intel_pt_queue *ptq)
 	if (sample_type & PERF_SAMPLE_ADDR && items->has_mem_access_address)
 		sample.addr = items->mem_access_address;
 
+<<<<<<< HEAD
 	if (sample_type & PERF_SAMPLE_WEIGHT_TYPE) {
+=======
+<<<<<<< HEAD
+	if (sample_type & PERF_SAMPLE_WEIGHT_TYPE) {
+=======
+	if (sample_type & PERF_SAMPLE_WEIGHT) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Refer kernel's setup_pebs_adaptive_sample_data() and
 		 * intel_hsw_weight().
 		 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (items->has_mem_access_latency) {
 			u64 weight = items->mem_access_latency >> 32;
 
@@ -1985,6 +2132,13 @@ static int intel_pt_synth_pebs_sample(struct intel_pt_queue *ptq)
 			} else
 				sample.weight = items->mem_access_latency;
 		}
+<<<<<<< HEAD
+=======
+=======
+		if (items->has_mem_access_latency)
+			sample.weight = items->mem_access_latency;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!sample.weight && items->has_tsx_aux_info) {
 			/* Cycles last block */
 			sample.weight = (u32)items->tsx_aux_info;
@@ -2105,11 +2259,20 @@ static int intel_pt_sample(struct intel_pt_queue *ptq)
 	}
 
 	if (pt->sample_pwr_events) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (state->type & INTEL_PT_PSB_EVT) {
 			err = intel_pt_synth_psb_sample(ptq);
 			if (err)
 				return err;
 		}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ptq->state->cbr != ptq->cbr_seen) {
 			err = intel_pt_synth_cbr_sample(ptq);
 			if (err)
@@ -2171,6 +2334,10 @@ static int intel_pt_sample(struct intel_pt_queue *ptq)
 	}
 
 	if (pt->sample_branches) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (state->from_nr != state->to_nr &&
 		    state->from_ip && state->to_ip) {
 			struct intel_pt_state *st = (struct intel_pt_state *)state;
@@ -2192,6 +2359,12 @@ static int intel_pt_sample(struct intel_pt_queue *ptq)
 		} else {
 			err = intel_pt_synth_branch_sample(ptq);
 		}
+<<<<<<< HEAD
+=======
+=======
+		err = intel_pt_synth_branch_sample(ptq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -3227,6 +3400,10 @@ static int intel_pt_synth_events(struct intel_pt *pt,
 		pt->cbr_id = id;
 		intel_pt_set_event_name(evlist, id, "cbr");
 		id += 1;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		attr.config = PERF_SYNTH_INTEL_PSB;
 		err = intel_pt_synth_event(session, "psb", &attr, id);
@@ -3235,6 +3412,11 @@ static int intel_pt_synth_events(struct intel_pt *pt,
 		pt->psb_id = id;
 		intel_pt_set_event_name(evlist, id, "psb");
 		id += 1;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (pt->synth_opts.pwr_events && (evsel->core.attr.config & 0x10)) {

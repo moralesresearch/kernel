@@ -50,7 +50,11 @@ PTE Page Table Helpers
 +---------------------------+--------------------------------------------------+
 | pte_mkwrite               | Creates a writable PTE                           |
 +---------------------------+--------------------------------------------------+
+<<<<<<< HEAD
 | pte_wrprotect             | Creates a write protected PTE                    |
+=======
+| pte_mkwrprotect           | Creates a write protected PTE                    |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 +---------------------------+--------------------------------------------------+
 | pte_mkspecial             | Creates a special PTE                            |
 +---------------------------+--------------------------------------------------+
@@ -120,7 +124,11 @@ PMD Page Table Helpers
 +---------------------------+--------------------------------------------------+
 | pmd_mkwrite               | Creates a writable PMD                           |
 +---------------------------+--------------------------------------------------+
+<<<<<<< HEAD
 | pmd_wrprotect             | Creates a write protected PMD                    |
+=======
+| pmd_mkwrprotect           | Creates a write protected PMD                    |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 +---------------------------+--------------------------------------------------+
 | pmd_mkspecial             | Creates a special PMD                            |
 +---------------------------+--------------------------------------------------+
@@ -186,7 +194,11 @@ PUD Page Table Helpers
 +---------------------------+--------------------------------------------------+
 | pud_mkwrite               | Creates a writable PUD                           |
 +---------------------------+--------------------------------------------------+
+<<<<<<< HEAD
 | pud_wrprotect             | Creates a write protected PUD                    |
+=======
+| pud_mkwrprotect           | Creates a write protected PUD                    |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 +---------------------------+--------------------------------------------------+
 | pud_mkdevmap              | Creates a ZONE_DEVICE mapped PUD                 |
 +---------------------------+--------------------------------------------------+
@@ -224,7 +236,11 @@ HugeTLB Page Table Helpers
 +---------------------------+--------------------------------------------------+
 | huge_pte_mkwrite          | Creates a writable HugeTLB                       |
 +---------------------------+--------------------------------------------------+
+<<<<<<< HEAD
 | huge_pte_wrprotect        | Creates a write protected HugeTLB                |
+=======
+| huge_pte_mkwrprotect      | Creates a write protected HugeTLB                |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 +---------------------------+--------------------------------------------------+
 | huge_ptep_get_and_clear   | Clears a HugeTLB                                 |
 +---------------------------+--------------------------------------------------+

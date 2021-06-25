@@ -15,7 +15,10 @@
 
 #include <linux/amba/pl022.h>
 #include <linux/clk.h>
+<<<<<<< HEAD
 #include <linux/clk/spear.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/clocksource.h>
 #include <linux/err.h>
 #include <linux/of.h>

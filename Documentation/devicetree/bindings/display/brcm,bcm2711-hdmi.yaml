@@ -53,6 +53,7 @@ properties:
       - const: audio
       - const: cec
 
+<<<<<<< HEAD
   interrupts:
     items:
       - description: CEC TX interrupt
@@ -71,6 +72,8 @@ properties:
       - const: hpd-connected
       - const: hpd-removed
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   ddc:
     allOf:
       - $ref: /schemas/types.yaml#/definitions/phandle
@@ -78,7 +81,10 @@ properties:
       Phandle of the I2C controller used for DDC EDID probing
 
   hpd-gpios:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: >
       The GPIO pin for the HDMI hotplug detect (if it doesn't appear
       as an interrupt/status bit in the HDMI controller itself)

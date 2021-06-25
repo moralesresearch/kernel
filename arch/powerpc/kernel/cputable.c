@@ -13,6 +13,10 @@
 #include <linux/export.h>
 #include <linux/jump_label.h>
 
+<<<<<<< HEAD
+=======
+#include <asm/oprofile_impl.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/cputable.h>
 #include <asm/prom.h>		/* for PTRRELOC on ARCH=ppc */
 #include <asm/mce.h>
@@ -150,6 +154,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_setup		= __setup_cpu_ppc970,
 		.cpu_restore		= __restore_cpu_ppc970,
 		.oprofile_cpu_type	= "ppc64/970",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc970",
 	},
 	{	/* PPC970FX */
@@ -167,6 +175,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_setup		= __setup_cpu_ppc970,
 		.cpu_restore		= __restore_cpu_ppc970,
 		.oprofile_cpu_type	= "ppc64/970",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc970",
 	},
 	{	/* PPC970MP DD1.0 - no DEEPNAP, use regular 970 init */
@@ -184,6 +196,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_setup		= __setup_cpu_ppc970,
 		.cpu_restore		= __restore_cpu_ppc970,
 		.oprofile_cpu_type	= "ppc64/970MP",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc970",
 	},
 	{	/* PPC970MP */
@@ -201,6 +217,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_setup		= __setup_cpu_ppc970MP,
 		.cpu_restore		= __restore_cpu_ppc970,
 		.oprofile_cpu_type	= "ppc64/970MP",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc970",
 	},
 	{	/* PPC970GX */
@@ -217,6 +237,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_IBM,
 		.cpu_setup		= __setup_cpu_ppc970,
 		.oprofile_cpu_type	= "ppc64/970",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc970",
 	},
 	{	/* Power5 GR */
@@ -231,6 +255,15 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power5",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+		/* SIHV / SIPR bits are implemented on POWER4+ (GQ)
+		 * and above but only works on POWER5 and above
+		 */
+		.oprofile_mmcra_sihv	= MMCRA_SIHV,
+		.oprofile_mmcra_sipr	= MMCRA_SIPR,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power5",
 	},
 	{	/* Power5++ */
@@ -244,6 +277,12 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 128,
 		.num_pmcs		= 6,
 		.oprofile_cpu_type	= "ppc64/power5++",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+		.oprofile_mmcra_sihv	= MMCRA_SIHV,
+		.oprofile_mmcra_sipr	= MMCRA_SIPR,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power5+",
 	},
 	{	/* Power5 GS */
@@ -258,6 +297,12 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power5+",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+		.oprofile_mmcra_sihv	= MMCRA_SIHV,
+		.oprofile_mmcra_sipr	= MMCRA_SIPR,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power5+",
 	},
 	{	/* POWER6 in P5+ mode; 2.04-compliant processor */
@@ -270,6 +315,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power5+",
 	},
 	{	/* Power6 */
@@ -285,6 +334,14 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power6",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+		.oprofile_mmcra_sihv	= POWER6_MMCRA_SIHV,
+		.oprofile_mmcra_sipr	= POWER6_MMCRA_SIPR,
+		.oprofile_mmcra_clear	= POWER6_MMCRA_THRM |
+			POWER6_MMCRA_OTHER,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power6x",
 	},
 	{	/* 2.05-compliant processor, i.e. Power6 "architected" mode */
@@ -297,6 +354,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "power6",
 	},
 	{	/* 2.06-compliant processor, i.e. Power7 "architected" mode */
@@ -309,6 +370,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.mmu_features		= MMU_FTRS_POWER7,
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
 		.cpu_setup		= __setup_cpu_power7,
 		.cpu_restore		= __restore_cpu_power7,
@@ -325,6 +390,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.mmu_features		= MMU_FTRS_POWER8,
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
 		.cpu_setup		= __setup_cpu_power8,
 		.cpu_restore		= __restore_cpu_power8,
@@ -341,6 +410,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.mmu_features		= MMU_FTRS_POWER9,
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
 		.cpu_setup		= __setup_cpu_power9,
 		.cpu_restore		= __restore_cpu_power9,
@@ -356,6 +429,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.mmu_features		= MMU_FTRS_POWER10,
 		.icache_bsize		= 128,
 		.dcache_bsize		= 128,
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.oprofile_cpu_type	= "ppc64/ibm-compat-v1",
 		.cpu_setup		= __setup_cpu_power10,
 		.cpu_restore		= __restore_cpu_power10,
@@ -374,6 +451,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power7",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power7,
 		.cpu_restore		= __restore_cpu_power7,
 		.machine_check_early	= __machine_check_early_realmode_p7,
@@ -392,6 +473,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power7",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_POWER4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power7,
 		.cpu_restore		= __restore_cpu_power7,
 		.machine_check_early	= __machine_check_early_realmode_p7,
@@ -410,6 +495,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power8",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power8,
 		.cpu_restore		= __restore_cpu_power8,
 		.machine_check_early	= __machine_check_early_realmode_p8,
@@ -428,6 +517,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power8",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power8,
 		.cpu_restore		= __restore_cpu_power8,
 		.machine_check_early	= __machine_check_early_realmode_p8,
@@ -446,6 +539,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power8",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power8,
 		.cpu_restore		= __restore_cpu_power8,
 		.machine_check_early	= __machine_check_early_realmode_p8,
@@ -464,6 +561,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power9",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power9,
 		.cpu_restore		= __restore_cpu_power9,
 		.machine_check_early	= __machine_check_early_realmode_p9,
@@ -482,6 +583,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power9",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power9,
 		.cpu_restore		= __restore_cpu_power9,
 		.machine_check_early	= __machine_check_early_realmode_p9,
@@ -500,6 +605,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power9",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power9,
 		.cpu_restore		= __restore_cpu_power9,
 		.machine_check_early	= __machine_check_early_realmode_p9,
@@ -518,6 +627,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 6,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/power10",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_power10,
 		.cpu_restore		= __restore_cpu_power10,
 		.machine_check_early	= __machine_check_early_realmode_p10,
@@ -537,6 +650,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.num_pmcs		= 4,
 		.pmc_type		= PPC_PMC_IBM,
 		.oprofile_cpu_type	= "ppc64/cell-be",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_CELL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc-cell-be",
 	},
 	{	/* PA Semi PA6T */
@@ -553,6 +670,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_setup		= __setup_cpu_pa6t,
 		.cpu_restore		= __restore_cpu_pa6t,
 		.oprofile_cpu_type	= "ppc64/pa6t",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_PA6T,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "pa6t",
 	},
 	{	/* default match */
@@ -717,6 +838,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc750",
 		.oprofile_cpu_type      = "ppc/750",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{	/* 745/755 */
 		.pvr_mask		= 0xfffff000,
@@ -748,6 +873,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc750",
 		.oprofile_cpu_type      = "ppc/750",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{	/* 750FX rev 2.0 must disable HID0[DPM] */
 		.pvr_mask		= 0xffffffff,
@@ -764,6 +893,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc750",
 		.oprofile_cpu_type      = "ppc/750",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{	/* 750FX (All revs except 2.0) */
 		.pvr_mask		= 0xffff0000,
@@ -780,6 +913,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc750",
 		.oprofile_cpu_type      = "ppc/750",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{	/* 750GX */
 		.pvr_mask		= 0xffff0000,
@@ -796,6 +933,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc750",
 		.oprofile_cpu_type      = "ppc/750",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{	/* 740/750 (L2CR bit need fixup for 740) */
 		.pvr_mask		= 0xffff0000,
@@ -874,6 +1015,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -891,6 +1036,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -908,6 +1057,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -925,6 +1078,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -942,6 +1099,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -959,6 +1120,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -976,6 +1141,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -993,6 +1162,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -1009,6 +1182,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -1026,6 +1203,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -1043,6 +1224,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.pmc_type		= PPC_PMC_G4,
 		.cpu_setup		= __setup_cpu_745x,
 		.oprofile_cpu_type      = "ppc/7450",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_G4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.machine_check		= machine_check_generic,
 		.platform		= "ppc7450",
 	},
@@ -1155,6 +1340,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_83xx,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e300",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc603",
 	},
 	{	/* e300c4 (e300c1, plus one IU) */
@@ -1171,6 +1360,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check		= machine_check_83xx,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e300",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.platform		= "ppc603",
 	},
 #endif
@@ -1867,6 +2060,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 32,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e500",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_e500v1,
 		.machine_check		= machine_check_e500,
 		.platform		= "ppc8540",
@@ -1886,6 +2083,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 32,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e500",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_e500v2,
 		.machine_check		= machine_check_e500,
 		.platform		= "ppc8548",
@@ -1905,6 +2106,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 64,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e500mc",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_e500mc,
 		.machine_check		= machine_check_e500mc,
 		.platform		= "ppce500mc",
@@ -1926,6 +2131,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 64,
 		.num_pmcs		= 4,
 		.oprofile_cpu_type	= "ppc/e500mc",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_e5500,
 #ifndef CONFIG_PPC32
 		.cpu_restore		= __restore_cpu_e5500,
@@ -1948,6 +2157,10 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.dcache_bsize		= 64,
 		.num_pmcs		= 6,
 		.oprofile_cpu_type	= "ppc/e6500",
+<<<<<<< HEAD
+=======
+		.oprofile_type		= PPC_OPROFILE_FSL_EMB,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_setup		= __setup_cpu_e6500,
 #ifndef CONFIG_PPC32
 		.cpu_restore		= __restore_cpu_e6500,
@@ -2013,6 +2226,13 @@ static struct cpu_spec * __init setup_cpu_spec(unsigned long offset,
 	if (old.num_pmcs && !s->num_pmcs) {
 		t->num_pmcs = old.num_pmcs;
 		t->pmc_type = old.pmc_type;
+<<<<<<< HEAD
+=======
+		t->oprofile_type = old.oprofile_type;
+		t->oprofile_mmcra_sihv = old.oprofile_mmcra_sihv;
+		t->oprofile_mmcra_sipr = old.oprofile_mmcra_sipr;
+		t->oprofile_mmcra_clear = old.oprofile_mmcra_clear;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * If we have passed through this logic once before and

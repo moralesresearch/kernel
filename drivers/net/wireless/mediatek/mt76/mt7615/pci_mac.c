@@ -118,7 +118,11 @@ mt7615_write_fw_txp(struct mt7615_dev *dev, struct mt76_tx_info *tx_info,
 		txp->flags |= cpu_to_le16(MT_CT_INFO_MGMT_FRAME);
 
 	if (vif) {
+<<<<<<< HEAD
 		struct mt76_vif *mvif = (struct mt76_vif *)vif->drv_priv;
+=======
+		struct mt7615_vif *mvif = (struct mt7615_vif *)vif->drv_priv;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		txp->bss_idx = mvif->idx;
 	}

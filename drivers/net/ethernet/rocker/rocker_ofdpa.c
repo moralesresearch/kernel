@@ -923,7 +923,11 @@ static int ofdpa_flow_tbl_bridge(struct ofdpa_port *ofdpa_port,
 	struct ofdpa_flow_tbl_entry *entry;
 	u32 priority;
 	bool vlan_bridging = !!vlan_id;
+<<<<<<< HEAD
 	bool dflt = !eth_dst || eth_dst_mask;
+=======
+	bool dflt = !eth_dst || (eth_dst && eth_dst_mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool wild = false;
 
 	entry = kzalloc(sizeof(*entry), GFP_ATOMIC);
@@ -2488,7 +2492,12 @@ static int ofdpa_port_attr_stp_state_set(struct rocker_port *rocker_port,
 }
 
 static int ofdpa_port_attr_bridge_flags_set(struct rocker_port *rocker_port,
+<<<<<<< HEAD
 					    unsigned long brport_flags)
+=======
+					    unsigned long brport_flags,
+					    struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ofdpa_port *ofdpa_port = rocker_port->wpriv;
 	unsigned long orig_flags;
@@ -2496,11 +2505,22 @@ static int ofdpa_port_attr_bridge_flags_set(struct rocker_port *rocker_port,
 
 	orig_flags = ofdpa_port->brport_flags;
 	ofdpa_port->brport_flags = brport_flags;
+<<<<<<< HEAD
 
 	if ((orig_flags ^ ofdpa_port->brport_flags) & BR_LEARNING)
 		err = rocker_port_set_learning(ofdpa_port->rocker_port,
 					       !!(ofdpa_port->brport_flags & BR_LEARNING));
 
+=======
+	if ((orig_flags ^ ofdpa_port->brport_flags) & BR_LEARNING &&
+	    !switchdev_trans_ph_prepare(trans))
+		err = rocker_port_set_learning(ofdpa_port->rocker_port,
+					       !!(ofdpa_port->brport_flags & BR_LEARNING));
+
+	if (switchdev_trans_ph_prepare(trans))
+		ofdpa_port->brport_flags = orig_flags;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -2516,15 +2536,29 @@ ofdpa_port_attr_bridge_flags_support_get(const struct rocker_port *
 
 static int
 ofdpa_port_attr_bridge_ageing_time_set(struct rocker_port *rocker_port,
+<<<<<<< HEAD
 				       u32 ageing_time)
+=======
+				       u32 ageing_time,
+				       struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ofdpa_port *ofdpa_port = rocker_port->wpriv;
 	struct ofdpa *ofdpa = ofdpa_port->ofdpa;
 
+<<<<<<< HEAD
 	ofdpa_port->ageing_time = clock_t_to_jiffies(ageing_time);
 	if (ofdpa_port->ageing_time < ofdpa->ageing_time)
 		ofdpa->ageing_time = ofdpa_port->ageing_time;
 	mod_timer(&ofdpa_port->ofdpa->fdb_cleanup_timer, jiffies);
+=======
+	if (!switchdev_trans_ph_prepare(trans)) {
+		ofdpa_port->ageing_time = clock_t_to_jiffies(ageing_time);
+		if (ofdpa_port->ageing_time < ofdpa->ageing_time)
+			ofdpa->ageing_time = ofdpa_port->ageing_time;
+		mod_timer(&ofdpa_port->ofdpa->fdb_cleanup_timer, jiffies);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -2533,16 +2567,42 @@ static int ofdpa_port_obj_vlan_add(struct rocker_port *rocker_port,
 				   const struct switchdev_obj_port_vlan *vlan)
 {
 	struct ofdpa_port *ofdpa_port = rocker_port->wpriv;
+<<<<<<< HEAD
 
 	return ofdpa_port_vlan_add(ofdpa_port, vlan->vid, vlan->flags);
+=======
+	u16 vid;
+	int err;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		err = ofdpa_port_vlan_add(ofdpa_port, vid, vlan->flags);
+		if (err)
+			return err;
+	}
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ofdpa_port_obj_vlan_del(struct rocker_port *rocker_port,
 				   const struct switchdev_obj_port_vlan *vlan)
 {
 	struct ofdpa_port *ofdpa_port = rocker_port->wpriv;
+<<<<<<< HEAD
 
 	return ofdpa_port_vlan_del(ofdpa_port, vlan->vid, vlan->flags);
+=======
+	u16 vid;
+	int err;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		err = ofdpa_port_vlan_del(ofdpa_port, vid, vlan->flags);
+		if (err)
+			return err;
+	}
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ofdpa_port_obj_fdb_add(struct rocker_port *rocker_port,

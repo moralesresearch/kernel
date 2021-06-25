@@ -152,6 +152,7 @@ static inline void rb_replace_node_cached(struct rb_node *victim,
 	rb_replace_node(victim, new, &root->rb_root);
 }
 
+<<<<<<< HEAD
 /*
  * The below helper functions use 2 operators with 3 different
  * calling conventions. The operators are related like:
@@ -343,3 +344,6 @@ rb_next_match(const void *key, struct rb_node *node,
 	     (node); (node) = rb_next_match((key), (node), (cmp)))
 
 #endif	/* __TOOLS_LINUX_PERF_RBTREE_H */
+=======
+#endif /* __TOOLS_LINUX_PERF_RBTREE_H */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

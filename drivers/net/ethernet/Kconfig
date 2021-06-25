@@ -33,6 +33,10 @@ source "drivers/net/ethernet/apple/Kconfig"
 source "drivers/net/ethernet/aquantia/Kconfig"
 source "drivers/net/ethernet/arc/Kconfig"
 source "drivers/net/ethernet/atheros/Kconfig"
+<<<<<<< HEAD
+=======
+source "drivers/net/ethernet/aurora/Kconfig"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/net/ethernet/broadcom/Kconfig"
 source "drivers/net/ethernet/brocade/Kconfig"
 source "drivers/net/ethernet/cadence/Kconfig"

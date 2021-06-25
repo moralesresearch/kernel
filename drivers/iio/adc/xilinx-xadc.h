@@ -70,11 +70,14 @@ struct xadc {
 	int irq;
 };
 
+<<<<<<< HEAD
 enum xadc_type {
 	XADC_TYPE_S7, /* Series 7 */
 	XADC_TYPE_US, /* UltraScale and UltraScale+ */
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct xadc_ops {
 	int (*read)(struct xadc *xadc, unsigned int reg, uint16_t *val);
 	int (*write)(struct xadc *xadc, unsigned int reg, uint16_t val);
@@ -85,7 +88,10 @@ struct xadc_ops {
 	irqreturn_t (*interrupt_handler)(int irq, void *devid);
 
 	unsigned int flags;
+<<<<<<< HEAD
 	enum xadc_type type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline int _xadc_read_adc_reg(struct xadc *xadc, unsigned int reg,

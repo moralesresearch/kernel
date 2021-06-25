@@ -13,7 +13,10 @@
 #include "evlist.h"
 #include "evsel.h"
 #include "thread_map.h"
+<<<<<<< HEAD
 #include "hashmap.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/zalloc.h>
 
 void update_stats(struct stats *stats, u64 val)
@@ -100,10 +103,13 @@ static const char *id_str[PERF_STAT_EVSEL_ID__MAX] = {
 	ID(TOPDOWN_BAD_SPEC, topdown-bad-spec),
 	ID(TOPDOWN_FE_BOUND, topdown-fe-bound),
 	ID(TOPDOWN_BE_BOUND, topdown-be-bound),
+<<<<<<< HEAD
 	ID(TOPDOWN_HEAVY_OPS, topdown-heavy-ops),
 	ID(TOPDOWN_BR_MISPREDICT, topdown-br-mispredict),
 	ID(TOPDOWN_FETCH_LAT, topdown-fetch-lat),
 	ID(TOPDOWN_MEM_BOUND, topdown-mem-bound),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ID(SMI_NUM, msr/smi/),
 	ID(APERF, msr/aperf/),
 };
@@ -278,6 +284,7 @@ void evlist__save_aggr_prev_raw_counts(struct evlist *evlist)
 	}
 }
 
+<<<<<<< HEAD
 static size_t pkg_id_hash(const void *__key, void *ctx __maybe_unused)
 {
 	uint64_t *key = (uint64_t *) __key;
@@ -292,15 +299,27 @@ static bool pkg_id_equal(const void *__key1, const void *__key2,
 	uint64_t *key2 = (uint64_t *) __key2;
 
 	return *key1 == *key2;
+=======
+static void zero_per_pkg(struct evsel *counter)
+{
+	if (counter->per_pkg_mask)
+		memset(counter->per_pkg_mask, 0, cpu__max_cpu());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int check_per_pkg(struct evsel *counter,
 			 struct perf_counts_values *vals, int cpu, bool *skip)
 {
+<<<<<<< HEAD
 	struct hashmap *mask = counter->per_pkg_mask;
 	struct perf_cpu_map *cpus = evsel__cpus(counter);
 	int s, d, ret = 0;
 	uint64_t *key;
+=======
+	unsigned long *mask = counter->per_pkg_mask;
+	struct perf_cpu_map *cpus = evsel__cpus(counter);
+	int s;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*skip = false;
 
@@ -311,7 +330,11 @@ static int check_per_pkg(struct evsel *counter,
 		return 0;
 
 	if (!mask) {
+<<<<<<< HEAD
 		mask = hashmap__new(pkg_id_hash, pkg_id_equal, NULL);
+=======
+		mask = zalloc(cpu__max_cpu());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mask)
 			return -ENOMEM;
 
@@ -333,6 +356,7 @@ static int check_per_pkg(struct evsel *counter,
 	if (s < 0)
 		return -1;
 
+<<<<<<< HEAD
 	/*
 	 * On multi-die system, die_id > 0. On no-die system, die_id = 0.
 	 * We use hashmap(socket, die) to check the used socket+die pair.
@@ -352,6 +376,10 @@ static int check_per_pkg(struct evsel *counter,
 		ret = hashmap__add(mask, (void *)key, (void *)1);
 
 	return ret;
+=======
+	*skip = test_and_set_bit(s, mask) == 1;
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -451,7 +479,11 @@ int perf_stat_process_counter(struct perf_stat_config *config,
 	}
 
 	if (counter->per_pkg)
+<<<<<<< HEAD
 		evsel__zero_per_pkg(counter);
+=======
+		zero_per_pkg(counter);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = process_counter_maps(config, counter);
 	if (ret)
@@ -560,7 +592,11 @@ int create_perf_stat_counter(struct evsel *evsel,
 	if (leader->core.nr_members > 1)
 		attr->read_format |= PERF_FORMAT_ID|PERF_FORMAT_GROUP;
 
+<<<<<<< HEAD
 	attr->inherit = !config->no_inherit && list_empty(&evsel->bpf_counter_list);
+=======
+	attr->inherit = !config->no_inherit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Some events get initialized with sample_(period/type) set,

@@ -676,6 +676,7 @@ USER(\label, ic	ivau, \tmp2)			// invalidate I line PoU
 	.endm
 
 /*
+<<<<<<< HEAD
  * Set SCTLR_EL1 to the passed value, and invalidate the local icache
  * in the process. This is called when setting the MMU on.
  */
@@ -693,6 +694,8 @@ USER(\label, ic	ivau, \tmp2)			// invalidate I line PoU
 .endm
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Check whether to yield to another runnable task from kernel mode NEON code
  * (which runs with preemption disabled).
  *
@@ -762,6 +765,7 @@ USER(\label, ic	ivau, \tmp2)			// invalidate I line PoU
 .Lyield_out_\@ :
 	.endm
 
+<<<<<<< HEAD
 	/*
 	 * Check whether preempt-disabled code should yield as soon as it
 	 * is able. This is the case if re-enabling preemption a single
@@ -778,6 +782,8 @@ USER(\label, ic	ivau, \tmp2)			// invalidate I line PoU
 #endif
 	.endm
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This macro emits a program property note section identifying
  * architecture features which require special handling, mainly for

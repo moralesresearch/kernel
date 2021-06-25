@@ -258,7 +258,10 @@ static void stm_disable(struct coresight_device *csdev,
 			struct perf_event *event)
 {
 	struct stm_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+<<<<<<< HEAD
 	struct csdev_access *csa = &csdev->access;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * For as long as the tracer isn't disabled another entity can't
@@ -271,7 +274,11 @@ static void stm_disable(struct coresight_device *csdev,
 		spin_unlock(&drvdata->spinlock);
 
 		/* Wait until the engine has completely stopped */
+<<<<<<< HEAD
 		coresight_timeout(csa, STMTCSR, STMTCSR_BUSY_BIT, 0);
+=======
+		coresight_timeout(drvdata->base, STMTCSR, STMTCSR_BUSY_BIT, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		pm_runtime_put(csdev->dev.parent);
 
@@ -885,7 +892,10 @@ static int stm_probe(struct amba_device *adev, const struct amba_id *id)
 	if (IS_ERR(base))
 		return PTR_ERR(base);
 	drvdata->base = base;
+<<<<<<< HEAD
 	desc.access = CSDEV_ACCESS_IOMEM(base);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = stm_get_stimulus_area(dev, &ch_res);
 	if (ret)
@@ -953,13 +963,22 @@ stm_unregister:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void stm_remove(struct amba_device *adev)
+=======
+static int stm_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct stm_drvdata *drvdata = dev_get_drvdata(&adev->dev);
 
 	coresight_unregister(drvdata->csdev);
 
 	stm_unregister_device(&drvdata->stm);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

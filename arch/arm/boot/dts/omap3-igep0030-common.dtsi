@@ -2,7 +2,11 @@
 /*
  * Common Device Tree Source for IGEP COM MODULE
  *
+<<<<<<< HEAD
  * Copyright (C) 2014 Javier Martinez Canillas <javier@dowhile0.org>
+=======
+ * Copyright (C) 2014 Javier Martinez Canillas <javier@osg.samsung.com>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2014 Enric Balletbo i Serra <eballetbo@gmail.com>
  */
 

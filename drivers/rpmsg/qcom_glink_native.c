@@ -857,7 +857,10 @@ static int qcom_glink_rx_data(struct qcom_glink *glink, size_t avail)
 			dev_err(glink->dev,
 				"no intent found for channel %s intent %d",
 				channel->name, liid);
+<<<<<<< HEAD
 			ret = -ENOENT;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto advance_rx;
 		}
 	}

@@ -491,26 +491,46 @@ static void __init at91sam9260_pmc_setup(struct device_node *np)
 {
 	at91sam926x_pmc_setup(np, &at91sam9260_data);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9260_pmc, "atmel,at91sam9260-pmc", at91sam9260_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9260_pmc, "atmel,at91sam9260-pmc",
+		      at91sam9260_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9261_pmc_setup(struct device_node *np)
 {
 	at91sam926x_pmc_setup(np, &at91sam9261_data);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9261_pmc, "atmel,at91sam9261-pmc", at91sam9261_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9261_pmc, "atmel,at91sam9261-pmc",
+		      at91sam9261_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9263_pmc_setup(struct device_node *np)
 {
 	at91sam926x_pmc_setup(np, &at91sam9263_data);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9263_pmc, "atmel,at91sam9263-pmc", at91sam9263_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9263_pmc, "atmel,at91sam9263-pmc",
+		      at91sam9263_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init at91sam9g20_pmc_setup(struct device_node *np)
 {
 	at91sam926x_pmc_setup(np, &at91sam9g20_data);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(at91sam9g20_pmc, "atmel,at91sam9g20-pmc", at91sam9g20_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(at91sam9g20_pmc, "atmel,at91sam9g20-pmc",
+		      at91sam9g20_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -89,7 +89,11 @@ nfs_file_release(struct inode *inode, struct file *filp)
 EXPORT_SYMBOL_GPL(nfs_file_release);
 
 /**
+<<<<<<< HEAD
  * nfs_revalidate_file_size - Revalidate the file size
+=======
+ * nfs_revalidate_size - Revalidate the file size
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: pointer to inode struct
  * @filp: pointer to struct file
  *
@@ -606,8 +610,13 @@ ssize_t nfs_file_write(struct kiocb *iocb, struct iov_iter *from)
 {
 	struct file *file = iocb->ki_filp;
 	struct inode *inode = file_inode(file);
+<<<<<<< HEAD
 	unsigned int mntflags = NFS_SERVER(inode)->flags;
 	ssize_t result, written;
+=======
+	unsigned long written = 0;
+	ssize_t result;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	errseq_t since;
 	int error;
 
@@ -626,13 +635,22 @@ ssize_t nfs_file_write(struct kiocb *iocb, struct iov_iter *from)
 	/*
 	 * O_APPEND implies that we must revalidate the file length.
 	 */
+<<<<<<< HEAD
 	if (iocb->ki_flags & IOCB_APPEND || iocb->ki_pos > i_size_read(inode)) {
+=======
+	if (iocb->ki_flags & IOCB_APPEND) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		result = nfs_revalidate_file_size(inode, file);
 		if (result)
 			goto out;
 	}
+<<<<<<< HEAD
 
 	nfs_clear_invalid_mapping(file->f_mapping);
+=======
+	if (iocb->ki_pos > i_size_read(inode))
+		nfs_revalidate_mapping(inode, file->f_mapping);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	since = filemap_sample_wb_err(file->f_mapping);
 	nfs_start_io_write(inode);
@@ -648,6 +666,7 @@ ssize_t nfs_file_write(struct kiocb *iocb, struct iov_iter *from)
 
 	written = result;
 	iocb->ki_pos += written;
+<<<<<<< HEAD
 
 	if (mntflags & NFS_MOUNT_WRITE_EAGER) {
 		result = filemap_fdatawrite_range(file->f_mapping,
@@ -663,6 +682,8 @@ ssize_t nfs_file_write(struct kiocb *iocb, struct iov_iter *from)
 		if (result < 0)
 			goto out;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	result = generic_write_sync(iocb, written);
 	if (result < 0)
 		goto out;

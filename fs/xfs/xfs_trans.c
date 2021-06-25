@@ -20,10 +20,13 @@
 #include "xfs_trace.h"
 #include "xfs_error.h"
 #include "xfs_defer.h"
+<<<<<<< HEAD
 #include "xfs_inode.h"
 #include "xfs_dquot_item.h"
 #include "xfs_dquot.h"
 #include "xfs_icache.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 kmem_zone_t	*xfs_trans_zone;
 
@@ -72,7 +75,10 @@ xfs_trans_free(
 	xfs_extent_busy_clear(tp->t_mountp, &tp->t_busy, false);
 
 	trace_xfs_trans_free(tp, _RET_IP_);
+<<<<<<< HEAD
 	xfs_trans_clear_context(tp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!(tp->t_flags & XFS_TRANS_NO_WRITECOUNT))
 		sb_end_intwrite(tp->t_mountp->m_super);
 	xfs_trans_free_dqinfo(tp);
@@ -124,8 +130,12 @@ xfs_trans_dup(
 
 	ntp->t_rtx_res = tp->t_rtx_res - tp->t_rtx_res_used;
 	tp->t_rtx_res = tp->t_rtx_res_used;
+<<<<<<< HEAD
 
 	xfs_trans_switch_context(tp, ntp);
+=======
+	ntp->t_pflags = tp->t_pflags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* move deferred ops over to the new tp */
 	xfs_defer_move(ntp, tp);
@@ -159,6 +169,12 @@ xfs_trans_reserve(
 	int			error = 0;
 	bool			rsvd = (tp->t_flags & XFS_TRANS_RESERVE) != 0;
 
+<<<<<<< HEAD
+=======
+	/* Mark this thread as being in a transaction */
+	current_set_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Attempt to reserve the needed disk blocks by decrementing
 	 * the number needed from the number available.  This will
@@ -166,8 +182,15 @@ xfs_trans_reserve(
 	 */
 	if (blocks > 0) {
 		error = xfs_mod_fdblocks(mp, -((int64_t)blocks), rsvd);
+<<<<<<< HEAD
 		if (error != 0)
 			return -ENOSPC;
+=======
+		if (error != 0) {
+			current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+			return -ENOSPC;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tp->t_blk_res += blocks;
 	}
 
@@ -241,6 +264,12 @@ undo_blocks:
 		xfs_mod_fdblocks(mp, (int64_t)blocks, rsvd);
 		tp->t_blk_res = 0;
 	}
+<<<<<<< HEAD
+=======
+
+	current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return error;
 }
 
@@ -254,7 +283,10 @@ xfs_trans_alloc(
 	struct xfs_trans	**tpp)
 {
 	struct xfs_trans	*tp;
+<<<<<<< HEAD
 	bool			want_retry = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			error;
 
 	/*
@@ -262,11 +294,17 @@ xfs_trans_alloc(
 	 * GFP_NOFS allocation context so that we avoid lockdep false positives
 	 * by doing GFP_KERNEL allocations inside sb_start_intwrite().
 	 */
+<<<<<<< HEAD
 retry:
 	tp = kmem_cache_zalloc(xfs_trans_zone, GFP_KERNEL | __GFP_NOFAIL);
 	if (!(flags & XFS_TRANS_NO_WRITECOUNT))
 		sb_start_intwrite(mp->m_super);
 	xfs_trans_set_context(tp);
+=======
+	tp = kmem_cache_zalloc(xfs_trans_zone, GFP_KERNEL | __GFP_NOFAIL);
+	if (!(flags & XFS_TRANS_NO_WRITECOUNT))
+		sb_start_intwrite(mp->m_super);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Zero-reservation ("empty") transactions can't modify anything, so
@@ -286,6 +324,7 @@ retry:
 	tp->t_firstblock = NULLFSBLOCK;
 
 	error = xfs_trans_reserve(tp, resp, blocks, rtextents);
+<<<<<<< HEAD
 	if (error == -ENOSPC && want_retry) {
 		xfs_trans_cancel(tp);
 
@@ -302,6 +341,8 @@ retry:
 		want_retry = false;
 		goto retry;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error) {
 		xfs_trans_cancel(tp);
 		return error;
@@ -895,6 +936,10 @@ __xfs_trans_commit(
 
 	xfs_log_commit_cil(mp, tp, &commit_lsn, regrant);
 
+<<<<<<< HEAD
+=======
+	current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_trans_free(tp);
 
 	/*
@@ -926,6 +971,10 @@ out_unreserve:
 			xfs_log_ticket_ungrant(mp->m_log, tp->t_ticket);
 		tp->t_ticket = NULL;
 	}
+<<<<<<< HEAD
+=======
+	current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_trans_free_items(tp, !!error);
 	xfs_trans_free(tp);
 
@@ -985,6 +1034,12 @@ xfs_trans_cancel(
 		tp->t_ticket = NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	/* mark this thread as no longer being in a transaction */
+	current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_trans_free_items(tp, dirty);
 	xfs_trans_free(tp);
 }
@@ -1036,6 +1091,7 @@ xfs_trans_roll(
 	tres.tr_logflags = XFS_TRANS_PERM_LOG_RES;
 	return xfs_trans_reserve(*tpp, &tres, 0, 0);
 }
+<<<<<<< HEAD
 
 /*
  * Allocate an transaction, lock and join the inode to it, and reserve quota.
@@ -1216,3 +1272,5 @@ out_cancel:
 	xfs_trans_cancel(tp);
 	return error;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

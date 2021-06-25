@@ -517,7 +517,11 @@ static int catch_up_echo_skb(struct net_device *dev, int budget, bool echo)
 			stats->tx_packets++;
 			stats->tx_bytes += priv->txdlc[i];
 			priv->txdlc[i] = 0;
+<<<<<<< HEAD
 			can_get_echo_skb(dev, i, NULL);
+=======
+			can_get_echo_skb(dev, i);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			/* For cleanup of untransmitted messages */
 			can_free_echo_skb(dev, i);
@@ -1448,7 +1452,11 @@ static netdev_tx_t grcan_start_xmit(struct sk_buff *skb,
 	 * taken.
 	 */
 	priv->txdlc[slotindex] = cf->len; /* Store dlc for statistics */
+<<<<<<< HEAD
 	can_put_echo_skb(skb, dev, slotindex, 0);
+=======
+	can_put_echo_skb(skb, dev, slotindex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Make sure everything is written before allowing hardware to
 	 * read from the memory

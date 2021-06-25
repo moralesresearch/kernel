@@ -2374,6 +2374,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
 	struct vb2_buffer *vb = NULL;
 	unsigned long flags;
 
+<<<<<<< HEAD
 	/*
 	 * poll_wait() MUST be called on the first invocation on all the
 	 * potential queues of interest, even if we are not interested in their
@@ -2383,11 +2384,18 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
 	 */
 	poll_wait(file, &q->done_wq, wait);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!q->is_output && !(req_events & (EPOLLIN | EPOLLRDNORM)))
 		return 0;
 	if (q->is_output && !(req_events & (EPOLLOUT | EPOLLWRNORM)))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	poll_wait(file, &q->done_wq, wait);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Start file I/O emulator only if streaming API has not been used yet.
 	 */

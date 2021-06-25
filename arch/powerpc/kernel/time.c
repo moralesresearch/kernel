@@ -57,7 +57,14 @@
 #include <linux/processor.h>
 #include <asm/trace.h>
 
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+<<<<<<< HEAD
+#include <asm/interrupt.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 #include <asm/nvram.h>
 #include <asm/cache.h>
@@ -572,7 +579,15 @@ void arch_irq_work_raise(void)
  * timer_interrupt - gets called when the decrementer overflows,
  * with interrupts disabled.
  */
+<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER_ASYNC(timer_interrupt)
+=======
+<<<<<<< HEAD
+DEFINE_INTERRUPT_HANDLER_ASYNC(timer_interrupt)
+=======
+void timer_interrupt(struct pt_regs *regs)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct clock_event_device *evt = this_cpu_ptr(&decrementers);
 	u64 *next_tb = this_cpu_ptr(&decrementers_next_tb);
@@ -611,7 +626,15 @@ DEFINE_INTERRUPT_HANDLER_ASYNC(timer_interrupt)
 #endif
 
 	old_regs = set_irq_regs(regs);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	irq_enter();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trace_timer_interrupt_entry(regs);
 
 	if (test_irq_work_pending()) {
@@ -636,7 +659,15 @@ DEFINE_INTERRUPT_HANDLER_ASYNC(timer_interrupt)
 	}
 
 	trace_timer_interrupt_exit(regs);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	irq_exit();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	set_irq_regs(old_regs);
 }
 EXPORT_SYMBOL(timer_interrupt);

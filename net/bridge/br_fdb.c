@@ -602,7 +602,10 @@ void br_fdb_update(struct net_bridge *br, struct net_bridge_port *source,
 			/* fastpath: update of existing entry */
 			if (unlikely(source != fdb->dst &&
 				     !test_bit(BR_FDB_STICKY, &fdb->flags))) {
+<<<<<<< HEAD
 				br_switchdev_fdb_notify(fdb, RTM_DELNEIGH);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				fdb->dst = source;
 				fdb_modified = true;
 				/* Take over HW learned entry */

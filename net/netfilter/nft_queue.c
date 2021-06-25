@@ -19,10 +19,17 @@
 static u32 jhash_initval __read_mostly;
 
 struct nft_queue {
+<<<<<<< HEAD
 	u8	sreg_qnum;
 	u16	queuenum;
 	u16	queues_total;
 	u16	flags;
+=======
+	enum nft_registers	sreg_qnum:8;
+	u16			queuenum;
+	u16			queues_total;
+	u16			flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void nft_queue_eval(const struct nft_expr *expr,
@@ -111,8 +118,13 @@ static int nft_queue_sreg_init(const struct nft_ctx *ctx,
 	struct nft_queue *priv = nft_expr_priv(expr);
 	int err;
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_QUEUE_SREG_QNUM],
 				      &priv->sreg_qnum, sizeof(u32));
+=======
+	priv->sreg_qnum = nft_parse_register(tb[NFTA_QUEUE_SREG_QNUM]);
+	err = nft_validate_register_load(priv->sreg_qnum, sizeof(u32));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 

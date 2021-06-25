@@ -68,8 +68,14 @@ g94_gpio = {
 };
 
 int
+<<<<<<< HEAD
 g94_gpio_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_gpio **pgpio)
 {
 	return nvkm_gpio_new_(&g94_gpio, device, type, inst, pgpio);
+=======
+g94_gpio_new(struct nvkm_device *device, int index, struct nvkm_gpio **pgpio)
+{
+	return nvkm_gpio_new_(&g94_gpio, device, index, pgpio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

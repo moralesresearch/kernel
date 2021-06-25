@@ -854,7 +854,15 @@ static int lmc_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
 	spin_lock_init(&sc->lmc_lock);
 	pci_set_master(pdev);
 
+<<<<<<< HEAD
 	printk(KERN_INFO "hdlc: detected at %lx, irq %d\n",
+=======
+<<<<<<< HEAD
+	printk(KERN_INFO "hdlc: detected at %lx, irq %d\n",
+=======
+	printk(KERN_INFO "%s: detected at %lx, irq %d\n", dev->name,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       dev->base_addr, dev->irq);
 
 	err = register_hdlc_device(dev);

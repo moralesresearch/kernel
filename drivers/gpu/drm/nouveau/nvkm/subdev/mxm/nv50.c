@@ -201,13 +201,21 @@ mxm_dcb_sanitise(struct nvkm_mxm *mxm)
 }
 
 int
+<<<<<<< HEAD
 nv50_mxm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_subdev **pmxm)
+=======
+nv50_mxm_new(struct nvkm_device *device, int index, struct nvkm_subdev **pmxm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_mxm *mxm;
 	int ret;
 
+<<<<<<< HEAD
 	ret = nvkm_mxm_new_(device, type, inst, &mxm);
+=======
+	ret = nvkm_mxm_new_(device, index, &mxm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mxm)
 		*pmxm = &mxm->subdev;
 	if (ret)

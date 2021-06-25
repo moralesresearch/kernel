@@ -9,8 +9,13 @@ struct nv20_gr {
 	struct nvkm_memory *ctxtab;
 };
 
+<<<<<<< HEAD
 int nv20_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		 struct nvkm_gr **);
+=======
+int nv20_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *,
+		 int, struct nvkm_gr **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *nv20_gr_dtor(struct nvkm_gr *);
 int nv20_gr_oneinit(struct nvkm_gr *);
 int nv20_gr_init(struct nvkm_gr *);

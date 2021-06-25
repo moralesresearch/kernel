@@ -65,6 +65,7 @@ KSZ9031:
   step is 60ps. The default value is the neutral setting, so setting
   rxc-skew-ps=<0> actually results in -900 picoseconds adjustment.
 
+<<<<<<< HEAD
   The KSZ9031 hardware supports a range of skew values from negative to
   positive, where the specific range is property dependent. All values
   specified in the devicetree are offset by the minimum value so they
@@ -130,6 +131,8 @@ KSZ9031:
   1110			420ps		840
   1111			480ps		900
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   Optional properties:
 
     Maximum value of 1860, default value 900:
@@ -185,6 +188,7 @@ KSZ9131:
 
 Examples:
 
+<<<<<<< HEAD
 	/* Attach to an Ethernet device with autodetected PHY */
 	&enet {
 		rxc-skew-ps = <1800>;
@@ -200,6 +204,13 @@ Examples:
 			rxc-skew-ps = <1800>;
 			rxdv-skew-ps = <0>;
 			txc-skew-ps = <1800>;
+=======
+	mdio {
+		phy0: ethernet-phy@0 {
+			rxc-skew-ps = <3000>;
+			rxdv-skew-ps = <0>;
+			txc-skew-ps = <3000>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			txen-skew-ps = <0>;
 			reg = <0>;
 		};
@@ -208,6 +219,7 @@ Examples:
 		phy = <&phy0>;
 		phy-mode = "rgmii-id";
 	};
+<<<<<<< HEAD
 
 References
 
@@ -225,3 +237,5 @@ Notes:
   120ps/step. The latest update to this document reflects the latest
   revision of the Micrel specification even though usage in the kernel
   still reflects that incorrect document.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

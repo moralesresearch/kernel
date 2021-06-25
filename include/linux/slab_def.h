@@ -2,7 +2,10 @@
 #ifndef _LINUX_SLAB_DEF_H
 #define	_LINUX_SLAB_DEF_H
 
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/reciprocal_div.h>
 
 /*
@@ -115,8 +118,11 @@ static inline unsigned int obj_to_index(const struct kmem_cache *cache,
 static inline int objs_per_slab_page(const struct kmem_cache *cache,
 				     const struct page *page)
 {
+<<<<<<< HEAD
 	if (is_kfence_address(page_address(page)))
 		return 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return cache->num;
 }
 

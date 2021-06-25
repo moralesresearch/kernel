@@ -172,11 +172,15 @@ SYM_FUNC_START(startup_32)
 	 */
 	call	get_sev_encryption_bit
 	xorl	%edx, %edx
+<<<<<<< HEAD
 #ifdef	CONFIG_AMD_MEM_ENCRYPT
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	testl	%eax, %eax
 	jz	1f
 	subl	$32, %eax	/* Encryption bit is always above bit 31 */
 	bts	%eax, %edx	/* Set encryption mask for page tables */
+<<<<<<< HEAD
 	/*
 	 * Mark SEV as active in sev_status so that startup32_check_sev_cbit()
 	 * will do a check. The sev_status memory will be fully initialized
@@ -187,6 +191,9 @@ SYM_FUNC_START(startup_32)
 	movl	$1, rva(sev_status)(%ebp)
 1:
 #endif
+=======
+1:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Initialize Page tables to 0 */
 	leal	rva(pgtable)(%ebx), %edi
@@ -271,9 +278,12 @@ SYM_FUNC_START(startup_32)
 	movl	%esi, %edx
 1:
 #endif
+<<<<<<< HEAD
 	/* Check if the C-bit position is correct when SEV is active */
 	call	startup32_check_sev_cbit
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pushl	$__KERNEL_CS
 	pushl	%eax
 
@@ -800,6 +810,7 @@ SYM_DATA_END(loaded_image_proto)
 #endif
 
 /*
+<<<<<<< HEAD
  * Check for the correct C-bit position when the startup_32 boot-path is used.
  *
  * The check makes use of the fact that all memory is encrypted when paging is
@@ -872,6 +883,8 @@ SYM_FUNC_START(startup32_check_sev_cbit)
 SYM_FUNC_END(startup32_check_sev_cbit)
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Stack and heap for uncompression
  */
 	.bss

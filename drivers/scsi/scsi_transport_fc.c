@@ -148,6 +148,7 @@ fc_enum_name_search(host_event_code, fc_host_event_code,
 static struct {
 	enum fc_port_state	value;
 	char			*name;
+<<<<<<< HEAD
 	int			matchlen;
 } fc_port_state_names[] = {
 	{ FC_PORTSTATE_UNKNOWN,		"Unknown", 7},
@@ -165,6 +166,22 @@ static struct {
 };
 fc_enum_name_search(port_state, fc_port_state, fc_port_state_names)
 fc_enum_name_match(port_state, fc_port_state, fc_port_state_names)
+=======
+} fc_port_state_names[] = {
+	{ FC_PORTSTATE_UNKNOWN,		"Unknown" },
+	{ FC_PORTSTATE_NOTPRESENT,	"Not Present" },
+	{ FC_PORTSTATE_ONLINE,		"Online" },
+	{ FC_PORTSTATE_OFFLINE,		"Offline" },
+	{ FC_PORTSTATE_BLOCKED,		"Blocked" },
+	{ FC_PORTSTATE_BYPASSED,	"Bypassed" },
+	{ FC_PORTSTATE_DIAGNOSTICS,	"Diagnostics" },
+	{ FC_PORTSTATE_LINKDOWN,	"Linkdown" },
+	{ FC_PORTSTATE_ERROR,		"Error" },
+	{ FC_PORTSTATE_LOOPBACK,	"Loopback" },
+	{ FC_PORTSTATE_DELETED,		"Deleted" },
+};
+fc_enum_name_search(port_state, fc_port_state, fc_port_state_names)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define FC_PORTSTATE_MAX_NAMELEN	20
 
 
@@ -1238,6 +1255,7 @@ show_fc_rport_roles (struct device *dev, struct device_attribute *attr,
 static FC_DEVICE_ATTR(rport, roles, S_IRUGO,
 		show_fc_rport_roles, NULL);
 
+<<<<<<< HEAD
 static ssize_t fc_rport_set_marginal_state(struct device *dev,
 						struct device_attribute *attr,
 						const char *buf, size_t count)
@@ -1291,6 +1309,9 @@ show_fc_rport_port_state(struct device *dev,
 static FC_DEVICE_ATTR(rport, port_state, 0444 | 0200,
 			show_fc_rport_port_state, fc_rport_set_marginal_state);
 
+=======
+fc_private_rport_rd_enum_attr(port_state, FC_PORTSTATE_MAX_NAMELEN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fc_private_rport_rd_attr(scsi_target_id, "%d\n", 20);
 
 /*
@@ -2564,8 +2585,12 @@ fc_user_scan_tgt(struct Scsi_Host *shost, uint channel, uint id, u64 lun)
 		if (rport->scsi_target_id == -1)
 			continue;
 
+<<<<<<< HEAD
 		if ((rport->port_state != FC_PORTSTATE_ONLINE) &&
 			(rport->port_state != FC_PORTSTATE_MARGINAL))
+=======
+		if (rport->port_state != FC_PORTSTATE_ONLINE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		if ((channel == rport->channel) &&
@@ -2733,7 +2758,11 @@ fc_attach_transport(struct fc_function_template *ft)
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RD(port_name);
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RD(port_id);
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RD(roles);
+<<<<<<< HEAD
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RW(port_state);
+=======
+	SETUP_PRIVATE_RPORT_ATTRIBUTE_RD(port_state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RD(scsi_target_id);
 	SETUP_PRIVATE_RPORT_ATTRIBUTE_RW(fast_io_fail_tmo);
 
@@ -3429,8 +3458,12 @@ fc_remote_port_delete(struct fc_rport  *rport)
 
 	spin_lock_irqsave(shost->host_lock, flags);
 
+<<<<<<< HEAD
 	if ((rport->port_state != FC_PORTSTATE_ONLINE) &&
 		(rport->port_state != FC_PORTSTATE_MARGINAL)) {
+=======
+	if (rport->port_state != FC_PORTSTATE_ONLINE) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock_irqrestore(shost->host_lock, flags);
 		return;
 	}
@@ -3572,8 +3605,12 @@ fc_timeout_deleted_rport(struct work_struct *work)
 	 * target, validate it still is. If not, tear down the
 	 * scsi_target on it.
 	 */
+<<<<<<< HEAD
 	if (((rport->port_state == FC_PORTSTATE_ONLINE) ||
 		(rport->port_state == FC_PORTSTATE_MARGINAL)) &&
+=======
+	if ((rport->port_state == FC_PORTSTATE_ONLINE) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (rport->scsi_target_id != -1) &&
 	    !(rport->roles & FC_PORT_ROLE_FCP_TARGET)) {
 		dev_printk(KERN_ERR, &rport->dev,
@@ -3716,8 +3753,12 @@ fc_scsi_scan_rport(struct work_struct *work)
 	struct fc_internal *i = to_fc_internal(shost->transportt);
 	unsigned long flags;
 
+<<<<<<< HEAD
 	if (((rport->port_state == FC_PORTSTATE_ONLINE) ||
 		(rport->port_state == FC_PORTSTATE_MARGINAL)) &&
+=======
+	if ((rport->port_state == FC_PORTSTATE_ONLINE) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (rport->roles & FC_PORT_ROLE_FCP_TARGET) &&
 	    !(i->f->disable_target_scan)) {
 		scsi_scan_target(&rport->dev, rport->channel,
@@ -3790,6 +3831,7 @@ int fc_block_scsi_eh(struct scsi_cmnd *cmnd)
 }
 EXPORT_SYMBOL(fc_block_scsi_eh);
 
+<<<<<<< HEAD
 /*
  * fc_eh_should_retry_cmd - Checks if the cmd should be retried or not
  * @scmd:        The SCSI command to be checked
@@ -3812,6 +3854,8 @@ bool fc_eh_should_retry_cmd(struct scsi_cmnd *scmd)
 }
 EXPORT_SYMBOL_GPL(fc_eh_should_retry_cmd);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * fc_vport_setup - allocates and creates a FC virtual port.
  * @shost:	scsi host the virtual port is connected to.
@@ -4243,8 +4287,12 @@ static blk_status_t fc_bsg_rport_prep(struct fc_rport *rport)
 	    !(rport->flags & FC_RPORT_FAST_FAIL_TIMEDOUT))
 		return BLK_STS_RESOURCE;
 
+<<<<<<< HEAD
 	if ((rport->port_state != FC_PORTSTATE_ONLINE) &&
 		(rport->port_state != FC_PORTSTATE_MARGINAL))
+=======
+	if (rport->port_state != FC_PORTSTATE_ONLINE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return BLK_STS_IOERR;
 
 	return BLK_STS_OK;

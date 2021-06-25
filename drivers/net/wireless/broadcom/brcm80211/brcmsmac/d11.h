@@ -783,7 +783,11 @@ struct d11txh {
 	u8 RTSPhyHeader[D11_PHY_HDR_LEN];	/* 0x2c - 0x2e */
 	struct ieee80211_rts rts_frame;	/* 0x2f - 0x36 */
 	u16 PAD;		/* 0x37 */
+<<<<<<< HEAD
 } __packed __aligned(2);
+=======
+} __packed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define	D11_TXH_LEN		112	/* bytes */
 
@@ -1469,7 +1473,11 @@ struct d11rxhdr {
 /* htphy PhyRxStatus_1: */
 /* core enables for {3..0}, 0=disabled, 1=enabled */
 #define PRXS1_HTPHY_CORE_MASK	0x000F
+<<<<<<< HEAD
 /* antenna configuration */
+=======
+/* antenna configation */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PRXS1_HTPHY_ANTCFG_MASK	0x00F0
 /* Mixmode PLCP Length low byte mask */
 #define PRXS1_HTPHY_MMPLCPLenL_MASK	0xFF00

@@ -1,7 +1,21 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+<<<<<<< HEAD
 /*
  * Copyright(c) 2020-2021 Intel Corporation
  */
+=======
+<<<<<<< HEAD
+/*
+ * Copyright(c) 2020-2021 Intel Corporation
+ */
+=======
+/******************************************************************************
+ *
+ * Copyright(c) 2020 Intel Corporation
+ *
+ *****************************************************************************/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "iwl-drv.h"
 #include "pnvm.h"
@@ -10,7 +24,14 @@
 #include "fw/api/commands.h"
 #include "fw/api/nvm-reg.h"
 #include "fw/api/alive.h"
+<<<<<<< HEAD
 #include <linux/efi.h>
+=======
+<<<<<<< HEAD
+#include <linux/efi.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct iwl_pnvm_section {
 	__le32 offset;
@@ -220,6 +241,10 @@ static int iwl_pnvm_parse(struct iwl_trans *trans, const u8 *data,
 	return -ENOENT;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_EFI)
 
 #define IWL_EFI_VAR_GUID EFI_GUID(0x92daaf2f, 0xc02b, 0x455b,	\
@@ -335,6 +360,14 @@ int iwl_pnvm_load(struct iwl_trans *trans,
 {
 	u8 *data;
 	size_t len;
+<<<<<<< HEAD
+=======
+=======
+int iwl_pnvm_load(struct iwl_trans *trans,
+		  struct iwl_notif_wait_data *notif_wait)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_notification_wait pnvm_wait;
 	static const u16 ntf_cmds[] = { WIDE_ID(REGULATORY_AND_NVM_GROUP,
 						PNVM_INIT_COMPLETE_NTFY) };
@@ -344,6 +377,10 @@ int iwl_pnvm_load(struct iwl_trans *trans,
 	if (!trans->sku_id[0] && !trans->sku_id[1] && !trans->sku_id[2])
 		return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If we already loaded (or tried to load) it before, we just
 	 * need to set it again.
@@ -379,6 +416,49 @@ parse:
 	kfree(data);
 
 skip_parse:
+<<<<<<< HEAD
+=======
+=======
+	/* load from disk only if we haven't done it (or tried) before */
+	if (!trans->pnvm_loaded) {
+		const struct firmware *pnvm;
+		char pnvm_name[64];
+
+		/*
+		 * The prefix unfortunately includes a hyphen at the end, so
+		 * don't add the dot here...
+		 */
+		snprintf(pnvm_name, sizeof(pnvm_name), "%spnvm",
+			 trans->cfg->fw_name_pre);
+
+		/* ...but replace the hyphen with the dot here. */
+		if (strlen(trans->cfg->fw_name_pre) < sizeof(pnvm_name))
+			pnvm_name[strlen(trans->cfg->fw_name_pre) - 1] = '.';
+
+		ret = firmware_request_nowarn(&pnvm, pnvm_name, trans->dev);
+		if (ret) {
+			IWL_DEBUG_FW(trans, "PNVM file %s not found %d\n",
+				     pnvm_name, ret);
+			/*
+			 * Pretend we've loaded it - at least we've tried and
+			 * couldn't load it at all, so there's no point in
+			 * trying again over and over.
+			 */
+			trans->pnvm_loaded = true;
+		} else {
+			iwl_pnvm_parse(trans, pnvm->data, pnvm->size);
+
+			release_firmware(pnvm);
+		}
+	} else {
+		/* if we already loaded, we need to set it again */
+		ret = iwl_trans_set_pnvm(trans, NULL, 0);
+		if (ret)
+			return ret;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iwl_init_notification_wait(notif_wait, &pnvm_wait,
 				   ntf_cmds, ARRAY_SIZE(ntf_cmds),
 				   iwl_pnvm_complete_fn, trans);

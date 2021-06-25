@@ -111,6 +111,7 @@ static const struct file_operations msm_gpu_fops = {
 static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
 {
 	struct msm_drm_private *priv = dev->dev_private;
+<<<<<<< HEAD
 	int ret;
 
 	ret = mutex_lock_interruptible(&priv->obj_lock);
@@ -120,6 +121,25 @@ static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
 	msm_gem_describe_objects(&priv->objects, m);
 
 	mutex_unlock(&priv->obj_lock);
+=======
+	struct msm_gpu *gpu = priv->gpu;
+	int ret;
+
+	ret = mutex_lock_interruptible(&priv->mm_lock);
+	if (ret)
+		return ret;
+
+	if (gpu) {
+		seq_printf(m, "Active Objects (%s):\n", gpu->name);
+		msm_gem_describe_objects(&gpu->active_list, m);
+	}
+
+	seq_printf(m, "Inactive Objects:\n");
+	msm_gem_describe_objects(&priv->inactive_dontneed, m);
+	msm_gem_describe_objects(&priv->inactive_willneed, m);
+
+	mutex_unlock(&priv->mm_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

@@ -195,14 +195,23 @@ struct sun8i_dw_hdmi {
 	struct gpio_desc		*ddc_en;
 };
 
+<<<<<<< HEAD
+extern struct platform_driver sun8i_hdmi_phy_driver;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct sun8i_dw_hdmi *
 encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
 {
 	return container_of(encoder, struct sun8i_dw_hdmi, encoder);
 }
 
+<<<<<<< HEAD
+int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
+=======
 int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
 void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
 void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,

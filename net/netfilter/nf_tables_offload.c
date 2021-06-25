@@ -45,6 +45,7 @@ void nft_flow_rule_set_addr_type(struct nft_flow_rule *flow,
 		offsetof(struct nft_flow_key, control);
 }
 
+<<<<<<< HEAD
 struct nft_offload_ethertype {
 	__be16 value;
 	__be16 mask;
@@ -87,6 +88,8 @@ static void nft_flow_rule_transfer_vlan(struct nft_offload_ctx *ctx,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nft_flow_rule *nft_flow_rule_create(struct net *net,
 					   const struct nft_rule *rule)
 {
@@ -131,8 +134,11 @@ struct nft_flow_rule *nft_flow_rule_create(struct net *net,
 
 		expr = nft_expr_next(expr);
 	}
+<<<<<<< HEAD
 	nft_flow_rule_transfer_vlan(ctx, flow);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flow->proto = ctx->dep.l3num;
 	kfree(ctx);
 

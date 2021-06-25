@@ -208,6 +208,12 @@
 /* Atheros AR933X SoC */
 #define PORT_AR933X	99
 
+<<<<<<< HEAD
+=======
+/* Energy Micro efm32 SoC */
+#define PORT_EFMUART   100
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ARC (Synopsys) on-chip UART */
 #define PORT_ARC       101
 

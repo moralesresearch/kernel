@@ -13,7 +13,14 @@
 #include <linux/time.h>
 #include <linux/ctype.h>
 #include <linux/pm.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+<<<<<<< HEAD
+#include <linux/debugfs.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/completion.h>
 #include <linux/interrupt.h>
 
@@ -163,9 +170,18 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
 {
 	struct snd_card *card;
 	int err;
+<<<<<<< HEAD
 #ifdef CONFIG_SND_DEBUG
 	char name[8];
 #endif
+=======
+<<<<<<< HEAD
+#ifdef CONFIG_SND_DEBUG
+	char name[8];
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (snd_BUG_ON(!card_ret))
 		return -EINVAL;
@@ -179,7 +195,15 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
 	if (extra_size > 0)
 		card->private_data = (char *)card + sizeof(struct snd_card);
 	if (xid)
+<<<<<<< HEAD
 		strscpy(card->id, xid, sizeof(card->id));
+=======
+<<<<<<< HEAD
+		strscpy(card->id, xid, sizeof(card->id));
+=======
+		strlcpy(card->id, xid, sizeof(card->id));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = 0;
 	mutex_lock(&snd_card_mutex);
 	if (idx < 0) /* first check the matching module-name slot */
@@ -249,12 +273,21 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
 		dev_err(parent, "unable to create card info\n");
 		goto __error_ctl;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_SND_DEBUG
 	sprintf(name, "card%d", idx);
 	card->debugfs_root = debugfs_create_dir(name, sound_debugfs_root);
 #endif
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*card_ret = card;
 	return 0;
 
@@ -398,8 +431,15 @@ int snd_card_disconnect(struct snd_card *card)
 		return 0;
 	}
 	card->shutdown = 1;
+<<<<<<< HEAD
 
 	/* replace file->f_op with special dummy operations */
+=======
+	spin_unlock(&card->files_lock);
+
+	/* replace file->f_op with special dummy operations */
+	spin_lock(&card->files_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry(mfile, &card->files_list, list) {
 		/* it's critical part, use endless loop */
 		/* we have no room to fail */
@@ -489,10 +529,19 @@ static int snd_card_do_free(struct snd_card *card)
 		dev_warn(card->dev, "unable to free card info\n");
 		/* Not fatal error */
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SND_DEBUG
 	debugfs_remove(card->debugfs_root);
 	card->debugfs_root = NULL;
 #endif
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (card->release_completion)
 		complete(card->release_completion);
 	kfree(card);
@@ -542,7 +591,14 @@ int snd_card_free(struct snd_card *card)
 		return ret;
 	/* wait, until all devices are ready for the free operation */
 	wait_for_completion(&released);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(snd_card_free);
@@ -640,7 +696,15 @@ static void snd_card_set_id_no_lock(struct snd_card *card, const char *src,
 	/* last resort... */
 	dev_err(card->dev, "unable to set card id (%s)\n", id);
 	if (card->proc_root->name)
+<<<<<<< HEAD
 		strscpy(card->id, card->proc_root->name, sizeof(card->id));
+=======
+<<<<<<< HEAD
+		strscpy(card->id, card->proc_root->name, sizeof(card->id));
+=======
+		strlcpy(card->id, card->proc_root->name, sizeof(card->id));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

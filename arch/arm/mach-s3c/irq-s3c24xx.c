@@ -21,7 +21,10 @@
 #include <linux/of.h>
 #include <linux/of_irq.h>
 #include <linux/of_address.h>
+<<<<<<< HEAD
 #include <linux/spi/s3c24xx.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/exception.h>
 #include <asm/mach/irq.h>
@@ -33,7 +36,10 @@
 #include "cpu.h"
 #include "regs-irqtype.h"
 #include "pm.h"
+<<<<<<< HEAD
 #include "s3c24xx.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define S3C_IRQTYPE_NONE	0
 #define S3C_IRQTYPE_EINT	1
@@ -359,7 +365,11 @@ static inline int s3c24xx_handle_intc(struct s3c_irq_intc *intc,
 	return true;
 }
 
+<<<<<<< HEAD
 static asmlinkage void __exception_irq_entry s3c24xx_handle_irq(struct pt_regs *regs)
+=======
+asmlinkage void __exception_irq_entry s3c24xx_handle_irq(struct pt_regs *regs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	do {
 		if (likely(s3c_intc[0]))
@@ -1307,7 +1317,11 @@ static struct s3c24xx_irq_of_ctrl s3c2410_ctrl[] = {
 	}
 };
 
+<<<<<<< HEAD
 static int __init s3c2410_init_intc_of(struct device_node *np,
+=======
+int __init s3c2410_init_intc_of(struct device_node *np,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct device_node *interrupt_parent)
 {
 	return s3c_init_intc_of(np, interrupt_parent,
@@ -1329,7 +1343,11 @@ static struct s3c24xx_irq_of_ctrl s3c2416_ctrl[] = {
 	}
 };
 
+<<<<<<< HEAD
 static int __init s3c2416_init_intc_of(struct device_node *np,
+=======
+int __init s3c2416_init_intc_of(struct device_node *np,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct device_node *interrupt_parent)
 {
 	return s3c_init_intc_of(np, interrupt_parent,

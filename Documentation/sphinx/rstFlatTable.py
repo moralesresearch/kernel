@@ -42,6 +42,11 @@ u"""
 # imports
 # ==============================================================================
 
+<<<<<<< HEAD
+=======
+import sys
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 from docutils import nodes
 from docutils.parsers.rst import directives, roles
 from docutils.parsers.rst.directives.tables import Table
@@ -53,6 +58,17 @@ from docutils.utils import SystemMessagePropagation
 
 __version__  = '1.0'
 
+<<<<<<< HEAD
+=======
+PY3 = sys.version_info[0] == 3
+PY2 = sys.version_info[0] == 2
+
+if PY3:
+    # pylint: disable=C0103, W0622
+    unicode     = str
+    basestring  = str
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # ==============================================================================
 def setup(app):
 # ==============================================================================

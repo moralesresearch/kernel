@@ -236,8 +236,17 @@ void selinux_policy_cancel(struct selinux_state *state,
 			   struct selinux_load_state *load_state);
 int security_read_policy(struct selinux_state *state,
 			 void **data, size_t *len);
+<<<<<<< HEAD
 int security_read_state_kernel(struct selinux_state *state,
 			       void **data, size_t *len);
+=======
+<<<<<<< HEAD
+int security_read_state_kernel(struct selinux_state *state,
+			       void **data, size_t *len);
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int security_policycap_supported(struct selinux_state *state,
 				 unsigned int req_cap);
 
@@ -444,6 +453,13 @@ extern void selinux_complete_init(void);
 extern int selinux_disable(struct selinux_state *state);
 extern void exit_sel_fs(void);
 extern struct path selinux_null;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+extern struct vfsmount *selinuxfs_mount;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void selnl_notify_setenforce(int val);
 extern void selnl_notify_policyload(u32 seqno);
 extern int selinux_nlmsg_lookup(u16 sclass, u16 nlmsg_type, u32 *perm);

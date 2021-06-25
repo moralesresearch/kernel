@@ -716,6 +716,7 @@ next:
 		if (pte_write(pteval))
 			writable = true;
 	}
+<<<<<<< HEAD
 
 	if (unlikely(!writable)) {
 		result = SCAN_PAGE_RO;
@@ -727,6 +728,19 @@ next:
 						    referenced, writable, result);
 		return 1;
 	}
+=======
+	if (likely(writable)) {
+		if (likely(referenced)) {
+			result = SCAN_SUCCEED;
+			trace_mm_collapse_huge_page_isolate(page, none_or_zero,
+							    referenced, writable, result);
+			return 1;
+		}
+	} else {
+		result = SCAN_PAGE_RO;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	release_pte_pages(pte, _pte, compound_pagelist);
 	trace_mm_collapse_huge_page_isolate(page, none_or_zero,
@@ -1001,11 +1015,23 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
 
 static bool __collapse_huge_page_swapin(struct mm_struct *mm,
 					struct vm_area_struct *vma,
+<<<<<<< HEAD
 					unsigned long haddr, pmd_t *pmd,
+=======
+<<<<<<< HEAD
+					unsigned long haddr, pmd_t *pmd,
+=======
+					unsigned long address, pmd_t *pmd,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					int referenced)
 {
 	int swapped_in = 0;
 	vm_fault_t ret = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long address, end = haddr + (HPAGE_PMD_NR * PAGE_SIZE);
 
 	for (address = haddr; address < end; address += PAGE_SIZE) {
@@ -1023,19 +1049,54 @@ static bool __collapse_huge_page_swapin(struct mm_struct *mm,
 			pte_unmap(vmf.pte);
 			continue;
 		}
+<<<<<<< HEAD
+=======
+=======
+	struct vm_fault vmf = {
+		.vma = vma,
+		.address = address,
+		.flags = FAULT_FLAG_ALLOW_RETRY,
+		.pmd = pmd,
+		.pgoff = linear_page_index(vma, address),
+	};
+
+	vmf.pte = pte_offset_map(pmd, address);
+	for (; vmf.address < address + HPAGE_PMD_NR*PAGE_SIZE;
+			vmf.pte++, vmf.address += PAGE_SIZE) {
+		vmf.orig_pte = *vmf.pte;
+		if (!is_swap_pte(vmf.orig_pte))
+			continue;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		swapped_in++;
 		ret = do_swap_page(&vmf);
 
 		/* do_swap_page returns VM_FAULT_RETRY with released mmap_lock */
 		if (ret & VM_FAULT_RETRY) {
 			mmap_read_lock(mm);
+<<<<<<< HEAD
 			if (hugepage_vma_revalidate(mm, haddr, &vma)) {
+=======
+<<<<<<< HEAD
+			if (hugepage_vma_revalidate(mm, haddr, &vma)) {
+=======
+			if (hugepage_vma_revalidate(mm, address, &vmf.vma)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/* vma is no longer available, don't continue to swapin */
 				trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, 0);
 				return false;
 			}
 			/* check if the pmd is still valid */
+<<<<<<< HEAD
 			if (mm_find_pmd(mm, haddr) != pmd) {
+=======
+<<<<<<< HEAD
+			if (mm_find_pmd(mm, haddr) != pmd) {
+=======
+			if (mm_find_pmd(mm, address) != pmd) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, 0);
 				return false;
 			}
@@ -1044,7 +1105,19 @@ static bool __collapse_huge_page_swapin(struct mm_struct *mm,
 			trace_mm_collapse_huge_page_swapin(mm, swapped_in, referenced, 0);
 			return false;
 		}
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+		/* pte is unmapped now, we need to map it */
+		vmf.pte = pte_offset_map(pmd, vmf.address);
+	}
+	vmf.pte--;
+	pte_unmap(vmf.pte);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Drain LRU add pagevec to remove extra pin on the swapped in pages */
 	if (swapped_in)
@@ -1653,7 +1726,14 @@ static void collapse_file(struct mm_struct *mm,
 	XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
 	int nr_none = 0, result = SCAN_SUCCEED;
 	bool is_shmem = shmem_file(file);
+<<<<<<< HEAD
 	int nr;
+=======
+<<<<<<< HEAD
+	int nr;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
 	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
@@ -1865,12 +1945,26 @@ out_unlock:
 		put_page(page);
 		goto xa_unlocked;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr = thp_nr_pages(new_page);
 
 	if (is_shmem)
 		__mod_lruvec_page_state(new_page, NR_SHMEM_THPS, nr);
 	else {
 		__mod_lruvec_page_state(new_page, NR_FILE_THPS, nr);
+<<<<<<< HEAD
+=======
+=======
+
+	if (is_shmem)
+		__inc_lruvec_page_state(new_page, NR_SHMEM_THPS);
+	else {
+		__inc_lruvec_page_state(new_page, NR_FILE_THPS);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		filemap_nr_thps_inc(mapping);
 	}
 

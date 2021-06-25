@@ -12,12 +12,18 @@
 #include <sys/mman.h>
 #include <linux/types.h>
 
+<<<<<<< HEAD
 #define NSEC_PER_MSEC	1000000L
 
 #define DMA_MAP_BENCHMARK	_IOWR('d', 1, struct map_benchmark)
 #define DMA_MAP_MAX_THREADS	1024
 #define DMA_MAP_MAX_SECONDS     300
 #define DMA_MAP_MAX_TRANS_DELAY	(10 * NSEC_PER_MSEC)
+=======
+#define DMA_MAP_BENCHMARK	_IOWR('d', 1, struct map_benchmark)
+#define DMA_MAP_MAX_THREADS	1024
+#define DMA_MAP_MAX_SECONDS     300
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DMA_MAP_BIDIRECTIONAL	0
 #define DMA_MAP_TO_DEVICE	1
@@ -39,8 +45,12 @@ struct map_benchmark {
 	__s32 node; /* which numa node this benchmark will run on */
 	__u32 dma_bits; /* DMA addressing capability */
 	__u32 dma_dir; /* DMA data direction */
+<<<<<<< HEAD
 	__u32 dma_trans_ns; /* time for DMA transmission in ns */
 	__u8 expansion[80];	/* For future use */
+=======
+	__u8 expansion[84];	/* For future use */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int main(int argc, char **argv)
@@ -50,12 +60,20 @@ int main(int argc, char **argv)
 	/* default single thread, run 20 seconds on NUMA_NO_NODE */
 	int threads = 1, seconds = 20, node = -1;
 	/* default dma mask 32bit, bidirectional DMA */
+<<<<<<< HEAD
 	int bits = 32, xdelay = 0, dir = DMA_MAP_BIDIRECTIONAL;
+=======
+	int bits = 32, dir = DMA_MAP_BIDIRECTIONAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	int cmd = DMA_MAP_BENCHMARK;
 	char *p;
 
+<<<<<<< HEAD
 	while ((opt = getopt(argc, argv, "t:s:n:b:d:x:")) != -1) {
+=======
+	while ((opt = getopt(argc, argv, "t:s:n:b:d:")) != -1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		switch (opt) {
 		case 't':
 			threads = atoi(optarg);
@@ -72,9 +90,12 @@ int main(int argc, char **argv)
 		case 'd':
 			dir = atoi(optarg);
 			break;
+<<<<<<< HEAD
 		case 'x':
 			xdelay = atoi(optarg);
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			return -1;
 		}
@@ -92,12 +113,15 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
+<<<<<<< HEAD
 	if (xdelay < 0 || xdelay > DMA_MAP_MAX_TRANS_DELAY) {
 		fprintf(stderr, "invalid transmit delay, must be in 0-%ld\n",
 			DMA_MAP_MAX_TRANS_DELAY);
 		exit(1);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* suppose the mininum DMA zone is 1MB in the world */
 	if (bits < 20 || bits > 64) {
 		fprintf(stderr, "invalid dma mask bit, must be in 20-64\n");
@@ -122,8 +146,11 @@ int main(int argc, char **argv)
 	map.node = node;
 	map.dma_bits = bits;
 	map.dma_dir = dir;
+<<<<<<< HEAD
 	map.dma_trans_ns = xdelay;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ioctl(fd, cmd, &map)) {
 		perror("ioctl");
 		exit(1);

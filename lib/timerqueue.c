@@ -14,6 +14,7 @@
 #include <linux/rbtree.h>
 #include <linux/export.h>
 
+<<<<<<< HEAD
 #define __node_2_tq(_n) \
 	rb_entry((_n), struct timerqueue_node, node)
 
@@ -22,6 +23,8 @@ static inline bool __timerqueue_less(struct rb_node *a, const struct rb_node *b)
 	return __node_2_tq(a)->expires < __node_2_tq(b)->expires;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * timerqueue_add - Adds timer to timerqueue.
  *
@@ -34,10 +37,35 @@ static inline bool __timerqueue_less(struct rb_node *a, const struct rb_node *b)
  */
 bool timerqueue_add(struct timerqueue_head *head, struct timerqueue_node *node)
 {
+<<<<<<< HEAD
 	/* Make sure we don't add nodes that are already added */
 	WARN_ON_ONCE(!RB_EMPTY_NODE(&node->node));
 
 	return rb_add_cached(&node->node, &head->rb_root, __timerqueue_less);
+=======
+	struct rb_node **p = &head->rb_root.rb_root.rb_node;
+	struct rb_node *parent = NULL;
+	struct timerqueue_node *ptr;
+	bool leftmost = true;
+
+	/* Make sure we don't add nodes that are already added */
+	WARN_ON_ONCE(!RB_EMPTY_NODE(&node->node));
+
+	while (*p) {
+		parent = *p;
+		ptr = rb_entry(parent, struct timerqueue_node, node);
+		if (node->expires < ptr->expires) {
+			p = &(*p)->rb_left;
+		} else {
+			p = &(*p)->rb_right;
+			leftmost = false;
+		}
+	}
+	rb_link_node(&node->node, parent, p);
+	rb_insert_color_cached(&node->node, &head->rb_root, leftmost);
+
+	return leftmost;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(timerqueue_add);
 

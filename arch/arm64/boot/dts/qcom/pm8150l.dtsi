@@ -10,7 +10,11 @@
 
 / {
 	thermal-zones {
+<<<<<<< HEAD
 		pm8150l-thermal {
+=======
+		pm8150l {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			polling-delay-passive = <100>;
 			polling-delay = <0>;
 
@@ -89,6 +93,7 @@
 			};
 		};
 
+<<<<<<< HEAD
 		pm8150l_adc_tm: adc-tm@3500 {
 			compatible = "qcom,spmi-adc-tm5";
 			reg = <0x3500>;
@@ -99,6 +104,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm8150l_gpios: gpio@c000 {
 			compatible = "qcom,pm8150l-gpio";
 			reg = <0xc000>;

@@ -98,11 +98,14 @@ static void perf_probe_text_poke(struct evsel *evsel)
 	evsel->core.attr.text_poke = 1;
 }
 
+<<<<<<< HEAD
 static void perf_probe_build_id(struct evsel *evsel)
 {
 	evsel->core.attr.build_id = 1;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool perf_can_sample_identifier(void)
 {
 	return perf_probe_api(perf_probe_sample_identifier);
@@ -177,8 +180,11 @@ bool perf_can_aux_sample(void)
 
 	return true;
 }
+<<<<<<< HEAD
 
 bool perf_can_record_build_id(void)
 {
 	return perf_probe_api(perf_probe_build_id);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

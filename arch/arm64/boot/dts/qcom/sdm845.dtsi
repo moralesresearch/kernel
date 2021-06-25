@@ -2366,6 +2366,11 @@
 			qcom,smem-state-names = "ipa-clock-enabled-valid",
 						"ipa-clock-enabled";
 
+<<<<<<< HEAD
+=======
+			modem-remoteproc = <&mss_pil>;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -2382,7 +2387,11 @@
 			#gpio-cells = <2>;
 			interrupt-controller;
 			#interrupt-cells = <2>;
+<<<<<<< HEAD
 			gpio-ranges = <&tlmm 0 0 151>;
+=======
+			gpio-ranges = <&tlmm 0 0 150>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wakeup-parent = <&pdc_intc>;
 
 			cci0_default: cci0-default {
@@ -4571,7 +4580,10 @@
 			compatible = "qcom,apss-wdt-sdm845", "qcom,kpss-wdt";
 			reg = <0 0x17980000 0 0x1000>;
 			clocks = <&sleep_clk>;
+<<<<<<< HEAD
 			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		apss_shared: mailbox@17990000 {

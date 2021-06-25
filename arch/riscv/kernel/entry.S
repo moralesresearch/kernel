@@ -130,9 +130,12 @@ skip_context_tracking:
 	 */
 	andi t0, s1, SR_PIE
 	beqz t0, 1f
+<<<<<<< HEAD
 	/* kprobes, entered via ebreak, must have interrupts disabled. */
 	li t0, EXC_BREAKPOINT
 	beq s4, t0, 1f
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_TRACE_IRQFLAGS
 	call trace_hardirqs_on
 #endif
@@ -450,7 +453,10 @@ ENDPROC(__switch_to)
 #endif
 
 	.section ".rodata"
+<<<<<<< HEAD
 	.align LGREG
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Exception vector table */
 ENTRY(excp_vect_table)
 	RISCV_PTR do_trap_insn_misaligned

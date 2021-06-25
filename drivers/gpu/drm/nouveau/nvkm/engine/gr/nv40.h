@@ -10,7 +10,11 @@ struct nv40_gr {
 	struct list_head chan;
 };
 
+<<<<<<< HEAD
 int nv40_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
+=======
+int nv40_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *, int index,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 struct nvkm_gr **);
 int nv40_gr_init(struct nvkm_gr *);
 void nv40_gr_intr(struct nvkm_gr *);

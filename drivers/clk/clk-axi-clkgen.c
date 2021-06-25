@@ -108,6 +108,7 @@ static uint32_t axi_clkgen_lookup_lock(unsigned int m)
 	return 0x1f1f00fa;
 }
 
+<<<<<<< HEAD
 static const struct axi_clkgen_limits axi_clkgen_zynqmp_default_limits = {
 	.fpfd_min = 10000,
 	.fpfd_max = 450000,
@@ -115,6 +116,8 @@ static const struct axi_clkgen_limits axi_clkgen_zynqmp_default_limits = {
 	.fvco_max = 1600000,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct axi_clkgen_limits axi_clkgen_zynq_default_limits = {
 	.fpfd_min = 10000,
 	.fpfd_max = 300000,
@@ -510,6 +513,10 @@ static int axi_clkgen_probe(struct platform_device *pdev)
 	struct clk_init_data init;
 	const char *parent_names[2];
 	const char *clk_name;
+<<<<<<< HEAD
+=======
+	struct resource *mem;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 	int ret;
 
@@ -521,7 +528,12 @@ static int axi_clkgen_probe(struct platform_device *pdev)
 	if (!axi_clkgen)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	axi_clkgen->base = devm_platform_ioremap_resource(pdev, 0);
+=======
+	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	axi_clkgen->base = devm_ioremap_resource(&pdev->dev, mem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(axi_clkgen->base))
 		return PTR_ERR(axi_clkgen->base);
 
@@ -566,10 +578,13 @@ static int axi_clkgen_remove(struct platform_device *pdev)
 
 static const struct of_device_id axi_clkgen_ids[] = {
 	{
+<<<<<<< HEAD
 		.compatible = "adi,zynqmp-axi-clkgen-2.00.a",
 		.data = &axi_clkgen_zynqmp_default_limits,
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.compatible = "adi,axi-clkgen-2.00.a",
 		.data = &axi_clkgen_zynq_default_limits,
 	},

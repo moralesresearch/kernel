@@ -3450,6 +3450,7 @@ void pcpu_free_vm_areas(struct vm_struct **vms, int nr_vms)
 }
 #endif	/* CONFIG_SMP */
 
+<<<<<<< HEAD
 bool vmalloc_dump_obj(void *object)
 {
 	struct vm_struct *vm;
@@ -3463,6 +3464,8 @@ bool vmalloc_dump_obj(void *object)
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PROC_FS
 static void *s_start(struct seq_file *m, loff_t *pos)
 	__acquires(&vmap_purge_lock)

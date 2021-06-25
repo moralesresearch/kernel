@@ -31,7 +31,12 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t error)
 }
 
 /**
+<<<<<<< HEAD
  * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
+=======
+ * blk_execute_rq_nowait - insert a request into queue for execution
+ * @q:		queue to insert the request in
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bd_disk:	matching gendisk
  * @rq:		request to insert
  * @at_head:    insert request at head or tail of queue
@@ -44,8 +49,14 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t error)
  * Note:
  *    This function will invoke @done directly if the queue is dead.
  */
+<<<<<<< HEAD
 void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
 			   int at_head, rq_end_io_fn *done)
+=======
+void blk_execute_rq_nowait(struct request_queue *q, struct gendisk *bd_disk,
+			   struct request *rq, int at_head,
+			   rq_end_io_fn *done)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	WARN_ON(irqs_disabled());
 	WARN_ON(!blk_rq_is_passthrough(rq));
@@ -65,6 +76,10 @@ EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
 
 /**
  * blk_execute_rq - insert a request into queue for execution
+<<<<<<< HEAD
+=======
+ * @q:		queue to insert the request in
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bd_disk:	matching gendisk
  * @rq:		request to insert
  * @at_head:    insert request at head or tail of queue
@@ -73,13 +88,22 @@ EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
  *    Insert a fully prepared request at the back of the I/O scheduler queue
  *    for execution and wait for completion.
  */
+<<<<<<< HEAD
 void blk_execute_rq(struct gendisk *bd_disk, struct request *rq, int at_head)
+=======
+void blk_execute_rq(struct request_queue *q, struct gendisk *bd_disk,
+		   struct request *rq, int at_head)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	DECLARE_COMPLETION_ONSTACK(wait);
 	unsigned long hang_check;
 
 	rq->end_io_data = &wait;
+<<<<<<< HEAD
 	blk_execute_rq_nowait(bd_disk, rq, at_head, blk_end_sync_rq);
+=======
+	blk_execute_rq_nowait(q, bd_disk, rq, at_head, blk_end_sync_rq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Prevent hang_check timer from firing at us during very long I/O */
 	hang_check = sysctl_hung_task_timeout_secs;

@@ -428,9 +428,16 @@ static irqreturn_t hym8563_irq(int irq, void *dev_id)
 {
 	struct hym8563 *hym8563 = (struct hym8563 *)dev_id;
 	struct i2c_client *client = hym8563->client;
+<<<<<<< HEAD
 	int data, ret;
 
 	rtc_lock(hym8563->rtc);
+=======
+	struct mutex *lock = &hym8563->rtc->ops_lock;
+	int data, ret;
+
+	mutex_lock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Clear the alarm flag */
 
@@ -450,7 +457,11 @@ static irqreturn_t hym8563_irq(int irq, void *dev_id)
 	}
 
 out:
+<<<<<<< HEAD
 	rtc_unlock(hym8563->rtc);
+=======
+	mutex_unlock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return IRQ_HANDLED;
 }
 

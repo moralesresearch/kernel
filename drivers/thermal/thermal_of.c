@@ -704,17 +704,27 @@ static int thermal_of_populate_bind_params(struct device_node *np,
 
 	count = of_count_phandle_with_args(np, "cooling-device",
 					   "#cooling-cells");
+<<<<<<< HEAD
 	if (count <= 0) {
 		pr_err("Add a cooling_device property with at least one device\n");
 		ret = -ENOENT;
+=======
+	if (!count) {
+		pr_err("Add a cooling_device property with at least one device\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto end;
 	}
 
 	__tcbp = kcalloc(count, sizeof(*__tcbp), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!__tcbp) {
 		ret = -ENOMEM;
 		goto end;
 	}
+=======
+	if (!__tcbp)
+		goto end;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < count; i++) {
 		ret = of_parse_phandle_with_args(np, "cooling-device",

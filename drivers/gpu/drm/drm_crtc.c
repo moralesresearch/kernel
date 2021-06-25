@@ -38,7 +38,10 @@
 #include <drm/drm_crtc.h>
 #include <drm/drm_edid.h>
 #include <drm/drm_fourcc.h>
+<<<<<<< HEAD
 #include <drm/drm_managed.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_modeset_lock.h>
 #include <drm/drm_atomic.h>
 #include <drm/drm_auth.h>
@@ -68,7 +71,11 @@
  * &drm_crtc_funcs.page_flip and &drm_crtc_funcs.cursor_set2, and other legacy
  * operations like &drm_crtc_funcs.gamma_set. For atomic drivers all these
  * features are controlled through &drm_property and
+<<<<<<< HEAD
  * &drm_mode_config_funcs.atomic_check.
+=======
+ * &drm_mode_config_funcs.atomic_check and &drm_mode_config_funcs.atomic_check.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 /**
@@ -241,12 +248,39 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
  * 		Nearest Neighbor scaling filter
  */
 
+<<<<<<< HEAD
 __printf(6, 0)
 static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
 				       struct drm_plane *primary,
 				       struct drm_plane *cursor,
 				       const struct drm_crtc_funcs *funcs,
 				       const char *name, va_list ap)
+=======
+/**
+ * drm_crtc_init_with_planes - Initialise a new CRTC object with
+ *    specified primary and cursor planes.
+ * @dev: DRM device
+ * @crtc: CRTC object to init
+ * @primary: Primary plane for CRTC
+ * @cursor: Cursor plane for CRTC
+ * @funcs: callbacks for the new CRTC
+ * @name: printf style format string for the CRTC name, or NULL for default name
+ *
+ * Inits a new object created as base part of a driver crtc object. Drivers
+ * should use this function instead of drm_crtc_init(), which is only provided
+ * for backwards compatibility with drivers which do not yet support universal
+ * planes). For really simple hardware which has only 1 plane look at
+ * drm_simple_display_pipe_init() instead.
+ *
+ * Returns:
+ * Zero on success, error code on failure.
+ */
+int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+			      struct drm_plane *primary,
+			      struct drm_plane *cursor,
+			      const struct drm_crtc_funcs *funcs,
+			      const char *name, ...)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_mode_config *config = &dev->mode_config;
 	int ret;
@@ -274,7 +308,15 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
 		return ret;
 
 	if (name) {
+<<<<<<< HEAD
 		crtc->name = kvasprintf(GFP_KERNEL, name, ap);
+=======
+		va_list ap;
+
+		va_start(ap, name);
+		crtc->name = kvasprintf(GFP_KERNEL, name, ap);
+		va_end(ap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		crtc->name = kasprintf(GFP_KERNEL, "crtc-%d",
 				       drm_num_crtcs(dev));
@@ -318,6 +360,7 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
 
 	return 0;
 }
+<<<<<<< HEAD
 
 /**
  * drm_crtc_init_with_planes - Initialise a new CRTC object with
@@ -413,6 +456,10 @@ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
 }
 EXPORT_SYMBOL(__drmm_crtc_alloc_with_planes);
 
+=======
+EXPORT_SYMBOL(drm_crtc_init_with_planes);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * drm_crtc_cleanup - Clean up the core crtc usage
  * @crtc: CRTC to cleanup

@@ -118,6 +118,10 @@ struct vpif_device {
 	struct v4l2_device v4l2_dev;
 	struct channel_obj *dev[VPIF_DISPLAY_NUM_CHANNELS];
 	struct v4l2_subdev **sd;
+<<<<<<< HEAD
+=======
+	struct v4l2_async_notifier notifier;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vpif_display_config *config;
 };
 

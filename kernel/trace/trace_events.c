@@ -258,19 +258,33 @@ void *trace_event_buffer_reserve(struct trace_event_buffer *fbuffer,
 	    trace_event_ignore_this_pid(trace_file))
 		return NULL;
 
+<<<<<<< HEAD
+=======
+	local_save_flags(fbuffer->flags);
+	fbuffer->pc = preempt_count();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If CONFIG_PREEMPTION is enabled, then the tracepoint itself disables
 	 * preemption (adding one to the preempt_count). Since we are
 	 * interested in the preempt_count at the time the tracepoint was
 	 * hit, we need to subtract one to offset the increment.
 	 */
+<<<<<<< HEAD
 	fbuffer->trace_ctx = tracing_gen_ctx_dec();
+=======
+	if (IS_ENABLED(CONFIG_PREEMPTION))
+		fbuffer->pc--;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fbuffer->trace_file = trace_file;
 
 	fbuffer->event =
 		trace_event_buffer_lock_reserve(&fbuffer->buffer, trace_file,
 						event_call->event.type, len,
+<<<<<<< HEAD
 						fbuffer->trace_ctx);
+=======
+						fbuffer->flags, fbuffer->pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fbuffer->event)
 		return NULL;
 
@@ -2098,6 +2112,7 @@ event_subsystem_dir(struct trace_array *tr, const char *name,
 	dir->subsystem = system;
 	file->system = dir;
 
+<<<<<<< HEAD
 	/* the ftrace system is special, do not create enable or filter files */
 	if (strcmp(name, "ftrace") != 0) {
 
@@ -2113,6 +2128,19 @@ event_subsystem_dir(struct trace_array *tr, const char *name,
 				  &ftrace_system_enable_fops);
 	}
 
+=======
+	entry = tracefs_create_file("filter", 0644, dir->entry, dir,
+				    &ftrace_subsystem_filter_fops);
+	if (!entry) {
+		kfree(system->filter);
+		system->filter = NULL;
+		pr_warn("Could not create tracefs '%s/filter' entry\n", name);
+	}
+
+	trace_create_file("enable", 0644, dir->entry, dir,
+			  &ftrace_system_enable_fops);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add(&dir->list, &tr->systems);
 
 	return dir->entry;
@@ -3680,11 +3708,20 @@ function_test_events_call(unsigned long ip, unsigned long parent_ip,
 	struct trace_buffer *buffer;
 	struct ring_buffer_event *event;
 	struct ftrace_entry *entry;
+<<<<<<< HEAD
 	unsigned int trace_ctx;
 	long disabled;
 	int cpu;
 
 	trace_ctx = tracing_gen_ctx();
+=======
+	unsigned long flags;
+	long disabled;
+	int cpu;
+	int pc;
+
+	pc = preempt_count();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	preempt_disable_notrace();
 	cpu = raw_smp_processor_id();
 	disabled = atomic_inc_return(&per_cpu(ftrace_test_event_disable, cpu));
@@ -3692,9 +3729,17 @@ function_test_events_call(unsigned long ip, unsigned long parent_ip,
 	if (disabled != 1)
 		goto out;
 
+<<<<<<< HEAD
 	event = trace_event_buffer_lock_reserve(&buffer, &event_trace_file,
 						TRACE_FN, sizeof(*entry),
 						trace_ctx);
+=======
+	local_save_flags(flags);
+
+	event = trace_event_buffer_lock_reserve(&buffer, &event_trace_file,
+						TRACE_FN, sizeof(*entry),
+						flags, pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!event)
 		goto out;
 	entry	= ring_buffer_event_data(event);
@@ -3702,7 +3747,11 @@ function_test_events_call(unsigned long ip, unsigned long parent_ip,
 	entry->parent_ip		= parent_ip;
 
 	event_trigger_unlock_commit(&event_trace_file, buffer, event,
+<<<<<<< HEAD
 				    entry, trace_ctx);
+=======
+				    entry, flags, pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  out:
 	atomic_dec(&per_cpu(ftrace_test_event_disable, cpu));
 	preempt_enable_notrace();

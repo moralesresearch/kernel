@@ -68,7 +68,10 @@ typedef u8 intel_engine_mask_t;
 #define ALL_ENGINES ((intel_engine_mask_t)~0ul)
 
 struct intel_hw_status_page {
+<<<<<<< HEAD
 	struct list_head timelines;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i915_vma *vma;
 	u32 *addr;
 };
@@ -184,8 +187,12 @@ struct intel_engine_execlists {
 	 * Reserve the upper 16b for tracking internal errors.
 	 */
 	u32 error_interrupt;
+<<<<<<< HEAD
 #define ERROR_CSB	BIT(31)
 #define ERROR_PREEMPT	BIT(30)
+=======
+#define ERROR_CSB BIT(31)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * @reset_ccid: Active CCID [EXECLISTS_STATUS_HI] at the time of reset
@@ -239,6 +246,19 @@ struct intel_engine_execlists {
 	unsigned int port_mask;
 
 	/**
+<<<<<<< HEAD
+=======
+	 * @switch_priority_hint: Second context priority.
+	 *
+	 * We submit multiple contexts to the HW simultaneously and would
+	 * like to occasionally switch between them to emulate timeslicing.
+	 * To know when timeslicing is suitable, we track the priority of
+	 * the context submitted second.
+	 */
+	int switch_priority_hint;
+
+	/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * @queue_priority_hint: Highest pending priority.
 	 *
 	 * When we add requests into the queue, or adjust the priority of
@@ -319,7 +339,11 @@ struct intel_engine_cs {
 	 * as possible.
 	 */
 	enum forcewake_domains fw_domain;
+<<<<<<< HEAD
 	unsigned int fw_active;
+=======
+	atomic_t fw_active;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned long context_tag;
 
@@ -516,12 +540,20 @@ struct intel_engine_cs {
 		/**
 		 * @active: Number of contexts currently scheduled in.
 		 */
+<<<<<<< HEAD
 		unsigned int active;
+=======
+		atomic_t active;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/**
 		 * @lock: Lock protecting the below fields.
 		 */
+<<<<<<< HEAD
 		seqcount_t lock;
+=======
+		seqlock_t lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/**
 		 * @total: Total time this engine was busy.
@@ -551,8 +583,11 @@ struct intel_engine_cs {
 		unsigned long stop_timeout_ms;
 		unsigned long timeslice_duration_ms;
 	} props, defaults;
+<<<<<<< HEAD
 
 	I915_SELFTEST_DECLARE(struct fault_attr reset_timeout);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline bool

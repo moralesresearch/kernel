@@ -379,7 +379,11 @@ static struct attribute *channel_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group channel_attr_group = {
+=======
+static struct attribute_group channel_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = channel_attrs,
 	.is_visible = channel_attr_is_visible,
 };
@@ -436,7 +440,11 @@ static struct attribute *interface_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group interface_attr_group = {
+=======
+static struct attribute_group interface_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = interface_attrs,
 };
 
@@ -718,7 +726,11 @@ static struct attribute *mc_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group mc_attr_group = {
+=======
+static struct attribute_group mc_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = mc_attrs,
 };
 

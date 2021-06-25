@@ -883,12 +883,19 @@ static int atmel_nand_pmecc_correct_data(struct nand_chip *chip, void *buf,
 							  NULL, 0,
 							  chip->ecc.strength);
 
+<<<<<<< HEAD
 		if (ret >= 0) {
 			mtd->ecc_stats.corrected += ret;
 			max_bitflips = max(ret, max_bitflips);
 		} else {
 			mtd->ecc_stats.failed++;
 		}
+=======
+		if (ret >= 0)
+			max_bitflips = max(ret, max_bitflips);
+		else
+			mtd->ecc_stats.failed++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		databuf += chip->ecc.size;
 		eccbuf += chip->ecc.bytes;

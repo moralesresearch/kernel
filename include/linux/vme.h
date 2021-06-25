@@ -122,7 +122,11 @@ struct vme_driver {
 	const char *name;
 	int (*match)(struct vme_dev *);
 	int (*probe)(struct vme_dev *);
+<<<<<<< HEAD
 	void (*remove)(struct vme_dev *);
+=======
+	int (*remove)(struct vme_dev *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_driver driver;
 	struct list_head devices;
 };

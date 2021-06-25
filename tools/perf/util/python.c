@@ -80,6 +80,7 @@ int metricgroup__copy_metric_events(struct evlist *evlist, struct cgroup *cgrp,
 }
 
 /*
+<<<<<<< HEAD
  * XXX: All these evsel destructors need some better mechanism, like a linked
  * list of destructors registered when the relevant code indeed is used instead
  * of having more and more calls in perf_evsel__delete(). -- acme
@@ -101,6 +102,8 @@ int bpf_counter__install_pe(struct evsel *evsel __maybe_unused, int cpu __maybe_
 }
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Support debug printing even though util/debug.c is not linked.  That means
  * implementing 'verbose' and 'eprintf'.
  */

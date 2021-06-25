@@ -84,16 +84,20 @@ static void intel_dsm_platform_mux_info(acpi_handle dhandle)
 		return;
 	}
 
+<<<<<<< HEAD
 	if (!pkg->package.count) {
 		DRM_DEBUG_DRIVER("no connection in _DSM\n");
 		return;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	connector_count = &pkg->package.elements[0];
 	DRM_DEBUG_DRIVER("MUX info connectors: %lld\n",
 		  (unsigned long long)connector_count->integer.value);
 	for (i = 1; i < pkg->package.count; i++) {
 		union acpi_object *obj = &pkg->package.elements[i];
+<<<<<<< HEAD
 		union acpi_object *connector_id;
 		union acpi_object *info;
 
@@ -109,6 +113,10 @@ static void intel_dsm_platform_mux_info(acpi_handle dhandle)
 			continue;
 		}
 
+=======
+		union acpi_object *connector_id = &obj->package.elements[0];
+		union acpi_object *info = &obj->package.elements[1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DRM_DEBUG_DRIVER("Connector id: 0x%016llx\n",
 			  (unsigned long long)connector_id->integer.value);
 		DRM_DEBUG_DRIVER("  port id: %s\n",

@@ -17,6 +17,21 @@
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>, <audio@tridentmicro.com>");
 MODULE_DESCRIPTION("Trident 4D-WaveDX/NX & SiS SI7018");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Trident,4DWave DX},"
+		"{Trident,4DWave NX},"
+		"{SiS,SI7018 PCI Audio},"
+		"{Best Union,Miss Melody 4DWave PCI},"
+		"{HIS,4DWave PCI},"
+		"{Warpspeed,ONSpeed 4DWave PCI},"
+		"{Aztech Systems,PCI 64-Q3D},"
+		"{Addonics,SV 750},"
+		"{CHIC,True Sound 4Dwave},"
+		"{Shark,Predator4D-PCI},"
+		"{Jaton,SonicWave 4D},"
+		"{Hoontech,SoundTrack Digital 4DWave NX}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */

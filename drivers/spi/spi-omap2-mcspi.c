@@ -1032,8 +1032,27 @@ static void omap2_mcspi_release_dma(struct spi_master *master)
 	}
 }
 
+<<<<<<< HEAD
+static void omap2_mcspi_cleanup(struct spi_device *spi)
+{
+	struct omap2_mcspi_cs	*cs;
+
+	if (spi->controller_state) {
+		/* Unlink controller state from context save list */
+		cs = spi->controller_state;
+		list_del(&cs->node);
+
+		kfree(cs);
+	}
+}
+
 static int omap2_mcspi_setup(struct spi_device *spi)
 {
+	bool			initial_setup = false;
+=======
+static int omap2_mcspi_setup(struct spi_device *spi)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			ret;
 	struct omap2_mcspi	*mcspi = spi_master_get_devdata(spi->master);
 	struct omap2_mcspi_regs	*ctx = &mcspi->ctx;
@@ -1051,22 +1070,39 @@ static int omap2_mcspi_setup(struct spi_device *spi)
 		spi->controller_state = cs;
 		/* Link this to context save list */
 		list_add_tail(&cs->node, &ctx->cs);
+<<<<<<< HEAD
+		initial_setup = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = pm_runtime_get_sync(mcspi->dev);
 	if (ret < 0) {
 		pm_runtime_put_noidle(mcspi->dev);
+<<<<<<< HEAD
+		if (initial_setup)
+			omap2_mcspi_cleanup(spi);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return ret;
 	}
 
 	ret = omap2_mcspi_setup_transfer(spi, NULL);
+<<<<<<< HEAD
+	if (ret && initial_setup)
+		omap2_mcspi_cleanup(spi);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_mark_last_busy(mcspi->dev);
 	pm_runtime_put_autosuspend(mcspi->dev);
 
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
 static void omap2_mcspi_cleanup(struct spi_device *spi)
 {
 	struct omap2_mcspi_cs	*cs;
@@ -1080,6 +1116,7 @@ static void omap2_mcspi_cleanup(struct spi_device *spi)
 	}
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static irqreturn_t omap2_mcspi_irq_handler(int irq, void *data)
 {
 	struct omap2_mcspi *mcspi = data;

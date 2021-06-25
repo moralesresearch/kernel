@@ -37,8 +37,23 @@ import glob
 from docutils import nodes, statemachine
 from docutils.statemachine import ViewList
 from docutils.parsers.rst import directives, Directive
+<<<<<<< HEAD
 import sphinx
 from sphinx.util.docutils import switch_source_input
+=======
+
+#
+# AutodocReporter is only good up to Sphinx 1.7
+#
+import sphinx
+
+Use_SSI = sphinx.__version__[:3] >= '1.7'
+if Use_SSI:
+    from sphinx.util.docutils import switch_source_input
+else:
+    from sphinx.ext.autodoc import AutodocReporter
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 import kernellog
 
 __version__  = '1.0'
@@ -153,8 +168,23 @@ class KernelDocDirective(Directive):
             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
 
     def do_parse(self, result, node):
+<<<<<<< HEAD
         with switch_source_input(self.state, result):
             self.state.nested_parse(result, 0, node, match_titles=1)
+=======
+        if Use_SSI:
+            with switch_source_input(self.state, result):
+                self.state.nested_parse(result, 0, node, match_titles=1)
+        else:
+            save = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+            self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
+            self.state.memo.title_styles, self.state.memo.section_level = [], 0
+            try:
+                self.state.nested_parse(result, 0, node, match_titles=1)
+            finally:
+                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = save
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 def setup(app):
     app.add_config_value('kerneldoc_bin', None, 'env')

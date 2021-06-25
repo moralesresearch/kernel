@@ -93,11 +93,19 @@ menu "Special HID drivers"
 	depends on HID
 
 config HID_A4TECH
+<<<<<<< HEAD
+	tristate "A4TECH mice"
+	depends on HID
+	default !EXPERT
+	help
+	Support for some A4TECH mice with two scroll wheels.
+=======
 	tristate "A4 tech mice"
 	depends on HID
 	default !EXPERT
 	help
 	Support for A4 tech X5 and WOP-35 / Trust 450L mice.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config HID_ACCUTOUCH
 	tristate "Accutouch touch device"
@@ -853,6 +861,7 @@ config HID_PLANTRONICS
 
 	  Say M here if you may ever plug in a Plantronics USB audio device.
 
+<<<<<<< HEAD
 config HID_PLAYSTATION
 	tristate "PlayStation HID Driver"
 	depends on HID
@@ -871,6 +880,8 @@ config PLAYSTATION_FF
 	  Say Y here if you would like to enable force feedback support for
 	  PlayStation game controllers.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config HID_PRIMAX
 	tristate "Primax non-fully HID-compliant devices"
 	depends on HID
@@ -927,7 +938,10 @@ config HID_SONY
 	  * Sony PS3 Blue-ray Disk Remote Control (Bluetooth)
 	  * Logitech Harmony adapter for Sony Playstation 3 (Bluetooth)
 	  * Guitar Hero Live PS3 and Wii U guitar dongles
+<<<<<<< HEAD
 	  * Guitar Hero PS3 and PC guitar dongles
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config SONY_FF
 	bool "Sony PS2/3/4 accessories force feedback support" 

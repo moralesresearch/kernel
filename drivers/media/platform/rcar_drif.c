@@ -915,6 +915,10 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
 {
 	struct rcar_drif_sdr *sdr = video_drvdata(file);
 
+<<<<<<< HEAD
+=======
+	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
 	f->fmt.sdr.buffersize = sdr->fmt->buffersize;
 
@@ -1230,7 +1234,11 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
 	}
 
 	asd = v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode,
+<<<<<<< HEAD
 						    struct v4l2_async_subdev);
+=======
+						    sizeof(*asd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fwnode_handle_put(fwnode);
 	if (IS_ERR(asd))
 		return PTR_ERR(asd);

@@ -375,12 +375,25 @@ static int rt5682_sdw_init(struct device *dev, struct regmap *regmap,
 static int rt5682_io_init(struct device *dev, struct sdw_slave *slave)
 {
 	struct rt5682_priv *rt5682 = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int ret = 0, loop = 10;
+=======
+	int ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int val;
 
 	if (rt5682->hw_init)
 		return 0;
 
+<<<<<<< HEAD
+=======
+	regmap_read(rt5682->regmap, RT5682_DEVICE_ID, &val);
+	if (val != DEVICE_ID) {
+		dev_err(dev, "Device with ID register %x is not rt5682\n", val);
+		return -ENODEV;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * PM runtime is only enabled when a Slave reports as Attached
 	 */
@@ -400,6 +413,7 @@ static int rt5682_io_init(struct device *dev, struct sdw_slave *slave)
 
 	pm_runtime_get_noresume(&slave->dev);
 
+<<<<<<< HEAD
 	while (loop > 0) {
 		regmap_read(rt5682->regmap, RT5682_DEVICE_ID, &val);
 		if (val == DEVICE_ID)
@@ -413,6 +427,8 @@ static int rt5682_io_init(struct device *dev, struct sdw_slave *slave)
 		return -ENODEV;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rt5682->first_hw_init) {
 		regcache_cache_only(rt5682->regmap, false);
 		regcache_cache_bypass(rt5682->regmap, true);
@@ -462,7 +478,12 @@ static int rt5682_io_init(struct device *dev, struct sdw_slave *slave)
 
 	regmap_update_bits(rt5682->regmap, RT5682_CBJ_CTRL_2,
 		RT5682_EXT_JD_SRC, RT5682_EXT_JD_SRC_MANUAL);
+<<<<<<< HEAD
+	regmap_write(rt5682->regmap, RT5682_CBJ_CTRL_1, 0xd142);
+	regmap_update_bits(rt5682->regmap, RT5682_CBJ_CTRL_5, 0x0700, 0x0600);
+=======
 	regmap_write(rt5682->regmap, RT5682_CBJ_CTRL_1, 0xd042);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regmap_update_bits(rt5682->regmap, RT5682_CBJ_CTRL_3,
 		RT5682_CBJ_IN_BUF_EN, RT5682_CBJ_IN_BUF_EN);
 	regmap_update_bits(rt5682->regmap, RT5682_SAR_IL_CMD_1,
@@ -710,7 +731,11 @@ static int rt5682_sdw_remove(struct sdw_slave *slave)
 	struct rt5682_priv *rt5682 = dev_get_drvdata(&slave->dev);
 
 	if (rt5682 && rt5682->hw_init)
+<<<<<<< HEAD
 		cancel_delayed_work_sync(&rt5682->jack_detect_work);
+=======
+		cancel_delayed_work(&rt5682->jack_detect_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -728,8 +753,11 @@ static int __maybe_unused rt5682_dev_suspend(struct device *dev)
 	if (!rt5682->hw_init)
 		return 0;
 
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&rt5682->jack_detect_work);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regcache_cache_only(rt5682->regmap, true);
 	regcache_mark_dirty(rt5682->regmap);
 

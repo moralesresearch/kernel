@@ -443,7 +443,11 @@ int ide_raw_taskfile(ide_drive_t *drive, struct ide_cmd *cmd, u8 *buf,
 	ide_req(rq)->special = cmd;
 	cmd->rq = rq;
 
+<<<<<<< HEAD
 	blk_execute_rq(NULL, rq, 0);
+=======
+	blk_execute_rq(drive->queue, NULL, rq, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = scsi_req(rq)->result ? -EIO : 0;
 put_req:
 	blk_put_request(rq);

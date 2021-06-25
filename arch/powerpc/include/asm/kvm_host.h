@@ -28,6 +28,10 @@
 
 #define KVM_MAX_VCPUS		NR_CPUS
 #define KVM_MAX_VCORES		NR_CPUS
+<<<<<<< HEAD
+=======
+#define KVM_USER_MEM_SLOTS	512
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/cputhreads.h>
 
@@ -306,7 +310,10 @@ struct kvm_arch {
 	u8 svm_enabled;
 	bool threads_indep;
 	bool nested_enable;
+<<<<<<< HEAD
 	bool dawr1_enabled;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pgd_t *pgtable;
 	u64 process_table;
 	struct dentry *debugfs_dir;
@@ -584,10 +591,15 @@ struct kvm_vcpu_arch {
 	u32 ctrl;
 	u32 dabrx;
 	ulong dabr;
+<<<<<<< HEAD
 	ulong dawr0;
 	ulong dawrx0;
 	ulong dawr1;
 	ulong dawrx1;
+=======
+	ulong dawr;
+	ulong dawrx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ulong ciabr;
 	ulong cfar;
 	ulong ppr;

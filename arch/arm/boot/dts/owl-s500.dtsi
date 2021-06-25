@@ -5,11 +5,16 @@
  * Copyright (c) 2016-2017 Andreas Färber
  */
 
+<<<<<<< HEAD
 #include <dt-bindings/clock/actions,s500-cmu.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/power/owl-s500-powergate.h>
 #include <dt-bindings/reset/actions,s500-reset.h>
+=======
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/power/owl-s500-powergate.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	compatible = "actions,s500";
@@ -73,12 +78,15 @@
 		#clock-cells = <0>;
 	};
 
+<<<<<<< HEAD
 	losc: losc {
 		compatible = "fixed-clock";
 		clock-frequency = <32768>;
 		#clock-cells = <0>;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	soc {
 		compatible = "simple-bus";
 		#address-cells = <1>;
@@ -133,7 +141,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb0120000 0x2000>;
 			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -141,7 +152,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb0122000 0x2000>;
 			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART1>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -149,7 +163,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb0124000 0x2000>;
 			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART2>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -157,7 +174,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb0126000 0x2000>;
 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART3>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -165,7 +185,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb0128000 0x2000>;
 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART4>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -173,7 +196,10 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb012a000 0x2000>;
 			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART5>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -181,6 +207,7 @@
 			compatible = "actions,s500-uart", "actions,owl-uart";
 			reg = <0xb012c000 0x2000>;
 			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&cmu CLK_UART6>;
 			status = "disabled";
 		};
@@ -243,6 +270,11 @@
 				     <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>; /* SIRQ2 */
 		};
 
+=======
+			status = "disabled";
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		timer: timer@b0168000 {
 			compatible = "actions,s500-timer";
 			reg = <0xb0168000 0x8000>;
@@ -258,6 +290,7 @@
 			reg = <0xb01b0100 0x100>;
 			#power-domain-cells = <1>;
 		};
+<<<<<<< HEAD
 
 		pinctrl: pinctrl@b01b0000 {
 			compatible = "actions,s500-pinctrl";
@@ -324,5 +357,7 @@
 			dma-names = "mmc";
 			status = "disabled";
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

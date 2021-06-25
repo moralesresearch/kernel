@@ -301,10 +301,13 @@
 	status = "okay";
 };
 
+<<<<<<< HEAD
 &mdss {
 	status = "okay";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8916_resin {
 	status = "okay";
 	linux,code = <KEY_VOLUMEDOWN>;

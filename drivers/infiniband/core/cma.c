@@ -463,6 +463,10 @@ static void _cma_attach_to_dev(struct rdma_id_private *id_priv,
 	id_priv->id.route.addr.dev_addr.transport =
 		rdma_node_get_transport(cma_dev->device->node_type);
 	list_add_tail(&id_priv->list, &cma_dev->id_list);
+<<<<<<< HEAD
+=======
+	rdma_restrack_add(&id_priv->res);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_cm_id_attach(id_priv, cma_dev->device);
 }
@@ -482,7 +486,10 @@ static void cma_release_dev(struct rdma_id_private *id_priv)
 	list_del(&id_priv->list);
 	cma_dev_put(id_priv->cma_dev);
 	id_priv->cma_dev = NULL;
+<<<<<<< HEAD
 	id_priv->id.device = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (id_priv->id.route.addr.dev_addr.sgid_attr) {
 		rdma_put_gid_attr(id_priv->id.route.addr.dev_addr.sgid_attr);
 		id_priv->id.route.addr.dev_addr.sgid_attr = NULL;
@@ -700,7 +707,10 @@ static int cma_ib_acquire_dev(struct rdma_id_private *id_priv,
 	mutex_lock(&lock);
 	cma_attach_to_dev(id_priv, listen_id_priv->cma_dev);
 	mutex_unlock(&lock);
+<<<<<<< HEAD
 	rdma_restrack_add(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -755,10 +765,15 @@ static int cma_iw_acquire_dev(struct rdma_id_private *id_priv,
 	}
 
 out:
+<<<<<<< HEAD
 	if (!ret) {
 		cma_attach_to_dev(id_priv, cma_dev);
 		rdma_restrack_add(&id_priv->res);
 	}
+=======
+	if (!ret)
+		cma_attach_to_dev(id_priv, cma_dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&lock);
 	return ret;
@@ -819,7 +834,10 @@ static int cma_resolve_ib_dev(struct rdma_id_private *id_priv)
 
 found:
 	cma_attach_to_dev(id_priv, cma_dev);
+<<<<<<< HEAD
 	rdma_restrack_add(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&lock);
 	addr = (struct sockaddr_ib *)cma_src_addr(id_priv);
 	memcpy(&addr->sib_addr, &sgid, sizeof(sgid));
@@ -1865,7 +1883,10 @@ static void _destroy_id(struct rdma_id_private *id_priv,
 				iw_destroy_cm_id(id_priv->cm_id.iw);
 		}
 		cma_leave_mc_groups(id_priv);
+<<<<<<< HEAD
 		rdma_restrack_del(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cma_release_dev(id_priv);
 	}
 
@@ -1879,6 +1900,10 @@ static void _destroy_id(struct rdma_id_private *id_priv,
 	kfree(id_priv->id.route.path_rec);
 
 	put_net(id_priv->id.route.addr.dev_addr.net);
+<<<<<<< HEAD
+=======
+	rdma_restrack_del(&id_priv->res);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(id_priv);
 }
 
@@ -2533,7 +2558,10 @@ static int cma_listen_on_dev(struct rdma_id_private *id_priv,
 	       rdma_addr_size(cma_src_addr(id_priv)));
 
 	_cma_attach_to_dev(dev_id_priv, cma_dev);
+<<<<<<< HEAD
 	rdma_restrack_add(&dev_id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cma_id_get(id_priv);
 	dev_id_priv->internal_id = 1;
 	dev_id_priv->afonly = id_priv->afonly;
@@ -3174,7 +3202,10 @@ port_found:
 	ib_addr_set_pkey(&id_priv->id.route.addr.dev_addr, pkey);
 	id_priv->id.port_num = p;
 	cma_attach_to_dev(id_priv, cma_dev);
+<<<<<<< HEAD
 	rdma_restrack_add(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cma_set_loopback(cma_src_addr(id_priv));
 out:
 	mutex_unlock(&lock);
@@ -3207,7 +3238,10 @@ static void addr_handler(int status, struct sockaddr *src_addr,
 		if (status)
 			pr_debug_ratelimited("RDMA CM: ADDR_ERROR: failed to acquire device. status %d\n",
 					     status);
+<<<<<<< HEAD
 		rdma_restrack_add(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (status) {
 		pr_debug_ratelimited("RDMA CM: ADDR_ERROR: failed to resolve IP. status %d\n", status);
 	}
@@ -3741,7 +3775,11 @@ int rdma_listen(struct rdma_cm_id *id, int backlog)
 	}
 
 	id_priv->backlog = backlog;
+<<<<<<< HEAD
 	if (id_priv->cma_dev) {
+=======
+	if (id->device) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rdma_cap_ib_cm(id->device, 1)) {
 			ret = cma_ib_listen(id_priv);
 			if (ret)
@@ -3819,8 +3857,11 @@ int rdma_bind_addr(struct rdma_cm_id *id, struct sockaddr *addr)
 	if (ret)
 		goto err2;
 
+<<<<<<< HEAD
 	if (!cma_any_addr(addr))
 		rdma_restrack_add(&id_priv->res);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 err2:
 	if (id_priv->cma_dev)
@@ -4578,6 +4619,23 @@ static int cma_join_ib_multicast(struct rdma_id_private *id_priv,
 	rec.pkey = cpu_to_be16(ib_addr_get_pkey(dev_addr));
 	rec.join_state = mc->join_state;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if ((rec.join_state == BIT(SENDONLY_FULLMEMBER_JOIN)) &&
+	    (!ib_sa_sendonly_fullmem_support(&sa_client,
+					     id_priv->id.device,
+					     id_priv->id.port_num))) {
+		dev_warn(
+			&id_priv->id.device->dev,
+			"RDMA CM: port %u Unable to multicast join: SM doesn't support Send Only Full Member option\n",
+			id_priv->id.port_num);
+		return -EOPNOTSUPP;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	comp_mask = IB_SA_MCMEMBER_REC_MGID | IB_SA_MCMEMBER_REC_PORT_GID |
 		    IB_SA_MCMEMBER_REC_PKEY | IB_SA_MCMEMBER_REC_JOIN_STATE |
 		    IB_SA_MCMEMBER_REC_QKEY | IB_SA_MCMEMBER_REC_SL |

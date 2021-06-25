@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+<<<<<<< HEAD
+=======
+ * fs/nfs_common/nfs_ssc_comm.c
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Helper for knfsd's SSC to access ops in NFS client modules
  *
  * Author: Dai Ngo <dai.ngo@oracle.com>

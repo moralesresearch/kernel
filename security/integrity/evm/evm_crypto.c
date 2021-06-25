@@ -225,7 +225,15 @@ static int evm_calc_hmac_or_hash(struct dentry *dentry,
 				ima_present = true;
 			continue;
 		}
+<<<<<<< HEAD
 		size = vfs_getxattr_alloc(&init_user_ns, dentry, xattr->name,
+=======
+<<<<<<< HEAD
+		size = vfs_getxattr_alloc(&init_user_ns, dentry, xattr->name,
+=======
+		size = vfs_getxattr_alloc(dentry, xattr->name,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  &xattr_value, xattr_size, GFP_NOFS);
 		if (size == -ENOMEM) {
 			error = -ENOMEM;
@@ -278,8 +286,18 @@ static int evm_is_immutable(struct dentry *dentry, struct inode *inode)
 		return 1;
 
 	/* Do this the hard way */
+<<<<<<< HEAD
 	rc = vfs_getxattr_alloc(&init_user_ns, dentry, XATTR_NAME_EVM,
 				(char **)&xattr_data, 0, GFP_NOFS);
+=======
+<<<<<<< HEAD
+	rc = vfs_getxattr_alloc(&init_user_ns, dentry, XATTR_NAME_EVM,
+				(char **)&xattr_data, 0, GFP_NOFS);
+=======
+	rc = vfs_getxattr_alloc(dentry, XATTR_NAME_EVM, (char **)&xattr_data, 0,
+				GFP_NOFS);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc <= 0) {
 		if (rc == -ENODATA)
 			return 0;
@@ -322,12 +340,26 @@ int evm_update_evmxattr(struct dentry *dentry, const char *xattr_name,
 			   xattr_value_len, &data);
 	if (rc == 0) {
 		data.hdr.xattr.sha1.type = EVM_XATTR_HMAC;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = __vfs_setxattr_noperm(&init_user_ns, dentry,
 					   XATTR_NAME_EVM,
 					   &data.hdr.xattr.data[1],
 					   SHA1_DIGEST_SIZE + 1, 0);
 	} else if (rc == -ENODATA && (inode->i_opflags & IOP_XATTR)) {
 		rc = __vfs_removexattr(&init_user_ns, dentry, XATTR_NAME_EVM);
+<<<<<<< HEAD
+=======
+=======
+		rc = __vfs_setxattr_noperm(dentry, XATTR_NAME_EVM,
+					   &data.hdr.xattr.data[1],
+					   SHA1_DIGEST_SIZE + 1, 0);
+	} else if (rc == -ENODATA && (inode->i_opflags & IOP_XATTR)) {
+		rc = __vfs_removexattr(dentry, XATTR_NAME_EVM);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return rc;
 }

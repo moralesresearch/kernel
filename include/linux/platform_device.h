@@ -359,7 +359,10 @@ static inline int is_sh_early_platform_device(struct platform_device *pdev)
 }
 #endif /* CONFIG_SUPERH */
 
+<<<<<<< HEAD
 /* For now only SuperH uses it */
 void early_platform_cleanup(void);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _PLATFORM_DEVICE_H_ */

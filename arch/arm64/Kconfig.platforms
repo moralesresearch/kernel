@@ -13,17 +13,23 @@ config ARCH_AGILEX
 	help
 	  This enables support for Intel's Agilex SoCFPGA Family.
 
+<<<<<<< HEAD
 config ARCH_N5X
 	bool "Intel's eASIC N5X SoCFPGA Family"
 	help
 	  This enables support for Intel's eASIC N5X SoCFPGA Family.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ARCH_SUNXI
 	bool "Allwinner sunxi 64-bit SoC Family"
 	select ARCH_HAS_RESET_CONTROLLER
 	select GENERIC_IRQ_CHIP
+<<<<<<< HEAD
 	select IRQ_DOMAIN_HIERARCHY
 	select IRQ_FASTEOI_HIERARCHY_HANDLERS
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select PINCTRL
 	select RESET_CONTROLLER
 	help
@@ -46,7 +52,10 @@ config ARCH_BCM2835
 	select ARM_AMBA
 	select ARM_GIC
 	select ARM_TIMER_SP804
+<<<<<<< HEAD
 	select BRCMSTB_L2_IRQ
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This enables support for the Broadcom BCM2837 and BCM2711 SoC.
 	  These SoCs are used in the Raspberry Pi 3 and 4 devices.
@@ -168,6 +177,10 @@ config ARCH_MEDIATEK
 
 config ARCH_MESON
 	bool "Amlogic Platforms"
+<<<<<<< HEAD
+	select COMMON_CLK
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select MESON_IRQ_GPIO
 	help
 	  This enables support for the arm64 based Amlogic SoCs
@@ -325,6 +338,15 @@ config ARCH_XGENE
 	help
 	  This enables support for AppliedMicro X-Gene SOC Family
 
+<<<<<<< HEAD
+=======
+config ARCH_ZX
+	bool "ZTE ZX SoC Family"
+	select PINCTRL
+	help
+	  This enables support for ZTE ZX SoC Family
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ARCH_ZYNQMP
 	bool "Xilinx ZynqMP Family"
 	help

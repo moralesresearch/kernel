@@ -141,7 +141,11 @@ void mba_test_cleanup(void)
 int mba_schemata_change(int cpu_no, char *bw_report, char **benchmark_cmd)
 {
 	struct resctrl_val_param param = {
+<<<<<<< HEAD
 		.resctrl_val	= MBA_STR,
+=======
+		.resctrl_val	= "mba",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ctrlgrp	= "c1",
 		.mongrp		= "m1",
 		.cpu_no		= cpu_no,

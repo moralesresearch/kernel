@@ -4,17 +4,22 @@
  * Copyright © 2018 Intel Corporation
  */
 
+<<<<<<< HEAD
 #include <linux/sort.h>
 
 #include "i915_selftest.h"
 #include "intel_gpu_commands.h"
 #include "intel_gt_clock_utils.h"
+=======
+#include "i915_selftest.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "selftest_engine.h"
 #include "selftest_engine_heartbeat.h"
 #include "selftests/igt_atomic.h"
 #include "selftests/igt_flush_test.h"
 #include "selftests/igt_spinner.h"
 
+<<<<<<< HEAD
 #define COUNT 5
 
 static int cmp_u64(const void *A, const void *B)
@@ -213,6 +218,8 @@ static int live_engine_timestamps(void *arg)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int live_engine_busy_stats(void *arg)
 {
 	struct intel_gt *gt = arg;
@@ -379,7 +386,10 @@ static int live_engine_pm(void *arg)
 int live_engine_pm_selftests(struct intel_gt *gt)
 {
 	static const struct i915_subtest tests[] = {
+<<<<<<< HEAD
 		SUBTEST(live_engine_timestamps),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SUBTEST(live_engine_busy_stats),
 		SUBTEST(live_engine_pm),
 	};

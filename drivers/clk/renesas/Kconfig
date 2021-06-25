@@ -148,7 +148,10 @@ config CLK_R8A77995
 
 config CLK_R8A779A0
 	bool "R-Car V3U clock support" if COMPILE_TEST
+<<<<<<< HEAD
 	select CLK_RCAR_CPG_LIB
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select CLK_RENESAS_CPG_MSSR
 
 config CLK_R9A06G032
@@ -163,16 +166,22 @@ config CLK_SH73A0
 
 
 # Family
+<<<<<<< HEAD
 config CLK_RCAR_CPG_LIB
 	bool "CPG/MSSR library functions" if COMPILE_TEST
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config CLK_RCAR_GEN2_CPG
 	bool "R-Car Gen2 CPG clock support" if COMPILE_TEST
 	select CLK_RENESAS_CPG_MSSR
 
 config CLK_RCAR_GEN3_CPG
 	bool "R-Car Gen3 and RZ/G2 CPG clock support" if COMPILE_TEST
+<<<<<<< HEAD
 	select CLK_RCAR_CPG_LIB
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select CLK_RENESAS_CPG_MSSR
 
 config CLK_RCAR_USB2_CLOCK_SEL

@@ -217,6 +217,16 @@ config DRM_GEM_SHMEM_HELPER
 	help
 	  Choose this if you need the GEM shmem helper functions
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+config DRM_VM
+	bool
+	depends on DRM && MMU
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config DRM_SCHED
 	tristate
 	depends on DRM
@@ -391,6 +401,13 @@ source "drivers/gpu/drm/xlnx/Kconfig"
 menuconfig DRM_LEGACY
 	bool "Enable legacy drivers (DANGEROUS)"
 	depends on DRM && MMU
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select DRM_VM
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Enable legacy DRI1 drivers. Those drivers expose unsafe and dangerous
 	  APIs to user-space, which can be used to circumvent access

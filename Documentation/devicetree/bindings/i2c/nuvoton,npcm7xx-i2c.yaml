@@ -17,7 +17,11 @@ maintainers:
 
 properties:
   compatible:
+<<<<<<< HEAD
     const: nuvoton,npcm750-i2c
+=======
+    const: nuvoton,npcm7xx-i2c
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1

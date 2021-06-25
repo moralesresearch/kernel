@@ -11,7 +11,11 @@ uapi := $(gen)/uapi/asm
 syshdr := $(srctree)/$(src)/syscallhdr.sh
 sysnr := $(srctree)/$(src)/syscallnr.sh
 systbl := $(srctree)/$(src)/syscalltbl.sh
+<<<<<<< HEAD
 syscall := $(src)/syscall.tbl
+=======
+syscall := $(srctree)/$(src)/syscall.tbl
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 gen-y := $(gen)/calls-oabi.S
 gen-y += $(gen)/calls-eabi.S

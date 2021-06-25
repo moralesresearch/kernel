@@ -29,12 +29,15 @@ struct ehci_ci_priv {
 	bool enabled;
 };
 
+<<<<<<< HEAD
 struct ci_hdrc_dma_aligned_buffer {
 	void *kmalloc_ptr;
 	void *old_xfer_buffer;
 	u8 data[0];
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ehci_ci_portpower(struct usb_hcd *hcd, int portnum, bool enable)
 {
 	struct ehci_hcd *ehci = hcd_to_ehci(hcd);
@@ -166,15 +169,25 @@ static int host_start(struct ci_hdrc *ci)
 		pinctrl_select_state(ci->platdata->pctl,
 				     ci->platdata->pins_host);
 
+<<<<<<< HEAD
 	ci->hcd = hcd;
 
 	ret = usb_add_hcd(hcd, 0, 0);
 	if (ret) {
 		ci->hcd = NULL;
+=======
+	ret = usb_add_hcd(hcd, 0, 0);
+	if (ret) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto disable_reg;
 	} else {
 		struct usb_otg *otg = &ci->otg;
 
+<<<<<<< HEAD
+=======
+		ci->hcd = hcd;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ci_otg_is_fsm_mode(ci)) {
 			otg->host = &hcd->self;
 			hcd->self.otg_port = 1;
@@ -244,7 +257,10 @@ static int ci_ehci_hub_control(
 	u32		temp;
 	unsigned long	flags;
 	int		retval = 0;
+<<<<<<< HEAD
 	bool		done = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = hcd->self.controller;
 	struct ci_hdrc *ci = dev_get_drvdata(dev);
 
@@ -252,6 +268,7 @@ static int ci_ehci_hub_control(
 
 	spin_lock_irqsave(&ehci->lock, flags);
 
+<<<<<<< HEAD
 	if (ci->platdata->hub_control) {
 		retval = ci->platdata->hub_control(ci, typeReq, wValue, wIndex,
 						   buf, wLength, &done, &flags);
@@ -259,6 +276,8 @@ static int ci_ehci_hub_control(
 			goto done;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (typeReq == SetPortFeature && wValue == USB_PORT_FEAT_SUSPEND) {
 		temp = ehci_readl(ehci, status_reg);
 		if ((temp & PORT_PE) == 0 || (temp & PORT_RESET) != 0) {
@@ -364,6 +383,7 @@ static int ci_ehci_bus_suspend(struct usb_hcd *hcd)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void ci_hdrc_free_dma_aligned_buffer(struct urb *urb)
 {
 	struct ci_hdrc_dma_aligned_buffer *temp;
@@ -444,6 +464,8 @@ static void ci_hdrc_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
 	ci_hdrc_free_dma_aligned_buffer(urb);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ci_hdrc_host_init(struct ci_hdrc *ci)
 {
 	struct ci_role_driver *rdrv;
@@ -461,11 +483,14 @@ int ci_hdrc_host_init(struct ci_hdrc *ci)
 	rdrv->name	= "host";
 	ci->roles[CI_ROLE_HOST] = rdrv;
 
+<<<<<<< HEAD
 	if (ci->platdata->flags & CI_HDRC_REQUIRES_ALIGNED_DMA) {
 		ci_ehci_hc_driver.map_urb_for_dma = ci_hdrc_map_urb_for_dma;
 		ci_ehci_hc_driver.unmap_urb_for_dma = ci_hdrc_unmap_urb_for_dma;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

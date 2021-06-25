@@ -30,7 +30,10 @@ struct perf_mem {
 	bool			dump_raw;
 	bool			force;
 	bool			phys_addr;
+<<<<<<< HEAD
 	bool			data_page_size;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			operation;
 	const char		*cpu_list;
 	DECLARE_BITMAP(cpu_bitmap, MAX_NR_CPUS);
@@ -125,9 +128,12 @@ static int __cmd_record(int argc, const char **argv, struct perf_mem *mem)
 	if (mem->phys_addr)
 		rec_argv[i++] = "--phys-data";
 
+<<<<<<< HEAD
 	if (mem->data_page_size)
 		rec_argv[i++] = "--data-page-size";
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (j = 0; j < PERF_MEM_EVENTS__MAX; j++) {
 		e = perf_mem_events__ptr(j);
 		if (!e->record)
@@ -176,8 +182,12 @@ dump_raw_samples(struct perf_tool *tool,
 {
 	struct perf_mem *mem = container_of(tool, struct perf_mem, tool);
 	struct addr_location al;
+<<<<<<< HEAD
 	const char *fmt, *field_sep;
 	char str[PAGE_SIZE_NAME_LEN];
+=======
+	const char *fmt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (machine__resolve(machine, &al, sample) < 0) {
 		fprintf(stderr, "problem processing %d event, skipping it.\n",
@@ -191,6 +201,7 @@ dump_raw_samples(struct perf_tool *tool,
 	if (al.map != NULL)
 		al.map->dso->hit = 1;
 
+<<<<<<< HEAD
 	field_sep = symbol_conf.field_sep;
 	if (field_sep) {
 		fmt = "%d%s%d%s0x%"PRIx64"%s0x%"PRIx64"%s";
@@ -232,6 +243,62 @@ dump_raw_samples(struct perf_tool *tool,
 		symbol_conf.field_sep,
 		al.map ? (al.map->dso ? al.map->dso->long_name : "???") : "???",
 		al.sym ? al.sym->name : "???");
+=======
+	if (mem->phys_addr) {
+		if (symbol_conf.field_sep) {
+			fmt = "%d%s%d%s0x%"PRIx64"%s0x%"PRIx64"%s0x%016"PRIx64
+			      "%s%"PRIu64"%s0x%"PRIx64"%s%s:%s\n";
+		} else {
+			fmt = "%5d%s%5d%s0x%016"PRIx64"%s0x016%"PRIx64
+			      "%s0x%016"PRIx64"%s%5"PRIu64"%s0x%06"PRIx64
+			      "%s%s:%s\n";
+			symbol_conf.field_sep = " ";
+		}
+
+		printf(fmt,
+			sample->pid,
+			symbol_conf.field_sep,
+			sample->tid,
+			symbol_conf.field_sep,
+			sample->ip,
+			symbol_conf.field_sep,
+			sample->addr,
+			symbol_conf.field_sep,
+			sample->phys_addr,
+			symbol_conf.field_sep,
+			sample->weight,
+			symbol_conf.field_sep,
+			sample->data_src,
+			symbol_conf.field_sep,
+			al.map ? (al.map->dso ? al.map->dso->long_name : "???") : "???",
+			al.sym ? al.sym->name : "???");
+	} else {
+		if (symbol_conf.field_sep) {
+			fmt = "%d%s%d%s0x%"PRIx64"%s0x%"PRIx64"%s%"PRIu64
+			      "%s0x%"PRIx64"%s%s:%s\n";
+		} else {
+			fmt = "%5d%s%5d%s0x%016"PRIx64"%s0x016%"PRIx64
+			      "%s%5"PRIu64"%s0x%06"PRIx64"%s%s:%s\n";
+			symbol_conf.field_sep = " ";
+		}
+
+		printf(fmt,
+			sample->pid,
+			symbol_conf.field_sep,
+			sample->tid,
+			symbol_conf.field_sep,
+			sample->ip,
+			symbol_conf.field_sep,
+			sample->addr,
+			symbol_conf.field_sep,
+			sample->weight,
+			symbol_conf.field_sep,
+			sample->data_src,
+			symbol_conf.field_sep,
+			al.map ? (al.map->dso ? al.map->dso->long_name : "???") : "???",
+			al.sym ? al.sym->name : "???");
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_put:
 	addr_location__put(&al);
 	return 0;
@@ -279,6 +346,7 @@ static int report_raw_events(struct perf_mem *mem)
 	if (ret < 0)
 		goto out_delete;
 
+<<<<<<< HEAD
 	printf("# PID, TID, IP, ADDR, ");
 
 	if (mem->phys_addr)
@@ -288,6 +356,12 @@ static int report_raw_events(struct perf_mem *mem)
 		printf("DATA PAGE SIZE, ");
 
 	printf("LOCAL WEIGHT, DSRC, SYMBOL\n");
+=======
+	if (mem->phys_addr)
+		printf("# PID, TID, IP, ADDR, PHYS ADDR, LOCAL WEIGHT, DSRC, SYMBOL\n");
+	else
+		printf("# PID, TID, IP, ADDR, LOCAL WEIGHT, DSRC, SYMBOL\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = perf_session__process_events(session);
 
@@ -297,7 +371,11 @@ out_delete:
 }
 static char *get_sort_order(struct perf_mem *mem)
 {
+<<<<<<< HEAD
 	bool has_extra_options = (mem->phys_addr | mem->data_page_size) ? true : false;
+=======
+	bool has_extra_options = mem->phys_addr ? true : false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char sort[128];
 
 	/*
@@ -309,16 +387,23 @@ static char *get_sort_order(struct perf_mem *mem)
 			     "dso_daddr,tlb,locked");
 	} else if (has_extra_options) {
 		strcpy(sort, "--sort=local_weight,mem,sym,dso,symbol_daddr,"
+<<<<<<< HEAD
 			     "dso_daddr,snoop,tlb,locked,blocked");
+=======
+			     "dso_daddr,snoop,tlb,locked");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else
 		return NULL;
 
 	if (mem->phys_addr)
 		strcat(sort, ",phys_daddr");
 
+<<<<<<< HEAD
 	if (mem->data_page_size)
 		strcat(sort, ",data_page_size");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return strdup(sort);
 }
 
@@ -464,7 +549,10 @@ int cmd_mem(int argc, const char **argv)
 		   " between columns '.' is reserved."),
 	OPT_BOOLEAN('f', "force", &mem.force, "don't complain, do it"),
 	OPT_BOOLEAN('p', "phys-data", &mem.phys_addr, "Record/Report sample physical addresses"),
+<<<<<<< HEAD
 	OPT_BOOLEAN(0, "data-page-size", &mem.data_page_size, "Record/Report sample data address page size"),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_END()
 	};
 	const char *const mem_subcommands[] = { "record", "report", NULL };

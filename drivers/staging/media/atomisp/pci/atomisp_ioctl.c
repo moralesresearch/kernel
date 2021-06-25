@@ -948,8 +948,15 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
 		dev_dbg(isp->dev, "allocating %d dis buffers\n", count);
 		while (count--) {
 			dis_buf = kzalloc(sizeof(struct atomisp_dis_buf), GFP_KERNEL);
+<<<<<<< HEAD
 			if (!dis_buf)
 				goto error;
+=======
+			if (!dis_buf) {
+				kfree(s3a_buf);
+				goto error;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (atomisp_css_allocate_stat_buffers(
 				asd, stream_id, NULL, dis_buf, NULL)) {
 				kfree(dis_buf);

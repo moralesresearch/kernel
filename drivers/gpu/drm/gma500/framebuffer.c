@@ -159,7 +159,11 @@ static const struct fb_ops psbfb_unaccel_ops = {
  *	@dev: our DRM device
  *	@fb: framebuffer to set up
  *	@mode_cmd: mode description
+<<<<<<< HEAD
  *	@obj: backing object
+=======
+ *	@gt: backing object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	Configure and fill in the boilerplate for our frame buffer. Return
  *	0 on success or an error code if we fail.
@@ -197,7 +201,11 @@ static int psb_framebuffer_init(struct drm_device *dev,
  *	psb_framebuffer_create	-	create a framebuffer backed by gt
  *	@dev: our DRM device
  *	@mode_cmd: the description of the requested mode
+<<<<<<< HEAD
  *	@obj: the backing object
+=======
+ *	@gt: the backing object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	Create a framebuffer object backed by the gt, and fill in the
  *	boilerplate required
@@ -252,7 +260,11 @@ static struct gtt_range *psbfb_alloc(struct drm_device *dev, int aligned_size)
 
 /**
  *	psbfb_create		-	create a framebuffer
+<<<<<<< HEAD
  *	@fb_helper: the framebuffer helper
+=======
+ *	@fbdev: the framebuffer device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@sizes: specification of the layout
  *
  *	Create a framebuffer to the specifications provided
@@ -262,7 +274,10 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
 {
 	struct drm_device *dev = fb_helper->dev;
 	struct drm_psb_private *dev_priv = dev->dev_private;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fb_info *info;
 	struct drm_framebuffer *fb;
 	struct drm_mode_fb_cmd2 mode_cmd;
@@ -326,8 +341,13 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
 
 	drm_fb_helper_fill_info(info, fb_helper, sizes);
 
+<<<<<<< HEAD
 	info->fix.mmio_start = pci_resource_start(pdev, 0);
 	info->fix.mmio_len = pci_resource_len(pdev, 0);
+=======
+	info->fix.mmio_start = pci_resource_start(dev->pdev, 0);
+	info->fix.mmio_len = pci_resource_len(dev->pdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
 
@@ -530,7 +550,10 @@ void psb_modeset_init(struct drm_device *dev)
 {
 	struct drm_psb_private *dev_priv = dev->dev_private;
 	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	drm_mode_config_init(dev);
@@ -542,7 +565,12 @@ void psb_modeset_init(struct drm_device *dev)
 
 	/* set memory base */
 	/* Oaktrail and Poulsbo should use BAR 2*/
+<<<<<<< HEAD
 	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev->mode_config.fb_base));
+=======
+	pci_read_config_dword(dev->pdev, PSB_BSM, (u32 *)
+					&(dev->mode_config.fb_base));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* num pipes is 2 for PSB but 1 for Mrst */
 	for (i = 0; i < dev_priv->num_pipe; i++)

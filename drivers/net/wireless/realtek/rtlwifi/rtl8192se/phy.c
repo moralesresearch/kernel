@@ -1017,7 +1017,11 @@ bool rtl92s_phy_bb_config(struct ieee80211_hw *hw)
 {
 	struct rtl_priv *rtlpriv = rtl_priv(hw);
 	struct rtl_phy *rtlphy = &(rtlpriv->phy);
+<<<<<<< HEAD
 	bool rtstatus;
+=======
+	bool rtstatus = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 pathmap, index, rf_num = 0;
 	u8 path1, path2;
 

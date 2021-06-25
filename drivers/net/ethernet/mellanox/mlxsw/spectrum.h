@@ -21,7 +21,10 @@
 #include <net/red.h>
 #include <net/vxlan.h>
 #include <net/flow_offload.h>
+<<<<<<< HEAD
 #include <net/inet_ecn.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "port.h"
 #include "core.h"
@@ -53,7 +56,11 @@
 #define MLXSW_SP_RESOURCE_NAME_COUNTERS_RIF "rif"
 
 enum mlxsw_sp_resource_id {
+<<<<<<< HEAD
 	MLXSW_SP_RESOURCE_KVD = MLXSW_CORE_RESOURCE_MAX,
+=======
+	MLXSW_SP_RESOURCE_KVD = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLXSW_SP_RESOURCE_KVD_LINEAR,
 	MLXSW_SP_RESOURCE_KVD_HASH_SINGLE,
 	MLXSW_SP_RESOURCE_KVD_HASH_DOUBLE,
@@ -329,6 +336,7 @@ struct mlxsw_sp_port_type_speed_ops {
 					 u32 ptys_eth_proto,
 					 struct ethtool_link_ksettings *cmd);
 	void (*from_ptys_link)(struct mlxsw_sp *mlxsw_sp, u32 ptys_eth_proto,
+<<<<<<< HEAD
 			       unsigned long *mode);
 	u32 (*from_ptys_speed)(struct mlxsw_sp *mlxsw_sp, u32 ptys_eth_proto);
 	void (*from_ptys_link_mode)(struct mlxsw_sp *mlxsw_sp,
@@ -339,6 +347,17 @@ struct mlxsw_sp_port_type_speed_ops {
 				   const struct ethtool_link_ksettings *cmd);
 	u32 (*to_ptys_speed_lanes)(struct mlxsw_sp *mlxsw_sp, u8 width,
 				   const struct ethtool_link_ksettings *cmd);
+=======
+			       u8 width, unsigned long *mode);
+	u32 (*from_ptys_speed)(struct mlxsw_sp *mlxsw_sp, u32 ptys_eth_proto);
+	void (*from_ptys_speed_duplex)(struct mlxsw_sp *mlxsw_sp,
+				       bool carrier_ok, u32 ptys_eth_proto,
+				       struct ethtool_link_ksettings *cmd);
+	int (*ptys_max_speed)(struct mlxsw_sp_port *mlxsw_sp_port, u32 *p_max_speed);
+	u32 (*to_ptys_advert_link)(struct mlxsw_sp *mlxsw_sp, u8 width,
+				   const struct ethtool_link_ksettings *cmd);
+	u32 (*to_ptys_speed)(struct mlxsw_sp *mlxsw_sp, u8 width, u32 speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*reg_ptys_eth_pack)(struct mlxsw_sp *mlxsw_sp, char *payload,
 				  u8 local_port, u32 proto_admin, bool autoneg);
 	void (*reg_ptys_eth_unpack)(struct mlxsw_sp *mlxsw_sp, char *payload,
@@ -348,6 +367,7 @@ struct mlxsw_sp_port_type_speed_ops {
 	u32 (*ptys_proto_cap_masked_get)(u32 eth_proto_cap);
 };
 
+<<<<<<< HEAD
 static inline u8 mlxsw_sp_tunnel_ecn_decap(u8 outer_ecn, u8 inner_ecn,
 					   bool *trap_en)
 {
@@ -362,6 +382,8 @@ static inline u8 mlxsw_sp_tunnel_ecn_decap(u8 outer_ecn, u8 inner_ecn,
 		return inner_ecn;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct net_device *
 mlxsw_sp_bridge_vxlan_dev_find(struct net_device *br_dev)
 {

@@ -3120,8 +3120,11 @@ void goya_init_security(struct hl_device *hdev)
 
 	goya_init_protection_bits(hdev);
 }
+<<<<<<< HEAD
 
 void goya_ack_protection_bits_errors(struct hl_device *hdev)
 {
 
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

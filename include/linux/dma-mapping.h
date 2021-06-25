@@ -263,6 +263,7 @@ struct page *dma_alloc_pages(struct device *dev, size_t size,
 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
 void dma_free_pages(struct device *dev, size_t size, struct page *page,
 		dma_addr_t dma_handle, enum dma_data_direction dir);
+<<<<<<< HEAD
 
 static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
@@ -276,6 +277,12 @@ static inline void dma_free_noncoherent(struct device *dev, size_t size,
 {
 	dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
 }
+=======
+void *dma_alloc_noncoherent(struct device *dev, size_t size,
+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+		dma_addr_t dma_handle, enum dma_data_direction dir);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
 		size_t size, enum dma_data_direction dir, unsigned long attrs)
@@ -509,6 +516,7 @@ static inline int dma_set_seg_boundary(struct device *dev, unsigned long mask)
 	return -EIO;
 }
 
+<<<<<<< HEAD
 static inline unsigned int dma_get_min_align_mask(struct device *dev)
 {
 	if (dev->dma_parms)
@@ -525,6 +533,8 @@ static inline int dma_set_min_align_mask(struct device *dev,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int dma_get_cache_alignment(void)
 {
 #ifdef ARCH_DMA_MINALIGN

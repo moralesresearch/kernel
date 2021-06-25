@@ -691,9 +691,12 @@
 #define mttmr(rn, v)	asm volatile(MTTMR(rn, %0) : \
 				     : "r" ((unsigned long)(v)) \
 				     : "memory")
+<<<<<<< HEAD
 
 extern unsigned long global_dbcr0[];
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* !__ASSEMBLY__ */
 
 #endif /* __ASM_POWERPC_REG_BOOKE_H__ */

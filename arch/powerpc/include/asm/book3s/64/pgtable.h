@@ -7,7 +7,10 @@
 #ifndef __ASSEMBLY__
 #include <linux/mmdebug.h>
 #include <linux/bug.h>
+<<<<<<< HEAD
 #include <linux/sizes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /*
@@ -324,8 +327,12 @@ extern unsigned long pci_io_base;
 #define  PHB_IO_END	(KERN_IO_START + FULL_IO_SIZE)
 #define IOREMAP_BASE	(PHB_IO_END)
 #define IOREMAP_START	(ioremap_bot)
+<<<<<<< HEAD
 #define IOREMAP_END	(KERN_IO_END - FIXADDR_SIZE)
 #define FIXADDR_SIZE	SZ_32M
+=======
+#define IOREMAP_END	(KERN_IO_END)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Advertise special mapping type for AGP */
 #define HAVE_PAGE_AGP
@@ -390,6 +397,7 @@ static inline int __ptep_test_and_clear_young(struct mm_struct *mm,
 #define __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG
 #define ptep_test_and_clear_young(__vma, __addr, __ptep)	\
 ({								\
+<<<<<<< HEAD
 	__ptep_test_and_clear_young((__vma)->vm_mm, __addr, __ptep); \
 })
 
@@ -412,6 +420,13 @@ static inline int __ptep_test_and_clear_young(struct mm_struct *mm,
 #define __HAVE_ARCH_PMDP_CLEAR_YOUNG_FLUSH
 #define pmdp_clear_flush_young pmdp_test_and_clear_young
 
+=======
+	int __r;						\
+	__r = __ptep_test_and_clear_young((__vma)->vm_mm, __addr, __ptep); \
+	__r;							\
+})
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int __pte_write(pte_t pte)
 {
 	return !!(pte_raw(pte) & cpu_to_be64(_PAGE_WRITE));

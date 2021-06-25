@@ -137,6 +137,12 @@ static bool bfq_update_next_in_service(struct bfq_sched_data *sd,
 
 	sd->next_in_service = next_in_service;
 
+<<<<<<< HEAD
+=======
+	if (!next_in_service)
+		return parent_sched_may_change;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return parent_sched_may_change;
 }
 

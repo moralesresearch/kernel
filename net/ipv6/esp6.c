@@ -314,7 +314,11 @@ static void esp_output_done(struct crypto_async_request *base, int err)
 		    x->encap && x->encap->encap_type == TCP_ENCAP_ESPINTCP)
 			esp_output_tail_tcp(x, skb);
 		else
+<<<<<<< HEAD
 			xfrm_output_resume(skb->sk, skb, err);
+=======
+			xfrm_output_resume(skb, err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -788,7 +792,11 @@ int esp6_input_done2(struct sk_buff *skb, int err)
 	int hlen = sizeof(struct ip_esp_hdr) + crypto_aead_ivsize(aead);
 	int hdr_len = skb_network_header_len(skb);
 
+<<<<<<< HEAD
 	if (!xo || !(xo->flags & CRYPTO_DONE))
+=======
+	if (!xo || (xo && !(xo->flags & CRYPTO_DONE)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(ESP_SKB_CB(skb)->tmp);
 
 	if (unlikely(err))

@@ -32,6 +32,10 @@
 
 #define pr_fmt(fmt) "[TTM] " fmt
 
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
 #include <linux/agp_backend.h>

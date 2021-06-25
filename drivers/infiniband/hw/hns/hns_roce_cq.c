@@ -38,6 +38,7 @@
 #include "hns_roce_hem.h"
 #include "hns_roce_common.h"
 
+<<<<<<< HEAD
 static u8 get_least_load_bankid_for_cq(struct hns_roce_bank *bank)
 {
 	u32 least_load = bank[0].inuse;
@@ -106,6 +107,13 @@ static int alloc_cqc(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq)
 	struct hns_roce_cq_table *cq_table = &hr_dev->cq_table;
 	struct ib_device *ibdev = &hr_dev->ib_dev;
 	struct hns_roce_cmd_mailbox *mailbox;
+=======
+static int alloc_cqc(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq)
+{
+	struct ib_device *ibdev = &hr_dev->ib_dev;
+	struct hns_roce_cmd_mailbox *mailbox;
+	struct hns_roce_cq_table *cq_table;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 mtts[MTT_MIN_COUNT] = { 0 };
 	dma_addr_t dma_handle;
 	int ret;
@@ -117,6 +125,16 @@ static int alloc_cqc(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	cq_table = &hr_dev->cq_table;
+	ret = hns_roce_bitmap_alloc(&cq_table->bitmap, &hr_cq->cqn);
+	if (ret) {
+		ibdev_err(ibdev, "failed to alloc CQ bitmap, ret = %d.\n", ret);
+		return ret;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Get CQC memory HEM(Hardware Entry Memory) table */
 	ret = hns_roce_table_get(hr_dev, &cq_table->table, hr_cq->cqn);
 	if (ret) {
@@ -166,6 +184,10 @@ err_put:
 	hns_roce_table_put(hr_dev, &cq_table->table, hr_cq->cqn);
 
 err_out:
+<<<<<<< HEAD
+=======
+	hns_roce_bitmap_free(&cq_table->bitmap, hr_cq->cqn, BITMAP_NO_RR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -193,6 +215,10 @@ static void free_cqc(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq)
 	wait_for_completion(&hr_cq->free);
 
 	hns_roce_table_put(hr_dev, &cq_table->table, hr_cq->cqn);
+<<<<<<< HEAD
+=======
+	hns_roce_bitmap_free(&cq_table->bitmap, hr_cq->cqn, BITMAP_NO_RR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int alloc_cq_buf(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq,
@@ -206,6 +232,10 @@ static int alloc_cq_buf(struct hns_roce_dev *hr_dev, struct hns_roce_cq *hr_cq,
 	buf_attr.region[0].size = hr_cq->cq_depth * hr_cq->cqe_size;
 	buf_attr.region[0].hopnum = hr_dev->caps.cqe_hop_num;
 	buf_attr.region_count = 1;
+<<<<<<< HEAD
+=======
+	buf_attr.fixed_page = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = hns_roce_mtr_create(hr_dev, &hr_cq->mtr, &buf_attr,
 				  hr_dev->caps.cqe_ba_pg_sz + HNS_HW_PAGE_SHIFT,
@@ -351,17 +381,24 @@ int hns_roce_create_cq(struct ib_cq *ib_cq, const struct ib_cq_init_attr *attr,
 		goto err_cq_buf;
 	}
 
+<<<<<<< HEAD
 	ret = alloc_cqn(hr_dev, hr_cq);
 	if (ret) {
 		ibdev_err(ibdev, "failed to alloc CQN, ret = %d.\n", ret);
 		goto err_cq_db;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = alloc_cqc(hr_dev, hr_cq);
 	if (ret) {
 		ibdev_err(ibdev,
 			  "failed to alloc CQ context, ret = %d.\n", ret);
+<<<<<<< HEAD
 		goto err_cqn;
+=======
+		goto err_cq_db;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -385,8 +422,11 @@ int hns_roce_create_cq(struct ib_cq *ib_cq, const struct ib_cq_init_attr *attr,
 
 err_cqc:
 	free_cqc(hr_dev, hr_cq);
+<<<<<<< HEAD
 err_cqn:
 	free_cqn(hr_dev, hr_cq->cqn);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_cq_db:
 	free_cq_db(hr_dev, hr_cq, udata);
 err_cq_buf:
@@ -402,11 +442,17 @@ int hns_roce_destroy_cq(struct ib_cq *ib_cq, struct ib_udata *udata)
 	if (hr_dev->hw->destroy_cq)
 		hr_dev->hw->destroy_cq(ib_cq, udata);
 
+<<<<<<< HEAD
 	free_cqc(hr_dev, hr_cq);
 	free_cqn(hr_dev, hr_cq->cqn);
 	free_cq_db(hr_dev, hr_cq, udata);
 	free_cq_buf(hr_dev, hr_cq);
 
+=======
+	free_cq_buf(hr_dev, hr_cq);
+	free_cq_db(hr_dev, hr_cq, udata);
+	free_cqc(hr_dev, hr_cq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -465,6 +511,7 @@ void hns_roce_cq_event(struct hns_roce_dev *hr_dev, u32 cqn, int event_type)
 		complete(&hr_cq->free);
 }
 
+<<<<<<< HEAD
 void hns_roce_init_cq_table(struct hns_roce_dev *hr_dev)
 {
 	struct hns_roce_cq_table *cq_table = &hr_dev->cq_table;
@@ -486,12 +533,27 @@ void hns_roce_init_cq_table(struct hns_roce_dev *hr_dev)
 		cq_table->bank[i].max = hr_dev->caps.num_cqs /
 					HNS_ROCE_CQ_BANK_NUM - 1;
 	}
+=======
+int hns_roce_init_cq_table(struct hns_roce_dev *hr_dev)
+{
+	struct hns_roce_cq_table *cq_table = &hr_dev->cq_table;
+
+	xa_init(&cq_table->array);
+
+	return hns_roce_bitmap_init(&cq_table->bitmap, hr_dev->caps.num_cqs,
+				    hr_dev->caps.num_cqs - 1,
+				    hr_dev->caps.reserved_cqs, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hns_roce_cleanup_cq_table(struct hns_roce_dev *hr_dev)
 {
+<<<<<<< HEAD
 	int i;
 
 	for (i = 0; i < HNS_ROCE_CQ_BANK_NUM; i++)
 		ida_destroy(&hr_dev->cq_table.bank[i].ida);
+=======
+	hns_roce_bitmap_cleanup(&hr_dev->cq_table.bitmap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

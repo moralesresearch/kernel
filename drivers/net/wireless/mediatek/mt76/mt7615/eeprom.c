@@ -86,7 +86,10 @@ static int mt7615_check_eeprom(struct mt76_dev *dev)
 	switch (val) {
 	case 0x7615:
 	case 0x7622:
+<<<<<<< HEAD
 	case 0x7663:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	default:
 		return -EINVAL;
@@ -162,7 +165,11 @@ static void mt7615_eeprom_parse_hw_cap(struct mt7615_dev *dev)
 
 	dev->chainmask = BIT(tx_mask) - 1;
 	dev->mphy.antenna_mask = dev->chainmask;
+<<<<<<< HEAD
 	dev->mphy.chainmask = dev->chainmask;
+=======
+	dev->phy.chainmask = dev->chainmask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mt7663_eeprom_get_target_power_index(struct mt7615_dev *dev,

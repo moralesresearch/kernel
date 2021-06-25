@@ -44,6 +44,10 @@ struct vidtv_mpeg_ts {
 		u8 adaptation_field:1;
 		u8 scrambling:2;
 	} __packed;
+<<<<<<< HEAD
+=======
+	struct vidtv_mpeg_ts_adaption *adaption;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 /**

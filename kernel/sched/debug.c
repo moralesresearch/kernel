@@ -8,6 +8,11 @@
  */
 #include "sched.h"
 
+<<<<<<< HEAD
+=======
+static DEFINE_SPINLOCK(sched_debug_lock);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This allows printing both to /proc/sched_debug and
  * to the console
@@ -468,6 +473,7 @@ static void print_cfs_group_stats(struct seq_file *m, int cpu, struct task_group
 #endif
 
 #ifdef CONFIG_CGROUP_SCHED
+<<<<<<< HEAD
 static DEFINE_SPINLOCK(sched_debug_lock);
 static char group_path[PATH_MAX];
 
@@ -499,13 +505,29 @@ static void task_group_path(struct task_group *tg, char *path, int plen)
 		strcpy(bufend - 1, "...");				\
 		SEQ_printf(m, fmt, buf);				\
 	}								\
+=======
+static char group_path[PATH_MAX];
+
+static char *task_group_path(struct task_group *tg)
+{
+	if (autogroup_path(tg, group_path, PATH_MAX))
+		return group_path;
+
+	cgroup_path(tg->css.cgroup, group_path, PATH_MAX);
+
+	return group_path;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
 static void
 print_task(struct seq_file *m, struct rq *rq, struct task_struct *p)
 {
+<<<<<<< HEAD
 	if (task_current(rq, p))
+=======
+	if (rq->curr == p)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SEQ_printf(m, ">R");
 	else
 		SEQ_printf(m, " %c", task_state_to_char(p));
@@ -525,7 +547,11 @@ print_task(struct seq_file *m, struct rq *rq, struct task_struct *p)
 	SEQ_printf(m, " %d %d", task_node(p), task_numa_group_id(p));
 #endif
 #ifdef CONFIG_CGROUP_SCHED
+<<<<<<< HEAD
 	SEQ_printf_task_group_path(m, task_group(p), " %s")
+=======
+	SEQ_printf(m, " %s", task_group_path(task_group(p)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	SEQ_printf(m, "\n");
@@ -562,7 +588,11 @@ void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
 
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	SEQ_printf(m, "\n");
+<<<<<<< HEAD
 	SEQ_printf_task_group_path(m, cfs_rq->tg, "cfs_rq[%d]:%s\n", cpu);
+=======
+	SEQ_printf(m, "cfs_rq[%d]:%s\n", cpu, task_group_path(cfs_rq->tg));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 	SEQ_printf(m, "\n");
 	SEQ_printf(m, "cfs_rq[%d]:\n", cpu);
@@ -633,7 +663,11 @@ void print_rt_rq(struct seq_file *m, int cpu, struct rt_rq *rt_rq)
 {
 #ifdef CONFIG_RT_GROUP_SCHED
 	SEQ_printf(m, "\n");
+<<<<<<< HEAD
 	SEQ_printf_task_group_path(m, rt_rq->tg, "rt_rq[%d]:%s\n", cpu);
+=======
+	SEQ_printf(m, "rt_rq[%d]:%s\n", cpu, task_group_path(rt_rq->tg));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 	SEQ_printf(m, "\n");
 	SEQ_printf(m, "rt_rq[%d]:\n", cpu);
@@ -685,6 +719,10 @@ void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq)
 static void print_cpu(struct seq_file *m, int cpu)
 {
 	struct rq *rq = cpu_rq(cpu);
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_X86
 	{
@@ -735,11 +773,19 @@ do {									\
 	}
 #undef P
 
+<<<<<<< HEAD
+=======
+	spin_lock_irqsave(&sched_debug_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	print_cfs_stats(m, cpu);
 	print_rt_stats(m, cpu);
 	print_dl_stats(m, cpu);
 
 	print_rq(m, rq, cpu);
+<<<<<<< HEAD
+=======
+	spin_unlock_irqrestore(&sched_debug_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SEQ_printf(m, "\n");
 }
 
@@ -888,6 +934,10 @@ __initcall(init_sched_debug_procfs);
 #define __PS(S, F) SEQ_printf(m, "%-45s:%21Ld\n", S, (long long)(F))
 #define __P(F) __PS(#F, F)
 #define   P(F) __PS(#F, p->F)
+<<<<<<< HEAD
+#define   PM(F, M) __PS(#F, p->F & (M))
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __PSN(S, F) SEQ_printf(m, "%-45s:%14Ld.%06ld\n", S, SPLIT_NS((long long)(F)))
 #define __PN(F) __PSN(#F, F)
 #define   PN(F) __PSN(#F, p->F)
@@ -1014,7 +1064,11 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
 	P(se.avg.util_avg);
 	P(se.avg.last_update_time);
 	P(se.avg.util_est.ewma);
+<<<<<<< HEAD
+	PM(se.avg.util_est.enqueued, ~UTIL_AVG_UNCHANGED);
+=======
 	P(se.avg.util_est.enqueued);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #ifdef CONFIG_UCLAMP_TASK
 	__PS("uclamp.min", p->uclamp_req[UCLAMP_MIN].value);

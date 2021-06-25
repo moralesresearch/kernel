@@ -628,12 +628,24 @@ static void ieee80211_report_ack_skb(struct ieee80211_local *local,
 		u64 cookie = IEEE80211_SKB_CB(skb)->ack.cookie;
 		struct ieee80211_sub_if_data *sdata;
 		struct ieee80211_hdr *hdr = (void *)skb->data;
+<<<<<<< HEAD
+=======
+		__be16 ethertype = 0;
+
+		if (skb->len >= ETH_HLEN && skb->protocol == cpu_to_be16(ETH_P_802_3))
+			skb_copy_bits(skb, 2 * ETH_ALEN, &ethertype, ETH_TLEN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		rcu_read_lock();
 		sdata = ieee80211_sdata_from_skb(local, skb);
 		if (sdata) {
+<<<<<<< HEAD
 			if (skb->protocol == sdata->control_port_protocol ||
 			    skb->protocol == cpu_to_be16(ETH_P_PREAUTH))
+=======
+			if (ethertype == sdata->control_port_protocol ||
+			    ethertype == cpu_to_be16(ETH_P_PREAUTH))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cfg80211_control_port_tx_status(&sdata->wdev,
 								cookie,
 								skb->data,

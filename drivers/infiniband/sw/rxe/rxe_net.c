@@ -153,6 +153,10 @@ static struct dst_entry *rxe_find_route(struct net_device *ndev,
 static int rxe_udp_encap_recv(struct sock *sk, struct sk_buff *skb)
 {
 	struct udphdr *udph;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rxe_dev *rxe;
 	struct net_device *ndev = skb->dev;
 	struct rxe_pkt_info *pkt = SKB_TO_PKT(skb);
@@ -163,6 +167,20 @@ static int rxe_udp_encap_recv(struct sock *sk, struct sk_buff *skb)
 	rxe = rxe_get_dev_from_net(ndev);
 	if (!rxe && is_vlan_dev(ndev))
 		rxe = rxe_get_dev_from_net(vlan_dev_real_dev(ndev));
+<<<<<<< HEAD
+=======
+=======
+	struct net_device *ndev = skb->dev;
+	struct net_device *rdev = ndev;
+	struct rxe_dev *rxe = rxe_get_dev_from_net(ndev);
+	struct rxe_pkt_info *pkt = SKB_TO_PKT(skb);
+
+	if (!rxe && is_vlan_dev(rdev)) {
+		rdev = vlan_dev_real_dev(ndev);
+		rxe = rxe_get_dev_from_net(rdev);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rxe)
 		goto drop;
 
@@ -181,6 +199,18 @@ static int rxe_udp_encap_recv(struct sock *sk, struct sk_buff *skb)
 
 	rxe_rcv(skb);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/*
+	 * FIXME: this is in the wrong place, it needs to be done when pkt is
+	 * destroyed
+	 */
+	ib_device_put(&rxe->ib_dev);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 drop:
 	kfree_skb(skb);
@@ -407,6 +437,10 @@ int rxe_send(struct rxe_pkt_info *pkt, struct sk_buff *skb)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* fix up a send packet to match the packets
  * received from UDP before looping them back
  */
@@ -414,15 +448,32 @@ void rxe_loopback(struct sk_buff *skb)
 {
 	struct rxe_pkt_info *pkt = SKB_TO_PKT(skb);
 
+<<<<<<< HEAD
+=======
+=======
+void rxe_loopback(struct sk_buff *skb)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (skb->protocol == htons(ETH_P_IP))
 		skb_pull(skb, sizeof(struct iphdr));
 	else
 		skb_pull(skb, sizeof(struct ipv6hdr));
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON(!ib_device_try_get(&pkt->rxe->ib_dev)))
 		kfree_skb(skb);
 	else
 		rxe_rcv(skb);
+<<<<<<< HEAD
+=======
+=======
+	rxe_rcv(skb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct sk_buff *rxe_init_packet(struct rxe_dev *rxe, struct rxe_av *av,

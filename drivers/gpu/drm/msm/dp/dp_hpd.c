@@ -34,8 +34,13 @@ int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
 
 	dp_usbpd->hpd_high = hpd;
 
+<<<<<<< HEAD
 	if (!hpd_priv->dp_cb || !hpd_priv->dp_cb->configure
 				|| !hpd_priv->dp_cb->disconnect) {
+=======
+	if (!hpd_priv->dp_cb && !hpd_priv->dp_cb->configure
+				&& !hpd_priv->dp_cb->disconnect) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("hpd dp_cb not initialized\n");
 		return -EINVAL;
 	}

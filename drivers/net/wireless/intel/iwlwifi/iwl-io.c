@@ -66,10 +66,17 @@ IWL_EXPORT_SYMBOL(iwl_poll_bit);
 u32 iwl_read_direct32(struct iwl_trans *trans, u32 reg)
 {
 	u32 value = 0x5a5a5a5a;
+<<<<<<< HEAD
 
 	if (iwl_trans_grab_nic_access(trans)) {
 		value = iwl_read32(trans, reg);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		value = iwl_read32(trans, reg);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return value;
@@ -78,18 +85,34 @@ IWL_EXPORT_SYMBOL(iwl_read_direct32);
 
 void iwl_write_direct32(struct iwl_trans *trans, u32 reg, u32 value)
 {
+<<<<<<< HEAD
 	if (iwl_trans_grab_nic_access(trans)) {
 		iwl_write32(trans, reg, value);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		iwl_write32(trans, reg, value);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_write_direct32);
 
 void iwl_write_direct64(struct iwl_trans *trans, u64 reg, u64 value)
 {
+<<<<<<< HEAD
 	if (iwl_trans_grab_nic_access(trans)) {
 		iwl_write64(trans, reg, value);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		iwl_write64(trans, reg, value);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_write_direct64);
@@ -135,11 +158,20 @@ IWL_EXPORT_SYMBOL(iwl_write_prph64_no_grab);
 
 u32 iwl_read_prph(struct iwl_trans *trans, u32 ofs)
 {
+<<<<<<< HEAD
 	u32 val = 0x5a5a5a5a;
 
 	if (iwl_trans_grab_nic_access(trans)) {
 		val = iwl_read_prph_no_grab(trans, ofs);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+	u32 val = 0x5a5a5a5a;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		val = iwl_read_prph_no_grab(trans, ofs);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return val;
 }
@@ -147,10 +179,19 @@ IWL_EXPORT_SYMBOL(iwl_read_prph);
 
 void iwl_write_prph_delay(struct iwl_trans *trans, u32 ofs, u32 val, u32 delay_ms)
 {
+<<<<<<< HEAD
 	if (iwl_trans_grab_nic_access(trans)) {
 		mdelay(delay_ms);
 		iwl_write_prph_no_grab(trans, ofs, val);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		mdelay(delay_ms);
+		iwl_write_prph_no_grab(trans, ofs, val);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_write_prph_delay);
@@ -172,11 +213,21 @@ int iwl_poll_prph_bit(struct iwl_trans *trans, u32 addr,
 
 void iwl_set_bits_prph(struct iwl_trans *trans, u32 ofs, u32 mask)
 {
+<<<<<<< HEAD
 	if (iwl_trans_grab_nic_access(trans)) {
 		iwl_write_prph_no_grab(trans, ofs,
 				       iwl_read_prph_no_grab(trans, ofs) |
 				       mask);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		iwl_write_prph_no_grab(trans, ofs,
+				       iwl_read_prph_no_grab(trans, ofs) |
+				       mask);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_set_bits_prph);
@@ -184,23 +235,43 @@ IWL_EXPORT_SYMBOL(iwl_set_bits_prph);
 void iwl_set_bits_mask_prph(struct iwl_trans *trans, u32 ofs,
 			    u32 bits, u32 mask)
 {
+<<<<<<< HEAD
 	if (iwl_trans_grab_nic_access(trans)) {
 		iwl_write_prph_no_grab(trans, ofs,
 				       (iwl_read_prph_no_grab(trans, ofs) &
 					mask) | bits);
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		iwl_write_prph_no_grab(trans, ofs,
+				       (iwl_read_prph_no_grab(trans, ofs) &
+					mask) | bits);
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_set_bits_mask_prph);
 
 void iwl_clear_bits_prph(struct iwl_trans *trans, u32 ofs, u32 mask)
 {
+<<<<<<< HEAD
 	u32 val;
 
 	if (iwl_trans_grab_nic_access(trans)) {
 		val = iwl_read_prph_no_grab(trans, ofs);
 		iwl_write_prph_no_grab(trans, ofs, (val & ~mask));
 		iwl_trans_release_nic_access(trans);
+=======
+	unsigned long flags;
+	u32 val;
+
+	if (iwl_trans_grab_nic_access(trans, &flags)) {
+		val = iwl_read_prph_no_grab(trans, ofs);
+		iwl_write_prph_no_grab(trans, ofs, (val & ~mask));
+		iwl_trans_release_nic_access(trans, &flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 IWL_EXPORT_SYMBOL(iwl_clear_bits_prph);
@@ -434,6 +505,7 @@ int iwl_finish_nic_init(struct iwl_trans *trans,
 	return err < 0 ? err : 0;
 }
 IWL_EXPORT_SYMBOL(iwl_finish_nic_init);
+<<<<<<< HEAD
 
 void iwl_trans_sync_nmi_with_addr(struct iwl_trans *trans, u32 inta_addr,
 				  u32 sw_err_bit)
@@ -470,3 +542,5 @@ void iwl_trans_sync_nmi_with_addr(struct iwl_trans *trans, u32 inta_addr,
 
 	iwl_trans_fw_error(trans);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

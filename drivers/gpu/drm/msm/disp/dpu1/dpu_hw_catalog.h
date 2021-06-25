@@ -95,7 +95,10 @@ enum {
  * @DPU_SSPP_SRC             Src and fetch part of the pipes,
  * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
  * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
+<<<<<<< HEAD
  * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @DPU_SSPP_SCALER_QSEED4,  QSEED4 algorithm support
  * @DPU_SSPP_SCALER_RGB,     RGB Scaler, supported by RGB pipes
  * @DPU_SSPP_CSC,            Support of Color space converion
@@ -115,7 +118,10 @@ enum {
 	DPU_SSPP_SRC = 0x1,
 	DPU_SSPP_SCALER_QSEED2,
 	DPU_SSPP_SCALER_QSEED3,
+<<<<<<< HEAD
 	DPU_SSPP_SCALER_QSEED3LITE,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	DPU_SSPP_SCALER_QSEED4,
 	DPU_SSPP_SCALER_RGB,
 	DPU_SSPP_CSC,

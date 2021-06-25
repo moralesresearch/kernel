@@ -64,7 +64,11 @@ int __vgic_v2_perform_cpuif_access(struct kvm_vcpu *vcpu)
 	}
 
 	rd = kvm_vcpu_dabt_get_rd(vcpu);
+<<<<<<< HEAD
 	addr  = kvm_vgic_global_state.vcpu_hyp_va;
+=======
+	addr  = hyp_symbol_addr(kvm_vgic_global_state)->vcpu_hyp_va;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	addr += fault_ipa - vgic->vgic_cpu_base;
 
 	if (kvm_vcpu_dabt_iswrite(vcpu)) {

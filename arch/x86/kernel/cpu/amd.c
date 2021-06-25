@@ -1170,6 +1170,7 @@ void set_dr_addr_mask(unsigned long mask, int dr)
 		break;
 	}
 }
+<<<<<<< HEAD
 
 u32 amd_get_highest_perf(void)
 {
@@ -1186,3 +1187,5 @@ u32 amd_get_highest_perf(void)
 	return 255;
 }
 EXPORT_SYMBOL_GPL(amd_get_highest_perf);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

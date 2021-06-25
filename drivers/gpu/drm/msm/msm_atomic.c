@@ -57,6 +57,7 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
 
 static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
 {
+<<<<<<< HEAD
 	int crtc_index;
 	struct drm_crtc *crtc;
 
@@ -64,6 +65,12 @@ static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
 		crtc_index = drm_crtc_index(crtc);
 		mutex_lock_nested(&kms->commit_lock[crtc_index], crtc_index);
 	}
+=======
+	struct drm_crtc *crtc;
+
+	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
+		mutex_lock(&kms->commit_lock[drm_crtc_index(crtc)]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void unlock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)

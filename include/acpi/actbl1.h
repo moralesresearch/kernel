@@ -3,7 +3,11 @@
  *
  * Name: actbl1.h - Additional ACPI table definitions
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -514,8 +518,12 @@ enum acpi_dmar_type {
 	ACPI_DMAR_TYPE_ROOT_ATS = 2,
 	ACPI_DMAR_TYPE_HARDWARE_AFFINITY = 3,
 	ACPI_DMAR_TYPE_NAMESPACE = 4,
+<<<<<<< HEAD
 	ACPI_DMAR_TYPE_SATC = 5,
 	ACPI_DMAR_TYPE_RESERVED = 6	/* 6 and greater are reserved */
+=======
+	ACPI_DMAR_TYPE_RESERVED = 5	/* 5 and greater are reserved */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* DMAR Device Scope structure */
@@ -608,6 +616,7 @@ struct acpi_dmar_andd {
 	char device_name[1];
 };
 
+<<<<<<< HEAD
 /* 5: SOC Integrated Address Translation Cache Reporting Structure */
 
 struct acpi_dmar_satc {
@@ -616,6 +625,8 @@ struct acpi_dmar_satc {
 	u8 reserved;
 	u16 segment;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*******************************************************************************
  *
  * DRTM - Dynamic Root of Trust for Measurement table

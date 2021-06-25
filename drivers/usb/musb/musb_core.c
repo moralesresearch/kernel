@@ -2009,9 +2009,14 @@ static void musb_pm_runtime_check_session(struct musb *musb)
 			schedule_delayed_work(&musb->irq_work,
 					      msecs_to_jiffies(1000));
 			musb->quirk_retries--;
+<<<<<<< HEAD
+		}
+		break;
+=======
 			break;
 		}
 		fallthrough;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MUSB_QUIRK_B_INVALID_VBUS_91:
 		if (musb->quirk_retries && !musb->flush_irq_work) {
 			musb_dbg(musb,
@@ -2070,7 +2075,11 @@ static void musb_irq_work(struct work_struct *data)
 	struct musb *musb = container_of(data, struct musb, irq_work.work);
 	int error;
 
+<<<<<<< HEAD
 	error = pm_runtime_resume_and_get(musb->controller);
+=======
+	error = pm_runtime_get_sync(musb->controller);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error < 0) {
 		dev_err(musb->controller, "Could not enable: %i\n", error);
 

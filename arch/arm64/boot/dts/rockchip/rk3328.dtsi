@@ -27,9 +27,18 @@
 		i2c1 = &i2c1;
 		i2c2 = &i2c2;
 		i2c3 = &i2c3;
+<<<<<<< HEAD
 		mmc0 = &sdmmc;
 		mmc1 = &sdio;
 		mmc2 = &emmc;
+=======
+<<<<<<< HEAD
+		mmc0 = &sdmmc;
+		mmc1 = &sdio;
+		mmc2 = &emmc;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ethernet0 = &gmac2io;
 		ethernet1 = &gmac2phy;
 	};
@@ -145,6 +154,30 @@
 		};
 	};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	amba: bus {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		dmac: dmac@ff1f0000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x0 0xff1f0000 0x0 0x4000>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			arm,pl330-periph-burst;
+			clocks = <&cru ACLK_DMAC>;
+			clock-names = "apb_pclk";
+			#dma-cells = <1>;
+		};
+	};
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	analog_sound: analog-sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
@@ -489,6 +522,10 @@
 		status = "disabled";
 	};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dmac: dmac@ff1f0000 {
 		compatible = "arm,pl330", "arm,primecell";
 		reg = <0x0 0xff1f0000 0x0 0x4000>;
@@ -500,6 +537,11 @@
 		#dma-cells = <1>;
 	};
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	thermal-zones {
 		soc_thermal: soc-thermal {
 			polling-delay-passive = <20>;

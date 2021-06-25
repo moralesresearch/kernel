@@ -135,7 +135,15 @@ static inline void pmd_populate(struct mm_struct *mm,
 #define pmd_populate_kernel(mm, pmd, pte) pmd_populate(mm, pmd, pte)
 
 #define pmd_pgtable(pmd) \
+<<<<<<< HEAD
 	((pgtable_t)__va(pmd_val(pmd) & -sizeof(pte_t)*PTRS_PER_PTE))
+=======
+<<<<<<< HEAD
+	((pgtable_t)__va(pmd_val(pmd) & -sizeof(pte_t)*PTRS_PER_PTE))
+=======
+	(pgtable_t)(pmd_val(pmd) & -sizeof(pte_t)*PTRS_PER_PTE)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * page table entry allocation/free routines.

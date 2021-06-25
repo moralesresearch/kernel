@@ -1,5 +1,9 @@
 /* SPDX-License-Identifier: GPL-2.0 */
+<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
+=======
+/* Copyright (C) 2007-2020  B.A.T.M.A.N. contributors:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Marek Lindner, Simon Wunderlich
  */
@@ -228,8 +232,12 @@ struct batadv_hard_iface {
 };
 
 /**
+<<<<<<< HEAD
  * struct batadv_orig_ifinfo_bat_iv - B.A.T.M.A.N. IV private orig_ifinfo
  *  members
+=======
+ * struct batadv_orig_ifinfo - B.A.T.M.A.N. IV private orig_ifinfo members
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct batadv_orig_ifinfo_bat_iv {
 	/**

@@ -163,8 +163,11 @@ void dcn10_wait_for_mpcc_disconnect(
 void dce110_edp_backlight_control(
 		struct dc_link *link,
 		bool enable);
+<<<<<<< HEAD
 void dce110_edp_wait_for_T12(
 		struct dc_link *link);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dce110_edp_power_control(
 		struct dc_link *link,
 		bool power_up);
@@ -204,8 +207,11 @@ void dcn10_wait_for_pending_cleared(struct dc *dc,
 		struct dc_state *context);
 void dcn10_set_hdr_multiplier(struct pipe_ctx *pipe_ctx);
 void dcn10_verify_allow_pstate_change_high(struct dc *dc);
+<<<<<<< HEAD
 void dcn10_set_hubp_blank(const struct dc *dc,
 				struct pipe_ctx *pipe_ctx,
 				bool blank_enable);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __DC_HWSS_DCN10_H__ */

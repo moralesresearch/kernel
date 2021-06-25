@@ -155,6 +155,12 @@ err_out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+/* Register value is msb aligned, the lower 4 bits are ignored */
+#define XADC_THRESHOLD_VALUE_SHIFT 4
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int xadc_read_event_value(struct iio_dev *indio_dev,
 	const struct iio_chan_spec *chan, enum iio_event_type type,
 	enum iio_event_direction dir, enum iio_event_info info,
@@ -174,8 +180,12 @@ int xadc_read_event_value(struct iio_dev *indio_dev,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	/* MSB aligned */
 	*val >>= 16 - chan->scan_type.realbits;
+=======
+	*val >>= XADC_THRESHOLD_VALUE_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IIO_VAL_INT;
 }
@@ -189,8 +199,12 @@ int xadc_write_event_value(struct iio_dev *indio_dev,
 	struct xadc *xadc = iio_priv(indio_dev);
 	int ret = 0;
 
+<<<<<<< HEAD
 	/* MSB aligned */
 	val <<= 16 - chan->scan_type.realbits;
+=======
+	val <<= XADC_THRESHOLD_VALUE_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (val < 0 || val > 0xffff)
 		return -EINVAL;

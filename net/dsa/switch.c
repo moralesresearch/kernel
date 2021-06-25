@@ -33,12 +33,24 @@ static int dsa_switch_ageing_time(struct dsa_switch *ds,
 				  struct dsa_notifier_ageing_time_info *info)
 {
 	unsigned int ageing_time = info->ageing_time;
+<<<<<<< HEAD
 
 	if (ds->ageing_time_min && ageing_time < ds->ageing_time_min)
 		return -ERANGE;
 
 	if (ds->ageing_time_max && ageing_time > ds->ageing_time_max)
 		return -ERANGE;
+=======
+	struct switchdev_trans *trans = info->trans;
+
+	if (switchdev_trans_ph_prepare(trans)) {
+		if (ds->ageing_time_min && ageing_time < ds->ageing_time_min)
+			return -ERANGE;
+		if (ds->ageing_time_max && ageing_time > ds->ageing_time_max)
+			return -ERANGE;
+		return 0;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Program the fastest ageing time in case of multiple bridges */
 	ageing_time = dsa_switch_fastest_ageing_time(ds, ageing_time);
@@ -106,8 +118,12 @@ static int dsa_switch_bridge_leave(struct dsa_switch *ds,
 {
 	bool unset_vlan_filtering = br_vlan_enabled(info->br);
 	struct dsa_switch_tree *dst = ds->dst;
+<<<<<<< HEAD
 	struct netlink_ext_ack extack = {0};
 	int err, port;
+=======
+	int err, i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dst->index == info->tree_index && ds->index == info->sw_index &&
 	    ds->ops->port_bridge_join)
@@ -124,6 +140,7 @@ static int dsa_switch_bridge_leave(struct dsa_switch *ds,
 	 * it. That is a good thing, because that lets us handle it and also
 	 * handle the case where the switch's vlan_filtering setting is global
 	 * (not per port). When that happens, the correct moment to trigger the
+<<<<<<< HEAD
 	 * vlan_filtering callback is only when the last port leaves the last
 	 * VLAN-aware bridge.
 	 */
@@ -134,17 +151,40 @@ static int dsa_switch_bridge_leave(struct dsa_switch *ds,
 			bridge_dev = dsa_to_port(ds, port)->bridge_dev;
 
 			if (bridge_dev && br_vlan_enabled(bridge_dev)) {
+=======
+	 * vlan_filtering callback is only when the last port left this bridge.
+	 */
+	if (unset_vlan_filtering && ds->vlan_filtering_is_global) {
+		for (i = 0; i < ds->num_ports; i++) {
+			if (i == info->port)
+				continue;
+			if (dsa_to_port(ds, i)->bridge_dev == info->br) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				unset_vlan_filtering = false;
 				break;
 			}
 		}
 	}
 	if (unset_vlan_filtering) {
+<<<<<<< HEAD
 		err = dsa_port_vlan_filtering(dsa_to_port(ds, info->port),
 					      false, &extack);
 		if (extack._msg)
 			dev_err(ds->dev, "port %d: %s\n", info->port,
 				extack._msg);
+=======
+		struct switchdev_trans trans;
+
+		trans.ph_prepare = true;
+		err = dsa_port_vlan_filtering(dsa_to_port(ds, info->port),
+					      false, &trans);
+		if (err && err != EOPNOTSUPP)
+			return err;
+
+		trans.ph_prepare = false;
+		err = dsa_port_vlan_filtering(dsa_to_port(ds, info->port),
+					      false, &trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err && err != EOPNOTSUPP)
 			return err;
 	}
@@ -173,6 +213,7 @@ static int dsa_switch_fdb_del(struct dsa_switch *ds,
 	return ds->ops->port_fdb_del(ds, port, info->addr, info->vid);
 }
 
+<<<<<<< HEAD
 static int dsa_switch_hsr_join(struct dsa_switch *ds,
 			       struct dsa_notifier_hsr_info *info)
 {
@@ -232,6 +273,8 @@ static int dsa_switch_lag_leave(struct dsa_switch *ds,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool dsa_switch_mdb_match(struct dsa_switch *ds, int port,
 				 struct dsa_notifier_mdb_info *info)
 {
@@ -244,6 +287,7 @@ static bool dsa_switch_mdb_match(struct dsa_switch *ds, int port,
 	return false;
 }
 
+<<<<<<< HEAD
 static int dsa_switch_mdb_add(struct dsa_switch *ds,
 			      struct dsa_notifier_mdb_info *info)
 {
@@ -251,10 +295,19 @@ static int dsa_switch_mdb_add(struct dsa_switch *ds,
 	int port;
 
 	if (!ds->ops->port_mdb_add)
+=======
+static int dsa_switch_mdb_prepare(struct dsa_switch *ds,
+				  struct dsa_notifier_mdb_info *info)
+{
+	int port, err;
+
+	if (!ds->ops->port_mdb_prepare || !ds->ops->port_mdb_add)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	for (port = 0; port < ds->num_ports; port++) {
 		if (dsa_switch_mdb_match(ds, port, info)) {
+<<<<<<< HEAD
 			err = ds->ops->port_mdb_add(ds, port, info->mdb);
 			if (err)
 				break;
@@ -262,6 +315,33 @@ static int dsa_switch_mdb_add(struct dsa_switch *ds,
 	}
 
 	return err;
+=======
+			err = ds->ops->port_mdb_prepare(ds, port, info->mdb);
+			if (err)
+				return err;
+		}
+	}
+
+	return 0;
+}
+
+static int dsa_switch_mdb_add(struct dsa_switch *ds,
+			      struct dsa_notifier_mdb_info *info)
+{
+	int port;
+
+	if (switchdev_trans_ph_prepare(info->trans))
+		return dsa_switch_mdb_prepare(ds, info);
+
+	if (!ds->ops->port_mdb_add)
+		return 0;
+
+	for (port = 0; port < ds->num_ports; port++)
+		if (dsa_switch_mdb_match(ds, port, info))
+			ds->ops->port_mdb_add(ds, port, info->mdb);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dsa_switch_mdb_del(struct dsa_switch *ds,
@@ -288,18 +368,31 @@ static bool dsa_switch_vlan_match(struct dsa_switch *ds, int port,
 	return false;
 }
 
+<<<<<<< HEAD
 static int dsa_switch_vlan_add(struct dsa_switch *ds,
 			       struct dsa_notifier_vlan_info *info)
 {
 	int port, err;
 
 	if (!ds->ops->port_vlan_add)
+=======
+static int dsa_switch_vlan_prepare(struct dsa_switch *ds,
+				   struct dsa_notifier_vlan_info *info)
+{
+	int port, err;
+
+	if (!ds->ops->port_vlan_prepare || !ds->ops->port_vlan_add)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	for (port = 0; port < ds->num_ports; port++) {
 		if (dsa_switch_vlan_match(ds, port, info)) {
+<<<<<<< HEAD
 			err = ds->ops->port_vlan_add(ds, port, info->vlan,
 						     info->extack);
+=======
+			err = ds->ops->port_vlan_prepare(ds, port, info->vlan);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
@@ -308,6 +401,7 @@ static int dsa_switch_vlan_add(struct dsa_switch *ds,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int dsa_switch_vlan_del(struct dsa_switch *ds,
 			       struct dsa_notifier_vlan_info *info)
 {
@@ -415,10 +509,27 @@ static int dsa_switch_mrp_del(struct dsa_switch *ds,
 
 	if (ds->index == info->sw_index)
 		return ds->ops->port_mrp_del(ds, info->port, info->mrp);
+=======
+static int dsa_switch_vlan_add(struct dsa_switch *ds,
+			       struct dsa_notifier_vlan_info *info)
+{
+	int port;
+
+	if (switchdev_trans_ph_prepare(info->trans))
+		return dsa_switch_vlan_prepare(ds, info);
+
+	if (!ds->ops->port_vlan_add)
+		return 0;
+
+	for (port = 0; port < ds->num_ports; port++)
+		if (dsa_switch_vlan_match(ds, port, info))
+			ds->ops->port_vlan_add(ds, port, info->vlan);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static bool
 dsa_switch_mrp_ring_role_match(struct dsa_switch *ds, int port,
 			       struct dsa_notifier_mrp_ring_role_info *info)
@@ -465,6 +576,20 @@ dsa_switch_mrp_del_ring_role(struct dsa_switch *ds,
 		return ds->ops->port_mrp_del_ring_role(ds, info->port,
 						       info->mrp);
 
+=======
+static int dsa_switch_vlan_del(struct dsa_switch *ds,
+			       struct dsa_notifier_vlan_info *info)
+{
+	if (!ds->ops->port_vlan_del)
+		return -EOPNOTSUPP;
+
+	if (ds->index == info->sw_index)
+		return ds->ops->port_vlan_del(ds, info->port, info->vlan);
+
+	/* Do not deprogram the DSA links as they may be used as conduit
+	 * for other VLAN members in the fabric.
+	 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -490,6 +615,7 @@ static int dsa_switch_event(struct notifier_block *nb,
 	case DSA_NOTIFIER_FDB_DEL:
 		err = dsa_switch_fdb_del(ds, info);
 		break;
+<<<<<<< HEAD
 	case DSA_NOTIFIER_HSR_JOIN:
 		err = dsa_switch_hsr_join(ds, info);
 		break;
@@ -505,6 +631,8 @@ static int dsa_switch_event(struct notifier_block *nb,
 	case DSA_NOTIFIER_LAG_LEAVE:
 		err = dsa_switch_lag_leave(ds, info);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case DSA_NOTIFIER_MDB_ADD:
 		err = dsa_switch_mdb_add(ds, info);
 		break;
@@ -520,6 +648,7 @@ static int dsa_switch_event(struct notifier_block *nb,
 	case DSA_NOTIFIER_MTU:
 		err = dsa_switch_mtu(ds, info);
 		break;
+<<<<<<< HEAD
 	case DSA_NOTIFIER_TAG_PROTO:
 		err = dsa_switch_change_tag_proto(ds, info);
 		break;
@@ -535,11 +664,20 @@ static int dsa_switch_event(struct notifier_block *nb,
 	case DSA_NOTIFIER_MRP_DEL_RING_ROLE:
 		err = dsa_switch_mrp_del_ring_role(ds, info);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		err = -EOPNOTSUPP;
 		break;
 	}
 
+<<<<<<< HEAD
+=======
+	/* Non-switchdev operations cannot be rolled back. If a DSA driver
+	 * returns an error during the chained call, switch chips may be in an
+	 * inconsistent state.
+	 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		dev_dbg(ds->dev, "breaking chain for DSA event %lu (%d)\n",
 			event, err);

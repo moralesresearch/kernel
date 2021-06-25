@@ -487,15 +487,25 @@ static struct snd_soc_dai_driver sst_platform_dai[] = {
 		.stream_name = "Headset Playback",
 		.channels_min = SST_STEREO,
 		.channels_max = SST_STEREO,
+<<<<<<< HEAD
 		.rates = SNDRV_PCM_RATE_48000,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+=======
+		.rates = SNDRV_PCM_RATE_44100|SNDRV_PCM_RATE_48000,
+		.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.capture = {
 		.stream_name = "Headset Capture",
 		.channels_min = 1,
 		.channels_max = 2,
+<<<<<<< HEAD
 		.rates = SNDRV_PCM_RATE_48000,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+=======
+		.rates = SNDRV_PCM_RATE_44100|SNDRV_PCM_RATE_48000,
+		.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 },
 {
@@ -505,8 +515,13 @@ static struct snd_soc_dai_driver sst_platform_dai[] = {
 		.stream_name = "Deepbuffer Playback",
 		.channels_min = SST_STEREO,
 		.channels_max = SST_STEREO,
+<<<<<<< HEAD
 		.rates = SNDRV_PCM_RATE_48000,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+=======
+		.rates = SNDRV_PCM_RATE_44100|SNDRV_PCM_RATE_48000,
+		.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 },
 {

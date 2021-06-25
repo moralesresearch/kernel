@@ -99,6 +99,11 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
  */
 int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
 		uint32_t page_flags, enum ttm_caching caching);
+<<<<<<< HEAD
+=======
+int ttm_dma_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
+		    uint32_t page_flags, enum ttm_caching caching);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
 		   uint32_t page_flags, enum ttm_caching caching);
 

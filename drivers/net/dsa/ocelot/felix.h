@@ -5,6 +5,10 @@
 #define _MSCC_FELIX_H
 
 #define ocelot_to_felix(o)		container_of((o), struct felix, ocelot)
+<<<<<<< HEAD
+=======
+#define FELIX_NUM_TC			8
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Platform-specific information */
 struct felix_info {
@@ -14,6 +18,10 @@ struct felix_info {
 	const struct reg_field		*regfields;
 	const u32 *const		*map;
 	const struct ocelot_ops		*ops;
+<<<<<<< HEAD
+=======
+	int				shared_queue_sz;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int				num_mact_rows;
 	const struct ocelot_stat_layout	*stats_layout;
 	unsigned int			num_stats;
@@ -23,6 +31,7 @@ struct felix_info {
 	int				switch_pci_bar;
 	int				imdio_pci_bar;
 	const struct ptp_clock_info	*ptp_caps;
+<<<<<<< HEAD
 
 	/* Some Ocelot switches are integrated into the SoC without the
 	 * extraction IRQ line connected to the ARM GIC. By enabling this
@@ -36,6 +45,8 @@ struct felix_info {
 	 */
 	bool				quirk_no_xtr_irq;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int	(*mdio_bus_alloc)(struct ocelot *ocelot);
 	void	(*mdio_bus_free)(struct ocelot *ocelot);
 	void	(*phylink_validate)(struct ocelot *ocelot, int port,
@@ -47,6 +58,10 @@ struct felix_info {
 				 enum tc_setup_type type, void *type_data);
 	void	(*port_sched_speed_set)(struct ocelot *ocelot, int port,
 					u32 speed);
+<<<<<<< HEAD
+=======
+	void	(*xmit_template_populate)(struct ocelot *ocelot, int port);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern const struct dsa_switch_ops felix_switch_ops;
@@ -60,8 +75,11 @@ struct felix {
 	struct lynx_pcs			**pcs;
 	resource_size_t			switch_base;
 	resource_size_t			imdio_base;
+<<<<<<< HEAD
 	struct dsa_8021q_context	*dsa_8021q_ctx;
 	enum dsa_tag_protocol		tag_proto;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct net_device *felix_port_to_netdev(struct ocelot *ocelot, int port);

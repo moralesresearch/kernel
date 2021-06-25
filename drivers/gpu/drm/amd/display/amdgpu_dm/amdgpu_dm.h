@@ -58,10 +58,17 @@
 /* Forward declarations */
 struct amdgpu_device;
 struct drm_device;
+<<<<<<< HEAD
 struct dc;
 struct amdgpu_bo;
 struct dmub_srv;
 struct dc_plane_state;
+=======
+struct amdgpu_dm_irq_handler_data;
+struct dc;
+struct amdgpu_bo;
+struct dmub_srv;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct common_irq_params {
 	struct amdgpu_device *adev;
@@ -69,6 +76,21 @@ struct common_irq_params {
 };
 
 /**
+<<<<<<< HEAD
+=======
+ * struct irq_list_head - Linked-list for low context IRQ handlers.
+ *
+ * @head: The list_head within &struct handler_data
+ * @work: A work_struct containing the deferred handler work
+ */
+struct irq_list_head {
+	struct list_head head;
+	/* In case this interrupt needs post-processing, 'work' will be queued*/
+	struct work_struct work;
+};
+
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct dm_compressor_info - Buffer info used by frame buffer compression
  * @cpu_addr: MMIO cpu addr
  * @bo_ptr: Pointer to the buffer object
@@ -81,6 +103,7 @@ struct dm_compressor_info {
 };
 
 /**
+<<<<<<< HEAD
  * struct vblank_workqueue - Works to be executed in a separate thread during vblank
  * @mall_work: work for mall stutter
  * @dm: amdgpu display manager device
@@ -95,6 +118,8 @@ struct vblank_workqueue {
 };
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct amdgpu_dm_backlight_caps - Information about backlight
  *
  * Describe the backlight support for ACPI or eDP AUX.
@@ -246,6 +271,7 @@ struct amdgpu_display_manager {
 	struct mutex audio_lock;
 
 	/**
+<<<<<<< HEAD
 	 * @vblank_work_lock:
 	 *
 	 * Guards access to deferred vblank work state.
@@ -255,6 +281,8 @@ struct amdgpu_display_manager {
 #endif
 
 	/**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * @audio_component:
 	 *
 	 * Used to notify ELD changes to sound driver.
@@ -281,7 +309,11 @@ struct amdgpu_display_manager {
 	 * Note that handlers are called in the same order as they were
 	 * registered (FIFO).
 	 */
+<<<<<<< HEAD
 	struct list_head irq_handler_list_low_tab[DAL_IRQ_SOURCES_NUMBER];
+=======
+	struct irq_list_head irq_handler_list_low_tab[DAL_IRQ_SOURCES_NUMBER];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * @irq_handler_list_high_tab:
@@ -332,10 +364,13 @@ struct amdgpu_display_manager {
 	struct hdcp_workqueue *hdcp_workqueue;
 #endif
 
+<<<<<<< HEAD
 #if defined(CONFIG_DRM_AMD_DC_DCN)
 	struct vblank_workqueue *vblank_workqueue;
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_atomic_state *cached_state;
 	struct dc_state *cached_dc_state;
 
@@ -352,6 +387,7 @@ struct amdgpu_display_manager {
 	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
 
 	/**
+<<<<<<< HEAD
 	 * @active_vblank_irq_count:
 	 *
 	 * number of currently active vblank irqs
@@ -359,6 +395,8 @@ struct amdgpu_display_manager {
 	uint32_t active_vblank_irq_count;
 
 	/**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * @mst_encoders:
 	 *
 	 * fake encoders used for DP MST.
@@ -434,6 +472,14 @@ struct amdgpu_dm_connector {
 
 extern const struct amdgpu_ip_block_version dm_ip_block;
 
+<<<<<<< HEAD
+=======
+struct amdgpu_framebuffer;
+struct amdgpu_display_manager;
+struct dc_validation_set;
+struct dc_plane_state;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct dm_plane_state {
 	struct drm_plane_state base;
 	struct dc_plane_state *dc_state;

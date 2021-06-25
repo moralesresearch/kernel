@@ -15,6 +15,7 @@ description:
 
 properties:
   compatible:
+<<<<<<< HEAD
     const: ralink,rt2880-pinmux
 
 patternProperties:
@@ -43,10 +44,44 @@ patternProperties:
         additionalProperties: false
 
     additionalProperties: false
+=======
+    enum:
+      - ralink,rt2880-pinmux
+
+  pinctrl-0:
+    description:
+      A phandle to the node containing the subnodes containing default
+      configurations. This is for pinctrl hogs.
+
+  pinctrl-names:
+    description:
+      A pinctrl state named "default" can be defined.
+    const: default
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible
 
+<<<<<<< HEAD
+=======
+patternProperties:
+  '[a-z0-9_-]+':
+    if:
+      type: object
+      description: node for pinctrl.
+      $ref: "pinmux-node.yaml"
+    then:
+      properties:
+        groups:
+          description: Name of the pin group to use for the functions.
+          enum: [i2c, spi, uart1, uart2, uart3, rgmii1, rgmii2, mdio,
+                 pcie, sdhci]
+        function:
+          description: The mux function to select
+          enum: [gpio, i2c, spi, uart1, uart2, uart3, rgmii1, rgmii2,
+                 mdio, nand1, nand2, sdhci]
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 additionalProperties: false
 
 examples:
@@ -54,9 +89,20 @@ examples:
   - |
     pinctrl {
       compatible = "ralink,rt2880-pinmux";
+<<<<<<< HEAD
 
       i2c_pins: i2c0-pins {
         pinmux {
+=======
+      pinctrl-names = "default";
+      pinctrl-0 = <&state_default>;
+
+      state_default: pinctrl0 {
+      };
+
+      i2c_pins: i2c0 {
+        i2c0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           groups = "i2c";
           function = "i2c";
         };

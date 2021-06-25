@@ -1471,10 +1471,21 @@ dm9000_probe(struct platform_device *pdev)
 
 	/* Init network device */
 	ndev = alloc_etherdev(sizeof(struct board_info));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ndev) {
 		ret = -ENOMEM;
 		goto out_regulator_disable;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (!ndev)
+		return -ENOMEM;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	SET_NETDEV_DEV(ndev, &pdev->dev);
 

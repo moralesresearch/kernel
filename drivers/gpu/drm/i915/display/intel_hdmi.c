@@ -518,10 +518,23 @@ static u32 vlv_infoframes_enabled(struct intel_encoder *encoder,
 		      VIDEO_DIP_ENABLE_SPD | VIDEO_DIP_ENABLE_GCP);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void hsw_write_infoframe(struct intel_encoder *encoder,
 			 const struct intel_crtc_state *crtc_state,
 			 unsigned int type,
 			 const void *frame, ssize_t len)
+<<<<<<< HEAD
+=======
+=======
+static void hsw_write_infoframe(struct intel_encoder *encoder,
+				const struct intel_crtc_state *crtc_state,
+				unsigned int type,
+				const void *frame, ssize_t len)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const u32 *data = frame;
 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
@@ -555,9 +568,22 @@ void hsw_write_infoframe(struct intel_encoder *encoder,
 	intel_de_posting_read(dev_priv, ctl_reg);
 }
 
+<<<<<<< HEAD
 void hsw_read_infoframe(struct intel_encoder *encoder,
 			const struct intel_crtc_state *crtc_state,
 			unsigned int type, void *frame, ssize_t len)
+=======
+<<<<<<< HEAD
+void hsw_read_infoframe(struct intel_encoder *encoder,
+			const struct intel_crtc_state *crtc_state,
+			unsigned int type, void *frame, ssize_t len)
+=======
+static void hsw_read_infoframe(struct intel_encoder *encoder,
+			       const struct intel_crtc_state *crtc_state,
+			       unsigned int type,
+			       void *frame, ssize_t len)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
@@ -1494,16 +1520,37 @@ static int kbl_repositioning_enc_en_signal(struct intel_connector *connector,
 		usleep_range(25, 50);
 	}
 
+<<<<<<< HEAD
 	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
 					 false, TRANS_DDI_HDCP_SIGNALLING);
+=======
+<<<<<<< HEAD
+	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
+					 false, TRANS_DDI_HDCP_SIGNALLING);
+=======
+	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+					       false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		drm_err(&dev_priv->drm,
 			"Disable HDCP signalling failed (%d)\n", ret);
 		return ret;
 	}
+<<<<<<< HEAD
 
 	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
 					 true, TRANS_DDI_HDCP_SIGNALLING);
+=======
+<<<<<<< HEAD
+
+	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
+					 true, TRANS_DDI_HDCP_SIGNALLING);
+=======
+	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+					       true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		drm_err(&dev_priv->drm,
 			"Enable HDCP signalling failed (%d)\n", ret);
@@ -1526,9 +1573,20 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
 	if (!enable)
 		usleep_range(6, 60); /* Bspec says >= 6us */
 
+<<<<<<< HEAD
 	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
 					 cpu_transcoder, enable,
 					 TRANS_DDI_HDCP_SIGNALLING);
+=======
+<<<<<<< HEAD
+	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
+					 cpu_transcoder, enable,
+					 TRANS_DDI_HDCP_SIGNALLING);
+=======
+	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+					       enable);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		drm_err(&dev_priv->drm, "%s HDCP signalling failed (%d)\n",
 			enable ? "Enable" : "Disable", ret);
@@ -1733,8 +1791,17 @@ int intel_hdmi_hdcp2_read_msg(struct intel_digital_port *dig_port,
 }
 
 static
+<<<<<<< HEAD
 int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port,
 				struct intel_connector *connector)
+=======
+<<<<<<< HEAD
+int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port,
+				struct intel_connector *connector)
+=======
+int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 rx_status[HDCP_2_2_HDMI_RXSTATUS_LEN];
 	int ret;
@@ -2956,12 +3023,35 @@ static void
 intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *connector)
 {
 	struct drm_i915_private *dev_priv = to_i915(connector->dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct intel_digital_port *dig_port =
+				hdmi_to_dig_port(intel_hdmi);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	intel_attach_force_audio_property(connector);
 	intel_attach_broadcast_rgb_property(connector);
 	intel_attach_aspect_ratio_property(connector);
 
+<<<<<<< HEAD
 	intel_attach_hdmi_colorspace_property(connector);
+=======
+<<<<<<< HEAD
+	intel_attach_hdmi_colorspace_property(connector);
+=======
+	/*
+	 * Attach Colorspace property for Non LSPCON based device
+	 * ToDo: This needs to be extended for LSPCON implementation
+	 * as well. Will be implemented separately.
+	 */
+	if (!dig_port->lspcon.active)
+		intel_attach_colorspace_property(connector);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drm_connector_attach_content_type_property(connector);
 
 	if (INTEL_GEN(dev_priv) >= 10 || IS_GEMINILAKE(dev_priv))
@@ -3297,7 +3387,15 @@ void intel_hdmi_init_connector(struct intel_digital_port *dig_port,
 	intel_hdmi->attached_connector = intel_connector;
 
 	if (is_hdcp_supported(dev_priv, port)) {
+<<<<<<< HEAD
 		int ret = intel_hdcp_init(intel_connector, dig_port,
+=======
+<<<<<<< HEAD
+		int ret = intel_hdcp_init(intel_connector, dig_port,
+=======
+		int ret = intel_hdcp_init(intel_connector, port,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  &intel_hdmi_hdcp_shim);
 		if (ret)
 			drm_dbg_kms(&dev_priv->drm,
@@ -3435,6 +3533,10 @@ void intel_hdmi_init(struct drm_i915_private *dev_priv,
 	dig_port->aux_ch = intel_bios_port_aux_ch(dev_priv, port);
 	intel_hdmi_init_connector(dig_port, intel_connector);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * intel_hdmi_dsc_get_slice_height - get the dsc slice_height
@@ -3668,3 +3770,8 @@ intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width, int num_slices,
 
 	return 0;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -475,10 +475,22 @@ void __init mem_encrypt_init(void)
 	swiotlb_update_mem_attributes();
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * With SEV, we need to unroll the rep string I/O instructions,
 	 * but SEV-ES supports them through the #VC handler.
 	 */
 	if (sev_active() && !sev_es_active())
+<<<<<<< HEAD
+=======
+=======
+	 * With SEV, we need to unroll the rep string I/O instructions.
+	 */
+	if (sev_active())
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		static_branch_enable(&sev_enable_key);
 
 	print_mem_encrypt_feature_info();

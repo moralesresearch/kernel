@@ -220,12 +220,20 @@ nv50_bar_dtor(struct nvkm_bar *base)
 
 int
 nv50_bar_new_(const struct nvkm_bar_func *func, struct nvkm_device *device,
+<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, u32 pgd_addr, struct nvkm_bar **pbar)
+=======
+	      int index, u32 pgd_addr, struct nvkm_bar **pbar)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv50_bar *bar;
 	if (!(bar = kzalloc(sizeof(*bar), GFP_KERNEL)))
 		return -ENOMEM;
+<<<<<<< HEAD
 	nvkm_bar_ctor(func, device, type, inst, &bar->base);
+=======
+	nvkm_bar_ctor(func, device, index, &bar->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bar->pgd_addr = pgd_addr;
 	*pbar = &bar->base;
 	return 0;
@@ -248,8 +256,14 @@ nv50_bar_func = {
 };
 
 int
+<<<<<<< HEAD
 nv50_bar_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_bar **pbar)
 {
 	return nv50_bar_new_(&nv50_bar_func, device, type, inst, 0x1400, pbar);
+=======
+nv50_bar_new(struct nvkm_device *device, int index, struct nvkm_bar **pbar)
+{
+	return nv50_bar_new_(&nv50_bar_func, device, index, 0x1400, pbar);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

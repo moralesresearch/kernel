@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright 2019-2021 NXP Semiconductors
+=======
+<<<<<<< HEAD
+/* Copyright 2019-2021 NXP Semiconductors
+=======
+/* Copyright 2019 NXP Semiconductors
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This is an umbrella module for all network switches that are
  * register-compatible with Ocelot and that perform I/O to their host CPU
@@ -13,10 +21,21 @@
 #include <soc/mscc/ocelot_ana.h>
 #include <soc/mscc/ocelot_ptp.h>
 #include <soc/mscc/ocelot.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/dsa/8021q.h>
 #include <linux/dsa/ocelot.h>
 #include <linux/platform_device.h>
 #include <linux/ptp_classify.h>
+<<<<<<< HEAD
+=======
+=======
+#include <linux/platform_device.h>
+#include <linux/packing.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/of_net.h>
 #include <linux/pci.h>
@@ -26,6 +45,10 @@
 #include <net/dsa.h>
 #include "felix.h"
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_tag_8021q_rxvlan_add(struct felix *felix, int port, u16 vid,
 				      bool pvid, bool untagged)
 {
@@ -626,14 +649,29 @@ static int felix_change_tag_protocol(struct dsa_switch *ds, int cpu,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum dsa_tag_protocol felix_get_tag_protocol(struct dsa_switch *ds,
 						    int port,
 						    enum dsa_tag_protocol mp)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ocelot *ocelot = ds->priv;
 	struct felix *felix = ocelot_to_felix(ocelot);
 
 	return felix->tag_proto;
+<<<<<<< HEAD
+=======
+=======
+	return DSA_TAG_PROTO_OCELOT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int felix_set_ageing_time(struct dsa_switch *ds,
@@ -670,12 +708,34 @@ static int felix_fdb_del(struct dsa_switch *ds, int port,
 	return ocelot_fdb_del(ocelot, port, addr, vid);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_mdb_add(struct dsa_switch *ds, int port,
 			 const struct switchdev_obj_port_mdb *mdb)
 {
 	struct ocelot *ocelot = ds->priv;
 
 	return ocelot_port_mdb_add(ocelot, port, mdb);
+<<<<<<< HEAD
+=======
+=======
+/* This callback needs to be present */
+static int felix_mdb_prepare(struct dsa_switch *ds, int port,
+			     const struct switchdev_obj_port_mdb *mdb)
+{
+	return 0;
+}
+
+static void felix_mdb_add(struct dsa_switch *ds, int port,
+			  const struct switchdev_obj_port_mdb *mdb)
+{
+	struct ocelot *ocelot = ds->priv;
+
+	ocelot_port_mdb_add(ocelot, port, mdb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int felix_mdb_del(struct dsa_switch *ds, int port,
@@ -694,6 +754,10 @@ static void felix_bridge_stp_state_set(struct dsa_switch *ds, int port,
 	return ocelot_bridge_stp_state_set(ocelot, port, state);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_pre_bridge_flags(struct dsa_switch *ds, int port,
 				  struct switchdev_brport_flags val,
 				  struct netlink_ext_ack *extack)
@@ -714,6 +778,11 @@ static int felix_bridge_flags(struct dsa_switch *ds, int port,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_bridge_join(struct dsa_switch *ds, int port,
 			     struct net_device *br)
 {
@@ -730,6 +799,10 @@ static void felix_bridge_leave(struct dsa_switch *ds, int port,
 	ocelot_port_bridge_leave(ocelot, port, br);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_lag_join(struct dsa_switch *ds, int port,
 			  struct net_device *bond,
 			  struct netdev_lag_upper_info *info)
@@ -759,11 +832,25 @@ static int felix_lag_change(struct dsa_switch *ds, int port)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_vlan_prepare(struct dsa_switch *ds, int port,
 			      const struct switchdev_obj_port_vlan *vlan)
 {
 	struct ocelot *ocelot = ds->priv;
+<<<<<<< HEAD
 	u16 flags = vlan->flags;
+=======
+<<<<<<< HEAD
+	u16 flags = vlan->flags;
+=======
+	u16 vid, flags = vlan->flags;
+	int err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Ocelot switches copy frames as-is to the CPU, so the flags:
 	 * egress-untagged or not, pvid or not, make no difference. This
@@ -776,6 +863,10 @@ static int felix_vlan_prepare(struct dsa_switch *ds, int port,
 	if (port == ocelot->npi)
 		return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ocelot_vlan_prepare(ocelot, port, vlan->vid,
 				   flags & BRIDGE_VLAN_INFO_PVID,
 				   flags & BRIDGE_VLAN_INFO_UNTAGGED);
@@ -804,14 +895,76 @@ static int felix_vlan_add(struct dsa_switch *ds, int port,
 	return ocelot_vlan_add(ocelot, port, vlan->vid,
 			       flags & BRIDGE_VLAN_INFO_PVID,
 			       flags & BRIDGE_VLAN_INFO_UNTAGGED);
+<<<<<<< HEAD
+=======
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		err = ocelot_vlan_prepare(ocelot, port, vid,
+					  flags & BRIDGE_VLAN_INFO_PVID,
+					  flags & BRIDGE_VLAN_INFO_UNTAGGED);
+		if (err)
+			return err;
+	}
+
+	return 0;
+}
+
+static int felix_vlan_filtering(struct dsa_switch *ds, int port, bool enabled,
+				struct switchdev_trans *trans)
+{
+	struct ocelot *ocelot = ds->priv;
+
+	return ocelot_port_vlan_filtering(ocelot, port, enabled, trans);
+}
+
+static void felix_vlan_add(struct dsa_switch *ds, int port,
+			   const struct switchdev_obj_port_vlan *vlan)
+{
+	struct ocelot *ocelot = ds->priv;
+	u16 flags = vlan->flags;
+	u16 vid;
+	int err;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		err = ocelot_vlan_add(ocelot, port, vid,
+				      flags & BRIDGE_VLAN_INFO_PVID,
+				      flags & BRIDGE_VLAN_INFO_UNTAGGED);
+		if (err) {
+			dev_err(ds->dev, "Failed to add VLAN %d to port %d: %d\n",
+				vid, port, err);
+			return;
+		}
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int felix_vlan_del(struct dsa_switch *ds, int port,
 			  const struct switchdev_obj_port_vlan *vlan)
 {
 	struct ocelot *ocelot = ds->priv;
+<<<<<<< HEAD
 
 	return ocelot_vlan_del(ocelot, port, vlan->vid);
+=======
+<<<<<<< HEAD
+
+	return ocelot_vlan_del(ocelot, port, vlan->vid);
+=======
+	u16 vid;
+	int err;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		err = ocelot_vlan_del(ocelot, port, vid);
+		if (err) {
+			dev_err(ds->dev, "Failed to remove VLAN %d from port %d: %d\n",
+				vid, port, err);
+			return err;
+		}
+	}
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int felix_port_enable(struct dsa_switch *ds, int port,
@@ -970,7 +1123,15 @@ static void felix_port_qos_map_init(struct ocelot *ocelot, int port)
 		       ANA_PORT_QOS_CFG,
 		       port);
 
+<<<<<<< HEAD
 	for (i = 0; i < OCELOT_NUM_TC * 2; i++) {
+=======
+<<<<<<< HEAD
+	for (i = 0; i < OCELOT_NUM_TC * 2; i++) {
+=======
+	for (i = 0; i < FELIX_NUM_TC * 2; i++) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ocelot_rmw_ix(ocelot,
 			      (ANA_PORT_PCP_DEI_MAP_DP_PCP_DEI_VAL & i) |
 			      ANA_PORT_PCP_DEI_MAP_QOS_PCP_DEI_VAL(i),
@@ -1093,12 +1254,27 @@ static int felix_init_structs(struct felix *felix, int num_phys_ports)
 	ocelot->map		= felix->info->map;
 	ocelot->stats_layout	= felix->info->stats_layout;
 	ocelot->num_stats	= felix->info->num_stats;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ocelot->num_mact_rows	= felix->info->num_mact_rows;
 	ocelot->vcap		= felix->info->vcap;
 	ocelot->ops		= felix->info->ops;
 	ocelot->npi_inj_prefix	= OCELOT_TAG_PREFIX_SHORT;
 	ocelot->npi_xtr_prefix	= OCELOT_TAG_PREFIX_SHORT;
 	ocelot->devlink		= felix->ds->devlink;
+<<<<<<< HEAD
+=======
+=======
+	ocelot->shared_queue_sz	= felix->info->shared_queue_sz;
+	ocelot->num_mact_rows	= felix->info->num_mact_rows;
+	ocelot->vcap		= felix->info->vcap;
+	ocelot->ops		= felix->info->ops;
+	ocelot->inj_prefix	= OCELOT_TAG_PREFIX_SHORT;
+	ocelot->xtr_prefix	= OCELOT_TAG_PREFIX_SHORT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	port_phy_modes = kcalloc(num_phys_ports, sizeof(phy_interface_t),
 				 GFP_KERNEL);
@@ -1143,6 +1319,13 @@ static int felix_init_structs(struct felix *felix, int num_phys_ports)
 	for (port = 0; port < num_phys_ports; port++) {
 		struct ocelot_port *ocelot_port;
 		struct regmap *target;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		u8 *template;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ocelot_port = devm_kzalloc(ocelot->dev,
 					   sizeof(struct ocelot_port),
@@ -1168,10 +1351,35 @@ static int felix_init_structs(struct felix *felix, int num_phys_ports)
 			return PTR_ERR(target);
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ocelot_port->phy_mode = port_phy_modes[port];
 		ocelot_port->ocelot = ocelot;
 		ocelot_port->target = target;
 		ocelot->ports[port] = ocelot_port;
+<<<<<<< HEAD
+=======
+=======
+		template = devm_kzalloc(ocelot->dev, OCELOT_TOTAL_TAG_LEN,
+					GFP_KERNEL);
+		if (!template) {
+			dev_err(ocelot->dev,
+				"Failed to allocate memory for DSA tag\n");
+			kfree(port_phy_modes);
+			return -ENOMEM;
+		}
+
+		ocelot_port->phy_mode = port_phy_modes[port];
+		ocelot_port->ocelot = ocelot;
+		ocelot_port->target = target;
+		ocelot_port->xmit_template = template;
+		ocelot->ports[port] = ocelot_port;
+
+		felix->info->xmit_template_populate(ocelot, port);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	kfree(port_phy_modes);
@@ -1185,6 +1393,34 @@ static int felix_init_structs(struct felix *felix, int num_phys_ports)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/* The CPU port module is connected to the Node Processor Interface (NPI). This
+ * is the mode through which frames can be injected from and extracted to an
+ * external CPU, over Ethernet.
+ */
+static void felix_npi_port_init(struct ocelot *ocelot, int port)
+{
+	ocelot->npi = port;
+
+	ocelot_write(ocelot, QSYS_EXT_CPU_CFG_EXT_CPUQ_MSK_M |
+		     QSYS_EXT_CPU_CFG_EXT_CPU_PORT(port),
+		     QSYS_EXT_CPU_CFG);
+
+	/* NPI port Injection/Extraction configuration */
+	ocelot_fields_write(ocelot, port, SYS_PORT_MODE_INCL_XTR_HDR,
+			    ocelot->xtr_prefix);
+	ocelot_fields_write(ocelot, port, SYS_PORT_MODE_INCL_INJ_HDR,
+			    ocelot->inj_prefix);
+
+	/* Disable transmission of pause frames */
+	ocelot_fields_write(ocelot, port, SYS_PAUSE_CFG_PAUSE_ENA, 0);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Hardware initialization done here so that we can allocate structures with
  * devm without fear of dsa_register_switch returning -EPROBE_DEFER and causing
  * us to allocate structures twice (leak memory) and map PCI memory twice
@@ -1202,7 +1438,15 @@ static int felix_setup(struct dsa_switch *ds)
 
 	err = ocelot_init(ocelot);
 	if (err)
+<<<<<<< HEAD
 		goto out_mdiobus_free;
+=======
+<<<<<<< HEAD
+		goto out_mdiobus_free;
+=======
+		return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ocelot->ptp) {
 		err = ocelot_init_timestamp(ocelot, felix->info->ptp_caps);
@@ -1214,17 +1458,35 @@ static int felix_setup(struct dsa_switch *ds)
 	}
 
 	for (port = 0; port < ds->num_ports; port++) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (dsa_is_unused_port(ds, port))
 			continue;
 
 		ocelot_init_port(ocelot, port);
 
+<<<<<<< HEAD
+=======
+=======
+		ocelot_init_port(ocelot, port);
+
+		if (dsa_is_cpu_port(ds, port))
+			felix_npi_port_init(ocelot, port);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Set the default QoS Classification based on PCP and DEI
 		 * bits of vlan tag.
 		 */
 		felix_port_qos_map_init(ocelot, port);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = ocelot_devlink_sb_register(ocelot);
 	if (err)
 		goto out_deinit_ports;
@@ -1260,6 +1522,24 @@ out_mdiobus_free:
 		felix->info->mdio_bus_free(ocelot);
 
 	return err;
+<<<<<<< HEAD
+=======
+=======
+	/* Include the CPU port module in the forwarding mask for unknown
+	 * unicast - the hardware default value for ANA_FLOODING_FLD_UNICAST
+	 * excludes BIT(ocelot->num_phys_ports), and so does ocelot_init, since
+	 * Ocelot relies on whitelisting MAC addresses towards PGID_CPU.
+	 */
+	ocelot_write_rix(ocelot,
+			 ANA_PGID_PGID_PGID(GENMASK(ocelot->num_phys_ports, 0)),
+			 ANA_PGID_PGID, PGID_UC);
+
+	ds->mtu_enforcement_ingress = true;
+	ds->configure_vlan_while_not_filtering = true;
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void felix_teardown(struct dsa_switch *ds)
@@ -1268,6 +1548,10 @@ static void felix_teardown(struct dsa_switch *ds)
 	struct felix *felix = ocelot_to_felix(ocelot);
 	int port;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (port = 0; port < ds->num_ports; port++) {
 		if (!dsa_is_cpu_port(ds, port))
 			continue;
@@ -1276,6 +1560,11 @@ static void felix_teardown(struct dsa_switch *ds)
 	}
 
 	ocelot_devlink_sb_unregister(ocelot);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ocelot_deinit_timestamp(ocelot);
 	ocelot_deinit(ocelot);
 
@@ -1306,6 +1595,10 @@ static int felix_hwtstamp_set(struct dsa_switch *ds, int port,
 	return ocelot_hwstamp_set(ocelot, port, ifr);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool felix_check_xtr_pkt(struct ocelot *ocelot, unsigned int ptp_type)
 {
 	struct felix *felix = ocelot_to_felix(ocelot);
@@ -1361,10 +1654,25 @@ static bool felix_rxtstamp(struct dsa_switch *ds, int port,
 	u8 *extraction = skb->data - ETH_HLEN - OCELOT_TAG_LEN;
 	struct skb_shared_hwtstamps *shhwtstamps;
 	struct ocelot *ocelot = ds->priv;
+<<<<<<< HEAD
+=======
+=======
+static bool felix_rxtstamp(struct dsa_switch *ds, int port,
+			   struct sk_buff *skb, unsigned int type)
+{
+	struct skb_shared_hwtstamps *shhwtstamps;
+	struct ocelot *ocelot = ds->priv;
+	u8 *extraction = skb->data - ETH_HLEN - OCELOT_TAG_LEN;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 tstamp_lo, tstamp_hi;
 	struct timespec64 ts;
 	u64 tstamp, val;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If the "no XTR IRQ" workaround is in use, tell DSA to defer this skb
 	 * for RX timestamping. Then free it, and poll for its copy through
 	 * MMIO in the CPU port module, and inject that into the stack from
@@ -1379,6 +1687,15 @@ static bool felix_rxtstamp(struct dsa_switch *ds, int port,
 	tstamp = ktime_set(ts.tv_sec, ts.tv_nsec);
 
 	ocelot_xfh_get_rew_val(extraction, &val);
+<<<<<<< HEAD
+=======
+=======
+	ocelot_ptp_gettime64(&ocelot->ptp_info, &ts);
+	tstamp = ktime_set(ts.tv_sec, ts.tv_nsec);
+
+	packing(extraction, &val,  116, 85, OCELOT_TAG_LEN, UNPACK, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tstamp_lo = (u32)val;
 
 	tstamp_hi = tstamp >> 32;
@@ -1480,6 +1797,10 @@ static int felix_port_setup_tc(struct dsa_switch *ds, int port,
 		return -EOPNOTSUPP;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int felix_sb_pool_get(struct dsa_switch *ds, unsigned int sb_index,
 			     u16 pool_index,
 			     struct devlink_sb_pool_info *pool_info)
@@ -1674,6 +1995,51 @@ const struct dsa_switch_ops felix_switch_ops = {
 	.port_mrp_del			= felix_mrp_del,
 	.port_mrp_add_ring_role		= felix_mrp_add_ring_role,
 	.port_mrp_del_ring_role		= felix_mrp_del_ring_role,
+<<<<<<< HEAD
+=======
+=======
+const struct dsa_switch_ops felix_switch_ops = {
+	.get_tag_protocol	= felix_get_tag_protocol,
+	.setup			= felix_setup,
+	.teardown		= felix_teardown,
+	.set_ageing_time	= felix_set_ageing_time,
+	.get_strings		= felix_get_strings,
+	.get_ethtool_stats	= felix_get_ethtool_stats,
+	.get_sset_count		= felix_get_sset_count,
+	.get_ts_info		= felix_get_ts_info,
+	.phylink_validate	= felix_phylink_validate,
+	.phylink_mac_config	= felix_phylink_mac_config,
+	.phylink_mac_link_down	= felix_phylink_mac_link_down,
+	.phylink_mac_link_up	= felix_phylink_mac_link_up,
+	.port_enable		= felix_port_enable,
+	.port_disable		= felix_port_disable,
+	.port_fdb_dump		= felix_fdb_dump,
+	.port_fdb_add		= felix_fdb_add,
+	.port_fdb_del		= felix_fdb_del,
+	.port_mdb_prepare	= felix_mdb_prepare,
+	.port_mdb_add		= felix_mdb_add,
+	.port_mdb_del		= felix_mdb_del,
+	.port_bridge_join	= felix_bridge_join,
+	.port_bridge_leave	= felix_bridge_leave,
+	.port_stp_state_set	= felix_bridge_stp_state_set,
+	.port_vlan_prepare	= felix_vlan_prepare,
+	.port_vlan_filtering	= felix_vlan_filtering,
+	.port_vlan_add		= felix_vlan_add,
+	.port_vlan_del		= felix_vlan_del,
+	.port_hwtstamp_get	= felix_hwtstamp_get,
+	.port_hwtstamp_set	= felix_hwtstamp_set,
+	.port_rxtstamp		= felix_rxtstamp,
+	.port_txtstamp		= felix_txtstamp,
+	.port_change_mtu	= felix_change_mtu,
+	.port_max_mtu		= felix_get_max_mtu,
+	.port_policer_add	= felix_port_policer_add,
+	.port_policer_del	= felix_port_policer_del,
+	.cls_flower_add		= felix_cls_flower_add,
+	.cls_flower_del		= felix_cls_flower_del,
+	.cls_flower_stats	= felix_cls_flower_stats,
+	.port_setup_tc		= felix_port_setup_tc,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct net_device *felix_port_to_netdev(struct ocelot *ocelot, int port)

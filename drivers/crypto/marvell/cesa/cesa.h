@@ -428,7 +428,10 @@ struct mv_cesa_dev {
  * @id:			engine id
  * @regs:		engine registers
  * @sram:		SRAM memory region
+<<<<<<< HEAD
  * @sram_pool:		SRAM memory region from pool
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sram_dma:		DMA address of the SRAM memory region
  * @lock:		engine lock
  * @req:		current crypto request
@@ -449,10 +452,14 @@ struct mv_cesa_dev {
 struct mv_cesa_engine {
 	int id;
 	void __iomem *regs;
+<<<<<<< HEAD
 	union {
 		void __iomem *sram;
 		void *sram_pool;
 	};
+=======
+	void __iomem *sram;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma_addr_t sram_dma;
 	spinlock_t lock;
 	struct crypto_async_request *req;
@@ -871,6 +878,7 @@ int mv_cesa_dma_add_op_transfers(struct mv_cesa_tdma_chain *chain,
 				 struct mv_cesa_sg_dma_iter *sgiter,
 				 gfp_t gfp_flags);
 
+<<<<<<< HEAD
 size_t mv_cesa_sg_copy(struct mv_cesa_engine *engine,
 		       struct scatterlist *sgl, unsigned int nents,
 		       unsigned int sram_off, size_t buflen, off_t skip,
@@ -896,6 +904,8 @@ static inline size_t mv_cesa_sg_copy_from_sram(struct mv_cesa_engine *engine,
 			       false);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Algorithm definitions */
 
 extern struct ahash_alg mv_md5_alg;

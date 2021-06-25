@@ -380,8 +380,11 @@ void pnv_pci_unlink_table_and_group(struct iommu_table *tbl,
 
 	/* Remove link to a group from table's list of attached groups */
 	found = false;
+<<<<<<< HEAD
 
 	rcu_read_lock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_rcu(tgl, &tbl->it_group_list, next) {
 		if (tgl->table_group == table_group) {
 			list_del_rcu(&tgl->next);
@@ -390,8 +393,11 @@ void pnv_pci_unlink_table_and_group(struct iommu_table *tbl,
 			break;
 		}
 	}
+<<<<<<< HEAD
 	rcu_read_unlock();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON(!found))
 		return;
 

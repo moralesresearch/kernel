@@ -79,6 +79,7 @@ definitions:
 		-l drivers/media/i2c/ccs/ccs-limits.c \
 		-c Documentation/driver-api/media/drivers/ccs/ccs-regs.asc
 
+<<<<<<< HEAD
 CCS PLL calculator
 ==================
 
@@ -92,4 +93,6 @@ The PLL model implemented by the PLL calculator corresponds to MIPI CCS 1.1.
 
 .. kernel-doc:: drivers/media/i2c/ccs-pll.h
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 **Copyright** |copy| 2020 Intel Corporation

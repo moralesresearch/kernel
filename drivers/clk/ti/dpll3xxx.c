@@ -125,7 +125,11 @@ static u16 _omap3_dpll_compute_freqsel(struct clk_hw_omap *clk, u8 n)
 	return f;
 }
 
+<<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * _omap3_noncore_dpll_lock - instruct a DPLL to lock and wait for readiness
  * @clk: pointer to a DPLL struct clk
  *
@@ -168,7 +172,11 @@ done:
 	return r;
 }
 
+<<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * _omap3_noncore_dpll_bypass - instruct a DPLL to bypass and wait for readiness
  * @clk: pointer to a DPLL struct clk
  *
@@ -204,7 +212,11 @@ static int _omap3_noncore_dpll_bypass(struct clk_hw_omap *clk)
 	return r;
 }
 
+<<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * _omap3_noncore_dpll_stop - instruct a DPLL to stop
  * @clk: pointer to a DPLL struct clk
  *
@@ -291,7 +303,11 @@ static void _lookup_sddiv(struct clk_hw_omap *clk, u8 *sd_div, u16 m, u8 n)
 	*sd_div = sd;
 }
 
+<<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * _omap3_noncore_dpll_program - set non-core DPLL M,N values directly
  * @clk:	struct clk * of DPLL to set
  * @freqsel:	FREQSEL value to set
@@ -406,8 +422,12 @@ static int omap3_noncore_dpll_program(struct clk_hw_omap *clk, u16 freqsel)
 
 /**
  * omap3_dpll_recalc - recalculate DPLL rate
+<<<<<<< HEAD
  * @hw: struct clk_hw containing the DPLL struct clk
  * @parent_rate: clock rate of the DPLL parent
+=======
+ * @clk: DPLL struct clk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Recalculate and propagate the DPLL rate.
  */
@@ -422,7 +442,11 @@ unsigned long omap3_dpll_recalc(struct clk_hw *hw, unsigned long parent_rate)
 
 /**
  * omap3_noncore_dpll_enable - instruct a DPLL to enter bypass or lock mode
+<<<<<<< HEAD
  * @hw: struct clk_hw containing then pointer to a DPLL struct clk
+=======
+ * @clk: pointer to a DPLL struct clk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Instructs a non-CORE DPLL to enable, e.g., to enter bypass or lock.
  * The choice of modes depends on the DPLL's programmed rate: if it is
@@ -471,7 +495,11 @@ int omap3_noncore_dpll_enable(struct clk_hw *hw)
 
 /**
  * omap3_noncore_dpll_disable - instruct a DPLL to enter low-power stop
+<<<<<<< HEAD
  * @hw: struct clk_hw containing then pointer to a DPLL struct clk
+=======
+ * @clk: pointer to a DPLL struct clk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Instructs a non-CORE DPLL to enter low-power stop.  This function is
  * intended for use in struct clkops.  No return value.
@@ -746,8 +774,12 @@ static struct clk_hw_omap *omap3_find_clkoutx2_dpll(struct clk_hw *hw)
 
 /**
  * omap3_clkoutx2_recalc - recalculate DPLL X2 output virtual clock rate
+<<<<<<< HEAD
  * @hw: pointer  struct clk_hw
  * @parent_rate: clock rate of the DPLL parent
+=======
+ * @clk: DPLL output struct clk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Using parent clock DPLL data, look up DPLL state.  If locked, set our
  * rate to the dpll_clk * 2; otherwise, just use dpll_clk.
@@ -915,7 +947,11 @@ const struct clk_hw_omap_ops clkhwops_omap3_dpll = {
  * omap3_dpll4_set_rate - set rate for omap3 per-dpll
  * @hw: clock to change
  * @rate: target rate for clock
+<<<<<<< HEAD
  * @parent_rate: clock rate of the DPLL parent
+=======
+ * @parent_rate: rate of the parent clock
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Check if the current SoC supports the per-dpll reprogram operation
  * or not, and then do the rate change if supported. Returns -EINVAL

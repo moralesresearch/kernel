@@ -617,11 +617,18 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
 		if (tmp > end)
 			tmp = end;
 
+<<<<<<< HEAD
 		if (vma->vm_ops && vma->vm_ops->mprotect) {
 			error = vma->vm_ops->mprotect(vma, nstart, tmp, newflags);
 			if (error)
 				goto out;
 		}
+=======
+		if (vma->vm_ops && vma->vm_ops->mprotect)
+			error = vma->vm_ops->mprotect(vma, nstart, tmp, newflags);
+		if (error)
+			goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		error = mprotect_fixup(vma, &prev, nstart, tmp, newflags);
 		if (error)

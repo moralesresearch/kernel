@@ -800,7 +800,11 @@ xilinx_dma_alloc_tx_descriptor(struct xilinx_dma_chan *chan)
 {
 	struct xilinx_dma_tx_descriptor *desc;
 
+<<<<<<< HEAD
 	desc = kzalloc(sizeof(*desc), GFP_NOWAIT);
+=======
+	desc = kzalloc(sizeof(*desc), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!desc)
 		return NULL;
 

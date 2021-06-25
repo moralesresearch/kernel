@@ -30,6 +30,7 @@ properties:
           - ti,ths8135
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -39,12 +40,36 @@ properties:
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+    description: |
+      This device has two video ports. Their connections are modeled using the
+      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+    properties:
+      '#address-cells':
+        const: 1
+
+      '#size-cells':
+        const: 0
+
+      port@0:
+        type: object
+        description: The bridge input
+
+      port@1:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: The bridge output
 
     required:
       - port@0
       - port@1
 
+<<<<<<< HEAD
+=======
+    additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   enable-gpios:
     maxItems: 1
     description: GPIO controlling bridge enable

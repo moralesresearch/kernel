@@ -22,7 +22,10 @@
 
 #include <linux/uaccess.h>
 
+<<<<<<< HEAD
 #include <drm/drm_atomic.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_color_mgmt.h>
 #include <drm/drm_crtc.h>
 #include <drm/drm_device.h>
@@ -90,8 +93,14 @@
  *	modes) appropriately.
  *
  * There is also support for a legacy gamma table, which is set up by calling
+<<<<<<< HEAD
  * drm_mode_crtc_set_gamma_size(). The DRM core will then alias the legacy gamma
  * ramp with "GAMMA_LUT" or, if that is unavailable, "DEGAMMA_LUT".
+=======
+ * drm_mode_crtc_set_gamma_size(). Drivers which support both should use
+ * drm_atomic_helper_legacy_gamma_set() to alias the legacy gamma ramp with the
+ * "GAMMA_LUT" property above.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Support for different non RGB color encodings is controlled through
  * &drm_plane specific COLOR_ENCODING and COLOR_RANGE properties. They
@@ -156,6 +165,12 @@ EXPORT_SYMBOL(drm_color_ctm_s31_32_to_qm_n);
  * optional. The gamma and degamma properties are only attached if
  * their size is not 0 and ctm_property is only attached if has_ctm is
  * true.
+<<<<<<< HEAD
+=======
+ *
+ * Drivers should use drm_atomic_helper_legacy_gamma_set() to implement the
+ * legacy &drm_crtc_funcs.gamma_set callback.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
 				uint degamma_lut_size,
@@ -229,6 +244,7 @@ int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
 EXPORT_SYMBOL(drm_mode_crtc_set_gamma_size);
 
 /**
+<<<<<<< HEAD
  * drm_crtc_supports_legacy_gamma - does the crtc support legacy gamma correction table
  * @crtc: CRTC object
  *
@@ -339,6 +355,8 @@ fail:
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * drm_mode_gamma_set_ioctl - set the gamma table
  * @dev: DRM device
  * @data: ioctl data
@@ -369,7 +387,11 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
 	if (!crtc)
 		return -ENOENT;
 
+<<<<<<< HEAD
 	if (!drm_crtc_supports_legacy_gamma(crtc))
+=======
+	if (crtc->funcs->gamma_set == NULL)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOSYS;
 
 	/* memcpy into gamma store */
@@ -397,8 +419,13 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	ret = drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
 					crtc->gamma_size, &ctx);
+=======
+	ret = crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+				     crtc->gamma_size, &ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);

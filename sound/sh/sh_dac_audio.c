@@ -25,6 +25,10 @@
 MODULE_AUTHOR("Rafael Ignacio Zurita <rizurita@yahoo.com>");
 MODULE_DESCRIPTION("SuperH DAC audio driver");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{SuperH DAC audio support}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Module Parameters */
 static int index = SNDRV_DEFAULT_IDX1;

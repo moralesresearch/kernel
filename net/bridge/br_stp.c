@@ -43,7 +43,11 @@ void br_set_state(struct net_bridge_port *p, unsigned int state)
 		return;
 
 	p->state = state;
+<<<<<<< HEAD
 	err = switchdev_port_attr_set(p->dev, &attr, NULL);
+=======
+	err = switchdev_port_attr_set(p->dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err && err != -EOPNOTSUPP)
 		br_warn(p->br, "error setting offload STP state on port %u(%s)\n",
 				(unsigned int) p->port_no, p->dev->name);
@@ -591,7 +595,11 @@ int __set_ageing_time(struct net_device *dev, unsigned long t)
 	};
 	int err;
 
+<<<<<<< HEAD
 	err = switchdev_port_attr_set(dev, &attr, NULL);
+=======
+	err = switchdev_port_attr_set(dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err && err != -EOPNOTSUPP)
 		return err;
 
@@ -601,8 +609,13 @@ int __set_ageing_time(struct net_device *dev, unsigned long t)
 /* Set time interval that dynamic forwarding entries live
  * For pure software bridge, allow values outside the 802.1
  * standard specification for special cases:
+<<<<<<< HEAD
  *  0 - entry never ages (all permanent)
  *  1 - entry disappears (no persistence)
+=======
+ *  0 - entry never ages (all permanant)
+ *  1 - entry disappears (no persistance)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Offloaded switch entries maybe more restrictive
  */

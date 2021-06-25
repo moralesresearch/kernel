@@ -173,12 +173,17 @@ static void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
 	kvm_update_pv_runtime(vcpu);
 
 	vcpu->arch.maxphyaddr = cpuid_query_maxphyaddr(vcpu);
+<<<<<<< HEAD
 	vcpu->arch.reserved_gpa_bits = kvm_vcpu_reserved_gpa_bits_raw(vcpu);
+=======
+	kvm_mmu_reset_context(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kvm_pmu_refresh(vcpu);
 	vcpu->arch.cr4_guest_rsvd_bits =
 	    __cr4_reserved_bits(guest_cpuid_has, vcpu);
 
+<<<<<<< HEAD
 	kvm_hv_set_cpuid(vcpu);
 
 	/* Invoke the vendor callback only after the above state is updated. */
@@ -189,6 +194,12 @@ static void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
 	 * specific adjustments to the reserved GPA bits.
 	 */
 	kvm_mmu_reset_context(vcpu);
+=======
+	vcpu->arch.cr3_lm_rsvd_bits = rsvd_bits(cpuid_maxphyaddr(vcpu), 63);
+
+	/* Invoke the vendor callback only after the above state is updated. */
+	kvm_x86_ops.vcpu_after_set_cpuid(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int is_efer_nx(void)
@@ -229,6 +240,7 @@ not_found:
 	return 36;
 }
 
+<<<<<<< HEAD
 /*
  * This "raw" version returns the reserved GPA bits without any adjustments for
  * encryption technologies that usurp bits.  The raw mask should be used if and
@@ -239,6 +251,8 @@ u64 kvm_vcpu_reserved_gpa_bits_raw(struct kvm_vcpu *vcpu)
 	return rsvd_bits(cpuid_maxphyaddr(vcpu), 63);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* when an old userspace process fills a new kernel module */
 int kvm_vcpu_ioctl_set_cpuid(struct kvm_vcpu *vcpu,
 			     struct kvm_cpuid *cpuid,
@@ -408,7 +422,11 @@ void kvm_set_cpu_caps(void)
 
 	kvm_cpu_cap_mask(CPUID_7_0_EBX,
 		F(FSGSBASE) | F(BMI1) | F(HLE) | F(AVX2) | F(SMEP) |
+<<<<<<< HEAD
 		F(BMI2) | F(ERMS) | F(INVPCID) | F(RTM) | 0 /*MPX*/ | F(RDSEED) |
+=======
+		F(BMI2) | F(ERMS) | 0 /*INVPCID*/ | F(RTM) | 0 /*MPX*/ | F(RDSEED) |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		F(ADX) | F(SMAP) | F(AVX512IFMA) | F(AVX512F) | F(AVX512PF) |
 		F(AVX512ER) | F(AVX512CD) | F(CLFLUSHOPT) | F(CLWB) | F(AVX512DQ) |
 		F(SHA_NI) | F(AVX512BW) | F(AVX512VL) | 0 /*INTEL_PT*/
@@ -450,7 +468,11 @@ void kvm_set_cpu_caps(void)
 		kvm_cpu_cap_set(X86_FEATURE_SPEC_CTRL_SSBD);
 
 	kvm_cpu_cap_mask(CPUID_7_1_EAX,
+<<<<<<< HEAD
 		F(AVX_VNNI) | F(AVX512_BF16)
+=======
+		F(AVX512_BF16)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	);
 
 	kvm_cpu_cap_mask(CPUID_D_1_EAX,
@@ -589,8 +611,12 @@ static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
 	case 7:
 		entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
 		entry->eax = 0;
+<<<<<<< HEAD
 		if (kvm_cpu_cap_has(X86_FEATURE_RDTSCP))
 			entry->ecx = F(RDPID);
+=======
+		entry->ecx = F(RDPID);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		++array->nent;
 	default:
 		break;

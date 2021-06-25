@@ -11,6 +11,10 @@
 #include <uapi/asm/ptrace.h>
 
 #define PIF_SYSCALL		0	/* inside a system call */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PIF_SYSCALL_RESTART	1	/* restart the current system call */
 #define PIF_SYSCALL_RET_SET	2	/* return value was set via ptrace */
 #define PIF_GUEST_FAULT		3	/* indicates program check in sie64a */
@@ -18,6 +22,18 @@
 #define _PIF_SYSCALL		BIT(PIF_SYSCALL)
 #define _PIF_SYSCALL_RESTART	BIT(PIF_SYSCALL_RESTART)
 #define _PIF_SYSCALL_RET_SET	BIT(PIF_SYSCALL_RET_SET)
+<<<<<<< HEAD
+=======
+=======
+#define PIF_PER_TRAP		1	/* deliver sigtrap on return to user */
+#define PIF_SYSCALL_RESTART	2	/* restart the current system call */
+#define PIF_GUEST_FAULT		3	/* indicates program check in sie64a */
+
+#define _PIF_SYSCALL		BIT(PIF_SYSCALL)
+#define _PIF_PER_TRAP		BIT(PIF_PER_TRAP)
+#define _PIF_SYSCALL_RESTART	BIT(PIF_SYSCALL_RESTART)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _PIF_GUEST_FAULT	BIT(PIF_GUEST_FAULT)
 
 #ifndef __ASSEMBLY__
@@ -68,9 +84,18 @@ enum {
 	&(*(struct psw_bits *)(&(__psw)));	\
 }))
 
+<<<<<<< HEAD
 #define PGM_INT_CODE_MASK	0x7f
 #define PGM_INT_CODE_PER	0x80
 
+=======
+<<<<<<< HEAD
+#define PGM_INT_CODE_MASK	0x7f
+#define PGM_INT_CODE_PER	0x80
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The pt_regs struct defines the way the registers are stored on
  * the stack during a system call.

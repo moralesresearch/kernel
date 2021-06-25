@@ -32,7 +32,15 @@ int arch_uprobe_pre_xol(struct arch_uprobe *auprobe, struct pt_regs *regs)
 		return -EINVAL;
 	if (!is_compat_task() && psw_bits(regs->psw).eaba == PSW_BITS_AMODE_31BIT)
 		return -EINVAL;
+<<<<<<< HEAD
 	clear_thread_flag(TIF_PER_TRAP);
+=======
+<<<<<<< HEAD
+	clear_thread_flag(TIF_PER_TRAP);
+=======
+	clear_pt_regs_flag(regs, PIF_PER_TRAP);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	auprobe->saved_per = psw_bits(regs->psw).per;
 	auprobe->saved_int_code = regs->int_code;
 	regs->int_code = UPROBE_TRAP_NR;
@@ -103,7 +111,15 @@ int arch_uprobe_post_xol(struct arch_uprobe *auprobe, struct pt_regs *regs)
 		/* fix per address */
 		current->thread.per_event.address = utask->vaddr;
 		/* trigger per event */
+<<<<<<< HEAD
 		set_thread_flag(TIF_PER_TRAP);
+=======
+<<<<<<< HEAD
+		set_thread_flag(TIF_PER_TRAP);
+=======
+		set_pt_regs_flag(regs, PIF_PER_TRAP);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return 0;
 }
@@ -259,7 +275,15 @@ static void sim_stor_event(struct pt_regs *regs, void *addr, int len)
 		return;
 	current->thread.per_event.address = regs->psw.addr;
 	current->thread.per_event.cause = PER_EVENT_STORE >> 16;
+<<<<<<< HEAD
 	set_thread_flag(TIF_PER_TRAP);
+=======
+<<<<<<< HEAD
+	set_thread_flag(TIF_PER_TRAP);
+=======
+	set_pt_regs_flag(regs, PIF_PER_TRAP);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

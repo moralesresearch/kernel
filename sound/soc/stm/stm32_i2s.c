@@ -8,7 +8,10 @@
 
 #include <linux/bitfield.h>
 #include <linux/clk.h>
+<<<<<<< HEAD
 #include <linux/clk-provider.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/module.h>
 #include <linux/of_irq.h>
@@ -197,9 +200,12 @@ enum i2s_datlen {
 #define STM32_I2S_IS_MASTER(x)		((x)->ms_flg == I2S_MS_MASTER)
 #define STM32_I2S_IS_SLAVE(x)		((x)->ms_flg == I2S_MS_SLAVE)
 
+<<<<<<< HEAD
 #define STM32_I2S_NAME_LEN		32
 #define STM32_I2S_RATE_11K		11025
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct stm32_i2s_data - private data of I2S
  * @regmap_conf: I2S register map configuration pointer
@@ -210,7 +216,10 @@ enum i2s_datlen {
  * @dma_data_rx: dma configuration data for tx channel
  * @substream: PCM substream data pointer
  * @i2sclk: kernel clock feeding the I2S clock generator
+<<<<<<< HEAD
  * @i2smclk: master clock from I2S mclk provider
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pclk: peripheral clock driving bus interface
  * @x8kclk: I2S parent clock for sampling frequencies multiple of 8kHz
  * @x11kclk: I2S parent clock for sampling frequencies multiple of 11kHz
@@ -220,9 +229,12 @@ enum i2s_datlen {
  * @irq_lock: prevent race condition with IRQ
  * @mclk_rate: master clock frequency (Hz)
  * @fmt: DAI protocol
+<<<<<<< HEAD
  * @divider: prescaler division ratio
  * @div: prescaler div field
  * @odd: prescaler odd field
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @refcount: keep count of opened streams on I2S
  * @ms_flg: master mode flag.
  */
@@ -235,7 +247,10 @@ struct stm32_i2s_data {
 	struct snd_dmaengine_dai_dma_data dma_data_rx;
 	struct snd_pcm_substream *substream;
 	struct clk *i2sclk;
+<<<<<<< HEAD
 	struct clk *i2smclk;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct clk *pclk;
 	struct clk *x8kclk;
 	struct clk *x11kclk;
@@ -245,13 +260,17 @@ struct stm32_i2s_data {
 	spinlock_t irq_lock; /* used to prevent race condition with IRQ */
 	unsigned int mclk_rate;
 	unsigned int fmt;
+<<<<<<< HEAD
 	unsigned int divider;
 	unsigned int div;
 	bool odd;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int refcount;
 	int ms_flg;
 };
 
+<<<<<<< HEAD
 struct stm32_i2smclk_data {
 	struct clk_hw hw;
 	unsigned long freq;
@@ -449,6 +468,8 @@ static int stm32_i2s_add_mclk_provider(struct stm32_i2s_data *i2s)
 	return devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get, hw);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static irqreturn_t stm32_i2s_isr(int irq, void *devid)
 {
 	struct stm32_i2s_data *i2s = (struct stm32_i2s_data *)devid;
@@ -614,6 +635,7 @@ static int stm32_i2s_set_sysclk(struct snd_soc_dai *cpu_dai,
 				int clk_id, unsigned int freq, int dir)
 {
 	struct stm32_i2s_data *i2s = snd_soc_dai_get_drvdata(cpu_dai);
+<<<<<<< HEAD
 	int ret = 0;
 
 	dev_dbg(cpu_dai->dev, "I2S MCLK frequency is %uHz. mode: %s, dir: %s\n",
@@ -654,6 +676,20 @@ static int stm32_i2s_set_sysclk(struct snd_soc_dai *cpu_dai,
 	}
 
 	return ret;
+=======
+
+	dev_dbg(cpu_dai->dev, "I2S MCLK frequency is %uHz\n", freq);
+
+	if ((dir == SND_SOC_CLOCK_OUT) && STM32_I2S_IS_MASTER(i2s)) {
+		i2s->mclk_rate = freq;
+
+		/* Enable master clock if master mode and mclk-fs are set */
+		return regmap_update_bits(i2s->regmap, STM32_I2S_CGFR_REG,
+					  I2S_CGFR_MCKOE, I2S_CGFR_MCKOE);
+	}
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
@@ -661,10 +697,18 @@ static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
 {
 	struct stm32_i2s_data *i2s = snd_soc_dai_get_drvdata(cpu_dai);
 	unsigned long i2s_clock_rate;
+<<<<<<< HEAD
 	unsigned int nb_bits, frame_len;
 	unsigned int rate = params_rate(params);
 	u32 cgfr;
 	int ret;
+=======
+	unsigned int tmp, div, real_div, nb_bits, frame_len;
+	unsigned int rate = params_rate(params);
+	int ret;
+	u32 cgfr, cgfr_mask;
+	bool odd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!(rate % 11025))
 		clk_set_parent(i2s->i2sclk, i2s->x11kclk);
@@ -685,10 +729,14 @@ static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
 	 *   dsp mode : div = i2s_clk / (nb_bits x ws)
 	 */
 	if (i2s->mclk_rate) {
+<<<<<<< HEAD
 		ret = stm32_i2s_calc_clk_div(i2s, i2s_clock_rate,
 					     i2s->mclk_rate);
 		if (ret)
 			return ret;
+=======
+		tmp = DIV_ROUND_CLOSEST(i2s_clock_rate, i2s->mclk_rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		frame_len = 32;
 		if ((i2s->fmt & SND_SOC_DAIFMT_FORMAT_MASK) ==
@@ -701,6 +749,7 @@ static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
 			return ret;
 
 		nb_bits = frame_len * ((cgfr & I2S_CGFR_CHLEN) + 1);
+<<<<<<< HEAD
 		ret = stm32_i2s_calc_clk_div(i2s, i2s_clock_rate,
 					     (nb_bits * rate));
 		if (ret)
@@ -708,6 +757,36 @@ static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
 	}
 
 	ret = stm32_i2s_set_clk_div(i2s);
+=======
+		tmp = DIV_ROUND_CLOSEST(i2s_clock_rate, (nb_bits * rate));
+	}
+
+	/* Check the parity of the divider */
+	odd = tmp & 0x1;
+
+	/* Compute the div prescaler */
+	div = tmp >> 1;
+
+	cgfr = I2S_CGFR_I2SDIV_SET(div) | (odd << I2S_CGFR_ODD_SHIFT);
+	cgfr_mask = I2S_CGFR_I2SDIV_MASK | I2S_CGFR_ODD;
+
+	real_div = ((2 * div) + odd);
+	dev_dbg(cpu_dai->dev, "I2S clk: %ld, SCLK: %d\n",
+		i2s_clock_rate, rate);
+	dev_dbg(cpu_dai->dev, "Divider: 2*%d(div)+%d(odd) = %d\n",
+		div, odd, real_div);
+
+	if (((div == 1) && odd) || (div > I2S_CGFR_I2SDIV_MAX)) {
+		dev_err(cpu_dai->dev, "Wrong divider setting\n");
+		return -EINVAL;
+	}
+
+	if (!div && !odd)
+		dev_warn(cpu_dai->dev, "real divider forced to 1\n");
+
+	ret = regmap_update_bits(i2s->regmap, STM32_I2S_CGFR_REG,
+				 cgfr_mask, cgfr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -912,6 +991,12 @@ static void stm32_i2s_shutdown(struct snd_pcm_substream *substream,
 	struct stm32_i2s_data *i2s = snd_soc_dai_get_drvdata(cpu_dai);
 	unsigned long flags;
 
+<<<<<<< HEAD
+=======
+	regmap_update_bits(i2s->regmap, STM32_I2S_CGFR_REG,
+			   I2S_CGFR_MCKOE, (unsigned int)~I2S_CGFR_MCKOE);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(i2s->i2sclk);
 
 	spin_lock_irqsave(&i2s->irq_lock, flags);
@@ -1076,6 +1161,7 @@ static int stm32_i2s_parse_dt(struct platform_device *pdev,
 		return PTR_ERR(i2s->x11kclk);
 	}
 
+<<<<<<< HEAD
 	/* Register mclk provider if requested */
 	if (of_find_property(np, "#clock-cells", NULL)) {
 		ret = stm32_i2s_add_mclk_provider(i2s);
@@ -1083,6 +1169,8 @@ static int stm32_i2s_parse_dt(struct platform_device *pdev,
 			return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Get irqs */
 	irq = platform_get_irq(pdev, 0);
 	if (irq < 0)
@@ -1128,16 +1216,26 @@ static int stm32_i2s_probe(struct platform_device *pdev)
 	if (!i2s)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+	ret = stm32_i2s_parse_dt(pdev, i2s);
+	if (ret)
+		return ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2s->pdev = pdev;
 	i2s->ms_flg = I2S_MS_NOT_SET;
 	spin_lock_init(&i2s->lock_fd);
 	spin_lock_init(&i2s->irq_lock);
 	platform_set_drvdata(pdev, i2s);
 
+<<<<<<< HEAD
 	ret = stm32_i2s_parse_dt(pdev, i2s);
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = stm32_i2s_dais_init(pdev, i2s);
 	if (ret)
 		return ret;

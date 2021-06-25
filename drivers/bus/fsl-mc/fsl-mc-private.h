@@ -10,8 +10,11 @@
 
 #include <linux/fsl/mc.h>
 #include <linux/mutex.h>
+<<<<<<< HEAD
 #include <linux/ioctl.h>
 #include <linux/miscdevice.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Data Path Management Complex (DPMNG) General API
@@ -545,6 +548,7 @@ struct fsl_mc_resource_pool {
 };
 
 /**
+<<<<<<< HEAD
  * struct fsl_mc_uapi - information associated with a device file
  * @misc: struct miscdevice linked to the root dprc
  * @device: newly created device in /dev
@@ -561,6 +565,8 @@ struct fsl_mc_uapi {
 };
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct fsl_mc_bus - logical bus that corresponds to a physical DPRC
  * @mc_dev: fsl-mc device for the bus device itself.
  * @resource_pools: array of resource pools (one pool per resource type)
@@ -569,7 +575,10 @@ struct fsl_mc_uapi {
  * @irq_resources: Pointer to array of IRQ objects for the IRQ pool
  * @scan_mutex: Serializes bus scanning
  * @dprc_attr: DPRC attributes
+<<<<<<< HEAD
  * @uapi_misc: struct that abstracts the interaction with userspace
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct fsl_mc_bus {
 	struct fsl_mc_device mc_dev;
@@ -577,8 +586,11 @@ struct fsl_mc_bus {
 	struct fsl_mc_device_irq *irq_resources;
 	struct mutex scan_mutex;    /* serializes bus scanning */
 	struct dprc_attributes dprc_attr;
+<<<<<<< HEAD
 	struct fsl_mc_uapi uapi_misc;
 	int irq_enabled;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define to_fsl_mc_bus(_mc_dev) \
@@ -595,9 +607,12 @@ int __init dprc_driver_init(void);
 
 void dprc_driver_exit(void);
 
+<<<<<<< HEAD
 int dprc_scan_objects(struct fsl_mc_device *mc_bus_dev,
 		      bool alloc_interrupts);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __init fsl_mc_allocator_driver_init(void);
 
 void fsl_mc_allocator_driver_exit(void);
@@ -636,6 +651,7 @@ void fsl_mc_get_root_dprc(struct device *dev,
 struct fsl_mc_device *fsl_mc_device_lookup(struct fsl_mc_obj_desc *obj_desc,
 					   struct fsl_mc_device *mc_bus_dev);
 
+<<<<<<< HEAD
 u16 mc_cmd_hdr_read_cmdid(struct fsl_mc_command *cmd);
 
 #ifdef CONFIG_FSL_MC_UAPI_SUPPORT
@@ -661,4 +677,6 @@ int disable_dprc_irq(struct fsl_mc_device *mc_dev);
 int enable_dprc_irq(struct fsl_mc_device *mc_dev);
 int get_dprc_irq_state(struct fsl_mc_device *mc_dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _FSL_MC_PRIVATE_H_ */

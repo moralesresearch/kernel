@@ -28,6 +28,12 @@
 #define PFX "jazz16: "
 
 MODULE_DESCRIPTION("Media Vision Jazz16");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Media Vision ??? },"
+		"{RTL,RTL3000}}");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_AUTHOR("Krzysztof Helt <krzysztof.h1@wp.pl>");
 MODULE_LICENSE("GPL");
 
@@ -336,11 +342,19 @@ err_free:
 	return err;
 }
 
+<<<<<<< HEAD
 static void snd_jazz16_remove(struct device *devptr, unsigned int dev)
+=======
+static int snd_jazz16_remove(struct device *devptr, unsigned int dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct snd_card *card = dev_get_drvdata(devptr);
 
 	snd_card_free(card);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

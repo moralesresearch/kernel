@@ -98,9 +98,15 @@ struct rpcrdma_ep {
 	atomic_t		re_completion_ids;
 };
 
+<<<<<<< HEAD
 /* Pre-allocate extra Work Requests for handling reverse-direction
  * Receives and Sends. This is a fixed value because the Work Queues
  * are allocated when the forward channel is set up, long before the
+=======
+/* Pre-allocate extra Work Requests for handling backward receives
+ * and sends. This is a fixed value because the Work Queues are
+ * allocated when the forward channel is set up, long before the
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * backchannel is provisioned. This value is two times
  * NFS4_DEF_CB_SLOT_TABLE_SIZE.
  */
@@ -283,11 +289,18 @@ enum {
 				  RPCRDMA_MAX_IOV_SEGS,
 };
 
+<<<<<<< HEAD
 /* Arguments for DMA mapping and registration */
 struct rpcrdma_mr_seg {
 	u32		mr_len;		/* length of segment */
 	struct page	*mr_page;	/* underlying struct page */
 	u64		mr_offset;	/* IN: page offset, OUT: iova */
+=======
+struct rpcrdma_mr_seg {		/* chunk descriptors */
+	u32		mr_len;		/* length of chunk or segment */
+	struct page	*mr_page;	/* owning page, if any */
+	char		*mr_offset;	/* kva if no page, else offset */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* The Send SGE array is provisioned to send a maximum size
@@ -461,7 +474,11 @@ int rpcrdma_xprt_connect(struct rpcrdma_xprt *r_xprt);
 void rpcrdma_xprt_disconnect(struct rpcrdma_xprt *r_xprt);
 
 int rpcrdma_post_sends(struct rpcrdma_xprt *r_xprt, struct rpcrdma_req *req);
+<<<<<<< HEAD
 void rpcrdma_post_recvs(struct rpcrdma_xprt *r_xprt, int needed, bool temp);
+=======
+void rpcrdma_post_recvs(struct rpcrdma_xprt *r_xprt, bool temp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Buffer calls - xprtrdma/verbs.c
@@ -481,6 +498,10 @@ struct rpcrdma_req *rpcrdma_buffer_get(struct rpcrdma_buffer *);
 void rpcrdma_buffer_put(struct rpcrdma_buffer *buffers,
 			struct rpcrdma_req *req);
 void rpcrdma_recv_buffer_put(struct rpcrdma_rep *);
+<<<<<<< HEAD
+void rpcrdma_reply_put(struct rpcrdma_buffer *buffers, struct rpcrdma_req *req);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool rpcrdma_regbuf_realloc(struct rpcrdma_regbuf *rb, size_t size,
 			    gfp_t flags);

@@ -216,16 +216,24 @@ __ext2_set_acl(struct inode *inode, struct posix_acl *acl, int type)
  * inode->i_mutex: down
  */
 int
+<<<<<<< HEAD
 ext2_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 	     struct posix_acl *acl, int type)
+=======
+ext2_set_acl(struct inode *inode, struct posix_acl *acl, int type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 	int update_mode = 0;
 	umode_t mode = inode->i_mode;
 
 	if (type == ACL_TYPE_ACCESS && acl) {
+<<<<<<< HEAD
 		error = posix_acl_update_mode(&init_user_ns, inode, &mode,
 					      &acl);
+=======
+		error = posix_acl_update_mode(inode, &mode, &acl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			return error;
 		update_mode = 1;

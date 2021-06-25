@@ -38,6 +38,7 @@ g84_fifo_uevent_init(struct nvkm_fifo *fifo)
 	nvkm_mask(device, 0x002140, 0x40000000, 0x40000000);
 }
 
+<<<<<<< HEAD
 static struct nvkm_engine *
 g84_fifo_id_engine(struct nvkm_fifo *fifo, int engi)
 {
@@ -106,14 +107,19 @@ g84_fifo_engine_id(struct nvkm_fifo *base, struct nvkm_engine *engine)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct nvkm_fifo_func
 g84_fifo = {
 	.dtor = nv50_fifo_dtor,
 	.oneinit = nv50_fifo_oneinit,
 	.init = nv50_fifo_init,
 	.intr = nv04_fifo_intr,
+<<<<<<< HEAD
 	.engine_id = g84_fifo_engine_id,
 	.id_engine = g84_fifo_id_engine,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.pause = nv04_fifo_pause,
 	.start = nv04_fifo_start,
 	.uevent_init = g84_fifo_uevent_init,
@@ -126,8 +132,14 @@ g84_fifo = {
 };
 
 int
+<<<<<<< HEAD
 g84_fifo_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_fifo **pfifo)
 {
 	return nv50_fifo_new_(&g84_fifo, device, type, inst, pfifo);
+=======
+g84_fifo_new(struct nvkm_device *device, int index, struct nvkm_fifo **pfifo)
+{
+	return nv50_fifo_new_(&g84_fifo, device, index, pfifo);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

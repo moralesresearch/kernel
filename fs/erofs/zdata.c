@@ -1235,7 +1235,11 @@ submit_bio_retry:
 			}
 
 			if (!bio) {
+<<<<<<< HEAD
 				bio = bio_alloc(GFP_NOIO, BIO_MAX_VECS);
+=======
+				bio = bio_alloc(GFP_NOIO, BIO_MAX_PAGES);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				bio->bi_end_io = z_erofs_decompressqueue_endio;
 				bio_set_dev(bio, sb->s_bdev);

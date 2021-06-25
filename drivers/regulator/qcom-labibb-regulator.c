@@ -17,6 +17,7 @@
 
 #define PMI8998_LAB_REG_BASE		0xde00
 #define PMI8998_IBB_REG_BASE		0xdc00
+<<<<<<< HEAD
 #define PMI8998_IBB_LAB_REG_OFFSET	0x200
 
 #define REG_LABIBB_STATUS1		0x08
@@ -59,6 +60,13 @@
 #define REG_LABIBB_SOFT_START_CTL	0x5f
 #define REG_LABIBB_SEC_ACCESS		0xd0
  #define LABIBB_SEC_UNLOCK_CODE		0xa5
+=======
+
+#define REG_LABIBB_STATUS1		0x08
+#define REG_LABIBB_ENABLE_CTL		0x46
+#define LABIBB_STATUS1_VREG_OK_BIT	BIT(7)
+#define LABIBB_CONTROL_ENABLE		BIT(7)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define LAB_ENABLE_CTL_MASK		BIT(7)
 #define IBB_ENABLE_CTL_MASK		(BIT(7) | BIT(6))
@@ -67,6 +75,7 @@
 #define LAB_ENABLE_TIME			(LABIBB_OFF_ON_DELAY * 2)
 #define IBB_ENABLE_TIME			(LABIBB_OFF_ON_DELAY * 10)
 #define LABIBB_POLL_ENABLED_TIME	1000
+<<<<<<< HEAD
 #define OCP_RECOVERY_INTERVAL_MS	500
 #define SC_RECOVERY_INTERVAL_MS		250
 #define LABIBB_MAX_OCP_COUNT		4
@@ -78,12 +87,15 @@ struct labibb_current_limits {
 	u32				uA_step;
 	u8				ovr_val;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct labibb_regulator {
 	struct regulator_desc		desc;
 	struct device			*dev;
 	struct regmap			*regmap;
 	struct regulator_dev		*rdev;
+<<<<<<< HEAD
 	struct labibb_current_limits	uA_limits;
 	struct delayed_work		ocp_recovery_work;
 	struct delayed_work		sc_recovery_work;
@@ -96,6 +108,10 @@ struct labibb_regulator {
 	int				ocp_irq;
 	int				ocp_irq_count;
 	int				fatal_count;
+=======
+	u16				base;
+	u8				type;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct labibb_regulator_data {
@@ -105,6 +121,7 @@ struct labibb_regulator_data {
 	const struct regulator_desc	*desc;
 };
 
+<<<<<<< HEAD
 static int qcom_labibb_ocp_hw_enable(struct regulator_dev *rdev)
 {
 	struct labibb_regulator *vreg = rdev_get_drvdata(rdev);
@@ -664,10 +681,13 @@ static int qcom_labibb_of_parse_cb(struct device_node *np,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct regulator_ops qcom_labibb_ops = {
 	.enable			= regulator_enable_regmap,
 	.disable		= regulator_disable_regmap,
 	.is_enabled		= regulator_is_enabled_regmap,
+<<<<<<< HEAD
 	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
 	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
 	.list_voltage		= regulator_list_voltage_linear,
@@ -678,6 +698,8 @@ static const struct regulator_ops qcom_labibb_ops = {
 	.get_current_limit	= qcom_labibb_get_current_limit,
 	.set_soft_start		= qcom_labibb_set_soft_start,
 	.set_over_current_protection = qcom_labibb_set_ocp,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct regulator_desc pmi8998_lab_desc = {
@@ -686,6 +708,7 @@ static const struct regulator_desc pmi8998_lab_desc = {
 	.enable_val		= LABIBB_CONTROL_ENABLE,
 	.enable_time		= LAB_ENABLE_TIME,
 	.poll_enabled_time	= LABIBB_POLL_ENABLED_TIME,
+<<<<<<< HEAD
 	.soft_start_reg		= (PMI8998_LAB_REG_BASE + REG_LABIBB_SOFT_START_CTL),
 	.pull_down_reg		= (PMI8998_LAB_REG_BASE + REG_LABIBB_PD_CTL),
 	.pull_down_mask		= LAB_PD_CTL_MASK,
@@ -705,6 +728,12 @@ static const struct regulator_desc pmi8998_lab_desc = {
 	.n_voltages		= 16,
 	.ops			= &qcom_labibb_ops,
 	.of_parse_cb		= qcom_labibb_of_parse_cb,
+=======
+	.off_on_delay		= LABIBB_OFF_ON_DELAY,
+	.owner			= THIS_MODULE,
+	.type			= REGULATOR_VOLTAGE,
+	.ops			= &qcom_labibb_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct regulator_desc pmi8998_ibb_desc = {
@@ -713,6 +742,7 @@ static const struct regulator_desc pmi8998_ibb_desc = {
 	.enable_val		= LABIBB_CONTROL_ENABLE,
 	.enable_time		= IBB_ENABLE_TIME,
 	.poll_enabled_time	= LABIBB_POLL_ENABLED_TIME,
+<<<<<<< HEAD
 	.soft_start_reg		= (PMI8998_IBB_REG_BASE + REG_LABIBB_SOFT_START_CTL),
 	.active_discharge_off	= 0,
 	.active_discharge_on	= IBB_CTL_1_DISCHARGE_EN,
@@ -736,6 +766,12 @@ static const struct regulator_desc pmi8998_ibb_desc = {
 	.n_voltages		= 64,
 	.ops			= &qcom_labibb_ops,
 	.of_parse_cb		= qcom_labibb_of_parse_cb,
+=======
+	.off_on_delay		= LABIBB_OFF_ON_DELAY,
+	.owner			= THIS_MODULE,
+	.type			= REGULATOR_VOLTAGE,
+	.ops			= &qcom_labibb_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct labibb_regulator_data pmi8998_labibb_data[] = {
@@ -755,7 +791,11 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 	struct labibb_regulator *vreg;
 	struct device *dev = &pdev->dev;
 	struct regulator_config cfg = {};
+<<<<<<< HEAD
 	struct device_node *reg_node;
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct of_device_id *match;
 	const struct labibb_regulator_data *reg_data;
 	struct regmap *reg_regmap;
@@ -773,8 +813,11 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 		return -ENODEV;
 
 	for (reg_data = match->data; reg_data->name; reg_data++) {
+<<<<<<< HEAD
 		char *sc_irq_name;
 		int irq = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Validate if the type of regulator is indeed
 		 * what's mentioned in DT.
@@ -797,6 +840,7 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 		if (!vreg)
 			return -ENOMEM;
 
+<<<<<<< HEAD
 		sc_irq_name = devm_kasprintf(dev, GFP_KERNEL,
 					     "%s-short-circuit",
 					     reg_data->name);
@@ -825,10 +869,13 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 		vreg->ocp_irq_count = 0;
 		of_node_put(reg_node);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vreg->regmap = reg_regmap;
 		vreg->dev = dev;
 		vreg->base = reg_data->base;
 		vreg->type = reg_data->type;
+<<<<<<< HEAD
 		INIT_DELAYED_WORK(&vreg->sc_recovery_work,
 				  qcom_labibb_sc_recovery_worker);
 
@@ -852,6 +899,8 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 		default:
 			return -EINVAL;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		memcpy(&vreg->desc, reg_data->desc, sizeof(vreg->desc));
 		vreg->desc.of_match = reg_data->name;
@@ -869,6 +918,7 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 					reg_data->name, ret);
 			return PTR_ERR(vreg->rdev);
 		}
+<<<<<<< HEAD
 
 		ret = devm_request_threaded_irq(vreg->dev, vreg->sc_irq, NULL,
 						qcom_labibb_sc_isr,
@@ -877,6 +927,8 @@ static int qcom_labibb_regulator_probe(struct platform_device *pdev)
 						sc_irq_name, vreg);
 		if (ret)
 			return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

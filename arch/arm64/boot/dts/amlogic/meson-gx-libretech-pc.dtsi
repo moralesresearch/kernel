@@ -186,7 +186,11 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
+<<<<<<< HEAD
 		model = "LIBRETECH-PC";
+=======
+		model = "GXL-LIBRETECH-S9XX-PC";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-aux-devs = <&dio2133>;
 		audio-widgets = "Speaker", "7J4-14 LEFT",
 				"Speaker", "7J4-11 RIGHT";

@@ -215,11 +215,15 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_vm *vm,
 	/* Check if we have an idle VMID */
 	i = 0;
 	list_for_each_entry((*idle), &id_mgr->ids_lru, list) {
+<<<<<<< HEAD
 		/* Don't use per engine and per process VMID at the same time */
 		struct amdgpu_ring *r = adev->vm_manager.concurrent_flush ?
 			NULL : ring;
 
 		fences[i] = amdgpu_sync_peek_fence(&(*idle)->active, r);
+=======
+		fences[i] = amdgpu_sync_peek_fence(&(*idle)->active, ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!fences[i])
 			break;
 		++i;
@@ -285,7 +289,11 @@ static int amdgpu_vmid_grab_reserved(struct amdgpu_vm *vm,
 	if (updates && (*id)->flushed_updates &&
 	    updates->context == (*id)->flushed_updates->context &&
 	    !dma_fence_is_later(updates, (*id)->flushed_updates))
+<<<<<<< HEAD
 		updates = NULL;
+=======
+	    updates = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((*id)->owner != vm->immediate.fence_context ||
 	    job->vm_pd_addr != (*id)->pd_gpu_addr ||
@@ -294,10 +302,13 @@ static int amdgpu_vmid_grab_reserved(struct amdgpu_vm *vm,
 	     !dma_fence_is_signaled((*id)->last_flush))) {
 		struct dma_fence *tmp;
 
+<<<<<<< HEAD
 		/* Don't use per engine and per process VMID at the same time */
 		if (adev->vm_manager.concurrent_flush)
 			ring = NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* to prevent one context starved by another context */
 		(*id)->pd_gpu_addr = 0;
 		tmp = amdgpu_sync_peek_fence(&(*id)->active, ring);
@@ -373,7 +384,16 @@ static int amdgpu_vmid_grab_used(struct amdgpu_vm *vm,
 		if (updates && (!flushed || dma_fence_is_later(updates, flushed)))
 			needs_flush = true;
 
+<<<<<<< HEAD
 		if (needs_flush && !adev->vm_manager.concurrent_flush)
+=======
+		/* Concurrent flushes are only possible starting with Vega10 and
+		 * are broken on Navi10 and Navi14.
+		 */
+		if (needs_flush && (adev->asic_type < CHIP_VEGA10 ||
+				    adev->asic_type == CHIP_NAVI10 ||
+				    adev->asic_type == CHIP_NAVI14))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		/* Good, we can use this VMID. Remember this submission as

@@ -205,5 +205,9 @@ drop_packet:
 		 ("%s: drop, tx_drop=%d\n", __func__, (u32)pxmitpriv->tx_drop));
 
 exit:
+<<<<<<< HEAD
 	return NETDEV_TX_OK;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

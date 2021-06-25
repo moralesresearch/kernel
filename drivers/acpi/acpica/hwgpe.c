@@ -3,7 +3,11 @@
  *
  * Module Name: hwgpe - Low level GPE enable/disable/clear functions
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -167,7 +171,11 @@ acpi_hw_low_set_gpe(struct acpi_gpe_event_info *gpe_event_info, u32 action)
 			return (AE_BAD_PARAMETER);
 		}
 
+<<<<<<< HEAD
 		ACPI_FALLTHROUGH;
+=======
+		/*lint -fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	case ACPI_GPE_ENABLE:
 

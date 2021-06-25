@@ -377,5 +377,9 @@ module_platform_driver(bpp_sbus_driver);
 
 MODULE_AUTHOR("Derrick J Brashear");
 MODULE_DESCRIPTION("Parport Driver for Sparc bidirectional Port");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Sparc Bidirectional Parallel Port");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_VERSION("2.0");
 MODULE_LICENSE("GPL");

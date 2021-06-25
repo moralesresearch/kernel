@@ -507,7 +507,11 @@ static int test_rmap_block(struct btrfs_fs_info *fs_info,
 		goto out_free;
 	}
 
+<<<<<<< HEAD
 	ret = btrfs_rmap_block(fs_info, em->start, NULL, btrfs_sb_offset(1),
+=======
+	ret = btrfs_rmap_block(fs_info, em->start, btrfs_sb_offset(1),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       &logical, &out_ndaddrs, &out_stripe_len);
 	if (ret || (out_ndaddrs == 0 && test->expected_mapped_addr)) {
 		test_err("didn't rmap anything but expected %d",

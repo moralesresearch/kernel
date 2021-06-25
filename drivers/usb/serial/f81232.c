@@ -192,9 +192,19 @@ static int f81232_set_register(struct usb_serial_port *port, u16 reg, u8 val)
 				tmp,
 				sizeof(val),
 				USB_CTRL_SET_TIMEOUT);
+<<<<<<< HEAD
 	if (status < 0) {
 		dev_err(&port->dev, "%s failed status: %d\n", __func__, status);
 		status = usb_translate_errors(status);
+=======
+	if (status != sizeof(val)) {
+		dev_err(&port->dev, "%s failed status: %d\n", __func__, status);
+
+		if (status < 0)
+			status = usb_translate_errors(status);
+		else
+			status = -EIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		status = 0;
 	}
@@ -882,6 +892,13 @@ static int f81534a_ctrl_set_register(struct usb_interface *intf, u16 reg,
 			status = usb_translate_errors(status);
 			if (status == -EIO)
 				continue;
+<<<<<<< HEAD
+=======
+		} else if (status != size) {
+			/* Retry on short transfers */
+			status = -EIO;
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			status = 0;
 		}

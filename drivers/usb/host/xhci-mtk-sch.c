@@ -378,6 +378,7 @@ static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
 	sch_ep->allocated = used;
 }
 
+<<<<<<< HEAD
 static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
 {
 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
@@ -403,6 +404,8 @@ static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int check_sch_tt(struct usb_device *udev,
 	struct mu3h_sch_ep_info *sch_ep, u32 offset)
 {
@@ -427,7 +430,11 @@ static int check_sch_tt(struct usb_device *udev,
 			return -ERANGE;
 
 		for (i = 0; i < sch_ep->cs_count; i++)
+<<<<<<< HEAD
 			if (test_bit(offset + i, tt->ss_bit_map))
+=======
+			if (test_bit(offset + i, tt->split_bit_map))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -ERANGE;
 
 	} else {
@@ -457,7 +464,11 @@ static int check_sch_tt(struct usb_device *udev,
 			cs_count = 7; /* HW limit */
 
 		for (i = 0; i < cs_count + 2; i++) {
+<<<<<<< HEAD
 			if (test_bit(offset + i, tt->ss_bit_map))
+=======
+			if (test_bit(offset + i, tt->split_bit_map))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -ERANGE;
 		}
 
@@ -473,6 +484,7 @@ static int check_sch_tt(struct usb_device *udev,
 			sch_ep->num_budget_microframes = sch_ep->esit;
 	}
 
+<<<<<<< HEAD
 	return check_fs_bus_bw(sch_ep, offset);
 }
 
@@ -511,6 +523,26 @@ static void update_sch_tt(struct usb_device *udev,
 		list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
 	else
 		list_del(&sch_ep->tt_endpoint);
+=======
+	return 0;
+}
+
+static void update_sch_tt(struct usb_device *udev,
+	struct mu3h_sch_ep_info *sch_ep)
+{
+	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
+	u32 base, num_esit;
+	int i, j;
+
+	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
+	for (i = 0; i < num_esit; i++) {
+		base = sch_ep->offset + i * sch_ep->esit;
+		for (j = 0; j < sch_ep->num_budget_microframes; j++)
+			set_bit(base + j, tt->split_bit_map);
+	}
+
+	list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int check_sch_bw(struct usb_device *udev,
@@ -580,7 +612,11 @@ static int check_sch_bw(struct usb_device *udev,
 		if (!tt_offset_ok)
 			return -ERANGE;
 
+<<<<<<< HEAD
 		update_sch_tt(udev, sch_ep, 1);
+=======
+		update_sch_tt(udev, sch_ep);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* update bus bandwidth info */
@@ -593,6 +629,7 @@ static void destroy_sch_ep(struct usb_device *udev,
 	struct mu3h_sch_bw_info *sch_bw, struct mu3h_sch_ep_info *sch_ep)
 {
 	/* only release ep bw check passed by check_sch_bw() */
+<<<<<<< HEAD
 	if (sch_ep->allocated) {
 		update_bus_bw(sch_bw, sch_ep, 0);
 		if (sch_ep->sch_tt)
@@ -603,6 +640,17 @@ static void destroy_sch_ep(struct usb_device *udev,
 		drop_tt(udev);
 
 	list_del(&sch_ep->endpoint);
+=======
+	if (sch_ep->allocated)
+		update_bus_bw(sch_bw, sch_ep, 0);
+
+	list_del(&sch_ep->endpoint);
+
+	if (sch_ep->sch_tt) {
+		list_del(&sch_ep->tt_endpoint);
+		drop_tt(udev);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(sch_ep);
 }
 
@@ -689,7 +737,11 @@ int xhci_mtk_add_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
 		 */
 		if (usb_endpoint_xfer_int(&ep->desc)
 			|| usb_endpoint_xfer_isoc(&ep->desc))
+<<<<<<< HEAD
 			ep_ctx->reserved[0] = cpu_to_le32(EP_BPKTS(1));
+=======
+			ep_ctx->reserved[0] |= cpu_to_le32(EP_BPKTS(1));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return 0;
 	}
@@ -776,10 +828,17 @@ int xhci_mtk_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev)
 		list_move_tail(&sch_ep->endpoint, &sch_bw->bw_ep_list);
 
 		ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
+<<<<<<< HEAD
 		ep_ctx->reserved[0] = cpu_to_le32(EP_BPKTS(sch_ep->pkts)
 			| EP_BCSCOUNT(sch_ep->cs_count)
 			| EP_BBM(sch_ep->burst_mode));
 		ep_ctx->reserved[1] = cpu_to_le32(EP_BOFFSET(sch_ep->offset)
+=======
+		ep_ctx->reserved[0] |= cpu_to_le32(EP_BPKTS(sch_ep->pkts)
+			| EP_BCSCOUNT(sch_ep->cs_count)
+			| EP_BBM(sch_ep->burst_mode));
+		ep_ctx->reserved[1] |= cpu_to_le32(EP_BOFFSET(sch_ep->offset)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			| EP_BREPEAT(sch_ep->repeat));
 
 		xhci_dbg(xhci, " PKTS:%x, CSCOUNT:%x, BM:%x, OFFSET:%x, REPEAT:%x\n",

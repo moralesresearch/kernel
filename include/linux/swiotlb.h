@@ -29,7 +29,10 @@ enum swiotlb_force {
  * controllable.
  */
 #define IO_TLB_SHIFT 11
+<<<<<<< HEAD
 #define IO_TLB_SIZE (1 << IO_TLB_SHIFT)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* default to 64MB */
 #define IO_TLB_DEFAULT_SIZE (64UL<<20)

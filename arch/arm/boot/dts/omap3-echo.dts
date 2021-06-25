@@ -86,6 +86,7 @@
 		linux,axis = <REL_X>;
 		rotary-encoder,relative-axis;
 	};
+<<<<<<< HEAD
 
 	speaker_amp: speaker-amplifier {
 		compatible = "simple-audio-amplifier";
@@ -118,6 +119,8 @@
 			system-clock-frequency = <19200000>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &i2c1 {
@@ -128,6 +131,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &mcbsp2 {
 	status = "okay";
 	#sound-dai-cells = <0>;
@@ -135,6 +139,8 @@
 	pinctrl-0 = <&mcbsp2_pins>;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &i2c2 {
 	clock-frequency = <400000>;
 
@@ -316,6 +322,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &i2c3 {
 	clock-frequency = <400000>;
 
@@ -332,6 +339,8 @@
 };
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "tps65910.dtsi"
 
 &omap3_pmx_core {
@@ -345,9 +354,12 @@
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x20dc, PIN_INPUT | MUX_MODE4)	/* dss_data0.gpio_70 */
 			OMAP3_CORE1_IOPAD(0x20e0, PIN_INPUT | MUX_MODE4)	/* dss_data2.gpio_72 */
+<<<<<<< HEAD
 			OMAP3_CORE1_IOPAD(0x20e4, PIN_OUTPUT | MUX_MODE4)	/* dss_data4.gpio_74 */
 			OMAP3_CORE1_IOPAD(0x20fa, PIN_OUTPUT_PULLDOWN | MUX_MODE4)	/* dss_data15.gpio_85 */
 			OMAP3_CORE1_IOPAD(0x2a1a, PIN_OUTPUT | MUX_MODE0)	/* sys_clkout1.sys_clkout1 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		>;
 	};
 
@@ -376,6 +388,7 @@
 			OMAP3_CORE1_IOPAD(0x216a, PIN_INPUT_PULLUP | MUX_MODE0)		/* sdmmc2_dat7.sdmmc2_dat7 */
 		>;
 	};
+<<<<<<< HEAD
 
 	mcbsp2_pins: pinmux_mcbsp2_pins {
 		pinctrl-single,pins = <
@@ -385,6 +398,8 @@
 			OMAP3_CORE1_IOPAD(0x2142, PIN_OUTPUT | MUX_MODE0)	/* mcbsp2_dx.mcbsp2_dx */
 		>;
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &omap3_pmx_core2 {

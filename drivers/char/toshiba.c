@@ -64,6 +64,10 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Jonathan Buzzard <jonathan@buzzard.org.uk>");
 MODULE_DESCRIPTION("Toshiba laptop SMM driver");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("toshiba");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static DEFINE_MUTEX(tosh_mutex);
 static int tosh_fn;

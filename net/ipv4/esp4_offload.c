@@ -217,12 +217,19 @@ static struct sk_buff *esp4_gso_segment(struct sk_buff *skb,
 
 	if ((!(skb->dev->gso_partial_features & NETIF_F_HW_ESP) &&
 	     !(features & NETIF_F_HW_ESP)) || x->xso.dev != skb->dev)
+<<<<<<< HEAD
 		esp_features = features & ~(NETIF_F_SG | NETIF_F_CSUM_MASK |
 					    NETIF_F_SCTP_CRC);
 	else if (!(features & NETIF_F_HW_ESP_TX_CSUM) &&
 		 !(skb->dev->gso_partial_features & NETIF_F_HW_ESP_TX_CSUM))
 		esp_features = features & ~(NETIF_F_CSUM_MASK |
 					    NETIF_F_SCTP_CRC);
+=======
+		esp_features = features & ~(NETIF_F_SG | NETIF_F_CSUM_MASK);
+	else if (!(features & NETIF_F_HW_ESP_TX_CSUM) &&
+		 !(skb->dev->gso_partial_features & NETIF_F_HW_ESP_TX_CSUM))
+		esp_features = features & ~NETIF_F_CSUM_MASK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xo->flags |= XFRM_GSO_SEGMENT;
 
@@ -287,7 +294,11 @@ static int esp_xmit(struct xfrm_state *x, struct sk_buff *skb,  netdev_features_
 	esp.esph = ip_esp_hdr(skb);
 
 
+<<<<<<< HEAD
 	if (!hw_offload || !skb_is_gso(skb)) {
+=======
+	if (!hw_offload || (hw_offload && !skb_is_gso(skb))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		esp.nfrags = esp_output_head(x, skb, &esp);
 		if (esp.nfrags < 0)
 			return esp.nfrags;
@@ -314,6 +325,7 @@ static int esp_xmit(struct xfrm_state *x, struct sk_buff *skb,  netdev_features_
 	ip_hdr(skb)->tot_len = htons(skb->len);
 	ip_send_check(ip_hdr(skb));
 
+<<<<<<< HEAD
 	if (hw_offload) {
 		if (!skb_ext_add(skb, SKB_EXT_SEC_PATH))
 			return -ENOMEM;
@@ -325,6 +337,10 @@ static int esp_xmit(struct xfrm_state *x, struct sk_buff *skb,  netdev_features_
 		xo->flags |= XFRM_XMIT;
 		return 0;
 	}
+=======
+	if (hw_offload)
+		return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = esp_output_tail(x, skb, &esp);
 	if (err)

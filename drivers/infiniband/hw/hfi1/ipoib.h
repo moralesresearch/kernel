@@ -52,9 +52,14 @@ union hfi1_ipoib_flow {
  * @producer_lock: producer sync lock
  * @consumer_lock: consumer sync lock
  */
+<<<<<<< HEAD
 struct ipoib_txreq;
 struct hfi1_ipoib_circ_buf {
 	struct ipoib_txreq **items;
+=======
+struct hfi1_ipoib_circ_buf {
+	void **items;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long head;
 	unsigned long tail;
 	unsigned long max_items;

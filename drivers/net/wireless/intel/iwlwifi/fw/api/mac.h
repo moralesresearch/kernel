@@ -452,10 +452,13 @@ struct iwl_he_pkt_ext {
  *	enabled AGG, i.e. both BACK and non-BACK frames in a single AGG
  * @STA_CTXT_HE_MU_EDCA_CW: indicates that there is an element of MU EDCA
  *	parameter set, i.e. the backoff counters for trig-based ACs
+<<<<<<< HEAD
  * @STA_CTXT_HE_NIC_NOT_ACK_ENABLED: mark that the NIC doesn't support receiving
  *	ACK-enabled AGG, (i.e. both BACK and non-BACK frames in single AGG).
  *	If the NIC is not ACK_ENABLED it may use the EOF-bit in first non-0
  *	len delim to determine if AGG or single.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @STA_CTXT_HE_RU_2MHZ_BLOCK: indicates that 26-tone RU OFDMA transmission are
  *      not allowed (as there are OBSS that might classify such transmissions as
  *      radar pulses).
@@ -470,7 +473,10 @@ enum iwl_he_sta_ctxt_flags {
 	STA_CTXT_HE_CONST_TRIG_RND_ALLOC	= BIT(10),
 	STA_CTXT_HE_ACK_ENABLED			= BIT(11),
 	STA_CTXT_HE_MU_EDCA_CW			= BIT(12),
+<<<<<<< HEAD
 	STA_CTXT_HE_NIC_NOT_ACK_ENABLED		= BIT(13),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	STA_CTXT_HE_RU_2MHZ_BLOCK		= BIT(14),
 };
 

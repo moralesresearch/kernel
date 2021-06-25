@@ -1011,6 +1011,7 @@ static int cros_ec_codec_platform_probe(struct platform_device *pdev)
 	}
 	priv->ec_capabilities = r.capabilities;
 
+<<<<<<< HEAD
 	/* Reset EC codec i2s rx. */
 	p.cmd = EC_CODEC_I2S_RX_RESET;
 	ret = send_ec_host_command(priv->ec_device, EC_CMD_EC_CODEC_I2S_RX,
@@ -1023,6 +1024,8 @@ static int cros_ec_codec_platform_probe(struct platform_device *pdev)
 		return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_set_drvdata(pdev, priv);
 
 	ret = devm_snd_soc_register_component(dev, &i2s_rx_component_driver,

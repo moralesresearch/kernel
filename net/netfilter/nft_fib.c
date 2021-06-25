@@ -86,6 +86,10 @@ int nft_fib_init(const struct nft_ctx *ctx, const struct nft_expr *expr,
 		return -EINVAL;
 
 	priv->result = ntohl(nla_get_be32(tb[NFTA_FIB_RESULT]));
+<<<<<<< HEAD
+=======
+	priv->dreg = nft_parse_register(tb[NFTA_FIB_DREG]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (priv->result) {
 	case NFT_FIB_RESULT_OIF:
@@ -105,8 +109,13 @@ int nft_fib_init(const struct nft_ctx *ctx, const struct nft_expr *expr,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	err = nft_parse_register_store(ctx, tb[NFTA_FIB_DREG], &priv->dreg,
 				       NULL, NFT_DATA_VALUE, len);
+=======
+	err = nft_validate_register_store(ctx, priv->dreg, NULL,
+					  NFT_DATA_VALUE, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 

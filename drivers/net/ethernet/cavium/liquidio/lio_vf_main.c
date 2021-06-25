@@ -595,7 +595,11 @@ static void octeon_destroy_resources(struct octeon_device *oct)
  * @lio: per-network private data
  * @start_stop: whether to start or stop
  */
+<<<<<<< HEAD
+static int send_rx_ctrl_cmd(struct lio *lio, int start_stop)
+=======
 static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct octeon_device *oct = (struct octeon_device *)lio->oct_dev;
 	struct octeon_soft_command *sc;
@@ -603,11 +607,23 @@ static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
 	int retval;
 
 	if (oct->props[lio->ifidx].rx_on == start_stop)
+<<<<<<< HEAD
+		return 0;
+=======
 		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sc = (struct octeon_soft_command *)
 		octeon_alloc_soft_command(oct, OCTNET_CMD_SIZE,
 					  16, 0);
+<<<<<<< HEAD
+	if (!sc) {
+		netif_info(lio, rx_err, lio->netdev,
+			   "Failed to allocate octeon_soft_command struct\n");
+		return -ENOMEM;
+	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ncmd = (union octnet_cmd *)sc->virtdptr;
 
@@ -635,11 +651,20 @@ static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
 		 */
 		retval = wait_for_sc_completion_timeout(oct, sc, 0);
 		if (retval)
+<<<<<<< HEAD
+			return retval;
+=======
 			return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		oct->props[lio->ifidx].rx_on = start_stop;
 		WRITE_ONCE(sc->caller_is_done, true);
 	}
+<<<<<<< HEAD
+
+	return retval;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -906,6 +931,10 @@ static int liquidio_open(struct net_device *netdev)
 	struct octeon_device_priv *oct_priv =
 		(struct octeon_device_priv *)oct->priv;
 	struct napi_struct *napi, *n;
+<<<<<<< HEAD
+	int ret = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!oct->props[lio->ifidx].napi_enabled) {
 		tasklet_disable(&oct_priv->droq_tasklet);
@@ -932,11 +961,21 @@ static int liquidio_open(struct net_device *netdev)
 					(LIQUIDIO_NDEV_STATS_POLL_TIME_MS));
 
 	/* tell Octeon to start forwarding packets to host */
+<<<<<<< HEAD
+	ret = send_rx_ctrl_cmd(lio, 1);
+	if (ret)
+		return ret;
+
+	dev_info(&oct->pci_dev->dev, "%s interface is opened\n", netdev->name);
+
+	return ret;
+=======
 	send_rx_ctrl_cmd(lio, 1);
 
 	dev_info(&oct->pci_dev->dev, "%s interface is opened\n", netdev->name);
 
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -950,9 +989,18 @@ static int liquidio_stop(struct net_device *netdev)
 	struct octeon_device_priv *oct_priv =
 		(struct octeon_device_priv *)oct->priv;
 	struct napi_struct *napi, *n;
+<<<<<<< HEAD
+	int ret = 0;
+
+	/* tell Octeon to stop forwarding packets to host */
+	ret = send_rx_ctrl_cmd(lio, 0);
+	if (ret)
+		return ret;
+=======
 
 	/* tell Octeon to stop forwarding packets to host */
 	send_rx_ctrl_cmd(lio, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netif_info(lio, ifdown, lio->netdev, "Stopping interface!\n");
 	/* Inform that netif carrier is down */
@@ -986,7 +1034,11 @@ static int liquidio_stop(struct net_device *netdev)
 
 	dev_info(&oct->pci_dev->dev, "%s interface is stopped\n", netdev->name);
 
+<<<<<<< HEAD
+	return ret;
+=======
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1879,6 +1931,11 @@ static const struct net_device_ops lionetdevops = {
 	.ndo_do_ioctl		= liquidio_ioctl,
 	.ndo_fix_features	= liquidio_fix_features,
 	.ndo_set_features	= liquidio_set_features,
+<<<<<<< HEAD
+=======
+	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
+	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int lio_nic_info(struct octeon_recv_info *recv_info, void *buf)

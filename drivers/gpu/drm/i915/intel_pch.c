@@ -143,9 +143,14 @@ static bool intel_is_virt_pch(unsigned short id,
 		 sdevice == PCI_SUBDEVICE_ID_QEMU));
 }
 
+<<<<<<< HEAD
 static void
 intel_virt_detect_pch(const struct drm_i915_private *dev_priv,
 		      unsigned short *pch_id, enum intel_pch *pch_type)
+=======
+static unsigned short
+intel_virt_detect_pch(const struct drm_i915_private *dev_priv)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned short id = 0;
 
@@ -182,6 +187,7 @@ intel_virt_detect_pch(const struct drm_i915_private *dev_priv,
 	else
 		drm_dbg_kms(&dev_priv->drm, "Assuming no PCH\n");
 
+<<<<<<< HEAD
 	*pch_type = intel_pch_type(dev_priv, id);
 
 	/* Sanity check virtual PCH id */
@@ -190,13 +196,19 @@ intel_virt_detect_pch(const struct drm_i915_private *dev_priv,
 		id = 0;
 
 	*pch_id = id;
+=======
+	return id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void intel_detect_pch(struct drm_i915_private *dev_priv)
 {
 	struct pci_dev *pch = NULL;
+<<<<<<< HEAD
 	unsigned short id;
 	enum intel_pch pch_type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* DG1 has south engine display on the same PCI device */
 	if (IS_DG1(dev_priv)) {
@@ -216,6 +228,12 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
 	 * of only checking the first one.
 	 */
 	while ((pch = pci_get_class(PCI_CLASS_BRIDGE_ISA << 8, pch))) {
+<<<<<<< HEAD
+=======
+		unsigned short id;
+		enum intel_pch pch_type;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pch->vendor != PCI_VENDOR_ID_INTEL)
 			continue;
 
@@ -228,7 +246,18 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
 			break;
 		} else if (intel_is_virt_pch(id, pch->subsystem_vendor,
 					     pch->subsystem_device)) {
+<<<<<<< HEAD
 			intel_virt_detect_pch(dev_priv, &id, &pch_type);
+=======
+			id = intel_virt_detect_pch(dev_priv);
+			pch_type = intel_pch_type(dev_priv, id);
+
+			/* Sanity check virtual PCH id */
+			if (drm_WARN_ON(&dev_priv->drm,
+					id && pch_type == PCH_NONE))
+				id = 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_priv->pch_type = pch_type;
 			dev_priv->pch_id = id;
 			break;
@@ -244,6 +273,7 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
 			    "Display disabled, reverting to NOP PCH\n");
 		dev_priv->pch_type = PCH_NOP;
 		dev_priv->pch_id = 0;
+<<<<<<< HEAD
 	} else if (!pch) {
 		if (run_as_guest() && HAS_DISPLAY(dev_priv)) {
 			intel_virt_detect_pch(dev_priv, &id, &pch_type);
@@ -254,5 +284,12 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
 		}
 	}
 
+=======
+	}
+
+	if (!pch)
+		drm_dbg_kms(&dev_priv->drm, "No PCH found.\n");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_dev_put(pch);
 }

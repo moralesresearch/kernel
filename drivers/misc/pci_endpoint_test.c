@@ -68,6 +68,10 @@
 #define PCI_ENDPOINT_TEST_FLAGS			0x2c
 #define FLAG_USE_DMA				BIT(0)
 
+<<<<<<< HEAD
+=======
+#define PCI_DEVICE_ID_TI_J721E			0xb00d
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PCI_DEVICE_ID_TI_AM654			0xb00c
 #define PCI_DEVICE_ID_LS1088A			0x80c0
 

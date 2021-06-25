@@ -4,7 +4,11 @@
  *     Version: 0.1.0
  * Description: ks0108 LCD Controller driver header
  *
+<<<<<<< HEAD
  *      Author: Copyright (C) Miguel Ojeda <ojeda@kernel.org>
+=======
+ *      Author: Copyright (C) Miguel Ojeda Sandonis
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *        Date: 2006-10-31
  */
 

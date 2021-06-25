@@ -50,6 +50,7 @@ config DMABUF_MOVE_NOTIFY
 	  This is marked experimental because we don't yet have a consistent
 	  execution context and memory management between drivers.
 
+<<<<<<< HEAD
 config DMABUF_DEBUG
 	bool "DMA-BUF debug checks"
 	default y if DMA_API_DEBUG
@@ -58,6 +59,8 @@ config DMABUF_DEBUG
 	  exporters. Specifically it validates that importers do not peek at the
 	  underlying struct page when they import a buffer.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config DMABUF_SELFTESTS
 	tristate "Selftests for the dma-buf interfaces"
 	default n

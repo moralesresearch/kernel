@@ -483,11 +483,25 @@ static int ar2315_pci_probe(struct platform_device *pdev)
 	apc->io_res.name = "AR2315 IO space";
 	apc->io_res.start = 0;
 	apc->io_res.end = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	apc->io_res.flags = IORESOURCE_IO;
 
 	apc->pci_ctrl.pci_ops = &ar2315_pci_ops;
 	apc->pci_ctrl.mem_resource = &apc->mem_res;
 	apc->pci_ctrl.io_resource = &apc->io_res;
+<<<<<<< HEAD
+=======
+=======
+	apc->io_res.flags = IORESOURCE_IO,
+
+	apc->pci_ctrl.pci_ops = &ar2315_pci_ops;
+	apc->pci_ctrl.mem_resource = &apc->mem_res,
+	apc->pci_ctrl.io_resource = &apc->io_res,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	register_pci_controller(&apc->pci_ctrl);
 

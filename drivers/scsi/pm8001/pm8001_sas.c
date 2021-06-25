@@ -208,7 +208,15 @@ int pm8001_phy_control(struct asd_sas_phy *sas_phy, enum phy_func func,
 				PHY_STATE_LINK_UP_SPCV) {
 				sas_phy_disconnected(&phy->sas_phy);
 				sas_notify_phy_event(&phy->sas_phy,
+<<<<<<< HEAD
 					PHYE_LOSS_OF_SIGNAL, GFP_KERNEL);
+=======
+<<<<<<< HEAD
+					PHYE_LOSS_OF_SIGNAL, GFP_KERNEL);
+=======
+					PHYE_LOSS_OF_SIGNAL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				phy->phy_attached = 0;
 			}
 		} else {
@@ -216,7 +224,15 @@ int pm8001_phy_control(struct asd_sas_phy *sas_phy, enum phy_func func,
 				PHY_STATE_LINK_UP_SPC) {
 				sas_phy_disconnected(&phy->sas_phy);
 				sas_notify_phy_event(&phy->sas_phy,
+<<<<<<< HEAD
 					PHYE_LOSS_OF_SIGNAL, GFP_KERNEL);
+=======
+<<<<<<< HEAD
+					PHYE_LOSS_OF_SIGNAL, GFP_KERNEL);
+=======
+					PHYE_LOSS_OF_SIGNAL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				phy->phy_attached = 0;
 			}
 		}
@@ -264,12 +280,25 @@ void pm8001_scan_start(struct Scsi_Host *shost)
 	int i;
 	struct pm8001_hba_info *pm8001_ha;
 	struct sas_ha_struct *sha = SHOST_TO_SAS_HA(shost);
+<<<<<<< HEAD
+	DECLARE_COMPLETION_ONSTACK(completion);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm8001_ha = sha->lldd_ha;
 	/* SAS_RE_INITIALIZATION not available in SPCv/ve */
 	if (pm8001_ha->chip_id == chip_8001)
 		PM8001_CHIP_DISP->sas_re_init_req(pm8001_ha);
+<<<<<<< HEAD
+	for (i = 0; i < pm8001_ha->chip->n_phy; ++i) {
+		pm8001_ha->phy[i].enable_completion = &completion;
+		PM8001_CHIP_DISP->phy_start_req(pm8001_ha, i);
+		wait_for_completion(&completion);
+		msleep(300);
+	}
+=======
 	for (i = 0; i < pm8001_ha->chip->n_phy; ++i)
 		PM8001_CHIP_DISP->phy_start_req(pm8001_ha, i);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int pm8001_scan_finished(struct Scsi_Host *shost, unsigned long time)
@@ -1180,14 +1209,29 @@ int pm8001_abort_task(struct sas_task *task)
 	int rc = TMF_RESP_FUNC_FAILED, ret;
 	u32 phy_id;
 	struct sas_task_slow slow_task;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(!task || !task->lldd_task || !task->dev))
 		return TMF_RESP_FUNC_FAILED;
 
+<<<<<<< HEAD
+=======
+=======
+	if (unlikely(!task || !task->lldd_task || !task->dev))
+		return TMF_RESP_FUNC_FAILED;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev = task->dev;
 	pm8001_dev = dev->lldd_dev;
 	pm8001_ha = pm8001_find_ha_by_dev(dev);
 	phy_id = pm8001_dev->attached_phy;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (PM8001_CHIP_DISP->fatal_errors(pm8001_ha)) {
 		// If the controller is seeing fatal errors
@@ -1195,6 +1239,11 @@ int pm8001_abort_task(struct sas_task *task)
 		return TMF_RESP_FUNC_FAILED;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = pm8001_find_tag(task, &tag);
 	if (ret == 0) {
 		pm8001_info(pm8001_ha, "no tag for task:%p\n", task);
@@ -1350,3 +1399,10 @@ int pm8001_clear_task_set(struct domain_device *dev, u8 *lun)
 	tmf_task.tmf = TMF_CLEAR_TASK_SET;
 	return pm8001_issue_ssp_tmf(dev, lun, &tmf_task);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

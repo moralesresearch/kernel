@@ -24,8 +24,13 @@
 
 #include "intel_engine.h"
 #include "intel_gt.h"
+<<<<<<< HEAD
 #include "intel_lrc_reg.h"
 #include "intel_mocs.h"
+=======
+#include "intel_mocs.h"
+#include "intel_lrc.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_ring.h"
 
 /* structures required */
@@ -472,7 +477,11 @@ static u16 get_entry_l3cc(const struct drm_i915_mocs_table *table,
 	return table->table[I915_MOCS_PTE].l3cc_value;
 }
 
+<<<<<<< HEAD
 static u32 l3cc_combine(u16 low, u16 high)
+=======
+static inline u32 l3cc_combine(u16 low, u16 high)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return low | (u32)high << 16;
 }

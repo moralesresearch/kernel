@@ -205,7 +205,10 @@ struct irq_domain *__irq_domain_add(struct fwnode_handle *fwnode, int size,
 	}
 
 	fwnode_handle_get(fwnode);
+<<<<<<< HEAD
 	fwnode_dev_initialized(fwnode, true);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Fill structure */
 	INIT_RADIX_TREE(&domain->revmap_tree, GFP_KERNEL);
@@ -254,7 +257,10 @@ void irq_domain_remove(struct irq_domain *domain)
 
 	pr_debug("Removed domain %s\n", domain->name);
 
+<<<<<<< HEAD
 	fwnode_dev_initialized(domain->fwnode, false);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fwnode_handle_put(domain->fwnode);
 	if (domain->flags & IRQ_DOMAIN_NAME_ALLOCATED)
 		kfree(domain->name);
@@ -1898,15 +1904,27 @@ DEFINE_SHOW_ATTRIBUTE(irq_domain_debug);
 
 static void debugfs_add_domain_dir(struct irq_domain *d)
 {
+<<<<<<< HEAD
 	if (!d->name || !domain_dir)
 		return;
 	debugfs_create_file(d->name, 0444, domain_dir, d,
 			    &irq_domain_debug_fops);
+=======
+	if (!d->name || !domain_dir || d->debugfs_file)
+		return;
+	d->debugfs_file = debugfs_create_file(d->name, 0444, domain_dir, d,
+					      &irq_domain_debug_fops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void debugfs_remove_domain_dir(struct irq_domain *d)
 {
+<<<<<<< HEAD
 	debugfs_remove(debugfs_lookup(d->name, domain_dir));
+=======
+	debugfs_remove(d->debugfs_file);
+	d->debugfs_file = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __init irq_domain_debugfs_init(struct dentry *root)

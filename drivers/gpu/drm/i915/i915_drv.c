@@ -58,14 +58,20 @@
 #include "display/intel_hotplug.h"
 #include "display/intel_overlay.h"
 #include "display/intel_pipe_crc.h"
+<<<<<<< HEAD
 #include "display/intel_pps.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "display/intel_sprite.h"
 #include "display/intel_vga.h"
 
 #include "gem/i915_gem_context.h"
 #include "gem/i915_gem_ioctls.h"
 #include "gem/i915_gem_mman.h"
+<<<<<<< HEAD
 #include "gem/i915_gem_pm.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt.h"
 #include "gt/intel_gt_pm.h"
 #include "gt/intel_rc6.h"
@@ -412,7 +418,10 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
 
 	/* Try to make sure MCHBAR is enabled before poking at it */
 	intel_setup_mchbar(dev_priv);
+<<<<<<< HEAD
 	intel_device_info_runtime_init(dev_priv);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = intel_gt_init_mmio(&dev_priv->gt);
 	if (ret)
@@ -519,6 +528,11 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
 	if (i915_inject_probe_failure(dev_priv))
 		return -ENODEV;
 
+<<<<<<< HEAD
+=======
+	intel_device_info_runtime_init(dev_priv);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (HAS_PPGTT(dev_priv)) {
 		if (intel_vgpu_active(dev_priv) &&
 		    !intel_vgpu_has_full_ppgtt(dev_priv)) {
@@ -610,6 +624,7 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
 		goto err_msi;
 
 	intel_opregion_setup(dev_priv);
+<<<<<<< HEAD
 
 	intel_pcode_init(dev_priv);
 
@@ -619,6 +634,16 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
 	 */
 	intel_dram_detect(dev_priv);
 
+=======
+	/*
+	 * Fill the dram structure to get the system raw bandwidth and
+	 * dram info. This will be used for memory latency calculation.
+	 */
+	intel_dram_detect(dev_priv);
+
+	intel_pcode_init(dev_priv);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_bw_init_hw(dev_priv);
 
 	return 0;
@@ -735,7 +760,10 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
 	 * events.
 	 */
 	drm_kms_helper_poll_fini(&dev_priv->drm);
+<<<<<<< HEAD
 	drm_atomic_helper_shutdown(&dev_priv->drm);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	intel_gt_driver_unregister(&dev_priv->gt);
 	acpi_video_unregister();
@@ -938,6 +966,11 @@ void i915_driver_remove(struct drm_i915_private *i915)
 
 	i915_gem_suspend(i915);
 
+<<<<<<< HEAD
+=======
+	drm_atomic_helper_shutdown(&i915->drm);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_gvt_driver_remove(i915);
 
 	intel_modeset_driver_remove(i915);
@@ -1049,8 +1082,11 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
 void i915_driver_shutdown(struct drm_i915_private *i915)
 {
 	disable_rpm_wakeref_asserts(&i915->runtime_pm);
+<<<<<<< HEAD
 	intel_runtime_pm_disable(&i915->runtime_pm);
 	intel_power_domains_disable(i915);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i915_gem_suspend(i915);
 
@@ -1066,6 +1102,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
 	intel_suspend_encoders(i915);
 	intel_shutdown_encoders(i915);
 
+<<<<<<< HEAD
 	/*
 	 * The only requirement is to reboot with display DC states disabled,
 	 * for now leaving all display power wells in the INIT power domain
@@ -1075,6 +1112,9 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
 	enable_rpm_wakeref_asserts(&i915->runtime_pm);
 
 	intel_runtime_pm_driver_release(&i915->runtime_pm);
+=======
+	enable_rpm_wakeref_asserts(&i915->runtime_pm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool suspend_to_idle(struct drm_i915_private *dev_priv)

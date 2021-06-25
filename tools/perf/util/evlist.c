@@ -24,7 +24,14 @@
 #include "bpf-event.h"
 #include "util/string2.h"
 #include "util/perf_api_probe.h"
+<<<<<<< HEAD
 #include "util/evsel_fprintf.h"
+=======
+<<<<<<< HEAD
+#include "util/evsel_fprintf.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <signal.h>
 #include <unistd.h>
 #include <sched.h>
@@ -304,11 +311,20 @@ int __evlist__add_default_attrs(struct evlist *evlist, struct perf_event_attr *a
 	return evlist__add_attrs(evlist, attrs, nr_attrs);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __weak int arch_evlist__add_default_attrs(struct evlist *evlist __maybe_unused)
 {
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct evsel *evlist__find_tracepoint_by_id(struct evlist *evlist, int id)
 {
 	struct evsel *evsel;
@@ -1306,7 +1322,14 @@ void evlist__close(struct evlist *evlist)
 		perf_evsel__free_fd(&evsel->core);
 		perf_evsel__free_id(&evsel->core);
 	}
+<<<<<<< HEAD
 	perf_evlist__reset_id_hash(&evlist->core);
+=======
+<<<<<<< HEAD
+	perf_evlist__reset_id_hash(&evlist->core);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int evlist__create_syswide_maps(struct evlist *evlist)
@@ -1951,6 +1974,10 @@ static int evlist__ctlfd_recv(struct evlist *evlist, enum evlist_ctl_cmd *cmd,
 				    (sizeof(EVLIST_CTL_CMD_SNAPSHOT_TAG)-1))) {
 			*cmd = EVLIST_CTL_CMD_SNAPSHOT;
 			pr_debug("is snapshot\n");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else if (!strncmp(cmd_data, EVLIST_CTL_CMD_EVLIST_TAG,
 				    (sizeof(EVLIST_CTL_CMD_EVLIST_TAG)-1))) {
 			*cmd = EVLIST_CTL_CMD_EVLIST;
@@ -1960,6 +1987,11 @@ static int evlist__ctlfd_recv(struct evlist *evlist, enum evlist_ctl_cmd *cmd,
 		} else if (!strncmp(cmd_data, EVLIST_CTL_CMD_PING_TAG,
 				    (sizeof(EVLIST_CTL_CMD_PING_TAG)-1))) {
 			*cmd = EVLIST_CTL_CMD_PING;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1981,6 +2013,10 @@ int evlist__ctlfd_ack(struct evlist *evlist)
 	return err;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int get_cmd_arg(char *cmd_data, size_t cmd_size, char **arg)
 {
 	char *data = cmd_data + cmd_size;
@@ -2073,6 +2109,11 @@ static int evlist__ctlfd_list(struct evlist *evlist, char *cmd_data)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int evlist__ctlfd_process(struct evlist *evlist, enum evlist_ctl_cmd *cmd)
 {
 	int err = 0;
@@ -2089,6 +2130,10 @@ int evlist__ctlfd_process(struct evlist *evlist, enum evlist_ctl_cmd *cmd)
 		if (err > 0) {
 			switch (*cmd) {
 			case EVLIST_CTL_CMD_ENABLE:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case EVLIST_CTL_CMD_DISABLE:
 				err = evlist__ctlfd_enable(evlist, cmd_data,
 							   *cmd == EVLIST_CTL_CMD_ENABLE);
@@ -2099,6 +2144,17 @@ int evlist__ctlfd_process(struct evlist *evlist, enum evlist_ctl_cmd *cmd)
 			case EVLIST_CTL_CMD_SNAPSHOT:
 			case EVLIST_CTL_CMD_STOP:
 			case EVLIST_CTL_CMD_PING:
+<<<<<<< HEAD
+=======
+=======
+				evlist__enable(evlist);
+				break;
+			case EVLIST_CTL_CMD_DISABLE:
+				evlist__disable(evlist);
+				break;
+			case EVLIST_CTL_CMD_SNAPSHOT:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			case EVLIST_CTL_CMD_ACK:
 			case EVLIST_CTL_CMD_UNSUPPORTED:

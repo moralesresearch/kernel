@@ -8,6 +8,10 @@
  */
 
 #include <linux/export.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 
 #include <drm/drm_bridge.h>
@@ -15,6 +19,17 @@
 #include <drm/drm_managed.h>
 #include <drm/drm_modeset_helper_vtables.h>
 #include <drm/drm_panel.h>
+<<<<<<< HEAD
+=======
+=======
+
+#include <drm/drm_bridge.h>
+#include <drm/drm_crtc.h>
+#include <drm/drm_modeset_helper_vtables.h>
+#include <drm/drm_panel.h>
+#include <drm/drm_simple_kms_helper.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "rcar_du_drv.h"
 #include "rcar_du_encoder.h"
@@ -45,15 +60,44 @@ static unsigned int rcar_du_encoder_count_ports(struct device_node *node)
 	return num_ports;
 }
 
+<<<<<<< HEAD
 static const struct drm_encoder_funcs rcar_du_encoder_funcs = {
 };
 
+=======
+<<<<<<< HEAD
+static const struct drm_encoder_funcs rcar_du_encoder_funcs = {
+};
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 			 enum rcar_du_output output,
 			 struct device_node *enc_node)
 {
 	struct rcar_du_encoder *renc;
+<<<<<<< HEAD
 	struct drm_bridge *bridge;
+=======
+<<<<<<< HEAD
+	struct drm_bridge *bridge;
+=======
+	struct drm_encoder *encoder;
+	struct drm_bridge *bridge;
+	int ret;
+
+	renc = devm_kzalloc(rcdu->dev, sizeof(*renc), GFP_KERNEL);
+	if (renc == NULL)
+		return -ENOMEM;
+
+	renc->output = output;
+	encoder = rcar_encoder_to_drm_encoder(renc);
+
+	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+		enc_node, output);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
@@ -65,6 +109,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 	    rcar_du_encoder_count_ports(enc_node) == 1) {
 		struct drm_panel *panel = of_drm_find_panel(enc_node);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ERR(panel))
 			return PTR_ERR(panel);
 
@@ -76,6 +124,28 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 		bridge = of_drm_find_bridge(enc_node);
 		if (!bridge)
 			return -EPROBE_DEFER;
+<<<<<<< HEAD
+=======
+=======
+		if (IS_ERR(panel)) {
+			ret = PTR_ERR(panel);
+			goto done;
+		}
+
+		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+							 DRM_MODE_CONNECTOR_DPI);
+		if (IS_ERR(bridge)) {
+			ret = PTR_ERR(bridge);
+			goto done;
+		}
+	} else {
+		bridge = of_drm_find_bridge(enc_node);
+		if (!bridge) {
+			ret = -EPROBE_DEFER;
+			goto done;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
 		    output == RCAR_DU_OUTPUT_LVDS1)
@@ -83,6 +153,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 	}
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
 	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
 	 * mode.
@@ -102,10 +176,50 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 		return -ENOMEM;
 
 	renc->output = output;
+<<<<<<< HEAD
+=======
+=======
+	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
+	 * companion for LVDS0 in dual-link mode.
+	 */
+	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
+		if (rcar_lvds_dual_link(bridge)) {
+			ret = -ENOLINK;
+			goto done;
+		}
+	}
+
+	ret = drm_simple_encoder_init(rcdu->ddev, encoder,
+				      DRM_MODE_ENCODER_NONE);
+	if (ret < 0)
+		goto done;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Attach the bridge to the encoder. The bridge will create the
 	 * connector.
 	 */
+<<<<<<< HEAD
 	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+=======
+<<<<<<< HEAD
+	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+=======
+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+	if (ret) {
+		drm_encoder_cleanup(encoder);
+		return ret;
+	}
+
+done:
+	if (ret < 0) {
+		if (encoder->name)
+			encoder->funcs->destroy(encoder);
+		devm_kfree(rcdu->dev, renc);
+	}
+
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

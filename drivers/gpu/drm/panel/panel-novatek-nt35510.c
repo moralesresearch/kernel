@@ -898,7 +898,12 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
 	 */
 	dsi->hs_rate = 349440000;
 	dsi->lp_rate = 9600000;
+<<<<<<< HEAD
 	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
+=======
+	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+		MIPI_DSI_MODE_EOT_PACKET;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Every new incarnation of this display must have a unique

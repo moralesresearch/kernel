@@ -4,7 +4,11 @@
  *
  * Copyright 2007	Johannes Berg <johannes@sipsolutions.net>
  * Copyright 2013-2014  Intel Mobile Communications GmbH
+<<<<<<< HEAD
+ * Copyright (C) 2018 - 2019, 2021 Intel Corporation
+=======
  * Copyright (C) 2018 - 2019 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/debugfs.h>
@@ -281,6 +285,7 @@ static const struct file_operations aql_txq_limit_ops = {
 	.llseek = default_llseek,
 };
 
+<<<<<<< HEAD
 static ssize_t aql_enable_read(struct file *file, char __user *user_buf,
 			       size_t count, loff_t *ppos)
 {
@@ -331,6 +336,8 @@ static const struct file_operations aql_enable_ops = {
 	.llseek = default_llseek,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t force_tx_status_read(struct file *file,
 				    char __user *user_buf,
 				    size_t count,
@@ -387,10 +394,24 @@ static ssize_t reset_write(struct file *file, const char __user *user_buf,
 			   size_t count, loff_t *ppos)
 {
 	struct ieee80211_local *local = file->private_data;
+<<<<<<< HEAD
+	int ret;
+
+	rtnl_lock();
+	wiphy_lock(local->hw.wiphy);
+	__ieee80211_suspend(&local->hw, NULL);
+	ret = __ieee80211_resume(&local->hw);
+	wiphy_unlock(local->hw.wiphy);
+
+	if (ret)
+		cfg80211_shutdown_all_interfaces(local->hw.wiphy);
+
+=======
 
 	rtnl_lock();
 	__ieee80211_suspend(&local->hw, NULL);
 	__ieee80211_resume(&local->hw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtnl_unlock();
 
 	return count;
@@ -455,7 +476,10 @@ static const char *hw_flag_names[] = {
 	FLAG(SUPPORTS_ONLY_HE_MULTI_BSSID),
 	FLAG(AMPDU_KEYBORDER_SUPPORT),
 	FLAG(SUPPORTS_TX_ENCAP_OFFLOAD),
+<<<<<<< HEAD
 	FLAG(SUPPORTS_RX_DECAP_OFFLOAD),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #undef FLAG
 };
 
@@ -619,7 +643,10 @@ void debugfs_hw_add(struct ieee80211_local *local)
 	DEBUGFS_ADD(power);
 	DEBUGFS_ADD(hw_conf);
 	DEBUGFS_ADD_MODE(force_tx_status, 0600);
+<<<<<<< HEAD
 	DEBUGFS_ADD_MODE(aql_enable, 0600);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (local->ops->wake_tx_queue)
 		DEBUGFS_ADD_MODE(aqm, 0600);

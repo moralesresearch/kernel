@@ -525,14 +525,18 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
 {
 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
 	struct drm_device *ddev = crtc->dev;
+<<<<<<< HEAD
 	struct drm_connector_list_iter iter;
 	struct drm_connector *connector = NULL;
 	struct drm_encoder *encoder = NULL;
 	struct drm_bridge *bridge = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
 	struct videomode vm;
 	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
 	u32 total_width, total_height;
+<<<<<<< HEAD
 	u32 bus_flags = 0;
 	u32 val;
 	int ret;
@@ -561,6 +565,11 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
 	else if (connector)
 		bus_flags = connector->display_info.bus_flags;
 
+=======
+	u32 val;
+	int ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!pm_runtime_active(ddev->dev)) {
 		ret = pm_runtime_get_sync(ddev->dev);
 		if (ret) {
@@ -596,10 +605,17 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
 	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
 		val |= GCR_VSPOL;
 
+<<<<<<< HEAD
 	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
 		val |= GCR_DEPOL;
 
 	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+=======
+	if (vm.flags & DISPLAY_FLAGS_DE_LOW)
+		val |= GCR_DEPOL;
+
+	if (vm.flags & DISPLAY_FLAGS_PIXDATA_NEGEDGE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		val |= GCR_PCPOL;
 
 	reg_update_bits(ldev->regs, LTDC_GCR,
@@ -742,6 +758,10 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
 	.enable_vblank = ltdc_crtc_enable_vblank,
 	.disable_vblank = ltdc_crtc_disable_vblank,
 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+<<<<<<< HEAD
+=======
+	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*

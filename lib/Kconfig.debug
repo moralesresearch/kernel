@@ -256,6 +256,7 @@ config DEBUG_INFO_SPLIT
 	  to know about the .dwo files and include them.
 	  Incompatible with older versions of ccache.
 
+<<<<<<< HEAD
 choice
 	prompt "DWARF version"
 	help
@@ -301,6 +302,16 @@ config DEBUG_INFO_DWARF5
 	  support DWARF Version 5.
 
 endchoice # "DWARF version"
+=======
+config DEBUG_INFO_DWARF4
+	bool "Generate dwarf4 debuginfo"
+	depends on $(cc-option,-gdwarf-4)
+	help
+	  Generate dwarf4 debug info. This requires recent versions
+	  of gcc and gdb. It makes the debug information larger.
+	  But it significantly improves the success of resolving
+	  variables in gdb on optimized code.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config DEBUG_INFO_BTF
 	bool "Generate BTF typeinfo"
@@ -938,7 +949,10 @@ config DEBUG_STACKOVERFLOW
 	  If in doubt, say "N".
 
 source "lib/Kconfig.kasan"
+<<<<<<< HEAD
 source "lib/Kconfig.kfence"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 endmenu # "Memory Debugging"
 
@@ -1363,7 +1377,11 @@ config LOCKDEP
 	bool
 	depends on DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
 	select STACKTRACE
+<<<<<<< HEAD
 	depends on FRAME_POINTER || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86
+=======
+	select FRAME_POINTER if !MIPS && !PPC && !ARM && !S390 && !MICROBLAZE && !ARC && !X86
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select KALLSYMS
 	select KALLSYMS_ALL
 
@@ -1373,7 +1391,10 @@ config LOCKDEP_SMALL
 config DEBUG_LOCKDEP
 	bool "Lock dependency engine debugging"
 	depends on DEBUG_KERNEL && LOCKDEP
+<<<<<<< HEAD
 	select DEBUG_IRQFLAGS
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  If you say Y here, the lock dependency engine will do
 	  additional runtime checks to debug itself, at the price
@@ -1462,6 +1483,7 @@ config TRACE_IRQFLAGS_NMI
 	depends on TRACE_IRQFLAGS
 	depends on TRACE_IRQFLAGS_NMI_SUPPORT
 
+<<<<<<< HEAD
 config DEBUG_IRQFLAGS
 	bool "Debug IRQ flag manipulation"
 	help
@@ -1469,6 +1491,8 @@ config DEBUG_IRQFLAGS
 	  interrupts, such as calling raw_local_irq_restore() when interrupts
 	  are enabled.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config STACKTRACE
 	bool "Stack backtrace support"
 	depends on STACKTRACE_SUPPORT
@@ -1665,7 +1689,11 @@ config LATENCYTOP
 	depends on DEBUG_KERNEL
 	depends on STACKTRACE_SUPPORT
 	depends on PROC_FS
+<<<<<<< HEAD
 	depends on FRAME_POINTER || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86
+=======
+	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select KALLSYMS
 	select KALLSYMS_ALL
 	select STACKTRACE
@@ -1918,7 +1946,11 @@ config FAULT_INJECTION_STACKTRACE_FILTER
 	depends on FAULT_INJECTION_DEBUG_FS && STACKTRACE_SUPPORT
 	depends on !X86_64
 	select STACKTRACE
+<<<<<<< HEAD
 	depends on FRAME_POINTER || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86
+=======
+	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Provide stacktrace filter for fault-injection capabilities
 

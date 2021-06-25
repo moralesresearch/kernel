@@ -295,6 +295,7 @@ int nfsacl_decode(struct xdr_buf *buf, unsigned int base, unsigned int *aclcnt,
 		   nfsacl_desc.desc.array_len;
 }
 EXPORT_SYMBOL_GPL(nfsacl_decode);
+<<<<<<< HEAD
 
 /**
  * nfs_stream_decode_acl - Decode an NFSv3 ACL
@@ -347,3 +348,5 @@ bool nfs_stream_decode_acl(struct xdr_stream *xdr, unsigned int *aclcnt,
 	return true;
 }
 EXPORT_SYMBOL_GPL(nfs_stream_decode_acl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

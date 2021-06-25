@@ -528,7 +528,11 @@ static irqreturn_t ac100_rtc_irq(int irq, void *data)
 	unsigned int val = 0;
 	int ret;
 
+<<<<<<< HEAD
 	rtc_lock(chip->rtc);
+=======
+	mutex_lock(&chip->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* read status */
 	ret = regmap_read(regmap, AC100_ALM_INT_STA, &val);
@@ -551,7 +555,11 @@ static irqreturn_t ac100_rtc_irq(int irq, void *data)
 	}
 
 out:
+<<<<<<< HEAD
 	rtc_unlock(chip->rtc);
+=======
+	mutex_unlock(&chip->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return IRQ_HANDLED;
 }
 

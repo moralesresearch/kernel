@@ -275,6 +275,10 @@ ice_setup_tx_ctx(struct ice_ring *ring, struct ice_tlan_ctx *tlan_ctx, u16 pf_q)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_rx_offset - Return expected offset into page to access data
  * @rx_ring: Ring we are requesting offset of
  *
@@ -291,6 +295,11 @@ static unsigned int ice_rx_offset(struct ice_ring *rx_ring)
 }
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_setup_rx_ctx - Configure a receive ring context
  * @ring: The Rx ring to configure
  *
@@ -429,8 +438,16 @@ int ice_setup_rx_ctx(struct ice_ring *ring)
 	else
 		ice_set_ring_build_skb_ena(ring);
 
+<<<<<<< HEAD
 	ring->rx_offset = ice_rx_offset(ring);
 
+=======
+<<<<<<< HEAD
+	ring->rx_offset = ice_rx_offset(ring);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* init queue specific tail register */
 	ring->tail = hw->hw_addr + QRX_TAIL(pf_q);
 	writel(0, ring->tail);

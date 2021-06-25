@@ -46,12 +46,15 @@
  */
 #define VFIO_NOIOMMU_IOMMU		8
 
+<<<<<<< HEAD
 /* Supports VFIO_DMA_UNMAP_FLAG_ALL */
 #define VFIO_UNMAP_ALL			9
 
 /* Supports the vaddr flag for DMA map and unmap */
 #define VFIO_UPDATE_VADDR		10
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The IOCTL interface is designed for extensibility by embedding the
  * structure length (argsz) and flags into structures passed between
@@ -1080,6 +1083,7 @@ struct vfio_iommu_type1_info_dma_avail {
  *
  * Map process virtual addresses to IO virtual addresses using the
  * provided struct vfio_dma_map. Caller sets argsz. READ &/ WRITE required.
+<<<<<<< HEAD
  *
  * If flags & VFIO_DMA_MAP_FLAG_VADDR, update the base vaddr for iova, and
  * unblock translation of host virtual addresses in the iova range.  The vaddr
@@ -1089,13 +1093,18 @@ struct vfio_iommu_type1_info_dma_avail {
  * will result in user memory corruption and/or device misbehavior.  iova and
  * size must match those in the original MAP_DMA call.  Protection is not
  * changed, and the READ & WRITE flags must be 0.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct vfio_iommu_type1_dma_map {
 	__u32	argsz;
 	__u32	flags;
 #define VFIO_DMA_MAP_FLAG_READ (1 << 0)		/* readable from device */
 #define VFIO_DMA_MAP_FLAG_WRITE (1 << 1)	/* writable from device */
+<<<<<<< HEAD
 #define VFIO_DMA_MAP_FLAG_VADDR (1 << 2)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__u64	vaddr;				/* Process virtual address */
 	__u64	iova;				/* IO virtual address */
 	__u64	size;				/* Size of mapping (bytes) */
@@ -1118,7 +1127,10 @@ struct vfio_bitmap {
  * field.  No guarantee is made to the user that arbitrary unmaps of iova
  * or size different from those used in the original mapping call will
  * succeed.
+<<<<<<< HEAD
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get the dirty bitmap
  * before unmapping IO virtual addresses. When this flag is set, the user must
  * provide a struct vfio_bitmap in data[]. User must provide zero-allocated
@@ -1128,6 +1140,7 @@ struct vfio_bitmap {
  * indicates that the page at that offset from iova is dirty. A Bitmap of the
  * pages in the range of unmapped size is returned in the user-provided
  * vfio_bitmap.data.
+<<<<<<< HEAD
  *
  * If flags & VFIO_DMA_UNMAP_FLAG_ALL, unmap all addresses.  iova and size
  * must be 0.  This cannot be combined with the get-dirty-bitmap flag.
@@ -1136,13 +1149,18 @@ struct vfio_bitmap {
  * virtual addresses in the iova range.  Tasks that attempt to translate an
  * iova's vaddr will block.  DMA to already-mapped pages continues.  This
  * cannot be combined with the get-dirty-bitmap flag.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct vfio_iommu_type1_dma_unmap {
 	__u32	argsz;
 	__u32	flags;
 #define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
+<<<<<<< HEAD
 #define VFIO_DMA_UNMAP_FLAG_ALL		     (1 << 1)
 #define VFIO_DMA_UNMAP_FLAG_VADDR	     (1 << 2)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__u64	iova;				/* IO virtual address */
 	__u64	size;				/* Size of mapping (bytes) */
 	__u8    data[];

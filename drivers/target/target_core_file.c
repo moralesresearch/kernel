@@ -241,7 +241,10 @@ struct target_core_file_cmd {
 	unsigned long	len;
 	struct se_cmd	*cmd;
 	struct kiocb	iocb;
+<<<<<<< HEAD
 	struct bio_vec	bvecs[];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void cmd_rw_aio_complete(struct kiocb *iocb, long ret, long ret2)
@@ -267,6 +270,7 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
 	struct fd_dev *fd_dev = FD_DEV(dev);
 	struct file *file = fd_dev->fd_file;
 	struct target_core_file_cmd *aio_cmd;
+<<<<<<< HEAD
 	struct iov_iter iter;
 	struct scatterlist *sg;
 	ssize_t len = 0;
@@ -280,11 +284,37 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
 		aio_cmd->bvecs[i].bv_page = sg_page(sg);
 		aio_cmd->bvecs[i].bv_len = sg->length;
 		aio_cmd->bvecs[i].bv_offset = sg->offset;
+=======
+	struct iov_iter iter = {};
+	struct scatterlist *sg;
+	struct bio_vec *bvec;
+	ssize_t len = 0;
+	int ret = 0, i;
+
+	aio_cmd = kmalloc(sizeof(struct target_core_file_cmd), GFP_KERNEL);
+	if (!aio_cmd)
+		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+
+	bvec = kcalloc(sgl_nents, sizeof(struct bio_vec), GFP_KERNEL);
+	if (!bvec) {
+		kfree(aio_cmd);
+		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+	}
+
+	for_each_sg(sgl, sg, sgl_nents, i) {
+		bvec[i].bv_page = sg_page(sg);
+		bvec[i].bv_len = sg->length;
+		bvec[i].bv_offset = sg->offset;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		len += sg->length;
 	}
 
+<<<<<<< HEAD
 	iov_iter_bvec(&iter, is_write, aio_cmd->bvecs, sgl_nents, len);
+=======
+	iov_iter_bvec(&iter, is_write, bvec, sgl_nents, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	aio_cmd->cmd = cmd;
 	aio_cmd->len = len;
@@ -301,6 +331,11 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
 	else
 		ret = call_read_iter(file, &aio_cmd->iocb, &iter);
 
+<<<<<<< HEAD
+=======
+	kfree(bvec);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret != -EIOCBQUEUED)
 		cmd_rw_aio_complete(&aio_cmd->iocb, ret, 0);
 

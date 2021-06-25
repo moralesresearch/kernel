@@ -219,6 +219,10 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
 
 int pfn_valid(unsigned long pfn)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phys_addr_t addr = PFN_PHYS(pfn);
 
 	/*
@@ -239,6 +243,21 @@ int pfn_valid(unsigned long pfn)
 
 	ms = __pfn_to_section(pfn);
 	if (!valid_section(ms))
+<<<<<<< HEAD
+=======
+=======
+	phys_addr_t addr = pfn << PAGE_SHIFT;
+
+	if ((addr >> PAGE_SHIFT) != pfn)
+		return 0;
+
+#ifdef CONFIG_SPARSEMEM
+	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
+		return 0;
+
+	if (!valid_section(__pfn_to_section(pfn)))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	/*
@@ -250,9 +269,20 @@ int pfn_valid(unsigned long pfn)
 	 * memory sections covering all of hotplug memory including
 	 * both normal and ZONE_DEVICE based.
 	 */
+<<<<<<< HEAD
 	if (!early_section(ms))
 		return pfn_section_valid(ms, pfn);
 }
+=======
+<<<<<<< HEAD
+	if (!early_section(ms))
+		return pfn_section_valid(ms, pfn);
+}
+=======
+	if (!early_section(__pfn_to_section(pfn)))
+		return pfn_section_valid(__pfn_to_section(pfn), pfn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	return memblock_is_map_memory(addr);
 }
@@ -439,10 +469,23 @@ void __init bootmem_init(void)
 	max_pfn = max_low_pfn = max;
 	min_low_pfn = min;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arch_numa_init();
 
 	/*
 	 * must be done after arch_numa_init() which calls numa_init() to
+<<<<<<< HEAD
+=======
+=======
+	arm64_numa_init();
+
+	/*
+	 * must be done after arm64_numa_init() which calls numa_init() to
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * initialize node_online_map that gets used in hugetlb_cma_reserve()
 	 * while allocating required CMA size across online nodes.
 	 */

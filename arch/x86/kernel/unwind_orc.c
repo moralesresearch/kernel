@@ -13,7 +13,15 @@
 
 #define orc_warn_current(args...)					\
 ({									\
+<<<<<<< HEAD
 	if (state->task == current && !state->error)			\
+=======
+<<<<<<< HEAD
+	if (state->task == current && !state->error)			\
+=======
+	if (state->task == current)					\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		orc_warn(args);						\
 })
 
@@ -471,7 +479,15 @@ bool unwind_next_frame(struct unwind_state *state)
 		break;
 
 	case ORC_REG_SP_INDIRECT:
+<<<<<<< HEAD
 		sp = state->sp;
+=======
+<<<<<<< HEAD
+		sp = state->sp;
+=======
+		sp = state->sp + orc->sp_offset;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		indirect = true;
 		break;
 
@@ -521,9 +537,18 @@ bool unwind_next_frame(struct unwind_state *state)
 	if (indirect) {
 		if (!deref_stack_reg(state, sp, &sp))
 			goto err;
+<<<<<<< HEAD
 
 		if (orc->sp_reg == ORC_REG_SP_INDIRECT)
 			sp += orc->sp_offset;
+=======
+<<<<<<< HEAD
+
+		if (orc->sp_reg == ORC_REG_SP_INDIRECT)
+			sp += orc->sp_offset;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Find IP, SP and possibly regs: */

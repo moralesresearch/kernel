@@ -435,8 +435,13 @@ struct nfs_client *nfs4_init_client(struct nfs_client *clp,
 		 */
 		nfs_mark_client_ready(clp, -EPERM);
 	}
+<<<<<<< HEAD
+	clear_bit(NFS_CS_TSM_POSSIBLE, &clp->cl_flags);
+	nfs_put_client(clp);
+=======
 	nfs_put_client(clp);
 	clear_bit(NFS_CS_TSM_POSSIBLE, &clp->cl_flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return old;
 
 error:
@@ -609,7 +614,10 @@ found:
 			 * changed. Schedule recovery!
 			 */
 			nfs4_schedule_path_down_recovery(pos);
+<<<<<<< HEAD
 			goto out;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			goto out;
 		}

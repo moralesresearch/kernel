@@ -102,8 +102,16 @@
 #define      MVNETA_TX_NO_DATA_SWAP              BIT(5)
 #define      MVNETA_DESC_SWAP                    BIT(6)
 #define      MVNETA_TX_BRST_SZ_MASK(burst)       ((burst) << 22)
+<<<<<<< HEAD
 #define	MVNETA_VLAN_PRIO_TO_RXQ			 0x2440
 #define      MVNETA_VLAN_PRIO_RXQ_MAP(prio, rxq) ((rxq) << ((prio) * 3))
+=======
+<<<<<<< HEAD
+#define	MVNETA_VLAN_PRIO_TO_RXQ			 0x2440
+#define      MVNETA_VLAN_PRIO_RXQ_MAP(prio, rxq) ((rxq) << ((prio) * 3))
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVNETA_PORT_STATUS                       0x2444
 #define      MVNETA_TX_IN_PRGRS                  BIT(1)
 #define      MVNETA_TX_FIFO_EMPTY                BIT(8)
@@ -492,7 +500,14 @@ struct mvneta_port {
 	u8 mcast_count[256];
 	u16 tx_ring_size;
 	u16 rx_ring_size;
+<<<<<<< HEAD
 	u8 prio_tc_map[8];
+=======
+<<<<<<< HEAD
+	u8 prio_tc_map[8];
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	phy_interface_t phy_interface;
 	struct device_node *dn;
@@ -2266,8 +2281,21 @@ mvneta_swbm_rx_frame(struct mvneta_port *pp,
 
 	/* Prefetch header */
 	prefetch(data);
+<<<<<<< HEAD
 	xdp_prepare_buff(xdp, data, pp->rx_offset_correction + MVNETA_MH_SIZE,
 			 data_len, false);
+=======
+<<<<<<< HEAD
+	xdp_prepare_buff(xdp, data, pp->rx_offset_correction + MVNETA_MH_SIZE,
+			 data_len, false);
+=======
+
+	xdp->data_hard_start = data;
+	xdp->data = data + pp->rx_offset_correction + MVNETA_MH_SIZE;
+	xdp->data_end = xdp->data + data_len;
+	xdp_set_data_meta_invalid(xdp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sinfo = xdp_get_shared_info_from_buff(xdp);
 	sinfo->nr_frags = 0;
@@ -2363,8 +2391,19 @@ static int mvneta_rx_swbm(struct napi_struct *napi,
 	u32 desc_status, frame_sz;
 	struct xdp_buff xdp_buf;
 
+<<<<<<< HEAD
 	xdp_init_buff(&xdp_buf, PAGE_SIZE, &rxq->xdp_rxq);
 	xdp_buf.data_hard_start = NULL;
+=======
+<<<<<<< HEAD
+	xdp_init_buff(&xdp_buf, PAGE_SIZE, &rxq->xdp_rxq);
+	xdp_buf.data_hard_start = NULL;
+=======
+	xdp_buf.data_hard_start = NULL;
+	xdp_buf.frame_sz = PAGE_SIZE;
+	xdp_buf.rxq = &rxq->xdp_rxq;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sinfo.nr_frags = 0;
 
@@ -4925,6 +4964,10 @@ static int mvneta_ethtool_set_eee(struct net_device *dev,
 	return phylink_ethtool_set_eee(pp->phylink, eee);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mvneta_clear_rx_prio_map(struct mvneta_port *pp)
 {
 	mvreg_write(pp, MVNETA_VLAN_PRIO_TO_RXQ, 0);
@@ -4982,6 +5025,11 @@ static int mvneta_setup_tc(struct net_device *dev, enum tc_setup_type type,
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct net_device_ops mvneta_netdev_ops = {
 	.ndo_open            = mvneta_open,
 	.ndo_stop            = mvneta_stop,
@@ -4994,7 +5042,14 @@ static const struct net_device_ops mvneta_netdev_ops = {
 	.ndo_do_ioctl        = mvneta_ioctl,
 	.ndo_bpf	     = mvneta_xdp,
 	.ndo_xdp_xmit        = mvneta_xdp_xmit,
+<<<<<<< HEAD
 	.ndo_setup_tc	     = mvneta_setup_tc,
+=======
+<<<<<<< HEAD
+	.ndo_setup_tc	     = mvneta_setup_tc,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct ethtool_ops mvneta_eth_tool_ops = {

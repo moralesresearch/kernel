@@ -180,7 +180,10 @@ static int mmpcam_probe(struct platform_device *pdev)
 	struct resource *res;
 	struct fwnode_handle *ep;
 	struct mmp_camera_platform_data *pdata;
+<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	cam = devm_kzalloc(&pdev->dev, sizeof(*cam), GFP_KERNEL);
@@ -239,6 +242,7 @@ static int mmpcam_probe(struct platform_device *pdev)
 	if (!ep)
 		return -ENODEV;
 
+<<<<<<< HEAD
 	v4l2_async_notifier_init(&mcam->notifier);
 
 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&mcam->notifier, ep,
@@ -248,6 +252,12 @@ static int mmpcam_probe(struct platform_device *pdev)
 		ret = PTR_ERR(asd);
 		goto out;
 	}
+=======
+	mcam->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+	mcam->asd.match.fwnode = fwnode_graph_get_remote_port_parent(ep);
+
+	fwnode_handle_put(ep);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Register the device with the core.
@@ -284,6 +294,10 @@ static int mmpcam_probe(struct platform_device *pdev)
 	pm_runtime_enable(&pdev->dev);
 	return 0;
 out:
+<<<<<<< HEAD
+=======
+	fwnode_handle_put(mcam->asd.match.fwnode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mccic_shutdown(mcam);
 
 	return ret;

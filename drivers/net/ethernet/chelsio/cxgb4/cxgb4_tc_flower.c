@@ -997,6 +997,18 @@ int cxgb4_tc_flower_destroy(struct net_device *dev,
 	if (!ch_flower)
 		return -ENOENT;
 
+<<<<<<< HEAD
+	rhashtable_remove_fast(&adap->flower_tbl, &ch_flower->node,
+			       adap->flower_ht_params);
+
+	ret = cxgb4_flow_rule_destroy(dev, ch_flower->fs.tc_prio,
+				      &ch_flower->fs, ch_flower->filter_id);
+	if (ret)
+		netdev_err(dev, "Flow rule destroy failed for tid: %u, ret: %d",
+			   ch_flower->filter_id, ret);
+
+	kfree_rcu(ch_flower, rcu);
+=======
 	ret = cxgb4_flow_rule_destroy(dev, ch_flower->fs.tc_prio,
 				      &ch_flower->fs, ch_flower->filter_id);
 	if (ret)
@@ -1011,6 +1023,7 @@ int cxgb4_tc_flower_destroy(struct net_device *dev,
 	kfree_rcu(ch_flower, rcu);
 
 err:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 

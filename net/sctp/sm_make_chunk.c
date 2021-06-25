@@ -3147,7 +3147,11 @@ static __be16 sctp_process_asconf_param(struct sctp_association *asoc,
 		 * primary.
 		 */
 		if (af->is_any(&addr))
+<<<<<<< HEAD
 			memcpy(&addr, sctp_source(asconf), sizeof(addr));
+=======
+			memcpy(&addr.v4, sctp_source(asconf), sizeof(addr));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (security_sctp_bind_connect(asoc->ep->base.sk,
 					       SCTP_PARAM_SET_PRIMARY,

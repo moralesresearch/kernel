@@ -246,7 +246,11 @@ static int persistent_ram_init_ecc(struct persistent_ram_zone *prz,
 		pr_info("error in header, %d\n", numerr);
 		prz->corrected_bytes += numerr;
 	} else if (numerr < 0) {
+<<<<<<< HEAD
 		pr_info_ratelimited("uncorrectable error in header\n");
+=======
+		pr_info("uncorrectable error in header\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		prz->bad_blocks++;
 	}
 

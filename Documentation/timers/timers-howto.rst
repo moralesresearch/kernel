@@ -75,7 +75,11 @@ NON-ATOMIC CONTEXT:
 
 		- Why not msleep for (1ms - 20ms)?
 			Explained originally here:
+<<<<<<< HEAD
 				https://lore.kernel.org/r/15327.1186166232@lwn.net
+=======
+				http://lkml.org/lkml/2007/8/3/250
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			msleep(1~20) may not do what the caller intends, and
 			will often sleep longer (~20 ms actual sleep for any

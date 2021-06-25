@@ -180,6 +180,10 @@ static inline void rt2880_pci_write_u32(unsigned long reg, u32 val)
 
 int pcibios_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
 {
+<<<<<<< HEAD
+=======
+	u16 cmd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int irq = -1;
 
 	if (dev->bus->number != 0)
@@ -187,6 +191,11 @@ int pcibios_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
 
 	switch (PCI_SLOT(dev->devfn)) {
 	case 0x00:
+<<<<<<< HEAD
+=======
+		rt2880_pci_write_u32(PCI_BASE_ADDRESS_0, 0x08000000);
+		(void) rt2880_pci_read_u32(PCI_BASE_ADDRESS_0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case 0x11:
 		irq = RT288X_CPU_IRQ_PCI;
@@ -198,6 +207,19 @@ int pcibios_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
 		break;
 	}
 
+<<<<<<< HEAD
+=======
+	pci_write_config_byte((struct pci_dev *) dev,
+		PCI_CACHE_LINE_SIZE, 0x14);
+	pci_write_config_byte((struct pci_dev *) dev, PCI_LATENCY_TIMER, 0xFF);
+	pci_read_config_word((struct pci_dev *) dev, PCI_COMMAND, &cmd);
+	cmd |= PCI_COMMAND_MASTER | PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
+		PCI_COMMAND_INVALIDATE | PCI_COMMAND_FAST_BACK |
+		PCI_COMMAND_SERR | PCI_COMMAND_WAIT | PCI_COMMAND_PARITY;
+	pci_write_config_word((struct pci_dev *) dev, PCI_COMMAND, cmd);
+	pci_write_config_byte((struct pci_dev *) dev, PCI_INTERRUPT_LINE,
+			      dev->irq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return irq;
 }
 
@@ -238,6 +260,7 @@ static int rt288x_pci_probe(struct platform_device *pdev)
 
 int pcibios_plat_dev_init(struct pci_dev *dev)
 {
+<<<<<<< HEAD
 	static bool slot0_init;
 
 	/*
@@ -262,6 +285,8 @@ int pcibios_plat_dev_init(struct pci_dev *dev)
 		pci_bus_write_config_word(dev->bus, 0, PCI_COMMAND, cmd);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

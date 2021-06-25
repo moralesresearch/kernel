@@ -853,7 +853,11 @@ static const int illegal_condition_result =
 	(DRIVER_SENSE << 24) | (DID_ABORT << 16) | SAM_STAT_CHECK_CONDITION;
 
 static const int device_qfull_result =
+<<<<<<< HEAD
 	(DID_OK << 16) | SAM_STAT_TASK_SET_FULL;
+=======
+	(DID_OK << 16) | (COMMAND_COMPLETE << 8) | SAM_STAT_TASK_SET_FULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const int condition_met_result = SAM_STAT_CONDITION_MET;
 

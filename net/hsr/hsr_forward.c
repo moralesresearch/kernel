@@ -186,7 +186,10 @@ static struct sk_buff *prp_fill_rct(struct sk_buff *skb,
 	set_prp_LSDU_size(trailer, lsdu_size);
 	trailer->sequence_nr = htons(frame->sequence_nr);
 	trailer->PRP_suffix = htons(ETH_P_PRP);
+<<<<<<< HEAD
 	skb->protocol = eth_hdr(skb)->h_proto;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return skb;
 }
@@ -227,7 +230,10 @@ static struct sk_buff *hsr_fill_tag(struct sk_buff *skb,
 	hsr_ethhdr->hsr_tag.encap_proto = hsr_ethhdr->ethhdr.h_proto;
 	hsr_ethhdr->ethhdr.h_proto = htons(proto_version ?
 			ETH_P_HSR : ETH_P_PRP);
+<<<<<<< HEAD
 	skb->protocol = hsr_ethhdr->ethhdr.h_proto;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return skb;
 }
@@ -249,8 +255,11 @@ struct sk_buff *hsr_create_tagged_frame(struct hsr_frame_info *frame,
 		/* set the lane id properly */
 		hsr_set_path_id(hsr_ethhdr, port);
 		return skb_clone(frame->skb_hsr, GFP_ATOMIC);
+<<<<<<< HEAD
 	} else if (port->dev->features & NETIF_F_HW_HSR_TAG_INS) {
 		return skb_clone(frame->skb_std, GFP_ATOMIC);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Create the new skb with enough headroom to fit the HSR tag */
@@ -293,8 +302,11 @@ struct sk_buff *prp_create_tagged_frame(struct hsr_frame_info *frame,
 			return NULL;
 		}
 		return skb_clone(frame->skb_prp, GFP_ATOMIC);
+<<<<<<< HEAD
 	} else if (port->dev->features & NETIF_F_HW_HSR_TAG_INS) {
 		return skb_clone(frame->skb_std, GFP_ATOMIC);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	skb = skb_copy_expand(frame->skb_std, 0,
@@ -347,6 +359,7 @@ bool prp_drop_frame(struct hsr_frame_info *frame, struct hsr_port *port)
 		 port->type ==  HSR_PT_SLAVE_A));
 }
 
+<<<<<<< HEAD
 bool hsr_drop_frame(struct hsr_frame_info *frame, struct hsr_port *port)
 {
 	if (port->dev->features & NETIF_F_HW_HSR_FWD)
@@ -355,6 +368,8 @@ bool hsr_drop_frame(struct hsr_frame_info *frame, struct hsr_port *port)
 	return false;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Forward the frame through all devices except:
  * - Back through the receiving device
  * - If it's a HSR frame: through a device where it has passed before
@@ -371,7 +386,10 @@ static void hsr_forward_do(struct hsr_frame_info *frame)
 {
 	struct hsr_port *port;
 	struct sk_buff *skb;
+<<<<<<< HEAD
 	bool sent = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hsr_for_each_port(frame->port_rcv->hsr, port) {
 		struct hsr_priv *hsr = port->hsr;
@@ -387,12 +405,15 @@ static void hsr_forward_do(struct hsr_frame_info *frame)
 		if (port->type != HSR_PT_MASTER && frame->is_local_exclusive)
 			continue;
 
+<<<<<<< HEAD
 		/* If hardware duplicate generation is enabled, only send out
 		 * one port.
 		 */
 		if ((port->dev->features & NETIF_F_HW_HSR_DUP) && sent)
 			continue;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Don't send frame over port where it has been sent before.
 		 * Also fro SAN, this shouldn't be done.
 		 */
@@ -424,12 +445,19 @@ static void hsr_forward_do(struct hsr_frame_info *frame)
 		}
 
 		skb->dev = port->dev;
+<<<<<<< HEAD
 		if (port->type == HSR_PT_MASTER) {
 			hsr_deliver_master(skb, port->dev, frame->node_src);
 		} else {
 			if (!hsr_xmit(skb, port, frame))
 				sent = true;
 		}
+=======
+		if (port->type == HSR_PT_MASTER)
+			hsr_deliver_master(skb, port->dev, frame->node_src);
+		else
+			hsr_xmit(skb, port, frame);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -474,8 +502,9 @@ static void handle_std_frame(struct sk_buff *skb,
 	}
 }
 
-void hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
-			 struct hsr_frame_info *frame)
+<<<<<<< HEAD
+int hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
+			struct hsr_frame_info *frame)
 {
 	struct hsr_port *port = frame->port_rcv;
 	struct hsr_priv *hsr = port->hsr;
@@ -483,20 +512,44 @@ void hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
 	/* HSRv0 supervisory frames double as a tag so treat them as tagged. */
 	if ((!hsr->prot_version && proto == htons(ETH_P_PRP)) ||
 	    proto == htons(ETH_P_HSR)) {
+		/* Check if skb contains hsr_ethhdr */
+		if (skb->mac_len < sizeof(struct hsr_ethhdr))
+			return -EINVAL;
+
+=======
+void hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
+			 struct hsr_frame_info *frame)
+{
+	if (proto == htons(ETH_P_PRP) ||
+	    proto == htons(ETH_P_HSR)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* HSR tagged frame :- Data or Supervision */
 		frame->skb_std = NULL;
 		frame->skb_prp = NULL;
 		frame->skb_hsr = skb;
 		frame->sequence_nr = hsr_get_skb_sequence_nr(skb);
+<<<<<<< HEAD
+		return 0;
+=======
 		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Standard frame or PRP from master port */
 	handle_std_frame(skb, frame);
+<<<<<<< HEAD
+
+	return 0;
+}
+
+int prp_fill_frame_info(__be16 proto, struct sk_buff *skb,
+			struct hsr_frame_info *frame)
+=======
 }
 
 void prp_fill_frame_info(__be16 proto, struct sk_buff *skb,
 			 struct hsr_frame_info *frame)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Supervision frame */
 	struct prp_rct *rct = skb_get_PRP_rct(skb);
@@ -507,9 +560,17 @@ void prp_fill_frame_info(__be16 proto, struct sk_buff *skb,
 		frame->skb_std = NULL;
 		frame->skb_prp = skb;
 		frame->sequence_nr = prp_get_skb_sequence_nr(rct);
+<<<<<<< HEAD
+		return 0;
+	}
+	handle_std_frame(skb, frame);
+
+	return 0;
+=======
 		return;
 	}
 	handle_std_frame(skb, frame);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int fill_frame_info(struct hsr_frame_info *frame,
@@ -519,10 +580,14 @@ static int fill_frame_info(struct hsr_frame_info *frame,
 	struct hsr_vlan_ethhdr *vlan_hdr;
 	struct ethhdr *ethhdr;
 	__be16 proto;
+<<<<<<< HEAD
+	int ret;
 
-	/* Check if skb contains hsr_ethhdr */
-	if (skb->mac_len < sizeof(struct hsr_ethhdr))
+	/* Check if skb contains ethhdr */
+	if (skb->mac_len < sizeof(struct ethhdr))
 		return -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(frame, 0, sizeof(*frame));
 	frame->is_supervision = is_supervision_frame(port->hsr, skb);
@@ -548,7 +613,14 @@ static int fill_frame_info(struct hsr_frame_info *frame,
 
 	frame->is_from_san = false;
 	frame->port_rcv = port;
+<<<<<<< HEAD
+	ret = hsr->proto_ops->fill_frame_info(proto, skb, frame);
+	if (ret)
+		return ret;
+
+=======
 	hsr->proto_ops->fill_frame_info(proto, skb, frame);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	check_local_dest(port->hsr, skb, frame);
 
 	return 0;
@@ -559,6 +631,15 @@ void hsr_forward_skb(struct sk_buff *skb, struct hsr_port *port)
 {
 	struct hsr_frame_info frame;
 
+<<<<<<< HEAD
+=======
+	if (skb_mac_header(skb) != skb->data) {
+		WARN_ONCE(1, "%s:%d: Malformed frame (port_src %s)\n",
+			  __FILE__, __LINE__, port->dev->name);
+		goto out_drop;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fill_frame_info(&frame, skb, port) < 0)
 		goto out_drop;
 

@@ -2335,7 +2335,11 @@ static int ibmvscsi_probe(struct vio_dev *vdev, const struct vio_device_id *id)
 	return -1;
 }
 
+<<<<<<< HEAD
 static void ibmvscsi_remove(struct vio_dev *vdev)
+=======
+static int ibmvscsi_remove(struct vio_dev *vdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ibmvscsi_host_data *hostdata = dev_get_drvdata(&vdev->dev);
 
@@ -2356,6 +2360,11 @@ static void ibmvscsi_remove(struct vio_dev *vdev)
 	spin_unlock(&ibmvscsi_driver_lock);
 
 	scsi_host_put(hostdata->host);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

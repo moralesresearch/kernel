@@ -104,6 +104,10 @@ MODULE_PARM_DESC(index, "Index value for cx25821 capture interface(s).");
 MODULE_DESCRIPTION("ALSA driver module for cx25821 based capture cards");
 MODULE_AUTHOR("Hiep Huynh");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Conexant,25821}");	/* "{{Conexant,23881}," */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static unsigned int debug;
 module_param(debug, int, 0644);

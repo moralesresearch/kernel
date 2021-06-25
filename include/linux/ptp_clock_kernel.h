@@ -235,7 +235,11 @@ extern int ptp_clock_index(struct ptp_clock *ptp);
  * @ppm:    Parts per million, but with a 16 bit binary fractional field
  */
 
+<<<<<<< HEAD
+extern long scaled_ppm_to_ppb(long ppm);
+=======
 extern s32 scaled_ppm_to_ppb(long ppm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * ptp_find_pin() - obtain the pin index of a given auxiliary function

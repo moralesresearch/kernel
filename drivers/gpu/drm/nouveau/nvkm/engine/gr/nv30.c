@@ -194,7 +194,13 @@ nv30_gr = {
 };
 
 int
+<<<<<<< HEAD
 nv30_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
 {
 	return nv20_gr_new_(&nv30_gr, device, type, inst, pgr);
+=======
+nv30_gr_new(struct nvkm_device *device, int index, struct nvkm_gr **pgr)
+{
+	return nv20_gr_new_(&nv30_gr, device, index, pgr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

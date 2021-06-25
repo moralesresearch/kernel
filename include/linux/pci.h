@@ -1232,6 +1232,7 @@ void pci_update_resource(struct pci_dev *dev, int resno);
 int __must_check pci_assign_resource(struct pci_dev *dev, int i);
 int __must_check pci_reassign_resource(struct pci_dev *dev, int i, resource_size_t add_size, resource_size_t align);
 void pci_release_resource(struct pci_dev *dev, int resno);
+<<<<<<< HEAD
 static inline int pci_rebar_bytes_to_size(u64 bytes)
 {
 	bytes = roundup_pow_of_two(bytes);
@@ -1241,6 +1242,8 @@ static inline int pci_rebar_bytes_to_size(u64 bytes)
 }
 
 u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __must_check pci_resize_resource(struct pci_dev *dev, int i, int size);
 int pci_select_bars(struct pci_dev *dev, unsigned long flags);
 bool pci_device_is_present(struct pci_dev *pdev);
@@ -1926,7 +1929,11 @@ enum pci_fixup_pass {
 };
 
 #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
+<<<<<<< HEAD
 #define ___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+=======
+#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    class_shift, hook)			\
 	__ADDRESSABLE(hook)						\
 	asm(".section "	#sec ", \"a\"				\n"	\
@@ -1935,6 +1942,7 @@ enum pci_fixup_pass {
 	    ".long "	#class ", " #class_shift "		\n"	\
 	    ".long "	#hook " - .				\n"	\
 	    ".previous						\n");
+<<<<<<< HEAD
 
 /*
  * Clang's LTO may rename static functions in C, but has no way to
@@ -1962,6 +1970,12 @@ enum pci_fixup_pass {
 				  class_shift, hook)			\
 	__DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
 				  class_shift, hook, __UNIQUE_ID(hook))
+=======
+#define DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+				  class_shift, hook)			\
+	__DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+				  class_shift, hook)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 /* Anonymous variables would be nice... */
 #define DECLARE_PCI_FIXUP_SECTION(section, name, vendor, device, class,	\

@@ -1055,7 +1055,11 @@ static int nmk_i2c_probe(struct amba_device *adev, const struct amba_id *id)
 	return ret;
 }
 
+<<<<<<< HEAD
 static void nmk_i2c_remove(struct amba_device *adev)
+=======
+static int nmk_i2c_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct resource *res = &adev->res;
 	struct nmk_i2c_dev *dev = amba_get_drvdata(adev);
@@ -1068,6 +1072,11 @@ static void nmk_i2c_remove(struct amba_device *adev)
 	i2c_clr_bit(dev->virtbase + I2C_CR, I2C_CR_PE);
 	clk_disable_unprepare(dev->clk);
 	release_mem_region(res->start, resource_size(res));
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct i2c_vendor_data vendor_stn8815 = {

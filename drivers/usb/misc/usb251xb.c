@@ -396,7 +396,11 @@ static void usb251xb_get_ports_field(struct usb251xb *hub,
 }
 
 static int usb251xb_get_ofdata(struct usb251xb *hub,
+<<<<<<< HEAD
 			       const struct usb251xb_data *data)
+=======
+			       struct usb251xb_data *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device *dev = hub->dev;
 	struct device_node *np = dev->of_node;
@@ -630,7 +634,11 @@ static const struct of_device_id usb251xb_of_match[] = {
 MODULE_DEVICE_TABLE(of, usb251xb_of_match);
 #else /* CONFIG_OF */
 static int usb251xb_get_ofdata(struct usb251xb *hub,
+<<<<<<< HEAD
 			       const struct usb251xb_data *data)
+=======
+			       struct usb251xb_data *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return 0;
 }
@@ -647,11 +655,21 @@ static int usb251xb_probe(struct usb251xb *hub)
 {
 	struct device *dev = hub->dev;
 	struct device_node *np = dev->of_node;
+<<<<<<< HEAD
 	const struct usb251xb_data *usb_data = of_device_get_match_data(dev);
 	int err;
 
 	if (np && usb_data) {
 		err = usb251xb_get_ofdata(hub, usb_data);
+=======
+	const struct of_device_id *of_id = of_match_device(usb251xb_of_match,
+							   dev);
+	int err;
+
+	if (np && of_id) {
+		err = usb251xb_get_ofdata(hub,
+					  (struct usb251xb_data *)of_id->data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err) {
 			dev_err(dev, "failed to get ofdata: %d\n", err);
 			return err;

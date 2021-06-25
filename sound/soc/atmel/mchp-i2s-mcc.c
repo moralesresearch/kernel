@@ -859,8 +859,13 @@ static struct snd_soc_dai_driver mchp_i2s_mcc_dai = {
 		.formats = MCHP_I2SMCC_FORMATS,
 	},
 	.ops = &mchp_i2s_mcc_dai_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
 	.symmetric_sample_bits = 1,
+=======
+	.symmetric_rates = 1,
+	.symmetric_samplebits = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.symmetric_channels = 1,
 };
 

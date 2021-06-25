@@ -206,7 +206,11 @@ static int bd957x_probe(struct platform_device *pdev)
 {
 	struct regmap *regmap;
 	struct regulator_config config = { 0 };
+<<<<<<< HEAD
 	int i;
+=======
+	int i, err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool vout_mode, ddr_sel;
 	const struct bd957x_regulator_data *reg_data = &bd9576_regulators[0];
 	unsigned int num_reg_data = ARRAY_SIZE(bd9576_regulators);
@@ -279,7 +283,12 @@ static int bd957x_probe(struct platform_device *pdev)
 		break;
 	default:
 		dev_err(&pdev->dev, "Unsupported chip type\n");
+<<<<<<< HEAD
 		return -EINVAL;
+=======
+		err = -EINVAL;
+		goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	config.dev = pdev->dev.parent;
@@ -299,7 +308,12 @@ static int bd957x_probe(struct platform_device *pdev)
 			dev_err(&pdev->dev,
 				"failed to register %s regulator\n",
 				desc->name);
+<<<<<<< HEAD
 			return PTR_ERR(rdev);
+=======
+			err = PTR_ERR(rdev);
+			goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		/*
 		 * Clear the VOUT1 GPIO setting - rest of the regulators do not
@@ -308,7 +322,12 @@ static int bd957x_probe(struct platform_device *pdev)
 		config.ena_gpiod = NULL;
 	}
 
+<<<<<<< HEAD
 	return 0;
+=======
+err:
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct platform_device_id bd957x_pmic_id[] = {

@@ -414,6 +414,10 @@ struct pf_resources {
 };
 
 struct pci_params {
+<<<<<<< HEAD
+=======
+	unsigned int vpd_cap_addr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char speed;
 	unsigned char width;
 };
@@ -2177,8 +2181,11 @@ int cxgb4_update_mac_filt(struct port_info *pi, unsigned int viid,
 			  bool persistent, u8 *smt_idx);
 int cxgb4_get_msix_idx_from_bmap(struct adapter *adap);
 void cxgb4_free_msix_idx_in_bmap(struct adapter *adap, u32 msix_idx);
+<<<<<<< HEAD
+=======
 int cxgb_open(struct net_device *dev);
 int cxgb_close(struct net_device *dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void cxgb4_enable_rx(struct adapter *adap, struct sge_rspq *q);
 void cxgb4_quiesce_rx(struct sge_rspq *q);
 int cxgb4_port_mirror_alloc(struct net_device *dev);

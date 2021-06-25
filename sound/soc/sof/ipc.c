@@ -106,8 +106,11 @@ static void ipc_log_header(struct device *dev, u8 *text, u32 cmd)
 			str2 = "CLK_REQ"; break;
 		case SOF_IPC_PM_CORE_ENABLE:
 			str2 = "CORE_ENABLE"; break;
+<<<<<<< HEAD
 		case SOF_IPC_PM_GATE:
 			str2 = "GATE"; break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			str2 = "unknown type"; break;
 		}
@@ -798,7 +801,11 @@ int snd_sof_ipc_valid(struct snd_sof_dev *sdev)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (SOF_ABI_VERSION_MINOR(v->abi_version) > SOF_ABI_MINOR) {
+=======
+	if (v->abi_version > SOF_ABI_VERSION) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!IS_ENABLED(CONFIG_SND_SOC_SOF_STRICT_ABI_CHECKS)) {
 			dev_warn(sdev->dev, "warn: FW ABI is more recent than kernel\n");
 		} else {

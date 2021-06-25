@@ -14,7 +14,10 @@
 #include <asm/thread_info.h>
 #include <asm/asm.h>
 #include <asm/frame.h>
+<<<<<<< HEAD
 #include <asm/unwind_hints.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <xen/interface/xen.h>
 
@@ -73,6 +76,37 @@ SYM_FUNC_START(xen_save_fl_direct)
 	ret
 SYM_FUNC_END(xen_save_fl_direct)
 
+<<<<<<< HEAD
+=======
+
+/*
+ * In principle the caller should be passing us a value return from
+ * xen_save_fl_direct, but for robustness sake we test only the
+ * X86_EFLAGS_IF flag rather than the whole byte. After setting the
+ * interrupt mask state, it checks for unmasked pending events and
+ * enters the hypervisor to get them delivered if so.
+ */
+SYM_FUNC_START(xen_restore_fl_direct)
+	FRAME_BEGIN
+	testw $X86_EFLAGS_IF, %di
+	setz PER_CPU_VAR(xen_vcpu_info) + XEN_vcpu_info_mask
+	/*
+	 * Preempt here doesn't matter because that will deal with any
+	 * pending interrupts.  The pending check may end up being run
+	 * on the wrong CPU, but that doesn't hurt.
+	 */
+
+	/* check for unmasked and pending */
+	cmpw $0x0001, PER_CPU_VAR(xen_vcpu_info) + XEN_vcpu_info_pending
+	jnz 1f
+	call check_events
+1:
+	FRAME_END
+	ret
+SYM_FUNC_END(xen_restore_fl_direct)
+
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Force an event check by making a hypercall, but preserve regs
  * before making the call.
@@ -119,7 +153,10 @@ SYM_FUNC_END(xen_read_cr2_direct);
 
 .macro xen_pv_trap name
 SYM_CODE_START(xen_\name)
+<<<<<<< HEAD
 	UNWIND_HINT_EMPTY
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pop %rcx
 	pop %r11
 	jmp  \name
@@ -135,7 +172,11 @@ xen_pv_trap asm_exc_overflow
 xen_pv_trap asm_exc_bounds
 xen_pv_trap asm_exc_invalid_op
 xen_pv_trap asm_exc_device_not_available
+<<<<<<< HEAD
 xen_pv_trap asm_xenpv_exc_double_fault
+=======
+xen_pv_trap asm_exc_double_fault
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 xen_pv_trap asm_exc_coproc_segment_overrun
 xen_pv_trap asm_exc_invalid_tss
 xen_pv_trap asm_exc_segment_not_present
@@ -146,7 +187,11 @@ xen_pv_trap asm_exc_spurious_interrupt_bug
 xen_pv_trap asm_exc_coprocessor_error
 xen_pv_trap asm_exc_alignment_check
 #ifdef CONFIG_X86_MCE
+<<<<<<< HEAD
 xen_pv_trap asm_xenpv_exc_machine_check
+=======
+xen_pv_trap asm_exc_machine_check
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_X86_MCE */
 xen_pv_trap asm_exc_simd_coprocessor_error
 #ifdef CONFIG_IA32_EMULATION
@@ -159,7 +204,10 @@ xen_pv_trap asm_exc_xen_hypervisor_callback
 SYM_CODE_START(xen_early_idt_handler_array)
 	i = 0
 	.rept NUM_EXCEPTION_VECTORS
+<<<<<<< HEAD
 	UNWIND_HINT_EMPTY
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pop %rcx
 	pop %r11
 	jmp early_idt_handler_array + i*EARLY_IDT_HANDLER_SIZE
@@ -186,11 +234,37 @@ hypercall_iret = hypercall_page + __HYPERVISOR_iret * 32
  * rsp->rax		}
  */
 SYM_CODE_START(xen_iret)
+<<<<<<< HEAD
 	UNWIND_HINT_EMPTY
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pushq $0
 	jmp hypercall_iret
 SYM_CODE_END(xen_iret)
 
+<<<<<<< HEAD
+=======
+SYM_CODE_START(xen_sysret64)
+	/*
+	 * We're already on the usermode stack at this point, but
+	 * still with the kernel gs, so we can easily switch back.
+	 *
+	 * tss.sp2 is scratch space.
+	 */
+	movq %rsp, PER_CPU_VAR(cpu_tss_rw + TSS_sp2)
+	movq PER_CPU_VAR(cpu_current_top_of_stack), %rsp
+
+	pushq $__USER_DS
+	pushq PER_CPU_VAR(cpu_tss_rw + TSS_sp2)
+	pushq %r11
+	pushq $__USER_CS
+	pushq %rcx
+
+	pushq $VGCF_in_syscall
+	jmp hypercall_iret
+SYM_CODE_END(xen_sysret64)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Xen handles syscall callbacks much like ordinary exceptions, which
  * means we have:
@@ -207,8 +281,12 @@ SYM_CODE_END(xen_iret)
  */
 
 /* Normal 64-bit system call target */
+<<<<<<< HEAD
 SYM_CODE_START(xen_syscall_target)
 	UNWIND_HINT_EMPTY
+=======
+SYM_FUNC_START(xen_syscall_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	popq %rcx
 	popq %r11
 
@@ -221,13 +299,21 @@ SYM_CODE_START(xen_syscall_target)
 	movq $__USER_CS, 1*8(%rsp)
 
 	jmp entry_SYSCALL_64_after_hwframe
+<<<<<<< HEAD
 SYM_CODE_END(xen_syscall_target)
+=======
+SYM_FUNC_END(xen_syscall_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_IA32_EMULATION
 
 /* 32-bit compat syscall target */
+<<<<<<< HEAD
 SYM_CODE_START(xen_syscall32_target)
 	UNWIND_HINT_EMPTY
+=======
+SYM_FUNC_START(xen_syscall32_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	popq %rcx
 	popq %r11
 
@@ -240,11 +326,18 @@ SYM_CODE_START(xen_syscall32_target)
 	movq $__USER32_CS, 1*8(%rsp)
 
 	jmp entry_SYSCALL_compat_after_hwframe
+<<<<<<< HEAD
 SYM_CODE_END(xen_syscall32_target)
 
 /* 32-bit compat sysenter target */
 SYM_CODE_START(xen_sysenter_target)
 	UNWIND_HINT_EMPTY
+=======
+SYM_FUNC_END(xen_syscall32_target)
+
+/* 32-bit compat sysenter target */
+SYM_FUNC_START(xen_sysenter_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * NB: Xen is polite and clears TF from EFLAGS for us.  This means
 	 * that we don't need to guard against single step exceptions here.
@@ -261,6 +354,7 @@ SYM_CODE_START(xen_sysenter_target)
 	movq $__USER32_CS, 1*8(%rsp)
 
 	jmp entry_SYSENTER_compat_after_hwframe
+<<<<<<< HEAD
 SYM_CODE_END(xen_sysenter_target)
 
 #else /* !CONFIG_IA32_EMULATION */
@@ -268,11 +362,24 @@ SYM_CODE_END(xen_sysenter_target)
 SYM_CODE_START(xen_syscall32_target)
 SYM_CODE_START(xen_sysenter_target)
 	UNWIND_HINT_EMPTY
+=======
+SYM_FUNC_END(xen_sysenter_target)
+
+#else /* !CONFIG_IA32_EMULATION */
+
+SYM_FUNC_START_ALIAS(xen_syscall32_target)
+SYM_FUNC_START(xen_sysenter_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lea 16(%rsp), %rsp	/* strip %rcx, %r11 */
 	mov $-ENOSYS, %rax
 	pushq $0
 	jmp hypercall_iret
+<<<<<<< HEAD
 SYM_CODE_END(xen_sysenter_target)
 SYM_CODE_END(xen_syscall32_target)
+=======
+SYM_FUNC_END(xen_sysenter_target)
+SYM_FUNC_END_ALIAS(xen_syscall32_target)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif	/* CONFIG_IA32_EMULATION */

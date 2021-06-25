@@ -1,8 +1,12 @@
 # SPDX-License-Identifier: GPL-2.0-only
 config DRM_VIRTIO_GPU
 	tristate "Virtio GPU driver"
+<<<<<<< HEAD
 	depends on DRM && VIRTIO_MENU && MMU
 	select VIRTIO
+=======
+	depends on DRM && VIRTIO && VIRTIO_MENU && MMU
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DRM_KMS_HELPER
 	select DRM_GEM_SHMEM_HELPER
 	select VIRTIO_DMA_SHARED_BUFFER

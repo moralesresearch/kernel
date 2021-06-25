@@ -81,6 +81,10 @@ static struct ieee80211_rate ath10k_rates_rev2[] = {
 	{ .bitrate = 540, .hw_value = ATH10K_HW_RATE_OFDM_54M },
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct cfg80211_sar_freq_ranges ath10k_sar_freq_ranges[] = {
 	{.start_freq = 2402, .end_freq = 2494 },
 	{.start_freq = 5170, .end_freq = 5875 },
@@ -92,6 +96,11 @@ static const struct cfg80211_sar_capa ath10k_sar_capa = {
 	.freq_ranges = &ath10k_sar_freq_ranges[0],
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ATH10K_MAC_FIRST_OFDM_RATE_IDX 4
 
 #define ath10k_a_rates (ath10k_rates + ATH10K_MAC_FIRST_OFDM_RATE_IDX)
@@ -2188,8 +2197,17 @@ static void ath10k_peer_assoc_h_crypto(struct ath10k *ar,
 	if (WARN_ON(ath10k_mac_vif_chan(vif, &def)))
 		return;
 
+<<<<<<< HEAD
 	bss = cfg80211_get_bss(ar->hw->wiphy, def.chan, info->bssid,
 			       info->ssid_len ? info->ssid : NULL, info->ssid_len,
+=======
+<<<<<<< HEAD
+	bss = cfg80211_get_bss(ar->hw->wiphy, def.chan, info->bssid,
+			       info->ssid_len ? info->ssid : NULL, info->ssid_len,
+=======
+	bss = cfg80211_get_bss(ar->hw->wiphy, def.chan, info->bssid, NULL, 0,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       IEEE80211_BSS_TYPE_ANY, IEEE80211_PRIVACY_ANY);
 	if (bss) {
 		const struct cfg80211_bss_ies *ies;
@@ -2892,6 +2910,10 @@ static int ath10k_mac_vif_recalc_txbf(struct ath10k *ar,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool ath10k_mac_is_connected(struct ath10k *ar)
 {
 	struct ath10k_vif *arvif;
@@ -3044,6 +3066,11 @@ err:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* can be called only in mac80211 callbacks due to `key_count` usage */
 static void ath10k_bss_assoc(struct ieee80211_hw *hw,
 			     struct ieee80211_vif *vif,
@@ -3132,8 +3159,16 @@ static void ath10k_bss_assoc(struct ieee80211_hw *hw,
 
 	arvif->is_up = true;
 
+<<<<<<< HEAD
 	ath10k_mac_set_sar_power(ar);
 
+=======
+<<<<<<< HEAD
+	ath10k_mac_set_sar_power(ar);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Workaround: Some firmware revisions (tested with qca6174
 	 * WLAN.RM.2.0-00073) have buggy powersave state machine and must be
 	 * poked with peer param command.
@@ -3176,8 +3211,16 @@ static void ath10k_bss_disassoc(struct ieee80211_hw *hw,
 
 	arvif->is_up = false;
 
+<<<<<<< HEAD
 	ath10k_mac_txpower_recalc(ar);
 
+=======
+<<<<<<< HEAD
+	ath10k_mac_txpower_recalc(ar);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cancel_delayed_work_sync(&arvif->connection_loss_work);
 }
 
@@ -4115,8 +4158,19 @@ void ath10k_offchan_tx_work(struct work_struct *work)
 		spin_unlock_bh(&ar->data_lock);
 
 		if (peer)
+<<<<<<< HEAD
 			ath10k_warn(ar, "peer %pM on vdev %d already present\n",
 				    peer_addr, vdev_id);
+=======
+<<<<<<< HEAD
+			ath10k_warn(ar, "peer %pM on vdev %d already present\n",
+				    peer_addr, vdev_id);
+=======
+			/* FIXME: should this use ath10k_warn()? */
+			ath10k_dbg(ar, ATH10K_DBG_MAC, "peer %pM on vdev %d already present\n",
+				   peer_addr, vdev_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!peer) {
 			ret = ath10k_peer_create(ar, NULL, NULL, vdev_id,
@@ -5367,6 +5421,71 @@ static int ath10k_config_ps(struct ath10k *ar)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static int ath10k_mac_txpower_setup(struct ath10k *ar, int txpower)
+{
+	int ret;
+	u32 param;
+
+	lockdep_assert_held(&ar->conf_mutex);
+
+	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac txpower %d\n", txpower);
+
+	param = ar->wmi.pdev_param->txpower_limit2g;
+	ret = ath10k_wmi_pdev_set_param(ar, param, txpower * 2);
+	if (ret) {
+		ath10k_warn(ar, "failed to set 2g txpower %d: %d\n",
+			    txpower, ret);
+		return ret;
+	}
+
+	param = ar->wmi.pdev_param->txpower_limit5g;
+	ret = ath10k_wmi_pdev_set_param(ar, param, txpower * 2);
+	if (ret) {
+		ath10k_warn(ar, "failed to set 5g txpower %d: %d\n",
+			    txpower, ret);
+		return ret;
+	}
+
+	return 0;
+}
+
+static int ath10k_mac_txpower_recalc(struct ath10k *ar)
+{
+	struct ath10k_vif *arvif;
+	int ret, txpower = -1;
+
+	lockdep_assert_held(&ar->conf_mutex);
+
+	list_for_each_entry(arvif, &ar->arvifs, list) {
+		/* txpower not initialized yet? */
+		if (arvif->txpower == INT_MIN)
+			continue;
+
+		if (txpower == -1)
+			txpower = arvif->txpower;
+		else
+			txpower = min(txpower, arvif->txpower);
+	}
+
+	if (txpower == -1)
+		return 0;
+
+	ret = ath10k_mac_txpower_setup(ar, txpower);
+	if (ret) {
+		ath10k_warn(ar, "failed to setup tx power %d: %d\n",
+			    txpower, ret);
+		return ret;
+	}
+
+	return 0;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ath10k_config(struct ieee80211_hw *hw, u32 changed)
 {
 	struct ath10k *ar = hw->priv;
@@ -6666,7 +6785,15 @@ static void ath10k_sta_rc_update_wk(struct work_struct *wk)
 		enum wmi_phy_mode mode;
 
 		mode = chan_to_phymode(&def);
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM peer bw %d phymode %d\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM peer bw %d phymode %d\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac update sta %pM peer bw %d phymode %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr, bw, mode);
 
 		err = ath10k_wmi_peer_set_param(ar, arvif->vdev_id, sta->addr,
@@ -6685,7 +6812,15 @@ static void ath10k_sta_rc_update_wk(struct work_struct *wk)
 	}
 
 	if (changed & IEEE80211_RC_NSS_CHANGED) {
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM nss %d\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM nss %d\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac update sta %pM nss %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr, nss);
 
 		err = ath10k_wmi_peer_set_param(ar, arvif->vdev_id, sta->addr,
@@ -6696,7 +6831,15 @@ static void ath10k_sta_rc_update_wk(struct work_struct *wk)
 	}
 
 	if (changed & IEEE80211_RC_SMPS_CHANGED) {
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM smps %d\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM smps %d\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac update sta %pM smps %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr, smps);
 
 		err = ath10k_wmi_peer_set_param(ar, arvif->vdev_id, sta->addr,
@@ -6707,7 +6850,15 @@ static void ath10k_sta_rc_update_wk(struct work_struct *wk)
 	}
 
 	if (changed & IEEE80211_RC_SUPP_RATES_CHANGED) {
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM supp rates\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac update sta %pM supp rates\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac update sta %pM supp rates\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr);
 
 		err = ath10k_station_assoc(ar, arvif->vif, sta, true);
@@ -7403,7 +7554,15 @@ static int ath10k_sta_state(struct ieee80211_hw *hw,
 		enum wmi_peer_type peer_type = WMI_PEER_TYPE_DEFAULT;
 		u32 num_tdls_stations;
 
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   "mac vdev %d peer create %pM (new sta) sta %d / %d peer %d / %d\n",
 			   arvif->vdev_id, sta->addr,
 			   ar->num_stations + 1, ar->max_num_stations,
@@ -7503,7 +7662,15 @@ static int ath10k_sta_state(struct ieee80211_hw *hw,
 		/*
 		 * Existing station deletion.
 		 */
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   "mac vdev %d peer delete %pM sta %pK (sta gone)\n",
 			   arvif->vdev_id, sta->addr, sta);
 
@@ -7575,7 +7742,15 @@ static int ath10k_sta_state(struct ieee80211_hw *hw,
 		/*
 		 * New association.
 		 */
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac sta %pM associated\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac sta %pM associated\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac sta %pM associated\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr);
 
 		ret = ath10k_station_assoc(ar, vif, sta, false);
@@ -7588,7 +7763,15 @@ static int ath10k_sta_state(struct ieee80211_hw *hw,
 		/*
 		 * Tdls station authorized.
 		 */
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac tdls sta %pM authorized\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac tdls sta %pM authorized\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac tdls sta %pM authorized\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr);
 
 		ret = ath10k_station_assoc(ar, vif, sta, false);
@@ -7611,7 +7794,15 @@ static int ath10k_sta_state(struct ieee80211_hw *hw,
 		/*
 		 * Disassociation.
 		 */
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_STA, "mac sta %pM disassociated\n",
+=======
+<<<<<<< HEAD
+		ath10k_dbg(ar, ATH10K_DBG_STA, "mac sta %pM disassociated\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_MAC, "mac sta %pM disassociated\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sta->addr);
 
 		ret = ath10k_station_disassoc(ar, vif, sta);
@@ -8170,7 +8361,15 @@ static int ath10k_mac_set_fixed_rate_params(struct ath10k_vif *arvif,
 
 	lockdep_assert_held(&ar->conf_mutex);
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02x nss %u sgi %u\n",
+=======
+<<<<<<< HEAD
+	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02x nss %u sgi %u\n",
+=======
+	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02hhx nss %hhu sgi %hhu\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   arvif->vdev_id, rate, nss, sgi);
 
 	vdev_param = ar->wmi.vdev_param->fixed_rate;
@@ -8428,7 +8627,15 @@ static void ath10k_sta_rc_update(struct ieee80211_hw *hw,
 		return;
 	}
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+<<<<<<< HEAD
+	ath10k_dbg(ar, ATH10K_DBG_STA,
+=======
+	ath10k_dbg(ar, ATH10K_DBG_MAC,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   "mac sta rc update for %pM changed %08x bw %d nss %d smps %d\n",
 		   sta->addr, changed, sta->bandwidth, sta->rx_nss,
 		   sta->smps_mode);
@@ -8527,7 +8734,15 @@ static int ath10k_ampdu_action(struct ieee80211_hw *hw,
 	enum ieee80211_ampdu_mlme_action action = params->action;
 	u16 tid = params->tid;
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac ampdu vdev_id %i sta %pM tid %u action %d\n",
+=======
+<<<<<<< HEAD
+	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac ampdu vdev_id %i sta %pM tid %u action %d\n",
+=======
+	ath10k_dbg(ar, ATH10K_DBG_MAC, "mac ampdu vdev_id %i sta %pM tid %hu action %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   arvif->vdev_id, sta->addr, tid, action);
 
 	switch (action) {
@@ -8623,7 +8838,15 @@ ath10k_mac_update_vif_chan(struct ath10k *ar,
 		arvif = (void *)vifs[i].vif->drv_priv;
 
 		ath10k_dbg(ar, ATH10K_DBG_MAC,
+<<<<<<< HEAD
 			   "mac chanctx switch vdev_id %i freq %u->%u width %d->%d\n",
+=======
+<<<<<<< HEAD
+			   "mac chanctx switch vdev_id %i freq %u->%u width %d->%d\n",
+=======
+			   "mac chanctx switch vdev_id %i freq %hu->%hu width %d->%d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   arvif->vdev_id,
 			   vifs[i].old_ctx->def.chan->center_freq,
 			   vifs[i].new_ctx->def.chan->center_freq,
@@ -8697,7 +8920,15 @@ ath10k_mac_op_add_chanctx(struct ieee80211_hw *hw,
 	struct ath10k *ar = hw->priv;
 
 	ath10k_dbg(ar, ATH10K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx add freq %u width %d ptr %pK\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx add freq %u width %d ptr %pK\n",
+=======
+		   "mac chanctx add freq %hu width %d ptr %pK\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx);
 
 	mutex_lock(&ar->conf_mutex);
@@ -8721,7 +8952,15 @@ ath10k_mac_op_remove_chanctx(struct ieee80211_hw *hw,
 	struct ath10k *ar = hw->priv;
 
 	ath10k_dbg(ar, ATH10K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx remove freq %u width %d ptr %pK\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx remove freq %u width %d ptr %pK\n",
+=======
+		   "mac chanctx remove freq %hu width %d ptr %pK\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx);
 
 	mutex_lock(&ar->conf_mutex);
@@ -8786,7 +9025,15 @@ ath10k_mac_op_change_chanctx(struct ieee80211_hw *hw,
 	mutex_lock(&ar->conf_mutex);
 
 	ath10k_dbg(ar, ATH10K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx change freq %u width %d ptr %pK changed %x\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx change freq %u width %d ptr %pK changed %x\n",
+=======
+		   "mac chanctx change freq %hu width %d ptr %pK changed %x\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx, changed);
 
 	/* This shouldn't really happen because channel switching should use
@@ -9375,7 +9622,14 @@ static const struct ieee80211_ops ath10k_ops = {
 #ifdef CONFIG_MAC80211_DEBUGFS
 	.sta_add_debugfs		= ath10k_sta_add_debugfs,
 #endif
+<<<<<<< HEAD
 	.set_sar_specs			= ath10k_mac_set_sar_specs,
+=======
+<<<<<<< HEAD
+	.set_sar_specs			= ath10k_mac_set_sar_specs,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define CHAN2G(_channel, _freq, _flags) { \
@@ -10113,9 +10367,18 @@ int ath10k_mac_register(struct ath10k *ar)
 		goto err_free;
 	}
 
+<<<<<<< HEAD
 	if (ar->hw_params.dynamic_sar_support)
 		ar->hw->wiphy->sar_capa = &ath10k_sar_capa;
 
+=======
+<<<<<<< HEAD
+	if (ar->hw_params.dynamic_sar_support)
+		ar->hw->wiphy->sar_capa = &ath10k_sar_capa;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!test_bit(ATH10K_FLAG_RAW_MODE, &ar->dev_flags))
 		ar->hw->netdev_features = NETIF_F_HW_CSUM;
 

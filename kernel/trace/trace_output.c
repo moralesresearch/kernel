@@ -312,6 +312,7 @@ int trace_raw_output_prep(struct trace_iterator *iter,
 }
 EXPORT_SYMBOL(trace_raw_output_prep);
 
+<<<<<<< HEAD
 void trace_event_printf(struct trace_iterator *iter, const char *fmt, ...)
 {
 	va_list ap;
@@ -322,13 +323,19 @@ void trace_event_printf(struct trace_iterator *iter, const char *fmt, ...)
 }
 EXPORT_SYMBOL(trace_event_printf);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int trace_output_raw(struct trace_iterator *iter, char *name,
 			    char *fmt, va_list ap)
 {
 	struct trace_seq *s = &iter->seq;
 
 	trace_seq_printf(s, "%s: ", name);
+<<<<<<< HEAD
 	trace_seq_vprintf(s, trace_event_format(iter, fmt), ap);
+=======
+	trace_seq_vprintf(s, fmt, ap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return trace_handle_return(s);
 }

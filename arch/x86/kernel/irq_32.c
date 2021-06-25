@@ -22,7 +22,10 @@
 
 #include <asm/apic.h>
 #include <asm/nospec-branch.h>
+<<<<<<< HEAD
 #include <asm/softirq_stack.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_DEBUG_STACKOVERFLOW
 

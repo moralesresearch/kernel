@@ -27,7 +27,11 @@ static void huge_free_pages(struct drm_i915_gem_object *obj,
 
 static int huge_get_pages(struct drm_i915_gem_object *obj)
 {
+<<<<<<< HEAD
 #define GFP (GFP_KERNEL | __GFP_NOWARN | __GFP_RETRY_MAYFAIL)
+=======
+#define GFP (GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const unsigned long nreal = obj->scratch / PAGE_SIZE;
 	const unsigned long npages = obj->base.size / PAGE_SIZE;
 	struct scatterlist *sg, *src, *end;

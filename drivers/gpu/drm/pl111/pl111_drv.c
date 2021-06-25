@@ -228,7 +228,11 @@ static const struct drm_driver pl111_drm_driver = {
 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
 	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
+<<<<<<< HEAD
 	.gem_prime_mmap = drm_gem_prime_mmap,
+=======
+	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if defined(CONFIG_DEBUG_FS)
 	.debugfs_init = pl111_debugfs_init,
@@ -320,7 +324,11 @@ dev_put:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void pl111_amba_remove(struct amba_device *amba_dev)
+=======
+static int pl111_amba_remove(struct amba_device *amba_dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device *dev = &amba_dev->dev;
 	struct drm_device *drm = amba_get_drvdata(amba_dev);
@@ -331,6 +339,11 @@ static void pl111_amba_remove(struct amba_device *amba_dev)
 		drm_panel_bridge_remove(priv->bridge);
 	drm_dev_put(drm);
 	of_reserved_mem_device_release(dev);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

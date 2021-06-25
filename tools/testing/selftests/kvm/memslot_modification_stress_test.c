@@ -71,6 +71,24 @@ struct memslot_antagonist_args {
 };
 
 static void add_remove_memslot(struct kvm_vm *vm, useconds_t delay,
+<<<<<<< HEAD
+			       uint64_t nr_modifications)
+{
+	const uint64_t pages = 1;
+	uint64_t gpa;
+	int i;
+
+	/*
+	 * Add the dummy memslot just below the perf_test_util memslot, which is
+	 * at the top of the guest physical address space.
+	 */
+	gpa = guest_test_phys_mem - pages * vm_get_page_size(vm);
+
+	for (i = 0; i < nr_modifications; i++) {
+		usleep(delay);
+		vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, gpa,
+					    DUMMY_MEMSLOT_INDEX, pages, 0);
+=======
 			      uint64_t nr_modifications, uint64_t gpa)
 {
 	int i;
@@ -79,6 +97,7 @@ static void add_remove_memslot(struct kvm_vm *vm, useconds_t delay,
 		usleep(delay);
 		vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, gpa,
 					    DUMMY_MEMSLOT_INDEX, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vm_mem_region_delete(vm, DUMMY_MEMSLOT_INDEX);
 	}
@@ -120,11 +139,15 @@ static void run_test(enum vm_guest_mode mode, void *arg)
 	pr_info("Started all vCPUs\n");
 
 	add_remove_memslot(vm, p->memslot_modification_delay,
+<<<<<<< HEAD
+			   p->nr_memslot_modifications);
+=======
 			   p->nr_memslot_modifications,
 			   guest_test_phys_mem +
 			   (guest_percpu_mem_size * nr_vcpus) +
 			   perf_test_args.host_page_size +
 			   perf_test_args.guest_page_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	run_vcpus = false;
 

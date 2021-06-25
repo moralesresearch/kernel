@@ -294,6 +294,10 @@ struct wm97xx {
 struct wm97xx_batt_pdata {
 	int	batt_aux;
 	int	temp_aux;
+<<<<<<< HEAD
+=======
+	int	charge_gpio;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int	min_voltage;
 	int	max_voltage;
 	int	batt_div;

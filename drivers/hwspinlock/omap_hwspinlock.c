@@ -2,12 +2,19 @@
 /*
  * OMAP hardware spinlock driver
  *
+<<<<<<< HEAD
  * Copyright (C) 2010-2021 Texas Instruments Incorporated - https://www.ti.com
+=======
+ * Copyright (C) 2010-2015 Texas Instruments Incorporated - http://www.ti.com
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Contact: Simon Que <sque@ti.com>
  *          Hari Kanigeri <h-kanigeri2@ti.com>
  *          Ohad Ben-Cohen <ohad@wizery.com>
+<<<<<<< HEAD
  *          Suman Anna <s-anna@ti.com>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/kernel.h>
@@ -165,7 +172,10 @@ static int omap_hwspinlock_remove(struct platform_device *pdev)
 
 static const struct of_device_id omap_hwspinlock_of_match[] = {
 	{ .compatible = "ti,omap4-hwspinlock", },
+<<<<<<< HEAD
 	{ .compatible = "ti,am64-hwspinlock", },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "ti,am654-hwspinlock", },
 	{ /* end */ },
 };

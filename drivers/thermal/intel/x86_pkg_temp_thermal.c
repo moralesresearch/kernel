@@ -17,10 +17,15 @@
 #include <linux/pm.h>
 #include <linux/thermal.h>
 #include <linux/debugfs.h>
+<<<<<<< HEAD
 
 #include <asm/cpu_device_id.h>
 
 #include "thermal_interrupt.h"
+=======
+#include <asm/cpu_device_id.h>
+#include <asm/mce.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
 * Rate control delay: Idea is to introduce denounce effect
@@ -166,7 +171,11 @@ static int sys_get_trip_temp(struct thermal_zone_device *tzd,
 	if (thres_reg_value)
 		*temp = zonedev->tj_max - thres_reg_value * 1000;
 	else
+<<<<<<< HEAD
+		*temp = THERMAL_TEMP_INVALID;
+=======
 		*temp = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_debug("sys_get_trip_temp %d\n", *temp);
 
 	return 0;

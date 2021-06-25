@@ -477,10 +477,15 @@ static void tmio_mmc_data_irq(struct tmio_mmc_host *host, unsigned int stat)
 	if (!data)
 		goto out;
 
+<<<<<<< HEAD
 	if (stat & TMIO_STAT_DATATIMEOUT)
 		data->error = -ETIMEDOUT;
 	else if (stat & TMIO_STAT_CRCFAIL || stat & TMIO_STAT_STOPBIT_ERR ||
 		 stat & TMIO_STAT_TXUNDERRUN)
+=======
+	if (stat & TMIO_STAT_CRCFAIL || stat & TMIO_STAT_STOPBIT_ERR ||
+	    stat & TMIO_STAT_TXUNDERRUN)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		data->error = -EILSEQ;
 	if (host->dma_on && (data->flags & MMC_DATA_WRITE)) {
 		u32 status = sd_ctrl_read16_and_16_as_32(host, CTL_STATUS);
@@ -804,7 +809,11 @@ static void tmio_mmc_finish_request(struct tmio_mmc_host *host)
 	}
 
 	/* Error means retune, but executed command was still successful */
+<<<<<<< HEAD
 	if (host->check_retune && host->check_retune(host, mrq))
+=======
+	if (host->check_retune && host->check_retune(host))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mmc_retune_needed(host->mmc);
 
 	/* If SET_BLOCK_COUNT, continue with main command */

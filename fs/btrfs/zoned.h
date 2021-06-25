@@ -7,7 +7,10 @@
 #include <linux/blkdev.h>
 #include "volumes.h"
 #include "disk-io.h"
+<<<<<<< HEAD
 #include "block-group.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct btrfs_zoned_device_info {
 	/*
@@ -26,7 +29,10 @@ struct btrfs_zoned_device_info {
 #ifdef CONFIG_BLK_DEV_ZONED
 int btrfs_get_dev_zone(struct btrfs_device *device, u64 pos,
 		       struct blk_zone *zone);
+<<<<<<< HEAD
 int btrfs_get_dev_zone_info_all_devices(struct btrfs_fs_info *fs_info);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_get_dev_zone_info(struct btrfs_device *device);
 void btrfs_destroy_dev_zone_info(struct btrfs_device *device);
 int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info);
@@ -37,6 +43,7 @@ int btrfs_sb_log_location(struct btrfs_device *device, int mirror, int rw,
 			  u64 *bytenr_ret);
 void btrfs_advance_sb_log(struct btrfs_device *device, int mirror);
 int btrfs_reset_sb_log_zones(struct block_device *bdev, int mirror);
+<<<<<<< HEAD
 u64 btrfs_find_allocatable_zones(struct btrfs_device *device, u64 hole_start,
 				 u64 hole_end, u64 num_bytes);
 int btrfs_reset_device_zone(struct btrfs_device *device, u64 physical,
@@ -59,6 +66,8 @@ void btrfs_revert_meta_write_pointer(struct btrfs_block_group *cache,
 int btrfs_zoned_issue_zeroout(struct btrfs_device *device, u64 physical, u64 length);
 int btrfs_sync_zone_write_pointer(struct btrfs_device *tgt_dev, u64 logical,
 				  u64 physical_start, u64 physical_pos);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_BLK_DEV_ZONED */
 static inline int btrfs_get_dev_zone(struct btrfs_device *device, u64 pos,
 				     struct blk_zone *zone)
@@ -66,11 +75,14 @@ static inline int btrfs_get_dev_zone(struct btrfs_device *device, u64 pos,
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int btrfs_get_dev_zone_info_all_devices(struct btrfs_fs_info *fs_info)
 {
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int btrfs_get_dev_zone_info(struct btrfs_device *device)
 {
 	return 0;
@@ -114,6 +126,7 @@ static inline int btrfs_reset_sb_log_zones(struct block_device *bdev, int mirror
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline u64 btrfs_find_allocatable_zones(struct btrfs_device *device,
 					       u64 hole_start, u64 hole_end,
 					       u64 num_bytes)
@@ -186,6 +199,8 @@ static inline int btrfs_sync_zone_write_pointer(struct btrfs_device *tgt_dev,
 	return -EOPNOTSUPP;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static inline bool btrfs_dev_is_sequential(struct btrfs_device *device, u64 pos)
@@ -237,6 +252,7 @@ static inline void btrfs_dev_clear_zone_empty(struct btrfs_device *device, u64 p
 static inline bool btrfs_check_device_zone_type(const struct btrfs_fs_info *fs_info,
 						struct block_device *bdev)
 {
+<<<<<<< HEAD
 	if (btrfs_is_zoned(fs_info)) {
 		/*
 		 * We can allow a regular device on a zoned filesystem, because
@@ -247,6 +263,14 @@ static inline bool btrfs_check_device_zone_type(const struct btrfs_fs_info *fs_i
 
 		return fs_info->zone_size ==
 			(bdev_zone_sectors(bdev) << SECTOR_SHIFT);
+=======
+	u64 zone_size;
+
+	if (btrfs_is_zoned(fs_info)) {
+		zone_size = bdev_zone_sectors(bdev) << SECTOR_SHIFT;
+		/* Do not allow non-zoned device */
+		return bdev_is_zoned(bdev) && fs_info->zone_size == zone_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Do not allow Host Manged zoned device */
@@ -262,6 +286,7 @@ static inline bool btrfs_check_super_location(struct btrfs_device *device, u64 p
 	return device->zone_info == NULL || !btrfs_dev_is_sequential(device, pos);
 }
 
+<<<<<<< HEAD
 static inline bool btrfs_can_zone_reset(struct btrfs_device *device,
 					u64 physical, u64 length)
 {
@@ -304,4 +329,6 @@ static inline void btrfs_clear_treelog_bg(struct btrfs_block_group *bg)
 	spin_unlock(&fs_info->treelog_bg_lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

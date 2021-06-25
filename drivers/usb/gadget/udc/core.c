@@ -29,7 +29,10 @@
  * @list: for use by the udc class driver
  * @vbus: for udcs who care about vbus status, this value is real vbus status;
  * for udcs who do not care about vbus status, this value is always true
+<<<<<<< HEAD
  * @started: the UDC's started state. True if the UDC had started.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This represents the internal data structure which is used by the UDC-class
  * to hold information about udc driver and gadget together.
@@ -40,7 +43,10 @@ struct usb_udc {
 	struct device			dev;
 	struct list_head		list;
 	bool				vbus;
+<<<<<<< HEAD
 	bool				started;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct class *udc_class;
@@ -1084,6 +1090,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_udc_reset);
  */
 static inline int usb_gadget_udc_start(struct usb_udc *udc)
 {
+<<<<<<< HEAD
 	int ret;
 
 	if (udc->started) {
@@ -1096,6 +1103,9 @@ static inline int usb_gadget_udc_start(struct usb_udc *udc)
 		udc->started = true;
 
 	return ret;
+=======
+	return udc->gadget->ops->udc_start(udc->gadget, udc->driver);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1111,6 +1121,7 @@ static inline int usb_gadget_udc_start(struct usb_udc *udc)
  */
 static inline void usb_gadget_udc_stop(struct usb_udc *udc)
 {
+<<<<<<< HEAD
 	if (!udc->started) {
 		dev_err(&udc->dev, "UDC had already stopped\n");
 		return;
@@ -1118,6 +1129,9 @@ static inline void usb_gadget_udc_stop(struct usb_udc *udc)
 
 	udc->gadget->ops->udc_stop(udc->gadget);
 	udc->started = false;
+=======
+	udc->gadget->ops->udc_stop(udc->gadget);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1133,6 +1147,7 @@ static inline void usb_gadget_udc_stop(struct usb_udc *udc)
 static inline void usb_gadget_udc_set_speed(struct usb_udc *udc,
 					    enum usb_device_speed speed)
 {
+<<<<<<< HEAD
 	struct usb_gadget *gadget = udc->gadget;
 	enum usb_device_speed s;
 
@@ -1145,6 +1160,14 @@ static inline void usb_gadget_udc_set_speed(struct usb_udc *udc,
 		gadget->ops->udc_set_ssp_rate(gadget, gadget->max_ssp_rate);
 	else if (gadget->ops->udc_set_speed)
 		gadget->ops->udc_set_speed(gadget, s);
+=======
+	if (udc->gadget->ops->udc_set_speed) {
+		enum usb_device_speed s;
+
+		s = min(speed, udc->gadget->max_speed);
+		udc->gadget->ops->udc_set_speed(udc->gadget, s);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1247,8 +1270,11 @@ int usb_add_gadget(struct usb_gadget *gadget)
 	udc->gadget = gadget;
 	gadget->udc = udc;
 
+<<<<<<< HEAD
 	udc->started = false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&udc_lock);
 	list_add_tail(&udc->list, &udc_list);
 

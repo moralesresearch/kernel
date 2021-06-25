@@ -19,11 +19,14 @@
 #include "cmd.h"
 #include "resources.h"
 
+<<<<<<< HEAD
 enum mlxsw_core_resource_id {
 	MLXSW_CORE_RESOURCE_PORTS = 1,
 	MLXSW_CORE_RESOURCE_MAX,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mlxsw_core;
 struct mlxsw_core_port;
 struct mlxsw_driver;

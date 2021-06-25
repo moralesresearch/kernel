@@ -72,10 +72,19 @@ struct page *snd_pcm_sgbuf_ops_page(struct snd_pcm_substream *substream,
 
 #define PCM_RUNTIME_CHECK(sub) snd_BUG_ON(!(sub) || !(sub)->runtime)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* loop over all PCM substreams */
 #define for_each_pcm_substream(pcm, str, subs) \
 	for ((str) = 0; (str) < 2; (str)++) \
 		for ((subs) = (pcm)->streams[str].substream; (subs); \
 		     (subs) = (subs)->next)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* __SOUND_CORE_PCM_LOCAL_H */

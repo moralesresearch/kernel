@@ -18,6 +18,10 @@
 #include <media/videobuf2-dma-contig.h>
 
 #define ISS_VIDEO_DRIVER_NAME		"issvideo"
+<<<<<<< HEAD
+=======
+#define ISS_VIDEO_DRIVER_VERSION	"0.0.2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct iss_device;
 struct iss_video;

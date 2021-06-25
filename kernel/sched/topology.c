@@ -723,6 +723,38 @@ cpu_attach_domain(struct sched_domain *sd, struct root_domain *rd, int cpu)
 	for (tmp = sd; tmp; tmp = tmp->parent)
 		numa_distance += !!(tmp->flags & SD_NUMA);
 
+<<<<<<< HEAD
+=======
+	/*
+	 * FIXME: Diameter >=3 is misrepresented.
+	 *
+	 * Smallest diameter=3 topology is:
+	 *
+	 *   node   0   1   2   3
+	 *     0:  10  20  30  40
+	 *     1:  20  10  20  30
+	 *     2:  30  20  10  20
+	 *     3:  40  30  20  10
+	 *
+	 *   0 --- 1 --- 2 --- 3
+	 *
+	 * NUMA-3	0-3		N/A		N/A		0-3
+	 *  groups:	{0-2},{1-3}					{1-3},{0-2}
+	 *
+	 * NUMA-2	0-2		0-3		0-3		1-3
+	 *  groups:	{0-1},{1-3}	{0-2},{2-3}	{1-3},{0-1}	{2-3},{0-2}
+	 *
+	 * NUMA-1	0-1		0-2		1-3		2-3
+	 *  groups:	{0},{1}		{1},{2},{0}	{2},{3},{1}	{3},{2}
+	 *
+	 * NUMA-0	0		1		2		3
+	 *
+	 * The NUMA-2 groups for nodes 0 and 3 are obviously buggered, as the
+	 * group span isn't a subset of the domain span.
+	 */
+	WARN_ONCE(numa_distance > 2, "Shortest NUMA path spans too many nodes\n");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sched_domain_debug(sd, cpu);
 
 	rq_attach_root(rq, rd);
@@ -953,6 +985,7 @@ static void init_overlap_sched_group(struct sched_domain *sd,
 	sg->sgc->max_capacity = SCHED_CAPACITY_SCALE;
 }
 
+<<<<<<< HEAD
 static struct sched_domain *
 find_descended_sibling(struct sched_domain *sd, struct sched_domain *sibling)
 {
@@ -978,6 +1011,8 @@ find_descended_sibling(struct sched_domain *sd, struct sched_domain *sibling)
 	return sibling;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int
 build_overlap_sched_groups(struct sched_domain *sd, int cpu)
 {
@@ -1011,6 +1046,7 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
 		if (!cpumask_test_cpu(i, sched_domain_span(sibling)))
 			continue;
 
+<<<<<<< HEAD
 		/*
 		 * Usually we build sched_group by sibling's child sched_domain
 		 * But for machines whose NUMA diameter are 3 or above, we move
@@ -1046,6 +1082,8 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
 		    !cpumask_subset(sched_domain_span(sibling->child), span))
 			sibling = find_descended_sibling(sd, sibling);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sg = build_group_from_child_sched_domain(sibling, cpu);
 		if (!sg)
 			goto fail;
@@ -1053,7 +1091,11 @@ build_overlap_sched_groups(struct sched_domain *sd, int cpu)
 		sg_span = sched_group_span(sg);
 		cpumask_or(covered, covered, sg_span);
 
+<<<<<<< HEAD
 		init_overlap_sched_group(sibling, sg);
+=======
+		init_overlap_sched_group(sd, sg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!first)
 			first = sg;
@@ -1627,6 +1669,7 @@ static void init_numa_topology_type(void)
 	}
 }
 
+<<<<<<< HEAD
 
 #define NR_DISTANCE_VALUES (1 << DISTANCE_BITS)
 
@@ -1636,10 +1679,27 @@ void sched_init_numa(void)
 	unsigned long *distance_map;
 	int nr_levels = 0;
 	int i, j;
+=======
+void sched_init_numa(void)
+{
+	int next_distance, curr_distance = node_distance(0, 0);
+	struct sched_domain_topology_level *tl;
+	int level = 0;
+	int i, j, k;
+
+	sched_domains_numa_distance = kzalloc(sizeof(int) * (nr_node_ids + 1), GFP_KERNEL);
+	if (!sched_domains_numa_distance)
+		return;
+
+	/* Includes NUMA identity node at level 0. */
+	sched_domains_numa_distance[level++] = curr_distance;
+	sched_domains_numa_levels = level;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * O(nr_nodes^2) deduplicating selection sort -- in order to find the
 	 * unique distances in the node_distance() table.
+<<<<<<< HEAD
 	 */
 	distance_map = bitmap_alloc(NR_DISTANCE_VALUES, GFP_KERNEL);
 	if (!distance_map)
@@ -1679,6 +1739,50 @@ void sched_init_numa(void)
 
 	/*
 	 * 'nr_levels' contains the number of unique distances
+=======
+	 *
+	 * Assumes node_distance(0,j) includes all distances in
+	 * node_distance(i,j) in order to avoid cubic time.
+	 */
+	next_distance = curr_distance;
+	for (i = 0; i < nr_node_ids; i++) {
+		for (j = 0; j < nr_node_ids; j++) {
+			for (k = 0; k < nr_node_ids; k++) {
+				int distance = node_distance(i, k);
+
+				if (distance > curr_distance &&
+				    (distance < next_distance ||
+				     next_distance == curr_distance))
+					next_distance = distance;
+
+				/*
+				 * While not a strong assumption it would be nice to know
+				 * about cases where if node A is connected to B, B is not
+				 * equally connected to A.
+				 */
+				if (sched_debug() && node_distance(k, i) != distance)
+					sched_numa_warn("Node-distance not symmetric");
+
+				if (sched_debug() && i && !find_numa_distance(distance))
+					sched_numa_warn("Node-0 not representative");
+			}
+			if (next_distance != curr_distance) {
+				sched_domains_numa_distance[level++] = next_distance;
+				sched_domains_numa_levels = level;
+				curr_distance = next_distance;
+			} else break;
+		}
+
+		/*
+		 * In case of sched_debug() we verify the above assumption.
+		 */
+		if (!sched_debug())
+			break;
+	}
+
+	/*
+	 * 'level' contains the number of unique distances
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * The sched_domains_numa_distance[] array includes the actual distance
 	 * numbers.
@@ -1687,6 +1791,7 @@ void sched_init_numa(void)
 	/*
 	 * Here, we should temporarily reset sched_domains_numa_levels to 0.
 	 * If it fails to allocate memory for array sched_domains_numa_masks[][],
+<<<<<<< HEAD
 	 * the array will contain less then 'nr_levels' members. This could be
 	 * dangerous when we use it to iterate array sched_domains_numa_masks[][]
 	 * in other functions.
@@ -1696,6 +1801,17 @@ void sched_init_numa(void)
 	sched_domains_numa_levels = 0;
 
 	sched_domains_numa_masks = kzalloc(sizeof(void *) * nr_levels, GFP_KERNEL);
+=======
+	 * the array will contain less then 'level' members. This could be
+	 * dangerous when we use it to iterate array sched_domains_numa_masks[][]
+	 * in other functions.
+	 *
+	 * We reset it to 'level' at the end of this function.
+	 */
+	sched_domains_numa_levels = 0;
+
+	sched_domains_numa_masks = kzalloc(sizeof(void *) * level, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!sched_domains_numa_masks)
 		return;
 
@@ -1703,7 +1819,11 @@ void sched_init_numa(void)
 	 * Now for each level, construct a mask per node which contains all
 	 * CPUs of nodes that are that many hops away from us.
 	 */
+<<<<<<< HEAD
 	for (i = 0; i < nr_levels; i++) {
+=======
+	for (i = 0; i < level; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sched_domains_numa_masks[i] =
 			kzalloc(nr_node_ids * sizeof(void *), GFP_KERNEL);
 		if (!sched_domains_numa_masks[i])
@@ -1711,17 +1831,23 @@ void sched_init_numa(void)
 
 		for (j = 0; j < nr_node_ids; j++) {
 			struct cpumask *mask = kzalloc(cpumask_size(), GFP_KERNEL);
+<<<<<<< HEAD
 			int k;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!mask)
 				return;
 
 			sched_domains_numa_masks[i][j] = mask;
 
 			for_each_node(k) {
+<<<<<<< HEAD
 				if (sched_debug() && (node_distance(j, k) != node_distance(k, j)))
 					sched_numa_warn("Node-distance not symmetric");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (node_distance(j, k) > sched_domains_numa_distance[i])
 					continue;
 
@@ -1733,7 +1859,11 @@ void sched_init_numa(void)
 	/* Compute default topology size */
 	for (i = 0; sched_domain_topology[i].mask; i++);
 
+<<<<<<< HEAD
 	tl = kzalloc((i + nr_levels + 1) *
+=======
+	tl = kzalloc((i + level + 1) *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sizeof(struct sched_domain_topology_level), GFP_KERNEL);
 	if (!tl)
 		return;
@@ -1756,7 +1886,11 @@ void sched_init_numa(void)
 	/*
 	 * .. and append 'j' levels of NUMA goodness.
 	 */
+<<<<<<< HEAD
 	for (j = 1; j < nr_levels; i++, j++) {
+=======
+	for (j = 1; j < level; i++, j++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tl[i] = (struct sched_domain_topology_level){
 			.mask = sd_numa_mask,
 			.sd_flags = cpu_numa_flags,
@@ -1768,8 +1902,13 @@ void sched_init_numa(void)
 
 	sched_domain_topology = tl;
 
+<<<<<<< HEAD
 	sched_domains_numa_levels = nr_levels;
 	sched_max_numa_distance = sched_domains_numa_distance[nr_levels - 1];
+=======
+	sched_domains_numa_levels = level;
+	sched_max_numa_distance = sched_domains_numa_distance[level - 1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	init_numa_topology_type();
 }

@@ -169,6 +169,7 @@ static struct clk_regmap_div video_cc_mvs0c_div2_div_clk_src = {
 	},
 };
 
+<<<<<<< HEAD
 static struct clk_regmap_div video_cc_mvs0_div_clk_src = {
 	.reg = 0xd54,
 	.shift = 0,
@@ -184,6 +185,8 @@ static struct clk_regmap_div video_cc_mvs0_div_clk_src = {
 	},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct clk_regmap_div video_cc_mvs1c_div2_div_clk_src = {
 	.reg = 0xcf4,
 	.shift = 0,
@@ -217,6 +220,7 @@ static struct clk_branch video_cc_mvs0c_clk = {
 	},
 };
 
+<<<<<<< HEAD
 static struct clk_branch video_cc_mvs0_clk = {
 	.halt_reg = 0xd34,
 	.halt_check = BRANCH_HALT_VOTED,
@@ -235,6 +239,8 @@ static struct clk_branch video_cc_mvs0_clk = {
 	},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct clk_branch video_cc_mvs1_div2_clk = {
 	.halt_reg = 0xdf4,
 	.halt_check = BRANCH_HALT_VOTED,
@@ -278,7 +284,10 @@ static struct gdsc mvs0c_gdsc = {
 	},
 	.flags = 0,
 	.pwrsts = PWRSTS_OFF_ON,
+<<<<<<< HEAD
 	.supply = "mmcx",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct gdsc mvs1c_gdsc = {
@@ -288,7 +297,10 @@ static struct gdsc mvs1c_gdsc = {
 	},
 	.flags = 0,
 	.pwrsts = PWRSTS_OFF_ON,
+<<<<<<< HEAD
 	.supply = "mmcx",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct gdsc mvs0_gdsc = {
@@ -298,7 +310,10 @@ static struct gdsc mvs0_gdsc = {
 	},
 	.flags = HW_CTRL,
 	.pwrsts = PWRSTS_OFF_ON,
+<<<<<<< HEAD
 	.supply = "mmcx",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct gdsc mvs1_gdsc = {
@@ -308,6 +323,7 @@ static struct gdsc mvs1_gdsc = {
 	},
 	.flags = HW_CTRL,
 	.pwrsts = PWRSTS_OFF_ON,
+<<<<<<< HEAD
 	.supply = "mmcx",
 };
 
@@ -315,6 +331,12 @@ static struct clk_regmap *video_cc_sm8250_clocks[] = {
 	[VIDEO_CC_MVS0_CLK] = &video_cc_mvs0_clk.clkr,
 	[VIDEO_CC_MVS0_CLK_SRC] = &video_cc_mvs0_clk_src.clkr,
 	[VIDEO_CC_MVS0_DIV_CLK_SRC] = &video_cc_mvs0_div_clk_src.clkr,
+=======
+};
+
+static struct clk_regmap *video_cc_sm8250_clocks[] = {
+	[VIDEO_CC_MVS0_CLK_SRC] = &video_cc_mvs0_clk_src.clkr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[VIDEO_CC_MVS0C_CLK] = &video_cc_mvs0c_clk.clkr,
 	[VIDEO_CC_MVS0C_DIV2_DIV_CLK_SRC] = &video_cc_mvs0c_div2_div_clk_src.clkr,
 	[VIDEO_CC_MVS1_CLK_SRC] = &video_cc_mvs1_clk_src.clkr,

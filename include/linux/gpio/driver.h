@@ -624,6 +624,7 @@ void gpiochip_irq_domain_deactivate(struct irq_domain *domain,
 bool gpiochip_irqchip_irq_valid(const struct gpio_chip *gc,
 				unsigned int offset);
 
+<<<<<<< HEAD
 #ifdef CONFIG_GPIOLIB_IRQCHIP
 int gpiochip_irqchip_add_domain(struct gpio_chip *gc,
 				struct irq_domain *domain);
@@ -635,6 +636,10 @@ static inline int gpiochip_irqchip_add_domain(struct gpio_chip *gc,
 	return -EINVAL;
 }
 #endif
+=======
+int gpiochip_irqchip_add_domain(struct gpio_chip *gc,
+				struct irq_domain *domain);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int gpiochip_generic_request(struct gpio_chip *gc, unsigned int offset);
 void gpiochip_generic_free(struct gpio_chip *gc, unsigned int offset);

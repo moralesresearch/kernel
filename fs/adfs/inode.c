@@ -292,15 +292,23 @@ out:
  * later.
  */
 int
+<<<<<<< HEAD
 adfs_notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		   struct iattr *attr)
+=======
+adfs_notify_change(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct super_block *sb = inode->i_sb;
 	unsigned int ia_valid = attr->ia_valid;
 	int error;
 	
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	error = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * we can't change the UID or GID of any file -

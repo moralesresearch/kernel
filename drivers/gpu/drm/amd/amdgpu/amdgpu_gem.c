@@ -619,7 +619,11 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
 	int r = 0;
 
 	if (args->va_address < AMDGPU_VA_RESERVED_SIZE) {
+<<<<<<< HEAD
 		dev_dbg(dev->dev,
+=======
+		dev_dbg(&dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"va_address 0x%LX is in reserved area 0x%LX\n",
 			args->va_address, AMDGPU_VA_RESERVED_SIZE);
 		return -EINVAL;
@@ -627,7 +631,11 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
 
 	if (args->va_address >= AMDGPU_GMC_HOLE_START &&
 	    args->va_address < AMDGPU_GMC_HOLE_END) {
+<<<<<<< HEAD
 		dev_dbg(dev->dev,
+=======
+		dev_dbg(&dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"va_address 0x%LX is in VA hole 0x%LX-0x%LX\n",
 			args->va_address, AMDGPU_GMC_HOLE_START,
 			AMDGPU_GMC_HOLE_END);
@@ -639,14 +647,22 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
 	vm_size = adev->vm_manager.max_pfn * AMDGPU_GPU_PAGE_SIZE;
 	vm_size -= AMDGPU_VA_RESERVED_SIZE;
 	if (args->va_address + args->map_size > vm_size) {
+<<<<<<< HEAD
 		dev_dbg(dev->dev,
+=======
+		dev_dbg(&dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"va_address 0x%llx is in top reserved area 0x%llx\n",
 			args->va_address + args->map_size, vm_size);
 		return -EINVAL;
 	}
 
 	if ((args->flags & ~valid_flags) && (args->flags & ~prt_flags)) {
+<<<<<<< HEAD
 		dev_dbg(dev->dev, "invalid flags combination 0x%08X\n",
+=======
+		dev_dbg(&dev->pdev->dev, "invalid flags combination 0x%08X\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			args->flags);
 		return -EINVAL;
 	}
@@ -658,7 +674,11 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
 	case AMDGPU_VA_OP_REPLACE:
 		break;
 	default:
+<<<<<<< HEAD
 		dev_dbg(dev->dev, "unsupported operation %d\n",
+=======
+		dev_dbg(&dev->pdev->dev, "unsupported operation %d\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			args->operation);
 		return -EINVAL;
 	}

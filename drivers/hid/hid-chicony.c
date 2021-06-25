@@ -21,6 +21,7 @@
 
 #include "hid-ids.h"
 
+<<<<<<< HEAD
 #define CH_WIRELESS_CTL_REPORT_ID	0x11
 
 static int ch_report_wireless(struct hid_report *report, u8 *data, int size)
@@ -54,6 +55,8 @@ static int ch_raw_event(struct hid_device *hdev,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ch_map_key_clear(c)	hid_map_usage_clear(hi, usage, bit, max, \
 					EV_KEY, (c))
 static int ch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
@@ -110,6 +113,7 @@ static __u8 *ch_switch12_report_fixup(struct hid_device *hdev, __u8 *rdesc,
 	return rdesc;
 }
 
+<<<<<<< HEAD
 static int ch_probe(struct hid_device *hdev, const struct hid_device_id *id)
 {
 	int ret;
@@ -129,11 +133,16 @@ static int ch_probe(struct hid_device *hdev, const struct hid_device_id *id)
 
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct hid_device_id ch_devices[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_TACTICAL_PAD) },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS2) },
+<<<<<<< HEAD
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS3) },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
 	{ }
 };
@@ -144,8 +153,11 @@ static struct hid_driver ch_driver = {
 	.id_table = ch_devices,
 	.report_fixup = ch_switch12_report_fixup,
 	.input_mapping = ch_input_mapping,
+<<<<<<< HEAD
 	.probe = ch_probe,
 	.raw_event = ch_raw_event,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 module_hid_driver(ch_driver);
 

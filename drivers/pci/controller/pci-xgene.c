@@ -173,6 +173,7 @@ static int xgene_pcie_config_read32(struct pci_bus *bus, unsigned int devfn,
 
 	/*
 	 * The v1 controller has a bug in its Configuration Request
+<<<<<<< HEAD
 	 * Retry Status (CRS) logic: when CRS Software Visibility is
 	 * enabled and we read the Vendor and Device ID of a non-existent
 	 * device, the controller fabricates return data of 0xFFFF0001
@@ -180,6 +181,14 @@ static int xgene_pcie_config_read32(struct pci_bus *bus, unsigned int devfn,
 	 * ("device does not exist").  This causes the PCI core to retry
 	 * the read until it times out.  Avoid this by not claiming to
 	 * support CRS SV.
+=======
+	 * Retry Status (CRS) logic: when CRS is enabled and we read the
+	 * Vendor and Device ID of a non-existent device, the controller
+	 * fabricates return data of 0xFFFF0001 ("device exists but is not
+	 * ready") instead of 0xFFFFFFFF ("device does not exist").  This
+	 * causes the PCI core to retry the read until it times out.
+	 * Avoid this by not claiming to support CRS.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (pci_is_root_bus(bus) && (port->version == XGENE_PCIE_IP_VER_1) &&
 	    ((where & ~0x3) == XGENE_V1_PCI_EXP_CAP + PCI_EXP_RTCTL))
@@ -354,8 +363,12 @@ static int xgene_pcie_map_reg(struct xgene_pcie_port *port,
 	if (IS_ERR(port->csr_base))
 		return PTR_ERR(port->csr_base);
 
+<<<<<<< HEAD
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cfg");
 	port->cfg_base = devm_ioremap_resource(dev, res);
+=======
+	port->cfg_base = devm_platform_ioremap_resource_byname(pdev, "cfg");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(port->cfg_base))
 		return PTR_ERR(port->cfg_base);
 	port->cfg_addr = res->start;

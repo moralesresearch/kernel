@@ -24,7 +24,10 @@
 #include <asm/traps.h>
 #include <asm/resctrl.h>
 #include <asm/numa.h>
+<<<<<<< HEAD
 #include <asm/thermal.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_X86_64
 #include <linux/topology.h>
@@ -720,8 +723,11 @@ static void init_intel(struct cpuinfo_x86 *c)
 		tsx_disable();
 
 	split_lock_init();
+<<<<<<< HEAD
 
 	intel_init_thermal(c);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_X86_32

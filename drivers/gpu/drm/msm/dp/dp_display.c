@@ -178,6 +178,7 @@ static int dp_del_event(struct dp_display_private *dp_priv, u32 event)
 	return 0;
 }
 
+<<<<<<< HEAD
 void dp_display_signal_audio_start(struct msm_dp *dp_display)
 {
 	struct dp_display_private *dp;
@@ -187,6 +188,8 @@ void dp_display_signal_audio_start(struct msm_dp *dp_display)
 	reinit_completion(&dp->audio_comp);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dp_display_signal_audio_complete(struct msm_dp *dp_display)
 {
 	struct dp_display_private *dp;
@@ -359,7 +362,15 @@ end:
 	return rc;
 }
 
+<<<<<<< HEAD
 static void dp_display_host_init(struct dp_display_private *dp, int reset)
+=======
+<<<<<<< HEAD
+static void dp_display_host_init(struct dp_display_private *dp, int reset)
+=======
+static void dp_display_host_init(struct dp_display_private *dp)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool flip = false;
 
@@ -374,7 +385,15 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
 	dp_display_set_encoder_mode(dp);
 
 	dp_power_init(dp->power, flip);
+<<<<<<< HEAD
 	dp_ctrl_host_init(dp->ctrl, flip, reset);
+=======
+<<<<<<< HEAD
+	dp_ctrl_host_init(dp->ctrl, flip, reset);
+=======
+	dp_ctrl_host_init(dp->ctrl, flip);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_aux_init(dp->aux);
 	dp->core_initialized = true;
 }
@@ -412,7 +431,15 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
 		goto end;
 	}
 
+<<<<<<< HEAD
 	dp_display_host_init(dp, false);
+=======
+<<<<<<< HEAD
+	dp_display_host_init(dp, false);
+=======
+	dp_display_host_init(dp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * set sink to normal operation mode -- D0
@@ -595,8 +622,15 @@ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
 	mutex_lock(&dp->event_mutex);
 
 	state = dp->hpd_state;
+<<<<<<< HEAD
 	if (state == ST_CONNECT_PENDING)
 		dp->hpd_state = ST_CONNECTED;
+=======
+	if (state == ST_CONNECT_PENDING) {
+		dp_display_enable(dp, 0);
+		dp->hpd_state = ST_CONNECTED;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&dp->event_mutex);
 
@@ -658,6 +692,10 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
 	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
 
 	/* signal the disconnect event early to ensure proper teardown */
+<<<<<<< HEAD
+=======
+	reinit_completion(&dp->audio_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_display_handle_plugged_change(g_dp_display, false);
 
 	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK |
@@ -675,8 +713,15 @@ static int dp_disconnect_pending_timeout(struct dp_display_private *dp, u32 data
 	mutex_lock(&dp->event_mutex);
 
 	state =  dp->hpd_state;
+<<<<<<< HEAD
 	if (state == ST_DISCONNECT_PENDING)
 		dp->hpd_state = ST_DISCONNECTED;
+=======
+	if (state == ST_DISCONNECT_PENDING) {
+		dp_display_disable(dp, 0);
+		dp->hpd_state = ST_DISCONNECTED;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&dp->event_mutex);
 
@@ -704,6 +749,10 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (state == ST_CONNECT_PENDING || state == ST_DISCONNECT_PENDING) {
 		/* wait until ST_CONNECTED */
 		dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 */
@@ -711,6 +760,11 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
 	if (ret == -ECONNRESET) { /* cable unplugged */
 		dp->core_initialized = false;
@@ -902,6 +956,10 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
 	/* wait only if audio was enabled */
 	if (dp_display->audio_enabled) {
 		/* signal the disconnect event */
+<<<<<<< HEAD
+=======
+		reinit_completion(&dp->audio_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dp_display_handle_plugged_change(dp_display, false);
 		if (!wait_for_completion_timeout(&dp->audio_comp,
 				HZ * 5))
@@ -1015,7 +1073,15 @@ int dp_display_get_test_bpp(struct msm_dp *dp)
 static void dp_display_config_hpd(struct dp_display_private *dp)
 {
 
+<<<<<<< HEAD
 	dp_display_host_init(dp, true);
+=======
+<<<<<<< HEAD
+	dp_display_host_init(dp, true);
+=======
+	dp_display_host_init(dp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_catalog_ctrl_hpd_config(dp->catalog);
 
 	/* Enable interrupt first time
@@ -1269,18 +1335,30 @@ static int dp_pm_resume(struct device *dev)
 	dp->hpd_state = ST_DISCONNECTED;
 
 	/* turn on dp ctrl/phy */
+<<<<<<< HEAD
 	dp_display_host_init(dp, true);
+=======
+<<<<<<< HEAD
+	dp_display_host_init(dp, true);
+=======
+	dp_display_host_init(dp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dp_catalog_ctrl_hpd_config(dp->catalog);
 
 	status = dp_catalog_link_is_connected(dp->catalog);
 
+<<<<<<< HEAD
 	/*
 	 * can not declared display is connected unless
 	 * HDMI cable is plugged in and sink_count of
 	 * dongle become 1
 	 */
 	if (status && dp->link->sink_count)
+=======
+	if (status)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dp->dp_display.is_connected = true;
 	else
 		dp->dp_display.is_connected = false;
@@ -1457,7 +1535,15 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
 	state =  dp_display->hpd_state;
 
 	if (state == ST_DISPLAY_OFF)
+<<<<<<< HEAD
 		dp_display_host_init(dp_display, true);
+=======
+<<<<<<< HEAD
+		dp_display_host_init(dp_display, true);
+=======
+		dp_display_host_init(dp_display);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dp_display_enable(dp_display, 0);
 

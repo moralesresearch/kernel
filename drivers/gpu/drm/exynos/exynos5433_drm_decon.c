@@ -13,6 +13,10 @@
 #include <linux/irq.h>
 #include <linux/mfd/syscon.h>
 #include <linux/of_device.h>
+<<<<<<< HEAD
+=======
+#include <linux/of_gpio.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/platform_device.h>
 #include <linux/pm_runtime.h>
 #include <linux/regmap.h>

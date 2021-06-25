@@ -117,6 +117,7 @@ struct nvkm_mmu {
 		struct list_head list;
 	} ptc, ptp;
 
+<<<<<<< HEAD
 	struct mutex mutex; /* serialises mmu invalidations */
 
 	struct nvkm_device_oclass user;
@@ -137,4 +138,24 @@ int gp100_mmu_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct 
 int gp10b_mmu_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_mmu **);
 int gv100_mmu_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_mmu **);
 int tu102_mmu_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_mmu **);
+=======
+	struct nvkm_device_oclass user;
+};
+
+int nv04_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int nv41_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int nv44_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int nv50_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int g84_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int mcp77_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gf100_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gk104_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gk20a_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gm200_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gm20b_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gp100_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gp10b_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int gv100_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+int tu102_mmu_new(struct nvkm_device *, int, struct nvkm_mmu **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

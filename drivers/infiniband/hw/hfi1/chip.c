@@ -1323,8 +1323,13 @@ CNTR_ELEM(#name, \
 
 /**
  * hfi_addr_from_offset - return addr for readq/writeq
+<<<<<<< HEAD
  * @dd: the dd device
  * @offset: the offset of the CSR within bar0
+=======
+ * @dd - the dd device
+ * @offset - the offset of the CSR within bar0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine selects the appropriate base address
  * based on the indicated offset.
@@ -1340,8 +1345,13 @@ static inline void __iomem *hfi1_addr_from_offset(
 
 /**
  * read_csr - read CSR at the indicated offset
+<<<<<<< HEAD
  * @dd: the dd device
  * @offset: the offset of the CSR within bar0
+=======
+ * @dd - the dd device
+ * @offset - the offset of the CSR within bar0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: the value read or all FF's if there
  * is no mapping
@@ -1355,9 +1365,15 @@ u64 read_csr(const struct hfi1_devdata *dd, u32 offset)
 
 /**
  * write_csr - write CSR at the indicated offset
+<<<<<<< HEAD
  * @dd: the dd device
  * @offset: the offset of the CSR within bar0
  * @value: value to write
+=======
+ * @dd - the dd device
+ * @offset - the offset of the CSR within bar0
+ * @value - value to write
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void write_csr(const struct hfi1_devdata *dd, u32 offset, u64 value)
 {
@@ -1373,8 +1389,13 @@ void write_csr(const struct hfi1_devdata *dd, u32 offset, u64 value)
 
 /**
  * get_csr_addr - return te iomem address for offset
+<<<<<<< HEAD
  * @dd: the dd device
  * @offset: the offset of the CSR within bar0
+=======
+ * @dd - the dd device
+ * @offset - the offset of the CSR within bar0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: The iomem address to use in subsequent
  * writeq/readq operations.
@@ -8433,7 +8454,11 @@ static inline int check_packet_present(struct hfi1_ctxtdata *rcd)
 	return hfi1_rcd_head(rcd) != tail;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Common code for receive contexts interrupt handlers.
  * Update traces, increment kernel IRQ counter and
  * setup ASPM when needed.
@@ -8447,7 +8472,11 @@ static void receive_interrupt_common(struct hfi1_ctxtdata *rcd)
 	aspm_ctx_disable(rcd);
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * __hfi1_rcd_eoi_intr() - Make HW issue receive interrupt
  * when there are packets present in the queue. When calling
  * with interrupts enabled please use hfi1_rcd_eoi_intr.
@@ -8484,8 +8513,13 @@ static void hfi1_rcd_eoi_intr(struct hfi1_ctxtdata *rcd)
 
 /**
  * hfi1_netdev_rx_napi - napi poll function to move eoi inline
+<<<<<<< HEAD
  * @napi: pointer to napi object
  * @budget: netdev budget
+=======
+ * @napi - pointer to napi object
+ * @budget - netdev budget
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int hfi1_netdev_rx_napi(struct napi_struct *napi, int budget)
 {
@@ -10142,7 +10176,11 @@ u32 lrh_max_header_bytes(struct hfi1_devdata *dd)
 
 /*
  * Set Send Length
+<<<<<<< HEAD
  * @ppd: per port data
+=======
+ * @ppd - per port data
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Set the MTU by limiting how many DWs may be sent.  The SendLenCheck*
  * registers compare against LRH.PktLen, so use the max bytes included
@@ -14200,9 +14238,15 @@ u8 hfi1_get_qp_map(struct hfi1_devdata *dd, u8 idx)
 
 /**
  * init_qpmap_table
+<<<<<<< HEAD
  * @dd: device data
  * @first_ctxt: first context
  * @last_ctxt: first context
+=======
+ * @dd - device data
+ * @first_ctxt - first context
+ * @last_ctxt - first context
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This return sets the qpn mapping table that
  * is indexed by qpn[8:1].
@@ -14383,8 +14427,13 @@ no_qos:
 
 /**
  * init_qos - init RX qos
+<<<<<<< HEAD
  * @dd: device data
  * @rmt: RSM map table
+=======
+ * @dd - device data
+ * @rmt - RSM map table
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine initializes Rule 0 and the RSM map table to implement
  * quality of service (qos).
@@ -15022,7 +15071,12 @@ err_exit:
 
 /**
  * hfi1_init_dd() - Initialize most of the dd structure.
+<<<<<<< HEAD
  * @dd: the dd device
+=======
+ * @dev: the pci_dev for hfi1_ib device
+ * @ent: pci_device_id struct for this dev
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This is global, and is called directly at init to set up the
  * chip-specific function pointers for later use.
@@ -15377,11 +15431,18 @@ static u16 delay_cycles(struct hfi1_pportdata *ppd, u32 desired_egress_rate,
 
 /**
  * create_pbc - build a pbc for transmission
+<<<<<<< HEAD
  * @ppd: info of physical Hfi port
  * @flags: special case flags or-ed in built pbc
  * @srate_mbs: static rate
  * @vl: vl
  * @dw_len: dword length (header words + data words + pbc words)
+=======
+ * @flags: special case flags or-ed in built pbc
+ * @srate: static rate
+ * @vl: vl
+ * @dwlen: dword length (header words + data words + pbc words)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Create a PBC with the given flags, rate, VL, and length.
  *

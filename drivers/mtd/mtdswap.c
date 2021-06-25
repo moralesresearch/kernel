@@ -1053,6 +1053,10 @@ static int mtdswap_writesect(struct mtd_blktrans_dev *dev,
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
+=======
+	eb = d->eb_data + (newblock / d->pages_per_eblk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	d->page_data[page] = newblock;
 
 	return 0;

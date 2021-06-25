@@ -531,6 +531,10 @@ static void intel_imc_init(struct cpuinfo_x86 *c)
 
 void mce_intel_feature_init(struct cpuinfo_x86 *c)
 {
+<<<<<<< HEAD
+=======
+	intel_init_thermal(c);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_init_cmci();
 	intel_init_lmce();
 	intel_ppin_init(c);

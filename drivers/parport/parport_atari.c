@@ -218,6 +218,10 @@ static void __exit parport_atari_exit(void)
 
 MODULE_AUTHOR("Andreas Schwab");
 MODULE_DESCRIPTION("Parport Driver for Atari builtin Port");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Atari builtin Parallel Port");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 module_init(parport_atari_init)

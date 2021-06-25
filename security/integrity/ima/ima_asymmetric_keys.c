@@ -10,7 +10,10 @@
  */
 
 #include <keys/asymmetric-type.h>
+<<<<<<< HEAD
 #include <linux/user_namespace.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "ima.h"
 
 /**
@@ -59,7 +62,13 @@ void ima_post_key_create_or_update(struct key *keyring, struct key *key,
 	 * if the IMA policy is configured to measure a key linked
 	 * to the given keyring.
 	 */
+<<<<<<< HEAD
 	process_buffer_measurement(&init_user_ns, NULL, payload, payload_len,
 				   keyring->description, KEY_CHECK, 0,
 				   keyring->description, false);
+=======
+	process_buffer_measurement(NULL, payload, payload_len,
+				   keyring->description, KEY_CHECK, 0,
+				   keyring->description);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

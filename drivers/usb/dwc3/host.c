@@ -108,7 +108,11 @@ int dwc3_host_init(struct dwc3 *dwc)
 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
 
 	if (prop_idx) {
+<<<<<<< HEAD
 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+=======
+		ret = platform_device_add_properties(xhci, props);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			dev_err(dwc->dev, "failed to add properties to xHCI\n");
 			goto err;

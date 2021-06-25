@@ -1428,8 +1428,16 @@ translate_compat_table(struct net *net,
 	if (!newinfo)
 		goto out_unlock;
 
+<<<<<<< HEAD
 	memset(newinfo->entries, 0, size);
 
+=======
+<<<<<<< HEAD
+	memset(newinfo->entries, 0, size);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	newinfo->number = compatr->num_entries;
 	for (i = 0; i < NF_INET_NUMHOOKS; i++) {
 		newinfo->hook_entry[i] = compatr->hook_entry[i];

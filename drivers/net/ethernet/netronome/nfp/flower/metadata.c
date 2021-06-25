@@ -490,12 +490,21 @@ const struct rhashtable_params nfp_flower_table_params = {
 	.automatic_shrinking	= true,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct rhashtable_params merge_table_params = {
 	.key_offset	= offsetof(struct nfp_merge_info, parent_ctx),
 	.head_offset	= offsetof(struct nfp_merge_info, ht_node),
 	.key_len	= sizeof(u64),
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int nfp_flower_metadata_init(struct nfp_app *app, u64 host_ctx_count,
 			     unsigned int host_num_mems)
 {
@@ -512,10 +521,19 @@ int nfp_flower_metadata_init(struct nfp_app *app, u64 host_ctx_count,
 	if (err)
 		goto err_free_flow_table;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = rhashtable_init(&priv->merge_table, &merge_table_params);
 	if (err)
 		goto err_free_stats_ctx_table;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	get_random_bytes(&priv->mask_id_seed, sizeof(priv->mask_id_seed));
 
 	/* Init ring buffer and unallocated mask_ids. */
@@ -523,7 +541,15 @@ int nfp_flower_metadata_init(struct nfp_app *app, u64 host_ctx_count,
 		kmalloc_array(NFP_FLOWER_MASK_ENTRY_RS,
 			      NFP_FLOWER_MASK_ELEMENT_RS, GFP_KERNEL);
 	if (!priv->mask_ids.mask_id_free_list.buf)
+<<<<<<< HEAD
 		goto err_free_merge_table;
+=======
+<<<<<<< HEAD
+		goto err_free_merge_table;
+=======
+		goto err_free_stats_ctx_table;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv->mask_ids.init_unallocated = NFP_FLOWER_MASK_ENTRY_RS - 1;
 
@@ -560,8 +586,16 @@ err_free_last_used:
 	kfree(priv->mask_ids.last_used);
 err_free_mask_id:
 	kfree(priv->mask_ids.mask_id_free_list.buf);
+<<<<<<< HEAD
 err_free_merge_table:
 	rhashtable_destroy(&priv->merge_table);
+=======
+<<<<<<< HEAD
+err_free_merge_table:
+	rhashtable_destroy(&priv->merge_table);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_stats_ctx_table:
 	rhashtable_destroy(&priv->stats_ctx_table);
 err_free_flow_table:
@@ -580,8 +614,16 @@ void nfp_flower_metadata_cleanup(struct nfp_app *app)
 				    nfp_check_rhashtable_empty, NULL);
 	rhashtable_free_and_destroy(&priv->stats_ctx_table,
 				    nfp_check_rhashtable_empty, NULL);
+<<<<<<< HEAD
 	rhashtable_free_and_destroy(&priv->merge_table,
 				    nfp_check_rhashtable_empty, NULL);
+=======
+<<<<<<< HEAD
+	rhashtable_free_and_destroy(&priv->merge_table,
+				    nfp_check_rhashtable_empty, NULL);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kvfree(priv->stats);
 	kfree(priv->mask_ids.mask_id_free_list.buf);
 	kfree(priv->mask_ids.last_used);

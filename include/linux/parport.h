@@ -297,6 +297,7 @@ int __must_check __parport_register_driver(struct parport_driver *,
  * parport_register_driver must be a macro so that KBUILD_MODNAME can
  * be expanded
  */
+<<<<<<< HEAD
 
 /**
  *	parport_register_driver - register a parallel port device driver
@@ -328,6 +329,8 @@ int __must_check __parport_register_driver(struct parport_driver *,
  *	Returns 0 on success. The non device model will always succeeds.
  *	but the new device model can fail and will return the error code.
  **/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define parport_register_driver(driver)             \
 	__parport_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
 

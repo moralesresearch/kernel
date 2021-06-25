@@ -241,7 +241,11 @@ static struct sched_entry *find_entry_to_transmit(struct sk_buff *skb,
 				/* Here, we are just trying to find out the
 				 * first available interval in the next cycle.
 				 */
+<<<<<<< HEAD
 				entry_available = true;
+=======
+				entry_available = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				entry_found = entry;
 				*interval_start = ktime_add_ns(curr_intv_start, cycle);
 				*interval_end = ktime_add_ns(curr_intv_end, cycle);
@@ -372,7 +376,11 @@ static long get_packet_txtime(struct sk_buff *skb, struct Qdisc *sch)
 	packet_transmit_time = length_to_duration(q, len);
 
 	do {
+<<<<<<< HEAD
 		sched_changed = false;
+=======
+		sched_changed = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		entry = find_entry_to_transmit(skb, sch, sched, admin,
 					       minimum_time,
@@ -390,7 +398,11 @@ static long get_packet_txtime(struct sk_buff *skb, struct Qdisc *sch)
 		if (admin && admin != sched &&
 		    ktime_after(txtime, admin->base_time)) {
 			sched = admin;
+<<<<<<< HEAD
 			sched_changed = true;
+=======
+			sched_changed = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		}
 
@@ -901,12 +913,15 @@ static int parse_taprio_schedule(struct taprio_sched *q, struct nlattr **tb,
 
 		list_for_each_entry(entry, &new->entries, list)
 			cycle = ktime_add_ns(cycle, entry->interval);
+<<<<<<< HEAD
 
 		if (!cycle) {
 			NL_SET_ERR_MSG(extack, "'cycle_time' can never be 0");
 			return -EINVAL;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		new->cycle_time = cycle;
 	}
 

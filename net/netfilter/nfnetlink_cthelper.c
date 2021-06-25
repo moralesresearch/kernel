@@ -380,10 +380,21 @@ static int
 nfnl_cthelper_update(const struct nlattr * const tb[],
 		     struct nf_conntrack_helper *helper)
 {
+<<<<<<< HEAD
+	u32 size;
+	int ret;
+
+	if (tb[NFCTH_PRIV_DATA_LEN]) {
+		size = ntohl(nla_get_be32(tb[NFCTH_PRIV_DATA_LEN]));
+		if (size != helper->data_len)
+			return -EBUSY;
+	}
+=======
 	int ret;
 
 	if (tb[NFCTH_PRIV_DATA_LEN])
 		return -EBUSY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tb[NFCTH_POLICY]) {
 		ret = nfnl_cthelper_update_policy(helper, tb[NFCTH_POLICY]);

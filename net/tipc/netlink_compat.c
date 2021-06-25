@@ -696,7 +696,11 @@ static int tipc_nl_compat_link_dump(struct tipc_nl_compat_msg *msg,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	link_info.dest = htonl(nla_get_flag(link[TIPC_NLA_LINK_DEST]));
+=======
+	link_info.dest = nla_get_flag(link[TIPC_NLA_LINK_DEST]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	link_info.up = htonl(nla_get_flag(link[TIPC_NLA_LINK_UP]));
 	nla_strscpy(link_info.str, link[TIPC_NLA_LINK_NAME],
 		    TIPC_MAX_LINK_NAME);

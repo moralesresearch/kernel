@@ -35,8 +35,13 @@ gk104_clkgate_enable(struct nvkm_therm *base)
 	int i;
 
 	/* Program ENG_MANT, ENG_FILTER */
+<<<<<<< HEAD
 	for (i = 0; order[i].type != NVKM_SUBDEV_NR; i++) {
 		if (!nvkm_device_subdev(dev, order[i].type, order[i].inst))
+=======
+	for (i = 0; order[i].engine != NVKM_SUBDEV_NR; i++) {
+		if (!nvkm_device_subdev(dev, order[i].engine))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		nvkm_mask(dev, 0x20200 + order[i].offset, 0xff00, 0x4500);
@@ -47,8 +52,13 @@ gk104_clkgate_enable(struct nvkm_therm *base)
 	nvkm_wr32(dev, 0x02028c, therm->idle_filter->hubmmu);
 
 	/* Enable clockgating (ENG_CLK = RUN->AUTO) */
+<<<<<<< HEAD
 	for (i = 0; order[i].type != NVKM_SUBDEV_NR; i++) {
 		if (!nvkm_device_subdev(dev, order[i].type, order[i].inst))
+=======
+	for (i = 0; order[i].engine != NVKM_SUBDEV_NR; i++) {
+		if (!nvkm_device_subdev(dev, order[i].engine))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		nvkm_mask(dev, 0x20200 + order[i].offset, 0x00ff, 0x0045);
@@ -64,8 +74,13 @@ gk104_clkgate_fini(struct nvkm_therm *base, bool suspend)
 	int i;
 
 	/* ENG_CLK = AUTO->RUN, ENG_PWR = RUN->AUTO */
+<<<<<<< HEAD
 	for (i = 0; order[i].type != NVKM_SUBDEV_NR; i++) {
 		if (!nvkm_device_subdev(dev, order[i].type, order[i].inst))
+=======
+	for (i = 0; order[i].engine != NVKM_SUBDEV_NR; i++) {
+		if (!nvkm_device_subdev(dev, order[i].engine))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		nvkm_mask(dev, 0x20200 + order[i].offset, 0xff, 0x54);
@@ -73,6 +88,7 @@ gk104_clkgate_fini(struct nvkm_therm *base, bool suspend)
 }
 
 const struct gk104_clkgate_engine_info gk104_clkgate_engine_info[] = {
+<<<<<<< HEAD
 	{ NVKM_ENGINE_GR,     0, 0x00 },
 	{ NVKM_ENGINE_MSPDEC, 0, 0x04 },
 	{ NVKM_ENGINE_MSPPP,  0, 0x08 },
@@ -82,6 +98,17 @@ const struct gk104_clkgate_engine_info gk104_clkgate_engine_info[] = {
 	{ NVKM_ENGINE_MSENC,  0, 0x18 },
 	{ NVKM_ENGINE_CE,     2, 0x1c },
 	{ NVKM_SUBDEV_NR },
+=======
+	{ NVKM_ENGINE_GR,     0x00 },
+	{ NVKM_ENGINE_MSPDEC, 0x04 },
+	{ NVKM_ENGINE_MSPPP,  0x08 },
+	{ NVKM_ENGINE_MSVLD,  0x0c },
+	{ NVKM_ENGINE_CE0,    0x10 },
+	{ NVKM_ENGINE_CE1,    0x14 },
+	{ NVKM_ENGINE_MSENC,  0x18 },
+	{ NVKM_ENGINE_CE2,    0x1c },
+	{ NVKM_SUBDEV_NR, 0 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 const struct gf100_idle_filter gk104_idle_filter = {
@@ -106,8 +133,14 @@ gk104_therm_func = {
 };
 
 static int
+<<<<<<< HEAD
 gk104_therm_new_(const struct nvkm_therm_func *func, struct nvkm_device *device,
 		 enum nvkm_subdev_type type, int inst,
+=======
+gk104_therm_new_(const struct nvkm_therm_func *func,
+		 struct nvkm_device *device,
+		 int index,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 const struct gk104_clkgate_engine_info *clkgate_order,
 		 const struct gf100_idle_filter *idle_filter,
 		 struct nvkm_therm **ptherm)
@@ -117,17 +150,32 @@ gk104_therm_new_(const struct nvkm_therm_func *func, struct nvkm_device *device,
 	if (!therm)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	nvkm_therm_ctor(&therm->base, device, type, inst, func);
 	*ptherm = &therm->base;
 	therm->clkgate_order = clkgate_order;
 	therm->idle_filter = idle_filter;
+=======
+	nvkm_therm_ctor(&therm->base, device, index, func);
+	*ptherm = &therm->base;
+	therm->clkgate_order = clkgate_order;
+	therm->idle_filter = idle_filter;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
 int
+<<<<<<< HEAD
 gk104_therm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_therm **ptherm)
 {
 	return gk104_therm_new_(&gk104_therm_func, device, type, inst,
+=======
+gk104_therm_new(struct nvkm_device *device,
+		int index, struct nvkm_therm **ptherm)
+{
+	return gk104_therm_new_(&gk104_therm_func, device, index,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				gk104_clkgate_engine_info, &gk104_idle_filter,
 				ptherm);
 }

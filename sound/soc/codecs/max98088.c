@@ -41,6 +41,10 @@ struct max98088_priv {
 	enum max98088_type devtype;
 	struct max98088_pdata *pdata;
 	struct clk *mclk;
+<<<<<<< HEAD
+	unsigned char mclk_prescaler;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int sysclk;
 	struct max98088_cdata dai[2];
 	int eq_textcnt;
@@ -998,13 +1002,23 @@ static int max98088_dai1_hw_params(struct snd_pcm_substream *substream,
        /* Configure NI when operating as master */
        if (snd_soc_component_read(component, M98088_REG_14_DAI1_FORMAT)
                & M98088_DAI_MAS) {
+<<<<<<< HEAD
+               unsigned long pclk;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                if (max98088->sysclk == 0) {
                        dev_err(component->dev, "Invalid system clock frequency\n");
                        return -EINVAL;
                }
                ni = 65536ULL * (rate < 50000 ? 96ULL : 48ULL)
                                * (unsigned long long int)rate;
+<<<<<<< HEAD
+               pclk = DIV_ROUND_CLOSEST(max98088->sysclk, max98088->mclk_prescaler);
+               ni = DIV_ROUND_CLOSEST_ULL(ni, pclk);
+=======
                do_div(ni, (unsigned long long int)max98088->sysclk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                snd_soc_component_write(component, M98088_REG_12_DAI1_CLKCFG_HI,
                        (ni >> 8) & 0x7F);
                snd_soc_component_write(component, M98088_REG_13_DAI1_CLKCFG_LO,
@@ -1065,13 +1079,23 @@ static int max98088_dai2_hw_params(struct snd_pcm_substream *substream,
        /* Configure NI when operating as master */
        if (snd_soc_component_read(component, M98088_REG_1C_DAI2_FORMAT)
                & M98088_DAI_MAS) {
+<<<<<<< HEAD
+               unsigned long pclk;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                if (max98088->sysclk == 0) {
                        dev_err(component->dev, "Invalid system clock frequency\n");
                        return -EINVAL;
                }
                ni = 65536ULL * (rate < 50000 ? 96ULL : 48ULL)
                                * (unsigned long long int)rate;
+<<<<<<< HEAD
+               pclk = DIV_ROUND_CLOSEST(max98088->sysclk, max98088->mclk_prescaler);
+               ni = DIV_ROUND_CLOSEST_ULL(ni, pclk);
+=======
                do_div(ni, (unsigned long long int)max98088->sysclk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                snd_soc_component_write(component, M98088_REG_1A_DAI2_CLKCFG_HI,
                        (ni >> 8) & 0x7F);
                snd_soc_component_write(component, M98088_REG_1B_DAI2_CLKCFG_LO,
@@ -1113,8 +1137,15 @@ static int max98088_dai_set_sysclk(struct snd_soc_dai *dai,
         */
        if ((freq >= 10000000) && (freq < 20000000)) {
                snd_soc_component_write(component, M98088_REG_10_SYS_CLK, 0x10);
+<<<<<<< HEAD
+               max98088->mclk_prescaler = 1;
        } else if ((freq >= 20000000) && (freq < 30000000)) {
                snd_soc_component_write(component, M98088_REG_10_SYS_CLK, 0x20);
+               max98088->mclk_prescaler = 2;
+=======
+       } else if ((freq >= 20000000) && (freq < 30000000)) {
+               snd_soc_component_write(component, M98088_REG_10_SYS_CLK, 0x20);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
        } else {
                dev_err(component->dev, "Invalid master clock frequency\n");
                return -EINVAL;

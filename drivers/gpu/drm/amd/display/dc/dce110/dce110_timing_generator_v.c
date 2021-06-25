@@ -46,16 +46,29 @@
  *
  **********************************************************************************/
 
+<<<<<<< HEAD
 /*
  * Enable CRTCV
  */
+=======
+/**
+* Enable CRTCV
+*/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static bool dce110_timing_generator_v_enable_crtc(struct timing_generator *tg)
 {
 /*
+<<<<<<< HEAD
  * Set MASTER_UPDATE_MODE to 0
  * This is needed for DRR, and also suggested to be default value by Syed.
  */
+=======
+* Set MASTER_UPDATE_MODE to 0
+* This is needed for DRR, and also suggested to be default value by Syed.
+*/
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t value;
 
 	value = 0;
@@ -208,9 +221,15 @@ static void dce110_timing_generator_v_wait_for_vblank(struct timing_generator *t
 	}
 }
 
+<<<<<<< HEAD
 /*
  * Wait till we are in VActive (anywhere in VActive)
  */
+=======
+/**
+* Wait till we are in VActive (anywhere in VActive)
+*/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void dce110_timing_generator_v_wait_for_vactive(struct timing_generator *tg)
 {
 	while (dce110_timing_generator_v_is_in_vertical_blank(tg)) {

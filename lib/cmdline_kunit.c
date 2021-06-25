@@ -18,6 +18,7 @@ static const int cmdline_test_values[] = {
 	1, 3, 2, 1, 1, 1, 3, 1,
 };
 
+<<<<<<< HEAD
 static_assert(ARRAY_SIZE(cmdline_test_strings) == ARRAY_SIZE(cmdline_test_values));
 
 static const char *cmdline_test_range_strings[] = {
@@ -38,6 +39,8 @@ static const int cmdline_test_range_values[][16] = {
 
 static_assert(ARRAY_SIZE(cmdline_test_range_strings) == ARRAY_SIZE(cmdline_test_range_values));
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void cmdline_do_one_test(struct kunit *test, const char *in, int rc, int offset)
 {
 	const char *fmt = "Pattern: %s";
@@ -104,6 +107,7 @@ static void cmdline_test_tail_int(struct kunit *test)
 	} while (++i < ARRAY_SIZE(cmdline_test_strings));
 }
 
+<<<<<<< HEAD
 static void cmdline_do_one_range_test(struct kunit *test, const char *in,
 				      unsigned int n, const int *e)
 {
@@ -139,11 +143,16 @@ static void cmdline_test_range(struct kunit *test)
 	} while (++i < ARRAY_SIZE(cmdline_test_range_strings));
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct kunit_case cmdline_test_cases[] = {
 	KUNIT_CASE(cmdline_test_noint),
 	KUNIT_CASE(cmdline_test_lead_int),
 	KUNIT_CASE(cmdline_test_tail_int),
+<<<<<<< HEAD
 	KUNIT_CASE(cmdline_test_range),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 

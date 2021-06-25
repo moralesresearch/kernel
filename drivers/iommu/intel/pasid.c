@@ -412,6 +412,7 @@ static inline void pasid_set_page_snoop(struct pasid_entry *pe, bool value)
 }
 
 /*
+<<<<<<< HEAD
  * Setup the Page Snoop (PGSNP) field (Bit 88) of a scalable mode
  * PASID entry.
  */
@@ -422,6 +423,8 @@ pasid_set_pgsnp(struct pasid_entry *pe)
 }
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Setup the First Level Page table Pointer field (Bit 140~191)
  * of a scalable mode PASID entry.
  */
@@ -467,6 +470,23 @@ pasid_cache_invalidation_with_pasid(struct intel_iommu *iommu,
 }
 
 static void
+<<<<<<< HEAD
+=======
+iotlb_invalidation_with_pasid(struct intel_iommu *iommu, u16 did, u32 pasid)
+{
+	struct qi_desc desc;
+
+	desc.qw0 = QI_EIOTLB_PASID(pasid) | QI_EIOTLB_DID(did) |
+			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) | QI_EIOTLB_TYPE;
+	desc.qw1 = 0;
+	desc.qw2 = 0;
+	desc.qw3 = 0;
+
+	qi_submit_sync(iommu, &desc, 1, 0);
+}
+
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 devtlb_invalidation_with_pasid(struct intel_iommu *iommu,
 			       struct device *dev, u32 pasid)
 {
@@ -510,7 +530,11 @@ void intel_pasid_tear_down_entry(struct intel_iommu *iommu, struct device *dev,
 		clflush_cache_range(pte, sizeof(*pte));
 
 	pasid_cache_invalidation_with_pasid(iommu, did, pasid);
+<<<<<<< HEAD
 	qi_flush_piotlb(iommu, did, pasid, 0, -1, 0);
+=======
+	iotlb_invalidation_with_pasid(iommu, did, pasid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Device IOTLB doesn't need to be flushed in caching mode. */
 	if (!cap_caching_mode(iommu->cap))
@@ -526,7 +550,11 @@ static void pasid_flush_caches(struct intel_iommu *iommu,
 
 	if (cap_caching_mode(iommu->cap)) {
 		pasid_cache_invalidation_with_pasid(iommu, did, pasid);
+<<<<<<< HEAD
 		qi_flush_piotlb(iommu, did, pasid, 0, -1, 0);
+=======
+		iotlb_invalidation_with_pasid(iommu, did, pasid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		iommu_flush_write_buffer(iommu);
 	}
@@ -575,9 +603,12 @@ int intel_pasid_setup_first_level(struct intel_iommu *iommu,
 		}
 	}
 
+<<<<<<< HEAD
 	if (flags & PASID_FLAG_PAGE_SNOOP)
 		pasid_set_pgsnp(pte);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pasid_set_domain_id(pte, did);
 	pasid_set_address_width(pte, iommu->agaw);
 	pasid_set_page_snoop(pte, !!ecap_smpwc(iommu->ecap));
@@ -656,14 +687,22 @@ int intel_pasid_setup_second_level(struct intel_iommu *iommu,
 	pasid_set_fault_enable(pte);
 	pasid_set_page_snoop(pte, !!ecap_smpwc(iommu->ecap));
 
+<<<<<<< HEAD
 	if (domain->domain.type == IOMMU_DOMAIN_UNMANAGED)
 		pasid_set_pgsnp(pte);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Since it is a second level only translation setup, we should
 	 * set SRE bit as well (addresses are expected to be GPAs).
 	 */
+<<<<<<< HEAD
+	if (pasid != PASID_RID2PASID)
+		pasid_set_sre(pte);
+=======
 	pasid_set_sre(pte);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pasid_set_present(pte);
 	pasid_flush_caches(iommu, pte, pasid, did);
 

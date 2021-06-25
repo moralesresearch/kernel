@@ -43,7 +43,11 @@ class install_lib(_install_lib):
 
 cflags = getenv('CFLAGS', '').split()
 # switch off several checks (need to be at the end of cflags list)
+<<<<<<< HEAD
 cflags += ['-fno-strict-aliasing', '-Wno-write-strings', '-Wno-unused-parameter', '-Wno-redundant-decls', '-DPYTHON_PERF' ]
+=======
+cflags += ['-fno-strict-aliasing', '-Wno-write-strings', '-Wno-unused-parameter', '-Wno-redundant-decls' ]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 if not cc_is_clang:
     cflags += ['-Wno-cast-function-type' ]
 

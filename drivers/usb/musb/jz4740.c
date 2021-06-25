@@ -116,13 +116,21 @@ static int jz4740_musb_init(struct musb *musb)
 	if (IS_ERR(musb->xceiv)) {
 		err = PTR_ERR(musb->xceiv);
 		if (err != -EPROBE_DEFER)
+<<<<<<< HEAD
 			dev_err(dev, "No transceiver configured: %d\n", err);
+=======
+			dev_err(dev, "No transceiver configured: %d", err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return err;
 	}
 
 	glue->role_sw = usb_role_switch_register(dev, &role_sw_desc);
 	if (IS_ERR(glue->role_sw)) {
+<<<<<<< HEAD
 		dev_err(dev, "Failed to register USB role switch\n");
+=======
+		dev_err(dev, "Failed to register USB role switch");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return PTR_ERR(glue->role_sw);
 	}
 
@@ -205,26 +213,42 @@ static int jz4740_probe(struct platform_device *pdev)
 
 	pdata = of_device_get_match_data(dev);
 	if (!pdata) {
+<<<<<<< HEAD
 		dev_err(dev, "missing platform data\n");
+=======
+		dev_err(dev, "missing platform data");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
 	musb = platform_device_alloc("musb-hdrc", PLATFORM_DEVID_AUTO);
 	if (!musb) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to allocate musb device\n");
+=======
+		dev_err(dev, "failed to allocate musb device");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 	}
 
 	clk = devm_clk_get(dev, "udc");
 	if (IS_ERR(clk)) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to get clock\n");
+=======
+		dev_err(dev, "failed to get clock");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = PTR_ERR(clk);
 		goto err_platform_device_put;
 	}
 
 	ret = clk_prepare_enable(clk);
 	if (ret) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to enable clock\n");
+=======
+		dev_err(dev, "failed to enable clock");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_platform_device_put;
 	}
 
@@ -240,19 +264,31 @@ static int jz4740_probe(struct platform_device *pdev)
 	ret = platform_device_add_resources(musb, pdev->resource,
 					    pdev->num_resources);
 	if (ret) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to add resources\n");
+=======
+		dev_err(dev, "failed to add resources");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_clk_disable;
 	}
 
 	ret = platform_device_add_data(musb, pdata, sizeof(*pdata));
 	if (ret) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to add platform_data\n");
+=======
+		dev_err(dev, "failed to add platform_data");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_clk_disable;
 	}
 
 	ret = platform_device_add(musb);
 	if (ret) {
+<<<<<<< HEAD
 		dev_err(dev, "failed to register musb device\n");
+=======
+		dev_err(dev, "failed to register musb device");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_clk_disable;
 	}
 

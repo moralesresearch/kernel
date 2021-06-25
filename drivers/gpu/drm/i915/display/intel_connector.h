@@ -30,7 +30,11 @@ int intel_ddc_get_modes(struct drm_connector *c, struct i2c_adapter *adapter);
 void intel_attach_force_audio_property(struct drm_connector *connector);
 void intel_attach_broadcast_rgb_property(struct drm_connector *connector);
 void intel_attach_aspect_ratio_property(struct drm_connector *connector);
+<<<<<<< HEAD
 void intel_attach_hdmi_colorspace_property(struct drm_connector *connector);
 void intel_attach_dp_colorspace_property(struct drm_connector *connector);
+=======
+void intel_attach_colorspace_property(struct drm_connector *connector);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __INTEL_CONNECTOR_H__ */

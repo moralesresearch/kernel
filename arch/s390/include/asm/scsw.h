@@ -525,7 +525,16 @@ static inline int scsw_cmd_is_valid_pno(union scsw *scsw)
 	return (scsw->cmd.fctl != 0) &&
 	       (scsw->cmd.stctl & SCSW_STCTL_STATUS_PEND) &&
 	       (!(scsw->cmd.stctl & SCSW_STCTL_INTER_STATUS) ||
+<<<<<<< HEAD
 		  (scsw->cmd.actl & SCSW_ACTL_SUSPENDED));
+=======
+<<<<<<< HEAD
+		  (scsw->cmd.actl & SCSW_ACTL_SUSPENDED));
+=======
+		 ((scsw->cmd.stctl & SCSW_STCTL_INTER_STATUS) &&
+		  (scsw->cmd.actl & SCSW_ACTL_SUSPENDED)));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

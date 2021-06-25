@@ -46,9 +46,13 @@
  *
  * The mmu_gather API consists of:
  *
+<<<<<<< HEAD
  *  - tlb_gather_mmu() / tlb_gather_mmu_fullmm() / tlb_finish_mmu()
  *
  *    start and finish a mmu_gather
+=======
+ *  - tlb_gather_mmu() / tlb_finish_mmu(); start and finish a mmu_gather
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *    Finish in particular will issue a (final) TLB invalidate and free
  *    all (remaining) queued pages.
@@ -93,7 +97,11 @@
  *
  *  - mmu_gather::fullmm
  *
+<<<<<<< HEAD
  *    A flag set by tlb_gather_mmu_fullmm() to indicate we're going to free
+=======
+ *    A flag set by tlb_gather_mmu() to indicate we're going to free
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *    the entire mm; this allows a number of optimizations.
  *
  *    - We can ignore tlb_{start,end}_vma(); because we don't

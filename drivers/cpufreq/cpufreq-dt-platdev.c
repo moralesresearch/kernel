@@ -143,6 +143,14 @@ static const struct of_device_id blacklist[] __initconst = {
 	{ .compatible = "st,stih410", },
 	{ .compatible = "st,stih418", },
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	{ .compatible = "sigma,tango4", },
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "ti,am33xx", },
 	{ .compatible = "ti,am43", },
 	{ .compatible = "ti,dra7", },

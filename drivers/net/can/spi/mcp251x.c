@@ -314,6 +314,7 @@ static int mcp251x_spi_trans(struct spi_device *spi, int len)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int mcp251x_spi_write(struct spi_device *spi, int len)
 {
 	struct mcp251x_priv *priv = spi_get_drvdata(spi);
@@ -326,6 +327,8 @@ static int mcp251x_spi_write(struct spi_device *spi, int len)
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 mcp251x_read_reg(struct spi_device *spi, u8 reg)
 {
 	struct mcp251x_priv *priv = spi_get_drvdata(spi);
@@ -373,7 +376,11 @@ static void mcp251x_write_reg(struct spi_device *spi, u8 reg, u8 val)
 	priv->spi_tx_buf[1] = reg;
 	priv->spi_tx_buf[2] = val;
 
+<<<<<<< HEAD
 	mcp251x_spi_write(spi, 3);
+=======
+	mcp251x_spi_trans(spi, 3);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mcp251x_write_2regs(struct spi_device *spi, u8 reg, u8 v1, u8 v2)
@@ -385,7 +392,11 @@ static void mcp251x_write_2regs(struct spi_device *spi, u8 reg, u8 v1, u8 v2)
 	priv->spi_tx_buf[2] = v1;
 	priv->spi_tx_buf[3] = v2;
 
+<<<<<<< HEAD
 	mcp251x_spi_write(spi, 4);
+=======
+	mcp251x_spi_trans(spi, 4);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mcp251x_write_bits(struct spi_device *spi, u8 reg,
@@ -398,7 +409,11 @@ static void mcp251x_write_bits(struct spi_device *spi, u8 reg,
 	priv->spi_tx_buf[2] = mask;
 	priv->spi_tx_buf[3] = val;
 
+<<<<<<< HEAD
 	mcp251x_spi_write(spi, 4);
+=======
+	mcp251x_spi_trans(spi, 4);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u8 mcp251x_read_stat(struct spi_device *spi)
@@ -630,7 +645,11 @@ static void mcp251x_hw_tx_frame(struct spi_device *spi, u8 *buf,
 					  buf[i]);
 	} else {
 		memcpy(priv->spi_tx_buf, buf, TXBDAT_OFF + len);
+<<<<<<< HEAD
 		mcp251x_spi_write(spi, TXBDAT_OFF + len);
+=======
+		mcp251x_spi_trans(spi, TXBDAT_OFF + len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -662,7 +681,11 @@ static void mcp251x_hw_tx(struct spi_device *spi, struct can_frame *frame,
 
 	/* use INSTRUCTION_RTS, to avoid "repeated frame problem" */
 	priv->spi_tx_buf[0] = INSTRUCTION_RTS(1 << tx_buf_idx);
+<<<<<<< HEAD
 	mcp251x_spi_write(priv->spi, 1);
+=======
+	mcp251x_spi_trans(priv->spi, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mcp251x_hw_rx_frame(struct spi_device *spi, u8 *buf,
@@ -900,7 +923,11 @@ static int mcp251x_hw_reset(struct spi_device *spi)
 	mdelay(MCP251X_OST_DELAY_MS);
 
 	priv->spi_tx_buf[0] = INSTRUCTION_RESET;
+<<<<<<< HEAD
 	ret = mcp251x_spi_write(spi, 1);
+=======
+	ret = mcp251x_spi_trans(spi, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -956,6 +983,11 @@ static int mcp251x_stop(struct net_device *net)
 
 	priv->force_quit = 1;
 	free_irq(spi->irq, priv);
+<<<<<<< HEAD
+=======
+	destroy_workqueue(priv->wq);
+	priv->wq = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&priv->mcp_lock);
 
@@ -1012,7 +1044,11 @@ static void mcp251x_tx_work_handler(struct work_struct *ws)
 				frame->len = CAN_FRAME_MAX_DATA_LEN;
 			mcp251x_hw_tx(spi, frame, 0);
 			priv->tx_len = 1 + frame->len;
+<<<<<<< HEAD
 			can_put_echo_skb(priv->tx_skb, net, 0, 0);
+=======
+			can_put_echo_skb(priv->tx_skb, net, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			priv->tx_skb = NULL;
 		}
 	}
@@ -1181,7 +1217,11 @@ static irqreturn_t mcp251x_can_ist(int irq, void *dev_id)
 			net->stats.tx_bytes += priv->tx_len - 1;
 			can_led_event(net, CAN_LED_EVENT_TX);
 			if (priv->tx_len) {
+<<<<<<< HEAD
 				can_get_echo_skb(net, 0, NULL);
+=======
+				can_get_echo_skb(net, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				priv->tx_len = 0;
 			}
 			netif_wake_queue(net);
@@ -1222,6 +1262,7 @@ static int mcp251x_open(struct net_device *net)
 		goto out_close;
 	}
 
+<<<<<<< HEAD
 	ret = mcp251x_hw_wake(spi);
 	if (ret)
 		goto out_free_irq;
@@ -1231,6 +1272,26 @@ static int mcp251x_open(struct net_device *net)
 	ret = mcp251x_set_normal_mode(spi);
 	if (ret)
 		goto out_free_irq;
+=======
+	priv->wq = alloc_workqueue("mcp251x_wq", WQ_FREEZABLE | WQ_MEM_RECLAIM,
+				   0);
+	if (!priv->wq) {
+		ret = -ENOMEM;
+		goto out_clean;
+	}
+	INIT_WORK(&priv->tx_work, mcp251x_tx_work_handler);
+	INIT_WORK(&priv->restart_work, mcp251x_restart_work_handler);
+
+	ret = mcp251x_hw_wake(spi);
+	if (ret)
+		goto out_free_wq;
+	ret = mcp251x_setup(net, spi);
+	if (ret)
+		goto out_free_wq;
+	ret = mcp251x_set_normal_mode(spi);
+	if (ret)
+		goto out_free_wq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	can_led_event(net, CAN_LED_EVENT_OPEN);
 
@@ -1239,7 +1300,13 @@ static int mcp251x_open(struct net_device *net)
 
 	return 0;
 
+<<<<<<< HEAD
 out_free_irq:
+=======
+out_free_wq:
+	destroy_workqueue(priv->wq);
+out_clean:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	free_irq(spi->irq, priv);
 	mcp251x_hw_sleep(spi);
 out_close:
@@ -1360,6 +1427,7 @@ static int mcp251x_can_probe(struct spi_device *spi)
 	if (ret)
 		goto out_clk;
 
+<<<<<<< HEAD
 	priv->wq = alloc_workqueue("mcp251x_wq", WQ_FREEZABLE | WQ_MEM_RECLAIM,
 				   0);
 	if (!priv->wq) {
@@ -1369,6 +1437,8 @@ static int mcp251x_can_probe(struct spi_device *spi)
 	INIT_WORK(&priv->tx_work, mcp251x_tx_work_handler);
 	INIT_WORK(&priv->restart_work, mcp251x_restart_work_handler);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv->spi = spi;
 	mutex_init(&priv->mcp_lock);
 
@@ -1413,8 +1483,11 @@ static int mcp251x_can_probe(struct spi_device *spi)
 	return 0;
 
 error_probe:
+<<<<<<< HEAD
 	destroy_workqueue(priv->wq);
 	priv->wq = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mcp251x_power_enable(priv->power, 0);
 
 out_clk:
@@ -1436,9 +1509,12 @@ static int mcp251x_can_remove(struct spi_device *spi)
 
 	mcp251x_power_enable(priv->power, 0);
 
+<<<<<<< HEAD
 	destroy_workqueue(priv->wq);
 	priv->wq = NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(priv->clk);
 
 	free_candev(net);

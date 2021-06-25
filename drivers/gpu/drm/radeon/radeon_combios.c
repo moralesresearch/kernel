@@ -894,6 +894,7 @@ struct radeon_encoder_primary_dac *radeon_combios_get_primary_dac_info(struct
 
 	/* quirks */
 	/* Radeon 7000 (RV100) */
+<<<<<<< HEAD
 	if (((rdev->pdev->device == 0x5159) &&
 	    (rdev->pdev->subsystem_vendor == 0x174B) &&
 	    (rdev->pdev->subsystem_device == 0x7c28)) ||
@@ -901,6 +902,15 @@ struct radeon_encoder_primary_dac *radeon_combios_get_primary_dac_info(struct
 	   ((rdev->pdev->device == 0x514D) &&
 	    (rdev->pdev->subsystem_vendor == 0x174B) &&
 	    (rdev->pdev->subsystem_device == 0x7149))) {
+=======
+	if (((dev->pdev->device == 0x5159) &&
+	    (dev->pdev->subsystem_vendor == 0x174B) &&
+	    (dev->pdev->subsystem_device == 0x7c28)) ||
+	/* Radeon 9100 (R200) */
+	   ((dev->pdev->device == 0x514D) &&
+	    (dev->pdev->subsystem_vendor == 0x174B) &&
+	    (dev->pdev->subsystem_device == 0x7149))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* vbios value is bad, use the default */
 		found = 0;
 	}
@@ -2221,21 +2231,35 @@ static bool radeon_apply_legacy_quirks(struct drm_device *dev,
 				       struct radeon_i2c_bus_rec *ddc_i2c,
 				       struct radeon_hpd *hpd)
 {
+<<<<<<< HEAD
 	struct radeon_device *rdev = dev->dev_private;
 
 	/* Certain IBM chipset RN50s have a BIOS reporting two VGAs,
 	   one with VGA DDC and one with CRT2 DDC. - kill the CRT2 DDC one */
 	if (rdev->pdev->device == 0x515e &&
 	    rdev->pdev->subsystem_vendor == 0x1014) {
+=======
+
+	/* Certain IBM chipset RN50s have a BIOS reporting two VGAs,
+	   one with VGA DDC and one with CRT2 DDC. - kill the CRT2 DDC one */
+	if (dev->pdev->device == 0x515e &&
+	    dev->pdev->subsystem_vendor == 0x1014) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (*legacy_connector == CONNECTOR_CRT_LEGACY &&
 		    ddc_i2c->mask_clk_reg == RADEON_GPIO_CRT2_DDC)
 			return false;
 	}
 
 	/* X300 card with extra non-existent DVI port */
+<<<<<<< HEAD
 	if (rdev->pdev->device == 0x5B60 &&
 	    rdev->pdev->subsystem_vendor == 0x17af &&
 	    rdev->pdev->subsystem_device == 0x201e && bios_index == 2) {
+=======
+	if (dev->pdev->device == 0x5B60 &&
+	    dev->pdev->subsystem_vendor == 0x17af &&
+	    dev->pdev->subsystem_device == 0x201e && bios_index == 2) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (*legacy_connector == CONNECTOR_DVI_I_LEGACY)
 			return false;
 	}
@@ -2245,6 +2269,7 @@ static bool radeon_apply_legacy_quirks(struct drm_device *dev,
 
 static bool radeon_apply_legacy_tv_quirks(struct drm_device *dev)
 {
+<<<<<<< HEAD
 	struct radeon_device *rdev = dev->dev_private;
 
 	/* Acer 5102 has non-existent TV port */
@@ -2263,6 +2288,24 @@ static bool radeon_apply_legacy_tv_quirks(struct drm_device *dev)
 	if (rdev->pdev->device == 0x5955 &&
 	    rdev->pdev->subsystem_vendor == 0x1462 &&
 	    rdev->pdev->subsystem_device == 0x0131)
+=======
+	/* Acer 5102 has non-existent TV port */
+	if (dev->pdev->device == 0x5975 &&
+	    dev->pdev->subsystem_vendor == 0x1025 &&
+	    dev->pdev->subsystem_device == 0x009f)
+		return false;
+
+	/* HP dc5750 has non-existent TV port */
+	if (dev->pdev->device == 0x5974 &&
+	    dev->pdev->subsystem_vendor == 0x103c &&
+	    dev->pdev->subsystem_device == 0x280a)
+		return false;
+
+	/* MSI S270 has non-existent TV port */
+	if (dev->pdev->device == 0x5955 &&
+	    dev->pdev->subsystem_vendor == 0x1462 &&
+	    dev->pdev->subsystem_device == 0x0131)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	return true;
@@ -2416,9 +2459,15 @@ bool radeon_get_legacy_connector_info_from_bios(struct drm_device *dev)
 				/* RV100 board with external TDMS bit mis-set.
 				 * Actually uses internal TMDS, clear the bit.
 				 */
+<<<<<<< HEAD
 				if (rdev->pdev->device == 0x5159 &&
 				    rdev->pdev->subsystem_vendor == 0x1014 &&
 				    rdev->pdev->subsystem_device == 0x029A) {
+=======
+				if (dev->pdev->device == 0x5159 &&
+				    dev->pdev->subsystem_vendor == 0x1014 &&
+				    dev->pdev->subsystem_device == 0x029A) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					tmp &= ~(1 << 4);
 				}
 				if ((tmp >> 4) & 0x1) {
@@ -2710,9 +2759,15 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
 		/* boards with a thermal chip, but no overdrive table */
 
 		/* Asus 9600xt has an f75375 on the monid bus */
+<<<<<<< HEAD
 		if ((rdev->pdev->device == 0x4152) &&
 		    (rdev->pdev->subsystem_vendor == 0x1043) &&
 		    (rdev->pdev->subsystem_device == 0xc002)) {
+=======
+		if ((dev->pdev->device == 0x4152) &&
+		    (dev->pdev->subsystem_vendor == 0x1043) &&
+		    (dev->pdev->subsystem_device == 0xc002)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			i2c_bus = combios_setup_i2c_bus(rdev, DDC_MONID, 0, 0);
 			rdev->pm.i2c_bus = radeon_i2c_lookup(rdev, &i2c_bus);
 			if (rdev->pm.i2c_bus) {

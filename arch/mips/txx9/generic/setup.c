@@ -340,6 +340,16 @@ void __init prom_init(void)
 	txx9_board_vec->prom_init();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void __init prom_free_prom_memory(void)
+{
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char *get_system_type(void)
 {
 	return txx9_system_type;

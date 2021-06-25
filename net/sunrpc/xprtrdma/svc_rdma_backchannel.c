@@ -2,7 +2,15 @@
 /*
  * Copyright (c) 2015-2018 Oracle.  All rights reserved.
  *
+<<<<<<< HEAD
  * Support for reverse-direction RPCs on RPC/RDMA (server-side).
+=======
+<<<<<<< HEAD
+ * Support for reverse-direction RPCs on RPC/RDMA (server-side).
+=======
+ * Support for backward direction RPCs on RPC/RDMA (server-side).
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/sunrpc/svc_rdma.h>
@@ -59,7 +67,15 @@ out_unlock:
 	spin_unlock(&xprt->queue_lock);
 }
 
+<<<<<<< HEAD
 /* Send a reverse-direction RPC Call.
+=======
+<<<<<<< HEAD
+/* Send a reverse-direction RPC Call.
+=======
+/* Send a backwards direction RPC call.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Caller holds the connection's mutex and has already marshaled
  * the RPC/RDMA request.

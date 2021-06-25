@@ -75,6 +75,10 @@ SYM_FUNC_END(__host_enter)
  * 				  u64 elr, u64 par);
  */
 SYM_FUNC_START(__hyp_do_panic)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Prepare and exit to the host's panic funciton. */
 	mov	lr, #(PSR_F_BIT | PSR_I_BIT | PSR_A_BIT | PSR_D_BIT |\
 		      PSR_MODE_EL1h)
@@ -83,19 +87,50 @@ SYM_FUNC_START(__hyp_do_panic)
 	hyp_kimg_va lr, x6
 	msr	elr_el2, lr
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mov	x29, x0
 
 	/* Load the format string into x0 and arguments into x1-7 */
 	ldr	x0, =__hyp_panic_string
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hyp_kimg_va x0, x6
 
 	/* Load the format arguments into x1-7. */
 	mov	x6, x3
 	get_vcpu_ptr x7, x3
+<<<<<<< HEAD
+=======
+=======
+
+	mov	x6, x3
+	get_vcpu_ptr x7, x3
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mrs	x3, esr_el2
 	mrs	x4, far_el2
 	mrs	x5, hpfar_el2
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* Prepare and exit to the host's panic funciton. */
+	mov	lr, #(PSR_F_BIT | PSR_I_BIT | PSR_A_BIT | PSR_D_BIT |\
+		      PSR_MODE_EL1h)
+	msr	spsr_el2, lr
+	ldr	lr, =panic
+	msr	elr_el2, lr
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Enter the host, conditionally restoring the host context. */
 	cbz	x29, __host_enter_without_restoring
 	b	__host_enter_for_panic
@@ -126,7 +161,15 @@ SYM_FUNC_END(__hyp_do_panic)
 	 * Preserve x0-x4, which may contain stub parameters.
 	 */
 	ldr	x5, =__kvm_handle_stub_hvc
+<<<<<<< HEAD
 	hyp_pa	x5, x6
+=======
+<<<<<<< HEAD
+	hyp_pa	x5, x6
+=======
+	kimg_pa x5, x6
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	br	x5
 .L__vect_end\@:
 .if ((.L__vect_end\@ - .L__vect_start\@) > 0x80)
@@ -152,7 +195,15 @@ SYM_FUNC_END(__hyp_do_panic)
 
 .macro invalid_host_el1_vect
 	.align 7
+<<<<<<< HEAD
 	mov	x0, xzr		/* restore_host = false */
+=======
+<<<<<<< HEAD
+	mov	x0, xzr		/* restore_host = false */
+=======
+	mov	x0, xzr		/* host_ctxt = NULL */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mrs	x1, spsr_el2
 	mrs	x2, elr_el2
 	mrs	x3, par_el1

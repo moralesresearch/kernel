@@ -75,7 +75,10 @@ struct s3c_fb;
  * @buf_size: Offset of buffer size registers.
  * @buf_end: Offset of buffer end registers.
  * @osd: The base for the OSD registers.
+<<<<<<< HEAD
  * @osd_stride: stride of osd
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @palette: Address of palette memory, or 0 if none.
  * @has_prtcon: Set if has PRTCON register.
  * @has_shadowcon: Set if has SHADOWCON register.
@@ -156,7 +159,11 @@ struct s3c_fb_palette {
  * @windata: The platform data supplied for the window configuration.
  * @parent: The hardware that this window is part of.
  * @fbinfo: Pointer pack to the framebuffer info for this window.
+<<<<<<< HEAD
  * @variant: The variant information for this window.
+=======
+ * @varint: The variant information for this window.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @palette_buffer: Buffer/cache to hold palette entries.
  * @pseudo_palette: For use in TRUECOLOUR modes for entries 0..15/
  * @index: The window number of this window.
@@ -337,7 +344,11 @@ static int s3c_fb_check_var(struct fb_var_screeninfo *var,
 /**
  * s3c_fb_calc_pixclk() - calculate the divider to create the pixel clock.
  * @sfb: The hardware state.
+<<<<<<< HEAD
  * @pixclk: The pixel clock wanted, in picoseconds.
+=======
+ * @pixclock: The pixel clock wanted, in picoseconds.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Given the specified pixel clock, work out the necessary divider to get
  * close to the output frequency.
@@ -734,7 +745,11 @@ static inline unsigned int chan_to_field(unsigned int chan,
  * @red: The red field for the palette data.
  * @green: The green field for the palette data.
  * @blue: The blue field for the palette data.
+<<<<<<< HEAD
  * @transp: The transparency (alpha) field for the palette data.
+=======
+ * @trans: The transparency (alpha) field for the palette data.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @info: The framebuffer being changed.
  */
 static int s3c_fb_setcolreg(unsigned regno,
@@ -1134,7 +1149,10 @@ static void s3c_fb_free_memory(struct s3c_fb *sfb, struct s3c_fb_win *win)
 
 /**
  * s3c_fb_release_win() - release resources for a framebuffer window.
+<<<<<<< HEAD
  * @sfb: The base resources for the hardware.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @win: The window to cleanup the resources for.
  *
  * Release the resources that where claimed for the hardware window,
@@ -1162,7 +1180,10 @@ static void s3c_fb_release_win(struct s3c_fb *sfb, struct s3c_fb_win *win)
 /**
  * s3c_fb_probe_win() - register an hardware window
  * @sfb: The base resources for the hardware
+<<<<<<< HEAD
  * @win_no: The window number
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @variant: The variant information for this window.
  * @res: Pointer to where to place the resultant window.
  *
@@ -1173,6 +1194,10 @@ static int s3c_fb_probe_win(struct s3c_fb *sfb, unsigned int win_no,
 			    struct s3c_fb_win_variant *variant,
 			    struct s3c_fb_win **res)
 {
+<<<<<<< HEAD
+=======
+	struct fb_var_screeninfo *var;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fb_videomode initmode;
 	struct s3c_fb_pd_win *windata;
 	struct s3c_fb_win *win;
@@ -1200,6 +1225,10 @@ static int s3c_fb_probe_win(struct s3c_fb *sfb, unsigned int win_no,
 
 	win = fbinfo->par;
 	*res = win;
+<<<<<<< HEAD
+=======
+	var = &fbinfo->var;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	win->variant = *variant;
 	win->fbinfo = fbinfo;
 	win->parent = sfb;

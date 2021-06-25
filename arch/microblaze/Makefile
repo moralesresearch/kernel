@@ -54,6 +54,11 @@ core-y += arch/microblaze/kernel/
 core-y += arch/microblaze/mm/
 core-$(CONFIG_PCI) += arch/microblaze/pci/
 
+<<<<<<< HEAD
+=======
+drivers-$(CONFIG_OPROFILE) += arch/microblaze/oprofile/
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 boot := arch/microblaze/boot
 
 # Are we making a simpleImage.<boardname> target? If so, crack out the boardname

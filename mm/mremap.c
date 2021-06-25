@@ -22,6 +22,10 @@
 #include <linux/syscalls.h>
 #include <linux/mmu_notifier.h>
 #include <linux/uaccess.h>
+<<<<<<< HEAD
+=======
+#include <linux/mm-arch-hooks.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/userfaultfd_k.h>
 
 #include <asm/cacheflush.h>
@@ -562,6 +566,11 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 		new_addr = err;
 	} else {
 		mremap_userfaultfd_prep(new_vma, uf);
+<<<<<<< HEAD
+=======
+		arch_remap(mm, old_addr, old_addr + old_len,
+			   new_addr, new_addr + new_len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Conceal VM_ACCOUNT so old reservation is not undone */
@@ -593,6 +602,7 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
 		vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
 
+<<<<<<< HEAD
 		/*
 		 * anon_vma links of the old vma is no longer needed after its page
 		 * table has been moved.
@@ -601,6 +611,8 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 			vma->vm_end == (old_addr + old_len))
 			unlink_anon_vmas(vma);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Because we won't unmap we don't need to touch locked_vm */
 		return new_addr;
 	}

@@ -125,7 +125,11 @@ static int moxart_mdio_probe(struct platform_device *pdev)
 	snprintf(bus->id, MII_BUS_ID_SIZE, "%s-%d-mii", pdev->name, pdev->id);
 	bus->parent = &pdev->dev;
 
+<<<<<<< HEAD
 	/* Setting PHY_MAC_INTERRUPT here even if it has no effect,
+=======
+	/* Setting PHY_IGNORE_INTERRUPT here even if it has no effect,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * of_mdiobus_register() sets these PHY_POLL.
 	 * Ideally, the interrupt from MAC controller could be used to
 	 * detect link state changes, not polling, i.e. if there was
@@ -133,7 +137,11 @@ static int moxart_mdio_probe(struct platform_device *pdev)
 	 * interrupt handled in ethernet drivercode.
 	 */
 	for (i = 0; i < PHY_MAX_ADDR; i++)
+<<<<<<< HEAD
 		bus->irq[i] = PHY_MAC_INTERRUPT;
+=======
+		bus->irq[i] = PHY_IGNORE_INTERRUPT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	data = bus->priv;
 	data->base = devm_platform_ioremap_resource(pdev, 0);

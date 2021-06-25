@@ -139,7 +139,11 @@ static const struct i2c_device_id ds1672_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, ds1672_id);
 
+<<<<<<< HEAD
 static const __maybe_unused struct of_device_id ds1672_of_match[] = {
+=======
+static const struct of_device_id ds1672_of_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "dallas,ds1672" },
 	{ }
 };

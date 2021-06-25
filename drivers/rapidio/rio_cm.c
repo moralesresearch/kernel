@@ -2127,6 +2127,7 @@ static int riocm_add_mport(struct device *dev,
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
 	cm->rx_wq = create_workqueue(DRV_NAME "/rxq");
 	if (!cm->rx_wq) {
 		rio_release_inb_mbox(mport, cmbox);
@@ -2135,6 +2136,8 @@ static int riocm_add_mport(struct device *dev,
 		return -ENOMEM;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Allocate and register inbound messaging buffers to be ready
 	 * to receive channel and system management requests
@@ -2145,6 +2148,18 @@ static int riocm_add_mport(struct device *dev,
 	cm->rx_slots = RIOCM_RX_RING_SIZE;
 	mutex_init(&cm->rx_lock);
 	riocm_rx_fill(cm, RIOCM_RX_RING_SIZE);
+<<<<<<< HEAD
+=======
+	cm->rx_wq = create_workqueue(DRV_NAME "/rxq");
+	if (!cm->rx_wq) {
+		riocm_error("failed to allocate IBMBOX_%d on %s",
+			    cmbox, mport->name);
+		rio_release_outb_mbox(mport, cmbox);
+		kfree(cm);
+		return -ENOMEM;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_WORK(&cm->rx_work, rio_ibmsg_handler);
 
 	cm->tx_slot = 0;

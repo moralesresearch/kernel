@@ -31,7 +31,14 @@ struct tpm_chip;
 struct trusted_key_payload;
 struct trusted_key_options;
 
+<<<<<<< HEAD
 /* if you add a new hash to this, increment TPM_MAX_HASHES below */
+=======
+<<<<<<< HEAD
+/* if you add a new hash to this, increment TPM_MAX_HASHES below */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum tpm_algorithms {
 	TPM_ALG_ERROR		= 0x0000,
 	TPM_ALG_SHA1		= 0x0004,
@@ -43,12 +50,21 @@ enum tpm_algorithms {
 	TPM_ALG_SM3_256		= 0x0012,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * maximum number of hashing algorithms a TPM can have.  This is
  * basically a count of every hash in tpm_algorithms above
  */
 #define TPM_MAX_HASHES	5
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct tpm_digest {
 	u16 alg_id;
 	u8 digest[TPM_MAX_DIGEST_SIZE];
@@ -153,7 +169,15 @@ struct tpm_chip {
 
 	struct dentry *bios_dir[TPM_NUM_EVENT_LOG_FILES];
 
+<<<<<<< HEAD
 	const struct attribute_group *groups[3 + TPM_MAX_HASHES];
+=======
+<<<<<<< HEAD
+	const struct attribute_group *groups[3 + TPM_MAX_HASHES];
+=======
+	const struct attribute_group *groups[3];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int groups_cnt;
 
 	u32 nr_allocated_banks;

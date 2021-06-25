@@ -150,7 +150,11 @@ int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
 * @info:	return information about attribute after parsing report
 *
 * Parses report and returns the attribute information such as report id,
+<<<<<<< HEAD
 * field index, units and exponent etc.
+=======
+* field index, units and exponet etc.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 */
 int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
 			u8 type,
@@ -167,7 +171,11 @@ int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
 * @is_signed:   If true then fields < 32 bits will be sign-extended
 *
 * Issues a synchronous or asynchronous read request for an input attribute.
+<<<<<<< HEAD
 * Return: data up to 32 bits.
+=======
+* Returns data upto 32 bits.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 */
 
 enum sensor_hub_read_flags {
@@ -205,9 +213,14 @@ int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
 * @buffer:	buffer to copy output
 *
 * Used to get a field in feature report. For example this can get polling
+<<<<<<< HEAD
 * interval, sensitivity, activate/deactivate state.
 * Return: On success, it returns the number of bytes copied to buffer.
 * On failure, it returns value < 0.
+=======
+* interval, sensitivity, activate/deactivate state. On success it returns
+* number of bytes copied to buffer. On failure, it returns value < 0.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 */
 int sensor_hub_get_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
 			   u32 field_index, int buffer_size, void *buffer);

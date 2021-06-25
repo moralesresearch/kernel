@@ -506,8 +506,12 @@ static int igt_reset_nop_engine(void *arg)
 			}
 			err = intel_engine_reset(engine, NULL);
 			if (err) {
+<<<<<<< HEAD
 				pr_err("intel_engine_reset(%s) failed, err:%d\n",
 				       engine->name, err);
+=======
+				pr_err("i915_reset_engine failed\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			}
 
@@ -540,6 +544,7 @@ static int igt_reset_nop_engine(void *arg)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void force_reset_timeout(struct intel_engine_cs *engine)
 {
 	engine->reset_timeout.probability = 999;
@@ -683,6 +688,8 @@ skip:
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __igt_reset_engine(struct intel_gt *gt, bool active)
 {
 	struct i915_gpu_error *global = &gt->i915->gpu_error;
@@ -704,7 +711,10 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
 
 	for_each_engine(engine, gt, id) {
 		unsigned int reset_count, reset_engine_count;
+<<<<<<< HEAD
 		unsigned long count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IGT_TIMEOUT(end_time);
 
 		if (active && !intel_engine_can_store_dword(engine))
@@ -722,7 +732,10 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
 
 		st_engine_heartbeat_disable(engine);
 		set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+<<<<<<< HEAD
 		count = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		do {
 			if (active) {
 				struct i915_request *rq;
@@ -754,8 +767,12 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
 
 			err = intel_engine_reset(engine, NULL);
 			if (err) {
+<<<<<<< HEAD
 				pr_err("intel_engine_reset(%s) failed, err:%d\n",
 				       engine->name, err);
+=======
+				pr_err("i915_reset_engine failed\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			}
 
@@ -772,6 +789,7 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
 				err = -EINVAL;
 				break;
 			}
+<<<<<<< HEAD
 
 			count++;
 		} while (time_before(jiffies, end_time));
@@ -779,6 +797,11 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
 		st_engine_heartbeat_enable(engine);
 		pr_info("%s: Completed %lu %s resets\n",
 			engine->name, count, active ? "active" : "idle");
+=======
+		} while (time_before(jiffies, end_time));
+		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+		st_engine_heartbeat_enable(engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (err)
 			break;
@@ -1629,8 +1652,12 @@ static int igt_reset_queue(void *arg)
 			prev = rq;
 			count++;
 		} while (time_before(jiffies, end_time));
+<<<<<<< HEAD
 		pr_info("%s: Completed %d queued resets\n",
 			engine->name, count);
+=======
+		pr_info("%s: Completed %d resets\n", engine->name, count);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		*h.batch = MI_BATCH_BUFFER_END;
 		intel_gt_chipset_flush(engine->gt);
@@ -1727,6 +1754,7 @@ static int __igt_atomic_reset_engine(struct intel_engine_cs *engine,
 	GEM_TRACE("i915_reset_engine(%s:%s) under %s\n",
 		  engine->name, mode, p->name);
 
+<<<<<<< HEAD
 	if (t->func)
 		tasklet_disable(t);
 	if (strcmp(p->name, "softirq"))
@@ -1742,6 +1770,15 @@ static int __igt_atomic_reset_engine(struct intel_engine_cs *engine,
 		tasklet_enable(t);
 		tasklet_hi_schedule(t);
 	}
+=======
+	tasklet_disable(t);
+	p->critical_section_begin();
+
+	err = intel_engine_reset(engine, NULL);
+
+	p->critical_section_end();
+	tasklet_enable(t);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (err)
 		pr_err("i915_reset_engine(%s:%s) failed under %s\n",
@@ -1847,7 +1884,10 @@ int intel_hangcheck_live_selftests(struct drm_i915_private *i915)
 		SUBTEST(igt_reset_nop_engine),
 		SUBTEST(igt_reset_idle_engine),
 		SUBTEST(igt_reset_active_engine),
+<<<<<<< HEAD
 		SUBTEST(igt_reset_fail_engine),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SUBTEST(igt_reset_engines),
 		SUBTEST(igt_reset_engines_atomic),
 		SUBTEST(igt_reset_queue),

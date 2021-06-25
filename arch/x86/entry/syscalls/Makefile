@@ -6,8 +6,13 @@ uapi := arch/$(SRCARCH)/include/generated/uapi/asm
 _dummy := $(shell [ -d '$(out)' ] || mkdir -p '$(out)') \
 	  $(shell [ -d '$(uapi)' ] || mkdir -p '$(uapi)')
 
+<<<<<<< HEAD
 syscall32 := $(src)/syscall_32.tbl
 syscall64 := $(src)/syscall_64.tbl
+=======
+syscall32 := $(srctree)/$(src)/syscall_32.tbl
+syscall64 := $(srctree)/$(src)/syscall_64.tbl
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 syshdr := $(srctree)/$(src)/syscallhdr.sh
 systbl := $(srctree)/$(src)/syscalltbl.sh
@@ -21,28 +26,48 @@ quiet_cmd_systbl = SYSTBL  $@
       cmd_systbl = $(CONFIG_SHELL) '$(systbl)' $< $@
 
 quiet_cmd_hypercalls = HYPERCALLS $@
+<<<<<<< HEAD
       cmd_hypercalls = $(CONFIG_SHELL) '$<' $@ $(filter-out $<, $(real-prereqs))
 
 syshdr_abi_unistd_32 := i386
 $(uapi)/unistd_32.h: $(syscall32) $(syshdr) FORCE
+=======
+      cmd_hypercalls = $(CONFIG_SHELL) '$<' $@ $(filter-out $<,$^)
+
+syshdr_abi_unistd_32 := i386
+$(uapi)/unistd_32.h: $(syscall32) $(syshdr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,syshdr)
 
 syshdr_abi_unistd_32_ia32 := i386
 syshdr_pfx_unistd_32_ia32 := ia32_
+<<<<<<< HEAD
 $(out)/unistd_32_ia32.h: $(syscall32) $(syshdr) FORCE
+=======
+$(out)/unistd_32_ia32.h: $(syscall32) $(syshdr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,syshdr)
 
 syshdr_abi_unistd_x32 := common,x32
 syshdr_offset_unistd_x32 := __X32_SYSCALL_BIT
+<<<<<<< HEAD
 $(uapi)/unistd_x32.h: $(syscall64) $(syshdr) FORCE
 	$(call if_changed,syshdr)
 
 syshdr_abi_unistd_64 := common,64
 $(uapi)/unistd_64.h: $(syscall64) $(syshdr) FORCE
+=======
+$(uapi)/unistd_x32.h: $(syscall64) $(syshdr)
+	$(call if_changed,syshdr)
+
+syshdr_abi_unistd_64 := common,64
+$(uapi)/unistd_64.h: $(syscall64) $(syshdr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,syshdr)
 
 syshdr_abi_unistd_64_x32 := x32
 syshdr_pfx_unistd_64_x32 := x32_
+<<<<<<< HEAD
 $(out)/unistd_64_x32.h: $(syscall64) $(syshdr) FORCE
 	$(call if_changed,syshdr)
 
@@ -52,6 +77,17 @@ $(out)/syscalls_64.h: $(syscall64) $(systbl) FORCE
 	$(call if_changed,systbl)
 
 $(out)/xen-hypercalls.h: $(srctree)/scripts/xen-hypercalls.sh FORCE
+=======
+$(out)/unistd_64_x32.h: $(syscall64) $(syshdr)
+	$(call if_changed,syshdr)
+
+$(out)/syscalls_32.h: $(syscall32) $(systbl)
+	$(call if_changed,systbl)
+$(out)/syscalls_64.h: $(syscall64) $(systbl)
+	$(call if_changed,systbl)
+
+$(out)/xen-hypercalls.h: $(srctree)/scripts/xen-hypercalls.sh
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,hypercalls)
 
 $(out)/xen-hypercalls.h: $(srctree)/include/xen/interface/xen*.h
@@ -62,10 +98,18 @@ syshdr-$(CONFIG_X86_64)		+= unistd_32_ia32.h unistd_64_x32.h
 syshdr-$(CONFIG_X86_64)		+= syscalls_64.h
 syshdr-$(CONFIG_XEN)		+= xen-hypercalls.h
 
+<<<<<<< HEAD
 uapisyshdr-y	:= $(addprefix $(uapi)/, $(uapisyshdr-y))
 syshdr-y	:= $(addprefix $(out)/, $(syshdr-y))
 targets		+= $(addprefix ../../../../, $(uapisyshdr-y) $(syshdr-y))
 
 PHONY += all
 all: $(uapisyshdr-y) $(syshdr-y)
+=======
+targets	+= $(uapisyshdr-y) $(syshdr-y)
+
+PHONY += all
+all: $(addprefix $(uapi)/,$(uapisyshdr-y))
+all: $(addprefix $(out)/,$(syshdr-y))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	@:

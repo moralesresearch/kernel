@@ -336,8 +336,12 @@ static void acerhdf_check_param(struct thermal_zone_device *thermal)
 			pr_notice("interval changed to: %d\n", interval);
 
 		if (thermal)
+<<<<<<< HEAD
 			thermal->polling_delay_jiffies =
 				round_jiffies(msecs_to_jiffies(interval * 1000));
+=======
+			thermal->polling_delay = interval*1000;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		prev_interval = interval;
 	}

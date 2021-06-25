@@ -36,7 +36,10 @@
 #include <linux/mlx5/vport.h>
 #include <linux/mlx5/eswitch.h>
 #include "mlx5_core.h"
+<<<<<<< HEAD
 #include "sf/sf.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Mutex to hold while enabling or disabling RoCE */
 static DEFINE_MUTEX(mlx5_roce_en_lock);
@@ -465,8 +468,11 @@ int mlx5_modify_nic_vport_node_guid(struct mlx5_core_dev *mdev,
 	void *in;
 	int err;
 
+<<<<<<< HEAD
+=======
 	if (!vport)
 		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!MLX5_CAP_GEN(mdev, vport_group_manager))
 		return -EACCES;
 
@@ -1161,6 +1167,7 @@ EXPORT_SYMBOL_GPL(mlx5_query_nic_system_image_guid);
  */
 u16 mlx5_eswitch_get_total_vports(const struct mlx5_core_dev *dev)
 {
+<<<<<<< HEAD
 	return MLX5_SPECIAL_VPORTS(dev) + mlx5_core_max_vfs(dev) + mlx5_sf_max_functions(dev);
 }
 EXPORT_SYMBOL_GPL(mlx5_eswitch_get_total_vports);
@@ -1176,3 +1183,8 @@ int mlx5_vport_get_other_func_cap(struct mlx5_core_dev *dev, u16 function_id, vo
 	MLX5_SET(query_hca_cap_in, in, other_function, true);
 	return mlx5_cmd_exec_inout(dev, query_hca_cap, in, out);
 }
+=======
+	return MLX5_SPECIAL_VPORTS(dev) + mlx5_core_max_vfs(dev);
+}
+EXPORT_SYMBOL_GPL(mlx5_eswitch_get_total_vports);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

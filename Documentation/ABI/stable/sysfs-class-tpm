@@ -194,6 +194,7 @@ Description:	The "tpm_version_major" property shows the TCG spec major version
 		Example output::
 
 		  2
+<<<<<<< HEAD
 
 What:		/sys/class/tpm/tpmX/pcr-H/N
 Date:		March 2021
@@ -208,3 +209,5 @@ Description:	produces output in compact hex representation for PCR
 
 		  cat /sys/class/tpm/tpm0/pcr-sha256/7
 		  2ED93F199692DC6788EFA6A1FE74514AB9760B2A6CEEAEF6C808C13E4ABB0D42
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

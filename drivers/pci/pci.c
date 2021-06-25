@@ -1643,7 +1643,15 @@ static void pci_restore_rebar_state(struct pci_dev *pdev)
 		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
 		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
 		res = pdev->resource + bar_idx;
+<<<<<<< HEAD
 		size = pci_rebar_bytes_to_size(resource_size(res));
+=======
+<<<<<<< HEAD
+		size = pci_rebar_bytes_to_size(resource_size(res));
+=======
+		size = ilog2(resource_size(res)) - 20;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
 		ctrl |= size << PCI_REBAR_CTRL_BAR_SHIFT;
 		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
@@ -1870,11 +1878,29 @@ static int pci_enable_device_flags(struct pci_dev *dev, unsigned long flags)
 	int err;
 	int i, bars = 0;
 
+<<<<<<< HEAD
 	if (atomic_inc_return(&dev->enable_cnt) > 1) {
 		pci_update_current_state(dev, dev->current_state);
 		return 0;		/* already enabled */
 	}
 
+=======
+	/*
+	 * Power state could be unknown at this point, either due to a fresh
+	 * boot or a device removal call.  So get the current power state
+	 * so that things like MSI message writing will behave as expected
+	 * (e.g. if the device really is in D0 at enable time).
+	 */
+	if (dev->pm_cap) {
+		u16 pmcsr;
+		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
+		dev->current_state = (pmcsr & PCI_PM_CTRL_STATE_MASK);
+	}
+
+	if (atomic_inc_return(&dev->enable_cnt) > 1)
+		return 0;		/* already enabled */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bridge = pci_upstream_bridge(dev);
 	if (bridge)
 		pci_enable_bridge(bridge);
@@ -3595,7 +3621,14 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
 
 	return cap >> 4;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
+=======
+<<<<<<< HEAD
+EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * pci_rebar_get_current_size - get the current size of a BAR

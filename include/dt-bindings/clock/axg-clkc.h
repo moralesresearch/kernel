@@ -70,6 +70,10 @@
 #define CLKID_HIFI_PLL				69
 #define CLKID_PCIE_CML_EN0			79
 #define CLKID_PCIE_CML_EN1			80
+<<<<<<< HEAD
+=======
+#define CLKID_MIPI_ENABLE			81
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CLKID_GEN_CLK				84
 #define CLKID_VPU_0_SEL				92
 #define CLKID_VPU_0				93

@@ -180,7 +180,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 		ql_log(ql_log_warn, vha, 0xd035,
 		    "Cmd access timeout, cmd=0x%x, Exiting.\n",
 		    mcp->mb[0]);
+<<<<<<< HEAD
 		vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+		vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		atomic_dec(&ha->num_pend_mbx_stage1);
 		return QLA_FUNCTION_TIMEOUT;
 	}
@@ -308,7 +315,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 				atomic_dec(&ha->num_pend_mbx_stage2);
 				ql_dbg(ql_dbg_mbx, vha, 0x1012,
 				    "Pending mailbox timeout, exiting.\n");
+<<<<<<< HEAD
 				vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+				vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rval = QLA_FUNCTION_TIMEOUT;
 				goto premature_exit;
 			}
@@ -420,7 +434,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 			    "mb[0-3]=[0x%x 0x%x 0x%x 0x%x] mb7 0x%x host_status 0x%x hccr 0x%x\n",
 			    command, ictrl, jiffies, mb[0], mb[1], mb[2], mb[3],
 			    mb[7], host_status, hccr);
+<<<<<<< HEAD
 			vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+			vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		} else {
 			mb[0] = RD_MAILBOX_REG(ha, &reg->isp, 0);
@@ -428,7 +449,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 			ql_dbg(ql_dbg_mbx + ql_dbg_buffer, vha, 0x1119,
 			    "MBX Command timeout for cmd %x, iocontrol=%x jiffies=%lx "
 			    "mb[0]=0x%x\n", command, ictrl, jiffies, mb[0]);
+<<<<<<< HEAD
 			vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+			vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		ql_dump_regs(ql_dbg_mbx + ql_dbg_buffer, vha, 0x1019);
 
@@ -501,7 +529,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 				    "mb[0]=0x%x, eeh_busy=0x%x. Scheduling ISP "
 				    "abort.\n", command, mcp->mb[0],
 				    ha->flags.eeh_busy);
+<<<<<<< HEAD
 				vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+				vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				set_bit(ISP_ABORT_NEEDED, &vha->dpc_flags);
 				qla2xxx_wake_dpc(vha);
 			}
@@ -526,7 +561,14 @@ qla2x00_mailbox_command(scsi_qla_host_t *vha, mbx_cmd_t *mcp)
 				    "Mailbox cmd timeout occurred, cmd=0x%x, "
 				    "mb[0]=0x%x. Scheduling ISP abort ",
 				    command, mcp->mb[0]);
+<<<<<<< HEAD
 				vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+				vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				set_bit(ABORT_ISP_ACTIVE, &vha->dpc_flags);
 				clear_bit(ISP_ABORT_NEEDED, &vha->dpc_flags);
 				/* Allow next mbx cmd to come in. */
@@ -631,7 +673,14 @@ qla2x00_load_ram(scsi_qla_host_t *vha, dma_addr_t req_dma, uint32_t risc_addr,
 		ql_dbg(ql_dbg_mbx, vha, 0x1023,
 		    "Failed=%x mb[0]=%x mb[1]=%x.\n",
 		    rval, mcp->mb[0], mcp->mb[1]);
+<<<<<<< HEAD
 		vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+		vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ql_dbg(ql_dbg_mbx + ql_dbg_verbose, vha, 0x1024,
 		    "Done %s.\n", __func__);
@@ -743,7 +792,14 @@ again:
 
 		ql_dbg(ql_dbg_mbx, vha, 0x1026,
 		    "Failed=%x mb[0]=%x.\n", rval, mcp->mb[0]);
+<<<<<<< HEAD
 		vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+		vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return rval;
 	}
 
@@ -1321,7 +1377,14 @@ qla2x00_mbx_reg_test(scsi_qla_host_t *vha)
 	if (rval != QLA_SUCCESS) {
 		/*EMPTY*/
 		ql_dbg(ql_dbg_mbx, vha, 0x1033, "Failed=%x.\n", rval);
+<<<<<<< HEAD
 		vha->hw_err_cnt++;
+=======
+<<<<<<< HEAD
+		vha->hw_err_cnt++;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		/*EMPTY*/
 		ql_dbg(ql_dbg_mbx + ql_dbg_verbose, vha, 0x1034,
@@ -3243,8 +3306,16 @@ qla24xx_abort_command(srb_t *sp)
 	abt->vp_index = fcport->vha->vp_idx;
 
 	abt->req_que_no = cpu_to_le16(req->id);
+<<<<<<< HEAD
 	/* Need to pass original sp */
 	qla_nvme_abort_set_option(abt, sp);
+=======
+<<<<<<< HEAD
+	/* Need to pass original sp */
+	qla_nvme_abort_set_option(abt, sp);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rval = qla2x00_issue_iocb(vha, abt, abt_dma, 0);
 	if (rval != QLA_SUCCESS) {
@@ -3267,10 +3338,19 @@ qla24xx_abort_command(srb_t *sp)
 		ql_dbg(ql_dbg_mbx + ql_dbg_verbose, vha, 0x1091,
 		    "Done %s.\n", __func__);
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rval == QLA_SUCCESS)
 		qla_nvme_abort_process_comp_status(abt, sp);
 
 	qla_wait_nvme_release_cmd_kref(sp);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dma_pool_free(ha->s_dma_pool, abt, abt_dma);
 

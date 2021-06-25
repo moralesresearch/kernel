@@ -43,10 +43,13 @@
 #include "../bridge/br_private.h"
 #endif
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_NF_CONNTRACK)
 #include <net/netfilter/nf_conntrack.h>
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NFULNL_COPY_DISABLED	0xff
 #define NFULNL_NLBUFSIZ_DEFAULT	NLMSG_GOODSIZE
 #define NFULNL_TIMEOUT_DEFAULT 	100	/* every second */
@@ -737,16 +740,26 @@ nfulnl_log_packet(struct net *net,
 		size += nla_total_size(sizeof(u_int32_t));
 	if (inst->flags & NFULNL_CFG_F_SEQ_GLOBAL)
 		size += nla_total_size(sizeof(u_int32_t));
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_NF_CONNTRACK)
 	if (inst->flags & NFULNL_CFG_F_CONNTRACK) {
 		nfnl_ct = rcu_dereference(nfnl_ct_hook);
 		if (nfnl_ct != NULL) {
 			ct = nf_ct_get(skb, &ctinfo);
+=======
+	if (inst->flags & NFULNL_CFG_F_CONNTRACK) {
+		nfnl_ct = rcu_dereference(nfnl_ct_hook);
+		if (nfnl_ct != NULL) {
+			ct = nfnl_ct->get_ct(skb, &ctinfo);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ct != NULL)
 				size += nfnl_ct->build_size(ct);
 		}
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pf == NFPROTO_NETDEV || pf == NFPROTO_BRIDGE)
 		size += nfulnl_get_bridge_size(skb);
 

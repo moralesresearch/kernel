@@ -683,7 +683,11 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
 ,month="October"
 ,year="2001"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/Pine.LNX.4.33.0110131015410.8707-100000@penguin.transmeta.com}
+=======
+\url{http://lkml.org/lkml/2001/10/13/105}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed August 21, 2004]"
 ,annotation={
 }
@@ -826,7 +830,11 @@ Symposium on Distributed Computing}
 ,month="October"
 ,year="2002"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/3DB86B05.447E7410@us.ibm.com}
+=======
+\url{https://lkml.org/lkml/2002/10/24/262}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed February 15, 2014]"
 ,annotation={
 	Mingming Cao's patch to introduce RCU to SysV IPC.
@@ -839,7 +847,11 @@ Symposium on Distributed Computing}
 ,month="March"
 ,year="2003"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/Pine.LNX.4.44.0303091831560.2129-100000@home.transmeta.com}
+=======
+\url{http://lkml.org/lkml/2003/3/9/205}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 13, 2006]"
 ,annotation={
 	Linus suggests replacing brlock with RCU and/or seqlocks:
@@ -1036,6 +1048,7 @@ Add per-cpu batch counter"
 ,annotation={
 	RCU runs reasonably on a 512-CPU SGI using Manfred Spraul's patches,
 	which may be found at:
+<<<<<<< HEAD
 	https://lore.kernel.org/r/40AC9823.6020709@colorfullife.com (split vars into cachelines)
 	https://lore.kernel.org/r/Pine.LNX.4.44.0405222141260.11106-100000@dbl.q-ag.de (cpu_quiet() patch)
 	https://lore.kernel.org/r/200405250535.i4P5ZJo8017583@dbl.q-ag.de (0/5)
@@ -1045,6 +1058,17 @@ Add per-cpu batch counter"
 	https://lore.kernel.org/r/200405250535.i4P5ZMFt017607@dbl.q-ag.de (3/5)
 	https://lore.kernel.org/r/200405250535.i4P5ZN6g017615@dbl.q-ag.de (4/5)
 	https://lore.kernel.org/r/200405250535.i4P5ZO7I017623@dbl.q-ag.de (5/5)
+=======
+	https://lkml.org/lkml/2004/5/20/49 (split vars into cachelines)
+	https://lkml.org/lkml/2004/5/22/114 (cpu_quiet() patch)
+	https://lkml.org/lkml/2004/5/25/24 (0/5)
+	https://lkml.org/lkml/2004/5/25/23 (1/5)
+		https://lkml.org/lkml/2004/5/25/265 (works for Jack)
+	https://lkml.org/lkml/2004/5/25/20 (2/5)
+	https://lkml.org/lkml/2004/5/25/22 (3/5)
+	https://lkml.org/lkml/2004/5/25/19 (4/5)
+	https://lkml.org/lkml/2004/5/25/21 (5/5)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 }
 
@@ -1106,7 +1130,11 @@ Oregon Health and Sciences University"
 ,month="August"
 ,year="2004"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20040807192424.GF3936@in.ibm.com}
+=======
+\url{http://lkml.org/lkml/2004/8/6/237}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed June 8, 2010]"
 ,annotation={
 	Introduce rcu_dereference().
@@ -1119,7 +1147,11 @@ Oregon Health and Sciences University"
 ,month="August"
 ,year="2004"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/1093873222.984.12.camel@new.localdomain}
+=======
+\url{http://lkml.org/lkml/2004/8/30/87}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed February 17, 2005]"
 ,annotation={
 	Uses active code in rcu_read_lock() and rcu_read_unlock() to
@@ -1186,7 +1218,11 @@ Oregon Health and Sciences University"
 ,month="October"
 ,year="2004"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20041023202723.GA1930@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2004/10/23/241}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed June 8, 2010]"
 ,annotation={
 	Introduce rcu_assign_pointer().
@@ -1203,7 +1239,11 @@ Oregon Health and Sciences University"
 ,annotation={
 	James Morris posts Kaigai Kohei's patch to LKML.
 	[Viewed December 10, 2004]
+<<<<<<< HEAD
 	Kaigai's patch is at https://lore.kernel.org/r/200409271057.i8RAvcA1007873@mailsv.bs1.fc.nec.co.jp
+=======
+	Kaigai's patch is at https://lkml.org/lkml/2004/9/27/52
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 }
 
@@ -1241,7 +1281,11 @@ Oregon Health and Sciences University"
 ,year="2005"
 ,day="17"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20050318002026.GA2693@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2005/3/17/199}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed September 5, 2005]"
 ,annotation={
 	First posting showing how RCU can be safely adapted for
@@ -1256,7 +1300,11 @@ Oregon Health and Sciences University"
 ,year="2005"
 ,day="18"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/Pine.OSF.4.05.10503181336310.2466-100000@da410.phys.au.dk}
+=======
+\url{http://lkml.org/lkml/2005/3/18/122}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 30, 2006]"
 ,annotation={
 	Esben Neilsen suggests read-side suppression of grace-period
@@ -1302,7 +1350,11 @@ Data Structures"
 ,month="May"
 ,year="2005"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20050510012444.GA3011@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2005/5/9/185}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed May 13, 2005]"
 ,annotation={
 	First publication of working lock-based deferred free patches
@@ -1385,7 +1437,11 @@ Data Structures"
 ,day="1"
 ,year="2005"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20050801171137.GA1754@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2005/8/1/155}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 14, 2006]"
 ,annotation={
 	First operating counter-based realtime RCU patch posted to LKML.
@@ -1399,7 +1455,11 @@ Data Structures"
 ,day="8"
 ,year="2005"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20050808144216.GA1307@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2005/8/8/108}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 14, 2006]"
 ,annotation={
 	First operating counter-based realtime RCU patch posted to LKML,
@@ -1415,7 +1475,11 @@ Data Structures"
 ,day="1"
 ,year="2005"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20051001182056.GA1613@us.ibm.com}
+=======
+\url{http://lkml.org/lkml/2005/10/1/70}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 14, 2006]"
 ,annotation={
 	First rcutorture patch.
@@ -1429,7 +1493,11 @@ Data Structures"
 ,day="6"
 ,year="2006"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20060106.231054.43576567.davem@davemloft.net}
+=======
+\url{https://lkml.org/lkml/2006/1/7/22}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed February 29, 2012]"
 ,annotation={
 	David Miller's view on hashed arrays of locks: used to really
@@ -1464,7 +1532,11 @@ Distributed Processing Symposium"
 ,day="20"
 ,year="2006"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20060408134707.22479.33814.sendpatchset@linux.site}
+=======
+\url{http://lkml.org/lkml/2006/6/20/238}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 25, 2008]"
 ,annotation={
 	RCU-protected radix tree.
@@ -1554,7 +1626,11 @@ Revised:
 ,day="28"
 ,year="2006"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20060928142616.GA20185@infradead.org}
+=======
+\url{http://lkml.org/lkml/2006/9/28/160}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 27, 2008]"
 }
 
@@ -1593,7 +1669,11 @@ Revised:
 ,year="2006"
 ,day=26
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20061026105731.GE11803@in.ibm.com}
+=======
+\url{http://lkml.org/lkml/2006/10/26/73}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed January 26, 2009]"
 ,annotation={
 	RCU-based reader-writer lock that allows readers to proceed with
@@ -1612,12 +1692,20 @@ Revised:
 ,year="2006"
 ,day=17
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20061117092925.GT7164@kernel.dk}
+=======
+\url{http://lkml.org/lkml/2006/11/17/56}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed May 28, 2007]"
 ,annotation={
 	SRCU's grace periods are too slow for Jens, even after a
 	factor-of-three speedup.
+<<<<<<< HEAD
 	Sped-up version of SRCU at https://lore.kernel.org/r/20061118002845.GF2632@us.ibm.com.
+=======
+	Sped-up version of SRCU at http://lkml.org/lkml/2006/11/17/359.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 }
 
@@ -1629,7 +1717,11 @@ Revised:
 ,year="2006"
 ,day=19
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20061119190027.GA3676@oleg}
+=======
+\url{http://lkml.org/lkml/2006/11/19/69}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed May 28, 2007]"
 ,annotation={
 	First cut of QRCU.  Expanded/corrected versions followed.
@@ -1644,7 +1736,11 @@ Revised:
 ,year="2006"
 ,day=30
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20061130015714.GC1350@oleg}
+=======
+\url{http://lkml.org/lkml/2006/11/29/330}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed November 26, 2008]"
 ,annotation={
 	Expanded/corrected version of QRCU.
@@ -1709,7 +1805,11 @@ Revised:
 ,year="2007"
 ,day=3
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20070103152738.GA16063@localdomain}
+=======
+\url{http://lkml.org/lkml/2007/1/3/112}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed May 28, 2007]"
 ,annotation={
 	Patch for list_splice_rcu().
@@ -1737,7 +1837,11 @@ Revised:
 ,year="2007"
 ,day=28
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20070128120509.719287000@programming.kicks-ass.net}
+=======
+\url{http://lkml.org/lkml/2007/1/28/34}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 27, 2008]"
 ,annotation={
 	RCU-like implementation for frequent updaters and rare readers(!).
@@ -1767,7 +1871,11 @@ Revised:
 ,year="2007"
 ,day=24
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20070225062349.GA17468@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2007/2/25/18}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 27, 2008]"
 ,annotation={
 	Patch for QRCU supplying lock-free fast path.
@@ -1846,7 +1954,11 @@ Revised:
 ,annotation={
 	LWN article describing Promela and spin, and also using Oleg
 	Nesterov's QRCU as an example (with Paul McKenney's fastpath).
+<<<<<<< HEAD
 	Merged patch at: https://lore.kernel.org/r/20070225062349.GA17468@linux.vnet.ibm.com
+=======
+	Merged patch at: http://lkml.org/lkml/2007/2/25/18
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 }
 
@@ -1885,7 +1997,11 @@ Revised:
 ,day="10"
 ,year="2007"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20070910183004.GA3299@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2007/9/10/213}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed October 25, 2007]"
 ,annotation={
 	Final patch for preemptable RCU to -rt.  (Later patches were
@@ -1933,7 +2049,11 @@ Revised:
 ,day="20"
 ,year="2007"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20071220142540.GB22523@Krystal}
+=======
+\url{http://lkml.org/lkml/2007/12/20/244}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 27, 2008]"
 ,annotation={
 	Request for call_rcu_sched() and rcu_barrier_sched().
@@ -2013,7 +2133,11 @@ Revised:
 ,day="29"
 ,year="2008"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/Pine.LNX.4.58.0801291113350.20371@gandalf.stny.rr.com}
+=======
+\url{http://lkml.org/lkml/2008/1/29/208}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 27, 2008]"
 ,annotation={
 	Patch that prevents preemptible RCU from unnecessarily waking
@@ -2028,7 +2152,11 @@ Revised:
 ,day="1"
 ,year="2008"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20080202214124.GA28612@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2008/2/2/255}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed October 18, 2008]"
 ,annotation={
 	Explanation of compilers violating dependency ordering.
@@ -2088,7 +2216,11 @@ lot of {Linux} into your technology!!!"
 ,day="3"
 ,year="2008"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/4844BE83.5010401@cn.fujitsu.com}
+=======
+\url{http://lkml.org/lkml/2008/6/2/539}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed December 10, 2008]"
 ,annotation={
 	Updated RCU classic algorithm.  Introduced multi-tailed list
@@ -2122,7 +2254,11 @@ lot of {Linux} into your technology!!!"
 ,day="21"
 ,year="2008"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/48AD8969.7060900@colorfullife.com}
+=======
+\url{http://lkml.org/lkml/2008/8/21/336}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed December 8, 2008]"
 ,annotation={
 	State-based RCU.  One key thing that this patch does is to
@@ -2137,7 +2273,11 @@ lot of {Linux} into your technology!!!"
 ,day="6"
 ,year="2008"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/48C2B1D2.5070801@colorfullife.com}
+=======
+\url{http://lkml.org/lkml/2008/9/6/86}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed December 8, 2008]"
 ,annotation={
 	Manfred notes a fix required to my attempt to separate irq
@@ -2183,7 +2323,11 @@ lot of {Linux} into your technology!!!"
 ,day="14"
 ,year="2009"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20090114202044.GJ6734@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2009/1/14/449}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed January 15, 2009]"
 ,annotation={
 	Small-footprint implementation of RCU for uniprocessor
@@ -2218,7 +2362,11 @@ lot of {Linux} into your technology!!!"
 	git://lttng.org/userspace-rcu.git
 	http://lttng.org/cgi-bin/gitweb.cgi?p=userspace-rcu.git
 	http://lttng.org/urcu
+<<<<<<< HEAD
 	https://lore.kernel.org/r/20090206030543.GB8560@Krystal
+=======
+	http://lkml.org/lkml/2009/2/5/572
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 }
 
@@ -2258,7 +2406,11 @@ lot of {Linux} into your technology!!!"
 ,day="25"
 ,year="2009"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20090625160706.GA9467@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2009/6/25/306}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed August 16, 2009]"
 ,annotation={
 	First posting of expedited RCU to be accepted into -tip.
@@ -2272,7 +2424,11 @@ lot of {Linux} into your technology!!!"
 ,day="23"
 ,year="2009"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20090724001429.GA17374@linux.vnet.ibm.com}
+=======
+\url{http://lkml.org/lkml/2009/7/23/294}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed August 15, 2009]"
 ,annotation={
 	First posting of simple and fast preemptable RCU.
@@ -2350,7 +2506,11 @@ lot of {Linux} into your technology!!!"
 ,month="December"
 ,year="2009"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/20091018232918.GA7385@Krystal}
+=======
+\url{http://lkml.org/lkml/2009/10/18/129}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed December 29, 2009]"
 ,annotation={
 	Mathieu proposed defer_rcu() with fixed-size per-thread pool
@@ -2518,7 +2678,11 @@ lot of {Linux} into your technology!!!"
 ,month="January"
 ,year="2011"
 ,note="Available:
+<<<<<<< HEAD
 \url{https://lore.kernel.org/r/AANLkTimajU0x1v6y3rH2+jr-bZ=tNLs1S_agXdGGAa3S@mail.gmail.com}
+=======
+\url{https://lkml.org/lkml/2011/1/18/322}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 [Viewed March 4, 2011]"
 ,annotation={
 	"The RCU-based name lookup is at the other end of the spectrum - the

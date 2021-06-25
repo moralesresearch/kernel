@@ -67,6 +67,13 @@ static void dce110_update_generic_info_packet(
 	uint32_t packet_index,
 	const struct dc_info_packet *info_packet)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	uint32_t regval;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* TODOFPGA Figure out a proper number for max_retries polling for lock
 	 * use 50 for now.
 	 */
@@ -98,7 +105,15 @@ static void dce110_update_generic_info_packet(
 	}
 	/* choose which generic packet to use */
 	{
+<<<<<<< HEAD
 		REG_READ(AFMT_VBI_PACKET_CONTROL);
+=======
+<<<<<<< HEAD
+		REG_READ(AFMT_VBI_PACKET_CONTROL);
+=======
+		regval = REG_READ(AFMT_VBI_PACKET_CONTROL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL,
 				AFMT_GENERIC_INDEX, packet_index);
 	}

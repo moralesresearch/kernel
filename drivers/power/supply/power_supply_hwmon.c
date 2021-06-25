@@ -299,11 +299,19 @@ static const struct hwmon_channel_info *power_supply_hwmon_info[] = {
 			   HWMON_T_INPUT     |
 			   HWMON_T_MAX       |
 			   HWMON_T_MIN       |
+<<<<<<< HEAD
+=======
+			   HWMON_T_MIN_ALARM |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   HWMON_T_MIN_ALARM,
 
 			   HWMON_T_LABEL     |
 			   HWMON_T_INPUT     |
 			   HWMON_T_MIN_ALARM |
+<<<<<<< HEAD
+=======
+			   HWMON_T_LABEL     |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   HWMON_T_MAX_ALARM),
 
 	HWMON_CHANNEL_INFO(curr,

@@ -11,12 +11,24 @@ SECTIONS {
 
 	__ksymtab		0 : { *(SORT(___ksymtab+*)) }
 	__ksymtab_gpl		0 : { *(SORT(___ksymtab_gpl+*)) }
+<<<<<<< HEAD
 	__kcrctab		0 : { *(SORT(___kcrctab+*)) }
 	__kcrctab_gpl		0 : { *(SORT(___kcrctab_gpl+*)) }
+=======
+	__ksymtab_unused	0 : { *(SORT(___ksymtab_unused+*)) }
+	__ksymtab_unused_gpl	0 : { *(SORT(___ksymtab_unused_gpl+*)) }
+	__ksymtab_gpl_future	0 : { *(SORT(___ksymtab_gpl_future+*)) }
+	__kcrctab		0 : { *(SORT(___kcrctab+*)) }
+	__kcrctab_gpl		0 : { *(SORT(___kcrctab_gpl+*)) }
+	__kcrctab_unused	0 : { *(SORT(___kcrctab_unused+*)) }
+	__kcrctab_unused_gpl	0 : { *(SORT(___kcrctab_unused_gpl+*)) }
+	__kcrctab_gpl_future	0 : { *(SORT(___kcrctab_gpl_future+*)) }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	.init_array		0 : ALIGN(8) { *(SORT(.init_array.*)) *(.init_array) }
 
 	__jump_table		0 : ALIGN(8) { KEEP(*(__jump_table)) }
+<<<<<<< HEAD
 
 	__patchable_function_entries : { *(__patchable_function_entries) }
 
@@ -43,6 +55,8 @@ SECTIONS {
 
 	.text : { *(.text .text.[0-9a-zA-Z_]*) }
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* bring in arch-specific sections */

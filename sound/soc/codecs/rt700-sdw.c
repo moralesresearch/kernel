@@ -462,8 +462,13 @@ static int rt700_sdw_remove(struct sdw_slave *slave)
 	struct rt700_priv *rt700 = dev_get_drvdata(&slave->dev);
 
 	if (rt700 && rt700->hw_init) {
+<<<<<<< HEAD
 		cancel_delayed_work_sync(&rt700->jack_detect_work);
 		cancel_delayed_work_sync(&rt700->jack_btn_check_work);
+=======
+		cancel_delayed_work(&rt700->jack_detect_work);
+		cancel_delayed_work(&rt700->jack_btn_check_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -490,7 +495,11 @@ static int __maybe_unused rt700_dev_suspend(struct device *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
 #define RT700_PROBE_TIMEOUT 5000
+=======
+#define RT700_PROBE_TIMEOUT 2000
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __maybe_unused rt700_dev_resume(struct device *dev)
 {

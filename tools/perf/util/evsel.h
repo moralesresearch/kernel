@@ -17,9 +17,12 @@ struct cgroup;
 struct perf_counts;
 struct perf_stat_evsel;
 union perf_event;
+<<<<<<< HEAD
 struct bpf_counter_ops;
 struct target;
 struct hashmap;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 typedef int (evsel__sb_cb_t)(union perf_event *event, void *data);
 
@@ -113,7 +116,11 @@ struct evsel {
 	bool			merged_stat;
 	bool			reset_group;
 	bool			errored;
+<<<<<<< HEAD
 	struct hashmap		*per_pkg_mask;
+=======
+	unsigned long		*per_pkg_mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct evsel		*leader;
 	struct list_head	config_terms;
 	int			err;
@@ -130,8 +137,11 @@ struct evsel {
 	 * See also evsel__has_callchain().
 	 */
 	__u64			synth_sample_type;
+<<<<<<< HEAD
 	struct list_head	bpf_counter_list;
 	struct bpf_counter_ops	*bpf_counter_ops;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct perf_missing_features {
@@ -150,8 +160,11 @@ struct perf_missing_features {
 	bool branch_hw_idx;
 	bool cgroup;
 	bool data_page_size;
+<<<<<<< HEAD
 	bool code_page_size;
 	bool weight_struct;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern struct perf_missing_features perf_missing_features;
@@ -246,8 +259,11 @@ void __evsel__reset_sample_bit(struct evsel *evsel, enum perf_event_sample_forma
 
 void evsel__set_sample_id(struct evsel *evsel, bool use_sample_identifier);
 
+<<<<<<< HEAD
 void arch_evsel__set_sample_weight(struct evsel *evsel);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int evsel__set_filter(struct evsel *evsel, const char *filter);
 int evsel__append_tp_filter(struct evsel *evsel, const char *filter);
 int evsel__append_addr_filter(struct evsel *evsel, const char *filter);
@@ -433,6 +449,9 @@ static inline bool evsel__is_dummy_event(struct evsel *evsel)
 struct perf_env *evsel__env(struct evsel *evsel);
 
 int evsel__store_ids(struct evsel *evsel, struct evlist *evlist);
+<<<<<<< HEAD
 
 void evsel__zero_per_pkg(struct evsel *evsel);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __PERF_EVSEL_H */

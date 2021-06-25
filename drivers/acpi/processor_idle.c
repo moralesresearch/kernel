@@ -544,7 +544,17 @@ static int acpi_idle_play_dead(struct cpuidle_device *dev, int index)
 			return -ENODEV;
 
 #if defined(CONFIG_X86) && defined(CONFIG_HOTPLUG_CPU)
+<<<<<<< HEAD
 		cond_wakeup_cpu0();
+=======
+<<<<<<< HEAD
+		cond_wakeup_cpu0();
+=======
+		/* If NMI wants to wake up CPU0, start CPU0. */
+		if (wakeup_cpu0())
+			start_cpu0();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	}
 

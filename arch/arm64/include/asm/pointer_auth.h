@@ -76,6 +76,7 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
 	return ptrauth_clear_pac(ptr);
 }
 
+<<<<<<< HEAD
 static __always_inline void ptrauth_enable(void)
 {
 	if (!system_supports_address_auth())
@@ -85,6 +86,8 @@ static __always_inline void ptrauth_enable(void)
 	isb();
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ptrauth_thread_init_user(tsk)					\
 	ptrauth_keys_init_user(&(tsk)->thread.keys_user)
 #define ptrauth_thread_init_kernel(tsk)					\
@@ -93,7 +96,10 @@ static __always_inline void ptrauth_enable(void)
 	ptrauth_keys_switch_kernel(&(tsk)->thread.keys_kernel)
 
 #else /* CONFIG_ARM64_PTR_AUTH */
+<<<<<<< HEAD
 #define ptrauth_enable()
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ptrauth_prctl_reset_keys(tsk, arg)	(-EINVAL)
 #define ptrauth_strip_insn_pac(lr)	(lr)
 #define ptrauth_thread_init_user(tsk)

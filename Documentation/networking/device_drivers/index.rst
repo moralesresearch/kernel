@@ -15,7 +15,10 @@ Contents:
    ethernet/index
    fddi/index
    hamradio/index
+<<<<<<< HEAD
    qlogic/index
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    wan/index
    wifi/index
 

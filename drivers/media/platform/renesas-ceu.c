@@ -152,8 +152,13 @@ static inline struct ceu_buffer *vb2_to_ceu(struct vb2_v4l2_buffer *vbuf)
  * ceu_subdev - Wraps v4l2 sub-device and provides async subdevice.
  */
 struct ceu_subdev {
+<<<<<<< HEAD
 	struct v4l2_async_subdev asd;
 	struct v4l2_subdev *v4l2_sd;
+=======
+	struct v4l2_subdev *v4l2_sd;
+	struct v4l2_async_subdev asd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* per-subdevice mbus configuration options */
 	unsigned int mbus_flags;
@@ -174,7 +179,11 @@ struct ceu_device {
 	struct v4l2_device	v4l2_dev;
 
 	/* subdevices descriptors */
+<<<<<<< HEAD
 	struct ceu_subdev	**subdevs;
+=======
+	struct ceu_subdev	*subdevs;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* the subdevice currently in use */
 	struct ceu_subdev	*sd;
 	unsigned int		sd_index;
@@ -1195,7 +1204,11 @@ static int ceu_enum_input(struct file *file, void *priv,
 	if (inp->index >= ceudev->num_sd)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	ceusd = ceudev->subdevs[inp->index];
+=======
+	ceusd = &ceudev->subdevs[inp->index];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	inp->type = V4L2_INPUT_TYPE_CAMERA;
 	inp->std = 0;
@@ -1230,7 +1243,11 @@ static int ceu_s_input(struct file *file, void *priv, unsigned int i)
 		return 0;
 
 	ceu_sd_old = ceudev->sd;
+<<<<<<< HEAD
 	ceudev->sd = ceudev->subdevs[i];
+=======
+	ceudev->sd = &ceudev->subdevs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Make sure we can generate output image formats and apply
@@ -1423,7 +1440,11 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
 	 * ceu formats.
 	 */
 	if (!ceudev->sd) {
+<<<<<<< HEAD
 		ceudev->sd = ceudev->subdevs[0];
+=======
+		ceudev->sd = &ceudev->subdevs[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ceudev->sd_index = 0;
 	}
 
@@ -1467,8 +1488,13 @@ static const struct v4l2_async_notifier_operations ceu_notify_ops = {
 
 /*
  * ceu_init_async_subdevs() - Initialize CEU subdevices and async_subdevs in
+<<<<<<< HEAD
  *                           ceu device. Both DT and platform data parsing use
  *                           this routine.
+=======
+ *			      ceu device. Both DT and platform data parsing use
+ *			      this routine.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns 0 for success, -ENOMEM for failure.
  */
@@ -1510,6 +1536,7 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
 
 		/* Setup the ceu subdevice and the async subdevice. */
 		async_sd = &pdata->subdevs[i];
+<<<<<<< HEAD
 		ceu_sd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
 				async_sd->i2c_adapter_id,
 				async_sd->i2c_address,
@@ -1520,6 +1547,23 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
 		}
 		ceu_sd->mbus_flags = async_sd->flags;
 		ceudev->subdevs[i] = ceu_sd;
+=======
+		ceu_sd = &ceudev->subdevs[i];
+
+		INIT_LIST_HEAD(&ceu_sd->asd.list);
+
+		ceu_sd->mbus_flags	= async_sd->flags;
+		ceu_sd->asd.match_type	= V4L2_ASYNC_MATCH_I2C;
+		ceu_sd->asd.match.i2c.adapter_id = async_sd->i2c_adapter_id;
+		ceu_sd->asd.match.i2c.address = async_sd->i2c_address;
+
+		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+						     &ceu_sd->asd);
+		if (ret) {
+			v4l2_async_notifier_cleanup(&ceudev->notifier);
+			return ret;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return pdata->num_subdevs;
@@ -1531,7 +1575,11 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
 static int ceu_parse_dt(struct ceu_device *ceudev)
 {
 	struct device_node *of = ceudev->dev->of_node;
+<<<<<<< HEAD
 	struct device_node *ep;
+=======
+	struct device_node *ep, *remote;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ceu_subdev *ceu_sd;
 	unsigned int i;
 	int num_ep;
@@ -1573,6 +1621,7 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
 		}
 
 		/* Setup the ceu subdevice and the async subdevice. */
+<<<<<<< HEAD
 		ceu_sd = v4l2_async_notifier_add_fwnode_remote_subdev(
 				&ceudev->notifier, of_fwnode_handle(ep),
 				struct ceu_subdev);
@@ -1582,6 +1631,22 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
 		}
 		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
 		ceudev->subdevs[i] = ceu_sd;
+=======
+		ceu_sd = &ceudev->subdevs[i];
+		INIT_LIST_HEAD(&ceu_sd->asd.list);
+
+		remote = of_graph_get_remote_port_parent(ep);
+		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+		ceu_sd->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+		ceu_sd->asd.match.fwnode = of_fwnode_handle(remote);
+
+		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+						     &ceu_sd->asd);
+		if (ret) {
+			of_node_put(remote);
+			goto error_cleanup;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		of_node_put(ep);
 	}
@@ -1669,7 +1734,11 @@ static int ceu_probe(struct platform_device *pdev)
 	v4l2_async_notifier_init(&ceudev->notifier);
 
 	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
+<<<<<<< HEAD
 		ceu_data = of_device_get_match_data(dev);
+=======
+		ceu_data = of_match_device(ceu_of_match, dev)->data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		num_subdevs = ceu_parse_dt(ceudev);
 	} else if (dev->platform_data) {
 		/* Assume SH4 if booting with platform data. */

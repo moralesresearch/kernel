@@ -108,7 +108,11 @@ static int early_map_kernel_page(unsigned long ea, unsigned long pa,
 
 set_the_pte:
 	set_pte_at(&init_mm, ea, ptep, pfn_pte(pfn, flags));
+<<<<<<< HEAD
 	asm volatile("ptesync": : :"memory");
+=======
+	smp_wmb();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -168,7 +172,11 @@ static int __map_kernel_page(unsigned long ea, unsigned long pa,
 
 set_the_pte:
 	set_pte_at(&init_mm, ea, ptep, pfn_pte(pfn, flags));
+<<<<<<< HEAD
 	asm volatile("ptesync": : :"memory");
+=======
+	smp_wmb();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

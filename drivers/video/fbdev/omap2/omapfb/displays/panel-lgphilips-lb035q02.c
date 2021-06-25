@@ -239,7 +239,11 @@ static struct omap_dss_driver lb035q02_ops = {
 static int lb035q02_probe_of(struct spi_device *spi)
 {
 	struct device_node *node = spi->dev.of_node;
+<<<<<<< HEAD
 	struct panel_drv_data *ddata = spi_get_drvdata(spi);
+=======
+	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct omap_dss_device *in;
 	struct gpio_desc *gpio;
 
@@ -277,7 +281,11 @@ static int lb035q02_panel_spi_probe(struct spi_device *spi)
 	if (ddata == NULL)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	spi_set_drvdata(spi, ddata);
+=======
+	dev_set_drvdata(&spi->dev, ddata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ddata->spi = spi;
 
@@ -318,7 +326,11 @@ err_gpio:
 
 static int lb035q02_panel_spi_remove(struct spi_device *spi)
 {
+<<<<<<< HEAD
 	struct panel_drv_data *ddata = spi_get_drvdata(spi);
+=======
+	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct omap_dss_device *dssdev = &ddata->dssdev;
 	struct omap_dss_device *in = ddata->in;
 

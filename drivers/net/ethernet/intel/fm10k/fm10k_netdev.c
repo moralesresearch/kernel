@@ -1531,6 +1531,11 @@ static const struct net_device_ops fm10k_netdev_ops = {
 	.ndo_set_vf_rate	= fm10k_ndo_set_vf_bw,
 	.ndo_get_vf_config	= fm10k_ndo_get_vf_config,
 	.ndo_get_vf_stats	= fm10k_ndo_get_vf_stats,
+<<<<<<< HEAD
+=======
+	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
+	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_dfwd_add_station	= fm10k_dfwd_add_station,
 	.ndo_dfwd_del_station	= fm10k_dfwd_del_station,
 	.ndo_features_check	= fm10k_features_check,

@@ -19,7 +19,10 @@ config HID_SENSOR_IIO_TRIGGER
 	tristate "Common module (trigger) for all HID Sensor IIO drivers"
 	depends on HID_SENSOR_HUB && HID_SENSOR_IIO_COMMON && IIO_BUFFER
 	select IIO_TRIGGER
+<<<<<<< HEAD
 	select IIO_TRIGGERED_BUFFER
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Say yes here to build trigger support for HID sensors.
 	  Triggers will be send if all requested attributes were read.

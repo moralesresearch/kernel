@@ -866,19 +866,26 @@ struct drm_connector_helper_funcs {
 	 * The usual way to implement this is to cache the EDID retrieved in the
 	 * probe callback somewhere in the driver-private connector structure.
 	 * In this function drivers then parse the modes in the EDID and add
+<<<<<<< HEAD
 	 * them by calling drm_add_edid_modes(). But connectors that drive a
+=======
+	 * them by calling drm_add_edid_modes(). But connectors that driver a
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * fixed panel can also manually add specific modes using
 	 * drm_mode_probed_add(). Drivers which manually add modes should also
 	 * make sure that the &drm_connector.display_info,
 	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
 	 * filled in.
 	 *
+<<<<<<< HEAD
 	 * Note that the caller function will automatically add standard VESA
 	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
 	 * no mode and if the connector status is connector_status_connected or
 	 * connector_status_unknown. There is no need to call
 	 * drm_add_modes_noedid() manually in that case.
 	 *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Virtual drivers that just want some standard VESA mode with a given
 	 * resolution can call drm_add_modes_noedid(), and mark the preferred
 	 * one using drm_set_preferred_mode().
@@ -1401,6 +1408,7 @@ struct drm_mode_config_helper_funcs {
 	 * drm_atomic_helper_commit_tail().
 	 */
 	void (*atomic_commit_tail)(struct drm_atomic_state *state);
+<<<<<<< HEAD
 
 	/**
 	 * @atomic_commit_setup:
@@ -1422,6 +1430,8 @@ struct drm_mode_config_helper_funcs {
 	 * This hook is optional.
 	 */
 	int (*atomic_commit_setup)(struct drm_atomic_state *state);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #endif

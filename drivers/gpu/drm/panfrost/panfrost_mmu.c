@@ -488,6 +488,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
 		}
 		bo->base.pages = pages;
 		bo->base.pages_use_count = 1;
+<<<<<<< HEAD
 	} else {
 		pages = bo->base.pages;
 		if (pages[page_offset]) {
@@ -496,6 +497,10 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
 			goto out;
 		}
 	}
+=======
+	} else
+		pages = bo->base.pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mapping = bo->base.base.filp->f_mapping;
 	mapping_set_unevictable(mapping);
@@ -528,7 +533,10 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
 
 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
 
+<<<<<<< HEAD
 out:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	panfrost_gem_mapping_put(bomapping);
 
 	return 0;
@@ -600,8 +608,11 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
 		access_type = (fault_status >> 8) & 0x3;
 		source_id = (fault_status >> 16);
 
+<<<<<<< HEAD
 		mmu_write(pfdev, MMU_INT_CLEAR, mask);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Page fault only */
 		ret = -1;
 		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
@@ -625,6 +636,11 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
 				access_type, access_type_name(pfdev, fault_status),
 				source_id);
 
+<<<<<<< HEAD
+=======
+		mmu_write(pfdev, MMU_INT_CLEAR, mask);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		status &= ~mask;
 	}
 

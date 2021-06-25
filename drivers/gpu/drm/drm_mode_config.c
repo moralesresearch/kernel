@@ -195,7 +195,11 @@ void drm_mode_config_reset(struct drm_device *dev)
 			crtc->funcs->reset(crtc);
 
 	drm_for_each_encoder(encoder, dev)
+<<<<<<< HEAD
 		if (encoder->funcs && encoder->funcs->reset)
+=======
+		if (encoder->funcs->reset)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			encoder->funcs->reset(encoder);
 
 	drm_connector_list_iter_begin(dev, &conn_iter);
@@ -625,10 +629,13 @@ static void validate_encoder_possible_crtcs(struct drm_encoder *encoder)
 void drm_mode_config_validate(struct drm_device *dev)
 {
 	struct drm_encoder *encoder;
+<<<<<<< HEAD
 	struct drm_crtc *crtc;
 	struct drm_plane *plane;
 	u32 primary_with_crtc = 0, cursor_with_crtc = 0;
 	unsigned int num_primary = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
 		return;
@@ -640,6 +647,7 @@ void drm_mode_config_validate(struct drm_device *dev)
 		validate_encoder_possible_clones(encoder);
 		validate_encoder_possible_crtcs(encoder);
 	}
+<<<<<<< HEAD
 
 	drm_for_each_crtc(crtc, dev) {
 		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
@@ -685,4 +693,6 @@ void drm_mode_config_validate(struct drm_device *dev)
 	WARN(num_primary != dev->mode_config.num_crtc,
 	     "Must have as many primary planes as there are CRTCs, but have %u primary planes and %u CRTCs",
 	     num_primary, dev->mode_config.num_crtc);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -214,7 +214,12 @@ static void bounce_end_io_read_isa(struct bio *bio)
 	__bounce_end_io_read(bio, &isa_page_pool);
 }
 
+<<<<<<< HEAD
 static struct bio *bounce_clone_bio(struct bio *bio_src)
+=======
+static struct bio *bounce_clone_bio(struct bio *bio_src, gfp_t gfp_mask,
+		struct bio_set *bs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct bvec_iter iter;
 	struct bio_vec bv;
@@ -229,10 +234,17 @@ static struct bio *bounce_clone_bio(struct bio *bio_src)
 	 *  - The point of cloning the biovec is to produce a bio with a biovec
 	 *    the caller can modify: bi_idx and bi_bvec_done should be 0.
 	 *
+<<<<<<< HEAD
 	 *  - The original bio could've had more than BIO_MAX_VECS biovecs; if
 	 *    we tried to clone the whole thing bio_alloc_bioset() would fail.
 	 *    But the clone should succeed as long as the number of biovecs we
 	 *    actually need to allocate is fewer than BIO_MAX_VECS.
+=======
+	 *  - The original bio could've had more than BIO_MAX_PAGES biovecs; if
+	 *    we tried to clone the whole thing bio_alloc_bioset() would fail.
+	 *    But the clone should succeed as long as the number of biovecs we
+	 *    actually need to allocate is fewer than BIO_MAX_PAGES.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 *  - Lastly, bi_vcnt should not be looked at or relied upon by code
 	 *    that does not own the bio - reason being drivers don't use it for
@@ -241,6 +253,7 @@ static struct bio *bounce_clone_bio(struct bio *bio_src)
 	 *    asking for trouble and would force extra work on
 	 *    __bio_clone_fast() anyways.
 	 */
+<<<<<<< HEAD
 	if (bio_is_passthrough(bio_src))
 		bio = bio_kmalloc(GFP_NOIO | __GFP_NOFAIL,
 				  bio_segments(bio_src));
@@ -250,6 +263,13 @@ static struct bio *bounce_clone_bio(struct bio *bio_src)
 	bio->bi_bdev		= bio_src->bi_bdev;
 	if (bio_flagged(bio_src, BIO_REMAPPED))
 		bio_set_flag(bio, BIO_REMAPPED);
+=======
+
+	bio = bio_alloc_bioset(gfp_mask, bio_segments(bio_src), bs);
+	if (!bio)
+		return NULL;
+	bio->bi_disk		= bio_src->bi_disk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio->bi_opf		= bio_src->bi_opf;
 	bio->bi_ioprio		= bio_src->bi_ioprio;
 	bio->bi_write_hint	= bio_src->bi_write_hint;
@@ -270,11 +290,19 @@ static struct bio *bounce_clone_bio(struct bio *bio_src)
 		break;
 	}
 
+<<<<<<< HEAD
 	if (bio_crypt_clone(bio, bio_src, GFP_NOIO) < 0)
 		goto err_put;
 
 	if (bio_integrity(bio_src) &&
 	    bio_integrity_clone(bio, bio_src, GFP_NOIO) < 0)
+=======
+	if (bio_crypt_clone(bio, bio_src, gfp_mask) < 0)
+		goto err_put;
+
+	if (bio_integrity(bio_src) &&
+	    bio_integrity_clone(bio, bio_src, gfp_mask) < 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_put;
 
 	bio_clone_blkg_association(bio, bio_src);
@@ -297,9 +325,16 @@ static void __blk_queue_bounce(struct request_queue *q, struct bio **bio_orig,
 	unsigned i = 0;
 	bool bounce = false;
 	int sectors = 0;
+<<<<<<< HEAD
 
 	bio_for_each_segment(from, *bio_orig, iter) {
 		if (i++ < BIO_MAX_VECS)
+=======
+	bool passthrough = bio_is_passthrough(*bio_orig);
+
+	bio_for_each_segment(from, *bio_orig, iter) {
+		if (i++ < BIO_MAX_PAGES)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sectors += from.bv_len >> 9;
 		if (page_to_pfn(from.bv_page) > q->limits.bounce_pfn)
 			bounce = true;
@@ -307,14 +342,23 @@ static void __blk_queue_bounce(struct request_queue *q, struct bio **bio_orig,
 	if (!bounce)
 		return;
 
+<<<<<<< HEAD
 	if (!bio_is_passthrough(*bio_orig) &&
 	    sectors < bio_sectors(*bio_orig)) {
+=======
+	if (!passthrough && sectors < bio_sectors(*bio_orig)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bio = bio_split(*bio_orig, sectors, GFP_NOIO, &bounce_bio_split);
 		bio_chain(bio, *bio_orig);
 		submit_bio_noacct(*bio_orig);
 		*bio_orig = bio;
 	}
+<<<<<<< HEAD
 	bio = bounce_clone_bio(*bio_orig);
+=======
+	bio = bounce_clone_bio(*bio_orig, GFP_NOIO, passthrough ? NULL :
+			&bounce_bio_set);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Bvec table can't be updated by bio_for_each_segment_all(),

@@ -987,7 +987,11 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
 }
 EXPORT_SYMBOL(axp20x_device_probe);
 
+<<<<<<< HEAD
 void axp20x_device_remove(struct axp20x_dev *axp20x)
+=======
+int axp20x_device_remove(struct axp20x_dev *axp20x)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (axp20x == axp20x_pm_power_off) {
 		axp20x_pm_power_off = NULL;
@@ -996,6 +1000,11 @@ void axp20x_device_remove(struct axp20x_dev *axp20x)
 
 	mfd_remove_devices(axp20x->dev);
 	regmap_del_irq_chip(axp20x->irq, axp20x->regmap_irqc);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(axp20x_device_remove);
 

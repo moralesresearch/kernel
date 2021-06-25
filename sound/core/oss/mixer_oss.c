@@ -87,8 +87,13 @@ static int snd_mixer_oss_info(struct snd_mixer_oss_file *fmixer,
 	struct mixer_info info;
 	
 	memset(&info, 0, sizeof(info));
+<<<<<<< HEAD
 	strscpy(info.id, mixer && mixer->id[0] ? mixer->id : card->driver, sizeof(info.id));
 	strscpy(info.name, mixer && mixer->name[0] ? mixer->name : card->mixername, sizeof(info.name));
+=======
+	strlcpy(info.id, mixer && mixer->id[0] ? mixer->id : card->driver, sizeof(info.id));
+	strlcpy(info.name, mixer && mixer->name[0] ? mixer->name : card->mixername, sizeof(info.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info.modify_counter = card->mixer_oss_change_count;
 	if (copy_to_user(_info, &info, sizeof(info)))
 		return -EFAULT;
@@ -103,8 +108,13 @@ static int snd_mixer_oss_info_obsolete(struct snd_mixer_oss_file *fmixer,
 	_old_mixer_info info;
 	
 	memset(&info, 0, sizeof(info));
+<<<<<<< HEAD
 	strscpy(info.id, mixer && mixer->id[0] ? mixer->id : card->driver, sizeof(info.id));
 	strscpy(info.name, mixer && mixer->name[0] ? mixer->name : card->mixername, sizeof(info.name));
+=======
+	strlcpy(info.id, mixer && mixer->id[0] ? mixer->id : card->driver, sizeof(info.id));
+	strlcpy(info.name, mixer && mixer->name[0] ? mixer->name : card->mixername, sizeof(info.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (copy_to_user(_info, &info, sizeof(info)))
 		return -EFAULT;
 	return 0;
@@ -418,7 +428,11 @@ static long snd_mixer_oss_conv(long val, long omin, long omax, long nmin, long n
 	
 	if (orange == 0)
 		return 0;
+<<<<<<< HEAD
 	return DIV_ROUND_CLOSEST(nrange * (val - omin), orange) + nmin;
+=======
+	return ((nrange * (val - omin)) + (orange / 2)) / orange + nmin;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* convert from alsa native to oss values (0-100) */
@@ -499,7 +513,11 @@ static struct snd_kcontrol *snd_mixer_oss_test_id(struct snd_mixer_oss *mixer, c
 	
 	memset(&id, 0, sizeof(id));
 	id.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+<<<<<<< HEAD
 	strscpy(id.name, name, sizeof(id.name));
+=======
+	strlcpy(id.name, name, sizeof(id.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	id.index = index;
 	return snd_ctl_find_id(card, &id);
 }
@@ -1355,7 +1373,11 @@ static int snd_mixer_oss_notify_handler(struct snd_card *card, int cmd)
 		mixer->oss_dev_alloc = 1;
 		mixer->card = card;
 		if (*card->mixername)
+<<<<<<< HEAD
 			strscpy(mixer->name, card->mixername, sizeof(mixer->name));
+=======
+			strlcpy(mixer->name, card->mixername, sizeof(mixer->name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			snprintf(mixer->name, sizeof(mixer->name),
 				 "mixer%i", card->number);

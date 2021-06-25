@@ -1425,8 +1425,16 @@ out:
 	return NULL;
 }
 
+<<<<<<< HEAD
 INDIRECT_CALLABLE_DECLARE(struct dst_entry *ipv4_dst_check(struct dst_entry *,
 							   u32));
+=======
+<<<<<<< HEAD
+INDIRECT_CALLABLE_DECLARE(struct dst_entry *ipv4_dst_check(struct dst_entry *,
+							   u32));
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* The socket must have it's spinlock held when we get
  * here, unless it is a TCP_LISTEN socket.
  *
@@ -1480,8 +1488,17 @@ static int tcp_v6_do_rcv(struct sock *sk, struct sk_buff *skb)
 		sk_mark_napi_id(sk, skb);
 		if (dst) {
 			if (inet_sk(sk)->rx_dst_ifindex != skb->skb_iif ||
+<<<<<<< HEAD
 			    INDIRECT_CALL_1(dst->ops->check, ip6_dst_check,
 					    dst, np->rx_dst_cookie) == NULL) {
+=======
+<<<<<<< HEAD
+			    INDIRECT_CALL_1(dst->ops->check, ip6_dst_check,
+					    dst, np->rx_dst_cookie) == NULL) {
+=======
+			    dst->ops->check(dst, np->rx_dst_cookie) == NULL) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dst_release(dst);
 				sk->sk_rx_dst = NULL;
 			}
@@ -2129,7 +2146,14 @@ struct proto tcpv6_prot = {
 	.shutdown		= tcp_shutdown,
 	.setsockopt		= tcp_setsockopt,
 	.getsockopt		= tcp_getsockopt,
+<<<<<<< HEAD
 	.bpf_bypass_getsockopt	= tcp_bpf_bypass_getsockopt,
+=======
+<<<<<<< HEAD
+	.bpf_bypass_getsockopt	= tcp_bpf_bypass_getsockopt,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.keepalive		= tcp_set_keepalive,
 	.recvmsg		= tcp_recvmsg,
 	.sendmsg		= tcp_sendmsg,

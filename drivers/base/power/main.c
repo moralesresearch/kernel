@@ -16,7 +16,10 @@
  */
 
 #define pr_fmt(fmt) "PM: " fmt
+<<<<<<< HEAD
 #define dev_fmt pr_fmt
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/device.h>
 #include <linux/export.h>
@@ -450,8 +453,13 @@ static void pm_dev_dbg(struct device *dev, pm_message_t state, const char *info)
 static void pm_dev_err(struct device *dev, pm_message_t state, const char *info,
 			int error)
 {
+<<<<<<< HEAD
 	dev_err(dev, "failed to %s%s: error %d\n", pm_verb(state.event), info,
 		error);
+=======
+	pr_err("Device %s failed to %s%s: error %d\n",
+	       dev_name(dev), pm_verb(state.event), info, error);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void dpm_show_time(ktime_t starttime, pm_message_t state, int error,
@@ -1898,8 +1906,13 @@ int dpm_prepare(pm_message_t state)
 				error = 0;
 				continue;
 			}
+<<<<<<< HEAD
 			dev_info(dev, "not prepared for power transition: code %d\n",
 				 error);
+=======
+			pr_info("Device %s not prepared for power transition: code %d\n",
+				dev_name(dev), error);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			put_device(dev);
 			break;
 		}

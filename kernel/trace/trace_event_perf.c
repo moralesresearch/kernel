@@ -421,8 +421,16 @@ NOKPROBE_SYMBOL(perf_trace_buf_alloc);
 void perf_trace_buf_update(void *record, u16 type)
 {
 	struct trace_entry *entry = record;
+<<<<<<< HEAD
 
 	tracing_generic_entry_update(entry, type, tracing_gen_ctx());
+=======
+	int pc = preempt_count();
+	unsigned long flags;
+
+	local_save_flags(flags);
+	tracing_generic_entry_update(entry, type, flags, pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 NOKPROBE_SYMBOL(perf_trace_buf_update);
 

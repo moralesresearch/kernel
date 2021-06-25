@@ -1662,7 +1662,11 @@ static vm_fault_t ceph_page_mkwrite(struct vm_fault *vmf)
 
 	dout("page_mkwrite %p %llu~%zd dropping cap refs on %s ret %x\n",
 	     inode, off, len, ceph_cap_string(got), ret);
+<<<<<<< HEAD
 	ceph_put_cap_refs_async(ci, got);
+=======
+	ceph_put_cap_refs(ci, got);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_free:
 	ceph_restore_sigs(&oldset);
 	sb_end_pagefault(inode->i_sb);

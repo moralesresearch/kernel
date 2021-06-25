@@ -256,11 +256,19 @@
 
 &soc {
 	serial@f991e000 {
+<<<<<<< HEAD
 		status = "okay";
 	};
 
 	remoteproc@fb21b000 {
 		status = "okay";
+=======
+		status = "ok";
+	};
+
+	remoteproc@fb21b000 {
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vddmx-supply = <&pm8841_s1>;
 		vddcx-supply = <&pm8841_s2>;
@@ -273,7 +281,11 @@
 			label = "pronto";
 
 			wcnss {
+<<<<<<< HEAD
 				status = "okay";
+=======
+				status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 	};
@@ -335,7 +347,11 @@
 	};
 
 	sdhci@f9824900 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vmmc-supply = <&pm8941_l20>;
 		vqmmc-supply = <&pm8941_s3>;
@@ -348,7 +364,11 @@
 	};
 
 	sdhci@f98a4900 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vmmc-supply = <&pm8941_l21>;
 		vqmmc-supply = <&pm8941_l13>;
@@ -360,7 +380,11 @@
 	};
 
 	usb@f9a55000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		phys = <&usb_hs1_phy>;
 		phy-select = <&tcsr 0xb000 0>;
@@ -373,7 +397,11 @@
 
 		ulpi {
 			phy@a {
+<<<<<<< HEAD
 				status = "okay";
+=======
+				status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				v1p8-supply = <&pm8941_l6>;
 				v3p3-supply = <&pm8941_l24>;

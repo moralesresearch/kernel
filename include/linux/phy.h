@@ -71,11 +71,25 @@ extern const int phy_10gbit_features_array[1];
 
 /*
  * Set phydev->irq to PHY_POLL if interrupts are not supported,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * or not desired for this PHY.  Set to PHY_MAC_INTERRUPT if
  * the attached MAC driver handles the interrupt
  */
 #define PHY_POLL		-1
 #define PHY_MAC_INTERRUPT	-2
+<<<<<<< HEAD
+=======
+=======
+ * or not desired for this PHY.  Set to PHY_IGNORE_INTERRUPT if
+ * the attached driver handles the interrupt
+ */
+#define PHY_POLL		-1
+#define PHY_IGNORE_INTERRUPT	-2
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PHY_IS_INTERNAL		0x00000001
 #define PHY_RST_AFTER_CLK_EN	0x00000002
@@ -104,10 +118,21 @@ extern const int phy_10gbit_features_array[1];
  * @PHY_INTERFACE_MODE_MOCA: Multimedia over Coax
  * @PHY_INTERFACE_MODE_QSGMII: Quad SGMII
  * @PHY_INTERFACE_MODE_TRGMII: Turbo RGMII
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @PHY_INTERFACE_MODE_100BASEX: 100 BaseX
  * @PHY_INTERFACE_MODE_1000BASEX: 1000 BaseX
  * @PHY_INTERFACE_MODE_2500BASEX: 2500 BaseX
  * @PHY_INTERFACE_MODE_5GBASER: 5G BaseR
+<<<<<<< HEAD
+=======
+=======
+ * @PHY_INTERFACE_MODE_1000BASEX: 1000 BaseX
+ * @PHY_INTERFACE_MODE_2500BASEX: 2500 BaseX
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @PHY_INTERFACE_MODE_RXAUI: Reduced XAUI
  * @PHY_INTERFACE_MODE_XAUI: 10 Gigabit Attachment Unit Interface
  * @PHY_INTERFACE_MODE_10GBASER: 10G BaseR
@@ -137,10 +162,21 @@ typedef enum {
 	PHY_INTERFACE_MODE_MOCA,
 	PHY_INTERFACE_MODE_QSGMII,
 	PHY_INTERFACE_MODE_TRGMII,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PHY_INTERFACE_MODE_100BASEX,
 	PHY_INTERFACE_MODE_1000BASEX,
 	PHY_INTERFACE_MODE_2500BASEX,
 	PHY_INTERFACE_MODE_5GBASER,
+<<<<<<< HEAD
+=======
+=======
+	PHY_INTERFACE_MODE_1000BASEX,
+	PHY_INTERFACE_MODE_2500BASEX,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PHY_INTERFACE_MODE_RXAUI,
 	PHY_INTERFACE_MODE_XAUI,
 	/* 10GBASE-R, XFI, SFI - single lane 10G Serdes */
@@ -211,8 +247,16 @@ static inline const char *phy_modes(phy_interface_t interface)
 		return "1000base-x";
 	case PHY_INTERFACE_MODE_2500BASEX:
 		return "2500base-x";
+<<<<<<< HEAD
 	case PHY_INTERFACE_MODE_5GBASER:
 		return "5gbase-r";
+=======
+<<<<<<< HEAD
+	case PHY_INTERFACE_MODE_5GBASER:
+		return "5gbase-r";
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PHY_INTERFACE_MODE_RXAUI:
 		return "rxaui";
 	case PHY_INTERFACE_MODE_XAUI:
@@ -223,8 +267,16 @@ static inline const char *phy_modes(phy_interface_t interface)
 		return "usxgmii";
 	case PHY_INTERFACE_MODE_10GKR:
 		return "10gbase-kr";
+<<<<<<< HEAD
 	case PHY_INTERFACE_MODE_100BASEX:
 		return "100base-x";
+=======
+<<<<<<< HEAD
+	case PHY_INTERFACE_MODE_100BASEX:
+		return "100base-x";
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return "unknown";
 	}
@@ -492,8 +544,15 @@ struct macsec_ops;
  * @sysfs_links: Internal boolean tracking sysfs symbolic links setup/removal.
  * @loopback_enabled: Set true if this PHY has been loopbacked successfully.
  * @downshifted_rate: Set true if link speed has been downshifted.
+<<<<<<< HEAD
  * @is_on_sfp_module: Set true if PHY is located on an SFP module.
  * @mac_managed_pm: Set true if MAC driver takes of suspending/resuming PHY
+=======
+<<<<<<< HEAD
+ * @is_on_sfp_module: Set true if PHY is located on an SFP module.
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @state: State of the PHY for management purposes
  * @dev_flags: Device-specific flags used by the PHY driver.
  * @irq: IRQ number of the PHY's interrupt (-1 if none)
@@ -567,8 +626,15 @@ struct phy_device {
 	unsigned sysfs_links:1;
 	unsigned loopback_enabled:1;
 	unsigned downshifted_rate:1;
+<<<<<<< HEAD
 	unsigned is_on_sfp_module:1;
 	unsigned mac_managed_pm:1;
+=======
+<<<<<<< HEAD
+	unsigned is_on_sfp_module:1;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned autoneg:1;
 	/* The most recently read link state */
@@ -658,11 +724,22 @@ struct phy_device {
 	const struct macsec_ops *macsec_ops;
 #endif
 };
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline struct phy_device *to_phy_device(const struct device *dev)
 {
 	return container_of(to_mdio_device(dev), struct phy_device, mdio);
 }
+<<<<<<< HEAD
+=======
+=======
+#define to_phy_device(d) container_of(to_mdio_device(d), \
+				      struct phy_device, mdio)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct phy_tdr_config - Configuration of a TDR raw test
@@ -1210,11 +1287,25 @@ static inline int phy_clear_bits_mmd(struct phy_device *phydev, int devad,
  * @phydev: the phy_device struct
  *
  * NOTE: must be kept in sync with addition/removal of PHY_POLL and
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * PHY_MAC_INTERRUPT
  */
 static inline bool phy_interrupt_is_valid(struct phy_device *phydev)
 {
 	return phydev->irq != PHY_POLL && phydev->irq != PHY_MAC_INTERRUPT;
+<<<<<<< HEAD
+=======
+=======
+ * PHY_IGNORE_INTERRUPT
+ */
+static inline bool phy_interrupt_is_valid(struct phy_device *phydev)
+{
+	return phydev->irq != PHY_POLL && phydev->irq != PHY_IGNORE_INTERRUPT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1301,6 +1392,10 @@ static inline bool phy_is_internal(struct phy_device *phydev)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * phy_on_sfp - Convenience function for testing if a PHY is on an SFP module
  * @phydev: the phy_device struct
  */
@@ -1310,6 +1405,11 @@ static inline bool phy_on_sfp(struct phy_device *phydev)
 }
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * phy_interface_mode_is_rgmii - Convenience function for testing if a
  * PHY interface mode is RGMII (all variants)
  * @mode: the &phy_interface_t enum

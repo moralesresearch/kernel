@@ -399,8 +399,12 @@ void xenvif_rx_queue_tail(struct xenvif_queue *queue, struct sk_buff *skb);
 void xenvif_carrier_on(struct xenvif *vif);
 
 /* Callback from stack when TX packet can be released */
+<<<<<<< HEAD
 void xenvif_zerocopy_callback(struct sk_buff *skb, struct ubuf_info *ubuf,
 			      bool zerocopy_success);
+=======
+void xenvif_zerocopy_callback(struct ubuf_info *ubuf, bool zerocopy_success);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Unmap a pending page and release it back to the guest */
 void xenvif_idx_unmap(struct xenvif_queue *queue, u16 pending_idx);

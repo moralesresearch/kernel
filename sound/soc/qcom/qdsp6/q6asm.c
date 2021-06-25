@@ -491,7 +491,11 @@ static int __q6asm_memory_map_regions(struct audio_client *ac, int dir,
  *
  * @dir: direction of audio stream
  * @ac: audio client instanace
+<<<<<<< HEAD
  * @phys: physical address that needs mapping.
+=======
+ * @phys: physcial address that needs mapping.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @period_sz: audio period size
  * @periods: number of periods
  *

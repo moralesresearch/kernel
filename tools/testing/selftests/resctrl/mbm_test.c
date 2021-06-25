@@ -114,7 +114,11 @@ void mbm_test_cleanup(void)
 int mbm_bw_change(int span, int cpu_no, char *bw_report, char **benchmark_cmd)
 {
 	struct resctrl_val_param param = {
+<<<<<<< HEAD
 		.resctrl_val	= MBM_STR,
+=======
+		.resctrl_val	= "mbm",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ctrlgrp	= "c1",
 		.mongrp		= "m1",
 		.span		= span,

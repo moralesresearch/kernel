@@ -334,11 +334,28 @@ static void __init chrp_setup_arch(void)
 	/* On pegasos, enable the L2 cache if not already done by OF */
 	pegasos_set_l2cr();
 
+<<<<<<< HEAD
+=======
+	/* Lookup PCI host bridges */
+	chrp_find_bridges();
+
+	/*
+	 *  Temporary fixes for PCI devices.
+	 *  -- Geert
+	 */
+	hydra_init();		/* Mac I/O */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 *  Fix the Super I/O configuration
 	 */
 	sio_init();
 
+<<<<<<< HEAD
+=======
+	pci_create_OF_bus_map();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Print the banner, then scroll down so boot progress
 	 * can be printed.  -- Cort
@@ -571,7 +588,10 @@ define_machine(chrp) {
 	.name			= "CHRP",
 	.probe			= chrp_probe,
 	.setup_arch		= chrp_setup_arch,
+<<<<<<< HEAD
 	.discover_phbs		= chrp_find_bridges,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init			= chrp_init2,
 	.show_cpuinfo		= chrp_show_cpuinfo,
 	.init_IRQ		= chrp_init_IRQ,

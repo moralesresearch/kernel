@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
+<<<<<<< HEAD
  * Cadence USBSS and USBSSP DRD Header File.
+=======
+ * Cadence USBSS DRD Header File.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Copyright (C) 2017-2018 NXP
  * Copyright (C) 2018-2019 Cadence.
@@ -14,10 +18,17 @@
 #ifndef __LINUX_CDNS3_CORE_H
 #define __LINUX_CDNS3_CORE_H
 
+<<<<<<< HEAD
 struct cdns;
 
 /**
  * struct cdns_role_driver - host/gadget role driver
+=======
+struct cdns3;
+
+/**
+ * struct cdns3_role_driver - host/gadget role driver
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @start: start this role
  * @stop: stop this role
  * @suspend: suspend callback for this role
@@ -26,6 +37,7 @@ struct cdns;
  * @name: role name string (host/gadget)
  * @state: current state
  */
+<<<<<<< HEAD
 struct cdns_role_driver {
 	int (*start)(struct cdns *cdns);
 	void (*stop)(struct cdns *cdns);
@@ -38,6 +50,20 @@ struct cdns_role_driver {
 };
 
 #define CDNS_XHCI_RESOURCES_NUM	2
+=======
+struct cdns3_role_driver {
+	int (*start)(struct cdns3 *cdns);
+	void (*stop)(struct cdns3 *cdns);
+	int (*suspend)(struct cdns3 *cdns, bool do_wakeup);
+	int (*resume)(struct cdns3 *cdns, bool hibernated);
+	const char *name;
+#define CDNS3_ROLE_STATE_INACTIVE	0
+#define CDNS3_ROLE_STATE_ACTIVE		1
+	int state;
+};
+
+#define CDNS3_XHCI_RESOURCES_NUM	2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct cdns3_platform_data {
 	int (*platform_suspend)(struct device *dev,
@@ -47,7 +73,11 @@ struct cdns3_platform_data {
 };
 
 /**
+<<<<<<< HEAD
  * struct cdns - Representation of Cadence USB3 DRD controller.
+=======
+ * struct cdns3 - Representation of Cadence USB3 DRD controller.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dev: pointer to Cadence device struct
  * @xhci_regs: pointer to base of xhci registers
  * @xhci_res: the resource for xhci
@@ -55,16 +85,25 @@ struct cdns3_platform_data {
  * @otg_res: the resource for otg
  * @otg_v0_regs: pointer to base of v0 otg registers
  * @otg_v1_regs: pointer to base of v1 otg registers
+<<<<<<< HEAD
  * @otg_cdnsp_regs: pointer to base of CDNSP otg registers
  * @otg_regs: pointer to base of otg registers
  * @otg_irq_regs: pointer to interrupt registers
+=======
+ * @otg_regs: pointer to base of otg registers
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @otg_irq: irq number for otg controller
  * @dev_irq: irq number for device controller
  * @wakeup_irq: irq number for wakeup event, it is optional
  * @roles: array of supported roles for this controller
  * @role: current role
+<<<<<<< HEAD
  * @host_dev: the child host device pointer for cdns core
  * @gadget_dev: the child gadget device pointer
+=======
+ * @host_dev: the child host device pointer for cdns3 core
+ * @gadget_dev: the child gadget device pointer for cdns3 core
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @usb2_phy: pointer to USB2 PHY
  * @usb3_phy: pointer to USB3 PHY
  * @mutex: the mutex for concurrent code at driver
@@ -78,6 +117,7 @@ struct cdns3_platform_data {
  * @pdata: platform data from glue layer
  * @lock: spinlock structure
  * @xhci_plat_data: xhci private data structure pointer
+<<<<<<< HEAD
  * @gadget_init: pointer to gadget initialization function
  */
 struct cdns {
@@ -95,16 +135,38 @@ struct cdns {
 #define CDNS3_CONTROLLER_V0	0
 #define CDNS3_CONTROLLER_V1	1
 #define CDNSP_CONTROLLER_V2	2
+=======
+ */
+struct cdns3 {
+	struct device			*dev;
+	void __iomem			*xhci_regs;
+	struct resource			xhci_res[CDNS3_XHCI_RESOURCES_NUM];
+	struct cdns3_usb_regs __iomem	*dev_regs;
+
+	struct resource			otg_res;
+	struct cdns3_otg_legacy_regs	*otg_v0_regs;
+	struct cdns3_otg_regs		*otg_v1_regs;
+	struct cdns3_otg_common_regs	*otg_regs;
+#define CDNS3_CONTROLLER_V0	0
+#define CDNS3_CONTROLLER_V1	1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32				version;
 	bool				phyrst_a_enable;
 
 	int				otg_irq;
 	int				dev_irq;
 	int				wakeup_irq;
+<<<<<<< HEAD
 	struct cdns_role_driver	*roles[USB_ROLE_DEVICE + 1];
 	enum usb_role			role;
 	struct platform_device		*host_dev;
 	void				*gadget_dev;
+=======
+	struct cdns3_role_driver	*roles[USB_ROLE_DEVICE + 1];
+	enum usb_role			role;
+	struct platform_device		*host_dev;
+	struct cdns3_device		*gadget_dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct phy			*usb2_phy;
 	struct phy			*usb3_phy;
 	/* mutext used in workqueue*/
@@ -116,6 +178,7 @@ struct cdns {
 	struct cdns3_platform_data	*pdata;
 	spinlock_t			lock;
 	struct xhci_plat_priv		*xhci_plat_data;
+<<<<<<< HEAD
 
 	int (*gadget_init)(struct cdns *cdns);
 };
@@ -133,4 +196,10 @@ static inline int cdns_resume(struct cdns *cdns, u8 set_active)
 static inline int cdns_suspend(struct cdns *cdns)
 { return 0; }
 #endif /* CONFIG_PM_SLEEP */
+=======
+};
+
+int cdns3_hw_role_switch(struct cdns3 *cdns);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_CDNS3_CORE_H */

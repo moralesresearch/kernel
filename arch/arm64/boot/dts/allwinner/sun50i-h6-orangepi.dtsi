@@ -42,13 +42,21 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led-0 {
+=======
+		power {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "orangepi:red:power";
 			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
 			default-state = "on";
 		};
 
+<<<<<<< HEAD
 		led-1 {
+=======
+		status {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "orangepi:green:status";
 			gpios = <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
 		};

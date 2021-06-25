@@ -846,6 +846,7 @@ struct auxiliary_device_id {
 	kernel_ulong_t driver_data;
 };
 
+<<<<<<< HEAD
 /* Surface System Aggregator Module */
 
 #define SSAM_MATCH_TARGET	0x1
@@ -888,4 +889,6 @@ struct dfl_device_id {
 	kernel_ulong_t driver_data;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* LINUX_MOD_DEVICETABLE_H */

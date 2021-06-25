@@ -11,7 +11,11 @@
 struct intel_crtc_state;
 struct intel_dp;
 
+<<<<<<< HEAD
 int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp);
+=======
+int intel_dp_lttpr_init(struct intel_dp *intel_dp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void intel_dp_get_adjust_train(struct intel_dp *intel_dp,
 			       const struct intel_crtc_state *crtc_state,

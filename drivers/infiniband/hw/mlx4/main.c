@@ -580,12 +580,18 @@ static int mlx4_ib_query_device(struct ib_device *ibdev,
 	props->cq_caps.max_cq_moderation_count = MLX4_MAX_CQ_COUNT;
 	props->cq_caps.max_cq_moderation_period = MLX4_MAX_CQ_PERIOD;
 
+<<<<<<< HEAD
+	if (uhw->outlen >= resp.response_length + sizeof(resp.hca_core_clock_offset)) {
+		resp.response_length += sizeof(resp.hca_core_clock_offset);
+		if (!mlx4_get_internal_clock_params(dev->dev, &clock_params)) {
+=======
 	if (!mlx4_is_slave(dev->dev))
 		err = mlx4_get_internal_clock_params(dev->dev, &clock_params);
 
 	if (uhw->outlen >= resp.response_length + sizeof(resp.hca_core_clock_offset)) {
 		resp.response_length += sizeof(resp.hca_core_clock_offset);
 		if (!err && !mlx4_is_slave(dev->dev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			resp.comp_mask |= MLX4_IB_QUERY_DEV_RESP_MASK_CORE_CLOCK_OFFSET;
 			resp.hca_core_clock_offset = clock_params.offset % PAGE_SIZE;
 		}
@@ -1699,9 +1705,12 @@ static struct ib_flow *mlx4_ib_create_flow(struct ib_qp *qp,
 	struct mlx4_dev *dev = (to_mdev(qp->device))->dev;
 	int is_bonded = mlx4_is_bonded(dev);
 
-	if (!rdma_is_port_valid(qp->device, flow_attr->port))
+<<<<<<< HEAD
+=======
+	if (flow_attr->port < 1 || flow_attr->port > qp->device->phys_port_cnt)
 		return ERR_PTR(-EINVAL);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (flow_attr->flags & ~IB_FLOW_ATTR_FLAGS_DONT_TRAP)
 		return ERR_PTR(-EOPNOTSUPP);
 

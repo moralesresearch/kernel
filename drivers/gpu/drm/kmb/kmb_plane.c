@@ -114,9 +114,12 @@ static void kmb_plane_atomic_disable(struct drm_plane *plane,
 
 	kmb = to_kmb(plane->dev);
 
+<<<<<<< HEAD
 	if (WARN_ON(plane_id >= KMB_MAX_PLANES))
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (plane_id) {
 	case LAYER_0:
 		kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL1_ENABLE;

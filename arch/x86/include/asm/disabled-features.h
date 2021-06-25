@@ -56,11 +56,16 @@
 # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
 #endif
 
+<<<<<<< HEAD
+/* Force disable because it's broken beyond repair */
+#define DISABLE_ENQCMD		(1 << (X86_FEATURE_ENQCMD & 31))
+=======
 #ifdef CONFIG_IOMMU_SUPPORT
 # define DISABLE_ENQCMD	0
 #else
 # define DISABLE_ENQCMD (1 << (X86_FEATURE_ENQCMD & 31))
 #endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_X86_SGX
 # define DISABLE_SGX	0
@@ -91,7 +96,11 @@
 			 DISABLE_ENQCMD)
 #define DISABLED_MASK17	0
 #define DISABLED_MASK18	0
+<<<<<<< HEAD
 #define DISABLED_MASK19	0
 #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 20)
+=======
+#define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 19)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _ASM_X86_DISABLED_FEATURES_H */

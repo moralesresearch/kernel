@@ -128,7 +128,14 @@ xfs_cleanup_inode(
 
 STATIC int
 xfs_generic_create(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct inode	*dir,
 	struct dentry	*dentry,
 	umode_t		mode,
@@ -162,10 +169,22 @@ xfs_generic_create(
 		goto out_free_acl;
 
 	if (!tmpfile) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		error = xfs_create(mnt_userns, XFS_I(dir), &name, mode, rdev,
 				   &ip);
 	} else {
 		error = xfs_create_tmpfile(mnt_userns, XFS_I(dir), mode, &ip);
+<<<<<<< HEAD
+=======
+=======
+		error = xfs_create(XFS_I(dir), &name, mode, rdev, &ip);
+	} else {
+		error = xfs_create_tmpfile(XFS_I(dir), mode, &ip);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (unlikely(error))
 		goto out_free_acl;
@@ -222,6 +241,10 @@ xfs_generic_create(
 
 STATIC int
 xfs_vn_mknod(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*dir,
 	struct dentry		*dentry,
@@ -229,10 +252,25 @@ xfs_vn_mknod(
 	dev_t			rdev)
 {
 	return xfs_generic_create(mnt_userns, dir, dentry, mode, rdev, false);
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*dir,
+	struct dentry	*dentry,
+	umode_t		mode,
+	dev_t		rdev)
+{
+	return xfs_generic_create(dir, dentry, mode, rdev, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 STATIC int
 xfs_vn_create(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*dir,
 	struct dentry		*dentry,
@@ -240,10 +278,25 @@ xfs_vn_create(
 	bool			flags)
 {
 	return xfs_generic_create(mnt_userns, dir, dentry, mode, 0, false);
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*dir,
+	struct dentry	*dentry,
+	umode_t		mode,
+	bool		flags)
+{
+	return xfs_generic_create(dir, dentry, mode, 0, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 STATIC int
 xfs_vn_mkdir(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*dir,
 	struct dentry		*dentry,
@@ -251,6 +304,16 @@ xfs_vn_mkdir(
 {
 	return xfs_generic_create(mnt_userns, dir, dentry, mode | S_IFDIR, 0,
 				  false);
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*dir,
+	struct dentry	*dentry,
+	umode_t		mode)
+{
+	return xfs_generic_create(dir, dentry, mode | S_IFDIR, 0, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 STATIC struct dentry *
@@ -367,10 +430,22 @@ xfs_vn_unlink(
 
 STATIC int
 xfs_vn_symlink(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*dir,
 	struct dentry		*dentry,
 	const char		*symname)
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*dir,
+	struct dentry	*dentry,
+	const char	*symname)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode	*inode;
 	struct xfs_inode *cip = NULL;
@@ -384,7 +459,15 @@ xfs_vn_symlink(
 	if (unlikely(error))
 		goto out;
 
+<<<<<<< HEAD
 	error = xfs_symlink(mnt_userns, XFS_I(dir), &name, symname, mode, &cip);
+=======
+<<<<<<< HEAD
+	error = xfs_symlink(mnt_userns, XFS_I(dir), &name, symname, mode, &cip);
+=======
+	error = xfs_symlink(XFS_I(dir), &name, symname, mode, &cip);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(error))
 		goto out;
 
@@ -410,12 +493,26 @@ xfs_vn_symlink(
 
 STATIC int
 xfs_vn_rename(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*odir,
 	struct dentry		*odentry,
 	struct inode		*ndir,
 	struct dentry		*ndentry,
 	unsigned int		flags)
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*odir,
+	struct dentry	*odentry,
+	struct inode	*ndir,
+	struct dentry	*ndentry,
+	unsigned int	flags)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode	*new_inode = d_inode(ndentry);
 	int		omode = 0;
@@ -439,8 +536,18 @@ xfs_vn_rename(
 	if (unlikely(error))
 		return error;
 
+<<<<<<< HEAD
 	return xfs_rename(mnt_userns, XFS_I(odir), &oname,
 			  XFS_I(d_inode(odentry)), XFS_I(ndir), &nname,
+=======
+<<<<<<< HEAD
+	return xfs_rename(mnt_userns, XFS_I(odir), &oname,
+			  XFS_I(d_inode(odentry)), XFS_I(ndir), &nname,
+=======
+	return xfs_rename(XFS_I(odir), &oname, XFS_I(d_inode(odentry)),
+			  XFS_I(ndir), &nname,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  new_inode ? XFS_I(new_inode) : NULL, flags);
 }
 
@@ -537,7 +644,14 @@ xfs_stat_blksize(
 
 STATIC int
 xfs_vn_getattr(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct path	*path,
 	struct kstat		*stat,
 	u32			request_mask,
@@ -556,8 +670,18 @@ xfs_vn_getattr(
 	stat->dev = inode->i_sb->s_dev;
 	stat->mode = inode->i_mode;
 	stat->nlink = inode->i_nlink;
+<<<<<<< HEAD
 	stat->uid = i_uid_into_mnt(mnt_userns, inode);
 	stat->gid = i_gid_into_mnt(mnt_userns, inode);
+=======
+<<<<<<< HEAD
+	stat->uid = i_uid_into_mnt(mnt_userns, inode);
+	stat->gid = i_gid_into_mnt(mnt_userns, inode);
+=======
+	stat->uid = inode->i_uid;
+	stat->gid = inode->i_gid;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->ino = ip->i_ino;
 	stat->atime = inode->i_atime;
 	stat->mtime = inode->i_mtime;
@@ -635,9 +759,20 @@ xfs_setattr_time(
 
 static int
 xfs_vn_change_ok(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
 	struct dentry		*dentry,
 	struct iattr		*iattr)
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+	struct dentry		*dentry,
+	struct iattr		*iattr)
+=======
+	struct dentry	*dentry,
+	struct iattr	*iattr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct xfs_mount	*mp = XFS_I(d_inode(dentry))->i_mount;
 
@@ -647,7 +782,15 @@ xfs_vn_change_ok(
 	if (XFS_FORCED_SHUTDOWN(mp))
 		return -EIO;
 
+<<<<<<< HEAD
 	return setattr_prepare(mnt_userns, dentry, iattr);
+=======
+<<<<<<< HEAD
+	return setattr_prepare(mnt_userns, dentry, iattr);
+=======
+	return setattr_prepare(dentry, iattr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -658,7 +801,14 @@ xfs_vn_change_ok(
  */
 static int
 xfs_setattr_nonsize(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*ip,
 	struct iattr		*iattr)
 {
@@ -711,11 +861,27 @@ xfs_setattr_nonsize(
 			return error;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
 			capable(CAP_FOWNER), &tp);
 	if (error)
 		goto out_dqrele;
 
+<<<<<<< HEAD
+=======
+=======
+	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_ichange, 0, 0, 0, &tp);
+	if (error)
+		goto out_dqrele;
+
+	xfs_ilock(ip, XFS_ILOCK_EXCL);
+	xfs_trans_ijoin(tp, ip, 0);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Change file ownership.  Must be the owner or privileged.
 	 */
@@ -732,6 +898,27 @@ xfs_setattr_nonsize(
 		uid = (mask & ATTR_UID) ? iattr->ia_uid : iuid;
 
 		/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		 * Do a quota reservation only if uid/gid is actually
+		 * going to change.
+		 */
+		if (XFS_IS_QUOTA_RUNNING(mp) &&
+		    ((XFS_IS_UQUOTA_ON(mp) && !uid_eq(iuid, uid)) ||
+		     (XFS_IS_GQUOTA_ON(mp) && !gid_eq(igid, gid)))) {
+			ASSERT(tp);
+			error = xfs_qm_vop_chown_reserve(tp, ip, udqp, gdqp,
+						NULL, capable(CAP_FOWNER) ?
+						XFS_QMOPT_FORCE_RES : 0);
+			if (error)	/* out of quota */
+				goto out_cancel;
+		}
+
+		/*
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * CAP_FSETID overrides the following restrictions:
 		 *
 		 * The set-user-ID and set-group-ID bits of a file will be
@@ -780,6 +967,14 @@ xfs_setattr_nonsize(
 		xfs_trans_set_sync(tp);
 	error = xfs_trans_commit(tp);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Release any dquot(s) the inode had kept before chown.
 	 */
@@ -799,13 +994,30 @@ xfs_setattr_nonsize(
 	 * 	     Posix ACL code seems to care about this issue either.
 	 */
 	if (mask & ATTR_MODE) {
+<<<<<<< HEAD
 		error = posix_acl_chmod(mnt_userns, inode, inode->i_mode);
+=======
+<<<<<<< HEAD
+		error = posix_acl_chmod(mnt_userns, inode, inode->i_mode);
+=======
+		error = posix_acl_chmod(inode, inode->i_mode);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			return error;
 	}
 
 	return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+out_cancel:
+	xfs_trans_cancel(tp);
+	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_dqrele:
 	xfs_qm_dqrele(udqp);
 	xfs_qm_dqrele(gdqp);
@@ -820,7 +1032,14 @@ out_dqrele:
  */
 STATIC int
 xfs_setattr_size(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*ip,
 	struct iattr		*iattr)
 {
@@ -852,7 +1071,15 @@ xfs_setattr_size(
 		 * Use the regular setattr path to update the timestamps.
 		 */
 		iattr->ia_valid &= ~ATTR_SIZE;
+<<<<<<< HEAD
 		return xfs_setattr_nonsize(mnt_userns, ip, iattr);
+=======
+<<<<<<< HEAD
+		return xfs_setattr_nonsize(mnt_userns, ip, iattr);
+=======
+		return xfs_setattr_nonsize(ip, iattr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -1021,7 +1248,14 @@ out_trans_cancel:
 
 int
 xfs_vn_setattr_size(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dentry		*dentry,
 	struct iattr		*iattr)
 {
@@ -1030,15 +1264,35 @@ xfs_vn_setattr_size(
 
 	trace_xfs_setattr(ip);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
 	if (error)
 		return error;
 	return xfs_setattr_size(mnt_userns, ip, iattr);
+<<<<<<< HEAD
+=======
+=======
+	error = xfs_vn_change_ok(dentry, iattr);
+	if (error)
+		return error;
+	return xfs_setattr_size(ip, iattr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 STATIC int
 xfs_vn_setattr(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+<<<<<<< HEAD
+	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dentry		*dentry,
 	struct iattr		*iattr)
 {
@@ -1058,14 +1312,34 @@ xfs_vn_setattr(
 			return error;
 		}
 
+<<<<<<< HEAD
 		error = xfs_vn_setattr_size(mnt_userns, dentry, iattr);
+=======
+<<<<<<< HEAD
+		error = xfs_vn_setattr_size(mnt_userns, dentry, iattr);
+=======
+		error = xfs_vn_setattr_size(dentry, iattr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
 	} else {
 		trace_xfs_setattr(ip);
 
+<<<<<<< HEAD
 		error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
 		if (!error)
 			error = xfs_setattr_nonsize(mnt_userns, ip, iattr);
+=======
+<<<<<<< HEAD
+		error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
+		if (!error)
+			error = xfs_setattr_nonsize(mnt_userns, ip, iattr);
+=======
+		error = xfs_vn_change_ok(dentry, iattr);
+		if (!error)
+			error = xfs_setattr_nonsize(ip, iattr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return error;
@@ -1136,12 +1410,26 @@ xfs_vn_fiemap(
 
 STATIC int
 xfs_vn_tmpfile(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct user_namespace	*mnt_userns,
 	struct inode		*dir,
 	struct dentry		*dentry,
 	umode_t			mode)
 {
 	return xfs_generic_create(mnt_userns, dir, dentry, mode, 0, true);
+<<<<<<< HEAD
+=======
+=======
+	struct inode	*dir,
+	struct dentry	*dentry,
+	umode_t		mode)
+{
+	return xfs_generic_create(dir, dentry, mode, 0, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct inode_operations xfs_inode_operations = {

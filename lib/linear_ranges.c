@@ -128,7 +128,11 @@ EXPORT_SYMBOL_GPL(linear_range_get_value_array);
  * @selector:	address where found selector value is updated
  * @found:	flag to indicate that given value was in the range
  *
+<<<<<<< HEAD
  * Return selector for which range value is closest match for given
+=======
+ * Return selector which which range value is closest match for given
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * input value. Value is matching if it is equal or smaller than given
  * value. If given value is in the range, then @found is set true.
  *
@@ -168,11 +172,19 @@ EXPORT_SYMBOL_GPL(linear_range_get_selector_low);
  * @selector:	address where found selector value is updated
  * @found:	flag to indicate that given value was in the range
  *
+<<<<<<< HEAD
  * Scan array of ranges for selector for which range value matches given
  * input value. Value is matching if it is equal or smaller than given
  * value. If given value is found to be in a range scanning is stopped and
  * @found is set true. If a range with values smaller than given value is found
  * but the range max is being smaller than given value, then the range's
+=======
+ * Scan array of ranges for selector which which range value matches given
+ * input value. Value is matching if it is equal or smaller than given
+ * value. If given value is found to be in a range scanning is stopped and
+ * @found is set true. If a range with values smaller than given value is found
+ * but the range max is being smaller than given value, then the ranges
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * biggest selector is updated to @selector but scanning ranges is continued
  * and @found is set to false.
  *
@@ -209,7 +221,11 @@ EXPORT_SYMBOL_GPL(linear_range_get_selector_low_array);
  * @selector:	address where found selector value is updated
  * @found:	flag to indicate that given value was in the range
  *
+<<<<<<< HEAD
  * Return selector for which range value is closest match for given
+=======
+ * Return selector which which range value is closest match for given
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * input value. Value is matching if it is equal or higher than given
  * value. If given value is in the range, then @found is set true.
  *

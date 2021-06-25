@@ -253,6 +253,7 @@ notrace void xmon_xive_do_dump(int cpu)
 	xmon_printf("\n");
 }
 
+<<<<<<< HEAD
 static struct irq_data *xive_get_irq_data(u32 hw_irq)
 {
 	unsigned int irq = irq_find_mapping(xive_irq_domain, hw_irq);
@@ -262,11 +263,22 @@ static struct irq_data *xive_get_irq_data(u32 hw_irq)
 
 int xmon_xive_get_irq_config(u32 hw_irq, struct irq_data *d)
 {
+=======
+int xmon_xive_get_irq_config(u32 hw_irq, struct irq_data *d)
+{
+	struct irq_chip *chip = irq_data_get_irq_chip(d);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rc;
 	u32 target;
 	u8 prio;
 	u32 lirq;
 
+<<<<<<< HEAD
+=======
+	if (!is_xive_irq(chip))
+		return -EINVAL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = xive_ops->get_irq_config(hw_irq, &target, &prio, &lirq);
 	if (rc) {
 		xmon_printf("IRQ 0x%08x : no config rc=%d\n", hw_irq, rc);
@@ -276,9 +288,12 @@ int xmon_xive_get_irq_config(u32 hw_irq, struct irq_data *d)
 	xmon_printf("IRQ 0x%08x : target=0x%x prio=%02x lirq=0x%x ",
 		    hw_irq, target, prio, lirq);
 
+<<<<<<< HEAD
 	if (!d)
 		d = xive_get_irq_data(hw_irq);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (d) {
 		struct xive_irq_data *xd = irq_data_get_irq_handler_data(d);
 		u64 val = xive_esb_read(xd, XIVE_ESB_GET);
@@ -1341,14 +1356,27 @@ static int xive_prepare_cpu(unsigned int cpu)
 
 	xc = per_cpu(xive_cpu, cpu);
 	if (!xc) {
+<<<<<<< HEAD
+=======
+		struct device_node *np;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xc = kzalloc_node(sizeof(struct xive_cpu),
 				  GFP_KERNEL, cpu_to_node(cpu));
 		if (!xc)
 			return -ENOMEM;
+<<<<<<< HEAD
 		xc->hw_ipi = XIVE_BAD_IRQ;
 		xc->chip_id = XIVE_INVALID_CHIP_ID;
 		if (xive_ops->prepare_cpu)
 			xive_ops->prepare_cpu(cpu, xc);
+=======
+		np = of_get_cpu_node(cpu, NULL);
+		if (np)
+			xc->chip_id = of_get_ibm_chip_id(np);
+		of_node_put(np);
+		xc->hw_ipi = XIVE_BAD_IRQ;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		per_cpu(xive_cpu, cpu) = xc;
 	}
@@ -1602,8 +1630,11 @@ static void xive_debug_show_irq(struct seq_file *m, u32 hw_irq, struct irq_data 
 	u32 target;
 	u8 prio;
 	u32 lirq;
+<<<<<<< HEAD
 	struct xive_irq_data *xd;
 	u64 val;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!is_xive_irq(chip))
 		return;
@@ -1617,6 +1648,7 @@ static void xive_debug_show_irq(struct seq_file *m, u32 hw_irq, struct irq_data 
 	seq_printf(m, "IRQ 0x%08x : target=0x%x prio=%02x lirq=0x%x ",
 		   hw_irq, target, prio, lirq);
 
+<<<<<<< HEAD
 	xd = irq_data_get_irq_handler_data(d);
 	val = xive_esb_read(xd, XIVE_ESB_GET);
 	seq_printf(m, "flags=%c%c%c PQ=%c%c",
@@ -1625,6 +1657,19 @@ static void xive_debug_show_irq(struct seq_file *m, u32 hw_irq, struct irq_data 
 		   xd->flags & XIVE_IRQ_FLAG_H_INT_ESB ? 'H' : ' ',
 		   val & XIVE_ESB_VAL_P ? 'P' : '-',
 		   val & XIVE_ESB_VAL_Q ? 'Q' : '-');
+=======
+	if (d) {
+		struct xive_irq_data *xd = irq_data_get_irq_handler_data(d);
+		u64 val = xive_esb_read(xd, XIVE_ESB_GET);
+
+		seq_printf(m, "flags=%c%c%c PQ=%c%c",
+			   xd->flags & XIVE_IRQ_FLAG_STORE_EOI ? 'S' : ' ',
+			   xd->flags & XIVE_IRQ_FLAG_LSI ? 'L' : ' ',
+			   xd->flags & XIVE_IRQ_FLAG_H_INT_ESB ? 'H' : ' ',
+			   val & XIVE_ESB_VAL_P ? 'P' : '-',
+			   val & XIVE_ESB_VAL_Q ? 'Q' : '-');
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_puts(m, "\n");
 }
 

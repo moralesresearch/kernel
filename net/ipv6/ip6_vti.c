@@ -193,6 +193,10 @@ static int vti6_tnl_create2(struct net_device *dev)
 
 	strcpy(t->parms.name, dev->name);
 
+<<<<<<< HEAD
+=======
+	dev_hold(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vti6_tnl_link(ip6n, t);
 
 	return 0;
@@ -493,7 +497,15 @@ vti6_xmit(struct sk_buff *skb, struct net_device *dev, struct flowi *fl)
 	}
 
 	if (dst->flags & DST_XFRM_QUEUE)
+<<<<<<< HEAD
 		goto xmit;
+=======
+<<<<<<< HEAD
+		goto xmit;
+=======
+		goto queued;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	x = dst->xfrm;
 	if (!vti6_state_check(x, &t->parms.raddr, &t->parms.laddr))
@@ -522,8 +534,16 @@ vti6_xmit(struct sk_buff *skb, struct net_device *dev, struct flowi *fl)
 
 			icmpv6_ndo_send(skb, ICMPV6_PKT_TOOBIG, 0, mtu);
 		} else {
+<<<<<<< HEAD
 			if (!(ip_hdr(skb)->frag_off & htons(IP_DF)))
 				goto xmit;
+=======
+<<<<<<< HEAD
+			if (!(ip_hdr(skb)->frag_off & htons(IP_DF)))
+				goto xmit;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			icmp_ndo_send(skb, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED,
 				      htonl(mtu));
 		}
@@ -532,7 +552,15 @@ vti6_xmit(struct sk_buff *skb, struct net_device *dev, struct flowi *fl)
 		goto tx_err_dst_release;
 	}
 
+<<<<<<< HEAD
 xmit:
+=======
+<<<<<<< HEAD
+xmit:
+=======
+queued:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_scrub_packet(skb, !net_eq(t->net, dev_net(dev)));
 	skb_dst_set(skb, dst);
 	skb->dev = skb_dst(skb)->dev;
@@ -933,7 +961,10 @@ static inline int vti6_dev_init_gen(struct net_device *dev)
 	dev->tstats = netdev_alloc_pcpu_stats(struct pcpu_sw_netstats);
 	if (!dev->tstats)
 		return -ENOMEM;
+<<<<<<< HEAD
 	dev_hold(dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -965,6 +996,10 @@ static int __net_init vti6_fb_tnl_dev_init(struct net_device *dev)
 	struct vti6_net *ip6n = net_generic(net, vti6_net_id);
 
 	t->parms.proto = IPPROTO_IPV6;
+<<<<<<< HEAD
+=======
+	dev_hold(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_assign_pointer(ip6n->tnls_wc[0], t);
 	return 0;

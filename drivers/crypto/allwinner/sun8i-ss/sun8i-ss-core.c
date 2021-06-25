@@ -753,7 +753,11 @@ static int sun8i_ss_probe(struct platform_device *pdev)
 	if (err)
 		goto error_alg;
 
+<<<<<<< HEAD
 	err = pm_runtime_resume_and_get(ss->dev);
+=======
+	err = pm_runtime_get_sync(ss->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto error_alg;
 

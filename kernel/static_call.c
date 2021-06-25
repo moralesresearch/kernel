@@ -496,11 +496,20 @@ int __init static_call_init(void)
 }
 early_initcall(static_call_init);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 long __static_call_return0(void)
 {
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_STATIC_CALL_SELFTEST
 
 static int func_a(int x)

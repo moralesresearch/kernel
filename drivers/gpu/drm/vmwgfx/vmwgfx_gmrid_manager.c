@@ -29,6 +29,10 @@
  */
 
 #include "vmwgfx_drv.h"
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
 #include <linux/idr.h>
@@ -64,19 +68,31 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
 	spin_lock(&gman->lock);
 
 	if (gman->max_gmr_pages > 0) {
+<<<<<<< HEAD
 		gman->used_gmr_pages += mem->num_pages;
+=======
+		gman->used_gmr_pages += bo->num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(gman->used_gmr_pages > gman->max_gmr_pages))
 			goto nospace;
 	}
 
 	mem->mm_node = gman;
 	mem->start = id;
+<<<<<<< HEAD
+=======
+	mem->num_pages = bo->num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_unlock(&gman->lock);
 	return 0;
 
 nospace:
+<<<<<<< HEAD
 	gman->used_gmr_pages -= mem->num_pages;
+=======
+	gman->used_gmr_pages -= bo->num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&gman->lock);
 	ida_free(&gman->gmr_ida, id);
 	return -ENOSPC;

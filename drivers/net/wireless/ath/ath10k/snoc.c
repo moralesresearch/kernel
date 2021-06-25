@@ -1003,6 +1003,10 @@ static int ath10k_snoc_wlan_enable(struct ath10k *ar,
 				       NULL);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ath10k_hw_power_on(struct ath10k *ar)
 {
 	struct ath10k_snoc *ar_snoc = ath10k_snoc_priv(ar);
@@ -1036,6 +1040,11 @@ static int ath10k_hw_power_off(struct ath10k *ar)
 	return regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ath10k_snoc_wlan_disable(struct ath10k *ar)
 {
 	struct ath10k_snoc *ar_snoc = ath10k_snoc_priv(ar);
@@ -1057,7 +1066,14 @@ static void ath10k_snoc_hif_power_down(struct ath10k *ar)
 
 	ath10k_snoc_wlan_disable(ar);
 	ath10k_ce_free_rri(ar);
+<<<<<<< HEAD
 	ath10k_hw_power_off(ar);
+=======
+<<<<<<< HEAD
+	ath10k_hw_power_off(ar);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ath10k_snoc_hif_power_up(struct ath10k *ar,
@@ -1068,6 +1084,10 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar,
 	ath10k_dbg(ar, ATH10K_DBG_SNOC, "%s:WCN3990 driver state = %d\n",
 		   __func__, ar->state);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ath10k_hw_power_on(ar);
 	if (ret) {
 		ath10k_err(ar, "failed to power on device: %d\n", ret);
@@ -1078,6 +1098,15 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar,
 	if (ret) {
 		ath10k_err(ar, "failed to enable wcn3990: %d\n", ret);
 		goto err_hw_power_off;
+<<<<<<< HEAD
+=======
+=======
+	ret = ath10k_snoc_wlan_enable(ar, fw_mode);
+	if (ret) {
+		ath10k_err(ar, "failed to enable wcn3990: %d\n", ret);
+		return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ath10k_ce_alloc_rri(ar);
@@ -1094,9 +1123,18 @@ err_free_rri:
 	ath10k_ce_free_rri(ar);
 	ath10k_snoc_wlan_disable(ar);
 
+<<<<<<< HEAD
 err_hw_power_off:
 	ath10k_hw_power_off(ar);
 
+=======
+<<<<<<< HEAD
+err_hw_power_off:
+	ath10k_hw_power_off(ar);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1413,6 +1451,45 @@ static void ath10k_snoc_release_resource(struct ath10k *ar)
 		ath10k_ce_free_pipe(ar, i);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static int ath10k_hw_power_on(struct ath10k *ar)
+{
+	struct ath10k_snoc *ar_snoc = ath10k_snoc_priv(ar);
+	int ret;
+
+	ath10k_dbg(ar, ATH10K_DBG_SNOC, "soc power on\n");
+
+	ret = regulator_bulk_enable(ar_snoc->num_vregs, ar_snoc->vregs);
+	if (ret)
+		return ret;
+
+	ret = clk_bulk_prepare_enable(ar_snoc->num_clks, ar_snoc->clks);
+	if (ret)
+		goto vreg_off;
+
+	return ret;
+
+vreg_off:
+	regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
+	return ret;
+}
+
+static int ath10k_hw_power_off(struct ath10k *ar)
+{
+	struct ath10k_snoc *ar_snoc = ath10k_snoc_priv(ar);
+
+	ath10k_dbg(ar, ATH10K_DBG_SNOC, "soc power off\n");
+
+	clk_bulk_disable_unprepare(ar_snoc->num_clks, ar_snoc->clks);
+
+	return regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ath10k_msa_dump_memory(struct ath10k *ar,
 				   struct ath10k_fw_crash_data *crash_data)
 {
@@ -1722,16 +1799,43 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	if (ret)
 		goto err_free_irq;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ath10k_setup_msa_resources(ar, msa_size);
 	if (ret) {
 		ath10k_warn(ar, "failed to setup msa resources: %d\n", ret);
 		goto err_free_irq;
+<<<<<<< HEAD
+=======
+=======
+	ret = ath10k_hw_power_on(ar);
+	if (ret) {
+		ath10k_err(ar, "failed to power on device: %d\n", ret);
+		goto err_free_irq;
+	}
+
+	ret = ath10k_setup_msa_resources(ar, msa_size);
+	if (ret) {
+		ath10k_warn(ar, "failed to setup msa resources: %d\n", ret);
+		goto err_power_off;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = ath10k_fw_init(ar);
 	if (ret) {
 		ath10k_err(ar, "failed to initialize firmware: %d\n", ret);
+<<<<<<< HEAD
 		goto err_free_irq;
+=======
+<<<<<<< HEAD
+		goto err_free_irq;
+=======
+		goto err_power_off;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = ath10k_qmi_init(ar, msa_size);
@@ -1747,6 +1851,15 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 err_fw_deinit:
 	ath10k_fw_deinit(ar);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+err_power_off:
+	ath10k_hw_power_off(ar);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_irq:
 	ath10k_snoc_free_irq(ar);
 
@@ -1774,6 +1887,13 @@ static int ath10k_snoc_remove(struct platform_device *pdev)
 	set_bit(ATH10K_SNOC_FLAG_UNREGISTERING, &ar_snoc->flags);
 
 	ath10k_core_unregister(ar);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	ath10k_hw_power_off(ar);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ath10k_fw_deinit(ar);
 	ath10k_snoc_free_irq(ar);
 	ath10k_snoc_release_resource(ar);

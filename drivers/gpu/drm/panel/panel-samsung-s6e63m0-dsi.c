@@ -97,6 +97,10 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
 	dsi->hs_rate = 349440000;
 	dsi->lp_rate = 9600000;
 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+<<<<<<< HEAD
+=======
+		MIPI_DSI_MODE_EOT_PACKET |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MIPI_DSI_MODE_VIDEO_BURST;
 
 	ret = s6e63m0_probe(dev, s6e63m0_dsi_dcs_read, s6e63m0_dsi_dcs_write,

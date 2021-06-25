@@ -7,10 +7,17 @@
  * Authors: Paul E. McKenney <paulmck@linux.ibm.com>
  */
 
+<<<<<<< HEAD
 #include <linux/cpu.h>
 #include <linux/interrupt.h>
 #include <linux/kernel.h>
 #include <linux/types.h>
+=======
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/interrupt.h>
+#include <linux/rcupdate.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "rcu_segcblist.h"
 
@@ -88,6 +95,7 @@ static void rcu_segcblist_set_len(struct rcu_segcblist *rsclp, long v)
 #endif
 }
 
+<<<<<<< HEAD
 /* Get the length of a segment of the rcu_segcblist structure. */
 static long rcu_segcblist_get_seglen(struct rcu_segcblist *rsclp, int seg)
 {
@@ -140,12 +148,15 @@ static void rcu_segcblist_inc_seglen(struct rcu_segcblist *rsclp, int seg)
 	rcu_segcblist_add_seglen(rsclp, seg, 1);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Increase the numeric length of an rcu_segcblist structure by the
  * specified amount, which can be negative.  This can cause the ->len
  * field to disagree with the actual number of callbacks on the structure.
  * This increase is fully ordered with respect to the callers accesses
  * both before and after.
+<<<<<<< HEAD
  *
  * So why on earth is a memory barrier required both before and after
  * the update to the ->len field???
@@ -217,6 +228,19 @@ void rcu_segcblist_add_len(struct rcu_segcblist *rsclp, long v)
 	smp_mb(); // Read header comment above.
 	WRITE_ONCE(rsclp->len, rsclp->len + v);
 	smp_mb(); // Read header comment above.
+=======
+ */
+static void rcu_segcblist_add_len(struct rcu_segcblist *rsclp, long v)
+{
+#ifdef CONFIG_RCU_NOCB_CPU
+	smp_mb__before_atomic(); /* Up to the caller! */
+	atomic_long_add(v, &rsclp->len);
+	smp_mb__after_atomic(); /* Up to the caller! */
+#else
+	smp_mb(); /* Up to the caller! */
+	WRITE_ONCE(rsclp->len, rsclp->len + v);
+	smp_mb(); /* Up to the caller! */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -232,6 +256,29 @@ void rcu_segcblist_inc_len(struct rcu_segcblist *rsclp)
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * Exchange the numeric length of the specified rcu_segcblist structure
+ * with the specified value.  This can cause the ->len field to disagree
+ * with the actual number of callbacks on the structure.  This exchange is
+ * fully ordered with respect to the callers accesses both before and after.
+ */
+static long rcu_segcblist_xchg_len(struct rcu_segcblist *rsclp, long v)
+{
+#ifdef CONFIG_RCU_NOCB_CPU
+	return atomic_long_xchg(&rsclp->len, v);
+#else
+	long ret = rsclp->len;
+
+	smp_mb(); /* Up to the caller! */
+	WRITE_ONCE(rsclp->len, v);
+	smp_mb(); /* Up to the caller! */
+	return ret;
+#endif
+}
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Initialize an rcu_segcblist structure.
  */
 void rcu_segcblist_init(struct rcu_segcblist *rsclp)
@@ -241,12 +288,19 @@ void rcu_segcblist_init(struct rcu_segcblist *rsclp)
 	BUILD_BUG_ON(RCU_NEXT_TAIL + 1 != ARRAY_SIZE(rsclp->gp_seq));
 	BUILD_BUG_ON(ARRAY_SIZE(rsclp->tails) != ARRAY_SIZE(rsclp->gp_seq));
 	rsclp->head = NULL;
+<<<<<<< HEAD
 	for (i = 0; i < RCU_CBLIST_NSEGS; i++) {
 		rsclp->tails[i] = &rsclp->head;
 		rcu_segcblist_set_seglen(rsclp, i, 0);
 	}
 	rcu_segcblist_set_len(rsclp, 0);
 	rcu_segcblist_set_flags(rsclp, SEGCBLIST_ENABLED);
+=======
+	for (i = 0; i < RCU_CBLIST_NSEGS; i++)
+		rsclp->tails[i] = &rsclp->head;
+	rcu_segcblist_set_len(rsclp, 0);
+	rsclp->enabled = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -257,13 +311,18 @@ void rcu_segcblist_disable(struct rcu_segcblist *rsclp)
 {
 	WARN_ON_ONCE(!rcu_segcblist_empty(rsclp));
 	WARN_ON_ONCE(rcu_segcblist_n_cbs(rsclp));
+<<<<<<< HEAD
 	rcu_segcblist_clear_flags(rsclp, SEGCBLIST_ENABLED);
+=======
+	rsclp->enabled = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
  * Mark the specified rcu_segcblist structure as offloaded.  This
  * structure must be empty.
  */
+<<<<<<< HEAD
 void rcu_segcblist_offload(struct rcu_segcblist *rsclp, bool offload)
 {
 	if (offload) {
@@ -272,6 +331,11 @@ void rcu_segcblist_offload(struct rcu_segcblist *rsclp, bool offload)
 	} else {
 		rcu_segcblist_clear_flags(rsclp, SEGCBLIST_OFFLOADED);
 	}
+=======
+void rcu_segcblist_offload(struct rcu_segcblist *rsclp)
+{
+	rsclp->offloaded = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -344,7 +408,11 @@ void rcu_segcblist_enqueue(struct rcu_segcblist *rsclp,
 			   struct rcu_head *rhp)
 {
 	rcu_segcblist_inc_len(rsclp);
+<<<<<<< HEAD
 	rcu_segcblist_inc_seglen(rsclp, RCU_NEXT_TAIL);
+=======
+	smp_mb(); /* Ensure counts are updated before callback is enqueued. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rhp->next = NULL;
 	WRITE_ONCE(*rsclp->tails[RCU_NEXT_TAIL], rhp);
 	WRITE_ONCE(rsclp->tails[RCU_NEXT_TAIL], &rhp->next);
@@ -373,7 +441,10 @@ bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
 	for (i = RCU_NEXT_TAIL; i > RCU_DONE_TAIL; i--)
 		if (rsclp->tails[i] != rsclp->tails[i - 1])
 			break;
+<<<<<<< HEAD
 	rcu_segcblist_inc_seglen(rsclp, i);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WRITE_ONCE(*rsclp->tails[i], rhp);
 	for (; i <= RCU_NEXT_TAIL; i++)
 		WRITE_ONCE(rsclp->tails[i], &rhp->next);
@@ -381,6 +452,24 @@ bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * Extract only the counts from the specified rcu_segcblist structure,
+ * and place them in the specified rcu_cblist structure.  This function
+ * supports both callback orphaning and invocation, hence the separation
+ * of counts and callbacks.  (Callbacks ready for invocation must be
+ * orphaned and adopted separately from pending callbacks, but counts
+ * apply to all callbacks.  Locking must be used to make sure that
+ * both orphaned-callbacks lists are consistent.)
+ */
+void rcu_segcblist_extract_count(struct rcu_segcblist *rsclp,
+					       struct rcu_cblist *rclp)
+{
+	rclp->len = rcu_segcblist_xchg_len(rsclp, 0);
+}
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Extract only those callbacks ready to be invoked from the specified
  * rcu_segcblist structure and place them in the specified rcu_cblist
  * structure.
@@ -392,7 +481,10 @@ void rcu_segcblist_extract_done_cbs(struct rcu_segcblist *rsclp,
 
 	if (!rcu_segcblist_ready_cbs(rsclp))
 		return; /* Nothing to do. */
+<<<<<<< HEAD
 	rclp->len = rcu_segcblist_get_seglen(rsclp, RCU_DONE_TAIL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*rclp->tail = rsclp->head;
 	WRITE_ONCE(rsclp->head, *rsclp->tails[RCU_DONE_TAIL]);
 	WRITE_ONCE(*rsclp->tails[RCU_DONE_TAIL], NULL);
@@ -400,7 +492,10 @@ void rcu_segcblist_extract_done_cbs(struct rcu_segcblist *rsclp,
 	for (i = RCU_CBLIST_NSEGS - 1; i >= RCU_DONE_TAIL; i--)
 		if (rsclp->tails[i] == rsclp->tails[RCU_DONE_TAIL])
 			WRITE_ONCE(rsclp->tails[i], &rsclp->head);
+<<<<<<< HEAD
 	rcu_segcblist_set_seglen(rsclp, RCU_DONE_TAIL, 0);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -417,6 +512,7 @@ void rcu_segcblist_extract_pend_cbs(struct rcu_segcblist *rsclp,
 
 	if (!rcu_segcblist_pend_cbs(rsclp))
 		return; /* Nothing to do. */
+<<<<<<< HEAD
 	rclp->len = 0;
 	*rclp->tail = *rsclp->tails[RCU_DONE_TAIL];
 	rclp->tail = rsclp->tails[RCU_NEXT_TAIL];
@@ -426,6 +522,13 @@ void rcu_segcblist_extract_pend_cbs(struct rcu_segcblist *rsclp,
 		WRITE_ONCE(rsclp->tails[i], rsclp->tails[RCU_DONE_TAIL]);
 		rcu_segcblist_set_seglen(rsclp, i, 0);
 	}
+=======
+	*rclp->tail = *rsclp->tails[RCU_DONE_TAIL];
+	rclp->tail = rsclp->tails[RCU_NEXT_TAIL];
+	WRITE_ONCE(*rsclp->tails[RCU_DONE_TAIL], NULL);
+	for (i = RCU_DONE_TAIL + 1; i < RCU_CBLIST_NSEGS; i++)
+		WRITE_ONCE(rsclp->tails[i], rsclp->tails[RCU_DONE_TAIL]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -436,6 +539,10 @@ void rcu_segcblist_insert_count(struct rcu_segcblist *rsclp,
 				struct rcu_cblist *rclp)
 {
 	rcu_segcblist_add_len(rsclp, rclp->len);
+<<<<<<< HEAD
+=======
+	rclp->len = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -449,7 +556,10 @@ void rcu_segcblist_insert_done_cbs(struct rcu_segcblist *rsclp,
 
 	if (!rclp->head)
 		return; /* No callbacks to move. */
+<<<<<<< HEAD
 	rcu_segcblist_add_seglen(rsclp, RCU_DONE_TAIL, rclp->len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*rclp->tail = rsclp->head;
 	WRITE_ONCE(rsclp->head, rclp->head);
 	for (i = RCU_DONE_TAIL; i < RCU_CBLIST_NSEGS; i++)
@@ -470,8 +580,11 @@ void rcu_segcblist_insert_pend_cbs(struct rcu_segcblist *rsclp,
 {
 	if (!rclp->head)
 		return; /* Nothing to do. */
+<<<<<<< HEAD
 
 	rcu_segcblist_add_seglen(rsclp, RCU_NEXT_TAIL, rclp->len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WRITE_ONCE(*rsclp->tails[RCU_NEXT_TAIL], rclp->head);
 	WRITE_ONCE(rsclp->tails[RCU_NEXT_TAIL], rclp->tail);
 }
@@ -496,7 +609,10 @@ void rcu_segcblist_advance(struct rcu_segcblist *rsclp, unsigned long seq)
 		if (ULONG_CMP_LT(seq, rsclp->gp_seq[i]))
 			break;
 		WRITE_ONCE(rsclp->tails[RCU_DONE_TAIL], rsclp->tails[i]);
+<<<<<<< HEAD
 		rcu_segcblist_move_seglen(rsclp, i, RCU_DONE_TAIL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* If no callbacks moved, nothing more need be done. */
@@ -517,7 +633,10 @@ void rcu_segcblist_advance(struct rcu_segcblist *rsclp, unsigned long seq)
 		if (rsclp->tails[j] == rsclp->tails[RCU_NEXT_TAIL])
 			break;  /* No more callbacks. */
 		WRITE_ONCE(rsclp->tails[j], rsclp->tails[i]);
+<<<<<<< HEAD
 		rcu_segcblist_move_seglen(rsclp, i, j);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rsclp->gp_seq[j] = rsclp->gp_seq[i];
 	}
 }
@@ -539,7 +658,11 @@ void rcu_segcblist_advance(struct rcu_segcblist *rsclp, unsigned long seq)
  */
 bool rcu_segcblist_accelerate(struct rcu_segcblist *rsclp, unsigned long seq)
 {
+<<<<<<< HEAD
 	int i, j;
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	WARN_ON_ONCE(!rcu_segcblist_is_enabled(rsclp));
 	if (rcu_segcblist_restempty(rsclp, RCU_DONE_TAIL))
@@ -582,10 +705,13 @@ bool rcu_segcblist_accelerate(struct rcu_segcblist *rsclp, unsigned long seq)
 	if (rcu_segcblist_restempty(rsclp, i) || ++i >= RCU_NEXT_TAIL)
 		return false;
 
+<<<<<<< HEAD
 	/* Accounting: everything below i is about to get merged into i. */
 	for (j = i + 1; j <= RCU_NEXT_TAIL; j++)
 		rcu_segcblist_move_seglen(rsclp, j, i);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Merge all later callbacks, including newly arrived callbacks,
 	 * into the segment located by the for-loop above.  Assign "seq"
@@ -613,6 +739,7 @@ void rcu_segcblist_merge(struct rcu_segcblist *dst_rsclp,
 	struct rcu_cblist donecbs;
 	struct rcu_cblist pendcbs;
 
+<<<<<<< HEAD
 	lockdep_assert_cpus_held();
 
 	rcu_cblist_init(&donecbs);
@@ -632,5 +759,15 @@ void rcu_segcblist_merge(struct rcu_segcblist *dst_rsclp,
 	rcu_segcblist_insert_done_cbs(dst_rsclp, &donecbs);
 	rcu_segcblist_insert_pend_cbs(dst_rsclp, &pendcbs);
 
+=======
+	rcu_cblist_init(&donecbs);
+	rcu_cblist_init(&pendcbs);
+	rcu_segcblist_extract_count(src_rsclp, &donecbs);
+	rcu_segcblist_extract_done_cbs(src_rsclp, &donecbs);
+	rcu_segcblist_extract_pend_cbs(src_rsclp, &pendcbs);
+	rcu_segcblist_insert_count(dst_rsclp, &donecbs);
+	rcu_segcblist_insert_done_cbs(dst_rsclp, &donecbs);
+	rcu_segcblist_insert_pend_cbs(dst_rsclp, &pendcbs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_segcblist_init(src_rsclp);
 }

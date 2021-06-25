@@ -7,14 +7,22 @@
 #include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/delay.h>
+<<<<<<< HEAD
 #include <linux/dmi.h>
 #include <linux/errno.h>
 #include <linux/gpio/consumer.h>
 #include <linux/gpio/machine.h>
+=======
+#include <linux/errno.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/list.h>
 #include <linux/interrupt.h>
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadget.h>
+<<<<<<< HEAD
+=======
+#include <linux/gpio/consumer.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/irq.h>
 
 #define PCH_VBUS_PERIOD		3000	/* VBUS polling period (msec) */
@@ -598,22 +606,34 @@ static void pch_udc_reconnect(struct pch_udc_dev *dev)
 static inline void pch_udc_vbus_session(struct pch_udc_dev *dev,
 					  int is_active)
 {
+<<<<<<< HEAD
 	unsigned long		iflags;
 
 	spin_lock_irqsave(&dev->lock, iflags);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_active) {
 		pch_udc_reconnect(dev);
 		dev->vbus_session = 1;
 	} else {
 		if (dev->driver && dev->driver->disconnect) {
+<<<<<<< HEAD
 			spin_unlock_irqrestore(&dev->lock, iflags);
 			dev->driver->disconnect(&dev->gadget);
 			spin_lock_irqsave(&dev->lock, iflags);
+=======
+			spin_lock(&dev->lock);
+			dev->driver->disconnect(&dev->gadget);
+			spin_unlock(&dev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		pch_udc_set_disconnect(dev);
 		dev->vbus_session = 0;
 	}
+<<<<<<< HEAD
 	spin_unlock_irqrestore(&dev->lock, iflags);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1172,6 +1192,7 @@ static int pch_udc_pcd_selfpowered(struct usb_gadget *gadget, int value)
 static int pch_udc_pcd_pullup(struct usb_gadget *gadget, int is_on)
 {
 	struct pch_udc_dev	*dev;
+<<<<<<< HEAD
 	unsigned long		iflags;
 
 	if (!gadget)
@@ -1180,10 +1201,17 @@ static int pch_udc_pcd_pullup(struct usb_gadget *gadget, int is_on)
 	dev = container_of(gadget, struct pch_udc_dev, gadget);
 
 	spin_lock_irqsave(&dev->lock, iflags);
+=======
+
+	if (!gadget)
+		return -EINVAL;
+	dev = container_of(gadget, struct pch_udc_dev, gadget);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_on) {
 		pch_udc_reconnect(dev);
 	} else {
 		if (dev->driver && dev->driver->disconnect) {
+<<<<<<< HEAD
 			spin_unlock_irqrestore(&dev->lock, iflags);
 			dev->driver->disconnect(&dev->gadget);
 			spin_lock_irqsave(&dev->lock, iflags);
@@ -1191,6 +1219,14 @@ static int pch_udc_pcd_pullup(struct usb_gadget *gadget, int is_on)
 		pch_udc_set_disconnect(dev);
 	}
 	spin_unlock_irqrestore(&dev->lock, iflags);
+=======
+			spin_lock(&dev->lock);
+			dev->driver->disconnect(&dev->gadget);
+			spin_unlock(&dev->lock);
+		}
+		pch_udc_set_disconnect(dev);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1361,6 +1397,7 @@ static irqreturn_t pch_vbus_gpio_irq(int irq, void *data)
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 static struct gpiod_lookup_table minnowboard_udc_gpios = {
 	.dev_id		= "0000:02:02.4",
 	.table		= {
@@ -1398,6 +1435,8 @@ static int pch_vbus_gpio_add_table(struct pch_udc_dev *dev)
 	return devm_add_action_or_reset(d, pch_vbus_gpio_remove_table, dmi->driver_data);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * pch_vbus_gpio_init() - This API initializes GPIO port detecting VBUS.
  * @dev:		Reference to the driver structure
@@ -1408,7 +1447,10 @@ static int pch_vbus_gpio_add_table(struct pch_udc_dev *dev)
  */
 static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
 {
+<<<<<<< HEAD
 	struct device *d = &dev->pdev->dev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 	int irq_num = 0;
 	struct gpio_desc *gpiod;
@@ -1416,12 +1458,17 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
 	dev->vbus_gpio.port = NULL;
 	dev->vbus_gpio.intr = 0;
 
+<<<<<<< HEAD
 	err = pch_vbus_gpio_add_table(dev);
 	if (err)
 		return err;
 
 	/* Retrieve the GPIO line from the USB gadget device */
 	gpiod = devm_gpiod_get_optional(d, NULL, GPIOD_IN);
+=======
+	/* Retrieve the GPIO line from the USB gadget device */
+	gpiod = devm_gpiod_get(dev->gadget.dev.parent, NULL, GPIOD_IN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(gpiod))
 		return PTR_ERR(gpiod);
 	gpiod_set_consumer_name(gpiod, "pch_vbus");
@@ -1809,7 +1856,11 @@ static struct usb_request *pch_udc_alloc_request(struct usb_ep *usbep,
 	}
 	/* prevent from using desc. - set HOST BUSY */
 	dma_desc->status |= PCH_UDC_BS_HST_BSY;
+<<<<<<< HEAD
 	dma_desc->dataptr = lower_32_bits(DMA_ADDR_INVALID);
+=======
+	dma_desc->dataptr = cpu_to_le32(DMA_ADDR_INVALID);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	req->td_data = dma_desc;
 	req->td_data_last = dma_desc;
 	req->chain_len = 1;
@@ -2351,6 +2402,7 @@ static void pch_udc_svc_data_out(struct pch_udc_dev *dev, int ep_num)
 		pch_udc_set_dma(dev, DMA_DIR_RX);
 }
 
+<<<<<<< HEAD
 static int pch_udc_gadget_setup(struct pch_udc_dev *dev)
 	__must_hold(&dev->lock)
 {
@@ -2366,6 +2418,8 @@ static int pch_udc_gadget_setup(struct pch_udc_dev *dev)
 	return rc;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * pch_udc_svc_control_in() - Handle Control IN endpoint interrupts
  * @dev:	Reference to the device structure
@@ -2437,12 +2491,22 @@ static void pch_udc_svc_control_out(struct pch_udc_dev *dev)
 			dev->gadget.ep0 = &dev->ep[UDC_EP0IN_IDX].ep;
 		else /* OUT */
 			dev->gadget.ep0 = &ep->ep;
+<<<<<<< HEAD
+=======
+		spin_lock(&dev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* If Mass storage Reset */
 		if ((dev->setup_data.bRequestType == 0x21) &&
 		    (dev->setup_data.bRequest == 0xFF))
 			dev->prot_stall = 0;
 		/* call gadget with setup data received */
+<<<<<<< HEAD
 		setup_supported = pch_udc_gadget_setup(dev);
+=======
+		setup_supported = dev->driver->setup(&dev->gadget,
+						     &dev->setup_data);
+		spin_unlock(&dev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (dev->setup_data.bRequestType & USB_DIR_IN) {
 			ep->td_data->status = (ep->td_data->status &
@@ -2690,7 +2754,13 @@ static void pch_udc_svc_intf_interrupt(struct pch_udc_dev *dev)
 		dev->ep[i].halted = 0;
 	}
 	dev->stall = 0;
+<<<<<<< HEAD
 	pch_udc_gadget_setup(dev);
+=======
+	spin_unlock(&dev->lock);
+	dev->driver->setup(&dev->gadget, &dev->setup_data);
+	spin_lock(&dev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2725,7 +2795,13 @@ static void pch_udc_svc_cfg_interrupt(struct pch_udc_dev *dev)
 	dev->stall = 0;
 
 	/* call gadget zero with setup data received */
+<<<<<<< HEAD
 	pch_udc_gadget_setup(dev);
+=======
+	spin_unlock(&dev->lock);
+	dev->driver->setup(&dev->gadget, &dev->setup_data);
+	spin_lock(&dev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2931,6 +3007,7 @@ static void pch_udc_pcd_reinit(struct pch_udc_dev *dev)
  * @dev:	Reference to the driver structure
  *
  * Return codes:
+<<<<<<< HEAD
  *	0:		Success
  *	-%ERRNO:	All kind of errors when retrieving VBUS GPIO
  */
@@ -2945,6 +3022,16 @@ static int pch_udc_pcd_init(struct pch_udc_dev *dev)
 	if (ret)
 		pch_udc_exit(dev);
 	return ret;
+=======
+ *	0: Success
+ */
+static int pch_udc_pcd_init(struct pch_udc_dev *dev)
+{
+	pch_udc_init(dev);
+	pch_udc_pcd_reinit(dev);
+	pch_vbus_gpio_init(dev);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -3005,7 +3092,11 @@ static int init_dma_pools(struct pch_udc_dev *dev)
 	dev->dma_addr = dma_map_single(&dev->pdev->dev, ep0out_buf,
 				       UDC_EP0OUT_BUFF_SIZE * 4,
 				       DMA_FROM_DEVICE);
+<<<<<<< HEAD
 	return dma_mapping_error(&dev->pdev->dev, dev->dma_addr);
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int pch_udc_start(struct usb_gadget *g,
@@ -3130,7 +3221,10 @@ static int pch_udc_probe(struct pci_dev *pdev,
 	if (retval)
 		return retval;
 
+<<<<<<< HEAD
 	dev->pdev = pdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, dev);
 
 	/* Determine BAR based on PCI ID */
@@ -3146,10 +3240,23 @@ static int pch_udc_probe(struct pci_dev *pdev,
 
 	dev->base_addr = pcim_iomap_table(pdev)[bar];
 
+<<<<<<< HEAD
 	/* initialize the hardware */
 	retval = pch_udc_pcd_init(dev);
 	if (retval)
 		return retval;
+=======
+	/*
+	 * FIXME: add a GPIO descriptor table to pdev.dev using
+	 * gpiod_add_descriptor_table() from <linux/gpio/machine.h> based on
+	 * the PCI subsystem ID. The system-dependent GPIO is necessary for
+	 * VBUS operation.
+	 */
+
+	/* initialize the hardware */
+	if (pch_udc_pcd_init(dev))
+		return -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pci_enable_msi(pdev);
 
@@ -3166,6 +3273,10 @@ static int pch_udc_probe(struct pci_dev *pdev,
 
 	/* device struct setup */
 	spin_lock_init(&dev->lock);
+<<<<<<< HEAD
+=======
+	dev->pdev = pdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->gadget.ops = &pch_udc_ops;
 
 	retval = init_dma_pools(dev);

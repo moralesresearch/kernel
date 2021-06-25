@@ -321,7 +321,11 @@ static struct attribute *hisi_l3c_pmu_identifier_attrs[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group hisi_l3c_pmu_identifier_group = {
+=======
+static struct attribute_group hisi_l3c_pmu_identifier_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = hisi_l3c_pmu_identifier_attrs,
 };
 

@@ -33,6 +33,10 @@
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_DESCRIPTION("A loopback soundcard");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{ALSA,Loopback soundcard}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MAX_PCM_SUBSTREAMS	8
 
@@ -218,7 +222,11 @@ static int loopback_jiffies_timer_start(struct loopback_pcm *dpcm)
 		dpcm->period_update_pending = 1;
 	}
 	tick = dpcm->period_size_frac - dpcm->irq_pos;
+<<<<<<< HEAD
 	tick = DIV_ROUND_UP(tick, dpcm->pcm_bps);
+=======
+	tick = (tick + dpcm->pcm_bps - 1) / dpcm->pcm_bps;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mod_timer(&dpcm->timer, jiffies + tick);
 
 	return 0;
@@ -1571,6 +1579,7 @@ static int loopback_mixer_new(struct loopback *loopback, int notify)
 					return -ENOMEM;
 				kctl->id.device = dev;
 				kctl->id.subdevice = substr;
+<<<<<<< HEAD
 
 				/* Add the control before copying the id so that
 				 * the numid field of the id is set in the copy.
@@ -1579,6 +1588,8 @@ static int loopback_mixer_new(struct loopback *loopback, int notify)
 				if (err < 0)
 					return err;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				switch (idx) {
 				case ACTIVE_IDX:
 					setup->active_id = kctl->id;
@@ -1595,6 +1606,12 @@ static int loopback_mixer_new(struct loopback *loopback, int notify)
 				default:
 					break;
 				}
+<<<<<<< HEAD
+=======
+				err = snd_ctl_add(card, kctl);
+				if (err < 0)
+					return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 	}

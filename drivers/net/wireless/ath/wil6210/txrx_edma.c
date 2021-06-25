@@ -1026,8 +1026,11 @@ skipping:
 		stats->last_mcs_rx = wil_rx_status_get_mcs(msg);
 		if (stats->last_mcs_rx < ARRAY_SIZE(stats->rx_per_mcs))
 			stats->rx_per_mcs[stats->last_mcs_rx]++;
+<<<<<<< HEAD
 		else if (stats->last_mcs_rx == WIL_EXTENDED_MCS_26)
 			stats->rx_per_mcs[WIL_BASE_MCS_FOR_EXTENDED_26]++;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		stats->last_cb_mode_rx  = wil_rx_status_get_cb_mode(msg);
 	}

@@ -20,6 +20,10 @@
 #include "tpm-dev.h"
 
 static struct workqueue_struct *tpm_dev_wq;
+<<<<<<< HEAD
+=======
+static DEFINE_MUTEX(tpm_dev_wq_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t tpm_dev_transmit(struct tpm_chip *chip, struct tpm_space *space,
 				u8 *buf, size_t bufsiz)

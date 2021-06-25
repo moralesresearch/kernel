@@ -39,7 +39,11 @@
 	BPF_EMIT_CALL(BPF_FUNC_probe_read_kernel),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R1 off -64+0 size 64",
+=======
+	.errstr = "invalid indirect read from stack off -64+0 size 64",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -59,7 +63,11 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R1 off=-64 size=65",
+=======
+	.errstr = "invalid stack type R1 off=-64 access_size=65",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -136,7 +144,11 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R1 off=-64 size=65",
+=======
+	.errstr = "invalid stack type R1 off=-64 access_size=65",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -156,7 +168,11 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R1 off=-64 size=65",
+=======
+	.errstr = "invalid stack type R1 off=-64 access_size=65",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -194,7 +210,11 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R1 off -64+0 size 64",
+=======
+	.errstr = "invalid indirect read from stack off -64+0 size 64",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -584,7 +604,11 @@
 	BPF_LDX_MEM(BPF_DW, BPF_REG_1, BPF_REG_10, -16),
 	BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R1 off -64+32 size 64",
+=======
+	.errstr = "invalid indirect read from stack off -64+32 size 64",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },

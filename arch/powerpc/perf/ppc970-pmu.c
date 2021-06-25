@@ -190,7 +190,11 @@ static unsigned long unit_cons[PM_LASTUNIT+1][2] = {
 };
 
 static int p970_get_constraint(u64 event, unsigned long *maskp,
+<<<<<<< HEAD
 			       unsigned long *valp, u64 event_config1 __maybe_unused)
+=======
+			       unsigned long *valp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int pmc, byte, unit, sh, spcsel;
 	unsigned long mask = 0, value = 0;
@@ -256,8 +260,12 @@ static int p970_get_alternatives(u64 event, unsigned int flags, u64 alt[])
 
 static int p970_compute_mmcr(u64 event[], int n_ev,
 			     unsigned int hwc[], struct mmcr_regs *mmcr,
+<<<<<<< HEAD
 			     struct perf_event *pevents[],
 			     u32 flags __maybe_unused)
+=======
+			     struct perf_event *pevents[])
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long mmcr0 = 0, mmcr1 = 0, mmcra = 0;
 	unsigned int pmc, unit, byte, psel;

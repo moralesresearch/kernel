@@ -49,3 +49,14 @@ void __init prom_meminit(void)
 	pages = memsize() >> PAGE_SHIFT;
 	memblock_add(PHYS_OFFSET, pages << PAGE_SHIFT);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+void __init prom_free_prom_memory(void)
+{
+	/* Nothing to free */
+}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

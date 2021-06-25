@@ -64,7 +64,11 @@ int nvkm_falcon_get(struct nvkm_falcon *, const struct nvkm_subdev *);
 void nvkm_falcon_put(struct nvkm_falcon *, const struct nvkm_subdev *);
 
 int nvkm_falcon_new_(const struct nvkm_falcon_func *, struct nvkm_device *,
+<<<<<<< HEAD
 		     enum nvkm_subdev_type, int inst, bool enable, u32 addr, struct nvkm_engine **);
+=======
+		     int index, bool enable, u32 addr, struct nvkm_engine **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_falcon_func {
 	struct {

@@ -18,7 +18,10 @@
 #include "intel_pm.h"
 #include "intel_psr.h"
 #include "intel_sideband.h"
+<<<<<<< HEAD
 #include "intel_sprite.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline struct drm_i915_private *node_to_i915(struct drm_info_node *node)
 {
@@ -866,6 +869,7 @@ static void intel_scaler_info(struct seq_file *m, struct intel_crtc *crtc)
 	}
 }
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_VBLANK_EVADE)
 static void crtc_updates_info(struct seq_file *m,
 			      struct intel_crtc *crtc,
@@ -970,6 +974,8 @@ static void crtc_updates_add(struct drm_crtc *crtc)
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void intel_crtc_info(struct seq_file *m, struct intel_crtc *crtc)
 {
 	struct drm_i915_private *dev_priv = node_to_i915(m->private);
@@ -1012,8 +1018,11 @@ static void intel_crtc_info(struct seq_file *m, struct intel_crtc *crtc)
 	seq_printf(m, "\tunderrun reporting: cpu=%s pch=%s\n",
 		   yesno(!crtc->cpu_fifo_underrun_disabled),
 		   yesno(!crtc->pch_fifo_underrun_disabled));
+<<<<<<< HEAD
 
 	crtc_updates_info(m, crtc, "\t");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int i915_display_info(struct seq_file *m, void *unused)
@@ -1139,6 +1148,10 @@ static ssize_t i915_ipc_status_write(struct file *file, const char __user *ubuf,
 		if (!dev_priv->ipc_enabled && enable)
 			drm_info(&dev_priv->drm,
 				 "Enabling IPC: WM will be proper only after next commit\n");
+<<<<<<< HEAD
+=======
+		dev_priv->wm.distrust_bios_wm = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_priv->ipc_enabled = enable;
 		intel_enable_ipc(dev_priv);
 	}
@@ -2154,6 +2167,7 @@ static int i915_panel_show(struct seq_file *m, void *data)
 		return -ENODEV;
 
 	seq_printf(m, "Panel power up delay: %d\n",
+<<<<<<< HEAD
 		   intel_dp->pps.panel_power_up_delay);
 	seq_printf(m, "Panel power down delay: %d\n",
 		   intel_dp->pps.panel_power_down_delay);
@@ -2161,6 +2175,15 @@ static int i915_panel_show(struct seq_file *m, void *data)
 		   intel_dp->pps.backlight_on_delay);
 	seq_printf(m, "Backlight off delay: %d\n",
 		   intel_dp->pps.backlight_off_delay);
+=======
+		   intel_dp->panel_power_up_delay);
+	seq_printf(m, "Panel power down delay: %d\n",
+		   intel_dp->panel_power_down_delay);
+	seq_printf(m, "Backlight on delay: %d\n",
+		   intel_dp->backlight_on_delay);
+	seq_printf(m, "Backlight off delay: %d\n",
+		   intel_dp->backlight_off_delay);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -2384,6 +2407,7 @@ int intel_connector_debugfs_add(struct drm_connector *connector)
 
 	return 0;
 }
+<<<<<<< HEAD
 
 /**
  * intel_crtc_debugfs_add - add i915 specific crtc debugfs files
@@ -2401,3 +2425,5 @@ int intel_crtc_debugfs_add(struct drm_crtc *crtc)
 	crtc_updates_add(crtc);
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

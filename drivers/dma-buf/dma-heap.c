@@ -52,9 +52,12 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 				 unsigned int fd_flags,
 				 unsigned int heap_flags)
 {
+<<<<<<< HEAD
 	struct dma_buf *dmabuf;
 	int fd;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Allocations from all heaps have to begin
 	 * and end on page boundaries.
@@ -63,6 +66,7 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 	if (!len)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	dmabuf = heap->ops->allocate(heap, len, fd_flags, heap_flags);
 	if (IS_ERR(dmabuf))
 		return PTR_ERR(dmabuf);
@@ -73,6 +77,9 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 		/* just return, as put will call release and that will free */
 	}
 	return fd;
+=======
+	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dma_heap_open(struct inode *inode, struct file *file)

@@ -181,7 +181,11 @@ static int keep_resources(struct snd_dice *dice, struct amdtp_stream *stream,
 	// as 'Dual Wire'.
 	// For this quirk, blocking mode is required and PCM buffer size should
 	// be aligned to SYT_INTERVAL.
+<<<<<<< HEAD
+	double_pcm_frames = (rate > 96000 && !dice->disable_double_pcm_frames);
+=======
 	double_pcm_frames = rate > 96000;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (double_pcm_frames) {
 		rate /= 2;
 		pcm_chs *= 2;

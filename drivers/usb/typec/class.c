@@ -27,7 +27,10 @@ struct typec_cable {
 	enum typec_plug_type		type;
 	struct usb_pd_identity		*identity;
 	unsigned int			active:1;
+<<<<<<< HEAD
 	u16				pd_revision; /* 0300H = "3.0" */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct typec_partner {
@@ -37,8 +40,11 @@ struct typec_partner {
 	enum typec_accessory		accessory;
 	struct ida			mode_ids;
 	int				num_altmodes;
+<<<<<<< HEAD
 	u16				pd_revision; /* 0300H = "3.0" */
 	enum usb_pd_svdm_ver		svdm_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct typec_port {
@@ -89,7 +95,11 @@ static const char * const typec_accessory_modes[] = {
 
 /* Product types defined in USB PD Specification R3.0 V2.0 */
 static const char * const product_type_ufp[8] = {
+<<<<<<< HEAD
 	[IDH_PTYPE_NOT_UFP]		= "not_ufp",
+=======
+	[IDH_PTYPE_UNDEF]		= "undefined",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[IDH_PTYPE_HUB]			= "hub",
 	[IDH_PTYPE_PERIPH]		= "peripheral",
 	[IDH_PTYPE_PSD]			= "psd",
@@ -97,6 +107,7 @@ static const char * const product_type_ufp[8] = {
 };
 
 static const char * const product_type_dfp[8] = {
+<<<<<<< HEAD
 	[IDH_PTYPE_NOT_DFP]		= "not_dfp",
 	[IDH_PTYPE_DFP_HUB]		= "hub",
 	[IDH_PTYPE_DFP_HOST]		= "host",
@@ -108,6 +119,19 @@ static const char * const product_type_cable[8] = {
 	[IDH_PTYPE_PCABLE]		= "passive",
 	[IDH_PTYPE_ACABLE]		= "active",
 	[IDH_PTYPE_VPD]			= "vpd",
+=======
+	[IDH_PTYPE_DFP_UNDEF]		= "undefined",
+	[IDH_PTYPE_DFP_HUB]		= "hub",
+	[IDH_PTYPE_DFP_HOST]		= "host",
+	[IDH_PTYPE_DFP_PB]		= "power_brick",
+	[IDH_PTYPE_DFP_AMC]		= "amc",
+};
+
+static const char * const product_type_cable[8] = {
+	[IDH_PTYPE_UNDEF]		= "undefined",
+	[IDH_PTYPE_PCABLE]		= "passive",
+	[IDH_PTYPE_ACABLE]		= "active",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct usb_pd_identity *get_pd_identity(struct device *dev)
@@ -267,11 +291,14 @@ type_show(struct device *dev, struct device_attribute *attr, char *buf)
 }
 static DEVICE_ATTR_RO(type);
 
+<<<<<<< HEAD
 static ssize_t usb_power_delivery_revision_show(struct device *dev,
 						struct device_attribute *attr,
 						char *buf);
 static DEVICE_ATTR_RO(usb_power_delivery_revision);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ------------------------------------------------------------------------- */
 /* Alternate Modes */
 
@@ -688,7 +715,10 @@ static struct attribute *typec_partner_attrs[] = {
 	&dev_attr_supports_usb_power_delivery.attr,
 	&dev_attr_number_of_alternate_modes.attr,
 	&dev_attr_type.attr,
+<<<<<<< HEAD
 	&dev_attr_usb_power_delivery_revision.attr,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL
 };
 
@@ -750,6 +780,7 @@ int typec_partner_set_identity(struct typec_partner *partner)
 EXPORT_SYMBOL_GPL(typec_partner_set_identity);
 
 /**
+<<<<<<< HEAD
  * typec_partner_set_pd_revision - Set the PD revision supported by the partner
  * @partner: The partner to be updated.
  * @pd_revision:  USB Power Delivery Specification Revision supported by partner
@@ -774,6 +805,8 @@ void typec_partner_set_pd_revision(struct typec_partner *partner, u16 pd_revisio
 EXPORT_SYMBOL_GPL(typec_partner_set_pd_revision);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * typec_partner_set_num_altmodes - Set the number of available partner altmodes
  * @partner: The partner to be updated.
  * @num_altmodes: The number of altmodes we want to specify as available.
@@ -826,6 +859,7 @@ typec_partner_register_altmode(struct typec_partner *partner,
 EXPORT_SYMBOL_GPL(typec_partner_register_altmode);
 
 /**
+<<<<<<< HEAD
  * typec_partner_set_svdm_version - Set negotiated Structured VDM (SVDM) Version
  * @partner: USB Type-C Partner that supports SVDM
  * @svdm_version: Negotiated SVDM Version
@@ -840,6 +874,8 @@ void typec_partner_set_svdm_version(struct typec_partner *partner,
 EXPORT_SYMBOL_GPL(typec_partner_set_svdm_version);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * typec_register_partner - Register a USB Type-C Partner
  * @port: The USB Type-C Port the partner is connected to
  * @desc: Description of the partner
@@ -862,8 +898,11 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
 	partner->usb_pd = desc->usb_pd;
 	partner->accessory = desc->accessory;
 	partner->num_altmodes = -1;
+<<<<<<< HEAD
 	partner->pd_revision = desc->pd_revision;
 	partner->svdm_version = port->cap->svdm_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (desc->identity) {
 		/*
@@ -1077,7 +1116,10 @@ static DEVICE_ATTR_RO(plug_type);
 static struct attribute *typec_cable_attrs[] = {
 	&dev_attr_type.attr,
 	&dev_attr_plug_type.attr,
+<<<<<<< HEAD
 	&dev_attr_usb_power_delivery_revision.attr,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL
 };
 ATTRIBUTE_GROUPS(typec_cable);
@@ -1180,7 +1222,10 @@ struct typec_cable *typec_register_cable(struct typec_port *port,
 
 	cable->type = desc->type;
 	cable->active = desc->active;
+<<<<<<< HEAD
 	cable->pd_revision = desc->pd_revision;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (desc->identity) {
 		/*
@@ -1550,6 +1595,7 @@ static ssize_t usb_power_delivery_revision_show(struct device *dev,
 						struct device_attribute *attr,
 						char *buf)
 {
+<<<<<<< HEAD
 	u16 rev = 0;
 
 	if (is_typec_partner(dev)) {
@@ -1567,6 +1613,13 @@ static ssize_t usb_power_delivery_revision_show(struct device *dev,
 	}
 	return sysfs_emit(buf, "%d.%d\n", (rev >> 8) & 0xff, (rev >> 4) & 0xf);
 }
+=======
+	struct typec_port *p = to_typec_port(dev);
+
+	return sprintf(buf, "%d\n", (p->cap->pd_revision >> 8) & 0xff);
+}
+static DEVICE_ATTR_RO(usb_power_delivery_revision);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t orientation_show(struct device *dev,
 				   struct device_attribute *attr,
@@ -1911,6 +1964,7 @@ EXPORT_SYMBOL_GPL(typec_set_mode);
 /* --------------------------------------- */
 
 /**
+<<<<<<< HEAD
  * typec_get_negotiated_svdm_version - Get negotiated SVDM Version
  * @port: USB Type-C Port.
  *
@@ -1938,6 +1992,8 @@ int typec_get_negotiated_svdm_version(struct typec_port *port)
 EXPORT_SYMBOL_GPL(typec_get_negotiated_svdm_version);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * typec_get_drvdata - Return private driver data pointer
  * @port: USB Type-C port
  */

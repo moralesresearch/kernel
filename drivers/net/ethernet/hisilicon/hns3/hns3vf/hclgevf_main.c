@@ -180,7 +180,11 @@ static u8 *hclgevf_tqps_get_strings(struct hnae3_handle *handle, u8 *data)
 	for (i = 0; i < kinfo->num_tqps; i++) {
 		struct hclgevf_tqp *tqp = container_of(kinfo->tqp[i],
 						       struct hclgevf_tqp, q);
+<<<<<<< HEAD
 		snprintf(buff, ETH_GSTRING_LEN, "txq%u_pktnum_rcd",
+=======
+		snprintf(buff, ETH_GSTRING_LEN, "txq%d_pktnum_rcd",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 tqp->index);
 		buff += ETH_GSTRING_LEN;
 	}
@@ -188,7 +192,11 @@ static u8 *hclgevf_tqps_get_strings(struct hnae3_handle *handle, u8 *data)
 	for (i = 0; i < kinfo->num_tqps; i++) {
 		struct hclgevf_tqp *tqp = container_of(kinfo->tqp[i],
 						       struct hclgevf_tqp, q);
+<<<<<<< HEAD
 		snprintf(buff, ETH_GSTRING_LEN, "rxq%u_pktnum_rcd",
+=======
+		snprintf(buff, ETH_GSTRING_LEN, "rxq%d_pktnum_rcd",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 tqp->index);
 		buff += ETH_GSTRING_LEN;
 	}
@@ -642,16 +650,28 @@ static u32 hclgevf_get_rss_key_size(struct hnae3_handle *handle)
 	return HCLGEVF_RSS_KEY_SIZE;
 }
 
+<<<<<<< HEAD
+=======
+static u32 hclgevf_get_rss_indir_size(struct hnae3_handle *handle)
+{
+	return HCLGEVF_RSS_IND_TBL_SIZE;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hclgevf_set_rss_indir_table(struct hclgevf_dev *hdev)
 {
 	const u8 *indir = hdev->rss_cfg.rss_indirection_tbl;
 	struct hclgevf_rss_indirection_table_cmd *req;
 	struct hclgevf_desc desc;
+<<<<<<< HEAD
 	int rss_cfg_tbl_num;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int status;
 	int i, j;
 
 	req = (struct hclgevf_rss_indirection_table_cmd *)desc.data;
+<<<<<<< HEAD
 	rss_cfg_tbl_num = hdev->ae_dev->dev_specs.rss_ind_tbl_size /
 			  HCLGEVF_RSS_CFG_TBL_SIZE;
 
@@ -661,6 +681,14 @@ static int hclgevf_set_rss_indir_table(struct hclgevf_dev *hdev)
 		req->start_table_index =
 			cpu_to_le16(i * HCLGEVF_RSS_CFG_TBL_SIZE);
 		req->rss_set_bitmap = cpu_to_le16(HCLGEVF_RSS_SET_BITMAP_MSK);
+=======
+
+	for (i = 0; i < HCLGEVF_RSS_CFG_TBL_NUM; i++) {
+		hclgevf_cmd_setup_basic_desc(&desc, HCLGEVF_OPC_RSS_INDIR_TABLE,
+					     false);
+		req->start_table_index = i * HCLGEVF_RSS_CFG_TBL_SIZE;
+		req->rss_set_bitmap = HCLGEVF_RSS_SET_BITMAP_MSK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (j = 0; j < HCLGEVF_RSS_CFG_TBL_SIZE; j++)
 			req->rss_result[j] =
 				indir[i * HCLGEVF_RSS_CFG_TBL_SIZE + j];
@@ -701,6 +729,7 @@ static int hclgevf_set_rss_tc_mode(struct hclgevf_dev *hdev,  u16 rss_size)
 
 	hclgevf_cmd_setup_basic_desc(&desc, HCLGEVF_OPC_RSS_TC_MODE, false);
 	for (i = 0; i < HCLGEVF_MAX_TC_NUM; i++) {
+<<<<<<< HEAD
 		u16 mode = 0;
 
 		hnae3_set_bit(mode, HCLGEVF_RSS_TC_VALID_B,
@@ -711,6 +740,14 @@ static int hclgevf_set_rss_tc_mode(struct hclgevf_dev *hdev,  u16 rss_size)
 				HCLGEVF_RSS_TC_OFFSET_S, tc_offset[i]);
 
 		req->rss_tc_mode[i] = cpu_to_le16(mode);
+=======
+		hnae3_set_bit(req->rss_tc_mode[i], HCLGEVF_RSS_TC_VALID_B,
+			      (tc_valid[i] & 0x1));
+		hnae3_set_field(req->rss_tc_mode[i], HCLGEVF_RSS_TC_SIZE_M,
+				HCLGEVF_RSS_TC_SIZE_S, tc_size[i]);
+		hnae3_set_field(req->rss_tc_mode[i], HCLGEVF_RSS_TC_OFFSET_M,
+				HCLGEVF_RSS_TC_OFFSET_S, tc_offset[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	status = hclgevf_cmd_send(&hdev->hw, &desc, 1);
 	if (status)
@@ -798,7 +835,11 @@ static int hclgevf_get_rss(struct hnae3_handle *handle, u32 *indir, u8 *key,
 	}
 
 	if (indir)
+<<<<<<< HEAD
 		for (i = 0; i < hdev->ae_dev->dev_specs.rss_ind_tbl_size; i++)
+=======
+		for (i = 0; i < HCLGEVF_RSS_IND_TBL_SIZE; i++)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			indir[i] = rss_cfg->rss_indirection_tbl[i];
 
 	return 0;
@@ -841,7 +882,11 @@ static int hclgevf_set_rss(struct hnae3_handle *handle, const u32 *indir,
 	}
 
 	/* update the shadow RSS table with user specified qids */
+<<<<<<< HEAD
 	for (i = 0; i < hdev->ae_dev->dev_specs.rss_ind_tbl_size; i++)
+=======
+	for (i = 0; i < HCLGEVF_RSS_IND_TBL_SIZE; i++)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rss_cfg->rss_indirection_tbl[i] = indir[i];
 
 	/* update the hardware */
@@ -873,6 +918,7 @@ static u8 hclgevf_get_rss_hash_bits(struct ethtool_rxnfc *nfc)
 	return hash_sets;
 }
 
+<<<<<<< HEAD
 static int hclgevf_init_rss_tuple_cmd(struct hnae3_handle *handle,
 				      struct ethtool_rxnfc *nfc,
 				      struct hclgevf_rss_input_tuple_cmd *req)
@@ -880,6 +926,27 @@ static int hclgevf_init_rss_tuple_cmd(struct hnae3_handle *handle,
 	struct hclgevf_dev *hdev = hclgevf_ae_get_hdev(handle);
 	struct hclgevf_rss_cfg *rss_cfg = &hdev->rss_cfg;
 	u8 tuple_sets;
+=======
+static int hclgevf_set_rss_tuple(struct hnae3_handle *handle,
+				 struct ethtool_rxnfc *nfc)
+{
+	struct hclgevf_dev *hdev = hclgevf_ae_get_hdev(handle);
+	struct hclgevf_rss_cfg *rss_cfg = &hdev->rss_cfg;
+	struct hclgevf_rss_input_tuple_cmd *req;
+	struct hclgevf_desc desc;
+	u8 tuple_sets;
+	int ret;
+
+	if (hdev->ae_dev->dev_version < HNAE3_DEVICE_VERSION_V2)
+		return -EOPNOTSUPP;
+
+	if (nfc->data &
+	    ~(RXH_IP_SRC | RXH_IP_DST | RXH_L4_B_0_1 | RXH_L4_B_2_3))
+		return -EINVAL;
+
+	req = (struct hclgevf_rss_input_tuple_cmd *)desc.data;
+	hclgevf_cmd_setup_basic_desc(&desc, HCLGEVF_OPC_RSS_INPUT_TUPLE, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req->ipv4_tcp_en = rss_cfg->rss_tuple_sets.ipv4_tcp_en;
 	req->ipv4_udp_en = rss_cfg->rss_tuple_sets.ipv4_udp_en;
@@ -924,6 +991,7 @@ static int hclgevf_init_rss_tuple_cmd(struct hnae3_handle *handle,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -953,6 +1021,8 @@ static int hclgevf_set_rss_tuple(struct hnae3_handle *handle,
 		return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = hclgevf_cmd_send(&hdev->hw, &desc, 1);
 	if (ret) {
 		dev_err(&hdev->pdev->dev,
@@ -971,6 +1041,7 @@ static int hclgevf_set_rss_tuple(struct hnae3_handle *handle,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int hclgevf_get_rss_tuple_by_flow_type(struct hclgevf_dev *hdev,
 					      int flow_type, u8 *tuple_sets)
 {
@@ -996,11 +1067,48 @@ static int hclgevf_get_rss_tuple_by_flow_type(struct hclgevf_dev *hdev,
 	case IPV4_FLOW:
 	case IPV6_FLOW:
 		*tuple_sets = HCLGEVF_S_IP_BIT | HCLGEVF_D_IP_BIT;
+=======
+static int hclgevf_get_rss_tuple(struct hnae3_handle *handle,
+				 struct ethtool_rxnfc *nfc)
+{
+	struct hclgevf_dev *hdev = hclgevf_ae_get_hdev(handle);
+	struct hclgevf_rss_cfg *rss_cfg = &hdev->rss_cfg;
+	u8 tuple_sets;
+
+	if (hdev->ae_dev->dev_version < HNAE3_DEVICE_VERSION_V2)
+		return -EOPNOTSUPP;
+
+	nfc->data = 0;
+
+	switch (nfc->flow_type) {
+	case TCP_V4_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv4_tcp_en;
+		break;
+	case UDP_V4_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv4_udp_en;
+		break;
+	case TCP_V6_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv6_tcp_en;
+		break;
+	case UDP_V6_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv6_udp_en;
+		break;
+	case SCTP_V4_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv4_sctp_en;
+		break;
+	case SCTP_V6_FLOW:
+		tuple_sets = rss_cfg->rss_tuple_sets.ipv6_sctp_en;
+		break;
+	case IPV4_FLOW:
+	case IPV6_FLOW:
+		tuple_sets = HCLGEVF_S_IP_BIT | HCLGEVF_D_IP_BIT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -1038,6 +1146,19 @@ static int hclgevf_get_rss_tuple(struct hnae3_handle *handle,
 		return ret;
 
 	nfc->data = hclgevf_convert_rss_tuple(tuple_sets);
+=======
+	if (!tuple_sets)
+		return 0;
+
+	if (tuple_sets & HCLGEVF_D_PORT_BIT)
+		nfc->data |= RXH_L4_B_2_3;
+	if (tuple_sets & HCLGEVF_S_PORT_BIT)
+		nfc->data |= RXH_L4_B_0_1;
+	if (tuple_sets & HCLGEVF_D_IP_BIT)
+		nfc->data |= RXH_IP_DST;
+	if (tuple_sets & HCLGEVF_S_IP_BIT)
+		nfc->data |= RXH_IP_SRC;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -2193,7 +2314,11 @@ static void hclgevf_reset_service_task(struct hclgevf_dev *hdev)
 
 	if (test_and_clear_bit(HCLGEVF_RESET_PENDING,
 			       &hdev->reset_state)) {
+<<<<<<< HEAD
 		/* PF has intimated that it is about to reset the hardware.
+=======
+		/* PF has initmated that it is about to reset the hardware.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * We now have to poll & check if hardware has actually
 		 * completed the reset sequence. On hardware reset completion,
 		 * VF needs to reset the client and ae device.
@@ -2519,9 +2644,14 @@ static int hclgevf_config_gro(struct hclgevf_dev *hdev, bool en)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int hclgevf_rss_init_cfg(struct hclgevf_dev *hdev)
 {
 	u16 rss_ind_tbl_size = hdev->ae_dev->dev_specs.rss_ind_tbl_size;
+=======
+static void hclgevf_rss_init_cfg(struct hclgevf_dev *hdev)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hclgevf_rss_cfg *rss_cfg = &hdev->rss_cfg;
 	struct hclgevf_rss_tuple_cfg *tuple_sets;
 	u32 i;
@@ -2530,6 +2660,7 @@ static int hclgevf_rss_init_cfg(struct hclgevf_dev *hdev)
 	rss_cfg->rss_size = hdev->nic.kinfo.rss_size;
 	tuple_sets = &rss_cfg->rss_tuple_sets;
 	if (hdev->ae_dev->dev_version >= HNAE3_DEVICE_VERSION_V2) {
+<<<<<<< HEAD
 		u8 *rss_ind_tbl;
 
 		rss_cfg->hash_algo = HCLGEVF_RSS_HASH_ALGO_SIMPLE;
@@ -2540,6 +2671,9 @@ static int hclgevf_rss_init_cfg(struct hclgevf_dev *hdev)
 			return -ENOMEM;
 
 		rss_cfg->rss_indirection_tbl = rss_ind_tbl;
+=======
+		rss_cfg->hash_algo = HCLGEVF_RSS_HASH_ALGO_SIMPLE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(rss_cfg->rss_hash_key, hclgevf_hash_key,
 		       HCLGEVF_RSS_KEY_SIZE);
 
@@ -2557,10 +2691,15 @@ static int hclgevf_rss_init_cfg(struct hclgevf_dev *hdev)
 	}
 
 	/* Initialize RSS indirect table */
+<<<<<<< HEAD
 	for (i = 0; i < rss_ind_tbl_size; i++)
 		rss_cfg->rss_indirection_tbl[i] = i % rss_cfg->rss_size;
 
 	return 0;
+=======
+	for (i = 0; i < HCLGEVF_RSS_IND_TBL_SIZE; i++)
+		rss_cfg->rss_indirection_tbl[i] = i % rss_cfg->rss_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hclgevf_rss_init_hw(struct hclgevf_dev *hdev)
@@ -2624,14 +2763,22 @@ static int hclgevf_ae_start(struct hnae3_handle *handle)
 {
 	struct hclgevf_dev *hdev = hclgevf_ae_get_hdev(handle);
 
+<<<<<<< HEAD
 	clear_bit(HCLGEVF_STATE_DOWN, &hdev->state);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hclgevf_reset_tqp_stats(handle);
 
 	hclgevf_request_link_info(hdev);
 
 	hclgevf_update_link_mode(hdev);
 
+<<<<<<< HEAD
+=======
+	clear_bit(HCLGEVF_STATE_DOWN, &hdev->state);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -3097,7 +3244,10 @@ static void hclgevf_set_default_dev_specs(struct hclgevf_dev *hdev)
 	ae_dev->dev_specs.rss_ind_tbl_size = HCLGEVF_RSS_IND_TBL_SIZE;
 	ae_dev->dev_specs.rss_key_size = HCLGEVF_RSS_KEY_SIZE;
 	ae_dev->dev_specs.max_int_gl = HCLGEVF_DEF_MAX_INT_GL;
+<<<<<<< HEAD
 	ae_dev->dev_specs.max_frm_size = HCLGEVF_MAC_MAX_FRAME;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hclgevf_parse_dev_specs(struct hclgevf_dev *hdev,
@@ -3116,7 +3266,10 @@ static void hclgevf_parse_dev_specs(struct hclgevf_dev *hdev,
 	ae_dev->dev_specs.int_ql_max = le16_to_cpu(req0->int_ql_max);
 	ae_dev->dev_specs.rss_key_size = le16_to_cpu(req0->rss_key_size);
 	ae_dev->dev_specs.max_int_gl = le16_to_cpu(req1->max_int_gl);
+<<<<<<< HEAD
 	ae_dev->dev_specs.max_frm_size = le16_to_cpu(req1->max_frm_size);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hclgevf_check_dev_specs(struct hclgevf_dev *hdev)
@@ -3131,8 +3284,11 @@ static void hclgevf_check_dev_specs(struct hclgevf_dev *hdev)
 		dev_specs->rss_key_size = HCLGEVF_RSS_KEY_SIZE;
 	if (!dev_specs->max_int_gl)
 		dev_specs->max_int_gl = HCLGEVF_DEF_MAX_INT_GL;
+<<<<<<< HEAD
 	if (!dev_specs->max_frm_size)
 		dev_specs->max_frm_size = HCLGEVF_MAC_MAX_FRAME;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hclgevf_query_dev_specs(struct hclgevf_dev *hdev)
@@ -3319,12 +3475,16 @@ static int hclgevf_init_hdev(struct hclgevf_dev *hdev)
 		goto err_config;
 
 	/* Initialize RSS for this VF */
+<<<<<<< HEAD
 	ret = hclgevf_rss_init_cfg(hdev);
 	if (ret) {
 		dev_err(&pdev->dev, "failed to init rss cfg, ret = %d\n", ret);
 		goto err_config;
 	}
 
+=======
+	hclgevf_rss_init_cfg(hdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = hclgevf_rss_init_hw(hdev);
 	if (ret) {
 		dev_err(&hdev->pdev->dev,
@@ -3497,17 +3657,29 @@ static int hclgevf_set_channels(struct hnae3_handle *handle, u32 new_tqps_num,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	/* RSS indirection table has been configured by user */
+=======
+	/* RSS indirection table has been configuared by user */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rxfh_configured)
 		goto out;
 
 	/* Reinitializes the rss indirect table according to the new RSS size */
+<<<<<<< HEAD
 	rss_indir = kcalloc(hdev->ae_dev->dev_specs.rss_ind_tbl_size,
 			    sizeof(u32), GFP_KERNEL);
 	if (!rss_indir)
 		return -ENOMEM;
 
 	for (i = 0; i < hdev->ae_dev->dev_specs.rss_ind_tbl_size; i++)
+=======
+	rss_indir = kcalloc(HCLGEVF_RSS_IND_TBL_SIZE, sizeof(u32), GFP_KERNEL);
+	if (!rss_indir)
+		return -ENOMEM;
+
+	for (i = 0; i < HCLGEVF_RSS_IND_TBL_SIZE; i++)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rss_indir[i] = i % kinfo->rss_size;
 
 	hdev->rss_cfg.rss_size = kinfo->rss_size;
@@ -3746,6 +3918,10 @@ static const struct hnae3_ae_ops hclgevf_ops = {
 	.get_strings = hclgevf_get_strings,
 	.get_sset_count = hclgevf_get_sset_count,
 	.get_rss_key_size = hclgevf_get_rss_key_size,
+<<<<<<< HEAD
+=======
+	.get_rss_indir_size = hclgevf_get_rss_indir_size,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_rss = hclgevf_get_rss,
 	.set_rss = hclgevf_set_rss,
 	.get_rss_tuple = hclgevf_get_rss_tuple,

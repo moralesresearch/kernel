@@ -278,12 +278,15 @@
 };
 
 &uart1 {
+<<<<<<< HEAD
 	/* J4, through-hole */
 	status = "okay";
 };
 
 &uart4 {
 	/* TP198, next to J4, SMD pads */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 };
 

@@ -640,7 +640,10 @@ struct afs_vnode {
 #define AFS_VNODE_PSEUDODIR	7 		/* set if Vnode is a pseudo directory */
 #define AFS_VNODE_NEW_CONTENT	8		/* Set if file has new content (create/trunc-0) */
 #define AFS_VNODE_SILLY_DELETED	9		/* Set if file has been silly-deleted */
+<<<<<<< HEAD
 #define AFS_VNODE_MODIFYING	10		/* Set if we're performing a modification op */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head	wb_keys;	/* List of keys available for writeback */
 	struct list_head	pending_locks;	/* locks waiting to be granted */
@@ -757,7 +760,10 @@ struct afs_vnode_param {
 	bool			set_size:1;	/* Must update i_size */
 	bool			op_unlinked:1;	/* True if file was unlinked by op */
 	bool			speculative:1;	/* T if speculative status fetch (no vnode lock) */
+<<<<<<< HEAD
 	bool			modification:1;	/* Set if the content gets modified */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -1151,9 +1157,20 @@ extern struct inode *afs_iget(struct afs_operation *, struct afs_vnode_param *);
 extern struct inode *afs_root_iget(struct super_block *, struct key *);
 extern bool afs_check_validity(struct afs_vnode *);
 extern int afs_validate(struct afs_vnode *, struct key *);
+<<<<<<< HEAD
 extern int afs_getattr(struct user_namespace *mnt_userns, const struct path *,
 		       struct kstat *, u32, unsigned int);
 extern int afs_setattr(struct user_namespace *mnt_userns, struct dentry *, struct iattr *);
+=======
+<<<<<<< HEAD
+extern int afs_getattr(struct user_namespace *mnt_userns, const struct path *,
+		       struct kstat *, u32, unsigned int);
+extern int afs_setattr(struct user_namespace *mnt_userns, struct dentry *, struct iattr *);
+=======
+extern int afs_getattr(const struct path *, struct kstat *, u32, unsigned int);
+extern int afs_setattr(struct dentry *, struct iattr *);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void afs_evict_inode(struct inode *);
 extern int afs_drop_inode(struct inode *);
 
@@ -1364,7 +1381,15 @@ extern void afs_zap_permits(struct rcu_head *);
 extern struct key *afs_request_key(struct afs_cell *);
 extern struct key *afs_request_key_rcu(struct afs_cell *);
 extern int afs_check_permit(struct afs_vnode *, struct key *, afs_access_t *);
+<<<<<<< HEAD
 extern int afs_permission(struct user_namespace *, struct inode *, int);
+=======
+<<<<<<< HEAD
+extern int afs_permission(struct user_namespace *, struct inode *, int);
+=======
+extern int afs_permission(struct inode *, int);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void __exit afs_clean_up_permit_cache(void);
 
 /*

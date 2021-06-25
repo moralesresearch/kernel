@@ -684,11 +684,25 @@ static int m88e1111_config_aneg(struct phy_device *phydev)
 	if (err < 0)
 		goto error;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* Do not touch the fiber page if we're in copper->sgmii mode */
+	if (phydev->interface == PHY_INTERFACE_MODE_SGMII)
+		return 0;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Then the fiber link */
 	err = marvell_set_page(phydev, MII_MARVELL_FIBER_PAGE);
 	if (err < 0)
 		goto error;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (phydev->interface == PHY_INTERFACE_MODE_SGMII)
 		/* Do not touch the fiber advertisement if we're in copper->sgmii mode.
 		 * Just ensure that SGMII-side autonegotiation is enabled.
@@ -697,6 +711,12 @@ static int m88e1111_config_aneg(struct phy_device *phydev)
 		err = genphy_check_and_restart_aneg(phydev, false);
 	else
 		err = marvell_config_aneg_fiber(phydev);
+<<<<<<< HEAD
+=======
+=======
+	err = marvell_config_aneg_fiber(phydev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto error;
 
@@ -967,11 +987,16 @@ static int m88e1111_get_downshift(struct phy_device *phydev, u8 *data)
 
 static int m88e1111_set_downshift(struct phy_device *phydev, u8 cnt)
 {
+<<<<<<< HEAD
 	int val, err;
+=======
+	int val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cnt > MII_M1111_PHY_EXT_CR_DOWNSHIFT_MAX)
 		return -E2BIG;
 
+<<<<<<< HEAD
 	if (!cnt) {
 		err = phy_clear_bits(phydev, MII_M1111_PHY_EXT_CR,
 				     MII_M1111_PHY_EXT_CR_DOWNSHIFT_EN);
@@ -989,6 +1014,19 @@ static int m88e1111_set_downshift(struct phy_device *phydev, u8 cnt)
 		return err;
 
 	return genphy_soft_reset(phydev);
+=======
+	if (!cnt)
+		return phy_clear_bits(phydev, MII_M1111_PHY_EXT_CR,
+				      MII_M1111_PHY_EXT_CR_DOWNSHIFT_EN);
+
+	val = MII_M1111_PHY_EXT_CR_DOWNSHIFT_EN;
+	val |= FIELD_PREP(MII_M1111_PHY_EXT_CR_DOWNSHIFT_MASK, cnt - 1);
+
+	return phy_modify(phydev, MII_M1111_PHY_EXT_CR,
+			  MII_M1111_PHY_EXT_CR_DOWNSHIFT_EN |
+			  MII_M1111_PHY_EXT_CR_DOWNSHIFT_MASK,
+			  val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int m88e1111_get_tunable(struct phy_device *phydev,
@@ -1031,11 +1069,16 @@ static int m88e1011_get_downshift(struct phy_device *phydev, u8 *data)
 
 static int m88e1011_set_downshift(struct phy_device *phydev, u8 cnt)
 {
+<<<<<<< HEAD
 	int val, err;
+=======
+	int val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cnt > MII_M1011_PHY_SCR_DOWNSHIFT_MAX)
 		return -E2BIG;
 
+<<<<<<< HEAD
 	if (!cnt) {
 		err = phy_clear_bits(phydev, MII_M1011_PHY_SCR,
 				     MII_M1011_PHY_SCR_DOWNSHIFT_EN);
@@ -1053,6 +1096,19 @@ static int m88e1011_set_downshift(struct phy_device *phydev, u8 cnt)
 		return err;
 
 	return genphy_soft_reset(phydev);
+=======
+	if (!cnt)
+		return phy_clear_bits(phydev, MII_M1011_PHY_SCR,
+				      MII_M1011_PHY_SCR_DOWNSHIFT_EN);
+
+	val = MII_M1011_PHY_SCR_DOWNSHIFT_EN;
+	val |= FIELD_PREP(MII_M1011_PHY_SCR_DOWNSHIFT_MASK, cnt - 1);
+
+	return phy_modify(phydev, MII_M1011_PHY_SCR,
+			  MII_M1011_PHY_SCR_DOWNSHIFT_EN |
+			  MII_M1011_PHY_SCR_DOWNSHIFT_MASK,
+			  val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int m88e1011_get_tunable(struct phy_device *phydev,
@@ -2868,6 +2924,13 @@ static struct phy_driver marvell_drivers[] = {
 		.probe = marvell_probe,
 		.config_init = m88e1145_config_init,
 		.config_aneg = m88e1101_config_aneg,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		.read_status = genphy_read_status,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.config_intr = marvell_config_intr,
 		.handle_interrupt = marvell_handle_interrupt,
 		.resume = genphy_resume,
@@ -3033,6 +3096,10 @@ static struct phy_driver marvell_drivers[] = {
 		.get_stats = marvell_get_stats,
 	},
 	{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.phy_id = MARVELL_PHY_ID_88E6341_FAMILY,
 		.phy_id_mask = MARVELL_PHY_ID_MASK,
 		.name = "Marvell 88E6341 Family",
@@ -3061,6 +3128,14 @@ static struct phy_driver marvell_drivers[] = {
 		.phy_id = MARVELL_PHY_ID_88E6390_FAMILY,
 		.phy_id_mask = MARVELL_PHY_ID_MASK,
 		.name = "Marvell 88E6390 Family",
+<<<<<<< HEAD
+=======
+=======
+		.phy_id = MARVELL_PHY_ID_88E6390,
+		.phy_id_mask = MARVELL_PHY_ID_MASK,
+		.name = "Marvell 88E6390",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* PHY_GBIT_FEATURES */
 		.flags = PHY_POLL_CABLE_TEST,
 		.probe = m88e6390_probe,
@@ -3144,8 +3219,17 @@ static struct mdio_device_id __maybe_unused marvell_tbl[] = {
 	{ MARVELL_PHY_ID_88E1540, MARVELL_PHY_ID_MASK },
 	{ MARVELL_PHY_ID_88E1545, MARVELL_PHY_ID_MASK },
 	{ MARVELL_PHY_ID_88E3016, MARVELL_PHY_ID_MASK },
+<<<<<<< HEAD
 	{ MARVELL_PHY_ID_88E6341_FAMILY, MARVELL_PHY_ID_MASK },
 	{ MARVELL_PHY_ID_88E6390_FAMILY, MARVELL_PHY_ID_MASK },
+=======
+<<<<<<< HEAD
+	{ MARVELL_PHY_ID_88E6341_FAMILY, MARVELL_PHY_ID_MASK },
+	{ MARVELL_PHY_ID_88E6390_FAMILY, MARVELL_PHY_ID_MASK },
+=======
+	{ MARVELL_PHY_ID_88E6390, MARVELL_PHY_ID_MASK },
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MARVELL_PHY_ID_88E1340S, MARVELL_PHY_ID_MASK },
 	{ MARVELL_PHY_ID_88E1548P, MARVELL_PHY_ID_MASK },
 	{ }

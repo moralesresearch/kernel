@@ -25,13 +25,21 @@ struct nfsd3_diropargs {
 
 struct nfsd3_accessargs {
 	struct svc_fh		fh;
+<<<<<<< HEAD
 	__u32			access;
+=======
+	unsigned int		access;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nfsd3_readargs {
 	struct svc_fh		fh;
 	__u64			offset;
 	__u32			count;
+<<<<<<< HEAD
+=======
+	int			vlen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nfsd3_writeargs {
@@ -70,6 +78,14 @@ struct nfsd3_renameargs {
 	unsigned int		tlen;
 };
 
+<<<<<<< HEAD
+=======
+struct nfsd3_readlinkargs {
+	struct svc_fh		fh;
+	char *			buffer;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nfsd3_linkargs {
 	struct svc_fh		ffh;
 	struct svc_fh		tfh;
@@ -90,8 +106,15 @@ struct nfsd3_symlinkargs {
 struct nfsd3_readdirargs {
 	struct svc_fh		fh;
 	__u64			cookie;
+<<<<<<< HEAD
 	__u32			count;
 	__be32 *		verf;
+=======
+	__u32			dircount;
+	__u32			count;
+	__be32 *		verf;
+	__be32 *		buffer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nfsd3_commitargs {
@@ -102,13 +125,21 @@ struct nfsd3_commitargs {
 
 struct nfsd3_getaclargs {
 	struct svc_fh		fh;
+<<<<<<< HEAD
 	__u32			mask;
+=======
+	int			mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct posix_acl;
 struct nfsd3_setaclargs {
 	struct svc_fh		fh;
+<<<<<<< HEAD
 	__u32			mask;
+=======
+	int			mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct posix_acl	*acl_access;
 	struct posix_acl	*acl_default;
 };
@@ -265,7 +296,11 @@ union nfsd3_xdrstore {
 
 #define NFS3_SVC_XDRSIZE		sizeof(union nfsd3_xdrstore)
 
+<<<<<<< HEAD
 int nfs3svc_decode_fhandleargs(struct svc_rqst *, __be32 *);
+=======
+int nfs3svc_decode_fhandle(struct svc_rqst *, __be32 *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int nfs3svc_decode_sattrargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_diropargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_accessargs(struct svc_rqst *, __be32 *);
@@ -275,6 +310,10 @@ int nfs3svc_decode_createargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_mkdirargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_mknodargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_renameargs(struct svc_rqst *, __be32 *);
+<<<<<<< HEAD
+=======
+int nfs3svc_decode_readlinkargs(struct svc_rqst *, __be32 *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int nfs3svc_decode_linkargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_symlinkargs(struct svc_rqst *, __be32 *);
 int nfs3svc_decode_readdirargs(struct svc_rqst *, __be32 *);
@@ -307,6 +346,11 @@ int nfs3svc_encode_entry_plus(void *, const char *name,
 /* Helper functions for NFSv3 ACL code */
 __be32 *nfs3svc_encode_post_op_attr(struct svc_rqst *rqstp, __be32 *p,
 				struct svc_fh *fhp);
+<<<<<<< HEAD
 bool svcxdr_decode_nfs_fh3(struct xdr_stream *xdr, struct svc_fh *fhp);
+=======
+__be32 *nfs3svc_decode_fh(__be32 *p, struct svc_fh *fhp);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _LINUX_NFSD_XDR3_H */

@@ -33,9 +33,13 @@ TARGETS += memfd
 TARGETS += memory-hotplug
 TARGETS += mincore
 TARGETS += mount
+<<<<<<< HEAD
 TARGETS += mount_setattr
 TARGETS += mqueue
 TARGETS += nci
+=======
+TARGETS += mqueue
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 TARGETS += net
 TARGETS += net/forwarding
 TARGETS += net/mptcp
@@ -127,6 +131,18 @@ ARCH           ?= $(SUBARCH)
 export KSFT_KHDR_INSTALL_DONE := 1
 export BUILD
 
+<<<<<<< HEAD
+=======
+# build and run gpio when output directory is the src dir.
+# gpio has dependency on tools/gpio and builds tools/gpio
+# objects in the src directory in all cases making the src
+# repo dirty even when objects are relocated.
+ifneq (1,$(DEFAULT_INSTALL_HDR_PATH))
+	TMP := $(filter-out gpio, $(TARGETS))
+	TARGETS := $(TMP)
+endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # set default goal to all, so make without a target runs all, even when
 # all isn't the first target in the file.
 .DEFAULT_GOAL := all

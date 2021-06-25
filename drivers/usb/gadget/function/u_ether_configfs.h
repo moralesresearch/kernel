@@ -148,6 +148,10 @@ out:									\
 		return ret;						\
 	}								\
 									\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static ssize_t _f_##_opts_ifname_store(struct config_item *item, \
 					       const char *page, size_t len)\
 	{								\
@@ -162,6 +166,12 @@ out:									\
 	}								\
 									\
 	CONFIGFS_ATTR(_f_##_opts_, ifname)
+<<<<<<< HEAD
+=======
+=======
+	CONFIGFS_ATTR_RO(_f_##_opts_, ifname)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define USB_ETHER_CONFIGFS_ITEM_ATTR_U8_RW(_f_, _n_)			\
 	static ssize_t _f_##_opts_##_n_##_show(struct config_item *item,\

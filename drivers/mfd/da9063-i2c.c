@@ -442,6 +442,7 @@ static int da9063_i2c_probe(struct i2c_client *i2c,
 		return ret;
 	}
 
+<<<<<<< HEAD
 	/* If SMBus is not available and only I2C is possible, enter I2C mode */
 	if (i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C)) {
 		ret = regmap_clear_bits(da9063->regmap, DA9063_REG_CONFIG_J,
@@ -452,6 +453,8 @@ static int da9063_i2c_probe(struct i2c_client *i2c,
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return da9063_device_init(da9063, i2c->irq);
 }
 

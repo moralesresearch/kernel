@@ -3,6 +3,12 @@ include ../../scripts/Makefile.include
 
 OUTPUT ?= $(abspath .output)/
 
+<<<<<<< HEAD
+=======
+CLANG ?= clang
+LLC ?= llc
+LLVM_STRIP ?= llvm-strip
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 BPFTOOL_OUTPUT := $(OUTPUT)bpftool/
 DEFAULT_BPFTOOL := $(BPFTOOL_OUTPUT)bpftool
 BPFTOOL ?= $(DEFAULT_BPFTOOL)

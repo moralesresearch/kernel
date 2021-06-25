@@ -25,6 +25,24 @@ MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_DESCRIPTION("Intel 82801AA,82901AB,i810,i820,i830,i840,i845,MX440; "
 		   "SiS 7013; NVidia MCP/2/2S/3 modems");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Intel,82801AA-ICH},"
+		"{Intel,82901AB-ICH0},"
+		"{Intel,82801BA-ICH2},"
+		"{Intel,82801CA-ICH3},"
+		"{Intel,82801DB-ICH4},"
+		"{Intel,ICH5},"
+		"{Intel,ICH6},"
+		"{Intel,ICH7},"
+	        "{Intel,MX440},"
+		"{SiS,7013},"
+		"{NVidia,NForce Modem},"
+		"{NVidia,NForce2 Modem},"
+		"{NVidia,NForce2s Modem},"
+		"{NVidia,NForce3 Modem},"
+		"{AMD,AMD768}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index = -2; /* Exclude the first card */
 static char *id = SNDRV_DEFAULT_STR1;	/* ID for this card */
@@ -1114,14 +1132,21 @@ static int snd_intel8x0m_create(struct snd_card *card,
 		chip->bmaddr = pci_iomap(pci, 3, 0);
 	else
 		chip->bmaddr = pci_iomap(pci, 1, 0);
+<<<<<<< HEAD
 
 port_inited:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!chip->bmaddr) {
 		dev_err(card->dev, "Controller space ioremap problem\n");
 		snd_intel8x0m_free(chip);
 		return -EIO;
 	}
 
+<<<<<<< HEAD
+=======
+ port_inited:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* initialize offsets */
 	chip->bdbars_count = 2;
 	tbl = intel_regs;

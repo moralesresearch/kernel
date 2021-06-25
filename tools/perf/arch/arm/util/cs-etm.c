@@ -156,10 +156,13 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 #define ETM_SET_OPT_CTXTID	(1 << 0)
 #define ETM_SET_OPT_TS		(1 << 1)
 #define ETM_SET_OPT_MASK	(ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cs_etm_set_option(struct auxtrace_record *itr,
 			     struct evsel *evsel, u32 option)
 {
@@ -173,17 +176,29 @@ static int cs_etm_set_option(struct auxtrace_record *itr,
 		    !cpu_map__has(online_cpus, i))
 			continue;
 
+<<<<<<< HEAD
 		if (option & ETM_SET_OPT_CTXTID) {
+=======
+		if (option & ETM_OPT_CTXTID) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = cs_etm_set_context_id(itr, evsel, i);
 			if (err)
 				goto out;
 		}
+<<<<<<< HEAD
 		if (option & ETM_SET_OPT_TS) {
+=======
+		if (option & ETM_OPT_TS) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = cs_etm_set_timestamp(itr, evsel, i);
 			if (err)
 				goto out;
 		}
+<<<<<<< HEAD
 		if (option & ~(ETM_SET_OPT_MASK))
+=======
+		if (option & ~(ETM_OPT_CTXTID | ETM_OPT_TS))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Nothing else is currently supported */
 			goto out;
 	}
@@ -410,7 +425,11 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
 		evsel__set_sample_bit(cs_etm_evsel, CPU);
 
 		err = cs_etm_set_option(itr, cs_etm_evsel,
+<<<<<<< HEAD
 					ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS);
+=======
+					ETM_OPT_CTXTID | ETM_OPT_TS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out;
 	}

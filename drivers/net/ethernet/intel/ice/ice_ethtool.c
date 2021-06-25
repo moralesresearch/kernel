@@ -180,8 +180,18 @@ ice_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *drvinfo)
 	struct ice_orom_info *orom;
 	struct ice_nvm_info *nvm;
 
+<<<<<<< HEAD
 	nvm = &hw->flash.nvm;
 	orom = &hw->flash.orom;
+=======
+<<<<<<< HEAD
+	nvm = &hw->flash.nvm;
+	orom = &hw->flash.orom;
+=======
+	nvm = &hw->nvm;
+	orom = &nvm->orom;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	strscpy(drvinfo->driver, KBUILD_MODNAME, sizeof(drvinfo->driver));
 
@@ -189,7 +199,15 @@ ice_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *drvinfo)
 	 * determined) which contains more pertinent information.
 	 */
 	snprintf(drvinfo->fw_version, sizeof(drvinfo->fw_version),
+<<<<<<< HEAD
 		 "%x.%02x 0x%x %d.%d.%d", nvm->major, nvm->minor,
+=======
+<<<<<<< HEAD
+		 "%x.%02x 0x%x %d.%d.%d", nvm->major, nvm->minor,
+=======
+		 "%x.%02x 0x%x %d.%d.%d", nvm->major_ver, nvm->minor_ver,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 nvm->eetrack, orom->major, orom->build, orom->patch);
 
 	strscpy(drvinfo->bus_info, pci_name(pf->pdev),
@@ -251,7 +269,15 @@ static int ice_get_eeprom_len(struct net_device *netdev)
 	struct ice_netdev_priv *np = netdev_priv(netdev);
 	struct ice_pf *pf = np->vsi->back;
 
+<<<<<<< HEAD
 	return (int)pf->hw.flash.flash_size;
+=======
+<<<<<<< HEAD
+	return (int)pf->hw.flash.flash_size;
+=======
+	return (int)pf->hw.nvm.flash_size;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -1246,11 +1272,20 @@ static int ice_set_priv_flags(struct net_device *netdev, u32 flags)
 			enum ice_status status;
 			bool dcbx_agent_status;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Remove rule to direct LLDP packets to default VSI.
 			 * The FW LLDP engine will now be consuming them.
 			 */
 			ice_cfg_sw_lldp(vsi, false, false);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* AQ command to start FW LLDP agent will return an
 			 * error if the agent is already started
 			 */
@@ -1279,6 +1314,17 @@ static int ice_set_priv_flags(struct net_device *netdev, u32 flags)
 			if (status)
 				dev_dbg(dev, "Fail to init DCB\n");
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			/* Remove rule to direct LLDP packets to default VSI.
+			 * The FW LLDP engine will now be consuming them.
+			 */
+			ice_cfg_sw_lldp(vsi, false, false);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Register for MIB change events */
 			status = ice_cfg_lldp_mib_change(&pf->hw, true);
 			if (status)
@@ -1797,6 +1843,8 @@ ice_phy_type_to_ethtool(struct net_device *netdev,
 		ice_ethtool_advertise_link_mode(ICE_AQ_LINK_SPEED_100GB,
 						100000baseKR4_Full);
 	}
+<<<<<<< HEAD
+=======
 
 	/* Autoneg PHY types */
 	if (phy_types_low & ICE_PHY_TYPE_LOW_100BASE_TX ||
@@ -1840,6 +1888,7 @@ ice_phy_type_to_ethtool(struct net_device *netdev,
 		ethtool_link_ksettings_add_link_mode(ks, advertising,
 						     Autoneg);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define TEST_SET_BITS_TIMEOUT	50
@@ -1996,9 +2045,13 @@ ice_get_link_ksettings(struct net_device *netdev,
 		ks->base.port = PORT_TP;
 		break;
 	case ICE_MEDIA_BACKPLANE:
+<<<<<<< HEAD
+		ethtool_link_ksettings_add_link_mode(ks, supported, Backplane);
+=======
 		ethtool_link_ksettings_add_link_mode(ks, supported, Autoneg);
 		ethtool_link_ksettings_add_link_mode(ks, supported, Backplane);
 		ethtool_link_ksettings_add_link_mode(ks, advertising, Autoneg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ethtool_link_ksettings_add_link_mode(ks, advertising,
 						     Backplane);
 		ks->base.port = PORT_NONE;
@@ -2073,6 +2126,15 @@ ice_get_link_ksettings(struct net_device *netdev,
 	if (caps->link_fec_options & ICE_AQC_PHY_FEC_25G_RS_CLAUSE91_EN)
 		ethtool_link_ksettings_add_link_mode(ks, supported, FEC_RS);
 
+<<<<<<< HEAD
+	/* Set supported and advertised autoneg */
+	if (ice_is_phy_caps_an_enabled(caps)) {
+		ethtool_link_ksettings_add_link_mode(ks, supported, Autoneg);
+		ethtool_link_ksettings_add_link_mode(ks, advertising, Autoneg);
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 done:
 	kfree(caps);
 	return err;
@@ -2986,7 +3048,15 @@ ice_get_pauseparam(struct net_device *netdev, struct ethtool_pauseparam *pause)
 	pause->rx_pause = 0;
 	pause->tx_pause = 0;
 
+<<<<<<< HEAD
 	dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
+=======
+<<<<<<< HEAD
+	dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
+=======
+	dcbx_cfg = &pi->local_dcbx_cfg;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pcaps = kzalloc(sizeof(*pcaps), GFP_KERNEL);
 	if (!pcaps)
@@ -3038,7 +3108,15 @@ ice_set_pauseparam(struct net_device *netdev, struct ethtool_pauseparam *pause)
 
 	pi = vsi->port_info;
 	hw_link_info = &pi->phy.link_info;
+<<<<<<< HEAD
 	dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
+=======
+<<<<<<< HEAD
+	dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
+=======
+	dcbx_cfg = &pi->local_dcbx_cfg;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	link_up = hw_link_info->link_info & ICE_AQ_LINK_UP;
 
 	/* Changing the port's flow control is not supported if this isn't the
@@ -3472,7 +3550,15 @@ static void ice_get_wol(struct net_device *netdev, struct ethtool_wolinfo *wol)
 		netdev_warn(netdev, "Wake on LAN is not supported on this interface!\n");
 
 	/* Get WoL settings based on the HW capability */
+<<<<<<< HEAD
 	if (ice_is_wol_supported(&pf->hw)) {
+=======
+<<<<<<< HEAD
+	if (ice_is_wol_supported(&pf->hw)) {
+=======
+	if (ice_is_wol_supported(pf)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		wol->supported = WAKE_MAGIC;
 		wol->wolopts = pf->wol_ena ? WAKE_MAGIC : 0;
 	} else {
@@ -3492,7 +3578,15 @@ static int ice_set_wol(struct net_device *netdev, struct ethtool_wolinfo *wol)
 	struct ice_vsi *vsi = np->vsi;
 	struct ice_pf *pf = vsi->back;
 
+<<<<<<< HEAD
 	if (vsi->type != ICE_VSI_PF || !ice_is_wol_supported(&pf->hw))
+=======
+<<<<<<< HEAD
+	if (vsi->type != ICE_VSI_PF || !ice_is_wol_supported(&pf->hw))
+=======
+	if (vsi->type != ICE_VSI_PF || !ice_is_wol_supported(pf))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	/* only magic packet is supported */

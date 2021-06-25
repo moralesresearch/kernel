@@ -7,7 +7,11 @@ Description:
 		is connected. example: "/dev/ttyS0".
 
 		The device name flows down to architecture specific board
+<<<<<<< HEAD
 		initialization file from the ATAGS bootloader
+=======
+		initialization file from the SFI/ATAGS bootloader
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		firmware. The name exposed is read from the user-space
 		dameon and opens the device when install is requested.
 

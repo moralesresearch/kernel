@@ -71,7 +71,11 @@
  *
  * A simple static executable may be built this way :
  *      $ gcc -fno-asynchronous-unwind-tables -fno-ident -s -Os -nostdlib \
+<<<<<<< HEAD
  *            -static -include nolibc.h -o hello hello.c -lgcc
+=======
+ *            -static -include nolibc.h -lgcc -o hello hello.c
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * A very useful calling convention table may be found here :
  *      http://man7.org/linux/man-pages/man2/syscall.2.html
@@ -81,12 +85,26 @@
  *
  */
 
+<<<<<<< HEAD
+=======
+/* Some archs (at least aarch64) don't expose the regular syscalls anymore by
+ * default, either because they have an "_at" replacement, or because there are
+ * more modern alternatives. For now we'd rather still use them.
+ */
+#define __ARCH_WANT_SYSCALL_NO_AT
+#define __ARCH_WANT_SYSCALL_NO_FLAGS
+#define __ARCH_WANT_SYSCALL_DEPRECATED
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/unistd.h>
 #include <asm/ioctls.h>
 #include <asm/errno.h>
 #include <linux/fs.h>
 #include <linux/loop.h>
+<<<<<<< HEAD
 #include <linux/time.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define NOLIBC
 
@@ -145,6 +163,27 @@ struct pollfd {
 	short int revents;
 };
 
+<<<<<<< HEAD
+=======
+/* for select() */
+struct timeval {
+	long    tv_sec;
+	long    tv_usec;
+};
+
+/* for pselect() */
+struct timespec {
+	long    tv_sec;
+	long    tv_nsec;
+};
+
+/* for gettimeofday() */
+struct timezone {
+	int tz_minuteswest;
+	int tz_dsttime;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* for getdents64() */
 struct linux_dirent64 {
 	uint64_t       d_ino;
@@ -246,8 +285,11 @@ struct stat {
 #define WEXITSTATUS(status)   (((status) & 0xff00) >> 8)
 #define WIFEXITED(status)     (((status) & 0x7f) == 0)
 
+<<<<<<< HEAD
 /* for SIGCHLD */
 #include <asm/signal.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Below comes the architecture-specific code. For each architecture, we have
  * the syscall declarations and the _start code definition. This is the only
@@ -1446,10 +1488,15 @@ int sys_chmod(const char *path, mode_t mode)
 {
 #ifdef __NR_fchmodat
 	return my_syscall4(__NR_fchmodat, AT_FDCWD, path, mode, 0);
+<<<<<<< HEAD
 #elif defined(__NR_chmod)
 	return my_syscall2(__NR_chmod, path, mode);
 #else
 #error Neither __NR_fchmodat nor __NR_chmod defined, cannot implement sys_chmod()
+=======
+#else
+	return my_syscall2(__NR_chmod, path, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1458,10 +1505,15 @@ int sys_chown(const char *path, uid_t owner, gid_t group)
 {
 #ifdef __NR_fchownat
 	return my_syscall5(__NR_fchownat, AT_FDCWD, path, owner, group, 0);
+<<<<<<< HEAD
 #elif defined(__NR_chown)
 	return my_syscall3(__NR_chown, path, owner, group);
 #else
 #error Neither __NR_fchownat nor __NR_chown defined, cannot implement sys_chown()
+=======
+#else
+	return my_syscall3(__NR_chown, path, owner, group);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1483,6 +1535,7 @@ int sys_dup(int fd)
 	return my_syscall1(__NR_dup, fd);
 }
 
+<<<<<<< HEAD
 #ifdef __NR_dup3
 static __attribute__((unused))
 int sys_dup3(int old, int new, int flags)
@@ -1501,6 +1554,12 @@ int sys_dup2(int old, int new)
 #else
 #error Neither __NR_dup3 nor __NR_dup2 defined, cannot implement sys_dup2()
 #endif
+=======
+static __attribute__((unused))
+int sys_dup2(int old, int new)
+{
+	return my_syscall2(__NR_dup2, old, new);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __attribute__((unused))
@@ -1512,6 +1571,7 @@ int sys_execve(const char *filename, char *const argv[], char *const envp[])
 static __attribute__((unused))
 pid_t sys_fork(void)
 {
+<<<<<<< HEAD
 #ifdef __NR_clone
 	/* note: some archs only have clone() and not fork(). Different archs
 	 * have a different API, but most archs have the flags on first arg and
@@ -1523,6 +1583,9 @@ pid_t sys_fork(void)
 #else
 #error Neither __NR_clone nor __NR_fork defined, cannot implement sys_fork()
 #endif
+=======
+	return my_syscall0(__NR_fork);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __attribute__((unused))
@@ -1538,6 +1601,7 @@ int sys_getdents64(int fd, struct linux_dirent64 *dirp, int count)
 }
 
 static __attribute__((unused))
+<<<<<<< HEAD
 pid_t sys_getpgid(pid_t pid)
 {
 	return my_syscall1(__NR_getpgid, pid);
@@ -1547,6 +1611,11 @@ static __attribute__((unused))
 pid_t sys_getpgrp(void)
 {
 	return sys_getpgid(0);
+=======
+pid_t sys_getpgrp(void)
+{
+	return my_syscall0(__NR_getpgrp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __attribute__((unused))
@@ -1578,10 +1647,15 @@ int sys_link(const char *old, const char *new)
 {
 #ifdef __NR_linkat
 	return my_syscall5(__NR_linkat, AT_FDCWD, old, AT_FDCWD, new, 0);
+<<<<<<< HEAD
 #elif defined(__NR_link)
 	return my_syscall2(__NR_link, old, new);
 #else
 #error Neither __NR_linkat nor __NR_link defined, cannot implement sys_link()
+=======
+#else
+	return my_syscall2(__NR_link, old, new);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1596,10 +1670,15 @@ int sys_mkdir(const char *path, mode_t mode)
 {
 #ifdef __NR_mkdirat
 	return my_syscall3(__NR_mkdirat, AT_FDCWD, path, mode);
+<<<<<<< HEAD
 #elif defined(__NR_mkdir)
 	return my_syscall2(__NR_mkdir, path, mode);
 #else
 #error Neither __NR_mkdirat nor __NR_mkdir defined, cannot implement sys_mkdir()
+=======
+#else
+	return my_syscall2(__NR_mkdir, path, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1608,10 +1687,15 @@ long sys_mknod(const char *path, mode_t mode, dev_t dev)
 {
 #ifdef __NR_mknodat
 	return my_syscall4(__NR_mknodat, AT_FDCWD, path, mode, dev);
+<<<<<<< HEAD
 #elif defined(__NR_mknod)
 	return my_syscall3(__NR_mknod, path, mode, dev);
 #else
 #error Neither __NR_mknodat nor __NR_mknod defined, cannot implement sys_mknod()
+=======
+#else
+	return my_syscall3(__NR_mknod, path, mode, dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1627,10 +1711,15 @@ int sys_open(const char *path, int flags, mode_t mode)
 {
 #ifdef __NR_openat
 	return my_syscall4(__NR_openat, AT_FDCWD, path, flags, mode);
+<<<<<<< HEAD
 #elif defined(__NR_open)
 	return my_syscall3(__NR_open, path, flags, mode);
 #else
 #error Neither __NR_openat nor __NR_open defined, cannot implement sys_open()
+=======
+#else
+	return my_syscall3(__NR_open, path, flags, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1643,6 +1732,7 @@ int sys_pivot_root(const char *new, const char *old)
 static __attribute__((unused))
 int sys_poll(struct pollfd *fds, int nfds, int timeout)
 {
+<<<<<<< HEAD
 #if defined(__NR_ppoll)
 	struct timespec t;
 
@@ -1656,6 +1746,9 @@ int sys_poll(struct pollfd *fds, int nfds, int timeout)
 #else
 #error Neither __NR_ppoll nor __NR_poll defined, cannot implement sys_poll()
 #endif
+=======
+	return my_syscall3(__NR_poll, fds, nfds, timeout);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __attribute__((unused))
@@ -1694,13 +1787,20 @@ int sys_select(int nfds, fd_set *rfds, fd_set *wfds, fd_set *efds, struct timeva
 		t.tv_nsec = timeout->tv_usec * 1000;
 	}
 	return my_syscall6(__NR_pselect6, nfds, rfds, wfds, efds, timeout ? &t : NULL, NULL);
+<<<<<<< HEAD
 #elif defined(__NR__newselect) || defined(__NR_select)
+=======
+#else
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef __NR__newselect
 #define __NR__newselect __NR_select
 #endif
 	return my_syscall5(__NR__newselect, nfds, rfds, wfds, efds, timeout);
+<<<<<<< HEAD
 #else
 #error None of __NR_select, __NR_pselect6, nor __NR__newselect defined, cannot implement sys_select()
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1725,10 +1825,15 @@ int sys_stat(const char *path, struct stat *buf)
 #ifdef __NR_newfstatat
 	/* only solution for arm64 */
 	ret = my_syscall4(__NR_newfstatat, AT_FDCWD, path, &stat, 0);
+<<<<<<< HEAD
 #elif defined(__NR_stat)
 	ret = my_syscall2(__NR_stat, path, &stat);
 #else
 #error Neither __NR_newfstatat nor __NR_stat defined, cannot implement sys_stat()
+=======
+#else
+	ret = my_syscall2(__NR_stat, path, &stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	buf->st_dev     = stat.st_dev;
 	buf->st_ino     = stat.st_ino;
@@ -1752,10 +1857,15 @@ int sys_symlink(const char *old, const char *new)
 {
 #ifdef __NR_symlinkat
 	return my_syscall3(__NR_symlinkat, old, AT_FDCWD, new);
+<<<<<<< HEAD
 #elif defined(__NR_symlink)
 	return my_syscall2(__NR_symlink, old, new);
 #else
 #error Neither __NR_symlinkat nor __NR_symlink defined, cannot implement sys_symlink()
+=======
+#else
+	return my_syscall2(__NR_symlink, old, new);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1776,10 +1886,15 @@ int sys_unlink(const char *path)
 {
 #ifdef __NR_unlinkat
 	return my_syscall3(__NR_unlinkat, AT_FDCWD, path, 0);
+<<<<<<< HEAD
 #elif defined(__NR_unlink)
 	return my_syscall1(__NR_unlink, path);
 #else
 #error Neither __NR_unlinkat nor __NR_unlink defined, cannot implement sys_unlink()
+=======
+#else
+	return my_syscall1(__NR_unlink, path);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1892,6 +2007,7 @@ int close(int fd)
 }
 
 static __attribute__((unused))
+<<<<<<< HEAD
 int dup(int fd)
 {
 	int ret = sys_dup(fd);
@@ -1904,6 +2020,8 @@ int dup(int fd)
 }
 
 static __attribute__((unused))
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dup2(int old, int new)
 {
 	int ret = sys_dup2(old, new);
@@ -1915,6 +2033,7 @@ int dup2(int old, int new)
 	return ret;
 }
 
+<<<<<<< HEAD
 #ifdef __NR_dup3
 static __attribute__((unused))
 int dup3(int old, int new, int flags)
@@ -1929,6 +2048,8 @@ int dup3(int old, int new, int flags)
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __attribute__((unused))
 int execve(const char *filename, char *const argv[], char *const envp[])
 {
@@ -1978,6 +2099,7 @@ int getdents64(int fd, struct linux_dirent64 *dirp, int count)
 }
 
 static __attribute__((unused))
+<<<<<<< HEAD
 pid_t getpgid(pid_t pid)
 {
 	pid_t ret = sys_getpgid(pid);
@@ -1990,6 +2112,8 @@ pid_t getpgid(pid_t pid)
 }
 
 static __attribute__((unused))
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 pid_t getpgrp(void)
 {
 	pid_t ret = sys_getpgrp();

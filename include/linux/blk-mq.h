@@ -140,6 +140,13 @@ struct blk_mq_hw_ctx {
 	 * shared across request queues.
 	 */
 	atomic_t		nr_active;
+<<<<<<< HEAD
+=======
+	/**
+	 * @elevator_queued: Number of queued requests on hctx.
+	 */
+	atomic_t                elevator_queued;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/** @cpuhp_online: List to store request if CPU is going to die */
 	struct hlist_node	cpuhp_online;
@@ -490,6 +497,7 @@ static inline int blk_mq_request_completed(struct request *rq)
 	return blk_mq_rq_state(rq) == MQ_RQ_COMPLETE;
 }
 
+<<<<<<< HEAD
 /*
  * 
  * Set the state to complete when completing a request from inside ->queue_rq.
@@ -502,6 +510,8 @@ static inline void blk_mq_set_request_complete(struct request *rq)
 	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void blk_mq_start_request(struct request *rq);
 void blk_mq_end_request(struct request *rq, blk_status_t error);
 void __blk_mq_end_request(struct request *rq, blk_status_t error);
@@ -610,8 +620,13 @@ static inline void blk_rq_bio_prep(struct request *rq, struct bio *bio,
 	rq->bio = rq->biotail = bio;
 	rq->ioprio = bio_prio(bio);
 
+<<<<<<< HEAD
 	if (bio->bi_bdev)
 		rq->rq_disk = bio->bi_bdev->bd_disk;
+=======
+	if (bio->bi_disk)
+		rq->rq_disk = bio->bi_disk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 blk_qc_t blk_mq_submit_bio(struct bio *bio);

@@ -88,12 +88,15 @@ struct ci_hdrc_platform_data {
 	struct pinctrl_state *pins_default;
 	struct pinctrl_state *pins_host;
 	struct pinctrl_state *pins_device;
+<<<<<<< HEAD
 
 	/* platform-specific hooks */
 	int (*hub_control)(struct ci_hdrc *ci, u16 typeReq, u16 wValue,
 			   u16 wIndex, char *buf, u16 wLength,
 			   bool *done, unsigned long *flags);
 	void (*enter_lpm)(struct ci_hdrc *ci, bool enable);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Default offset of capability registers */

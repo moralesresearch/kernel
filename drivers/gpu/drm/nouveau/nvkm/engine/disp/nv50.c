@@ -154,7 +154,11 @@ nv50_disp_ = {
 
 int
 nv50_disp_new_(const struct nv50_disp_func *func, struct nvkm_device *device,
+<<<<<<< HEAD
 	       enum nvkm_subdev_type type, int inst, struct nvkm_disp **pdisp)
+=======
+	       int index, struct nvkm_disp **pdisp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv50_disp *disp;
 	int ret;
@@ -164,7 +168,11 @@ nv50_disp_new_(const struct nv50_disp_func *func, struct nvkm_device *device,
 	disp->func = func;
 	*pdisp = &disp->base;
 
+<<<<<<< HEAD
 	ret = nvkm_disp_ctor(&nv50_disp_, device, type, inst, &disp->base);
+=======
+	ret = nvkm_disp_ctor(&nv50_disp_, device, index, &disp->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -769,8 +777,14 @@ nv50_disp = {
 };
 
 int
+<<<<<<< HEAD
 nv50_disp_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_disp **pdisp)
 {
 	return nv50_disp_new_(&nv50_disp, device, type, inst, pdisp);
+=======
+nv50_disp_new(struct nvkm_device *device, int index, struct nvkm_disp **pdisp)
+{
+	return nv50_disp_new_(&nv50_disp, device, index, pdisp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

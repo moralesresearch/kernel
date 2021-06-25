@@ -434,10 +434,15 @@ static void __init hyp_mode_check(void)
 			   "CPU: CPUs started in inconsistent modes");
 	else
 		pr_info("CPU: All CPU(s) started at EL1\n");
+<<<<<<< HEAD
 	if (IS_ENABLED(CONFIG_KVM) && !is_kernel_in_hyp_mode()) {
 		kvm_compute_layout();
 		kvm_apply_hyp_relocations();
 	}
+=======
+	if (IS_ENABLED(CONFIG_KVM) && !is_kernel_in_hyp_mode())
+		kvm_compute_layout();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __init smp_cpus_done(unsigned int max_cpus)

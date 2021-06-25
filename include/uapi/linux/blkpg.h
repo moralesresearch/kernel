@@ -2,6 +2,32 @@
 #ifndef _UAPI__LINUX_BLKPG_H
 #define _UAPI__LINUX_BLKPG_H
 
+<<<<<<< HEAD
+=======
+/*
+ * Partition table and disk geometry handling
+ *
+ * A single ioctl with lots of subfunctions:
+ *
+ * Device number stuff:
+ *    get_whole_disk()		(given the device number of a partition,
+ *                               find the device number of the encompassing disk)
+ *    get_all_partitions()	(given the device number of a disk, return the
+ *				 device numbers of all its known partitions)
+ *
+ * Partition stuff:
+ *    add_partition()
+ *    delete_partition()
+ *    test_partition_in_use()	(also for test_disk_in_use)
+ *
+ * Geometry stuff:
+ *    get_geometry()
+ *    set_geometry()
+ *    get_bios_drivedata()
+ *
+ * For today, only the partition stuff - aeb, 990515
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/compiler.h>
 #include <linux/ioctl.h>
 
@@ -29,8 +55,14 @@ struct blkpg_partition {
 	long long start;		/* starting offset in bytes */
 	long long length;		/* length in bytes */
 	int pno;			/* partition number */
+<<<<<<< HEAD
 	char devname[BLKPG_DEVNAMELTH];	/* unused / ignored */
 	char volname[BLKPG_VOLNAMELTH];	/* unused / ignore */
+=======
+	char devname[BLKPG_DEVNAMELTH];	/* partition name, like sda5 or c0d1p2,
+					   to be used in kernel messages */
+	char volname[BLKPG_VOLNAMELTH];	/* volume label */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #endif /* _UAPI__LINUX_BLKPG_H */

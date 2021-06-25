@@ -75,7 +75,11 @@ struct gpiod_hog {
  * gpiod_get_index()
  */
 #define GPIO_LOOKUP_IDX(_key, _chip_hwnum, _con_id, _idx, _flags)         \
+<<<<<<< HEAD
 (struct gpiod_lookup) {                                                   \
+=======
+{                                                                         \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.key = _key,                                                      \
 	.chip_hwnum = _chip_hwnum,                                        \
 	.con_id = _con_id,                                                \
@@ -87,7 +91,11 @@ struct gpiod_hog {
  * Simple definition of a single GPIO hog in an array.
  */
 #define GPIO_HOG(_chip_label, _chip_hwnum, _line_name, _lflags, _dflags)  \
+<<<<<<< HEAD
 (struct gpiod_hog) {                                                      \
+=======
+{                                                                         \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.chip_label = _chip_label,                                        \
 	.chip_hwnum = _chip_hwnum,                                        \
 	.line_name = _line_name,                                          \

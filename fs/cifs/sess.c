@@ -97,12 +97,15 @@ int cifs_try_adding_channels(struct cifs_sb_info *cifs_sb, struct cifs_ses *ses)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (!(ses->server->capabilities & SMB2_GLOBAL_CAP_MULTI_CHANNEL)) {
 		cifs_dbg(VFS, "server %s does not support multichannel\n", ses->server->hostname);
 		ses->chan_max = 1;
 		return 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Make a copy of the iface list at the time and use that
 	 * instead so as to not hold the iface spinlock for opening
@@ -224,7 +227,15 @@ cifs_ses_add_channel(struct cifs_sb_info *cifs_sb, struct cifs_ses *ses,
 
 	/* UNC and paths */
 	/* XXX: Use ses->server->hostname? */
+<<<<<<< HEAD
 	sprintf(unc, unc_fmt, ses->ip_addr);
+=======
+<<<<<<< HEAD
+	sprintf(unc, unc_fmt, ses->ip_addr);
+=======
+	sprintf(unc, unc_fmt, ses->serverName);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx.UNC = unc;
 	ctx.prepath = "";
 

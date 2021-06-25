@@ -438,7 +438,10 @@ EXPORT_SYMBOL(inet_release);
 int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 {
 	struct sock *sk = sock->sk;
+<<<<<<< HEAD
 	u32 flags = BIND_WITH_LOCK;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	/* If the socket has its own bind function then use it. (RAW) */
@@ -451,12 +454,20 @@ int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 	/* BPF prog is run before any checks are done so that if the prog
 	 * changes context in a wrong way it will be caught.
 	 */
+<<<<<<< HEAD
 	err = BPF_CGROUP_RUN_PROG_INET_BIND_LOCK(sk, uaddr,
 						 BPF_CGROUP_INET4_BIND, &flags);
 	if (err)
 		return err;
 
 	return __inet_bind(sk, uaddr, addr_len, flags);
+=======
+	err = BPF_CGROUP_RUN_PROG_INET4_BIND_LOCK(sk, uaddr);
+	if (err)
+		return err;
+
+	return __inet_bind(sk, uaddr, addr_len, BIND_WITH_LOCK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(inet_bind);
 
@@ -501,8 +512,12 @@ int __inet_bind(struct sock *sk, struct sockaddr *uaddr, int addr_len,
 
 	snum = ntohs(addr->sin_port);
 	err = -EACCES;
+<<<<<<< HEAD
 	if (!(flags & BIND_NO_CAP_NET_BIND_SERVICE) &&
 	    snum && inet_port_requires_bind_service(net, snum) &&
+=======
+	if (snum && inet_port_requires_bind_service(net, snum) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    !ns_capable(net->user_ns, CAP_NET_BIND_SERVICE))
 		goto out;
 
@@ -780,19 +795,31 @@ int inet_getname(struct socket *sock, struct sockaddr *uaddr,
 			return -ENOTCONN;
 		sin->sin_port = inet->inet_dport;
 		sin->sin_addr.s_addr = inet->inet_daddr;
+<<<<<<< HEAD
 		BPF_CGROUP_RUN_SA_PROG_LOCK(sk, (struct sockaddr *)sin,
 					    BPF_CGROUP_INET4_GETPEERNAME,
 					    NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		__be32 addr = inet->inet_rcv_saddr;
 		if (!addr)
 			addr = inet->inet_saddr;
 		sin->sin_port = inet->inet_sport;
 		sin->sin_addr.s_addr = addr;
+<<<<<<< HEAD
 		BPF_CGROUP_RUN_SA_PROG_LOCK(sk, (struct sockaddr *)sin,
 					    BPF_CGROUP_INET4_GETSOCKNAME,
 					    NULL);
 	}
+=======
+	}
+	if (cgroup_bpf_enabled)
+		BPF_CGROUP_RUN_SA_PROG_LOCK(sk, (struct sockaddr *)sin,
+					    peer ? BPF_CGROUP_INET4_GETPEERNAME :
+						   BPF_CGROUP_INET4_GETSOCKNAME,
+					    NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
 	return sizeof(*sin);
 }
@@ -1021,6 +1048,10 @@ static int inet_compat_ioctl(struct socket *sock, unsigned int cmd, unsigned lon
 
 const struct proto_ops inet_stream_ops = {
 	.family		   = PF_INET,
+<<<<<<< HEAD
+=======
+	.flags		   = PROTO_CMSG_DATA_ONLY,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.owner		   = THIS_MODULE,
 	.release	   = inet_release,
 	.bind		   = inet_bind,
@@ -1422,6 +1453,10 @@ struct sk_buff *inet_gso_segment(struct sk_buff *skb,
 out:
 	return segs;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(inet_gso_segment);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct sk_buff *ipip_gso_segment(struct sk_buff *skb,
 					netdev_features_t features)
@@ -1552,6 +1587,10 @@ out:
 
 	return pp;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(inet_gro_receive);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct sk_buff *ipip_gro_receive(struct list_head *head,
 					struct sk_buff *skb)
@@ -1637,6 +1676,10 @@ out_unlock:
 
 	return err;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(inet_gro_complete);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int ipip_gro_complete(struct sk_buff *skb, int nhoff)
 {
@@ -1871,8 +1914,11 @@ static __net_init int inet_init_net(struct net *net)
 	net->ipv4.sysctl_igmp_llm_reports = 1;
 	net->ipv4.sysctl_igmp_qrv = 2;
 
+<<<<<<< HEAD
 	net->ipv4.sysctl_fib_notify_on_flag_change = 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

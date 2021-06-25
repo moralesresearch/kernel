@@ -38,7 +38,10 @@
 #include <linux/of_irq.h>
 #include <linux/of_net.h>
 #include <linux/of_mdio.h>
+<<<<<<< HEAD
 #include <linux/platform_device.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 
 #include <asm/processor.h>
@@ -2391,11 +2394,19 @@ static int emac_check_deps(struct emac_instance *dev,
 
 static void emac_put_deps(struct emac_instance *dev)
 {
+<<<<<<< HEAD
 	platform_device_put(dev->mal_dev);
 	platform_device_put(dev->zmii_dev);
 	platform_device_put(dev->rgmii_dev);
 	platform_device_put(dev->mdio_dev);
 	platform_device_put(dev->tah_dev);
+=======
+	of_dev_put(dev->mal_dev);
+	of_dev_put(dev->zmii_dev);
+	of_dev_put(dev->rgmii_dev);
+	of_dev_put(dev->mdio_dev);
+	of_dev_put(dev->tah_dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int emac_of_bus_notify(struct notifier_block *nb, unsigned long action,
@@ -2436,7 +2447,11 @@ static int emac_wait_deps(struct emac_instance *dev)
 	for (i = 0; i < EMAC_DEP_COUNT; i++) {
 		of_node_put(deps[i].node);
 		if (err)
+<<<<<<< HEAD
 			platform_device_put(deps[i].ofdev);
+=======
+			of_dev_put(deps[i].ofdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (err == 0) {
 		dev->mal_dev = deps[EMAC_DEP_MAL_IDX].ofdev;
@@ -2445,7 +2460,11 @@ static int emac_wait_deps(struct emac_instance *dev)
 		dev->tah_dev = deps[EMAC_DEP_TAH_IDX].ofdev;
 		dev->mdio_dev = deps[EMAC_DEP_MDIO_IDX].ofdev;
 	}
+<<<<<<< HEAD
 	platform_device_put(deps[EMAC_DEP_PREV_IDX].ofdev);
+=======
+	of_dev_put(deps[EMAC_DEP_PREV_IDX].ofdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

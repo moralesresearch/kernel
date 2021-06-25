@@ -1229,7 +1229,11 @@ static u64 enable_ddw(struct pci_dev *dev, struct device_node *pdn)
 	if (pmem_present) {
 		if (query.largest_available_block >=
 		    (1ULL << (MAX_PHYSMEM_BITS - page_shift)))
+<<<<<<< HEAD
 			len = MAX_PHYSMEM_BITS;
+=======
+			len = MAX_PHYSMEM_BITS - page_shift;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			dev_info(&dev->dev, "Skipping ibm,pmemory");
 	}

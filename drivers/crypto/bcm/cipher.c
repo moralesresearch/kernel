@@ -471,8 +471,20 @@ static int handle_skcipher_req(struct iproc_reqctx_s *rctx)
 static void handle_skcipher_resp(struct iproc_reqctx_s *rctx)
 {
 	struct spu_hw *spu = &iproc_priv.spu;
+<<<<<<< HEAD
 	struct crypto_async_request *areq = rctx->parent;
 	struct skcipher_request *req = skcipher_request_cast(areq);
+=======
+<<<<<<< HEAD
+	struct crypto_async_request *areq = rctx->parent;
+	struct skcipher_request *req = skcipher_request_cast(areq);
+=======
+#ifdef DEBUG
+	struct crypto_async_request *areq = rctx->parent;
+	struct skcipher_request *req = skcipher_request_cast(areq);
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iproc_ctx_s *ctx = rctx->ctx;
 	u32 payload_len;
 
@@ -994,11 +1006,25 @@ static int ahash_req_done(struct iproc_reqctx_s *rctx)
 static void handle_ahash_resp(struct iproc_reqctx_s *rctx)
 {
 	struct iproc_ctx_s *ctx = rctx->ctx;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifdef DEBUG
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct crypto_async_request *areq = rctx->parent;
 	struct ahash_request *req = ahash_request_cast(areq);
 	struct crypto_ahash *ahash = crypto_ahash_reqtfm(req);
 	unsigned int blocksize =
 		crypto_tfm_alg_blocksize(crypto_ahash_tfm(ahash));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Save hash to use as input to next op if incremental. Might be copying
 	 * too much, but that's easier than figuring out actual digest size here

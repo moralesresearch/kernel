@@ -576,7 +576,11 @@ static struct notifier_block dcon_panic_nb = {
 
 static int dcon_detect(struct i2c_client *client, struct i2c_board_info *info)
 {
+<<<<<<< HEAD
 	strscpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
+=======
+	strlcpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

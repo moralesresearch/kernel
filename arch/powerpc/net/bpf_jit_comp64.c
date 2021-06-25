@@ -683,6 +683,7 @@ emit_clear:
 			break;
 
 		/*
+<<<<<<< HEAD
 		 * BPF_STX ATOMIC (atomic ops)
 		 */
 		case BPF_STX | BPF_ATOMIC | BPF_W:
@@ -695,6 +696,12 @@ emit_clear:
 
 			/* *(u32 *)(dst + off) += src */
 
+=======
+		 * BPF_STX XADD (atomic_add)
+		 */
+		/* *(u32 *)(dst + off) += src */
+		case BPF_STX | BPF_XADD | BPF_W:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Get EA into TMP_REG_1 */
 			EMIT(PPC_RAW_ADDI(b2p[TMP_REG_1], dst_reg, off));
 			tmp_idx = ctx->idx * 4;
@@ -707,6 +714,7 @@ emit_clear:
 			/* we're done if this succeeded */
 			PPC_BCC_SHORT(COND_NE, tmp_idx);
 			break;
+<<<<<<< HEAD
 		case BPF_STX | BPF_ATOMIC | BPF_DW:
 			if (insn->imm != BPF_ADD) {
 				pr_err_ratelimited(
@@ -716,6 +724,10 @@ emit_clear:
 			}
 			/* *(u64 *)(dst + off) += src */
 
+=======
+		/* *(u64 *)(dst + off) += src */
+		case BPF_STX | BPF_XADD | BPF_DW:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			EMIT(PPC_RAW_ADDI(b2p[TMP_REG_1], dst_reg, off));
 			tmp_idx = ctx->idx * 4;
 			EMIT(PPC_RAW_LDARX(b2p[TMP_REG_2], 0, b2p[TMP_REG_1], 0));

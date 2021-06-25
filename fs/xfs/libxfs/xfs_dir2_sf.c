@@ -1018,7 +1018,11 @@ xfs_dir2_sf_removename(
 /*
  * Check whether the sf dir replace operation need more blocks.
  */
+<<<<<<< HEAD
 static bool
+=======
+bool
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 xfs_dir2_sf_replace_needblock(
 	struct xfs_inode	*dp,
 	xfs_ino_t		inum)

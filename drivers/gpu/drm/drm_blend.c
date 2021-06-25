@@ -185,6 +185,15 @@
  *		 plane does not expose the "alpha" property, then this is
  *		 assumed to be 1.0
  *
+<<<<<<< HEAD
+=======
+ * IN_FORMATS:
+ *	Blob property which contains the set of buffer format and modifier
+ *	pairs supported by this plane. The blob is a drm_format_modifier_blob
+ *	struct. Without this property the plane doesn't support buffers with
+ *	modifiers. Userspace cannot change this property.
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Note that all the property extensions described here apply either to the
  * plane or the CRTC (e.g. for the background color, which currently is not
  * exposed and assumed to be black).

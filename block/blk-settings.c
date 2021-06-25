@@ -60,7 +60,14 @@ void blk_set_default_limits(struct queue_limits *lim)
 	lim->io_opt = 0;
 	lim->misaligned = 0;
 	lim->zoned = BLK_ZONED_NONE;
+<<<<<<< HEAD
 	lim->zone_write_granularity = 0;
+=======
+<<<<<<< HEAD
+	lim->zone_write_granularity = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(blk_set_default_limits);
 
@@ -368,6 +375,10 @@ void blk_queue_physical_block_size(struct request_queue *q, unsigned int size)
 EXPORT_SYMBOL(blk_queue_physical_block_size);
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * blk_queue_zone_write_granularity - set zone write granularity for the queue
  * @q:  the request queue for the zoned device
  * @size:  the zone write granularity size, in bytes
@@ -390,6 +401,11 @@ void blk_queue_zone_write_granularity(struct request_queue *q,
 EXPORT_SYMBOL_GPL(blk_queue_zone_write_granularity);
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * blk_queue_alignment_offset - set physical block alignment offset
  * @q:	the request queue for the device
  * @offset: alignment offset in bytes
@@ -666,8 +682,16 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
 			t->discard_granularity;
 	}
 
+<<<<<<< HEAD
 	t->zone_write_granularity = max(t->zone_write_granularity,
 					b->zone_write_granularity);
+=======
+<<<<<<< HEAD
+	t->zone_write_granularity = max(t->zone_write_granularity,
+					b->zone_write_granularity);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	t->zoned = max(t->zoned, b->zoned);
 	return ret;
 }
@@ -884,8 +908,16 @@ EXPORT_SYMBOL_GPL(blk_queue_can_use_dma_map_merging);
  */
 void blk_queue_set_zoned(struct gendisk *disk, enum blk_zoned_model model)
 {
+<<<<<<< HEAD
 	struct request_queue *q = disk->queue;
 
+=======
+<<<<<<< HEAD
+	struct request_queue *q = disk->queue;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (model) {
 	case BLK_ZONED_HM:
 		/*
@@ -904,7 +936,15 @@ void blk_queue_set_zoned(struct gendisk *disk, enum blk_zoned_model model)
 		 * we do nothing special as far as the block layer is concerned.
 		 */
 		if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED) ||
+<<<<<<< HEAD
 		    !xa_empty(&disk->part_tbl))
+=======
+<<<<<<< HEAD
+		    !xa_empty(&disk->part_tbl))
+=======
+		    disk_has_partitions(disk))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			model = BLK_ZONED_NONE;
 		break;
 	case BLK_ZONED_NONE:
@@ -914,6 +954,10 @@ void blk_queue_set_zoned(struct gendisk *disk, enum blk_zoned_model model)
 		break;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	q->limits.zoned = model;
 	if (model != BLK_ZONED_NONE) {
 		/*
@@ -925,6 +969,12 @@ void blk_queue_set_zoned(struct gendisk *disk, enum blk_zoned_model model)
 	} else {
 		blk_queue_clear_zone_settings(q);
 	}
+<<<<<<< HEAD
+=======
+=======
+	disk->queue->limits.zoned = model;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(blk_queue_set_zoned);
 

@@ -6,10 +6,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+<<<<<<< HEAD
 #ifndef __SANE_USERSPACE_TYPES__
 #define __SANE_USERSPACE_TYPES__	/* For PPC64, to get LL64 types */
 #endif
 
+=======
+#define __SANE_USERSPACE_TYPES__	/* For PPC64, to get LL64 types */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/types.h>
 #include <asm/posix_types.h>
 

@@ -73,10 +73,17 @@ enum spu2_ret_md_opts {
 
 /* Fixed Metadata format */
 struct SPU2_FMD {
+<<<<<<< HEAD
 	__le64 ctrl0;
 	__le64 ctrl1;
 	__le64 ctrl2;
 	__le64 ctrl3;
+=======
+	u64 ctrl0;
+	u64 ctrl1;
+	u64 ctrl2;
+	u64 ctrl3;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define FMD_SIZE  sizeof(struct SPU2_FMD)

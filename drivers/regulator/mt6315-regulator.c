@@ -59,7 +59,11 @@ static const struct linear_range mt_volt_range1[] = {
 	REGULATOR_LINEAR_RANGE(0, 0, 0xbf, 6250),
 };
 
+<<<<<<< HEAD
+static unsigned int mt6315_map_mode(unsigned int mode)
+=======
 static unsigned int mt6315_map_mode(u32 mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (mode) {
 	case MT6315_BUCK_MODE_AUTO:

@@ -178,6 +178,11 @@ struct nft_pipapo_elem {
 
 int pipapo_refill(unsigned long *map, int len, int rules, unsigned long *dst,
 		  union nft_pipapo_map_bucket *mt, bool match_only);
+<<<<<<< HEAD
+bool nft_pipapo_lookup(const struct net *net, const struct nft_set *set,
+		       const u32 *key, const struct nft_set_ext **ext);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * pipapo_and_field_buckets_4bit() - Intersect 4-bit buckets

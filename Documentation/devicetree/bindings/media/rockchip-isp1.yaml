@@ -56,6 +56,7 @@ properties:
   power-domains:
     maxItems: 1
 
+<<<<<<< HEAD
   ports:
     $ref: /schemas/graph.yaml#/properties/ports
 
@@ -71,11 +72,62 @@ properties:
             unevaluatedProperties: false
 
             properties:
+=======
+  # See ./video-interfaces.txt for details
+  ports:
+    type: object
+    additionalProperties: false
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+        description: connection point for sensors at MIPI-DPHY RX0
+        additionalProperties: false
+
+        properties:
+          "#address-cells":
+            const: 1
+
+          "#size-cells":
+            const: 0
+
+          reg:
+            const: 0
+
+        patternProperties:
+          endpoint:
+            type: object
+            additionalProperties: false
+
+            properties:
+              reg:
+                maxItems: 1
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               data-lanes:
                 minItems: 1
                 maxItems: 4
 
+<<<<<<< HEAD
     required:
+=======
+              remote-endpoint: true
+
+        required:
+          - reg
+          - "#address-cells"
+          - "#size-cells"
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - port@0
 
 required:

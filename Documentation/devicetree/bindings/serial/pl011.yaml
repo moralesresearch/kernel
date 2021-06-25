@@ -19,6 +19,10 @@ select:
       contains:
         enum:
           - arm,pl011
+<<<<<<< HEAD
+=======
+          - zte,zx296702-uart
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   required:
     - compatible
 
@@ -29,6 +33,10 @@ properties:
           - const: arm,pl011
           - const: arm,primecell
       - items:
+<<<<<<< HEAD
+=======
+          - const: zte,zx296702-uart
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: arm,primecell
 
   reg:

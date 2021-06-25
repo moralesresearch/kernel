@@ -113,7 +113,11 @@ static bool check_syscall_operations(int map_fd, int obj_fd)
 
 void test_test_local_storage(void)
 {
+<<<<<<< HEAD
 	char tmp_dir_path[] = "/tmp/local_storageXXXXXX";
+=======
+	char tmp_dir_path[64] = "/tmp/local_storageXXXXXX";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err, serv_sk = -1, task_fd = -1, rm_fd = -1;
 	struct local_storage *skel = NULL;
 	char tmp_exec_path[64];

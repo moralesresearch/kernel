@@ -103,7 +103,10 @@ alloated||allocated
 allocatote||allocate
 allocatrd||allocated
 allocte||allocate
+<<<<<<< HEAD
 allocted||allocated
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 allpication||application
 alocate||allocate
 alogirhtms||algorithms
@@ -340,7 +343,10 @@ comppatible||compatible
 compres||compress
 compresion||compression
 comression||compression
+<<<<<<< HEAD
 comunicate||communicate
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 comunication||communication
 conbination||combination
 conditionaly||conditionally
@@ -468,7 +474,10 @@ developpment||development
 deveolpment||development
 devided||divided
 deviece||device
+<<<<<<< HEAD
 devision||division
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 diable||disable
 dicline||decline
 dictionnary||dictionary
@@ -482,7 +491,10 @@ difinition||definition
 digial||digital
 dimention||dimension
 dimesions||dimensions
+<<<<<<< HEAD
 diconnected||disconnected
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 disgest||digest
 dispalying||displaying
 diplay||display
@@ -522,7 +534,10 @@ downlads||downloads
 droped||dropped
 droput||dropout
 druing||during
+<<<<<<< HEAD
 dyanmic||dynamic
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 dynmaic||dynamic
 eanable||enable
 eanble||enable
@@ -547,7 +562,10 @@ encrupted||encrypted
 encrypiton||encryption
 encryptio||encryption
 endianess||endianness
+<<<<<<< HEAD
 enpoint||endpoint
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enhaced||enhanced
 enlightnment||enlightenment
 enqueing||enqueuing
@@ -572,7 +590,10 @@ estbalishment||establishment
 etsablishment||establishment
 etsbalishment||establishment
 evalution||evaluation
+<<<<<<< HEAD
 exeeds||exceeds
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 excecutable||executable
 exceded||exceeded
 exceds||exceeds
@@ -581,7 +602,10 @@ excellant||excellent
 execeeded||exceeded
 execeeds||exceeds
 exeed||exceed
+<<<<<<< HEAD
 exeeds||exceeds
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exeuction||execution
 existance||existence
 existant||existent
@@ -649,7 +673,10 @@ forwardig||forwarding
 frambuffer||framebuffer
 framming||framing
 framwork||framework
+<<<<<<< HEAD
 frequence||frequency
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 frequncy||frequency
 frequancy||frequency
 frome||from
@@ -692,12 +719,18 @@ handfull||handful
 hanlde||handle
 hanled||handled
 happend||happened
+<<<<<<< HEAD
 hardare||hardware
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 harware||hardware
 havind||having
 heirarchically||hierarchically
 helpfull||helpful
+<<<<<<< HEAD
 heterogenous||heterogeneous
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 hexdecimal||hexadecimal
 hybernate||hibernate
 hierachy||hierarchy
@@ -742,7 +775,10 @@ inconsistant||inconsistent
 increas||increase
 incremeted||incremented
 incrment||increment
+<<<<<<< HEAD
 incuding||including
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 inculde||include
 indendation||indentation
 indended||intended
@@ -753,7 +789,10 @@ indiate||indicate
 indicat||indicate
 inexpect||inexpected
 inferface||interface
+<<<<<<< HEAD
 infinit||infinite
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 infomation||information
 informatiom||information
 informations||information
@@ -784,7 +823,10 @@ instace||instance
 instal||install
 instanciate||instantiate
 instanciated||instantiated
+<<<<<<< HEAD
 instuments||instruments
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 insufficent||insufficient
 inteface||interface
 integreated||integrated
@@ -883,14 +925,20 @@ mailformed||malformed
 malplaced||misplaced
 malplace||misplace
 managable||manageable
+<<<<<<< HEAD
 managament||management
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 managment||management
 mangement||management
 manger||manager
 manoeuvering||maneuvering
 manufaucturing||manufacturing
 mappping||mapping
+<<<<<<< HEAD
 maping||mapping
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 matchs||matches
 mathimatical||mathematical
 mathimatic||mathematic
@@ -902,7 +950,10 @@ meetign||meeting
 memeory||memory
 memmber||member
 memoery||memory
+<<<<<<< HEAD
 memroy||memory
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ment||meant
 mergable||mergeable
 mesage||message
@@ -1016,7 +1067,10 @@ overlaping||overlapping
 overide||override
 overrided||overridden
 overriden||overridden
+<<<<<<< HEAD
 overrrun||overrun
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 overun||overrun
 overwritting||overwriting
 overwriten||overwritten
@@ -1053,7 +1107,10 @@ peforming||performing
 peice||piece
 pendantic||pedantic
 peprocessor||preprocessor
+<<<<<<< HEAD
 perfomance||performance
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 perfoming||performing
 perfomring||performing
 periperal||peripheral
@@ -1119,7 +1176,10 @@ prodecure||procedure
 progamming||programming
 progams||programs
 progess||progress
+<<<<<<< HEAD
 programable||programmable
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 programers||programmers
 programm||program
 programms||programs
@@ -1164,7 +1224,10 @@ recieved||received
 recieve||receive
 reciever||receiver
 recieves||receives
+<<<<<<< HEAD
 recieving||receiving
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 recogniced||recognised
 recognizeable||recognizable
 recommanded||recommended
@@ -1268,7 +1331,10 @@ searchs||searches
 secquence||sequence
 secund||second
 segement||segment
+<<<<<<< HEAD
 seleted||selected
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 semaphone||semaphore
 senario||scenario
 senarios||scenarios
@@ -1285,7 +1351,10 @@ seqeunce||sequence
 seqeuncer||sequencer
 seqeuencer||sequencer
 sequece||sequence
+<<<<<<< HEAD
 sequemce||sequence
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sequencial||sequential
 serivce||service
 serveral||several
@@ -1356,7 +1425,10 @@ suble||subtle
 substract||subtract
 submited||submitted
 submition||submission
+<<<<<<< HEAD
 succeded||succeeded
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 suceed||succeed
 succesfully||successfully
 succesful||successful
@@ -1377,7 +1449,10 @@ supportin||supporting
 suppoted||supported
 suppported||supported
 suppport||support
+<<<<<<< HEAD
 supprot||support
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 supress||suppress
 surpressed||suppressed
 surpresses||suppresses
@@ -1426,7 +1501,10 @@ thresold||threshold
 throught||through
 trackling||tracking
 troughput||throughput
+<<<<<<< HEAD
 trys||tries
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 thses||these
 tiggers||triggers
 tiggered||triggered
@@ -1440,9 +1518,13 @@ traking||tracking
 tramsmitted||transmitted
 tramsmit||transmit
 tranasction||transaction
+<<<<<<< HEAD
 tranceiver||transceiver
 tranfer||transfer
 tranmission||transmission
+=======
+tranfer||transfer
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 transcevier||transceiver
 transciever||transceiver
 transferd||transferred
@@ -1496,7 +1578,10 @@ unnecesary||unnecessary
 unneedingly||unnecessarily
 unnsupported||unsupported
 unmached||unmatched
+<<<<<<< HEAD
 unprecise||imprecise
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unregester||unregister
 unresgister||unregister
 unrgesiter||unregister
@@ -1532,7 +1617,10 @@ varient||variant
 vaule||value
 verbse||verbose
 veify||verify
+<<<<<<< HEAD
 veriosn||version
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 verisons||versions
 verison||version
 verson||version

@@ -21,6 +21,7 @@
 static DEFINE_MUTEX(dsa2_mutex);
 LIST_HEAD(dsa_tree_list);
 
+<<<<<<< HEAD
 /**
  * dsa_tree_notify - Execute code for all switches in a DSA switch tree.
  * @dst: collection of struct dsa_switch devices to notify.
@@ -123,6 +124,8 @@ void dsa_lag_unmap(struct dsa_switch_tree *dst, struct net_device *lag)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct dsa_switch *dsa_switch_find(int tree_index, int sw_index)
 {
 	struct dsa_switch_tree *dst;
@@ -179,8 +182,11 @@ static struct dsa_switch_tree *dsa_tree_alloc(int index)
 
 static void dsa_tree_free(struct dsa_switch_tree *dst)
 {
+<<<<<<< HEAD
 	if (dst->tag_ops)
 		dsa_tag_driver_put(dst->tag_ops);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_del(&dst->list);
 	kfree(dst);
 }
@@ -469,6 +475,10 @@ static void dsa_port_teardown(struct dsa_port *dp)
 		break;
 	case DSA_PORT_TYPE_CPU:
 		dsa_port_disable(dp);
+<<<<<<< HEAD
+=======
+		dsa_tag_driver_put(dp->tag_ops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dsa_port_link_unregister_of(dp);
 		break;
 	case DSA_PORT_TYPE_DSA:
@@ -507,6 +517,7 @@ static int dsa_devlink_info_get(struct devlink *dl,
 	return -EOPNOTSUPP;
 }
 
+<<<<<<< HEAD
 static int dsa_devlink_sb_pool_get(struct devlink *dl,
 				   unsigned int sb_index, u16 pool_index,
 				   struct devlink_sb_pool_info *pool_info)
@@ -666,6 +677,10 @@ static const struct devlink_ops dsa_devlink_ops = {
 	.sb_occ_max_clear		= dsa_devlink_sb_occ_max_clear,
 	.sb_occ_port_pool_get		= dsa_devlink_sb_occ_port_pool_get,
 	.sb_occ_tc_port_bind_get	= dsa_devlink_sb_occ_tc_port_bind_get,
+=======
+static const struct devlink_ops dsa_devlink_ops = {
+	.info_get = dsa_devlink_info_get,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int dsa_switch_setup(struct dsa_switch *ds)
@@ -712,8 +727,11 @@ static int dsa_switch_setup(struct dsa_switch *ds)
 	if (err)
 		goto unregister_devlink_ports;
 
+<<<<<<< HEAD
 	ds->configure_vlan_while_not_filtering = true;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = ds->ops->setup(ds);
 	if (err < 0)
 		goto unregister_notifier;
@@ -795,6 +813,7 @@ static int dsa_tree_setup_switches(struct dsa_switch_tree *dst)
 
 	list_for_each_entry(dp, &dst->ports, list) {
 		err = dsa_port_setup(dp);
+<<<<<<< HEAD
 		if (err) {
 			dsa_port_devlink_teardown(dp);
 			dp->type = DSA_PORT_TYPE_UNUSED;
@@ -803,6 +822,10 @@ static int dsa_tree_setup_switches(struct dsa_switch_tree *dst)
 				goto teardown;
 			continue;
 		}
+=======
+		if (err)
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -853,6 +876,7 @@ static void dsa_tree_teardown_master(struct dsa_switch_tree *dst)
 			dsa_master_teardown(dp->master);
 }
 
+<<<<<<< HEAD
 static int dsa_tree_setup_lags(struct dsa_switch_tree *dst)
 {
 	unsigned int len = 0;
@@ -879,6 +903,8 @@ static void dsa_tree_teardown_lags(struct dsa_switch_tree *dst)
 	kfree(dst->lags);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int dsa_tree_setup(struct dsa_switch_tree *dst)
 {
 	bool complete;
@@ -906,18 +932,24 @@ static int dsa_tree_setup(struct dsa_switch_tree *dst)
 	if (err)
 		goto teardown_switches;
 
+<<<<<<< HEAD
 	err = dsa_tree_setup_lags(dst);
 	if (err)
 		goto teardown_master;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dst->setup = true;
 
 	pr_info("DSA: tree %d setup\n", dst->index);
 
 	return 0;
 
+<<<<<<< HEAD
 teardown_master:
 	dsa_tree_teardown_master(dst);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 teardown_switches:
 	dsa_tree_teardown_switches(dst);
 teardown_default_cpu:
@@ -933,8 +965,11 @@ static void dsa_tree_teardown(struct dsa_switch_tree *dst)
 	if (!dst->setup)
 		return;
 
+<<<<<<< HEAD
 	dsa_tree_teardown_lags(dst);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dsa_tree_teardown_master(dst);
 
 	dsa_tree_teardown_switches(dst);
@@ -951,6 +986,7 @@ static void dsa_tree_teardown(struct dsa_switch_tree *dst)
 	dst->setup = false;
 }
 
+<<<<<<< HEAD
 /* Since the dsa/tagging sysfs device attribute is per master, the assumption
  * is that all DSA switches within a tree share the same tagger, otherwise
  * they would have formed disjoint trees (different "dsa,member" values).
@@ -1002,6 +1038,8 @@ out_unlock:
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dsa_port *dsa_port_touch(struct dsa_switch *ds, int index)
 {
 	struct dsa_switch_tree *dst = ds->dst;
@@ -1076,6 +1114,7 @@ static int dsa_port_parse_cpu(struct dsa_port *dp, struct net_device *master)
 	enum dsa_tag_protocol tag_protocol;
 
 	tag_protocol = dsa_get_tag_protocol(dp, master);
+<<<<<<< HEAD
 	if (dst->tag_ops) {
 		if (dst->tag_ops->proto != tag_protocol) {
 			dev_err(ds->dev,
@@ -1097,11 +1136,26 @@ static int dsa_port_parse_cpu(struct dsa_port *dp, struct net_device *master)
 		}
 
 		dst->tag_ops = tag_ops;
+=======
+	tag_ops = dsa_tag_driver_get(tag_protocol);
+	if (IS_ERR(tag_ops)) {
+		if (PTR_ERR(tag_ops) == -ENOPROTOOPT)
+			return -EPROBE_DEFER;
+		dev_warn(ds->dev, "No tagger for this switch\n");
+		dp->master = NULL;
+		return PTR_ERR(tag_ops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dp->master = master;
 	dp->type = DSA_PORT_TYPE_CPU;
+<<<<<<< HEAD
 	dsa_port_set_tag_protocol(dp, dst->tag_ops);
+=======
+	dp->filter = tag_ops->filter;
+	dp->rcv = tag_ops->rcv;
+	dp->tag_ops = tag_ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp->dst = dst;
 
 	return 0;
@@ -1155,8 +1209,11 @@ static int dsa_switch_parse_ports_of(struct dsa_switch *ds,
 			goto out_put_node;
 
 		if (reg >= ds->num_ports) {
+<<<<<<< HEAD
 			dev_err(ds->dev, "port %pOF index %u exceeds num_ports (%zu)\n",
 				port, reg, ds->num_ports);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = -EINVAL;
 			goto out_put_node;
 		}

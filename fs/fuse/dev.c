@@ -844,7 +844,15 @@ static int fuse_try_move_page(struct fuse_copy_state *cs, struct page **pagep)
 	if (WARN_ON(PageMlocked(oldpage)))
 		goto out_fallback_unlock;
 
+<<<<<<< HEAD
 	replace_page_cache_page(oldpage, newpage);
+=======
+	err = replace_page_cache_page(oldpage, newpage, GFP_KERNEL);
+	if (err) {
+		unlock_page(newpage);
+		goto out_put_old;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	get_page(newpage);
 
@@ -2229,6 +2237,7 @@ static int fuse_device_clone(struct fuse_conn *fc, struct file *new)
 static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
 			   unsigned long arg)
 {
+<<<<<<< HEAD
 	int res;
 	int oldfd;
 	struct fuse_dev *fud = NULL;
@@ -2241,6 +2250,21 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
 
 			res = -EINVAL;
 			if (old) {
+=======
+	int err = -ENOTTY;
+
+	if (cmd == FUSE_DEV_IOC_CLONE) {
+		int oldfd;
+
+		err = -EFAULT;
+		if (!get_user(oldfd, (__u32 __user *) arg)) {
+			struct file *old = fget(oldfd);
+
+			err = -EINVAL;
+			if (old) {
+				struct fuse_dev *fud = NULL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Check against file->f_op because CUSE
 				 * uses the same ioctl handler.
@@ -2251,18 +2275,27 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
 
 				if (fud) {
 					mutex_lock(&fuse_mutex);
+<<<<<<< HEAD
 					res = fuse_device_clone(fud->fc, file);
+=======
+					err = fuse_device_clone(fud->fc, file);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					mutex_unlock(&fuse_mutex);
 				}
 				fput(old);
 			}
 		}
+<<<<<<< HEAD
 		break;
 	default:
 		res = -ENOTTY;
 		break;
 	}
 	return res;
+=======
+	}
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const struct file_operations fuse_dev_operations = {

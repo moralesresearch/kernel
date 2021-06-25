@@ -24,6 +24,7 @@
 #include "changk104.h"
 #include "user.h"
 
+<<<<<<< HEAD
 #include <core/client.h>
 #include <core/gpuobj.h>
 #include <subdev/bar.h>
@@ -31,6 +32,9 @@
 #include <subdev/top.h>
 #include <subdev/timer.h>
 #include <engine/sw.h>
+=======
+#include <core/gpuobj.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <nvif/class.h>
 
@@ -115,6 +119,7 @@ tu102_fifo = {
 	.cgrp_force = true,
 };
 
+<<<<<<< HEAD
 static void
 tu102_fifo_recover_work(struct work_struct *w)
 {
@@ -474,4 +479,10 @@ tu102_fifo_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	*pfifo = &fifo->base;
 
 	return nvkm_fifo_ctor(&tu102_fifo_, device, type, inst, 4096, &fifo->base);
+=======
+int
+tu102_fifo_new(struct nvkm_device *device, int index, struct nvkm_fifo **pfifo)
+{
+	return gk104_fifo_new_(&tu102_fifo, device, index, 4096, pfifo);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

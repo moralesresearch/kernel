@@ -24,6 +24,11 @@
 
 MODULE_AUTHOR("Stephane Grosjean <s.grosjean@peak-system.com>");
 MODULE_DESCRIPTION("Socket-CAN driver for PEAK PCAN PCI family cards");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("PEAK PCAN PCI/PCIe/PCIeC miniPCI CAN cards");
+MODULE_SUPPORTED_DEVICE("PEAK PCAN miniPCIe/cPCI PC/104+ PCI/104e CAN Cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL v2");
 
 #define DRV_NAME  "peak_pci"

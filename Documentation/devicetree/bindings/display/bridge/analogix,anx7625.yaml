@@ -35,16 +35,28 @@ properties:
     maxItems: 1
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+
+    properties:
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Video port for MIPI DSI input.
 
       port@1:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Video port for panel or connector.
 

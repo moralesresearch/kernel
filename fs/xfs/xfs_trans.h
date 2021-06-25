@@ -268,6 +268,7 @@ xfs_trans_item_relog(
 	return lip->li_ops->iop_relog(lip, tp);
 }
 
+<<<<<<< HEAD
 struct xfs_dquot;
 
 int xfs_trans_alloc_inode(struct xfs_inode *ip, struct xfs_trans_res *resv,
@@ -311,4 +312,6 @@ xfs_trans_switch_context(
 	current->journal_info = new_tp;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* __XFS_TRANS_H__ */

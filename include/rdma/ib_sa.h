@@ -547,6 +547,13 @@ int ib_sa_guid_info_rec_query(struct ib_sa_client *client,
 					       void *context),
 			      void *context, struct ib_sa_query **sa_query);
 
+<<<<<<< HEAD
+=======
+bool ib_sa_sendonly_fullmem_support(struct ib_sa_client *client,
+				    struct ib_device *device,
+				    u8 port_num);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool sa_path_is_roce(struct sa_path_rec *rec)
 {
 	return ((rec->rec_type == SA_PATH_REC_TYPE_ROCE_V1) ||

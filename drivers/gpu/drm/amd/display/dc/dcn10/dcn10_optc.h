@@ -638,7 +638,10 @@ void optc1_set_blank(struct timing_generator *optc,
 		bool enable_blanking);
 
 bool optc1_is_blanked(struct timing_generator *optc);
+<<<<<<< HEAD
 bool optc1_is_locked(struct timing_generator *optc);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void optc1_program_blank_color(
 		struct timing_generator *optc,

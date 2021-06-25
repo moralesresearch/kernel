@@ -480,7 +480,11 @@ static int regs_show(struct seq_file *s, void *data)
 	int ret;
 	unsigned int i;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(bdisp->dev);
+=======
+	ret = pm_runtime_get_sync(bdisp->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		seq_puts(s, "Cannot wake up IP\n");
 		return 0;

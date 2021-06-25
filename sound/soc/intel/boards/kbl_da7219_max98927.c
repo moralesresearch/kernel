@@ -282,6 +282,7 @@ static int kabylake_ssp_fixup(struct snd_soc_pcm_runtime *rtd,
 	struct snd_interval *chan = hw_param_interval(params,
 			SNDRV_PCM_HW_PARAM_CHANNELS);
 	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+<<<<<<< HEAD
 	struct snd_soc_dpcm *dpcm, *rtd_dpcm = NULL;
 
 	/*
@@ -310,6 +311,14 @@ static int kabylake_ssp_fixup(struct snd_soc_pcm_runtime *rtd,
 	 * thus rtd_dpcm variable will never be overwritten
 	 */
 	/*
+=======
+	struct snd_soc_dpcm *dpcm = container_of(
+			params, struct snd_soc_dpcm, hw_params);
+	struct snd_soc_dai_link *fe_dai_link = dpcm->fe->dai_link;
+	struct snd_soc_dai_link *be_dai_link = dpcm->be->dai_link;
+
+	/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Topology for kblda7219m98373 & kblmax98373 supports only S24_LE,
 	 * where as kblda7219m98927 & kblmax98927 supports S16_LE by default.
 	 * Skipping the port wise FE and BE configuration for kblda7219m98373 &
@@ -331,9 +340,15 @@ static int kabylake_ssp_fixup(struct snd_soc_pcm_runtime *rtd,
 	/*
 	 * The ADSP will convert the FE rate to 48k, stereo, 24 bit
 	 */
+<<<<<<< HEAD
 	if (!strcmp(rtd_dpcm->fe->dai_link->name, "Kbl Audio Port") ||
 	    !strcmp(rtd_dpcm->fe->dai_link->name, "Kbl Audio Headset Playback") ||
 	    !strcmp(rtd_dpcm->fe->dai_link->name, "Kbl Audio Capture Port")) {
+=======
+	if (!strcmp(fe_dai_link->name, "Kbl Audio Port") ||
+	    !strcmp(fe_dai_link->name, "Kbl Audio Headset Playback") ||
+	    !strcmp(fe_dai_link->name, "Kbl Audio Capture Port")) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rate->min = rate->max = 48000;
 		chan->min = chan->max = 2;
 		snd_mask_none(fmt);
@@ -344,7 +359,11 @@ static int kabylake_ssp_fixup(struct snd_soc_pcm_runtime *rtd,
 	 * The speaker on the SSP0 supports S16_LE and not S24_LE.
 	 * thus changing the mask here
 	 */
+<<<<<<< HEAD
 	if (!strcmp(rtd_dpcm->be->dai_link->name, "SSP0-Codec"))
+=======
+	if (!strcmp(be_dai_link->name, "SSP0-Codec"))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
 
 	return 0;

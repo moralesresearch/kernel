@@ -319,12 +319,15 @@ static int cdns_sierra_phy_on(struct phy *gphy)
 	u32 val;
 	int ret;
 
+<<<<<<< HEAD
 	ret = reset_control_deassert(sp->phy_rst);
 	if (ret) {
 		dev_err(dev, "Failed to take the PHY out of reset\n");
 		return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Take the PHY lane group out of reset */
 	ret = reset_control_deassert(ins->lnk_rst);
 	if (ret) {
@@ -612,6 +615,10 @@ static int cdns_sierra_phy_probe(struct platform_device *pdev)
 	sp->nsubnodes = node;
 
 	if (sp->num_lanes > SIERRA_MAX_LANES) {
+<<<<<<< HEAD
+		ret = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dev, "Invalid lane configuration\n");
 		goto put_child2;
 	}
@@ -622,6 +629,10 @@ static int cdns_sierra_phy_probe(struct platform_device *pdev)
 
 	pm_runtime_enable(dev);
 	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+<<<<<<< HEAD
+=======
+	reset_control_deassert(sp->phy_rst);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return PTR_ERR_OR_ZERO(phy_provider);
 
 put_child:

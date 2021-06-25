@@ -86,7 +86,11 @@ static struct {
 		.msg_load_fail	  = "check your vmlinux setting?",
 		.target_func	  = &epoll_pwait_loop,
 		.expect_result	  = (NR_ITERS + 1) / 2,
+<<<<<<< HEAD
 		.pin		  = true,
+=======
+		.pin 		  = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 #ifdef HAVE_BPF_PROLOGUE
 	{
@@ -99,6 +103,16 @@ static struct {
 		.expect_result	  = (NR_ITERS + 1) / 4,
 	},
 #endif
+<<<<<<< HEAD
+=======
+	{
+		.prog_id	  = LLVM_TESTCASE_BPF_RELOCATION,
+		.desc		  = "BPF relocation checker",
+		.name		  = "[bpf_relocation_test]",
+		.msg_compile_fail = "fix 'perf test LLVM' first",
+		.msg_load_fail	  = "libbpf error when dealing with relocation",
+	},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int do_test(struct bpf_object *obj, int (*func)(void),

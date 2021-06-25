@@ -337,7 +337,10 @@ static int amdgpu_ctx_query2(struct amdgpu_device *adev,
 {
 	struct amdgpu_ctx *ctx;
 	struct amdgpu_ctx_mgr *mgr;
+<<<<<<< HEAD
+=======
 	unsigned long ras_counter;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!fpriv)
 		return -EINVAL;
@@ -362,6 +365,8 @@ static int amdgpu_ctx_query2(struct amdgpu_device *adev,
 	if (atomic_read(&ctx->guilty))
 		out->state.flags |= AMDGPU_CTX_QUERY2_FLAGS_GUILTY;
 
+<<<<<<< HEAD
+=======
 	/*query ue count*/
 	ras_counter = amdgpu_ras_query_error_count(adev, false);
 	/*ras counter is monotonic increasing*/
@@ -377,6 +382,7 @@ static int amdgpu_ctx_query2(struct amdgpu_device *adev,
 		ctx->ras_counter_ce = ras_counter;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&mgr->lock);
 	return 0;
 }

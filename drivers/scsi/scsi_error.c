@@ -124,6 +124,7 @@ static bool scsi_cmd_retry_allowed(struct scsi_cmnd *cmd)
 	return ++cmd->retries <= cmd->allowed;
 }
 
+<<<<<<< HEAD
 static bool scsi_eh_should_retry_cmd(struct scsi_cmnd *cmd)
 {
 	struct scsi_device *sdev = cmd->device;
@@ -135,6 +136,8 @@ static bool scsi_eh_should_retry_cmd(struct scsi_cmnd *cmd)
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * scmd_eh_abort_handler - Handle command aborts
  * @work:	command to be aborted.
@@ -170,8 +173,12 @@ scmd_eh_abort_handler(struct work_struct *work)
 						    "eh timeout, not retrying "
 						    "aborted command\n"));
 			} else if (!scsi_noretry_cmd(scmd) &&
+<<<<<<< HEAD
 				   scsi_cmd_retry_allowed(scmd) &&
 				scsi_eh_should_retry_cmd(scmd)) {
+=======
+				   scsi_cmd_retry_allowed(scmd)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				SCSI_LOG_ERROR_RECOVERY(3,
 					scmd_printk(KERN_WARNING, scmd,
 						    "retry aborted command\n"));
@@ -1873,12 +1880,15 @@ int scsi_decide_disposition(struct scsi_cmnd *scmd)
 		 * the fast io fail tmo fired), so send IO directly upwards.
 		 */
 		return SUCCESS;
+<<<<<<< HEAD
 	case DID_TRANSPORT_MARGINAL:
 		/*
 		 * caller has decided not to do retries on
 		 * abort success, so send IO directly upwards
 		 */
 		return SUCCESS;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case DID_ERROR:
 		if (msg_byte(scmd->result) == COMMAND_COMPLETE &&
 		    status_byte(scmd->result) == RESERVATION_CONFLICT)
@@ -2025,7 +2035,11 @@ static void scsi_eh_lock_door(struct scsi_device *sdev)
 	req->timeout = 10 * HZ;
 	rq->retries = 5;
 
+<<<<<<< HEAD
 	blk_execute_rq_nowait(NULL, req, 1, eh_lock_door_done);
+=======
+	blk_execute_rq_nowait(req->q, NULL, req, 1, eh_lock_door_done);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2123,8 +2137,12 @@ void scsi_eh_flush_done_q(struct list_head *done_q)
 	list_for_each_entry_safe(scmd, next, done_q, eh_entry) {
 		list_del_init(&scmd->eh_entry);
 		if (scsi_device_online(scmd->device) &&
+<<<<<<< HEAD
 		    !scsi_noretry_cmd(scmd) && scsi_cmd_retry_allowed(scmd) &&
 			scsi_eh_should_retry_cmd(scmd)) {
+=======
+		    !scsi_noretry_cmd(scmd) && scsi_cmd_retry_allowed(scmd)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			SCSI_LOG_ERROR_RECOVERY(3,
 				scmd_printk(KERN_INFO, scmd,
 					     "%s: flush retry cmd\n",

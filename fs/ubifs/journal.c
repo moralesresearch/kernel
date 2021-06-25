@@ -881,7 +881,11 @@ int ubifs_jnl_write_inode(struct ubifs_info *c, const struct inode *inode)
 		struct inode *xino;
 		struct ubifs_dent_node *xent, *pxent = NULL;
 
+<<<<<<< HEAD
 		if (ui->xattr_cnt > ubifs_xattr_max_cnt(c)) {
+=======
+		if (ui->xattr_cnt >= ubifs_xattr_max_cnt(c)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ubifs_err(c, "Cannot delete inode, it has too much xattrs!");
 			goto out_release;
 		}

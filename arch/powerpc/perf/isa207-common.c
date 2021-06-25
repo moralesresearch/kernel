@@ -108,6 +108,7 @@ static void mmcra_sdar_mode(u64 event, unsigned long *mmcra)
 		*mmcra |= MMCRA_SDAR_MODE_TLB;
 }
 
+<<<<<<< HEAD
 static u64 p10_thresh_cmp_val(u64 value)
 {
 	int exp = 0;
@@ -159,6 +160,14 @@ static u64 thresh_cmp_val(u64 value)
 		return value << p9_MMCRA_THR_CMP_SHIFT;
 	else
 		return value << MMCRA_THR_CMP_SHIFT;
+=======
+static u64 thresh_cmp_val(u64 value)
+{
+	if (cpu_has_feature(CPU_FTR_ARCH_300))
+		return value << p9_MMCRA_THR_CMP_SHIFT;
+
+	return value << MMCRA_THR_CMP_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static unsigned long combine_from_event(u64 event)
@@ -186,6 +195,7 @@ static bool is_thresh_cmp_valid(u64 event)
 {
 	unsigned int cmp, exp;
 
+<<<<<<< HEAD
 	if (cpu_has_feature(CPU_FTR_ARCH_31))
 		return p10_thresh_cmp_val(event) != 0;
 
@@ -193,6 +203,15 @@ static bool is_thresh_cmp_valid(u64 event)
 	 * Check the mantissa upper two bits are not zero, unless the
 	 * exponent is also zero. See the THRESH_CMP_MANTISSA doc.
 	 */
+=======
+	/*
+	 * Check the mantissa upper two bits are not zero, unless the
+	 * exponent is also zero. See the THRESH_CMP_MANTISSA doc.
+	 * Power10: thresh_cmp is replaced by l2_l3 event select.
+	 */
+	if (cpu_has_feature(CPU_FTR_ARCH_31))
+		return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cmp = (event >> EVENT_THR_CMP_SHIFT) & EVENT_THR_CMP_MASK;
 	exp = cmp >> 7;
@@ -301,7 +320,11 @@ void isa207_get_mem_weight(u64 *weight)
 		*weight = mantissa << (2 * exp);
 }
 
+<<<<<<< HEAD
 int isa207_get_constraint(u64 event, unsigned long *maskp, unsigned long *valp, u64 event_config1)
+=======
+int isa207_get_constraint(u64 event, unsigned long *maskp, unsigned long *valp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int unit, pmc, cache, ebb;
 	unsigned long mask, value;
@@ -400,11 +423,17 @@ int isa207_get_constraint(u64 event, unsigned long *maskp, unsigned long *valp, 
 	}
 
 	if (cpu_has_feature(CPU_FTR_ARCH_31)) {
+<<<<<<< HEAD
 		if (event_is_threshold(event) && is_thresh_cmp_valid(event_config1)) {
 			mask  |= CNST_THRESH_CTL_SEL_MASK;
 			value |= CNST_THRESH_CTL_SEL_VAL(event >> EVENT_THRESH_SHIFT);
 			mask  |= p10_CNST_THRESH_CMP_MASK;
 			value |= p10_CNST_THRESH_CMP_VAL(p10_thresh_cmp_val(event_config1));
+=======
+		if (event_is_threshold(event)) {
+			mask  |= CNST_THRESH_CTL_SEL_MASK;
+			value |= CNST_THRESH_CTL_SEL_VAL(event >> EVENT_THRESH_SHIFT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (cpu_has_feature(CPU_FTR_ARCH_300))  {
 		if (event_is_threshold(event) && is_thresh_cmp_valid(event)) {
@@ -447,8 +476,13 @@ ebb_bhrb:
 	 * EBB events are pinned & exclusive, so this should never actually
 	 * hit, but we leave it as a fallback in case.
 	 */
+<<<<<<< HEAD
 	mask  |= CNST_EBB_MASK;
 	value |= CNST_EBB_VAL(ebb);
+=======
+	mask  |= CNST_EBB_VAL(ebb);
+	value |= CNST_EBB_MASK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*maskp = mask;
 	*valp = value;
@@ -458,7 +492,11 @@ ebb_bhrb:
 
 int isa207_compute_mmcr(u64 event[], int n_ev,
 			       unsigned int hwc[], struct mmcr_regs *mmcr,
+<<<<<<< HEAD
 			       struct perf_event *pevents[], u32 flags)
+=======
+			       struct perf_event *pevents[])
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long mmcra, mmcr1, mmcr2, unit, combine, psel, cache, val;
 	unsigned long mmcr3;
@@ -551,10 +589,13 @@ int isa207_compute_mmcr(u64 event[], int n_ev,
 				val = (event[i] >> EVENT_THR_CMP_SHIFT) &
 					EVENT_THR_CMP_MASK;
 				mmcra |= thresh_cmp_val(val);
+<<<<<<< HEAD
 			} else if (flags & PPMU_HAS_ATTR_CONFIG1) {
 				val = (pevents[i]->attr.config1 >> p10_EVENT_THR_CMP_SHIFT) &
 					p10_EVENT_THR_CMP_MASK;
 				mmcra |= thresh_cmp_val(val);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 

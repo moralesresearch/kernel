@@ -63,7 +63,11 @@
 /* ECC memory config register specific constants */
 #define PL353_SMC_ECC_MEMCFG_MODE_MASK	0xC
 #define PL353_SMC_ECC_MEMCFG_MODE_SHIFT	2
+<<<<<<< HEAD
 #define PL353_SMC_ECC_MEMCFG_PGSIZE_MASK	0x3
+=======
+#define PL353_SMC_ECC_MEMCFG_PGSIZE_MASK	0xC
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PL353_SMC_DC_UPT_NAND_REGS	((4 << 23) |	/* CS: NAND chip */ \
 				 (2 << 21))	/* UpdateRegs operation */
@@ -426,12 +430,21 @@ out_clk_dis_aper:
 	return err;
 }
 
+<<<<<<< HEAD
 static void pl353_smc_remove(struct amba_device *adev)
+=======
+static int pl353_smc_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pl353_smc_data *pl353_smc = amba_get_drvdata(adev);
 
 	clk_disable_unprepare(pl353_smc->memclk);
 	clk_disable_unprepare(pl353_smc->aclk);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id pl353_ids[] = {

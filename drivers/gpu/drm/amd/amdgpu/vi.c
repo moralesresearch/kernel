@@ -642,6 +642,7 @@ static int vi_read_register(struct amdgpu_device *adev, u32 se_num,
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 /**
  * vi_asic_pci_config_reset - soft reset GPU
  *
@@ -657,6 +658,13 @@ static int vi_asic_pci_config_reset(struct amdgpu_device *adev)
 	int r = -EINVAL;
 
 	amdgpu_atombios_scratch_regs_engine_hung(adev, true);
+=======
+static int vi_gpu_pci_config_reset(struct amdgpu_device *adev)
+{
+	u32 i;
+
+	dev_info(adev->dev, "GPU pci config reset\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* disable BM */
 	pci_clear_master(adev->pdev);
@@ -671,11 +679,37 @@ static int vi_asic_pci_config_reset(struct amdgpu_device *adev)
 			/* enable BM */
 			pci_set_master(adev->pdev);
 			adev->has_hw_reset = true;
+<<<<<<< HEAD
 			r = 0;
 			break;
 		}
 		udelay(1);
 	}
+=======
+			return 0;
+		}
+		udelay(1);
+	}
+	return -EINVAL;
+}
+
+/**
+ * vi_asic_pci_config_reset - soft reset GPU
+ *
+ * @adev: amdgpu_device pointer
+ *
+ * Use PCI Config method to reset the GPU.
+ *
+ * Returns 0 for success.
+ */
+static int vi_asic_pci_config_reset(struct amdgpu_device *adev)
+{
+	int r;
+
+	amdgpu_atombios_scratch_regs_engine_hung(adev, true);
+
+	r = vi_gpu_pci_config_reset(adev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	amdgpu_atombios_scratch_regs_engine_hung(adev, false);
 

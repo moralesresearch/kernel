@@ -695,7 +695,11 @@ static int nvme_nvm_submit_io(struct nvm_dev *dev, struct nvm_rq *rqd,
 
 	rq->end_io_data = rqd;
 
+<<<<<<< HEAD
 	blk_execute_rq_nowait(NULL, rq, 0, nvme_nvm_end_io);
+=======
+	blk_execute_rq_nowait(q, NULL, rq, 0, nvme_nvm_end_io);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -757,6 +761,10 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
 {
 	bool write = nvme_is_write((struct nvme_command *)vcmd);
 	struct nvm_dev *dev = ns->ndev;
+<<<<<<< HEAD
+=======
+	struct gendisk *disk = ns->disk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct request *rq;
 	struct bio *bio = NULL;
 	__le64 *ppa_list = NULL;
@@ -816,10 +824,17 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
 			vcmd->ph_rw.metadata = cpu_to_le64(metadata_dma);
 		}
 
+<<<<<<< HEAD
 		bio_set_dev(bio, ns->disk->part0);
 	}
 
 	blk_execute_rq(NULL, rq, 0);
+=======
+		bio->bi_disk = disk;
+	}
+
+	blk_execute_rq(q, NULL, rq, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (nvme_req(rq)->flags & NVME_REQ_CANCELLED)
 		ret = -EINTR;

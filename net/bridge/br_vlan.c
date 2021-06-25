@@ -806,8 +806,12 @@ void br_recalculate_fwd_mask(struct net_bridge *br)
 					      ~(1u << br->group_addr[5]);
 }
 
+<<<<<<< HEAD
 int br_vlan_filter_toggle(struct net_bridge *br, unsigned long val,
 			  struct netlink_ext_ack *extack)
+=======
+int __br_vlan_filter_toggle(struct net_bridge *br, unsigned long val)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct switchdev_attr attr = {
 		.orig_dev = br->dev,
@@ -820,7 +824,11 @@ int br_vlan_filter_toggle(struct net_bridge *br, unsigned long val,
 	if (br_opt_get(br, BROPT_VLAN_ENABLED) == !!val)
 		return 0;
 
+<<<<<<< HEAD
 	err = switchdev_port_attr_set(br->dev, &attr, extack);
+=======
+	err = switchdev_port_attr_set(br->dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err && err != -EOPNOTSUPP)
 		return err;
 
@@ -832,6 +840,14 @@ int br_vlan_filter_toggle(struct net_bridge *br, unsigned long val,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+int br_vlan_filter_toggle(struct net_bridge *br, unsigned long val)
+{
+	return __br_vlan_filter_toggle(br, val);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool br_vlan_enabled(const struct net_device *dev)
 {
 	struct net_bridge *br = netdev_priv(dev);
@@ -850,8 +866,12 @@ int br_vlan_get_proto(const struct net_device *dev, u16 *p_proto)
 }
 EXPORT_SYMBOL_GPL(br_vlan_get_proto);
 
+<<<<<<< HEAD
 int __br_vlan_set_proto(struct net_bridge *br, __be16 proto,
 			struct netlink_ext_ack *extack)
+=======
+int __br_vlan_set_proto(struct net_bridge *br, __be16 proto)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct switchdev_attr attr = {
 		.orig_dev = br->dev,
@@ -868,7 +888,11 @@ int __br_vlan_set_proto(struct net_bridge *br, __be16 proto,
 	if (br->vlan_proto == proto)
 		return 0;
 
+<<<<<<< HEAD
 	err = switchdev_port_attr_set(br->dev, &attr, extack);
+=======
+	err = switchdev_port_attr_set(br->dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err && err != -EOPNOTSUPP)
 		return err;
 
@@ -898,7 +922,11 @@ int __br_vlan_set_proto(struct net_bridge *br, __be16 proto,
 
 err_filt:
 	attr.u.vlan_protocol = ntohs(oldproto);
+<<<<<<< HEAD
 	switchdev_port_attr_set(br->dev, &attr, NULL);
+=======
+	switchdev_port_attr_set(br->dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry_continue_reverse(vlan, &vg->vlan_list, vlist)
 		vlan_vid_del(p->dev, proto, vlan->vid);
@@ -912,6 +940,7 @@ err_filt:
 	return err;
 }
 
+<<<<<<< HEAD
 int br_vlan_set_proto(struct net_bridge *br, unsigned long val,
 		      struct netlink_ext_ack *extack)
 {
@@ -919,6 +948,14 @@ int br_vlan_set_proto(struct net_bridge *br, unsigned long val,
 		return -EPROTONOSUPPORT;
 
 	return __br_vlan_set_proto(br, htons(val), extack);
+=======
+int br_vlan_set_proto(struct net_bridge *br, unsigned long val)
+{
+	if (val != ETH_P_8021Q && val != ETH_P_8021AD)
+		return -EPROTONOSUPPORT;
+
+	return __br_vlan_set_proto(br, htons(val));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int br_vlan_set_stats(struct net_bridge *br, unsigned long val)
@@ -1098,8 +1135,12 @@ err_port:
 	goto out;
 }
 
+<<<<<<< HEAD
 int br_vlan_set_default_pvid(struct net_bridge *br, unsigned long val,
 			     struct netlink_ext_ack *extack)
+=======
+int br_vlan_set_default_pvid(struct net_bridge *br, unsigned long val)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u16 pvid = val;
 	int err = 0;
@@ -1116,7 +1157,11 @@ int br_vlan_set_default_pvid(struct net_bridge *br, unsigned long val,
 		err = -EPERM;
 		goto out;
 	}
+<<<<<<< HEAD
 	err = __br_vlan_set_default_pvid(br, pvid, extack);
+=======
+	err = __br_vlan_set_default_pvid(br, pvid, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	return err;
 }
@@ -1166,7 +1211,11 @@ int nbp_vlan_init(struct net_bridge_port *p, struct netlink_ext_ack *extack)
 	if (!vg)
 		goto out;
 
+<<<<<<< HEAD
 	ret = switchdev_port_attr_set(p->dev, &attr, extack);
+=======
+	ret = switchdev_port_attr_set(p->dev, &attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret && ret != -EOPNOTSUPP)
 		goto err_vlan_enabled;
 

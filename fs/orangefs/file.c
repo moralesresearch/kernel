@@ -487,7 +487,14 @@ static int orangefs_file_mmap(struct file *file, struct vm_area_struct *vma)
 		return ret;
 
 	gossip_debug(GOSSIP_FILE_DEBUG,
+<<<<<<< HEAD
 		     "orangefs_file_mmap: called on %pD\n", file);
+=======
+		     "orangefs_file_mmap: called on %s\n",
+		     (file ?
+			(char *)file->f_path.dentry->d_name.name :
+			(char *)"Unknown"));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* set the sequential readahead hint */
 	vma->vm_flags |= VM_SEQ_READ;

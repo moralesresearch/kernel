@@ -544,11 +544,25 @@ static int vega10_get_socclk_for_voltage_evv(struct pp_hwmgr *hwmgr,
 
 #define ATOM_VIRTUAL_VOLTAGE_ID0             0xff01
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Get Leakage VDDC based on leakage ID.
  *
  * @hwmgr:  the address of the powerplay hardware manager.
  * return:  always 0.
  */
+<<<<<<< HEAD
+=======
+=======
+* Get Leakage VDDC based on leakage ID.
+*
+* @param    hwmgr  the address of the powerplay hardware manager.
+* @return   always 0.
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_get_evv_voltages(struct pp_hwmgr *hwmgr)
 {
 	struct vega10_hwmgr *data = hwmgr->backend;
@@ -602,9 +616,21 @@ static int vega10_get_evv_voltages(struct pp_hwmgr *hwmgr)
 /**
  * Change virtual leakage voltage to actual value.
  *
+<<<<<<< HEAD
  * @hwmgr:         the address of the powerplay hardware manager.
  * @voltage:       pointer to changing voltage
  * @leakage_table: pointer to leakage table
+=======
+<<<<<<< HEAD
+ * @hwmgr:         the address of the powerplay hardware manager.
+ * @voltage:       pointer to changing voltage
+ * @leakage_table: pointer to leakage table
+=======
+ * @param     hwmgr  the address of the powerplay hardware manager.
+ * @param     pointer to changing voltage
+ * @param     pointer to leakage table
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void vega10_patch_with_vdd_leakage(struct pp_hwmgr *hwmgr,
 		uint16_t *voltage, struct vega10_leakage_voltage *leakage_table)
@@ -626,6 +652,10 @@ static void vega10_patch_with_vdd_leakage(struct pp_hwmgr *hwmgr,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Patch voltage lookup table by EVV leakages.
  *
  * @hwmgr:         the address of the powerplay hardware manager.
@@ -633,6 +663,18 @@ static void vega10_patch_with_vdd_leakage(struct pp_hwmgr *hwmgr,
  * @leakage_table: pointer to leakage table
  * return:         always 0
  */
+<<<<<<< HEAD
+=======
+=======
+* Patch voltage lookup table by EVV leakages.
+*
+* @param     hwmgr  the address of the powerplay hardware manager.
+* @param     pointer to voltage lookup table
+* @param     pointer to leakage table
+* @return     always 0
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_patch_lookup_table_with_leakage(struct pp_hwmgr *hwmgr,
 		phm_ppt_v1_voltage_lookup_table *lookup_table,
 		struct vega10_leakage_voltage *leakage_table)
@@ -1003,12 +1045,28 @@ static int vega10_setup_asic_task(struct pp_hwmgr *hwmgr)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Remove repeated voltage values and create table with unique values.
  *
  * @hwmgr:      the address of the powerplay hardware manager.
  * @vol_table:  the pointer to changing voltage table
  * return:      0 in success
  */
+<<<<<<< HEAD
+=======
+=======
+* Remove repeated voltage values and create table with unique values.
+*
+* @param    hwmgr  the address of the powerplay hardware manager.
+* @param    vol_table  the pointer to changing voltage table
+* @return    0 in success
+*/
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_trim_voltage_table(struct pp_hwmgr *hwmgr,
 		struct pp_atomfwctrl_voltage_table *vol_table)
 {
@@ -1152,11 +1210,25 @@ static void vega10_trim_voltage_table_to_fit_state_table(
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Create Voltage Tables.
  *
  * @hwmgr:  the address of the powerplay hardware manager.
  * return:  always 0
  */
+<<<<<<< HEAD
+=======
+=======
+* Create Voltage Tables.
+*
+* @param    hwmgr  the address of the powerplay hardware manager.
+* @return   always 0
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_construct_voltage_tables(struct pp_hwmgr *hwmgr)
 {
 	struct vega10_hwmgr *data = hwmgr->backend;
@@ -1213,11 +1285,25 @@ static int vega10_construct_voltage_tables(struct pp_hwmgr *hwmgr)
 }
 
 /*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * vega10_init_dpm_state
  * Function to initialize all Soft Min/Max and Hard Min/Max to 0xff.
  *
  * @dpm_state: - the address of the DPM Table to initiailize.
  * return:   None.
+<<<<<<< HEAD
+=======
+=======
+ * @fn vega10_init_dpm_state
+ * @brief Function to initialize all Soft Min/Max and Hard Min/Max to 0xff.
+ *
+ * @param    dpm_state - the address of the DPM Table to initiailize.
+ * @return   None.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void vega10_init_dpm_state(struct vega10_dpm_state *dpm_state)
 {
@@ -1461,11 +1547,25 @@ static int vega10_setup_default_dpm_tables(struct pp_hwmgr *hwmgr)
 }
 
 /*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * vega10_populate_ulv_state
  * Function to provide parameters for Utral Low Voltage state to SMC.
  *
  * @hwmgr: - the address of the hardware manager.
  * return:   Always 0.
+<<<<<<< HEAD
+=======
+=======
+ * @fn vega10_populate_ulv_state
+ * @brief Function to provide parameters for Utral Low Voltage state to SMC.
+ *
+ * @param    hwmgr - the address of the hardware manager.
+ * @return   Always 0.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int vega10_populate_ulv_state(struct pp_hwmgr *hwmgr)
 {
@@ -1595,6 +1695,10 @@ static int vega10_populate_smc_link_levels(struct pp_hwmgr *hwmgr)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Populates single SMC GFXSCLK structure using the provided engine clock
  *
  * @hwmgr:      the address of the hardware manager
@@ -1602,6 +1706,18 @@ static int vega10_populate_smc_link_levels(struct pp_hwmgr *hwmgr)
  * @current_gfxclk_level:  location in PPTable for the SMC GFXCLK structure.
  * @acg_freq:   ACG frequenty to return (MHz)
  */
+<<<<<<< HEAD
+=======
+=======
+* Populates single SMC GFXSCLK structure using the provided engine clock
+*
+* @param    hwmgr      the address of the hardware manager
+* @param    gfx_clock  the GFX clock to use to populate the structure.
+* @param    current_gfxclk_level  location in PPTable for the SMC GFXCLK structure.
+*/
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_populate_single_gfx_level(struct pp_hwmgr *hwmgr,
 		uint32_t gfx_clock, PllSetting_t *current_gfxclk_level,
 		uint32_t *acg_freq)
@@ -1660,6 +1776,10 @@ static int vega10_populate_single_gfx_level(struct pp_hwmgr *hwmgr,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Populates single SMC SOCCLK structure using the provided clock.
  *
  * @hwmgr:     the address of the hardware manager.
@@ -1667,6 +1787,17 @@ static int vega10_populate_single_gfx_level(struct pp_hwmgr *hwmgr,
  * @current_soc_did:   DFS divider to pass back to caller
  * @current_vol_index: index of current VDD to pass back to caller
  * return:      0 on success
+<<<<<<< HEAD
+=======
+=======
+ * @brief Populates single SMC SOCCLK structure using the provided clock.
+ *
+ * @param    hwmgr - the address of the hardware manager.
+ * @param    soc_clock - the SOC clock to use to populate the structure.
+ * @param    current_socclk_level - location in PPTable for the SMC SOCCLK structure.
+ * @return   0 on success..
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int vega10_populate_single_soc_level(struct pp_hwmgr *hwmgr,
 		uint32_t soc_clock, uint8_t *current_soc_did,
@@ -1710,10 +1841,23 @@ static int vega10_populate_single_soc_level(struct pp_hwmgr *hwmgr,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Populates all SMC SCLK levels' structure based on the trimmed allowed dpm engine clock states
  *
  * @hwmgr:      the address of the hardware manager
  */
+<<<<<<< HEAD
+=======
+=======
+* Populates all SMC SCLK levels' structure based on the trimmed allowed dpm engine clock states
+*
+* @param    hwmgr      the address of the hardware manager
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_populate_all_graphic_levels(struct pp_hwmgr *hwmgr)
 {
 	struct vega10_hwmgr *data = hwmgr->backend;
@@ -1797,12 +1941,27 @@ static void vega10_populate_vddc_soc_levels(struct pp_hwmgr *hwmgr)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Populates single SMC GFXCLK structure using the provided clock.
  *
  * @hwmgr:     the address of the hardware manager.
  * @mem_clock: the memory clock to use to populate the structure.
  * return:     0 on success..
+<<<<<<< HEAD
+=======
+=======
+/**
+ * @brief Populates single SMC GFXCLK structure using the provided clock.
+ *
+ * @param    hwmgr - the address of the hardware manager.
+ * @param    mem_clock - the memory clock to use to populate the structure.
+ * @return   0 on success..
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int vega10_populate_single_memory_level(struct pp_hwmgr *hwmgr,
 		uint32_t mem_clock, uint8_t *current_mem_vid,
@@ -1859,10 +2018,23 @@ static int vega10_populate_single_memory_level(struct pp_hwmgr *hwmgr,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Populates all SMC MCLK levels' structure based on the trimmed allowed dpm memory clock states.
  *
  * @hwmgr:  the address of the hardware manager.
  * return:   PP_Result_OK on success.
+<<<<<<< HEAD
+=======
+=======
+ * @brief Populates all SMC MCLK levels' structure based on the trimmed allowed dpm memory clock states.
+ *
+ * @param    pHwMgr - the address of the hardware manager.
+ * @return   PP_Result_OK on success.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int vega10_populate_all_memory_levels(struct pp_hwmgr *hwmgr)
 {
@@ -2537,11 +2709,26 @@ static void vega10_check_dpm_table_updated(struct pp_hwmgr *hwmgr)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Initializes the SMC table and uploads it
  *
  * @hwmgr:  the address of the powerplay hardware manager.
  * return:  always 0
  */
+<<<<<<< HEAD
+=======
+=======
+* Initializes the SMC table and uploads it
+*
+* @param    hwmgr  the address of the powerplay hardware manager.
+* @param    pInput  the pointer to input data (PowerState)
+* @return   always 0
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega10_init_smc_table(struct pp_hwmgr *hwmgr)
 {
 	int result;
@@ -2919,11 +3106,25 @@ static int vega10_stop_dpm(struct pp_hwmgr *hwmgr, uint32_t bitmap)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Tell SMC to enabled the supported DPMs.
  *
  * @hwmgr:   the address of the powerplay hardware manager.
  * @bitmap:  bitmap for the features to enabled.
  * return:  0 on at least one DPM is successfully enabled.
+<<<<<<< HEAD
+=======
+=======
+ * @brief Tell SMC to enabled the supported DPMs.
+ *
+ * @param    hwmgr - the address of the powerplay hardware manager.
+ * @Param    bitmap - bitmap for the features to enabled.
+ * @return   0 on at least one DPM is successfully enabled.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int vega10_start_dpm(struct pp_hwmgr *hwmgr, uint32_t bitmap)
 {
@@ -5160,7 +5361,11 @@ static int vega10_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, ui
 
 out:
 	smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetWorkloadMask,
+<<<<<<< HEAD
 						(!power_profile_mode) ? 0 : 1 << (power_profile_mode - 1),
+=======
+						1 << power_profile_mode,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						NULL);
 	hwmgr->power_profile_mode = power_profile_mode;
 

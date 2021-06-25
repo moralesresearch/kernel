@@ -566,6 +566,10 @@ void rts5249_init_params(struct rtsx_pcr *pcr)
 	pcr->sd30_drive_sel_1v8 = CFG_DRIVER_TYPE_B;
 	pcr->sd30_drive_sel_3v3 = CFG_DRIVER_TYPE_B;
 	pcr->aspm_en = ASPM_L1_EN;
+<<<<<<< HEAD
+	pcr->aspm_mode = ASPM_MODE_CFG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(1, 29, 16);
 	pcr->rx_initial_phase = SET_CLOCK_PHASE(24, 6, 5);
 
@@ -729,6 +733,10 @@ static const struct pcr_ops rts524a_pcr_ops = {
 void rts524a_init_params(struct rtsx_pcr *pcr)
 {
 	rts5249_init_params(pcr);
+<<<<<<< HEAD
+	pcr->aspm_mode = ASPM_MODE_REG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(27, 29, 11);
 	pcr->option.ltr_l1off_sspwrgate = LTR_L1OFF_SSPWRGATE_5250_DEF;
 	pcr->option.ltr_l1off_snooze_sspwrgate =
@@ -845,6 +853,10 @@ static const struct pcr_ops rts525a_pcr_ops = {
 void rts525a_init_params(struct rtsx_pcr *pcr)
 {
 	rts5249_init_params(pcr);
+<<<<<<< HEAD
+	pcr->aspm_mode = ASPM_MODE_REG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(25, 29, 11);
 	pcr->option.ltr_l1off_sspwrgate = LTR_L1OFF_SSPWRGATE_5250_DEF;
 	pcr->option.ltr_l1off_snooze_sspwrgate =

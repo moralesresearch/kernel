@@ -877,4 +877,8 @@ module_comedi_usb_driver(vmk80xx_driver, vmk80xx_usb_driver);
 
 MODULE_AUTHOR("Manuel Gebele <forensixs@gmx.de>");
 MODULE_DESCRIPTION("Velleman USB Board Low-Level Driver");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("K8055/K8061 aka VM110/VM140");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");

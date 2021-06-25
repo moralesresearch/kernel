@@ -80,7 +80,11 @@ void free_px(struct i915_address_space *vm, struct i915_page_table *pt, int lvl)
 	kfree(pt);
 }
 
+<<<<<<< HEAD
 static void
+=======
+static inline void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 write_dma_entry(struct drm_i915_gem_object * const pdma,
 		const unsigned short idx,
 		const u64 encoded_entry)

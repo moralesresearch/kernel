@@ -236,6 +236,7 @@ A few EV_ABS codes have special meanings:
   - Used to describe multitouch input events. Please see
     multi-touch-protocol.txt for details.
 
+<<<<<<< HEAD
 * ABS_PRESSURE/ABS_MT_PRESSURE:
 
    - For touch devices, many devices converted contact size into pressure.
@@ -251,6 +252,8 @@ A few EV_ABS codes have special meanings:
      resolution of 1 represents 10 gram, a value of 10 with a resolution on
      1000 represents 10 microgram.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EV_SW
 -----
 

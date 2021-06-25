@@ -13,6 +13,12 @@
 #define has_bit(nr, mask)	(BIT(nr) & (mask))
 #define has_bits(bits, mask)	(((bits) & (mask)) == (bits))
 
+<<<<<<< HEAD
+=======
+#define dp_for_each_set_bit(bit, mask) \
+	for_each_set_bit((bit), ((unsigned long *)&(mask)), sizeof(mask) * 8)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define dp_wait_cond(__cond, __tries, __min_range, __max_range)	\
 ({							\
 	int num_tries = __tries;			\

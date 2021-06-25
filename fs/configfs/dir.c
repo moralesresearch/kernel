@@ -1268,8 +1268,12 @@ out_root_unlock:
 }
 EXPORT_SYMBOL(configfs_depend_item_unlocked);
 
+<<<<<<< HEAD
 static int configfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 			  struct dentry *dentry, umode_t mode)
+=======
+static int configfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0;
 	int module_got = 0;

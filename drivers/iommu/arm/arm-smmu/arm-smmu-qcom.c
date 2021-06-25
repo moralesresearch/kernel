@@ -166,7 +166,14 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
 	{ .compatible = "qcom,mdss" },
 	{ .compatible = "qcom,sc7180-mdss" },
 	{ .compatible = "qcom,sc7180-mss-pil" },
+<<<<<<< HEAD
 	{ .compatible = "qcom,sc8180x-mdss" },
+=======
+<<<<<<< HEAD
+	{ .compatible = "qcom,sc8180x-mdss" },
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "qcom,sdm845-mdss" },
 	{ .compatible = "qcom,sdm845-mss-pil" },
 	{ }
@@ -330,12 +337,26 @@ static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
 static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
 	{ .compatible = "qcom,msm8998-smmu-v2" },
 	{ .compatible = "qcom,sc7180-smmu-500" },
+<<<<<<< HEAD
 	{ .compatible = "qcom,sc8180x-smmu-500" },
+=======
+<<<<<<< HEAD
+	{ .compatible = "qcom,sc8180x-smmu-500" },
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "qcom,sdm630-smmu-v2" },
 	{ .compatible = "qcom,sdm845-smmu-500" },
 	{ .compatible = "qcom,sm8150-smmu-500" },
 	{ .compatible = "qcom,sm8250-smmu-500" },
+<<<<<<< HEAD
 	{ .compatible = "qcom,sm8350-smmu-500" },
+=======
+<<<<<<< HEAD
+	{ .compatible = "qcom,sm8350-smmu-500" },
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 

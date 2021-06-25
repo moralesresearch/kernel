@@ -275,7 +275,11 @@ static int ipoib_mcast_join_finish(struct ipoib_mcast *mcast,
 
 	memset(&av, 0, sizeof(av));
 	av.type = rdma_ah_find_type(priv->ca, priv->port);
+<<<<<<< HEAD
 	rdma_ah_set_dlid(&av, be16_to_cpu(mcast->mcmember.mlid));
+=======
+	rdma_ah_set_dlid(&av, be16_to_cpu(mcast->mcmember.mlid)),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rdma_ah_set_port_num(&av, priv->port);
 	rdma_ah_set_sl(&av, mcast->mcmember.sl);
 	rdma_ah_set_static_rate(&av, mcast->mcmember.rate);
@@ -334,6 +338,18 @@ void ipoib_mcast_carrier_on_task(struct work_struct *work)
 		return;
 	}
 	/*
+<<<<<<< HEAD
+=======
+	 * Check if can send sendonly MCG's with sendonly-fullmember join state.
+	 * It done here after the successfully join to the broadcast group,
+	 * because the broadcast group must always be joined first and is always
+	 * re-joined if the SM changes substantially.
+	 */
+	priv->sm_fullmember_sendonly_support =
+		ib_sa_sendonly_fullmem_support(&ipoib_sa_client,
+					       priv->ca, priv->port);
+	/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Take rtnl_lock to avoid racing with ipoib_stop() and
 	 * turning the carrier back on while a device is being
 	 * removed.  However, ipoib_stop() will attempt to flush
@@ -528,7 +544,13 @@ static int ipoib_mcast_join(struct net_device *dev, struct ipoib_mcast *mcast)
 		 * most closely emulates the behavior, from a user space
 		 * application perspective, of Ethernet multicast operation.
 		 */
+<<<<<<< HEAD
 		if (test_bit(IPOIB_MCAST_FLAG_SENDONLY, &mcast->flags))
+=======
+		if (test_bit(IPOIB_MCAST_FLAG_SENDONLY, &mcast->flags) &&
+		    priv->sm_fullmember_sendonly_support)
+			/* SM supports sendonly-fullmember, otherwise fallback to full-member */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rec.join_state = SENDONLY_FULLMEMBER_JOIN;
 	}
 	spin_unlock_irq(&priv->lock);

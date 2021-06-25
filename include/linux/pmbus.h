@@ -34,6 +34,7 @@
  */
 #define PMBUS_WRITE_PROTECTED	BIT(1)
 
+<<<<<<< HEAD
 /*
  * PMBUS_NO_CAPABILITY
  *
@@ -43,6 +44,8 @@
  */
 #define PMBUS_NO_CAPABILITY			BIT(2)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct pmbus_platform_data {
 	u32 flags;		/* Device specific flags */
 

@@ -411,7 +411,11 @@ static void read_xenbus_frontend_xdp(struct backend_info *be,
 	vif->xdp_headroom = headroom;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Callback received when the frontend's state changes.
  */
 static void frontend_changed(struct xenbus_device *dev,
@@ -824,6 +828,7 @@ static void connect(struct backend_info *be)
 	xenvif_carrier_on(be->vif);
 
 	unregister_hotplug_status_watch(be);
+<<<<<<< HEAD
 	if (xenbus_exists(XBT_NIL, dev->nodename, "hotplug-status")) {
 		err = xenbus_watch_pathfmt(dev, &be->hotplug_status_watch,
 					   NULL, hotplug_status_changed,
@@ -833,6 +838,13 @@ static void connect(struct backend_info *be)
 			goto err;
 		be->have_hotplug_status_watch = 1;
 	}
+=======
+	err = xenbus_watch_pathfmt(dev, &be->hotplug_status_watch, NULL,
+				   hotplug_status_changed,
+				   "%s/%s", dev->nodename, "hotplug-status");
+	if (!err)
+		be->have_hotplug_status_watch = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netif_tx_wake_all_queues(be->vif->dev);
 
@@ -1000,7 +1012,11 @@ static int netback_remove(struct xenbus_device *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Entry point to this code when a new device is created.  Allocate the basic
  * structures and switch to InitWait.
  */

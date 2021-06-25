@@ -1079,6 +1079,7 @@ xfs_bmap_add_attrfork(
 
 	blks = XFS_ADDAFORK_SPACE_RES(mp);
 
+<<<<<<< HEAD
 	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_addafork, blks, 0,
 			rsvd, &tp);
 	if (error)
@@ -1086,6 +1087,23 @@ xfs_bmap_add_attrfork(
 	if (XFS_IFORK_Q(ip))
 		goto trans_cancel;
 
+=======
+	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_addafork, blks, 0,
+			rsvd ? XFS_TRANS_RESERVE : 0, &tp);
+	if (error)
+		return error;
+
+	xfs_ilock(ip, XFS_ILOCK_EXCL);
+	error = xfs_trans_reserve_quota_nblks(tp, ip, blks, 0, rsvd ?
+			XFS_QMOPT_RES_REGBLKS | XFS_QMOPT_FORCE_RES :
+			XFS_QMOPT_RES_REGBLKS);
+	if (error)
+		goto trans_cancel;
+	if (XFS_IFORK_Q(ip))
+		goto trans_cancel;
+
+	xfs_trans_ijoin(tp, ip, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
 	error = xfs_bmap_set_attrforkoff(ip, size, &version);
 	if (error)
@@ -3455,6 +3473,7 @@ xfs_bmap_btalloc_accounting(
 		args->len);
 }
 
+<<<<<<< HEAD
 static int
 xfs_bmap_compute_alignments(
 	struct xfs_bmalloca	*ap,
@@ -3465,6 +3484,36 @@ xfs_bmap_compute_alignments(
 	int			stripe_align = 0;
 
 	/* stripe alignment for allocation is determined by mount parameters */
+=======
+STATIC int
+xfs_bmap_btalloc(
+	struct xfs_bmalloca	*ap)	/* bmap alloc argument struct */
+{
+	xfs_mount_t	*mp;		/* mount point structure */
+	xfs_alloctype_t	atype = 0;	/* type for allocation routines */
+	xfs_extlen_t	align = 0;	/* minimum allocation alignment */
+	xfs_agnumber_t	fb_agno;	/* ag number of ap->firstblock */
+	xfs_agnumber_t	ag;
+	xfs_alloc_arg_t	args;
+	xfs_fileoff_t	orig_offset;
+	xfs_extlen_t	orig_length;
+	xfs_extlen_t	blen;
+	xfs_extlen_t	nextminlen = 0;
+	int		nullfb;		/* true if ap->firstblock isn't set */
+	int		isaligned;
+	int		tryagain;
+	int		error;
+	int		stripe_align;
+
+	ASSERT(ap->length);
+	orig_offset = ap->offset;
+	orig_length = ap->length;
+
+	mp = ap->ip->i_mount;
+
+	/* stripe alignment for allocation is determined by mount parameters */
+	stripe_align = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mp->m_swidth && (mp->m_flags & XFS_MOUNT_SWALLOC))
 		stripe_align = mp->m_swidth;
 	else if (mp->m_dalign)
@@ -3475,6 +3524,7 @@ xfs_bmap_compute_alignments(
 	else if (ap->datatype & XFS_ALLOC_USERDATA)
 		align = xfs_get_extsz_hint(ap->ip);
 	if (align) {
+<<<<<<< HEAD
 		if (xfs_bmap_extsize_align(mp, &ap->got, &ap->prev, align, 0,
 					ap->eof, 0, ap->conv, &ap->offset,
 					&ap->length))
@@ -3640,6 +3690,15 @@ xfs_bmap_btalloc(
 	orig_length = ap->length;
 
 	stripe_align = xfs_bmap_compute_alignments(ap, &args);
+=======
+		error = xfs_bmap_extsize_align(mp, &ap->got, &ap->prev,
+						align, 0, ap->eof, 0, ap->conv,
+						&ap->offset, &ap->length);
+		ASSERT(!error);
+		ASSERT(ap->length);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nullfb = ap->tp->t_firstblock == NULLFSBLOCK;
 	fb_agno = nullfb ? NULLAGNUMBER : XFS_FSB_TO_AGNO(mp,
@@ -3670,6 +3729,12 @@ xfs_bmap_btalloc(
 	 * Normal allocation, done through xfs_alloc_vextent.
 	 */
 	tryagain = isaligned = 0;
+<<<<<<< HEAD
+=======
+	memset(&args, 0, sizeof(args));
+	args.tp = ap->tp;
+	args.mp = mp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	args.fsbno = ap->blkno;
 	args.oinfo = XFS_RMAP_OINFO_SKIP_UPDATE;
 
@@ -3700,7 +3765,25 @@ xfs_bmap_btalloc(
 		args.total = ap->total;
 		args.minlen = ap->minlen;
 	}
+<<<<<<< HEAD
 
+=======
+	/* apply extent size hints if obtained earlier */
+	if (align) {
+		args.prod = align;
+		div_u64_rem(ap->offset, args.prod, &args.mod);
+		if (args.mod)
+			args.mod = args.prod - args.mod;
+	} else if (mp->m_sb.sb_blocksize >= PAGE_SIZE) {
+		args.prod = 1;
+		args.mod = 0;
+	} else {
+		args.prod = PAGE_SIZE >> mp->m_sb.sb_blocklog;
+		div_u64_rem(ap->offset, args.prod, &args.mod);
+		if (args.mod)
+			args.mod = args.prod - args.mod;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If we are not low on available data blocks, and the underlying
 	 * logical volume manager is a stripe, and the file offset is zero then
@@ -3802,10 +3885,44 @@ xfs_bmap_btalloc(
 			return error;
 		ap->tp->t_flags |= XFS_TRANS_LOWMODE;
 	}
+<<<<<<< HEAD
 
 	if (args.fsbno != NULLFSBLOCK) {
 		xfs_bmap_process_allocated_extent(ap, &args, orig_offset,
 			orig_length);
+=======
+	if (args.fsbno != NULLFSBLOCK) {
+		/*
+		 * check the allocation happened at the same or higher AG than
+		 * the first block that was allocated.
+		 */
+		ASSERT(ap->tp->t_firstblock == NULLFSBLOCK ||
+		       XFS_FSB_TO_AGNO(mp, ap->tp->t_firstblock) <=
+		       XFS_FSB_TO_AGNO(mp, args.fsbno));
+
+		ap->blkno = args.fsbno;
+		if (ap->tp->t_firstblock == NULLFSBLOCK)
+			ap->tp->t_firstblock = args.fsbno;
+		ASSERT(nullfb || fb_agno <= args.agno);
+		ap->length = args.len;
+		/*
+		 * If the extent size hint is active, we tried to round the
+		 * caller's allocation request offset down to extsz and the
+		 * length up to another extsz boundary.  If we found a free
+		 * extent we mapped it in starting at this new offset.  If the
+		 * newly mapped space isn't long enough to cover any of the
+		 * range of offsets that was originally requested, move the
+		 * mapping up so that we can fill as much of the caller's
+		 * original request as possible.  Free space is apparently
+		 * very fragmented so we're unlikely to be able to satisfy the
+		 * hints anyway.
+		 */
+		if (ap->length <= orig_length)
+			ap->offset = orig_offset;
+		else if (ap->offset + ap->length < orig_offset + orig_length)
+			ap->offset = orig_offset + orig_length - ap->length;
+		xfs_bmap_btalloc_accounting(ap, &args);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ap->blkno = NULLFSBLOCK;
 		ap->length = 0;
@@ -4089,7 +4206,12 @@ xfs_bmapi_reserve_delalloc(
 	 * blocks.  This number gets adjusted later.  We return if we haven't
 	 * allocated blocks already inside this loop.
 	 */
+<<<<<<< HEAD
 	error = xfs_quota_reserve_blkres(ip, alen);
+=======
+	error = xfs_trans_reserve_quota_nblks(NULL, ip, (long)alen, 0,
+						XFS_QMOPT_RES_REGBLKS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -4135,7 +4257,12 @@ out_unreserve_blocks:
 	xfs_mod_fdblocks(mp, alen, false);
 out_unreserve_quota:
 	if (XFS_IS_QUOTA_ON(mp))
+<<<<<<< HEAD
 		xfs_quota_unreserve_blkres(ip, alen);
+=======
+		xfs_trans_unreserve_quota_nblks(NULL, ip, (long)alen, 0,
+						XFS_QMOPT_RES_REGBLKS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return error;
 }
 
@@ -4169,10 +4296,13 @@ xfs_bmap_alloc_userdata(
 			return xfs_bmap_rtalloc(bma);
 	}
 
+<<<<<<< HEAD
 	if (unlikely(XFS_TEST_ERROR(false, mp,
 			XFS_ERRTAG_BMAP_ALLOC_MINLEN_EXTENT)))
 		return xfs_bmap_exact_minlen_extent_alloc(bma);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return xfs_bmap_btalloc(bma);
 }
 
@@ -4209,6 +4339,7 @@ xfs_bmapi_allocate(
 	else
 		bma->minlen = 1;
 
+<<<<<<< HEAD
 	if (bma->flags & XFS_BMAPI_METADATA) {
 		if (unlikely(XFS_TEST_ERROR(false, mp,
 				XFS_ERRTAG_BMAP_ALLOC_MINLEN_EXTENT)))
@@ -4218,6 +4349,12 @@ xfs_bmapi_allocate(
 	} else {
 		error = xfs_bmap_alloc_userdata(bma);
 	}
+=======
+	if (bma->flags & XFS_BMAPI_METADATA)
+		error = xfs_bmap_btalloc(bma);
+	else
+		error = xfs_bmap_alloc_userdata(bma);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error || bma->blkno == NULLFSBLOCK)
 		return error;
 
@@ -4622,12 +4759,15 @@ xfs_bmapi_convert_delalloc(
 		return error;
 
 	xfs_ilock(ip, XFS_ILOCK_EXCL);
+<<<<<<< HEAD
 
 	error = xfs_iext_count_may_overflow(ip, whichfork,
 			XFS_IEXT_ADD_NOSPLIT_CNT);
 	if (error)
 		goto out_trans_cancel;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_trans_ijoin(tp, ip, 0);
 
 	if (!xfs_iext_lookup_extent(ip, ifp, offset_fsb, &bma.icur, &bma.got) ||
@@ -4927,8 +5067,14 @@ xfs_bmap_del_extent_delay(
 	 * sb counters as we might have to borrow some blocks for the
 	 * indirect block accounting.
 	 */
+<<<<<<< HEAD
 	ASSERT(!isrt);
 	error = xfs_quota_unreserve_blkres(ip, del->br_blockcount);
+=======
+	error = xfs_trans_reserve_quota_nblks(NULL, ip,
+			-((long)del->br_blockcount), 0,
+			isrt ? XFS_QMOPT_RES_RTBLKS : XFS_QMOPT_RES_REGBLKS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 	ip->i_delayed_blks -= del->br_blockcount;
@@ -5245,6 +5391,7 @@ xfs_bmap_del_extent_real(
 		/*
 		 * Deleting the middle of the extent.
 		 */
+<<<<<<< HEAD
 
 		/*
 		 * For directories, -ENOSPC is returned since a directory entry
@@ -5266,6 +5413,8 @@ xfs_bmap_del_extent_real(
 			goto done;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		old = got;
 
 		got.br_blockcount = del->br_startoff - got.br_startoff;

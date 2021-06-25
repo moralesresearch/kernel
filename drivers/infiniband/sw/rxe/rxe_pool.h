@@ -11,6 +11,10 @@
 #define RXE_POOL_CACHE_FLAGS	(0)
 
 enum rxe_pool_flags {
+<<<<<<< HEAD
+=======
+	RXE_POOL_ATOMIC		= BIT(0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RXE_POOL_INDEX		= BIT(1),
 	RXE_POOL_KEY		= BIT(2),
 	RXE_POOL_NO_ALLOC	= BIT(4),
@@ -35,7 +39,10 @@ struct rxe_pool_entry;
 struct rxe_type_info {
 	const char		*name;
 	size_t			size;
+<<<<<<< HEAD
 	size_t			elem_offset;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void			(*cleanup)(struct rxe_pool_entry *obj);
 	enum rxe_pool_flags	flags;
 	u32			max_index;
@@ -46,16 +53,29 @@ struct rxe_type_info {
 
 extern struct rxe_type_info rxe_type_info[];
 
+<<<<<<< HEAD
+=======
+enum rxe_pool_state {
+	RXE_POOL_STATE_INVALID,
+	RXE_POOL_STATE_VALID,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct rxe_pool_entry {
 	struct rxe_pool		*pool;
 	struct kref		ref_cnt;
 	struct list_head	list;
 
+<<<<<<< HEAD
 	/* only used if keyed */
 	struct rb_node		key_node;
 
 	/* only used if indexed */
 	struct rb_node		index_node;
+=======
+	/* only used if indexed or keyed */
+	struct rb_node		node;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			index;
 };
 
@@ -63,13 +83,20 @@ struct rxe_pool {
 	struct rxe_dev		*rxe;
 	rwlock_t		pool_lock; /* protects pool add/del/search */
 	size_t			elem_size;
+<<<<<<< HEAD
 	void			(*cleanup)(struct rxe_pool_entry *obj);
+=======
+	struct kref		ref_cnt;
+	void			(*cleanup)(struct rxe_pool_entry *obj);
+	enum rxe_pool_state	state;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum rxe_pool_flags	flags;
 	enum rxe_elem_type	type;
 
 	unsigned int		max_elem;
 	atomic_t		num_elem;
 
+<<<<<<< HEAD
 	/* only used if indexed */
 	struct {
 		struct rb_root		tree;
@@ -86,6 +113,17 @@ struct rxe_pool {
 		size_t			key_offset;
 		size_t			key_size;
 	} key;
+=======
+	/* only used if indexed or keyed */
+	struct rb_root		tree;
+	unsigned long		*table;
+	size_t			table_size;
+	u32			max_index;
+	u32			min_index;
+	u32			last;
+	size_t			key_offset;
+	size_t			key_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* initialize a pool of objects with given limit on
@@ -98,6 +136,7 @@ int rxe_pool_init(struct rxe_dev *rxe, struct rxe_pool *pool,
 /* free resources from object pool */
 void rxe_pool_cleanup(struct rxe_pool *pool);
 
+<<<<<<< HEAD
 /* allocate an object from pool holding and not holding the pool lock */
 void *rxe_alloc_locked(struct rxe_pool *pool);
 
@@ -162,6 +201,34 @@ void *rxe_pool_get_index(struct rxe_pool *pool, u32 index);
  */
 void *rxe_pool_get_key_locked(struct rxe_pool *pool, void *key);
 
+=======
+/* allocate an object from pool */
+void *rxe_alloc(struct rxe_pool *pool);
+
+/* connect already allocated object to pool */
+int rxe_add_to_pool(struct rxe_pool *pool, struct rxe_pool_entry *elem);
+
+/* assign an index to an indexed object and insert object into
+ *  pool's rb tree
+ */
+void rxe_add_index(void *elem);
+
+/* drop an index and remove object from rb tree */
+void rxe_drop_index(void *elem);
+
+/* assign a key to a keyed object and insert object into
+ *  pool's rb tree
+ */
+void rxe_add_key(void *elem, void *key);
+
+/* remove elem from rb tree */
+void rxe_drop_key(void *elem);
+
+/* lookup an indexed object from index. takes a reference on object */
+void *rxe_pool_get_index(struct rxe_pool *pool, u32 index);
+
+/* lookup keyed object from key. takes a reference on the object */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *rxe_pool_get_key(struct rxe_pool *pool, void *key);
 
 /* cleanup an object when all references are dropped */

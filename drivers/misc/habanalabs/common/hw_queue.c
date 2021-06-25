@@ -38,7 +38,11 @@ static inline int queue_free_slots(struct hl_hw_queue *q, u32 queue_len)
 		return (abs(delta) - queue_len);
 }
 
+<<<<<<< HEAD
 void hl_hw_queue_update_ci(struct hl_cs *cs)
+=======
+void hl_int_hw_queue_update_ci(struct hl_cs *cs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hl_device *hdev = cs->ctx->hdev;
 	struct hl_hw_queue *q;
@@ -53,6 +57,7 @@ void hl_hw_queue_update_ci(struct hl_cs *cs)
 	if (!hdev->asic_prop.max_queues || q->queue_type == QUEUE_TYPE_HW)
 		return;
 
+<<<<<<< HEAD
 	/* We must increment CI for every queue that will never get a
 	 * completion, there are 2 scenarios this can happen:
 	 * 1. All queues of a non completion CS will never get a completion.
@@ -60,6 +65,10 @@ void hl_hw_queue_update_ci(struct hl_cs *cs)
 	 */
 	for (i = 0 ; i < hdev->asic_prop.max_queues ; i++, q++) {
 		if (!cs_needs_completion(cs) || q->queue_type == QUEUE_TYPE_INT)
+=======
+	for (i = 0 ; i < hdev->asic_prop.max_queues ; i++, q++) {
+		if (q->queue_type == QUEUE_TYPE_INT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			atomic_add(cs->jobs_in_queue_cnt[i], &q->ci);
 	}
 }
@@ -297,10 +306,13 @@ static void ext_queue_schedule_job(struct hl_cs_job *job)
 	len = job->job_cb_size;
 	ptr = cb->bus_address;
 
+<<<<<<< HEAD
 	/* Skip completion flow in case this is a non completion CS */
 	if (!cs_needs_completion(job->cs))
 		goto submit_bd;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cq_pkt.data = cpu_to_le32(
 			((q->pi << CQ_ENTRY_SHADOW_INDEX_SHIFT)
 				& CQ_ENTRY_SHADOW_INDEX_MASK) |
@@ -327,7 +339,10 @@ static void ext_queue_schedule_job(struct hl_cs_job *job)
 
 	cq->pi = hl_cq_inc_ptr(cq->pi);
 
+<<<<<<< HEAD
 submit_bd:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ext_and_hw_queue_submit_bd(hdev, q, ctl, len, ptr);
 }
 
@@ -535,7 +550,10 @@ int hl_hw_queue_schedule_cs(struct hl_cs *cs)
 	struct hl_cs_job *job, *tmp;
 	struct hl_hw_queue *q;
 	int rc = 0, i, cq_cnt;
+<<<<<<< HEAD
 	bool first_entry;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 max_queues;
 
 	cntr = &hdev->aggregated_cs_counters;
@@ -559,9 +577,13 @@ int hl_hw_queue_schedule_cs(struct hl_cs *cs)
 			switch (q->queue_type) {
 			case QUEUE_TYPE_EXT:
 				rc = ext_queue_sanity_checks(hdev, q,
+<<<<<<< HEAD
 						cs->jobs_in_queue_cnt[i],
 						cs_needs_completion(cs) ?
 								true : false);
+=======
+						cs->jobs_in_queue_cnt[i], true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			case QUEUE_TYPE_INT:
 				rc = int_queue_sanity_checks(hdev, q,
@@ -596,6 +618,7 @@ int hl_hw_queue_schedule_cs(struct hl_cs *cs)
 		hdev->asic_funcs->collective_wait_init_cs(cs);
 
 	spin_lock(&hdev->cs_mirror_lock);
+<<<<<<< HEAD
 
 	/* Verify staged CS exists and add to the staged list */
 	if (cs->staged_cs && !cs->staged_first) {
@@ -628,6 +651,14 @@ int hl_hw_queue_schedule_cs(struct hl_cs *cs)
 					struct hl_cs, mirror_node) == cs;
 	if ((hdev->timeout_jiffies != MAX_SCHEDULE_TIMEOUT) &&
 				first_entry && cs_needs_timeout(cs)) {
+=======
+	list_add_tail(&cs->mirror_node, &hdev->cs_mirror_list);
+
+	/* Queue TDR if the CS is the first entry and if timeout is wanted */
+	if ((hdev->timeout_jiffies != MAX_SCHEDULE_TIMEOUT) &&
+			(list_first_entry(&hdev->cs_mirror_list,
+					struct hl_cs, mirror_node) == cs)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cs->tdr_active = true;
 		schedule_delayed_work(&cs->work_tdr, hdev->timeout_jiffies);
 
@@ -662,8 +693,11 @@ int hl_hw_queue_schedule_cs(struct hl_cs *cs)
 
 	goto out;
 
+<<<<<<< HEAD
 unlock_cs_mirror:
 	spin_unlock(&hdev->cs_mirror_lock);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unroll_cq_resv:
 	q = &hdev->kernel_queues[0];
 	for (i = 0 ; (i < max_queues) && (cq_cnt > 0) ; i++, q++) {

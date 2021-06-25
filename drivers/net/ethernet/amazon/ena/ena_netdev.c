@@ -236,6 +236,37 @@ static int ena_xdp_io_poll(struct napi_struct *napi, int budget)
 static int ena_xdp_tx_map_frame(struct ena_ring *xdp_ring,
 				struct ena_tx_buffer *tx_info,
 				struct xdp_frame *xdpf,
+<<<<<<< HEAD
+				struct ena_com_tx_ctx *ena_tx_ctx)
+{
+	struct ena_adapter *adapter = xdp_ring->adapter;
+	struct ena_com_buf *ena_buf;
+	int push_len = 0;
+	dma_addr_t dma;
+	void *data;
+	u32 size;
+
+	tx_info->xdpf = xdpf;
+	data = tx_info->xdpf->data;
+	size = tx_info->xdpf->len;
+
+	if (xdp_ring->tx_mem_queue_type == ENA_ADMIN_PLACEMENT_POLICY_DEV) {
+		/* Designate part of the packet for LLQ */
+		push_len = min_t(u32, size, xdp_ring->tx_max_header_size);
+
+		ena_tx_ctx->push_header = data;
+
+		size -= push_len;
+		data += push_len;
+	}
+
+	ena_tx_ctx->header_len = push_len;
+
+	if (size > 0) {
+		dma = dma_map_single(xdp_ring->dev,
+				     data,
+				     size,
+=======
 				void **push_hdr,
 				u32 *push_len)
 {
@@ -256,10 +287,23 @@ static int ena_xdp_tx_map_frame(struct ena_ring *xdp_ring,
 		dma = dma_map_single(xdp_ring->dev,
 				     *push_hdr + *push_len,
 				     size - *push_len,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     DMA_TO_DEVICE);
 		if (unlikely(dma_mapping_error(xdp_ring->dev, dma)))
 			goto error_report_dma_error;
 
+<<<<<<< HEAD
+		tx_info->map_linear_data = 0;
+
+		ena_buf = tx_info->bufs;
+		ena_buf->paddr = dma;
+		ena_buf->len = size;
+
+		ena_tx_ctx->ena_bufs = ena_buf;
+		ena_tx_ctx->num_bufs = tx_info->num_of_bufs = 1;
+	}
+
+=======
 		tx_info->map_linear_data = 1;
 		tx_info->num_of_bufs = 1;
 	}
@@ -267,6 +311,7 @@ static int ena_xdp_tx_map_frame(struct ena_ring *xdp_ring,
 	ena_buf->paddr = dma;
 	ena_buf->len = size;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 error_report_dma_error:
@@ -274,10 +319,13 @@ error_report_dma_error:
 			  &xdp_ring->syncp);
 	netif_warn(adapter, tx_queued, adapter->netdev, "Failed to map xdp buff\n");
 
+<<<<<<< HEAD
+=======
 	xdp_return_frame_rx_napi(tx_info->xdpf);
 	tx_info->xdpf = NULL;
 	tx_info->num_of_bufs = 0;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EINVAL;
 }
 
@@ -289,8 +337,11 @@ static int ena_xdp_xmit_frame(struct ena_ring *xdp_ring,
 	struct ena_com_tx_ctx ena_tx_ctx = {};
 	struct ena_tx_buffer *tx_info;
 	u16 next_to_use, req_id;
+<<<<<<< HEAD
+=======
 	void *push_hdr;
 	u32 push_len;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rc;
 
 	next_to_use = xdp_ring->next_to_use;
@@ -298,6 +349,13 @@ static int ena_xdp_xmit_frame(struct ena_ring *xdp_ring,
 	tx_info = &xdp_ring->tx_buffer_info[req_id];
 	tx_info->num_of_bufs = 0;
 
+<<<<<<< HEAD
+	rc = ena_xdp_tx_map_frame(xdp_ring, tx_info, xdpf, &ena_tx_ctx);
+	if (unlikely(rc))
+		goto error_drop_packet;
+
+	ena_tx_ctx.req_id = req_id;
+=======
 	rc = ena_xdp_tx_map_frame(xdp_ring, tx_info, xdpf, &push_hdr, &push_len);
 	if (unlikely(rc))
 		goto error_drop_packet;
@@ -307,6 +365,7 @@ static int ena_xdp_xmit_frame(struct ena_ring *xdp_ring,
 	ena_tx_ctx.num_bufs = tx_info->num_of_bufs;
 	ena_tx_ctx.req_id = req_id;
 	ena_tx_ctx.header_len = push_len;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = ena_xmit_common(dev,
 			     xdp_ring,
@@ -1589,9 +1648,16 @@ static int ena_xdp_handle_buff(struct ena_ring *rx_ring, struct xdp_buff *xdp)
 	int ret;
 
 	rx_info = &rx_ring->rx_buffer_info[rx_ring->ena_bufs[0].req_id];
+<<<<<<< HEAD
 	xdp_prepare_buff(xdp, page_address(rx_info->page),
 			 rx_info->page_offset,
 			 rx_ring->ena_bufs[0].len, false);
+=======
+	xdp->data = page_address(rx_info->page) + rx_info->page_offset;
+	xdp_set_data_meta_invalid(xdp);
+	xdp->data_hard_start = page_address(rx_info->page);
+	xdp->data_end = xdp->data + rx_ring->ena_bufs[0].len;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If for some reason we received a bigger packet than
 	 * we expect, then we simply drop it
 	 */
@@ -1637,7 +1703,12 @@ static int ena_clean_rx_irq(struct ena_ring *rx_ring, struct napi_struct *napi,
 	netif_dbg(rx_ring->adapter, rx_status, rx_ring->netdev,
 		  "%s qid %d\n", __func__, rx_ring->qid);
 	res_budget = budget;
+<<<<<<< HEAD
 	xdp_init_buff(&xdp, ENA_PAGE_SIZE, &rx_ring->xdp_rxq);
+=======
+	xdp.rxq = &rx_ring->xdp_rxq;
+	xdp.frame_sz = ENA_PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	do {
 		xdp_verdict = XDP_PASS;

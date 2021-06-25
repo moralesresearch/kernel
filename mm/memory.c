@@ -134,6 +134,10 @@ static inline bool arch_faults_on_old_pte(void)
 }
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef arch_wants_old_prefaulted_pte
 static inline bool arch_wants_old_prefaulted_pte(void)
 {
@@ -146,6 +150,11 @@ static inline bool arch_wants_old_prefaulted_pte(void)
 }
 #endif
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init disable_randmaps(char *s)
 {
 	randomize_va_space = 0;
@@ -809,8 +818,22 @@ copy_present_page(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
 		  pte_t *dst_pte, pte_t *src_pte, unsigned long addr, int *rss,
 		  struct page **prealloc, pte_t pte, struct page *page)
 {
+<<<<<<< HEAD
 	struct page *new_page;
 
+=======
+<<<<<<< HEAD
+	struct page *new_page;
+
+=======
+	struct mm_struct *src_mm = src_vma->vm_mm;
+	struct page *new_page;
+
+	if (!is_cow_mapping(src_vma->vm_flags))
+		return 1;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * What we want to do is to check whether this page may
 	 * have been pinned by the parent process.  If so,
@@ -824,7 +847,17 @@ copy_present_page(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
 	 * the page count. That might give false positives for
 	 * for pinning, but it will work correctly.
 	 */
+<<<<<<< HEAD
 	if (likely(!page_needs_cow_for_dma(src_vma, page)))
+=======
+<<<<<<< HEAD
+	if (likely(!page_needs_cow_for_dma(src_vma, page)))
+=======
+	if (likely(!atomic_read(&src_mm->has_pinned)))
+		return 1;
+	if (likely(!page_maybe_dma_pinned(page)))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 
 	new_page = *prealloc;
@@ -1540,13 +1573,29 @@ void zap_page_range(struct vm_area_struct *vma, unsigned long start,
 	lru_add_drain();
 	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
 				start, start + size);
+<<<<<<< HEAD
 	tlb_gather_mmu(&tlb, vma->vm_mm);
+=======
+<<<<<<< HEAD
+	tlb_gather_mmu(&tlb, vma->vm_mm);
+=======
+	tlb_gather_mmu(&tlb, vma->vm_mm, start, range.end);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	update_hiwater_rss(vma->vm_mm);
 	mmu_notifier_invalidate_range_start(&range);
 	for ( ; vma && vma->vm_start < range.end; vma = vma->vm_next)
 		unmap_single_vma(&tlb, vma, start, range.end, NULL);
 	mmu_notifier_invalidate_range_end(&range);
+<<<<<<< HEAD
 	tlb_finish_mmu(&tlb);
+=======
+<<<<<<< HEAD
+	tlb_finish_mmu(&tlb);
+=======
+	tlb_finish_mmu(&tlb, start, range.end);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1567,12 +1616,28 @@ static void zap_page_range_single(struct vm_area_struct *vma, unsigned long addr
 	lru_add_drain();
 	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
 				address, address + size);
+<<<<<<< HEAD
 	tlb_gather_mmu(&tlb, vma->vm_mm);
+=======
+<<<<<<< HEAD
+	tlb_gather_mmu(&tlb, vma->vm_mm);
+=======
+	tlb_gather_mmu(&tlb, vma->vm_mm, address, range.end);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	update_hiwater_rss(vma->vm_mm);
 	mmu_notifier_invalidate_range_start(&range);
 	unmap_single_vma(&tlb, vma, address, range.end, details);
 	mmu_notifier_invalidate_range_end(&range);
+<<<<<<< HEAD
 	tlb_finish_mmu(&tlb);
+=======
+<<<<<<< HEAD
+	tlb_finish_mmu(&tlb);
+=======
+	tlb_finish_mmu(&tlb, address, range.end);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2388,18 +2453,42 @@ static int apply_to_pte_range(struct mm_struct *mm, pmd_t *pmd,
 				     pte_fn_t fn, void *data, bool create,
 				     pgtbl_mod_mask *mask)
 {
+<<<<<<< HEAD
 	pte_t *pte, *mapped_pte;
+=======
+<<<<<<< HEAD
+	pte_t *pte, *mapped_pte;
+=======
+	pte_t *pte;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 	spinlock_t *ptl;
 
 	if (create) {
+<<<<<<< HEAD
 		mapped_pte = pte = (mm == &init_mm) ?
+=======
+<<<<<<< HEAD
+		mapped_pte = pte = (mm == &init_mm) ?
+=======
+		pte = (mm == &init_mm) ?
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pte_alloc_kernel_track(pmd, addr, mask) :
 			pte_alloc_map_lock(mm, pmd, addr, &ptl);
 		if (!pte)
 			return -ENOMEM;
 	} else {
+<<<<<<< HEAD
 		mapped_pte = pte = (mm == &init_mm) ?
+=======
+<<<<<<< HEAD
+		mapped_pte = pte = (mm == &init_mm) ?
+=======
+		pte = (mm == &init_mm) ?
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pte_offset_kernel(pmd, addr) :
 			pte_offset_map_lock(mm, pmd, addr, &ptl);
 	}
@@ -2422,7 +2511,15 @@ static int apply_to_pte_range(struct mm_struct *mm, pmd_t *pmd,
 	arch_leave_lazy_mmu_mode();
 
 	if (mm != &init_mm)
+<<<<<<< HEAD
 		pte_unmap_unlock(mapped_pte, ptl);
+=======
+<<<<<<< HEAD
+		pte_unmap_unlock(mapped_pte, ptl);
+=======
+		pte_unmap_unlock(pte-1, ptl);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -2896,6 +2993,14 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
 		}
 		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
 		entry = mk_pte(new_page, vma->vm_page_prot);
+<<<<<<< HEAD
+		entry = pte_sw_mkyoung(entry);
+=======
+<<<<<<< HEAD
+=======
+		entry = pte_sw_mkyoung(entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
 
 		/*
@@ -3516,7 +3621,15 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
 	if (pte_alloc(vma->vm_mm, vmf->pmd))
 		return VM_FAULT_OOM;
 
+<<<<<<< HEAD
 	/* See comment in handle_pte_fault() */
+=======
+<<<<<<< HEAD
+	/* See comment in handle_pte_fault() */
+=======
+	/* See the comment in pte_alloc_one_map() */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(pmd_trans_unstable(vmf->pmd)))
 		return 0;
 
@@ -3561,6 +3674,14 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
 	__SetPageUptodate(page);
 
 	entry = mk_pte(page, vma->vm_page_prot);
+<<<<<<< HEAD
+	entry = pte_sw_mkyoung(entry);
+=======
+<<<<<<< HEAD
+=======
+	entry = pte_sw_mkyoung(entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vma->vm_flags & VM_WRITE)
 		entry = pte_mkwrite(pte_mkdirty(entry));
 
@@ -3655,6 +3776,72 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/*
+ * The ordering of these checks is important for pmds with _PAGE_DEVMAP set.
+ * If we check pmd_trans_unstable() first we will trip the bad_pmd() check
+ * inside of pmd_none_or_trans_huge_or_clear_bad(). This will end up correctly
+ * returning 1 but not before it spams dmesg with the pmd_clear_bad() output.
+ */
+static int pmd_devmap_trans_unstable(pmd_t *pmd)
+{
+	return pmd_devmap(*pmd) || pmd_trans_unstable(pmd);
+}
+
+static vm_fault_t pte_alloc_one_map(struct vm_fault *vmf)
+{
+	struct vm_area_struct *vma = vmf->vma;
+
+	if (!pmd_none(*vmf->pmd))
+		goto map_pte;
+	if (vmf->prealloc_pte) {
+		vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+		if (unlikely(!pmd_none(*vmf->pmd))) {
+			spin_unlock(vmf->ptl);
+			goto map_pte;
+		}
+
+		mm_inc_nr_ptes(vma->vm_mm);
+		pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
+		spin_unlock(vmf->ptl);
+		vmf->prealloc_pte = NULL;
+	} else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
+		return VM_FAULT_OOM;
+	}
+map_pte:
+	/*
+	 * If a huge pmd materialized under us just retry later.  Use
+	 * pmd_trans_unstable() via pmd_devmap_trans_unstable() instead of
+	 * pmd_trans_huge() to ensure the pmd didn't become pmd_trans_huge
+	 * under us and then back to pmd_none, as a result of MADV_DONTNEED
+	 * running immediately after a huge pmd fault in a different thread of
+	 * this mm, in turn leading to a misleading pmd_trans_huge() retval.
+	 * All we have to ensure is that it is a regular pmd that we can walk
+	 * with pte_offset_map() and we can do that through an atomic read in
+	 * C, which is what pmd_trans_unstable() provides.
+	 */
+	if (pmd_devmap_trans_unstable(vmf->pmd))
+		return VM_FAULT_NOPAGE;
+
+	/*
+	 * At this point we know that our vmf->pmd points to a page of ptes
+	 * and it cannot become pmd_none(), pmd_devmap() or pmd_trans_huge()
+	 * for the duration of the fault.  If a racing MADV_DONTNEED runs and
+	 * we zap the ptes pointed to by our vmf->pmd, the vmf->ptl will still
+	 * be valid and we will re-check to make sure the vmf->pte isn't
+	 * pte_none() under vmf->ptl protection when we return to
+	 * alloc_set_pte().
+	 */
+	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+			&vmf->ptl);
+	return 0;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 static void deposit_prealloc_pte(struct vm_fault *vmf)
 {
@@ -3669,7 +3856,15 @@ static void deposit_prealloc_pte(struct vm_fault *vmf)
 	vmf->prealloc_pte = NULL;
 }
 
+<<<<<<< HEAD
 vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
+=======
+<<<<<<< HEAD
+vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
+=======
+static vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct vm_area_struct *vma = vmf->vma;
 	bool write = vmf->flags & FAULT_FLAG_WRITE;
@@ -3727,6 +3922,10 @@ out:
 	return ret;
 }
 #else
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
 {
 	return VM_FAULT_FALLBACK;
@@ -3745,21 +3944,105 @@ void do_set_pte(struct vm_fault *vmf, struct page *page, unsigned long addr)
 
 	if (prefault && arch_wants_old_prefaulted_pte())
 		entry = pte_mkold(entry);
+<<<<<<< HEAD
+	else
+		entry = pte_sw_mkyoung(entry);
 
+=======
+
+=======
+static vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
+{
+	BUILD_BUG();
+	return 0;
+}
+#endif
+
+/**
+ * alloc_set_pte - setup new PTE entry for given page and add reverse page
+ * mapping. If needed, the function allocates page table or use pre-allocated.
+ *
+ * @vmf: fault environment
+ * @page: page to map
+ *
+ * Caller must take care of unlocking vmf->ptl, if vmf->pte is non-NULL on
+ * return.
+ *
+ * Target users are page handler itself and implementations of
+ * vm_ops->map_pages.
+ *
+ * Return: %0 on success, %VM_FAULT_ code in case of error.
+ */
+vm_fault_t alloc_set_pte(struct vm_fault *vmf, struct page *page)
+{
+	struct vm_area_struct *vma = vmf->vma;
+	bool write = vmf->flags & FAULT_FLAG_WRITE;
+	pte_t entry;
+	vm_fault_t ret;
+
+	if (pmd_none(*vmf->pmd) && PageTransCompound(page)) {
+		ret = do_set_pmd(vmf, page);
+		if (ret != VM_FAULT_FALLBACK)
+			return ret;
+	}
+
+	if (!vmf->pte) {
+		ret = pte_alloc_one_map(vmf);
+		if (ret)
+			return ret;
+	}
+
+	/* Re-check under ptl */
+	if (unlikely(!pte_none(*vmf->pte))) {
+		update_mmu_tlb(vma, vmf->address, vmf->pte);
+		return VM_FAULT_NOPAGE;
+	}
+
+	flush_icache_page(vma, page);
+	entry = mk_pte(page, vma->vm_page_prot);
+	entry = pte_sw_mkyoung(entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (write)
 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
 	/* copy-on-write page */
 	if (write && !(vma->vm_flags & VM_SHARED)) {
 		inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+<<<<<<< HEAD
 		page_add_new_anon_rmap(page, vma, addr, false);
+=======
+<<<<<<< HEAD
+		page_add_new_anon_rmap(page, vma, addr, false);
+=======
+		page_add_new_anon_rmap(page, vma, vmf->address, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lru_cache_add_inactive_or_unevictable(page, vma);
 	} else {
 		inc_mm_counter_fast(vma->vm_mm, mm_counter_file(page));
 		page_add_file_rmap(page, false);
 	}
+<<<<<<< HEAD
 	set_pte_at(vma->vm_mm, addr, vmf->pte, entry);
 }
 
+=======
+<<<<<<< HEAD
+	set_pte_at(vma->vm_mm, addr, vmf->pte, entry);
+}
+
+=======
+	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
+
+	/* no need to invalidate: a not-present page won't be cached */
+	update_mmu_cache(vma, vmf->address, vmf->pte);
+
+	return 0;
+}
+
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * finish_fault - finish page fault once we have prepared the page to fault
  *
@@ -3777,12 +4060,27 @@ void do_set_pte(struct vm_fault *vmf, struct page *page, unsigned long addr)
  */
 vm_fault_t finish_fault(struct vm_fault *vmf)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vm_area_struct *vma = vmf->vma;
 	struct page *page;
 	vm_fault_t ret;
 
 	/* Did we COW the page? */
 	if ((vmf->flags & FAULT_FLAG_WRITE) && !(vma->vm_flags & VM_SHARED))
+<<<<<<< HEAD
+=======
+=======
+	struct page *page;
+	vm_fault_t ret = 0;
+
+	/* Did we COW the page? */
+	if ((vmf->flags & FAULT_FLAG_WRITE) &&
+	    !(vmf->vma->vm_flags & VM_SHARED))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		page = vmf->cow_page;
 	else
 		page = vmf->page;
@@ -3791,6 +4089,10 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
 	 * check even for read faults because we might have lost our CoWed
 	 * page
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!(vma->vm_flags & VM_SHARED)) {
 		ret = check_stable_address_space(vma->vm_mm);
 		if (ret)
@@ -3823,6 +4125,17 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
 
 	update_mmu_tlb(vma, vmf->address, vmf->pte);
 	pte_unmap_unlock(vmf->pte, vmf->ptl);
+<<<<<<< HEAD
+=======
+=======
+	if (!(vmf->vma->vm_flags & VM_SHARED))
+		ret = check_stable_address_space(vmf->vma->vm_mm);
+	if (!ret)
+		ret = alloc_set_pte(vmf, page);
+	if (vmf->pte)
+		pte_unmap_unlock(vmf->pte, vmf->ptl);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -3892,12 +4205,29 @@ static vm_fault_t do_fault_around(struct vm_fault *vmf)
 	pgoff_t start_pgoff = vmf->pgoff;
 	pgoff_t end_pgoff;
 	int off;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	vm_fault_t ret = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nr_pages = READ_ONCE(fault_around_bytes) >> PAGE_SHIFT;
 	mask = ~(nr_pages * PAGE_SIZE - 1) & PAGE_MASK;
 
+<<<<<<< HEAD
 	address = max(address & mask, vmf->vma->vm_start);
 	off = ((vmf->address - address) >> PAGE_SHIFT) & (PTRS_PER_PTE - 1);
+=======
+<<<<<<< HEAD
+	address = max(address & mask, vmf->vma->vm_start);
+	off = ((vmf->address - address) >> PAGE_SHIFT) & (PTRS_PER_PTE - 1);
+=======
+	vmf->address = max(address & mask, vmf->vma->vm_start);
+	off = ((address - vmf->address) >> PAGE_SHIFT) & (PTRS_PER_PTE - 1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	start_pgoff -= off;
 
 	/*
@@ -3905,7 +4235,15 @@ static vm_fault_t do_fault_around(struct vm_fault *vmf)
 	 *  the vma or nr_pages from start_pgoff, depending what is nearest.
 	 */
 	end_pgoff = start_pgoff -
+<<<<<<< HEAD
 		((address >> PAGE_SHIFT) & (PTRS_PER_PTE - 1)) +
+=======
+<<<<<<< HEAD
+		((address >> PAGE_SHIFT) & (PTRS_PER_PTE - 1)) +
+=======
+		((vmf->address >> PAGE_SHIFT) & (PTRS_PER_PTE - 1)) +
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		PTRS_PER_PTE - 1;
 	end_pgoff = min3(end_pgoff, vma_pages(vmf->vma) + vmf->vma->vm_pgoff - 1,
 			start_pgoff + nr_pages - 1);
@@ -3913,11 +4251,45 @@ static vm_fault_t do_fault_around(struct vm_fault *vmf)
 	if (pmd_none(*vmf->pmd)) {
 		vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
 		if (!vmf->prealloc_pte)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return VM_FAULT_OOM;
 		smp_wmb(); /* See comment in __pte_alloc() */
 	}
 
 	return vmf->vma->vm_ops->map_pages(vmf, start_pgoff, end_pgoff);
+<<<<<<< HEAD
+=======
+=======
+			goto out;
+		smp_wmb(); /* See comment in __pte_alloc() */
+	}
+
+	vmf->vma->vm_ops->map_pages(vmf, start_pgoff, end_pgoff);
+
+	/* Huge page is mapped? Page fault is solved */
+	if (pmd_trans_huge(*vmf->pmd)) {
+		ret = VM_FAULT_NOPAGE;
+		goto out;
+	}
+
+	/* ->map_pages() haven't done anything useful. Cold page cache? */
+	if (!vmf->pte)
+		goto out;
+
+	/* check if the page fault is solved */
+	vmf->pte -= (vmf->address >> PAGE_SHIFT) - (address >> PAGE_SHIFT);
+	if (!pte_none(*vmf->pte))
+		ret = VM_FAULT_NOPAGE;
+	pte_unmap_unlock(vmf->pte, vmf->ptl);
+out:
+	vmf->address = address;
+	vmf->pte = NULL;
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static vm_fault_t do_read_fault(struct vm_fault *vmf)
@@ -4273,6 +4645,10 @@ static vm_fault_t handle_pte_fault(struct vm_fault *vmf)
 		 */
 		vmf->pte = NULL;
 	} else {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * If a huge pmd materialized under us just retry later.  Use
 		 * pmd_trans_unstable() via pmd_devmap_trans_unstable() instead
@@ -4285,6 +4661,12 @@ static vm_fault_t handle_pte_fault(struct vm_fault *vmf)
 		 * pte_offset_map() and we can do that through an atomic read
 		 * in C, which is what pmd_trans_unstable() provides.
 		 */
+<<<<<<< HEAD
+=======
+=======
+		/* See comment in pte_alloc_one_map() */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pmd_devmap_trans_unstable(vmf->pmd))
 			return 0;
 		/*
@@ -4796,6 +5178,10 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * generic_access_phys - generic implementation for iomem mmap access
  * @vma: the vma to access
@@ -4808,12 +5194,21 @@ out:
  * iomem mapping. This callback is used by access_process_vm() when the @vma is
  * not page based.
  */
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int generic_access_phys(struct vm_area_struct *vma, unsigned long addr,
 			void *buf, int len, int write)
 {
 	resource_size_t phys_addr;
 	unsigned long prot = 0;
 	void __iomem *maddr;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pte_t *ptep, pte;
 	spinlock_t *ptl;
 	int offset = offset_in_page(addr);
@@ -4832,12 +5227,24 @@ retry:
 	phys_addr = (resource_size_t)pte_pfn(pte) << PAGE_SHIFT;
 
 	if ((write & FOLL_WRITE) && !pte_write(pte))
+<<<<<<< HEAD
+=======
+=======
+	int offset = addr & (PAGE_SIZE-1);
+
+	if (follow_phys(vma, addr, write, &prot, &phys_addr))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	maddr = ioremap_prot(phys_addr, PAGE_ALIGN(len + offset), prot);
 	if (!maddr)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (follow_pte(vma->vm_mm, addr, &ptep, &ptl))
 		goto out_unmap;
 
@@ -4848,16 +5255,33 @@ retry:
 		goto retry;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (write)
 		memcpy_toio(maddr + offset, buf, len);
 	else
 		memcpy_fromio(buf, maddr + offset, len);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = len;
 	pte_unmap_unlock(ptep, ptl);
 out_unmap:
 	iounmap(maddr);
 
 	return ret;
+<<<<<<< HEAD
+=======
+=======
+	iounmap(maddr);
+
+	return len;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(generic_access_phys);
 #endif

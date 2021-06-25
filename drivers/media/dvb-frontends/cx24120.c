@@ -363,7 +363,10 @@ static void cx24120_check_cmd(struct cx24120_state *state, u8 id)
 	case CMD_DISEQC_BURST:
 		cx24120_msg_mpeg_output_global_config(state, 0);
 		/* Old driver would do a msleep(100) here */
+<<<<<<< HEAD
 		return;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return;
 	}

@@ -186,7 +186,11 @@ static int rtc_read_alarm_internal(struct rtc_device *rtc,
 
 	if (!rtc->ops) {
 		err = -ENODEV;
+<<<<<<< HEAD
 	} else if (!test_bit(RTC_FEATURE_ALARM, rtc->features) || !rtc->ops->read_alarm) {
+=======
+	} else if (!rtc->ops->read_alarm) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 	} else {
 		alarm->enabled = 0;
@@ -392,7 +396,11 @@ int rtc_read_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
 		return err;
 	if (!rtc->ops) {
 		err = -ENODEV;
+<<<<<<< HEAD
 	} else if (!test_bit(RTC_FEATURE_ALARM, rtc->features) || !rtc->ops->read_alarm) {
+=======
+	} else if (!rtc->ops->read_alarm) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 	} else {
 		memset(alarm, 0, sizeof(struct rtc_wkalrm));
@@ -436,7 +444,11 @@ static int __rtc_set_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
 
 	if (!rtc->ops)
 		err = -ENODEV;
+<<<<<<< HEAD
 	else if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+=======
+	else if (!rtc->ops->set_alarm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 	else
 		err = rtc->ops->set_alarm(rtc->dev.parent, alarm);
@@ -451,7 +463,11 @@ int rtc_set_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
 
 	if (!rtc->ops)
 		return -ENODEV;
+<<<<<<< HEAD
 	else if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+=======
+	else if (!rtc->ops->set_alarm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	err = rtc_valid_tm(&alarm->time);
@@ -531,7 +547,11 @@ int rtc_alarm_irq_enable(struct rtc_device *rtc, unsigned int enabled)
 		/* nothing */;
 	else if (!rtc->ops)
 		err = -ENODEV;
+<<<<<<< HEAD
 	else if (!test_bit(RTC_FEATURE_ALARM, rtc->features) || !rtc->ops->alarm_irq_enable)
+=======
+	else if (!rtc->ops->alarm_irq_enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 	else
 		err = rtc->ops->alarm_irq_enable(rtc->dev.parent, enabled);
@@ -843,7 +863,11 @@ static int rtc_timer_enqueue(struct rtc_device *rtc, struct rtc_timer *timer)
 
 static void rtc_alarm_disable(struct rtc_device *rtc)
 {
+<<<<<<< HEAD
 	if (!rtc->ops || !test_bit(RTC_FEATURE_ALARM, rtc->features) || !rtc->ops->alarm_irq_enable)
+=======
+	if (!rtc->ops || !rtc->ops->alarm_irq_enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	rtc->ops->alarm_irq_enable(rtc->dev.parent, false);

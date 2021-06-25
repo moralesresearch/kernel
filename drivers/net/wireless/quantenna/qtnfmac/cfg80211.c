@@ -180,7 +180,11 @@ int qtnf_del_virtual_intf(struct wiphy *wiphy, struct wireless_dev *wdev)
 	cancel_work_sync(&vif->high_pri_tx_work);
 
 	if (netdev->reg_state == NETREG_REGISTERED)
+<<<<<<< HEAD
 		cfg80211_unregister_netdevice(netdev);
+=======
+		unregister_netdevice(netdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (qtnf_cmd_send_del_intf(vif))
 		pr_err("VIF%u.%u: failed to delete VIF\n", vif->mac->macid,
@@ -267,7 +271,11 @@ static struct wireless_dev *qtnf_add_virtual_intf(struct wiphy *wiphy,
 	if (qtnf_hwcap_is_set(&mac->bus->hw_info, QLINK_HW_CAPAB_HW_BRIDGE)) {
 		ret = qtnf_cmd_netdev_changeupper(vif, vif->netdev->ifindex);
 		if (ret) {
+<<<<<<< HEAD
 			cfg80211_unregister_netdevice(vif->netdev);
+=======
+			unregister_netdevice(vif->netdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			vif->netdev = NULL;
 			goto error_del_vif;
 		}

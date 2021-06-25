@@ -46,6 +46,10 @@
 #include <drm/ttm/ttm_bo_api.h>
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <drm/drm_debugfs.h>
 #include <drm/amdgpu_drm.h>
@@ -267,7 +271,11 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
 	*addr += offset & ~PAGE_MASK;
 
 	num_dw = ALIGN(adev->mman.buffer_funcs->copy_num_dw, 8);
+<<<<<<< HEAD
 	num_bytes = num_pages * 8 * AMDGPU_GPU_PAGES_IN_CPU_PAGE;
+=======
+	num_bytes = num_pages * 8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	r = amdgpu_job_alloc_with_ib(adev, num_dw * 4 + num_bytes,
 				     AMDGPU_IB_POOL_DELAYED, &job);
@@ -636,7 +644,11 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
 
 out:
 	/* update statistics */
+<<<<<<< HEAD
 	atomic64_add(bo->base.size, &adev->num_bytes_moved);
+=======
+	atomic64_add((u64)bo->num_pages << PAGE_SHIFT, &adev->num_bytes_moved);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amdgpu_bo_move_notify(bo, evict, new_mem);
 	return 0;
 }
@@ -906,7 +918,11 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_bo_device *bdev,
 
 	/* Allocate an SG array and squash pages into it */
 	r = sg_alloc_table_from_pages(ttm->sg, ttm->pages, ttm->num_pages, 0,
+<<<<<<< HEAD
 				      (u64)ttm->num_pages << PAGE_SHIFT,
+=======
+				      ttm->num_pages << PAGE_SHIFT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      GFP_KERNEL);
 	if (r)
 		goto release_sg;
@@ -917,8 +933,13 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_bo_device *bdev,
 		goto release_sg;
 
 	/* convert SG to linear array of pages and dma addresses */
+<<<<<<< HEAD
 	drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
 				       ttm->num_pages);
+=======
+	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+					 gtt->ttm.dma_address, ttm->num_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -942,7 +963,11 @@ static void amdgpu_ttm_tt_unpin_userptr(struct ttm_bo_device *bdev,
 		DMA_BIDIRECTIONAL : DMA_TO_DEVICE;
 
 	/* double check that we don't free the table twice */
+<<<<<<< HEAD
 	if (!ttm->sg || !ttm->sg->sgl)
+=======
+	if (!ttm->sg->sgl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	/* unmap the pages mapped to the device */
@@ -1162,13 +1187,22 @@ static void amdgpu_ttm_backend_unbind(struct ttm_bo_device *bdev,
 	struct amdgpu_ttm_tt *gtt = (void *)ttm;
 	int r;
 
+<<<<<<< HEAD
+=======
+	if (!gtt->bound)
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* if the pages have userptr pinning then clear that first */
 	if (gtt->userptr)
 		amdgpu_ttm_tt_unpin_userptr(bdev, ttm);
 
+<<<<<<< HEAD
 	if (!gtt->bound)
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gtt->offset == AMDGPU_BO_INVALID_OFFSET)
 		return;
 
@@ -1264,8 +1298,14 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_device *bdev,
 			ttm->sg = sgt;
 		}
 
+<<<<<<< HEAD
 		drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
 					       ttm->num_pages);
+=======
+		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+						 gtt->ttm.dma_address,
+						 ttm->num_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -1287,6 +1327,10 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_bo_device *bdev,
 	if (gtt && gtt->userptr) {
 		amdgpu_ttm_tt_set_user_pages(ttm, NULL);
 		kfree(ttm->sg);
+<<<<<<< HEAD
+		ttm->sg = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
 		return;
 	}
@@ -2122,7 +2166,11 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
 			return r;
 	}
 
+<<<<<<< HEAD
 	num_pages = bo->tbo.mem.num_pages;
+=======
+	num_pages = bo->tbo.num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mm_node = bo->tbo.mem.mm_node;
 	num_loops = 0;
 	while (num_pages) {
@@ -2152,7 +2200,11 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
 		}
 	}
 
+<<<<<<< HEAD
 	num_pages = bo->tbo.mem.num_pages;
+=======
+	num_pages = bo->tbo.num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mm_node = bo->tbo.mem.mm_node;
 
 	while (num_pages) {

@@ -343,6 +343,10 @@ static int cti_plat_create_connection(struct device *dev,
 {
 	struct cti_trig_con *tc = NULL;
 	int cpuid = -1, err = 0;
+<<<<<<< HEAD
+=======
+	struct fwnode_handle *cs_fwnode = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct coresight_device *csdev = NULL;
 	const char *assoc_name = "unknown";
 	char cpu_name_str[16];
@@ -396,9 +400,14 @@ static int cti_plat_create_connection(struct device *dev,
 		assoc_name = cpu_name_str;
 	} else {
 		/* associated device ? */
+<<<<<<< HEAD
 		struct fwnode_handle *cs_fwnode = fwnode_find_reference(fwnode,
 									CTI_DT_CSDEV_ASSOC,
 									0);
+=======
+		cs_fwnode = fwnode_find_reference(fwnode,
+						  CTI_DT_CSDEV_ASSOC, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!IS_ERR(cs_fwnode)) {
 			assoc_name = cti_plat_get_csdev_or_node_name(cs_fwnode,
 								     &csdev);

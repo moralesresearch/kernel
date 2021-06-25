@@ -1216,7 +1216,11 @@ static void hv_irq_unmask(struct irq_data *data)
 	params = &hbus->retarget_msi_interrupt_params;
 	memset(params, 0, sizeof(*params));
 	params->partition_id = HV_PARTITION_ID_SELF;
+<<<<<<< HEAD
 	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
+=======
+	params->int_entry.source = 1; /* MSI(-X) */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hv_set_msi_entry_from_desc(&params->int_entry.msi_entry, msi_desc);
 	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
 			   (hbus->hdev->dev_instance.b[4] << 16) |
@@ -1714,7 +1718,11 @@ static void prepopulate_bars(struct hv_pcibus_device *hbus)
 	 * resumed and suspended again: see hibernation_snapshot() and
 	 * hibernation_platform_enter().
 	 *
+<<<<<<< HEAD
 	 * If the memory enable bit is already set, Hyper-V silently ignores
+=======
+	 * If the memory enable bit is already set, Hyper-V sliently ignores
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * the below BAR updates, and the related PCI device driver can not
 	 * work, because reading from the device register(s) always returns
 	 * 0xFFFFFFFF.

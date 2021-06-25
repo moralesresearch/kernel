@@ -158,7 +158,15 @@ static int __tcf_action_put(struct tc_action *p, bool bind)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int __tcf_idr_release(struct tc_action *p, bool bind, bool strict)
+=======
+<<<<<<< HEAD
+static int __tcf_idr_release(struct tc_action *p, bool bind, bool strict)
+=======
+int __tcf_idr_release(struct tc_action *p, bool bind, bool strict)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0;
 
@@ -184,6 +192,10 @@ static int __tcf_idr_release(struct tc_action *p, bool bind, bool strict)
 
 	return ret;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int tcf_idr_release(struct tc_action *a, bool bind)
 {
@@ -196,6 +208,12 @@ int tcf_idr_release(struct tc_action *a, bool bind)
 	return ret;
 }
 EXPORT_SYMBOL(tcf_idr_release);
+<<<<<<< HEAD
+=======
+=======
+EXPORT_SYMBOL(__tcf_idr_release);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static size_t tcf_action_shared_attrs_size(const struct tc_action *act)
 {
@@ -504,7 +522,14 @@ int tcf_idr_create(struct tc_action_net *tn, u32 index, struct nlattr *est,
 	}
 
 	p->idrinfo = idrinfo;
+<<<<<<< HEAD
 	__module_get(ops->owner);
+=======
+<<<<<<< HEAD
+	__module_get(ops->owner);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	p->ops = ops;
 	*a = p;
 	return 0;
@@ -1004,8 +1029,17 @@ struct tc_action_ops *tc_action_load_ops(char *name, struct nlattr *nla,
 struct tc_action *tcf_action_init_1(struct net *net, struct tcf_proto *tp,
 				    struct nlattr *nla, struct nlattr *est,
 				    char *name, int ovr, int bind,
+<<<<<<< HEAD
 				    struct tc_action_ops *a_o, int *init_res,
 				    bool rtnl_held,
+=======
+<<<<<<< HEAD
+				    struct tc_action_ops *a_o, int *init_res,
+				    bool rtnl_held,
+=======
+				    struct tc_action_ops *a_o, bool rtnl_held,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    struct netlink_ext_ack *extack)
 {
 	struct nla_bitfield32 flags = { 0, 0 };
@@ -1041,7 +1075,14 @@ struct tc_action *tcf_action_init_1(struct net *net, struct tcf_proto *tp,
 	}
 	if (err < 0)
 		goto err_out;
+<<<<<<< HEAD
 	*init_res = err;
+=======
+<<<<<<< HEAD
+	*init_res = err;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!name && tb[TCA_ACT_COOKIE])
 		tcf_set_action_cookie(&a->act_cookie, cookie);
@@ -1049,6 +1090,19 @@ struct tc_action *tcf_action_init_1(struct net *net, struct tcf_proto *tp,
 	if (!name)
 		a->hw_stats = hw_stats;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* module count goes up only when brand new policy is created
+	 * if it exists and is only bound to in a_o->init() then
+	 * ACT_P_CREATED is not returned (a zero is).
+	 */
+	if (err != ACT_P_CREATED)
+		module_put(a_o->owner);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return a;
 
 err_out:
@@ -1063,7 +1117,15 @@ err_out:
 
 int tcf_action_init(struct net *net, struct tcf_proto *tp, struct nlattr *nla,
 		    struct nlattr *est, char *name, int ovr, int bind,
+<<<<<<< HEAD
 		    struct tc_action *actions[], int init_res[], size_t *attr_size,
+=======
+<<<<<<< HEAD
+		    struct tc_action *actions[], int init_res[], size_t *attr_size,
+=======
+		    struct tc_action *actions[], size_t *attr_size,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    bool rtnl_held, struct netlink_ext_ack *extack)
 {
 	struct tc_action_ops *ops[TCA_ACT_MAX_PRIO] = {};
@@ -1091,8 +1153,17 @@ int tcf_action_init(struct net *net, struct tcf_proto *tp, struct nlattr *nla,
 
 	for (i = 1; i <= TCA_ACT_MAX_PRIO && tb[i]; i++) {
 		act = tcf_action_init_1(net, tp, tb[i], est, name, ovr, bind,
+<<<<<<< HEAD
 					ops[i - 1], &init_res[i - 1], rtnl_held,
 					extack);
+=======
+<<<<<<< HEAD
+					ops[i - 1], &init_res[i - 1], rtnl_held,
+					extack);
+=======
+					ops[i - 1], rtnl_held, extack);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ERR(act)) {
 			err = PTR_ERR(act);
 			goto err;
@@ -1108,8 +1179,17 @@ int tcf_action_init(struct net *net, struct tcf_proto *tp, struct nlattr *nla,
 	tcf_idr_insert_many(actions);
 
 	*attr_size = tcf_action_full_attrs_size(sz);
+<<<<<<< HEAD
 	err = i - 1;
 	goto err_mod;
+=======
+<<<<<<< HEAD
+	err = i - 1;
+	goto err_mod;
+=======
+	return i - 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 err:
 	tcf_action_destroy(actions, bind);
@@ -1506,6 +1586,10 @@ static int tcf_action_add(struct net *net, struct nlattr *nla,
 			  struct netlink_ext_ack *extack)
 {
 	size_t attr_size = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int loop, ret, i;
 	struct tc_action *actions[TCA_ACT_MAX_PRIO] = {};
 	int init_res[TCA_ACT_MAX_PRIO] = {};
@@ -1513,6 +1597,17 @@ static int tcf_action_add(struct net *net, struct nlattr *nla,
 	for (loop = 0; loop < 10; loop++) {
 		ret = tcf_action_init(net, NULL, nla, NULL, NULL, ovr, 0,
 				      actions, init_res, &attr_size, true, extack);
+<<<<<<< HEAD
+=======
+=======
+	int loop, ret;
+	struct tc_action *actions[TCA_ACT_MAX_PRIO] = {};
+
+	for (loop = 0; loop < 10; loop++) {
+		ret = tcf_action_init(net, NULL, nla, NULL, NULL, ovr, 0,
+				      actions, &attr_size, true, extack);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret != -EAGAIN)
 			break;
 	}
@@ -1520,12 +1615,23 @@ static int tcf_action_add(struct net *net, struct nlattr *nla,
 	if (ret < 0)
 		return ret;
 	ret = tcf_add_notify(net, n, actions, portid, attr_size, extack);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* only put existing actions */
 	for (i = 0; i < TCA_ACT_MAX_PRIO; i++)
 		if (init_res[i] == ACT_P_CREATED)
 			actions[i] = NULL;
 	tcf_action_put_many(actions);
+<<<<<<< HEAD
+=======
+=======
+	if (ovr)
+		tcf_action_put_many(actions);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }

@@ -13,7 +13,10 @@
 
 #include "ipa_cmd.h"
 
+<<<<<<< HEAD
 struct page;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct scatterlist;
 struct device;
 struct sk_buff;

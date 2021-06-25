@@ -431,17 +431,28 @@ Request contents:
   ``ETHTOOL_A_LINKMODES_SPEED``               u32     link speed (Mb/s)
   ``ETHTOOL_A_LINKMODES_DUPLEX``              u8      duplex mode
   ``ETHTOOL_A_LINKMODES_MASTER_SLAVE_CFG``    u8      Master/slave port mode
+<<<<<<< HEAD
   ``ETHTOOL_A_LINKMODES_LANES``               u32     lanes
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   ==========================================  ======  ==========================
 
 ``ETHTOOL_A_LINKMODES_OURS`` bit set allows setting advertised link modes. If
 autonegotiation is on (either set now or kept from before), advertised modes
 are not changed (no ``ETHTOOL_A_LINKMODES_OURS`` attribute) and at least one
+<<<<<<< HEAD
 of speed, duplex and lanes is specified, kernel adjusts advertised modes to all
 supported modes matching speed, duplex, lanes or all (whatever is specified).
 This autoselection is done on ethtool side with ioctl interface, netlink
 interface is supposed to allow requesting changes without knowing what exactly
 kernel supports.
+=======
+of speed and duplex is specified, kernel adjusts advertised modes to all
+supported modes matching speed, duplex or both (whatever is specified). This
+autoselection is done on ethtool side with ioctl interface, netlink interface
+is supposed to allow requesting changes without knowing what exactly kernel
+supports.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 LINKSTATE_GET
@@ -976,9 +987,15 @@ constraints on coalescing parameters and their values.
 
 
 PAUSE_GET
+<<<<<<< HEAD
 =========
 
 Gets pause frame settings like ``ETHTOOL_GPAUSEPARAM`` ioctl request.
+=======
+============
+
+Gets channel counts like ``ETHTOOL_GPAUSE`` ioctl request.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Request contents:
 
@@ -1007,7 +1024,11 @@ the statistics in the following structure:
 Each member has a corresponding attribute defined.
 
 PAUSE_SET
+<<<<<<< HEAD
 =========
+=======
+============
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Sets pause parameters like ``ETHTOOL_GPAUSEPARAM`` ioctl request.
 
@@ -1024,7 +1045,11 @@ Request contents:
 EEE_GET
 =======
 
+<<<<<<< HEAD
 Gets Energy Efficient Ethernet settings like ``ETHTOOL_GEEE`` ioctl request.
+=======
+Gets channel counts like ``ETHTOOL_GEEE`` ioctl request.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Request contents:
 
@@ -1054,7 +1079,11 @@ first 32 are provided by the ``ethtool_ops`` callback.
 EEE_SET
 =======
 
+<<<<<<< HEAD
 Sets Energy Efficient Ethernet parameters like ``ETHTOOL_SEEE`` ioctl request.
+=======
+Sets pause parameters like ``ETHTOOL_GEEEPARAM`` ioctl request.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Request contents:
 

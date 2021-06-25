@@ -147,10 +147,15 @@ void imx_cscmr1_fixup(u32 *val)
 }
 
 #ifndef MODULE
+<<<<<<< HEAD
 
 static bool imx_keep_uart_clocks;
 static int imx_enabled_uart_clocks;
 static struct clk **imx_uart_clocks;
+=======
+static int imx_keep_uart_clocks;
+static struct clk ** const *imx_uart_clocks;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __init imx_keep_uart_clocks_param(char *str)
 {
@@ -163,6 +168,7 @@ __setup_param("earlycon", imx_keep_uart_earlycon,
 __setup_param("earlyprintk", imx_keep_uart_earlyprintk,
 	      imx_keep_uart_clocks_param, 0);
 
+<<<<<<< HEAD
 void imx_register_uart_clocks(unsigned int clk_count)
 {
 	imx_enabled_uart_clocks = 0;
@@ -190,10 +196,22 @@ void imx_register_uart_clocks(unsigned int clk_count)
 		}
 	}
 #endif
+=======
+void imx_register_uart_clocks(struct clk ** const clks[])
+{
+	if (imx_keep_uart_clocks) {
+		int i;
+
+		imx_uart_clocks = clks;
+		for (i = 0; imx_uart_clocks[i]; i++)
+			clk_prepare_enable(*imx_uart_clocks[i]);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __init imx_clk_disable_uart(void)
 {
+<<<<<<< HEAD
 	if (imx_keep_uart_clocks && imx_enabled_uart_clocks) {
 		int i;
 
@@ -202,6 +220,13 @@ static int __init imx_clk_disable_uart(void)
 			clk_put(imx_uart_clocks[i]);
 		}
 		kfree(imx_uart_clocks);
+=======
+	if (imx_keep_uart_clocks && imx_uart_clocks) {
+		int i;
+
+		for (i = 0; imx_uart_clocks[i]; i++)
+			clk_disable_unprepare(*imx_uart_clocks[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

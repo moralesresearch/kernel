@@ -3,7 +3,11 @@
  *
  * Module Name: exresop - AML Interpreter operand/object resolution
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -198,7 +202,11 @@ acpi_ex_resolve_operands(u16 opcode,
 
 					target_op = AML_DEBUG_OP;
 
+<<<<<<< HEAD
 					ACPI_FALLTHROUGH;
+=======
+					/*lint -fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				case ACPI_REFCLASS_ARG:
 				case ACPI_REFCLASS_LOCAL:
@@ -264,7 +272,11 @@ acpi_ex_resolve_operands(u16 opcode,
 			 * Else not a string - fall through to the normal Reference
 			 * case below
 			 */
+<<<<<<< HEAD
 			ACPI_FALLTHROUGH;
+=======
+			/*lint -fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		case ARGI_REFERENCE:	/* References: */
 		case ARGI_INTEGER_REF:

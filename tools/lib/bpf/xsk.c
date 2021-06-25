@@ -46,11 +46,20 @@
  #define PF_XDP AF_XDP
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum xsk_prog {
 	XSK_PROG_FALLBACK,
 	XSK_PROG_REDIRECT_FLAGS,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct xsk_umem {
 	struct xsk_ring_prod *fill_save;
 	struct xsk_ring_cons *comp_save;
@@ -59,8 +68,16 @@ struct xsk_umem {
 	int fd;
 	int refcount;
 	struct list_head ctx_list;
+<<<<<<< HEAD
 	bool rx_ring_setup_done;
 	bool tx_ring_setup_done;
+=======
+<<<<<<< HEAD
+	bool rx_ring_setup_done;
+	bool tx_ring_setup_done;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct xsk_ctx {
@@ -358,6 +375,10 @@ int xsk_umem__create_v0_0_2(struct xsk_umem **umem_ptr, void *umem_area,
 COMPAT_VERSION(xsk_umem__create_v0_0_2, xsk_umem__create, LIBBPF_0.0.2)
 DEFAULT_VERSION(xsk_umem__create_v0_0_4, xsk_umem__create, LIBBPF_0.0.4)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum xsk_prog get_xsk_prog(void)
 {
 	enum xsk_prog detected = XSK_PROG_FALLBACK;
@@ -406,6 +427,11 @@ static enum xsk_prog get_xsk_prog(void)
 	return detected;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int xsk_load_xdp_prog(struct xsk_socket *xsk)
 {
 	static const int log_buf_size = 16 * 1024;
@@ -413,7 +439,15 @@ static int xsk_load_xdp_prog(struct xsk_socket *xsk)
 	char log_buf[log_buf_size];
 	int err, prog_fd;
 
+<<<<<<< HEAD
 	/* This is the fallback C-program:
+=======
+<<<<<<< HEAD
+	/* This is the fallback C-program:
+=======
+	/* This is the C-program:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
 	 * {
 	 *     int ret, index = ctx->rx_queue_index;
@@ -469,6 +503,10 @@ static int xsk_load_xdp_prog(struct xsk_socket *xsk)
 		/* The jumps are to this instruction */
 		BPF_EXIT_INSN(),
 	};
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* This is the post-5.3 kernel C-program:
 	 * SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
@@ -494,6 +532,14 @@ static int xsk_load_xdp_prog(struct xsk_socket *xsk)
 	enum xsk_prog option = get_xsk_prog();
 
 	prog_fd = bpf_load_program(BPF_PROG_TYPE_XDP, progs[option], insns_cnt[option],
+<<<<<<< HEAD
+=======
+=======
+	size_t insns_cnt = sizeof(prog) / sizeof(struct bpf_insn);
+
+	prog_fd = bpf_load_program(BPF_PROG_TYPE_XDP, prog, insns_cnt,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   "LGPL-2.1 or BSD-2-Clause", 0, log_buf,
 				   log_buf_size);
 	if (prog_fd < 0) {
@@ -519,7 +565,15 @@ static int xsk_get_max_queues(struct xsk_socket *xsk)
 	struct ifreq ifr = {};
 	int fd, err, ret;
 
+<<<<<<< HEAD
 	fd = socket(AF_LOCAL, SOCK_DGRAM, 0);
+=======
+<<<<<<< HEAD
+	fd = socket(AF_LOCAL, SOCK_DGRAM, 0);
+=======
+	fd = socket(AF_INET, SOCK_DGRAM, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fd < 0)
 		return -errno;
 
@@ -745,12 +799,24 @@ static struct xsk_ctx *xsk_get_ctx(struct xsk_umem *umem, int ifindex,
 	return NULL;
 }
 
+<<<<<<< HEAD
 static void xsk_put_ctx(struct xsk_ctx *ctx, bool unmap)
+=======
+<<<<<<< HEAD
+static void xsk_put_ctx(struct xsk_ctx *ctx, bool unmap)
+=======
+static void xsk_put_ctx(struct xsk_ctx *ctx)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct xsk_umem *umem = ctx->umem;
 	struct xdp_mmap_offsets off;
 	int err;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (--ctx->refcount)
 		return;
 
@@ -769,6 +835,25 @@ static void xsk_put_ctx(struct xsk_ctx *ctx, bool unmap)
 out_free:
 	list_del(&ctx->list);
 	free(ctx);
+<<<<<<< HEAD
+=======
+=======
+	if (--ctx->refcount == 0) {
+		err = xsk_get_mmap_offsets(umem->fd, &off);
+		if (!err) {
+			munmap(ctx->fill->ring - off.fr.desc,
+			       off.fr.desc + umem->config.fill_size *
+			       sizeof(__u64));
+			munmap(ctx->comp->ring - off.cr.desc,
+			       off.cr.desc + umem->config.comp_size *
+			       sizeof(__u64));
+		}
+
+		list_del(&ctx->list);
+		free(ctx);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct xsk_ctx *xsk_create_ctx(struct xsk_socket *xsk,
@@ -803,6 +888,14 @@ static struct xsk_ctx *xsk_create_ctx(struct xsk_socket *xsk,
 	memcpy(ctx->ifname, ifname, IFNAMSIZ - 1);
 	ctx->ifname[IFNAMSIZ - 1] = '\0';
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	umem->fill_save = NULL;
+	umem->comp_save = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx->fill = fill;
 	ctx->comp = comp;
 	list_add(&ctx->list, &umem->ctx_list);
@@ -852,7 +945,14 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 			      struct xsk_ring_cons *comp,
 			      const struct xsk_socket_config *usr_config)
 {
+<<<<<<< HEAD
 	bool unmap, rx_setup_done = false, tx_setup_done = false;
+=======
+<<<<<<< HEAD
+	bool unmap, rx_setup_done = false, tx_setup_done = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *rx_map = NULL, *tx_map = NULL;
 	struct sockaddr_xdp sxdp = {};
 	struct xdp_mmap_offsets off;
@@ -863,8 +963,16 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 	if (!umem || !xsk_ptr || !(rx || tx))
 		return -EFAULT;
 
+<<<<<<< HEAD
 	unmap = umem->fill_save != fill;
 
+=======
+<<<<<<< HEAD
+	unmap = umem->fill_save != fill;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xsk = calloc(1, sizeof(*xsk));
 	if (!xsk)
 		return -ENOMEM;
@@ -888,8 +996,16 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 		}
 	} else {
 		xsk->fd = umem->fd;
+<<<<<<< HEAD
 		rx_setup_done = umem->rx_ring_setup_done;
 		tx_setup_done = umem->tx_ring_setup_done;
+=======
+<<<<<<< HEAD
+		rx_setup_done = umem->rx_ring_setup_done;
+		tx_setup_done = umem->tx_ring_setup_done;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ctx = xsk_get_ctx(umem, ifindex, queue_id);
@@ -908,7 +1024,15 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 	}
 	xsk->ctx = ctx;
 
+<<<<<<< HEAD
 	if (rx && !rx_setup_done) {
+=======
+<<<<<<< HEAD
+	if (rx && !rx_setup_done) {
+=======
+	if (rx) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = setsockopt(xsk->fd, SOL_XDP, XDP_RX_RING,
 				 &xsk->config.rx_size,
 				 sizeof(xsk->config.rx_size));
@@ -916,10 +1040,21 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 			err = -errno;
 			goto out_put_ctx;
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (xsk->fd == umem->fd)
 			umem->rx_ring_setup_done = true;
 	}
 	if (tx && !tx_setup_done) {
+<<<<<<< HEAD
+=======
+=======
+	}
+	if (tx) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = setsockopt(xsk->fd, SOL_XDP, XDP_TX_RING,
 				 &xsk->config.tx_size,
 				 sizeof(xsk->config.tx_size));
@@ -927,8 +1062,16 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 			err = -errno;
 			goto out_put_ctx;
 		}
+<<<<<<< HEAD
+		if (xsk->fd == umem->fd)
+			umem->tx_ring_setup_done = true;
+=======
+<<<<<<< HEAD
 		if (xsk->fd == umem->fd)
 			umem->rx_ring_setup_done = true;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	err = xsk_get_mmap_offsets(xsk->fd, &off);
@@ -1007,8 +1150,16 @@ int xsk_socket__create_shared(struct xsk_socket **xsk_ptr,
 	}
 
 	*xsk_ptr = xsk;
+<<<<<<< HEAD
 	umem->fill_save = NULL;
 	umem->comp_save = NULL;
+=======
+<<<<<<< HEAD
+	umem->fill_save = NULL;
+	umem->comp_save = NULL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 out_mmap_tx:
@@ -1020,7 +1171,15 @@ out_mmap_rx:
 		munmap(rx_map, off.rx.desc +
 		       xsk->config.rx_size * sizeof(struct xdp_desc));
 out_put_ctx:
+<<<<<<< HEAD
 	xsk_put_ctx(ctx, unmap);
+=======
+<<<<<<< HEAD
+	xsk_put_ctx(ctx, unmap);
+=======
+	xsk_put_ctx(ctx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_socket:
 	if (--umem->refcount)
 		close(xsk->fd);
@@ -1034,9 +1193,18 @@ int xsk_socket__create(struct xsk_socket **xsk_ptr, const char *ifname,
 		       struct xsk_ring_cons *rx, struct xsk_ring_prod *tx,
 		       const struct xsk_socket_config *usr_config)
 {
+<<<<<<< HEAD
 	if (!umem)
 		return -EFAULT;
 
+=======
+<<<<<<< HEAD
+	if (!umem)
+		return -EFAULT;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return xsk_socket__create_shared(xsk_ptr, ifname, queue_id, umem,
 					 rx, tx, umem->fill_save,
 					 umem->comp_save, usr_config);
@@ -1086,7 +1254,15 @@ void xsk_socket__delete(struct xsk_socket *xsk)
 		}
 	}
 
+<<<<<<< HEAD
 	xsk_put_ctx(ctx, true);
+=======
+<<<<<<< HEAD
+	xsk_put_ctx(ctx, true);
+=======
+	xsk_put_ctx(ctx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	umem->refcount--;
 	/* Do not close an fd that also has an associated umem connected

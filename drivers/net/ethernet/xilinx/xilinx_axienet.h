@@ -339,10 +339,13 @@
 
 #define DELAY_OF_ONE_MILLISEC		1000
 
+<<<<<<< HEAD
 /* Xilinx PCS/PMA PHY register for switching 1000BaseX or SGMII */
 #define XLNX_MII_STD_SELECT_REG		0x11
 #define XLNX_MII_STD_SELECT_SGMII	BIT(0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct axidma_bd - Axi Dma buffer descriptor layout
  * @next:         MM2S/S2MM Next Descriptor Pointer
@@ -381,16 +384,20 @@ struct axidma_bd {
  * @ndev:	Pointer for net_device to which it will be attached.
  * @dev:	Pointer to device structure
  * @phy_node:	Pointer to device node structure
+<<<<<<< HEAD
  * @phylink:	Pointer to phylink instance
  * @phylink_config: phylink configuration settings
  * @pcs_phy:	Reference to PCS/PMA PHY if used
  * @switch_x_sgmii: Whether switchable 1000BaseX/SGMII mode is enabled in the core
  * @clk:	Clock for AXI bus
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @mii_bus:	Pointer to MII bus structure
  * @mii_clk_div: MII bus clock divider value
  * @regs_start: Resource start for axienet device addresses
  * @regs:	Base address for the axienet_local device address space
  * @dma_regs:	Base address for the axidma device address space
+<<<<<<< HEAD
  * @dma_err_task: Work structure to process Axi DMA errors
  * @tx_irq:	Axidma TX IRQ number
  * @rx_irq:	Axidma RX IRQ number
@@ -404,6 +411,19 @@ struct axidma_bd {
  * @rx_bd_v:	Virtual address of the RX buffer descriptor ring
  * @rx_bd_p:	Physical address(start address) of the RX buffer descr. ring
  * @rx_bd_num:	Size of RX buffer descriptor ring
+=======
+ * @dma_err_tasklet: Tasklet structure to process Axi DMA errors
+ * @tx_irq:	Axidma TX IRQ number
+ * @rx_irq:	Axidma RX IRQ number
+ * @phy_mode:	Phy type to identify between MII/GMII/RGMII/SGMII/1000 Base-X
+ * @options:	AxiEthernet option word
+ * @last_link:	Phy link state in which the PHY was negotiated earlier
+ * @features:	Stores the extended features supported by the axienet hw
+ * @tx_bd_v:	Virtual address of the TX buffer descriptor ring
+ * @tx_bd_p:	Physical address(start address) of the TX buffer descr. ring
+ * @rx_bd_v:	Virtual address of the RX buffer descriptor ring
+ * @rx_bd_p:	Physical address(start address) of the RX buffer descr. ring
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @tx_bd_ci:	Stores the index of the Tx buffer descriptor in the ring being
  *		accessed currently. Used while alloc. BDs before a TX starts
  * @tx_bd_tail:	Stores the index of the Tx buffer descriptor in the ring being
@@ -425,11 +445,16 @@ struct axienet_local {
 	struct net_device *ndev;
 	struct device *dev;
 
+<<<<<<< HEAD
+=======
+	/* Connection to PHY device */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_node *phy_node;
 
 	struct phylink *phylink;
 	struct phylink_config phylink_config;
 
+<<<<<<< HEAD
 	struct mdio_device *pcs_phy;
 
 	bool switch_x_sgmii;
@@ -439,6 +464,19 @@ struct axienet_local {
 	struct mii_bus *mii_bus;
 	u8 mii_clk_div;
 
+=======
+	/* Reference to PCS/PMA PHY if used */
+	struct mdio_device *pcs_phy;
+
+	/* Clock for AXI bus */
+	struct clk *clk;
+
+	/* MDIO bus data */
+	struct mii_bus *mii_bus;	/* MII bus reference */
+	u8 mii_clk_div; /* MII bus clock divider value */
+
+	/* IO registers, dma functions and IRQs */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	resource_size_t regs_start;
 	void __iomem *regs;
 	void __iomem *dma_regs;
@@ -450,9 +488,16 @@ struct axienet_local {
 	int eth_irq;
 	phy_interface_t phy_mode;
 
+<<<<<<< HEAD
 	u32 options;
 	u32 features;
 
+=======
+	u32 options;			/* Current options word */
+	u32 features;
+
+	/* Buffer descriptors */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct axidma_bd *tx_bd_v;
 	dma_addr_t tx_bd_p;
 	u32 tx_bd_num;
@@ -504,6 +549,7 @@ static inline u32 axinet_ior_read_mcr(struct axienet_local *lp)
 	return axienet_ior(lp, XAE_MDIO_MCR_OFFSET);
 }
 
+<<<<<<< HEAD
 static inline void axienet_lock_mii(struct axienet_local *lp)
 {
 	if (lp->mii_bus)
@@ -516,6 +562,8 @@ static inline void axienet_unlock_mii(struct axienet_local *lp)
 		mutex_unlock(&lp->mii_bus->mdio_lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * axienet_iow - Memory mapped Axi Ethernet register write
  * @lp:         Pointer to axienet local structure

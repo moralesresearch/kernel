@@ -403,7 +403,14 @@ __poll_t tcp_poll(struct file *file, struct socket *sock,
 		      struct poll_table_struct *wait);
 int tcp_getsockopt(struct sock *sk, int level, int optname,
 		   char __user *optval, int __user *optlen);
+<<<<<<< HEAD
 bool tcp_bpf_bypass_getsockopt(int level, int optname);
+=======
+<<<<<<< HEAD
+bool tcp_bpf_bypass_getsockopt(int level, int optname);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int tcp_setsockopt(struct sock *sk, int level, int optname, sockptr_t optval,
 		   unsigned int optlen);
 void tcp_set_keepalive(struct sock *sk, int val);
@@ -1443,6 +1450,10 @@ static inline bool tcp_rmem_pressure(const struct sock *sk)
 	return atomic_read(&sk->sk_rmem_alloc) > threshold;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool tcp_epollin_ready(const struct sock *sk, int target)
 {
 	const struct tcp_sock *tp = tcp_sk(sk);
@@ -1455,6 +1466,11 @@ static inline bool tcp_epollin_ready(const struct sock *sk, int target)
 	       (tcp_receive_window(tp) <= inet_csk(sk)->icsk_ack.rcv_mss);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void tcp_openreq_init_rwin(struct request_sock *req,
 				  const struct sock *sk_listener,
 				  const struct dst_entry *dst);

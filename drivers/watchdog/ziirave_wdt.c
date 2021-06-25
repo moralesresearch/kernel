@@ -18,6 +18,10 @@
 #include <linux/slab.h>
 #include <linux/sysfs.h>
 #include <linux/types.h>
+<<<<<<< HEAD
+=======
+#include <linux/version.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/watchdog.h>
 
 #include <asm/unaligned.h>

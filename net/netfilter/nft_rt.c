@@ -15,7 +15,11 @@
 
 struct nft_rt {
 	enum nft_rt_keys	key:8;
+<<<<<<< HEAD
 	u8			dreg;
+=======
+	enum nft_registers	dreg:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static u16 get_tcpmss(const struct nft_pktinfo *pkt, const struct dst_entry *skbdst)
@@ -141,8 +145,14 @@ static int nft_rt_get_init(const struct nft_ctx *ctx,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
 	return nft_parse_register_store(ctx, tb[NFTA_RT_DREG], &priv->dreg,
 					NULL, NFT_DATA_VALUE, len);
+=======
+	priv->dreg = nft_parse_register(tb[NFTA_RT_DREG]);
+	return nft_validate_register_store(ctx, priv->dreg, NULL,
+					   NFT_DATA_VALUE, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nft_rt_get_dump(struct sk_buff *skb,

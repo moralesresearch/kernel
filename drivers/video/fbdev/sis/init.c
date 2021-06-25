@@ -2648,7 +2648,11 @@ static void
 SiS_SetCRT1ModeRegs(struct SiS_Private *SiS_Pr, unsigned short ModeNo,
 		unsigned short ModeIdIndex, unsigned short RRTI)
 {
+<<<<<<< HEAD
    unsigned short data, infoflag = 0, modeflag;
+=======
+   unsigned short data, infoflag = 0, modeflag, resindex;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_FB_SIS_315
    unsigned char  *ROMAddr  = SiS_Pr->VirtualRomBase;
    unsigned short data2, data3;
@@ -2659,6 +2663,10 @@ SiS_SetCRT1ModeRegs(struct SiS_Private *SiS_Pr, unsigned short ModeNo,
    if(SiS_Pr->UseCustomMode) {
       infoflag = SiS_Pr->CInfoFlag;
    } else {
+<<<<<<< HEAD
+=======
+      resindex = SiS_GetResInfo(SiS_Pr, ModeNo, ModeIdIndex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       if(ModeNo > 0x13) {
 	 infoflag = SiS_Pr->SiS_RefIndex[RRTI].Ext_InfoFlag;
       }
@@ -3537,6 +3545,7 @@ SiS_Generic_ConvertCRData(struct SiS_Private *SiS_Pr, unsigned char *crdata,
 			struct fb_var_screeninfo *var, bool writeres
 )
 {
+<<<<<<< HEAD
    unsigned short HRE, HBE, HRS, HDE;
    unsigned short VRE, VBE, VRS, VDE;
    unsigned char  sr_data, cr_data;
@@ -3544,6 +3553,19 @@ SiS_Generic_ConvertCRData(struct SiS_Private *SiS_Pr, unsigned char *crdata,
 
    sr_data = crdata[14];
 
+=======
+   unsigned short HRE, HBE, HRS, HBS, HDE, HT;
+   unsigned short VRE, VBE, VRS, VBS, VDE, VT;
+   unsigned char  sr_data, cr_data, cr_data2;
+   int            A, B, C, D, E, F, temp;
+
+   sr_data = crdata[14];
+
+   /* Horizontal total */
+   HT =  crdata[0] | ((unsigned short)(sr_data & 0x03) << 8);
+   A = HT + 5;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    /* Horizontal display enable end */
    HDE = crdata[1] | ((unsigned short)(sr_data & 0x0C) << 6);
    E = HDE + 1;
@@ -3552,6 +3574,12 @@ SiS_Generic_ConvertCRData(struct SiS_Private *SiS_Pr, unsigned char *crdata,
    HRS = crdata[4] | ((unsigned short)(sr_data & 0xC0) << 2);
    F = HRS - E - 3;
 
+<<<<<<< HEAD
+=======
+   /* Horizontal blank start */
+   HBS = crdata[2] | ((unsigned short)(sr_data & 0x30) << 4);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    sr_data = crdata[15];
    cr_data = crdata[5];
 
@@ -3580,6 +3608,16 @@ SiS_Generic_ConvertCRData(struct SiS_Private *SiS_Pr, unsigned char *crdata,
    sr_data = crdata[13];
    cr_data = crdata[7];
 
+<<<<<<< HEAD
+=======
+   /* Vertical total */
+   VT  = crdata[6] |
+	 ((unsigned short)(cr_data & 0x01) << 8) |
+	 ((unsigned short)(cr_data & 0x20) << 4) |
+	 ((unsigned short)(sr_data & 0x01) << 10);
+   A = VT + 2;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    /* Vertical display enable end */
    VDE = crdata[10] |
 	 ((unsigned short)(cr_data & 0x02) << 7) |
@@ -3594,6 +3632,17 @@ SiS_Generic_ConvertCRData(struct SiS_Private *SiS_Pr, unsigned char *crdata,
 	 ((unsigned short)(sr_data & 0x08) << 7);
    F = VRS + 1 - E;
 
+<<<<<<< HEAD
+=======
+   cr_data2 = (crdata[16] & 0x01) << 5;
+
+   /* Vertical blank start */
+   VBS = crdata[11] |
+	 ((unsigned short)(cr_data  & 0x08) << 5) |
+	 ((unsigned short)(cr_data2 & 0x20) << 4) |
+	 ((unsigned short)(sr_data  & 0x04) << 8);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    /* Vertical blank end */
    VBE = crdata[12] | ((unsigned short)(sr_data & 0x10) << 4);
    temp = VBE - ((E - 1) & 511);

@@ -37,6 +37,10 @@ static char *dev_info = "ath9k";
 
 MODULE_AUTHOR("Atheros Communications");
 MODULE_DESCRIPTION("Support for Atheros 802.11n wireless LAN cards.");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Atheros 802.11n WLAN cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("Dual BSD/GPL");
 
 static unsigned int ath9k_debug = ATH_DBG_DEFAULT;

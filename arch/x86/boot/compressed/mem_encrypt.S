@@ -23,6 +23,15 @@ SYM_FUNC_START(get_sev_encryption_bit)
 	push	%ecx
 	push	%edx
 
+<<<<<<< HEAD
+=======
+	/* Check if running under a hypervisor */
+	movl	$1, %eax
+	cpuid
+	bt	$31, %ecx		/* Check the hypervisor bit */
+	jnc	.Lno_sev
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movl	$0x80000000, %eax	/* CPUID to check the highest leaf */
 	cpuid
 	cmpl	$0x8000001f, %eax	/* See if 0x8000001f is available */

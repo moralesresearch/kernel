@@ -29,7 +29,11 @@ static void omap_irq_update(struct drm_device *dev)
 
 	DBG("irqmask=%08x", irqmask);
 
+<<<<<<< HEAD
 	dispc_write_irqenable(priv->dispc, irqmask);
+=======
+	priv->dispc_ops->write_irqenable(priv->dispc, irqmask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void omap_irq_wait_handler(struct omap_irq_wait *wait)
@@ -83,7 +87,11 @@ int omap_irq_enable_framedone(struct drm_crtc *crtc, bool enable)
 	unsigned long flags;
 	enum omap_channel channel = omap_crtc_channel(crtc);
 	int framedone_irq =
+<<<<<<< HEAD
 		dispc_mgr_get_framedone_irq(priv->dispc, channel);
+=======
+		priv->dispc_ops->mgr_get_framedone_irq(priv->dispc, channel);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	DBG("dev=%p, crtc=%u, enable=%d", dev, channel, enable);
 
@@ -120,7 +128,11 @@ int omap_irq_enable_vblank(struct drm_crtc *crtc)
 	DBG("dev=%p, crtc=%u", dev, channel);
 
 	spin_lock_irqsave(&priv->wait_lock, flags);
+<<<<<<< HEAD
 	priv->irq_mask |= dispc_mgr_get_vsync_irq(priv->dispc,
+=======
+	priv->irq_mask |= priv->dispc_ops->mgr_get_vsync_irq(priv->dispc,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							     channel);
 	omap_irq_update(dev);
 	spin_unlock_irqrestore(&priv->wait_lock, flags);
@@ -146,7 +158,11 @@ void omap_irq_disable_vblank(struct drm_crtc *crtc)
 	DBG("dev=%p, crtc=%u", dev, channel);
 
 	spin_lock_irqsave(&priv->wait_lock, flags);
+<<<<<<< HEAD
 	priv->irq_mask &= ~dispc_mgr_get_vsync_irq(priv->dispc,
+=======
+	priv->irq_mask &= ~priv->dispc_ops->mgr_get_vsync_irq(priv->dispc,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							      channel);
 	omap_irq_update(dev);
 	spin_unlock_irqrestore(&priv->wait_lock, flags);
@@ -211,9 +227,15 @@ static irqreturn_t omap_irq_handler(int irq, void *arg)
 	unsigned int id;
 	u32 irqstatus;
 
+<<<<<<< HEAD
 	irqstatus = dispc_read_irqstatus(priv->dispc);
 	dispc_clear_irqstatus(priv->dispc, irqstatus);
 	dispc_read_irqstatus(priv->dispc);	/* flush posted write */
+=======
+	irqstatus = priv->dispc_ops->read_irqstatus(priv->dispc);
+	priv->dispc_ops->clear_irqstatus(priv->dispc, irqstatus);
+	priv->dispc_ops->read_irqstatus(priv->dispc);	/* flush posted write */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	VERB("irqs: %08x", irqstatus);
 
@@ -221,15 +243,26 @@ static irqreturn_t omap_irq_handler(int irq, void *arg)
 		struct drm_crtc *crtc = priv->pipes[id].crtc;
 		enum omap_channel channel = omap_crtc_channel(crtc);
 
+<<<<<<< HEAD
 		if (irqstatus & dispc_mgr_get_vsync_irq(priv->dispc, channel)) {
+=======
+		if (irqstatus & priv->dispc_ops->mgr_get_vsync_irq(priv->dispc, channel)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			drm_handle_vblank(dev, id);
 			omap_crtc_vblank_irq(crtc);
 		}
 
+<<<<<<< HEAD
 		if (irqstatus & dispc_mgr_get_sync_lost_irq(priv->dispc, channel))
 			omap_crtc_error_irq(crtc, irqstatus);
 
 		if (irqstatus & dispc_mgr_get_framedone_irq(priv->dispc, channel))
+=======
+		if (irqstatus & priv->dispc_ops->mgr_get_sync_lost_irq(priv->dispc, channel))
+			omap_crtc_error_irq(crtc, irqstatus);
+
+		if (irqstatus & priv->dispc_ops->mgr_get_framedone_irq(priv->dispc, channel))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			omap_crtc_framedone_irq(crtc, irqstatus);
 	}
 
@@ -263,7 +296,11 @@ static const u32 omap_underflow_irqs[] = {
 int omap_drm_irq_install(struct drm_device *dev)
 {
 	struct omap_drm_private *priv = dev->dev_private;
+<<<<<<< HEAD
 	unsigned int num_mgrs = dispc_get_num_mgrs(priv->dispc);
+=======
+	unsigned int num_mgrs = priv->dispc_ops->get_num_mgrs(priv->dispc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int max_planes;
 	unsigned int i;
 	int ret;
@@ -281,6 +318,7 @@ int omap_drm_irq_install(struct drm_device *dev)
 	}
 
 	for (i = 0; i < num_mgrs; ++i)
+<<<<<<< HEAD
 		priv->irq_mask |= dispc_mgr_get_sync_lost_irq(priv->dispc, i);
 
 	dispc_runtime_get(priv->dispc);
@@ -288,6 +326,15 @@ int omap_drm_irq_install(struct drm_device *dev)
 	dispc_runtime_put(priv->dispc);
 
 	ret = dispc_request_irq(priv->dispc, omap_irq_handler, dev);
+=======
+		priv->irq_mask |= priv->dispc_ops->mgr_get_sync_lost_irq(priv->dispc, i);
+
+	priv->dispc_ops->runtime_get(priv->dispc);
+	priv->dispc_ops->clear_irqstatus(priv->dispc, 0xffffffff);
+	priv->dispc_ops->runtime_put(priv->dispc);
+
+	ret = priv->dispc_ops->request_irq(priv->dispc, omap_irq_handler, dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -305,5 +352,9 @@ void omap_drm_irq_uninstall(struct drm_device *dev)
 
 	dev->irq_enabled = false;
 
+<<<<<<< HEAD
 	dispc_free_irq(priv->dispc, dev);
+=======
+	priv->dispc_ops->free_irq(priv->dispc, dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

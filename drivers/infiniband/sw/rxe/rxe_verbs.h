@@ -156,7 +156,11 @@ struct resp_res {
 			struct sk_buff	*skb;
 		} atomic;
 		struct {
+<<<<<<< HEAD
 			struct rxe_mr	*mr;
+=======
+			struct rxe_mem	*mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			u64		va_org;
 			u32		rkey;
 			u32		length;
@@ -183,7 +187,11 @@ struct rxe_resp_info {
 
 	/* RDMA read / atomic only */
 	u64			va;
+<<<<<<< HEAD
 	struct rxe_mr		*mr;
+=======
+	struct rxe_mem		*mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			resid;
 	u32			rkey;
 	u32			length;
@@ -262,6 +270,7 @@ struct rxe_qp {
 	struct execute_work	cleanup_work;
 };
 
+<<<<<<< HEAD
 enum rxe_mr_state {
 	RXE_MR_STATE_ZOMBIE,
 	RXE_MR_STATE_INVALID,
@@ -274,6 +283,20 @@ enum rxe_mr_type {
 	RXE_MR_TYPE_DMA,
 	RXE_MR_TYPE_MR,
 	RXE_MR_TYPE_MW,
+=======
+enum rxe_mem_state {
+	RXE_MEM_STATE_ZOMBIE,
+	RXE_MEM_STATE_INVALID,
+	RXE_MEM_STATE_FREE,
+	RXE_MEM_STATE_VALID,
+};
+
+enum rxe_mem_type {
+	RXE_MEM_TYPE_NONE,
+	RXE_MEM_TYPE_DMA,
+	RXE_MEM_TYPE_MR,
+	RXE_MEM_TYPE_MW,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define RXE_BUF_PER_MAP		(PAGE_SIZE / sizeof(struct rxe_phys_buf))
@@ -287,6 +310,7 @@ struct rxe_map {
 	struct rxe_phys_buf	buf[RXE_BUF_PER_MAP];
 };
 
+<<<<<<< HEAD
 struct rxe_mr {
 	struct rxe_pool_entry	pelem;
 	struct ib_mr		ibmr;
@@ -295,6 +319,19 @@ struct rxe_mr {
 
 	enum rxe_mr_state	state;
 	enum rxe_mr_type	type;
+=======
+struct rxe_mem {
+	struct rxe_pool_entry	pelem;
+	union {
+		struct ib_mr		ibmr;
+		struct ib_mw		ibmw;
+	};
+
+	struct ib_umem		*umem;
+
+	enum rxe_mem_state	state;
+	enum rxe_mem_type	type;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64			va;
 	u64			iova;
 	size_t			length;
@@ -315,6 +352,7 @@ struct rxe_mr {
 	struct rxe_map		**map;
 };
 
+<<<<<<< HEAD
 enum rxe_mw_state {
 	RXE_MW_STATE_INVALID = RXE_MR_STATE_INVALID,
 	RXE_MW_STATE_FREE = RXE_MR_STATE_FREE,
@@ -326,6 +364,8 @@ struct rxe_mw {
 	struct rxe_pool_entry pelem;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct rxe_mc_grp {
 	struct rxe_pool_entry	pelem;
 	spinlock_t		mcg_lock; /* guard group */
@@ -430,6 +470,7 @@ static inline struct rxe_cq *to_rcq(struct ib_cq *cq)
 	return cq ? container_of(cq, struct rxe_cq, ibcq) : NULL;
 }
 
+<<<<<<< HEAD
 static inline struct rxe_mr *to_rmr(struct ib_mr *mr)
 {
 	return mr ? container_of(mr, struct rxe_mr, ibmr) : NULL;
@@ -441,16 +482,37 @@ static inline struct rxe_mw *to_rmw(struct ib_mw *mw)
 }
 
 static inline struct rxe_pd *mr_pd(struct rxe_mr *mr)
+=======
+static inline struct rxe_mem *to_rmr(struct ib_mr *mr)
+{
+	return mr ? container_of(mr, struct rxe_mem, ibmr) : NULL;
+}
+
+static inline struct rxe_mem *to_rmw(struct ib_mw *mw)
+{
+	return mw ? container_of(mw, struct rxe_mem, ibmw) : NULL;
+}
+
+static inline struct rxe_pd *mr_pd(struct rxe_mem *mr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return to_rpd(mr->ibmr.pd);
 }
 
+<<<<<<< HEAD
 static inline u32 mr_lkey(struct rxe_mr *mr)
+=======
+static inline u32 mr_lkey(struct rxe_mem *mr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return mr->ibmr.lkey;
 }
 
+<<<<<<< HEAD
 static inline u32 mr_rkey(struct rxe_mr *mr)
+=======
+static inline u32 mr_rkey(struct rxe_mem *mr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return mr->ibmr.rkey;
 }

@@ -171,6 +171,20 @@ implementation.
    x86/index
    xtensa/index
 
+<<<<<<< HEAD
+=======
+Filesystem Documentation
+------------------------
+
+The documentation in this section are provided by specific filesystem
+subprojects.
+
+.. toctree::
+   :maxdepth: 2
+
+   filesystems/ext4/index
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Other documentation
 -------------------
 

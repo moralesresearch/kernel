@@ -263,6 +263,11 @@ static int __init brcmstb_usb_pinmap_probe(struct platform_device *pdev)
 		return -EINVAL;
 
 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+<<<<<<< HEAD
+	if (!r)
+		return -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pdata = devm_kzalloc(&pdev->dev,
 			     sizeof(*pdata) +

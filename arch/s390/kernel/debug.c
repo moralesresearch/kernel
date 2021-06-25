@@ -829,11 +829,25 @@ static inline debug_entry_t *get_active_entry(debug_info_t *id)
 static inline void debug_finish_entry(debug_info_t *id, debug_entry_t *active,
 				      int level, int exception)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long timestamp;
 	union tod_clock clk;
 
 	store_tod_clock_ext(&clk);
 	timestamp = clk.us;
+<<<<<<< HEAD
+=======
+=======
+	unsigned char clk[STORE_CLOCK_EXT_SIZE];
+	unsigned long timestamp;
+
+	get_tod_clock_ext(clk);
+	timestamp = *(unsigned long *) &clk[0] >> 4;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	timestamp -= TOD_UNIX_EPOCH >> 12;
 	active->clock = timestamp;
 	active->cpu = smp_processor_id();

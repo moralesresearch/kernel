@@ -35,8 +35,11 @@ struct vdpa_vq_state {
 	u16	avail_index;
 };
 
+<<<<<<< HEAD
 struct vdpa_mgmt_dev;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * vDPA device - representation of a vDPA device
  * @dev: underlying device
@@ -45,8 +48,11 @@ struct vdpa_mgmt_dev;
  * @index: device index
  * @features_valid: were features initialized? for legacy guests
  * @nvqs: maximum number of supported virtqueues
+<<<<<<< HEAD
  * @mdev: management device pointer; caller must setup when registering device as part
  *	  of dev_add() mgmtdev ops callback before invoking _vdpa_register_device().
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct vdpa_device {
 	struct device dev;
@@ -55,7 +61,10 @@ struct vdpa_device {
 	unsigned int index;
 	bool features_valid;
 	int nvqs;
+<<<<<<< HEAD
 	struct vdpa_mgmt_dev *mdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -250,6 +259,7 @@ struct vdpa_config_ops {
 
 struct vdpa_device *__vdpa_alloc_device(struct device *parent,
 					const struct vdpa_config_ops *config,
+<<<<<<< HEAD
 					size_t size, const char *name);
 
 #define vdpa_alloc_device(dev_struct, member, parent, config, name)   \
@@ -266,6 +276,22 @@ void vdpa_unregister_device(struct vdpa_device *vdev);
 int _vdpa_register_device(struct vdpa_device *vdev, int nvqs);
 void _vdpa_unregister_device(struct vdpa_device *vdev);
 
+=======
+					int nvqs,
+					size_t size);
+
+#define vdpa_alloc_device(dev_struct, member, parent, config, nvqs)   \
+			  container_of(__vdpa_alloc_device( \
+				       parent, config, nvqs, \
+				       sizeof(dev_struct) + \
+				       BUILD_BUG_ON_ZERO(offsetof( \
+				       dev_struct, member))), \
+				       dev_struct, member)
+
+int vdpa_register_device(struct vdpa_device *vdev);
+void vdpa_unregister_device(struct vdpa_device *vdev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * vdpa_driver - operations for a vDPA driver
  * @driver: underlying device driver
@@ -343,6 +369,7 @@ static inline void vdpa_get_config(struct vdpa_device *vdev, unsigned offset,
 	ops->get_config(vdev, offset, buf, len);
 }
 
+<<<<<<< HEAD
 /**
  * vdpa_mgmtdev_ops - vdpa device ops
  * @dev_add:	Add a vdpa device using alloc and register
@@ -372,4 +399,6 @@ struct vdpa_mgmt_dev {
 int vdpa_mgmtdev_register(struct vdpa_mgmt_dev *mdev);
 void vdpa_mgmtdev_unregister(struct vdpa_mgmt_dev *mdev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _LINUX_VDPA_H */

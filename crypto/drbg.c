@@ -98,7 +98,10 @@
  */
 
 #include <crypto/drbg.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 
 /***************************************************************
@@ -2162,4 +2165,7 @@ MODULE_DESCRIPTION("NIST SP800-90A Deterministic Random Bit Generator (DRBG) "
 		   CRYPTO_DRBG_HMAC_STRING
 		   CRYPTO_DRBG_CTR_STRING);
 MODULE_ALIAS_CRYPTO("stdrng");
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

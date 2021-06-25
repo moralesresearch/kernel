@@ -1026,11 +1026,19 @@ static void pmu_event_set_period(struct perf_event *event)
 
 static irqreturn_t pmu_handle_irq(int irq_num, void *dev)
 {
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cci_pmu *cci_pmu = dev;
 	struct cci_pmu_hw_events *events = &cci_pmu->hw_events;
 	int idx, handled = IRQ_NONE;
 
+<<<<<<< HEAD
 	raw_spin_lock(&events->pmu_lock);
+=======
+	raw_spin_lock_irqsave(&events->pmu_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable the PMU while we walk through the counters */
 	__cci_pmu_disable(cci_pmu);
@@ -1060,7 +1068,11 @@ static irqreturn_t pmu_handle_irq(int irq_num, void *dev)
 
 	/* Enable the PMU and sync possibly overflowed counters */
 	__cci_pmu_enable_sync(cci_pmu);
+<<<<<<< HEAD
 	raw_spin_unlock(&events->pmu_lock);
+=======
+	raw_spin_unlock_irqrestore(&events->pmu_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_RETVAL(handled);
 }
@@ -1375,7 +1387,11 @@ static struct attribute *pmu_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group pmu_attr_group = {
+=======
+static struct attribute_group pmu_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = pmu_attrs,
 };
 

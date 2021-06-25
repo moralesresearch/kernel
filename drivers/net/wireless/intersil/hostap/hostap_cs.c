@@ -26,6 +26,10 @@ static char *dev_info = "hostap_cs";
 MODULE_AUTHOR("Jouni Malinen");
 MODULE_DESCRIPTION("Support for Intersil Prism2-based 802.11 wireless LAN "
 		   "cards (PC Card).");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Intersil Prism2-based WLAN cards (PC Card)");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 

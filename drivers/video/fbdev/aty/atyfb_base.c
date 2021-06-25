@@ -133,7 +133,11 @@
 #define PRINTKE(fmt, args...)	printk(KERN_ERR "atyfb: " fmt, ## args)
 
 #if defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_GENERIC_LCD) || \
+<<<<<<< HEAD
 defined(CONFIG_FB_ATY_BACKLIGHT) || defined (CONFIG_PPC_PMAC)
+=======
+defined(CONFIG_FB_ATY_BACKLIGHT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const u32 lt_lcd_regs[] = {
 	CNFG_PANEL_LG,
 	LCD_GEN_CNTL_LG,
@@ -175,6 +179,7 @@ u32 aty_ld_lcd(int index, const struct atyfb_par *par)
 		return aty_ld_le32(LCD_DATA, par);
 	}
 }
+<<<<<<< HEAD
 #else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIGHT) ||
 	 defined(CONFIG_FB_ATY_GENERIC_LCD) || defined(CONFIG_PPC_PMAC) */
 void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
@@ -186,6 +191,9 @@ u32 aty_ld_lcd(int index, const struct atyfb_par *par)
 }
 #endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIGHT) ||
 	  defined (CONFIG_FB_ATY_GENERIC_LCD) || defined(CONFIG_PPC_PMAC) */
+=======
+#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_FB_ATY_GENERIC_LCD
 /*
@@ -2363,9 +2371,12 @@ static int aty_init(struct fb_info *info)
 	int gtb_memsize, has_var = 0;
 	struct fb_var_screeninfo var;
 	int ret;
+<<<<<<< HEAD
 #ifdef CONFIG_ATARI
 	u8 dac_type;
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	init_waitqueue_head(&par->vblank.wait);
 	spin_lock_init(&par->int_lock);
@@ -2373,12 +2384,20 @@ static int aty_init(struct fb_info *info)
 #ifdef CONFIG_FB_ATY_GX
 	if (!M64_HAS(INTEGRATED)) {
 		u32 stat0;
+<<<<<<< HEAD
 		u8 dac_subtype, clk_type;
+=======
+		u8 dac_type, dac_subtype, clk_type;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stat0 = aty_ld_le32(CNFG_STAT0, par);
 		par->bus_type = (stat0 >> 0) & 0x07;
 		par->ram_type = (stat0 >> 3) & 0x07;
 		ramname = aty_gx_ram[par->ram_type];
 		/* FIXME: clockchip/RAMDAC probing? */
+<<<<<<< HEAD
+=======
+		dac_type = (aty_ld_le32(DAC_CNTL, par) >> 16) & 0x07;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_ATARI
 		clk_type = CLK_ATI18818_1;
 		dac_type = (stat0 >> 9) & 0x07;
@@ -2387,6 +2406,10 @@ static int aty_init(struct fb_info *info)
 		else
 			dac_subtype = (aty_ld_8(SCRATCH_REG1 + 1, par) & 0xF0) | dac_type;
 #else
+<<<<<<< HEAD
+=======
+		dac_type = DAC_IBMRGB514;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dac_subtype = DAC_IBMRGB514;
 		clk_type = CLK_IBMRGB514;
 #endif
@@ -3073,6 +3096,10 @@ static int atyfb_setup_sparc(struct pci_dev *pdev, struct fb_info *info,
 	if (dp == of_console_device) {
 		struct fb_var_screeninfo *var = &default_var;
 		unsigned int N, P, Q, M, T, R;
+<<<<<<< HEAD
+=======
+		u32 v_total, h_total;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct crtc crtc;
 		u8 pll_regs[16];
 		u8 clock_cntl;
@@ -3088,6 +3115,12 @@ static int atyfb_setup_sparc(struct pci_dev *pdev, struct fb_info *info,
 		crtc.gen_cntl = aty_ld_le32(CRTC_GEN_CNTL, par);
 		aty_crtc_to_var(&crtc, var);
 
+<<<<<<< HEAD
+=======
+		h_total = var->xres + var->right_margin + var->hsync_len + var->left_margin;
+		v_total = var->yres + var->lower_margin + var->vsync_len + var->upper_margin;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Read the PLL to figure actual Refresh Rate.
 		 */

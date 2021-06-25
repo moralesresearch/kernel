@@ -344,12 +344,15 @@
 			bias-disable;
 		};
 	};
+<<<<<<< HEAD
 
 	pwm_pins_1: pwm1 {
 		pins_pwm {
 			pinmux = <PINMUX_GPIO90__FUNC_PWM_A>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &spi0 {
@@ -398,9 +401,12 @@
 &uart0 {
 	status = "okay";
 };
+<<<<<<< HEAD
 
 &pwm1 {
 	status = "okay";
 	pinctrl-0 = <&pwm_pins_1>;
 	pinctrl-names = "default";
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

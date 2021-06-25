@@ -39,7 +39,10 @@
 &m_can0 {
 	status = "disabled";
 };
+<<<<<<< HEAD
 
 &emif1 {
 	status = "okay";
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

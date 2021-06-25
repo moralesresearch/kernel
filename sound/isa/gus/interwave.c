@@ -28,8 +28,19 @@ MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_LICENSE("GPL");
 #ifndef SNDRV_STB
 MODULE_DESCRIPTION("AMD InterWave");
+<<<<<<< HEAD
 #else
 MODULE_DESCRIPTION("AMD InterWave STB with TEA6330T");
+=======
+MODULE_SUPPORTED_DEVICE("{{Gravis,UltraSound Plug & Play},"
+		"{STB,SoundRage32},"
+		"{MED,MED3210},"
+		"{Dynasonix,Dynasonix Pro},"
+		"{Panasonic,PCA761AW}}");
+#else
+MODULE_DESCRIPTION("AMD InterWave STB with TEA6330T");
+MODULE_SUPPORTED_DEVICE("{{AMD,InterWave STB with TEA6330T}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
@@ -819,9 +830,16 @@ static int snd_interwave_isa_probe(struct device *pdev,
 	}
 }
 
+<<<<<<< HEAD
 static void snd_interwave_isa_remove(struct device *devptr, unsigned int dev)
 {
 	snd_card_free(dev_get_drvdata(devptr));
+=======
+static int snd_interwave_isa_remove(struct device *devptr, unsigned int dev)
+{
+	snd_card_free(dev_get_drvdata(devptr));
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver snd_interwave_driver = {

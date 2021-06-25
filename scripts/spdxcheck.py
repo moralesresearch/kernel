@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/usr/bin/env python3
+=======
+#!/usr/bin/env python
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # SPDX-License-Identifier: GPL-2.0
 # Copyright Thomas Gleixner <tglx@linutronix.de>
 

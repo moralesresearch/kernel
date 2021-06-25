@@ -165,6 +165,10 @@ struct ice_tx_offload_params {
 struct ice_rx_buf {
 	union {
 		struct {
+<<<<<<< HEAD
+=======
+			struct sk_buff *skb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma_addr_t dma;
 			struct page *page;
 			unsigned int page_offset;
@@ -239,6 +243,10 @@ enum ice_rx_dtype {
 #define ICE_DFLT_INTRL	0
 #define ICE_MAX_INTRL	236
 
+<<<<<<< HEAD
+=======
+#define ICE_WB_ON_ITR_USECS	2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_IN_WB_ON_ITR_MODE	255
 /* Sets WB_ON_ITR and assumes INTENA bit is already cleared, which allows
  * setting the MSK_M bit to tell hardware to ignore the INTENA_M bit. Also,
@@ -294,10 +302,15 @@ struct ice_ring {
 	struct rcu_head rcu;		/* to avoid race on free */
 	struct bpf_prog *xdp_prog;
 	struct xsk_buff_pool *xsk_pool;
+<<<<<<< HEAD
 	u16 rx_offset;
 	/* CL3 - 3rd cacheline starts here */
 	struct xdp_rxq_info xdp_rxq;
 	struct sk_buff *skb;
+=======
+	/* CL3 - 3rd cacheline starts here */
+	struct xdp_rxq_info xdp_rxq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* CLX - the below items are only accessed infrequently and should be
 	 * in their own cache line if possible
 	 */
@@ -351,8 +364,11 @@ struct ice_coalesce_stored {
 	u16 itr_tx;
 	u16 itr_rx;
 	u8 intrl;
+<<<<<<< HEAD
 	u8 tx_valid;
 	u8 rx_valid;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* iterator for handling rings in ring container */

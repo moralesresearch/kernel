@@ -2077,6 +2077,7 @@ static struct {
 	 * 0x1423 is the PCI ID for the IOMMU found on Kaveri
 	 */
 	{ PCI_VENDOR_ID_AMD, 0x1423 },
+<<<<<<< HEAD
 	/* 0x1481 is the PCI ID for the IOMMU found on Starship/Matisse
 	 */
 	{ PCI_VENDOR_ID_AMD, 0x1481 },
@@ -2086,6 +2087,8 @@ static struct {
 	/* 0x5a23 is the PCI ID for the IOMMU found on RD890S/RD990
 	 */
 	{ PCI_VENDOR_ID_ATI, 0x5a23 },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static bool cx23885_does_need_dma_reset(void)

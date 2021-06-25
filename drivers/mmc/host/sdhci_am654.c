@@ -514,6 +514,7 @@ static const struct sdhci_am654_driver_data sdhci_j721e_4bit_drvdata = {
 	.flags = IOMUX_PRESENT,
 };
 
+<<<<<<< HEAD
 static const struct sdhci_pltfm_data sdhci_am64_8bit_pdata = {
 	.ops = &sdhci_j721e_8bit_ops,
 	.quirks2 = SDHCI_QUIRK2_PRESET_VALUE_BROKEN,
@@ -534,6 +535,8 @@ static const struct sdhci_am654_driver_data sdhci_am64_4bit_drvdata = {
 	.flags = IOMUX_PRESENT,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct soc_device_attribute sdhci_am654_devices[] = {
 	{ .family = "AM65X",
 	  .revision = "SR1.0",
@@ -757,6 +760,7 @@ static const struct of_device_id sdhci_am654_of_match[] = {
 		.compatible = "ti,j721e-sdhci-4bit",
 		.data = &sdhci_j721e_4bit_drvdata,
 	},
+<<<<<<< HEAD
 	{
 		.compatible = "ti,am64-sdhci-8bit",
 		.data = &sdhci_am64_8bit_drvdata,
@@ -765,6 +769,8 @@ static const struct of_device_id sdhci_am654_of_match[] = {
 		.compatible = "ti,am64-sdhci-4bit",
 		.data = &sdhci_am64_4bit_drvdata,
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, sdhci_am654_of_match);

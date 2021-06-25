@@ -34,9 +34,14 @@ int unregister_ftrace_export(struct trace_export *export);
 struct trace_array;
 
 void trace_printk_init_buffers(void);
+<<<<<<< HEAD
 __printf(3, 4)
 int trace_array_printk(struct trace_array *tr, unsigned long ip,
 		       const char *fmt, ...);
+=======
+int trace_array_printk(struct trace_array *tr, unsigned long ip,
+		const char *fmt, ...);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int trace_array_init_printk(struct trace_array *tr);
 void trace_array_put(struct trace_array *tr);
 struct trace_array *trace_array_get_by_name(const char *name);

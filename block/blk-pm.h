@@ -21,6 +21,34 @@ static inline void blk_pm_mark_last_busy(struct request *rq)
 	if (rq->q->dev && !(rq->rq_flags & RQF_PM))
 		pm_runtime_mark_last_busy(rq->q->dev);
 }
+<<<<<<< HEAD
+=======
+
+static inline void blk_pm_requeue_request(struct request *rq)
+{
+	lockdep_assert_held(&rq->q->queue_lock);
+
+	if (rq->q->dev && !(rq->rq_flags & RQF_PM))
+		rq->q->nr_pending--;
+}
+
+static inline void blk_pm_add_request(struct request_queue *q,
+				      struct request *rq)
+{
+	lockdep_assert_held(&q->queue_lock);
+
+	if (q->dev && !(rq->rq_flags & RQF_PM))
+		q->nr_pending++;
+}
+
+static inline void blk_pm_put_request(struct request *rq)
+{
+	lockdep_assert_held(&rq->q->queue_lock);
+
+	if (rq->q->dev && !(rq->rq_flags & RQF_PM))
+		--rq->q->nr_pending;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline int blk_pm_resume_queue(const bool pm, struct request_queue *q)
 {
@@ -30,6 +58,22 @@ static inline int blk_pm_resume_queue(const bool pm, struct request_queue *q)
 static inline void blk_pm_mark_last_busy(struct request *rq)
 {
 }
+<<<<<<< HEAD
+=======
+
+static inline void blk_pm_requeue_request(struct request *rq)
+{
+}
+
+static inline void blk_pm_add_request(struct request_queue *q,
+				      struct request *rq)
+{
+}
+
+static inline void blk_pm_put_request(struct request *rq)
+{
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* _BLOCK_BLK_PM_H_ */

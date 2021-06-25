@@ -40,11 +40,18 @@ nvkm_engine_unref(struct nvkm_engine **pengine)
 {
 	struct nvkm_engine *engine = *pengine;
 	if (engine) {
+<<<<<<< HEAD
 		if (refcount_dec_and_mutex_lock(&engine->use.refcount, &engine->use.mutex)) {
 			nvkm_subdev_fini(&engine->subdev, false);
 			engine->use.enabled = false;
 			mutex_unlock(&engine->use.mutex);
 		}
+=======
+		mutex_lock(&engine->subdev.mutex);
+		if (--engine->usecount == 0)
+			nvkm_subdev_fini(&engine->subdev, false);
+		mutex_unlock(&engine->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*pengine = NULL;
 	}
 }
@@ -52,6 +59,7 @@ nvkm_engine_unref(struct nvkm_engine **pengine)
 struct nvkm_engine *
 nvkm_engine_ref(struct nvkm_engine *engine)
 {
+<<<<<<< HEAD
 	int ret;
 	if (engine) {
 		if (!refcount_inc_not_zero(&engine->use.refcount)) {
@@ -67,6 +75,19 @@ nvkm_engine_ref(struct nvkm_engine *engine)
 			}
 			mutex_unlock(&engine->use.mutex);
 		}
+=======
+	if (engine) {
+		mutex_lock(&engine->subdev.mutex);
+		if (++engine->usecount == 1) {
+			int ret = nvkm_subdev_init(&engine->subdev);
+			if (ret) {
+				engine->usecount--;
+				mutex_unlock(&engine->subdev.mutex);
+				return ERR_PTR(ret);
+			}
+		}
+		mutex_unlock(&engine->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return engine;
 }
@@ -119,7 +140,11 @@ nvkm_engine_init(struct nvkm_subdev *subdev)
 	int ret = 0, i;
 	s64 time;
 
+<<<<<<< HEAD
 	if (!engine->use.enabled) {
+=======
+	if (!engine->usecount) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nvkm_trace(subdev, "init skipped, engine has no users\n");
 		return ret;
 	}
@@ -161,12 +186,20 @@ nvkm_engine_dtor(struct nvkm_subdev *subdev)
 	struct nvkm_engine *engine = nvkm_engine(subdev);
 	if (engine->func->dtor)
 		return engine->func->dtor(engine);
+<<<<<<< HEAD
 	mutex_destroy(&engine->use.mutex);
 	return engine;
 }
 
 const struct nvkm_subdev_func
 nvkm_engine = {
+=======
+	return engine;
+}
+
+static const struct nvkm_subdev_func
+nvkm_engine_func = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dtor = nvkm_engine_dtor,
 	.preinit = nvkm_engine_preinit,
 	.init = nvkm_engine_init,
@@ -176,6 +209,7 @@ nvkm_engine = {
 };
 
 int
+<<<<<<< HEAD
 nvkm_engine_ctor(const struct nvkm_engine_func *func, struct nvkm_device *device,
 		 enum nvkm_subdev_type type, int inst, bool enable, struct nvkm_engine *engine)
 {
@@ -185,6 +219,16 @@ nvkm_engine_ctor(const struct nvkm_engine_func *func, struct nvkm_device *device
 	mutex_init(&engine->use.mutex);
 
 	if (!nvkm_boolopt(device->cfgopt, engine->subdev.name, enable)) {
+=======
+nvkm_engine_ctor(const struct nvkm_engine_func *func,
+		 struct nvkm_device *device, int index, bool enable,
+		 struct nvkm_engine *engine)
+{
+	nvkm_subdev_ctor(&nvkm_engine_func, device, index, &engine->subdev);
+	engine->func = func;
+
+	if (!nvkm_boolopt(device->cfgopt, nvkm_subdev_name[index], enable)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nvkm_debug(&engine->subdev, "disabled\n");
 		return -ENODEV;
 	}
@@ -194,11 +238,20 @@ nvkm_engine_ctor(const struct nvkm_engine_func *func, struct nvkm_device *device
 }
 
 int
+<<<<<<< HEAD
 nvkm_engine_new_(const struct nvkm_engine_func *func, struct nvkm_device *device,
 		 enum nvkm_subdev_type type, int inst, bool enable,
+=======
+nvkm_engine_new_(const struct nvkm_engine_func *func,
+		 struct nvkm_device *device, int index, bool enable,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 struct nvkm_engine **pengine)
 {
 	if (!(*pengine = kzalloc(sizeof(**pengine), GFP_KERNEL)))
 		return -ENOMEM;
+<<<<<<< HEAD
 	return nvkm_engine_ctor(func, device, type, inst, enable, *pengine);
+=======
+	return nvkm_engine_ctor(func, device, index, enable, *pengine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

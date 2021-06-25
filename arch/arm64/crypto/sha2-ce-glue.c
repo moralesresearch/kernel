@@ -30,12 +30,26 @@ struct sha256_ce_state {
 extern const u32 sha256_ce_offsetof_count;
 extern const u32 sha256_ce_offsetof_finalize;
 
+<<<<<<< HEAD
 asmlinkage int sha2_ce_transform(struct sha256_ce_state *sst, u8 const *src,
 				 int blocks);
+=======
+<<<<<<< HEAD
+asmlinkage int sha2_ce_transform(struct sha256_ce_state *sst, u8 const *src,
+				 int blocks);
+=======
+asmlinkage void sha2_ce_transform(struct sha256_ce_state *sst, u8 const *src,
+				  int blocks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __sha2_ce_transform(struct sha256_state *sst, u8 const *src,
 				int blocks)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (blocks) {
 		int rem;
 
@@ -46,6 +60,13 @@ static void __sha2_ce_transform(struct sha256_state *sst, u8 const *src,
 		src += (blocks - rem) * SHA256_BLOCK_SIZE;
 		blocks = rem;
 	}
+<<<<<<< HEAD
+=======
+=======
+	sha2_ce_transform(container_of(sst, struct sha256_ce_state, sst), src,
+			  blocks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const u32 sha256_ce_offsetof_count = offsetof(struct sha256_ce_state,
@@ -71,7 +92,17 @@ static int sha256_ce_update(struct shash_desc *desc, const u8 *data,
 				__sha256_block_data_order);
 
 	sctx->finalize = 0;
+<<<<<<< HEAD
 	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
+=======
+<<<<<<< HEAD
+	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
+=======
+	kernel_neon_begin();
+	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
+	kernel_neon_end();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -96,9 +127,23 @@ static int sha256_ce_finup(struct shash_desc *desc, const u8 *data,
 	 */
 	sctx->finalize = finalize;
 
+<<<<<<< HEAD
 	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
 	if (!finalize)
 		sha256_base_do_finalize(desc, __sha2_ce_transform);
+=======
+<<<<<<< HEAD
+	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
+	if (!finalize)
+		sha256_base_do_finalize(desc, __sha2_ce_transform);
+=======
+	kernel_neon_begin();
+	sha256_base_do_update(desc, data, len, __sha2_ce_transform);
+	if (!finalize)
+		sha256_base_do_finalize(desc, __sha2_ce_transform);
+	kernel_neon_end();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return sha256_base_finish(desc, out);
 }
 
@@ -112,7 +157,17 @@ static int sha256_ce_final(struct shash_desc *desc, u8 *out)
 	}
 
 	sctx->finalize = 0;
+<<<<<<< HEAD
 	sha256_base_do_finalize(desc, __sha2_ce_transform);
+=======
+<<<<<<< HEAD
+	sha256_base_do_finalize(desc, __sha2_ce_transform);
+=======
+	kernel_neon_begin();
+	sha256_base_do_finalize(desc, __sha2_ce_transform);
+	kernel_neon_end();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return sha256_base_finish(desc, out);
 }
 

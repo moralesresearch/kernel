@@ -26,7 +26,11 @@ It is documented in the HDMI 1.4 specification with the new 2.0 bits documented
 in the HDMI 2.0 specification. But for most of the features the freely available
 HDMI 1.3a specification is sufficient:
 
+<<<<<<< HEAD
 https://www.hdmi.org/spec/index
+=======
+http://www.microprocessor.org/HDMISpecification13a.pdf
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 CEC Adapter Interface

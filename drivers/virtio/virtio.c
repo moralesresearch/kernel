@@ -141,14 +141,24 @@ void virtio_config_changed(struct virtio_device *dev)
 }
 EXPORT_SYMBOL_GPL(virtio_config_changed);
 
+<<<<<<< HEAD
 static void virtio_config_disable(struct virtio_device *dev)
+=======
+void virtio_config_disable(struct virtio_device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	spin_lock_irq(&dev->config_lock);
 	dev->config_enabled = false;
 	spin_unlock_irq(&dev->config_lock);
 }
+<<<<<<< HEAD
 
 static void virtio_config_enable(struct virtio_device *dev)
+=======
+EXPORT_SYMBOL_GPL(virtio_config_disable);
+
+void virtio_config_enable(struct virtio_device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	spin_lock_irq(&dev->config_lock);
 	dev->config_enabled = true;
@@ -157,6 +167,10 @@ static void virtio_config_enable(struct virtio_device *dev)
 	dev->config_change_pending = false;
 	spin_unlock_irq(&dev->config_lock);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(virtio_config_enable);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void virtio_add_status(struct virtio_device *dev, unsigned int status)
 {

@@ -25,14 +25,20 @@ static void printcpulist(int str_len, char *str, int mask_size,
 			index = snprintf(&str[curr_index],
 					 str_len - curr_index, ",");
 			curr_index += index;
+<<<<<<< HEAD
 			if (curr_index >= str_len)
 				break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		index = snprintf(&str[curr_index], str_len - curr_index, "%d",
 				 i);
 		curr_index += index;
+<<<<<<< HEAD
 		if (curr_index >= str_len)
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		first = 0;
 	}
 }
@@ -68,14 +74,20 @@ static void printcpumask(int str_len, char *str, int mask_size,
 		index = snprintf(&str[curr_index], str_len - curr_index, "%08x",
 				 mask[i]);
 		curr_index += index;
+<<<<<<< HEAD
 		if (curr_index >= str_len)
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (i) {
 			strncat(&str[curr_index], ",", str_len - curr_index);
 			curr_index++;
 		}
+<<<<<<< HEAD
 		if (curr_index >= str_len)
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	free(mask);
@@ -193,7 +205,11 @@ static void _isst_pbf_display_information(int cpu, FILE *outf, int level,
 					  int disp_level)
 {
 	char header[256];
+<<<<<<< HEAD
 	char value[512];
+=======
+	char value[256];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	snprintf(header, sizeof(header), "speed-select-base-freq-properties");
 	format_and_print(outf, disp_level, header, NULL);
@@ -357,7 +373,11 @@ void isst_ctdp_display_information(int cpu, FILE *outf, int tdp_level,
 				   struct isst_pkg_ctdp *pkg_dev)
 {
 	char header[256];
+<<<<<<< HEAD
 	char value[512];
+=======
+	char value[256];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static int level;
 	int i;
 
@@ -771,6 +791,7 @@ void isst_display_error_info_message(int error, char *msg, int arg_valid, int ar
 	if (!start)
 		format_and_print(outf, 0, NULL, NULL);
 }
+<<<<<<< HEAD
 
 void isst_trl_display_information(int cpu, FILE *outf, unsigned long long trl)
 {
@@ -789,3 +810,5 @@ void isst_trl_display_information(int cpu, FILE *outf, unsigned long long trl)
 
 	format_and_print(outf, level, NULL, NULL);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

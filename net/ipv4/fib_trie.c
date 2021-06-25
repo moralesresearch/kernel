@@ -1038,8 +1038,11 @@ fib_find_matching_alias(struct net *net, const struct fib_rt_info *fri)
 void fib_alias_hw_flags_set(struct net *net, const struct fib_rt_info *fri)
 {
 	struct fib_alias *fa_match;
+<<<<<<< HEAD
 	struct sk_buff *skb;
 	int err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_read_lock();
 
@@ -1047,6 +1050,7 @@ void fib_alias_hw_flags_set(struct net *net, const struct fib_rt_info *fri)
 	if (!fa_match)
 		goto out;
 
+<<<<<<< HEAD
 	if (fa_match->offload == fri->offload && fa_match->trap == fri->trap &&
 	    fa_match->offload_failed == fri->offload_failed)
 		goto out;
@@ -1083,6 +1087,11 @@ void fib_alias_hw_flags_set(struct net *net, const struct fib_rt_info *fri)
 
 errout:
 	rtnl_set_sk_err(net, RTNLGRP_IPV4_ROUTE, err);
+=======
+	fa_match->offload = fri->offload;
+	fa_match->trap = fri->trap;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	rcu_read_unlock();
 }
@@ -1298,7 +1307,10 @@ int fib_table_insert(struct net *net, struct fib_table *tb,
 			new_fa->fa_default = -1;
 			new_fa->offload = 0;
 			new_fa->trap = 0;
+<<<<<<< HEAD
 			new_fa->offload_failed = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			hlist_replace_rcu(&fa->fa_list, &new_fa->fa_list);
 
@@ -1359,7 +1371,10 @@ int fib_table_insert(struct net *net, struct fib_table *tb,
 	new_fa->fa_default = -1;
 	new_fa->offload = 0;
 	new_fa->trap = 0;
+<<<<<<< HEAD
 	new_fa->offload_failed = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Insert new entry to the list. */
 	err = fib_insert_alias(t, tp, l, new_fa, fa, key);
@@ -2299,7 +2314,10 @@ static int fn_trie_dump_leaf(struct key_vector *l, struct fib_table *tb,
 				fri.type = fa->fa_type;
 				fri.offload = fa->offload;
 				fri.trap = fa->trap;
+<<<<<<< HEAD
 				fri.offload_failed = fa->offload_failed;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				err = fib_dump_info(skb,
 						    NETLINK_CB(cb->skb).portid,
 						    cb->nlh->nlmsg_seq,

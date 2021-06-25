@@ -64,6 +64,12 @@
 	status = "okay";
 
 	port {
+<<<<<<< HEAD
+=======
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		csi1_ep: endpoint {
 			remote-endpoint = <&ov5640_ep>;
 			bus-width = <8>;
@@ -85,9 +91,19 @@
 	status = "okay";
 
 	axp209: pmic@34 {
+<<<<<<< HEAD
 		reg = <0x34>;
 		interrupt-parent = <&nmi_intc>;
 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+=======
+		compatible = "x-powers,axp203",
+			     "x-powers,axp209";
+		reg = <0x34>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

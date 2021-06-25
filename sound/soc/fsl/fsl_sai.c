@@ -1079,9 +1079,15 @@ static int fsl_sai_probe(struct platform_device *pdev)
 	/* Sync Tx with Rx as default by following old DT binding */
 	sai->synchronous[RX] = true;
 	sai->synchronous[TX] = false;
+<<<<<<< HEAD
 	sai->cpu_dai_drv.symmetric_rate = 1;
 	sai->cpu_dai_drv.symmetric_channels = 1;
 	sai->cpu_dai_drv.symmetric_sample_bits = 1;
+=======
+	sai->cpu_dai_drv.symmetric_rates = 1;
+	sai->cpu_dai_drv.symmetric_channels = 1;
+	sai->cpu_dai_drv.symmetric_samplebits = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (of_find_property(np, "fsl,sai-synchronous-rx", NULL) &&
 	    of_find_property(np, "fsl,sai-asynchronous", NULL)) {
@@ -1098,9 +1104,15 @@ static int fsl_sai_probe(struct platform_device *pdev)
 		/* Discard all settings for asynchronous mode */
 		sai->synchronous[RX] = false;
 		sai->synchronous[TX] = false;
+<<<<<<< HEAD
 		sai->cpu_dai_drv.symmetric_rate = 0;
 		sai->cpu_dai_drv.symmetric_channels = 0;
 		sai->cpu_dai_drv.symmetric_sample_bits = 0;
+=======
+		sai->cpu_dai_drv.symmetric_rates = 0;
+		sai->cpu_dai_drv.symmetric_channels = 0;
+		sai->cpu_dai_drv.symmetric_samplebits = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (of_find_property(np, "fsl,sai-mclk-direction-output", NULL) &&

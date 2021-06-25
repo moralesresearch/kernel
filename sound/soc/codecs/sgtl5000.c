@@ -1187,7 +1187,15 @@ static struct snd_soc_dai_driver sgtl5000_dai = {
 		.formats = SGTL5000_FORMATS,
 	},
 	.ops = &sgtl5000_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+<<<<<<< HEAD
+	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static bool sgtl5000_volatile(struct device *dev, unsigned int reg)

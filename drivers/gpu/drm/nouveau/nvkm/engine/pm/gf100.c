@@ -187,7 +187,11 @@ gf100_pm_ = {
 
 int
 gf100_pm_new_(const struct gf100_pm_func *func, struct nvkm_device *device,
+<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, struct nvkm_pm **ppm)
+=======
+	      int index, struct nvkm_pm **ppm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_pm *pm;
 	u32 mask;
@@ -196,7 +200,11 @@ gf100_pm_new_(const struct gf100_pm_func *func, struct nvkm_device *device,
 	if (!(pm = *ppm = kzalloc(sizeof(*pm), GFP_KERNEL)))
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ret = nvkm_pm_ctor(&gf100_pm_, device, type, inst, pm);
+=======
+	ret = nvkm_pm_ctor(&gf100_pm_, device, index, pm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -237,7 +245,13 @@ gf100_pm = {
 };
 
 int
+<<<<<<< HEAD
 gf100_pm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_pm **ppm)
 {
 	return gf100_pm_new_(&gf100_pm, device, type, inst, ppm);
+=======
+gf100_pm_new(struct nvkm_device *device, int index, struct nvkm_pm **ppm)
+{
+	return gf100_pm_new_(&gf100_pm, device, index, ppm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

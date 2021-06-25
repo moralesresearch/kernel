@@ -176,6 +176,7 @@ static int tegra_mc_hotreset_assert(struct reset_controller_dev *rcdev,
 	if (!rst_ops)
 		return -ENODEV;
 
+<<<<<<< HEAD
 	/* DMA flushing will fail if reset is already asserted */
 	if (rst_ops->reset_status) {
 		/* check whether reset is asserted */
@@ -183,6 +184,8 @@ static int tegra_mc_hotreset_assert(struct reset_controller_dev *rcdev,
 			return 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rst_ops->block_dma) {
 		/* block clients DMA requests */
 		err = rst_ops->block_dma(mc, rst);

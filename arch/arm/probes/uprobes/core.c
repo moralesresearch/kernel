@@ -204,7 +204,11 @@ unsigned long uprobe_get_swbp_addr(struct pt_regs *regs)
 static struct undef_hook uprobes_arm_break_hook = {
 	.instr_mask	= 0x0fffffff,
 	.instr_val	= (UPROBE_SWBP_ARM_INSN & 0x0fffffff),
+<<<<<<< HEAD
 	.cpsr_mask	= (PSR_T_BIT | MODE_MASK),
+=======
+	.cpsr_mask	= MODE_MASK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.cpsr_val	= USR_MODE,
 	.fn		= uprobe_trap_handler,
 };
@@ -212,7 +216,11 @@ static struct undef_hook uprobes_arm_break_hook = {
 static struct undef_hook uprobes_arm_ss_hook = {
 	.instr_mask	= 0x0fffffff,
 	.instr_val	= (UPROBE_SS_ARM_INSN & 0x0fffffff),
+<<<<<<< HEAD
 	.cpsr_mask	= (PSR_T_BIT | MODE_MASK),
+=======
+	.cpsr_mask	= MODE_MASK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.cpsr_val	= USR_MODE,
 	.fn		= uprobe_trap_handler,
 };

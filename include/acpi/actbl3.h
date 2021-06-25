@@ -3,7 +3,11 @@
  *
  * Name: actbl3.h - ACPI Table Definitions
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -33,6 +37,10 @@
 #define ACPI_SIG_TCPA           "TCPA"	/* Trusted Computing Platform Alliance table */
 #define ACPI_SIG_TPM2           "TPM2"	/* Trusted Platform Module 2.0 H/W interface table */
 #define ACPI_SIG_UEFI           "UEFI"	/* Uefi Boot Optimization Table */
+<<<<<<< HEAD
+=======
+#define ACPI_SIG_VRTC           "VRTC"	/* Virtual Real Time Clock Table */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ACPI_SIG_WAET           "WAET"	/* Windows ACPI Emulated devices Table */
 #define ACPI_SIG_WDAT           "WDAT"	/* Watchdog Action Table */
 #define ACPI_SIG_WDDT           "WDDT"	/* Watchdog Timer Description Table */
@@ -485,6 +493,31 @@ struct acpi_table_uefi {
 
 /*******************************************************************************
  *
+<<<<<<< HEAD
+=======
+ * VRTC - Virtual Real Time Clock Table
+ *        Version 1
+ *
+ * Conforms to "Simple Firmware Interface Specification",
+ * Draft 0.8.2, Oct 19, 2010
+ * NOTE: The ACPI VRTC is equivalent to The SFI MRTC table.
+ *
+ ******************************************************************************/
+
+struct acpi_table_vrtc {
+	struct acpi_table_header header;	/* Common ACPI table header */
+};
+
+/* VRTC entry */
+
+struct acpi_vrtc_entry {
+	struct acpi_generic_address physical_address;
+	u32 irq;
+};
+
+/*******************************************************************************
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * WAET - Windows ACPI Emulated devices Table
  *        Version 1
  *

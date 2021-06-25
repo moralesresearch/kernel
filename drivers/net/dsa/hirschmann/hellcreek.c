@@ -3,7 +3,11 @@
  * DSA driver for:
  * Hirschmann Hellcreek TSN switch.
  *
+<<<<<<< HEAD
  * Copyright (C) 2019-2021 Linutronix GmbH
+=======
+ * Copyright (C) 2019,2020 Linutronix GmbH
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Author Kurt Kanzenbach <kurt@linutronix.de>
  */
 
@@ -153,6 +157,7 @@ static void hellcreek_select_vlan(struct hellcreek *hellcreek, int vid,
 	hellcreek_write(hellcreek, val, HR_VIDCFG);
 }
 
+<<<<<<< HEAD
 static void hellcreek_select_tgd(struct hellcreek *hellcreek, int port)
 {
 	u16 val = port << TR_TGDSEL_TDGSEL_SHIFT;
@@ -160,6 +165,8 @@ static void hellcreek_select_tgd(struct hellcreek *hellcreek, int port)
 	hellcreek_write(hellcreek, val, TR_TGDSEL);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hellcreek_wait_until_ready(struct hellcreek *hellcreek)
 {
 	u16 val;
@@ -221,11 +228,20 @@ static void hellcreek_feature_detect(struct hellcreek *hellcreek)
 
 	features = hellcreek_read(hellcreek, HR_FEABITS0);
 
+<<<<<<< HEAD
 	/* Only detect the size of the FDB table. The size and current
 	 * utilization can be queried via devlink.
 	 */
 	hellcreek->fdb_entries = ((features & HR_FEABITS0_FDBBINS_MASK) >>
 			       HR_FEABITS0_FDBBINS_SHIFT) * 32;
+=======
+	/* Currently we only detect the size of the FDB table */
+	hellcreek->fdb_entries = ((features & HR_FEABITS0_FDBBINS_MASK) >>
+			       HR_FEABITS0_FDBBINS_SHIFT) * 32;
+
+	dev_info(hellcreek->dev, "Feature detect: FDB entries=%zu\n",
+		 hellcreek->fdb_entries);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum dsa_tag_protocol hellcreek_get_tag_protocol(struct dsa_switch *ds,
@@ -341,8 +357,12 @@ static u16 hellcreek_private_vid(int port)
 }
 
 static int hellcreek_vlan_prepare(struct dsa_switch *ds, int port,
+<<<<<<< HEAD
 				  const struct switchdev_obj_port_vlan *vlan,
 				  struct netlink_ext_ack *extack)
+=======
+				  const struct switchdev_obj_port_vlan *vlan)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hellcreek *hellcreek = ds->priv;
 	int i;
@@ -355,14 +375,24 @@ static int hellcreek_vlan_prepare(struct dsa_switch *ds, int port,
 	 */
 	for (i = 0; i < hellcreek->pdata->num_ports; ++i) {
 		const u16 restricted_vid = hellcreek_private_vid(i);
+<<<<<<< HEAD
+=======
+		u16 vid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!dsa_is_user_port(ds, i))
 			continue;
 
+<<<<<<< HEAD
 		if (vlan->vid == restricted_vid) {
 			NL_SET_ERR_MSG_MOD(extack, "VID restricted by driver");
 			return -EBUSY;
 		}
+=======
+		for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid)
+			if (vid == restricted_vid)
+				return -EBUSY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -447,13 +477,19 @@ static void hellcreek_unapply_vlan(struct hellcreek *hellcreek, int port,
 	mutex_unlock(&hellcreek->reg_lock);
 }
 
+<<<<<<< HEAD
 static int hellcreek_vlan_add(struct dsa_switch *ds, int port,
 			      const struct switchdev_obj_port_vlan *vlan,
 			      struct netlink_ext_ack *extack)
+=======
+static void hellcreek_vlan_add(struct dsa_switch *ds, int port,
+			       const struct switchdev_obj_port_vlan *vlan)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
 	bool pvid = vlan->flags & BRIDGE_VLAN_INFO_PVID;
 	struct hellcreek *hellcreek = ds->priv;
+<<<<<<< HEAD
 	int err;
 
 	err = hellcreek_vlan_prepare(ds, port, vlan, extack);
@@ -467,16 +503,37 @@ static int hellcreek_vlan_add(struct dsa_switch *ds, int port,
 	hellcreek_apply_vlan(hellcreek, port, vlan->vid, pvid, untagged);
 
 	return 0;
+=======
+	u16 vid;
+
+	dev_dbg(hellcreek->dev, "Add VLANs (%d -- %d) on port %d, %s, %s\n",
+		vlan->vid_begin, vlan->vid_end, port,
+		untagged ? "untagged" : "tagged",
+		pvid ? "PVID" : "no PVID");
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid)
+		hellcreek_apply_vlan(hellcreek, port, vid, pvid, untagged);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hellcreek_vlan_del(struct dsa_switch *ds, int port,
 			      const struct switchdev_obj_port_vlan *vlan)
 {
 	struct hellcreek *hellcreek = ds->priv;
+<<<<<<< HEAD
 
 	dev_dbg(hellcreek->dev, "Remove VLAN %d on port %d\n", vlan->vid, port);
 
 	hellcreek_unapply_vlan(hellcreek, port, vlan->vid);
+=======
+	u16 vid;
+
+	dev_dbg(hellcreek->dev, "Remove VLANs (%d -- %d) on port %d\n",
+		vlan->vid_begin, vlan->vid_end, port);
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid)
+		hellcreek_unapply_vlan(hellcreek, port, vid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -876,10 +933,20 @@ static int hellcreek_fdb_dump(struct dsa_switch *ds, int port,
 
 static int hellcreek_vlan_filtering(struct dsa_switch *ds, int port,
 				    bool vlan_filtering,
+<<<<<<< HEAD
 				    struct netlink_ext_ack *extack)
 {
 	struct hellcreek *hellcreek = ds->priv;
 
+=======
+				    struct switchdev_trans *trans)
+{
+	struct hellcreek *hellcreek = ds->priv;
+
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_dbg(hellcreek->dev, "%s VLAN filtering on port %d\n",
 		vlan_filtering ? "Enable" : "Disable", port);
 
@@ -1004,6 +1071,7 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 static u64 hellcreek_devlink_vlan_table_get(void *priv)
 {
 	struct hellcreek *hellcreek = priv;
@@ -1082,6 +1150,8 @@ out:
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hellcreek_setup(struct dsa_switch *ds)
 {
 	struct hellcreek *hellcreek = ds->priv;
@@ -1122,6 +1192,14 @@ static int hellcreek_setup(struct dsa_switch *ds)
 	/* Configure PCP <-> TC mapping */
 	hellcreek_setup_tc_identity_mapping(hellcreek);
 
+<<<<<<< HEAD
+=======
+	/* Allow VLAN configurations while not filtering which is the default
+	 * for new DSA drivers.
+	 */
+	ds->configure_vlan_while_not_filtering = true;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* The VLAN awareness is a global switch setting. Therefore, mixed vlan
 	 * filtering setups are not supported.
 	 */
@@ -1135,6 +1213,7 @@ static int hellcreek_setup(struct dsa_switch *ds)
 		return ret;
 	}
 
+<<<<<<< HEAD
 	/* Register devlink resources with DSA */
 	ret = hellcreek_setup_devlink_resources(ds);
 	if (ret) {
@@ -1151,6 +1230,11 @@ static void hellcreek_teardown(struct dsa_switch *ds)
 	dsa_devlink_resources_unregister(ds);
 }
 
+=======
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void hellcreek_phylink_validate(struct dsa_switch *ds, int port,
 				       unsigned long *supported,
 				       struct phylink_link_state *state)
@@ -1227,6 +1311,7 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void hellcreek_setup_gcl(struct hellcreek *hellcreek, int port,
 				const struct tc_taprio_qopt_offload *schedule)
 {
@@ -1517,6 +1602,8 @@ static int hellcreek_port_setup_tc(struct dsa_switch *ds, int port,
 	return hellcreek_port_del_schedule(ds, port);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct dsa_switch_ops hellcreek_ds_ops = {
 	.get_ethtool_stats   = hellcreek_get_ethtool_stats,
 	.get_sset_count	     = hellcreek_get_sset_count,
@@ -1535,14 +1622,22 @@ static const struct dsa_switch_ops hellcreek_ds_ops = {
 	.port_hwtstamp_get   = hellcreek_port_hwtstamp_get,
 	.port_prechangeupper = hellcreek_port_prechangeupper,
 	.port_rxtstamp	     = hellcreek_port_rxtstamp,
+<<<<<<< HEAD
 	.port_setup_tc	     = hellcreek_port_setup_tc,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_stp_state_set  = hellcreek_port_stp_state_set,
 	.port_txtstamp	     = hellcreek_port_txtstamp,
 	.port_vlan_add	     = hellcreek_vlan_add,
 	.port_vlan_del	     = hellcreek_vlan_del,
 	.port_vlan_filtering = hellcreek_vlan_filtering,
+<<<<<<< HEAD
 	.setup		     = hellcreek_setup,
 	.teardown	     = hellcreek_teardown,
+=======
+	.port_vlan_prepare   = hellcreek_vlan_prepare,
+	.setup		     = hellcreek_setup,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int hellcreek_probe(struct platform_device *pdev)
@@ -1591,9 +1686,12 @@ static int hellcreek_probe(struct platform_device *pdev)
 
 		port->hellcreek	= hellcreek;
 		port->port	= i;
+<<<<<<< HEAD
 
 		INIT_DELAYED_WORK(&port->schedule_work,
 				  hellcreek_check_schedule);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	mutex_init(&hellcreek->reg_lock);

@@ -220,11 +220,17 @@ static irqreturn_t pcl726_interrupt(int irq, void *d)
 	struct pcl726_private *devpriv = dev->private;
 
 	if (devpriv->cmd_running) {
+<<<<<<< HEAD
 		unsigned short val = 0;
 
 		pcl726_intr_cancel(dev, s);
 
 		comedi_buf_write_samples(s, &val, 1);
+=======
+		pcl726_intr_cancel(dev, s);
+
+		comedi_buf_write_samples(s, &s->state, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		comedi_handle_events(dev, s);
 	}
 

@@ -499,11 +499,17 @@ struct intel_vgpu *intel_gvt_create_vgpu(struct intel_gvt *gvt,
 
 	mutex_lock(&gvt->lock);
 	vgpu = __intel_gvt_create_vgpu(gvt, &param);
+<<<<<<< HEAD
 	if (!IS_ERR(vgpu)) {
 		/* calculate left instance change for types */
 		intel_gvt_update_vgpu_types(gvt);
 		intel_gvt_update_reg_whitelist(vgpu);
 	}
+=======
+	if (!IS_ERR(vgpu))
+		/* calculate left instance change for types */
+		intel_gvt_update_vgpu_types(gvt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&gvt->lock);
 
 	return vgpu;

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* SPDX-License-Identifier: GPL-2.0+ */
+=======
+// SPDX-License-Identifier: GPL-2.0+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * bdc_dbg.h - header for the BDC debug functions
  *
@@ -12,10 +16,17 @@
 #include "bdc.h"
 
 #ifdef CONFIG_USB_GADGET_VERBOSE
+<<<<<<< HEAD
 void bdc_dbg_bd_list(struct bdc *bdc, struct bdc_ep *ep);
 void bdc_dbg_srr(struct bdc *bdc, u32 srr_num);
 void bdc_dbg_regs(struct bdc *bdc);
 void bdc_dump_epsts(struct bdc *bdc);
+=======
+void bdc_dbg_bd_list(struct bdc *, struct bdc_ep*);
+void bdc_dbg_srr(struct bdc *, u32);
+void bdc_dbg_regs(struct bdc *);
+void bdc_dump_epsts(struct bdc *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline void bdc_dbg_regs(struct bdc *bdc)
 { }

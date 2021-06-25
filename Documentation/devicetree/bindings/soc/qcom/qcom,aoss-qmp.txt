@@ -20,7 +20,10 @@ power-domains.
 		    "qcom,sdm845-aoss-qmp"
 		    "qcom,sm8150-aoss-qmp"
 		    "qcom,sm8250-aoss-qmp"
+<<<<<<< HEAD
 		    "qcom,sm8350-aoss-qmp"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 - reg:
 	Usage: required

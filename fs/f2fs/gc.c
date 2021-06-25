@@ -112,7 +112,11 @@ do_gc:
 		sync_mode = F2FS_OPTION(sbi).bggc_mode == BGGC_MODE_SYNC;
 
 		/* if return value is not zero, no victim was selected */
+<<<<<<< HEAD
 		if (f2fs_gc(sbi, sync_mode, true, false, NULL_SEGNO))
+=======
+		if (f2fs_gc(sbi, sync_mode, true, NULL_SEGNO))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wait_ms = gc_th->no_gc_sleep_time;
 
 		trace_f2fs_background_gc(sbi->sb, wait_ms,
@@ -392,6 +396,13 @@ static void add_victim_entry(struct f2fs_sb_info *sbi,
 		if (p->gc_mode == GC_AT &&
 			get_valid_blocks(sbi, segno, true) == 0)
 			return;
+<<<<<<< HEAD
+=======
+
+		if (p->alloc_mode == AT_SSR &&
+			get_seg_entry(sbi, segno)->ckpt_valid_blocks == 0)
+			return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (i = 0; i < sbi->segs_per_sec; i++)
@@ -724,6 +735,7 @@ retry:
 
 		if (sec_usage_check(sbi, secno))
 			goto next;
+<<<<<<< HEAD
 
 		/* Don't touch checkpointed data */
 		if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED))) {
@@ -745,6 +757,13 @@ retry:
 			}
 		}
 
+=======
+		/* Don't touch checkpointed data */
+		if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED) &&
+					get_ckpt_valid_blocks(sbi, segno) &&
+					p.alloc_mode == LFS))
+			goto next;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (gc_type == BG_GC && test_bit(secno, dirty_i->victim_secmap))
 			goto next;
 
@@ -1181,6 +1200,11 @@ static int move_data_block(struct inode *inode, block_t bidx,
 	if (err)
 		goto put_out;
 
+<<<<<<< HEAD
+=======
+	set_summary(&sum, dn.nid, dn.ofs_in_node, ni.version);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* read page */
 	fio.page = page;
 	fio.new_blkaddr = fio.old_blkaddr = dn.data_blkaddr;
@@ -1217,9 +1241,12 @@ static int move_data_block(struct inode *inode, block_t bidx,
 		}
 	}
 
+<<<<<<< HEAD
 	set_summary(&sum, dn.nid, dn.ofs_in_node, ni.version);
 
 	/* allocate block address */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	f2fs_allocate_data_block(fio.sbi, NULL, fio.old_blkaddr, &newaddr,
 				&sum, type, NULL);
 
@@ -1246,6 +1273,12 @@ static int move_data_block(struct inode *inode, block_t bidx,
 	set_page_writeback(fio.encrypted_page);
 	ClearPageError(page);
 
+<<<<<<< HEAD
+=======
+	/* allocate block address */
+	f2fs_wait_on_page_writeback(dn.node_page, NODE, true, true);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fio.op = REQ_OP_WRITE;
 	fio.op_flags = REQ_SYNC;
 	fio.new_blkaddr = newaddr;
@@ -1366,8 +1399,12 @@ out:
  * the victim data block is ignored.
  */
 static int gc_data_segment(struct f2fs_sb_info *sbi, struct f2fs_summary *sum,
+<<<<<<< HEAD
 		struct gc_inode_list *gc_list, unsigned int segno, int gc_type,
 		bool force_migrate)
+=======
+		struct gc_inode_list *gc_list, unsigned int segno, int gc_type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block *sb = sbi->sb;
 	struct f2fs_summary *entry;
@@ -1396,8 +1433,13 @@ next_step:
 		 * race condition along with SSR block allocation.
 		 */
 		if ((gc_type == BG_GC && has_not_enough_free_secs(sbi, 0, 0)) ||
+<<<<<<< HEAD
 			(!force_migrate && get_valid_blocks(sbi, segno, true) ==
 							BLKS_PER_SEC(sbi)))
+=======
+				get_valid_blocks(sbi, segno, true) ==
+							BLKS_PER_SEC(sbi))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return submitted;
 
 		if (check_valid_map(sbi, segno, off) == 0)
@@ -1532,8 +1574,12 @@ static int __get_victim(struct f2fs_sb_info *sbi, unsigned int *victim,
 
 static int do_garbage_collect(struct f2fs_sb_info *sbi,
 				unsigned int start_segno,
+<<<<<<< HEAD
 				struct gc_inode_list *gc_list, int gc_type,
 				bool force_migrate)
+=======
+				struct gc_inode_list *gc_list, int gc_type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct page *sum_page;
 	struct f2fs_summary_block *sum;
@@ -1620,8 +1666,12 @@ static int do_garbage_collect(struct f2fs_sb_info *sbi,
 								gc_type);
 		else
 			submitted += gc_data_segment(sbi, sum->entries, gc_list,
+<<<<<<< HEAD
 							segno, gc_type,
 							force_migrate);
+=======
+							segno, gc_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		stat_inc_seg_count(sbi, type, gc_type);
 		migrated++;
@@ -1649,7 +1699,11 @@ skip:
 }
 
 int f2fs_gc(struct f2fs_sb_info *sbi, bool sync,
+<<<<<<< HEAD
 			bool background, bool force, unsigned int segno)
+=======
+			bool background, unsigned int segno)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int gc_type = sync ? FG_GC : BG_GC;
 	int sec_freed = 0, seg_freed = 0, total_freed = 0;
@@ -1711,7 +1765,11 @@ gc_more:
 	if (ret)
 		goto stop;
 
+<<<<<<< HEAD
 	seg_freed = do_garbage_collect(sbi, segno, &gc_list, gc_type, force);
+=======
+	seg_freed = do_garbage_collect(sbi, segno, &gc_list, gc_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gc_type == FG_GC &&
 		seg_freed == f2fs_usable_segs_in_sec(sbi, segno))
 		sec_freed++;
@@ -1850,7 +1908,11 @@ static int free_segment_range(struct f2fs_sb_info *sbi,
 			.iroot = RADIX_TREE_INIT(gc_list.iroot, GFP_NOFS),
 		};
 
+<<<<<<< HEAD
 		do_garbage_collect(sbi, segno, &gc_list, FG_GC, true);
+=======
+		do_garbage_collect(sbi, segno, &gc_list, FG_GC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		put_gc_inode(&gc_list);
 
 		if (!gc_only && get_valid_blocks(sbi, segno, true)) {
@@ -1989,6 +2051,7 @@ int f2fs_resize_fs(struct f2fs_sb_info *sbi, __u64 block_count)
 
 	/* stop CP to protect MAIN_SEC in free_segment_range */
 	f2fs_lock_op(sbi);
+<<<<<<< HEAD
 
 	spin_lock(&sbi->stat_lock);
 	if (shrunk_blocks + valid_user_blocks(sbi) +
@@ -2003,6 +2066,9 @@ int f2fs_resize_fs(struct f2fs_sb_info *sbi, __u64 block_count)
 	err = free_segment_range(sbi, secs, true);
 
 out_unlock:
+=======
+	err = free_segment_range(sbi, secs, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	f2fs_unlock_op(sbi);
 	up_write(&sbi->gc_lock);
 	if (err)

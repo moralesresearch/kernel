@@ -67,6 +67,13 @@ struct lpass_data {
 	/* MI2S SD lines to use for playback/capture */
 	unsigned int mi2s_playback_sd_mode[LPASS_MAX_MI2S_PORTS];
 	unsigned int mi2s_capture_sd_mode[LPASS_MAX_MI2S_PORTS];
+<<<<<<< HEAD
+
+	/* The state of MI2S prepare dai_ops was called */
+	bool mi2s_was_prepared[LPASS_MAX_MI2S_PORTS];
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int hdmi_port_enable;
 
 	/* low-power audio interface (LPAIF) registers */

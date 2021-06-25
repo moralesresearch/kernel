@@ -699,10 +699,13 @@ static int line6_init_cap_control(struct usb_line6 *line6)
 		line6->buffer_message = kmalloc(LINE6_MIDI_MESSAGE_MAXLEN, GFP_KERNEL);
 		if (!line6->buffer_message)
 			return -ENOMEM;
+<<<<<<< HEAD
 
 		ret = line6_init_midi(line6);
 		if (ret < 0)
 			return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ret = line6_hwdep_init(line6);
 		if (ret < 0)

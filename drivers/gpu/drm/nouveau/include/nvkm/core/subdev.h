@@ -3,6 +3,7 @@
 #define __NVKM_SUBDEV_H__
 #include <core/device.h>
 
+<<<<<<< HEAD
 enum nvkm_subdev_type {
 #define NVKM_LAYOUT_ONCE(t,s,p,...) t,
 #define NVKM_LAYOUT_INST NVKM_LAYOUT_ONCE
@@ -22,6 +23,15 @@ struct nvkm_subdev {
 	struct list_head head;
 
 	void **pself;
+=======
+struct nvkm_subdev {
+	const struct nvkm_subdev_func *func;
+	struct nvkm_device *device;
+	enum nvkm_devidx index;
+	struct mutex mutex;
+	u32 debug;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool oneinit;
 };
 
@@ -35,12 +45,20 @@ struct nvkm_subdev_func {
 	void (*intr)(struct nvkm_subdev *);
 };
 
+<<<<<<< HEAD
 extern const char *nvkm_subdev_type[NVKM_SUBDEV_NR];
 int nvkm_subdev_new_(const struct nvkm_subdev_func *, struct nvkm_device *, enum nvkm_subdev_type,
 		     int inst, struct nvkm_subdev **);
 void nvkm_subdev_ctor(const struct nvkm_subdev_func *, struct nvkm_device *,
 		      enum nvkm_subdev_type, int inst, struct nvkm_subdev *);
 void nvkm_subdev_disable(struct nvkm_device *, enum nvkm_subdev_type, int inst);
+=======
+extern const char *nvkm_subdev_name[NVKM_SUBDEV_NR];
+int nvkm_subdev_new_(const struct nvkm_subdev_func *, struct nvkm_device *,
+		     int index, struct nvkm_subdev **);
+void nvkm_subdev_ctor(const struct nvkm_subdev_func *, struct nvkm_device *,
+		      int index, struct nvkm_subdev *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nvkm_subdev_del(struct nvkm_subdev **);
 int  nvkm_subdev_preinit(struct nvkm_subdev *);
 int  nvkm_subdev_init(struct nvkm_subdev *);
@@ -51,8 +69,15 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
 /* subdev logging */
 #define nvkm_printk_(s,l,p,f,a...) do {                                        \
 	const struct nvkm_subdev *_subdev = (s);                               \
+<<<<<<< HEAD
 	if (CONFIG_NOUVEAU_DEBUG >= (l) && _subdev->debug >= (l))              \
 		dev_##p(_subdev->device->dev, "%s: "f, _subdev->name, ##a);    \
+=======
+	if (CONFIG_NOUVEAU_DEBUG >= (l) && _subdev->debug >= (l)) {            \
+		dev_##p(_subdev->device->dev, "%s: "f,                         \
+			nvkm_subdev_name[_subdev->index], ##a);                \
+	}                                                                      \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } while(0)
 #define nvkm_printk(s,l,p,f,a...) nvkm_printk_((s), NV_DBG_##l, p, f, ##a)
 #define nvkm_fatal(s,f,a...) nvkm_printk((s), FATAL,   crit, f, ##a)

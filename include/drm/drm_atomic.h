@@ -248,6 +248,7 @@ struct drm_private_state_funcs {
  *    drm_dev_register()
  * 2/ all calls to drm_atomic_private_obj_fini() must be done after calling
  *    drm_dev_unregister()
+<<<<<<< HEAD
  *
  * If that private object is used to store a state shared by multiple
  * CRTCs, proper care must be taken to ensure that non-blocking commits are
@@ -268,6 +269,8 @@ struct drm_private_state_funcs {
  * commit to complete as the first step of
  * &drm_mode_config_helper_funcs.atomic_commit_tail, similar to
  * drm_atomic_helper_wait_for_dependencies().
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct drm_private_obj {
 	/**

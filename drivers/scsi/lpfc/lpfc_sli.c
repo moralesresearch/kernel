@@ -1532,6 +1532,7 @@ lpfc_sli_cancel_iocbs(struct lpfc_hba *phba, struct list_head *iocblist,
 
 	while (!list_empty(iocblist)) {
 		list_remove_head(iocblist, piocb, struct lpfc_iocbq, list);
+<<<<<<< HEAD
 		if (piocb->wqe_cmpl) {
 			if (piocb->iocb_flag & LPFC_IO_NVME)
 				lpfc_nvme_cancel_iocb(phba, piocb,
@@ -1545,6 +1546,17 @@ lpfc_sli_cancel_iocbs(struct lpfc_hba *phba, struct list_head *iocblist,
 			(piocb->iocb_cmpl) (phba, piocb, piocb);
 		} else {
 			lpfc_sli_release_iocbq(phba, piocb);
+=======
+		if (!piocb->iocb_cmpl) {
+			if (piocb->iocb_flag & LPFC_IO_NVME)
+				lpfc_nvme_cancel_iocb(phba, piocb);
+			else
+				lpfc_sli_release_iocbq(phba, piocb);
+		} else {
+			piocb->iocb.ulpStatus = ulpstatus;
+			piocb->iocb.un.ulpWord[4] = ulpWord4;
+			(piocb->iocb_cmpl) (phba, piocb, piocb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	return;
@@ -3011,6 +3023,7 @@ lpfc_nvme_unsol_ls_handler(struct lpfc_hba *phba, struct lpfc_iocbq *piocb)
 	axchg->payload = nvmebuf->dbuf.virt;
 	INIT_LIST_HEAD(&axchg->list);
 
+<<<<<<< HEAD
 	if (phba->nvmet_support) {
 		ret = lpfc_nvmet_handle_lsreq(phba, axchg);
 		spin_lock_irq(&ndlp->lock);
@@ -3037,18 +3050,32 @@ lpfc_nvme_unsol_ls_handler(struct lpfc_hba *phba, struct lpfc_iocbq *piocb)
 	} else {
 		ret = lpfc_nvme_handle_lsreq(phba, axchg);
 	}
+=======
+	if (phba->nvmet_support)
+		ret = lpfc_nvmet_handle_lsreq(phba, axchg);
+	else
+		ret = lpfc_nvme_handle_lsreq(phba, axchg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* if zero, LS was successfully handled. If non-zero, LS not handled */
 	if (!ret)
 		return;
 
+<<<<<<< HEAD
 out_fail:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
 			"6155 Drop NVME LS from DID %06X: SID %06X OXID x%X "
 			"NVMe%s handler failed %d\n",
 			did, sid, oxid,
 			(phba->nvmet_support) ? "T" : "I", ret);
 
+<<<<<<< HEAD
+=======
+out_fail:
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* recycle receive buffer */
 	lpfc_in_buf_free(phba, &nvmebuf->dbuf);
 
@@ -4246,8 +4273,11 @@ lpfc_sli_abort_iocb_ring(struct lpfc_hba *phba, struct lpfc_sli_ring *pring)
 			lpfc_sli_issue_abort_iotag(phba, pring, iocb, NULL);
 		spin_unlock_irq(&phba->hbalock);
 	}
+<<<<<<< HEAD
 	/* Make sure HBA is alive */
 	lpfc_issue_hb_tmo(phba);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Cancel all the IOCBs from the completions list */
 	lpfc_sli_cancel_iocbs(phba, &completions, IOSTAT_LOCAL_REJECT,
@@ -4386,8 +4416,11 @@ lpfc_sli_brdready_s3(struct lpfc_hba *phba, uint32_t mask)
 	if (lpfc_readl(phba->HSregaddr, &status))
 		return 1;
 
+<<<<<<< HEAD
 	phba->hba_flag |= HBA_NEEDS_CFG_PORT;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Check status register every 100ms for 5 retries, then every
 	 * 500ms for 5, then every 2.5 sec for 5, then reset board and
@@ -4716,7 +4749,10 @@ lpfc_sli_brdreset(struct lpfc_hba *phba)
 	/* perform board reset */
 	phba->fc_eventTag = 0;
 	phba->link_events = 0;
+<<<<<<< HEAD
 	phba->hba_flag |= HBA_NEEDS_CFG_PORT;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (phba->pport) {
 		phba->pport->fc_myDID = 0;
 		phba->pport->fc_prevDID = 0;
@@ -5050,8 +5086,11 @@ lpfc_sli_chipset_init(struct lpfc_hba *phba)
 		return -EIO;
 	}
 
+<<<<<<< HEAD
 	phba->hba_flag |= HBA_NEEDS_CFG_PORT;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Clear all interrupt enable conditions */
 	writel(0, phba->HCregaddr);
 	readl(phba->HCregaddr); /* flush */
@@ -5348,6 +5387,7 @@ int
 lpfc_sli_hba_setup(struct lpfc_hba *phba)
 {
 	uint32_t rc;
+<<<<<<< HEAD
 	int  i;
 	int longs;
 
@@ -5360,6 +5400,47 @@ lpfc_sli_hba_setup(struct lpfc_hba *phba)
 	}
 	phba->fcp_embed_io = 0;	/* SLI4 FC support only */
 
+=======
+	int  mode = 3, i;
+	int longs;
+
+	switch (phba->cfg_sli_mode) {
+	case 2:
+		if (phba->cfg_enable_npiv) {
+			lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+				"1824 NPIV enabled: Override sli_mode "
+				"parameter (%d) to auto (0).\n",
+				phba->cfg_sli_mode);
+			break;
+		}
+		mode = 2;
+		break;
+	case 0:
+	case 3:
+		break;
+	default:
+		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+				"1819 Unrecognized sli_mode parameter: %d.\n",
+				phba->cfg_sli_mode);
+
+		break;
+	}
+	phba->fcp_embed_io = 0;	/* SLI4 FC support only */
+
+	rc = lpfc_sli_config_port(phba, mode);
+
+	if (rc && phba->cfg_sli_mode == 3)
+		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+				"1820 Unable to select SLI-3.  "
+				"Not supported by adapter.\n");
+	if (rc && mode != 2)
+		rc = lpfc_sli_config_port(phba, 2);
+	else if (rc && mode == 2)
+		rc = lpfc_sli_config_port(phba, 3);
+	if (rc)
+		goto lpfc_sli_hba_setup_error;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Enable PCIe device Advanced Error Reporting (AER) if configured */
 	if (phba->cfg_aer_support == 1 && !(phba->hba_flag & HBA_AER_ENABLED)) {
 		rc = pci_enable_pcie_error_reporting(phba->pcidev);
@@ -5683,10 +5764,19 @@ lpfc_sli4_get_ctl_attr(struct lpfc_hba *phba)
 			phba->sli4_hba.lnk_info.lnk_no,
 			phba->BIOSVersion);
 out_free_mboxq:
+<<<<<<< HEAD
 	if (bf_get(lpfc_mqe_command, &mboxq->u.mqe) == MBX_SLI4_CONFIG)
 		lpfc_sli4_mbox_cmd_free(phba, mboxq);
 	else
 		mempool_free(mboxq, phba->mbox_mem_pool);
+=======
+	if (rc != MBX_TIMEOUT) {
+		if (bf_get(lpfc_mqe_command, &mboxq->u.mqe) == MBX_SLI4_CONFIG)
+			lpfc_sli4_mbox_cmd_free(phba, mboxq);
+		else
+			mempool_free(mboxq, phba->mbox_mem_pool);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -5787,10 +5877,19 @@ retrieve_ppname:
 	}
 
 out_free_mboxq:
+<<<<<<< HEAD
 	if (bf_get(lpfc_mqe_command, &mboxq->u.mqe) == MBX_SLI4_CONFIG)
 		lpfc_sli4_mbox_cmd_free(phba, mboxq);
 	else
 		mempool_free(mboxq, phba->mbox_mem_pool);
+=======
+	if (rc != MBX_TIMEOUT) {
+		if (bf_get(lpfc_mqe_command, &mboxq->u.mqe) == MBX_SLI4_CONFIG)
+			lpfc_sli4_mbox_cmd_free(phba, mboxq);
+		else
+			mempool_free(mboxq, phba->mbox_mem_pool);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -7487,7 +7586,11 @@ static void lpfc_sli4_dip(struct lpfc_hba *phba)
 			return;
 
 		if (bf_get(lpfc_sliport_status_dip, &reg_data))
+<<<<<<< HEAD
 			lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
+=======
+			lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					"2904 Firmware Dump Image Present"
 					" on Adapter");
 	}
@@ -8042,7 +8145,11 @@ lpfc_sli4_hba_setup(struct lpfc_hba *phba)
 	/* Start heart beat timer */
 	mod_timer(&phba->hb_tmofunc,
 		  jiffies + msecs_to_jiffies(1000 * LPFC_HB_MBOX_INTERVAL));
+<<<<<<< HEAD
 	phba->hba_flag &= ~(HBA_HBEAT_INP | HBA_HBEAT_TMO);
+=======
+	phba->hb_outstanding = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phba->last_completion_time = jiffies;
 
 	/* start eq_delay heartbeat */
@@ -8292,10 +8399,15 @@ lpfc_mbox_timeout_handler(struct lpfc_hba *phba)
 
 	struct lpfc_sli *psli = &phba->sli;
 
+<<<<<<< HEAD
 	/* If the mailbox completed, process the completion */
 	lpfc_sli4_process_missed_mbox_completions(phba);
 
 	if (!(psli->sli_flag & LPFC_SLI_ACTIVE))
+=======
+	/* If the mailbox completed, process the completion and return */
+	if (lpfc_sli4_process_missed_mbox_completions(phba))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	if (pmbox != NULL)
@@ -8336,6 +8448,11 @@ lpfc_mbox_timeout_handler(struct lpfc_hba *phba)
 	psli->sli_flag &= ~LPFC_SLI_ACTIVE;
 	spin_unlock_irq(&phba->hbalock);
 
+<<<<<<< HEAD
+=======
+	lpfc_sli_abort_fcp_rings(phba);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
 			"0345 Resetting board due to mailbox timeout\n");
 
@@ -11216,9 +11333,12 @@ lpfc_sli_host_down(struct lpfc_vport *vport)
 	}
 	spin_unlock_irqrestore(&phba->hbalock, flags);
 
+<<<<<<< HEAD
 	/* Make sure HBA is alive */
 	lpfc_issue_hb_tmo(phba);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Cancel all the IOCBs from the completions list */
 	lpfc_sli_cancel_iocbs(phba, &completions, IOSTAT_LOCAL_REJECT,
 			      IOERR_SLI_DOWN);
@@ -11643,7 +11763,11 @@ lpfc_sli_issue_abort_iotag(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
 	icmd = &cmdiocb->iocb;
 	if (icmd->ulpCommand == CMD_ABORT_XRI_CN ||
 	    icmd->ulpCommand == CMD_CLOSE_XRI_CN ||
+<<<<<<< HEAD
 	    cmdiocb->iocb_flag & LPFC_DRIVER_ABORTED)
+=======
+	    (cmdiocb->iocb_flag & LPFC_DRIVER_ABORTED) != 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return IOCB_ABORTING;
 
 	if (!pring) {
@@ -11807,6 +11931,7 @@ lpfc_sli_validate_fcp_iocb(struct lpfc_iocbq *iocbq, struct lpfc_vport *vport,
 			   lpfc_ctx_cmd ctx_cmd)
 {
 	struct lpfc_io_buf *lpfc_cmd;
+<<<<<<< HEAD
 	IOCB_t *icmd = NULL;
 	int rc = 1;
 
@@ -11821,6 +11946,15 @@ lpfc_sli_validate_fcp_iocb(struct lpfc_iocbq *iocbq, struct lpfc_vport *vport,
 	icmd = &iocbq->iocb;
 	if (icmd->ulpCommand == CMD_ABORT_XRI_CN ||
 	    icmd->ulpCommand == CMD_CLOSE_XRI_CN)
+=======
+	int rc = 1;
+
+	if (iocbq->vport != vport)
+		return rc;
+
+	if (!(iocbq->iocb_flag &  LPFC_IO_FCP) ||
+	    !(iocbq->iocb_flag & LPFC_IO_ON_TXCMPLQ))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return rc;
 
 	lpfc_cmd = container_of(iocbq, struct lpfc_io_buf, cur_iocbq);
@@ -11948,6 +12082,10 @@ lpfc_sli_abort_fcp_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
 /**
  * lpfc_sli_abort_iocb - issue abort for all commands on a host/target/LUN
  * @vport: Pointer to virtual port.
+<<<<<<< HEAD
+=======
+ * @pring: Pointer to driver SLI ring object.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @tgt_id: SCSI ID of the target.
  * @lun_id: LUN ID of the scsi device.
  * @abort_cmd: LPFC_CTX_LUN/LPFC_CTX_TGT/LPFC_CTX_HOST.
@@ -11962,22 +12100,35 @@ lpfc_sli_abort_fcp_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
  * FCP iocbs associated with SCSI target specified by tgt_id parameter.
  * When abort_cmd == LPFC_CTX_HOST, the function sends abort to all
  * FCP iocbs associated with virtual port.
+<<<<<<< HEAD
  * The pring used for SLI3 is sli3_ring[LPFC_FCP_RING], for SLI4
  * lpfc_sli4_calc_ring is used.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * This function returns number of iocbs it failed to abort.
  * This function is called with no locks held.
  **/
 int
+<<<<<<< HEAD
 lpfc_sli_abort_iocb(struct lpfc_vport *vport, u16 tgt_id, u64 lun_id,
 		    lpfc_ctx_cmd abort_cmd)
 {
 	struct lpfc_hba *phba = vport->phba;
 	struct lpfc_sli_ring *pring = NULL;
+=======
+lpfc_sli_abort_iocb(struct lpfc_vport *vport, struct lpfc_sli_ring *pring,
+		    uint16_t tgt_id, uint64_t lun_id, lpfc_ctx_cmd abort_cmd)
+{
+	struct lpfc_hba *phba = vport->phba;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct lpfc_iocbq *iocbq;
 	int errcnt = 0, ret_val = 0;
 	unsigned long iflags;
 	int i;
+<<<<<<< HEAD
 	void *fcp_cmpl = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* all I/Os are in process of being flushed */
 	if (phba->hba_flag & HBA_IOQ_FLUSH)
@@ -11991,6 +12142,7 @@ lpfc_sli_abort_iocb(struct lpfc_vport *vport, u16 tgt_id, u64 lun_id,
 			continue;
 
 		spin_lock_irqsave(&phba->hbalock, iflags);
+<<<<<<< HEAD
 		if (phba->sli_rev == LPFC_SLI_REV3) {
 			pring = &phba->sli.sli3_ring[LPFC_FCP_RING];
 			fcp_cmpl = lpfc_sli_abort_fcp_cmpl;
@@ -12000,6 +12152,10 @@ lpfc_sli_abort_iocb(struct lpfc_vport *vport, u16 tgt_id, u64 lun_id,
 		}
 		ret_val = lpfc_sli_issue_abort_iotag(phba, pring, iocbq,
 						     fcp_cmpl);
+=======
+		ret_val = lpfc_sli_issue_abort_iotag(phba, pring, iocbq,
+						     lpfc_sli_abort_fcp_cmpl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock_irqrestore(&phba->hbalock, iflags);
 		if (ret_val != IOCB_SUCCESS)
 			errcnt++;
@@ -13047,6 +13203,7 @@ lpfc_sli_sp_intr_handler(int irq, void *dev_id)
 				spin_unlock_irqrestore(
 						&phba->pport->work_port_lock,
 						iflag);
+<<<<<<< HEAD
 
 				/* Do NOT queue MBX_HEARTBEAT to the worker
 				 * thread for processing.
@@ -13062,6 +13219,9 @@ lpfc_sli_sp_intr_handler(int irq, void *dev_id)
 					/* Queue to worker thread to process */
 					lpfc_mbox_cmpl_put(phba, pmb);
 				}
+=======
+				lpfc_mbox_cmpl_put(phba, pmb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		} else
 			spin_unlock_irqrestore(&phba->hbalock, iflag);
@@ -13657,6 +13817,7 @@ lpfc_sli4_sp_handle_mbox_event(struct lpfc_hba *phba, struct lpfc_mcqe *mcqe)
 	phba->pport->work_port_events &= ~WORKER_MBOX_TMO;
 	spin_unlock_irqrestore(&phba->pport->work_port_lock, iflags);
 
+<<<<<<< HEAD
 	/* Do NOT queue MBX_HEARTBEAT to the worker thread for processing. */
 	if (pmbox->mbxCommand == MBX_HEARTBEAT) {
 		spin_lock_irqsave(&phba->hbalock, iflags);
@@ -13677,6 +13838,9 @@ lpfc_sli4_sp_handle_mbox_event(struct lpfc_hba *phba, struct lpfc_mcqe *mcqe)
 	}
 
 	/* There is mailbox completion work to queue to the worker thread */
+=======
+	/* There is mailbox completion work to do */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&phba->hbalock, iflags);
 	__lpfc_mbox_cmpl_put(phba, pmb);
 	phba->work_ha |= HA_MBATT;
@@ -17085,7 +17249,12 @@ lpfc_rq_destroy(struct lpfc_hba *phba, struct lpfc_queue *hrq,
 				"2509 RQ_DESTROY mailbox failed with "
 				"status x%x add_status x%x, mbx status x%x\n",
 				shdr_status, shdr_add_status, rc);
+<<<<<<< HEAD
 		mempool_free(mbox, hrq->phba->mbox_mem_pool);
+=======
+		if (rc != MBX_TIMEOUT)
+			mempool_free(mbox, hrq->phba->mbox_mem_pool);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENXIO;
 	}
 	bf_set(lpfc_mbx_rq_destroy_q_id, &mbox->u.mqe.un.rq_destroy.u.request,
@@ -17182,9 +17351,13 @@ lpfc_sli4_post_sgl(struct lpfc_hba *phba,
 	shdr = (union lpfc_sli4_cfg_shdr *) &post_sgl_pages->header.cfg_shdr;
 	shdr_status = bf_get(lpfc_mbox_hdr_status, &shdr->response);
 	shdr_add_status = bf_get(lpfc_mbox_hdr_add_status, &shdr->response);
+<<<<<<< HEAD
 	if (!phba->sli4_hba.intr_enable)
 		mempool_free(mbox, phba->mbox_mem_pool);
 	else if (rc != MBX_TIMEOUT)
+=======
+	if (rc != MBX_TIMEOUT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mempool_free(mbox, phba->mbox_mem_pool);
 	if (shdr_status || shdr_add_status || rc) {
 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
@@ -17381,9 +17554,13 @@ lpfc_sli4_post_sgl_list(struct lpfc_hba *phba,
 	shdr = (union lpfc_sli4_cfg_shdr *) &sgl->cfg_shdr;
 	shdr_status = bf_get(lpfc_mbox_hdr_status, &shdr->response);
 	shdr_add_status = bf_get(lpfc_mbox_hdr_add_status, &shdr->response);
+<<<<<<< HEAD
 	if (!phba->sli4_hba.intr_enable)
 		lpfc_sli4_mbox_cmd_free(phba, mbox);
 	else if (rc != MBX_TIMEOUT)
+=======
+	if (rc != MBX_TIMEOUT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lpfc_sli4_mbox_cmd_free(phba, mbox);
 	if (shdr_status || shdr_add_status || rc) {
 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
@@ -17496,9 +17673,13 @@ lpfc_sli4_post_io_sgl_block(struct lpfc_hba *phba, struct list_head *nblist,
 	shdr = (union lpfc_sli4_cfg_shdr *)&sgl->cfg_shdr;
 	shdr_status = bf_get(lpfc_mbox_hdr_status, &shdr->response);
 	shdr_add_status = bf_get(lpfc_mbox_hdr_add_status, &shdr->response);
+<<<<<<< HEAD
 	if (!phba->sli4_hba.intr_enable)
 		lpfc_sli4_mbox_cmd_free(phba, mbox);
 	else if (rc != MBX_TIMEOUT)
+=======
+	if (rc != MBX_TIMEOUT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lpfc_sli4_mbox_cmd_free(phba, mbox);
 	if (shdr_status || shdr_add_status || rc) {
 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
@@ -18082,6 +18263,10 @@ lpfc_sli4_seq_abort_rsp_cmpl(struct lpfc_hba *phba,
 	if (cmd_iocbq) {
 		ndlp = (struct lpfc_nodelist *)cmd_iocbq->context1;
 		lpfc_nlp_put(ndlp);
+<<<<<<< HEAD
+=======
+		lpfc_nlp_not_used(ndlp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lpfc_sli_release_iocbq(phba, cmd_iocbq);
 	}
 
@@ -18848,7 +19033,12 @@ lpfc_sli4_post_rpi_hdr(struct lpfc_hba *phba, struct lpfc_rpi_hdr *rpi_page)
 	shdr = (union lpfc_sli4_cfg_shdr *) &hdr_tmpl->header.cfg_shdr;
 	shdr_status = bf_get(lpfc_mbox_hdr_status, &shdr->response);
 	shdr_add_status = bf_get(lpfc_mbox_hdr_add_status, &shdr->response);
+<<<<<<< HEAD
 	mempool_free(mboxq, phba->mbox_mem_pool);
+=======
+	if (rc != MBX_TIMEOUT)
+		mempool_free(mboxq, phba->mbox_mem_pool);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (shdr_status || shdr_add_status || rc) {
 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
 				"2514 POST_RPI_HDR mailbox failed with "
@@ -20092,9 +20282,13 @@ lpfc_wr_object(struct lpfc_hba *phba, struct list_head *dmabuf_list,
 			break;
 		}
 	}
+<<<<<<< HEAD
 	if (!phba->sli4_hba.intr_enable)
 		mempool_free(mbox, phba->mbox_mem_pool);
 	else if (rc != MBX_TIMEOUT)
+=======
+	if (rc != MBX_TIMEOUT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mempool_free(mbox, phba->mbox_mem_pool);
 	if (shdr_status || shdr_add_status || rc) {
 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
@@ -20591,10 +20785,15 @@ lpfc_sli4_issue_abort_iotag(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
 	abtswqe = &abtsiocb->wqe;
 	memset(abtswqe, 0, sizeof(*abtswqe));
 
+<<<<<<< HEAD
+	if (!lpfc_is_link_up(phba))
+		bf_set(abort_cmd_ia, &abtswqe->abort_cmd, 1);
+=======
 	if (lpfc_is_link_up(phba))
 		bf_set(abort_cmd_ia, &abtswqe->abort_cmd, 1);
 	else
 		bf_set(abort_cmd_ia, &abtswqe->abort_cmd, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bf_set(abort_cmd_criteria, &abtswqe->abort_cmd, T_XRI_TAG);
 	abtswqe->abort_cmd.rsrvd5 = 0;
 	abtswqe->abort_cmd.wqe_com.abort_tag = xritag;

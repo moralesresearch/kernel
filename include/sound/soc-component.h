@@ -353,12 +353,15 @@ int snd_soc_component_test_bits(struct snd_soc_component *component,
 				unsigned int reg, unsigned int mask,
 				unsigned int value);
 
+<<<<<<< HEAD
 unsigned int snd_soc_component_read_field(struct snd_soc_component *component,
 					  unsigned int reg, unsigned int mask);
 int snd_soc_component_write_field(struct snd_soc_component *component,
 				  unsigned int reg, unsigned int mask,
 				  unsigned int val);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* component wide operations */
 int snd_soc_component_set_sysclk(struct snd_soc_component *component,
 				 int clk_id, int source,

@@ -499,7 +499,12 @@ static void cpm_uart_set_termios(struct uart_port *port,
 	pr_debug("CPM uart[%d]:set_termios\n", port->line);
 
 	baud = uart_get_baud_rate(port, termios, old, 0, port->uartclk / 16);
+<<<<<<< HEAD
 	if (baud < HW_BUF_SPD_THRESHOLD || port->flags & UPF_LOW_LATENCY)
+=======
+	if (baud < HW_BUF_SPD_THRESHOLD ||
+	    (pinfo->port.state && pinfo->port.state->port.low_latency))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pinfo->rx_fifosize = 1;
 	else
 		pinfo->rx_fifosize = RX_BUF_SIZE;
@@ -1106,6 +1111,7 @@ static void cpm_put_poll_char(struct uart_port *port,
 	ch[0] = (char)c;
 	cpm_uart_early_write(pinfo, ch, 1, false);
 }
+<<<<<<< HEAD
 
 static struct uart_port *udbg_port;
 
@@ -1132,6 +1138,8 @@ static int udbg_cpm_getc(void)
 	return c;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_CONSOLE_POLL */
 
 static const struct uart_ops cpm_uart_pops = {
@@ -1262,10 +1270,14 @@ static int cpm_uart_init_port(struct device_node *np,
 	}
 
 #ifdef CONFIG_PPC_EARLY_DEBUG_CPM
+<<<<<<< HEAD
 #ifdef CONFIG_CONSOLE_POLL
 	if (!udbg_port)
 #endif
 		udbg_putc = NULL;
+=======
+	udbg_putc = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	return cpm_uart_request_port(&pinfo->port);
@@ -1386,6 +1398,7 @@ static int __init cpm_uart_console_setup(struct console *co, char *options)
 	uart_set_options(port, co, baud, parity, bits, flow);
 	cpm_line_cr_cmd(pinfo, CPM_CR_RESTART_TX);
 
+<<<<<<< HEAD
 #ifdef CONFIG_CONSOLE_POLL
 	if (!udbg_port) {
 		udbg_port = &pinfo->port;
@@ -1395,6 +1408,8 @@ static int __init cpm_uart_console_setup(struct console *co, char *options)
 	}
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

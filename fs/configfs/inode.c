@@ -40,8 +40,12 @@ static const struct inode_operations configfs_inode_operations ={
 	.setattr	= configfs_setattr,
 };
 
+<<<<<<< HEAD
 int configfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		     struct iattr *iattr)
+=======
+int configfs_setattr(struct dentry * dentry, struct iattr * iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode = d_inode(dentry);
 	struct configfs_dirent * sd = dentry->d_fsdata;
@@ -68,7 +72,11 @@ int configfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	}
 	/* attributes were changed atleast once in past */
 
+<<<<<<< HEAD
 	error = simple_setattr(mnt_userns, dentry, iattr);
+=======
+	error = simple_setattr(dentry, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 

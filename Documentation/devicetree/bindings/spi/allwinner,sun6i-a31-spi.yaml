@@ -25,7 +25,10 @@ properties:
           - enum:
               - allwinner,sun8i-r40-spi
               - allwinner,sun50i-h6-spi
+<<<<<<< HEAD
               - allwinner,sun50i-h616-spi
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: allwinner,sun8i-h3-spi
 
   reg:

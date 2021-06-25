@@ -1765,7 +1765,11 @@ static void _rtl92e_dm_cts_to_self(struct net_device *dev)
 	unsigned long curTxOkCnt = 0;
 	unsigned long curRxOkCnt = 0;
 
+<<<<<<< HEAD
 	if (!priv->rtllib->bCTSToSelfEnable) {
+=======
+	if (priv->rtllib->bCTSToSelfEnable != true) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pHTInfo->IOTAction &= ~HT_IOT_ACT_FORCED_CTS2SELF;
 		return;
 	}
@@ -2447,7 +2451,11 @@ static void _rtl92e_dm_dynamic_tx_power(struct net_device *dev)
 	unsigned int txhipower_threshold = 0;
 	unsigned int txlowpower_threshold = 0;
 
+<<<<<<< HEAD
 	if (!priv->rtllib->bdynamic_txpower_enable) {
+=======
+	if (priv->rtllib->bdynamic_txpower_enable != true) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		priv->bDynamicTxHighPower = false;
 		priv->bDynamicTxLowPower = false;
 		return;

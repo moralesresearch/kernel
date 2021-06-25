@@ -11,6 +11,13 @@
 #include <linux/netdevice.h>
 #include <linux/sched/signal.h>
 #include <linux/atomic.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <linux/igmp.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/sock.h>
 #include <net/inet_common.h>
 #include <net/inet_hashtables.h>
@@ -19,6 +26,13 @@
 #include <net/tcp_states.h>
 #if IS_ENABLED(CONFIG_MPTCP_IPV6)
 #include <net/transp_v6.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <net/addrconf.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #include <net/mptcp.h>
 #include <net/xfrm.h>
@@ -45,14 +59,31 @@ static struct percpu_counter mptcp_sockets_allocated;
 static void __mptcp_destroy_sock(struct sock *sk);
 static void __mptcp_check_send_data_fin(struct sock *sk);
 
+<<<<<<< HEAD
 DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions);
 static struct net_device mptcp_napi_dev;
 
+=======
+<<<<<<< HEAD
+DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions);
+static struct net_device mptcp_napi_dev;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* If msk has an initial subflow socket, and the MP_CAPABLE handshake has not
  * completed yet or has failed, return the subflow socket.
  * Otherwise return NULL.
  */
+<<<<<<< HEAD
 struct socket *__mptcp_nmpc_socket(const struct mptcp_sock *msk)
+=======
+<<<<<<< HEAD
+struct socket *__mptcp_nmpc_socket(const struct mptcp_sock *msk)
+=======
+static struct socket *__mptcp_nmpc_socket(const struct mptcp_sock *msk)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!msk->subflow || READ_ONCE(msk->can_ack))
 		return NULL;
@@ -287,11 +318,21 @@ static bool __mptcp_move_skb(struct mptcp_sock *msk, struct sock *ssk,
 
 	/* try to fetch required memory from subflow */
 	if (!sk_rmem_schedule(sk, skb, skb->truesize)) {
+<<<<<<< HEAD
+		int amount = sk_mem_pages(skb->truesize) << SK_MEM_QUANTUM_SHIFT;
+
+		if (ssk->sk_forward_alloc < amount)
+			goto drop;
+
+		ssk->sk_forward_alloc -= amount;
+		sk->sk_forward_alloc += amount;
+=======
 		if (ssk->sk_forward_alloc < skb->truesize)
 			goto drop;
 		__sk_mem_reclaim(ssk, skb->truesize);
 		if (!sk_rmem_schedule(sk, skb, skb->truesize))
 			goto drop;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* the skb map_seq accounts for the skb offset:
@@ -399,6 +440,7 @@ static bool mptcp_pending_data_fin(struct sock *sk, u64 *seq)
 	return false;
 }
 
+<<<<<<< HEAD
 static void mptcp_set_datafin_timeout(const struct sock *sk)
 {
 	struct inet_connection_sock *icsk = inet_csk(sk);
@@ -407,6 +449,8 @@ static void mptcp_set_datafin_timeout(const struct sock *sk)
 				       TCP_RTO_MIN << icsk->icsk_retransmits);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mptcp_set_timeout(const struct sock *sk, const struct sock *ssk)
 {
 	long tout = ssk && inet_csk(ssk)->icsk_pending ?
@@ -464,6 +508,10 @@ static bool mptcp_subflow_cleanup_rbuf(struct sock *ssk)
 static void mptcp_cleanup_rbuf(struct mptcp_sock *msk)
 {
 	struct sock *ack_hint = READ_ONCE(msk->ack_hint);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int old_space = READ_ONCE(msk->old_wspace);
 	struct mptcp_subflow_context *subflow;
 	struct sock *sk = (struct sock *)msk;
@@ -476,6 +524,12 @@ static void mptcp_cleanup_rbuf(struct mptcp_sock *msk)
 	cleanup = __mptcp_space(sk) - old_space >= max(0, old_space);
 	if (!cleanup)
 		return;
+<<<<<<< HEAD
+=======
+=======
+	struct mptcp_subflow_context *subflow;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* if the hinted ssk is still active, try to use it */
 	if (likely(ack_hint)) {
@@ -687,18 +741,35 @@ static bool __mptcp_ofo_queue(struct mptcp_sock *msk)
 /* In most cases we will be able to lock the mptcp socket.  If its already
  * owned, we need to defer to the work queue to avoid ABBA deadlock.
  */
+<<<<<<< HEAD
+static bool move_skbs_to_msk(struct mptcp_sock *msk, struct sock *ssk)
+=======
 static void move_skbs_to_msk(struct mptcp_sock *msk, struct sock *ssk)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sock *sk = (struct sock *)msk;
 	unsigned int moved = 0;
 
 	if (inet_sk_state_load(sk) == TCP_CLOSE)
+<<<<<<< HEAD
+		return false;
+
+	__mptcp_move_skbs_from_subflow(msk, ssk, &moved);
+	__mptcp_ofo_queue(msk);
+	if (unlikely(ssk->sk_err)) {
+		if (!sock_owned_by_user(sk))
+			__mptcp_error_report(sk);
+		else
+			set_bit(MPTCP_ERROR_REPORT,  &msk->flags);
+	}
+=======
 		return;
 
 	mptcp_data_lock(sk);
 
 	__mptcp_move_skbs_from_subflow(msk, ssk, &moved);
 	__mptcp_ofo_queue(msk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If the moves have caught up with the DATA_FIN sequence number
 	 * it's time to ack the DATA_FIN and change socket state, but
@@ -707,7 +778,11 @@ static void move_skbs_to_msk(struct mptcp_sock *msk, struct sock *ssk)
 	 */
 	if (mptcp_pending_data_fin(sk, NULL))
 		mptcp_schedule_work(sk);
+<<<<<<< HEAD
+	return moved > 0;
+=======
 	mptcp_data_unlock(sk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void mptcp_data_ready(struct sock *sk, struct sock *ssk)
@@ -715,7 +790,10 @@ void mptcp_data_ready(struct sock *sk, struct sock *ssk)
 	struct mptcp_subflow_context *subflow = mptcp_subflow_ctx(ssk);
 	struct mptcp_sock *msk = mptcp_sk(sk);
 	int sk_rbuf, ssk_rbuf;
+<<<<<<< HEAD
+=======
 	bool wake;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The peer can send data while we are shutting down this
 	 * subflow at msk destruction time, but we must avoid enqueuing
@@ -724,6 +802,8 @@ void mptcp_data_ready(struct sock *sk, struct sock *ssk)
 	if (unlikely(subflow->disposable))
 		return;
 
+<<<<<<< HEAD
+=======
 	/* move_skbs_to_msk below can legitly clear the data_avail flag,
 	 * but we will need later to properly woke the reader, cache its
 	 * value
@@ -732,11 +812,25 @@ void mptcp_data_ready(struct sock *sk, struct sock *ssk)
 	if (wake)
 		set_bit(MPTCP_DATA_READY, &msk->flags);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssk_rbuf = READ_ONCE(ssk->sk_rcvbuf);
 	sk_rbuf = READ_ONCE(sk->sk_rcvbuf);
 	if (unlikely(ssk_rbuf > sk_rbuf))
 		sk_rbuf = ssk_rbuf;
 
+<<<<<<< HEAD
+	/* over limit? can't append more skbs to msk, Also, no need to wake-up*/
+	if (atomic_read(&sk->sk_rmem_alloc) > sk_rbuf)
+		return;
+
+	/* Wake-up the reader only for in-sequence data */
+	mptcp_data_lock(sk);
+	if (move_skbs_to_msk(msk, ssk)) {
+		set_bit(MPTCP_DATA_READY, &msk->flags);
+		sk->sk_data_ready(sk);
+	}
+	mptcp_data_unlock(sk);
+=======
 	/* over limit? can't append more skbs to msk */
 	if (atomic_read(&sk->sk_rmem_alloc) > sk_rbuf)
 		goto wake;
@@ -746,18 +840,35 @@ void mptcp_data_ready(struct sock *sk, struct sock *ssk)
 wake:
 	if (wake)
 		sk->sk_data_ready(sk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __mptcp_flush_join_list(struct mptcp_sock *msk)
 {
+<<<<<<< HEAD
 	struct mptcp_subflow_context *subflow;
 
+=======
+<<<<<<< HEAD
+	struct mptcp_subflow_context *subflow;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (likely(list_empty(&msk->join_list)))
 		return;
 
 	spin_lock_bh(&msk->join_list_lock);
+<<<<<<< HEAD
 	list_for_each_entry(subflow, &msk->join_list, node)
 		mptcp_propagate_sndbuf((struct sock *)msk, mptcp_subflow_tcp_sock(subflow));
+=======
+<<<<<<< HEAD
+	list_for_each_entry(subflow, &msk->join_list, node)
+		mptcp_propagate_sndbuf((struct sock *)msk, mptcp_subflow_tcp_sock(subflow));
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_splice_tail_init(&msk->join_list, &msk->conn_list);
 	spin_unlock_bh(&msk->join_list_lock);
 }
@@ -848,7 +959,11 @@ static struct sock *mptcp_subflow_recv_lookup(const struct mptcp_sock *msk)
 	sock_owned_by_me(sk);
 
 	mptcp_for_each_subflow(msk, subflow) {
+<<<<<<< HEAD
+		if (READ_ONCE(subflow->data_avail))
+=======
 		if (subflow->data_avail)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return mptcp_subflow_tcp_sock(subflow);
 	}
 
@@ -869,12 +984,24 @@ static bool mptcp_skb_can_collapse_to(u64 write_seq,
 	       !mpext->frozen;
 }
 
+<<<<<<< HEAD
+/* we can append data to the given data frag if:
+ * - there is space available in the backing page_frag
+ * - the data frag tail matches the current page_frag free offset
+ * - the data frag end sequence number matches the current write seq
+ */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mptcp_frag_can_collapse_to(const struct mptcp_sock *msk,
 				       const struct page_frag *pfrag,
 				       const struct mptcp_data_frag *df)
 {
 	return df && pfrag->page == df->page &&
 		pfrag->size - pfrag->offset > 0 &&
+<<<<<<< HEAD
+		pfrag->offset == (df->offset + df->data_len) &&
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		df->data_seq + df->data_len == msk->write_seq;
 }
 
@@ -931,6 +1058,13 @@ static void __mptcp_update_wmem(struct sock *sk)
 {
 	struct mptcp_sock *msk = mptcp_sk(sk);
 
+<<<<<<< HEAD
+#ifdef CONFIG_LOCKDEP
+	WARN_ON_ONCE(!lockdep_is_held(&sk->sk_lock.slock));
+#endif
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!msk->wmem_reserved)
 		return;
 
@@ -1057,22 +1191,60 @@ out:
 			__mptcp_update_wmem(sk);
 			sk_mem_reclaim_partial(sk);
 		}
+<<<<<<< HEAD
 	}
 
 	if (snd_una == READ_ONCE(msk->snd_nxt)) {
 		if (msk->timer_ival && !mptcp_data_fin_enabled(msk))
+=======
+<<<<<<< HEAD
+=======
+
+		if (sk_stream_is_writeable(sk)) {
+			/* pairs with memory barrier in mptcp_poll */
+			smp_mb();
+			if (test_and_clear_bit(MPTCP_NOSPACE, &msk->flags))
+				sk_stream_write_space(sk);
+		}
+>>>>>>> stable
+	}
+
+	if (snd_una == READ_ONCE(msk->snd_nxt)) {
+		if (msk->timer_ival)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mptcp_stop_timer(sk);
 	} else {
 		mptcp_reset_timer(sk);
 	}
 }
 
+<<<<<<< HEAD
 static void __mptcp_clean_una_wakeup(struct sock *sk)
 {
+#ifdef CONFIG_LOCKDEP
+	WARN_ON_ONCE(!lockdep_is_held(&sk->sk_lock.slock));
+#endif
+=======
+<<<<<<< HEAD
+static void __mptcp_clean_una_wakeup(struct sock *sk)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__mptcp_clean_una(sk);
 	mptcp_write_space(sk);
 }
 
+<<<<<<< HEAD
+static void mptcp_clean_una_wakeup(struct sock *sk)
+{
+	mptcp_data_lock(sk);
+	__mptcp_clean_una_wakeup(sk);
+	mptcp_data_unlock(sk);
+}
+
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mptcp_enter_memory_pressure(struct sock *sk)
 {
 	struct mptcp_subflow_context *subflow;
@@ -1283,7 +1455,11 @@ static int mptcp_sendmsg_frag(struct sock *sk, struct sock *ssk,
 	int avail_size;
 	size_t ret = 0;
 
+<<<<<<< HEAD
 	pr_debug("msk=%p ssk=%p sending dfrag at seq=%llu len=%u already sent=%u",
+=======
+	pr_debug("msk=%p ssk=%p sending dfrag at seq=%lld len=%d already sent=%d",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 msk, ssk, dfrag->data_seq, dfrag->data_len, info->sent);
 
 	/* compute send limit */
@@ -1382,7 +1558,16 @@ struct subflow_send_info {
 	u64 ratio;
 };
 
+<<<<<<< HEAD
 static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk)
+=======
+<<<<<<< HEAD
+static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk)
+=======
+static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk,
+					   u32 *sndbuf)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct subflow_send_info send_info[2];
 	struct mptcp_subflow_context *subflow;
@@ -1393,17 +1578,46 @@ static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk)
 
 	sock_owned_by_me((struct sock *)msk);
 
+<<<<<<< HEAD
 	if (__mptcp_check_fallback(msk)) {
 		if (!msk->first)
 			return NULL;
+=======
+<<<<<<< HEAD
+	if (__mptcp_check_fallback(msk)) {
+		if (!msk->first)
+			return NULL;
+=======
+	*sndbuf = 0;
+	if (__mptcp_check_fallback(msk)) {
+		if (!msk->first)
+			return NULL;
+		*sndbuf = msk->first->sk_sndbuf;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return sk_stream_memory_free(msk->first) ? msk->first : NULL;
 	}
 
 	/* re-use last subflow, if the burst allow that */
 	if (msk->last_snd && msk->snd_burst > 0 &&
 	    sk_stream_memory_free(msk->last_snd) &&
+<<<<<<< HEAD
 	    mptcp_subflow_active(mptcp_subflow_ctx(msk->last_snd)))
 		return msk->last_snd;
+=======
+<<<<<<< HEAD
+	    mptcp_subflow_active(mptcp_subflow_ctx(msk->last_snd)))
+		return msk->last_snd;
+=======
+	    mptcp_subflow_active(mptcp_subflow_ctx(msk->last_snd))) {
+		mptcp_for_each_subflow(msk, subflow) {
+			ssk =  mptcp_subflow_tcp_sock(subflow);
+			*sndbuf = max(tcp_sk(ssk)->snd_wnd, *sndbuf);
+		}
+		return msk->last_snd;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* pick the subflow with the lower wmem/wspace ratio */
 	for (i = 0; i < 2; ++i) {
@@ -1416,7 +1630,16 @@ static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk)
 			continue;
 
 		nr_active += !subflow->backup;
+<<<<<<< HEAD
 		if (!sk_stream_memory_free(subflow->tcp_sock) || !tcp_sk(ssk)->snd_wnd)
+=======
+<<<<<<< HEAD
+		if (!sk_stream_memory_free(subflow->tcp_sock) || !tcp_sk(ssk)->snd_wnd)
+=======
+		*sndbuf = max(tcp_sk(ssk)->snd_wnd, *sndbuf);
+		if (!sk_stream_memory_free(subflow->tcp_sock))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		pace = READ_ONCE(ssk->sk_pacing_rate);
@@ -1442,10 +1665,22 @@ static struct sock *mptcp_subflow_get_send(struct mptcp_sock *msk)
 	if (send_info[0].ssk) {
 		msk->last_snd = send_info[0].ssk;
 		msk->snd_burst = min_t(int, MPTCP_SEND_BURST_SIZE,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       tcp_sk(msk->last_snd)->snd_wnd);
 		return msk->last_snd;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+				       sk_stream_wspace(msk->last_snd));
+		return msk->last_snd;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }
 
@@ -1466,6 +1701,13 @@ static void __mptcp_push_pending(struct sock *sk, unsigned int flags)
 	};
 	struct mptcp_data_frag *dfrag;
 	int len, copied = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	u32 sndbuf;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while ((dfrag = mptcp_send_head(sk))) {
 		info.sent = dfrag->already_sent;
@@ -1476,7 +1718,20 @@ static void __mptcp_push_pending(struct sock *sk, unsigned int flags)
 
 			prev_ssk = ssk;
 			__mptcp_flush_join_list(msk);
+<<<<<<< HEAD
 			ssk = mptcp_subflow_get_send(msk);
+=======
+<<<<<<< HEAD
+			ssk = mptcp_subflow_get_send(msk);
+=======
+			ssk = mptcp_subflow_get_send(msk, &sndbuf);
+
+			/* do auto tuning */
+			if (!(sk->sk_userlocks & SOCK_SNDBUF_LOCK) &&
+			    sndbuf > READ_ONCE(sk->sk_sndbuf))
+				WRITE_ONCE(sk->sk_sndbuf, sndbuf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* try to keep the subflow socket lock across
 			 * consecutive xmit on the same socket
@@ -1533,9 +1788,19 @@ static void __mptcp_subflow_push_pending(struct sock *sk, struct sock *ssk)
 	struct mptcp_sock *msk = mptcp_sk(sk);
 	struct mptcp_sendmsg_info info;
 	struct mptcp_data_frag *dfrag;
+<<<<<<< HEAD
 	struct sock *xmit_ssk;
 	int len, copied = 0;
 	bool first = true;
+=======
+<<<<<<< HEAD
+	struct sock *xmit_ssk;
+	int len, copied = 0;
+	bool first = true;
+=======
+	int len, copied = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	info.flags = 0;
 	while ((dfrag = mptcp_send_head(sk))) {
@@ -1545,6 +1810,10 @@ static void __mptcp_subflow_push_pending(struct sock *sk, struct sock *ssk)
 		while (len > 0) {
 			int ret = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* the caller already invoked the packet scheduler,
 			 * check for a different subflow usage only after
 			 * spooling the first chunk of data
@@ -1556,6 +1825,15 @@ static void __mptcp_subflow_push_pending(struct sock *sk, struct sock *ssk)
 				mptcp_subflow_delegate(mptcp_subflow_ctx(xmit_ssk));
 				goto out;
 			}
+<<<<<<< HEAD
+=======
+=======
+			/* do auto tuning */
+			if (!(sk->sk_userlocks & SOCK_SNDBUF_LOCK) &&
+			    ssk->sk_sndbuf > READ_ONCE(sk->sk_sndbuf))
+				WRITE_ONCE(sk->sk_sndbuf, ssk->sk_sndbuf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (unlikely(mptcp_must_reclaim_memory(sk, ssk))) {
 				__mptcp_update_wmem(sk);
@@ -1575,7 +1853,14 @@ static void __mptcp_subflow_push_pending(struct sock *sk, struct sock *ssk)
 			msk->tx_pending_data -= ret;
 			copied += ret;
 			len -= ret;
+<<<<<<< HEAD
 			first = false;
+=======
+<<<<<<< HEAD
+			first = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		WRITE_ONCE(msk->first_pending, mptcp_send_next(sk));
 	}
@@ -1598,6 +1883,10 @@ out:
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mptcp_set_nospace(struct sock *sk)
 {
 	/* enable autotune */
@@ -1607,6 +1896,11 @@ static void mptcp_set_nospace(struct sock *sk)
 	set_bit(MPTCP_NOSPACE, &mptcp_sk(sk)->flags);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mptcp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
 {
 	struct mptcp_sock *msk = mptcp_sk(sk);
@@ -1701,14 +1995,26 @@ static int mptcp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
 			if (!msk->first_pending)
 				WRITE_ONCE(msk->first_pending, dfrag);
 		}
+<<<<<<< HEAD
 		pr_debug("msk=%p dfrag at seq=%llu len=%u sent=%u new=%d", msk,
+=======
+		pr_debug("msk=%p dfrag at seq=%lld len=%d sent=%d new=%d", msk,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 dfrag->data_seq, dfrag->data_len, dfrag->already_sent,
 			 !dfrag_collapsed);
 
 		continue;
 
 wait_for_memory:
+<<<<<<< HEAD
 		mptcp_set_nospace(sk);
+=======
+<<<<<<< HEAD
+		mptcp_set_nospace(sk);
+=======
+		set_bit(MPTCP_NOSPACE, &msk->flags);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__mptcp_push_pending(sk, msg->msg_flags);
 		ret = sk_stream_wait_memory(sk, &timeo);
 		if (ret)
@@ -1895,7 +2201,15 @@ static void __mptcp_splice_receive_queue(struct sock *sk)
 	skb_queue_splice_tail_init(&sk->sk_receive_queue, &msk->receive_queue);
 }
 
+<<<<<<< HEAD
 static bool __mptcp_move_skbs(struct mptcp_sock *msk)
+=======
+<<<<<<< HEAD
+static bool __mptcp_move_skbs(struct mptcp_sock *msk)
+=======
+static bool __mptcp_move_skbs(struct mptcp_sock *msk, unsigned int rcv)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sock *sk = (struct sock *)msk;
 	unsigned int moved = 0;
@@ -1915,10 +2229,29 @@ static bool __mptcp_move_skbs(struct mptcp_sock *msk)
 
 		slowpath = lock_sock_fast(ssk);
 		mptcp_data_lock(sk);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__mptcp_update_rmem(sk);
 		done = __mptcp_move_skbs_from_subflow(msk, ssk, &moved);
 		mptcp_data_unlock(sk);
 		tcp_cleanup_rbuf(ssk, moved);
+<<<<<<< HEAD
+
+		if (unlikely(ssk->sk_err))
+			__mptcp_error_report(sk);
+=======
+=======
+		done = __mptcp_move_skbs_from_subflow(msk, ssk, &moved);
+		mptcp_data_unlock(sk);
+		if (moved && rcv) {
+			WRITE_ONCE(msk->rmem_pending, min(rcv, moved));
+			tcp_cleanup_rbuf(ssk, 1);
+			WRITE_ONCE(msk->rmem_pending, 0);
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unlock_sock_fast(ssk, slowpath);
 	} while (!done);
 
@@ -1931,7 +2264,14 @@ static bool __mptcp_move_skbs(struct mptcp_sock *msk)
 		ret |= __mptcp_ofo_queue(msk);
 		__mptcp_splice_receive_queue(sk);
 		mptcp_data_unlock(sk);
+<<<<<<< HEAD
 		mptcp_cleanup_rbuf(msk);
+=======
+<<<<<<< HEAD
+		mptcp_cleanup_rbuf(msk);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (ret)
 		mptcp_check_data_fin((struct sock *)msk);
@@ -1961,7 +2301,15 @@ static int mptcp_recvmsg(struct sock *sk, struct msghdr *msg, size_t len,
 	target = sock_rcvlowat(sk, flags & MSG_WAITALL, len);
 
 	while (copied < len) {
+<<<<<<< HEAD
 		int bytes_read;
+=======
+<<<<<<< HEAD
+		int bytes_read;
+=======
+		int bytes_read, old_space;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		bytes_read = __mptcp_recvmsg_mskq(msk, msg, len - copied);
 		if (unlikely(bytes_read < 0)) {
@@ -1972,12 +2320,30 @@ static int mptcp_recvmsg(struct sock *sk, struct msghdr *msg, size_t len,
 
 		copied += bytes_read;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* be sure to advertise window change */
 		mptcp_cleanup_rbuf(msk);
 
 		if (skb_queue_empty(&msk->receive_queue) && __mptcp_move_skbs(msk))
 			continue;
 
+<<<<<<< HEAD
+=======
+=======
+		if (skb_queue_empty(&msk->receive_queue) &&
+		    __mptcp_move_skbs(msk, len - copied))
+			continue;
+
+		/* be sure to advertise window change */
+		old_space = READ_ONCE(msk->old_wspace);
+		if ((tcp_space(sk) - old_space) >= old_space)
+			mptcp_cleanup_rbuf(msk);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* only the master socket status is relevant here. The exit
 		 * conditions mirror closely tcp_recvmsg()
 		 */
@@ -2004,7 +2370,15 @@ static int mptcp_recvmsg(struct sock *sk, struct msghdr *msg, size_t len,
 				/* race breaker: the shutdown could be after the
 				 * previous receive queue check
 				 */
+<<<<<<< HEAD
 				if (__mptcp_move_skbs(msk))
+=======
+<<<<<<< HEAD
+				if (__mptcp_move_skbs(msk))
+=======
+				if (__mptcp_move_skbs(msk, len - copied))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					continue;
 				break;
 			}
@@ -2037,7 +2411,15 @@ static int mptcp_recvmsg(struct sock *sk, struct msghdr *msg, size_t len,
 		/* .. race-breaker: ssk might have gotten new data
 		 * after last __mptcp_move_skbs() returned false.
 		 */
+<<<<<<< HEAD
 		if (unlikely(__mptcp_move_skbs(msk)))
+=======
+<<<<<<< HEAD
+		if (unlikely(__mptcp_move_skbs(msk)))
+=======
+		if (unlikely(__mptcp_move_skbs(msk, 0)))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			set_bit(MPTCP_DATA_READY, &msk->flags);
 	} else if (unlikely(!test_bit(MPTCP_DATA_READY, &msk->flags))) {
 		/* data to read but mptcp_wait_data() cleared DATA_READY */
@@ -2144,8 +2526,18 @@ static void mptcp_dispose_initial_subflow(struct mptcp_sock *msk)
  * so we need to use tcp_close() after detaching them from the mptcp
  * parent socket.
  */
+<<<<<<< HEAD
 static void __mptcp_close_ssk(struct sock *sk, struct sock *ssk,
 			      struct mptcp_subflow_context *subflow)
+=======
+<<<<<<< HEAD
+static void __mptcp_close_ssk(struct sock *sk, struct sock *ssk,
+			      struct mptcp_subflow_context *subflow)
+=======
+void __mptcp_close_ssk(struct sock *sk, struct sock *ssk,
+		       struct mptcp_subflow_context *subflow)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mptcp_sock *msk = mptcp_sk(sk);
 
@@ -2181,16 +2573,29 @@ static void __mptcp_close_ssk(struct sock *sk, struct sock *ssk,
 	if (ssk == msk->last_snd)
 		msk->last_snd = NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ssk == msk->ack_hint)
 		msk->ack_hint = NULL;
 
 	if (ssk == msk->first)
 		msk->first = NULL;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (msk->subflow && ssk == msk->subflow->sk)
 		mptcp_dispose_initial_subflow(msk);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mptcp_close_ssk(struct sock *sk, struct sock *ssk,
 		     struct mptcp_subflow_context *subflow)
 {
@@ -2202,6 +2607,45 @@ void mptcp_close_ssk(struct sock *sk, struct sock *ssk,
 static unsigned int mptcp_sync_mss(struct sock *sk, u32 pmtu)
 {
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+static unsigned int mptcp_sync_mss(struct sock *sk, u32 pmtu)
+{
+	return 0;
+}
+
+static void pm_work(struct mptcp_sock *msk)
+{
+	struct mptcp_pm_data *pm = &msk->pm;
+
+	spin_lock_bh(&msk->pm.lock);
+
+	pr_debug("msk=%p status=%x", msk, pm->status);
+	if (pm->status & BIT(MPTCP_PM_ADD_ADDR_RECEIVED)) {
+		pm->status &= ~BIT(MPTCP_PM_ADD_ADDR_RECEIVED);
+		mptcp_pm_nl_add_addr_received(msk);
+	}
+	if (pm->status & BIT(MPTCP_PM_ADD_ADDR_SEND_ACK)) {
+		pm->status &= ~BIT(MPTCP_PM_ADD_ADDR_SEND_ACK);
+		mptcp_pm_nl_add_addr_send_ack(msk);
+	}
+	if (pm->status & BIT(MPTCP_PM_RM_ADDR_RECEIVED)) {
+		pm->status &= ~BIT(MPTCP_PM_RM_ADDR_RECEIVED);
+		mptcp_pm_nl_rm_addr_received(msk);
+	}
+	if (pm->status & BIT(MPTCP_PM_ESTABLISHED)) {
+		pm->status &= ~BIT(MPTCP_PM_ESTABLISHED);
+		mptcp_pm_nl_fully_established(msk);
+	}
+	if (pm->status & BIT(MPTCP_PM_SUBFLOW_ESTABLISHED)) {
+		pm->status &= ~BIT(MPTCP_PM_SUBFLOW_ESTABLISHED);
+		mptcp_pm_nl_subflow_established(msk);
+	}
+
+	spin_unlock_bh(&msk->pm.lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __mptcp_close_subflow(struct mptcp_sock *msk)
@@ -2216,11 +2660,21 @@ static void __mptcp_close_subflow(struct mptcp_sock *msk)
 		if (inet_sk_state_load(ssk) != TCP_CLOSE)
 			continue;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* 'subflow_data_ready' will re-sched once rx queue is empty */
 		if (!skb_queue_empty_lockless(&ssk->sk_receive_queue))
 			continue;
 
 		mptcp_close_ssk((struct sock *)msk, ssk, subflow);
+<<<<<<< HEAD
+=======
+=======
+		__mptcp_close_ssk((struct sock *)msk, ssk, subflow);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2273,6 +2727,10 @@ static void mptcp_check_fastclose(struct mptcp_sock *msk)
 	mptcp_close_wake_up(sk);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __mptcp_retrans(struct sock *sk)
 {
 	struct mptcp_sock *msk = mptcp_sk(sk);
@@ -2282,7 +2740,8 @@ static void __mptcp_retrans(struct sock *sk)
 	struct sock *ssk;
 	int ret;
 
-	__mptcp_clean_una_wakeup(sk);
+<<<<<<< HEAD
+	mptcp_clean_una_wakeup(sk);
 	dfrag = mptcp_rtx_head(sk);
 	if (!dfrag) {
 		if (mptcp_data_fin_enabled(msk)) {
@@ -2301,6 +2760,71 @@ static void __mptcp_retrans(struct sock *sk)
 	ssk = mptcp_subflow_get_retrans(msk);
 	if (!ssk)
 		goto reset_timer;
+=======
+	__mptcp_clean_una_wakeup(sk);
+	dfrag = mptcp_rtx_head(sk);
+	if (!dfrag)
+		return;
+
+	ssk = mptcp_subflow_get_retrans(msk);
+	if (!ssk)
+		goto reset_timer;
+=======
+static void mptcp_worker(struct work_struct *work)
+{
+	struct mptcp_sock *msk = container_of(work, struct mptcp_sock, work);
+	struct sock *ssk, *sk = &msk->sk.icsk_inet.sk;
+	struct mptcp_sendmsg_info info = {};
+	struct mptcp_data_frag *dfrag;
+	size_t copied = 0;
+	int state, ret;
+
+	lock_sock(sk);
+	state = sk->sk_state;
+	if (unlikely(state == TCP_CLOSE))
+		goto unlock;
+
+	mptcp_check_data_fin_ack(sk);
+	__mptcp_flush_join_list(msk);
+
+	mptcp_check_fastclose(msk);
+
+	if (test_and_clear_bit(MPTCP_WORK_CLOSE_SUBFLOW, &msk->flags))
+		__mptcp_close_subflow(msk);
+
+	if (msk->pm.status)
+		pm_work(msk);
+
+	if (test_and_clear_bit(MPTCP_WORK_EOF, &msk->flags))
+		mptcp_check_for_eof(msk);
+
+	__mptcp_check_send_data_fin(sk);
+	mptcp_check_data_fin(sk);
+
+	/* There is no point in keeping around an orphaned sk timedout or
+	 * closed, but we need the msk around to reply to incoming DATA_FIN,
+	 * even if it is orphaned and in FIN_WAIT2 state
+	 */
+	if (sock_flag(sk, SOCK_DEAD) &&
+	    (mptcp_check_close_timeout(sk) || sk->sk_state == TCP_CLOSE)) {
+		inet_sk_state_store(sk, TCP_CLOSE);
+		__mptcp_destroy_sock(sk);
+		goto unlock;
+	}
+
+	if (!test_and_clear_bit(MPTCP_WORK_RTX, &msk->flags))
+		goto unlock;
+
+	__mptcp_clean_una(sk);
+	dfrag = mptcp_rtx_head(sk);
+	if (!dfrag)
+		goto unlock;
+
+	ssk = mptcp_subflow_get_retrans(msk);
+	if (!ssk)
+		goto reset_unlock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	lock_sock(ssk);
 
@@ -2326,6 +2850,10 @@ static void __mptcp_retrans(struct sock *sk)
 	mptcp_set_timeout(sk, ssk);
 	release_sock(ssk);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 reset_timer:
 	if (!mptcp_timer_pending(sk))
 		mptcp_reset_timer(sk);
@@ -2372,6 +2900,14 @@ static void mptcp_worker(struct work_struct *work)
 
 	if (test_and_clear_bit(MPTCP_WORK_RTX, &msk->flags))
 		__mptcp_retrans(sk);
+<<<<<<< HEAD
+=======
+=======
+reset_unlock:
+	if (!mptcp_timer_pending(sk))
+		mptcp_reset_timer(sk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unlock:
 	release_sock(sk);
@@ -2479,8 +3015,11 @@ void mptcp_subflow_shutdown(struct sock *sk, struct sock *ssk, int how)
 			pr_debug("Sending DATA_FIN on subflow %p", ssk);
 			mptcp_set_timeout(sk, ssk);
 			tcp_send_ack(ssk);
+<<<<<<< HEAD
 			if (!mptcp_timer_pending(sk))
 				mptcp_reset_timer(sk);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	}
@@ -2647,10 +3186,19 @@ cleanup:
 	release_sock(sk);
 	if (do_cancel_work)
 		mptcp_cancel_work(sk);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (mptcp_sk(sk)->token)
 		mptcp_event(MPTCP_EVENT_CLOSED, mptcp_sk(sk), NULL, GFP_KERNEL);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sock_put(sk);
 }
 
@@ -2897,6 +3445,10 @@ static int mptcp_setsockopt_v6(struct mptcp_sock *msk, int optname,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mptcp_unsupported(int level, int optname)
 {
 	if (level == SOL_IP) {
@@ -2939,6 +3491,11 @@ static bool mptcp_unsupported(int level, int optname)
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mptcp_setsockopt(struct sock *sk, int level, int optname,
 			    sockptr_t optval, unsigned int optlen)
 {
@@ -2947,9 +3504,18 @@ static int mptcp_setsockopt(struct sock *sk, int level, int optname,
 
 	pr_debug("msk=%p", msk);
 
+<<<<<<< HEAD
 	if (mptcp_unsupported(level, optname))
 		return -ENOPROTOOPT;
 
+=======
+<<<<<<< HEAD
+	if (mptcp_unsupported(level, optname))
+		return -ENOPROTOOPT;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (level == SOL_SOCKET)
 		return mptcp_setsockopt_sol_socket(msk, optname, optval, optlen);
 
@@ -3010,6 +3576,10 @@ void __mptcp_check_push(struct sock *sk, struct sock *ssk)
 	if (!mptcp_send_head(sk))
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!sock_owned_by_user(sk)) {
 		struct sock *xmit_ssk = mptcp_subflow_get_send(mptcp_sk(sk));
 
@@ -3020,6 +3590,15 @@ void __mptcp_check_push(struct sock *sk, struct sock *ssk)
 	} else {
 		set_bit(MPTCP_PUSH_PENDING, &mptcp_sk(sk)->flags);
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (!sock_owned_by_user(sk))
+		__mptcp_subflow_push_pending(sk, ssk);
+	else
+		set_bit(MPTCP_PUSH_PENDING, &mptcp_sk(sk)->flags);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define MPTCP_DEFERRED_ALL (TCPF_WRITE_TIMER_DEFERRED)
@@ -3053,7 +3632,15 @@ static void mptcp_release_cb(struct sock *sk)
 	}
 
 	if (test_and_clear_bit(MPTCP_CLEAN_UNA, &mptcp_sk(sk)->flags))
+<<<<<<< HEAD
 		__mptcp_clean_una_wakeup(sk);
+=======
+<<<<<<< HEAD
+		__mptcp_clean_una_wakeup(sk);
+=======
+		__mptcp_clean_una(sk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test_and_clear_bit(MPTCP_ERROR_REPORT, &mptcp_sk(sk)->flags))
 		__mptcp_error_report(sk);
 
@@ -3078,6 +3665,10 @@ static void mptcp_release_cb(struct sock *sk)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mptcp_subflow_process_delegated(struct sock *ssk)
 {
 	struct mptcp_subflow_context *subflow = mptcp_subflow_ctx(ssk);
@@ -3092,6 +3683,11 @@ void mptcp_subflow_process_delegated(struct sock *ssk)
 	mptcp_subflow_delegated_done(subflow);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mptcp_hash(struct sock *sk)
 {
 	/* should never be called,
@@ -3149,7 +3745,15 @@ void mptcp_finish_connect(struct sock *ssk)
 	WRITE_ONCE(msk->can_ack, 1);
 	WRITE_ONCE(msk->snd_una, msk->write_seq);
 
+<<<<<<< HEAD
 	mptcp_pm_new_connection(msk, ssk, 0);
+=======
+<<<<<<< HEAD
+	mptcp_pm_new_connection(msk, ssk, 0);
+=======
+	mptcp_pm_new_connection(msk, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mptcp_rcv_space_init(msk, ssk);
 }
@@ -3178,7 +3782,15 @@ bool mptcp_finish_join(struct sock *ssk)
 		return false;
 
 	if (!msk->pm.server_side)
+<<<<<<< HEAD
 		goto out;
+=======
+<<<<<<< HEAD
+		goto out;
+=======
+		return true;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!mptcp_pm_allow_new_subflow(msk))
 		return false;
@@ -3205,8 +3817,16 @@ bool mptcp_finish_join(struct sock *ssk)
 	if (parent_sock && !ssk->sk_socket)
 		mptcp_sock_graft(ssk, parent_sock);
 	subflow->map_seq = READ_ONCE(msk->ack_seq);
+<<<<<<< HEAD
 out:
 	mptcp_event(MPTCP_EVENT_SUB_ESTABLISHED, msk, ssk, GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+out:
+	mptcp_event(MPTCP_EVENT_SUB_ESTABLISHED, msk, ssk, GFP_ATOMIC);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 }
 
@@ -3383,25 +4003,58 @@ static int mptcp_stream_accept(struct socket *sock, struct socket *newsock,
 		struct mptcp_sock *msk = mptcp_sk(newsock->sk);
 		struct mptcp_subflow_context *subflow;
 		struct sock *newsk = newsock->sk;
+<<<<<<< HEAD
 
 		lock_sock(newsk);
+=======
+<<<<<<< HEAD
+
+		lock_sock(newsk);
+=======
+		bool slowpath;
+
+		slowpath = lock_sock_fast(newsk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* PM/worker can now acquire the first subflow socket
 		 * lock without racing with listener queue cleanup,
 		 * we can notify it, if needed.
+<<<<<<< HEAD
 		 *
 		 * Even if remote has reset the initial subflow by now
 		 * the refcnt is still at least one.
+=======
+<<<<<<< HEAD
+		 *
+		 * Even if remote has reset the initial subflow by now
+		 * the refcnt is still at least one.
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		subflow = mptcp_subflow_ctx(msk->first);
 		list_add(&subflow->node, &msk->conn_list);
 		sock_hold(msk->first);
 		if (mptcp_is_fully_established(newsk))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mptcp_pm_fully_established(msk, msk->first, GFP_KERNEL);
 
 		mptcp_copy_inaddrs(newsk, msk->first);
 		mptcp_rcv_space_init(msk, msk->first);
 		mptcp_propagate_sndbuf(newsk, msk->first);
+<<<<<<< HEAD
+=======
+=======
+			mptcp_pm_fully_established(msk);
+
+		mptcp_copy_inaddrs(newsk, msk->first);
+		mptcp_rcv_space_init(msk, msk->first);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* set ssk->sk_socket of accept()ed flows to mptcp socket.
 		 * This is needed so NOSPACE flag can be set from tcp stack.
@@ -3413,7 +4066,15 @@ static int mptcp_stream_accept(struct socket *sock, struct socket *newsock,
 			if (!ssk->sk_socket)
 				mptcp_sock_graft(ssk, newsock);
 		}
+<<<<<<< HEAD
 		release_sock(newsk);
+=======
+<<<<<<< HEAD
+		release_sock(newsk);
+=======
+		unlock_sock_fast(newsk, slowpath);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (inet_csk_listen_poll(ssock->sk))
@@ -3442,7 +4103,15 @@ static __poll_t mptcp_check_writeable(struct mptcp_sock *msk)
 	if (sk_stream_is_writeable(sk))
 		return EPOLLOUT | EPOLLWRNORM;
 
+<<<<<<< HEAD
 	mptcp_set_nospace(sk);
+=======
+<<<<<<< HEAD
+	mptcp_set_nospace(sk);
+=======
+	set_bit(MPTCP_NOSPACE, &msk->flags);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smp_mb__after_atomic(); /* msk->flags is changed by write_space cb */
 	if (sk_stream_is_writeable(sk))
 		return EPOLLOUT | EPOLLWRNORM;
@@ -3483,10 +4152,47 @@ static __poll_t mptcp_poll(struct file *file, struct socket *sock,
 	return mask;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct proto_ops mptcp_stream_ops = {
 	.family		   = PF_INET,
 	.owner		   = THIS_MODULE,
 	.release	   = inet_release,
+<<<<<<< HEAD
+=======
+=======
+static int mptcp_release(struct socket *sock)
+{
+	struct mptcp_subflow_context *subflow;
+	struct sock *sk = sock->sk;
+	struct mptcp_sock *msk;
+
+	if (!sk)
+		return 0;
+
+	lock_sock(sk);
+
+	msk = mptcp_sk(sk);
+
+	mptcp_for_each_subflow(msk, subflow) {
+		struct sock *ssk = mptcp_subflow_tcp_sock(subflow);
+
+		ip_mc_drop_socket(ssk);
+	}
+
+	release_sock(sk);
+
+	return inet_release(sock);
+}
+
+static const struct proto_ops mptcp_stream_ops = {
+	.family		   = PF_INET,
+	.owner		   = THIS_MODULE,
+	.release	   = mptcp_release,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.bind		   = mptcp_bind,
 	.connect	   = mptcp_stream_connect,
 	.socketpair	   = sock_no_socketpair,
@@ -3513,6 +4219,10 @@ static struct inet_protosw mptcp_protosw = {
 	.flags		= INET_PROTOSW_ICSK,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mptcp_napi_poll(struct napi_struct *napi, int budget)
 {
 	struct mptcp_delegated_action *delegated;
@@ -3551,11 +4261,22 @@ void __init mptcp_proto_init(void)
 	struct mptcp_delegated_action *delegated;
 	int cpu;
 
+<<<<<<< HEAD
+=======
+=======
+void __init mptcp_proto_init(void)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mptcp_prot.h.hashinfo = tcp_prot.h.hashinfo;
 
 	if (percpu_counter_init(&mptcp_sockets_allocated, 0, GFP_KERNEL))
 		panic("Failed to allocate MPTCP pcpu counter\n");
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_dummy_netdev(&mptcp_napi_dev);
 	for_each_possible_cpu(cpu) {
 		delegated = per_cpu_ptr(&mptcp_delegated_actions, cpu);
@@ -3565,6 +4286,11 @@ void __init mptcp_proto_init(void)
 		napi_enable(&delegated->napi);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mptcp_subflow_init();
 	mptcp_pm_init();
 	mptcp_token_init();
@@ -3578,10 +4304,48 @@ void __init mptcp_proto_init(void)
 }
 
 #if IS_ENABLED(CONFIG_MPTCP_IPV6)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct proto_ops mptcp_v6_stream_ops = {
 	.family		   = PF_INET6,
 	.owner		   = THIS_MODULE,
 	.release	   = inet6_release,
+<<<<<<< HEAD
+=======
+=======
+static int mptcp6_release(struct socket *sock)
+{
+	struct mptcp_subflow_context *subflow;
+	struct mptcp_sock *msk;
+	struct sock *sk = sock->sk;
+
+	if (!sk)
+		return 0;
+
+	lock_sock(sk);
+
+	msk = mptcp_sk(sk);
+
+	mptcp_for_each_subflow(msk, subflow) {
+		struct sock *ssk = mptcp_subflow_tcp_sock(subflow);
+
+		ip_mc_drop_socket(ssk);
+		ipv6_sock_mc_close(ssk);
+		ipv6_sock_ac_close(ssk);
+	}
+
+	release_sock(sk);
+	return inet6_release(sock);
+}
+
+static const struct proto_ops mptcp_v6_stream_ops = {
+	.family		   = PF_INET6,
+	.owner		   = THIS_MODULE,
+	.release	   = mptcp6_release,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.bind		   = mptcp_bind,
 	.connect	   = mptcp_stream_connect,
 	.socketpair	   = sock_no_socketpair,

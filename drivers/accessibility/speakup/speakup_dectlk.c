@@ -78,8 +78,11 @@ static struct kobj_attribute direct_attribute =
 	__ATTR(direct, 0644, spk_var_show, spk_var_store);
 static struct kobj_attribute full_time_attribute =
 	__ATTR(full_time, 0644, spk_var_show, spk_var_store);
+<<<<<<< HEAD
 static struct kobj_attribute flush_time_attribute =
 	__ATTR(flush_time, 0644, spk_var_show, spk_var_store);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct kobj_attribute jiffy_delta_attribute =
 	__ATTR(jiffy_delta, 0644, spk_var_show, spk_var_store);
 static struct kobj_attribute trigger_time_attribute =
@@ -101,7 +104,10 @@ static struct attribute *synth_attrs[] = {
 	&delay_time_attribute.attr,
 	&direct_attribute.attr,
 	&full_time_attribute.attr,
+<<<<<<< HEAD
 	&flush_time_attribute.attr,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&jiffy_delta_attribute.attr,
 	&trigger_time_attribute.attr,
 	NULL,	/* need to NULL terminate the list of attributes */
@@ -121,7 +127,10 @@ static struct spk_synth synth_dectlk = {
 	.trigger = 50,
 	.jiffies = 50,
 	.full = 40000,
+<<<<<<< HEAD
 	.flush_time = 4000,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dev_name = SYNTH_DEFAULT_DEV,
 	.startup = SYNTH_START,
 	.checkval = SYNTH_CHECK,
@@ -204,6 +213,7 @@ static void do_catch_up(struct spk_synth *synth)
 	static u_char last = '\0';
 	unsigned long flags;
 	unsigned long jiff_max;
+<<<<<<< HEAD
 	unsigned long timeout;
 	DEFINE_WAIT(wait);
 	struct var_t *jiffy_delta;
@@ -221,6 +231,20 @@ static void do_catch_up(struct spk_synth *synth)
 	timeout_val = flush_time->u.n.value;
 	spin_unlock_irqrestore(&speakup_info.spinlock, flags);
 	timeout = msecs_to_jiffies(timeout_val);
+=======
+	unsigned long timeout = msecs_to_jiffies(4000);
+	DEFINE_WAIT(wait);
+	struct var_t *jiffy_delta;
+	struct var_t *delay_time;
+	int jiffy_delta_val;
+	int delay_time_val;
+
+	jiffy_delta = spk_get_var(JIFFY);
+	delay_time = spk_get_var(DELAY);
+	spin_lock_irqsave(&speakup_info.spinlock, flags);
+	jiffy_delta_val = jiffy_delta->u.n.value;
+	spin_unlock_irqrestore(&speakup_info.spinlock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	jiff_max = jiffies + jiffy_delta_val;
 
 	while (!kthread_should_stop()) {
@@ -298,7 +322,11 @@ static void synth_flush(struct spk_synth *synth)
 		synth->io_ops->synth_out(synth, ']');
 	in_escape = 0;
 	is_flushing = 1;
+<<<<<<< HEAD
 	synth->io_ops->flush_buffer(synth);
+=======
+	synth->io_ops->flush_buffer();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	synth->io_ops->synth_out(synth, SYNTH_CLEAR);
 }
 

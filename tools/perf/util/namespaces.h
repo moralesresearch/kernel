@@ -8,7 +8,10 @@
 #define __PERF_NAMESPACES_H
 
 #include <sys/types.h>
+<<<<<<< HEAD
 #include <sys/stat.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/stddef.h>
 #include <linux/perf_event.h>
 #include <linux/refcount.h>
@@ -34,7 +37,10 @@ struct nsinfo {
 	pid_t			tgid;
 	pid_t			nstgid;
 	bool			need_setns;
+<<<<<<< HEAD
 	bool			in_pidns;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char			*mntns_path;
 	refcount_t		refcnt;
 };
@@ -57,7 +63,10 @@ void nsinfo__mountns_enter(struct nsinfo *nsi, struct nscookie *nc);
 void nsinfo__mountns_exit(struct nscookie *nc);
 
 char *nsinfo__realpath(const char *path, struct nsinfo *nsi);
+<<<<<<< HEAD
 int nsinfo__stat(const char *filename, struct stat *st, struct nsinfo *nsi);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void __nsinfo__zput(struct nsinfo **nsip)
 {

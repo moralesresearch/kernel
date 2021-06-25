@@ -21,7 +21,10 @@
 #include <asm/hw_irq.h>
 #include <asm/desc.h>
 #include <asm/traps.h>
+<<<<<<< HEAD
 #include <asm/thermal.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CREATE_TRACE_POINTS
 #include <asm/trace/irq_vectors.h>
@@ -228,7 +231,11 @@ static __always_inline void handle_irq(struct irq_desc *desc,
 				       struct pt_regs *regs)
 {
 	if (IS_ENABLED(CONFIG_X86_64))
+<<<<<<< HEAD
 		generic_handle_irq_desc(desc);
+=======
+		run_irq_on_irqstack_cond(desc->handle_irq, desc, regs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		__handle_irq(desc, regs);
 }
@@ -375,6 +382,7 @@ void fixup_irqs(void)
 	}
 }
 #endif
+<<<<<<< HEAD
 
 #ifdef CONFIG_X86_THERMAL_VECTOR
 static void smp_thermal_vector(void)
@@ -395,3 +403,5 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_thermal)
 	ack_APIC_irq();
 }
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

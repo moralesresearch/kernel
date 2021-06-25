@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 include ../../../scripts/Makefile.include
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 top_srcdir = $(abspath ../../../..)
 APIDIR := $(top_scrdir)/include/uapi
@@ -8,6 +11,11 @@ TEST_GEN_FILES = action.o
 KSFT_KHDR_INSTALL := 1
 include ../lib.mk
 
+<<<<<<< HEAD
+=======
+CLANG ?= clang
+LLC   ?= llc
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 PROBE := $(shell $(LLC) -march=bpf -mcpu=probe -filetype=null /dev/null 2>&1)
 
 ifeq ($(PROBE),)

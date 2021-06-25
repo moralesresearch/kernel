@@ -623,8 +623,17 @@ static int ocelot_flower_parse(struct ocelot *ocelot, int port, bool ingress,
 	int ret;
 
 	filter->prio = f->common.prio;
+<<<<<<< HEAD
 	filter->id.cookie = f->cookie;
 	filter->id.tc_offload = true;
+=======
+<<<<<<< HEAD
+	filter->id.cookie = f->cookie;
+	filter->id.tc_offload = true;
+=======
+	filter->id = f->cookie;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = ocelot_flower_parse_action(ocelot, port, ingress, f, filter);
 	if (ret)
@@ -719,7 +728,15 @@ int ocelot_cls_flower_destroy(struct ocelot *ocelot, int port,
 
 	block = &ocelot->block[block_id];
 
+<<<<<<< HEAD
 	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie, true);
+=======
+<<<<<<< HEAD
+	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie, true);
+=======
+	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!filter)
 		return 0;
 
@@ -743,7 +760,15 @@ int ocelot_cls_flower_stats(struct ocelot *ocelot, int port,
 
 	block = &ocelot->block[block_id];
 
+<<<<<<< HEAD
 	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie, true);
+=======
+<<<<<<< HEAD
+	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie, true);
+=======
+	filter = ocelot_vcap_block_find_filter_by_id(block, f->cookie);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!filter || filter->type == OCELOT_VCAP_FILTER_DUMMY)
 		return 0;
 

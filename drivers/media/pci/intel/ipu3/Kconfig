@@ -17,6 +17,10 @@ config VIDEO_IPU3_CIO2
 	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
 	  connected camera.
 	  The module will be called ipu3-cio2.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config CIO2_BRIDGE
 	bool "IPU3 CIO2 Sensors Bridge"
@@ -35,3 +39,8 @@ config CIO2_BRIDGE
 		- Dell 7285
 
 	  If in doubt, say N here.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

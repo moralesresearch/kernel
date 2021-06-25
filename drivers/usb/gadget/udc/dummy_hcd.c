@@ -903,6 +903,7 @@ static int dummy_pullup(struct usb_gadget *_gadget, int value)
 	spin_lock_irqsave(&dum->lock, flags);
 	dum->pullup = (value != 0);
 	set_link_state(dum_hcd);
+<<<<<<< HEAD
 	if (value == 0) {
 		/*
 		 * Emulate synchronize_irq(): wait for callbacks to finish.
@@ -918,6 +919,8 @@ static int dummy_pullup(struct usb_gadget *_gadget, int value)
 			spin_lock_irqsave(&dum->lock, flags);
 		}
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&dum->lock, flags);
 
 	usb_hcd_poll_rh_status(dummy_hcd_to_hcd(dum_hcd));
@@ -1019,6 +1022,17 @@ static int dummy_udc_stop(struct usb_gadget *g)
 	spin_lock_irq(&dum->lock);
 	dum->ints_enabled = 0;
 	stop_activity(dum);
+<<<<<<< HEAD
+=======
+
+	/* emulate synchronize_irq(): wait for callbacks to finish */
+	while (dum->callback_usage > 0) {
+		spin_unlock_irq(&dum->lock);
+		usleep_range(1000, 2000);
+		spin_lock_irq(&dum->lock);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dum->driver = NULL;
 	spin_unlock_irq(&dum->lock);
 

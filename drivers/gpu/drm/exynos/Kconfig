@@ -89,6 +89,10 @@ comment "Sub-drivers"
 config DRM_EXYNOS_G2D
 	bool "G2D"
 	depends on VIDEO_SAMSUNG_S5P_G2D=n || COMPILE_TEST
+<<<<<<< HEAD
+=======
+	select FRAME_VECTOR
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Choose this option if you want to use Exynos G2D for DRM.
 

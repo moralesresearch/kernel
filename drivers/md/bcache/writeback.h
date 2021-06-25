@@ -16,10 +16,13 @@
 
 #define BCH_AUTO_GC_DIRTY_THRESHOLD	50
 
+<<<<<<< HEAD
 #define BCH_WRITEBACK_FRAGMENT_THRESHOLD_LOW 50
 #define BCH_WRITEBACK_FRAGMENT_THRESHOLD_MID 57
 #define BCH_WRITEBACK_FRAGMENT_THRESHOLD_HIGH 64
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BCH_DIRTY_INIT_THRD_MAX	64
 /*
  * 14 (16384ths) is chosen here as something that each backing device

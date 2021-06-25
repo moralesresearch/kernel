@@ -33,10 +33,13 @@ enum perf_stat_evsel_id {
 	PERF_STAT_EVSEL_ID__TOPDOWN_BAD_SPEC,
 	PERF_STAT_EVSEL_ID__TOPDOWN_FE_BOUND,
 	PERF_STAT_EVSEL_ID__TOPDOWN_BE_BOUND,
+<<<<<<< HEAD
 	PERF_STAT_EVSEL_ID__TOPDOWN_HEAVY_OPS,
 	PERF_STAT_EVSEL_ID__TOPDOWN_BR_MISPREDICT,
 	PERF_STAT_EVSEL_ID__TOPDOWN_FETCH_LAT,
 	PERF_STAT_EVSEL_ID__TOPDOWN_MEM_BOUND,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PERF_STAT_EVSEL_ID__SMI_NUM,
 	PERF_STAT_EVSEL_ID__APERF,
 	PERF_STAT_EVSEL_ID__MAX,
@@ -95,10 +98,13 @@ enum stat_type {
 	STAT_TOPDOWN_BAD_SPEC,
 	STAT_TOPDOWN_FE_BOUND,
 	STAT_TOPDOWN_BE_BOUND,
+<<<<<<< HEAD
 	STAT_TOPDOWN_HEAVY_OPS,
 	STAT_TOPDOWN_BR_MISPREDICT,
 	STAT_TOPDOWN_FETCH_LAT,
 	STAT_TOPDOWN_MEM_BOUND,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	STAT_SMI_NUM,
 	STAT_APERF,
 	STAT_MAX
@@ -156,7 +162,10 @@ struct perf_stat_config {
 	int			 ctl_fd_ack;
 	bool			 ctl_fd_close;
 	const char		*cgroup_list;
+<<<<<<< HEAD
 	unsigned int		topdown_level;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void perf_stat__set_big_num(int set);

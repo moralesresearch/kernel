@@ -524,6 +524,7 @@ nmi_restart:
 		mds_user_clear_cpu_buffers();
 }
 
+<<<<<<< HEAD
 #if defined(CONFIG_X86_64) && IS_ENABLED(CONFIG_KVM_INTEL)
 DEFINE_IDTENTRY_RAW(exc_nmi_noist)
 {
@@ -534,6 +535,8 @@ DEFINE_IDTENTRY_RAW(exc_nmi_noist)
 EXPORT_SYMBOL_GPL(asm_exc_nmi_noist);
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void stop_nmi(void)
 {
 	ignore_nmis++;

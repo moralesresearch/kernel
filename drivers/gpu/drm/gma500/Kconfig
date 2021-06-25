@@ -1,8 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0-only
 config DRM_GMA500
+<<<<<<< HEAD
 	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
 	depends on DRM && PCI && X86 && MMU
 	select DRM_KMS_HELPER
+=======
+	tristate "Intel GMA5/600 KMS Framebuffer"
+	depends on DRM && PCI && X86 && MMU
+	select DRM_KMS_HELPER
+	select DRM_TTM
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
 	select ACPI_VIDEO if ACPI
 	select BACKLIGHT_CLASS_DEVICE if ACPI
@@ -18,3 +25,20 @@ config DRM_GMA600
 	help
 	  Say yes to include support for GMA600 (Intel Moorestown/Oaktrail)
 	  platforms with LVDS ports. MIPI is not currently supported.
+<<<<<<< HEAD
+=======
+
+config DRM_GMA3600
+	bool "Intel GMA3600/3650 support (Experimental)"
+	depends on DRM_GMA500
+	help
+	  Say yes to include basic support for Intel GMA3600/3650 (Intel
+	  Cedar Trail) platforms.
+
+config DRM_MEDFIELD
+	bool "Intel Medfield support (Experimental)"
+	depends on DRM_GMA500 && X86_INTEL_MID
+	help
+	  Say yes to include support for the Intel Medfield platform.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

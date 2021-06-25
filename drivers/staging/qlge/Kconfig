@@ -3,7 +3,10 @@
 config QLGE
 	tristate "QLogic QLGE 10Gb Ethernet Driver Support"
 	depends on ETHERNET && PCI
+<<<<<<< HEAD
 	select NET_DEVLINK
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	This driver supports QLogic ISP8XXX 10Gb Ethernet cards.
 

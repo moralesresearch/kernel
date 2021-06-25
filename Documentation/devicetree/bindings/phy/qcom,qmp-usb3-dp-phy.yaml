@@ -14,7 +14,13 @@ properties:
   compatible:
     enum:
       - qcom,sc7180-qmp-usb3-dp-phy
+<<<<<<< HEAD
       - qcom,sdm845-qmp-usb3-dp-phy
+=======
+      - qcom,sc7180-qmp-usb3-phy
+      - qcom,sdm845-qmp-usb3-dp-phy
+      - qcom,sdm845-qmp-usb3-phy
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   reg:
     items:
       - description: Address and length of PHY's USB serdes block.

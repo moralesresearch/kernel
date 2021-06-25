@@ -978,7 +978,11 @@ static int ocfs2_get_refcount_cpos_end(struct ocfs2_caching_info *ci,
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (!eb || !eb->h_next_leaf_blk) {
+=======
+	if (!eb || (eb && !eb->h_next_leaf_blk)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * We are the last extent rec, so any high cpos should
 		 * be stored in this leaf refcount block.
@@ -4346,7 +4350,11 @@ static inline int ocfs2_may_create(struct inode *dir, struct dentry *child)
 		return -EEXIST;
 	if (IS_DEADDIR(dir))
 		return -ENOENT;
+<<<<<<< HEAD
 	return inode_permission(&init_user_ns, dir, MAY_WRITE | MAY_EXEC);
+=======
+	return inode_permission(dir, MAY_WRITE | MAY_EXEC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -4400,7 +4408,11 @@ static int ocfs2_vfs_reflink(struct dentry *old_dentry, struct inode *dir,
 	 * file.
 	 */
 	if (!preserve) {
+<<<<<<< HEAD
 		error = inode_permission(&init_user_ns, inode, MAY_READ);
+=======
+		error = inode_permission(inode, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			return error;
 	}

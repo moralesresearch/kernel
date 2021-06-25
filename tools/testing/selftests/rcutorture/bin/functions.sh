@@ -108,6 +108,7 @@ configfrag_hotplug_cpu () {
 	grep -q '^CONFIG_HOTPLUG_CPU=y$' "$1"
 }
 
+<<<<<<< HEAD
 # get_starttime
 #
 # Returns a cookie identifying the current time.
@@ -141,6 +142,8 @@ get_starttime_duration () {
 	}' < /dev/null
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # identify_boot_image qemu-cmd
 #
 # Returns the relative path to the kernel build image.  This will be
@@ -203,7 +206,10 @@ identify_qemu () {
 # and the TORTURE_QEMU_INTERACTIVE environment variable.
 identify_qemu_append () {
 	echo debug_boot_weak_hash
+<<<<<<< HEAD
 	echo panic=-1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local console=ttyS0
 	case "$1" in
 	qemu-system-x86_64|qemu-system-i386)
@@ -266,7 +272,11 @@ identify_qemu_args () {
 # Returns the number of virtual CPUs available to the aggregate of the
 # guest OSes.
 identify_qemu_vcpus () {
+<<<<<<< HEAD
 	getconf _NPROCESSORS_ONLN
+=======
+	lscpu | grep '^CPU(s):' | sed -e 's/CPU(s)://' -e 's/[ 	]*//g'
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 # print_bug

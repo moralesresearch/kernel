@@ -4,7 +4,11 @@
  * Module Name: dswexec - Dispatcher method execution callbacks;
  *                        dispatch to interpreter.
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -598,7 +602,12 @@ acpi_status acpi_ds_exec_end_op(struct acpi_walk_state *walk_state)
 					break;
 				}
 
+<<<<<<< HEAD
 				ACPI_FALLTHROUGH;
+=======
+				/* Fall through */
+				/*lint -fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			case AML_INT_EVAL_SUBTREE_OP:
 

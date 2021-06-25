@@ -111,12 +111,23 @@ void fsnotify_put_group(struct fsnotify_group *group)
 }
 EXPORT_SYMBOL_GPL(fsnotify_put_group);
 
+<<<<<<< HEAD
 static struct fsnotify_group *__fsnotify_alloc_group(
 				const struct fsnotify_ops *ops, gfp_t gfp)
 {
 	struct fsnotify_group *group;
 
 	group = kzalloc(sizeof(struct fsnotify_group), gfp);
+=======
+/*
+ * Create a new fsnotify_group and hold a reference for the group returned.
+ */
+struct fsnotify_group *fsnotify_alloc_group(const struct fsnotify_ops *ops)
+{
+	struct fsnotify_group *group;
+
+	group = kzalloc(sizeof(struct fsnotify_group), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!group)
 		return ERR_PTR(-ENOMEM);
 
@@ -137,6 +148,7 @@ static struct fsnotify_group *__fsnotify_alloc_group(
 
 	return group;
 }
+<<<<<<< HEAD
 
 /*
  * Create a new fsnotify_group and hold a reference for the group returned.
@@ -156,6 +168,10 @@ struct fsnotify_group *fsnotify_alloc_user_group(const struct fsnotify_ops *ops)
 }
 EXPORT_SYMBOL_GPL(fsnotify_alloc_user_group);
 
+=======
+EXPORT_SYMBOL_GPL(fsnotify_alloc_group);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int fsnotify_fasync(int fd, struct file *file, int on)
 {
 	struct fsnotify_group *group = file->private_data;

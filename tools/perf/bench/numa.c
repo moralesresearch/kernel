@@ -344,12 +344,17 @@ static void mempol_restore(void)
 
 static void bind_to_memnode(int node)
 {
+<<<<<<< HEAD
 	struct bitmask *node_mask;
+=======
+	unsigned long nodemask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (node == NUMA_NO_NODE)
 		return;
 
+<<<<<<< HEAD
 	node_mask = numa_allocate_nodemask();
 	BUG_ON(!node_mask);
 
@@ -360,6 +365,14 @@ static void bind_to_memnode(int node)
 	dprintf("binding to node %d, mask: %016lx => %d\n", node, *node_mask->maskp, ret);
 
 	numa_bitmask_free(node_mask);
+=======
+	BUG_ON(g->p.nr_nodes > (int)sizeof(nodemask)*8);
+	nodemask = 1L << node;
+
+	ret = set_mempolicy(MPOL_BIND, &nodemask, sizeof(nodemask)*8);
+	dprintf("binding to node %d, mask: %016lx => %d\n", node, nodemask, ret);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BUG_ON(ret);
 }
 
@@ -880,6 +893,11 @@ static void update_curr_cpu(int task_nr, unsigned long bytes_worked)
 	prctl(0, bytes_worked);
 }
 
+<<<<<<< HEAD
+=======
+#define MAX_NR_NODES	64
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Count the number of nodes a process's threads
  * are spread out on.
@@ -890,6 +908,7 @@ static void update_curr_cpu(int task_nr, unsigned long bytes_worked)
  */
 static int count_process_nodes(int process_nr)
 {
+<<<<<<< HEAD
 	char *node_present;
 	int nodes;
 	int n, t;
@@ -899,6 +918,12 @@ static int count_process_nodes(int process_nr)
 	for (nodes = 0; nodes < g->p.nr_nodes; nodes++)
 		node_present[nodes] = 0;
 
+=======
+	char node_present[MAX_NR_NODES] = { 0, };
+	int nodes;
+	int n, t;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (t = 0; t < g->p.nr_threads; t++) {
 		struct thread_data *td;
 		int task_nr;
@@ -908,20 +933,31 @@ static int count_process_nodes(int process_nr)
 		td = g->threads + task_nr;
 
 		node = numa_node_of_cpu(td->curr_cpu);
+<<<<<<< HEAD
 		if (node < 0) /* curr_cpu was likely still -1 */ {
 			free(node_present);
 			return 0;
 		}
+=======
+		if (node < 0) /* curr_cpu was likely still -1 */
+			return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		node_present[node] = 1;
 	}
 
 	nodes = 0;
 
+<<<<<<< HEAD
 	for (n = 0; n < g->p.nr_nodes; n++)
 		nodes += node_present[n];
 
 	free(node_present);
+=======
+	for (n = 0; n < MAX_NR_NODES; n++)
+		nodes += node_present[n];
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return nodes;
 }
 
@@ -990,7 +1026,11 @@ static void calc_convergence(double runtime_ns_max, double *convergence)
 {
 	unsigned int loops_done_min, loops_done_max;
 	int process_groups;
+<<<<<<< HEAD
 	int *nodes;
+=======
+	int nodes[MAX_NR_NODES];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int distance;
 	int nr_min;
 	int nr_max;
@@ -1004,8 +1044,11 @@ static void calc_convergence(double runtime_ns_max, double *convergence)
 	if (!g->p.show_convergence && !g->p.measure_convergence)
 		return;
 
+<<<<<<< HEAD
 	nodes = (int *)malloc(g->p.nr_nodes * sizeof(int));
 	BUG_ON(!nodes);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (node = 0; node < g->p.nr_nodes; node++)
 		nodes[node] = 0;
 
@@ -1047,10 +1090,15 @@ static void calc_convergence(double runtime_ns_max, double *convergence)
 
 	BUG_ON(sum > g->p.nr_tasks);
 
+<<<<<<< HEAD
 	if (0 && (sum < g->p.nr_tasks)) {
 		free(nodes);
 		return;
 	}
+=======
+	if (0 && (sum < g->p.nr_tasks))
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Count the number of distinct process groups present
@@ -1102,8 +1150,11 @@ static void calc_convergence(double runtime_ns_max, double *convergence)
 		}
 		tprintf("\n");
 	}
+<<<<<<< HEAD
 
 	free(nodes);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void show_summary(double runtime_ns_max, int l, double *convergence)
@@ -1429,7 +1480,11 @@ static int init(void)
 	g->p.nr_nodes = numa_max_node() + 1;
 
 	/* char array in count_process_nodes(): */
+<<<<<<< HEAD
 	BUG_ON(g->p.nr_nodes < 0);
+=======
+	BUG_ON(g->p.nr_nodes > MAX_NR_NODES || g->p.nr_nodes < 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (g->p.show_quiet && !g->p.show_details)
 		g->p.show_details = -1;

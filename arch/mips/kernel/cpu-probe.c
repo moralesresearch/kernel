@@ -1155,6 +1155,10 @@ static inline void cpu_probe_legacy(struct cpuinfo_mips *c, unsigned int cpu)
 			break;
 		}
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PRID_IMP_R4300:
 		c->cputype = CPU_R4300;
 		__cpu_name[cpu] = "R4300";
@@ -1164,6 +1168,11 @@ static inline void cpu_probe_legacy(struct cpuinfo_mips *c, unsigned int cpu)
 			     MIPS_CPU_LLSC;
 		c->tlbsize = 32;
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PRID_IMP_R4600:
 		c->cputype = CPU_R4600;
 		__cpu_name[cpu] = "R4600";
@@ -1752,6 +1761,10 @@ static inline void cpu_probe_loongson(struct cpuinfo_mips *c, unsigned int cpu)
 			set_isa(c, MIPS_CPU_ISA_M64R2);
 			break;
 		}
+<<<<<<< HEAD
+=======
+		c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		c->ases |= (MIPS_ASE_LOONGSON_MMI | MIPS_ASE_LOONGSON_EXT |
 				MIPS_ASE_LOONGSON_EXT2);
 		break;
@@ -1781,6 +1794,10 @@ static inline void cpu_probe_loongson(struct cpuinfo_mips *c, unsigned int cpu)
 		 * register, we correct it here.
 		 */
 		c->options |= MIPS_CPU_FTLB | MIPS_CPU_TLBINV | MIPS_CPU_LDPTE;
+<<<<<<< HEAD
+=======
+		c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		c->ases |= (MIPS_ASE_LOONGSON_MMI | MIPS_ASE_LOONGSON_CAM |
 			MIPS_ASE_LOONGSON_EXT | MIPS_ASE_LOONGSON_EXT2);
 		c->ases &= ~MIPS_ASE_VZ; /* VZ of Loongson-3A2000/3000 is incomplete */
@@ -1791,6 +1808,10 @@ static inline void cpu_probe_loongson(struct cpuinfo_mips *c, unsigned int cpu)
 		set_elf_platform(cpu, "loongson3a");
 		set_isa(c, MIPS_CPU_ISA_M64R2);
 		decode_cpucfg(c);
+<<<<<<< HEAD
+=======
+		c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		panic("Unknown Loongson Processor ID!");

@@ -125,12 +125,20 @@
 };
 
 &gsbi3 {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qcom,mode = <GSBI_PROT_SPI>;
 };
 
 &gsbi3_spi {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-0 = <&gsbi3_pins>;
 	pinctrl-names = "default";
 	assigned-clocks = <&gcc GSBI3_QUP_CLK>;
@@ -138,34 +146,58 @@
 };
 
 &gsbi4 {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qcom,mode = <GSBI_PROT_UART_W_FC>;
 };
 
 &gsbi4_serial {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-0 = <&gsbi4_pins>;
 	pinctrl-names = "default";
 };
 
 &gsbi5 {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qcom,mode = <GSBI_PROT_I2C_UART>;
 };
 
 &gsbi5_i2c {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clock-frequency = <200000>;
 	pinctrl-0 = <&gsbi5_i2c_pins>;
 	pinctrl-names = "default";
 };
 
 &gsbi5_serial {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-0 = <&gsbi5_uart_pins>;
 	pinctrl-names = "default";
 };
 
 &sdcc1 {
+<<<<<<< HEAD
 	status = "okay";
+=======
+	status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

@@ -11,7 +11,15 @@ C MP+porevlocks
  * see all prior accesses by those other CPUs.
  *)
 
+<<<<<<< HEAD
 {}
+=======
+{
+	spinlock_t mylock;
+	int buf;
+	int flag;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 P0(int *buf, int *flag, spinlock_t *mylock) // Consumer
 {

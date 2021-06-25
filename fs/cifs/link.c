@@ -661,8 +661,12 @@ cifs_get_link(struct dentry *direntry, struct inode *inode,
 }
 
 int
+<<<<<<< HEAD
 cifs_symlink(struct user_namespace *mnt_userns, struct inode *inode,
 	     struct dentry *direntry, const char *symname)
+=======
+cifs_symlink(struct inode *inode, struct dentry *direntry, const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc = -EOPNOTSUPP;
 	unsigned int xid;

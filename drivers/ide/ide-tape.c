@@ -868,7 +868,11 @@ static int idetape_queue_rw_tail(ide_drive_t *drive, int cmd, int size)
 			goto out_put;
 	}
 
+<<<<<<< HEAD
 	blk_execute_rq(tape->disk, rq, 0);
+=======
+	blk_execute_rq(drive->queue, tape->disk, rq, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* calculate the number of transferred bytes and update buffer state */
 	size -= scsi_req(rq)->resid_len;

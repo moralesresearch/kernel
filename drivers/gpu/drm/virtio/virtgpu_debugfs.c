@@ -28,13 +28,23 @@
 
 #include "virtgpu_drv.h"
 
+<<<<<<< HEAD
 static void virtio_gpu_add_bool(struct seq_file *m, const char *name,
 				bool value)
+=======
+static void virtio_add_bool(struct seq_file *m, const char *name,
+				    bool value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	seq_printf(m, "%-16s : %s\n", name, value ? "yes" : "no");
 }
 
+<<<<<<< HEAD
 static void virtio_gpu_add_int(struct seq_file *m, const char *name, int value)
+=======
+static void virtio_add_int(struct seq_file *m, const char *name,
+				   int value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	seq_printf(m, "%-16s : %d\n", name, value);
 }
@@ -44,6 +54,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
 	struct drm_info_node *node = (struct drm_info_node *)m->private;
 	struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
 
+<<<<<<< HEAD
 	virtio_gpu_add_bool(m, "virgl", vgdev->has_virgl_3d);
 	virtio_gpu_add_bool(m, "edid", vgdev->has_edid);
 	virtio_gpu_add_bool(m, "indirect", vgdev->has_indirect);
@@ -54,6 +65,15 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
+=======
+	virtio_add_bool(m, "virgl", vgdev->has_virgl_3d);
+	virtio_add_bool(m, "edid", vgdev->has_edid);
+	virtio_add_bool(m, "indirect", vgdev->has_indirect);
+	virtio_add_bool(m, "resource uuid", vgdev->has_resource_assign_uuid);
+	virtio_add_bool(m, "blob resources", vgdev->has_resource_blob);
+	virtio_add_int(m, "cap sets", vgdev->num_capsets);
+	virtio_add_int(m, "scanouts", vgdev->num_scanouts);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vgdev->host_visible_region.len) {
 		seq_printf(m, "%-16s : 0x%lx +0x%lx\n", "host visible region",
 			   (unsigned long)vgdev->host_visible_region.addr,

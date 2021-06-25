@@ -406,10 +406,18 @@ static irqreturn_t ds3232_irq(int irq, void *dev_id)
 {
 	struct device *dev = dev_id;
 	struct ds3232 *ds3232 = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int ret;
 	int stat, control;
 
 	rtc_lock(ds3232->rtc);
+=======
+	struct mutex *lock = &ds3232->rtc->ops_lock;
+	int ret;
+	int stat, control;
+
+	mutex_lock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = regmap_read(ds3232->regmap, DS3232_REG_SR, &stat);
 	if (ret)
@@ -447,7 +455,11 @@ static irqreturn_t ds3232_irq(int irq, void *dev_id)
 	}
 
 unlock:
+<<<<<<< HEAD
 	rtc_unlock(ds3232->rtc);
+=======
+	mutex_unlock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }
@@ -592,7 +604,11 @@ static const struct i2c_device_id ds3232_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, ds3232_id);
 
+<<<<<<< HEAD
 static const  __maybe_unused struct of_device_id ds3232_of_match[] = {
+=======
+static const struct of_device_id ds3232_of_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "dallas,ds3232" },
 	{ }
 };

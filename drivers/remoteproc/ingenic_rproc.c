@@ -27,11 +27,14 @@
 #define AUX_CTRL_NMI		BIT(1)
 #define AUX_CTRL_SW_RESET	BIT(0)
 
+<<<<<<< HEAD
 static bool auto_boot;
 module_param(auto_boot, bool, 0400);
 MODULE_PARM_DESC(auto_boot,
 		 "Auto-boot the remote processor [default=false]");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vpu_mem_map {
 	const char *name;
 	unsigned int da;
@@ -177,8 +180,11 @@ static int ingenic_rproc_probe(struct platform_device *pdev)
 	if (!rproc)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	rproc->auto_boot = auto_boot;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vpu = rproc->priv;
 	vpu->dev = &pdev->dev;
 	platform_set_drvdata(pdev, vpu);

@@ -4,7 +4,10 @@
  * Copyright (c)  2003-2014 QLogic Corporation
  */
 #include "qla_def.h"
+<<<<<<< HEAD
 #include "qla_gbl.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/kthread.h>
 #include <linux/vmalloc.h>
@@ -25,11 +28,18 @@ void qla2x00_bsg_job_done(srb_t *sp, int res)
 	struct bsg_job *bsg_job = sp->u.bsg_job;
 	struct fc_bsg_reply *bsg_reply = bsg_job->reply;
 
+<<<<<<< HEAD
 	sp->free(sp);
 
 	bsg_reply->result = res;
 	bsg_job_done(bsg_job, bsg_reply->result,
 		       bsg_reply->reply_payload_rcv_len);
+=======
+	bsg_reply->result = res;
+	bsg_job_done(bsg_job, bsg_reply->result,
+		       bsg_reply->reply_payload_rcv_len);
+	sp->free(sp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void qla2x00_bsg_sp_free(srb_t *sp)
@@ -2447,6 +2457,7 @@ qla2x00_get_flash_image_status(struct bsg_job *bsg_job)
 }
 
 static int
+<<<<<<< HEAD
 qla2x00_manage_host_stats(struct bsg_job *bsg_job)
 {
 	scsi_qla_host_t *vha = shost_priv(fc_bsg_to_shost(bsg_job));
@@ -2768,6 +2779,8 @@ qla2x00_manage_host_port(struct bsg_job *bsg_job)
 }
 
 static int
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 qla2x00_process_vendor_specific(struct bsg_job *bsg_job)
 {
 	struct fc_bsg_request *bsg_request = bsg_job->request;
@@ -2843,6 +2856,7 @@ qla2x00_process_vendor_specific(struct bsg_job *bsg_job)
 	case QL_VND_SS_GET_FLASH_IMAGE_STATUS:
 		return qla2x00_get_flash_image_status(bsg_job);
 
+<<<<<<< HEAD
 	case QL_VND_MANAGE_HOST_STATS:
 		return qla2x00_manage_host_stats(bsg_job);
 
@@ -2855,6 +2869,8 @@ qla2x00_process_vendor_specific(struct bsg_job *bsg_job)
 	case QL_VND_MANAGE_HOST_PORT:
 		return qla2x00_manage_host_port(bsg_job);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -ENOSYS;
 	}
@@ -2882,6 +2898,7 @@ qla24xx_bsg_request(struct bsg_job *bsg_job)
 		vha = shost_priv(host);
 	}
 
+<<<<<<< HEAD
 	/* Disable port will bring down the chip, allow enable command */
 	if (bsg_request->rqst_data.h_vendor.vendor_cmd[0] == QL_VND_MANAGE_HOST_PORT ||
 	    bsg_request->rqst_data.h_vendor.vendor_cmd[0] == QL_VND_GET_HOST_STATS)
@@ -2893,6 +2910,8 @@ qla24xx_bsg_request(struct bsg_job *bsg_job)
 		return -EPERM;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (qla2x00_chip_is_down(vha)) {
 		ql_dbg(ql_dbg_user, vha, 0x709f,
 		    "BSG: ISP abort active/needed -- cmd=%d.\n",
@@ -2900,7 +2919,10 @@ qla24xx_bsg_request(struct bsg_job *bsg_job)
 		return -EBUSY;
 	}
 
+<<<<<<< HEAD
 skip_chip_chk:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ql_dbg(ql_dbg_user, vha, 0x7000,
 	    "Entered %s msgcode=0x%x.\n", __func__, bsg_request->msgcode);
 

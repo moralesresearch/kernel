@@ -204,9 +204,15 @@ static void netxbig_led_set(struct led_classdev *led_cdev,
 	spin_unlock_irqrestore(&led_dat->lock, flags);
 }
 
+<<<<<<< HEAD
 static ssize_t sata_store(struct device *dev,
 			  struct device_attribute *attr,
 			  const char *buff, size_t count)
+=======
+static ssize_t netxbig_led_sata_store(struct device *dev,
+				      struct device_attribute *attr,
+				      const char *buff, size_t count)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct netxbig_led_data *led_dat =
@@ -255,8 +261,13 @@ exit_unlock:
 	return ret;
 }
 
+<<<<<<< HEAD
 static ssize_t sata_show(struct device *dev,
 			 struct device_attribute *attr, char *buf)
+=======
+static ssize_t netxbig_led_sata_show(struct device *dev,
+				     struct device_attribute *attr, char *buf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct netxbig_led_data *led_dat =
@@ -265,7 +276,11 @@ static ssize_t sata_show(struct device *dev,
 	return sprintf(buf, "%d\n", led_dat->sata);
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(sata);
+=======
+static DEVICE_ATTR(sata, 0644, netxbig_led_sata_show, netxbig_led_sata_store);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *netxbig_led_attrs[] = {
 	&dev_attr_sata.attr,

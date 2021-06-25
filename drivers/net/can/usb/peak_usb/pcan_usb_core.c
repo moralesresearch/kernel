@@ -309,7 +309,11 @@ static void peak_usb_write_bulk_callback(struct urb *urb)
 	}
 
 	/* should always release echo skb and corresponding context */
+<<<<<<< HEAD
 	can_get_echo_skb(netdev, context->echo_index, NULL);
+=======
+	can_get_echo_skb(netdev, context->echo_index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	context->echo_index = PCAN_USB_MAX_TX_URBS;
 
 	/* do wakeup tx queue in case of success only */
@@ -365,7 +369,11 @@ static netdev_tx_t peak_usb_ndo_start_xmit(struct sk_buff *skb,
 
 	usb_anchor_urb(urb, &dev->tx_submitted);
 
+<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, context->echo_index, 0);
+=======
+	can_put_echo_skb(skb, netdev, context->echo_index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&dev->active_tx_urbs);
 
@@ -857,7 +865,11 @@ static int peak_usb_create_dev(const struct peak_usb_adapter *peak_usb_adapter,
 	if (dev->adapter->dev_set_bus) {
 		err = dev->adapter->dev_set_bus(dev, 0);
 		if (err)
+<<<<<<< HEAD
 			goto adap_dev_free;
+=======
+			goto lbl_unregister_candev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* get device number early */
@@ -869,10 +881,13 @@ static int peak_usb_create_dev(const struct peak_usb_adapter *peak_usb_adapter,
 
 	return 0;
 
+<<<<<<< HEAD
 adap_dev_free:
 	if (dev->adapter->dev_free)
 		dev->adapter->dev_free(dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 lbl_unregister_candev:
 	unregister_candev(netdev);
 

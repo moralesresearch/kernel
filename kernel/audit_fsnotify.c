@@ -84,7 +84,11 @@ struct audit_fsnotify_mark *audit_alloc_mark(struct audit_krule *krule, char *pa
 
 	dentry = kern_path_locked(pathname, &path);
 	if (IS_ERR(dentry))
+<<<<<<< HEAD
 		return ERR_CAST(dentry); /* returning an error */
+=======
+		return (void *)dentry; /* returning an error */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode = path.dentry->d_inode;
 	inode_unlock(inode);
 

@@ -563,6 +563,10 @@ static int sel_make_policy_nodes(struct selinux_fs_info *fsi,
 
 	ret = sel_make_bools(newpolicy, tmp_bool_dir, &tmp_bool_num,
 			     &tmp_bool_names, &tmp_bool_values);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		goto out;
 
@@ -570,6 +574,22 @@ static int sel_make_policy_nodes(struct selinux_fs_info *fsi,
 			       &fsi->last_class_ino);
 	if (ret)
 		goto out;
+<<<<<<< HEAD
+=======
+=======
+	if (ret) {
+		pr_err("SELinux: failed to load policy booleans\n");
+		goto out;
+	}
+
+	ret = sel_make_classes(newpolicy, tmp_class_dir,
+			       &fsi->last_class_ino);
+	if (ret) {
+		pr_err("SELinux: failed to load policy classes\n");
+		goto out;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* booleans */
 	old_dentry = fsi->bool_dir;
@@ -646,7 +666,14 @@ static ssize_t sel_write_load(struct file *file, const char __user *buf,
 
 	length = sel_make_policy_nodes(fsi, load_state.policy);
 	if (length) {
+<<<<<<< HEAD
 		pr_warn_ratelimited("SELinux: failed to initialize selinuxfs\n");
+=======
+<<<<<<< HEAD
+		pr_warn_ratelimited("SELinux: failed to initialize selinuxfs\n");
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		selinux_policy_cancel(fsi->state, &load_state);
 		goto out;
 	}
@@ -2200,8 +2227,18 @@ static struct file_system_type sel_fs_type = {
 	.kill_sb	= sel_kill_sb,
 };
 
+<<<<<<< HEAD
 static struct vfsmount *selinuxfs_mount __ro_after_init;
 struct path selinux_null __ro_after_init;
+=======
+<<<<<<< HEAD
+static struct vfsmount *selinuxfs_mount __ro_after_init;
+struct path selinux_null __ro_after_init;
+=======
+struct vfsmount *selinuxfs_mount;
+struct path selinux_null;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __init init_sel_fs(void)
 {

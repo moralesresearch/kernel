@@ -619,7 +619,10 @@ int mhi_pm_m3_transition(struct mhi_controller *mhi_cntrl);
 int __mhi_device_get_sync(struct mhi_controller *mhi_cntrl);
 int mhi_send_cmd(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
 		 enum mhi_cmd_type cmd);
+<<<<<<< HEAD
 int mhi_download_amss_image(struct mhi_controller *mhi_cntrl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool mhi_is_active(struct mhi_controller *mhi_cntrl)
 {
 	return (mhi_cntrl->dev_state >= MHI_STATE_M0 &&

@@ -958,14 +958,22 @@ int ocs_aes_gcm_op(struct ocs_aes_dev *aes_dev,
 	ocs_aes_write_last_data_blk_len(aes_dev, src_size);
 
 	/* Write ciphertext bit length */
+<<<<<<< HEAD
 	bit_len = (u64)src_size * 8;
+=======
+	bit_len = src_size * 8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val = bit_len & 0xFFFFFFFF;
 	iowrite32(val, aes_dev->base_reg + AES_MULTIPURPOSE2_0_OFFSET);
 	val = bit_len >> 32;
 	iowrite32(val, aes_dev->base_reg + AES_MULTIPURPOSE2_1_OFFSET);
 
 	/* Write aad bit length */
+<<<<<<< HEAD
 	bit_len = (u64)aad_size * 8;
+=======
+	bit_len = aad_size * 8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val = bit_len & 0xFFFFFFFF;
 	iowrite32(val, aes_dev->base_reg + AES_MULTIPURPOSE2_2_OFFSET);
 	val = bit_len >> 32;
@@ -1080,15 +1088,25 @@ static int ocs_aes_ccm_write_b0(const struct ocs_aes_dev *aes_dev,
 	/*
 	 * q is the octet length of Q.
 	 * q can only be an element of {2, 3, 4, 5, 6, 7, 8} and is encoded as
+<<<<<<< HEAD
 	 * q - 1 == iv[0] & 0x7;
+=======
+	 * q - 1 == iv[0]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	b0[0] |= iv[0] & 0x7;
 	/*
 	 * Copy the Nonce N from IV to B0; N is located in iv[1]..iv[15 - q]
 	 * and must be copied to b0[1]..b0[15-q].
+<<<<<<< HEAD
 	 * q == (iv[0] & 0x7) + 1
 	 */
 	q = (iv[0] & 0x7) + 1;
+=======
+	 * q == iv[0] + 1
+	 */
+	q = iv[0] + 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 1; i <= 15 - q; i++)
 		b0[i] = iv[i];
 	/*

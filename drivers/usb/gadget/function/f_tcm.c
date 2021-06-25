@@ -2061,7 +2061,12 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
 	uasp_fs_cmd_desc.bEndpointAddress = uasp_ss_cmd_desc.bEndpointAddress;
 
 	ret = usb_assign_descriptors(f, uasp_fs_function_desc,
+<<<<<<< HEAD
+			uasp_hs_function_desc, uasp_ss_function_desc,
+			uasp_ss_function_desc);
+=======
 			uasp_hs_function_desc, uasp_ss_function_desc, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		goto ep_fail;
 

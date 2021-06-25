@@ -1251,6 +1251,7 @@ static void kv_restore_regs_for_reset(struct amdgpu_device *adev,
 	WREG32(mmGMCON_RENG_EXECUTE, save->gmcon_reng_execute);
 }
 
+<<<<<<< HEAD
 /**
  * cik_asic_pci_config_reset - soft reset GPU
  *
@@ -1261,12 +1262,19 @@ static void kv_restore_regs_for_reset(struct amdgpu_device *adev,
  * Returns 0 for success.
  */
 static int cik_asic_pci_config_reset(struct amdgpu_device *adev)
+=======
+static int cik_gpu_pci_config_reset(struct amdgpu_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct kv_reset_save_regs kv_save = { 0 };
 	u32 i;
 	int r = -EINVAL;
 
+<<<<<<< HEAD
 	amdgpu_atombios_scratch_regs_engine_hung(adev, true);
+=======
+	dev_info(adev->dev, "GPU pci config reset\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (adev->flags & AMD_IS_APU)
 		kv_save_regs_for_reset(adev, &kv_save);
@@ -1294,6 +1302,29 @@ static int cik_asic_pci_config_reset(struct amdgpu_device *adev)
 	if (adev->flags & AMD_IS_APU)
 		kv_restore_regs_for_reset(adev, &kv_save);
 
+<<<<<<< HEAD
+=======
+	return r;
+}
+
+/**
+ * cik_asic_pci_config_reset - soft reset GPU
+ *
+ * @adev: amdgpu_device pointer
+ *
+ * Use PCI Config method to reset the GPU.
+ *
+ * Returns 0 for success.
+ */
+static int cik_asic_pci_config_reset(struct amdgpu_device *adev)
+{
+	int r;
+
+	amdgpu_atombios_scratch_regs_engine_hung(adev, true);
+
+	r = cik_gpu_pci_config_reset(adev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amdgpu_atombios_scratch_regs_engine_hung(adev, false);
 
 	return r;

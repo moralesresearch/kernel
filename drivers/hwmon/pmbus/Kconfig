@@ -158,10 +158,17 @@ config SENSORS_MAX16064
 	  be called max16064.
 
 config SENSORS_MAX16601
+<<<<<<< HEAD
 	tristate "Maxim MAX16508, MAX16601"
 	help
 	  If you say yes here you get hardware monitoring support for Maxim
 	  MAX16508 and MAX16601.
+=======
+	tristate "Maxim MAX16601"
+	help
+	  If you say yes here you get hardware monitoring support for Maxim
+	  MAX16601.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	  This driver can also be built as a module. If so, the module will
 	  be called max16601.

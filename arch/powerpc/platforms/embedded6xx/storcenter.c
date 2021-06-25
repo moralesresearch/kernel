@@ -66,16 +66,24 @@ static int __init storcenter_add_bridge(struct device_node *dev)
 
 static void __init storcenter_setup_arch(void)
 {
+<<<<<<< HEAD
 	printk(KERN_INFO "IOMEGA StorCenter\n");
 }
 
 static void __init storcenter_setup_pci(void)
 {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_node *np;
 
 	/* Lookup PCI host bridges */
 	for_each_compatible_node(np, "pci", "mpc10x-pci")
 		storcenter_add_bridge(np);
+<<<<<<< HEAD
+=======
+
+	printk(KERN_INFO "IOMEGA StorCenter\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -120,7 +128,10 @@ define_machine(storcenter){
 	.name 			= "IOMEGA StorCenter",
 	.probe 			= storcenter_probe,
 	.setup_arch 		= storcenter_setup_arch,
+<<<<<<< HEAD
 	.discover_phbs 		= storcenter_setup_pci,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ 		= storcenter_init_IRQ,
 	.get_irq 		= mpic_get_irq,
 	.restart 		= storcenter_restart,

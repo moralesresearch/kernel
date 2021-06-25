@@ -257,8 +257,13 @@ struct hal_ops {
 	bool	(*Efuse_PgPacketWrite_BT)(struct adapter *padapter, u8 offset, u8 word_en, u8 *data, bool bPseudoTest);
 
 	s32 (*xmit_thread_handler)(struct adapter *padapter);
+<<<<<<< HEAD
 	void (*hal_notch_filter)(struct adapter *adapter, bool enable);
 	void (*hal_reset_security_engine)(struct adapter *adapter);
+=======
+	void (*hal_notch_filter)(struct adapter * adapter, bool enable);
+	void (*hal_reset_security_engine)(struct adapter * adapter);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s32 (*c2h_handler)(struct adapter *padapter, u8 *c2h_evt);
 	c2h_id_filter c2h_id_filter_ccx;
 
@@ -384,8 +389,13 @@ void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter);
 
 s32 rtw_hal_xmit_thread_handler(struct adapter *padapter);
 
+<<<<<<< HEAD
 void rtw_hal_notch_filter(struct adapter *adapter, bool enable);
 void rtw_hal_reset_security_engine(struct adapter *adapter);
+=======
+void rtw_hal_notch_filter(struct adapter * adapter, bool enable);
+void rtw_hal_reset_security_engine(struct adapter * adapter);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool rtw_hal_c2h_valid(struct adapter *adapter, u8 *buf);
 s32 rtw_hal_c2h_handler(struct adapter *adapter, u8 *c2h_evt);

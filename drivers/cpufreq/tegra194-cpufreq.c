@@ -272,7 +272,12 @@ static int tegra194_cpufreq_set_target(struct cpufreq_policy *policy,
 
 static struct cpufreq_driver tegra194_cpufreq_driver = {
 	.name = "tegra194",
+<<<<<<< HEAD
 	.flags = CPUFREQ_CONST_LOOPS | CPUFREQ_NEED_INITIAL_FREQ_CHECK,
+=======
+	.flags = CPUFREQ_STICKY | CPUFREQ_CONST_LOOPS |
+		CPUFREQ_NEED_INITIAL_FREQ_CHECK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.verify = cpufreq_generic_frequency_table_verify,
 	.target_index = tegra194_cpufreq_set_target,
 	.get = tegra194_get_speed,

@@ -483,8 +483,17 @@ static void __init loongson3_smp_setup(void)
 	init_cpu_possible(cpu_none_mask);
 
 	/* For unified kernel, NR_CPUS is the maximum possible value,
+<<<<<<< HEAD
 	 * loongson_sysconf.nr_cpus is the really present value
 	 */
+=======
+<<<<<<< HEAD
+	 * loongson_sysconf.nr_cpus is the really present value
+	 */
+=======
+	 * loongson_sysconf.nr_cpus is the really present value */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (i < loongson_sysconf.nr_cpus) {
 		if (loongson_sysconf.reserved_cpus_mask & (1<<i)) {
 			/* Reserved physical CPU cores */
@@ -493,8 +502,16 @@ static void __init loongson3_smp_setup(void)
 			__cpu_number_map[i] = num;
 			__cpu_logical_map[num] = i;
 			set_cpu_possible(num, true);
+<<<<<<< HEAD
 			/* Loongson processors are always grouped by 4 */
 			cpu_set_cluster(&cpu_data[num], i / 4);
+=======
+<<<<<<< HEAD
+			/* Loongson processors are always grouped by 4 */
+			cpu_set_cluster(&cpu_data[num], i / 4);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			num++;
 		}
 		i++;
@@ -570,8 +587,17 @@ static void loongson3_cpu_die(unsigned int cpu)
 /* To shutdown a core in Loongson 3, the target core should go to CKSEG1 and
  * flush all L1 entries at first. Then, another core (usually Core 0) can
  * safely disable the clock of the target core. loongson3_play_dead() is
+<<<<<<< HEAD
  * called via CKSEG1 (uncached and unmmaped)
  */
+=======
+<<<<<<< HEAD
+ * called via CKSEG1 (uncached and unmmaped)
+ */
+=======
+ * called via CKSEG1 (uncached and unmmaped) */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void loongson3_type1_play_dead(int *state_addr)
 {
 	register int val;

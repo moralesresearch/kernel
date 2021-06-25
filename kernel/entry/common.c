@@ -5,6 +5,10 @@
 #include <linux/highmem.h>
 #include <linux/livepatch.h>
 #include <linux/audit.h>
+<<<<<<< HEAD
+#include <linux/tick.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "common.h"
 
@@ -186,7 +190,11 @@ static unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
 		local_irq_disable_exit_to_user();
 
 		/* Check if any of the above work has queued a deferred wakeup */
+<<<<<<< HEAD
+		tick_nohz_user_enter_prepare();
+=======
 		rcu_nocb_flush_deferred_wakeup();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ti_work = READ_ONCE(current_thread_info()->flags);
 	}
@@ -202,7 +210,11 @@ static void exit_to_user_mode_prepare(struct pt_regs *regs)
 	lockdep_assert_irqs_disabled();
 
 	/* Flush pending rcuog wakeup before the last need_resched() check */
+<<<<<<< HEAD
+	tick_nohz_user_enter_prepare();
+=======
 	rcu_nocb_flush_deferred_wakeup();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
 		ti_work = exit_to_user_mode_loop(regs, ti_work);
@@ -392,9 +404,18 @@ void irqentry_exit_cond_resched(void)
 			preempt_schedule_irq();
 	}
 }
+<<<<<<< HEAD
 #ifdef CONFIG_PREEMPT_DYNAMIC
 DEFINE_STATIC_CALL(irqentry_exit_cond_resched, irqentry_exit_cond_resched);
 #endif
+=======
+<<<<<<< HEAD
+#ifdef CONFIG_PREEMPT_DYNAMIC
+DEFINE_STATIC_CALL(irqentry_exit_cond_resched, irqentry_exit_cond_resched);
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 noinstr void irqentry_exit(struct pt_regs *regs, irqentry_state_t state)
 {
@@ -421,6 +442,10 @@ noinstr void irqentry_exit(struct pt_regs *regs, irqentry_state_t state)
 		}
 
 		instrumentation_begin();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ENABLED(CONFIG_PREEMPTION)) {
 #ifdef CONFIG_PREEMPT_DYNAMIC
 			static_call(irqentry_exit_cond_resched)();
@@ -428,6 +453,13 @@ noinstr void irqentry_exit(struct pt_regs *regs, irqentry_state_t state)
 			irqentry_exit_cond_resched();
 #endif
 		}
+<<<<<<< HEAD
+=======
+=======
+		if (IS_ENABLED(CONFIG_PREEMPTION))
+			irqentry_exit_cond_resched();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Covers both tracing and lockdep */
 		trace_hardirqs_on();
 		instrumentation_end();

@@ -121,11 +121,14 @@ static inline struct cpumask *cpu_sibling_mask(int cpu)
 	return per_cpu(cpu_sibling_map, cpu);
 }
 
+<<<<<<< HEAD
 static inline struct cpumask *cpu_core_mask(int cpu)
 {
 	return per_cpu(cpu_core_map, cpu);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct cpumask *cpu_l2_cache_mask(int cpu)
 {
 	return per_cpu(cpu_l2_cache_map, cpu);
@@ -241,7 +244,11 @@ static inline void set_hard_smp_processor_id(int cpu, int phys)
 #if defined(CONFIG_PPC64) && (defined(CONFIG_SMP) || defined(CONFIG_KEXEC_CORE))
 extern void smp_release_cpus(void);
 #else
+<<<<<<< HEAD
 static inline void smp_release_cpus(void) { }
+=======
+static inline void smp_release_cpus(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 extern int smt_enabled_at_boot;

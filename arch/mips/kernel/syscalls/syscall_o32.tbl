@@ -429,4 +429,11 @@
 439	o32	faccessat2			sys_faccessat2
 440	o32	process_madvise			sys_process_madvise
 441	o32	epoll_pwait2			sys_epoll_pwait2		compat_sys_epoll_pwait2
+<<<<<<< HEAD
 442	o32	mount_setattr			sys_mount_setattr
+=======
+<<<<<<< HEAD
+442	o32	mount_setattr			sys_mount_setattr
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

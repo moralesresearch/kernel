@@ -289,7 +289,11 @@ cg_found:
 	ufs_mark_sb_dirty(sb);
 
 	inode->i_ino = cg * uspi->s_ipg + bit;
+<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
+=======
+	inode_init_owner(inode, dir, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_blocks = 0;
 	inode->i_generation = 0;
 	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);

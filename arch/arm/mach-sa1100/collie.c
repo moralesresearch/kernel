@@ -224,12 +224,24 @@ static int collie_uart_probe(struct locomo_dev *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int collie_uart_remove(struct locomo_dev *dev)
+{
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct locomo_driver collie_uart_driver = {
 	.drv = {
 		.name = "collie_uart",
 	},
 	.devid	= LOCOMO_DEVID_UART,
 	.probe	= collie_uart_probe,
+<<<<<<< HEAD
+=======
+	.remove	= collie_uart_remove,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init collie_uart_init(void)

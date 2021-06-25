@@ -7,8 +7,11 @@
 #include <linux/module.h>
 #include <linux/platform_device.h>
 
+<<<<<<< HEAD
 #include <media/v4l2-event.h>
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "video.h"
 
 static void tegra_v4l2_dev_release(struct v4l2_device *v4l2_dev)
@@ -26,6 +29,7 @@ static void tegra_v4l2_dev_release(struct v4l2_device *v4l2_dev)
 	kfree(vid);
 }
 
+<<<<<<< HEAD
 static void tegra_v4l2_dev_notify(struct v4l2_subdev *sd,
 				  unsigned int notification, void *arg)
 {
@@ -41,6 +45,8 @@ static void tegra_v4l2_dev_notify(struct v4l2_subdev *sd,
 		vb2_queue_error(&chan->queue);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int host1x_video_probe(struct host1x_device *dev)
 {
 	struct tegra_video_device *vid;
@@ -66,7 +72,10 @@ static int host1x_video_probe(struct host1x_device *dev)
 
 	vid->v4l2_dev.mdev = &vid->media_dev;
 	vid->v4l2_dev.release = tegra_v4l2_dev_release;
+<<<<<<< HEAD
 	vid->v4l2_dev.notify = tegra_v4l2_dev_notify;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = v4l2_device_register(&dev->dev, &vid->v4l2_dev);
 	if (ret < 0) {
 		dev_err(&dev->dev,

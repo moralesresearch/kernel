@@ -427,6 +427,7 @@ static void icl_combo_phys_uninit(struct drm_i915_private *dev_priv)
 		u32 val;
 
 		if (phy == PHY_A &&
+<<<<<<< HEAD
 		    !icl_combo_phy_verify_state(dev_priv, phy)) {
 			if (IS_TIGERLAKE(dev_priv) || IS_DG1(dev_priv)) {
 				/*
@@ -443,6 +444,12 @@ static void icl_combo_phys_uninit(struct drm_i915_private *dev_priv)
 					 phy_name(phy));
 			}
 		}
+=======
+		    !icl_combo_phy_verify_state(dev_priv, phy))
+			drm_warn(&dev_priv->drm,
+				 "Combo PHY %c HW state changed unexpectedly\n",
+				 phy_name(phy));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!has_phy_misc(dev_priv, phy))
 			goto skip_phy_misc;

@@ -8,7 +8,11 @@
  * Copyright 2008, Johannes Berg <johannes@sipsolutions.net>
  * Copyright 2013-2014  Intel Mobile Communications GmbH
  * Copyright (c) 2016        Intel Deutschland GmbH
+<<<<<<< HEAD
+ * Copyright (C) 2018-2021 Intel Corporation
+=======
  * Copyright (C) 2018-2020 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #include <linux/slab.h>
 #include <linux/kernel.h>
@@ -357,6 +361,7 @@ static int ieee80211_open(struct net_device *dev)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	wiphy_lock(sdata->local->hw.wiphy);
 	err = ieee80211_do_open(&sdata->wdev, true);
 	wiphy_unlock(sdata->local->hw.wiphy);
@@ -365,6 +370,13 @@ static int ieee80211_open(struct net_device *dev)
 }
 
 static void ieee80211_do_stop(struct ieee80211_sub_if_data *sdata, bool going_down)
+=======
+	return ieee80211_do_open(&sdata->wdev, true);
+}
+
+static void ieee80211_do_stop(struct ieee80211_sub_if_data *sdata,
+			      bool going_down)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ieee80211_local *local = sdata->local;
 	unsigned long flags;
@@ -475,6 +487,9 @@ static void ieee80211_do_stop(struct ieee80211_sub_if_data *sdata, bool going_do
 				   GFP_KERNEL);
 	}
 
+<<<<<<< HEAD
+	if (sdata->vif.type == NL80211_IFTYPE_AP) {
+=======
 	/* APs need special treatment */
 	if (sdata->vif.type == NL80211_IFTYPE_AP) {
 		struct ieee80211_sub_if_data *vlan, *tmpsdata;
@@ -483,6 +498,7 @@ static void ieee80211_do_stop(struct ieee80211_sub_if_data *sdata, bool going_do
 		list_for_each_entry_safe(vlan, tmpsdata, &sdata->u.ap.vlans,
 					 u.vlan.list)
 			dev_close(vlan->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WARN_ON(!list_empty(&sdata->u.ap.vlans));
 	} else if (sdata->vif.type == NL80211_IFTYPE_AP_VLAN) {
 		/* remove all packets in parent bc_buf pointing to this dev */
@@ -640,9 +656,22 @@ static int ieee80211_stop(struct net_device *dev)
 {
 	struct ieee80211_sub_if_data *sdata = IEEE80211_DEV_TO_SUB_IF(dev);
 
+<<<<<<< HEAD
+	/* close all dependent VLAN interfaces before locking wiphy */
+	if (sdata->vif.type == NL80211_IFTYPE_AP) {
+		struct ieee80211_sub_if_data *vlan, *tmpsdata;
+
+		list_for_each_entry_safe(vlan, tmpsdata, &sdata->u.ap.vlans,
+					 u.vlan.list)
+			dev_close(vlan->dev);
+	}
+
 	wiphy_lock(sdata->local->hw.wiphy);
 	ieee80211_do_stop(sdata, true);
 	wiphy_unlock(sdata->local->hw.wiphy);
+=======
+	ieee80211_do_stop(sdata, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -676,16 +705,23 @@ static void ieee80211_set_multicast_list(struct net_device *dev)
  */
 static void ieee80211_teardown_sdata(struct ieee80211_sub_if_data *sdata)
 {
+<<<<<<< HEAD
+=======
 	int i;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* free extra data */
 	ieee80211_free_keys(sdata, false);
 
 	ieee80211_debugfs_remove_netdev(sdata);
 
+<<<<<<< HEAD
+	ieee80211_destroy_frag_cache(&sdata->frags);
+=======
 	for (i = 0; i < IEEE80211_FRAGMENT_MAX; i++)
 		__skb_queue_purge(&sdata->fragments[i].skb_list);
 	sdata->fragment_next = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ieee80211_vif_is_mesh(&sdata->vif))
 		ieee80211_mesh_teardown_sdata(sdata);
@@ -770,7 +806,11 @@ static const struct net_device_ops ieee80211_dataif_8023_ops = {
 	.ndo_get_stats64	= ieee80211_get_stats64,
 };
 
+<<<<<<< HEAD
 static bool ieee80211_iftype_supports_hdr_offload(enum nl80211_iftype iftype)
+=======
+static bool ieee80211_iftype_supports_encap_offload(enum nl80211_iftype iftype)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (iftype) {
 	/* P2P GO and client are mapped to AP/STATION types */
@@ -790,7 +830,11 @@ static bool ieee80211_set_sdata_offload_flags(struct ieee80211_sub_if_data *sdat
 	flags = sdata->vif.offload_flags;
 
 	if (ieee80211_hw_check(&local->hw, SUPPORTS_TX_ENCAP_OFFLOAD) &&
+<<<<<<< HEAD
 	    ieee80211_iftype_supports_hdr_offload(sdata->vif.type)) {
+=======
+	    ieee80211_iftype_supports_encap_offload(sdata->vif.type)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags |= IEEE80211_OFFLOAD_ENCAP_ENABLED;
 
 		if (!ieee80211_hw_check(&local->hw, SUPPORTS_TX_FRAG) &&
@@ -803,6 +847,7 @@ static bool ieee80211_set_sdata_offload_flags(struct ieee80211_sub_if_data *sdat
 		flags &= ~IEEE80211_OFFLOAD_ENCAP_ENABLED;
 	}
 
+<<<<<<< HEAD
 	if (ieee80211_hw_check(&local->hw, SUPPORTS_RX_DECAP_OFFLOAD) &&
 	    ieee80211_iftype_supports_hdr_offload(sdata->vif.type)) {
 		flags |= IEEE80211_OFFLOAD_DECAP_ENABLED;
@@ -813,11 +858,16 @@ static bool ieee80211_set_sdata_offload_flags(struct ieee80211_sub_if_data *sdat
 		flags &= ~IEEE80211_OFFLOAD_DECAP_ENABLED;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sdata->vif.offload_flags == flags)
 		return false;
 
 	sdata->vif.offload_flags = flags;
+<<<<<<< HEAD
 	ieee80211_check_fast_rx_iface(sdata);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 }
 
@@ -835,7 +885,11 @@ static void ieee80211_set_vif_encap_ops(struct ieee80211_sub_if_data *sdata)
 	}
 
 	if (!ieee80211_hw_check(&local->hw, SUPPORTS_TX_ENCAP_OFFLOAD) ||
+<<<<<<< HEAD
 	    !ieee80211_iftype_supports_hdr_offload(bss->vif.type))
+=======
+	    !ieee80211_iftype_supports_encap_offload(bss->vif.type))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	enabled = bss->vif.offload_flags & IEEE80211_OFFLOAD_ENCAP_ENABLED;
@@ -1593,6 +1647,12 @@ static int ieee80211_runtime_change_iftype(struct ieee80211_sub_if_data *sdata,
 
 	switch (sdata->vif.type) {
 	case NL80211_IFTYPE_AP:
+<<<<<<< HEAD
+		if (!list_empty(&sdata->u.ap.vlans))
+			return -EBUSY;
+		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case NL80211_IFTYPE_STATION:
 	case NL80211_IFTYPE_ADHOC:
 	case NL80211_IFTYPE_OCB:
@@ -1928,8 +1988,12 @@ int ieee80211_if_add(struct ieee80211_local *local, const char *name,
 	sdata->wdev.wiphy = local->hw.wiphy;
 	sdata->local = local;
 
+<<<<<<< HEAD
+	ieee80211_init_frag_cache(&sdata->frags);
+=======
 	for (i = 0; i < IEEE80211_FRAGMENT_MAX; i++)
 		skb_queue_head_init(&sdata->fragments[i].skb_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	INIT_LIST_HEAD(&sdata->key_list);
 
@@ -1987,7 +2051,11 @@ int ieee80211_if_add(struct ieee80211_local *local, const char *name,
 		ndev->min_mtu = 256;
 		ndev->max_mtu = local->hw.max_mtu;
 
+<<<<<<< HEAD
 		ret = cfg80211_register_netdevice(ndev);
+=======
+		ret = register_netdevice(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			free_netdev(ndev);
 			return ret;
@@ -2017,9 +2085,16 @@ void ieee80211_if_remove(struct ieee80211_sub_if_data *sdata)
 
 	synchronize_rcu();
 
+<<<<<<< HEAD
 	cfg80211_unregister_wdev(&sdata->wdev);
 
 	if (!sdata->dev) {
+=======
+	if (sdata->dev) {
+		unregister_netdevice(sdata->dev);
+	} else {
+		cfg80211_unregister_wdev(&sdata->wdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ieee80211_teardown_sdata(sdata);
 		kfree(sdata);
 	}
@@ -2068,16 +2143,24 @@ void ieee80211_remove_interfaces(struct ieee80211_local *local)
 			list_add(&sdata->list, &wdev_list);
 	}
 	mutex_unlock(&local->iflist_mtx);
+<<<<<<< HEAD
 
 	unregister_netdevice_many(&unreg_list);
 
 	wiphy_lock(local->hw.wiphy);
+=======
+	unregister_netdevice_many(&unreg_list);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_safe(sdata, tmp, &wdev_list, list) {
 		list_del(&sdata->list);
 		cfg80211_unregister_wdev(&sdata->wdev);
 		kfree(sdata);
 	}
+<<<<<<< HEAD
 	wiphy_unlock(local->hw.wiphy);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int netdev_notify(struct notifier_block *nb,

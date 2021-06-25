@@ -6,8 +6,11 @@
  *
  */
 
+<<<<<<< HEAD
 #include <dt-bindings/clock/fsl,qoriq-clockgen.h>
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fman0: fman@1a00000 {
 	#address-cells = <1>;
 	#size-cells = <1>;
@@ -17,7 +20,11 @@ fman0: fman@1a00000 {
 	reg = <0x0 0x1a00000 0x0 0xfe000>;
 	interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
 		     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 	clocks = <&clockgen QORIQ_CLK_FMAN 0>;
+=======
+	clocks = <&clockgen 3 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clock-names = "fmanclk";
 	fsl,qman-channel-range = <0x800 0x10>;
 	ptimer-handle = <&ptp_timer0>;
@@ -83,6 +90,10 @@ ptp_timer0: ptp-timer@1afe000 {
 	compatible = "fsl,fman-ptp-timer";
 	reg = <0x0 0x1afe000 0x0 0x1000>;
 	interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 	clocks = <&clockgen QORIQ_CLK_FMAN 0>;
+=======
+	clocks = <&clockgen 3 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fsl,extts-fifo;
 };

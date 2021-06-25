@@ -1282,7 +1282,11 @@ static void tx_only(struct xsk_socket_info *xsk, u32 *frame_nb, int batch_size)
 	for (i = 0; i < batch_size; i++) {
 		struct xdp_desc *tx_desc = xsk_ring_prod__tx_desc(&xsk->tx,
 								  idx + i);
+<<<<<<< HEAD
+		tx_desc->addr = (*frame_nb + i) * opt_xsk_frame_size;
+=======
 		tx_desc->addr = (*frame_nb + i) << XSK_UMEM__DEFAULT_FRAME_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tx_desc->len = PKT_SIZE;
 	}
 

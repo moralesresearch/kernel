@@ -432,6 +432,23 @@ static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long addres
  * To be differentiate with macro pte_mkyoung, this macro is used on platforms
  * where software maintains page access bit.
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#ifndef pte_sw_mkyoung
+static inline pte_t pte_sw_mkyoung(pte_t pte)
+{
+	return pte;
+}
+#define pte_sw_mkyoung	pte_sw_mkyoung
+#endif
+
+<<<<<<< HEAD
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef pte_savedwrite
 #define pte_savedwrite pte_write
 #endif
@@ -1310,6 +1327,10 @@ static inline int pmd_trans_unstable(pmd_t *pmd)
 #endif
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * the ordering of these checks is important for pmds with _page_devmap set.
  * if we check pmd_trans_unstable() first we will trip the bad_pmd() check
@@ -1321,6 +1342,11 @@ static inline int pmd_devmap_trans_unstable(pmd_t *pmd)
 	return pmd_devmap(*pmd) || pmd_trans_unstable(pmd);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef CONFIG_NUMA_BALANCING
 /*
  * Technically a PTE can be PROTNONE even when not doing NUMA balancing but

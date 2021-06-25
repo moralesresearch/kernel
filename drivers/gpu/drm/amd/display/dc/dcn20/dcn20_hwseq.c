@@ -1551,8 +1551,18 @@ static void dcn20_update_dchubp_dpp(
 
 
 
+<<<<<<< HEAD
 	if (is_pipe_tree_visible(pipe_ctx))
 		dc->hwss.set_hubp_blank(dc, pipe_ctx, false);
+=======
+<<<<<<< HEAD
+	if (is_pipe_tree_visible(pipe_ctx))
+		dc->hwss.set_hubp_blank(dc, pipe_ctx, false);
+=======
+	if (pipe_ctx->update_flags.bits.enable)
+		hubp->funcs->set_blank(hubp, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -1746,6 +1756,10 @@ void dcn20_post_unlock_program_front_end(
 		}
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
 		struct pipe_ctx *pipe = &context->res_ctx.pipe_ctx[i];
 
@@ -1754,6 +1768,11 @@ void dcn20_post_unlock_program_front_end(
 			pipe->vtp_locked = false;
 		}
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* WA to apply WM setting*/
 	if (hwseq->wa.DEGVIDCN21)
 		dc->res_pool->hubbub->funcs->apply_DEDCN21_147_wa(dc->res_pool->hubbub);

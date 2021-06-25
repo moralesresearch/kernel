@@ -25,6 +25,10 @@
 
 #include <linux/string.h>
 #include <linux/acpi.h>
+<<<<<<< HEAD
+=======
+#include <linux/version.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/i2c.h>
 
 #include <drm/drm_probe_helper.h>
@@ -526,11 +530,19 @@ bool dm_helpers_submit_i2c(
 bool dm_helpers_dp_write_dsc_enable(
 		struct dc_context *ctx,
 		const struct dc_stream_state *stream,
+<<<<<<< HEAD
 		bool enable)
 {
 	uint8_t enable_dsc = enable ? 1 : 0;
 	struct amdgpu_dm_connector *aconnector;
 	uint8_t ret = 0;
+=======
+		bool enable
+)
+{
+	uint8_t enable_dsc = enable ? 1 : 0;
+	struct amdgpu_dm_connector *aconnector;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!stream)
 		return false;
@@ -541,13 +553,21 @@ bool dm_helpers_dp_write_dsc_enable(
 		if (!aconnector->dsc_aux)
 			return false;
 
+<<<<<<< HEAD
 		ret = drm_dp_dpcd_write(aconnector->dsc_aux, DP_DSC_ENABLE, &enable_dsc, 1);
+=======
+		return (drm_dp_dpcd_write(aconnector->dsc_aux, DP_DSC_ENABLE, &enable_dsc, 1) >= 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT)
 		return dm_helpers_dp_write_dpcd(ctx, stream->link, DP_DSC_ENABLE, &enable_dsc, 1);
 
+<<<<<<< HEAD
 	return (ret > 0);
+=======
+	return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool dm_helpers_is_dp_sink_present(struct dc_link *link)

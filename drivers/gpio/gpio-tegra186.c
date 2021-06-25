@@ -444,6 +444,19 @@ static int tegra186_irq_set_wake(struct irq_data *data, unsigned int on)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int tegra186_irq_set_affinity(struct irq_data *data,
+				     const struct cpumask *dest,
+				     bool force)
+{
+	if (data->parent_data)
+		return irq_chip_set_affinity_parent(data, dest, force);
+
+	return -EINVAL;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tegra186_gpio_irq(struct irq_desc *desc)
 {
 	struct tegra_gpio *gpio = irq_desc_get_handler_data(desc);
@@ -647,7 +660,11 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
 	gpio->gpio.get_direction = tegra186_gpio_get_direction;
 	gpio->gpio.direction_input = tegra186_gpio_direction_input;
 	gpio->gpio.direction_output = tegra186_gpio_direction_output;
+<<<<<<< HEAD
 	gpio->gpio.get = tegra186_gpio_get;
+=======
+	gpio->gpio.get = tegra186_gpio_get,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gpio->gpio.set = tegra186_gpio_set;
 	gpio->gpio.set_config = tegra186_gpio_set_config;
 	gpio->gpio.add_pin_ranges = tegra186_gpio_add_pin_ranges;
@@ -690,6 +707,10 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
 	gpio->intc.irq_unmask = tegra186_irq_unmask;
 	gpio->intc.irq_set_type = tegra186_irq_set_type;
 	gpio->intc.irq_set_wake = tegra186_irq_set_wake;
+<<<<<<< HEAD
+=======
+	gpio->intc.irq_set_affinity = tegra186_irq_set_affinity;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	irq = &gpio->gpio.irq;
 	irq->chip = &gpio->intc;

@@ -230,6 +230,10 @@ pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
 	pci_walk_bridge(bridge, report_resume, &status);
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * If we have native control of AER, clear error status in the device
 	 * that detected the error.  If the platform retained control of AER,
 	 * it is responsible for clearing this status.  In that case, the
@@ -238,6 +242,20 @@ pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
 	if (host->native_aer || pcie_ports_native) {
 		pcie_clear_device_status(dev);
 		pci_aer_clear_nonfatal_status(dev);
+<<<<<<< HEAD
+=======
+=======
+	 * If we have native control of AER, clear error status in the Root
+	 * Port or Downstream Port that signaled the error.  If the
+	 * platform retained control of AER, it is responsible for clearing
+	 * this status.  In that case, the signaling device may not even be
+	 * visible to the OS.
+	 */
+	if (host->native_aer || pcie_ports_native) {
+		pcie_clear_device_status(bridge);
+		pci_aer_clear_nonfatal_status(bridge);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	pci_info(bridge, "device recovery successful\n");
 	return status;

@@ -373,12 +373,15 @@
 	arcrimi=	[HW,NET] ARCnet - "RIM I" (entirely mem-mapped) cards
 			Format: <io>,<irq>,<nodeID>
 
+<<<<<<< HEAD
 	arm64.nobti	[ARM64] Unconditionally disable Branch Target
 			Identification support
 
 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
 			support
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ataflop=	[HW,M68k]
 
 	atarimouse=	[HW,MOUSE] Atari Mouse
@@ -606,7 +609,11 @@
 			kernel/dma/contiguous.c
 
 	cma_pernuma=nn[MG]
+<<<<<<< HEAD
 			[ARM64,KNL,CMA]
+=======
+			[ARM64,KNL]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			Sets the size of kernel per-numa memory area for
 			contiguous memory allocations. A value of 0 disables
 			per-numa CMA altogether. And If this option is not
@@ -808,6 +815,7 @@
 			insecure, please do not use on production kernels.
 
 	debug_locks_verbose=
+<<<<<<< HEAD
 			[KNL] verbose locking self-tests
 			Format: <int>
 			Print debugging info while doing the locking API
@@ -816,6 +824,15 @@
 			(no extra messages), setting it to -1 (all bits set)
 			will print _a_lot_ more information - normally only
 			useful to lockdep developers.
+=======
+			[KNL] verbose self-tests
+			Format=<0|1>
+			Print debugging info while doing the locking API
+			self-tests.
+			We default to 0 (no extra messages), setting it to
+			1 will print _a lot_ more information - normally
+			only useful to kernel developers.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	debug_objects	[KNL] Enable object debugging
 
@@ -951,6 +968,15 @@
 			causing system reset or hang due to sending
 			INIT from AP to BSP.
 
+<<<<<<< HEAD
+=======
+	perf_v4_pmi=	[X86,INTEL]
+			Format: <bool>
+			Disable Intel PMU counter freezing feature.
+			The feature only exists starting from
+			Arch Perfmon v4 (Skylake and newer).
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	disable_ddw	[PPC/PSERIES]
 			Disable Dynamic DMA Window support. Use this
 			to workaround buggy firmware.
@@ -1434,11 +1460,14 @@
 				to enforce probe and suspend/resume ordering.
 			rpm --	Like "on", but also use to order runtime PM.
 
+<<<<<<< HEAD
 	fw_devlink.strict=<bool>
 			[KNL] Treat all inferred dependencies as mandatory
 			dependencies. This only applies for fw_devlink=on|rpm.
 			Format: <bool>
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gamecon.map[2|3]=
 			[HW,JOY] Multisystem joystick and NES/SNES/PSX pad
 			support via parallel port (up to 5 devices per port)
@@ -1530,12 +1559,21 @@
 	hpet_mmap=	[X86, HPET_MMAP] Allow userspace to mmap HPET
 			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
 
+<<<<<<< HEAD
 	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
 			of gigantic hugepages.
 			Format: nn[KMGTPE]
 
 			Reserve a CMA area of given size and allocate gigantic
 			hugepages using the CMA allocator. If enabled, the
+=======
+	hugetlb_cma=	[HW] The size of a cma area used for allocation
+			of gigantic hugepages.
+			Format: nn[KMGTPE]
+
+			Reserve a cma area of given size and allocate gigantic
+			hugepages using the cma allocator. If enabled, the
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			boot-time allocation of gigantic hugepages is skipped.
 
 	hugepages=	[HW] Number of HugeTLB pages to allocate at boot.
@@ -1679,12 +1717,15 @@
 			In such case C2/C3 won't be used again.
 			idle=nomwait: Disable mwait for CPU C-states
 
+<<<<<<< HEAD
 	idxd.sva=	[HW]
 			Format: <bool>
 			Allow force disabling of Shared Virtual Memory (SVA)
 			support for the idxd driver. By default it is set to
 			true (1).
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ieee754=	[MIPS] Select IEEE Std 754 conformance mode
 			Format: { strict | legacy | 2008 | relaxed }
 			Default: strict
@@ -1758,7 +1799,11 @@
 	ima_policy=	[IMA]
 			The builtin policies to load during IMA setup.
 			Format: "tcb | appraise_tcb | secure_boot |
+<<<<<<< HEAD
 				 fail_securely | critical_data"
+=======
+				 fail_securely"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			The "tcb" policy measures all programs exec'd, files
 			mmap'd for exec, and all files opened with the read
@@ -1777,9 +1822,12 @@
 			filesystems with the SB_I_UNVERIFIABLE_SIGNATURE
 			flag.
 
+<<<<<<< HEAD
 			The "critical_data" policy measures kernel integrity
 			critical data.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ima_tcb		[IMA] Deprecated.  Use ima_policy= instead.
 			Load a policy which meets the needs of the Trusted
 			Computing Base.  This means IMA will measure all
@@ -1869,6 +1917,16 @@
 			bypassed by not enabling DMAR with this option. In
 			this case, gfx device will use physical address for
 			DMA.
+<<<<<<< HEAD
+=======
+		forcedac [X86-64]
+			With this option iommu will not optimize to look
+			for io virtual address below 32-bit forcing dual
+			address cycle on pci bus for cards supporting greater
+			than 32-bit addressing. The default is to look
+			for translation below 32-bit and if not available
+			then look in the higher range.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		strict [Default Off]
 			With this option on every unmap_single operation will
 			result in a hardware IOTLB flush operation as opposed
@@ -1957,6 +2015,7 @@
 		nobypass	[PPC/POWERNV]
 			Disable IOMMU bypass, using IOMMU for PCI devices.
 
+<<<<<<< HEAD
 	iommu.forcedac=	[ARM64, X86] Control IOVA allocation for PCI devices.
 			Format: { "0" | "1" }
 			0 - Try to allocate a 32-bit DMA address first, before
@@ -1965,6 +2024,8 @@
 			  forcing Dual Address Cycle for PCI cards supporting
 			  greater than 32-bit addressing.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iommu.strict=	[ARM64] Configure TLB invalidation behaviour
 			Format: { "0" | "1" }
 			0 - Lazy mode.
@@ -2273,9 +2334,12 @@
 	kvm-arm.mode=
 			[KVM,ARM] Select one of KVM/arm64's modes of operation.
 
+<<<<<<< HEAD
 			nvhe: Standard nVHE-based mode, without support for
 			      protected guests.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			protected: nVHE-based mode with support for guests whose
 				   state is kept private from the host.
 				   Not valid if the kernel is running in EL2.
@@ -3285,6 +3349,7 @@
 			parameter, xsave area per process might occupy more
 			memory on xsaves enabled systems.
 
+<<<<<<< HEAD
 	nohlt		[ARM,ARM64,MICROBLAZE,SH] Forces the kernel to busy wait
 			in do_idle() and not use the arch_cpu_idle()
 			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
@@ -3293,6 +3358,11 @@
 			correctly or when doing power measurements to evalute
 			the impact of the sleep instructions. This is also
 			useful when using JTAG debugger.
+=======
+	nohlt		[BUGS=ARM,SH] Tells the kernel that the sleep(SH) or
+			wfi(ARM) instruction doesn't work correctly and not to
+			use it. This is also useful when using JTAG debugger.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	no_file_caps	Tells the kernel not to honor file capabilities.  The
 			only way then for a file to be executed with privilege
@@ -3305,6 +3375,7 @@
 			in certain environments such as networked servers or
 			real-time systems.
 
+<<<<<<< HEAD
 	no_hash_pointers
 			Force pointers printed to the console or buffers to be
 			unhashed.  By default, when a pointer is printed via %p
@@ -3320,6 +3391,8 @@
 			debugging the kernel.  Please do not use on production
 			kernels.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nohibernate	[HIBERNATION] Disable hibernation and resume.
 
 	nohz=		[KNL] Boottime enable/disable dynamic ticks
@@ -3497,6 +3570,23 @@
 			For example, to override I2C bus2:
 			omap_mux=i2c2_scl.i2c2_scl=0x100,i2c2_sda.i2c2_sda=0x100
 
+<<<<<<< HEAD
+=======
+	oprofile.timer=	[HW]
+			Use timer interrupt instead of performance counters
+
+	oprofile.cpu_type=	Force an oprofile cpu type
+			This might be useful if you have an older oprofile
+			userland or if you want common events.
+			Format: { arch_perfmon }
+			arch_perfmon: [X86] Force use of architectural
+				perfmon on Intel CPUs instead of the
+				CPU specific event set.
+			timer: [X86] Force use of architectural NMI
+				timer mode (see also oprofile.timer
+				for generic hr timer mode)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	oops=panic	Always panic on oopses. Default is to just kill the
 			process, but there is a small probability of
 			deadlocking the machine.
@@ -3941,6 +4031,7 @@
 			Format: {"off"}
 			Disable Hardware Transactional Memory
 
+<<<<<<< HEAD
 	preempt=	[KNL]
 			Select preemption mode if you have CONFIG_PREEMPT_DYNAMIC
 			none - Limited to cond_resched() calls
@@ -3948,6 +4039,8 @@
 			full - Any section that isn't explicitly preempt disabled
 			       can be preempted anytime.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	print-fatal-signals=
 			[KNL] debug: print fatal signals
 
@@ -4124,10 +4217,13 @@
 			value, meaning that RCU_SOFTIRQ is used by default.
 			Specify rcutree.use_softirq=0 to use rcuc kthreads.
 
+<<<<<<< HEAD
 			But note that CONFIG_PREEMPT_RT=y kernels disable
 			this kernel boot parameter, forcibly setting it
 			to zero.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcutree.rcu_fanout_exact= [KNL]
 			Disable autobalancing of the rcu_node combining
 			tree.  This is used by rcutorture, and might
@@ -4215,6 +4311,15 @@
 			Set wakeup interval for idle CPUs that have
 			RCU callbacks (RCU_FAST_NO_HZ=y).
 
+<<<<<<< HEAD
+=======
+	rcutree.rcu_idle_lazy_gp_delay= [KNL]
+			Set wakeup interval for idle CPUs that have
+			only "lazy" RCU callbacks (RCU_FAST_NO_HZ=y).
+			Lazy RCU callbacks are those which RCU can
+			prove do nothing more than free memory.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcutree.rcu_kick_kthreads= [KNL]
 			Cause the grace-period kthread to get an extra
 			wake_up() if it sleeps three times longer than
@@ -4368,6 +4473,7 @@
 			stress RCU, they don't participate in the actual
 			test, hence the "fake".
 
+<<<<<<< HEAD
 	rcutorture.nocbs_nthreads= [KNL]
 			Set number of RCU callback-offload togglers.
 			Zero (the default) disables toggling.
@@ -4376,6 +4482,8 @@
 			Set the delay in milliseconds between successive
 			callback-offload toggling attempts.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcutorture.nreaders= [KNL]
 			Set number of RCU readers.  The value -1 selects
 			N-1, where N is the number of CPUs.  A value
@@ -4508,6 +4616,7 @@
 			only normal grace-period primitives.  No effect
 			on CONFIG_TINY_RCU kernels.
 
+<<<<<<< HEAD
 			But note that CONFIG_PREEMPT_RT=y kernels enables
 			this kernel boot parameter, forcibly setting
 			it to the value one, that is, converting any
@@ -4515,6 +4624,8 @@
 			period to instead use normal non-expedited
 			grace-period processing.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcupdate.rcu_task_ipi_delay= [KNL]
 			Set time in jiffies during which RCU tasks will
 			avoid sending IPIs, starting with the beginning
@@ -4602,12 +4713,15 @@
 	refscale.verbose= [KNL]
 			Enable additional printk() statements.
 
+<<<<<<< HEAD
 	refscale.verbose_batched= [KNL]
 			Batch the additional printk() statements.  If zero
 			(the default) or negative, print everything.  Otherwise,
 			print every Nth verbose statement, where N is the value
 			specified.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	relax_domain_level=
 			[KNL, SMP] Set scheduler's default relax_domain_level.
 			See Documentation/admin-guide/cgroup-v1/cpusets.rst.
@@ -4905,6 +5019,17 @@
 			last alloc / free. For more information see
 			Documentation/vm/slub.rst.
 
+<<<<<<< HEAD
+=======
+	slub_memcg_sysfs=	[MM, SLUB]
+			Determines whether to enable sysfs directories for
+			memory cgroup sub-caches. 1 to enable, 0 to disable.
+			The default is determined by CONFIG_SLUB_MEMCG_SYSFS_ON.
+			Enabling this can lead to a very high number of	debug
+			directories and files being created under
+			/sys/kernel/slub.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	slub_max_order= [MM, SLUB]
 			Determines the maximum allowed order for slabs.
 			A high setting may cause OOMs due to memory
@@ -5183,12 +5308,15 @@
 			growing up) the main stack are reserved for no other
 			mapping. Default value is 256 pages.
 
+<<<<<<< HEAD
 	stack_depot_disable= [KNL]
 			Setting this to true through kernel command line will
 			disable the stack depot thereby saving the static memory
 			consumed by the stack hash table. By default this is set
 			to false.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stacktrace	[FTRACE]
 			Enabled the stack tracer on boot up.
 
@@ -5380,6 +5508,7 @@
 			are running concurrently, especially on systems
 			with rotating-rust storage.
 
+<<<<<<< HEAD
 	torture.verbose_sleep_frequency= [KNL]
 			Specifies how many verbose printk()s should be
 			emitted between each sleep.  The default of zero
@@ -5388,6 +5517,8 @@
 	torture.verbose_sleep_duration= [KNL]
 			Duration of each verbose-printk() sleep in jiffies.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tp720=		[HW,PS2]
 
 	tpm_suspend_pcr=[HW,TPM]
@@ -5989,6 +6120,15 @@
 			default x2apic cluster mode on platforms
 			supporting x2apic.
 
+<<<<<<< HEAD
+=======
+	x86_intel_mid_timer= [X86-32,APBT]
+			Choose timer option for x86 Intel MID platform.
+			Two valid options are apbt timer only and lapic timer
+			plus one apbt timer for broadcast timer.
+			x86_intel_mid_timer=apbt_only | lapic_and_apbt
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xen_512gb_limit		[KNL,X86-64,XEN]
 			Restricts the kernel running paravirtualized under Xen
 			to use only up to 512 GB of RAM. The reason to do so is

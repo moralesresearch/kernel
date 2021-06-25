@@ -1134,6 +1134,7 @@ bool trace_probe_match_command_args(struct trace_probe *tp,
 	}
 	return true;
 }
+<<<<<<< HEAD
 
 int trace_probe_create(const char *raw_command, int (*createfn)(int, const char **))
 {
@@ -1151,3 +1152,5 @@ int trace_probe_create(const char *raw_command, int (*createfn)(int, const char 
 
 	return ret;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

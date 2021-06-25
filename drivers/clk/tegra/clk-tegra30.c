@@ -1104,9 +1104,18 @@ static void tegra30_cpu_out_of_reset(u32 cpu)
 
 static void tegra30_enable_cpu_clock(u32 cpu)
 {
+<<<<<<< HEAD
 	writel(CPU_CLOCK(cpu),
 	       clk_base + TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
 	readl(clk_base + TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
+=======
+	unsigned int reg;
+
+	writel(CPU_CLOCK(cpu),
+	       clk_base + TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
+	reg = readl(clk_base +
+		    TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void tegra30_disable_cpu_clock(u32 cpu)

@@ -24,7 +24,10 @@ enum magn_3d_channel {
 	CHANNEL_SCAN_INDEX_NORTH_TRUE_TILT_COMP,
 	CHANNEL_SCAN_INDEX_NORTH_MAGN,
 	CHANNEL_SCAN_INDEX_NORTH_TRUE,
+<<<<<<< HEAD
 	CHANNEL_SCAN_INDEX_TIMESTAMP,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MAGN_3D_CHANNEL_MAX,
 };
 
@@ -48,7 +51,10 @@ struct magn_3d_state {
 
 	struct common_attributes magn_flux_attr;
 	struct common_attributes rot_attr;
+<<<<<<< HEAD
 	s64 timestamp;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const u32 magn_3d_addresses[MAGN_3D_CHANNEL_MAX] = {
@@ -59,7 +65,10 @@ static const u32 magn_3d_addresses[MAGN_3D_CHANNEL_MAX] = {
 	HID_USAGE_SENSOR_ORIENT_COMP_TRUE_NORTH,
 	HID_USAGE_SENSOR_ORIENT_MAGN_NORTH,
 	HID_USAGE_SENSOR_ORIENT_TRUE_NORTH,
+<<<<<<< HEAD
 	HID_USAGE_SENSOR_TIME_TIMESTAMP,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Channel definitions */
@@ -127,8 +136,12 @@ static const struct iio_chan_spec magn_3d_channels[] = {
 		BIT(IIO_CHAN_INFO_SCALE) |
 		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
 		BIT(IIO_CHAN_INFO_HYSTERESIS),
+<<<<<<< HEAD
 	},
 	IIO_CHAN_SOFT_TIMESTAMP(7)
+=======
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Adjust channel real bits based on report descriptor */
@@ -277,6 +290,16 @@ static const struct iio_info magn_3d_info = {
 	.write_raw = &magn_3d_write_raw,
 };
 
+<<<<<<< HEAD
+=======
+/* Function to push data to buffer */
+static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data)
+{
+	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
+	iio_push_to_buffers(indio_dev, data);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Callback handler to send event after all samples are received and captured */
 static int magn_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 				unsigned usage_id,
@@ -286,6 +309,7 @@ static int magn_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 	struct magn_3d_state *magn_state = iio_priv(indio_dev);
 
 	dev_dbg(&indio_dev->dev, "magn_3d_proc_event\n");
+<<<<<<< HEAD
 	if (atomic_read(&magn_state->magn_flux_attributes.data_ready)) {
 		if (!magn_state->timestamp)
 			magn_state->timestamp = iio_get_time_ns(indio_dev);
@@ -295,6 +319,10 @@ static int magn_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 						   magn_state->timestamp);
 		magn_state->timestamp = 0;
 	}
+=======
+	if (atomic_read(&magn_state->magn_flux_attributes.data_ready))
+		hid_sensor_push_data(indio_dev, magn_state->iio_vals);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -325,11 +353,14 @@ static int magn_3d_capture_sample(struct hid_sensor_hub_device *hsdev,
 		offset = (usage_id - HID_USAGE_SENSOR_ORIENT_COMP_MAGN_NORTH)
 				+ CHANNEL_SCAN_INDEX_NORTH_MAGN_TILT_COMP;
 	break;
+<<<<<<< HEAD
 	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
 		magn_state->timestamp =
 			hid_sensor_convert_timestamp(&magn_state->magn_flux_attributes,
 						     *(s64 *)raw_data);
 		return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EINVAL;
 	}
@@ -395,10 +426,16 @@ static int magn_3d_parse_report(struct platform_device *pdev,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	/* attr_count include timestamp channel, and the iio_vals should be aligned to 8byte */
 	st->iio_vals = devm_kcalloc(&pdev->dev,
 				    ((attr_count + 1) % 2 + (attr_count + 1) / 2) * 2,
 				    sizeof(u32), GFP_KERNEL);
+=======
+	st->iio_vals = devm_kcalloc(&pdev->dev, attr_count,
+				sizeof(u32),
+				GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!st->iio_vals) {
 		dev_err(&pdev->dev,
 			"failed to allocate space for iio values array\n");
@@ -414,6 +451,7 @@ static int magn_3d_parse_report(struct platform_device *pdev,
 			(_channels[*chan_count]).scan_index = *chan_count;
 			(_channels[*chan_count]).address = i;
 
+<<<<<<< HEAD
 			if (i != CHANNEL_SCAN_INDEX_TIMESTAMP) {
 				/* Set magn_val_addr to iio value address */
 				st->magn_val_addr[i] = &st->iio_vals[*chan_count];
@@ -421,6 +459,13 @@ static int magn_3d_parse_report(struct platform_device *pdev,
 								*chan_count,
 								st->magn[i].size);
 			}
+=======
+			/* Set magn_val_addr to iio value address */
+			st->magn_val_addr[i] = &(st->iio_vals[*chan_count]);
+			magn_3d_adjust_channel_bit_mask(_channels,
+							*chan_count,
+							st->magn[i].size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			(*chan_count)++;
 		}
 	}

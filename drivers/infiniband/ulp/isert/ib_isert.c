@@ -71,6 +71,10 @@ static int isert_sg_tablesize_set(const char *val, const struct kernel_param *kp
 	return param_set_int(val, kp);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool
 isert_prot_cmd(struct isert_conn *conn, struct se_cmd *cmd)
 {
@@ -78,6 +82,10 @@ isert_prot_cmd(struct isert_conn *conn, struct se_cmd *cmd)
 		cmd->prot_op != TARGET_PROT_NORMAL);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 isert_qp_event_callback(struct ib_event *e, void *context)
 {
@@ -230,10 +238,15 @@ isert_create_device_ib_res(struct isert_device *device)
 	}
 
 	/* Check signature cap */
+<<<<<<< HEAD
 	if (ib_dev->attrs.device_cap_flags & IB_DEVICE_INTEGRITY_HANDOVER)
 		device->pi_capable = true;
 	else
 		device->pi_capable = false;
+=======
+	device->pi_capable = ib_dev->attrs.device_cap_flags &
+			     IB_DEVICE_INTEGRITY_HANDOVER ? true : false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -438,6 +451,7 @@ isert_connect_request(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
 	isert_init_conn(isert_conn);
 	isert_conn->cm_id = cma_id;
 
+<<<<<<< HEAD
 	device = isert_device_get(cma_id);
 	if (IS_ERR(device)) {
 		ret = PTR_ERR(device);
@@ -449,12 +463,29 @@ isert_connect_request(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
 	if (ret)
 		goto out_conn_dev;
 
+=======
+	ret = isert_alloc_login_buf(isert_conn, cma_id->device);
+	if (ret)
+		goto out;
+
+	device = isert_device_get(cma_id);
+	if (IS_ERR(device)) {
+		ret = PTR_ERR(device);
+		goto out_rsp_dma_map;
+	}
+	isert_conn->device = device;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	isert_set_nego_params(isert_conn, &event->param.conn);
 
 	isert_conn->qp = isert_create_qp(isert_conn, cma_id);
 	if (IS_ERR(isert_conn->qp)) {
 		ret = PTR_ERR(isert_conn->qp);
+<<<<<<< HEAD
 		goto out_rsp_dma_map;
+=======
+		goto out_conn_dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = isert_login_post_recv(isert_conn);
@@ -473,10 +504,17 @@ isert_connect_request(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
 
 out_destroy_qp:
 	isert_destroy_qp(isert_conn);
+<<<<<<< HEAD
 out_rsp_dma_map:
 	isert_free_login_buf(isert_conn);
 out_conn_dev:
 	isert_device_put(device);
+=======
+out_conn_dev:
+	isert_device_put(device);
+out_rsp_dma_map:
+	isert_free_login_buf(isert_conn);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	kfree(isert_conn);
 	rdma_reject(cma_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINED);
@@ -1993,7 +2031,11 @@ isert_set_dif_domain(struct se_cmd *se_cmd, struct ib_sig_domain *domain)
 	if (se_cmd->prot_type == TARGET_DIF_TYPE1_PROT ||
 	    se_cmd->prot_type == TARGET_DIF_TYPE2_PROT)
 		domain->sig.dif.ref_remap = true;
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int
 isert_set_sig_attrs(struct se_cmd *se_cmd, struct ib_sig_attrs *sig_attrs)

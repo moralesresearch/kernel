@@ -35,11 +35,19 @@ gm107_devinit_disable(struct nvkm_devinit *init)
 	u64 disable = 0ULL;
 
 	if (r021c00 & 0x00000001)
+<<<<<<< HEAD
 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
 	if (r021c00 & 0x00000004)
 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
 	if (r021c04 & 0x00000001)
 		nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
+=======
+		disable |= (1ULL << NVKM_ENGINE_CE0);
+	if (r021c00 & 0x00000004)
+		disable |= (1ULL << NVKM_ENGINE_CE2);
+	if (r021c04 & 0x00000001)
+		disable |= (1ULL << NVKM_ENGINE_DISP);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return disable;
 }
@@ -54,8 +62,15 @@ gm107_devinit = {
 };
 
 int
+<<<<<<< HEAD
 gm107_devinit_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		  struct nvkm_devinit **pinit)
 {
 	return nv50_devinit_new_(&gm107_devinit, device, type, inst, pinit);
+=======
+gm107_devinit_new(struct nvkm_device *device, int index,
+		struct nvkm_devinit **pinit)
+{
+	return nv50_devinit_new_(&gm107_devinit, device, index, pinit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

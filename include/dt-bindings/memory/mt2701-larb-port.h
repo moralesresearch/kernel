@@ -4,8 +4,13 @@
  * Author: Honghui Zhang <honghui.zhang@mediatek.com>
  */
 
+<<<<<<< HEAD
 #ifndef _DT_BINDINGS_MEMORY_MT2701_LARB_PORT_H_
 #define _DT_BINDINGS_MEMORY_MT2701_LARB_PORT_H_
+=======
+#ifndef _MT2701_LARB_PORT_H_
+#define _MT2701_LARB_PORT_H_
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Mediatek m4u generation 1 such as mt2701 has flat m4u port numbers,

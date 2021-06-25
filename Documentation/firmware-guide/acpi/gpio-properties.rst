@@ -146,7 +146,10 @@ following rules (see also the examples):
     other words, it is not mandatory to fill all the GPIO lines
   - empty names are allowed (two quotation marks ``""`` correspond to an empty
     name)
+<<<<<<< HEAD
   - names inside one GPIO controller/expander must be unique
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Example of a GPIO controller of 16 lines, with an incomplete list with two
 empty names::

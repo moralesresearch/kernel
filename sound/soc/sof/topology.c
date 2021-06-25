@@ -1073,7 +1073,11 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
 	scontrol->cmd = SOF_CTRL_CMD_VOLUME;
 
 	/* extract tlv data */
+<<<<<<< HEAD
 	if (!kc->tlv.p || get_tlv_data(kc->tlv.p, tlv) < 0) {
+=======
+	if (get_tlv_data(kc->tlv.p, tlv) < 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(scomp->dev, "error: invalid TLV data\n");
 		ret = -EINVAL;
 		goto out_free;
@@ -1352,6 +1356,13 @@ static int sof_core_enable(struct snd_sof_dev *sdev, int core)
 			core, ret);
 		goto err;
 	}
+<<<<<<< HEAD
+=======
+
+	/* update enabled cores mask */
+	sdev->enabled_cores_mask |= BIT(core);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 err:
 	/* power down core if it is host managed and return the original error if this fails too */
@@ -2599,6 +2610,13 @@ static int sof_widget_unload(struct snd_soc_component *scomp,
 		if (ret < 0)
 			dev_err(scomp->dev, "error: powering down pipeline schedule core %d\n",
 				pipeline->core);
+<<<<<<< HEAD
+=======
+
+		/* update enabled cores mask */
+		sdev->enabled_cores_mask &= ~(1 << pipeline->core);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		break;
@@ -3658,7 +3676,11 @@ static int sof_manifest(struct snd_soc_component *scomp, int index,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (SOF_ABI_VERSION_MINOR(abi_version) > SOF_ABI_MINOR) {
+=======
+	if (abi_version > SOF_ABI_VERSION) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!IS_ENABLED(CONFIG_SND_SOC_SOF_STRICT_ABI_CHECKS)) {
 			dev_warn(scomp->dev, "warn: topology ABI is more recent than kernel\n");
 		} else {
@@ -3732,8 +3754,11 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
 	if (ret < 0) {
 		dev_err(scomp->dev, "error: tplg request firmware %s failed err: %d\n",
 			file, ret);
+<<<<<<< HEAD
 		dev_err(scomp->dev,
 			"you may need to download the firmware from https://github.com/thesofproject/sof-bin/\n");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 

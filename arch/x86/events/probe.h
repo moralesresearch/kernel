@@ -4,11 +4,18 @@
 #include <linux/sysfs.h>
 
 struct perf_msr {
+<<<<<<< HEAD
 	u64			msr;
 	struct attribute_group	*grp;
 	bool			(*test)(int idx, void *data);
 	bool			no_check;
 	u64			mask;
+=======
+	u64			  msr;
+	struct attribute_group	 *grp;
+	bool			(*test)(int idx, void *data);
+	bool			  no_check;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 unsigned long

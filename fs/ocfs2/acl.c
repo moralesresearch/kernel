@@ -262,8 +262,12 @@ static int ocfs2_set_acl(handle_t *handle,
 	return ret;
 }
 
+<<<<<<< HEAD
 int ocfs2_iop_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		      struct posix_acl *acl, int type)
+=======
+int ocfs2_iop_set_acl(struct inode *inode, struct posix_acl *acl, int type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct buffer_head *bh = NULL;
 	int status, had_lock;
@@ -275,8 +279,12 @@ int ocfs2_iop_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 	if (type == ACL_TYPE_ACCESS && acl) {
 		umode_t mode;
 
+<<<<<<< HEAD
 		status = posix_acl_update_mode(&init_user_ns, inode, &mode,
 					       &acl);
+=======
+		status = posix_acl_update_mode(inode, &mode, &acl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status)
 			goto unlock;
 

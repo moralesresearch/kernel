@@ -117,8 +117,11 @@ enum mlx5_semaphore_space_address {
 	MLX5_SEMAPHORE_SW_RESET         = 0x20,
 };
 
+<<<<<<< HEAD
 #define MLX5_DEFAULT_PROF       2
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int mlx5_query_hca_caps(struct mlx5_core_dev *dev);
 int mlx5_query_board_id(struct mlx5_core_dev *dev);
 int mlx5_cmd_init(struct mlx5_core_dev *dev);
@@ -178,7 +181,10 @@ struct cpumask *
 mlx5_irq_get_affinity_mask(struct mlx5_irq_table *irq_table, int vecidx);
 struct cpu_rmap *mlx5_irq_get_rmap(struct mlx5_irq_table *table);
 int mlx5_irq_get_num_comp(struct mlx5_irq_table *table);
+<<<<<<< HEAD
 struct mlx5_irq_table *mlx5_irq_table_get(struct mlx5_core_dev *dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int mlx5_events_init(struct mlx5_core_dev *dev);
 void mlx5_events_cleanup(struct mlx5_core_dev *dev);
@@ -260,6 +266,7 @@ enum {
 u8 mlx5_get_nic_state(struct mlx5_core_dev *dev);
 void mlx5_set_nic_state(struct mlx5_core_dev *dev, u8 state);
 
+<<<<<<< HEAD
 static inline bool mlx5_core_is_sf(const struct mlx5_core_dev *dev)
 {
 	return dev->coredev_type == MLX5_COREDEV_SF;
@@ -273,4 +280,8 @@ int mlx5_load_one(struct mlx5_core_dev *dev, bool boot);
 int mlx5_vport_get_other_func_cap(struct mlx5_core_dev *dev, u16 function_id, void *out);
 
 void mlx5_events_work_enqueue(struct mlx5_core_dev *dev, struct work_struct *work);
+=======
+void mlx5_unload_one(struct mlx5_core_dev *dev, bool cleanup);
+int mlx5_load_one(struct mlx5_core_dev *dev, bool boot);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __MLX5_CORE_H__ */

@@ -42,7 +42,11 @@ struct device *mdev_get_iommu_device(struct device *dev);
  *			@mdev: mdev_device structure on of mediated device
  *			      that is being created
  *			Returns integer: success (0) or error (< 0)
+<<<<<<< HEAD
  * @remove:		Called to free resources in parent device's driver for
+=======
+ * @remove:		Called to free resources in parent device's driver for a
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *			a mediated device. It is mandatory to provide 'remove'
  *			ops.
  *			@mdev: mdev_device device structure which is being

@@ -36,7 +36,15 @@ const char	default_parent_pattern[] = "^sys_|^do_page_fault";
 const char	*parent_pattern = default_parent_pattern;
 const char	*default_sort_order = "comm,dso,symbol";
 const char	default_branch_sort_order[] = "comm,dso_from,symbol_from,symbol_to,cycles";
+<<<<<<< HEAD
 const char	default_mem_sort_order[] = "local_weight,mem,sym,dso,symbol_daddr,dso_daddr,snoop,tlb,locked,blocked,local_ins_lat";
+=======
+<<<<<<< HEAD
+const char	default_mem_sort_order[] = "local_weight,mem,sym,dso,symbol_daddr,dso_daddr,snoop,tlb,locked,blocked,local_ins_lat";
+=======
+const char	default_mem_sort_order[] = "local_weight,mem,sym,dso,symbol_daddr,dso_daddr,snoop,tlb,locked";
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char	default_top_sort_order[] = "dso,symbol";
 const char	default_diff_sort_order[] = "dso,symbol";
 const char	default_tracepoint_sort_order[] = "trace";
@@ -1365,6 +1373,10 @@ struct sort_entry sort_global_weight = {
 	.se_width_idx	= HISTC_GLOBAL_WEIGHT,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u64 he_ins_lat(struct hist_entry *he)
 {
 		return he->stat.nr_events ? he->stat.ins_lat / he->stat.nr_events : 0;
@@ -1408,6 +1420,11 @@ struct sort_entry sort_global_ins_lat = {
 	.se_width_idx	= HISTC_GLOBAL_INS_LAT,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct sort_entry sort_mem_daddr_sym = {
 	.se_header	= "Data Symbol",
 	.se_cmp		= sort__daddr_cmp,
@@ -1465,6 +1482,10 @@ struct sort_entry sort_mem_dcacheline = {
 };
 
 static int64_t
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sort__blocked_cmp(struct hist_entry *left, struct hist_entry *right)
 {
 	union perf_mem_data_src data_src_l;
@@ -1500,6 +1521,11 @@ struct sort_entry sort_mem_blocked = {
 };
 
 static int64_t
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sort__phys_daddr_cmp(struct hist_entry *left, struct hist_entry *right)
 {
 	uint64_t l = 0, r = 0;
@@ -1570,6 +1596,10 @@ struct sort_entry sort_mem_data_page_size = {
 };
 
 static int64_t
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sort__code_page_size_cmp(struct hist_entry *left, struct hist_entry *right)
 {
 	uint64_t l = left->code_page_size;
@@ -1595,6 +1625,11 @@ struct sort_entry sort_code_page_size = {
 };
 
 static int64_t
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sort__abort_cmp(struct hist_entry *left, struct hist_entry *right)
 {
 	if (!left->branch_info || !right->branch_info)
@@ -1838,9 +1873,18 @@ static struct sort_dimension common_sort_dimensions[] = {
 	DIM(SORT_CGROUP_ID, "cgroup_id", sort_cgroup_id),
 	DIM(SORT_SYM_IPC_NULL, "ipc_null", sort_sym_ipc_null),
 	DIM(SORT_TIME, "time", sort_time),
+<<<<<<< HEAD
 	DIM(SORT_CODE_PAGE_SIZE, "code_page_size", sort_code_page_size),
 	DIM(SORT_LOCAL_INS_LAT, "local_ins_lat", sort_local_ins_lat),
 	DIM(SORT_GLOBAL_INS_LAT, "ins_lat", sort_global_ins_lat),
+=======
+<<<<<<< HEAD
+	DIM(SORT_CODE_PAGE_SIZE, "code_page_size", sort_code_page_size),
+	DIM(SORT_LOCAL_INS_LAT, "local_ins_lat", sort_local_ins_lat),
+	DIM(SORT_GLOBAL_INS_LAT, "ins_lat", sort_global_ins_lat),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #undef DIM
@@ -1876,7 +1920,14 @@ static struct sort_dimension memory_sort_dimensions[] = {
 	DIM(SORT_MEM_DCACHELINE, "dcacheline", sort_mem_dcacheline),
 	DIM(SORT_MEM_PHYS_DADDR, "phys_daddr", sort_mem_phys_daddr),
 	DIM(SORT_MEM_DATA_PAGE_SIZE, "data_page_size", sort_mem_data_page_size),
+<<<<<<< HEAD
 	DIM(SORT_MEM_BLOCKED, "blocked", sort_mem_blocked),
+=======
+<<<<<<< HEAD
+	DIM(SORT_MEM_BLOCKED, "blocked", sort_mem_blocked),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #undef DIM

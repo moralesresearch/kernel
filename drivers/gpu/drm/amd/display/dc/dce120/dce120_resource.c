@@ -423,7 +423,11 @@ static const struct dce110_clk_src_mask cs_mask = {
 		CS_COMMON_MASK_SH_LIST_DCE_112(_MASK)
 };
 
+<<<<<<< HEAD
 static struct output_pixel_processor *dce120_opp_create(
+=======
+struct output_pixel_processor *dce120_opp_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	uint32_t inst)
 {
@@ -437,7 +441,11 @@ static struct output_pixel_processor *dce120_opp_create(
 			     ctx, inst, &opp_regs[inst], &opp_shift, &opp_mask);
 	return &opp->base;
 }
+<<<<<<< HEAD
 static struct dce_aux *dce120_aux_engine_create(
+=======
+struct dce_aux *dce120_aux_engine_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	uint32_t inst)
 {
@@ -475,7 +483,11 @@ static const struct dce_i2c_mask i2c_masks = {
 		I2C_COMMON_MASK_SH_LIST_DCE110(_MASK)
 };
 
+<<<<<<< HEAD
 static struct dce_i2c_hw *dce120_i2c_hw_create(
+=======
+struct dce_i2c_hw *dce120_i2c_hw_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	uint32_t inst)
 {

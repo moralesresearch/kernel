@@ -59,8 +59,15 @@ struct ad7923_state {
 	/*
 	 * DMA (thus cache coherency maintenance) requires the
 	 * transfer buffers to live in their own cache lines.
+<<<<<<< HEAD
+	 * Ensure rx_buf can be directly used in iio_push_to_buffers_with_timetamp
+	 * Length = 8 channels + 4 extra for 8 byte timestamp
+	 */
+	__be16				rx_buf[12] ____cacheline_aligned;
+=======
 	 */
 	__be16				rx_buf[4] ____cacheline_aligned;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__be16				tx_buf[4];
 };
 

@@ -155,7 +155,11 @@ static bool amdgpu_read_bios_from_rom(struct amdgpu_device *adev)
 	u8 header[AMD_VBIOS_SIGNATURE_END+1] = {0};
 	int len;
 
+<<<<<<< HEAD
 	if (!adev->asic_funcs || !adev->asic_funcs->read_bios_from_rom)
+=======
+	if (!adev->asic_funcs->read_bios_from_rom)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	/* validate VBIOS signature */
@@ -291,7 +295,11 @@ static bool amdgpu_atrm_get_bios(struct amdgpu_device *adev)
 			continue;
 
 		status = acpi_get_handle(dhandle, "ATRM", &atrm_handle);
+<<<<<<< HEAD
 		if (ACPI_SUCCESS(status)) {
+=======
+		if (!ACPI_FAILURE(status)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			found = true;
 			break;
 		}
@@ -304,7 +312,11 @@ static bool amdgpu_atrm_get_bios(struct amdgpu_device *adev)
 				continue;
 
 			status = acpi_get_handle(dhandle, "ATRM", &atrm_handle);
+<<<<<<< HEAD
 			if (ACPI_SUCCESS(status)) {
+=======
+			if (!ACPI_FAILURE(status)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				found = true;
 				break;
 			}
@@ -348,8 +360,12 @@ static bool amdgpu_read_disabled_bios(struct amdgpu_device *adev)
 	if (adev->flags & AMD_IS_APU)
 		return igp_read_bios_from_vram(adev);
 	else
+<<<<<<< HEAD
 		return (!adev->asic_funcs || !adev->asic_funcs->read_disabled_bios) ?
 			false : amdgpu_asic_read_disabled_bios(adev);
+=======
+		return amdgpu_asic_read_disabled_bios(adev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_ACPI

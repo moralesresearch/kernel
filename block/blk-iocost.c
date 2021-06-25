@@ -1073,6 +1073,7 @@ static void __propagate_weights(struct ioc_gq *iocg, u32 active, u32 inuse,
 
 	lockdep_assert_held(&ioc->lock);
 
+<<<<<<< HEAD
 	/*
 	 * For an active leaf node, its inuse shouldn't be zero or exceed
 	 * @active. An active internal node's inuse is solely determined by the
@@ -1084,6 +1085,9 @@ static void __propagate_weights(struct ioc_gq *iocg, u32 active, u32 inuse,
 	} else {
 		inuse = clamp_t(u32, inuse, 1, active);
 	}
+=======
+	inuse = clamp_t(u32, inuse, 1, active);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iocg->last_inuse = iocg->inuse;
 	if (save)
@@ -1100,7 +1104,11 @@ static void __propagate_weights(struct ioc_gq *iocg, u32 active, u32 inuse,
 		/* update the level sums */
 		parent->child_active_sum += (s32)(active - child->active);
 		parent->child_inuse_sum += (s32)(inuse - child->inuse);
+<<<<<<< HEAD
 		/* apply the updates */
+=======
+		/* apply the udpates */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		child->active = active;
 		child->inuse = inuse;
 

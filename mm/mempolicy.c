@@ -677,7 +677,11 @@ static int queue_pages_test_walk(unsigned long start, unsigned long end,
 	unsigned long flags = qp->flags;
 
 	/* range check first */
+<<<<<<< HEAD
 	VM_BUG_ON_VMA(!range_in_vma(vma, start, end), vma);
+=======
+	VM_BUG_ON_VMA((vma->vm_start > start) || (vma->vm_end < end), vma);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!qp->first) {
 		qp->first = vma;
@@ -875,6 +879,7 @@ static long do_set_mempolicy(unsigned short mode, unsigned short flags,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	if (flags & MPOL_F_NUMA_BALANCING) {
 		if (new && new->mode == MPOL_BIND) {
 			new->flags |= (MPOL_F_MOF | MPOL_F_MORON);
@@ -885,6 +890,8 @@ static long do_set_mempolicy(unsigned short mode, unsigned short flags,
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = mpol_set_nodemask(new, nodes, scratch);
 	if (ret) {
 		mpol_put(new);
@@ -2496,12 +2503,15 @@ int mpol_misplaced(struct page *page, struct vm_area_struct *vma, unsigned long 
 		break;
 
 	case MPOL_BIND:
+<<<<<<< HEAD
 		/* Optimize placement among multiple nodes via NUMA balancing */
 		if (pol->flags & MPOL_F_MORON) {
 			if (node_isset(thisnid, pol->v.nodes))
 				break;
 			goto out;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * allows binding to multiple nodes.

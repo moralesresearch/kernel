@@ -368,8 +368,16 @@ static const struct usb_device_id blacklist_table[] = {
 						     BTUSB_WIDEBAND_SPEECH },
 	{ USB_DEVICE(0x8087, 0x0032), .driver_info = BTUSB_INTEL_NEWGEN |
 						     BTUSB_WIDEBAND_SPEECH},
+<<<<<<< HEAD
 	{ USB_DEVICE(0x8087, 0x0033), .driver_info = BTUSB_INTEL_NEWGEN |
 						     BTUSB_WIDEBAND_SPEECH},
+=======
+<<<<<<< HEAD
+	{ USB_DEVICE(0x8087, 0x0033), .driver_info = BTUSB_INTEL_NEWGEN |
+						     BTUSB_WIDEBAND_SPEECH},
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ USB_DEVICE(0x8087, 0x07da), .driver_info = BTUSB_CSR },
 	{ USB_DEVICE(0x8087, 0x07dc), .driver_info = BTUSB_INTEL },
 	{ USB_DEVICE(0x8087, 0x0a2a), .driver_info = BTUSB_INTEL },
@@ -388,6 +396,11 @@ static const struct usb_device_id blacklist_table[] = {
 	/* Realtek 8822CE Bluetooth devices */
 	{ USB_DEVICE(0x0bda, 0xb00c), .driver_info = BTUSB_REALTEK |
 						     BTUSB_WIDEBAND_SPEECH },
+<<<<<<< HEAD
+	{ USB_DEVICE(0x0bda, 0xc822), .driver_info = BTUSB_REALTEK |
+						     BTUSB_WIDEBAND_SPEECH },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Realtek 8852AE Bluetooth devices */
 	{ USB_DEVICE(0x0bda, 0xc852), .driver_info = BTUSB_REALTEK |
@@ -399,9 +412,13 @@ static const struct usb_device_id blacklist_table[] = {
 
 	/* MediaTek Bluetooth devices */
 	{ USB_VENDOR_AND_INTERFACE_INFO(0x0e8d, 0xe0, 0x01, 0x01),
+<<<<<<< HEAD
 	  .driver_info = BTUSB_MEDIATEK |
 			 BTUSB_WIDEBAND_SPEECH |
 			 BTUSB_VALID_LE_STATES },
+=======
+	  .driver_info = BTUSB_MEDIATEK },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Additional MediaTek MT7615E Bluetooth devices */
 	{ USB_DEVICE(0x13d3, 0x3560), .driver_info = BTUSB_MEDIATEK},
@@ -1903,7 +1920,15 @@ static int btusb_setup_csr(struct hci_dev *hdev)
 		    le16_to_cpu(rp->lmp_subver) == 0x1012 &&
 		    le16_to_cpu(rp->hci_rev) == 0x0810 &&
 		    le16_to_cpu(rp->hci_ver) == BLUETOOTH_VER_4_0) {
+<<<<<<< HEAD
 			bt_dev_warn(hdev, "CSR: detected a fake CSR dongle using a Barrot 8041a02 chip, this chip is very buggy and may have issues");
+=======
+<<<<<<< HEAD
+			bt_dev_warn(hdev, "CSR: detected a fake CSR dongle using a Barrot 8041a02 chip, this chip is very buggy and may have issues");
+=======
+			bt_dev_warn(hdev, "CSR: detected a fake CSR dongle using a Barrot 8041a02 chip, this chip is very buggy and may have issues\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			pm_runtime_allow(&data->udev->dev);
 
@@ -1911,7 +1936,15 @@ static int btusb_setup_csr(struct hci_dev *hdev)
 			if (ret >= 0)
 				msleep(200);
 			else
+<<<<<<< HEAD
 				bt_dev_err(hdev, "Failed to suspend the device for Barrot 8041a02 receive-issue workaround");
+=======
+<<<<<<< HEAD
+				bt_dev_err(hdev, "Failed to suspend the device for Barrot 8041a02 receive-issue workaround");
+=======
+				bt_dev_err(hdev, "Failed to suspend the device for Barrot 8041a02 receive-issue workaround\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			pm_runtime_forbid(&data->udev->dev);
 
@@ -2924,10 +2957,20 @@ finish:
 	 * extension are using 0xFC1E for VsMsftOpCode.
 	 */
 	switch (ver.hw_variant) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 0x11:	/* JfP */
 	case 0x12:	/* ThP */
 	case 0x13:	/* HrP */
 	case 0x14:	/* CcP */
+<<<<<<< HEAD
+=======
+=======
+	case 0x12:	/* ThP */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hci_set_msft_opcode(hdev, 0xFC1E);
 		break;
 	}
@@ -3130,12 +3173,21 @@ static int btusb_shutdown_intel_new(struct hci_dev *hdev)
 #define FIRMWARE_MT7668		"mediatek/mt7668pr2h.bin"
 
 #define HCI_WMT_MAX_EVENT_SIZE		64
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* It is for mt79xx download rom patch*/
 #define MTK_FW_ROM_PATCH_HEADER_SIZE	32
 #define MTK_FW_ROM_PATCH_GD_SIZE	64
 #define MTK_FW_ROM_PATCH_SEC_MAP_SIZE	64
 #define MTK_SEC_MAP_COMMON_SIZE	12
 #define MTK_SEC_MAP_NEED_SEND_SIZE	52
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum {
 	BTMTK_WMT_PATCH_DWNLD = 0x1,
@@ -3147,7 +3199,14 @@ enum {
 enum {
 	BTMTK_WMT_INVALID,
 	BTMTK_WMT_PATCH_UNDONE,
+<<<<<<< HEAD
 	BTMTK_WMT_PATCH_PROGRESS,
+=======
+<<<<<<< HEAD
+	BTMTK_WMT_PATCH_PROGRESS,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BTMTK_WMT_PATCH_DONE,
 	BTMTK_WMT_ON_UNDONE,
 	BTMTK_WMT_ON_DONE,
@@ -3163,7 +3222,15 @@ struct btmtk_wmt_hdr {
 
 struct btmtk_hci_wmt_cmd {
 	struct btmtk_wmt_hdr hdr;
+<<<<<<< HEAD
 	u8 data[];
+=======
+<<<<<<< HEAD
+	u8 data[];
+=======
+	u8 data[256];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct btmtk_hci_wmt_evt {
@@ -3192,6 +3259,10 @@ struct btmtk_hci_wmt_params {
 	u32 *status;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct btmtk_patch_header {
 	u8 datetime[16];
 	u8 platform[4];
@@ -3226,6 +3297,11 @@ struct btmtk_section_map {
 	};
 } __packed;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void btusb_mtk_wmt_recv(struct urb *urb)
 {
 	struct hci_dev *hdev = urb->context;
@@ -3296,7 +3372,15 @@ static void btusb_mtk_wmt_recv(struct urb *urb)
 	 * to generate the event. Otherwise, the WMT event cannot return from
 	 * the device successfully.
 	 */
+<<<<<<< HEAD
 	udelay(500);
+=======
+<<<<<<< HEAD
+	udelay(500);
+=======
+	udelay(100);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	usb_anchor_urb(urb, &data->ctrl_anchor);
 	err = usb_submit_urb(urb, GFP_ATOMIC);
@@ -3371,7 +3455,15 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 	struct btmtk_hci_wmt_evt_funcc *wmt_evt_funcc;
 	u32 hlen, status = BTMTK_WMT_INVALID;
 	struct btmtk_hci_wmt_evt *wmt_evt;
+<<<<<<< HEAD
 	struct btmtk_hci_wmt_cmd *wc;
+=======
+<<<<<<< HEAD
+	struct btmtk_hci_wmt_cmd *wc;
+=======
+	struct btmtk_hci_wmt_cmd wc;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct btmtk_wmt_hdr *hdr;
 	int err;
 
@@ -3385,15 +3477,29 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 	if (hlen > 255)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wc = kzalloc(hlen, GFP_KERNEL);
 	if (!wc)
 		return -ENOMEM;
 
 	hdr = &wc->hdr;
+<<<<<<< HEAD
+=======
+=======
+	hdr = (struct btmtk_wmt_hdr *)&wc;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hdr->dir = 1;
 	hdr->op = wmt_params->op;
 	hdr->dlen = cpu_to_le16(wmt_params->dlen + 1);
 	hdr->flag = wmt_params->flag;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(wc->data, wmt_params->data, wmt_params->dlen);
 
 	set_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
@@ -3403,6 +3509,20 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 	if (err < 0) {
 		clear_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
 		goto err_free_wc;
+<<<<<<< HEAD
+=======
+=======
+	memcpy(wc.data, wmt_params->data, wmt_params->dlen);
+
+	set_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
+
+	err = __hci_cmd_send(hdev, 0xfc6f, hlen, &wc);
+
+	if (err < 0) {
+		clear_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
+		return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* The vendor specific WMT commands are all answered by a vendor
@@ -3419,14 +3539,31 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 	if (err == -EINTR) {
 		bt_dev_err(hdev, "Execution of wmt command interrupted");
 		clear_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
+<<<<<<< HEAD
 		goto err_free_wc;
+=======
+<<<<<<< HEAD
+		goto err_free_wc;
+=======
+		return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (err) {
 		bt_dev_err(hdev, "Execution of wmt command timed out");
 		clear_bit(BTUSB_TX_WAIT_VND_EVT, &data->flags);
+<<<<<<< HEAD
 		err = -ETIMEDOUT;
 		goto err_free_wc;
+=======
+<<<<<<< HEAD
+		err = -ETIMEDOUT;
+		goto err_free_wc;
+=======
+		return -ETIMEDOUT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Parse and handle the return WMT event */
@@ -3454,6 +3591,10 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 		else
 			status = BTMTK_WMT_ON_UNDONE;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case BTMTK_WMT_PATCH_DWNLD:
 		if (wmt_evt->whdr.flag == 2)
 			status = BTMTK_WMT_PATCH_DONE;
@@ -3462,6 +3603,11 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 		else
 			status = BTMTK_WMT_PATCH_UNDONE;
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (wmt_params->status)
@@ -3470,6 +3616,10 @@ static int btusb_mtk_hci_wmt_sync(struct hci_dev *hdev,
 err_free_skb:
 	kfree_skb(data->evt_skb);
 	data->evt_skb = NULL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_wc:
 	kfree(wc);
 	return err;
@@ -3583,6 +3733,11 @@ next_section:
 
 err_release_fw:
 	release_firmware(fw);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -3635,7 +3790,15 @@ static int btusb_mtk_setup_firmware(struct hci_dev *hdev, const char *fwname)
 	while (fw_size > 0) {
 		dlen = min_t(int, 250, fw_size);
 
+<<<<<<< HEAD
 		/* Tell device the position in sequence */
+=======
+<<<<<<< HEAD
+		/* Tell device the position in sequence */
+=======
+		/* Tell deivice the position in sequence */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (fw_size - dlen <= 0)
 			flag = 3;
 		else if (fw_size < fw->size - 30)
@@ -3725,9 +3888,21 @@ err_free_buf:
 	return err;
 }
 
+<<<<<<< HEAD
 static int btusb_mtk_id_get(struct btusb_data *data, u32 reg, u32 *id)
 {
 	return btusb_mtk_reg_read(data, reg, id);
+=======
+<<<<<<< HEAD
+static int btusb_mtk_id_get(struct btusb_data *data, u32 reg, u32 *id)
+{
+	return btusb_mtk_reg_read(data, reg, id);
+=======
+static int btusb_mtk_id_get(struct btusb_data *data, u32 *id)
+{
+	return btusb_mtk_reg_read(data, 0x80000008, id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int btusb_mtk_setup(struct hci_dev *hdev)
@@ -3741,18 +3916,38 @@ static int btusb_mtk_setup(struct hci_dev *hdev)
 	const char *fwname;
 	int err, status;
 	u32 dev_id;
+<<<<<<< HEAD
 	char fw_bin_name[64];
 	u32 fw_version;
+=======
+<<<<<<< HEAD
+	char fw_bin_name[64];
+	u32 fw_version;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 param;
 
 	calltime = ktime_get();
 
+<<<<<<< HEAD
 	err = btusb_mtk_id_get(data, 0x80000008, &dev_id);
+=======
+<<<<<<< HEAD
+	err = btusb_mtk_id_get(data, 0x80000008, &dev_id);
+=======
+	err = btusb_mtk_id_get(data, &dev_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0) {
 		bt_dev_err(hdev, "Failed to get device id (%d)", err);
 		return err;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dev_id) {
 		err = btusb_mtk_id_get(data, 0x70010200, &dev_id);
 		if (err < 0) {
@@ -3766,6 +3961,11 @@ static int btusb_mtk_setup(struct hci_dev *hdev)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (dev_id) {
 	case 0x7663:
 		fwname = FIRMWARE_MT7663;
@@ -3773,6 +3973,10 @@ static int btusb_mtk_setup(struct hci_dev *hdev)
 	case 0x7668:
 		fwname = FIRMWARE_MT7668;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 0x7961:
 		snprintf(fw_bin_name, sizeof(fw_bin_name),
 			"mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
@@ -3795,6 +3999,13 @@ static int btusb_mtk_setup(struct hci_dev *hdev)
 		goto done;
 	default:
 		bt_dev_err(hdev, "Unsupported hardware variant (%08x)",
+<<<<<<< HEAD
+=======
+=======
+	default:
+		bt_dev_err(hdev, "Unsupported support hardware variant (%08x)",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   dev_id);
 		return -ENODEV;
 	}
@@ -3870,7 +4081,14 @@ ignore_func_on:
 	}
 	kfree_skb(skb);
 
+<<<<<<< HEAD
 done:
+=======
+<<<<<<< HEAD
+done:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rettime = ktime_get();
 	delta = ktime_sub(rettime, calltime);
 	duration = (unsigned long long)ktime_to_ns(delta) >> 10;
@@ -3931,7 +4149,15 @@ static int marvell_config_oob_wake(struct hci_dev *hdev)
 
 	skb = bt_skb_alloc(sizeof(cmd), GFP_KERNEL);
 	if (!skb) {
+<<<<<<< HEAD
 		bt_dev_err(hdev, "%s: No memory", __func__);
+=======
+<<<<<<< HEAD
+		bt_dev_err(hdev, "%s: No memory", __func__);
+=======
+		bt_dev_err(hdev, "%s: No memory\n", __func__);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 	}
 
@@ -3940,7 +4166,15 @@ static int marvell_config_oob_wake(struct hci_dev *hdev)
 
 	ret = btusb_send_frame(hdev, skb);
 	if (ret) {
+<<<<<<< HEAD
 		bt_dev_err(hdev, "%s: configuration failed", __func__);
+=======
+<<<<<<< HEAD
+		bt_dev_err(hdev, "%s: configuration failed", __func__);
+=======
+		bt_dev_err(hdev, "%s: configuration failed\n", __func__);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree_skb(skb);
 		return ret;
 	}
@@ -4477,6 +4711,10 @@ static bool btusb_prevent_wake(struct hci_dev *hdev)
 	return !device_may_wakeup(&data->udev->dev);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int btusb_shutdown_qca(struct hci_dev *hdev)
 {
 	struct sk_buff *skb;
@@ -4491,6 +4729,11 @@ static int btusb_shutdown_qca(struct hci_dev *hdev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int btusb_probe(struct usb_interface *intf,
 		       const struct usb_device_id *id)
 {
@@ -4750,7 +4993,14 @@ static int btusb_probe(struct usb_interface *intf,
 
 	if (id->driver_info & BTUSB_QCA_WCN6855) {
 		data->setup_on_usb = btusb_setup_qca;
+<<<<<<< HEAD
 		hdev->shutdown = btusb_shutdown_qca;
+=======
+<<<<<<< HEAD
+		hdev->shutdown = btusb_shutdown_qca;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hdev->set_bdaddr = btusb_set_bdaddr_wcn6855;
 		hdev->cmd_timeout = btusb_qca_cmd_timeout;
 		set_bit(HCI_QUIRK_SIMULTANEOUS_DISCOVERY, &hdev->quirks);

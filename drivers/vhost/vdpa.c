@@ -745,11 +745,23 @@ static int vhost_vdpa_process_iotlb_msg(struct vhost_dev *dev,
 	const struct vdpa_config_ops *ops = vdpa->config;
 	int r = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&dev->mutex);
 
 	r = vhost_dev_check_owner(dev);
 	if (r)
 		goto unlock;
+<<<<<<< HEAD
+=======
+=======
+	r = vhost_dev_check_owner(dev);
+	if (r)
+		return r;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (msg->type) {
 	case VHOST_IOTLB_UPDATE:
@@ -770,8 +782,16 @@ static int vhost_vdpa_process_iotlb_msg(struct vhost_dev *dev,
 		r = -EINVAL;
 		break;
 	}
+<<<<<<< HEAD
 unlock:
 	mutex_unlock(&dev->mutex);
+=======
+<<<<<<< HEAD
+unlock:
+	mutex_unlock(&dev->mutex);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return r;
 }
@@ -993,7 +1013,10 @@ static int vhost_vdpa_mmap(struct file *file, struct vm_area_struct *vma)
 	if (vma->vm_end - vma->vm_start != notify.size)
 		return -ENOTSUPP;
 
+<<<<<<< HEAD
 	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vma->vm_ops = &vhost_vdpa_vm_ops;
 	return 0;
 }

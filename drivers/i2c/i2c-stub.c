@@ -7,6 +7,10 @@
 
 */
 
+<<<<<<< HEAD
+=======
+#define DEBUG 1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define pr_fmt(fmt) "i2c-stub: " fmt
 
 #include <linux/errno.h>

@@ -1299,7 +1299,11 @@ int clkdm_hwmod_disable(struct clockdomain *clkdm, struct omap_hwmod *oh)
  * Due to a suspend or hibernation operation, the state of the registers
  * controlling this clkdm will be lost, save their context.
  */
+<<<<<<< HEAD
 static int _clkdm_save_context(struct clockdomain *clkdm, void *unused)
+=======
+static int _clkdm_save_context(struct clockdomain *clkdm, void *ununsed)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!arch_clkdm || !arch_clkdm->clkdm_save_context)
 		return -EINVAL;
@@ -1312,7 +1316,11 @@ static int _clkdm_save_context(struct clockdomain *clkdm, void *unused)
  *
  * Restore the register values for this clockdomain.
  */
+<<<<<<< HEAD
 static int _clkdm_restore_context(struct clockdomain *clkdm, void *unused)
+=======
+static int _clkdm_restore_context(struct clockdomain *clkdm, void *ununsed)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!arch_clkdm || !arch_clkdm->clkdm_restore_context)
 		return -EINVAL;

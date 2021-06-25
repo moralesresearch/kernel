@@ -309,7 +309,11 @@ static int
 mt76_dma_tx_queue_skb_raw(struct mt76_dev *dev, struct mt76_queue *q,
 			  struct sk_buff *skb, u32 tx_info)
 {
+<<<<<<< HEAD
 	struct mt76_queue_buf buf = {};
+=======
+	struct mt76_queue_buf buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma_addr_t addr;
 
 	if (q->queued + 1 >= q->ndesc - 1)
@@ -410,12 +414,23 @@ unmap:
 free:
 #ifdef CONFIG_NL80211_TESTMODE
 	/* fix tx_done accounting on queue overflow */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mt76_is_testmode_skb(dev, skb, &hw)) {
 		struct mt76_phy *phy = hw->priv;
 
 		if (tx_info.skb == phy->test.tx_skb)
 			phy->test.tx_done--;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (tx_info.skb == dev->test.tx_skb)
+		dev->test.tx_done--;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	dev_kfree_skb(tx_info.skb);

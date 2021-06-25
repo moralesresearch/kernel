@@ -229,10 +229,16 @@ static inline int xa_err(void *entry)
  *
  * This structure is used either directly or via the XA_LIMIT() macro
  * to communicate the range of IDs that are valid for allocation.
+<<<<<<< HEAD
  * Three common ranges are predefined for you:
  * * xa_limit_32b	- [0 - UINT_MAX]
  * * xa_limit_31b	- [0 - INT_MAX]
  * * xa_limit_16b	- [0 - USHRT_MAX]
+=======
+ * Two common ranges are predefined for you:
+ * * xa_limit_32b	- [0 - UINT_MAX]
+ * * xa_limit_31b	- [0 - INT_MAX]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct xa_limit {
 	u32 max;
@@ -243,7 +249,10 @@ struct xa_limit {
 
 #define xa_limit_32b	XA_LIMIT(0, UINT_MAX)
 #define xa_limit_31b	XA_LIMIT(0, INT_MAX)
+<<<<<<< HEAD
 #define xa_limit_16b	XA_LIMIT(0, USHRT_MAX)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 typedef unsigned __bitwise xa_mark_t;
 #define XA_MARK_0		((__force xa_mark_t)0U)

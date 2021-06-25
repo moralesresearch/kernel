@@ -44,6 +44,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &ports {
 	port@0 {
 		label = "lan2";
@@ -96,6 +97,8 @@
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &nandcs {
 	nand-ecc-strength = <4>;
 	nand-ecc-step-size = <512>;

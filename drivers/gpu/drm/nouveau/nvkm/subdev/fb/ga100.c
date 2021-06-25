@@ -34,7 +34,13 @@ ga100_fb = {
 };
 
 int
+<<<<<<< HEAD
 ga100_fb_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
 {
 	return gp102_fb_new_(&ga100_fb, device, type, inst, pfb);
+=======
+ga100_fb_new(struct nvkm_device *device, int index, struct nvkm_fb **pfb)
+{
+	return gp102_fb_new_(&ga100_fb, device, index, pfb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

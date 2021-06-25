@@ -488,7 +488,10 @@ static int sk_psock_skb_ingress_self(struct sk_psock *psock, struct sk_buff *skb
 	if (unlikely(!msg))
 		return -EAGAIN;
 	sk_msg_init(msg);
+<<<<<<< HEAD
 	skb_set_owner_r(skb, sk);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return sk_psock_skb_ingress_enqueue(skb, psock, sk, msg);
 }
 
@@ -670,13 +673,21 @@ static void sk_psock_destroy_deferred(struct work_struct *gc)
 	kfree(psock);
 }
 
+<<<<<<< HEAD
 static void sk_psock_destroy(struct rcu_head *rcu)
+=======
+void sk_psock_destroy(struct rcu_head *rcu)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sk_psock *psock = container_of(rcu, struct sk_psock, rcu);
 
 	INIT_WORK(&psock->gc, sk_psock_destroy_deferred);
 	schedule_work(&psock->gc);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(sk_psock_destroy);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void sk_psock_drop(struct sock *sk, struct sk_psock *psock)
 {
@@ -791,6 +802,10 @@ static void sk_psock_tls_verdict_apply(struct sk_buff *skb, struct sock *sk, int
 {
 	switch (verdict) {
 	case __SK_REDIRECT:
+<<<<<<< HEAD
+=======
+		skb_set_owner_r(skb, sk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sk_psock_skb_redirect(skb);
 		break;
 	case __SK_PASS:
@@ -808,6 +823,13 @@ int sk_psock_tls_strp_read(struct sk_psock *psock, struct sk_buff *skb)
 	rcu_read_lock();
 	prog = READ_ONCE(psock->progs.skb_verdict);
 	if (likely(prog)) {
+<<<<<<< HEAD
+=======
+		/* We skip full set_owner_r here because if we do a SK_PASS
+		 * or SK_DROP we can skip skb memory accounting and use the
+		 * TLS context.
+		 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb->sk = psock->sk;
 		tcp_skb_bpf_redirect_clear(skb);
 		ret = sk_psock_bpf_run(psock, prog, skb);
@@ -876,6 +898,7 @@ static void sk_psock_strp_read(struct strparser *strp, struct sk_buff *skb)
 		kfree_skb(skb);
 		goto out;
 	}
+<<<<<<< HEAD
 	prog = READ_ONCE(psock->progs.skb_verdict);
 	if (likely(prog)) {
 		skb->sk = sk;
@@ -883,6 +906,14 @@ static void sk_psock_strp_read(struct strparser *strp, struct sk_buff *skb)
 		ret = sk_psock_bpf_run(psock, prog, skb);
 		ret = sk_psock_map_verd(ret, tcp_skb_bpf_redirect_fetch(skb));
 		skb->sk = NULL;
+=======
+	skb_set_owner_r(skb, sk);
+	prog = READ_ONCE(psock->progs.skb_verdict);
+	if (likely(prog)) {
+		tcp_skb_bpf_redirect_clear(skb);
+		ret = sk_psock_bpf_run(psock, prog, skb);
+		ret = sk_psock_map_verd(ret, tcp_skb_bpf_redirect_fetch(skb));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	sk_psock_verdict_apply(psock, skb, ret);
 out:
@@ -953,6 +984,7 @@ static int sk_psock_verdict_recv(read_descriptor_t *desc, struct sk_buff *skb,
 		kfree_skb(skb);
 		goto out;
 	}
+<<<<<<< HEAD
 	prog = READ_ONCE(psock->progs.skb_verdict);
 	if (likely(prog)) {
 		skb->sk = sk;
@@ -960,6 +992,14 @@ static int sk_psock_verdict_recv(read_descriptor_t *desc, struct sk_buff *skb,
 		ret = sk_psock_bpf_run(psock, prog, skb);
 		ret = sk_psock_map_verd(ret, tcp_skb_bpf_redirect_fetch(skb));
 		skb->sk = NULL;
+=======
+	skb_set_owner_r(skb, sk);
+	prog = READ_ONCE(psock->progs.skb_verdict);
+	if (likely(prog)) {
+		tcp_skb_bpf_redirect_clear(skb);
+		ret = sk_psock_bpf_run(psock, prog, skb);
+		ret = sk_psock_map_verd(ret, tcp_skb_bpf_redirect_fetch(skb));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	sk_psock_verdict_apply(psock, skb, ret);
 out:

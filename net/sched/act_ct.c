@@ -183,7 +183,10 @@ static void tcf_ct_flow_table_add_action_meta(struct nf_conn *ct,
 					     IP_CT_ESTABLISHED_REPLY;
 	/* aligns with the CT reference on the SKB nf_ct_set */
 	entry->ct_metadata.cookie = (unsigned long)ct | ctinfo;
+<<<<<<< HEAD
 	entry->ct_metadata.orig_dir = dir == IP_CT_DIR_ORIGINAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	act_ct_labels = entry->ct_metadata.labels;
 	ct_labels = nf_ct_labels_find(ct);
@@ -732,8 +735,12 @@ static int tcf_ct_handle_fragments(struct net *net, struct sk_buff *skb,
 #endif
 	}
 
+<<<<<<< HEAD
 	if (err != -EINPROGRESS)
 		*qdisc_skb_cb(skb) = cb;
+=======
+	*qdisc_skb_cb(skb) = cb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_clear_hash(skb);
 	skb->ignore_df = 1;
 	return err;
@@ -904,6 +911,21 @@ static int tcf_ct_act_nat(struct sk_buff *skb,
 	}
 
 	err = ct_nat_execute(skb, ct, ctinfo, range, maniptype);
+<<<<<<< HEAD
+	if (err == NF_ACCEPT && ct->status & IPS_DST_NAT) {
+		if (ct->status & IPS_SRC_NAT) {
+			if (maniptype == NF_NAT_MANIP_SRC)
+				maniptype = NF_NAT_MANIP_DST;
+			else
+				maniptype = NF_NAT_MANIP_SRC;
+
+			err = ct_nat_execute(skb, ct, ctinfo, range,
+					     maniptype);
+		} else if (CTINFO2DIR(ctinfo) == IP_CT_DIR_ORIGINAL) {
+			err = ct_nat_execute(skb, ct, ctinfo, NULL,
+					     NF_NAT_MANIP_SRC);
+		}
+=======
 	if (err == NF_ACCEPT &&
 	    ct->status & IPS_SRC_NAT && ct->status & IPS_DST_NAT) {
 		if (maniptype == NF_NAT_MANIP_SRC)
@@ -912,6 +934,7 @@ static int tcf_ct_act_nat(struct sk_buff *skb,
 			maniptype = NF_NAT_MANIP_SRC;
 
 		err = ct_nat_execute(skb, ct, ctinfo, range, maniptype);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return err;
 #else
@@ -946,14 +969,21 @@ static int tcf_ct_act(struct sk_buff *skb, const struct tc_action *a,
 	tcf_lastuse_update(&c->tcf_tm);
 
 	if (clear) {
+<<<<<<< HEAD
 		qdisc_skb_cb(skb)->post_ct = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ct = nf_ct_get(skb, &ctinfo);
 		if (ct) {
 			nf_conntrack_put(&ct->ct_general);
 			nf_ct_set(skb, NULL, IP_CT_UNTRACKED);
 		}
 
+<<<<<<< HEAD
 		goto out_clear;
+=======
+		goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	family = tcf_ct_skb_nf_family(skb);
@@ -968,7 +998,11 @@ static int tcf_ct_act(struct sk_buff *skb, const struct tc_action *a,
 	err = tcf_ct_handle_fragments(net, skb, family, p->zone, &defrag);
 	if (err == -EINPROGRESS) {
 		retval = TC_ACT_STOLEN;
+<<<<<<< HEAD
 		goto out_clear;
+=======
+		goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (err)
 		goto drop;
@@ -984,7 +1018,11 @@ static int tcf_ct_act(struct sk_buff *skb, const struct tc_action *a,
 	 */
 	cached = tcf_ct_skb_nfct_cached(net, skb, p->zone, force);
 	if (!cached) {
+<<<<<<< HEAD
+		if (tcf_ct_flow_table_lookup(p, skb, family)) {
+=======
 		if (!commit && tcf_ct_flow_table_lookup(p, skb, family)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			skip_add = true;
 			goto do_nat;
 		}
@@ -1024,15 +1062,26 @@ do_nat:
 		 * even if the connection is already confirmed.
 		 */
 		nf_conntrack_confirm(skb);
+<<<<<<< HEAD
+	}
+
+	if (!skip_add)
+		tcf_ct_flow_table_process_conn(p->ct_ft, ct, ctinfo);
+=======
 	} else if (!skip_add) {
 		tcf_ct_flow_table_process_conn(p->ct_ft, ct, ctinfo);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out_push:
 	skb_push_rcsum(skb, nh_ofs);
 
+<<<<<<< HEAD
 	qdisc_skb_cb(skb)->post_ct = true;
 out_clear:
+=======
+out:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcf_action_update_bstats(&c->common, skb);
 	if (defrag)
 		qdisc_skb_cb(skb)->pkt_len = skb->len;
@@ -1204,9 +1253,12 @@ static int tcf_ct_fill_params(struct net *net,
 				   sizeof(p->zone));
 	}
 
+<<<<<<< HEAD
+=======
 	if (p->zone == NF_CT_DEFAULT_ZONE_ID)
 		return 0;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nf_ct_zone_init(&zone, p->zone, NF_CT_DEFAULT_ZONE_DIR, 0);
 	tmpl = nf_ct_tmpl_alloc(net, &zone, GFP_KERNEL);
 	if (!tmpl) {

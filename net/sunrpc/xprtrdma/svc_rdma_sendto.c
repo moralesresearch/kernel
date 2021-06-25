@@ -317,7 +317,11 @@ int svc_rdma_send(struct svcxprt_rdma *rdma, struct svc_rdma_send_ctxt *ctxt)
 	/* If the SQ is full, wait until an SQ entry is available */
 	while (1) {
 		if ((atomic_dec_return(&rdma->sc_sq_avail) < 0)) {
+<<<<<<< HEAD
 			percpu_counter_inc(&svcrdma_stat_sq_starve);
+=======
+			atomic_inc(&rdma_stat_sq_starve);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			trace_svcrdma_sq_full(rdma);
 			atomic_inc(&rdma->sc_sq_avail);
 			wait_event(rdma->sc_send_wait,
@@ -958,7 +962,11 @@ int svc_rdma_sendto(struct svc_rqst *rqstp)
 	p = xdr_reserve_space(&sctxt->sc_stream,
 			      rpcrdma_fixed_maxsz * sizeof(*p));
 	if (!p)
+<<<<<<< HEAD
 		goto err1;
+=======
+		goto err0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = svc_rdma_send_reply_chunk(rdma, rctxt, &rqstp->rq_res);
 	if (ret < 0)
@@ -970,11 +978,19 @@ int svc_rdma_sendto(struct svc_rqst *rqstp)
 	*p = pcl_is_empty(&rctxt->rc_reply_pcl) ? rdma_msg : rdma_nomsg;
 
 	if (svc_rdma_encode_read_list(sctxt) < 0)
+<<<<<<< HEAD
 		goto err1;
 	if (svc_rdma_encode_write_list(rctxt, sctxt) < 0)
 		goto err1;
 	if (svc_rdma_encode_reply_chunk(rctxt, sctxt, ret) < 0)
 		goto err1;
+=======
+		goto err0;
+	if (svc_rdma_encode_write_list(rctxt, sctxt) < 0)
+		goto err0;
+	if (svc_rdma_encode_reply_chunk(rctxt, sctxt, ret) < 0)
+		goto err0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = svc_rdma_send_reply_msg(rdma, sctxt, rctxt, rqstp);
 	if (ret < 0)

@@ -79,18 +79,30 @@ static int pmt_add_dev(struct pci_dev *pdev, struct intel_dvsec_header *header,
 	case DVSEC_INTEL_ID_WATCHER:
 		if (quirks & PMT_QUIRK_NO_WATCHER) {
 			dev_info(dev, "Watcher not supported\n");
+<<<<<<< HEAD
 			return -EINVAL;
+=======
+			return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		name = "pmt_watcher";
 		break;
 	case DVSEC_INTEL_ID_CRASHLOG:
 		if (quirks & PMT_QUIRK_NO_CRASHLOG) {
 			dev_info(dev, "Crashlog not supported\n");
+<<<<<<< HEAD
 			return -EINVAL;
+=======
+			return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		name = "pmt_crashlog";
 		break;
 	default:
+<<<<<<< HEAD
+=======
+		dev_err(dev, "Unrecognized PMT capability: %d\n", id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -173,8 +185,17 @@ static int pmt_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
 
 		ret = pmt_add_dev(pdev, &header, quirks);
+<<<<<<< HEAD
 		if (ret)
 			continue;
+=======
+		if (ret) {
+			dev_warn(&pdev->dev,
+				 "Failed to add device for DVSEC id %d\n",
+				 header.id);
+			continue;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		found_devices = true;
 	} while (true);

@@ -307,7 +307,11 @@ static int sc27xx_adc_convert_volt(struct sc27xx_adc_data *data, int channel,
 
 	sc27xx_adc_volt_ratio(data, channel, scale, &numerator, &denominator);
 
+<<<<<<< HEAD
 	return DIV_ROUND_CLOSEST(volt * denominator, numerator);
+=======
+	return (volt * denominator + numerator / 2) / numerator;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int sc27xx_adc_read_processed(struct sc27xx_adc_data *data,

@@ -17,8 +17,18 @@
 #include <linux/init.h>
 #include <linux/syscore_ops.h>
 #include <linux/vmalloc.h>
+<<<<<<< HEAD
 #include <linux/dma-map-ops.h> /* for dma_default_coherent */
 
+=======
+<<<<<<< HEAD
+#include <linux/dma-map-ops.h> /* for dma_default_coherent */
+
+=======
+
+#include <asm/dma-coherence.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/mach-au1x00/au1000.h>
 #include <asm/tlbmisc.h>
 
@@ -429,8 +439,19 @@ static int alchemy_pci_probe(struct platform_device *pdev)
 	ctx->alchemy_pci_ctrl.io_map_base = (unsigned long)virt_io;
 
 	/* Au1500 revisions older than AD have borked coherent PCI */
+<<<<<<< HEAD
 	if (alchemy_get_cputype() == ALCHEMY_CPU_AU1500 &&
 	    read_c0_prid() < 0x01030202 && !dma_default_coherent) {
+=======
+<<<<<<< HEAD
+	if (alchemy_get_cputype() == ALCHEMY_CPU_AU1500 &&
+	    read_c0_prid() < 0x01030202 && !dma_default_coherent) {
+=======
+	if ((alchemy_get_cputype() == ALCHEMY_CPU_AU1500) &&
+	    (read_c0_prid() < 0x01030202) &&
+	    (coherentio == IO_COHERENCE_DISABLED)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		val = __raw_readl(ctx->regs + PCI_REG_CONFIG);
 		val |= PCI_CONFIG_NC;
 		__raw_writel(val, ctx->regs + PCI_REG_CONFIG);

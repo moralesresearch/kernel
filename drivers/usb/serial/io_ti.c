@@ -266,7 +266,11 @@ static int ti_vread_sync(struct usb_device *dev, __u8 request,
 	if (status < 0)
 		return status;
 	if (status != size) {
+<<<<<<< HEAD
 		dev_dbg(&dev->dev, "%s - wanted to read %d, but only read %d\n",
+=======
+		dev_dbg(&dev->dev, "%s - wanted to write %d, but only wrote %d\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__func__, size, status);
 		return -ECOMM;
 	}
@@ -283,7 +287,15 @@ static int ti_vsend_sync(struct usb_device *dev, u8 request, u16 value,
 			value, index, data, size, timeout);
 	if (status < 0)
 		return status;
+<<<<<<< HEAD
 
+=======
+	if (status != size) {
+		dev_dbg(&dev->dev, "%s - wanted to write %d, but only wrote %d\n",
+			__func__, size, status);
+		return -ECOMM;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -2625,13 +2637,22 @@ err:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void edge_port_remove(struct usb_serial_port *port)
+=======
+static int edge_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct edgeport_port *edge_port;
 
 	edge_port = usb_get_serial_port_data(port);
 	edge_remove_sysfs_attrs(port);
 	kfree(edge_port);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Sysfs Attributes */

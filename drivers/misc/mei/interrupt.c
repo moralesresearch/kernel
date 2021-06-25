@@ -277,6 +277,12 @@ static int mei_cl_irq_read(struct mei_cl *cl, struct mei_cl_cb *cb,
 		return ret;
 	}
 
+<<<<<<< HEAD
+	pm_runtime_mark_last_busy(dev->dev);
+	pm_request_autosuspend(dev->dev);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_move_tail(&cb->list, &cl->rd_pending);
 
 	return 0;
@@ -547,6 +553,10 @@ int mei_irq_write_handler(struct mei_device *dev, struct list_head *cmpl_list)
 			if (ret)
 				return ret;
 			break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case MEI_FOP_DMA_MAP:
 			ret = mei_cl_irq_dma_map(cl, cb, cmpl_list);
 			if (ret)
@@ -557,6 +567,11 @@ int mei_irq_write_handler(struct mei_device *dev, struct list_head *cmpl_list)
 			if (ret)
 				return ret;
 			break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			BUG();
 		}

@@ -2,7 +2,10 @@
 // Copyright (c) 2019 Mellanox Technologies.
 
 #include "en.h"
+<<<<<<< HEAD
 #include "en_accel/tls.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "en_accel/ktls.h"
 #include "en_accel/ktls_utils.h"
 #include "en_accel/fs_tcp.h"
@@ -87,6 +90,7 @@ int mlx5e_ktls_set_feature_rx(struct net_device *netdev, bool enable)
 
 int mlx5e_ktls_init_rx(struct mlx5e_priv *priv)
 {
+<<<<<<< HEAD
 	int err;
 
 	if (!mlx5_accel_is_ktls_rx(priv->mdev))
@@ -105,10 +109,19 @@ int mlx5e_ktls_init_rx(struct mlx5e_priv *priv)
 	}
 
 	return 0;
+=======
+	int err = 0;
+
+	if (priv->netdev->features & NETIF_F_HW_TLS_RX)
+		err = mlx5e_accel_fs_tcp_create(priv);
+
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void mlx5e_ktls_cleanup_rx(struct mlx5e_priv *priv)
 {
+<<<<<<< HEAD
 	if (!mlx5_accel_is_ktls_rx(priv->mdev))
 		return;
 
@@ -116,4 +129,8 @@ void mlx5e_ktls_cleanup_rx(struct mlx5e_priv *priv)
 		mlx5e_accel_fs_tcp_destroy(priv);
 
 	destroy_workqueue(priv->tls->rx_wq);
+=======
+	if (priv->netdev->features & NETIF_F_HW_TLS_RX)
+		mlx5e_accel_fs_tcp_destroy(priv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

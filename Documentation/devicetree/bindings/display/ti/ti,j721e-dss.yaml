@@ -107,29 +107,63 @@ properties:
     type: boolean
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+    description:
+      Ports as described in Documentation/devicetree/bindings/graph.txt
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           The output port node form video port 1
 
       port@1:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           The output port node from video port 2
 
       port@2:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           The output port node from video port 3
 
       port@3:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
         description:
           The output port node from video port 4
 
+=======
+        type: object
+        description:
+          The output port node from video port 4
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   max-memory-bandwidth:
     $ref: /schemas/types.yaml#/definitions/uint32
     description:

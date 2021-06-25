@@ -72,7 +72,11 @@ static void __ath10k_htt_tx_txq_recalc(struct ieee80211_hw *hw,
 
 	if (unlikely(peer_id >= ar->htt.tx_q_state.num_peers) ||
 	    unlikely(tid >= ar->htt.tx_q_state.num_tids)) {
+<<<<<<< HEAD
 		ath10k_warn(ar, "refusing to update txq for peer_id %u tid %u due to out of bounds\n",
+=======
+		ath10k_warn(ar, "refusing to update txq for peer_id %hu tid %hhu due to out of bounds\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    peer_id, tid);
 		return;
 	}
@@ -81,7 +85,11 @@ static void __ath10k_htt_tx_txq_recalc(struct ieee80211_hw *hw,
 	ar->htt.tx_q_state.vaddr->map[tid][idx] &= ~bit;
 	ar->htt.tx_q_state.vaddr->map[tid][idx] |= count ? bit : 0;
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt tx txq state update peer_id %u tid %u count %u\n",
+=======
+	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt tx txq state update peer_id %hu tid %hhu count %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   peer_id, tid, count);
 }
 
@@ -213,7 +221,11 @@ void ath10k_htt_tx_free_msdu_id(struct ath10k_htt *htt, u16 msdu_id)
 
 	lockdep_assert_held(&htt->tx_lock);
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt tx free msdu_id %u\n", msdu_id);
+=======
+	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt tx free msdu_id %hu\n", msdu_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	idr_remove(&htt->pending_tx, msdu_id);
 }
@@ -507,7 +519,11 @@ static int ath10k_htt_tx_clean_up_pending(int msdu_id, void *skb, void *ctx)
 	struct ath10k_htt *htt = &ar->htt;
 	struct htt_tx_done tx_done = {0};
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_HTT, "force cleanup msdu_id %u\n", msdu_id);
+=======
+	ath10k_dbg(ar, ATH10K_DBG_HTT, "force cleanup msdu_id %hu\n", msdu_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tx_done.msdu_id = msdu_id;
 	tx_done.status = HTT_TX_COMPL_STATE_DISCARD;
@@ -569,8 +585,11 @@ void ath10k_htt_htc_tx_complete(struct ath10k *ar, struct sk_buff *skb)
 			desc_hdr = (struct htt_data_tx_desc *)
 				(skb->data + sizeof(*htt_hdr));
 			flags1 = __le16_to_cpu(desc_hdr->flags1);
+<<<<<<< HEAD
 			skb_pull(skb, sizeof(struct htt_cmd_hdr));
 			skb_pull(skb, sizeof(struct htt_data_tx_desc));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1559,7 +1578,11 @@ static int ath10k_htt_tx_32(struct ath10k_htt *htt,
 
 	trace_ath10k_htt_tx(ar, msdu_id, msdu->len, vdev_id, tid);
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt tx flags0 %u flags1 %u len %d id %u frags_paddr %pad, msdu_paddr %pad vdev %u tid %u freq %u\n",
+=======
+		   "htt tx flags0 %hhu flags1 %hu len %d id %hu frags_paddr %pad, msdu_paddr %pad vdev %hhu tid %hhu freq %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   flags0, flags1, msdu->len, msdu_id, &frags_paddr,
 		   &skb_cb->paddr, vdev_id, tid, freq);
 	ath10k_dbg_dump(ar, ATH10K_DBG_HTT_DUMP, NULL, "htt tx msdu: ",
@@ -1768,7 +1791,11 @@ static int ath10k_htt_tx_64(struct ath10k_htt *htt,
 
 	trace_ath10k_htt_tx(ar, msdu_id, msdu->len, vdev_id, tid);
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt tx flags0 %u flags1 %u len %d id %u frags_paddr %pad, msdu_paddr %pad vdev %u tid %u freq %u\n",
+=======
+		   "htt tx flags0 %hhu flags1 %hu len %d id %hu frags_paddr %pad, msdu_paddr %pad vdev %hhu tid %hhu freq %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   flags0, flags1, msdu->len, msdu_id, &frags_paddr,
 		   &skb_cb->paddr, vdev_id, tid, freq);
 	ath10k_dbg_dump(ar, ATH10K_DBG_HTT_DUMP, NULL, "htt tx msdu: ",

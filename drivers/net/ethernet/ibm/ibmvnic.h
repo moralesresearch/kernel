@@ -845,7 +845,14 @@ struct ibmvnic_crq_queue {
 	union ibmvnic_crq *msgs;
 	int size, cur;
 	dma_addr_t msg_token;
+<<<<<<< HEAD
 	/* Used for serialization of msgs, cur */
+=======
+<<<<<<< HEAD
+	/* Used for serialization of msgs, cur */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t lock;
 	bool active;
 	char name[32];
@@ -877,7 +884,14 @@ struct ibmvnic_sub_crq_queue {
 	unsigned int irq;
 	unsigned int pool_index;
 	int scrq_num;
+<<<<<<< HEAD
 	/* Used for serialization of msgs, cur */
+=======
+<<<<<<< HEAD
+	/* Used for serialization of msgs, cur */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t lock;
 	struct sk_buff *rx_skb_top;
 	struct ibmvnic_adapter *adapter;
@@ -987,6 +1001,13 @@ struct ibmvnic_adapter {
 	struct ibmvnic_statistics stats;
 	dma_addr_t stats_token;
 	struct completion stats_done;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	spinlock_t stats_lock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int replenish_no_mem;
 	int replenish_add_buff_success;
 	int replenish_add_buff_failure;
@@ -1081,6 +1102,10 @@ struct ibmvnic_adapter {
 
 	struct tasklet_struct tasklet;
 	enum vnic_state state;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Used for serialization of state field. When taking both state
 	 * and rwi locks, take state lock first.
 	 */
@@ -1091,6 +1116,15 @@ struct ibmvnic_adapter {
 	 * and rwi locks, take state lock first
 	 */
 	spinlock_t rwi_lock;
+<<<<<<< HEAD
+=======
+=======
+	enum ibmvnic_reset_reason reset_reason;
+	/* when taking both state and rwi locks, take state lock first */
+	spinlock_t rwi_lock;
+	struct list_head rwi_list;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct work_struct ibmvnic_reset;
 	struct delayed_work ibmvnic_delayed_reset;
 	unsigned long resetting;
@@ -1104,4 +1138,15 @@ struct ibmvnic_adapter {
 
 	struct ibmvnic_tunables desired;
 	struct ibmvnic_tunables fallback;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	/* Used for serialization of state field. When taking both state
+	 * and rwi locks, take state lock first.
+	 */
+	spinlock_t state_lock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

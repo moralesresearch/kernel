@@ -18,6 +18,7 @@
 #include <linux/evm.h>
 #include <linux/ima.h>
 
+<<<<<<< HEAD
 /**
  * chown_ok - verify permissions to chown inode
  * @mnt_userns:	user namespace of the mount @inode was found from
@@ -40,11 +41,22 @@ static bool chown_ok(struct user_namespace *mnt_userns,
 	if (capable_wrt_inode_uidgid(mnt_userns, inode, CAP_CHOWN))
 		return true;
 	if (uid_eq(kuid, INVALID_UID) &&
+=======
+static bool chown_ok(const struct inode *inode, kuid_t uid)
+{
+	if (uid_eq(current_fsuid(), inode->i_uid) &&
+	    uid_eq(uid, inode->i_uid))
+		return true;
+	if (capable_wrt_inode_uidgid(inode, CAP_CHOWN))
+		return true;
+	if (uid_eq(inode->i_uid, INVALID_UID) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    ns_capable(inode->i_sb->s_user_ns, CAP_CHOWN))
 		return true;
 	return false;
 }
 
+<<<<<<< HEAD
 /**
  * chgrp_ok - verify permissions to chgrp inode
  * @mnt_userns:	user namespace of the mount @inode was found from
@@ -67,6 +79,16 @@ static bool chgrp_ok(struct user_namespace *mnt_userns,
 	if (capable_wrt_inode_uidgid(mnt_userns, inode, CAP_CHOWN))
 		return true;
 	if (gid_eq(kgid, INVALID_GID) &&
+=======
+static bool chgrp_ok(const struct inode *inode, kgid_t gid)
+{
+	if (uid_eq(current_fsuid(), inode->i_uid) &&
+	    (in_group_p(gid) || gid_eq(gid, inode->i_gid)))
+		return true;
+	if (capable_wrt_inode_uidgid(inode, CAP_CHOWN))
+		return true;
+	if (gid_eq(inode->i_gid, INVALID_GID) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    ns_capable(inode->i_sb->s_user_ns, CAP_CHOWN))
 		return true;
 	return false;
@@ -74,7 +96,10 @@ static bool chgrp_ok(struct user_namespace *mnt_userns,
 
 /**
  * setattr_prepare - check if attribute changes to a dentry are allowed
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dentry:	dentry to check
  * @attr:	attributes to change
  *
@@ -84,6 +109,7 @@ static bool chgrp_ok(struct user_namespace *mnt_userns,
  * SGID bit from mode if user is not allowed to set it. Also file capabilities
  * and IMA extended attributes are cleared if ATTR_KILL_PRIV is set.
  *
+<<<<<<< HEAD
  * If the inode has been found through an idmapped mount the user namespace of
  * the vfsmount must be passed through @mnt_userns. This function will then
  * take care to map the inode according to @mnt_userns before checking
@@ -95,6 +121,12 @@ static bool chgrp_ok(struct user_namespace *mnt_userns,
  */
 int setattr_prepare(struct user_namespace *mnt_userns, struct dentry *dentry,
 		    struct iattr *attr)
+=======
+ * Should be called as the first thing in ->setattr implementations,
+ * possibly after taking additional locks.
+ */
+int setattr_prepare(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	unsigned int ia_valid = attr->ia_valid;
@@ -114,27 +146,48 @@ int setattr_prepare(struct user_namespace *mnt_userns, struct dentry *dentry,
 		goto kill_priv;
 
 	/* Make sure a caller can chown. */
+<<<<<<< HEAD
 	if ((ia_valid & ATTR_UID) && !chown_ok(mnt_userns, inode, attr->ia_uid))
 		return -EPERM;
 
 	/* Make sure caller can chgrp. */
 	if ((ia_valid & ATTR_GID) && !chgrp_ok(mnt_userns, inode, attr->ia_gid))
+=======
+	if ((ia_valid & ATTR_UID) && !chown_ok(inode, attr->ia_uid))
+		return -EPERM;
+
+	/* Make sure caller can chgrp. */
+	if ((ia_valid & ATTR_GID) && !chgrp_ok(inode, attr->ia_gid))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EPERM;
 
 	/* Make sure a caller can chmod. */
 	if (ia_valid & ATTR_MODE) {
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
 			return -EPERM;
 		/* Also check the setgid bit! */
                if (!in_group_p((ia_valid & ATTR_GID) ? attr->ia_gid :
                                 i_gid_into_mnt(mnt_userns, inode)) &&
                     !capable_wrt_inode_uidgid(mnt_userns, inode, CAP_FSETID))
+=======
+		if (!inode_owner_or_capable(inode))
+			return -EPERM;
+		/* Also check the setgid bit! */
+		if (!in_group_p((ia_valid & ATTR_GID) ? attr->ia_gid :
+				inode->i_gid) &&
+		    !capable_wrt_inode_uidgid(inode, CAP_FSETID))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			attr->ia_mode &= ~S_ISGID;
 	}
 
 	/* Check for setting the inode time. */
 	if (ia_valid & (ATTR_MTIME_SET | ATTR_ATIME_SET | ATTR_TIMES_SET)) {
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EPERM;
 	}
 
@@ -143,7 +196,11 @@ kill_priv:
 	if (ia_valid & ATTR_KILL_PRIV) {
 		int error;
 
+<<<<<<< HEAD
 		error = security_inode_killpriv(mnt_userns, dentry);
+=======
+		error = security_inode_killpriv(dentry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			return error;
 	}
@@ -198,13 +255,17 @@ EXPORT_SYMBOL(inode_newsize_ok);
 
 /**
  * setattr_copy - copy simple metadata updates into the generic inode
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode:	the inode to be updated
  * @attr:	the new attributes
  *
  * setattr_copy must be called with i_mutex held.
  *
  * setattr_copy updates the inode's metadata with that specified
+<<<<<<< HEAD
  * in attr on idmapped mounts. If file ownership is changed setattr_copy
  * doesn't map ia_uid and ia_gid. It will asssume the caller has already
  * provided the intended values. Necessary permission checks to determine
@@ -219,12 +280,21 @@ EXPORT_SYMBOL(inode_newsize_ok);
  * permissions. On non-idmapped mounts or if permission checking is to be
  * performed on the raw inode simply passs init_user_ns.
  *
+=======
+ * in attr. Noticeably missing is inode size update, which is more complex
+ * as it requires pagecache updates.
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * The inode is not marked as dirty after this operation. The rationale is
  * that for "simple" filesystems, the struct inode is the inode storage.
  * The caller is free to mark the inode dirty afterwards if needed.
  */
+<<<<<<< HEAD
 void setattr_copy(struct user_namespace *mnt_userns, struct inode *inode,
 		  const struct iattr *attr)
+=======
+void setattr_copy(struct inode *inode, const struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int ia_valid = attr->ia_valid;
 
@@ -240,9 +310,15 @@ void setattr_copy(struct user_namespace *mnt_userns, struct inode *inode,
 		inode->i_ctime = attr->ia_ctime;
 	if (ia_valid & ATTR_MODE) {
 		umode_t mode = attr->ia_mode;
+<<<<<<< HEAD
 		kgid_t kgid = i_gid_into_mnt(mnt_userns, inode);
 		if (!in_group_p(kgid) &&
 		    !capable_wrt_inode_uidgid(mnt_userns, inode, CAP_FSETID))
+=======
+
+		if (!in_group_p(inode->i_gid) &&
+		    !capable_wrt_inode_uidgid(inode, CAP_FSETID))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mode &= ~S_ISGID;
 		inode->i_mode = mode;
 	}
@@ -251,7 +327,10 @@ EXPORT_SYMBOL(setattr_copy);
 
 /**
  * notify_change - modify attributes of a filesytem object
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dentry:	object affected
  * @attr:	new attributes
  * @delegated_inode: returns inode, if the inode is delegated
@@ -264,14 +343,18 @@ EXPORT_SYMBOL(setattr_copy);
  * retry.  Because breaking a delegation may take a long time, the
  * caller should drop the i_mutex before doing so.
  *
+<<<<<<< HEAD
  * If file ownership is changed notify_change() doesn't map ia_uid and
  * ia_gid. It will asssume the caller has already provided the intended values.
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Alternatively, a caller may pass NULL for delegated_inode.  This may
  * be appropriate for callers that expect the underlying filesystem not
  * to be NFS exported.  Also, passing NULL is fine for callers holding
  * the file open for write, as there can be no conflicting delegation in
  * that case.
+<<<<<<< HEAD
  *
  * If the inode has been found through an idmapped mount the user namespace of
  * the vfsmount must be passed through @mnt_userns. This function will then
@@ -281,6 +364,10 @@ EXPORT_SYMBOL(setattr_copy);
  */
 int notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		  struct iattr *attr, struct inode **delegated_inode)
+=======
+ */
+int notify_change(struct dentry * dentry, struct iattr * attr, struct inode **delegated_inode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	umode_t mode = inode->i_mode;
@@ -303,8 +390,13 @@ int notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		if (IS_IMMUTABLE(inode))
 			return -EPERM;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode)) {
 			error = inode_permission(mnt_userns, inode, MAY_WRITE);
+=======
+		if (!inode_owner_or_capable(inode)) {
+			error = inode_permission(inode, MAY_WRITE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (error)
 				return error;
 		}
@@ -380,11 +472,17 @@ int notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 	/* Don't allow modifications of files with invalid uids or
 	 * gids unless those uids & gids are being made valid.
 	 */
+<<<<<<< HEAD
 	if (!(ia_valid & ATTR_UID) &&
 	    !uid_valid(i_uid_into_mnt(mnt_userns, inode)))
 		return -EOVERFLOW;
 	if (!(ia_valid & ATTR_GID) &&
 	    !gid_valid(i_gid_into_mnt(mnt_userns, inode)))
+=======
+	if (!(ia_valid & ATTR_UID) && !uid_valid(inode->i_uid))
+		return -EOVERFLOW;
+	if (!(ia_valid & ATTR_GID) && !gid_valid(inode->i_gid))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOVERFLOW;
 
 	error = security_inode_setattr(dentry, attr);
@@ -395,6 +493,7 @@ int notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		return error;
 
 	if (inode->i_op->setattr)
+<<<<<<< HEAD
 		error = inode->i_op->setattr(mnt_userns, dentry, attr);
 	else
 		error = simple_setattr(mnt_userns, dentry, attr);
@@ -402,6 +501,15 @@ int notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 	if (!error) {
 		fsnotify_change(dentry, ia_valid);
 		ima_inode_post_setattr(mnt_userns, dentry);
+=======
+		error = inode->i_op->setattr(dentry, attr);
+	else
+		error = simple_setattr(dentry, attr);
+
+	if (!error) {
+		fsnotify_change(dentry, ia_valid);
+		ima_inode_post_setattr(dentry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		evm_inode_post_setattr(dentry, ia_valid);
 	}
 

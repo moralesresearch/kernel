@@ -85,6 +85,7 @@ void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
 }
 EXPORT_SYMBOL_GPL(kunit_ptr_not_err_assert_format);
 
+<<<<<<< HEAD
 /* Checks if `text` is a literal representing `value`, e.g. "5" and 5 */
 static bool is_literal(struct kunit *test, const char *text, long long value,
 		       gfp_t gfp)
@@ -108,6 +109,8 @@ static bool is_literal(struct kunit *test, const char *text, long long value,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kunit_binary_assert_format(const struct kunit_assert *assert,
 				struct string_stream *stream)
 {
@@ -120,6 +123,7 @@ void kunit_binary_assert_format(const struct kunit_assert *assert,
 			  binary_assert->left_text,
 			  binary_assert->operation,
 			  binary_assert->right_text);
+<<<<<<< HEAD
 	if (!is_literal(stream->test, binary_assert->left_text,
 			binary_assert->left_value, stream->gfp))
 		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld\n",
@@ -130,6 +134,14 @@ void kunit_binary_assert_format(const struct kunit_assert *assert,
 		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld",
 				  binary_assert->right_text,
 				  binary_assert->right_value);
+=======
+	string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld\n",
+			  binary_assert->left_text,
+			  binary_assert->left_value);
+	string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld",
+			  binary_assert->right_text,
+			  binary_assert->right_value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kunit_assert_print_msg(assert, stream);
 }
 EXPORT_SYMBOL_GPL(kunit_binary_assert_format);

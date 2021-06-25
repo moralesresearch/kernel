@@ -27,5 +27,9 @@ DT_MACHINE_START(IMX35_DT, "Freescale i.MX35 (Device Tree Support)")
 	.l2c_aux_mask	= ~0,
 	.map_io		= mx35_map_io,
 	.init_early	= imx35_init_early,
+<<<<<<< HEAD
+=======
+	.init_irq	= mx35_init_irq,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dt_compat	= imx35_dt_board_compat,
 MACHINE_END

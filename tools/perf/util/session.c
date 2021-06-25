@@ -593,6 +593,7 @@ static void perf_event__mmap2_swap(union perf_event *event,
 	event->mmap2.start = bswap_64(event->mmap2.start);
 	event->mmap2.len   = bswap_64(event->mmap2.len);
 	event->mmap2.pgoff = bswap_64(event->mmap2.pgoff);
+<<<<<<< HEAD
 
 	if (!(event->header.misc & PERF_RECORD_MISC_MMAP_BUILD_ID)) {
 		event->mmap2.maj   = bswap_32(event->mmap2.maj);
@@ -600,6 +601,12 @@ static void perf_event__mmap2_swap(union perf_event *event,
 		event->mmap2.ino   = bswap_64(event->mmap2.ino);
 		event->mmap2.ino_generation = bswap_64(event->mmap2.ino_generation);
 	}
+=======
+	event->mmap2.maj   = bswap_32(event->mmap2.maj);
+	event->mmap2.min   = bswap_32(event->mmap2.min);
+	event->mmap2.ino   = bswap_64(event->mmap2.ino);
+	event->mmap2.ino_generation = bswap_64(event->mmap2.ino_generation);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sample_id_all) {
 		void *data = &event->mmap2.filename;
@@ -949,6 +956,7 @@ static void perf_event__stat_round_swap(union perf_event *event,
 	event->stat_round.time = bswap_64(event->stat_round.time);
 }
 
+<<<<<<< HEAD
 static void perf_event__time_conv_swap(union perf_event *event,
 				       bool sample_id_all __maybe_unused)
 {
@@ -962,6 +970,8 @@ static void perf_event__time_conv_swap(union perf_event *event,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 typedef void (*perf_event__swap_op)(union perf_event *event,
 				    bool sample_id_all);
 
@@ -998,7 +1008,11 @@ static perf_event__swap_op perf_event__swap_ops[] = {
 	[PERF_RECORD_STAT]		  = perf_event__stat_swap,
 	[PERF_RECORD_STAT_ROUND]	  = perf_event__stat_round_swap,
 	[PERF_RECORD_EVENT_UPDATE]	  = perf_event__event_update_swap,
+<<<<<<< HEAD
 	[PERF_RECORD_TIME_CONV]		  = perf_event__time_conv_swap,
+=======
+	[PERF_RECORD_TIME_CONV]		  = perf_event__all64_swap,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[PERF_RECORD_HEADER_MAX]	  = NULL,
 };
 
@@ -1313,12 +1327,17 @@ static void dump_sample(struct evsel *evsel, union perf_event *event,
 	if (sample_type & PERF_SAMPLE_STACK_USER)
 		stack_user__printf(&sample->user_stack);
 
+<<<<<<< HEAD
 	if (sample_type & PERF_SAMPLE_WEIGHT_TYPE) {
 		printf("... weight: %" PRIu64 "", sample->weight);
 			if (sample_type & PERF_SAMPLE_WEIGHT_STRUCT)
 				printf(",0x%"PRIx16"", sample->ins_lat);
 		printf("\n");
 	}
+=======
+	if (sample_type & PERF_SAMPLE_WEIGHT)
+		printf("... weight: %" PRIu64 "\n", sample->weight);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sample_type & PERF_SAMPLE_DATA_SRC)
 		printf(" . data_src: 0x%"PRIx64"\n", sample->data_src);
@@ -1329,9 +1348,12 @@ static void dump_sample(struct evsel *evsel, union perf_event *event,
 	if (sample_type & PERF_SAMPLE_DATA_PAGE_SIZE)
 		printf(" .. data page size: %s\n", get_page_size_name(sample->data_page_size, str));
 
+<<<<<<< HEAD
 	if (sample_type & PERF_SAMPLE_CODE_PAGE_SIZE)
 		printf(" .. code page size: %s\n", get_page_size_name(sample->code_page_size, str));
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sample_type & PERF_SAMPLE_TRANSACTION)
 		printf("... transaction: %" PRIx64 "\n", sample->transaction);
 
@@ -1369,6 +1391,11 @@ static struct machine *machines__find_for_cpumode(struct machines *machines,
 					       union perf_event *event,
 					       struct perf_sample *sample)
 {
+<<<<<<< HEAD
+=======
+	struct machine *machine;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (perf_guest &&
 	    ((sample->cpumode == PERF_RECORD_MISC_GUEST_KERNEL) ||
 	     (sample->cpumode == PERF_RECORD_MISC_GUEST_USER))) {
@@ -1380,7 +1407,14 @@ static struct machine *machines__find_for_cpumode(struct machines *machines,
 		else
 			pid = sample->pid;
 
+<<<<<<< HEAD
 		return machines__find_guest(machines, pid);
+=======
+		machine = machines__find(machines, pid);
+		if (!machine)
+			machine = machines__findnew(machines, DEFAULT_GUEST_KERNEL_ID);
+		return machine;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return &machines->host;
@@ -1710,6 +1744,10 @@ int perf_session__peek_event(struct perf_session *session, off_t file_offset,
 	if (event->header.size < hdr_sz || event->header.size > buf_sz)
 		return -1;
 
+<<<<<<< HEAD
+	buf += hdr_sz;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rest = event->header.size - hdr_sz;
 
 	if (readn(fd, buf, rest) != (ssize_t)rest)
@@ -1802,6 +1840,7 @@ struct thread *perf_session__findnew(struct perf_session *session, pid_t pid)
 	return machine__findnew_thread(&session->machines.host, -1, pid);
 }
 
+<<<<<<< HEAD
 int perf_session__register_idle_thread(struct perf_session *session)
 {
 	struct thread *thread = machine__idle_thread(&session->machines.host);
@@ -1809,6 +1848,34 @@ int perf_session__register_idle_thread(struct perf_session *session)
 	/* machine__idle_thread() got the thread, so put it */
 	thread__put(thread);
 	return thread ? 0 : -1;
+=======
+/*
+ * Threads are identified by pid and tid, and the idle task has pid == tid == 0.
+ * So here a single thread is created for that, but actually there is a separate
+ * idle task per cpu, so there should be one 'struct thread' per cpu, but there
+ * is only 1. That causes problems for some tools, requiring workarounds. For
+ * example get_idle_thread() in builtin-sched.c, or thread_stack__per_cpu().
+ */
+int perf_session__register_idle_thread(struct perf_session *session)
+{
+	struct thread *thread;
+	int err = 0;
+
+	thread = machine__findnew_thread(&session->machines.host, 0, 0);
+	if (thread == NULL || thread__set_comm(thread, "swapper", 0)) {
+		pr_err("problem inserting idle task.\n");
+		err = -1;
+	}
+
+	if (thread == NULL || thread__set_namespaces(thread, 0, NULL)) {
+		pr_err("problem inserting idle task.\n");
+		err = -1;
+	}
+
+	/* machine__findnew_thread() got the thread, so put it */
+	thread__put(thread);
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void

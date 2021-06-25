@@ -72,7 +72,11 @@ ice_read_flat_nvm(struct ice_hw *hw, u32 offset, u32 *length, u8 *data,
 	*length = 0;
 
 	/* Verify the length of the read if this is for the Shadow RAM */
+<<<<<<< HEAD
 	if (read_shadow_ram && ((offset + inlen) > (hw->flash.sr_words * 2u))) {
+=======
+	if (read_shadow_ram && ((offset + inlen) > (hw->nvm.sr_words * 2u))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ice_debug(hw, ICE_DBG_NVM, "NVM error: requested offset is beyond Shadow RAM limit\n");
 		return ICE_ERR_PARAM;
 	}
@@ -213,7 +217,11 @@ ice_read_sr_word_aq(struct ice_hw *hw, u16 offset, u16 *data)
 enum ice_status
 ice_acquire_nvm(struct ice_hw *hw, enum ice_aq_res_access_type access)
 {
+<<<<<<< HEAD
 	if (hw->flash.blank_nvm_mode)
+=======
+	if (hw->nvm.blank_nvm_mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	return ice_acquire_res(hw, ICE_NVM_RES_ID, access, ICE_NVM_TIMEOUT);
@@ -227,13 +235,18 @@ ice_acquire_nvm(struct ice_hw *hw, enum ice_aq_res_access_type access)
  */
 void ice_release_nvm(struct ice_hw *hw)
 {
+<<<<<<< HEAD
 	if (hw->flash.blank_nvm_mode)
+=======
+	if (hw->nvm.blank_nvm_mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	ice_release_res(hw, ICE_NVM_RES_ID);
 }
 
 /**
+<<<<<<< HEAD
  * ice_get_flash_bank_offset - Get offset into requested flash bank
  * @hw: pointer to the HW structure
  * @bank: whether to read from the active or inactive flash bank
@@ -407,6 +420,8 @@ ice_read_netlist_module(struct ice_hw *hw, enum ice_bank_select bank, u32 offset
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_read_sr_word - Reads Shadow RAM word and acquire NVM if necessary
  * @hw: pointer to the HW structure
  * @offset: offset of the Shadow RAM word to read (0x000000 - 0x001FFF)
@@ -553,6 +568,7 @@ ice_read_pba_string(struct ice_hw *hw, u8 *pba_num, u32 pba_num_size)
 }
 
 /**
+<<<<<<< HEAD
  * ice_get_nvm_ver_info - Read NVM version information
  * @hw: pointer to the HW struct
  * @bank: whether to read from the active or inactive flash bank
@@ -686,11 +702,63 @@ ice_get_orom_ver_info(struct ice_hw *hw, enum ice_bank_select bank, struct ice_o
 	orom->major = (u8)((combo_ver & ICE_OROM_VER_MASK) >> ICE_OROM_VER_SHIFT);
 	orom->patch = (u8)(combo_ver & ICE_OROM_VER_PATCH_MASK);
 	orom->build = (u16)((combo_ver & ICE_OROM_VER_BUILD_MASK) >> ICE_OROM_VER_BUILD_SHIFT);
+=======
+ * ice_get_orom_ver_info - Read Option ROM version information
+ * @hw: pointer to the HW struct
+ *
+ * Read the Combo Image version data from the Boot Configuration TLV and fill
+ * in the option ROM version data.
+ */
+static enum ice_status ice_get_orom_ver_info(struct ice_hw *hw)
+{
+	u16 combo_hi, combo_lo, boot_cfg_tlv, boot_cfg_tlv_len;
+	struct ice_orom_info *orom = &hw->nvm.orom;
+	enum ice_status status;
+	u32 combo_ver;
+
+	status = ice_get_pfa_module_tlv(hw, &boot_cfg_tlv, &boot_cfg_tlv_len,
+					ICE_SR_BOOT_CFG_PTR);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read Boot Configuration Block TLV.\n");
+		return status;
+	}
+
+	/* Boot Configuration Block must have length at least 2 words
+	 * (Combo Image Version High and Combo Image Version Low)
+	 */
+	if (boot_cfg_tlv_len < 2) {
+		ice_debug(hw, ICE_DBG_INIT, "Invalid Boot Configuration Block TLV size.\n");
+		return ICE_ERR_INVAL_SIZE;
+	}
+
+	status = ice_read_sr_word(hw, (boot_cfg_tlv + ICE_NVM_OROM_VER_OFF),
+				  &combo_hi);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read OROM_VER hi.\n");
+		return status;
+	}
+
+	status = ice_read_sr_word(hw, (boot_cfg_tlv + ICE_NVM_OROM_VER_OFF + 1),
+				  &combo_lo);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read OROM_VER lo.\n");
+		return status;
+	}
+
+	combo_ver = ((u32)combo_hi << 16) | combo_lo;
+
+	orom->major = (u8)((combo_ver & ICE_OROM_VER_MASK) >>
+			   ICE_OROM_VER_SHIFT);
+	orom->patch = (u8)(combo_ver & ICE_OROM_VER_PATCH_MASK);
+	orom->build = (u16)((combo_ver & ICE_OROM_VER_BUILD_MASK) >>
+			    ICE_OROM_VER_BUILD_SHIFT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 /**
+<<<<<<< HEAD
  * ice_get_inactive_orom_ver - Read Option ROM version from the inactive bank
  * @hw: pointer to the HW structure
  * @orom: storage for Option ROM version information
@@ -793,6 +861,86 @@ exit_error:
 enum ice_status ice_get_inactive_netlist_ver(struct ice_hw *hw, struct ice_netlist_info *netlist)
 {
 	return ice_get_netlist_info(hw, ICE_INACTIVE_FLASH_BANK, netlist);
+=======
+ * ice_get_netlist_ver_info
+ * @hw: pointer to the HW struct
+ *
+ * Get the netlist version information
+ */
+static enum ice_status ice_get_netlist_ver_info(struct ice_hw *hw)
+{
+	struct ice_netlist_ver_info *ver = &hw->netlist_ver;
+	enum ice_status ret;
+	u32 id_blk_start;
+	__le16 raw_data;
+	u16 data, i;
+	u16 *buff;
+
+	ret = ice_acquire_nvm(hw, ICE_RES_READ);
+	if (ret)
+		return ret;
+	buff = kcalloc(ICE_AQC_NVM_NETLIST_ID_BLK_LEN, sizeof(*buff),
+		       GFP_KERNEL);
+	if (!buff) {
+		ret = ICE_ERR_NO_MEMORY;
+		goto exit_no_mem;
+	}
+
+	/* read module length */
+	ret = ice_aq_read_nvm(hw, ICE_AQC_NVM_LINK_TOPO_NETLIST_MOD_ID,
+			      ICE_AQC_NVM_LINK_TOPO_NETLIST_LEN_OFFSET * 2,
+			      ICE_AQC_NVM_LINK_TOPO_NETLIST_LEN, &raw_data,
+			      false, false, NULL);
+	if (ret)
+		goto exit_error;
+
+	data = le16_to_cpu(raw_data);
+	/* exit if length is = 0 */
+	if (!data)
+		goto exit_error;
+
+	/* read node count */
+	ret = ice_aq_read_nvm(hw, ICE_AQC_NVM_LINK_TOPO_NETLIST_MOD_ID,
+			      ICE_AQC_NVM_NETLIST_NODE_COUNT_OFFSET * 2,
+			      ICE_AQC_NVM_NETLIST_NODE_COUNT_LEN, &raw_data,
+			      false, false, NULL);
+	if (ret)
+		goto exit_error;
+	data = le16_to_cpu(raw_data) & ICE_AQC_NVM_NETLIST_NODE_COUNT_M;
+
+	/* netlist ID block starts from offset 4 + node count * 2 */
+	id_blk_start = ICE_AQC_NVM_NETLIST_ID_BLK_START_OFFSET + data * 2;
+
+	/* read the entire netlist ID block */
+	ret = ice_aq_read_nvm(hw, ICE_AQC_NVM_LINK_TOPO_NETLIST_MOD_ID,
+			      id_blk_start * 2,
+			      ICE_AQC_NVM_NETLIST_ID_BLK_LEN * 2, buff, false,
+			      false, NULL);
+	if (ret)
+		goto exit_error;
+
+	for (i = 0; i < ICE_AQC_NVM_NETLIST_ID_BLK_LEN; i++)
+		buff[i] = le16_to_cpu(((__force __le16 *)buff)[i]);
+
+	ver->major = (buff[ICE_AQC_NVM_NETLIST_ID_BLK_MAJOR_VER_HIGH] << 16) |
+		buff[ICE_AQC_NVM_NETLIST_ID_BLK_MAJOR_VER_LOW];
+	ver->minor = (buff[ICE_AQC_NVM_NETLIST_ID_BLK_MINOR_VER_HIGH] << 16) |
+		buff[ICE_AQC_NVM_NETLIST_ID_BLK_MINOR_VER_LOW];
+	ver->type = (buff[ICE_AQC_NVM_NETLIST_ID_BLK_TYPE_HIGH] << 16) |
+		buff[ICE_AQC_NVM_NETLIST_ID_BLK_TYPE_LOW];
+	ver->rev = (buff[ICE_AQC_NVM_NETLIST_ID_BLK_REV_HIGH] << 16) |
+		buff[ICE_AQC_NVM_NETLIST_ID_BLK_REV_LOW];
+	ver->cust_ver = buff[ICE_AQC_NVM_NETLIST_ID_BLK_CUST_VER];
+	/* Read the left most 4 bytes of SHA */
+	ver->hash = buff[ICE_AQC_NVM_NETLIST_ID_BLK_SHA_HASH + 15] << 16 |
+		buff[ICE_AQC_NVM_NETLIST_ID_BLK_SHA_HASH + 14];
+
+exit_error:
+	kfree(buff);
+exit_no_mem:
+	ice_release_nvm(hw);
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -836,7 +984,11 @@ static enum ice_status ice_discover_flash_size(struct ice_hw *hw)
 
 	ice_debug(hw, ICE_DBG_NVM, "Predicted flash size is %u bytes\n", max_size);
 
+<<<<<<< HEAD
 	hw->flash.flash_size = max_size;
+=======
+	hw->nvm.flash_size = max_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 err_read_flat_nvm:
 	ice_release_nvm(hw);
@@ -845,6 +997,7 @@ err_read_flat_nvm:
 }
 
 /**
+<<<<<<< HEAD
  * ice_read_sr_pointer - Read the value of a Shadow RAM pointer word
  * @hw: pointer to the HW structure
  * @offset: the word offset of the Shadow RAM word to read
@@ -990,6 +1143,8 @@ ice_determine_active_flash_banks(struct ice_hw *hw)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_init_nvm - initializes NVM setting
  * @hw: pointer to the HW struct
  *
@@ -998,7 +1153,12 @@ ice_determine_active_flash_banks(struct ice_hw *hw)
  */
 enum ice_status ice_init_nvm(struct ice_hw *hw)
 {
+<<<<<<< HEAD
 	struct ice_flash_info *flash = &hw->flash;
+=======
+	struct ice_nvm_info *nvm = &hw->nvm;
+	u16 eetrack_lo, eetrack_hi, ver;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum ice_status status;
 	u32 fla, gens_stat;
 	u8 sr_size;
@@ -1010,19 +1170,31 @@ enum ice_status ice_init_nvm(struct ice_hw *hw)
 	sr_size = (gens_stat & GLNVM_GENS_SR_SIZE_M) >> GLNVM_GENS_SR_SIZE_S;
 
 	/* Switching to words (sr_size contains power of 2) */
+<<<<<<< HEAD
 	flash->sr_words = BIT(sr_size) * ICE_SR_WORDS_IN_1KB;
+=======
+	nvm->sr_words = BIT(sr_size) * ICE_SR_WORDS_IN_1KB;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Check if we are in the normal or blank NVM programming mode */
 	fla = rd32(hw, GLNVM_FLA);
 	if (fla & GLNVM_FLA_LOCKED_M) { /* Normal programming mode */
+<<<<<<< HEAD
 		flash->blank_nvm_mode = false;
 	} else {
 		/* Blank programming mode */
 		flash->blank_nvm_mode = true;
+=======
+		nvm->blank_nvm_mode = false;
+	} else {
+		/* Blank programming mode */
+		nvm->blank_nvm_mode = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ice_debug(hw, ICE_DBG_NVM, "NVM init error: unsupported blank mode.\n");
 		return ICE_ERR_NVM_BLANK_MODE;
 	}
 
+<<<<<<< HEAD
 	status = ice_discover_flash_size(hw);
 	if (status) {
 		ice_debug(hw, ICE_DBG_NVM, "NVM init error: failed to discover flash size.\n");
@@ -1047,6 +1219,43 @@ enum ice_status ice_init_nvm(struct ice_hw *hw)
 
 	/* read the netlist version information */
 	status = ice_get_netlist_info(hw, ICE_ACTIVE_FLASH_BANK, &flash->netlist);
+=======
+	status = ice_read_sr_word(hw, ICE_SR_NVM_DEV_STARTER_VER, &ver);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read DEV starter version.\n");
+		return status;
+	}
+	nvm->major_ver = (ver & ICE_NVM_VER_HI_MASK) >> ICE_NVM_VER_HI_SHIFT;
+	nvm->minor_ver = (ver & ICE_NVM_VER_LO_MASK) >> ICE_NVM_VER_LO_SHIFT;
+
+	status = ice_read_sr_word(hw, ICE_SR_NVM_EETRACK_LO, &eetrack_lo);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read EETRACK lo.\n");
+		return status;
+	}
+	status = ice_read_sr_word(hw, ICE_SR_NVM_EETRACK_HI, &eetrack_hi);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read EETRACK hi.\n");
+		return status;
+	}
+
+	nvm->eetrack = (eetrack_hi << 16) | eetrack_lo;
+
+	status = ice_discover_flash_size(hw);
+	if (status) {
+		ice_debug(hw, ICE_DBG_NVM, "NVM init error: failed to discover flash size.\n");
+		return status;
+	}
+
+	status = ice_get_orom_ver_info(hw);
+	if (status) {
+		ice_debug(hw, ICE_DBG_INIT, "Failed to read Option ROM info.\n");
+		return status;
+	}
+
+	/* read the netlist version information */
+	status = ice_get_netlist_ver_info(hw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		ice_debug(hw, ICE_DBG_INIT, "Failed to read netlist info.\n");
 

@@ -22,7 +22,15 @@
 
 #include "rvu_trace.h"
 
+<<<<<<< HEAD
 #define DRV_NAME	"rvu_af"
+=======
+<<<<<<< HEAD
+#define DRV_NAME	"rvu_af"
+=======
+#define DRV_NAME	"octeontx2-af"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DRV_STRING      "Marvell OcteonTX2 RVU Admin Function Driver"
 
 static int rvu_get_hwvf(struct rvu *rvu, int pcifunc);
@@ -78,9 +86,18 @@ static void rvu_setup_hw_capabilities(struct rvu *rvu)
 		if (is_rvu_96xx_A0(rvu))
 			hw->cap.nix_rx_multicast = false;
 	}
+<<<<<<< HEAD
 
 	if (!is_rvu_otx2(rvu))
 		hw->cap.per_pf_mbox_regs = true;
+=======
+<<<<<<< HEAD
+
+	if (!is_rvu_otx2(rvu))
+		hw->cap.per_pf_mbox_regs = true;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Poll a RVU block's register 'offset', for a 'zero'
@@ -649,7 +666,15 @@ setup_vfmsix:
 	}
 
 	/* HW interprets RVU_AF_MSIXTR_BASE address as an IOVA, hence
+<<<<<<< HEAD
 	 * create an IOMMU mapping for the physical address configured by
+=======
+<<<<<<< HEAD
+	 * create an IOMMU mapping for the physical address configured by
+=======
+	 * create a IOMMU mapping for the physcial address configured by
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * firmware and reconfig RVU_AF_MSIXTR_BASE with IOVA.
 	 */
 	cfg = rvu_read64(rvu, BLKADDR_RVUM, RVU_PRIV_CONST);
@@ -855,6 +880,10 @@ static int rvu_setup_cpt_hw_resource(struct rvu *rvu, int blkaddr)
 	return rvu_alloc_bitmap(&block->lf);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rvu_get_lbk_bufsize(struct rvu *rvu)
 {
 	struct pci_dev *pdev = NULL;
@@ -880,6 +909,11 @@ err_put:
 	pci_dev_put(pdev);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rvu_setup_hw_resources(struct rvu *rvu)
 {
 	struct rvu_hwinfo *hw = rvu->hw;
@@ -1031,10 +1065,19 @@ cpt:
 		rvu_scan_block(rvu, block);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = rvu_set_channels_base(rvu);
 	if (err)
 		goto msix_err;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = rvu_npc_init(rvu);
 	if (err)
 		goto npc_err;
@@ -1050,14 +1093,30 @@ cpt:
 	if (err)
 		goto npa_err;
 
+<<<<<<< HEAD
 	rvu_get_lbk_bufsize(rvu);
 
+=======
+<<<<<<< HEAD
+	rvu_get_lbk_bufsize(rvu);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = rvu_nix_init(rvu);
 	if (err)
 		goto nix_err;
 
+<<<<<<< HEAD
 	rvu_program_channels(rvu);
 
+=======
+<<<<<<< HEAD
+	rvu_program_channels(rvu);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 nix_err:
@@ -1359,7 +1418,15 @@ static int rvu_get_attach_blkaddr(struct rvu *rvu, int blktype,
 		break;
 	default:
 		return rvu_get_blkaddr(rvu, blktype, 0);
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (is_block_implemented(rvu->hw, blkaddr))
 		return blkaddr;
@@ -1972,6 +2039,10 @@ static inline void rvu_afvf_mbox_up_handler(struct work_struct *work)
 	__rvu_mbox_up_handler(mwork, TYPE_AFVF);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rvu_get_mbox_regions(struct rvu *rvu, void **mbox_addr,
 				int num, int type)
 {
@@ -2026,11 +2097,20 @@ error:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 			 int type, int num,
 			 void (mbox_handler)(struct work_struct *),
 			 void (mbox_up_handler)(struct work_struct *))
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = -EINVAL, i, dir, dir_up;
 	void __iomem *reg_base;
 	struct rvu_work *mwork;
@@ -2040,10 +2120,24 @@ static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 	mbox_regions = kcalloc(num, sizeof(void *), GFP_KERNEL);
 	if (!mbox_regions)
 		return -ENOMEM;
+<<<<<<< HEAD
+=======
+=======
+	void __iomem *hwbase = NULL, *reg_base;
+	int err, i, dir, dir_up;
+	struct rvu_work *mwork;
+	const char *name;
+	u64 bar4_addr;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (type) {
 	case TYPE_AFPF:
 		name = "rvu_afpf_mailbox";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dir = MBOX_DIR_AFPF;
 		dir_up = MBOX_DIR_AFPF_UP;
 		reg_base = rvu->afreg_base;
@@ -2062,15 +2156,45 @@ static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 		break;
 	default:
 		return err;
+<<<<<<< HEAD
+=======
+=======
+		bar4_addr = rvu_read64(rvu, BLKADDR_RVUM, RVU_AF_PF_BAR4_ADDR);
+		dir = MBOX_DIR_AFPF;
+		dir_up = MBOX_DIR_AFPF_UP;
+		reg_base = rvu->afreg_base;
+		break;
+	case TYPE_AFVF:
+		name = "rvu_afvf_mailbox";
+		bar4_addr = rvupf_read64(rvu, RVU_PF_VF_BAR4_ADDR);
+		dir = MBOX_DIR_PFVF;
+		dir_up = MBOX_DIR_PFVF_UP;
+		reg_base = rvu->pfreg_base;
+		break;
+	default:
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	mw->mbox_wq = alloc_workqueue(name,
 				      WQ_UNBOUND | WQ_HIGHPRI | WQ_MEM_RECLAIM,
 				      num);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mw->mbox_wq) {
 		err = -ENOMEM;
 		goto unmap_regions;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (!mw->mbox_wq)
+		return -ENOMEM;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mw->mbox_wrk = devm_kcalloc(rvu->dev, num,
 				    sizeof(struct rvu_work), GFP_KERNEL);
@@ -2086,6 +2210,10 @@ static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 		goto exit;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = otx2_mbox_regions_init(&mw->mbox, mbox_regions, rvu->pdev,
 				     reg_base, dir, num);
 	if (err)
@@ -2093,6 +2221,28 @@ static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 
 	err = otx2_mbox_regions_init(&mw->mbox_up, mbox_regions, rvu->pdev,
 				     reg_base, dir_up, num);
+<<<<<<< HEAD
+=======
+=======
+	/* Mailbox is a reserved memory (in RAM) region shared between
+	 * RVU devices, shouldn't be mapped as device memory to allow
+	 * unaligned accesses.
+	 */
+	hwbase = ioremap_wc(bar4_addr, MBOX_SIZE * num);
+	if (!hwbase) {
+		dev_err(rvu->dev, "Unable to map mailbox region\n");
+		err = -ENOMEM;
+		goto exit;
+	}
+
+	err = otx2_mbox_init(&mw->mbox, hwbase, rvu->pdev, reg_base, dir, num);
+	if (err)
+		goto exit;
+
+	err = otx2_mbox_init(&mw->mbox_up, hwbase, rvu->pdev,
+			     reg_base, dir_up, num);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto exit;
 
@@ -2105,6 +2255,10 @@ static int rvu_mbox_init(struct rvu *rvu, struct mbox_wq_info *mw,
 		mwork->rvu = rvu;
 		INIT_WORK(&mwork->work, mbox_up_handler);
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(mbox_regions);
 	return 0;
 
@@ -2115,26 +2269,57 @@ unmap_regions:
 		iounmap((void __iomem *)mbox_regions[num]);
 free_regions:
 	kfree(mbox_regions);
+<<<<<<< HEAD
+=======
+=======
+
+	return 0;
+exit:
+	if (hwbase)
+		iounmap((void __iomem *)hwbase);
+	destroy_workqueue(mw->mbox_wq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
 static void rvu_mbox_destroy(struct mbox_wq_info *mw)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct otx2_mbox *mbox = &mw->mbox;
 	struct otx2_mbox_dev *mdev;
 	int devid;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mw->mbox_wq) {
 		flush_workqueue(mw->mbox_wq);
 		destroy_workqueue(mw->mbox_wq);
 		mw->mbox_wq = NULL;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (devid = 0; devid < mbox->ndevs; devid++) {
 		mdev = &mbox->dev[devid];
 		if (mdev->hwbase)
 			iounmap((void __iomem *)mdev->hwbase);
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (mw->mbox.hwbase)
+		iounmap((void __iomem *)mw->mbox.hwbase);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	otx2_mbox_destroy(&mw->mbox);
 	otx2_mbox_destroy(&mw->mbox_up);
@@ -2251,9 +2436,18 @@ static void rvu_blklf_teardown(struct rvu *rvu, u16 pcifunc, u8 blkaddr)
 			rvu_nix_lf_teardown(rvu, pcifunc, block->addr, lf);
 		else if (block->addr == BLKADDR_NPA)
 			rvu_npa_lf_teardown(rvu, pcifunc, lf);
+<<<<<<< HEAD
 		else if ((block->addr == BLKADDR_CPT0) ||
 			 (block->addr == BLKADDR_CPT1))
 			rvu_cpt_lf_teardown(rvu, pcifunc, lf, slot);
+=======
+<<<<<<< HEAD
+		else if ((block->addr == BLKADDR_CPT0) ||
+			 (block->addr == BLKADDR_CPT1))
+			rvu_cpt_lf_teardown(rvu, pcifunc, lf, slot);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		err = rvu_lf_reset(rvu, block, lf);
 		if (err) {
@@ -2756,6 +2950,14 @@ static void rvu_enable_afvf_intr(struct rvu *rvu)
 	rvupf_write64(rvu, RVU_PF_VFME_INT_ENA_W1SX(1), INTR_MASK(vfs - 64));
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#define PCI_DEVID_OCTEONTX2_LBK 0xA061
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rvu_get_num_lbk_chans(void)
 {
 	struct pci_dev *pdev;

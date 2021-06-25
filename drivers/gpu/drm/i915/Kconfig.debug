@@ -19,8 +19,11 @@ config DRM_I915_WERROR
 config DRM_I915_DEBUG
 	bool "Enable additional driver debugging"
 	depends on DRM_I915
+<<<<<<< HEAD
 	depends on EXPERT # only for developers
 	depends on !COMPILE_TEST # never built by robots
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DEBUG_FS
 	select PREEMPT_COUNT
 	select I2C_CHARDEV
@@ -33,6 +36,7 @@ config DRM_I915_DEBUG
 	select DRM_DEBUG_SELFTEST
 	select DMABUF_SELFTESTS
 	select SW_SYNC # signaling validation framework (igt/syncobj*)
+<<<<<<< HEAD
 	select DRM_I915_WERROR
 	select DRM_I915_DEBUG_GEM
 	select DRM_I915_DEBUG_GEM_ONCE
@@ -40,6 +44,12 @@ config DRM_I915_DEBUG
 	select DRM_I915_DEBUG_RUNTIME_PM
 	select DRM_I915_SW_FENCE_DEBUG_OBJECTS
 	select DRM_I915_SELFTEST
+=======
+	select DRM_I915_SW_FENCE_DEBUG_OBJECTS
+	select DRM_I915_SELFTEST
+	select DRM_I915_DEBUG_RUNTIME_PM
+	select DRM_I915_DEBUG_MMIO
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default n
 	help
 	  Choose this option to turn on extra driver debugging that may affect
@@ -74,6 +84,7 @@ config DRM_I915_DEBUG_GEM
 
 	  If in doubt, say "N".
 
+<<<<<<< HEAD
 config DRM_I915_DEBUG_GEM_ONCE
 	bool "Make a GEM debug failure fatal"
 	default n
@@ -89,6 +100,8 @@ config DRM_I915_DEBUG_GEM_ONCE
 
 	  If in doubt, say "N".
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config DRM_I915_ERRLOG_GEM
 	bool "Insert extra logging (very verbose) for common GEM errors"
 	default n

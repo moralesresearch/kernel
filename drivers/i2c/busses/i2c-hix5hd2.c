@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 /*
  * Copyright (c) 2014 Linaro Ltd.
+<<<<<<< HEAD
  * Copyright (c) 2014 HiSilicon Limited.
+=======
+ * Copyright (c) 2014 Hisilicon Limited.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Now only support 7 bit address.
  */
@@ -413,8 +417,15 @@ static int hix5hd2_i2c_probe(struct platform_device *pdev)
 		return PTR_ERR(priv->regs);
 
 	irq = platform_get_irq(pdev, 0);
+<<<<<<< HEAD
 	if (irq <= 0)
 		return irq;
+=======
+	if (irq <= 0) {
+		dev_err(&pdev->dev, "cannot find HS-I2C IRQ\n");
+		return irq;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv->clk = devm_clk_get(&pdev->dev, NULL);
 	if (IS_ERR(priv->clk)) {

@@ -444,6 +444,10 @@ static int owl_group_config_get(struct pinctrl_dev *pctrldev,
 	*config = pinconf_to_config_packed(param, arg);
 
 	return ret;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int owl_group_config_set(struct pinctrl_dev *pctrldev,

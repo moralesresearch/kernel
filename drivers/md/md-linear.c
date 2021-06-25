@@ -252,7 +252,11 @@ static bool linear_make_request(struct mddev *mddev, struct bio *bio)
 		start_sector + data_offset;
 
 	if (unlikely((bio_op(bio) == REQ_OP_DISCARD) &&
+<<<<<<< HEAD
 		     !blk_queue_discard(bio->bi_bdev->bd_disk->queue))) {
+=======
+		     !blk_queue_discard(bio->bi_disk->queue))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Just ignore it */
 		bio_endio(bio);
 	} else {

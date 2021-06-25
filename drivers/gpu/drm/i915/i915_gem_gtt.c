@@ -55,6 +55,7 @@ int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
 void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
 			       struct sg_table *pages)
 {
+<<<<<<< HEAD
 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
 	struct i915_ggtt *ggtt = &i915->ggtt;
 
@@ -66,6 +67,24 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
 	dma_unmap_sg(&i915->drm.pdev->dev,
 		     pages->sgl, pages->nents,
 		     PCI_DMA_BIDIRECTIONAL);
+=======
+	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+	struct device *kdev = &dev_priv->drm.pdev->dev;
+	struct i915_ggtt *ggtt = &dev_priv->ggtt;
+
+	if (unlikely(ggtt->do_idle_maps)) {
+		/* XXX This does not prevent more requests being submitted! */
+		if (intel_gt_retire_requests_timeout(ggtt->vm.gt,
+						     -MAX_SCHEDULE_TIMEOUT)) {
+			drm_err(&dev_priv->drm,
+				"Failed to wait for idle; VT'd may hang.\n");
+			/* Wait a bit, in hopes it avoids the hang */
+			udelay(10);
+		}
+	}
+
+	dma_unmap_sg(kdev, pages->sgl, pages->nents, PCI_DMA_BIDIRECTIONAL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

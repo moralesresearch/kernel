@@ -232,8 +232,16 @@ static void __i40e_add_stat_strings(u8 **p, const struct i40e_stats stats[],
 	I40E_STAT(struct i40e_vsi, _name, _stat)
 #define I40E_VEB_STAT(_name, _stat) \
 	I40E_STAT(struct i40e_veb, _name, _stat)
+<<<<<<< HEAD
 #define I40E_VEB_TC_STAT(_name, _stat) \
 	I40E_STAT(struct i40e_cp_veb_tc_stats, _name, _stat)
+=======
+<<<<<<< HEAD
+#define I40E_VEB_TC_STAT(_name, _stat) \
+	I40E_STAT(struct i40e_cp_veb_tc_stats, _name, _stat)
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I40E_PFC_STAT(_name, _stat) \
 	I40E_STAT(struct i40e_pfc_stats, _name, _stat)
 #define I40E_QUEUE_STAT(_name, _stat) \
@@ -268,6 +276,10 @@ static const struct i40e_stats i40e_gstrings_veb_stats[] = {
 	I40E_VEB_STAT("veb.rx_unknown_protocol", stats.rx_unknown_protocol),
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct i40e_cp_veb_tc_stats {
 	u64 tc_rx_packets;
 	u64 tc_rx_bytes;
@@ -280,6 +292,16 @@ static const struct i40e_stats i40e_gstrings_veb_tc_stats[] = {
 	I40E_VEB_TC_STAT("veb.tc_%u_tx_bytes", tc_tx_bytes),
 	I40E_VEB_TC_STAT("veb.tc_%u_rx_packets", tc_rx_packets),
 	I40E_VEB_TC_STAT("veb.tc_%u_rx_bytes", tc_rx_bytes),
+<<<<<<< HEAD
+=======
+=======
+static const struct i40e_stats i40e_gstrings_veb_tc_stats[] = {
+	I40E_VEB_STAT("veb.tc_%u_tx_packets", tc_stats.tc_tx_packets),
+	I40E_VEB_STAT("veb.tc_%u_tx_bytes", tc_stats.tc_tx_bytes),
+	I40E_VEB_STAT("veb.tc_%u_rx_packets", tc_stats.tc_rx_packets),
+	I40E_VEB_STAT("veb.tc_%u_rx_bytes", tc_stats.tc_rx_bytes),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct i40e_stats i40e_gstrings_misc_stats[] = {
@@ -841,8 +863,13 @@ static void i40e_get_settings_link_up(struct i40e_hw *hw,
 							     10000baseT_Full);
 		break;
 	case I40E_PHY_TYPE_10GBASE_T:
+<<<<<<< HEAD
 	case I40E_PHY_TYPE_5GBASE_T_LINK_STATUS:
 	case I40E_PHY_TYPE_2_5GBASE_T_LINK_STATUS:
+=======
+	case I40E_PHY_TYPE_5GBASE_T:
+	case I40E_PHY_TYPE_2_5GBASE_T:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case I40E_PHY_TYPE_1000BASE_T:
 	case I40E_PHY_TYPE_100BASE_TX:
 		ethtool_link_ksettings_add_link_mode(ks, supported, Autoneg);
@@ -1110,7 +1137,14 @@ static int i40e_get_link_ksettings(struct net_device *netdev,
 
 	/* Set flow control settings */
 	ethtool_link_ksettings_add_link_mode(ks, supported, Pause);
+<<<<<<< HEAD
 	ethtool_link_ksettings_add_link_mode(ks, supported, Asym_Pause);
+=======
+<<<<<<< HEAD
+	ethtool_link_ksettings_add_link_mode(ks, supported, Asym_Pause);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (hw->fc.requested_mode) {
 	case I40E_FC_FULL:
@@ -1409,8 +1443,12 @@ static int i40e_set_fec_cfg(struct net_device *netdev, u8 fec_cfg)
 
 		memset(&config, 0, sizeof(config));
 		config.phy_type = abilities.phy_type;
+<<<<<<< HEAD
 		config.abilities = abilities.abilities |
 				   I40E_AQ_PHY_ENABLE_ATOMIC_LINK;
+=======
+		config.abilities = abilities.abilities;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		config.phy_type_ext = abilities.phy_type_ext;
 		config.link_speed = abilities.link_speed;
 		config.eee_capability = abilities.eee_capability;
@@ -2228,6 +2266,10 @@ static int i40e_get_sset_count(struct net_device *netdev, int sset)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i40e_get_veb_tc_stats - copy VEB TC statistics to formatted structure
  * @tc: the TC statistics in VEB structure (veb->tc_stats)
  * @i: the index of traffic class in (veb->tc_stats) structure to copy
@@ -2251,6 +2293,11 @@ i40e_get_veb_tc_stats(struct i40e_veb_tc_stats *tc, unsigned int i)
 }
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i40e_get_pfc_stats - copy HW PFC statistics to formatted structure
  * @pf: the PF device structure
  * @i: the priority value to copy
@@ -2334,6 +2381,10 @@ static void i40e_get_ethtool_stats(struct net_device *netdev,
 			       i40e_gstrings_veb_stats);
 
 	for (i = 0; i < I40E_MAX_TRAFFIC_CLASS; i++)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (veb_stats) {
 			struct i40e_cp_veb_tc_stats veb_tc =
 				i40e_get_veb_tc_stats(&veb->tc_stats, i);
@@ -2344,6 +2395,13 @@ static void i40e_get_ethtool_stats(struct net_device *netdev,
 			i40e_add_ethtool_stats(&data, NULL,
 					       i40e_gstrings_veb_tc_stats);
 		}
+<<<<<<< HEAD
+=======
+=======
+		i40e_add_ethtool_stats(&data, veb_stats ? veb : NULL,
+				       i40e_gstrings_veb_tc_stats);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i40e_add_ethtool_stats(&data, pf, i40e_gstrings_stats);
 
@@ -3264,6 +3322,10 @@ static int i40e_get_ethtool_fdir_entry(struct i40e_pf *pf,
 		fsp->m_u.usr_ip4_spec.proto = 0;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fsp->flow_type == IPV6_USER_FLOW ||
 	    fsp->flow_type == UDP_V6_FLOW ||
 	    fsp->flow_type == TCP_V6_FLOW ||
@@ -3288,6 +3350,18 @@ static int i40e_get_ethtool_fdir_entry(struct i40e_pf *pf,
 		fsp->h_u.tcp_ip4_spec.ip4src = rule->dst_ip;
 		fsp->h_u.tcp_ip4_spec.ip4dst = rule->src_ip;
 	}
+<<<<<<< HEAD
+=======
+=======
+	/* Reverse the src and dest notion, since the HW views them from
+	 * Tx perspective where as the user expects it from Rx filter view.
+	 */
+	fsp->h_u.tcp_ip4_spec.psrc = rule->dst_port;
+	fsp->h_u.tcp_ip4_spec.pdst = rule->src_port;
+	fsp->h_u.tcp_ip4_spec.ip4src = rule->dst_ip;
+	fsp->h_u.tcp_ip4_spec.ip4dst = rule->src_ip;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (rule->flow_type) {
 	case SCTP_V4_FLOW:
@@ -3299,6 +3373,10 @@ static int i40e_get_ethtool_fdir_entry(struct i40e_pf *pf,
 	case UDP_V4_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV4_UDP;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SCTP_V6_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV6_SCTP;
 		break;
@@ -3314,6 +3392,14 @@ static int i40e_get_ethtool_fdir_entry(struct i40e_pf *pf,
 	case IPV6_USER_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV6_OTHER;
 		break;
+<<<<<<< HEAD
+=======
+=======
+	case IP_USER_FLOW:
+		index = I40E_FILTER_PCTYPE_NONF_IPV4_OTHER;
+		break;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		/* If we have stored a filter with a flow type not listed here
 		 * it is almost certainly a driver bug. WARN(), and then
@@ -3329,6 +3415,10 @@ static int i40e_get_ethtool_fdir_entry(struct i40e_pf *pf,
 	input_set = i40e_read_fd_input_set(pf, index);
 
 no_input_set:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (input_set & I40E_L3_V6_SRC_MASK) {
 		fsp->m_u.tcp_ip6_spec.ip6src[0] = htonl(0xFFFFFFFF);
 		fsp->m_u.tcp_ip6_spec.ip6src[1] = htonl(0xFFFFFFFF);
@@ -3343,6 +3433,11 @@ no_input_set:
 		fsp->m_u.tcp_ip6_spec.ip6dst[3] = htonl(0xFFFFFFFF);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (input_set & I40E_L3_SRC_MASK)
 		fsp->m_u.tcp_ip4_spec.ip4src = htonl(0xFFFFFFFF);
 
@@ -3360,6 +3455,10 @@ no_input_set:
 	else
 		fsp->ring_cookie = rule->q_index;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rule->vlan_tag) {
 		fsp->h_ext.vlan_etype = rule->vlan_etype;
 		fsp->m_ext.vlan_etype = htons(0xFFFF);
@@ -3368,6 +3467,11 @@ no_input_set:
 		fsp->flow_type |= FLOW_EXT;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rule->dest_vsi != pf->vsi[pf->lan_vsi]->id) {
 		struct i40e_vsi *vsi;
 
@@ -4014,6 +4118,10 @@ static const char *i40e_flow_str(struct ethtool_rx_flow_spec *fsp)
 		return "sctp4";
 	case IP_USER_FLOW:
 		return "ip4";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case TCP_V6_FLOW:
 		return "tcp6";
 	case UDP_V6_FLOW:
@@ -4022,6 +4130,11 @@ static const char *i40e_flow_str(struct ethtool_rx_flow_spec *fsp)
 		return "sctp6";
 	case IPV6_USER_FLOW:
 		return "ip6";
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return "unknown";
 	}
@@ -4157,6 +4270,10 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 				     struct ethtool_rx_flow_spec *fsp,
 				     struct i40e_rx_flow_userdef *userdef)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static const __be32 ipv6_full_mask[4] = {cpu_to_be32(0xffffffff),
 		cpu_to_be32(0xffffffff), cpu_to_be32(0xffffffff),
 		cpu_to_be32(0xffffffff)};
@@ -4165,6 +4282,14 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 	struct ethtool_tcpip4_spec *tcp_ip4_spec;
 	struct ethtool_usrip4_spec *usr_ip4_spec;
 	struct i40e_pf *pf = vsi->back;
+<<<<<<< HEAD
+=======
+=======
+	struct i40e_pf *pf = vsi->back;
+	struct ethtool_tcpip4_spec *tcp_ip4_spec;
+	struct ethtool_usrip4_spec *usr_ip4_spec;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 current_mask, new_mask;
 	bool new_flex_offset = false;
 	bool flex_l3 = false;
@@ -4186,6 +4311,10 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 		index = I40E_FILTER_PCTYPE_NONF_IPV4_UDP;
 		fdir_filter_count = &pf->fd_udp4_filter_cnt;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SCTP_V6_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV6_SCTP;
 		fdir_filter_count = &pf->fd_sctp6_filter_cnt;
@@ -4198,16 +4327,30 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 		index = I40E_FILTER_PCTYPE_NONF_IPV6_UDP;
 		fdir_filter_count = &pf->fd_udp6_filter_cnt;
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case IP_USER_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV4_OTHER;
 		fdir_filter_count = &pf->fd_ip4_filter_cnt;
 		flex_l3 = true;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case IPV6_USER_FLOW:
 		index = I40E_FILTER_PCTYPE_NONF_IPV6_OTHER;
 		fdir_filter_count = &pf->fd_ip6_filter_cnt;
 		flex_l3 = true;
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EOPNOTSUPP;
 	}
@@ -4270,6 +4413,10 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 			return -EOPNOTSUPP;
 
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SCTP_V6_FLOW:
 		new_mask &= ~I40E_VERIFY_TAG_MASK;
 		fallthrough;
@@ -4317,6 +4464,11 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 		if (tcp_ip6_spec->tclass)
 			return -EOPNOTSUPP;
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case IP_USER_FLOW:
 		usr_ip4_spec = &fsp->m_u.usr_ip4_spec;
 
@@ -4357,6 +4509,10 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 			return -EINVAL;
 
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case IPV6_USER_FLOW:
 		usr_ip6_spec = &fsp->m_u.usr_ip6_spec;
 
@@ -4396,10 +4552,19 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 			return -EINVAL;
 
 		break;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fsp->flow_type & FLOW_EXT) {
 		/* Allow only 802.1Q and no etype defined, as
 		 * later it's modified to 0x8100
@@ -4413,6 +4578,11 @@ static int i40e_check_fdir_input_set(struct i40e_vsi *vsi,
 			new_mask &= ~I40E_VLAN_SRC_MASK;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* First, clear all flexible filter entries */
 	new_mask &= ~I40E_FLEX_INPUT_MASK;
 
@@ -4592,9 +4762,19 @@ static bool i40e_match_fdir_filter(struct i40e_fdir_filter *a,
 	    a->dst_port != b->dst_port ||
 	    a->src_port != b->src_port ||
 	    a->flow_type != b->flow_type ||
+<<<<<<< HEAD
 	    a->ipl4_proto != b->ipl4_proto ||
 	    a->vlan_tag != b->vlan_tag ||
 	    a->vlan_etype != b->vlan_etype)
+=======
+<<<<<<< HEAD
+	    a->ipl4_proto != b->ipl4_proto ||
+	    a->vlan_tag != b->vlan_tag ||
+	    a->vlan_etype != b->vlan_etype)
+=======
+	    a->ip4_proto != b->ip4_proto)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	return true;
@@ -4752,6 +4932,10 @@ static int i40e_add_fdir_ethtool(struct i40e_vsi *vsi,
 	input->dst_ip = fsp->h_u.tcp_ip4_spec.ip4src;
 	input->src_ip = fsp->h_u.tcp_ip4_spec.ip4dst;
 	input->flow_type = fsp->flow_type & ~FLOW_EXT;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	input->vlan_etype = fsp->h_ext.vlan_etype;
 	if (!fsp->m_ext.vlan_etype && fsp->h_ext.vlan_tci)
@@ -4784,6 +4968,20 @@ static int i40e_add_fdir_ethtool(struct i40e_vsi *vsi,
 		input->dst_ip = fsp->h_u.tcp_ip4_spec.ip4src;
 		input->src_ip = fsp->h_u.tcp_ip4_spec.ip4dst;
 	}
+<<<<<<< HEAD
+=======
+=======
+	input->ip4_proto = fsp->h_u.usr_ip4_spec.proto;
+
+	/* Reverse the src and dest notion, since the HW expects them to be from
+	 * Tx perspective where as the input from user is from Rx filter view.
+	 */
+	input->dst_port = fsp->h_u.tcp_ip4_spec.psrc;
+	input->src_port = fsp->h_u.tcp_ip4_spec.pdst;
+	input->dst_ip = fsp->h_u.tcp_ip4_spec.ip4src;
+	input->src_ip = fsp->h_u.tcp_ip4_spec.ip4dst;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (userdef.flex_filter) {
 		input->flex_filter = true;
@@ -5282,12 +5480,39 @@ flags_complete:
 
 	if (changed_flags & I40E_FLAG_DISABLE_FW_LLDP) {
 		if (new_flags & I40E_FLAG_DISABLE_FW_LLDP) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_I40E_DCB
 			i40e_dcb_sw_default_config(pf);
 #endif /* CONFIG_I40E_DCB */
 			i40e_aq_cfg_lldp_mib_change_event(&pf->hw, false, NULL);
 			i40e_aq_stop_lldp(&pf->hw, true, false, NULL);
 		} else {
+<<<<<<< HEAD
+=======
+			i40e_set_lldp_forwarding(pf, false);
+=======
+			struct i40e_dcbx_config *dcbcfg;
+
+			i40e_aq_stop_lldp(&pf->hw, true, false, NULL);
+			i40e_aq_set_dcb_parameters(&pf->hw, true, NULL);
+			/* reset local_dcbx_config to default */
+			dcbcfg = &pf->hw.local_dcbx_config;
+			dcbcfg->etscfg.willing = 1;
+			dcbcfg->etscfg.maxtcs = 0;
+			dcbcfg->etscfg.tcbwtable[0] = 100;
+			for (i = 1; i < I40E_MAX_TRAFFIC_CLASS; i++)
+				dcbcfg->etscfg.tcbwtable[i] = 0;
+			for (i = 0; i < I40E_MAX_USER_PRIORITY; i++)
+				dcbcfg->etscfg.prioritytable[i] = 0;
+			dcbcfg->etscfg.tsatable[0] = I40E_IEEE_TSA_ETS;
+			dcbcfg->pfc.willing = 1;
+			dcbcfg->pfc.pfccap = I40E_MAX_TRAFFIC_CLASS;
+		} else {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = i40e_aq_start_lldp(&pf->hw, false, NULL);
 			if (status) {
 				adq_err = pf->hw.aq.asq_last_status;
@@ -5480,7 +5705,15 @@ static int i40e_get_module_eeprom(struct net_device *netdev,
 
 		status = i40e_aq_get_phy_register(hw,
 				I40E_AQ_PHY_REG_ACCESS_EXTERNAL_MODULE,
+<<<<<<< HEAD
 				addr, true, offset, &value, NULL);
+=======
+<<<<<<< HEAD
+				addr, true, offset, &value, NULL);
+=======
+				true, addr, offset, &value, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status)
 			return -EIO;
 		data[i] = value;
@@ -5490,6 +5723,10 @@ static int i40e_get_module_eeprom(struct net_device *netdev,
 
 static int i40e_get_eee(struct net_device *netdev, struct ethtool_eee *edata)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i40e_netdev_priv *np = netdev_priv(netdev);
 	struct i40e_aq_get_phy_abilities_resp phy_cfg;
 	enum i40e_status_code status = 0;
@@ -5551,10 +5788,20 @@ static int i40e_is_eee_param_supported(struct net_device *netdev,
 	}
 
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	return -EOPNOTSUPP;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int i40e_set_eee(struct net_device *netdev, struct ethtool_eee *edata)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i40e_netdev_priv *np = netdev_priv(netdev);
 	struct i40e_aq_get_phy_abilities_resp abilities;
 	enum i40e_status_code status = I40E_SUCCESS;
@@ -5615,6 +5862,12 @@ static int i40e_set_eee(struct net_device *netdev, struct ethtool_eee *edata)
 		return -EAGAIN;
 
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	return -EOPNOTSUPP;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct ethtool_ops i40e_ethtool_recovery_mode_ops = {

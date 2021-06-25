@@ -103,8 +103,13 @@ static const struct drm_gem_object_funcs qxl_object_funcs = {
 	.print_info = drm_gem_ttm_print_info,
 };
 
+<<<<<<< HEAD
 int qxl_bo_create(struct qxl_device *qdev, unsigned long size,
 		  bool kernel, bool pinned, u32 domain, u32 priority,
+=======
+int qxl_bo_create(struct qxl_device *qdev,
+		  unsigned long size, bool kernel, bool pinned, u32 domain,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  struct qxl_surface *surf,
 		  struct qxl_bo **bo_ptr)
 {
@@ -137,7 +142,10 @@ int qxl_bo_create(struct qxl_device *qdev, unsigned long size,
 
 	qxl_ttm_placement_from_domain(bo, domain);
 
+<<<<<<< HEAD
 	bo->tbo.priority = priority;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = ttm_bo_init_reserved(&qdev->mman.bdev, &bo->tbo, size, type,
 				 &bo->placement, 0, &ctx, size,
 				 NULL, NULL, &qxl_ttm_bo_destroy);

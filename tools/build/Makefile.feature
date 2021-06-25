@@ -99,9 +99,13 @@ FEATURE_TESTS_EXTRA :=                  \
          clang                          \
          libbpf                         \
          libpfm4                        \
+<<<<<<< HEAD
          libdebuginfod			\
          clang-bpf-co-re
 
+=======
+         libdebuginfod
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 FEATURE_TESTS ?= $(FEATURE_TESTS_BASIC)
 

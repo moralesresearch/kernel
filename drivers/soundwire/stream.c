@@ -1375,6 +1375,7 @@ int sdw_stream_add_slave(struct sdw_slave *slave,
 	}
 
 	ret = sdw_config_stream(&slave->dev, stream, stream_config, true);
+<<<<<<< HEAD
 	if (ret) {
 		/*
 		 * sdw_release_master_stream will release s_rt in slave_rt_list in
@@ -1385,6 +1386,10 @@ int sdw_stream_add_slave(struct sdw_slave *slave,
 		kfree(s_rt);
 		goto stream_error;
 	}
+=======
+	if (ret)
+		goto stream_error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_add_tail(&s_rt->m_rt_node, &m_rt->slave_rt_list);
 

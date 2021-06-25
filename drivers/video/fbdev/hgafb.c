@@ -286,7 +286,11 @@ static int hga_card_detect(void)
 
 	hga_vram = ioremap(0xb0000, hga_vram_len);
 	if (!hga_vram)
+<<<<<<< HEAD
 		return -ENOMEM;
+=======
+		goto error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (request_region(0x3b0, 12, "hgafb"))
 		release_io_ports = 1;
@@ -346,24 +350,37 @@ static int hga_card_detect(void)
 			hga_type_name = "Hercules";
 			break;
 	}
+<<<<<<< HEAD
 	return 0;
+=======
+	return 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 error:
 	if (release_io_ports)
 		release_region(0x3b0, 12);
 	if (release_io_port)
 		release_region(0x3bf, 1);
+<<<<<<< HEAD
 
 	iounmap(hga_vram);
 
 	pr_err("hgafb: HGA card not detected.\n");
 
 	return -EINVAL;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
  *	hgafb_open - open the framebuffer device
+<<<<<<< HEAD
  *	@info: pointer to fb_info object containing info for current hga board
  *	@init: open by console system or userland.
+=======
+ *	@info:pointer to fb_info object containing info for current hga board
+ *	@int:open by console system or userland.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 static int hgafb_open(struct fb_info *info, int init)
@@ -375,9 +392,15 @@ static int hgafb_open(struct fb_info *info, int init)
 }
 
 /**
+<<<<<<< HEAD
  *	hgafb_release - open the framebuffer device
  *	@info: pointer to fb_info object containing info for current hga board
  *	@init: open by console system or userland.
+=======
+ *	hgafb_open - open the framebuffer device
+ *	@info:pointer to fb_info object containing info for current hga board
+ *	@int:open by console system or userland.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 static int hgafb_release(struct fb_info *info, int init)
@@ -555,11 +578,21 @@ static const struct fb_ops hgafb_ops = {
 static int hgafb_probe(struct platform_device *pdev)
 {
 	struct fb_info *info;
+<<<<<<< HEAD
 	int ret;
 
 	ret = hga_card_detect();
 	if (ret)
 		return ret;
+=======
+
+	if (! hga_card_detect()) {
+		printk(KERN_INFO "hgafb: HGA card not detected.\n");
+		if (hga_vram)
+			iounmap(hga_vram);
+		return -EINVAL;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
 		hga_type_name, hga_vram_len/1024);

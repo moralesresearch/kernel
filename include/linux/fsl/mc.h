@@ -13,7 +13,10 @@
 #include <linux/device.h>
 #include <linux/mod_devicetable.h>
 #include <linux/interrupt.h>
+<<<<<<< HEAD
 #include <uapi/linux/fsl_mc.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define FSL_MC_VENDOR_FREESCALE	0x1957
 
@@ -210,6 +213,11 @@ struct fsl_mc_device {
 #define to_fsl_mc_device(_dev) \
 	container_of(_dev, struct fsl_mc_device, dev)
 
+<<<<<<< HEAD
+=======
+#define MC_CMD_NUM_OF_PARAMS	7
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mc_cmd_header {
 	u8 src_id;
 	u8 flags_hw;
@@ -219,6 +227,14 @@ struct mc_cmd_header {
 	__le16 cmd_id;
 };
 
+<<<<<<< HEAD
+=======
+struct fsl_mc_command {
+	__le64 header;
+	__le64 params[MC_CMD_NUM_OF_PARAMS];
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum mc_cmd_status {
 	MC_CMD_STATUS_OK = 0x0, /* Completed successfully */
 	MC_CMD_STATUS_READY = 0x1, /* Ready to be processed */

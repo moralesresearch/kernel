@@ -32,7 +32,10 @@ struct ins {
 struct ins_operands {
 	char	*raw;
 	char	*raw_comment;
+<<<<<<< HEAD
 	char	*raw_func_start;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct {
 		char	*raw;
 		char	*name;

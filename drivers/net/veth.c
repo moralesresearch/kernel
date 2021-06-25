@@ -35,7 +35,14 @@
 #define VETH_XDP_HEADROOM	(XDP_PACKET_HEADROOM + NET_IP_ALIGN)
 
 #define VETH_XDP_TX_BULK_SIZE	16
+<<<<<<< HEAD
 #define VETH_XDP_BATCH		16
+=======
+<<<<<<< HEAD
+#define VETH_XDP_BATCH		16
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct veth_stats {
 	u64	rx_drops;
@@ -562,6 +569,10 @@ static int veth_xdp_tx(struct veth_rq *rq, struct xdp_buff *xdp,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct xdp_frame *veth_xdp_rcv_one(struct veth_rq *rq,
 					  struct xdp_frame *frame,
 					  struct veth_xdp_tx_bq *bq,
@@ -569,6 +580,25 @@ static struct xdp_frame *veth_xdp_rcv_one(struct veth_rq *rq,
 {
 	struct xdp_frame orig_frame;
 	struct bpf_prog *xdp_prog;
+<<<<<<< HEAD
+=======
+=======
+static struct sk_buff *veth_xdp_rcv_one(struct veth_rq *rq,
+					struct xdp_frame *frame,
+					struct veth_xdp_tx_bq *bq,
+					struct veth_stats *stats)
+{
+	void *hard_start = frame->data - frame->headroom;
+	int len = frame->len, delta = 0;
+	struct xdp_frame orig_frame;
+	struct bpf_prog *xdp_prog;
+	unsigned int headroom;
+	struct sk_buff *skb;
+
+	/* bpf_xdp_adjust_head() assures BPF cannot access xdp_frame area */
+	hard_start -= sizeof(struct xdp_frame);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_read_lock();
 	xdp_prog = rcu_dereference(rq->xdp_prog);
@@ -583,8 +613,18 @@ static struct xdp_frame *veth_xdp_rcv_one(struct veth_rq *rq,
 
 		switch (act) {
 		case XDP_PASS:
+<<<<<<< HEAD
 			if (xdp_update_frame_from_buff(&xdp, frame))
 				goto err_xdp;
+=======
+<<<<<<< HEAD
+			if (xdp_update_frame_from_buff(&xdp, frame))
+				goto err_xdp;
+=======
+			delta = frame->data - xdp.data;
+			len = xdp.data_end - xdp.data;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case XDP_TX:
 			orig_frame = *frame;
@@ -622,7 +662,27 @@ static struct xdp_frame *veth_xdp_rcv_one(struct veth_rq *rq,
 	}
 	rcu_read_unlock();
 
+<<<<<<< HEAD
 	return frame;
+=======
+<<<<<<< HEAD
+	return frame;
+=======
+	headroom = sizeof(struct xdp_frame) + frame->headroom - delta;
+	skb = veth_build_skb(hard_start, headroom, len, frame->frame_sz);
+	if (!skb) {
+		xdp_return_frame(frame);
+		stats->rx_drops++;
+		goto err;
+	}
+
+	xdp_release_frame(frame);
+	xdp_scrub_frame(frame);
+	skb->protocol = eth_type_trans(skb, rq->dev);
+err:
+	return skb;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_xdp:
 	rcu_read_unlock();
 	xdp_return_frame(frame);
@@ -630,6 +690,10 @@ xdp_xmit:
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* frames array contains VETH_XDP_BATCH at most */
 static void veth_xdp_rcv_bulk_skb(struct veth_rq *rq, void **frames,
 				  int n_xdpf, struct veth_xdp_tx_bq *bq,
@@ -661,12 +725,25 @@ static void veth_xdp_rcv_bulk_skb(struct veth_rq *rq, void **frames,
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct sk_buff *veth_xdp_rcv_skb(struct veth_rq *rq,
 					struct sk_buff *skb,
 					struct veth_xdp_tx_bq *bq,
 					struct veth_stats *stats)
 {
+<<<<<<< HEAD
 	u32 pktlen, headroom, act, metalen, frame_sz;
+=======
+<<<<<<< HEAD
+	u32 pktlen, headroom, act, metalen, frame_sz;
+=======
+	u32 pktlen, headroom, act, metalen;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *orig_data, *orig_data_end;
 	struct bpf_prog *xdp_prog;
 	int mac_len, delta, off;
@@ -722,11 +799,29 @@ static struct sk_buff *veth_xdp_rcv_skb(struct veth_rq *rq,
 		skb = nskb;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* SKB "head" area always have tailroom for skb_shared_info */
 	frame_sz = skb_end_pointer(skb) - skb->head;
 	frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
 	xdp_init_buff(&xdp, frame_sz, &rq->xdp_rxq);
 	xdp_prepare_buff(&xdp, skb->head, skb->mac_header, pktlen, true);
+<<<<<<< HEAD
+=======
+=======
+	xdp.data_hard_start = skb->head;
+	xdp.data = skb_mac_header(skb);
+	xdp.data_end = xdp.data + pktlen;
+	xdp.data_meta = xdp.data;
+	xdp.rxq = &rq->xdp_rxq;
+
+	/* SKB "head" area always have tailroom for skb_shared_info */
+	xdp.frame_sz = (void *)skb_end_pointer(skb) - xdp.data_hard_start;
+	xdp.frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	orig_data = xdp.data;
 	orig_data_end = xdp.data_end;
@@ -808,16 +903,34 @@ static int veth_xdp_rcv(struct veth_rq *rq, int budget,
 			struct veth_xdp_tx_bq *bq,
 			struct veth_stats *stats)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, done = 0, n_xdpf = 0;
 	void *xdpf[VETH_XDP_BATCH];
 
 	for (i = 0; i < budget; i++) {
 		void *ptr = __ptr_ring_consume(&rq->xdp_ring);
+<<<<<<< HEAD
+=======
+=======
+	int i, done = 0;
+
+	for (i = 0; i < budget; i++) {
+		void *ptr = __ptr_ring_consume(&rq->xdp_ring);
+		struct sk_buff *skb;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!ptr)
 			break;
 
 		if (veth_is_xdp_frame(ptr)) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* ndo_xdp_xmit */
 			struct xdp_frame *frame = veth_ptr_to_xdp(ptr);
 
@@ -847,6 +960,27 @@ static int veth_xdp_rcv(struct veth_rq *rq, int budget,
 	if (n_xdpf)
 		veth_xdp_rcv_bulk_skb(rq, xdpf, n_xdpf, bq, stats);
 
+<<<<<<< HEAD
+=======
+=======
+			struct xdp_frame *frame = veth_ptr_to_xdp(ptr);
+
+			stats->xdp_bytes += frame->len;
+			skb = veth_xdp_rcv_one(rq, frame, bq, stats);
+		} else {
+			skb = ptr;
+			stats->xdp_bytes += skb->len;
+			skb = veth_xdp_rcv_skb(rq, skb, bq, stats);
+		}
+
+		if (skb)
+			napi_gro_receive(&rq->xdp_napi, skb);
+
+		done++;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64_stats_update_begin(&rq->stats.syncp);
 	rq->stats.vs.xdp_redirect += stats->xdp_redirect;
 	rq->stats.vs.xdp_bytes += stats->xdp_bytes;

@@ -7,7 +7,11 @@
 #include <linux/slab.h>
 #include <linux/of_device.h>
 
+<<<<<<< HEAD
+#define WCD_PIN_MASK(p) BIT(p)
+=======
 #define WCD_PIN_MASK(p) BIT(p - 1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define WCD_REG_DIR_CTL_OFFSET 0x42
 #define WCD_REG_VAL_CTL_OFFSET 0x43
 #define WCD934X_NPINS		5

@@ -513,7 +513,11 @@ static netdev_tx_t ti_hecc_xmit(struct sk_buff *skb, struct net_device *ndev)
 			       be32_to_cpu(*(__be32 *)(cf->data + 4)));
 	else
 		*(u32 *)(cf->data + 4) = 0;
+<<<<<<< HEAD
 	can_put_echo_skb(skb, ndev, mbxno, 0);
+=======
+	can_put_echo_skb(skb, ndev, mbxno);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irqsave(&priv->mbx_lock, flags);
 	--priv->tx_head;
@@ -757,7 +761,11 @@ static irqreturn_t ti_hecc_interrupt(int irq, void *dev_id)
 			stamp = hecc_read_stamp(priv, mbxno);
 			stats->tx_bytes +=
 				can_rx_offload_get_echo_skb(&priv->offload,
+<<<<<<< HEAD
 							    mbxno, stamp, NULL);
+=======
+							    mbxno, stamp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			stats->tx_packets++;
 			can_led_event(ndev, CAN_LED_EVENT_TX);
 			--priv->tx_tail;

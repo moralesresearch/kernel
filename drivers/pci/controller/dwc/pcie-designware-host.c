@@ -258,8 +258,15 @@ int dw_pcie_allocate_domains(struct pcie_port *pp)
 
 static void dw_pcie_free_msi(struct pcie_port *pp)
 {
+<<<<<<< HEAD
 	if (pp->msi_irq)
 		irq_set_chained_handler_and_data(pp->msi_irq, NULL, NULL);
+=======
+	if (pp->msi_irq) {
+		irq_set_chained_handler(pp->msi_irq, NULL);
+		irq_set_handler_data(pp->msi_irq, NULL);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	irq_domain_remove(pp->msi_domain);
 	irq_domain_remove(pp->irq_domain);
@@ -303,6 +310,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
 	if (cfg_res) {
 		pp->cfg0_size = resource_size(cfg_res);
 		pp->cfg0_base = cfg_res->start;
+<<<<<<< HEAD
 
 		pp->va_cfg0_base = devm_pci_remap_cfg_resource(dev, cfg_res);
 		if (IS_ERR(pp->va_cfg0_base))
@@ -310,6 +318,10 @@ int dw_pcie_host_init(struct pcie_port *pp)
 	} else {
 		dev_err(dev, "Missing *config* reg space\n");
 		return -ENODEV;
+=======
+	} else if (!pp->va_cfg0_base) {
+		dev_err(dev, "Missing *config* reg space\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (!pci->dbi_base) {
@@ -325,12 +337,47 @@ int dw_pcie_host_init(struct pcie_port *pp)
 
 	pp->bridge = bridge;
 
+<<<<<<< HEAD
 	/* Get the I/O range from DT */
 	win = resource_list_first_type(&bridge->windows, IORESOURCE_IO);
 	if (win) {
 		pp->io_size = resource_size(win->res);
 		pp->io_bus_addr = win->res->start - win->offset;
 		pp->io_base = pci_pio_to_address(win->res->start);
+=======
+	/* Get the I/O and memory ranges from DT */
+	resource_list_for_each_entry(win, &bridge->windows) {
+		switch (resource_type(win->res)) {
+		case IORESOURCE_IO:
+			pp->io_size = resource_size(win->res);
+			pp->io_bus_addr = win->res->start - win->offset;
+			pp->io_base = pci_pio_to_address(win->res->start);
+			break;
+		case 0:
+			dev_err(dev, "Missing *config* reg space\n");
+			pp->cfg0_size = resource_size(win->res);
+			pp->cfg0_base = win->res->start;
+			if (!pci->dbi_base) {
+				pci->dbi_base = devm_pci_remap_cfgspace(dev,
+								pp->cfg0_base,
+								pp->cfg0_size);
+				if (!pci->dbi_base) {
+					dev_err(dev, "Error with ioremap\n");
+					return -ENOMEM;
+				}
+			}
+			break;
+		}
+	}
+
+	if (!pp->va_cfg0_base) {
+		pp->va_cfg0_base = devm_pci_remap_cfgspace(dev,
+					pp->cfg0_base, pp->cfg0_size);
+		if (!pp->va_cfg0_base) {
+			dev_err(dev, "Error with ioremap in function\n");
+			return -ENOMEM;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (pci->link_gen < 1)
@@ -398,12 +445,19 @@ int dw_pcie_host_init(struct pcie_port *pp)
 		if (ret)
 			goto err_free_msi;
 	}
+<<<<<<< HEAD
 	dw_pcie_iatu_detect(pci);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dw_pcie_setup_rc(pp);
 	dw_pcie_msi_init(pp);
 
+<<<<<<< HEAD
 	if (!dw_pcie_link_up(pci) && pci->ops && pci->ops->start_link) {
+=======
+	if (!dw_pcie_link_up(pci) && pci->ops->start_link) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = pci->ops->start_link(pci);
 		if (ret)
 			goto err_free_msi;

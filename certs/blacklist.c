@@ -14,7 +14,14 @@
 #include <linux/ctype.h>
 #include <linux/err.h>
 #include <linux/seq_file.h>
+<<<<<<< HEAD
 #include <linux/uidgid.h>
+=======
+<<<<<<< HEAD
+#include <linux/uidgid.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <keys/system_keyring.h>
 #include "blacklist.h"
 
@@ -38,7 +45,15 @@ static int blacklist_vet_description(const char *desc)
 found_colon:
 	desc++;
 	for (; *desc; desc++) {
+<<<<<<< HEAD
 		if (!isxdigit(*desc) || isupper(*desc))
+=======
+<<<<<<< HEAD
+		if (!isxdigit(*desc) || isupper(*desc))
+=======
+		if (!isxdigit(*desc))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EINVAL;
 		n++;
 	}
@@ -79,7 +94,15 @@ static struct key_type key_type_blacklist = {
 
 /**
  * mark_hash_blacklisted - Add a hash to the system blacklist
+<<<<<<< HEAD
  * @hash: The hash as a hex string with a type prefix (eg. "tbs:23aa429783")
+=======
+<<<<<<< HEAD
+ * @hash: The hash as a hex string with a type prefix (eg. "tbs:23aa429783")
+=======
+ * @hash - The hash as a hex string with a type prefix (eg. "tbs:23aa429783")
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int mark_hash_blacklisted(const char *hash)
 {
@@ -157,7 +180,16 @@ static int __init blacklist_init(void)
 
 	blacklist_keyring =
 		keyring_alloc(".blacklist",
+<<<<<<< HEAD
 			      GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, current_cred(),
+=======
+<<<<<<< HEAD
+			      GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, current_cred(),
+=======
+			      KUIDT_INIT(0), KGIDT_INIT(0),
+			      current_cred(),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      (KEY_POS_ALL & ~KEY_POS_SETATTR) |
 			      KEY_USR_VIEW | KEY_USR_READ |
 			      KEY_USR_SEARCH,

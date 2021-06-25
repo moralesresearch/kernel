@@ -15,8 +15,11 @@
 #include <linux/scatterlist.h>
 #include <linux/slab.h>
 #include <linux/err.h>
+<<<<<<< HEAD
 #include <linux/ima.h>
 #include <generated/utsrelease.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ima.h"
 
@@ -149,8 +152,11 @@ int __init ima_init(void)
 
 	ima_init_key_queue();
 
+<<<<<<< HEAD
 	ima_measure_critical_data("kernel_info", "kernel_version",
 				  UTS_RELEASE, strlen(UTS_RELEASE), false);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }

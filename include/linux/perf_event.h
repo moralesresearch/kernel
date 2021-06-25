@@ -607,7 +607,10 @@ struct swevent_hlist {
 #define PERF_ATTACH_TASK_DATA	0x08
 #define PERF_ATTACH_ITRACE	0x10
 #define PERF_ATTACH_SCHED_CB	0x20
+<<<<<<< HEAD
 #define PERF_ATTACH_CHILD	0x40
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct perf_cgroup;
 struct perf_buffer;
@@ -1001,7 +1004,15 @@ struct perf_sample_data {
 	struct perf_raw_record		*raw;
 	struct perf_branch_stack	*br_stack;
 	u64				period;
+<<<<<<< HEAD
 	union perf_sample_weight	weight;
+=======
+<<<<<<< HEAD
+	union perf_sample_weight	weight;
+=======
+	u64				weight;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64				txn;
 	union  perf_mem_data_src	data_src;
 
@@ -1050,7 +1061,15 @@ static inline void perf_sample_data_init(struct perf_sample_data *data,
 	data->raw  = NULL;
 	data->br_stack = NULL;
 	data->period = period;
+<<<<<<< HEAD
 	data->weight.full = 0;
+=======
+<<<<<<< HEAD
+	data->weight.full = 0;
+=======
+	data->weight = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	data->data_src.val = PERF_MEM_NA;
 	data->txn = 0;
 }

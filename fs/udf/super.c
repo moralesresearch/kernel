@@ -459,7 +459,10 @@ static int udf_parse_options(char *options, struct udf_options *uopt,
 {
 	char *p;
 	int option;
+<<<<<<< HEAD
 	unsigned int uv;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	uopt->novrs = 0;
 	uopt->session = 0xFFFFFFFF;
@@ -509,17 +512,29 @@ static int udf_parse_options(char *options, struct udf_options *uopt,
 			uopt->flags &= ~(1 << UDF_FLAG_USE_SHORT_AD);
 			break;
 		case Opt_gid:
+<<<<<<< HEAD
 			if (match_uint(args, &uv))
 				return 0;
 			uopt->gid = make_kgid(current_user_ns(), uv);
+=======
+			if (match_int(args, &option))
+				return 0;
+			uopt->gid = make_kgid(current_user_ns(), option);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!gid_valid(uopt->gid))
 				return 0;
 			uopt->flags |= (1 << UDF_FLAG_GID_SET);
 			break;
 		case Opt_uid:
+<<<<<<< HEAD
 			if (match_uint(args, &uv))
 				return 0;
 			uopt->uid = make_kuid(current_user_ns(), uv);
+=======
+			if (match_int(args, &option))
+				return 0;
+			uopt->uid = make_kuid(current_user_ns(), option);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!uid_valid(uopt->uid))
 				return 0;
 			uopt->flags |= (1 << UDF_FLAG_UID_SET);

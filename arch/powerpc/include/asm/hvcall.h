@@ -446,9 +446,12 @@
  */
 long plpar_hcall_norets(unsigned long opcode, ...);
 
+<<<<<<< HEAD
 /* Variant which does not do hcall tracing */
 long plpar_hcall_norets_notrace(unsigned long opcode, ...);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * plpar_hcall: - Make a pseries hypervisor call
  * @opcode: The hypervisor call to make.
@@ -538,12 +541,18 @@ struct h_cpu_char_result {
 	u64 behaviour;
 };
 
+<<<<<<< HEAD
 /*
  * Register state for entering a nested guest with H_ENTER_NESTED.
  * New member must be added at the end.
  */
 struct hv_guest_state {
 	u64 version;		/* version of this structure layout, must be first */
+=======
+/* Register state for entering a nested guest with H_ENTER_NESTED */
+struct hv_guest_state {
+	u64 version;		/* version of this structure layout */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 lpid;
 	u32 vcpu_token;
 	/* These registers are hypervisor privileged (at least for writing) */
@@ -572,6 +581,7 @@ struct hv_guest_state {
 	u64 pidr;
 	u64 cfar;
 	u64 ppr;
+<<<<<<< HEAD
 	/* Version 1 ends here */
 	u64 dawr1;
 	u64 dawrx1;
@@ -592,6 +602,12 @@ static inline int hv_guest_state_size(unsigned int version)
 		return -1;
 	}
 }
+=======
+};
+
+/* Latest version of hv_guest_state structure */
+#define HV_GUEST_STATE_VERSION	1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * From the document "H_GetPerformanceCounterInfo Interface" v1.07

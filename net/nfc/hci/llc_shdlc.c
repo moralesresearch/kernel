@@ -236,7 +236,11 @@ static void llc_shdlc_rcv_i_frame(struct llc_shdlc *shdlc,
 		goto exit;
 	}
 
+<<<<<<< HEAD
 	if (!shdlc->t1_active) {
+=======
+	if (shdlc->t1_active == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shdlc->t1_active = true;
 		mod_timer(&shdlc->t1_timer, jiffies +
 			  msecs_to_jiffies(SHDLC_T1_VALUE_MS(shdlc->w)));

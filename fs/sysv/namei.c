@@ -41,8 +41,12 @@ static struct dentry *sysv_lookup(struct inode * dir, struct dentry * dentry, un
 	return d_splice_alias(inode, dentry);
 }
 
+<<<<<<< HEAD
 static int sysv_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+static int sysv_mknod(struct inode * dir, struct dentry * dentry, umode_t mode, dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode;
 	int err;
@@ -61,6 +65,7 @@ static int sysv_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	return err;
 }
 
+<<<<<<< HEAD
 static int sysv_create(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode, bool excl)
 {
@@ -69,6 +74,15 @@ static int sysv_create(struct user_namespace *mnt_userns, struct inode *dir,
 
 static int sysv_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, const char *symname)
+=======
+static int sysv_create(struct inode * dir, struct dentry * dentry, umode_t mode, bool excl)
+{
+	return sysv_mknod(dir, dentry, mode, 0);
+}
+
+static int sysv_symlink(struct inode * dir, struct dentry * dentry, 
+	const char * symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err = -ENAMETOOLONG;
 	int l = strlen(symname)+1;
@@ -110,8 +124,12 @@ static int sysv_link(struct dentry * old_dentry, struct inode * dir,
 	return add_nondir(dentry, inode);
 }
 
+<<<<<<< HEAD
 static int sysv_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode)
+=======
+static int sysv_mkdir(struct inode * dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * inode;
 	int err;
@@ -189,9 +207,15 @@ static int sysv_rmdir(struct inode * dir, struct dentry * dentry)
  * Anybody can rename anything with this: the permission checks are left to the
  * higher-level routines.
  */
+<<<<<<< HEAD
 static int sysv_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
 		       struct dentry *old_dentry, struct inode *new_dir,
 		       struct dentry *new_dentry, unsigned int flags)
+=======
+static int sysv_rename(struct inode * old_dir, struct dentry * old_dentry,
+		       struct inode * new_dir, struct dentry * new_dentry,
+		       unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode * old_inode = d_inode(old_dentry);
 	struct inode * new_inode = d_inode(new_dentry);

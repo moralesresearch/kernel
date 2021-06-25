@@ -500,9 +500,15 @@ nfs_sillyrename(struct inode *dir, struct dentry *dentry)
 		nfs_set_verifier(dentry, nfs_save_change_attribute(dir));
 		spin_lock(&inode->i_lock);
 		NFS_I(inode)->attr_gencount = nfs_inc_attr_generation_counter();
+<<<<<<< HEAD
 		nfs_set_cache_invalid(inode, NFS_INO_INVALID_CHANGE |
 						     NFS_INO_INVALID_CTIME |
 						     NFS_INO_REVAL_FORCED);
+=======
+		NFS_I(inode)->cache_validity |= NFS_INO_INVALID_CHANGE
+			| NFS_INO_INVALID_CTIME
+			| NFS_INO_REVAL_FORCED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock(&inode->i_lock);
 		d_move(dentry, sdentry);
 		break;

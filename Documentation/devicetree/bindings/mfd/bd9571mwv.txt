@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 * ROHM BD9571MWV/BD9574MWF Power Management Integrated Circuit (PMIC) bindings
 
 Required properties:
  - compatible		: Should be "rohm,bd9571mwv" or "rohm,bd9574mwf".
+=======
+* ROHM BD9571MWV Power Management Integrated Circuit (PMIC) bindings
+
+Required properties:
+ - compatible		: Should be "rohm,bd9571mwv".
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  - reg			: I2C slave address.
  - interrupts		: The interrupt line the device is connected to.
  - interrupt-controller	: Marks the device node as an interrupt controller.

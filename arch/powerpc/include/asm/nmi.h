@@ -4,7 +4,10 @@
 
 #ifdef CONFIG_PPC_WATCHDOG
 extern void arch_touch_nmi_watchdog(void);
+<<<<<<< HEAD
 long soft_nmi_interrupt(struct pt_regs *regs);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline void arch_touch_nmi_watchdog(void) {}
 #endif

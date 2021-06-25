@@ -387,9 +387,15 @@ void mt76_unregister_phy(struct mt76_phy *phy)
 {
 	struct mt76_dev *dev = phy->dev;
 
+<<<<<<< HEAD
 	mt76_tx_status_check(dev, NULL, true);
 	ieee80211_unregister_hw(phy->hw);
 	dev->phy2 = NULL;
+=======
+	dev->phy2 = NULL;
+	mt76_tx_status_check(dev, NULL, true);
+	ieee80211_unregister_hw(phy->hw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(mt76_unregister_phy);
 
@@ -519,10 +525,17 @@ void mt76_rx(struct mt76_dev *dev, enum mt76_rxq_id q, struct sk_buff *skb)
 	}
 
 #ifdef CONFIG_NL80211_TESTMODE
+<<<<<<< HEAD
 	if (phy->test.state == MT76_TM_STATE_RX_FRAMES) {
 		phy->test.rx_stats.packets[q]++;
 		if (status->flag & RX_FLAG_FAILED_FCS_CRC)
 			phy->test.rx_stats.fcs_error[q]++;
+=======
+	if (dev->test.state == MT76_TM_STATE_RX_FRAMES) {
+		dev->test.rx_stats.packets[q]++;
+		if (status->flag & RX_FLAG_FAILED_FCS_CRC)
+			dev->test.rx_stats.fcs_error[q]++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 #endif
 	__skb_queue_tail(&dev->rx_skb[q], skb);

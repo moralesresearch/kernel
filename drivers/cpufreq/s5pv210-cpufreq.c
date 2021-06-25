@@ -574,7 +574,11 @@ static int s5pv210_cpufreq_reboot_notifier_event(struct notifier_block *this,
 }
 
 static struct cpufreq_driver s5pv210_driver = {
+<<<<<<< HEAD
 	.flags		= CPUFREQ_NEED_INITIAL_FREQ_CHECK,
+=======
+	.flags		= CPUFREQ_STICKY | CPUFREQ_NEED_INITIAL_FREQ_CHECK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.verify		= cpufreq_generic_frequency_table_verify,
 	.target_index	= s5pv210_target,
 	.get		= cpufreq_generic_get,

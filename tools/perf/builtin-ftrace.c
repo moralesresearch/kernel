@@ -289,7 +289,11 @@ static int set_tracing_pid(struct perf_ftrace *ftrace)
 
 	for (i = 0; i < perf_thread_map__nr(ftrace->evlist->core.threads); i++) {
 		scnprintf(buf, sizeof(buf), "%d",
+<<<<<<< HEAD
 			  perf_thread_map__pid(ftrace->evlist->core.threads, i));
+=======
+			  ftrace->evlist->core.threads->map[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (append_tracing_file("set_ftrace_pid", buf) < 0)
 			return -1;
 	}

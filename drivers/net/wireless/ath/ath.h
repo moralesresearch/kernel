@@ -197,13 +197,20 @@ struct sk_buff *ath_rxbuf_alloc(struct ath_common *common,
 bool ath_is_mybeacon(struct ath_common *common, struct ieee80211_hdr *hdr);
 
 void ath_hw_setbssidmask(struct ath_common *common);
+<<<<<<< HEAD
 void ath_key_delete(struct ath_common *common, u8 hw_key_idx);
+=======
+void ath_key_delete(struct ath_common *common, struct ieee80211_key_conf *key);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ath_key_config(struct ath_common *common,
 			  struct ieee80211_vif *vif,
 			  struct ieee80211_sta *sta,
 			  struct ieee80211_key_conf *key);
 bool ath_hw_keyreset(struct ath_common *common, u16 entry);
+<<<<<<< HEAD
 bool ath_hw_keysetmac(struct ath_common *common, u16 entry, const u8 *mac);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ath_hw_cycle_counters_update(struct ath_common *common);
 int32_t ath_hw_get_listen_time(struct ath_common *common);
 

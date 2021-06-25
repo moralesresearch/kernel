@@ -161,6 +161,7 @@ static const struct gr2d_soc tegra30_gr2d_soc = {
 	.version = 0x30,
 };
 
+<<<<<<< HEAD
 static const struct gr2d_soc tegra114_gr2d_soc = {
 	.version = 0x35,
 };
@@ -169,6 +170,11 @@ static const struct of_device_id gr2d_match[] = {
 	{ .compatible = "nvidia,tegra114-gr2d", .data = &tegra114_gr2d_soc },
 	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra30_gr2d_soc },
 	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra20_gr2d_soc },
+=======
+static const struct of_device_id gr2d_match[] = {
+	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra20_gr2d_soc },
+	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra30_gr2d_soc },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ },
 };
 MODULE_DEVICE_TABLE(of, gr2d_match);

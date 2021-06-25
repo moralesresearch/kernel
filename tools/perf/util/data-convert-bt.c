@@ -948,7 +948,11 @@ static char *change_name(char *name, char *orig_name, int dup)
 		goto out;
 	/*
 	 * Add '_' prefix to potential keywork.  According to
+<<<<<<< HEAD
 	 * Mathieu Desnoyers (https://lore.kernel.org/lkml/1074266107.40857.1422045946295.JavaMail.zimbra@efficios.com),
+=======
+	 * Mathieu Desnoyers (https://lkml.org/lkml/2015/1/23/652),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * futher CTF spec updating may require us to use '$'.
 	 */
 	if (dup < 0)

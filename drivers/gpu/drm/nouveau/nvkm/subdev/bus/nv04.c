@@ -68,8 +68,14 @@ nv04_bus = {
 };
 
 int
+<<<<<<< HEAD
 nv04_bus_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_bus **pbus)
 {
 	return nvkm_bus_new_(&nv04_bus, device, type, inst, pbus);
+=======
+nv04_bus_new(struct nvkm_device *device, int index, struct nvkm_bus **pbus)
+{
+	return nvkm_bus_new_(&nv04_bus, device, index, pbus);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -113,7 +113,12 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
  * The memory mapping implementation will vary depending on how the driver
  * manages memory. Legacy drivers will use the deprecated drm_legacy_mmap()
  * function, modern drivers should use one of the provided memory-manager
+<<<<<<< HEAD
  * specific implementations. For GEM-based drivers this is drm_gem_mmap().
+=======
+ * specific implementations. For GEM-based drivers this is drm_gem_mmap(), and
+ * for drivers which use the CMA GEM helpers it's drm_gem_cma_mmap().
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * No other file operations are supported by the DRM userspace API. Overall the
  * following is an example &file_operations structure::
@@ -239,6 +244,12 @@ static void drm_events_release(struct drm_file *file_priv)
  * before calling this.
  *
  * If NULL is passed, this is a no-op.
+<<<<<<< HEAD
+=======
+ *
+ * RETURNS:
+ * 0 on success, or error code on failure.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void drm_file_free(struct drm_file *file)
 {
@@ -367,7 +378,10 @@ static int drm_open_helper(struct file *filp, struct drm_minor *minor)
 	list_add(&priv->lhead, &dev->filelist);
 	mutex_unlock(&dev->filelist_mutex);
 
+<<<<<<< HEAD
 #ifdef CONFIG_DRM_LEGACY
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef __alpha__
 	/*
 	 * Default the hose
@@ -388,7 +402,10 @@ static int drm_open_helper(struct file *filp, struct drm_minor *minor)
 		}
 	}
 #endif
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -775,6 +792,7 @@ void drm_event_cancel_free(struct drm_device *dev,
 EXPORT_SYMBOL(drm_event_cancel_free);
 
 /**
+<<<<<<< HEAD
  * drm_send_event_helper - send DRM event to file descriptor
  * @dev: DRM device
  * @e: DRM event to deliver
@@ -788,6 +806,22 @@ EXPORT_SYMBOL(drm_event_cancel_free);
  */
 void drm_send_event_helper(struct drm_device *dev,
 			   struct drm_pending_event *e, ktime_t timestamp)
+=======
+ * drm_send_event_locked - send DRM event to file descriptor
+ * @dev: DRM device
+ * @e: DRM event to deliver
+ *
+ * This function sends the event @e, initialized with drm_event_reserve_init(),
+ * to its associated userspace DRM file. Callers must already hold
+ * &drm_device.event_lock, see drm_send_event() for the unlocked version.
+ *
+ * Note that the core will take care of unlinking and disarming events when the
+ * corresponding DRM file is closed. Drivers need not worry about whether the
+ * DRM file for this event still exists and can call this function upon
+ * completion of the asynchronous work unconditionally.
+ */
+void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	assert_spin_locked(&dev->event_lock);
 
@@ -798,10 +832,14 @@ void drm_send_event_helper(struct drm_device *dev,
 	}
 
 	if (e->fence) {
+<<<<<<< HEAD
 		if (timestamp)
 			dma_fence_signal_timestamp(e->fence, timestamp);
 		else
 			dma_fence_signal(e->fence);
+=======
+		dma_fence_signal(e->fence);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dma_fence_put(e->fence);
 	}
 
@@ -816,6 +854,7 @@ void drm_send_event_helper(struct drm_device *dev,
 	wake_up_interruptible_poll(&e->file_priv->event_wait,
 		EPOLLIN | EPOLLRDNORM);
 }
+<<<<<<< HEAD
 
 /**
  * drm_send_event_timestamp_locked - send DRM event to file descriptor
@@ -858,6 +897,8 @@ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
 {
 	drm_send_event_helper(dev, e, 0);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL(drm_send_event_locked);
 
 /**
@@ -880,7 +921,11 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
 	unsigned long irqflags;
 
 	spin_lock_irqsave(&dev->event_lock, irqflags);
+<<<<<<< HEAD
 	drm_send_event_helper(dev, e, 0);
+=======
+	drm_send_event_locked(dev, e);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&dev->event_lock, irqflags);
 }
 EXPORT_SYMBOL(drm_send_event);

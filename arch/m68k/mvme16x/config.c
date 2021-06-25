@@ -366,7 +366,10 @@ static u32 clk_total;
 #define PCCTOVR1_COC_EN      0x02
 #define PCCTOVR1_OVR_CLR     0x04
 
+<<<<<<< HEAD
 #define PCCTIC1_INT_LEVEL    6
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PCCTIC1_INT_CLR      0x08
 #define PCCTIC1_INT_EN       0x10
 
@@ -375,8 +378,13 @@ static irqreturn_t mvme16x_timer_int (int irq, void *dev_id)
 	unsigned long flags;
 
 	local_irq_save(flags);
+<<<<<<< HEAD
 	out_8(PCCTOVR1, PCCTOVR1_OVR_CLR | PCCTOVR1_TIC_EN | PCCTOVR1_COC_EN);
 	out_8(PCCTIC1, PCCTIC1_INT_EN | PCCTIC1_INT_CLR | PCCTIC1_INT_LEVEL);
+=======
+	out_8(PCCTIC1, in_8(PCCTIC1) | PCCTIC1_INT_CLR);
+	out_8(PCCTOVR1, PCCTOVR1_OVR_CLR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_total += PCC_TIMER_CYCLES;
 	legacy_timer_tick(1);
 	local_irq_restore(flags);
@@ -390,15 +398,25 @@ void mvme16x_sched_init(void)
     int irq;
 
     /* Using PCCchip2 or MC2 chip tick timer 1 */
+<<<<<<< HEAD
+=======
+    out_be32(PCCTCNT1, 0);
+    out_be32(PCCTCMP1, PCC_TIMER_CYCLES);
+    out_8(PCCTOVR1, in_8(PCCTOVR1) | PCCTOVR1_TIC_EN | PCCTOVR1_COC_EN);
+    out_8(PCCTIC1, PCCTIC1_INT_EN | 6);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     if (request_irq(MVME16x_IRQ_TIMER, mvme16x_timer_int, IRQF_TIMER, "timer",
                     NULL))
 	panic ("Couldn't register timer int");
 
+<<<<<<< HEAD
     out_be32(PCCTCNT1, 0);
     out_be32(PCCTCMP1, PCC_TIMER_CYCLES);
     out_8(PCCTOVR1, PCCTOVR1_OVR_CLR | PCCTOVR1_TIC_EN | PCCTOVR1_COC_EN);
     out_8(PCCTIC1, PCCTIC1_INT_EN | PCCTIC1_INT_CLR | PCCTIC1_INT_LEVEL);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     clocksource_register_hz(&mvme16x_clk, PCC_TIMER_CLOCK_FREQ);
 
     if (brdno == 0x0162 || brdno == 0x172)

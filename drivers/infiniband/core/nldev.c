@@ -1768,7 +1768,13 @@ static int nldev_stat_set_doit(struct sk_buff *skb, struct nlmsghdr *nlh,
 		if (tb[RDMA_NLDEV_ATTR_STAT_AUTO_MODE_MASK])
 			mask = nla_get_u32(
 				tb[RDMA_NLDEV_ATTR_STAT_AUTO_MODE_MASK]);
+<<<<<<< HEAD
 		ret = rdma_counter_set_auto_mode(device, port, mask, extack);
+=======
+
+		ret = rdma_counter_set_auto_mode(device, port,
+						 mask ? true : false, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			goto err_msg;
 	} else {

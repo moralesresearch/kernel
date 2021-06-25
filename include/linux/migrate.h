@@ -89,7 +89,11 @@ extern int PageMovable(struct page *page);
 extern void __SetPageMovable(struct page *page, struct address_space *mapping);
 extern void __ClearPageMovable(struct page *page);
 #else
+<<<<<<< HEAD
 static inline int PageMovable(struct page *page) { return 0; }
+=======
+static inline int PageMovable(struct page *page) { return 0; };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void __SetPageMovable(struct page *page,
 				struct address_space *mapping)
 {

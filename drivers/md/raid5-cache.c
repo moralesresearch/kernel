@@ -735,7 +735,11 @@ static void r5l_submit_current_io(struct r5l_log *log)
 
 static struct bio *r5l_bio_alloc(struct r5l_log *log)
 {
+<<<<<<< HEAD
 	struct bio *bio = bio_alloc_bioset(GFP_NOIO, BIO_MAX_VECS, &log->bs);
+=======
+	struct bio *bio = bio_alloc_bioset(GFP_NOIO, BIO_MAX_PAGES, &log->bs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bio_set_op_attrs(bio, REQ_OP_WRITE, 0);
 	bio_set_dev(bio, log->rdev->bdev);
@@ -1634,7 +1638,11 @@ static int r5l_recovery_allocate_ra_pool(struct r5l_log *log,
 {
 	struct page *page;
 
+<<<<<<< HEAD
 	ctx->ra_bio = bio_alloc_bioset(GFP_KERNEL, BIO_MAX_VECS, &log->bs);
+=======
+	ctx->ra_bio = bio_alloc_bioset(GFP_KERNEL, BIO_MAX_PAGES, &log->bs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ctx->ra_bio)
 		return -ENOMEM;
 

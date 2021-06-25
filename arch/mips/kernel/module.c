@@ -40,6 +40,10 @@ void *module_alloc(unsigned long size)
 }
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void apply_r_mips_32(u32 *location, u32 base, Elf_Addr v)
 {
 	*location = base + v;
@@ -47,6 +51,27 @@ static void apply_r_mips_32(u32 *location, u32 base, Elf_Addr v)
 
 static int apply_r_mips_26(struct module *me, u32 *location, u32 base,
 			   Elf_Addr v)
+<<<<<<< HEAD
+=======
+=======
+static int apply_r_mips_none(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela)
+{
+	return 0;
+}
+
+static int apply_r_mips_32(struct module *me, u32 *location,
+			   u32 base, Elf_Addr v, bool rela)
+{
+	*location = base + v;
+
+	return 0;
+}
+
+static int apply_r_mips_26(struct module *me, u32 *location,
+			   u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (v % 4) {
 		pr_err("module %s: dangerous R_MIPS_26 relocation\n",
@@ -66,8 +91,18 @@ static int apply_r_mips_26(struct module *me, u32 *location, u32 base,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_hi16(struct module *me, u32 *location, Elf_Addr v,
 			     bool rela)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_hi16(struct module *me, u32 *location, Elf_Addr v,
+			     bool rela)
+=======
+static int apply_r_mips_hi16(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mips_hi16 *n;
 
@@ -208,25 +243,64 @@ static int apply_r_mips_pc(struct module *me, u32 *location, u32 base,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_pc16(struct module *me, u32 *location, u32 base,
 			     Elf_Addr v)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_pc16(struct module *me, u32 *location, u32 base,
+			     Elf_Addr v)
+=======
+static int apply_r_mips_pc16(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return apply_r_mips_pc(me, location, base, v, 16);
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_pc21(struct module *me, u32 *location, u32 base,
 			     Elf_Addr v)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_pc21(struct module *me, u32 *location, u32 base,
+			     Elf_Addr v)
+=======
+static int apply_r_mips_pc21(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return apply_r_mips_pc(me, location, base, v, 21);
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_pc26(struct module *me, u32 *location, u32 base,
 			     Elf_Addr v)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_pc26(struct module *me, u32 *location, u32 base,
+			     Elf_Addr v)
+=======
+static int apply_r_mips_pc26(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return apply_r_mips_pc(me, location, base, v, 26);
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_64(u32 *location, Elf_Addr v, bool rela)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_64(u32 *location, Elf_Addr v, bool rela)
+=======
+static int apply_r_mips_64(struct module *me, u32 *location,
+			   u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (WARN_ON(!rela))
 		return -EINVAL;
@@ -236,7 +310,16 @@ static int apply_r_mips_64(u32 *location, Elf_Addr v, bool rela)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_higher(u32 *location, Elf_Addr v, bool rela)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_higher(u32 *location, Elf_Addr v, bool rela)
+=======
+static int apply_r_mips_higher(struct module *me, u32 *location,
+			       u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (WARN_ON(!rela))
 		return -EINVAL;
@@ -247,7 +330,16 @@ static int apply_r_mips_higher(u32 *location, Elf_Addr v, bool rela)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int apply_r_mips_highest(u32 *location, Elf_Addr v, bool rela)
+=======
+<<<<<<< HEAD
+static int apply_r_mips_highest(u32 *location, Elf_Addr v, bool rela)
+=======
+static int apply_r_mips_highest(struct module *me, u32 *location,
+				u32 base, Elf_Addr v, bool rela)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (WARN_ON(!rela))
 		return -EINVAL;
@@ -260,14 +352,32 @@ static int apply_r_mips_highest(u32 *location, Elf_Addr v, bool rela)
 
 /**
  * reloc_handler() - Apply a particular relocation to a module
+<<<<<<< HEAD
  * @type: type of the relocation to apply
+=======
+<<<<<<< HEAD
+ * @type: type of the relocation to apply
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @me: the module to apply the reloc to
  * @location: the address at which the reloc is to be applied
  * @base: the existing value at location for REL-style; 0 for RELA-style
  * @v: the value of the reloc, with addend for RELA-style
+<<<<<<< HEAD
  * @rela: indication of is this a RELA (true) or REL (false) relocation
  *
  * Each implemented relocation function applies a particular type of
+=======
+<<<<<<< HEAD
+ * @rela: indication of is this a RELA (true) or REL (false) relocation
+ *
+ * Each implemented relocation function applies a particular type of
+=======
+ *
+ * Each implemented reloc_handler function applies a particular type of
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * relocation to the module @me. Relocs that may be found in either REL or RELA
  * variants can be handled by making use of the @base & @v parameters which are
  * set to values which abstract the difference away from the particular reloc
@@ -275,6 +385,10 @@ static int apply_r_mips_highest(u32 *location, Elf_Addr v, bool rela)
  *
  * Return: 0 upon success, else -ERRNO
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int reloc_handler(u32 type, struct module *me, u32 *location, u32 base,
 			 Elf_Addr v, bool rela)
 {
@@ -309,6 +423,28 @@ static int reloc_handler(u32 type, struct module *me, u32 *location, u32 base,
 
 	return 0;
 }
+<<<<<<< HEAD
+=======
+=======
+typedef int (*reloc_handler)(struct module *me, u32 *location,
+			     u32 base, Elf_Addr v, bool rela);
+
+/* The handlers for known reloc types */
+static reloc_handler reloc_handlers[] = {
+	[R_MIPS_NONE]		= apply_r_mips_none,
+	[R_MIPS_32]		= apply_r_mips_32,
+	[R_MIPS_26]		= apply_r_mips_26,
+	[R_MIPS_HI16]		= apply_r_mips_hi16,
+	[R_MIPS_LO16]		= apply_r_mips_lo16,
+	[R_MIPS_PC16]		= apply_r_mips_pc16,
+	[R_MIPS_64]		= apply_r_mips_64,
+	[R_MIPS_HIGHER]		= apply_r_mips_higher,
+	[R_MIPS_HIGHEST]	= apply_r_mips_highest,
+	[R_MIPS_PC21_S2]	= apply_r_mips_pc21,
+	[R_MIPS_PC26_S2]	= apply_r_mips_pc26,
+};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __apply_relocate(Elf_Shdr *sechdrs, const char *strtab,
 			    unsigned int symindex, unsigned int relsec,
@@ -318,6 +454,13 @@ static int __apply_relocate(Elf_Shdr *sechdrs, const char *strtab,
 		Elf_Mips_Rel *rel;
 		Elf_Mips_Rela *rela;
 	} r;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	reloc_handler handler;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	Elf_Sym *sym;
 	u32 *location, base;
 	unsigned int i, type;
@@ -349,6 +492,23 @@ static int __apply_relocate(Elf_Shdr *sechdrs, const char *strtab,
 		}
 
 		type = ELF_MIPS_R_TYPE(*r.rel);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		if (type < ARRAY_SIZE(reloc_handlers))
+			handler = reloc_handlers[type];
+		else
+			handler = NULL;
+
+		if (!handler) {
+			pr_err("%s: Unknown relocation type %u\n",
+			       me->name, type);
+			err = -EINVAL;
+			goto out;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (rela) {
 			v = sym->st_value + r.rela->r_addend;
@@ -360,7 +520,15 @@ static int __apply_relocate(Elf_Shdr *sechdrs, const char *strtab,
 			r.rel = &r.rel[1];
 		}
 
+<<<<<<< HEAD
 		err = reloc_handler(type, me, location, base, v, rela);
+=======
+<<<<<<< HEAD
+		err = reloc_handler(type, me, location, base, v, rela);
+=======
+		err = handler(me, location, base, v, rela);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out;
 	}

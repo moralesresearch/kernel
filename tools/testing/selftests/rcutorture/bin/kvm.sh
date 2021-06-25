@@ -47,9 +47,12 @@ cpus=0
 ds=`date +%Y.%m.%d-%H.%M.%S`
 jitter="-1"
 
+<<<<<<< HEAD
 startdate="`date`"
 starttime="`get_starttime`"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 usage () {
 	echo "Usage: $scriptname optional arguments:"
 	echo "       --allcpus"
@@ -60,7 +63,11 @@ usage () {
 	echo "       --cpus N"
 	echo "       --datestamp string"
 	echo "       --defconfig string"
+<<<<<<< HEAD
 	echo "       --dryrun batches|sched|script"
+=======
+	echo "       --dryrun sched|script"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	echo "       --duration minutes | <seconds>s | <hours>h | <days>d"
 	echo "       --gdb"
 	echo "       --help"
@@ -88,7 +95,11 @@ do
 		;;
 	--bootargs|--bootarg)
 		checkarg --bootargs "(list of kernel boot arguments)" "$#" "$2" '.*' '^--'
+<<<<<<< HEAD
 		TORTURE_BOOTARGS="$TORTURE_BOOTARGS $2"
+=======
+		TORTURE_BOOTARGS="$2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shift
 		;;
 	--bootimage)
@@ -100,8 +111,13 @@ do
 		TORTURE_BUILDONLY=1
 		;;
 	--configs|--config)
+<<<<<<< HEAD
 		checkarg --configs "(list of config files)" "$#" "$2" '^[^/]\+$' '^--'
 		configs="$configs $2"
+=======
+		checkarg --configs "(list of config files)" "$#" "$2" '^[^/]*$' '^--'
+		configs="$2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shift
 		;;
 	--cpus)
@@ -116,7 +132,11 @@ do
 		shift
 		;;
 	--datestamp)
+<<<<<<< HEAD
 		checkarg --datestamp "(relative pathname)" "$#" "$2" '^[a-zA-Z0-9._-/]*$' '^--'
+=======
+		checkarg --datestamp "(relative pathname)" "$#" "$2" '^[^/]*$' '^--'
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ds=$2
 		shift
 		;;
@@ -126,7 +146,11 @@ do
 		shift
 		;;
 	--dryrun)
+<<<<<<< HEAD
 		checkarg --dryrun "batches|sched|script" $# "$2" 'batches\|sched\|script' '^--'
+=======
+		checkarg --dryrun "sched|script" $# "$2" 'sched\|script' '^--'
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dryrun=$2
 		shift
 		;;
@@ -165,18 +189,30 @@ do
 		;;
 	--kconfig|--kconfigs)
 		checkarg --kconfig "(Kconfig options)" $# "$2" '^CONFIG_[A-Z0-9_]\+=\([ynm]\|[0-9]\+\)\( CONFIG_[A-Z0-9_]\+=\([ynm]\|[0-9]\+\)\)*$' '^error$'
+<<<<<<< HEAD
 		TORTURE_KCONFIG_ARG="`echo "$TORTURE_KCONFIG_ARG $2" | sed -e 's/^ *//' -e 's/ *$//'`"
+=======
+		TORTURE_KCONFIG_ARG="$2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shift
 		;;
 	--kasan)
 		TORTURE_KCONFIG_KASAN_ARG="CONFIG_DEBUG_INFO=y CONFIG_KASAN=y"; export TORTURE_KCONFIG_KASAN_ARG
 		;;
 	--kcsan)
+<<<<<<< HEAD
 		TORTURE_KCONFIG_KCSAN_ARG="CONFIG_DEBUG_INFO=y CONFIG_KCSAN=y CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=n CONFIG_KCSAN_REPORT_ONCE_IN_MS=100000 CONFIG_KCSAN_INTERRUPT_WATCHER=y CONFIG_KCSAN_VERBOSE=y CONFIG_DEBUG_LOCK_ALLOC=y CONFIG_PROVE_LOCKING=y"; export TORTURE_KCONFIG_KCSAN_ARG
 		;;
 	--kmake-arg|--kmake-args)
 		checkarg --kmake-arg "(kernel make arguments)" $# "$2" '.*' '^error$'
 		TORTURE_KMAKE_ARG="`echo "$TORTURE_KMAKE_ARG $2" | sed -e 's/^ *//' -e 's/ *$//'`"
+=======
+		TORTURE_KCONFIG_KCSAN_ARG="CONFIG_DEBUG_INFO=y CONFIG_KCSAN=y CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=n CONFIG_KCSAN_REPORT_ONCE_IN_MS=100000 CONFIG_KCSAN_VERBOSE=y CONFIG_KCSAN_INTERRUPT_WATCHER=y"; export TORTURE_KCONFIG_KCSAN_ARG
+		;;
+	--kmake-arg|--kmake-args)
+		checkarg --kmake-arg "(kernel make arguments)" $# "$2" '.*' '^error$'
+		TORTURE_KMAKE_ARG="$2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shift
 		;;
 	--mac)
@@ -194,7 +230,11 @@ do
 		;;
 	--qemu-args|--qemu-arg)
 		checkarg --qemu-args "(qemu arguments)" $# "$2" '^-' '^error'
+<<<<<<< HEAD
 		TORTURE_QEMU_ARG="`echo "$TORTURE_QEMU_ARG $2" | sed -e 's/^ *//' -e 's/ *$//'`"
+=======
+		TORTURE_QEMU_ARG="$2"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		shift
 		;;
 	--qemu-cmd)
@@ -235,7 +275,11 @@ do
 	shift
 done
 
+<<<<<<< HEAD
 if test -n "$dryrun" || test -z "$TORTURE_INITRD" || tools/testing/selftests/rcutorture/bin/mkinitrd.sh
+=======
+if test -z "$TORTURE_INITRD" || tools/testing/selftests/rcutorture/bin/mkinitrd.sh
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 then
 	:
 else
@@ -286,6 +330,7 @@ then
 		exit 1
 	fi
 fi
+<<<<<<< HEAD
 echo 'BEGIN {' > $T/cfgcpu.awk
 for CF1 in `echo $configs_derep | tr -s ' ' '\012' | sort -u`
 do
@@ -301,11 +346,22 @@ do
 		cpu_count=`configfrag_boot_cpus "$TORTURE_BOOTARGS" "$CONFIGFRAG/$CF1" "$cpu_count"`
 		cpu_count=`configfrag_boot_maxcpus "$TORTURE_BOOTARGS" "$CONFIGFRAG/$CF1" "$cpu_count"`
 		echo 'scenariocpu["'"$CF1"'"] = '"$cpu_count"';' >> $T/cfgcpu.awk
+=======
+for CF1 in $configs_derep
+do
+	if test -f "$CONFIGFRAG/$CF1"
+	then
+		cpu_count=`configNR_CPUS.sh $CONFIGFRAG/$CF1`
+		cpu_count=`configfrag_boot_cpus "$TORTURE_BOOTARGS" "$CONFIGFRAG/$CF1" "$cpu_count"`
+		cpu_count=`configfrag_boot_maxcpus "$TORTURE_BOOTARGS" "$CONFIGFRAG/$CF1" "$cpu_count"`
+		echo $CF1 $cpu_count >> $T/cfgcpu
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		echo "The --configs file $CF1 does not exist, terminating."
 		exit 1
 	fi
 done
+<<<<<<< HEAD
 cat << '___EOF___' >> $T/cfgcpu.awk
 }
 {
@@ -314,6 +370,8 @@ cat << '___EOF___' >> $T/cfgcpu.awk
 }
 ___EOF___
 echo $configs_derep | awk -f $T/cfgcpu.awk > $T/cfgcpu
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 sort -k2nr $T/cfgcpu -T="$T" > $T/cfgcpu.sort
 
 # Use a greedy bin-packing algorithm, sorting the list accordingly.
@@ -333,10 +391,18 @@ END {
 	batch = 0;
 	nc = -1;
 
+<<<<<<< HEAD
 	# Each pass through the following loop creates on test batch that
 	# can be executed concurrently given ncpus.  Note that a given test
 	# that requires more than the available CPUs will run in its own
 	# batch.  Such tests just have to make do with what is available.
+=======
+	# Each pass through the following loop creates on test batch
+	# that can be executed concurrently given ncpus.  Note that a
+	# given test that requires more than the available CPUs will run in
+	# their own batch.  Such tests just have to make do with what
+	# is available.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (nc != ncpus) {
 		batch++;
 		nc = ncpus;
@@ -392,9 +458,15 @@ if ! test -e $resdir
 then
 	mkdir -p "$resdir" || :
 fi
+<<<<<<< HEAD
 mkdir -p $resdir/$ds
 TORTURE_RESDIR="$resdir/$ds"; export TORTURE_RESDIR
 TORTURE_STOPFILE="$resdir/$ds/STOP.1"; export TORTURE_STOPFILE
+=======
+mkdir $resdir/$ds
+TORTURE_RESDIR="$resdir/$ds"; export TORTURE_RESDIR
+TORTURE_STOPFILE="$resdir/$ds/STOP"; export TORTURE_STOPFILE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 echo Results directory: $resdir/$ds
 echo $scriptname $args
 touch $resdir/$ds/log
@@ -534,6 +606,7 @@ END {
 		dump(first, i, batchnum);
 }' >> $T/script
 
+<<<<<<< HEAD
 cat << '___EOF___' >> $T/script
 echo | tee -a $TORTURE_RESDIR/log
 echo | tee -a $TORTURE_RESDIR/log
@@ -547,6 +620,16 @@ ___EOF___
 echo 'ret=$?' >> $T/script
 echo "cat $T/kvm-recheck.sh.out | tee -a $resdir/$ds/log" >> $T/script
 echo 'exit $ret' >> $T/script
+=======
+cat << ___EOF___ >> $T/script
+echo
+echo
+echo " --- `date` Test summary:"
+echo Results directory: $resdir/$ds
+kcsan-collapse.sh $resdir/$ds
+kvm-recheck.sh $resdir/$ds
+___EOF___
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 if test "$dryrun" = script
 then
@@ -555,6 +638,7 @@ then
 elif test "$dryrun" = sched
 then
 	# Extract the test run schedule from the script.
+<<<<<<< HEAD
 	egrep 'Start batch|Starting build\.' $T/script | grep -v ">>" |
 		sed -e 's/:.*$//' -e 's/^echo //'
 	nbuilds="`grep 'Starting build\.' $T/script |
@@ -583,6 +667,15 @@ else
 	ret=$?
 	echo " --- Done at `date` (`get_starttime_duration $starttime`) exitcode $ret" | tee -a $resdir/$ds/log
 	exit $ret
+=======
+	egrep 'Start batch|Starting build\.' $T/script |
+		grep -v ">>" |
+		sed -e 's/:.*$//' -e 's/^echo //'
+	exit 0
+else
+	# Not a dryrun, so run the script.
+	sh $T/script
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fi
 
 # Tracing: trace_event=rcu:rcu_grace_period,rcu:rcu_future_grace_period,rcu:rcu_grace_period_init,rcu:rcu_nocb_wake,rcu:rcu_preempt_task,rcu:rcu_unlock_preempted_task,rcu:rcu_quiescent_state_report,rcu:rcu_fqs,rcu:rcu_callback,rcu:rcu_kfree_callback,rcu:rcu_batch_start,rcu:rcu_invoke_callback,rcu:rcu_invoke_kfree_callback,rcu:rcu_batch_end,rcu:rcu_torture_read,rcu:rcu_barrier

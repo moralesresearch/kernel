@@ -115,7 +115,11 @@ DEFINE_EVENT(kmem_alloc_node, kmem_cache_alloc_node,
 	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags, node)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT(kfree,
+=======
+DECLARE_EVENT_CLASS(kmem_free,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	TP_PROTO(unsigned long call_site, const void *ptr),
 
@@ -135,6 +139,7 @@ TRACE_EVENT(kfree,
 		  (void *)__entry->call_site, __entry->ptr)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT(kmem_cache_free,
 
 	TP_PROTO(unsigned long call_site, const void *ptr, const char *name),
@@ -155,6 +160,20 @@ TRACE_EVENT(kmem_cache_free,
 
 	TP_printk("call_site=%pS ptr=%p name=%s",
 		  (void *)__entry->call_site, __entry->ptr, __get_str(name))
+=======
+DEFINE_EVENT(kmem_free, kfree,
+
+	TP_PROTO(unsigned long call_site, const void *ptr),
+
+	TP_ARGS(call_site, ptr)
+);
+
+DEFINE_EVENT(kmem_free, kmem_cache_free,
+
+	TP_PROTO(unsigned long call_site, const void *ptr),
+
+	TP_ARGS(call_site, ptr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 );
 
 TRACE_EVENT(mm_page_free,

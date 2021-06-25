@@ -111,7 +111,11 @@ int hda_dsp_pcm_hw_params(struct snd_sof_dev *sdev,
 
 	ret = hda_dsp_stream_hw_params(sdev, stream, dmab, params);
 	if (ret < 0) {
+<<<<<<< HEAD
 		dev_err(sdev->dev, "error: hdac prepare failed: %d\n", ret);
+=======
+		dev_err(sdev->dev, "error: hdac prepare failed: %x\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
@@ -215,6 +219,7 @@ found:
 int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
 		     struct snd_pcm_substream *substream)
 {
+<<<<<<< HEAD
 	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
 	struct snd_soc_component *scomp = sdev->component;
 	struct hdac_ext_stream *dsp_stream;
@@ -234,6 +239,13 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
 		flags |= SOF_HDA_STREAM_DMI_L1_COMPATIBLE;
 
 	dsp_stream = hda_dsp_stream_get(sdev, direction, flags);
+=======
+	struct hdac_ext_stream *dsp_stream;
+	int direction = substream->stream;
+
+	dsp_stream = hda_dsp_stream_get(sdev, direction);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dsp_stream) {
 		dev_err(sdev->dev, "error: no stream available\n");
 		return -ENODEV;

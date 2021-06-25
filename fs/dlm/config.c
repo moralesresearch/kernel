@@ -125,7 +125,11 @@ static ssize_t cluster_cluster_name_store(struct config_item *item,
 CONFIGFS_ATTR(cluster_, cluster_name);
 
 static ssize_t cluster_set(struct dlm_cluster *cl, unsigned int *cl_field,
+<<<<<<< HEAD
 			   int *info_field, int (*check_cb)(unsigned int x),
+=======
+			   int *info_field, bool (*check_cb)(unsigned int x),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   const char *buf, size_t len)
 {
 	unsigned int x;
@@ -137,11 +141,16 @@ static ssize_t cluster_set(struct dlm_cluster *cl, unsigned int *cl_field,
 	if (rc)
 		return rc;
 
+<<<<<<< HEAD
 	if (check_cb) {
 		rc = check_cb(x);
 		if (rc)
 			return rc;
 	}
+=======
+	if (check_cb && check_cb(x))
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*cl_field = x;
 	*info_field = x;
@@ -164,6 +173,7 @@ static ssize_t cluster_##name##_show(struct config_item *item, char *buf)     \
 }                                                                             \
 CONFIGFS_ATTR(cluster_, name);
 
+<<<<<<< HEAD
 static int dlm_check_protocol_and_dlm_running(unsigned int x)
 {
 	switch (x) {
@@ -211,6 +221,19 @@ static int dlm_check_buffer_size(unsigned int x)
 }
 
 CLUSTER_ATTR(tcp_port, dlm_check_zero_and_dlm_running);
+=======
+static bool dlm_check_zero(unsigned int x)
+{
+	return !x;
+}
+
+static bool dlm_check_buffer_size(unsigned int x)
+{
+	return (x < DEFAULT_BUFFER_SIZE);
+}
+
+CLUSTER_ATTR(tcp_port, dlm_check_zero);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CLUSTER_ATTR(buffer_size, dlm_check_buffer_size);
 CLUSTER_ATTR(rsbtbl_size, dlm_check_zero);
 CLUSTER_ATTR(recover_timer, dlm_check_zero);
@@ -218,7 +241,11 @@ CLUSTER_ATTR(toss_secs, dlm_check_zero);
 CLUSTER_ATTR(scan_secs, dlm_check_zero);
 CLUSTER_ATTR(log_debug, NULL);
 CLUSTER_ATTR(log_info, NULL);
+<<<<<<< HEAD
 CLUSTER_ATTR(protocol, dlm_check_protocol_and_dlm_running);
+=======
+CLUSTER_ATTR(protocol, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CLUSTER_ATTR(mark, NULL);
 CLUSTER_ATTR(timewarn_cs, dlm_check_zero);
 CLUSTER_ATTR(waitwarn_us, NULL);
@@ -727,7 +754,10 @@ static ssize_t comm_mark_show(struct config_item *item, char *buf)
 static ssize_t comm_mark_store(struct config_item *item, const char *buf,
 			       size_t len)
 {
+<<<<<<< HEAD
 	struct dlm_comm *comm;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int mark;
 	int rc;
 
@@ -735,6 +765,7 @@ static ssize_t comm_mark_store(struct config_item *item, const char *buf,
 	if (rc)
 		return rc;
 
+<<<<<<< HEAD
 	if (mark == 0)
 		mark = dlm_config.ci_mark;
 
@@ -744,6 +775,9 @@ static ssize_t comm_mark_store(struct config_item *item, const char *buf,
 		return rc;
 
 	comm->mark = mark;
+=======
+	config_item_to_comm(item)->mark = mark;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return len;
 }
 
@@ -918,6 +952,27 @@ int dlm_comm_seq(int nodeid, uint32_t *seq)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+void dlm_comm_mark(int nodeid, unsigned int *mark)
+{
+	struct dlm_comm *cm;
+
+	cm = get_comm(nodeid);
+	if (!cm) {
+		*mark = dlm_config.ci_mark;
+		return;
+	}
+
+	if (cm->mark)
+		*mark = cm->mark;
+	else
+		*mark = dlm_config.ci_mark;
+
+	put_comm(cm);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dlm_our_nodeid(void)
 {
 	return local_comm ? local_comm->nodeid : 0;

@@ -293,8 +293,12 @@
 			camera0: camera@d420a000 {
 				compatible = "marvell,mmp2-ccic";
 				reg = <0xd420a000 0x800>;
+<<<<<<< HEAD
 				interrupts = <1>;
 				interrupt-parent = <&ci_mux>;
+=======
+				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				clocks = <&soc_clocks MMP2_CLK_CCIC0>;
 				clock-names = "axi";
 				power-domains = <&soc_clocks MMP3_POWER_DOMAIN_CAMERA>;
@@ -306,8 +310,12 @@
 			camera1: camera@d420a800 {
 				compatible = "marvell,mmp2-ccic";
 				reg = <0xd420a800 0x800>;
+<<<<<<< HEAD
 				interrupts = <2>;
 				interrupt-parent = <&ci_mux>;
+=======
+				interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				clocks = <&soc_clocks MMP2_CLK_CCIC1>;
 				clock-names = "axi";
 				power-domains = <&soc_clocks MMP3_POWER_DOMAIN_CAMERA>;
@@ -569,7 +577,11 @@
 
 		soc_clocks: clocks@d4050000 {
 			compatible = "marvell,mmp3-clock";
+<<<<<<< HEAD
 			reg = <0xd4050000 0x2000>,
+=======
+			reg = <0xd4050000 0x1000>,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      <0xd4282800 0x400>,
 			      <0xd4015000 0x1000>;
 			reg-names = "mpmu", "apmu", "apbc";

@@ -33,7 +33,11 @@
  */
 
 .macro ___EXPORT_SYMBOL name,val,sec
+<<<<<<< HEAD
 #if defined(CONFIG_MODULES) && !defined(__DISABLE_EXPORTS)
+=======
+#ifdef CONFIG_MODULES
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.section ___ksymtab\sec+\name,"a"
 	.balign KSYM_ALIGN
 __ksymtab_\name:

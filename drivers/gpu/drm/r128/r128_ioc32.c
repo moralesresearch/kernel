@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * \file r128_ioc32.c
  *
  * 32-bit ioctl compatibility routines for the R128 DRM.
@@ -170,6 +174,7 @@ drm_ioctl_compat_t *r128_compat_ioctls[] = {
 };
 
 /**
+<<<<<<< HEAD
  * r128_compat_ioctl - Called whenever a 32-bit process running under
  *                     a 64-bit kernel performs an ioctl on /dev/dri/card<n>.
  *
@@ -177,6 +182,15 @@ drm_ioctl_compat_t *r128_compat_ioctls[] = {
  * @cmd: command.
  * @arg: user argument.
  * return: zero on success or negative number on failure.
+=======
+ * Called whenever a 32-bit process running under a 64-bit kernel
+ * performs an ioctl on /dev/dri/card<n>.
+ *
+ * \param filp file pointer.
+ * \param cmd command.
+ * \param arg user argument.
+ * \return zero on success or negative number on failure.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 long r128_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {

@@ -1442,11 +1442,19 @@ void snd_usb_endpoint_stop(struct snd_usb_endpoint *ep)
 	if (snd_BUG_ON(!atomic_read(&ep->running)))
 		return;
 
+<<<<<<< HEAD
 	if (!atomic_dec_return(&ep->running)) {
 		if (ep->sync_source)
 			WRITE_ONCE(ep->sync_source->sync_sink, NULL);
 		stop_urbs(ep, false);
 	}
+=======
+	if (ep->sync_source)
+		WRITE_ONCE(ep->sync_source->sync_sink, NULL);
+
+	if (!atomic_dec_return(&ep->running))
+		stop_urbs(ep, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

@@ -150,6 +150,10 @@ struct irq_domain_chip_generic;
  *      setting up one or more generic chips for interrupt controllers
  *      drivers using the generic chip library which uses this pointer.
  * @parent: Pointer to parent irq_domain to support hierarchy irq_domains
+<<<<<<< HEAD
+=======
+ * @debugfs_file: dentry for the domain debugfs file
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Revmap data, used internally by irq_domain
  * @revmap_direct_max_irq: The largest hwirq that can be set for controllers that
@@ -173,6 +177,12 @@ struct irq_domain {
 #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
 	struct irq_domain *parent;
 #endif
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_GENERIC_IRQ_DEBUGFS
+	struct dentry		*debugfs_file;
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* reverse map data. The linear map gets appended to the irq_domain */
 	irq_hw_number_t hwirq_max;

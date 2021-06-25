@@ -1413,6 +1413,7 @@ static inline void drv_sta_set_4addr(struct ieee80211_local *local,
 	trace_drv_return_void(local);
 }
 
+<<<<<<< HEAD
 static inline void drv_sta_set_decap_offload(struct ieee80211_local *local,
 					     struct ieee80211_sub_if_data *sdata,
 					     struct ieee80211_sta *sta,
@@ -1429,4 +1430,6 @@ static inline void drv_sta_set_decap_offload(struct ieee80211_local *local,
 	trace_drv_return_void(local);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __MAC80211_DRIVER_OPS */

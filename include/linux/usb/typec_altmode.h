@@ -133,6 +133,7 @@ typec_altmode_get_orientation(struct typec_altmode *altmode)
 }
 
 /**
+<<<<<<< HEAD
  * typec_altmode_get_svdm_version - Get negotiated SVDM version
  * @altmode: Handle to the alternate mode
  */
@@ -143,6 +144,8 @@ typec_altmode_get_svdm_version(struct typec_altmode *altmode)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct typec_altmode_driver - USB Type-C alternate mode device driver
  * @id_table: Null terminated array of SVIDs
  * @probe: Callback for device binding

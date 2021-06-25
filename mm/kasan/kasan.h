@@ -3,7 +3,10 @@
 #define __MM_KASAN_KASAN_H
 
 #include <linux/kasan.h>
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/stackdepot.h>
 
 #ifdef CONFIG_KASAN_HW_TAGS
@@ -37,12 +40,15 @@ extern bool kasan_flag_panic __ro_after_init;
 #define KASAN_TAG_INVALID	0xFE /* inaccessible memory tag */
 #define KASAN_TAG_MAX		0xFD /* maximum value for random tags */
 
+<<<<<<< HEAD
 #ifdef CONFIG_KASAN_HW_TAGS
 #define KASAN_TAG_MIN		0xF0 /* mimimum value for random tags */
 #else
 #define KASAN_TAG_MIN		0x00 /* mimimum value for random tags */
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_KASAN_GENERIC
 #define KASAN_FREE_PAGE         0xFF  /* page was freed */
 #define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocations */
@@ -202,14 +208,22 @@ static inline bool addr_has_metadata(const void *addr)
 }
 
 /**
+<<<<<<< HEAD
  * kasan_check_range - Check memory region, and report if invalid access.
+=======
+ * check_memory_region - Check memory region, and report if invalid access.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @addr: the accessed address
  * @size: the accessed size
  * @write: true if access is a write access
  * @ret_ip: return address
  * @return: true if access was valid, false if invalid
  */
+<<<<<<< HEAD
 bool kasan_check_range(unsigned long addr, size_t size, bool write,
+=======
+bool check_memory_region(unsigned long addr, size_t size, bool write,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				unsigned long ret_ip);
 
 #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
@@ -222,6 +236,7 @@ static inline bool addr_has_metadata(const void *addr)
 #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
 
 #if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+<<<<<<< HEAD
 void kasan_print_tags(u8 addr_tag, const void *addr);
 #else
 static inline void kasan_print_tags(u8 addr_tag, const void *addr) { }
@@ -235,6 +250,21 @@ void kasan_metadata_fetch_row(char *buffer, void *row);
 void kasan_print_address_stack_frame(const void *addr);
 #else
 static inline void kasan_print_address_stack_frame(const void *addr) { }
+=======
+void print_tags(u8 addr_tag, const void *addr);
+#else
+static inline void print_tags(u8 addr_tag, const void *addr) { }
+#endif
+
+void *find_first_bad_addr(void *addr, size_t size);
+const char *get_bug_type(struct kasan_access_info *info);
+void metadata_fetch_row(char *buffer, void *row);
+
+#if defined(CONFIG_KASAN_GENERIC) && CONFIG_KASAN_STACK
+void print_address_stack_frame(const void *addr);
+#else
+static inline void print_address_stack_frame(const void *addr) { }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 bool kasan_report(unsigned long addr, size_t size,
@@ -251,6 +281,7 @@ struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
 
 #if defined(CONFIG_KASAN_GENERIC) && \
 	(defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
+<<<<<<< HEAD
 bool kasan_quarantine_put(struct kmem_cache *cache, void *object);
 void kasan_quarantine_reduce(void);
 void kasan_quarantine_remove_cache(struct kmem_cache *cache);
@@ -258,6 +289,15 @@ void kasan_quarantine_remove_cache(struct kmem_cache *cache);
 static inline bool kasan_quarantine_put(struct kmem_cache *cache, void *object) { return false; }
 static inline void kasan_quarantine_reduce(void) { }
 static inline void kasan_quarantine_remove_cache(struct kmem_cache *cache) { }
+=======
+bool quarantine_put(struct kmem_cache *cache, void *object);
+void quarantine_reduce(void);
+void quarantine_remove_cache(struct kmem_cache *cache);
+#else
+static inline bool quarantine_put(struct kmem_cache *cache, void *object) { return false; }
+static inline void quarantine_reduce(void) { }
+static inline void quarantine_remove_cache(struct kmem_cache *cache) { }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifndef arch_kasan_set_tag
@@ -281,9 +321,12 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
 #ifndef arch_init_tags
 #define arch_init_tags(max_tag)
 #endif
+<<<<<<< HEAD
 #ifndef arch_set_tagging_report_once
 #define arch_set_tagging_report_once(state)
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef arch_get_random_tag
 #define arch_get_random_tag()	(0xFF)
 #endif
@@ -296,11 +339,15 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
 
 #define hw_enable_tagging()			arch_enable_tagging()
 #define hw_init_tags(max_tag)			arch_init_tags(max_tag)
+<<<<<<< HEAD
 #define hw_set_tagging_report_once(state)	arch_set_tagging_report_once(state)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define hw_get_random_tag()			arch_get_random_tag()
 #define hw_get_mem_tag(addr)			arch_get_mem_tag(addr)
 #define hw_set_mem_tag_range(addr, size, tag)	arch_set_mem_tag_range((addr), (size), (tag))
 
+<<<<<<< HEAD
 #else /* CONFIG_KASAN_HW_TAGS */
 
 #define hw_enable_tagging()
@@ -326,10 +373,21 @@ u8 kasan_random_tag(void);
 static inline u8 kasan_random_tag(void) { return hw_get_random_tag(); }
 #else
 static inline u8 kasan_random_tag(void) { return 0; }
+=======
+#endif /* CONFIG_KASAN_HW_TAGS */
+
+#ifdef CONFIG_KASAN_SW_TAGS
+u8 random_tag(void);
+#elif defined(CONFIG_KASAN_HW_TAGS)
+static inline u8 random_tag(void) { return hw_get_random_tag(); }
+#else
+static inline u8 random_tag(void) { return 0; }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_KASAN_HW_TAGS
 
+<<<<<<< HEAD
 static inline void kasan_poison(const void *addr, size_t size, u8 value)
 {
 	addr = kasan_reset_tag(addr);
@@ -370,10 +428,32 @@ static inline bool kasan_byte_accessible(const void *addr)
 
 	return (mem_tag != KASAN_TAG_INVALID) &&
 		(ptr_tag == KASAN_TAG_KERNEL || ptr_tag == mem_tag);
+=======
+static inline void poison_range(const void *address, size_t size, u8 value)
+{
+	hw_set_mem_tag_range(kasan_reset_tag(address),
+			round_up(size, KASAN_GRANULE_SIZE), value);
+}
+
+static inline void unpoison_range(const void *address, size_t size)
+{
+	hw_set_mem_tag_range(kasan_reset_tag(address),
+			round_up(size, KASAN_GRANULE_SIZE), get_tag(address));
+}
+
+static inline bool check_invalid_free(void *addr)
+{
+	u8 ptr_tag = get_tag(addr);
+	u8 mem_tag = hw_get_mem_tag(addr);
+
+	return (mem_tag == KASAN_TAG_INVALID) ||
+		(ptr_tag != KASAN_TAG_KERNEL && ptr_tag != mem_tag);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #else /* CONFIG_KASAN_HW_TAGS */
 
+<<<<<<< HEAD
 /**
  * kasan_poison - mark the memory range as unaccessible
  * @addr - range start address, must be aligned to KASAN_GRANULE_SIZE
@@ -419,6 +499,14 @@ static inline void kasan_poison_last_granule(const void *address, size_t size) {
 
 #endif /* CONFIG_KASAN_GENERIC */
 
+=======
+void poison_range(const void *address, size_t size, u8 value);
+void unpoison_range(const void *address, size_t size);
+bool check_invalid_free(void *addr);
+
+#endif /* CONFIG_KASAN_HW_TAGS */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Exported functions for interfaces called from assembly or from generated
  * code. Declarations here to avoid warning about missing declarations.

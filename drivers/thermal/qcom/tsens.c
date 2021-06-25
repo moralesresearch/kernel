@@ -755,10 +755,15 @@ int __init init_common(struct tsens_priv *priv)
 		for (i = VER_MAJOR; i <= VER_STEP; i++) {
 			priv->rf[i] = devm_regmap_field_alloc(dev, priv->srot_map,
 							      priv->fields[i]);
+<<<<<<< HEAD
 			if (IS_ERR(priv->rf[i])) {
 				ret = PTR_ERR(priv->rf[i]);
 				goto err_put_device;
 			}
+=======
+			if (IS_ERR(priv->rf[i]))
+				return PTR_ERR(priv->rf[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		ret = regmap_field_read(priv->rf[VER_MINOR], &ver_minor);
 		if (ret)

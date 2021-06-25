@@ -116,7 +116,10 @@ struct writequeue_entry {
 struct dlm_node_addr {
 	struct list_head list;
 	int nodeid;
+<<<<<<< HEAD
 	int mark;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int addr_count;
 	int curr_addr_index;
 	struct sockaddr_storage *addr[DLM_MAX_ADDR_COUNT];
@@ -135,7 +138,11 @@ static DEFINE_SPINLOCK(dlm_node_addrs_spin);
 static struct listen_connection listen_con;
 static struct sockaddr_storage *dlm_local_addr[DLM_MAX_ADDR_COUNT];
 static int dlm_local_count;
+<<<<<<< HEAD
 int dlm_allow_conn;
+=======
+static int dlm_allow_conn;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Work queues */
 static struct workqueue_struct *recv_workqueue;
@@ -304,8 +311,12 @@ static int addr_compare(const struct sockaddr_storage *x,
 }
 
 static int nodeid_to_addr(int nodeid, struct sockaddr_storage *sas_out,
+<<<<<<< HEAD
 			  struct sockaddr *sa_out, bool try_new_addr,
 			  unsigned int *mark)
+=======
+			  struct sockaddr *sa_out, bool try_new_addr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sockaddr_storage sas;
 	struct dlm_node_addr *na;
@@ -333,8 +344,11 @@ static int nodeid_to_addr(int nodeid, struct sockaddr_storage *sas_out,
 	if (!na->addr_count)
 		return -ENOENT;
 
+<<<<<<< HEAD
 	*mark = na->mark;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sas_out)
 		memcpy(sas_out, &sas, sizeof(struct sockaddr_storage));
 
@@ -354,8 +368,12 @@ static int nodeid_to_addr(int nodeid, struct sockaddr_storage *sas_out,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int addr_to_nodeid(struct sockaddr_storage *addr, int *nodeid,
 			  unsigned int *mark)
+=======
+static int addr_to_nodeid(struct sockaddr_storage *addr, int *nodeid)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dlm_node_addr *na;
 	int rv = -EEXIST;
@@ -369,7 +387,10 @@ static int addr_to_nodeid(struct sockaddr_storage *addr, int *nodeid,
 		for (addr_i = 0; addr_i < na->addr_count; addr_i++) {
 			if (addr_compare(na->addr[addr_i], addr)) {
 				*nodeid = na->nodeid;
+<<<<<<< HEAD
 				*mark = na->mark;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rv = 0;
 				goto unlock;
 			}
@@ -418,7 +439,10 @@ int dlm_lowcomms_addr(int nodeid, struct sockaddr_storage *addr, int len)
 		new_node->nodeid = nodeid;
 		new_node->addr[0] = new_addr;
 		new_node->addr_count = 1;
+<<<<<<< HEAD
 		new_node->mark = dlm_config.ci_mark;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		list_add(&new_node->list, &dlm_node_addrs);
 		spin_unlock(&dlm_node_addrs_spin);
 		return 0;
@@ -526,6 +550,7 @@ int dlm_lowcomms_connect_node(int nodeid)
 	return 0;
 }
 
+<<<<<<< HEAD
 int dlm_lowcomms_nodes_set_mark(int nodeid, unsigned int mark)
 {
 	struct dlm_node_addr *na;
@@ -543,6 +568,8 @@ int dlm_lowcomms_nodes_set_mark(int nodeid, unsigned int mark)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void lowcomms_error_report(struct sock *sk)
 {
 	struct connection *con;
@@ -709,7 +736,14 @@ static void shutdown_connection(struct connection *con)
 {
 	int ret;
 
+<<<<<<< HEAD
 	flush_work(&con->swork);
+=======
+	if (cancel_work_sync(&con->swork)) {
+		log_print("canceled swork for node %d", con->nodeid);
+		clear_bit(CF_WRITE_PENDING, &con->flags);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&con->sock_mutex);
 	/* nothing to shutdown */
@@ -888,7 +922,11 @@ static int accept_from_sock(struct listen_connection *con)
 
 	/* Get the new node's NODEID */
 	make_sockaddr(&peeraddr, 0, &len);
+<<<<<<< HEAD
 	if (addr_to_nodeid(&peeraddr, &nodeid, &mark)) {
+=======
+	if (addr_to_nodeid(&peeraddr, &nodeid)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned char *b=(unsigned char *)&peeraddr;
 		log_print("connect from non cluster node");
 		print_hex_dump_bytes("ss: ", DUMP_PREFIX_NONE, 
@@ -897,6 +935,12 @@ static int accept_from_sock(struct listen_connection *con)
 		return -1;
 	}
 
+<<<<<<< HEAD
+=======
+	dlm_comm_mark(nodeid, &mark);
+	sock_set_mark(newsock->sk, mark);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	log_print("got connection from %d", nodeid);
 
 	/*  Check to see if we already have a connection to this node. This
@@ -910,8 +954,11 @@ static int accept_from_sock(struct listen_connection *con)
 		goto accept_err;
 	}
 
+<<<<<<< HEAD
 	sock_set_mark(newsock->sk, mark);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&newcon->sock_mutex);
 	if (newcon->sock) {
 		struct connection *othercon = newcon->othercon;
@@ -928,7 +975,10 @@ static int accept_from_sock(struct listen_connection *con)
 			result = dlm_con_init(othercon, nodeid);
 			if (result < 0) {
 				kfree(othercon);
+<<<<<<< HEAD
 				mutex_unlock(&newcon->sock_mutex);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto accept_err;
 			}
 
@@ -1036,6 +1086,11 @@ static void sctp_connect_to_sock(struct connection *con)
 	struct socket *sock;
 	unsigned int mark;
 
+<<<<<<< HEAD
+=======
+	dlm_comm_mark(con->nodeid, &mark);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&con->sock_mutex);
 
 	/* Some odd races can cause double-connects, ignore them */
@@ -1048,7 +1103,11 @@ static void sctp_connect_to_sock(struct connection *con)
 	}
 
 	memset(&daddr, 0, sizeof(daddr));
+<<<<<<< HEAD
 	result = nodeid_to_addr(con->nodeid, &daddr, NULL, true, &mark);
+=======
+	result = nodeid_to_addr(con->nodeid, &daddr, NULL, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (result < 0) {
 		log_print("no address for nodeid %d", con->nodeid);
 		goto out;
@@ -1123,11 +1182,21 @@ out:
 static void tcp_connect_to_sock(struct connection *con)
 {
 	struct sockaddr_storage saddr, src_addr;
+<<<<<<< HEAD
 	unsigned int mark;
 	int addr_len;
 	struct socket *sock = NULL;
 	int result;
 
+=======
+	int addr_len;
+	struct socket *sock = NULL;
+	unsigned int mark;
+	int result;
+
+	dlm_comm_mark(con->nodeid, &mark);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&con->sock_mutex);
 	if (con->retries++ > MAX_CONNECT_RETRIES)
 		goto out;
@@ -1142,15 +1211,25 @@ static void tcp_connect_to_sock(struct connection *con)
 	if (result < 0)
 		goto out_err;
 
+<<<<<<< HEAD
 	memset(&saddr, 0, sizeof(saddr));
 	result = nodeid_to_addr(con->nodeid, &saddr, NULL, false, &mark);
+=======
+	sock_set_mark(sock->sk, mark);
+
+	memset(&saddr, 0, sizeof(saddr));
+	result = nodeid_to_addr(con->nodeid, &saddr, NULL, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (result < 0) {
 		log_print("no address for nodeid %d", con->nodeid);
 		goto out_err;
 	}
 
+<<<<<<< HEAD
 	sock_set_mark(sock->sk, mark);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	add_sock(sock, con);
 
 	/* Bind to our cluster-known address connecting to avoid
@@ -1372,11 +1451,17 @@ void *dlm_lowcomms_get_buffer(int nodeid, int len, gfp_t allocation, char **ppc)
 	struct writequeue_entry *e;
 	int offset = 0;
 
+<<<<<<< HEAD
 	if (len > DEFAULT_BUFFER_SIZE ||
 	    len < sizeof(struct dlm_header)) {
 		BUILD_BUG_ON(PAGE_SIZE < DEFAULT_BUFFER_SIZE);
 		log_print("failed to allocate a buffer of size %d", len);
 		WARN_ON(1);
+=======
+	if (len > LOWCOMMS_MAX_TX_BUFFER_LEN) {
+		BUILD_BUG_ON(PAGE_SIZE < LOWCOMMS_MAX_TX_BUFFER_LEN);
+		log_print("failed to allocate a buffer of size %d", len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 	}
 
@@ -1608,6 +1693,7 @@ static int work_start(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void shutdown_conn(struct connection *con)
 {
 	if (con->shutdown_action)
@@ -1631,6 +1717,8 @@ void dlm_lowcomms_shutdown(void)
 	foreach_conn(shutdown_conn);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void _stop_conn(struct connection *con, bool and_other)
 {
 	mutex_lock(&con->sock_mutex);
@@ -1652,6 +1740,15 @@ static void stop_conn(struct connection *con)
 	_stop_conn(con, true);
 }
 
+<<<<<<< HEAD
+=======
+static void shutdown_conn(struct connection *con)
+{
+	if (con->shutdown_action)
+		con->shutdown_action(con);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void connection_release(struct rcu_head *rcu)
 {
 	struct connection *con = container_of(rcu, struct connection, rcu);
@@ -1708,6 +1805,22 @@ static void work_flush(void)
 
 void dlm_lowcomms_stop(void)
 {
+<<<<<<< HEAD
+=======
+	/* Set all the flags to prevent any
+	   socket activity.
+	*/
+	dlm_allow_conn = 0;
+
+	if (recv_workqueue)
+		flush_workqueue(recv_workqueue);
+	if (send_workqueue)
+		flush_workqueue(send_workqueue);
+
+	dlm_close_sock(&listen_con.sock);
+
+	foreach_conn(shutdown_conn);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	work_flush();
 	foreach_conn(free_conn);
 	work_stop();

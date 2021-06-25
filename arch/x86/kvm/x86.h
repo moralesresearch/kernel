@@ -98,7 +98,11 @@ static inline bool is_64_bit_mode(struct kvm_vcpu *vcpu)
 
 	if (!is_long_mode(vcpu))
 		return false;
+<<<<<<< HEAD
 	static_call(kvm_x86_get_cs_db_l_bits)(vcpu, &cs_db, &cs_l);
+=======
+	kvm_x86_ops.get_cs_db_l_bits(vcpu, &cs_db, &cs_l);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return cs_l;
 }
 
@@ -129,7 +133,11 @@ static inline bool mmu_is_nested(struct kvm_vcpu *vcpu)
 static inline void kvm_vcpu_flush_tlb_current(struct kvm_vcpu *vcpu)
 {
 	++vcpu->stat.tlb_flush;
+<<<<<<< HEAD
 	static_call(kvm_x86_tlb_flush_current)(vcpu);
+=======
+	kvm_x86_ops.tlb_flush_current(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int is_pae(struct kvm_vcpu *vcpu)
@@ -244,12 +252,21 @@ static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
 
 static inline bool kvm_vcpu_latch_init(struct kvm_vcpu *vcpu)
 {
+<<<<<<< HEAD
 	return is_smm(vcpu) || static_call(kvm_x86_apic_init_signal_blocked)(vcpu);
 }
 
 void kvm_write_wall_clock(struct kvm *kvm, gpa_t wall_clock, int sec_hi_ofs);
 void kvm_inject_realmode_interrupt(struct kvm_vcpu *vcpu, int irq, int inc_eip);
 
+=======
+	return is_smm(vcpu) || kvm_x86_ops.apic_init_signal_blocked(vcpu);
+}
+
+void kvm_inject_realmode_interrupt(struct kvm_vcpu *vcpu, int irq, int inc_eip);
+
+void kvm_write_tsc(struct kvm_vcpu *vcpu, struct msr_data *msr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u64 get_kvmclock_ns(struct kvm *kvm);
 
 int kvm_read_guest_virt(struct kvm_vcpu *vcpu,
@@ -273,8 +290,11 @@ bool kvm_mtrr_check_gfn_range_consistency(struct kvm_vcpu *vcpu, gfn_t gfn,
 					  int page_num);
 bool kvm_vector_hashing_enabled(void);
 void kvm_fixup_and_inject_pf_error(struct kvm_vcpu *vcpu, gva_t gva, u16 error_code);
+<<<<<<< HEAD
 int x86_decode_emulated_instruction(struct kvm_vcpu *vcpu, int emulation_type,
 				    void *insn, int insn_len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int x86_emulate_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
 			    int emulation_type, void *insn, int insn_len);
 fastpath_t handle_fastpath_set_msr_irqoff(struct kvm_vcpu *vcpu);
@@ -298,8 +318,11 @@ extern int pi_inject_timer;
 
 extern struct static_key kvm_no_apic_vcpu;
 
+<<<<<<< HEAD
 extern bool report_ignored_msrs;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline u64 nsec_to_cycles(struct kvm_vcpu *vcpu, u64 nsec)
 {
 	return pvclock_scale_delta(nsec, vcpu->arch.virtual_tsc_mult,
@@ -395,6 +418,10 @@ void kvm_load_guest_xsave_state(struct kvm_vcpu *vcpu);
 void kvm_load_host_xsave_state(struct kvm_vcpu *vcpu);
 int kvm_spec_ctrl_test_value(u64 value);
 bool kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4);
+<<<<<<< HEAD
+=======
+bool kvm_vcpu_exit_request(struct kvm_vcpu *vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int kvm_handle_memory_failure(struct kvm_vcpu *vcpu, int r,
 			      struct x86_exception *e);
 int kvm_handle_invpcid(struct kvm_vcpu *vcpu, unsigned long type, gva_t gva);

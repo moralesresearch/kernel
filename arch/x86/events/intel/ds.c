@@ -36,9 +36,19 @@ union intel_x86_pebs_dse {
 		unsigned int ld_dse:4;
 		unsigned int ld_stlb_miss:1;
 		unsigned int ld_locked:1;
+<<<<<<< HEAD
 		unsigned int ld_data_blk:1;
 		unsigned int ld_addr_blk:1;
 		unsigned int ld_reserved:24;
+=======
+<<<<<<< HEAD
+		unsigned int ld_data_blk:1;
+		unsigned int ld_addr_blk:1;
+		unsigned int ld_reserved:24;
+=======
+		unsigned int ld_reserved:26;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	struct {
 		unsigned int st_l1d_hit:1;
@@ -47,12 +57,21 @@ union intel_x86_pebs_dse {
 		unsigned int st_locked:1;
 		unsigned int st_reserved2:26;
 	};
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct {
 		unsigned int st_lat_dse:4;
 		unsigned int st_lat_stlb_miss:1;
 		unsigned int st_lat_locked:1;
 		unsigned int ld_reserved3:26;
 	};
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 
@@ -206,6 +225,10 @@ static u64 load_latency_data(u64 status)
 	if (dse.ld_locked)
 		val |= P(LOCK, LOCKED);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Ice Lake and earlier models do not support block infos.
 	 */
@@ -263,6 +286,11 @@ static u64 store_latency_data(u64 status)
 
 	val |= P(BLK, NA);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return val;
 }
 
@@ -935,6 +963,10 @@ struct event_constraint intel_icl_pebs_event_constraints[] = {
 	EVENT_CONSTRAINT_END
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct event_constraint intel_spr_pebs_event_constraints[] = {
 	INTEL_FLAGS_UEVENT_CONSTRAINT(0x1c0, 0x100000000ULL),
 	INTEL_FLAGS_UEVENT_CONSTRAINT(0x0400, 0x800000000ULL),
@@ -957,6 +989,11 @@ struct event_constraint intel_spr_pebs_event_constraints[] = {
 	EVENT_CONSTRAINT_END
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct event_constraint *intel_pebs_constraints(struct perf_event *event)
 {
 	struct event_constraint *c;
@@ -1047,8 +1084,17 @@ static void adaptive_pebs_record_size_update(void)
 }
 
 #define PERF_PEBS_MEMINFO_TYPE	(PERF_SAMPLE_ADDR | PERF_SAMPLE_DATA_SRC |   \
+<<<<<<< HEAD
 				PERF_SAMPLE_PHYS_ADDR |			     \
 				PERF_SAMPLE_WEIGHT_TYPE |		     \
+=======
+<<<<<<< HEAD
+				PERF_SAMPLE_PHYS_ADDR |			     \
+				PERF_SAMPLE_WEIGHT_TYPE |		     \
+=======
+				PERF_SAMPLE_PHYS_ADDR | PERF_SAMPLE_WEIGHT | \
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				PERF_SAMPLE_TRANSACTION |		     \
 				PERF_SAMPLE_DATA_PAGE_SIZE)
 
@@ -1075,7 +1121,15 @@ static u64 pebs_update_adaptive_cfg(struct perf_event *event)
 	gprs = (sample_type & PERF_SAMPLE_REGS_INTR) &&
 	       (attr->sample_regs_intr & PEBS_GP_REGS);
 
+<<<<<<< HEAD
 	tsx_weight = (sample_type & PERF_SAMPLE_WEIGHT_TYPE) &&
+=======
+<<<<<<< HEAD
+	tsx_weight = (sample_type & PERF_SAMPLE_WEIGHT_TYPE) &&
+=======
+	tsx_weight = (sample_type & PERF_SAMPLE_WEIGHT) &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     ((attr->config & INTEL_ARCH_EVENT_MASK) ==
 		      x86_pmu.rtm_abort_event);
 
@@ -1419,8 +1473,16 @@ static u64 get_data_src(struct perf_event *event, u64 aux)
 
 	if (fl & PERF_X86_EVENT_PEBS_LDLAT)
 		val = load_latency_data(aux);
+<<<<<<< HEAD
 	else if (fl & PERF_X86_EVENT_PEBS_STLAT)
 		val = store_latency_data(aux);
+=======
+<<<<<<< HEAD
+	else if (fl & PERF_X86_EVENT_PEBS_STLAT)
+		val = store_latency_data(aux);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (fst && (fl & PERF_X86_EVENT_PEBS_HSW_PREC))
 		val = precise_datala_hsw(event, aux);
 	else if (fst)
@@ -1459,8 +1521,18 @@ static void setup_pebs_fixed_sample_data(struct perf_event *event,
 	/*
 	 * Use latency for weight (only avail with PEBS-LL)
 	 */
+<<<<<<< HEAD
 	if (fll && (sample_type & PERF_SAMPLE_WEIGHT_TYPE))
 		data->weight.full = pebs->lat;
+=======
+<<<<<<< HEAD
+	if (fll && (sample_type & PERF_SAMPLE_WEIGHT_TYPE))
+		data->weight.full = pebs->lat;
+=======
+	if (fll && (sample_type & PERF_SAMPLE_WEIGHT))
+		data->weight = pebs->lat;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * data.data_src encodes the data source
@@ -1552,8 +1624,18 @@ static void setup_pebs_fixed_sample_data(struct perf_event *event,
 
 	if (x86_pmu.intel_cap.pebs_format >= 2) {
 		/* Only set the TSX weight when no memory weight. */
+<<<<<<< HEAD
 		if ((sample_type & PERF_SAMPLE_WEIGHT_TYPE) && !fll)
 			data->weight.full = intel_get_tsx_weight(pebs->tsx_tuning);
+=======
+<<<<<<< HEAD
+		if ((sample_type & PERF_SAMPLE_WEIGHT_TYPE) && !fll)
+			data->weight.full = intel_get_tsx_weight(pebs->tsx_tuning);
+=======
+		if ((sample_type & PERF_SAMPLE_WEIGHT) && !fll)
+			data->weight = intel_get_tsx_weight(pebs->tsx_tuning);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (sample_type & PERF_SAMPLE_TRANSACTION)
 			data->txn = intel_get_tsx_transaction(pebs->tsx_tuning,
@@ -1597,9 +1679,18 @@ static void adaptive_pebs_save_regs(struct pt_regs *regs,
 #endif
 }
 
+<<<<<<< HEAD
 #define PEBS_LATENCY_MASK			0xffff
 #define PEBS_CACHE_LATENCY_OFFSET		32
 
+=======
+<<<<<<< HEAD
+#define PEBS_LATENCY_MASK			0xffff
+#define PEBS_CACHE_LATENCY_OFFSET		32
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * With adaptive PEBS the layout depends on what fields are configured.
  */
@@ -1670,6 +1761,10 @@ static void setup_pebs_adaptive_sample_data(struct perf_event *event,
 	}
 
 	if (format_size & PEBS_DATACFG_MEMINFO) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (sample_type & PERF_SAMPLE_WEIGHT_TYPE) {
 			u64 weight = meminfo->latency;
 
@@ -1691,6 +1786,14 @@ static void setup_pebs_adaptive_sample_data(struct perf_event *event,
 					intel_get_tsx_weight(meminfo->tsx_tuning);
 			}
 		}
+<<<<<<< HEAD
+=======
+=======
+		if (sample_type & PERF_SAMPLE_WEIGHT)
+			data->weight = meminfo->latency ?:
+				intel_get_tsx_weight(meminfo->tsx_tuning);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (sample_type & PERF_SAMPLE_DATA_SRC)
 			data->data_src.val = get_data_src(event, meminfo->aux);

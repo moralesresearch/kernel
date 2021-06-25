@@ -786,7 +786,11 @@ static ssize_t kcm_sendpage(struct socket *sock, struct page *page,
 
 		if (skb_can_coalesce(skb, i, page, offset)) {
 			skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], size);
+<<<<<<< HEAD
 			skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
+=======
+			skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto coalesced;
 		}
 
@@ -834,7 +838,11 @@ static ssize_t kcm_sendpage(struct socket *sock, struct page *page,
 
 	get_page(page);
 	skb_fill_page_desc(skb, i, page, offset, size);
+<<<<<<< HEAD
 	skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
+=======
+	skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 coalesced:
 	skb->len += size;
@@ -1496,7 +1504,11 @@ static int kcm_attach_ioctl(struct socket *sock, struct kcm_attach *info)
 
 	return 0;
 out:
+<<<<<<< HEAD
 	sockfd_put(csock);
+=======
+	fput(csock->file);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -1644,7 +1656,11 @@ static int kcm_unattach_ioctl(struct socket *sock, struct kcm_unattach *info)
 	spin_unlock_bh(&mux->lock);
 
 out:
+<<<<<<< HEAD
 	sockfd_put(csock);
+=======
+	fput(csock->file);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

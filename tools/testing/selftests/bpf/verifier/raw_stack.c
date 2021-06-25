@@ -11,7 +11,11 @@
 	BPF_EXIT_INSN(),
 	},
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "invalid read from stack R6 off=-8 size=8",
+=======
+	.errstr = "invalid read from stack off -8+0 size 8",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prog_type = BPF_PROG_TYPE_SCHED_CLS,
 },
 {
@@ -59,7 +63,11 @@
 	BPF_EXIT_INSN(),
 	},
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "invalid zero-sized read",
+=======
+	.errstr = "invalid stack type R3",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prog_type = BPF_PROG_TYPE_SCHED_CLS,
 },
 {
@@ -205,7 +213,11 @@
 	BPF_EXIT_INSN(),
 	},
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R3 off=-513 size=8",
+=======
+	.errstr = "invalid stack type R3 off=-513 access_size=8",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prog_type = BPF_PROG_TYPE_SCHED_CLS,
 },
 {
@@ -221,7 +233,11 @@
 	BPF_EXIT_INSN(),
 	},
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R3 off=-1 size=8",
+=======
+	.errstr = "invalid stack type R3 off=-1 access_size=8",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prog_type = BPF_PROG_TYPE_SCHED_CLS,
 },
 {
@@ -285,7 +301,11 @@
 	BPF_EXIT_INSN(),
 	},
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "invalid zero-sized read",
+=======
+	.errstr = "invalid stack type R3 off=-512 access_size=0",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prog_type = BPF_PROG_TYPE_SCHED_CLS,
 },
 {

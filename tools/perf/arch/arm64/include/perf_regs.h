@@ -15,7 +15,11 @@ void perf_regs_load(u64 *regs);
 #define PERF_REG_IP	PERF_REG_ARM64_PC
 #define PERF_REG_SP	PERF_REG_ARM64_SP
 
+<<<<<<< HEAD
 static inline const char *__perf_reg_name(int id)
+=======
+static inline const char *perf_reg_name(int id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (id) {
 	case PERF_REG_ARM64_X0:

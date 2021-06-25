@@ -27,6 +27,7 @@ static bool etm_perf_up;
 static DEFINE_PER_CPU(struct perf_output_handle, ctx_handle);
 static DEFINE_PER_CPU(struct coresight_device *, csdev_src);
 
+<<<<<<< HEAD
 /*
  * The PMU formats were orignally for ETMv3.5/PTM's ETMCR 'config';
  * now take them as general formats and apply on all ETMs.
@@ -36,11 +37,17 @@ PMU_FORMAT_ATTR(cycacc,		"config:" __stringify(ETM_OPT_CYCACC));
 PMU_FORMAT_ATTR(contextid1,	"config:" __stringify(ETM_OPT_CTXTID));
 /* contextid2 enables tracing CONTEXTIDR_EL2 for ETMv4 */
 PMU_FORMAT_ATTR(contextid2,	"config:" __stringify(ETM_OPT_CTXTID2));
+=======
+/* ETMv3.5/PTM's ETMCR is 'config' */
+PMU_FORMAT_ATTR(cycacc,		"config:" __stringify(ETM_OPT_CYCACC));
+PMU_FORMAT_ATTR(contextid,	"config:" __stringify(ETM_OPT_CTXTID));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 PMU_FORMAT_ATTR(timestamp,	"config:" __stringify(ETM_OPT_TS));
 PMU_FORMAT_ATTR(retstack,	"config:" __stringify(ETM_OPT_RETSTK));
 /* Sink ID - same for all ETMs */
 PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
 
+<<<<<<< HEAD
 /*
  * contextid always traces the "PID".  The PID is in CONTEXTIDR_EL1
  * when the kernel is running at EL1; when the kernel is at EL2,
@@ -66,6 +73,11 @@ static struct attribute *etm_config_formats_attr[] = {
 	&format_attr_contextid.attr,
 	&format_attr_contextid1.attr,
 	&format_attr_contextid2.attr,
+=======
+static struct attribute *etm_config_formats_attr[] = {
+	&format_attr_cycacc.attr,
+	&format_attr_contextid.attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&format_attr_timestamp.attr,
 	&format_attr_retstack.attr,
 	&format_attr_sinkid.attr,

@@ -16,9 +16,12 @@ maintainers:
   - Jon Hunter <jonathanh@nvidia.com>
   - Sameer Pujar <spujar@nvidia.com>
 
+<<<<<<< HEAD
 allOf:
   - $ref: audio-graph-port.yaml#
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   $nodename:
     pattern: "^dmic@[0-9a-f]*$"
@@ -59,6 +62,7 @@ properties:
       The name can be "DMIC1" or "DMIC2" ... "DMICx", where x depends
       on the maximum available instances on a Tegra SoC.
 
+<<<<<<< HEAD
   ports:
     type: object
     properties:
@@ -72,6 +76,8 @@ properties:
           DMIC DAP (Digital Audio Port) interface which can be connected
           to external audio codec for capture.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg
@@ -80,7 +86,11 @@ required:
   - assigned-clocks
   - assigned-clock-parents
 
+<<<<<<< HEAD
 unevaluatedProperties: false
+=======
+additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 examples:
   - |

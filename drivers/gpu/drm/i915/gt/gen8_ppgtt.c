@@ -109,7 +109,11 @@ static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
 
 #define as_pd(x) container_of((x), typeof(struct i915_page_directory), pt)
 
+<<<<<<< HEAD
 static unsigned int
+=======
+static inline unsigned int
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gen8_pd_range(u64 start, u64 end, int lvl, unsigned int *idx)
 {
 	const int shift = gen8_pd_shift(lvl);
@@ -125,7 +129,11 @@ gen8_pd_range(u64 start, u64 end, int lvl, unsigned int *idx)
 		return i915_pde_index(end, shift) - *idx;
 }
 
+<<<<<<< HEAD
 static bool gen8_pd_contains(u64 start, u64 end, int lvl)
+=======
+static inline bool gen8_pd_contains(u64 start, u64 end, int lvl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const u64 mask = ~0ull << gen8_pd_shift(lvl + 1);
 
@@ -133,7 +141,11 @@ static bool gen8_pd_contains(u64 start, u64 end, int lvl)
 	return (start ^ end) & mask && (start & ~mask) == 0;
 }
 
+<<<<<<< HEAD
 static unsigned int gen8_pt_count(u64 start, u64 end)
+=======
+static inline unsigned int gen8_pt_count(u64 start, u64 end)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	GEM_BUG_ON(start >= end);
 	if ((start ^ end) >> gen8_pd_shift(1))
@@ -142,13 +154,22 @@ static unsigned int gen8_pt_count(u64 start, u64 end)
 		return end - start;
 }
 
+<<<<<<< HEAD
 static unsigned int gen8_pd_top_count(const struct i915_address_space *vm)
+=======
+static inline unsigned int
+gen8_pd_top_count(const struct i915_address_space *vm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int shift = __gen8_pte_shift(vm->top);
 	return (vm->total + (1ull << shift) - 1) >> shift;
 }
 
+<<<<<<< HEAD
 static struct i915_page_directory *
+=======
+static inline struct i915_page_directory *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gen8_pdp_for_page_index(struct i915_address_space * const vm, const u64 idx)
 {
 	struct i915_ppgtt * const ppgtt = i915_vm_to_ppgtt(vm);
@@ -159,7 +180,11 @@ gen8_pdp_for_page_index(struct i915_address_space * const vm, const u64 idx)
 		return i915_pd_entry(ppgtt->pd, gen8_pd_index(idx, vm->top));
 }
 
+<<<<<<< HEAD
 static struct i915_page_directory *
+=======
+static inline struct i915_page_directory *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gen8_pdp_for_page_address(struct i915_address_space * const vm, const u64 addr)
 {
 	return gen8_pdp_for_page_index(vm, addr >> GEN8_PTE_SHIFT);
@@ -630,6 +655,10 @@ static int gen8_preallocate_top_level_pdp(struct i915_ppgtt *ppgtt)
 
 		err = pin_pt_dma(vm, pde->pt.base);
 		if (err) {
+<<<<<<< HEAD
+=======
+			i915_gem_object_put(pde->pt.base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			free_pd(vm, pde);
 			return err;
 		}

@@ -32,6 +32,7 @@
 #define TOROUT_STRING(s) \
 	pr_alert("%s" TORTURE_FLAG " %s\n", torture_type, s)
 #define VERBOSE_TOROUT_STRING(s) \
+<<<<<<< HEAD
 do {										\
 	if (verbose) {								\
 		verbose_torout_sleep();						\
@@ -53,6 +54,13 @@ int torture_num_online_cpus(void);
 #else /* #ifdef CONFIG_HOTPLUG_CPU */
 static inline int torture_num_online_cpus(void) { return 1; }
 #endif /* #else #ifdef CONFIG_HOTPLUG_CPU */
+=======
+	do { if (verbose) pr_alert("%s" TORTURE_FLAG " %s\n", torture_type, s); } while (0)
+#define VERBOSE_TOROUT_ERRSTRING(s) \
+	do { if (verbose) pr_alert("%s" TORTURE_FLAG "!!! %s\n", torture_type, s); } while (0)
+
+/* Definitions for online/offline exerciser. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 typedef void torture_ofl_func(void);
 bool torture_offline(int cpu, long *n_onl_attempts, long *n_onl_successes,
 		     unsigned long *sum_offl, int *min_onl, int *max_onl);
@@ -77,6 +85,7 @@ static inline void torture_random_init(struct torture_random_state *trsp)
 	trsp->trs_count = 0;
 }
 
+<<<<<<< HEAD
 /* Definitions for high-resolution-timer sleeps. */
 int torture_hrtimeout_ns(ktime_t baset_ns, u32 fuzzt_ns, struct torture_random_state *trsp);
 int torture_hrtimeout_us(u32 baset_us, u32 fuzzt_ns, struct torture_random_state *trsp);
@@ -84,6 +93,8 @@ int torture_hrtimeout_ms(u32 baset_ms, u32 fuzzt_us, struct torture_random_state
 int torture_hrtimeout_jiffies(u32 baset_j, struct torture_random_state *trsp);
 int torture_hrtimeout_s(u32 baset_s, u32 fuzzt_ms, struct torture_random_state *trsp);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Task shuffler, which causes CPUs to occasionally go idle. */
 void torture_shuffle_task_register(struct task_struct *tp);
 int torture_shuffle_init(long shuffint);

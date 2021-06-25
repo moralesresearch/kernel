@@ -34,6 +34,10 @@ static bool ath9k_hw_set_reset_reg(struct ath_hw *ah, u32 type);
 
 MODULE_AUTHOR("Atheros Communications");
 MODULE_DESCRIPTION("Support for Atheros 802.11n wireless LAN cards.");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Atheros 802.11n WLAN cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("Dual BSD/GPL");
 
 static void ath9k_hw_set_clockrate(struct ath_hw *ah)
@@ -286,7 +290,11 @@ static bool ath9k_hw_read_revisions(struct ath_hw *ah)
 
 	srev = REG_READ(ah, AR_SREV);
 
+<<<<<<< HEAD
 	if (srev == -1) {
+=======
+	if (srev == -EIO) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ath_err(ath9k_hw_common(ah),
 			"Failed to read SREV register");
 		return false;

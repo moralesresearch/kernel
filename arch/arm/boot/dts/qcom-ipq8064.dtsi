@@ -20,7 +20,11 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
+<<<<<<< HEAD
 		cpu0: cpu@0 {
+=======
+		cpu@0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,krait";
 			enable-method = "qcom,kpss-acc-v1";
 			device_type = "cpu";
@@ -30,7 +34,11 @@
 			qcom,saw = <&saw0>;
 		};
 
+<<<<<<< HEAD
 		cpu1: cpu@1 {
+=======
+		cpu@1 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,krait";
 			enable-method = "qcom,kpss-acc-v1";
 			device_type = "cpu";
@@ -67,7 +75,11 @@
 			no-map;
 		};
 
+<<<<<<< HEAD
 		smem: smem@41000000 {
+=======
+		smem@41000000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			reg = <0x41000000 0x200000>;
 			no-map;
 		};
@@ -251,7 +263,11 @@
 
 			syscon-tcsr = <&tcsr>;
 
+<<<<<<< HEAD
 			gsbi2_serial: serial@12490000 {
+=======
+			serial@12490000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				compatible = "qcom,msm-uartdm-v1.3", "qcom,msm-uartdm";
 				reg = <0x12490000 0x1000>,
 				      <0x12480000 0x1000>;
@@ -273,6 +289,10 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 			};
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		gsbi4: gsbi@16300000 {
@@ -325,7 +345,11 @@
 
 			syscon-tcsr = <&tcsr>;
 
+<<<<<<< HEAD
 			gsbi5_serial: serial@1a240000 {
+=======
+			serial@1a240000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				compatible = "qcom,msm-uartdm-v1.3", "qcom,msm-uartdm";
 				reg = <0x1a240000 0x1000>,
 				      <0x1a200000 0x1000>;
@@ -385,6 +409,7 @@
 			};
 		};
 
+<<<<<<< HEAD
 		rng@1a500000 {
 			compatible = "qcom,prng";
 			reg = <0x1a500000 0x200>;
@@ -392,6 +417,8 @@
 			clock-names = "core";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sata_phy: sata-phy@1b400000 {
 			compatible = "qcom,ipq806x-sata-phy";
 			reg = <0x1b400000 0x200>;
@@ -403,7 +430,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		sata: sata@29000000 {
+=======
+		sata@29000000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,ipq806x-ahci", "generic-ahci";
 			reg = <0x29000000 0x180>;
 
@@ -726,7 +757,11 @@
 			regulator-always-on;
 		};
 
+<<<<<<< HEAD
 		sdcc1bam: dma@12402000 {
+=======
+		sdcc1bam:dma@12402000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,bam-v1.3.0";
 			reg = <0x12402000 0x8000>;
 			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
@@ -736,7 +771,11 @@
 			qcom,ee = <0>;
 		};
 
+<<<<<<< HEAD
 		sdcc3bam: dma@12182000 {
+=======
+		sdcc3bam:dma@12182000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,bam-v1.3.0";
 			reg = <0x12182000 0x8000>;
 			interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
@@ -746,13 +785,21 @@
 			qcom,ee = <0>;
 		};
 
+<<<<<<< HEAD
 		amba: amba {
+=======
+		amba {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "simple-bus";
 			#address-cells = <1>;
 			#size-cells = <1>;
 			ranges;
 
+<<<<<<< HEAD
 			sdcc1: sdcc@12400000 {
+=======
+			sdcc@12400000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				status          = "disabled";
 				compatible      = "arm,pl18x", "arm,primecell";
 				arm,primecell-periphid = <0x00051180>;
@@ -772,7 +819,11 @@
 				dma-names = "tx", "rx";
 			};
 
+<<<<<<< HEAD
 			sdcc3: sdcc@12180000 {
+=======
+			sdcc@12180000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				compatible      = "arm,pl18x", "arm,primecell";
 				arm,primecell-periphid = <0x00051180>;
 				status          = "disabled";
@@ -785,6 +836,10 @@
 				cap-sd-highspeed;
 				cap-mmc-highspeed;
 				max-frequency   = <192000000>;
+<<<<<<< HEAD
+=======
+				#mmc-ddr-1_8v;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				sd-uhs-sdr104;
 				sd-uhs-ddr50;
 				vqmmc-supply = <&vsdcc_fixed>;

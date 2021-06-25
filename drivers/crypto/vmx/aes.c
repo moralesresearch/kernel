@@ -14,7 +14,10 @@
 #include <asm/simd.h>
 #include <asm/switch_to.h>
 #include <crypto/aes.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/simd.h>
 
 #include "aesp8-ppc.h"

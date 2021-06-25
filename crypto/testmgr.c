@@ -33,13 +33,19 @@
 #include <crypto/akcipher.h>
 #include <crypto/kpp.h>
 #include <crypto/acompress.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/simd.h>
 
 #include "internal.h"
 
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool notests;
 module_param(notests, bool, 0644);
 MODULE_PARM_DESC(notests, "disable crypto self-tests");
@@ -4877,6 +4883,15 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.cipher = __VECS(tea_tv_template)
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "ecb(tnepres)",
+		.test = alg_test_skcipher,
+		.suite = {
+			.cipher = __VECS(tnepres_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "ecb(twofish)",
 		.test = alg_test_skcipher,
 		.suite = {
@@ -4952,6 +4967,15 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.hash = __VECS(hmac_md5_tv_template)
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "hmac(rmd128)",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(hmac_rmd128_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "hmac(rmd160)",
 		.test = alg_test_hash,
 		.suite = {
@@ -5264,12 +5288,36 @@ static const struct alg_test_desc alg_test_descs[] = {
 			}
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "rmd128",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(rmd128_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "rmd160",
 		.test = alg_test_hash,
 		.suite = {
 			.hash = __VECS(rmd160_tv_template)
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "rmd256",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(rmd256_tv_template)
+		}
+	}, {
+		.alg = "rmd320",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(rmd320_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "rsa",
 		.test = alg_test_akcipher,
 		.fips_allowed = 1,
@@ -5277,6 +5325,15 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.akcipher = __VECS(rsa_tv_template)
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "salsa20",
+		.test = alg_test_skcipher,
+		.suite = {
+			.cipher = __VECS(salsa20_stream_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "sha1",
 		.test = alg_test_hash,
 		.fips_allowed = 1,
@@ -5364,6 +5421,27 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.hash = __VECS(streebog512_tv_template)
 		}
 	}, {
+<<<<<<< HEAD
+=======
+		.alg = "tgr128",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(tgr128_tv_template)
+		}
+	}, {
+		.alg = "tgr160",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(tgr160_tv_template)
+		}
+	}, {
+		.alg = "tgr192",
+		.test = alg_test_hash,
+		.suite = {
+			.hash = __VECS(tgr192_tv_template)
+		}
+	}, {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "vmac64(aes)",
 		.test = alg_test_hash,
 		.suite = {

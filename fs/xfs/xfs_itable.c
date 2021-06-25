@@ -54,12 +54,18 @@ struct xfs_bstat_chunk {
 STATIC int
 xfs_bulkstat_one_int(
 	struct xfs_mount	*mp,
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_trans	*tp,
 	xfs_ino_t		ino,
 	struct xfs_bstat_chunk	*bc)
 {
+<<<<<<< HEAD
 	struct user_namespace	*sb_userns = mp->m_super->s_user_ns;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_icdinode	*dic;		/* dinode core info pointer */
 	struct xfs_inode	*ip;		/* incore inode pointer */
 	struct inode		*inode;
@@ -88,8 +94,13 @@ xfs_bulkstat_one_int(
 	 */
 	buf->bs_projectid = ip->i_d.di_projid;
 	buf->bs_ino = ino;
+<<<<<<< HEAD
 	buf->bs_uid = from_kuid(sb_userns, i_uid_into_mnt(mnt_userns, inode));
 	buf->bs_gid = from_kgid(sb_userns, i_gid_into_mnt(mnt_userns, inode));
+=======
+	buf->bs_uid = i_uid_read(inode);
+	buf->bs_gid = i_gid_read(inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	buf->bs_size = dic->di_size;
 
 	buf->bs_nlink = inode->i_nlink;
@@ -168,12 +179,15 @@ xfs_bulkstat_one(
 	};
 	int			error;
 
+<<<<<<< HEAD
 	if (breq->mnt_userns != &init_user_ns) {
 		xfs_warn_ratelimited(breq->mp,
 			"bulkstat not supported inside of idmapped mounts.");
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ASSERT(breq->icount == 1);
 
 	bc.buf = kmem_zalloc(sizeof(struct xfs_bulkstat),
@@ -181,8 +195,12 @@ xfs_bulkstat_one(
 	if (!bc.buf)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	error = xfs_bulkstat_one_int(breq->mp, breq->mnt_userns, NULL,
 				     breq->startino, &bc);
+=======
+	error = xfs_bulkstat_one_int(breq->mp, NULL, breq->startino, &bc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kmem_free(bc.buf);
 
@@ -203,10 +221,16 @@ xfs_bulkstat_iwalk(
 	xfs_ino_t		ino,
 	void			*data)
 {
+<<<<<<< HEAD
 	struct xfs_bstat_chunk	*bc = data;
 	int			error;
 
 	error = xfs_bulkstat_one_int(mp, bc->breq->mnt_userns, tp, ino, data);
+=======
+	int			error;
+
+	error = xfs_bulkstat_one_int(mp, tp, ino, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* bulkstat just skips over missing inodes */
 	if (error == -ENOENT || error == -EINVAL)
 		return 0;
@@ -249,11 +273,14 @@ xfs_bulkstat(
 	};
 	int			error;
 
+<<<<<<< HEAD
 	if (breq->mnt_userns != &init_user_ns) {
 		xfs_warn_ratelimited(breq->mp,
 			"bulkstat not supported inside of idmapped mounts.");
 		return -EINVAL;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (xfs_bulkstat_already_done(breq->mp, breq->startino))
 		return 0;
 

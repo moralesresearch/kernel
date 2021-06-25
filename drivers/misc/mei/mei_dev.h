@@ -57,7 +57,10 @@ enum mei_dev_state {
 	MEI_DEV_ENABLED,
 	MEI_DEV_RESETTING,
 	MEI_DEV_DISABLED,
+<<<<<<< HEAD
 	MEI_DEV_POWERING_DOWN,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MEI_DEV_POWER_DOWN,
 	MEI_DEV_POWER_UP
 };
@@ -79,8 +82,11 @@ enum mei_file_transaction_states {
  * @MEI_FOP_DISCONNECT_RSP: disconnect response
  * @MEI_FOP_NOTIFY_START:   start notification
  * @MEI_FOP_NOTIFY_STOP:    stop notification
+<<<<<<< HEAD
  * @MEI_FOP_DMA_MAP:   request client dma map
  * @MEI_FOP_DMA_UNMAP: request client dma unmap
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum mei_cb_file_ops {
 	MEI_FOP_READ = 0,
@@ -90,8 +96,11 @@ enum mei_cb_file_ops {
 	MEI_FOP_DISCONNECT_RSP,
 	MEI_FOP_NOTIFY_START,
 	MEI_FOP_NOTIFY_STOP,
+<<<<<<< HEAD
 	MEI_FOP_DMA_MAP,
 	MEI_FOP_DMA_UNMAP,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -117,6 +126,7 @@ struct mei_msg_data {
 	unsigned char *data;
 };
 
+<<<<<<< HEAD
 struct mei_dma_data {
 	u8 buffer_id;
 	void *vaddr;
@@ -124,6 +134,8 @@ struct mei_dma_data {
 	size_t size;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct mei_dma_dscr - dma address descriptor
  *
@@ -247,8 +259,11 @@ struct mei_cl_vtag {
  * @rd_pending: pending read credits
  * @rd_completed_lock: protects rd_completed queue
  * @rd_completed: completed read
+<<<<<<< HEAD
  * @dma: dma settings
  * @dma_mapped: dma buffer is currently mapped.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @cldev: device on the mei client bus
  */
@@ -276,8 +291,11 @@ struct mei_cl {
 	struct list_head rd_pending;
 	spinlock_t rd_completed_lock; /* protects rd_completed queue */
 	struct list_head rd_completed;
+<<<<<<< HEAD
 	struct mei_dma_data dma;
 	u8 dma_mapped;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct mei_cl_device *cldev;
 };
@@ -466,7 +484,10 @@ struct mei_fw_version {
  * @hbm_f_dr_supported  : hbm feature dma ring supported
  * @hbm_f_vt_supported  : hbm feature vtag supported
  * @hbm_f_cap_supported : hbm feature capabilities message supported
+<<<<<<< HEAD
  * @hbm_f_cd_supported  : hbm feature client dma supported
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @fw_ver : FW versions
  *
@@ -554,7 +575,10 @@ struct mei_device {
 	unsigned int hbm_f_dr_supported:1;
 	unsigned int hbm_f_vt_supported:1;
 	unsigned int hbm_f_cap_supported:1;
+<<<<<<< HEAD
 	unsigned int hbm_f_cd_supported:1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct mei_fw_version fw_ver[MEI_MAX_FW_VER_BLOCKS];
 

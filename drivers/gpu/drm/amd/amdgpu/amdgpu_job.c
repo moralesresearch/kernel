@@ -271,7 +271,11 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
 	}
 
 	/* Signal all jobs already scheduled to HW */
+<<<<<<< HEAD
 	list_for_each_entry(s_job, &sched->pending_list, list) {
+=======
+	list_for_each_entry(s_job, &sched->ring_mirror_list, node) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct drm_sched_fence *s_fence = s_job->s_fence;
 
 		dma_fence_set_error(&s_fence->finished, -EHWPOISON);

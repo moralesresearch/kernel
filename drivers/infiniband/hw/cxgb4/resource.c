@@ -216,7 +216,11 @@ u32 c4iw_get_qpid(struct c4iw_rdev *rdev, struct c4iw_dev_ucontext *uctx)
 			goto out;
 		entry->qid = qid;
 		list_add_tail(&entry->entry, &uctx->cqids);
+<<<<<<< HEAD
 		for (i = qid + 1; i & rdev->qpmask; i++) {
+=======
+		for (i = qid; i & rdev->qpmask; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			entry = kmalloc(sizeof(*entry), GFP_KERNEL);
 			if (!entry)
 				goto out;

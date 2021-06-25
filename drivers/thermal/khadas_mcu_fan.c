@@ -100,6 +100,10 @@ static int khadas_mcu_fan_probe(struct platform_device *pdev)
 		return ret;
 	}
 	ctx->cdev = cdev;
+<<<<<<< HEAD
+=======
+	thermal_cdev_update(cdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

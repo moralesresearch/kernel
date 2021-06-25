@@ -163,7 +163,11 @@ this documentation.
 	err = phylink_of_phy_connect(priv->phylink, node, flags);
 
    For the most part, ``flags`` can be zero; these flags are passed to
+<<<<<<< HEAD
    the phy_attach_direct() inside this function call if a PHY is specified
+=======
+   the of_phy_attach() inside this function call if a PHY is specified
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    in the DT node ``node``.
 
    ``node`` should be the DT node which contains the network phy property,

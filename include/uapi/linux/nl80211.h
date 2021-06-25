@@ -1963,6 +1963,7 @@ enum nl80211_commands {
  * @NL80211_ATTR_PROBE_RESP: Probe Response template data. Contains the entire
  *	probe-response frame. The DA field in the 802.11 header is zero-ed out,
  *	to be filled by the FW.
+<<<<<<< HEAD
  * @NL80211_ATTR_DISABLE_HT: Force HT capable interfaces to disable
  *      this feature during association. This is a flag attribute.
  *	Currently only supported in mac80211 drivers.
@@ -1972,6 +1973,10 @@ enum nl80211_commands {
  * @NL80211_ATTR_DISABLE_HE: Force HE capable interfaces to disable
  *      this feature during association. This is a flag attribute.
  *	Currently only supported in mac80211 drivers.
+=======
+ * @NL80211_ATTR_DISABLE_HT:  Force HT capable interfaces to disable
+ *      this feature.  Currently, only supported in mac80211 drivers.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @NL80211_ATTR_HT_CAPABILITY_MASK: Specify which bits of the
  *      ATTR_HT_CAPABILITY to which attention should be paid.
  *      Currently, only mac80211 NICs support this feature.
@@ -3052,8 +3057,11 @@ enum nl80211_attrs {
 
 	NL80211_ATTR_SAR_SPEC,
 
+<<<<<<< HEAD
 	NL80211_ATTR_DISABLE_HE,
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* add attributes here, update the policy in nl80211.c */
 
 	__NL80211_ATTR_AFTER_LAST,

@@ -70,15 +70,32 @@ struct vfio_iommu {
 	struct rb_root		dma_list;
 	struct blocking_notifier_head notifier;
 	unsigned int		dma_avail;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int		vaddr_invalid_count;
 	uint64_t		pgsize_bitmap;
 	uint64_t		num_non_pinned_groups;
 	wait_queue_head_t	vaddr_wait;
+<<<<<<< HEAD
+=======
+=======
+	uint64_t		pgsize_bitmap;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			v2;
 	bool			nesting;
 	bool			dirty_page_tracking;
 	bool			pinned_page_dirty_scope;
+<<<<<<< HEAD
 	bool			container_open;
+=======
+<<<<<<< HEAD
+	bool			container_open;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct vfio_domain {
@@ -97,12 +114,23 @@ struct vfio_dma {
 	int			prot;		/* IOMMU_READ/WRITE */
 	bool			iommu_mapped;
 	bool			lock_cap;	/* capable(CAP_IPC_LOCK) */
+<<<<<<< HEAD
 	bool			vaddr_invalid;
+=======
+<<<<<<< HEAD
+	bool			vaddr_invalid;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct task_struct	*task;
 	struct rb_root		pfn_list;	/* Ex-user pinned pfn list */
 	unsigned long		*bitmap;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vfio_batch {
 	struct page		**pages;	/* for pin_user_pages_remote */
 	struct page		*fallback_page; /* if pages alloc fails */
@@ -111,6 +139,11 @@ struct vfio_batch {
 	int			offset;		/* of next entry in pages */
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vfio_group {
 	struct iommu_group	*iommu_group;
 	struct list_head	next;
@@ -157,13 +190,28 @@ struct vfio_regions {
 #define DIRTY_BITMAP_PAGES_MAX	 ((u64)INT_MAX)
 #define DIRTY_BITMAP_SIZE_MAX	 DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
 
+<<<<<<< HEAD
 #define WAITED 1
 
+=======
+<<<<<<< HEAD
+#define WAITED 1
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int put_pfn(unsigned long pfn, int prot);
 
 static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
 					       struct iommu_group *iommu_group);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This code handles mapping and unmapping of user data buffers
  * into DMA'ble space using the IOMMU
@@ -188,6 +236,10 @@ static struct vfio_dma *vfio_find_dma(struct vfio_iommu *iommu,
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct rb_node *vfio_find_dma_first_node(struct vfio_iommu *iommu,
 						dma_addr_t start, u64 size)
 {
@@ -213,6 +265,11 @@ static struct rb_node *vfio_find_dma_first_node(struct vfio_iommu *iommu,
 	return res;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void vfio_link_dma(struct vfio_iommu *iommu, struct vfio_dma *new)
 {
 	struct rb_node **link = &iommu->dma_list.rb_node, *parent = NULL;
@@ -467,6 +524,10 @@ static int put_pfn(unsigned long pfn, int prot)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define VFIO_BATCH_MAX_CAPACITY (PAGE_SIZE / sizeof(struct page *))
 
 static void vfio_batch_init(struct vfio_batch *batch)
@@ -506,6 +567,11 @@ static void vfio_batch_fini(struct vfio_batch *batch)
 		free_page((unsigned long)batch->pages);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int follow_fault_pfn(struct vm_area_struct *vma, struct mm_struct *mm,
 			    unsigned long vaddr, unsigned long *pfn,
 			    bool write_fault)
@@ -542,6 +608,10 @@ static int follow_fault_pfn(struct vm_area_struct *vma, struct mm_struct *mm,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Returns the positive number of pfns successfully obtained or a negative
  * error code.
@@ -550,6 +620,15 @@ static int vaddr_get_pfns(struct mm_struct *mm, unsigned long vaddr,
 			  long npages, int prot, unsigned long *pfn,
 			  struct page **pages)
 {
+<<<<<<< HEAD
+=======
+=======
+static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
+			 int prot, unsigned long *pfn)
+{
+	struct page *page[1];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vm_area_struct *vma;
 	unsigned int flags = 0;
 	int ret;
@@ -558,10 +637,24 @@ static int vaddr_get_pfns(struct mm_struct *mm, unsigned long vaddr,
 		flags |= FOLL_WRITE;
 
 	mmap_read_lock(mm);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = pin_user_pages_remote(mm, vaddr, npages, flags | FOLL_LONGTERM,
 				    pages, NULL, NULL);
 	if (ret > 0) {
 		*pfn = page_to_pfn(pages[0]);
+<<<<<<< HEAD
+=======
+=======
+	ret = pin_user_pages_remote(mm, vaddr, 1, flags | FOLL_LONGTERM,
+				    page, NULL, NULL);
+	if (ret == 1) {
+		*pfn = page_to_pfn(page[0]);
+		ret = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto done;
 	}
 
@@ -575,18 +668,33 @@ retry:
 		if (ret == -EAGAIN)
 			goto retry;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret) {
 			if (is_invalid_reserved_pfn(*pfn))
 				ret = 1;
 			else
 				ret = -EFAULT;
 		}
+<<<<<<< HEAD
+=======
+=======
+		if (!ret && !is_invalid_reserved_pfn(*pfn))
+			ret = -EFAULT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 done:
 	mmap_read_unlock(mm);
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vfio_wait(struct vfio_iommu *iommu)
 {
 	DEFINE_WAIT(wait);
@@ -642,6 +750,11 @@ static int vfio_wait_all_valid(struct vfio_iommu *iommu)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Attempt to pin pages.  We really don't want to track all the pfns and
  * the iommu can only map chunks of consecutive pfns anyway, so get the
@@ -649,15 +762,31 @@ static int vfio_wait_all_valid(struct vfio_iommu *iommu)
  */
 static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
 				  long npage, unsigned long *pfn_base,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  unsigned long limit, struct vfio_batch *batch)
 {
 	unsigned long pfn;
 	struct mm_struct *mm = current->mm;
+<<<<<<< HEAD
+=======
+=======
+				  unsigned long limit)
+{
+	unsigned long pfn = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	long ret, pinned = 0, lock_acct = 0;
 	bool rsvd;
 	dma_addr_t iova = vaddr - dma->vaddr + dma->iova;
 
 	/* This code path is only user initiated */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mm)
 		return -ENODEV;
 
@@ -733,12 +862,72 @@ static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
 
 		if (unlikely(disable_hugepages))
 			break;
+<<<<<<< HEAD
+=======
+=======
+	if (!current->mm)
+		return -ENODEV;
+
+	ret = vaddr_get_pfn(current->mm, vaddr, dma->prot, pfn_base);
+	if (ret)
+		return ret;
+
+	pinned++;
+	rsvd = is_invalid_reserved_pfn(*pfn_base);
+
+	/*
+	 * Reserved pages aren't counted against the user, externally pinned
+	 * pages are already counted against the user.
+	 */
+	if (!rsvd && !vfio_find_vpfn(dma, iova)) {
+		if (!dma->lock_cap && current->mm->locked_vm + 1 > limit) {
+			put_pfn(*pfn_base, dma->prot);
+			pr_warn("%s: RLIMIT_MEMLOCK (%ld) exceeded\n", __func__,
+					limit << PAGE_SHIFT);
+			return -ENOMEM;
+		}
+		lock_acct++;
+	}
+
+	if (unlikely(disable_hugepages))
+		goto out;
+
+	/* Lock all the consecutive pages from pfn_base */
+	for (vaddr += PAGE_SIZE, iova += PAGE_SIZE; pinned < npage;
+	     pinned++, vaddr += PAGE_SIZE, iova += PAGE_SIZE) {
+		ret = vaddr_get_pfn(current->mm, vaddr, dma->prot, &pfn);
+		if (ret)
+			break;
+
+		if (pfn != *pfn_base + pinned ||
+		    rsvd != is_invalid_reserved_pfn(pfn)) {
+			put_pfn(pfn, dma->prot);
+			break;
+		}
+
+		if (!rsvd && !vfio_find_vpfn(dma, iova)) {
+			if (!dma->lock_cap &&
+			    current->mm->locked_vm + lock_acct + 1 > limit) {
+				put_pfn(pfn, dma->prot);
+				pr_warn("%s: RLIMIT_MEMLOCK (%ld) exceeded\n",
+					__func__, limit << PAGE_SHIFT);
+				ret = -ENOMEM;
+				goto unpin_out;
+			}
+			lock_acct++;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 out:
 	ret = vfio_lock_acct(dma, lock_acct, false);
 
 unpin_out:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (batch->size == 1 && !batch->offset) {
 		/* May be a VM_PFNMAP pfn, which the batch can't remember. */
 		put_pfn(pfn, dma->prot);
@@ -751,6 +940,16 @@ unpin_out:
 				put_pfn(pfn, dma->prot);
 		}
 		vfio_batch_unpin(batch, dma);
+<<<<<<< HEAD
+=======
+=======
+	if (ret) {
+		if (!rsvd) {
+			for (pfn = *pfn_base ; pinned ; pfn++, pinned--)
+				put_pfn(pfn, dma->prot);
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return ret;
 	}
@@ -782,7 +981,14 @@ static long vfio_unpin_pages_remote(struct vfio_dma *dma, dma_addr_t iova,
 static int vfio_pin_page_external(struct vfio_dma *dma, unsigned long vaddr,
 				  unsigned long *pfn_base, bool do_accounting)
 {
+<<<<<<< HEAD
 	struct page *pages[1];
+=======
+<<<<<<< HEAD
+	struct page *pages[1];
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mm_struct *mm;
 	int ret;
 
@@ -790,6 +996,10 @@ static int vfio_pin_page_external(struct vfio_dma *dma, unsigned long vaddr,
 	if (!mm)
 		return -ENODEV;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = vaddr_get_pfns(mm, vaddr, 1, dma->prot, pfn_base, pages);
 	if (ret != 1)
 		goto out;
@@ -797,6 +1007,13 @@ static int vfio_pin_page_external(struct vfio_dma *dma, unsigned long vaddr,
 	ret = 0;
 
 	if (do_accounting && !is_invalid_reserved_pfn(*pfn_base)) {
+<<<<<<< HEAD
+=======
+=======
+	ret = vaddr_get_pfn(mm, vaddr, dma->prot, pfn_base);
+	if (!ret && do_accounting && !is_invalid_reserved_pfn(*pfn_base)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = vfio_lock_acct(dma, 1, true);
 		if (ret) {
 			put_pfn(*pfn_base, dma->prot);
@@ -808,7 +1025,14 @@ static int vfio_pin_page_external(struct vfio_dma *dma, unsigned long vaddr,
 		}
 	}
 
+<<<<<<< HEAD
 out:
+=======
+<<<<<<< HEAD
+out:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmput(mm);
 	return ret;
 }
@@ -842,7 +1066,14 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
 	unsigned long remote_vaddr;
 	struct vfio_dma *dma;
 	bool do_accounting;
+<<<<<<< HEAD
 	dma_addr_t iova;
+=======
+<<<<<<< HEAD
+	dma_addr_t iova;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!iommu || !user_pfn || !phys_pfn)
 		return -EINVAL;
@@ -853,6 +1084,10 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
 
 	mutex_lock(&iommu->lock);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Wait for all necessary vaddr's to be valid so they can be used in
 	 * the main loop without dropping the lock, to avoid racing vs unmap.
@@ -869,6 +1104,11 @@ again:
 		}
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Fail if notifier list is empty */
 	if (!iommu->notifier.head) {
 		ret = -EINVAL;
@@ -883,6 +1123,13 @@ again:
 	do_accounting = !IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu);
 
 	for (i = 0; i < npage; i++) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		dma_addr_t iova;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct vfio_pfn *vpfn;
 
 		iova = user_pfn[i] << PAGE_SHIFT;
@@ -932,7 +1179,15 @@ again:
 	group = vfio_iommu_find_iommu_group(iommu, iommu_group);
 	if (!group->pinned_page_dirty_scope) {
 		group->pinned_page_dirty_scope = true;
+<<<<<<< HEAD
 		iommu->num_non_pinned_groups--;
+=======
+<<<<<<< HEAD
+		iommu->num_non_pinned_groups--;
+=======
+		update_pinned_page_dirty_scope(iommu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	goto pin_done;
@@ -1168,10 +1423,19 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
 	vfio_unlink_dma(iommu, dma);
 	put_task_struct(dma->task);
 	vfio_dma_bitmap_free(dma);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dma->vaddr_invalid) {
 		iommu->vaddr_invalid_count--;
 		wake_up_all(&iommu->vaddr_wait);
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(dma);
 	iommu->dma_avail++;
 }
@@ -1214,7 +1478,15 @@ static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
 	 * mark all pages dirty if any IOMMU capable device is not able
 	 * to report dirty pages and all pages are pinned and mapped.
 	 */
+<<<<<<< HEAD
 	if (iommu->num_non_pinned_groups && dma->iommu_mapped)
+=======
+<<<<<<< HEAD
+	if (iommu->num_non_pinned_groups && dma->iommu_mapped)
+=======
+	if (!iommu->pinned_page_dirty_scope && dma->iommu_mapped)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bitmap_set(dma->bitmap, 0, nbits);
 
 	if (shift) {
@@ -1297,6 +1569,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
 {
 	struct vfio_dma *dma, *dma_last = NULL;
 	size_t unmapped = 0, pgsize;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = -EINVAL, retries = 0;
 	unsigned long pgshift;
 	dma_addr_t iova = unmap->iova;
@@ -1304,12 +1580,23 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
 	bool unmap_all = unmap->flags & VFIO_DMA_UNMAP_FLAG_ALL;
 	bool invalidate_vaddr = unmap->flags & VFIO_DMA_UNMAP_FLAG_VADDR;
 	struct rb_node *n, *first_n;
+<<<<<<< HEAD
+=======
+=======
+	int ret = 0, retries = 0;
+	unsigned long pgshift;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&iommu->lock);
 
 	pgshift = __ffs(iommu->pgsize_bitmap);
 	pgsize = (size_t)1 << pgshift;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (iova & (pgsize - 1))
 		goto unlock;
 
@@ -1319,12 +1606,37 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
 		size = U64_MAX;
 	} else if (!size || size & (pgsize - 1) ||
 		   iova + size - 1 < iova || size > SIZE_MAX) {
+<<<<<<< HEAD
+=======
+=======
+	if (unmap->iova & (pgsize - 1)) {
+		ret = -EINVAL;
+		goto unlock;
+	}
+
+	if (!unmap->size || unmap->size & (pgsize - 1)) {
+		ret = -EINVAL;
+		goto unlock;
+	}
+
+	if (unmap->iova + unmap->size - 1 < unmap->iova ||
+	    unmap->size > SIZE_MAX) {
+		ret = -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unlock;
 	}
 
 	/* When dirty tracking is enabled, allow only min supported pgsize */
 	if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
 	    (!iommu->dirty_page_tracking || (bitmap->pgsize != pgsize))) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		ret = -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unlock;
 	}
 
@@ -1361,6 +1673,10 @@ again:
 	 * will only return success and a size of zero if there were no
 	 * mappings within the range.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (iommu->v2 && !unmap_all) {
 		dma = vfio_find_dma(iommu, iova, 1);
 		if (dma && dma->iova != iova)
@@ -1380,6 +1696,26 @@ again:
 			break;
 
 		if (!iommu->v2 && iova > dma->iova)
+<<<<<<< HEAD
+=======
+=======
+	if (iommu->v2) {
+		dma = vfio_find_dma(iommu, unmap->iova, 1);
+		if (dma && dma->iova != unmap->iova) {
+			ret = -EINVAL;
+			goto unlock;
+		}
+		dma = vfio_find_dma(iommu, unmap->iova + unmap->size - 1, 0);
+		if (dma && dma->iova + dma->size != unmap->iova + unmap->size) {
+			ret = -EINVAL;
+			goto unlock;
+		}
+	}
+
+	while ((dma = vfio_find_dma(iommu, unmap->iova, unmap->size))) {
+		if (!iommu->v2 && unmap->iova > dma->iova)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		/*
 		 * Task with same address space who mapped this iova range is
@@ -1388,6 +1724,10 @@ again:
 		if (dma->task->mm != current->mm)
 			break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (invalidate_vaddr) {
 			if (dma->vaddr_invalid) {
 				struct rb_node *last_n = n;
@@ -1409,6 +1749,11 @@ again:
 			continue;
 		}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!RB_EMPTY_ROOT(&dma->pfn_list)) {
 			struct vfio_iommu_type1_dma_unmap nb_unmap;
 
@@ -1438,13 +1783,28 @@ again:
 
 		if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
 			ret = update_user_bitmap(bitmap->data, iommu, dma,
+<<<<<<< HEAD
 						 iova, pgsize);
+=======
+<<<<<<< HEAD
+						 iova, pgsize);
+=======
+						 unmap->iova, pgsize);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret)
 				break;
 		}
 
 		unmapped += dma->size;
+<<<<<<< HEAD
 		n = rb_next(n);
+=======
+<<<<<<< HEAD
+		n = rb_next(n);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vfio_remove_dma(iommu, dma);
 	}
 
@@ -1488,12 +1848,23 @@ static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
 {
 	dma_addr_t iova = dma->iova;
 	unsigned long vaddr = dma->vaddr;
+<<<<<<< HEAD
 	struct vfio_batch batch;
+=======
+<<<<<<< HEAD
+	struct vfio_batch batch;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	size_t size = map_size;
 	long npage;
 	unsigned long pfn, limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
 	int ret = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vfio_batch_init(&batch);
 
 	while (size) {
@@ -1501,6 +1872,15 @@ static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
 		npage = vfio_pin_pages_remote(dma, vaddr + dma->size,
 					      size >> PAGE_SHIFT, &pfn, limit,
 					      &batch);
+<<<<<<< HEAD
+=======
+=======
+	while (size) {
+		/* Pin a contiguous chunk of memory */
+		npage = vfio_pin_pages_remote(dma, vaddr + dma->size,
+					      size >> PAGE_SHIFT, &pfn, limit);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (npage <= 0) {
 			WARN_ON(!npage);
 			ret = (int)npage;
@@ -1513,7 +1893,14 @@ static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
 		if (ret) {
 			vfio_unpin_pages_remote(dma, iova + dma->size, pfn,
 						npage, true);
+<<<<<<< HEAD
 			vfio_batch_unpin(&batch, dma);
+=======
+<<<<<<< HEAD
+			vfio_batch_unpin(&batch, dma);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 
@@ -1521,7 +1908,14 @@ static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
 		dma->size += npage << PAGE_SHIFT;
 	}
 
+<<<<<<< HEAD
 	vfio_batch_fini(&batch);
+=======
+<<<<<<< HEAD
+	vfio_batch_fini(&batch);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma->iommu_mapped = true;
 
 	if (ret)
@@ -1554,7 +1948,14 @@ static bool vfio_iommu_iova_dma_valid(struct vfio_iommu *iommu,
 static int vfio_dma_do_map(struct vfio_iommu *iommu,
 			   struct vfio_iommu_type1_dma_map *map)
 {
+<<<<<<< HEAD
 	bool set_vaddr = map->flags & VFIO_DMA_MAP_FLAG_VADDR;
+=======
+<<<<<<< HEAD
+	bool set_vaddr = map->flags & VFIO_DMA_MAP_FLAG_VADDR;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma_addr_t iova = map->iova;
 	unsigned long vaddr = map->vaddr;
 	size_t size = map->size;
@@ -1572,16 +1973,33 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
 	if (map->flags & VFIO_DMA_MAP_FLAG_READ)
 		prot |= IOMMU_READ;
 
+<<<<<<< HEAD
 	if ((prot && set_vaddr) || (!prot && !set_vaddr))
 		return -EINVAL;
 
+=======
+<<<<<<< HEAD
+	if ((prot && set_vaddr) || (!prot && !set_vaddr))
+		return -EINVAL;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&iommu->lock);
 
 	pgsize = (size_t)1 << __ffs(iommu->pgsize_bitmap);
 
 	WARN_ON((pgsize - 1) & PAGE_MASK);
 
+<<<<<<< HEAD
 	if (!size || (size | iova | vaddr) & (pgsize - 1)) {
+=======
+<<<<<<< HEAD
+	if (!size || (size | iova | vaddr) & (pgsize - 1)) {
+=======
+	if (!prot || !size || (size | iova | vaddr) & (pgsize - 1)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EINVAL;
 		goto out_unlock;
 	}
@@ -1592,6 +2010,10 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
 		goto out_unlock;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma = vfio_find_dma(iommu, iova, size);
 	if (set_vaddr) {
 		if (!dma) {
@@ -1607,6 +2029,12 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
 		}
 		goto out_unlock;
 	} else if (dma) {
+<<<<<<< HEAD
+=======
+=======
+	if (vfio_find_dma(iommu, iova, size)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EEXIST;
 		goto out_unlock;
 	}
@@ -1698,23 +2126,47 @@ static int vfio_bus_type(struct device *dev, void *data)
 static int vfio_iommu_replay(struct vfio_iommu *iommu,
 			     struct vfio_domain *domain)
 {
+<<<<<<< HEAD
 	struct vfio_batch batch;
+=======
+<<<<<<< HEAD
+	struct vfio_batch batch;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vfio_domain *d = NULL;
 	struct rb_node *n;
 	unsigned long limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
 	int ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = vfio_wait_all_valid(iommu);
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Arbitrarily pick the first domain in the list for lookups */
 	if (!list_empty(&iommu->domain_list))
 		d = list_first_entry(&iommu->domain_list,
 				     struct vfio_domain, next);
 
+<<<<<<< HEAD
 	vfio_batch_init(&batch);
 
+=======
+<<<<<<< HEAD
+	vfio_batch_init(&batch);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	n = rb_first(&iommu->dma_list);
 
 	for (; n; n = rb_next(n)) {
@@ -1762,8 +2214,17 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
 
 				npage = vfio_pin_pages_remote(dma, vaddr,
 							      n >> PAGE_SHIFT,
+<<<<<<< HEAD
 							      &pfn, limit,
 							      &batch);
+=======
+<<<<<<< HEAD
+							      &pfn, limit,
+							      &batch);
+=======
+							      &pfn, limit);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (npage <= 0) {
 					WARN_ON(!npage);
 					ret = (int)npage;
@@ -1777,13 +2238,29 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
 			ret = iommu_map(domain->domain, iova, phys,
 					size, dma->prot | domain->prot);
 			if (ret) {
+<<<<<<< HEAD
 				if (!dma->iommu_mapped) {
+=======
+<<<<<<< HEAD
+				if (!dma->iommu_mapped) {
+=======
+				if (!dma->iommu_mapped)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					vfio_unpin_pages_remote(dma, iova,
 							phys >> PAGE_SHIFT,
 							size >> PAGE_SHIFT,
 							true);
+<<<<<<< HEAD
 					vfio_batch_unpin(&batch, dma);
 				}
+=======
+<<<<<<< HEAD
+					vfio_batch_unpin(&batch, dma);
+				}
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto unwind;
 			}
 
@@ -1798,7 +2275,14 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
 		dma->iommu_mapped = true;
 	}
 
+<<<<<<< HEAD
 	vfio_batch_fini(&batch);
+=======
+<<<<<<< HEAD
+	vfio_batch_fini(&batch);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 unwind:
@@ -1839,7 +2323,14 @@ unwind:
 		}
 	}
 
+<<<<<<< HEAD
 	vfio_batch_fini(&batch);
+=======
+<<<<<<< HEAD
+	vfio_batch_fini(&batch);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1907,6 +2398,39 @@ static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
 	return group;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu)
+{
+	struct vfio_domain *domain;
+	struct vfio_group *group;
+
+	list_for_each_entry(domain, &iommu->domain_list, next) {
+		list_for_each_entry(group, &domain->group_list, next) {
+			if (!group->pinned_page_dirty_scope) {
+				iommu->pinned_page_dirty_scope = false;
+				return;
+			}
+		}
+	}
+
+	if (iommu->external_domain) {
+		domain = iommu->external_domain;
+		list_for_each_entry(group, &domain->group_list, next) {
+			if (!group->pinned_page_dirty_scope) {
+				iommu->pinned_page_dirty_scope = false;
+				return;
+			}
+		}
+	}
+
+	iommu->pinned_page_dirty_scope = true;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
 				  phys_addr_t *base)
 {
@@ -2315,6 +2839,14 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
 			 * addition of a dirty tracking group.
 			 */
 			group->pinned_page_dirty_scope = true;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			if (!iommu->pinned_page_dirty_scope)
+				update_pinned_page_dirty_scope(iommu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mutex_unlock(&iommu->lock);
 
 			return 0;
@@ -2444,7 +2976,15 @@ done:
 	 * demotes the iommu scope until it declares itself dirty tracking
 	 * capable via the page pinning interface.
 	 */
+<<<<<<< HEAD
 	iommu->num_non_pinned_groups++;
+=======
+<<<<<<< HEAD
+	iommu->num_non_pinned_groups++;
+=======
+	iommu->pinned_page_dirty_scope = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&iommu->lock);
 	vfio_iommu_resv_free(&group_resv_regions);
 
@@ -2657,7 +3197,15 @@ detach_group_done:
 	 * to be promoted.
 	 */
 	if (update_dirty_scope) {
+<<<<<<< HEAD
 		iommu->num_non_pinned_groups--;
+=======
+<<<<<<< HEAD
+		iommu->num_non_pinned_groups--;
+=======
+		update_pinned_page_dirty_scope(iommu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (iommu->dirty_page_tracking)
 			vfio_iommu_populate_bitmap_full(iommu);
 	}
@@ -2690,10 +3238,21 @@ static void *vfio_iommu_type1_open(unsigned long arg)
 	INIT_LIST_HEAD(&iommu->iova_list);
 	iommu->dma_list = RB_ROOT;
 	iommu->dma_avail = dma_entry_limit;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iommu->container_open = true;
 	mutex_init(&iommu->lock);
 	BLOCKING_INIT_NOTIFIER_HEAD(&iommu->notifier);
 	init_waitqueue_head(&iommu->vaddr_wait);
+<<<<<<< HEAD
+=======
+=======
+	mutex_init(&iommu->lock);
+	BLOCKING_INIT_NOTIFIER_HEAD(&iommu->notifier);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return iommu;
 }
@@ -2762,8 +3321,16 @@ static int vfio_iommu_type1_check_extension(struct vfio_iommu *iommu,
 	case VFIO_TYPE1_IOMMU:
 	case VFIO_TYPE1v2_IOMMU:
 	case VFIO_TYPE1_NESTING_IOMMU:
+<<<<<<< HEAD
 	case VFIO_UNMAP_ALL:
 	case VFIO_UPDATE_VADDR:
+=======
+<<<<<<< HEAD
+	case VFIO_UNMAP_ALL:
+	case VFIO_UPDATE_VADDR:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	case VFIO_DMA_CC_IOMMU:
 		if (!iommu)
@@ -2935,8 +3502,17 @@ static int vfio_iommu_type1_map_dma(struct vfio_iommu *iommu,
 {
 	struct vfio_iommu_type1_dma_map map;
 	unsigned long minsz;
+<<<<<<< HEAD
 	uint32_t mask = VFIO_DMA_MAP_FLAG_READ | VFIO_DMA_MAP_FLAG_WRITE |
 			VFIO_DMA_MAP_FLAG_VADDR;
+=======
+<<<<<<< HEAD
+	uint32_t mask = VFIO_DMA_MAP_FLAG_READ | VFIO_DMA_MAP_FLAG_WRITE |
+			VFIO_DMA_MAP_FLAG_VADDR;
+=======
+	uint32_t mask = VFIO_DMA_MAP_FLAG_READ | VFIO_DMA_MAP_FLAG_WRITE;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	minsz = offsetofend(struct vfio_iommu_type1_dma_map, size);
 
@@ -2954,9 +3530,18 @@ static int vfio_iommu_type1_unmap_dma(struct vfio_iommu *iommu,
 {
 	struct vfio_iommu_type1_dma_unmap unmap;
 	struct vfio_bitmap bitmap = { 0 };
+<<<<<<< HEAD
 	uint32_t mask = VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP |
 			VFIO_DMA_UNMAP_FLAG_VADDR |
 			VFIO_DMA_UNMAP_FLAG_ALL;
+=======
+<<<<<<< HEAD
+	uint32_t mask = VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP |
+			VFIO_DMA_UNMAP_FLAG_VADDR |
+			VFIO_DMA_UNMAP_FLAG_ALL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long minsz;
 	int ret;
 
@@ -2965,12 +3550,23 @@ static int vfio_iommu_type1_unmap_dma(struct vfio_iommu *iommu,
 	if (copy_from_user(&unmap, (void __user *)arg, minsz))
 		return -EFAULT;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unmap.argsz < minsz || unmap.flags & ~mask)
 		return -EINVAL;
 
 	if ((unmap.flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
 	    (unmap.flags & (VFIO_DMA_UNMAP_FLAG_ALL |
 			    VFIO_DMA_UNMAP_FLAG_VADDR)))
+<<<<<<< HEAD
+=======
+=======
+	if (unmap.argsz < minsz ||
+	    unmap.flags & ~VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	if (unmap.flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
@@ -3161,6 +3757,10 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
 	struct vfio_dma *dma;
 	bool kthread = current->mm == NULL;
 	size_t offset;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	*copied = 0;
@@ -3168,6 +3768,17 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
 	ret = vfio_find_dma_valid(iommu, user_iova, 1, &dma);
 	if (ret < 0)
 		return ret;
+<<<<<<< HEAD
+=======
+=======
+
+	*copied = 0;
+
+	dma = vfio_find_dma(iommu, user_iova, 1);
+	if (!dma)
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((write && !(dma->prot & IOMMU_WRITE)) ||
 			!(dma->prot & IOMMU_READ))
@@ -3259,6 +3870,10 @@ vfio_iommu_type1_group_iommu_domain(void *iommu_data,
 	return domain;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void vfio_iommu_type1_notify(void *iommu_data,
 				    enum vfio_iommu_notify_type event)
 {
@@ -3272,6 +3887,11 @@ static void vfio_iommu_type1_notify(void *iommu_data,
 	wake_up_all(&iommu->vaddr_wait);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct vfio_iommu_driver_ops vfio_iommu_driver_ops_type1 = {
 	.name			= "vfio-iommu-type1",
 	.owner			= THIS_MODULE,
@@ -3286,7 +3906,14 @@ static const struct vfio_iommu_driver_ops vfio_iommu_driver_ops_type1 = {
 	.unregister_notifier	= vfio_iommu_type1_unregister_notifier,
 	.dma_rw			= vfio_iommu_type1_dma_rw,
 	.group_iommu_domain	= vfio_iommu_type1_group_iommu_domain,
+<<<<<<< HEAD
 	.notify			= vfio_iommu_type1_notify,
+=======
+<<<<<<< HEAD
+	.notify			= vfio_iommu_type1_notify,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init vfio_iommu_type1_init(void)

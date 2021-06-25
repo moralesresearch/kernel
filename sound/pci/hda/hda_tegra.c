@@ -17,7 +17,10 @@
 #include <linux/moduleparam.h>
 #include <linux/mutex.h>
 #include <linux/of_device.h>
+<<<<<<< HEAD
 #include <linux/reset.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 #include <linux/time.h>
 #include <linux/string.h>
@@ -71,9 +74,15 @@
 struct hda_tegra {
 	struct azx chip;
 	struct device *dev;
+<<<<<<< HEAD
 	struct reset_control *reset;
 	struct clk_bulk_data clocks[3];
 	unsigned int nclocks;
+=======
+	struct clk *hda_clk;
+	struct clk *hda2codec_2x_clk;
+	struct clk *hda2hdmi_clk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void __iomem *regs;
 	struct work_struct probe_work;
 };
@@ -114,6 +123,39 @@ static void hda_tegra_init(struct hda_tegra *hda)
 	writel(v, hda->regs + HDA_IPFS_INTR_MASK);
 }
 
+<<<<<<< HEAD
+=======
+static int hda_tegra_enable_clocks(struct hda_tegra *data)
+{
+	int rc;
+
+	rc = clk_prepare_enable(data->hda_clk);
+	if (rc)
+		return rc;
+	rc = clk_prepare_enable(data->hda2codec_2x_clk);
+	if (rc)
+		goto disable_hda;
+	rc = clk_prepare_enable(data->hda2hdmi_clk);
+	if (rc)
+		goto disable_codec_2x;
+
+	return 0;
+
+disable_codec_2x:
+	clk_disable_unprepare(data->hda2codec_2x_clk);
+disable_hda:
+	clk_disable_unprepare(data->hda_clk);
+	return rc;
+}
+
+static void hda_tegra_disable_clocks(struct hda_tegra *data)
+{
+	clk_disable_unprepare(data->hda2hdmi_clk);
+	clk_disable_unprepare(data->hda2codec_2x_clk);
+	clk_disable_unprepare(data->hda_clk);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * power management
  */
@@ -157,7 +199,11 @@ static int __maybe_unused hda_tegra_runtime_suspend(struct device *dev)
 		azx_stop_chip(chip);
 		azx_enter_link_reset(chip);
 	}
+<<<<<<< HEAD
 	clk_bulk_disable_unprepare(hda->nclocks, hda->clocks);
+=======
+	hda_tegra_disable_clocks(hda);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -169,6 +215,7 @@ static int __maybe_unused hda_tegra_runtime_resume(struct device *dev)
 	struct hda_tegra *hda = container_of(chip, struct hda_tegra, chip);
 	int rc;
 
+<<<<<<< HEAD
 	if (!chip->running) {
 		rc = reset_control_assert(hda->reset);
 		if (rc)
@@ -179,17 +226,26 @@ static int __maybe_unused hda_tegra_runtime_resume(struct device *dev)
 	if (rc != 0)
 		return rc;
 	if (chip->running) {
+=======
+	rc = hda_tegra_enable_clocks(hda);
+	if (rc != 0)
+		return rc;
+	if (chip && chip->running) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hda_tegra_init(hda);
 		azx_init_chip(chip, 1);
 		/* disable controller wake up event*/
 		azx_writew(chip, WAKEEN, azx_readw(chip, WAKEEN) &
 			   ~STATESTS_INT_MASK);
+<<<<<<< HEAD
 	} else {
 		usleep_range(10, 100);
 
 		rc = reset_control_deassert(hda->reset);
 		if (rc)
 			return rc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -251,6 +307,32 @@ static int hda_tegra_init_chip(struct azx *chip, struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int hda_tegra_init_clk(struct hda_tegra *hda)
+{
+	struct device *dev = hda->dev;
+
+	hda->hda_clk = devm_clk_get(dev, "hda");
+	if (IS_ERR(hda->hda_clk)) {
+		dev_err(dev, "failed to get hda clock\n");
+		return PTR_ERR(hda->hda_clk);
+	}
+	hda->hda2codec_2x_clk = devm_clk_get(dev, "hda2codec_2x");
+	if (IS_ERR(hda->hda2codec_2x_clk)) {
+		dev_err(dev, "failed to get hda2codec_2x clock\n");
+		return PTR_ERR(hda->hda2codec_2x_clk);
+	}
+	hda->hda2hdmi_clk = devm_clk_get(dev, "hda2hdmi");
+	if (IS_ERR(hda->hda2hdmi_clk)) {
+		dev_err(dev, "failed to get hda2hdmi clock\n");
+		return PTR_ERR(hda->hda2hdmi_clk);
+	}
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
 {
 	struct hda_tegra *hda = container_of(chip, struct hda_tegra, chip);
@@ -455,6 +537,7 @@ static int hda_tegra_probe(struct platform_device *pdev)
 		return err;
 	}
 
+<<<<<<< HEAD
 	hda->reset = devm_reset_control_array_get_exclusive(&pdev->dev);
 	if (IS_ERR(hda->reset)) {
 		err = PTR_ERR(hda->reset);
@@ -466,6 +549,9 @@ static int hda_tegra_probe(struct platform_device *pdev)
 	hda->clocks[hda->nclocks++].id = "hda2codec_2x";
 
 	err = devm_clk_bulk_get(&pdev->dev, hda->nclocks, hda->clocks);
+=======
+	err = hda_tegra_init_clk(hda);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto out_free;
 

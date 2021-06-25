@@ -142,7 +142,11 @@ struct nfs_server {
 	struct nlm_host		*nlm_host;	/* NLM client handle */
 	struct nfs_iostats __percpu *io_stats;	/* I/O statistics */
 	atomic_long_t		writeback;	/* number of writeback pages */
+<<<<<<< HEAD
 	unsigned int		flags;		/* various flags */
+=======
+	int			flags;		/* various flags */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* The following are for internal use only. Also see uapi/linux/nfs_mount.h */
 #define NFS_MOUNT_LOOKUP_CACHE_NONEG	0x10000
@@ -153,8 +157,11 @@ struct nfs_server {
 #define NFS_MOUNT_LOCAL_FCNTL		0x200000
 #define NFS_MOUNT_SOFTERR		0x400000
 #define NFS_MOUNT_SOFTREVAL		0x800000
+<<<<<<< HEAD
 #define NFS_MOUNT_WRITE_EAGER		0x01000000
 #define NFS_MOUNT_WRITE_WAIT		0x02000000
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned int		caps;		/* server capabilities */
 	unsigned int		rsize;		/* read size */

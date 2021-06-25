@@ -1114,6 +1114,7 @@ int dpni_get_single_step_cfg(struct fsl_mc_io *mc_io,
 			     u16 token,
 			     struct dpni_single_step_cfg *ptp_cfg);
 
+<<<<<<< HEAD
 int dpni_enable_vlan_filter(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
 			    u32 en);
 
@@ -1123,4 +1124,6 @@ int dpni_add_vlan_id(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
 int dpni_remove_vlan_id(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
 			u16 vlan_id);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __FSL_DPNI_H */

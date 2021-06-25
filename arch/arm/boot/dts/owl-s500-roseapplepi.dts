@@ -14,7 +14,10 @@
 	model = "Roseapple Pi";
 
 	aliases {
+<<<<<<< HEAD
 		mmc0 = &mmc0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		serial2 = &uart2;
 	};
 
@@ -27,6 +30,7 @@
 		reg = <0x0 0x80000000>; /* 2GB */
 	};
 
+<<<<<<< HEAD
 	/* Fixed regulator used in the absence of PMIC */
 	sd_vcc: sd-vcc {
 		compatible = "regulator-fixed";
@@ -121,6 +125,15 @@
 	vqmmc-supply = <&sd_vcc>;
 };
 
+=======
+	uart2_clk: uart2-clk {
+		compatible = "fixed-clock";
+		clock-frequency = <921600>;
+		#clock-cells = <0>;
+	};
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &twd_timer {
 	status = "okay";
 };
@@ -131,4 +144,8 @@
 
 &uart2 {
 	status = "okay";
+<<<<<<< HEAD
+=======
+	clocks = <&uart2_clk>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

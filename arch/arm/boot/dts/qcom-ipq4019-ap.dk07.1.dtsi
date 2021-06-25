@@ -49,27 +49,47 @@
 		serial@78af000 {
 			pinctrl-0 = <&serial_0_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
 		};
 
 		dma@7884000 {
 			status = "okay";
+=======
+			status = "ok";
+		};
+
+		dma@7884000 {
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		i2c@78b7000 { /* BLSP1 QUP2 */
 			pinctrl-0 = <&i2c_0_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
 		};
 
 		dma@7984000 {
 			status = "okay";
+=======
+			status = "ok";
+		};
+
+		dma@7984000 {
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		qpic-nand@79b0000 {
 			pinctrl-0 = <&nand_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

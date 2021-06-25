@@ -13,10 +13,15 @@
 #include <linux/platform_device.h>
 #include <linux/pm_domain.h>
 #include <linux/regmap.h>
+<<<<<<< HEAD
 #include <linux/regulator/consumer.h>
 #include <linux/soc/mediatek/infracfg.h>
 
 #include "mt8167-pm-domains.h"
+=======
+#include <linux/soc/mediatek/infracfg.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mt8173-pm-domains.h"
 #include "mt8183-pm-domains.h"
 #include "mt8192-pm-domains.h"
@@ -42,7 +47,10 @@ struct scpsys_domain {
 	struct clk_bulk_data *subsys_clks;
 	struct regmap *infracfg;
 	struct regmap *smi;
+<<<<<<< HEAD
 	struct regulator *supply;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct scpsys {
@@ -190,6 +198,7 @@ static int scpsys_bus_protect_disable(struct scpsys_domain *pd)
 	return _scpsys_bus_protect_disable(pd->data->bp_infracfg, pd->infracfg);
 }
 
+<<<<<<< HEAD
 static int scpsys_regulator_enable(struct regulator *supply)
 {
 	return supply ? regulator_enable(supply) : 0;
@@ -200,6 +209,8 @@ static int scpsys_regulator_disable(struct regulator *supply)
 	return supply ? regulator_disable(supply) : 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int scpsys_power_on(struct generic_pm_domain *genpd)
 {
 	struct scpsys_domain *pd = container_of(genpd, struct scpsys_domain, genpd);
@@ -207,6 +218,7 @@ static int scpsys_power_on(struct generic_pm_domain *genpd)
 	bool tmp;
 	int ret;
 
+<<<<<<< HEAD
 	ret = scpsys_regulator_enable(pd->supply);
 	if (ret)
 		return ret;
@@ -214,6 +226,11 @@ static int scpsys_power_on(struct generic_pm_domain *genpd)
 	ret = clk_bulk_enable(pd->num_clks, pd->clks);
 	if (ret)
 		goto err_reg;
+=======
+	ret = clk_bulk_enable(pd->num_clks, pd->clks);
+	if (ret)
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* subsys power on */
 	regmap_set_bits(scpsys->base, pd->data->ctl_offs, PWR_ON_BIT);
@@ -249,8 +266,11 @@ err_disable_subsys_clks:
 	clk_bulk_disable(pd->num_subsys_clks, pd->subsys_clks);
 err_pwr_ack:
 	clk_bulk_disable(pd->num_clks, pd->clks);
+<<<<<<< HEAD
 err_reg:
 	scpsys_regulator_disable(pd->supply);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -286,8 +306,11 @@ static int scpsys_power_off(struct generic_pm_domain *genpd)
 
 	clk_bulk_disable(pd->num_clks, pd->clks);
 
+<<<<<<< HEAD
 	scpsys_regulator_disable(pd->supply);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -296,7 +319,10 @@ generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_no
 {
 	const struct scpsys_domain_data *domain_data;
 	struct scpsys_domain *pd;
+<<<<<<< HEAD
 	struct device_node *root_node = scpsys->dev->of_node;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct property *prop;
 	const char *clk_name;
 	int i, ret, num_clks;
@@ -329,6 +355,7 @@ generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_no
 	pd->data = domain_data;
 	pd->scpsys = scpsys;
 
+<<<<<<< HEAD
 	if (MTK_SCPD_CAPS(pd, MTK_SCPD_DOMAIN_SUPPLY)) {
 		/*
 		 * Find regulator in current power domain node.
@@ -348,6 +375,8 @@ generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_no
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pd->infracfg = syscon_regmap_lookup_by_phandle_optional(node, "mediatek,infracfg");
 	if (IS_ERR(pd->infracfg))
 		return ERR_CAST(pd->infracfg);
@@ -438,11 +467,15 @@ generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_no
 		goto err_unprepare_subsys_clocks;
 	}
 
+<<<<<<< HEAD
 	if (!pd->data->name)
 		pd->genpd.name = node->name;
 	else
 		pd->genpd.name = pd->data->name;
 
+=======
+	pd->genpd.name = node->name;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pd->genpd.power_off = scpsys_power_off;
 	pd->genpd.power_on = scpsys_power_on;
 
@@ -492,8 +525,12 @@ static int scpsys_add_subdomain(struct scpsys *scpsys, struct device_node *paren
 		child_pd = scpsys_add_one_domain(scpsys, child);
 		if (IS_ERR(child_pd)) {
 			ret = PTR_ERR(child_pd);
+<<<<<<< HEAD
 			dev_err_probe(scpsys->dev, ret, "%pOF: failed to get child domain id\n",
 				      child);
+=======
+			dev_err(scpsys->dev, "%pOF: failed to get child domain id\n", child);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto err_put_node;
 		}
 
@@ -561,10 +598,13 @@ static void scpsys_domain_cleanup(struct scpsys *scpsys)
 
 static const struct of_device_id scpsys_of_match[] = {
 	{
+<<<<<<< HEAD
 		.compatible = "mediatek,mt8167-power-controller",
 		.data = &mt8167_scpsys_data,
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.compatible = "mediatek,mt8173-power-controller",
 		.data = &mt8173_scpsys_data,
 	},

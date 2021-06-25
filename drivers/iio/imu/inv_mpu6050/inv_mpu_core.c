@@ -161,6 +161,7 @@ static const struct inv_mpu6050_hw hw_info[] = {
 		.temp = {INV_MPU6500_TEMP_OFFSET, INV_MPU6500_TEMP_SCALE},
 	},
 	{
+<<<<<<< HEAD
 		.whoami = INV_MPU6880_WHOAMI_VALUE,
 		.name = "MPU6880",
 		.reg = &reg_set_6500,
@@ -169,6 +170,8 @@ static const struct inv_mpu6050_hw hw_info[] = {
 		.temp = {INV_MPU6500_TEMP_OFFSET, INV_MPU6500_TEMP_SCALE},
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.whoami = INV_MPU6000_WHOAMI_VALUE,
 		.name = "MPU6000",
 		.reg = &reg_set_6050,
@@ -731,6 +734,7 @@ inv_mpu6050_read_raw(struct iio_dev *indio_dev,
 	}
 }
 
+<<<<<<< HEAD
 static int inv_mpu6050_write_gyro_scale(struct inv_mpu6050_state *st, int val,
 					int val2)
 {
@@ -741,6 +745,14 @@ static int inv_mpu6050_write_gyro_scale(struct inv_mpu6050_state *st, int val,
 
 	for (i = 0; i < ARRAY_SIZE(gyro_scale_6050); ++i) {
 		if (gyro_scale_6050[i] == val2) {
+=======
+static int inv_mpu6050_write_gyro_scale(struct inv_mpu6050_state *st, int val)
+{
+	int result, i;
+
+	for (i = 0; i < ARRAY_SIZE(gyro_scale_6050); ++i) {
+		if (gyro_scale_6050[i] == val) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			result = inv_mpu6050_set_gyro_fsr(st, i);
 			if (result)
 				return result;
@@ -771,17 +783,26 @@ static int inv_write_raw_get_fmt(struct iio_dev *indio_dev,
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 static int inv_mpu6050_write_accel_scale(struct inv_mpu6050_state *st, int val,
 					 int val2)
+=======
+static int inv_mpu6050_write_accel_scale(struct inv_mpu6050_state *st, int val)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int result, i;
 	u8 d;
 
+<<<<<<< HEAD
 	if (val != 0)
 		return -EINVAL;
 
 	for (i = 0; i < ARRAY_SIZE(accel_scale); ++i) {
 		if (accel_scale[i] == val2) {
+=======
+	for (i = 0; i < ARRAY_SIZE(accel_scale); ++i) {
+		if (accel_scale[i] == val) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d = (i << INV_MPU6050_ACCL_CONFIG_FSR_SHIFT);
 			result = regmap_write(st->map, st->reg->accl_config, d);
 			if (result)
@@ -822,10 +843,17 @@ static int inv_mpu6050_write_raw(struct iio_dev *indio_dev,
 	case IIO_CHAN_INFO_SCALE:
 		switch (chan->type) {
 		case IIO_ANGL_VEL:
+<<<<<<< HEAD
 			result = inv_mpu6050_write_gyro_scale(st, val, val2);
 			break;
 		case IIO_ACCEL:
 			result = inv_mpu6050_write_accel_scale(st, val, val2);
+=======
+			result = inv_mpu6050_write_gyro_scale(st, val2);
+			break;
+		case IIO_ACCEL:
+			result = inv_mpu6050_write_accel_scale(st, val2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		default:
 			result = -EINVAL;
@@ -1339,7 +1367,10 @@ static int inv_check_and_setup_chip(struct inv_mpu6050_state *st)
 	case INV_MPU6000:
 	case INV_MPU6500:
 	case INV_MPU6515:
+<<<<<<< HEAD
 	case INV_MPU6880:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case INV_MPU9250:
 	case INV_MPU9255:
 		/* reset signal path (required for spi connection) */

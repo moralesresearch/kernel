@@ -521,7 +521,15 @@ static int mm_check_plugged(struct cardinfo *card)
 
 static blk_qc_t mm_submit_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct cardinfo *card = bio->bi_bdev->bd_disk->private_data;
+=======
+<<<<<<< HEAD
+	struct cardinfo *card = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct cardinfo *card = bio->bi_disk->private_data;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pr_debug("mm_make_request %llu %u\n",
 		 (unsigned long long)bio->bi_iter.bi_sector,

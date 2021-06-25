@@ -122,12 +122,18 @@ static void set_hwsp(struct intel_engine_cs *engine, u32 offset)
 		hwsp = RING_HWS_PGA(engine->mmio_base);
 	}
 
+<<<<<<< HEAD
 	intel_uncore_write_fw(engine->uncore, hwsp, offset);
 	intel_uncore_posting_read_fw(engine->uncore, hwsp);
+=======
+	intel_uncore_write(engine->uncore, hwsp, offset);
+	intel_uncore_posting_read(engine->uncore, hwsp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void flush_cs_tlb(struct intel_engine_cs *engine)
 {
+<<<<<<< HEAD
 	if (!IS_GEN_RANGE(engine->i915, 6, 7))
 		return;
 
@@ -143,6 +149,27 @@ static void flush_cs_tlb(struct intel_engine_cs *engine)
 					 2000, 0, NULL))
 		ENGINE_TRACE(engine,
 			     "wait for SyncFlush to complete for TLB invalidation timed out\n");
+=======
+	struct drm_i915_private *dev_priv = engine->i915;
+
+	if (!IS_GEN_RANGE(dev_priv, 6, 7))
+		return;
+
+	/* ring should be idle before issuing a sync flush*/
+	drm_WARN_ON(&dev_priv->drm,
+		    (ENGINE_READ(engine, RING_MI_MODE) & MODE_IDLE) == 0);
+
+	ENGINE_WRITE(engine, RING_INSTPM,
+		     _MASKED_BIT_ENABLE(INSTPM_TLB_INVALIDATE |
+					INSTPM_SYNC_FLUSH));
+	if (intel_wait_for_register(engine->uncore,
+				    RING_INSTPM(engine->mmio_base),
+				    INSTPM_SYNC_FLUSH, 0,
+				    1000))
+		drm_err(&dev_priv->drm,
+			"%s: wait for SyncFlush to complete for TLB invalidation timed out\n",
+			engine->name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ring_setup_status_page(struct intel_engine_cs *engine)
@@ -153,6 +180,47 @@ static void ring_setup_status_page(struct intel_engine_cs *engine)
 	flush_cs_tlb(engine);
 }
 
+<<<<<<< HEAD
+=======
+static bool stop_ring(struct intel_engine_cs *engine)
+{
+	struct drm_i915_private *dev_priv = engine->i915;
+
+	if (INTEL_GEN(dev_priv) > 2) {
+		ENGINE_WRITE(engine,
+			     RING_MI_MODE, _MASKED_BIT_ENABLE(STOP_RING));
+		if (intel_wait_for_register(engine->uncore,
+					    RING_MI_MODE(engine->mmio_base),
+					    MODE_IDLE,
+					    MODE_IDLE,
+					    1000)) {
+			drm_err(&dev_priv->drm,
+				"%s : timed out trying to stop ring\n",
+				engine->name);
+
+			/*
+			 * Sometimes we observe that the idle flag is not
+			 * set even though the ring is empty. So double
+			 * check before giving up.
+			 */
+			if (ENGINE_READ(engine, RING_HEAD) !=
+			    ENGINE_READ(engine, RING_TAIL))
+				return false;
+		}
+	}
+
+	ENGINE_WRITE(engine, RING_HEAD, ENGINE_READ(engine, RING_TAIL));
+
+	ENGINE_WRITE(engine, RING_HEAD, 0);
+	ENGINE_WRITE(engine, RING_TAIL, 0);
+
+	/* The ring must be empty before it is disabled */
+	ENGINE_WRITE(engine, RING_CTL, 0);
+
+	return (ENGINE_READ(engine, RING_HEAD) & HEAD_ADDR) == 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct i915_address_space *vm_alias(struct i915_address_space *vm)
 {
 	if (i915_is_ggtt(vm))
@@ -170,6 +238,7 @@ static void set_pp_dir(struct intel_engine_cs *engine)
 {
 	struct i915_address_space *vm = vm_alias(engine->gt->vm);
 
+<<<<<<< HEAD
 	if (!vm)
 		return;
 
@@ -180,6 +249,11 @@ static void set_pp_dir(struct intel_engine_cs *engine)
 		ENGINE_WRITE_FW(engine,
 				RING_MODE_GEN7,
 				_MASKED_BIT_ENABLE(GFX_PPGTT_ENABLE));
+=======
+	if (vm) {
+		ENGINE_WRITE(engine, RING_PP_DIR_DCLV, PP_DIR_DCLV_2G);
+		ENGINE_WRITE(engine, RING_PP_DIR_BASE, pp_dir(vm));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -187,10 +261,44 @@ static int xcs_resume(struct intel_engine_cs *engine)
 {
 	struct drm_i915_private *dev_priv = engine->i915;
 	struct intel_ring *ring = engine->legacy.ring;
+<<<<<<< HEAD
+=======
+	int ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ENGINE_TRACE(engine, "ring:{HEAD:%04x, TAIL:%04x}\n",
 		     ring->head, ring->tail);
 
+<<<<<<< HEAD
+=======
+	intel_uncore_forcewake_get(engine->uncore, FORCEWAKE_ALL);
+
+	/* WaClearRingBufHeadRegAtInit:ctg,elk */
+	if (!stop_ring(engine)) {
+		/* G45 ring initialization often fails to reset head to zero */
+		drm_dbg(&dev_priv->drm, "%s head not reset to zero "
+			"ctl %08x head %08x tail %08x start %08x\n",
+			engine->name,
+			ENGINE_READ(engine, RING_CTL),
+			ENGINE_READ(engine, RING_HEAD),
+			ENGINE_READ(engine, RING_TAIL),
+			ENGINE_READ(engine, RING_START));
+
+		if (!stop_ring(engine)) {
+			drm_err(&dev_priv->drm,
+				"failed to set %s head to zero "
+				"ctl %08x head %08x tail %08x start %08x\n",
+				engine->name,
+				ENGINE_READ(engine, RING_CTL),
+				ENGINE_READ(engine, RING_HEAD),
+				ENGINE_READ(engine, RING_TAIL),
+				ENGINE_READ(engine, RING_START));
+			ret = -EIO;
+			goto out;
+		}
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (HWS_NEEDS_PHYSICAL(dev_priv))
 		ring_setup_phys_status_page(engine);
 	else
@@ -207,7 +315,11 @@ static int xcs_resume(struct intel_engine_cs *engine)
 	 * also enforces ordering), otherwise the hw might lose the new ring
 	 * register values.
 	 */
+<<<<<<< HEAD
 	ENGINE_WRITE_FW(engine, RING_START, i915_ggtt_offset(ring->vma));
+=======
+	ENGINE_WRITE(engine, RING_START, i915_ggtt_offset(ring->vma));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Check that the ring offsets point within the ring! */
 	GEM_BUG_ON(!intel_ring_offset_valid(ring, ring->head));
@@ -217,6 +329,7 @@ static int xcs_resume(struct intel_engine_cs *engine)
 	set_pp_dir(engine);
 
 	/* First wake the ring up to an empty/idle ring */
+<<<<<<< HEAD
 	ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
 	ENGINE_WRITE_FW(engine, RING_TAIL, ring->head);
 	ENGINE_POSTING_READ(engine, RING_TAIL);
@@ -249,11 +362,45 @@ static int xcs_resume(struct intel_engine_cs *engine)
 	/* Now awake, let it get started */
 	if (ring->tail != ring->head) {
 		ENGINE_WRITE_FW(engine, RING_TAIL, ring->tail);
+=======
+	ENGINE_WRITE(engine, RING_HEAD, ring->head);
+	ENGINE_WRITE(engine, RING_TAIL, ring->head);
+	ENGINE_POSTING_READ(engine, RING_TAIL);
+
+	ENGINE_WRITE(engine, RING_CTL, RING_CTL_SIZE(ring->size) | RING_VALID);
+
+	/* If the head is still not zero, the ring is dead */
+	if (intel_wait_for_register(engine->uncore,
+				    RING_CTL(engine->mmio_base),
+				    RING_VALID, RING_VALID,
+				    50)) {
+		drm_err(&dev_priv->drm, "%s initialization failed "
+			  "ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
+			  engine->name,
+			  ENGINE_READ(engine, RING_CTL),
+			  ENGINE_READ(engine, RING_CTL) & RING_VALID,
+			  ENGINE_READ(engine, RING_HEAD), ring->head,
+			  ENGINE_READ(engine, RING_TAIL), ring->tail,
+			  ENGINE_READ(engine, RING_START),
+			  i915_ggtt_offset(ring->vma));
+		ret = -EIO;
+		goto out;
+	}
+
+	if (INTEL_GEN(dev_priv) > 2)
+		ENGINE_WRITE(engine,
+			     RING_MI_MODE, _MASKED_BIT_DISABLE(STOP_RING));
+
+	/* Now awake, let it get started */
+	if (ring->tail != ring->head) {
+		ENGINE_WRITE(engine, RING_TAIL, ring->tail);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ENGINE_POSTING_READ(engine, RING_TAIL);
 	}
 
 	/* Papering over lost _interrupts_ immediately following the restart */
 	intel_engine_signal_breadcrumbs(engine);
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -305,10 +452,22 @@ static bool stop_ring(struct intel_engine_cs *engine)
 	ENGINE_WRITE_FW(engine, RING_TAIL, 0);
 
 	return (ENGINE_READ_FW(engine, RING_HEAD) & HEAD_ADDR) == 0;
+=======
+out:
+	intel_uncore_forcewake_put(engine->uncore, FORCEWAKE_ALL);
+
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void reset_prepare(struct intel_engine_cs *engine)
 {
+<<<<<<< HEAD
+=======
+	struct intel_uncore *uncore = engine->uncore;
+	const u32 base = engine->mmio_base;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We stop engines, otherwise we might get failed reset and a
 	 * dead gpu (on elk). Also as modern gpu as kbl can suffer
@@ -320,11 +479,15 @@ static void reset_prepare(struct intel_engine_cs *engine)
 	 * WaKBLVECSSemaphoreWaitPoll:kbl (on ALL_ENGINES)
 	 *
 	 * WaMediaResetMainRingCleanup:ctg,elk (presumably)
+<<<<<<< HEAD
 	 * WaClearRingBufHeadRegAtInit:ctg,elk
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * FIXME: Wa for more modern gens needs to be validated
 	 */
 	ENGINE_TRACE(engine, "\n");
+<<<<<<< HEAD
 	intel_engine_stop_cs(engine);
 
 	if (!stop_ring(engine)) {
@@ -349,6 +512,28 @@ static void reset_prepare(struct intel_engine_cs *engine)
 			ENGINE_READ_FW(engine, RING_TAIL),
 			ENGINE_READ_FW(engine, RING_START));
 	}
+=======
+
+	if (intel_engine_stop_cs(engine))
+		ENGINE_TRACE(engine, "timed out on STOP_RING\n");
+
+	intel_uncore_write_fw(uncore,
+			      RING_HEAD(base),
+			      intel_uncore_read_fw(uncore, RING_TAIL(base)));
+	intel_uncore_posting_read_fw(uncore, RING_HEAD(base)); /* paranoia */
+
+	intel_uncore_write_fw(uncore, RING_HEAD(base), 0);
+	intel_uncore_write_fw(uncore, RING_TAIL(base), 0);
+	intel_uncore_posting_read_fw(uncore, RING_TAIL(base));
+
+	/* The ring must be empty before it is disabled */
+	intel_uncore_write_fw(uncore, RING_CTL(base), 0);
+
+	/* Check acts as a post */
+	if (intel_uncore_read_fw(uncore, RING_HEAD(base)))
+		ENGINE_TRACE(engine, "ring head [%x] not parked\n",
+			     intel_uncore_read_fw(uncore, RING_HEAD(base)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void reset_rewind(struct intel_engine_cs *engine, bool stalled)
@@ -359,14 +544,22 @@ static void reset_rewind(struct intel_engine_cs *engine, bool stalled)
 
 	rq = NULL;
 	spin_lock_irqsave(&engine->active.lock, flags);
+<<<<<<< HEAD
 	rcu_read_lock();
 	list_for_each_entry(pos, &engine->active.requests, sched.link) {
 		if (!__i915_request_is_complete(pos)) {
+=======
+	list_for_each_entry(pos, &engine->active.requests, sched.link) {
+		if (!i915_request_completed(pos)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rq = pos;
 			break;
 		}
 	}
+<<<<<<< HEAD
 	rcu_read_unlock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * The guilty request will get skipped on a hung engine.
@@ -430,8 +623,15 @@ static void reset_cancel(struct intel_engine_cs *engine)
 	spin_lock_irqsave(&engine->active.lock, flags);
 
 	/* Mark all submitted requests as skipped. */
+<<<<<<< HEAD
 	list_for_each_entry(request, &engine->active.requests, sched.link)
 		i915_request_mark_eio(request);
+=======
+	list_for_each_entry(request, &engine->active.requests, sched.link) {
+		i915_request_set_error_once(request, -EIO);
+		i915_request_mark_complete(request);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_engine_signal_breadcrumbs(engine);
 
 	/* Remaining _unready_ requests will be nop'ed when submitted */
@@ -590,7 +790,10 @@ static int ring_context_pin(struct intel_context *ce, void *unused)
 static void ring_context_reset(struct intel_context *ce)
 {
 	intel_ring_reset(ce->ring, ce->ring->emit);
+<<<<<<< HEAD
 	clear_bit(CONTEXT_VALID_BIT, &ce->flags);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct intel_context_ops ring_context_ops = {
@@ -642,9 +845,15 @@ static int load_pd_dir(struct i915_request *rq,
 	return rq->engine->emit_flush(rq, EMIT_FLUSH);
 }
 
+<<<<<<< HEAD
 static int mi_set_context(struct i915_request *rq,
 			  struct intel_context *ce,
 			  u32 flags)
+=======
+static inline int mi_set_context(struct i915_request *rq,
+				 struct intel_context *ce,
+				 u32 flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_engine_cs *engine = rq->engine;
 	struct drm_i915_private *i915 = engine->i915;
@@ -1059,8 +1268,11 @@ static void setup_common(struct intel_engine_cs *engine)
 	setup_irq(engine);
 
 	engine->resume = xcs_resume;
+<<<<<<< HEAD
 	engine->sanitize = xcs_sanitize;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	engine->reset.prepare = reset_prepare;
 	engine->reset.rewind = reset_rewind;
 	engine->reset.cancel = reset_cancel;

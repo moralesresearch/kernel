@@ -914,7 +914,11 @@ static struct btf_raw_test raw_tests[] = {
 	.err_str = "Member exceeds struct_size",
 },
 
+<<<<<<< HEAD
 /* Test member exceeds the size of struct
+=======
+/* Test member exeeds the size of struct
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * struct A {
  *     int m;
@@ -948,7 +952,11 @@ static struct btf_raw_test raw_tests[] = {
 	.err_str = "Member exceeds struct_size",
 },
 
+<<<<<<< HEAD
 /* Test member exceeds the size of struct
+=======
+/* Test member exeeds the size of struct
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * struct A {
  *     int m;
@@ -3509,6 +3517,7 @@ static struct btf_raw_test raw_tests[] = {
 	.value_type_id = 3 /* arr_t */,
 	.max_entries = 4,
 },
+<<<<<<< HEAD
 /*
  * elf .rodata section size 4 and btf .rodata section vlen 0.
  */
@@ -3530,6 +3539,8 @@ static struct btf_raw_test raw_tests[] = {
 	.value_type_id = 1,
 	.max_entries = 1,
 },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 }; /* struct btf_raw_test raw_tests[] */
 

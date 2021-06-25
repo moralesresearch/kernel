@@ -2,7 +2,11 @@
 /*
  * Copyright (C) 2015 Intel Mobile Communications GmbH
  * Copyright (C) 2016-2017 Intel Deutschland GmbH
+<<<<<<< HEAD
  * Copyright (C) 2019-2021 Intel Corporation
+=======
+ * Copyright (C) 2019-2020 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #include <linux/kernel.h>
 #include <linux/bsearch.h>
@@ -13,7 +17,10 @@
 #include "iwl-fh.h"
 #include "queue/tx.h"
 #include <linux/dmapool.h>
+<<<<<<< HEAD
 #include "fw/api/commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct iwl_trans *iwl_trans_alloc(unsigned int priv_size,
 				  struct device *dev,
@@ -21,6 +28,10 @@ struct iwl_trans *iwl_trans_alloc(unsigned int priv_size,
 				  const struct iwl_cfg_trans_params *cfg_trans)
 {
 	struct iwl_trans *trans;
+<<<<<<< HEAD
+=======
+	int txcmd_size, txcmd_align;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_LOCKDEP
 	static struct lock_class_key __key;
 #endif
@@ -30,6 +41,7 @@ struct iwl_trans *iwl_trans_alloc(unsigned int priv_size,
 		return NULL;
 
 	trans->trans_cfg = cfg_trans;
+<<<<<<< HEAD
 
 #ifdef CONFIG_LOCKDEP
 	lockdep_init_map(&trans->sync_cmd_lockdep_map, "sync_cmd_lockdep_map",
@@ -64,6 +76,12 @@ int iwl_trans_init(struct iwl_trans *trans)
 		txcmd_size = sizeof(struct iwl_tx_cmd);
 		txcmd_align = sizeof(void *);
 	} else if (trans->trans_cfg->device_family < IWL_DEVICE_FAMILY_AX210) {
+=======
+	if (!cfg_trans->gen2) {
+		txcmd_size = sizeof(struct iwl_tx_cmd);
+		txcmd_align = sizeof(void *);
+	} else if (cfg_trans->device_family < IWL_DEVICE_FAMILY_AX210) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		txcmd_size = sizeof(struct iwl_tx_cmd_gen2);
 		txcmd_align = 64;
 	} else {
@@ -75,8 +93,22 @@ int iwl_trans_init(struct iwl_trans *trans)
 	txcmd_size += 36; /* biggest possible 802.11 header */
 
 	/* Ensure device TX cmd cannot reach/cross a page boundary in gen2 */
+<<<<<<< HEAD
 	if (WARN_ON(trans->trans_cfg->gen2 && txcmd_size >= txcmd_align))
 		return -EINVAL;
+=======
+	if (WARN_ON(cfg_trans->gen2 && txcmd_size >= txcmd_align))
+		return ERR_PTR(-EINVAL);
+
+#ifdef CONFIG_LOCKDEP
+	lockdep_init_map(&trans->sync_cmd_lockdep_map, "sync_cmd_lockdep_map",
+			 &__key, 0);
+#endif
+
+	trans->dev = dev;
+	trans->ops = ops;
+	trans->num_rx_queues = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (trans->trans_cfg->device_family >= IWL_DEVICE_FAMILY_AX210)
 		trans->txqs.bc_tbl_size = sizeof(struct iwl_gen3_bc_tbl);
@@ -88,6 +120,7 @@ int iwl_trans_init(struct iwl_trans *trans)
 	 * allocate here.
 	 */
 	if (trans->trans_cfg->gen2) {
+<<<<<<< HEAD
 		trans->txqs.bc_pool = dmam_pool_create("iwlwifi:bc", trans->dev,
 						       trans->txqs.bc_tbl_size,
 						       256, 0);
@@ -98,6 +131,25 @@ int iwl_trans_init(struct iwl_trans *trans)
 	/* Some things must not change even if the config does */
 	WARN_ON(trans->txqs.tfd.addr_size !=
 		(trans->trans_cfg->use_tfh ? 64 : 36));
+=======
+		trans->txqs.bc_pool = dmam_pool_create("iwlwifi:bc", dev,
+						       trans->txqs.bc_tbl_size,
+						       256, 0);
+		if (!trans->txqs.bc_pool)
+			return NULL;
+	}
+
+	if (trans->trans_cfg->use_tfh) {
+		trans->txqs.tfd.addr_size = 64;
+		trans->txqs.tfd.max_tbs = IWL_TFH_NUM_TBS;
+		trans->txqs.tfd.size = sizeof(struct iwl_tfh_tfd);
+	} else {
+		trans->txqs.tfd.addr_size = 36;
+		trans->txqs.tfd.max_tbs = IWL_NUM_OF_TBS;
+		trans->txqs.tfd.size = sizeof(struct iwl_tfd);
+	}
+	trans->max_skb_frags = IWL_TRANS_MAX_FRAGS(trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	snprintf(trans->dev_cmd_pool_name, sizeof(trans->dev_cmd_pool_name),
 		 "iwl_cmd_pool:%s", dev_name(trans->dev));
@@ -106,11 +158,18 @@ int iwl_trans_init(struct iwl_trans *trans)
 				  txcmd_size, txcmd_align,
 				  SLAB_HWCACHE_ALIGN, NULL);
 	if (!trans->dev_cmd_pool)
+<<<<<<< HEAD
 		return -ENOMEM;
+=======
+		return NULL;
+
+	WARN_ON(!ops->wait_txq_empty && !ops->wait_tx_queues_empty);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trans->txqs.tso_hdr_page = alloc_percpu(struct iwl_tso_hdr_page);
 	if (!trans->txqs.tso_hdr_page) {
 		kmem_cache_destroy(trans->dev_cmd_pool);
+<<<<<<< HEAD
 		return -ENOMEM;
 	}
 
@@ -118,12 +177,19 @@ int iwl_trans_init(struct iwl_trans *trans)
 	init_waitqueue_head(&trans->wait_command_queue);
 
 	return 0;
+=======
+		return NULL;
+	}
+
+	return trans;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void iwl_trans_free(struct iwl_trans *trans)
 {
 	int i;
 
+<<<<<<< HEAD
 	if (trans->txqs.tso_hdr_page) {
 		for_each_possible_cpu(i) {
 			struct iwl_tso_hdr_page *p =
@@ -136,6 +202,18 @@ void iwl_trans_free(struct iwl_trans *trans)
 		free_percpu(trans->txqs.tso_hdr_page);
 	}
 
+=======
+	for_each_possible_cpu(i) {
+		struct iwl_tso_hdr_page *p =
+			per_cpu_ptr(trans->txqs.tso_hdr_page, i);
+
+		if (p->page)
+			__free_page(p->page);
+	}
+
+	free_percpu(trans->txqs.tso_hdr_page);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kmem_cache_destroy(trans->dev_cmd_pool);
 }
 
@@ -147,6 +225,7 @@ int iwl_trans_send_cmd(struct iwl_trans *trans, struct iwl_host_cmd *cmd)
 		     test_bit(STATUS_RFKILL_OPMODE, &trans->status)))
 		return -ERFKILL;
 
+<<<<<<< HEAD
 	/*
 	 * We can't test IWL_MVM_STATUS_IN_D3 in mvm->status because this
 	 * bit is set early in the D3 flow, before we send all the commands
@@ -160,6 +239,8 @@ int iwl_trans_send_cmd(struct iwl_trans *trans, struct iwl_host_cmd *cmd)
 		     !(cmd->flags & CMD_SEND_IN_D3)))
 		return -EHOSTDOWN;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(test_bit(STATUS_FW_ERROR, &trans->status)))
 		return -EIO;
 
@@ -175,12 +256,19 @@ int iwl_trans_send_cmd(struct iwl_trans *trans, struct iwl_host_cmd *cmd)
 	if (!(cmd->flags & CMD_ASYNC))
 		lock_map_acquire_read(&trans->sync_cmd_lockdep_map);
 
+<<<<<<< HEAD
 	if (trans->wide_cmd_header && !iwl_cmd_groupid(cmd->id)) {
 		if (cmd->id != REPLY_ERROR)
 			cmd->id = DEF_ID(cmd->id);
 	}
 
 	ret = iwl_trans_txq_send_hcmd(trans, cmd);
+=======
+	if (trans->wide_cmd_header && !iwl_cmd_groupid(cmd->id))
+		cmd->id = DEF_ID(cmd->id);
+
+	ret = trans->ops->send_cmd(trans, cmd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!(cmd->flags & CMD_ASYNC))
 		lock_map_release(&trans->sync_cmd_lockdep_map);

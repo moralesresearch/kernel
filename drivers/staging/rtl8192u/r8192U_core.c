@@ -1608,8 +1608,11 @@ static short rtl8192_usb_initendpoints(struct net_device *dev)
 		void *oldaddr, *newaddr;
 
 		priv->rx_urb[16] = usb_alloc_urb(0, GFP_KERNEL);
+<<<<<<< HEAD
 		if (!priv->rx_urb[16])
 			return -ENOMEM;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		priv->oldaddr = kmalloc(16, GFP_KERNEL);
 		if (!priv->oldaddr)
 			return -ENOMEM;
@@ -3210,7 +3213,11 @@ static void rtl819x_update_rxcounts(struct r8192_priv *priv, u32 *TotalRxBcnNum,
 			     u32 *TotalRxDataNum)
 {
 	u16			SlotIndex;
+<<<<<<< HEAD
 	u16			i;
+=======
+	u8			i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*TotalRxBcnNum = 0;
 	*TotalRxDataNum = 0;

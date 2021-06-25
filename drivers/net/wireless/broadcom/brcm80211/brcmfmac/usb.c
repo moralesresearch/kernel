@@ -1584,6 +1584,12 @@ void brcmf_usb_exit(void)
 	usb_deregister(&brcmf_usbdrvr);
 }
 
+<<<<<<< HEAD
+int brcmf_usb_register(void)
+{
+	brcmf_dbg(USB, "Enter\n");
+	return usb_register(&brcmf_usbdrvr);
+=======
 void brcmf_usb_register(void)
 {
 	int ret;
@@ -1592,4 +1598,5 @@ void brcmf_usb_register(void)
 	ret = usb_register(&brcmf_usbdrvr);
 	if (ret)
 		brcmf_err("usb_register failed %d\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

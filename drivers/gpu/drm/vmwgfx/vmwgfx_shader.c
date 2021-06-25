@@ -222,7 +222,11 @@ static int vmw_gb_shader_create(struct vmw_resource *res)
 		goto out_no_fifo;
 	}
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		ret = -ENOMEM;
 		goto out_no_fifo;
@@ -233,7 +237,11 @@ static int vmw_gb_shader_create(struct vmw_resource *res)
 	cmd->body.shid = res->id;
 	cmd->body.type = shader->type;
 	cmd->body.sizeInBytes = shader->size;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmw_fifo_resource_inc(dev_priv);
 
 	return 0;
@@ -256,7 +264,11 @@ static int vmw_gb_shader_bind(struct vmw_resource *res,
 
 	BUG_ON(bo->mem.mem_type != VMW_PL_MOB);
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -266,7 +278,11 @@ static int vmw_gb_shader_bind(struct vmw_resource *res,
 	cmd->body.mobid = bo->mem.start;
 	cmd->body.offsetInBytes = res->backup_offset;
 	res->backup_dirty = false;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -284,7 +300,11 @@ static int vmw_gb_shader_unbind(struct vmw_resource *res,
 
 	BUG_ON(res->backup->base.mem.mem_type != VMW_PL_MOB);
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -293,7 +313,11 @@ static int vmw_gb_shader_unbind(struct vmw_resource *res,
 	cmd->body.shid = res->id;
 	cmd->body.mobid = SVGA3D_INVALID_ID;
 	cmd->body.offsetInBytes = 0;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Create a fence object and fence the backup buffer.
@@ -324,7 +348,11 @@ static int vmw_gb_shader_destroy(struct vmw_resource *res)
 	mutex_lock(&dev_priv->binding_mutex);
 	vmw_binding_res_list_scrub(&res->binding_head);
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		mutex_unlock(&dev_priv->binding_mutex);
 		return -ENOMEM;
@@ -333,7 +361,11 @@ static int vmw_gb_shader_destroy(struct vmw_resource *res)
 	cmd->header.id = SVGA_3D_CMD_DESTROY_GB_SHADER;
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.shid = res->id;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dev_priv->binding_mutex);
 	vmw_resource_release_id(res);
 	vmw_fifo_resource_dec(dev_priv);
@@ -394,7 +426,11 @@ static int vmw_dx_shader_unscrub(struct vmw_resource *res)
 	if (!list_empty(&shader->cotable_head) || !shader->committed)
 		return 0;
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_CTX_RESERVE(dev_priv, sizeof(*cmd), shader->ctx->id);
+=======
+	cmd = VMW_FIFO_RESERVE_DX(dev_priv, sizeof(*cmd), shader->ctx->id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -404,7 +440,11 @@ static int vmw_dx_shader_unscrub(struct vmw_resource *res)
 	cmd->body.shid = shader->id;
 	cmd->body.mobid = res->backup->base.mem.start;
 	cmd->body.offsetInBytes = res->backup_offset;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vmw_cotable_add_resource(shader->cotable, &shader->cotable_head);
 
@@ -481,7 +521,11 @@ static int vmw_dx_shader_scrub(struct vmw_resource *res)
 		return 0;
 
 	WARN_ON_ONCE(!shader->committed);
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -491,7 +535,11 @@ static int vmw_dx_shader_scrub(struct vmw_resource *res)
 	cmd->body.shid = res->id;
 	cmd->body.mobid = SVGA3D_INVALID_ID;
 	cmd->body.offsetInBytes = 0;
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	res->id = -1;
 	list_del_init(&shader->cotable_head);
 
@@ -856,7 +904,12 @@ static int vmw_shader_define(struct drm_device *dev, struct drm_file *file_priv,
 			return ret;
 		}
 
+<<<<<<< HEAD
 		if ((u64)buffer->base.base.size < (u64)size + (u64)offset) {
+=======
+		if ((u64)buffer->base.num_pages * PAGE_SIZE <
+		    (u64)size + (u64)offset) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			VMW_DEBUG_USER("Illegal buffer- or shader size.\n");
 			ret = -EINVAL;
 			goto out_bad_arg;

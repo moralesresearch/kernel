@@ -20,11 +20,20 @@ static int __igt_client_fill(struct intel_engine_cs *engine)
 {
 	struct intel_context *ce = engine->kernel_context;
 	struct drm_i915_gem_object *obj;
+<<<<<<< HEAD
 	I915_RND_STATE(prng);
+=======
+	struct rnd_state prng;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	IGT_TIMEOUT(end);
 	u32 *vaddr;
 	int err = 0;
 
+<<<<<<< HEAD
+=======
+	prandom_seed_state(&prng, i915_selftest.random_seed);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_engine_pm_get(engine);
 	do {
 		const u32 max_block_size = S16_MAX * PAGE_SIZE;

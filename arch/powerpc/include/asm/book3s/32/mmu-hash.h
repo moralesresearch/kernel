@@ -94,7 +94,11 @@ typedef struct {
 } mm_context_t;
 
 void update_bats(void);
+<<<<<<< HEAD
 static inline void cleanup_cpu_mmu_context(void) { }
+=======
+static inline void cleanup_cpu_mmu_context(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* patch sites */
 extern s32 patch__hash_page_A0, patch__hash_page_A1, patch__hash_page_A2;

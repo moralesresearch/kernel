@@ -825,7 +825,11 @@
 			interrupts = <10>;
 		};
 
+<<<<<<< HEAD
 		mmcsd: mmc@101f6000 {
+=======
+		mmcsd: sdi@101f6000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x101f6000 0x1000>;
 			clocks = <&sdiclk>, <&pclksdi>;

@@ -13,9 +13,13 @@ if NET_VENDOR_MICROSEMI
 
 # Users should depend on NET_SWITCHDEV, HAS_IOMEM
 config MSCC_OCELOT_SWITCH_LIB
+<<<<<<< HEAD
 	select NET_DEVLINK
 	select REGMAP_MMIO
 	select PACKING
+=======
+	select REGMAP_MMIO
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select PHYLIB
 	tristate
 	help

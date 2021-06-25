@@ -66,7 +66,10 @@
 #define HZIP_CORE_INT_STATUS_M_ECC	BIT(1)
 #define HZIP_CORE_SRAM_ECC_ERR_INFO	0x301148
 #define HZIP_CORE_INT_RAS_CE_ENB	0x301160
+<<<<<<< HEAD
 #define HZIP_CORE_INT_RAS_CE_ENABLE	0x1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HZIP_CORE_INT_RAS_NFE_ENB	0x301164
 #define HZIP_CORE_INT_RAS_FE_ENB        0x301168
 #define HZIP_CORE_INT_RAS_NFE_ENABLE	0x7FE
@@ -212,6 +215,7 @@ static const struct debugfs_reg32 hzip_dfx_regs[] = {
 	{"HZIP_DECOMP_LZ77_CURR_ST       ",  0x9cull},
 };
 
+<<<<<<< HEAD
 static const struct kernel_param_ops zip_uacce_mode_ops = {
 	.set = uacce_mode_set,
 	.get = param_get_int,
@@ -225,6 +229,8 @@ static u32 uacce_mode = UACCE_MODE_NOUACCE;
 module_param_cb(uacce_mode, &zip_uacce_mode_ops, &uacce_mode, 0444);
 MODULE_PARM_DESC(uacce_mode, UACCE_MODE_DESC);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int pf_q_num_set(const char *val, const struct kernel_param *kp)
 {
 	return q_num_set(val, kp, PCI_DEVICE_ID_ZIP_PF);
@@ -293,7 +299,11 @@ static int hisi_zip_set_user_domain_and_cache(struct hisi_qm *qm)
 	writel(AXUSER_BASE, base + HZIP_SGL_RUSER_32_63);
 	writel(AXUSER_BASE, base + HZIP_BD_WUSER_32_63);
 
+<<<<<<< HEAD
 	if (qm->use_sva && qm->ver == QM_HW_V2) {
+=======
+	if (qm->use_sva) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		writel(AXUSER_BASE | AXUSER_SSV, base + HZIP_DATA_RUSER_32_63);
 		writel(AXUSER_BASE | AXUSER_SSV, base + HZIP_DATA_WUSER_32_63);
 	} else {
@@ -328,8 +338,12 @@ static void hisi_zip_hw_error_enable(struct hisi_qm *qm)
 	writel(HZIP_CORE_INT_MASK_ALL, qm->io_base + HZIP_CORE_INT_SOURCE);
 
 	/* configure error type */
+<<<<<<< HEAD
 	writel(HZIP_CORE_INT_RAS_CE_ENABLE,
 	       qm->io_base + HZIP_CORE_INT_RAS_CE_ENB);
+=======
+	writel(0x1, qm->io_base + HZIP_CORE_INT_RAS_CE_ENB);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	writel(0x0, qm->io_base + HZIP_CORE_INT_RAS_FE_ENB);
 	writel(HZIP_CORE_INT_RAS_NFE_ENABLE,
 	       qm->io_base + HZIP_CORE_INT_RAS_NFE_ENB);
@@ -729,7 +743,10 @@ static const struct hisi_qm_err_ini hisi_zip_err_ini = {
 					  QM_ACC_WB_NOT_READY_TIMEOUT,
 		.fe			= 0,
 		.ecc_2bits_mask		= HZIP_CORE_INT_STATUS_M_ECC,
+<<<<<<< HEAD
 		.dev_ce_mask		= HZIP_CORE_INT_RAS_CE_ENABLE,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.msi_wr_port		= HZIP_WR_PORT,
 		.acpi_rst		= "ZRST",
 	}
@@ -768,7 +785,10 @@ static int hisi_zip_qm_init(struct hisi_qm *qm, struct pci_dev *pdev)
 	qm->pdev = pdev;
 	qm->ver = pdev->revision;
 	qm->algs = "zlib\ngzip";
+<<<<<<< HEAD
 	qm->mode = uacce_mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qm->sqe_size = HZIP_SQE_SIZE;
 	qm->dev_name = hisi_zip_name;
 
@@ -904,7 +924,11 @@ static void hisi_zip_remove(struct pci_dev *pdev)
 	hisi_qm_alg_unregister(qm, &zip_devices);
 
 	if (qm->fun_type == QM_HW_PF && qm->vfs_num)
+<<<<<<< HEAD
 		hisi_qm_sriov_disable(pdev, true);
+=======
+		hisi_qm_sriov_disable(pdev, qm->is_frozen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hisi_zip_debugfs_exit(qm);
 	hisi_qm_stop(qm, QM_NORMAL);

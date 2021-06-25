@@ -35,7 +35,14 @@
 #include "amdgpu_dm_debugfs.h"
 #include "amdgpu_ras.h"
 #include "amdgpu_rap.h"
+<<<<<<< HEAD
 #include "amdgpu_securedisplay.h"
+=======
+<<<<<<< HEAD
+#include "amdgpu_securedisplay.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "amdgpu_fw_attestation.h"
 
 /**
@@ -1428,7 +1435,15 @@ static void amdgpu_ib_preempt_job_recovery(struct drm_gpu_scheduler *sched)
 	struct dma_fence *fence;
 
 	spin_lock(&sched->job_list_lock);
+<<<<<<< HEAD
 	list_for_each_entry(s_job, &sched->pending_list, list) {
+=======
+<<<<<<< HEAD
+	list_for_each_entry(s_job, &sched->pending_list, list) {
+=======
+	list_for_each_entry(s_job, &sched->ring_mirror_list, node) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fence = sched->ops->run_job(s_job);
 		dma_fence_put(fence);
 	}
@@ -1460,10 +1475,23 @@ static void amdgpu_ib_preempt_mark_partial_job(struct amdgpu_ring *ring)
 
 no_preempt:
 	spin_lock(&sched->job_list_lock);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
 		if (dma_fence_is_signaled(&s_job->s_fence->finished)) {
 			/* remove job from ring_mirror_list */
 			list_del_init(&s_job->list);
+<<<<<<< HEAD
+=======
+=======
+	list_for_each_entry_safe(s_job, tmp, &sched->ring_mirror_list, node) {
+		if (dma_fence_is_signaled(&s_job->s_fence->finished)) {
+			/* remove job from ring_mirror_list */
+			list_del_init(&s_job->node);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sched->ops->free_job(s_job);
 			continue;
 		}
@@ -1670,8 +1698,16 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
 
 	amdgpu_rap_debugfs_init(adev);
 
+<<<<<<< HEAD
 	amdgpu_securedisplay_debugfs_init(adev);
 
+=======
+<<<<<<< HEAD
+	amdgpu_securedisplay_debugfs_init(adev);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amdgpu_fw_attestation_debugfs_init(adev);
 
 	return amdgpu_debugfs_add_files(adev, amdgpu_debugfs_list,

@@ -39,6 +39,7 @@ static void user_forcewake(struct intel_gt *gt, bool suspend)
 	intel_gt_pm_put(gt);
 }
 
+<<<<<<< HEAD
 static void runtime_begin(struct intel_gt *gt)
 {
 	local_irq_disable();
@@ -61,6 +62,8 @@ static void runtime_end(struct intel_gt *gt)
 	local_irq_enable();
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __gt_unpark(struct intel_wakeref *wf)
 {
 	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
@@ -89,7 +92,10 @@ static int __gt_unpark(struct intel_wakeref *wf)
 	i915_pmu_gt_unparked(i915);
 
 	intel_gt_unpark_requests(gt);
+<<<<<<< HEAD
 	runtime_begin(gt);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -102,7 +108,10 @@ static int __gt_park(struct intel_wakeref *wf)
 
 	GT_TRACE(gt, "\n");
 
+<<<<<<< HEAD
 	runtime_end(gt);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_gt_park_requests(gt);
 
 	i915_vma_parked(gt);
@@ -130,7 +139,10 @@ static const struct intel_wakeref_ops wf_ops = {
 void intel_gt_pm_init_early(struct intel_gt *gt)
 {
 	intel_wakeref_init(&gt->wakeref, gt->uncore->rpm, &wf_ops);
+<<<<<<< HEAD
 	seqcount_mutex_init(&gt->stats.lock, &gt->wakeref.mutex);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void intel_gt_pm_init(struct intel_gt *gt)
@@ -364,6 +376,7 @@ int intel_gt_runtime_resume(struct intel_gt *gt)
 	return intel_uc_runtime_resume(&gt->uc);
 }
 
+<<<<<<< HEAD
 static ktime_t __intel_gt_get_awake_time(const struct intel_gt *gt)
 {
 	ktime_t total = gt->stats.total;
@@ -388,6 +401,8 @@ ktime_t intel_gt_get_awake_time(const struct intel_gt *gt)
 	return total;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
 #include "selftest_gt_pm.c"
 #endif

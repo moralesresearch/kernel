@@ -88,6 +88,21 @@ static struct arm_smmu_option_prop arm_smmu_options[] = {
 	{ 0, NULL},
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static inline void __iomem *arm_smmu_page1_fixup(unsigned long offset,
+						 struct arm_smmu_device *smmu)
+{
+	if (offset > SZ_64K)
+		return smmu->page1 + offset - SZ_64K;
+
+	return smmu->base + offset;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void parse_driver_options(struct arm_smmu_device *smmu)
 {
 	int i = 0;
@@ -263,11 +278,23 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
 		cmd[1] |= FIELD_PREP(CMDQ_CFGI_1_RANGE, 31);
 		break;
 	case CMDQ_OP_TLBI_NH_VA:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_VMID, ent->tlbi.vmid);
 		fallthrough;
 	case CMDQ_OP_TLBI_EL2_VA:
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_NUM, ent->tlbi.num);
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_SCALE, ent->tlbi.scale);
+<<<<<<< HEAD
+=======
+=======
+		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_NUM, ent->tlbi.num);
+		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_SCALE, ent->tlbi.scale);
+		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_VMID, ent->tlbi.vmid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_ASID, ent->tlbi.asid);
 		cmd[1] |= FIELD_PREP(CMDQ_TLBI_1_LEAF, ent->tlbi.leaf);
 		cmd[1] |= FIELD_PREP(CMDQ_TLBI_1_TTL, ent->tlbi.ttl);
@@ -289,9 +316,18 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
 	case CMDQ_OP_TLBI_S12_VMALL:
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_VMID, ent->tlbi.vmid);
 		break;
+<<<<<<< HEAD
 	case CMDQ_OP_TLBI_EL2_ASID:
 		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_ASID, ent->tlbi.asid);
 		break;
+=======
+<<<<<<< HEAD
+	case CMDQ_OP_TLBI_EL2_ASID:
+		cmd[0] |= FIELD_PREP(CMDQ_TLBI_0_ASID, ent->tlbi.asid);
+		break;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case CMDQ_OP_ATC_INV:
 		cmd[0] |= FIELD_PREP(CMDQ_0_SSV, ent->substream_valid);
 		cmd[0] |= FIELD_PREP(CMDQ_ATC_0_GLOBAL, ent->atc.global);
@@ -882,8 +918,17 @@ static int arm_smmu_cmdq_batch_submit(struct arm_smmu_device *smmu,
 void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid)
 {
 	struct arm_smmu_cmdq_ent cmd = {
+<<<<<<< HEAD
 		.opcode	= smmu->features & ARM_SMMU_FEAT_E2H ?
 			CMDQ_OP_TLBI_EL2_ASID : CMDQ_OP_TLBI_NH_ASID,
+=======
+<<<<<<< HEAD
+		.opcode	= smmu->features & ARM_SMMU_FEAT_E2H ?
+			CMDQ_OP_TLBI_EL2_ASID : CMDQ_OP_TLBI_NH_ASID,
+=======
+		.opcode = CMDQ_OP_TLBI_NH_ASID,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.tlbi.asid = asid,
 	};
 
@@ -1266,16 +1311,33 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
 	}
 
 	if (s1_cfg) {
+<<<<<<< HEAD
 		u64 strw = smmu->features & ARM_SMMU_FEAT_E2H ?
 			STRTAB_STE_1_STRW_EL2 : STRTAB_STE_1_STRW_NSEL1;
 
+=======
+<<<<<<< HEAD
+		u64 strw = smmu->features & ARM_SMMU_FEAT_E2H ?
+			STRTAB_STE_1_STRW_EL2 : STRTAB_STE_1_STRW_NSEL1;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BUG_ON(ste_live);
 		dst[1] = cpu_to_le64(
 			 FIELD_PREP(STRTAB_STE_1_S1DSS, STRTAB_STE_1_S1DSS_SSID0) |
 			 FIELD_PREP(STRTAB_STE_1_S1CIR, STRTAB_STE_1_S1C_CACHE_WBRA) |
 			 FIELD_PREP(STRTAB_STE_1_S1COR, STRTAB_STE_1_S1C_CACHE_WBRA) |
 			 FIELD_PREP(STRTAB_STE_1_S1CSH, ARM_SMMU_SH_ISH) |
+<<<<<<< HEAD
 			 FIELD_PREP(STRTAB_STE_1_STRW, strw));
+=======
+<<<<<<< HEAD
+			 FIELD_PREP(STRTAB_STE_1_STRW, strw));
+=======
+			 FIELD_PREP(STRTAB_STE_1_STRW, STRTAB_STE_1_STRW_NSEL1));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (smmu->features & ARM_SMMU_FEAT_STALLS &&
 		   !(smmu->features & ARM_SMMU_FEAT_STALL_FORCE))
@@ -1667,6 +1729,10 @@ static void arm_smmu_tlb_inv_context(void *cookie)
 	arm_smmu_atc_inv_domain(smmu_domain, 0, 0, 0);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
 				     unsigned long iova, size_t size,
 				     size_t granule,
@@ -1676,19 +1742,64 @@ static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
 	unsigned long end = iova + size, num_pages = 0, tg = 0;
 	size_t inv_range = granule;
 	struct arm_smmu_cmdq_batch cmds = {};
+<<<<<<< HEAD
+=======
+=======
+static void arm_smmu_tlb_inv_range(unsigned long iova, size_t size,
+				   size_t granule, bool leaf,
+				   struct arm_smmu_domain *smmu_domain)
+{
+	struct arm_smmu_device *smmu = smmu_domain->smmu;
+	unsigned long start = iova, end = iova + size, num_pages = 0, tg = 0;
+	size_t inv_range = granule;
+	struct arm_smmu_cmdq_batch cmds = {};
+	struct arm_smmu_cmdq_ent cmd = {
+		.tlbi = {
+			.leaf	= leaf,
+		},
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!size)
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
+		cmd.opcode	= CMDQ_OP_TLBI_NH_VA;
+		cmd.tlbi.asid	= smmu_domain->s1_cfg.cd.asid;
+	} else {
+		cmd.opcode	= CMDQ_OP_TLBI_S2_IPA;
+		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
 		/* Get the leaf page size */
 		tg = __ffs(smmu_domain->domain.pgsize_bitmap);
 
 		/* Convert page size of 12,14,16 (log2) to 1,2,3 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cmd->tlbi.tg = (tg - 10) / 2;
 
 		/* Determine what level the granule is at */
 		cmd->tlbi.ttl = 4 - ((ilog2(granule) - 3) / (tg - 3));
+<<<<<<< HEAD
+=======
+=======
+		cmd.tlbi.tg = (tg - 10) / 2;
+
+		/* Determine what level the granule is at */
+		cmd.tlbi.ttl = 4 - ((ilog2(granule) - 3) / (tg - 3));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		num_pages = size >> tg;
 	}
@@ -1706,11 +1817,25 @@ static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
 
 			/* Determine the power of 2 multiple number of pages */
 			scale = __ffs(num_pages);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cmd->tlbi.scale = scale;
 
 			/* Determine how many chunks of 2^scale size we have */
 			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
 			cmd->tlbi.num = num - 1;
+<<<<<<< HEAD
+=======
+=======
+			cmd.tlbi.scale = scale;
+
+			/* Determine how many chunks of 2^scale size we have */
+			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
+			cmd.tlbi.num = num - 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* range is num * 2^scale * pgsize */
 			inv_range = num << (scale + tg);
@@ -1719,6 +1844,10 @@ static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
 			num_pages -= num << scale;
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cmd->tlbi.addr = iova;
 		arm_smmu_cmdq_batch_add(smmu, &cmds, cmd);
 		iova += inv_range;
@@ -1745,11 +1874,25 @@ static void arm_smmu_tlb_inv_range_domain(unsigned long iova, size_t size,
 		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
 	}
 	__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
+<<<<<<< HEAD
+=======
+=======
+		cmd.tlbi.addr = iova;
+		arm_smmu_cmdq_batch_add(smmu, &cmds, &cmd);
+		iova += inv_range;
+	}
+	arm_smmu_cmdq_batch_submit(smmu, &cmds);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Unfortunately, this can't be leaf-only since we may have
 	 * zapped an entire table.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arm_smmu_atc_inv_domain(smmu_domain, 0, iova, size);
 }
 
@@ -1767,6 +1910,12 @@ void arm_smmu_tlb_inv_range_asid(unsigned long iova, size_t size, int asid,
 	};
 
 	__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
+<<<<<<< HEAD
+=======
+=======
+	arm_smmu_atc_inv_domain(smmu_domain, 0, start, size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void arm_smmu_tlb_inv_page_nosync(struct iommu_iotlb_gather *gather,
@@ -1782,7 +1931,15 @@ static void arm_smmu_tlb_inv_page_nosync(struct iommu_iotlb_gather *gather,
 static void arm_smmu_tlb_inv_walk(unsigned long iova, size_t size,
 				  size_t granule, void *cookie)
 {
+<<<<<<< HEAD
 	arm_smmu_tlb_inv_range_domain(iova, size, granule, false, cookie);
+=======
+<<<<<<< HEAD
+	arm_smmu_tlb_inv_range_domain(iova, size, granule, false, cookie);
+=======
+	arm_smmu_tlb_inv_range(iova, size, granule, false, cookie);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct iommu_flush_ops arm_smmu_flush_ops = {
@@ -2305,12 +2462,23 @@ static void arm_smmu_iotlb_sync(struct iommu_domain *domain,
 {
 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
 
+<<<<<<< HEAD
 	if (!gather->pgsize)
 		return;
 
 	arm_smmu_tlb_inv_range_domain(gather->start,
 				      gather->end - gather->start + 1,
 				      gather->pgsize, true, smmu_domain);
+=======
+<<<<<<< HEAD
+	arm_smmu_tlb_inv_range_domain(gather->start,
+				      gather->end - gather->start + 1,
+				      gather->pgsize, true, smmu_domain);
+=======
+	arm_smmu_tlb_inv_range(gather->start, gather->end - gather->start + 1,
+			       gather->pgsize, true, smmu_domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static phys_addr_t
@@ -2640,7 +2808,14 @@ static struct iommu_ops arm_smmu_ops = {
 /* Probing and initialisation functions */
 static int arm_smmu_init_one_queue(struct arm_smmu_device *smmu,
 				   struct arm_smmu_queue *q,
+<<<<<<< HEAD
 				   void __iomem *page,
+=======
+<<<<<<< HEAD
+				   void __iomem *page,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   unsigned long prod_off,
 				   unsigned long cons_off,
 				   size_t dwords, const char *name)
@@ -2669,8 +2844,18 @@ static int arm_smmu_init_one_queue(struct arm_smmu_device *smmu,
 			 1 << q->llq.max_n_shift, name);
 	}
 
+<<<<<<< HEAD
 	q->prod_reg	= page + prod_off;
 	q->cons_reg	= page + cons_off;
+=======
+<<<<<<< HEAD
+	q->prod_reg	= page + prod_off;
+	q->cons_reg	= page + cons_off;
+=======
+	q->prod_reg	= arm_smmu_page1_fixup(prod_off, smmu);
+	q->cons_reg	= arm_smmu_page1_fixup(cons_off, smmu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	q->ent_dwords	= dwords;
 
 	q->q_base  = Q_BASE_RWA;
@@ -2714,9 +2899,21 @@ static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
 	int ret;
 
 	/* cmdq */
+<<<<<<< HEAD
 	ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, smmu->base,
 				      ARM_SMMU_CMDQ_PROD, ARM_SMMU_CMDQ_CONS,
 				      CMDQ_ENT_DWORDS, "cmdq");
+=======
+<<<<<<< HEAD
+	ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, smmu->base,
+				      ARM_SMMU_CMDQ_PROD, ARM_SMMU_CMDQ_CONS,
+				      CMDQ_ENT_DWORDS, "cmdq");
+=======
+	ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, ARM_SMMU_CMDQ_PROD,
+				      ARM_SMMU_CMDQ_CONS, CMDQ_ENT_DWORDS,
+				      "cmdq");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -2725,9 +2922,21 @@ static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
 		return ret;
 
 	/* evtq */
+<<<<<<< HEAD
 	ret = arm_smmu_init_one_queue(smmu, &smmu->evtq.q, smmu->page1,
 				      ARM_SMMU_EVTQ_PROD, ARM_SMMU_EVTQ_CONS,
 				      EVTQ_ENT_DWORDS, "evtq");
+=======
+<<<<<<< HEAD
+	ret = arm_smmu_init_one_queue(smmu, &smmu->evtq.q, smmu->page1,
+				      ARM_SMMU_EVTQ_PROD, ARM_SMMU_EVTQ_CONS,
+				      EVTQ_ENT_DWORDS, "evtq");
+=======
+	ret = arm_smmu_init_one_queue(smmu, &smmu->evtq.q, ARM_SMMU_EVTQ_PROD,
+				      ARM_SMMU_EVTQ_CONS, EVTQ_ENT_DWORDS,
+				      "evtq");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -2735,9 +2944,21 @@ static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
 	if (!(smmu->features & ARM_SMMU_FEAT_PRI))
 		return 0;
 
+<<<<<<< HEAD
 	return arm_smmu_init_one_queue(smmu, &smmu->priq.q, smmu->page1,
 				       ARM_SMMU_PRIQ_PROD, ARM_SMMU_PRIQ_CONS,
 				       PRIQ_ENT_DWORDS, "priq");
+=======
+<<<<<<< HEAD
+	return arm_smmu_init_one_queue(smmu, &smmu->priq.q, smmu->page1,
+				       ARM_SMMU_PRIQ_PROD, ARM_SMMU_PRIQ_CONS,
+				       PRIQ_ENT_DWORDS, "priq");
+=======
+	return arm_smmu_init_one_queue(smmu, &smmu->priq.q, ARM_SMMU_PRIQ_PROD,
+				       ARM_SMMU_PRIQ_CONS, PRIQ_ENT_DWORDS,
+				       "priq");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int arm_smmu_init_l1_strtab(struct arm_smmu_device *smmu)
@@ -3090,11 +3311,21 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
 	writel_relaxed(reg, smmu->base + ARM_SMMU_CR1);
 
 	/* CR2 (random crap) */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = CR2_PTM | CR2_RECINVSID;
 
 	if (smmu->features & ARM_SMMU_FEAT_E2H)
 		reg |= CR2_E2H;
 
+<<<<<<< HEAD
+=======
+=======
+	reg = CR2_PTM | CR2_RECINVSID | CR2_E2H;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	writel_relaxed(reg, smmu->base + ARM_SMMU_CR2);
 
 	/* Stream table */
@@ -3133,8 +3364,20 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
 
 	/* Event queue */
 	writeq_relaxed(smmu->evtq.q.q_base, smmu->base + ARM_SMMU_EVTQ_BASE);
+<<<<<<< HEAD
 	writel_relaxed(smmu->evtq.q.llq.prod, smmu->page1 + ARM_SMMU_EVTQ_PROD);
 	writel_relaxed(smmu->evtq.q.llq.cons, smmu->page1 + ARM_SMMU_EVTQ_CONS);
+=======
+<<<<<<< HEAD
+	writel_relaxed(smmu->evtq.q.llq.prod, smmu->page1 + ARM_SMMU_EVTQ_PROD);
+	writel_relaxed(smmu->evtq.q.llq.cons, smmu->page1 + ARM_SMMU_EVTQ_CONS);
+=======
+	writel_relaxed(smmu->evtq.q.llq.prod,
+		       arm_smmu_page1_fixup(ARM_SMMU_EVTQ_PROD, smmu));
+	writel_relaxed(smmu->evtq.q.llq.cons,
+		       arm_smmu_page1_fixup(ARM_SMMU_EVTQ_CONS, smmu));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	enables |= CR0_EVTQEN;
 	ret = arm_smmu_write_reg_sync(smmu, enables, ARM_SMMU_CR0,
@@ -3149,9 +3392,21 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
 		writeq_relaxed(smmu->priq.q.q_base,
 			       smmu->base + ARM_SMMU_PRIQ_BASE);
 		writel_relaxed(smmu->priq.q.llq.prod,
+<<<<<<< HEAD
 			       smmu->page1 + ARM_SMMU_PRIQ_PROD);
 		writel_relaxed(smmu->priq.q.llq.cons,
 			       smmu->page1 + ARM_SMMU_PRIQ_CONS);
+=======
+<<<<<<< HEAD
+			       smmu->page1 + ARM_SMMU_PRIQ_PROD);
+		writel_relaxed(smmu->priq.q.llq.cons,
+			       smmu->page1 + ARM_SMMU_PRIQ_CONS);
+=======
+			       arm_smmu_page1_fixup(ARM_SMMU_PRIQ_PROD, smmu));
+		writel_relaxed(smmu->priq.q.llq.cons,
+			       arm_smmu_page1_fixup(ARM_SMMU_PRIQ_CONS, smmu));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		enables |= CR0_PRIQEN;
 		ret = arm_smmu_write_reg_sync(smmu, enables, ARM_SMMU_CR0,
@@ -3253,11 +3508,22 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
 			smmu->options |= ARM_SMMU_OPT_MSIPOLL;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (reg & IDR0_HYP) {
 		smmu->features |= ARM_SMMU_FEAT_HYP;
 		if (cpus_have_cap(ARM64_HAS_VIRT_HOST_EXTN))
 			smmu->features |= ARM_SMMU_FEAT_E2H;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (reg & IDR0_HYP)
+		smmu->features |= ARM_SMMU_FEAT_HYP;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * The coherency feature as set by FW is used in preference to the ID
@@ -3524,7 +3790,19 @@ err_reset_pci_ops: __maybe_unused;
 static void __iomem *arm_smmu_ioremap(struct device *dev, resource_size_t start,
 				      resource_size_t size)
 {
+<<<<<<< HEAD
 	struct resource res = DEFINE_RES_MEM(start, size);
+=======
+<<<<<<< HEAD
+	struct resource res = DEFINE_RES_MEM(start, size);
+=======
+	struct resource res = {
+		.flags = IORESOURCE_MEM,
+		.start = start,
+		.end = start + size - 1,
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return devm_ioremap_resource(dev, &res);
 }

@@ -292,6 +292,10 @@ static const char *const cmd_flag_name[] = {
 
 #define RQF_NAME(name) [ilog2((__force u32)RQF_##name)] = #name
 static const char *const rqf_name[] = {
+<<<<<<< HEAD
+=======
+	RQF_NAME(SORTED),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RQF_NAME(STARTED),
 	RQF_NAME(SOFTBARRIER),
 	RQF_NAME(FLUSH_SEQ),
@@ -302,6 +306,10 @@ static const char *const rqf_name[] = {
 	RQF_NAME(QUIET),
 	RQF_NAME(ELVPRIV),
 	RQF_NAME(IO_STAT),
+<<<<<<< HEAD
+=======
+	RQF_NAME(ALLOCED),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RQF_NAME(PM),
 	RQF_NAME(HASHED),
 	RQF_NAME(STATS),

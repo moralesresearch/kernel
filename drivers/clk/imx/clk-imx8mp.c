@@ -414,11 +414,26 @@ static const char * const imx8mp_dram_core_sels[] = {"dram_pll_out", "dram_alt_r
 static struct clk_hw **hws;
 static struct clk_hw_onecell_data *clk_hw_data;
 
+<<<<<<< HEAD
+=======
+static const int uart_clk_ids[] = {
+	IMX8MP_CLK_UART1_ROOT,
+	IMX8MP_CLK_UART2_ROOT,
+	IMX8MP_CLK_UART3_ROOT,
+	IMX8MP_CLK_UART4_ROOT,
+};
+static struct clk **uart_clks[ARRAY_SIZE(uart_clk_ids) + 1];
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int imx8mp_clocks_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
 	struct device_node *np;
 	void __iomem *anatop_base, *ccm_base;
+<<<<<<< HEAD
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	np = of_find_compatible_node(NULL, NULL, "fsl,imx8mp-anatop");
 	anatop_base = of_iomap(np, 0);
@@ -728,7 +743,17 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
 
 	of_clk_add_hw_provider(np, of_clk_hw_onecell_get, clk_hw_data);
 
+<<<<<<< HEAD
 	imx_register_uart_clocks(4);
+=======
+	for (i = 0; i < ARRAY_SIZE(uart_clk_ids); i++) {
+		int index = uart_clk_ids[i];
+
+		uart_clks[i] = &hws[index]->clk;
+	}
+
+	imx_register_uart_clocks(uart_clks);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

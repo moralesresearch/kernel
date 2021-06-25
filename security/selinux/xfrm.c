@@ -47,7 +47,11 @@
 #include "xfrm.h"
 
 /* Labeled XFRM instance counter */
+<<<<<<< HEAD
 atomic_t selinux_xfrm_refcount __read_mostly = ATOMIC_INIT(0);
+=======
+atomic_t selinux_xfrm_refcount = ATOMIC_INIT(0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Returns true if the context is an LSM/SELinux context.

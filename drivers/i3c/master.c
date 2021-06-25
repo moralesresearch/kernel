@@ -326,6 +326,7 @@ static int i3c_device_remove(struct device *dev)
 {
 	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
 	struct i3c_driver *driver = drv_to_i3cdrv(dev->driver);
+<<<<<<< HEAD
 
 	if (driver->remove)
 		driver->remove(i3cdev);
@@ -333,6 +334,17 @@ static int i3c_device_remove(struct device *dev)
 	i3c_device_free_ibi(i3cdev);
 
 	return 0;
+=======
+	int ret;
+
+	ret = driver->remove(i3cdev);
+	if (ret)
+		return ret;
+
+	i3c_device_free_ibi(i3cdev);
+
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct bus_type i3c_bus_type = {
@@ -2535,7 +2547,11 @@ int i3c_master_register(struct i3c_master_controller *master,
 
 	ret = i3c_master_bus_init(master);
 	if (ret)
+<<<<<<< HEAD
 		goto err_put_dev;
+=======
+		goto err_destroy_wq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = device_add(&master->dev);
 	if (ret)
@@ -2566,6 +2582,12 @@ err_del_dev:
 err_cleanup_bus:
 	i3c_master_bus_cleanup(master);
 
+<<<<<<< HEAD
+=======
+err_destroy_wq:
+	destroy_workqueue(master->wq);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_put_dev:
 	put_device(&master->dev);
 

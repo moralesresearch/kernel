@@ -82,7 +82,10 @@ enum nfs_param {
 	Opt_v,
 	Opt_vers,
 	Opt_wsize,
+<<<<<<< HEAD
 	Opt_write,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -114,6 +117,7 @@ static const struct constant_table nfs_param_enums_lookupcache[] = {
 	{}
 };
 
+<<<<<<< HEAD
 enum {
 	Opt_write_lazy,
 	Opt_write_eager,
@@ -127,6 +131,8 @@ static const struct constant_table nfs_param_enums_write[] = {
 	{}
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct fs_parameter_spec nfs_fs_parameters[] = {
 	fsparam_flag_no("ac",		Opt_ac),
 	fsparam_u32   ("acdirmax",	Opt_acdirmax),
@@ -185,7 +191,10 @@ static const struct fs_parameter_spec nfs_fs_parameters[] = {
 	fsparam_flag  ("v4.1",		Opt_v),
 	fsparam_flag  ("v4.2",		Opt_v),
 	fsparam_string("vers",		Opt_vers),
+<<<<<<< HEAD
 	fsparam_enum  ("write",		Opt_write, nfs_param_enums_write),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fsparam_u32   ("wsize",		Opt_wsize),
 	{}
 };
@@ -785,6 +794,7 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
 			goto out_invalid_value;
 		}
 		break;
+<<<<<<< HEAD
 	case Opt_write:
 		switch (result.uint_32) {
 		case Opt_write_lazy:
@@ -803,6 +813,8 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
 			goto out_invalid_value;
 		}
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Special options
@@ -974,6 +986,7 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 			       sizeof(mntfh->data) - mntfh->size);
 
 		/*
+<<<<<<< HEAD
 		 * for proto == XPRT_TRANSPORT_UDP, which is what uses
 		 * to_exponential, implying shift: limit the shift value
 		 * to BITS_PER_LONG (majortimeo is unsigned long)
@@ -983,6 +996,8 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 				goto out_invalid_data;
 
 		/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * Translate to nfs_fs_context, which nfs_fill_super
 		 * can deal with.
 		 */
@@ -1082,9 +1097,12 @@ out_no_address:
 
 out_invalid_fh:
 	return nfs_invalf(fc, "NFS: invalid root filehandle");
+<<<<<<< HEAD
 
 out_invalid_data:
 	return nfs_invalf(fc, "NFS: invalid binary mount data");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #if IS_ENABLED(CONFIG_NFS_V4)
@@ -1524,8 +1542,11 @@ static int nfs_init_fs_context(struct fs_context *fc)
 		ctx->selected_flavor	= RPC_AUTH_MAXFLAVOR;
 		ctx->minorversion	= 0;
 		ctx->need_mount		= true;
+<<<<<<< HEAD
 
 		fc->s_iflags		|= SB_I_STABLE_WRITES;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	fc->fs_private = ctx;
 	fc->ops = &nfs_fs_context_ops;

@@ -789,7 +789,11 @@ static int cdns_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
 	bool change_role = false;
 #endif
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(id->dev);
+=======
+	ret = pm_runtime_get_sync(id->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -911,7 +915,11 @@ static int cdns_reg_slave(struct i2c_client *slave)
 	if (slave->flags & I2C_CLIENT_TEN)
 		return -EAFNOSUPPORT;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(id->dev);
+=======
+	ret = pm_runtime_get_sync(id->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1200,10 +1208,14 @@ static int cdns_i2c_probe(struct platform_device *pdev)
 	if (IS_ERR(id->membase))
 		return PTR_ERR(id->membase);
 
+<<<<<<< HEAD
 	ret = platform_get_irq(pdev, 0);
 	if (ret < 0)
 		return ret;
 	id->irq = ret;
+=======
+	id->irq = platform_get_irq(pdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	id->adap.owner = THIS_MODULE;
 	id->adap.dev.of_node = pdev->dev.of_node;

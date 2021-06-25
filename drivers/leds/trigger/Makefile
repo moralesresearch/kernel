@@ -15,4 +15,7 @@ obj-$(CONFIG_LEDS_TRIGGER_PANIC)	+= ledtrig-panic.o
 obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
 obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
 obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
+<<<<<<< HEAD
 obj-$(CONFIG_LEDS_TRIGGER_TTY)		+= ledtrig-tty.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

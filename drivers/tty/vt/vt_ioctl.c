@@ -484,6 +484,73 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static inline int do_fontx_ioctl(struct vc_data *vc, int cmd,
+		struct consolefontdesc __user *user_cfd,
+		struct console_font_op *op)
+{
+	struct consolefontdesc cfdarg;
+	int i;
+
+	if (copy_from_user(&cfdarg, user_cfd, sizeof(struct consolefontdesc)))
+		return -EFAULT;
+
+	switch (cmd) {
+	case PIO_FONTX:
+		op->op = KD_FONT_OP_SET;
+		op->flags = KD_FONT_FLAG_OLD;
+		op->width = 8;
+		op->height = cfdarg.charheight;
+		op->charcount = cfdarg.charcount;
+		op->data = cfdarg.chardata;
+		return con_font_op(vc, op);
+
+	case GIO_FONTX:
+		op->op = KD_FONT_OP_GET;
+		op->flags = KD_FONT_FLAG_OLD;
+		op->width = 8;
+		op->height = cfdarg.charheight;
+		op->charcount = cfdarg.charcount;
+		op->data = cfdarg.chardata;
+		i = con_font_op(vc, op);
+		if (i)
+			return i;
+		cfdarg.charheight = op->height;
+		cfdarg.charcount = op->charcount;
+		if (copy_to_user(user_cfd, &cfdarg, sizeof(struct consolefontdesc)))
+			return -EFAULT;
+		return 0;
+	}
+	return -EINVAL;
+}
+
+static int vt_io_fontreset(struct vc_data *vc, struct console_font_op *op)
+{
+	int ret;
+
+	if (__is_defined(BROKEN_GRAPHICS_PROGRAMS)) {
+		/*
+		 * With BROKEN_GRAPHICS_PROGRAMS defined, the default font is
+		 * not saved.
+		 */
+		return -ENOSYS;
+	}
+
+	op->op = KD_FONT_OP_SET_DEFAULT;
+	op->data = NULL;
+	ret = con_font_op(vc, op);
+	if (ret)
+		return ret;
+
+	console_lock();
+	con_set_default_unimap(vc);
+	console_unlock();
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int do_unimap_ioctl(int cmd, struct unimapdesc __user *user_ud,
 		bool perm, struct vc_data *vc)
 {
@@ -508,7 +575,33 @@ static inline int do_unimap_ioctl(int cmd, struct unimapdesc __user *user_ud,
 static int vt_io_ioctl(struct vc_data *vc, unsigned int cmd, void __user *up,
 		bool perm)
 {
+<<<<<<< HEAD
 	switch (cmd) {
+=======
+	struct console_font_op op;	/* used in multiple places here */
+
+	switch (cmd) {
+	case PIO_FONT:
+		if (!perm)
+			return -EPERM;
+		op.op = KD_FONT_OP_SET;
+		op.flags = KD_FONT_FLAG_OLD | KD_FONT_FLAG_DONT_RECALC;	/* Compatibility */
+		op.width = 8;
+		op.height = 0;
+		op.charcount = 256;
+		op.data = up;
+		return con_font_op(vc, &op);
+
+	case GIO_FONT:
+		op.op = KD_FONT_OP_GET;
+		op.flags = KD_FONT_FLAG_OLD;
+		op.width = 8;
+		op.height = 32;
+		op.charcount = 256;
+		op.data = up;
+		return con_font_op(vc, &op);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PIO_CMAP:
 		if (!perm)
 			return -EPERM;
@@ -517,6 +610,23 @@ static int vt_io_ioctl(struct vc_data *vc, unsigned int cmd, void __user *up,
 	case GIO_CMAP:
 		return con_get_cmap(up);
 
+<<<<<<< HEAD
+=======
+	case PIO_FONTX:
+		if (!perm)
+			return -EPERM;
+
+		fallthrough;
+	case GIO_FONTX:
+		return do_fontx_ioctl(vc, cmd, up, &op);
+
+	case PIO_FONTRESET:
+		if (!perm)
+			return -EPERM;
+
+		return vt_io_fontreset(vc, &op);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PIO_SCRNMAP:
 		if (!perm)
 			return -EPERM;
@@ -671,6 +781,7 @@ static int vt_resizex(struct vc_data *vc, struct vt_consize __user *cs)
 	if (copy_from_user(&v, cs, sizeof(struct vt_consize)))
 		return -EFAULT;
 
+<<<<<<< HEAD
 	/* FIXME: Should check the copies properly */
 	if (!v.v_vlin)
 		v.v_vlin = vc->vc_scan_lines;
@@ -723,6 +834,23 @@ static int vt_resizex(struct vc_data *vc, struct vt_consize __user *cs)
 		}
 		console_unlock();
 	}
+=======
+	if (v.v_vlin)
+		pr_info_once("\"struct vt_consize\"->v_vlin is ignored. Please report if you need this.\n");
+	if (v.v_clin)
+		pr_info_once("\"struct vt_consize\"->v_clin is ignored. Please report if you need this.\n");
+
+	console_lock();
+	for (i = 0; i < MAX_NR_CONSOLES; i++) {
+		vc = vc_cons[i].d;
+
+		if (vc) {
+			vc->vc_resize_user = 1;
+			vc_resize(vc, v.v_cols, v.v_rows);
+		}
+	}
+	console_unlock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -967,7 +1095,12 @@ void reset_vc(struct vc_data *vc)
 	put_pid(vc->vt_pid);
 	vc->vt_pid = NULL;
 	vc->vt_newvt = -1;
+<<<<<<< HEAD
 	reset_palette(vc);
+=======
+	if (!in_interrupt())    /* Via keyboard.c:SAK() - akpm */
+		reset_palette(vc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void vc_SAK(struct work_struct *work)
@@ -995,6 +1128,57 @@ void vc_SAK(struct work_struct *work)
 
 #ifdef CONFIG_COMPAT
 
+<<<<<<< HEAD
+=======
+struct compat_consolefontdesc {
+	unsigned short charcount;       /* characters in font (256 or 512) */
+	unsigned short charheight;      /* scan lines per character (1-32) */
+	compat_caddr_t chardata;	/* font data in expanded form */
+};
+
+static inline int
+compat_fontx_ioctl(struct vc_data *vc, int cmd,
+		   struct compat_consolefontdesc __user *user_cfd,
+		   int perm, struct console_font_op *op)
+{
+	struct compat_consolefontdesc cfdarg;
+	int i;
+
+	if (copy_from_user(&cfdarg, user_cfd, sizeof(struct compat_consolefontdesc)))
+		return -EFAULT;
+
+	switch (cmd) {
+	case PIO_FONTX:
+		if (!perm)
+			return -EPERM;
+		op->op = KD_FONT_OP_SET;
+		op->flags = KD_FONT_FLAG_OLD;
+		op->width = 8;
+		op->height = cfdarg.charheight;
+		op->charcount = cfdarg.charcount;
+		op->data = compat_ptr(cfdarg.chardata);
+		return con_font_op(vc, op);
+
+	case GIO_FONTX:
+		op->op = KD_FONT_OP_GET;
+		op->flags = KD_FONT_FLAG_OLD;
+		op->width = 8;
+		op->height = cfdarg.charheight;
+		op->charcount = cfdarg.charcount;
+		op->data = compat_ptr(cfdarg.chardata);
+		i = con_font_op(vc, op);
+		if (i)
+			return i;
+		cfdarg.charheight = op->height;
+		cfdarg.charcount = op->charcount;
+		if (copy_to_user(user_cfd, &cfdarg, sizeof(struct compat_consolefontdesc)))
+			return -EFAULT;
+		return 0;
+	}
+	return -EINVAL;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct compat_console_font_op {
 	compat_uint_t op;        /* operation code KD_FONT_OP_* */
 	compat_uint_t flags;     /* KD_FONT_FLAG_* */
@@ -1071,6 +1255,12 @@ long vt_compat_ioctl(struct tty_struct *tty,
 	/*
 	 * these need special handlers for incompatible data structures
 	 */
+<<<<<<< HEAD
+=======
+	case PIO_FONTX:
+	case GIO_FONTX:
+		return compat_fontx_ioctl(vc, cmd, up, perm, &op);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	case KDFONTOP:
 		return compat_kdfontop_ioctl(up, perm, &op, vc);

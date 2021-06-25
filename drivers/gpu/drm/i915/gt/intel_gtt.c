@@ -422,6 +422,7 @@ void setup_private_pat(struct intel_uncore *uncore)
 		bdw_setup_private_ppat(uncore);
 }
 
+<<<<<<< HEAD
 struct i915_vma *
 __vm_create_scratch_for_read(struct i915_address_space *vm, unsigned long size)
 {
@@ -451,6 +452,8 @@ __vm_create_scratch_for_read(struct i915_address_space *vm, unsigned long size)
 	return vma;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
 #include "selftests/mock_gtt.c"
 #endif

@@ -363,6 +363,10 @@ struct iwl_trans_pcie {
 	bool ucode_write_complete;
 	bool sx_complete;
 	wait_queue_head_t ucode_write_waitq;
+<<<<<<< HEAD
+=======
+	wait_queue_head_t wait_command_queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wait_queue_head_t sx_waitq;
 
 	u8 def_rx_queue;
@@ -417,7 +421,12 @@ IWL_TRANS_GET_PCIE_TRANS(struct iwl_trans *trans)
 	return (void *)trans->trans_specific;
 }
 
+<<<<<<< HEAD
 static inline void iwl_pcie_clear_irq(struct iwl_trans *trans, int queue)
+=======
+static inline void iwl_pcie_clear_irq(struct iwl_trans *trans,
+				      struct msix_entry *entry)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * Before sending the interrupt the HW disables it to prevent
@@ -427,7 +436,11 @@ static inline void iwl_pcie_clear_irq(struct iwl_trans *trans, int queue)
 	 * write 1 clear (W1C) register, meaning that it's being clear
 	 * by writing 1 to the bit.
 	 */
+<<<<<<< HEAD
 	iwl_write32(trans, CSR_MSIX_AUTOMASK_ST_AD, BIT(queue));
+=======
+	iwl_write32(trans, CSR_MSIX_AUTOMASK_ST_AD, BIT(entry->entry));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct iwl_trans *
@@ -460,6 +473,10 @@ int iwl_pcie_rx_stop(struct iwl_trans *trans);
 void iwl_pcie_rx_free(struct iwl_trans *trans);
 void iwl_pcie_free_rbs_pool(struct iwl_trans *trans);
 void iwl_pcie_rx_init_rxb_lists(struct iwl_rxq *rxq);
+<<<<<<< HEAD
+=======
+int iwl_pcie_dummy_napi_poll(struct napi_struct *napi, int budget);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void iwl_pcie_rxq_alloc_rbs(struct iwl_trans *trans, gfp_t priority,
 			    struct iwl_rxq *rxq);
 
@@ -566,9 +583,15 @@ static inline void iwl_disable_interrupts(struct iwl_trans *trans)
 {
 	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
 
+<<<<<<< HEAD
 	spin_lock_bh(&trans_pcie->irq_lock);
 	_iwl_disable_interrupts(trans);
 	spin_unlock_bh(&trans_pcie->irq_lock);
+=======
+	spin_lock(&trans_pcie->irq_lock);
+	_iwl_disable_interrupts(trans);
+	spin_unlock(&trans_pcie->irq_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void _iwl_enable_interrupts(struct iwl_trans *trans)
@@ -598,9 +621,15 @@ static inline void iwl_enable_interrupts(struct iwl_trans *trans)
 {
 	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
 
+<<<<<<< HEAD
 	spin_lock_bh(&trans_pcie->irq_lock);
 	_iwl_enable_interrupts(trans);
 	spin_unlock_bh(&trans_pcie->irq_lock);
+=======
+	spin_lock(&trans_pcie->irq_lock);
+	_iwl_enable_interrupts(trans);
+	spin_unlock(&trans_pcie->irq_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static inline void iwl_enable_hw_int_msk_msix(struct iwl_trans *trans, u32 msk)
 {
@@ -759,6 +788,10 @@ static inline bool iwl_pcie_dbg_on(struct iwl_trans *trans)
 
 void iwl_trans_pcie_rf_kill(struct iwl_trans *trans, bool state);
 void iwl_trans_pcie_dump_regs(struct iwl_trans *trans);
+<<<<<<< HEAD
+=======
+void iwl_trans_pcie_sync_nmi(struct iwl_trans *trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_IWLWIFI_DEBUGFS
 void iwl_trans_pcie_dbgfs_register(struct iwl_trans *trans);
@@ -796,8 +829,11 @@ void iwl_trans_pcie_gen2_stop_device(struct iwl_trans *trans);
 void _iwl_trans_pcie_gen2_stop_device(struct iwl_trans *trans);
 void iwl_pcie_d3_complete_suspend(struct iwl_trans *trans,
 				  bool test, bool reset);
+<<<<<<< HEAD
 int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
 			       struct iwl_host_cmd *cmd);
 int iwl_pcie_enqueue_hcmd(struct iwl_trans *trans,
 			  struct iwl_host_cmd *cmd);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __iwl_trans_int_pcie_h__ */

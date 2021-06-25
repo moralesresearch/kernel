@@ -914,7 +914,15 @@ static void intel_pstate_hwp_offline(struct cpudata *cpu)
 	}
 
 	value &= ~GENMASK_ULL(31, 0);
+<<<<<<< HEAD
 	min_perf = HWP_LOWEST_PERF(READ_ONCE(cpu->hwp_cap_cached));
+=======
+<<<<<<< HEAD
+	min_perf = HWP_LOWEST_PERF(READ_ONCE(cpu->hwp_cap_cached));
+=======
+	min_perf = HWP_LOWEST_PERF(cpu->hwp_cap_cached);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Set hwp_max = hwp_min */
 	value |= HWP_MAX_PERF(min_perf);
@@ -1751,7 +1759,14 @@ static int hwp_boost_hold_time_ns = 3 * NSEC_PER_MSEC;
 static inline void intel_pstate_hwp_boost_up(struct cpudata *cpu)
 {
 	u64 hwp_req = READ_ONCE(cpu->hwp_req_cached);
+<<<<<<< HEAD
 	u64 hwp_cap = READ_ONCE(cpu->hwp_cap_cached);
+=======
+<<<<<<< HEAD
+	u64 hwp_cap = READ_ONCE(cpu->hwp_cap_cached);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 max_limit = (hwp_req & 0xff00) >> 8;
 	u32 min_limit = (hwp_req & 0xff);
 	u32 boost_level1;
@@ -1778,6 +1793,10 @@ static inline void intel_pstate_hwp_boost_up(struct cpudata *cpu)
 		cpu->hwp_boost_min = min_limit;
 
 	/* level at half way mark between min and guranteed */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	boost_level1 = (HWP_GUARANTEED_PERF(hwp_cap) + min_limit) >> 1;
 
 	if (cpu->hwp_boost_min < boost_level1)
@@ -1786,6 +1805,19 @@ static inline void intel_pstate_hwp_boost_up(struct cpudata *cpu)
 		cpu->hwp_boost_min = HWP_GUARANTEED_PERF(hwp_cap);
 	else if (cpu->hwp_boost_min == HWP_GUARANTEED_PERF(hwp_cap) &&
 		 max_limit != HWP_GUARANTEED_PERF(hwp_cap))
+<<<<<<< HEAD
+=======
+=======
+	boost_level1 = (HWP_GUARANTEED_PERF(cpu->hwp_cap_cached) + min_limit) >> 1;
+
+	if (cpu->hwp_boost_min < boost_level1)
+		cpu->hwp_boost_min = boost_level1;
+	else if (cpu->hwp_boost_min < HWP_GUARANTEED_PERF(cpu->hwp_cap_cached))
+		cpu->hwp_boost_min = HWP_GUARANTEED_PERF(cpu->hwp_cap_cached);
+	else if (cpu->hwp_boost_min == HWP_GUARANTEED_PERF(cpu->hwp_cap_cached) &&
+		 max_limit != HWP_GUARANTEED_PERF(cpu->hwp_cap_cached))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpu->hwp_boost_min = max_limit;
 	else
 		return;
@@ -2498,7 +2530,15 @@ static int intel_cpufreq_verify_policy(struct cpufreq_policy_data *policy)
  * driver call was via the normal or fast switch path. Various graphs
  * output from the intel_pstate_tracer.py utility that include core_busy
  * (or performance or core_avg_perf) have a fixed y-axis from 0 to 100%,
+<<<<<<< HEAD
  * so we use 10 to indicate the normal path through the driver, and
+=======
+<<<<<<< HEAD
+ * so we use 10 to indicate the normal path through the driver, and
+=======
+ * so we use 10 to indicate the the normal path through the driver, and
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * 90 to indicate the fast switch path through the driver.
  * The scaled_busy field is not used, and is set to 0.
  */
@@ -2528,7 +2568,15 @@ static void intel_cpufreq_trace(struct cpudata *cpu, unsigned int trace_type, in
 		fp_toint(cpu->iowait_boost * 100));
 }
 
+<<<<<<< HEAD
 static void intel_cpufreq_hwp_update(struct cpudata *cpu, u32 min, u32 max,
+=======
+<<<<<<< HEAD
+static void intel_cpufreq_hwp_update(struct cpudata *cpu, u32 min, u32 max,
+=======
+static void intel_cpufreq_adjust_hwp(struct cpudata *cpu, u32 min, u32 max,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     u32 desired, bool fast_switch)
 {
 	u64 prev = READ_ONCE(cpu->hwp_req_cached), value = prev;
@@ -2552,7 +2600,15 @@ static void intel_cpufreq_hwp_update(struct cpudata *cpu, u32 min, u32 max,
 		wrmsrl_on_cpu(cpu->cpu, MSR_HWP_REQUEST, value);
 }
 
+<<<<<<< HEAD
 static void intel_cpufreq_perf_ctl_update(struct cpudata *cpu,
+=======
+<<<<<<< HEAD
+static void intel_cpufreq_perf_ctl_update(struct cpudata *cpu,
+=======
+static void intel_cpufreq_adjust_perf_ctl(struct cpudata *cpu,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  u32 target_pstate, bool fast_switch)
 {
 	if (fast_switch)
@@ -2574,10 +2630,23 @@ static int intel_cpufreq_update_pstate(struct cpufreq_policy *policy,
 		int max_pstate = policy->strict_target ?
 					target_pstate : cpu->max_perf_ratio;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		intel_cpufreq_hwp_update(cpu, target_pstate, max_pstate, 0,
 					 fast_switch);
 	} else if (target_pstate != old_pstate) {
 		intel_cpufreq_perf_ctl_update(cpu, target_pstate, fast_switch);
+<<<<<<< HEAD
+=======
+=======
+		intel_cpufreq_adjust_hwp(cpu, target_pstate, max_pstate, 0,
+					 fast_switch);
+	} else if (target_pstate != old_pstate) {
+		intel_cpufreq_adjust_perf_ctl(cpu, target_pstate, fast_switch);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	cpu->pstate.current_pstate = target_pstate;
@@ -2675,7 +2744,15 @@ static void intel_cpufreq_adjust_perf(unsigned int cpunum,
 
 	target_pstate = clamp_t(int, target_pstate, min_pstate, max_pstate);
 
+<<<<<<< HEAD
 	intel_cpufreq_hwp_update(cpu, min_pstate, max_pstate, target_pstate, true);
+=======
+<<<<<<< HEAD
+	intel_cpufreq_hwp_update(cpu, min_pstate, max_pstate, target_pstate, true);
+=======
+	intel_cpufreq_adjust_hwp(cpu, min_pstate, max_pstate, target_pstate, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpu->pstate.current_pstate = target_pstate;
 	intel_cpufreq_trace(cpu, INTEL_PSTATE_TRACE_FAST_SWITCH, old_pstate);
@@ -3054,6 +3131,7 @@ static const struct x86_cpu_id hwp_support_ids[] __initconst = {
 	{}
 };
 
+<<<<<<< HEAD
 static bool intel_pstate_hwp_is_enabled(void)
 {
 	u64 value;
@@ -3062,6 +3140,8 @@ static bool intel_pstate_hwp_is_enabled(void)
 	return !!(value & 0x1);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init intel_pstate_init(void)
 {
 	const struct x86_cpu_id *id;
@@ -3080,12 +3160,17 @@ static int __init intel_pstate_init(void)
 		 * Avoid enabling HWP for processors without EPP support,
 		 * because that means incomplete HWP implementation which is a
 		 * corner case and supporting it is generally problematic.
+<<<<<<< HEAD
 		 *
 		 * If HWP is enabled already, though, there is no choice but to
 		 * deal with it.
 		 */
 		if ((!no_hwp && boot_cpu_has(X86_FEATURE_HWP_EPP)) ||
 		    intel_pstate_hwp_is_enabled()) {
+=======
+		 */
+		if (!no_hwp && boot_cpu_has(X86_FEATURE_HWP_EPP)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			hwp_active++;
 			hwp_mode_bdw = id->driver_data;
 			intel_pstate.attr = hwp_cpufreq_attrs;

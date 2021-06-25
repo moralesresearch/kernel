@@ -604,8 +604,13 @@ static int udf_add_nondir(struct dentry *dentry, struct inode *inode)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int udf_create(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode, bool excl)
+=======
+static int udf_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+		      bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = udf_new_inode(dir, mode);
 
@@ -623,8 +628,12 @@ static int udf_create(struct user_namespace *mnt_userns, struct inode *dir,
 	return udf_add_nondir(dentry, inode);
 }
 
+<<<<<<< HEAD
 static int udf_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
+=======
+static int udf_tmpfile(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = udf_new_inode(dir, mode);
 
@@ -643,8 +652,13 @@ static int udf_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int udf_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		     struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+static int udf_mknod(struct inode *dir, struct dentry *dentry, umode_t mode,
+		     dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 
@@ -659,8 +673,12 @@ static int udf_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	return udf_add_nondir(dentry, inode);
 }
 
+<<<<<<< HEAD
 static int udf_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		     struct dentry *dentry, umode_t mode)
+=======
+static int udf_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct udf_fileident_bh fibh;
@@ -879,8 +897,13 @@ out:
 	return retval;
 }
 
+<<<<<<< HEAD
 static int udf_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, const char *symname)
+=======
+static int udf_symlink(struct inode *dir, struct dentry *dentry,
+		       const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = udf_new_inode(dir, S_IFLNK | 0777);
 	struct pathComponent *pc;
@@ -1067,9 +1090,15 @@ static int udf_link(struct dentry *old_dentry, struct inode *dir,
 /* Anybody can rename anything with this: the permission checks are left to the
  * higher-level routines.
  */
+<<<<<<< HEAD
 static int udf_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
 		      struct dentry *old_dentry, struct inode *new_dir,
 		      struct dentry *new_dentry, unsigned int flags)
+=======
+static int udf_rename(struct inode *old_dir, struct dentry *old_dentry,
+		      struct inode *new_dir, struct dentry *new_dentry,
+		      unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *old_inode = d_inode(old_dentry);
 	struct inode *new_inode = d_inode(new_dentry);

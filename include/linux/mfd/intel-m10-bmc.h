@@ -11,6 +11,7 @@
 
 #define M10BMC_LEGACY_SYS_BASE		0x300400
 #define M10BMC_SYS_BASE			0x300800
+<<<<<<< HEAD
 #define M10BMC_MEM_END			0x1fffffff
 
 /* Register offset of system registers */
@@ -24,6 +25,12 @@
 #define M10BMC_MAC_BYTE6		GENMASK(7, 0)
 #define M10BMC_MAC_BYTE5		GENMASK(15, 8)
 #define M10BMC_MAC_COUNT		GENMASK(23, 16)
+=======
+#define M10BMC_MEM_END			0x200000fc
+
+/* Register offset of system registers */
+#define NIOS2_FW_VERSION		0x0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define M10BMC_TEST_REG			0x3c
 #define M10BMC_BUILD_VER		0x68
 #define M10BMC_VER_MAJOR_MSK		GENMASK(23, 16)

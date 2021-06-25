@@ -131,6 +131,7 @@ static __always_inline void guest_enter_irqoff(void)
 	}
 }
 
+<<<<<<< HEAD
 static __always_inline void context_tracking_guest_exit(void)
 {
 	if (context_tracking_enabled())
@@ -139,10 +140,19 @@ static __always_inline void context_tracking_guest_exit(void)
 
 static __always_inline void vtime_account_guest_exit(void)
 {
+=======
+static __always_inline void guest_exit_irqoff(void)
+{
+	if (context_tracking_enabled())
+		__context_tracking_exit(CONTEXT_GUEST);
+
+	instrumentation_begin();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vtime_accounting_enabled_this_cpu())
 		vtime_guest_exit(current);
 	else
 		current->flags &= ~PF_VCPU;
+<<<<<<< HEAD
 }
 
 static __always_inline void guest_exit_irqoff(void)
@@ -151,6 +161,8 @@ static __always_inline void guest_exit_irqoff(void)
 
 	instrumentation_begin();
 	vtime_account_guest_exit();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	instrumentation_end();
 }
 
@@ -169,6 +181,7 @@ static __always_inline void guest_enter_irqoff(void)
 	instrumentation_end();
 }
 
+<<<<<<< HEAD
 static __always_inline void context_tracking_guest_exit(void) { }
 
 static __always_inline void vtime_account_guest_exit(void)
@@ -177,11 +190,18 @@ static __always_inline void vtime_account_guest_exit(void)
 	current->flags &= ~PF_VCPU;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline void guest_exit_irqoff(void)
 {
 	instrumentation_begin();
 	/* Flush the guest cputime we spent on the guest */
+<<<<<<< HEAD
 	vtime_account_guest_exit();
+=======
+	vtime_account_kernel(current);
+	current->flags &= ~PF_VCPU;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	instrumentation_end();
 }
 #endif /* CONFIG_VIRT_CPU_ACCOUNTING_GEN */

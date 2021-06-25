@@ -54,7 +54,10 @@
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <8>;
 		enable-gpios = <&pio 7 6 GPIO_ACTIVE_HIGH>; /* PH6 */
+<<<<<<< HEAD
 		power-supply = <&reg_dc1sw>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	chosen {
@@ -93,7 +96,11 @@
 	axp22x: pmic@3a3 {
 		compatible = "x-powers,axp223";
 		reg = <0x3a3>;
+<<<<<<< HEAD
 		interrupt-parent = <&r_intc>;
+=======
+		interrupt-parent = <&nmi_intc>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
 		eldoin-supply = <&reg_dcdc1>;
 		drivevbus-supply = <&reg_vcc5v0>;

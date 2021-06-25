@@ -500,12 +500,19 @@ static int tpm_seal(struct tpm_buf *tb, uint16_t keytype,
 
 	ret = tpm_get_random(chip, td->nonceodd, TPM_NONCE_SIZE);
 	if (ret < 0)
+<<<<<<< HEAD
 		goto out;
 
 	if (ret != TPM_NONCE_SIZE) {
 		ret = -EIO;
 		goto out;
 	}
+=======
+		return ret;
+
+	if (ret != TPM_NONCE_SIZE)
+		return -EIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ordinal = htonl(TPM_ORD_SEAL);
 	datsize = htonl(datalen);
@@ -793,6 +800,7 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
 				return -EINVAL;
 			break;
 		case Opt_blobauth:
+<<<<<<< HEAD
 			/*
 			 * TPM 1.2 authorizations are sha1 hashes passed in as
 			 * hex strings.  TPM 2.0 authorizations are simple
@@ -820,6 +828,15 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
 
 			break;
 
+=======
+			if (strlen(args[0].from) != 2 * SHA1_DIGEST_SIZE)
+				return -EINVAL;
+			res = hex2bin(opt->blobauth, args[0].from,
+				      SHA1_DIGEST_SIZE);
+			if (res < 0)
+				return -EINVAL;
+			break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case Opt_migratable:
 			if (*args[0].from == '0')
 				pay->migratable = 0;

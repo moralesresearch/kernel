@@ -18,7 +18,11 @@
 
 struct nft_cmp_expr {
 	struct nft_data		data;
+<<<<<<< HEAD
 	u8			sreg;
+=======
+	enum nft_registers	sreg:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			len;
 	enum nft_cmp_ops	op:8;
 };
@@ -87,7 +91,12 @@ static int nft_cmp_init(const struct nft_ctx *ctx, const struct nft_expr *expr,
 		return err;
 	}
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_CMP_SREG], &priv->sreg, desc.len);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_CMP_SREG]);
+	err = nft_validate_register_load(priv->sreg, desc.len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -114,6 +123,7 @@ nla_put_failure:
 	return -1;
 }
 
+<<<<<<< HEAD
 union nft_cmp_offload_data {
 	u16	val16;
 	u32	val32;
@@ -139,19 +149,27 @@ static void nft_payload_n2h(union nft_cmp_offload_data *data,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __nft_cmp_offload(struct nft_offload_ctx *ctx,
 			     struct nft_flow_rule *flow,
 			     const struct nft_cmp_expr *priv)
 {
 	struct nft_offload_reg *reg = &ctx->regs[priv->sreg];
+<<<<<<< HEAD
 	union nft_cmp_offload_data _data, _datamask;
 	u8 *mask = (u8 *)&flow->match.mask;
 	u8 *key = (u8 *)&flow->match.key;
 	u8 *data, *datamask;
+=======
+	u8 *mask = (u8 *)&flow->match.mask;
+	u8 *key = (u8 *)&flow->match.key;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (priv->op != NFT_CMP_EQ || priv->len > reg->len)
 		return -EOPNOTSUPP;
 
+<<<<<<< HEAD
 	if (reg->flags & NFT_OFFLOAD_F_NETWORK2HOST) {
 		nft_payload_n2h(&_data, (u8 *)&priv->data, reg->len);
 		nft_payload_n2h(&_datamask, (u8 *)&reg->mask, reg->len);
@@ -164,6 +182,10 @@ static int __nft_cmp_offload(struct nft_offload_ctx *ctx,
 
 	memcpy(key + reg->offset, data, reg->len);
 	memcpy(mask + reg->offset, datamask, reg->len);
+=======
+	memcpy(key + reg->offset, &priv->data, reg->len);
+	memcpy(mask + reg->offset, &reg->mask, reg->len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	flow->match.dissector.used_keys |= BIT(reg->key);
 	flow->match.dissector.offset[reg->key] = reg->base_offset;
@@ -210,7 +232,12 @@ static int nft_cmp_fast_init(const struct nft_ctx *ctx,
 	if (err < 0)
 		return err;
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_CMP_SREG], &priv->sreg, desc.len);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_CMP_SREG]);
+	err = nft_validate_register_load(priv->sreg, desc.len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -303,8 +330,15 @@ nft_cmp_select_ops(const struct nft_ctx *ctx, const struct nlattr * const tb[])
 	if (err < 0)
 		return ERR_PTR(err);
 
+<<<<<<< HEAD
 	if (desc.type != NFT_DATA_VALUE)
 		goto err1;
+=======
+	if (desc.type != NFT_DATA_VALUE) {
+		err = -EINVAL;
+		goto err1;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (desc.len <= sizeof(u32) && (op == NFT_CMP_EQ || op == NFT_CMP_NEQ))
 		return &nft_cmp_fast_ops;

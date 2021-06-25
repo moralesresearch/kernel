@@ -2,7 +2,11 @@
 /*
  * Turris Mox module configuration bus driver
  *
+<<<<<<< HEAD
  * Copyright (C) 2019 Marek Behún <kabel@kernel.org>
+=======
+ * Copyright (C) 2019 Marek Behun <marek.behun@nic.cz>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <dt-bindings/bus/moxtet.h>
@@ -879,6 +883,10 @@ static void __exit moxtet_exit(void)
 }
 module_exit(moxtet_exit);
 
+<<<<<<< HEAD
 MODULE_AUTHOR("Marek Behun <kabel@kernel.org>");
+=======
+MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("CZ.NIC's Turris Mox module configuration bus");
 MODULE_LICENSE("GPL v2");

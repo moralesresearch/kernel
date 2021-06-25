@@ -39,6 +39,10 @@
 
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_execbuf_util.h>
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ttm_lock.h"
 #include "ttm_object.h"
@@ -66,8 +70,11 @@
 #define VMWGFX_CMD_BOUNCE_INIT_SIZE 32768
 #define VMWGFX_ENABLE_SCREEN_TARGET_OTABLE 1
 
+<<<<<<< HEAD
 #define VMWGFX_PCI_ID_SVGA2              0x0405
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Perhaps we should have sysfs entries for these.
  */
@@ -276,6 +283,16 @@ struct vmw_surface {
 	struct list_head view_list;
 };
 
+<<<<<<< HEAD
+=======
+struct vmw_marker_queue {
+	struct list_head head;
+	u64 lag;
+	u64 lag_time;
+	spinlock_t lock;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vmw_fifo_state {
 	unsigned long reserved_size;
 	u32 *dynamic_buffer;
@@ -285,6 +302,10 @@ struct vmw_fifo_state {
 	uint32_t capabilities;
 	struct mutex fifo_mutex;
 	struct rw_semaphore rwsem;
+<<<<<<< HEAD
+=======
+	struct vmw_marker_queue marker_queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool dx;
 };
 
@@ -483,11 +504,15 @@ enum vmw_sm_type {
 };
 
 struct vmw_private {
+<<<<<<< HEAD
 	struct drm_device drm;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ttm_bo_device bdev;
 
 	struct vmw_fifo_state fifo;
 
+<<<<<<< HEAD
 	struct drm_vma_offset_manager vma_manager;
 	u32 vmw_chipset;
 	resource_size_t io_start;
@@ -496,6 +521,17 @@ struct vmw_private {
 	resource_size_t prim_bb_mem;
 	u32 *fifo_mem;
 	resource_size_t fifo_mem_size;
+=======
+	struct drm_device *dev;
+	struct drm_vma_offset_manager vma_manager;
+	unsigned long vmw_chipset;
+	unsigned int io_start;
+	uint32_t vram_start;
+	uint32_t vram_size;
+	uint32_t prim_bb_mem;
+	uint32_t mmio_start;
+	uint32_t mmio_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t fb_max_width;
 	uint32_t fb_max_height;
 	uint32_t texture_max_width;
@@ -504,6 +540,10 @@ struct vmw_private {
 	uint32_t stdu_max_height;
 	uint32_t initial_width;
 	uint32_t initial_height;
+<<<<<<< HEAD
+=======
+	u32 *mmio_virt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t capabilities;
 	uint32_t capabilities2;
 	uint32_t max_gmr_ids;
@@ -529,6 +569,10 @@ struct vmw_private {
 	struct vmw_overlay *overlay_priv;
 	struct drm_property *hotplug_mode_update_property;
 	struct drm_property *implicit_placement_property;
+<<<<<<< HEAD
+=======
+	struct mutex global_kms_state_mutex;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t cursor_lock;
 	struct drm_atomic_state *suspend_state;
 
@@ -582,7 +626,17 @@ struct vmw_private {
 	struct mutex cmdbuf_mutex;
 	struct mutex binding_mutex;
 
+<<<<<<< HEAD
 	bool enable_fb;
+=======
+	/**
+	 * Operating mode.
+	 */
+
+	bool stealth;
+	bool enable_fb;
+	spinlock_t svga_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * PM management.
@@ -591,6 +645,10 @@ struct vmw_private {
 	bool refuse_hibernation;
 	bool suspend_locked;
 
+<<<<<<< HEAD
+=======
+	struct mutex release_mutex;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_t num_fifo_resources;
 
 	/*
@@ -951,6 +1009,7 @@ extern int vmw_fifo_init(struct vmw_private *dev_priv,
 extern void vmw_fifo_release(struct vmw_private *dev_priv,
 			     struct vmw_fifo_state *fifo);
 extern void *
+<<<<<<< HEAD
 vmw_cmd_ctx_reserve(struct vmw_private *dev_priv, uint32_t bytes, int ctx_id);
 extern void vmw_cmd_commit(struct vmw_private *dev_priv, uint32_t bytes);
 extern void vmw_cmd_commit_flush(struct vmw_private *dev_priv, uint32_t bytes);
@@ -966,14 +1025,37 @@ extern int vmw_cmd_flush(struct vmw_private *dev_priv,
 #define VMW_CMD_CTX_RESERVE(__priv, __bytes, __ctx_id)                        \
 ({                                                                            \
 	vmw_cmd_ctx_reserve(__priv, __bytes, __ctx_id) ? : ({                 \
+=======
+vmw_fifo_reserve_dx(struct vmw_private *dev_priv, uint32_t bytes, int ctx_id);
+extern void vmw_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes);
+extern void vmw_fifo_commit_flush(struct vmw_private *dev_priv, uint32_t bytes);
+extern int vmw_fifo_send_fence(struct vmw_private *dev_priv,
+			       uint32_t *seqno);
+extern void vmw_fifo_ping_host(struct vmw_private *dev_priv, uint32_t reason);
+extern bool vmw_fifo_have_3d(struct vmw_private *dev_priv);
+extern bool vmw_fifo_have_pitchlock(struct vmw_private *dev_priv);
+extern int vmw_fifo_emit_dummy_query(struct vmw_private *dev_priv,
+				     uint32_t cid);
+extern int vmw_fifo_flush(struct vmw_private *dev_priv,
+			  bool interruptible);
+
+#define VMW_FIFO_RESERVE_DX(__priv, __bytes, __ctx_id)                        \
+({                                                                            \
+	vmw_fifo_reserve_dx(__priv, __bytes, __ctx_id) ? : ({                 \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DRM_ERROR("FIFO reserve failed at %s for %u bytes\n",         \
 			  __func__, (unsigned int) __bytes);                  \
 		NULL;                                                         \
 	});                                                                   \
 })
 
+<<<<<<< HEAD
 #define VMW_CMD_RESERVE(__priv, __bytes)                                     \
 	VMW_CMD_CTX_RESERVE(__priv, __bytes, SVGA3D_INVALID_ID)
+=======
+#define VMW_FIFO_RESERVE(__priv, __bytes)                                     \
+	VMW_FIFO_RESERVE_DX(__priv, __bytes, SVGA3D_INVALID_ID)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * TTM glue - vmwgfx_ttm_glue.c
@@ -1108,6 +1190,22 @@ extern void vmw_generic_waiter_add(struct vmw_private *dev_priv, u32 flag,
 extern void vmw_generic_waiter_remove(struct vmw_private *dev_priv,
 				      u32 flag, int *waiter_count);
 
+<<<<<<< HEAD
+=======
+/**
+ * Rudimentary fence-like objects currently used only for throttling -
+ * vmwgfx_marker.c
+ */
+
+extern void vmw_marker_queue_init(struct vmw_marker_queue *queue);
+extern void vmw_marker_queue_takedown(struct vmw_marker_queue *queue);
+extern int vmw_marker_push(struct vmw_marker_queue *queue,
+			   uint32_t seqno);
+extern int vmw_marker_pull(struct vmw_marker_queue *queue,
+			   uint32_t signaled_seqno);
+extern int vmw_wait_lag(struct vmw_private *dev_priv,
+			struct vmw_marker_queue *queue, uint32_t us);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * Kernel framebuffer - vmwgfx_fb.c
@@ -1381,7 +1479,12 @@ struct vmw_cmdbuf_header;
 
 extern struct vmw_cmdbuf_man *
 vmw_cmdbuf_man_create(struct vmw_private *dev_priv);
+<<<<<<< HEAD
 extern int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man, size_t size);
+=======
+extern int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man,
+				    size_t size, size_t default_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void vmw_cmdbuf_remove_pool(struct vmw_cmdbuf_man *man);
 extern void vmw_cmdbuf_man_destroy(struct vmw_cmdbuf_man *man);
 extern int vmw_cmdbuf_idle(struct vmw_cmdbuf_man *man, bool interruptible,
@@ -1522,8 +1625,14 @@ static inline void vmw_bo_unreference(struct vmw_buffer_object **buf)
 	struct vmw_buffer_object *tmp_buf = *buf;
 
 	*buf = NULL;
+<<<<<<< HEAD
 	if (tmp_buf != NULL)
 		ttm_bo_put(&tmp_buf->base);
+=======
+	if (tmp_buf != NULL) {
+		ttm_bo_put(&tmp_buf->base);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct vmw_buffer_object *
@@ -1549,13 +1658,20 @@ static inline void vmw_fifo_resource_dec(struct vmw_private *dev_priv)
 }
 
 /**
+<<<<<<< HEAD
  * vmw_fifo_mem_read - Perform a MMIO read from the fifo memory
  *
  * @fifo_reg: The fifo register to read from
+=======
+ * vmw_mmio_read - Perform a MMIO read from volatile memory
+ *
+ * @addr: The address to read from
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This function is intended to be equivalent to ioread32() on
  * memremap'd memory, but without byteswapping.
  */
+<<<<<<< HEAD
 static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
 {
 	return READ_ONCE(*(vmw->fifo_mem + fifo_reg));
@@ -1565,13 +1681,30 @@ static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
  * vmw_fifo_mem_write - Perform a MMIO write to volatile memory
  *
  * @addr: The fifo register to write to
+=======
+static inline u32 vmw_mmio_read(u32 *addr)
+{
+	return READ_ONCE(*addr);
+}
+
+/**
+ * vmw_mmio_write - Perform a MMIO write to volatile memory
+ *
+ * @addr: The address to write to
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This function is intended to be equivalent to iowrite32 on
  * memremap'd memory, but without byteswapping.
  */
+<<<<<<< HEAD
 static inline void vmw_fifo_mem_write(struct vmw_private *vmw, u32 fifo_reg,
 				      u32 value)
 {
 	WRITE_ONCE(*(vmw->fifo_mem + fifo_reg), value);
+=======
+static inline void vmw_mmio_write(u32 value, u32 *addr)
+{
+	WRITE_ONCE(*addr, value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif

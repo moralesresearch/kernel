@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 videobuf2-common-objs := videobuf2-core.o
+<<<<<<< HEAD
 videobuf2-common-objs += frame_vector.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ifeq ($(CONFIG_TRACEPOINTS),y)
   videobuf2-common-objs += vb2-trace.o

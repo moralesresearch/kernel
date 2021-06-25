@@ -21,9 +21,12 @@ static struct config_group *controllers_group;
 
 struct pci_epf_group {
 	struct config_group group;
+<<<<<<< HEAD
 	struct config_group primary_epc_group;
 	struct config_group secondary_epc_group;
 	struct delayed_work cfs_work;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct pci_epf *epf;
 	int index;
 };
@@ -44,6 +47,7 @@ static inline struct pci_epc_group *to_pci_epc_group(struct config_item *item)
 	return container_of(to_config_group(item), struct pci_epc_group, group);
 }
 
+<<<<<<< HEAD
 static int pci_secondary_epc_epf_link(struct config_item *epf_item,
 				      struct config_item *epc_item)
 {
@@ -165,6 +169,8 @@ static struct config_group
 	return primary_epc_group;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t pci_epc_start_store(struct config_item *item, const char *page,
 				   size_t len)
 {
@@ -218,13 +224,21 @@ static int pci_epc_epf_link(struct config_item *epc_item,
 	struct pci_epc *epc = epc_group->epc;
 	struct pci_epf *epf = epf_group->epf;
 
+<<<<<<< HEAD
 	ret = pci_epc_add_epf(epc, epf, PRIMARY_INTERFACE);
+=======
+	ret = pci_epc_add_epf(epc, epf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
 	ret = pci_epf_bind(epf);
 	if (ret) {
+<<<<<<< HEAD
 		pci_epc_remove_epf(epc, epf, PRIMARY_INTERFACE);
+=======
+		pci_epc_remove_epf(epc, epf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
@@ -244,7 +258,11 @@ static void pci_epc_epf_unlink(struct config_item *epc_item,
 	epc = epc_group->epc;
 	epf = epf_group->epf;
 	pci_epf_unbind(epf);
+<<<<<<< HEAD
 	pci_epc_remove_epf(epc, epf, PRIMARY_INTERFACE);
+=======
+	pci_epc_remove_epf(epc, epf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct configfs_item_operations pci_epc_item_ops = {
@@ -490,6 +508,7 @@ static struct configfs_item_operations pci_epf_ops = {
 	.release		= pci_epf_release,
 };
 
+<<<<<<< HEAD
 static struct config_group *pci_epf_type_make(struct config_group *group,
 					      const char *name)
 {
@@ -513,11 +532,15 @@ static struct configfs_group_operations pci_epf_type_group_ops = {
 
 static const struct config_item_type pci_epf_type = {
 	.ct_group_ops	= &pci_epf_type_group_ops,
+=======
+static const struct config_item_type pci_epf_type = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ct_item_ops	= &pci_epf_ops,
 	.ct_attrs	= pci_epf_attrs,
 	.ct_owner	= THIS_MODULE,
 };
 
+<<<<<<< HEAD
 static void pci_epf_cfs_work(struct work_struct *work)
 {
 	struct pci_epf_group *epf_group;
@@ -537,6 +560,8 @@ static void pci_epf_cfs_work(struct work_struct *work)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct config_group *pci_epf_make(struct config_group *group,
 					 const char *name)
 {
@@ -575,15 +600,21 @@ static struct config_group *pci_epf_make(struct config_group *group,
 		goto free_name;
 	}
 
+<<<<<<< HEAD
 	epf->group = &epf_group->group;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	epf_group->epf = epf;
 
 	kfree(epf_name);
 
+<<<<<<< HEAD
 	INIT_DELAYED_WORK(&epf_group->cfs_work, pci_epf_cfs_work);
 	queue_delayed_work(system_wq, &epf_group->cfs_work,
 			   msecs_to_jiffies(1));
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return &epf_group->group;
 
 free_name:

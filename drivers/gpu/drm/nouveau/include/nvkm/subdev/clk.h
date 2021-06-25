@@ -125,6 +125,7 @@ int nvkm_clk_astate(struct nvkm_clk *, int req, int rel, bool wait);
 int nvkm_clk_dstate(struct nvkm_clk *, int req, int rel);
 int nvkm_clk_tstate(struct nvkm_clk *, u8 temperature);
 
+<<<<<<< HEAD
 int nv04_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
 int nv40_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
 int nv50_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
@@ -135,4 +136,16 @@ int gf100_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct 
 int gk104_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
 int gk20a_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
 int gm20b_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
+=======
+int nv04_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int nv40_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int nv50_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int g84_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int mcp77_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int gt215_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int gf100_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int gk104_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int gk20a_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+int gm20b_clk_new(struct nvkm_device *, int, struct nvkm_clk **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

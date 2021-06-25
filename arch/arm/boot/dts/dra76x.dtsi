@@ -9,6 +9,7 @@
 	compatible = "ti,dra762", "ti,dra7";
 
 	ocp {
+<<<<<<< HEAD
 		emif1: emif@4c000000 {
 			compatible = "ti,emif-dra7xx";
 			reg = <0x4c000000 0x200>;
@@ -16,6 +17,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		target-module@42c01900 {
 			compatible = "ti,sysc-dra7-mcan", "ti,sysc";
 			ranges = <0x0 0x42c00000 0x2000>;
@@ -140,6 +143,7 @@
 	/* dra76x is not affected by i887 */
 	max-frequency = <96000000>;
 };
+<<<<<<< HEAD
 
 &cpu0_opp_table {
 	opp_plus@1800000000 {
@@ -169,3 +173,5 @@
 	1250000		0	0xC	0 0x02000000 0x01F00000
 	>;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

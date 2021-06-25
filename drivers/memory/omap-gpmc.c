@@ -1009,8 +1009,13 @@ EXPORT_SYMBOL(gpmc_cs_request);
 
 void gpmc_cs_free(int cs)
 {
+<<<<<<< HEAD
 	struct gpmc_cs_data *gpmc;
 	struct resource *res;
+=======
+	struct gpmc_cs_data *gpmc = &gpmc_cs[cs];
+	struct resource *res = &gpmc->mem;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&gpmc_mem_lock);
 	if (cs >= gpmc_cs_num || cs < 0 || !gpmc_cs_reserved(cs)) {
@@ -1018,9 +1023,12 @@ void gpmc_cs_free(int cs)
 		spin_unlock(&gpmc_mem_lock);
 		return;
 	}
+<<<<<<< HEAD
 	gpmc = &gpmc_cs[cs];
 	res = &gpmc->mem;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gpmc_cs_disable_mem(cs);
 	if (res->flags)
 		release_resource(res);

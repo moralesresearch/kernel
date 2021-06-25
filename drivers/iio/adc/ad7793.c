@@ -279,6 +279,10 @@ static int ad7793_setup(struct iio_dev *indio_dev,
 	id &= AD7793_ID_MASK;
 
 	if (id != st->chip_info->id) {
+<<<<<<< HEAD
+		ret = -ENODEV;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(&st->sd.spi->dev, "device ID query failed\n");
 		goto out;
 	}

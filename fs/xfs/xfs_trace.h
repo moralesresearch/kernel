@@ -37,7 +37,10 @@ struct xfs_trans_res;
 struct xfs_inobt_rec_incore;
 union xfs_btree_ptr;
 struct xfs_dqtrx;
+<<<<<<< HEAD
 struct xfs_eofblocks;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define XFS_ATTR_FILTER_FLAGS \
 	{ XFS_ATTR_ROOT,	"ROOT" }, \
@@ -155,8 +158,15 @@ DEFINE_PERAG_REF_EVENT(xfs_perag_get_tag);
 DEFINE_PERAG_REF_EVENT(xfs_perag_put);
 DEFINE_PERAG_REF_EVENT(xfs_perag_set_reclaim);
 DEFINE_PERAG_REF_EVENT(xfs_perag_clear_reclaim);
+<<<<<<< HEAD
 DEFINE_PERAG_REF_EVENT(xfs_perag_set_blockgc);
 DEFINE_PERAG_REF_EVENT(xfs_perag_clear_blockgc);
+=======
+DEFINE_PERAG_REF_EVENT(xfs_perag_set_eofblocks);
+DEFINE_PERAG_REF_EVENT(xfs_perag_clear_eofblocks);
+DEFINE_PERAG_REF_EVENT(xfs_perag_set_cowblocks);
+DEFINE_PERAG_REF_EVENT(xfs_perag_clear_cowblocks);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DECLARE_EVENT_CLASS(xfs_ag_class,
 	TP_PROTO(struct xfs_mount *mp, xfs_agnumber_t agno),
@@ -357,7 +367,11 @@ DEFINE_BUF_EVENT(xfs_buf_get_uncached);
 DEFINE_BUF_EVENT(xfs_buf_item_relse);
 DEFINE_BUF_EVENT(xfs_buf_iodone_async);
 DEFINE_BUF_EVENT(xfs_buf_error_relse);
+<<<<<<< HEAD
 DEFINE_BUF_EVENT(xfs_buf_drain_buftarg);
+=======
+DEFINE_BUF_EVENT(xfs_buf_wait_buftarg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_BUF_EVENT(xfs_trans_read_buf_shut);
 
 /* not really buffer traces, but the buf provides useful information */
@@ -1286,8 +1300,13 @@ TRACE_EVENT(xfs_log_assign_tail_lsn,
 )
 
 DECLARE_EVENT_CLASS(xfs_file_class,
+<<<<<<< HEAD
 	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
 	TP_ARGS(iocb, iter),
+=======
+	TP_PROTO(struct xfs_inode *ip, size_t count, loff_t offset),
+	TP_ARGS(ip, count, offset),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TP_STRUCT__entry(
 		__field(dev_t, dev)
 		__field(xfs_ino_t, ino)
@@ -1296,11 +1315,19 @@ DECLARE_EVENT_CLASS(xfs_file_class,
 		__field(size_t, count)
 	),
 	TP_fast_assign(
+<<<<<<< HEAD
 		__entry->dev = file_inode(iocb->ki_filp)->i_sb->s_dev;
 		__entry->ino = XFS_I(file_inode(iocb->ki_filp))->i_ino;
 		__entry->size = XFS_I(file_inode(iocb->ki_filp))->i_d.di_size;
 		__entry->offset = iocb->ki_pos;
 		__entry->count = iov_iter_count(iter);
+=======
+		__entry->dev = VFS_I(ip)->i_sb->s_dev;
+		__entry->ino = ip->i_ino;
+		__entry->size = ip->i_d.di_size;
+		__entry->offset = offset;
+		__entry->count = count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 	TP_printk("dev %d:%d ino 0x%llx size 0x%llx offset 0x%llx count 0x%zx",
 		  MAJOR(__entry->dev), MINOR(__entry->dev),
@@ -1312,16 +1339,24 @@ DECLARE_EVENT_CLASS(xfs_file_class,
 
 #define DEFINE_RW_EVENT(name)		\
 DEFINE_EVENT(xfs_file_class, name,	\
+<<<<<<< HEAD
 	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),		\
 	TP_ARGS(iocb, iter))
+=======
+	TP_PROTO(struct xfs_inode *ip, size_t count, loff_t offset),	\
+	TP_ARGS(ip, count, offset))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_RW_EVENT(xfs_file_buffered_read);
 DEFINE_RW_EVENT(xfs_file_direct_read);
 DEFINE_RW_EVENT(xfs_file_dax_read);
 DEFINE_RW_EVENT(xfs_file_buffered_write);
 DEFINE_RW_EVENT(xfs_file_direct_write);
 DEFINE_RW_EVENT(xfs_file_dax_write);
+<<<<<<< HEAD
 DEFINE_RW_EVENT(xfs_reflink_bounce_dio_write);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DECLARE_EVENT_CLASS(xfs_imap_class,
 	TP_PROTO(struct xfs_inode *ip, xfs_off_t offset, ssize_t count,
@@ -3295,6 +3330,11 @@ DEFINE_INODE_IREC_EVENT(xfs_reflink_cow_found);
 DEFINE_INODE_IREC_EVENT(xfs_reflink_cow_enospc);
 DEFINE_INODE_IREC_EVENT(xfs_reflink_convert_cow);
 
+<<<<<<< HEAD
+=======
+DEFINE_SIMPLE_IO_EVENT(xfs_reflink_bounce_dio_write);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_SIMPLE_IO_EVENT(xfs_reflink_cancel_cow_range);
 DEFINE_SIMPLE_IO_EVENT(xfs_reflink_end_cow);
 DEFINE_INODE_IREC_EVENT(xfs_reflink_cow_remap);
@@ -3887,6 +3927,7 @@ DEFINE_EVENT(xfs_timestamp_range_class, name, \
 DEFINE_TIMESTAMP_RANGE_EVENT(xfs_inode_timestamp_range);
 DEFINE_TIMESTAMP_RANGE_EVENT(xfs_quota_expiry_range);
 
+<<<<<<< HEAD
 DECLARE_EVENT_CLASS(xfs_eofblocks_class,
 	TP_PROTO(struct xfs_mount *mp, struct xfs_eofblocks *eofb,
 		 unsigned long caller_ip),
@@ -3928,6 +3969,8 @@ DEFINE_EVENT(xfs_eofblocks_class, name,	\
 DEFINE_EOFBLOCKS_EVENT(xfs_ioc_free_eofblocks);
 DEFINE_EOFBLOCKS_EVENT(xfs_blockgc_free_space);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _TRACE_XFS_H */
 
 #undef TRACE_INCLUDE_PATH

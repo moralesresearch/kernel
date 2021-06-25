@@ -44,6 +44,12 @@ MODULE_PARM_DESC(enable, "Enable/disable specific Hammerfall DSP soundcards.");
 MODULE_AUTHOR("Paul Davis <paul@linuxaudiosystems.com>, Marcus Andersson, Thomas Charbonnel <thomas@undata.org>");
 MODULE_DESCRIPTION("RME Hammerfall DSP");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{RME Hammerfall-DSP},"
+	        "{RME HDSP-9652},"
+		"{RME HDSP-9632}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE("rpm_firmware.bin");
 MODULE_FIRMWARE("multiface_firmware.bin");
 MODULE_FIRMWARE("multiface_firmware_rev11.bin");
@@ -466,7 +472,10 @@ struct hdsp {
 	unsigned char	      qs_out_channels;
 	unsigned char         ds_out_channels;
 	unsigned char         ss_out_channels;
+<<<<<<< HEAD
 	u32                   io_loopback;          /* output loopback channel states*/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct snd_dma_buffer capture_dma_buf;
 	struct snd_dma_buffer playback_dma_buf;
@@ -3251,6 +3260,7 @@ static const struct snd_kcontrol_new snd_hdsp_96xx_aeb =
 			HDSP_AnalogExtensionBoard);
 static struct snd_kcontrol_new snd_hdsp_adat_sync_check = HDSP_ADAT_SYNC_CHECK;
 
+<<<<<<< HEAD
 
 static bool hdsp_loopback_get(struct hdsp *const hdsp, const u8 channel)
 {
@@ -3305,6 +3315,8 @@ static struct snd_kcontrol_new snd_hdsp_loopback_control = {
 	.put = snd_hdsp_loopback_put
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int snd_hdsp_create_controls(struct snd_card *card, struct hdsp *hdsp)
 {
 	unsigned int idx;
@@ -3349,6 +3361,7 @@ static int snd_hdsp_create_controls(struct snd_card *card, struct hdsp *hdsp)
 		}
 	}
 
+<<<<<<< HEAD
 	/* Output loopback controls for H9632 cards */
 	if (hdsp->io_type == H9632) {
 		snd_hdsp_loopback_control.count = hdsp->max_channels;
@@ -3360,6 +3373,8 @@ static int snd_hdsp_create_controls(struct snd_card *card, struct hdsp *hdsp)
 			return err;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* AEB control for H96xx card */
 	if (hdsp->io_type == H9632 || hdsp->io_type == H9652) {
 		if ((err = snd_ctl_add(card, kctl = snd_ctl_new1(&snd_hdsp_96xx_aeb, hdsp))) < 0)
@@ -5019,7 +5034,11 @@ static int snd_hdsp_enable_io (struct hdsp *hdsp)
 
 static void snd_hdsp_initialize_channels(struct hdsp *hdsp)
 {
+<<<<<<< HEAD
 	int status, aebi_channels, aebo_channels, i;
+=======
+	int status, aebi_channels, aebo_channels;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (hdsp->io_type) {
 	case Digiface:
@@ -5046,12 +5065,15 @@ static void snd_hdsp_initialize_channels(struct hdsp *hdsp)
 		hdsp->ss_out_channels = H9632_SS_CHANNELS+aebo_channels;
 		hdsp->ds_out_channels = H9632_DS_CHANNELS+aebo_channels;
 		hdsp->qs_out_channels = H9632_QS_CHANNELS+aebo_channels;
+<<<<<<< HEAD
 		/* Disable loopback of output channels, as the set function
 		 * only sets on a change we fake all bits (channels) as enabled.
 		 */
 		hdsp->io_loopback = 0xffffffff;
 		for (i = 0; i < hdsp->max_channels; ++i)
 			hdsp_loopback_set(hdsp, i, false);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case Multiface:
@@ -5390,8 +5412,12 @@ static int snd_hdsp_free(struct hdsp *hdsp)
 	if (hdsp->port)
 		pci_release_regions(hdsp->pci);
 
+<<<<<<< HEAD
 	if (pci_is_enabled(hdsp->pci))
 		pci_disable_device(hdsp->pci);
+=======
+	pci_disable_device(hdsp->pci);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

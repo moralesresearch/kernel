@@ -122,11 +122,17 @@
 
 				ab8500_temp {
 					compatible = "stericsson,abx500-temp";
+<<<<<<< HEAD
 					interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
 					interrupt-names = "ABX500_TEMP_WARM";
 					io-channels = <&gpadc 0x06>,
 						      <&gpadc 0x07>;
 					io-channel-names = "aux1", "aux2";
+=======
+					io-channels = <&gpadc 0x06>,
+						      <&gpadc 0x07>;
+					io-channel-name = "aux1", "aux2";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				};
 
 				ab8500_battery: ab8500_battery {
@@ -136,6 +142,7 @@
 
 				ab8500_fg {
 					compatible = "stericsson,ab8500-fg";
+<<<<<<< HEAD
 					interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
 						     <8 IRQ_TYPE_LEVEL_HIGH>,
 						     <28 IRQ_TYPE_LEVEL_HIGH>,
@@ -149,10 +156,16 @@
 					battery = <&ab8500_battery>;
 					io-channels = <&gpadc 0x08>;
 					io-channel-names = "main_bat_v";
+=======
+					battery	   = <&ab8500_battery>;
+					io-channels = <&gpadc 0x08>;
+					io-channel-name = "main_bat_v";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				};
 
 				ab8500_btemp {
 					compatible = "stericsson,ab8500-btemp";
+<<<<<<< HEAD
 					interrupts = <20 IRQ_TYPE_LEVEL_HIGH>,
 						     <80 IRQ_TYPE_LEVEL_HIGH>,
 						     <83 IRQ_TYPE_LEVEL_HIGH>,
@@ -167,10 +180,17 @@
 					io-channels = <&gpadc 0x02>,
 						      <&gpadc 0x01>;
 					io-channel-names = "btemp_ball",
+=======
+					battery	   = <&ab8500_battery>;
+					io-channels = <&gpadc 0x02>,
+						      <&gpadc 0x01>;
+					io-channel-name = "btemp_ball",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							"bat_ctrl";
 				};
 
 				ab8500_charger {
+<<<<<<< HEAD
 					compatible = "stericsson,ab8500-charger";
 					interrupts = <10 IRQ_TYPE_LEVEL_HIGH>,
 						     <11 IRQ_TYPE_LEVEL_HIGH>,
@@ -200,13 +220,20 @@
 							  "VBUS_OVV",
 							  "CH_WD_EXP",
 							  "VBUS_CH_DROP_END";
+=======
+					compatible	= "stericsson,ab8500-charger";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					battery		= <&ab8500_battery>;
 					vddadc-supply	= <&ab8500_ldo_tvout_reg>;
 					io-channels = <&gpadc 0x03>,
 						      <&gpadc 0x0a>,
 						      <&gpadc 0x09>,
 						      <&gpadc 0x0b>;
+<<<<<<< HEAD
 					io-channel-names = "main_charger_v",
+=======
+					io-channel-name = "main_charger_v",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							"main_charger_c",
 							"vbus_v",
 							"usb_charger_c";

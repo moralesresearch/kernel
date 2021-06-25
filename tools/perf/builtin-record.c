@@ -102,7 +102,14 @@ struct record {
 	bool			no_buildid_cache;
 	bool			no_buildid_cache_set;
 	bool			buildid_all;
+<<<<<<< HEAD
 	bool			buildid_mmap;
+=======
+<<<<<<< HEAD
+	bool			buildid_mmap;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			timestamp_filename;
 	bool			timestamp_boundary;
 	struct switch_output	switch_output;
@@ -731,8 +738,16 @@ static int record__auxtrace_init(struct record *rec)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	auxtrace_regroup_aux_output(rec->evlist);
 
+=======
+<<<<<<< HEAD
+	auxtrace_regroup_aux_output(rec->evlist);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return auxtrace_parse_filters(rec->evlist);
 }
 
@@ -1940,10 +1955,26 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 
 		if (evlist__ctlfd_process(rec->evlist, &cmd) > 0) {
 			switch (cmd) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			case EVLIST_CTL_CMD_ENABLE:
+				pr_info(EVLIST_ENABLED_MSG);
+				break;
+			case EVLIST_CTL_CMD_DISABLE:
+				pr_info(EVLIST_DISABLED_MSG);
+				break;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case EVLIST_CTL_CMD_SNAPSHOT:
 				hit_auxtrace_snapshot_trigger(rec);
 				evlist__ctlfd_ack(rec->evlist);
 				break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case EVLIST_CTL_CMD_STOP:
 				done = 1;
 				break;
@@ -1953,6 +1984,13 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 			case EVLIST_CTL_CMD_DISABLE:
 			case EVLIST_CTL_CMD_EVLIST:
 			case EVLIST_CTL_CMD_PING:
+<<<<<<< HEAD
+=======
+=======
+			case EVLIST_CTL_CMD_ACK:
+			case EVLIST_CTL_CMD_UNSUPPORTED:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			default:
 				break;
 			}
@@ -2139,8 +2177,16 @@ static int perf_record_config(const char *var, const char *value, void *cb)
 			rec->no_buildid_cache = true;
 		else if (!strcmp(value, "skip"))
 			rec->no_buildid = true;
+<<<<<<< HEAD
 		else if (!strcmp(value, "mmap"))
 			rec->buildid_mmap = true;
+=======
+<<<<<<< HEAD
+		else if (!strcmp(value, "mmap"))
+			rec->buildid_mmap = true;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			return -1;
 		return 0;
@@ -2480,8 +2526,16 @@ static struct option __record_options[] = {
 		    "Record the sample physical addresses"),
 	OPT_BOOLEAN(0, "data-page-size", &record.opts.sample_data_page_size,
 		    "Record the sampled data address data page size"),
+<<<<<<< HEAD
 	OPT_BOOLEAN(0, "code-page-size", &record.opts.sample_code_page_size,
 		    "Record the sampled code address (ip) page size"),
+=======
+<<<<<<< HEAD
+	OPT_BOOLEAN(0, "code-page-size", &record.opts.sample_code_page_size,
+		    "Record the sampled code address (ip) page size"),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN(0, "sample-cpu", &record.opts.sample_cpu, "Record the sample cpu"),
 	OPT_BOOLEAN_SET('T', "timestamp", &record.opts.sample_time,
 			&record.opts.sample_time_set,
@@ -2560,8 +2614,16 @@ static struct option __record_options[] = {
 		   "file", "vmlinux pathname"),
 	OPT_BOOLEAN(0, "buildid-all", &record.buildid_all,
 		    "Record build-id of all DSOs regardless of hits"),
+<<<<<<< HEAD
 	OPT_BOOLEAN(0, "buildid-mmap", &record.buildid_mmap,
 		    "Record build-id in map events"),
+=======
+<<<<<<< HEAD
+	OPT_BOOLEAN(0, "buildid-mmap", &record.buildid_mmap,
+		    "Record build-id in map events"),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN(0, "timestamp-filename", &record.timestamp_filename,
 		    "append timestamp to output filename"),
 	OPT_BOOLEAN(0, "timestamp-boundary", &record.timestamp_boundary,
@@ -2665,6 +2727,10 @@ int cmd_record(int argc, const char **argv)
 
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rec->buildid_mmap) {
 		if (!perf_can_record_build_id()) {
 			pr_err("Failed: no support to record build id in mmap events, update your kernel.\n");
@@ -2680,6 +2746,11 @@ int cmd_record(int argc, const char **argv)
 		rec->no_buildid = true;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rec->opts.kcore)
 		rec->data.is_dir = true;
 

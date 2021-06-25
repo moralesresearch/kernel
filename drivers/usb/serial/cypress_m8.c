@@ -115,7 +115,11 @@ struct cypress_private {
 static int  cypress_earthmate_port_probe(struct usb_serial_port *port);
 static int  cypress_hidcom_port_probe(struct usb_serial_port *port);
 static int  cypress_ca42v2_port_probe(struct usb_serial_port *port);
+<<<<<<< HEAD
 static void cypress_port_remove(struct usb_serial_port *port);
+=======
+static int  cypress_port_remove(struct usb_serial_port *port);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int  cypress_open(struct tty_struct *tty, struct usb_serial_port *port);
 static void cypress_close(struct usb_serial_port *port);
 static void cypress_dtr_rts(struct usb_serial_port *port, int on);
@@ -564,7 +568,11 @@ static int cypress_ca42v2_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void cypress_port_remove(struct usb_serial_port *port)
+=======
+static int cypress_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cypress_private *priv;
 
@@ -572,6 +580,11 @@ static void cypress_port_remove(struct usb_serial_port *port)
 
 	kfifo_free(&priv->write_fifo);
 	kfree(priv);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int cypress_open(struct tty_struct *tty, struct usb_serial_port *port)

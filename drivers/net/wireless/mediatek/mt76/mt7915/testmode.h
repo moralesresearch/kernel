@@ -16,6 +16,7 @@ struct mt7915_tm_freq_offset {
 	__le32 freq_offset;
 };
 
+<<<<<<< HEAD
 struct mt7915_tm_slot_time {
 	u8 slot_time;
 	u8 sifs;
@@ -33,6 +34,8 @@ struct mt7915_tm_clean_txq {
 	u8 rsv;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mt7915_tm_cmd {
 	u8 testmode_en;
 	u8 param_idx;
@@ -41,8 +44,11 @@ struct mt7915_tm_cmd {
 		__le32 data;
 		struct mt7915_tm_trx trx;
 		struct mt7915_tm_freq_offset freq;
+<<<<<<< HEAD
 		struct mt7915_tm_slot_time slot;
 		struct mt7915_tm_clean_txq clean;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u8 test[72];
 	} param;
 } __packed;
@@ -56,6 +62,7 @@ enum {
 	TM_MAC_RX_RXV,
 };
 
+<<<<<<< HEAD
 struct tm_tx_cont {
 	u8 control_ch;
 	u8 center_ch;
@@ -96,4 +103,6 @@ enum {
 	RF_OPER_WIFI_SPECTRUM,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

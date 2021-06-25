@@ -41,7 +41,14 @@
 #include <linux/pkeys.h>
 #include <linux/seq_buf.h>
 
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+<<<<<<< HEAD
+#include <asm/interrupt.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 #include <asm/processor.h>
 #include <asm/mmu.h>
@@ -660,10 +667,24 @@ static void do_break_handler(struct pt_regs *regs)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_INTERRUPT_HANDLER(do_break)
 {
 	current->thread.trap_nr = TRAP_HWBKPT;
 	if (notify_die(DIE_DABR_MATCH, "dabr_match", regs, regs->dsisr,
+<<<<<<< HEAD
+=======
+=======
+void do_break (struct pt_regs *regs, unsigned long address,
+		    unsigned long error_code)
+{
+	current->thread.trap_nr = TRAP_HWBKPT;
+	if (notify_die(DIE_DABR_MATCH, "dabr_match", regs, error_code,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			11, SIGSEGV) == NOTIFY_STOP)
 		return;
 
@@ -681,7 +702,15 @@ DEFINE_INTERRUPT_HANDLER(do_break)
 		do_break_handler(regs);
 
 	/* Deliver the signal to userspace */
+<<<<<<< HEAD
 	force_sig_fault(SIGTRAP, TRAP_HWBKPT, (void __user *)regs->dar);
+=======
+<<<<<<< HEAD
+	force_sig_fault(SIGTRAP, TRAP_HWBKPT, (void __user *)regs->dar);
+=======
+	force_sig_fault(SIGTRAP, TRAP_HWBKPT, (void __user *)address);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif	/* CONFIG_PPC_ADV_DEBUG_REGS */
 
@@ -1670,7 +1699,15 @@ int copy_thread(unsigned long clone_flags, unsigned long usp,
 	/* Copy registers */
 	sp -= sizeof(struct pt_regs);
 	childregs = (struct pt_regs *) sp;
+<<<<<<< HEAD
 	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
+=======
+<<<<<<< HEAD
+	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
+=======
+	if (unlikely(p->flags & PF_KTHREAD)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* kernel thread */
 		memset(childregs, 0, sizeof(struct pt_regs));
 		childregs->gpr[1] = sp + sizeof(struct pt_regs);
@@ -2047,9 +2084,18 @@ static inline int valid_emergency_stack(unsigned long sp, struct task_struct *p,
 	unsigned long stack_page;
 	unsigned long cpu = task_cpu(p);
 
+<<<<<<< HEAD
 	if (!paca_ptrs)
 		return 0;
 
+=======
+<<<<<<< HEAD
+	if (!paca_ptrs)
+		return 0;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stack_page = (unsigned long)paca_ptrs[cpu]->emergency_sp - THREAD_SIZE;
 	if (sp >= stack_page && sp <= stack_page + THREAD_SIZE - nbytes)
 		return 1;

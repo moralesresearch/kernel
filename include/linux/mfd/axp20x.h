@@ -696,6 +696,10 @@ int axp20x_device_probe(struct axp20x_dev *axp20x);
  *
  * This tells the axp20x core to remove the associated mfd devices
  */
+<<<<<<< HEAD
 void axp20x_device_remove(struct axp20x_dev *axp20x);
+=======
+int axp20x_device_remove(struct axp20x_dev *axp20x);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __LINUX_MFD_AXP20X_H */

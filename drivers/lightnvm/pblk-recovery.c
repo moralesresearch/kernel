@@ -706,7 +706,12 @@ struct pblk_line *pblk_recov_l2p(struct pblk *pblk)
 
 		/* The first valid instance uuid is used for initialization */
 		if (!valid_uuid) {
+<<<<<<< HEAD
 			import_guid(&pblk->instance_uuid, smeta_buf->header.uuid);
+=======
+			guid_copy(&pblk->instance_uuid,
+				  (guid_t *)&smeta_buf->header.uuid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			valid_uuid = 1;
 		}
 

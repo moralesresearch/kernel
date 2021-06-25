@@ -1239,6 +1239,25 @@ struct scr_tblsel {
 */
 
 /*
+<<<<<<< HEAD
+=======
+**	Status
+*/
+
+#define	S_GOOD		(0x00)
+#define	S_CHECK_COND	(0x02)
+#define	S_COND_MET	(0x04)
+#define	S_BUSY		(0x08)
+#define	S_INT		(0x10)
+#define	S_INT_COND_MET	(0x14)
+#define	S_CONFLICT	(0x18)
+#define	S_TERMINATED	(0x20)
+#define	S_QUEUE_FULL	(0x28)
+#define	S_ILLEGAL	(0xff)
+#define	S_SENSE		(0x80)
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * End of ncrreg from FreeBSD
  */
 

@@ -167,14 +167,22 @@ void fpstate_sanitize_xstate(struct fpu *fpu)
 		fx->fop = 0;
 		fx->rip = 0;
 		fx->rdp = 0;
+<<<<<<< HEAD
 		memset(fx->st_space, 0, sizeof(fx->st_space));
+=======
+		memset(&fx->st_space[0], 0, 128);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
 	 * SSE is in init state
 	 */
 	if (!(xfeatures & XFEATURE_MASK_SSE))
+<<<<<<< HEAD
 		memset(fx->xmm_space, 0, sizeof(fx->xmm_space));
+=======
+		memset(&fx->xmm_space[0], 0, 256);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * First two features are FPU and SSE, which above we handled
@@ -1402,6 +1410,8 @@ int proc_pid_arch_status(struct seq_file *m, struct pid_namespace *ns,
 	return 0;
 }
 #endif /* CONFIG_PROC_PID_ARCH_STATUS */
+<<<<<<< HEAD
+=======
 
 #ifdef CONFIG_IOMMU_SUPPORT
 void update_pasid(void)
@@ -1459,3 +1469,4 @@ void update_pasid(void)
 	}
 }
 #endif /* CONFIG_IOMMU_SUPPORT */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

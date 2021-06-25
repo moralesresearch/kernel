@@ -53,6 +53,10 @@ struct sel_netport {
  * if this becomes a problem we can always add a hash table for each address
  * family later */
 
+<<<<<<< HEAD
+=======
+static LIST_HEAD(sel_netport_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_SPINLOCK(sel_netport_lock);
 static struct sel_netport_bkt sel_netport_hash[SEL_NETPORT_HASH_SIZE];
 

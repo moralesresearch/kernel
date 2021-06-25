@@ -83,7 +83,11 @@ and encrypted shares and stronger signing and authentication algorithms.
 There are additional mount options that may be helpful for SMB3 to get
 improved POSIX behavior (NB: can use vers=3.0 to force only SMB3, never 2.1):
 
+<<<<<<< HEAD
    ``mfsymlinks`` and either ``cifsacl`` or ``modefromsid`` (usually with ``idsfromsid``)
+=======
+     ``mfsymlinks`` and ``cifsacl`` and ``idsfromsid``
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Allowing User Mounts
 ====================

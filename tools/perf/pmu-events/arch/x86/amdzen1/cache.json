@@ -275,7 +275,11 @@
   {
     "EventName": "l2_pf_hit_l2",
     "EventCode": "0x70",
+<<<<<<< HEAD
     "BriefDescription": "L2 prefetch hit in L2. Use l2_cache_hits_from_l2_hwpf instead.",
+=======
+    "BriefDescription": "L2 prefetch hit in L2.",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     "UMask": "0xff"
   },
   {

@@ -11,5 +11,9 @@ struct nvkm_nvdec {
 	struct nvkm_falcon falcon;
 };
 
+<<<<<<< HEAD
 int gm107_nvdec_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_nvdec **);
+=======
+int gm107_nvdec_new(struct nvkm_device *, int, struct nvkm_nvdec **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

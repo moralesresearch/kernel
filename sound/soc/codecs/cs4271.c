@@ -481,7 +481,11 @@ static struct snd_soc_dai_driver cs4271_dai = {
 		.formats	= CS4271_PCM_FORMATS,
 	},
 	.ops = &cs4271_dai_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cs4271_reset(struct snd_soc_component *component)

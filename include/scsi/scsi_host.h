@@ -314,12 +314,15 @@ struct scsi_host_template {
 	 * Status: OPTIONAL
 	 */
 	enum blk_eh_timer_return (*eh_timed_out)(struct scsi_cmnd *);
+<<<<<<< HEAD
 	/*
 	 * Optional routine that allows the transport to decide if a cmd
 	 * is retryable. Return true if the transport is in a state the
 	 * cmd should be retried on.
 	 */
 	bool (*eh_should_retry_cmd)(struct scsi_cmnd *scmd);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* This is an optional routine that allows transport to initiate
 	 * LLD adapter or firmware reset using sysfs attribute.

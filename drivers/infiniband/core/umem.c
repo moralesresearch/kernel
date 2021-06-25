@@ -2,7 +2,10 @@
  * Copyright (c) 2005 Topspin Communications.  All rights reserved.
  * Copyright (c) 2005 Cisco Systems.  All rights reserved.
  * Copyright (c) 2005 Mellanox Technologies. All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2020 Intel Corporation. All rights reserved.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This software is available to you under a choice of one of two
  * licenses.  You may choose to be licensed under the terms of the GNU
@@ -279,8 +282,11 @@ void ib_umem_release(struct ib_umem *umem)
 {
 	if (!umem)
 		return;
+<<<<<<< HEAD
 	if (umem->is_dmabuf)
 		return ib_umem_dmabuf_release(to_ib_umem_dmabuf(umem));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (umem->is_odp)
 		return ib_umem_odp_release(to_ib_umem_odp(umem));
 

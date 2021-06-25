@@ -1682,7 +1682,15 @@ static void aux_sdb_init(unsigned long sdb)
 
 	/* Save clock base */
 	te->clock_base = 1;
+<<<<<<< HEAD
 	te->progusage2 = tod_clock_base.tod;
+=======
+<<<<<<< HEAD
+	te->progusage2 = tod_clock_base.tod;
+=======
+	memcpy(&te->progusage2, &tod_clock_base[1], 8);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

@@ -101,7 +101,15 @@ static void ppp_async_input(struct asyncppp *ap, const unsigned char *buf,
 			    char *flags, int count);
 static int ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd,
 			   unsigned long arg);
+<<<<<<< HEAD
 static void ppp_async_process(struct tasklet_struct *t);
+=======
+<<<<<<< HEAD
+static void ppp_async_process(struct tasklet_struct *t);
+=======
+static void ppp_async_process(unsigned long arg);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void async_lcp_peek(struct asyncppp *ap, unsigned char *data,
 			   int len, int inbound);
@@ -179,7 +187,15 @@ ppp_asynctty_open(struct tty_struct *tty)
 	ap->lcp_fcs = -1;
 
 	skb_queue_head_init(&ap->rqueue);
+<<<<<<< HEAD
 	tasklet_setup(&ap->tsk, ppp_async_process);
+=======
+<<<<<<< HEAD
+	tasklet_setup(&ap->tsk, ppp_async_process);
+=======
+	tasklet_init(&ap->tsk, ppp_async_process, (unsigned long) ap);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	refcount_set(&ap->refcnt, 1);
 	init_completion(&ap->dead);
@@ -489,9 +505,21 @@ ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
  * to the ppp_generic code, and to tell the ppp_generic code
  * if we can accept more output now.
  */
+<<<<<<< HEAD
 static void ppp_async_process(struct tasklet_struct *t)
 {
 	struct asyncppp *ap = from_tasklet(ap, t, tsk);
+=======
+<<<<<<< HEAD
+static void ppp_async_process(struct tasklet_struct *t)
+{
+	struct asyncppp *ap = from_tasklet(ap, t, tsk);
+=======
+static void ppp_async_process(unsigned long arg)
+{
+	struct asyncppp *ap = (struct asyncppp *) arg;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 
 	/* process received packets */

@@ -1722,8 +1722,11 @@ void md_bitmap_flush(struct mddev *mddev)
 	md_bitmap_daemon_work(mddev);
 	bitmap->daemon_lastrun -= sleep;
 	md_bitmap_daemon_work(mddev);
+<<<<<<< HEAD
 	if (mddev->bitmap_info.external)
 		md_super_wait(mddev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	md_bitmap_update_sb(bitmap);
 }
 

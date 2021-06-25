@@ -69,6 +69,10 @@
 #include <linux/bpf.h>
 #include <linux/bpf_trace.h>
 #include <linux/mutex.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/ieee802154.h>
 #include <linux/if_ltalk.h>
 #include <uapi/linux/if_fddi.h>
@@ -77,6 +81,11 @@
 #include <net/ax25.h>
 #include <net/rose.h>
 #include <net/6lowpan.h>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/uaccess.h>
 #include <linux/proc_fs.h>
@@ -1607,8 +1616,22 @@ static struct sk_buff *tun_build_skb(struct tun_struct *tun,
 		struct xdp_buff xdp;
 		u32 act;
 
+<<<<<<< HEAD
 		xdp_init_buff(&xdp, buflen, &tfile->xdp_rxq);
 		xdp_prepare_buff(&xdp, buf, pad, len, false);
+=======
+<<<<<<< HEAD
+		xdp_init_buff(&xdp, buflen, &tfile->xdp_rxq);
+		xdp_prepare_buff(&xdp, buf, pad, len, false);
+=======
+		xdp.data_hard_start = buf;
+		xdp.data = buf + pad;
+		xdp_set_data_meta_invalid(&xdp);
+		xdp.data_end = xdp.data + len;
+		xdp.rxq = &tfile->xdp_rxq;
+		xdp.frame_sz = buflen;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		act = bpf_prog_run_xdp(xdp_prog, &xdp);
 		if (act == XDP_REDIRECT || act == XDP_TX) {
@@ -1818,10 +1841,25 @@ drop:
 
 	/* copy skb_ubuf_info for callback when skb has no error */
 	if (zerocopy) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb_zcopy_init(skb, msg_control);
 	} else if (msg_control) {
 		struct ubuf_info *uarg = msg_control;
 		uarg->callback(NULL, uarg, false);
+<<<<<<< HEAD
+=======
+=======
+		skb_shinfo(skb)->destructor_arg = msg_control;
+		skb_shinfo(skb)->tx_flags |= SKBTX_DEV_ZEROCOPY;
+		skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
+	} else if (msg_control) {
+		struct ubuf_info *uarg = msg_control;
+		uarg->callback(uarg, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	skb_reset_network_header(skb);
@@ -2346,9 +2384,21 @@ static int tun_xdp_one(struct tun_struct *tun,
 			skb_xdp = true;
 			goto build;
 		}
+<<<<<<< HEAD
 
 		xdp_init_buff(xdp, buflen, &tfile->xdp_rxq);
 		xdp_set_data_meta_invalid(xdp);
+=======
+<<<<<<< HEAD
+
+		xdp_init_buff(xdp, buflen, &tfile->xdp_rxq);
+		xdp_set_data_meta_invalid(xdp);
+=======
+		xdp_set_data_meta_invalid(xdp);
+		xdp->rxq = &tfile->xdp_rxq;
+		xdp->frame_sz = buflen;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		act = bpf_prog_run_xdp(xdp_prog, xdp);
 		err = tun_xdp_act(tun, xdp_prog, xdp, act);
@@ -2743,7 +2793,15 @@ static int tun_set_iff(struct net *net, struct file *file, struct ifreq *ifr)
 		err = register_netdevice(tun->dev);
 		if (err < 0)
 			goto err_detach;
+<<<<<<< HEAD
 		/* free_netdev() won't check refcnt, to avoid race
+=======
+<<<<<<< HEAD
+		/* free_netdev() won't check refcnt, to avoid race
+=======
+		/* free_netdev() won't check refcnt, to aovid race
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * with dev_put() we need publish tun after registration.
 		 */
 		rcu_assign_pointer(tfile->tun, tun);
@@ -2927,6 +2985,10 @@ static int tun_set_ebpf(struct tun_struct *tun, struct tun_prog __rcu **prog_p,
 	return __tun_set_ebpf(tun, prog_p, prog);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Return correct value for tun->dev->addr_len based on tun->dev->type. */
 static unsigned char tun_get_addr_len(unsigned short type)
 {
@@ -2966,6 +3028,11 @@ static unsigned char tun_get_addr_len(unsigned short type)
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
 			    unsigned long arg, int ifreq_len)
 {
@@ -3129,7 +3196,14 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
 				break;
 			}
 			tun->dev->type = (int) arg;
+<<<<<<< HEAD
 			tun->dev->addr_len = tun_get_addr_len(tun->dev->type);
+=======
+<<<<<<< HEAD
+			tun->dev->addr_len = tun_get_addr_len(tun->dev->type);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			netif_info(tun, drv, tun->dev, "linktype set to %d\n",
 				   tun->dev->type);
 			call_netdevice_notifiers(NETDEV_POST_TYPE_CHANGE,

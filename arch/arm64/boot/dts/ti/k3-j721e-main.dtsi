@@ -28,6 +28,41 @@
 		#size-cells = <1>;
 		ranges = <0x0 0x0 0x00100000 0x1c000>;
 
+<<<<<<< HEAD
+=======
+		pcie0_ctrl: syscon@4070 {
+			compatible = "ti,j721e-system-controller", "syscon", "simple-mfd";
+			reg = <0x00004070 0x4>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x4070 0x4070 0x4>;
+		};
+
+		pcie1_ctrl: syscon@4074 {
+			compatible = "ti,j721e-system-controller", "syscon", "simple-mfd";
+			reg = <0x00004074 0x4>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x4074 0x4074 0x4>;
+		};
+
+		pcie2_ctrl: syscon@4078 {
+			compatible = "ti,j721e-system-controller", "syscon", "simple-mfd";
+			reg = <0x00004078 0x4>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x4078 0x4078 0x4>;
+		};
+
+		pcie3_ctrl: syscon@407c {
+			compatible = "ti,j721e-system-controller", "syscon", "simple-mfd";
+			reg = <0x0000407c 0x4>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x407c 0x407c 0x4>;
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		serdes_ln_ctrl: mux@4080 {
 			compatible = "mmio-mux";
 			reg = <0x00004080 0x50>;
@@ -586,7 +621,11 @@
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 318 IRQ_TYPE_EDGE_RISING>;
 		device_type = "pci";
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4070>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie0_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 239 TI_SCI_PD_EXCLUSIVE>;
@@ -613,12 +652,20 @@
 		reg-names = "intd_cfg", "user_cfg", "reg", "mem";
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 318 IRQ_TYPE_EDGE_RISING>;
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4070>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie0_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 239 TI_SCI_PD_EXCLUSIVE>;
 		clocks = <&k3_clks 239 1>;
 		clock-names = "fck";
+<<<<<<< HEAD
+=======
+		cdns,max-outbound-regions = <16>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-functions = /bits/ 8 <6>;
 		max-virtual-functions = /bits/ 16 <4 4 4 4 0 0>;
 		dma-coherent;
@@ -634,7 +681,11 @@
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 330 IRQ_TYPE_EDGE_RISING>;
 		device_type = "pci";
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4074>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie1_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 240 TI_SCI_PD_EXCLUSIVE>;
@@ -661,12 +712,20 @@
 		reg-names = "intd_cfg", "user_cfg", "reg", "mem";
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 330 IRQ_TYPE_EDGE_RISING>;
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4074>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie1_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 240 TI_SCI_PD_EXCLUSIVE>;
 		clocks = <&k3_clks 240 1>;
 		clock-names = "fck";
+<<<<<<< HEAD
+=======
+		cdns,max-outbound-regions = <16>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-functions = /bits/ 8 <6>;
 		max-virtual-functions = /bits/ 16 <4 4 4 4 0 0>;
 		dma-coherent;
@@ -682,7 +741,11 @@
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 342 IRQ_TYPE_EDGE_RISING>;
 		device_type = "pci";
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4078>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie2_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 241 TI_SCI_PD_EXCLUSIVE>;
@@ -709,12 +772,20 @@
 		reg-names = "intd_cfg", "user_cfg", "reg", "mem";
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 342 IRQ_TYPE_EDGE_RISING>;
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x4078>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie2_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 241 TI_SCI_PD_EXCLUSIVE>;
 		clocks = <&k3_clks 241 1>;
 		clock-names = "fck";
+<<<<<<< HEAD
+=======
+		cdns,max-outbound-regions = <16>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-functions = /bits/ 8 <6>;
 		max-virtual-functions = /bits/ 16 <4 4 4 4 0 0>;
 		dma-coherent;
@@ -730,7 +801,11 @@
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 354 IRQ_TYPE_EDGE_RISING>;
 		device_type = "pci";
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x407c>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie3_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 242 TI_SCI_PD_EXCLUSIVE>;
@@ -757,12 +832,20 @@
 		reg-names = "intd_cfg", "user_cfg", "reg", "mem";
 		interrupt-names = "link_state";
 		interrupts = <GIC_SPI 354 IRQ_TYPE_EDGE_RISING>;
+<<<<<<< HEAD
 		ti,syscon-pcie-ctrl = <&scm_conf 0x407c>;
+=======
+		ti,syscon-pcie-ctrl = <&pcie3_ctrl>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-link-speed = <3>;
 		num-lanes = <2>;
 		power-domains = <&k3_pds 242 TI_SCI_PD_EXCLUSIVE>;
 		clocks = <&k3_clks 242 1>;
 		clock-names = "fck";
+<<<<<<< HEAD
+=======
+		cdns,max-outbound-regions = <16>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max-functions = /bits/ 8 <6>;
 		max-virtual-functions = /bits/ 16 <4 4 4 4 0 0>;
 		dma-coherent;
@@ -1032,38 +1115,63 @@
 		clock-names = "gpio";
 	};
 
+<<<<<<< HEAD
 	main_sdhci0: mmc@4f80000 {
+=======
+	main_sdhci0: sdhci@4f80000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		compatible = "ti,j721e-sdhci-8bit";
 		reg = <0x0 0x4f80000 0x0 0x1000>, <0x0 0x4f88000 0x0 0x400>;
 		interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
 		power-domains = <&k3_pds 91 TI_SCI_PD_EXCLUSIVE>;
+<<<<<<< HEAD
 		clock-names = "clk_ahb", "clk_xin";
 		clocks = <&k3_clks 91 0>, <&k3_clks 91 1>;
 		assigned-clocks = <&k3_clks 91 1>;
 		assigned-clock-parents = <&k3_clks 91 2>;
 		bus-width = <8>;
 		mmc-hs200-1_8v;
+=======
+		clock-names = "clk_xin", "clk_ahb";
+		clocks = <&k3_clks 91 1>, <&k3_clks 91 0>;
+		assigned-clocks = <&k3_clks 91 1>;
+		assigned-clock-parents = <&k3_clks 91 2>;
+		bus-width = <8>;
+		mmc-hs400-1_8v;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mmc-ddr-1_8v;
 		ti,otap-del-sel-legacy = <0xf>;
 		ti,otap-del-sel-mmc-hs = <0xf>;
 		ti,otap-del-sel-ddr52 = <0x5>;
 		ti,otap-del-sel-hs200 = <0x6>;
 		ti,otap-del-sel-hs400 = <0x0>;
+<<<<<<< HEAD
 		ti,itap-del-sel-legacy = <0x10>;
 		ti,itap-del-sel-mmc-hs = <0xa>;
 		ti,itap-del-sel-ddr52 = <0x3>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ti,trm-icp = <0x8>;
 		ti,strobe-sel = <0x77>;
 		dma-coherent;
 	};
 
+<<<<<<< HEAD
 	main_sdhci1: mmc@4fb0000 {
+=======
+	main_sdhci1: sdhci@4fb0000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		compatible = "ti,j721e-sdhci-4bit";
 		reg = <0x0 0x04fb0000 0x0 0x1000>, <0x0 0x4fb8000 0x0 0x400>;
 		interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
 		power-domains = <&k3_pds 92 TI_SCI_PD_EXCLUSIVE>;
+<<<<<<< HEAD
 		clock-names = "clk_ahb", "clk_xin";
 		clocks = <&k3_clks 92 5>, <&k3_clks 92 0>;
+=======
+		clock-names = "clk_xin", "clk_ahb";
+		clocks = <&k3_clks 92 0>, <&k3_clks 92 5>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&k3_clks 92 0>;
 		assigned-clock-parents = <&k3_clks 92 1>;
 		ti,otap-del-sel-legacy = <0x0>;
@@ -1072,6 +1180,7 @@
 		ti,otap-del-sel-sdr25 = <0xf>;
 		ti,otap-del-sel-sdr50 = <0xc>;
 		ti,otap-del-sel-ddr50 = <0xc>;
+<<<<<<< HEAD
 		ti,itap-del-sel-legacy = <0x0>;
 		ti,itap-del-sel-sd-hs = <0x0>;
 		ti,itap-del-sel-sdr12 = <0x0>;
@@ -1084,12 +1193,25 @@
 	};
 
 	main_sdhci2: mmc@4f98000 {
+=======
+		ti,trm-icp = <0x8>;
+		ti,clkbuf-sel = <0x7>;
+		dma-coherent;
+	};
+
+	main_sdhci2: sdhci@4f98000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		compatible = "ti,j721e-sdhci-4bit";
 		reg = <0x0 0x4f98000 0x0 0x1000>, <0x0 0x4f90000 0x0 0x400>;
 		interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
 		power-domains = <&k3_pds 93 TI_SCI_PD_EXCLUSIVE>;
+<<<<<<< HEAD
 		clock-names = "clk_ahb", "clk_xin";
 		clocks = <&k3_clks 93 5>, <&k3_clks 93 0>;
+=======
+		clock-names = "clk_xin", "clk_ahb";
+		clocks = <&k3_clks 93 0>, <&k3_clks 93 5>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&k3_clks 93 0>;
 		assigned-clock-parents = <&k3_clks 93 1>;
 		ti,otap-del-sel-legacy = <0x0>;
@@ -1098,6 +1220,7 @@
 		ti,otap-del-sel-sdr25 = <0xf>;
 		ti,otap-del-sel-sdr50 = <0xc>;
 		ti,otap-del-sel-ddr50 = <0xc>;
+<<<<<<< HEAD
 		ti,itap-del-sel-legacy = <0x0>;
 		ti,itap-del-sel-sd-hs = <0x0>;
 		ti,itap-del-sel-sdr12 = <0x0>;
@@ -1107,6 +1230,11 @@
 		ti,clkbuf-sel = <0x7>;
 		dma-coherent;
 		sdhci-caps-mask = <0x2 0x0>;
+=======
+		ti,trm-icp = <0x8>;
+		ti,clkbuf-sel = <0x7>;
+		dma-coherent;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	usbss0: cdns-usb@4104000 {

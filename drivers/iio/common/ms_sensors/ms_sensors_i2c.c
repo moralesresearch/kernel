@@ -488,11 +488,16 @@ int ms_sensors_ht_read_humidity(struct ms_ht_dev *dev_data,
 EXPORT_SYMBOL(ms_sensors_ht_read_humidity);
 
 /**
+<<<<<<< HEAD
  * ms_sensors_tp_crc4() - Calculate PROM CRC for
+=======
+ * ms_sensors_tp_crc_valid() - CRC check function for
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *     Temperature and pressure devices.
  *     This function is only used when reading PROM coefficients
  *
  * @prom:	pointer to PROM coefficients array
+<<<<<<< HEAD
  *
  * Return: CRC.
  */
@@ -502,6 +507,21 @@ static u8 ms_sensors_tp_crc4(u16 *prom)
 	u16 n_rem = 0x0000;
 
 	for (cnt = 0; cnt < MS_SENSORS_TP_PROM_WORDS_NB * 2; cnt++) {
+=======
+ * @len:	length of PROM coefficients array
+ *
+ * Return: True if CRC is ok.
+ */
+static bool ms_sensors_tp_crc_valid(u16 *prom, u8 len)
+{
+	unsigned int cnt, n_bit;
+	u16 n_rem = 0x0000, crc_read = prom[0], crc = (*prom & 0xF000) >> 12;
+
+	prom[len - 1] = 0;
+	prom[0] &= 0x0FFF;      /* Clear the CRC computation part */
+
+	for (cnt = 0; cnt < len * 2; cnt++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (cnt % 2 == 1)
 			n_rem ^= prom[cnt >> 1] & 0x00FF;
 		else
@@ -514,6 +534,7 @@ static u8 ms_sensors_tp_crc4(u16 *prom)
 				n_rem <<= 1;
 		}
 	}
+<<<<<<< HEAD
 
 	return n_rem >> 12;
 }
@@ -563,6 +584,12 @@ static bool ms_sensors_tp_crc_valid_128(u16 *prom)
 	prom[7] = w7;
 
 	return crc == crc_read;
+=======
+	n_rem >>= 12;
+	prom[0] = crc_read;
+
+	return n_rem == crc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -577,9 +604,14 @@ static bool ms_sensors_tp_crc_valid_128(u16 *prom)
 int ms_sensors_tp_read_prom(struct ms_tp_dev *dev_data)
 {
 	int i, ret;
+<<<<<<< HEAD
 	bool valid;
 
 	for (i = 0; i < dev_data->hw->prom_len; i++) {
+=======
+
+	for (i = 0; i < MS_SENSORS_TP_PROM_WORDS_NB; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = ms_sensors_read_prom_word(
 			dev_data->client,
 			MS_SENSORS_TP_PROM_READ + (i << 1),
@@ -589,12 +621,17 @@ int ms_sensors_tp_read_prom(struct ms_tp_dev *dev_data)
 			return ret;
 	}
 
+<<<<<<< HEAD
 	if (dev_data->hw->prom_len == 8)
 		valid = ms_sensors_tp_crc_valid_128(dev_data->prom);
 	else
 		valid = ms_sensors_tp_crc_valid_112(dev_data->prom);
 
 	if (!valid) {
+=======
+	if (!ms_sensors_tp_crc_valid(dev_data->prom,
+				     MS_SENSORS_TP_PROM_WORDS_NB + 1)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(&dev_data->client->dev,
 			"Calibration coefficients crc check error\n");
 		return -ENODEV;

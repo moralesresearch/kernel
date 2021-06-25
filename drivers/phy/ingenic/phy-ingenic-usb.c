@@ -82,7 +82,22 @@
 #define USBPCR1_PORT_RST			BIT(21)
 #define USBPCR1_WORD_IF_16BIT		BIT(19)
 
+<<<<<<< HEAD
 struct ingenic_soc_info {
+=======
+enum ingenic_usb_phy_version {
+	ID_JZ4770,
+	ID_JZ4775,
+	ID_JZ4780,
+	ID_X1000,
+	ID_X1830,
+	ID_X2000,
+};
+
+struct ingenic_soc_info {
+	enum ingenic_usb_phy_version version;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*usb_phy_init)(struct phy *phy);
 };
 
@@ -289,26 +304,56 @@ static void x2000_usb_phy_init(struct phy *phy)
 }
 
 static const struct ingenic_soc_info jz4770_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_JZ4770,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = jz4770_usb_phy_init,
 };
 
 static const struct ingenic_soc_info jz4775_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_JZ4775,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = jz4775_usb_phy_init,
 };
 
 static const struct ingenic_soc_info jz4780_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_JZ4780,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = jz4780_usb_phy_init,
 };
 
 static const struct ingenic_soc_info x1000_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_X1000,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = x1000_usb_phy_init,
 };
 
 static const struct ingenic_soc_info x1830_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_X1830,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = x1830_usb_phy_init,
 };
 
 static const struct ingenic_soc_info x2000_soc_info = {
+<<<<<<< HEAD
+=======
+	.version = ID_X2000,
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.usb_phy_init = x2000_usb_phy_init,
 };
 
@@ -352,8 +397,13 @@ static int ingenic_usb_phy_probe(struct platform_device *pdev)
 	}
 
 	priv->phy = devm_phy_create(dev, NULL, &ingenic_usb_phy_ops);
+<<<<<<< HEAD
 	if (IS_ERR(priv->phy))
 		return PTR_ERR(priv->phy);
+=======
+	if (IS_ERR(priv))
+		return PTR_ERR(priv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	phy_set_drvdata(priv->phy, priv);
 

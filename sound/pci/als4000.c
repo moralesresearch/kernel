@@ -68,6 +68,10 @@
 MODULE_AUTHOR("Bart Hartgers <bart@etpmod.phys.tue.nl>, Andreas Mohr");
 MODULE_DESCRIPTION("Avance Logic ALS4000");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Avance Logic,ALS4000}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if IS_REACHABLE(CONFIG_GAMEPORT)
 #define SUPPORT_JOYSTICK 1
@@ -836,7 +840,12 @@ static int snd_card_als4000_probe(struct pci_dev *pci,
 		return err;
 	}
 	/* check, if we can restrict PCI DMA transfers to 24 bits */
+<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(24))) {
+=======
+	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(24)) < 0 ||
+	    dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(24)) < 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(&pci->dev, "architecture does not support 24bit PCI busmaster DMA\n");
 		pci_disable_device(pci);
 		return -ENXIO;

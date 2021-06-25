@@ -613,6 +613,7 @@ static void put_uprobe(struct uprobe *uprobe)
 	}
 }
 
+<<<<<<< HEAD
 static __always_inline
 int uprobe_cmp(const struct inode *l_inode, const loff_t l_offset,
 	       const struct uprobe *r)
@@ -627,11 +628,26 @@ int uprobe_cmp(const struct inode *l_inode, const loff_t l_offset,
 		return -1;
 
 	if (l_offset > r->offset)
+=======
+static int match_uprobe(struct uprobe *l, struct uprobe *r)
+{
+	if (l->inode < r->inode)
+		return -1;
+
+	if (l->inode > r->inode)
+		return 1;
+
+	if (l->offset < r->offset)
+		return -1;
+
+	if (l->offset > r->offset)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 
 	return 0;
 }
 
+<<<<<<< HEAD
 #define __node_2_uprobe(node) \
 	rb_entry((node), struct uprobe, rb_node)
 
@@ -663,6 +679,26 @@ static struct uprobe *__find_uprobe(struct inode *inode, loff_t offset)
 	if (node)
 		return get_uprobe(__node_2_uprobe(node));
 
+=======
+static struct uprobe *__find_uprobe(struct inode *inode, loff_t offset)
+{
+	struct uprobe u = { .inode = inode, .offset = offset };
+	struct rb_node *n = uprobes_tree.rb_node;
+	struct uprobe *uprobe;
+	int match;
+
+	while (n) {
+		uprobe = rb_entry(n, struct uprobe, rb_node);
+		match = match_uprobe(&u, uprobe);
+		if (!match)
+			return get_uprobe(uprobe);
+
+		if (match < 0)
+			n = n->rb_left;
+		else
+			n = n->rb_right;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }
 
@@ -683,6 +719,7 @@ static struct uprobe *find_uprobe(struct inode *inode, loff_t offset)
 
 static struct uprobe *__insert_uprobe(struct uprobe *uprobe)
 {
+<<<<<<< HEAD
 	struct rb_node *node;
 
 	node = rb_find_add(&uprobe->rb_node, &uprobes_tree, __uprobe_cmp);
@@ -692,6 +729,34 @@ static struct uprobe *__insert_uprobe(struct uprobe *uprobe)
 	/* get access + creation ref */
 	refcount_set(&uprobe->ref, 2);
 	return NULL;
+=======
+	struct rb_node **p = &uprobes_tree.rb_node;
+	struct rb_node *parent = NULL;
+	struct uprobe *u;
+	int match;
+
+	while (*p) {
+		parent = *p;
+		u = rb_entry(parent, struct uprobe, rb_node);
+		match = match_uprobe(uprobe, u);
+		if (!match)
+			return get_uprobe(u);
+
+		if (match < 0)
+			p = &parent->rb_left;
+		else
+			p = &parent->rb_right;
+
+	}
+
+	u = NULL;
+	rb_link_node(&uprobe->rb_node, parent, p);
+	rb_insert_color(&uprobe->rb_node, &uprobes_tree);
+	/* get access + creation ref */
+	refcount_set(&uprobe->ref, 2);
+
+	return u;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1733,7 +1798,11 @@ void uprobe_free_utask(struct task_struct *t)
 }
 
 /*
+<<<<<<< HEAD
  * Allocate a uprobe_task object for the task if necessary.
+=======
+ * Allocate a uprobe_task object for the task if if necessary.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Called when the thread hits a breakpoint.
  *
  * Returns:

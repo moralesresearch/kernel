@@ -6,6 +6,7 @@ General instructions on running selftests can be found in
 
 __ /Documentation/bpf/bpf_devel_QA.rst#q-how-to-run-bpf-selftests
 
+<<<<<<< HEAD
 =========================
 Running Selftests in a VM
 =========================
@@ -30,6 +31,8 @@ For more information on about using the script, run:
           variable in the beginning of script.
 
 .. note:: The script currently only supports x86_64.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Additional information about selftest failures are
 documented here.

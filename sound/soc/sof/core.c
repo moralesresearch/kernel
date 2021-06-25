@@ -246,8 +246,11 @@ static int sof_probe_continue(struct snd_sof_dev *sdev)
 	if (plat_data->sof_probe_complete)
 		plat_data->sof_probe_complete(sdev->dev);
 
+<<<<<<< HEAD
 	sdev->probe_completed = true;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 fw_trace_err:
@@ -318,7 +321,10 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
 	INIT_LIST_HEAD(&sdev->route_list);
 	spin_lock_init(&sdev->ipc_lock);
 	spin_lock_init(&sdev->hw_lock);
+<<<<<<< HEAD
 	mutex_init(&sdev->power_state_access);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (IS_ENABLED(CONFIG_SND_SOC_SOF_PROBE_WORK_QUEUE))
 		INIT_WORK(&sdev->probe_work, sof_probe_work);
@@ -342,6 +348,7 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
 }
 EXPORT_SYMBOL(snd_sof_device_probe);
 
+<<<<<<< HEAD
 bool snd_sof_device_probe_completed(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -350,6 +357,8 @@ bool snd_sof_device_probe_completed(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_probe_completed);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int snd_sof_device_remove(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -395,6 +404,7 @@ int snd_sof_device_remove(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_remove);
 
+<<<<<<< HEAD
 int snd_sof_device_shutdown(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -409,6 +419,8 @@ int snd_sof_device_shutdown(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_shutdown);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_AUTHOR("Liam Girdwood");
 MODULE_DESCRIPTION("Sound Open Firmware (SOF) Core");
 MODULE_LICENSE("Dual BSD/GPL");

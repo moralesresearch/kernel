@@ -24,7 +24,11 @@
 
 		gsbi@16300000 {
 			i2c@16380000 {
+<<<<<<< HEAD
 				status = "okay";
+=======
+				status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				clock-frequency = <200000>;
 				pinctrl-0 = <&i2c4_pins>;
 				pinctrl-names = "default";

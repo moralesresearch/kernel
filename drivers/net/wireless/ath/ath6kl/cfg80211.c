@@ -3648,7 +3648,11 @@ void ath6kl_cfg80211_vif_cleanup(struct ath6kl_vif *vif)
 		kfree(mc_filter);
 	}
 
+<<<<<<< HEAD
 	cfg80211_unregister_netdevice(vif->ndev);
+=======
+	unregister_netdevice(vif->ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ar->num_vif--;
 }
@@ -3821,7 +3825,11 @@ struct wireless_dev *ath6kl_interface_add(struct ath6kl *ar, const char *name,
 
 	netdev_set_default_ethtool_ops(ndev, &ath6kl_ethtool_ops);
 
+<<<<<<< HEAD
 	if (cfg80211_register_netdevice(ndev))
+=======
+	if (register_netdevice(ndev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err;
 
 	ar->avail_idx_map &= ~BIT(fw_vif_idx);

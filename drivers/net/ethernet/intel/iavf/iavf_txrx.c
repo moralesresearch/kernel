@@ -1142,6 +1142,22 @@ static void iavf_reuse_rx_page(struct iavf_ring *rx_ring,
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * iavf_page_is_reusable - check if any reuse is possible
+ * @page: page struct to check
+ *
+ * A page is not reusable if it was allocated under low memory
+ * conditions, or it's not in the same NUMA node as this CPU.
+ */
+static inline bool iavf_page_is_reusable(struct page *page)
+{
+	return (page_to_nid(page) == numa_mem_id()) &&
+		!page_is_pfmemalloc(page);
+}
+
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * iavf_can_reuse_rx_page - Determine if this page can be reused by
  * the adapter for another receive
  *
@@ -1174,7 +1190,11 @@ static bool iavf_can_reuse_rx_page(struct iavf_rx_buffer *rx_buffer)
 	struct page *page = rx_buffer->page;
 
 	/* Is any reuse possible? */
+<<<<<<< HEAD
 	if (!dev_page_is_reusable(page))
+=======
+	if (unlikely(!iavf_page_is_reusable(page)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 #if (PAGE_SIZE < 8192)

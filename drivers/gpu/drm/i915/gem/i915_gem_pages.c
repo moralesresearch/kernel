@@ -16,7 +16,10 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
 {
 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
 	unsigned long supported = INTEL_INFO(i915)->page_sizes;
+<<<<<<< HEAD
 	bool shrinkable;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	lockdep_assert_held(&obj->mm.lock);
@@ -39,6 +42,16 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
 
 	obj->mm.pages = pages;
 
+<<<<<<< HEAD
+=======
+	if (i915_gem_object_is_tiled(obj) &&
+	    i915->quirks & QUIRK_PIN_SWIZZLED_PAGES) {
+		GEM_BUG_ON(obj->mm.quirked);
+		__i915_gem_object_pin_pages(obj);
+		obj->mm.quirked = true;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GEM_BUG_ON(!sg_page_sizes);
 	obj->mm.page_sizes.phys = sg_page_sizes;
 
@@ -57,6 +70,7 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
 	}
 	GEM_BUG_ON(!HAS_PAGE_SIZES(i915, obj->mm.page_sizes.sg));
 
+<<<<<<< HEAD
 	shrinkable = i915_gem_object_is_shrinkable(obj);
 
 	if (i915_gem_object_is_tiled(obj) &&
@@ -69,6 +83,9 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
 	}
 
 	if (shrinkable) {
+=======
+	if (i915_gem_object_is_shrinkable(obj)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct list_head *list;
 		unsigned long flags;
 
@@ -243,7 +260,11 @@ unlock:
 
 /* The 'mapping' part of i915_gem_object_pin_map() below */
 static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
+<<<<<<< HEAD
 				      enum i915_map_type type)
+=======
+		enum i915_map_type type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
 	struct page *stack[32], **pages = stack, *page;
@@ -286,7 +307,11 @@ static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
 		/* Too big for stack -- allocate temporary array instead */
 		pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
 		if (!pages)
+<<<<<<< HEAD
 			return ERR_PTR(-ENOMEM);
+=======
+			return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	i = 0;
@@ -295,12 +320,20 @@ static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
 	vaddr = vmap(pages, n_pages, 0, pgprot);
 	if (pages != stack)
 		kvfree(pages);
+<<<<<<< HEAD
 
 	return vaddr ?: ERR_PTR(-ENOMEM);
 }
 
 static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
 				     enum i915_map_type type)
+=======
+	return vaddr;
+}
+
+static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+		enum i915_map_type type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	resource_size_t iomap = obj->mm.region->iomap.base -
 		obj->mm.region->region.start;
@@ -311,13 +344,21 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
 	void *vaddr;
 
 	if (type != I915_MAP_WC)
+<<<<<<< HEAD
 		return ERR_PTR(-ENODEV);
+=======
+		return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (n_pfn > ARRAY_SIZE(stack)) {
 		/* Too big for stack -- allocate temporary array instead */
 		pfns = kvmalloc_array(n_pfn, sizeof(*pfns), GFP_KERNEL);
 		if (!pfns)
+<<<<<<< HEAD
 			return ERR_PTR(-ENOMEM);
+=======
+			return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	i = 0;
@@ -326,8 +367,12 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
 	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
 	if (pfns != stack)
 		kvfree(pfns);
+<<<<<<< HEAD
 
 	return vaddr ?: ERR_PTR(-ENOMEM);
+=======
+	return vaddr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* get, pin, and map the pages of the object into kernel space */
@@ -356,10 +401,15 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
 			GEM_BUG_ON(i915_gem_object_has_pinned_pages(obj));
 
 			err = ____i915_gem_object_get_pages(obj);
+<<<<<<< HEAD
 			if (err) {
 				ptr = ERR_PTR(err);
 				goto out_unlock;
 			}
+=======
+			if (err)
+				goto err_unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			smp_mb__before_atomic();
 		}
@@ -371,7 +421,11 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
 	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
 	if (ptr && has_type != type) {
 		if (pinned) {
+<<<<<<< HEAD
 			ptr = ERR_PTR(-EBUSY);
+=======
+			err = -EBUSY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto err_unpin;
 		}
 
@@ -383,13 +437,24 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
 	if (!ptr) {
 		if (GEM_WARN_ON(type == I915_MAP_WC &&
 				!static_cpu_has(X86_FEATURE_PAT)))
+<<<<<<< HEAD
 			ptr = ERR_PTR(-ENODEV);
+=======
+			ptr = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else if (i915_gem_object_has_struct_page(obj))
 			ptr = i915_gem_object_map_page(obj, type);
 		else
 			ptr = i915_gem_object_map_pfn(obj, type);
+<<<<<<< HEAD
 		if (IS_ERR(ptr))
 			goto err_unpin;
+=======
+		if (!ptr) {
+			err = -ENOMEM;
+			goto err_unpin;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		obj->mm.mapping = page_pack_bits(ptr, type);
 	}
@@ -400,6 +465,11 @@ out_unlock:
 
 err_unpin:
 	atomic_dec(&obj->mm.pages_pin_count);
+<<<<<<< HEAD
+=======
+err_unlock:
+	ptr = ERR_PTR(err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	goto out_unlock;
 }
 

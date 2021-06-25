@@ -2,7 +2,11 @@
 /*
  * rWTM BIU Mailbox driver for Armada 37xx
  *
+<<<<<<< HEAD
  * Author: Marek Behún <kabel@kernel.org>
+=======
+ * Author: Marek Behun <marek.behun@nic.cz>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef _LINUX_ARMADA_37XX_RWTM_MAILBOX_H_

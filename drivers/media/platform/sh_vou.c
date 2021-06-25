@@ -1355,7 +1355,11 @@ static int sh_vou_remove(struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static struct platform_driver sh_vou = {
+=======
+static struct platform_driver __refdata sh_vou = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.remove  = sh_vou_remove,
 	.driver  = {
 		.name	= "sh-vou",

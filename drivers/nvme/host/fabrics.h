@@ -19,6 +19,7 @@
 #define NVMF_DEF_FAIL_FAST_TMO		-1
 
 /*
+<<<<<<< HEAD
  * Reserved one command for internal usage.  This command is used for sending
  * the connect command, as well as for the keep alive command on the admin
  * queue once live.
@@ -26,6 +27,8 @@
 #define NVMF_RESERVED_TAGS	1
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Define a host as seen by the target.  We allocate one at boot, but also
  * allow the override it when creating controllers.  This is both to provide
  * persistence of the Host NQN over multiple boots, and to allow using

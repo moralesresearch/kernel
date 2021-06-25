@@ -174,6 +174,7 @@ struct msm_drm_private {
 	struct msm_rd_state *hangrd;   /* debugfs to dump hanging submits */
 	struct msm_perf_state *perf;
 
+<<<<<<< HEAD
 	/**
 	 * List of all GEM objects (mainly for debugfs, protected by obj_lock
 	 * (acquire before per GEM object lock)
@@ -182,6 +183,9 @@ struct msm_drm_private {
 	struct mutex obj_lock;
 
 	/**
+=======
+	/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Lists of inactive GEM objects.  Every bo is either in one of the
 	 * inactive lists (depending on whether or not it is shrinkable) or
 	 * gpu->active_list (for the gpu it is active on[1])

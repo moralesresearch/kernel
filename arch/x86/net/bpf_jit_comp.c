@@ -205,6 +205,10 @@ static u8 add_2reg(u8 byte, u32 dst_reg, u32 src_reg)
 	return byte + reg2hex[dst_reg] + (reg2hex[src_reg] << 3);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Some 1-byte opcodes for binary ALU operations */
 static u8 simple_alu_opcodes[] = {
 	[BPF_ADD] = 0x01,
@@ -217,6 +221,11 @@ static u8 simple_alu_opcodes[] = {
 	[BPF_ARSH] = 0xF8,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void jit_fill_hole(void *area, unsigned int size)
 {
 	/* Fill whole space with INT3 instructions */
@@ -693,6 +702,10 @@ static void emit_mov_reg(u8 **pprog, bool is64, u32 dst_reg, u32 src_reg)
 	*pprog = prog;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Emit the suffix (ModR/M etc) for addressing *(ptr_reg + off) and val_reg */
 static void emit_insn_suffix(u8 **pprog, u32 ptr_reg, u32 val_reg, int off)
 {
@@ -729,6 +742,11 @@ static void maybe_emit_mod(u8 **pprog, u32 dst_reg, u32 src_reg, bool is64)
 	*pprog = prog;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* LDX: dst_reg = *(u8*)(src_reg + off) */
 static void emit_ldx(u8 **pprog, u32 size, u32 dst_reg, u32 src_reg, int off)
 {
@@ -756,7 +774,23 @@ static void emit_ldx(u8 **pprog, u32 size, u32 dst_reg, u32 src_reg, int off)
 		EMIT2(add_2mod(0x48, src_reg, dst_reg), 0x8B);
 		break;
 	}
+<<<<<<< HEAD
 	emit_insn_suffix(&prog, src_reg, dst_reg, off);
+=======
+<<<<<<< HEAD
+	emit_insn_suffix(&prog, src_reg, dst_reg, off);
+=======
+	/*
+	 * If insn->off == 0 we can save one extra byte, but
+	 * special case of x86 R13 which always needs an offset
+	 * is not worth the hassle
+	 */
+	if (is_imm8(off))
+		EMIT2(add_2reg(0x40, src_reg, dst_reg), off);
+	else
+		EMIT1_off32(add_2reg(0x80, src_reg, dst_reg), off);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*pprog = prog;
 }
 
@@ -791,6 +825,10 @@ static void emit_stx(u8 **pprog, u32 size, u32 dst_reg, u32 src_reg, int off)
 		EMIT2(add_2mod(0x48, dst_reg, src_reg), 0x89);
 		break;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	emit_insn_suffix(&prog, dst_reg, src_reg, off);
 	*pprog = prog;
 }
@@ -836,6 +874,16 @@ static int emit_atomic(u8 **pprog, u8 atomic_op,
 
 	*pprog = prog;
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	if (is_imm8(off))
+		EMIT2(add_2reg(0x40, dst_reg, src_reg), off);
+	else
+		EMIT1_off32(add_2reg(0x80, dst_reg, src_reg), off);
+	*pprog = prog;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool ex_handler_bpf(const struct exception_table_entry *x,
@@ -869,6 +917,10 @@ static void detect_reg_usage(struct bpf_insn *insn, int insn_cnt,
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int emit_nops(u8 **pprog, int len)
 {
 	u8 *prog = *pprog;
@@ -894,6 +946,13 @@ static int emit_nops(u8 **pprog, int len)
 
 static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 		  int oldproglen, struct jit_context *ctx, bool jmp_padding)
+<<<<<<< HEAD
+=======
+=======
+static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
+		  int oldproglen, struct jit_context *ctx)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool tail_call_reachable = bpf_prog->aux->tail_call_reachable;
 	struct bpf_insn *insn = bpf_prog->insnsi;
@@ -903,9 +962,20 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 	bool seen_exit = false;
 	u8 temp[BPF_MAX_INSN_SIZE + BPF_INSN_SAFETY];
 	int i, cnt = 0, excnt = 0;
+<<<<<<< HEAD
 	int ilen, proglen = 0;
 	u8 *prog = temp;
 	int err;
+=======
+<<<<<<< HEAD
+	int ilen, proglen = 0;
+	u8 *prog = temp;
+	int err;
+=======
+	int proglen = 0;
+	u8 *prog = temp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	detect_reg_usage(insn, insn_cnt, callee_regs_used,
 			 &tail_call_seen);
@@ -917,6 +987,10 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 		      bpf_prog_was_classic(bpf_prog), tail_call_reachable,
 		      bpf_prog->aux->func_idx != 0);
 	push_callee_regs(&prog, callee_regs_used);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ilen = prog - temp;
 	if (image)
@@ -924,17 +998,36 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 	proglen += ilen;
 	addrs[0] = proglen;
 	prog = temp;
+<<<<<<< HEAD
+=======
+=======
+	addrs[0] = prog - temp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 1; i <= insn_cnt; i++, insn++) {
 		const s32 imm32 = insn->imm;
 		u32 dst_reg = insn->dst_reg;
 		u32 src_reg = insn->src_reg;
 		u8 b2 = 0, b3 = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u8 *start_of_ldx;
 		s64 jmp_offset;
 		u8 jmp_cond;
 		u8 *func;
 		int nops;
+<<<<<<< HEAD
+=======
+=======
+		s64 jmp_offset;
+		u8 jmp_cond;
+		int ilen;
+		u8 *func;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		switch (insn->code) {
 			/* ALU */
@@ -948,9 +1041,29 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 		case BPF_ALU64 | BPF_AND | BPF_X:
 		case BPF_ALU64 | BPF_OR | BPF_X:
 		case BPF_ALU64 | BPF_XOR | BPF_X:
+<<<<<<< HEAD
 			maybe_emit_mod(&prog, dst_reg, src_reg,
 				       BPF_CLASS(insn->code) == BPF_ALU64);
 			b2 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+<<<<<<< HEAD
+			maybe_emit_mod(&prog, dst_reg, src_reg,
+				       BPF_CLASS(insn->code) == BPF_ALU64);
+			b2 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+			switch (BPF_OP(insn->code)) {
+			case BPF_ADD: b2 = 0x01; break;
+			case BPF_SUB: b2 = 0x29; break;
+			case BPF_AND: b2 = 0x21; break;
+			case BPF_OR: b2 = 0x09; break;
+			case BPF_XOR: b2 = 0x31; break;
+			}
+			if (BPF_CLASS(insn->code) == BPF_ALU64)
+				EMIT1(add_2mod(0x48, dst_reg, src_reg));
+			else if (is_ereg(dst_reg) || is_ereg(src_reg))
+				EMIT1(add_2mod(0x40, dst_reg, src_reg));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			EMIT2(b2, add_2reg(0xC0, dst_reg, src_reg));
 			break;
 
@@ -1130,7 +1243,20 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 			else if (is_ereg(dst_reg))
 				EMIT1(add_1mod(0x40, dst_reg));
 
+<<<<<<< HEAD
 			b3 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+<<<<<<< HEAD
+			b3 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+			switch (BPF_OP(insn->code)) {
+			case BPF_LSH: b3 = 0xE0; break;
+			case BPF_RSH: b3 = 0xE8; break;
+			case BPF_ARSH: b3 = 0xF8; break;
+			}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (imm32 == 1)
 				EMIT2(0xD1, add_1reg(b3, dst_reg));
 			else
@@ -1164,7 +1290,19 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image,
 			else if (is_ereg(dst_reg))
 				EMIT1(add_1mod(0x40, dst_reg));
 
+<<<<<<< HEAD
 			b3 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+<<<<<<< HEAD
+			b3 = simple_alu_opcodes[BPF_OP(insn->code)];
+=======
+			switch (BPF_OP(insn->code)) {
+			case BPF_LSH: b3 = 0xE0; break;
+			case BPF_RSH: b3 = 0xE8; break;
+			case BPF_ARSH: b3 = 0xF8; break;
+			}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			EMIT2(0xD3, add_1reg(b3, dst_reg));
 
 			if (src_reg != BPF_REG_4)
@@ -1279,6 +1417,10 @@ st:			if (is_imm8(insn->off))
 		case BPF_LDX | BPF_PROBE_MEM | BPF_W:
 		case BPF_LDX | BPF_MEM | BPF_DW:
 		case BPF_LDX | BPF_PROBE_MEM | BPF_DW:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (BPF_MODE(insn->code) == BPF_PROBE_MEM) {
 				/* test src_reg, src_reg */
 				maybe_emit_mod(&prog, src_reg, src_reg, true); /* always 1 byte */
@@ -1294,15 +1436,29 @@ st:			if (is_imm8(insn->off))
 				temp[4] = prog - temp - 5 /* sizeof(test + jne) */;
 				start_of_ldx = prog;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			emit_ldx(&prog, BPF_SIZE(insn->code), dst_reg, src_reg, insn->off);
 			if (BPF_MODE(insn->code) == BPF_PROBE_MEM) {
 				struct exception_table_entry *ex;
 				u8 *_insn = image + proglen;
 				s64 delta;
 
+<<<<<<< HEAD
 				/* populate jmp_offset for JMP above */
 				start_of_ldx[-1] = prog - start_of_ldx;
 
+=======
+<<<<<<< HEAD
+				/* populate jmp_offset for JMP above */
+				start_of_ldx[-1] = prog - start_of_ldx;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (!bpf_prog->aux->extable)
 					break;
 
@@ -1342,6 +1498,10 @@ st:			if (is_imm8(insn->off))
 			}
 			break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case BPF_STX | BPF_ATOMIC | BPF_W:
 		case BPF_STX | BPF_ATOMIC | BPF_DW:
 			if (insn->imm == (BPF_AND | BPF_FETCH) ||
@@ -1396,6 +1556,26 @@ st:			if (is_imm8(insn->off))
 						  insn->off, BPF_SIZE(insn->code));
 			if (err)
 				return err;
+<<<<<<< HEAD
+=======
+=======
+			/* STX XADD: lock *(u32*)(dst_reg + off) += src_reg */
+		case BPF_STX | BPF_XADD | BPF_W:
+			/* Emit 'lock add dword ptr [rax + off], eax' */
+			if (is_ereg(dst_reg) || is_ereg(src_reg))
+				EMIT3(0xF0, add_2mod(0x40, dst_reg, src_reg), 0x01);
+			else
+				EMIT2(0xF0, 0x01);
+			goto xadd;
+		case BPF_STX | BPF_XADD | BPF_DW:
+			EMIT3(0xF0, add_2mod(0x48, dst_reg, src_reg), 0x01);
+xadd:			if (is_imm8(insn->off))
+				EMIT2(add_2reg(0x40, dst_reg, src_reg), insn->off);
+			else
+				EMIT1_off32(add_2reg(0x80, dst_reg, src_reg),
+					    insn->off);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 			/* call */
@@ -1446,16 +1626,40 @@ st:			if (is_imm8(insn->off))
 		case BPF_JMP32 | BPF_JSGE | BPF_X:
 		case BPF_JMP32 | BPF_JSLE | BPF_X:
 			/* cmp dst_reg, src_reg */
+<<<<<<< HEAD
 			maybe_emit_mod(&prog, dst_reg, src_reg,
 				       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+<<<<<<< HEAD
+			maybe_emit_mod(&prog, dst_reg, src_reg,
+				       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+			if (BPF_CLASS(insn->code) == BPF_JMP)
+				EMIT1(add_2mod(0x48, dst_reg, src_reg));
+			else if (is_ereg(dst_reg) || is_ereg(src_reg))
+				EMIT1(add_2mod(0x40, dst_reg, src_reg));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			EMIT2(0x39, add_2reg(0xC0, dst_reg, src_reg));
 			goto emit_cond_jmp;
 
 		case BPF_JMP | BPF_JSET | BPF_X:
 		case BPF_JMP32 | BPF_JSET | BPF_X:
 			/* test dst_reg, src_reg */
+<<<<<<< HEAD
 			maybe_emit_mod(&prog, dst_reg, src_reg,
 				       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+<<<<<<< HEAD
+			maybe_emit_mod(&prog, dst_reg, src_reg,
+				       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+			if (BPF_CLASS(insn->code) == BPF_JMP)
+				EMIT1(add_2mod(0x48, dst_reg, src_reg));
+			else if (is_ereg(dst_reg) || is_ereg(src_reg))
+				EMIT1(add_2mod(0x40, dst_reg, src_reg));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			EMIT2(0x85, add_2reg(0xC0, dst_reg, src_reg));
 			goto emit_cond_jmp;
 
@@ -1491,8 +1695,20 @@ st:			if (is_imm8(insn->off))
 		case BPF_JMP32 | BPF_JSLE | BPF_K:
 			/* test dst_reg, dst_reg to save one extra byte */
 			if (imm32 == 0) {
+<<<<<<< HEAD
 				maybe_emit_mod(&prog, dst_reg, dst_reg,
 					       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+<<<<<<< HEAD
+				maybe_emit_mod(&prog, dst_reg, dst_reg,
+					       BPF_CLASS(insn->code) == BPF_JMP);
+=======
+				if (BPF_CLASS(insn->code) == BPF_JMP)
+					EMIT1(add_2mod(0x48, dst_reg, dst_reg));
+				else if (is_ereg(dst_reg))
+					EMIT1(add_2mod(0x40, dst_reg, dst_reg));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				EMIT2(0x85, add_2reg(0xC0, dst_reg, dst_reg));
 				goto emit_cond_jmp;
 			}
@@ -1554,6 +1770,10 @@ emit_cond_jmp:		/* Convert BPF opcode to x86 */
 			}
 			jmp_offset = addrs[i + insn->off] - addrs[i];
 			if (is_imm8(jmp_offset)) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (jmp_padding) {
 					/* To keep the jmp_offset valid, the extra bytes are
 					 * padded before the jump insn, so we substract the
@@ -1578,6 +1798,11 @@ emit_cond_jmp:		/* Convert BPF opcode to x86 */
 					}
 					cnt += emit_nops(&prog, nops);
 				}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				EMIT2(jmp_cond, jmp_offset);
 			} else if (is_simm32(jmp_offset)) {
 				EMIT2_off32(0x0F, jmp_cond + 0x10, jmp_offset);
@@ -1600,6 +1825,10 @@ emit_cond_jmp:		/* Convert BPF opcode to x86 */
 			else
 				jmp_offset = addrs[i + insn->off] - addrs[i];
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!jmp_offset) {
 				/*
 				 * If jmp_padding is enabled, the extra nops will
@@ -1649,6 +1878,16 @@ emit_jmp:
 					}
 					cnt += emit_nops(&prog, INSN_SZ_DIFF - 2);
 				}
+<<<<<<< HEAD
+=======
+=======
+			if (!jmp_offset)
+				/* Optimize out nop jumps */
+				break;
+emit_jmp:
+			if (is_imm8(jmp_offset)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				EMIT2(0xEB, jmp_offset);
 			} else if (is_simm32(jmp_offset)) {
 				EMIT1_off32(0xE9, jmp_offset);
@@ -1753,6 +1992,10 @@ static int invoke_bpf_prog(const struct btf_func_model *m, u8 **pprog,
 			   struct bpf_prog *p, int stack_size, bool mod_ret)
 {
 	u8 *prog = *pprog;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 *jmp_insn;
 	int cnt = 0;
 
@@ -1772,6 +2015,22 @@ static int invoke_bpf_prog(const struct btf_func_model *m, u8 **pprog,
 	/* emit 2 nops that will be replaced with JE insn */
 	jmp_insn = prog;
 	emit_nops(&prog, 2);
+<<<<<<< HEAD
+=======
+=======
+	int cnt = 0;
+
+	if (p->aux->sleepable) {
+		if (emit_call(&prog, __bpf_prog_enter_sleepable, prog))
+			return -EINVAL;
+	} else {
+		if (emit_call(&prog, __bpf_prog_enter, prog))
+			return -EINVAL;
+		/* remember prog start time returned by __bpf_prog_enter */
+		emit_mov_reg(&prog, true, BPF_REG_6, BPF_REG_0);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* arg1: lea rdi, [rbp - stack_size] */
 	EMIT4(0x48, 0x8D, 0x7D, -stack_size);
@@ -1791,6 +2050,10 @@ static int invoke_bpf_prog(const struct btf_func_model *m, u8 **pprog,
 	if (mod_ret)
 		emit_stx(&prog, BPF_DW, BPF_REG_FP, BPF_REG_0, -8);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* replace 2 nops with JE insn, since jmp target is known */
 	jmp_insn[0] = X86_JE;
 	jmp_insn[1] = prog - jmp_insn - 2;
@@ -1803,11 +2066,54 @@ static int invoke_bpf_prog(const struct btf_func_model *m, u8 **pprog,
 		      p->aux->sleepable ? __bpf_prog_exit_sleepable :
 		      __bpf_prog_exit, prog))
 			return -EINVAL;
+<<<<<<< HEAD
+=======
+=======
+	if (p->aux->sleepable) {
+		if (emit_call(&prog, __bpf_prog_exit_sleepable, prog))
+			return -EINVAL;
+	} else {
+		/* arg1: mov rdi, progs[i] */
+		emit_mov_imm64(&prog, BPF_REG_1, (long) p >> 32,
+			       (u32) (long) p);
+		/* arg2: mov rsi, rbx <- start time in nsec */
+		emit_mov_reg(&prog, true, BPF_REG_2, BPF_REG_6);
+		if (emit_call(&prog, __bpf_prog_exit, prog))
+			return -EINVAL;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*pprog = prog;
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void emit_nops(u8 **pprog, unsigned int len)
+{
+	unsigned int i, noplen;
+	u8 *prog = *pprog;
+	int cnt = 0;
+
+	while (len > 0) {
+		noplen = len;
+
+		if (noplen > ASM_NOP_MAX)
+			noplen = ASM_NOP_MAX;
+
+		for (i = 0; i < noplen; i++)
+			EMIT1(ideal_nops[noplen][i]);
+		len -= noplen;
+	}
+
+	*pprog = prog;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void emit_align(u8 **pprog, u32 align)
 {
 	u8 *target, *prog = *pprog;
@@ -2201,9 +2507,18 @@ struct x64_jit_data {
 	struct jit_context ctx;
 };
 
+<<<<<<< HEAD
 #define MAX_PASSES 20
 #define PADDING_PASSES (MAX_PASSES - 5)
 
+=======
+<<<<<<< HEAD
+#define MAX_PASSES 20
+#define PADDING_PASSES (MAX_PASSES - 5)
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
 {
 	struct bpf_binary_header *header = NULL;
@@ -2213,7 +2528,14 @@ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
 	struct jit_context ctx = {};
 	bool tmp_blinded = false;
 	bool extra_pass = false;
+<<<<<<< HEAD
 	bool padding = false;
+=======
+<<<<<<< HEAD
+	bool padding = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 *image = NULL;
 	int *addrs;
 	int pass;
@@ -2250,7 +2572,14 @@ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
 		image = jit_data->image;
 		header = jit_data->header;
 		extra_pass = true;
+<<<<<<< HEAD
 		padding = true;
+=======
+<<<<<<< HEAD
+		padding = true;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto skip_init_addrs;
 	}
 	addrs = kvmalloc_array(prog->len + 1, sizeof(*addrs), GFP_KERNEL);
@@ -2276,10 +2605,21 @@ skip_init_addrs:
 	 * may converge on the last pass. In such case do one more
 	 * pass to emit the final image.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (pass = 0; pass < MAX_PASSES || image; pass++) {
 		if (!padding && pass >= PADDING_PASSES)
 			padding = true;
 		proglen = do_jit(prog, addrs, image, oldproglen, &ctx, padding);
+<<<<<<< HEAD
+=======
+=======
+	for (pass = 0; pass < 20 || image; pass++) {
+		proglen = do_jit(prog, addrs, image, oldproglen, &ctx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (proglen <= 0) {
 out_image:
 			image = NULL;

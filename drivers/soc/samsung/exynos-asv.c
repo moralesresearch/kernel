@@ -2,9 +2,19 @@
 /*
  * Copyright (c) 2019 Samsung Electronics Co., Ltd.
  *	      http://www.samsung.com/
+<<<<<<< HEAD
  * Copyright (c) 2020 Krzysztof Kozlowski <krzk@kernel.org>
  * Author: Sylwester Nawrocki <s.nawrocki@samsung.com>
  * Author: Krzysztof Kozlowski <krzk@kernel.org>
+=======
+<<<<<<< HEAD
+ * Copyright (c) 2020 Krzysztof Kozlowski <krzk@kernel.org>
+ * Author: Sylwester Nawrocki <s.nawrocki@samsung.com>
+ * Author: Krzysztof Kozlowski <krzk@kernel.org>
+=======
+ * Author: Sylwester Nawrocki <s.nawrocki@samsung.com>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Samsung Exynos SoC Adaptive Supply Voltage support
  */
@@ -12,7 +22,20 @@
 #include <linux/cpu.h>
 #include <linux/device.h>
 #include <linux/errno.h>
+<<<<<<< HEAD
 #include <linux/of.h>
+=======
+<<<<<<< HEAD
+#include <linux/of.h>
+=======
+#include <linux/init.h>
+#include <linux/mfd/syscon.h>
+#include <linux/module.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
+#include <linux/platform_device.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/pm_opp.h>
 #include <linux/regmap.h>
 #include <linux/soc/samsung/exynos-chipid.h>
@@ -108,7 +131,15 @@ static int exynos_asv_update_opps(struct exynos_asv *asv)
 	return	0;
 }
 
+<<<<<<< HEAD
 int exynos_asv_init(struct device *dev, struct regmap *regmap)
+=======
+<<<<<<< HEAD
+int exynos_asv_init(struct device *dev, struct regmap *regmap)
+=======
+static int exynos_asv_probe(struct platform_device *pdev)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int (*probe_func)(struct exynos_asv *asv);
 	struct exynos_asv *asv;
@@ -116,6 +147,10 @@ int exynos_asv_init(struct device *dev, struct regmap *regmap)
 	u32 product_id = 0;
 	int ret, i;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	asv = devm_kzalloc(dev, sizeof(*asv), GFP_KERNEL);
 	if (!asv)
 		return -ENOMEM;
@@ -126,6 +161,26 @@ int exynos_asv_init(struct device *dev, struct regmap *regmap)
 			  &product_id);
 	if (ret < 0) {
 		dev_err(dev, "Cannot read revision from ChipID: %d\n", ret);
+<<<<<<< HEAD
+=======
+=======
+	asv = devm_kzalloc(&pdev->dev, sizeof(*asv), GFP_KERNEL);
+	if (!asv)
+		return -ENOMEM;
+
+	asv->chipid_regmap = device_node_to_regmap(pdev->dev.of_node);
+	if (IS_ERR(asv->chipid_regmap)) {
+		dev_err(&pdev->dev, "Could not find syscon regmap\n");
+		return PTR_ERR(asv->chipid_regmap);
+	}
+
+	ret = regmap_read(asv->chipid_regmap, EXYNOS_CHIPID_REG_PRO_ID,
+			  &product_id);
+	if (ret < 0) {
+		dev_err(&pdev->dev, "Cannot read revision from ChipID: %d\n",
+			ret);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 
@@ -134,9 +189,19 @@ int exynos_asv_init(struct device *dev, struct regmap *regmap)
 		probe_func = exynos5422_asv_init;
 		break;
 	default:
+<<<<<<< HEAD
 		dev_dbg(dev, "No ASV support for this SoC\n");
 		devm_kfree(dev, asv);
 		return 0;
+=======
+<<<<<<< HEAD
+		dev_dbg(dev, "No ASV support for this SoC\n");
+		devm_kfree(dev, asv);
+		return 0;
+=======
+		return -ENODEV;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	cpu_dev = get_cpu_device(0);
@@ -144,11 +209,28 @@ int exynos_asv_init(struct device *dev, struct regmap *regmap)
 	if (ret < 0)
 		return -EPROBE_DEFER;
 
+<<<<<<< HEAD
 	ret = of_property_read_u32(dev->of_node, "samsung,asv-bin",
+=======
+<<<<<<< HEAD
+	ret = of_property_read_u32(dev->of_node, "samsung,asv-bin",
+=======
+	ret = of_property_read_u32(pdev->dev.of_node, "samsung,asv-bin",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   &asv->of_bin);
 	if (ret < 0)
 		asv->of_bin = -EINVAL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	asv->dev = &pdev->dev;
+	dev_set_drvdata(&pdev->dev, asv);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < ARRAY_SIZE(asv->subsys); i++)
 		asv->subsys[i].asv = asv;
 
@@ -158,3 +240,23 @@ int exynos_asv_init(struct device *dev, struct regmap *regmap)
 
 	return exynos_asv_update_opps(asv);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+static const struct of_device_id exynos_asv_of_device_ids[] = {
+	{ .compatible = "samsung,exynos4210-chipid" },
+	{}
+};
+
+static struct platform_driver exynos_asv_driver = {
+	.driver = {
+		.name = "exynos-asv",
+		.of_match_table = exynos_asv_of_device_ids,
+	},
+	.probe	= exynos_asv_probe,
+};
+module_platform_driver(exynos_asv_driver);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

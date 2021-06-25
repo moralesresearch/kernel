@@ -238,7 +238,11 @@ static int pcmcia_probe(struct sa1111_dev *dev)
 	return ret;
 }
 
+<<<<<<< HEAD
 static void pcmcia_remove(struct sa1111_dev *dev)
+=======
+static int pcmcia_remove(struct sa1111_dev *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sa1111_pcmcia_socket *next, *s = dev_get_drvdata(&dev->dev);
 
@@ -252,6 +256,10 @@ static void pcmcia_remove(struct sa1111_dev *dev)
 
 	release_mem_region(dev->res.start, 512);
 	sa1111_disable_device(dev);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct sa1111_driver pcmcia_driver = {

@@ -446,11 +446,15 @@
 
 &i2c4 {
 	status = "okay";
+<<<<<<< HEAD
 	ipmb0@10 {
 		compatible = "ipmb-dev";
 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
 		i2c-protocol;
 	};
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &i2c5 {
@@ -905,14 +909,22 @@
 &gpio {
 	pin_gpio_i3 {
 		gpio-hog;
+<<<<<<< HEAD
 		gpios = <ASPEED_GPIO(I, 3) GPIO_ACTIVE_HIGH>;
+=======
+		gpios = <ASPEED_GPIO(I, 3) GPIO_ACTIVE_LOW>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		output-low;
 		line-name = "NCSI_BMC_R_SEL";
 	};
 
 	pin_gpio_b6 {
 		gpio-hog;
+<<<<<<< HEAD
 		gpios = <ASPEED_GPIO(B, 6) GPIO_ACTIVE_HIGH>;
+=======
+		gpios = <ASPEED_GPIO(B, 6) GPIO_ACTIVE_LOW>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		output-low;
 		line-name = "EN_NCSI_SWITCH_N";
 	};

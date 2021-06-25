@@ -235,7 +235,11 @@ void thaw_kernel_threads(void)
 
 	read_lock(&tasklist_lock);
 	for_each_process_thread(g, p) {
+<<<<<<< HEAD
 		if (p->flags & PF_KTHREAD)
+=======
+		if (p->flags & (PF_KTHREAD | PF_WQ_WORKER))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__thaw_task(p);
 	}
 	read_unlock(&tasklist_lock);

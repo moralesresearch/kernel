@@ -95,7 +95,11 @@ static const struct nft_expr_ops nft_objref_ops = {
 
 struct nft_objref_map {
 	struct nft_set		*set;
+<<<<<<< HEAD
 	u8			sreg;
+=======
+	enum nft_registers	sreg:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nft_set_binding	binding;
 };
 
@@ -137,8 +141,13 @@ static int nft_objref_map_init(const struct nft_ctx *ctx,
 	if (!(set->flags & NFT_SET_OBJECT))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_OBJREF_SET_SREG], &priv->sreg,
 				      set->klen);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_OBJREF_SET_SREG]);
+	err = nft_validate_register_load(priv->sreg, set->klen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 

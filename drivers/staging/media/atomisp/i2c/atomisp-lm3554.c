@@ -843,10 +843,15 @@ static int lm3554_probe(struct i2c_client *client)
 		return -ENOMEM;
 
 	flash->pdata = lm3554_platform_data_func(client);
+<<<<<<< HEAD
 	if (IS_ERR(flash->pdata)) {
 		err = PTR_ERR(flash->pdata);
 		goto fail1;
 	}
+=======
+	if (IS_ERR(flash->pdata))
+		return PTR_ERR(flash->pdata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
 	flash->sd.internal_ops = &lm3554_internal_ops;
@@ -858,7 +863,11 @@ static int lm3554_probe(struct i2c_client *client)
 				   ARRAY_SIZE(lm3554_controls));
 	if (ret) {
 		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
+<<<<<<< HEAD
 		goto fail3;
+=======
+		goto fail2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
@@ -867,14 +876,22 @@ static int lm3554_probe(struct i2c_client *client)
 
 	if (flash->ctrl_handler.error) {
 		dev_err(&client->dev, "ctrl_handler error.\n");
+<<<<<<< HEAD
 		goto fail3;
+=======
+		goto fail2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	flash->sd.ctrl_handler = &flash->ctrl_handler;
 	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
 	if (err) {
 		dev_err(&client->dev, "error initialize a media entity.\n");
+<<<<<<< HEAD
 		goto fail2;
+=======
+		goto fail1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
@@ -886,6 +903,7 @@ static int lm3554_probe(struct i2c_client *client)
 	err = lm3554_gpio_init(client);
 	if (err) {
 		dev_err(&client->dev, "gpio request/direction_output fail");
+<<<<<<< HEAD
 		goto fail3;
 	}
 	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
@@ -895,6 +913,16 @@ fail3:
 fail2:
 	v4l2_device_unregister_subdev(&flash->sd);
 fail1:
+=======
+		goto fail2;
+	}
+	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
+fail2:
+	media_entity_cleanup(&flash->sd.entity);
+	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+fail1:
+	v4l2_device_unregister_subdev(&flash->sd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(flash);
 
 	return err;

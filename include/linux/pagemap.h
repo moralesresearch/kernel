@@ -315,7 +315,14 @@ pgoff_t page_cache_prev_miss(struct address_space *mapping,
 #define FGP_NOWAIT		0x00000020
 #define FGP_FOR_MMAP		0x00000040
 #define FGP_HEAD		0x00000080
+<<<<<<< HEAD
 #define FGP_ENTRY		0x00000100
+=======
+<<<<<<< HEAD
+#define FGP_ENTRY		0x00000100
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct page *pagecache_get_page(struct address_space *mapping, pgoff_t offset,
 		int fgp_flags, gfp_t cache_gfp_mask);
@@ -451,7 +458,16 @@ static inline struct page *find_subpage(struct page *head, pgoff_t index)
 }
 
 unsigned find_get_entries(struct address_space *mapping, pgoff_t start,
+<<<<<<< HEAD
 		pgoff_t end, struct pagevec *pvec, pgoff_t *indices);
+=======
+<<<<<<< HEAD
+		pgoff_t end, struct pagevec *pvec, pgoff_t *indices);
+=======
+			  unsigned int nr_entries, struct page **entries,
+			  pgoff_t *indices);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unsigned find_get_pages_range(struct address_space *mapping, pgoff_t *start,
 			pgoff_t end, unsigned int nr_pages,
 			struct page **pages);
@@ -680,9 +696,21 @@ static inline int wait_on_page_locked_killable(struct page *page)
 	return wait_on_page_bit_killable(compound_head(page), PG_locked);
 }
 
+<<<<<<< HEAD
 int put_and_wait_on_page_locked(struct page *page, int state);
 void wait_on_page_writeback(struct page *page);
 int wait_on_page_writeback_killable(struct page *page);
+=======
+<<<<<<< HEAD
+int put_and_wait_on_page_locked(struct page *page, int state);
+void wait_on_page_writeback(struct page *page);
+int wait_on_page_writeback_killable(struct page *page);
+=======
+extern void put_and_wait_on_page_locked(struct page *page);
+
+void wait_on_page_writeback(struct page *page);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void end_page_writeback(struct page *page);
 void wait_for_stable_page(struct page *page);
 
@@ -756,11 +784,23 @@ int add_to_page_cache_lru(struct page *page, struct address_space *mapping,
 				pgoff_t index, gfp_t gfp_mask);
 extern void delete_from_page_cache(struct page *page);
 extern void __delete_from_page_cache(struct page *page, void *shadow);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void replace_page_cache_page(struct page *old, struct page *new);
 void delete_from_page_cache_batch(struct address_space *mapping,
 				  struct pagevec *pvec);
 loff_t mapping_seek_hole_data(struct address_space *, loff_t start, loff_t end,
 		int whence);
+<<<<<<< HEAD
+=======
+=======
+int replace_page_cache_page(struct page *old, struct page *new, gfp_t gfp_mask);
+void delete_from_page_cache_batch(struct address_space *mapping,
+				  struct pagevec *pvec);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Like add_to_page_cache_locked, but used to add newly allocated pages:

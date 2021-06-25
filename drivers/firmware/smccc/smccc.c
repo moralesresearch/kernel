@@ -5,22 +5,33 @@
 
 #define pr_fmt(fmt) "smccc: " fmt
 
+<<<<<<< HEAD
 #include <linux/cache.h>
 #include <linux/init.h>
 #include <linux/arm-smccc.h>
 #include <asm/archrandom.h>
+=======
+#include <linux/init.h>
+#include <linux/arm-smccc.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static u32 smccc_version = ARM_SMCCC_VERSION_1_0;
 static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
 
+<<<<<<< HEAD
 bool __ro_after_init smccc_trng_available = false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
 {
 	smccc_version = version;
 	smccc_conduit = conduit;
+<<<<<<< HEAD
 
 	smccc_trng_available = smccc_probe_trng();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 enum arm_smccc_conduit arm_smccc_1_1_get_conduit(void)

@@ -55,7 +55,19 @@
 #include <asm/cio.h>
 #include "entry.h"
 
+<<<<<<< HEAD
 union tod_clock tod_clock_base __section(".data");
+=======
+<<<<<<< HEAD
+union tod_clock tod_clock_base __section(".data");
+=======
+unsigned char tod_clock_base[16] __aligned(8) = {
+	/* Force to data section. */
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL_GPL(tod_clock_base);
 
 u64 clock_comparator_max = -1ULL;
@@ -68,10 +80,23 @@ EXPORT_SYMBOL(s390_epoch_delta_notifier);
 
 unsigned char ptff_function_mask[16];
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned long lpar_offset;
 static unsigned long initial_leap_seconds;
 static unsigned long tod_steering_end;
 static long tod_steering_delta;
+<<<<<<< HEAD
+=======
+=======
+static unsigned long long lpar_offset;
+static unsigned long long initial_leap_seconds;
+static unsigned long long tod_steering_end;
+static long long tod_steering_delta;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Get time offsets with PTFF
@@ -80,12 +105,25 @@ void __init time_early_init(void)
 {
 	struct ptff_qto qto;
 	struct ptff_qui qui;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int cs;
 
 	/* Initialize TOD steering parameters */
 	tod_steering_end = tod_clock_base.tod;
 	for (cs = 0; cs < CS_BASES; cs++)
 		vdso_data[cs].arch_data.tod_steering_end = tod_steering_end;
+<<<<<<< HEAD
+=======
+=======
+
+	/* Initialize TOD steering parameters */
+	tod_steering_end = *(unsigned long long *) &tod_clock_base[1];
+	vdso_data->arch_data.tod_steering_end = tod_steering_end;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!test_facility(28))
 		return;
@@ -98,7 +136,15 @@ void __init time_early_init(void)
 
 	/* get initial leap seconds */
 	if (ptff_query(PTFF_QUI) && ptff(&qui, sizeof(qui), PTFF_QUI) == 0)
+<<<<<<< HEAD
 		initial_leap_seconds = (unsigned long)
+=======
+<<<<<<< HEAD
+		initial_leap_seconds = (unsigned long)
+=======
+		initial_leap_seconds = (unsigned long long)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			((long) qui.old_leap * 4096000000L);
 }
 
@@ -111,6 +157,10 @@ unsigned long long notrace sched_clock(void)
 }
 NOKPROBE_SYMBOL(sched_clock);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ext_to_timespec64(union tod_clock *clk, struct timespec64 *xt)
 {
 	unsigned long rem, sec, nsec;
@@ -118,6 +168,23 @@ static void ext_to_timespec64(union tod_clock *clk, struct timespec64 *xt)
 	sec = clk->us;
 	rem = do_div(sec, 1000000);
 	nsec = ((clk->sus + (rem << 12)) * 125) >> 9;
+<<<<<<< HEAD
+=======
+=======
+static void ext_to_timespec64(unsigned char *clk, struct timespec64 *xt)
+{
+	unsigned long long high, low, rem, sec, nsec;
+
+	/* Split extendnd TOD clock to micro-seconds and sub-micro-seconds */
+	high = (*(unsigned long long *) clk) >> 4;
+	low = (*(unsigned long long *)&clk[7]) << 4;
+	/* Calculate seconds and nano-seconds */
+	sec = high;
+	rem = do_div(sec, 1000000);
+	nsec = (((low >> 32) + (rem << 32)) * 1000) >> 32;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xt->tv_sec = sec;
 	xt->tv_nsec = nsec;
 }
@@ -197,6 +264,10 @@ static void stp_reset(void);
 
 void read_persistent_clock64(struct timespec64 *ts)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union tod_clock clk;
 	u64 delta;
 
@@ -204,11 +275,29 @@ void read_persistent_clock64(struct timespec64 *ts)
 	store_tod_clock_ext(&clk);
 	clk.eitod -= delta;
 	ext_to_timespec64(&clk, ts);
+<<<<<<< HEAD
+=======
+=======
+	unsigned char clk[STORE_CLOCK_EXT_SIZE];
+	__u64 delta;
+
+	delta = initial_leap_seconds + TOD_UNIX_EPOCH;
+	get_tod_clock_ext(clk);
+	*(__u64 *) &clk[1] -= delta;
+	if (*(__u64 *) &clk[1] > delta)
+		clk[0]--;
+	ext_to_timespec64(clk, ts);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __init read_persistent_wall_and_boot_offset(struct timespec64 *wall_time,
 						 struct timespec64 *boot_offset)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct timespec64 boot_time;
 	union tod_clock clk;
 	u64 delta;
@@ -217,6 +306,21 @@ void __init read_persistent_wall_and_boot_offset(struct timespec64 *wall_time,
 	clk = tod_clock_base;
 	clk.eitod -= delta;
 	ext_to_timespec64(&clk, &boot_time);
+<<<<<<< HEAD
+=======
+=======
+	unsigned char clk[STORE_CLOCK_EXT_SIZE];
+	struct timespec64 boot_time;
+	__u64 delta;
+
+	delta = initial_leap_seconds + TOD_UNIX_EPOCH;
+	memcpy(clk, tod_clock_base, STORE_CLOCK_EXT_SIZE);
+	*(__u64 *)&clk[1] -= delta;
+	if (*(__u64 *)&clk[1] > delta)
+		clk[0]--;
+	ext_to_timespec64(clk, &boot_time);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	read_persistent_clock64(wall_time);
 	*boot_offset = timespec64_sub(*wall_time, boot_time);
@@ -224,7 +328,15 @@ void __init read_persistent_wall_and_boot_offset(struct timespec64 *wall_time,
 
 static u64 read_tod_clock(struct clocksource *cs)
 {
+<<<<<<< HEAD
 	unsigned long now, adj;
+=======
+<<<<<<< HEAD
+	unsigned long now, adj;
+=======
+	unsigned long long now, adj;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	preempt_disable(); /* protect from changes to steering parameters */
 	now = get_tod_clock();
@@ -364,6 +476,10 @@ static inline int check_sync_clock(void)
  * Apply clock delta to the global data structures.
  * This is called once on the CPU that performed the clock sync.
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void clock_sync_global(unsigned long delta)
 {
 	unsigned long now, adj;
@@ -372,6 +488,21 @@ static void clock_sync_global(unsigned long delta)
 
 	/* Fixup the monotonic sched clock. */
 	tod_clock_base.eitod += delta;
+<<<<<<< HEAD
+=======
+=======
+static void clock_sync_global(unsigned long long delta)
+{
+	unsigned long now, adj;
+	struct ptff_qto qto;
+
+	/* Fixup the monotonic sched clock. */
+	*(unsigned long long *) &tod_clock_base[1] += delta;
+	if (*(unsigned long long *) &tod_clock_base[1] < delta)
+		/* Epoch overflow */
+		tod_clock_base[0]++;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Adjust TOD steering parameters. */
 	now = get_tod_clock();
 	adj = tod_steering_end - now;
@@ -381,6 +512,10 @@ static void clock_sync_global(unsigned long delta)
 			-(adj >> 15) : (adj >> 15);
 	tod_steering_delta += delta;
 	if ((abs(tod_steering_delta) >> 48) != 0)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		panic("TOD clock sync offset %li is too large to drift\n",
 		      tod_steering_delta);
 	tod_steering_end = now + (abs(tod_steering_delta) << 15);
@@ -388,6 +523,16 @@ static void clock_sync_global(unsigned long delta)
 		vdso_data[cs].arch_data.tod_steering_end = tod_steering_end;
 		vdso_data[cs].arch_data.tod_steering_delta = tod_steering_delta;
 	}
+<<<<<<< HEAD
+=======
+=======
+		panic("TOD clock sync offset %lli is too large to drift\n",
+		      tod_steering_delta);
+	tod_steering_end = now + (abs(tod_steering_delta) << 15);
+	vdso_data->arch_data.tod_steering_end = tod_steering_end;
+	vdso_data->arch_data.tod_steering_delta = tod_steering_delta;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Update LPAR offset. */
 	if (ptff_query(PTFF_QTO) && ptff(&qto, sizeof(qto), PTFF_QTO) == 0)
@@ -400,7 +545,15 @@ static void clock_sync_global(unsigned long delta)
  * Apply clock delta to the per-CPU data structures of this CPU.
  * This is called for each online CPU after the call to clock_sync_global.
  */
+<<<<<<< HEAD
 static void clock_sync_local(unsigned long delta)
+=======
+<<<<<<< HEAD
+static void clock_sync_local(unsigned long delta)
+=======
+static void clock_sync_local(unsigned long long delta)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Add the delta to the clock comparator. */
 	if (S390_lowcore.clock_comparator != clock_comparator_max) {
@@ -424,7 +577,15 @@ static void __init time_init_wq(void)
 struct clock_sync_data {
 	atomic_t cpus;
 	int in_sync;
+<<<<<<< HEAD
 	unsigned long clock_delta;
+=======
+<<<<<<< HEAD
+	unsigned long clock_delta;
+=======
+	unsigned long long clock_delta;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -544,7 +705,15 @@ static int stpinfo_valid(void)
 static int stp_sync_clock(void *data)
 {
 	struct clock_sync_data *sync = data;
+<<<<<<< HEAD
 	u64 clock_delta, flags;
+=======
+<<<<<<< HEAD
+	u64 clock_delta, flags;
+=======
+	unsigned long long clock_delta, flags;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static int first;
 	int rc;
 
@@ -726,8 +895,18 @@ static ssize_t ctn_id_show(struct device *dev,
 
 	mutex_lock(&stp_mutex);
 	if (stpinfo_valid())
+<<<<<<< HEAD
 		ret = sprintf(buf, "%016lx\n",
 			      *(unsigned long *) stp_info.ctnid);
+=======
+<<<<<<< HEAD
+		ret = sprintf(buf, "%016lx\n",
+			      *(unsigned long *) stp_info.ctnid);
+=======
+		ret = sprintf(buf, "%016llx\n",
+			      *(unsigned long long *) stp_info.ctnid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&stp_mutex);
 	return ret;
 }
@@ -800,7 +979,15 @@ static ssize_t leap_seconds_scheduled_show(struct device *dev,
 	if (!stzi.lsoib.p)
 		return sprintf(buf, "0,0\n");
 
+<<<<<<< HEAD
 	return sprintf(buf, "%lu,%d\n",
+=======
+<<<<<<< HEAD
+	return sprintf(buf, "%lu,%d\n",
+=======
+	return sprintf(buf, "%llu,%d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       tod_to_ns(stzi.lsoib.nlsout - TOD_UNIX_EPOCH) / NSEC_PER_SEC,
 		       stzi.lsoib.nlso - stzi.lsoib.also);
 }

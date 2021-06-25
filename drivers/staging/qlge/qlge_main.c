@@ -42,7 +42,10 @@
 #include <net/ip6_checksum.h>
 
 #include "qlge.h"
+<<<<<<< HEAD
 #include "qlge_devlink.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 char qlge_driver_name[] = DRV_NAME;
 const char qlge_driver_version[] = DRV_VERSION;
@@ -90,16 +93,27 @@ static const struct pci_device_id qlge_pci_tbl[] = {
 
 MODULE_DEVICE_TABLE(pci, qlge_pci_tbl);
 
+<<<<<<< HEAD
 static int qlge_wol(struct qlge_adapter *);
 static void qlge_set_multicast_list(struct net_device *);
 static int qlge_adapter_down(struct qlge_adapter *);
 static int qlge_adapter_up(struct qlge_adapter *);
+=======
+static int ql_wol(struct ql_adapter *);
+static void qlge_set_multicast_list(struct net_device *);
+static int ql_adapter_down(struct ql_adapter *);
+static int ql_adapter_up(struct ql_adapter *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* This hardware semaphore causes exclusive access to
  * resources shared between the NIC driver, MPI firmware,
  * FCOE firmware and the FC driver.
  */
+<<<<<<< HEAD
 static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
+=======
+static int ql_sem_trylock(struct ql_adapter *qdev, u32 sem_mask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 sem_bits = 0;
 
@@ -133,26 +147,45 @@ static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	qlge_write32(qdev, SEM, sem_bits | sem_mask);
 	return !(qlge_read32(qdev, SEM) & sem_bits);
 }
 
 int qlge_sem_spinlock(struct qlge_adapter *qdev, u32 sem_mask)
+=======
+	ql_write32(qdev, SEM, sem_bits | sem_mask);
+	return !(ql_read32(qdev, SEM) & sem_bits);
+}
+
+int ql_sem_spinlock(struct ql_adapter *qdev, u32 sem_mask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int wait_count = 30;
 
 	do {
+<<<<<<< HEAD
 		if (!qlge_sem_trylock(qdev, sem_mask))
+=======
+		if (!ql_sem_trylock(qdev, sem_mask))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 		udelay(100);
 	} while (--wait_count);
 	return -ETIMEDOUT;
 }
 
+<<<<<<< HEAD
 void qlge_sem_unlock(struct qlge_adapter *qdev, u32 sem_mask)
 {
 	qlge_write32(qdev, SEM, sem_mask);
 	qlge_read32(qdev, SEM);	/* flush */
+=======
+void ql_sem_unlock(struct ql_adapter *qdev, u32 sem_mask)
+{
+	ql_write32(qdev, SEM, sem_mask);
+	ql_read32(qdev, SEM);	/* flush */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* This function waits for a specific bit to come ready
@@ -160,13 +193,21 @@ void qlge_sem_unlock(struct qlge_adapter *qdev, u32 sem_mask)
  * process, but is also used in kernel thread API such as
  * netdev->set_multi, netdev->set_mac_address, netdev->vlan_rx_add_vid.
  */
+<<<<<<< HEAD
 int qlge_wait_reg_rdy(struct qlge_adapter *qdev, u32 reg, u32 bit, u32 err_bit)
+=======
+int ql_wait_reg_rdy(struct ql_adapter *qdev, u32 reg, u32 bit, u32 err_bit)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 temp;
 	int count;
 
 	for (count = 0; count < UDELAY_COUNT; count++) {
+<<<<<<< HEAD
 		temp = qlge_read32(qdev, reg);
+=======
+		temp = ql_read32(qdev, reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* check for errors */
 		if (temp & err_bit) {
@@ -187,13 +228,21 @@ int qlge_wait_reg_rdy(struct qlge_adapter *qdev, u32 reg, u32 bit, u32 err_bit)
 /* The CFG register is used to download TX and RX control blocks
  * to the chip. This function waits for an operation to complete.
  */
+<<<<<<< HEAD
 static int qlge_wait_cfg(struct qlge_adapter *qdev, u32 bit)
+=======
+static int ql_wait_cfg(struct ql_adapter *qdev, u32 bit)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int count;
 	u32 temp;
 
 	for (count = 0; count < UDELAY_COUNT; count++) {
+<<<<<<< HEAD
 		temp = qlge_read32(qdev, CFG);
+=======
+		temp = ql_read32(qdev, CFG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (temp & CFG_LE)
 			return -EIO;
 		if (!(temp & bit))
@@ -206,8 +255,13 @@ static int qlge_wait_cfg(struct qlge_adapter *qdev, u32 bit)
 /* Used to issue init control blocks to hw. Maps control block,
  * sets address, triggers download, waits for completion.
  */
+<<<<<<< HEAD
 int qlge_write_cfg(struct qlge_adapter *qdev, void *ptr, int size, u32 bit,
 		   u16 q_id)
+=======
+int ql_write_cfg(struct ql_adapter *qdev, void *ptr, int size, u32 bit,
+		 u16 q_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u64 map;
 	int status = 0;
@@ -226,38 +280,66 @@ int qlge_write_cfg(struct qlge_adapter *qdev, void *ptr, int size, u32 bit,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	status = qlge_sem_spinlock(qdev, SEM_ICB_MASK);
 	if (status)
 		goto lock_failed;
 
 	status = qlge_wait_cfg(qdev, bit);
+=======
+	status = ql_sem_spinlock(qdev, SEM_ICB_MASK);
+	if (status)
+		goto lock_failed;
+
+	status = ql_wait_cfg(qdev, bit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Timed out waiting for CFG to come ready.\n");
 		goto exit;
 	}
 
+<<<<<<< HEAD
 	qlge_write32(qdev, ICB_L, (u32)map);
 	qlge_write32(qdev, ICB_H, (u32)(map >> 32));
 
 	mask = CFG_Q_MASK | (bit << 16);
 	value = bit | (q_id << CFG_Q_SHIFT);
 	qlge_write32(qdev, CFG, (mask | value));
+=======
+	ql_write32(qdev, ICB_L, (u32)map);
+	ql_write32(qdev, ICB_H, (u32)(map >> 32));
+
+	mask = CFG_Q_MASK | (bit << 16);
+	value = bit | (q_id << CFG_Q_SHIFT);
+	ql_write32(qdev, CFG, (mask | value));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Wait for the bit to clear after signaling hw.
 	 */
+<<<<<<< HEAD
 	status = qlge_wait_cfg(qdev, bit);
 exit:
 	qlge_sem_unlock(qdev, SEM_ICB_MASK);	/* does flush too */
+=======
+	status = ql_wait_cfg(qdev, bit);
+exit:
+	ql_sem_unlock(qdev, SEM_ICB_MASK);	/* does flush too */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 lock_failed:
 	dma_unmap_single(&qdev->pdev->dev, map, size, direction);
 	return status;
 }
 
 /* Get a specific MAC address from the CAM.  Used for debug and reg dump. */
+<<<<<<< HEAD
 int qlge_get_mac_addr_reg(struct qlge_adapter *qdev, u32 type, u16 index,
 			  u32 *value)
+=======
+int ql_get_mac_addr_reg(struct ql_adapter *qdev, u32 type, u16 index,
+			u32 *value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 offset = 0;
 	int status;
@@ -265,6 +347,7 @@ int qlge_get_mac_addr_reg(struct qlge_adapter *qdev, u32 type, u16 index,
 	switch (type) {
 	case MAC_ADDR_TYPE_MULTI_MAC:
 	case MAC_ADDR_TYPE_CAM_MAC: {
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
 		if (status)
 			break;
@@ -296,15 +379,56 @@ int qlge_get_mac_addr_reg(struct qlge_adapter *qdev, u32 type, u16 index,
 				break;
 			qlge_write32(qdev, MAC_ADDR_IDX,
 				     (offset++) | /* offset */
+=======
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | /* offset */
+				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
+				   MAC_ADDR_ADR | MAC_ADDR_RS |
+				   type); /* type */
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MR, 0);
+		if (status)
+			break;
+		*value++ = ql_read32(qdev, MAC_ADDR_DATA);
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | /* offset */
+				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
+				   MAC_ADDR_ADR | MAC_ADDR_RS |
+				   type); /* type */
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MR, 0);
+		if (status)
+			break;
+		*value++ = ql_read32(qdev, MAC_ADDR_DATA);
+		if (type == MAC_ADDR_TYPE_CAM_MAC) {
+			status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX,
+						 MAC_ADDR_MW, 0);
+			if (status)
+				break;
+			ql_write32(qdev, MAC_ADDR_IDX,
+				   (offset++) | /* offset */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   (index
 					    << MAC_ADDR_IDX_SHIFT) | /* index */
 					   MAC_ADDR_ADR |
 					   MAC_ADDR_RS | type); /* type */
+<<<<<<< HEAD
 			status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX,
 						   MAC_ADDR_MR, 0);
 			if (status)
 				break;
 			*value++ = qlge_read32(qdev, MAC_ADDR_DATA);
+=======
+			status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX,
+						 MAC_ADDR_MR, 0);
+			if (status)
+				break;
+			*value++ = ql_read32(qdev, MAC_ADDR_DATA);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	}
@@ -321,8 +445,13 @@ int qlge_get_mac_addr_reg(struct qlge_adapter *qdev, u32 type, u16 index,
 /* Set up a MAC, multicast or VLAN address for the
  * inbound frame matching.
  */
+<<<<<<< HEAD
 static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 				 u16 index)
+=======
+static int ql_set_mac_addr_reg(struct ql_adapter *qdev, u8 *addr, u32 type,
+			       u16 index)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 offset = 0;
 	int status = 0;
@@ -333,6 +462,7 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 		u32 lower = (addr[2] << 24) | (addr[3] << 16) | (addr[4] << 8) |
 			    (addr[5]);
 
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
 		if (status)
 			break;
@@ -349,6 +479,24 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 
 		qlge_write32(qdev, MAC_ADDR_DATA, upper);
 		status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+=======
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | (index << MAC_ADDR_IDX_SHIFT) | type |
+				   MAC_ADDR_E);
+		ql_write32(qdev, MAC_ADDR_DATA, lower);
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | (index << MAC_ADDR_IDX_SHIFT) | type |
+				   MAC_ADDR_E);
+
+		ql_write32(qdev, MAC_ADDR_DATA, upper);
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case MAC_ADDR_TYPE_CAM_MAC: {
@@ -356,6 +504,7 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 		u32 upper = (addr[0] << 8) | addr[1];
 		u32 lower = (addr[2] << 24) | (addr[3] << 16) | (addr[4] << 8) |
 			    (addr[5]);
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
 		if (status)
 			break;
@@ -377,6 +526,29 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 			break;
 		qlge_write32(qdev, MAC_ADDR_IDX,
 			     (offset) | /* offset */
+=======
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | /* offset */
+				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
+				   type); /* type */
+		ql_write32(qdev, MAC_ADDR_DATA, lower);
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset++) | /* offset */
+				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
+				   type); /* type */
+		ql_write32(qdev, MAC_ADDR_DATA, upper);
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   (offset) | /* offset */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
 				   type); /* type */
 		/* This field should also include the queue id
@@ -389,7 +561,11 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 		if (qdev->ndev->features & NETIF_F_HW_VLAN_CTAG_RX)
 			cam_output |= CAM_OUT_RV;
 		/* route to NIC core */
+<<<<<<< HEAD
 		qlge_write32(qdev, MAC_ADDR_DATA, cam_output);
+=======
+		ql_write32(qdev, MAC_ADDR_DATA, cam_output);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case MAC_ADDR_TYPE_VLAN: {
@@ -399,11 +575,19 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
 		 * addressing. It's either MAC_ADDR_E on or off.
 		 * That's bit-27 we're talking about.
 		 */
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
 		if (status)
 			break;
 		qlge_write32(qdev, MAC_ADDR_IDX,
 			     offset | /* offset */
+=======
+		status = ql_wait_reg_rdy(qdev, MAC_ADDR_IDX, MAC_ADDR_MW, 0);
+		if (status)
+			break;
+		ql_write32(qdev, MAC_ADDR_IDX,
+			   offset | /* offset */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   (index << MAC_ADDR_IDX_SHIFT) | /* index */
 				   type | /* type */
 				   enable_bit); /* enable/disable */
@@ -422,7 +606,11 @@ static int qlge_set_mac_addr_reg(struct qlge_adapter *qdev, u8 *addr, u32 type,
  * have to clear it to prevent wrong frame routing
  * especially in a bonding environment.
  */
+<<<<<<< HEAD
 static int qlge_set_mac_addr(struct qlge_adapter *qdev, int set)
+=======
+static int ql_set_mac_addr(struct ql_adapter *qdev, int set)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status;
 	char zero_mac_addr[ETH_ALEN];
@@ -438,6 +626,7 @@ static int qlge_set_mac_addr(struct qlge_adapter *qdev, int set)
 		netif_printk(qdev, ifup, KERN_DEBUG, qdev->ndev,
 			     "Clearing MAC address\n");
 	}
+<<<<<<< HEAD
 	status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
 	if (status)
 		return status;
@@ -445,12 +634,22 @@ static int qlge_set_mac_addr(struct qlge_adapter *qdev, int set)
 				       MAC_ADDR_TYPE_CAM_MAC,
 				       qdev->func * MAX_CQ);
 	qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+	if (status)
+		return status;
+	status = ql_set_mac_addr_reg(qdev, (u8 *)addr,
+				     MAC_ADDR_TYPE_CAM_MAC,
+				     qdev->func * MAX_CQ);
+	ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init mac address.\n");
 	return status;
 }
 
+<<<<<<< HEAD
 void qlge_link_on(struct qlge_adapter *qdev)
 {
 	netif_err(qdev, link, qdev->ndev, "Link is up.\n");
@@ -463,11 +662,26 @@ void qlge_link_off(struct qlge_adapter *qdev)
 	netif_err(qdev, link, qdev->ndev, "Link is down.\n");
 	netif_carrier_off(qdev->ndev);
 	qlge_set_mac_addr(qdev, 0);
+=======
+void ql_link_on(struct ql_adapter *qdev)
+{
+	netif_err(qdev, link, qdev->ndev, "Link is up.\n");
+	netif_carrier_on(qdev->ndev);
+	ql_set_mac_addr(qdev, 1);
+}
+
+void ql_link_off(struct ql_adapter *qdev)
+{
+	netif_err(qdev, link, qdev->ndev, "Link is down.\n");
+	netif_carrier_off(qdev->ndev);
+	ql_set_mac_addr(qdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Get a specific frame routing value from the CAM.
  * Used for debug and reg dump.
  */
+<<<<<<< HEAD
 int qlge_get_routing_reg(struct qlge_adapter *qdev, u32 index, u32 *value)
 {
 	int status = 0;
@@ -482,6 +696,22 @@ int qlge_get_routing_reg(struct qlge_adapter *qdev, u32 index, u32 *value)
 	if (status)
 		goto exit;
 	*value = qlge_read32(qdev, RT_DATA);
+=======
+int ql_get_routing_reg(struct ql_adapter *qdev, u32 index, u32 *value)
+{
+	int status = 0;
+
+	status = ql_wait_reg_rdy(qdev, RT_IDX, RT_IDX_MW, 0);
+	if (status)
+		goto exit;
+
+	ql_write32(qdev, RT_IDX,
+		   RT_IDX_TYPE_NICQ | RT_IDX_RS | (index << RT_IDX_IDX_SHIFT));
+	status = ql_wait_reg_rdy(qdev, RT_IDX, RT_IDX_MR, 0);
+	if (status)
+		goto exit;
+	*value = ql_read32(qdev, RT_DATA);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit:
 	return status;
 }
@@ -491,8 +721,13 @@ exit:
  * multicast/error frames to the default queue for slow handling,
  * and CAM hit/RSS frames to the fast handling queues.
  */
+<<<<<<< HEAD
 static int qlge_set_routing_reg(struct qlge_adapter *qdev, u32 index, u32 mask,
 				int enable)
+=======
+static int ql_set_routing_reg(struct ql_adapter *qdev, u32 index, u32 mask,
+			      int enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = -EINVAL; /* Return error if no mask match. */
 	u32 value = 0;
@@ -578,17 +813,27 @@ static int qlge_set_routing_reg(struct qlge_adapter *qdev, u32 index, u32 mask,
 	}
 
 	if (value) {
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, RT_IDX, RT_IDX_MW, 0);
 		if (status)
 			goto exit;
 		value |= (enable ? RT_IDX_E : 0);
 		qlge_write32(qdev, RT_IDX, value);
 		qlge_write32(qdev, RT_DATA, enable ? mask : 0);
+=======
+		status = ql_wait_reg_rdy(qdev, RT_IDX, RT_IDX_MW, 0);
+		if (status)
+			goto exit;
+		value |= (enable ? RT_IDX_E : 0);
+		ql_write32(qdev, RT_IDX, value);
+		ql_write32(qdev, RT_DATA, enable ? mask : 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 exit:
 	return status;
 }
 
+<<<<<<< HEAD
 static void qlge_enable_interrupts(struct qlge_adapter *qdev)
 {
 	qlge_write32(qdev, INTR_EN, (INTR_EN_EI << 16) | INTR_EN_EI);
@@ -614,14 +859,48 @@ static void qlge_disable_completion_interrupt(struct qlge_adapter *qdev, u32 int
 }
 
 static void qlge_enable_all_completion_interrupts(struct qlge_adapter *qdev)
+=======
+static void ql_enable_interrupts(struct ql_adapter *qdev)
+{
+	ql_write32(qdev, INTR_EN, (INTR_EN_EI << 16) | INTR_EN_EI);
+}
+
+static void ql_disable_interrupts(struct ql_adapter *qdev)
+{
+	ql_write32(qdev, INTR_EN, (INTR_EN_EI << 16));
+}
+
+static void ql_enable_completion_interrupt(struct ql_adapter *qdev, u32 intr)
+{
+	struct intr_context *ctx = &qdev->intr_context[intr];
+
+	ql_write32(qdev, INTR_EN, ctx->intr_en_mask);
+}
+
+static void ql_disable_completion_interrupt(struct ql_adapter *qdev, u32 intr)
+{
+	struct intr_context *ctx = &qdev->intr_context[intr];
+
+	ql_write32(qdev, INTR_EN, ctx->intr_dis_mask);
+}
+
+static void ql_enable_all_completion_interrupts(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
 	for (i = 0; i < qdev->intr_count; i++)
+<<<<<<< HEAD
 		qlge_enable_completion_interrupt(qdev, i);
 }
 
 static int qlge_validate_flash(struct qlge_adapter *qdev, u32 size, const char *str)
+=======
+		ql_enable_completion_interrupt(qdev, i);
+}
+
+static int ql_validate_flash(struct ql_adapter *qdev, u32 size, const char *str)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status, i;
 	u16 csum = 0;
@@ -643,6 +922,7 @@ static int qlge_validate_flash(struct qlge_adapter *qdev, u32 size, const char *
 	return csum;
 }
 
+<<<<<<< HEAD
 static int qlge_read_flash_word(struct qlge_adapter *qdev, int offset, __le32 *data)
 {
 	int status = 0;
@@ -663,11 +943,37 @@ static int qlge_read_flash_word(struct qlge_adapter *qdev, int offset, __le32 *d
 	 * we need to swap it back.
 	 */
 	*data = cpu_to_le32(qlge_read32(qdev, FLASH_DATA));
+=======
+static int ql_read_flash_word(struct ql_adapter *qdev, int offset, __le32 *data)
+{
+	int status = 0;
+	/* wait for reg to come ready */
+	status = ql_wait_reg_rdy(qdev,
+				 FLASH_ADDR, FLASH_ADDR_RDY, FLASH_ADDR_ERR);
+	if (status)
+		goto exit;
+	/* set up for reg read */
+	ql_write32(qdev, FLASH_ADDR, FLASH_ADDR_R | offset);
+	/* wait for reg to come ready */
+	status = ql_wait_reg_rdy(qdev,
+				 FLASH_ADDR, FLASH_ADDR_RDY, FLASH_ADDR_ERR);
+	if (status)
+		goto exit;
+	/* This data is stored on flash as an array of
+	 * __le32.  Since ql_read32() returns cpu endian
+	 * we need to swap it back.
+	 */
+	*data = cpu_to_le32(ql_read32(qdev, FLASH_DATA));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit:
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
+=======
+static int ql_get_8000_flash_params(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 i, size;
 	int status;
@@ -683,12 +989,20 @@ static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
 	else
 		offset = FUNC1_FLASH_OFFSET / sizeof(u32);
 
+<<<<<<< HEAD
 	if (qlge_sem_spinlock(qdev, SEM_FLASH_MASK))
+=======
+	if (ql_sem_spinlock(qdev, SEM_FLASH_MASK))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ETIMEDOUT;
 
 	size = sizeof(struct flash_params_8000) / sizeof(u32);
 	for (i = 0; i < size; i++, p++) {
+<<<<<<< HEAD
 		status = qlge_read_flash_word(qdev, i + offset, p);
+=======
+		status = ql_read_flash_word(qdev, i + offset, p);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Error reading flash.\n");
@@ -696,8 +1010,13 @@ static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
 		}
 	}
 
+<<<<<<< HEAD
 	status = qlge_validate_flash(qdev,
 				     sizeof(struct flash_params_8000) /
+=======
+	status = ql_validate_flash(qdev,
+				   sizeof(struct flash_params_8000) /
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   sizeof(u16),
 				   "8000");
 	if (status) {
@@ -729,11 +1048,19 @@ static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
 	       qdev->ndev->addr_len);
 
 exit:
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_FLASH_MASK);
 	return status;
 }
 
 static int qlge_get_8012_flash_params(struct qlge_adapter *qdev)
+=======
+	ql_sem_unlock(qdev, SEM_FLASH_MASK);
+	return status;
+}
+
+static int ql_get_8012_flash_params(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	int status;
@@ -747,11 +1074,19 @@ static int qlge_get_8012_flash_params(struct qlge_adapter *qdev)
 	if (qdev->port)
 		offset = size;
 
+<<<<<<< HEAD
 	if (qlge_sem_spinlock(qdev, SEM_FLASH_MASK))
 		return -ETIMEDOUT;
 
 	for (i = 0; i < size; i++, p++) {
 		status = qlge_read_flash_word(qdev, i + offset, p);
+=======
+	if (ql_sem_spinlock(qdev, SEM_FLASH_MASK))
+		return -ETIMEDOUT;
+
+	for (i = 0; i < size; i++, p++) {
+		status = ql_read_flash_word(qdev, i + offset, p);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Error reading flash.\n");
@@ -759,10 +1094,17 @@ static int qlge_get_8012_flash_params(struct qlge_adapter *qdev)
 		}
 	}
 
+<<<<<<< HEAD
 	status = qlge_validate_flash(qdev,
 				     sizeof(struct flash_params_8012) /
 				       sizeof(u16),
 				     "8012");
+=======
+	status = ql_validate_flash(qdev,
+				   sizeof(struct flash_params_8012) /
+				   sizeof(u16),
+				   "8012");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev, "Invalid flash.\n");
 		status = -EINVAL;
@@ -779,7 +1121,11 @@ static int qlge_get_8012_flash_params(struct qlge_adapter *qdev)
 	       qdev->ndev->addr_len);
 
 exit:
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_FLASH_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_FLASH_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return status;
 }
 
@@ -787,6 +1133,7 @@ exit:
  * register pair.  Each read/write requires us to wait for the ready
  * bit before reading/writing the data.
  */
+<<<<<<< HEAD
 static int qlge_write_xgmac_reg(struct qlge_adapter *qdev, u32 reg, u32 data)
 {
 	int status;
@@ -799,6 +1146,20 @@ static int qlge_write_xgmac_reg(struct qlge_adapter *qdev, u32 reg, u32 data)
 	qlge_write32(qdev, XGMAC_DATA, data);
 	/* trigger the write */
 	qlge_write32(qdev, XGMAC_ADDR, reg);
+=======
+static int ql_write_xgmac_reg(struct ql_adapter *qdev, u32 reg, u32 data)
+{
+	int status;
+	/* wait for reg to come ready */
+	status = ql_wait_reg_rdy(qdev,
+				 XGMAC_ADDR, XGMAC_ADDR_RDY, XGMAC_ADDR_XME);
+	if (status)
+		return status;
+	/* write the data to the data reg */
+	ql_write32(qdev, XGMAC_DATA, data);
+	/* trigger the write */
+	ql_write32(qdev, XGMAC_ADDR, reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return status;
 }
 
@@ -806,6 +1167,7 @@ static int qlge_write_xgmac_reg(struct qlge_adapter *qdev, u32 reg, u32 data)
  * register pair.  Each read/write requires us to wait for the ready
  * bit before reading/writing the data.
  */
+<<<<<<< HEAD
 int qlge_read_xgmac_reg(struct qlge_adapter *qdev, u32 reg, u32 *data)
 {
 	int status = 0;
@@ -823,22 +1185,53 @@ int qlge_read_xgmac_reg(struct qlge_adapter *qdev, u32 reg, u32 *data)
 		goto exit;
 	/* get the data */
 	*data = qlge_read32(qdev, XGMAC_DATA);
+=======
+int ql_read_xgmac_reg(struct ql_adapter *qdev, u32 reg, u32 *data)
+{
+	int status = 0;
+	/* wait for reg to come ready */
+	status = ql_wait_reg_rdy(qdev,
+				 XGMAC_ADDR, XGMAC_ADDR_RDY, XGMAC_ADDR_XME);
+	if (status)
+		goto exit;
+	/* set up for reg read */
+	ql_write32(qdev, XGMAC_ADDR, reg | XGMAC_ADDR_R);
+	/* wait for reg to come ready */
+	status = ql_wait_reg_rdy(qdev,
+				 XGMAC_ADDR, XGMAC_ADDR_RDY, XGMAC_ADDR_XME);
+	if (status)
+		goto exit;
+	/* get the data */
+	*data = ql_read32(qdev, XGMAC_DATA);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit:
 	return status;
 }
 
 /* This is used for reading the 64-bit statistics regs. */
+<<<<<<< HEAD
 int qlge_read_xgmac_reg64(struct qlge_adapter *qdev, u32 reg, u64 *data)
+=======
+int ql_read_xgmac_reg64(struct ql_adapter *qdev, u32 reg, u64 *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = 0;
 	u32 hi = 0;
 	u32 lo = 0;
 
+<<<<<<< HEAD
 	status = qlge_read_xgmac_reg(qdev, reg, &lo);
 	if (status)
 		goto exit;
 
 	status = qlge_read_xgmac_reg(qdev, reg + 4, &hi);
+=======
+	status = ql_read_xgmac_reg(qdev, reg, &lo);
+	if (status)
+		goto exit;
+
+	status = ql_read_xgmac_reg(qdev, reg + 4, &hi);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto exit;
 
@@ -848,17 +1241,28 @@ exit:
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_8000_port_initialize(struct qlge_adapter *qdev)
+=======
+static int ql_8000_port_initialize(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status;
 	/*
 	 * Get MPI firmware version for driver banner
 	 * and ethool info.
 	 */
+<<<<<<< HEAD
 	status = qlge_mb_about_fw(qdev);
 	if (status)
 		goto exit;
 	status = qlge_mb_get_fw_state(qdev);
+=======
+	status = ql_mb_about_fw(qdev);
+	if (status)
+		goto exit;
+	status = ql_mb_get_fw_state(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto exit;
 	/* Wake up a worker to get/set the TX/RX frame sizes. */
@@ -873,18 +1277,30 @@ exit:
  * This functionality may be done in the MPI firmware at a
  * later date.
  */
+<<<<<<< HEAD
 static int qlge_8012_port_initialize(struct qlge_adapter *qdev)
+=======
+static int ql_8012_port_initialize(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = 0;
 	u32 data;
 
+<<<<<<< HEAD
 	if (qlge_sem_trylock(qdev, qdev->xg_sem_mask)) {
+=======
+	if (ql_sem_trylock(qdev, qdev->xg_sem_mask)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Another function has the semaphore, so
 		 * wait for the port init bit to come ready.
 		 */
 		netif_info(qdev, link, qdev->ndev,
 			   "Another function has the semaphore, so wait for the port init bit to come ready.\n");
+<<<<<<< HEAD
 		status = qlge_wait_reg_rdy(qdev, STS, qdev->port_init, 0);
+=======
+		status = ql_wait_reg_rdy(qdev, STS, qdev->port_init, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_crit(qdev, link, qdev->ndev,
 				   "Port initialize timed out.\n");
@@ -894,11 +1310,19 @@ static int qlge_8012_port_initialize(struct qlge_adapter *qdev)
 
 	netif_info(qdev, link, qdev->ndev, "Got xgmac semaphore!.\n");
 	/* Set the core reset. */
+<<<<<<< HEAD
 	status = qlge_read_xgmac_reg(qdev, GLOBAL_CFG, &data);
 	if (status)
 		goto end;
 	data |= GLOBAL_CFG_RESET;
 	status = qlge_write_xgmac_reg(qdev, GLOBAL_CFG, data);
+=======
+	status = ql_read_xgmac_reg(qdev, GLOBAL_CFG, &data);
+	if (status)
+		goto end;
+	data |= GLOBAL_CFG_RESET;
+	status = ql_write_xgmac_reg(qdev, GLOBAL_CFG, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 
@@ -907,41 +1331,70 @@ static int qlge_8012_port_initialize(struct qlge_adapter *qdev)
 	data |= GLOBAL_CFG_JUMBO;	/* Turn on jumbo. */
 	data |= GLOBAL_CFG_TX_STAT_EN;
 	data |= GLOBAL_CFG_RX_STAT_EN;
+<<<<<<< HEAD
 	status = qlge_write_xgmac_reg(qdev, GLOBAL_CFG, data);
+=======
+	status = ql_write_xgmac_reg(qdev, GLOBAL_CFG, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 
 	/* Enable transmitter, and clear it's reset. */
+<<<<<<< HEAD
 	status = qlge_read_xgmac_reg(qdev, TX_CFG, &data);
+=======
+	status = ql_read_xgmac_reg(qdev, TX_CFG, &data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 	data &= ~TX_CFG_RESET;	/* Clear the TX MAC reset. */
 	data |= TX_CFG_EN;	/* Enable the transmitter. */
+<<<<<<< HEAD
 	status = qlge_write_xgmac_reg(qdev, TX_CFG, data);
+=======
+	status = ql_write_xgmac_reg(qdev, TX_CFG, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 
 	/* Enable receiver and clear it's reset. */
+<<<<<<< HEAD
 	status = qlge_read_xgmac_reg(qdev, RX_CFG, &data);
+=======
+	status = ql_read_xgmac_reg(qdev, RX_CFG, &data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 	data &= ~RX_CFG_RESET;	/* Clear the RX MAC reset. */
 	data |= RX_CFG_EN;	/* Enable the receiver. */
+<<<<<<< HEAD
 	status = qlge_write_xgmac_reg(qdev, RX_CFG, data);
+=======
+	status = ql_write_xgmac_reg(qdev, RX_CFG, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 
 	/* Turn on jumbo. */
 	status =
+<<<<<<< HEAD
 	    qlge_write_xgmac_reg(qdev, MAC_TX_PARAMS, MAC_TX_PARAMS_JUMBO | (0x2580 << 16));
 	if (status)
 		goto end;
 	status =
 	    qlge_write_xgmac_reg(qdev, MAC_RX_PARAMS, 0x2580);
+=======
+	    ql_write_xgmac_reg(qdev, MAC_TX_PARAMS, MAC_TX_PARAMS_JUMBO | (0x2580 << 16));
+	if (status)
+		goto end;
+	status =
+	    ql_write_xgmac_reg(qdev, MAC_RX_PARAMS, 0x2580);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto end;
 
 	/* Signal to the world that the port is enabled.        */
+<<<<<<< HEAD
 	qlge_write32(qdev, STS, ((qdev->port_init << 16) | qdev->port_init));
 end:
 	qlge_sem_unlock(qdev, qdev->xg_sem_mask);
@@ -949,6 +1402,15 @@ end:
 }
 
 static inline unsigned int qlge_lbq_block_size(struct qlge_adapter *qdev)
+=======
+	ql_write32(qdev, STS, ((qdev->port_init << 16) | qdev->port_init));
+end:
+	ql_sem_unlock(qdev, qdev->xg_sem_mask);
+	return status;
+}
+
+static inline unsigned int ql_lbq_block_size(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return PAGE_SIZE << qdev->lbq_buf_order;
 }
@@ -963,8 +1425,13 @@ static struct qlge_bq_desc *qlge_get_curr_buf(struct qlge_bq *bq)
 	return bq_desc;
 }
 
+<<<<<<< HEAD
 static struct qlge_bq_desc *qlge_get_curr_lchunk(struct qlge_adapter *qdev,
 						 struct rx_ring *rx_ring)
+=======
+static struct qlge_bq_desc *ql_get_curr_lchunk(struct ql_adapter *qdev,
+					       struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qlge_bq_desc *lbq_desc = qlge_get_curr_buf(&rx_ring->lbq);
 
@@ -972,17 +1439,28 @@ static struct qlge_bq_desc *qlge_get_curr_lchunk(struct qlge_adapter *qdev,
 				qdev->lbq_buf_size, DMA_FROM_DEVICE);
 
 	if ((lbq_desc->p.pg_chunk.offset + qdev->lbq_buf_size) ==
+<<<<<<< HEAD
 	    qlge_lbq_block_size(qdev)) {
 		/* last chunk of the master page */
 		dma_unmap_page(&qdev->pdev->dev, lbq_desc->dma_addr,
 			       qlge_lbq_block_size(qdev), DMA_FROM_DEVICE);
+=======
+	    ql_lbq_block_size(qdev)) {
+		/* last chunk of the master page */
+		dma_unmap_page(&qdev->pdev->dev, lbq_desc->dma_addr,
+			       ql_lbq_block_size(qdev), DMA_FROM_DEVICE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return lbq_desc;
 }
 
 /* Update an rx ring index. */
+<<<<<<< HEAD
 static void qlge_update_cq(struct rx_ring *rx_ring)
+=======
+static void ql_update_cq(struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	rx_ring->cnsmr_idx++;
 	rx_ring->curr_entry++;
@@ -992,9 +1470,15 @@ static void qlge_update_cq(struct rx_ring *rx_ring)
 	}
 }
 
+<<<<<<< HEAD
 static void qlge_write_cq_idx(struct rx_ring *rx_ring)
 {
 	qlge_write_db_reg(rx_ring->cnsmr_idx, rx_ring->cnsmr_idx_db_reg);
+=======
+static void ql_write_cq_idx(struct rx_ring *rx_ring)
+{
+	ql_write_db_reg(rx_ring->cnsmr_idx, rx_ring->cnsmr_idx_db_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const char * const bq_type_name[] = {
@@ -1006,7 +1490,11 @@ static const char * const bq_type_name[] = {
 static int qlge_refill_sb(struct rx_ring *rx_ring,
 			  struct qlge_bq_desc *sbq_desc, gfp_t gfp)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 
 	if (sbq_desc->p.skb)
@@ -1039,7 +1527,11 @@ static int qlge_refill_sb(struct rx_ring *rx_ring,
 static int qlge_refill_lb(struct rx_ring *rx_ring,
 			  struct qlge_bq_desc *lbq_desc, gfp_t gfp)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct qlge_page_chunk *master_chunk = &rx_ring->master_chunk;
 
 	if (!master_chunk->page) {
@@ -1050,7 +1542,11 @@ static int qlge_refill_lb(struct rx_ring *rx_ring,
 		if (unlikely(!page))
 			return -ENOMEM;
 		dma_addr = dma_map_page(&qdev->pdev->dev, page, 0,
+<<<<<<< HEAD
 					qlge_lbq_block_size(qdev),
+=======
+					ql_lbq_block_size(qdev),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					DMA_FROM_DEVICE);
 		if (dma_mapping_error(&qdev->pdev->dev, dma_addr)) {
 			__free_pages(page, qdev->lbq_buf_order);
@@ -1073,7 +1569,11 @@ static int qlge_refill_lb(struct rx_ring *rx_ring,
 	 * buffer get.
 	 */
 	master_chunk->offset += qdev->lbq_buf_size;
+<<<<<<< HEAD
 	if (master_chunk->offset == qlge_lbq_block_size(qdev)) {
+=======
+	if (master_chunk->offset == ql_lbq_block_size(qdev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		master_chunk->page = NULL;
 	} else {
 		master_chunk->va += qdev->lbq_buf_size;
@@ -1087,7 +1587,11 @@ static int qlge_refill_lb(struct rx_ring *rx_ring,
 static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
 {
 	struct rx_ring *rx_ring = QLGE_BQ_CONTAINER(bq);
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct qlge_bq_desc *bq_desc;
 	int refill_count;
 	int retval;
@@ -1133,7 +1637,11 @@ static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
 				     "ring %u %s: updating prod idx = %d.\n",
 				     rx_ring->cq_id, bq_type_name[bq->type],
 				     i);
+<<<<<<< HEAD
 			qlge_write_db_reg(i, bq->prod_idx_db_reg);
+=======
+			ql_write_db_reg(i, bq->prod_idx_db_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		bq->next_to_use = i;
 	}
@@ -1141,8 +1649,13 @@ static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
 	return retval;
 }
 
+<<<<<<< HEAD
 static void qlge_update_buffer_queues(struct rx_ring *rx_ring, gfp_t gfp,
 				      unsigned long delay)
+=======
+static void ql_update_buffer_queues(struct rx_ring *rx_ring, gfp_t gfp,
+				    unsigned long delay)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool sbq_fail, lbq_fail;
 
@@ -1173,7 +1686,11 @@ static void qlge_slow_refill(struct work_struct *work)
 	struct napi_struct *napi = &rx_ring->napi;
 
 	napi_disable(napi);
+<<<<<<< HEAD
 	qlge_update_buffer_queues(rx_ring, GFP_KERNEL, HZ / 2);
+=======
+	ql_update_buffer_queues(rx_ring, GFP_KERNEL, HZ / 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	napi_enable(napi);
 
 	local_bh_disable();
@@ -1188,8 +1705,13 @@ static void qlge_slow_refill(struct work_struct *work)
 /* Unmaps tx buffers.  Can be called from send() if a pci mapping
  * fails at some stage, or from the interrupt when a tx completes.
  */
+<<<<<<< HEAD
 static void qlge_unmap_send(struct qlge_adapter *qdev,
 			    struct tx_ring_desc *tx_ring_desc, int mapped)
+=======
+static void ql_unmap_send(struct ql_adapter *qdev,
+			  struct tx_ring_desc *tx_ring_desc, int mapped)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -1230,9 +1752,15 @@ static void qlge_unmap_send(struct qlge_adapter *qdev,
 /* Map the buffers for this transmit.  This will return
  * NETDEV_TX_BUSY or NETDEV_TX_OK based on success.
  */
+<<<<<<< HEAD
 static int qlge_map_send(struct qlge_adapter *qdev,
 			 struct qlge_ob_mac_iocb_req *mac_iocb_ptr,
 			 struct sk_buff *skb, struct tx_ring_desc *tx_ring_desc)
+=======
+static int ql_map_send(struct ql_adapter *qdev,
+		       struct ob_mac_iocb_req *mac_iocb_ptr,
+		       struct sk_buff *skb, struct tx_ring_desc *tx_ring_desc)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int len = skb_headlen(skb);
 	dma_addr_t map;
@@ -1295,7 +1823,11 @@ static int qlge_map_send(struct qlge_adapter *qdev,
 			 */
 			/* Tack on the OAL in the eighth segment of IOCB. */
 			map = dma_map_single(&qdev->pdev->dev, &tx_ring_desc->oal,
+<<<<<<< HEAD
 					     sizeof(struct qlge_oal),
+=======
+					     sizeof(struct oal),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     DMA_TO_DEVICE);
 			err = dma_mapping_error(&qdev->pdev->dev, map);
 			if (err) {
@@ -1317,7 +1849,11 @@ static int qlge_map_send(struct qlge_adapter *qdev,
 			dma_unmap_addr_set(&tx_ring_desc->map[map_idx], mapaddr,
 					   map);
 			dma_unmap_len_set(&tx_ring_desc->map[map_idx], maplen,
+<<<<<<< HEAD
 					  sizeof(struct qlge_oal));
+=======
+					  sizeof(struct oal));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tbd = (struct tx_buf_desc *)&tx_ring_desc->oal;
 			map_idx++;
 		}
@@ -1352,13 +1888,22 @@ map_error:
 	 * we pass in the number of frags that mapped successfully
 	 * so they can be umapped.
 	 */
+<<<<<<< HEAD
 	qlge_unmap_send(qdev, tx_ring_desc, map_idx);
+=======
+	ql_unmap_send(qdev, tx_ring_desc, map_idx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NETDEV_TX_BUSY;
 }
 
 /* Categorizing receive firmware frame errors */
+<<<<<<< HEAD
 static void qlge_categorize_rx_err(struct qlge_adapter *qdev, u8 rx_err,
 				   struct rx_ring *rx_ring)
+=======
+static void ql_categorize_rx_err(struct ql_adapter *qdev, u8 rx_err,
+				 struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nic_stats *stats = &qdev->nic_stats;
 
@@ -1390,12 +1935,21 @@ static void qlge_categorize_rx_err(struct qlge_adapter *qdev, u8 rx_err,
 }
 
 /**
+<<<<<<< HEAD
  * qlge_update_mac_hdr_len - helper routine to update the mac header length
  * based on vlan tags if present
  */
 static void qlge_update_mac_hdr_len(struct qlge_adapter *qdev,
 				    struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
 				    void *page, size_t *len)
+=======
+ * ql_update_mac_hdr_len - helper routine to update the mac header length
+ * based on vlan tags if present
+ */
+static void ql_update_mac_hdr_len(struct ql_adapter *qdev,
+				  struct ib_mac_iocb_rsp *ib_mac_rsp,
+				  void *page, size_t *len)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u16 *tags;
 
@@ -1413,6 +1967,7 @@ static void qlge_update_mac_hdr_len(struct qlge_adapter *qdev,
 }
 
 /* Process an inbound completion from an rx ring. */
+<<<<<<< HEAD
 static void qlge_process_mac_rx_gro_page(struct qlge_adapter *qdev,
 					 struct rx_ring *rx_ring,
 					 struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
@@ -1420,11 +1975,24 @@ static void qlge_process_mac_rx_gro_page(struct qlge_adapter *qdev,
 {
 	struct sk_buff *skb;
 	struct qlge_bq_desc *lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+=======
+static void ql_process_mac_rx_gro_page(struct ql_adapter *qdev,
+				       struct rx_ring *rx_ring,
+				       struct ib_mac_iocb_rsp *ib_mac_rsp,
+				       u32 length, u16 vlan_id)
+{
+	struct sk_buff *skb;
+	struct qlge_bq_desc *lbq_desc = ql_get_curr_lchunk(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct napi_struct *napi = &rx_ring->napi;
 
 	/* Frame error, so drop the packet. */
 	if (ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_ERR_MASK) {
+<<<<<<< HEAD
 		qlge_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+=======
+		ql_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		put_page(lbq_desc->p.pg_chunk.page);
 		return;
 	}
@@ -1459,15 +2027,26 @@ static void qlge_process_mac_rx_gro_page(struct qlge_adapter *qdev,
 }
 
 /* Process an inbound completion from an rx ring. */
+<<<<<<< HEAD
 static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
 				     struct rx_ring *rx_ring,
 				     struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
 				     u32 length, u16 vlan_id)
+=======
+static void ql_process_mac_rx_page(struct ql_adapter *qdev,
+				   struct rx_ring *rx_ring,
+				   struct ib_mac_iocb_rsp *ib_mac_rsp,
+				   u32 length, u16 vlan_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *ndev = qdev->ndev;
 	struct sk_buff *skb = NULL;
 	void *addr;
+<<<<<<< HEAD
 	struct qlge_bq_desc *lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+=======
+	struct qlge_bq_desc *lbq_desc = ql_get_curr_lchunk(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct napi_struct *napi = &rx_ring->napi;
 	size_t hlen = ETH_HLEN;
 
@@ -1483,12 +2062,20 @@ static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
 
 	/* Frame error, so drop the packet. */
 	if (ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_ERR_MASK) {
+<<<<<<< HEAD
 		qlge_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+=======
+		ql_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_out;
 	}
 
 	/* Update the MAC header length*/
+<<<<<<< HEAD
 	qlge_update_mac_hdr_len(qdev, ib_mac_rsp, addr, &hlen);
+=======
+	ql_update_mac_hdr_len(qdev, ib_mac_rsp, addr, &hlen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The max framesize filter on this chip is set higher than
 	 * MTU since FCoE uses 2k frames.
@@ -1522,12 +2109,20 @@ static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
 				     "TCP checksum done!\n");
 			skb->ip_summed = CHECKSUM_UNNECESSARY;
 		} else if ((ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_U) &&
+<<<<<<< HEAD
 			   (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
+=======
+				(ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Unfragmented ipv4 UDP frame. */
 			struct iphdr *iph =
 				(struct iphdr *)((u8 *)addr + hlen);
 			if (!(iph->frag_off &
+<<<<<<< HEAD
 			      htons(IP_MF | IP_OFFSET))) {
+=======
+				htons(IP_MF | IP_OFFSET))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				skb->ip_summed = CHECKSUM_UNNECESSARY;
 				netif_printk(qdev, rx_status, KERN_DEBUG,
 					     qdev->ndev,
@@ -1550,10 +2145,17 @@ err_out:
 }
 
 /* Process an inbound completion from an rx ring. */
+<<<<<<< HEAD
 static void qlge_process_mac_rx_skb(struct qlge_adapter *qdev,
 				    struct rx_ring *rx_ring,
 				    struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
 				    u32 length, u16 vlan_id)
+=======
+static void ql_process_mac_rx_skb(struct ql_adapter *qdev,
+				  struct rx_ring *rx_ring,
+				  struct ib_mac_iocb_rsp *ib_mac_rsp,
+				  u32 length, u16 vlan_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qlge_bq_desc *sbq_desc = qlge_get_curr_buf(&rx_ring->sbq);
 	struct net_device *ndev = qdev->ndev;
@@ -1577,14 +2179,22 @@ static void qlge_process_mac_rx_skb(struct qlge_adapter *qdev,
 
 	/* Frame error, so drop the packet. */
 	if (ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_ERR_MASK) {
+<<<<<<< HEAD
 		qlge_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+=======
+		ql_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_kfree_skb_any(skb);
 		return;
 	}
 
 	/* loopback self test for ethtool */
 	if (test_bit(QL_SELFTEST, &qdev->flags)) {
+<<<<<<< HEAD
 		qlge_check_lb_frame(qdev, skb);
+=======
+		ql_check_lb_frame(qdev, skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_kfree_skb_any(skb);
 		return;
 	}
@@ -1629,12 +2239,20 @@ static void qlge_process_mac_rx_skb(struct qlge_adapter *qdev,
 				     "TCP checksum done!\n");
 			skb->ip_summed = CHECKSUM_UNNECESSARY;
 		} else if ((ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_U) &&
+<<<<<<< HEAD
 			   (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
+=======
+				(ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Unfragmented ipv4 UDP frame. */
 			struct iphdr *iph = (struct iphdr *)skb->data;
 
 			if (!(iph->frag_off &
+<<<<<<< HEAD
 			      htons(IP_MF | IP_OFFSET))) {
+=======
+				htons(IP_MF | IP_OFFSET))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				skb->ip_summed = CHECKSUM_UNNECESSARY;
 				netif_printk(qdev, rx_status, KERN_DEBUG,
 					     qdev->ndev,
@@ -1652,7 +2270,11 @@ static void qlge_process_mac_rx_skb(struct qlge_adapter *qdev,
 		netif_receive_skb(skb);
 }
 
+<<<<<<< HEAD
 static void qlge_realign_skb(struct sk_buff *skb, int len)
+=======
+static void ql_realign_skb(struct sk_buff *skb, int len)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *temp_addr = skb->data;
 
@@ -1670,9 +2292,15 @@ static void qlge_realign_skb(struct sk_buff *skb, int len)
  * completion.  It will be rewritten for readability in the near
  * future, but for not it works well.
  */
+<<<<<<< HEAD
 static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 					 struct rx_ring *rx_ring,
 					 struct qlge_ib_mac_iocb_rsp *ib_mac_rsp)
+=======
+static struct sk_buff *ql_build_rx_skb(struct ql_adapter *qdev,
+				       struct rx_ring *rx_ring,
+				       struct ib_mac_iocb_rsp *ib_mac_rsp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 length = le32_to_cpu(ib_mac_rsp->data_len);
 	u32 hdr_len = le32_to_cpu(ib_mac_rsp->hdr_len);
@@ -1694,7 +2322,11 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 		dma_unmap_single(&qdev->pdev->dev, sbq_desc->dma_addr,
 				 SMALL_BUF_MAP_SIZE, DMA_FROM_DEVICE);
 		skb = sbq_desc->p.skb;
+<<<<<<< HEAD
 		qlge_realign_skb(skb, hdr_len);
+=======
+		ql_realign_skb(skb, hdr_len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb_put(skb, hdr_len);
 		sbq_desc->p.skb = NULL;
 	}
@@ -1732,7 +2364,11 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 				     length);
 			sbq_desc = qlge_get_curr_buf(&rx_ring->sbq);
 			skb = sbq_desc->p.skb;
+<<<<<<< HEAD
 			qlge_realign_skb(skb, length);
+=======
+			ql_realign_skb(skb, length);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			skb_put(skb, length);
 			dma_unmap_single(&qdev->pdev->dev, sbq_desc->dma_addr,
 					 SMALL_BUF_MAP_SIZE,
@@ -1749,7 +2385,11 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 			 * chain it to the header buffer's skb and let
 			 * it rip.
 			 */
+<<<<<<< HEAD
 			lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+=======
+			lbq_desc = ql_get_curr_lchunk(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
 				     "Chaining page at offset = %d, for %d bytes  to skb.\n",
 				     lbq_desc->p.pg_chunk.offset, length);
@@ -1764,7 +2404,11 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 			 * copy it to a new skb and let it go. This can happen with
 			 * jumbo mtu on a non-TCP/UDP frame.
 			 */
+<<<<<<< HEAD
 			lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+=======
+			lbq_desc = ql_get_curr_lchunk(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			skb = netdev_alloc_skb(qdev->ndev, length);
 			if (!skb) {
 				netif_printk(qdev, probe, KERN_DEBUG, qdev->ndev,
@@ -1784,9 +2428,15 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 			skb->len += length;
 			skb->data_len += length;
 			skb->truesize += length;
+<<<<<<< HEAD
 			qlge_update_mac_hdr_len(qdev, ib_mac_rsp,
 						lbq_desc->p.pg_chunk.va,
 						&hlen);
+=======
+			ql_update_mac_hdr_len(qdev, ib_mac_rsp,
+					      lbq_desc->p.pg_chunk.va,
+					      &hlen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__pskb_pull_tail(skb, hlen);
 		}
 	} else {
@@ -1824,7 +2474,11 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 			skb_reserve(skb, NET_IP_ALIGN);
 		}
 		do {
+<<<<<<< HEAD
 			lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+=======
+			lbq_desc = ql_get_curr_lchunk(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			size = min(length, qdev->lbq_buf_size);
 
 			netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
@@ -1839,23 +2493,41 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
 			length -= size;
 			i++;
 		} while (length > 0);
+<<<<<<< HEAD
 		qlge_update_mac_hdr_len(qdev, ib_mac_rsp, lbq_desc->p.pg_chunk.va,
 					&hlen);
+=======
+		ql_update_mac_hdr_len(qdev, ib_mac_rsp, lbq_desc->p.pg_chunk.va,
+				      &hlen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__pskb_pull_tail(skb, hlen);
 	}
 	return skb;
 }
 
 /* Process an inbound completion from an rx ring. */
+<<<<<<< HEAD
 static void qlge_process_mac_split_rx_intr(struct qlge_adapter *qdev,
 					   struct rx_ring *rx_ring,
 					   struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
 					   u16 vlan_id)
+=======
+static void ql_process_mac_split_rx_intr(struct ql_adapter *qdev,
+					 struct rx_ring *rx_ring,
+					 struct ib_mac_iocb_rsp *ib_mac_rsp,
+					 u16 vlan_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *ndev = qdev->ndev;
 	struct sk_buff *skb = NULL;
 
+<<<<<<< HEAD
 	skb = qlge_build_rx_skb(qdev, rx_ring, ib_mac_rsp);
+=======
+	QL_DUMP_IB_MAC_RSP(qdev, ib_mac_rsp);
+
+	skb = ql_build_rx_skb(qdev, rx_ring, ib_mac_rsp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(!skb)) {
 		netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
 			     "No skb available, drop packet.\n");
@@ -1865,7 +2537,11 @@ static void qlge_process_mac_split_rx_intr(struct qlge_adapter *qdev,
 
 	/* Frame error, so drop the packet. */
 	if (ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_ERR_MASK) {
+<<<<<<< HEAD
 		qlge_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+=======
+		ql_categorize_rx_err(qdev, ib_mac_rsp->flags2, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_kfree_skb_any(skb);
 		return;
 	}
@@ -1881,7 +2557,11 @@ static void qlge_process_mac_split_rx_intr(struct qlge_adapter *qdev,
 
 	/* loopback self test for ethtool */
 	if (test_bit(QL_SELFTEST, &qdev->flags)) {
+<<<<<<< HEAD
 		qlge_check_lb_frame(qdev, skb);
+=======
+		ql_check_lb_frame(qdev, skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_kfree_skb_any(skb);
 		return;
 	}
@@ -1916,12 +2596,21 @@ static void qlge_process_mac_split_rx_intr(struct qlge_adapter *qdev,
 				     "TCP checksum done!\n");
 			skb->ip_summed = CHECKSUM_UNNECESSARY;
 		} else if ((ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_U) &&
+<<<<<<< HEAD
 			   (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
 			/* Unfragmented ipv4 UDP frame. */
 			struct iphdr *iph = (struct iphdr *)skb->data;
 
 			if (!(iph->frag_off &
 			      htons(IP_MF | IP_OFFSET))) {
+=======
+				(ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_V4)) {
+		/* Unfragmented ipv4 UDP frame. */
+			struct iphdr *iph = (struct iphdr *)skb->data;
+
+			if (!(iph->frag_off &
+				htons(IP_MF | IP_OFFSET))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				skb->ip_summed = CHECKSUM_UNNECESSARY;
 				netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
 					     "TCP checksum done!\n");
@@ -1941,6 +2630,7 @@ static void qlge_process_mac_split_rx_intr(struct qlge_adapter *qdev,
 }
 
 /* Process an inbound completion from an rx ring. */
+<<<<<<< HEAD
 static unsigned long qlge_process_mac_rx_intr(struct qlge_adapter *qdev,
 					      struct rx_ring *rx_ring,
 					      struct qlge_ib_mac_iocb_rsp *ib_mac_rsp)
@@ -1950,18 +2640,37 @@ static unsigned long qlge_process_mac_rx_intr(struct qlge_adapter *qdev,
 		       (qdev->ndev->features & NETIF_F_HW_VLAN_CTAG_RX)) ?
 		((le16_to_cpu(ib_mac_rsp->vlan_id) &
 		  IB_MAC_IOCB_RSP_VLAN_MASK)) : 0xffff;
+=======
+static unsigned long ql_process_mac_rx_intr(struct ql_adapter *qdev,
+					    struct rx_ring *rx_ring,
+					    struct ib_mac_iocb_rsp *ib_mac_rsp)
+{
+	u32 length = le32_to_cpu(ib_mac_rsp->data_len);
+	u16 vlan_id = ((ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_V) &&
+			(qdev->ndev->features & NETIF_F_HW_VLAN_CTAG_RX)) ?
+			((le16_to_cpu(ib_mac_rsp->vlan_id) &
+			IB_MAC_IOCB_RSP_VLAN_MASK)) : 0xffff;
+
+	QL_DUMP_IB_MAC_RSP(qdev, ib_mac_rsp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HV) {
 		/* The data and headers are split into
 		 * separate buffers.
 		 */
+<<<<<<< HEAD
 		qlge_process_mac_split_rx_intr(qdev, rx_ring, ib_mac_rsp,
 					       vlan_id);
+=======
+		ql_process_mac_split_rx_intr(qdev, rx_ring, ib_mac_rsp,
+					     vlan_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DS) {
 		/* The data fit in a single small buffer.
 		 * Allocate a new skb, copy the data and
 		 * return the buffer to the free pool.
 		 */
+<<<<<<< HEAD
 		qlge_process_mac_rx_skb(qdev, rx_ring, ib_mac_rsp, length,
 					vlan_id);
 	} else if ((ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL) &&
@@ -1972,33 +2681,67 @@ static unsigned long qlge_process_mac_rx_intr(struct qlge_adapter *qdev,
 		 */
 		qlge_process_mac_rx_gro_page(qdev, rx_ring, ib_mac_rsp, length,
 					     vlan_id);
+=======
+		ql_process_mac_rx_skb(qdev, rx_ring, ib_mac_rsp, length,
+				      vlan_id);
+	} else if ((ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL) &&
+		!(ib_mac_rsp->flags1 & IB_MAC_CSUM_ERR_MASK) &&
+		(ib_mac_rsp->flags2 & IB_MAC_IOCB_RSP_T)) {
+		/* TCP packet in a page chunk that's been checksummed.
+		 * Tack it on to our GRO skb and let it go.
+		 */
+		ql_process_mac_rx_gro_page(qdev, rx_ring, ib_mac_rsp, length,
+					   vlan_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL) {
 		/* Non-TCP packet in a page chunk. Allocate an
 		 * skb, tack it on frags, and send it up.
 		 */
+<<<<<<< HEAD
 		qlge_process_mac_rx_page(qdev, rx_ring, ib_mac_rsp, length,
 					 vlan_id);
+=======
+		ql_process_mac_rx_page(qdev, rx_ring, ib_mac_rsp, length,
+				       vlan_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		/* Non-TCP/UDP large frames that span multiple buffers
 		 * can be processed corrrectly by the split frame logic.
 		 */
+<<<<<<< HEAD
 		qlge_process_mac_split_rx_intr(qdev, rx_ring, ib_mac_rsp,
 					       vlan_id);
+=======
+		ql_process_mac_split_rx_intr(qdev, rx_ring, ib_mac_rsp,
+					     vlan_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return (unsigned long)length;
 }
 
 /* Process an outbound completion from an rx ring. */
+<<<<<<< HEAD
 static void qlge_process_mac_tx_intr(struct qlge_adapter *qdev,
 				     struct qlge_ob_mac_iocb_rsp *mac_rsp)
+=======
+static void ql_process_mac_tx_intr(struct ql_adapter *qdev,
+				   struct ob_mac_iocb_rsp *mac_rsp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tx_ring *tx_ring;
 	struct tx_ring_desc *tx_ring_desc;
 
+<<<<<<< HEAD
 	tx_ring = &qdev->tx_ring[mac_rsp->txq_idx];
 	tx_ring_desc = &tx_ring->q[mac_rsp->tid];
 	qlge_unmap_send(qdev, tx_ring_desc, tx_ring_desc->map_cnt);
+=======
+	QL_DUMP_OB_MAC_RSP(qdev, mac_rsp);
+	tx_ring = &qdev->tx_ring[mac_rsp->txq_idx];
+	tx_ring_desc = &tx_ring->q[mac_rsp->tid];
+	ql_unmap_send(qdev, tx_ring_desc, tx_ring_desc->map_cnt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tx_ring->tx_bytes += (tx_ring_desc->skb)->len;
 	tx_ring->tx_packets++;
 	dev_kfree_skb(tx_ring_desc->skb);
@@ -2029,6 +2772,7 @@ static void qlge_process_mac_tx_intr(struct qlge_adapter *qdev,
 }
 
 /* Fire up a handler to reset the MPI processor. */
+<<<<<<< HEAD
 void qlge_queue_fw_error(struct qlge_adapter *qdev)
 {
 	qlge_link_off(qdev);
@@ -2039,6 +2783,18 @@ void qlge_queue_asic_error(struct qlge_adapter *qdev)
 {
 	qlge_link_off(qdev);
 	qlge_disable_interrupts(qdev);
+=======
+void ql_queue_fw_error(struct ql_adapter *qdev)
+{
+	ql_link_off(qdev);
+	queue_delayed_work(qdev->workqueue, &qdev->mpi_reset_work, 0);
+}
+
+void ql_queue_asic_error(struct ql_adapter *qdev)
+{
+	ql_link_off(qdev);
+	ql_disable_interrupts(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Clear adapter up bit to signal the recovery
 	 * process that it shouldn't kill the reset worker
 	 * thread
@@ -2051,47 +2807,80 @@ void qlge_queue_asic_error(struct qlge_adapter *qdev)
 	queue_delayed_work(qdev->workqueue, &qdev->asic_reset_work, 0);
 }
 
+<<<<<<< HEAD
 static void qlge_process_chip_ae_intr(struct qlge_adapter *qdev,
 				      struct qlge_ib_ae_iocb_rsp *ib_ae_rsp)
+=======
+static void ql_process_chip_ae_intr(struct ql_adapter *qdev,
+				    struct ib_ae_iocb_rsp *ib_ae_rsp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (ib_ae_rsp->event) {
 	case MGMT_ERR_EVENT:
 		netif_err(qdev, rx_err, qdev->ndev,
 			  "Management Processor Fatal Error.\n");
+<<<<<<< HEAD
 		qlge_queue_fw_error(qdev);
+=======
+		ql_queue_fw_error(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	case CAM_LOOKUP_ERR_EVENT:
 		netdev_err(qdev->ndev, "Multiple CAM hits lookup occurred.\n");
 		netdev_err(qdev->ndev, "This event shouldn't occur.\n");
+<<<<<<< HEAD
 		qlge_queue_asic_error(qdev);
+=======
+		ql_queue_asic_error(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	case SOFT_ECC_ERROR_EVENT:
 		netdev_err(qdev->ndev, "Soft ECC error detected.\n");
+<<<<<<< HEAD
 		qlge_queue_asic_error(qdev);
+=======
+		ql_queue_asic_error(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case PCI_ERR_ANON_BUF_RD:
 		netdev_err(qdev->ndev,
 			   "PCI error occurred when reading anonymous buffers from rx_ring %d.\n",
 			   ib_ae_rsp->q_id);
+<<<<<<< HEAD
 		qlge_queue_asic_error(qdev);
+=======
+		ql_queue_asic_error(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	default:
 		netif_err(qdev, drv, qdev->ndev, "Unexpected event %d.\n",
 			  ib_ae_rsp->event);
+<<<<<<< HEAD
 		qlge_queue_asic_error(qdev);
+=======
+		ql_queue_asic_error(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
 
+<<<<<<< HEAD
 static int qlge_clean_outbound_rx_ring(struct rx_ring *rx_ring)
 {
 	struct qlge_adapter *qdev = rx_ring->qdev;
 	u32 prod = qlge_read_sh_reg(rx_ring->prod_idx_sh_reg);
 	struct qlge_ob_mac_iocb_rsp *net_rsp = NULL;
+=======
+static int ql_clean_outbound_rx_ring(struct rx_ring *rx_ring)
+{
+	struct ql_adapter *qdev = rx_ring->qdev;
+	u32 prod = ql_read_sh_reg(rx_ring->prod_idx_sh_reg);
+	struct ob_mac_iocb_rsp *net_rsp = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int count = 0;
 
 	struct tx_ring *tx_ring;
@@ -2101,12 +2890,20 @@ static int qlge_clean_outbound_rx_ring(struct rx_ring *rx_ring)
 			     "cq_id = %d, prod = %d, cnsmr = %d\n",
 			     rx_ring->cq_id, prod, rx_ring->cnsmr_idx);
 
+<<<<<<< HEAD
 		net_rsp = (struct qlge_ob_mac_iocb_rsp *)rx_ring->curr_entry;
+=======
+		net_rsp = (struct ob_mac_iocb_rsp *)rx_ring->curr_entry;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rmb();
 		switch (net_rsp->opcode) {
 		case OPCODE_OB_MAC_TSO_IOCB:
 		case OPCODE_OB_MAC_IOCB:
+<<<<<<< HEAD
 			qlge_process_mac_tx_intr(qdev, net_rsp);
+=======
+			ql_process_mac_tx_intr(qdev, net_rsp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		default:
 			netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
@@ -2114,12 +2911,21 @@ static int qlge_clean_outbound_rx_ring(struct rx_ring *rx_ring)
 				     net_rsp->opcode);
 		}
 		count++;
+<<<<<<< HEAD
 		qlge_update_cq(rx_ring);
 		prod = qlge_read_sh_reg(rx_ring->prod_idx_sh_reg);
 	}
 	if (!net_rsp)
 		return 0;
 	qlge_write_cq_idx(rx_ring);
+=======
+		ql_update_cq(rx_ring);
+		prod = ql_read_sh_reg(rx_ring->prod_idx_sh_reg);
+	}
+	if (!net_rsp)
+		return 0;
+	ql_write_cq_idx(rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tx_ring = &qdev->tx_ring[net_rsp->txq_idx];
 	if (__netif_subqueue_stopped(qdev->ndev, tx_ring->wq_id)) {
 		if ((atomic_read(&tx_ring->tx_count) > (tx_ring->wq_len / 4)))
@@ -2133,11 +2939,19 @@ static int qlge_clean_outbound_rx_ring(struct rx_ring *rx_ring)
 	return count;
 }
 
+<<<<<<< HEAD
 static int qlge_clean_inbound_rx_ring(struct rx_ring *rx_ring, int budget)
 {
 	struct qlge_adapter *qdev = rx_ring->qdev;
 	u32 prod = qlge_read_sh_reg(rx_ring->prod_idx_sh_reg);
 	struct qlge_net_rsp_iocb *net_rsp;
+=======
+static int ql_clean_inbound_rx_ring(struct rx_ring *rx_ring, int budget)
+{
+	struct ql_adapter *qdev = rx_ring->qdev;
+	u32 prod = ql_read_sh_reg(rx_ring->prod_idx_sh_reg);
+	struct ql_net_rsp_iocb *net_rsp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int count = 0;
 
 	/* While there are entries in the completion queue. */
@@ -2150,6 +2964,7 @@ static int qlge_clean_inbound_rx_ring(struct rx_ring *rx_ring, int budget)
 		rmb();
 		switch (net_rsp->opcode) {
 		case OPCODE_IB_MAC_IOCB:
+<<<<<<< HEAD
 			qlge_process_mac_rx_intr(qdev, rx_ring,
 						 (struct qlge_ib_mac_iocb_rsp *)
 						 net_rsp);
@@ -2158,6 +2973,16 @@ static int qlge_clean_inbound_rx_ring(struct rx_ring *rx_ring, int budget)
 		case OPCODE_IB_AE_IOCB:
 			qlge_process_chip_ae_intr(qdev, (struct qlge_ib_ae_iocb_rsp *)
 						  net_rsp);
+=======
+			ql_process_mac_rx_intr(qdev, rx_ring,
+					       (struct ib_mac_iocb_rsp *)
+					       net_rsp);
+			break;
+
+		case OPCODE_IB_AE_IOCB:
+			ql_process_chip_ae_intr(qdev, (struct ib_ae_iocb_rsp *)
+						net_rsp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		default:
 			netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
@@ -2166,6 +2991,7 @@ static int qlge_clean_inbound_rx_ring(struct rx_ring *rx_ring, int budget)
 			break;
 		}
 		count++;
+<<<<<<< HEAD
 		qlge_update_cq(rx_ring);
 		prod = qlge_read_sh_reg(rx_ring->prod_idx_sh_reg);
 		if (count == budget)
@@ -2180,6 +3006,22 @@ static int qlge_napi_poll_msix(struct napi_struct *napi, int budget)
 {
 	struct rx_ring *rx_ring = container_of(napi, struct rx_ring, napi);
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+		ql_update_cq(rx_ring);
+		prod = ql_read_sh_reg(rx_ring->prod_idx_sh_reg);
+		if (count == budget)
+			break;
+	}
+	ql_update_buffer_queues(rx_ring, GFP_ATOMIC, 0);
+	ql_write_cq_idx(rx_ring);
+	return count;
+}
+
+static int ql_napi_poll_msix(struct napi_struct *napi, int budget)
+{
+	struct rx_ring *rx_ring = container_of(napi, struct rx_ring, napi);
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rx_ring *trx_ring;
 	int i, work_done = 0;
 	struct intr_context *ctx = &qdev->intr_context[rx_ring->cq_id];
@@ -2196,35 +3038,57 @@ static int qlge_napi_poll_msix(struct napi_struct *napi, int budget)
 		 * it's not empty then service it.
 		 */
 		if ((ctx->irq_mask & (1 << trx_ring->cq_id)) &&
+<<<<<<< HEAD
 		    (qlge_read_sh_reg(trx_ring->prod_idx_sh_reg) !=
+=======
+		    (ql_read_sh_reg(trx_ring->prod_idx_sh_reg) !=
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     trx_ring->cnsmr_idx)) {
 			netif_printk(qdev, intr, KERN_DEBUG, qdev->ndev,
 				     "%s: Servicing TX completion ring %d.\n",
 				     __func__, trx_ring->cq_id);
+<<<<<<< HEAD
 			qlge_clean_outbound_rx_ring(trx_ring);
+=======
+			ql_clean_outbound_rx_ring(trx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	/*
 	 * Now service the RSS ring if it's active.
 	 */
+<<<<<<< HEAD
 	if (qlge_read_sh_reg(rx_ring->prod_idx_sh_reg) !=
 	    rx_ring->cnsmr_idx) {
 		netif_printk(qdev, intr, KERN_DEBUG, qdev->ndev,
 			     "%s: Servicing RX completion ring %d.\n",
 			     __func__, rx_ring->cq_id);
 		work_done = qlge_clean_inbound_rx_ring(rx_ring, budget);
+=======
+	if (ql_read_sh_reg(rx_ring->prod_idx_sh_reg) !=
+					rx_ring->cnsmr_idx) {
+		netif_printk(qdev, intr, KERN_DEBUG, qdev->ndev,
+			     "%s: Servicing RX completion ring %d.\n",
+			     __func__, rx_ring->cq_id);
+		work_done = ql_clean_inbound_rx_ring(rx_ring, budget);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (work_done < budget) {
 		napi_complete_done(napi, work_done);
+<<<<<<< HEAD
 		qlge_enable_completion_interrupt(qdev, rx_ring->irq);
+=======
+		ql_enable_completion_interrupt(qdev, rx_ring->irq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return work_done;
 }
 
 static void qlge_vlan_mode(struct net_device *ndev, netdev_features_t features)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 
 	if (features & NETIF_F_HW_VLAN_CTAG_RX) {
@@ -2232,6 +3096,15 @@ static void qlge_vlan_mode(struct net_device *ndev, netdev_features_t features)
 			     NIC_RCV_CFG_VLAN_MATCH_AND_NON);
 	} else {
 		qlge_write32(qdev, NIC_RCV_CFG, NIC_RCV_CFG_VLAN_MASK);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+
+	if (features & NETIF_F_HW_VLAN_CTAG_RX) {
+		ql_write32(qdev, NIC_RCV_CFG, NIC_RCV_CFG_VLAN_MASK |
+				 NIC_RCV_CFG_VLAN_MATCH_AND_NON);
+	} else {
+		ql_write32(qdev, NIC_RCV_CFG, NIC_RCV_CFG_VLAN_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2242,12 +3115,21 @@ static void qlge_vlan_mode(struct net_device *ndev, netdev_features_t features)
 static int qlge_update_hw_vlan_features(struct net_device *ndev,
 					netdev_features_t features)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	bool need_restart = netif_running(ndev);
 	int status = 0;
 
 	if (need_restart) {
 		status = qlge_adapter_down(qdev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int status = 0;
+	bool need_restart = netif_running(ndev);
+
+	if (need_restart) {
+		status = ql_adapter_down(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, link, qdev->ndev,
 				  "Failed to bring down the adapter\n");
@@ -2259,7 +3141,11 @@ static int qlge_update_hw_vlan_features(struct net_device *ndev,
 	ndev->features = features;
 
 	if (need_restart) {
+<<<<<<< HEAD
 		status = qlge_adapter_up(qdev);
+=======
+		status = ql_adapter_up(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, link, qdev->ndev,
 				  "Failed to bring up the adapter\n");
@@ -2288,13 +3174,22 @@ static int qlge_set_features(struct net_device *ndev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int __qlge_vlan_rx_add_vid(struct qlge_adapter *qdev, u16 vid)
+=======
+static int __qlge_vlan_rx_add_vid(struct ql_adapter *qdev, u16 vid)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 enable_bit = MAC_ADDR_E;
 	int err;
 
+<<<<<<< HEAD
 	err = qlge_set_mac_addr_reg(qdev, (u8 *)&enable_bit,
 				    MAC_ADDR_TYPE_VLAN, vid);
+=======
+	err = ql_set_mac_addr_reg(qdev, (u8 *)&enable_bit,
+				  MAC_ADDR_TYPE_VLAN, vid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init vlan address.\n");
@@ -2303,29 +3198,50 @@ static int __qlge_vlan_rx_add_vid(struct qlge_adapter *qdev, u16 vid)
 
 static int qlge_vlan_rx_add_vid(struct net_device *ndev, __be16 proto, u16 vid)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	int status;
 	int err;
 
 	status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int status;
+	int err;
+
+	status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 
 	err = __qlge_vlan_rx_add_vid(qdev, vid);
 	set_bit(vid, qdev->active_vlans);
 
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
 
+<<<<<<< HEAD
 static int __qlge_vlan_rx_kill_vid(struct qlge_adapter *qdev, u16 vid)
+=======
+static int __qlge_vlan_rx_kill_vid(struct ql_adapter *qdev, u16 vid)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 enable_bit = 0;
 	int err;
 
+<<<<<<< HEAD
 	err = qlge_set_mac_addr_reg(qdev, (u8 *)&enable_bit,
 				    MAC_ADDR_TYPE_VLAN, vid);
+=======
+	err = ql_set_mac_addr_reg(qdev, (u8 *)&enable_bit,
+				  MAC_ADDR_TYPE_VLAN, vid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to clear vlan address.\n");
@@ -2334,35 +3250,59 @@ static int __qlge_vlan_rx_kill_vid(struct qlge_adapter *qdev, u16 vid)
 
 static int qlge_vlan_rx_kill_vid(struct net_device *ndev, __be16 proto, u16 vid)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	int status;
 	int err;
 
 	status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int status;
+	int err;
+
+	status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 
 	err = __qlge_vlan_rx_kill_vid(qdev, vid);
 	clear_bit(vid, qdev->active_vlans);
 
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
 
+<<<<<<< HEAD
 static void qlge_restore_vlan(struct qlge_adapter *qdev)
+=======
+static void qlge_restore_vlan(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status;
 	u16 vid;
 
+<<<<<<< HEAD
 	status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return;
 
 	for_each_set_bit(vid, qdev->active_vlans, VLAN_N_VID)
 		__qlge_vlan_rx_add_vid(qdev, vid);
 
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* MSI-X Multiple Vector Interrupt Handler for inbound completions. */
@@ -2382,7 +3322,11 @@ static irqreturn_t qlge_msix_rx_isr(int irq, void *dev_id)
 static irqreturn_t qlge_isr(int irq, void *dev_id)
 {
 	struct rx_ring *rx_ring = dev_id;
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intr_context *intr_context = &qdev->intr_context[0];
 	u32 var;
 	int work_done = 0;
@@ -2394,18 +3338,31 @@ static irqreturn_t qlge_isr(int irq, void *dev_id)
 	 * enable it is not effective.
 	 */
 	if (!test_bit(QL_MSIX_ENABLED, &qdev->flags))
+<<<<<<< HEAD
 		qlge_disable_completion_interrupt(qdev, 0);
 
 	var = qlge_read32(qdev, STS);
+=======
+		ql_disable_completion_interrupt(qdev, 0);
+
+	var = ql_read32(qdev, STS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Check for fatal error.
 	 */
 	if (var & STS_FE) {
+<<<<<<< HEAD
 		qlge_disable_completion_interrupt(qdev, 0);
 		qlge_queue_asic_error(qdev);
 		netdev_err(qdev->ndev, "Got fatal error, STS = %x.\n", var);
 		var = qlge_read32(qdev, ERR_STS);
+=======
+		ql_disable_completion_interrupt(qdev, 0);
+		ql_queue_asic_error(qdev);
+		netdev_err(qdev->ndev, "Got fatal error, STS = %x.\n", var);
+		var = ql_read32(qdev, ERR_STS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netdev_err(qdev->ndev, "Resetting chip. Error Status Register = 0x%x\n", var);
 		return IRQ_HANDLED;
 	}
@@ -2414,14 +3371,22 @@ static irqreturn_t qlge_isr(int irq, void *dev_id)
 	 * Check MPI processor activity.
 	 */
 	if ((var & STS_PI) &&
+<<<<<<< HEAD
 	    (qlge_read32(qdev, INTR_MASK) & INTR_MASK_PI)) {
+=======
+	    (ql_read32(qdev, INTR_MASK) & INTR_MASK_PI)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * We've got an async event or mailbox completion.
 		 * Handle it and clear the source of the interrupt.
 		 */
 		netif_err(qdev, intr, qdev->ndev,
 			  "Got MPI processor interrupt.\n");
+<<<<<<< HEAD
 		qlge_write32(qdev, INTR_MASK, (INTR_MASK_PI << 16));
+=======
+		ql_write32(qdev, INTR_MASK, (INTR_MASK_PI << 16));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		queue_delayed_work_on(smp_processor_id(),
 				      qdev->workqueue, &qdev->mpi_work, 0);
 		work_done++;
@@ -2432,7 +3397,11 @@ static irqreturn_t qlge_isr(int irq, void *dev_id)
 	 * pass.  Compare it to the queues that this irq services
 	 * and call napi if there's a match.
 	 */
+<<<<<<< HEAD
 	var = qlge_read32(qdev, ISR1);
+=======
+	var = ql_read32(qdev, ISR1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (var & intr_context->irq_mask) {
 		netif_info(qdev, intr, qdev->ndev,
 			   "Waking handler for rx_ring[0].\n");
@@ -2445,13 +3414,21 @@ static irqreturn_t qlge_isr(int irq, void *dev_id)
 		 * systematically re-enable the interrupt if we didn't
 		 * schedule napi.
 		 */
+<<<<<<< HEAD
 		qlge_enable_completion_interrupt(qdev, 0);
+=======
+		ql_enable_completion_interrupt(qdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return work_done ? IRQ_HANDLED : IRQ_NONE;
 }
 
+<<<<<<< HEAD
 static int qlge_tso(struct sk_buff *skb, struct qlge_ob_mac_tso_iocb_req *mac_iocb_ptr)
+=======
+static int ql_tso(struct sk_buff *skb, struct ob_mac_tso_iocb_req *mac_iocb_ptr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (skb_is_gso(skb)) {
 		int err;
@@ -2465,11 +3442,19 @@ static int qlge_tso(struct sk_buff *skb, struct qlge_ob_mac_tso_iocb_req *mac_io
 		mac_iocb_ptr->flags3 |= OB_MAC_TSO_IOCB_IC;
 		mac_iocb_ptr->frame_len = cpu_to_le32((u32)skb->len);
 		mac_iocb_ptr->total_hdrs_len =
+<<<<<<< HEAD
 			cpu_to_le16(skb_transport_offset(skb) + tcp_hdrlen(skb));
 		mac_iocb_ptr->net_trans_offset =
 			cpu_to_le16(skb_network_offset(skb) |
 				    skb_transport_offset(skb)
 				    << OB_MAC_TRANSPORT_HDR_SHIFT);
+=======
+		    cpu_to_le16(skb_transport_offset(skb) + tcp_hdrlen(skb));
+		mac_iocb_ptr->net_trans_offset =
+		    cpu_to_le16(skb_network_offset(skb) |
+				skb_transport_offset(skb)
+				<< OB_MAC_TRANSPORT_HDR_SHIFT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mac_iocb_ptr->mss = cpu_to_le16(skb_shinfo(skb)->gso_size);
 		mac_iocb_ptr->flags2 |= OB_MAC_TSO_IOCB_LSO;
 		if (likely(l3_proto == htons(ETH_P_IP))) {
@@ -2484,17 +3469,28 @@ static int qlge_tso(struct sk_buff *skb, struct qlge_ob_mac_tso_iocb_req *mac_io
 		} else if (l3_proto == htons(ETH_P_IPV6)) {
 			mac_iocb_ptr->flags1 |= OB_MAC_TSO_IOCB_IP6;
 			tcp_hdr(skb)->check =
+<<<<<<< HEAD
 				~csum_ipv6_magic(&ipv6_hdr(skb)->saddr,
 						 &ipv6_hdr(skb)->daddr,
 						 0, IPPROTO_TCP, 0);
+=======
+			    ~csum_ipv6_magic(&ipv6_hdr(skb)->saddr,
+					     &ipv6_hdr(skb)->daddr,
+					     0, IPPROTO_TCP, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		return 1;
 	}
 	return 0;
 }
 
+<<<<<<< HEAD
 static void qlge_hw_csum_setup(struct sk_buff *skb,
 			       struct qlge_ob_mac_tso_iocb_req *mac_iocb_ptr)
+=======
+static void ql_hw_csum_setup(struct sk_buff *skb,
+			     struct ob_mac_tso_iocb_req *mac_iocb_ptr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int len;
 	struct iphdr *iph = ip_hdr(skb);
@@ -2504,7 +3500,11 @@ static void qlge_hw_csum_setup(struct sk_buff *skb,
 	mac_iocb_ptr->frame_len = cpu_to_le32((u32)skb->len);
 	mac_iocb_ptr->net_trans_offset =
 		cpu_to_le16(skb_network_offset(skb) |
+<<<<<<< HEAD
 			    skb_transport_offset(skb) << OB_MAC_TRANSPORT_HDR_SHIFT);
+=======
+		skb_transport_offset(skb) << OB_MAC_TRANSPORT_HDR_SHIFT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mac_iocb_ptr->flags1 |= OB_MAC_TSO_IOCB_IP4;
 	len = (ntohs(iph->tot_len) - (iph->ihl << 2));
@@ -2512,14 +3512,24 @@ static void qlge_hw_csum_setup(struct sk_buff *skb,
 		check = &(tcp_hdr(skb)->check);
 		mac_iocb_ptr->flags2 |= OB_MAC_TSO_IOCB_TC;
 		mac_iocb_ptr->total_hdrs_len =
+<<<<<<< HEAD
 			cpu_to_le16(skb_transport_offset(skb) +
 				    (tcp_hdr(skb)->doff << 2));
+=======
+		    cpu_to_le16(skb_transport_offset(skb) +
+				(tcp_hdr(skb)->doff << 2));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		check = &(udp_hdr(skb)->check);
 		mac_iocb_ptr->flags2 |= OB_MAC_TSO_IOCB_UC;
 		mac_iocb_ptr->total_hdrs_len =
+<<<<<<< HEAD
 			cpu_to_le16(skb_transport_offset(skb) +
 				    sizeof(struct udphdr));
+=======
+		    cpu_to_le16(skb_transport_offset(skb) +
+				sizeof(struct udphdr));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	*check = ~csum_tcpudp_magic(iph->saddr,
 				    iph->daddr, len, iph->protocol, 0);
@@ -2527,9 +3537,15 @@ static void qlge_hw_csum_setup(struct sk_buff *skb,
 
 static netdev_tx_t qlge_send(struct sk_buff *skb, struct net_device *ndev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	struct qlge_ob_mac_iocb_req *mac_iocb_ptr;
 	struct tx_ring_desc *tx_ring_desc;
+=======
+	struct tx_ring_desc *tx_ring_desc;
+	struct ob_mac_iocb_req *mac_iocb_ptr;
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int tso;
 	struct tx_ring *tx_ring;
 	u32 tx_ring_idx = (u32)skb->queue_mapping;
@@ -2567,28 +3583,48 @@ static netdev_tx_t qlge_send(struct sk_buff *skb, struct net_device *ndev)
 		mac_iocb_ptr->flags3 |= OB_MAC_IOCB_V;
 		mac_iocb_ptr->vlan_tci = cpu_to_le16(skb_vlan_tag_get(skb));
 	}
+<<<<<<< HEAD
 	tso = qlge_tso(skb, (struct qlge_ob_mac_tso_iocb_req *)mac_iocb_ptr);
+=======
+	tso = ql_tso(skb, (struct ob_mac_tso_iocb_req *)mac_iocb_ptr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tso < 0) {
 		dev_kfree_skb_any(skb);
 		return NETDEV_TX_OK;
 	} else if (unlikely(!tso) && (skb->ip_summed == CHECKSUM_PARTIAL)) {
+<<<<<<< HEAD
 		qlge_hw_csum_setup(skb,
 				   (struct qlge_ob_mac_tso_iocb_req *)mac_iocb_ptr);
 	}
 	if (qlge_map_send(qdev, mac_iocb_ptr, skb, tx_ring_desc) !=
 	    NETDEV_TX_OK) {
+=======
+		ql_hw_csum_setup(skb,
+				 (struct ob_mac_tso_iocb_req *)mac_iocb_ptr);
+	}
+	if (ql_map_send(qdev, mac_iocb_ptr, skb, tx_ring_desc) !=
+			NETDEV_TX_OK) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netif_err(qdev, tx_queued, qdev->ndev,
 			  "Could not map the segments.\n");
 		tx_ring->tx_errors++;
 		return NETDEV_TX_BUSY;
 	}
+<<<<<<< HEAD
 
+=======
+	QL_DUMP_OB_MAC_IOCB(qdev, mac_iocb_ptr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tx_ring->prod_idx++;
 	if (tx_ring->prod_idx == tx_ring->wq_len)
 		tx_ring->prod_idx = 0;
 	wmb();
 
+<<<<<<< HEAD
 	qlge_write_db_reg_relaxed(tx_ring->prod_idx, tx_ring->prod_idx_db_reg);
+=======
+	ql_write_db_reg_relaxed(tx_ring->prod_idx, tx_ring->prod_idx_db_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netif_printk(qdev, tx_queued, KERN_DEBUG, qdev->ndev,
 		     "tx queued, slot %d, len %d\n",
 		     tx_ring->prod_idx, skb->len);
@@ -2607,7 +3643,11 @@ static netdev_tx_t qlge_send(struct sk_buff *skb, struct net_device *ndev)
 	return NETDEV_TX_OK;
 }
 
+<<<<<<< HEAD
 static void qlge_free_shadow_space(struct qlge_adapter *qdev)
+=======
+static void ql_free_shadow_space(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (qdev->rx_ring_shadow_reg_area) {
 		dma_free_coherent(&qdev->pdev->dev,
@@ -2625,7 +3665,11 @@ static void qlge_free_shadow_space(struct qlge_adapter *qdev)
 	}
 }
 
+<<<<<<< HEAD
 static int qlge_alloc_shadow_space(struct qlge_adapter *qdev)
+=======
+static int ql_alloc_shadow_space(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	qdev->rx_ring_shadow_reg_area =
 		dma_alloc_coherent(&qdev->pdev->dev, PAGE_SIZE,
@@ -2654,11 +3698,19 @@ err_wqp_sh_area:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
 static void qlge_init_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring)
 {
 	struct tx_ring_desc *tx_ring_desc;
 	int i;
 	struct qlge_ob_mac_iocb_req *mac_iocb_ptr;
+=======
+static void ql_init_tx_ring(struct ql_adapter *qdev, struct tx_ring *tx_ring)
+{
+	struct tx_ring_desc *tx_ring_desc;
+	int i;
+	struct ob_mac_iocb_req *mac_iocb_ptr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mac_iocb_ptr = tx_ring->wq_base;
 	tx_ring_desc = tx_ring->q;
@@ -2672,8 +3724,13 @@ static void qlge_init_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring
 	atomic_set(&tx_ring->tx_count, tx_ring->wq_len);
 }
 
+<<<<<<< HEAD
 static void qlge_free_tx_resources(struct qlge_adapter *qdev,
 				   struct tx_ring *tx_ring)
+=======
+static void ql_free_tx_resources(struct ql_adapter *qdev,
+				 struct tx_ring *tx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (tx_ring->wq_base) {
 		dma_free_coherent(&qdev->pdev->dev, tx_ring->wq_size,
@@ -2684,20 +3741,34 @@ static void qlge_free_tx_resources(struct qlge_adapter *qdev,
 	tx_ring->q = NULL;
 }
 
+<<<<<<< HEAD
 static int qlge_alloc_tx_resources(struct qlge_adapter *qdev,
 				   struct tx_ring *tx_ring)
 {
 	tx_ring->wq_base =
 		dma_alloc_coherent(&qdev->pdev->dev, tx_ring->wq_size,
 				   &tx_ring->wq_base_dma, GFP_ATOMIC);
+=======
+static int ql_alloc_tx_resources(struct ql_adapter *qdev,
+				 struct tx_ring *tx_ring)
+{
+	tx_ring->wq_base =
+	    dma_alloc_coherent(&qdev->pdev->dev, tx_ring->wq_size,
+			       &tx_ring->wq_base_dma, GFP_ATOMIC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!tx_ring->wq_base ||
 	    tx_ring->wq_base_dma & WQ_ADDR_ALIGN)
 		goto pci_alloc_err;
 
 	tx_ring->q =
+<<<<<<< HEAD
 		kmalloc_array(tx_ring->wq_len, sizeof(struct tx_ring_desc),
 			      GFP_KERNEL);
+=======
+	    kmalloc_array(tx_ring->wq_len, sizeof(struct tx_ring_desc),
+			  GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!tx_ring->q)
 		goto err;
 
@@ -2711,19 +3782,31 @@ pci_alloc_err:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
 static void qlge_free_lbq_buffers(struct qlge_adapter *qdev, struct rx_ring *rx_ring)
+=======
+static void ql_free_lbq_buffers(struct ql_adapter *qdev, struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qlge_bq *lbq = &rx_ring->lbq;
 	unsigned int last_offset;
 
+<<<<<<< HEAD
 	last_offset = qlge_lbq_block_size(qdev) - qdev->lbq_buf_size;
+=======
+	last_offset = ql_lbq_block_size(qdev) - qdev->lbq_buf_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (lbq->next_to_clean != lbq->next_to_use) {
 		struct qlge_bq_desc *lbq_desc =
 			&lbq->queue[lbq->next_to_clean];
 
 		if (lbq_desc->p.pg_chunk.offset == last_offset)
 			dma_unmap_page(&qdev->pdev->dev, lbq_desc->dma_addr,
+<<<<<<< HEAD
 				       qlge_lbq_block_size(qdev),
+=======
+				       ql_lbq_block_size(qdev),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       DMA_FROM_DEVICE);
 		put_page(lbq_desc->p.pg_chunk.page);
 
@@ -2732,13 +3815,21 @@ static void qlge_free_lbq_buffers(struct qlge_adapter *qdev, struct rx_ring *rx_
 
 	if (rx_ring->master_chunk.page) {
 		dma_unmap_page(&qdev->pdev->dev, rx_ring->chunk_dma_addr,
+<<<<<<< HEAD
 			       qlge_lbq_block_size(qdev), DMA_FROM_DEVICE);
+=======
+			       ql_lbq_block_size(qdev), DMA_FROM_DEVICE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		put_page(rx_ring->master_chunk.page);
 		rx_ring->master_chunk.page = NULL;
 	}
 }
 
+<<<<<<< HEAD
 static void qlge_free_sbq_buffers(struct qlge_adapter *qdev, struct rx_ring *rx_ring)
+=======
+static void ql_free_sbq_buffers(struct ql_adapter *qdev, struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -2763,7 +3854,11 @@ static void qlge_free_sbq_buffers(struct qlge_adapter *qdev, struct rx_ring *rx_
 /* Free all large and small rx buffers associated
  * with the completion queues for this device.
  */
+<<<<<<< HEAD
 static void qlge_free_rx_buffers(struct qlge_adapter *qdev)
+=======
+static void ql_free_rx_buffers(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -2771,6 +3866,7 @@ static void qlge_free_rx_buffers(struct qlge_adapter *qdev)
 		struct rx_ring *rx_ring = &qdev->rx_ring[i];
 
 		if (rx_ring->lbq.queue)
+<<<<<<< HEAD
 			qlge_free_lbq_buffers(qdev, rx_ring);
 		if (rx_ring->sbq.queue)
 			qlge_free_sbq_buffers(qdev, rx_ring);
@@ -2778,18 +3874,36 @@ static void qlge_free_rx_buffers(struct qlge_adapter *qdev)
 }
 
 static void qlge_alloc_rx_buffers(struct qlge_adapter *qdev)
+=======
+			ql_free_lbq_buffers(qdev, rx_ring);
+		if (rx_ring->sbq.queue)
+			ql_free_sbq_buffers(qdev, rx_ring);
+	}
+}
+
+static void ql_alloc_rx_buffers(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
 	for (i = 0; i < qdev->rss_ring_count; i++)
+<<<<<<< HEAD
 		qlge_update_buffer_queues(&qdev->rx_ring[i], GFP_KERNEL,
 					  HZ / 2);
+=======
+		ql_update_buffer_queues(&qdev->rx_ring[i], GFP_KERNEL,
+					HZ / 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int qlge_init_bq(struct qlge_bq *bq)
 {
 	struct rx_ring *rx_ring = QLGE_BQ_CONTAINER(bq);
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = rx_ring->qdev;
+=======
+	struct ql_adapter *qdev = rx_ring->qdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct qlge_bq_desc *bq_desc;
 	__le64 *buf_ptr;
 	int i;
@@ -2819,8 +3933,13 @@ static int qlge_init_bq(struct qlge_bq *bq)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void qlge_free_rx_resources(struct qlge_adapter *qdev,
 				   struct rx_ring *rx_ring)
+=======
+static void ql_free_rx_resources(struct ql_adapter *qdev,
+				 struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Free the small buffer queue. */
 	if (rx_ring->sbq.base) {
@@ -2856,15 +3975,25 @@ static void qlge_free_rx_resources(struct qlge_adapter *qdev,
 /* Allocate queues and buffers for this completions queue based
  * on the values in the parameter structure.
  */
+<<<<<<< HEAD
 static int qlge_alloc_rx_resources(struct qlge_adapter *qdev,
 				   struct rx_ring *rx_ring)
+=======
+static int ql_alloc_rx_resources(struct ql_adapter *qdev,
+				 struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * Allocate the completion queue for this rx_ring.
 	 */
 	rx_ring->cq_base =
+<<<<<<< HEAD
 		dma_alloc_coherent(&qdev->pdev->dev, rx_ring->cq_size,
 				   &rx_ring->cq_base_dma, GFP_ATOMIC);
+=======
+	    dma_alloc_coherent(&qdev->pdev->dev, rx_ring->cq_size,
+			       &rx_ring->cq_base_dma, GFP_ATOMIC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!rx_ring->cq_base) {
 		netif_err(qdev, ifup, qdev->ndev, "rx_ring alloc failed.\n");
@@ -2873,14 +4002,22 @@ static int qlge_alloc_rx_resources(struct qlge_adapter *qdev,
 
 	if (rx_ring->cq_id < qdev->rss_ring_count &&
 	    (qlge_init_bq(&rx_ring->sbq) || qlge_init_bq(&rx_ring->lbq))) {
+<<<<<<< HEAD
 		qlge_free_rx_resources(qdev, rx_ring);
+=======
+		ql_free_rx_resources(qdev, rx_ring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 	}
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static void qlge_tx_ring_clean(struct qlge_adapter *qdev)
+=======
+static void ql_tx_ring_clean(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tx_ring *tx_ring;
 	struct tx_ring_desc *tx_ring_desc;
@@ -2899,8 +4036,13 @@ static void qlge_tx_ring_clean(struct qlge_adapter *qdev)
 					  "Freeing lost SKB %p, from queue %d, index %d.\n",
 					  tx_ring_desc->skb, j,
 					  tx_ring_desc->index);
+<<<<<<< HEAD
 				qlge_unmap_send(qdev, tx_ring_desc,
 						tx_ring_desc->map_cnt);
+=======
+				ql_unmap_send(qdev, tx_ring_desc,
+					      tx_ring_desc->map_cnt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dev_kfree_skb(tx_ring_desc->skb);
 				tx_ring_desc->skb = NULL;
 			}
@@ -2908,11 +4050,16 @@ static void qlge_tx_ring_clean(struct qlge_adapter *qdev)
 	}
 }
 
+<<<<<<< HEAD
 static void qlge_free_mem_resources(struct qlge_adapter *qdev)
+=======
+static void ql_free_mem_resources(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
 	for (i = 0; i < qdev->tx_ring_count; i++)
+<<<<<<< HEAD
 		qlge_free_tx_resources(qdev, &qdev->tx_ring[i]);
 	for (i = 0; i < qdev->rx_ring_count; i++)
 		qlge_free_rx_resources(qdev, &qdev->rx_ring[i]);
@@ -2920,15 +4067,32 @@ static void qlge_free_mem_resources(struct qlge_adapter *qdev)
 }
 
 static int qlge_alloc_mem_resources(struct qlge_adapter *qdev)
+=======
+		ql_free_tx_resources(qdev, &qdev->tx_ring[i]);
+	for (i = 0; i < qdev->rx_ring_count; i++)
+		ql_free_rx_resources(qdev, &qdev->rx_ring[i]);
+	ql_free_shadow_space(qdev);
+}
+
+static int ql_alloc_mem_resources(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
 	/* Allocate space for our shadow registers and such. */
+<<<<<<< HEAD
 	if (qlge_alloc_shadow_space(qdev))
 		return -ENOMEM;
 
 	for (i = 0; i < qdev->rx_ring_count; i++) {
 		if (qlge_alloc_rx_resources(qdev, &qdev->rx_ring[i]) != 0) {
+=======
+	if (ql_alloc_shadow_space(qdev))
+		return -ENOMEM;
+
+	for (i = 0; i < qdev->rx_ring_count; i++) {
+		if (ql_alloc_rx_resources(qdev, &qdev->rx_ring[i]) != 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			netif_err(qdev, ifup, qdev->ndev,
 				  "RX resource allocation failed.\n");
 			goto err_mem;
@@ -2936,7 +4100,11 @@ static int qlge_alloc_mem_resources(struct qlge_adapter *qdev)
 	}
 	/* Allocate tx queue resources */
 	for (i = 0; i < qdev->tx_ring_count; i++) {
+<<<<<<< HEAD
 		if (qlge_alloc_tx_resources(qdev, &qdev->tx_ring[i]) != 0) {
+=======
+		if (ql_alloc_tx_resources(qdev, &qdev->tx_ring[i]) != 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			netif_err(qdev, ifup, qdev->ndev,
 				  "TX resource allocation failed.\n");
 			goto err_mem;
@@ -2945,7 +4113,11 @@ static int qlge_alloc_mem_resources(struct qlge_adapter *qdev)
 	return 0;
 
 err_mem:
+<<<<<<< HEAD
 	qlge_free_mem_resources(qdev);
+=======
+	ql_free_mem_resources(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -ENOMEM;
 }
 
@@ -2953,7 +4125,11 @@ err_mem:
  * The control block is defined as
  * "Completion Queue Initialization Control Block", or cqicb.
  */
+<<<<<<< HEAD
 static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring)
+=======
+static int ql_start_rx_ring(struct ql_adapter *qdev, struct rx_ring *rx_ring)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cqicb *cqicb = &rx_ring->cqicb;
 	void *shadow_reg = qdev->rx_ring_shadow_reg_area +
@@ -2961,7 +4137,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 	u64 shadow_reg_dma = qdev->rx_ring_shadow_reg_dma +
 		(rx_ring->cq_id * RX_RING_SHADOW_SPACE);
 	void __iomem *doorbell_area =
+<<<<<<< HEAD
 		qdev->doorbell_area + (DB_PAGE_SIZE * (128 + rx_ring->cq_id));
+=======
+	    qdev->doorbell_area + (DB_PAGE_SIZE * (128 + rx_ring->cq_id));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 	u64 tmp;
 	__le64 *base_indirect_ptr;
@@ -3008,8 +4188,13 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 	 * Set up the control block load flags.
 	 */
 	cqicb->flags = FLAGS_LC |	/* Load queue base address */
+<<<<<<< HEAD
 		FLAGS_LV |		/* Load MSI-X vector */
 		FLAGS_LI;		/* Load irq delay values */
+=======
+	    FLAGS_LV |		/* Load MSI-X vector */
+	    FLAGS_LI;		/* Load irq delay values */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rx_ring->cq_id < qdev->rss_ring_count) {
 		cqicb->flags |= FLAGS_LL;	/* Load lbq values */
 		tmp = (u64)rx_ring->lbq.base_dma;
@@ -3039,7 +4224,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 			page_entries++;
 		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
 		cqicb->sbq_addr =
+<<<<<<< HEAD
 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+=======
+		    cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cqicb->sbq_buf_size = cpu_to_le16(SMALL_BUFFER_SIZE);
 		cqicb->sbq_len = cpu_to_le16(QLGE_FIT16(QLGE_BQ_LEN));
 		rx_ring->sbq.next_to_use = 0;
@@ -3049,7 +4238,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 		/* Inbound completion handling rx_rings run in
 		 * separate NAPI contexts.
 		 */
+<<<<<<< HEAD
 		netif_napi_add(qdev->ndev, &rx_ring->napi, qlge_napi_poll_msix,
+=======
+		netif_napi_add(qdev->ndev, &rx_ring->napi, ql_napi_poll_msix,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       64);
 		cqicb->irq_delay = cpu_to_le16(qdev->rx_coalesce_usecs);
 		cqicb->pkt_delay = cpu_to_le16(qdev->rx_max_coalesced_frames);
@@ -3057,8 +4250,13 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 		cqicb->irq_delay = cpu_to_le16(qdev->tx_coalesce_usecs);
 		cqicb->pkt_delay = cpu_to_le16(qdev->tx_max_coalesced_frames);
 	}
+<<<<<<< HEAD
 	err = qlge_write_cfg(qdev, cqicb, sizeof(struct cqicb),
 			     CFG_LCQ, rx_ring->cq_id);
+=======
+	err = ql_write_cfg(qdev, cqicb, sizeof(struct cqicb),
+			   CFG_LCQ, rx_ring->cq_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		netif_err(qdev, ifup, qdev->ndev, "Failed to load CQICB.\n");
 		return err;
@@ -3066,6 +4264,7 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
 	return err;
 }
 
+<<<<<<< HEAD
 static int qlge_start_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring)
 {
 	struct wqicb *wqicb = (struct wqicb *)tx_ring;
@@ -3075,6 +4274,17 @@ static int qlge_start_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring
 		(tx_ring->wq_id * sizeof(u64));
 	u64 shadow_reg_dma = qdev->tx_ring_shadow_reg_dma +
 		(tx_ring->wq_id * sizeof(u64));
+=======
+static int ql_start_tx_ring(struct ql_adapter *qdev, struct tx_ring *tx_ring)
+{
+	struct wqicb *wqicb = (struct wqicb *)tx_ring;
+	void __iomem *doorbell_area =
+	    qdev->doorbell_area + (DB_PAGE_SIZE * tx_ring->wq_id);
+	void *shadow_reg = qdev->tx_ring_shadow_reg_area +
+	    (tx_ring->wq_id * sizeof(u64));
+	u64 shadow_reg_dma = qdev->tx_ring_shadow_reg_dma +
+	    (tx_ring->wq_id * sizeof(u64));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 
 	/*
@@ -3101,10 +4311,17 @@ static int qlge_start_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring
 
 	wqicb->cnsmr_idx_addr = cpu_to_le64(tx_ring->cnsmr_idx_sh_reg_dma);
 
+<<<<<<< HEAD
 	qlge_init_tx_ring(qdev, tx_ring);
 
 	err = qlge_write_cfg(qdev, wqicb, sizeof(*wqicb), CFG_LRQ,
 			     (u16)tx_ring->wq_id);
+=======
+	ql_init_tx_ring(qdev, tx_ring);
+
+	err = ql_write_cfg(qdev, wqicb, sizeof(*wqicb), CFG_LRQ,
+			   (u16)tx_ring->wq_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		netif_err(qdev, ifup, qdev->ndev, "Failed to load tx_ring.\n");
 		return err;
@@ -3112,7 +4329,11 @@ static int qlge_start_tx_ring(struct qlge_adapter *qdev, struct tx_ring *tx_ring
 	return err;
 }
 
+<<<<<<< HEAD
 static void qlge_disable_msix(struct qlge_adapter *qdev)
+=======
+static void ql_disable_msix(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (test_bit(QL_MSIX_ENABLED, &qdev->flags)) {
 		pci_disable_msix(qdev->pdev);
@@ -3129,7 +4350,11 @@ static void qlge_disable_msix(struct qlge_adapter *qdev)
  * stored in qdev->intr_count. If we don't get that
  * many then we reduce the count and try again.
  */
+<<<<<<< HEAD
 static void qlge_enable_msix(struct qlge_adapter *qdev)
+=======
+static void ql_enable_msix(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i, err;
 
@@ -3182,7 +4407,11 @@ msi:
 		     "Running with legacy interrupts.\n");
 }
 
+<<<<<<< HEAD
 /* Each vector services 1 RSS ring and 1 or more
+=======
+/* Each vector services 1 RSS ring and and 1 or more
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * TX completion rings.  This function loops through
  * the TX completion rings and assigns the vector that
  * will service it.  An example would be if there are
@@ -3191,7 +4420,11 @@ msi:
  * and TX completion rings 0,1,2 and 3.  Vector 1 would
  * service RSS ring 1 and TX completion rings 4,5,6 and 7.
  */
+<<<<<<< HEAD
 static void qlge_set_tx_vect(struct qlge_adapter *qdev)
+=======
+static void ql_set_tx_vect(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i, j, vect;
 	u32 tx_rings_per_vector = qdev->tx_ring_count / qdev->intr_count;
@@ -3199,7 +4432,11 @@ static void qlge_set_tx_vect(struct qlge_adapter *qdev)
 	if (likely(test_bit(QL_MSIX_ENABLED, &qdev->flags))) {
 		/* Assign irq vectors to TX rx_rings.*/
 		for (vect = 0, j = 0, i = qdev->rss_ring_count;
+<<<<<<< HEAD
 		     i < qdev->rx_ring_count; i++) {
+=======
+					 i < qdev->rx_ring_count; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (j == tx_rings_per_vector) {
 				vect++;
 				j = 0;
@@ -3221,7 +4458,11 @@ static void qlge_set_tx_vect(struct qlge_adapter *qdev)
  * rings.  This function sets up a bit mask per vector
  * that indicates which rings it services.
  */
+<<<<<<< HEAD
 static void qlge_set_irq_mask(struct qlge_adapter *qdev, struct intr_context *ctx)
+=======
+static void ql_set_irq_mask(struct ql_adapter *qdev, struct intr_context *ctx)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int j, vect = ctx->intr;
 	u32 tx_rings_per_vector = qdev->tx_ring_count / qdev->intr_count;
@@ -3236,8 +4477,13 @@ static void qlge_set_irq_mask(struct qlge_adapter *qdev, struct intr_context *ct
 		 */
 		for (j = 0; j < tx_rings_per_vector; j++) {
 			ctx->irq_mask |=
+<<<<<<< HEAD
 				(1 << qdev->rx_ring[qdev->rss_ring_count +
 				 (vect * tx_rings_per_vector) + j].cq_id);
+=======
+			(1 << qdev->rx_ring[qdev->rss_ring_count +
+			(vect * tx_rings_per_vector) + j].cq_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		/* For single vector we just shift each queue's
@@ -3254,7 +4500,11 @@ static void qlge_set_irq_mask(struct qlge_adapter *qdev, struct intr_context *ct
  * The intr_context structure is used to hook each vector
  * to possibly different handlers.
  */
+<<<<<<< HEAD
 static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
+=======
+static void ql_resolve_queues_to_irqs(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i = 0;
 	struct intr_context *intr_context = &qdev->intr_context[0];
@@ -3271,12 +4521,17 @@ static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
 			/* Set up this vector's bit-mask that indicates
 			 * which queues it services.
 			 */
+<<<<<<< HEAD
 			qlge_set_irq_mask(qdev, intr_context);
+=======
+			ql_set_irq_mask(qdev, intr_context);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * We set up each vectors enable/disable/read bits so
 			 * there's no bit/mask calculations in the critical path.
 			 */
 			intr_context->intr_en_mask =
+<<<<<<< HEAD
 				INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
 				INTR_EN_TYPE_ENABLE | INTR_EN_IHD_MASK | INTR_EN_IHD
 				| i;
@@ -3288,6 +4543,19 @@ static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
 				INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
 				INTR_EN_TYPE_READ | INTR_EN_IHD_MASK | INTR_EN_IHD |
 				i;
+=======
+			    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
+			    INTR_EN_TYPE_ENABLE | INTR_EN_IHD_MASK | INTR_EN_IHD
+			    | i;
+			intr_context->intr_dis_mask =
+			    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
+			    INTR_EN_TYPE_DISABLE | INTR_EN_IHD_MASK |
+			    INTR_EN_IHD | i;
+			intr_context->intr_read_mask =
+			    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
+			    INTR_EN_TYPE_READ | INTR_EN_IHD_MASK | INTR_EN_IHD |
+			    i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (i == 0) {
 				/* The first vector/queue handles
 				 * broadcast/multicast, fatal errors,
@@ -3318,10 +4586,17 @@ static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
 		 * there's no bit/mask calculations in the critical path.
 		 */
 		intr_context->intr_en_mask =
+<<<<<<< HEAD
 			INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK | INTR_EN_TYPE_ENABLE;
 		intr_context->intr_dis_mask =
 			INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
 			INTR_EN_TYPE_DISABLE;
+=======
+		    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK | INTR_EN_TYPE_ENABLE;
+		intr_context->intr_dis_mask =
+		    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK |
+		    INTR_EN_TYPE_DISABLE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (test_bit(QL_LEGACY_ENABLED, &qdev->flags)) {
 			/* Experience shows that when using INTx interrupts,
 			 * the device does not always auto-mask INTR_EN_EN.
@@ -3333,7 +4608,11 @@ static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
 			intr_context->intr_dis_mask |= INTR_EN_EI << 16;
 		}
 		intr_context->intr_read_mask =
+<<<<<<< HEAD
 			INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK | INTR_EN_TYPE_READ;
+=======
+		    INTR_EN_TYPE_MASK | INTR_EN_INTR_MASK | INTR_EN_TYPE_READ;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Single interrupt means one handler for all rings.
 		 */
@@ -3344,15 +4623,26 @@ static void qlge_resolve_queues_to_irqs(struct qlge_adapter *qdev)
 		 * a single vector so it will service all RSS and
 		 * TX completion rings.
 		 */
+<<<<<<< HEAD
 		qlge_set_irq_mask(qdev, intr_context);
+=======
+		ql_set_irq_mask(qdev, intr_context);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	/* Tell the TX completion rings which MSIx vector
 	 * they will be using.
 	 */
+<<<<<<< HEAD
 	qlge_set_tx_vect(qdev);
 }
 
 static void qlge_free_irq(struct qlge_adapter *qdev)
+=======
+	ql_set_tx_vect(qdev);
+}
+
+static void ql_free_irq(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	struct intr_context *intr_context = &qdev->intr_context[0];
@@ -3367,17 +4657,28 @@ static void qlge_free_irq(struct qlge_adapter *qdev)
 			}
 		}
 	}
+<<<<<<< HEAD
 	qlge_disable_msix(qdev);
 }
 
 static int qlge_request_irq(struct qlge_adapter *qdev)
+=======
+	ql_disable_msix(qdev);
+}
+
+static int ql_request_irq(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	int status = 0;
 	struct pci_dev *pdev = qdev->pdev;
 	struct intr_context *intr_context = &qdev->intr_context[0];
 
+<<<<<<< HEAD
 	qlge_resolve_queues_to_irqs(qdev);
+=======
+	ql_resolve_queues_to_irqs(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < qdev->intr_count; i++, intr_context++) {
 		if (test_bit(QL_MSIX_ENABLED, &qdev->flags)) {
@@ -3404,11 +4705,19 @@ static int qlge_request_irq(struct qlge_adapter *qdev)
 				     "%s: dev_id = 0x%p.\n", __func__,
 				     &qdev->rx_ring[0]);
 			status =
+<<<<<<< HEAD
 				request_irq(pdev->irq, qlge_isr,
 					    test_bit(QL_MSI_ENABLED, &qdev->flags)
 					    ? 0
 					    : IRQF_SHARED,
 					    intr_context->name, &qdev->rx_ring[0]);
+=======
+			    request_irq(pdev->irq, qlge_isr,
+					test_bit(QL_MSI_ENABLED, &qdev->flags)
+						? 0
+						: IRQF_SHARED,
+					intr_context->name, &qdev->rx_ring[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (status)
 				goto err_irq;
 
@@ -3421,11 +4730,19 @@ static int qlge_request_irq(struct qlge_adapter *qdev)
 	return status;
 err_irq:
 	netif_err(qdev, ifup, qdev->ndev, "Failed to get the interrupts!!!\n");
+<<<<<<< HEAD
 	qlge_free_irq(qdev);
 	return status;
 }
 
 static int qlge_start_rss(struct qlge_adapter *qdev)
+=======
+	ql_free_irq(qdev);
+	return status;
+}
+
+static int ql_start_rss(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	static const u8 init_hash_seed[] = {
 		0x6d, 0x5a, 0x56, 0xda, 0x25, 0x5b, 0x0e, 0xc2,
@@ -3455,7 +4772,11 @@ static int qlge_start_rss(struct qlge_adapter *qdev)
 	memcpy((void *)&ricb->ipv6_hash_key[0], init_hash_seed, 40);
 	memcpy((void *)&ricb->ipv4_hash_key[0], init_hash_seed, 16);
 
+<<<<<<< HEAD
 	status = qlge_write_cfg(qdev, ricb, sizeof(*ricb), CFG_LR, 0);
+=======
+	status = ql_write_cfg(qdev, ricb, sizeof(*ricb), CFG_LR, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev, "Failed to load RICB.\n");
 		return status;
@@ -3463,32 +4784,53 @@ static int qlge_start_rss(struct qlge_adapter *qdev)
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_clear_routing_entries(struct qlge_adapter *qdev)
 {
 	int i, status = 0;
 
 	status = qlge_sem_spinlock(qdev, SEM_RT_IDX_MASK);
+=======
+static int ql_clear_routing_entries(struct ql_adapter *qdev)
+{
+	int i, status = 0;
+
+	status = ql_sem_spinlock(qdev, SEM_RT_IDX_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 	/* Clear all the entries in the routing table. */
 	for (i = 0; i < 16; i++) {
+<<<<<<< HEAD
 		status = qlge_set_routing_reg(qdev, i, 0, 0);
+=======
+		status = ql_set_routing_reg(qdev, i, 0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Failed to init routing register for CAM packets.\n");
 			break;
 		}
 	}
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_RT_IDX_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_RT_IDX_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return status;
 }
 
 /* Initialize the frame-to-queue routing. */
+<<<<<<< HEAD
 static int qlge_route_initialize(struct qlge_adapter *qdev)
+=======
+static int ql_route_initialize(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = 0;
 
 	/* Clear all the entries in the routing table. */
+<<<<<<< HEAD
 	status = qlge_clear_routing_entries(qdev);
 	if (status)
 		return status;
@@ -3499,19 +4841,40 @@ static int qlge_route_initialize(struct qlge_adapter *qdev)
 
 	status = qlge_set_routing_reg(qdev, RT_IDX_IP_CSUM_ERR_SLOT,
 				      RT_IDX_IP_CSUM_ERR, 1);
+=======
+	status = ql_clear_routing_entries(qdev);
+	if (status)
+		return status;
+
+	status = ql_sem_spinlock(qdev, SEM_RT_IDX_MASK);
+	if (status)
+		return status;
+
+	status = ql_set_routing_reg(qdev, RT_IDX_IP_CSUM_ERR_SLOT,
+				    RT_IDX_IP_CSUM_ERR, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init routing register for IP CSUM error packets.\n");
 		goto exit;
 	}
+<<<<<<< HEAD
 	status = qlge_set_routing_reg(qdev, RT_IDX_TCP_UDP_CSUM_ERR_SLOT,
 				      RT_IDX_TU_CSUM_ERR, 1);
+=======
+	status = ql_set_routing_reg(qdev, RT_IDX_TCP_UDP_CSUM_ERR_SLOT,
+				    RT_IDX_TU_CSUM_ERR, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init routing register for TCP/UDP CSUM error packets.\n");
 		goto exit;
 	}
+<<<<<<< HEAD
 	status = qlge_set_routing_reg(qdev, RT_IDX_BCAST_SLOT, RT_IDX_BCAST, 1);
+=======
+	status = ql_set_routing_reg(qdev, RT_IDX_BCAST_SLOT, RT_IDX_BCAST, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init routing register for broadcast packets.\n");
@@ -3521,8 +4884,13 @@ static int qlge_route_initialize(struct qlge_adapter *qdev)
 	 * routing block.
 	 */
 	if (qdev->rss_ring_count > 1) {
+<<<<<<< HEAD
 		status = qlge_set_routing_reg(qdev, RT_IDX_RSS_MATCH_SLOT,
 					      RT_IDX_RSS_MATCH, 1);
+=======
+		status = ql_set_routing_reg(qdev, RT_IDX_RSS_MATCH_SLOT,
+					    RT_IDX_RSS_MATCH, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Failed to init routing register for MATCH RSS packets.\n");
@@ -3530,17 +4898,30 @@ static int qlge_route_initialize(struct qlge_adapter *qdev)
 		}
 	}
 
+<<<<<<< HEAD
 	status = qlge_set_routing_reg(qdev, RT_IDX_CAM_HIT_SLOT,
 				      RT_IDX_CAM_HIT, 1);
+=======
+	status = ql_set_routing_reg(qdev, RT_IDX_CAM_HIT_SLOT,
+				    RT_IDX_CAM_HIT, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init routing register for CAM packets.\n");
 exit:
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_RT_IDX_MASK);
 	return status;
 }
 
 int qlge_cam_route_initialize(struct qlge_adapter *qdev)
+=======
+	ql_sem_unlock(qdev, SEM_RT_IDX_MASK);
+	return status;
+}
+
+int ql_cam_route_initialize(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status, set;
 
@@ -3548,22 +4929,36 @@ int qlge_cam_route_initialize(struct qlge_adapter *qdev)
 	 * determine if we are setting or clearing
 	 * the MAC address in the CAM.
 	 */
+<<<<<<< HEAD
 	set = qlge_read32(qdev, STS);
 	set &= qdev->port_link_up;
 	status = qlge_set_mac_addr(qdev, set);
+=======
+	set = ql_read32(qdev, STS);
+	set &= qdev->port_link_up;
+	status = ql_set_mac_addr(qdev, set);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev, "Failed to init mac address.\n");
 		return status;
 	}
 
+<<<<<<< HEAD
 	status = qlge_route_initialize(qdev);
+=======
+	status = ql_route_initialize(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		netif_err(qdev, ifup, qdev->ndev, "Failed to init routing table.\n");
 
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_adapter_initialize(struct qlge_adapter *qdev)
+=======
+static int ql_adapter_initialize(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 value, mask;
 	int i;
@@ -3574,7 +4969,11 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 	 */
 	value = SYS_EFE | SYS_FAE;
 	mask = value << 16;
+<<<<<<< HEAD
 	qlge_write32(qdev, SYS, mask | value);
+=======
+	ql_write32(qdev, SYS, mask | value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Set the default queue, and VLAN behavior. */
 	value = NIC_RCV_CFG_DFQ;
@@ -3583,6 +4982,7 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 		value |= NIC_RCV_CFG_RV;
 		mask |= (NIC_RCV_CFG_RV << 16);
 	}
+<<<<<<< HEAD
 	qlge_write32(qdev, NIC_RCV_CFG, (mask | value));
 
 	/* Set the MPI interrupt to enabled. */
@@ -3591,32 +4991,62 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 	/* Enable the function, set pagesize, enable error checking. */
 	value = FSC_FE | FSC_EPC_INBOUND | FSC_EPC_OUTBOUND |
 		FSC_EC | FSC_VM_PAGE_4K;
+=======
+	ql_write32(qdev, NIC_RCV_CFG, (mask | value));
+
+	/* Set the MPI interrupt to enabled. */
+	ql_write32(qdev, INTR_MASK, (INTR_MASK_PI << 16) | INTR_MASK_PI);
+
+	/* Enable the function, set pagesize, enable error checking. */
+	value = FSC_FE | FSC_EPC_INBOUND | FSC_EPC_OUTBOUND |
+	    FSC_EC | FSC_VM_PAGE_4K;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	value |= SPLT_SETTING;
 
 	/* Set/clear header splitting. */
 	mask = FSC_VM_PAGESIZE_MASK |
+<<<<<<< HEAD
 		FSC_DBL_MASK | FSC_DBRST_MASK | (value << 16);
 	qlge_write32(qdev, FSC, mask | value);
 
 	qlge_write32(qdev, SPLT_HDR, SPLT_LEN);
+=======
+	    FSC_DBL_MASK | FSC_DBRST_MASK | (value << 16);
+	ql_write32(qdev, FSC, mask | value);
+
+	ql_write32(qdev, SPLT_HDR, SPLT_LEN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Set RX packet routing to use port/pci function on which the
 	 * packet arrived on in addition to usual frame routing.
 	 * This is helpful on bonding where both interfaces can have
 	 * the same MAC address.
 	 */
+<<<<<<< HEAD
 	qlge_write32(qdev, RST_FO, RST_FO_RR_MASK | RST_FO_RR_RCV_FUNC_CQ);
+=======
+	ql_write32(qdev, RST_FO, RST_FO_RR_MASK | RST_FO_RR_RCV_FUNC_CQ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Reroute all packets to our Interface.
 	 * They may have been routed to MPI firmware
 	 * due to WOL.
 	 */
+<<<<<<< HEAD
 	value = qlge_read32(qdev, MGMT_RCV_CFG);
+=======
+	value = ql_read32(qdev, MGMT_RCV_CFG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	value &= ~MGMT_RCV_CFG_RM;
 	mask = 0xffff0000;
 
 	/* Sticky reg needs clearing due to WOL. */
+<<<<<<< HEAD
 	qlge_write32(qdev, MGMT_RCV_CFG, mask);
 	qlge_write32(qdev, MGMT_RCV_CFG, mask | value);
+=======
+	ql_write32(qdev, MGMT_RCV_CFG, mask);
+	ql_write32(qdev, MGMT_RCV_CFG, mask | value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Default WOL is enable on Mezz cards */
 	if (qdev->pdev->subsystem_device == 0x0068 ||
@@ -3625,7 +5055,11 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 
 	/* Start up the rx queues. */
 	for (i = 0; i < qdev->rx_ring_count; i++) {
+<<<<<<< HEAD
 		status = qlge_start_rx_ring(qdev, &qdev->rx_ring[i]);
+=======
+		status = ql_start_rx_ring(qdev, &qdev->rx_ring[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Failed to start rx ring[%d].\n", i);
@@ -3637,7 +5071,11 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 	 * then download a RICB to configure RSS.
 	 */
 	if (qdev->rss_ring_count > 1) {
+<<<<<<< HEAD
 		status = qlge_start_rss(qdev);
+=======
+		status = ql_start_rss(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev, "Failed to start RSS.\n");
 			return status;
@@ -3646,7 +5084,11 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 
 	/* Start up the tx queues. */
 	for (i = 0; i < qdev->tx_ring_count; i++) {
+<<<<<<< HEAD
 		status = qlge_start_tx_ring(qdev, &qdev->tx_ring[i]);
+=======
+		status = ql_start_tx_ring(qdev, &qdev->tx_ring[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifup, qdev->ndev,
 				  "Failed to start tx ring[%d].\n", i);
@@ -3660,7 +5102,11 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 		netif_err(qdev, ifup, qdev->ndev, "Failed to start port.\n");
 
 	/* Set up the MAC address and frame routing filter. */
+<<<<<<< HEAD
 	status = qlge_cam_route_initialize(qdev);
+=======
+	status = ql_cam_route_initialize(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Failed to init CAM/Routing tables.\n");
@@ -3675,14 +5121,22 @@ static int qlge_adapter_initialize(struct qlge_adapter *qdev)
 }
 
 /* Issue soft reset to chip. */
+<<<<<<< HEAD
 static int qlge_adapter_reset(struct qlge_adapter *qdev)
+=======
+static int ql_adapter_reset(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 value;
 	int status = 0;
 	unsigned long end_jiffies;
 
 	/* Clear all the entries in the routing table. */
+<<<<<<< HEAD
 	status = qlge_clear_routing_entries(qdev);
+=======
+	status = ql_clear_routing_entries(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev, "Failed to clear routing bits.\n");
 		return status;
@@ -3693,19 +5147,34 @@ static int qlge_adapter_reset(struct qlge_adapter *qdev)
 	 */
 	if (!test_bit(QL_ASIC_RECOVERY, &qdev->flags)) {
 		/* Stop management traffic. */
+<<<<<<< HEAD
 		qlge_mb_set_mgmnt_traffic_ctl(qdev, MB_SET_MPI_TFK_STOP);
 
 		/* Wait for the NIC and MGMNT FIFOs to empty. */
 		qlge_wait_fifo_empty(qdev);
+=======
+		ql_mb_set_mgmnt_traffic_ctl(qdev, MB_SET_MPI_TFK_STOP);
+
+		/* Wait for the NIC and MGMNT FIFOs to empty. */
+		ql_wait_fifo_empty(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		clear_bit(QL_ASIC_RECOVERY, &qdev->flags);
 	}
 
+<<<<<<< HEAD
 	qlge_write32(qdev, RST_FO, (RST_FO_FR << 16) | RST_FO_FR);
 
 	end_jiffies = jiffies + usecs_to_jiffies(30);
 	do {
 		value = qlge_read32(qdev, RST_FO);
+=======
+	ql_write32(qdev, RST_FO, (RST_FO_FR << 16) | RST_FO_FR);
+
+	end_jiffies = jiffies + usecs_to_jiffies(30);
+	do {
+		value = ql_read32(qdev, RST_FO);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((value & RST_FO_FR) == 0)
 			break;
 		cpu_relax();
@@ -3718,6 +5187,7 @@ static int qlge_adapter_reset(struct qlge_adapter *qdev)
 	}
 
 	/* Resume management traffic. */
+<<<<<<< HEAD
 	qlge_mb_set_mgmnt_traffic_ctl(qdev, MB_SET_MPI_TFK_RESUME);
 	return status;
 }
@@ -3725,6 +5195,15 @@ static int qlge_adapter_reset(struct qlge_adapter *qdev)
 static void qlge_display_dev_info(struct net_device *ndev)
 {
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
+=======
+	ql_mb_set_mgmnt_traffic_ctl(qdev, MB_SET_MPI_TFK_RESUME);
+	return status;
+}
+
+static void ql_display_dev_info(struct net_device *ndev)
+{
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netif_info(qdev, probe, qdev->ndev,
 		   "Function #%d, Port %d, NIC Roll %d, NIC Rev = %d, XG Roll = %d, XG Rev = %d.\n",
@@ -3738,7 +5217,11 @@ static void qlge_display_dev_info(struct net_device *ndev)
 		   "MAC address %pM\n", ndev->dev_addr);
 }
 
+<<<<<<< HEAD
 static int qlge_wol(struct qlge_adapter *qdev)
+=======
+static int ql_wol(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = 0;
 	u32 wol = MB_WOL_DISABLE;
@@ -3751,7 +5234,11 @@ static int qlge_wol(struct qlge_adapter *qdev)
 	 */
 
 	if (qdev->wol & (WAKE_ARP | WAKE_MAGICSECURE | WAKE_PHY | WAKE_UCAST |
+<<<<<<< HEAD
 			 WAKE_MCAST | WAKE_BCAST)) {
+=======
+			WAKE_MCAST | WAKE_BCAST)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netif_err(qdev, ifdown, qdev->ndev,
 			  "Unsupported WOL parameter. qdev->wol = 0x%x.\n",
 			  qdev->wol);
@@ -3759,7 +5246,11 @@ static int qlge_wol(struct qlge_adapter *qdev)
 	}
 
 	if (qdev->wol & WAKE_MAGIC) {
+<<<<<<< HEAD
 		status = qlge_mb_wol_set_magic(qdev, 1);
+=======
+		status = ql_mb_wol_set_magic(qdev, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status) {
 			netif_err(qdev, ifdown, qdev->ndev,
 				  "Failed to set magic packet on %s.\n",
@@ -3775,7 +5266,11 @@ static int qlge_wol(struct qlge_adapter *qdev)
 
 	if (qdev->wol) {
 		wol |= MB_WOL_MODE_ON;
+<<<<<<< HEAD
 		status = qlge_mb_wol_mode(qdev, wol);
+=======
+		status = ql_mb_wol_mode(qdev, wol);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netif_err(qdev, drv, qdev->ndev,
 			  "WOL %s (wol code 0x%x) on %s\n",
 			  (status == 0) ? "Successfully set" : "Failed",
@@ -3785,7 +5280,11 @@ static int qlge_wol(struct qlge_adapter *qdev)
 	return status;
 }
 
+<<<<<<< HEAD
 static void qlge_cancel_all_work_sync(struct qlge_adapter *qdev)
+=======
+static void ql_cancel_all_work_sync(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Don't kill the reset worker thread if we
 	 * are in the process of recovery.
@@ -3795,6 +5294,7 @@ static void qlge_cancel_all_work_sync(struct qlge_adapter *qdev)
 	cancel_delayed_work_sync(&qdev->mpi_reset_work);
 	cancel_delayed_work_sync(&qdev->mpi_work);
 	cancel_delayed_work_sync(&qdev->mpi_idc_work);
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&qdev->mpi_port_cfg_work);
 }
 
@@ -3805,12 +5305,26 @@ static int qlge_adapter_down(struct qlge_adapter *qdev)
 	qlge_link_off(qdev);
 
 	qlge_cancel_all_work_sync(qdev);
+=======
+	cancel_delayed_work_sync(&qdev->mpi_core_to_log);
+	cancel_delayed_work_sync(&qdev->mpi_port_cfg_work);
+}
+
+static int ql_adapter_down(struct ql_adapter *qdev)
+{
+	int i, status = 0;
+
+	ql_link_off(qdev);
+
+	ql_cancel_all_work_sync(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < qdev->rss_ring_count; i++)
 		napi_disable(&qdev->rx_ring[i].napi);
 
 	clear_bit(QL_ADAPTER_UP, &qdev->flags);
 
+<<<<<<< HEAD
 	qlge_disable_interrupts(qdev);
 
 	qlge_tx_ring_clean(qdev);
@@ -3825,20 +5339,45 @@ static int qlge_adapter_down(struct qlge_adapter *qdev)
 		netif_err(qdev, ifdown, qdev->ndev, "reset(func #%d) FAILED!\n",
 			  qdev->func);
 	qlge_free_rx_buffers(qdev);
+=======
+	ql_disable_interrupts(qdev);
+
+	ql_tx_ring_clean(qdev);
+
+	/* Call netif_napi_del() from common point.
+	 */
+	for (i = 0; i < qdev->rss_ring_count; i++)
+		netif_napi_del(&qdev->rx_ring[i].napi);
+
+	status = ql_adapter_reset(qdev);
+	if (status)
+		netif_err(qdev, ifdown, qdev->ndev, "reset(func #%d) FAILED!\n",
+			  qdev->func);
+	ql_free_rx_buffers(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_adapter_up(struct qlge_adapter *qdev)
 {
 	int err = 0;
 
 	err = qlge_adapter_initialize(qdev);
+=======
+static int ql_adapter_up(struct ql_adapter *qdev)
+{
+	int err = 0;
+
+	err = ql_adapter_initialize(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		netif_info(qdev, ifup, qdev->ndev, "Unable to initialize adapter.\n");
 		goto err_init;
 	}
 	set_bit(QL_ADAPTER_UP, &qdev->flags);
+<<<<<<< HEAD
 	qlge_alloc_rx_buffers(qdev);
 	/* If the port is initialized and the
 	 * link is up the turn on the carrier.
@@ -3846,6 +5385,15 @@ static int qlge_adapter_up(struct qlge_adapter *qdev)
 	if ((qlge_read32(qdev, STS) & qdev->port_init) &&
 	    (qlge_read32(qdev, STS) & qdev->port_link_up))
 		qlge_link_on(qdev);
+=======
+	ql_alloc_rx_buffers(qdev);
+	/* If the port is initialized and the
+	 * link is up the turn on the carrier.
+	 */
+	if ((ql_read32(qdev, STS) & qdev->port_init) &&
+	    (ql_read32(qdev, STS) & qdev->port_link_up))
+		ql_link_on(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Restore rx mode. */
 	clear_bit(QL_ALLMULTI, &qdev->flags);
 	clear_bit(QL_PROMISCUOUS, &qdev->flags);
@@ -3854,12 +5402,18 @@ static int qlge_adapter_up(struct qlge_adapter *qdev)
 	/* Restore vlan setting. */
 	qlge_restore_vlan(qdev);
 
+<<<<<<< HEAD
 	qlge_enable_interrupts(qdev);
 	qlge_enable_all_completion_interrupts(qdev);
+=======
+	ql_enable_interrupts(qdev);
+	ql_enable_all_completion_interrupts(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netif_tx_start_all_queues(qdev->ndev);
 
 	return 0;
 err_init:
+<<<<<<< HEAD
 	qlge_adapter_reset(qdev);
 	return err;
 }
@@ -3877,11 +5431,34 @@ static int qlge_get_adapter_resources(struct qlge_adapter *qdev)
 		return -ENOMEM;
 	}
 	return qlge_request_irq(qdev);
+=======
+	ql_adapter_reset(qdev);
+	return err;
+}
+
+static void ql_release_adapter_resources(struct ql_adapter *qdev)
+{
+	ql_free_mem_resources(qdev);
+	ql_free_irq(qdev);
+}
+
+static int ql_get_adapter_resources(struct ql_adapter *qdev)
+{
+	if (ql_alloc_mem_resources(qdev)) {
+		netif_err(qdev, ifup, qdev->ndev, "Unable to  allocate memory.\n");
+		return -ENOMEM;
+	}
+	return ql_request_irq(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int qlge_close(struct net_device *ndev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	/* If we hit pci_channel_io_perm_failure
@@ -3905,12 +5482,21 @@ static int qlge_close(struct net_device *ndev)
 	for (i = 0; i < qdev->rss_ring_count; i++)
 		cancel_delayed_work_sync(&qdev->rx_ring[i].refill_work);
 
+<<<<<<< HEAD
 	qlge_adapter_down(qdev);
 	qlge_release_adapter_resources(qdev);
 	return 0;
 }
 
 static void qlge_set_lb_size(struct qlge_adapter *qdev)
+=======
+	ql_adapter_down(qdev);
+	ql_release_adapter_resources(qdev);
+	return 0;
+}
+
+static void qlge_set_lb_size(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (qdev->ndev->mtu <= 1500)
 		qdev->lbq_buf_size = LARGE_BUFFER_MIN_SIZE;
@@ -3919,22 +5505,38 @@ static void qlge_set_lb_size(struct qlge_adapter *qdev)
 	qdev->lbq_buf_order = get_order(qdev->lbq_buf_size);
 }
 
+<<<<<<< HEAD
 static int qlge_configure_rings(struct qlge_adapter *qdev)
+=======
+static int ql_configure_rings(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	struct rx_ring *rx_ring;
 	struct tx_ring *tx_ring;
+<<<<<<< HEAD
 	int cpu_cnt = min_t(int, MAX_CPUS, num_online_cpus());
 
 	/* In a perfect world we have one RSS ring for each CPU
 	 * and each has it's own vector.  To do that we ask for
 	 * cpu_cnt vectors.  qlge_enable_msix() will adjust the
+=======
+	int cpu_cnt = min(MAX_CPUS, (int)num_online_cpus());
+
+	/* In a perfect world we have one RSS ring for each CPU
+	 * and each has it's own vector.  To do that we ask for
+	 * cpu_cnt vectors.  ql_enable_msix() will adjust the
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * vector count to what we actually get.  We then
 	 * allocate an RSS ring for each.
 	 * Essentially, we are doing min(cpu_count, msix_vector_count).
 	 */
 	qdev->intr_count = cpu_cnt;
+<<<<<<< HEAD
 	qlge_enable_msix(qdev);
+=======
+	ql_enable_msix(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Adjust the RSS ring count to the actual vector count. */
 	qdev->rss_ring_count = qdev->intr_count;
 	qdev->tx_ring_count = cpu_cnt;
@@ -3947,7 +5549,11 @@ static int qlge_configure_rings(struct qlge_adapter *qdev)
 		tx_ring->wq_id = i;
 		tx_ring->wq_len = qdev->tx_ring_size;
 		tx_ring->wq_size =
+<<<<<<< HEAD
 			tx_ring->wq_len * sizeof(struct qlge_ob_mac_iocb_req);
+=======
+		    tx_ring->wq_len * sizeof(struct ob_mac_iocb_req);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * The completion queue ID for the tx rings start
@@ -3968,7 +5574,11 @@ static int qlge_configure_rings(struct qlge_adapter *qdev)
 			 */
 			rx_ring->cq_len = qdev->rx_ring_size;
 			rx_ring->cq_size =
+<<<<<<< HEAD
 				rx_ring->cq_len * sizeof(struct qlge_net_rsp_iocb);
+=======
+			    rx_ring->cq_len * sizeof(struct ql_net_rsp_iocb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rx_ring->lbq.type = QLGE_LB;
 			rx_ring->sbq.type = QLGE_SB;
 			INIT_DELAYED_WORK(&rx_ring->refill_work,
@@ -3980,7 +5590,11 @@ static int qlge_configure_rings(struct qlge_adapter *qdev)
 			/* outbound cq is same size as tx_ring it services. */
 			rx_ring->cq_len = qdev->tx_ring_size;
 			rx_ring->cq_size =
+<<<<<<< HEAD
 				rx_ring->cq_len * sizeof(struct qlge_net_rsp_iocb);
+=======
+			    rx_ring->cq_len * sizeof(struct ql_net_rsp_iocb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	return 0;
@@ -3988,14 +5602,22 @@ static int qlge_configure_rings(struct qlge_adapter *qdev)
 
 static int qlge_open(struct net_device *ndev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	int err = 0;
 
 	err = qlge_adapter_reset(qdev);
+=======
+	int err = 0;
+	struct ql_adapter *qdev = netdev_priv(ndev);
+
+	err = ql_adapter_reset(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
 	qlge_set_lb_size(qdev);
+<<<<<<< HEAD
 	err = qlge_configure_rings(qdev);
 	if (err)
 		return err;
@@ -4005,17 +5627,36 @@ static int qlge_open(struct net_device *ndev)
 		goto error_up;
 
 	err = qlge_adapter_up(qdev);
+=======
+	err = ql_configure_rings(qdev);
+	if (err)
+		return err;
+
+	err = ql_get_adapter_resources(qdev);
+	if (err)
+		goto error_up;
+
+	err = ql_adapter_up(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto error_up;
 
 	return err;
 
 error_up:
+<<<<<<< HEAD
 	qlge_release_adapter_resources(qdev);
 	return err;
 }
 
 static int qlge_change_rx_buffers(struct qlge_adapter *qdev)
+=======
+	ql_release_adapter_resources(qdev);
+	return err;
+}
+
+static int ql_change_rx_buffers(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status;
 
@@ -4036,13 +5677,21 @@ static int qlge_change_rx_buffers(struct qlge_adapter *qdev)
 		}
 	}
 
+<<<<<<< HEAD
 	status = qlge_adapter_down(qdev);
+=======
+	status = ql_adapter_down(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto error;
 
 	qlge_set_lb_size(qdev);
 
+<<<<<<< HEAD
 	status = qlge_adapter_up(qdev);
+=======
+	status = ql_adapter_up(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto error;
 
@@ -4057,7 +5706,11 @@ error:
 
 static int qlge_change_mtu(struct net_device *ndev, int new_mtu)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int status;
 
 	if (ndev->mtu == 1500 && new_mtu == 9000)
@@ -4075,7 +5728,11 @@ static int qlge_change_mtu(struct net_device *ndev, int new_mtu)
 	if (!netif_running(qdev->ndev))
 		return 0;
 
+<<<<<<< HEAD
 	status = qlge_change_rx_buffers(qdev);
+=======
+	status = ql_change_rx_buffers(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status) {
 		netif_err(qdev, ifup, qdev->ndev,
 			  "Changing MTU failed.\n");
@@ -4087,7 +5744,11 @@ static int qlge_change_mtu(struct net_device *ndev, int new_mtu)
 static struct net_device_stats *qlge_get_stats(struct net_device
 					       *ndev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rx_ring *rx_ring = &qdev->rx_ring[0];
 	struct tx_ring *tx_ring = &qdev->tx_ring[0];
 	unsigned long pkts, mcast, dropped, errors, bytes;
@@ -4123,11 +5784,19 @@ static struct net_device_stats *qlge_get_stats(struct net_device
 
 static void qlge_set_multicast_list(struct net_device *ndev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	struct netdev_hw_addr *ha;
 	int i, status;
 
 	status = qlge_sem_spinlock(qdev, SEM_RT_IDX_MASK);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	struct netdev_hw_addr *ha;
+	int i, status;
+
+	status = ql_sem_spinlock(qdev, SEM_RT_IDX_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return;
 	/*
@@ -4136,7 +5805,11 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 	 */
 	if (ndev->flags & IFF_PROMISC) {
 		if (!test_bit(QL_PROMISCUOUS, &qdev->flags)) {
+<<<<<<< HEAD
 			if (qlge_set_routing_reg
+=======
+			if (ql_set_routing_reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    (qdev, RT_IDX_PROMISCUOUS_SLOT, RT_IDX_VALID, 1)) {
 				netif_err(qdev, hw, qdev->ndev,
 					  "Failed to set promiscuous mode.\n");
@@ -4146,7 +5819,11 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 		}
 	} else {
 		if (test_bit(QL_PROMISCUOUS, &qdev->flags)) {
+<<<<<<< HEAD
 			if (qlge_set_routing_reg
+=======
+			if (ql_set_routing_reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    (qdev, RT_IDX_PROMISCUOUS_SLOT, RT_IDX_VALID, 0)) {
 				netif_err(qdev, hw, qdev->ndev,
 					  "Failed to clear promiscuous mode.\n");
@@ -4163,7 +5840,11 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 	if ((ndev->flags & IFF_ALLMULTI) ||
 	    (netdev_mc_count(ndev) > MAX_MULTICAST_ENTRIES)) {
 		if (!test_bit(QL_ALLMULTI, &qdev->flags)) {
+<<<<<<< HEAD
 			if (qlge_set_routing_reg
+=======
+			if (ql_set_routing_reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    (qdev, RT_IDX_ALLMULTI_SLOT, RT_IDX_MCAST, 1)) {
 				netif_err(qdev, hw, qdev->ndev,
 					  "Failed to set all-multi mode.\n");
@@ -4173,7 +5854,11 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 		}
 	} else {
 		if (test_bit(QL_ALLMULTI, &qdev->flags)) {
+<<<<<<< HEAD
 			if (qlge_set_routing_reg
+=======
+			if (ql_set_routing_reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    (qdev, RT_IDX_ALLMULTI_SLOT, RT_IDX_MCAST, 0)) {
 				netif_err(qdev, hw, qdev->ndev,
 					  "Failed to clear all-multi mode.\n");
@@ -4184,22 +5869,39 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 	}
 
 	if (!netdev_mc_empty(ndev)) {
+<<<<<<< HEAD
 		status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+		status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status)
 			goto exit;
 		i = 0;
 		netdev_for_each_mc_addr(ha, ndev) {
+<<<<<<< HEAD
 			if (qlge_set_mac_addr_reg(qdev, (u8 *)ha->addr,
 						  MAC_ADDR_TYPE_MULTI_MAC, i)) {
 				netif_err(qdev, hw, qdev->ndev,
 					  "Failed to loadmulticast address.\n");
 				qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+			if (ql_set_mac_addr_reg(qdev, (u8 *)ha->addr,
+						MAC_ADDR_TYPE_MULTI_MAC, i)) {
+				netif_err(qdev, hw, qdev->ndev,
+					  "Failed to loadmulticast address.\n");
+				ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto exit;
 			}
 			i++;
 		}
+<<<<<<< HEAD
 		qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
 		if (qlge_set_routing_reg
+=======
+		ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+		if (ql_set_routing_reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    (qdev, RT_IDX_MCAST_MATCH_SLOT, RT_IDX_MCAST_MATCH, 1)) {
 			netif_err(qdev, hw, qdev->ndev,
 				  "Failed to set multicast match mode.\n");
@@ -4208,12 +5910,20 @@ static void qlge_set_multicast_list(struct net_device *ndev)
 		}
 	}
 exit:
+<<<<<<< HEAD
 	qlge_sem_unlock(qdev, SEM_RT_IDX_MASK);
+=======
+	ql_sem_unlock(qdev, SEM_RT_IDX_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int qlge_set_mac_address(struct net_device *ndev, void *p)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sockaddr *addr = p;
 	int status;
 
@@ -4223,6 +5933,7 @@ static int qlge_set_mac_address(struct net_device *ndev, void *p)
 	/* Update local copy of current mac address. */
 	memcpy(qdev->current_mac_addr, ndev->dev_addr, ndev->addr_len);
 
+<<<<<<< HEAD
 	status = qlge_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
 	if (status)
 		return status;
@@ -4232,11 +5943,23 @@ static int qlge_set_mac_address(struct net_device *ndev, void *p)
 	if (status)
 		netif_err(qdev, hw, qdev->ndev, "Failed to load MAC address.\n");
 	qlge_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+=======
+	status = ql_sem_spinlock(qdev, SEM_MAC_ADDR_MASK);
+	if (status)
+		return status;
+	status = ql_set_mac_addr_reg(qdev, (u8 *)ndev->dev_addr,
+				     MAC_ADDR_TYPE_CAM_MAC,
+				     qdev->func * MAX_CQ);
+	if (status)
+		netif_err(qdev, hw, qdev->ndev, "Failed to load MAC address.\n");
+	ql_sem_unlock(qdev, SEM_MAC_ADDR_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return status;
 }
 
 static void qlge_tx_timeout(struct net_device *ndev, unsigned int txqueue)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 
 	qlge_queue_asic_error(qdev);
@@ -4254,6 +5977,25 @@ static void qlge_asic_reset_work(struct work_struct *work)
 		goto error;
 
 	status = qlge_adapter_up(qdev);
+=======
+	struct ql_adapter *qdev = netdev_priv(ndev);
+
+	ql_queue_asic_error(qdev);
+}
+
+static void ql_asic_reset_work(struct work_struct *work)
+{
+	struct ql_adapter *qdev =
+	    container_of(work, struct ql_adapter, asic_reset_work.work);
+	int status;
+
+	rtnl_lock();
+	status = ql_adapter_down(qdev);
+	if (status)
+		goto error;
+
+	status = ql_adapter_up(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto error;
 
@@ -4274,6 +6016,7 @@ error:
 }
 
 static const struct nic_operations qla8012_nic_ops = {
+<<<<<<< HEAD
 	.get_flash		= qlge_get_8012_flash_params,
 	.port_initialize	= qlge_8012_port_initialize,
 };
@@ -4281,6 +6024,15 @@ static const struct nic_operations qla8012_nic_ops = {
 static const struct nic_operations qla8000_nic_ops = {
 	.get_flash		= qlge_get_8000_flash_params,
 	.port_initialize	= qlge_8000_port_initialize,
+=======
+	.get_flash		= ql_get_8012_flash_params,
+	.port_initialize	= ql_8012_port_initialize,
+};
+
+static const struct nic_operations qla8000_nic_ops = {
+	.get_flash		= ql_get_8000_flash_params,
+	.port_initialize	= ql_8000_port_initialize,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Find the pcie function number for the other NIC
@@ -4290,21 +6042,36 @@ static const struct nic_operations qla8000_nic_ops = {
  * after a fatal firmware error, or doing a firmware
  * coredump.
  */
+<<<<<<< HEAD
 static int qlge_get_alt_pcie_func(struct qlge_adapter *qdev)
+=======
+static int ql_get_alt_pcie_func(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status = 0;
 	u32 temp;
 	u32 nic_func1, nic_func2;
 
+<<<<<<< HEAD
 	status = qlge_read_mpi_reg(qdev, MPI_TEST_FUNC_PORT_CFG,
 				   &temp);
+=======
+	status = ql_read_mpi_reg(qdev, MPI_TEST_FUNC_PORT_CFG,
+				 &temp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 
 	nic_func1 = ((temp >> MPI_TEST_NIC1_FUNC_SHIFT) &
+<<<<<<< HEAD
 		     MPI_TEST_NIC_FUNC_MASK);
 	nic_func2 = ((temp >> MPI_TEST_NIC2_FUNC_SHIFT) &
 		     MPI_TEST_NIC_FUNC_MASK);
+=======
+			MPI_TEST_NIC_FUNC_MASK);
+	nic_func2 = ((temp >> MPI_TEST_NIC2_FUNC_SHIFT) &
+			MPI_TEST_NIC_FUNC_MASK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (qdev->func == nic_func1)
 		qdev->alt_func = nic_func2;
@@ -4316,16 +6083,28 @@ static int qlge_get_alt_pcie_func(struct qlge_adapter *qdev)
 	return status;
 }
 
+<<<<<<< HEAD
 static int qlge_get_board_info(struct qlge_adapter *qdev)
+=======
+static int ql_get_board_info(struct ql_adapter *qdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int status;
 
 	qdev->func =
+<<<<<<< HEAD
 		(qlge_read32(qdev, STS) & STS_FUNC_ID_MASK) >> STS_FUNC_ID_SHIFT;
 	if (qdev->func > 3)
 		return -EIO;
 
 	status = qlge_get_alt_pcie_func(qdev);
+=======
+	    (ql_read32(qdev, STS) & STS_FUNC_ID_MASK) >> STS_FUNC_ID_SHIFT;
+	if (qdev->func > 3)
+		return -EIO;
+
+	status = ql_get_alt_pcie_func(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 
@@ -4343,7 +6122,11 @@ static int qlge_get_board_info(struct qlge_adapter *qdev)
 		qdev->mailbox_in = PROC_ADDR_MPI_RISC | PROC_ADDR_FUNC0_MBI;
 		qdev->mailbox_out = PROC_ADDR_MPI_RISC | PROC_ADDR_FUNC0_MBO;
 	}
+<<<<<<< HEAD
 	qdev->chip_rev_id = qlge_read32(qdev, REV_ID);
+=======
+	qdev->chip_rev_id = ql_read32(qdev, REV_ID);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qdev->device_id = qdev->pdev->device;
 	if (qdev->device_id == QLGE_DEVICE_ID_8012)
 		qdev->nic_ops = &qla8012_nic_ops;
@@ -4352,9 +6135,16 @@ static int qlge_get_board_info(struct qlge_adapter *qdev)
 	return status;
 }
 
+<<<<<<< HEAD
 static void qlge_release_all(struct pci_dev *pdev)
 {
 	struct qlge_adapter *qdev = pci_get_drvdata(pdev);
+=======
+static void ql_release_all(struct pci_dev *pdev)
+{
+	struct net_device *ndev = pci_get_drvdata(pdev);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (qdev->workqueue) {
 		destroy_workqueue(qdev->workqueue);
@@ -4369,32 +6159,56 @@ static void qlge_release_all(struct pci_dev *pdev)
 	pci_release_regions(pdev);
 }
 
+<<<<<<< HEAD
 static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 			    int cards_found)
 {
 	struct net_device *ndev = qdev->ndev;
 	int err = 0;
 
+=======
+static int ql_init_device(struct pci_dev *pdev, struct net_device *ndev,
+			  int cards_found)
+{
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int err = 0;
+
+	memset((void *)qdev, 0, sizeof(*qdev));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = pci_enable_device(pdev);
 	if (err) {
 		dev_err(&pdev->dev, "PCI device enable failed.\n");
 		return err;
 	}
 
+<<<<<<< HEAD
 	qdev->pdev = pdev;
 	pci_set_drvdata(pdev, qdev);
+=======
+	qdev->ndev = ndev;
+	qdev->pdev = pdev;
+	pci_set_drvdata(pdev, ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Set PCIe read request size */
 	err = pcie_set_readrq(pdev, 4096);
 	if (err) {
 		dev_err(&pdev->dev, "Set readrq failed.\n");
+<<<<<<< HEAD
 		goto err_disable_pci;
+=======
+		goto err_out1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	err = pci_request_regions(pdev, DRV_NAME);
 	if (err) {
 		dev_err(&pdev->dev, "PCI region request failed.\n");
+<<<<<<< HEAD
 		goto err_disable_pci;
+=======
+		return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	pci_set_master(pdev);
@@ -4410,7 +6224,11 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 
 	if (err) {
 		dev_err(&pdev->dev, "No usable DMA configuration.\n");
+<<<<<<< HEAD
 		goto err_release_pci;
+=======
+		goto err_out2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Set PCIe reset type for EEH to fundamental. */
@@ -4421,7 +6239,11 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 	if (!qdev->reg_base) {
 		dev_err(&pdev->dev, "Register mapping failed.\n");
 		err = -ENOMEM;
+<<<<<<< HEAD
 		goto err_release_pci;
+=======
+		goto err_out2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	qdev->doorbell_area_size = pci_resource_len(pdev, 3);
@@ -4430,6 +6252,7 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 	if (!qdev->doorbell_area) {
 		dev_err(&pdev->dev, "Doorbell register mapping failed.\n");
 		err = -ENOMEM;
+<<<<<<< HEAD
 		goto err_iounmap_base;
 	}
 
@@ -4438,16 +6261,33 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 		dev_err(&pdev->dev, "Register access failed.\n");
 		err = -EIO;
 		goto err_iounmap_doorbell;
+=======
+		goto err_out2;
+	}
+
+	err = ql_get_board_info(qdev);
+	if (err) {
+		dev_err(&pdev->dev, "Register access failed.\n");
+		err = -EIO;
+		goto err_out2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	qdev->msg_enable = netif_msg_init(debug, default_msg);
 	spin_lock_init(&qdev->stats_lock);
 
 	if (qlge_mpi_coredump) {
 		qdev->mpi_coredump =
+<<<<<<< HEAD
 			vmalloc(sizeof(struct qlge_mpi_coredump));
 		if (!qdev->mpi_coredump) {
 			err = -ENOMEM;
 			goto err_iounmap_doorbell;
+=======
+			vmalloc(sizeof(struct ql_mpi_coredump));
+		if (!qdev->mpi_coredump) {
+			err = -ENOMEM;
+			goto err_out2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		if (qlge_force_coredump)
 			set_bit(QL_FRC_COREDUMP, &qdev->flags);
@@ -4456,7 +6296,11 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 	err = qdev->nic_ops->get_flash(qdev);
 	if (err) {
 		dev_err(&pdev->dev, "Invalid FLASH.\n");
+<<<<<<< HEAD
 		goto err_free_mpi_coredump;
+=======
+		goto err_out2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Keep local copy of current mac address. */
@@ -4479,6 +6323,7 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 						  ndev->name);
 	if (!qdev->workqueue) {
 		err = -ENOMEM;
+<<<<<<< HEAD
 		goto err_free_mpi_coredump;
 	}
 
@@ -4487,6 +6332,17 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 	INIT_DELAYED_WORK(&qdev->mpi_work, qlge_mpi_work);
 	INIT_DELAYED_WORK(&qdev->mpi_port_cfg_work, qlge_mpi_port_cfg_work);
 	INIT_DELAYED_WORK(&qdev->mpi_idc_work, qlge_mpi_idc_work);
+=======
+		goto err_out2;
+	}
+
+	INIT_DELAYED_WORK(&qdev->asic_reset_work, ql_asic_reset_work);
+	INIT_DELAYED_WORK(&qdev->mpi_reset_work, ql_mpi_reset_work);
+	INIT_DELAYED_WORK(&qdev->mpi_work, ql_mpi_work);
+	INIT_DELAYED_WORK(&qdev->mpi_port_cfg_work, ql_mpi_port_cfg_work);
+	INIT_DELAYED_WORK(&qdev->mpi_idc_work, ql_mpi_idc_work);
+	INIT_DELAYED_WORK(&qdev->mpi_core_to_log, ql_mpi_core_to_log);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_completion(&qdev->ide_completion);
 	mutex_init(&qdev->mpi_mutex);
 
@@ -4496,6 +6352,7 @@ static int qlge_init_device(struct pci_dev *pdev, struct qlge_adapter *qdev,
 			 DRV_NAME, DRV_VERSION);
 	}
 	return 0;
+<<<<<<< HEAD
 
 err_free_mpi_coredump:
 	vfree(qdev->mpi_coredump);
@@ -4508,6 +6365,12 @@ err_release_pci:
 err_disable_pci:
 	pci_disable_device(pdev);
 
+=======
+err_out2:
+	ql_release_all(pdev);
+err_out1:
+	pci_disable_device(pdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -4526,12 +6389,21 @@ static const struct net_device_ops qlge_netdev_ops = {
 	.ndo_vlan_rx_kill_vid	= qlge_vlan_rx_kill_vid,
 };
 
+<<<<<<< HEAD
 static void qlge_timer(struct timer_list *t)
 {
 	struct qlge_adapter *qdev = from_timer(qdev, t, timer);
 	u32 var = 0;
 
 	var = qlge_read32(qdev, STS);
+=======
+static void ql_timer(struct timer_list *t)
+{
+	struct ql_adapter *qdev = from_timer(qdev, t, timer);
+	u32 var = 0;
+
+	var = ql_read32(qdev, STS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pci_channel_offline(qdev->pdev)) {
 		netif_err(qdev, ifup, qdev->ndev, "EEH STS = 0x%.08x.\n", var);
 		return;
@@ -4540,6 +6412,7 @@ static void qlge_timer(struct timer_list *t)
 	mod_timer(&qdev->timer, jiffies + (5 * HZ));
 }
 
+<<<<<<< HEAD
 static const struct devlink_ops qlge_devlink_ops;
 
 static int qlge_probe(struct pci_dev *pdev,
@@ -4583,6 +6456,38 @@ static int qlge_probe(struct pci_dev *pdev,
 		NETIF_F_HW_VLAN_CTAG_RX |
 		NETIF_F_HW_VLAN_CTAG_FILTER |
 		NETIF_F_RXCSUM;
+=======
+static int qlge_probe(struct pci_dev *pdev,
+		      const struct pci_device_id *pci_entry)
+{
+	struct net_device *ndev = NULL;
+	struct ql_adapter *qdev = NULL;
+	static int cards_found;
+	int err = 0;
+
+	ndev = alloc_etherdev_mq(sizeof(struct ql_adapter),
+				 min(MAX_CPUS,
+				     netif_get_num_default_rss_queues()));
+	if (!ndev)
+		return -ENOMEM;
+
+	err = ql_init_device(pdev, ndev, cards_found);
+	if (err < 0) {
+		free_netdev(ndev);
+		return err;
+	}
+
+	qdev = netdev_priv(ndev);
+	SET_NETDEV_DEV(ndev, &pdev->dev);
+	ndev->hw_features = NETIF_F_SG |
+			    NETIF_F_IP_CSUM |
+			    NETIF_F_TSO |
+			    NETIF_F_TSO_ECN |
+			    NETIF_F_HW_VLAN_CTAG_TX |
+			    NETIF_F_HW_VLAN_CTAG_RX |
+			    NETIF_F_HW_VLAN_CTAG_FILTER |
+			    NETIF_F_RXCSUM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ndev->features = ndev->hw_features;
 	ndev->vlan_features = ndev->hw_features;
 	/* vlan gets same features (except vlan filter) */
@@ -4613,6 +6518,7 @@ static int qlge_probe(struct pci_dev *pdev,
 	err = register_netdev(ndev);
 	if (err) {
 		dev_err(&pdev->dev, "net device registration failed.\n");
+<<<<<<< HEAD
 		qlge_release_all(pdev);
 		pci_disable_device(pdev);
 		goto netdev_free;
@@ -4643,17 +6549,44 @@ devlink_free:
 }
 
 netdev_tx_t qlge_lb_send(struct sk_buff *skb, struct net_device *ndev)
+=======
+		ql_release_all(pdev);
+		pci_disable_device(pdev);
+		free_netdev(ndev);
+		return err;
+	}
+	/* Start up the timer to trigger EEH if
+	 * the bus goes dead
+	 */
+	timer_setup(&qdev->timer, ql_timer, TIMER_DEFERRABLE);
+	mod_timer(&qdev->timer, jiffies + (5 * HZ));
+	ql_link_off(qdev);
+	ql_display_dev_info(ndev);
+	atomic_set(&qdev->lb_count, 0);
+	cards_found++;
+	return 0;
+}
+
+netdev_tx_t ql_lb_send(struct sk_buff *skb, struct net_device *ndev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return qlge_send(skb, ndev);
 }
 
+<<<<<<< HEAD
 int qlge_clean_lb_rx_ring(struct rx_ring *rx_ring, int budget)
 {
 	return qlge_clean_inbound_rx_ring(rx_ring, budget);
+=======
+int ql_clean_lb_rx_ring(struct rx_ring *rx_ring, int budget)
+{
+	return ql_clean_inbound_rx_ring(rx_ring, budget);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void qlge_remove(struct pci_dev *pdev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = pci_get_drvdata(pdev);
 	struct net_device *ndev = qdev->ndev;
 	struct devlink *devlink = priv_to_devlink(qdev);
@@ -4666,14 +6599,31 @@ static void qlge_remove(struct pci_dev *pdev)
 	devlink_health_reporter_destroy(qdev->reporter);
 	devlink_unregister(devlink);
 	devlink_free(devlink);
+=======
+	struct net_device *ndev = pci_get_drvdata(pdev);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+
+	del_timer_sync(&qdev->timer);
+	ql_cancel_all_work_sync(qdev);
+	unregister_netdev(ndev);
+	ql_release_all(pdev);
+	pci_disable_device(pdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	free_netdev(ndev);
 }
 
 /* Clean up resources without touching hardware. */
+<<<<<<< HEAD
 static void qlge_eeh_close(struct net_device *ndev)
 {
 	struct qlge_adapter *qdev = netdev_to_qdev(ndev);
 	int i;
+=======
+static void ql_eeh_close(struct net_device *ndev)
+{
+	int i;
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (netif_carrier_ok(ndev)) {
 		netif_carrier_off(ndev);
@@ -4681,15 +6631,25 @@ static void qlge_eeh_close(struct net_device *ndev)
 	}
 
 	/* Disabling the timer */
+<<<<<<< HEAD
 	qlge_cancel_all_work_sync(qdev);
+=======
+	ql_cancel_all_work_sync(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < qdev->rss_ring_count; i++)
 		netif_napi_del(&qdev->rx_ring[i].napi);
 
 	clear_bit(QL_ADAPTER_UP, &qdev->flags);
+<<<<<<< HEAD
 	qlge_tx_ring_clean(qdev);
 	qlge_free_rx_buffers(qdev);
 	qlge_release_adapter_resources(qdev);
+=======
+	ql_tx_ring_clean(qdev);
+	ql_free_rx_buffers(qdev);
+	ql_release_adapter_resources(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -4699,8 +6659,13 @@ static void qlge_eeh_close(struct net_device *ndev)
 static pci_ers_result_t qlge_io_error_detected(struct pci_dev *pdev,
 					       pci_channel_state_t state)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = pci_get_drvdata(pdev);
 	struct net_device *ndev = qdev->ndev;
+=======
+	struct net_device *ndev = pci_get_drvdata(pdev);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (state) {
 	case pci_channel_io_normal:
@@ -4709,14 +6674,22 @@ static pci_ers_result_t qlge_io_error_detected(struct pci_dev *pdev,
 		netif_device_detach(ndev);
 		del_timer_sync(&qdev->timer);
 		if (netif_running(ndev))
+<<<<<<< HEAD
 			qlge_eeh_close(ndev);
+=======
+			ql_eeh_close(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pci_disable_device(pdev);
 		return PCI_ERS_RESULT_NEED_RESET;
 	case pci_channel_io_perm_failure:
 		dev_err(&pdev->dev,
 			"%s: pci_channel_io_perm_failure.\n", __func__);
 		del_timer_sync(&qdev->timer);
+<<<<<<< HEAD
 		qlge_eeh_close(ndev);
+=======
+		ql_eeh_close(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_bit(QL_EEH_FATAL, &qdev->flags);
 		return PCI_ERS_RESULT_DISCONNECT;
 	}
@@ -4733,7 +6706,12 @@ static pci_ers_result_t qlge_io_error_detected(struct pci_dev *pdev,
  */
 static pci_ers_result_t qlge_io_slot_reset(struct pci_dev *pdev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = pci_get_drvdata(pdev);
+=======
+	struct net_device *ndev = pci_get_drvdata(pdev);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pdev->error_state = pci_channel_io_normal;
 
@@ -4745,7 +6723,11 @@ static pci_ers_result_t qlge_io_slot_reset(struct pci_dev *pdev)
 	}
 	pci_set_master(pdev);
 
+<<<<<<< HEAD
 	if (qlge_adapter_reset(qdev)) {
+=======
+	if (ql_adapter_reset(qdev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netif_err(qdev, drv, qdev->ndev, "reset FAILED!\n");
 		set_bit(QL_EEH_FATAL, &qdev->flags);
 		return PCI_ERS_RESULT_DISCONNECT;
@@ -4756,8 +6738,13 @@ static pci_ers_result_t qlge_io_slot_reset(struct pci_dev *pdev)
 
 static void qlge_io_resume(struct pci_dev *pdev)
 {
+<<<<<<< HEAD
 	struct qlge_adapter *qdev = pci_get_drvdata(pdev);
 	struct net_device *ndev = qdev->ndev;
+=======
+	struct net_device *ndev = pci_get_drvdata(pdev);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 
 	if (netif_running(ndev)) {
@@ -4783,6 +6770,7 @@ static const struct pci_error_handlers qlge_err_handler = {
 
 static int __maybe_unused qlge_suspend(struct device *dev_d)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev_d);
 	struct qlge_adapter *qdev;
 	struct net_device *ndev;
@@ -4790,22 +6778,37 @@ static int __maybe_unused qlge_suspend(struct device *dev_d)
 
 	qdev = pci_get_drvdata(pdev);
 	ndev = qdev->ndev;
+=======
+	struct net_device *ndev = dev_get_drvdata(dev_d);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int err;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netif_device_detach(ndev);
 	del_timer_sync(&qdev->timer);
 
 	if (netif_running(ndev)) {
+<<<<<<< HEAD
 		err = qlge_adapter_down(qdev);
+=======
+		err = ql_adapter_down(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!err)
 			return err;
 	}
 
+<<<<<<< HEAD
 	qlge_wol(qdev);
+=======
+	ql_wol(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 static int __maybe_unused qlge_resume(struct device *dev_d)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev_d);
 	struct qlge_adapter *qdev;
 	struct net_device *ndev;
@@ -4815,11 +6818,22 @@ static int __maybe_unused qlge_resume(struct device *dev_d)
 	ndev = qdev->ndev;
 
 	pci_set_master(pdev);
+=======
+	struct net_device *ndev = dev_get_drvdata(dev_d);
+	struct ql_adapter *qdev = netdev_priv(ndev);
+	int err;
+
+	pci_set_master(to_pci_dev(dev_d));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	device_wakeup_disable(dev_d);
 
 	if (netif_running(ndev)) {
+<<<<<<< HEAD
 		err = qlge_adapter_up(qdev);
+=======
+		err = ql_adapter_up(qdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}

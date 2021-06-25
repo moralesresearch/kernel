@@ -55,7 +55,12 @@
 /* tracepoints with more than 12 arguments will hit build error */
 #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
+<<<<<<< HEAD
 #define __BPF_DECLARE_TRACE(call, proto, args)				\
+=======
+#undef DECLARE_EVENT_CLASS
+#define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static notrace void							\
 __bpf_trace_##call(void *__data, proto)					\
 {									\
@@ -63,10 +68,13 @@ __bpf_trace_##call(void *__data, proto)					\
 	CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(prog, CAST_TO_U64(args));	\
 }
 
+<<<<<<< HEAD
 #undef DECLARE_EVENT_CLASS
 #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)	\
 	__BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This part is compiled out, it is only here as a build time check
  * to make sure that if the tracepoint handling changes, the
@@ -114,11 +122,14 @@ __DEFINE_EVENT(template, call, PARAMS(proto), PARAMS(args), size)
 #define DEFINE_EVENT_PRINT(template, name, proto, args, print)	\
 	DEFINE_EVENT(template, name, PARAMS(proto), PARAMS(args))
 
+<<<<<<< HEAD
 #undef DECLARE_TRACE
 #define DECLARE_TRACE(call, proto, args)				\
 	__BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))		\
 	__DEFINE_EVENT(call, call, PARAMS(proto), PARAMS(args), 0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
 
 #undef DEFINE_EVENT_WRITABLE

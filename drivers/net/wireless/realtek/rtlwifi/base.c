@@ -440,6 +440,7 @@ static void rtl_watchdog_wq_callback(struct work_struct *work);
 static void rtl_fwevt_wq_callback(struct work_struct *work);
 static void rtl_c2hcmd_wq_callback(struct work_struct *work);
 
+<<<<<<< HEAD
 static int _rtl_init_deferred_work(struct ieee80211_hw *hw)
 {
 	struct rtl_priv *rtlpriv = rtl_priv(hw);
@@ -448,6 +449,11 @@ static int _rtl_init_deferred_work(struct ieee80211_hw *hw)
 	wq = alloc_workqueue("%s", 0, 0, rtlpriv->cfg->name);
 	if (!wq)
 		return -ENOMEM;
+=======
+static void _rtl_init_deferred_work(struct ieee80211_hw *hw)
+{
+	struct rtl_priv *rtlpriv = rtl_priv(hw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* <1> timer */
 	timer_setup(&rtlpriv->works.watchdog_timer,
@@ -456,7 +462,15 @@ static int _rtl_init_deferred_work(struct ieee80211_hw *hw)
 		    rtl_easy_concurrent_retrytimer_callback, 0);
 	/* <2> work queue */
 	rtlpriv->works.hw = hw;
+<<<<<<< HEAD
 	rtlpriv->works.rtl_wq = wq;
+=======
+	rtlpriv->works.rtl_wq = alloc_workqueue("%s", 0, 0, rtlpriv->cfg->name);
+	if (unlikely(!rtlpriv->works.rtl_wq)) {
+		pr_err("Failed to allocate work queue\n");
+		return;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	INIT_DELAYED_WORK(&rtlpriv->works.watchdog_wq,
 			  rtl_watchdog_wq_callback);
@@ -467,7 +481,10 @@ static int _rtl_init_deferred_work(struct ieee80211_hw *hw)
 			  rtl_swlps_rfon_wq_callback);
 	INIT_DELAYED_WORK(&rtlpriv->works.fwevt_wq, rtl_fwevt_wq_callback);
 	INIT_DELAYED_WORK(&rtlpriv->works.c2hcmd_wq, rtl_c2hcmd_wq_callback);
+<<<<<<< HEAD
 	return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void rtl_deinit_deferred_work(struct ieee80211_hw *hw, bool ips_wq)
@@ -567,7 +584,13 @@ int rtl_init_core(struct ieee80211_hw *hw)
 	rtlmac->link_state = MAC80211_NOLINK;
 
 	/* <6> init deferred work */
+<<<<<<< HEAD
 	return _rtl_init_deferred_work(hw);
+=======
+	_rtl_init_deferred_work(hw);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(rtl_init_core);
 

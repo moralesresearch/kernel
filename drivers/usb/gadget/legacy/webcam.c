@@ -125,7 +125,10 @@ static const struct uvc_processing_unit_descriptor uvc_processing = {
 	.bmControls[0]		= 1,
 	.bmControls[1]		= 0,
 	.iProcessing		= 0,
+<<<<<<< HEAD
 	.bmVideoStandards	= 0,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct uvc_output_terminal_descriptor uvc_output_terminal = {

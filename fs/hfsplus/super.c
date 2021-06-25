@@ -239,7 +239,11 @@ out:
 	mutex_unlock(&sbi->vh_mutex);
 
 	if (!test_bit(HFSPLUS_SB_NOBARRIER, &sbi->flags))
+<<<<<<< HEAD
 		blkdev_issue_flush(sb->s_bdev);
+=======
+		blkdev_issue_flush(sb->s_bdev, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error;
 }

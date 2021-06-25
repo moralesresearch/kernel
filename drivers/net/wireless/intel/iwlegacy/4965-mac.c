@@ -2593,7 +2593,12 @@ out:
 	 */
 	if (ret != IL_INVALID_STATION &&
 	    (!(il->stations[ret].used & IL_STA_UCODE_ACTIVE) ||
+<<<<<<< HEAD
 	      (il->stations[ret].used & IL_STA_UCODE_INPROGRESS))) {
+=======
+	     ((il->stations[ret].used & IL_STA_UCODE_ACTIVE) &&
+	      (il->stations[ret].used & IL_STA_UCODE_INPROGRESS)))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IL_ERR("Requested station info for sta %d before ready.\n",
 		       ret);
 		ret = IL_INVALID_STATION;
@@ -2812,10 +2817,15 @@ il4965_hdl_tx(struct il_priv *il, struct il_rx_buf *rxb)
 	spin_lock_irqsave(&il->sta_lock, flags);
 	if (txq->sched_retry) {
 		const u32 scd_ssn = il4965_get_scd_ssn(tx_resp);
+<<<<<<< HEAD
 		struct il_ht_agg *agg;
 
 		if (WARN_ON(!qc))
 			goto out;
+=======
+		struct il_ht_agg *agg = NULL;
+		WARN_ON(!qc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		agg = &il->stations[sta_id].tid[tid].agg;
 
@@ -2831,7 +2841,13 @@ il4965_hdl_tx(struct il_priv *il, struct il_rx_buf *rxb)
 			D_TX_REPLY("Retry scheduler reclaim scd_ssn "
 				   "%d idx %d\n", scd_ssn, idx);
 			freed = il4965_tx_queue_reclaim(il, txq_id, idx);
+<<<<<<< HEAD
 			il4965_free_tfds_in_queue(il, sta_id, tid, freed);
+=======
+			if (qc)
+				il4965_free_tfds_in_queue(il, sta_id, tid,
+							  freed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (il->mac80211_registered &&
 			    il_queue_space(&txq->q) > txq->q.low_mark &&
@@ -2861,7 +2877,10 @@ il4965_hdl_tx(struct il_priv *il, struct il_rx_buf *rxb)
 		    il_queue_space(&txq->q) > txq->q.low_mark)
 			il_wake_queue(il, txq);
 	}
+<<<<<<< HEAD
 out:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (qc && likely(sta_id != IL_INVALID_STATION))
 		il4965_txq_check_empty(il, sta_id, tid, txq_id);
 

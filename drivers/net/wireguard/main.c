@@ -21,6 +21,24 @@ static int __init mod_init(void)
 {
 	int ret;
 
+<<<<<<< HEAD
+	ret = wg_allowedips_slab_init();
+	if (ret < 0)
+		goto err_allowedips;
+
+#ifdef DEBUG
+	ret = -ENOTRECOVERABLE;
+	if (!wg_allowedips_selftest() || !wg_packet_counter_selftest() ||
+	    !wg_ratelimiter_selftest())
+		goto err_peer;
+#endif
+	wg_noise_init();
+
+	ret = wg_peer_init();
+	if (ret < 0)
+		goto err_peer;
+
+=======
 #ifdef DEBUG
 	if (!wg_allowedips_selftest() || !wg_packet_counter_selftest() ||
 	    !wg_ratelimiter_selftest())
@@ -28,6 +46,7 @@ static int __init mod_init(void)
 #endif
 	wg_noise_init();
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = wg_device_init();
 	if (ret < 0)
 		goto err_device;
@@ -44,6 +63,13 @@ static int __init mod_init(void)
 err_netlink:
 	wg_device_uninit();
 err_device:
+<<<<<<< HEAD
+	wg_peer_uninit();
+err_peer:
+	wg_allowedips_slab_uninit();
+err_allowedips:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -51,6 +77,11 @@ static void __exit mod_exit(void)
 {
 	wg_genetlink_uninit();
 	wg_device_uninit();
+<<<<<<< HEAD
+	wg_peer_uninit();
+	wg_allowedips_slab_uninit();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 module_init(mod_init);

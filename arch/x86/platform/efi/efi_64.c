@@ -54,7 +54,14 @@
  * 0xffff_ffff_0000_0000 and limit EFI VA mapping space to 64G.
  */
 static u64 efi_va = EFI_VA_START;
+<<<<<<< HEAD
 static struct mm_struct *efi_prev_mm;
+=======
+
+struct efi_scratch efi_scratch;
+
+EXPORT_SYMBOL_GPL(efi_mm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * We need our own copy of the higher levels of the page tables
@@ -234,7 +241,11 @@ int __init efi_setup_page_tables(unsigned long pa_memmap, unsigned num_pages)
 		return 1;
 	}
 
+<<<<<<< HEAD
 	efi_mixed_mode_stack_pa = page_to_phys(page + 1); /* stack grows down */
+=======
+	efi_scratch.phys_stack = page_to_phys(page + 1); /* stack grows down */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	npages = (_etext - _text) >> PAGE_SHIFT;
 	text = __pa(_text);
@@ -459,6 +470,7 @@ void __init efi_dump_pagetable(void)
  * can not change under us.
  * It should be ensured that there are no concurent calls to this function.
  */
+<<<<<<< HEAD
 void efi_enter_mm(void)
 {
 	efi_prev_mm = current->active_mm;
@@ -470,6 +482,13 @@ void efi_leave_mm(void)
 {
 	current->active_mm = efi_prev_mm;
 	switch_mm(&efi_mm, efi_prev_mm, NULL);
+=======
+void efi_switch_mm(struct mm_struct *mm)
+{
+	efi_scratch.prev_mm = current->active_mm;
+	current->active_mm = mm;
+	switch_mm(efi_scratch.prev_mm, mm, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static DEFINE_SPINLOCK(efi_runtime_lock);
@@ -533,12 +552,20 @@ efi_thunk_set_virtual_address_map(unsigned long memory_map_size,
 	efi_sync_low_kernel_mappings();
 	local_irq_save(flags);
 
+<<<<<<< HEAD
 	efi_enter_mm();
+=======
+	efi_switch_mm(&efi_mm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = __efi_thunk(set_virtual_address_map, memory_map_size,
 			     descriptor_size, descriptor_version, virtual_map);
 
+<<<<<<< HEAD
 	efi_leave_mm();
+=======
+	efi_switch_mm(efi_scratch.prev_mm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local_irq_restore(flags);
 
 	return status;
@@ -832,9 +859,15 @@ efi_set_virtual_address_map(unsigned long memory_map_size,
 							 descriptor_size,
 							 descriptor_version,
 							 virtual_map);
+<<<<<<< HEAD
 	efi_enter_mm();
 
 	efi_fpu_begin();
+=======
+	efi_switch_mm(&efi_mm);
+
+	kernel_fpu_begin();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable interrupts around EFI calls: */
 	local_irq_save(flags);
@@ -843,12 +876,20 @@ efi_set_virtual_address_map(unsigned long memory_map_size,
 			  descriptor_version, virtual_map);
 	local_irq_restore(flags);
 
+<<<<<<< HEAD
 	efi_fpu_end();
+=======
+	kernel_fpu_end();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* grab the virtually remapped EFI runtime services table pointer */
 	efi.runtime = READ_ONCE(systab->runtime);
 
+<<<<<<< HEAD
 	efi_leave_mm();
+=======
+	efi_switch_mm(efi_scratch.prev_mm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return status;
 }

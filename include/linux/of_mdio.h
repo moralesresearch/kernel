@@ -26,6 +26,12 @@ of_phy_connect(struct net_device *dev, struct device_node *phy_np,
 struct phy_device *
 of_phy_get_and_connect(struct net_device *dev, struct device_node *np,
 		       void (*hndlr)(struct net_device *));
+<<<<<<< HEAD
+=======
+struct phy_device *
+of_phy_attach(struct net_device *dev, struct device_node *phy_np,
+	      u32 flags, phy_interface_t iface);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct mii_bus *of_mdio_find_bus(struct device_node *mdio_np);
 int of_phy_register_fixed_link(struct device_node *np);
@@ -97,6 +103,16 @@ of_phy_get_and_connect(struct net_device *dev, struct device_node *np,
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+static inline struct phy_device *of_phy_attach(struct net_device *dev,
+					       struct device_node *phy_np,
+					       u32 flags, phy_interface_t iface)
+{
+	return NULL;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct mii_bus *of_mdio_find_bus(struct device_node *mdio_np)
 {
 	return NULL;

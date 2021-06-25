@@ -25,6 +25,10 @@
 #include <linux/crypto.h>
 #include <crypto/aes.h>
 #include <crypto/algapi.h>
+<<<<<<< HEAD
+=======
+#include <crypto/b128ops.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/hash.h>
 #include <crypto/kpp.h>
 
@@ -424,7 +428,11 @@ static int smp_c1(const u8 k[16],
 	SMP_DBG("p1 %16phN", p1);
 
 	/* res = r XOR p1 */
+<<<<<<< HEAD
 	crypto_xor_cpy(res, r, p1, sizeof(p1));
+=======
+	u128_xor((u128 *) res, (u128 *) r, (u128 *) p1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* res = e(k, res) */
 	err = smp_e(k, res);
@@ -441,7 +449,11 @@ static int smp_c1(const u8 k[16],
 	SMP_DBG("p2 %16phN", p2);
 
 	/* res = res XOR p2 */
+<<<<<<< HEAD
 	crypto_xor(res, p2, sizeof(p2));
+=======
+	u128_xor((u128 *) res, (u128 *) res, (u128 *) p2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* res = e(k, res) */
 	err = smp_e(k, res);
@@ -2732,6 +2744,7 @@ static int smp_cmd_public_key(struct l2cap_conn *conn, struct sk_buff *skb)
 	if (skb->len < sizeof(*key))
 		return SMP_INVALID_PARAMS;
 
+<<<<<<< HEAD
 	/* Check if remote and local public keys are the same and debug key is
 	 * not in use.
 	 */
@@ -2741,6 +2754,8 @@ static int smp_cmd_public_key(struct l2cap_conn *conn, struct sk_buff *skb)
 		return SMP_UNSPECIFIED;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(smp->remote_pk, key, 64);
 
 	if (test_bit(SMP_FLAG_REMOTE_OOB, &smp->flags)) {

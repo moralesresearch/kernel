@@ -520,6 +520,7 @@ static void rkisp1_rsz_set_src_fmt(struct rkisp1_resizer *rsz,
 				   struct v4l2_mbus_framefmt *format,
 				   unsigned int which)
 {
+<<<<<<< HEAD
 	const struct rkisp1_isp_mbus_info *sink_mbus_info;
 	struct v4l2_mbus_framefmt *src_fmt, *sink_fmt;
 
@@ -529,6 +530,16 @@ static void rkisp1_rsz_set_src_fmt(struct rkisp1_resizer *rsz,
 
 	/* for YUV formats, userspace can change the mbus code on the src pad if it is supported */
 	if (sink_mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+=======
+	const struct rkisp1_isp_mbus_info *mbus_info;
+	struct v4l2_mbus_framefmt *src_fmt;
+
+	src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
+	mbus_info = rkisp1_isp_mbus_info_get(src_fmt->code);
+
+	/* for YUV formats, userspace can change the mbus code on the src pad if it is supported */
+	if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    rkisp1_rsz_get_yuv_mbus_info(format->code))
 		src_fmt->code = format->code;
 

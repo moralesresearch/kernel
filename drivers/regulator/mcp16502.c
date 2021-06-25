@@ -550,7 +550,11 @@ static int mcp16502_probe(struct i2c_client *client,
 	config.regmap = rmap;
 	config.driver_data = mcp;
 
+<<<<<<< HEAD
 	mcp->lpm = devm_gpiod_get_optional(dev, "lpm", GPIOD_OUT_LOW);
+=======
+	mcp->lpm = devm_gpiod_get(dev, "lpm", GPIOD_OUT_LOW);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(mcp->lpm)) {
 		dev_err(dev, "failed to get lpm pin: %ld\n", PTR_ERR(mcp->lpm));
 		return PTR_ERR(mcp->lpm);
