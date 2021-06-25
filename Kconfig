@@ -3,15 +3,7 @@
 # For a description of the syntax of this configuration file,
 # see Documentation/kbuild/kconfig-language.rst.
 #
-<<<<<<< HEAD
 mainmenu "MR-Sun/$(ARCH) $(KERNELVERSION) Kernel Configuration"
-=======
-<<<<<<< HEAD
-mainmenu "MR-SUN Kernel/$(ARCH) $(KERNELVERSION) Kernel Configuration"
-=======
-mainmenu "MR(Morales Research)-SUN/$(ARCH) $(KERNELVERSION) Kernel Configuration"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 source "scripts/Kconfig.include"
 
