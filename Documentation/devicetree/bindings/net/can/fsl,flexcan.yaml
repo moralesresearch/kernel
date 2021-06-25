@@ -110,6 +110,7 @@ properties:
     description:
       Enable CAN remote wakeup.
 
+<<<<<<< HEAD
   fsl,scu-index:
     description: |
       The scu index of CAN instance.
@@ -120,6 +121,8 @@ properties:
     minimum: 0
     maximum: 2
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg
@@ -147,5 +150,8 @@ examples:
         clocks = <&clks 1>, <&clks 2>;
         clock-names = "ipg", "per";
         fsl,stop-mode = <&gpr 0x34 28>;
+<<<<<<< HEAD
         fsl,scu-index = /bits/ 8 <1>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     };

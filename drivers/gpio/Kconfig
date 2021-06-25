@@ -487,11 +487,19 @@ config GPIO_PXA
 	  Say yes here to support the PXA GPIO device
 
 config GPIO_RCAR
+<<<<<<< HEAD
 	tristate "Renesas R-Car and RZ/G GPIO support"
 	depends on ARCH_RENESAS || COMPILE_TEST
 	select GPIOLIB_IRQCHIP
 	help
 	  Say yes here to support GPIO on Renesas R-Car or RZ/G SoCs.
+=======
+	tristate "Renesas R-Car GPIO"
+	depends on ARCH_RENESAS || COMPILE_TEST
+	select GPIOLIB_IRQCHIP
+	help
+	  Say yes here to support GPIO on Renesas R-Car SoCs.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config GPIO_RDA
 	bool "RDA Micro GPIO controller support"
@@ -595,7 +603,11 @@ config GPIO_TB10X
 	select OF_GPIO
 
 config GPIO_TEGRA
+<<<<<<< HEAD
 	tristate "NVIDIA Tegra GPIO support"
+=======
+	bool "NVIDIA Tegra GPIO support"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default ARCH_TEGRA
 	depends on ARCH_TEGRA || COMPILE_TEST
 	depends on OF_GPIO
@@ -648,6 +660,7 @@ config GPIO_VF610
 	help
 	  Say yes here to support Vybrid vf610 GPIOs.
 
+<<<<<<< HEAD
 config GPIO_VISCONTI
 	tristate "Toshiba Visconti GPIO support"
 	depends on ARCH_VISCONTI || COMPILE_TEST
@@ -658,6 +671,8 @@ config GPIO_VISCONTI
 	help
 	  Say yes here to support GPIO on Tohisba Visconti.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config GPIO_VR41XX
 	tristate "NEC VR4100 series General-purpose I/O Uint support"
 	depends on CPU_VR41XX
@@ -680,7 +695,11 @@ config GPIO_WCD934X
 	tristate "Qualcomm Technologies Inc WCD9340/WCD9341 gpio controller driver"
 	depends on MFD_WCD934X && OF_GPIO
 	help
+<<<<<<< HEAD
          This driver is to support GPIO block found on the Qualcomm Technologies
+=======
+         This driver is to supprot GPIO block found on the Qualcomm Technologies
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 Inc WCD9340/WCD9341 Audio Codec.
 
 config GPIO_XGENE
@@ -704,8 +723,11 @@ config GPIO_XGENE_SB
 
 config GPIO_XILINX
 	tristate "Xilinx GPIO support"
+<<<<<<< HEAD
 	select GPIOLIB_IRQCHIP
 	depends on OF_GPIO
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Say yes here to support the Xilinx FPGA GPIO device
 
@@ -743,6 +765,16 @@ config GPIO_ZYNQ
 	help
 	  Say yes here to support Xilinx Zynq GPIO controller.
 
+<<<<<<< HEAD
+=======
+config GPIO_ZX
+	bool "ZTE ZX GPIO support"
+	depends on ARCH_ZX || COMPILE_TEST
+	select GPIOLIB_IRQCHIP
+	help
+	  Say yes here to support the GPIO device on ZTE ZX SoCs.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config GPIO_LOONGSON1
 	tristate "Loongson1 GPIO support"
 	depends on MACH_LOONGSON32
@@ -1258,6 +1290,16 @@ config GPIO_MAX77650
 	  GPIO driver for MAX77650/77651 PMIC from Maxim Semiconductor.
 	  These chips have a single pin that can be configured as GPIO.
 
+<<<<<<< HEAD
+=======
+config GPIO_MSIC
+	bool "Intel MSIC mixed signal gpio support"
+	depends on (X86 || COMPILE_TEST) && MFD_INTEL_MSIC
+	help
+	  Enable support for GPIO on intel MSIC controllers found in
+	  intel MID devices
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config GPIO_PALMAS
 	bool "TI PALMAS series PMICs GPIO"
 	depends on MFD_PALMAS
@@ -1453,6 +1495,16 @@ config GPIO_BT8XX
 
 	  If unsure, say N.
 
+<<<<<<< HEAD
+=======
+config GPIO_INTEL_MID
+	bool "Intel MID GPIO support"
+	depends on X86_INTEL_MID
+	select GPIOLIB_IRQCHIP
+	help
+	  Say Y here to support Intel MID GPIO.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config GPIO_MERRIFIELD
 	tristate "Intel Merrifield GPIO support"
 	depends on X86_INTEL_MID
@@ -1628,7 +1680,12 @@ config GPIO_MOCKUP
 	select IRQ_SIM
 	help
 	  This enables GPIO Testing driver, which provides a way to test GPIO
+<<<<<<< HEAD
 	  subsystem through sysfs (or char device) and debugfs.
+=======
+	  subsystem through sysfs(or char device) and debugfs. GPIO_SYSFS
+	  must be selected for this test.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  User could use it through the script in
 	  tools/testing/selftests/gpio/gpio-mockup.sh. Reference the usage in
 	  it.

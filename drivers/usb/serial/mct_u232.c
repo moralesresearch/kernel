@@ -39,7 +39,11 @@
  * Function prototypes
  */
 static int  mct_u232_port_probe(struct usb_serial_port *port);
+<<<<<<< HEAD
 static void mct_u232_port_remove(struct usb_serial_port *remove);
+=======
+static int  mct_u232_port_remove(struct usb_serial_port *remove);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int  mct_u232_open(struct tty_struct *tty, struct usb_serial_port *port);
 static void mct_u232_close(struct usb_serial_port *port);
 static void mct_u232_dtr_rts(struct usb_serial_port *port, int on);
@@ -400,12 +404,21 @@ static int mct_u232_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void mct_u232_port_remove(struct usb_serial_port *port)
+=======
+static int mct_u232_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mct_u232_private *priv;
 
 	priv = usb_get_serial_port_data(port);
 	kfree(priv);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int  mct_u232_open(struct tty_struct *tty, struct usb_serial_port *port)

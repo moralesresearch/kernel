@@ -94,6 +94,14 @@ properties:
               - mediatek,mt7623-btif
           - const: mediatek,mtk-btif
       - items:
+<<<<<<< HEAD
+=======
+          - enum:
+              - mediatek,mt7622-btif
+              - mediatek,mt7623-btif
+          - const: mediatek,mtk-btif
+      - items:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: mrvl,mmp-uart
           - const: intel,xscale-uart
       - items:

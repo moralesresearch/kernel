@@ -7,7 +7,10 @@
  *
  * (C) 2007 SGI, Christoph Lameter
  */
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kobject.h>
 #include <linux/reciprocal_div.h>
 
@@ -186,8 +189,11 @@ static inline unsigned int __obj_to_index(const struct kmem_cache *cache,
 static inline unsigned int obj_to_index(const struct kmem_cache *cache,
 					const struct page *page, void *obj)
 {
+<<<<<<< HEAD
 	if (is_kfence_address(obj))
 		return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return __obj_to_index(cache, page_address(page), obj);
 }
 

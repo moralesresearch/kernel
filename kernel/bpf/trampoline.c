@@ -9,7 +9,14 @@
 #include <linux/btf.h>
 #include <linux/rcupdate_trace.h>
 #include <linux/rcupdate_wait.h>
+<<<<<<< HEAD
 #include <linux/module.h>
+=======
+<<<<<<< HEAD
+#include <linux/module.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* dummy _ops. The verifier will operate on target program's ops. */
 const struct bpf_verifier_ops bpf_extension_verifier_ops = {
@@ -88,6 +95,10 @@ out:
 	return tr;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int bpf_trampoline_module_get(struct bpf_trampoline *tr)
 {
 	struct module *mod;
@@ -108,6 +119,11 @@ static void bpf_trampoline_module_put(struct bpf_trampoline *tr)
 	tr->mod = NULL;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int is_ftrace_location(void *ip)
 {
 	long addr;
@@ -129,9 +145,18 @@ static int unregister_fentry(struct bpf_trampoline *tr, void *old_addr)
 		ret = unregister_ftrace_direct((long)ip, (long)old_addr);
 	else
 		ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, old_addr, NULL);
+<<<<<<< HEAD
 
 	if (!ret)
 		bpf_trampoline_module_put(tr);
+=======
+<<<<<<< HEAD
+
+	if (!ret)
+		bpf_trampoline_module_put(tr);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -158,16 +183,34 @@ static int register_fentry(struct bpf_trampoline *tr, void *new_addr)
 		return ret;
 	tr->func.ftrace_managed = ret;
 
+<<<<<<< HEAD
 	if (bpf_trampoline_module_get(tr))
 		return -ENOENT;
 
+=======
+<<<<<<< HEAD
+	if (bpf_trampoline_module_get(tr))
+		return -ENOENT;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tr->func.ftrace_managed)
 		ret = register_ftrace_direct((long)ip, (long)new_addr);
 	else
 		ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, NULL, new_addr);
+<<<<<<< HEAD
 
 	if (ret)
 		bpf_trampoline_module_put(tr);
+=======
+<<<<<<< HEAD
+
+	if (ret)
+		bpf_trampoline_module_put(tr);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -519,6 +562,10 @@ out:
 	mutex_unlock(&trampoline_mutex);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NO_START_TIME 1
 static u64 notrace bpf_prog_start_time(void)
 {
@@ -569,10 +616,40 @@ u64 notrace __bpf_prog_enter(struct bpf_prog *prog)
 
 static void notrace update_prog_stats(struct bpf_prog *prog,
 				      u64 start)
+<<<<<<< HEAD
+=======
+=======
+/* The logic is similar to BPF_PROG_RUN, but with an explicit
+ * rcu_read_lock() and migrate_disable() which are required
+ * for the trampoline. The macro is split into
+ * call _bpf_prog_enter
+ * call prog->bpf_func
+ * call __bpf_prog_exit
+ */
+u64 notrace __bpf_prog_enter(void)
+	__acquires(RCU)
+{
+	u64 start = 0;
+
+	rcu_read_lock();
+	migrate_disable();
+	if (static_branch_unlikely(&bpf_stats_enabled_key))
+		start = sched_clock();
+	return start;
+}
+
+void notrace __bpf_prog_exit(struct bpf_prog *prog, u64 start)
+	__releases(RCU)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct bpf_prog_stats *stats;
 
 	if (static_branch_unlikely(&bpf_stats_enabled_key) &&
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    /* static_key could be enabled in __bpf_prog_enter*
 	     * and disabled in __bpf_prog_exit*.
 	     * And vice versa.
@@ -580,11 +657,27 @@ static void notrace update_prog_stats(struct bpf_prog *prog,
 	     */
 	    start > NO_START_TIME) {
 		stats = this_cpu_ptr(prog->stats);
+<<<<<<< HEAD
+=======
+=======
+	    /* static_key could be enabled in __bpf_prog_enter
+	     * and disabled in __bpf_prog_exit.
+	     * And vice versa.
+	     * Hence check that 'start' is not zero.
+	     */
+	    start) {
+		stats = this_cpu_ptr(prog->aux->stats);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64_stats_update_begin(&stats->syncp);
 		stats->cnt++;
 		stats->nsecs += sched_clock() - start;
 		u64_stats_update_end(&stats->syncp);
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void notrace __bpf_prog_exit(struct bpf_prog *prog, u64 start)
@@ -592,10 +685,19 @@ void notrace __bpf_prog_exit(struct bpf_prog *prog, u64 start)
 {
 	update_prog_stats(prog, start);
 	__this_cpu_dec(*(prog->active));
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	migrate_enable();
 	rcu_read_unlock();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u64 notrace __bpf_prog_enter_sleepable(struct bpf_prog *prog)
 {
 	rcu_read_lock_trace();
@@ -613,6 +715,19 @@ void notrace __bpf_prog_exit_sleepable(struct bpf_prog *prog, u64 start)
 	update_prog_stats(prog, start);
 	__this_cpu_dec(*(prog->active));
 	migrate_enable();
+<<<<<<< HEAD
+=======
+=======
+void notrace __bpf_prog_enter_sleepable(void)
+{
+	rcu_read_lock_trace();
+	might_fault();
+}
+
+void notrace __bpf_prog_exit_sleepable(void)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_unlock_trace();
 }
 

@@ -657,8 +657,12 @@ properties:
       - description: Pine64 PineCube
         items:
           - const: pine64,pinecube
+<<<<<<< HEAD
           - const: sochip,s3
           - const: allwinner,sun8i-v3
+=======
+          - const: allwinner,sun8i-s3
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
       - description: Pine64 PineH64 model A
         items:
@@ -684,31 +688,46 @@ properties:
       - description: Pine64 PinePhone Developer Batch (1.0)
         items:
           - const: pine64,pinephone-1.0
+<<<<<<< HEAD
           - const: pine64,pinephone
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: allwinner,sun50i-a64
 
       - description: Pine64 PinePhone Braveheart (1.1)
         items:
           - const: pine64,pinephone-1.1
+<<<<<<< HEAD
           - const: pine64,pinephone
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: allwinner,sun50i-a64
 
       - description: Pine64 PinePhone (1.2)
         items:
           - const: pine64,pinephone-1.2
+<<<<<<< HEAD
           - const: pine64,pinephone
           - const: allwinner,sun50i-a64
 
       - description: Pine64 PineTab, Development Sample
+=======
+          - const: allwinner,sun50i-a64
+
+      - description: Pine64 PineTab
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         items:
           - const: pine64,pinetab
           - const: allwinner,sun50i-a64
 
+<<<<<<< HEAD
       - description: Pine64 PineTab, Early Adopter's batch (and maybe later ones)
         items:
           - const: pine64,pinetab-early-adopter
           - const: allwinner,sun50i-a64
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - description: Pine64 SoPine Baseboard
         items:
           - const: pine64,sopine-baseboard
@@ -786,12 +805,15 @@ properties:
           - const: sinlinx,sina33
           - const: allwinner,sun8i-a33
 
+<<<<<<< HEAD
       - description: SL631 Action Camera with IMX179
         items:
           - const: allwinner,sl631-imx179
           - const: allwinner,sl631
           - const: allwinner,sun8i-v3
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - description: Tanix TX6
         items:
           - const: oranth,tanix-tx6

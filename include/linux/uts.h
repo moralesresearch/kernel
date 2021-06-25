@@ -6,7 +6,15 @@
  * Defines for what uname() should return 
  */
 #ifndef UTS_SYSNAME
+<<<<<<< HEAD
 #define UTS_SYSNAME "SUN-MR Kernel"
+=======
+<<<<<<< HEAD
+#define UTS_SYSNAME "SUN-Morales Research"
+=======
+#define UTS_SYSNAME "Morales Research-SUN"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifndef UTS_NODENAME

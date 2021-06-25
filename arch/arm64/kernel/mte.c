@@ -19,13 +19,20 @@
 #include <asm/barrier.h>
 #include <asm/cpufeature.h>
 #include <asm/mte.h>
+<<<<<<< HEAD
+=======
+#include <asm/mte-kasan.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/ptrace.h>
 #include <asm/sysreg.h>
 
 u64 gcr_kernel_excl __ro_after_init;
 
+<<<<<<< HEAD
 static bool report_fault_once = true;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
 {
 	pte_t old_pte = READ_ONCE(*ptep);
@@ -87,6 +94,54 @@ int memcmp_pages(struct page *page1, struct page *page2)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+u8 mte_get_mem_tag(void *addr)
+{
+	if (!system_supports_mte())
+		return 0xFF;
+
+	asm(__MTE_PREAMBLE "ldg %0, [%0]"
+	    : "+r" (addr));
+
+	return mte_get_ptr_tag(addr);
+}
+
+u8 mte_get_random_tag(void)
+{
+	void *addr;
+
+	if (!system_supports_mte())
+		return 0xFF;
+
+	asm(__MTE_PREAMBLE "irg %0, %0"
+	    : "+r" (addr));
+
+	return mte_get_ptr_tag(addr);
+}
+
+void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+{
+	void *ptr = addr;
+
+	if ((!system_supports_mte()) || (size == 0))
+		return addr;
+
+	/* Make sure that size is MTE granule aligned. */
+	WARN_ON(size & (MTE_GRANULE_SIZE - 1));
+
+	/* Make sure that the address is MTE granule aligned. */
+	WARN_ON((u64)addr & (MTE_GRANULE_SIZE - 1));
+
+	tag = 0xF0 | tag;
+	ptr = (void *)__tag_set(ptr, tag);
+
+	mte_assign_mem_tag_range(ptr, size);
+
+	return ptr;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mte_init_tags(u64 max_tag)
 {
 	static bool gcr_kernel_excl_initialized;
@@ -114,6 +169,7 @@ void mte_enable_kernel(void)
 	isb();
 }
 
+<<<<<<< HEAD
 void mte_set_report_once(bool state)
 {
 	WRITE_ONCE(report_fault_once, state);
@@ -124,6 +180,8 @@ bool mte_report_once(void)
 	return READ_ONCE(report_fault_once);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void update_sctlr_el1_tcf0(u64 tcf0)
 {
 	/* ISB required for the kernel uaccess routines */

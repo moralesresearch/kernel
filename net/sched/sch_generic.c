@@ -35,6 +35,7 @@
 const struct Qdisc_ops *default_qdisc_ops = &pfifo_fast_ops;
 EXPORT_SYMBOL(default_qdisc_ops);
 
+<<<<<<< HEAD
 static void qdisc_maybe_clear_missed(struct Qdisc *q,
 				     const struct netdev_queue *txq)
 {
@@ -54,6 +55,8 @@ static void qdisc_maybe_clear_missed(struct Qdisc *q,
 		set_bit(__QDISC_STATE_MISSED, &q->state);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Main transmission queue. */
 
 /* Modifications to data participating in scheduling must be protected with
@@ -93,7 +96,10 @@ static inline struct sk_buff *__skb_dequeue_bad_txq(struct Qdisc *q)
 			}
 		} else {
 			skb = SKB_XOFF_MAGIC;
+<<<<<<< HEAD
 			qdisc_maybe_clear_missed(q, txq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -262,7 +268,10 @@ static struct sk_buff *dequeue_skb(struct Qdisc *q, bool *validate,
 			}
 		} else {
 			skb = NULL;
+<<<<<<< HEAD
 			qdisc_maybe_clear_missed(q, txq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		if (lock)
 			spin_unlock(lock);
@@ -272,10 +281,15 @@ validate:
 	*validate = true;
 
 	if ((q->flags & TCQ_F_ONETXQUEUE) &&
+<<<<<<< HEAD
 	    netif_xmit_frozen_or_stopped(txq)) {
 		qdisc_maybe_clear_missed(q, txq);
 		return skb;
 	}
+=======
+	    netif_xmit_frozen_or_stopped(txq))
+		return skb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	skb = qdisc_dequeue_skb_bad_txq(q);
 	if (unlikely(skb)) {
@@ -334,8 +348,11 @@ bool sch_direct_xmit(struct sk_buff *skb, struct Qdisc *q,
 		HARD_TX_LOCK(dev, txq, smp_processor_id());
 		if (!netif_xmit_frozen_or_stopped(txq))
 			skb = dev_hard_start_xmit(skb, dev, txq, &ret);
+<<<<<<< HEAD
 		else
 			qdisc_maybe_clear_missed(q, txq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		HARD_TX_UNLOCK(dev, txq);
 	} else {
@@ -665,10 +682,15 @@ static struct sk_buff *pfifo_fast_dequeue(struct Qdisc *qdisc)
 {
 	struct pfifo_fast_priv *priv = qdisc_priv(qdisc);
 	struct sk_buff *skb = NULL;
+<<<<<<< HEAD
 	bool need_retry = true;
 	int band;
 
 retry:
+=======
+	int band;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (band = 0; band < PFIFO_FAST_BANDS && !skb; band++) {
 		struct skb_array *q = band2list(priv, band);
 
@@ -679,6 +701,7 @@ retry:
 	}
 	if (likely(skb)) {
 		qdisc_update_stats_at_dequeue(qdisc, skb);
+<<<<<<< HEAD
 	} else if (need_retry &&
 		   test_bit(__QDISC_STATE_MISSED, &qdisc->state)) {
 		/* Delay clearing the STATE_MISSED here to reduce
@@ -696,6 +719,8 @@ retry:
 		need_retry = false;
 
 		goto retry;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		WRITE_ONCE(qdisc->empty, true);
 	}
@@ -1202,10 +1227,15 @@ static void dev_reset_queue(struct net_device *dev,
 	qdisc_reset(qdisc);
 
 	spin_unlock_bh(qdisc_lock(qdisc));
+<<<<<<< HEAD
 	if (nolock) {
 		clear_bit(__QDISC_STATE_MISSED, &qdisc->state);
 		spin_unlock_bh(&qdisc->seqlock);
 	}
+=======
+	if (nolock)
+		spin_unlock_bh(&qdisc->seqlock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool some_qdisc_is_busy(struct net_device *dev)

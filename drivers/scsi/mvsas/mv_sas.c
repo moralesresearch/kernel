@@ -229,7 +229,15 @@ static void mvs_bytes_dmaed(struct mvs_info *mvi, int i, gfp_t gfp_flags)
 		return;
 	}
 
+<<<<<<< HEAD
 	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE, gfp_flags);
+=======
+<<<<<<< HEAD
+	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE, gfp_flags);
+=======
+	sas_notify_phy_event_gfp(sas_phy, PHYE_OOB_DONE, gfp_flags);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sas_phy->phy) {
 		struct sas_phy *sphy = sas_phy->phy;
@@ -261,7 +269,15 @@ static void mvs_bytes_dmaed(struct mvs_info *mvi, int i, gfp_t gfp_flags)
 
 	sas_phy->frame_rcvd_size = phy->frame_rcvd_size;
 
+<<<<<<< HEAD
 	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, gfp_flags);
+=======
+<<<<<<< HEAD
+	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, gfp_flags);
+=======
+	sas_notify_port_event_gfp(sas_phy, PORTE_BYTES_DMAED, gfp_flags);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void mvs_scan_start(struct Scsi_Host *shost)
@@ -1892,7 +1908,15 @@ static void mvs_work_queue(struct work_struct *work)
 			if (!(tmp & PHY_READY_MASK)) {
 				sas_phy_disconnected(sas_phy);
 				mvs_phy_disconnected(phy);
+<<<<<<< HEAD
 				sas_notify_phy_event(sas_phy,
+=======
+<<<<<<< HEAD
+				sas_notify_phy_event(sas_phy,
+=======
+				sas_notify_phy_event_gfp(sas_phy,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					PHYE_LOSS_OF_SIGNAL, GFP_ATOMIC);
 				mv_dprintk("phy%d Removed Device\n", phy_no);
 			} else {
@@ -1905,7 +1929,15 @@ static void mvs_work_queue(struct work_struct *work)
 		}
 	} else if (mwq->handler & EXP_BRCT_CHG) {
 		phy->phy_event &= ~EXP_BRCT_CHG;
+<<<<<<< HEAD
 		sas_notify_port_event(sas_phy,
+=======
+<<<<<<< HEAD
+		sas_notify_port_event(sas_phy,
+=======
+		sas_notify_port_event_gfp(sas_phy,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				PORTE_BROADCAST_RCVD, GFP_ATOMIC);
 		mv_dprintk("phy%d Got Broadcast Change\n", phy_no);
 	}

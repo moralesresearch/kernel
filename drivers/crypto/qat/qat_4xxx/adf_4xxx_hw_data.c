@@ -19,7 +19,11 @@ static struct adf_fw_config adf_4xxx_fw_config[] = {
 };
 
 /* Worker thread to service arbiter mappings */
+<<<<<<< HEAD
 static const u32 thrd_to_arb_map[ADF_4XXX_MAX_ACCELENGINES] = {
+=======
+static u32 thrd_to_arb_map[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	0x5555555, 0x5555555, 0x5555555, 0x5555555,
 	0xAAAAAAA, 0xAAAAAAA, 0xAAAAAAA, 0xAAAAAAA,
 	0x0
@@ -119,9 +123,23 @@ static enum dev_sku_info get_sku(struct adf_hw_device_data *self)
 	return DEV_SKU_1;
 }
 
+<<<<<<< HEAD
 static const u32 *adf_get_arbiter_mapping(void)
 {
 	return thrd_to_arb_map;
+=======
+static void adf_get_arbiter_mapping(struct adf_accel_dev *accel_dev,
+				    u32 const **arb_map_config)
+{
+	struct adf_hw_device_data *hw_device = accel_dev->hw_device;
+	unsigned long ae_mask = hw_device->ae_mask;
+	int i;
+
+	for_each_clear_bit(i, &ae_mask, ADF_4XXX_MAX_ACCELENGINES)
+		thrd_to_arb_map[i] = 0;
+
+	*arb_map_config = thrd_to_arb_map;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void get_arb_info(struct arb_info *arb_info)

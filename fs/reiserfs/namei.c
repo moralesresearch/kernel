@@ -615,12 +615,21 @@ static int new_inode_init(struct inode *inode, struct inode *dir, umode_t mode)
 	 * the quota init calls have to know who to charge the quota to, so
 	 * we have to set uid and gid here
 	 */
+<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
 	return dquot_initialize(inode);
 }
 
 static int reiserfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 			   struct dentry *dentry, umode_t mode, bool excl)
+=======
+	inode_init_owner(inode, dir, mode);
+	return dquot_initialize(inode);
+}
+
+static int reiserfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+			   bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval;
 	struct inode *inode;
@@ -698,8 +707,13 @@ out_failed:
 	return retval;
 }
 
+<<<<<<< HEAD
 static int reiserfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 			  struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+static int reiserfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode,
+			  dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval;
 	struct inode *inode;
@@ -781,8 +795,12 @@ out_failed:
 	return retval;
 }
 
+<<<<<<< HEAD
 static int reiserfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 			  struct dentry *dentry, umode_t mode)
+=======
+static int reiserfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval;
 	struct inode *inode;
@@ -1095,9 +1113,14 @@ out_unlink:
 	return retval;
 }
 
+<<<<<<< HEAD
 static int reiserfs_symlink(struct user_namespace *mnt_userns,
 			    struct inode *parent_dir, struct dentry *dentry,
 			    const char *symname)
+=======
+static int reiserfs_symlink(struct inode *parent_dir,
+			    struct dentry *dentry, const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval;
 	struct inode *inode;
@@ -1306,8 +1329,12 @@ static void set_ino_in_dir_entry(struct reiserfs_dir_entry *de,
  * one path. If it holds 2 or more, it can get into endless waiting in
  * get_empty_nodes or its clones
  */
+<<<<<<< HEAD
 static int reiserfs_rename(struct user_namespace *mnt_userns,
 			   struct inode *old_dir, struct dentry *old_dentry,
+=======
+static int reiserfs_rename(struct inode *old_dir, struct dentry *old_dentry,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   struct inode *new_dir, struct dentry *new_dentry,
 			   unsigned int flags)
 {

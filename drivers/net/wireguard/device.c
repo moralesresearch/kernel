@@ -157,7 +157,15 @@ static netdev_tx_t wg_xmit(struct sk_buff *skb, struct net_device *dev)
 	} else {
 		struct sk_buff *segs = skb_gso_segment(skb, 0);
 
+<<<<<<< HEAD
 		if (IS_ERR(segs)) {
+=======
+<<<<<<< HEAD
+		if (IS_ERR(segs)) {
+=======
+		if (unlikely(IS_ERR(segs))) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = PTR_ERR(segs);
 			goto err_peer;
 		}

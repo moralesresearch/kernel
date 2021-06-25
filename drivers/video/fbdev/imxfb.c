@@ -657,7 +657,11 @@ static int imxfb_activate_var(struct fb_var_screeninfo *var, struct fb_info *inf
 static int imxfb_init_fbinfo(struct platform_device *pdev)
 {
 	struct imx_fb_platform_data *pdata = dev_get_platdata(&pdev->dev);
+<<<<<<< HEAD
 	struct fb_info *info = platform_get_drvdata(pdev);
+=======
+	struct fb_info *info = dev_get_drvdata(&pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct imxfb_info *fbi = info->par;
 	struct device_node *np;
 

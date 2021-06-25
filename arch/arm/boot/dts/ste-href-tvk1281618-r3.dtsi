@@ -8,6 +8,7 @@
 / {
 	soc {
 		i2c@80128000 {
+<<<<<<< HEAD
 			accelerometer@19 {
 				compatible = "st,lsm303dlhc-accel";
 				st,drdy-int-pin = <1>;
@@ -45,6 +46,39 @@
 				reg = <0x5c>;
 				vdd-supply = <&ab8500_ldo_aux1_reg>;
 				vddio-supply = <&db8500_vsmps2_reg>;
+=======
+			/* Marked:
+			 * 129
+			 * M35
+			 * L3GD20
+			 */
+			l3gd20@6a {
+				/* Gyroscope */
+				compatible = "st,l3gd20";
+				status = "disabled";
+				st,drdy-int-pin = <1>;
+				drive-open-drain;
+				reg = <0x6a>; // 0x6a or 0x6b
+				vdd-supply = <&ab8500_ldo_aux1_reg>;
+				vddio-supply = <&db8500_vsmps2_reg>;
+			};
+			/*
+			 * Marked:
+			 * 2122
+			 * C3H
+			 * DQEEE
+			 * LIS3DH?
+			 */
+			lis3dh@18 {
+				/* Accelerometer */
+				compatible = "st,lis3dh-accel";
+				st,drdy-int-pin = <1>;
+				reg = <0x18>;
+				vdd-supply = <&ab8500_ldo_aux1_reg>;
+				vddio-supply = <&db8500_vsmps2_reg>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&accel_tvk_mode>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 
@@ -60,6 +94,7 @@
 				};
 			};
 		};
+<<<<<<< HEAD
 
 		pinctrl {
 			accelerometer {
@@ -81,5 +116,7 @@
 				};
 			};
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

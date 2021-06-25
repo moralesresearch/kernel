@@ -104,6 +104,7 @@ static int ixgbe_run_xdp_zc(struct ixgbe_adapter *adapter,
 	xdp_prog = READ_ONCE(rx_ring->xdp_prog);
 	act = bpf_prog_run_xdp(xdp_prog, xdp);
 
+<<<<<<< HEAD
 	if (likely(act == XDP_REDIRECT)) {
 		err = xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog);
 		if (err)
@@ -112,22 +113,39 @@ static int ixgbe_run_xdp_zc(struct ixgbe_adapter *adapter,
 		return IXGBE_XDP_REDIR;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (act) {
 	case XDP_PASS:
 		break;
 	case XDP_TX:
 		xdpf = xdp_convert_buff_to_frame(xdp);
+<<<<<<< HEAD
 		if (unlikely(!xdpf))
 			goto out_failure;
 		result = ixgbe_xmit_xdp_ring(adapter, xdpf);
 		if (result == IXGBE_XDP_CONSUMED)
 			goto out_failure;
+=======
+		if (unlikely(!xdpf)) {
+			result = IXGBE_XDP_CONSUMED;
+			break;
+		}
+		result = ixgbe_xmit_xdp_ring(adapter, xdpf);
+		break;
+	case XDP_REDIRECT:
+		err = xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog);
+		result = !err ? IXGBE_XDP_REDIR : IXGBE_XDP_CONSUMED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		bpf_warn_invalid_xdp_action(act);
 		fallthrough;
 	case XDP_ABORTED:
+<<<<<<< HEAD
 out_failure:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
 		fallthrough; /* handle aborts by dropping packet */
 	case XDP_DROP:

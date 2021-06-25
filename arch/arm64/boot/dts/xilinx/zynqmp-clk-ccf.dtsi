@@ -116,10 +116,13 @@
 	clocks = <&zynqmp_clk ADMA_REF>, <&zynqmp_clk LPD_LSBUS>;
 };
 
+<<<<<<< HEAD
 &nand0 {
 	clocks = <&zynqmp_clk NAND_REF>, <&zynqmp_clk LPD_LSBUS>;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &gem0 {
 	clocks = <&zynqmp_clk LPD_LSBUS>, <&zynqmp_clk GEM0_REF>,
 		 <&zynqmp_clk GEM0_TX>, <&zynqmp_clk GEM0_RX>,
@@ -164,10 +167,13 @@
 	clocks = <&zynqmp_clk PCIE_REF>;
 };
 
+<<<<<<< HEAD
 &qspi {
 	clocks = <&zynqmp_clk QSPI_REF>, <&zynqmp_clk LPD_LSBUS>;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &sata {
 	clocks = <&zynqmp_clk SATA_REF>;
 };
@@ -223,6 +229,7 @@
 &watchdog0 {
 	clocks = <&zynqmp_clk WDT>;
 };
+<<<<<<< HEAD
 
 &lpd_watchdog {
 	clocks = <&zynqmp_clk LPD_WDT>;
@@ -237,3 +244,5 @@
 		 <&zynqmp_clk DP_AUDIO_REF>,
 		 <&zynqmp_clk DP_VIDEO_REF>;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

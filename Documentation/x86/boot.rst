@@ -851,7 +851,11 @@ Protocol:	2.09+
     struct setup_data {
       __u64 next = 0 or <addr_of_next_setup_data_struct>;
       __u32 type = SETUP_INDIRECT;
+<<<<<<< HEAD
       __u32 len = sizeof(setup_indirect);
+=======
+      __u32 len = sizeof(setup_data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       __u8 data[sizeof(setup_indirect)] = struct setup_indirect {
         __u32 type = SETUP_INDIRECT | SETUP_E820_EXT;
         __u32 reserved = 0;

@@ -56,9 +56,17 @@ mac80211-$(CONFIG_PM) += pm.o
 CFLAGS_trace.o := -I$(src)
 
 rc80211_minstrel-y := \
+<<<<<<< HEAD
 	rc80211_minstrel_ht.o
 
 rc80211_minstrel-$(CONFIG_MAC80211_DEBUGFS) += \
+=======
+	rc80211_minstrel.o \
+	rc80211_minstrel_ht.o
+
+rc80211_minstrel-$(CONFIG_MAC80211_DEBUGFS) += \
+	rc80211_minstrel_debugfs.o \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc80211_minstrel_ht_debugfs.o
 
 mac80211-$(CONFIG_MAC80211_RC_MINSTREL) += $(rc80211_minstrel-y)

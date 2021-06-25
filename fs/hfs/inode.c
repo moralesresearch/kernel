@@ -602,15 +602,23 @@ static int hfs_file_release(struct inode *inode, struct file *file)
  *     correspond to the same HFS file.
  */
 
+<<<<<<< HEAD
 int hfs_inode_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		      struct iattr *attr)
+=======
+int hfs_inode_setattr(struct dentry *dentry, struct iattr * attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
 	int error;
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry,
 				attr); /* basic permission checks */
+=======
+	error = setattr_prepare(dentry, attr); /* basic permission checks */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -649,7 +657,11 @@ int hfs_inode_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 						  current_time(inode);
 	}
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attr);
+=======
+	setattr_copy(inode, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }

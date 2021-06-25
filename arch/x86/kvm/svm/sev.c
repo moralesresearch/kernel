@@ -22,7 +22,10 @@
 
 #include "x86.h"
 #include "svm.h"
+<<<<<<< HEAD
 #include "svm_ops.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "cpuid.h"
 #include "trace.h"
 
@@ -87,7 +90,11 @@ static bool __sev_recycle_asids(int min_asid, int max_asid)
 	return true;
 }
 
+<<<<<<< HEAD
 static int sev_asid_new(bool es_active)
+=======
+static int sev_asid_new(struct kvm_sev_info *sev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int pos, min_asid, max_asid;
 	bool retry = true;
@@ -98,8 +105,13 @@ static int sev_asid_new(bool es_active)
 	 * SEV-enabled guests must use asid from min_sev_asid to max_sev_asid.
 	 * SEV-ES-enabled guest can use from 1 to min_sev_asid - 1.
 	 */
+<<<<<<< HEAD
 	min_asid = es_active ? 0 : min_sev_asid - 1;
 	max_asid = es_active ? min_sev_asid - 1 : max_sev_asid;
+=======
+	min_asid = sev->es_active ? 0 : min_sev_asid - 1;
+	max_asid = sev->es_active ? min_sev_asid - 1 : max_sev_asid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 again:
 	pos = find_next_zero_bit(sev_asid_bitmap, max_sev_asid, min_asid);
 	if (pos >= max_asid) {
@@ -179,17 +191,26 @@ static void sev_unbind_asid(struct kvm *kvm, unsigned int handle)
 static int sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp)
 {
 	struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
+<<<<<<< HEAD
 	bool es_active = argp->id == KVM_SEV_ES_INIT;
 	int asid, ret;
 
 	if (kvm->created_vcpus)
 		return -EINVAL;
 
+=======
+	int asid, ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = -EBUSY;
 	if (unlikely(sev->active))
 		return ret;
 
+<<<<<<< HEAD
 	asid = sev_asid_new(es_active);
+=======
+	asid = sev_asid_new(sev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (asid < 0)
 		return ret;
 
@@ -198,7 +219,10 @@ static int sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp)
 		goto e_free;
 
 	sev->active = true;
+<<<<<<< HEAD
 	sev->es_active = es_active;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sev->asid = asid;
 	INIT_LIST_HEAD(&sev->regions_list);
 
@@ -209,6 +233,19 @@ e_free:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static int sev_es_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp)
+{
+	if (!sev_es)
+		return -ENOTTY;
+
+	to_kvm_svm(kvm)->sev_info.es_active = true;
+
+	return sev_guest_init(kvm, argp);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sev_bind_asid(struct kvm *kvm, unsigned int handle, int *error)
 {
 	struct sev_data_activate *data;
@@ -559,7 +596,10 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
 {
 	struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
 	struct sev_data_launch_update_vmsa *vmsa;
+<<<<<<< HEAD
 	struct kvm_vcpu *vcpu;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret;
 
 	if (!sev_es_guest(kvm))
@@ -569,8 +609,13 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
 	if (!vmsa)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	kvm_for_each_vcpu(i, vcpu, kvm) {
 		struct vcpu_svm *svm = to_svm(vcpu);
+=======
+	for (i = 0; i < kvm->created_vcpus; i++) {
+		struct vcpu_svm *svm = to_svm(kvm->vcpus[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Perform some pre-encryption checks against the VMSA */
 		ret = sev_es_sync_vmsa(svm);
@@ -1038,6 +1083,7 @@ e_unpin_memory:
 	return ret;
 }
 
+<<<<<<< HEAD
 static int sev_get_attestation_report(struct kvm *kvm, struct kvm_sev_cmd *argp)
 {
 	void __user *report = (void __user *)(uintptr_t)argp->data;
@@ -1106,6 +1152,8 @@ e_free:
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
 {
 	struct kvm_sev_cmd sev_cmd;
@@ -1123,6 +1171,7 @@ int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
 	mutex_lock(&kvm->lock);
 
 	switch (sev_cmd.id) {
+<<<<<<< HEAD
 	case KVM_SEV_ES_INIT:
 		if (!sev_es) {
 			r = -ENOTTY;
@@ -1132,6 +1181,14 @@ int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
 	case KVM_SEV_INIT:
 		r = sev_guest_init(kvm, &sev_cmd);
 		break;
+=======
+	case KVM_SEV_INIT:
+		r = sev_guest_init(kvm, &sev_cmd);
+		break;
+	case KVM_SEV_ES_INIT:
+		r = sev_es_guest_init(kvm, &sev_cmd);
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case KVM_SEV_LAUNCH_START:
 		r = sev_launch_start(kvm, &sev_cmd);
 		break;
@@ -1159,9 +1216,12 @@ int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
 	case KVM_SEV_LAUNCH_SECRET:
 		r = sev_launch_secret(kvm, &sev_cmd);
 		break;
+<<<<<<< HEAD
 	case KVM_SEV_GET_ATTESTATION_REPORT:
 		r = sev_get_attestation_report(kvm, &sev_cmd);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		r = -EINVAL;
 		goto out;
@@ -1348,11 +1408,16 @@ void __init sev_hardware_setup(void)
 		goto out;
 
 	sev_reclaim_asid_bitmap = bitmap_zalloc(max_sev_asid, GFP_KERNEL);
+<<<<<<< HEAD
 	if (!sev_reclaim_asid_bitmap) {
 		bitmap_free(sev_asid_bitmap);
 		sev_asid_bitmap = NULL;
 		goto out;
 	}
+=======
+	if (!sev_reclaim_asid_bitmap)
+		goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pr_info("SEV supported: %u ASIDs\n", max_sev_asid - min_sev_asid + 1);
 	sev_supported = true;
@@ -1668,7 +1733,11 @@ vmgexit_err:
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 void sev_es_unmap_ghcb(struct vcpu_svm *svm)
+=======
+static void pre_sev_es_run(struct vcpu_svm *svm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!svm->ghcb)
 		return;
@@ -1704,6 +1773,12 @@ void pre_sev_run(struct vcpu_svm *svm, int cpu)
 	struct svm_cpu_data *sd = per_cpu(svm_data, cpu);
 	int asid = sev_get_asid(svm->vcpu.kvm);
 
+<<<<<<< HEAD
+=======
+	/* Perform any SEV-ES pre-run actions */
+	pre_sev_es_run(svm);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Assign the asid allocated with this SEV guest */
 	svm->asid = asid;
 
@@ -2065,17 +2140,40 @@ void sev_es_create_vcpu(struct vcpu_svm *svm)
 					    sev_enc_bit));
 }
 
+<<<<<<< HEAD
 void sev_es_prepare_guest_switch(struct vcpu_svm *svm, unsigned int cpu)
 {
 	struct svm_cpu_data *sd = per_cpu(svm_data, cpu);
 	struct vmcb_save_area *hostsa;
+=======
+void sev_es_vcpu_load(struct vcpu_svm *svm, int cpu)
+{
+	struct svm_cpu_data *sd = per_cpu(svm_data, cpu);
+	struct vmcb_save_area *hostsa;
+	unsigned int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * As an SEV-ES guest, hardware will restore the host state on VMEXIT,
 	 * of which one step is to perform a VMLOAD. Since hardware does not
 	 * perform a VMSAVE on VMRUN, the host savearea must be updated.
 	 */
+<<<<<<< HEAD
 	vmsave(__sme_page_pa(sd->save_area));
+=======
+	asm volatile(__ex("vmsave %0") : : "a" (__sme_page_pa(sd->save_area)) : "memory");
+
+	/*
+	 * Certain MSRs are restored on VMEXIT, only save ones that aren't
+	 * restored.
+	 */
+	for (i = 0; i < NR_HOST_SAVE_USER_MSRS; i++) {
+		if (host_save_user_msrs[i].sev_es_restored)
+			continue;
+
+		rdmsrl(host_save_user_msrs[i].index, svm->host_user_msrs[i]);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* XCR0 is restored on VMEXIT, save the current host value */
 	hostsa = (struct vmcb_save_area *)(page_address(sd->save_area) + 0x400);
@@ -2088,6 +2186,25 @@ void sev_es_prepare_guest_switch(struct vcpu_svm *svm, unsigned int cpu)
 	hostsa->xss = host_xss;
 }
 
+<<<<<<< HEAD
+=======
+void sev_es_vcpu_put(struct vcpu_svm *svm)
+{
+	unsigned int i;
+
+	/*
+	 * Certain MSRs are restored on VMEXIT and were saved with vmsave in
+	 * sev_es_vcpu_load() above. Only restore ones that weren't.
+	 */
+	for (i = 0; i < NR_HOST_SAVE_USER_MSRS; i++) {
+		if (host_save_user_msrs[i].sev_es_restored)
+			continue;
+
+		wrmsrl(host_save_user_msrs[i].index, svm->host_user_msrs[i]);
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sev_vcpu_deliver_sipi_vector(struct kvm_vcpu *vcpu, u8 vector)
 {
 	struct vcpu_svm *svm = to_svm(vcpu);
@@ -2103,8 +2220,11 @@ void sev_vcpu_deliver_sipi_vector(struct kvm_vcpu *vcpu, u8 vector)
 	 * the guest will set the CS and RIP. Set SW_EXIT_INFO_2 to a
 	 * non-zero value.
 	 */
+<<<<<<< HEAD
 	if (!svm->ghcb)
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ghcb_set_sw_exit_info_2(svm->ghcb, 1);
 }

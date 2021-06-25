@@ -1672,7 +1672,11 @@ static void set_dai_flags(struct snd_soc_dai_driver *dai_drv,
 			  unsigned int flag_mask, unsigned int flags)
 {
 	if (flag_mask & SND_SOC_TPLG_DAI_FLGBIT_SYMMETRIC_RATES)
+<<<<<<< HEAD
 		dai_drv->symmetric_rate =
+=======
+		dai_drv->symmetric_rates =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			flags & SND_SOC_TPLG_DAI_FLGBIT_SYMMETRIC_RATES ? 1 : 0;
 
 	if (flag_mask & SND_SOC_TPLG_DAI_FLGBIT_SYMMETRIC_CHANNELS)
@@ -1681,7 +1685,11 @@ static void set_dai_flags(struct snd_soc_dai_driver *dai_drv,
 			1 : 0;
 
 	if (flag_mask & SND_SOC_TPLG_DAI_FLGBIT_SYMMETRIC_SAMPLEBITS)
+<<<<<<< HEAD
 		dai_drv->symmetric_sample_bits =
+=======
+		dai_drv->symmetric_samplebits =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			flags & SND_SOC_TPLG_DAI_FLGBIT_SYMMETRIC_SAMPLEBITS ?
 			1 : 0;
 }
@@ -1764,7 +1772,11 @@ static void set_link_flags(struct snd_soc_dai_link *link,
 		unsigned int flag_mask, unsigned int flags)
 {
 	if (flag_mask & SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_RATES)
+<<<<<<< HEAD
 		link->symmetric_rate =
+=======
+		link->symmetric_rates =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			flags & SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_RATES ? 1 : 0;
 
 	if (flag_mask & SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_CHANNELS)
@@ -1773,7 +1785,11 @@ static void set_link_flags(struct snd_soc_dai_link *link,
 			1 : 0;
 
 	if (flag_mask & SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_SAMPLEBITS)
+<<<<<<< HEAD
 		link->symmetric_sample_bits =
+=======
+		link->symmetric_samplebits =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			flags & SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_SAMPLEBITS ?
 			1 : 0;
 
@@ -2660,6 +2676,7 @@ int snd_soc_tplg_component_load(struct snd_soc_component *comp,
 	struct soc_tplg tplg;
 	int ret;
 
+<<<<<<< HEAD
 	/*
 	 * check if we have sane parameters:
 	 * comp - needs to exist to keep and reference data while parsing
@@ -2668,6 +2685,10 @@ int snd_soc_tplg_component_load(struct snd_soc_component *comp,
 	 * fw - we need it, as it is the very thing we parse
 	 */
 	if (!comp || !comp->dev || !comp->card || !fw)
+=======
+	/* component needs to exist to keep and reference data while parsing */
+	if (!comp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	/* setup parsing context */
@@ -2675,6 +2696,7 @@ int snd_soc_tplg_component_load(struct snd_soc_component *comp,
 	tplg.fw = fw;
 	tplg.dev = comp->dev;
 	tplg.comp = comp;
+<<<<<<< HEAD
 	if (ops) {
 		tplg.ops = ops;
 		tplg.io_ops = ops->io_ops;
@@ -2682,6 +2704,13 @@ int snd_soc_tplg_component_load(struct snd_soc_component *comp,
 		tplg.bytes_ext_ops = ops->bytes_ext_ops;
 		tplg.bytes_ext_ops_count = ops->bytes_ext_ops_count;
 	}
+=======
+	tplg.ops = ops;
+	tplg.io_ops = ops->io_ops;
+	tplg.io_ops_count = ops->io_ops_count;
+	tplg.bytes_ext_ops = ops->bytes_ext_ops;
+	tplg.bytes_ext_ops_count = ops->bytes_ext_ops_count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = soc_tplg_load(&tplg);
 	/* free the created components if fail to load topology */

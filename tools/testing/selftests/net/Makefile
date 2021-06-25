@@ -22,7 +22,10 @@ TEST_PROGS += devlink_port_split.py
 TEST_PROGS += drop_monitor_tests.sh
 TEST_PROGS += vrf_route_leaking.sh
 TEST_PROGS += bareudp.sh
+<<<<<<< HEAD
 TEST_PROGS += unicast_extensions.sh
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 TEST_PROGS_EXTENDED := in_netns.sh
 TEST_GEN_FILES =  socket nettest
 TEST_GEN_FILES += psock_fanout psock_tpacket msg_zerocopy reuseport_addr_any

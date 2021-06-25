@@ -4,7 +4,11 @@
  * Copyright 2006-2007	Jiri Benc <jbenc@suse.cz>
  * Copyright 2013-2014  Intel Mobile Communications GmbH
  * Copyright (C) 2015 - 2017 Intel Deutschland GmbH
+<<<<<<< HEAD
  * Copyright (C) 2018-2021 Intel Corporation
+=======
+ * Copyright (C) 2018-2020 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/module.h>
@@ -392,8 +396,11 @@ struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
 
 	u64_stats_init(&sta->rx_stats.syncp);
 
+<<<<<<< HEAD
 	ieee80211_init_frag_cache(&sta->frags);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sta->sta_state = IEEE80211_STA_NONE;
 
 	/* Mark TID as unreserved */
@@ -1104,8 +1111,11 @@ static void __sta_info_destroy_part2(struct sta_info *sta)
 
 	ieee80211_sta_debugfs_remove(sta);
 
+<<<<<<< HEAD
 	ieee80211_destroy_frag_cache(&sta->frags);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cleanup_single_sta(sta);
 }
 

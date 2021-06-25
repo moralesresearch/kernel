@@ -56,10 +56,21 @@
 static DEFINE_IDA(gpio_ida);
 static dev_t gpio_devt;
 #define GPIO_DEV_MAX 256 /* 256 GPIO chip devices supported */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int gpio_bus_match(struct device *dev, struct device_driver *drv);
 static struct bus_type gpio_bus_type = {
 	.name = "gpio",
 	.match = gpio_bus_match,
+<<<<<<< HEAD
+=======
+=======
+static struct bus_type gpio_bus_type = {
+	.name = "gpio",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -367,18 +378,46 @@ static int gpiochip_set_desc_names(struct gpio_chip *gc)
  *
  * Looks for device property "gpio-line-names" and if it exists assigns
  * GPIO line names for the chip. The memory allocated for the assigned
+<<<<<<< HEAD
  * names belong to the underlying firmware node and should not be released
+=======
+<<<<<<< HEAD
+ * names belong to the underlying firmware node and should not be released
+=======
+ * names belong to the underlying software node and should not be released
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * by the caller.
  */
 static int devprop_gpiochip_set_names(struct gpio_chip *chip)
 {
 	struct gpio_device *gdev = chip->gpiodev;
+<<<<<<< HEAD
 	struct fwnode_handle *fwnode = dev_fwnode(&gdev->dev);
+=======
+<<<<<<< HEAD
+	struct fwnode_handle *fwnode = dev_fwnode(&gdev->dev);
+=======
+	struct device *dev = chip->parent;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char **names;
 	int ret, i;
 	int count;
 
+<<<<<<< HEAD
 	count = fwnode_property_string_array_count(fwnode, "gpio-line-names");
+=======
+<<<<<<< HEAD
+	count = fwnode_property_string_array_count(fwnode, "gpio-line-names");
+=======
+	/* GPIO chip may not have a parent device whose properties we inspect. */
+	if (!dev)
+		return 0;
+
+	count = device_property_string_array_count(dev, "gpio-line-names");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (count < 0)
 		return 0;
 
@@ -392,7 +431,15 @@ static int devprop_gpiochip_set_names(struct gpio_chip *chip)
 	if (!names)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ret = fwnode_property_read_string_array(fwnode, "gpio-line-names",
+=======
+<<<<<<< HEAD
+	ret = fwnode_property_read_string_array(fwnode, "gpio-line-names",
+=======
+	ret = device_property_read_string_array(dev, "gpio-line-names",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						names, count);
 	if (ret < 0) {
 		dev_warn(&gdev->dev, "failed to read GPIO line names\n");
@@ -470,7 +517,15 @@ EXPORT_SYMBOL_GPL(gpiochip_line_is_valid);
 
 static void gpiodevice_release(struct device *dev)
 {
+<<<<<<< HEAD
 	struct gpio_device *gdev = container_of(dev, struct gpio_device, dev);
+=======
+<<<<<<< HEAD
+	struct gpio_device *gdev = container_of(dev, struct gpio_device, dev);
+=======
+	struct gpio_device *gdev = dev_get_drvdata(dev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 
 	spin_lock_irqsave(&gpio_lock, flags);
@@ -593,7 +648,21 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
 		gdev->dev.of_node = gc->parent->of_node;
 	}
 
+<<<<<<< HEAD
 	of_gpio_dev_init(gc, gdev);
+=======
+<<<<<<< HEAD
+	of_gpio_dev_init(gc, gdev);
+=======
+#ifdef CONFIG_OF_GPIO
+	/* If the gpiochip has an assigned OF node this takes precedence */
+	if (gc->of_node)
+		gdev->dev.of_node = gc->of_node;
+	else
+		gc->of_node = gdev->dev.of_node;
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Assign fwnode depending on the result of the previous calls,
@@ -612,6 +681,13 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
 		goto err_free_ida;
 
 	device_initialize(&gdev->dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dev_set_drvdata(&gdev->dev, gdev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gc->parent && gc->parent->driver)
 		gdev->owner = gc->parent->driver->owner;
 	else if (gc->owner)
@@ -3471,10 +3547,19 @@ EXPORT_SYMBOL_GPL(gpiod_add_lookup_table);
  */
 void gpiod_remove_lookup_table(struct gpiod_lookup_table *table)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Nothing to remove */
 	if (!table)
 		return;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&gpio_lookup_lock);
 
 	list_del(&table->list);
@@ -4217,6 +4302,10 @@ void gpiod_put_array(struct gpio_descs *descs)
 }
 EXPORT_SYMBOL_GPL(gpiod_put_array);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int gpio_bus_match(struct device *dev, struct device_driver *drv)
 {
@@ -4252,6 +4341,11 @@ static struct device_driver gpio_stub_drv = {
 	.probe = gpio_stub_drv_probe,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init gpiolib_dev_init(void)
 {
 	int ret;
@@ -4263,6 +4357,10 @@ static int __init gpiolib_dev_init(void)
 		return ret;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = driver_register(&gpio_stub_drv);
 	if (ret < 0) {
 		pr_err("gpiolib: could not register GPIO stub driver\n");
@@ -4274,6 +4372,14 @@ static int __init gpiolib_dev_init(void)
 	if (ret < 0) {
 		pr_err("gpiolib: failed to allocate char dev region\n");
 		driver_unregister(&gpio_stub_drv);
+<<<<<<< HEAD
+=======
+=======
+	ret = alloc_chrdev_region(&gpio_devt, 0, GPIO_DEV_MAX, GPIOCHIP_NAME);
+	if (ret < 0) {
+		pr_err("gpiolib: failed to allocate char dev region\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bus_unregister(&gpio_bus_type);
 		return ret;
 	}

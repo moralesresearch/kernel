@@ -100,7 +100,10 @@ out:
 	return ++printed;
 }
 
+<<<<<<< HEAD
 #ifndef PYTHON_PERF
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int sample__fprintf_callchain(struct perf_sample *sample, int left_alignment,
 			      unsigned int print_opts, struct callchain_cursor *cursor,
 			      struct strlist *bt_stop_list, FILE *fp)
@@ -240,4 +243,7 @@ int sample__fprintf_sym(struct perf_sample *sample, struct addr_location *al,
 
 	return printed;
 }
+<<<<<<< HEAD
 #endif /* PYTHON_PERF */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

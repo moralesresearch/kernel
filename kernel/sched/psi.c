@@ -711,15 +711,23 @@ static void psi_group_change(struct psi_group *group, int cpu,
 	for (t = 0, m = clear; m; m &= ~(1 << t), t++) {
 		if (!(m & (1 << t)))
 			continue;
+<<<<<<< HEAD
 		if (groupc->tasks[t]) {
 			groupc->tasks[t]--;
 		} else if (!psi_bug) {
+=======
+		if (groupc->tasks[t] == 0 && !psi_bug) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			printk_deferred(KERN_ERR "psi: task underflow! cpu=%d t=%d tasks=[%u %u %u %u] clear=%x set=%x\n",
 					cpu, t, groupc->tasks[0],
 					groupc->tasks[1], groupc->tasks[2],
 					groupc->tasks[3], clear, set);
 			psi_bug = 1;
 		}
+<<<<<<< HEAD
+=======
+		groupc->tasks[t]--;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (t = 0; set; set &= ~(1 << t), t++)

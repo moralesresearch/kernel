@@ -141,8 +141,12 @@ extern struct inode *sysv_iget(struct super_block *, unsigned int);
 extern int sysv_write_inode(struct inode *, struct writeback_control *wbc);
 extern int sysv_sync_inode(struct inode *);
 extern void sysv_set_inode(struct inode *, dev_t);
+<<<<<<< HEAD
 extern int sysv_getattr(struct user_namespace *, const struct path *,
 			struct kstat *, u32, unsigned int);
+=======
+extern int sysv_getattr(const struct path *, struct kstat *, u32, unsigned int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int sysv_init_icache(void);
 extern void sysv_destroy_icache(void);
 

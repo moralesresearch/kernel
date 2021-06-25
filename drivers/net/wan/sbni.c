@@ -1535,7 +1535,11 @@ sbni_setup( char  *p )
 		goto  bad_param;
 
 	for( n = 0, parm = 0;  *p  &&  n < 8; ) {
+<<<<<<< HEAD
 		(*dest[ parm ])[ n ] = simple_strtoul( p, &p, 0 );
+=======
+		(*dest[ parm ])[ n ] = simple_strtol( p, &p, 0 );
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if( !*p  ||  *p == ')' )
 			return 1;
 		if( *p == ';' ) {

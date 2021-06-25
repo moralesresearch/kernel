@@ -14,12 +14,18 @@
  * struct zynqmp_pll - PLL clock
  * @hw:		Handle between common and hardware-specific interfaces
  * @clk_id:	PLL clock ID
+<<<<<<< HEAD
  * @set_pll_mode:	Whether an IOCTL_SET_PLL_FRAC_MODE request be sent to ATF
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct zynqmp_pll {
 	struct clk_hw hw;
 	u32 clk_id;
+<<<<<<< HEAD
 	bool set_pll_mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define to_zynqmp_pll(_hw)	container_of(_hw, struct zynqmp_pll, hw)
@@ -83,8 +89,11 @@ static inline void zynqmp_pll_set_mode(struct clk_hw *hw, bool on)
 	if (ret)
 		pr_warn_once("%s() PLL set frac mode failed for %s, ret = %d\n",
 			     __func__, clk_name, ret);
+<<<<<<< HEAD
 	else
 		clk->set_pll_mode = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -104,7 +113,13 @@ static long zynqmp_pll_round_rate(struct clk_hw *hw, unsigned long rate,
 	/* Enable the fractional mode if needed */
 	rate_div = (rate * FRAC_DIV) / *prate;
 	f = rate_div % FRAC_DIV;
+<<<<<<< HEAD
 	if (f) {
+=======
+	zynqmp_pll_set_mode(hw, !!f);
+
+	if (zynqmp_pll_get_mode(hw) == PLL_MODE_FRAC) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rate > PS_PLL_VCO_MAX) {
 			fbdiv = rate / PS_PLL_VCO_MAX;
 			rate = rate / (fbdiv + 1);
@@ -175,12 +190,19 @@ static int zynqmp_pll_set_rate(struct clk_hw *hw, unsigned long rate,
 	long rate_div, frac, m, f;
 	int ret;
 
+<<<<<<< HEAD
 	rate_div = (rate * FRAC_DIV) / parent_rate;
 	f = rate_div % FRAC_DIV;
 	zynqmp_pll_set_mode(hw, !!f);
 
 	if (f) {
 		m = rate_div / FRAC_DIV;
+=======
+	if (zynqmp_pll_get_mode(hw) == PLL_MODE_FRAC) {
+		rate_div = (rate * FRAC_DIV) / parent_rate;
+		m = rate_div / FRAC_DIV;
+		f = rate_div % FRAC_DIV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		m = clamp_t(u32, m, (PLL_FBDIV_MIN), (PLL_FBDIV_MAX));
 		rate = parent_rate * m;
 		frac = (parent_rate * f) / FRAC_DIV;
@@ -244,6 +266,7 @@ static int zynqmp_pll_enable(struct clk_hw *hw)
 	u32 clk_id = clk->clk_id;
 	int ret;
 
+<<<<<<< HEAD
 	/*
 	 * Don't skip enabling clock if there is an IOCTL_SET_PLL_FRAC_MODE request
 	 * that has been sent to ATF.
@@ -253,6 +276,11 @@ static int zynqmp_pll_enable(struct clk_hw *hw)
 
 	clk->set_pll_mode = false;
 
+=======
+	if (zynqmp_pll_is_enabled(hw))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = zynqmp_pm_clock_enable(clk_id);
 	if (ret)
 		pr_warn_once("%s() clock enable failed for %s, ret = %d\n",

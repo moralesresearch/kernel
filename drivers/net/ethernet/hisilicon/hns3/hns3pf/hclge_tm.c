@@ -41,9 +41,14 @@ static int hclge_shaper_para_calc(u32 ir, u8 shaper_level,
 				  struct hclge_shaper_ir_para *ir_para,
 				  u32 max_tm_rate)
 {
+<<<<<<< HEAD
 #define DEFAULT_SHAPER_IR_B	126
 #define DIVISOR_CLK		(1000 * 8)
 #define DEFAULT_DIVISOR_IR_B	(DEFAULT_SHAPER_IR_B * DIVISOR_CLK)
+=======
+#define DIVISOR_CLK		(1000 * 8)
+#define DIVISOR_IR_B_126	(126 * DIVISOR_CLK)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	static const u16 tick_array[HCLGE_SHAPER_LVL_CNT] = {
 		6 * 256,        /* Prioriy level */
@@ -70,10 +75,17 @@ static int hclge_shaper_para_calc(u32 ir, u8 shaper_level,
 	 * ir_calc = ---------------- * 1000
 	 *		tick * 1
 	 */
+<<<<<<< HEAD
 	ir_calc = (DEFAULT_DIVISOR_IR_B + (tick >> 1) - 1) / tick;
 
 	if (ir_calc == ir) {
 		ir_para->ir_b = DEFAULT_SHAPER_IR_B;
+=======
+	ir_calc = (DIVISOR_IR_B_126 + (tick >> 1) - 1) / tick;
+
+	if (ir_calc == ir) {
+		ir_para->ir_b = 126;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ir_para->ir_u = 0;
 		ir_para->ir_s = 0;
 
@@ -82,8 +94,12 @@ static int hclge_shaper_para_calc(u32 ir, u8 shaper_level,
 		/* Increasing the denominator to select ir_s value */
 		while (ir_calc >= ir && ir) {
 			ir_s_calc++;
+<<<<<<< HEAD
 			ir_calc = DEFAULT_DIVISOR_IR_B /
 				  (tick * (1 << ir_s_calc));
+=======
+			ir_calc = DIVISOR_IR_B_126 / (tick * (1 << ir_s_calc));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		ir_para->ir_b = (ir * tick * (1 << ir_s_calc) +
@@ -94,12 +110,20 @@ static int hclge_shaper_para_calc(u32 ir, u8 shaper_level,
 
 		while (ir_calc < ir) {
 			ir_u_calc++;
+<<<<<<< HEAD
 			numerator = DEFAULT_DIVISOR_IR_B * (1 << ir_u_calc);
+=======
+			numerator = DIVISOR_IR_B_126 * (1 << ir_u_calc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ir_calc = (numerator + (tick >> 1)) / tick;
 		}
 
 		if (ir_calc == ir) {
+<<<<<<< HEAD
 			ir_para->ir_b = DEFAULT_SHAPER_IR_B;
+=======
+			ir_para->ir_b = 126;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			u32 denominator = DIVISOR_CLK * (1 << --ir_u_calc);
 			ir_para->ir_b = (ir * tick + (denominator >> 1)) /
@@ -642,6 +666,7 @@ static void hclge_tm_vport_tc_info_update(struct hclge_vport *vport)
 	/* TC configuration is shared by PF/VF in one port, only allow
 	 * one tc for VF for simplicity. VF's vport_id is non zero.
 	 */
+<<<<<<< HEAD
 	if (vport->vport_id) {
 		kinfo->tc_info.num_tc = 1;
 		vport->qs_offset = HNAE3_MAX_TC +
@@ -654,6 +679,15 @@ static void hclge_tm_vport_tc_info_update(struct hclge_vport *vport)
 		vport_max_rss_size = hdev->pf_rss_size_max;
 	}
 
+=======
+	kinfo->tc_info.num_tc = vport->vport_id ? 1 :
+			min_t(u16, vport->alloc_tqps, hdev->tm_info.num_tc);
+	vport->qs_offset = (vport->vport_id ? HNAE3_MAX_TC : 0) +
+				(vport->vport_id ? (vport->vport_id - 1) : 0);
+
+	vport_max_rss_size = vport->vport_id ? hdev->vf_rss_size_max :
+				hdev->pf_rss_size_max;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	max_rss_size = min_t(u16, vport_max_rss_size,
 			     hclge_vport_get_max_rss_size(vport));
 
@@ -1623,6 +1657,7 @@ int hclge_tm_vport_map_update(struct hclge_dev *hdev)
 
 	return hclge_tm_bp_setup(hdev);
 }
+<<<<<<< HEAD
 
 int hclge_tm_get_qset_num(struct hclge_dev *hdev, u16 *qset_num)
 {
@@ -1809,3 +1844,5 @@ int hclge_tm_get_pri_shaper(struct hclge_dev *hdev, u8 pri_id,
 	para->rate = le32_to_cpu(shap_cfg_cmd->pri_rate);
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

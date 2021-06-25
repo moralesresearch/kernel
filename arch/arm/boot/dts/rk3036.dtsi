@@ -54,6 +54,28 @@
 		};
 	};
 
+<<<<<<< HEAD
+=======
+	amba: bus {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		pdma: pdma@20078000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x20078000 0x4000>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			#dma-cells = <1>;
+			arm,pl330-broken-no-flushp;
+			arm,pl330-periph-burst;
+			clocks = <&cru ACLK_DMAC2>;
+			clock-names = "apb_pclk";
+		};
+	};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arm-pmu {
 		compatible = "arm,cortex-a7-pmu";
 		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>,
@@ -273,6 +295,7 @@
 		status = "disabled";
 	};
 
+<<<<<<< HEAD
 	nfc: nand-controller@10500000 {
 		compatible = "rockchip,rk3036-nfc",
 			     "rockchip,rk2928-nfc";
@@ -288,6 +311,8 @@
 		status = "disabled";
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cru: clock-controller@20000000 {
 		compatible = "rockchip,rk3036-cru";
 		reg = <0x20000000 0x1000>;
@@ -490,6 +515,7 @@
 		status = "disabled";
 	};
 
+<<<<<<< HEAD
 	pdma: pdma@20078000 {
 		compatible = "arm,pl330", "arm,primecell";
 		reg = <0x20078000 0x4000>;
@@ -502,6 +528,8 @@
 		clock-names = "apb_pclk";
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl: pinctrl {
 		compatible = "rockchip,rk3036-pinctrl";
 		rockchip,grf = <&grf>;
@@ -651,6 +679,7 @@
 			};
 		};
 
+<<<<<<< HEAD
 		nfc {
 			flash_ale: flash-ale {
 				rockchip,pins = <2 RK_PA0 1 &pcfg_pull_default>;
@@ -688,6 +717,8 @@
 			};
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		emac {
 			emac_xfer: emac-xfer {
 				rockchip,pins = <2 RK_PB2 1 &pcfg_pull_default>, /* crs_dvalid */

@@ -3595,7 +3595,11 @@ free_adapter:
 	return rc;
 }
 
+<<<<<<< HEAD
 static void ibmvscsis_remove(struct vio_dev *vdev)
+=======
+static int ibmvscsis_remove(struct vio_dev *vdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct scsi_info *vscsi = dev_get_drvdata(&vdev->dev);
 
@@ -3622,6 +3626,11 @@ static void ibmvscsis_remove(struct vio_dev *vdev)
 	list_del(&vscsi->list);
 	spin_unlock_bh(&ibmvscsis_dev_lock);
 	kfree(vscsi);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t system_id_show(struct device *dev,

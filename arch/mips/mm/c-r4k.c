@@ -19,7 +19,14 @@
 #include <linux/mm.h>
 #include <linux/export.h>
 #include <linux/bitops.h>
+<<<<<<< HEAD
 #include <linux/dma-map-ops.h> /* for dma_default_coherent */
+=======
+<<<<<<< HEAD
+#include <linux/dma-map-ops.h> /* for dma_default_coherent */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/bcache.h>
 #include <asm/bootinfo.h>
@@ -36,6 +43,13 @@
 #include <asm/war.h>
 #include <asm/cacheflush.h> /* for run_uncached() */
 #include <asm/traps.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <asm/dma-coherence.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/mips-cps.h>
 
 /*
@@ -1164,7 +1178,14 @@ static void probe_pcache(void)
 	case CPU_R4400PC:
 	case CPU_R4400SC:
 	case CPU_R4400MC:
+<<<<<<< HEAD
 	case CPU_R4300:
+=======
+<<<<<<< HEAD
+	case CPU_R4300:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		icache_size = 1 << (12 + ((config & CONF_IC) >> 9));
 		c->icache.linesz = 16 << ((config & CONF_IB) >> 5);
 		c->icache.ways = 1;
@@ -1914,11 +1935,29 @@ void r4k_cache_init(void)
 	__local_flush_icache_user_range	= local_r4k_flush_icache_user_range;
 
 #ifdef CONFIG_DMA_NONCOHERENT
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dma_default_coherent) {
 		_dma_cache_wback_inv	= (void *)cache_noop;
 		_dma_cache_wback	= (void *)cache_noop;
 		_dma_cache_inv		= (void *)cache_noop;
 	} else {
+<<<<<<< HEAD
+=======
+=======
+#ifdef CONFIG_DMA_MAYBE_COHERENT
+	if (coherentio == IO_COHERENCE_ENABLED ||
+	    (coherentio == IO_COHERENCE_DEFAULT && hw_coherentio)) {
+		_dma_cache_wback_inv	= (void *)cache_noop;
+		_dma_cache_wback	= (void *)cache_noop;
+		_dma_cache_inv		= (void *)cache_noop;
+	} else
+#endif /* CONFIG_DMA_MAYBE_COHERENT */
+	{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		_dma_cache_wback_inv	= r4k_dma_cache_wback_inv;
 		_dma_cache_wback	= r4k_dma_cache_wback_inv;
 		_dma_cache_inv		= r4k_dma_cache_inv;

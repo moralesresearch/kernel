@@ -259,7 +259,11 @@ int amdgpu_uvd_sw_init(struct amdgpu_device *adev)
 		if ((adev->asic_type == CHIP_POLARIS10 ||
 		     adev->asic_type == CHIP_POLARIS11) &&
 		    (adev->uvd.fw_version < FW_1_66_16))
+<<<<<<< HEAD
 			DRM_ERROR("POLARIS10/11 UVD firmware version %u.%u is too old.\n",
+=======
+			DRM_ERROR("POLARIS10/11 UVD firmware version %hu.%hu is too old.\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  version_major, version_minor);
 	} else {
 		unsigned int enc_major, enc_minor, dec_minor;
@@ -1170,7 +1174,11 @@ int amdgpu_uvd_get_create_msg(struct amdgpu_ring *ring, uint32_t handle,
 	int r, i;
 
 	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+<<<<<<< HEAD
 				      AMDGPU_GEM_DOMAIN_GTT,
+=======
+				      AMDGPU_GEM_DOMAIN_VRAM,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      &bo, NULL, (void **)&msg);
 	if (r)
 		return r;
@@ -1202,7 +1210,11 @@ int amdgpu_uvd_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
 	int r, i;
 
 	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+<<<<<<< HEAD
 				      AMDGPU_GEM_DOMAIN_GTT,
+=======
+				      AMDGPU_GEM_DOMAIN_VRAM,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      &bo, NULL, (void **)&msg);
 	if (r)
 		return r;

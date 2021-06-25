@@ -6,7 +6,14 @@
  */
 #include <net/mac80211.h>
 #include <linux/netdevice.h>
+<<<<<<< HEAD
 #include <linux/dmi.h>
+=======
+<<<<<<< HEAD
+#include <linux/dmi.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "iwl-trans.h"
 #include "iwl-op-mode.h"
@@ -476,6 +483,10 @@ static int iwl_run_unified_mvm_ucode(struct iwl_mvm *mvm)
 
 	/* Load NVM to NIC if needed */
 	if (mvm->nvm_file_name) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = iwl_read_external_nvm(mvm->trans, mvm->nvm_file_name,
 					    mvm->nvm_sections);
 		if (ret)
@@ -483,6 +494,14 @@ static int iwl_run_unified_mvm_ucode(struct iwl_mvm *mvm)
 		ret = iwl_mvm_load_nvm_to_nic(mvm);
 		if (ret)
 			goto error;
+<<<<<<< HEAD
+=======
+=======
+		iwl_read_external_nvm(mvm->trans, mvm->nvm_file_name,
+				      mvm->nvm_sections);
+		iwl_mvm_load_nvm_to_nic(mvm);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (IWL_MVM_PARSE_NVM && !mvm->nvm_data) {
@@ -638,8 +657,16 @@ int iwl_run_init_mvm_ucode(struct iwl_mvm *mvm)
 				   iwl_wait_phy_db_entry,
 				   mvm->phy_db);
 
+<<<<<<< HEAD
 	iwl_dbg_tlv_time_point(&mvm->fwrt, IWL_FW_INI_TIME_POINT_EARLY, NULL);
 
+=======
+<<<<<<< HEAD
+	iwl_dbg_tlv_time_point(&mvm->fwrt, IWL_FW_INI_TIME_POINT_EARLY, NULL);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Will also start the device */
 	ret = iwl_mvm_load_ucode_wait_alive(mvm, IWL_UCODE_INIT);
 	if (ret) {
@@ -663,11 +690,22 @@ int iwl_run_init_mvm_ucode(struct iwl_mvm *mvm)
 	}
 
 	/* In case we read the NVM from external file, load it to the NIC */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mvm->nvm_file_name) {
 		ret = iwl_mvm_load_nvm_to_nic(mvm);
 		if (ret)
 			goto remove_notif;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (mvm->nvm_file_name)
+		iwl_mvm_load_nvm_to_nic(mvm);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	WARN_ONCE(mvm->nvm_data->nvm_version < mvm->trans->cfg->nvm_ver,
 		  "Too old NVM version (0x%0x, required = 0x%0x)",
@@ -1062,6 +1100,10 @@ int iwl_mvm_ppag_send_cmd(struct iwl_mvm *mvm)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct dmi_system_id dmi_ppag_approved_list[] = {
 	{ .ident = "HP",
 	  .matches = {
@@ -1086,6 +1128,11 @@ static const struct dmi_system_id dmi_ppag_approved_list[] = {
 	{}
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int iwl_mvm_ppag_init(struct iwl_mvm *mvm)
 {
 	int ret;
@@ -1097,6 +1144,10 @@ static int iwl_mvm_ppag_init(struct iwl_mvm *mvm)
 				ret);
 		return 0;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!dmi_check_system(dmi_ppag_approved_list)) {
 		IWL_DEBUG_RADIO(mvm,
@@ -1106,6 +1157,11 @@ static int iwl_mvm_ppag_init(struct iwl_mvm *mvm)
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return iwl_mvm_ppag_send_cmd(mvm);
 }
 
@@ -1149,8 +1205,17 @@ static u8 iwl_mvm_eval_dsm_indonesia_5g2(struct iwl_mvm *mvm)
 	u8 value;
 
 	int ret = iwl_acpi_get_dsm_u8((&mvm->fwrt)->dev, 0,
+<<<<<<< HEAD
 				      DSM_FUNC_ENABLE_INDONESIA_5G2,
 				      &iwl_guid, &value);
+=======
+<<<<<<< HEAD
+				      DSM_FUNC_ENABLE_INDONESIA_5G2,
+				      &iwl_guid, &value);
+=======
+				      DSM_FUNC_ENABLE_INDONESIA_5G2, &value);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret < 0)
 		IWL_DEBUG_RADIO(mvm,
@@ -1171,6 +1236,10 @@ static u8 iwl_mvm_eval_dsm_indonesia_5g2(struct iwl_mvm *mvm)
 	return DSM_VALUE_INDONESIA_DISABLE;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 iwl_mvm_eval_dsm_rfi(struct iwl_mvm *mvm)
 {
 	u8 value;
@@ -1195,12 +1264,26 @@ static u8 iwl_mvm_eval_dsm_rfi(struct iwl_mvm *mvm)
 	return DSM_VALUE_RFI_DISABLE;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 iwl_mvm_eval_dsm_disable_srd(struct iwl_mvm *mvm)
 {
 	u8 value;
 	int ret = iwl_acpi_get_dsm_u8((&mvm->fwrt)->dev, 0,
+<<<<<<< HEAD
 				      DSM_FUNC_DISABLE_SRD,
 				      &iwl_guid, &value);
+=======
+<<<<<<< HEAD
+				      DSM_FUNC_DISABLE_SRD,
+				      &iwl_guid, &value);
+=======
+				      DSM_FUNC_DISABLE_SRD, &value);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret < 0)
 		IWL_DEBUG_RADIO(mvm,
@@ -1230,7 +1313,15 @@ static void iwl_mvm_lari_cfg(struct iwl_mvm *mvm)
 {
 	u8 ret;
 	int cmd_ret;
+<<<<<<< HEAD
 	struct iwl_lari_config_change_cmd_v2 cmd = {};
+=======
+<<<<<<< HEAD
+	struct iwl_lari_config_change_cmd_v2 cmd = {};
+=======
+	struct iwl_lari_config_change_cmd cmd = {};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (iwl_mvm_eval_dsm_indonesia_5g2(mvm) == DSM_VALUE_INDONESIA_ENABLE)
 		cmd.config_bitmap |=
@@ -1248,6 +1339,10 @@ static void iwl_mvm_lari_cfg(struct iwl_mvm *mvm)
 	/* apply more config masks here */
 
 	if (cmd.config_bitmap) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		size_t cmd_size = iwl_fw_lookup_cmd_ver(mvm->fw,
 							REGULATORY_AND_NVM_GROUP,
 							LARI_CONFIG_CHANGE, 1) == 2 ?
@@ -1260,6 +1355,16 @@ static void iwl_mvm_lari_cfg(struct iwl_mvm *mvm)
 					       WIDE_ID(REGULATORY_AND_NVM_GROUP,
 						       LARI_CONFIG_CHANGE),
 					       0, cmd_size, &cmd);
+<<<<<<< HEAD
+=======
+=======
+		IWL_DEBUG_RADIO(mvm, "sending LARI_CONFIG_CHANGE\n");
+		cmd_ret = iwl_mvm_send_cmd_pdu(mvm,
+					       WIDE_ID(REGULATORY_AND_NVM_GROUP,
+						       LARI_CONFIG_CHANGE),
+					       0, sizeof(cmd), &cmd);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (cmd_ret < 0)
 			IWL_DEBUG_RADIO(mvm,
 					"Failed to send LARI_CONFIG_CHANGE (%d)\n",
@@ -1301,11 +1406,20 @@ static void iwl_mvm_tas_init(struct iwl_mvm *mvm)
 static void iwl_mvm_lari_cfg(struct iwl_mvm *mvm)
 {
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static u8 iwl_mvm_eval_dsm_rfi(struct iwl_mvm *mvm)
 {
 	return DSM_VALUE_RFI_DISABLE;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_ACPI */
 
 void iwl_mvm_send_recovery_cmd(struct iwl_mvm *mvm, u32 flags)
@@ -1409,6 +1523,14 @@ static int iwl_mvm_load_rt_fw(struct iwl_mvm *mvm)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	iwl_dbg_tlv_time_point(&mvm->fwrt, IWL_FW_INI_TIME_POINT_EARLY, NULL);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mvm->rfkill_safe_init_done = false;
 	ret = iwl_mvm_load_ucode_wait_alive(mvm, IWL_UCODE_REGULAR);
 	if (ret)
@@ -1642,12 +1764,21 @@ int iwl_mvm_up(struct iwl_mvm *mvm)
 
 	iwl_mvm_ftm_initiator_smooth_config(mvm);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fw_has_capa(&mvm->fw->ucode_capa,
 			IWL_UCODE_TLV_CAPA_RFIM_SUPPORT)) {
 		if (iwl_mvm_eval_dsm_rfi(mvm) == DSM_VALUE_RFI_ENABLE)
 			iwl_rfi_send_config_cmd(mvm, NULL);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	IWL_DEBUG_INFO(mvm, "RT uCode started.\n");
 	return 0;
  error:

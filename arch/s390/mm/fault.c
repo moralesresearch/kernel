@@ -385,7 +385,15 @@ static inline vm_fault_t do_exception(struct pt_regs *regs, int access)
 	 * The instruction that caused the program check has
 	 * been nullified. Don't signal single step via SIGTRAP.
 	 */
+<<<<<<< HEAD
 	clear_thread_flag(TIF_PER_TRAP);
+=======
+<<<<<<< HEAD
+	clear_thread_flag(TIF_PER_TRAP);
+=======
+	clear_pt_regs_flag(regs, PIF_PER_TRAP);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (kprobe_page_fault(regs, 14))
 		return 0;

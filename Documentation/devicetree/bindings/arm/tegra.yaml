@@ -120,18 +120,24 @@ properties:
         items:
           - const: nvidia,p3668-0000
           - const: nvidia,tegra194
+<<<<<<< HEAD
       - description: Jetson Xavier NX (eMMC)
         items:
           - const: nvidia,p3668-0001
           - const: nvidia,tegra194
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - description: Jetson Xavier NX Developer Kit
         items:
           - const: nvidia,p3509-0000+p3668-0000
           - const: nvidia,tegra194
+<<<<<<< HEAD
       - description: Jetson Xavier NX Developer Kit (eMMC)
         items:
           - const: nvidia,p3509-0000+p3668-0001
           - const: nvidia,tegra194
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - items:
           - enum:
               - nvidia,tegra234-vdk

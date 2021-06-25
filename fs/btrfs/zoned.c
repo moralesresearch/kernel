@@ -1,13 +1,28 @@
 // SPDX-License-Identifier: GPL-2.0
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/bitops.h>
 #include <linux/slab.h>
 #include <linux/blkdev.h>
 #include <linux/sched/mm.h>
+<<<<<<< HEAD
+=======
+=======
+#include <linux/slab.h>
+#include <linux/blkdev.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "ctree.h"
 #include "volumes.h"
 #include "zoned.h"
 #include "rcu-string.h"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "disk-io.h"
 #include "block-group.h"
 #include "transaction.h"
@@ -34,10 +49,22 @@
 
 #define BTRFS_SB_LOG_FIRST_SHIFT	const_ilog2(BTRFS_SB_LOG_FIRST_OFFSET)
 #define BTRFS_SB_LOG_SECOND_SHIFT	const_ilog2(BTRFS_SB_LOG_SECOND_OFFSET)
+<<<<<<< HEAD
+=======
+=======
+
+/* Maximum number of zones to report per blkdev_report_zones() call */
+#define BTRFS_REPORT_NR_ZONES   4096
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Number of superblock log zones */
 #define BTRFS_NR_SB_LOG_ZONES 2
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Maximum supported zone size. Currently, SMR disks have a zone size of
  * 256MiB, and we are expecting ZNS drives to be in the 1-4GiB range. We do not
@@ -45,6 +72,11 @@
  */
 #define BTRFS_MAX_ZONE_SIZE		SZ_8G
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int copy_zone_info_cb(struct blk_zone *zone, unsigned int idx, void *data)
 {
 	struct blk_zone *zones = data;
@@ -132,6 +164,10 @@ static int sb_write_pointer(struct block_device *bdev, struct blk_zone *zones,
 }
 
 /*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Get the first zone number of the superblock mirror
  */
 static inline u32 sb_zone_number(int shift, int mirror)
@@ -150,6 +186,7 @@ static inline u32 sb_zone_number(int shift, int mirror)
 	return (u32)zone;
 }
 
+<<<<<<< HEAD
 static inline sector_t zone_start_sector(u32 zone_number,
 					 struct block_device *bdev)
 {
@@ -162,6 +199,8 @@ static inline u64 zone_start_physical(u32 zone_number,
 	return (u64)zone_number << zone_info->zone_size_shift;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Emulate blkdev_report_zones() for a non-zoned device. It slices up the block
  * device into static sized chunks and fake a conventional zone on each of
@@ -190,6 +229,28 @@ static int emulate_report_zones(struct btrfs_device *device, u64 pos,
 	}
 
 	return i;
+<<<<<<< HEAD
+=======
+=======
+ * The following zones are reserved as the circular buffer on ZONED btrfs.
+ *  - The primary superblock: zones 0 and 1
+ *  - The first copy: zones 16 and 17
+ *  - The second copy: zones 1024 or zone at 256GB which is minimum, and
+ *                     the following one
+ */
+static inline u32 sb_zone_number(int shift, int mirror)
+{
+	ASSERT(mirror < BTRFS_SUPER_MIRROR_MAX);
+
+	switch (mirror) {
+	case 0: return 0;
+	case 1: return 16;
+	case 2: return min_t(u64, btrfs_sb_offset(mirror) >> shift, 1024);
+	}
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int btrfs_get_dev_zones(struct btrfs_device *device, u64 pos,
@@ -200,12 +261,21 @@ static int btrfs_get_dev_zones(struct btrfs_device *device, u64 pos,
 	if (!*nr_zones)
 		return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!bdev_is_zoned(device->bdev)) {
 		ret = emulate_report_zones(device, pos, zones, *nr_zones);
 		*nr_zones = ret;
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = blkdev_report_zones(device->bdev, pos >> SECTOR_SHIFT, *nr_zones,
 				  copy_zone_info_cb, zones);
 	if (ret < 0) {
@@ -222,6 +292,10 @@ static int btrfs_get_dev_zones(struct btrfs_device *device, u64 pos,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* The emulated zone size is determined from the size of device extent */
 static int calculate_emulated_zone_size(struct btrfs_fs_info *fs_info)
 {
@@ -294,6 +368,13 @@ int btrfs_get_dev_zone_info_all_devices(struct btrfs_fs_info *fs_info)
 int btrfs_get_dev_zone_info(struct btrfs_device *device)
 {
 	struct btrfs_fs_info *fs_info = device->fs_info;
+<<<<<<< HEAD
+=======
+=======
+int btrfs_get_dev_zone_info(struct btrfs_device *device)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct btrfs_zoned_device_info *zone_info = NULL;
 	struct block_device *bdev = device->bdev;
 	struct request_queue *queue = bdev_get_queue(bdev);
@@ -302,6 +383,10 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 	struct blk_zone *zones = NULL;
 	unsigned int i, nreported = 0, nr_zones;
 	sector_t zone_sectors;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char *model, *emulated;
 	int ret;
 
@@ -310,6 +395,14 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 	 * yet be set.
 	 */
 	if (!btrfs_fs_incompat(fs_info, ZONED))
+<<<<<<< HEAD
+=======
+=======
+	int ret;
+
+	if (!bdev_is_zoned(bdev))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	if (device->zone_info)
@@ -319,6 +412,10 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 	if (!zone_info)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!bdev_is_zoned(bdev)) {
 		if (!fs_info->zone_size) {
 			ret = calculate_emulated_zone_size(fs_info);
@@ -347,6 +444,16 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 	}
 
 	nr_sectors = bdev_nr_sectors(bdev);
+<<<<<<< HEAD
+=======
+=======
+	nr_sectors = bdev_nr_sectors(bdev);
+	zone_sectors = bdev_zone_sectors(bdev);
+	/* Check if it's power of 2 (see is_power_of_2) */
+	ASSERT(zone_sectors != 0 && (zone_sectors & (zone_sectors - 1)) == 0);
+	zone_info->zone_size = zone_sectors << SECTOR_SHIFT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zone_info->zone_size_shift = ilog2(zone_info->zone_size);
 	zone_info->max_zone_append_size =
 		(u64)queue_max_zone_append_sectors(queue) << SECTOR_SHIFT;
@@ -354,6 +461,7 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 	if (!IS_ALIGNED(nr_sectors, zone_sectors))
 		zone_info->nr_zones++;
 
+<<<<<<< HEAD
 	if (bdev_is_zoned(bdev) && zone_info->max_zone_append_size == 0) {
 		btrfs_err(fs_info, "zoned: device %pg does not support zone append",
 			  bdev);
@@ -361,6 +469,8 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 		goto out;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zone_info->seq_zones = bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
 	if (!zone_info->seq_zones) {
 		ret = -ENOMEM;
@@ -417,8 +527,13 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 		if (sb_zone + 1 >= zone_info->nr_zones)
 			continue;
 
+<<<<<<< HEAD
 		ret = btrfs_get_dev_zones(device,
 					  zone_start_physical(sb_zone, zone_info),
+=======
+		sector = sb_zone << (zone_info->zone_size_shift - SECTOR_SHIFT);
+		ret = btrfs_get_dev_zones(device, sector << SECTOR_SHIFT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  &zone_info->sb_zones[sb_pos],
 					  &nr_zones);
 		if (ret)
@@ -456,6 +571,10 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 
 	device->zone_info = zone_info;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (bdev_zoned_model(bdev)) {
 	case BLK_ZONED_HM:
 		model = "host-managed zoned";
@@ -482,16 +601,39 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device)
 		"%s block device %s, %u %szones of %llu bytes",
 		model, rcu_str_deref(device->name), zone_info->nr_zones,
 		emulated, zone_info->zone_size);
+<<<<<<< HEAD
+=======
+=======
+	/* device->fs_info is not safe to use for printing messages */
+	btrfs_info_in_rcu(NULL,
+			"host-%s zoned block device %s, %u zones of %llu bytes",
+			bdev_zoned_model(bdev) == BLK_ZONED_HM ? "managed" : "aware",
+			rcu_str_deref(device->name), zone_info->nr_zones,
+			zone_info->zone_size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
 out:
 	kfree(zones);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_free_zone_info:
 	bitmap_free(zone_info->empty_zones);
 	bitmap_free(zone_info->seq_zones);
 	kfree(zone_info);
 	device->zone_info = NULL;
+<<<<<<< HEAD
+=======
+=======
+	bitmap_free(zone_info->empty_zones);
+	bitmap_free(zone_info->seq_zones);
+	kfree(zone_info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -530,7 +672,15 @@ int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info)
 	u64 nr_devices = 0;
 	u64 zone_size = 0;
 	u64 max_zone_append_size = 0;
+<<<<<<< HEAD
 	const bool incompat_zoned = btrfs_fs_incompat(fs_info, ZONED);
+=======
+<<<<<<< HEAD
+	const bool incompat_zoned = btrfs_fs_incompat(fs_info, ZONED);
+=======
+	const bool incompat_zoned = btrfs_is_zoned(fs_info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	/* Count zoned devices */
@@ -541,6 +691,10 @@ int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info)
 			continue;
 
 		model = bdev_zoned_model(device->bdev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * A Host-Managed zoned device must be used as a zoned device.
 		 * A Host-Aware zoned device and a non-zoned devices can be
@@ -552,6 +706,14 @@ int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info)
 		    (model == BLK_ZONED_NONE && incompat_zoned)) {
 			struct btrfs_zoned_device_info *zone_info =
 				device->zone_info;
+<<<<<<< HEAD
+=======
+=======
+		if (model == BLK_ZONED_HM ||
+		    (model == BLK_ZONED_HA && incompat_zoned)) {
+			struct btrfs_zoned_device_info *zone_info;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			zone_info = device->zone_info;
 			zoned_devices++;
@@ -620,6 +782,10 @@ int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info)
 
 	fs_info->zone_size = zone_size;
 	fs_info->max_zone_append_size = max_zone_append_size;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fs_info->fs_devices->chunk_alloc_policy = BTRFS_CHUNK_ALLOC_ZONED;
 
 	/*
@@ -629,6 +795,11 @@ int btrfs_check_zoned_mode(struct btrfs_fs_info *fs_info)
 	ret = btrfs_check_mountopts_zoned(fs_info);
 	if (ret)
 		goto out;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	btrfs_info(fs_info, "zoned mode enabled with zone size %llu", zone_size);
 out:
@@ -711,6 +882,13 @@ int btrfs_sb_log_location_bdev(struct block_device *bdev, int mirror, int rw,
 	sector_t zone_sectors;
 	u32 sb_zone;
 	int ret;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	u64 zone_size;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 zone_sectors_shift;
 	sector_t nr_sectors;
 	u32 nr_zones;
@@ -725,6 +903,13 @@ int btrfs_sb_log_location_bdev(struct block_device *bdev, int mirror, int rw,
 	zone_sectors = bdev_zone_sectors(bdev);
 	if (!is_power_of_2(zone_sectors))
 		return -EINVAL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	zone_size = zone_sectors << SECTOR_SHIFT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zone_sectors_shift = ilog2(zone_sectors);
 	nr_sectors = bdev_nr_sectors(bdev);
 	nr_zones = nr_sectors >> zone_sectors_shift;
@@ -733,7 +918,11 @@ int btrfs_sb_log_location_bdev(struct block_device *bdev, int mirror, int rw,
 	if (sb_zone + 1 >= nr_zones)
 		return -ENOENT;
 
+<<<<<<< HEAD
 	ret = blkdev_report_zones(bdev, zone_start_sector(sb_zone, bdev),
+=======
+	ret = blkdev_report_zones(bdev, sb_zone << zone_sectors_shift,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  BTRFS_NR_SB_LOG_ZONES, copy_zone_info_cb,
 				  zones);
 	if (ret < 0)
@@ -750,6 +939,10 @@ int btrfs_sb_log_location(struct btrfs_device *device, int mirror, int rw,
 	struct btrfs_zoned_device_info *zinfo = device->zone_info;
 	u32 zone_num;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * For a zoned filesystem on a non-zoned block device, use the same
 	 * super block locations as regular filesystem. Doing so, the super
@@ -757,6 +950,12 @@ int btrfs_sb_log_location(struct btrfs_device *device, int mirror, int rw,
 	 * detected from the super block information.
 	 */
 	if (!bdev_is_zoned(device->bdev)) {
+<<<<<<< HEAD
+=======
+=======
+	if (!zinfo) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*bytenr_ret = btrfs_sb_offset(mirror);
 		return 0;
 	}
@@ -838,9 +1037,16 @@ int btrfs_reset_sb_log_zones(struct block_device *bdev, int mirror)
 		return -ENOENT;
 
 	return blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
+<<<<<<< HEAD
 				zone_start_sector(sb_zone, bdev),
 				zone_sectors * BTRFS_NR_SB_LOG_ZONES, GFP_NOFS);
 }
+=======
+				sb_zone << zone_sectors_shift,
+				zone_sectors * BTRFS_NR_SB_LOG_ZONES, GFP_NOFS);
+}
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * btrfs_find_allocatable_zones - find allocatable zones within a given region
@@ -890,8 +1096,12 @@ u64 btrfs_find_allocatable_zones(struct btrfs_device *device, u64 hole_start,
 			if (!(end <= sb_zone ||
 			      sb_zone + BTRFS_NR_SB_LOG_ZONES <= begin)) {
 				have_sb = true;
+<<<<<<< HEAD
 				pos = zone_start_physical(
 					sb_zone + BTRFS_NR_SB_LOG_ZONES, zinfo);
+=======
+				pos = ((u64)sb_zone + BTRFS_NR_SB_LOG_ZONES) << shift;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			}
 
@@ -1139,11 +1349,14 @@ int btrfs_load_block_group_zone_info(struct btrfs_block_group *cache, bool new)
 			goto out;
 		}
 
+<<<<<<< HEAD
 		if (zone.type == BLK_ZONE_TYPE_CONVENTIONAL) {
 			ret = -EIO;
 			goto out;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		switch (zone.cond) {
 		case BLK_ZONE_COND_OFFLINE:
 		case BLK_ZONE_COND_READONLY:
@@ -1515,3 +1728,8 @@ int btrfs_sync_zone_write_pointer(struct btrfs_device *tgt_dev, u64 logical,
 	length = wp - physical_pos;
 	return btrfs_zoned_issue_zeroout(tgt_dev, physical_pos, length);
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -331,10 +331,21 @@ static inline void irqresource_disabled(struct resource *res, u32 irq)
 {
 	res->start = irq;
 	res->end = irq;
+<<<<<<< HEAD
 	res->flags |= IORESOURCE_IRQ | IORESOURCE_DISABLED | IORESOURCE_UNSET;
 }
 
 extern struct address_space *iomem_get_mapping(void);
+=======
+	res->flags = IORESOURCE_IRQ | IORESOURCE_DISABLED | IORESOURCE_UNSET;
+}
+
+#ifdef CONFIG_IO_STRICT_DEVMEM
+void revoke_devmem(struct resource *res);
+#else
+static inline void revoke_devmem(struct resource *res) { };
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __ASSEMBLY__ */
 #endif	/* _LINUX_IOPORT_H */

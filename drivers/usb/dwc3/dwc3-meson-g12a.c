@@ -651,7 +651,11 @@ static int dwc3_meson_g12a_setup_regmaps(struct dwc3_meson_g12a *priv,
 		return PTR_ERR(priv->usb_glue_regmap);
 
 	/* Create a regmap for each USB2 PHY control register set */
+<<<<<<< HEAD
 	for (i = 0; i < priv->drvdata->num_phys; i++) {
+=======
+	for (i = 0; i < priv->usb2_ports; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct regmap_config u2p_regmap_config = {
 			.reg_bits = 8,
 			.val_bits = 32,
@@ -659,9 +663,12 @@ static int dwc3_meson_g12a_setup_regmaps(struct dwc3_meson_g12a *priv,
 			.max_register = U2P_R1,
 		};
 
+<<<<<<< HEAD
 		if (!strstr(priv->drvdata->phy_names[i], "usb2"))
 			continue;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u2p_regmap_config.name = devm_kasprintf(priv->dev, GFP_KERNEL,
 							"u2p-%d", i);
 		if (!u2p_regmap_config.name)
@@ -775,13 +782,21 @@ static int dwc3_meson_g12a_probe(struct platform_device *pdev)
 
 	ret = priv->drvdata->usb_init(priv);
 	if (ret)
+<<<<<<< HEAD
 		goto err_disable_regulator;
+=======
+		goto err_disable_clks;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Init PHYs */
 	for (i = 0 ; i < PHY_COUNT ; ++i) {
 		ret = phy_init(priv->phys[i]);
 		if (ret)
+<<<<<<< HEAD
 			goto err_disable_regulator;
+=======
+			goto err_disable_clks;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Set PHY Power */
@@ -819,10 +834,13 @@ err_phys_exit:
 	for (i = 0 ; i < PHY_COUNT ; ++i)
 		phy_exit(priv->phys[i]);
 
+<<<<<<< HEAD
 err_disable_regulator:
 	if (priv->vbus)
 		regulator_disable(priv->vbus);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_disable_clks:
 	clk_bulk_disable_unprepare(priv->drvdata->num_clks,
 				   priv->drvdata->clks);

@@ -39,6 +39,11 @@ MODULE_PARM_DESC(precise_ptr, "Enable precise pointer (doesn't work reliably).")
 MODULE_AUTHOR("Paul Davis <pbd@op.net>, Winfried Ritsch");
 MODULE_DESCRIPTION("RME Digi9652/Digi9636");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{RME,Hammerfall},"
+		"{RME,Hammerfall-Light}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* The Hammerfall has two sets of 24 ADAT + 2 S/PDIF channels, one for
    capture, one for playback. Both the ADAT and S/PDIF channels appear
@@ -1731,8 +1736,12 @@ static int snd_rme9652_free(struct snd_rme9652 *rme9652)
 	if (rme9652->port)
 		pci_release_regions(rme9652->pci);
 
+<<<<<<< HEAD
 	if (pci_is_enabled(rme9652->pci))
 		pci_disable_device(rme9652->pci);
+=======
+	pci_disable_device(rme9652->pci);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

@@ -1889,10 +1889,21 @@ static void n_tty_close(struct tty_struct *tty)
 	if (tty->link)
 		n_tty_packet_mode_flush(tty);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_write(&tty->termios_rwsem);
 	vfree(ldata);
 	tty->disc_data = NULL;
 	up_write(&tty->termios_rwsem);
+<<<<<<< HEAD
+=======
+=======
+	vfree(ldata);
+	tty->disc_data = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

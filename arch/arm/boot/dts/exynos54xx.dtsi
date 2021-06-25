@@ -188,7 +188,11 @@
 			compatible = "samsung,exynos4210-ehci";
 			reg = <0x12110000 0x100>;
 			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			phys = <&usb2_phy 0>;
+=======
+			phys = <&usb2_phy 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			phy-names = "host";
 		};
 
@@ -196,12 +200,20 @@
 			compatible = "samsung,exynos4210-ohci";
 			reg = <0x12120000 0x100>;
 			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			phys = <&usb2_phy 0>;
+=======
+			phys = <&usb2_phy 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			phy-names = "host";
 		};
 
 		usb2_phy: phy@12130000 {
+<<<<<<< HEAD
 			compatible = "samsung,exynos5420-usb2-phy";
+=======
+			compatible = "samsung,exynos5250-usb2-phy";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			reg = <0x12130000 0x100>;
 			#phy-cells = <1>;
 		};

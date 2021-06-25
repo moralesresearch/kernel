@@ -6,9 +6,12 @@ perf-y += perf_regs.o
 perf-y += topdown.o
 perf-y += machine.o
 perf-y += event.o
+<<<<<<< HEAD
 perf-y += evlist.o
 perf-y += mem-events.o
 perf-y += evsel.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 perf-$(CONFIG_DWARF) += dwarf-regs.o
 perf-$(CONFIG_BPF_PROLOGUE) += dwarf-regs.o

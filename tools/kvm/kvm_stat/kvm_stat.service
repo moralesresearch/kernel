@@ -9,7 +9,10 @@ Type=simple
 ExecStart=/usr/bin/kvm_stat -dtcz -s 10 -L /var/log/kvm_stat.csv
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
+<<<<<<< HEAD
 RestartSec=60s
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SyslogIdentifier=kvm_stat
 SyslogLevel=debug
 

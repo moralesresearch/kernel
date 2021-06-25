@@ -89,9 +89,21 @@
 /* Delay period for interrupt moderation (in 32KHz IPA internal timer ticks) */
 #define GSI_EVT_RING_INT_MODT		(32 * 1) /* 1ms under 32KHz clock */
 
+<<<<<<< HEAD
 #define GSI_CMD_TIMEOUT			50	/* milliseconds */
 
 #define GSI_CHANNEL_STOP_RETRIES	10
+=======
+<<<<<<< HEAD
+#define GSI_CMD_TIMEOUT			50	/* milliseconds */
+
+#define GSI_CHANNEL_STOP_RETRIES	10
+=======
+#define GSI_CMD_TIMEOUT			5	/* seconds */
+
+#define GSI_CHANNEL_STOP_RX_RETRIES	10
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define GSI_CHANNEL_MODEM_HALT_RETRIES	10
 
 #define GSI_MHI_EVENT_ID_START		10	/* 1st reserved event id */
@@ -175,12 +187,21 @@ static u32 gsi_channel_id(struct gsi_channel *channel)
 	return channel - &channel->gsi->channel[0];
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* An initialized channel has a non-null GSI pointer */
 static bool gsi_channel_initialized(struct gsi_channel *channel)
 {
 	return !!channel->gsi;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Update the GSI IRQ type register with the cached value */
 static void gsi_irq_type_update(struct gsi *gsi, u32 val)
 {
@@ -211,8 +232,13 @@ static void gsi_irq_setup(struct gsi *gsi)
 	iowrite32(0, gsi->virt + GSI_CNTXT_SRC_IEOB_IRQ_MSK_OFFSET);
 
 	/* The inter-EE registers are in the non-adjusted address range */
+<<<<<<< HEAD
 	iowrite32(0, gsi->virt_raw + GSI_INTER_EE_SRC_CH_IRQ_MSK_OFFSET);
 	iowrite32(0, gsi->virt_raw + GSI_INTER_EE_SRC_EV_CH_IRQ_MSK_OFFSET);
+=======
+	iowrite32(0, gsi->virt_raw + GSI_INTER_EE_SRC_CH_IRQ_OFFSET);
+	iowrite32(0, gsi->virt_raw + GSI_INTER_EE_SRC_EV_CH_IRQ_OFFSET);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iowrite32(0, gsi->virt + GSI_CNTXT_GSI_IRQ_EN_OFFSET);
 }
@@ -223,6 +249,10 @@ static void gsi_irq_teardown(struct gsi *gsi)
 	/* Nothing to do */
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Event ring commands are performed one at a time.  Their completion
  * is signaled by the event ring control GSI interrupt type, which is
  * only enabled when we issue an event ring command.  Only the event
@@ -276,6 +306,12 @@ static void gsi_irq_ch_ctrl_disable(struct gsi *gsi)
 }
 
 static void gsi_irq_ieob_enable_one(struct gsi *gsi, u32 evt_ring_id)
+<<<<<<< HEAD
+=======
+=======
+static void gsi_irq_ieob_enable(struct gsi *gsi, u32 evt_ring_id)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool enable_ieob = !gsi->ieob_enabled_bitmap;
 	u32 val;
@@ -289,11 +325,25 @@ static void gsi_irq_ieob_enable_one(struct gsi *gsi, u32 evt_ring_id)
 		gsi_irq_type_enable(gsi, GSI_IEOB);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void gsi_irq_ieob_disable(struct gsi *gsi, u32 event_mask)
 {
 	u32 val;
 
 	gsi->ieob_enabled_bitmap &= ~event_mask;
+<<<<<<< HEAD
+=======
+=======
+static void gsi_irq_ieob_disable(struct gsi *gsi, u32 evt_ring_id)
+{
+	u32 val;
+
+	gsi->ieob_enabled_bitmap &= ~BIT(evt_ring_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable the interrupt type if this was the last enabled channel */
 	if (!gsi->ieob_enabled_bitmap)
@@ -303,11 +353,20 @@ static void gsi_irq_ieob_disable(struct gsi *gsi, u32 event_mask)
 	iowrite32(val, gsi->virt + GSI_CNTXT_SRC_IEOB_IRQ_MSK_OFFSET);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void gsi_irq_ieob_disable_one(struct gsi *gsi, u32 evt_ring_id)
 {
 	gsi_irq_ieob_disable(gsi, BIT(evt_ring_id));
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Enable all GSI_interrupt types */
 static void gsi_irq_enable(struct gsi *gsi)
 {
@@ -367,13 +426,29 @@ static u32 gsi_ring_index(struct gsi_ring *ring, u32 offset)
 static bool
 gsi_command(struct gsi *gsi, u32 reg, u32 val, struct completion *completion)
 {
+<<<<<<< HEAD
 	unsigned long timeout = msecs_to_jiffies(GSI_CMD_TIMEOUT);
 
+=======
+<<<<<<< HEAD
+	unsigned long timeout = msecs_to_jiffies(GSI_CMD_TIMEOUT);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reinit_completion(completion);
 
 	iowrite32(val, gsi->virt + reg);
 
+<<<<<<< HEAD
 	return !!wait_for_completion_timeout(completion, timeout);
+=======
+<<<<<<< HEAD
+	return !!wait_for_completion_timeout(completion, timeout);
+=======
+	return !!wait_for_completion_timeout(completion, GSI_CMD_TIMEOUT * HZ);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Return the hardware's notion of the current state of an event ring */
@@ -388,21 +463,62 @@ gsi_evt_ring_state(struct gsi *gsi, u32 evt_ring_id)
 }
 
 /* Issue an event ring command and wait for it to complete */
+<<<<<<< HEAD
 static void gsi_evt_ring_command(struct gsi *gsi, u32 evt_ring_id,
 				 enum gsi_evt_cmd_opcode opcode)
+=======
+<<<<<<< HEAD
+static void gsi_evt_ring_command(struct gsi *gsi, u32 evt_ring_id,
+				 enum gsi_evt_cmd_opcode opcode)
+=======
+static void evt_ring_command(struct gsi *gsi, u32 evt_ring_id,
+			     enum gsi_evt_cmd_opcode opcode)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gsi_evt_ring *evt_ring = &gsi->evt_ring[evt_ring_id];
 	struct completion *completion = &evt_ring->completion;
 	struct device *dev = gsi->dev;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool timeout;
 	u32 val;
 
 	/* Enable the completion interrupt for the command */
 	gsi_irq_ev_ctrl_enable(gsi, evt_ring_id);
+<<<<<<< HEAD
+=======
+=======
+	bool success;
+	u32 val;
+
+	/* We only perform one event ring command at a time, and event
+	 * control interrupts should only occur when such a command
+	 * is issued here.  Only permit *this* event ring to trigger
+	 * an interrupt, and only enable the event control IRQ type
+	 * when we expect it to occur.
+	 *
+	 * There's a small chance that a previous command completed
+	 * after the interrupt was disabled, so make sure we have no
+	 * pending interrupts before we enable them.
+	 */
+	iowrite32(~0, gsi->virt + GSI_CNTXT_SRC_EV_CH_IRQ_CLR_OFFSET);
+
+	val = BIT(evt_ring_id);
+	iowrite32(val, gsi->virt + GSI_CNTXT_SRC_EV_CH_IRQ_MSK_OFFSET);
+	gsi_irq_type_enable(gsi, GSI_EV_CTRL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	val = u32_encode_bits(evt_ring_id, EV_CHID_FMASK);
 	val |= u32_encode_bits(opcode, EV_OPCODE_FMASK);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	timeout = !gsi_command(gsi, GSI_EV_CH_CMD_OFFSET, val, completion);
 
 	gsi_irq_ev_ctrl_disable(gsi);
@@ -412,11 +528,31 @@ static void gsi_evt_ring_command(struct gsi *gsi, u32 evt_ring_id,
 
 	dev_err(dev, "GSI command %u for event ring %u timed out, state %u\n",
 		opcode, evt_ring_id, gsi_evt_ring_state(gsi, evt_ring_id));
+<<<<<<< HEAD
+=======
+=======
+	success = gsi_command(gsi, GSI_EV_CH_CMD_OFFSET, val, completion);
+
+	/* Disable the interrupt again */
+	gsi_irq_type_disable(gsi, GSI_EV_CTRL);
+	iowrite32(0, gsi->virt + GSI_CNTXT_SRC_EV_CH_IRQ_MSK_OFFSET);
+
+	if (success)
+		return;
+
+	dev_err(dev, "GSI command %u for event ring %u timed out, state %u\n",
+		opcode, evt_ring_id, evt_ring->state);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Allocate an event ring in NOT_ALLOCATED state */
 static int gsi_evt_ring_alloc_command(struct gsi *gsi, u32 evt_ring_id)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum gsi_evt_ring_state state;
 
 	/* Get initial event ring state */
@@ -436,6 +572,29 @@ static int gsi_evt_ring_alloc_command(struct gsi *gsi, u32 evt_ring_id)
 
 	dev_err(gsi->dev, "event ring %u bad state %u after alloc\n",
 		evt_ring_id, state);
+<<<<<<< HEAD
+=======
+=======
+	struct gsi_evt_ring *evt_ring = &gsi->evt_ring[evt_ring_id];
+
+	/* Get initial event ring state */
+	evt_ring->state = gsi_evt_ring_state(gsi, evt_ring_id);
+	if (evt_ring->state != GSI_EVT_RING_STATE_NOT_ALLOCATED) {
+		dev_err(gsi->dev, "event ring %u bad state %u before alloc\n",
+			evt_ring_id, evt_ring->state);
+		return -EINVAL;
+	}
+
+	evt_ring_command(gsi, evt_ring_id, GSI_EVT_ALLOCATE);
+
+	/* If successful the event ring state will have changed */
+	if (evt_ring->state == GSI_EVT_RING_STATE_ALLOCATED)
+		return 0;
+
+	dev_err(gsi->dev, "event ring %u bad state %u after alloc\n",
+		evt_ring_id, evt_ring->state);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return -EIO;
 }
@@ -443,6 +602,10 @@ static int gsi_evt_ring_alloc_command(struct gsi *gsi, u32 evt_ring_id)
 /* Reset a GSI event ring in ALLOCATED or ERROR state. */
 static void gsi_evt_ring_reset_command(struct gsi *gsi, u32 evt_ring_id)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum gsi_evt_ring_state state;
 
 	state = gsi_evt_ring_state(gsi, evt_ring_id);
@@ -462,11 +625,38 @@ static void gsi_evt_ring_reset_command(struct gsi *gsi, u32 evt_ring_id)
 
 	dev_err(gsi->dev, "event ring %u bad state %u after reset\n",
 		evt_ring_id, state);
+<<<<<<< HEAD
+=======
+=======
+	struct gsi_evt_ring *evt_ring = &gsi->evt_ring[evt_ring_id];
+	enum gsi_evt_ring_state state = evt_ring->state;
+
+	if (state != GSI_EVT_RING_STATE_ALLOCATED &&
+	    state != GSI_EVT_RING_STATE_ERROR) {
+		dev_err(gsi->dev, "event ring %u bad state %u before reset\n",
+			evt_ring_id, evt_ring->state);
+		return;
+	}
+
+	evt_ring_command(gsi, evt_ring_id, GSI_EVT_RESET);
+
+	/* If successful the event ring state will have changed */
+	if (evt_ring->state == GSI_EVT_RING_STATE_ALLOCATED)
+		return;
+
+	dev_err(gsi->dev, "event ring %u bad state %u after reset\n",
+		evt_ring_id, evt_ring->state);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Issue a hardware de-allocation request for an allocated event ring */
 static void gsi_evt_ring_de_alloc_command(struct gsi *gsi, u32 evt_ring_id)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum gsi_evt_ring_state state;
 
 	state = gsi_evt_ring_state(gsi, evt_ring_id);
@@ -485,6 +675,27 @@ static void gsi_evt_ring_de_alloc_command(struct gsi *gsi, u32 evt_ring_id)
 
 	dev_err(gsi->dev, "event ring %u bad state %u after dealloc\n",
 		evt_ring_id, state);
+<<<<<<< HEAD
+=======
+=======
+	struct gsi_evt_ring *evt_ring = &gsi->evt_ring[evt_ring_id];
+
+	if (evt_ring->state != GSI_EVT_RING_STATE_ALLOCATED) {
+		dev_err(gsi->dev, "event ring %u state %u before dealloc\n",
+			evt_ring_id, evt_ring->state);
+		return;
+	}
+
+	evt_ring_command(gsi, evt_ring_id, GSI_EVT_DE_ALLOC);
+
+	/* If successful the event ring state will have changed */
+	if (evt_ring->state == GSI_EVT_RING_STATE_NOT_ALLOCATED)
+		return;
+
+	dev_err(gsi->dev, "event ring %u bad state %u after dealloc\n",
+		evt_ring_id, evt_ring->state);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Fetch the current state of a channel from hardware */
@@ -507,6 +718,10 @@ gsi_channel_command(struct gsi_channel *channel, enum gsi_ch_cmd_opcode opcode)
 	u32 channel_id = gsi_channel_id(channel);
 	struct gsi *gsi = channel->gsi;
 	struct device *dev = gsi->dev;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool timeout;
 	u32 val;
 
@@ -520,6 +735,39 @@ gsi_channel_command(struct gsi_channel *channel, enum gsi_ch_cmd_opcode opcode)
 	gsi_irq_ch_ctrl_disable(gsi);
 
 	if (!timeout)
+<<<<<<< HEAD
+=======
+=======
+	bool success;
+	u32 val;
+
+	/* We only perform one channel command at a time, and channel
+	 * control interrupts should only occur when such a command is
+	 * issued here.  So we only permit *this* channel to trigger
+	 * an interrupt and only enable the channel control IRQ type
+	 * when we expect it to occur.
+	 *
+	 * There's a small chance that a previous command completed
+	 * after the interrupt was disabled, so make sure we have no
+	 * pending interrupts before we enable them.
+	 */
+	iowrite32(~0, gsi->virt + GSI_CNTXT_SRC_CH_IRQ_CLR_OFFSET);
+
+	val = BIT(channel_id);
+	iowrite32(val, gsi->virt + GSI_CNTXT_SRC_CH_IRQ_MSK_OFFSET);
+	gsi_irq_type_enable(gsi, GSI_CH_CTRL);
+
+	val = u32_encode_bits(channel_id, CH_CHID_FMASK);
+	val |= u32_encode_bits(opcode, CH_OPCODE_FMASK);
+	success = gsi_command(gsi, GSI_CH_CMD_OFFSET, val, completion);
+
+	/* Disable the interrupt again */
+	gsi_irq_type_disable(gsi, GSI_CH_CTRL);
+	iowrite32(0, gsi->virt + GSI_CNTXT_SRC_CH_IRQ_MSK_OFFSET);
+
+	if (success)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	dev_err(dev, "GSI command %u for channel %u timed out, state %u\n",
@@ -625,8 +873,17 @@ static void gsi_channel_reset_command(struct gsi_channel *channel)
 	struct device *dev = channel->gsi->dev;
 	enum gsi_channel_state state;
 
+<<<<<<< HEAD
 	/* A short delay is required before a RESET command */
 	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
+=======
+<<<<<<< HEAD
+	/* A short delay is required before a RESET command */
+	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
+=======
+	msleep(1);	/* A short delay is required before a RESET command */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	state = gsi_channel_state(channel);
 	if (state != GSI_CHANNEL_STATE_STOPPED &&
@@ -732,15 +989,32 @@ static void gsi_evt_ring_program(struct gsi *gsi, u32 evt_ring_id)
 	gsi_evt_ring_doorbell(gsi, evt_ring_id, 0);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Find the transaction whose completion indicates a channel is quiesced */
 static struct gsi_trans *gsi_channel_trans_last(struct gsi_channel *channel)
 {
 	struct gsi_trans_info *trans_info = &channel->trans_info;
 	const struct list_head *list;
+<<<<<<< HEAD
+=======
+=======
+/* Return the last (most recent) transaction completed on a channel. */
+static struct gsi_trans *gsi_channel_trans_last(struct gsi_channel *channel)
+{
+	struct gsi_trans_info *trans_info = &channel->trans_info;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gsi_trans *trans;
 
 	spin_lock_bh(&trans_info->spinlock);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* There is a small chance a TX transaction got allocated just
 	 * before we disabled transmits, so check for that.
 	 */
@@ -764,6 +1038,19 @@ static struct gsi_trans *gsi_channel_trans_last(struct gsi_channel *channel)
 		list = NULL;
 done:
 	trans = list ? list_last_entry(list, struct gsi_trans, links) : NULL;
+<<<<<<< HEAD
+=======
+=======
+	if (!list_empty(&trans_info->complete))
+		trans = list_last_entry(&trans_info->complete,
+					struct gsi_trans, links);
+	else if (!list_empty(&trans_info->polled))
+		trans = list_last_entry(&trans_info->polled,
+					struct gsi_trans, links);
+	else
+		trans = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Caller will wait for this, so take a reference */
 	if (trans)
@@ -787,6 +1074,30 @@ static void gsi_channel_trans_quiesce(struct gsi_channel *channel)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/* Stop channel activity.  Transactions may not be allocated until thawed. */
+static void gsi_channel_freeze(struct gsi_channel *channel)
+{
+	gsi_channel_trans_quiesce(channel);
+
+	napi_disable(&channel->napi);
+
+	gsi_irq_ieob_disable(channel->gsi, channel->evt_ring_id);
+}
+
+/* Allow transactions to be used on the channel again. */
+static void gsi_channel_thaw(struct gsi_channel *channel)
+{
+	gsi_irq_ieob_enable(channel->gsi, channel->evt_ring_id);
+
+	napi_enable(&channel->napi);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Program a channel for use */
 static void gsi_channel_program(struct gsi_channel *channel, bool doorbell)
 {
@@ -878,6 +1189,10 @@ static void gsi_channel_deprogram(struct gsi_channel *channel)
 	/* Nothing to do */
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __gsi_channel_start(struct gsi_channel *channel, bool start)
 {
 	struct gsi *gsi = channel->gsi;
@@ -886,12 +1201,27 @@ static int __gsi_channel_start(struct gsi_channel *channel, bool start)
 	if (!start)
 		return 0;
 
+<<<<<<< HEAD
+=======
+=======
+/* Start an allocated GSI channel */
+int gsi_channel_start(struct gsi *gsi, u32 channel_id)
+{
+	struct gsi_channel *channel = &gsi->channel[channel_id];
+	int ret;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&gsi->mutex);
 
 	ret = gsi_channel_start_command(channel);
 
 	mutex_unlock(&gsi->mutex);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -918,11 +1248,38 @@ static int gsi_channel_stop_retry(struct gsi_channel *channel)
 {
 	u32 retries = GSI_CHANNEL_STOP_RETRIES;
 	int ret;
+<<<<<<< HEAD
+=======
+=======
+	gsi_channel_thaw(channel);
+
+	return ret;
+}
+
+/* Stop a started channel */
+int gsi_channel_stop(struct gsi *gsi, u32 channel_id)
+{
+	struct gsi_channel *channel = &gsi->channel[channel_id];
+	u32 retries;
+	int ret;
+
+	gsi_channel_freeze(channel);
+
+	/* RX channels might require a little time to enter STOPPED state */
+	retries = channel->toward_ipa ? 0 : GSI_CHANNEL_STOP_RX_RETRIES;
+
+	mutex_lock(&gsi->mutex);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	do {
 		ret = gsi_channel_stop_command(channel);
 		if (ret != -EAGAIN)
 			break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usleep_range(3 * USEC_PER_MSEC, 5 * USEC_PER_MSEC);
 	} while (retries--);
 
@@ -964,6 +1321,21 @@ int gsi_channel_stop(struct gsi *gsi, u32 channel_id)
 	napi_disable(&channel->napi);
 
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+		msleep(1);
+	} while (retries--);
+
+	mutex_unlock(&gsi->mutex);
+
+	/* Thaw the channel if we need to retry (or on error) */
+	if (ret)
+		gsi_channel_thaw(channel);
+
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Reset and reconfigure a channel, (possibly) enabling the doorbell engine */
@@ -988,6 +1360,10 @@ void gsi_channel_reset(struct gsi *gsi, u32 channel_id, bool doorbell)
 int gsi_channel_suspend(struct gsi *gsi, u32 channel_id, bool stop)
 {
 	struct gsi_channel *channel = &gsi->channel[channel_id];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ret = __gsi_channel_stop(channel, stop);
@@ -996,6 +1372,16 @@ int gsi_channel_suspend(struct gsi *gsi, u32 channel_id, bool stop)
 
 	/* Ensure NAPI polling has finished. */
 	napi_synchronize(&channel->napi);
+<<<<<<< HEAD
+=======
+=======
+
+	if (stop)
+		return gsi_channel_stop(gsi, channel_id);
+
+	gsi_channel_freeze(channel);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1005,7 +1391,20 @@ int gsi_channel_resume(struct gsi *gsi, u32 channel_id, bool start)
 {
 	struct gsi_channel *channel = &gsi->channel[channel_id];
 
+<<<<<<< HEAD
 	return __gsi_channel_start(channel, start);
+=======
+<<<<<<< HEAD
+	return __gsi_channel_start(channel, start);
+=======
+	if (start)
+		return gsi_channel_start(gsi, channel_id);
+
+	gsi_channel_thaw(channel);
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1114,6 +1513,13 @@ static void gsi_isr_evt_ctrl(struct gsi *gsi)
 		event_mask ^= BIT(evt_ring_id);
 
 		evt_ring = &gsi->evt_ring[evt_ring_id];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		evt_ring->state = gsi_evt_ring_state(gsi, evt_ring_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		complete(&evt_ring->completion);
 	}
@@ -1251,7 +1657,14 @@ static void gsi_isr_ieob(struct gsi *gsi)
 	u32 event_mask;
 
 	event_mask = ioread32(gsi->virt + GSI_CNTXT_SRC_IEOB_IRQ_OFFSET);
+<<<<<<< HEAD
 	gsi_irq_ieob_disable(gsi, event_mask);
+=======
+<<<<<<< HEAD
+	gsi_irq_ieob_disable(gsi, event_mask);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iowrite32(event_mask, gsi->virt + GSI_CNTXT_SRC_IEOB_IRQ_CLR_OFFSET);
 
 	while (event_mask) {
@@ -1259,6 +1672,13 @@ static void gsi_isr_ieob(struct gsi *gsi)
 
 		event_mask ^= BIT(evt_ring_id);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		gsi_irq_ieob_disable(gsi, evt_ring_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		napi_schedule(&gsi->evt_ring[evt_ring_id].channel->napi);
 	}
 }
@@ -1503,7 +1923,15 @@ void gsi_channel_doorbell(struct gsi_channel *channel)
 }
 
 /* Consult hardware, move any newly completed transactions to completed list */
+<<<<<<< HEAD
 static struct gsi_trans *gsi_channel_update(struct gsi_channel *channel)
+=======
+<<<<<<< HEAD
+static struct gsi_trans *gsi_channel_update(struct gsi_channel *channel)
+=======
+static void gsi_channel_update(struct gsi_channel *channel)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 evt_ring_id = channel->evt_ring_id;
 	struct gsi *gsi = channel->gsi;
@@ -1522,7 +1950,15 @@ static struct gsi_trans *gsi_channel_update(struct gsi_channel *channel)
 	offset = GSI_EV_CH_E_CNTXT_4_OFFSET(evt_ring_id);
 	index = gsi_ring_index(ring, ioread32(gsi->virt + offset));
 	if (index == ring->index % ring->count)
+<<<<<<< HEAD
 		return NULL;
+=======
+<<<<<<< HEAD
+		return NULL;
+=======
+		return;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get the transaction for the latest completed event.  Take a
 	 * reference to keep it from completing before we give the events
@@ -1547,8 +1983,16 @@ static struct gsi_trans *gsi_channel_update(struct gsi_channel *channel)
 	gsi_evt_ring_doorbell(channel->gsi, channel->evt_ring_id, index);
 
 	gsi_trans_free(trans);
+<<<<<<< HEAD
 
 	return gsi_channel_trans_complete(channel);
+=======
+<<<<<<< HEAD
+
+	return gsi_channel_trans_complete(channel);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1569,8 +2013,21 @@ static struct gsi_trans *gsi_channel_poll_one(struct gsi_channel *channel)
 
 	/* Get the first transaction from the completed list */
 	trans = gsi_channel_trans_complete(channel);
+<<<<<<< HEAD
 	if (!trans)	/* List is empty; see if there's more to do */
 		trans = gsi_channel_update(channel);
+=======
+<<<<<<< HEAD
+	if (!trans)	/* List is empty; see if there's more to do */
+		trans = gsi_channel_update(channel);
+=======
+	if (!trans) {
+		/* List is empty; see if there's more to do */
+		gsi_channel_update(channel);
+		trans = gsi_channel_trans_complete(channel);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (trans)
 		gsi_trans_move_polled(trans);
@@ -1593,20 +2050,48 @@ static struct gsi_trans *gsi_channel_poll_one(struct gsi_channel *channel)
 static int gsi_channel_poll(struct napi_struct *napi, int budget)
 {
 	struct gsi_channel *channel;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int count;
 
 	channel = container_of(napi, struct gsi_channel, napi);
 	for (count = 0; count < budget; count++) {
 		struct gsi_trans *trans;
 
+<<<<<<< HEAD
+=======
+=======
+	int count = 0;
+
+	channel = container_of(napi, struct gsi_channel, napi);
+	while (count < budget) {
+		struct gsi_trans *trans;
+
+		count++;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trans = gsi_channel_poll_one(channel);
 		if (!trans)
 			break;
 		gsi_trans_complete(trans);
 	}
 
+<<<<<<< HEAD
 	if (count < budget && napi_complete(napi))
 		gsi_irq_ieob_enable_one(channel->gsi, channel->evt_ring_id);
+=======
+<<<<<<< HEAD
+	if (count < budget && napi_complete(napi))
+		gsi_irq_ieob_enable_one(channel->gsi, channel->evt_ring_id);
+=======
+	if (count < budget) {
+		napi_complete(&channel->napi);
+		gsi_irq_ieob_enable(channel->gsi, channel->evt_ring_id);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return count;
 }
@@ -1644,8 +2129,18 @@ static int gsi_channel_setup_one(struct gsi *gsi, u32 channel_id)
 	u32 evt_ring_id = channel->evt_ring_id;
 	int ret;
 
+<<<<<<< HEAD
 	if (!gsi_channel_initialized(channel))
 		return 0;
+=======
+<<<<<<< HEAD
+	if (!gsi_channel_initialized(channel))
+		return 0;
+=======
+	if (!channel->gsi)
+		return 0;	/* Ignore uninitialized channels */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = gsi_evt_ring_alloc_command(gsi, evt_ring_id);
 	if (ret)
@@ -1681,8 +2176,18 @@ static void gsi_channel_teardown_one(struct gsi *gsi, u32 channel_id)
 	struct gsi_channel *channel = &gsi->channel[channel_id];
 	u32 evt_ring_id = channel->evt_ring_id;
 
+<<<<<<< HEAD
 	if (!gsi_channel_initialized(channel))
 		return;
+=======
+<<<<<<< HEAD
+	if (!gsi_channel_initialized(channel))
+		return;
+=======
+	if (!channel->gsi)
+		return;		/* Ignore uninitialized channels */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netif_napi_del(&channel->napi);
 
@@ -1696,7 +2201,15 @@ static int gsi_generic_command(struct gsi *gsi, u32 channel_id,
 			       enum gsi_generic_cmd_opcode opcode)
 {
 	struct completion *completion = &gsi->completion;
+<<<<<<< HEAD
 	bool timeout;
+=======
+<<<<<<< HEAD
+	bool timeout;
+=======
+	bool success;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 val;
 
 	/* The error global interrupt type is always enabled (until we
@@ -1719,12 +2232,28 @@ static int gsi_generic_command(struct gsi *gsi, u32 channel_id,
 	val |= u32_encode_bits(channel_id, GENERIC_CHID_FMASK);
 	val |= u32_encode_bits(GSI_EE_MODEM, GENERIC_EE_FMASK);
 
+<<<<<<< HEAD
 	timeout = !gsi_command(gsi, GSI_GENERIC_CMD_OFFSET, val, completion);
+=======
+<<<<<<< HEAD
+	timeout = !gsi_command(gsi, GSI_GENERIC_CMD_OFFSET, val, completion);
+=======
+	success = gsi_command(gsi, GSI_GENERIC_CMD_OFFSET, val, completion);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable the GP_INT1 IRQ type again */
 	iowrite32(BIT(ERROR_INT), gsi->virt + GSI_CNTXT_GLOB_IRQ_EN_OFFSET);
 
+<<<<<<< HEAD
 	if (!timeout)
+=======
+<<<<<<< HEAD
+	if (!timeout)
+=======
+	if (success)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return gsi->result;
 
 	dev_err(gsi->dev, "GSI generic command %u to channel %u timed out\n",
@@ -1776,8 +2305,18 @@ static int gsi_channel_setup(struct gsi *gsi)
 	while (channel_id < GSI_CHANNEL_COUNT_MAX) {
 		struct gsi_channel *channel = &gsi->channel[channel_id++];
 
+<<<<<<< HEAD
 		if (!gsi_channel_initialized(channel))
 			continue;
+=======
+<<<<<<< HEAD
+		if (!gsi_channel_initialized(channel))
+			continue;
+=======
+		if (!channel->gsi)
+			continue;	/* Ignore uninitialized channels */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = -EINVAL;
 		dev_err(gsi->dev, "channel %u not supported by hardware\n",
@@ -2095,8 +2634,18 @@ err_clear_gsi:
 /* Inverse of gsi_channel_init_one() */
 static void gsi_channel_exit_one(struct gsi_channel *channel)
 {
+<<<<<<< HEAD
 	if (!gsi_channel_initialized(channel))
 		return;
+=======
+<<<<<<< HEAD
+	if (!gsi_channel_initialized(channel))
+		return;
+=======
+	if (!channel->gsi)
+		return;		/* Ignore uninitialized channels */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (channel->command)
 		ipa_cmd_pool_exit(channel);

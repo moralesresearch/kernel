@@ -62,6 +62,7 @@ static unsigned int max_max_requests = 16384;
 unsigned int svcrdma_max_req_size = RPCRDMA_DEF_INLINE_THRESH;
 static unsigned int min_max_inline = RPCRDMA_DEF_INLINE_THRESH;
 static unsigned int max_max_inline = RPCRDMA_MAX_INLINE_THRESH;
+<<<<<<< HEAD
 static unsigned int svcrdma_stat_unused;
 static unsigned int zero;
 
@@ -103,6 +104,53 @@ static int svcrdma_counter_handler(struct ctl_table *table, int write,
 	*lenp = len;
 	*ppos += len;
 
+=======
+
+atomic_t rdma_stat_recv;
+atomic_t rdma_stat_read;
+atomic_t rdma_stat_write;
+atomic_t rdma_stat_sq_starve;
+atomic_t rdma_stat_rq_starve;
+atomic_t rdma_stat_rq_poll;
+atomic_t rdma_stat_rq_prod;
+atomic_t rdma_stat_sq_poll;
+atomic_t rdma_stat_sq_prod;
+
+/*
+ * This function implements reading and resetting an atomic_t stat
+ * variable through read/write to a proc file. Any write to the file
+ * resets the associated statistic to zero. Any read returns it's
+ * current value.
+ */
+static int read_reset_stat(struct ctl_table *table, int write,
+			   void *buffer, size_t *lenp, loff_t *ppos)
+{
+	atomic_t *stat = (atomic_t *)table->data;
+
+	if (!stat)
+		return -EINVAL;
+
+	if (write)
+		atomic_set(stat, 0);
+	else {
+		char str_buf[32];
+		int len = snprintf(str_buf, 32, "%d\n", atomic_read(stat));
+		if (len >= 32)
+			return -EFAULT;
+		len = strlen(str_buf);
+		if (*ppos > len) {
+			*lenp = 0;
+			return 0;
+		}
+		len -= *ppos;
+		if (len > *lenp)
+			len = *lenp;
+		if (len)
+			memcpy(buffer, str_buf, len);
+		*lenp = len;
+		*ppos += len;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -138,6 +186,7 @@ static struct ctl_table svcrdma_parm_table[] = {
 
 	{
 		.procname	= "rdma_stat_read",
+<<<<<<< HEAD
 		.data		= &svcrdma_stat_read,
 		.maxlen		= SVCRDMA_COUNTER_BUFSIZ,
 		.mode		= 0644,
@@ -208,6 +257,68 @@ static struct ctl_table svcrdma_parm_table[] = {
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= &zero,
 		.extra2		= &zero,
+=======
+		.data		= &rdma_stat_read,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_recv",
+		.data		= &rdma_stat_recv,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_write",
+		.data		= &rdma_stat_write,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_sq_starve",
+		.data		= &rdma_stat_sq_starve,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_rq_starve",
+		.data		= &rdma_stat_rq_starve,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_rq_poll",
+		.data		= &rdma_stat_rq_poll,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_rq_prod",
+		.data		= &rdma_stat_rq_prod,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_sq_poll",
+		.data		= &rdma_stat_sq_poll,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+	},
+	{
+		.procname	= "rdma_stat_sq_prod",
+		.data		= &rdma_stat_sq_prod,
+		.maxlen		= sizeof(atomic_t),
+		.mode		= 0644,
+		.proc_handler	= read_reset_stat,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{ },
 };
@@ -230,6 +341,7 @@ static struct ctl_table svcrdma_root_table[] = {
 	{ },
 };
 
+<<<<<<< HEAD
 static void svc_rdma_proc_cleanup(void)
 {
 	if (!svcrdma_table_header)
@@ -278,21 +390,40 @@ void svc_rdma_cleanup(void)
 	dprintk("SVCRDMA Module Removed, deregister RPC RDMA transport\n");
 	svc_unreg_xprt_class(&svc_rdma_class);
 	svc_rdma_proc_cleanup();
+=======
+void svc_rdma_cleanup(void)
+{
+	dprintk("SVCRDMA Module Removed, deregister RPC RDMA transport\n");
+	if (svcrdma_table_header) {
+		unregister_sysctl_table(svcrdma_table_header);
+		svcrdma_table_header = NULL;
+	}
+	svc_unreg_xprt_class(&svc_rdma_class);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int svc_rdma_init(void)
 {
+<<<<<<< HEAD
 	int rc;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dprintk("SVCRDMA Module Init, register RPC RDMA transport\n");
 	dprintk("\tsvcrdma_ord      : %d\n", svcrdma_ord);
 	dprintk("\tmax_requests     : %u\n", svcrdma_max_requests);
 	dprintk("\tmax_bc_requests  : %u\n", svcrdma_max_bc_requests);
 	dprintk("\tmax_inline       : %d\n", svcrdma_max_req_size);
 
+<<<<<<< HEAD
 	rc = svc_rdma_proc_init();
 	if (rc)
 		return rc;
+=======
+	if (!svcrdma_table_header)
+		svcrdma_table_header =
+			register_sysctl_table(svcrdma_root_table);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Register RDMA with the SVC transport switch */
 	svc_reg_xprt_class(&svc_rdma_class);

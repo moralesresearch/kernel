@@ -171,8 +171,14 @@ static void crc32_init(void)
 
 		for (i = 0; i < 256; ++i) {
 			k = crc32_reverseBit((u8)i);
+<<<<<<< HEAD
 			for (c = ((u32)k) << 24, j = 8; j > 0; --j)
 				c = c & 0x80000000 ? (c << 1) ^ CRC32_POLY_BE : (c << 1);
+=======
+			for (c = ((u32)k) << 24, j = 8; j > 0; --j) {
+				c = c & 0x80000000 ? (c << 1) ^ CRC32_POLY_BE : (c << 1);
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			p1 = (u8 *)&crc32_table[i];
 
 			p1[0] = crc32_reverseBit(p[3]);
@@ -194,8 +200,14 @@ static __le32 getcrc32(u8 *buf, sint len)
 
 	crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
 
+<<<<<<< HEAD
 	for (p = buf; len > 0; ++p, --len)
 		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
+=======
+	for (p = buf; len > 0; ++p, --len) {
+		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
 }
 
@@ -318,8 +330,14 @@ static u32 secmicgetuint32(u8 *p)
 	s32 i;
 	u32 res = 0;
 
+<<<<<<< HEAD
 	for (i = 0; i < 4; i++)
 		res |= ((u32)(*p++)) << (8*i);
+=======
+	for (i = 0; i < 4; i++) {
+		res |= ((u32)(*p++)) << (8*i);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return res;
 }
@@ -393,8 +411,14 @@ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst)
 	rtw_secmicappendbyte(pmicdata, 0);
 	rtw_secmicappendbyte(pmicdata, 0);
 	/*  and then zeroes until the length is a multiple of 4 */
+<<<<<<< HEAD
 	while (pmicdata->nBytesInM != 0)
 		rtw_secmicappendbyte(pmicdata, 0);
+=======
+	while (pmicdata->nBytesInM != 0) {
+		rtw_secmicappendbyte(pmicdata, 0);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*  The appendByte function has already computed the result. */
 	secmicputuint32(dst, pmicdata->L);
 	secmicputuint32(dst+4, pmicdata->R);
@@ -914,8 +938,14 @@ static void xor_128(u8 *a, u8 *b, u8 *out)
 {
 		sint i;
 
+<<<<<<< HEAD
 		for (i = 0; i < 16; i++)
 			out[i] = a[i] ^ b[i];
+=======
+		for (i = 0; i < 16; i++) {
+			out[i] = a[i] ^ b[i];
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -923,8 +953,14 @@ static void xor_32(u8 *a, u8 *b, u8 *out)
 {
 		sint i;
 
+<<<<<<< HEAD
 		for (i = 0; i < 4; i++)
 			out[i] = a[i] ^ b[i];
+=======
+		for (i = 0; i < 4; i++) {
+			out[i] = a[i] ^ b[i];
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -963,8 +999,14 @@ static void byte_sub(u8 *in, u8 *out)
 {
 		sint i;
 
+<<<<<<< HEAD
 		for (i = 0; i < 16; i++)
 			out[i] = sbox(in[i]);
+=======
+		for (i = 0; i < 16; i++) {
+			out[i] = sbox(in[i]);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -1252,8 +1294,14 @@ static void bitwise_xor(u8 *ina, u8 *inb, u8 *out)
 {
 		sint i;
 
+<<<<<<< HEAD
 		for (i = 0; i < 16; i++)
 			out[i] = ina[i] ^ inb[i];
+=======
+		for (i = 0; i < 16; i++) {
+			out[i] = ina[i] ^ inb[i];
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static sint aes_cipher(u8 *key, uint	hdrlen,

@@ -22,6 +22,10 @@
 #include <asm/processor.h>
 
 #include <linux/i2c.h>
+<<<<<<< HEAD
+=======
+#include <linux/sfi.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <media/v4l2-subdev.h>
 #include "atomisp.h"
 

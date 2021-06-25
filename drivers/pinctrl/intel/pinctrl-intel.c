@@ -29,6 +29,7 @@
 #define REVID_SHIFT			16
 #define REVID_MASK			GENMASK(31, 16)
 
+<<<<<<< HEAD
 #define CAPLIST				0x004
 #define CAPLIST_ID_SHIFT		16
 #define CAPLIST_ID_MASK			GENMASK(23, 16)
@@ -39,6 +40,8 @@
 #define CAPLIST_NEXT_SHIFT		0
 #define CAPLIST_NEXT_MASK		GENMASK(15, 0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PADBAR				0x00c
 
 #define PADOWN_BITS			4
@@ -1331,19 +1334,47 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int intel_pinctrl_add_padgroups_by_gpps(struct intel_pinctrl *pctrl,
 					       struct intel_community *community)
 {
 	struct intel_padgroup *gpps;
 	unsigned int padown_num = 0;
 	size_t i, ngpps = community->ngpps;
+=======
+static int intel_pinctrl_add_padgroups(struct intel_pinctrl *pctrl,
+				       struct intel_community *community)
+{
+	struct intel_padgroup *gpps;
+	unsigned int npins = community->npins;
+	unsigned int padown_num = 0;
+	size_t ngpps, i;
+
+	if (community->gpps)
+		ngpps = community->ngpps;
+	else
+		ngpps = DIV_ROUND_UP(community->npins, community->gpp_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gpps = devm_kcalloc(pctrl->dev, ngpps, sizeof(*gpps), GFP_KERNEL);
 	if (!gpps)
 		return -ENOMEM;
 
 	for (i = 0; i < ngpps; i++) {
+<<<<<<< HEAD
 		gpps[i] = community->gpps[i];
+=======
+		if (community->gpps) {
+			gpps[i] = community->gpps[i];
+		} else {
+			unsigned int gpp_size = community->gpp_size;
+
+			gpps[i].reg_num = i;
+			gpps[i].base = community->pin_base + i * gpp_size;
+			gpps[i].size = min(gpp_size, npins);
+			npins -= gpps[i].size;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (gpps[i].size > 32)
 			return -EINVAL;
@@ -1357,12 +1388,16 @@ static int intel_pinctrl_add_padgroups_by_gpps(struct intel_pinctrl *pctrl,
 				gpps[i].gpio_base = 0;
 				break;
 			case INTEL_GPIO_BASE_NOMAP:
+<<<<<<< HEAD
 				break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			default:
 				break;
 		}
 
 		gpps[i].padown_num = padown_num;
+<<<<<<< HEAD
 		padown_num += DIV_ROUND_UP(gpps[i].size * 4, 32);
 	}
 
@@ -1396,6 +1431,8 @@ static int intel_pinctrl_add_padgroups_by_size(struct intel_pinctrl *pctrl,
 
 		gpps[i].gpio_base = gpps[i].base;
 		gpps[i].padown_num = padown_num;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * In older hardware the number of padown registers per
@@ -1484,8 +1521,12 @@ static int intel_pinctrl_probe(struct platform_device *pdev,
 	for (i = 0; i < pctrl->ncommunities; i++) {
 		struct intel_community *community = &pctrl->communities[i];
 		void __iomem *regs;
+<<<<<<< HEAD
 		u32 offset;
 		u32 value;
+=======
+		u32 padbar;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		*community = pctrl->soc->communities[i];
 
@@ -1494,6 +1535,7 @@ static int intel_pinctrl_probe(struct platform_device *pdev,
 			return PTR_ERR(regs);
 
 		/*
+<<<<<<< HEAD
 		 * Determine community features based on the revision.
 		 * A value of all ones means the device is not present.
 		 */
@@ -1540,6 +1582,28 @@ static int intel_pinctrl_probe(struct platform_device *pdev,
 			ret = intel_pinctrl_add_padgroups_by_gpps(pctrl, community);
 		else
 			ret = intel_pinctrl_add_padgroups_by_size(pctrl, community);
+=======
+		 * Determine community features based on the revision if
+		 * not specified already.
+		 */
+		if (!community->features) {
+			u32 rev;
+
+			rev = (readl(regs + REVID) & REVID_MASK) >> REVID_SHIFT;
+			if (rev >= 0x94) {
+				community->features |= PINCTRL_FEATURE_DEBOUNCE;
+				community->features |= PINCTRL_FEATURE_1K_PD;
+			}
+		}
+
+		/* Read offset of the pad configuration registers */
+		padbar = readl(regs + PADBAR);
+
+		community->regs = regs;
+		community->pad_regs = regs + padbar;
+
+		ret = intel_pinctrl_add_padgroups(pctrl, community);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			return ret;
 	}

@@ -22,9 +22,12 @@ properties:
               - adapteva,parallella
               - digilent,zynq-zybo
               - digilent,zynq-zybo-z7
+<<<<<<< HEAD
               - ebang,ebaz4205
               - myir,zynq-zturn-v5
               - myir,zynq-zturn
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               - xlnx,zynq-cc108
               - xlnx,zynq-zc702
               - xlnx,zynq-zc706
@@ -94,7 +97,10 @@ properties:
         items:
           - enum:
               - xlnx,zynqmp-zcu104-revA
+<<<<<<< HEAD
               - xlnx,zynqmp-zcu104-revC
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               - xlnx,zynqmp-zcu104-rev1.0
           - const: xlnx,zynqmp-zcu104
           - const: xlnx,zynqmp
@@ -111,7 +117,11 @@ properties:
         items:
           - enum:
               - xlnx,zynqmp-zcu111-revA
+<<<<<<< HEAD
               - xlnx,zynqmp-zcu111-rev1.0
+=======
+              - xlnx,zynqmp-zcu11-rev1.0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: xlnx,zynqmp-zcu111
           - const: xlnx,zynqmp
 

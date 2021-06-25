@@ -49,6 +49,20 @@ static const char *ssi_sel_clks[] = { "spll_gate", "mpll", };
 static struct clk *clk[IMX27_CLK_MAX];
 static struct clk_onecell_data clk_data;
 
+<<<<<<< HEAD
+=======
+static struct clk ** const uart_clks[] __initconst = {
+	&clk[IMX27_CLK_PER1_GATE],
+	&clk[IMX27_CLK_UART1_IPG_GATE],
+	&clk[IMX27_CLK_UART2_IPG_GATE],
+	&clk[IMX27_CLK_UART3_IPG_GATE],
+	&clk[IMX27_CLK_UART4_IPG_GATE],
+	&clk[IMX27_CLK_UART5_IPG_GATE],
+	&clk[IMX27_CLK_UART6_IPG_GATE],
+	NULL
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init _mx27_clocks_init(unsigned long fref)
 {
 	BUG_ON(!ccm);
@@ -165,7 +179,11 @@ static void __init _mx27_clocks_init(unsigned long fref)
 
 	clk_prepare_enable(clk[IMX27_CLK_EMI_AHB_GATE]);
 
+<<<<<<< HEAD
 	imx_register_uart_clocks(7);
+=======
+	imx_register_uart_clocks(uart_clks);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	imx_print_silicon_rev("i.MX27", mx27_revision());
 }

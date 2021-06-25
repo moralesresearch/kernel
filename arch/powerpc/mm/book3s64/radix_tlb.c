@@ -18,8 +18,11 @@
 #include <asm/cputhreads.h>
 #include <asm/plpar_wrappers.h>
 
+<<<<<<< HEAD
 #include "internal.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define RIC_FLUSH_TLB 0
 #define RIC_FLUSH_PWC 1
 #define RIC_FLUSH_ALL 2
@@ -629,6 +632,18 @@ void radix__local_flush_tlb_page(struct vm_area_struct *vma, unsigned long vmadd
 }
 EXPORT_SYMBOL(radix__local_flush_tlb_page);
 
+<<<<<<< HEAD
+=======
+static bool mm_is_singlethreaded(struct mm_struct *mm)
+{
+	if (atomic_read(&mm->context.copros) > 0)
+		return false;
+	if (atomic_read(&mm->mm_users) <= 1 && current->mm == mm)
+		return true;
+	return false;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mm_needs_flush_escalation(struct mm_struct *mm)
 {
 	/*
@@ -641,6 +656,7 @@ static bool mm_needs_flush_escalation(struct mm_struct *mm)
 	return false;
 }
 
+<<<<<<< HEAD
 /*
  * If always_flush is true, then flush even if this CPU can't be removed
  * from mm_cpumask.
@@ -659,6 +675,23 @@ void exit_lazy_flush_tlb(struct mm_struct *mm, bool always_flush)
 	 */
 	if (current->mm == mm)
 		goto out;
+=======
+#ifdef CONFIG_SMP
+static void do_exit_flush_lazy_tlb(void *arg)
+{
+	struct mm_struct *mm = arg;
+	unsigned long pid = mm->context.id;
+
+	/*
+	 * A kthread could have done a mmget_not_zero() after the flushing CPU
+	 * checked mm_is_singlethreaded, and be in the process of
+	 * kthread_use_mm when interrupted here. In that case, current->mm will
+	 * be set to mm, because kthread_use_mm() setting ->mm and switching to
+	 * the mm is done with interrupts off.
+	 */
+	if (current->mm == mm)
+		goto out_flush;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (current->active_mm == mm) {
 		WARN_ON_ONCE(current->mm != NULL);
@@ -669,6 +702,7 @@ void exit_lazy_flush_tlb(struct mm_struct *mm, bool always_flush)
 		mmdrop(mm);
 	}
 
+<<<<<<< HEAD
 	/*
 	 * This IPI may be initiated from any source including those not
 	 * running the mm, so there may be a racing IPI that comes after
@@ -693,6 +727,13 @@ static void do_exit_flush_lazy_tlb(void *arg)
 {
 	struct mm_struct *mm = arg;
 	exit_lazy_flush_tlb(mm, true);
+=======
+	atomic_dec(&mm->context.active_cpus);
+	cpumask_clear_cpu(smp_processor_id(), mm_cpumask(mm));
+
+out_flush:
+	_tlbiel_pid(pid, RIC_FLUSH_ALL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void exit_flush_lazy_tlbs(struct mm_struct *mm)
@@ -708,6 +749,7 @@ static void exit_flush_lazy_tlbs(struct mm_struct *mm)
 				(void *)mm, 1);
 }
 
+<<<<<<< HEAD
 #else /* CONFIG_SMP */
 static inline void exit_flush_lazy_tlbs(struct mm_struct *mm) { }
 #endif /* CONFIG_SMP */
@@ -812,6 +854,11 @@ void radix__flush_tlb_mm(struct mm_struct *mm)
 {
 	unsigned long pid;
 	enum tlb_flush_type type;
+=======
+void radix__flush_tlb_mm(struct mm_struct *mm)
+{
+	unsigned long pid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
@@ -819,6 +866,7 @@ void radix__flush_tlb_mm(struct mm_struct *mm)
 
 	preempt_disable();
 	/*
+<<<<<<< HEAD
 	 * Order loads of mm_cpumask (in flush_type_needed) vs previous
 	 * stores to clear ptes before the invalidate. See barrier in
 	 * switch_mm_irqs_off
@@ -828,6 +876,18 @@ void radix__flush_tlb_mm(struct mm_struct *mm)
 	if (type == FLUSH_TYPE_LOCAL) {
 		_tlbiel_pid(pid, RIC_FLUSH_TLB);
 	} else if (type == FLUSH_TYPE_GLOBAL) {
+=======
+	 * Order loads of mm_cpumask vs previous stores to clear ptes before
+	 * the invalidate. See barrier in switch_mm_irqs_off
+	 */
+	smp_mb();
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			exit_flush_lazy_tlbs(mm);
+			goto local;
+		}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mmu_has_feature(MMU_FTR_GTSE)) {
 			unsigned long tgt = H_RPTI_TARGET_CMMU;
 
@@ -843,6 +903,12 @@ void radix__flush_tlb_mm(struct mm_struct *mm)
 		} else {
 			_tlbiel_pid_multicast(mm, pid, RIC_FLUSH_TLB);
 		}
+<<<<<<< HEAD
+=======
+	} else {
+local:
+		_tlbiel_pid(pid, RIC_FLUSH_TLB);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	preempt_enable();
 }
@@ -851,7 +917,10 @@ EXPORT_SYMBOL(radix__flush_tlb_mm);
 static void __flush_all_mm(struct mm_struct *mm, bool fullmm)
 {
 	unsigned long pid;
+<<<<<<< HEAD
 	enum tlb_flush_type type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
@@ -859,10 +928,20 @@ static void __flush_all_mm(struct mm_struct *mm, bool fullmm)
 
 	preempt_disable();
 	smp_mb(); /* see radix__flush_tlb_mm */
+<<<<<<< HEAD
 	type = flush_type_needed(mm, fullmm);
 	if (type == FLUSH_TYPE_LOCAL) {
 		_tlbiel_pid(pid, RIC_FLUSH_ALL);
 	} else if (type == FLUSH_TYPE_GLOBAL) {
+=======
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			if (!fullmm) {
+				exit_flush_lazy_tlbs(mm);
+				goto local;
+			}
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mmu_has_feature(MMU_FTR_GTSE)) {
 			unsigned long tgt = H_RPTI_TARGET_CMMU;
 			unsigned long type = H_RPTI_TYPE_TLB | H_RPTI_TYPE_PWC |
@@ -876,6 +955,12 @@ static void __flush_all_mm(struct mm_struct *mm, bool fullmm)
 			_tlbie_pid(pid, RIC_FLUSH_ALL);
 		else
 			_tlbiel_pid_multicast(mm, pid, RIC_FLUSH_ALL);
+<<<<<<< HEAD
+=======
+	} else {
+local:
+		_tlbiel_pid(pid, RIC_FLUSH_ALL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	preempt_enable();
 }
@@ -890,7 +975,10 @@ void radix__flush_tlb_page_psize(struct mm_struct *mm, unsigned long vmaddr,
 				 int psize)
 {
 	unsigned long pid;
+<<<<<<< HEAD
 	enum tlb_flush_type type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
@@ -898,10 +986,18 @@ void radix__flush_tlb_page_psize(struct mm_struct *mm, unsigned long vmaddr,
 
 	preempt_disable();
 	smp_mb(); /* see radix__flush_tlb_mm */
+<<<<<<< HEAD
 	type = flush_type_needed(mm, false);
 	if (type == FLUSH_TYPE_LOCAL) {
 		_tlbiel_va(vmaddr, pid, psize, RIC_FLUSH_TLB);
 	} else if (type == FLUSH_TYPE_GLOBAL) {
+=======
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			exit_flush_lazy_tlbs(mm);
+			goto local;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mmu_has_feature(MMU_FTR_GTSE)) {
 			unsigned long tgt, pg_sizes, size;
 
@@ -918,6 +1014,12 @@ void radix__flush_tlb_page_psize(struct mm_struct *mm, unsigned long vmaddr,
 			_tlbie_va(vmaddr, pid, psize, RIC_FLUSH_TLB);
 		else
 			_tlbiel_va_multicast(mm, vmaddr, pid, psize, RIC_FLUSH_TLB);
+<<<<<<< HEAD
+=======
+	} else {
+local:
+		_tlbiel_va(vmaddr, pid, psize, RIC_FLUSH_TLB);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	preempt_enable();
 }
@@ -932,6 +1034,11 @@ void radix__flush_tlb_page(struct vm_area_struct *vma, unsigned long vmaddr)
 }
 EXPORT_SYMBOL(radix__flush_tlb_page);
 
+<<<<<<< HEAD
+=======
+#else /* CONFIG_SMP */
+static inline void exit_flush_lazy_tlbs(struct mm_struct *mm) { }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_SMP */
 
 static void do_tlbiel_kernel(void *info)
@@ -995,9 +1102,13 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 	unsigned int page_shift = mmu_psize_defs[mmu_virtual_psize].shift;
 	unsigned long page_size = 1UL << page_shift;
 	unsigned long nr_pages = (end - start) >> page_shift;
+<<<<<<< HEAD
 	bool fullmm = (end == TLB_FLUSH_ALL);
 	bool flush_pid;
 	enum tlb_flush_type type;
+=======
+	bool local, full;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
@@ -1005,6 +1116,7 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 
 	preempt_disable();
 	smp_mb(); /* see radix__flush_tlb_mm */
+<<<<<<< HEAD
 	type = flush_type_needed(mm, fullmm);
 	if (type == FLUSH_TYPE_NONE)
 		goto out;
@@ -1017,6 +1129,26 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 		flush_pid = nr_pages > tlb_local_single_page_flush_ceiling;
 
 	if (!mmu_has_feature(MMU_FTR_GTSE) && type == FLUSH_TYPE_GLOBAL) {
+=======
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			if (end != TLB_FLUSH_ALL) {
+				exit_flush_lazy_tlbs(mm);
+				goto is_local;
+			}
+		}
+		local = false;
+		full = (end == TLB_FLUSH_ALL ||
+				nr_pages > tlb_single_page_flush_ceiling);
+	} else {
+is_local:
+		local = true;
+		full = (end == TLB_FLUSH_ALL ||
+				nr_pages > tlb_local_single_page_flush_ceiling);
+	}
+
+	if (!mmu_has_feature(MMU_FTR_GTSE) && !local) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long tgt = H_RPTI_TARGET_CMMU;
 		unsigned long pg_sizes = psize_to_rpti_pgsize(mmu_virtual_psize);
 
@@ -1026,8 +1158,13 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 			tgt |= H_RPTI_TARGET_NMMU;
 		pseries_rpt_invalidate(pid, tgt, H_RPTI_TYPE_TLB, pg_sizes,
 				       start, end);
+<<<<<<< HEAD
 	} else if (flush_pid) {
 		if (type == FLUSH_TYPE_LOCAL) {
+=======
+	} else if (full) {
+		if (local) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			_tlbiel_pid(pid, RIC_FLUSH_TLB);
 		} else {
 			if (cputlb_use_tlbie()) {
@@ -1050,7 +1187,11 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 				hflush = true;
 		}
 
+<<<<<<< HEAD
 		if (type == FLUSH_TYPE_LOCAL) {
+=======
+		if (local) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			asm volatile("ptesync": : :"memory");
 			__tlbiel_va_range(start, end, pid, page_size, mmu_virtual_psize);
 			if (hflush)
@@ -1072,7 +1213,10 @@ static inline void __radix__flush_tlb_range(struct mm_struct *mm,
 					hstart, hend, pid, PMD_SIZE, MMU_PAGE_2M, false);
 		}
 	}
+<<<<<<< HEAD
 out:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	preempt_enable();
 }
 
@@ -1184,14 +1328,19 @@ static __always_inline void __radix__flush_tlb_range_psize(struct mm_struct *mm,
 	unsigned int page_shift = mmu_psize_defs[psize].shift;
 	unsigned long page_size = 1UL << page_shift;
 	unsigned long nr_pages = (end - start) >> page_shift;
+<<<<<<< HEAD
 	bool fullmm = (end == TLB_FLUSH_ALL);
 	bool flush_pid;
 	enum tlb_flush_type type;
+=======
+	bool local, full;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
 		return;
 
+<<<<<<< HEAD
 	fullmm = (end == TLB_FLUSH_ALL);
 
 	preempt_disable();
@@ -1208,6 +1357,28 @@ static __always_inline void __radix__flush_tlb_range_psize(struct mm_struct *mm,
 		flush_pid = nr_pages > tlb_local_single_page_flush_ceiling;
 
 	if (!mmu_has_feature(MMU_FTR_GTSE) && type == FLUSH_TYPE_GLOBAL) {
+=======
+	preempt_disable();
+	smp_mb(); /* see radix__flush_tlb_mm */
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			if (end != TLB_FLUSH_ALL) {
+				exit_flush_lazy_tlbs(mm);
+				goto is_local;
+			}
+		}
+		local = false;
+		full = (end == TLB_FLUSH_ALL ||
+				nr_pages > tlb_single_page_flush_ceiling);
+	} else {
+is_local:
+		local = true;
+		full = (end == TLB_FLUSH_ALL ||
+				nr_pages > tlb_local_single_page_flush_ceiling);
+	}
+
+	if (!mmu_has_feature(MMU_FTR_GTSE) && !local) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long tgt = H_RPTI_TARGET_CMMU;
 		unsigned long type = H_RPTI_TYPE_TLB;
 		unsigned long pg_sizes = psize_to_rpti_pgsize(psize);
@@ -1217,8 +1388,13 @@ static __always_inline void __radix__flush_tlb_range_psize(struct mm_struct *mm,
 		if (atomic_read(&mm->context.copros) > 0)
 			tgt |= H_RPTI_TARGET_NMMU;
 		pseries_rpt_invalidate(pid, tgt, type, pg_sizes, start, end);
+<<<<<<< HEAD
 	} else if (flush_pid) {
 		if (type == FLUSH_TYPE_LOCAL) {
+=======
+	} else if (full) {
+		if (local) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			_tlbiel_pid(pid, also_pwc ? RIC_FLUSH_ALL : RIC_FLUSH_TLB);
 		} else {
 			if (cputlb_use_tlbie()) {
@@ -1234,7 +1410,11 @@ static __always_inline void __radix__flush_tlb_range_psize(struct mm_struct *mm,
 
 		}
 	} else {
+<<<<<<< HEAD
 		if (type == FLUSH_TYPE_LOCAL)
+=======
+		if (local)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			_tlbiel_va_range(start, end, pid, page_size, psize, also_pwc);
 		else if (cputlb_use_tlbie())
 			_tlbie_va_range(start, end, pid, page_size, psize, also_pwc);
@@ -1242,7 +1422,10 @@ static __always_inline void __radix__flush_tlb_range_psize(struct mm_struct *mm,
 			_tlbiel_va_range_multicast(mm,
 					start, end, pid, page_size, psize, also_pwc);
 	}
+<<<<<<< HEAD
 out:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	preempt_enable();
 }
 
@@ -1262,7 +1445,10 @@ static void radix__flush_tlb_pwc_range_psize(struct mm_struct *mm, unsigned long
 void radix__flush_tlb_collapsed_pmd(struct mm_struct *mm, unsigned long addr)
 {
 	unsigned long pid, end;
+<<<<<<< HEAD
 	enum tlb_flush_type type;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pid = mm->context.id;
 	if (unlikely(pid == MMU_NO_CONTEXT))
@@ -1279,10 +1465,18 @@ void radix__flush_tlb_collapsed_pmd(struct mm_struct *mm, unsigned long addr)
 	/* Otherwise first do the PWC, then iterate the pages. */
 	preempt_disable();
 	smp_mb(); /* see radix__flush_tlb_mm */
+<<<<<<< HEAD
 	type = flush_type_needed(mm, false);
 	if (type == FLUSH_TYPE_LOCAL) {
 		_tlbiel_va_range(addr, end, pid, PAGE_SIZE, mmu_virtual_psize, true);
 	} else if (type == FLUSH_TYPE_GLOBAL) {
+=======
+	if (!mm_is_thread_local(mm)) {
+		if (unlikely(mm_is_singlethreaded(mm))) {
+			exit_flush_lazy_tlbs(mm);
+			goto local;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mmu_has_feature(MMU_FTR_GTSE)) {
 			unsigned long tgt, type, pg_sizes;
 
@@ -1300,6 +1494,12 @@ void radix__flush_tlb_collapsed_pmd(struct mm_struct *mm, unsigned long addr)
 		else
 			_tlbiel_va_range_multicast(mm,
 					addr, end, pid, PAGE_SIZE, mmu_virtual_psize, true);
+<<<<<<< HEAD
+=======
+	} else {
+local:
+		_tlbiel_va_range(addr, end, pid, PAGE_SIZE, mmu_virtual_psize, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	preempt_enable();

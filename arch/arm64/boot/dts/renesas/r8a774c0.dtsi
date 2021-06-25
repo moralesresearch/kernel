@@ -1654,6 +1654,7 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		rpc: spi@ee200000 {
 			compatible = "renesas,r8a774c0-rpc-if",
 				     "renesas,rcar-gen3-rpc-if";
@@ -1671,6 +1672,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gic: interrupt-controller@f1010000 {
 			compatible = "arm,gic-400";
 			#interrupt-cells = <3>;

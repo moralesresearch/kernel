@@ -8,7 +8,10 @@ of PMIC's from Qualcomm.
 	Value type: <string>
 	Definition: Should contain one of:
 		    "qcom,pm8018-mpp",
+<<<<<<< HEAD
 		    "qcom,pm8019-mpp",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    "qcom,pm8038-mpp",
 		    "qcom,pm8058-mpp",
 		    "qcom,pm8821-mpp",

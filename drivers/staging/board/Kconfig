@@ -3,6 +3,7 @@ config STAGING_BOARD
 	bool "Staging Board Support"
 	depends on OF_ADDRESS && OF_IRQ && CLKDEV_LOOKUP
 	help
+<<<<<<< HEAD
 	  Staging board base is to support continuous upstream
 	  in-tree development and integration of platform devices.
 
@@ -10,3 +11,9 @@ config STAGING_BOARD
 	  device drivers that only provide platform device bindings.
 	  This in turn allows for incremental development of both
 	  hardware feature support and DT binding work in parallel.
+=======
+	  Select to enable per-board staging support code.
+
+	  If in doubt, say N here.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

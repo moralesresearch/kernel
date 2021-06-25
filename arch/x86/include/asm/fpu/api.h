@@ -32,6 +32,7 @@ extern void fpregs_mark_activate(void);
 /* Code that is unaware of kernel_fpu_begin_mask() can use this */
 static inline void kernel_fpu_begin(void)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_X86_64
 	/*
 	 * Any 64-bit code that uses 387 instructions must explicitly request
@@ -45,6 +46,9 @@ static inline void kernel_fpu_begin(void)
 	 */
 	kernel_fpu_begin_mask(KFPU_387 | KFPU_MXCSR);
 #endif
+=======
+	kernel_fpu_begin_mask(KFPU_387 | KFPU_MXCSR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -106,6 +110,15 @@ extern int cpu_has_xfeatures(u64 xfeatures_mask, const char **feature_name);
  */
 #define PASID_DISABLED	0
 
+<<<<<<< HEAD
 static inline void update_pasid(void) { }
 
+=======
+#ifdef CONFIG_IOMMU_SUPPORT
+/* Update current's PASID MSR/state by mm's PASID. */
+void update_pasid(void);
+#else
+static inline void update_pasid(void) { }
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _ASM_X86_FPU_API_H */

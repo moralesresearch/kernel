@@ -15,6 +15,10 @@
 #include "tests.h"
 #include "thread_map.h"
 #include <perf/cpumap.h>
+<<<<<<< HEAD
+=======
+#include <internal/cpumap.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "debug.h"
 #include "stat.h"
 #include "util/counts.h"

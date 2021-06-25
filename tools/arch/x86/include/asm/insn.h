@@ -7,12 +7,18 @@
  * Copyright (C) IBM Corporation, 2009
  */
 
+<<<<<<< HEAD
 #include <asm/byteorder.h>
 /* insn_attr_t is defined in inat.h */
 #include "inat.h"
 
 #if defined(__BYTE_ORDER) ? __BYTE_ORDER == __LITTLE_ENDIAN : defined(__LITTLE_ENDIAN)
 
+=======
+/* insn_attr_t is defined in inat.h */
+#include "inat.h"
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct insn_field {
 	union {
 		insn_value_t value;
@@ -23,6 +29,7 @@ struct insn_field {
 	unsigned char nbytes;
 };
 
+<<<<<<< HEAD
 static inline void insn_field_set(struct insn_field *p, insn_value_t v,
 				  unsigned char n)
 {
@@ -65,6 +72,8 @@ static inline void insn_set_byte(struct insn_field *p, unsigned char n,
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct insn {
 	struct insn_field prefixes;	/*
 					 * Prefixes

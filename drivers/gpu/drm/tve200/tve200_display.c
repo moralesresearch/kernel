@@ -11,6 +11,10 @@
  */
 
 #include <linux/clk.h>
+<<<<<<< HEAD
+=======
+#include <linux/version.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/dma-buf.h>
 #include <linux/of_graph.h>
 #include <linux/delay.h>

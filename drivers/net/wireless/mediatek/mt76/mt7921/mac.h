@@ -97,12 +97,17 @@ enum rx_pkt_type {
 #define MT_RXD3_NORMAL_PF_MODE		BIT(29)
 #define MT_RXD3_NORMAL_PF_STS		GENMASK(31, 30)
 
+<<<<<<< HEAD
 /* P-RXV DW0 */
+=======
+/* P-RXV */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_PRXV_TX_RATE			GENMASK(6, 0)
 #define MT_PRXV_TX_DCM			BIT(4)
 #define MT_PRXV_TX_ER_SU_106T		BIT(5)
 #define MT_PRXV_NSTS			GENMASK(9, 7)
 #define MT_PRXV_HT_AD_CODE		BIT(11)
+<<<<<<< HEAD
 #define MT_PRXV_FRAME_MODE		GENMASK(14, 12)
 #define MT_PRXV_SGI			GENMASK(16, 15)
 #define MT_PRXV_STBC			GENMASK(23, 22)
@@ -110,11 +115,18 @@ enum rx_pkt_type {
 #define MT_PRXV_HE_RU_ALLOC_L		GENMASK(31, 28)
 
 /* P-RXV DW1 */
+=======
+#define MT_PRXV_HE_RU_ALLOC_L		GENMASK(31, 28)
+#define MT_PRXV_HE_RU_ALLOC_H		GENMASK(3, 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_PRXV_RCPI3			GENMASK(31, 24)
 #define MT_PRXV_RCPI2			GENMASK(23, 16)
 #define MT_PRXV_RCPI1			GENMASK(15, 8)
 #define MT_PRXV_RCPI0			GENMASK(7, 0)
+<<<<<<< HEAD
 #define MT_PRXV_HE_RU_ALLOC_H		GENMASK(3, 0)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* C-RXV */
 #define MT_CRXV_HT_STBC			GENMASK(1, 0)

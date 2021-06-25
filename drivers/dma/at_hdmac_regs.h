@@ -7,6 +7,11 @@
 #ifndef AT_HDMAC_REGS_H
 #define	AT_HDMAC_REGS_H
 
+<<<<<<< HEAD
+=======
+#include <linux/platform_data/dma-atmel.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define	AT_DMA_MAX_NR_CHANNELS	8
 
 
@@ -146,6 +151,7 @@
 #define	ATC_AUTO		(0x1 << 31)	/* Auto multiple buffer tx enable */
 
 /* Bitfields in CFG */
+<<<<<<< HEAD
 #define ATC_PER_MSB(h)	((0x30U & (h)) >> 4)	/* Extract most significant bits of a handshaking identifier */
 
 #define	ATC_SRC_PER(h)		(0xFU & (h))	/* Channel src rq associated with periph handshaking ifc h */
@@ -171,6 +177,9 @@
 #define		ATC_FIFOCFG_LARGESTBURST	(0x0 << 28)
 #define		ATC_FIFOCFG_HALFFIFO		(0x1 << 28)
 #define		ATC_FIFOCFG_ENOUGHSPACE		(0x2 << 28)
+=======
+/* are in at_hdmac.h */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Bitfields in SPIP */
 #define	ATC_SPIP_HOLE(x)	(0xFFFFU & (x))

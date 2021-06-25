@@ -107,10 +107,13 @@ struct flow_offload_tuple {
 
 	u8				l3proto;
 	u8				l4proto;
+<<<<<<< HEAD
 
 	/* All members above are keys for lookups, see flow_offload_hash(). */
 	struct { }			__hash;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8				dir;
 
 	u16				mtu;
@@ -130,6 +133,10 @@ enum nf_flow_flags {
 	NF_FLOW_HW,
 	NF_FLOW_HW_DYING,
 	NF_FLOW_HW_DEAD,
+<<<<<<< HEAD
+=======
+	NF_FLOW_HW_REFRESH,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NF_FLOW_HW_PENDING,
 };
 

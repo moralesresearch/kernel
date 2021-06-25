@@ -344,7 +344,11 @@ static int ps2_probe(struct sa1111_dev *dev)
 /*
  * Remove one device from this driver.
  */
+<<<<<<< HEAD
 static void ps2_remove(struct sa1111_dev *dev)
+=======
+static int ps2_remove(struct sa1111_dev *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ps2if *ps2if = sa1111_get_drvdata(dev);
 
@@ -353,6 +357,11 @@ static void ps2_remove(struct sa1111_dev *dev)
 	sa1111_set_drvdata(dev, NULL);
 
 	kfree(ps2if);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

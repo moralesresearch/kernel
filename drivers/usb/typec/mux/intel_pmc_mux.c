@@ -586,11 +586,14 @@ static int pmc_usb_probe_iom(struct pmc_usb *pmc)
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	if (IS_ERR(pmc->iom_base)) {
 		put_device(&adev->dev);
 		return PTR_ERR(pmc->iom_base);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pmc->iom_adev = adev;
 
 	return 0;
@@ -641,10 +644,15 @@ static int pmc_usb_probe(struct platform_device *pdev)
 			break;
 
 		ret = pmc_usb_register_port(pmc, i, fwnode);
+<<<<<<< HEAD
 		if (ret) {
 			fwnode_handle_put(fwnode);
 			goto err_remove_ports;
 		}
+=======
+		if (ret)
+			goto err_remove_ports;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	platform_set_drvdata(pdev, pmc);

@@ -616,6 +616,7 @@ static int ad7124_of_parse_channel_config(struct iio_dev *indio_dev,
 		if (ret)
 			goto err;
 
+<<<<<<< HEAD
 		if (channel >= indio_dev->num_channels) {
 			dev_err(indio_dev->dev.parent,
 				"Channel index >= number of channels\n");
@@ -623,6 +624,8 @@ static int ad7124_of_parse_channel_config(struct iio_dev *indio_dev,
 			goto err;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = of_property_read_u32_array(child, "diff-channels",
 						 ain, 2);
 		if (ret)
@@ -714,11 +717,14 @@ static int ad7124_setup(struct ad7124_state *st)
 	return ret;
 }
 
+<<<<<<< HEAD
 static void ad7124_reg_disable(void *r)
 {
 	regulator_disable(r);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ad7124_probe(struct spi_device *spi)
 {
 	const struct ad7124_chip_info *info;
@@ -764,6 +770,7 @@ static int ad7124_probe(struct spi_device *spi)
 		ret = regulator_enable(st->vref[i]);
 		if (ret)
 			return ret;
+<<<<<<< HEAD
 
 		ret = devm_add_action_or_reset(&spi->dev, ad7124_reg_disable,
 					       st->vref[i]);
@@ -778,6 +785,19 @@ static int ad7124_probe(struct spi_device *spi)
 	ret = clk_prepare_enable(st->mclk);
 	if (ret < 0)
 		return ret;
+=======
+	}
+
+	st->mclk = devm_clk_get(&spi->dev, "mclk");
+	if (IS_ERR(st->mclk)) {
+		ret = PTR_ERR(st->mclk);
+		goto error_regulator_disable;
+	}
+
+	ret = clk_prepare_enable(st->mclk);
+	if (ret < 0)
+		goto error_regulator_disable;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = ad7124_soft_reset(st);
 	if (ret < 0)
@@ -807,6 +827,14 @@ error_remove_trigger:
 	ad_sd_cleanup_buffer_and_trigger(indio_dev);
 error_clk_disable_unprepare:
 	clk_disable_unprepare(st->mclk);
+<<<<<<< HEAD
+=======
+error_regulator_disable:
+	for (i = ARRAY_SIZE(st->vref) - 1; i >= 0; i--) {
+		if (!IS_ERR_OR_NULL(st->vref[i]))
+			regulator_disable(st->vref[i]);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -815,11 +843,23 @@ static int ad7124_remove(struct spi_device *spi)
 {
 	struct iio_dev *indio_dev = spi_get_drvdata(spi);
 	struct ad7124_state *st = iio_priv(indio_dev);
+<<<<<<< HEAD
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iio_device_unregister(indio_dev);
 	ad_sd_cleanup_buffer_and_trigger(indio_dev);
 	clk_disable_unprepare(st->mclk);
 
+<<<<<<< HEAD
+=======
+	for (i = ARRAY_SIZE(st->vref) - 1; i >= 0; i--) {
+		if (!IS_ERR_OR_NULL(st->vref[i]))
+			regulator_disable(st->vref[i]);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

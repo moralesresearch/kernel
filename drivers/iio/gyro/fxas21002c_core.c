@@ -399,7 +399,10 @@ static int fxas21002c_temp_get(struct fxas21002c_data *data, int *val)
 	ret = regmap_field_read(data->regmap_fields[F_TEMP], &temp);
 	if (ret < 0) {
 		dev_err(dev, "failed to read temp: %d\n", ret);
+<<<<<<< HEAD
 		fxas21002c_pm_put(data);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto data_unlock;
 	}
 
@@ -433,7 +436,10 @@ static int fxas21002c_axis_get(struct fxas21002c_data *data,
 			       &axis_be, sizeof(axis_be));
 	if (ret < 0) {
 		dev_err(dev, "failed to read axis: %d: %d\n", index, ret);
+<<<<<<< HEAD
 		fxas21002c_pm_put(data);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto data_unlock;
 	}
 

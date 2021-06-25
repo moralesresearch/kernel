@@ -165,9 +165,15 @@ static int lm3642_control(struct lm3642_chip_data *chip,
 /* torch */
 
 /* torch pin config for lm3642 */
+<<<<<<< HEAD
 static ssize_t torch_pin_store(struct device *dev,
 			       struct device_attribute *attr,
 			       const char *buf, size_t size)
+=======
+static ssize_t lm3642_torch_pin_store(struct device *dev,
+				      struct device_attribute *attr,
+				      const char *buf, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ssize_t ret;
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
@@ -193,7 +199,11 @@ static ssize_t torch_pin_store(struct device *dev,
 	return size;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_WO(torch_pin);
+=======
+static DEVICE_ATTR(torch_pin, S_IWUSR, NULL, lm3642_torch_pin_store);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int lm3642_torch_brightness_set(struct led_classdev *cdev,
 					enum led_brightness brightness)
@@ -212,9 +222,15 @@ static int lm3642_torch_brightness_set(struct led_classdev *cdev,
 /* flash */
 
 /* strobe pin config for lm3642*/
+<<<<<<< HEAD
 static ssize_t strobe_pin_store(struct device *dev,
 				struct device_attribute *attr,
 				const char *buf, size_t size)
+=======
+static ssize_t lm3642_strobe_pin_store(struct device *dev,
+				       struct device_attribute *attr,
+				       const char *buf, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ssize_t ret;
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
@@ -240,7 +256,11 @@ static ssize_t strobe_pin_store(struct device *dev,
 	return size;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_WO(strobe_pin);
+=======
+static DEVICE_ATTR(strobe_pin, S_IWUSR, NULL, lm3642_strobe_pin_store);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int lm3642_strobe_brightness_set(struct led_classdev *cdev,
 					 enum led_brightness brightness)

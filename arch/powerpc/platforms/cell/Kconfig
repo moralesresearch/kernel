@@ -100,3 +100,11 @@ config CBE_CPUFREQ_SPU_GOVERNOR
 	  the minimal possible frequency.
 
 endmenu
+<<<<<<< HEAD
+=======
+
+config OPROFILE_CELL
+	def_bool y
+	depends on PPC_CELL_NATIVE && (OPROFILE = m || OPROFILE = y) && SPU_BASE
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

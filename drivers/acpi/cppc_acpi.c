@@ -119,15 +119,32 @@ static DEFINE_PER_CPU(struct cpc_desc *, cpc_desc_ptr);
  */
 #define NUM_RETRIES 500ULL
 
+<<<<<<< HEAD
 #define define_one_cppc_ro(_name)		\
 static struct kobj_attribute _name =		\
+=======
+struct cppc_attr {
+	struct attribute attr;
+	ssize_t (*show)(struct kobject *kobj,
+			struct attribute *attr, char *buf);
+	ssize_t (*store)(struct kobject *kobj,
+			struct attribute *attr, const char *c, ssize_t count);
+};
+
+#define define_one_cppc_ro(_name)		\
+static struct cppc_attr _name =			\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __ATTR(_name, 0444, show_##_name, NULL)
 
 #define to_cpc_desc(a) container_of(a, struct cpc_desc, kobj)
 
 #define show_cppc_data(access_fn, struct_name, member_name)		\
 	static ssize_t show_##member_name(struct kobject *kobj,		\
+<<<<<<< HEAD
 				struct kobj_attribute *attr, char *buf)	\
+=======
+					struct attribute *attr,	char *buf) \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{								\
 		struct cpc_desc *cpc_ptr = to_cpc_desc(kobj);		\
 		struct struct_name st_name = {0};			\
@@ -153,7 +170,11 @@ show_cppc_data(cppc_get_perf_ctrs, cppc_perf_fb_ctrs, reference_perf);
 show_cppc_data(cppc_get_perf_ctrs, cppc_perf_fb_ctrs, wraparound_time);
 
 static ssize_t show_feedback_ctrs(struct kobject *kobj,
+<<<<<<< HEAD
 		struct kobj_attribute *attr, char *buf)
+=======
+		struct attribute *attr, char *buf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cpc_desc *cpc_ptr = to_cpc_desc(kobj);
 	struct cppc_perf_fb_ctrs fb_ctrs = {0};
@@ -225,8 +246,13 @@ static int send_pcc_cmd(int pcc_ss_id, u16 cmd)
 {
 	int ret = -EIO, i;
 	struct cppc_pcc_data *pcc_ss_data = pcc_data[pcc_ss_id];
+<<<<<<< HEAD
 	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
 		pcc_ss_data->pcc_comm_addr;
+=======
+	struct acpi_pcct_shared_memory *generic_comm_base =
+		(struct acpi_pcct_shared_memory *)pcc_ss_data->pcc_comm_addr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int time_delta;
 
 	/*
@@ -926,7 +952,11 @@ int __weak cpc_write_ffh(int cpunum, struct cpc_reg *reg, u64 val)
 static int cpc_read(int cpu, struct cpc_register_resource *reg_res, u64 *val)
 {
 	int ret_val = 0;
+<<<<<<< HEAD
 	void __iomem *vaddr = NULL;
+=======
+	void __iomem *vaddr = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
 	struct cpc_reg *reg = &reg_res->cpc_entry.reg;
 
@@ -971,7 +1001,11 @@ static int cpc_read(int cpu, struct cpc_register_resource *reg_res, u64 *val)
 static int cpc_write(int cpu, struct cpc_register_resource *reg_res, u64 val)
 {
 	int ret_val = 0;
+<<<<<<< HEAD
 	void __iomem *vaddr = NULL;
+=======
+	void __iomem *vaddr = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
 	struct cpc_reg *reg = &reg_res->cpc_entry.reg;
 

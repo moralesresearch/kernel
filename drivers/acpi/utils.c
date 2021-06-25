@@ -6,8 +6,11 @@
  *  Copyright (C) 2001, 2002 Paul Diefenbaugh <paul.s.diefenbaugh@intel.com>
  */
 
+<<<<<<< HEAD
 #define pr_fmt(fmt) "ACPI: utils: " fmt
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/slab.h>
@@ -20,12 +23,33 @@
 #include "internal.h"
 #include "sleep.h"
 
+<<<<<<< HEAD
 /* --------------------------------------------------------------------------
                             Object Evaluation Helpers
    -------------------------------------------------------------------------- */
 static void acpi_util_eval_error(acpi_handle h, acpi_string p, acpi_status s)
 {
 	acpi_handle_debug(h, "Evaluate [%s]: %s\n", p, acpi_format_exception(s));
+=======
+#define _COMPONENT		ACPI_BUS_COMPONENT
+ACPI_MODULE_NAME("utils");
+
+/* --------------------------------------------------------------------------
+                            Object Evaluation Helpers
+   -------------------------------------------------------------------------- */
+static void
+acpi_util_eval_error(acpi_handle h, acpi_string p, acpi_status s)
+{
+#ifdef ACPI_DEBUG_OUTPUT
+	char prefix[80] = {'\0'};
+	struct acpi_buffer buffer = {sizeof(prefix), prefix};
+	acpi_get_name(h, ACPI_FULL_PATHNAME, &buffer);
+	ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Evaluate [%s.%s]: %s\n",
+		(char *) prefix, p, acpi_format_exception(s)));
+#else
+	return;
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 acpi_status
@@ -43,24 +67,42 @@ acpi_extract_package(union acpi_object *package,
 
 	if (!package || (package->type != ACPI_TYPE_PACKAGE)
 	    || (package->package.count < 1)) {
+<<<<<<< HEAD
 		pr_debug("Invalid package argument\n");
+=======
+		printk(KERN_WARNING PREFIX "Invalid package argument\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AE_BAD_PARAMETER;
 	}
 
 	if (!format || !format->pointer || (format->length < 1)) {
+<<<<<<< HEAD
 		pr_debug("Invalid format argument\n");
+=======
+		printk(KERN_WARNING PREFIX "Invalid format argument\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AE_BAD_PARAMETER;
 	}
 
 	if (!buffer) {
+<<<<<<< HEAD
 		pr_debug("Invalid buffer argument\n");
+=======
+		printk(KERN_WARNING PREFIX "Invalid buffer argument\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AE_BAD_PARAMETER;
 	}
 
 	format_count = (format->length / sizeof(char)) - 1;
 	if (format_count > package->package.count) {
+<<<<<<< HEAD
 		pr_debug("Format specifies more objects [%d] than present [%d]\n",
 			 format_count, package->package.count);
+=======
+		printk(KERN_WARNING PREFIX "Format specifies more objects [%d]"
+			      " than exist in package [%d].\n",
+			      format_count, package->package.count);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AE_BAD_DATA;
 	}
 
@@ -88,8 +130,15 @@ acpi_extract_package(union acpi_object *package,
 				tail_offset += sizeof(char *);
 				break;
 			default:
+<<<<<<< HEAD
 				pr_debug("Invalid package element [%d]: got number, expected [%c]\n",
 					 i, format_string[i]);
+=======
+				printk(KERN_WARNING PREFIX "Invalid package element"
+					      " [%d]: got number, expecting"
+					      " [%c]\n",
+					      i, format_string[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return AE_BAD_DATA;
 			}
 			break;
@@ -110,8 +159,15 @@ acpi_extract_package(union acpi_object *package,
 				tail_offset += sizeof(u8 *);
 				break;
 			default:
+<<<<<<< HEAD
 				pr_debug("Invalid package element [%d] got string/buffer, expected [%c]\n",
 					 i, format_string[i]);
+=======
+				printk(KERN_WARNING PREFIX "Invalid package element"
+					      " [%d] got string/buffer,"
+					      " expecting [%c]\n",
+					      i, format_string[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return AE_BAD_DATA;
 			}
 			break;
@@ -122,15 +178,28 @@ acpi_extract_package(union acpi_object *package,
 				tail_offset += sizeof(void *);
 				break;
 			default:
+<<<<<<< HEAD
 				pr_debug("Invalid package element [%d] got reference, expected [%c]\n",
 					 i, format_string[i]);
+=======
+				printk(KERN_WARNING PREFIX "Invalid package element"
+					      " [%d] got reference,"
+					      " expecting [%c]\n",
+					      i, format_string[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return AE_BAD_DATA;
 			}
 			break;
 
 		case ACPI_TYPE_PACKAGE:
 		default:
+<<<<<<< HEAD
 			pr_debug("Unsupported element at index=%d\n", i);
+=======
+			ACPI_DEBUG_PRINT((ACPI_DB_INFO,
+					  "Found unsupported element at index=%d\n",
+					  i));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* TBD: handle nested packages... */
 			return AE_SUPPORT;
 		}
@@ -270,7 +339,11 @@ acpi_evaluate_integer(acpi_handle handle,
 
 	*data = element.integer.value;
 
+<<<<<<< HEAD
 	acpi_handle_debug(handle, "Return value [%llu]\n", *data);
+=======
+	ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Return value [%llu]\n", *data));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return AE_OK;
 }
@@ -344,7 +417,12 @@ acpi_evaluate_reference(acpi_handle handle,
 		/* Get the  acpi_handle. */
 
 		list->handles[i] = element->reference.handle;
+<<<<<<< HEAD
 		acpi_handle_debug(list->handles[i], "Found in reference list\n");
+=======
+		ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Found reference [%p]\n",
+				  list->handles[i]));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
       end:
@@ -823,13 +901,21 @@ bool acpi_dev_present(const char *hid, const char *uid, s64 hrv)
 EXPORT_SYMBOL(acpi_dev_present);
 
 /**
+<<<<<<< HEAD
  * acpi_dev_get_next_match_dev - Return the next match of ACPI device
  * @adev: Pointer to the previous acpi_device matching this @hid, @uid and @hrv
+=======
+ * acpi_dev_get_first_match_dev - Return the first match of ACPI device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @hid: Hardware ID of the device.
  * @uid: Unique ID of the device, pass NULL to not check _UID
  * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
  *
+<<<<<<< HEAD
  * Return the next match of ACPI device if another matching device was present
+=======
+ * Return the first match of ACPI device if a matching device was present
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * at the moment of invocation, or NULL otherwise.
  *
  * The caller is responsible to call put_device() on the returned device.
@@ -837,9 +923,14 @@ EXPORT_SYMBOL(acpi_dev_present);
  * See additional information in acpi_dev_present() as well.
  */
 struct acpi_device *
+<<<<<<< HEAD
 acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const char *uid, s64 hrv)
 {
 	struct device *start = adev ? &adev->dev : NULL;
+=======
+acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct acpi_dev_match_info match = {};
 	struct device *dev;
 
@@ -847,6 +938,7 @@ acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const cha
 	match.uid = uid;
 	match.hrv = hrv;
 
+<<<<<<< HEAD
 	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
 	return dev ? to_acpi_device(dev) : NULL;
 }
@@ -870,6 +962,11 @@ acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
 {
 	return acpi_dev_get_next_match_dev(NULL, hid, uid, hrv);
 }
+=======
+	dev = bus_find_device(&acpi_bus_type, NULL, &match, acpi_dev_match_cb);
+	return dev ? to_acpi_device(dev) : NULL;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL(acpi_dev_get_first_match_dev);
 
 /*

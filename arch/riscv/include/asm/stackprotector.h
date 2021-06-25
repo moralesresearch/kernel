@@ -24,7 +24,11 @@ static __always_inline void boot_init_stack_canary(void)
 	canary &= CANARY_MASK;
 
 	current->stack_canary = canary;
+<<<<<<< HEAD
 	if (!IS_ENABLED(CONFIG_STACKPROTECTOR_PER_TASK))
 		__stack_chk_guard = current->stack_canary;
+=======
+	__stack_chk_guard = current->stack_canary;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif /* _ASM_RISCV_STACKPROTECTOR_H */

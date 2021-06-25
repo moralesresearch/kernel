@@ -470,10 +470,19 @@ static void macb_set_tx_clk(struct macb *bp, int speed)
 	if (!bp->tx_clk || (bp->caps & MACB_CAPS_CLK_HW_CHG))
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* In case of MII the PHY is the clock master */
 	if (bp->phy_interface == PHY_INTERFACE_MODE_MII)
 		return;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (speed) {
 	case SPEED_10:
 		rate = 2500000;
@@ -2837,9 +2846,12 @@ static struct net_device_stats *gem_get_stats(struct macb *bp)
 	struct gem_stats *hwstat = &bp->hw_stats.gem;
 	struct net_device_stats *nstat = &bp->dev->stats;
 
+<<<<<<< HEAD
 	if (!netif_running(bp->dev))
 		return nstat;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gem_update_stats(bp);
 
 	nstat->rx_errors = (hwstat->rx_frame_check_sequence_errors +
@@ -3242,9 +3254,18 @@ static void gem_prog_cmp_regs(struct macb *bp, struct ethtool_rx_flow_spec *fs)
 	bool cmp_b = false;
 	bool cmp_c = false;
 
+<<<<<<< HEAD
 	if (!macb_is_gem(bp))
 		return;
 
+=======
+<<<<<<< HEAD
+	if (!macb_is_gem(bp))
+		return;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tp4sp_v = &(fs->h_u.tcp_ip4_spec);
 	tp4sp_m = &(fs->m_u.tcp_ip4_spec);
 
@@ -3613,7 +3634,14 @@ static void macb_restore_features(struct macb *bp)
 {
 	struct net_device *netdev = bp->dev;
 	netdev_features_t features = netdev->features;
+<<<<<<< HEAD
 	struct ethtool_rx_fs_item *item;
+=======
+<<<<<<< HEAD
+	struct ethtool_rx_fs_item *item;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* TX checksum offload */
 	macb_set_txcsum_feature(bp, features);
@@ -3622,9 +3650,18 @@ static void macb_restore_features(struct macb *bp)
 	macb_set_rxcsum_feature(bp, features);
 
 	/* RX Flow Filters */
+<<<<<<< HEAD
 	list_for_each_entry(item, &bp->rx_fs_list.list, list)
 		gem_prog_cmp_regs(bp, &item->fs);
 
+=======
+<<<<<<< HEAD
+	list_for_each_entry(item, &bp->rx_fs_list.list, list)
+		gem_prog_cmp_regs(bp, &item->fs);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	macb_set_rxflow_feature(bp, features);
 }
 
@@ -3921,7 +3958,14 @@ static int macb_init(struct platform_device *pdev)
 	reg = gem_readl(bp, DCFG8);
 	bp->max_tuples = min((GEM_BFEXT(SCR2CMP, reg) / 3),
 			GEM_BFEXT(T2SCR, reg));
+<<<<<<< HEAD
 	INIT_LIST_HEAD(&bp->rx_fs_list.list);
+=======
+<<<<<<< HEAD
+	INIT_LIST_HEAD(&bp->rx_fs_list.list);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bp->max_tuples > 0) {
 		/* also needs one ethtype match to check IPv4 */
 		if (GEM_BFEXT(SCR2ETH, reg) > 0) {
@@ -3932,6 +3976,13 @@ static int macb_init(struct platform_device *pdev)
 			/* Filtering is supported in hw but don't enable it in kernel now */
 			dev->hw_features |= NETIF_F_NTUPLE;
 			/* init Rx flow definitions */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			INIT_LIST_HEAD(&bp->rx_fs_list.list);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			bp->rx_fs_list.count = 0;
 			spin_lock_init(&bp->rx_fs_lock);
 		} else

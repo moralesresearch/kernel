@@ -34,9 +34,22 @@ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
 		      link_status[3], link_status[4], link_status[5]);
 }
 
+<<<<<<< HEAD
 static void intel_dp_reset_lttpr_common_caps(struct intel_dp *intel_dp)
 {
 	memset(&intel_dp->lttpr_common_caps, 0, sizeof(intel_dp->lttpr_common_caps));
+=======
+static int intel_dp_lttpr_count(struct intel_dp *intel_dp)
+{
+	int count = drm_dp_lttpr_count(intel_dp->lttpr_common_caps);
+
+	/*
+	 * Pretend no LTTPRs in case of LTTPR detection error, or
+	 * if too many (>8) LTTPRs are detected. This translates to link
+	 * training in transparent mode.
+	 */
+	return count <= 0 ? 0 : count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void intel_dp_reset_lttpr_count(struct intel_dp *intel_dp)
@@ -86,6 +99,7 @@ static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
 
 static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
 {
+<<<<<<< HEAD
 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
 
 	if (intel_dp_is_edp(intel_dp))
@@ -101,12 +115,21 @@ static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
 	if (drm_dp_read_lttpr_common_caps(&intel_dp->aux,
 					  intel_dp->lttpr_common_caps) < 0)
 		goto reset_caps;
+=======
+	if (drm_dp_read_lttpr_common_caps(&intel_dp->aux,
+					  intel_dp->lttpr_common_caps) < 0) {
+		memset(intel_dp->lttpr_common_caps, 0,
+		       sizeof(intel_dp->lttpr_common_caps));
+		return false;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
 		    "LTTPR common capabilities: %*ph\n",
 		    (int)sizeof(intel_dp->lttpr_common_caps),
 		    intel_dp->lttpr_common_caps);
 
+<<<<<<< HEAD
 	/* The minimum value of LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV is 1.4 */
 	if (intel_dp->lttpr_common_caps[0] < 0x14)
 		goto reset_caps;
@@ -116,6 +139,9 @@ static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
 reset_caps:
 	intel_dp_reset_lttpr_common_caps(intel_dp);
 	return false;
+=======
+	return true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool
@@ -127,6 +153,7 @@ intel_dp_set_lttpr_transparent_mode(struct intel_dp *intel_dp, bool enable)
 	return drm_dp_dpcd_write(&intel_dp->aux, DP_PHY_REPEATER_MODE, &val, 1) == 1;
 }
 
+<<<<<<< HEAD
 static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
 {
 	int lttpr_count;
@@ -143,6 +170,33 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
 	 */
 	if (lttpr_count == 0)
 		return 0;
+=======
+/**
+ * intel_dp_lttpr_init - detect LTTPRs and init the LTTPR link training mode
+ * @intel_dp: Intel DP struct
+ *
+ * Read the LTTPR common capabilities, switch to non-transparent link training
+ * mode if any is detected and read the PHY capabilities for all detected
+ * LTTPRs. In case of an LTTPR detection error or if the number of
+ * LTTPRs is more than is supported (8), fall back to the no-LTTPR,
+ * transparent mode link training mode.
+ *
+ * Returns:
+ *   >0  if LTTPRs were detected and the non-transparent LT mode was set
+ *    0  if no LTTPRs or more than 8 LTTPRs were detected or in case of a
+ *       detection failure and the transparent LT mode was set
+ */
+int intel_dp_lttpr_init(struct intel_dp *intel_dp)
+{
+	int lttpr_count;
+	bool ret;
+	int i;
+
+	if (intel_dp_is_edp(intel_dp))
+		return 0;
+
+	ret = intel_dp_read_lttpr_common_caps(intel_dp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * See DP Standard v2.0 3.6.6.1. about the explicit disabling of
@@ -151,12 +205,24 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
 	 */
 	intel_dp_set_lttpr_transparent_mode(intel_dp, true);
 
+<<<<<<< HEAD
+=======
+	if (!ret)
+		return 0;
+
+	lttpr_count = intel_dp_lttpr_count(intel_dp);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * In case of unsupported number of LTTPRs or failing to switch to
 	 * non-transparent mode fall-back to transparent link training mode,
 	 * still taking into account any LTTPR common lane- rate/count limits.
 	 */
+<<<<<<< HEAD
 	if (lttpr_count < 0)
+=======
+	if (lttpr_count == 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	if (!intel_dp_set_lttpr_transparent_mode(intel_dp, false)) {
@@ -174,6 +240,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
 
 	return lttpr_count;
 }
+<<<<<<< HEAD
 
 /**
  * intel_dp_init_lttpr_and_dprx_caps - detect LTTPR and DPRX caps, init the LTTPR link training mode
@@ -206,6 +273,9 @@ int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp)
 	return lttpr_count;
 }
 EXPORT_SYMBOL(intel_dp_init_lttpr_and_dprx_caps);
+=======
+EXPORT_SYMBOL(intel_dp_lttpr_init);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static u8 dp_voltage_max(u8 preemph)
 {
@@ -249,11 +319,19 @@ intel_dp_phy_is_downstream_of_source(struct intel_dp *intel_dp,
 				     enum drm_dp_phy dp_phy)
 {
 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+<<<<<<< HEAD
 	int lttpr_count = drm_dp_lttpr_count(intel_dp->lttpr_common_caps);
 
 	drm_WARN_ON_ONCE(&i915->drm, lttpr_count <= 0 && dp_phy != DP_PHY_DPRX);
 
 	return lttpr_count <= 0 || dp_phy == DP_PHY_LTTPR(lttpr_count - 1);
+=======
+	int lttpr_count = intel_dp_lttpr_count(intel_dp);
+
+	drm_WARN_ON_ONCE(&i915->drm, lttpr_count == 0 && dp_phy != DP_PHY_DPRX);
+
+	return lttpr_count == 0 || dp_phy == DP_PHY_LTTPR(lttpr_count - 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u8 intel_dp_phy_voltage_max(struct intel_dp *intel_dp,
@@ -461,7 +539,11 @@ intel_dp_prepare_link_train(struct intel_dp *intel_dp,
 		drm_dp_dpcd_write(&intel_dp->aux, DP_LINK_RATE_SET,
 				  &rate_select, 1);
 
+<<<<<<< HEAD
 	link_config[0] = crtc_state->vrr.enable ? DP_MSA_TIMING_PAR_IGNORE_EN : 0;
+=======
+	link_config[0] = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	link_config[1] = DP_SET_ANSI_8B10B;
 	drm_dp_dpcd_write(&intel_dp->aux, DP_DOWNSPREAD_CTRL, link_config, 2);
 
@@ -724,9 +806,15 @@ static bool intel_dp_disable_dpcd_training_pattern(struct intel_dp *intel_dp,
  * @intel_dp: DP struct
  * @crtc_state: state for CRTC attached to the encoder
  *
+<<<<<<< HEAD
  * Stop the link training of the @intel_dp port, disabling the training
  * pattern in the sink's DPCD, and disabling the test pattern symbol
  * generation on the port.
+=======
+ * Stop the link training of the @intel_dp port, disabling the test pattern
+ * symbol generation on the port and disabling the training pattern in
+ * the sink's DPCD.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * What symbols are output on the port after this point is
  * platform specific: On DDI/VLV/CHV platforms it will be the idle pattern
@@ -740,9 +828,16 @@ void intel_dp_stop_link_train(struct intel_dp *intel_dp,
 {
 	intel_dp->link_trained = true;
 
+<<<<<<< HEAD
 	intel_dp_disable_dpcd_training_pattern(intel_dp, DP_PHY_DPRX);
 	intel_dp_program_link_training_pattern(intel_dp, crtc_state,
 					       DP_TRAINING_PATTERN_DISABLE);
+=======
+	intel_dp_program_link_training_pattern(intel_dp,
+					       crtc_state,
+					       DP_TRAINING_PATTERN_DISABLE);
+	intel_dp_disable_dpcd_training_pattern(intel_dp, DP_PHY_DPRX);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool
@@ -840,11 +935,15 @@ void intel_dp_start_link_train(struct intel_dp *intel_dp,
 	 * TODO: Reiniting LTTPRs here won't be needed once proper connector
 	 * HW state readout is added.
 	 */
+<<<<<<< HEAD
 	int lttpr_count = intel_dp_init_lttpr_and_dprx_caps(intel_dp);
 
 	if (lttpr_count < 0)
 		/* Still continue with enabling the port and link training. */
 		lttpr_count = 0;
+=======
+	int lttpr_count = intel_dp_lttpr_init(intel_dp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!intel_dp_link_train_all_phys(intel_dp, crtc_state, lttpr_count))
 		intel_dp_schedule_fallback_link_training(intel_dp, crtc_state);

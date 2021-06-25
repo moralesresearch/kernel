@@ -611,6 +611,7 @@ bool ovs_meter_execute(struct datapath *dp, struct sk_buff *skb,
 	spin_lock(&meter->lock);
 
 	long_delta_ms = (now_ms - meter->used); /* ms */
+<<<<<<< HEAD
 	if (long_delta_ms < 0) {
 		/* This condition means that we have several threads fighting
 		 * for a meter lock, and the one who received the packets a
@@ -619,6 +620,8 @@ bool ovs_meter_execute(struct datapath *dp, struct sk_buff *skb,
 		 */
 		long_delta_ms = 0;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Make sure delta_ms will not be too large, so that bucket will not
 	 * wrap around below.

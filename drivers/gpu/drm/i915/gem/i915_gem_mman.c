@@ -189,7 +189,11 @@ compute_partial_view(const struct drm_i915_gem_object *obj,
 	struct i915_ggtt_view view;
 
 	if (i915_gem_object_is_tiled(obj))
+<<<<<<< HEAD
 		chunk = roundup(chunk, tile_row_pages(obj) ?: 1);
+=======
+		chunk = roundup(chunk, tile_row_pages(obj));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	view.type = I915_GGTT_VIEW_PARTIAL;
 	view.partial.offset = rounddown(page_offset, chunk);

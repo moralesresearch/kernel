@@ -18,7 +18,15 @@
 static char bug64hit[] __initdata =
 	"reliable operation impossible!\n%s";
 static char nowar[] __initdata =
+<<<<<<< HEAD
 	"Please report to <linux-mips@vger.kernel.org>.";
+=======
+<<<<<<< HEAD
+	"Please report to <linux-mips@vger.kernel.org>.";
+=======
+	"Please report to <linux-mips@linux-mips.org>.";
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static char r4kwar[] __initdata =
 	"Enable CPU_R4000_WORKAROUNDS to rectify.";
 static char daddiwar[] __initdata =

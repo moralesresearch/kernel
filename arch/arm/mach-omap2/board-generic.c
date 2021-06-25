@@ -33,7 +33,11 @@ static void __init __maybe_unused omap_generic_init(void)
 }
 
 /* Clocks are needed early, see drivers/clocksource for the rest */
+<<<<<<< HEAD
 static void __init __maybe_unused omap_init_time_of(void)
+=======
+void __init __maybe_unused omap_init_time_of(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	omap_clk_init();
 	timer_probe();

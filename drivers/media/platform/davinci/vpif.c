@@ -41,7 +41,11 @@ MODULE_ALIAS("platform:" VPIF_DRIVER_NAME);
 #define VPIF_CH2_MAX_MODES	15
 #define VPIF_CH3_MAX_MODES	2
 
+<<<<<<< HEAD
 DEFINE_SPINLOCK(vpif_lock);
+=======
+spinlock_t vpif_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL_GPL(vpif_lock);
 
 void __iomem *vpif_base;
@@ -437,6 +441,10 @@ static int vpif_probe(struct platform_device *pdev)
 	pm_runtime_enable(&pdev->dev);
 	pm_runtime_get(&pdev->dev);
 
+<<<<<<< HEAD
+=======
+	spin_lock_init(&vpif_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_info(&pdev->dev, "vpif probe success\n");
 
 	/*

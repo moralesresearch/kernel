@@ -10,6 +10,10 @@
 MODULE_AUTHOR("Giuliano Pochini <pochini@shiny.it>");
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("Echoaudio " ECHOCARD_NAME " soundcards driver");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Echoaudio," ECHOCARD_NAME "}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DEVICE_TABLE(pci, snd_echo_ids);
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;

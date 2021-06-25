@@ -133,16 +133,35 @@ struct gntdev_grant_map *gntdev_alloc_map(struct gntdev_priv *priv, int count,
 	if (NULL == add)
 		return NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	add->grants    = kvmalloc_array(count, sizeof(add->grants[0]),
 					GFP_KERNEL);
 	add->map_ops   = kvmalloc_array(count, sizeof(add->map_ops[0]),
 					GFP_KERNEL);
 	add->unmap_ops = kvmalloc_array(count, sizeof(add->unmap_ops[0]),
 					GFP_KERNEL);
+<<<<<<< HEAD
+=======
+=======
+	add->grants    = kvcalloc(count, sizeof(add->grants[0]), GFP_KERNEL);
+	add->map_ops   = kvcalloc(count, sizeof(add->map_ops[0]), GFP_KERNEL);
+	add->unmap_ops = kvcalloc(count, sizeof(add->unmap_ops[0]), GFP_KERNEL);
+	add->kmap_ops  = kvcalloc(count, sizeof(add->kmap_ops[0]), GFP_KERNEL);
+	add->kunmap_ops = kvcalloc(count,
+				   sizeof(add->kunmap_ops[0]), GFP_KERNEL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	add->pages     = kvcalloc(count, sizeof(add->pages[0]), GFP_KERNEL);
 	if (NULL == add->grants    ||
 	    NULL == add->map_ops   ||
 	    NULL == add->unmap_ops ||
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    NULL == add->pages)
 		goto err;
 	if (use_ptemod) {
@@ -153,6 +172,15 @@ struct gntdev_grant_map *gntdev_alloc_map(struct gntdev_priv *priv, int count,
 		if (NULL == add->kmap_ops || NULL == add->kunmap_ops)
 			goto err;
 	}
+<<<<<<< HEAD
+=======
+=======
+	    NULL == add->kmap_ops  ||
+	    NULL == add->kunmap_ops ||
+	    NULL == add->pages)
+		goto err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_XEN_GRANT_DMA_ALLOC
 	add->dma_flags = dma_flags;
@@ -189,6 +217,10 @@ struct gntdev_grant_map *gntdev_alloc_map(struct gntdev_priv *priv, int count,
 		goto err;
 
 	for (i = 0; i < count; i++) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		add->grants[i].domid = DOMID_INVALID;
 		add->grants[i].ref = INVALID_GRANT_REF;
 		add->map_ops[i].handle = INVALID_GRANT_HANDLE;
@@ -197,6 +229,15 @@ struct gntdev_grant_map *gntdev_alloc_map(struct gntdev_priv *priv, int count,
 			add->kmap_ops[i].handle = INVALID_GRANT_HANDLE;
 			add->kunmap_ops[i].handle = INVALID_GRANT_HANDLE;
 		}
+<<<<<<< HEAD
+=======
+=======
+		add->map_ops[i].handle = -1;
+		add->unmap_ops[i].handle = -1;
+		add->kmap_ops[i].handle = -1;
+		add->kunmap_ops[i].handle = -1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	add->index = 0;
@@ -284,7 +325,15 @@ static int find_grant_ptes(pte_t *pte, unsigned long addr, void *data)
 			  map->grants[pgnr].ref,
 			  map->grants[pgnr].domid);
 	gnttab_set_unmap_op(&map->unmap_ops[pgnr], pte_maddr, flags,
+<<<<<<< HEAD
 			    INVALID_GRANT_HANDLE);
+=======
+<<<<<<< HEAD
+			    INVALID_GRANT_HANDLE);
+=======
+			    -1 /* handle */);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -302,7 +351,15 @@ int gntdev_map_grant_pages(struct gntdev_grant_map *map)
 
 	if (!use_ptemod) {
 		/* Note: it could already be mapped */
+<<<<<<< HEAD
 		if (map->map_ops[0].handle != INVALID_GRANT_HANDLE)
+=======
+<<<<<<< HEAD
+		if (map->map_ops[0].handle != INVALID_GRANT_HANDLE)
+=======
+		if (map->map_ops[0].handle != -1)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 		for (i = 0; i < map->count; i++) {
 			unsigned long addr = (unsigned long)
@@ -311,7 +368,15 @@ int gntdev_map_grant_pages(struct gntdev_grant_map *map)
 				map->grants[i].ref,
 				map->grants[i].domid);
 			gnttab_set_unmap_op(&map->unmap_ops[i], addr,
+<<<<<<< HEAD
 				map->flags, INVALID_GRANT_HANDLE);
+=======
+<<<<<<< HEAD
+				map->flags, INVALID_GRANT_HANDLE);
+=======
+				map->flags, -1 /* handle */);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		/*
@@ -337,13 +402,31 @@ int gntdev_map_grant_pages(struct gntdev_grant_map *map)
 				map->grants[i].ref,
 				map->grants[i].domid);
 			gnttab_set_unmap_op(&map->kunmap_ops[i], address,
+<<<<<<< HEAD
 				flags, INVALID_GRANT_HANDLE);
+=======
+<<<<<<< HEAD
+				flags, INVALID_GRANT_HANDLE);
+=======
+				flags, -1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	pr_debug("map %d+%d\n", map->index, map->count);
+<<<<<<< HEAD
 	err = gnttab_map_refs(map->map_ops, map->kmap_ops, map->pages,
 			map->count);
+=======
+<<<<<<< HEAD
+	err = gnttab_map_refs(map->map_ops, map->kmap_ops, map->pages,
+			map->count);
+=======
+	err = gnttab_map_refs(map->map_ops, use_ptemod ? map->kmap_ops : NULL,
+			map->pages, map->count);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < map->count; i++) {
 		if (map->map_ops[i].status == GNTST_okay)
@@ -395,7 +478,15 @@ static int __unmap_grant_pages(struct gntdev_grant_map *map, int offset,
 		pr_debug("unmap handle=%d st=%d\n",
 			map->unmap_ops[offset+i].handle,
 			map->unmap_ops[offset+i].status);
+<<<<<<< HEAD
 		map->unmap_ops[offset+i].handle = INVALID_GRANT_HANDLE;
+=======
+<<<<<<< HEAD
+		map->unmap_ops[offset+i].handle = INVALID_GRANT_HANDLE;
+=======
+		map->unmap_ops[offset+i].handle = -1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return err;
 }
@@ -411,15 +502,33 @@ static int unmap_grant_pages(struct gntdev_grant_map *map, int offset,
 	 * already unmapped some of the grants. Only unmap valid ranges.
 	 */
 	while (pages && !err) {
+<<<<<<< HEAD
 		while (pages &&
 		       map->unmap_ops[offset].handle == INVALID_GRANT_HANDLE) {
+=======
+<<<<<<< HEAD
+		while (pages &&
+		       map->unmap_ops[offset].handle == INVALID_GRANT_HANDLE) {
+=======
+		while (pages && map->unmap_ops[offset].handle == -1) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			offset++;
 			pages--;
 		}
 		range = 0;
 		while (range < pages) {
+<<<<<<< HEAD
 			if (map->unmap_ops[offset + range].handle ==
 			    INVALID_GRANT_HANDLE)
+=======
+<<<<<<< HEAD
+			if (map->unmap_ops[offset + range].handle ==
+			    INVALID_GRANT_HANDLE)
+=======
+			if (map->unmap_ops[offset+range].handle == -1)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			range++;
 		}
@@ -1017,10 +1126,15 @@ static int gntdev_mmap(struct file *flip, struct vm_area_struct *vma)
 		err = mmu_interval_notifier_insert_locked(
 			&map->notifier, vma->vm_mm, vma->vm_start,
 			vma->vm_end - vma->vm_start, &gntdev_mmu_ops);
+<<<<<<< HEAD
 		if (err) {
 			map->vma = NULL;
 			goto out_unlock_put;
 		}
+=======
+		if (err)
+			goto out_unlock_put;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	mutex_unlock(&priv->lock);
 

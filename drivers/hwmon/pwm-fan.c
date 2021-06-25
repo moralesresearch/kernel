@@ -21,6 +21,7 @@
 
 #define MAX_PWM 255
 
+<<<<<<< HEAD
 struct pwm_fan_tach {
 	int irq;
 	atomic_t pulses;
@@ -36,6 +37,17 @@ struct pwm_fan_ctx {
 
 	int tach_count;
 	struct pwm_fan_tach *tachs;
+=======
+struct pwm_fan_ctx {
+	struct mutex lock;
+	struct pwm_device *pwm;
+	struct regulator *reg_en;
+
+	int irq;
+	atomic_t pulses;
+	unsigned int rpm;
+	u8 pulses_per_revolution;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ktime_t sample_start;
 	struct timer_list rpm_timer;
 
@@ -46,7 +58,10 @@ struct pwm_fan_ctx {
 	struct thermal_cooling_device *cdev;
 
 	struct hwmon_chip_info info;
+<<<<<<< HEAD
 	struct hwmon_channel_info fan_channel;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const u32 pwm_fan_channel_config_pwm[] = {
@@ -59,12 +74,31 @@ static const struct hwmon_channel_info pwm_fan_channel_pwm = {
 	.config = pwm_fan_channel_config_pwm,
 };
 
+<<<<<<< HEAD
 /* This handler assumes self resetting edge triggered interrupt. */
 static irqreturn_t pulse_handler(int irq, void *dev_id)
 {
 	struct pwm_fan_tach *tach = dev_id;
 
 	atomic_inc(&tach->pulses);
+=======
+static const u32 pwm_fan_channel_config_fan[] = {
+	HWMON_F_INPUT,
+	0
+};
+
+static const struct hwmon_channel_info pwm_fan_channel_fan = {
+	.type = hwmon_fan,
+	.config = pwm_fan_channel_config_fan,
+};
+
+/* This handler assumes self resetting edge triggered interrupt. */
+static irqreturn_t pulse_handler(int irq, void *dev_id)
+{
+	struct pwm_fan_ctx *ctx = dev_id;
+
+	atomic_inc(&ctx->pulses);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }
@@ -73,6 +107,7 @@ static void sample_timer(struct timer_list *t)
 {
 	struct pwm_fan_ctx *ctx = from_timer(ctx, t, rpm_timer);
 	unsigned int delta = ktime_ms_delta(ktime_get(), ctx->sample_start);
+<<<<<<< HEAD
 	int i;
 
 	if (delta) {
@@ -85,6 +120,15 @@ static void sample_timer(struct timer_list *t)
 			tach->rpm = (unsigned int)(pulses * 1000 * 60) /
 				(tach->pulses_per_revolution * delta);
 		}
+=======
+	int pulses;
+
+	if (delta) {
+		pulses = atomic_read(&ctx->pulses);
+		atomic_sub(pulses, &ctx->pulses);
+		ctx->rpm = (unsigned int)(pulses * 1000 * 60) /
+			(ctx->pulses_per_revolution * delta);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ctx->sample_start = ktime_get();
 	}
@@ -96,17 +140,30 @@ static int  __set_pwm(struct pwm_fan_ctx *ctx, unsigned long pwm)
 {
 	unsigned long period;
 	int ret = 0;
+<<<<<<< HEAD
 	struct pwm_state *state = &ctx->pwm_state;
+=======
+	struct pwm_state state = { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&ctx->lock);
 	if (ctx->pwm_value == pwm)
 		goto exit_set_pwm_err;
 
+<<<<<<< HEAD
 	period = state->period;
 	state->duty_cycle = DIV_ROUND_UP(pwm * (period - 1), MAX_PWM);
 	state->enabled = pwm ? true : false;
 
 	ret = pwm_apply_state(ctx->pwm, state);
+=======
+	pwm_init_state(ctx->pwm, &state);
+	period = ctx->pwm->args.period;
+	state.duty_cycle = DIV_ROUND_UP(pwm * (period - 1), MAX_PWM);
+	state.enabled = pwm ? true : false;
+
+	ret = pwm_apply_state(ctx->pwm, &state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ret)
 		ctx->pwm_value = pwm;
 exit_set_pwm_err:
@@ -153,7 +210,11 @@ static int pwm_fan_read(struct device *dev, enum hwmon_sensor_types type,
 		return 0;
 
 	case hwmon_fan:
+<<<<<<< HEAD
 		*val = ctx->tachs[channel].rpm;
+=======
+		*val = ctx->rpm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	default:
@@ -288,9 +349,13 @@ static void pwm_fan_regulator_disable(void *data)
 static void pwm_fan_pwm_disable(void *__ctx)
 {
 	struct pwm_fan_ctx *ctx = __ctx;
+<<<<<<< HEAD
 
 	ctx->pwm_state.enabled = false;
 	pwm_apply_state(ctx->pwm, &ctx->pwm_state);
+=======
+	pwm_disable(ctx->pwm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	del_timer_sync(&ctx->rpm_timer);
 }
 
@@ -301,10 +366,16 @@ static int pwm_fan_probe(struct platform_device *pdev)
 	struct pwm_fan_ctx *ctx;
 	struct device *hwmon;
 	int ret;
+<<<<<<< HEAD
 	const struct hwmon_channel_info **channels;
 	u32 *fan_channel_config;
 	int channel_count = 1;	/* We always have a PWM channel. */
 	int i;
+=======
+	struct pwm_state state = { };
+	int tach_count;
+	const struct hwmon_channel_info **channels;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
 	if (!ctx)
@@ -338,20 +409,35 @@ static int pwm_fan_probe(struct platform_device *pdev)
 
 	ctx->pwm_value = MAX_PWM;
 
+<<<<<<< HEAD
 	pwm_init_state(ctx->pwm, &ctx->pwm_state);
 
+=======
+	pwm_init_state(ctx->pwm, &state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * __set_pwm assumes that MAX_PWM * (period - 1) fits into an unsigned
 	 * long. Check this here to prevent the fan running at a too low
 	 * frequency.
 	 */
+<<<<<<< HEAD
 	if (ctx->pwm_state.period > ULONG_MAX / MAX_PWM + 1) {
+=======
+	if (state.period > ULONG_MAX / MAX_PWM + 1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dev, "Configured period too big\n");
 		return -EINVAL;
 	}
 
 	/* Set duty cycle to maximum allowed and enable PWM output */
+<<<<<<< HEAD
 	ret = __set_pwm(ctx, MAX_PWM);
+=======
+	state.duty_cycle = ctx->pwm->args.period - 1;
+	state.enabled = true;
+
+	ret = pwm_apply_state(ctx->pwm, &state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(dev, "Failed to configure PWM: %d\n", ret);
 		return ret;
@@ -361,6 +447,7 @@ static int pwm_fan_probe(struct platform_device *pdev)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	ctx->tach_count = platform_irq_count(pdev);
 	if (ctx->tach_count < 0)
 		return dev_err_probe(dev, ctx->tach_count,
@@ -385,12 +472,21 @@ static int pwm_fan_probe(struct platform_device *pdev)
 	}
 
 	channels = devm_kcalloc(dev, channel_count + 1,
+=======
+	tach_count = platform_irq_count(pdev);
+	if (tach_count < 0)
+		return dev_err_probe(dev, tach_count,
+				     "Could not get number of fan tachometer inputs\n");
+
+	channels = devm_kcalloc(dev, tach_count + 2,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				sizeof(struct hwmon_channel_info *), GFP_KERNEL);
 	if (!channels)
 		return -ENOMEM;
 
 	channels[0] = &pwm_fan_channel_pwm;
 
+<<<<<<< HEAD
 	for (i = 0; i < ctx->tach_count; i++) {
 		struct pwm_fan_tach *tach = &ctx->tachs[i];
 		u32 ppr = 2;
@@ -401,6 +497,17 @@ static int pwm_fan_probe(struct platform_device *pdev)
 		if (tach->irq > 0) {
 			ret = devm_request_irq(dev, tach->irq, pulse_handler, 0,
 					       pdev->name, tach);
+=======
+	if (tach_count > 0) {
+		u32 ppr = 2;
+
+		ctx->irq = platform_get_irq(pdev, 0);
+		if (ctx->irq == -EPROBE_DEFER)
+			return ctx->irq;
+		if (ctx->irq > 0) {
+			ret = devm_request_irq(dev, ctx->irq, pulse_handler, 0,
+					       pdev->name, ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret) {
 				dev_err(dev,
 					"Failed to request interrupt: %d\n",
@@ -409,16 +516,25 @@ static int pwm_fan_probe(struct platform_device *pdev)
 			}
 		}
 
+<<<<<<< HEAD
 		of_property_read_u32_index(dev->of_node,
 					   "pulses-per-revolution",
 					   i,
 					   &ppr);
 		tach->pulses_per_revolution = ppr;
 		if (!tach->pulses_per_revolution) {
+=======
+		of_property_read_u32(dev->of_node,
+				     "pulses-per-revolution",
+				     &ppr);
+		ctx->pulses_per_revolution = ppr;
+		if (!ctx->pulses_per_revolution) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "pulses-per-revolution can't be zero.\n");
 			return -EINVAL;
 		}
 
+<<<<<<< HEAD
 		fan_channel_config[i] = HWMON_F_INPUT;
 
 		dev_dbg(dev, "tach%d: irq=%d, pulses_per_revolution=%d\n",
@@ -430,6 +546,15 @@ static int pwm_fan_probe(struct platform_device *pdev)
 		mod_timer(&ctx->rpm_timer, jiffies + HZ);
 
 		channels[1] = &ctx->fan_channel;
+=======
+		dev_dbg(dev, "tach: irq=%d, pulses_per_revolution=%d\n",
+			ctx->irq, ctx->pulses_per_revolution);
+
+		ctx->sample_start = ktime_get();
+		mod_timer(&ctx->rpm_timer, jiffies + HZ);
+
+		channels[1] = &pwm_fan_channel_fan;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ctx->info.ops = &pwm_fan_hwmon_ops;
@@ -458,6 +583,10 @@ static int pwm_fan_probe(struct platform_device *pdev)
 			return ret;
 		}
 		ctx->cdev = cdev;
+<<<<<<< HEAD
+=======
+		thermal_cdev_update(cdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -466,6 +595,7 @@ static int pwm_fan_probe(struct platform_device *pdev)
 static int pwm_fan_disable(struct device *dev)
 {
 	struct pwm_fan_ctx *ctx = dev_get_drvdata(dev);
+<<<<<<< HEAD
 	int ret;
 
 	if (ctx->pwm_value) {
@@ -477,6 +607,19 @@ static int pwm_fan_disable(struct device *dev)
 		ret = pwm_apply_state(ctx->pwm, &state);
 		if (ret < 0)
 			return ret;
+=======
+	struct pwm_args args;
+	int ret;
+
+	pwm_get_args(ctx->pwm, &args);
+
+	if (ctx->pwm_value) {
+		ret = pwm_config(ctx->pwm, 0, args.period);
+		if (ret < 0)
+			return ret;
+
+		pwm_disable(ctx->pwm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (ctx->reg_en) {
@@ -504,6 +647,11 @@ static int pwm_fan_suspend(struct device *dev)
 static int pwm_fan_resume(struct device *dev)
 {
 	struct pwm_fan_ctx *ctx = dev_get_drvdata(dev);
+<<<<<<< HEAD
+=======
+	struct pwm_args pargs;
+	unsigned long duty;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (ctx->reg_en) {
@@ -517,7 +665,16 @@ static int pwm_fan_resume(struct device *dev)
 	if (ctx->pwm_value == 0)
 		return 0;
 
+<<<<<<< HEAD
 	return pwm_apply_state(ctx->pwm, &ctx->pwm_state);
+=======
+	pwm_get_args(ctx->pwm, &pargs);
+	duty = DIV_ROUND_UP_ULL(ctx->pwm_value * (pargs.period - 1), MAX_PWM);
+	ret = pwm_config(ctx->pwm, duty, pargs.period);
+	if (ret)
+		return ret;
+	return pwm_enable(ctx->pwm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 

@@ -1354,6 +1354,7 @@ static struct ctl_table ipv4_net_table[] = {
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= SYSCTL_ONE
 	},
+<<<<<<< HEAD
 	{
 		.procname	= "fib_notify_on_flag_change",
 		.data		= &init_net.ipv4.sysctl_fib_notify_on_flag_change,
@@ -1363,6 +1364,8 @@ static struct ctl_table ipv4_net_table[] = {
 		.extra1		= SYSCTL_ZERO,
 		.extra2		= &two,
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 
@@ -1378,6 +1381,7 @@ static __net_init int ipv4_sysctl_init_net(struct net *net)
 		if (!table)
 			goto err_alloc;
 
+<<<<<<< HEAD
 		for (i = 0; i < ARRAY_SIZE(ipv4_net_table) - 1; i++) {
 			if (table[i].data) {
 				/* Update the variables to point into
@@ -1391,6 +1395,11 @@ static __net_init int ipv4_sysctl_init_net(struct net *net)
 				table[i].mode &= ~0222;
 			}
 		}
+=======
+		/* Update the variables to point into the current struct net */
+		for (i = 0; i < ARRAY_SIZE(ipv4_net_table) - 1; i++)
+			table[i].data += (void *)net - (void *)&init_net;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	net->ipv4.ipv4_hdr = register_net_sysctl(net, "net/ipv4", table);

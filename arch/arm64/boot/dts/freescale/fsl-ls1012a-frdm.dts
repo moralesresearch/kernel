@@ -7,7 +7,10 @@
  */
 /dts-v1/;
 
+<<<<<<< HEAD
 #include <dt-bindings/interrupt-controller/irq.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "fsl-ls1012a.dtsi"
 
 / {
@@ -58,6 +61,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &dspi {
 	bus-num = <0>;
 	status = "okay";
@@ -78,6 +82,8 @@
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &duart0 {
 	status = "okay";
 };

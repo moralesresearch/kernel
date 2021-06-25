@@ -101,9 +101,12 @@
 	 AR9331_SW_PORT_STATUS_RX_FLOW_EN | AR9331_SW_PORT_STATUS_TX_FLOW_EN | \
 	 AR9331_SW_PORT_STATUS_SPEED_M)
 
+<<<<<<< HEAD
 /* MIB registers */
 #define AR9331_MIB_COUNTER(x)			(0x20000 + ((x) * 0x100))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Phy bypass mode
  * ------------------------------------------------------------------------
  * Bit:   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |
@@ -157,6 +160,7 @@
 #define AR9331_SW_MDIO_POLL_SLEEP_US		1
 #define AR9331_SW_MDIO_POLL_TIMEOUT_US		20
 
+<<<<<<< HEAD
 /* The interval should be small enough to avoid overflow of 32bit MIBs */
 /*
  * FIXME: until we can read MIBs from stats64 call directly (i.e. sleep
@@ -217,6 +221,8 @@ struct ar9331_sw_port {
 	struct spinlock stats_lock;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ar9331_sw_priv {
 	struct device *dev;
 	struct dsa_switch ds;
@@ -228,6 +234,7 @@ struct ar9331_sw_priv {
 	struct mii_bus *sbus; /* mdio slave */
 	struct regmap *regmap;
 	struct reset_control *sw_reset;
+<<<<<<< HEAD
 	struct ar9331_sw_port port[AR9331_SW_PORTS];
 };
 
@@ -239,6 +246,10 @@ static struct ar9331_sw_priv *ar9331_sw_port_to_priv(struct ar9331_sw_port *port
 					 offsetof(struct ar9331_sw_priv, port));
 }
 
+=======
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Warning: switch reset will reset last AR9331_SW_MDIO_PHY_MODE_PAGE request
  * If some kind of optimization is used, the request should be repeated.
  */
@@ -402,8 +413,11 @@ static int ar9331_sw_setup(struct dsa_switch *ds)
 	if (ret)
 		goto error;
 
+<<<<<<< HEAD
 	ds->configure_vlan_while_not_filtering = false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 error:
 	dev_err_ratelimited(priv->dev, "%s: %i\n", __func__, ret);
@@ -498,7 +512,10 @@ static void ar9331_sw_phylink_mac_link_down(struct dsa_switch *ds, int port,
 					    phy_interface_t interface)
 {
 	struct ar9331_sw_priv *priv = (struct ar9331_sw_priv *)ds->priv;
+<<<<<<< HEAD
 	struct ar9331_sw_port *p = &priv->port[port];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct regmap *regmap = priv->regmap;
 	int ret;
 
@@ -506,8 +523,11 @@ static void ar9331_sw_phylink_mac_link_down(struct dsa_switch *ds, int port,
 				 AR9331_SW_PORT_STATUS_MAC_MASK, 0);
 	if (ret)
 		dev_err_ratelimited(priv->dev, "%s: %i\n", __func__, ret);
+<<<<<<< HEAD
 
 	cancel_delayed_work_sync(&p->mib_read);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ar9331_sw_phylink_mac_link_up(struct dsa_switch *ds, int port,
@@ -518,13 +538,19 @@ static void ar9331_sw_phylink_mac_link_up(struct dsa_switch *ds, int port,
 					  bool tx_pause, bool rx_pause)
 {
 	struct ar9331_sw_priv *priv = (struct ar9331_sw_priv *)ds->priv;
+<<<<<<< HEAD
 	struct ar9331_sw_port *p = &priv->port[port];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct regmap *regmap = priv->regmap;
 	u32 val;
 	int ret;
 
+<<<<<<< HEAD
 	schedule_delayed_work(&p->mib_read, 0);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val = AR9331_SW_PORT_STATUS_MAC_MASK;
 	switch (speed) {
 	case SPEED_1000:
@@ -557,6 +583,7 @@ static void ar9331_sw_phylink_mac_link_up(struct dsa_switch *ds, int port,
 		dev_err_ratelimited(priv->dev, "%s: %i\n", __func__, ret);
 }
 
+<<<<<<< HEAD
 static void ar9331_read_stats(struct ar9331_sw_port *port)
 {
 	struct ar9331_sw_priv *priv = ar9331_sw_port_to_priv(port);
@@ -624,6 +651,8 @@ static void ar9331_get_stats64(struct dsa_switch *ds, int port,
 	spin_unlock(&p->stats_lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct dsa_switch_ops ar9331_sw_ops = {
 	.get_tag_protocol	= ar9331_sw_get_tag_protocol,
 	.setup			= ar9331_sw_setup,
@@ -632,7 +661,10 @@ static const struct dsa_switch_ops ar9331_sw_ops = {
 	.phylink_mac_config	= ar9331_sw_phylink_mac_config,
 	.phylink_mac_link_down	= ar9331_sw_phylink_mac_link_down,
 	.phylink_mac_link_up	= ar9331_sw_phylink_mac_link_up,
+<<<<<<< HEAD
 	.get_stats64		= ar9331_get_stats64,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static irqreturn_t ar9331_sw_irq(int irq, void *data)
@@ -944,7 +976,11 @@ static int ar9331_sw_probe(struct mdio_device *mdiodev)
 {
 	struct ar9331_sw_priv *priv;
 	struct dsa_switch *ds;
+<<<<<<< HEAD
 	int ret, i;
+=======
+	int ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv = devm_kzalloc(&mdiodev->dev, sizeof(*priv), GFP_KERNEL);
 	if (!priv)
@@ -979,6 +1015,7 @@ static int ar9331_sw_probe(struct mdio_device *mdiodev)
 	ds->ops = &priv->ops;
 	dev_set_drvdata(&mdiodev->dev, priv);
 
+<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(priv->port); i++) {
 		struct ar9331_sw_port *port = &priv->port[i];
 
@@ -987,6 +1024,8 @@ static int ar9331_sw_probe(struct mdio_device *mdiodev)
 		INIT_DELAYED_WORK(&port->mib_read, ar9331_do_stats_poll);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = dsa_register_switch(ds);
 	if (ret)
 		goto err_remove_irq;
@@ -1002,6 +1041,7 @@ err_remove_irq:
 static void ar9331_sw_remove(struct mdio_device *mdiodev)
 {
 	struct ar9331_sw_priv *priv = dev_get_drvdata(&mdiodev->dev);
+<<<<<<< HEAD
 	unsigned int i;
 
 	for (i = 0; i < ARRAY_SIZE(priv->port); i++) {
@@ -1009,6 +1049,8 @@ static void ar9331_sw_remove(struct mdio_device *mdiodev)
 
 		cancel_delayed_work_sync(&port->mib_read);
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	irq_domain_remove(priv->irqdomain);
 	mdiobus_unregister(priv->mbus);

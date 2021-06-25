@@ -49,8 +49,15 @@ gp100_therm = {
 };
 
 int
+<<<<<<< HEAD
 gp100_therm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		struct nvkm_therm **ptherm)
 {
 	return nvkm_therm_new_(&gp100_therm, device, type, inst, ptherm);
+=======
+gp100_therm_new(struct nvkm_device *device, int index,
+		struct nvkm_therm **ptherm)
+{
+	return nvkm_therm_new_(&gp100_therm, device, index, ptherm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

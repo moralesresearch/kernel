@@ -430,13 +430,21 @@ fifo_expire_async
 -----------------
 
 This parameter is used to set the timeout of asynchronous requests. Default
+<<<<<<< HEAD
 value of this is 250ms.
+=======
+value of this is 248ms.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 fifo_expire_sync
 ----------------
 
 This parameter is used to set the timeout of synchronous requests. Default
+<<<<<<< HEAD
 value of this is 125ms. In case to favor synchronous requests over asynchronous
+=======
+value of this is 124ms. In case to favor synchronous requests over asynchronous
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 one, this value should be decreased relative to fifo_expire_async.
 
 low_latency

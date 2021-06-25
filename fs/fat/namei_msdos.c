@@ -261,8 +261,13 @@ static int msdos_add_entry(struct inode *dir, const unsigned char *name,
 }
 
 /***** Create a file */
+<<<<<<< HEAD
 static int msdos_create(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode, bool excl)
+=======
+static int msdos_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+			bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block *sb = dir->i_sb;
 	struct inode *inode = NULL;
@@ -339,8 +344,12 @@ out:
 }
 
 /***** Make a directory */
+<<<<<<< HEAD
 static int msdos_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
+=======
+static int msdos_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block *sb = dir->i_sb;
 	struct fat_slot_info sinfo;
@@ -594,8 +603,12 @@ error_inode:
 }
 
 /***** Rename, a wrapper for rename_same_dir & rename_diff_dir */
+<<<<<<< HEAD
 static int msdos_rename(struct user_namespace *mnt_userns,
 			struct inode *old_dir, struct dentry *old_dentry,
+=======
+static int msdos_rename(struct inode *old_dir, struct dentry *old_dentry,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct inode *new_dir, struct dentry *new_dentry,
 			unsigned int flags)
 {
@@ -667,7 +680,11 @@ static struct file_system_type msdos_fs_type = {
 	.name		= "msdos",
 	.mount		= msdos_mount,
 	.kill_sb	= kill_block_super,
+<<<<<<< HEAD
 	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+=======
+	.fs_flags	= FS_REQUIRES_DEV,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 MODULE_ALIAS_FS("msdos");
 

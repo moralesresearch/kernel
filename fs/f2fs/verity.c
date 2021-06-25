@@ -152,13 +152,17 @@ static int f2fs_end_enable_verity(struct file *filp, const void *desc,
 				  size_t desc_size, u64 merkle_tree_size)
 {
 	struct inode *inode = file_inode(filp);
+<<<<<<< HEAD
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 desc_pos = f2fs_verity_metadata_pos(inode) + merkle_tree_size;
 	struct fsverity_descriptor_location dloc = {
 		.version = cpu_to_le32(F2FS_VERIFY_VER),
 		.size = cpu_to_le32(desc_size),
 		.pos = cpu_to_le64(desc_pos),
 	};
+<<<<<<< HEAD
 	int err = 0, err2 = 0;
 
 	/*
@@ -219,6 +223,36 @@ cleanup:
 	up_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
 	clear_inode_flag(inode, FI_VERITY_IN_PROGRESS);
 	return err ?: err2;
+=======
+	int err = 0;
+
+	if (desc != NULL) {
+		/* Succeeded; write the verity descriptor. */
+		err = pagecache_write(inode, desc, desc_size, desc_pos);
+
+		/* Write all pages before clearing FI_VERITY_IN_PROGRESS. */
+		if (!err)
+			err = filemap_write_and_wait(inode->i_mapping);
+	}
+
+	/* If we failed, truncate anything we wrote past i_size. */
+	if (desc == NULL || err)
+		f2fs_truncate(inode);
+
+	clear_inode_flag(inode, FI_VERITY_IN_PROGRESS);
+
+	if (desc != NULL && !err) {
+		err = f2fs_setxattr(inode, F2FS_XATTR_INDEX_VERITY,
+				    F2FS_XATTR_NAME_VERITY, &dloc, sizeof(dloc),
+				    NULL, XATTR_CREATE);
+		if (!err) {
+			file_set_verity(inode);
+			f2fs_set_inode_flags(inode);
+			f2fs_mark_inode_dirty_sync(inode, true);
+		}
+	}
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int f2fs_get_verity_descriptor(struct inode *inode, void *buf,

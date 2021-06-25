@@ -84,12 +84,15 @@ enum {
 	NETIF_F_GRO_FRAGLIST_BIT,	/* Fraglist GRO */
 
 	NETIF_F_HW_MACSEC_BIT,		/* Offload MACsec operations */
+<<<<<<< HEAD
 	NETIF_F_GRO_UDP_FWD_BIT,	/* Allow UDP GRO for forwarding */
 
 	NETIF_F_HW_HSR_TAG_INS_BIT,	/* Offload HSR tag insertion */
 	NETIF_F_HW_HSR_TAG_RM_BIT,	/* Offload HSR tag removal */
 	NETIF_F_HW_HSR_FWD_BIT,		/* Offload HSR forwarding */
 	NETIF_F_HW_HSR_DUP_BIT,		/* Offload HSR duplication */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Add your fresh new feature above and remember to update
@@ -163,11 +166,14 @@ enum {
 #define NETIF_F_GRO_FRAGLIST	__NETIF_F(GRO_FRAGLIST)
 #define NETIF_F_GSO_FRAGLIST	__NETIF_F(GSO_FRAGLIST)
 #define NETIF_F_HW_MACSEC	__NETIF_F(HW_MACSEC)
+<<<<<<< HEAD
 #define NETIF_F_GRO_UDP_FWD	__NETIF_F(GRO_UDP_FWD)
 #define NETIF_F_HW_HSR_TAG_INS	__NETIF_F(HW_HSR_TAG_INS)
 #define NETIF_F_HW_HSR_TAG_RM	__NETIF_F(HW_HSR_TAG_RM)
 #define NETIF_F_HW_HSR_FWD	__NETIF_F(HW_HSR_FWD)
 #define NETIF_F_HW_HSR_DUP	__NETIF_F(HW_HSR_DUP)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Finds the next feature with the highest number of the range of start till 0.
  */
@@ -245,7 +251,11 @@ static inline int find_next_netdev_feature(u64 feature, unsigned long start)
 #define NETIF_F_SOFT_FEATURES	(NETIF_F_GSO | NETIF_F_GRO)
 
 /* Changeable features with no special hardware requirements that defaults to off. */
+<<<<<<< HEAD
 #define NETIF_F_SOFT_FEATURES_OFF	(NETIF_F_GRO_FRAGLIST | NETIF_F_GRO_UDP_FWD)
+=======
+#define NETIF_F_SOFT_FEATURES_OFF	NETIF_F_GRO_FRAGLIST
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define NETIF_F_VLAN_FEATURES	(NETIF_F_HW_VLAN_CTAG_FILTER | \
 				 NETIF_F_HW_VLAN_CTAG_RX | \

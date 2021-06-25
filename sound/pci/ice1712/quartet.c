@@ -771,7 +771,11 @@ static struct snd_kcontrol *ctl_find(struct snd_card *card,
 {
 	struct snd_ctl_elem_id sid = {0};
 
+<<<<<<< HEAD
 	strscpy(sid.name, name, sizeof(sid.name));
+=======
+	strlcpy(sid.name, name, sizeof(sid.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sid.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
 	return snd_ctl_find_id(card, &sid);
 }

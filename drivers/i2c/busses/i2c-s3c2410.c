@@ -483,10 +483,14 @@ static int i2c_s3c_irq_nextbyte(struct s3c24xx_i2c *i2c, unsigned long iicstat)
 					 * forces us to send a new START
 					 * when we change direction
 					 */
+<<<<<<< HEAD
 					dev_dbg(i2c->dev,
 						"missing START before write->read\n");
 					s3c24xx_i2c_stop(i2c, -EINVAL);
 					break;
+=======
+					s3c24xx_i2c_stop(i2c, -EINVAL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				}
 
 				goto retry_write;
@@ -784,7 +788,11 @@ static int s3c24xx_i2c_xfer(struct i2c_adapter *adap,
 /* declare our i2c functionality */
 static u32 s3c24xx_i2c_func(struct i2c_adapter *adap)
 {
+<<<<<<< HEAD
 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL_ALL | I2C_FUNC_NOSTART |
+=======
+	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_NOSTART |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		I2C_FUNC_PROTOCOL_MANGLING;
 }
 

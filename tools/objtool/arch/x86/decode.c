@@ -11,11 +11,19 @@
 #include "../../../arch/x86/lib/inat.c"
 #include "../../../arch/x86/lib/insn.c"
 
+<<<<<<< HEAD
 #include <asm/orc_types.h>
 #include <objtool/check.h>
 #include <objtool/elf.h>
 #include <objtool/arch.h>
 #include <objtool/warn.h>
+=======
+#include "../../check.h"
+#include "../../elf.h"
+#include "../../arch.h"
+#include "../../warn.h"
+#include <asm/orc_types.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static unsigned char op_to_cfi_reg[][2] = {
 	{CFI_AX, CFI_R8},
@@ -222,6 +230,7 @@ int arch_decode_instruction(const struct elf *elf, const struct section *sec,
 		break;
 
 	case 0x89:
+<<<<<<< HEAD
 		if (rex_w && !rex_r && modrm_reg == 4) {
 
 			if (modrm_mod == 3) {
@@ -254,6 +263,17 @@ int arch_decode_instruction(const struct elf *elf, const struct section *sec,
 				break;
 			}
 
+=======
+		if (rex_w && !rex_r && modrm_mod == 3 && modrm_reg == 4) {
+
+			/* mov %rsp, reg */
+			ADD_OP(op) {
+				op->src.type = OP_SRC_REG;
+				op->src.reg = CFI_SP;
+				op->dest.type = OP_DEST_REG;
+				op->dest.reg = op_to_cfi_reg[modrm_rm][rex_b];
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 
@@ -282,10 +302,15 @@ int arch_decode_instruction(const struct elf *elf, const struct section *sec,
 				op->dest.reg = CFI_BP;
 				op->dest.offset = insn.displacement.value;
 			}
+<<<<<<< HEAD
 			break;
 		}
 
 		if (rex_w && !rex_b && modrm_rm == 4 && sib == 0x24) {
+=======
+
+		} else if (rex_w && !rex_b && modrm_rm == 4 && sib == 0x24) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* mov reg, disp(%rsp) */
 			ADD_OP(op) {
@@ -295,7 +320,10 @@ int arch_decode_instruction(const struct elf *elf, const struct section *sec,
 				op->dest.reg = CFI_SP;
 				op->dest.offset = insn.displacement.value;
 			}
+<<<<<<< HEAD
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		break;
@@ -589,8 +617,13 @@ void arch_initial_func_cfi_state(struct cfi_init_state *state)
 	state->cfa.offset = 8;
 
 	/* initial RA (return address) */
+<<<<<<< HEAD
 	state->regs[CFI_RA].base = CFI_CFA;
 	state->regs[CFI_RA].offset = -8;
+=======
+	state->regs[16].base = CFI_CFA;
+	state->regs[16].offset = -8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const char *arch_nop_insn(int len)

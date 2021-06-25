@@ -161,7 +161,10 @@ config ARCH_BCM2835
 	select ARM_TIMER_SP804
 	select HAVE_ARM_ARCH_TIMER if ARCH_MULTI_V7
 	select BCM2835_TIMER
+<<<<<<< HEAD
 	select BRCMSTB_L2_IRQ
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select PINCTRL
 	select PINCTRL_BCM2835
 	select MFD_CORE

@@ -142,7 +142,10 @@ int inode_init_always(struct super_block *sb, struct inode *inode)
 	atomic_set(&inode->i_count, 1);
 	inode->i_op = &empty_iops;
 	inode->i_fop = &no_open_fops;
+<<<<<<< HEAD
 	inode->i_ino = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->__i_nlink = 1;
 	inode->i_opflags = 0;
 	if (sb->s_xattr)
@@ -1494,7 +1497,11 @@ struct inode *find_inode_rcu(struct super_block *sb, unsigned long hashval,
 EXPORT_SYMBOL(find_inode_rcu);
 
 /**
+<<<<<<< HEAD
  * find_inode_by_ino_rcu - Find an inode in the inode cache
+=======
+ * find_inode_by_rcu - Find an inode in the inode cache
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sb:		Super block of file system to search
  * @ino:	The inode number to match
  *
@@ -1744,6 +1751,7 @@ static int relatime_need_update(struct vfsmount *mnt, struct inode *inode,
 
 int generic_update_time(struct inode *inode, struct timespec64 *time, int flags)
 {
+<<<<<<< HEAD
 	int dirty_flags = 0;
 
 	if (flags & (S_ATIME | S_CTIME | S_MTIME)) {
@@ -1764,6 +1772,26 @@ int generic_update_time(struct inode *inode, struct timespec64 *time, int flags)
 		dirty_flags |= I_DIRTY_SYNC;
 
 	__mark_inode_dirty(inode, dirty_flags);
+=======
+	int iflags = I_DIRTY_TIME;
+	bool dirty = false;
+
+	if (flags & S_ATIME)
+		inode->i_atime = *time;
+	if (flags & S_VERSION)
+		dirty = inode_maybe_inc_iversion(inode, false);
+	if (flags & S_CTIME)
+		inode->i_ctime = *time;
+	if (flags & S_MTIME)
+		inode->i_mtime = *time;
+	if ((flags & (S_ATIME | S_CTIME | S_MTIME)) &&
+	    !(inode->i_sb->s_flags & SB_LAZYTIME))
+		dirty = true;
+
+	if (dirty)
+		iflags |= I_DIRTY_SYNC;
+	__mark_inode_dirty(inode, iflags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(generic_update_time);
@@ -1780,7 +1808,11 @@ static int update_time(struct inode *inode, struct timespec64 *time, int flags)
 }
 
 /**
+<<<<<<< HEAD
  *	atime_needs_update	-	update the access time
+=======
+ *	touch_atime	-	update the access time
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@path: the &struct path to update
  *	@inode: inode to update
  *
@@ -1799,7 +1831,11 @@ bool atime_needs_update(const struct path *path, struct inode *inode)
 	/* Atime updates will likely cause i_uid and i_gid to be written
 	 * back improprely if their true value is unknown to the vfs.
 	 */
+<<<<<<< HEAD
 	if (HAS_UNMAPPED_ID(mnt_user_ns(mnt), inode))
+=======
+	if (HAS_UNMAPPED_ID(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	if (IS_NOATIME(inode))
@@ -1906,8 +1942,12 @@ int dentry_needs_remove_privs(struct dentry *dentry)
 	return mask;
 }
 
+<<<<<<< HEAD
 static int __remove_privs(struct user_namespace *mnt_userns,
 			  struct dentry *dentry, int kill)
+=======
+static int __remove_privs(struct dentry *dentry, int kill)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iattr newattrs;
 
@@ -1916,7 +1956,11 @@ static int __remove_privs(struct user_namespace *mnt_userns,
 	 * Note we call this on write, so notify_change will not
 	 * encounter any conflicting delegations:
 	 */
+<<<<<<< HEAD
 	return notify_change(mnt_userns, dentry, &newattrs, NULL);
+=======
+	return notify_change(dentry, &newattrs, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1943,7 +1987,11 @@ int file_remove_privs(struct file *file)
 	if (kill < 0)
 		return kill;
 	if (kill)
+<<<<<<< HEAD
 		error = __remove_privs(file_mnt_user_ns(file), dentry, kill);
+=======
+		error = __remove_privs(dentry, kill);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!error)
 		inode_has_no_xattr(inode);
 
@@ -2134,6 +2182,7 @@ EXPORT_SYMBOL(init_special_inode);
 
 /**
  * inode_init_owner - Init uid,gid,mode for new inode according to posix standards
+<<<<<<< HEAD
  * @mnt_userns:	User namespace of the mount the inode was created from
  * @inode: New inode
  * @dir: Directory inode
@@ -2149,6 +2198,16 @@ void inode_init_owner(struct user_namespace *mnt_userns, struct inode *inode,
 		      const struct inode *dir, umode_t mode)
 {
 	inode->i_uid = fsuid_into_mnt(mnt_userns);
+=======
+ * @inode: New inode
+ * @dir: Directory inode
+ * @mode: mode of the new inode
+ */
+void inode_init_owner(struct inode *inode, const struct inode *dir,
+			umode_t mode)
+{
+	inode->i_uid = current_fsuid();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dir && dir->i_mode & S_ISGID) {
 		inode->i_gid = dir->i_gid;
 
@@ -2156,22 +2215,34 @@ void inode_init_owner(struct user_namespace *mnt_userns, struct inode *inode,
 		if (S_ISDIR(mode))
 			mode |= S_ISGID;
 		else if ((mode & (S_ISGID | S_IXGRP)) == (S_ISGID | S_IXGRP) &&
+<<<<<<< HEAD
 			 !in_group_p(i_gid_into_mnt(mnt_userns, dir)) &&
 			 !capable_wrt_inode_uidgid(mnt_userns, dir, CAP_FSETID))
 			mode &= ~S_ISGID;
 	} else
 		inode->i_gid = fsgid_into_mnt(mnt_userns);
+=======
+			 !in_group_p(inode->i_gid) &&
+			 !capable_wrt_inode_uidgid(dir, CAP_FSETID))
+			mode &= ~S_ISGID;
+	} else
+		inode->i_gid = current_fsgid();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_mode = mode;
 }
 EXPORT_SYMBOL(inode_init_owner);
 
 /**
  * inode_owner_or_capable - check current task permissions to inode
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: inode being checked
  *
  * Return true if current either has CAP_FOWNER in a namespace with the
  * inode owner uid mapped, or owns the file.
+<<<<<<< HEAD
  *
  * If the inode has been found through an idmapped mount the user namespace of
  * the vfsmount must be passed through @mnt_userns. This function will then take
@@ -2191,6 +2262,18 @@ bool inode_owner_or_capable(struct user_namespace *mnt_userns,
 
 	ns = current_user_ns();
 	if (kuid_has_mapping(ns, i_uid) && ns_capable(ns, CAP_FOWNER))
+=======
+ */
+bool inode_owner_or_capable(const struct inode *inode)
+{
+	struct user_namespace *ns;
+
+	if (uid_eq(current_fsuid(), inode->i_uid))
+		return true;
+
+	ns = current_user_ns();
+	if (kuid_has_mapping(ns, inode->i_uid) && ns_capable(ns, CAP_FOWNER))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }

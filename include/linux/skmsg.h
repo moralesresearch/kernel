@@ -349,6 +349,7 @@ static inline void sk_psock_update_proto(struct sock *sk,
 static inline void sk_psock_restore_proto(struct sock *sk,
 					  struct sk_psock *psock)
 {
+<<<<<<< HEAD
 	if (inet_csk_has_ulp(sk)) {
 		/* TLS does not have an unhash proto in SW cases, but we need
 		 * to ensure we stop using the sock_map unhash routine because
@@ -356,6 +357,10 @@ static inline void sk_psock_restore_proto(struct sock *sk,
 		 * unhash handler.
 		 */
 		WRITE_ONCE(sk->sk_prot->unhash, psock->saved_unhash);
+=======
+	sk->sk_prot->unhash = psock->saved_unhash;
+	if (inet_csk_has_ulp(sk)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcp_update_ulp(sk, psock->sk_proto, psock->saved_write_space);
 	} else {
 		sk->sk_write_space = psock->saved_write_space;
@@ -395,6 +400,10 @@ static inline struct sk_psock *sk_psock_get(struct sock *sk)
 }
 
 void sk_psock_stop(struct sock *sk, struct sk_psock *psock);
+<<<<<<< HEAD
+=======
+void sk_psock_destroy(struct rcu_head *rcu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sk_psock_drop(struct sock *sk, struct sk_psock *psock);
 
 static inline void sk_psock_put(struct sock *sk, struct sk_psock *psock)

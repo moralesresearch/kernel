@@ -660,7 +660,11 @@ int nf_conntrack_proto_init(void)
 
 #if IS_ENABLED(CONFIG_IPV6)
 cleanup_sockopt:
+<<<<<<< HEAD
 	nf_unregister_sockopt(&so_getorigdst);
+=======
+	nf_unregister_sockopt(&so_getorigdst6);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	return ret;
 }

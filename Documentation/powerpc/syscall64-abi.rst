@@ -46,6 +46,7 @@ stack frame LR and CR save fields are not used.
 
 Register preservation rules
 ---------------------------
+<<<<<<< HEAD
 Register preservation rules match the ELF ABI calling sequence with some
 differences.
 
@@ -78,6 +79,27 @@ For the scv 0 instruction, the differences from the ELF ABI are as follows:
 +--------------+--------------------+-----------------------------------------+
 | r4-r8        | Volatile           | (Parameters 2-6.)                       |
 +--------------+--------------------+-----------------------------------------+
+=======
+Register preservation rules match the ELF ABI calling sequence with the
+following differences:
+
++------------------------------------------------------------------------+
+|        For the sc instruction, differences with the ELF ABI		 |
++--------------+--------------+------------------------------------------+
+| r0           | Volatile     | (System call number.)			 |
+| rr3          | Volatile     | (Parameter 1, and return value.)	 |
+| rr4-r8       | Volatile     | (Parameters 2-6.)			 |
+| rcr0         | Volatile     | (cr0.SO is the return error condition.)	 |
+| rcr1, cr5-7  | Nonvolatile  |						 |
+| rlr          | Nonvolatile  |						 |
++--------------+--------------+------------------------------------------+
+|      For the scv 0 instruction, differences with the ELF ABI		 |
++--------------+--------------+------------------------------------------+
+| r0           | Volatile     | (System call number.)			 |
+| r3           | Volatile     | (Parameter 1, and return value.)	 |
+| r4-r8        | Volatile     | (Parameters 2-6.)			 |
++--------------+--------------+------------------------------------------+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 All floating point and vector data registers as well as control and status
 registers are nonvolatile.
@@ -109,6 +131,7 @@ auxiliary vector.
 
 scv 0 syscalls will always behave as PPC_FEATURE2_HTM_NOSC.
 
+<<<<<<< HEAD
 ptrace
 ------
 When ptracing system calls (PTRACE_SYSCALL), the pt_regs.trap value contains
@@ -119,6 +142,8 @@ If the value of (pt_regs.trap & 0xfff0) is 0xc00 then the system call was
 performed with the sc instruction, if it is 0x3000 then the system call was
 performed with the scv 0 instruction.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 vsyscall
 ========
 

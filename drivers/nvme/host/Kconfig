@@ -71,8 +71,12 @@ config NVME_FC
 config NVME_TCP
 	tristate "NVM Express over Fabrics TCP host driver"
 	depends on INET
+<<<<<<< HEAD
 	depends on BLOCK
 	select NVME_CORE
+=======
+	depends on BLK_DEV_NVME
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select NVME_FABRICS
 	select CRYPTO
 	select CRYPTO_CRC32C

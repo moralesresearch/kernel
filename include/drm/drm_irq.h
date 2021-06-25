@@ -28,5 +28,9 @@ struct drm_device;
 
 int drm_irq_install(struct drm_device *dev, int irq);
 int drm_irq_uninstall(struct drm_device *dev);
+<<<<<<< HEAD
 int devm_drm_irq_install(struct drm_device *dev, int irq);
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

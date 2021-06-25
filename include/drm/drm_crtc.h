@@ -1223,6 +1223,7 @@ int drm_crtc_init_with_planes(struct drm_device *dev,
 			      const char *name, ...);
 void drm_crtc_cleanup(struct drm_crtc *crtc);
 
+<<<<<<< HEAD
 __printf(7, 8)
 void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
 				    size_t size, size_t offset,
@@ -1256,6 +1257,8 @@ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
 					       primary, cursor, funcs, \
 					       name, ##__VA_ARGS__))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * drm_crtc_index - find the index of a registered CRTC
  * @crtc: CRTC to find index for

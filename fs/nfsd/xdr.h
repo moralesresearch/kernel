@@ -27,6 +27,10 @@ struct nfsd_readargs {
 	struct svc_fh		fh;
 	__u32			offset;
 	__u32			count;
+<<<<<<< HEAD
+=======
+	int			vlen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nfsd_writeargs {
@@ -52,6 +56,14 @@ struct nfsd_renameargs {
 	unsigned int		tlen;
 };
 
+<<<<<<< HEAD
+=======
+struct nfsd_readlinkargs {
+	struct svc_fh		fh;
+	char *			buffer;
+};
+	
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nfsd_linkargs {
 	struct svc_fh		ffh;
 	struct svc_fh		tfh;
@@ -73,6 +85,10 @@ struct nfsd_readdirargs {
 	struct svc_fh		fh;
 	__u32			cookie;
 	__u32			count;
+<<<<<<< HEAD
+=======
+	__be32 *		buffer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nfsd_stat {
@@ -137,13 +153,21 @@ union nfsd_xdrstore {
 #define NFS2_SVC_XDRSIZE	sizeof(union nfsd_xdrstore)
 
 
+<<<<<<< HEAD
 int nfssvc_decode_fhandleargs(struct svc_rqst *, __be32 *);
+=======
+int nfssvc_decode_fhandle(struct svc_rqst *, __be32 *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int nfssvc_decode_sattrargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_diropargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_readargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_writeargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_createargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_renameargs(struct svc_rqst *, __be32 *);
+<<<<<<< HEAD
+=======
+int nfssvc_decode_readlinkargs(struct svc_rqst *, __be32 *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int nfssvc_decode_linkargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_symlinkargs(struct svc_rqst *, __be32 *);
 int nfssvc_decode_readdirargs(struct svc_rqst *, __be32 *);
@@ -164,6 +188,10 @@ void nfssvc_release_readres(struct svc_rqst *rqstp);
 
 /* Helper functions for NFSv2 ACL code */
 __be32 *nfs2svc_encode_fattr(struct svc_rqst *rqstp, __be32 *p, struct svc_fh *fhp, struct kstat *stat);
+<<<<<<< HEAD
 bool svcxdr_decode_fhandle(struct xdr_stream *xdr, struct svc_fh *fhp);
+=======
+__be32 *nfs2svc_decode_fh(__be32 *p, struct svc_fh *fhp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* LINUX_NFSD_H */

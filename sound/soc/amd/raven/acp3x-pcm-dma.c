@@ -237,6 +237,13 @@ static int acp3x_dma_open(struct snd_soc_component *component,
 		return ret;
 	}
 
+<<<<<<< HEAD
+=======
+	if (!adata->play_stream && !adata->capture_stream &&
+	    !adata->i2ssp_play_stream && !adata->i2ssp_capture_stream)
+		rv_writel(1, adata->acp3x_base + mmACP_EXTERNAL_INTR_ENB);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2s_data->acp3x_base = adata->acp3x_base;
 	runtime->private_data = i2s_data;
 	return ret;
@@ -363,6 +370,15 @@ static int acp3x_dma_close(struct snd_soc_component *component,
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	/* Disable ACP irq, when the current stream is being closed and
+	 * another stream is also not active.
+	 */
+	if (!adata->play_stream && !adata->capture_stream &&
+		!adata->i2ssp_play_stream && !adata->i2ssp_capture_stream)
+		rv_writel(0, adata->acp3x_base + mmACP_EXTERNAL_INTR_ENB);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

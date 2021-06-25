@@ -101,7 +101,11 @@ int v4l2_event_dequeue(struct v4l2_fh *fh, struct v4l2_event *event,
  *
  * .. note::
  *    The driver's only responsibility is to fill in the type and the data
+<<<<<<< HEAD
  *    fields. The other fields will be filled in by V4L2.
+=======
+ *    fields.The other fields will be filled in by  V4L2.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
 
@@ -116,11 +120,16 @@ void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
  *
  * .. note::
  *    The driver's only responsibility is to fill in the type and the data
+<<<<<<< HEAD
  *    fields. The other fields will be filled in by V4L2.
+=======
+ *    fields.The other fields will be filled in by  V4L2.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void v4l2_event_queue_fh(struct v4l2_fh *fh, const struct v4l2_event *ev);
 
 /**
+<<<<<<< HEAD
  * v4l2_event_wake_all - Wake all filehandles.
  *
  * Used when unregistering a video device.
@@ -130,6 +139,8 @@ void v4l2_event_queue_fh(struct v4l2_fh *fh, const struct v4l2_event *ev);
 void v4l2_event_wake_all(struct video_device *vdev);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * v4l2_event_pending - Check if an event is available
  *
  * @fh: pointer to &struct v4l2_fh

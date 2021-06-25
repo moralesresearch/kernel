@@ -608,10 +608,18 @@ i915_gem_object_release_stolen(struct drm_i915_gem_object *obj)
 	struct drm_mm_node *stolen = fetch_and_zero(&obj->stolen);
 
 	GEM_BUG_ON(!stolen);
+<<<<<<< HEAD
 	i915_gem_stolen_remove_node(i915, stolen);
 	kfree(stolen);
 
 	i915_gem_object_release_memory_region(obj);
+=======
+
+	i915_gem_object_release_memory_region(obj);
+
+	i915_gem_stolen_remove_node(i915, stolen);
+	kfree(stolen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct drm_i915_gem_object_ops i915_gem_object_stolen_ops = {
@@ -621,6 +629,7 @@ static const struct drm_i915_gem_object_ops i915_gem_object_stolen_ops = {
 	.release = i915_gem_object_release_stolen,
 };
 
+<<<<<<< HEAD
 static int __i915_gem_object_create_stolen(struct intel_memory_region *mem,
 					   struct drm_i915_gem_object *obj,
 					   struct drm_mm_node *stolen)
@@ -628,6 +637,20 @@ static int __i915_gem_object_create_stolen(struct intel_memory_region *mem,
 	static struct lock_class_key lock_class;
 	unsigned int cache_level;
 	int err;
+=======
+static struct drm_i915_gem_object *
+__i915_gem_object_create_stolen(struct intel_memory_region *mem,
+				struct drm_mm_node *stolen)
+{
+	static struct lock_class_key lock_class;
+	struct drm_i915_gem_object *obj;
+	unsigned int cache_level;
+	int err = -ENOMEM;
+
+	obj = i915_gem_object_alloc();
+	if (!obj)
+		goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_gem_private_object_init(&mem->i915->drm, &obj->base, stolen->size);
 	i915_gem_object_init(obj, &i915_gem_object_stolen_ops, &lock_class);
@@ -639,6 +662,7 @@ static int __i915_gem_object_create_stolen(struct intel_memory_region *mem,
 
 	err = i915_gem_object_pin_pages(obj);
 	if (err)
+<<<<<<< HEAD
 		return err;
 
 	i915_gem_object_init_memory_region(obj, mem, 0);
@@ -652,10 +676,32 @@ static int _i915_gem_object_stolen_init(struct intel_memory_region *mem,
 					unsigned int flags)
 {
 	struct drm_i915_private *i915 = mem->i915;
+=======
+		goto cleanup;
+
+	i915_gem_object_init_memory_region(obj, mem, 0);
+
+	return obj;
+
+cleanup:
+	i915_gem_object_free(obj);
+err:
+	return ERR_PTR(err);
+}
+
+static struct drm_i915_gem_object *
+_i915_gem_object_create_stolen(struct intel_memory_region *mem,
+			       resource_size_t size,
+			       unsigned int flags)
+{
+	struct drm_i915_private *i915 = mem->i915;
+	struct drm_i915_gem_object *obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_mm_node *stolen;
 	int ret;
 
 	if (!drm_mm_initialized(&i915->mm.stolen))
+<<<<<<< HEAD
 		return -ENODEV;
 
 	if (size == 0)
@@ -674,12 +720,38 @@ static int _i915_gem_object_stolen_init(struct intel_memory_region *mem,
 		goto err_remove;
 
 	return 0;
+=======
+		return ERR_PTR(-ENODEV);
+
+	if (size == 0)
+		return ERR_PTR(-EINVAL);
+
+	stolen = kzalloc(sizeof(*stolen), GFP_KERNEL);
+	if (!stolen)
+		return ERR_PTR(-ENOMEM);
+
+	ret = i915_gem_stolen_insert_node(i915, stolen, size, 4096);
+	if (ret) {
+		obj = ERR_PTR(ret);
+		goto err_free;
+	}
+
+	obj = __i915_gem_object_create_stolen(mem, stolen);
+	if (IS_ERR(obj))
+		goto err_remove;
+
+	return obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 err_remove:
 	i915_gem_stolen_remove_node(i915, stolen);
 err_free:
 	kfree(stolen);
+<<<<<<< HEAD
 	return ret;
+=======
+	return obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct drm_i915_gem_object *
@@ -709,7 +781,11 @@ static void release_stolen(struct intel_memory_region *mem)
 static const struct intel_memory_region_ops i915_region_stolen_ops = {
 	.init = init_stolen,
 	.release = release_stolen,
+<<<<<<< HEAD
 	.init_object = _i915_gem_object_stolen_init,
+=======
+	.create_object = _i915_gem_object_create_stolen,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct intel_memory_region *i915_gem_stolen_setup(struct drm_i915_private *i915)
@@ -753,6 +829,7 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
 	mutex_lock(&i915->mm.stolen_lock);
 	ret = drm_mm_reserve_node(&i915->mm.stolen, stolen);
 	mutex_unlock(&i915->mm.stolen_lock);
+<<<<<<< HEAD
 	if (ret)
 		goto err_free;
 
@@ -765,20 +842,37 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
 	ret = __i915_gem_object_create_stolen(mem, obj, stolen);
 	if (ret)
 		goto err_object_free;
+=======
+	if (ret) {
+		obj = ERR_PTR(ret);
+		goto err_free;
+	}
+
+	obj = __i915_gem_object_create_stolen(mem, stolen);
+	if (IS_ERR(obj))
+		goto err_stolen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
 	return obj;
 
+<<<<<<< HEAD
 err_object_free:
 	i915_gem_object_free(obj);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_stolen:
 	i915_gem_stolen_remove_node(i915, stolen);
 err_free:
 	kfree(stolen);
+<<<<<<< HEAD
 	return ERR_PTR(ret);
 }
 
 bool i915_gem_object_is_stolen(const struct drm_i915_gem_object *obj)
 {
 	return obj->ops == &i915_gem_object_stolen_ops;
+=======
+	return obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

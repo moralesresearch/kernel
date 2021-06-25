@@ -156,10 +156,26 @@ struct pv_cpu_ops {
 
 	u64 (*read_pmc)(int counter);
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Switch to usermode gs and return to 64-bit usermode using
+	 * sysret.  Only used in 64-bit kernels to return to 64-bit
+	 * processes.  Usermode register state, including %rsp, must
+	 * already be restored.
+	 */
+	void (*usergs_sysret64)(void);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Normal iret.  Jump to this with the standard iret stack
 	   frame set up. */
 	void (*iret)(void);
 
+<<<<<<< HEAD
+=======
+	void (*swapgs)(void);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*start_context_switch)(struct task_struct *prev);
 	void (*end_context_switch)(struct task_struct *next);
 #endif
@@ -168,13 +184,24 @@ struct pv_cpu_ops {
 struct pv_irq_ops {
 #ifdef CONFIG_PARAVIRT_XXL
 	/*
+<<<<<<< HEAD
 	 * Get/set interrupt state.  save_fl is expected to use X86_EFLAGS_IF;
 	 * all other bits returned from save_fl are undefined.
+=======
+	 * Get/set interrupt state.  save_fl and restore_fl are only
+	 * expected to use X86_EFLAGS_IF; all other bits
+	 * returned from save_fl are undefined, and may be ignored by
+	 * restore_fl.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * NOTE: These functions callers expect the callee to preserve
 	 * more registers than the standard C calling convention.
 	 */
 	struct paravirt_callee_save save_fl;
+<<<<<<< HEAD
+=======
+	struct paravirt_callee_save restore_fl;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct paravirt_callee_save irq_disable;
 	struct paravirt_callee_save irq_enable;
 

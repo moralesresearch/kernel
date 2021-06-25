@@ -89,7 +89,11 @@ struct drm_encoder_funcs {
  * @head: list management
  * @base: base KMS object
  * @name: human readable name, can be overwritten by the driver
+<<<<<<< HEAD
  * @funcs: control functions, can be NULL for simple managed encoders
+=======
+ * @funcs: control functions
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @helper_private: mid-layer private data
  *
  * CRTCs drive pixels to encoders, which convert them into signals
@@ -194,6 +198,7 @@ int drm_encoder_init(struct drm_device *dev,
 		     const struct drm_encoder_funcs *funcs,
 		     int encoder_type, const char *name, ...);
 
+<<<<<<< HEAD
 __printf(6, 7)
 void *__drmm_encoder_alloc(struct drm_device *dev,
 			   size_t size, size_t offset,
@@ -224,6 +229,8 @@ void *__drmm_encoder_alloc(struct drm_device *dev,
 				      offsetof(type, member), funcs, \
 				      encoder_type, name, ##__VA_ARGS__))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * drm_encoder_index - find the index of a registered encoder
  * @encoder: encoder to find index for

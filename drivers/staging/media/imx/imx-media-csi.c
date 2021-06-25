@@ -1922,6 +1922,7 @@ static int imx_csi_async_register(struct csi_priv *priv)
 					     port, 0,
 					     FWNODE_GRAPH_ENDPOINT_NEXT);
 	if (ep) {
+<<<<<<< HEAD
 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
 			&priv->notifier, ep, struct v4l2_async_subdev);
 
@@ -1929,6 +1930,21 @@ static int imx_csi_async_register(struct csi_priv *priv)
 
 		if (IS_ERR(asd)) {
 			ret = PTR_ERR(asd);
+=======
+		asd = kzalloc(sizeof(*asd), GFP_KERNEL);
+		if (!asd) {
+			fwnode_handle_put(ep);
+			return -ENOMEM;
+		}
+
+		ret = v4l2_async_notifier_add_fwnode_remote_subdev(
+			&priv->notifier, ep, asd);
+
+		fwnode_handle_put(ep);
+
+		if (ret) {
+			kfree(asd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* OK if asd already exists */
 			if (ret != -EEXIST)
 				return ret;

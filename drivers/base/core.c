@@ -28,7 +28,10 @@
 #include <linux/sched/signal.h>
 #include <linux/sched/mm.h>
 #include <linux/sysfs.h>
+<<<<<<< HEAD
 #include <linux/dma-map-ops.h> /* for dma_default_coherent */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "base.h"
 #include "power/power.h"
@@ -149,6 +152,7 @@ void fwnode_links_purge(struct fwnode_handle *fwnode)
 	fwnode_links_purge_consumers(fwnode);
 }
 
+<<<<<<< HEAD
 static void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode)
 {
 	struct fwnode_handle *child;
@@ -164,6 +168,8 @@ static void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode)
 		fw_devlink_purge_absent_suppliers(child);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SRCU
 static DEFINE_MUTEX(device_links_lock);
 DEFINE_STATIC_SRCU(device_links_srcu);
@@ -192,11 +198,14 @@ int device_links_read_lock_held(void)
 {
 	return srcu_read_lock_held(&device_links_srcu);
 }
+<<<<<<< HEAD
 
 static void device_link_synchronize_removal(void)
 {
 	synchronize_srcu(&device_links_srcu);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* !CONFIG_SRCU */
 static DECLARE_RWSEM(device_links_lock);
 
@@ -227,10 +236,13 @@ int device_links_read_lock_held(void)
 	return lockdep_is_held(&device_links_lock);
 }
 #endif
+<<<<<<< HEAD
 
 static inline void device_link_synchronize_removal(void)
 {
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* !CONFIG_SRCU */
 
 static bool device_is_ancestor(struct device *dev, struct device *target)
@@ -269,8 +281,12 @@ int device_is_dependent(struct device *dev, void *target)
 		return ret;
 
 	list_for_each_entry(link, &dev->links.consumers, s_node) {
+<<<<<<< HEAD
 		if ((link->flags & ~DL_FLAG_INFERRED) ==
 		    (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
+=======
+		if (link->flags == (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		if (link->consumer == target)
@@ -343,8 +359,12 @@ static int device_reorder_to_tail(struct device *dev, void *not_used)
 
 	device_for_each_child(dev, NULL, device_reorder_to_tail);
 	list_for_each_entry(link, &dev->links.consumers, s_node) {
+<<<<<<< HEAD
 		if ((link->flags & ~DL_FLAG_INFERRED) ==
 		    (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
+=======
+		if (link->flags == (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		device_reorder_to_tail(link->consumer, NULL);
 	}
@@ -452,6 +472,7 @@ static struct attribute *devlink_attrs[] = {
 };
 ATTRIBUTE_GROUPS(devlink);
 
+<<<<<<< HEAD
 static void device_link_release_fn(struct work_struct *work)
 {
 	struct device_link *link = container_of(work, struct device_link, rm_work);
@@ -459,6 +480,10 @@ static void device_link_release_fn(struct work_struct *work)
 	/* Ensure that all references to the link object have been dropped. */
 	device_link_synchronize_removal();
 
+=======
+static void device_link_free(struct device_link *link)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (refcount_dec_not_one(&link->rpm_active))
 		pm_runtime_put(link->supplier);
 
@@ -467,10 +492,20 @@ static void device_link_release_fn(struct work_struct *work)
 	kfree(link);
 }
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_SRCU
+static void __device_link_free_srcu(struct rcu_head *rhead)
+{
+	device_link_free(container_of(rhead, struct device_link, rcu_head));
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void devlink_dev_release(struct device *dev)
 {
 	struct device_link *link = to_devlink(dev);
 
+<<<<<<< HEAD
 	INIT_WORK(&link->rm_work, device_link_release_fn);
 	/*
 	 * It may take a while to complete this work because of the SRCU
@@ -480,6 +515,16 @@ static void devlink_dev_release(struct device *dev)
 	 */
 	queue_work(system_long_wq, &link->rm_work);
 }
+=======
+	call_srcu(&device_links_srcu, &link->rcu_head, __device_link_free_srcu);
+}
+#else
+static void devlink_dev_release(struct device *dev)
+{
+	device_link_free(to_devlink(dev));
+}
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct class devlink_class = {
 	.name = "devlink",
@@ -592,8 +637,12 @@ postcore_initcall(devlink_class_init);
 #define DL_MANAGED_LINK_FLAGS (DL_FLAG_AUTOREMOVE_CONSUMER | \
 			       DL_FLAG_AUTOREMOVE_SUPPLIER | \
 			       DL_FLAG_AUTOPROBE_CONSUMER  | \
+<<<<<<< HEAD
 			       DL_FLAG_SYNC_STATE_ONLY | \
 			       DL_FLAG_INFERRED)
+=======
+			       DL_FLAG_SYNC_STATE_ONLY)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DL_ADD_VALID_FLAGS (DL_MANAGED_LINK_FLAGS | DL_FLAG_STATELESS | \
 			    DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE)
@@ -662,7 +711,11 @@ struct device_link *device_link_add(struct device *consumer,
 	if (!consumer || !supplier || flags & ~DL_ADD_VALID_FLAGS ||
 	    (flags & DL_FLAG_STATELESS && flags & DL_MANAGED_LINK_FLAGS) ||
 	    (flags & DL_FLAG_SYNC_STATE_ONLY &&
+<<<<<<< HEAD
 	     (flags & ~DL_FLAG_INFERRED) != DL_FLAG_SYNC_STATE_ONLY) ||
+=======
+	     flags != DL_FLAG_SYNC_STATE_ONLY) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (flags & DL_FLAG_AUTOPROBE_CONSUMER &&
 	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
 		      DL_FLAG_AUTOREMOVE_SUPPLIER)))
@@ -718,10 +771,13 @@ struct device_link *device_link_add(struct device *consumer,
 		if (link->consumer != consumer)
 			continue;
 
+<<<<<<< HEAD
 		if (link->flags & DL_FLAG_INFERRED &&
 		    !(flags & DL_FLAG_INFERRED))
 			link->flags &= ~DL_FLAG_INFERRED;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (flags & DL_FLAG_PM_RUNTIME) {
 			if (!(link->flags & DL_FLAG_PM_RUNTIME)) {
 				pm_runtime_new_link(consumer);
@@ -981,10 +1037,13 @@ int device_links_check_suppliers(struct device *dev)
 	mutex_lock(&fwnode_link_lock);
 	if (dev->fwnode && !list_empty(&dev->fwnode->suppliers) &&
 	    !fw_devlink_is_permissive()) {
+<<<<<<< HEAD
 		dev_dbg(dev, "probe deferral - wait for supplier %pfwP\n",
 			list_first_entry(&dev->fwnode->suppliers,
 			struct fwnode_link,
 			c_hook)->supplier);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mutex_unlock(&fwnode_link_lock);
 		return -EPROBE_DEFER;
 	}
@@ -999,8 +1058,11 @@ int device_links_check_suppliers(struct device *dev)
 		if (link->status != DL_STATE_AVAILABLE &&
 		    !(link->flags & DL_FLAG_SYNC_STATE_ONLY)) {
 			device_links_missing_supplier(dev);
+<<<<<<< HEAD
 			dev_dbg(dev, "probe deferral - supplier %s not ready\n",
 				dev_name(link->supplier));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = -EPROBE_DEFER;
 			break;
 		}
@@ -1179,6 +1241,7 @@ void device_links_driver_bound(struct device *dev)
 	LIST_HEAD(sync_list);
 
 	/*
+<<<<<<< HEAD
 	 * If a device binds successfully, it's expected to have created all
 	 * the device links it needs to or make new device links as it needs
 	 * them. So, fw_devlink no longer needs to create device links to any
@@ -1195,6 +1258,14 @@ void device_links_driver_bound(struct device *dev)
 		fwnode_for_each_available_child_node(dev->fwnode, child)
 			fw_devlink_purge_absent_suppliers(child);
 	}
+=======
+	 * If a device probes successfully, it's expected to have created all
+	 * the device links it needs to or make new device links as it needs
+	 * them. So, it no longer needs to wait on any suppliers.
+	 */
+	if (dev->fwnode && dev->fwnode->dev == dev)
+		fwnode_links_purge_suppliers(dev->fwnode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	device_remove_file(dev, &dev_attr_waiting_for_supplier);
 
 	device_links_write_lock();
@@ -1505,6 +1576,7 @@ static void device_links_purge(struct device *dev)
 	device_links_write_unlock();
 }
 
+<<<<<<< HEAD
 #define FW_DEVLINK_FLAGS_PERMISSIVE	(DL_FLAG_INFERRED | \
 					 DL_FLAG_SYNC_STATE_ONLY)
 #define FW_DEVLINK_FLAGS_ON		(DL_FLAG_INFERRED | \
@@ -1513,6 +1585,9 @@ static void device_links_purge(struct device *dev)
 					 DL_FLAG_PM_RUNTIME)
 
 static u32 fw_devlink_flags = FW_DEVLINK_FLAGS_PERMISSIVE;
+=======
+static u32 fw_devlink_flags = DL_FLAG_SYNC_STATE_ONLY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init fw_devlink_setup(char *arg)
 {
 	if (!arg)
@@ -1521,16 +1596,26 @@ static int __init fw_devlink_setup(char *arg)
 	if (strcmp(arg, "off") == 0) {
 		fw_devlink_flags = 0;
 	} else if (strcmp(arg, "permissive") == 0) {
+<<<<<<< HEAD
 		fw_devlink_flags = FW_DEVLINK_FLAGS_PERMISSIVE;
 	} else if (strcmp(arg, "on") == 0) {
 		fw_devlink_flags = FW_DEVLINK_FLAGS_ON;
 	} else if (strcmp(arg, "rpm") == 0) {
 		fw_devlink_flags = FW_DEVLINK_FLAGS_RPM;
+=======
+		fw_devlink_flags = DL_FLAG_SYNC_STATE_ONLY;
+	} else if (strcmp(arg, "on") == 0) {
+		fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER;
+	} else if (strcmp(arg, "rpm") == 0) {
+		fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER |
+				   DL_FLAG_PM_RUNTIME;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return 0;
 }
 early_param("fw_devlink", fw_devlink_setup);
 
+<<<<<<< HEAD
 static bool fw_devlink_strict;
 static int __init fw_devlink_strict_setup(char *arg)
 {
@@ -1538,6 +1623,8 @@ static int __init fw_devlink_strict_setup(char *arg)
 }
 early_param("fw_devlink.strict", fw_devlink_strict_setup);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u32 fw_devlink_get_flags(void)
 {
 	return fw_devlink_flags;
@@ -1545,12 +1632,16 @@ u32 fw_devlink_get_flags(void)
 
 static bool fw_devlink_is_permissive(void)
 {
+<<<<<<< HEAD
 	return fw_devlink_flags == FW_DEVLINK_FLAGS_PERMISSIVE;
 }
 
 bool fw_devlink_is_strict(void)
 {
 	return fw_devlink_strict && !fw_devlink_is_permissive();
+=======
+	return fw_devlink_flags == DL_FLAG_SYNC_STATE_ONLY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void fw_devlink_parse_fwnode(struct fwnode_handle *fwnode)
@@ -1573,6 +1664,7 @@ static void fw_devlink_parse_fwtree(struct fwnode_handle *fwnode)
 }
 
 /**
+<<<<<<< HEAD
  * fw_devlink_relax_cycle - Convert cyclic links to SYNC_STATE_ONLY links
  * @con: Device to check dependencies for.
  * @sup: Device to check against.
@@ -1620,6 +1712,8 @@ static int fw_devlink_relax_cycle(struct device *con, void *sup)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * fw_devlink_create_devlink - Create a device link from a consumer to fwnode
  * @con - Consumer device for the device link
  * @sup_handle - fwnode handle of supplier
@@ -1647,6 +1741,7 @@ static int fw_devlink_create_devlink(struct device *con,
 	sup_dev = get_dev_from_fwnode(sup_handle);
 	if (sup_dev) {
 		/*
+<<<<<<< HEAD
 		 * If it's one of those drivers that don't actually bind to
 		 * their device using driver core, then don't wait on this
 		 * supplier device indefinitely.
@@ -1672,14 +1767,24 @@ static int fw_devlink_create_devlink(struct device *con,
 					FW_DEVLINK_FLAGS_PERMISSIVE);
 			ret = -EINVAL;
 		}
+=======
+		 * If this fails, it is due to cycles in device links.  Just
+		 * give up on this link and treat it as invalid.
+		 */
+		if (!device_link_add(con, sup_dev, flags))
+			ret = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		goto out;
 	}
 
+<<<<<<< HEAD
 	/* Supplier that's already initialized without a struct device. */
 	if (sup_handle->flags & FWNODE_FLAG_INITIALIZED)
 		return -EINVAL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * DL_FLAG_SYNC_STATE_ONLY doesn't block probing and supports
 	 * cycles. So cycle detection isn't necessary and shouldn't be
@@ -1768,7 +1873,11 @@ static void __fw_devlink_link_to_consumers(struct device *dev)
 				con_dev = NULL;
 			} else {
 				own_link = false;
+<<<<<<< HEAD
 				dl_flags = FW_DEVLINK_FLAGS_PERMISSIVE;
+=======
+				dl_flags = DL_FLAG_SYNC_STATE_ONLY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 
@@ -1823,7 +1932,11 @@ static void __fw_devlink_link_to_suppliers(struct device *dev,
 	if (own_link)
 		dl_flags = fw_devlink_get_flags();
 	else
+<<<<<<< HEAD
 		dl_flags = FW_DEVLINK_FLAGS_PERMISSIVE;
+=======
+		dl_flags = DL_FLAG_SYNC_STATE_ONLY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry_safe(link, tmp, &fwnode->suppliers, c_hook) {
 		int ret;
@@ -2740,11 +2853,14 @@ void device_initialize(struct device *dev)
 	INIT_LIST_HEAD(&dev->links.suppliers);
 	INIT_LIST_HEAD(&dev->links.defer_sync);
 	dev->links.status = DL_DEV_NO_DRIVER;
+<<<<<<< HEAD
 #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
 	dev->dma_coherent = dma_default_coherent;
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(device_initialize);
 

@@ -29,6 +29,10 @@
 #define pr_fmt(fmt) "[TTM] " fmt
 
 #include <drm/ttm/ttm_memory.h>
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/spinlock.h>
 #include <linux/sched.h>
 #include <linux/wait.h>
@@ -38,8 +42,11 @@
 #include <linux/swap.h>
 #include <drm/ttm/ttm_pool.h>
 
+<<<<<<< HEAD
 #include "ttm_module.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TTM_MEMORY_ALLOC_RETRIES 4
 
 struct ttm_mem_global ttm_mem_glob;

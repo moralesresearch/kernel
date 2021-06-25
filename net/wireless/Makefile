@@ -28,7 +28,11 @@ $(obj)/shipped-certs.c: $(wildcard $(srctree)/$(src)/certs/*.hex)
 	@$(kecho) "  GEN     $@"
 	@(echo '#include "reg.h"'; \
 	  echo 'const u8 shipped_regdb_certs[] = {'; \
+<<<<<<< HEAD
 	  echo | cat - $^ ; \
+=======
+	  cat $^ ; \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  echo '};'; \
 	  echo 'unsigned int shipped_regdb_certs_len = sizeof(shipped_regdb_certs);'; \
 	 ) > $@

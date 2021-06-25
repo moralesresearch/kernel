@@ -165,6 +165,10 @@ MODULE_AUTHOR
 );
 MODULE_DESCRIPTION("RME HDSPM");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{RME HDSPM-MADI}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* --- Write registers. ---
   These are defined as byte-offsets from the iobase value.  */
@@ -6328,7 +6332,11 @@ static int snd_hdspm_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
 		memset(&hdspm_version, 0, sizeof(hdspm_version));
 
 		hdspm_version.card_type = hdspm->io_type;
+<<<<<<< HEAD
 		strscpy(hdspm_version.cardname, hdspm->card_name,
+=======
+		strlcpy(hdspm_version.cardname, hdspm->card_name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				sizeof(hdspm_version.cardname));
 		hdspm_version.serial = hdspm->serial;
 		hdspm_version.firmware_rev = hdspm->firmware_rev;
@@ -6883,8 +6891,12 @@ static int snd_hdspm_free(struct hdspm * hdspm)
 	if (hdspm->port)
 		pci_release_regions(hdspm->pci);
 
+<<<<<<< HEAD
 	if (pci_is_enabled(hdspm->pci))
 		pci_disable_device(hdspm->pci);
+=======
+	pci_disable_device(hdspm->pci);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

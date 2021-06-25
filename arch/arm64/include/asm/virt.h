@@ -35,6 +35,7 @@
  */
 #define HVC_RESET_VECTORS 2
 
+<<<<<<< HEAD
 /*
  * HVC_VHE_RESTART - Upgrade the CPU from EL1 to EL2, if possible
  */
@@ -42,6 +43,10 @@
 
 /* Max number of HYP stub hypercalls */
 #define HVC_STUB_HCALL_NR 4
+=======
+/* Max number of HYP stub hypercalls */
+#define HVC_STUB_HCALL_NR 3
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Error returned when an invalid stub number is passed into x0 */
 #define HVC_STUB_ERR	0xbadca11

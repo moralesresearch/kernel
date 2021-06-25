@@ -1852,6 +1852,7 @@ static enum sctp_disposition sctp_sf_do_dupcook_a(
 			SCTP_TO(SCTP_EVENT_TIMEOUT_T4_RTO));
 	sctp_add_cmd_sf(commands, SCTP_CMD_PURGE_ASCONF_QUEUE, SCTP_NULL());
 
+<<<<<<< HEAD
 	/* Update the content of current association. */
 	if (sctp_assoc_update((struct sctp_association *)asoc, new_asoc)) {
 		struct sctp_chunk *abort;
@@ -1870,17 +1871,30 @@ static enum sctp_disposition sctp_sf_do_dupcook_a(
 	}
 
 	repl = sctp_make_cookie_ack(asoc, chunk);
+=======
+	repl = sctp_make_cookie_ack(new_asoc, chunk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!repl)
 		goto nomem;
 
 	/* Report association restart to upper layer. */
 	ev = sctp_ulpevent_make_assoc_change(asoc, 0, SCTP_RESTART, 0,
+<<<<<<< HEAD
 					     asoc->c.sinit_num_ostreams,
 					     asoc->c.sinit_max_instreams,
+=======
+					     new_asoc->c.sinit_num_ostreams,
+					     new_asoc->c.sinit_max_instreams,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     NULL, GFP_ATOMIC);
 	if (!ev)
 		goto nomem_ev;
 
+<<<<<<< HEAD
+=======
+	/* Update the content of current association. */
+	sctp_add_cmd_sf(commands, SCTP_CMD_UPDATE_ASSOC, SCTP_ASOC(new_asoc));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sctp_add_cmd_sf(commands, SCTP_CMD_EVENT_ULP, SCTP_ULPEVENT(ev));
 	if ((sctp_state(asoc, SHUTDOWN_PENDING) ||
 	     sctp_state(asoc, SHUTDOWN_SENT)) &&
@@ -1944,8 +1958,12 @@ static enum sctp_disposition sctp_sf_do_dupcook_b(
 	sctp_add_cmd_sf(commands, SCTP_CMD_UPDATE_ASSOC, SCTP_ASOC(new_asoc));
 	sctp_add_cmd_sf(commands, SCTP_CMD_NEW_STATE,
 			SCTP_STATE(SCTP_STATE_ESTABLISHED));
+<<<<<<< HEAD
 	if (asoc->state < SCTP_STATE_ESTABLISHED)
 		SCTP_INC_STATS(net, SCTP_MIB_CURRESTAB);
+=======
+	SCTP_INC_STATS(net, SCTP_MIB_CURRESTAB);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sctp_add_cmd_sf(commands, SCTP_CMD_HB_TIMERS_START, SCTP_NULL());
 
 	repl = sctp_make_cookie_ack(new_asoc, chunk);

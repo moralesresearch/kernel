@@ -201,7 +201,10 @@ static inline unsigned int ima_hash_key(u8 *digest)
 	hook(POLICY_CHECK, policy)			\
 	hook(KEXEC_CMDLINE, kexec_cmdline)		\
 	hook(KEY_CHECK, key)				\
+<<<<<<< HEAD
 	hook(CRITICAL_DATA, critical_data)		\
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hook(MAX_CHECK, none)
 
 #define __ima_hook_enumify(ENUM, str)	ENUM,
@@ -254,11 +257,18 @@ static inline void ima_process_queued_keys(void) {}
 #endif /* CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS */
 
 /* LIM API function definitions */
+<<<<<<< HEAD
 int ima_get_action(struct user_namespace *mnt_userns, struct inode *inode,
 		   const struct cred *cred, u32 secid, int mask,
 		   enum ima_hooks func, int *pcr,
 		   struct ima_template_desc **template_desc,
 		   const char *func_data);
+=======
+int ima_get_action(struct inode *inode, const struct cred *cred, u32 secid,
+		   int mask, enum ima_hooks func, int *pcr,
+		   struct ima_template_desc **template_desc,
+		   const char *keyring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ima_must_measure(struct inode *inode, int mask, enum ima_hooks func);
 int ima_collect_measurement(struct integrity_iint_cache *iint,
 			    struct file *file, void *buf, loff_t size,
@@ -268,11 +278,17 @@ void ima_store_measurement(struct integrity_iint_cache *iint, struct file *file,
 			   struct evm_ima_xattr_data *xattr_value,
 			   int xattr_len, const struct modsig *modsig, int pcr,
 			   struct ima_template_desc *template_desc);
+<<<<<<< HEAD
 void process_buffer_measurement(struct user_namespace *mnt_userns,
 				struct inode *inode, const void *buf, int size,
 				const char *eventname, enum ima_hooks func,
 				int pcr, const char *func_data,
 				bool buf_hash);
+=======
+void process_buffer_measurement(struct inode *inode, const void *buf, int size,
+				const char *eventname, enum ima_hooks func,
+				int pcr, const char *keyring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ima_audit_measurement(struct integrity_iint_cache *iint,
 			   const unsigned char *filename);
 int ima_alloc_init_template(struct ima_event_data *event_data,
@@ -285,11 +301,18 @@ void ima_free_template_entry(struct ima_template_entry *entry);
 const char *ima_d_path(const struct path *path, char **pathbuf, char *filename);
 
 /* IMA policy related functions */
+<<<<<<< HEAD
 int ima_match_policy(struct user_namespace *mnt_userns, struct inode *inode,
 		     const struct cred *cred, u32 secid, enum ima_hooks func,
 		     int mask, int flags, int *pcr,
 		     struct ima_template_desc **template_desc,
 		     const char *func_data);
+=======
+int ima_match_policy(struct inode *inode, const struct cred *cred, u32 secid,
+		     enum ima_hooks func, int mask, int flags, int *pcr,
+		     struct ima_template_desc **template_desc,
+		     const char *keyring);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ima_init_policy(void);
 void ima_update_policy(void);
 void ima_update_policy_flag(void);
@@ -318,8 +341,12 @@ int ima_appraise_measurement(enum ima_hooks func,
 			     struct file *file, const unsigned char *filename,
 			     struct evm_ima_xattr_data *xattr_value,
 			     int xattr_len, const struct modsig *modsig);
+<<<<<<< HEAD
 int ima_must_appraise(struct user_namespace *mnt_userns, struct inode *inode,
 		      int mask, enum ima_hooks func);
+=======
+int ima_must_appraise(struct inode *inode, int mask, enum ima_hooks func);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ima_update_xattr(struct integrity_iint_cache *iint, struct file *file);
 enum integrity_status ima_get_cache_status(struct integrity_iint_cache *iint,
 					   enum ima_hooks func);
@@ -346,8 +373,12 @@ static inline int ima_appraise_measurement(enum ima_hooks func,
 	return INTEGRITY_UNKNOWN;
 }
 
+<<<<<<< HEAD
 static inline int ima_must_appraise(struct user_namespace *mnt_userns,
 				    struct inode *inode, int mask,
+=======
+static inline int ima_must_appraise(struct inode *inode, int mask,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    enum ima_hooks func)
 {
 	return 0;

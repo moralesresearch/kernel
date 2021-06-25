@@ -302,7 +302,11 @@ static int eem_bind(struct usb_configuration *c, struct usb_function *f)
 	eem_ss_out_desc.bEndpointAddress = eem_fs_out_desc.bEndpointAddress;
 
 	status = usb_assign_descriptors(f, eem_fs_function, eem_hs_function,
+<<<<<<< HEAD
 			eem_ss_function, eem_ss_function);
+=======
+			eem_ss_function, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto fail;
 
@@ -495,7 +499,11 @@ static int eem_unwrap(struct gether *port,
 			skb2 = skb_clone(skb, GFP_ATOMIC);
 			if (unlikely(!skb2)) {
 				DBG(cdev, "unable to unframe EEM packet\n");
+<<<<<<< HEAD
 				goto next;
+=======
+				continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			skb_trim(skb2, len - ETH_FCS_LEN);
 
@@ -505,7 +513,11 @@ static int eem_unwrap(struct gether *port,
 						GFP_ATOMIC);
 			if (unlikely(!skb3)) {
 				dev_kfree_skb_any(skb2);
+<<<<<<< HEAD
 				goto next;
+=======
+				continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			dev_kfree_skb_any(skb2);
 			skb_queue_tail(list, skb3);

@@ -520,8 +520,21 @@ static ssize_t dlpar_store(struct class *class, struct class_attribute *attr,
 	int rc;
 
 	args = argbuf = kstrdup(buf, GFP_KERNEL);
+<<<<<<< HEAD
 	if (!argbuf)
 		return -ENOMEM;
+=======
+<<<<<<< HEAD
+	if (!argbuf)
+		return -ENOMEM;
+=======
+	if (!argbuf) {
+		pr_info("Could not allocate resources for DLPAR operation\n");
+		kfree(argbuf);
+		return -ENOMEM;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Parse out the request from the user, this will be in the form:

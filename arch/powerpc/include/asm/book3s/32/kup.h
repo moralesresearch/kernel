@@ -95,12 +95,20 @@ static inline void kuap_update_sr(u32 sr, u32 addr, u32 end)
 	addr &= 0xf0000000;	/* align addr to start of segment */
 	barrier();	/* make sure thread.kuap is updated before playing with SRs */
 	while (addr < end) {
+<<<<<<< HEAD
 		mtsr(sr, addr);
+=======
+		mtsrin(sr, addr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sr += 0x111;		/* next VSID */
 		sr &= 0xf0ffffff;	/* clear VSID overflow */
 		addr += 0x10000000;	/* address of next segment */
 	}
+<<<<<<< HEAD
 	isync();	/* Context sync required after mtsr() */
+=======
+	isync();	/* Context sync required after mtsrin() */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __always_inline void allow_user_access(void __user *to, const void __user *from,
@@ -122,7 +130,11 @@ static __always_inline void allow_user_access(void __user *to, const void __user
 	end = min(addr + size, TASK_SIZE);
 
 	current->thread.kuap = (addr & 0xf0000000) | ((((end - 1) >> 28) + 1) & 0xf);
+<<<<<<< HEAD
 	kuap_update_sr(mfsr(addr) & ~SR_KS, addr, end);	/* Clear Ks */
+=======
+	kuap_update_sr(mfsrin(addr) & ~SR_KS, addr, end);	/* Clear Ks */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __always_inline void prevent_user_access(void __user *to, const void __user *from,
@@ -151,7 +163,11 @@ static __always_inline void prevent_user_access(void __user *to, const void __us
 	}
 
 	current->thread.kuap = 0;
+<<<<<<< HEAD
 	kuap_update_sr(mfsr(addr) | SR_KS, addr, end);	/* set Ks */
+=======
+	kuap_update_sr(mfsrin(addr) | SR_KS, addr, end);	/* set Ks */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned long prevent_user_access_return(void)

@@ -251,7 +251,11 @@ int v9fs_init_inode(struct v9fs_session_info *v9ses,
 {
 	int err = 0;
 
+<<<<<<< HEAD
 	inode_init_owner(&init_user_ns,inode,  NULL, mode);
+=======
+	inode_init_owner(inode, NULL, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_blocks = 0;
 	inode->i_rdev = rdev;
 	inode->i_atime = inode->i_mtime = inode->i_ctime = current_time(inode);
@@ -676,8 +680,13 @@ error:
  */
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 		struct dentry *dentry, umode_t mode, bool excl)
+=======
+v9fs_vfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+		bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct v9fs_session_info *v9ses = v9fs_inode2v9ses(dir);
 	u32 perm = unixmode2p9mode(v9ses, mode);
@@ -702,8 +711,12 @@ v9fs_vfs_create(struct user_namespace *mnt_userns, struct inode *dir,
  *
  */
 
+<<<<<<< HEAD
 static int v9fs_vfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 			  struct dentry *dentry, umode_t mode)
+=======
+static int v9fs_vfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	u32 perm;
@@ -908,9 +921,15 @@ int v9fs_vfs_rmdir(struct inode *i, struct dentry *d)
  */
 
 int
+<<<<<<< HEAD
 v9fs_vfs_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
 		struct dentry *old_dentry, struct inode *new_dir,
 		struct dentry *new_dentry, unsigned int flags)
+=======
+v9fs_vfs_rename(struct inode *old_dir, struct dentry *old_dentry,
+		struct inode *new_dir, struct dentry *new_dentry,
+		unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval;
 	struct inode *old_inode;
@@ -1017,8 +1036,13 @@ done:
  */
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		 struct kstat *stat, u32 request_mask, unsigned int flags)
+=======
+v9fs_vfs_getattr(const struct path *path, struct kstat *stat,
+		 u32 request_mask, unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *dentry = path->dentry;
 	struct v9fs_session_info *v9ses;
@@ -1028,7 +1052,11 @@ v9fs_vfs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 	p9_debug(P9_DEBUG_VFS, "dentry: %p\n", dentry);
 	v9ses = v9fs_dentry2v9ses(dentry);
 	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
+<<<<<<< HEAD
 		generic_fillattr(&init_user_ns, d_inode(dentry), stat);
+=======
+		generic_fillattr(d_inode(dentry), stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 	fid = v9fs_fid_lookup(dentry);
@@ -1041,7 +1069,11 @@ v9fs_vfs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		return PTR_ERR(st);
 
 	v9fs_stat2inode(st, d_inode(dentry), dentry->d_sb, 0);
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, d_inode(dentry), stat);
+=======
+	generic_fillattr(d_inode(dentry), stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	p9stat_free(st);
 	kfree(st);
@@ -1055,8 +1087,12 @@ v9fs_vfs_getattr(struct user_namespace *mnt_userns, const struct path *path,
  *
  */
 
+<<<<<<< HEAD
 static int v9fs_vfs_setattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry, struct iattr *iattr)
+=======
+static int v9fs_vfs_setattr(struct dentry *dentry, struct iattr *iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval, use_dentry = 0;
 	struct v9fs_session_info *v9ses;
@@ -1064,7 +1100,11 @@ static int v9fs_vfs_setattr(struct user_namespace *mnt_userns,
 	struct p9_wstat wstat;
 
 	p9_debug(P9_DEBUG_VFS, "\n");
+<<<<<<< HEAD
 	retval = setattr_prepare(&init_user_ns, dentry, iattr);
+=======
+	retval = setattr_prepare(dentry, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (retval)
 		return retval;
 
@@ -1120,7 +1160,11 @@ static int v9fs_vfs_setattr(struct user_namespace *mnt_userns,
 
 	v9fs_invalidate_inode_attr(d_inode(dentry));
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, d_inode(dentry), iattr);
+=======
+	setattr_copy(d_inode(dentry), iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(d_inode(dentry));
 	return 0;
 }
@@ -1139,6 +1183,12 @@ v9fs_stat2inode(struct p9_wstat *stat, struct inode *inode,
 		 struct super_block *sb, unsigned int flags)
 {
 	umode_t mode;
+<<<<<<< HEAD
+=======
+	char ext[32];
+	char tag_name[14];
+	unsigned int i_nlink;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v9fs_session_info *v9ses = sb->s_fs_info;
 	struct v9fs_inode *v9inode = V9FS_I(inode);
 
@@ -1156,6 +1206,7 @@ v9fs_stat2inode(struct p9_wstat *stat, struct inode *inode,
 		inode->i_gid = stat->n_gid;
 	}
 	if ((S_ISREG(inode->i_mode)) || (S_ISDIR(inode->i_mode))) {
+<<<<<<< HEAD
 		if (v9fs_proto_dotu(v9ses)) {
 			unsigned int i_nlink;
 			/*
@@ -1168,6 +1219,20 @@ v9fs_stat2inode(struct p9_wstat *stat, struct inode *inode,
 			/* HARDLINKCOUNT %u */
 			if (sscanf(stat->extension,
 				   " HARDLINKCOUNT %u", &i_nlink) == 1)
+=======
+		if (v9fs_proto_dotu(v9ses) && (stat->extension[0] != '\0')) {
+			/*
+			 * Hadlink support got added later to
+			 * to the .u extension. So there can be
+			 * server out there that doesn't support
+			 * this even with .u extension. So check
+			 * for non NULL stat->extension
+			 */
+			strlcpy(ext, stat->extension, sizeof(ext));
+			/* HARDLINKCOUNT %u */
+			sscanf(ext, "%13s %u", tag_name, &i_nlink);
+			if (!strncmp(tag_name, "HARDLINKCOUNT", 13))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				set_nlink(inode, i_nlink);
 		}
 	}
@@ -1294,8 +1359,12 @@ static int v9fs_vfs_mkspecial(struct inode *dir, struct dentry *dentry,
  */
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 		 struct dentry *dentry, const char *symname)
+=======
+v9fs_vfs_symlink(struct inode *dir, struct dentry *dentry, const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	p9_debug(P9_DEBUG_VFS, " %lu,%pd,%s\n",
 		 dir->i_ino, dentry, symname);
@@ -1348,8 +1417,12 @@ v9fs_vfs_link(struct dentry *old_dentry, struct inode *dir,
  */
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	       struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+v9fs_vfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct v9fs_session_info *v9ses = v9fs_inode2v9ses(dir);
 	int retval;

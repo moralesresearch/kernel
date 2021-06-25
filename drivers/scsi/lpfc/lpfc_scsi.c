@@ -5479,9 +5479,12 @@ lpfc_abort_handler(struct scsi_cmnd *cmnd)
 						     lpfc_sli_abort_fcp_cmpl);
 	}
 
+<<<<<<< HEAD
 	/* Make sure HBA is alive */
 	lpfc_issue_hb_tmo(phba);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret_val != IOCB_SUCCESS) {
 		/* Indicate the IO is not being aborted by the driver. */
 		lpfc_cmd->waitq = NULL;
@@ -5852,7 +5855,10 @@ lpfc_device_reset_handler(struct scsi_cmnd *cmnd)
 	uint64_t lun_id = cmnd->device->lun;
 	struct lpfc_scsi_event_header scsi_event;
 	int status;
+<<<<<<< HEAD
 	u32 logit = LOG_FCP;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rdata = lpfc_rport_data_from_scsi_device(cmnd->device);
 	if (!rdata || !rdata->pnode) {
@@ -5884,10 +5890,15 @@ lpfc_device_reset_handler(struct scsi_cmnd *cmnd)
 
 	status = lpfc_send_taskmgmt(vport, cmnd, tgt_id, lun_id,
 						FCP_LUN_RESET);
+<<<<<<< HEAD
 	if (status != SUCCESS)
 		logit =  LOG_TRACE_EVENT;
 
 	lpfc_printf_vlog(vport, KERN_ERR, logit,
+=======
+
+	lpfc_printf_vlog(vport, KERN_ERR, LOG_TRACE_EVENT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 "0713 SCSI layer issued Device Reset (%d, %llu) "
 			 "return x%x\n", tgt_id, lun_id, status);
 
@@ -5926,9 +5937,12 @@ lpfc_target_reset_handler(struct scsi_cmnd *cmnd)
 	uint64_t lun_id = cmnd->device->lun;
 	struct lpfc_scsi_event_header scsi_event;
 	int status;
+<<<<<<< HEAD
 	u32 logit = LOG_FCP;
 	unsigned long flags;
 	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(waitq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rdata = lpfc_rport_data_from_scsi_device(cmnd->device);
 	if (!rdata || !rdata->pnode) {
@@ -5947,10 +5961,17 @@ lpfc_target_reset_handler(struct scsi_cmnd *cmnd)
 		lpfc_printf_vlog(vport, KERN_ERR, LOG_TRACE_EVENT,
 			"0722 Target Reset rport failure: rdata x%px\n", rdata);
 		if (pnode) {
+<<<<<<< HEAD
 			spin_lock_irqsave(&pnode->lock, flags);
 			pnode->nlp_flag &= ~NLP_NPR_ADISC;
 			pnode->nlp_fcp_info &= ~NLP_FCP_2_DEVICE;
 			spin_unlock_irqrestore(&pnode->lock, flags);
+=======
+			spin_lock_irq(&pnode->lock);
+			pnode->nlp_flag &= ~NLP_NPR_ADISC;
+			pnode->nlp_fcp_info &= ~NLP_FCP_2_DEVICE;
+			spin_unlock_irq(&pnode->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		lpfc_reset_flush_io_context(vport, tgt_id, lun_id,
 					  LPFC_CTX_TGT);
@@ -5968,6 +5989,7 @@ lpfc_target_reset_handler(struct scsi_cmnd *cmnd)
 
 	status = lpfc_send_taskmgmt(vport, cmnd, tgt_id, lun_id,
 					FCP_TARGET_RESET);
+<<<<<<< HEAD
 	if (status != SUCCESS)
 		logit =  LOG_TRACE_EVENT;
 	spin_lock_irqsave(&pnode->lock, flags);
@@ -6004,6 +6026,10 @@ lpfc_target_reset_handler(struct scsi_cmnd *cmnd)
 	}
 
 	lpfc_printf_vlog(vport, KERN_ERR, logit,
+=======
+
+	lpfc_printf_vlog(vport, KERN_ERR, LOG_TRACE_EVENT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 "0723 SCSI layer issued Target Reset (%d, %llu) "
 			 "return x%x\n", tgt_id, lun_id, status);
 
@@ -6039,7 +6065,10 @@ lpfc_bus_reset_handler(struct scsi_cmnd *cmnd)
 	struct lpfc_scsi_event_header scsi_event;
 	int match;
 	int ret = SUCCESS, status, i;
+<<<<<<< HEAD
 	u32 logit = LOG_FCP;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	scsi_event.event_type = FC_REG_SCSI_EVENT;
 	scsi_event.subcategory = LPFC_EVENT_BUSRESET;
@@ -6100,10 +6129,15 @@ lpfc_bus_reset_handler(struct scsi_cmnd *cmnd)
 	status = lpfc_reset_flush_io_context(vport, 0, 0, LPFC_CTX_HOST);
 	if (status != SUCCESS)
 		ret = FAILED;
+<<<<<<< HEAD
 	if (ret == FAILED)
 		logit =  LOG_TRACE_EVENT;
 
 	lpfc_printf_vlog(vport, KERN_ERR, logit,
+=======
+
+	lpfc_printf_vlog(vport, KERN_ERR, LOG_TRACE_EVENT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 "0714 SCSI layer issued Bus Reset Data: x%x\n", ret);
 	return ret;
 }
@@ -6132,7 +6166,11 @@ lpfc_host_reset_handler(struct scsi_cmnd *cmnd)
 	struct lpfc_hba *phba = vport->phba;
 	int rc, ret = SUCCESS;
 
+<<<<<<< HEAD
 	lpfc_printf_vlog(vport, KERN_ERR, LOG_FCP,
+=======
+	lpfc_printf_vlog(vport, KERN_ERR, LOG_TRACE_EVENT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 "3172 SCSI layer issued Host Reset Data:\n");
 
 	lpfc_offline_prep(phba, LPFC_MBX_WAIT);
@@ -6708,7 +6746,10 @@ struct scsi_host_template lpfc_template = {
 	.info			= lpfc_info,
 	.queuecommand		= lpfc_queuecommand,
 	.eh_timed_out		= fc_eh_timed_out,
+<<<<<<< HEAD
 	.eh_should_retry_cmd    = fc_eh_should_retry_cmd,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.eh_abort_handler	= lpfc_abort_handler,
 	.eh_device_reset_handler = lpfc_device_reset_handler,
 	.eh_target_reset_handler = lpfc_target_reset_handler,

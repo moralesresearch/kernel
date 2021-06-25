@@ -358,7 +358,10 @@ void rts5227_init_params(struct rtsx_pcr *pcr)
 	pcr->sd30_drive_sel_1v8 = CFG_DRIVER_TYPE_B;
 	pcr->sd30_drive_sel_3v3 = CFG_DRIVER_TYPE_B;
 	pcr->aspm_en = ASPM_L1_EN;
+<<<<<<< HEAD
 	pcr->aspm_mode = ASPM_MODE_CFG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(27, 27, 15);
 	pcr->rx_initial_phase = SET_CLOCK_PHASE(30, 7, 7);
 
@@ -484,7 +487,10 @@ void rts522a_init_params(struct rtsx_pcr *pcr)
 
 	rts5227_init_params(pcr);
 	pcr->ops = &rts522a_pcr_ops;
+<<<<<<< HEAD
 	pcr->aspm_mode = ASPM_MODE_REG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(20, 20, 11);
 	pcr->reg_pm_ctrl3 = RTS522A_PM_CTRL3;
 

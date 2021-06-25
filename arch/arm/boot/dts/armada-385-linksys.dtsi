@@ -148,8 +148,11 @@
 		reg = <0>;
 		label = "pxa3xx_nand-0";
 		nand-rb = <0>;
+<<<<<<< HEAD
 		nand-ecc-strength = <4>;
 		nand-ecc-step-size = <512>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		marvell,nand-keep-config;
 		nand-on-flash-bbt;
 	};

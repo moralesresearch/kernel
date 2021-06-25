@@ -40,7 +40,14 @@
 #include <linux/security.h>
 #include <linux/smp.h>
 #include <linux/profile.h>
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+<<<<<<< HEAD
+#include <linux/kfence.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/rcupdate.h>
 #include <linux/moduleparam.h>
 #include <linux/kallsyms.h>
@@ -75,6 +82,13 @@
 #include <linux/kgdb.h>
 #include <linux/ftrace.h>
 #include <linux/async.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <linux/sfi.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/shmem_fs.h>
 #include <linux/slab.h>
 #include <linux/perf_event.h>
@@ -97,7 +111,14 @@
 #include <linux/mem_encrypt.h>
 #include <linux/kcsan.h>
 #include <linux/init_syscalls.h>
+<<<<<<< HEAD
 #include <linux/stackdepot.h>
+=======
+<<<<<<< HEAD
+#include <linux/stackdepot.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/io.h>
 #include <asm/bugs.h>
@@ -826,9 +847,19 @@ static void __init mm_init(void)
 	 */
 	page_ext_init_flatmem();
 	init_mem_debugging_and_hardening();
+<<<<<<< HEAD
 	kfence_alloc_pool();
 	report_meminit();
 	stack_depot_init();
+=======
+<<<<<<< HEAD
+	kfence_alloc_pool();
+	report_meminit();
+	stack_depot_init();
+=======
+	report_meminit();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mem_init();
 	/* page_owner must be initialized after buddy is ready */
 	page_ext_init_flatmem_late();
@@ -959,7 +990,14 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
 	hrtimers_init();
 	softirq_init();
 	timekeeping_init();
+<<<<<<< HEAD
 	kfence_init();
+=======
+<<<<<<< HEAD
+	kfence_init();
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * For best initial stack canary entropy, prepare it after:
@@ -1058,6 +1096,13 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
 
 	acpi_subsystem_init();
 	arch_post_acpi_subsys_init();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	sfi_init_late();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kcsan_init();
 
 	/* Do the rest non-__init'ed, we're now alive */
@@ -1514,7 +1559,11 @@ static noinline void __init kernel_init_freeable(void)
 	 */
 	set_mems_allowed(node_states[N_MEMORY]);
 
+<<<<<<< HEAD
 	cad_pid = get_pid(task_pid(current));
+=======
+	cad_pid = task_pid(current);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	smp_prepare_cpus(setup_max_cpus);
 

@@ -32,7 +32,11 @@ There are helpers to lock/unlock a table and other accessor functions:
 
 Split page table lock for PTE tables is enabled compile-time if
 CONFIG_SPLIT_PTLOCK_CPUS (usually 4) is less or equal to NR_CPUS.
+<<<<<<< HEAD
 If split lock is disabled, all tables are guarded by mm->page_table_lock.
+=======
+If split lock is disabled, all tables guaded by mm->page_table_lock.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Split page table lock for PMD tables is enabled, if it's enabled for PTE
 tables and the architecture supports it (see below).

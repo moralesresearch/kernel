@@ -171,7 +171,11 @@ static inline void ptrace_event(int event, unsigned long message)
  *
  * Check whether @event is enabled and, if so, report @event and @pid
  * to the ptrace parent.  @pid is reported as the pid_t seen from the
+<<<<<<< HEAD
  * ptrace parent's pid namespace.
+=======
+ * the ptrace parent's pid namespace.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Called without locks.
  */

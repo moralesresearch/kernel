@@ -789,7 +789,11 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
 	ss_notify_desc.bEndpointAddress = fs_notify_desc.bEndpointAddress;
 
 	status = usb_assign_descriptors(f, eth_fs_function, eth_hs_function,
+<<<<<<< HEAD
 			eth_ss_function, eth_ss_function);
+=======
+			eth_ss_function, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		goto fail;
 

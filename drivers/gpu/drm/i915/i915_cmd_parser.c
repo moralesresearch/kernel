@@ -26,7 +26,14 @@
  */
 
 #include "gt/intel_engine.h"
+<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
+=======
+<<<<<<< HEAD
+#include "gt/intel_gpu_commands.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "i915_drv.h"
 #include "i915_memcpy.h"
@@ -1150,7 +1157,15 @@ static u32 *copy_batch(struct drm_i915_gem_object *dst_obj,
 	void *dst, *src;
 	int ret;
 
+<<<<<<< HEAD
 	dst = i915_gem_object_pin_map(dst_obj, I915_MAP_WB);
+=======
+<<<<<<< HEAD
+	dst = i915_gem_object_pin_map(dst_obj, I915_MAP_WB);
+=======
+	dst = i915_gem_object_pin_map(dst_obj, I915_MAP_FORCE_WB);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(dst))
 		return dst;
 

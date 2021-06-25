@@ -340,7 +340,11 @@ static struct platform_driver ti_emif_driver = {
 	.remove = ti_emif_remove,
 	.driver = {
 		.name = KBUILD_MODNAME,
+<<<<<<< HEAD
 		.of_match_table = ti_emif_of_match,
+=======
+		.of_match_table = of_match_ptr(ti_emif_of_match),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.pm = &ti_emif_pm_ops,
 	},
 };

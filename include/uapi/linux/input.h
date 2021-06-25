@@ -84,7 +84,11 @@ struct input_id {
  * in units per radian.
  * When INPUT_PROP_ACCELEROMETER is set the resolution changes.
  * The main axes (ABS_X, ABS_Y, ABS_Z) are then reported in
+<<<<<<< HEAD
  * units per g (units/g) and in units per degree per second
+=======
+ * in units per g (units/g) and in units per degree per second
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * (units/deg/s) for rotational axes (ABS_RX, ABS_RY, ABS_RZ).
  */
 struct input_absinfo {

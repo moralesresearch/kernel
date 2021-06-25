@@ -476,7 +476,11 @@ static int rockchip_spi_prepare_dma(struct rockchip_spi *rs,
 	return 1;
 }
 
+<<<<<<< HEAD
 static int rockchip_spi_config(struct rockchip_spi *rs,
+=======
+static void rockchip_spi_config(struct rockchip_spi *rs,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct spi_device *spi, struct spi_transfer *xfer,
 		bool use_dma, bool slave_mode)
 {
@@ -521,9 +525,13 @@ static int rockchip_spi_config(struct rockchip_spi *rs,
 		 * ctlr->bits_per_word_mask, so this shouldn't
 		 * happen
 		 */
+<<<<<<< HEAD
 		dev_err(rs->dev, "unknown bits per word: %d\n",
 			xfer->bits_per_word);
 		return -EINVAL;
+=======
+		unreachable();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (use_dma) {
@@ -556,8 +564,11 @@ static int rockchip_spi_config(struct rockchip_spi *rs,
 	 */
 	writel_relaxed(2 * DIV_ROUND_UP(rs->freq, 2 * xfer->speed_hz),
 			rs->regs + ROCKCHIP_SPI_BAUDR);
+<<<<<<< HEAD
 
 	return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static size_t rockchip_spi_max_transfer_size(struct spi_device *spi)
@@ -570,7 +581,11 @@ static int rockchip_spi_slave_abort(struct spi_controller *ctlr)
 	struct rockchip_spi *rs = spi_controller_get_devdata(ctlr);
 
 	rs->slave_abort = true;
+<<<<<<< HEAD
 	spi_finalize_current_transfer(ctlr);
+=======
+	complete(&ctlr->xfer_completion);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -581,7 +596,10 @@ static int rockchip_spi_transfer_one(
 		struct spi_transfer *xfer)
 {
 	struct rockchip_spi *rs = spi_controller_get_devdata(ctlr);
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool use_dma;
 
 	WARN_ON(readl_relaxed(rs->regs + ROCKCHIP_SPI_SSIENR) &&
@@ -601,9 +619,13 @@ static int rockchip_spi_transfer_one(
 
 	use_dma = ctlr->can_dma ? ctlr->can_dma(ctlr, spi, xfer) : false;
 
+<<<<<<< HEAD
 	ret = rockchip_spi_config(rs, spi, xfer, use_dma, ctlr->slave);
 	if (ret)
 		return ret;
+=======
+	rockchip_spi_config(rs, spi, xfer, use_dma, ctlr->slave);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (use_dma)
 		return rockchip_spi_prepare_dma(rs, ctlr, xfer);

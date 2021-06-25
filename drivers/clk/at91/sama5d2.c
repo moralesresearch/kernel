@@ -372,5 +372,9 @@ static void __init sama5d2_pmc_setup(struct device_node *np)
 err_free:
 	kfree(sama5d2_pmc);
 }
+<<<<<<< HEAD
 
 CLK_OF_DECLARE(sama5d2_pmc, "atmel,sama5d2-pmc", sama5d2_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(sama5d2_pmc, "atmel,sama5d2-pmc", sama5d2_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

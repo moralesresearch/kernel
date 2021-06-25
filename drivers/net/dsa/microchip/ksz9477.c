@@ -494,10 +494,20 @@ static void ksz9477_flush_dyn_mac_table(struct ksz_device *dev, int port)
 
 static int ksz9477_port_vlan_filtering(struct dsa_switch *ds, int port,
 				       bool flag,
+<<<<<<< HEAD
 				       struct netlink_ext_ack *extack)
 {
 	struct ksz_device *dev = ds->priv;
 
+=======
+				       struct switchdev_trans *trans)
+{
+	struct ksz_device *dev = ds->priv;
+
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (flag) {
 		ksz_port_cfg(dev, port, REG_PORT_LUE_CTRL,
 			     PORT_VLAN_LOOKUP_VID_0, true);
@@ -511,6 +521,7 @@ static int ksz9477_port_vlan_filtering(struct dsa_switch *ds, int port,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int ksz9477_port_vlan_add(struct dsa_switch *ds, int port,
 				 const struct switchdev_obj_port_vlan *vlan,
 				 struct netlink_ext_ack *extack)
@@ -546,6 +557,40 @@ static int ksz9477_port_vlan_add(struct dsa_switch *ds, int port,
 		ksz_pwrite16(dev, port, REG_PORT_DEFAULT_VID, vlan->vid);
 
 	return 0;
+=======
+static void ksz9477_port_vlan_add(struct dsa_switch *ds, int port,
+				  const struct switchdev_obj_port_vlan *vlan)
+{
+	struct ksz_device *dev = ds->priv;
+	u32 vlan_table[3];
+	u16 vid;
+	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		if (ksz9477_get_vlan_table(dev, vid, vlan_table)) {
+			dev_dbg(dev->dev, "Failed to get vlan table\n");
+			return;
+		}
+
+		vlan_table[0] = VLAN_VALID | (vid & VLAN_FID_M);
+		if (untagged)
+			vlan_table[1] |= BIT(port);
+		else
+			vlan_table[1] &= ~BIT(port);
+		vlan_table[1] &= ~(BIT(dev->cpu_port));
+
+		vlan_table[2] |= BIT(port) | BIT(dev->cpu_port);
+
+		if (ksz9477_set_vlan_table(dev, vid, vlan_table)) {
+			dev_dbg(dev->dev, "Failed to set vlan table\n");
+			return;
+		}
+
+		/* change PVID */
+		if (vlan->flags & BRIDGE_VLAN_INFO_PVID)
+			ksz_pwrite16(dev, port, REG_PORT_DEFAULT_VID, vid);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ksz9477_port_vlan_del(struct dsa_switch *ds, int port,
@@ -554,11 +599,16 @@ static int ksz9477_port_vlan_del(struct dsa_switch *ds, int port,
 	struct ksz_device *dev = ds->priv;
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
 	u32 vlan_table[3];
+<<<<<<< HEAD
+=======
+	u16 vid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 pvid;
 
 	ksz_pread16(dev, port, REG_PORT_DEFAULT_VID, &pvid);
 	pvid = pvid & 0xFFF;
 
+<<<<<<< HEAD
 	if (ksz9477_get_vlan_table(dev, vlan->vid, vlan_table)) {
 		dev_dbg(dev->dev, "Failed to get vlan table\n");
 		return -ETIMEDOUT;
@@ -575,6 +625,26 @@ static int ksz9477_port_vlan_del(struct dsa_switch *ds, int port,
 	if (ksz9477_set_vlan_table(dev, vlan->vid, vlan_table)) {
 		dev_dbg(dev->dev, "Failed to set vlan table\n");
 		return -ETIMEDOUT;
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		if (ksz9477_get_vlan_table(dev, vid, vlan_table)) {
+			dev_dbg(dev->dev, "Failed to get vlan table\n");
+			return -ETIMEDOUT;
+		}
+
+		vlan_table[2] &= ~BIT(port);
+
+		if (pvid == vid)
+			pvid = 1;
+
+		if (untagged)
+			vlan_table[1] &= ~BIT(port);
+
+		if (ksz9477_set_vlan_table(dev, vid, vlan_table)) {
+			dev_dbg(dev->dev, "Failed to set vlan table\n");
+			return -ETIMEDOUT;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ksz_pwrite16(dev, port, REG_PORT_DEFAULT_VID, pvid);
@@ -781,15 +851,23 @@ exit:
 	return ret;
 }
 
+<<<<<<< HEAD
 static int ksz9477_port_mdb_add(struct dsa_switch *ds, int port,
 				const struct switchdev_obj_port_mdb *mdb)
+=======
+static void ksz9477_port_mdb_add(struct dsa_switch *ds, int port,
+				 const struct switchdev_obj_port_mdb *mdb)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ksz_device *dev = ds->priv;
 	u32 static_table[4];
 	u32 data;
 	int index;
 	u32 mac_hi, mac_lo;
+<<<<<<< HEAD
 	int err = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mac_hi = ((mdb->addr[0] << 8) | mdb->addr[1]);
 	mac_lo = ((mdb->addr[2] << 24) | (mdb->addr[3] << 16));
@@ -804,8 +882,12 @@ static int ksz9477_port_mdb_add(struct dsa_switch *ds, int port,
 		ksz_write32(dev, REG_SW_ALU_STAT_CTRL__4, data);
 
 		/* wait to be finished */
+<<<<<<< HEAD
 		err = ksz9477_wait_alu_sta_ready(dev);
 		if (err) {
+=======
+		if (ksz9477_wait_alu_sta_ready(dev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_dbg(dev->dev, "Failed to read ALU STATIC\n");
 			goto exit;
 		}
@@ -828,10 +910,15 @@ static int ksz9477_port_mdb_add(struct dsa_switch *ds, int port,
 	}
 
 	/* no available entry */
+<<<<<<< HEAD
 	if (index == dev->num_statics) {
 		err = -ENOSPC;
 		goto exit;
 	}
+=======
+	if (index == dev->num_statics)
+		goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* add entry */
 	static_table[0] = ALU_V_STATIC_VALID;
@@ -853,7 +940,10 @@ static int ksz9477_port_mdb_add(struct dsa_switch *ds, int port,
 
 exit:
 	mutex_unlock(&dev->alu_mutex);
+<<<<<<< HEAD
 	return err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ksz9477_port_mdb_del(struct dsa_switch *ds, int port,
@@ -1383,8 +1473,11 @@ static int ksz9477_setup(struct dsa_switch *ds)
 
 	ksz_init_mib_timer(dev);
 
+<<<<<<< HEAD
 	ds->configure_vlan_while_not_filtering = false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1403,11 +1496,19 @@ static const struct dsa_switch_ops ksz9477_switch_ops = {
 	.port_stp_state_set	= ksz9477_port_stp_state_set,
 	.port_fast_age		= ksz_port_fast_age,
 	.port_vlan_filtering	= ksz9477_port_vlan_filtering,
+<<<<<<< HEAD
+=======
+	.port_vlan_prepare	= ksz_port_vlan_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_vlan_add		= ksz9477_port_vlan_add,
 	.port_vlan_del		= ksz9477_port_vlan_del,
 	.port_fdb_dump		= ksz9477_port_fdb_dump,
 	.port_fdb_add		= ksz9477_port_fdb_add,
 	.port_fdb_del		= ksz9477_port_fdb_del,
+<<<<<<< HEAD
+=======
+	.port_mdb_prepare       = ksz_port_mdb_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_mdb_add           = ksz9477_port_mdb_add,
 	.port_mdb_del           = ksz9477_port_mdb_del,
 	.port_mirror_add	= ksz9477_port_mirror_add,
@@ -1530,7 +1631,10 @@ static const struct ksz_chip_data ksz9477_switch_chips[] = {
 		.num_statics = 16,
 		.cpu_ports = 0x7F,	/* can be configured as cpu port */
 		.port_cnt = 7,		/* total physical port count */
+<<<<<<< HEAD
 		.phy_errata_9477 = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

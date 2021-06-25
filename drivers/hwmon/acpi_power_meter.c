@@ -161,7 +161,11 @@ static ssize_t set_avg_interval(struct device *dev,
 	mutex_lock(&resource->lock);
 	status = acpi_evaluate_integer(resource->acpi_dev->handle, "_PAI",
 				       &args, &data);
+<<<<<<< HEAD
 	if (ACPI_SUCCESS(status))
+=======
+	if (!ACPI_FAILURE(status))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		resource->avg_interval = temp;
 	mutex_unlock(&resource->lock);
 
@@ -232,7 +236,11 @@ static ssize_t set_cap(struct device *dev, struct device_attribute *devattr,
 	mutex_lock(&resource->lock);
 	status = acpi_evaluate_integer(resource->acpi_dev->handle, "_SHL",
 				       &args, &data);
+<<<<<<< HEAD
 	if (ACPI_SUCCESS(status))
+=======
+	if (!ACPI_FAILURE(status))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		resource->cap = temp;
 	mutex_unlock(&resource->lock);
 

@@ -4,8 +4,13 @@
 #define nvkm_timer(p) container_of((p), struct nvkm_timer, subdev)
 #include <subdev/timer.h>
 
+<<<<<<< HEAD
 int nvkm_timer_new_(const struct nvkm_timer_func *, struct nvkm_device *, enum nvkm_subdev_type,
 		    int, struct nvkm_timer **);
+=======
+int nvkm_timer_new_(const struct nvkm_timer_func *, struct nvkm_device *,
+		    int index, struct nvkm_timer **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_timer_func {
 	void (*init)(struct nvkm_timer *);

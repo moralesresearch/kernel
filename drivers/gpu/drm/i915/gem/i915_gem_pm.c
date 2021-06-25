@@ -11,6 +11,7 @@
 
 #include "i915_drv.h"
 
+<<<<<<< HEAD
 #if defined(CONFIG_X86)
 #include <asm/smp.h>
 #else
@@ -18,6 +19,8 @@
 	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void i915_gem_suspend(struct drm_i915_private *i915)
 {
 	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
@@ -39,6 +42,16 @@ void i915_gem_suspend(struct drm_i915_private *i915)
 	i915_gem_drain_freed_objects(i915);
 }
 
+<<<<<<< HEAD
+=======
+static struct drm_i915_gem_object *first_mm_object(struct list_head *list)
+{
+	return list_first_entry_or_null(list,
+					struct drm_i915_gem_object,
+					mm.link);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void i915_gem_suspend_late(struct drm_i915_private *i915)
 {
 	struct drm_i915_gem_object *obj;
@@ -48,7 +61,10 @@ void i915_gem_suspend_late(struct drm_i915_private *i915)
 		NULL
 	}, **phase;
 	unsigned long flags;
+<<<<<<< HEAD
 	bool flush = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Neither the BIOS, ourselves or any other kernel
@@ -74,6 +90,7 @@ void i915_gem_suspend_late(struct drm_i915_private *i915)
 
 	spin_lock_irqsave(&i915->mm.obj_lock, flags);
 	for (phase = phases; *phase; phase++) {
+<<<<<<< HEAD
 		list_for_each_entry(obj, *phase, mm.link) {
 			if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
 				flush |= (obj->read_domains & I915_GEM_DOMAIN_CPU) == 0;
@@ -124,6 +141,31 @@ int i915_gem_freeze_late(struct drm_i915_private *i915)
 		__start_cpu_write(obj);
 
 	return 0;
+=======
+		LIST_HEAD(keep);
+
+		while ((obj = first_mm_object(*phase))) {
+			list_move_tail(&obj->mm.link, &keep);
+
+			/* Beware the background _i915_gem_free_objects */
+			if (!kref_get_unless_zero(&obj->base.refcount))
+				continue;
+
+			spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
+
+			i915_gem_object_lock(obj, NULL);
+			drm_WARN_ON(&i915->drm,
+			    i915_gem_object_set_to_gtt_domain(obj, false));
+			i915_gem_object_unlock(obj);
+			i915_gem_object_put(obj);
+
+			spin_lock_irqsave(&i915->mm.obj_lock, flags);
+		}
+
+		list_splice_tail(&keep, *phase);
+	}
+	spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void i915_gem_resume(struct drm_i915_private *i915)

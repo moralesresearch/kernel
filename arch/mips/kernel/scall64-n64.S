@@ -20,7 +20,15 @@
 #include <asm/unistd.h>
 #include <asm/war.h>
 
+<<<<<<< HEAD
 #ifndef CONFIG_MIPS32_COMPAT
+=======
+<<<<<<< HEAD
+#ifndef CONFIG_MIPS32_COMPAT
+=======
+#ifndef CONFIG_BINFMT_ELF32
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Neither O32 nor N32, so define handle_sys here */
 #define handle_sys64 handle_sys
 #endif

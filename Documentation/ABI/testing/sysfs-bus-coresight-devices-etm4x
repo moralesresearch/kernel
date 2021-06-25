@@ -371,6 +371,7 @@ Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
 Description:	(Read) Print the content of the Device ID Register
 		(0xFC8).  The value is taken directly from the HW.
 
+<<<<<<< HEAD
 What:		/sys/bus/coresight/devices/etm<N>/mgmt/trcdevarch
 Date:		January 2021
 KernelVersion:	5.12
@@ -379,6 +380,8 @@ Description:	(Read) Print the content of the Device Architecture Register
 		(offset 0xFBC).  The value is taken directly read
 		from the HW.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 What:		/sys/bus/coresight/devices/etm<N>/mgmt/trcdevtype
 Date:		April 2015
 KernelVersion:	4.01

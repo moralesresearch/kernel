@@ -59,7 +59,15 @@
 #include <trace/events/ext4.h>
 
 static struct ext4_lazy_init *ext4_li_info;
+<<<<<<< HEAD
 static DEFINE_MUTEX(ext4_li_mtx);
+=======
+<<<<<<< HEAD
+static DEFINE_MUTEX(ext4_li_mtx);
+=======
+static struct mutex ext4_li_mtx;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct ratelimit_state ext4_mount_msg_ratelimit;
 
 static int ext4_load_journal(struct super_block *, struct ext4_super_block *,
@@ -667,6 +675,12 @@ static void ext4_handle_error(struct super_block *sb, bool force_ro, int error,
 			ext4_commit_super(sb);
 	}
 
+<<<<<<< HEAD
+=======
+	if (sb_rdonly(sb) || continue_fs)
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We force ERRORS_RO behavior when system is rebooting. Otherwise we
 	 * could panic during 'reboot -f' as the underlying device got already
@@ -676,10 +690,13 @@ static void ext4_handle_error(struct super_block *sb, bool force_ro, int error,
 		panic("EXT4-fs (device %s): panic forced after error\n",
 			sb->s_id);
 	}
+<<<<<<< HEAD
 
 	if (sb_rdonly(sb) || continue_fs)
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ext4_msg(sb, KERN_CRIT, "Remounting filesystem read-only");
 	/*
 	 * Make sure updated value of ->s_mount_flags will be visible before
@@ -3024,6 +3041,12 @@ static void ext4_orphan_cleanup(struct super_block *sb,
 		sb->s_flags &= ~SB_RDONLY;
 	}
 #ifdef CONFIG_QUOTA
+<<<<<<< HEAD
+=======
+	/* Needed for iput() to work correctly and not trash data */
+	sb->s_flags |= SB_ACTIVE;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Turn on quotas which were not enabled for read-only mounts if
 	 * filesystem has quota feature, so that they are updated correctly.
@@ -4449,20 +4472,30 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
 	}
 
 	if (sb->s_blocksize != blocksize) {
+<<<<<<< HEAD
 		/*
 		 * bh must be released before kill_bdev(), otherwise
 		 * it won't be freed and its page also. kill_bdev()
 		 * is called by sb_set_blocksize().
 		 */
 		brelse(bh);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Validate the filesystem blocksize */
 		if (!sb_set_blocksize(sb, blocksize)) {
 			ext4_msg(sb, KERN_ERR, "bad block size %d",
 					blocksize);
+<<<<<<< HEAD
 			bh = NULL;
 			goto failed_mount;
 		}
 
+=======
+			goto failed_mount;
+		}
+
+		brelse(bh);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		logical_sb_block = sb_block * EXT4_MIN_BLOCK_SIZE;
 		offset = do_div(logical_sb_block, blocksize);
 		bh = ext4_sb_bread_unmovable(sb, logical_sb_block);
@@ -5182,9 +5215,14 @@ failed_mount:
 		kfree(get_qf_name(sb, sbi, i));
 #endif
 	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
+<<<<<<< HEAD
 	/* ext4_blkdev_remove() calls kill_bdev(), release bh before it. */
 	brelse(bh);
 	ext4_blkdev_remove(sbi);
+=======
+	ext4_blkdev_remove(sbi);
+	brelse(bh);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_fail:
 	sb->s_fs_info = NULL;
 	kfree(sbi->s_blockgroup_lock);
@@ -5566,10 +5604,15 @@ static int ext4_commit_super(struct super_block *sb)
 	struct buffer_head *sbh = EXT4_SB(sb)->s_sbh;
 	int error = 0;
 
+<<<<<<< HEAD
 	if (!sbh)
 		return -EINVAL;
 	if (block_device_ejected(sb))
 		return -ENODEV;
+=======
+	if (!sbh || block_device_ejected(sb))
+		return error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ext4_update_super(sb);
 
@@ -5728,7 +5771,15 @@ static int ext4_sync_fs(struct super_block *sb, int wait)
 		needs_barrier = true;
 	if (needs_barrier) {
 		int err;
+<<<<<<< HEAD
 		err = blkdev_issue_flush(sb->s_bdev);
+=======
+<<<<<<< HEAD
+		err = blkdev_issue_flush(sb->s_bdev);
+=======
+		err = blkdev_issue_flush(sb->s_bdev, GFP_KERNEL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret)
 			ret = err;
 	}
@@ -6673,7 +6724,15 @@ static struct file_system_type ext4_fs_type = {
 	.name		= "ext4",
 	.mount		= ext4_mount,
 	.kill_sb	= kill_block_super,
+<<<<<<< HEAD
 	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+=======
+<<<<<<< HEAD
+	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+=======
+	.fs_flags	= FS_REQUIRES_DEV,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 MODULE_ALIAS_FS("ext4");
 
@@ -6686,6 +6745,13 @@ static int __init ext4_init_fs(void)
 
 	ratelimit_state_init(&ext4_mount_msg_ratelimit, 30 * HZ, 64);
 	ext4_li_info = NULL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	mutex_init(&ext4_li_mtx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Build-time check for flags consistency */
 	ext4_check_flag_values();

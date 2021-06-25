@@ -1857,8 +1857,17 @@ posix_mkdir_get_info:
 	goto posix_mkdir_out;
 }
 
+<<<<<<< HEAD
 int cifs_mkdir(struct user_namespace *mnt_userns, struct inode *inode,
 	       struct dentry *direntry, umode_t mode)
+=======
+<<<<<<< HEAD
+int cifs_mkdir(struct user_namespace *mnt_userns, struct inode *inode,
+	       struct dentry *direntry, umode_t mode)
+=======
+int cifs_mkdir(struct inode *inode, struct dentry *direntry, umode_t mode)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc = 0;
 	unsigned int xid;
@@ -2068,9 +2077,21 @@ do_rename_exit:
 }
 
 int
+<<<<<<< HEAD
 cifs_rename2(struct user_namespace *mnt_userns, struct inode *source_dir,
 	     struct dentry *source_dentry, struct inode *target_dir,
 	     struct dentry *target_dentry, unsigned int flags)
+=======
+<<<<<<< HEAD
+cifs_rename2(struct user_namespace *mnt_userns, struct inode *source_dir,
+	     struct dentry *source_dentry, struct inode *target_dir,
+	     struct dentry *target_dentry, unsigned int flags)
+=======
+cifs_rename2(struct inode *source_dir, struct dentry *source_dentry,
+	     struct inode *target_dir, struct dentry *target_dentry,
+	     unsigned int flags)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	char *from_name = NULL;
 	char *to_name = NULL;
@@ -2199,6 +2220,10 @@ cifs_inode_needs_reval(struct inode *inode)
 	if (!lookupCacheEnabled)
 		return true;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * depending on inode type, check if attribute caching disabled for
 	 * files or directories
@@ -2216,6 +2241,17 @@ cifs_inode_needs_reval(struct inode *inode)
 				   cifs_i->time + cifs_sb->ctx->acregmax))
 			return true;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (!cifs_sb->ctx->actimeo)
+		return true;
+
+	if (!time_in_range(jiffies, cifs_i->time,
+				cifs_i->time + cifs_sb->ctx->actimeo))
+		return true;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* hardlinked files w/ noserverino get "special" treatment */
 	if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_SERVER_INUM) &&
@@ -2382,8 +2418,18 @@ int cifs_revalidate_dentry(struct dentry *dentry)
 	return cifs_revalidate_mapping(inode);
 }
 
+<<<<<<< HEAD
 int cifs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		 struct kstat *stat, u32 request_mask, unsigned int flags)
+=======
+<<<<<<< HEAD
+int cifs_getattr(struct user_namespace *mnt_userns, const struct path *path,
+		 struct kstat *stat, u32 request_mask, unsigned int flags)
+=======
+int cifs_getattr(const struct path *path, struct kstat *stat,
+		 u32 request_mask, unsigned int flags)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *dentry = path->dentry;
 	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry->d_sb);
@@ -2420,7 +2466,15 @@ int cifs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 			return rc;
 	}
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
+=======
+<<<<<<< HEAD
+	generic_fillattr(&init_user_ns, inode, stat);
+=======
+	generic_fillattr(inode, stat);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->blksize = cifs_sb->ctx->bsize;
 	stat->ino = CIFS_I(inode)->uniqueid;
 
@@ -2630,7 +2684,15 @@ cifs_setattr_unix(struct dentry *direntry, struct iattr *attrs)
 	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NO_PERM)
 		attrs->ia_valid |= ATTR_FORCE;
 
+<<<<<<< HEAD
 	rc = setattr_prepare(&init_user_ns, direntry, attrs);
+=======
+<<<<<<< HEAD
+	rc = setattr_prepare(&init_user_ns, direntry, attrs);
+=======
+	rc = setattr_prepare(direntry, attrs);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc < 0)
 		goto out;
 
@@ -2735,7 +2797,15 @@ cifs_setattr_unix(struct dentry *direntry, struct iattr *attrs)
 	    attrs->ia_size != i_size_read(inode))
 		truncate_setsize(inode, attrs->ia_size);
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attrs);
+=======
+<<<<<<< HEAD
+	setattr_copy(&init_user_ns, inode, attrs);
+=======
+	setattr_copy(inode, attrs);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 	/* force revalidate when any of these times are set since some
@@ -2777,7 +2847,15 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
 	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NO_PERM)
 		attrs->ia_valid |= ATTR_FORCE;
 
+<<<<<<< HEAD
 	rc = setattr_prepare(&init_user_ns, direntry, attrs);
+=======
+<<<<<<< HEAD
+	rc = setattr_prepare(&init_user_ns, direntry, attrs);
+=======
+	rc = setattr_prepare(direntry, attrs);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc < 0) {
 		free_xid(xid);
 		return rc;
@@ -2933,7 +3011,15 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
 	    attrs->ia_size != i_size_read(inode))
 		truncate_setsize(inode, attrs->ia_size);
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attrs);
+=======
+<<<<<<< HEAD
+	setattr_copy(&init_user_ns, inode, attrs);
+=======
+	setattr_copy(inode, attrs);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 cifs_setattr_exit:
@@ -2943,8 +3029,17 @@ cifs_setattr_exit:
 }
 
 int
+<<<<<<< HEAD
 cifs_setattr(struct user_namespace *mnt_userns, struct dentry *direntry,
 	     struct iattr *attrs)
+=======
+<<<<<<< HEAD
+cifs_setattr(struct user_namespace *mnt_userns, struct dentry *direntry,
+	     struct iattr *attrs)
+=======
+cifs_setattr(struct dentry *direntry, struct iattr *attrs)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cifs_sb_info *cifs_sb = CIFS_SB(direntry->d_sb);
 	struct cifs_tcon *pTcon = cifs_sb_master_tcon(cifs_sb);

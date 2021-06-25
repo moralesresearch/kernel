@@ -129,6 +129,16 @@ void __init prom_init(void)
 	register_bmips_smp_ops();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void __init prom_free_prom_memory(void)
+{
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char *get_system_type(void)
 {
 	return "Generic BMIPS kernel";
@@ -161,10 +171,24 @@ void __init plat_mem_setup(void)
 	/* intended to somewhat resemble ARM; see Documentation/arm/booting.rst */
 	if (fw_arg0 == 0 && fw_arg1 == 0xffffffff)
 		dtb = phys_to_virt(fw_arg2);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		dtb = get_fdt();
 
 	if (!dtb)
+<<<<<<< HEAD
+=======
+=======
+	else if (fw_passed_dtb) /* UHI interface or appended dtb */
+		dtb = (void *)fw_passed_dtb;
+	else if (__dtb_start != __dtb_end)
+		dtb = (void *)__dtb_start;
+	else
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		panic("no dtb found");
 
 	__dt_setup_arch(dtb);
@@ -196,4 +220,12 @@ static int __init plat_dev_init(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 arch_initcall(plat_dev_init);
+=======
+<<<<<<< HEAD
+arch_initcall(plat_dev_init);
+=======
+device_initcall(plat_dev_init);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

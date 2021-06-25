@@ -184,7 +184,13 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
 	 * As we only send commands we do not need to be continuously
 	 * clocked.
 	 */
+<<<<<<< HEAD
 	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
+=======
+	dsi->mode_flags =
+		MIPI_DSI_CLOCK_NON_CONTINUOUS |
+		MIPI_DSI_MODE_EOT_PACKET;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	s6->supply = devm_regulator_get(dev, "vdd1");
 	if (IS_ERR(s6->supply))

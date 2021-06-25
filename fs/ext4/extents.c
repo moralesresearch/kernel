@@ -3206,10 +3206,14 @@ static int ext4_split_extent_at(handle_t *handle,
 		ext4_ext_mark_unwritten(ex2);
 
 	err = ext4_ext_insert_extent(handle, inode, ppath, &newex, flags);
+<<<<<<< HEAD
 	if (err != -ENOSPC && err != -EDQUOT)
 		goto out;
 
 	if (EXT4_EXT_MAY_ZEROOUT & split_flag) {
+=======
+	if (err == -ENOSPC && (EXT4_EXT_MAY_ZEROOUT & split_flag)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (split_flag & (EXT4_EXT_DATA_VALID1|EXT4_EXT_DATA_VALID2)) {
 			if (split_flag & EXT4_EXT_DATA_VALID1) {
 				err = ext4_ext_zeroout(inode, ex2);
@@ -3235,6 +3239,7 @@ static int ext4_split_extent_at(handle_t *handle,
 					      ext4_ext_pblock(&orig_ex));
 		}
 
+<<<<<<< HEAD
 		if (!err) {
 			/* update the extent length and mark as initialized */
 			ex->ee_len = cpu_to_le16(ee_len);
@@ -3251,6 +3256,27 @@ static int ext4_split_extent_at(handle_t *handle,
 			goto out;
 		}
 	}
+=======
+		if (err)
+			goto fix_extent_len;
+		/* update the extent length and mark as initialized */
+		ex->ee_len = cpu_to_le16(ee_len);
+		ext4_ext_try_to_merge(handle, inode, path, ex);
+		err = ext4_ext_dirty(handle, inode, path + path->p_depth);
+		if (err)
+			goto fix_extent_len;
+
+		/* update extent status tree */
+		err = ext4_zeroout_es(inode, &zero_ex);
+
+		goto out;
+	} else if (err)
+		goto fix_extent_len;
+
+out:
+	ext4_ext_show_leaf(inode, path);
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 fix_extent_len:
 	ex->ee_len = orig_ex.ee_len;
@@ -3260,9 +3286,12 @@ fix_extent_len:
 	 */
 	ext4_ext_dirty(handle, inode, path + path->p_depth);
 	return err;
+<<<<<<< HEAD
 out:
 	ext4_ext_show_leaf(inode, path);
 	return err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -4385,7 +4414,12 @@ static int ext4_alloc_file_blocks(struct file *file, ext4_lblk_t offset,
 {
 	struct inode *inode = file_inode(file);
 	handle_t *handle;
+<<<<<<< HEAD
 	int ret = 0, ret2 = 0, ret3 = 0;
+=======
+	int ret = 0;
+	int ret2 = 0, ret3 = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int retries = 0;
 	int depth = 0;
 	struct ext4_map_blocks map;
@@ -4410,7 +4444,11 @@ static int ext4_alloc_file_blocks(struct file *file, ext4_lblk_t offset,
 	depth = ext_depth(inode);
 
 retry:
+<<<<<<< HEAD
 	while (len) {
+=======
+	while (ret >= 0 && len) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Recalculate credits when extent tree depth changes.
 		 */
@@ -4432,6 +4470,7 @@ retry:
 				   inode->i_ino, map.m_lblk,
 				   map.m_len, ret);
 			ext4_mark_inode_dirty(handle, inode);
+<<<<<<< HEAD
 			ext4_journal_stop(handle);
 			break;
 		}
@@ -4439,6 +4478,11 @@ retry:
 		 * allow a full retry cycle for any remaining allocations
 		 */
 		retries = 0;
+=======
+			ret2 = ext4_journal_stop(handle);
+			break;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		map.m_lblk += ret;
 		map.m_len = len = len - ret;
 		epos = (loff_t)map.m_lblk << inode->i_blkbits;
@@ -4456,8 +4500,16 @@ retry:
 		if (unlikely(ret2))
 			break;
 	}
+<<<<<<< HEAD
 	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
 		goto retry;
+=======
+	if (ret == -ENOSPC &&
+			ext4_should_retry_alloc(inode->i_sb, &retries)) {
+		ret = 0;
+		goto retry;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret > 0 ? ret2 : ret;
 }

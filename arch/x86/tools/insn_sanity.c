@@ -14,6 +14,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+<<<<<<< HEAD
+=======
+
+#define unlikely(cond) (cond)
+#define ARRAY_SIZE(a)	(sizeof(a)/sizeof(a[0]))
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/insn.h>
 #include <inat.c>
 #include <insn.c>

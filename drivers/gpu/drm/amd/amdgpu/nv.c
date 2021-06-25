@@ -38,6 +38,15 @@
 
 #include "gc/gc_10_1_0_offset.h"
 #include "gc/gc_10_1_0_sh_mask.h"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include "hdp/hdp_5_0_0_offset.h"
+#include "hdp/hdp_5_0_0_sh_mask.h"
+#include "smuio/smuio_11_0_0_offset.h"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mp/mp_11_0_offset.h"
 
 #include "soc15.h"
@@ -47,7 +56,14 @@
 #include "mmhub_v2_0.h"
 #include "nbio_v2_3.h"
 #include "nbio_v7_2.h"
+<<<<<<< HEAD
 #include "hdp_v5_0.h"
+=======
+<<<<<<< HEAD
+#include "hdp_v5_0.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "nv.h"
 #include "navi10_ih.h"
 #include "gfx_v10_0.h"
@@ -60,8 +76,16 @@
 #include "dce_virtual.h"
 #include "mes_v10_1.h"
 #include "mxgpu_nv.h"
+<<<<<<< HEAD
 #include "smuio_v11_0.h"
 #include "smuio_v11_0_6.h"
+=======
+<<<<<<< HEAD
+#include "smuio_v11_0.h"
+#include "smuio_v11_0_6.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct amd_ip_funcs nv_common_ip_funcs;
 
@@ -203,7 +227,14 @@ static bool nv_read_bios_from_rom(struct amdgpu_device *adev,
 {
 	u32 *dw_ptr;
 	u32 i, length_dw;
+<<<<<<< HEAD
 	u32 rom_index_offset, rom_data_offset;
+=======
+<<<<<<< HEAD
+	u32 rom_index_offset, rom_data_offset;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bios == NULL)
 		return false;
@@ -216,6 +247,10 @@ static bool nv_read_bios_from_rom(struct amdgpu_device *adev,
 	dw_ptr = (u32 *)bios;
 	length_dw = ALIGN(length_bytes, 4) / 4;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rom_index_offset =
 		adev->smuio.funcs->get_rom_index_offset(adev);
 	rom_data_offset =
@@ -226,6 +261,16 @@ static bool nv_read_bios_from_rom(struct amdgpu_device *adev,
 	/* read out the rom data */
 	for (i = 0; i < length_dw; i++)
 		dw_ptr[i] = RREG32(rom_data_offset);
+<<<<<<< HEAD
+=======
+=======
+	/* set rom index to 0 */
+	WREG32(SOC15_REG_OFFSET(SMUIO, 0, mmROM_INDEX), 0);
+	/* read out the rom data */
+	for (i = 0; i < length_dw; i++)
+		dw_ptr[i] = RREG32(SOC15_REG_OFFSET(SMUIO, 0, mmROM_DATA));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -342,6 +387,10 @@ static int nv_asic_mode1_reset(struct amdgpu_device *adev)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int nv_asic_mode2_reset(struct amdgpu_device *adev)
 {
 	u32 i;
@@ -374,6 +423,11 @@ static int nv_asic_mode2_reset(struct amdgpu_device *adev)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool nv_asic_supports_baco(struct amdgpu_device *adev)
 {
 	struct smu_context *smu = &adev->smu;
@@ -390,9 +444,19 @@ nv_asic_reset_method(struct amdgpu_device *adev)
 	struct smu_context *smu = &adev->smu;
 
 	if (amdgpu_reset_method == AMD_RESET_METHOD_MODE1 ||
+<<<<<<< HEAD
 	    amdgpu_reset_method == AMD_RESET_METHOD_MODE2 ||
 	    amdgpu_reset_method == AMD_RESET_METHOD_BACO ||
 	    amdgpu_reset_method == AMD_RESET_METHOD_PCI)
+=======
+<<<<<<< HEAD
+	    amdgpu_reset_method == AMD_RESET_METHOD_MODE2 ||
+	    amdgpu_reset_method == AMD_RESET_METHOD_BACO ||
+	    amdgpu_reset_method == AMD_RESET_METHOD_PCI)
+=======
+	    amdgpu_reset_method == AMD_RESET_METHOD_BACO)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return amdgpu_reset_method;
 
 	if (amdgpu_reset_method != -1)
@@ -400,8 +464,16 @@ nv_asic_reset_method(struct amdgpu_device *adev)
 				  amdgpu_reset_method);
 
 	switch (adev->asic_type) {
+<<<<<<< HEAD
 	case CHIP_VANGOGH:
 		return AMD_RESET_METHOD_MODE2;
+=======
+<<<<<<< HEAD
+	case CHIP_VANGOGH:
+		return AMD_RESET_METHOD_MODE2;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case CHIP_SIENNA_CICHLID:
 	case CHIP_NAVY_FLOUNDER:
 	case CHIP_DIMGREY_CAVEFISH:
@@ -419,6 +491,10 @@ static int nv_asic_reset(struct amdgpu_device *adev)
 	int ret = 0;
 	struct smu_context *smu = &adev->smu;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* skip reset on vangogh for now */
 	if (adev->asic_type == CHIP_VANGOGH)
 		return 0;
@@ -429,6 +505,12 @@ static int nv_asic_reset(struct amdgpu_device *adev)
 		ret = amdgpu_device_pci_reset(adev);
 		break;
 	case AMD_RESET_METHOD_BACO:
+<<<<<<< HEAD
+=======
+=======
+	if (nv_asic_reset_method(adev) == AMD_RESET_METHOD_BACO) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_info(adev->dev, "BACO reset\n");
 
 		ret = smu_baco_enter(smu);
@@ -437,6 +519,10 @@ static int nv_asic_reset(struct amdgpu_device *adev)
 		ret = smu_baco_exit(smu);
 		if (ret)
 			return ret;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case AMD_RESET_METHOD_MODE2:
 		dev_info(adev->dev, "MODE2 reset\n");
@@ -446,6 +532,14 @@ static int nv_asic_reset(struct amdgpu_device *adev)
 		dev_info(adev->dev, "MODE1 reset\n");
 		ret = nv_asic_mode1_reset(adev);
 		break;
+<<<<<<< HEAD
+=======
+=======
+	} else {
+		dev_info(adev->dev, "MODE1 reset\n");
+		ret = nv_asic_mode1_reset(adev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;
@@ -480,6 +574,10 @@ static void nv_pcie_gen3_enable(struct amdgpu_device *adev)
 
 static void nv_program_aspm(struct amdgpu_device *adev)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (amdgpu_aspm != 1)
 		return;
 
@@ -488,6 +586,16 @@ static void nv_program_aspm(struct amdgpu_device *adev)
 	    (adev->nbio.funcs->program_aspm))
 		adev->nbio.funcs->program_aspm(adev);
 
+<<<<<<< HEAD
+=======
+=======
+
+	if (amdgpu_aspm == 0)
+		return;
+
+	/* todo */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nv_enable_doorbell_aperture(struct amdgpu_device *adev,
@@ -575,12 +683,21 @@ int nv_set_ip_blocks(struct amdgpu_device *adev)
 		adev->nbio.funcs = &nbio_v2_3_funcs;
 		adev->nbio.hdp_flush_reg = &nbio_v2_3_hdp_flush_reg;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	adev->hdp.funcs = &hdp_v5_0_funcs;
 
 	if (adev->asic_type >= CHIP_SIENNA_CICHLID)
 		adev->smuio.funcs = &smuio_v11_0_6_funcs;
 	else
 		adev->smuio.funcs = &smuio_v11_0_funcs;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (adev->asic_type == CHIP_SIENNA_CICHLID)
 		adev->gmc.xgmi.supported = true;
@@ -737,6 +854,28 @@ static uint32_t nv_get_rev_id(struct amdgpu_device *adev)
 	return adev->nbio.funcs->get_rev_id(adev);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void nv_flush_hdp(struct amdgpu_device *adev, struct amdgpu_ring *ring)
+{
+	adev->nbio.funcs->hdp_flush(adev, ring);
+}
+
+static void nv_invalidate_hdp(struct amdgpu_device *adev,
+				struct amdgpu_ring *ring)
+{
+	if (!ring || !ring->funcs->emit_wreg) {
+		WREG32_SOC15_NO_KIQ(HDP, 0, mmHDP_READ_CACHE_INVALIDATE, 1);
+	} else {
+		amdgpu_ring_emit_wreg(ring, SOC15_REG_OFFSET(
+					HDP, 0, mmHDP_READ_CACHE_INVALIDATE), 1);
+	}
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool nv_need_full_reset(struct amdgpu_device *adev)
 {
 	return true;
@@ -820,10 +959,23 @@ static int nv_update_umd_stable_pstate(struct amdgpu_device *adev,
 	 * The ASPM function is not fully enabled and verified on
 	 * Navi yet. Temporarily skip this until ASPM enabled.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((adev->asic_type >= CHIP_SIENNA_CICHLID) &&
 	    !(adev->flags & AMD_IS_APU) &&
 	    (adev->nbio.funcs->enable_aspm))
 		adev->nbio.funcs->enable_aspm(adev, !enter);
+<<<<<<< HEAD
+=======
+=======
+#if 0
+	if (adev->nbio.funcs->enable_aspm)
+		adev->nbio.funcs->enable_aspm(adev, !enter);
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -840,6 +992,14 @@ static const struct amdgpu_asic_funcs nv_asic_funcs =
 	.set_uvd_clocks = &nv_set_uvd_clocks,
 	.set_vce_clocks = &nv_set_vce_clocks,
 	.get_config_memsize = &nv_get_config_memsize,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	.flush_hdp = &nv_flush_hdp,
+	.invalidate_hdp = &nv_invalidate_hdp,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_doorbell_index = &nv_init_doorbell_index,
 	.need_full_reset = &nv_need_full_reset,
 	.need_reset_on_init = &nv_need_reset_on_init,
@@ -1130,6 +1290,126 @@ static int nv_common_soft_reset(void *handle)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void nv_update_hdp_mem_power_gating(struct amdgpu_device *adev,
+					   bool enable)
+{
+	uint32_t hdp_clk_cntl, hdp_clk_cntl1;
+	uint32_t hdp_mem_pwr_cntl;
+
+	if (!(adev->cg_flags & (AMD_CG_SUPPORT_HDP_LS |
+				AMD_CG_SUPPORT_HDP_DS |
+				AMD_CG_SUPPORT_HDP_SD)))
+		return;
+
+	hdp_clk_cntl = hdp_clk_cntl1 = RREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL);
+	hdp_mem_pwr_cntl = RREG32_SOC15(HDP, 0, mmHDP_MEM_POWER_CTRL);
+
+	/* Before doing clock/power mode switch,
+	 * forced on IPH & RC clock */
+	hdp_clk_cntl = REG_SET_FIELD(hdp_clk_cntl, HDP_CLK_CNTL,
+				     IPH_MEM_CLK_SOFT_OVERRIDE, 1);
+	hdp_clk_cntl = REG_SET_FIELD(hdp_clk_cntl, HDP_CLK_CNTL,
+				     RC_MEM_CLK_SOFT_OVERRIDE, 1);
+	WREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL, hdp_clk_cntl);
+
+	/* HDP 5.0 doesn't support dynamic power mode switch,
+	 * disable clock and power gating before any changing */
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 IPH_MEM_POWER_CTRL_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 IPH_MEM_POWER_LS_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 IPH_MEM_POWER_DS_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 IPH_MEM_POWER_SD_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 RC_MEM_POWER_CTRL_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 RC_MEM_POWER_LS_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 RC_MEM_POWER_DS_EN, 0);
+	hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+					 RC_MEM_POWER_SD_EN, 0);
+	WREG32_SOC15(HDP, 0, mmHDP_MEM_POWER_CTRL, hdp_mem_pwr_cntl);
+
+	/* only one clock gating mode (LS/DS/SD) can be enabled */
+	if (adev->cg_flags & AMD_CG_SUPPORT_HDP_LS) {
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 IPH_MEM_POWER_LS_EN, enable);
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 RC_MEM_POWER_LS_EN, enable);
+	} else if (adev->cg_flags & AMD_CG_SUPPORT_HDP_DS) {
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 IPH_MEM_POWER_DS_EN, enable);
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 RC_MEM_POWER_DS_EN, enable);
+	} else if (adev->cg_flags & AMD_CG_SUPPORT_HDP_SD) {
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 IPH_MEM_POWER_SD_EN, enable);
+		/* RC should not use shut down mode, fallback to ds */
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl,
+						 HDP_MEM_POWER_CTRL,
+						 RC_MEM_POWER_DS_EN, enable);
+	}
+
+	/* confirmed that IPH_MEM_POWER_CTRL_EN and RC_MEM_POWER_CTRL_EN have to
+	 * be set for SRAM LS/DS/SD */
+	if (adev->cg_flags & (AMD_CG_SUPPORT_HDP_LS | AMD_CG_SUPPORT_HDP_DS |
+							AMD_CG_SUPPORT_HDP_SD)) {
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+						IPH_MEM_POWER_CTRL_EN, 1);
+		hdp_mem_pwr_cntl = REG_SET_FIELD(hdp_mem_pwr_cntl, HDP_MEM_POWER_CTRL,
+						RC_MEM_POWER_CTRL_EN, 1);
+	}
+
+	WREG32_SOC15(HDP, 0, mmHDP_MEM_POWER_CTRL, hdp_mem_pwr_cntl);
+
+	/* restore IPH & RC clock override after clock/power mode changing */
+	WREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL, hdp_clk_cntl1);
+}
+
+static void nv_update_hdp_clock_gating(struct amdgpu_device *adev,
+				       bool enable)
+{
+	uint32_t hdp_clk_cntl;
+
+	if (!(adev->cg_flags & AMD_CG_SUPPORT_HDP_MGCG))
+		return;
+
+	hdp_clk_cntl = RREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL);
+
+	if (enable) {
+		hdp_clk_cntl &=
+			~(uint32_t)
+			  (HDP_CLK_CNTL__IPH_MEM_CLK_SOFT_OVERRIDE_MASK |
+			   HDP_CLK_CNTL__RC_MEM_CLK_SOFT_OVERRIDE_MASK |
+			   HDP_CLK_CNTL__DBUS_CLK_SOFT_OVERRIDE_MASK |
+			   HDP_CLK_CNTL__DYN_CLK_SOFT_OVERRIDE_MASK |
+			   HDP_CLK_CNTL__XDP_REG_CLK_SOFT_OVERRIDE_MASK |
+			   HDP_CLK_CNTL__HDP_REG_CLK_SOFT_OVERRIDE_MASK);
+	} else {
+		hdp_clk_cntl |= HDP_CLK_CNTL__IPH_MEM_CLK_SOFT_OVERRIDE_MASK |
+			HDP_CLK_CNTL__RC_MEM_CLK_SOFT_OVERRIDE_MASK |
+			HDP_CLK_CNTL__DBUS_CLK_SOFT_OVERRIDE_MASK |
+			HDP_CLK_CNTL__DYN_CLK_SOFT_OVERRIDE_MASK |
+			HDP_CLK_CNTL__XDP_REG_CLK_SOFT_OVERRIDE_MASK |
+			HDP_CLK_CNTL__HDP_REG_CLK_SOFT_OVERRIDE_MASK;
+	}
+
+	WREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL, hdp_clk_cntl);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int nv_common_set_clockgating_state(void *handle,
 					   enum amd_clockgating_state state)
 {
@@ -1149,9 +1429,21 @@ static int nv_common_set_clockgating_state(void *handle,
 				state == AMD_CG_STATE_GATE);
 		adev->nbio.funcs->update_medium_grain_light_sleep(adev,
 				state == AMD_CG_STATE_GATE);
+<<<<<<< HEAD
 		adev->hdp.funcs->update_clock_gating(adev,
 				state == AMD_CG_STATE_GATE);
 		adev->smuio.funcs->update_rom_clock_gating(adev,
+=======
+<<<<<<< HEAD
+		adev->hdp.funcs->update_clock_gating(adev,
+				state == AMD_CG_STATE_GATE);
+		adev->smuio.funcs->update_rom_clock_gating(adev,
+=======
+		nv_update_hdp_mem_power_gating(adev,
+				   state == AMD_CG_STATE_GATE);
+		nv_update_hdp_clock_gating(adev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				state == AMD_CG_STATE_GATE);
 		break;
 	default:
@@ -1170,15 +1462,49 @@ static int nv_common_set_powergating_state(void *handle,
 static void nv_common_get_clockgating_state(void *handle, u32 *flags)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	uint32_t tmp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (amdgpu_sriov_vf(adev))
 		*flags = 0;
 
 	adev->nbio.funcs->get_clockgating_state(adev, flags);
 
+<<<<<<< HEAD
 	adev->hdp.funcs->get_clock_gating_state(adev, flags);
 
 	adev->smuio.funcs->get_clock_gating_state(adev, flags);
+=======
+<<<<<<< HEAD
+	adev->hdp.funcs->get_clock_gating_state(adev, flags);
+
+	adev->smuio.funcs->get_clock_gating_state(adev, flags);
+=======
+	/* AMD_CG_SUPPORT_HDP_MGCG */
+	tmp = RREG32_SOC15(HDP, 0, mmHDP_CLK_CNTL);
+	if (!(tmp & (HDP_CLK_CNTL__IPH_MEM_CLK_SOFT_OVERRIDE_MASK |
+		     HDP_CLK_CNTL__RC_MEM_CLK_SOFT_OVERRIDE_MASK |
+		     HDP_CLK_CNTL__DBUS_CLK_SOFT_OVERRIDE_MASK |
+		     HDP_CLK_CNTL__DYN_CLK_SOFT_OVERRIDE_MASK |
+		     HDP_CLK_CNTL__XDP_REG_CLK_SOFT_OVERRIDE_MASK |
+		     HDP_CLK_CNTL__HDP_REG_CLK_SOFT_OVERRIDE_MASK)))
+		*flags |= AMD_CG_SUPPORT_HDP_MGCG;
+
+	/* AMD_CG_SUPPORT_HDP_LS/DS/SD */
+	tmp = RREG32_SOC15(HDP, 0, mmHDP_MEM_POWER_CTRL);
+	if (tmp & HDP_MEM_POWER_CTRL__IPH_MEM_POWER_LS_EN_MASK)
+		*flags |= AMD_CG_SUPPORT_HDP_LS;
+	else if (tmp & HDP_MEM_POWER_CTRL__IPH_MEM_POWER_DS_EN_MASK)
+		*flags |= AMD_CG_SUPPORT_HDP_DS;
+	else if (tmp & HDP_MEM_POWER_CTRL__IPH_MEM_POWER_SD_EN_MASK)
+		*flags |= AMD_CG_SUPPORT_HDP_SD;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return;
 }

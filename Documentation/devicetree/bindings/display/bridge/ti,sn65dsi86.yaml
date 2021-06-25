@@ -71,6 +71,7 @@ properties:
     description: See ../../pwm/pwm.yaml for description of the cell formats.
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -82,15 +83,64 @@ properties:
       port@1:
         $ref: /schemas/graph.yaml#/$defs/port-base
         unevaluatedProperties: false
+=======
+    type: object
+    additionalProperties: false
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+        additionalProperties: false
+
+        description:
+          Video port for MIPI DSI input
+
+        properties:
+          reg:
+            const: 0
+
+          endpoint:
+            type: object
+            additionalProperties: false
+            properties:
+              remote-endpoint: true
+
+        required:
+          - reg
+
+      port@1:
+        type: object
+        additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Video port for eDP output (panel or connector).
 
         properties:
+<<<<<<< HEAD
           endpoint:
             $ref: /schemas/graph.yaml#/$defs/endpoint-base
             unevaluatedProperties: false
 
             properties:
+=======
+          reg:
+            const: 1
+
+          endpoint:
+            type: object
+            additionalProperties: false
+
+            properties:
+              remote-endpoint: true
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               data-lanes:
                 oneOf:
                   - minItems: 1
@@ -143,7 +193,16 @@ properties:
             dependencies:
               lane-polarities: [data-lanes]
 
+<<<<<<< HEAD
     required:
+=======
+        required:
+          - reg
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - port@0
       - port@1
 

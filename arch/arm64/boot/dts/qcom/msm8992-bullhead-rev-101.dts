@@ -6,8 +6,11 @@
 /dts-v1/;
 
 #include "msm8992.dtsi"
+<<<<<<< HEAD
 #include "pm8994.dtsi"
 #include "pmi8994.dtsi"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	model = "LG Nexus 5X";
@@ -46,7 +49,11 @@
 };
 
 &rpm_requests {
+<<<<<<< HEAD
 	pm8994_regulators: pm8994-regulators {
+=======
+	pm8994-regulators {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		compatible = "qcom,rpm-pm8994-regulators";
 
 		vdd_l1-supply = <&pm8994_s1>;
@@ -55,6 +62,7 @@
 		vdd_l4_27_31-supply = <&pm8994_s3>;
 		vdd_l5_7-supply = <&pm8994_s3>;
 		vdd_l6_12_32-supply = <&pm8994_s5>;
+<<<<<<< HEAD
 		vdd_l8_16_30-supply = <&vph_pwr>;
 		vdd_l9_10_18_22-supply = <&vph_pwr>;
 		vdd_l13_19_23_24-supply = <&vph_pwr>;
@@ -66,6 +74,17 @@
 
 		/* S1, S2, S6 and S12 are managed by RPMPD */
 
+=======
+		vdd_l8_16_30-supply = <&vreg_vph_pwr>;
+		vdd_l9_10_18_22-supply = <&vreg_vph_pwr>;
+		vdd_l13_19_23_24-supply = <&vreg_vph_pwr>;
+		vdd_l14_15-supply = <&pm8994_s5>;
+		vdd_l17_29-supply = <&vreg_vph_pwr>;
+		vdd_l20_21-supply = <&vreg_vph_pwr>;
+		vdd_l25-supply = <&pm8994_s5>;
+		vdd_lvs1_2 = <&pm8994_s4>;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm8994_s1: s1 {
 			regulator-min-microvolt = <800000>;
 			regulator-max-microvolt = <800000>;
@@ -97,8 +116,11 @@
 			regulator-max-microvolt = <1000000>;
 		};
 
+<<<<<<< HEAD
 		/* S8, S9, S10 and S11 - SPMI-managed VDD_APC */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm8994_l1: l1 {
 			regulator-min-microvolt = <1000000>;
 			regulator-max-microvolt = <1000000>;
@@ -119,14 +141,26 @@
 			regulator-max-microvolt = <1225000>;
 		};
 
+<<<<<<< HEAD
 		/* L5 is inaccessible from RPM */
+=======
+		pm8994_l5: l5 {
+			/* TODO */
+		};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		pm8994_l6: l6 {
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
 		};
 
+<<<<<<< HEAD
 		/* L7 is inaccessible from RPM */
+=======
+		pm8994_l7: l7 {
+			/* TODO */
+		};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		pm8994_l8: l8 {
 			regulator-min-microvolt = <1800000>;
@@ -268,6 +302,7 @@
 			*/
 		};
 	};
+<<<<<<< HEAD
 
 	pmi8994_regulators: pmi8994-regulators {
 		compatible = "qcom,rpm-pmi8994-regulators";
@@ -284,6 +319,11 @@
 };
 
 &sdhc1 {
+=======
+};
+
+&sdhc_1 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 
 	mmc-hs400-1_8v;

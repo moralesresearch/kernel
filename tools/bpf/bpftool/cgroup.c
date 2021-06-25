@@ -28,8 +28,12 @@
 	"                        connect6 | getpeername4 | getpeername6 |\n"   \
 	"                        getsockname4 | getsockname6 | sendmsg4 |\n"   \
 	"                        sendmsg6 | recvmsg4 | recvmsg6 |\n"           \
+<<<<<<< HEAD
 	"                        sysctl | getsockopt | setsockopt |\n"	       \
 	"                        sock_release }"
+=======
+	"                        sysctl | getsockopt | setsockopt }"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static unsigned int query_flags;
 

@@ -164,6 +164,7 @@ int usb_assign_descriptors(struct usb_function *f,
 {
 	struct usb_gadget *g = f->config->cdev->gadget;
 
+<<<<<<< HEAD
 	/* super-speed-plus descriptor falls back to super-speed one,
 	 * if such a descriptor was provided, thus avoiding a NULL
 	 * pointer dereference if a 5gbps capable gadget is used with
@@ -172,6 +173,8 @@ int usb_assign_descriptors(struct usb_function *f,
 	if (!ssp)
 		ssp = ss;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fs) {
 		f->fs_descriptors = usb_copy_descriptors(fs);
 		if (!f->fs_descriptors)
@@ -202,6 +205,7 @@ EXPORT_SYMBOL_GPL(usb_assign_descriptors);
 void usb_free_all_descriptors(struct usb_function *f)
 {
 	usb_free_descriptors(f->fs_descriptors);
+<<<<<<< HEAD
 	f->fs_descriptors = NULL;
 	usb_free_descriptors(f->hs_descriptors);
 	f->hs_descriptors = NULL;
@@ -209,6 +213,11 @@ void usb_free_all_descriptors(struct usb_function *f)
 	f->ss_descriptors = NULL;
 	usb_free_descriptors(f->ssp_descriptors);
 	f->ssp_descriptors = NULL;
+=======
+	usb_free_descriptors(f->hs_descriptors);
+	usb_free_descriptors(f->ss_descriptors);
+	usb_free_descriptors(f->ssp_descriptors);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(usb_free_all_descriptors);
 

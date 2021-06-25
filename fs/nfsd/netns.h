@@ -10,7 +10,10 @@
 
 #include <net/net_namespace.h>
 #include <net/netns/generic.h>
+<<<<<<< HEAD
 #include <linux/percpu_counter.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Hash tables for nfs4_clientid state */
 #define CLIENT_HASH_BITS                 4
@@ -22,6 +25,7 @@
 struct cld_net;
 struct nfsd4_client_tracking_ops;
 
+<<<<<<< HEAD
 enum {
 	/* cache misses due only to checksum comparison failures */
 	NFSD_NET_PAYLOAD_MISSES,
@@ -30,6 +34,8 @@ enum {
 	NFSD_NET_COUNTERS_NUM
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Represents a nfsd "container". With respect to nfsv4 state tracking, the
  * fields of interest are the *_id_hashtbls and the *_name_tree. These track
@@ -158,16 +164,31 @@ struct nfsd_net {
 
 	/*
 	 * Stats and other tracking of on the duplicate reply cache.
+<<<<<<< HEAD
 	 * The longest_chain* fields are modified with only the per-bucket
 	 * cache lock, which isn't really safe and should be fixed if we want
 	 * these statistics to be completely accurate.
+=======
+	 * These fields and the "rc" fields in nfsdstats are modified
+	 * with only the per-bucket cache lock, which isn't really safe
+	 * and should be fixed if we want the statistics to be
+	 * completely accurate.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 
 	/* total number of entries */
 	atomic_t                 num_drc_entries;
 
+<<<<<<< HEAD
 	/* Per-netns stats counters */
 	struct percpu_counter    counter[NFSD_NET_COUNTERS_NUM];
+=======
+	/* cache misses due only to checksum comparison failures */
+	unsigned int             payload_misses;
+
+	/* amount of memory (in bytes) currently consumed by the DRC */
+	unsigned int             drc_mem_usage;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* longest hash chain seen */
 	unsigned int             longest_chain;

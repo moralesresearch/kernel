@@ -59,6 +59,15 @@ static const struct pci_device_id rtsx_pci_ids[] = {
 
 MODULE_DEVICE_TABLE(pci, rtsx_pci_ids);
 
+<<<<<<< HEAD
+=======
+static inline void rtsx_pci_disable_aspm(struct rtsx_pcr *pcr)
+{
+	pcie_capability_clear_and_set_word(pcr->pci, PCI_EXP_LNKCTL,
+					   PCI_EXP_LNKCTL_ASPMC, 0);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rtsx_comm_set_ltr_latency(struct rtsx_pcr *pcr, u32 latency)
 {
 	rtsx_pci_write_register(pcr, MSGTXDATA0,
@@ -85,6 +94,7 @@ static void rtsx_comm_set_aspm(struct rtsx_pcr *pcr, bool enable)
 	if (pcr->aspm_enabled == enable)
 		return;
 
+<<<<<<< HEAD
 	if (pcr->aspm_mode == ASPM_MODE_CFG) {
 		pcie_capability_clear_and_set_word(pcr->pci, PCI_EXP_LNKCTL,
 						PCI_EXP_LNKCTL_ASPMC,
@@ -97,6 +107,14 @@ static void rtsx_comm_set_aspm(struct rtsx_pcr *pcr, bool enable)
 			rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, FORCE_ASPM_CTL0 |
 				FORCE_ASPM_CTL1, FORCE_ASPM_CTL0 | FORCE_ASPM_CTL1);
 	}
+=======
+	if (pcr->aspm_en & 0x02)
+		rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, FORCE_ASPM_CTL0 |
+			FORCE_ASPM_CTL1, enable ? 0 : FORCE_ASPM_CTL0 | FORCE_ASPM_CTL1);
+	else
+		rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, FORCE_ASPM_CTL0 |
+			FORCE_ASPM_CTL1, FORCE_ASPM_CTL0 | FORCE_ASPM_CTL1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!enable && (pcr->aspm_en & 0x02))
 		mdelay(10);
@@ -1400,8 +1418,12 @@ static int rtsx_pci_init_hw(struct rtsx_pcr *pcr)
 			return err;
 	}
 
+<<<<<<< HEAD
 	if (pcr->aspm_mode == ASPM_MODE_REG)
 		rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, 0x30, 0x30);
+=======
+	rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, 0x30, 0x30);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* No CD interrupt if probing driver with card inserted.
 	 * So we need to initialize pcr->card_exist here.
@@ -1417,8 +1439,11 @@ static int rtsx_pci_init_hw(struct rtsx_pcr *pcr)
 static int rtsx_pci_init_chip(struct rtsx_pcr *pcr)
 {
 	int err;
+<<<<<<< HEAD
 	u16 cfg_val;
 	u8 val;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_init(&pcr->lock);
 	mutex_init(&pcr->pcr_mutex);
@@ -1486,6 +1511,7 @@ static int rtsx_pci_init_chip(struct rtsx_pcr *pcr)
 	if (!pcr->slots)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (pcr->aspm_mode == ASPM_MODE_CFG) {
 		pcie_capability_read_word(pcr->pci, PCI_EXP_LNKCTL, &cfg_val);
 		if (cfg_val & PCI_EXP_LNKCTL_ASPM_L1)
@@ -1501,6 +1527,8 @@ static int rtsx_pci_init_chip(struct rtsx_pcr *pcr)
 			pcr->aspm_enabled = true;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pcr->ops->fetch_vendor_settings)
 		pcr->ops->fetch_vendor_settings(pcr);
 
@@ -1530,6 +1558,10 @@ static int rtsx_pci_probe(struct pci_dev *pcidev,
 	struct pcr_handle *handle;
 	u32 base, len;
 	int ret, i, bar = 0;
+<<<<<<< HEAD
+=======
+	u8 val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_dbg(&(pcidev->dev),
 		": Realtek PCI-E Card Reader found at %s [%04x:%04x] (rev %x)\n",
@@ -1595,6 +1627,14 @@ static int rtsx_pci_probe(struct pci_dev *pcidev,
 	pcr->host_cmds_addr = pcr->rtsx_resv_buf_addr;
 	pcr->host_sg_tbl_ptr = pcr->rtsx_resv_buf + HOST_CMDS_BUF_LEN;
 	pcr->host_sg_tbl_addr = pcr->rtsx_resv_buf_addr + HOST_CMDS_BUF_LEN;
+<<<<<<< HEAD
+=======
+	rtsx_pci_read_register(pcr, ASPM_FORCE_CTL, &val);
+	if (val & FORCE_ASPM_CTL0 && val & FORCE_ASPM_CTL1)
+		pcr->aspm_enabled = false;
+	else
+		pcr->aspm_enabled = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->card_inserted = 0;
 	pcr->card_removed = 0;
 	INIT_DELAYED_WORK(&pcr->carddet_work, rtsx_pci_card_detect);
@@ -1817,6 +1857,10 @@ static int rtsx_pci_runtime_resume(struct device *device)
 	struct pci_dev *pcidev = to_pci_dev(device);
 	struct pcr_handle *handle;
 	struct rtsx_pcr *pcr;
+<<<<<<< HEAD
+=======
+	int ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	handle = pci_get_drvdata(pcidev);
 	pcr = handle->pcr;
@@ -1841,7 +1885,11 @@ static int rtsx_pci_runtime_resume(struct device *device)
 	schedule_delayed_work(&pcr->idle_work, msecs_to_jiffies(200));
 
 	mutex_unlock(&pcr->pcr_mutex);
+<<<<<<< HEAD
 	return 0;
+=======
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #else /* CONFIG_PM */

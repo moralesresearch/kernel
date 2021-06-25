@@ -58,6 +58,7 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
   into place (arm64 only), and jump to the restart address while at HYP/EL2.
   This hypercall is not expected to return to its caller.
 
+<<<<<<< HEAD
 * ::
 
     x0 = HVC_VHE_RESTART (arm64 only)
@@ -67,6 +68,8 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
   being off, and VHE not being disabled by any other means (command line
   option, for example).
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Any other value of r0/x0 triggers a hypervisor-specific handling,
 which is not documented here.
 

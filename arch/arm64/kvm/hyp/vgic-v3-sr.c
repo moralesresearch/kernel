@@ -405,6 +405,7 @@ void __vgic_v3_init_lrs(void)
 		__gic_v3_set_lr(0, i);
 }
 
+<<<<<<< HEAD
 /*
  * Return the GIC CPU configuration:
  * - [31:0]  ICH_VTR_EL2
@@ -453,6 +454,11 @@ u64 __vgic_v3_get_gic_config(void)
 	val |= read_gicreg(ICH_VTR_EL2);
 
 	return val;
+=======
+u64 __vgic_v3_get_ich_vtr_el2(void)
+{
+	return read_gicreg(ICH_VTR_EL2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 u64 __vgic_v3_read_vmcr(void)

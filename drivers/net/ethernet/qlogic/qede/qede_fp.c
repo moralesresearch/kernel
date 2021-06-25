@@ -1090,9 +1090,18 @@ static bool qede_rx_xdp(struct qede_dev *edev,
 	struct xdp_buff xdp;
 	enum xdp_action act;
 
+<<<<<<< HEAD
 	xdp_init_buff(&xdp, rxq->rx_buf_seg_size, &rxq->xdp_rxq);
 	xdp_prepare_buff(&xdp, page_address(bd->data), *data_offset,
 			 *len, false);
+=======
+	xdp.data_hard_start = page_address(bd->data);
+	xdp.data = xdp.data_hard_start + *data_offset;
+	xdp_set_data_meta_invalid(&xdp);
+	xdp.data_end = xdp.data + *len;
+	xdp.rxq = &rxq->xdp_rxq;
+	xdp.frame_sz = rxq->rx_buf_seg_size; /* PAGE_SIZE when XDP enabled */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Queues always have a full reset currently, so for the time
 	 * being until there's atomic program replace just mark read
@@ -1450,8 +1459,12 @@ int qede_poll(struct napi_struct *napi, int budget)
 	rx_work_done = (likely(fp->type & QEDE_FASTPATH_RX) &&
 			qede_has_rx_work(fp->rxq)) ?
 			qede_rx_int(fp, budget) : 0;
+<<<<<<< HEAD
 	/* Handle case where we are called by netpoll with a budget of 0 */
 	if (rx_work_done < budget || !budget) {
+=======
+	if (rx_work_done < budget) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!qede_poll_is_more_work(fp)) {
 			napi_complete_done(napi, rx_work_done);
 

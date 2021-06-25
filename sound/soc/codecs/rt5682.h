@@ -1356,7 +1356,11 @@
 #define RT5682_SAR_SOUR_TYPE			(0x0)
 
 /* soundwire timeout */
+<<<<<<< HEAD
 #define RT5682_PROBE_TIMEOUT			5000
+=======
+#define RT5682_PROBE_TIMEOUT			2000
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 #define RT5682_STEREO_RATES SNDRV_PCM_RATE_8000_192000

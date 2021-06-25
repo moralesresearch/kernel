@@ -67,6 +67,7 @@ struct drm_i915_gem_object_ops {
 	const char *name; /* friendly name for debug, e.g. lockdep classes */
 };
 
+<<<<<<< HEAD
 enum i915_map_type {
 	I915_MAP_WB = 0,
 	I915_MAP_WC,
@@ -75,6 +76,8 @@ enum i915_map_type {
 	I915_MAP_FORCE_WC = I915_MAP_WC | I915_MAP_OVERRIDE,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum i915_mmap_type {
 	I915_MMAP_TYPE_GTT = 0,
 	I915_MMAP_TYPE_WC,
@@ -150,6 +153,11 @@ struct drm_i915_gem_object {
 	 */
 	struct list_head obj_link;
 
+<<<<<<< HEAD
+=======
+	/** Stolen memory for this object, instead of being backed by shmem. */
+	struct drm_mm_node *stolen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct rcu_head rcu;
 		struct llist_node freed;
@@ -173,7 +181,10 @@ struct drm_i915_gem_object {
 #define I915_BO_ALLOC_VOLATILE   BIT(1)
 #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | I915_BO_ALLOC_VOLATILE)
 #define I915_BO_READONLY         BIT(2)
+<<<<<<< HEAD
 #define I915_TILING_QUIRK_BIT    3 /* unknown swizzling; do not release! */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Is the object to be mapped as read-only to the GPU
@@ -282,6 +293,15 @@ struct drm_i915_gem_object {
 		 * pages were last acquired.
 		 */
 		bool dirty:1;
+<<<<<<< HEAD
+=======
+
+		/**
+		 * This is set if the object has been pinned due to unknown
+		 * swizzling.
+		 */
+		bool quirked:1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} mm;
 
 	/** Record of address bit 17 of each page at last unbind. */
@@ -296,8 +316,11 @@ struct drm_i915_gem_object {
 			struct work_struct *work;
 		} userptr;
 
+<<<<<<< HEAD
 		struct drm_mm_node *stolen;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long scratch;
 		u64 encode;
 

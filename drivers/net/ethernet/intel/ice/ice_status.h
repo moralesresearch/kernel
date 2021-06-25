@@ -29,7 +29,10 @@ enum ice_status {
 	ICE_ERR_HW_TABLE			= -19,
 	ICE_ERR_FW_DDP_MISMATCH			= -20,
 
+<<<<<<< HEAD
 	ICE_ERR_NVM				= -50,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ICE_ERR_NVM_CHECKSUM			= -51,
 	ICE_ERR_BUF_TOO_SHORT			= -52,
 	ICE_ERR_NVM_BLANK_MODE			= -53,

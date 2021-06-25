@@ -1332,7 +1332,11 @@ static int snd_usbmidi_in_endpoint_create(struct snd_usb_midi *umidi,
 
  error:
 	snd_usbmidi_in_endpoint_delete(ep);
+<<<<<<< HEAD
 	return err;
+=======
+	return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1889,12 +1893,17 @@ static int snd_usbmidi_get_ms_info(struct snd_usb_midi *umidi,
 		ms_ep = find_usb_ms_endpoint_descriptor(hostep);
 		if (!ms_ep)
 			continue;
+<<<<<<< HEAD
 		if (ms_ep->bLength <= sizeof(*ms_ep))
 			continue;
 		if (ms_ep->bNumEmbMIDIJack > 0x10)
 			continue;
 		if (ms_ep->bLength < sizeof(*ms_ep) + ms_ep->bNumEmbMIDIJack)
 			continue;
+=======
+		if (ms_ep->bNumEmbMIDIJack > 0x10)
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (usb_endpoint_dir_out(ep)) {
 			if (endpoints[epidx].out_ep) {
 				if (++epidx >= MIDI_MAX_ENDPOINTS) {

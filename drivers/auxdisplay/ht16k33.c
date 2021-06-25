@@ -401,6 +401,17 @@ static int ht16k33_probe(struct i2c_client *client,
 		return -EIO;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (client->irq <= 0) {
+		dev_err(&client->dev, "No IRQ specified\n");
+		return -EINVAL;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
 	if (!priv)
 		return -ENOMEM;
@@ -453,12 +464,24 @@ static int ht16k33_probe(struct i2c_client *client,
 	if (err)
 		goto err_fbdev_info;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Keypad */
 	if (client->irq > 0) {
 		err = ht16k33_keypad_probe(client, &priv->keypad);
 		if (err)
 			goto err_fbdev_unregister;
 	}
+<<<<<<< HEAD
+=======
+=======
+	err = ht16k33_keypad_probe(client, &priv->keypad);
+	if (err)
+		goto err_fbdev_unregister;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Backlight */
 	memset(&bl_props, 0, sizeof(struct backlight_properties));

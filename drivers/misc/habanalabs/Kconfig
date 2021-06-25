@@ -6,6 +6,10 @@
 config HABANA_AI
 	tristate "HabanaAI accelerators (habanalabs)"
 	depends on PCI && HAS_IOMEM
+<<<<<<< HEAD
+=======
+	select FRAME_VECTOR
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select GENERIC_ALLOCATOR
 	select HWMON
 	help

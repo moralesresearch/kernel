@@ -73,8 +73,11 @@ static int afs_do_silly_rename(struct afs_vnode *dvnode, struct afs_vnode *vnode
 	afs_op_set_vnode(op, 1, dvnode);
 	op->file[0].dv_delta = 1;
 	op->file[1].dv_delta = 1;
+<<<<<<< HEAD
 	op->file[0].modification = true;
 	op->file[1].modification = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	op->file[0].update_ctime = true;
 	op->file[1].update_ctime = true;
 
@@ -203,7 +206,10 @@ static int afs_do_silly_unlink(struct afs_vnode *dvnode, struct afs_vnode *vnode
 	afs_op_set_vnode(op, 0, dvnode);
 	afs_op_set_vnode(op, 1, vnode);
 	op->file[0].dv_delta = 1;
+<<<<<<< HEAD
 	op->file[0].modification = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	op->file[0].update_ctime = true;
 	op->file[1].op_unlinked = true;
 	op->file[1].update_ctime = true;

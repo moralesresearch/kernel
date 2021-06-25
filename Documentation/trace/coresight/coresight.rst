@@ -512,6 +512,7 @@ The --itrace option controls the type and frequency of synthesized events
 Note that only 64-bit programs are currently supported - further work is
 required to support instruction decode of 32-bit Arm programs.
 
+<<<<<<< HEAD
 2.2) Tracing PID
 
 The kernel can be built to write the PID value into the PE ContextID registers.
@@ -544,6 +545,8 @@ wants to trace PIDs for both host and guest, the two configs "contextid1" and
 
   perf record -e cs_etm/contextid1,contextid2/u -- vm
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Generating coverage files for Feedback Directed Optimization: AutoFDO
 ---------------------------------------------------------------------

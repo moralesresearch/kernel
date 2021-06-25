@@ -2,7 +2,11 @@
 /*
  *  Turris Mox Moxtet GPIO expander
  *
+<<<<<<< HEAD
  *  Copyright (C) 2018 Marek Behún <kabel@kernel.org>
+=======
+ *  Copyright (C) 2018 Marek Behun <marek.behun@nic.cz>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/bitops.h>
@@ -174,6 +178,10 @@ static struct moxtet_driver moxtet_gpio_driver = {
 };
 module_moxtet_driver(moxtet_gpio_driver);
 
+<<<<<<< HEAD
 MODULE_AUTHOR("Marek Behun <kabel@kernel.org>");
+=======
+MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("Turris Mox Moxtet GPIO expander");
 MODULE_LICENSE("GPL v2");

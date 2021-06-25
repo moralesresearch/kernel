@@ -113,7 +113,15 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup *h_cgroup,
 			rsvd_parent);
 
 		limit = round_down(PAGE_COUNTER_MAX,
+<<<<<<< HEAD
 				   pages_per_huge_page(&hstates[idx]));
+=======
+<<<<<<< HEAD
+				   pages_per_huge_page(&hstates[idx]));
+=======
+				   1 << huge_page_order(&hstates[idx]));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = page_counter_set_max(
 			hugetlb_cgroup_counter_from_cgroup(h_cgroup, idx),
@@ -466,7 +474,15 @@ static int hugetlb_cgroup_read_u64_max(struct seq_file *seq, void *v)
 	counter = &h_cg->hugepage[idx];
 
 	limit = round_down(PAGE_COUNTER_MAX,
+<<<<<<< HEAD
 			   pages_per_huge_page(&hstates[idx]));
+=======
+<<<<<<< HEAD
+			   pages_per_huge_page(&hstates[idx]));
+=======
+			   1 << huge_page_order(&hstates[idx]));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (MEMFILE_ATTR(cft->private)) {
 	case RES_RSVD_USAGE:
@@ -513,7 +529,15 @@ static ssize_t hugetlb_cgroup_write(struct kernfs_open_file *of,
 		return ret;
 
 	idx = MEMFILE_IDX(of_cft(of)->private);
+<<<<<<< HEAD
 	nr_pages = round_down(nr_pages, pages_per_huge_page(&hstates[idx]));
+=======
+<<<<<<< HEAD
+	nr_pages = round_down(nr_pages, pages_per_huge_page(&hstates[idx]));
+=======
+	nr_pages = round_down(nr_pages, 1 << huge_page_order(&hstates[idx]));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (MEMFILE_ATTR(of_cft(of)->private)) {
 	case RES_RSVD_LIMIT:

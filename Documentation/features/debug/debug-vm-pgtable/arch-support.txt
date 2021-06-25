@@ -10,6 +10,10 @@
     |         arc: |  ok  |
     |         arm: | TODO |
     |       arm64: |  ok  |
+<<<<<<< HEAD
+=======
+    |         c6x: | TODO |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     |        csky: | TODO |
     |       h8300: | TODO |
     |     hexagon: | TODO |

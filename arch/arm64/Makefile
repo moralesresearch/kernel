@@ -188,12 +188,19 @@ ifeq ($(KBUILD_EXTMOD),)
 # this hack.
 prepare: vdso_prepare
 vdso_prepare: prepare0
+<<<<<<< HEAD
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso \
 	include/generated/vdso-offsets.h arch/arm64/kernel/vdso/vdso.so
 ifdef CONFIG_COMPAT_VDSO
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso32 \
 	include/generated/vdso32-offsets.h arch/arm64/kernel/vdso32/vdso.so
 endif
+=======
+	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso include/generated/vdso-offsets.h
+	$(if $(CONFIG_COMPAT_VDSO),$(Q)$(MAKE) \
+		$(build)=arch/arm64/kernel/vdso32  \
+		include/generated/vdso32-offsets.h)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif
 
 define archhelp

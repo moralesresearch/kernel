@@ -489,7 +489,11 @@ int perf_default_config(const char *var, const char *value,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int perf_config_from_file(config_fn_t fn, const char *filename, void *data)
+=======
+int perf_config_from_file(config_fn_t fn, const char *filename, void *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	FILE *f = fopen(filename, "r");
@@ -521,16 +525,25 @@ static int perf_env_bool(const char *k, int def)
 	return v ? perf_config_bool(k, v) : def;
 }
 
+<<<<<<< HEAD
 int perf_config_system(void)
+=======
+static int perf_config_system(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return !perf_env_bool("PERF_CONFIG_NOSYSTEM", 0);
 }
 
+<<<<<<< HEAD
 int perf_config_global(void)
+=======
+static int perf_config_global(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return !perf_env_bool("PERF_CONFIG_NOGLOBAL", 0);
 }
 
+<<<<<<< HEAD
 static char *home_perfconfig(void)
 {
 	const char *home = NULL;
@@ -581,6 +594,8 @@ const char *perf_home_perfconfig(void)
 	return config;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct perf_config_section *find_section(struct list_head *sections,
 						const char *section_name)
 {
@@ -726,6 +741,12 @@ int perf_config_set__collect(struct perf_config_set *set, const char *file_name,
 static int perf_config_set__init(struct perf_config_set *set)
 {
 	int ret = -1;
+<<<<<<< HEAD
+=======
+	const char *home = NULL;
+	char *user_config;
+	struct stat st;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Setting $PERF_CONFIG makes perf read _only_ the given config file. */
 	if (config_exclusive_filename)
@@ -734,6 +755,7 @@ static int perf_config_set__init(struct perf_config_set *set)
 		if (perf_config_from_file(collect_config, perf_etc_perfconfig(), set) < 0)
 			goto out;
 	}
+<<<<<<< HEAD
 	if (perf_config_global() && perf_home_perfconfig()) {
 		if (perf_config_from_file(collect_config, perf_home_perfconfig(), set) < 0)
 			goto out;
@@ -756,12 +778,58 @@ struct perf_config_set *perf_config_set__new(void)
 }
 
 struct perf_config_set *perf_config_set__load_file(const char *file)
+=======
+
+	home = getenv("HOME");
+
+	/*
+	 * Skip reading user config if:
+	 *   - there is no place to read it from (HOME)
+	 *   - we are asked not to (PERF_CONFIG_NOGLOBAL=1)
+	 */
+	if (!home || !*home || !perf_config_global())
+		return 0;
+
+	user_config = strdup(mkpath("%s/.perfconfig", home));
+	if (user_config == NULL) {
+		pr_warning("Not enough memory to process %s/.perfconfig, ignoring it.", home);
+		goto out;
+	}
+
+	if (stat(user_config, &st) < 0) {
+		if (errno == ENOENT)
+			ret = 0;
+		goto out_free;
+	}
+
+	ret = 0;
+
+	if (st.st_uid && (st.st_uid != geteuid())) {
+		pr_warning("File %s not owned by current user or root, ignoring it.", user_config);
+		goto out_free;
+	}
+
+	if (st.st_size)
+		ret = perf_config_from_file(collect_config, user_config, set);
+
+out_free:
+	free(user_config);
+out:
+	return ret;
+}
+
+struct perf_config_set *perf_config_set__new(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct perf_config_set *set = zalloc(sizeof(*set));
 
 	if (set) {
 		INIT_LIST_HEAD(&set->sections);
+<<<<<<< HEAD
 		perf_config_from_file(collect_config, file, set);
+=======
+		perf_config_set__init(set);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return set;
@@ -775,15 +843,26 @@ static int perf_config__init(void)
 	return config_set == NULL;
 }
 
+<<<<<<< HEAD
 int perf_config_set(struct perf_config_set *set,
 		    config_fn_t fn, void *data)
+=======
+int perf_config(config_fn_t fn, void *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0;
 	char key[BUFSIZ];
 	struct perf_config_section *section;
 	struct perf_config_item *item;
 
+<<<<<<< HEAD
 	perf_config_set__for_each_entry(set, section, item) {
+=======
+	if (config_set == NULL && perf_config__init())
+		return -1;
+
+	perf_config_set__for_each_entry(config_set, section, item) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		char *value = item->value;
 
 		if (value) {
@@ -805,6 +884,7 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 int perf_config(config_fn_t fn, void *data)
 {
 	if (config_set == NULL && perf_config__init())
@@ -813,6 +893,8 @@ int perf_config(config_fn_t fn, void *data)
 	return perf_config_set(config_set, fn, data);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void perf_config__exit(void)
 {
 	perf_config_set__delete(config_set);

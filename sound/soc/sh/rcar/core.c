@@ -1320,8 +1320,13 @@ static void __rsnd_dai_probe(struct rsnd_priv *priv,
 
 	if (rsnd_ssi_is_pin_sharing(io_capture) ||
 	    rsnd_ssi_is_pin_sharing(io_playback)) {
+<<<<<<< HEAD
 		/* should have symmetric_rate if pin sharing */
 		drv->symmetric_rate = 1;
+=======
+		/* should have symmetric_rates if pin sharing */
+		drv->symmetric_rates = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_dbg(dev, "%s (%s/%s)\n", rdai->name,
@@ -1428,6 +1433,7 @@ static int rsnd_hw_params(struct snd_soc_component *component,
 		}
 		if (io->converted_chan)
 			dev_dbg(dev, "convert channels = %d\n", io->converted_chan);
+<<<<<<< HEAD
 		if (io->converted_rate) {
 			/*
 			 * SRC supports convert rates from params_rate(hw_params)/k_down
@@ -1497,6 +1503,10 @@ static int rsnd_hw_params(struct snd_soc_component *component,
 			 * the output rate exceeds the limitation.
 			 */
 		}
+=======
+		if (io->converted_rate)
+			dev_dbg(dev, "convert rate     = %d\n", io->converted_rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return rsnd_dai_call(hw_params, io, substream, hw_params);
@@ -1539,7 +1549,11 @@ static int rsnd_kctrl_info(struct snd_kcontrol *kctrl,
 		uinfo->value.enumerated.items = cfg->max;
 		if (uinfo->value.enumerated.item >= cfg->max)
 			uinfo->value.enumerated.item = cfg->max - 1;
+<<<<<<< HEAD
 		strscpy(uinfo->value.enumerated.name,
+=======
+		strlcpy(uinfo->value.enumerated.name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cfg->texts[uinfo->value.enumerated.item],
 			sizeof(uinfo->value.enumerated.name));
 	} else {

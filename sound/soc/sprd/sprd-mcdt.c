@@ -866,23 +866,40 @@ EXPORT_SYMBOL_GPL(sprd_mcdt_chan_dma_disable);
 struct sprd_mcdt_chan *sprd_mcdt_request_chan(u8 channel,
 					      enum sprd_mcdt_channel_type type)
 {
+<<<<<<< HEAD
 	struct sprd_mcdt_chan *temp;
+=======
+	struct sprd_mcdt_chan *temp, *chan = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&sprd_mcdt_list_mutex);
 
 	list_for_each_entry(temp, &sprd_mcdt_chan_list, list) {
 		if (temp->type == type && temp->id == channel) {
+<<<<<<< HEAD
 			list_del_init(&temp->list);
+=======
+			chan = temp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
 
+<<<<<<< HEAD
 	if (list_entry_is_head(temp, &sprd_mcdt_chan_list, list))
 		temp = NULL;
 
 	mutex_unlock(&sprd_mcdt_list_mutex);
 
 	return temp;
+=======
+	if (chan)
+		list_del(&chan->list);
+
+	mutex_unlock(&sprd_mcdt_list_mutex);
+
+	return chan;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(sprd_mcdt_request_chan);
 

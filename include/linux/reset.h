@@ -47,11 +47,14 @@ static inline int reset_control_reset(struct reset_control *rstc)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int reset_control_rearm(struct reset_control *rstc)
 {
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int reset_control_assert(struct reset_control *rstc)
 {
 	return 0;
@@ -368,6 +371,7 @@ __must_check devm_reset_control_get_exclusive_released(struct device *dev,
 }
 
 /**
+<<<<<<< HEAD
  * devm_reset_control_get_optional_exclusive_released - resource managed
  *                                                      reset_control_get_optional_exclusive_released()
  * @dev: device to be reset by the controller
@@ -387,6 +391,8 @@ __must_check devm_reset_control_get_optional_exclusive_released(struct device *d
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * devm_reset_control_get_shared - resource managed reset_control_get_shared()
  * @dev: device to be reset by the controller
  * @id: reset line name

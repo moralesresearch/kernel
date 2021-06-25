@@ -24,7 +24,10 @@ ice-y := ice_main.o	\
 	 ice_flow.o	\
 	 ice_devlink.o	\
 	 ice_fw_update.o \
+<<<<<<< HEAD
 	 ice_lag.o	\
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 ice_ethtool.o
 ice-$(CONFIG_PCI_IOV) += ice_virtchnl_pf.o ice_sriov.o
 ice-$(CONFIG_DCB) += ice_dcb.o ice_dcb_nl.o ice_dcb_lib.o

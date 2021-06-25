@@ -2834,7 +2834,15 @@ static int snd_djm_controls_info(struct snd_kcontrol *kctl,
 	if (!name)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	strscpy(info->value.enumerated.name, name, sizeof(info->value.enumerated.name));
+=======
+<<<<<<< HEAD
+	strscpy(info->value.enumerated.name, name, sizeof(info->value.enumerated.name));
+=======
+	strlcpy(info->value.enumerated.name, name, sizeof(info->value.enumerated.name));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info->type = SNDRV_CTL_ELEM_TYPE_ENUMERATED;
 	info->count = 1;
 	info->value.enumerated.items = noptions;
@@ -3017,7 +3025,11 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
 	case USB_ID(0x1235, 0x8203): /* Focusrite Scarlett 6i6 2nd Gen */
 	case USB_ID(0x1235, 0x8204): /* Focusrite Scarlett 18i8 2nd Gen */
 	case USB_ID(0x1235, 0x8201): /* Focusrite Scarlett 18i20 2nd Gen */
+<<<<<<< HEAD
 		err = snd_scarlett_gen2_init(mixer);
+=======
+		err = snd_scarlett_gen2_controls_create(mixer);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case USB_ID(0x041e, 0x323b): /* Creative Sound Blaster E1 */

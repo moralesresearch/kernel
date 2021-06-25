@@ -18,7 +18,10 @@ config CIFS
 	select CRYPTO_AES
 	select CRYPTO_LIB_DES
 	select KEYS
+<<<<<<< HEAD
 	select DNS_RESOLVER
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This is the client VFS module for the SMB3 family of NAS protocols,
 	  (including support for the most recent, most secure dialect SMB3.1.1)
@@ -113,6 +116,10 @@ config CIFS_WEAK_PW_HASH
 config CIFS_UPCALL
 	bool "Kerberos/SPNEGO advanced session setup"
 	depends on CIFS
+<<<<<<< HEAD
+=======
+	select DNS_RESOLVER
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Enables an upcall mechanism for CIFS which accesses userspace helper
 	  utilities to provide SPNEGO packaged (RFC 4178) Kerberos tickets
@@ -179,6 +186,10 @@ config CIFS_DEBUG_DUMP_KEYS
 config CIFS_DFS_UPCALL
 	bool "DFS feature support"
 	depends on CIFS
+<<<<<<< HEAD
+=======
+	select DNS_RESOLVER
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Distributed File System (DFS) support is used to access shares
 	  transparently in an enterprise name space, even if the share

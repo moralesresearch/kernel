@@ -2248,7 +2248,11 @@ static int imx_uart_probe(struct platform_device *pdev)
 	sport->port.dev = &pdev->dev;
 	sport->port.mapbase = res->start;
 	sport->port.membase = base;
+<<<<<<< HEAD
 	sport->port.type = PORT_IMX;
+=======
+	sport->port.type = PORT_IMX,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sport->port.iotype = UPIO_MEM;
 	sport->port.irq = rxirq;
 	sport->port.fifosize = 32;

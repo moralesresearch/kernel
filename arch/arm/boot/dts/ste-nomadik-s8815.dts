@@ -139,7 +139,11 @@
 			status = "okay";
 		};
 		/* Configure card detect for the uSD slot */
+<<<<<<< HEAD
 		mmc@101f6000 {
+=======
+		mmcsd: sdi@101f6000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cd-gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;
 		};
 	};

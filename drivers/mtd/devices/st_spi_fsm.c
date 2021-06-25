@@ -924,7 +924,11 @@ static int stfsm_read_status(struct stfsm *fsm, uint8_t cmd,
 	BUG_ON(bytes != 1 && bytes != 2);
 
 	seq->seq_opc[0] = (SEQ_OPC_PADS_1 | SEQ_OPC_CYCLES(8) |
+<<<<<<< HEAD
 			   SEQ_OPC_OPCODE(cmd));
+=======
+			   SEQ_OPC_OPCODE(cmd)),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	stfsm_load_seq(fsm, seq);
 

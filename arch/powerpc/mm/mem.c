@@ -54,6 +54,10 @@
 
 #include <mm/mmu_decl.h>
 
+<<<<<<< HEAD
+=======
+static DEFINE_MUTEX(linear_mapping_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unsigned long long memory_limit;
 bool init_mem_is_free;
 
@@ -71,7 +75,10 @@ pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
 EXPORT_SYMBOL(phys_mem_access_prot);
 
 #ifdef CONFIG_MEMORY_HOTPLUG
+<<<<<<< HEAD
 static DEFINE_MUTEX(linear_mapping_mutex);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_NUMA
 int memory_add_physaddr_to_nid(u64 start)
@@ -91,6 +98,30 @@ int __weak remove_section_mapping(unsigned long start, unsigned long end)
 	return -ENODEV;
 }
 
+<<<<<<< HEAD
+=======
+#define FLUSH_CHUNK_SIZE SZ_1G
+/**
+ * flush_dcache_range_chunked(): Write any modified data cache blocks out to
+ * memory and invalidate them, in chunks of up to FLUSH_CHUNK_SIZE
+ * Does not invalidate the corresponding instruction cache blocks.
+ *
+ * @start: the start address
+ * @stop: the stop address (exclusive)
+ * @chunk: the max size of the chunks
+ */
+static void flush_dcache_range_chunked(unsigned long start, unsigned long stop,
+				       unsigned long chunk)
+{
+	unsigned long i;
+
+	for (i = start; i < stop; i += chunk) {
+		flush_dcache_range(i, min(stop, i + chunk));
+		cond_resched();
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __ref arch_create_linear_mapping(int nid, u64 start, u64 size,
 				     struct mhp_params *params)
 {
@@ -115,6 +146,10 @@ void __ref arch_remove_linear_mapping(u64 start, u64 size)
 
 	/* Remove htab bolted mappings for this section of memory */
 	start = (unsigned long)__va(start);
+<<<<<<< HEAD
+=======
+	flush_dcache_range_chunked(start, start + size, FLUSH_CHUNK_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&linear_mapping_mutex);
 	ret = remove_section_mapping(start, start + size);
@@ -467,6 +502,7 @@ void flush_dcache_page(struct page *page)
 	if (cpu_has_feature(CPU_FTR_COHERENT_ICACHE))
 		return;
 	/* avoid an atomic op if possible */
+<<<<<<< HEAD
 	if (test_bit(PG_dcache_clean, &page->flags))
 		clear_bit(PG_dcache_clean, &page->flags);
 }
@@ -496,6 +532,21 @@ void flush_dcache_icache_page(struct page *page)
 	if (PageCompound(page))
 		return flush_dcache_icache_hugepage(page);
 
+=======
+	if (test_bit(PG_arch_1, &page->flags))
+		clear_bit(PG_arch_1, &page->flags);
+}
+EXPORT_SYMBOL(flush_dcache_page);
+
+void flush_dcache_icache_page(struct page *page)
+{
+#ifdef CONFIG_HUGETLB_PAGE
+	if (PageCompound(page)) {
+		flush_dcache_icache_hugepage(page);
+		return;
+	}
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_PPC_8xx) || defined(CONFIG_PPC64)
 	/* On 8xx there is no need to kmap since highmem is not supported */
 	__flush_dcache_icache(page_address(page));

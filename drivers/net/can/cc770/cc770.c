@@ -702,8 +702,13 @@ static void cc770_tx_interrupt(struct net_device *dev, unsigned int o)
 	stats->tx_bytes += cf->len;
 	stats->tx_packets++;
 
+<<<<<<< HEAD
 	can_put_echo_skb(priv->tx_skb, dev, 0, 0);
 	can_get_echo_skb(dev, 0, NULL);
+=======
+	can_put_echo_skb(priv->tx_skb, dev, 0);
+	can_get_echo_skb(dev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv->tx_skb = NULL;
 
 	netif_wake_queue(dev);

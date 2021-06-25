@@ -12,6 +12,7 @@
 	model = "ST-Ericsson HREF520 and TVK1281618 UIB";
 	compatible = "st-ericsson,href520", "st-ericsson,u8500";
 
+<<<<<<< HEAD
 
 	/* ST6G3244ME level translator for 1.8/2.9 V */
 	vmmci: regulator-gpio {
@@ -49,6 +50,13 @@
 				pins = "GPIO5_AG6";
 				ste,config = <&gpio_out_hi>;
 			};
+=======
+	soc {
+		vmmci: regulator-gpio {
+			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
+			enable-gpio = <&gpio2 14 GPIO_ACTIVE_HIGH>;
+			enable-active-high;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

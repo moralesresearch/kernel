@@ -20,6 +20,10 @@
 #include "segment.h"
 #include "node.h"
 #include "gc.h"
+<<<<<<< HEAD
+=======
+#include "trace.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <trace/events/f2fs.h>
 
 #define __reverse_ffz(x) __reverse_ffs(~(x))
@@ -186,10 +190,16 @@ void f2fs_register_inmem_page(struct inode *inode, struct page *page)
 {
 	struct inmem_pages *new;
 
+<<<<<<< HEAD
 	if (PagePrivate(page))
 		set_page_private(page, (unsigned long)ATOMIC_WRITTEN_PAGE);
 	else
 		f2fs_set_page_private(page, ATOMIC_WRITTEN_PAGE);
+=======
+	f2fs_trace_pid(page);
+
+	f2fs_set_page_private(page, ATOMIC_WRITTEN_PAGE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	new = f2fs_kmem_cache_alloc(inmem_entry_slab, GFP_NOFS);
 
@@ -327,6 +337,7 @@ void f2fs_drop_inmem_pages(struct inode *inode)
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct f2fs_inode_info *fi = F2FS_I(inode);
 
+<<<<<<< HEAD
 	do {
 		mutex_lock(&fi->inmem_lock);
 		if (list_empty(&fi->inmem_pages)) {
@@ -348,6 +359,25 @@ void f2fs_drop_inmem_pages(struct inode *inode)
 						true, false, true);
 		mutex_unlock(&fi->inmem_lock);
 	} while (1);
+=======
+	while (!list_empty(&fi->inmem_pages)) {
+		mutex_lock(&fi->inmem_lock);
+		__revoke_inmem_pages(inode, &fi->inmem_pages,
+						true, false, true);
+		mutex_unlock(&fi->inmem_lock);
+	}
+
+	fi->i_gc_failures[GC_FAILURE_ATOMIC] = 0;
+
+	spin_lock(&sbi->inode_lock[ATOMIC_FILE]);
+	if (!list_empty(&fi->inmem_ilist))
+		list_del_init(&fi->inmem_ilist);
+	if (f2fs_is_atomic_file(inode)) {
+		clear_inode_flag(inode, FI_ATOMIC_FILE);
+		sbi->atomic_files--;
+	}
+	spin_unlock(&sbi->inode_lock[ATOMIC_FILE]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void f2fs_drop_inmem_page(struct inode *inode, struct page *page)
@@ -511,7 +541,11 @@ void f2fs_balance_fs(struct f2fs_sb_info *sbi, bool need)
 	 */
 	if (has_not_enough_free_secs(sbi, 0, 0)) {
 		down_write(&sbi->gc_lock);
+<<<<<<< HEAD
 		f2fs_gc(sbi, false, false, false, NULL_SEGNO);
+=======
+		f2fs_gc(sbi, false, false, NULL_SEGNO);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -570,7 +604,21 @@ do_sync:
 static int __submit_flush_wait(struct f2fs_sb_info *sbi,
 				struct block_device *bdev)
 {
+<<<<<<< HEAD
 	int ret = blkdev_issue_flush(bdev);
+=======
+	struct bio *bio;
+	int ret;
+
+	bio = f2fs_bio_alloc(sbi, 0, false);
+	if (!bio)
+		return -ENOMEM;
+
+	bio->bi_opf = REQ_OP_WRITE | REQ_SYNC | REQ_PREFLUSH;
+	bio_set_dev(bio, bdev);
+	ret = submit_bio_wait(bio);
+	bio_put(bio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_f2fs_issue_flush(bdev, test_opt(sbi, NOBARRIER),
 				test_opt(sbi, FLUSH_MERGE), ret);
@@ -604,6 +652,11 @@ repeat:
 	if (kthread_should_stop())
 		return 0;
 
+<<<<<<< HEAD
+=======
+	sb_start_intwrite(sbi->sb);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!llist_empty(&fcc->issue_list)) {
 		struct flush_cmd *cmd, *next;
 		int ret;
@@ -624,6 +677,11 @@ repeat:
 		fcc->dispatch_list = NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	sb_end_intwrite(sbi->sb);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wait_event_interruptible(*q,
 		kthread_should_stop() || !llist_empty(&fcc->issue_list));
 	goto repeat;
@@ -868,7 +926,11 @@ static void locate_dirty_segment(struct f2fs_sb_info *sbi, unsigned int segno)
 	mutex_lock(&dirty_i->seglist_lock);
 
 	valid_blocks = get_valid_blocks(sbi, segno, false);
+<<<<<<< HEAD
 	ckpt_valid_blocks = get_ckpt_valid_blocks(sbi, segno, false);
+=======
+	ckpt_valid_blocks = get_ckpt_valid_blocks(sbi, segno);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (valid_blocks == 0 && (!is_sbi_flag_set(sbi, SBI_CP_DISABLED) ||
 		ckpt_valid_blocks == usable_blocks)) {
@@ -953,7 +1015,11 @@ static unsigned int get_free_segment(struct f2fs_sb_info *sbi)
 	for_each_set_bit(segno, dirty_i->dirty_segmap[DIRTY], MAIN_SEGS(sbi)) {
 		if (get_valid_blocks(sbi, segno, false))
 			continue;
+<<<<<<< HEAD
 		if (get_ckpt_valid_blocks(sbi, segno, false))
+=======
+		if (get_ckpt_valid_blocks(sbi, segno))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		mutex_unlock(&dirty_i->seglist_lock);
 		return segno;
@@ -2643,6 +2709,7 @@ static void __refresh_next_blkoff(struct f2fs_sb_info *sbi,
 		seg->next_blkoff++;
 }
 
+<<<<<<< HEAD
 bool f2fs_segment_has_free_slot(struct f2fs_sb_info *sbi, int segno)
 {
 	struct seg_entry *se = get_seg_entry(sbi, segno);
@@ -2660,6 +2727,8 @@ bool f2fs_segment_has_free_slot(struct f2fs_sb_info *sbi, int segno)
 	return pos < sbi->blocks_per_seg;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This function always allocates a used segment(from dirty seglist) by SSR
  * manner, so it should recover the existing segment information of valid blocks
@@ -2917,8 +2986,12 @@ unlock:
 	up_read(&SM_I(sbi)->curseg_lock);
 }
 
+<<<<<<< HEAD
 static void __allocate_new_segment(struct f2fs_sb_info *sbi, int type,
 								bool new_sec)
+=======
+static void __allocate_new_segment(struct f2fs_sb_info *sbi, int type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct curseg_info *curseg = CURSEG_I(sbi, type);
 	unsigned int old_segno;
@@ -2926,18 +2999,27 @@ static void __allocate_new_segment(struct f2fs_sb_info *sbi, int type,
 	if (!curseg->inited)
 		goto alloc;
 
+<<<<<<< HEAD
 	if (curseg->next_blkoff ||
 		get_valid_blocks(sbi, curseg->segno, new_sec))
 		goto alloc;
 
 	if (!get_ckpt_valid_blocks(sbi, curseg->segno, new_sec))
 		return;
+=======
+	if (!curseg->next_blkoff &&
+		!get_valid_blocks(sbi, curseg->segno, false) &&
+		!get_ckpt_valid_blocks(sbi, curseg->segno))
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 alloc:
 	old_segno = curseg->segno;
 	SIT_I(sbi)->s_ops->allocate_segment(sbi, type, true);
 	locate_dirty_segment(sbi, old_segno);
 }
 
+<<<<<<< HEAD
 static void __allocate_new_section(struct f2fs_sb_info *sbi, int type)
 {
 	__allocate_new_segment(sbi, type, true);
@@ -2950,18 +3032,32 @@ void f2fs_allocate_new_section(struct f2fs_sb_info *sbi, int type)
 	__allocate_new_section(sbi, type);
 	up_write(&SIT_I(sbi)->sentry_lock);
 	up_read(&SM_I(sbi)->curseg_lock);
+=======
+void f2fs_allocate_new_segment(struct f2fs_sb_info *sbi, int type)
+{
+	down_write(&SIT_I(sbi)->sentry_lock);
+	__allocate_new_segment(sbi, type);
+	up_write(&SIT_I(sbi)->sentry_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void f2fs_allocate_new_segments(struct f2fs_sb_info *sbi)
 {
 	int i;
 
+<<<<<<< HEAD
 	down_read(&SM_I(sbi)->curseg_lock);
 	down_write(&SIT_I(sbi)->sentry_lock);
 	for (i = CURSEG_HOT_DATA; i <= CURSEG_COLD_DATA; i++)
 		__allocate_new_segment(sbi, i, false);
 	up_write(&SIT_I(sbi)->sentry_lock);
 	up_read(&SM_I(sbi)->curseg_lock);
+=======
+	down_write(&SIT_I(sbi)->sentry_lock);
+	for (i = CURSEG_HOT_DATA; i <= CURSEG_COLD_DATA; i++)
+		__allocate_new_segment(sbi, i);
+	up_write(&SIT_I(sbi)->sentry_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct segment_allocation default_salloc_ops = {
@@ -3400,12 +3496,21 @@ void f2fs_allocate_data_block(struct f2fs_sb_info *sbi, struct page *page,
 		f2fs_inode_chksum_set(sbi, page);
 	}
 
+<<<<<<< HEAD
 	if (fio) {
 		struct f2fs_bio_info *io;
 
 		if (F2FS_IO_ALIGNED(sbi))
 			fio->retry = false;
 
+=======
+	if (F2FS_IO_ALIGNED(sbi))
+		fio->retry = false;
+
+	if (fio) {
+		struct f2fs_bio_info *io;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		INIT_LIST_HEAD(&fio->list);
 		fio->in_list = true;
 		io = sbi->write_io[fio->type] + fio->temp;
@@ -4416,7 +4521,11 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 	block_t total_node_blocks = 0;
 
 	do {
+<<<<<<< HEAD
 		readed = f2fs_ra_meta_pages(sbi, start_blk, BIO_MAX_VECS,
+=======
+		readed = f2fs_ra_meta_pages(sbi, start_blk, BIO_MAX_PAGES,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							META_SIT, true);
 
 		start = start_blk * sit_i->sents_per_block;

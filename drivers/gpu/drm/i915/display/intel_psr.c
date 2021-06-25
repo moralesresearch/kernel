@@ -28,10 +28,16 @@
 #include "i915_drv.h"
 #include "intel_atomic.h"
 #include "intel_display_types.h"
+<<<<<<< HEAD
 #include "intel_dp_aux.h"
 #include "intel_hdmi.h"
 #include "intel_psr.h"
 #include "intel_sprite.h"
+=======
+#include "intel_psr.h"
+#include "intel_sprite.h"
+#include "intel_hdmi.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * DOC: Panel Self Refresh (PSR/SRD)
@@ -306,7 +312,11 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
 	drm_dbg_kms(&dev_priv->drm, "eDP panel supports PSR version %x\n",
 		    intel_dp->psr_dpcd[0]);
 
+<<<<<<< HEAD
 	if (drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_NO_PSR)) {
+=======
+	if (drm_dp_has_quirk(&intel_dp->desc, 0, DP_DPCD_QUIRK_NO_PSR)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		drm_dbg_kms(&dev_priv->drm,
 			    "PSR support not currently available for this panel\n");
 		return;
@@ -812,6 +822,7 @@ void intel_psr_compute_config(struct intel_dp *intel_dp,
 		&crtc_state->hw.adjusted_mode;
 	int psr_setup_time;
 
+<<<<<<< HEAD
 	/*
 	 * Current PSR panels dont work reliably with VRR enabled
 	 * So if VRR is enabled, do not enable PSR.
@@ -819,6 +830,8 @@ void intel_psr_compute_config(struct intel_dp *intel_dp,
 	if (crtc_state->vrr.enable)
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!CAN_PSR(dev_priv))
 		return;
 
@@ -1193,9 +1206,13 @@ void intel_psr2_program_plane_sel_fetch(struct intel_plane *plane,
 {
 	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
 	enum pipe pipe = plane->pipe;
+<<<<<<< HEAD
 	const struct drm_rect *clip;
 	u32 val, offset;
 	int ret, x, y;
+=======
+	u32 val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!crtc_state->enable_psr2_sel_fetch)
 		return;
@@ -1206,6 +1223,7 @@ void intel_psr2_program_plane_sel_fetch(struct intel_plane *plane,
 	if (!val || plane->id == PLANE_CURSOR)
 		return;
 
+<<<<<<< HEAD
 	clip = &plane_state->psr2_sel_fetch_area;
 
 	val = (clip->y1 + plane_state->uapi.dst.y1) << 16;
@@ -1220,11 +1238,22 @@ void intel_psr2_program_plane_sel_fetch(struct intel_plane *plane,
 		drm_warn_once(&dev_priv->drm, "skl_calc_main_surface_offset() returned %i\n",
 			      ret);
 	val = y << 16 | x;
+=======
+	val = plane_state->uapi.dst.y1 << 16 | plane_state->uapi.dst.x1;
+	intel_de_write_fw(dev_priv, PLANE_SEL_FETCH_POS(pipe, plane->id), val);
+
+	val = plane_state->color_plane[color_plane].y << 16;
+	val |= plane_state->color_plane[color_plane].x;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_de_write_fw(dev_priv, PLANE_SEL_FETCH_OFFSET(pipe, plane->id),
 			  val);
 
 	/* Sizes are 0 based */
+<<<<<<< HEAD
 	val = (drm_rect_height(clip) - 1) << 16;
+=======
+	val = ((drm_rect_height(&plane_state->uapi.src) >> 16) - 1) << 16;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val |= (drm_rect_width(&plane_state->uapi.src) >> 16) - 1;
 	intel_de_write_fw(dev_priv, PLANE_SEL_FETCH_SIZE(pipe, plane->id), val);
 }
@@ -1256,11 +1285,17 @@ static void psr2_man_trk_ctl_calc(struct intel_crtc_state *crtc_state,
 	if (clip->y1 == -1)
 		goto exit;
 
+<<<<<<< HEAD
 	drm_WARN_ON(crtc_state->uapi.crtc->dev, clip->y1 % 4 || clip->y2 % 4);
 
 	val |= PSR2_MAN_TRK_CTL_SF_PARTIAL_FRAME_UPDATE;
 	val |= PSR2_MAN_TRK_CTL_SU_REGION_START_ADDR(clip->y1 / 4 + 1);
 	val |= PSR2_MAN_TRK_CTL_SU_REGION_END_ADDR(clip->y2 / 4 + 1);
+=======
+	val |= PSR2_MAN_TRK_CTL_SF_PARTIAL_FRAME_UPDATE;
+	val |= PSR2_MAN_TRK_CTL_SU_REGION_START_ADDR(clip->y1 / 4 + 1);
+	val |= PSR2_MAN_TRK_CTL_SU_REGION_END_ADDR(DIV_ROUND_UP(clip->y2, 4) + 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit:
 	crtc_state->psr2_man_track_ctl = val;
 }
@@ -1285,8 +1320,13 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
 				struct intel_crtc *crtc)
 {
 	struct intel_crtc_state *crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
+<<<<<<< HEAD
 	struct drm_rect pipe_clip = { .x1 = 0, .y1 = -1, .x2 = INT_MAX, .y2 = -1 };
 	struct intel_plane_state *new_plane_state, *old_plane_state;
+=======
+	struct intel_plane_state *new_plane_state, *old_plane_state;
+	struct drm_rect pipe_clip = { .y1 = -1 };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_plane *plane;
 	bool full_update = false;
 	int i, ret;
@@ -1298,6 +1338,7 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	/*
 	 * Calculate minimal selective fetch area of each plane and calculate
 	 * the pipe damaged area.
@@ -1309,14 +1350,22 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
 		struct drm_rect src, damaged_area = { .y1 = -1 };
 		struct drm_mode_rect *damaged_clips;
 		u32 num_clips, j;
+=======
+	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
+					     new_plane_state, i) {
+		struct drm_rect temp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (new_plane_state->uapi.crtc != crtc_state->uapi.crtc)
 			continue;
 
+<<<<<<< HEAD
 		if (!new_plane_state->uapi.visible &&
 		    !old_plane_state->uapi.visible)
 			continue;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * TODO: Not clear how to handle planes with negative position,
 		 * also planes are not updated if they have a negative X
@@ -1328,6 +1377,7 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
 			break;
 		}
 
+<<<<<<< HEAD
 		num_clips = drm_plane_get_damage_clips_count(&new_plane_state->uapi);
 
 		/*
@@ -1416,6 +1466,20 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
 	}
 
 skip_sel_fetch_set_loop:
+=======
+		if (!new_plane_state->uapi.visible)
+			continue;
+
+		/*
+		 * For now doing a selective fetch in the whole plane area,
+		 * optimizations will come in the future.
+		 */
+		temp.y1 = new_plane_state->uapi.dst.y1;
+		temp.y2 = new_plane_state->uapi.dst.y2;
+		clip_area_update(&pipe_clip, &temp);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	psr2_man_trk_ctl_calc(crtc_state, &pipe_clip, full_update);
 	return 0;
 }

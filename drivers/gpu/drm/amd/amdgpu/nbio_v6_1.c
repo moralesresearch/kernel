@@ -29,6 +29,7 @@
 #include "nbio/nbio_6_1_sh_mask.h"
 #include "nbio/nbio_6_1_smn.h"
 #include "vega10_enum.h"
+<<<<<<< HEAD
 #include <uapi/linux/kfd_ioctl.h>
 
 static void nbio_v6_1_remap_hdp_registers(struct amdgpu_device *adev)
@@ -38,6 +39,8 @@ static void nbio_v6_1_remap_hdp_registers(struct amdgpu_device *adev)
 	WREG32_SOC15(NBIO, 0, mmREMAP_HDP_REG_FLUSH_CNTL,
 		adev->rmmio_remap.reg_offset + KFD_MMIO_REMAP_HDP_REG_FLUSH_CNTL);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static u32 nbio_v6_1_get_rev_id(struct amdgpu_device *adev)
 {
@@ -59,6 +62,21 @@ static void nbio_v6_1_mc_access_enable(struct amdgpu_device *adev, bool enable)
 		WREG32_SOC15(NBIO, 0, mmBIF_FB_EN, 0);
 }
 
+<<<<<<< HEAD
+=======
+static void nbio_v6_1_hdp_flush(struct amdgpu_device *adev,
+				struct amdgpu_ring *ring)
+{
+	if (!ring || !ring->funcs->emit_wreg)
+		WREG32_SOC15_NO_KIQ(NBIO, 0,
+				    mmBIF_BX_PF0_HDP_MEM_COHERENCY_FLUSH_CNTL,
+				    0);
+	else
+		amdgpu_ring_emit_wreg(ring, SOC15_REG_OFFSET(
+			NBIO, 0, mmBIF_BX_PF0_HDP_MEM_COHERENCY_FLUSH_CNTL), 0);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 nbio_v6_1_get_memsize(struct amdgpu_device *adev)
 {
 	return RREG32_SOC15(NBIO, 0, mmRCC_PF_0_0_RCC_CONFIG_MEMSIZE);
@@ -263,6 +281,10 @@ const struct amdgpu_nbio_funcs nbio_v6_1_funcs = {
 	.get_pcie_data_offset = nbio_v6_1_get_pcie_data_offset,
 	.get_rev_id = nbio_v6_1_get_rev_id,
 	.mc_access_enable = nbio_v6_1_mc_access_enable,
+<<<<<<< HEAD
+=======
+	.hdp_flush = nbio_v6_1_hdp_flush,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_memsize = nbio_v6_1_get_memsize,
 	.sdma_doorbell_range = nbio_v6_1_sdma_doorbell_range,
 	.enable_doorbell_aperture = nbio_v6_1_enable_doorbell_aperture,
@@ -273,5 +295,8 @@ const struct amdgpu_nbio_funcs nbio_v6_1_funcs = {
 	.get_clockgating_state = nbio_v6_1_get_clockgating_state,
 	.ih_control = nbio_v6_1_ih_control,
 	.init_registers = nbio_v6_1_init_registers,
+<<<<<<< HEAD
 	.remap_hdp_registers = nbio_v6_1_remap_hdp_registers,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

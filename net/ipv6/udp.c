@@ -409,8 +409,14 @@ try_again:
 		}
 		*addr_len = sizeof(*sin6);
 
+<<<<<<< HEAD
 		BPF_CGROUP_RUN_PROG_UDP6_RECVMSG_LOCK(sk,
 						      (struct sockaddr *)sin6);
+=======
+		if (cgroup_bpf_enabled)
+			BPF_CGROUP_RUN_PROG_UDP6_RECVMSG_LOCK(sk,
+						(struct sockaddr *)sin6);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (udp_sk(sk)->gro_enabled)
@@ -1461,7 +1467,11 @@ do_udp_sendmsg:
 		fl6.saddr = np->saddr;
 	fl6.fl6_sport = inet->inet_sport;
 
+<<<<<<< HEAD
 	if (cgroup_bpf_enabled(BPF_CGROUP_UDP6_SENDMSG) && !connected) {
+=======
+	if (cgroup_bpf_enabled && !connected) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = BPF_CGROUP_RUN_PROG_UDP6_SENDMSG_LOCK(sk,
 					   (struct sockaddr *)sin6, &fl6.saddr);
 		if (err)
@@ -1597,9 +1607,12 @@ void udpv6_destroy_sock(struct sock *sk)
 {
 	struct udp_sock *up = udp_sk(sk);
 	lock_sock(sk);
+<<<<<<< HEAD
 
 	/* protects from races with udp_abort() */
 	sock_set_flag(sk, SOCK_DEAD);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	udp_v6_flush_pending_frames(sk);
 	release_sock(sk);
 
@@ -1610,10 +1623,15 @@ void udpv6_destroy_sock(struct sock *sk)
 			if (encap_destroy)
 				encap_destroy(sk);
 		}
+<<<<<<< HEAD
 		if (up->encap_enabled) {
 			static_branch_dec(&udpv6_encap_needed_key);
 			udp_encap_disable();
 		}
+=======
+		if (up->encap_enabled)
+			static_branch_dec(&udpv6_encap_needed_key);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	inet6_destroy_sock(sk);

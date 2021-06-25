@@ -1367,13 +1367,21 @@ static void
 lpfc_nvmet_host_release(void *hosthandle)
 {
 	struct lpfc_nodelist *ndlp = hosthandle;
+<<<<<<< HEAD
 	struct lpfc_hba *phba = ndlp->phba;
 	struct lpfc_nvmet_tgtport *tgtp;
 
+=======
+	struct lpfc_hba *phba = NULL;
+	struct lpfc_nvmet_tgtport *tgtp;
+
+	phba = ndlp->phba;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!phba->targetport || !phba->targetport->private)
 		return;
 
 	lpfc_printf_log(phba, KERN_ERR, LOG_NVME,
+<<<<<<< HEAD
 			"6202 NVMET XPT releasing hosthandle x%px "
 			"DID x%x xflags x%x refcnt %d\n",
 			hosthandle, ndlp->nlp_DID, ndlp->fc4_xpt_flags,
@@ -1383,6 +1391,11 @@ lpfc_nvmet_host_release(void *hosthandle)
 	ndlp->fc4_xpt_flags &= ~NLP_XPT_HAS_HH;
 	spin_unlock_irq(&ndlp->lock);
 	lpfc_nlp_put(ndlp);
+=======
+			"6202 NVMET XPT releasing hosthandle x%px\n",
+			hosthandle);
+	tgtp = (struct lpfc_nvmet_tgtport *)phba->targetport->private;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&tgtp->state, 0);
 }
 
@@ -3304,6 +3317,10 @@ lpfc_nvmet_unsol_issue_abort(struct lpfc_hba *phba,
 	bf_set(wqe_rcvoxid, &wqe_abts->xmit_sequence.wqe_com, xri);
 
 	/* Word 10 */
+<<<<<<< HEAD
+=======
+	bf_set(wqe_dbde, &wqe_abts->xmit_sequence.wqe_com, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bf_set(wqe_iod, &wqe_abts->xmit_sequence.wqe_com, LPFC_WQE_IOD_WRITE);
 	bf_set(wqe_lenloc, &wqe_abts->xmit_sequence.wqe_com,
 	       LPFC_WQE_LENLOC_WORD12);
@@ -3648,17 +3665,24 @@ out:
 void
 lpfc_nvmet_invalidate_host(struct lpfc_hba *phba, struct lpfc_nodelist *ndlp)
 {
+<<<<<<< HEAD
 	u32 ndlp_has_hh;
 	struct lpfc_nvmet_tgtport *tgtp;
 
 	lpfc_printf_log(phba, KERN_INFO,
 			LOG_NVME | LOG_NVME_ABTS | LOG_NVME_DISC,
+=======
+	struct lpfc_nvmet_tgtport *tgtp;
+
+	lpfc_printf_log(phba, KERN_INFO, LOG_NVME | LOG_NVME_ABTS,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"6203 Invalidating hosthandle x%px\n",
 			ndlp);
 
 	tgtp = (struct lpfc_nvmet_tgtport *)phba->targetport->private;
 	atomic_set(&tgtp->state, LPFC_NVMET_INV_HOST_ACTIVE);
 
+<<<<<<< HEAD
 	spin_lock_irq(&ndlp->lock);
 	ndlp_has_hh = ndlp->fc4_xpt_flags & NLP_XPT_HAS_HH;
 	spin_unlock_irq(&ndlp->lock);
@@ -3675,6 +3699,8 @@ lpfc_nvmet_invalidate_host(struct lpfc_hba *phba, struct lpfc_nodelist *ndlp)
 		return;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
 	/* Need to get the nvmet_fc_target_port pointer here.*/
 	nvmet_fc_invalidate_host(phba->targetport, ndlp);

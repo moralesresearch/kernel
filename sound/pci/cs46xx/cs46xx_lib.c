@@ -813,7 +813,11 @@ static void snd_cs46xx_set_capture_sample_rate(struct snd_cs46xx *chip, unsigned
 	correctionPerGOF = tmp1 / GOF_PER_SEC;
 	tmp1 -= correctionPerGOF * GOF_PER_SEC;
 	correctionPerSec = tmp1;
+<<<<<<< HEAD
 	initialDelay = DIV_ROUND_UP(48000 * 24, rate);
+=======
+	initialDelay = ((48000 * 24) + rate - 1) / rate;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 *  Fill in the VariDecimate control block.

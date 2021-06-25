@@ -8,6 +8,7 @@
 #include <linux/linkage.h>
 #include <linux/topology.h>
 
+<<<<<<< HEAD
 /* The typedef is in types.h but we want the documentation here */
 #if 0
 /**
@@ -22,6 +23,8 @@
 typedef unsigned int __bitwise gfp_t;
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vm_area_struct;
 
 /*
@@ -597,6 +600,7 @@ extern void free_pages(unsigned long addr, unsigned int order);
 
 struct page_frag_cache;
 extern void __page_frag_cache_drain(struct page *page, unsigned int count);
+<<<<<<< HEAD
 extern void *page_frag_alloc_align(struct page_frag_cache *nc,
 				   unsigned int fragsz, gfp_t gfp_mask,
 				   unsigned int align_mask);
@@ -607,6 +611,10 @@ static inline void *page_frag_alloc(struct page_frag_cache *nc,
 	return page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
 }
 
+=======
+extern void *page_frag_alloc(struct page_frag_cache *nc,
+			     unsigned int fragsz, gfp_t gfp_mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void page_frag_free(void *addr);
 
 #define __free_page(page) __free_pages((page), 0)
@@ -634,8 +642,11 @@ bool gfp_pfmemalloc_allowed(gfp_t gfp_mask);
 extern void pm_restrict_gfp_mask(void);
 extern void pm_restore_gfp_mask(void);
 
+<<<<<<< HEAD
 extern gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PM_SLEEP
 extern bool pm_suspended_storage(void);
 #else

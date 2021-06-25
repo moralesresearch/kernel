@@ -69,6 +69,7 @@ HOSTCC  ?= gcc
 HOSTLD  ?= ld
 endif
 
+<<<<<<< HEAD
 # Some tools require Clang, LLC and/or LLVM utils
 CLANG		?= clang
 LLC		?= llc
@@ -76,6 +77,8 @@ LLVM_CONFIG	?= llvm-config
 LLVM_OBJCOPY	?= llvm-objcopy
 LLVM_STRIP	?= llvm-strip
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ifeq ($(CC_NO_CLANG), 1)
 EXTRA_WARNINGS += -Wstrict-aliasing=3
 endif
@@ -134,7 +137,10 @@ ifneq ($(silent),1)
 			 $(MAKE) $(PRINT_DIR) -C $$subdir
 	QUIET_FLEX     = @echo '  FLEX     '$@;
 	QUIET_BISON    = @echo '  BISON    '$@;
+<<<<<<< HEAD
 	QUIET_GENSKEL  = @echo '  GEN-SKEL '$@;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	descend = \
 		+@echo	       '  DESCEND  '$(1); \

@@ -554,7 +554,11 @@ static int mes_v10_1_allocate_eop_buf(struct amdgpu_device *adev)
 		return r;
 	}
 
+<<<<<<< HEAD
 	memset(eop, 0, adev->mes.eop_gpu_obj->tbo.base.size);
+=======
+	memset(eop, 0, adev->mes.eop_gpu_obj->tbo.mem.size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	amdgpu_bo_kunmap(adev->mes.eop_gpu_obj);
 	amdgpu_bo_unreserve(adev->mes.eop_gpu_obj);

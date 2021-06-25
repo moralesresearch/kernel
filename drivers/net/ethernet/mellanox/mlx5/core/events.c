@@ -23,7 +23,11 @@ static int temp_warn(struct notifier_block *, unsigned long, void *);
 static int port_module(struct notifier_block *, unsigned long, void *);
 static int pcie_core(struct notifier_block *, unsigned long, void *);
 
+<<<<<<< HEAD
 /* handler which forwards the event to events->fw_nh, driver notifiers */
+=======
+/* handler which forwards the event to events->nh, driver notifiers */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int forward_event(struct notifier_block *, unsigned long, void *);
 
 static struct mlx5_nb events_nbs_ref[] = {
@@ -55,14 +59,22 @@ struct mlx5_events {
 	struct mlx5_core_dev *dev;
 	struct workqueue_struct *wq;
 	struct mlx5_event_nb  notifiers[ARRAY_SIZE(events_nbs_ref)];
+<<<<<<< HEAD
 	/* driver notifier chain for fw events */
 	struct atomic_notifier_head fw_nh;
+=======
+	/* driver notifier chain */
+	struct atomic_notifier_head nh;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* port module events stats */
 	struct mlx5_pme_stats pme_stats;
 	/*pcie_core*/
 	struct work_struct pcie_core_work;
+<<<<<<< HEAD
 	/* driver notifier chain for sw events */
 	struct blocking_notifier_head sw_nh;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const char *eqe_type_str(u8 type)
@@ -112,8 +124,11 @@ static const char *eqe_type_str(u8 type)
 		return "MLX5_EVENT_TYPE_CMD";
 	case MLX5_EVENT_TYPE_ESW_FUNCTIONS_CHANGED:
 		return "MLX5_EVENT_TYPE_ESW_FUNCTIONS_CHANGED";
+<<<<<<< HEAD
 	case MLX5_EVENT_TYPE_VHCA_STATE_CHANGE:
 		return "MLX5_EVENT_TYPE_VHCA_STATE_CHANGE";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MLX5_EVENT_TYPE_PAGE_REQUEST:
 		return "MLX5_EVENT_TYPE_PAGE_REQUEST";
 	case MLX5_EVENT_TYPE_PAGE_FAULT:
@@ -335,7 +350,11 @@ static int forward_event(struct notifier_block *nb, unsigned long event, void *d
 
 	mlx5_core_dbg(events->dev, "Async eqe type %s, subtype (%d) forward to interfaces\n",
 		      eqe_type_str(eqe->type), eqe->sub_type);
+<<<<<<< HEAD
 	atomic_notifier_call_chain(&events->fw_nh, event, data);
+=======
+	atomic_notifier_call_chain(&events->nh, event, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NOTIFY_OK;
 }
 
@@ -346,7 +365,11 @@ int mlx5_events_init(struct mlx5_core_dev *dev)
 	if (!events)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ATOMIC_INIT_NOTIFIER_HEAD(&events->fw_nh);
+=======
+	ATOMIC_INIT_NOTIFIER_HEAD(&events->nh);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	events->dev = dev;
 	dev->priv.events = events;
 	events->wq = create_singlethread_workqueue("mlx5_events");
@@ -355,7 +378,10 @@ int mlx5_events_init(struct mlx5_core_dev *dev)
 		return -ENOMEM;
 	}
 	INIT_WORK(&events->pcie_core_work, mlx5_pcie_event);
+<<<<<<< HEAD
 	BLOCKING_INIT_NOTIFIER_HEAD(&events->sw_nh);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -388,14 +414,21 @@ void mlx5_events_stop(struct mlx5_core_dev *dev)
 	flush_workqueue(events->wq);
 }
 
+<<<<<<< HEAD
 /* This API is used only for processing and forwarding firmware
  * events to mlx5 consumer.
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int mlx5_notifier_register(struct mlx5_core_dev *dev, struct notifier_block *nb)
 {
 	struct mlx5_events *events = dev->priv.events;
 
+<<<<<<< HEAD
 	return atomic_notifier_chain_register(&events->fw_nh, nb);
+=======
+	return atomic_notifier_chain_register(&events->nh, nb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(mlx5_notifier_register);
 
@@ -403,12 +436,17 @@ int mlx5_notifier_unregister(struct mlx5_core_dev *dev, struct notifier_block *n
 {
 	struct mlx5_events *events = dev->priv.events;
 
+<<<<<<< HEAD
 	return atomic_notifier_chain_unregister(&events->fw_nh, nb);
+=======
+	return atomic_notifier_chain_unregister(&events->nh, nb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(mlx5_notifier_unregister);
 
 int mlx5_notifier_call_chain(struct mlx5_events *events, unsigned int event, void *data)
 {
+<<<<<<< HEAD
 	return atomic_notifier_call_chain(&events->fw_nh, event, data);
 }
 
@@ -440,4 +478,7 @@ int mlx5_blocking_notifier_call_chain(struct mlx5_core_dev *dev, unsigned int ev
 void mlx5_events_work_enqueue(struct mlx5_core_dev *dev, struct work_struct *work)
 {
 	queue_work(dev->priv.events->wq, work);
+=======
+	return atomic_notifier_call_chain(&events->nh, event, data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

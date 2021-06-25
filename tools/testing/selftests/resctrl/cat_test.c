@@ -17,10 +17,17 @@
 #define MAX_DIFF_PERCENT	4
 #define MAX_DIFF		1000000
 
+<<<<<<< HEAD
 static int count_of_bits;
 static char cbm_mask[256];
 static unsigned long long_mask;
 static unsigned long cache_size;
+=======
+int count_of_bits;
+char cbm_mask[256];
+unsigned long long_mask;
+unsigned long cache_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Change schemata. Write schemata to specified
@@ -136,7 +143,11 @@ int cat_perf_miss_val(int cpu_no, int n, char *cache_type)
 		return -1;
 
 	/* Get default cbm mask for L3/L2 cache */
+<<<<<<< HEAD
 	ret = get_cbm_mask(cache_type, cbm_mask);
+=======
+	ret = get_cbm_mask(cache_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -164,7 +175,11 @@ int cat_perf_miss_val(int cpu_no, int n, char *cache_type)
 		return -1;
 
 	struct resctrl_val_param param = {
+<<<<<<< HEAD
 		.resctrl_val	= CAT_STR,
+=======
+		.resctrl_val	= "cat",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cpu_no		= cpu_no,
 		.mum_resctrlfs	= 0,
 		.setup		= cat_setup,

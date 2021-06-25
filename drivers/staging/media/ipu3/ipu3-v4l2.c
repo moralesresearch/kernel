@@ -686,7 +686,10 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 
 	dev_dbg(dev, "IPU3 pipe %u pipe_id = %u", pipe, css_pipe->pipe_id);
 
+<<<<<<< HEAD
 	css_q = imgu_node_to_queue(node);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < IPU3_CSS_QUEUES; i++) {
 		unsigned int inode = imgu_map_node(imgu, i);
 
@@ -694,6 +697,7 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 		if (inode == IMGU_NODE_STAT_3A || inode == IMGU_NODE_PARAMS)
 			continue;
 
+<<<<<<< HEAD
 		/* CSS expects some format on OUT queue */
 		if (i != IPU3_CSS_QUEUE_OUT &&
 		    !imgu_pipe->nodes[inode].enabled) {
@@ -706,6 +710,8 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 			continue;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (try) {
 			fmts[i] = kmemdup(&imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp,
 					  sizeof(struct v4l2_pix_format_mplane),
@@ -718,6 +724,13 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
 		}
 
+<<<<<<< HEAD
+=======
+		/* CSS expects some format on OUT queue */
+		if (i != IPU3_CSS_QUEUE_OUT &&
+		    !imgu_pipe->nodes[inode].enabled)
+			fmts[i] = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (!try) {
@@ -734,10 +747,22 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 		rects[IPU3_CSS_RECT_GDC]->height = pad_fmt.height;
 	}
 
+<<<<<<< HEAD
+=======
+	/*
+	 * imgu doesn't set the node to the value given by user
+	 * before we return success from this function, so set it here.
+	 */
+	css_q = imgu_node_to_queue(node);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fmts[css_q]) {
 		ret = -EINVAL;
 		goto out;
 	}
+<<<<<<< HEAD
+=======
+	*fmts[css_q] = f->fmt.pix_mp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (try)
 		ret = imgu_css_fmt_try(&imgu->css, fmts, rects, pipe);
@@ -748,18 +773,29 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
 	if (ret < 0)
 		goto out;
 
+<<<<<<< HEAD
 	/*
 	 * imgu doesn't set the node to the value given by user
 	 * before we return success from this function, so set it here.
 	 */
 	if (!try)
 		imgu_pipe->nodes[node].vdev_fmt.fmt.pix_mp = f->fmt.pix_mp;
+=======
+	if (try)
+		f->fmt.pix_mp = *fmts[css_q];
+	else
+		f->fmt = imgu_pipe->nodes[node].vdev_fmt.fmt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	if (try) {
 		for (i = 0; i < IPU3_CSS_QUEUES; i++)
+<<<<<<< HEAD
 			if (i != css_q)
 				kfree(fmts[i]);
+=======
+			kfree(fmts[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;
@@ -779,6 +815,12 @@ static int imgu_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
 
 	pixm->pixelformat = fmt->fourcc;
 
+<<<<<<< HEAD
+=======
+	memset(pixm->plane_fmt[0].reserved, 0,
+	       sizeof(pixm->plane_fmt[0].reserved));
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

@@ -146,8 +146,13 @@ gk20a_pllg_n_lo(struct gk20a_clk *clk, struct gk20a_pll *pll)
 			    clk->parent_rate / KHZ);
 }
 
+<<<<<<< HEAD
 int gk20a_clk_ctor(struct nvkm_device *, enum nvkm_subdev_type, int, const struct nvkm_clk_func *,
 		   const struct gk20a_clk_pllg_params *, struct gk20a_clk *);
+=======
+int gk20a_clk_ctor(struct nvkm_device *, int, const struct nvkm_clk_func *,
+		    const struct gk20a_clk_pllg_params *, struct gk20a_clk *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void gk20a_clk_fini(struct nvkm_clk *);
 int gk20a_clk_read(struct nvkm_clk *, enum nv_clk_src);
 int gk20a_clk_calc(struct nvkm_clk *, struct nvkm_cstate *);

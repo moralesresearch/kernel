@@ -280,7 +280,11 @@ void hpfs_init_inode(struct inode *);
 void hpfs_read_inode(struct inode *);
 void hpfs_write_inode(struct inode *);
 void hpfs_write_inode_nolock(struct inode *);
+<<<<<<< HEAD
 int hpfs_setattr(struct user_namespace *, struct dentry *, struct iattr *);
+=======
+int hpfs_setattr(struct dentry *, struct iattr *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void hpfs_write_if_changed(struct inode *);
 void hpfs_evict_inode(struct inode *);
 

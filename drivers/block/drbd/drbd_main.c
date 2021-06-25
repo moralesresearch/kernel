@@ -138,6 +138,22 @@ static const struct block_device_operations drbd_ops = {
 	.release	= drbd_release,
 };
 
+<<<<<<< HEAD
+=======
+struct bio *bio_alloc_drbd(gfp_t gfp_mask)
+{
+	struct bio *bio;
+
+	if (!bioset_initialized(&drbd_md_io_bio_set))
+		return bio_alloc(gfp_mask, 1);
+
+	bio = bio_alloc_bioset(gfp_mask, 1, &drbd_md_io_bio_set);
+	if (!bio)
+		return NULL;
+	return bio;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef __CHECKER__
 /* When checking with sparse, and this is an inline function, sparse will
    give tons of false positives. When this is a real functions sparse works.
@@ -2275,6 +2291,10 @@ static void do_retry(struct work_struct *ws)
 	list_for_each_entry_safe(req, tmp, &writes, tl_requests) {
 		struct drbd_device *device = req->device;
 		struct bio *bio = req->master_bio;
+<<<<<<< HEAD
+=======
+		unsigned long start_jif = req->start_jif;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bool expected;
 
 		expected =
@@ -2309,7 +2329,11 @@ static void do_retry(struct work_struct *ws)
 		/* We are not just doing submit_bio_noacct(),
 		 * as we want to keep the start_time information. */
 		inc_ap_bio(device);
+<<<<<<< HEAD
 		__drbd_make_request(device, bio);
+=======
+		__drbd_make_request(device, bio, start_jif);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

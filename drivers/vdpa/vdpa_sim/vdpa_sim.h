@@ -33,8 +33,11 @@ struct vdpasim_virtqueue {
 };
 
 struct vdpasim_dev_attr {
+<<<<<<< HEAD
 	struct vdpa_mgmt_dev *mgmt_dev;
 	const char *name;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 supported_features;
 	size_t config_size;
 	size_t buffer_size;

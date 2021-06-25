@@ -198,6 +198,9 @@ void dmub_dcn20_skip_dmub_panel_power_sequence(struct dmub_srv *dmub, bool skip)
 
 union dmub_fw_boot_status dmub_dcn20_get_fw_boot_status(struct dmub_srv *dmub);
 
+<<<<<<< HEAD
 bool dmub_dcn20_use_cached_inbox(struct dmub_srv *dmub);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _DMUB_DCN20_H_ */

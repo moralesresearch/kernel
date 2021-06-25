@@ -5,7 +5,10 @@
 #include <asm/rmwcc.h>
 #include <asm/percpu.h>
 #include <linux/thread_info.h>
+<<<<<<< HEAD
 #include <linux/static_call_types.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DECLARE_PER_CPU(int, __preempt_count);
 
@@ -104,6 +107,7 @@ static __always_inline bool should_resched(int preempt_offset)
 }
 
 #ifdef CONFIG_PREEMPTION
+<<<<<<< HEAD
 
 extern asmlinkage void preempt_schedule(void);
 extern asmlinkage void preempt_schedule_thunk(void);
@@ -144,5 +148,18 @@ do { \
 #endif /* PREEMPT_DYNAMIC */
 
 #endif /* PREEMPTION */
+=======
+  extern asmlinkage void preempt_schedule_thunk(void);
+# define __preempt_schedule() \
+	asm volatile ("call preempt_schedule_thunk" : ASM_CALL_CONSTRAINT)
+
+  extern asmlinkage void preempt_schedule(void);
+  extern asmlinkage void preempt_schedule_notrace_thunk(void);
+# define __preempt_schedule_notrace() \
+	asm volatile ("call preempt_schedule_notrace_thunk" : ASM_CALL_CONSTRAINT)
+
+  extern asmlinkage void preempt_schedule_notrace(void);
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __ASM_PREEMPT_H */

@@ -67,6 +67,10 @@ static int cfg80211_conn_scan(struct wireless_dev *wdev)
 	struct cfg80211_scan_request *request;
 	int n_channels, err;
 
+<<<<<<< HEAD
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ASSERT_WDEV_LOCK(wdev);
 
 	if (rdev->scan_req || rdev->scan_msg)
@@ -232,7 +236,11 @@ void cfg80211_conn_work(struct work_struct *work)
 	u8 bssid_buf[ETH_ALEN], *bssid = NULL;
 	enum nl80211_timeout_reason treason;
 
+<<<<<<< HEAD
 	wiphy_lock(&rdev->wiphy);
+=======
+	rtnl_lock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
 		if (!wdev->netdev)
@@ -265,7 +273,11 @@ void cfg80211_conn_work(struct work_struct *work)
 		wdev_unlock(wdev);
 	}
 
+<<<<<<< HEAD
 	wiphy_unlock(&rdev->wiphy);
+=======
+	rtnl_unlock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Returned bss is reference counted and must be cleaned up appropriately. */
@@ -529,7 +541,11 @@ static int cfg80211_sme_connect(struct wireless_dev *wdev,
 		cfg80211_sme_free(wdev);
 	}
 
+<<<<<<< HEAD
 	if (wdev->conn)
+=======
+	if (WARN_ON(wdev->conn))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINPROGRESS;
 
 	wdev->conn = kzalloc(sizeof(*wdev->conn), GFP_KERNEL);

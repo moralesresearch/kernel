@@ -312,6 +312,10 @@ DataStoreTLBMiss:
 	. = 0x1300
 InstructionTLBError:
 	EXCEPTION_PROLOG
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	andis.	r5,r9,DSISR_SRR1_MATCH_32S@h /* Filter relevant SRR1 bits */
 	andis.	r10,r9,SRR1_ISI_NOPT@h
 	beq+	.Litlbie
@@ -320,6 +324,19 @@ InstructionTLBError:
 .Litlbie:
 	stw	r12, _DAR(r11)
 	stw	r5, _DSISR(r11)
+<<<<<<< HEAD
+=======
+=======
+	mr	r4,r12
+	andis.	r5,r9,DSISR_SRR1_MATCH_32S@h /* Filter relevant SRR1 bits */
+	andis.	r10,r9,SRR1_ISI_NOPT@h
+	beq+	.Litlbie
+	tlbie	r4
+	/* 0x400 is InstructionAccess exception, needed by bad_page_fault() */
+.Litlbie:
+	stw	r4, _DAR(r11)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	EXC_XFER_LITE(0x400, handle_page_fault)
 
 /* This is the data TLB error on the MPC8xx.  This could be due to
@@ -364,9 +381,22 @@ do_databreakpoint:
 	addi	r3,r1,STACK_FRAME_OVERHEAD
 	mfspr	r4,SPRN_BAR
 	stw	r4,_DAR(r11)
+<<<<<<< HEAD
 #ifndef CONFIG_VMAP_STACK
 	mfspr	r5,SPRN_DSISR
 	stw	r5,_DSISR(r11)
+=======
+<<<<<<< HEAD
+#ifndef CONFIG_VMAP_STACK
+	mfspr	r5,SPRN_DSISR
+	stw	r5,_DSISR(r11)
+=======
+#ifdef CONFIG_VMAP_STACK
+	lwz	r5,_DSISR(r11)
+#else
+	mfspr	r5,SPRN_DSISR
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	EXC_XFER_STD(0x1c00, do_break)
 

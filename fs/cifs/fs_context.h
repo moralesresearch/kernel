@@ -118,8 +118,11 @@ enum cifs_param {
 	Opt_rsize,
 	Opt_wsize,
 	Opt_actimeo,
+<<<<<<< HEAD
 	Opt_acdirmax,
 	Opt_acregmax,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	Opt_echo_interval,
 	Opt_max_credits,
 	Opt_snapshot,
@@ -234,9 +237,13 @@ struct smb3_fs_context {
 	unsigned int wsize;
 	unsigned int min_offload;
 	bool sockopt_tcp_nodelay:1;
+<<<<<<< HEAD
 	/* attribute cache timemout for files and directories in jiffies */
 	unsigned long acregmax;
 	unsigned long acdirmax;
+=======
+	unsigned long actimeo; /* attribute cache timeout (jiffies) */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct smb_version_operations *ops;
 	struct smb_version_values *vals;
 	char *prepath;

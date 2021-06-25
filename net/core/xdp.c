@@ -350,8 +350,12 @@ static void __xdp_return(void *data, struct xdp_mem_info *mem, bool napi_direct,
 		/* mem->id is valid, checked in xdp_rxq_info_reg_mem_model() */
 		xa = rhashtable_lookup(mem_id_ht, &mem->id, mem_id_rht_params);
 		page = virt_to_head_page(data);
+<<<<<<< HEAD
 		if (napi_direct && xdp_return_frame_no_direct())
 			napi_direct = false;
+=======
+		napi_direct &= !xdp_return_frame_no_direct();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		page_pool_put_full_page(xa->page_pool, page, napi_direct);
 		rcu_read_unlock();
 		break;
@@ -514,6 +518,7 @@ void xdp_warn(const char *msg, const char *func, const int line)
 	WARN(1, "XDP_WARN: %s(line:%d): %s\n", func, line, msg);
 };
 EXPORT_SYMBOL_GPL(xdp_warn);
+<<<<<<< HEAD
 
 int xdp_alloc_skb_bulk(void **skbs, int n_skb, gfp_t gfp)
 {
@@ -584,3 +589,5 @@ struct sk_buff *xdp_build_skb_from_frame(struct xdp_frame *xdpf,
 	return __xdp_build_skb_from_frame(xdpf, skb, dev);
 }
 EXPORT_SYMBOL_GPL(xdp_build_skb_from_frame);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

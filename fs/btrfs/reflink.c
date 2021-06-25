@@ -81,10 +81,20 @@ static int copy_inline_to_page(struct btrfs_inode *inode,
 		goto out_unlock;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = set_page_extent_mapped(page);
 	if (ret < 0)
 		goto out_unlock;
 
+<<<<<<< HEAD
+=======
+=======
+	set_page_extent_mapped(page);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clear_extent_bit(&inode->io_tree, file_offset, range_end,
 			 EXTENT_DELALLOC | EXTENT_DO_ACCOUNTING | EXTENT_DEFRAG,
 			 0, 0, NULL);
@@ -106,8 +116,22 @@ static int copy_inline_to_page(struct btrfs_inode *inode,
 	set_bit(BTRFS_INODE_NO_DELALLOC_FLUSH, &inode->runtime_flags);
 
 	if (comp_type == BTRFS_COMPRESS_NONE) {
+<<<<<<< HEAD
 		memcpy_to_page(page, 0, data_start, datal);
 		flush_dcache_page(page);
+=======
+<<<<<<< HEAD
+		memcpy_to_page(page, 0, data_start, datal);
+		flush_dcache_page(page);
+=======
+		char *map;
+
+		map = kmap(page);
+		memcpy(map, data_start, datal);
+		flush_dcache_page(page);
+		kunmap(page);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ret = btrfs_decompress(comp_type, data_start, page, 0,
 				       inline_size, datal);
@@ -207,7 +231,14 @@ static int clone_copy_inline_extent(struct inode *dst,
 			 * inline extent's data to the page.
 			 */
 			ASSERT(key.offset > 0);
+<<<<<<< HEAD
 			goto copy_to_page;
+=======
+			ret = copy_inline_to_page(BTRFS_I(dst), new_key->offset,
+						  inline_data, size, datal,
+						  comp_type);
+			goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (i_size_read(dst) <= datal) {
 		struct btrfs_file_extent_item *ei;
@@ -223,10 +254,20 @@ static int clone_copy_inline_extent(struct inode *dst,
 		    BTRFS_FILE_EXTENT_INLINE)
 			goto copy_inline_extent;
 
+<<<<<<< HEAD
 		goto copy_to_page;
 	}
 
 copy_inline_extent:
+=======
+		ret = copy_inline_to_page(BTRFS_I(dst), new_key->offset,
+					  inline_data, size, datal, comp_type);
+		goto out;
+	}
+
+copy_inline_extent:
+	ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We have no extent items, or we have an extent at offset 0 which may
 	 * or may not be inlined. All these cases are dealt the same way.
@@ -238,6 +279,7 @@ copy_inline_extent:
 		 * clone. Deal with all these cases by copying the inline extent
 		 * data into the respective page at the destination inode.
 		 */
+<<<<<<< HEAD
 		goto copy_to_page;
 	}
 
@@ -245,6 +287,13 @@ copy_inline_extent:
 	 * Release path before starting a new transaction so we don't hold locks
 	 * that would confuse lockdep.
 	 */
+=======
+		ret = copy_inline_to_page(BTRFS_I(dst), new_key->offset,
+					  inline_data, size, datal, comp_type);
+		goto out;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	btrfs_release_path(path);
 	/*
 	 * If we end up here it means were copy the inline extent into a leaf
@@ -301,6 +350,7 @@ out:
 		*trans_out = trans;
 
 	return ret;
+<<<<<<< HEAD
 
 copy_to_page:
 	/*
@@ -316,6 +366,8 @@ copy_to_page:
 	ret = copy_inline_to_page(BTRFS_I(dst), new_key->offset,
 				  inline_data, size, datal, comp_type);
 	goto out;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -844,7 +896,11 @@ loff_t btrfs_remap_file_range(struct file *src_file, loff_t off,
 		return -EINVAL;
 
 	if (same_inode)
+<<<<<<< HEAD
 		btrfs_inode_lock(src_inode, 0);
+=======
+		inode_lock(src_inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		lock_two_nondirectories(src_inode, dst_inode);
 
@@ -860,7 +916,11 @@ loff_t btrfs_remap_file_range(struct file *src_file, loff_t off,
 
 out_unlock:
 	if (same_inode)
+<<<<<<< HEAD
 		btrfs_inode_unlock(src_inode, 0);
+=======
+		inode_unlock(src_inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		unlock_two_nondirectories(src_inode, dst_inode);
 

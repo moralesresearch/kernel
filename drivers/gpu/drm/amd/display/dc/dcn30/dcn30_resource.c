@@ -181,7 +181,11 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_0_soc = {
 		},
 	.min_dcfclk = 500.0, /* TODO: set this to actual min DCFCLK */
 	.num_states = 1,
+<<<<<<< HEAD
 	.sr_exit_time_us = 15.5,
+=======
+	.sr_exit_time_us = 12,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.sr_enter_plus_exit_time_us = 20,
 	.urgent_latency_us = 4.0,
 	.urgent_latency_pixel_data_only_us = 4.0,
@@ -826,11 +830,18 @@ static const struct dc_plane_cap plane_cap = {
 			.fp16 = 16000
 	},
 
+<<<<<<< HEAD
 	/* 6:1 downscaling ratio: 1000/6 = 166.666 */
 	.max_downscale_factor = {
 			.argb8888 = 167,
 			.nv12 = 167,
 			.fp16 = 167
+=======
+	.max_downscale_factor = {
+			.argb8888 = 600,
+			.nv12 = 600,
+			.fp16 = 600
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 };
 
@@ -1717,22 +1728,153 @@ static bool is_soc_bounding_box_valid(struct dc *dc)
 static bool init_soc_bounding_box(struct dc *dc,
 				  struct dcn30_resource_pool *pool)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	const struct gpu_info_soc_bounding_box_v1_0 *bb = dc->soc_bounding_box;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct _vcs_dpi_soc_bounding_box_st *loaded_bb = &dcn3_0_soc;
 	struct _vcs_dpi_ip_params_st *loaded_ip = &dcn3_0_ip;
 
 	DC_LOGGER_INIT(dc->ctx->logger);
 
+<<<<<<< HEAD
 	if (!is_soc_bounding_box_valid(dc)) {
+=======
+<<<<<<< HEAD
+	if (!is_soc_bounding_box_valid(dc)) {
+=======
+	if (!bb && !is_soc_bounding_box_valid(dc)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DC_LOG_ERROR("%s: not valid soc bounding box/n", __func__);
 		return false;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (bb && !is_soc_bounding_box_valid(dc)) {
+		int i;
+
+		dcn3_0_soc.sr_exit_time_us =
+				fixed16_to_double_to_cpu(bb->sr_exit_time_us);
+		dcn3_0_soc.sr_enter_plus_exit_time_us =
+				fixed16_to_double_to_cpu(bb->sr_enter_plus_exit_time_us);
+		dcn3_0_soc.urgent_latency_us =
+				fixed16_to_double_to_cpu(bb->urgent_latency_us);
+		dcn3_0_soc.urgent_latency_pixel_data_only_us =
+				fixed16_to_double_to_cpu(bb->urgent_latency_pixel_data_only_us);
+		dcn3_0_soc.urgent_latency_pixel_mixed_with_vm_data_us =
+				fixed16_to_double_to_cpu(bb->urgent_latency_pixel_mixed_with_vm_data_us);
+		dcn3_0_soc.urgent_latency_vm_data_only_us =
+				fixed16_to_double_to_cpu(bb->urgent_latency_vm_data_only_us);
+		dcn3_0_soc.urgent_out_of_order_return_per_channel_pixel_only_bytes =
+				le32_to_cpu(bb->urgent_out_of_order_return_per_channel_pixel_only_bytes);
+		dcn3_0_soc.urgent_out_of_order_return_per_channel_pixel_and_vm_bytes =
+				le32_to_cpu(bb->urgent_out_of_order_return_per_channel_pixel_and_vm_bytes);
+		dcn3_0_soc.urgent_out_of_order_return_per_channel_vm_only_bytes =
+				le32_to_cpu(bb->urgent_out_of_order_return_per_channel_vm_only_bytes);
+		dcn3_0_soc.pct_ideal_dram_sdp_bw_after_urgent_pixel_only =
+				fixed16_to_double_to_cpu(bb->pct_ideal_dram_sdp_bw_after_urgent_pixel_only);
+		dcn3_0_soc.pct_ideal_dram_sdp_bw_after_urgent_pixel_and_vm =
+				fixed16_to_double_to_cpu(bb->pct_ideal_dram_sdp_bw_after_urgent_pixel_and_vm);
+		dcn3_0_soc.pct_ideal_dram_sdp_bw_after_urgent_vm_only =
+				fixed16_to_double_to_cpu(bb->pct_ideal_dram_sdp_bw_after_urgent_vm_only);
+		dcn3_0_soc.max_avg_sdp_bw_use_normal_percent =
+				fixed16_to_double_to_cpu(bb->max_avg_sdp_bw_use_normal_percent);
+		dcn3_0_soc.max_avg_dram_bw_use_normal_percent =
+				fixed16_to_double_to_cpu(bb->max_avg_dram_bw_use_normal_percent);
+		dcn3_0_soc.writeback_latency_us =
+				fixed16_to_double_to_cpu(bb->writeback_latency_us);
+		dcn3_0_soc.ideal_dram_bw_after_urgent_percent =
+				fixed16_to_double_to_cpu(bb->ideal_dram_bw_after_urgent_percent);
+		dcn3_0_soc.max_request_size_bytes =
+				le32_to_cpu(bb->max_request_size_bytes);
+		dcn3_0_soc.dram_channel_width_bytes =
+				le32_to_cpu(bb->dram_channel_width_bytes);
+		dcn3_0_soc.fabric_datapath_to_dcn_data_return_bytes =
+				le32_to_cpu(bb->fabric_datapath_to_dcn_data_return_bytes);
+		dcn3_0_soc.dcn_downspread_percent =
+				fixed16_to_double_to_cpu(bb->dcn_downspread_percent);
+		dcn3_0_soc.downspread_percent =
+				fixed16_to_double_to_cpu(bb->downspread_percent);
+		dcn3_0_soc.dram_page_open_time_ns =
+				fixed16_to_double_to_cpu(bb->dram_page_open_time_ns);
+		dcn3_0_soc.dram_rw_turnaround_time_ns =
+				fixed16_to_double_to_cpu(bb->dram_rw_turnaround_time_ns);
+		dcn3_0_soc.dram_return_buffer_per_channel_bytes =
+				le32_to_cpu(bb->dram_return_buffer_per_channel_bytes);
+		dcn3_0_soc.round_trip_ping_latency_dcfclk_cycles =
+				le32_to_cpu(bb->round_trip_ping_latency_dcfclk_cycles);
+		dcn3_0_soc.urgent_out_of_order_return_per_channel_bytes =
+				le32_to_cpu(bb->urgent_out_of_order_return_per_channel_bytes);
+		dcn3_0_soc.channel_interleave_bytes =
+				le32_to_cpu(bb->channel_interleave_bytes);
+		dcn3_0_soc.num_banks =
+				le32_to_cpu(bb->num_banks);
+		dcn3_0_soc.num_chans =
+				le32_to_cpu(bb->num_chans);
+		dcn3_0_soc.gpuvm_min_page_size_bytes =
+				le32_to_cpu(bb->vmm_page_size_bytes);
+		dcn3_0_soc.dram_clock_change_latency_us =
+				fixed16_to_double_to_cpu(bb->dram_clock_change_latency_us);
+		dcn3_0_soc.writeback_dram_clock_change_latency_us =
+				fixed16_to_double_to_cpu(bb->writeback_dram_clock_change_latency_us);
+		dcn3_0_soc.return_bus_width_bytes =
+				le32_to_cpu(bb->return_bus_width_bytes);
+		dcn3_0_soc.dispclk_dppclk_vco_speed_mhz =
+				le32_to_cpu(bb->dispclk_dppclk_vco_speed_mhz);
+		dcn3_0_soc.xfc_bus_transport_time_us =
+				le32_to_cpu(bb->xfc_bus_transport_time_us);
+		dcn3_0_soc.xfc_xbuf_latency_tolerance_us =
+				le32_to_cpu(bb->xfc_xbuf_latency_tolerance_us);
+		dcn3_0_soc.use_urgent_burst_bw =
+				le32_to_cpu(bb->use_urgent_burst_bw);
+		dcn3_0_soc.num_states =
+				le32_to_cpu(bb->num_states);
+
+		for (i = 0; i < dcn3_0_soc.num_states; i++) {
+			dcn3_0_soc.clock_limits[i].state =
+					le32_to_cpu(bb->clock_limits[i].state);
+			dcn3_0_soc.clock_limits[i].dcfclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].dcfclk_mhz);
+			dcn3_0_soc.clock_limits[i].fabricclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].fabricclk_mhz);
+			dcn3_0_soc.clock_limits[i].dispclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].dispclk_mhz);
+			dcn3_0_soc.clock_limits[i].dppclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].dppclk_mhz);
+			dcn3_0_soc.clock_limits[i].phyclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].phyclk_mhz);
+			dcn3_0_soc.clock_limits[i].socclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].socclk_mhz);
+			dcn3_0_soc.clock_limits[i].dscclk_mhz =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].dscclk_mhz);
+			dcn3_0_soc.clock_limits[i].dram_speed_mts =
+					fixed16_to_double_to_cpu(bb->clock_limits[i].dram_speed_mts);
+		}
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	loaded_ip->max_num_otg = pool->base.res_cap->num_timing_generator;
 	loaded_ip->max_num_dpp = pool->base.pipe_count;
 	loaded_ip->clamp_min_dcfclk = dc->config.clamp_min_dcfclk;
 	dcn20_patch_bounding_box(dc, loaded_bb);
 
+<<<<<<< HEAD
 	if (dc->ctx->dc_bios->funcs->get_soc_bb_info) {
+=======
+<<<<<<< HEAD
+	if (dc->ctx->dc_bios->funcs->get_soc_bb_info) {
+=======
+	if (!bb && dc->ctx->dc_bios->funcs->get_soc_bb_info) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct bp_soc_bb_info bb_info = {0};
 
 		if (dc->ctx->dc_bios->funcs->get_soc_bb_info(dc->ctx->dc_bios, &bb_info) == BP_RESULT_OK) {
@@ -2190,6 +2332,10 @@ static noinline void dcn30_calculate_wm_and_dlg_fp(
 		unsigned int min_dram_speed_mts = context->bw_ctx.dml.vba.DRAMSpeed;
 		unsigned int min_dram_speed_mts_margin = 160;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (context->bw_ctx.dml.vba.DRAMClockChangeSupport[vlevel][context->bw_ctx.dml.vba.maxMpcComb] == dm_dram_clock_change_unsupported)
 			min_dram_speed_mts = dc->clk_mgr->bw_params->clk_table.entries[dc->clk_mgr->bw_params->clk_table.num_entries - 1].memclk_mhz * 16;
 
@@ -2199,6 +2345,22 @@ static noinline void dcn30_calculate_wm_and_dlg_fp(
 				break;
 
 		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->dummy_pstate_table[i].dummy_pstate_latency_us;
+<<<<<<< HEAD
+=======
+=======
+		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->dummy_pstate_table[0].dummy_pstate_latency_us;
+
+		if (context->bw_ctx.dml.vba.DRAMClockChangeSupport[vlevel][context->bw_ctx.dml.vba.maxMpcComb] == dm_dram_clock_change_unsupported)
+			min_dram_speed_mts = dc->clk_mgr->bw_params->clk_table.entries[dc->clk_mgr->bw_params->clk_table.num_entries - 1].memclk_mhz * 16;
+
+		for (i = 3; i > 0; i--) {
+			if ((min_dram_speed_mts + min_dram_speed_mts_margin > dc->clk_mgr->bw_params->dummy_pstate_table[i].dram_speed_mts) &&
+					(min_dram_speed_mts - min_dram_speed_mts_margin < dc->clk_mgr->bw_params->dummy_pstate_table[i].dram_speed_mts))
+				context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->dummy_pstate_table[i].dummy_pstate_latency_us;
+		}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_enter_plus_exit_time_us;
 		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_exit_time_us;
 	}
@@ -2333,6 +2495,10 @@ validate_out:
 	return out;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This must be noinline to ensure anything that deals with FP registers
  * is contained within this call; previously our compiling with hard-float
@@ -2348,13 +2514,33 @@ validate_out:
 static noinline void dcn30_get_optimal_dcfclk_fclk_for_uclk(unsigned int uclk_mts,
 		unsigned int *optimal_dcfclk,
 		unsigned int *optimal_fclk)
+<<<<<<< HEAD
+=======
+=======
+static noinline void get_optimal_dcfclk_fclk_for_uclk(unsigned int uclk_mts,
+                                                       unsigned int *optimal_dcfclk,
+                                                       unsigned int *optimal_fclk)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
        double bw_from_dram, bw_from_dram1, bw_from_dram2;
 
        bw_from_dram1 = uclk_mts * dcn3_0_soc.num_chans *
+<<<<<<< HEAD
 		dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_dram_bw_use_normal_percent / 100);
        bw_from_dram2 = uclk_mts * dcn3_0_soc.num_chans *
 		dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_sdp_bw_use_normal_percent / 100);
+=======
+<<<<<<< HEAD
+		dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_dram_bw_use_normal_percent / 100);
+       bw_from_dram2 = uclk_mts * dcn3_0_soc.num_chans *
+		dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_sdp_bw_use_normal_percent / 100);
+=======
+                       dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_dram_bw_use_normal_percent / 100);
+       bw_from_dram2 = uclk_mts * dcn3_0_soc.num_chans *
+                       dcn3_0_soc.dram_channel_width_bytes * (dcn3_0_soc.max_avg_sdp_bw_use_normal_percent / 100);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
        bw_from_dram = (bw_from_dram1 < bw_from_dram2) ? bw_from_dram1 : bw_from_dram2;
 
@@ -2413,7 +2599,15 @@ void dcn30_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params
 		// Calculate optimal dcfclk for each uclk
 		for (i = 0; i < num_uclk_states; i++) {
 			DC_FP_START();
+<<<<<<< HEAD
 			dcn30_get_optimal_dcfclk_fclk_for_uclk(bw_params->clk_table.entries[i].memclk_mhz * 16,
+=======
+<<<<<<< HEAD
+			dcn30_get_optimal_dcfclk_fclk_for_uclk(bw_params->clk_table.entries[i].memclk_mhz * 16,
+=======
+			get_optimal_dcfclk_fclk_for_uclk(bw_params->clk_table.entries[i].memclk_mhz * 16,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					&optimal_dcfclk_for_uclk[i], NULL);
 			DC_FP_END();
 			if (optimal_dcfclk_for_uclk[i] < bw_params->clk_table.entries[0].dcfclk_mhz) {
@@ -2561,10 +2755,19 @@ static bool dcn30_resource_construct(
 	dc->caps.max_cursor_size = 256;
 	dc->caps.min_horizontal_blanking_period = 80;
 	dc->caps.dmdata_alloc_size = 2048;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dc->caps.mall_size_per_mem_channel = 8;
 	/* total size = mall per channel * num channels * 1024 * 1024 */
 	dc->caps.mall_size_total = dc->caps.mall_size_per_mem_channel * dc->ctx->dc_bios->vram_info.num_chans * 1048576;
 	dc->caps.cursor_cache_size = dc->caps.max_cursor_size * dc->caps.max_cursor_size * 8;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dc->caps.max_slave_planes = 1;
 	dc->caps.post_blend_color_processing = true;

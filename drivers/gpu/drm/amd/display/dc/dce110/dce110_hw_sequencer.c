@@ -921,6 +921,7 @@ void dce110_edp_power_control(
 	}
 }
 
+<<<<<<< HEAD
 void dce110_edp_wait_for_T12(
 		struct dc_link *link)
 {
@@ -952,6 +953,8 @@ void dce110_edp_wait_for_T12(
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*todo: cloned in stream enc, fix*/
 /*
  * @brief
@@ -1659,7 +1662,11 @@ static struct dc_link *get_edp_link_with_sink(
 	return link;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * When ASIC goes from VBIOS/VGA mode to driver/accelerated mode we need:
  *  1. Power down all DC HW blocks
  *  2. Disable VGA engine on all controllers

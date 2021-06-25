@@ -7,7 +7,10 @@
 #include <linux/prime_numbers.h>
 
 #include "gt/intel_engine_pm.h"
+<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt.h"
 #include "gt/intel_gt_pm.h"
 #include "gt/intel_ring.h"

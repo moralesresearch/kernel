@@ -144,10 +144,13 @@ extern const struct clk_ops clk_alpha_pll_lucid_ops;
 extern const struct clk_ops clk_alpha_pll_postdiv_lucid_ops;
 extern const struct clk_ops clk_alpha_pll_agera_ops;
 
+<<<<<<< HEAD
 extern const struct clk_ops clk_alpha_pll_lucid_5lpe_ops;
 extern const struct clk_ops clk_alpha_pll_fixed_lucid_5lpe_ops;
 extern const struct clk_ops clk_alpha_pll_postdiv_lucid_5lpe_ops;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void clk_alpha_pll_configure(struct clk_alpha_pll *pll, struct regmap *regmap,
 			     const struct alpha_pll_config *config);
 void clk_fabia_pll_configure(struct clk_alpha_pll *pll, struct regmap *regmap,

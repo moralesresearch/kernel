@@ -29,7 +29,11 @@ int mt76x2_mcu_set_channel(struct mt76x02_dev *dev, u8 channel, u8 bw,
 		.idx = channel,
 		.scan = scan,
 		.bw = bw,
+<<<<<<< HEAD
 		.chainmask = cpu_to_le16(dev->mphy.chainmask),
+=======
+		.chainmask = cpu_to_le16(dev->chainmask),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/* first set the channel without the extension channel info */

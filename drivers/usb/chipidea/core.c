@@ -195,7 +195,11 @@ static void hw_wait_phy_stable(void)
 }
 
 /* The PHY enters/leaves low power mode */
+<<<<<<< HEAD
 static void ci_hdrc_enter_lpm_common(struct ci_hdrc *ci, bool enable)
+=======
+static void ci_hdrc_enter_lpm(struct ci_hdrc *ci, bool enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	enum ci_hw_regs reg = ci->hw_bank.lpm ? OP_DEVLC : OP_PORTSC;
 	bool lpm = !!(hw_read(ci, reg, PORTSC_PHCD(ci->hw_bank.lpm)));
@@ -208,11 +212,14 @@ static void ci_hdrc_enter_lpm_common(struct ci_hdrc *ci, bool enable)
 				0);
 }
 
+<<<<<<< HEAD
 static void ci_hdrc_enter_lpm(struct ci_hdrc *ci, bool enable)
 {
 	return ci->platdata->enter_lpm(ci, enable);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hw_device_init(struct ci_hdrc *ci, void __iomem *base)
 {
 	u32 reg;
@@ -795,9 +802,12 @@ static int ci_get_platdata(struct device *dev,
 			platdata->pins_device = p;
 	}
 
+<<<<<<< HEAD
 	if (!platdata->enter_lpm)
 		platdata->enter_lpm = ci_hdrc_enter_lpm_common;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

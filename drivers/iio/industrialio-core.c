@@ -169,6 +169,7 @@ static const char * const iio_chan_info_postfix[] = {
 	[IIO_CHAN_INFO_CALIBAMBIENT] = "calibambient",
 };
 
+<<<<<<< HEAD
 /**
  * iio_sysfs_match_string_with_gaps - matches given string in an array with gaps
  * @array: array of strings
@@ -199,6 +200,8 @@ static int iio_sysfs_match_string_with_gaps(const char * const *array, size_t n,
 	return -EINVAL;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_DEBUG_FS)
 /*
  * There's also a CONFIG_DEBUG_FS guard in include/linux/iio/iio.h for
@@ -500,11 +503,16 @@ ssize_t iio_enum_available_read(struct iio_dev *indio_dev,
 	if (!e->num_items)
 		return 0;
 
+<<<<<<< HEAD
 	for (i = 0; i < e->num_items; ++i) {
 		if (!e->items[i])
 			continue;
 		len += scnprintf(buf + len, PAGE_SIZE - len, "%s ", e->items[i]);
 	}
+=======
+	for (i = 0; i < e->num_items; ++i)
+		len += scnprintf(buf + len, PAGE_SIZE - len, "%s ", e->items[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* replace last space with a newline */
 	buf[len - 1] = '\n';
@@ -525,7 +533,11 @@ ssize_t iio_enum_read(struct iio_dev *indio_dev,
 	i = e->get(indio_dev, chan);
 	if (i < 0)
 		return i;
+<<<<<<< HEAD
 	else if (i >= e->num_items || !e->items[i])
+=======
+	else if (i >= e->num_items)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	return snprintf(buf, PAGE_SIZE, "%s\n", e->items[i]);
@@ -542,7 +554,11 @@ ssize_t iio_enum_write(struct iio_dev *indio_dev,
 	if (!e->set)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	ret = iio_sysfs_match_string_with_gaps(e->items, e->num_items, buf);
+=======
+	ret = __sysfs_match_string(e->items, e->num_items, buf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1506,14 +1522,21 @@ static int iio_device_register_sysfs(struct iio_dev *indio_dev)
 		goto error_clear_attrs;
 	}
 	/* Copy across original attributes */
+<<<<<<< HEAD
 	if (indio_dev->info->attrs) {
+=======
+	if (indio_dev->info->attrs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(iio_dev_opaque->chan_attr_group.attrs,
 		       indio_dev->info->attrs->attrs,
 		       sizeof(iio_dev_opaque->chan_attr_group.attrs[0])
 		       *attrcount_orig);
+<<<<<<< HEAD
 		iio_dev_opaque->chan_attr_group.is_visible =
 			indio_dev->info->attrs->is_visible;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	attrn = attrcount_orig;
 	/* Add all elements from the list. */
 	list_for_each_entry(p, &iio_dev_opaque->channel_attr_list, l)
@@ -1734,6 +1757,10 @@ static long iio_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	if (!indio_dev->info)
 		goto out_unlock;
 
+<<<<<<< HEAD
+=======
+	ret = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry(h, &iio_dev_opaque->ioctl_handlers, entry) {
 		ret = h->ioctl(indio_dev, filp, cmd, arg);
 		if (ret != IIO_IOCTL_UNHANDLED)
@@ -1741,7 +1768,11 @@ static long iio_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	}
 
 	if (ret == IIO_IOCTL_UNHANDLED)
+<<<<<<< HEAD
 		ret = -ENODEV;
+=======
+		ret = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out_unlock:
 	mutex_unlock(&indio_dev->info_exist_lock);
@@ -1863,6 +1894,12 @@ EXPORT_SYMBOL(__iio_device_register);
  **/
 void iio_device_unregister(struct iio_dev *indio_dev)
 {
+<<<<<<< HEAD
+=======
+	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+	struct iio_ioctl_handler *h, *t;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cdev_device_del(&indio_dev->chrdev, &indio_dev->dev);
 
 	mutex_lock(&indio_dev->info_exist_lock);
@@ -1873,6 +1910,12 @@ void iio_device_unregister(struct iio_dev *indio_dev)
 
 	indio_dev->info = NULL;
 
+<<<<<<< HEAD
+=======
+	list_for_each_entry_safe(h, t, &iio_dev_opaque->ioctl_handlers, entry)
+		list_del(&h->entry);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iio_device_wakeup_eventset(indio_dev);
 	iio_buffer_wakeup_poll(indio_dev);
 

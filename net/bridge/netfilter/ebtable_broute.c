@@ -105,6 +105,7 @@ static int __net_init broute_net_init(struct net *net)
 				  &net->xt.broute_table);
 }
 
+<<<<<<< HEAD
 static void __net_exit broute_net_pre_exit(struct net *net)
 {
 	ebt_unregister_table_pre_exit(net, "broute", &ebt_ops_broute);
@@ -113,12 +114,20 @@ static void __net_exit broute_net_pre_exit(struct net *net)
 static void __net_exit broute_net_exit(struct net *net)
 {
 	ebt_unregister_table(net, net->xt.broute_table);
+=======
+static void __net_exit broute_net_exit(struct net *net)
+{
+	ebt_unregister_table(net, net->xt.broute_table, &ebt_ops_broute);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct pernet_operations broute_net_ops = {
 	.init = broute_net_init,
 	.exit = broute_net_exit,
+<<<<<<< HEAD
 	.pre_exit = broute_net_pre_exit,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init ebtable_broute_init(void)

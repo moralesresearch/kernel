@@ -127,7 +127,10 @@ static void iwl_dealloc_ucode(struct iwl_drv *drv)
 	kfree(drv->fw.dbg.mem_tlv);
 	kfree(drv->fw.iml);
 	kfree(drv->fw.ucode_capa.cmd_versions);
+<<<<<<< HEAD
 	kfree(drv->fw.phy_integration_ver);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < IWL_UCODE_TYPE_MAX; i++)
 		iwl_free_fw_img(drv, drv->fw.img + i);
@@ -559,7 +562,11 @@ static int iwl_parse_tlv_firmware(struct iwl_drv *drv,
 				bool *usniffer_images)
 {
 	struct iwl_tlv_ucode_header *ucode = (void *)ucode_raw->data;
+<<<<<<< HEAD
 	const struct iwl_ucode_tlv *tlv;
+=======
+	struct iwl_ucode_tlv *tlv;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	size_t len = ucode_raw->size;
 	const u8 *data;
 	u32 tlv_len;
@@ -1144,6 +1151,7 @@ static int iwl_parse_tlv_firmware(struct iwl_drv *drv,
 			capa->n_cmd_versions =
 				tlv_len / sizeof(struct iwl_fw_cmd_version);
 			break;
+<<<<<<< HEAD
 		case IWL_UCODE_TLV_PHY_INTEGRATION_VERSION:
 			if (drv->fw.phy_integration_ver) {
 				IWL_ERR(drv,
@@ -1157,6 +1165,8 @@ static int iwl_parse_tlv_firmware(struct iwl_drv *drv,
 				return -ENOMEM;
 			drv->fw.phy_integration_ver_len = tlv_len;
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			IWL_DEBUG_INFO(drv, "unknown TLV: %d\n", tlv_type);
 			break;

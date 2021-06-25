@@ -5,7 +5,10 @@
 #include <linux/sched.h>
 #include <linux/wait.h>
 #include <linux/slab.h>
+<<<<<<< HEAD
 #include <linux/mm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/percpu-refcount.h>
 
 /*
@@ -169,7 +172,10 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 			struct percpu_ref_data, rcu);
 	struct percpu_ref *ref = data->ref;
 	unsigned long __percpu *percpu_count = percpu_count_ptr(ref);
+<<<<<<< HEAD
 	static atomic_t underflows;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long count = 0;
 	int cpu;
 
@@ -193,6 +199,7 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 	 */
 	atomic_long_add((long)count - PERCPU_COUNT_BIAS, &data->count);
 
+<<<<<<< HEAD
 	if (WARN_ONCE(atomic_long_read(&data->count) <= 0,
 		      "percpu ref (%ps) <= 0 (%ld) after switching to atomic",
 		      data->release, atomic_long_read(&data->count)) &&
@@ -200,6 +207,11 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 		pr_err("%s(): percpu_ref underflow", __func__);
 		mem_dump_obj(data);
 	}
+=======
+	WARN_ONCE(atomic_long_read(&data->count) <= 0,
+		  "percpu ref (%ps) <= 0 (%ld) after switching to atomic",
+		  data->release, atomic_long_read(&data->count));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* @ref is viewed as dead on all CPUs, send out switch confirmation */
 	percpu_ref_call_confirm_rcu(rcu);

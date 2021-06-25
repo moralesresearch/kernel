@@ -43,15 +43,26 @@ static int
 nvkm_udevice_info_subdev(struct nvkm_device *device, u64 mthd, u64 *data)
 {
 	struct nvkm_subdev *subdev;
+<<<<<<< HEAD
 	enum nvkm_subdev_type type;
 
 	switch (mthd & NV_DEVICE_INFO_UNIT) {
 	case NV_DEVICE_HOST(0): type = NVKM_ENGINE_FIFO; break;
+=======
+	enum nvkm_devidx subidx;
+
+	switch (mthd & NV_DEVICE_INFO_UNIT) {
+	case NV_DEVICE_FIFO(0): subidx = NVKM_ENGINE_FIFO; break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	subdev = nvkm_device_subdev(device, type, 0);
+=======
+	subdev = nvkm_device_subdev(device, subidx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (subdev)
 		return nvkm_subdev_info(subdev, mthd, data);
 	return -ENODEV;
@@ -66,7 +77,41 @@ nvkm_udevice_info_v1(struct nvkm_device *device,
 			args->mthd = NV_DEVICE_INFO_INVALID;
 		return;
 	}
+<<<<<<< HEAD
 	args->mthd = NV_DEVICE_INFO_INVALID;
+=======
+
+	switch (args->mthd) {
+#define ENGINE__(A,B,C) NV_DEVICE_INFO_ENGINE_##A: { int _i;                   \
+	for (_i = (B), args->data = 0ULL; _i <= (C); _i++) {                   \
+		if (nvkm_device_engine(device, _i))                            \
+			args->data |= BIT_ULL(_i);                             \
+	}                                                                      \
+}
+#define ENGINE_A(A) ENGINE__(A, NVKM_ENGINE_##A   , NVKM_ENGINE_##A)
+#define ENGINE_B(A) ENGINE__(A, NVKM_ENGINE_##A##0, NVKM_ENGINE_##A##_LAST)
+	case ENGINE_A(SW    ); break;
+	case ENGINE_A(GR    ); break;
+	case ENGINE_A(MPEG  ); break;
+	case ENGINE_A(ME    ); break;
+	case ENGINE_A(CIPHER); break;
+	case ENGINE_A(BSP   ); break;
+	case ENGINE_A(VP    ); break;
+	case ENGINE_B(CE    ); break;
+	case ENGINE_A(SEC   ); break;
+	case ENGINE_A(MSVLD ); break;
+	case ENGINE_A(MSPDEC); break;
+	case ENGINE_A(MSPPP ); break;
+	case ENGINE_A(MSENC ); break;
+	case ENGINE_A(VIC   ); break;
+	case ENGINE_A(SEC2  ); break;
+	case ENGINE_B(NVDEC ); break;
+	case ENGINE_B(NVENC ); break;
+	default:
+		args->mthd = NV_DEVICE_INFO_INVALID;
+		break;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -327,7 +372,11 @@ nvkm_udevice_child_get(struct nvkm_object *object, int index,
 	int i;
 
 	for (; i = __ffs64(mask), mask && !sclass; mask &= ~(1ULL << i)) {
+<<<<<<< HEAD
 		if (!(engine = nvkm_device_engine(device, i, 0)) ||
+=======
+		if (!(engine = nvkm_device_engine(device, i)) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    !(engine->func->base.sclass))
 			continue;
 		oclass->engine = engine;

@@ -11,7 +11,11 @@
 
 /**
  * psb_intel_ddc_probe
+<<<<<<< HEAD
  * @adapter:   Associated I2C adaptor
+=======
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool psb_intel_ddc_probe(struct i2c_adapter *adapter)
 {
@@ -43,7 +47,10 @@ bool psb_intel_ddc_probe(struct i2c_adapter *adapter)
 /**
  * psb_intel_ddc_get_modes - get modelist from monitor
  * @connector: DRM connector device to use
+<<<<<<< HEAD
  * @adapter:   Associated I2C adaptor
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Fetch the EDID information from @connector using the DDC bus.
  */

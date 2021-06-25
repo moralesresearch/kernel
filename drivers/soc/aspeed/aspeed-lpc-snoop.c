@@ -95,10 +95,15 @@ static ssize_t snoop_file_read(struct file *file, char __user *buffer,
 			return -EINTR;
 	}
 	ret = kfifo_to_user(&chan->fifo, buffer, count, &copied);
+<<<<<<< HEAD
 	if (ret)
 		return ret;
 
 	return copied;
+=======
+
+	return ret ? ret : copied;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __poll_t snoop_file_poll(struct file *file,

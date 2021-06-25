@@ -15,8 +15,12 @@ struct intel_gt;
 struct i915_request;
 
 struct intel_gt_buffer_pool_node *
+<<<<<<< HEAD
 intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size,
 			 enum i915_map_type type);
+=======
+intel_gt_get_buffer_pool(struct intel_gt *gt, size_t size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int
 intel_gt_buffer_pool_mark_active(struct intel_gt_buffer_pool_node *node,

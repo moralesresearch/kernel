@@ -23,7 +23,10 @@ struct record_opts {
 	bool	      sample_address;
 	bool	      sample_phys_addr;
 	bool	      sample_data_page_size;
+<<<<<<< HEAD
 	bool	      sample_code_page_size;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool	      sample_weight;
 	bool	      sample_time;
 	bool	      sample_time_set;
@@ -51,7 +54,10 @@ struct record_opts {
 	bool	      no_bpf_event;
 	bool	      kcore;
 	bool	      text_poke;
+<<<<<<< HEAD
 	bool	      build_id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int  freq;
 	unsigned int  mmap_pages;
 	unsigned int  auxtrace_mmap_pages;

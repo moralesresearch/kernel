@@ -3102,8 +3102,12 @@ static inline void reiserfs_update_sd(struct reiserfs_transaction_handle *th,
 }
 
 void sd_attrs_to_i_attrs(__u16 sd_attrs, struct inode *inode);
+<<<<<<< HEAD
 int reiserfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		     struct iattr *attr);
+=======
+int reiserfs_setattr(struct dentry *dentry, struct iattr *attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int __reiserfs_write_begin(struct page *page, unsigned from, unsigned len);
 

@@ -62,6 +62,7 @@ nv44_mmu = {
 };
 
 int
+<<<<<<< HEAD
 nv44_mmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_mmu **pmmu)
 {
@@ -70,4 +71,13 @@ nv44_mmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		return nv04_mmu_new(device, type, inst, pmmu);
 
 	return nvkm_mmu_new_(&nv44_mmu, device, type, inst, pmmu);
+=======
+nv44_mmu_new(struct nvkm_device *device, int index, struct nvkm_mmu **pmmu)
+{
+	if (device->type == NVKM_DEVICE_AGP ||
+	    !nvkm_boolopt(device->cfgopt, "NvPCIE", true))
+		return nv04_mmu_new(device, index, pmmu);
+
+	return nvkm_mmu_new_(&nv44_mmu, device, index, pmmu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

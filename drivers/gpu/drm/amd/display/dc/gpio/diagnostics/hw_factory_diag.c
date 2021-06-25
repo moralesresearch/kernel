@@ -28,7 +28,10 @@
  */
 
 #include "dm_services.h"
+<<<<<<< HEAD
 #include "hw_factory_diag.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "include/gpio_types.h"
 #include "../hw_factory.h"
 

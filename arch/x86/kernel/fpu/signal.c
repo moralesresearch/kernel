@@ -307,6 +307,7 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (!access_ok(buf, size)) {
 		ret = -EACCES;
 		goto out;
@@ -318,6 +319,15 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 				      NULL, buf);
 		goto out;
 	}
+=======
+	if (!access_ok(buf, size))
+		return -EACCES;
+
+	if (!static_cpu_has(X86_FEATURE_FPU))
+		return fpregs_soft_set(current, NULL,
+				       0, sizeof(struct user_i387_ia32_struct),
+				       NULL, buf) != 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (use_xsave()) {
 		struct _fpx_sw_bytes fx_sw_user;
@@ -373,6 +383,7 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 			fpregs_unlock();
 			return 0;
 		}
+<<<<<<< HEAD
 
 		/*
 		 * The above did an FPU restore operation, restricted to
@@ -392,6 +403,8 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 		if (test_thread_flag(TIF_NEED_FPU_LOAD))
 			__cpu_invalidate_fpregs_state();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fpregs_unlock();
 	} else {
 		/*
@@ -400,7 +413,11 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 		 */
 		ret = __copy_from_user(&env, buf, sizeof(env));
 		if (ret)
+<<<<<<< HEAD
 			goto out;
+=======
+			goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		envp = &env;
 	}
 
@@ -428,9 +445,22 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 	if (use_xsave() && !fx_only) {
 		u64 init_bv = xfeatures_mask_user() & ~user_xfeatures;
 
+<<<<<<< HEAD
 		ret = copy_user_to_xstate(&fpu->state.xsave, buf_fx);
 		if (ret)
 			goto out;
+=======
+		if (using_compacted_format()) {
+			ret = copy_user_to_xstate(&fpu->state.xsave, buf_fx);
+		} else {
+			ret = __copy_from_user(&fpu->state.xsave, buf_fx, state_size);
+
+			if (!ret && state_size > offsetof(struct xregs_state, header))
+				ret = validate_user_xstate_header(&fpu->state.xsave.header);
+		}
+		if (ret)
+			goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		sanitize_restored_user_xstate(&fpu->state, envp, user_xfeatures,
 					      fx_only);
@@ -450,7 +480,11 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 		ret = __copy_from_user(&fpu->state.fxsave, buf_fx, state_size);
 		if (ret) {
 			ret = -EFAULT;
+<<<<<<< HEAD
 			goto out;
+=======
+			goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		sanitize_restored_user_xstate(&fpu->state, envp, user_xfeatures,
@@ -468,7 +502,11 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 	} else {
 		ret = __copy_from_user(&fpu->state.fsave, buf_fx, state_size);
 		if (ret)
+<<<<<<< HEAD
 			goto out;
+=======
+			goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		fpregs_lock();
 		ret = copy_kernel_to_fregs_err(&fpu->state.fsave);
@@ -479,7 +517,11 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
 		fpregs_deactivate(fpu);
 	fpregs_unlock();
 
+<<<<<<< HEAD
 out:
+=======
+err_out:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		fpu__clear_user_states(fpu);
 	return ret;

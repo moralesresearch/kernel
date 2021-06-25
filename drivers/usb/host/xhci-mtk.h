@@ -20,15 +20,23 @@
 #define XHCI_MTK_MAX_ESIT	64
 
 /**
+<<<<<<< HEAD
  * @ss_bit_map: used to avoid start split microframes overlay
  * @fs_bus_bw: array to keep track of bandwidth already used for FS
+=======
+ * @split_bit_map: used to avoid split microframes overlay
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @ep_list: Endpoints using this TT
  * @usb_tt: usb TT related
  * @tt_port: TT port number
  */
 struct mu3h_sch_tt {
+<<<<<<< HEAD
 	DECLARE_BITMAP(ss_bit_map, XHCI_MTK_MAX_ESIT);
 	u32 fs_bus_bw[XHCI_MTK_MAX_ESIT];
+=======
+	DECLARE_BITMAP(split_bit_map, XHCI_MTK_MAX_ESIT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct list_head ep_list;
 	struct usb_tt *usb_tt;
 	int tt_port;
@@ -152,7 +160,10 @@ struct xhci_hcd_mtk {
 	struct phy **phys;
 	int num_phys;
 	bool lpm_support;
+<<<<<<< HEAD
 	bool u2_lpm_disable;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* usb remote wakeup */
 	bool uwk_en;
 	struct regmap *uwk;

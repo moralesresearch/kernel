@@ -583,6 +583,10 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
 	return ret;
 }
 EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void blk_queue_clear_zone_settings(struct request_queue *q)
 {
@@ -600,3 +604,8 @@ void blk_queue_clear_zone_settings(struct request_queue *q)
 
 	blk_mq_unfreeze_queue(q);
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

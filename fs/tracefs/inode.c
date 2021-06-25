@@ -67,9 +67,13 @@ static char *get_dname(struct dentry *dentry)
 	return name;
 }
 
+<<<<<<< HEAD
 static int tracefs_syscall_mkdir(struct user_namespace *mnt_userns,
 				 struct inode *inode, struct dentry *dentry,
 				 umode_t mode)
+=======
+static int tracefs_syscall_mkdir(struct inode *inode, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	char *name;
 	int ret;

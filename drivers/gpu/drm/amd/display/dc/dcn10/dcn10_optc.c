@@ -659,6 +659,7 @@ void optc1_unlock(struct timing_generator *optc)
 			OTG_MASTER_UPDATE_LOCK, 0);
 }
 
+<<<<<<< HEAD
 bool optc1_is_locked(struct timing_generator *optc)
 {
 	struct optc *optc1 = DCN10TG_FROM_TG(optc);
@@ -669,6 +670,8 @@ bool optc1_is_locked(struct timing_generator *optc)
 	return (locked == 1);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void optc1_get_position(struct timing_generator *optc,
 		struct crtc_position *position)
 {
@@ -1523,7 +1526,10 @@ static const struct timing_generator_funcs dcn10_tg_funcs = {
 		.enable_crtc_reset = optc1_enable_crtc_reset,
 		.disable_reset_trigger = optc1_disable_reset_trigger,
 		.lock = optc1_lock,
+<<<<<<< HEAD
 		.is_locked = optc1_is_locked,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.unlock = optc1_unlock,
 		.enable_optc_clock = optc1_enable_optc_clock,
 		.set_drr = optc1_set_drr,

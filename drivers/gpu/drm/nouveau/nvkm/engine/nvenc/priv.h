@@ -14,6 +14,10 @@ struct nvkm_nvenc_fwif {
 	const struct nvkm_nvenc_func *func;
 };
 
+<<<<<<< HEAD
 int nvkm_nvenc_new_(const struct nvkm_nvenc_fwif *, struct nvkm_device *, enum nvkm_subdev_type,
+=======
+int nvkm_nvenc_new_(const struct nvkm_nvenc_fwif *, struct nvkm_device *,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    int, struct nvkm_nvenc **pnvenc);
 #endif

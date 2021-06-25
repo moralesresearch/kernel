@@ -488,9 +488,14 @@ void hfsplus_inode_write_fork(struct inode *inode,
 			      struct hfsplus_fork_raw *fork);
 int hfsplus_cat_read_inode(struct inode *inode, struct hfs_find_data *fd);
 int hfsplus_cat_write_inode(struct inode *inode);
+<<<<<<< HEAD
 int hfsplus_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		    struct kstat *stat, u32 request_mask,
 		    unsigned int query_flags);
+=======
+int hfsplus_getattr(const struct path *path, struct kstat *stat,
+		    u32 request_mask, unsigned int query_flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
 		       int datasync);
 

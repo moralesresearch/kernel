@@ -260,11 +260,15 @@ clear_bss_done:
 
 	/* Initialize page tables and relocate to virtual addresses */
 	la sp, init_thread_union + THREAD_SIZE
+<<<<<<< HEAD
 #ifdef CONFIG_BUILTIN_DTB
 	la a0, __dtb_start
 #else
 	mv a0, s1
 #endif /* CONFIG_BUILTIN_DTB */
+=======
+	mv a0, s1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	call setup_vm
 #ifdef CONFIG_MMU
 	la a0, early_pg_dir

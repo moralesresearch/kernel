@@ -1,7 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0
 #include <linux/acpi.h>
 #include <linux/ctype.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+<<<<<<< HEAD
+#include <linux/debugfs.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/gpio/consumer.h>
 #include <linux/hwmon.h>
@@ -259,9 +266,18 @@ struct sfp {
 	char *hwmon_name;
 #endif
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_DEBUG_FS)
 	struct dentry *debugfs_dir;
 #endif
+=======
+<<<<<<< HEAD
+#if IS_ENABLED(CONFIG_DEBUG_FS)
+	struct dentry *debugfs_dir;
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static bool sff_module_supported(const struct sfp_eeprom_id *id)
@@ -1413,6 +1429,10 @@ static void sfp_module_tx_enable(struct sfp *sfp)
 	sfp_set_state(sfp, sfp->state);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DEBUG_FS)
 static int sfp_debug_state_show(struct seq_file *s, void *data)
 {
@@ -1461,6 +1481,11 @@ static void sfp_debugfs_exit(struct sfp *sfp)
 }
 #endif
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sfp_module_tx_fault_reset(struct sfp *sfp)
 {
 	unsigned int state = sfp->state;
@@ -1553,6 +1578,10 @@ static void sfp_sm_link_down(struct sfp *sfp)
 
 static void sfp_sm_link_check_los(struct sfp *sfp)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const __be16 los_inverted = cpu_to_be16(SFP_OPTIONS_LOS_INVERTED);
 	const __be16 los_normal = cpu_to_be16(SFP_OPTIONS_LOS_NORMAL);
 	__be16 los_options = sfp->id.ext.options & (los_inverted | los_normal);
@@ -1566,6 +1595,20 @@ static void sfp_sm_link_check_los(struct sfp *sfp)
 		los = !(sfp->state & SFP_F_LOS);
 	else if (los_options == los_normal)
 		los = !!(sfp->state & SFP_F_LOS);
+<<<<<<< HEAD
+=======
+=======
+	unsigned int los = sfp->state & SFP_F_LOS;
+
+	/* If neither SFP_OPTIONS_LOS_INVERTED nor SFP_OPTIONS_LOS_NORMAL
+	 * are set, we assume that no LOS signal is available.
+	 */
+	if (sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_INVERTED))
+		los ^= SFP_F_LOS;
+	else if (!(sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_NORMAL)))
+		los = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (los)
 		sfp_sm_next(sfp, SFP_S_WAIT_LOS, 0);
@@ -1575,22 +1618,48 @@ static void sfp_sm_link_check_los(struct sfp *sfp)
 
 static bool sfp_los_event_active(struct sfp *sfp, unsigned int event)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const __be16 los_inverted = cpu_to_be16(SFP_OPTIONS_LOS_INVERTED);
 	const __be16 los_normal = cpu_to_be16(SFP_OPTIONS_LOS_NORMAL);
 	__be16 los_options = sfp->id.ext.options & (los_inverted | los_normal);
 
 	return (los_options == los_inverted && event == SFP_E_LOS_LOW) ||
 	       (los_options == los_normal && event == SFP_E_LOS_HIGH);
+<<<<<<< HEAD
+=======
+=======
+	return (sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_INVERTED) &&
+		event == SFP_E_LOS_LOW) ||
+	       (sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_NORMAL) &&
+		event == SFP_E_LOS_HIGH);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool sfp_los_event_inactive(struct sfp *sfp, unsigned int event)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const __be16 los_inverted = cpu_to_be16(SFP_OPTIONS_LOS_INVERTED);
 	const __be16 los_normal = cpu_to_be16(SFP_OPTIONS_LOS_NORMAL);
 	__be16 los_options = sfp->id.ext.options & (los_inverted | los_normal);
 
 	return (los_options == los_inverted && event == SFP_E_LOS_HIGH) ||
 	       (los_options == los_normal && event == SFP_E_LOS_LOW);
+<<<<<<< HEAD
+=======
+=======
+	return (sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_INVERTED) &&
+		event == SFP_E_LOS_HIGH) ||
+	       (sfp->id.ext.options & cpu_to_be16(SFP_OPTIONS_LOS_NORMAL) &&
+		event == SFP_E_LOS_LOW);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void sfp_sm_fault(struct sfp *sfp, unsigned int next_state, bool warn)
@@ -2590,8 +2659,16 @@ static int sfp_probe(struct platform_device *pdev)
 	if (!sfp->sfp_bus)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	sfp_debugfs_init(sfp);
 
+=======
+<<<<<<< HEAD
+	sfp_debugfs_init(sfp);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -2599,7 +2676,14 @@ static int sfp_remove(struct platform_device *pdev)
 {
 	struct sfp *sfp = platform_get_drvdata(pdev);
 
+<<<<<<< HEAD
 	sfp_debugfs_exit(sfp);
+=======
+<<<<<<< HEAD
+	sfp_debugfs_exit(sfp);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sfp_unregister_socket(sfp->sfp_bus);
 
 	rtnl_lock();

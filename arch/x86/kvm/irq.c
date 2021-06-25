@@ -14,7 +14,10 @@
 #include "irq.h"
 #include "i8254.h"
 #include "x86.h"
+<<<<<<< HEAD
 #include "xen.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * check if there are pending timer events
@@ -57,9 +60,12 @@ int kvm_cpu_has_extint(struct kvm_vcpu *v)
 	if (!lapic_in_kernel(v))
 		return v->arch.interrupt.injected;
 
+<<<<<<< HEAD
 	if (kvm_xen_has_interrupt(v))
 		return 1;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!kvm_apic_accept_pic_intr(v))
 		return 0;
 
@@ -114,9 +120,12 @@ static int kvm_cpu_get_extint(struct kvm_vcpu *v)
 	if (!lapic_in_kernel(v))
 		return v->arch.interrupt.nr;
 
+<<<<<<< HEAD
 	if (kvm_xen_has_interrupt(v))
 		return v->kvm->arch.xen.upcall_vector;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (irqchip_split(v->kvm)) {
 		int vector = v->arch.pending_external_vector;
 
@@ -150,7 +159,12 @@ void __kvm_migrate_timers(struct kvm_vcpu *vcpu)
 {
 	__kvm_migrate_apic_timer(vcpu);
 	__kvm_migrate_pit_timer(vcpu);
+<<<<<<< HEAD
 	static_call_cond(kvm_x86_migrate_timers)(vcpu);
+=======
+	if (kvm_x86_ops.migrate_timers)
+		kvm_x86_ops.migrate_timers(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool kvm_arch_irqfd_allowed(struct kvm *kvm, struct kvm_irqfd *args)

@@ -215,7 +215,10 @@ struct pm8001_dispatch {
 	int (*sas_diag_execute_req)(struct pm8001_hba_info *pm8001_ha,
 		u32 state);
 	int (*sas_re_init_req)(struct pm8001_hba_info *pm8001_ha);
+<<<<<<< HEAD
 	int (*fatal_errors)(struct pm8001_hba_info *pm8001_ha);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct pm8001_chip_info {
@@ -726,7 +729,10 @@ ssize_t pm80xx_get_fatal_dump(struct device *cdev,
 ssize_t pm80xx_get_non_fatal_dump(struct device *cdev,
 		struct device_attribute *attr, char *buf);
 ssize_t pm8001_get_gsm_dump(struct device *cdev, u32, char *buf);
+<<<<<<< HEAD
 int pm80xx_fatal_errors(struct pm8001_hba_info *pm8001_ha);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ctl shared API */
 extern struct device_attribute *pm8001_host_attrs[];
 

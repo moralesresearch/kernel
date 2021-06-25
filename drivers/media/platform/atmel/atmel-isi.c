@@ -70,6 +70,10 @@ struct frame_buffer {
 struct isi_graph_entity {
 	struct device_node *node;
 
+<<<<<<< HEAD
+=======
+	struct v4l2_async_subdev asd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_subdev *subdev;
 };
 
@@ -1135,6 +1139,7 @@ static const struct v4l2_async_notifier_operations isi_graph_notify_ops = {
 	.complete = isi_graph_notify_complete,
 };
 
+<<<<<<< HEAD
 static int isi_graph_init(struct atmel_isi *isi)
 {
 	struct v4l2_async_subdev *asd;
@@ -1155,6 +1160,47 @@ static int isi_graph_init(struct atmel_isi *isi)
 
 	if (IS_ERR(asd))
 		return PTR_ERR(asd);
+=======
+static int isi_graph_parse(struct atmel_isi *isi, struct device_node *node)
+{
+	struct device_node *ep = NULL;
+	struct device_node *remote;
+
+	ep = of_graph_get_next_endpoint(node, ep);
+	if (!ep)
+		return -EINVAL;
+
+	remote = of_graph_get_remote_port_parent(ep);
+	of_node_put(ep);
+	if (!remote)
+		return -EINVAL;
+
+	/* Remote node to connect */
+	isi->entity.node = remote;
+	isi->entity.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+	isi->entity.asd.match.fwnode = of_fwnode_handle(remote);
+	return 0;
+}
+
+static int isi_graph_init(struct atmel_isi *isi)
+{
+	int ret;
+
+	/* Parse the graph to extract a list of subdevice DT nodes. */
+	ret = isi_graph_parse(isi, isi->dev->of_node);
+	if (ret < 0) {
+		dev_err(isi->dev, "Graph parsing failed\n");
+		return ret;
+	}
+
+	v4l2_async_notifier_init(&isi->notifier);
+
+	ret = v4l2_async_notifier_add_subdev(&isi->notifier, &isi->entity.asd);
+	if (ret) {
+		of_node_put(isi->entity.node);
+		return ret;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	isi->notifier.ops = &isi_graph_notify_ops;
 
@@ -1363,3 +1409,7 @@ module_platform_driver(atmel_isi_driver);
 MODULE_AUTHOR("Josh Wu <josh.wu@atmel.com>");
 MODULE_DESCRIPTION("The V4L2 driver for Atmel Linux");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("video");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

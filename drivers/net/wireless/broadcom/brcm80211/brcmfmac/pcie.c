@@ -77,7 +77,10 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
 	BRCMF_FW_ENTRY(BRCM_CC_4366_CHIP_ID, 0x0000000F, 4366B),
 	BRCMF_FW_ENTRY(BRCM_CC_4366_CHIP_ID, 0xFFFFFFF0, 4366C),
 	BRCMF_FW_ENTRY(BRCM_CC_43664_CHIP_ID, 0xFFFFFFF0, 4366C),
+<<<<<<< HEAD
 	BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
 };
 
@@ -2140,10 +2143,22 @@ static struct pci_driver brcmf_pciedrvr = {
 };
 
 
+<<<<<<< HEAD
 int brcmf_pcie_register(void)
 {
 	brcmf_dbg(PCIE, "Enter\n");
 	return pci_register_driver(&brcmf_pciedrvr);
+=======
+void brcmf_pcie_register(void)
+{
+	int err;
+
+	brcmf_dbg(PCIE, "Enter\n");
+	err = pci_register_driver(&brcmf_pciedrvr);
+	if (err)
+		brcmf_err(NULL, "PCIE driver registration failed, err=%d\n",
+			  err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 

@@ -51,7 +51,10 @@
 #define RTK_PCI_RXBD_DESA_MPDUQ	0x338
 
 #define TRX_BD_IDX_MASK		GENMASK(11, 0)
+<<<<<<< HEAD
 #define TRX_BD_HW_IDX_MASK	GENMASK(27, 16)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* BCNQ is specialized for rsvd page, does not need to specify a number */
 #define RTK_PCI_TXBD_NUM_H2CQ	0x1328
@@ -143,12 +146,15 @@
 /* IMR 3 */
 #define IMR_H2CDOK		BIT(16)
 
+<<<<<<< HEAD
 enum rtw_pci_flags {
 	RTW_PCI_FLAG_NAPI_RUNNING,
 
 	NUM_OF_RTW_PCI_FLAGS,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* one element is reserved to know if the ring is closed */
 static inline int avail_desc(u32 wp, u32 rp, u32 len)
 {
@@ -207,6 +213,7 @@ struct rtw_pci {
 
 	/* Used for PCI interrupt. */
 	spinlock_t hwirq_lock;
+<<<<<<< HEAD
 	/* Used for PCI TX ring/queueing, and enable INT. */
 	spinlock_t irq_lock;
 	u32 irq_mask[4];
@@ -216,13 +223,22 @@ struct rtw_pci {
 	/* napi structure */
 	struct net_device netdev;
 	struct napi_struct napi;
+=======
+	/* Used for PCI TX queueing. */
+	spinlock_t irq_lock;
+	u32 irq_mask[4];
+	bool irq_enabled;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u16 rx_tag;
 	DECLARE_BITMAP(tx_queued, RTK_MAX_TX_QUEUE_NUM);
 	struct rtw_pci_tx_ring tx_rings[RTK_MAX_TX_QUEUE_NUM];
 	struct rtw_pci_rx_ring rx_rings[RTK_MAX_RX_QUEUE_NUM];
 	u16 link_ctrl;
+<<<<<<< HEAD
 	DECLARE_BITMAP(flags, NUM_OF_RTW_PCI_FLAGS);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	void __iomem *mmap;
 };

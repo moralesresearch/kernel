@@ -31,7 +31,11 @@ properties:
       The 1st cell is hw interrupt number, the 2nd cell is channel index.
 
   clocks:
+<<<<<<< HEAD
     maxItems: 1
+=======
+    description: ipg clock.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   clock-names:
     const: ipg

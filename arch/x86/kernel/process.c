@@ -161,7 +161,11 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
 #endif
 
 	/* Kernel thread ? */
+<<<<<<< HEAD
 	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
+=======
+	if (unlikely(p->flags & PF_KTHREAD)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memset(childregs, 0, sizeof(struct pt_regs));
 		kthread_frame_init(frame, sp, arg);
 		return 0;

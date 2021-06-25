@@ -31,4 +31,9 @@ int  psb_enable_vblank(struct drm_crtc *crtc);
 void psb_disable_vblank(struct drm_crtc *crtc);
 u32  psb_get_vblank_counter(struct drm_crtc *crtc);
 
+<<<<<<< HEAD
+=======
+int mdfld_enable_te(struct drm_device *dev, int pipe);
+void mdfld_disable_te(struct drm_device *dev, int pipe);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _PSB_IRQ_H_ */

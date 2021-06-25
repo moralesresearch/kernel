@@ -41,8 +41,11 @@ properties:
       - allwinner,sun50i-h5-ccu
       - allwinner,sun50i-h6-ccu
       - allwinner,sun50i-h6-r-ccu
+<<<<<<< HEAD
       - allwinner,sun50i-h616-ccu
       - allwinner,sun50i-h616-r-ccu
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - allwinner,suniv-f1c100s-ccu
       - nextthing,gr8-ccu
 
@@ -84,7 +87,10 @@ if:
         - allwinner,sun50i-a64-r-ccu
         - allwinner,sun50i-a100-r-ccu
         - allwinner,sun50i-h6-r-ccu
+<<<<<<< HEAD
         - allwinner,sun50i-h616-r-ccu
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 then:
   properties:
@@ -103,7 +109,10 @@ else:
         enum:
           - allwinner,sun50i-a100-ccu
           - allwinner,sun50i-h6-ccu
+<<<<<<< HEAD
           - allwinner,sun50i-h616-ccu
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   then:
     properties:

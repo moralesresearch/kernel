@@ -137,7 +137,10 @@ void i40e_vc_notify_vf_reset(struct i40e_vf *vf)
  **/
 static inline void i40e_vc_disable_vf(struct i40e_vf *vf)
 {
+<<<<<<< HEAD
 	struct i40e_pf *pf = vf->pf;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	i40e_vc_notify_vf_reset(vf);
@@ -148,11 +151,14 @@ static inline void i40e_vc_disable_vf(struct i40e_vf *vf)
 	 * ensure a reset.
 	 */
 	for (i = 0; i < 20; i++) {
+<<<<<<< HEAD
 		/* If PF is in VFs releasing state reset VF is impossible,
 		 * so leave it.
 		 */
 		if (test_bit(__I40E_VFS_RELEASING, pf->state))
 			return;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (i40e_reset_vf(vf, false))
 			return;
 		usleep_range(10000, 20000);
@@ -1580,8 +1586,11 @@ void i40e_free_vfs(struct i40e_pf *pf)
 
 	if (!pf->vf)
 		return;
+<<<<<<< HEAD
 
 	set_bit(__I40E_VFS_RELEASING, pf->state);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (test_and_set_bit(__I40E_VF_DISABLE, pf->state))
 		usleep_range(1000, 2000);
 
@@ -1639,7 +1648,10 @@ void i40e_free_vfs(struct i40e_pf *pf)
 		}
 	}
 	clear_bit(__I40E_VF_DISABLE, pf->state);
+<<<<<<< HEAD
 	clear_bit(__I40E_VFS_RELEASING, pf->state);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PCI_IOV

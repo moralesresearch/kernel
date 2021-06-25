@@ -7,10 +7,14 @@
  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
  */
 
+<<<<<<< HEAD
 #include <linux/acpi.h>
 #include <linux/err.h>
 #include <linux/gpio/consumer.h>
 #include <linux/gpio/machine.h>
+=======
+#include <linux/err.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/pm_runtime.h>
 #include <linux/regmap.h>
@@ -18,12 +22,16 @@
 #include <linux/slab.h>
 #include <linux/spi/spi.h>
 #include <linux/of.h>
+<<<<<<< HEAD
 #include <uapi/linux/input-event-codes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/mfd/arizona/core.h>
 
 #include "arizona.h"
 
+<<<<<<< HEAD
 #ifdef CONFIG_ACPI
 const struct acpi_gpio_params reset_gpios = { 1, 0, false };
 const struct acpi_gpio_params ldoena_gpios = { 2, 0, false };
@@ -153,6 +161,19 @@ static int arizona_spi_probe(struct spi_device *spi)
 	if (match_data)
 		type = (unsigned long)match_data;
 	else if (id)
+=======
+static int arizona_spi_probe(struct spi_device *spi)
+{
+	const struct spi_device_id *id = spi_get_device_id(spi);
+	struct arizona *arizona;
+	const struct regmap_config *regmap_config = NULL;
+	unsigned long type;
+	int ret;
+
+	if (spi->dev.of_node)
+		type = arizona_of_get_type(&spi->dev);
+	else
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		type = id->driver_data;
 
 	switch (type) {
@@ -197,12 +218,15 @@ static int arizona_spi_probe(struct spi_device *spi)
 	arizona->dev = &spi->dev;
 	arizona->irq = spi->irq;
 
+<<<<<<< HEAD
 	if (has_acpi_companion(&spi->dev)) {
 		ret = arizona_spi_acpi_probe(arizona);
 		if (ret)
 			return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return arizona_dev_init(arizona);
 }
 
@@ -230,7 +254,10 @@ static struct spi_driver arizona_spi_driver = {
 		.name	= "arizona",
 		.pm	= &arizona_pm_ops,
 		.of_match_table	= of_match_ptr(arizona_of_match),
+<<<<<<< HEAD
 		.acpi_match_table = ACPI_PTR(arizona_acpi_match),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.probe		= arizona_spi_probe,
 	.remove		= arizona_spi_remove,
@@ -239,7 +266,10 @@ static struct spi_driver arizona_spi_driver = {
 
 module_spi_driver(arizona_spi_driver);
 
+<<<<<<< HEAD
 MODULE_SOFTDEP("pre: arizona_ldo1");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("Arizona SPI bus interface");
 MODULE_AUTHOR("Mark Brown <broonie@opensource.wolfsonmicro.com>");
 MODULE_LICENSE("GPL");

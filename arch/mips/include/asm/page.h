@@ -202,6 +202,10 @@ static inline unsigned long ___pa(unsigned long x)
 /*
  * RELOC_HIDE was originally added by 6007b903dfe5f1d13e0c711ac2894bdd4a61b1ad
  * (lmo) rsp. 8431fd094d625b94d364fe393076ccef88e6ce18 (kernel.org).  The
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * discussion can be found in
  * https://lore.kernel.org/lkml/a2ebde260608230500o3407b108hc03debb9da6e62c@mail.gmail.com
  *
@@ -209,6 +213,19 @@ static inline unsigned long ___pa(unsigned long x)
  * https://lore.kernel.org/lkml/1281303490-390-1-git-send-email-namhyung@gmail.com
  * also affect MIPS so we keep this one until GCC 3.x has been retired
  * before we can apply https://patchwork.linux-mips.org/patch/1541/
+<<<<<<< HEAD
+=======
+=======
+ * discussion can be found in lkml posting
+ * <a2ebde260608230500o3407b108hc03debb9da6e62c@mail.gmail.com> which is
+ * archived at http://lists.linuxcoding.com/kernel/2006-q3/msg17360.html
+ *
+ * It is unclear if the misscompilations mentioned in
+ * http://lkml.org/lkml/2010/8/8/138 also affect MIPS so we keep this one
+ * until GCC 3.x has been retired before we can apply
+ * https://patchwork.linux-mips.org/patch/1541/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef __pa_symbol

@@ -45,10 +45,13 @@ properties:
       - qcom,sdm845-mem-noc
       - qcom,sdm845-mmss-noc
       - qcom,sdm845-system-noc
+<<<<<<< HEAD
       - qcom,sdx55-ipa-virt
       - qcom,sdx55-mc-virt
       - qcom,sdx55-mem-noc
       - qcom,sdx55-system-noc
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - qcom,sm8150-aggre1-noc
       - qcom,sm8150-aggre2-noc
       - qcom,sm8150-camnoc-noc
@@ -73,7 +76,11 @@ properties:
       - qcom,sm8250-system-noc
 
   '#interconnect-cells':
+<<<<<<< HEAD
     enum: [ 1, 2 ]
+=======
+    const: 1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   qcom,bcm-voters:
     $ref: /schemas/types.yaml#/definitions/phandle-array

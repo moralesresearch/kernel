@@ -330,9 +330,12 @@ static void j1939_session_skb_drop_old(struct j1939_session *session)
 
 	if ((do_skcb->offset + do_skb->len) < offset_start) {
 		__skb_unlink(do_skb, &session->skb_queue);
+<<<<<<< HEAD
 		/* drop ref taken in j1939_session_skb_queue() */
 		skb_unref(do_skb);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree_skb(do_skb);
 	}
 	spin_unlock_irqrestore(&session->skb_queue.lock, flags);
@@ -352,13 +355,21 @@ void j1939_session_skb_queue(struct j1939_session *session,
 
 	skcb->flags |= J1939_ECU_LOCAL_SRC;
 
+<<<<<<< HEAD
 	skb_get(skb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_queue_tail(&session->skb_queue, skb);
 }
 
 static struct
+<<<<<<< HEAD
 sk_buff *j1939_session_skb_get_by_offset(struct j1939_session *session,
 					 unsigned int offset_start)
+=======
+sk_buff *j1939_session_skb_find_by_offset(struct j1939_session *session,
+					  unsigned int offset_start)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct j1939_priv *priv = session->priv;
 	struct j1939_sk_buff_cb *do_skcb;
@@ -375,10 +386,13 @@ sk_buff *j1939_session_skb_get_by_offset(struct j1939_session *session,
 			skb = do_skb;
 		}
 	}
+<<<<<<< HEAD
 
 	if (skb)
 		skb_get(skb);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&session->skb_queue.lock, flags);
 
 	if (!skb)
@@ -389,12 +403,20 @@ sk_buff *j1939_session_skb_get_by_offset(struct j1939_session *session,
 	return skb;
 }
 
+<<<<<<< HEAD
 static struct sk_buff *j1939_session_skb_get(struct j1939_session *session)
+=======
+static struct sk_buff *j1939_session_skb_find(struct j1939_session *session)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int offset_start;
 
 	offset_start = session->pkt.dpo * 7;
+<<<<<<< HEAD
 	return j1939_session_skb_get_by_offset(session, offset_start);
+=======
+	return j1939_session_skb_find_by_offset(session, offset_start);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* see if we are receiver
@@ -784,7 +806,11 @@ static int j1939_session_tx_dat(struct j1939_session *session)
 	int ret = 0;
 	u8 dat[8];
 
+<<<<<<< HEAD
 	se_skb = j1939_session_skb_get_by_offset(session, session->pkt.tx * 7);
+=======
+	se_skb = j1939_session_skb_find_by_offset(session, session->pkt.tx * 7);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!se_skb)
 		return -ENOBUFS;
 
@@ -809,8 +835,12 @@ static int j1939_session_tx_dat(struct j1939_session *session)
 			netdev_err_once(priv->ndev,
 					"%s: 0x%p: requested data outside of queued buffer: offset %i, len %i, pkt.tx: %i\n",
 					__func__, session, skcb->offset, se_skb->len , session->pkt.tx);
+<<<<<<< HEAD
 			ret = -EOVERFLOW;
 			goto out_free;
+=======
+			return -EOVERFLOW;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (!len) {
@@ -844,12 +874,15 @@ static int j1939_session_tx_dat(struct j1939_session *session)
 	if (pkt_done)
 		j1939_tp_set_rxtimeout(session, 250);
 
+<<<<<<< HEAD
  out_free:
 	if (ret)
 		kfree_skb(se_skb);
 	else
 		consume_skb(se_skb);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1022,7 +1055,11 @@ static int j1939_xtp_txnext_receiver(struct j1939_session *session)
 static int j1939_simple_txnext(struct j1939_session *session)
 {
 	struct j1939_priv *priv = session->priv;
+<<<<<<< HEAD
 	struct sk_buff *se_skb = j1939_session_skb_get(session);
+=======
+	struct sk_buff *se_skb = j1939_session_skb_find(session);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 	int ret;
 
@@ -1030,10 +1067,15 @@ static int j1939_simple_txnext(struct j1939_session *session)
 		return 0;
 
 	skb = skb_clone(se_skb, GFP_ATOMIC);
+<<<<<<< HEAD
 	if (!skb) {
 		ret = -ENOMEM;
 		goto out_free;
 	}
+=======
+	if (!skb)
+		return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	can_skb_set_owner(skb, se_skb->sk);
 
@@ -1041,11 +1083,16 @@ static int j1939_simple_txnext(struct j1939_session *session)
 
 	ret = j1939_send_one(priv, skb);
 	if (ret)
+<<<<<<< HEAD
 		goto out_free;
+=======
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	j1939_sk_errqueue(session, J1939_ERRQUEUE_SCHED);
 	j1939_sk_queue_activate_next(session);
 
+<<<<<<< HEAD
  out_free:
 	if (ret)
 		kfree_skb(se_skb);
@@ -1053,6 +1100,9 @@ static int j1939_simple_txnext(struct j1939_session *session)
 		consume_skb(se_skb);
 
 	return ret;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool j1939_session_deactivate_locked(struct j1939_session *session)
@@ -1193,10 +1243,16 @@ static void j1939_session_completed(struct j1939_session *session)
 	struct sk_buff *skb;
 
 	if (!session->transmission) {
+<<<<<<< HEAD
 		skb = j1939_session_skb_get(session);
 		/* distribute among j1939 receivers */
 		j1939_sk_recv(session->priv, skb);
 		consume_skb(skb);
+=======
+		skb = j1939_session_skb_find(session);
+		/* distribute among j1939 receivers */
+		j1939_sk_recv(session->priv, skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	j1939_session_deactivate_activate_next(session);
@@ -1768,7 +1824,11 @@ static void j1939_xtp_rx_dat_one(struct j1939_session *session,
 {
 	struct j1939_priv *priv = session->priv;
 	struct j1939_sk_buff_cb *skcb;
+<<<<<<< HEAD
 	struct sk_buff *se_skb = NULL;
+=======
+	struct sk_buff *se_skb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const u8 *dat;
 	u8 *tpdat;
 	int offset;
@@ -1810,7 +1870,11 @@ static void j1939_xtp_rx_dat_one(struct j1939_session *session,
 		goto out_session_cancel;
 	}
 
+<<<<<<< HEAD
 	se_skb = j1939_session_skb_get_by_offset(session, packet * 7);
+=======
+	se_skb = j1939_session_skb_find_by_offset(session, packet * 7);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!se_skb) {
 		netdev_warn(priv->ndev, "%s: 0x%p: no skb found\n", __func__,
 			    session);
@@ -1872,13 +1936,19 @@ static void j1939_xtp_rx_dat_one(struct j1939_session *session,
 		j1939_tp_set_rxtimeout(session, 250);
 	}
 	session->last_cmd = 0xff;
+<<<<<<< HEAD
 	consume_skb(se_skb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	j1939_session_put(session);
 
 	return;
 
  out_session_cancel:
+<<<<<<< HEAD
 	kfree_skb(se_skb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	j1939_session_timers_cancel(session);
 	j1939_session_cancel(session, J1939_XTP_ABORT_FAULT);
 	j1939_session_put(session);

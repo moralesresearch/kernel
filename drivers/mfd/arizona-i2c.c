@@ -23,6 +23,7 @@
 static int arizona_i2c_probe(struct i2c_client *i2c,
 			     const struct i2c_device_id *id)
 {
+<<<<<<< HEAD
 	const void *match_data;
 	struct arizona *arizona;
 	const struct regmap_config *regmap_config = NULL;
@@ -33,6 +34,16 @@ static int arizona_i2c_probe(struct i2c_client *i2c,
 	if (match_data)
 		type = (unsigned long)match_data;
 	else if (id)
+=======
+	struct arizona *arizona;
+	const struct regmap_config *regmap_config = NULL;
+	unsigned long type;
+	int ret;
+
+	if (i2c->dev.of_node)
+		type = arizona_of_get_type(&i2c->dev);
+	else
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		type = id->driver_data;
 
 	switch (type) {
@@ -117,7 +128,10 @@ static struct i2c_driver arizona_i2c_driver = {
 
 module_i2c_driver(arizona_i2c_driver);
 
+<<<<<<< HEAD
 MODULE_SOFTDEP("pre: arizona_ldo1");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("Arizona I2C bus interface");
 MODULE_AUTHOR("Mark Brown <broonie@opensource.wolfsonmicro.com>");
 MODULE_LICENSE("GPL");

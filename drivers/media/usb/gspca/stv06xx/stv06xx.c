@@ -529,6 +529,7 @@ static int sd_int_pkt_scan(struct gspca_dev *gspca_dev,
 static int stv06xx_config(struct gspca_dev *gspca_dev,
 			  const struct usb_device_id *id);
 
+<<<<<<< HEAD
 static void stv06xx_probe_error(struct gspca_dev *gspca_dev)
 {
 	struct sd *sd = (struct sd *)gspca_dev;
@@ -537,13 +538,18 @@ static void stv06xx_probe_error(struct gspca_dev *gspca_dev)
 	sd->sensor_priv = NULL;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* sub-driver description */
 static const struct sd_desc sd_desc = {
 	.name = MODULE_NAME,
 	.config = stv06xx_config,
 	.init = stv06xx_init,
 	.init_controls = stv06xx_init_controls,
+<<<<<<< HEAD
 	.probe_error = stv06xx_probe_error,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.start = stv06xx_start,
 	.stopN = stv06xx_stopN,
 	.pkt_scan = stv06xx_pkt_scan,

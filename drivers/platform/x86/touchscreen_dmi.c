@@ -115,6 +115,7 @@ static const struct ts_dmi_data chuwi_hi10_plus_data = {
 	.properties     = chuwi_hi10_plus_props,
 };
 
+<<<<<<< HEAD
 static const struct property_entry chuwi_hi10_pro_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 8),
@@ -141,6 +142,8 @@ static const struct ts_dmi_data chuwi_hi10_pro_data = {
 	.properties     = chuwi_hi10_pro_props,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct property_entry chuwi_vi8_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 6),
@@ -408,6 +411,7 @@ static const struct ts_dmi_data jumper_ezpad_6_m4_data = {
 	.properties	= jumper_ezpad_6_m4_props,
 };
 
+<<<<<<< HEAD
 static const struct property_entry jumper_ezpad_7_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
@@ -425,6 +429,8 @@ static const struct ts_dmi_data jumper_ezpad_7_data = {
 	.properties	= jumper_ezpad_7_props,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct property_entry jumper_ezpad_mini3_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
@@ -916,6 +922,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+<<<<<<< HEAD
 		/* Chuwi Hi10 Prus (CWI597) */
 		.driver_data = (void *)&chuwi_hi10_pro_data,
 		.matches = {
@@ -925,6 +932,8 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Chuwi Vi8 (CWI506) */
 		.driver_data = (void *)&chuwi_vi8_data,
 		.matches = {
@@ -1087,6 +1096,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+<<<<<<< HEAD
 		/* Jumper EZpad 7 */
 		.driver_data = (void *)&jumper_ezpad_7_data,
 		.matches = {
@@ -1097,6 +1107,8 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Jumper EZpad mini3 */
 		.driver_data = (void *)&jumper_ezpad_mini3_data,
 		.matches = {
@@ -1106,6 +1118,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+<<<<<<< HEAD
 		/* Mediacom WinPad 7.0 W700 (same hw as Wintron surftab 7") */
 		.driver_data = (void *)&trekstor_surftab_wintron70_data,
 		.matches = {
@@ -1114,6 +1127,8 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Mediacom Flexbook Edge 11 (same hw as TS Primebook C11) */
 		.driver_data = (void *)&trekstor_primebook_c11_data,
 		.matches = {

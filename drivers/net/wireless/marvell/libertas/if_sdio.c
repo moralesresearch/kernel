@@ -981,7 +981,11 @@ out:
 
 static int if_sdio_enter_deep_sleep(struct lbs_private *priv)
 {
+<<<<<<< HEAD
 	int ret;
+=======
+	int ret = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cmd_header cmd;
 
 	memset(&cmd, 0, sizeof(cmd));

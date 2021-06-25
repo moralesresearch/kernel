@@ -230,8 +230,12 @@ nvkm_mxm = {
 };
 
 int
+<<<<<<< HEAD
 nvkm_mxm_new_(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_mxm **pmxm)
+=======
+nvkm_mxm_new_(struct nvkm_device *device, int index, struct nvkm_mxm **pmxm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_bios *bios = device->bios;
 	struct nvkm_mxm *mxm;
@@ -241,7 +245,11 @@ nvkm_mxm_new_(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	if (!(mxm = *pmxm = kzalloc(sizeof(*mxm), GFP_KERNEL)))
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_mxm, device, type, inst, &mxm->subdev);
+=======
+	nvkm_subdev_ctor(&nvkm_mxm, device, index, &mxm->subdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	data = mxm_table(bios, &ver, &len);
 	if (!data || !(ver = nvbios_rd08(bios, data))) {

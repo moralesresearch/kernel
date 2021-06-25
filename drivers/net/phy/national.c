@@ -19,6 +19,11 @@
 #include <linux/phy.h>
 #include <linux/netdevice.h>
 
+<<<<<<< HEAD
+=======
+#define DEBUG
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* DP83865 phy identifier values */
 #define DP83865_PHY_ID	0x20005c7a
 

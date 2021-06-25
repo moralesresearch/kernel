@@ -16,6 +16,10 @@
 #include <linux/can.h>
 #include <net/sock.h>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void can_flush_echo_skb(struct net_device *dev);
 int can_put_echo_skb(struct sk_buff *skb, struct net_device *dev,
 		     unsigned int idx, unsigned int frame_len);
@@ -30,6 +34,11 @@ struct sk_buff *alloc_canfd_skb(struct net_device *dev,
 struct sk_buff *alloc_can_err_skb(struct net_device *dev,
 				  struct can_frame **cf);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The struct can_skb_priv is used to transport additional information along
  * with the stored struct can(fd)_frame that can not be contained in existing
@@ -43,13 +52,27 @@ struct sk_buff *alloc_can_err_skb(struct net_device *dev,
  * struct can_skb_priv - private additional data inside CAN sk_buffs
  * @ifindex:	ifindex of the first interface the CAN frame appeared on
  * @skbcnt:	atomic counter to have an unique id together with skb pointer
+<<<<<<< HEAD
  * @frame_len:	length of CAN frame in data link layer
+=======
+<<<<<<< HEAD
+ * @frame_len:	length of CAN frame in data link layer
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @cf:		align to the following CAN frame at skb->data
  */
 struct can_skb_priv {
 	int ifindex;
 	int skbcnt;
+<<<<<<< HEAD
 	unsigned int frame_len;
+=======
+<<<<<<< HEAD
+	unsigned int frame_len;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct can_frame cf[];
 };
 
@@ -94,6 +117,10 @@ static inline struct sk_buff *can_create_echo_skb(struct sk_buff *skb)
 	return nskb;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Check for outgoing skbs that have not been created by the CAN subsystem */
 static inline bool can_skb_headroom_valid(struct net_device *dev,
 					  struct sk_buff *skb)
@@ -158,4 +185,9 @@ static inline bool can_is_canfd_skb(const struct sk_buff *skb)
 	return skb->len == CANFD_MTU;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* !_CAN_SKB_H */

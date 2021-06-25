@@ -785,7 +785,10 @@ struct vmbus_device {
 	u16  dev_type;
 	guid_t guid;
 	bool perf_device;
+<<<<<<< HEAD
 	bool allowed_in_isolated;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct vmbus_channel {
@@ -804,7 +807,10 @@ struct vmbus_channel {
 	u8 monitor_bit;
 
 	bool rescind; /* got rescind msg */
+<<<<<<< HEAD
 	bool rescind_ref; /* got rescind msg, got channel reference */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct completion rescind_event;
 
 	u32 ringbuffer_gpadlhandle;
@@ -1473,7 +1479,10 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
 #define ICMSGTYPE_SHUTDOWN		3
 #define ICMSGTYPE_TIMESYNC		4
 #define ICMSGTYPE_VSS			5
+<<<<<<< HEAD
 #define ICMSGTYPE_FCOPY			7
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define ICMSGHDRFLAG_TRANSACTION	1
 #define ICMSGHDRFLAG_REQUEST		2
@@ -1517,17 +1526,24 @@ struct icmsg_hdr {
 	u8 reserved[2];
 } __packed;
 
+<<<<<<< HEAD
 #define IC_VERSION_NEGOTIATION_MAX_VER_COUNT 100
 #define ICMSG_HDR (sizeof(struct vmbuspipe_hdr) + sizeof(struct icmsg_hdr))
 #define ICMSG_NEGOTIATE_PKT_SIZE(icframe_vercnt, icmsg_vercnt) \
 	(ICMSG_HDR + sizeof(struct icmsg_negotiate) + \
 	 (((icframe_vercnt) + (icmsg_vercnt)) * sizeof(struct ic_version)))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct icmsg_negotiate {
 	u16 icframe_vercnt;
 	u16 icmsg_vercnt;
 	u32 reserved;
+<<<<<<< HEAD
 	struct ic_version icversion_data[]; /* any size array */
+=======
+	struct ic_version icversion_data[1]; /* any size array */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct shutdown_msg_data {
@@ -1578,7 +1594,11 @@ struct hyperv_service_callback {
 };
 
 #define MAX_SRV_VER	0x7ffffff
+<<<<<<< HEAD
 extern bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf, u32 buflen,
+=======
+extern bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				const int *fw_version, int fw_vercnt,
 				const int *srv_version, int srv_vercnt,
 				int *nego_fw_version, int *nego_srv_version);

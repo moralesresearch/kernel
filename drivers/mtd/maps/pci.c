@@ -90,8 +90,13 @@ intel_iq80310_init(struct pci_dev *dev, struct map_pci_info *map)
 	u32 win_base;
 
 	map->map.bankwidth = 1;
+<<<<<<< HEAD
 	map->map.read = mtd_pci_read8;
 	map->map.write = mtd_pci_write8;
+=======
+	map->map.read = mtd_pci_read8,
+	map->map.write = mtd_pci_write8,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	map->map.size     = 0x00800000;
 	map->base         = ioremap(pci_resource_start(dev, 0),
@@ -185,8 +190,13 @@ intel_dc21285_init(struct pci_dev *dev, struct map_pci_info *map)
 		return -ENXIO;
 
 	map->map.bankwidth = 4;
+<<<<<<< HEAD
 	map->map.read = mtd_pci_read32;
 	map->map.write = mtd_pci_write32;
+=======
+	map->map.read = mtd_pci_read32,
+	map->map.write = mtd_pci_write32,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	map->map.size     = len;
 	map->base         = ioremap(base, len);
 

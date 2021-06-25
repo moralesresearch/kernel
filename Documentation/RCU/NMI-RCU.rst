@@ -8,7 +8,12 @@ Although RCU is usually used to protect read-mostly data structures,
 it is possible to use RCU to provide dynamic non-maskable interrupt
 handlers, as well as dynamic irq handlers.  This document describes
 how to do this, drawing loosely from Zwane Mwaikambo's NMI-timer
+<<<<<<< HEAD
 work in "arch/x86/kernel/traps.c".
+=======
+work in "arch/x86/oprofile/nmi_timer_int.c" and in
+"arch/x86/kernel/traps.c".
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The relevant pieces of code are listed below, each followed by a
 brief explanation::

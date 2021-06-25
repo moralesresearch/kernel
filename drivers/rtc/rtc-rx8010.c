@@ -55,7 +55,11 @@ static const struct i2c_device_id rx8010_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, rx8010_id);
 
+<<<<<<< HEAD
 static const __maybe_unused struct of_device_id rx8010_of_match[] = {
+=======
+static const struct of_device_id rx8010_of_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "epson,rx8010" },
 	{ }
 };
@@ -73,11 +77,19 @@ static irqreturn_t rx8010_irq_1_handler(int irq, void *dev_id)
 	struct rx8010_data *rx8010 = i2c_get_clientdata(client);
 	int flagreg, err;
 
+<<<<<<< HEAD
 	rtc_lock(rx8010->rtc);
 
 	err = regmap_read(rx8010->regs, RX8010_FLAG, &flagreg);
 	if (err) {
 		rtc_unlock(rx8010->rtc);
+=======
+	mutex_lock(&rx8010->rtc->ops_lock);
+
+	err = regmap_read(rx8010->regs, RX8010_FLAG, &flagreg);
+	if (err) {
+		mutex_unlock(&rx8010->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return IRQ_NONE;
 	}
 
@@ -100,7 +112,11 @@ static irqreturn_t rx8010_irq_1_handler(int irq, void *dev_id)
 	}
 
 	err = regmap_write(rx8010->regs, RX8010_FLAG, flagreg);
+<<<<<<< HEAD
 	rtc_unlock(rx8010->rtc);
+=======
+	mutex_unlock(&rx8010->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err ? IRQ_NONE : IRQ_HANDLED;
 }
 
@@ -354,7 +370,17 @@ static int rx8010_ioctl(struct device *dev, unsigned int cmd, unsigned long arg)
 	}
 }
 
+<<<<<<< HEAD
 static const struct rtc_class_ops rx8010_rtc_ops = {
+=======
+static const struct rtc_class_ops rx8010_rtc_ops_default = {
+	.read_time = rx8010_get_time,
+	.set_time = rx8010_set_time,
+	.ioctl = rx8010_ioctl,
+};
+
+static const struct rtc_class_ops rx8010_rtc_ops_alarm = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.read_time = rx8010_get_time,
 	.set_time = rx8010_set_time,
 	.ioctl = rx8010_ioctl,
@@ -403,11 +429,20 @@ static int rx8010_probe(struct i2c_client *client)
 			dev_err(dev, "unable to request IRQ\n");
 			return err;
 		}
+<<<<<<< HEAD
 	} else {
 		clear_bit(RTC_FEATURE_ALARM, rx8010->rtc->features);
 	}
 
 	rx8010->rtc->ops = &rx8010_rtc_ops;
+=======
+
+		rx8010->rtc->ops = &rx8010_rtc_ops_alarm;
+	} else {
+		rx8010->rtc->ops = &rx8010_rtc_ops_default;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rx8010->rtc->max_user_freq = 1;
 	rx8010->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
 	rx8010->rtc->range_max = RTC_TIMESTAMP_END_2099;

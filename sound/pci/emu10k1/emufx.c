@@ -940,7 +940,11 @@ static int snd_emu10k1_list_controls(struct snd_emu10k1 *emu,
 			memset(gctl, 0, sizeof(*gctl));
 			id = &ctl->kcontrol->id;
 			gctl->id.iface = (__force int)id->iface;
+<<<<<<< HEAD
 			strscpy(gctl->id.name, id->name, sizeof(gctl->id.name));
+=======
+			strlcpy(gctl->id.name, id->name, sizeof(gctl->id.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			gctl->id.index = id->index;
 			gctl->id.device = id->device;
 			gctl->id.subdevice = id->subdevice;
@@ -976,7 +980,11 @@ static int snd_emu10k1_icode_poke(struct snd_emu10k1 *emu,
 	err = snd_emu10k1_verify_controls(emu, icode, in_kernel);
 	if (err < 0)
 		goto __error;
+<<<<<<< HEAD
 	strscpy(emu->fx8010.name, icode->name, sizeof(emu->fx8010.name));
+=======
+	strlcpy(emu->fx8010.name, icode->name, sizeof(emu->fx8010.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* stop FX processor - this may be dangerous, but it's better to miss
 	   some samples than generate wrong ones - [jk] */
 	if (emu->audigy)
@@ -1015,7 +1023,11 @@ static int snd_emu10k1_icode_peek(struct snd_emu10k1 *emu,
 	int err;
 
 	mutex_lock(&emu->fx8010.lock);
+<<<<<<< HEAD
 	strscpy(icode->name, emu->fx8010.name, sizeof(icode->name));
+=======
+	strlcpy(icode->name, emu->fx8010.name, sizeof(icode->name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* ok, do the main job */
 	err = snd_emu10k1_gpr_peek(emu, icode);
 	if (err >= 0)

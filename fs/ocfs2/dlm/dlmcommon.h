@@ -17,7 +17,14 @@
 
 #define DLM_LOCKID_NAME_MAX    32
 
+<<<<<<< HEAD
 #define DLM_LOCK_RES_OWNER_UNKNOWN     O2NM_MAX_NODES
+=======
+#define DLM_DOMAIN_NAME_MAX_LEN    255
+#define DLM_LOCK_RES_OWNER_UNKNOWN     O2NM_MAX_NODES
+#define DLM_THREAD_SHUFFLE_INTERVAL    5     // flush everything every 5 passes
+#define DLM_THREAD_MS                  200   // flush at least every 200 ms
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DLM_HASH_SIZE_DEFAULT	(1 << 17)
 #if DLM_HASH_SIZE_DEFAULT < PAGE_SIZE
@@ -899,6 +906,10 @@ void __dlm_lockres_grab_inflight_worker(struct dlm_ctxt *dlm,
 		struct dlm_lock_resource *res);
 
 void dlm_queue_ast(struct dlm_ctxt *dlm, struct dlm_lock *lock);
+<<<<<<< HEAD
+=======
+void dlm_queue_bast(struct dlm_ctxt *dlm, struct dlm_lock *lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __dlm_queue_ast(struct dlm_ctxt *dlm, struct dlm_lock *lock);
 void __dlm_queue_bast(struct dlm_ctxt *dlm, struct dlm_lock *lock);
 void dlm_do_local_ast(struct dlm_ctxt *dlm,

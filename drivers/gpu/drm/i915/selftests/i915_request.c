@@ -33,7 +33,10 @@
 #include "gt/intel_engine_pm.h"
 #include "gt/intel_engine_user.h"
 #include "gt/intel_gt.h"
+<<<<<<< HEAD
 #include "gt/intel_gt_clock_utils.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt_requests.h"
 #include "gt/selftest_engine_heartbeat.h"
 
@@ -1392,8 +1395,13 @@ static int live_breadcrumbs_smoketest(void *arg)
 
 	for (n = 0; n < smoke[0].ncontexts; n++) {
 		smoke[0].contexts[n] = live_context(i915, file);
+<<<<<<< HEAD
 		if (IS_ERR(smoke[0].contexts[n])) {
 			ret = PTR_ERR(smoke[0].contexts[n]);
+=======
+		if (!smoke[0].contexts[n]) {
+			ret = -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto out_contexts;
 		}
 	}
@@ -1561,7 +1569,11 @@ static u32 trifilter(u32 *a)
 
 static u64 cycles_to_ns(struct intel_engine_cs *engine, u32 cycles)
 {
+<<<<<<< HEAD
 	u64 ns = intel_gt_clock_interval_to_ns(engine->gt, cycles);
+=======
+	u64 ns = i915_cs_timestamp_ticks_to_ns(engine->i915, cycles);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return DIV_ROUND_CLOSEST(ns, 1 << TF_BIAS);
 }
@@ -1933,7 +1945,13 @@ static int measure_inter_request(struct intel_context *ce)
 		intel_ring_advance(rq, cs);
 		i915_request_add(rq);
 	}
+<<<<<<< HEAD
 	i915_sw_fence_commit(submit);
+=======
+	local_bh_disable();
+	i915_sw_fence_commit(submit);
+	local_bh_enable();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_engine_flush_submission(ce->engine);
 	heap_fence_put(submit);
 
@@ -2219,9 +2237,17 @@ static int measure_completion(struct intel_context *ce)
 		intel_ring_advance(rq, cs);
 
 		dma_fence_add_callback(&rq->fence, &cb.base, signal_cb);
+<<<<<<< HEAD
 		i915_request_add(rq);
 
 		intel_engine_flush_submission(ce->engine);
+=======
+
+		local_bh_disable();
+		i915_request_add(rq);
+		local_bh_enable();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (wait_for(READ_ONCE(sema[i]) == -1, 50)) {
 			err = -EIO;
 			goto err;

@@ -331,6 +331,10 @@ void i915_vma_revoke_fence(struct i915_vma *vma)
 		fence_write(fence);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool fence_is_active(const struct i915_fence_reg *fence)
 {
 	return fence->vma && i915_vma_is_active(fence->vma);
@@ -356,6 +360,18 @@ static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
 			continue;
 		}
 
+<<<<<<< HEAD
+=======
+=======
+static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
+{
+	struct i915_fence_reg *fence;
+
+	list_for_each_entry(fence, &ggtt->fence_list, link) {
+		GEM_BUG_ON(fence->vma && fence->vma->fence != fence);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (atomic_read(&fence->pin_count))
 			continue;
 
@@ -670,8 +686,13 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
 		 * banks of memory are paired and unswizzled on the
 		 * uneven portion, so leave that as unknown.
 		 */
+<<<<<<< HEAD
 		if (intel_uncore_read16(uncore, C0DRB3) ==
 		    intel_uncore_read16(uncore, C1DRB3)) {
+=======
+		if (intel_uncore_read(uncore, C0DRB3) ==
+		    intel_uncore_read(uncore, C1DRB3)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			swizzle_x = I915_BIT_6_SWIZZLE_9_10;
 			swizzle_y = I915_BIT_6_SWIZZLE_9;
 		}

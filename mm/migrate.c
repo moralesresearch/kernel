@@ -331,7 +331,11 @@ void __migration_entry_wait(struct mm_struct *mm, pte_t *ptep,
 	if (!get_page_unless_zero(page))
 		goto out;
 	pte_unmap_unlock(ptep, ptl);
+<<<<<<< HEAD
 	put_and_wait_on_page_locked(page, TASK_UNINTERRUPTIBLE);
+=======
+	put_and_wait_on_page_locked(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 out:
 	pte_unmap_unlock(ptep, ptl);
@@ -365,7 +369,11 @@ void pmd_migration_entry_wait(struct mm_struct *mm, pmd_t *pmd)
 	if (!get_page_unless_zero(page))
 		goto unlock;
 	spin_unlock(ptl);
+<<<<<<< HEAD
 	put_and_wait_on_page_locked(page, TASK_UNINTERRUPTIBLE);
+=======
+	put_and_wait_on_page_locked(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 unlock:
 	spin_unlock(ptl);
@@ -500,12 +508,15 @@ int migrate_page_move_mapping(struct address_space *mapping,
 			__mod_lruvec_state(old_lruvec, NR_SHMEM, -nr);
 			__mod_lruvec_state(new_lruvec, NR_SHMEM, nr);
 		}
+<<<<<<< HEAD
 #ifdef CONFIG_SWAP
 		if (PageSwapCache(page)) {
 			__mod_lruvec_state(old_lruvec, NR_SWAPCACHE, -nr);
 			__mod_lruvec_state(new_lruvec, NR_SWAPCACHE, nr);
 		}
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (dirty && mapping_can_writeback(mapping)) {
 			__mod_lruvec_state(old_lruvec, NR_FILE_DIRTY, -nr);
 			__mod_zone_page_state(oldzone, NR_ZONE_WRITE_PENDING, -nr);
@@ -2973,6 +2984,7 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
 
 			swp_entry = make_device_private_entry(page, vma->vm_flags & VM_WRITE);
 			entry = swp_entry_to_pte(swp_entry);
+<<<<<<< HEAD
 		} else {
 			/*
 			 * For now we only support migrating to un-addressable
@@ -2980,6 +2992,8 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
 			 */
 			pr_warn_once("Unsupported ZONE_DEVICE page type.\n");
 			goto abort;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		entry = mk_pte(page, vma->vm_page_prot);

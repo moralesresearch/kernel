@@ -1223,7 +1223,11 @@ static void qib_set_ib_6120_lstate(struct qib_pportdata *ppd, u16 linkcmd,
 
 /**
  * qib_6120_bringup_serdes - bring up the serdes
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
+=======
+ * @dd: the qlogic_ib device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int qib_6120_bringup_serdes(struct qib_pportdata *ppd)
 {
@@ -1412,7 +1416,11 @@ static void qib_6120_quiet_serdes(struct qib_pportdata *ppd)
 
 /**
  * qib_6120_setup_setextled - set the state of the two external LEDs
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
+=======
+ * @dd: the qlogic_ib device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @on: whether the link is up or not
  *
  * The exact combo of LEDs if on is true is determined by looking
@@ -1823,7 +1831,11 @@ bail:
  * qib_6120_put_tid - write a TID in chip
  * @dd: the qlogic_ib device
  * @tidptr: pointer to the expected TID (in chip) to update
+<<<<<<< HEAD
  * @type: RCVHQ_RCV_TYPE_EAGER (1) for eager, RCVHQ_RCV_TYPE_EXPECTED (0)
+=======
+ * @tidtype: RCVHQ_RCV_TYPE_EAGER (1) for eager, RCVHQ_RCV_TYPE_EXPECTED (0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * for expected
  * @pa: physical address of in memory buffer; tidinvalid if freeing
  *
@@ -1890,7 +1902,11 @@ static void qib_6120_put_tid(struct qib_devdata *dd, u64 __iomem *tidptr,
  * qib_6120_put_tid_2 - write a TID in chip, Revision 2 or higher
  * @dd: the qlogic_ib device
  * @tidptr: pointer to the expected TID (in chip) to update
+<<<<<<< HEAD
  * @type: RCVHQ_RCV_TYPE_EAGER (1) for eager, RCVHQ_RCV_TYPE_EXPECTED (0)
+=======
+ * @tidtype: RCVHQ_RCV_TYPE_EAGER (1) for eager, RCVHQ_RCV_TYPE_EXPECTED (0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * for expected
  * @pa: physical address of in memory buffer; tidinvalid if freeing
  *
@@ -1932,7 +1948,11 @@ static void qib_6120_put_tid_2(struct qib_devdata *dd, u64 __iomem *tidptr,
 /**
  * qib_6120_clear_tids - clear all TID entries for a context, expected and eager
  * @dd: the qlogic_ib device
+<<<<<<< HEAD
  * @rcd: the context
+=======
+ * @ctxt: the context
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * clear all TID entries for a context, expected and eager.
  * Used from qib_close().  On this chip, TIDs are only 32 bits,
@@ -2008,7 +2028,11 @@ int __attribute__((weak)) qib_unordered_wc(void)
 /**
  * qib_6120_get_base_info - set chip-specific flags for user code
  * @rcd: the qlogic_ib ctxt
+<<<<<<< HEAD
  * @kinfo: qib_base_info pointer
+=======
+ * @kbase: qib_base_info pointer
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * We set the PCIE flag because the lower bandwidth on PCIe vs
  * HyperTransport can affect some user packet algorithms.
@@ -2270,8 +2294,13 @@ static void sendctrl_6120_mod(struct qib_pportdata *ppd, u32 op)
 
 /**
  * qib_portcntr_6120 - read a per-port counter
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
  * @reg: the counter to snapshot
+=======
+ * @dd: the qlogic_ib device
+ * @creg: the counter to snapshot
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static u64 qib_portcntr_6120(struct qib_pportdata *ppd, u32 reg)
 {
@@ -2610,7 +2639,11 @@ static void qib_chk_6120_errormask(struct qib_devdata *dd)
 
 /**
  * qib_get_faststats - get word counters from chip before they overflow
+<<<<<<< HEAD
  * @t: contains a pointer to the qlogic_ib device qib_devdata
+=======
+ * @opaque - contains a pointer to the qlogic_ib device qib_devdata
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This needs more work; in particular, decision on whether we really
  * need traffic_wds done the way it is

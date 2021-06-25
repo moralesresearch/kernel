@@ -728,6 +728,7 @@ static int clk_gfx3d_determine_rate(struct clk_hw *hw,
 				    struct clk_rate_request *req)
 {
 	struct clk_rate_request parent_req = { };
+<<<<<<< HEAD
 	struct clk_rcg2_gfx3d *cgfx = to_clk_rcg2_gfx3d(hw);
 	struct clk_hw *xo, *p0, *p1, *p2;
 	unsigned long p0_rate;
@@ -745,12 +746,19 @@ static int clk_gfx3d_determine_rate(struct clk_hw *hw,
 	if (WARN_ON(!p0 || !p1 || !p2))
 		return -EINVAL;
 
+=======
+	struct clk_hw *p2, *p8, *p9, *xo;
+	unsigned long p9_rate;
+	int ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xo = clk_hw_get_parent_by_index(hw, 0);
 	if (req->rate == clk_hw_get_rate(xo)) {
 		req->best_parent_hw = xo;
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (mux_div == 0)
 		mux_div = 1;
 
@@ -775,6 +783,32 @@ static int clk_gfx3d_determine_rate(struct clk_hw *hw,
 		req->best_parent_hw = p1;
 	} else {
 		req->best_parent_hw = p2;
+=======
+	p9 = clk_hw_get_parent_by_index(hw, 2);
+	p2 = clk_hw_get_parent_by_index(hw, 3);
+	p8 = clk_hw_get_parent_by_index(hw, 4);
+
+	/* PLL9 is a fixed rate PLL */
+	p9_rate = clk_hw_get_rate(p9);
+
+	parent_req.rate = req->rate = min(req->rate, p9_rate);
+	if (req->rate == p9_rate) {
+		req->rate = req->best_parent_rate = p9_rate;
+		req->best_parent_hw = p9;
+		return 0;
+	}
+
+	if (req->best_parent_hw == p9) {
+		/* Are we going back to a previously used rate? */
+		if (clk_hw_get_rate(p8) == req->rate)
+			req->best_parent_hw = p8;
+		else
+			req->best_parent_hw = p2;
+	} else if (req->best_parent_hw == p8) {
+		req->best_parent_hw = p2;
+	} else {
+		req->best_parent_hw = p8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = __clk_determine_rate(req->best_parent_hw, &parent_req);
@@ -782,7 +816,10 @@ static int clk_gfx3d_determine_rate(struct clk_hw *hw,
 		return ret;
 
 	req->rate = req->best_parent_rate = parent_req.rate;
+<<<<<<< HEAD
 	req->rate /= mux_div;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -790,6 +827,7 @@ static int clk_gfx3d_determine_rate(struct clk_hw *hw,
 static int clk_gfx3d_set_rate_and_parent(struct clk_hw *hw, unsigned long rate,
 		unsigned long parent_rate, u8 index)
 {
+<<<<<<< HEAD
 	struct clk_rcg2_gfx3d *cgfx = to_clk_rcg2_gfx3d(hw);
 	struct clk_rcg2 *rcg = &cgfx->rcg;
 	u32 cfg;
@@ -800,6 +838,14 @@ static int clk_gfx3d_set_rate_and_parent(struct clk_hw *hw, unsigned long rate,
 	if (cgfx->div > 1)
 		cfg |= ((2 * cgfx->div) - 1) << CFG_SRC_DIV_SHIFT;
 
+=======
+	struct clk_rcg2 *rcg = to_clk_rcg2(hw);
+	u32 cfg;
+	int ret;
+
+	/* Just mux it, we don't use the division or m/n hardware */
+	cfg = rcg->parent_map[index].cfg << CFG_SRC_SEL_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = regmap_write(rcg->clkr.regmap, rcg->cmd_rcgr + CFG_REG, cfg);
 	if (ret)
 		return ret;

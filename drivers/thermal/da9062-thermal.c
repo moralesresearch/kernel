@@ -95,7 +95,11 @@ static void da9062_thermal_poll_on(struct work_struct *work)
 		thermal_zone_device_update(thermal->zone,
 					   THERMAL_EVENT_UNSPECIFIED);
 
+<<<<<<< HEAD
 		delay = thermal->zone->passive_delay_jiffies;
+=======
+		delay = msecs_to_jiffies(thermal->zone->passive_delay);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		queue_delayed_work(system_freezable_wq, &thermal->work, delay);
 		return;
 	}
@@ -245,7 +249,11 @@ static int da9062_thermal_probe(struct platform_device *pdev)
 
 	dev_dbg(&pdev->dev,
 		"TJUNC temperature polling period set at %d ms\n",
+<<<<<<< HEAD
 		jiffies_to_msecs(thermal->zone->passive_delay_jiffies));
+=======
+		thermal->zone->passive_delay);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = platform_get_irq_byname(pdev, "THERMAL");
 	if (ret < 0) {

@@ -118,7 +118,10 @@ static const char * const tb_security_names[] = {
 	[TB_SECURITY_SECURE] = "secure",
 	[TB_SECURITY_DPONLY] = "dponly",
 	[TB_SECURITY_USBONLY] = "usbonly",
+<<<<<<< HEAD
 	[TB_SECURITY_NOPCIE] = "nopcie",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static ssize_t boot_acl_show(struct device *dev, struct device_attribute *attr,
@@ -239,6 +242,7 @@ err_free_str:
 }
 static DEVICE_ATTR_RW(boot_acl);
 
+<<<<<<< HEAD
 static ssize_t deauthorization_show(struct device *dev,
 				    struct device_attribute *attr,
 				    char *buf)
@@ -255,6 +259,8 @@ static ssize_t deauthorization_show(struct device *dev,
 }
 static DEVICE_ATTR_RO(deauthorization);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t iommu_dma_protection_show(struct device *dev,
 					 struct device_attribute *attr,
 					 char *buf)
@@ -284,7 +290,10 @@ static DEVICE_ATTR_RO(security);
 
 static struct attribute *domain_attrs[] = {
 	&dev_attr_boot_acl.attr,
+<<<<<<< HEAD
 	&dev_attr_deauthorization.attr,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&dev_attr_iommu_dma_protection.attr,
 	&dev_attr_security.attr,
 	NULL,
@@ -307,7 +316,11 @@ static umode_t domain_attr_is_visible(struct kobject *kobj,
 	return attr->mode;
 }
 
+<<<<<<< HEAD
 static const struct attribute_group domain_attr_group = {
+=======
+static struct attribute_group domain_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.is_visible = domain_attr_is_visible,
 	.attrs = domain_attrs,
 };
@@ -412,9 +425,13 @@ static bool tb_domain_event_cb(void *data, enum tb_cfg_pkg_type type,
 	switch (type) {
 	case TB_CFG_PKG_XDOMAIN_REQ:
 	case TB_CFG_PKG_XDOMAIN_RESP:
+<<<<<<< HEAD
 		if (tb_is_xdomain_enabled())
 			return tb_xdomain_handle_request(tb, type, buf, size);
 		break;
+=======
+		return tb_xdomain_handle_request(tb, type, buf, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	default:
 		tb->cm_ops->handle_event(tb, type, buf, size);
@@ -461,9 +478,12 @@ int tb_domain_add(struct tb *tb)
 			goto err_ctl_stop;
 	}
 
+<<<<<<< HEAD
 	tb_dbg(tb, "security level set to %s\n",
 	       tb_security_names[tb->security_level]);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = device_add(&tb->dev);
 	if (ret)
 		goto err_ctl_stop;
@@ -625,6 +645,7 @@ int tb_domain_runtime_resume(struct tb *tb)
 }
 
 /**
+<<<<<<< HEAD
  * tb_domain_disapprove_switch() - Disapprove switch
  * @tb: Domain the switch belongs to
  * @sw: Switch to disapprove
@@ -642,13 +663,20 @@ int tb_domain_disapprove_switch(struct tb *tb, struct tb_switch *sw)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * tb_domain_approve_switch() - Approve switch
  * @tb: Domain the switch belongs to
  * @sw: Switch to approve
  *
  * This will approve switch by connection manager specific means. In
+<<<<<<< HEAD
  * case of success the connection manager will create PCIe tunnel from
  * parent to @sw.
+=======
+ * case of success the connection manager will create tunnels for all
+ * supported protocols.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int tb_domain_approve_switch(struct tb *tb, struct tb_switch *sw)
 {

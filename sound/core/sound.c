@@ -9,7 +9,10 @@
 #include <linux/time.h>
 #include <linux/device.h>
 #include <linux/module.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <sound/core.h>
 #include <sound/minors.h>
 #include <sound/info.h>
@@ -40,11 +43,14 @@ MODULE_ALIAS_CHARDEV_MAJOR(CONFIG_SND_MAJOR);
 int snd_ecards_limit;
 EXPORT_SYMBOL(snd_ecards_limit);
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_DEBUG
 struct dentry *sound_debugfs_root;
 EXPORT_SYMBOL_GPL(sound_debugfs_root);
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct snd_minor *snd_minors[SNDRV_OS_MINORS];
 static DEFINE_MUTEX(sound_mutex);
 
@@ -343,8 +349,11 @@ static const char *snd_device_type_name(int type)
 		return "sequencer";
 	case SNDRV_DEVICE_TYPE_TIMER:
 		return "timer";
+<<<<<<< HEAD
 	case SNDRV_DEVICE_TYPE_COMPRESS:
 		return "compress";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return "?";
 	}
@@ -403,10 +412,13 @@ static int __init alsa_sound_init(void)
 		unregister_chrdev(major, "alsa");
 		return -ENOMEM;
 	}
+<<<<<<< HEAD
 
 #ifdef CONFIG_SND_DEBUG
 	sound_debugfs_root = debugfs_create_dir("sound", NULL);
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef MODULE
 	pr_info("Advanced Linux Sound Architecture Driver Initialized.\n");
 #endif
@@ -415,9 +427,12 @@ static int __init alsa_sound_init(void)
 
 static void __exit alsa_sound_exit(void)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_SND_DEBUG
 	debugfs_remove(sound_debugfs_root);
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snd_info_done();
 	unregister_chrdev(major, "alsa");
 }

@@ -23,7 +23,12 @@ properties:
   compatible:
     const: aspeed,ast2400-pinctrl
   reg:
+<<<<<<< HEAD
     maxItems: 2
+=======
+    description: |
+      A hint for the memory regions associated with the pin-controller
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 patternProperties:
   '^.*$':
@@ -62,7 +67,11 @@ examples:
         reg = <0x1e6e2000 0x1a8>;
 
         pinctrl: pinctrl {
+<<<<<<< HEAD
             compatible = "aspeed,ast2400-pinctrl";
+=======
+            compatible = "aspeed,g4-pinctrl";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             pinctrl_i2c3_default: i2c3_default {
                 function = "I2C3";

@@ -27,7 +27,11 @@ the following::
                           --> hiddev.c ----> POWER / MONITOR CONTROL
 
 In addition, other subsystems (apart from USB) can potentially feed
+<<<<<<< HEAD
 events into the input subsystem, but these have no effect on the HID
+=======
+events into the input subsystem, but these have no effect on the hid
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 device interface.
 
 Using the HID Device Interface
@@ -73,7 +77,11 @@ The hiddev API uses a read() interface, and a set of ioctl() calls.
 HID devices exchange data with the host computer using data
 bundles called "reports".  Each report is divided into "fields",
 each of which can have one or more "usages".  In the hid-core,
+<<<<<<< HEAD
 each one of these usages has a single signed 32-bit value.
+=======
+each one of these usages has a single signed 32 bit value.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 read():
 -------
@@ -113,7 +121,11 @@ HIDIOCAPPLICATION
   - (none)
 
 This ioctl call returns the HID application usage associated with the
+<<<<<<< HEAD
 HID device. The third argument to ioctl() specifies which application
+=======
+hid device. The third argument to ioctl() specifies which application
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 index to get. This is useful when the device has more than one
 application collection. If the index is invalid (greater or equal to
 the number of application collections this device has) the ioctl
@@ -181,7 +193,11 @@ looked up by type (input, output or feature) and id, so these fields
 must be filled in by the user. The ID can be absolute -- the actual
 report id as reported by the device -- or relative --
 HID_REPORT_ID_FIRST for the first report, and (HID_REPORT_ID_NEXT |
+<<<<<<< HEAD
 report_id) for the next report after report_id. Without a priori
+=======
+report_id) for the next report after report_id. Without a-priori
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 information about report ids, the right way to use this ioctl is to
 use the relative IDs above to enumerate the valid IDs. The ioctl
 returns non-zero when there is no more next ID. The real report ID is
@@ -200,7 +216,11 @@ HIDIOCGUCODE
   - struct hiddev_usage_ref (read/write)
 
 Returns the usage_code in a hiddev_usage_ref structure, given that
+<<<<<<< HEAD
 its report type, report id, field index, and index within the
+=======
+given its report type, report id, field index, and index within the
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 field have already been filled into the structure.
 
 HIDIOCGUSAGE

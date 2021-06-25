@@ -16,7 +16,10 @@
 
 #include "sparsebit.h"
 
+<<<<<<< HEAD
 #define KVM_DEV_PATH "/dev/kvm"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_MAX_VCPUS 512
 
 /*
@@ -80,6 +83,15 @@ struct vm_guest_mode_params {
 };
 extern const struct vm_guest_mode_params vm_guest_mode_params[];
 
+<<<<<<< HEAD
+=======
+enum vm_mem_backing_src_type {
+	VM_MEM_SRC_ANONYMOUS,
+	VM_MEM_SRC_ANONYMOUS_THP,
+	VM_MEM_SRC_ANONYMOUS_HUGETLB,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int kvm_check_cap(long cap);
 int vm_enable_cap(struct kvm_vm *vm, struct kvm_enable_cap *cap);
 int vcpu_enable_cap(struct kvm_vm *vm, uint32_t vcpu_id,
@@ -134,7 +146,10 @@ void vcpu_ioctl(struct kvm_vm *vm, uint32_t vcpuid, unsigned long ioctl,
 int _vcpu_ioctl(struct kvm_vm *vm, uint32_t vcpuid, unsigned long ioctl,
 		void *arg);
 void vm_ioctl(struct kvm_vm *vm, unsigned long ioctl, void *arg);
+<<<<<<< HEAD
 int _vm_ioctl(struct kvm_vm *vm, unsigned long cmd, void *arg);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_ioctl(struct kvm_vm *vm, unsigned long ioctl, void *arg);
 int _kvm_ioctl(struct kvm_vm *vm, unsigned long ioctl, void *arg);
 void vm_mem_region_set_flags(struct kvm_vm *vm, uint32_t slot, uint32_t flags);
@@ -295,7 +310,11 @@ bool vm_is_unrestricted_guest(struct kvm_vm *vm);
 
 unsigned int vm_get_page_size(struct kvm_vm *vm);
 unsigned int vm_get_page_shift(struct kvm_vm *vm);
+<<<<<<< HEAD
 uint64_t vm_get_max_gfn(struct kvm_vm *vm);
+=======
+unsigned int vm_get_max_gfn(struct kvm_vm *vm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int vm_get_fd(struct kvm_vm *vm);
 
 unsigned int vm_calc_num_guest_pages(enum vm_guest_mode mode, size_t size);

@@ -18,8 +18,13 @@ struct nvkm_fault_buffer {
 	u64 addr;
 };
 
+<<<<<<< HEAD
 int nvkm_fault_new_(const struct nvkm_fault_func *, struct nvkm_device *, enum nvkm_subdev_type,
 		    int inst, struct nvkm_fault **);
+=======
+int nvkm_fault_new_(const struct nvkm_fault_func *, struct nvkm_device *,
+		    int index, struct nvkm_fault **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_fault_func {
 	int (*oneinit)(struct nvkm_fault *);

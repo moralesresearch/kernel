@@ -578,6 +578,7 @@ THUMB(	orr	\reg , \reg , #PSR_T_BIT	)
 	__adldst_l	str, \src, \sym, \tmp, \cond
 	.endm
 
+<<<<<<< HEAD
 	/*
 	 * rev_l - byte-swap a 32-bit value
 	 *
@@ -595,4 +596,6 @@ THUMB(	orr	\reg , \reg , #PSR_T_BIT	)
 	.endif
 	.endm
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ASM_ASSEMBLER_H__ */

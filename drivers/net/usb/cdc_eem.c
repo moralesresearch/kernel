@@ -123,10 +123,17 @@ static struct sk_buff *eem_tx_fixup(struct usbnet *dev, struct sk_buff *skb,
 	}
 
 	skb2 = skb_copy_expand(skb, EEM_HEAD, ETH_FCS_LEN + padlen, flags);
+<<<<<<< HEAD
 	dev_kfree_skb_any(skb);
 	if (!skb2)
 		return NULL;
 
+=======
+	if (!skb2)
+		return NULL;
+
+	dev_kfree_skb_any(skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb = skb2;
 
 done:

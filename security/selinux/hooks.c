@@ -484,6 +484,10 @@ static int selinux_is_sblabel_mnt(struct super_block *sb)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sb_check_xattr_support(struct super_block *sb)
 {
 	struct superblock_security_struct *sbsec = sb->s_security;
@@ -533,6 +537,11 @@ fallback:
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sb_finish_set_opts(struct super_block *sb)
 {
 	struct superblock_security_struct *sbsec = sb->s_security;
@@ -541,9 +550,42 @@ static int sb_finish_set_opts(struct super_block *sb)
 	int rc = 0;
 
 	if (sbsec->behavior == SECURITY_FS_USE_XATTR) {
+<<<<<<< HEAD
 		rc = sb_check_xattr_support(sb);
 		if (rc)
 			return rc;
+=======
+<<<<<<< HEAD
+		rc = sb_check_xattr_support(sb);
+		if (rc)
+			return rc;
+=======
+		/* Make sure that the xattr handler exists and that no
+		   error other than -ENODATA is returned by getxattr on
+		   the root directory.  -ENODATA is ok, as this may be
+		   the first boot of the SELinux kernel before we have
+		   assigned xattr values to the filesystem. */
+		if (!(root_inode->i_opflags & IOP_XATTR)) {
+			pr_warn("SELinux: (dev %s, type %s) has no "
+			       "xattr support\n", sb->s_id, sb->s_type->name);
+			rc = -EOPNOTSUPP;
+			goto out;
+		}
+
+		rc = __vfs_getxattr(root, root_inode, XATTR_NAME_SELINUX, NULL, 0);
+		if (rc < 0 && rc != -ENODATA) {
+			if (rc == -EOPNOTSUPP)
+				pr_warn("SELinux: (dev %s, type "
+				       "%s) has no security xattr handler\n",
+				       sb->s_id, sb->s_type->name);
+			else
+				pr_warn("SELinux: (dev %s, type "
+				       "%s) getxattr errno %d\n", sb->s_id,
+				       sb->s_type->name, -rc);
+			goto out;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	sbsec->flags |= SE_SBINITIALIZED;
@@ -582,6 +624,13 @@ static int sb_finish_set_opts(struct super_block *sb)
 		spin_lock(&sbsec->isec_lock);
 	}
 	spin_unlock(&sbsec->isec_lock);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+out:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -1147,8 +1196,17 @@ static inline u16 inode_mode_to_security_class(umode_t mode)
 
 static inline int default_protocol_stream(int protocol)
 {
+<<<<<<< HEAD
 	return (protocol == IPPROTO_IP || protocol == IPPROTO_TCP ||
 		protocol == IPPROTO_MPTCP);
+=======
+<<<<<<< HEAD
+	return (protocol == IPPROTO_IP || protocol == IPPROTO_TCP ||
+		protocol == IPPROTO_MPTCP);
+=======
+	return (protocol == IPPROTO_IP || protocol == IPPROTO_TCP);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int default_protocol_dgram(int protocol)
@@ -2962,6 +3020,10 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int selinux_inode_init_security_anon(struct inode *inode,
 					    const struct qstr *name,
 					    const struct inode *context_inode)
@@ -3018,6 +3080,11 @@ static int selinux_inode_init_security_anon(struct inode *inode,
 			    &ad);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int selinux_inode_create(struct inode *dir, struct dentry *dentry, umode_t mode)
 {
 	return may_create(dir, dentry, SECCLASS_FILE);
@@ -3203,8 +3270,17 @@ static bool has_cap_mac_admin(bool audit)
 	return true;
 }
 
+<<<<<<< HEAD
 static int selinux_inode_setxattr(struct user_namespace *mnt_userns,
 				  struct dentry *dentry, const char *name,
+=======
+<<<<<<< HEAD
+static int selinux_inode_setxattr(struct user_namespace *mnt_userns,
+				  struct dentry *dentry, const char *name,
+=======
+static int selinux_inode_setxattr(struct dentry *dentry, const char *name,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  const void *value, size_t size, int flags)
 {
 	struct inode *inode = d_backing_inode(dentry);
@@ -3225,13 +3301,29 @@ static int selinux_inode_setxattr(struct user_namespace *mnt_userns,
 	}
 
 	if (!selinux_initialized(&selinux_state))
+<<<<<<< HEAD
 		return (inode_owner_or_capable(mnt_userns, inode) ? 0 : -EPERM);
+=======
+<<<<<<< HEAD
+		return (inode_owner_or_capable(mnt_userns, inode) ? 0 : -EPERM);
+=======
+		return (inode_owner_or_capable(inode) ? 0 : -EPERM);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sbsec = inode->i_sb->s_security;
 	if (!(sbsec->flags & SBLABEL_MNT))
 		return -EOPNOTSUPP;
 
+<<<<<<< HEAD
 	if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+<<<<<<< HEAD
+	if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+	if (!inode_owner_or_capable(inode))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EPERM;
 
 	ad.type = LSM_AUDIT_DATA_DENTRY;
@@ -3352,11 +3444,24 @@ static int selinux_inode_listxattr(struct dentry *dentry)
 	return dentry_has_perm(cred, dentry, FILE__GETATTR);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int selinux_inode_removexattr(struct user_namespace *mnt_userns,
 				     struct dentry *dentry, const char *name)
 {
 	if (strcmp(name, XATTR_NAME_SELINUX)) {
 		int rc = cap_inode_removexattr(mnt_userns, dentry, name);
+<<<<<<< HEAD
+=======
+=======
+static int selinux_inode_removexattr(struct dentry *dentry, const char *name)
+{
+	if (strcmp(name, XATTR_NAME_SELINUX)) {
+		int rc = cap_inode_removexattr(dentry, name);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc)
 			return rc;
 
@@ -3422,9 +3527,19 @@ static int selinux_path_notify(const struct path *path, u64 mask,
  *
  * Permission check is handled by selinux_inode_getxattr hook.
  */
+<<<<<<< HEAD
 static int selinux_inode_getsecurity(struct user_namespace *mnt_userns,
 				     struct inode *inode, const char *name,
 				     void **buffer, bool alloc)
+=======
+<<<<<<< HEAD
+static int selinux_inode_getsecurity(struct user_namespace *mnt_userns,
+				     struct inode *inode, const char *name,
+				     void **buffer, bool alloc)
+=======
+static int selinux_inode_getsecurity(struct inode *inode, const char *name, void **buffer, bool alloc)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 size;
 	int error;
@@ -6618,15 +6733,34 @@ static int selinux_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen
  */
 static int selinux_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen)
 {
+<<<<<<< HEAD
 	return __vfs_setxattr_noperm(&init_user_ns, dentry, XATTR_NAME_SELINUX,
 				     ctx, ctxlen, 0);
+=======
+<<<<<<< HEAD
+	return __vfs_setxattr_noperm(&init_user_ns, dentry, XATTR_NAME_SELINUX,
+				     ctx, ctxlen, 0);
+=======
+	return __vfs_setxattr_noperm(dentry, XATTR_NAME_SELINUX, ctx, ctxlen, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int selinux_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen)
 {
 	int len = 0;
+<<<<<<< HEAD
 	len = selinux_inode_getsecurity(&init_user_ns, inode,
 					XATTR_SELINUX_SUFFIX, ctx, true);
+=======
+<<<<<<< HEAD
+	len = selinux_inode_getsecurity(&init_user_ns, inode,
+					XATTR_SELINUX_SUFFIX, ctx, true);
+=======
+	len = selinux_inode_getsecurity(inode, XATTR_SELINUX_SUFFIX,
+						ctx, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (len < 0)
 		return len;
 	*ctxlen = len;
@@ -7093,7 +7227,14 @@ static struct security_hook_list selinux_hooks[] __lsm_ro_after_init = {
 
 	LSM_HOOK_INIT(inode_free_security, selinux_inode_free_security),
 	LSM_HOOK_INIT(inode_init_security, selinux_inode_init_security),
+<<<<<<< HEAD
 	LSM_HOOK_INIT(inode_init_security_anon, selinux_inode_init_security_anon),
+=======
+<<<<<<< HEAD
+	LSM_HOOK_INIT(inode_init_security_anon, selinux_inode_init_security_anon),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	LSM_HOOK_INIT(inode_create, selinux_inode_create),
 	LSM_HOOK_INIT(inode_link, selinux_inode_link),
 	LSM_HOOK_INIT(inode_unlink, selinux_inode_unlink),

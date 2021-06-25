@@ -214,7 +214,10 @@ static int cdns_ti_remove(struct platform_device *pdev)
 
 static const struct of_device_id cdns_ti_of_match[] = {
 	{ .compatible = "ti,j721e-usb", },
+<<<<<<< HEAD
 	{ .compatible = "ti,am64-usb", },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{},
 };
 MODULE_DEVICE_TABLE(of, cdns_ti_of_match);

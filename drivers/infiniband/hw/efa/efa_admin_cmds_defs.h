@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
 /*
+<<<<<<< HEAD
  * Copyright 2018-2021 Amazon.com, Inc. or its affiliates. All rights reserved.
+=======
+ * Copyright 2018-2020 Amazon.com, Inc. or its affiliates. All rights reserved.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef _EFA_ADMIN_CMDS_H_
@@ -161,8 +165,13 @@ struct efa_admin_create_qp_resp {
 	u32 qp_handle;
 
 	/*
+<<<<<<< HEAD
 	 * QP number in the given EFA virtual device. Least-significant bits (as
 	 * needed according to max_qp) carry unique QP ID
+=======
+	 * QP number in the given EFA virtual device. Least-significant bits
+	 *    (as needed according to max_qp) carry unique QP ID
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	u16 qp_num;
 
@@ -465,7 +474,11 @@ struct efa_admin_create_cq_cmd {
 
 	/*
 	 * number of sub cqs - must be equal to sub_cqs_per_cq of queue
+<<<<<<< HEAD
 	 * attributes.
+=======
+	 *    attributes.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	u16 num_sub_cqs;
 
@@ -563,8 +576,17 @@ struct efa_admin_acq_get_stats_resp {
 };
 
 struct efa_admin_get_set_feature_common_desc {
+<<<<<<< HEAD
 	/* MBZ */
 	u8 reserved0;
+=======
+	/*
+	 * 1:0 : select - 0x1 - current value; 0x3 - default
+	 *    value
+	 * 7:3 : reserved3 - MBZ
+	 */
+	u8 flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* as appears in efa_admin_aq_feature_id */
 	u8 feature_id;
@@ -819,6 +841,15 @@ enum efa_admin_aenq_group {
 	EFA_ADMIN_AENQ_GROUPS_NUM                   = 5,
 };
 
+<<<<<<< HEAD
+=======
+enum efa_admin_aenq_notification_syndrom {
+	EFA_ADMIN_SUSPEND                           = 0,
+	EFA_ADMIN_RESUME                            = 1,
+	EFA_ADMIN_UPDATE_HINTS                      = 2,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct efa_admin_mmio_req_read_less_resp {
 	u16 req_id;
 
@@ -899,6 +930,12 @@ struct efa_admin_host_info {
 #define EFA_ADMIN_CREATE_CQ_CMD_VIRT_MASK                   BIT(6)
 #define EFA_ADMIN_CREATE_CQ_CMD_CQ_ENTRY_SIZE_WORDS_MASK    GENMASK(4, 0)
 
+<<<<<<< HEAD
+=======
+/* get_set_feature_common_desc */
+#define EFA_ADMIN_GET_SET_FEATURE_COMMON_DESC_SELECT_MASK   GENMASK(1, 0)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* feature_device_attr_desc */
 #define EFA_ADMIN_FEATURE_DEVICE_ATTR_DESC_RDMA_READ_MASK   BIT(0)
 #define EFA_ADMIN_FEATURE_DEVICE_ATTR_DESC_RNR_RETRY_MASK   BIT(1)

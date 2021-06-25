@@ -704,9 +704,12 @@ void ptrace_disable(struct task_struct *child)
 #if defined CONFIG_X86_32 || defined CONFIG_IA32_EMULATION
 static const struct user_regset_view user_x86_32_view; /* Initialized below. */
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_X86_64
 static const struct user_regset_view user_x86_64_view; /* Initialized below. */
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 long arch_ptrace(struct task_struct *child, long request,
 		 unsigned long addr, unsigned long data)
@@ -714,6 +717,7 @@ long arch_ptrace(struct task_struct *child, long request,
 	int ret;
 	unsigned long __user *datap = (unsigned long __user *)data;
 
+<<<<<<< HEAD
 #ifdef CONFIG_X86_64
 	/* This is native 64-bit ptrace() */
 	const struct user_regset_view *regset_view = &user_x86_64_view;
@@ -722,6 +726,8 @@ long arch_ptrace(struct task_struct *child, long request,
 	const struct user_regset_view *regset_view = &user_x86_32_view;
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (request) {
 	/* read the word at location addr in the USER area. */
 	case PTRACE_PEEKUSR: {
@@ -760,28 +766,44 @@ long arch_ptrace(struct task_struct *child, long request,
 
 	case PTRACE_GETREGS:	/* Get all gp regs from the child. */
 		return copy_regset_to_user(child,
+<<<<<<< HEAD
 					   regset_view,
+=======
+					   task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   REGSET_GENERAL,
 					   0, sizeof(struct user_regs_struct),
 					   datap);
 
 	case PTRACE_SETREGS:	/* Set all gp regs in the child. */
 		return copy_regset_from_user(child,
+<<<<<<< HEAD
 					     regset_view,
+=======
+					     task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     REGSET_GENERAL,
 					     0, sizeof(struct user_regs_struct),
 					     datap);
 
 	case PTRACE_GETFPREGS:	/* Get the child FPU state. */
 		return copy_regset_to_user(child,
+<<<<<<< HEAD
 					   regset_view,
+=======
+					   task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   REGSET_FP,
 					   0, sizeof(struct user_i387_struct),
 					   datap);
 
 	case PTRACE_SETFPREGS:	/* Set the child FPU state. */
 		return copy_regset_from_user(child,
+<<<<<<< HEAD
 					     regset_view,
+=======
+					     task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     REGSET_FP,
 					     0, sizeof(struct user_i387_struct),
 					     datap);
@@ -1163,28 +1185,44 @@ static long x32_arch_ptrace(struct task_struct *child,
 
 	case PTRACE_GETREGS:	/* Get all gp regs from the child. */
 		return copy_regset_to_user(child,
+<<<<<<< HEAD
 					   &user_x86_64_view,
+=======
+					   task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   REGSET_GENERAL,
 					   0, sizeof(struct user_regs_struct),
 					   datap);
 
 	case PTRACE_SETREGS:	/* Set all gp regs in the child. */
 		return copy_regset_from_user(child,
+<<<<<<< HEAD
 					     &user_x86_64_view,
+=======
+					     task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     REGSET_GENERAL,
 					     0, sizeof(struct user_regs_struct),
 					     datap);
 
 	case PTRACE_GETFPREGS:	/* Get the child FPU state. */
 		return copy_regset_to_user(child,
+<<<<<<< HEAD
 					   &user_x86_64_view,
+=======
+					   task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   REGSET_FP,
 					   0, sizeof(struct user_i387_struct),
 					   datap);
 
 	case PTRACE_SETFPREGS:	/* Set the child FPU state. */
 		return copy_regset_from_user(child,
+<<<<<<< HEAD
 					     &user_x86_64_view,
+=======
+					     task_user_regset_view(current),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     REGSET_FP,
 					     0, sizeof(struct user_i387_struct),
 					     datap);
@@ -1320,6 +1358,7 @@ void __init update_regset_xstate_info(unsigned int size, u64 xstate_mask)
 	xstate_fx_sw_bytes[USER_XSTATE_XCR0_WORD] = xstate_mask;
 }
 
+<<<<<<< HEAD
 /*
  * This is used by the core dump code to decide which regset to dump.  The
  * core dump code writes out the resulting .e_machine and the corresponding
@@ -1339,6 +1378,8 @@ void __init update_regset_xstate_info(unsigned int size, u64 xstate_mask)
  * improved ptrace() APIs to read and write registers reliably, possibly by
  * allowing userspace to select the ELF e_machine variant that they expect.
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct user_regset_view *task_user_regset_view(struct task_struct *task)
 {
 #ifdef CONFIG_IA32_EMULATION

@@ -226,7 +226,11 @@
 	axp22x: pmic@68 {
 		compatible = "x-powers,axp221";
 		reg = <0x68>;
+<<<<<<< HEAD
 		interrupt-parent = <&r_intc>;
+=======
+		interrupt-parent = <&nmi_intc>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
 		x-powers,drive-vbus-en;
 	};

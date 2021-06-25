@@ -3440,7 +3440,12 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
 
 err_iahb:
 	clk_disable_unprepare(hdmi->iahb_clk);
+<<<<<<< HEAD
 	clk_disable_unprepare(hdmi->cec_clk);
+=======
+	if (hdmi->cec_clk)
+		clk_disable_unprepare(hdmi->cec_clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_isfr:
 	clk_disable_unprepare(hdmi->isfr_clk);
 err_res:
@@ -3464,7 +3469,12 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi)
 
 	clk_disable_unprepare(hdmi->iahb_clk);
 	clk_disable_unprepare(hdmi->isfr_clk);
+<<<<<<< HEAD
 	clk_disable_unprepare(hdmi->cec_clk);
+=======
+	if (hdmi->cec_clk)
+		clk_disable_unprepare(hdmi->cec_clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (hdmi->i2c)
 		i2c_del_adapter(&hdmi->i2c->adap);

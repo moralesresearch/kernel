@@ -140,8 +140,16 @@ const struct fs_parameter_spec smb3_fs_parameters[] = {
 	fsparam_u32("rsize", Opt_rsize),
 	fsparam_u32("wsize", Opt_wsize),
 	fsparam_u32("actimeo", Opt_actimeo),
+<<<<<<< HEAD
 	fsparam_u32("acdirmax", Opt_acdirmax),
 	fsparam_u32("acregmax", Opt_acregmax),
+=======
+<<<<<<< HEAD
+	fsparam_u32("acdirmax", Opt_acdirmax),
+	fsparam_u32("acregmax", Opt_acregmax),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fsparam_u32("echo_interval", Opt_echo_interval),
 	fsparam_u32("max_credits", Opt_max_credits),
 	fsparam_u32("handletimeout", Opt_handletimeout),
@@ -399,7 +407,15 @@ cifs_parse_smb_version(char *value, struct smb3_fs_context *ctx, bool is_smb3)
 		ctx->vals = &smb3any_values;
 		break;
 	case Smb_default:
+<<<<<<< HEAD
 		ctx->ops = &smb30_operations;
+=======
+<<<<<<< HEAD
+		ctx->ops = &smb30_operations;
+=======
+		ctx->ops = &smb30_operations; /* currently identical with 3.0 */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ctx->vals = &smbdefault_values;
 		break;
 	default:
@@ -475,7 +491,10 @@ smb3_parse_devname(const char *devname, struct smb3_fs_context *ctx)
 
 	/* move "pos" up to delimiter or NULL */
 	pos += len;
+<<<<<<< HEAD
 	kfree(ctx->UNC);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx->UNC = kstrndup(devname, pos - devname, GFP_KERNEL);
 	if (!ctx->UNC)
 		return -ENOMEM;
@@ -486,9 +505,12 @@ smb3_parse_devname(const char *devname, struct smb3_fs_context *ctx)
 	if (*pos == '/' || *pos == '\\')
 		pos++;
 
+<<<<<<< HEAD
 	kfree(ctx->prepath);
 	ctx->prepath = NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If pos is NULL then no prepath */
 	if (!*pos)
 		return 0;
@@ -952,6 +974,10 @@ static int smb3_fs_context_parse_param(struct fs_context *fc,
 		ctx->wsize = result.uint_32;
 		ctx->got_wsize = true;
 		break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case Opt_acregmax:
 		ctx->acregmax = HZ * result.uint_32;
 		if (ctx->acregmax > CIFS_MAX_ACTIMEO) {
@@ -977,6 +1003,17 @@ static int smb3_fs_context_parse_param(struct fs_context *fc,
 			break;
 		}
 		ctx->acdirmax = ctx->acregmax = HZ * result.uint_32;
+<<<<<<< HEAD
+=======
+=======
+	case Opt_actimeo:
+		ctx->actimeo = HZ * result.uint_32;
+		if (ctx->actimeo > CIFS_MAX_ACTIMEO) {
+			cifs_dbg(VFS, "attribute cache timeout too large\n");
+			goto cifs_parse_mount_err;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case Opt_echo_interval:
 		ctx->echo_interval = result.uint_32;
@@ -999,9 +1036,12 @@ static int smb3_fs_context_parse_param(struct fs_context *fc,
 			goto cifs_parse_mount_err;
 		}
 		ctx->max_channels = result.uint_32;
+<<<<<<< HEAD
 		/* If more than one channel requested ... they want multichan */
 		if (result.uint_32 > 1)
 			ctx->multichannel = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case Opt_handletimeout:
 		ctx->handle_timeout = result.uint_32;
@@ -1408,8 +1448,17 @@ int smb3_init_fs_context(struct fs_context *fc)
 	/* default is to use strict cifs caching semantics */
 	ctx->strict_io = true;
 
+<<<<<<< HEAD
 	ctx->acregmax = CIFS_DEF_ACTIMEO;
 	ctx->acdirmax = CIFS_DEF_ACTIMEO;
+=======
+<<<<<<< HEAD
+	ctx->acregmax = CIFS_DEF_ACTIMEO;
+	ctx->acdirmax = CIFS_DEF_ACTIMEO;
+=======
+	ctx->actimeo = CIFS_DEF_ACTIMEO;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Most clients set timeout to 0, allows server to use its default */
 	ctx->handle_timeout = 0; /* See MS-SMB2 spec section 2.2.14.2.12 */

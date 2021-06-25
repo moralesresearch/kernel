@@ -730,6 +730,7 @@ void lapic_assign_legacy_vector(unsigned int irq, bool replace)
 	irq_matrix_assign_system(vector_matrix, ISA_IRQ_VECTOR(irq), replace);
 }
 
+<<<<<<< HEAD
 void __init lapic_update_legacy_vectors(void)
 {
 	unsigned int i;
@@ -750,6 +751,8 @@ void __init lapic_update_legacy_vectors(void)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init lapic_assign_system_vectors(void)
 {
 	unsigned int i, vector = 0;

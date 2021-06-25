@@ -580,16 +580,29 @@ int prestera_bridge_port_event(struct net_device *dev, unsigned long event,
 }
 
 static int prestera_port_attr_br_flags_set(struct prestera_port *port,
+<<<<<<< HEAD
 					   struct net_device *dev,
 					   struct switchdev_brport_flags flags)
+=======
+					   struct switchdev_trans *trans,
+					   struct net_device *dev,
+					   unsigned long flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct prestera_bridge_port *br_port;
 	int err;
 
+<<<<<<< HEAD
+=======
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	br_port = prestera_bridge_port_by_dev(port->sw->swdev, dev);
 	if (!br_port)
 		return 0;
 
+<<<<<<< HEAD
 	if (flags.mask & BR_FLOOD) {
 		err = prestera_hw_port_flood_set(port, flags.val & BR_FLOOD);
 		if (err)
@@ -604,31 +617,66 @@ static int prestera_port_attr_br_flags_set(struct prestera_port *port,
 	}
 
 	memcpy(&br_port->flags, &flags.val, sizeof(flags.val));
+=======
+	err = prestera_hw_port_flood_set(port, flags & BR_FLOOD);
+	if (err)
+		return err;
+
+	err = prestera_hw_port_learning_set(port, flags & BR_LEARNING);
+	if (err)
+		return err;
+
+	memcpy(&br_port->flags, &flags, sizeof(flags));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 static int prestera_port_attr_br_ageing_set(struct prestera_port *port,
+<<<<<<< HEAD
+=======
+					    struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    unsigned long ageing_clock_t)
 {
 	unsigned long ageing_jiffies = clock_t_to_jiffies(ageing_clock_t);
 	u32 ageing_time_ms = jiffies_to_msecs(ageing_jiffies);
 	struct prestera_switch *sw = port->sw;
 
+<<<<<<< HEAD
 	if (ageing_time_ms < PRESTERA_MIN_AGEING_TIME_MS ||
 	    ageing_time_ms > PRESTERA_MAX_AGEING_TIME_MS)
 		return -ERANGE;
+=======
+	if (switchdev_trans_ph_prepare(trans)) {
+		if (ageing_time_ms < PRESTERA_MIN_AGEING_TIME_MS ||
+		    ageing_time_ms > PRESTERA_MAX_AGEING_TIME_MS)
+			return -ERANGE;
+		else
+			return 0;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return prestera_hw_switch_ageing_set(sw, ageing_time_ms);
 }
 
 static int prestera_port_attr_br_vlan_set(struct prestera_port *port,
+<<<<<<< HEAD
+=======
+					  struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  struct net_device *dev,
 					  bool vlan_enabled)
 {
 	struct prestera_switch *sw = port->sw;
 	struct prestera_bridge *bridge;
 
+<<<<<<< HEAD
+=======
+	if (!switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bridge = prestera_bridge_by_dev(sw->swdev, dev);
 	if (WARN_ON(!bridge))
 		return -EINVAL;
@@ -657,15 +705,28 @@ static int prestera_port_bridge_vlan_stp_set(struct prestera_port *port,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int prestera_port_attr_stp_state_set(struct prestera_port *port,
 					    struct net_device *dev,
 					    u8 state)
+=======
+static int presterar_port_attr_stp_state_set(struct prestera_port *port,
+					     struct switchdev_trans *trans,
+					     struct net_device *dev,
+					     u8 state)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct prestera_bridge_port *br_port;
 	struct prestera_bridge_vlan *br_vlan;
 	int err;
 	u16 vid;
 
+<<<<<<< HEAD
+=======
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	br_port = prestera_bridge_port_by_dev(port->sw->swdev, dev);
 	if (!br_port)
 		return 0;
@@ -701,22 +762,36 @@ err_port_stp_set:
 
 static int prestera_port_obj_attr_set(struct net_device *dev,
 				      const struct switchdev_attr *attr,
+<<<<<<< HEAD
 				      struct netlink_ext_ack *extack)
+=======
+				      struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct prestera_port *port = netdev_priv(dev);
 	int err = 0;
 
 	switch (attr->id) {
 	case SWITCHDEV_ATTR_ID_PORT_STP_STATE:
+<<<<<<< HEAD
 		err = prestera_port_attr_stp_state_set(port, attr->orig_dev,
 						       attr->u.stp_state);
 		break;
 	case SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS:
 		if (attr->u.brport_flags.mask &
+=======
+		err = presterar_port_attr_stp_state_set(port, trans,
+							attr->orig_dev,
+							attr->u.stp_state);
+		break;
+	case SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS:
+		if (attr->u.brport_flags &
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    ~(BR_LEARNING | BR_FLOOD | BR_MCAST_FLOOD))
 			err = -EINVAL;
 		break;
 	case SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS:
+<<<<<<< HEAD
 		err = prestera_port_attr_br_flags_set(port, attr->orig_dev,
 						      attr->u.brport_flags);
 		break;
@@ -726,6 +801,19 @@ static int prestera_port_obj_attr_set(struct net_device *dev,
 		break;
 	case SWITCHDEV_ATTR_ID_BRIDGE_VLAN_FILTERING:
 		err = prestera_port_attr_br_vlan_set(port, attr->orig_dev,
+=======
+		err = prestera_port_attr_br_flags_set(port, trans,
+						      attr->orig_dev,
+						      attr->u.brport_flags);
+		break;
+	case SWITCHDEV_ATTR_ID_BRIDGE_AGEING_TIME:
+		err = prestera_port_attr_br_ageing_set(port, trans,
+						       attr->u.ageing_time);
+		break;
+	case SWITCHDEV_ATTR_ID_BRIDGE_VLAN_FILTERING:
+		err = prestera_port_attr_br_vlan_set(port, trans,
+						     attr->orig_dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						     attr->u.vlan_filtering);
 		break;
 	default:
@@ -1005,6 +1093,10 @@ prestera_bridge_port_vlan_del(struct prestera_port *port,
 
 static int prestera_port_vlans_add(struct prestera_port *port,
 				   const struct switchdev_obj_port_vlan *vlan,
+<<<<<<< HEAD
+=======
+				   struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   struct netlink_ext_ack *extack)
 {
 	bool flag_untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
@@ -1013,10 +1105,20 @@ static int prestera_port_vlans_add(struct prestera_port *port,
 	struct prestera_bridge_port *br_port;
 	struct prestera_switch *sw = port->sw;
 	struct prestera_bridge *bridge;
+<<<<<<< HEAD
+=======
+	u16 vid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (netif_is_bridge_master(dev))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	if (switchdev_trans_ph_commit(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	br_port = prestera_bridge_port_by_dev(sw->swdev, dev);
 	if (WARN_ON(!br_port))
 		return -EINVAL;
@@ -1025,13 +1127,31 @@ static int prestera_port_vlans_add(struct prestera_port *port,
 	if (!bridge->vlan_enabled)
 		return 0;
 
+<<<<<<< HEAD
 	return prestera_bridge_port_vlan_add(port, br_port,
 					     vlan->vid, flag_untagged,
 					     flag_pvid, extack);
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		int err;
+
+		err = prestera_bridge_port_vlan_add(port, br_port,
+						    vid, flag_untagged,
+						    flag_pvid, extack);
+		if (err)
+			return err;
+	}
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int prestera_port_obj_add(struct net_device *dev,
 				 const struct switchdev_obj *obj,
+<<<<<<< HEAD
+=======
+				 struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 struct netlink_ext_ack *extack)
 {
 	struct prestera_port *port = netdev_priv(dev);
@@ -1040,7 +1160,11 @@ static int prestera_port_obj_add(struct net_device *dev,
 	switch (obj->id) {
 	case SWITCHDEV_OBJ_ID_PORT_VLAN:
 		vlan = SWITCHDEV_OBJ_PORT_VLAN(obj);
+<<<<<<< HEAD
 		return prestera_port_vlans_add(port, vlan, extack);
+=======
+		return prestera_port_vlans_add(port, vlan, trans, extack);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EOPNOTSUPP;
 	}
@@ -1052,6 +1176,10 @@ static int prestera_port_vlans_del(struct prestera_port *port,
 	struct net_device *dev = vlan->obj.orig_dev;
 	struct prestera_bridge_port *br_port;
 	struct prestera_switch *sw = port->sw;
+<<<<<<< HEAD
+=======
+	u16 vid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (netif_is_bridge_master(dev))
 		return -EOPNOTSUPP;
@@ -1063,7 +1191,12 @@ static int prestera_port_vlans_del(struct prestera_port *port,
 	if (!br_port->bridge->vlan_enabled)
 		return 0;
 
+<<<<<<< HEAD
 	prestera_bridge_port_vlan_del(port, br_port, vlan->vid);
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++)
+		prestera_bridge_port_vlan_del(port, br_port, vid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

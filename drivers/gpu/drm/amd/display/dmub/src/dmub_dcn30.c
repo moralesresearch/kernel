@@ -26,7 +26,10 @@
 #include "../dmub_srv.h"
 #include "dmub_reg.h"
 #include "dmub_dcn20.h"
+<<<<<<< HEAD
 #include "dmub_dcn30.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "sienna_cichlid_ip_offset.h"
 #include "dcn/dcn_3_0_0_offset.h"
@@ -155,7 +158,11 @@ void dmub_dcn30_setup_windows(struct dmub_srv *dmub,
 	offset = cw4->offset;
 
 	/* New firmware can support CW4. */
+<<<<<<< HEAD
 	if (dmub_dcn20_use_cached_inbox(dmub)) {
+=======
+	if (dmub->fw_version > DMUB_FW_VERSION(1, 0, 10)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		REG_WRITE(DMCUB_REGION3_CW4_OFFSET, offset.u.low_part);
 		REG_WRITE(DMCUB_REGION3_CW4_OFFSET_HIGH, offset.u.high_part);
 		REG_WRITE(DMCUB_REGION3_CW4_BASE_ADDRESS, cw4->region.base);

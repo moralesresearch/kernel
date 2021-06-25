@@ -54,7 +54,11 @@ void vmx_vcpu_pi_load(struct kvm_vcpu *vcpu, int cpu)
 
 		dest = cpu_physical_id(cpu);
 
+<<<<<<< HEAD
 		if (x2apic_mode)
+=======
+		if (x2apic_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;
@@ -104,7 +108,11 @@ static void __pi_post_block(struct kvm_vcpu *vcpu)
 
 		dest = cpu_physical_id(vcpu->cpu);
 
+<<<<<<< HEAD
 		if (x2apic_mode)
+=======
+		if (x2apic_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;
@@ -174,7 +182,11 @@ int pi_pre_block(struct kvm_vcpu *vcpu)
 		 */
 		dest = cpu_physical_id(vcpu->pre_pcpu);
 
+<<<<<<< HEAD
 		if (x2apic_mode)
+=======
+		if (x2apic_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;

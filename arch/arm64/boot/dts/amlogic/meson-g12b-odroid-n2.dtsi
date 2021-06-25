@@ -13,8 +13,11 @@
 	aliases {
 		serial0 = &uart_AO;
 		ethernet0 = &ethmac;
+<<<<<<< HEAD
 		rtc0 = &rtc;
 		rtc1 = &vrtc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	dioo2133: audio-amplifier-0 {
@@ -213,7 +216,11 @@
 
 	sound {
 		compatible = "amlogic,axg-sound-card";
+<<<<<<< HEAD
 		model = "ODROID-N2";
+=======
+		model = "G12B-ODROID-N2";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-widgets = "Line", "Lineout";
 		audio-aux-devs = <&tdmout_b>, <&tdmout_c>, <&tdmin_a>,
 				 <&tdmin_b>, <&tdmin_c>, <&tdmin_lb>,
@@ -480,6 +487,7 @@
 	linux,rc-map-name = "rc-odroid";
 };
 
+<<<<<<< HEAD
 &i2c3 {
 	status = "okay";
 	pinctrl-0 = <&i2c3_sda_a_pins>, <&i2c3_sck_a_pins>;
@@ -492,6 +500,8 @@
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pwm_ab {
 	pinctrl-0 = <&pwm_a_e_pins>;
 	pinctrl-names = "default";

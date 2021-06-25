@@ -1545,7 +1545,11 @@ static struct attribute *fcloop_dev_attrs[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group fclopp_dev_attrs_group = {
+=======
+static struct attribute_group fclopp_dev_attrs_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs		= fcloop_dev_attrs,
 };
 

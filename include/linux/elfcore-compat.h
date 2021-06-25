@@ -17,7 +17,11 @@ struct compat_elf_siginfo
 	compat_int_t			si_errno;
 };
 
+<<<<<<< HEAD
 struct compat_elf_prstatus_common
+=======
+struct compat_elf_prstatus
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct compat_elf_siginfo	pr_info;
 	short				pr_cursig;
@@ -31,6 +35,11 @@ struct compat_elf_prstatus_common
 	struct old_timeval32		pr_stime;
 	struct old_timeval32		pr_cutime;
 	struct old_timeval32		pr_cstime;
+<<<<<<< HEAD
+=======
+	compat_elf_gregset_t		pr_reg;
+	compat_int_t			pr_fpvalid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct compat_elf_prpsinfo
@@ -47,6 +56,7 @@ struct compat_elf_prpsinfo
 	char				pr_psargs[ELF_PRARGSZ];
 };
 
+<<<<<<< HEAD
 #ifdef CONFIG_ARCH_HAS_ELFCORE_COMPAT
 #include <asm/elfcore-compat.h>
 #endif
@@ -58,4 +68,6 @@ struct compat_elf_prstatus
 	compat_int_t			pr_fpvalid;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _LINUX_ELFCORE_COMPAT_H */

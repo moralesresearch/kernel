@@ -192,7 +192,11 @@ static struct attribute *fme_perf_cpumask_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group fme_perf_cpumask_group = {
+=======
+static struct attribute_group fme_perf_cpumask_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = fme_perf_cpumask_attrs,
 };
 
@@ -225,7 +229,11 @@ static struct attribute *fme_perf_format_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group fme_perf_format_group = {
+=======
+static struct attribute_group fme_perf_format_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = fme_perf_format_attrs,
 };
@@ -239,7 +247,11 @@ static struct attribute *fme_perf_events_attrs_empty[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group fme_perf_events_group = {
+=======
+static struct attribute_group fme_perf_events_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = fme_perf_events_attrs_empty,
 };

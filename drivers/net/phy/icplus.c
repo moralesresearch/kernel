@@ -37,13 +37,17 @@ MODULE_LICENSE("GPL");
 #define IP1001_SPEC_CTRL_STATUS_2	20	/* IP1001 Spec. Control Reg 2 */
 #define IP1001_APS_ON			11	/* IP1001 APS Mode  bit */
 #define IP101A_G_APS_ON			BIT(1)	/* IP101A/G APS Mode bit */
+<<<<<<< HEAD
 #define IP101A_G_AUTO_MDIX_DIS		BIT(11)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IP101A_G_IRQ_CONF_STATUS	0x11	/* Conf Info IRQ & Status Reg */
 #define	IP101A_G_IRQ_PIN_USED		BIT(15) /* INTR pin used */
 #define IP101A_G_IRQ_ALL_MASK		BIT(11) /* IRQ's inactive */
 #define IP101A_G_IRQ_SPEED_CHANGE	BIT(2)
 #define IP101A_G_IRQ_DUPLEX_CHANGE	BIT(1)
 #define IP101A_G_IRQ_LINK_CHANGE	BIT(0)
+<<<<<<< HEAD
 #define IP101A_G_PHY_STATUS		18
 #define IP101A_G_MDIX			BIT(9)
 #define IP101A_G_PHY_SPEC_CTRL		30
@@ -66,6 +70,12 @@ MODULE_LICENSE("GPL");
 #define IP1001_PHY_ID 0x02430d90
 #define IP101A_PHY_ID 0x02430c54
 
+=======
+
+#define IP101G_DIGITAL_IO_SPEC_CTRL			0x1d
+#define IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32		BIT(2)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* The 32-pin IP101GR package can re-configure the mode of the RXER/INTR_32 pin
  * (pin number 21). The hardware default is RXER (receive error) mode. But it
  * can be configured to interrupt mode manually.
@@ -76,6 +86,7 @@ enum ip101gr_sel_intr32 {
 	IP101GR_SEL_INTR32_RXER,
 };
 
+<<<<<<< HEAD
 struct ip101g_hw_stat {
 	const char *name;
 	int page;
@@ -89,6 +100,10 @@ static struct ip101g_hw_stat ip101g_hw_stats[] = {
 struct ip101a_g_phy_priv {
 	enum ip101gr_sel_intr32 sel_intr32;
 	u64 stats[ARRAY_SIZE(ip101g_hw_stats)];
+=======
+struct ip101a_g_phy_priv {
+	enum ip101gr_sel_intr32 sel_intr32;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int ip175c_config_init(struct phy_device *phydev)
@@ -146,10 +161,42 @@ static int ip175c_config_init(struct phy_device *phydev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int ip1xx_reset(struct phy_device *phydev)
+{
+	int bmcr;
+
+	/* Software Reset PHY */
+	bmcr = phy_read(phydev, MII_BMCR);
+	if (bmcr < 0)
+		return bmcr;
+	bmcr |= BMCR_RESET;
+	bmcr = phy_write(phydev, MII_BMCR, bmcr);
+	if (bmcr < 0)
+		return bmcr;
+
+	do {
+		bmcr = phy_read(phydev, MII_BMCR);
+		if (bmcr < 0)
+			return bmcr;
+	} while (bmcr & BMCR_RESET);
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ip1001_config_init(struct phy_device *phydev)
 {
 	int c;
 
+<<<<<<< HEAD
+=======
+	c = ip1xx_reset(phydev);
+	if (c < 0)
+		return c;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Enable Auto Power Saving mode */
 	c = phy_read(phydev, IP1001_SPEC_CTRL_STATUS_2);
 	if (c < 0)
@@ -188,7 +235,11 @@ static int ip175c_read_status(struct phy_device *phydev)
 		genphy_read_status(phydev);
 	else
 		/* Don't need to read status for switch ports */
+<<<<<<< HEAD
 		phydev->irq = PHY_MAC_INTERRUPT;
+=======
+		phydev->irq = PHY_IGNORE_INTERRUPT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -232,6 +283,7 @@ static int ip101a_g_probe(struct phy_device *phydev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int ip101a_g_config_intr_pin(struct phy_device *phydev)
 {
 	struct ip101a_g_phy_priv *priv = phydev->priv;
@@ -240,10 +292,21 @@ static int ip101a_g_config_intr_pin(struct phy_device *phydev)
 	oldpage = phy_select_page(phydev, IP101G_DEFAULT_PAGE);
 	if (oldpage < 0)
 		goto out;
+=======
+static int ip101a_g_config_init(struct phy_device *phydev)
+{
+	struct ip101a_g_phy_priv *priv = phydev->priv;
+	int err, c;
+
+	c = ip1xx_reset(phydev);
+	if (c < 0)
+		return c;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* configure the RXER/INTR_32 pin of the 32-pin IP101GR if needed: */
 	switch (priv->sel_intr32) {
 	case IP101GR_SEL_INTR32_RXER:
+<<<<<<< HEAD
 		err = __phy_modify(phydev, IP101G_DIGITAL_IO_SPEC_CTRL,
 				   IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32, 0);
 		if (err < 0)
@@ -256,6 +319,20 @@ static int ip101a_g_config_intr_pin(struct phy_device *phydev)
 				   IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32);
 		if (err < 0)
 			goto out;
+=======
+		err = phy_modify(phydev, IP101G_DIGITAL_IO_SPEC_CTRL,
+				 IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32, 0);
+		if (err < 0)
+			return err;
+		break;
+
+	case IP101GR_SEL_INTR32_INTR:
+		err = phy_modify(phydev, IP101G_DIGITAL_IO_SPEC_CTRL,
+				 IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32,
+				 IP101G_DIGITAL_IO_SPEC_CTRL_SEL_INTR32);
+		if (err < 0)
+			return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	default:
@@ -269,6 +346,7 @@ static int ip101a_g_config_intr_pin(struct phy_device *phydev)
 		break;
 	}
 
+<<<<<<< HEAD
 out:
 	return phy_restore_page(phydev, oldpage, err);
 }
@@ -391,14 +469,26 @@ static int ip101a_g_config_aneg(struct phy_device *phydev)
 		return ret;
 
 	return genphy_config_aneg(phydev);
+=======
+	/* Enable Auto Power Saving mode */
+	c = phy_read(phydev, IP10XX_SPEC_CTRL_STATUS);
+	c |= IP101A_G_APS_ON;
+
+	return phy_write(phydev, IP10XX_SPEC_CTRL_STATUS, c);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ip101a_g_ack_interrupt(struct phy_device *phydev)
 {
+<<<<<<< HEAD
 	int err;
 
 	err = phy_read_paged(phydev, IP101G_DEFAULT_PAGE,
 			     IP101A_G_IRQ_CONF_STATUS);
+=======
+	int err = phy_read(phydev, IP101A_G_IRQ_CONF_STATUS);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -417,12 +507,19 @@ static int ip101a_g_config_intr(struct phy_device *phydev)
 
 		/* INTR pin used: Speed/link/duplex will cause an interrupt */
 		val = IP101A_G_IRQ_PIN_USED;
+<<<<<<< HEAD
 		err = phy_write_paged(phydev, IP101G_DEFAULT_PAGE,
 				      IP101A_G_IRQ_CONF_STATUS, val);
 	} else {
 		val = IP101A_G_IRQ_ALL_MASK;
 		err = phy_write_paged(phydev, IP101G_DEFAULT_PAGE,
 				      IP101A_G_IRQ_CONF_STATUS, val);
+=======
+		err = phy_write(phydev, IP101A_G_IRQ_CONF_STATUS, val);
+	} else {
+		val = IP101A_G_IRQ_ALL_MASK;
+		err = phy_write(phydev, IP101A_G_IRQ_CONF_STATUS, val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 
@@ -436,8 +533,12 @@ static irqreturn_t ip101a_g_handle_interrupt(struct phy_device *phydev)
 {
 	int irq_status;
 
+<<<<<<< HEAD
 	irq_status = phy_read_paged(phydev, IP101G_DEFAULT_PAGE,
 				    IP101A_G_IRQ_CONF_STATUS);
+=======
+	irq_status = phy_read(phydev, IP101A_G_IRQ_CONF_STATUS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (irq_status < 0) {
 		phy_error(phydev);
 		return IRQ_NONE;
@@ -453,6 +554,7 @@ static irqreturn_t ip101a_g_handle_interrupt(struct phy_device *phydev)
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 /* The IP101A doesn't really have a page register. We just pretend to have one
  * so we can use the paged versions of the callbacks of the IP101G.
  */
@@ -618,6 +720,36 @@ static struct phy_driver icplus_driver[] = {
 	.get_sset_count = ip101g_get_sset_count,
 	.get_strings	= ip101g_get_strings,
 	.get_stats	= ip101g_get_stats,
+=======
+static struct phy_driver icplus_driver[] = {
+{
+	.phy_id		= 0x02430d80,
+	.name		= "ICPlus IP175C",
+	.phy_id_mask	= 0x0ffffff0,
+	/* PHY_BASIC_FEATURES */
+	.config_init	= &ip175c_config_init,
+	.config_aneg	= &ip175c_config_aneg,
+	.read_status	= &ip175c_read_status,
+	.suspend	= genphy_suspend,
+	.resume		= genphy_resume,
+}, {
+	.phy_id		= 0x02430d90,
+	.name		= "ICPlus IP1001",
+	.phy_id_mask	= 0x0ffffff0,
+	/* PHY_GBIT_FEATURES */
+	.config_init	= &ip1001_config_init,
+	.suspend	= genphy_suspend,
+	.resume		= genphy_resume,
+}, {
+	.phy_id		= 0x02430c54,
+	.name		= "ICPlus IP101A/G",
+	.phy_id_mask	= 0x0ffffff0,
+	/* PHY_BASIC_FEATURES */
+	.probe		= ip101a_g_probe,
+	.config_intr	= ip101a_g_config_intr,
+	.handle_interrupt = ip101a_g_handle_interrupt,
+	.config_init	= &ip101a_g_config_init,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.suspend	= genphy_suspend,
 	.resume		= genphy_resume,
 } };
@@ -625,9 +757,15 @@ static struct phy_driver icplus_driver[] = {
 module_phy_driver(icplus_driver);
 
 static struct mdio_device_id __maybe_unused icplus_tbl[] = {
+<<<<<<< HEAD
 	{ PHY_ID_MATCH_MODEL(IP175C_PHY_ID) },
 	{ PHY_ID_MATCH_MODEL(IP1001_PHY_ID) },
 	{ PHY_ID_MATCH_EXACT(IP101A_PHY_ID) },
+=======
+	{ 0x02430d80, 0x0ffffff0 },
+	{ 0x02430d90, 0x0ffffff0 },
+	{ 0x02430c54, 0x0ffffff0 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 

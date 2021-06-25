@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /* Microsemi Ocelot Switch driver
  *
+<<<<<<< HEAD
  * This contains glue logic between the switchdev driver operations and the
  * mscc_ocelot_switch_lib.
  *
@@ -186,6 +187,15 @@ static struct devlink_port *ocelot_get_devlink_port(struct net_device *dev)
 	return &ocelot->devlink_ports[port];
 }
 
+=======
+ * Copyright (c) 2017, 2019 Microsemi Corporation
+ */
+
+#include <linux/if_bridge.h>
+#include "ocelot.h"
+#include "ocelot_vcap.h"
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ocelot_setup_tc_cls_flower(struct ocelot_port_private *priv,
 			       struct flow_cls_offload *f,
 			       bool ingress)
@@ -488,6 +498,7 @@ static int ocelot_port_stop(struct net_device *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static netdev_tx_t ocelot_port_xmit(struct sk_buff *skb, struct net_device *dev)
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
@@ -502,6 +513,55 @@ static netdev_tx_t ocelot_port_xmit(struct sk_buff *skb, struct net_device *dev)
 	/* Check if timestamping is needed */
 	if (ocelot->ptp && (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP)) {
 		rew_op = ocelot_port->ptp_cmd;
+=======
+/* Generate the IFH for frame injection
+ *
+ * The IFH is a 128bit-value
+ * bit 127: bypass the analyzer processing
+ * bit 56-67: destination mask
+ * bit 28-29: pop_cnt: 3 disables all rewriting of the frame
+ * bit 20-27: cpu extraction queue mask
+ * bit 16: tag type 0: C-tag, 1: S-tag
+ * bit 0-11: VID
+ */
+static int ocelot_gen_ifh(u32 *ifh, struct frame_info *info)
+{
+	ifh[0] = IFH_INJ_BYPASS | ((0x1ff & info->rew_op) << 21);
+	ifh[1] = (0xf00 & info->port) >> 8;
+	ifh[2] = (0xff & info->port) << 24;
+	ifh[3] = (info->tag_type << 16) | info->vid;
+
+	return 0;
+}
+
+static int ocelot_port_xmit(struct sk_buff *skb, struct net_device *dev)
+{
+	struct ocelot_port_private *priv = netdev_priv(dev);
+	struct skb_shared_info *shinfo = skb_shinfo(skb);
+	struct ocelot_port *ocelot_port = &priv->port;
+	struct ocelot *ocelot = ocelot_port->ocelot;
+	u32 val, ifh[OCELOT_TAG_LEN / 4];
+	struct frame_info info = {};
+	u8 grp = 0; /* Send everything on CPU group 0 */
+	unsigned int i, count, last;
+	int port = priv->chip_port;
+
+	val = ocelot_read(ocelot, QS_INJ_STATUS);
+	if (!(val & QS_INJ_STATUS_FIFO_RDY(BIT(grp))) ||
+	    (val & QS_INJ_STATUS_WMARK_REACHED(BIT(grp))))
+		return NETDEV_TX_BUSY;
+
+	ocelot_write_rix(ocelot, QS_INJ_CTRL_GAP_SIZE(1) |
+			 QS_INJ_CTRL_SOF, QS_INJ_CTRL, grp);
+
+	info.port = BIT(port);
+	info.tag_type = IFH_TAG_TYPE_C;
+	info.vid = skb_vlan_tag_get(skb);
+
+	/* Check if timestamping is needed */
+	if (ocelot->ptp && (shinfo->tx_flags & SKBTX_HW_TSTAMP)) {
+		info.rew_op = ocelot_port->ptp_cmd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP) {
 			struct sk_buff *clone;
@@ -514,11 +574,53 @@ static netdev_tx_t ocelot_port_xmit(struct sk_buff *skb, struct net_device *dev)
 
 			ocelot_port_add_txtstamp_skb(ocelot, port, clone);
 
+<<<<<<< HEAD
 			rew_op |= clone->cb[0] << 3;
 		}
 	}
 
 	ocelot_port_inject_frame(ocelot, port, 0, rew_op, skb);
+=======
+			info.rew_op |= clone->cb[0] << 3;
+		}
+	}
+
+	if (ocelot->ptp && shinfo->tx_flags & SKBTX_HW_TSTAMP) {
+		info.rew_op = ocelot_port->ptp_cmd;
+		if (ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP)
+			info.rew_op |= skb->cb[0] << 3;
+	}
+
+	ocelot_gen_ifh(ifh, &info);
+
+	for (i = 0; i < OCELOT_TAG_LEN / 4; i++)
+		ocelot_write_rix(ocelot, (__force u32)cpu_to_be32(ifh[i]),
+				 QS_INJ_WR, grp);
+
+	count = (skb->len + 3) / 4;
+	last = skb->len % 4;
+	for (i = 0; i < count; i++)
+		ocelot_write_rix(ocelot, ((u32 *)skb->data)[i], QS_INJ_WR, grp);
+
+	/* Add padding */
+	while (i < (OCELOT_BUFFER_CELL_SZ / 4)) {
+		ocelot_write_rix(ocelot, 0, QS_INJ_WR, grp);
+		i++;
+	}
+
+	/* Indicate EOF and valid bytes in last word */
+	ocelot_write_rix(ocelot, QS_INJ_CTRL_GAP_SIZE(1) |
+			 QS_INJ_CTRL_VLD_BYTES(skb->len < OCELOT_BUFFER_CELL_SZ ? 0 : last) |
+			 QS_INJ_CTRL_EOF,
+			 QS_INJ_CTRL, grp);
+
+	/* Add dummy CRC */
+	ocelot_write_rix(ocelot, 0, QS_INJ_WR, grp);
+	skb_tx_timestamp(skb);
+
+	dev->stats.tx_packets++;
+	dev->stats.tx_bytes += skb->len;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree_skb(skb);
 
@@ -568,7 +670,11 @@ static void ocelot_mact_work(struct work_struct *work)
 		break;
 	default:
 		break;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(w);
 }
@@ -636,6 +742,23 @@ static void ocelot_set_rx_mode(struct net_device *dev)
 	__dev_mc_sync(dev, ocelot_mc_sync, ocelot_mc_unsync);
 }
 
+<<<<<<< HEAD
+=======
+static int ocelot_port_get_phys_port_name(struct net_device *dev,
+					  char *buf, size_t len)
+{
+	struct ocelot_port_private *priv = netdev_priv(dev);
+	int port = priv->chip_port;
+	int ret;
+
+	ret = snprintf(buf, len, "p%d", port);
+	if (ret >= len)
+		return -EINVAL;
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ocelot_port_set_mac_address(struct net_device *dev, void *p)
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
@@ -786,6 +909,21 @@ static int ocelot_set_features(struct net_device *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int ocelot_get_port_parent_id(struct net_device *dev,
+				     struct netdev_phys_item_id *ppid)
+{
+	struct ocelot_port_private *priv = netdev_priv(dev);
+	struct ocelot *ocelot = priv->port.ocelot;
+
+	ppid->id_len = sizeof(ocelot->base_mac);
+	memcpy(&ppid->id, &ocelot->base_mac, ppid->id_len);
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ocelot_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
@@ -812,6 +950,10 @@ static const struct net_device_ops ocelot_port_netdev_ops = {
 	.ndo_stop			= ocelot_port_stop,
 	.ndo_start_xmit			= ocelot_port_xmit,
 	.ndo_set_rx_mode		= ocelot_set_rx_mode,
+<<<<<<< HEAD
+=======
+	.ndo_get_phys_port_name		= ocelot_port_get_phys_port_name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_set_mac_address		= ocelot_port_set_mac_address,
 	.ndo_get_stats64		= ocelot_get_stats64,
 	.ndo_fdb_add			= ocelot_port_fdb_add,
@@ -820,9 +962,15 @@ static const struct net_device_ops ocelot_port_netdev_ops = {
 	.ndo_vlan_rx_add_vid		= ocelot_vlan_rx_add_vid,
 	.ndo_vlan_rx_kill_vid		= ocelot_vlan_rx_kill_vid,
 	.ndo_set_features		= ocelot_set_features,
+<<<<<<< HEAD
 	.ndo_setup_tc			= ocelot_setup_tc,
 	.ndo_do_ioctl			= ocelot_ioctl,
 	.ndo_get_devlink_port		= ocelot_get_devlink_port,
+=======
+	.ndo_get_port_parent_id		= ocelot_get_port_parent_id,
+	.ndo_setup_tc			= ocelot_setup_tc,
+	.ndo_do_ioctl			= ocelot_ioctl,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct net_device *ocelot_port_to_netdev(struct ocelot *ocelot, int port)
@@ -909,8 +1057,17 @@ static const struct ethtool_ops ocelot_ethtool_ops = {
 };
 
 static void ocelot_port_attr_stp_state_set(struct ocelot *ocelot, int port,
+<<<<<<< HEAD
 					   u8 state)
 {
+=======
+					   struct switchdev_trans *trans,
+					   u8 state)
+{
+	if (switchdev_trans_ph_prepare(trans))
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ocelot_bridge_stp_state_set(ocelot, port, state);
 }
 
@@ -939,7 +1096,11 @@ static void ocelot_port_attr_mc_set(struct ocelot *ocelot, int port, bool mc)
 
 static int ocelot_port_attr_set(struct net_device *dev,
 				const struct switchdev_attr *attr,
+<<<<<<< HEAD
 				struct netlink_ext_ack *extack)
+=======
+				struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
 	struct ocelot *ocelot = priv->port.ocelot;
@@ -948,17 +1109,28 @@ static int ocelot_port_attr_set(struct net_device *dev,
 
 	switch (attr->id) {
 	case SWITCHDEV_ATTR_ID_PORT_STP_STATE:
+<<<<<<< HEAD
 		ocelot_port_attr_stp_state_set(ocelot, port, attr->u.stp_state);
+=======
+		ocelot_port_attr_stp_state_set(ocelot, port, trans,
+					       attr->u.stp_state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SWITCHDEV_ATTR_ID_BRIDGE_AGEING_TIME:
 		ocelot_port_attr_ageing_set(ocelot, port, attr->u.ageing_time);
 		break;
 	case SWITCHDEV_ATTR_ID_BRIDGE_VLAN_FILTERING:
+<<<<<<< HEAD
 		ocelot_port_vlan_filtering(ocelot, port, attr->u.vlan_filtering);
+=======
+		ocelot_port_vlan_filtering(ocelot, port,
+					   attr->u.vlan_filtering, trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SWITCHDEV_ATTR_ID_BRIDGE_MC_DISABLED:
 		ocelot_port_attr_mc_set(ocelot, port, !attr->u.mc_disabled);
 		break;
+<<<<<<< HEAD
 	case SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS:
 		err = ocelot_port_pre_bridge_flags(ocelot, port,
 						   attr->u.brport_flags);
@@ -966,6 +1138,8 @@ static int ocelot_port_attr_set(struct net_device *dev,
 	case SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS:
 		ocelot_port_bridge_flags(ocelot, port, attr->u.brport_flags);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		err = -EOPNOTSUPP;
 		break;
@@ -975,6 +1149,7 @@ static int ocelot_port_attr_set(struct net_device *dev,
 }
 
 static int ocelot_port_obj_add_vlan(struct net_device *dev,
+<<<<<<< HEAD
 				    const struct switchdev_obj_port_vlan *vlan)
 {
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
@@ -1023,12 +1198,56 @@ static int ocelot_port_obj_mrp_add(struct net_device *dev,
 
 static int ocelot_port_obj_mrp_del(struct net_device *dev,
 				   const struct switchdev_obj_mrp *mrp)
+=======
+				    const struct switchdev_obj_port_vlan *vlan,
+				    struct switchdev_trans *trans)
+{
+	int ret;
+	u16 vid;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		bool pvid = vlan->flags & BRIDGE_VLAN_INFO_PVID;
+		bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
+
+		if (switchdev_trans_ph_prepare(trans))
+			ret = ocelot_vlan_vid_prepare(dev, vid, pvid,
+						      untagged);
+		else
+			ret = ocelot_vlan_vid_add(dev, vid, pvid, untagged);
+		if (ret)
+			return ret;
+	}
+
+	return 0;
+}
+
+static int ocelot_port_vlan_del_vlan(struct net_device *dev,
+				     const struct switchdev_obj_port_vlan *vlan)
+{
+	int ret;
+	u16 vid;
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		ret = ocelot_vlan_vid_del(dev, vid);
+
+		if (ret)
+			return ret;
+	}
+
+	return 0;
+}
+
+static int ocelot_port_obj_add_mdb(struct net_device *dev,
+				   const struct switchdev_obj_port_mdb *mdb,
+				   struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
 	struct ocelot_port *ocelot_port = &priv->port;
 	struct ocelot *ocelot = ocelot_port->ocelot;
 	int port = priv->chip_port;
 
+<<<<<<< HEAD
 	return ocelot_mrp_del(ocelot, port, mrp);
 }
 
@@ -1047,17 +1266,35 @@ ocelot_port_obj_mrp_add_ring_role(struct net_device *dev,
 static int
 ocelot_port_obj_mrp_del_ring_role(struct net_device *dev,
 				  const struct switchdev_obj_ring_role_mrp *mrp)
+=======
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+	return ocelot_port_mdb_add(ocelot, port, mdb);
+}
+
+static int ocelot_port_obj_del_mdb(struct net_device *dev,
+				   const struct switchdev_obj_port_mdb *mdb)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
 	struct ocelot_port *ocelot_port = &priv->port;
 	struct ocelot *ocelot = ocelot_port->ocelot;
 	int port = priv->chip_port;
 
+<<<<<<< HEAD
 	return ocelot_mrp_del_ring_role(ocelot, port, mrp);
+=======
+	return ocelot_port_mdb_del(ocelot, port, mdb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ocelot_port_obj_add(struct net_device *dev,
 			       const struct switchdev_obj *obj,
+<<<<<<< HEAD
+=======
+			       struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       struct netlink_ext_ack *extack)
 {
 	int ret = 0;
@@ -1065,6 +1302,7 @@ static int ocelot_port_obj_add(struct net_device *dev,
 	switch (obj->id) {
 	case SWITCHDEV_OBJ_ID_PORT_VLAN:
 		ret = ocelot_port_obj_add_vlan(dev,
+<<<<<<< HEAD
 					       SWITCHDEV_OBJ_PORT_VLAN(obj));
 		break;
 	case SWITCHDEV_OBJ_ID_PORT_MDB:
@@ -1076,6 +1314,14 @@ static int ocelot_port_obj_add(struct net_device *dev,
 	case SWITCHDEV_OBJ_ID_RING_ROLE_MRP:
 		ret = ocelot_port_obj_mrp_add_ring_role(dev,
 							SWITCHDEV_OBJ_RING_ROLE_MRP(obj));
+=======
+					       SWITCHDEV_OBJ_PORT_VLAN(obj),
+					       trans);
+		break;
+	case SWITCHDEV_OBJ_ID_PORT_MDB:
+		ret = ocelot_port_obj_add_mdb(dev, SWITCHDEV_OBJ_PORT_MDB(obj),
+					      trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EOPNOTSUPP;
@@ -1091,12 +1337,18 @@ static int ocelot_port_obj_del(struct net_device *dev,
 
 	switch (obj->id) {
 	case SWITCHDEV_OBJ_ID_PORT_VLAN:
+<<<<<<< HEAD
 		ret = ocelot_vlan_vid_del(dev,
 					  SWITCHDEV_OBJ_PORT_VLAN(obj)->vid);
+=======
+		ret = ocelot_port_vlan_del_vlan(dev,
+						SWITCHDEV_OBJ_PORT_VLAN(obj));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SWITCHDEV_OBJ_ID_PORT_MDB:
 		ret = ocelot_port_obj_del_mdb(dev, SWITCHDEV_OBJ_PORT_MDB(obj));
 		break;
+<<<<<<< HEAD
 	case SWITCHDEV_OBJ_ID_MRP:
 		ret = ocelot_port_obj_mrp_del(dev, SWITCHDEV_OBJ_MRP(obj));
 		break;
@@ -1104,6 +1356,8 @@ static int ocelot_port_obj_del(struct net_device *dev,
 		ret = ocelot_port_obj_mrp_del_ring_role(dev,
 							SWITCHDEV_OBJ_RING_ROLE_MRP(obj));
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EOPNOTSUPP;
 	}
@@ -1111,6 +1365,7 @@ static int ocelot_port_obj_del(struct net_device *dev,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int ocelot_netdevice_bridge_join(struct ocelot *ocelot, int port,
 					struct net_device *bridge)
 {
@@ -1147,6 +1402,11 @@ static int ocelot_netdevice_bridge_leave(struct ocelot *ocelot, int port,
 
 static int ocelot_netdevice_changeupper(struct net_device *dev,
 					struct netdev_notifier_changeupper_info *info)
+=======
+static int ocelot_netdevice_port_event(struct net_device *dev,
+				       unsigned long event,
+				       struct netdev_notifier_changeupper_info *info)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ocelot_port_private *priv = netdev_priv(dev);
 	struct ocelot_port *ocelot_port = &priv->port;
@@ -1154,6 +1414,7 @@ static int ocelot_netdevice_changeupper(struct net_device *dev,
 	int port = priv->chip_port;
 	int err = 0;
 
+<<<<<<< HEAD
 	if (netif_is_bridge_master(info->upper_dev)) {
 		if (info->linking) {
 			err = ocelot_netdevice_bridge_join(ocelot, port,
@@ -1218,11 +1479,39 @@ ocelot_netdevice_changelowerstate(struct net_device *dev,
 	ocelot_port_lag_change(ocelot, port, is_active);
 
 	return NOTIFY_OK;
+=======
+	switch (event) {
+	case NETDEV_CHANGEUPPER:
+		if (netif_is_bridge_master(info->upper_dev)) {
+			if (info->linking) {
+				err = ocelot_port_bridge_join(ocelot, port,
+							      info->upper_dev);
+			} else {
+				err = ocelot_port_bridge_leave(ocelot, port,
+							       info->upper_dev);
+			}
+		}
+		if (netif_is_lag_master(info->upper_dev)) {
+			if (info->linking)
+				err = ocelot_port_lag_join(ocelot, port,
+							   info->upper_dev);
+			else
+				ocelot_port_lag_leave(ocelot, port,
+						      info->upper_dev);
+		}
+		break;
+	default:
+		break;
+	}
+
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ocelot_netdevice_event(struct notifier_block *unused,
 				  unsigned long event, void *ptr)
 {
+<<<<<<< HEAD
 	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
 
 	switch (event) {
@@ -1251,6 +1540,43 @@ static int ocelot_netdevice_event(struct notifier_block *unused,
 	}
 
 	return NOTIFY_DONE;
+=======
+	struct netdev_notifier_changeupper_info *info = ptr;
+	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+	int ret = 0;
+
+	if (event == NETDEV_PRECHANGEUPPER &&
+	    ocelot_netdevice_dev_check(dev) &&
+	    netif_is_lag_master(info->upper_dev)) {
+		struct netdev_lag_upper_info *lag_upper_info = info->upper_info;
+		struct netlink_ext_ack *extack;
+
+		if (lag_upper_info &&
+		    lag_upper_info->tx_type != NETDEV_LAG_TX_TYPE_HASH) {
+			extack = netdev_notifier_info_to_extack(&info->info);
+			NL_SET_ERR_MSG_MOD(extack, "LAG device using unsupported Tx type");
+
+			ret = -EINVAL;
+			goto notify;
+		}
+	}
+
+	if (netif_is_lag_master(dev)) {
+		struct net_device *slave;
+		struct list_head *iter;
+
+		netdev_for_each_lower_dev(dev, slave, iter) {
+			ret = ocelot_netdevice_port_event(slave, event, info);
+			if (ret)
+				goto notify;
+		}
+	} else {
+		ret = ocelot_netdevice_port_event(dev, event, info);
+	}
+
+notify:
+	return notifier_from_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct notifier_block ocelot_netdevice_nb __read_mostly = {
@@ -1349,6 +1675,7 @@ int ocelot_probe_port(struct ocelot *ocelot, int port, struct regmap *target,
 	if (err) {
 		dev_err(ocelot->dev, "register_netdev failed\n");
 		free_netdev(dev);
+<<<<<<< HEAD
 		ocelot->ports[port] = NULL;
 		return err;
 	}
@@ -1364,4 +1691,9 @@ void ocelot_release_port(struct ocelot_port *ocelot_port)
 
 	unregister_netdev(priv->dev);
 	free_netdev(priv->dev);
+=======
+	}
+
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

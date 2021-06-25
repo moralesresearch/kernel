@@ -56,7 +56,11 @@ static int hclge_gen_resp_to_vf(struct hclge_vport *vport,
 		resp_pf_to_vf->msg.resp_status = resp;
 	} else {
 		dev_warn(&hdev->pdev->dev,
+<<<<<<< HEAD
 			 "failed to send response to VF, response status %u is out-of-bound\n",
+=======
+			 "failed to send response to VF, response status %d is out-of-bound\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 resp);
 		resp_pf_to_vf->msg.resp_status = EIO;
 	}
@@ -535,7 +539,11 @@ static void hclge_get_link_mode(struct hclge_vport *vport,
 	unsigned long advertising;
 	unsigned long supported;
 	unsigned long send_data;
+<<<<<<< HEAD
 	u8 msg_data[10] = {};
+=======
+	u8 msg_data[10];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 dest_vfid;
 
 	advertising = hdev->hw.mac.advertising[0];
@@ -694,6 +702,10 @@ void hclge_mbx_handler(struct hclge_dev *hdev)
 	unsigned int flag;
 	int ret = 0;
 
+<<<<<<< HEAD
+=======
+	memset(&resp_msg, 0, sizeof(resp_msg));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* handle all the mailbox requests in the queue */
 	while (!hclge_cmd_crq_empty(&hdev->hw)) {
 		if (test_bit(HCLGE_STATE_CMD_DISABLE, &hdev->state)) {
@@ -721,9 +733,12 @@ void hclge_mbx_handler(struct hclge_dev *hdev)
 
 		trace_hclge_pf_mbx_get(hdev, req);
 
+<<<<<<< HEAD
 		/* clear the resp_msg before processing every mailbox message */
 		memset(&resp_msg, 0, sizeof(resp_msg));
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		switch (req->msg.code) {
 		case HCLGE_MBX_MAP_RING_TO_VECTOR:
 			ret = hclge_map_unmap_ring_to_vf_vector(vport, true,

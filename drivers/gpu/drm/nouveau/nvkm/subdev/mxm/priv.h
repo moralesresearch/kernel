@@ -12,5 +12,9 @@ struct nvkm_mxm {
 	u8 *mxms;
 };
 
+<<<<<<< HEAD
 int nvkm_mxm_new_(struct nvkm_device *, enum nvkm_subdev_type, int, struct nvkm_mxm **);
+=======
+int nvkm_mxm_new_(struct nvkm_device *, int index, struct nvkm_mxm **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

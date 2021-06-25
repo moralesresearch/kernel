@@ -79,7 +79,10 @@ static const char * const sta_flag_names[] = {
 	FLAG(MPSP_RECIPIENT),
 	FLAG(PS_DELIVER),
 	FLAG(USES_ENCRYPTION),
+<<<<<<< HEAD
 	FLAG(DECAP_OFFLOAD),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #undef FLAG
 };
 

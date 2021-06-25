@@ -262,7 +262,10 @@ struct io_uring_params {
 #define IORING_FEAT_POLL_32BITS 	(1U << 6)
 #define IORING_FEAT_SQPOLL_NONFIXED	(1U << 7)
 #define IORING_FEAT_EXT_ARG		(1U << 8)
+<<<<<<< HEAD
 #define IORING_FEAT_NATIVE_WORKERS	(1U << 9)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * io_uring_register(2) opcodes and arguments
@@ -286,13 +289,17 @@ enum {
 	IORING_REGISTER_LAST
 };
 
+<<<<<<< HEAD
 /* deprecated, see struct io_uring_rsrc_update */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct io_uring_files_update {
 	__u32 offset;
 	__u32 resv;
 	__aligned_u64 /* __s32 * */ fds;
 };
 
+<<<<<<< HEAD
 struct io_uring_rsrc_update {
 	__u32 offset;
 	__u32 resv;
@@ -302,6 +309,8 @@ struct io_uring_rsrc_update {
 /* Skip updating fd indexes set to this value in the fd table */
 #define IORING_REGISTER_FILES_SKIP	(-2)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IO_URING_OP_SUPPORTED	(1U << 0)
 
 struct io_uring_probe_op {

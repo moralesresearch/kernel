@@ -50,6 +50,7 @@ properties:
     minItems: 1
     maxItems: 2
 
+<<<<<<< HEAD
 # cts-gpios and rts-gpios properties can be used instead of 'uart-has-rtscts'
 # or 'st,hw-flow-ctrl' (deprecated) for making use of any gpio pins for flow
 # control instead of dedicated pins.
@@ -58,6 +59,13 @@ properties:
 # 'st,hw-flow-ctrl' (deprecated) properties cannot co-exist in a design.
   cts-gpios: true
   rts-gpios: true
+=======
+  cts-gpios:
+    maxItems: 1
+
+  rts-gpios:
+    maxItems: 1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   wakeup-source: true
 
@@ -80,8 +88,12 @@ required:
   - interrupts
   - clocks
 
+<<<<<<< HEAD
 additionalProperties:
   type: object
+=======
+additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 examples:
   - |

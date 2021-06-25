@@ -117,6 +117,10 @@ static int vic_boot(struct vic *vic)
 		if (spec->num_ids > 0) {
 			value = spec->ids[0] & 0xffff;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * STREAMID0 is used for input/output buffers.
 			 * Initialize it to SID_VIC in case context isolation
@@ -130,6 +134,12 @@ static int vic_boot(struct vic *vic)
 			vic_writel(vic, value, VIC_THI_STREAMID0);
 
 			/* STREAMID1 is used for firmware loading. */
+<<<<<<< HEAD
+=======
+=======
+			vic_writel(vic, value, VIC_THI_STREAMID0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			vic_writel(vic, value, VIC_THI_STREAMID1);
 		}
 	}
@@ -147,6 +157,10 @@ static int vic_boot(struct vic *vic)
 
 	hdr = vic->falcon.firmware.virt;
 	fce_bin_data_offset = *(u32 *)(hdr + VIC_UCODE_FCE_DATA_OFFSET);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	falcon_execute_method(&vic->falcon, VIC_SET_APPLICATION_ID, 1);
 
@@ -162,6 +176,21 @@ static int vic_boot(struct vic *vic)
 			&vic->falcon, VIC_SET_FCE_UCODE_OFFSET,
 			(vic->falcon.firmware.iova + fce_bin_data_offset) >> 8);
 	}
+<<<<<<< HEAD
+=======
+=======
+	hdr = vic->falcon.firmware.virt +
+		*(u32 *)(hdr + VIC_UCODE_FCE_HEADER_OFFSET);
+	fce_ucode_size = *(u32 *)(hdr + FCE_UCODE_SIZE_OFFSET);
+
+	falcon_execute_method(&vic->falcon, VIC_SET_APPLICATION_ID, 1);
+	falcon_execute_method(&vic->falcon, VIC_SET_FCE_UCODE_SIZE,
+			      fce_ucode_size);
+	falcon_execute_method(&vic->falcon, VIC_SET_FCE_UCODE_OFFSET,
+			      (vic->falcon.firmware.iova + fce_bin_data_offset)
+				>> 8);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = falcon_wait_idle(&vic->falcon);
 	if (err < 0) {

@@ -82,6 +82,7 @@
 		enable-active-high;
 	};
 
+<<<<<<< HEAD
 	reg_lcd_1v8: regulator-lcd-1v8 {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -96,6 +97,8 @@
 		regulator-always-on;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg_lcd_3v4: regulator-lcd-3v4 {
 		compatible = "regulator-fixed";
 		regulator-name = "LCD_3V4";
@@ -113,6 +116,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
+<<<<<<< HEAD
 	reg_vdd_1v8: regulator-vdd-1v8 {
 		compatible = "regulator-fixed";
 		regulator-name = "VDD_1V8";
@@ -121,6 +125,8 @@
 		vin-supply = <&buck7_reg>;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg_vdd_3v3: regulator-vdd-3v3 {
 		compatible = "regulator-fixed";
 		regulator-name = "VDD_3V3";
@@ -128,6 +134,16 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
+<<<<<<< HEAD
+=======
+	reg_vdd_1v8: regulator-vdd-1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "VCC_1V8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg_vsys_3v4: regulator-vsys-3v4 {
 		compatible = "regulator-fixed";
 		regulator-name = "VSYS_3V4";
@@ -290,7 +306,11 @@
 	pinctrl_charger_in: chargeringrp {
 		fsl,pins = <
 			/* CHRG_INT */
+<<<<<<< HEAD
 			MX8MQ_IOMUXC_NAND_CE2_B_GPIO3_IO3	0x80
+=======
+			MX8MQ_IOMUXC_NAND_CE2_B_GPIO3_IO3	0x00
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* CHG_STATUS_B */
 			MX8MQ_IOMUXC_NAND_ALE_GPIO3_IO0		0x80
 		>;
@@ -310,6 +330,7 @@
 		>;
 	};
 
+<<<<<<< HEAD
 	pinctrl_dsirst: dsirstgrp {
 		fsl,pins = <
 			/* DSI_RST */
@@ -321,6 +342,8 @@
 		>;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_ecspi1: ecspigrp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_ECSPI1_MOSI_ECSPI1_MOSI	0x83
@@ -484,6 +507,7 @@
 		>;
 	};
 
+<<<<<<< HEAD
 	pinctrl_touch: touchgrp {
 		fsl,pins = <
 			/* TP_INT */
@@ -491,6 +515,8 @@
 		>;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_typec: typecgrp {
 		fsl,pins = <
 			/* TYPEC_MUX_EN */
@@ -682,7 +708,10 @@
 				regulator-name = "buck1";
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-ramp-delay = <1250>;
 				rohm,dvs-run-voltage = <900000>;
 				rohm,dvs-idle-voltage = <850000>;
@@ -694,7 +723,10 @@
 				regulator-name = "buck2";
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-ramp-delay = <1250>;
 				rohm,dvs-run-voltage = <1000000>;
 				rohm,dvs-idle-voltage = <900000>;
@@ -705,8 +737,13 @@
 				regulator-name = "buck3";
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
 				rohm,dvs-run-voltage = <900000>;
+=======
+				rohm,dvs-run-voltage = <900000>;
+				regulator-always-on;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			buck4_reg: BUCK4 {
@@ -720,7 +757,10 @@
 				regulator-name = "buck5";
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1350000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -728,7 +768,10 @@
 				regulator-name = "buck6";
 				regulator-min-microvolt = <3000000>;
 				regulator-max-microvolt = <3300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -736,7 +779,10 @@
 				regulator-name = "buck7";
 				regulator-min-microvolt = <1605000>;
 				regulator-max-microvolt = <1995000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -744,7 +790,10 @@
 				regulator-name = "buck8";
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <1400000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -752,7 +801,10 @@
 				regulator-name = "ldo1";
 				regulator-min-microvolt = <3000000>;
 				regulator-max-microvolt = <3300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/* leave on for snvs power button */
 				regulator-always-on;
 			};
@@ -761,7 +813,10 @@
 				regulator-name = "ldo2";
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <900000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/* leave on for snvs power button */
 				regulator-always-on;
 			};
@@ -770,7 +825,10 @@
 				regulator-name = "ldo3";
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -778,7 +836,10 @@
 				regulator-name = "ldo4";
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <1800000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -795,7 +856,10 @@
 				regulator-name = "ldo6";
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <1800000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 
@@ -804,7 +868,10 @@
 				regulator-name = "ldo7";
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
+<<<<<<< HEAD
 				regulator-boot-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 		};
@@ -841,12 +908,20 @@
 		compatible = "tps65132";
 		reg = <0x3e>;
 
+<<<<<<< HEAD
 		reg_lcd_avdd: outp {
+=======
+		outp {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			regulator-name = "LCD_AVDD";
 			vin-supply = <&reg_lcd_3v4>;
 		};
 
+<<<<<<< HEAD
 		reg_lcd_avee: outn {
+=======
+		outn {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			regulator-name = "LCD_AVEE";
 			vin-supply = <&reg_lcd_3v4>;
 		};
@@ -924,13 +999,19 @@
 	touchscreen@38 {
 		compatible = "edt,edt-ft5506";
 		reg = <0x38>;
+<<<<<<< HEAD
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_touch>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		interrupt-parent = <&gpio1>;
 		interrupts = <27 IRQ_TYPE_EDGE_FALLING>;
 		touchscreen-size-x = <720>;
 		touchscreen-size-y = <1440>;
+<<<<<<< HEAD
 		vcc-supply = <&reg_lcd_1v8>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 
@@ -967,6 +1048,7 @@
 		ti,use-vinmin-threshold = <1>; /* enable VINDPM */
 		ti,vinmin-threshold = <3900000>; /* uV */
 		monitored-battery = <&bat>;
+<<<<<<< HEAD
 		power-supplies = <&typec_pd>;
 	};
 };
@@ -1006,6 +1088,8 @@
 				remote-endpoint = <&panel_in>;
 			};
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 
@@ -1159,8 +1243,11 @@
 };
 
 &usdhc1 {
+<<<<<<< HEAD
 	assigned-clocks = <&clk IMX8MQ_CLK_USDHC1>;
 	assigned-clock-rates = <400000000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc1>;
 	pinctrl-1 = <&pinctrl_usdhc1_100mhz>;
@@ -1173,8 +1260,11 @@
 };
 
 &usdhc2 {
+<<<<<<< HEAD
 	assigned-clocks = <&clk IMX8MQ_CLK_USDHC2>;
 	assigned-clock-rates = <200000000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc2>;
 	pinctrl-1 = <&pinctrl_usdhc2_100mhz>;

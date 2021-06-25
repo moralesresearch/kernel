@@ -23,8 +23,11 @@
 # Makefile for the 'controller' sub-component of DAL.
 # It provides the control and status of HW CRTC block.
 
+<<<<<<< HEAD
 CFLAGS_AMDDALPATH)/dc/dce60/dce60_resource.o = $(call cc-disable-warning, override-init)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DCE60 = dce60_timing_generator.o dce60_hw_sequencer.o \
 	dce60_resource.o
 

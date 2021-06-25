@@ -34,7 +34,11 @@ struct elevator_mq_ops {
 	void (*depth_updated)(struct blk_mq_hw_ctx *);
 
 	bool (*allow_merge)(struct request_queue *, struct request *, struct bio *);
+<<<<<<< HEAD
 	bool (*bio_merge)(struct request_queue *, struct bio *, unsigned int);
+=======
+	bool (*bio_merge)(struct blk_mq_hw_ctx *, struct bio *, unsigned int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int (*request_merge)(struct request_queue *q, struct request **, struct bio *);
 	void (*request_merged)(struct request_queue *, struct request *, enum elv_merge);
 	void (*requests_merged)(struct request_queue *, struct request *, struct request *);
@@ -172,8 +176,11 @@ extern struct request *elv_rb_find(struct rb_root *, sector_t);
 
 /* Supports zoned block devices sequential write constraint */
 #define ELEVATOR_F_ZBD_SEQ_WRITE	(1U << 0)
+<<<<<<< HEAD
 /* Supports scheduling on multiple hardware queues */
 #define ELEVATOR_F_MQ_AWARE		(1U << 1)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* CONFIG_BLOCK */
 #endif

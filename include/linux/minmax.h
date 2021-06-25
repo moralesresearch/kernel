@@ -2,8 +2,11 @@
 #ifndef _LINUX_MINMAX_H
 #define _LINUX_MINMAX_H
 
+<<<<<<< HEAD
 #include <linux/const.h>
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * min()/max()/clamp() macros must accomplish three things:
  *
@@ -19,6 +22,17 @@
 #define __typecheck(x, y) \
 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
 
+<<<<<<< HEAD
+=======
+/*
+ * This returns a constant expression while determining if an argument is
+ * a constant expression, most importantly without evaluating the argument.
+ * Glory to Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
+ */
+#define __is_constexpr(x) \
+	(sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __no_side_effects(x, y) \
 		(__is_constexpr(x) && __is_constexpr(y))
 

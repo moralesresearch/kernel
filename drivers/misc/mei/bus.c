@@ -44,8 +44,17 @@ ssize_t __mei_cl_send(struct mei_cl *cl, u8 *buf, size_t length, u8 vtag,
 	bus = cl->dev;
 
 	mutex_lock(&bus->device_lock);
+<<<<<<< HEAD
 	if (bus->dev_state != MEI_DEV_ENABLED &&
 	    bus->dev_state != MEI_DEV_POWERING_DOWN) {
+=======
+<<<<<<< HEAD
+	if (bus->dev_state != MEI_DEV_ENABLED &&
+	    bus->dev_state != MEI_DEV_POWERING_DOWN) {
+=======
+	if (bus->dev_state != MEI_DEV_ENABLED) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rets = -ENODEV;
 		goto out;
 	}
@@ -136,8 +145,17 @@ ssize_t __mei_cl_recv(struct mei_cl *cl, u8 *buf, size_t length, u8 *vtag,
 	bus = cl->dev;
 
 	mutex_lock(&bus->device_lock);
+<<<<<<< HEAD
 	if (bus->dev_state != MEI_DEV_ENABLED &&
 	    bus->dev_state != MEI_DEV_POWERING_DOWN) {
+=======
+<<<<<<< HEAD
+	if (bus->dev_state != MEI_DEV_ENABLED &&
+	    bus->dev_state != MEI_DEV_POWERING_DOWN) {
+=======
+	if (bus->dev_state != MEI_DEV_ENABLED) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rets = -ENODEV;
 		goto out;
 	}
@@ -887,17 +905,43 @@ static int mei_cl_device_probe(struct device *dev)
 static int mei_cl_device_remove(struct device *dev)
 {
 	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mei_cl_driver *cldrv = to_mei_cl_driver(dev->driver);
 
 	if (cldrv->remove)
 		cldrv->remove(cldev);
+<<<<<<< HEAD
+=======
+=======
+	struct mei_cl_driver *cldrv;
+	int ret = 0;
+
+	if (!cldev || !dev->driver)
+		return 0;
+
+	cldrv = to_mei_cl_driver(dev->driver);
+	if (cldrv->remove)
+		ret = cldrv->remove(cldev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mei_cldev_unregister_callbacks(cldev);
 
 	mei_cl_bus_module_put(cldev);
 	module_put(THIS_MODULE);
 
+<<<<<<< HEAD
 	return 0;
+=======
+<<<<<<< HEAD
+	return 0;
+=======
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t name_show(struct device *dev, struct device_attribute *a,

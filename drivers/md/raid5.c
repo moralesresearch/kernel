@@ -5310,6 +5310,11 @@ static int in_chunk_boundary(struct mddev *mddev, struct bio *bio)
 	unsigned int chunk_sectors;
 	unsigned int bio_sectors = bio_sectors(bio);
 
+<<<<<<< HEAD
+=======
+	WARN_ON_ONCE(bio->bi_partno);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	chunk_sectors = min(conf->chunk_sectors, conf->prev_chunk_sectors);
 	return  chunk_sectors >=
 		((sector & (chunk_sectors - 1)) + bio_sectors);
@@ -5391,15 +5396,23 @@ static void raid5_align_endio(struct bio *bi)
 static int raid5_read_one_chunk(struct mddev *mddev, struct bio *raid_bio)
 {
 	struct r5conf *conf = mddev->private;
+<<<<<<< HEAD
 	struct bio *align_bio;
 	struct md_rdev *rdev;
 	sector_t sector, end_sector, first_bad;
 	int bad_sectors, dd_idx;
+=======
+	int dd_idx;
+	struct bio* align_bi;
+	struct md_rdev *rdev;
+	sector_t end_sector;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!in_chunk_boundary(mddev, raid_bio)) {
 		pr_debug("%s: non aligned\n", __func__);
 		return 0;
 	}
+<<<<<<< HEAD
 
 	sector = raid5_compute_sector(conf, raid_bio->bi_iter.bi_sector, 0,
 				      &dd_idx, NULL);
@@ -5409,10 +5422,34 @@ static int raid5_read_one_chunk(struct mddev *mddev, struct bio *raid_bio)
 	if (r5c_big_stripe_cached(conf, sector))
 		goto out_rcu_unlock;
 
+=======
+	/*
+	 * use bio_clone_fast to make a copy of the bio
+	 */
+	align_bi = bio_clone_fast(raid_bio, GFP_NOIO, &mddev->bio_set);
+	if (!align_bi)
+		return 0;
+	/*
+	 *   set bi_end_io to a new function, and set bi_private to the
+	 *     original bio.
+	 */
+	align_bi->bi_end_io  = raid5_align_endio;
+	align_bi->bi_private = raid_bio;
+	/*
+	 *	compute position
+	 */
+	align_bi->bi_iter.bi_sector =
+		raid5_compute_sector(conf, raid_bio->bi_iter.bi_sector,
+				     0, &dd_idx, NULL);
+
+	end_sector = bio_end_sector(align_bi);
+	rcu_read_lock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rdev = rcu_dereference(conf->disks[dd_idx].replacement);
 	if (!rdev || test_bit(Faulty, &rdev->flags) ||
 	    rdev->recovery_offset < end_sector) {
 		rdev = rcu_dereference(conf->disks[dd_idx].rdev);
+<<<<<<< HEAD
 		if (!rdev)
 			goto out_rcu_unlock;
 		if (test_bit(Faulty, &rdev->flags) ||
@@ -5457,6 +5494,58 @@ static int raid5_read_one_chunk(struct mddev *mddev, struct bio *raid_bio)
 out_rcu_unlock:
 	rcu_read_unlock();
 	return 0;
+=======
+		if (rdev &&
+		    (test_bit(Faulty, &rdev->flags) ||
+		    !(test_bit(In_sync, &rdev->flags) ||
+		      rdev->recovery_offset >= end_sector)))
+			rdev = NULL;
+	}
+
+	if (r5c_big_stripe_cached(conf, align_bi->bi_iter.bi_sector)) {
+		rcu_read_unlock();
+		bio_put(align_bi);
+		return 0;
+	}
+
+	if (rdev) {
+		sector_t first_bad;
+		int bad_sectors;
+
+		atomic_inc(&rdev->nr_pending);
+		rcu_read_unlock();
+		raid_bio->bi_next = (void*)rdev;
+		bio_set_dev(align_bi, rdev->bdev);
+
+		if (is_badblock(rdev, align_bi->bi_iter.bi_sector,
+				bio_sectors(align_bi),
+				&first_bad, &bad_sectors)) {
+			bio_put(align_bi);
+			rdev_dec_pending(rdev, mddev);
+			return 0;
+		}
+
+		/* No reshape active, so we can trust rdev->data_offset */
+		align_bi->bi_iter.bi_sector += rdev->data_offset;
+
+		spin_lock_irq(&conf->device_lock);
+		wait_event_lock_irq(conf->wait_for_quiescent,
+				    conf->quiesce == 0,
+				    conf->device_lock);
+		atomic_inc(&conf->active_aligned_reads);
+		spin_unlock_irq(&conf->device_lock);
+
+		if (mddev->gendisk)
+			trace_block_bio_remap(align_bi, disk_devt(mddev->gendisk),
+					      raid_bio->bi_iter.bi_sector);
+		submit_bio_noacct(align_bi);
+		return 1;
+	} else {
+		rcu_read_unlock();
+		bio_put(align_bi);
+		return 0;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct bio *chunk_aligned_read(struct mddev *mddev, struct bio *raid_bio)
@@ -7641,7 +7730,11 @@ static int raid5_run(struct mddev *mddev)
 	}
 
 	/* device size must be a multiple of chunk size */
+<<<<<<< HEAD
 	mddev->dev_sectors &= ~((sector_t)mddev->chunk_sectors - 1);
+=======
+	mddev->dev_sectors &= ~(mddev->chunk_sectors - 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mddev->resync_max_sectors = mddev->dev_sectors;
 
 	if (mddev->degraded > dirty_parity_disks &&

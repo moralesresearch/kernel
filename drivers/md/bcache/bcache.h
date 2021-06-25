@@ -364,6 +364,10 @@ struct cached_dev {
 
 	/* The rest of this all shows up in sysfs */
 	unsigned int		sequential_cutoff;
+<<<<<<< HEAD
+=======
+	unsigned int		readahead;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned int		io_disable:1;
 	unsigned int		verify:1;
@@ -372,7 +376,14 @@ struct cached_dev {
 	unsigned int		partial_stripes_expensive:1;
 	unsigned int		writeback_metadata:1;
 	unsigned int		writeback_running:1;
+<<<<<<< HEAD
 	unsigned int		writeback_consider_fragment:1;
+=======
+<<<<<<< HEAD
+	unsigned int		writeback_consider_fragment:1;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char		writeback_percent;
 	unsigned int		writeback_delay;
 
@@ -385,9 +396,18 @@ struct cached_dev {
 	unsigned int		writeback_rate_update_seconds;
 	unsigned int		writeback_rate_i_term_inverse;
 	unsigned int		writeback_rate_p_term_inverse;
+<<<<<<< HEAD
 	unsigned int		writeback_rate_fp_term_low;
 	unsigned int		writeback_rate_fp_term_mid;
 	unsigned int		writeback_rate_fp_term_high;
+=======
+<<<<<<< HEAD
+	unsigned int		writeback_rate_fp_term_low;
+	unsigned int		writeback_rate_fp_term_mid;
+	unsigned int		writeback_rate_fp_term_high;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int		writeback_rate_minimum;
 
 	enum stop_on_failure	stop_when_cache_set_failed;

@@ -160,9 +160,21 @@ static struct channel *get_channel(struct most_interface *iface,
 				   int channel_id)
 {
 	struct sound_adapter *adpt = iface->priv;
+<<<<<<< HEAD
 	struct channel *channel;
 
 	list_for_each_entry(channel, &adpt->dev_list, list) {
+=======
+<<<<<<< HEAD
+	struct channel *channel;
+
+	list_for_each_entry(channel, &adpt->dev_list, list) {
+=======
+	struct channel *channel, *tmp;
+
+	list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((channel->iface == iface) && (channel->id == channel_id))
 			return channel;
 	}
@@ -527,7 +539,15 @@ static int audio_probe_channel(struct most_interface *iface, int channel_id,
 		pr_err("Incompatible channel type\n");
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 	strscpy(arg_list_cpy, arg_list, STRING_SIZE);
+=======
+<<<<<<< HEAD
+	strscpy(arg_list_cpy, arg_list, STRING_SIZE);
+=======
+	strlcpy(arg_list_cpy, arg_list, STRING_SIZE);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = split_arg_list(arg_list_cpy, &ch_num, &sample_res);
 	if (ret < 0)
 		return ret;

@@ -791,6 +791,7 @@ s32 igc_read_phy_reg_gpy(struct igc_hw *hw, u32 offset, u16 *data)
 
 	return ret_val;
 }
+<<<<<<< HEAD
 
 /**
  * igc_read_phy_fw_version - Read gPHY firmware version
@@ -809,3 +810,5 @@ u16 igc_read_phy_fw_version(struct igc_hw *hw)
 
 	return gphy_version;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

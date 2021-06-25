@@ -887,7 +887,11 @@ int usbnet_open (struct net_device *net)
 
 	// insist peer be connected
 	if (info->check_connect && (retval = info->check_connect (dev)) < 0) {
+<<<<<<< HEAD
 		netif_err(dev, ifup, dev->net, "can't open; %d\n", retval);
+=======
+		netif_dbg(dev, ifup, dev->net, "can't open; %d\n", retval);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto done;
 	}
 
@@ -1539,11 +1543,19 @@ static void usbnet_bh (struct timer_list *t)
 	}
 }
 
+<<<<<<< HEAD
 static void usbnet_bh_tasklet(struct tasklet_struct *t)
 {
 	struct usbnet *dev = from_tasklet(dev, t, bh);
 
 	usbnet_bh(&dev->delay);
+=======
+static void usbnet_bh_tasklet(unsigned long data)
+{
+	struct timer_list *t = (struct timer_list *)data;
+
+	usbnet_bh(t);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -1673,7 +1685,12 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
 	skb_queue_head_init (&dev->txq);
 	skb_queue_head_init (&dev->done);
 	skb_queue_head_init(&dev->rxq_pause);
+<<<<<<< HEAD
 	tasklet_setup(&dev->bh, usbnet_bh_tasklet);
+=======
+	dev->bh.func = usbnet_bh_tasklet;
+	dev->bh.data = (unsigned long)&dev->delay;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_WORK (&dev->kevent, usbnet_deferred_kevent);
 	init_usb_anchor(&dev->deferred);
 	timer_setup(&dev->delay, usbnet_bh, 0);
@@ -1963,12 +1980,21 @@ static int __usbnet_read_cmd(struct usbnet *dev, u8 cmd, u8 reqtype,
 			      cmd, reqtype, value, index, buf, size,
 			      USB_CTRL_GET_TIMEOUT);
 	if (err > 0 && err <= size) {
+<<<<<<< HEAD
 		if (data)
 			memcpy(data, buf, err);
 		else
 			netdev_dbg(dev->net,
 				   "Huh? Data requested but thrown away.\n");
 	}
+=======
+        if (data)
+            memcpy(data, buf, err);
+        else
+            netdev_dbg(dev->net,
+                "Huh? Data requested but thrown away.\n");
+    }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(buf);
 out:
 	return err;

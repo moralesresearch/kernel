@@ -1265,9 +1265,12 @@ void tipc_sk_mcast_rcv(struct net *net, struct sk_buff_head *arrvq,
 		spin_lock_bh(&inputq->lock);
 		if (skb_peek(arrvq) == skb) {
 			skb_queue_splice_tail_init(&tmpq, inputq);
+<<<<<<< HEAD
 			/* Decrease the skb's refcnt as increasing in the
 			 * function tipc_skb_peek
 			 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			kfree_skb(__skb_dequeue(arrvq));
 		}
 		spin_unlock_bh(&inputq->lock);

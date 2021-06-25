@@ -254,7 +254,11 @@ again:
 	req->cmd[4] = bufflen & 0xff;
 	req->cmd_len = COMMAND_SIZE(INQUIRY);
 
+<<<<<<< HEAD
 	blk_execute_rq(NULL, rq, 1);
+=======
+	blk_execute_rq(rq->q, NULL, rq, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (req->result) {
 		pr_err("pNFS: INQUIRY 0x83 failed with: %x\n",
 			req->result);

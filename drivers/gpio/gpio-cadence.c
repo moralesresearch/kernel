@@ -278,7 +278,10 @@ static const struct of_device_id cdns_of_ids[] = {
 	{ .compatible = "cdns,gpio-r1p02" },
 	{ /* sentinel */ },
 };
+<<<<<<< HEAD
 MODULE_DEVICE_TABLE(of, cdns_of_ids);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct platform_driver cdns_gpio_driver = {
 	.driver = {

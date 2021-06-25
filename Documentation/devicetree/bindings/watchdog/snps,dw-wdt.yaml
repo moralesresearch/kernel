@@ -18,6 +18,7 @@ properties:
       - const: snps,dw-wdt
       - items:
           - enum:
+<<<<<<< HEAD
               - rockchip,px30-wdt
               - rockchip,rk3066-wdt
               - rockchip,rk3188-wdt
@@ -28,6 +29,12 @@ properties:
               - rockchip,rk3368-wdt
               - rockchip,rk3399-wdt
               - rockchip,rv1108-wdt
+=======
+              - rockchip,rk3066-wdt
+              - rockchip,rk3188-wdt
+              - rockchip,rk3288-wdt
+              - rockchip,rk3368-wdt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: snps,dw-wdt
 
   reg:

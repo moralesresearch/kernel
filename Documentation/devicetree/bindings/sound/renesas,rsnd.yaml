@@ -404,7 +404,11 @@ examples:
         /* DAI base */
         rcar_sound,dai {
             dai0 {
+<<<<<<< HEAD
                 playback = <&ssi5>, <&src5>;
+=======
+                playback = <&ssi5 &src5>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                 capture  = <&ssi6>;
             };
             dai1 {
@@ -430,8 +434,13 @@ examples:
                 bitclock-master = <&rsnd_endpoint0>;
                 frame-master = <&rsnd_endpoint0>;
 
+<<<<<<< HEAD
                 playback = <&ssi0>, <&src0>, <&dvc0>;
                 capture  = <&ssi1>, <&src1>, <&dvc1>;
+=======
+                playback = <&ssi0 &src0 &dvc0>;
+                capture  = <&ssi1 &src1 &dvc1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             };
         };
     };

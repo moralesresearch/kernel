@@ -44,6 +44,7 @@ static struct page *erofs_read_inode(struct inode *inode,
 	dic = page_address(page) + *ofs;
 	ifmt = le16_to_cpu(dic->i_format);
 
+<<<<<<< HEAD
 	if (ifmt & ~EROFS_I_ALL) {
 		erofs_err(inode->i_sb, "unsupported i_format %u of nid %llu",
 			  ifmt, vi->nid);
@@ -51,6 +52,8 @@ static struct page *erofs_read_inode(struct inode *inode,
 		goto err_out;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vi->datalayout = erofs_inode_datalayout(ifmt);
 	if (vi->datalayout >= EROFS_INODE_DATALAYOUT_MAX) {
 		erofs_err(inode->i_sb, "unsupported datalayout %u of nid %llu",
@@ -338,9 +341,14 @@ struct inode *erofs_iget(struct super_block *sb,
 	return inode;
 }
 
+<<<<<<< HEAD
 int erofs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		  struct kstat *stat, u32 request_mask,
 		  unsigned int query_flags)
+=======
+int erofs_getattr(const struct path *path, struct kstat *stat,
+		  u32 request_mask, unsigned int query_flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *const inode = d_inode(path->dentry);
 
@@ -351,7 +359,11 @@ int erofs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 	stat->attributes_mask |= (STATX_ATTR_COMPRESSED |
 				  STATX_ATTR_IMMUTABLE);
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
+=======
+	generic_fillattr(inode, stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

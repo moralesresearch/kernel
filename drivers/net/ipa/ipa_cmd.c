@@ -284,7 +284,15 @@ static bool ipa_cmd_register_write_valid(struct ipa *ipa)
 	/* If hashed tables are supported, ensure the hash flush register
 	 * offset will fit in a register write IPA immediate command.
 	 */
+<<<<<<< HEAD
 	if (ipa_table_hash_support(ipa)) {
+=======
+<<<<<<< HEAD
+	if (ipa_table_hash_support(ipa)) {
+=======
+	if (ipa->version != IPA_VERSION_4_2) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		offset = ipa_reg_filt_rout_hash_flush_offset(ipa->version);
 		name = "filter/route hash flush";
 		if (!ipa_cmd_register_write_offset_valid(ipa, name, offset))
@@ -561,7 +569,15 @@ void ipa_cmd_dma_shared_mem_add(struct gsi_trans *trans, u32 offset, u16 size,
 			  direction, opcode);
 }
 
+<<<<<<< HEAD
 static void ipa_cmd_ip_tag_status_add(struct gsi_trans *trans)
+=======
+<<<<<<< HEAD
+static void ipa_cmd_ip_tag_status_add(struct gsi_trans *trans)
+=======
+static void ipa_cmd_ip_tag_status_add(struct gsi_trans *trans, u64 tag)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ipa *ipa = container_of(trans->gsi, struct ipa, gsi);
 	enum ipa_cmd_opcode opcode = IPA_CMD_IP_PACKET_TAG_STATUS;
@@ -575,14 +591,30 @@ static void ipa_cmd_ip_tag_status_add(struct gsi_trans *trans)
 	cmd_payload = ipa_cmd_payload_alloc(ipa, &payload_addr);
 	payload = &cmd_payload->ip_packet_tag_status;
 
+<<<<<<< HEAD
 	payload->tag = le64_encode_bits(0, IP_PACKET_TAG_STATUS_TAG_FMASK);
+=======
+<<<<<<< HEAD
+	payload->tag = le64_encode_bits(0, IP_PACKET_TAG_STATUS_TAG_FMASK);
+=======
+	payload->tag = u64_encode_bits(tag, IP_PACKET_TAG_STATUS_TAG_FMASK);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gsi_trans_cmd_add(trans, payload, sizeof(*payload), payload_addr,
 			  direction, opcode);
 }
 
 /* Issue a small command TX data transfer */
+<<<<<<< HEAD
 static void ipa_cmd_transfer_add(struct gsi_trans *trans)
+=======
+<<<<<<< HEAD
+static void ipa_cmd_transfer_add(struct gsi_trans *trans)
+=======
+static void ipa_cmd_transfer_add(struct gsi_trans *trans, u16 size)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ipa *ipa = container_of(trans->gsi, struct ipa, gsi);
 	enum dma_data_direction direction = DMA_TO_DEVICE;
@@ -590,6 +622,14 @@ static void ipa_cmd_transfer_add(struct gsi_trans *trans)
 	union ipa_cmd_payload *payload;
 	dma_addr_t payload_addr;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* assert(size <= sizeof(*payload)); */
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Just transfer a zero-filled payload structure */
 	payload = ipa_cmd_payload_alloc(ipa, &payload_addr);
 
@@ -597,12 +637,25 @@ static void ipa_cmd_transfer_add(struct gsi_trans *trans)
 			  direction, opcode);
 }
 
+<<<<<<< HEAD
 /* Add immediate commands to a transaction to clear the hardware pipeline */
 void ipa_cmd_pipeline_clear_add(struct gsi_trans *trans)
+=======
+<<<<<<< HEAD
+/* Add immediate commands to a transaction to clear the hardware pipeline */
+void ipa_cmd_pipeline_clear_add(struct gsi_trans *trans)
+=======
+void ipa_cmd_tag_process_add(struct gsi_trans *trans)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ipa *ipa = container_of(trans->gsi, struct ipa, gsi);
 	struct ipa_endpoint *endpoint;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This will complete when the transfer is received */
 	reinit_completion(&ipa->completion);
 
@@ -625,10 +678,29 @@ void ipa_cmd_pipeline_clear_add(struct gsi_trans *trans)
 
 /* Returns the number of commands required to clear the pipeline */
 u32 ipa_cmd_pipeline_clear_count(void)
+<<<<<<< HEAD
+=======
+=======
+	endpoint = ipa->name_map[IPA_ENDPOINT_AP_LAN_RX];
+
+	ipa_cmd_register_write_add(trans, 0, 0, 0, true);
+	ipa_cmd_ip_packet_init_add(trans, endpoint->endpoint_id);
+	ipa_cmd_ip_tag_status_add(trans, 0xcba987654321);
+	ipa_cmd_transfer_add(trans, 4);
+}
+
+/* Returns the number of commands required for the tag process */
+u32 ipa_cmd_tag_process_count(void)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return 4;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ipa_cmd_pipeline_clear_wait(struct ipa *ipa)
 {
 	wait_for_completion(&ipa->completion);
@@ -637,13 +709,32 @@ void ipa_cmd_pipeline_clear_wait(struct ipa *ipa)
 void ipa_cmd_pipeline_clear(struct ipa *ipa)
 {
 	u32 count = ipa_cmd_pipeline_clear_count();
+<<<<<<< HEAD
+=======
+=======
+void ipa_cmd_tag_process(struct ipa *ipa)
+{
+	u32 count = ipa_cmd_tag_process_count();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gsi_trans *trans;
 
 	trans = ipa_cmd_trans_alloc(ipa, count);
 	if (trans) {
+<<<<<<< HEAD
 		ipa_cmd_pipeline_clear_add(trans);
 		gsi_trans_commit_wait(trans);
 		ipa_cmd_pipeline_clear_wait(ipa);
+=======
+<<<<<<< HEAD
+		ipa_cmd_pipeline_clear_add(trans);
+		gsi_trans_commit_wait(trans);
+		ipa_cmd_pipeline_clear_wait(ipa);
+=======
+		ipa_cmd_tag_process_add(trans);
+		gsi_trans_commit_wait(trans);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		dev_err(&ipa->pdev->dev,
 			"error allocating %u entry tag transaction\n", count);

@@ -30,6 +30,9 @@
 
 struct resource_pool *dcn302_create_resource_pool(const struct dc_init_data *init_data, struct dc *dc);
 
+<<<<<<< HEAD
 void dcn302_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _DCN302_RESOURCE_H_ */

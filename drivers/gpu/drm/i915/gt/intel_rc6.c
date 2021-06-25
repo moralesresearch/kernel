@@ -49,7 +49,11 @@ static struct drm_i915_private *rc6_to_i915(struct intel_rc6 *rc)
 	return rc6_to_gt(rc)->i915;
 }
 
+<<<<<<< HEAD
 static void set(struct intel_uncore *uncore, i915_reg_t reg, u32 val)
+=======
+static inline void set(struct intel_uncore *uncore, i915_reg_t reg, u32 val)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	intel_uncore_write_fw(uncore, reg, val);
 }

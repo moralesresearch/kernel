@@ -116,7 +116,10 @@ static inline int scsi_is_wlun(u64 lun)
 #define CLEAR_TASK_SET      0x0e
 #define INITIATE_RECOVERY   0x0f            /* SCSI-II only */
 #define RELEASE_RECOVERY    0x10            /* SCSI-II only */
+<<<<<<< HEAD
 #define TERMINATE_IO_PROC   0x11            /* SCSI-II only */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CLEAR_ACA           0x16
 #define LOGICAL_UNIT_RESET  0x17
 #define SIMPLE_QUEUE_TAG    0x20
@@ -160,7 +163,10 @@ static inline int scsi_is_wlun(u64 lun)
 				 * paths might yield different results */
 #define DID_ALLOC_FAILURE 0x12  /* Space allocation on the device failed */
 #define DID_MEDIUM_ERROR  0x13  /* Medium error */
+<<<<<<< HEAD
 #define DID_TRANSPORT_MARGINAL 0x14 /* Transport marginal errors */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DRIVER_OK       0x00	/* Driver status                           */
 
 /*

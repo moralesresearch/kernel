@@ -2640,7 +2640,10 @@ static int __ffs_data_got_strings(struct ffs_data *ffs,
 
 	do { /* lang_count > 0 so we can use do-while */
 		unsigned needed = needed_count;
+<<<<<<< HEAD
 		u32 str_per_lang = str_count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (len < 3)
 			goto error_free;
@@ -2676,7 +2679,11 @@ static int __ffs_data_got_strings(struct ffs_data *ffs,
 
 			data += length + 1;
 			len -= length + 1;
+<<<<<<< HEAD
 		} while (--str_per_lang);
+=======
+		} while (--str_count);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		s->id = 0;   /* terminator */
 		s->s = NULL;
@@ -3567,9 +3574,12 @@ static void ffs_func_unbind(struct usb_configuration *c,
 		ffs->func = NULL;
 	}
 
+<<<<<<< HEAD
 	/* Drain any pending AIO completions */
 	drain_workqueue(ffs->io_completion_wq);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!--opts->refcnt)
 		functionfs_unbind(ffs);
 

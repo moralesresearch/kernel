@@ -20,6 +20,10 @@
 #include <linux/slab.h>
 #include <linux/scatterlist.h>
 #include <linux/sizes.h>
+<<<<<<< HEAD
+=======
+#include <linux/swiotlb.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/regulator/consumer.h>
 #include <linux/pm_runtime.h>
 #include <linux/of.h>
@@ -2997,6 +3001,7 @@ static bool sdhci_request_done(struct sdhci_host *host)
 	}
 
 	/*
+<<<<<<< HEAD
 	 * The controller needs a reset of internal state machines
 	 * upon error conditions.
 	 */
@@ -3028,6 +3033,8 @@ static bool sdhci_request_done(struct sdhci_host *host)
 	}
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Always unmap the data buffers if they were mapped by
 	 * sdhci_prepare_data() whenever we finish with a request.
 	 * This avoids leaking DMA mappings on error.
@@ -3090,6 +3097,38 @@ static bool sdhci_request_done(struct sdhci_host *host)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	/*
+	 * The controller needs a reset of internal state machines
+	 * upon error conditions.
+	 */
+	if (sdhci_needs_reset(host, mrq)) {
+		/*
+		 * Do not finish until command and data lines are available for
+		 * reset. Note there can only be one other mrq, so it cannot
+		 * also be in mrqs_done, otherwise host->cmd and host->data_cmd
+		 * would both be null.
+		 */
+		if (host->cmd || host->data_cmd) {
+			spin_unlock_irqrestore(&host->lock, flags);
+			return true;
+		}
+
+		/* Some controllers need this kick or reset won't work here */
+		if (host->quirks & SDHCI_QUIRK_CLOCK_BEFORE_RESET)
+			/* This is to force an update */
+			host->ops->set_clock(host, host->clock);
+
+		/* Spec says we should do both at the same time, but Ricoh
+		   controllers do not like that. */
+		sdhci_do_reset(host, SDHCI_RESET_CMD);
+		sdhci_do_reset(host, SDHCI_RESET_DATA);
+
+		host->pending_reset = false;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	host->mrqs_done[i] = NULL;
 
 	spin_unlock_irqrestore(&host->lock, flags);
@@ -4583,8 +4622,17 @@ int sdhci_setup_host(struct sdhci_host *host)
 		mmc->max_segs = SDHCI_MAX_SEGS;
 	} else if (host->flags & SDHCI_USE_SDMA) {
 		mmc->max_segs = 1;
+<<<<<<< HEAD
 		mmc->max_req_size = min_t(size_t, mmc->max_req_size,
 					  dma_max_mapping_size(mmc_dev(mmc)));
+=======
+		if (swiotlb_max_segment()) {
+			unsigned int max_req_size = (1 << IO_TLB_SHIFT) *
+						IO_TLB_SEGSIZE;
+			mmc->max_req_size = min(mmc->max_req_size,
+						max_req_size);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else { /* PIO */
 		mmc->max_segs = SDHCI_MAX_SEGS;
 	}

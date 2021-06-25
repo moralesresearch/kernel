@@ -10,7 +10,10 @@
 #include <linux/atomic.h>
 #include <linux/bug.h>
 #include <linux/debugfs.h>
+<<<<<<< HEAD
 #include <linux/irq_work.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kcsan-checks.h>
 #include <linux/kfence.h>
 #include <linux/kmemleak.h>
@@ -20,7 +23,10 @@
 #include <linux/moduleparam.h>
 #include <linux/random.h>
 #include <linux/rcupdate.h>
+<<<<<<< HEAD
 #include <linux/sched/sysctl.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/seq_file.h>
 #include <linux/slab.h>
 #include <linux/spinlock.h>
@@ -588,6 +594,7 @@ late_initcall(kfence_debugfs_init);
 
 /* === Allocation Gate Timer ================================================ */
 
+<<<<<<< HEAD
 #ifdef CONFIG_KFENCE_STATIC_KEYS
 /* Wait queue to wake up allocation-gate timer task. */
 static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
@@ -599,6 +606,8 @@ static void wake_up_kfence_timer(struct irq_work *work)
 static DEFINE_IRQ_WORK(wake_up_kfence_timer_work, wake_up_kfence_timer);
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Set up delayed work, which will enable and disable the static key. We need to
  * use a work queue (rather than a simple timer), since enabling and disabling a
@@ -616,6 +625,7 @@ static void toggle_allocation_gate(struct work_struct *work)
 	if (!READ_ONCE(kfence_enabled))
 		return;
 
+<<<<<<< HEAD
 	atomic_set(&kfence_allocation_gate, 0);
 #ifdef CONFIG_KFENCE_STATIC_KEYS
 	/* Enable static key, and await allocation to happen. */
@@ -632,6 +642,27 @@ static void toggle_allocation_gate(struct work_struct *work)
 		wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate));
 	}
 
+=======
+	/* Enable static key, and await allocation to happen. */
+	atomic_set(&kfence_allocation_gate, 0);
+#ifdef CONFIG_KFENCE_STATIC_KEYS
+	static_branch_enable(&kfence_allocation_key);
+	/*
+	 * Await an allocation. Timeout after 1 second, in case the kernel stops
+	 * doing allocations, to avoid stalling this worker task for too long.
+	 */
+	{
+		unsigned long end_wait = jiffies + HZ;
+
+		do {
+			set_current_state(TASK_UNINTERRUPTIBLE);
+			if (atomic_read(&kfence_allocation_gate) != 0)
+				break;
+			schedule_timeout(1);
+		} while (time_before(jiffies, end_wait));
+		__set_current_state(TASK_RUNNING);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Disable static key and reset timer. */
 	static_branch_disable(&kfence_allocation_key);
 #endif
@@ -738,6 +769,7 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
 	 */
 	if (atomic_read(&kfence_allocation_gate) || atomic_inc_return(&kfence_allocation_gate) > 1)
 		return NULL;
+<<<<<<< HEAD
 #ifdef CONFIG_KFENCE_STATIC_KEYS
 	/*
 	 * waitqueue_active() is fully ordered after the update of
@@ -751,6 +783,8 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
 		irq_work_queue(&wake_up_kfence_timer_work);
 	}
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!READ_ONCE(kfence_enabled))
 		return NULL;

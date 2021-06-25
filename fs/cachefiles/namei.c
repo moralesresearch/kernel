@@ -311,8 +311,12 @@ static int cachefiles_bury_object(struct cachefiles_cache *cache,
 			cachefiles_io_error(cache, "Unlink security error");
 		} else {
 			trace_cachefiles_unlink(object, rep, why);
+<<<<<<< HEAD
 			ret = vfs_unlink(&init_user_ns, d_inode(dir), rep,
 					 NULL);
+=======
+			ret = vfs_unlink(d_inode(dir), rep, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (preemptive)
 				cachefiles_mark_object_buried(cache, rep, why);
@@ -413,6 +417,7 @@ try_again:
 	if (ret < 0) {
 		cachefiles_io_error(cache, "Rename security error %d", ret);
 	} else {
+<<<<<<< HEAD
 		struct renamedata rd = {
 			.old_mnt_userns	= &init_user_ns,
 			.old_dir	= d_inode(dir),
@@ -423,6 +428,11 @@ try_again:
 		};
 		trace_cachefiles_rename(object, rep, grave, why);
 		ret = vfs_rename(&rd);
+=======
+		trace_cachefiles_rename(object, rep, grave, why);
+		ret = vfs_rename(d_inode(dir), rep,
+				 d_inode(cache->graveyard), grave, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret != 0 && ret != -ENOMEM)
 			cachefiles_io_error(cache,
 					    "Rename failed with error %d", ret);
@@ -569,7 +579,11 @@ lookup_again:
 			if (ret < 0)
 				goto create_error;
 			start = jiffies;
+<<<<<<< HEAD
 			ret = vfs_mkdir(&init_user_ns, d_inode(dir), next, 0);
+=======
+			ret = vfs_mkdir(d_inode(dir), next, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cachefiles_hist(cachefiles_mkdir_histogram, start);
 			if (!key)
 				trace_cachefiles_mkdir(object, next, ret);
@@ -605,8 +619,12 @@ lookup_again:
 			if (ret < 0)
 				goto create_error;
 			start = jiffies;
+<<<<<<< HEAD
 			ret = vfs_create(&init_user_ns, d_inode(dir), next,
 					 S_IFREG, true);
+=======
+			ret = vfs_create(d_inode(dir), next, S_IFREG, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cachefiles_hist(cachefiles_create_histogram, start);
 			trace_cachefiles_create(object, next, ret);
 			if (ret < 0)
@@ -800,7 +818,11 @@ retry:
 		ret = security_path_mkdir(&path, subdir, 0700);
 		if (ret < 0)
 			goto mkdir_error;
+<<<<<<< HEAD
 		ret = vfs_mkdir(&init_user_ns, d_inode(dir), subdir, 0700);
+=======
+		ret = vfs_mkdir(d_inode(dir), subdir, 0700);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto mkdir_error;
 

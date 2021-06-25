@@ -10,12 +10,15 @@
 	compatible = "purism,librem5r3", "purism,librem5", "fsl,imx8mq";
 };
 
+<<<<<<< HEAD
 &a53_opp_table {
 	opp-1000000000 {
 		opp-microvolt = <1000000>;
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &accel_gyro {
 	mount-matrix =  "1",  "0",  "0",
 			"0",  "1",  "0",
@@ -28,10 +31,13 @@
 	ti,termination-current = <144000>;  /* uA */
 };
 
+<<<<<<< HEAD
 &buck3_reg {
 	regulator-always-on;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &proximity {
 	proximity-near-level = <25>;
 };

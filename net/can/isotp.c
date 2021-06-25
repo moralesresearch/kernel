@@ -77,8 +77,16 @@ MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Oliver Hartkopp <socketcan@hartkopp.net>");
 MODULE_ALIAS("can-proto-6");
 
+<<<<<<< HEAD
 #define ISOTP_MIN_NAMELEN CAN_REQUIRED_SIZE(struct sockaddr_can, can_addr.tp)
 
+=======
+<<<<<<< HEAD
+#define ISOTP_MIN_NAMELEN CAN_REQUIRED_SIZE(struct sockaddr_can, can_addr.tp)
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SINGLE_MASK(id) (((id) & CAN_EFF_FLAG) ? \
 			 (CAN_EFF_MASK | CAN_EFF_FLAG | CAN_RTR_FLAG) : \
 			 (CAN_SFF_MASK | CAN_EFF_FLAG | CAN_RTR_FLAG))
@@ -143,6 +151,7 @@ struct isotp_sock {
 	u32 force_tx_stmin;
 	u32 force_rx_stmin;
 	struct tpcon rx, tx;
+<<<<<<< HEAD
 	struct list_head notifier;
 	wait_queue_head_t wait;
 };
@@ -151,6 +160,12 @@ static LIST_HEAD(isotp_notifier_list);
 static DEFINE_SPINLOCK(isotp_notifier_lock);
 static struct isotp_sock *isotp_busy_notifier;
 
+=======
+	struct notifier_block notifier;
+	wait_queue_head_t wait;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct isotp_sock *isotp_sk(const struct sock *sk)
 {
 	return (struct isotp_sock *)sk;
@@ -992,8 +1007,17 @@ static int isotp_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
 	sock_recv_timestamp(msg, sk, skb);
 
 	if (msg->msg_name) {
+<<<<<<< HEAD
 		__sockaddr_check_size(ISOTP_MIN_NAMELEN);
 		msg->msg_namelen = ISOTP_MIN_NAMELEN;
+=======
+<<<<<<< HEAD
+		__sockaddr_check_size(ISOTP_MIN_NAMELEN);
+		msg->msg_namelen = ISOTP_MIN_NAMELEN;
+=======
+		msg->msg_namelen = sizeof(struct sockaddr_can);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(msg->msg_name, skb->cb, msg->msg_namelen);
 	}
 
@@ -1017,6 +1041,7 @@ static int isotp_release(struct socket *sock)
 	/* wait for complete transmission of current pdu */
 	wait_event_interruptible(so->wait, so->tx.state == ISOTP_IDLE);
 
+<<<<<<< HEAD
 	spin_lock(&isotp_notifier_lock);
 	while (isotp_busy_notifier == so) {
 		spin_unlock(&isotp_notifier_lock);
@@ -1025,6 +1050,9 @@ static int isotp_release(struct socket *sock)
 	}
 	list_del(&so->notifier);
 	spin_unlock(&isotp_notifier_lock);
+=======
+	unregister_netdevice_notifier(&so->notifier);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	lock_sock(sk);
 
@@ -1070,6 +1098,7 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
 	int notify_enetdown = 0;
 	int do_rx_reg = 1;
 
+<<<<<<< HEAD
 	if (len < ISOTP_MIN_NAMELEN)
 		return -EINVAL;
 
@@ -1081,12 +1110,22 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
 
 	lock_sock(sk);
 
+=======
+<<<<<<< HEAD
+	if (len < ISOTP_MIN_NAMELEN)
+=======
+	if (len < CAN_REQUIRED_SIZE(struct sockaddr_can, can_addr.tp))
+>>>>>>> stable
+		return -EINVAL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* do not register frame reception for functional addressing */
 	if (so->opt.flags & CAN_ISOTP_SF_BROADCAST)
 		do_rx_reg = 0;
 
 	/* do not validate rx address for functional addressing */
 	if (do_rx_reg) {
+<<<<<<< HEAD
 		if (addr->can_addr.tp.rx_id == addr->can_addr.tp.tx_id) {
 			err = -EADDRNOTAVAIL;
 			goto out;
@@ -1098,6 +1137,23 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
 		}
 	}
 
+=======
+		if (addr->can_addr.tp.rx_id == addr->can_addr.tp.tx_id)
+			return -EADDRNOTAVAIL;
+
+		if (addr->can_addr.tp.rx_id & (CAN_ERR_FLAG | CAN_RTR_FLAG))
+			return -EADDRNOTAVAIL;
+	}
+
+	if (addr->can_addr.tp.tx_id & (CAN_ERR_FLAG | CAN_RTR_FLAG))
+		return -EADDRNOTAVAIL;
+
+	if (!addr->can_ifindex)
+		return -ENODEV;
+
+	lock_sock(sk);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (so->bound && addr->can_ifindex == so->ifindex &&
 	    addr->can_addr.tp.rx_id == so->rxid &&
 	    addr->can_addr.tp.tx_id == so->txid)
@@ -1170,22 +1226,47 @@ static int isotp_getname(struct socket *sock, struct sockaddr *uaddr, int peer)
 	if (peer)
 		return -EOPNOTSUPP;
 
+<<<<<<< HEAD
 	memset(addr, 0, ISOTP_MIN_NAMELEN);
+=======
+<<<<<<< HEAD
+	memset(addr, 0, ISOTP_MIN_NAMELEN);
+=======
+	memset(addr, 0, sizeof(*addr));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	addr->can_family = AF_CAN;
 	addr->can_ifindex = so->ifindex;
 	addr->can_addr.tp.rx_id = so->rxid;
 	addr->can_addr.tp.tx_id = so->txid;
 
+<<<<<<< HEAD
 	return ISOTP_MIN_NAMELEN;
 }
 
 static int isotp_setsockopt_locked(struct socket *sock, int level, int optname,
+=======
+<<<<<<< HEAD
+	return ISOTP_MIN_NAMELEN;
+=======
+	return sizeof(*addr);
+>>>>>>> stable
+}
+
+static int isotp_setsockopt(struct socket *sock, int level, int optname,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    sockptr_t optval, unsigned int optlen)
 {
 	struct sock *sk = sock->sk;
 	struct isotp_sock *so = isotp_sk(sk);
 	int ret = 0;
 
+<<<<<<< HEAD
+=======
+	if (level != SOL_CAN_ISOTP)
+		return -EINVAL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (so->bound)
 		return -EISCONN;
 
@@ -1260,6 +1341,7 @@ static int isotp_setsockopt_locked(struct socket *sock, int level, int optname,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int isotp_setsockopt(struct socket *sock, int level, int optname,
 			    sockptr_t optval, unsigned int optlen)
 
@@ -1276,6 +1358,8 @@ static int isotp_setsockopt(struct socket *sock, int level, int optname,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int isotp_getsockopt(struct socket *sock, int level, int optname,
 			    char __user *optval, int __user *optlen)
 {
@@ -1328,6 +1412,7 @@ static int isotp_getsockopt(struct socket *sock, int level, int optname,
 	return 0;
 }
 
+<<<<<<< HEAD
 static void isotp_notify(struct isotp_sock *so, unsigned long msg,
 			 struct net_device *dev)
 {
@@ -1338,6 +1423,23 @@ static void isotp_notify(struct isotp_sock *so, unsigned long msg,
 
 	if (so->ifindex != dev->ifindex)
 		return;
+=======
+static int isotp_notifier(struct notifier_block *nb, unsigned long msg,
+			  void *ptr)
+{
+	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+	struct isotp_sock *so = container_of(nb, struct isotp_sock, notifier);
+	struct sock *sk = &so->sk;
+
+	if (!net_eq(dev_net(dev), sock_net(sk)))
+		return NOTIFY_DONE;
+
+	if (dev->type != ARPHRD_CAN)
+		return NOTIFY_DONE;
+
+	if (so->ifindex != dev->ifindex)
+		return NOTIFY_DONE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (msg) {
 	case NETDEV_UNREGISTER:
@@ -1363,6 +1465,7 @@ static void isotp_notify(struct isotp_sock *so, unsigned long msg,
 			sk->sk_error_report(sk);
 		break;
 	}
+<<<<<<< HEAD
 }
 
 static int isotp_notifier(struct notifier_block *nb, unsigned long msg,
@@ -1385,6 +1488,9 @@ static int isotp_notifier(struct notifier_block *nb, unsigned long msg,
 	}
 	isotp_busy_notifier = NULL;
 	spin_unlock(&isotp_notifier_lock);
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NOTIFY_DONE;
 }
 
@@ -1421,9 +1527,14 @@ static int isotp_init(struct sock *sk)
 
 	init_waitqueue_head(&so->wait);
 
+<<<<<<< HEAD
 	spin_lock(&isotp_notifier_lock);
 	list_add_tail(&so->notifier, &isotp_notifier_list);
 	spin_unlock(&isotp_notifier_lock);
+=======
+	so->notifier.notifier_call = isotp_notifier;
+	register_netdevice_notifier(&so->notifier);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1470,10 +1581,13 @@ static const struct can_proto isotp_can_proto = {
 	.prot = &isotp_proto,
 };
 
+<<<<<<< HEAD
 static struct notifier_block canisotp_notifier = {
 	.notifier_call = isotp_notifier
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __init int isotp_module_init(void)
 {
 	int err;
@@ -1483,8 +1597,11 @@ static __init int isotp_module_init(void)
 	err = can_proto_register(&isotp_can_proto);
 	if (err < 0)
 		pr_err("can: registration of isotp protocol failed\n");
+<<<<<<< HEAD
 	else
 		register_netdevice_notifier(&canisotp_notifier);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -1492,7 +1609,10 @@ static __init int isotp_module_init(void)
 static __exit void isotp_module_exit(void)
 {
 	can_proto_unregister(&isotp_can_proto);
+<<<<<<< HEAD
 	unregister_netdevice_notifier(&canisotp_notifier);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 module_init(isotp_module_init);

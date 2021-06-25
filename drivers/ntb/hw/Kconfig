@@ -2,5 +2,8 @@
 source "drivers/ntb/hw/amd/Kconfig"
 source "drivers/ntb/hw/idt/Kconfig"
 source "drivers/ntb/hw/intel/Kconfig"
+<<<<<<< HEAD
 source "drivers/ntb/hw/epf/Kconfig"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/ntb/hw/mscc/Kconfig"

@@ -29,7 +29,10 @@
 #define LLCC_AUDHW       22
 #define LLCC_NPU         23
 #define LLCC_WLHW        24
+<<<<<<< HEAD
 #define LLCC_CVP         28
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define LLCC_MODPE       29
 #define LLCC_APTCM       30
 #define LLCC_WRCACHE     31
@@ -80,7 +83,10 @@ struct llcc_edac_reg_data {
  * @bitmap: Bit map to track the active slice ids
  * @offsets: Pointer to the bank offsets array
  * @ecc_irq: interrupt for llcc cache error detection and reporting
+<<<<<<< HEAD
  * @major_version: Indicates the LLCC major version
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct llcc_drv_data {
 	struct regmap *regmap;
@@ -93,7 +99,10 @@ struct llcc_drv_data {
 	unsigned long *bitmap;
 	u32 *offsets;
 	int ecc_irq;
+<<<<<<< HEAD
 	u32 major_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #if IS_ENABLED(CONFIG_QCOM_LLCC)

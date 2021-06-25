@@ -1269,5 +1269,9 @@ late_initcall_sync(sta2x11_vip_init_module);
 MODULE_DESCRIPTION("STA2X11 Video Input Port driver");
 MODULE_AUTHOR("Wind River");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("sta2x11 video input");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_VERSION(DRV_VERSION);
 MODULE_DEVICE_TABLE(pci, sta2x11_vip_pci_tbl);

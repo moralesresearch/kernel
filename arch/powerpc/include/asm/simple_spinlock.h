@@ -90,8 +90,13 @@ static inline int arch_spin_trylock(arch_spinlock_t *lock)
 void splpar_spin_yield(arch_spinlock_t *lock);
 void splpar_rw_yield(arch_rwlock_t *lock);
 #else /* SPLPAR */
+<<<<<<< HEAD
 static inline void splpar_spin_yield(arch_spinlock_t *lock) {}
 static inline void splpar_rw_yield(arch_rwlock_t *lock) {}
+=======
+static inline void splpar_spin_yield(arch_spinlock_t *lock) {};
+static inline void splpar_rw_yield(arch_rwlock_t *lock) {};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static inline void spin_yield(arch_spinlock_t *lock)

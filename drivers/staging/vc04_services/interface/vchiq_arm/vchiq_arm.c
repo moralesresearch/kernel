@@ -1001,6 +1001,19 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
 		userdata = args->userdata;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/*
+	 * FIXME address space mismatch:
+	 * args->data may be interpreted as a kernel pointer
+	 * in create_pagelist() called from vchiq_bulk_transfer(),
+	 * accessing kernel data instead of user space, based on the
+	 * address.
+	 */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = vchiq_bulk_transfer(args->handle, NULL, args->data, args->size,
 				     userdata, args->mode, dir);
 
@@ -1052,13 +1065,26 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
 		compat_uptr_t ptr32;
 		compat_uptr_t __user *uptr = ubuf;
 		ret = get_user(ptr32, uptr + index);
+<<<<<<< HEAD
 		if (ret)
 			return ret;
 
+=======
+<<<<<<< HEAD
+		if (ret)
+			return ret;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*buf = compat_ptr(ptr32);
 	} else {
 		uintptr_t ptr, __user *uptr = ubuf;
 		ret = get_user(ptr, uptr + index);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (ret)
 			return ret;
@@ -1067,6 +1093,15 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
 	}
 
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+		*buf = (void __user *)ptr;
+	}
+
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct vchiq_completion_data32 {

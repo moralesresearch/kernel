@@ -85,6 +85,10 @@ static int parman_shrink(struct parman *parman)
 }
 
 static bool parman_prio_used(struct parman_prio *prio)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return !list_empty(&prio->item_list);
 }
@@ -297,7 +301,11 @@ EXPORT_SYMBOL(parman_destroy);
  * parman_prio_init - initializes a parman priority chunk
  * @parman:	parman instance
  * @prio:	parman prio structure to be initialized
+<<<<<<< HEAD
  * @priority:	desired priority of the chunk
+=======
+ * @prority:	desired priority of the chunk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Note: all locking must be provided by the caller.
  *
@@ -356,7 +364,11 @@ int parman_item_add(struct parman *parman, struct parman_prio *prio,
 EXPORT_SYMBOL(parman_item_add);
 
 /**
+<<<<<<< HEAD
  * parman_item_remove - deletes parman item
+=======
+ * parman_item_del - deletes parman item
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @parman:	parman instance
  * @prio:	parman prio instance to delete the item from
  * @item:	parman item instance

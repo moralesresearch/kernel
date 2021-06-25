@@ -262,8 +262,11 @@ struct hid_item {
 #define HID_CP_SELECTION	0x000c0080
 #define HID_CP_MEDIASELECTION	0x000c0087
 #define HID_CP_SELECTDISC	0x000c00ba
+<<<<<<< HEAD
 #define HID_CP_VOLUMEUP		0x000c00e9
 #define HID_CP_VOLUMEDOWN	0x000c00ea
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HID_CP_PLAYBACKSPEED	0x000c00f1
 #define HID_CP_PROXIMITY	0x000c0109
 #define HID_CP_SPEAKERSYSTEM	0x000c0160
@@ -920,7 +923,11 @@ __u32 hid_field_extract(const struct hid_device *hid, __u8 *report,
 /**
  * hid_device_io_start - enable HID input during probe, remove
  *
+<<<<<<< HEAD
  * @hid: the device
+=======
+ * @hid - the device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This should only be called during probe or remove and only be
  * called by the thread calling probe or remove. It will allow
@@ -938,7 +945,11 @@ static inline void hid_device_io_start(struct hid_device *hid) {
 /**
  * hid_device_io_stop - disable HID input during probe, remove
  *
+<<<<<<< HEAD
  * @hid: the device
+=======
+ * @hid - the device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Should only be called after hid_device_io_start. It will prevent
  * incoming packets from going to the driver for the duration of
@@ -1012,6 +1023,7 @@ static inline void hid_map_usage(struct hid_input *hidinput,
 /**
  * hid_map_usage_clear - map usage input bits and clear the input bit
  *
+<<<<<<< HEAD
  * @hidinput: hidinput which we are interested in
  * @usage: usage to fill in
  * @bit: pointer to input->{}bit (out parameter)
@@ -1019,6 +1031,8 @@ static inline void hid_map_usage(struct hid_input *hidinput,
  * @type: input event type (EV_KEY, EV_REL, ...)
  * @c: code which corresponds to this usage and type
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * The same as hid_map_usage, except the @c bit is also cleared in supported
  * bits (@bit).
  */
@@ -1093,7 +1107,11 @@ static inline void hid_hw_request(struct hid_device *hdev,
  * @rtype: HID report type
  * @reqtype: HID_REQ_GET_REPORT or HID_REQ_SET_REPORT
  *
+<<<<<<< HEAD
  * Return: count of data transferred, negative if error
+=======
+ * @return: count of data transfered, negative if error
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Same behavior as hid_hw_request, but with raw buffers instead.
  */
@@ -1115,7 +1133,11 @@ static inline int hid_hw_raw_request(struct hid_device *hdev,
  * @buf: raw data to transfer
  * @len: length of buf
  *
+<<<<<<< HEAD
  * Return: count of data transferred, negative if error
+=======
+ * @return: count of data transfered, negative if error
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static inline int hid_hw_output_report(struct hid_device *hdev, __u8 *buf,
 					size_t len)
@@ -1164,7 +1186,12 @@ static inline void hid_hw_wait(struct hid_device *hdev)
  */
 static inline u32 hid_report_len(struct hid_report *report)
 {
+<<<<<<< HEAD
 	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
+=======
+	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
+	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,

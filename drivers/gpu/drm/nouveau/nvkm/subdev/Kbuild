@@ -11,6 +11,10 @@ include $(src)/nvkm/subdev/fuse/Kbuild
 include $(src)/nvkm/subdev/gpio/Kbuild
 include $(src)/nvkm/subdev/gsp/Kbuild
 include $(src)/nvkm/subdev/i2c/Kbuild
+<<<<<<< HEAD
+=======
+include $(src)/nvkm/subdev/ibus/Kbuild
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 include $(src)/nvkm/subdev/iccsense/Kbuild
 include $(src)/nvkm/subdev/instmem/Kbuild
 include $(src)/nvkm/subdev/ltc/Kbuild
@@ -19,7 +23,10 @@ include $(src)/nvkm/subdev/mmu/Kbuild
 include $(src)/nvkm/subdev/mxm/Kbuild
 include $(src)/nvkm/subdev/pci/Kbuild
 include $(src)/nvkm/subdev/pmu/Kbuild
+<<<<<<< HEAD
 include $(src)/nvkm/subdev/privring/Kbuild
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 include $(src)/nvkm/subdev/therm/Kbuild
 include $(src)/nvkm/subdev/timer/Kbuild
 include $(src)/nvkm/subdev/top/Kbuild

@@ -929,7 +929,10 @@ static const char *keys[KEY_MAX + 1] = {
 	[KEY_APPSELECT] = "AppSelect",
 	[KEY_SCREENSAVER] = "ScreenSaver",
 	[KEY_VOICECOMMAND] = "VoiceCommand",
+<<<<<<< HEAD
 	[KEY_EMOJI_PICKER] = "EmojiPicker",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",

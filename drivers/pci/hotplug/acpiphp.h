@@ -176,6 +176,12 @@ int acpiphp_unregister_attention(struct acpiphp_attention_info *info);
 int acpiphp_register_hotplug_slot(struct acpiphp_slot *slot, unsigned int sun);
 void acpiphp_unregister_hotplug_slot(struct acpiphp_slot *slot);
 
+<<<<<<< HEAD
+=======
+/* acpiphp_glue.c */
+typedef int (*acpiphp_callback)(struct acpiphp_slot *slot, void *data);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int acpiphp_enable_slot(struct acpiphp_slot *slot);
 int acpiphp_disable_slot(struct acpiphp_slot *slot);
 u8 acpiphp_get_power_status(struct acpiphp_slot *slot);

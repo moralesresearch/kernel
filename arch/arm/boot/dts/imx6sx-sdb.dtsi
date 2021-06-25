@@ -206,7 +206,10 @@
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethphy1>;
 	phy-reset-gpios = <&gpio2 7 GPIO_ACTIVE_LOW>;
+<<<<<<< HEAD
 	fsl,magic-packet;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 
 	mdio {
@@ -228,7 +231,10 @@
 	pinctrl-0 = <&pinctrl_enet2>;
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethphy2>;
+<<<<<<< HEAD
 	fsl,magic-packet;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 };
 

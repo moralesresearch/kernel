@@ -174,7 +174,11 @@ struct snd_soc_acpi_codecs {
 static inline bool snd_soc_acpi_sof_parent(struct device *dev)
 {
 	return dev->parent && dev->parent->driver && dev->parent->driver->name &&
+<<<<<<< HEAD
 		!strncmp(dev->parent->driver->name, "sof-audio-acpi", strlen("sof-audio-acpi"));
+=======
+		!strcmp(dev->parent->driver->name, "sof-audio-acpi");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif

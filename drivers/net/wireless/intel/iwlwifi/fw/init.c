@@ -36,13 +36,19 @@ IWL_EXPORT_SYMBOL(iwl_fw_runtime_init);
 void iwl_fw_runtime_suspend(struct iwl_fw_runtime *fwrt)
 {
 	iwl_fw_suspend_timestamp(fwrt);
+<<<<<<< HEAD
 	iwl_dbg_tlv_time_point(fwrt, IWL_FW_INI_TIME_POINT_HOST_D3_START, NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 IWL_EXPORT_SYMBOL(iwl_fw_runtime_suspend);
 
 void iwl_fw_runtime_resume(struct iwl_fw_runtime *fwrt)
 {
+<<<<<<< HEAD
 	iwl_dbg_tlv_time_point(fwrt, IWL_FW_INI_TIME_POINT_HOST_D3_END, NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iwl_fw_resume_timestamp(fwrt);
 }
 IWL_EXPORT_SYMBOL(iwl_fw_runtime_resume);

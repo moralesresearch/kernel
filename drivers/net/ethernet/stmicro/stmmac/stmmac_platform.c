@@ -622,8 +622,11 @@ error_pclk_get:
 void stmmac_remove_config_dt(struct platform_device *pdev,
 			     struct plat_stmmacenet_data *plat)
 {
+<<<<<<< HEAD
 	clk_disable_unprepare(plat->stmmac_clk);
 	clk_disable_unprepare(plat->pclk);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_node_put(plat->phy_node);
 	of_node_put(plat->mdio_node);
 }

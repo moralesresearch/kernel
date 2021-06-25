@@ -175,6 +175,7 @@ exit:
 	mutex_unlock(&tz->lock);
 }
 
+<<<<<<< HEAD
 void thermal_set_delay_jiffies(unsigned long *delay_jiffies, int delay_ms)
 {
 	*delay_jiffies = msecs_to_jiffies(delay_ms);
@@ -182,6 +183,8 @@ void thermal_set_delay_jiffies(unsigned long *delay_jiffies, int delay_ms)
 		*delay_jiffies = round_jiffies(*delay_jiffies);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void thermal_cdev_set_cur_state(struct thermal_cooling_device *cdev,
 				       int target)
 {

@@ -340,6 +340,27 @@ static int start_readonly;
  */
 static bool create_on_open = true;
 
+<<<<<<< HEAD
+=======
+struct bio *bio_alloc_mddev(gfp_t gfp_mask, int nr_iovecs,
+			    struct mddev *mddev)
+{
+	if (!mddev || !bioset_initialized(&mddev->bio_set))
+		return bio_alloc(gfp_mask, nr_iovecs);
+
+	return bio_alloc_bioset(gfp_mask, nr_iovecs, &mddev->bio_set);
+}
+EXPORT_SYMBOL_GPL(bio_alloc_mddev);
+
+static struct bio *md_bio_alloc_sync(struct mddev *mddev)
+{
+	if (!mddev || !bioset_initialized(&mddev->sync_set))
+		return bio_alloc(GFP_NOIO, 1);
+
+	return bio_alloc_bioset(GFP_NOIO, 1, &mddev->sync_set);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * We have a system wide 'event count' that is incremented
  * on any 'interesting' event, and readers of /proc/mdstat
@@ -445,8 +466,13 @@ struct md_io {
 	struct mddev *mddev;
 	bio_end_io_t *orig_bi_end_io;
 	void *orig_bi_private;
+<<<<<<< HEAD
 	struct block_device *orig_bi_bdev;
 	unsigned long start_time;
+=======
+	unsigned long start_time;
+	struct block_device *part;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void md_end_io(struct bio *bio)
@@ -454,7 +480,11 @@ static void md_end_io(struct bio *bio)
 	struct md_io *md_io = bio->bi_private;
 	struct mddev *mddev = md_io->mddev;
 
+<<<<<<< HEAD
 	bio_end_io_acct_remapped(bio, md_io->start_time, md_io->orig_bi_bdev);
+=======
+	part_end_io_acct(md_io->part, bio, md_io->start_time);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bio->bi_end_io = md_io->orig_bi_end_io;
 	bio->bi_private = md_io->orig_bi_private;
@@ -468,7 +498,11 @@ static void md_end_io(struct bio *bio)
 static blk_qc_t md_submit_bio(struct bio *bio)
 {
 	const int rw = bio_data_dir(bio);
+<<<<<<< HEAD
 	struct mddev *mddev = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct mddev *mddev = bio->bi_disk->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (mddev == NULL || mddev->pers == NULL) {
 		bio_io_error(bio);
@@ -496,12 +530,20 @@ static blk_qc_t md_submit_bio(struct bio *bio)
 		md_io->mddev = mddev;
 		md_io->orig_bi_end_io = bio->bi_end_io;
 		md_io->orig_bi_private = bio->bi_private;
+<<<<<<< HEAD
 		md_io->orig_bi_bdev = bio->bi_bdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		bio->bi_end_io = md_end_io;
 		bio->bi_private = md_io;
 
+<<<<<<< HEAD
 		md_io->start_time = bio_start_io_acct(bio);
+=======
+		md_io->start_time = part_start_io_acct(mddev->gendisk,
+						       &md_io->part, bio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* bio could be mergeable after passing to underlayer */
@@ -595,7 +637,11 @@ static void submit_flushes(struct work_struct *ws)
 			atomic_inc(&rdev->nr_pending);
 			atomic_inc(&rdev->nr_pending);
 			rcu_read_unlock();
+<<<<<<< HEAD
 			bi = bio_alloc_bioset(GFP_NOIO, 0, &mddev->bio_set);
+=======
+			bi = bio_alloc_mddev(GFP_NOIO, 0, mddev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			bi->bi_end_io = md_end_flush;
 			bi->bi_private = rdev;
 			bio_set_dev(bi, rdev->bdev);
@@ -734,6 +780,7 @@ void mddev_init(struct mddev *mddev)
 }
 EXPORT_SYMBOL_GPL(mddev_init);
 
+<<<<<<< HEAD
 static struct mddev *mddev_find_locked(dev_t unit)
 {
 	struct mddev *mddev;
@@ -763,6 +810,10 @@ static struct mddev *mddev_find(dev_t unit)
 
 static struct mddev *mddev_find_or_alloc(dev_t unit)
 {
+=======
+static struct mddev *mddev_find(dev_t unit)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mddev *mddev, *new = NULL;
 
 	if (unit && MAJOR(unit) != MD_MAJOR)
@@ -772,6 +823,7 @@ static struct mddev *mddev_find_or_alloc(dev_t unit)
 	spin_lock(&all_mddevs_lock);
 
 	if (unit) {
+<<<<<<< HEAD
 		mddev = mddev_find_locked(unit);
 		if (mddev) {
 			mddev_get(mddev);
@@ -779,6 +831,15 @@ static struct mddev *mddev_find_or_alloc(dev_t unit)
 			kfree(new);
 			return mddev;
 		}
+=======
+		list_for_each_entry(mddev, &all_mddevs, all_mddevs)
+			if (mddev->unit == unit) {
+				mddev_get(mddev);
+				spin_unlock(&all_mddevs_lock);
+				kfree(new);
+				return mddev;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (new) {
 			list_add(&new->all_mddevs, &all_mddevs);
@@ -804,7 +865,16 @@ static struct mddev *mddev_find_or_alloc(dev_t unit)
 				return NULL;
 			}
 
+<<<<<<< HEAD
 			is_free = !mddev_find_locked(dev);
+=======
+			is_free = 1;
+			list_for_each_entry(mddev, &all_mddevs, all_mddevs)
+				if (mddev->unit == dev) {
+					is_free = 0;
+					break;
+				}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		new->unit = dev;
 		new->md_minor = MINOR(dev);
@@ -1003,7 +1073,11 @@ void md_super_write(struct mddev *mddev, struct md_rdev *rdev,
 	if (test_bit(Faulty, &rdev->flags))
 		return;
 
+<<<<<<< HEAD
 	bio = bio_alloc_bioset(GFP_NOIO, 1, &mddev->sync_set);
+=======
+	bio = md_bio_alloc_sync(mddev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&rdev->nr_pending);
 
@@ -1035,6 +1109,7 @@ int md_super_wait(struct mddev *mddev)
 int sync_page_io(struct md_rdev *rdev, sector_t sector, int size,
 		 struct page *page, int op, int op_flags, bool metadata_op)
 {
+<<<<<<< HEAD
 	struct bio bio;
 	struct bio_vec bvec;
 
@@ -1058,6 +1133,31 @@ int sync_page_io(struct md_rdev *rdev, sector_t sector, int size,
 	submit_bio_wait(&bio);
 
 	return !bio.bi_status;
+=======
+	struct bio *bio = md_bio_alloc_sync(rdev->mddev);
+	int ret;
+
+	if (metadata_op && rdev->meta_bdev)
+		bio_set_dev(bio, rdev->meta_bdev);
+	else
+		bio_set_dev(bio, rdev->bdev);
+	bio_set_op_attrs(bio, op, op_flags);
+	if (metadata_op)
+		bio->bi_iter.bi_sector = sector + rdev->sb_start;
+	else if (rdev->mddev->reshape_position != MaxSector &&
+		 (rdev->mddev->reshape_backwards ==
+		  (sector >= rdev->mddev->reshape_position)))
+		bio->bi_iter.bi_sector = sector + rdev->new_data_offset;
+	else
+		bio->bi_iter.bi_sector = sector + rdev->data_offset;
+	bio_add_page(bio, page, size, 0);
+
+	submit_bio_wait(bio);
+
+	ret = !bio->bi_status;
+	bio_put(bio);
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(sync_page_io);
 
@@ -2421,12 +2521,15 @@ int md_integrity_add_rdev(struct md_rdev *rdev, struct mddev *mddev)
 }
 EXPORT_SYMBOL(md_integrity_add_rdev);
 
+<<<<<<< HEAD
 static bool rdev_read_only(struct md_rdev *rdev)
 {
 	return bdev_read_only(rdev->bdev) ||
 		(rdev->meta_bdev && bdev_read_only(rdev->meta_bdev));
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int bind_rdev_to_array(struct md_rdev *rdev, struct mddev *mddev)
 {
 	char b[BDEVNAME_SIZE];
@@ -2436,7 +2539,12 @@ static int bind_rdev_to_array(struct md_rdev *rdev, struct mddev *mddev)
 	if (find_rdev(mddev, rdev->bdev->bd_dev))
 		return -EEXIST;
 
+<<<<<<< HEAD
 	if (rdev_read_only(rdev) && mddev->pers)
+=======
+	if ((bdev_read_only(rdev->bdev) || bdev_read_only(rdev->meta_bdev)) &&
+	    mddev->pers)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EROFS;
 
 	/* make sure rdev->sectors exceeds mddev->dev_sectors */
@@ -5666,7 +5774,11 @@ static int md_alloc(dev_t dev, char *name)
 	 * writing to /sys/module/md_mod/parameters/new_array.
 	 */
 	static DEFINE_MUTEX(disks_mutex);
+<<<<<<< HEAD
 	struct mddev *mddev = mddev_find_or_alloc(dev);
+=======
+	struct mddev *mddev = mddev_find(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gendisk *disk;
 	int partitioned;
 	int shift;
@@ -5870,7 +5982,13 @@ int md_run(struct mddev *mddev)
 			continue;
 		sync_blockdev(rdev->bdev);
 		invalidate_bdev(rdev->bdev);
+<<<<<<< HEAD
 		if (mddev->ro != 1 && rdev_read_only(rdev)) {
+=======
+		if (mddev->ro != 1 &&
+		    (bdev_read_only(rdev->bdev) ||
+		     bdev_read_only(rdev->meta_bdev))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mddev->ro = 1;
 			if (mddev->gendisk)
 				set_disk_ro(mddev->gendisk, 1);
@@ -6165,7 +6283,11 @@ static int restart_array(struct mddev *mddev)
 		if (test_bit(Journal, &rdev->flags) &&
 		    !test_bit(Faulty, &rdev->flags))
 			has_journal = true;
+<<<<<<< HEAD
 		if (rdev_read_only(rdev))
+=======
+		if (bdev_read_only(rdev->bdev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			has_readonly = true;
 	}
 	rcu_read_unlock();
@@ -6546,9 +6668,17 @@ static void autorun_devices(int part)
 
 		md_probe(dev);
 		mddev = mddev_find(dev);
+<<<<<<< HEAD
 		if (!mddev)
 			break;
 
+=======
+		if (!mddev || !mddev->gendisk) {
+			if (mddev)
+				mddev_put(mddev);
+			break;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (mddev_lock(mddev))
 			pr_warn("md: %s locked, cannot run\n", mdname(mddev));
 		else if (mddev->raid_disks || mddev->major_version
@@ -7841,7 +7971,12 @@ static int md_open(struct block_device *bdev, fmode_t mode)
 		/* Wait until bdev->bd_disk is definitely gone */
 		if (work_pending(&mddev->del_work))
 			flush_workqueue(md_misc_wq);
+<<<<<<< HEAD
 		return -EBUSY;
+=======
+		/* Then retry the open from the top */
+		return -ERESTARTSYS;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	BUG_ON(mddev != bdev->bd_disk->private_data);
 
@@ -8172,11 +8307,15 @@ static void *md_seq_start(struct seq_file *seq, loff_t *pos)
 	loff_t l = *pos;
 	struct mddev *mddev;
 
+<<<<<<< HEAD
 	if (l == 0x10000) {
 		++*pos;
 		return (void *)2;
 	}
 	if (l > 0x10000)
+=======
+	if (l >= 0x10000)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 	if (!l--)
 		/* header */
@@ -9274,11 +9413,19 @@ void md_check_recovery(struct mddev *mddev)
 		}
 
 		if (mddev_is_clustered(mddev)) {
+<<<<<<< HEAD
 			struct md_rdev *rdev, *tmp;
 			/* kick the device if another node issued a
 			 * remove disk.
 			 */
 			rdev_for_each_safe(rdev, tmp, mddev) {
+=======
+			struct md_rdev *rdev;
+			/* kick the device if another node issued a
+			 * remove disk.
+			 */
+			rdev_for_each(rdev, mddev) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (test_and_clear_bit(ClusterRemove, &rdev->flags) &&
 						rdev->raid_disk < 0)
 					md_kick_rdev_from_array(rdev);
@@ -9592,7 +9739,11 @@ err_wq:
 static void check_sb_changes(struct mddev *mddev, struct md_rdev *rdev)
 {
 	struct mdp_superblock_1 *sb = page_address(rdev->sb_page);
+<<<<<<< HEAD
 	struct md_rdev *rdev2, *tmp;
+=======
+	struct md_rdev *rdev2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int role, ret;
 	char b[BDEVNAME_SIZE];
 
@@ -9609,7 +9760,11 @@ static void check_sb_changes(struct mddev *mddev, struct md_rdev *rdev)
 	}
 
 	/* Check for change of roles in the active devices */
+<<<<<<< HEAD
 	rdev_for_each_safe(rdev2, tmp, mddev) {
+=======
+	rdev_for_each(rdev2, mddev) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (test_bit(Faulty, &rdev2->flags))
 			continue;
 

@@ -1083,6 +1083,14 @@ static int fsl_asrc_probe(struct platform_device *pdev)
 	}
 
 	asrc_priv->soc = of_device_get_match_data(&pdev->dev);
+<<<<<<< HEAD
+=======
+	if (!asrc_priv->soc) {
+		dev_err(&pdev->dev, "failed to get soc data\n");
+		return -ENODEV;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	asrc->use_edma = asrc_priv->soc->use_edma;
 	asrc->get_dma_channel = fsl_asrc_get_dma_channel;
 	asrc->request_pair = fsl_asrc_request_pair;

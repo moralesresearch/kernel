@@ -79,6 +79,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
 			}
 		}
 
+<<<<<<< HEAD
 		ret = dvb_usb_adapter_stream_init(adap);
 		if (ret)
 			return ret;
@@ -90,6 +91,13 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
 		ret = dvb_usb_adapter_frontend_init(adap);
 		if (ret)
 			goto frontend_init_err;
+=======
+		if ((ret = dvb_usb_adapter_stream_init(adap)) ||
+			(ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs)) ||
+			(ret = dvb_usb_adapter_frontend_init(adap))) {
+			return ret;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* use exclusive FE lock if there is multiple shared FEs */
 		if (adap->fe_adap[1].fe)
@@ -109,12 +117,15 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
 	}
 
 	return 0;
+<<<<<<< HEAD
 
 frontend_init_err:
 	dvb_usb_adapter_dvb_exit(adap);
 dvb_init_err:
 	dvb_usb_adapter_stream_exit(adap);
 	return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dvb_usb_adapter_exit(struct dvb_usb_device *d)
@@ -170,20 +181,36 @@ static int dvb_usb_init(struct dvb_usb_device *d, short *adapter_nums)
 
 		if (d->props.priv_init != NULL) {
 			ret = d->props.priv_init(d);
+<<<<<<< HEAD
 			if (ret != 0)
 				goto err_priv_init;
+=======
+			if (ret != 0) {
+				kfree(d->priv);
+				d->priv = NULL;
+				return ret;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	/* check the capabilities and set appropriate variables */
 	dvb_usb_device_power_ctrl(d, 1);
 
+<<<<<<< HEAD
 	ret = dvb_usb_i2c_init(d);
 	if (ret)
 		goto err_i2c_init;
 	ret = dvb_usb_adapter_init(d, adapter_nums);
 	if (ret)
 		goto err_adapter_init;
+=======
+	if ((ret = dvb_usb_i2c_init(d)) ||
+		(ret = dvb_usb_adapter_init(d, adapter_nums))) {
+		dvb_usb_exit(d);
+		return ret;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((ret = dvb_usb_remote_init(d)))
 		err("could not initialize remote control.");
@@ -191,6 +218,7 @@ static int dvb_usb_init(struct dvb_usb_device *d, short *adapter_nums)
 	dvb_usb_device_power_ctrl(d, 0);
 
 	return 0;
+<<<<<<< HEAD
 
 err_adapter_init:
 	dvb_usb_adapter_exit(d);
@@ -202,6 +230,8 @@ err_priv_init:
 	kfree(d->priv);
 	d->priv = NULL;
 	return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* determine the name and the state of the just found USB device */
@@ -276,6 +306,7 @@ int dvb_usb_device_init(struct usb_interface *intf,
 	if (du != NULL)
 		*du = NULL;
 
+<<<<<<< HEAD
 	d = kzalloc(sizeof(*d), GFP_KERNEL);
 	if (!d) {
 		err("no memory for 'struct dvb_usb_device'");
@@ -289,22 +320,43 @@ int dvb_usb_device_init(struct usb_interface *intf,
 		deb_err("something went very wrong, device was not found in current device list - let's see what comes next.\n");
 		ret = -ENODEV;
 		goto error;
+=======
+	if ((desc = dvb_usb_find_device(udev, props, &cold)) == NULL) {
+		deb_err("something went very wrong, device was not found in current device list - let's see what comes next.\n");
+		return -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (cold) {
 		info("found a '%s' in cold state, will try to load a firmware", desc->name);
 		ret = dvb_usb_download_firmware(udev, props);
 		if (!props->no_reconnect || ret != 0)
+<<<<<<< HEAD
 			goto error;
 	}
 
 	info("found a '%s' in warm state.", desc->name);
 	d->udev = udev;
+=======
+			return ret;
+	}
+
+	info("found a '%s' in warm state.", desc->name);
+	d = kzalloc(sizeof(struct dvb_usb_device), GFP_KERNEL);
+	if (d == NULL) {
+		err("no memory for 'struct dvb_usb_device'");
+		return -ENOMEM;
+	}
+
+	d->udev = udev;
+	memcpy(&d->props, props, sizeof(struct dvb_usb_device_properties));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	d->desc = desc;
 	d->owner = owner;
 
 	usb_set_intfdata(intf, d);
 
+<<<<<<< HEAD
 	ret = dvb_usb_init(d, adapter_nums);
 	if (ret) {
 		info("%s error while loading driver (%d)", desc->name, ret);
@@ -320,6 +372,17 @@ int dvb_usb_device_init(struct usb_interface *intf,
  error:
 	usb_set_intfdata(intf, NULL);
 	kfree(d);
+=======
+	if (du != NULL)
+		*du = d;
+
+	ret = dvb_usb_init(d, adapter_nums);
+
+	if (ret == 0)
+		info("%s successfully initialized and connected.", desc->name);
+	else
+		info("%s error while loading driver (%d)", desc->name, ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 EXPORT_SYMBOL(dvb_usb_device_init);

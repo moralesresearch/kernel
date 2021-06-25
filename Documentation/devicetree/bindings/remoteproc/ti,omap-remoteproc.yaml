@@ -70,13 +70,19 @@ properties:
       the firmware image.
 
   clocks:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |
       Main functional clock for the remote processor
 
   resets:
+<<<<<<< HEAD
     minItems: 1
     maxItems: 2
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |
       Reset handles for the remote processor
 

@@ -2384,6 +2384,7 @@ static int gsmld_attach_gsm(struct tty_struct *tty, struct gsm_mux *gsm)
 		/* Don't register device 0 - this is the control channel and not
 		   a usable tty interface */
 		base = mux_num_to_base(gsm); /* Base for this MUX */
+<<<<<<< HEAD
 		for (i = 1; i < NUM_DLCI; i++) {
 			struct device *dev;
 
@@ -2396,6 +2397,10 @@ static int gsmld_attach_gsm(struct tty_struct *tty, struct gsm_mux *gsm)
 				return PTR_ERR(dev);
 			}
 		}
+=======
+		for (i = 1; i < NUM_DLCI; i++)
+			tty_register_device(gsm_tty_driver, base + i, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return ret;
 }

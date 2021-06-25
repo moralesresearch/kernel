@@ -1439,6 +1439,11 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
 		pix->plane_fmt[i].sizeimage = pix->plane_fmt[i].bytesperline
 					    * pix->height / vsub;
 
+<<<<<<< HEAD
+=======
+		memset(pix->plane_fmt[i].reserved, 0,
+		       sizeof(pix->plane_fmt[i].reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (fmt->num_planes == 3) {
@@ -1446,6 +1451,11 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
 		pix->plane_fmt[2].bytesperline = pix->plane_fmt[1].bytesperline;
 		pix->plane_fmt[2].sizeimage = pix->plane_fmt[1].sizeimage;
 
+<<<<<<< HEAD
+=======
+		memset(pix->plane_fmt[2].reserved, 0,
+		       sizeof(pix->plane_fmt[2].reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

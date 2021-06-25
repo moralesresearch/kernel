@@ -1369,6 +1369,7 @@ static blk_status_t null_handle_cmd(struct nullb_cmd *cmd, sector_t sector,
 	}
 
 	if (dev->zoned)
+<<<<<<< HEAD
 		sts = null_process_zoned_cmd(cmd, op, sector, nr_sectors);
 	else
 		sts = null_process_cmd(cmd, op, sector, nr_sectors);
@@ -1376,6 +1377,12 @@ static blk_status_t null_handle_cmd(struct nullb_cmd *cmd, sector_t sector,
 	/* Do not overwrite errors (e.g. timeout errors) */
 	if (cmd->error == BLK_STS_OK)
 		cmd->error = sts;
+=======
+		cmd->error = null_process_zoned_cmd(cmd, op,
+						    sector, nr_sectors);
+	else
+		cmd->error = null_process_cmd(cmd, op, sector, nr_sectors);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	nullb_complete_cmd(cmd);
@@ -1423,7 +1430,11 @@ static blk_qc_t null_submit_bio(struct bio *bio)
 {
 	sector_t sector = bio->bi_iter.bi_sector;
 	sector_t nr_sectors = bio_sectors(bio);
+<<<<<<< HEAD
 	struct nullb *nullb = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct nullb *nullb = bio->bi_disk->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nullb_queue *nq = nullb_to_queue(nullb);
 	struct nullb_cmd *cmd;
 
@@ -1454,6 +1465,7 @@ static bool should_requeue_request(struct request *rq)
 
 static enum blk_eh_timer_return null_timeout_rq(struct request *rq, bool res)
 {
+<<<<<<< HEAD
 	struct nullb_cmd *cmd = blk_mq_rq_to_pdu(rq);
 
 	pr_info("rq %p timed out\n", rq);
@@ -1468,6 +1480,10 @@ static enum blk_eh_timer_return null_timeout_rq(struct request *rq, bool res)
 	cmd->error = BLK_STS_TIMEOUT;
 	if (cmd->fake_timeout)
 		blk_mq_complete_request(rq);
+=======
+	pr_info("rq %p timed out\n", rq);
+	blk_mq_complete_request(rq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return BLK_EH_DONE;
 }
 
@@ -1488,7 +1504,10 @@ static blk_status_t null_queue_rq(struct blk_mq_hw_ctx *hctx,
 	cmd->rq = bd->rq;
 	cmd->error = BLK_STS_OK;
 	cmd->nq = nq;
+<<<<<<< HEAD
 	cmd->fake_timeout = should_timeout_request(bd->rq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	blk_mq_start_request(bd->rq);
 
@@ -1505,7 +1524,11 @@ static blk_status_t null_queue_rq(struct blk_mq_hw_ctx *hctx,
 			return BLK_STS_OK;
 		}
 	}
+<<<<<<< HEAD
 	if (cmd->fake_timeout)
+=======
+	if (should_timeout_request(bd->rq))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return BLK_STS_OK;
 
 	return null_handle_cmd(cmd, sector, nr_sectors, req_op(bd->rq));

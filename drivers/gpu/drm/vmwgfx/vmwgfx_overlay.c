@@ -122,7 +122,11 @@ static int vmw_overlay_send_put(struct vmw_private *dev_priv,
 
 	fifo_size = sizeof(*cmds) + sizeof(*flush) + sizeof(*items) * num_items;
 
+<<<<<<< HEAD
 	cmds = VMW_CMD_RESERVE(dev_priv, fifo_size);
+=======
+	cmds = VMW_FIFO_RESERVE(dev_priv, fifo_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* hardware has hung, can't do anything here */
 	if (!cmds)
 		return -ENOMEM;
@@ -169,7 +173,11 @@ static int vmw_overlay_send_put(struct vmw_private *dev_priv,
 
 	fill_flush(flush, arg->stream_id);
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, fifo_size);
+=======
+	vmw_fifo_commit(dev_priv, fifo_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -192,7 +200,11 @@ static int vmw_overlay_send_stop(struct vmw_private *dev_priv,
 	int ret;
 
 	for (;;) {
+<<<<<<< HEAD
 		cmds = VMW_CMD_RESERVE(dev_priv, sizeof(*cmds));
+=======
+		cmds = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmds));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (cmds)
 			break;
 
@@ -211,7 +223,11 @@ static int vmw_overlay_send_stop(struct vmw_private *dev_priv,
 	cmds->body.items[0].value = false;
 	fill_flush(&cmds->flush, stream_id);
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmds));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmds));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

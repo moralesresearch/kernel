@@ -249,7 +249,11 @@ int fcoe_ctlr_recv_flogi(struct fcoe_ctlr *, struct fc_lport *,
 			 struct fc_frame *);
 
 /* libfcoe funcs */
+<<<<<<< HEAD
 u64 fcoe_wwn_from_mac(unsigned char mac[MAX_ADDR_LEN], unsigned int, unsigned int);
+=======
+u64 fcoe_wwn_from_mac(unsigned char mac[], unsigned int, unsigned int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int fcoe_libfc_config(struct fc_lport *, struct fcoe_ctlr *,
 		      const struct libfc_function_template *, int init_fcp);
 u32 fcoe_fc_crc(struct fc_frame *fp);

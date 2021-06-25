@@ -129,8 +129,12 @@ good_exit:
 
 	mutex_lock(&mem_list_mutex);
 
+<<<<<<< HEAD
 	list_for_each_entry_rcu(mem2, &mm->context.iommu_group_mem_list, next,
 				lockdep_is_held(&mem_list_mutex)) {
+=======
+	list_for_each_entry_rcu(mem2, &mm->context.iommu_group_mem_list, next) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Overlap? */
 		if ((mem2->ua < (ua + (entries << PAGE_SHIFT))) &&
 				(ua < (mem2->ua +
@@ -290,7 +294,10 @@ struct mm_iommu_table_group_mem_t *mm_iommu_lookup(struct mm_struct *mm,
 {
 	struct mm_iommu_table_group_mem_t *mem, *ret = NULL;
 
+<<<<<<< HEAD
 	rcu_read_lock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_rcu(mem, &mm->context.iommu_group_mem_list, next) {
 		if ((mem->ua <= ua) &&
 				(ua + size <= mem->ua +
@@ -299,7 +306,10 @@ struct mm_iommu_table_group_mem_t *mm_iommu_lookup(struct mm_struct *mm,
 			break;
 		}
 	}
+<<<<<<< HEAD
 	rcu_read_unlock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -330,8 +340,12 @@ struct mm_iommu_table_group_mem_t *mm_iommu_get(struct mm_struct *mm,
 
 	mutex_lock(&mem_list_mutex);
 
+<<<<<<< HEAD
 	list_for_each_entry_rcu(mem, &mm->context.iommu_group_mem_list, next,
 				lockdep_is_held(&mem_list_mutex)) {
+=======
+	list_for_each_entry_rcu(mem, &mm->context.iommu_group_mem_list, next) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((mem->ua == ua) && (mem->entries == entries)) {
 			ret = mem;
 			++mem->used;
@@ -425,7 +439,10 @@ bool mm_iommu_is_devmem(struct mm_struct *mm, unsigned long hpa,
 	struct mm_iommu_table_group_mem_t *mem;
 	unsigned long end;
 
+<<<<<<< HEAD
 	rcu_read_lock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_rcu(mem, &mm->context.iommu_group_mem_list, next) {
 		if (mem->dev_hpa == MM_IOMMU_TABLE_INVALID_HPA)
 			continue;
@@ -442,7 +459,10 @@ bool mm_iommu_is_devmem(struct mm_struct *mm, unsigned long hpa,
 			return true;
 		}
 	}
+<<<<<<< HEAD
 	rcu_read_unlock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return false;
 }

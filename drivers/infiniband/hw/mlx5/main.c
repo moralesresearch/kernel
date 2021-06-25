@@ -1,7 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
 /*
  * Copyright (c) 2013-2020, Mellanox Technologies inc. All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2020, Intel Corporation. All rights reserved.
+=======
+<<<<<<< HEAD
+ * Copyright (c) 2020, Intel Corporation. All rights reserved.
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/debugfs.h>
@@ -462,6 +469,13 @@ static int mlx5_query_port_roce(struct ib_device *device, u8 port_num,
 	struct net_device *ndev, *upper;
 	enum ib_mtu ndev_ib_mtu;
 	bool put_mdev = true;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	u16 qkey_viol_cntr;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 eth_prot_oper;
 	u8 mdev_port_num;
 	bool ext;
@@ -499,7 +513,12 @@ static int mlx5_query_port_roce(struct ib_device *device, u8 port_num,
 	translate_eth_proto_oper(eth_prot_oper, &props->active_speed,
 				 &props->active_width, ext);
 
+<<<<<<< HEAD
 	if (!dev->is_rep && dev->mdev->roce.roce_en) {
+=======
+<<<<<<< HEAD
+	if (!dev->is_rep && mlx5_is_roce_enabled(mdev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u16 qkey_viol_cntr;
 
 		props->port_cap_flags |= IB_PORT_CM_SUP;
@@ -509,12 +528,31 @@ static int mlx5_query_port_roce(struct ib_device *device, u8 port_num,
 		mlx5_query_nic_vport_qkey_viol_cntr(mdev, &qkey_viol_cntr);
 		props->qkey_viol_cntr = qkey_viol_cntr;
 	}
+<<<<<<< HEAD
+=======
+=======
+	props->port_cap_flags |= IB_PORT_CM_SUP;
+	props->ip_gids = true;
+
+	props->gid_tbl_len      = MLX5_CAP_ROCE(dev->mdev,
+						roce_address_table_size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	props->max_mtu          = IB_MTU_4096;
 	props->max_msg_sz       = 1 << MLX5_CAP_GEN(dev->mdev, log_max_msg);
 	props->pkey_tbl_len     = 1;
 	props->state            = IB_PORT_DOWN;
 	props->phys_state       = IB_PORT_PHYS_STATE_DISABLED;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	mlx5_query_nic_vport_qkey_viol_cntr(mdev, &qkey_viol_cntr);
+	props->qkey_viol_cntr = qkey_viol_cntr;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If this is a stub query for an unaffiliated port stop here */
 	if (!put_mdev)
 		goto out;
@@ -817,7 +855,17 @@ static int mlx5_ib_query_device(struct ib_device *ibdev,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	props->max_pkeys = dev->pkey_table_len;
+=======
+<<<<<<< HEAD
+	props->max_pkeys = dev->pkey_table_len;
+=======
+	err = mlx5_query_max_pkeys(ibdev, &props->max_pkeys);
+	if (err)
+		return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mlx5_query_vendor_id(ibdev, &props->vendor_id);
 	if (err)
@@ -1384,6 +1432,10 @@ int mlx5_ib_query_port(struct ib_device *ibdev, u8 port,
 static int mlx5_ib_rep_query_port(struct ib_device *ibdev, u8 port,
 				  struct ib_port_attr *props)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return mlx5_query_port_roce(ibdev, port, props);
 }
 
@@ -1395,6 +1447,24 @@ static int mlx5_ib_rep_query_pkey(struct ib_device *ibdev, u8 port, u16 index,
 	 */
 	*pkey = 0xffff;
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	int ret;
+
+	/* Only link layer == ethernet is valid for representors
+	 * and we always use port 1
+	 */
+	ret = mlx5_query_port_roce(ibdev, port, props);
+	if (ret || !props)
+		return ret;
+
+	/* We don't support GIDS */
+	props->gid_tbl_len = 0;
+
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mlx5_ib_query_gid(struct ib_device *ibdev, u8 port, int index,
@@ -2933,8 +3003,18 @@ static int set_has_smi_cap(struct mlx5_ib_dev *dev)
 	int err;
 	int port;
 
+<<<<<<< HEAD
 	for (port = 1; port <= ARRAY_SIZE(dev->port_caps); port++) {
 		dev->port_caps[port - 1].has_smi = false;
+=======
+<<<<<<< HEAD
+	for (port = 1; port <= ARRAY_SIZE(dev->port_caps); port++) {
+		dev->port_caps[port - 1].has_smi = false;
+=======
+	for (port = 1; port <= ARRAY_SIZE(dev->mdev->port_caps); port++) {
+		dev->mdev->port_caps[port - 1].has_smi = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (MLX5_CAP_GEN(dev->mdev, port_type) ==
 		    MLX5_CAP_PORT_TYPE_IB) {
 			if (MLX5_CAP_GEN(dev->mdev, ib_virt)) {
@@ -2946,10 +3026,23 @@ static int set_has_smi_cap(struct mlx5_ib_dev *dev)
 						    port, err);
 					return err;
 				}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dev->port_caps[port - 1].has_smi =
 					vport_ctx.has_smi;
 			} else {
 				dev->port_caps[port - 1].has_smi = true;
+<<<<<<< HEAD
+=======
+=======
+				dev->mdev->port_caps[port - 1].has_smi =
+					vport_ctx.has_smi;
+			} else {
+				dev->mdev->port_caps[port - 1].has_smi = true;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 	}
@@ -2958,12 +3051,78 @@ static int set_has_smi_cap(struct mlx5_ib_dev *dev)
 
 static void get_ext_port_caps(struct mlx5_ib_dev *dev)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int port;
 
 	rdma_for_each_port (&dev->ib_dev, port)
 		mlx5_query_ext_port_caps(dev, port);
 }
 
+<<<<<<< HEAD
+=======
+=======
+	int port;
+
+	for (port = 1; port <= dev->num_ports; port++)
+		mlx5_query_ext_port_caps(dev, port);
+}
+
+static int __get_port_caps(struct mlx5_ib_dev *dev, u8 port)
+{
+	struct ib_device_attr *dprops = NULL;
+	struct ib_port_attr *pprops = NULL;
+	int err = -ENOMEM;
+
+	pprops = kzalloc(sizeof(*pprops), GFP_KERNEL);
+	if (!pprops)
+		goto out;
+
+	dprops = kmalloc(sizeof(*dprops), GFP_KERNEL);
+	if (!dprops)
+		goto out;
+
+	err = mlx5_ib_query_device(&dev->ib_dev, dprops, NULL);
+	if (err) {
+		mlx5_ib_warn(dev, "query_device failed %d\n", err);
+		goto out;
+	}
+
+	err = mlx5_ib_query_port(&dev->ib_dev, port, pprops);
+	if (err) {
+		mlx5_ib_warn(dev, "query_port %d failed %d\n",
+			     port, err);
+		goto out;
+	}
+
+	dev->mdev->port_caps[port - 1].pkey_table_len =
+					dprops->max_pkeys;
+	dev->mdev->port_caps[port - 1].gid_table_len =
+					pprops->gid_tbl_len;
+	mlx5_ib_dbg(dev, "port %d: pkey_table_len %d, gid_table_len %d\n",
+		    port, dprops->max_pkeys, pprops->gid_tbl_len);
+
+out:
+	kfree(pprops);
+	kfree(dprops);
+
+	return err;
+}
+
+static int get_port_caps(struct mlx5_ib_dev *dev, u8 port)
+{
+	/* For representors use port 1, is this is the only native
+	 * port
+	 */
+	if (dev->is_rep)
+		return __get_port_caps(dev, 1);
+	return __get_port_caps(dev, port);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 mlx5_get_umr_fence(u8 umr_fence_cap)
 {
 	switch (umr_fence_cap) {
@@ -3435,6 +3594,16 @@ static bool mlx5_ib_bind_slave_port(struct mlx5_ib_dev *ibdev,
 	if (err)
 		goto unbind;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	err = get_port_caps(ibdev, mlx5_core_native_port_num(mpi->mdev));
+	if (err)
+		goto unbind;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = mlx5_add_netdev_notifier(ibdev, port_num);
 	if (err) {
 		mlx5_ib_err(ibdev, "failed adding netdev notifier for port %u\n",
@@ -3512,9 +3681,23 @@ static int mlx5_ib_init_multiport_master(struct mlx5_ib_dev *dev)
 				break;
 			}
 		}
+<<<<<<< HEAD
 		if (!bound)
 			mlx5_ib_dbg(dev, "no free port found for port %d\n",
 				    i + 1);
+=======
+<<<<<<< HEAD
+		if (!bound)
+			mlx5_ib_dbg(dev, "no free port found for port %d\n",
+				    i + 1);
+=======
+		if (!bound) {
+			get_port_caps(dev, i + 1);
+			mlx5_ib_dbg(dev, "no free port found for port %d\n",
+				    i + 1);
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	list_add_tail(&dev->ib_dev_list, &mlx5_ib_dev_list);
@@ -3867,6 +4050,13 @@ static void mlx5_ib_stage_init_cleanup(struct mlx5_ib_dev *dev)
 {
 	mlx5_ib_cleanup_multiport_master(dev);
 	WARN_ON(!xa_empty(&dev->odp_mkeys));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	cleanup_srcu_struct(&dev->odp_srcu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&dev->cap_mask_mutex);
 	WARN_ON(!xa_empty(&dev->sig_mrs));
 	WARN_ON(!bitmap_empty(dev->dm.memic_alloc_pages, MLX5_MAX_MEMIC_PAGES));
@@ -3878,12 +4068,21 @@ static int mlx5_ib_stage_init_init(struct mlx5_ib_dev *dev)
 	int err;
 	int i;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->ib_dev.node_type = RDMA_NODE_IB_CA;
 	dev->ib_dev.local_dma_lkey = 0 /* not supported for now */;
 	dev->ib_dev.phys_port_cnt = dev->num_ports;
 	dev->ib_dev.dev.parent = mdev->device;
 	dev->ib_dev.lag_flags = RDMA_LAG_FLAGS_HASH_ALL_SLAVES;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < dev->num_ports; i++) {
 		spin_lock_init(&dev->port[i].mp.mpi_lock);
 		rwlock_init(&dev->port[i].roce.netdev_lock);
@@ -3902,14 +4101,47 @@ static int mlx5_ib_stage_init_init(struct mlx5_ib_dev *dev)
 	if (err)
 		goto err_mp;
 
+<<<<<<< HEAD
 	err = mlx5_query_max_pkeys(&dev->ib_dev, &dev->pkey_table_len);
+=======
+<<<<<<< HEAD
+	err = mlx5_query_max_pkeys(&dev->ib_dev, &dev->pkey_table_len);
+=======
+	if (!mlx5_core_mp_enabled(mdev)) {
+		for (i = 1; i <= dev->num_ports; i++) {
+			err = get_port_caps(dev, i);
+			if (err)
+				break;
+		}
+	} else {
+		err = get_port_caps(dev, mlx5_core_native_port_num(mdev));
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_mp;
 
 	if (mlx5_use_mad_ifc(dev))
 		get_ext_port_caps(dev);
 
+<<<<<<< HEAD
 	dev->ib_dev.num_comp_vectors    = mlx5_comp_vectors_count(mdev);
+=======
+<<<<<<< HEAD
+	dev->ib_dev.num_comp_vectors    = mlx5_comp_vectors_count(mdev);
+=======
+	dev->ib_dev.node_type		= RDMA_NODE_IB_CA;
+	dev->ib_dev.local_dma_lkey	= 0 /* not supported for now */;
+	dev->ib_dev.phys_port_cnt	= dev->num_ports;
+	dev->ib_dev.num_comp_vectors    = mlx5_comp_vectors_count(mdev);
+	dev->ib_dev.dev.parent		= mdev->device;
+	dev->ib_dev.lag_flags		= RDMA_LAG_FLAGS_HASH_ALL_SLAVES;
+
+	err = init_srcu_struct(&dev->odp_srcu);
+	if (err)
+		goto err_mp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_init(&dev->cap_mask_mutex);
 	INIT_LIST_HEAD(&dev->qp_list);
@@ -3994,7 +4226,14 @@ static const struct ib_device_ops mlx5_ib_dev_ops = {
 	.query_srq = mlx5_ib_query_srq,
 	.query_ucontext = mlx5_ib_query_ucontext,
 	.reg_user_mr = mlx5_ib_reg_user_mr,
+<<<<<<< HEAD
 	.reg_user_mr_dmabuf = mlx5_ib_reg_user_mr_dmabuf,
+=======
+<<<<<<< HEAD
+	.reg_user_mr_dmabuf = mlx5_ib_reg_user_mr_dmabuf,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.req_notify_cq = mlx5_ib_arm_cq,
 	.rereg_user_mr = mlx5_ib_rereg_user_mr,
 	.resize_cq = mlx5_ib_resize_cq,
@@ -4135,7 +4374,14 @@ static int mlx5_ib_stage_non_default_cb(struct mlx5_ib_dev *dev)
 static const struct ib_device_ops mlx5_ib_dev_port_rep_ops = {
 	.get_port_immutable = mlx5_port_rep_immutable,
 	.query_port = mlx5_ib_rep_query_port,
+<<<<<<< HEAD
 	.query_pkey = mlx5_ib_rep_query_pkey,
+=======
+<<<<<<< HEAD
+	.query_pkey = mlx5_ib_rep_query_pkey,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int mlx5_ib_stage_raw_eth_non_default_cb(struct mlx5_ib_dev *dev)
@@ -4174,7 +4420,11 @@ static int mlx5_ib_roce_init(struct mlx5_ib_dev *dev)
 
 		/* Register only for native ports */
 		err = mlx5_add_netdev_notifier(dev, port_num);
+<<<<<<< HEAD
 		if (err || dev->is_rep || !mlx5_is_roce_init_enabled(mdev))
+=======
+		if (err || dev->is_rep || !mlx5_is_roce_enabled(mdev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * We don't enable ETH interface for
 			 * 1. IB representors
@@ -4655,7 +4905,10 @@ static int mlx5r_mp_probe(struct auxiliary_device *adev,
 
 		if (bound) {
 			rdma_roce_rescan_device(&dev->ib_dev);
+<<<<<<< HEAD
 			mpi->ibdev->ib_active = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
@@ -4712,7 +4965,11 @@ static int mlx5r_probe(struct auxiliary_device *adev,
 	dev->mdev = mdev;
 	dev->num_ports = num_ports;
 
+<<<<<<< HEAD
 	if (ll == IB_LINK_LAYER_ETHERNET && !mlx5_is_roce_init_enabled(mdev))
+=======
+	if (ll == IB_LINK_LAYER_ETHERNET && !mlx5_is_roce_enabled(mdev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		profile = &raw_eth_profile;
 	else
 		profile = &pf_profile;

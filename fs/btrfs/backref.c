@@ -1501,6 +1501,10 @@ int btrfs_find_all_roots(struct btrfs_trans_handle *trans,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Check if an extent is shared or not
  *
  * @root:   root inode belongs to
@@ -1508,6 +1512,12 @@ int btrfs_find_all_roots(struct btrfs_trans_handle *trans,
  * @bytenr: logical bytenr of the extent we are checking
  * @roots:  list of roots this extent is shared among
  * @tmp:    temporary list used for iteration
+<<<<<<< HEAD
+=======
+=======
+ * btrfs_check_shared - tell us whether an extent is shared
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * btrfs_check_shared uses the backref walking code but will short
  * circuit as soon as it finds a root or inode that doesn't match the

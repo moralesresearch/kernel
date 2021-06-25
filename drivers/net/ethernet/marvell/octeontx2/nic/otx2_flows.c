@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Marvell OcteonTx2 RVU Physical Function ethernet driver
+=======
+/* Marvell OcteonTx2 RVU Physcial Function ethernet driver
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Copyright (C) 2020 Marvell.
  */
@@ -16,7 +20,10 @@ struct otx2_flow {
 	u32 location;
 	u16 entry;
 	bool is_vf;
+<<<<<<< HEAD
 	u8 rss_ctx_id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int vf;
 };
 
@@ -246,7 +253,10 @@ int otx2_get_flow(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc,
 	list_for_each_entry(iter, &pfvf->flow_cfg->flow_list, list) {
 		if (iter->location == location) {
 			nfc->fs = iter->flow_spec;
+<<<<<<< HEAD
 			nfc->rss_context = iter->rss_ctx_id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 		}
 	}
@@ -257,33 +267,52 @@ int otx2_get_flow(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc,
 int otx2_get_all_flows(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc,
 		       u32 *rule_locs)
 {
+<<<<<<< HEAD
 	u32 rule_cnt = nfc->rule_cnt;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 location = 0;
 	int idx = 0;
 	int err = 0;
 
 	nfc->data = pfvf->flow_cfg->ntuple_max_flows;
+<<<<<<< HEAD
 	while ((!err || err == -ENOENT) && idx < rule_cnt) {
+=======
+	while ((!err || err == -ENOENT) && idx < nfc->rule_cnt) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = otx2_get_flow(pfvf, nfc, location);
 		if (!err)
 			rule_locs[idx++] = location;
 		location++;
 	}
+<<<<<<< HEAD
 	nfc->rule_cnt = rule_cnt;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
 
+<<<<<<< HEAD
 static int otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
 				  struct npc_install_flow_req *req,
 				  u32 flow_type)
+=======
+static void otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
+				   struct npc_install_flow_req *req,
+				   u32 flow_type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ethtool_usrip4_spec *ipv4_usr_mask = &fsp->m_u.usr_ip4_spec;
 	struct ethtool_usrip4_spec *ipv4_usr_hdr = &fsp->h_u.usr_ip4_spec;
 	struct ethtool_tcpip4_spec *ipv4_l4_mask = &fsp->m_u.tcp_ip4_spec;
 	struct ethtool_tcpip4_spec *ipv4_l4_hdr = &fsp->h_u.tcp_ip4_spec;
+<<<<<<< HEAD
 	struct ethtool_ah_espip4_spec *ah_esp_hdr = &fsp->h_u.ah_ip4_spec;
 	struct ethtool_ah_espip4_spec *ah_esp_mask = &fsp->m_u.ah_ip4_spec;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct flow_msg *pmask = &req->mask;
 	struct flow_msg *pkt = &req->packet;
 
@@ -303,16 +332,22 @@ static int otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
 			       sizeof(pmask->ip4dst));
 			req->features |= BIT_ULL(NPC_DIP_IPV4);
 		}
+<<<<<<< HEAD
 		pkt->etype = cpu_to_be16(ETH_P_IP);
 		pmask->etype = cpu_to_be16(0xFFFF);
 		req->features |= BIT_ULL(NPC_ETYPE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case TCP_V4_FLOW:
 	case UDP_V4_FLOW:
 	case SCTP_V4_FLOW:
+<<<<<<< HEAD
 		pkt->etype = cpu_to_be16(ETH_P_IP);
 		pmask->etype = cpu_to_be16(0xFFFF);
 		req->features |= BIT_ULL(NPC_ETYPE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ipv4_l4_mask->ip4src) {
 			memcpy(&pkt->ip4src, &ipv4_l4_hdr->ip4src,
 			       sizeof(pkt->ip4src));
@@ -351,6 +386,7 @@ static int otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
 			else
 				req->features |= BIT_ULL(NPC_DPORT_SCTP);
 		}
+<<<<<<< HEAD
 		if (flow_type == UDP_V4_FLOW)
 			req->features |= BIT_ULL(NPC_IPPROTO_UDP);
 		else if (flow_type == TCP_V4_FLOW)
@@ -387,10 +423,13 @@ static int otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
 			req->features |= BIT_ULL(NPC_IPPROTO_AH);
 		else
 			req->features |= BIT_ULL(NPC_IPPROTO_ESP);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		break;
 	}
+<<<<<<< HEAD
 
 	return 0;
 }
@@ -398,13 +437,23 @@ static int otx2_prepare_ipv4_flow(struct ethtool_rx_flow_spec *fsp,
 static int otx2_prepare_ipv6_flow(struct ethtool_rx_flow_spec *fsp,
 				  struct npc_install_flow_req *req,
 				  u32 flow_type)
+=======
+}
+
+static void otx2_prepare_ipv6_flow(struct ethtool_rx_flow_spec *fsp,
+				   struct npc_install_flow_req *req,
+				   u32 flow_type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ethtool_usrip6_spec *ipv6_usr_mask = &fsp->m_u.usr_ip6_spec;
 	struct ethtool_usrip6_spec *ipv6_usr_hdr = &fsp->h_u.usr_ip6_spec;
 	struct ethtool_tcpip6_spec *ipv6_l4_mask = &fsp->m_u.tcp_ip6_spec;
 	struct ethtool_tcpip6_spec *ipv6_l4_hdr = &fsp->h_u.tcp_ip6_spec;
+<<<<<<< HEAD
 	struct ethtool_ah_espip6_spec *ah_esp_hdr = &fsp->h_u.ah_ip6_spec;
 	struct ethtool_ah_espip6_spec *ah_esp_mask = &fsp->m_u.ah_ip6_spec;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct flow_msg *pmask = &req->mask;
 	struct flow_msg *pkt = &req->packet;
 
@@ -424,16 +473,22 @@ static int otx2_prepare_ipv6_flow(struct ethtool_rx_flow_spec *fsp,
 			       sizeof(pmask->ip6dst));
 			req->features |= BIT_ULL(NPC_DIP_IPV6);
 		}
+<<<<<<< HEAD
 		pkt->etype = cpu_to_be16(ETH_P_IPV6);
 		pmask->etype = cpu_to_be16(0xFFFF);
 		req->features |= BIT_ULL(NPC_ETYPE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case TCP_V6_FLOW:
 	case UDP_V6_FLOW:
 	case SCTP_V6_FLOW:
+<<<<<<< HEAD
 		pkt->etype = cpu_to_be16(ETH_P_IPV6);
 		pmask->etype = cpu_to_be16(0xFFFF);
 		req->features |= BIT_ULL(NPC_ETYPE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ipv6_addr_any((struct in6_addr *)ipv6_l4_mask->ip6src)) {
 			memcpy(&pkt->ip6src, &ipv6_l4_hdr->ip6src,
 			       sizeof(pkt->ip6src));
@@ -472,6 +527,7 @@ static int otx2_prepare_ipv6_flow(struct ethtool_rx_flow_spec *fsp,
 			else
 				req->features |= BIT_ULL(NPC_DPORT_SCTP);
 		}
+<<<<<<< HEAD
 		if (flow_type == UDP_V6_FLOW)
 			req->features |= BIT_ULL(NPC_IPPROTO_UDP);
 		else if (flow_type == TCP_V6_FLOW)
@@ -513,6 +569,12 @@ static int otx2_prepare_ipv6_flow(struct ethtool_rx_flow_spec *fsp,
 	}
 
 	return 0;
+=======
+		break;
+	default:
+		break;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int otx2_prepare_flow_request(struct ethtool_rx_flow_spec *fsp,
@@ -523,9 +585,14 @@ int otx2_prepare_flow_request(struct ethtool_rx_flow_spec *fsp,
 	struct flow_msg *pmask = &req->mask;
 	struct flow_msg *pkt = &req->packet;
 	u32 flow_type;
+<<<<<<< HEAD
 	int ret;
 
 	flow_type = fsp->flow_type & ~(FLOW_EXT | FLOW_MAC_EXT | FLOW_RSS);
+=======
+
+	flow_type = fsp->flow_type & ~(FLOW_EXT | FLOW_MAC_EXT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (flow_type) {
 	/* bits not set in mask are don't care */
 	case ETHER_FLOW:
@@ -551,21 +618,29 @@ int otx2_prepare_flow_request(struct ethtool_rx_flow_spec *fsp,
 	case TCP_V4_FLOW:
 	case UDP_V4_FLOW:
 	case SCTP_V4_FLOW:
+<<<<<<< HEAD
 	case AH_V4_FLOW:
 	case ESP_V4_FLOW:
 		ret = otx2_prepare_ipv4_flow(fsp, req, flow_type);
 		if (ret)
 			return ret;
+=======
+		otx2_prepare_ipv4_flow(fsp, req, flow_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case IPV6_USER_FLOW:
 	case TCP_V6_FLOW:
 	case UDP_V6_FLOW:
 	case SCTP_V6_FLOW:
+<<<<<<< HEAD
 	case AH_V6_FLOW:
 	case ESP_V6_FLOW:
 		ret = otx2_prepare_ipv6_flow(fsp, req, flow_type);
 		if (ret)
 			return ret;
+=======
+		otx2_prepare_ipv6_flow(fsp, req, flow_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EOPNOTSUPP;
@@ -636,6 +711,7 @@ static int otx2_add_flow_msg(struct otx2_nic *pfvf, struct otx2_flow *flow)
 		/* change to unicast only if action of default entry is not
 		 * requested by user
 		 */
+<<<<<<< HEAD
 		if (flow->flow_spec.flow_type & FLOW_RSS) {
 			req->op = NIX_RX_ACTIONOP_RSS;
 			req->index = flow->rss_ctx_id;
@@ -643,6 +719,11 @@ static int otx2_add_flow_msg(struct otx2_nic *pfvf, struct otx2_flow *flow)
 			req->op = NIX_RX_ACTIONOP_UCAST;
 			req->index = ethtool_get_flow_spec_ring(ring_cookie);
 		}
+=======
+		if (req->op != NIX_RX_ACTION_DEFAULT)
+			req->op = NIX_RX_ACTIONOP_UCAST;
+		req->index = ethtool_get_flow_spec_ring(ring_cookie);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vf = ethtool_get_flow_spec_ring_vf(ring_cookie);
 		if (vf > pci_num_vf(pfvf->pdev)) {
 			mutex_unlock(&pfvf->mbox.lock);
@@ -663,6 +744,7 @@ static int otx2_add_flow_msg(struct otx2_nic *pfvf, struct otx2_flow *flow)
 	return err;
 }
 
+<<<<<<< HEAD
 int otx2_add_flow(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc)
 {
 	struct otx2_flow_config *flow_cfg = pfvf->flow_cfg;
@@ -673,6 +755,16 @@ int otx2_add_flow(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc)
 	int err;
 
 	ring = ethtool_get_flow_spec_ring(fsp->ring_cookie);
+=======
+int otx2_add_flow(struct otx2_nic *pfvf, struct ethtool_rx_flow_spec *fsp)
+{
+	struct otx2_flow_config *flow_cfg = pfvf->flow_cfg;
+	u32 ring = ethtool_get_flow_spec_ring(fsp->ring_cookie);
+	struct otx2_flow *flow;
+	bool new = false;
+	int err;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!(pfvf->flags & OTX2_FLAG_NTUPLE_SUPPORT))
 		return -ENOMEM;
 
@@ -695,9 +787,12 @@ int otx2_add_flow(struct otx2_nic *pfvf, struct ethtool_rxnfc *nfc)
 	/* struct copy */
 	flow->flow_spec = *fsp;
 
+<<<<<<< HEAD
 	if (fsp->flow_type & FLOW_RSS)
 		flow->rss_ctx_id = nfc->rss_context;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = otx2_add_flow_msg(pfvf, flow);
 	if (err) {
 		if (new)
@@ -760,6 +855,7 @@ int otx2_remove_flow(struct otx2_nic *pfvf, u32 location)
 	return 0;
 }
 
+<<<<<<< HEAD
 void otx2_rss_ctx_flow_del(struct otx2_nic *pfvf, int ctx_id)
 {
 	struct otx2_flow *flow, *tmp;
@@ -776,6 +872,8 @@ void otx2_rss_ctx_flow_del(struct otx2_nic *pfvf, int ctx_id)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int otx2_destroy_ntuple_flows(struct otx2_nic *pfvf)
 {
 	struct otx2_flow_config *flow_cfg = pfvf->flow_cfg;

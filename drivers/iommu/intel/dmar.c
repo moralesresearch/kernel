@@ -31,7 +31,10 @@
 #include <linux/limits.h>
 #include <asm/irq_remapping.h>
 #include <asm/iommu_table.h>
+<<<<<<< HEAD
 #include <trace/events/intel_iommu.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "../irq_remapping.h"
 
@@ -526,7 +529,10 @@ dmar_table_print_dmar_entry(struct acpi_dmar_header *header)
 	struct acpi_dmar_reserved_memory *rmrr;
 	struct acpi_dmar_atsr *atsr;
 	struct acpi_dmar_rhsa *rhsa;
+<<<<<<< HEAD
 	struct acpi_dmar_satc *satc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (header->type) {
 	case ACPI_DMAR_TYPE_HARDWARE_UNIT:
@@ -556,10 +562,13 @@ dmar_table_print_dmar_entry(struct acpi_dmar_header *header)
 		/* We don't print this here because we need to sanity-check
 		   it first. So print it in dmar_parse_one_andd() instead. */
 		break;
+<<<<<<< HEAD
 	case ACPI_DMAR_TYPE_SATC:
 		satc = container_of(header, struct acpi_dmar_satc, header);
 		pr_info("SATC flags: 0x%x\n", satc->flags);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -647,7 +656,10 @@ parse_dmar_table(void)
 		.cb[ACPI_DMAR_TYPE_ROOT_ATS] = &dmar_parse_one_atsr,
 		.cb[ACPI_DMAR_TYPE_HARDWARE_AFFINITY] = &dmar_parse_one_rhsa,
 		.cb[ACPI_DMAR_TYPE_NAMESPACE] = &dmar_parse_one_andd,
+<<<<<<< HEAD
 		.cb[ACPI_DMAR_TYPE_SATC] = &dmar_parse_one_satc,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/*
@@ -1144,7 +1156,11 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
 
 		err = iommu_device_register(&iommu->iommu);
 		if (err)
+<<<<<<< HEAD
 			goto err_sysfs;
+=======
+			goto err_unmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	drhd->iommu = iommu;
@@ -1152,8 +1168,11 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
 
 	return 0;
 
+<<<<<<< HEAD
 err_sysfs:
 	iommu_device_sysfs_remove(&iommu->iommu);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_unmap:
 	unmap_iommu(iommu);
 error_free_seq_id:
@@ -1316,8 +1335,11 @@ restart:
 		offset = ((index + i) % QI_LENGTH) << shift;
 		memcpy(qi->desc + offset, &desc[i], 1 << shift);
 		qi->desc_status[(index + i) % QI_LENGTH] = QI_IN_USE;
+<<<<<<< HEAD
 		trace_qi_submit(iommu, desc[i].qw0, desc[i].qw1,
 				desc[i].qw2, desc[i].qw3);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	qi->desc_status[wait_index] = QI_IN_USE;
 
@@ -2085,7 +2107,10 @@ static guid_t dmar_hp_guid =
 #define	DMAR_DSM_FUNC_DRHD		1
 #define	DMAR_DSM_FUNC_ATSR		2
 #define	DMAR_DSM_FUNC_RHSA		3
+<<<<<<< HEAD
 #define	DMAR_DSM_FUNC_SATC		4
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline bool dmar_detect_dsm(acpi_handle handle, int func)
 {
@@ -2103,7 +2128,10 @@ static int dmar_walk_dsm_resource(acpi_handle handle, int func,
 		[DMAR_DSM_FUNC_DRHD] = ACPI_DMAR_TYPE_HARDWARE_UNIT,
 		[DMAR_DSM_FUNC_ATSR] = ACPI_DMAR_TYPE_ROOT_ATS,
 		[DMAR_DSM_FUNC_RHSA] = ACPI_DMAR_TYPE_HARDWARE_AFFINITY,
+<<<<<<< HEAD
 		[DMAR_DSM_FUNC_SATC] = ACPI_DMAR_TYPE_SATC,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	if (!dmar_detect_dsm(handle, func))

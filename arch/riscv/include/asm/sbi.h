@@ -89,7 +89,15 @@ struct sbiret {
 	long value;
 };
 
+<<<<<<< HEAD
 void sbi_init(void);
+=======
+<<<<<<< HEAD
+void sbi_init(void);
+=======
+int sbi_init(void);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct sbiret sbi_ecall(int ext, int fid, unsigned long arg0,
 			unsigned long arg1, unsigned long arg2,
 			unsigned long arg3, unsigned long arg4,
@@ -100,6 +108,10 @@ int sbi_console_getchar(void);
 void sbi_set_timer(uint64_t stime_value);
 void sbi_shutdown(void);
 void sbi_clear_ipi(void);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int sbi_send_ipi(const unsigned long *hart_mask);
 int sbi_remote_fence_i(const unsigned long *hart_mask);
 int sbi_remote_sfence_vma(const unsigned long *hart_mask,
@@ -107,6 +119,18 @@ int sbi_remote_sfence_vma(const unsigned long *hart_mask,
 			   unsigned long size);
 
 int sbi_remote_sfence_vma_asid(const unsigned long *hart_mask,
+<<<<<<< HEAD
+=======
+=======
+void sbi_send_ipi(const unsigned long *hart_mask);
+void sbi_remote_fence_i(const unsigned long *hart_mask);
+void sbi_remote_sfence_vma(const unsigned long *hart_mask,
+			   unsigned long start,
+			   unsigned long size);
+
+void sbi_remote_sfence_vma_asid(const unsigned long *hart_mask,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				unsigned long start,
 				unsigned long size,
 				unsigned long asid);
@@ -147,7 +171,21 @@ static inline unsigned long sbi_minor_version(void)
 
 int sbi_err_map_linux_errno(int err);
 #else /* CONFIG_RISCV_SBI */
+<<<<<<< HEAD
 static inline int sbi_remote_fence_i(const unsigned long *hart_mask) { return -1; }
 static inline void sbi_init(void) {}
+=======
+<<<<<<< HEAD
+static inline int sbi_remote_fence_i(const unsigned long *hart_mask) { return -1; }
+static inline void sbi_init(void) {}
+=======
+/* stubs for code that is only reachable under IS_ENABLED(CONFIG_RISCV_SBI): */
+void sbi_set_timer(uint64_t stime_value);
+void sbi_clear_ipi(void);
+void sbi_send_ipi(const unsigned long *hart_mask);
+void sbi_remote_fence_i(const unsigned long *hart_mask);
+void sbi_init(void);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_RISCV_SBI */
 #endif /* _ASM_RISCV_SBI_H */

@@ -1746,6 +1746,7 @@ static void ath10k_htt_rx_h_csum_offload(struct sk_buff *msdu)
 	msdu->ip_summed = ath10k_htt_rx_get_csum_state(msdu);
 }
 
+<<<<<<< HEAD
 static u64 ath10k_htt_rx_h_get_pn(struct ath10k *ar, struct sk_buff *skb,
 				  u16 offset,
 				  enum htt_rx_mpdu_encrypt_type enctype)
@@ -1825,11 +1826,14 @@ static bool ath10k_htt_rx_h_frag_pn_check(struct ath10k *ar,
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 				 struct sk_buff_head *amsdu,
 				 struct ieee80211_rx_status *status,
 				 bool fill_crypt_header,
 				 u8 *rx_hdr,
+<<<<<<< HEAD
 				 enum ath10k_pkt_rx_err *err,
 				 u16 peer_id,
 				 bool frag)
@@ -1837,6 +1841,13 @@ static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 	struct sk_buff *first;
 	struct sk_buff *last;
 	struct sk_buff *msdu, *temp;
+=======
+				 enum ath10k_pkt_rx_err *err)
+{
+	struct sk_buff *first;
+	struct sk_buff *last;
+	struct sk_buff *msdu;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct htt_rx_desc *rxd;
 	struct ieee80211_hdr *hdr;
 	enum htt_rx_mpdu_encrypt_type enctype;
@@ -1849,7 +1860,10 @@ static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 	bool is_decrypted;
 	bool is_mgmt;
 	u32 attention;
+<<<<<<< HEAD
 	bool frag_pn_check = true, multicast_check = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (skb_queue_empty(amsdu))
 		return;
@@ -1948,6 +1962,7 @@ static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 	}
 
 	skb_queue_walk(amsdu, msdu) {
+<<<<<<< HEAD
 		if (frag && !fill_crypt_header && is_decrypted &&
 		    enctype == HTT_RX_MPDU_ENCRYPT_AES_CCM_WPA2)
 			frag_pn_check = ath10k_htt_rx_h_frag_pn_check(ar,
@@ -1979,6 +1994,9 @@ static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 		    enctype == HTT_RX_MPDU_ENCRYPT_TKIP_WPA)
 			status->flag &= ~RX_FLAG_MMIC_STRIPPED;
 
+=======
+		ath10k_htt_rx_h_csum_offload(msdu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ath10k_htt_rx_h_undecap(ar, msdu, status, first_hdr, enctype,
 					is_decrypted);
 
@@ -1996,11 +2014,14 @@ static void ath10k_htt_rx_h_mpdu(struct ath10k *ar,
 
 		hdr = (void *)msdu->data;
 		hdr->frame_control &= ~__cpu_to_le16(IEEE80211_FCTL_PROTECTED);
+<<<<<<< HEAD
 
 		if (frag && !fill_crypt_header &&
 		    enctype == HTT_RX_MPDU_ENCRYPT_TKIP_WPA)
 			status->flag &= ~RX_FLAG_IV_STRIPPED &
 					~RX_FLAG_MMIC_STRIPPED;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2108,6 +2129,7 @@ static void ath10k_htt_rx_h_unchain(struct ath10k *ar,
 	ath10k_unchain_msdu(amsdu, unchain_cnt);
 }
 
+<<<<<<< HEAD
 static bool ath10k_htt_rx_validate_amsdu(struct ath10k *ar,
 					 struct sk_buff_head *amsdu)
 {
@@ -2160,10 +2182,19 @@ static bool ath10k_htt_rx_validate_amsdu(struct ath10k *ar,
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool ath10k_htt_rx_amsdu_allowed(struct ath10k *ar,
 					struct sk_buff_head *amsdu,
 					struct ieee80211_rx_status *rx_status)
 {
+<<<<<<< HEAD
+=======
+	/* FIXME: It might be a good idea to do some fuzzy-testing to drop
+	 * invalid/dangerous frames.
+	 */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rx_status->freq) {
 		ath10k_dbg(ar, ATH10K_DBG_HTT, "no channel configured; ignoring frame(s)!\n");
 		return false;
@@ -2174,11 +2205,14 @@ static bool ath10k_htt_rx_amsdu_allowed(struct ath10k *ar,
 		return false;
 	}
 
+<<<<<<< HEAD
 	if (!ath10k_htt_rx_validate_amsdu(ar, amsdu)) {
 		ath10k_dbg(ar, ATH10K_DBG_HTT, "invalid amsdu received\n");
 		return false;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 }
 
@@ -2241,8 +2275,12 @@ static int ath10k_htt_rx_handle_amsdu(struct ath10k_htt *htt)
 		ath10k_htt_rx_h_unchain(ar, &amsdu, &drop_cnt, &unchain_cnt);
 
 	ath10k_htt_rx_h_filter(ar, &amsdu, rx_status, &drop_cnt_filter);
+<<<<<<< HEAD
 	ath10k_htt_rx_h_mpdu(ar, &amsdu, rx_status, true, first_hdr, &err, 0,
 			     false);
+=======
+	ath10k_htt_rx_h_mpdu(ar, &amsdu, rx_status, true, first_hdr, &err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msdus_to_queue = skb_queue_len(&amsdu);
 	ath10k_htt_rx_h_enqueue(ar, &amsdu, rx_status);
 
@@ -2375,11 +2413,14 @@ static bool ath10k_htt_rx_proc_rx_ind_hl(struct ath10k_htt *htt,
 	fw_desc = &rx->fw_desc;
 	rx_desc_len = fw_desc->len;
 
+<<<<<<< HEAD
 	if (fw_desc->u.bits.discard) {
 		ath10k_dbg(ar, ATH10K_DBG_HTT, "htt discard mpdu\n");
 		goto err;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* I have not yet seen any case where num_mpdu_ranges > 1.
 	 * qcacld does not seem handle that case either, so we introduce the
 	 * same limitiation here as well.
@@ -2685,6 +2726,7 @@ static bool ath10k_htt_rx_proc_rx_frag_ind_hl(struct ath10k_htt *htt,
 	rx_desc = (struct htt_hl_rx_desc *)(skb->data + tot_hdr_len);
 	rx_desc_info = __le32_to_cpu(rx_desc->info);
 
+<<<<<<< HEAD
 	hdr = (struct ieee80211_hdr *)((u8 *)rx_desc + rx_hl->fw_desc.len);
 
 	if (is_multicast_ether_addr(hdr->addr1)) {
@@ -2692,6 +2734,8 @@ static bool ath10k_htt_rx_proc_rx_frag_ind_hl(struct ath10k_htt *htt,
 		goto err;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!MS(rx_desc_info, HTT_RX_DESC_HL_INFO_ENCRYPTED)) {
 		spin_unlock_bh(&ar->data_lock);
 		return ath10k_htt_rx_proc_rx_ind_hl(htt, &resp->rx_ind_hl, skb,
@@ -2699,6 +2743,11 @@ static bool ath10k_htt_rx_proc_rx_frag_ind_hl(struct ath10k_htt *htt,
 						    HTT_RX_NON_TKIP_MIC);
 	}
 
+<<<<<<< HEAD
+=======
+	hdr = (struct ieee80211_hdr *)((u8 *)rx_desc + rx_hl->fw_desc.len);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ieee80211_has_retry(hdr->frame_control))
 		goto err;
 
@@ -2962,13 +3011,21 @@ static void ath10k_htt_rx_addba(struct ath10k *ar, struct htt_resp *resp)
 	peer_id = MS(info0, HTT_RX_BA_INFO0_PEER_ID);
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt rx addba tid %u peer_id %u size %u\n",
+=======
+		   "htt rx addba tid %hu peer_id %hu size %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   tid, peer_id, ev->window_size);
 
 	spin_lock_bh(&ar->data_lock);
 	peer = ath10k_peer_find_by_id(ar, peer_id);
 	if (!peer) {
+<<<<<<< HEAD
 		ath10k_warn(ar, "received addba event for invalid peer_id: %u\n",
+=======
+		ath10k_warn(ar, "received addba event for invalid peer_id: %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    peer_id);
 		spin_unlock_bh(&ar->data_lock);
 		return;
@@ -2983,7 +3040,11 @@ static void ath10k_htt_rx_addba(struct ath10k *ar, struct htt_resp *resp)
 	}
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt rx start rx ba session sta %pM tid %u size %u\n",
+=======
+		   "htt rx start rx ba session sta %pM tid %hu size %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   peer->addr, tid, ev->window_size);
 
 	ieee80211_start_rx_ba_session_offl(arvif->vif, peer->addr, tid);
@@ -3002,13 +3063,21 @@ static void ath10k_htt_rx_delba(struct ath10k *ar, struct htt_resp *resp)
 	peer_id = MS(info0, HTT_RX_BA_INFO0_PEER_ID);
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt rx delba tid %u peer_id %u\n",
+=======
+		   "htt rx delba tid %hu peer_id %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   tid, peer_id);
 
 	spin_lock_bh(&ar->data_lock);
 	peer = ath10k_peer_find_by_id(ar, peer_id);
 	if (!peer) {
+<<<<<<< HEAD
 		ath10k_warn(ar, "received addba event for invalid peer_id: %u\n",
+=======
+		ath10k_warn(ar, "received addba event for invalid peer_id: %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    peer_id);
 		spin_unlock_bh(&ar->data_lock);
 		return;
@@ -3023,7 +3092,11 @@ static void ath10k_htt_rx_delba(struct ath10k *ar, struct htt_resp *resp)
 	}
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt rx stop rx ba session sta %pM tid %u\n",
+=======
+		   "htt rx stop rx ba session sta %pM tid %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   peer->addr, tid);
 
 	ieee80211_stop_rx_ba_session_offl(arvif->vif, peer->addr, tid);
@@ -3208,7 +3281,11 @@ static int ath10k_htt_rx_in_ord_ind(struct ath10k *ar, struct sk_buff *skb)
 			ath10k_htt_rx_h_ppdu(ar, &amsdu, status, vdev_id);
 			ath10k_htt_rx_h_filter(ar, &amsdu, status, NULL);
 			ath10k_htt_rx_h_mpdu(ar, &amsdu, status, false, NULL,
+<<<<<<< HEAD
 					     NULL, peer_id, frag);
+=======
+					     NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ath10k_htt_rx_h_enqueue(ar, &amsdu, status);
 			break;
 		case -EAGAIN:
@@ -3283,7 +3360,11 @@ static void ath10k_htt_rx_tx_fetch_ind(struct ath10k *ar, struct sk_buff *skb)
 		return;
 	}
 
+<<<<<<< HEAD
 	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt rx tx fetch ind num records %u num resps %u seq %u\n",
+=======
+	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt rx tx fetch ind num records %hu num resps %hu seq %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   num_records, num_resp_ids,
 		   le16_to_cpu(resp->tx_fetch_ind.fetch_seq_num));
 
@@ -3308,12 +3389,20 @@ static void ath10k_htt_rx_tx_fetch_ind(struct ath10k *ar, struct sk_buff *skb)
 		max_num_msdus = le16_to_cpu(record->num_msdus);
 		max_num_bytes = le32_to_cpu(record->num_bytes);
 
+<<<<<<< HEAD
 		ath10k_dbg(ar, ATH10K_DBG_HTT, "htt rx tx fetch record %i peer_id %u tid %u msdus %zu bytes %zu\n",
+=======
+		ath10k_dbg(ar, ATH10K_DBG_HTT, "htt rx tx fetch record %i peer_id %hu tid %hhu msdus %zu bytes %zu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   i, peer_id, tid, max_num_msdus, max_num_bytes);
 
 		if (unlikely(peer_id >= ar->htt.tx_q_state.num_peers) ||
 		    unlikely(tid >= ar->htt.tx_q_state.num_tids)) {
+<<<<<<< HEAD
 			ath10k_warn(ar, "received out of range peer_id %u tid %u\n",
+=======
+			ath10k_warn(ar, "received out of range peer_id %hu tid %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    peer_id, tid);
 			continue;
 		}
@@ -3327,7 +3416,11 @@ static void ath10k_htt_rx_tx_fetch_ind(struct ath10k *ar, struct sk_buff *skb)
 		 */
 
 		if (unlikely(!txq)) {
+<<<<<<< HEAD
 			ath10k_warn(ar, "failed to lookup txq for peer_id %u tid %u\n",
+=======
+			ath10k_warn(ar, "failed to lookup txq for peer_id %hu tid %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    peer_id, tid);
 			continue;
 		}
@@ -3440,7 +3533,11 @@ static void ath10k_htt_rx_tx_mode_switch_ind(struct ath10k *ar,
 	threshold = MS(info1, HTT_TX_MODE_SWITCH_IND_INFO1_THRESHOLD);
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
+<<<<<<< HEAD
 		   "htt rx tx mode switch ind info0 0x%04hx info1 0x%04x enable %d num records %zd mode %d threshold %u\n",
+=======
+		   "htt rx tx mode switch ind info0 0x%04hx info1 0x%04hx enable %d num records %zd mode %d threshold %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   info0, info1, enable, num_records, mode, threshold);
 
 	len += sizeof(resp->tx_mode_switch_ind.records[0]) * num_records;
@@ -3477,7 +3574,11 @@ static void ath10k_htt_rx_tx_mode_switch_ind(struct ath10k *ar,
 
 		if (unlikely(peer_id >= ar->htt.tx_q_state.num_peers) ||
 		    unlikely(tid >= ar->htt.tx_q_state.num_tids)) {
+<<<<<<< HEAD
 			ath10k_warn(ar, "received out of range peer_id %u tid %u\n",
+=======
+			ath10k_warn(ar, "received out of range peer_id %hu tid %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    peer_id, tid);
 			continue;
 		}
@@ -3491,7 +3592,11 @@ static void ath10k_htt_rx_tx_mode_switch_ind(struct ath10k *ar,
 		 */
 
 		if (unlikely(!txq)) {
+<<<<<<< HEAD
 			ath10k_warn(ar, "failed to lookup txq for peer_id %u tid %u\n",
+=======
+			ath10k_warn(ar, "failed to lookup txq for peer_id %hu tid %hhu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    peer_id, tid);
 			continue;
 		}
@@ -3529,7 +3634,11 @@ static inline s8 ath10k_get_legacy_rate_idx(struct ath10k *ar, u8 rate)
 			return i;
 	}
 
+<<<<<<< HEAD
 	ath10k_warn(ar, "Invalid legacy rate %d peer stats", rate);
+=======
+	ath10k_warn(ar, "Invalid legacy rate %hhd peer stats", rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EINVAL;
 }
 
@@ -3683,13 +3792,21 @@ ath10k_update_per_peer_tx_stats(struct ath10k *ar,
 		return;
 
 	if (txrate.flags == WMI_RATE_PREAMBLE_VHT && txrate.mcs > 9) {
+<<<<<<< HEAD
 		ath10k_warn(ar, "Invalid VHT mcs %d peer stats",  txrate.mcs);
+=======
+		ath10k_warn(ar, "Invalid VHT mcs %hhd peer stats",  txrate.mcs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
 	if (txrate.flags == WMI_RATE_PREAMBLE_HT &&
 	    (txrate.mcs > 7 || txrate.nss < 1)) {
+<<<<<<< HEAD
 		ath10k_warn(ar, "Invalid HT mcs %d nss %d peer stats",
+=======
+		ath10k_warn(ar, "Invalid HT mcs %hhd nss %hhd peer stats",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    txrate.mcs, txrate.nss);
 		return;
 	}

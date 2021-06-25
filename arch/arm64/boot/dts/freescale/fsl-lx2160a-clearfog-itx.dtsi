@@ -8,7 +8,10 @@
 /dts-v1/;
 
 #include "fsl-lx2160a-cex7.dtsi"
+<<<<<<< HEAD
 #include <dt-bindings/input/linux-event-codes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	aliases {
@@ -19,6 +22,7 @@
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
+<<<<<<< HEAD
 
 	gpio-keys {
 		compatible = "gpio-keys";
@@ -30,6 +34,8 @@
 			gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &emdio2 {

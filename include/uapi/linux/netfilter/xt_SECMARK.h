@@ -20,10 +20,13 @@ struct xt_secmark_target_info {
 	char secctx[SECMARK_SECCTX_MAX];
 };
 
+<<<<<<< HEAD
 struct xt_secmark_target_info_v1 {
 	__u8 mode;
 	char secctx[SECMARK_SECCTX_MAX];
 	__u32 secid;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /*_XT_SECMARK_H_target */

@@ -1572,7 +1572,11 @@ static struct snd_soc_dai_driver soc_codec_cx2072x_dai[] = {
 			.formats = CX2072X_FORMATS,
 		},
 		.ops = &cx2072x_dai_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{ /* plabayck only, return echo reference to Conexant DSP chip */
 		.name = "cx2072x-dsp",

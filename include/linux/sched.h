@@ -47,7 +47,10 @@ struct cfs_rq;
 struct fs_struct;
 struct futex_pi_state;
 struct io_context;
+<<<<<<< HEAD
 struct io_uring_task;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mempolicy;
 struct nameidata;
 struct nsproxy;
@@ -66,6 +69,10 @@ struct sighand_struct;
 struct signal_struct;
 struct task_delay_info;
 struct task_group;
+<<<<<<< HEAD
+=======
+struct io_uring_task;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Task state bitmask. NOTE! These bits are also
@@ -350,6 +357,7 @@ struct load_weight {
  * Only for tasks we track a moving average of the past instantaneous
  * estimated utilization. This allows to absorb sporadic drops in utilization
  * of an otherwise almost periodic task.
+<<<<<<< HEAD
  *
  * The UTIL_AVG_UNCHANGED flag is used to synchronize util_est with util_avg
  * updates. When a task is dequeued, its util_est should not be updated if its
@@ -357,12 +365,17 @@ struct load_weight {
  * This information is mapped into the MSB bit of util_est.enqueued at dequeue
  * time. Since max value of util_est.enqueued for a task is 1024 (PELT util_avg
  * for a task) it is safe to use MSB.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct util_est {
 	unsigned int			enqueued;
 	unsigned int			ewma;
 #define UTIL_EST_WEIGHT_SHIFT		2
+<<<<<<< HEAD
 #define UTIL_AVG_UNCHANGED		0x80000000
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __attribute__((__aligned__(sizeof(u64))));
 
 /*
@@ -903,9 +916,12 @@ struct task_struct {
 	/* CLONE_CHILD_CLEARTID: */
 	int __user			*clear_child_tid;
 
+<<<<<<< HEAD
 	/* PF_IO_WORKER */
 	void				*pf_io_worker;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64				utime;
 	u64				stime;
 #ifdef CONFIG_ARCH_HAS_SCALED_CPUTIME
@@ -1882,6 +1898,7 @@ static inline int test_tsk_need_resched(struct task_struct *tsk)
  * value indicates whether a reschedule was done in fact.
  * cond_resched_lock() will drop the spinlock before scheduling,
  */
+<<<<<<< HEAD
 #if !defined(CONFIG_PREEMPTION) || defined(CONFIG_PREEMPT_DYNAMIC)
 extern int __cond_resched(void);
 
@@ -1908,6 +1925,13 @@ static inline int _cond_resched(void)
 static inline int _cond_resched(void) { return 0; }
 
 #endif /* !defined(CONFIG_PREEMPTION) || defined(CONFIG_PREEMPT_DYNAMIC) */
+=======
+#ifndef CONFIG_PREEMPTION
+extern int _cond_resched(void);
+#else
+static inline int _cond_resched(void) { return 0; }
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define cond_resched() ({			\
 	___might_sleep(__FILE__, __LINE__, 0);	\
@@ -1915,14 +1939,18 @@ static inline int _cond_resched(void) { return 0; }
 })
 
 extern int __cond_resched_lock(spinlock_t *lock);
+<<<<<<< HEAD
 extern int __cond_resched_rwlock_read(rwlock_t *lock);
 extern int __cond_resched_rwlock_write(rwlock_t *lock);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define cond_resched_lock(lock) ({				\
 	___might_sleep(__FILE__, __LINE__, PREEMPT_LOCK_OFFSET);\
 	__cond_resched_lock(lock);				\
 })
 
+<<<<<<< HEAD
 #define cond_resched_rwlock_read(lock) ({			\
 	__might_sleep(__FILE__, __LINE__, PREEMPT_LOCK_OFFSET);	\
 	__cond_resched_rwlock_read(lock);			\
@@ -1933,6 +1961,8 @@ extern int __cond_resched_rwlock_write(rwlock_t *lock);
 	__cond_resched_rwlock_write(lock);			\
 })
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void cond_resched_rcu(void)
 {
 #if defined(CONFIG_DEBUG_ATOMIC_SLEEP) || !defined(CONFIG_PREEMPT_RCU)
@@ -1956,6 +1986,7 @@ static inline int spin_needbreak(spinlock_t *lock)
 #endif
 }
 
+<<<<<<< HEAD
 /*
  * Check if a rwlock is contended.
  * Returns non-zero if there is another task waiting on the rwlock.
@@ -1973,6 +2004,8 @@ static inline int rwlock_needbreak(rwlock_t *lock)
 #endif
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline bool need_resched(void)
 {
 	return unlikely(tif_need_resched());
@@ -2029,11 +2062,14 @@ extern long sched_getaffinity(pid_t pid, struct cpumask *mask);
 #define TASK_SIZE_OF(tsk)	TASK_SIZE
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 /* Returns effective CPU energy utilization, as seen by the scheduler */
 unsigned long sched_cpu_util(int cpu, unsigned long max);
 #endif /* CONFIG_SMP */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_RSEQ
 
 /*

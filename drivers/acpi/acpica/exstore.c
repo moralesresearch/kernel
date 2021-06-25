@@ -3,7 +3,11 @@
  *
  * Module Name: exstore - AML Interpreter object store support
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -96,7 +100,11 @@ acpi_ex_store(union acpi_operand_object *source_desc,
 			return_ACPI_STATUS(AE_OK);
 		}
 
+<<<<<<< HEAD
 		ACPI_FALLTHROUGH;
+=======
+		/*lint -fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	default:
 
@@ -422,7 +430,11 @@ acpi_ex_store_object_to_node(union acpi_operand_object *source_desc,
 				break;
 			}
 
+<<<<<<< HEAD
 			ACPI_FALLTHROUGH;
+=======
+			/* Fallthrough */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		case ACPI_TYPE_DEVICE:
 		case ACPI_TYPE_EVENT:

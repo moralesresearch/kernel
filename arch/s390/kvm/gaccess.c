@@ -976,9 +976,13 @@ int kvm_s390_check_low_addr_prot_real(struct kvm_vcpu *vcpu, unsigned long gra)
  * kvm_s390_shadow_tables - walk the guest page table and create shadow tables
  * @sg: pointer to the shadow guest address space structure
  * @saddr: faulting address in the shadow gmap
+<<<<<<< HEAD
  * @pgt: pointer to the beginning of the page table for the given address if
  *	 successful (return value 0), or to the first invalid DAT entry in
  *	 case of exceptions (return value > 0)
+=======
+ * @pgt: pointer to the page table address result
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @fake: pgt references contiguous guest memory block, not a pgtable
  */
 static int kvm_s390_shadow_tables(struct gmap *sg, unsigned long saddr,
@@ -1036,7 +1040,10 @@ static int kvm_s390_shadow_tables(struct gmap *sg, unsigned long saddr,
 			rfte.val = ptr;
 			goto shadow_r2t;
 		}
+<<<<<<< HEAD
 		*pgt = ptr + vaddr.rfx * 8;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = gmap_read_table(parent, ptr + vaddr.rfx * 8, &rfte.val);
 		if (rc)
 			return rc;
@@ -1063,7 +1070,10 @@ shadow_r2t:
 			rste.val = ptr;
 			goto shadow_r3t;
 		}
+<<<<<<< HEAD
 		*pgt = ptr + vaddr.rsx * 8;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = gmap_read_table(parent, ptr + vaddr.rsx * 8, &rste.val);
 		if (rc)
 			return rc;
@@ -1091,7 +1101,10 @@ shadow_r3t:
 			rtte.val = ptr;
 			goto shadow_sgt;
 		}
+<<<<<<< HEAD
 		*pgt = ptr + vaddr.rtx * 8;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = gmap_read_table(parent, ptr + vaddr.rtx * 8, &rtte.val);
 		if (rc)
 			return rc;
@@ -1128,7 +1141,10 @@ shadow_sgt:
 			ste.val = ptr;
 			goto shadow_pgt;
 		}
+<<<<<<< HEAD
 		*pgt = ptr + vaddr.sx * 8;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = gmap_read_table(parent, ptr + vaddr.sx * 8, &ste.val);
 		if (rc)
 			return rc;
@@ -1163,8 +1179,11 @@ shadow_pgt:
  * @vcpu: virtual cpu
  * @sg: pointer to the shadow guest address space structure
  * @saddr: faulting address in the shadow gmap
+<<<<<<< HEAD
  * @datptr: will contain the address of the faulting DAT table entry, or of
  *	    the valid leaf, plus some flags
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns: - 0 if the shadow fault was successfully resolved
  *	    - > 0 (pgm exception code) on exceptions while faulting
@@ -1173,11 +1192,19 @@ shadow_pgt:
  *	    - -ENOMEM if out of memory
  */
 int kvm_s390_shadow_fault(struct kvm_vcpu *vcpu, struct gmap *sg,
+<<<<<<< HEAD
 			  unsigned long saddr, unsigned long *datptr)
 {
 	union vaddress vaddr;
 	union page_table_entry pte;
 	unsigned long pgt = 0;
+=======
+			  unsigned long saddr)
+{
+	union vaddress vaddr;
+	union page_table_entry pte;
+	unsigned long pgt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int dat_protection, fake;
 	int rc;
 
@@ -1199,6 +1226,7 @@ int kvm_s390_shadow_fault(struct kvm_vcpu *vcpu, struct gmap *sg,
 		pte.val = pgt + vaddr.px * PAGE_SIZE;
 		goto shadow_page;
 	}
+<<<<<<< HEAD
 
 	switch (rc) {
 	case PGM_SEGMENT_TRANSLATION:
@@ -1213,6 +1241,10 @@ int kvm_s390_shadow_fault(struct kvm_vcpu *vcpu, struct gmap *sg,
 	}
 	if (datptr)
 		*datptr = pgt | dat_protection * PEI_DAT_PROT;
+=======
+	if (!rc)
+		rc = gmap_read_table(sg->parent, pgt + vaddr.px * 8, &pte.val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rc && pte.i)
 		rc = PGM_PAGE_TRANSLATION;
 	if (!rc && pte.z)

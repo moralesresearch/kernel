@@ -331,6 +331,12 @@ static struct snd_soc_dai_link byt_cht_es8316_dais[] = {
 
 		/* back ends */
 	{
+<<<<<<< HEAD
+=======
+		/* Only SSP2 has been tested here, so BYT-CR platforms that
+		 * require SSP0 will not work.
+		 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.name = "SSP2-Codec",
 		.id = 0,
 		.no_pcm = 1,

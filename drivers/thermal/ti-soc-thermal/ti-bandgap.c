@@ -26,7 +26,10 @@
 #include <linux/of_platform.h>
 #include <linux/of_irq.h>
 #include <linux/io.h>
+<<<<<<< HEAD
 #include <linux/iopoll.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/cpu_pm.h>
 #include <linux/device.h>
 #include <linux/pm_runtime.h>
@@ -603,6 +606,7 @@ void *ti_bandgap_get_sensor_data(struct ti_bandgap *bgp, int id)
 static int
 ti_bandgap_force_single_read(struct ti_bandgap *bgp, int id)
 {
+<<<<<<< HEAD
 	struct temp_sensor_registers *tsr = bgp->conf->sensors[id].registers;
 	void __iomem *temp_sensor_ctrl = bgp->base + tsr->temp_sensor_ctrl;
 	int error;
@@ -637,6 +641,37 @@ ti_bandgap_force_single_read(struct ti_bandgap *bgp, int id)
 					  1, 1500);
 	if (error)
 		dev_warn(bgp->dev, "eocz timed out waiting low\n");
+=======
+	u32 counter = 1000;
+	struct temp_sensor_registers *tsr;
+
+	/* Select single conversion mode */
+	if (TI_BANDGAP_HAS(bgp, MODE_CONFIG))
+		RMW_BITS(bgp, id, bgap_mode_ctrl, mode_ctrl_mask, 0);
+
+	/* Start of Conversion = 1 */
+	RMW_BITS(bgp, id, temp_sensor_ctrl, bgap_soc_mask, 1);
+
+	/* Wait for EOCZ going up */
+	tsr = bgp->conf->sensors[id].registers;
+
+	while (--counter) {
+		if (ti_bandgap_readl(bgp, tsr->temp_sensor_ctrl) &
+		    tsr->bgap_eocz_mask)
+			break;
+	}
+
+	/* Start of Conversion = 0 */
+	RMW_BITS(bgp, id, temp_sensor_ctrl, bgap_soc_mask, 0);
+
+	/* Wait for EOCZ going down */
+	counter = 1000;
+	while (--counter) {
+		if (!(ti_bandgap_readl(bgp, tsr->temp_sensor_ctrl) &
+		      tsr->bgap_eocz_mask))
+			break;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

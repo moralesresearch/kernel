@@ -294,9 +294,12 @@ mlxbf_tmfifo_get_next_desc(struct mlxbf_tmfifo_vring *vring)
 	if (vring->next_avail == virtio16_to_cpu(vdev, vr->avail->idx))
 		return NULL;
 
+<<<<<<< HEAD
 	/* Make sure 'avail->idx' is visible already. */
 	virtio_rmb(false);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	idx = vring->next_avail % vr->num;
 	head = virtio16_to_cpu(vdev, vr->avail->ring[idx]);
 	if (WARN_ON(head >= vr->num))
@@ -325,7 +328,11 @@ static void mlxbf_tmfifo_release_desc(struct mlxbf_tmfifo_vring *vring,
 	 * done or not. Add a memory barrier here to make sure the update above
 	 * completes before updating the idx.
 	 */
+<<<<<<< HEAD
 	virtio_mb(false);
+=======
+	mb();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vr->used->idx = cpu_to_virtio16(vdev, vr_idx + 1);
 }
 
@@ -736,12 +743,15 @@ static bool mlxbf_tmfifo_rxtx_one_desc(struct mlxbf_tmfifo_vring *vring,
 		desc = NULL;
 		fifo->vring[is_rx] = NULL;
 
+<<<<<<< HEAD
 		/*
 		 * Make sure the load/store are in order before
 		 * returning back to virtio.
 		 */
 		virtio_mb(false);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Notify upper layer that packet is done. */
 		spin_lock_irqsave(&fifo->spin_lock[is_rx], flags);
 		vring_interrupt(0, vring->vq);

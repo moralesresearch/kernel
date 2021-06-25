@@ -110,6 +110,10 @@ i915_gem_context_clear_user_engines(struct i915_gem_context *ctx)
 
 /* i915_gem_context.c */
 void i915_gem_init__contexts(struct drm_i915_private *i915);
+<<<<<<< HEAD
+=======
+void i915_gem_driver_release__contexts(struct drm_i915_private *i915);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int i915_gem_context_open(struct drm_i915_private *i915,
 			  struct drm_file *file);

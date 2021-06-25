@@ -6,7 +6,10 @@
 
 #include "intel_context.h"
 #include "intel_engine_pm.h"
+<<<<<<< HEAD
 #include "intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_gt_requests.h"
 #include "intel_ring.h"
 #include "selftest_rc6.h"

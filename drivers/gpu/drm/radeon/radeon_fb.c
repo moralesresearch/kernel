@@ -290,7 +290,11 @@ static int radeonfb_create(struct drm_fb_helper *helper,
 	DRM_INFO("fb depth is %d\n", fb->format->depth);
 	DRM_INFO("   pitch is %d\n", fb->pitches[0]);
 
+<<<<<<< HEAD
 	vga_switcheroo_client_fb_set(rdev->pdev, info);
+=======
+	vga_switcheroo_client_fb_set(rdev->ddev->pdev, info);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 out:

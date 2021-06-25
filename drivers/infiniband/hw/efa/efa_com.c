@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 /*
+<<<<<<< HEAD
  * Copyright 2018-2021 Amazon.com, Inc. or its affiliates. All rights reserved.
+=======
+ * Copyright 2018-2020 Amazon.com, Inc. or its affiliates. All rights reserved.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include "efa_com.h"
@@ -20,6 +24,12 @@
 #define EFA_CTRL_MINOR          0
 #define EFA_CTRL_SUB_MINOR      1
 
+<<<<<<< HEAD
+=======
+#define EFA_DMA_ADDR_TO_UINT32_LOW(x)   ((u32)((u64)(x)))
+#define EFA_DMA_ADDR_TO_UINT32_HIGH(x)  ((u32)(((u64)(x)) >> 32))
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum efa_cmd_status {
 	EFA_CMD_SUBMITTED,
 	EFA_CMD_COMPLETED,
@@ -30,6 +40,11 @@ struct efa_comp_ctx {
 	struct efa_admin_acq_entry *user_cqe;
 	u32 comp_size;
 	enum efa_cmd_status status;
+<<<<<<< HEAD
+=======
+	/* status from the device */
+	u8 comp_status;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 cmd_opcode;
 	u8 occupied;
 };
@@ -135,8 +150,13 @@ static int efa_com_admin_init_sq(struct efa_com_dev *edev)
 
 	sq->db_addr = (u32 __iomem *)(edev->reg_bar + EFA_REGS_AQ_PROD_DB_OFF);
 
+<<<<<<< HEAD
 	addr_high = upper_32_bits(sq->dma_addr);
 	addr_low = lower_32_bits(sq->dma_addr);
+=======
+	addr_high = EFA_DMA_ADDR_TO_UINT32_HIGH(sq->dma_addr);
+	addr_low = EFA_DMA_ADDR_TO_UINT32_LOW(sq->dma_addr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	writel(addr_low, edev->reg_bar + EFA_REGS_AQ_BASE_LO_OFF);
 	writel(addr_high, edev->reg_bar + EFA_REGS_AQ_BASE_HI_OFF);
@@ -169,8 +189,13 @@ static int efa_com_admin_init_cq(struct efa_com_dev *edev)
 	cq->cc = 0;
 	cq->phase = 1;
 
+<<<<<<< HEAD
 	addr_high = upper_32_bits(cq->dma_addr);
 	addr_low = lower_32_bits(cq->dma_addr);
+=======
+	addr_high = EFA_DMA_ADDR_TO_UINT32_HIGH(cq->dma_addr);
+	addr_low = EFA_DMA_ADDR_TO_UINT32_LOW(cq->dma_addr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	writel(addr_low, edev->reg_bar + EFA_REGS_ACQ_BASE_LO_OFF);
 	writel(addr_high, edev->reg_bar + EFA_REGS_ACQ_BASE_HI_OFF);
@@ -210,8 +235,13 @@ static int efa_com_admin_init_aenq(struct efa_com_dev *edev,
 	aenq->cc = 0;
 	aenq->phase = 1;
 
+<<<<<<< HEAD
 	addr_low = lower_32_bits(aenq->dma_addr);
 	addr_high = upper_32_bits(aenq->dma_addr);
+=======
+	addr_low = EFA_DMA_ADDR_TO_UINT32_LOW(aenq->dma_addr);
+	addr_high = EFA_DMA_ADDR_TO_UINT32_HIGH(aenq->dma_addr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	writel(addr_low, edev->reg_bar + EFA_REGS_AENQ_BASE_LO_OFF);
 	writel(addr_high, edev->reg_bar + EFA_REGS_AENQ_BASE_HI_OFF);
@@ -416,7 +446,13 @@ static void efa_com_handle_single_admin_completion(struct efa_com_admin_queue *a
 	}
 
 	comp_ctx->status = EFA_CMD_COMPLETED;
+<<<<<<< HEAD
 	memcpy(comp_ctx->user_cqe, cqe, comp_ctx->comp_size);
+=======
+	comp_ctx->comp_status = cqe->acq_common_descriptor.status;
+	if (comp_ctx->user_cqe)
+		memcpy(comp_ctx->user_cqe, cqe, comp_ctx->comp_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!test_bit(EFA_AQ_STATE_POLLING_BIT, &aq->state))
 		complete(&comp_ctx->wait_event);
@@ -514,7 +550,11 @@ static int efa_com_wait_and_process_admin_cq_polling(struct efa_comp_ctx *comp_c
 		msleep(aq->poll_interval);
 	}
 
+<<<<<<< HEAD
 	err = efa_com_comp_status_to_errno(comp_ctx->user_cqe->acq_common_descriptor.status);
+=======
+	err = efa_com_comp_status_to_errno(comp_ctx->comp_status);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	efa_com_put_comp_ctx(aq, comp_ctx);
 	return err;
@@ -562,7 +602,11 @@ static int efa_com_wait_and_process_admin_cq_interrupts(struct efa_comp_ctx *com
 		goto out;
 	}
 
+<<<<<<< HEAD
 	err = efa_com_comp_status_to_errno(comp_ctx->user_cqe->acq_common_descriptor.status);
+=======
+	err = efa_com_comp_status_to_errno(comp_ctx->comp_status);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	efa_com_put_comp_ctx(aq, comp_ctx);
 	return err;
@@ -634,8 +678,13 @@ int efa_com_cmd_exec(struct efa_com_admin_queue *aq,
 			aq->efa_dev,
 			"Failed to process command %s (opcode %u) comp_status %d err %d\n",
 			efa_com_cmd_str(cmd->aq_common_descriptor.opcode),
+<<<<<<< HEAD
 			cmd->aq_common_descriptor.opcode,
 			comp_ctx->user_cqe->acq_common_descriptor.status, err);
+=======
+			cmd->aq_common_descriptor.opcode, comp_ctx->comp_status,
+			err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		atomic64_inc(&aq->stats.cmd_err);
 	}
 
@@ -788,7 +837,11 @@ err_destroy_comp_ctxt:
  * This method goes over the admin completion queue and wakes up
  * all the pending threads that wait on the commands wait event.
  *
+<<<<<<< HEAD
  * Note: Should be called after MSI-X interrupt.
+=======
+ * @note: Should be called after MSI-X interrupt.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void efa_com_admin_q_comp_intr_handler(struct efa_com_dev *edev)
 {

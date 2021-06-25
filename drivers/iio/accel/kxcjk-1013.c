@@ -14,7 +14,10 @@
 #include <linux/acpi.h>
 #include <linux/pm.h>
 #include <linux/pm_runtime.h>
+<<<<<<< HEAD
 #include <linux/regulator/consumer.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
 #include <linux/iio/buffer.h>
@@ -134,7 +137,10 @@ enum kx_acpi_type {
 };
 
 struct kxcjk1013_data {
+<<<<<<< HEAD
 	struct regulator_bulk_data regulators[2];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i2c_client *client;
 	struct iio_trigger *dready_trig;
 	struct iio_trigger *motion_trig;
@@ -1302,6 +1308,7 @@ static const char *kxcjk1013_match_acpi_device(struct device *dev,
 	return dev_name(dev);
 }
 
+<<<<<<< HEAD
 static void kxcjk1013_disable_regulators(void *d)
 {
 	struct kxcjk1013_data *data = d;
@@ -1309,6 +1316,8 @@ static void kxcjk1013_disable_regulators(void *d)
 	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int kxcjk1013_probe(struct i2c_client *client,
 			   const struct i2c_device_id *id)
 {
@@ -1339,6 +1348,7 @@ static int kxcjk1013_probe(struct i2c_client *client,
 			return ret;
 	}
 
+<<<<<<< HEAD
 	data->regulators[0].supply = "vdd";
 	data->regulators[1].supply = "vddio";
 	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->regulators),
@@ -1362,6 +1372,8 @@ static int kxcjk1013_probe(struct i2c_client *client,
 	 */
 	msleep(20);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (id) {
 		data->chipset = (enum kx_chipset)(id->driver_data);
 		name = id->name;

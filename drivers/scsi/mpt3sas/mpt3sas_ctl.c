@@ -479,8 +479,11 @@ void mpt3sas_ctl_pre_reset_handler(struct MPT3SAS_ADAPTER *ioc)
 		ioc_info(ioc,
 		    "%s: Releasing the trace buffer due to adapter reset.",
 		    __func__);
+<<<<<<< HEAD
 		ioc->htb_rel.buffer_rel_condition =
 		    MPT3_DIAG_BUFFER_REL_TRIGGER;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mpt3sas_send_diag_release(ioc, i, &issue_reset);
 	}
 }
@@ -1336,7 +1339,10 @@ _ctl_do_reset(struct MPT3SAS_ADAPTER *ioc, void __user *arg)
 	dctlprintk(ioc, ioc_info(ioc, "%s: enter\n",
 				 __func__));
 
+<<<<<<< HEAD
 	ioc->reset_from_user = 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	retval = mpt3sas_base_hard_reset_handler(ioc, FORCE_BIG_HAMMER);
 	ioc_info(ioc,
 	    "Ioctl: host reset: %s\n", ((!retval) ? "SUCCESS" : "FAILED"));
@@ -1690,9 +1696,12 @@ _ctl_diag_register_2(struct MPT3SAS_ADAPTER *ioc,
 	request_data = ioc->diag_buffer[buffer_type];
 	request_data_sz = diag_register->requested_buffer_size;
 	ioc->unique_id[buffer_type] = diag_register->unique_id;
+<<<<<<< HEAD
 	/* Reset ioc variables used for additional query commands */
 	ioc->reset_from_user = 0;
 	memset(&ioc->htb_rel, 0, sizeof(struct htb_rel_query));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ioc->diag_buffer_status[buffer_type] &=
 	    MPT3_DIAG_BUFFER_IS_DRIVER_ALLOCATED;
 	memcpy(ioc->product_specific[buffer_type],
@@ -2475,6 +2484,7 @@ _ctl_diag_read_buffer(struct MPT3SAS_ADAPTER *ioc, void __user *arg)
 	return rc;
 }
 
+<<<<<<< HEAD
 /**
  * _ctl_addnl_diag_query - query relevant info associated with diag buffers
  * @ioc: per adapter object
@@ -2529,6 +2539,9 @@ out:
 	}
 	return 0;
 }
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_COMPAT
 /**
@@ -2592,7 +2605,11 @@ _ctl_ioctl_main(struct file *file, unsigned int cmd, void __user *arg,
 	struct MPT3SAS_ADAPTER *ioc;
 	struct mpt3_ioctl_header ioctl_header;
 	enum block_state state;
+<<<<<<< HEAD
 	long ret = -ENOIOCTLCMD;
+=======
+	long ret = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* get IOCTL header */
 	if (copy_from_user(&ioctl_header, (char __user *)arg,
@@ -2702,10 +2719,13 @@ _ctl_ioctl_main(struct file *file, unsigned int cmd, void __user *arg,
 		if (_IOC_SIZE(cmd) == sizeof(struct mpt3_diag_read_buffer))
 			ret = _ctl_diag_read_buffer(ioc, arg);
 		break;
+<<<<<<< HEAD
 	case MPT3ADDNLDIAGQUERY:
 		if (_IOC_SIZE(cmd) == sizeof(struct mpt3_addnl_diag_query))
 			ret = _ctl_addnl_diag_query(ioc, arg);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		dctlprintk(ioc,
 			   ioc_info(ioc, "unsupported ioctl opcode(0x%08x)\n",
@@ -3488,7 +3508,10 @@ host_trace_buffer_enable_store(struct device *cdev,
 		    MPT3_DIAG_BUFFER_IS_RELEASED))
 			goto out;
 		ioc_info(ioc, "releasing host trace buffer\n");
+<<<<<<< HEAD
 		ioc->htb_rel.buffer_rel_condition = MPT3_DIAG_BUFFER_REL_SYSFS;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mpt3sas_send_diag_release(ioc, MPI2_DIAG_BUF_TYPE_TRACE,
 		    &issue_reset);
 	}

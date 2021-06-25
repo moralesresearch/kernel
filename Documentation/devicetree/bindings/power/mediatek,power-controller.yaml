@@ -23,7 +23,10 @@ properties:
 
   compatible:
     enum:
+<<<<<<< HEAD
       - mediatek,mt8167-power-controller
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - mediatek,mt8173-power-controller
       - mediatek,mt8183-power-controller
       - mediatek,mt8192-power-controller
@@ -60,7 +63,10 @@ patternProperties:
       reg:
         description: |
           Power domain index. Valid values are defined in:
+<<<<<<< HEAD
               "include/dt-bindings/power/mt8167-power.h" - for MT8167 type power domain.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               "include/dt-bindings/power/mt8173-power.h" - for MT8173 type power domain.
               "include/dt-bindings/power/mt8183-power.h" - for MT8183 type power domain.
               "include/dt-bindings/power/mt8192-power.h" - for MT8192 type power domain.
@@ -84,9 +90,12 @@ patternProperties:
           be specified by order, adding first the BASIC clocks followed by the
           SUSBSYS clocks.
 
+<<<<<<< HEAD
       domain-supply:
         description: domain regulator supply.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       mediatek,infracfg:
         $ref: /schemas/types.yaml#/definitions/phandle
         description: phandle to the device containing the INFRACFG register range.
@@ -135,9 +144,12 @@ patternProperties:
               be specified by order, adding first the BASIC clocks followed by the
               SUSBSYS clocks.
 
+<<<<<<< HEAD
           domain-supply:
             description: domain regulator supply.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           mediatek,infracfg:
             $ref: /schemas/types.yaml#/definitions/phandle
             description: phandle to the device containing the INFRACFG register range.
@@ -186,9 +198,12 @@ patternProperties:
                   be specified by order, adding first the BASIC clocks followed by the
                   SUSBSYS clocks.
 
+<<<<<<< HEAD
               domain-supply:
                 description: domain regulator supply.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               mediatek,infracfg:
                 $ref: /schemas/types.yaml#/definitions/phandle
                 description: phandle to the device containing the INFRACFG register range.

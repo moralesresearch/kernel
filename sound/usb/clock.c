@@ -296,13 +296,24 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
 
 	selector = snd_usb_find_clock_selector(chip->ctrl_intf, entity_id);
 	if (selector) {
+<<<<<<< HEAD
 		int ret, i, cur, err;
 
+=======
+		int ret, i, cur;
+
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (selector->bNrInPins == 1) {
 			ret = 1;
 			goto find_source;
 		}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* the entity ID we are looking for is a selector.
 		 * find out what it currently selects */
 		ret = uac_clock_selector_get_val(chip, selector->bClockID);
@@ -319,22 +330,37 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
 			return -EINVAL;
 		}
 
+<<<<<<< HEAD
 	find_source:
+=======
+<<<<<<< HEAD
+	find_source:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cur = ret;
 		ret = __uac_clock_find_source(chip, fmt,
 					      selector->baCSourceID[ret - 1],
 					      visited, validate);
+<<<<<<< HEAD
 		if (ret > 0) {
 			err = uac_clock_selector_set_val(chip, entity_id, cur);
 			if (err < 0)
 				return err;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!validate || ret > 0 || !chip->autoclock)
 			return ret;
 
 		/* The current clock source is invalid, try others. */
 		for (i = 1; i <= selector->bNrInPins; i++) {
+<<<<<<< HEAD
+=======
+			int err;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (i == cur)
 				continue;
 
@@ -400,7 +426,11 @@ static int __uac3_clock_find_source(struct snd_usb_audio *chip,
 
 	selector = snd_usb_find_clock_selector_v3(chip->ctrl_intf, entity_id);
 	if (selector) {
+<<<<<<< HEAD
 		int ret, i, cur, err;
+=======
+		int ret, i, cur;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* the entity ID we are looking for is a selector.
 		 * find out what it currently selects */
@@ -422,12 +452,15 @@ static int __uac3_clock_find_source(struct snd_usb_audio *chip,
 		ret = __uac3_clock_find_source(chip, fmt,
 					       selector->baCSourceID[ret - 1],
 					       visited, validate);
+<<<<<<< HEAD
 		if (ret > 0) {
 			err = uac_clock_selector_set_val(chip, entity_id, cur);
 			if (err < 0)
 				return err;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!validate || ret > 0 || !chip->autoclock)
 			return ret;
 

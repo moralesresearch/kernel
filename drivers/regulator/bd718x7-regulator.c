@@ -364,7 +364,11 @@ BD718XX_OPS(bd71837_buck_regulator_ops, regulator_list_voltage_linear_range,
 	    NULL);
 
 BD718XX_OPS(bd71837_buck_regulator_nolinear_ops, regulator_list_voltage_table,
+<<<<<<< HEAD
 	    regulator_map_voltage_ascend, bd71837_set_voltage_sel_restricted,
+=======
+	    regulator_map_voltage_ascend, bd718xx_set_voltage_sel_restricted,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    regulator_get_voltage_sel_regmap, regulator_set_voltage_time_sel,
 	    NULL);
 /*
@@ -1554,7 +1558,11 @@ err_out:
 
 static int bd718xx_probe(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct regmap *regmap;
+=======
+	struct bd718xx *mfd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct regulator_config config = { 0 };
 	int i, j, err, omit_enable;
 	bool use_snvs;
@@ -1563,10 +1571,18 @@ static int bd718xx_probe(struct platform_device *pdev)
 	enum rohm_chip_type chip = platform_get_device_id(pdev)->driver_data;
 	const struct regulator_ops **swops, **hwops;
 
+<<<<<<< HEAD
 	regmap = dev_get_regmap(pdev->dev.parent, NULL);
 	if (!regmap) {
 		dev_err(&pdev->dev, "No MFD driver data\n");
 		return -EINVAL;
+=======
+	mfd = dev_get_drvdata(pdev->dev.parent);
+	if (!mfd) {
+		dev_err(&pdev->dev, "No MFD driver data\n");
+		err = -EINVAL;
+		goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	switch (chip) {
@@ -1589,7 +1605,11 @@ static int bd718xx_probe(struct platform_device *pdev)
 	}
 
 	/* Register LOCK release */
+<<<<<<< HEAD
 	err = regmap_update_bits(regmap, BD718XX_REG_REGLOCK,
+=======
+	err = regmap_update_bits(mfd->chip.regmap, BD718XX_REG_REGLOCK,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 (REGLOCK_PWRSEQ | REGLOCK_VREG), 0);
 	if (err) {
 		dev_err(&pdev->dev, "Failed to unlock PMIC (%d)\n", err);
@@ -1608,7 +1628,12 @@ static int bd718xx_probe(struct platform_device *pdev)
 	 * bit allowing HW defaults for power rails to be used
 	 */
 	if (!use_snvs) {
+<<<<<<< HEAD
 		err = regmap_update_bits(regmap, BD718XX_REG_TRANS_COND1,
+=======
+		err = regmap_update_bits(mfd->chip.regmap,
+					 BD718XX_REG_TRANS_COND1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					 BD718XX_ON_REQ_POWEROFF_MASK |
 					 BD718XX_SWRESET_POWEROFF_MASK |
 					 BD718XX_WDOG_POWEROFF_MASK |
@@ -1624,7 +1649,11 @@ static int bd718xx_probe(struct platform_device *pdev)
 	}
 
 	config.dev = pdev->dev.parent;
+<<<<<<< HEAD
 	config.regmap = regmap;
+=======
+	config.regmap = mfd->chip.regmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * There are cases when we want to leave the enable-control for
 	 * the HW state machine and use this driver only for voltage control.
@@ -1683,7 +1712,11 @@ static int bd718xx_probe(struct platform_device *pdev)
 		if (!no_enable_control && (!use_snvs ||
 		    !rdev->constraints->always_on ||
 		    !rdev->constraints->boot_on)) {
+<<<<<<< HEAD
 			err = regmap_update_bits(regmap, r->init.reg,
+=======
+			err = regmap_update_bits(mfd->chip.regmap, r->init.reg,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						 r->init.mask, r->init.val);
 			if (err) {
 				dev_err(&pdev->dev,
@@ -1693,7 +1726,11 @@ static int bd718xx_probe(struct platform_device *pdev)
 			}
 		}
 		for (j = 0; j < r->additional_init_amnt; j++) {
+<<<<<<< HEAD
 			err = regmap_update_bits(regmap,
+=======
+			err = regmap_update_bits(mfd->chip.regmap,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						 r->additional_inits[j].reg,
 						 r->additional_inits[j].mask,
 						 r->additional_inits[j].val);

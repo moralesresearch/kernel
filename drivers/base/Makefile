@@ -24,7 +24,10 @@ obj-$(CONFIG_PINCTRL) += pinctrl.o
 obj-$(CONFIG_DEV_COREDUMP) += devcoredump.o
 obj-$(CONFIG_GENERIC_MSI_IRQ_DOMAIN) += platform-msi.o
 obj-$(CONFIG_GENERIC_ARCH_TOPOLOGY) += arch_topology.o
+<<<<<<< HEAD
 obj-$(CONFIG_GENERIC_ARCH_NUMA) += arch_numa.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 obj-y			+= test/
 

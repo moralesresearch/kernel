@@ -223,7 +223,11 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
 	uint32_t new_flags;
 
 	place = vmw_vram_placement.placement[0];
+<<<<<<< HEAD
 	place.lpfn = bo->mem.num_pages;
+=======
+	place.lpfn = bo->num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	placement.num_placement = 1;
 	placement.placement = &place;
 	placement.num_busy_placement = 1;
@@ -244,7 +248,11 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
 	 * that situation.
 	 */
 	if (bo->mem.mem_type == TTM_PL_VRAM &&
+<<<<<<< HEAD
 	    bo->mem.start < bo->mem.num_pages &&
+=======
+	    bo->mem.start < bo->num_pages &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    bo->mem.start > 0 &&
 	    buf->base.pin_count == 0) {
 		ctx.interruptible = false;
@@ -391,7 +399,11 @@ void *vmw_bo_map_and_cache(struct vmw_buffer_object *vbo)
 	if (virtual)
 		return virtual;
 
+<<<<<<< HEAD
 	ret = ttm_bo_kmap(bo, 0, bo->mem.num_pages, &vbo->map);
+=======
+	ret = ttm_bo_kmap(bo, 0, bo->num_pages, &vbo->map);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		DRM_ERROR("Buffer object map failed: %d.\n", ret);
 

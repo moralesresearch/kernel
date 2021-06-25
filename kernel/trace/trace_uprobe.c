@@ -34,7 +34,11 @@ struct uprobe_trace_entry_head {
 #define DATAOF_TRACE_ENTRY(entry, is_return)		\
 	((void*)(entry) + SIZEOF_TRACE_ENTRY(is_return))
 
+<<<<<<< HEAD
 static int trace_uprobe_create(const char *raw_command);
+=======
+static int trace_uprobe_create(int argc, const char **argv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int trace_uprobe_show(struct seq_file *m, struct dyn_event *ev);
 static int trace_uprobe_release(struct dyn_event *ev);
 static bool trace_uprobe_is_busy(struct dyn_event *ev);
@@ -530,7 +534,11 @@ end:
  * Argument syntax:
  *  - Add uprobe: p|r[:[GRP/]EVENT] PATH:OFFSET[%return][(REF)] [FETCHARGS]
  */
+<<<<<<< HEAD
 static int __trace_uprobe_create(int argc, const char **argv)
+=======
+static int trace_uprobe_create(int argc, const char **argv)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct trace_uprobe *tu;
 	const char *event = NULL, *group = UPROBE_EVENT_SYSTEM;
@@ -716,6 +724,7 @@ fail_address_parse:
 	return ret;
 }
 
+<<<<<<< HEAD
 int trace_uprobe_create(const char *raw_command)
 {
 	return trace_probe_create(raw_command, __trace_uprobe_create);
@@ -729,6 +738,16 @@ static int create_or_delete_trace_uprobe(const char *raw_command)
 		return dyn_event_release(raw_command, &trace_uprobe_ops);
 
 	ret = trace_uprobe_create(raw_command);
+=======
+static int create_or_delete_trace_uprobe(int argc, char **argv)
+{
+	int ret;
+
+	if (argv[0][0] == '-')
+		return dyn_event_release(argc, argv, &trace_uprobe_ops);
+
+	ret = trace_uprobe_create(argc, (const char **)argv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret == -ECANCELED ? -EINVAL : ret;
 }
 
@@ -966,7 +985,11 @@ static void __uprobe_trace_func(struct trace_uprobe *tu,
 	esize = SIZEOF_TRACE_ENTRY(is_ret_probe(tu));
 	size = esize + tu->tp.size + dsize;
 	event = trace_event_buffer_lock_reserve(&buffer, trace_file,
+<<<<<<< HEAD
 						call->event.type, size, 0);
+=======
+						call->event.type, size, 0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!event)
 		return;
 
@@ -982,7 +1005,11 @@ static void __uprobe_trace_func(struct trace_uprobe *tu,
 
 	memcpy(data, ucb->buf, tu->tp.size + dsize);
 
+<<<<<<< HEAD
 	event_trigger_unlock_commit(trace_file, buffer, event, entry, 0);
+=======
+	event_trigger_unlock_commit(trace_file, buffer, event, entry, 0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* uprobe handler */
@@ -1640,7 +1667,11 @@ void destroy_local_trace_uprobe(struct trace_event_call *event_call)
 }
 #endif /* CONFIG_PERF_EVENTS */
 
+<<<<<<< HEAD
 /* Make a trace interface for controlling probe points */
+=======
+/* Make a trace interface for controling probe points */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __init int init_uprobe_trace(void)
 {
 	int ret;

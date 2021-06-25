@@ -254,6 +254,10 @@ extern char kdb_prompt_str[];
 #define	KDB_WORD_SIZE	((int)sizeof(unsigned long))
 
 #endif /* CONFIG_KGDB_KDB */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define kdb_func_printf(format, args...) \
 	kdb_printf("%s: " format, __func__, ## args)
@@ -264,4 +268,9 @@ extern char kdb_prompt_str[];
 			kdb_func_printf(format, ## args); \
 	} while (0)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* !_KDBPRIVATE_H */

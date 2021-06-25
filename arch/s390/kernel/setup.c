@@ -338,7 +338,15 @@ int __init arch_early_irq_init(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int __init stack_realloc(void)
+=======
+<<<<<<< HEAD
+static int __init stack_realloc(void)
+=======
+static int __init async_stack_realloc(void)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long old, new;
 
@@ -346,6 +354,10 @@ static int __init stack_realloc(void)
 	new = stack_alloc();
 	if (!new)
 		panic("Couldn't allocate async stack");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WRITE_ONCE(S390_lowcore.async_stack, new + STACK_INIT_OFFSET);
 	free_pages(old, THREAD_SIZE_ORDER);
 
@@ -358,6 +370,16 @@ static int __init stack_realloc(void)
 	return 0;
 }
 early_initcall(stack_realloc);
+<<<<<<< HEAD
+=======
+=======
+	S390_lowcore.async_stack = new + STACK_INIT_OFFSET;
+	free_pages(old, THREAD_SIZE_ORDER);
+	return 0;
+}
+early_initcall(async_stack_realloc);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void __init arch_call_rest_init(void)
 {
@@ -379,7 +401,14 @@ void __init arch_call_rest_init(void)
 static void __init setup_lowcore_dat_off(void)
 {
 	unsigned long int_psw_mask = PSW_KERNEL_BITS;
+<<<<<<< HEAD
 	unsigned long mcck_stack;
+=======
+<<<<<<< HEAD
+	unsigned long mcck_stack;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct lowcore *lc;
 
 	if (IS_ENABLED(CONFIG_KASAN))
@@ -419,7 +448,16 @@ static void __init setup_lowcore_dat_off(void)
 	memcpy(lc->alt_stfle_fac_list, S390_lowcore.alt_stfle_fac_list,
 	       sizeof(lc->alt_stfle_fac_list));
 	nmi_alloc_boot_cpu(lc);
+<<<<<<< HEAD
 	lc->sys_enter_timer = S390_lowcore.sys_enter_timer;
+=======
+<<<<<<< HEAD
+	lc->sys_enter_timer = S390_lowcore.sys_enter_timer;
+=======
+	lc->sync_enter_timer = S390_lowcore.sync_enter_timer;
+	lc->async_enter_timer = S390_lowcore.async_enter_timer;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lc->exit_timer = S390_lowcore.exit_timer;
 	lc->user_timer = S390_lowcore.user_timer;
 	lc->system_timer = S390_lowcore.system_timer;
@@ -447,12 +485,21 @@ static void __init setup_lowcore_dat_off(void)
 	lc->restart_data = 0;
 	lc->restart_source = -1UL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mcck_stack = (unsigned long)memblock_alloc(THREAD_SIZE, THREAD_SIZE);
 	if (!mcck_stack)
 		panic("%s: Failed to allocate %lu bytes align=0x%lx\n",
 		      __func__, THREAD_SIZE, THREAD_SIZE);
 	lc->mcck_stack = mcck_stack + STACK_INIT_OFFSET;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Setup absolute zero lowcore */
 	mem_assign_absolute(S390_lowcore.restart_stack, lc->restart_stack);
 	mem_assign_absolute(S390_lowcore.restart_fn, lc->restart_fn);
@@ -937,9 +984,15 @@ static int __init setup_hwcaps(void)
 	if (MACHINE_HAS_VX) {
 		elf_hwcap |= HWCAP_S390_VXRS;
 		if (test_facility(134))
+<<<<<<< HEAD
 			elf_hwcap |= HWCAP_S390_VXRS_BCD;
 		if (test_facility(135))
 			elf_hwcap |= HWCAP_S390_VXRS_EXT;
+=======
+			elf_hwcap |= HWCAP_S390_VXRS_EXT;
+		if (test_facility(135))
+			elf_hwcap |= HWCAP_S390_VXRS_BCD;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (test_facility(148))
 			elf_hwcap |= HWCAP_S390_VXRS_EXT2;
 		if (test_facility(152))

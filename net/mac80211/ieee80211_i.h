@@ -50,6 +50,15 @@ struct ieee80211_local;
 #define IEEE80211_ENCRYPT_HEADROOM 8
 #define IEEE80211_ENCRYPT_TAILROOM 18
 
+<<<<<<< HEAD
+=======
+/* IEEE 802.11 (Ch. 9.5 Defragmentation) requires support for concurrent
+ * reception of at least three fragmented frames. This limit can be increased
+ * by changing this define, at the cost of slower frame reassembly and
+ * increased memory use (about 2 kB of RAM per entry). */
+#define IEEE80211_FRAGMENT_MAX 4
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* power level hasn't been configured (or set to automatic) */
 #define IEEE80211_UNSET_POWER_LEVEL	INT_MIN
 
@@ -82,6 +91,21 @@ extern const u8 ieee80211_ac_to_qos_mask[IEEE80211_NUM_ACS];
 
 #define IEEE80211_MAX_NAN_INSTANCE_ID 255
 
+<<<<<<< HEAD
+=======
+struct ieee80211_fragment_entry {
+	struct sk_buff_head skb_list;
+	unsigned long first_frag_time;
+	u16 seq;
+	u16 extra_len;
+	u16 last_frag;
+	u8 rx_queue;
+	bool check_sequential_pn; /* needed for CCMP/GCMP */
+	u8 last_pn[6]; /* PN of the last fragment if CCMP was used */
+};
+
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ieee80211_bss {
 	u32 device_ts_beacon, device_ts_presp;
 
@@ -223,6 +247,7 @@ struct ieee80211_rx_data {
 	 */
 	int security_idx;
 
+<<<<<<< HEAD
 	union {
 		struct {
 			u32 iv32;
@@ -232,6 +257,10 @@ struct ieee80211_rx_data {
 			u8 pn[IEEE80211_CCMP_PN_LEN];
 		} ccm_gcm;
 	};
+=======
+	u32 tkip_iv32;
+	u16 tkip_iv16;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ieee80211_csa_settings {
@@ -837,6 +866,10 @@ enum txq_info_flags {
  */
 struct txq_info {
 	struct fq_tin tin;
+<<<<<<< HEAD
+=======
+	struct fq_flow def_flow;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct codel_vars def_cvars;
 	struct codel_stats cstats;
 	struct sk_buff_head frags;
@@ -891,7 +924,13 @@ struct ieee80211_sub_if_data {
 
 	char name[IFNAMSIZ];
 
+<<<<<<< HEAD
 	struct ieee80211_fragment_cache frags;
+=======
+	/* Fragment table for host-based reassembly */
+	struct ieee80211_fragment_entry	fragments[IEEE80211_FRAGMENT_MAX];
+	unsigned int fragment_next;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* TID bitmap for NoAck policy */
 	u16 noack_map;
@@ -1130,8 +1169,11 @@ enum mac80211_scan_state {
 	SCAN_ABORT,
 };
 
+<<<<<<< HEAD
 DECLARE_STATIC_KEY_FALSE(aql_disable);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ieee80211_local {
 	/* embed the driver visible part.
 	 * don't cast (use the static inlines below), but we keep
@@ -2305,7 +2347,10 @@ u32 ieee80211_calc_expected_tx_airtime(struct ieee80211_hw *hw,
 #define debug_noinline
 #endif
 
+<<<<<<< HEAD
 void ieee80211_init_frag_cache(struct ieee80211_fragment_cache *cache);
 void ieee80211_destroy_frag_cache(struct ieee80211_fragment_cache *cache);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* IEEE80211_I_H */

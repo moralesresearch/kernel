@@ -135,13 +135,20 @@ static struct ap_queue_status ap_sm_recv(struct ap_queue *aq)
 {
 	struct ap_queue_status status;
 	struct ap_message *ap_msg;
+<<<<<<< HEAD
 	bool found = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = ap_dqap(aq->qid, &aq->reply->psmid,
 			 aq->reply->msg, aq->reply->len);
 	switch (status.response_code) {
 	case AP_RESPONSE_NORMAL:
+<<<<<<< HEAD
 		aq->queue_count = max_t(int, 0, aq->queue_count - 1);
+=======
+		aq->queue_count--;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (aq->queue_count > 0)
 			mod_timer(&aq->timeout,
 				  jiffies + aq->request_timeout);
@@ -151,6 +158,7 @@ static struct ap_queue_status ap_sm_recv(struct ap_queue *aq)
 			list_del_init(&ap_msg->list);
 			aq->pendingq_count--;
 			ap_msg->receive(aq, ap_msg, aq->reply);
+<<<<<<< HEAD
 			found = true;
 			break;
 		}
@@ -159,6 +167,10 @@ static struct ap_queue_status ap_sm_recv(struct ap_queue *aq)
 				    __func__, aq->reply->psmid,
 				    AP_QID_CARD(aq->qid), AP_QID_QUEUE(aq->qid));
 		}
+=======
+			break;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fallthrough;
 	case AP_RESPONSE_NO_PENDING_REPLY:
 		if (!status.queue_empty || aq->queue_count <= 0)
@@ -239,7 +251,11 @@ static enum ap_sm_wait ap_sm_write(struct ap_queue *aq)
 			   ap_msg->flags & AP_MSG_FLAG_SPECIAL);
 	switch (status.response_code) {
 	case AP_RESPONSE_NORMAL:
+<<<<<<< HEAD
 		aq->queue_count = max_t(int, 1, aq->queue_count + 1);
+=======
+		aq->queue_count++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (aq->queue_count == 1)
 			mod_timer(&aq->timeout, jiffies + aq->request_timeout);
 		list_move_tail(&ap_msg->list, &aq->pendingq);

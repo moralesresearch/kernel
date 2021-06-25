@@ -29,9 +29,12 @@ quiet_cmd_dtb_install = INSTALL $@
 $(dst)/%.dtb: $(obj)/%.dtb
 	$(call cmd,dtb_install)
 
+<<<<<<< HEAD
 $(dst)/%.dtbo: $(obj)/%.dtbo
 	$(call cmd,dtb_install)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 PHONY += $(subdirs)
 $(subdirs):
 	$(Q)$(MAKE) $(dtbinst)=$@ dst=$(patsubst $(obj)/%,$(dst)/%,$@)

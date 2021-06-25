@@ -23,6 +23,10 @@ ldflags-y := -Bsymbolic --no-undefined -soname=linux-vdso.so.1 \
 	    -T
 
 obj-$(CONFIG_VDSO) += vdso.o
+<<<<<<< HEAD
+=======
+extra-$(CONFIG_VDSO) += vdso.lds
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 
 CFLAGS_REMOVE_vdso.o = -pg

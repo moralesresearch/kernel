@@ -191,6 +191,7 @@ static __always_inline struct ghcb *sev_es_get_ghcb(struct ghcb_state *state)
 	if (unlikely(data->ghcb_active)) {
 		/* GHCB is already in use - save its contents */
 
+<<<<<<< HEAD
 		if (unlikely(data->backup_ghcb_active)) {
 			/*
 			 * Backup-GHCB is also already in use. There is no way
@@ -203,6 +204,10 @@ static __always_inline struct ghcb *sev_es_get_ghcb(struct ghcb_state *state)
 
 			panic("Unable to handle #VC exception! GHCB and Backup GHCB are already in use");
 		}
+=======
+		if (unlikely(data->backup_ghcb_active))
+			return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Mark backup_ghcb active before writing to it */
 		data->backup_ghcb_active = true;
@@ -219,6 +224,27 @@ static __always_inline struct ghcb *sev_es_get_ghcb(struct ghcb_state *state)
 	return ghcb;
 }
 
+<<<<<<< HEAD
+=======
+static __always_inline void sev_es_put_ghcb(struct ghcb_state *state)
+{
+	struct sev_es_runtime_data *data;
+	struct ghcb *ghcb;
+
+	data = this_cpu_read(runtime_data);
+	ghcb = &data->ghcb_page;
+
+	if (state->ghcb) {
+		/* Restore GHCB from Backup */
+		*ghcb = *state->ghcb;
+		data->backup_ghcb_active = false;
+		state->ghcb = NULL;
+	} else {
+		data->ghcb_active = false;
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Needed in vc_early_forward_exception */
 void do_early_exception(struct pt_regs *regs, int trapnr);
 
@@ -288,6 +314,7 @@ static enum es_result vc_write_mem(struct es_em_ctxt *ctxt,
 	u16 d2;
 	u8  d1;
 
+<<<<<<< HEAD
 	/*
 	 * This function uses __put_user() independent of whether kernel or user
 	 * memory is accessed. This works fine because __put_user() does no
@@ -311,21 +338,45 @@ static enum es_result vc_write_mem(struct es_em_ctxt *ctxt,
 	case 1:
 		memcpy(&d1, buf, 1);
 		if (__put_user(d1, target))
+=======
+	/* If instruction ran in kernel mode and the I/O buffer is in kernel space */
+	if (!user_mode(ctxt->regs) && !access_ok(target, size)) {
+		memcpy(dst, buf, size);
+		return ES_OK;
+	}
+
+	switch (size) {
+	case 1:
+		memcpy(&d1, buf, 1);
+		if (put_user(d1, target))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		break;
 	case 2:
 		memcpy(&d2, buf, 2);
+<<<<<<< HEAD
 		if (__put_user(d2, target))
+=======
+		if (put_user(d2, target))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		break;
 	case 4:
 		memcpy(&d4, buf, 4);
+<<<<<<< HEAD
 		if (__put_user(d4, target))
+=======
+		if (put_user(d4, target))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		break;
 	case 8:
 		memcpy(&d8, buf, 8);
+<<<<<<< HEAD
 		if (__put_user(d8, target))
+=======
+		if (put_user(d8, target))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		break;
 	default:
@@ -356,6 +407,7 @@ static enum es_result vc_read_mem(struct es_em_ctxt *ctxt,
 	u16 d2;
 	u8  d1;
 
+<<<<<<< HEAD
 	/*
 	 * This function uses __get_user() independent of whether kernel or user
 	 * memory is accessed. This works fine because __get_user() does no
@@ -378,21 +430,44 @@ static enum es_result vc_read_mem(struct es_em_ctxt *ctxt,
 	switch (size) {
 	case 1:
 		if (__get_user(d1, s))
+=======
+	/* If instruction ran in kernel mode and the I/O buffer is in kernel space */
+	if (!user_mode(ctxt->regs) && !access_ok(s, size)) {
+		memcpy(buf, src, size);
+		return ES_OK;
+	}
+
+	switch (size) {
+	case 1:
+		if (get_user(d1, s))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		memcpy(buf, &d1, 1);
 		break;
 	case 2:
+<<<<<<< HEAD
 		if (__get_user(d2, s))
+=======
+		if (get_user(d2, s))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		memcpy(buf, &d2, 2);
 		break;
 	case 4:
+<<<<<<< HEAD
 		if (__get_user(d4, s))
+=======
+		if (get_user(d4, s))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		memcpy(buf, &d4, 4);
 		break;
 	case 8:
+<<<<<<< HEAD
 		if (__get_user(d8, s))
+=======
+		if (get_user(d8, s))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto fault;
 		memcpy(buf, &d8, 8);
 		break;
@@ -452,6 +527,7 @@ static enum es_result vc_slow_virt_to_phys(struct ghcb *ghcb, struct es_em_ctxt 
 /* Include code shared with pre-decompression boot stage */
 #include "sev-es-shared.c"
 
+<<<<<<< HEAD
 static __always_inline void sev_es_put_ghcb(struct ghcb_state *state)
 {
 	struct sev_es_runtime_data *data;
@@ -475,6 +551,8 @@ static __always_inline void sev_es_put_ghcb(struct ghcb_state *state)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void noinstr __sev_es_nmi_complete(void)
 {
 	struct ghcb_state state;
@@ -1269,10 +1347,13 @@ static __always_inline void vc_forward_exception(struct es_em_ctxt *ctxt)
 	case X86_TRAP_UD:
 		exc_invalid_op(ctxt->regs);
 		break;
+<<<<<<< HEAD
 	case X86_TRAP_PF:
 		write_cr2(ctxt->fi.cr2);
 		exc_page_fault(ctxt->regs, error_code);
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case X86_TRAP_AC:
 		exc_alignment_check(ctxt->regs, error_code);
 		break;
@@ -1302,6 +1383,10 @@ static __always_inline bool on_vc_fallback_stack(struct pt_regs *regs)
  */
 DEFINE_IDTENTRY_VC_SAFE_STACK(exc_vmm_communication)
 {
+<<<<<<< HEAD
+=======
+	struct sev_es_runtime_data *data = this_cpu_read(runtime_data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	irqentry_state_t irq_state;
 	struct ghcb_state state;
 	struct es_em_ctxt ctxt;
@@ -1327,6 +1412,19 @@ DEFINE_IDTENTRY_VC_SAFE_STACK(exc_vmm_communication)
 	 */
 
 	ghcb = sev_es_get_ghcb(&state);
+<<<<<<< HEAD
+=======
+	if (!ghcb) {
+		/*
+		 * Mark GHCBs inactive so that panic() is able to print the
+		 * message.
+		 */
+		data->ghcb_active        = false;
+		data->backup_ghcb_active = false;
+
+		panic("Unable to handle #VC exception! GHCB and Backup GHCB are already in use");
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vc_ghcb_invalidate(ghcb);
 	result = vc_init_em_ctxt(&ctxt, regs, error_code);

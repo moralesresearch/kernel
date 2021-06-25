@@ -420,12 +420,28 @@ error:	kfree(priv);
 	return r;
 }
 
+<<<<<<< HEAD
 static void ch341_port_remove(struct usb_serial_port *port)
+=======
+<<<<<<< HEAD
+static void ch341_port_remove(struct usb_serial_port *port)
+=======
+static int ch341_port_remove(struct usb_serial_port *port)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ch341_private *priv;
 
 	priv = usb_get_serial_port_data(port);
 	kfree(priv);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ch341_carrier_raised(struct usb_serial_port *port)

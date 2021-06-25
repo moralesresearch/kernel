@@ -26,6 +26,7 @@
  * have the same layout for 32-bit and 64-bit userland.
  */
 
+<<<<<<< HEAD
 /* Note on reserved space.
  * Reserved fields must not be accessed directly by user space because
  * they may be replaced by a different field in the future. They must
@@ -34,6 +35,8 @@
  * initializer.
  */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct ethtool_cmd - DEPRECATED, link control and status
  * This structure is DEPRECATED, please use struct ethtool_link_settings.
@@ -75,7 +78,10 @@
  *	and other link features that the link partner advertised
  *	through autonegotiation; 0 if unknown or not applicable.
  *	Read-only.
+<<<<<<< HEAD
  * @reserved: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The link speed in Mbps is split between @speed and @speed_hi.  Use
  * the ethtool_cmd_speed() and ethtool_cmd_speed_set() functions to
@@ -164,7 +170,10 @@ static inline __u32 ethtool_cmd_speed(const struct ethtool_cmd *ep)
  * @bus_info: Device bus address.  This should match the dev_name()
  *	string for the underlying bus device, if there is one.  May be
  *	an empty string.
+<<<<<<< HEAD
  * @reserved2: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @n_priv_flags: Number of flags valid for %ETHTOOL_GPFLAGS and
  *	%ETHTOOL_SPFLAGS commands; also the number of strings in the
  *	%ETH_SS_PRIV_FLAGS set
@@ -366,7 +375,10 @@ struct ethtool_eeprom {
  * @tx_lpi_timer: Time in microseconds the interface delays prior to asserting
  *	its tx lpi (after reaching 'idle' state). Effective only when eee
  *	was negotiated and tx_lpi_enabled was set.
+<<<<<<< HEAD
  * @reserved: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct ethtool_eee {
 	__u32	cmd;
@@ -385,7 +397,10 @@ struct ethtool_eee {
  * @cmd: %ETHTOOL_GMODULEINFO
  * @type: Standard the module information conforms to %ETH_MODULE_SFF_xxxx
  * @eeprom_len: Length of the eeprom
+<<<<<<< HEAD
  * @reserved: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This structure is used to return the information to
  * properly size memory for a subsequent call to %ETHTOOL_GMODULEEEPROM.
@@ -591,7 +606,13 @@ struct ethtool_pauseparam {
 	__u32	tx_pause;
 };
 
+<<<<<<< HEAD
 /* Link extended state */
+=======
+/**
+ * enum ethtool_link_ext_state - link extended state
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ethtool_link_ext_state {
 	ETHTOOL_LINK_EXT_STATE_AUTONEG,
 	ETHTOOL_LINK_EXT_STATE_LINK_TRAINING_FAILURE,
@@ -605,7 +626,14 @@ enum ethtool_link_ext_state {
 	ETHTOOL_LINK_EXT_STATE_OVERHEAT,
 };
 
+<<<<<<< HEAD
 /* More information in addition to ETHTOOL_LINK_EXT_STATE_AUTONEG. */
+=======
+/**
+ * enum ethtool_link_ext_substate_autoneg - more information in addition to
+ * ETHTOOL_LINK_EXT_STATE_AUTONEG.
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ethtool_link_ext_substate_autoneg {
 	ETHTOOL_LINK_EXT_SUBSTATE_AN_NO_PARTNER_DETECTED = 1,
 	ETHTOOL_LINK_EXT_SUBSTATE_AN_ACK_NOT_RECEIVED,
@@ -615,7 +643,13 @@ enum ethtool_link_ext_substate_autoneg {
 	ETHTOOL_LINK_EXT_SUBSTATE_AN_NO_HCD,
 };
 
+<<<<<<< HEAD
 /* More information in addition to ETHTOOL_LINK_EXT_STATE_LINK_TRAINING_FAILURE.
+=======
+/**
+ * enum ethtool_link_ext_substate_link_training - more information in addition to
+ * ETHTOOL_LINK_EXT_STATE_LINK_TRAINING_FAILURE.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum ethtool_link_ext_substate_link_training {
 	ETHTOOL_LINK_EXT_SUBSTATE_LT_KR_FRAME_LOCK_NOT_ACQUIRED = 1,
@@ -624,7 +658,13 @@ enum ethtool_link_ext_substate_link_training {
 	ETHTOOL_LINK_EXT_SUBSTATE_LT_REMOTE_FAULT,
 };
 
+<<<<<<< HEAD
 /* More information in addition to ETHTOOL_LINK_EXT_STATE_LINK_LOGICAL_MISMATCH.
+=======
+/**
+ * enum ethtool_link_ext_substate_logical_mismatch - more information in addition
+ * to ETHTOOL_LINK_EXT_STATE_LINK_LOGICAL_MISMATCH.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum ethtool_link_ext_substate_link_logical_mismatch {
 	ETHTOOL_LINK_EXT_SUBSTATE_LLM_PCS_DID_NOT_ACQUIRE_BLOCK_LOCK = 1,
@@ -634,14 +674,27 @@ enum ethtool_link_ext_substate_link_logical_mismatch {
 	ETHTOOL_LINK_EXT_SUBSTATE_LLM_RS_FEC_IS_NOT_LOCKED,
 };
 
+<<<<<<< HEAD
 /* More information in addition to ETHTOOL_LINK_EXT_STATE_BAD_SIGNAL_INTEGRITY.
+=======
+/**
+ * enum ethtool_link_ext_substate_bad_signal_integrity - more information in
+ * addition to ETHTOOL_LINK_EXT_STATE_BAD_SIGNAL_INTEGRITY.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum ethtool_link_ext_substate_bad_signal_integrity {
 	ETHTOOL_LINK_EXT_SUBSTATE_BSI_LARGE_NUMBER_OF_PHYSICAL_ERRORS = 1,
 	ETHTOOL_LINK_EXT_SUBSTATE_BSI_UNSUPPORTED_RATE,
 };
 
+<<<<<<< HEAD
 /* More information in addition to ETHTOOL_LINK_EXT_STATE_CABLE_ISSUE. */
+=======
+/**
+ * enum ethtool_link_ext_substate_cable_issue - more information in
+ * addition to ETHTOOL_LINK_EXT_STATE_CABLE_ISSUE.
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ethtool_link_ext_substate_cable_issue {
 	ETHTOOL_LINK_EXT_SUBSTATE_CI_UNSUPPORTED_CABLE = 1,
 	ETHTOOL_LINK_EXT_SUBSTATE_CI_CABLE_TEST_FAILURE,
@@ -659,7 +712,10 @@ enum ethtool_link_ext_substate_cable_issue {
  *	now deprecated
  * @ETH_SS_FEATURES: Device feature names
  * @ETH_SS_RSS_HASH_FUNCS: RSS hush function names
+<<<<<<< HEAD
  * @ETH_SS_TUNABLES: tunable names
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @ETH_SS_PHY_STATS: Statistic names, for use with %ETHTOOL_GPHYSTATS
  * @ETH_SS_PHY_TUNABLES: PHY tunable names
  * @ETH_SS_LINK_MODES: link mode names
@@ -669,8 +725,11 @@ enum ethtool_link_ext_substate_cable_issue {
  * @ETH_SS_TS_TX_TYPES: timestamping Tx types
  * @ETH_SS_TS_RX_FILTERS: timestamping Rx filters
  * @ETH_SS_UDP_TUNNEL_TYPES: UDP tunnel types
+<<<<<<< HEAD
  *
  * @ETH_SS_COUNT: number of defined string sets
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum ethtool_stringset {
 	ETH_SS_TEST		= 0,
@@ -716,7 +775,10 @@ struct ethtool_gstrings {
 /**
  * struct ethtool_sset_info - string set information
  * @cmd: Command number = %ETHTOOL_GSSET_INFO
+<<<<<<< HEAD
  * @reserved: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sset_mask: On entry, a bitmask of string sets to query, with bits
  *	numbered according to &enum ethtool_stringset.  On return, a
  *	bitmask of those string sets queried that are supported.
@@ -761,7 +823,10 @@ enum ethtool_test_flags {
  * @flags: A bitmask of flags from &enum ethtool_test_flags.  Some
  *	flags may be set by the user on entry; others may be set by
  *	the driver on return.
+<<<<<<< HEAD
  * @reserved: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @len: On return, the number of test results
  * @data: Array of test results
  *
@@ -962,7 +1027,10 @@ union ethtool_flow_union {
  * @vlan_etype: VLAN EtherType
  * @vlan_tci: VLAN tag control information
  * @data: user defined data
+<<<<<<< HEAD
  * @padding: Reserved for future use; see the note on reserved space.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Note, @vlan_etype, @vlan_tci, and @data are only valid if %FLOW_EXT
  * is set in &struct ethtool_rx_flow_spec @flow_type.
@@ -1138,8 +1206,12 @@ struct ethtool_rxfh_indir {
  *	hardware hash key.
  * @hfunc: Defines the current RSS hash function used by HW (or to be set to).
  *	Valid values are one of the %ETH_RSS_HASH_*.
+<<<<<<< HEAD
  * @rsvd8: Reserved for future use; see the note on reserved space.
  * @rsvd32: Reserved for future use; see the note on reserved space.
+=======
+ * @rsvd:	Reserved for future extensions.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @rss_config: RX ring/queue index for each hash value i.e., indirection table
  *	of @indir_size __u32 elements, followed by hash key of @key_size
  *	bytes.
@@ -1307,9 +1379,13 @@ struct ethtool_sfeatures {
  * @so_timestamping: bit mask of the sum of the supported SO_TIMESTAMPING flags
  * @phc_index: device index of the associated PHC, or -1 if there is none
  * @tx_types: bit mask of the supported hwtstamp_tx_types enumeration values
+<<<<<<< HEAD
  * @tx_reserved: Reserved for future use; see the note on reserved space.
  * @rx_filters: bit mask of the supported hwtstamp_rx_filters enumeration values
  * @rx_reserved: Reserved for future use; see the note on reserved space.
+=======
+ * @rx_filters: bit mask of the supported hwtstamp_rx_filters enumeration values
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The bits in the 'tx_types' and 'rx_filters' fields correspond to
  * the 'hwtstamp_tx_types' and 'hwtstamp_rx_filters' enumeration values,
@@ -1965,11 +2041,14 @@ enum ethtool_reset_flags {
  *	autonegotiation; 0 if unknown or not applicable.  Read-only.
  * @transceiver: Used to distinguish different possible PHY types,
  *	reported consistently by PHYLIB.  Read-only.
+<<<<<<< HEAD
  * @master_slave_cfg: Master/slave port mode.
  * @master_slave_state: Master/slave port state.
  * @reserved: Reserved for future use; see the note on reserved space.
  * @reserved1: Reserved for future use; see the note on reserved space.
  * @link_mode_masks: Variable length bitmaps.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * If autonegotiation is disabled, the speed and @duplex represent the
  * fixed link mode and are writable if the driver supports multiple

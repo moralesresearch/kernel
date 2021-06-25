@@ -128,7 +128,11 @@ static void zfcp_qdio_int_resp(struct ccw_device *cdev, unsigned int qdio_err,
 	/*
 	 * put SBALs back to response queue
 	 */
+<<<<<<< HEAD
 	if (do_QDIO(cdev, QDIO_FLAG_SYNC_INPUT, 0, idx, count, NULL))
+=======
+	if (do_QDIO(cdev, QDIO_FLAG_SYNC_INPUT, 0, idx, count))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		zfcp_erp_adapter_reopen(qdio->adapter, 0, "qdires2");
 }
 
@@ -298,7 +302,11 @@ int zfcp_qdio_send(struct zfcp_qdio *qdio, struct zfcp_qdio_req *q_req)
 	atomic_sub(sbal_number, &qdio->req_q_free);
 
 	retval = do_QDIO(qdio->adapter->ccw_device, QDIO_FLAG_SYNC_OUTPUT, 0,
+<<<<<<< HEAD
 			 q_req->sbal_first, sbal_number, NULL);
+=======
+			 q_req->sbal_first, sbal_number);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(retval)) {
 		/* Failed to submit the IO, roll back our modifications. */
@@ -463,8 +471,12 @@ int zfcp_qdio_open(struct zfcp_qdio *qdio)
 		sbale->addr = 0;
 	}
 
+<<<<<<< HEAD
 	if (do_QDIO(cdev, QDIO_FLAG_SYNC_INPUT, 0, 0, QDIO_MAX_BUFFERS_PER_Q,
 		    NULL))
+=======
+	if (do_QDIO(cdev, QDIO_FLAG_SYNC_INPUT, 0, 0, QDIO_MAX_BUFFERS_PER_Q))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto failed_qdio;
 
 	/* set index of first available SBALS / number of available SBALS */

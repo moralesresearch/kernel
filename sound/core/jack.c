@@ -8,9 +8,12 @@
 #include <linux/input.h>
 #include <linux/slab.h>
 #include <linux/module.h>
+<<<<<<< HEAD
 #include <linux/ctype.h>
 #include <linux/mm.h>
 #include <linux/debugfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <sound/jack.h>
 #include <sound/core.h>
 #include <sound/control.h>
@@ -19,11 +22,14 @@ struct snd_jack_kctl {
 	struct snd_kcontrol *kctl;
 	struct list_head list;  /* list of controls belong to the same jack */
 	unsigned int mask_bits; /* only masked status bits are reported via kctl */
+<<<<<<< HEAD
 	struct snd_jack *jack;  /* pointer to struct snd_jack */
 	bool sw_inject_enable;  /* allow to inject plug event via debugfs */
 #ifdef CONFIG_SND_JACK_INJECTION_DEBUG
 	struct dentry *jack_debugfs_root; /* jack_kctl debugfs root */
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #ifdef CONFIG_SND_JACK_INPUT_DEV
@@ -117,6 +123,7 @@ static int snd_jack_dev_register(struct snd_device *device)
 }
 #endif /* CONFIG_SND_JACK_INPUT_DEV */
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_JACK_INJECTION_DEBUG
 static void snd_jack_inject_report(struct snd_jack_kctl *jack_kctl, int status)
 {
@@ -395,13 +402,18 @@ static void snd_jack_debugfs_clear_inject_node(struct snd_jack_kctl *jack_kctl)
 }
 #endif /* CONFIG_SND_JACK_INJECTION_DEBUG */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void snd_jack_kctl_private_free(struct snd_kcontrol *kctl)
 {
 	struct snd_jack_kctl *jack_kctl;
 
 	jack_kctl = kctl->private_data;
 	if (jack_kctl) {
+<<<<<<< HEAD
 		snd_jack_debugfs_clear_inject_node(jack_kctl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		list_del(&jack_kctl->list);
 		kfree(jack_kctl);
 	}
@@ -409,9 +421,13 @@ static void snd_jack_kctl_private_free(struct snd_kcontrol *kctl)
 
 static void snd_jack_kctl_add(struct snd_jack *jack, struct snd_jack_kctl *jack_kctl)
 {
+<<<<<<< HEAD
 	jack_kctl->jack = jack;
 	list_add_tail(&jack_kctl->list, &jack->kctl_list);
 	snd_jack_debugfs_add_inject_node(jack, jack_kctl);
+=======
+	list_add_tail(&jack_kctl->list, &jack->kctl_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct snd_jack_kctl * snd_jack_kctl_new(struct snd_card *card, const char *name, unsigned int mask)
@@ -629,7 +645,10 @@ EXPORT_SYMBOL(snd_jack_set_key);
 void snd_jack_report(struct snd_jack *jack, int status)
 {
 	struct snd_jack_kctl *jack_kctl;
+<<<<<<< HEAD
 	unsigned int mask_bits = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SND_JACK_INPUT_DEV
 	int i;
 #endif
@@ -637,6 +656,7 @@ void snd_jack_report(struct snd_jack *jack, int status)
 	if (!jack)
 		return;
 
+<<<<<<< HEAD
 	jack->hw_status_cache = status;
 
 	list_for_each_entry(jack_kctl, &jack->kctl_list, list)
@@ -645,13 +665,22 @@ void snd_jack_report(struct snd_jack *jack, int status)
 		else
 			snd_kctl_jack_report(jack->card, jack_kctl->kctl,
 					     status & jack_kctl->mask_bits);
+=======
+	list_for_each_entry(jack_kctl, &jack->kctl_list, list)
+		snd_kctl_jack_report(jack->card, jack_kctl->kctl,
+					    status & jack_kctl->mask_bits);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_SND_JACK_INPUT_DEV
 	if (!jack->input_dev)
 		return;
 
 	for (i = 0; i < ARRAY_SIZE(jack->key); i++) {
+<<<<<<< HEAD
 		int testbit = ((SND_JACK_BTN_0 >> i) & ~mask_bits);
+=======
+		int testbit = SND_JACK_BTN_0 >> i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (jack->type & testbit)
 			input_report_key(jack->input_dev, jack->key[i],
@@ -659,8 +688,12 @@ void snd_jack_report(struct snd_jack *jack, int status)
 	}
 
 	for (i = 0; i < ARRAY_SIZE(jack_switch_types); i++) {
+<<<<<<< HEAD
 		int testbit = ((1 << i) & ~mask_bits);
 
+=======
+		int testbit = 1 << i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (jack->type & testbit)
 			input_report_switch(jack->input_dev,
 					    jack_switch_types[i],

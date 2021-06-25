@@ -40,10 +40,13 @@
 	SR(MASTER_COMM_DATA_REG3), \
 	SR(MASTER_COMM_CMD_REG), \
 	SR(MASTER_COMM_CNTL_REG), \
+<<<<<<< HEAD
 	SR(SLAVE_COMM_DATA_REG1), \
 	SR(SLAVE_COMM_DATA_REG2), \
 	SR(SLAVE_COMM_DATA_REG3), \
 	SR(SLAVE_COMM_CMD_REG), \
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SR(DMCU_IRAM_RD_CTRL), \
 	SR(DMCU_IRAM_RD_DATA), \
 	SR(DMCU_INTERRUPT_TO_UC_EN_MASK), \
@@ -116,7 +119,10 @@
 	DMCU_SF(MASTER_COMM_CMD_REG, \
 			MASTER_COMM_CMD_REG_BYTE0, mask_sh), \
 	DMCU_SF(MASTER_COMM_CNTL_REG, MASTER_COMM_INTERRUPT, mask_sh), \
+<<<<<<< HEAD
 	DMCU_SF(SLAVE_COMM_CNTL_REG, SLAVE_COMM_INTERRUPT, mask_sh), \
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	DMCU_SF(DMCU_INTERRUPT_TO_UC_EN_MASK, \
 			STATIC_SCREEN1_INT_TO_UC_EN, mask_sh), \
 	DMCU_SF(DMCU_INTERRUPT_TO_UC_EN_MASK, \
@@ -184,7 +190,10 @@
 	type UC_IN_RESET; \
 	type MASTER_COMM_CMD_REG_BYTE0; \
 	type MASTER_COMM_INTERRUPT; \
+<<<<<<< HEAD
 	type SLAVE_COMM_INTERRUPT; \
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	type DPHY_RX_FAST_TRAINING_CAPABLE; \
 	type DPHY_LOAD_BS_COUNT; \
 	type STATIC_SCREEN1_INT_TO_UC_EN; \
@@ -217,11 +226,14 @@ struct dce_dmcu_registers {
 	uint32_t MASTER_COMM_DATA_REG3;
 	uint32_t MASTER_COMM_CMD_REG;
 	uint32_t MASTER_COMM_CNTL_REG;
+<<<<<<< HEAD
 	uint32_t SLAVE_COMM_DATA_REG1;
 	uint32_t SLAVE_COMM_DATA_REG2;
 	uint32_t SLAVE_COMM_DATA_REG3;
 	uint32_t SLAVE_COMM_CMD_REG;
 	uint32_t SLAVE_COMM_CNTL_REG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t DMCU_IRAM_RD_CTRL;
 	uint32_t DMCU_IRAM_RD_DATA;
 	uint32_t DMCU_INTERRUPT_TO_UC_EN_MASK;
@@ -328,4 +340,9 @@ struct dmcu *dcn21_dmcu_create(
 
 void dce_dmcu_destroy(struct dmcu **dmcu);
 
+<<<<<<< HEAD
+=======
+static const uint32_t abm_gain_stepsize = 0x0060;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _DCE_ABM_H_ */

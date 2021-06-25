@@ -3,6 +3,10 @@
  * This only handles 32bit MTRR on 32bit hosts. This is strictly wrong
  * because MTRRs can span up to 40 bits (36bits on most modern x86)
  */
+<<<<<<< HEAD
+=======
+#define DEBUG
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/export.h>
 #include <linux/init.h>

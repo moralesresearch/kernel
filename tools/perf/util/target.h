@@ -10,7 +10,10 @@ struct target {
 	const char   *tid;
 	const char   *cpu_list;
 	const char   *uid_str;
+<<<<<<< HEAD
 	const char   *bpf_str;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uid_t	     uid;
 	bool	     system_wide;
 	bool	     uses_mmap;
@@ -37,10 +40,13 @@ enum target_errno {
 	TARGET_ERRNO__PID_OVERRIDE_SYSTEM,
 	TARGET_ERRNO__UID_OVERRIDE_SYSTEM,
 	TARGET_ERRNO__SYSTEM_OVERRIDE_THREAD,
+<<<<<<< HEAD
 	TARGET_ERRNO__BPF_OVERRIDE_CPU,
 	TARGET_ERRNO__BPF_OVERRIDE_PID,
 	TARGET_ERRNO__BPF_OVERRIDE_UID,
 	TARGET_ERRNO__BPF_OVERRIDE_THREAD,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* for target__parse_uid() */
 	TARGET_ERRNO__INVALID_UID,
@@ -64,11 +70,14 @@ static inline bool target__has_cpu(struct target *target)
 	return target->system_wide || target->cpu_list;
 }
 
+<<<<<<< HEAD
 static inline bool target__has_bpf(struct target *target)
 {
 	return target->bpf_str;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool target__none(struct target *target)
 {
 	return !target__has_task(target) && !target__has_cpu(target);

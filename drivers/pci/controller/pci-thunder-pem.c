@@ -12,7 +12,10 @@
 #include <linux/pci-acpi.h>
 #include <linux/pci-ecam.h>
 #include <linux/platform_device.h>
+<<<<<<< HEAD
 #include <linux/io-64-nonatomic-lo-hi.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../pci.h"
 
 #if defined(CONFIG_PCI_HOST_THUNDER_PEM) || (defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS))
@@ -325,9 +328,15 @@ static int thunder_pem_init(struct device *dev, struct pci_config_window *cfg,
 	 * structure here for the BAR.
 	 */
 	bar4_start = res_pem->start + 0xf00000;
+<<<<<<< HEAD
 	pem_pci->ea_entry[0] = lower_32_bits(bar4_start) | 2;
 	pem_pci->ea_entry[1] = lower_32_bits(res_pem->end - bar4_start) & ~3u;
 	pem_pci->ea_entry[2] = upper_32_bits(bar4_start);
+=======
+	pem_pci->ea_entry[0] = (u32)bar4_start | 2;
+	pem_pci->ea_entry[1] = (u32)(res_pem->end - bar4_start) & ~3u;
+	pem_pci->ea_entry[2] = (u32)(bar4_start >> 32);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cfg->priv = pem_pci;
 	return 0;
@@ -335,9 +344,15 @@ static int thunder_pem_init(struct device *dev, struct pci_config_window *cfg,
 
 #if defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS)
 
+<<<<<<< HEAD
 #define PEM_RES_BASE		0x87e0c0000000ULL
 #define PEM_NODE_MASK		GENMASK_ULL(45, 44)
 #define PEM_INDX_MASK		GENMASK_ULL(26, 24)
+=======
+#define PEM_RES_BASE		0x87e0c0000000UL
+#define PEM_NODE_MASK		GENMASK(45, 44)
+#define PEM_INDX_MASK		GENMASK(26, 24)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PEM_MIN_DOM_IN_NODE	4
 #define PEM_MAX_DOM_IN_NODE	10
 

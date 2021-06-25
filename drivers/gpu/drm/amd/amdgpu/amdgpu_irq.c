@@ -444,8 +444,12 @@ void amdgpu_irq_dispatch(struct amdgpu_device *adev,
 	} else	if (src_id >= AMDGPU_MAX_IRQ_SRC_ID) {
 		DRM_DEBUG("Invalid src_id in IV: %d\n", src_id);
 
+<<<<<<< HEAD
 	} else if ((client_id == AMDGPU_IRQ_CLIENTID_LEGACY) &&
 		   adev->irq.virq[src_id]) {
+=======
+	} else if (adev->irq.virq[src_id]) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		generic_handle_irq(irq_find_mapping(adev->irq.domain, src_id));
 
 	} else if (!adev->irq.client[client_id].sources) {
@@ -535,7 +539,11 @@ void amdgpu_irq_gpu_reset_resume_helper(struct amdgpu_device *adev)
 		for (j = 0; j < AMDGPU_MAX_IRQ_SRC_ID; ++j) {
 			struct amdgpu_irq_src *src = adev->irq.client[i].sources[j];
 
+<<<<<<< HEAD
 			if (!src || !src->funcs || !src->funcs->set)
+=======
+			if (!src)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				continue;
 			for (k = 0; k < src->num_types; k++)
 				amdgpu_irq_update(adev, src, k);

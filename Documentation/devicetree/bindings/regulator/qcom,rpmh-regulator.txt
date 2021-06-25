@@ -50,8 +50,11 @@ First Level Nodes - PMIC
 		    "qcom,pm8350-rpmh-regulators"
 		    "qcom,pm8350c-rpmh-regulators"
 		    "qcom,pm8998-rpmh-regulators"
+<<<<<<< HEAD
 		    "qcom,pmc8180-rpmh-regulators"
 		    "qcom,pmc8180c-rpmh-regulators"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    "qcom,pmi8998-rpmh-regulators"
 		    "qcom,pm6150-rpmh-regulators"
 		    "qcom,pm6150l-rpmh-regulators"

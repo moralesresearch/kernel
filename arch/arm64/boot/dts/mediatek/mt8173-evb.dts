@@ -294,7 +294,11 @@
 
 &pwrap {
 	/* Only MT8173 E1 needs USB power domain */
+<<<<<<< HEAD
 	power-domains = <&spm MT8173_POWER_DOMAIN_USB>;
+=======
+	power-domains = <&scpsys MT8173_POWER_DOMAIN_USB>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pmic: mt6397 {
 		compatible = "mediatek,mt6397";

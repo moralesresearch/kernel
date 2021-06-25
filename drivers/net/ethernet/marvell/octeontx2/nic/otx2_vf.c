@@ -7,10 +7,16 @@
 
 #include "otx2_common.h"
 #include "otx2_reg.h"
+<<<<<<< HEAD
 #include "cn10k.h"
 
 #define DRV_NAME	"rvu_nicvf"
 #define DRV_STRING	"Marvell RVU NIC Virtual Function Driver"
+=======
+
+#define DRV_NAME	"octeontx2-nicvf"
+#define DRV_STRING	"Marvell OcteonTX2 NIC Virtual Function Driver"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct pci_device_id otx2_vf_id_table[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_CAVIUM, PCI_DEVID_OCTEONTX2_RVU_AFVF) },
@@ -278,7 +284,11 @@ static void otx2vf_vfaf_mbox_destroy(struct otx2_nic *vf)
 		vf->mbox_wq = NULL;
 	}
 
+<<<<<<< HEAD
 	if (mbox->mbox.hwbase && !test_bit(CN10K_MBOX, &vf->hw.cap_flag))
+=======
+	if (mbox->mbox.hwbase)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		iounmap((void __iomem *)mbox->mbox.hwbase);
 
 	otx2_mbox_destroy(&mbox->mbox);
@@ -298,6 +308,7 @@ static int otx2vf_vfaf_mbox_init(struct otx2_nic *vf)
 	if (!vf->mbox_wq)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (test_bit(CN10K_MBOX, &vf->hw.cap_flag)) {
 		/* For cn10k platform, VF mailbox region is in its BAR2
 		 * register space
@@ -317,6 +328,18 @@ static int otx2vf_vfaf_mbox_init(struct otx2_nic *vf)
 			err = -ENOMEM;
 			goto exit;
 		}
+=======
+	/* Mailbox is a reserved memory (in RAM) region shared between
+	 * admin function (i.e PF0) and this VF, shouldn't be mapped as
+	 * device memory to allow unaligned accesses.
+	 */
+	hwbase = ioremap_wc(pci_resource_start(vf->pdev, PCI_MBOX_BAR_NUM),
+			    pci_resource_len(vf->pdev, PCI_MBOX_BAR_NUM));
+	if (!hwbase) {
+		dev_err(vf->dev, "Unable to map VFAF mailbox region\n");
+		err = -ENOMEM;
+		goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	err = otx2_mbox_init(&mbox->mbox, hwbase, vf->pdev, vf->reg_base,
@@ -339,8 +362,11 @@ static int otx2vf_vfaf_mbox_init(struct otx2_nic *vf)
 
 	return 0;
 exit:
+<<<<<<< HEAD
 	if (hwbase && !test_bit(CN10K_MBOX, &vf->hw.cap_flag))
 		iounmap(hwbase);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	destroy_workqueue(vf->mbox_wq);
 	return err;
 }
@@ -537,7 +563,10 @@ static int otx2vf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		goto err_free_irq_vectors;
 	}
 
+<<<<<<< HEAD
 	otx2_setup_dev_hw_settings(vf);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Init VF <=> PF mailbox stuff */
 	err = otx2vf_vfaf_mbox_init(vf);
 	if (err)
@@ -561,9 +590,13 @@ static int otx2vf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	if (err)
 		goto err_detach_rsrc;
 
+<<<<<<< HEAD
 	err = cn10k_vf_lmtst_init(vf);
 	if (err)
 		goto err_detach_rsrc;
+=======
+	otx2_setup_dev_hw_settings(vf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Assign default mac address */
 	otx2_get_mac_from_af(netdev);
@@ -586,7 +619,11 @@ static int otx2vf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	/* MTU range: 68 - 9190 */
 	netdev->min_mtu = OTX2_MIN_MTU;
+<<<<<<< HEAD
 	netdev->max_mtu = otx2_get_max_mtu(vf);
+=======
+	netdev->max_mtu = OTX2_MAX_MTU;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	INIT_WORK(&vf->reset_task, otx2vf_reset_task);
 
@@ -615,8 +652,11 @@ static int otx2vf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	return 0;
 
 err_detach_rsrc:
+<<<<<<< HEAD
 	if (hw->lmt_base)
 		iounmap(hw->lmt_base);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	otx2_detach_resources(&vf->mbox);
 err_disable_mbox_intr:
 	otx2vf_disable_mbox_intr(vf);
@@ -645,11 +685,16 @@ static void otx2vf_remove(struct pci_dev *pdev)
 	cancel_work_sync(&vf->reset_task);
 	unregister_netdev(netdev);
 	otx2vf_disable_mbox_intr(vf);
+<<<<<<< HEAD
 	otx2_detach_resources(&vf->mbox);
 
 	if (vf->hw.lmt_base)
 		iounmap(vf->hw.lmt_base);
 
+=======
+
+	otx2_detach_resources(&vf->mbox);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	otx2vf_vfaf_mbox_destroy(vf);
 	pci_free_irq_vectors(vf->pdev);
 	pci_set_drvdata(pdev, NULL);

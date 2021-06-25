@@ -58,6 +58,13 @@
  */
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#define DEBUG
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/kernel.h>
 #include <linux/string.h>
@@ -363,11 +370,21 @@ static void gfar_set_mac_for_addr(struct net_device *dev, int num,
 
 static int gfar_set_mac_addr(struct net_device *dev, void *p)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ret = eth_mac_addr(dev, p);
 	if (ret)
 		return ret;
+<<<<<<< HEAD
+=======
+=======
+	eth_mac_addr(dev, p);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gfar_set_mac_for_addr(dev, 0, dev->dev_addr);
 

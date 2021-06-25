@@ -68,7 +68,11 @@ struct net_dev_context {
 };
 
 static struct list_head net_devices = LIST_HEAD_INIT(net_devices);
+<<<<<<< HEAD
 static DEFINE_MUTEX(probe_disc_mt); /* ch->linked = true, most_nd_open */
+=======
+static struct mutex probe_disc_mt; /* ch->linked = true, most_nd_open */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_SPINLOCK(list_lock); /* list_head, ch->linked = false, dev_hold */
 static struct most_component comp;
 
@@ -520,6 +524,10 @@ static int __init most_net_init(void)
 {
 	int err;
 
+<<<<<<< HEAD
+=======
+	mutex_init(&probe_disc_mt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = most_register_component(&comp);
 	if (err)
 		return err;

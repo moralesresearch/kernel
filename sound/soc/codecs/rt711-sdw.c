@@ -463,8 +463,13 @@ static int rt711_sdw_remove(struct sdw_slave *slave)
 	struct rt711_priv *rt711 = dev_get_drvdata(&slave->dev);
 
 	if (rt711 && rt711->hw_init) {
+<<<<<<< HEAD
 		cancel_delayed_work_sync(&rt711->jack_detect_work);
 		cancel_delayed_work_sync(&rt711->jack_btn_check_work);
+=======
+		cancel_delayed_work(&rt711->jack_detect_work);
+		cancel_delayed_work(&rt711->jack_btn_check_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cancel_work_sync(&rt711->calibration_work);
 	}
 
@@ -493,7 +498,11 @@ static int __maybe_unused rt711_dev_suspend(struct device *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
 #define RT711_PROBE_TIMEOUT 5000
+=======
+#define RT711_PROBE_TIMEOUT 2000
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __maybe_unused rt711_dev_resume(struct device *dev)
 {

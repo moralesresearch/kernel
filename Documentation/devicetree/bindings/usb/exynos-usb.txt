@@ -93,7 +93,11 @@ Sub-nodes:
 The dwc3 core should be added as subnode to Exynos dwc3 glue.
 - dwc3 :
    The binding details of dwc3 can be found in:
+<<<<<<< HEAD
    Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+=======
+   Documentation/devicetree/bindings/usb/dwc3.txt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Example:
 	usb@12000000 {

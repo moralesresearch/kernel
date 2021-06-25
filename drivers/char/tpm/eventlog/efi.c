@@ -17,7 +17,10 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 {
 
 	struct efi_tcg2_final_events_table *final_tbl = NULL;
+<<<<<<< HEAD
 	int final_events_log_size = efi_tpm_final_log_size;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct linux_efi_tpm_eventlog *log_tbl;
 	struct tpm_bios_log *log;
 	u32 log_size;
@@ -67,12 +70,20 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 	ret = tpm_log_version;
 
 	if (efi.tpm_final_log == EFI_INVALID_TABLE_ADDR ||
+<<<<<<< HEAD
 	    final_events_log_size == 0 ||
+=======
+	    efi_tpm_final_log_size == 0 ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    tpm_log_version != EFI_TCG2_EVENT_LOG_FORMAT_TCG_2)
 		goto out;
 
 	final_tbl = memremap(efi.tpm_final_log,
+<<<<<<< HEAD
 			     sizeof(*final_tbl) + final_events_log_size,
+=======
+			     sizeof(*final_tbl) + efi_tpm_final_log_size,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     MEMREMAP_WB);
 	if (!final_tbl) {
 		pr_err("Could not map UEFI TPM final log\n");
@@ -81,6 +92,7 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 		goto out;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * The 'final events log' size excludes the 'final events preboot log'
 	 * at its beginning.
@@ -93,6 +105,12 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 	 */
 	tmp = krealloc(log->bios_event_log,
 		       log_size + final_events_log_size,
+=======
+	efi_tpm_final_log_size -= log_tbl->final_events_preboot_size;
+
+	tmp = krealloc(log->bios_event_log,
+		       log_size + efi_tpm_final_log_size,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       GFP_KERNEL);
 	if (!tmp) {
 		kfree(log->bios_event_log);
@@ -103,12 +121,18 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 	log->bios_event_log = tmp;
 
 	/*
+<<<<<<< HEAD
 	 * Append any of the 'final events log' that didn't also end up in the
 	 * 'main log'. Events can be logged in both if events are generated
+=======
+	 * Copy any of the final events log that didn't also end up in the
+	 * main log. Events can be logged in both if events are generated
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * between GetEventLog() and ExitBootServices().
 	 */
 	memcpy((void *)log->bios_event_log + log_size,
 	       final_tbl->events + log_tbl->final_events_preboot_size,
+<<<<<<< HEAD
 	       final_events_log_size);
 	/*
 	 * The size of the 'combined log' is the size of the 'main log' plus
@@ -116,6 +140,11 @@ int tpm_read_log_efi(struct tpm_chip *chip)
 	 */
 	log->bios_event_log_end = log->bios_event_log +
 		log_size + final_events_log_size;
+=======
+	       efi_tpm_final_log_size);
+	log->bios_event_log_end = log->bios_event_log +
+		log_size + efi_tpm_final_log_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	memunmap(final_tbl);

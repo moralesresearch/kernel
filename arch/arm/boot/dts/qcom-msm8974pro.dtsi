@@ -14,10 +14,13 @@
 		clock-controller@fc400000 {
 				compatible = "qcom,gcc-msm8974pro";
 		};
+<<<<<<< HEAD
 
 		adreno@fdb00000 {
 			compatible = "qcom,adreno-330.2",
 				     "qcom,adreno";
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

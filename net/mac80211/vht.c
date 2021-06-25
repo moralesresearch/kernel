@@ -484,7 +484,10 @@ enum ieee80211_sta_rx_bandwidth ieee80211_sta_cur_vht_bw(struct sta_info *sta)
 void ieee80211_sta_set_rx_nss(struct sta_info *sta)
 {
 	u8 ht_rx_nss = 0, vht_rx_nss = 0, he_rx_nss = 0, rx_nss;
+<<<<<<< HEAD
 	bool support_160;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* if we received a notification already don't overwrite it */
 	if (sta->sta.rx_nss)
@@ -515,6 +518,7 @@ void ieee80211_sta_set_rx_nss(struct sta_info *sta)
 			}
 		}
 
+<<<<<<< HEAD
 		support_160 = he_cap->he_cap_elem.phy_cap_info[0] &
 			      IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
 
@@ -522,6 +526,9 @@ void ieee80211_sta_set_rx_nss(struct sta_info *sta)
 			he_rx_nss = min(rx_mcs_80, rx_mcs_160);
 		else
 			he_rx_nss = rx_mcs_80;
+=======
+		he_rx_nss = min(rx_mcs_80, rx_mcs_160);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (sta->sta.ht_cap.ht_supported) {

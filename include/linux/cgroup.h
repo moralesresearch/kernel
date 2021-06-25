@@ -307,7 +307,11 @@ void css_task_iter_end(struct css_task_iter *it);
  * Inline functions.
  */
 
+<<<<<<< HEAD
 static inline u64 cgroup_id(const struct cgroup *cgrp)
+=======
+static inline u64 cgroup_id(struct cgroup *cgrp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return cgrp->kn->id;
 }
@@ -701,7 +705,11 @@ void cgroup_path_from_kernfs_id(u64 id, char *buf, size_t buflen);
 struct cgroup_subsys_state;
 struct cgroup;
 
+<<<<<<< HEAD
 static inline u64 cgroup_id(const struct cgroup *cgrp) { return 1; }
+=======
+static inline u64 cgroup_id(struct cgroup *cgrp) { return 1; }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void css_get(struct cgroup_subsys_state *css) {}
 static inline void css_put(struct cgroup_subsys_state *css) {}
 static inline int cgroup_attach_task_all(struct task_struct *from,

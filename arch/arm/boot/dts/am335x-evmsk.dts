@@ -596,6 +596,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &mac_sw {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&cpsw_default>;
@@ -607,6 +608,21 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&davinci_mdio_default>;
 	pinctrl-1 = <&davinci_mdio_sleep>;
+=======
+&mac {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&cpsw_default>;
+	pinctrl-1 = <&cpsw_sleep>;
+	dual_emac = <1>;
+	status = "okay";
+};
+
+&davinci_mdio {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&davinci_mdio_default>;
+	pinctrl-1 = <&davinci_mdio_sleep>;
+	status = "okay";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ethphy0: ethernet-phy@0 {
 		reg = <0>;
@@ -617,6 +633,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &cpsw_port1 {
 	phy-handle = <&ethphy0>;
 	phy-mode = "rgmii-id";
@@ -627,6 +644,18 @@
 	phy-handle = <&ethphy1>;
 	phy-mode = "rgmii-id";
 	ti,dual-emac-pvid = <2>;
+=======
+&cpsw_emac0 {
+	phy-handle = <&ethphy0>;
+	phy-mode = "rgmii-id";
+	dual_emac_res_vlan = <1>;
+};
+
+&cpsw_emac1 {
+	phy-handle = <&ethphy1>;
+	phy-mode = "rgmii-id";
+	dual_emac_res_vlan = <2>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &mmc1 {

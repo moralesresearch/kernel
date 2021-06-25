@@ -657,12 +657,15 @@ static void ep_done_scan(struct eventpoll *ep,
 	 */
 	list_splice(txlist, &ep->rdllist);
 	__pm_relax(ep->ws);
+<<<<<<< HEAD
 
 	if (!list_empty(&ep->rdllist)) {
 		if (waitqueue_active(&ep->wq))
 			wake_up(&ep->wq);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	write_unlock_irq(&ep->lock);
 }
 

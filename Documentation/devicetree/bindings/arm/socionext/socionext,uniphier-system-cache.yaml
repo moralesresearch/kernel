@@ -30,8 +30,13 @@ properties:
       Interrupts can be used to notify the completion of cache operations.
       The number of interrupts should match to the number of CPU cores.
       The specified interrupts correspond to CPU0, CPU1, ... in this order.
+<<<<<<< HEAD
     minItems: 1
     maxItems: 4
+=======
+      minItems: 1
+      maxItems: 4
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   cache-unified: true
 

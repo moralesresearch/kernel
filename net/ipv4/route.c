@@ -66,7 +66,10 @@
 #include <linux/types.h>
 #include <linux/kernel.h>
 #include <linux/mm.h>
+<<<<<<< HEAD
 #include <linux/memblock.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/string.h>
 #include <linux/socket.h>
 #include <linux/sockios.h>
@@ -134,11 +137,23 @@ static int ip_rt_gc_timeout __read_mostly	= RT_GC_TIMEOUT;
  *	Interface to generic destination cache.
  */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 INDIRECT_CALLABLE_SCOPE
 struct dst_entry	*ipv4_dst_check(struct dst_entry *dst, u32 cookie);
 static unsigned int	 ipv4_default_advmss(const struct dst_entry *dst);
 INDIRECT_CALLABLE_SCOPE
 unsigned int		ipv4_mtu(const struct dst_entry *dst);
+<<<<<<< HEAD
+=======
+=======
+static struct dst_entry *ipv4_dst_check(struct dst_entry *dst, u32 cookie);
+static unsigned int	 ipv4_default_advmss(const struct dst_entry *dst);
+static unsigned int	 ipv4_mtu(const struct dst_entry *dst);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dst_entry *ipv4_negative_advice(struct dst_entry *dst);
 static void		 ipv4_link_failure(struct sk_buff *skb);
 static void		 ip_rt_update_pmtu(struct dst_entry *dst, struct sock *sk,
@@ -479,10 +494,15 @@ static void ipv4_confirm_neigh(const struct dst_entry *dst, const void *daddr)
 	__ipv4_confirm_neigh(dev, *(__force u32 *)pkey);
 }
 
+<<<<<<< HEAD
 /* Hash tables of size 2048..262144 depending on RAM size.
  * Each bucket uses 8 bytes.
  */
 static u32 ip_idents_mask __read_mostly;
+=======
+#define IP_IDENTS_SZ 2048u
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static atomic_t *ip_idents __read_mostly;
 static u32 *ip_tstamps __read_mostly;
 
@@ -492,6 +512,7 @@ static u32 *ip_tstamps __read_mostly;
  */
 u32 ip_idents_reserve(u32 hash, int segs)
 {
+<<<<<<< HEAD
 	u32 bucket, old, now = (u32)jiffies;
 	atomic_t *p_id;
 	u32 *p_tstamp;
@@ -502,6 +523,14 @@ u32 ip_idents_reserve(u32 hash, int segs)
 	p_id = ip_idents + bucket;
 	old = READ_ONCE(*p_tstamp);
 
+=======
+	u32 *p_tstamp = ip_tstamps + hash % IP_IDENTS_SZ;
+	atomic_t *p_id = ip_idents + hash % IP_IDENTS_SZ;
+	u32 old = READ_ONCE(*p_tstamp);
+	u32 now = (u32)jiffies;
+	u32 delta = 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (old != now && cmpxchg(p_tstamp, old, now) == old)
 		delta = prandom_u32_max(now - old);
 
@@ -1196,8 +1225,17 @@ void ipv4_sk_redirect(struct sk_buff *skb, struct sock *sk)
 }
 EXPORT_SYMBOL_GPL(ipv4_sk_redirect);
 
+<<<<<<< HEAD
 INDIRECT_CALLABLE_SCOPE struct dst_entry *ipv4_dst_check(struct dst_entry *dst,
 							 u32 cookie)
+=======
+<<<<<<< HEAD
+INDIRECT_CALLABLE_SCOPE struct dst_entry *ipv4_dst_check(struct dst_entry *dst,
+							 u32 cookie)
+=======
+static struct dst_entry *ipv4_dst_check(struct dst_entry *dst, u32 cookie)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct rtable *rt = (struct rtable *) dst;
 
@@ -1213,7 +1251,14 @@ INDIRECT_CALLABLE_SCOPE struct dst_entry *ipv4_dst_check(struct dst_entry *dst,
 		return NULL;
 	return dst;
 }
+<<<<<<< HEAD
 EXPORT_INDIRECT_CALLABLE(ipv4_dst_check);
+=======
+<<<<<<< HEAD
+EXPORT_INDIRECT_CALLABLE(ipv4_dst_check);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void ipv4_send_dest_unreach(struct sk_buff *skb)
 {
@@ -1322,7 +1367,15 @@ static unsigned int ipv4_default_advmss(const struct dst_entry *dst)
 	return min(advmss, IPV4_MAX_PMTU - header_size);
 }
 
+<<<<<<< HEAD
 INDIRECT_CALLABLE_SCOPE unsigned int ipv4_mtu(const struct dst_entry *dst)
+=======
+<<<<<<< HEAD
+INDIRECT_CALLABLE_SCOPE unsigned int ipv4_mtu(const struct dst_entry *dst)
+=======
+static unsigned int ipv4_mtu(const struct dst_entry *dst)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct rtable *rt = (const struct rtable *)dst;
 	unsigned int mtu = rt->rt_pmtu;
@@ -1344,7 +1397,14 @@ INDIRECT_CALLABLE_SCOPE unsigned int ipv4_mtu(const struct dst_entry *dst)
 
 	return mtu - lwtunnel_headroom(dst->lwtstate, mtu);
 }
+<<<<<<< HEAD
 EXPORT_INDIRECT_CALLABLE(ipv4_mtu);
+=======
+<<<<<<< HEAD
+EXPORT_INDIRECT_CALLABLE(ipv4_mtu);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void ip_del_fnhe(struct fib_nh_common *nhc, __be32 daddr)
 {
@@ -2081,6 +2141,7 @@ martian_source:
 	return err;
 }
 
+<<<<<<< HEAD
 /* get device for dst_alloc with local routes */
 static struct net_device *ip_rt_get_dev(struct net *net,
 					const struct fib_result *res)
@@ -2094,6 +2155,8 @@ static struct net_device *ip_rt_get_dev(struct net *net,
 	return dev ? : net->loopback_dev;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  *	NOTE. We drop all the packets that has local source
  *	addresses, because every properly looped back packet
@@ -2250,7 +2313,11 @@ local_input:
 		}
 	}
 
+<<<<<<< HEAD
 	rth = rt_dst_alloc(ip_rt_get_dev(net, res),
+=======
+	rth = rt_dst_alloc(l3mdev_master_dev_rcu(dev) ? : net->loopback_dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   flags | RTCF_LOCAL, res->type,
 			   IN_DEV_ORCONF(in_dev, NOPOLICY), false);
 	if (!rth)
@@ -3295,7 +3362,14 @@ static int inet_rtm_getroute(struct sk_buff *in_skb, struct nlmsghdr *nlh,
 		fri.type = rt->rt_type;
 		fri.offload = 0;
 		fri.trap = 0;
+<<<<<<< HEAD
 		fri.offload_failed = 0;
+=======
+<<<<<<< HEAD
+		fri.offload_failed = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (res.fa_head) {
 			struct fib_alias *fa;
 
@@ -3573,6 +3647,7 @@ struct ip_rt_acct __percpu *ip_rt_acct __read_mostly;
 
 int __init ip_rt_init(void)
 {
+<<<<<<< HEAD
 	void *idents_hash;
 	int cpu;
 
@@ -3592,6 +3667,20 @@ int __init ip_rt_init(void)
 	prandom_bytes(ip_idents, (ip_idents_mask + 1) * sizeof(*ip_idents));
 
 	ip_tstamps = idents_hash + (ip_idents_mask + 1) * sizeof(*ip_idents);
+=======
+	int cpu;
+
+	ip_idents = kmalloc_array(IP_IDENTS_SZ, sizeof(*ip_idents),
+				  GFP_KERNEL);
+	if (!ip_idents)
+		panic("IP: failed to allocate ip_idents\n");
+
+	prandom_bytes(ip_idents, IP_IDENTS_SZ * sizeof(*ip_idents));
+
+	ip_tstamps = kcalloc(IP_IDENTS_SZ, sizeof(*ip_tstamps), GFP_KERNEL);
+	if (!ip_tstamps)
+		panic("IP: failed to allocate ip_tstamps\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for_each_possible_cpu(cpu) {
 		struct uncached_list *ul = &per_cpu(rt_uncached_list, cpu);

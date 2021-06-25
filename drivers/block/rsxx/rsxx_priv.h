@@ -11,6 +11,10 @@
 #ifndef __RSXX_PRIV_H__
 #define __RSXX_PRIV_H__
 
+<<<<<<< HEAD
+=======
+#include <linux/version.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/semaphore.h>
 
 #include <linux/fs.h>

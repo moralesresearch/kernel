@@ -1098,10 +1098,15 @@ static int seccomp_do_user_notification(int this_syscall,
 
 	up(&match->notif->request);
 	wake_up_poll(&match->wqh, EPOLLIN | EPOLLRDNORM);
+<<<<<<< HEAD
+=======
+	mutex_unlock(&match->notify_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * This is where we wait for a reply from userspace.
 	 */
+<<<<<<< HEAD
 	do {
 		mutex_unlock(&match->notify_lock);
 		err = wait_for_completion_interruptible(&n.ready);
@@ -1122,6 +1127,25 @@ static int seccomp_do_user_notification(int this_syscall,
 	flags = n.flags;
 
 interrupted:
+=======
+wait:
+	err = wait_for_completion_interruptible(&n.ready);
+	mutex_lock(&match->notify_lock);
+	if (err == 0) {
+		/* Check if we were woken up by a addfd message */
+		addfd = list_first_entry_or_null(&n.addfd,
+						 struct seccomp_kaddfd, list);
+		if (addfd && n.state != SECCOMP_NOTIFY_REPLIED) {
+			seccomp_handle_addfd(addfd);
+			mutex_unlock(&match->notify_lock);
+			goto wait;
+		}
+		ret = n.val;
+		err = n.error;
+		flags = n.flags;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If there were any pending addfd calls, clear them out */
 	list_for_each_entry_safe(addfd, tmp, &n.addfd, list) {
 		/* The process went away before we got a chance to handle it */
@@ -1166,7 +1190,15 @@ static int __seccomp_filter(int this_syscall, const struct seccomp_data *sd,
 	 * Make sure that any changes to mode from another thread have
 	 * been seen after SYSCALL_WORK_SECCOMP was seen.
 	 */
+<<<<<<< HEAD
 	smp_rmb();
+=======
+<<<<<<< HEAD
+	smp_rmb();
+=======
+	rmb();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!sd) {
 		populate_seccomp_data(&sd_local);

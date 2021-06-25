@@ -98,7 +98,12 @@ static int amdgpu_cs_bo_handles_chunk(struct amdgpu_cs_parser *p,
 	return 0;
 
 error_free:
+<<<<<<< HEAD
 	kvfree(info);
+=======
+	if (info)
+		kvfree(info);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return r;
 }

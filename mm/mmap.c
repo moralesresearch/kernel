@@ -189,6 +189,10 @@ static int do_brk_flags(unsigned long addr, unsigned long request, unsigned long
 		struct list_head *uf);
 SYSCALL_DEFINE1(brk, unsigned long, brk)
 {
+<<<<<<< HEAD
+=======
+	unsigned long retval;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long newbrk, oldbrk, origbrk;
 	struct mm_struct *mm = current->mm;
 	struct vm_area_struct *next;
@@ -280,8 +284,14 @@ success:
 	return brk;
 
 out:
+<<<<<<< HEAD
 	mmap_write_unlock(mm);
 	return origbrk;
+=======
+	retval = origbrk;
+	mmap_write_unlock(mm);
+	return retval;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned long vma_compute_gap(struct vm_area_struct *vma)
@@ -2669,12 +2679,20 @@ static void unmap_region(struct mm_struct *mm,
 	struct mmu_gather tlb;
 
 	lru_add_drain();
+<<<<<<< HEAD
 	tlb_gather_mmu(&tlb, mm);
+=======
+	tlb_gather_mmu(&tlb, mm, start, end);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	update_hiwater_rss(mm);
 	unmap_vmas(&tlb, vma, start, end);
 	free_pgtables(&tlb, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
 				 next ? next->vm_start : USER_PGTABLES_CEILING);
+<<<<<<< HEAD
 	tlb_finish_mmu(&tlb);
+=======
+	tlb_finish_mmu(&tlb, start, end);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -3212,12 +3230,20 @@ void exit_mmap(struct mm_struct *mm)
 
 	lru_add_drain();
 	flush_cache_mm(mm);
+<<<<<<< HEAD
 	tlb_gather_mmu_fullmm(&tlb, mm);
+=======
+	tlb_gather_mmu(&tlb, mm, 0, -1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* update_hiwater_rss(mm) here? but nobody should be looking */
 	/* Use -1 here to ensure all VMAs in the mm are unmapped */
 	unmap_vmas(&tlb, vma, 0, -1);
 	free_pgtables(&tlb, vma, FIRST_USER_ADDRESS, USER_PGTABLES_CEILING);
+<<<<<<< HEAD
 	tlb_finish_mmu(&tlb);
+=======
+	tlb_finish_mmu(&tlb, 0, -1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Walk the list again, actually closing and freeing it,

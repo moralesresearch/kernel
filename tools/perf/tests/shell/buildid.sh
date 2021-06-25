@@ -50,12 +50,15 @@ check()
 		exit 1
 	fi
 
+<<<<<<< HEAD
 	${perf} buildid-cache -l | grep $id
 	if [ $? -ne 0 ]; then
 		echo "failed: ${id} is not reported by \"perf buildid-cache -l\""
 		exit 1
 	fi
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	echo "OK for ${1}"
 }
 

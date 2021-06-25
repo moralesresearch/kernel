@@ -261,9 +261,13 @@ int vhci_rx_loop(void *data)
 		if (usbip_event_happened(ud))
 			break;
 
+<<<<<<< HEAD
 		usbip_kcov_remote_start(ud);
 		vhci_rx_pdu(ud);
 		usbip_kcov_remote_stop();
+=======
+		vhci_rx_pdu(ud);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

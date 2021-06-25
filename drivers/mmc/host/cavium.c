@@ -436,11 +436,19 @@ irqreturn_t cvm_mmc_interrupt(int irq, void *dev_id)
 {
 	struct cvm_mmc_host *host = dev_id;
 	struct mmc_request *req;
+<<<<<<< HEAD
+=======
+	unsigned long flags = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 emm_int, rsp_sts;
 	bool host_done;
 
 	if (host->need_irq_handler_lock)
+<<<<<<< HEAD
 		spin_lock(&host->irq_handler_lock);
+=======
+		spin_lock_irqsave(&host->irq_handler_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		__acquire(&host->irq_handler_lock);
 
@@ -503,7 +511,11 @@ no_req_done:
 		host->release_bus(host);
 out:
 	if (host->need_irq_handler_lock)
+<<<<<<< HEAD
 		spin_unlock(&host->irq_handler_lock);
+=======
+		spin_unlock_irqrestore(&host->irq_handler_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		__release(&host->irq_handler_lock);
 	return IRQ_RETVAL(emm_int != 0);

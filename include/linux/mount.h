@@ -72,6 +72,7 @@ struct vfsmount {
 	struct dentry *mnt_root;	/* root of the mounted tree */
 	struct super_block *mnt_sb;	/* pointer to superblock */
 	int mnt_flags;
+<<<<<<< HEAD
 	struct user_namespace *mnt_userns;
 } __randomize_layout;
 
@@ -81,11 +82,19 @@ static inline struct user_namespace *mnt_user_ns(const struct vfsmount *mnt)
 	return smp_load_acquire(&mnt->mnt_userns);
 }
 
+=======
+} __randomize_layout;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct file; /* forward dec */
 struct path;
 
 extern int mnt_want_write(struct vfsmount *mnt);
 extern int mnt_want_write_file(struct file *file);
+<<<<<<< HEAD
+=======
+extern int mnt_clone_write(struct vfsmount *mnt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void mnt_drop_write(struct vfsmount *mnt);
 extern void mnt_drop_write_file(struct file *file);
 extern void mntput(struct vfsmount *mnt);

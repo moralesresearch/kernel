@@ -612,7 +612,10 @@ static void mt76u_complete_rx(struct urb *urb)
 	case -ECONNRESET:
 	case -ESHUTDOWN:
 	case -ENOENT:
+<<<<<<< HEAD
 	case -EPROTO:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	default:
 		dev_err_ratelimited(dev->dev, "rx urb failed: %d\n",

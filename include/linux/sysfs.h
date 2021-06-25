@@ -164,13 +164,19 @@ __ATTRIBUTE_GROUPS(_name)
 
 struct file;
 struct vm_area_struct;
+<<<<<<< HEAD
 struct address_space;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct bin_attribute {
 	struct attribute	attr;
 	size_t			size;
 	void			*private;
+<<<<<<< HEAD
 	struct address_space	*mapping;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssize_t (*read)(struct file *, struct kobject *, struct bin_attribute *,
 			char *, loff_t, size_t);
 	ssize_t (*write)(struct file *, struct kobject *, struct bin_attribute *,

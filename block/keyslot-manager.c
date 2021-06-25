@@ -29,7 +29,10 @@
 #define pr_fmt(fmt) "blk-crypto: " fmt
 
 #include <linux/keyslot-manager.h>
+<<<<<<< HEAD
 #include <linux/device.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/atomic.h>
 #include <linux/mutex.h>
 #include <linux/pm_runtime.h>
@@ -63,11 +66,14 @@ static inline void blk_ksm_hw_exit(struct blk_keyslot_manager *ksm)
 		pm_runtime_put_sync(ksm->dev);
 }
 
+<<<<<<< HEAD
 static inline bool blk_ksm_is_passthrough(struct blk_keyslot_manager *ksm)
 {
 	return ksm->num_slots == 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * blk_ksm_init() - Initialize a keyslot manager
  * @ksm: The keyslot_manager to initialize.
@@ -133,6 +139,7 @@ err_destroy_ksm:
 }
 EXPORT_SYMBOL_GPL(blk_ksm_init);
 
+<<<<<<< HEAD
 static void blk_ksm_destroy_callback(void *ksm)
 {
 	blk_ksm_destroy(ksm);
@@ -161,6 +168,8 @@ int devm_blk_ksm_init(struct device *dev, struct blk_keyslot_manager *ksm,
 }
 EXPORT_SYMBOL_GPL(devm_blk_ksm_init);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct hlist_head *
 blk_ksm_hash_bucket_for_key(struct blk_keyslot_manager *ksm,
 			    const struct blk_crypto_key *key)
@@ -239,10 +248,13 @@ blk_status_t blk_ksm_get_slot_for_key(struct blk_keyslot_manager *ksm,
 	int err;
 
 	*slot_ptr = NULL;
+<<<<<<< HEAD
 
 	if (blk_ksm_is_passthrough(ksm))
 		return BLK_STS_OK;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_read(&ksm->lock);
 	slot = blk_ksm_find_and_grab_keyslot(ksm, key);
 	up_read(&ksm->lock);
@@ -363,6 +375,7 @@ int blk_ksm_evict_key(struct blk_keyslot_manager *ksm,
 	struct blk_ksm_keyslot *slot;
 	int err = 0;
 
+<<<<<<< HEAD
 	if (blk_ksm_is_passthrough(ksm)) {
 		if (ksm->ksm_ll_ops.keyslot_evict) {
 			blk_ksm_hw_enter(ksm);
@@ -373,6 +386,8 @@ int blk_ksm_evict_key(struct blk_keyslot_manager *ksm,
 		return 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_ksm_hw_enter(ksm);
 	slot = blk_ksm_find_keyslot(ksm, key);
 	if (!slot)
@@ -408,9 +423,12 @@ void blk_ksm_reprogram_all_keys(struct blk_keyslot_manager *ksm)
 {
 	unsigned int slot;
 
+<<<<<<< HEAD
 	if (blk_ksm_is_passthrough(ksm))
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This is for device initialization, so don't resume the device */
 	down_write(&ksm->lock);
 	for (slot = 0; slot < ksm->num_slots; slot++) {
@@ -452,6 +470,7 @@ void blk_ksm_unregister(struct request_queue *q)
 {
 	q->ksm = NULL;
 }
+<<<<<<< HEAD
 
 /**
  * blk_ksm_intersect_modes() - restrict supported modes by child device
@@ -576,3 +595,5 @@ void blk_ksm_init_passthrough(struct blk_keyslot_manager *ksm)
 	init_rwsem(&ksm->lock);
 }
 EXPORT_SYMBOL_GPL(blk_ksm_init_passthrough);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -456,6 +456,26 @@ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
 	list_lru_isolate_move(lru, &dentry->d_lru, list);
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * d_drop - drop a dentry
+ * @dentry: dentry to drop
+ *
+ * d_drop() unhashes the entry from the parent dentry hashes, so that it won't
+ * be found through a VFS lookup any more. Note that this is different from
+ * deleting the dentry - d_delete will try to mark the dentry negative if
+ * possible, giving a successful _negative_ lookup, while d_drop will
+ * just make the cache lookup fail.
+ *
+ * d_drop() is used mainly for stuff that wants to invalidate a dentry for some
+ * reason (NFS timeouts or autofs deletes).
+ *
+ * __d_drop requires dentry->d_lock
+ * ___d_drop doesn't mark dentry as "unhashed"
+ *   (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ___d_drop(struct dentry *dentry)
 {
 	struct hlist_bl_head *b;
@@ -484,6 +504,7 @@ void __d_drop(struct dentry *dentry)
 }
 EXPORT_SYMBOL(__d_drop);
 
+<<<<<<< HEAD
 /**
  * d_drop - drop a dentry
  * @dentry: dentry to drop
@@ -502,6 +523,8 @@ EXPORT_SYMBOL(__d_drop);
  * ___d_drop doesn't mark dentry as "unhashed"
  * (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void d_drop(struct dentry *dentry)
 {
 	spin_lock(&dentry->d_lock);
@@ -997,6 +1020,23 @@ struct dentry *d_find_any_alias(struct inode *inode)
 }
 EXPORT_SYMBOL(d_find_any_alias);
 
+<<<<<<< HEAD
+=======
+/**
+ * d_find_alias - grab a hashed alias of inode
+ * @inode: inode in question
+ *
+ * If inode has a hashed alias, or is a directory and has any alias,
+ * acquire the reference to alias and return it. Otherwise return NULL.
+ * Notice that if inode is a directory there can be only one alias and
+ * it can be unhashed only if it has no children, or if it is the root
+ * of a filesystem, or if the directory was renamed and d_revalidate
+ * was the first vfs operation to notice.
+ *
+ * If the inode has an IS_ROOT, DCACHE_DISCONNECTED alias, then prefer
+ * any other hashed alias over that one.
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dentry *__d_find_alias(struct inode *inode)
 {
 	struct dentry *alias;
@@ -1016,6 +1056,7 @@ static struct dentry *__d_find_alias(struct inode *inode)
 	return NULL;
 }
 
+<<<<<<< HEAD
 /**
  * d_find_alias - grab a hashed alias of inode
  * @inode: inode in question
@@ -1030,6 +1071,8 @@ static struct dentry *__d_find_alias(struct inode *inode)
  * If the inode has an IS_ROOT, DCACHE_DISCONNECTED alias, then prefer
  * any other hashed alias over that one.
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct dentry *d_find_alias(struct inode *inode)
 {
 	struct dentry *de = NULL;
@@ -1044,6 +1087,7 @@ struct dentry *d_find_alias(struct inode *inode)
 EXPORT_SYMBOL(d_find_alias);
 
 /*
+<<<<<<< HEAD
  *  Caller MUST be holding rcu_read_lock() and be guaranteed
  *  that inode won't get freed until rcu_read_unlock().
  */
@@ -1069,6 +1113,8 @@ struct dentry *d_find_alias_rcu(struct inode *inode)
 }
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	Try to kill dentries associated with this inode.
  * WARNING: you must own a reference to inode.
  */
@@ -2176,8 +2222,13 @@ EXPORT_SYMBOL(d_obtain_root);
  * same inode, only the actual correct case is stored in the dcache for
  * case-insensitive filesystems.
  *
+<<<<<<< HEAD
  * For a case-insensitive lookup match and if the case-exact dentry
  * already exists in the dcache, use it and return it.
+=======
+ * For a case-insensitive lookup match and if the the case-exact dentry
+ * already exists in in the dcache, use it and return it.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * If no entry exists with the exact case name, allocate new dentry with
  * the exact case, and return the spliced entry.

@@ -1652,7 +1652,11 @@ static int stm32f7_i2c_xfer(struct i2c_adapter *i2c_adap,
 	i2c_dev->msg_id = 0;
 	f7_msg->smbus = false;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(i2c_dev->dev);
+=======
+	ret = pm_runtime_get_sync(i2c_dev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1698,7 +1702,11 @@ static int stm32f7_i2c_smbus_xfer(struct i2c_adapter *adapter, u16 addr,
 	f7_msg->read_write = read_write;
 	f7_msg->smbus = true;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(dev);
+=======
+	ret = pm_runtime_get_sync(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1799,7 +1807,11 @@ static int stm32f7_i2c_reg_slave(struct i2c_client *slave)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(dev);
+=======
+	ret = pm_runtime_get_sync(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1880,7 +1892,11 @@ static int stm32f7_i2c_unreg_slave(struct i2c_client *slave)
 
 	WARN_ON(!i2c_dev->slave[id]);
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(i2c_dev->dev);
+=======
+	ret = pm_runtime_get_sync(i2c_dev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -2035,8 +2051,17 @@ static int stm32f7_i2c_probe(struct platform_device *pdev)
 	}
 
 	irq_error = platform_get_irq(pdev, 1);
+<<<<<<< HEAD
 	if (irq_error <= 0)
 		return irq_error ? : -ENOENT;
+=======
+	if (irq_error <= 0) {
+		if (irq_error != -EPROBE_DEFER)
+			dev_err(&pdev->dev, "Failed to get IRQ error: %d\n",
+				irq_error);
+		return irq_error ? : -ENOENT;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i2c_dev->wakeup_src = of_property_read_bool(pdev->dev.of_node,
 						    "wakeup-source");
@@ -2273,7 +2298,11 @@ static int stm32f7_i2c_regs_backup(struct stm32f7_i2c_dev *i2c_dev)
 	int ret;
 	struct stm32f7_i2c_regs *backup_regs = &i2c_dev->backup_regs;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(i2c_dev->dev);
+=======
+	ret = pm_runtime_get_sync(i2c_dev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -2295,7 +2324,11 @@ static int stm32f7_i2c_regs_restore(struct stm32f7_i2c_dev *i2c_dev)
 	int ret;
 	struct stm32f7_i2c_regs *backup_regs = &i2c_dev->backup_regs;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(i2c_dev->dev);
+=======
+	ret = pm_runtime_get_sync(i2c_dev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

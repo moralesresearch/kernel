@@ -1,8 +1,13 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /* Copyright(c) 1999 - 2018 Intel Corporation. */
 
+<<<<<<< HEAD
 #ifndef _E1000E_HW_H_
 #define _E1000E_HW_H_
+=======
+#ifndef _E1000_HW_H_
+#define _E1000_HW_H_
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "regs.h"
 #include "defines.h"
@@ -714,4 +719,8 @@ struct e1000_hw {
 #include "80003es2lan.h"
 #include "ich8lan.h"
 
+<<<<<<< HEAD
 #endif /* _E1000E_HW_H_ */
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

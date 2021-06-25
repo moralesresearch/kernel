@@ -1567,8 +1567,13 @@ The following tables list existing packed RGB formats.
       - MEDIA_BUS_FMT_RGB101010_1X30
       - 0x1018
       -
+<<<<<<< HEAD
       -
       -
+=======
+      - 0
+      - 0
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - r\ :sub:`9`
       - r\ :sub:`8`
       - r\ :sub:`7`

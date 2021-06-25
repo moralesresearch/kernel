@@ -98,10 +98,16 @@ struct snd_sof_pdata;
  */
 struct snd_sof_dsp_ops {
 
+<<<<<<< HEAD
 	/* probe/remove/shutdown */
 	int (*probe)(struct snd_sof_dev *sof_dev); /* mandatory */
 	int (*remove)(struct snd_sof_dev *sof_dev); /* optional */
 	int (*shutdown)(struct snd_sof_dev *sof_dev); /* optional */
+=======
+	/* probe and remove */
+	int (*probe)(struct snd_sof_dev *sof_dev); /* mandatory */
+	int (*remove)(struct snd_sof_dev *sof_dev); /* optional */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* DSP core boot / reset */
 	int (*run)(struct snd_sof_dev *sof_dev); /* mandatory */
@@ -376,8 +382,11 @@ struct snd_sof_dev {
 
 	/* current DSP power state */
 	struct sof_dsp_power_state dsp_power_state;
+<<<<<<< HEAD
 	/* mutex to protect the dsp_power_state access */
 	struct mutex power_state_access;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Intended power target of system suspend */
 	enum sof_system_suspend_state system_suspend_target;
@@ -389,7 +398,10 @@ struct snd_sof_dev {
 
 	/* work queue in case the probe is implemented in two steps */
 	struct work_struct probe_work;
+<<<<<<< HEAD
 	bool probe_completed;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* DSP HW differentiation */
 	struct snd_sof_pdata *pdata;
@@ -464,8 +476,11 @@ struct snd_sof_dev {
 
 int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data);
 int snd_sof_device_remove(struct device *dev);
+<<<<<<< HEAD
 int snd_sof_device_shutdown(struct device *dev);
 bool snd_sof_device_probe_completed(struct device *dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int snd_sof_runtime_suspend(struct device *dev);
 int snd_sof_runtime_resume(struct device *dev);

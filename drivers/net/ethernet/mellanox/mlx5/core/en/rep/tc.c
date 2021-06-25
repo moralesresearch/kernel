@@ -26,9 +26,13 @@ struct mlx5e_rep_indr_block_priv {
 };
 
 int mlx5e_rep_encap_entry_attach(struct mlx5e_priv *priv,
+<<<<<<< HEAD
 				 struct mlx5e_encap_entry *e,
 				 struct mlx5e_neigh *m_neigh,
 				 struct net_device *neigh_dev)
+=======
+				 struct mlx5e_encap_entry *e)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mlx5e_rep_priv *rpriv = priv->ppriv;
 	struct mlx5_rep_uplink_priv *uplink_priv = &rpriv->uplink_priv;
@@ -41,9 +45,15 @@ int mlx5e_rep_encap_entry_attach(struct mlx5e_priv *priv,
 		return err;
 
 	mutex_lock(&rpriv->neigh_update.encap_lock);
+<<<<<<< HEAD
 	nhe = mlx5e_rep_neigh_entry_lookup(priv, m_neigh);
 	if (!nhe) {
 		err = mlx5e_rep_neigh_entry_create(priv, m_neigh, neigh_dev, &nhe);
+=======
+	nhe = mlx5e_rep_neigh_entry_lookup(priv, &e->m_neigh);
+	if (!nhe) {
+		err = mlx5e_rep_neigh_entry_create(priv, e, &nhe);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err) {
 			mutex_unlock(&rpriv->neigh_update.encap_lock);
 			mlx5_tun_entropy_refcount_dec(tun_entropy,
@@ -93,9 +103,19 @@ void mlx5e_rep_update_flows(struct mlx5e_priv *priv,
 
 	ASSERT_RTNL();
 
+<<<<<<< HEAD
 	mutex_lock(&esw->offloads.encap_tbl_lock);
 	encap_connected = !!(e->flags & MLX5_ENCAP_ENTRY_VALID);
 	if (encap_connected == neigh_connected && ether_addr_equal(e->h_dest, ha))
+=======
+	/* wait for encap to be fully initialized */
+	wait_for_completion(&e->res_ready);
+
+	mutex_lock(&esw->offloads.encap_tbl_lock);
+	encap_connected = !!(e->flags & MLX5_ENCAP_ENTRY_VALID);
+	if (e->compl_result < 0 || (encap_connected == neigh_connected &&
+				    ether_addr_equal(e->h_dest, ha)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unlock;
 
 	mlx5e_take_all_encap_flows(e, &flow_list);
@@ -120,7 +140,11 @@ void mlx5e_rep_update_flows(struct mlx5e_priv *priv,
 	}
 unlock:
 	mutex_unlock(&esw->offloads.encap_tbl_lock);
+<<<<<<< HEAD
 	mlx5e_put_flow_list(priv, &flow_list);
+=======
+	mlx5e_put_encap_flow_list(priv, &flow_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -641,7 +665,11 @@ bool mlx5e_rep_tc_update_skb(struct mlx5_cqe64 *cqe,
 	}
 
 	if (chain) {
+<<<<<<< HEAD
 		tc_skb_ext = tc_skb_ext_alloc(skb);
+=======
+		tc_skb_ext = skb_ext_add(skb, TC_SKB_EXT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!tc_skb_ext) {
 			WARN_ON(1);
 			return false;
@@ -649,7 +677,11 @@ bool mlx5e_rep_tc_update_skb(struct mlx5_cqe64 *cqe,
 
 		tc_skb_ext->chain = chain;
 
+<<<<<<< HEAD
 		zone_restore_id = reg_c1 & ESW_ZONE_ID_MASK;
+=======
+		zone_restore_id = reg_c1 & ZONE_RESTORE_MAX;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		uplink_rpriv = mlx5_eswitch_get_uplink_priv(esw, REP_ETH);
 		uplink_priv = &uplink_rpriv->uplink_priv;
@@ -658,7 +690,11 @@ bool mlx5e_rep_tc_update_skb(struct mlx5_cqe64 *cqe,
 			return false;
 	}
 
+<<<<<<< HEAD
 	tunnel_id = reg_c1 >> ESW_TUN_OFFSET;
+=======
+	tunnel_id = reg_c1 >> REG_MAPPING_SHIFT(TUNNEL_TO_REG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return mlx5e_restore_tunnel(priv, skb, tc_priv, tunnel_id);
 #endif /* CONFIG_NET_TC_SKB_EXT */
 

@@ -35,6 +35,7 @@ static __inline int bind_to_device(struct bpf_sock_addr *ctx)
 	char veth2[IFNAMSIZ] = "test_sock_addr2";
 	char missing[IFNAMSIZ] = "nonexistent_dev";
 	char del_bind[IFNAMSIZ] = "";
+<<<<<<< HEAD
 	int veth1_idx, veth2_idx;
 
 	if (bpf_setsockopt(ctx, SOL_SOCKET, SO_BINDTODEVICE,
@@ -77,6 +78,20 @@ static __inline int misc_opts(struct bpf_sock_addr *ctx, int opt)
 	    tmp != new)
 		return 1;
 	if (bpf_setsockopt(ctx, SOL_SOCKET, opt, &old, sizeof(old)))
+=======
+
+	if (bpf_setsockopt(ctx, SOL_SOCKET, SO_BINDTODEVICE,
+				&veth1, sizeof(veth1)))
+		return 1;
+	if (bpf_setsockopt(ctx, SOL_SOCKET, SO_BINDTODEVICE,
+				&veth2, sizeof(veth2)))
+		return 1;
+	if (bpf_setsockopt(ctx, SOL_SOCKET, SO_BINDTODEVICE,
+				&missing, sizeof(missing)) != -ENODEV)
+		return 1;
+	if (bpf_setsockopt(ctx, SOL_SOCKET, SO_BINDTODEVICE,
+				&del_bind, sizeof(del_bind)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 
 	return 0;
@@ -137,10 +152,13 @@ int bind_v6_prog(struct bpf_sock_addr *ctx)
 	if (bind_to_device(ctx))
 		return 0;
 
+<<<<<<< HEAD
 	/* Test for misc socket options. */
 	if (misc_opts(ctx, SO_MARK) || misc_opts(ctx, SO_PRIORITY))
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx->user_ip6[0] = bpf_htonl(SERV6_REWRITE_IP_0);
 	ctx->user_ip6[1] = bpf_htonl(SERV6_REWRITE_IP_1);
 	ctx->user_ip6[2] = bpf_htonl(SERV6_REWRITE_IP_2);

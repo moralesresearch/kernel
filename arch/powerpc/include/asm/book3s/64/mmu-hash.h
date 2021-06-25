@@ -454,8 +454,11 @@ static inline unsigned long hpt_hash(unsigned long vpn,
 #define HPTE_NOHPTE_UPDATE	0x2
 #define HPTE_USE_KERNEL_KEY	0x4
 
+<<<<<<< HEAD
 long hpte_insert_repeating(unsigned long hash, unsigned long vpn, unsigned long pa,
 			   unsigned long rlags, unsigned long vflags, int psize, int ssize);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int __hash_page_4K(unsigned long ea, unsigned long access,
 			  unsigned long vsid, pte_t *ptep, unsigned long trap,
 			  unsigned long flags, int ssize, int subpage_prot);
@@ -469,8 +472,11 @@ extern int hash_page_mm(struct mm_struct *mm, unsigned long ea,
 			unsigned long flags);
 extern int hash_page(unsigned long ea, unsigned long access, unsigned long trap,
 		     unsigned long dsisr);
+<<<<<<< HEAD
 void low_hash_fault(struct pt_regs *regs, unsigned long address, int rc);
 int __hash_page(unsigned long trap, unsigned long ea, unsigned long dsisr, unsigned long msr);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __hash_page_huge(unsigned long ea, unsigned long access, unsigned long vsid,
 		     pte_t *ptep, unsigned long trap, unsigned long flags,
 		     int ssize, unsigned int shift, unsigned int mmu_psize);
@@ -525,7 +531,10 @@ void slb_dump_contents(struct slb_entry *slb_ptr);
 
 extern void slb_vmalloc_update(void);
 extern void slb_set_size(u16 size);
+<<<<<<< HEAD
 void preload_new_slb_context(unsigned long start, unsigned long sp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ASSEMBLY__ */
 
 /*

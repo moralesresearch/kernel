@@ -1525,7 +1525,11 @@ ice_pkg_buf_reserve_section(struct ice_buf_build *bld, u16 count)
 	bld->reserved_section_table_entries += count;
 
 	data_end = le16_to_cpu(buf->data_end) +
+<<<<<<< HEAD
 		flex_array_size(buf, section_entry, count);
+=======
+		   (count * sizeof(buf->section_entry[0]));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	buf->data_end = cpu_to_le16(data_end);
 
 	return 0;
@@ -2727,7 +2731,11 @@ static void ice_fill_tbl(struct ice_hw *hw, enum ice_block block_id, u32 sid)
 		case ICE_SID_XLT1_RSS:
 		case ICE_SID_XLT1_ACL:
 		case ICE_SID_XLT1_PE:
+<<<<<<< HEAD
 			xlt1 = sect;
+=======
+			xlt1 = (struct ice_xlt1_section *)sect;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			src = xlt1->value;
 			sect_len = le16_to_cpu(xlt1->count) *
 				sizeof(*hw->blk[block_id].xlt1.t);
@@ -2740,7 +2748,11 @@ static void ice_fill_tbl(struct ice_hw *hw, enum ice_block block_id, u32 sid)
 		case ICE_SID_XLT2_RSS:
 		case ICE_SID_XLT2_ACL:
 		case ICE_SID_XLT2_PE:
+<<<<<<< HEAD
 			xlt2 = sect;
+=======
+			xlt2 = (struct ice_xlt2_section *)sect;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			src = (__force u8 *)xlt2->value;
 			sect_len = le16_to_cpu(xlt2->count) *
 				sizeof(*hw->blk[block_id].xlt2.t);
@@ -2753,7 +2765,11 @@ static void ice_fill_tbl(struct ice_hw *hw, enum ice_block block_id, u32 sid)
 		case ICE_SID_PROFID_TCAM_RSS:
 		case ICE_SID_PROFID_TCAM_ACL:
 		case ICE_SID_PROFID_TCAM_PE:
+<<<<<<< HEAD
 			pid = sect;
+=======
+			pid = (struct ice_prof_id_section *)sect;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			src = (u8 *)pid->entry;
 			sect_len = le16_to_cpu(pid->count) *
 				sizeof(*hw->blk[block_id].prof.t);
@@ -2766,7 +2782,11 @@ static void ice_fill_tbl(struct ice_hw *hw, enum ice_block block_id, u32 sid)
 		case ICE_SID_PROFID_REDIR_RSS:
 		case ICE_SID_PROFID_REDIR_ACL:
 		case ICE_SID_PROFID_REDIR_PE:
+<<<<<<< HEAD
 			pr = sect;
+=======
+			pr = (struct ice_prof_redir_section *)sect;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			src = pr->redir_value;
 			sect_len = le16_to_cpu(pr->count) *
 				sizeof(*hw->blk[block_id].prof_redir.t);
@@ -2779,7 +2799,11 @@ static void ice_fill_tbl(struct ice_hw *hw, enum ice_block block_id, u32 sid)
 		case ICE_SID_FLD_VEC_RSS:
 		case ICE_SID_FLD_VEC_ACL:
 		case ICE_SID_FLD_VEC_PE:
+<<<<<<< HEAD
 			es = sect;
+=======
+			es = (struct ice_sw_fv_section *)sect;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			src = (u8 *)es->fv;
 			sect_len = (u32)(le16_to_cpu(es->count) *
 					 hw->blk[block_id].es.fvw) *

@@ -63,11 +63,14 @@ struct arm64_ftr_bits {
 	s64		safe_val; /* safe value for FTR_EXACT features */
 };
 
+<<<<<<< HEAD
 struct arm64_ftr_override {
 	u64		val;
 	u64		mask;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * @arm64_ftr_reg - Feature register
  * @strict_mask		Bits which should match across all CPUs for sanity.
@@ -79,7 +82,10 @@ struct arm64_ftr_reg {
 	u64				user_mask;
 	u64				sys_val;
 	u64				user_val;
+<<<<<<< HEAD
 	struct arm64_ftr_override	*override;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct arm64_ftr_bits	*ftr_bits;
 };
 
@@ -606,7 +612,10 @@ void __init setup_cpu_features(void);
 void check_local_cpu_capabilities(void);
 
 u64 read_sanitised_ftr_reg(u32 id);
+<<<<<<< HEAD
 u64 __read_sysreg_by_encoding(u32 sys_id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline bool cpu_supports_mixed_endian_el0(void)
 {
@@ -818,10 +827,13 @@ static inline unsigned int get_vmid_bits(u64 mmfr1)
 	return 8;
 }
 
+<<<<<<< HEAD
 extern struct arm64_ftr_override id_aa64mmfr1_override;
 extern struct arm64_ftr_override id_aa64pfr1_override;
 extern struct arm64_ftr_override id_aa64isar1_override;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u32 get_kvm_ipa_limit(void);
 void dump_cpu_features(void);
 

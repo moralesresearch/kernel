@@ -20,7 +20,10 @@ properties:
       - enum:
           - sifive,fu540-c000-uart
           - sifive,fu740-c000-uart
+<<<<<<< HEAD
           - canaan,k210-uarths
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - const: sifive,uart0
 
     description:

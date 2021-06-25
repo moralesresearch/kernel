@@ -6,7 +6,10 @@ source "drivers/soc/amlogic/Kconfig"
 source "drivers/soc/aspeed/Kconfig"
 source "drivers/soc/atmel/Kconfig"
 source "drivers/soc/bcm/Kconfig"
+<<<<<<< HEAD
 source "drivers/soc/canaan/Kconfig"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/soc/fsl/Kconfig"
 source "drivers/soc/imx/Kconfig"
 source "drivers/soc/ixp4xx/Kconfig"
@@ -23,5 +26,10 @@ source "drivers/soc/ti/Kconfig"
 source "drivers/soc/ux500/Kconfig"
 source "drivers/soc/versatile/Kconfig"
 source "drivers/soc/xilinx/Kconfig"
+<<<<<<< HEAD
+=======
+source "drivers/soc/zte/Kconfig"
+source "drivers/soc/kendryte/Kconfig"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 endmenu

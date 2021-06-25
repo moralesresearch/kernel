@@ -250,12 +250,18 @@ static void mlx5e_take_all_route_decap_flows(struct mlx5e_route_entry *r,
 		mlx5e_take_tmp_flow(flow, flow_list, 0);
 }
 
+<<<<<<< HEAD
 typedef bool (match_cb)(struct mlx5e_encap_entry *);
 
 static struct mlx5e_encap_entry *
 mlx5e_get_next_matching_encap(struct mlx5e_neigh_hash_entry *nhe,
 			      struct mlx5e_encap_entry *e,
 			      match_cb match)
+=======
+static struct mlx5e_encap_entry *
+mlx5e_get_next_valid_encap(struct mlx5e_neigh_hash_entry *nhe,
+			   struct mlx5e_encap_entry *e)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mlx5e_encap_entry *next = NULL;
 
@@ -290,7 +296,11 @@ retry:
 	/* wait for encap to be fully initialized */
 	wait_for_completion(&next->res_ready);
 	/* continue searching if encap entry is not in valid state after completion */
+<<<<<<< HEAD
 	if (!match(next)) {
+=======
+	if (!(next->flags & MLX5_ENCAP_ENTRY_VALID)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		e = next;
 		goto retry;
 	}
@@ -298,6 +308,7 @@ retry:
 	return next;
 }
 
+<<<<<<< HEAD
 static bool mlx5e_encap_valid(struct mlx5e_encap_entry *e)
 {
 	return e->flags & MLX5_ENCAP_ENTRY_VALID;
@@ -322,6 +333,8 @@ mlx5e_get_next_init_encap(struct mlx5e_neigh_hash_entry *nhe,
 	return mlx5e_get_next_matching_encap(nhe, e, mlx5e_encap_initialized);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_tc_update_neigh_used_value(struct mlx5e_neigh_hash_entry *nhe)
 {
 	struct mlx5e_neigh *m_neigh = &nhe->m_neigh;
@@ -1531,7 +1544,11 @@ mlx5e_init_fib_work_ipv4(struct mlx5e_priv *priv,
 
 	fen_info = container_of(info, struct fib_entry_notifier_info, info);
 	fib_dev = fib_info_nh(fen_info->fi, 0)->fib_nh_dev;
+<<<<<<< HEAD
 	if (!fib_dev || fib_dev->netdev_ops != &mlx5e_netdev_ops ||
+=======
+	if (fib_dev->netdev_ops != &mlx5e_netdev_ops ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    fen_info->dst_len != 32)
 		return NULL;
 

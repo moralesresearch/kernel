@@ -309,9 +309,13 @@ struct hl_info_hw_ip_info {
 	__u32 num_of_events;
 	__u32 device_id; /* PCI Device ID */
 	__u32 module_id; /* For mezzanine cards in servers (From OCP spec.) */
+<<<<<<< HEAD
 	__u32 reserved;
 	__u16 first_available_interrupt_id;
 	__u16 reserved2;
+=======
+	__u32 reserved[2];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__u32 cpld_version;
 	__u32 psoc_pci_pll_nr;
 	__u32 psoc_pci_pll_nf;
@@ -322,8 +326,11 @@ struct hl_info_hw_ip_info {
 	__u8 pad[2];
 	__u8 cpucp_version[HL_INFO_VERSION_MAX_LEN];
 	__u8 card_name[HL_INFO_CARD_NAME_MAX_LEN];
+<<<<<<< HEAD
 	__u64 reserved3;
 	__u64 dram_page_size;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct hl_info_dram_usage {
@@ -331,8 +338,11 @@ struct hl_info_dram_usage {
 	__u64 ctx_dram_mem;
 };
 
+<<<<<<< HEAD
 #define HL_BUSY_ENGINES_MASK_EXT_SIZE	2
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct hl_info_hw_idle {
 	__u32 is_idle;
 	/*
@@ -345,7 +355,11 @@ struct hl_info_hw_idle {
 	 * Extended Bitmask of busy engines.
 	 * Bits definition is according to `enum <chip>_enging_id'.
 	 */
+<<<<<<< HEAD
 	__u64 busy_engines_mask_ext[HL_BUSY_ENGINES_MASK_EXT_SIZE];
+=======
+	__u64 busy_engines_mask_ext;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct hl_info_device_status {
@@ -414,13 +428,19 @@ struct hl_pll_frequency_info {
  * struct hl_info_sync_manager - sync manager information
  * @first_available_sync_object: first available sob
  * @first_available_monitor: first available monitor
+<<<<<<< HEAD
  * @first_available_cq: first available cq
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct hl_info_sync_manager {
 	__u32 first_available_sync_object;
 	__u32 first_available_monitor;
+<<<<<<< HEAD
 	__u32 first_available_cq;
 	__u32 reserved;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -613,6 +633,7 @@ struct hl_cs_chunk {
 };
 
 /* SIGNAL and WAIT/COLLECTIVE_WAIT flags are mutually exclusive */
+<<<<<<< HEAD
 #define HL_CS_FLAGS_FORCE_RESTORE		0x1
 #define HL_CS_FLAGS_SIGNAL			0x2
 #define HL_CS_FLAGS_WAIT			0x4
@@ -621,6 +642,13 @@ struct hl_cs_chunk {
 #define HL_CS_FLAGS_STAGED_SUBMISSION		0x40
 #define HL_CS_FLAGS_STAGED_SUBMISSION_FIRST	0x80
 #define HL_CS_FLAGS_STAGED_SUBMISSION_LAST	0x100
+=======
+#define HL_CS_FLAGS_FORCE_RESTORE	0x1
+#define HL_CS_FLAGS_SIGNAL		0x2
+#define HL_CS_FLAGS_WAIT		0x4
+#define HL_CS_FLAGS_COLLECTIVE_WAIT	0x8
+#define HL_CS_FLAGS_TIMESTAMP		0x20
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define HL_CS_STATUS_SUCCESS		0
 
@@ -634,6 +662,7 @@ struct hl_cs_in {
 	/* holds address of array of hl_cs_chunk for execution phase */
 	__u64 chunks_execute;
 
+<<<<<<< HEAD
 	union {
 		/* this holds address of array of hl_cs_chunk for store phase -
 		 * Currently not in use
@@ -645,6 +674,12 @@ struct hl_cs_in {
 		 */
 		__u64 seq;
 	};
+=======
+	/* this holds address of array of hl_cs_chunk for store phase -
+	 * Currently not in use
+	 */
+	__u64 chunks_store;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Number of chunks in restore phase array. Maximum number is
 	 * HL_MAX_JOBS_PER_CS
@@ -723,8 +758,11 @@ union hl_wait_cs_args {
 #define HL_MEM_OP_MAP			2
 /* Opcode to unmap previously mapped host and device memory */
 #define HL_MEM_OP_UNMAP			3
+<<<<<<< HEAD
 /* Opcode to map a hw block */
 #define HL_MEM_OP_MAP_BLOCK		4
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Memory flags */
 #define HL_MEM_CONTIGUOUS	0x1
@@ -779,6 +817,7 @@ struct hl_mem_in {
 			__u64 mem_size;
 		} map_host;
 
+<<<<<<< HEAD
 		/* HL_MEM_OP_MAP_BLOCK - map a hw block */
 		struct {
 			/*
@@ -790,6 +829,8 @@ struct hl_mem_in {
 			__u64 block_addr;
 		} map_block;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* HL_MEM_OP_UNMAP - unmap host memory */
 		struct {
 			/* Virtual address returned from HL_MEM_OP_MAP */
@@ -816,6 +857,7 @@ struct hl_mem_out {
 		__u64 device_virt_addr;
 
 		/*
+<<<<<<< HEAD
 		 * Used in HL_MEM_OP_ALLOC
 		 * This is the assigned handle for the allocated memory
 		 */
@@ -836,6 +878,12 @@ struct hl_mem_out {
 
 			__u32 pad;
 		};
+=======
+		 * Used for HL_MEM_OP_ALLOC. This is the assigned
+		 * handle for the allocated memory
+		 */
+		__u64 handle;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

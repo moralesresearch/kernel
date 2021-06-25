@@ -1138,8 +1138,11 @@ xfs_fs_geometry(
 		geo->flags |= XFS_FSOP_GEOM_FLAGS_REFLINK;
 	if (xfs_sb_version_hasbigtime(sbp))
 		geo->flags |= XFS_FSOP_GEOM_FLAGS_BIGTIME;
+<<<<<<< HEAD
 	if (xfs_sb_version_hasinobtcounts(sbp))
 		geo->flags |= XFS_FSOP_GEOM_FLAGS_INOBTCNT;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (xfs_sb_version_hassector(sbp))
 		geo->logsectsize = sbp->sb_logsectsize;
 	else

@@ -87,7 +87,11 @@ struct rnbd_clt_session {
 	DECLARE_BITMAP(cpu_queues_bm, NR_CPUS);
 	int	__percpu	*cpu_rr; /* per-cpu var for CPU round-robin */
 	atomic_t		busy;
+<<<<<<< HEAD
 	size_t			queue_depth;
+=======
+	int			queue_depth;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			max_io_size;
 	struct blk_mq_tag_set	tag_set;
 	struct mutex		lock; /* protects state and devs_list */

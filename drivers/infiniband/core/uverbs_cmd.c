@@ -1382,7 +1382,11 @@ static int create_qp(struct uverbs_attr_bundle *attrs,
 		if (has_sq)
 			scq = uobj_get_obj_read(cq, UVERBS_OBJECT_CQ,
 						cmd->send_cq_handle, attrs);
+<<<<<<< HEAD
 		if (!ind_tbl && cmd->qp_type != IB_QPT_XRC_INI)
+=======
+		if (!ind_tbl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rcq = rcq ?: scq;
 		pd = uobj_get_obj_read(pd, UVERBS_OBJECT_PD, cmd->pd_handle,
 				       attrs);
@@ -3247,11 +3251,14 @@ static int ib_uverbs_ex_create_flow(struct uverbs_attr_bundle *attrs)
 		goto err_free_attr;
 	}
 
+<<<<<<< HEAD
 	if (!rdma_is_port_valid(uobj->context->device, cmd.flow_attr.port)) {
 		err = -EINVAL;
 		goto err_uobj;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qp = uobj_get_obj_read(qp, UVERBS_OBJECT_QP, cmd.qp_handle, attrs);
 	if (!qp) {
 		err = -EINVAL;

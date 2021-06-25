@@ -114,7 +114,11 @@ struct drm_property {
 	 *     by the property. Bitmask properties are created using
 	 *     drm_property_create_bitmask().
 	 *
+<<<<<<< HEAD
 	 * DRM_MODE_PROP_OBJECT
+=======
+	 * DRM_MODE_PROB_OBJECT
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *     Object properties are used to link modeset objects. This is used
 	 *     extensively in the atomic support to create the display pipeline,
 	 *     by linking &drm_framebuffer to &drm_plane, &drm_plane to

@@ -1171,8 +1171,15 @@ static void bnx2i_cleanup_task(struct iscsi_task *task)
 		bnx2i_send_cmd_cleanup_req(hba, task->dd_data);
 
 		spin_unlock_bh(&conn->session->back_lock);
+<<<<<<< HEAD
 		wait_for_completion_timeout(&bnx2i_conn->cmd_cleanup_cmpl,
 				msecs_to_jiffies(ISCSI_CMD_CLEANUP_TIMEOUT));
+=======
+		spin_unlock_bh(&conn->session->frwd_lock);
+		wait_for_completion_timeout(&bnx2i_conn->cmd_cleanup_cmpl,
+				msecs_to_jiffies(ISCSI_CMD_CLEANUP_TIMEOUT));
+		spin_lock_bh(&conn->session->frwd_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_lock_bh(&conn->session->back_lock);
 	}
 	bnx2i_iscsi_unmap_sg_list(task->dd_data);

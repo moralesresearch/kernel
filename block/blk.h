@@ -55,11 +55,14 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
 
 void blk_freeze_queue(struct request_queue *q);
 
+<<<<<<< HEAD
 #define BIO_INLINE_VECS 4
 struct bio_vec *bvec_alloc(mempool_t *pool, unsigned short *nr_vecs,
 		gfp_t gfp_mask);
 void bvec_free(mempool_t *pool, struct bio_vec *bv, unsigned short nr_vecs);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool biovec_phys_mergeable(struct request_queue *q,
 		struct bio_vec *vec1, struct bio_vec *vec2)
 {
@@ -207,6 +210,11 @@ static inline void elevator_exit(struct request_queue *q,
 	__elevator_exit(q, e);
 }
 
+<<<<<<< HEAD
+=======
+struct block_device *__disk_get_part(struct gendisk *disk, int partno);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ssize_t part_size_show(struct device *dev, struct device_attribute *attr,
 		char *buf);
 ssize_t part_stat_show(struct device *dev, struct device_attribute *attr,
@@ -334,12 +342,21 @@ struct bio *blk_next_bio(struct bio *bio, unsigned int nr_pages, gfp_t gfp);
 
 #ifdef CONFIG_BLK_DEV_ZONED
 void blk_queue_free_zone_bitmaps(struct request_queue *q);
+<<<<<<< HEAD
 void blk_queue_clear_zone_settings(struct request_queue *q);
 #else
 static inline void blk_queue_free_zone_bitmaps(struct request_queue *q) {}
 static inline void blk_queue_clear_zone_settings(struct request_queue *q) {}
 #endif
 
+=======
+#else
+static inline void blk_queue_free_zone_bitmaps(struct request_queue *q) {}
+#endif
+
+struct block_device *disk_map_sector_rcu(struct gendisk *disk, sector_t sector);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int blk_alloc_devt(struct block_device *part, dev_t *devt);
 void blk_free_devt(dev_t devt);
 char *disk_name(struct gendisk *hd, int partno, char *buf);
@@ -352,6 +369,10 @@ int bdev_add_partition(struct block_device *bdev, int partno,
 int bdev_del_partition(struct block_device *bdev, int partno);
 int bdev_resize_partition(struct block_device *bdev, int partno,
 		sector_t start, sector_t length);
+<<<<<<< HEAD
+=======
+int disk_expand_part_tbl(struct gendisk *disk, int target);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int bio_add_hw_page(struct request_queue *q, struct bio *bio,
 		struct page *page, unsigned int len, unsigned int offset,

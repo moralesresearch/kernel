@@ -13,9 +13,13 @@ obj-$(CONFIG_USB_DWC3)		+= dwc3/
 obj-$(CONFIG_USB_DWC2)		+= dwc2/
 obj-$(CONFIG_USB_ISP1760)	+= isp1760/
 
+<<<<<<< HEAD
 obj-$(CONFIG_USB_CDNS_SUPPORT)	+= cdns3/
 obj-$(CONFIG_USB_CDNS3)		+= cdns3/
 obj-$(CONFIG_USB_CDNSP_PCI)	+= cdns3/
+=======
+obj-$(CONFIG_USB_CDNS3)		+= cdns3/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 obj-$(CONFIG_USB_MON)		+= mon/
 obj-$(CONFIG_USB_MTU3)		+= mtu3/

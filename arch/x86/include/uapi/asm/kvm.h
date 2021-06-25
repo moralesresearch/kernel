@@ -112,7 +112,10 @@ struct kvm_ioapic_state {
 #define KVM_NR_IRQCHIPS          3
 
 #define KVM_RUN_X86_SMM		 (1 << 0)
+<<<<<<< HEAD
 #define KVM_RUN_X86_BUS_LOCK     (1 << 1)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* for KVM_GET_REGS and KVM_SET_REGS */
 struct kvm_regs {

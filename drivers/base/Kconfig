@@ -161,7 +161,11 @@ config HMEM_REPORTING
 	default n
 	depends on NUMA
 	help
+<<<<<<< HEAD
 	  Enable reporting for heterogeneous memory access attributes under
+=======
+	  Enable reporting for heterogenous memory access attributes under
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  their non-uniform memory nodes.
 
 source "drivers/base/test/Kconfig"
@@ -213,10 +217,13 @@ config GENERIC_ARCH_TOPOLOGY
 	  appropriate scaling, sysfs interface for reading capacity values at
 	  runtime.
 
+<<<<<<< HEAD
 config GENERIC_ARCH_NUMA
 	bool
 	help
 	  Enable support for generic NUMA implementation. Currently, RISC-V
 	  and ARM64 use it.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endmenu

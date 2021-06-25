@@ -85,11 +85,14 @@
 /* page number for queue file region */
 #define QM_DOORBELL_PAGE_NR		1
 
+<<<<<<< HEAD
 /* uacce mode of the driver */
 #define UACCE_MODE_NOUACCE		0 /* don't use uacce */
 #define UACCE_MODE_SVA			1 /* use uacce sva mode */
 #define UACCE_MODE_DESC	"0(default) means only register to crypto, 1 means both register to crypto and uacce"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum qm_stop_reason {
 	QM_NORMAL,
 	QM_SOFT_RESET,
@@ -173,7 +176,10 @@ struct hisi_qm_err_info {
 	char *acpi_rst;
 	u32 msi_wr_port;
 	u32 ecc_2bits_mask;
+<<<<<<< HEAD
 	u32 dev_ce_mask;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 ce;
 	u32 nfe;
 	u32 fe;
@@ -231,7 +237,11 @@ struct hisi_qm {
 	struct hisi_qm_status status;
 	const struct hisi_qm_err_ini *err_ini;
 	struct hisi_qm_err_status err_status;
+<<<<<<< HEAD
 	unsigned long misc_ctl; /* driver removing and reset sched */
+=======
+	unsigned long reset_flag;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct rw_semaphore qps_lock;
 	struct idr qp_idr;
@@ -255,7 +265,10 @@ struct hisi_qm {
 	resource_size_t phys_base;
 	resource_size_t phys_size;
 	struct uacce_device *uacce;
+<<<<<<< HEAD
 	int mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct hisi_qp_status {
@@ -289,7 +302,10 @@ struct hisi_qp {
 
 	struct hisi_qm *qm;
 	bool is_resetting;
+<<<<<<< HEAD
 	bool is_in_kernel;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 pasid;
 	struct uacce_queue *uacce_q;
 };
@@ -307,7 +323,11 @@ static inline int q_num_set(const char *val, const struct kernel_param *kp,
 
 	if (!pdev) {
 		q_num = min_t(u32, QM_QNUM_V1, QM_QNUM_V2);
+<<<<<<< HEAD
 		pr_info("No device found currently, suppose queue number is %u\n",
+=======
+		pr_info("No device found currently, suppose queue number is %d\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			q_num);
 	} else {
 		if (pdev->revision == QM_HW_V1)
@@ -341,6 +361,7 @@ static inline int vfs_num_set(const char *val, const struct kernel_param *kp)
 	return param_set_int(val, kp);
 }
 
+<<<<<<< HEAD
 static inline int mode_set(const char *val, const struct kernel_param *kp)
 {
 	u32 n;
@@ -362,6 +383,8 @@ static inline int uacce_mode_set(const char *val, const struct kernel_param *kp)
 	return mode_set(val, kp);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void hisi_qm_init_list(struct hisi_qm_list *qm_list)
 {
 	INIT_LIST_HEAD(&qm_list->list);

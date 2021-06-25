@@ -17,9 +17,12 @@ maintainers:
   - Jon Hunter <jonathanh@nvidia.com>
   - Sameer Pujar <spujar@nvidia.com>
 
+<<<<<<< HEAD
 allOf:
   - $ref: audio-graph-port.yaml#
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   $nodename:
     pattern: "^admaif@[0-9a-f]*$"
@@ -40,6 +43,7 @@ properties:
 
   dma-names: true
 
+<<<<<<< HEAD
   ports:
     description: |
       Contains list of ACIF (Audio CIF) port nodes for ADMAIF channels.
@@ -48,6 +52,8 @@ properties:
       in AHUB (Audio Hub). Each port is capable of data transfers in
       both directions.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 if:
   properties:
     compatible:
@@ -92,7 +98,11 @@ required:
   - dmas
   - dma-names
 
+<<<<<<< HEAD
 unevaluatedProperties: false
+=======
+additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 examples:
   - |

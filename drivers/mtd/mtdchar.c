@@ -651,12 +651,25 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
 	case MEMGETINFO:
 	case MEMREADOOB:
 	case MEMREADOOB64:
+<<<<<<< HEAD
 	case MEMISLOCKED:
 	case MEMGETOOBSEL:
 	case MEMGETBADBLOCK:
 	case OTPSELECT:
 	case OTPGETREGIONCOUNT:
 	case OTPGETREGIONINFO:
+=======
+	case MEMLOCK:
+	case MEMUNLOCK:
+	case MEMISLOCKED:
+	case MEMGETOOBSEL:
+	case MEMGETBADBLOCK:
+	case MEMSETBADBLOCK:
+	case OTPSELECT:
+	case OTPGETREGIONCOUNT:
+	case OTPGETREGIONINFO:
+	case OTPLOCK:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case ECCGETLAYOUT:
 	case ECCGETSTATS:
 	case MTDFILEMODE:
@@ -667,6 +680,7 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
 	/* "dangerous" commands */
 	case MEMERASE:
 	case MEMERASE64:
+<<<<<<< HEAD
 	case MEMLOCK:
 	case MEMUNLOCK:
 	case MEMSETBADBLOCK:
@@ -674,6 +688,11 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
 	case MEMWRITEOOB64:
 	case MEMWRITE:
 	case OTPLOCK:
+=======
+	case MEMWRITEOOB:
+	case MEMWRITEOOB64:
+	case MEMWRITE:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!(file->f_mode & FMODE_WRITE))
 			return -EPERM;
 		break;

@@ -1385,7 +1385,11 @@ static int macvlan_changelink_sources(struct macvlan_dev *vlan, u32 mode,
 				return ret;
 		}
 
+<<<<<<< HEAD
 		if (!data[IFLA_MACVLAN_MACADDR_DATA])
+=======
+		if (!data || !data[IFLA_MACVLAN_MACADDR_DATA])
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 
 		head = nla_data(data[IFLA_MACVLAN_MACADDR_DATA]);

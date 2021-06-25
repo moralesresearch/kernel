@@ -156,8 +156,12 @@
 			};
 
 			nb_periph_clk: nb-periph-clk@13000 {
+<<<<<<< HEAD
 				compatible = "marvell,armada-3700-periph-clock-nb",
 					     "syscon";
+=======
+				compatible = "marvell,armada-3700-periph-clock-nb";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				reg = <0x13000 0x100>;
 				clocks = <&tbg 0>, <&tbg 1>, <&tbg 2>,
 				<&tbg 3>, <&xtalclk>;
@@ -459,8 +463,11 @@
 				reg = <0xe0000 0x178>;
 				interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
 				clocks = <&nb_periph_clk 1>;
+<<<<<<< HEAD
 				phys = <&comphy2 0>;
 				phy-names = "sata-phy";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				status = "disabled";
 			};
 

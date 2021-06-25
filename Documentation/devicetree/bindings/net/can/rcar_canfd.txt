@@ -97,7 +97,11 @@ E.g. below enables Channel 0 alone in the board using External clock
 as fCAN clock.
 
 &canfd {
+<<<<<<< HEAD
 	pinctrl-0 = <&canfd0_pins>, <&can_clk_pins>;
+=======
+	pinctrl-0 = <&canfd0_pins &can_clk_pins>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-names = "default";
 	status = "okay";
 

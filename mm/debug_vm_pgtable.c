@@ -58,6 +58,7 @@
 #define RANDOM_ORVALUE (GENMASK(BITS_PER_LONG - 1, 0) & ~ARCH_SKIP_MASK)
 #define RANDOM_NZVALUE	GENMASK(7, 0)
 
+<<<<<<< HEAD
 static void __init pte_basic_tests(unsigned long pfn, int idx)
 {
 	pgprot_t prot = protection_map[idx];
@@ -75,6 +76,13 @@ static void __init pte_basic_tests(unsigned long pfn, int idx)
 	 */
 	WARN_ON(pte_dirty(pte_wrprotect(pte)));
 
+=======
+static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
+{
+	pte_t pte = pfn_pte(pfn, prot);
+
+	pr_debug("Validating PTE basic\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WARN_ON(!pte_same(pte, pte));
 	WARN_ON(!pte_young(pte_mkyoung(pte_mkold(pte))));
 	WARN_ON(!pte_dirty(pte_mkdirty(pte_mkclean(pte))));
@@ -82,8 +90,11 @@ static void __init pte_basic_tests(unsigned long pfn, int idx)
 	WARN_ON(pte_young(pte_mkold(pte_mkyoung(pte))));
 	WARN_ON(pte_dirty(pte_mkclean(pte_mkdirty(pte))));
 	WARN_ON(pte_write(pte_wrprotect(pte_mkwrite(pte))));
+<<<<<<< HEAD
 	WARN_ON(pte_dirty(pte_wrprotect(pte_mkclean(pte))));
 	WARN_ON(!pte_dirty(pte_wrprotect(pte_mkdirty(pte))));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init pte_advanced_tests(struct mm_struct *mm,
@@ -143,15 +154,22 @@ static void __init pte_savedwrite_tests(unsigned long pfn, pgprot_t prot)
 }
 
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+<<<<<<< HEAD
 static void __init pmd_basic_tests(unsigned long pfn, int idx)
 {
 	pgprot_t prot = protection_map[idx];
 	pmd_t pmd = pfn_pmd(pfn, prot);
 	unsigned long val = idx, *ptr = &val;
+=======
+static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot)
+{
+	pmd_t pmd = pfn_pmd(pfn, prot);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!has_transparent_hugepage())
 		return;
 
+<<<<<<< HEAD
 	pr_debug("Validating PMD basic (%pGv)\n", ptr);
 
 	/*
@@ -164,6 +182,9 @@ static void __init pmd_basic_tests(unsigned long pfn, int idx)
 	WARN_ON(pmd_dirty(pmd_wrprotect(pmd)));
 
 
+=======
+	pr_debug("Validating PMD basic\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WARN_ON(!pmd_same(pmd, pmd));
 	WARN_ON(!pmd_young(pmd_mkyoung(pmd_mkold(pmd))));
 	WARN_ON(!pmd_dirty(pmd_mkdirty(pmd_mkclean(pmd))));
@@ -171,8 +192,11 @@ static void __init pmd_basic_tests(unsigned long pfn, int idx)
 	WARN_ON(pmd_young(pmd_mkold(pmd_mkyoung(pmd))));
 	WARN_ON(pmd_dirty(pmd_mkclean(pmd_mkdirty(pmd))));
 	WARN_ON(pmd_write(pmd_wrprotect(pmd_mkwrite(pmd))));
+<<<<<<< HEAD
 	WARN_ON(pmd_dirty(pmd_wrprotect(pmd_mkclean(pmd))));
 	WARN_ON(!pmd_dirty(pmd_wrprotect(pmd_mkdirty(pmd))));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * A huge page does not point to next level page table
 	 * entry. Hence this must qualify as pmd_bad().
@@ -192,7 +216,11 @@ static void __init pmd_advanced_tests(struct mm_struct *mm,
 
 	pr_debug("Validating PMD advanced\n");
 	/* Align the address wrt HPAGE_PMD_SIZE */
+<<<<<<< HEAD
 	vaddr &= HPAGE_PMD_MASK;
+=======
+	vaddr = (vaddr & HPAGE_PMD_MASK) + HPAGE_PMD_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pgtable_trans_huge_deposit(mm, pmdp, pgtable);
 
@@ -278,15 +306,22 @@ static void __init pmd_savedwrite_tests(unsigned long pfn, pgprot_t prot)
 }
 
 #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+<<<<<<< HEAD
 static void __init pud_basic_tests(struct mm_struct *mm, unsigned long pfn, int idx)
 {
 	pgprot_t prot = protection_map[idx];
 	pud_t pud = pfn_pud(pfn, prot);
 	unsigned long val = idx, *ptr = &val;
+=======
+static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot)
+{
+	pud_t pud = pfn_pud(pfn, prot);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!has_transparent_hugepage())
 		return;
 
+<<<<<<< HEAD
 	pr_debug("Validating PUD basic (%pGv)\n", ptr);
 
 	/*
@@ -307,6 +342,14 @@ static void __init pud_basic_tests(struct mm_struct *mm, unsigned long pfn, int 
 	WARN_ON(pud_young(pud_mkold(pud_mkyoung(pud))));
 	WARN_ON(pud_dirty(pud_wrprotect(pud_mkclean(pud))));
 	WARN_ON(!pud_dirty(pud_wrprotect(pud_mkdirty(pud))));
+=======
+	pr_debug("Validating PUD basic\n");
+	WARN_ON(!pud_same(pud, pud));
+	WARN_ON(!pud_young(pud_mkyoung(pud_mkold(pud))));
+	WARN_ON(!pud_write(pud_mkwrite(pud_wrprotect(pud))));
+	WARN_ON(pud_write(pud_wrprotect(pud_mkwrite(pud))));
+	WARN_ON(pud_young(pud_mkold(pud_mkyoung(pud))));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (mm_pmd_folded(mm))
 		return;
@@ -330,7 +373,11 @@ static void __init pud_advanced_tests(struct mm_struct *mm,
 
 	pr_debug("Validating PUD advanced\n");
 	/* Align the address wrt HPAGE_PUD_SIZE */
+<<<<<<< HEAD
 	vaddr &= HPAGE_PUD_MASK;
+=======
+	vaddr = (vaddr & HPAGE_PUD_MASK) + HPAGE_PUD_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	set_pud_at(mm, vaddr, pudp, pud);
 	pudp_set_wrprotect(mm, vaddr, pudp);
@@ -404,7 +451,11 @@ static void __init pud_huge_tests(pud_t *pudp, unsigned long pfn, pgprot_t prot)
 #endif /* !CONFIG_HAVE_ARCH_HUGE_VMAP */
 
 #else  /* !CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
+<<<<<<< HEAD
 static void __init pud_basic_tests(struct mm_struct *mm, unsigned long pfn, int idx) { }
+=======
+static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init pud_advanced_tests(struct mm_struct *mm,
 				      struct vm_area_struct *vma, pud_t *pudp,
 				      unsigned long pfn, unsigned long vaddr,
@@ -417,8 +468,13 @@ static void __init pud_huge_tests(pud_t *pudp, unsigned long pfn, pgprot_t prot)
 }
 #endif /* CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
 #else  /* !CONFIG_TRANSPARENT_HUGEPAGE */
+<<<<<<< HEAD
 static void __init pmd_basic_tests(unsigned long pfn, int idx) { }
 static void __init pud_basic_tests(struct mm_struct *mm, unsigned long pfn, int idx) { }
+=======
+static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot) { }
+static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init pmd_advanced_tests(struct mm_struct *mm,
 				      struct vm_area_struct *vma, pmd_t *pmdp,
 				      unsigned long pfn, unsigned long vaddr,
@@ -944,7 +1000,10 @@ static int __init debug_vm_pgtable(void)
 	unsigned long vaddr, pte_aligned, pmd_aligned;
 	unsigned long pud_aligned, p4d_aligned, pgd_aligned;
 	spinlock_t *ptl = NULL;
+<<<<<<< HEAD
 	int idx;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pr_info("Validating architecture page table helpers\n");
 	prot = vm_get_page_prot(VMFLAGS);
@@ -1009,6 +1068,7 @@ static int __init debug_vm_pgtable(void)
 	saved_pmdp = pmd_offset(pudp, 0UL);
 	saved_ptep = pmd_pgtable(pmd);
 
+<<<<<<< HEAD
 	/*
 	 * Iterate over the protection_map[] to make sure that all
 	 * the basic page table transformation validations just hold
@@ -1028,6 +1088,11 @@ static int __init debug_vm_pgtable(void)
 	 * the above iteration for now to save some test execution
 	 * time.
 	 */
+=======
+	pte_basic_tests(pte_aligned, prot);
+	pmd_basic_tests(pmd_aligned, prot);
+	pud_basic_tests(pud_aligned, prot);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	p4d_basic_tests(p4d_aligned, prot);
 	pgd_basic_tests(pgd_aligned, prot);
 

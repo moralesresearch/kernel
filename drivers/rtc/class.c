@@ -231,8 +231,11 @@ static struct rtc_device *rtc_allocate_device(void)
 	rtc->pie_timer.function = rtc_pie_update_irq;
 	rtc->pie_enabled = 0;
 
+<<<<<<< HEAD
 	set_bit(RTC_FEATURE_ALARM, rtc->features);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rtc;
 }
 
@@ -324,6 +327,14 @@ static void rtc_device_get_offset(struct rtc_device *rtc)
 		rtc->offset_secs = 0;
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * rtc_device_unregister - removes the previously registered RTC class device
+ *
+ * @rtc: the RTC class device to destroy
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void devm_rtc_unregister_device(void *data)
 {
 	struct rtc_device *rtc = data;
@@ -383,9 +394,12 @@ int __devm_rtc_register_device(struct module *owner, struct rtc_device *rtc)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (!rtc->ops->set_alarm)
 		clear_bit(RTC_FEATURE_ALARM, rtc->features);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtc->owner = owner;
 	rtc_device_get_offset(rtc);
 

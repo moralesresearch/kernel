@@ -225,7 +225,10 @@ enum pd_pdo_type {
 #define PDO_FIXED_EXTPOWER		BIT(27) /* Externally powered */
 #define PDO_FIXED_USB_COMM		BIT(26) /* USB communications capable */
 #define PDO_FIXED_DATA_SWAP		BIT(25) /* Data role swap supported */
+<<<<<<< HEAD
 #define PDO_FIXED_UNCHUNK_EXT		BIT(24) /* Unchunked Extended Message supported (Source) */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PDO_FIXED_FRS_CURR_MASK		(BIT(24) | BIT(23)) /* FR_Swap Current (Sink) */
 #define PDO_FIXED_FRS_CURR_SHIFT	23
 #define PDO_FIXED_VOLT_SHIFT		10	/* 50mV units */
@@ -460,7 +463,11 @@ static inline unsigned int rdo_max_power(u32 rdo)
 #define PD_T_RECEIVER_RESPONSE	15	/* 15ms max */
 #define PD_T_SOURCE_ACTIVITY	45
 #define PD_T_SINK_ACTIVITY	135
+<<<<<<< HEAD
 #define PD_T_SINK_WAIT_CAP	310	/* 310 - 620 ms */
+=======
+#define PD_T_SINK_WAIT_CAP	240
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PD_T_PS_TRANSITION	500
 #define PD_T_SRC_TRANSITION	35
 #define PD_T_DRP_SNK		40
@@ -480,8 +487,11 @@ static inline unsigned int rdo_max_power(u32 rdo)
 #define PD_T_NEWSRC		250	/* Maximum of 275ms */
 #define PD_T_SWAP_SRC_START	20	/* Minimum of 20ms */
 #define PD_T_BIST_CONT_MODE	50	/* 30 - 60 ms */
+<<<<<<< HEAD
 #define PD_T_SINK_TX		16	/* 16 - 20 ms */
 #define PD_T_CHUNK_NOT_SUPP	42	/* 40 - 50 ms */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PD_T_DRP_TRY		100	/* 75 - 150 ms */
 #define PD_T_DRP_TRYWAIT	600	/* 400 - 800 ms */
@@ -493,6 +503,9 @@ static inline unsigned int rdo_max_power(u32 rdo)
 #define PD_N_CAPS_COUNT		(PD_T_NO_RESPONSE / PD_T_SEND_SOURCE_CAP)
 #define PD_N_HARD_RESET_COUNT	2
 
+<<<<<<< HEAD
 #define PD_P_SNK_STDBY_MW	2500	/* 2500 mW */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_USB_PD_H */

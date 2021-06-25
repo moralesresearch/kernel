@@ -127,6 +127,10 @@ static void mptcp_parse_option(const struct sk_buff *skb,
 			memcpy(mp_opt->hmac, ptr, MPTCPOPT_HMAC_LEN);
 			pr_debug("MP_JOIN hmac");
 		} else {
+<<<<<<< HEAD
+=======
+			pr_warn("MP_JOIN bad option size");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mp_opt->mp_join = 0;
 		}
 		break;
@@ -281,6 +285,10 @@ static void mptcp_parse_option(const struct sk_buff *skb,
 		pr_debug("RM_ADDR: id=%d", mp_opt->rm_id);
 		break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MPTCPOPT_MP_PRIO:
 		if (opsize != TCPOLEN_MPTCP_PRIO)
 			break;
@@ -290,6 +298,11 @@ static void mptcp_parse_option(const struct sk_buff *skb,
 		pr_debug("MP_PRIO: prio=%d", mp_opt->backup);
 		break;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MPTCPOPT_MP_FASTCLOSE:
 		if (opsize != TCPOLEN_MPTCP_FASTCLOSE)
 			break;
@@ -321,7 +334,14 @@ void mptcp_get_options(const struct sk_buff *skb,
 	mp_opt->port = 0;
 	mp_opt->rm_addr = 0;
 	mp_opt->dss = 0;
+<<<<<<< HEAD
 	mp_opt->mp_prio = 0;
+=======
+<<<<<<< HEAD
+	mp_opt->mp_prio = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	length = (th->doff * 4) - sizeof(struct tcphdr);
 	ptr = (const unsigned char *)(th + 1);
@@ -337,8 +357,11 @@ void mptcp_get_options(const struct sk_buff *skb,
 			length--;
 			continue;
 		default:
+<<<<<<< HEAD
 			if (length < 2)
 				return;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			opsize = *ptr++;
 			if (opsize < 2) /* "silly options" */
 				return;
@@ -516,7 +539,14 @@ static bool mptcp_established_options_dss(struct sock *sk, struct sk_buff *skb,
 	struct mptcp_ext *mpext;
 	unsigned int ack_size;
 	bool ret = false;
+<<<<<<< HEAD
 	u64 ack_seq;
+=======
+<<<<<<< HEAD
+	u64 ack_seq;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mpext = skb ? mptcp_get_ext(skb) : NULL;
 
@@ -544,6 +574,10 @@ static bool mptcp_established_options_dss(struct sock *sk, struct sk_buff *skb,
 		return ret;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ack_seq = READ_ONCE(msk->ack_seq);
 	if (READ_ONCE(msk->use_64bit_ack)) {
 		ack_size = TCPOLEN_MPTCP_DSS_ACK64;
@@ -552,6 +586,18 @@ static bool mptcp_established_options_dss(struct sock *sk, struct sk_buff *skb,
 	} else {
 		ack_size = TCPOLEN_MPTCP_DSS_ACK32;
 		opts->ext_copy.data_ack32 = (uint32_t)ack_seq;
+<<<<<<< HEAD
+=======
+=======
+	if (READ_ONCE(msk->use_64bit_ack)) {
+		ack_size = TCPOLEN_MPTCP_DSS_ACK64;
+		opts->ext_copy.data_ack = READ_ONCE(msk->ack_seq);
+		opts->ext_copy.ack64 = 1;
+	} else {
+		ack_size = TCPOLEN_MPTCP_DSS_ACK32;
+		opts->ext_copy.data_ack32 = (uint32_t)READ_ONCE(msk->ack_seq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		opts->ext_copy.ack64 = 0;
 	}
 	opts->ext_copy.use_ack = 1;
@@ -695,6 +741,10 @@ static bool mptcp_established_options_rm_addr(struct sock *sk,
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mptcp_established_options_mp_prio(struct sock *sk,
 					      unsigned int *size,
 					      unsigned int remaining,
@@ -718,6 +768,11 @@ static bool mptcp_established_options_mp_prio(struct sock *sk,
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool mptcp_established_options(struct sock *sk, struct sk_buff *skb,
 			       unsigned int *size, unsigned int remaining,
 			       struct mptcp_out_options *opts)
@@ -763,12 +818,21 @@ bool mptcp_established_options(struct sock *sk, struct sk_buff *skb,
 		ret = true;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mptcp_established_options_mp_prio(sk, &opt_size, remaining, opts)) {
 		*size += opt_size;
 		remaining -= opt_size;
 		ret = true;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -876,7 +940,15 @@ fully_established:
 		clear_3rdack_retransmission(ssk);
 		mptcp_pm_subflow_established(msk, subflow);
 	} else {
+<<<<<<< HEAD
 		mptcp_pm_fully_established(msk, ssk, GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+		mptcp_pm_fully_established(msk, ssk, GFP_ATOMIC);
+=======
+		mptcp_pm_fully_established(msk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return true;
 
@@ -1035,10 +1107,19 @@ void mptcp_incoming_options(struct sock *sk, struct sk_buff *skb)
 			mptcp_pm_del_add_timer(msk, &addr);
 			MPTCP_INC_STATS(sock_net(sk), MPTCP_MIB_ECHOADD);
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (mp_opt.port)
 			MPTCP_INC_STATS(sock_net(sk), MPTCP_MIB_PORTADD);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mp_opt.add_addr = 0;
 	}
 
@@ -1047,12 +1128,21 @@ void mptcp_incoming_options(struct sock *sk, struct sk_buff *skb)
 		mp_opt.rm_addr = 0;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mp_opt.mp_prio) {
 		mptcp_pm_mp_prio_received(sk, mp_opt.backup);
 		MPTCP_INC_STATS(sock_net(sk), MPTCP_MIB_MPPRIORX);
 		mp_opt.mp_prio = 0;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mp_opt.dss)
 		return;
 
@@ -1227,6 +1317,10 @@ mp_capable_done:
 				      0, opts->rm_id);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (OPTION_MPTCP_PRIO & opts->suboptions) {
 		const struct sock *ssk = (const struct sock *)tp;
 		struct mptcp_subflow_context *subflow;
@@ -1239,6 +1333,11 @@ mp_capable_done:
 				      opts->backup, TCPOPT_NOP);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (OPTION_MPTCP_MPJ_SYN & opts->suboptions) {
 		*ptr++ = mptcp_option(MPTCPOPT_MP_JOIN,
 				      TCPOLEN_MPTCP_MPJ_SYN,

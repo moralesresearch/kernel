@@ -192,6 +192,7 @@ config FPGA_DFL_AFU
 	  to the FPGA infrastructure via a Port. There may be more than one
 	  Port/AFU per DFL based FPGA device.
 
+<<<<<<< HEAD
 config FPGA_DFL_NIOS_INTEL_PAC_N3000
 	tristate "FPGA DFL NIOS Driver for Intel PAC N3000"
 	depends on FPGA_DFL
@@ -203,6 +204,8 @@ config FPGA_DFL_NIOS_INTEL_PAC_N3000
 	  the card. It also instantiates the SPI master (spi-altera) for
 	  the card's BMC (Board Management Controller).
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config FPGA_DFL_PCI
 	tristate "FPGA DFL PCIe Device Driver"
 	depends on PCI && FPGA_DFL

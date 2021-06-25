@@ -53,7 +53,12 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
 	const struct drm_display_mode *adjusted_mode =
 		&crtc_state->hw.adjusted_mode;
+<<<<<<< HEAD
 	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
+=======
+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, 0,
+					   DP_DPCD_QUIRK_CONSTANT_N);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int bpp, slots = -EINVAL;
 
 	crtc_state->lane_count = limits->max_lane_count;
@@ -570,7 +575,11 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
 	if (conn_state->content_protection ==
 	    DRM_MODE_CONTENT_PROTECTION_DESIRED)
 		intel_hdcp_enable(to_intel_connector(conn_state->connector),
+<<<<<<< HEAD
 				  pipe_config,
+=======
+				  pipe_config->cpu_transcoder,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  (u8)conn_state->hdcp_content_type);
 }
 
@@ -830,11 +839,20 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
 	intel_attach_force_audio_property(connector);
 	intel_attach_broadcast_rgb_property(connector);
 
+<<<<<<< HEAD
 	if (INTEL_GEN(dev_priv) <= 12) {
 		ret = intel_dp_init_hdcp(dig_port, intel_connector);
 		if (ret)
 			drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
 				    connector->name, connector->base.id);
+=======
+
+	/* TODO: Figure out how to make HDCP work on GEN12+ */
+	if (INTEL_GEN(dev_priv) < 12) {
+		ret = intel_dp_init_hdcp(dig_port, intel_connector);
+		if (ret)
+			DRM_DEBUG_KMS("HDCP init failed, skipping.\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*

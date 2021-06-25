@@ -376,6 +376,7 @@ static int jz4760_cim_pins[] = {
 	0x26, 0x27, 0x28, 0x29,
 	0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, 0x30, 0x31,
 };
+<<<<<<< HEAD
 static int jz4760_lcd_8bit_pins[] = {
 	0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x4c,
 	0x4d, 0x52, 0x53,
@@ -391,6 +392,14 @@ static int jz4760_lcd_24bit_pins[] = {
 };
 static int jz4760_lcd_special_pins[] = { 0x40, 0x41, 0x4a, 0x54 };
 static int jz4760_lcd_generic_pins[] = { 0x49, };
+=======
+static int jz4760_lcd_24bit_pins[] = {
+	0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,
+	0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
+	0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,
+	0x58, 0x59, 0x5a, 0x5b,
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int jz4760_pwm_pwm0_pins[] = { 0x80, };
 static int jz4760_pwm_pwm1_pins[] = { 0x81, };
 static int jz4760_pwm_pwm2_pins[] = { 0x82, };
@@ -399,7 +408,10 @@ static int jz4760_pwm_pwm4_pins[] = { 0x84, };
 static int jz4760_pwm_pwm5_pins[] = { 0x85, };
 static int jz4760_pwm_pwm6_pins[] = { 0x6a, };
 static int jz4760_pwm_pwm7_pins[] = { 0x6b, };
+<<<<<<< HEAD
 static int jz4760_otg_pins[] = { 0x8a, };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static u8 jz4760_uart3_data_funcs[] = { 0, 1, };
 static u8 jz4760_mmc0_1bit_a_funcs[] = { 1, 1, 0, };
@@ -446,12 +458,17 @@ static const struct group_desc jz4760_groups[] = {
 	INGENIC_PIN_GROUP("i2c0-data", jz4760_i2c0, 0),
 	INGENIC_PIN_GROUP("i2c1-data", jz4760_i2c1, 0),
 	INGENIC_PIN_GROUP("cim-data", jz4760_cim, 0),
+<<<<<<< HEAD
 	INGENIC_PIN_GROUP("lcd-8bit", jz4760_lcd_8bit, 0),
 	INGENIC_PIN_GROUP("lcd-16bit", jz4760_lcd_16bit, 0),
 	INGENIC_PIN_GROUP("lcd-18bit", jz4760_lcd_18bit, 0),
 	INGENIC_PIN_GROUP("lcd-24bit", jz4760_lcd_24bit, 0),
 	INGENIC_PIN_GROUP("lcd-generic", jz4760_lcd_generic, 0),
 	INGENIC_PIN_GROUP("lcd-special", jz4760_lcd_special, 1),
+=======
+	INGENIC_PIN_GROUP("lcd-24bit", jz4760_lcd_24bit, 0),
+	{ "lcd-no-pins", },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INGENIC_PIN_GROUP("pwm0", jz4760_pwm_pwm0, 0),
 	INGENIC_PIN_GROUP("pwm1", jz4760_pwm_pwm1, 0),
 	INGENIC_PIN_GROUP("pwm2", jz4760_pwm_pwm2, 0),
@@ -460,7 +477,10 @@ static const struct group_desc jz4760_groups[] = {
 	INGENIC_PIN_GROUP("pwm5", jz4760_pwm_pwm5, 0),
 	INGENIC_PIN_GROUP("pwm6", jz4760_pwm_pwm6, 0),
 	INGENIC_PIN_GROUP("pwm7", jz4760_pwm_pwm7, 0),
+<<<<<<< HEAD
 	INGENIC_PIN_GROUP("otg-vbus", jz4760_otg, 0),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const char *jz4760_uart0_groups[] = { "uart0-data", "uart0-hwflow", };
@@ -492,10 +512,14 @@ static const char *jz4760_cs6_groups[] = { "nemc-cs6", };
 static const char *jz4760_i2c0_groups[] = { "i2c0-data", };
 static const char *jz4760_i2c1_groups[] = { "i2c1-data", };
 static const char *jz4760_cim_groups[] = { "cim-data", };
+<<<<<<< HEAD
 static const char *jz4760_lcd_groups[] = {
 	"lcd-8bit", "lcd-16bit", "lcd-18bit", "lcd-24bit",
 	"lcd-special", "lcd-generic",
 };
+=======
+static const char *jz4760_lcd_groups[] = { "lcd-24bit", "lcd-no-pins", };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *jz4760_pwm0_groups[] = { "pwm0", };
 static const char *jz4760_pwm1_groups[] = { "pwm1", };
 static const char *jz4760_pwm2_groups[] = { "pwm2", };
@@ -504,7 +528,10 @@ static const char *jz4760_pwm4_groups[] = { "pwm4", };
 static const char *jz4760_pwm5_groups[] = { "pwm5", };
 static const char *jz4760_pwm6_groups[] = { "pwm6", };
 static const char *jz4760_pwm7_groups[] = { "pwm7", };
+<<<<<<< HEAD
 static const char *jz4760_otg_groups[] = { "otg-vbus", };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct function_desc jz4760_functions[] = {
 	{ "uart0", jz4760_uart0_groups, ARRAY_SIZE(jz4760_uart0_groups), },
@@ -533,7 +560,10 @@ static const struct function_desc jz4760_functions[] = {
 	{ "pwm5", jz4760_pwm5_groups, ARRAY_SIZE(jz4760_pwm5_groups), },
 	{ "pwm6", jz4760_pwm6_groups, ARRAY_SIZE(jz4760_pwm6_groups), },
 	{ "pwm7", jz4760_pwm7_groups, ARRAY_SIZE(jz4760_pwm7_groups), },
+<<<<<<< HEAD
 	{ "otg", jz4760_otg_groups, ARRAY_SIZE(jz4760_otg_groups), },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct ingenic_chip_info jz4760_chip_info = {
@@ -667,9 +697,14 @@ static int jz4770_pwm_pwm7_pins[] = { 0x6b, };
 static int jz4770_mac_rmii_pins[] = {
 	0xa9, 0xab, 0xaa, 0xac, 0xa5, 0xa4, 0xad, 0xae, 0xa6, 0xa8,
 };
+<<<<<<< HEAD
 static int jz4770_mac_mii_pins[] = {
 	0x7b, 0x7a, 0x7d, 0x7c, 0xa7, 0x24, 0xaf,
 };
+=======
+static int jz4770_mac_mii_pins[] = { 0xa7, 0xaf, };
+static int jz4770_otg_pins[] = { 0x8a, };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct group_desc jz4770_groups[] = {
 	INGENIC_PIN_GROUP("uart0-data", jz4770_uart0_data, 0),
@@ -768,7 +803,11 @@ static const struct group_desc jz4770_groups[] = {
 	INGENIC_PIN_GROUP("pwm7", jz4770_pwm_pwm7, 0),
 	INGENIC_PIN_GROUP("mac-rmii", jz4770_mac_rmii, 0),
 	INGENIC_PIN_GROUP("mac-mii", jz4770_mac_mii, 0),
+<<<<<<< HEAD
 	INGENIC_PIN_GROUP("otg-vbus", jz4760_otg, 0),
+=======
+	INGENIC_PIN_GROUP("otg-vbus", jz4770_otg, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const char *jz4770_uart0_groups[] = { "uart0-data", "uart0-hwflow", };
@@ -829,6 +868,10 @@ static const char *jz4770_pwm5_groups[] = { "pwm5", };
 static const char *jz4770_pwm6_groups[] = { "pwm6", };
 static const char *jz4770_pwm7_groups[] = { "pwm7", };
 static const char *jz4770_mac_groups[] = { "mac-rmii", "mac-mii", };
+<<<<<<< HEAD
+=======
+static const char *jz4770_otg_groups[] = { "otg-vbus", };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct function_desc jz4770_functions[] = {
 	{ "uart0", jz4770_uart0_groups, ARRAY_SIZE(jz4770_uart0_groups), },
@@ -861,7 +904,11 @@ static const struct function_desc jz4770_functions[] = {
 	{ "pwm6", jz4770_pwm6_groups, ARRAY_SIZE(jz4770_pwm6_groups), },
 	{ "pwm7", jz4770_pwm7_groups, ARRAY_SIZE(jz4770_pwm7_groups), },
 	{ "mac", jz4770_mac_groups, ARRAY_SIZE(jz4770_mac_groups), },
+<<<<<<< HEAD
 	{ "otg", jz4760_otg_groups, ARRAY_SIZE(jz4760_otg_groups), },
+=======
+	{ "otg", jz4770_otg_groups, ARRAY_SIZE(jz4770_otg_groups), },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct ingenic_chip_info jz4770_chip_info = {
@@ -2109,6 +2156,7 @@ static int ingenic_pinconf_get(struct pinctrl_dev *pctldev,
 	enum pin_config_param param = pinconf_to_config_param(*config);
 	unsigned int idx = pin % PINS_PER_GPIO_CHIP;
 	unsigned int offt = pin / PINS_PER_GPIO_CHIP;
+<<<<<<< HEAD
 	unsigned int bias;
 	bool pull, pullup, pulldown;
 
@@ -2141,16 +2189,36 @@ static int ingenic_pinconf_get(struct pinctrl_dev *pctldev,
 	switch (param) {
 	case PIN_CONFIG_BIAS_DISABLE:
 		if (pullup || pulldown)
+=======
+	bool pull;
+
+	if (jzpc->info->version >= ID_JZ4770)
+		pull = !ingenic_get_pin_config(jzpc, pin, JZ4770_GPIO_PEN);
+	else
+		pull = !ingenic_get_pin_config(jzpc, pin, JZ4740_GPIO_PULL_DIS);
+
+	switch (param) {
+	case PIN_CONFIG_BIAS_DISABLE:
+		if (pull)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EINVAL;
 		break;
 
 	case PIN_CONFIG_BIAS_PULL_UP:
+<<<<<<< HEAD
 		if (!pullup)
+=======
+		if (!pull || !(jzpc->info->pull_ups[offt] & BIT(idx)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EINVAL;
 		break;
 
 	case PIN_CONFIG_BIAS_PULL_DOWN:
+<<<<<<< HEAD
 		if (!pulldown)
+=======
+		if (!pull || !(jzpc->info->pull_downs[offt] & BIT(idx)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EINVAL;
 		break;
 
@@ -2168,7 +2236,11 @@ static void ingenic_set_bias(struct ingenic_pinctrl *jzpc,
 	if (jzpc->info->version >= ID_X1830) {
 		unsigned int idx = pin % PINS_PER_GPIO_CHIP;
 		unsigned int half = PINS_PER_GPIO_CHIP / 2;
+<<<<<<< HEAD
 		unsigned int idxh = (pin % half) * 2;
+=======
+		unsigned int idxh = pin % half * 2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned int offt = pin / PINS_PER_GPIO_CHIP;
 
 		if (idx < half) {
@@ -2426,12 +2498,15 @@ static int __init ingenic_pinctrl_probe(struct platform_device *pdev)
 	unsigned int i;
 	int err;
 
+<<<<<<< HEAD
 	chip_info = of_device_get_match_data(dev);
 	if (!chip_info) {
 		dev_err(dev, "Unsupported SoC\n");
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	jzpc = devm_kzalloc(dev, sizeof(*jzpc), GFP_KERNEL);
 	if (!jzpc)
 		return -ENOMEM;
@@ -2448,7 +2523,11 @@ static int __init ingenic_pinctrl_probe(struct platform_device *pdev)
 	}
 
 	jzpc->dev = dev;
+<<<<<<< HEAD
 	jzpc->info = chip_info;
+=======
+	jzpc->info = chip_info = of_device_get_match_data(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pctl_desc = devm_kzalloc(&pdev->dev, sizeof(*pctl_desc), GFP_KERNEL);
 	if (!pctl_desc)
@@ -2518,6 +2597,7 @@ static int __init ingenic_pinctrl_probe(struct platform_device *pdev)
 }
 
 static const struct of_device_id ingenic_pinctrl_of_match[] = {
+<<<<<<< HEAD
 	{
 		.compatible = "ingenic,jz4740-pinctrl",
 		.data = IF_ENABLED(CONFIG_MACH_JZ4740, &jz4740_chip_info)
@@ -2559,6 +2639,19 @@ static const struct of_device_id ingenic_pinctrl_of_match[] = {
 		.data = IF_ENABLED(CONFIG_MACH_X1830, &x1830_chip_info)
 	},
 	{ /* sentinel */ },
+=======
+	{ .compatible = "ingenic,jz4740-pinctrl", .data = &jz4740_chip_info },
+	{ .compatible = "ingenic,jz4725b-pinctrl", .data = &jz4725b_chip_info },
+	{ .compatible = "ingenic,jz4760-pinctrl", .data = &jz4760_chip_info },
+	{ .compatible = "ingenic,jz4760b-pinctrl", .data = &jz4760_chip_info },
+	{ .compatible = "ingenic,jz4770-pinctrl", .data = &jz4770_chip_info },
+	{ .compatible = "ingenic,jz4780-pinctrl", .data = &jz4780_chip_info },
+	{ .compatible = "ingenic,x1000-pinctrl", .data = &x1000_chip_info },
+	{ .compatible = "ingenic,x1000e-pinctrl", .data = &x1000_chip_info },
+	{ .compatible = "ingenic,x1500-pinctrl", .data = &x1500_chip_info },
+	{ .compatible = "ingenic,x1830-pinctrl", .data = &x1830_chip_info },
+	{},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct platform_driver ingenic_pinctrl_driver = {

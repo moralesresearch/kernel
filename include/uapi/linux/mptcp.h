@@ -36,7 +36,10 @@ enum {
 /* netlink interface */
 #define MPTCP_PM_NAME		"mptcp_pm"
 #define MPTCP_PM_CMD_GRP_NAME	"mptcp_pm_cmds"
+<<<<<<< HEAD
 #define MPTCP_PM_EV_GRP_NAME	"mptcp_pm_events"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MPTCP_PM_VER		0x1
 
 /*
@@ -83,7 +86,10 @@ enum {
 	MPTCP_PM_CMD_FLUSH_ADDRS,
 	MPTCP_PM_CMD_SET_LIMITS,
 	MPTCP_PM_CMD_GET_LIMITS,
+<<<<<<< HEAD
 	MPTCP_PM_CMD_SET_FLAGS,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__MPTCP_PM_CMD_AFTER_LAST
 };
@@ -103,6 +109,7 @@ struct mptcp_info {
 	__u64	mptcpi_write_seq;
 	__u64	mptcpi_snd_una;
 	__u64	mptcpi_rcv_nxt;
+<<<<<<< HEAD
 	__u8	mptcpi_local_addr_used;
 	__u8	mptcpi_local_addr_max;
 };
@@ -180,4 +187,8 @@ enum mptcp_event_attr {
 
 #define MPTCP_ATTR_MAX (__MPTCP_ATTR_AFTER_LAST - 1)
 
+=======
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _UAPI_MPTCP_H */

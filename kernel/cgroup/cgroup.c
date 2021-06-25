@@ -4672,7 +4672,11 @@ static int cgroup_may_write(const struct cgroup *cgrp, struct super_block *sb)
 	if (!inode)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ret = inode_permission(&init_user_ns, inode, MAY_WRITE);
+=======
+	ret = inode_permission(inode, MAY_WRITE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iput(inode);
 	return ret;
 }
@@ -4728,8 +4732,13 @@ static int cgroup_attach_permissions(struct cgroup *src_cgrp,
 	return ret;
 }
 
+<<<<<<< HEAD
 static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
 				    bool threadgroup)
+=======
+static ssize_t cgroup_procs_write(struct kernfs_open_file *of,
+				  char *buf, size_t nbytes, loff_t off)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cgroup *src_cgrp, *dst_cgrp;
 	struct task_struct *task;
@@ -4740,7 +4749,11 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
 	if (!dst_cgrp)
 		return -ENODEV;
 
+<<<<<<< HEAD
 	task = cgroup_procs_write_start(buf, threadgroup, &locked);
+=======
+	task = cgroup_procs_write_start(buf, true, &locked);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = PTR_ERR_OR_ZERO(task);
 	if (ret)
 		goto out_unlock;
@@ -4750,6 +4763,7 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
 	src_cgrp = task_cgroup_from_root(task, &cgrp_dfl_root);
 	spin_unlock_irq(&css_set_lock);
 
+<<<<<<< HEAD
 	/* process and thread migrations follow same delegation rule */
 	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp,
 					of->file->f_path.dentry->d_sb, threadgroup);
@@ -4757,12 +4771,21 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
 		goto out_finish;
 
 	ret = cgroup_attach_task(dst_cgrp, task, threadgroup);
+=======
+	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp,
+					of->file->f_path.dentry->d_sb, true);
+	if (ret)
+		goto out_finish;
+
+	ret = cgroup_attach_task(dst_cgrp, task, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out_finish:
 	cgroup_procs_write_finish(task, locked);
 out_unlock:
 	cgroup_kn_unlock(of->kn);
 
+<<<<<<< HEAD
 	return ret;
 }
 
@@ -4770,6 +4793,9 @@ static ssize_t cgroup_procs_write(struct kernfs_open_file *of,
 				  char *buf, size_t nbytes, loff_t off)
 {
 	return __cgroup_procs_write(of, buf, true) ?: nbytes;
+=======
+	return ret ?: nbytes;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void *cgroup_threads_start(struct seq_file *s, loff_t *pos)
@@ -4780,7 +4806,45 @@ static void *cgroup_threads_start(struct seq_file *s, loff_t *pos)
 static ssize_t cgroup_threads_write(struct kernfs_open_file *of,
 				    char *buf, size_t nbytes, loff_t off)
 {
+<<<<<<< HEAD
 	return __cgroup_procs_write(of, buf, false) ?: nbytes;
+=======
+	struct cgroup *src_cgrp, *dst_cgrp;
+	struct task_struct *task;
+	ssize_t ret;
+	bool locked;
+
+	buf = strstrip(buf);
+
+	dst_cgrp = cgroup_kn_lock_live(of->kn, false);
+	if (!dst_cgrp)
+		return -ENODEV;
+
+	task = cgroup_procs_write_start(buf, false, &locked);
+	ret = PTR_ERR_OR_ZERO(task);
+	if (ret)
+		goto out_unlock;
+
+	/* find the source cgroup */
+	spin_lock_irq(&css_set_lock);
+	src_cgrp = task_cgroup_from_root(task, &cgrp_dfl_root);
+	spin_unlock_irq(&css_set_lock);
+
+	/* thread migrations follow the cgroup.procs delegation rule */
+	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp,
+					of->file->f_path.dentry->d_sb, false);
+	if (ret)
+		goto out_finish;
+
+	ret = cgroup_attach_task(dst_cgrp, task, false);
+
+out_finish:
+	cgroup_procs_write_finish(task, locked);
+out_unlock:
+	cgroup_kn_unlock(of->kn);
+
+	return ret ?: nbytes;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* cgroup core interface files for the default hierarchy */
@@ -5626,6 +5690,11 @@ int __init cgroup_init_early(void)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static u16 cgroup_disable_mask __initdata;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * cgroup_init - cgroup initialization
  *
@@ -5684,8 +5753,17 @@ int __init cgroup_init(void)
 		 * disabled flag and cftype registration needs kmalloc,
 		 * both of which aren't available during early_init.
 		 */
+<<<<<<< HEAD
 		if (!cgroup_ssid_enabled(ssid))
 			continue;
+=======
+		if (cgroup_disable_mask & (1 << ssid)) {
+			static_branch_disable(cgroup_subsys_enabled_key[ssid]);
+			printk(KERN_INFO "Disabling %s control group subsystem\n",
+			       ss->name);
+			continue;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (cgroup1_ssid_disabled(ssid))
 			printk(KERN_INFO "Disabling %s control group subsystem in v1 mounts\n",
@@ -6200,10 +6278,14 @@ static int __init cgroup_disable(char *str)
 			if (strcmp(token, ss->name) &&
 			    strcmp(token, ss->legacy_name))
 				continue;
+<<<<<<< HEAD
 
 			static_branch_disable(cgroup_subsys_enabled_key[i]);
 			pr_info("Disabling %s control group subsystem\n",
 				ss->name);
+=======
+			cgroup_disable_mask |= 1 << i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	return 1;

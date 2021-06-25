@@ -669,8 +669,12 @@ void seq_puts(struct seq_file *m, const char *s)
 EXPORT_SYMBOL(seq_puts);
 
 /**
+<<<<<<< HEAD
  * seq_put_decimal_ull_width - A helper routine for putting decimal numbers
  * 			       without rich format of printf().
+=======
+ * A helper routine for putting decimal numbers without rich format of printf().
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * only 'unsigned long long' is supported.
  * @m: seq_file identifying the buffer to which data should be written
  * @delimiter: a string which is printed before the number
@@ -1045,7 +1049,11 @@ struct hlist_node *seq_hlist_next_rcu(void *v,
 EXPORT_SYMBOL(seq_hlist_next_rcu);
 
 /**
+<<<<<<< HEAD
  * seq_hlist_start_percpu - start an iteration of a percpu hlist array
+=======
+ * seq_hlist_start_precpu - start an iteration of a percpu hlist array
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @head: pointer to percpu array of struct hlist_heads
  * @cpu:  pointer to cpu "cursor"
  * @pos:  start position of sequence

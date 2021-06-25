@@ -1967,6 +1967,7 @@ static int ftrace_hash_ipmodify_update(struct ftrace_ops *ops,
 
 static void print_ip_ins(const char *fmt, const unsigned char *p)
 {
+<<<<<<< HEAD
 	char ins[MCOUNT_INSN_SIZE];
 	int i;
 
@@ -1979,6 +1980,14 @@ static void print_ip_ins(const char *fmt, const unsigned char *p)
 
 	for (i = 0; i < MCOUNT_INSN_SIZE; i++)
 		printk(KERN_CONT "%s%02x", i ? ":" : "", ins[i]);
+=======
+	int i;
+
+	printk(KERN_CONT "%s", fmt);
+
+	for (i = 0; i < MCOUNT_INSN_SIZE; i++)
+		printk(KERN_CONT "%s%02x", i ? ":" : "", p[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 enum ftrace_bug_type ftrace_bug_type;
@@ -3237,8 +3246,17 @@ ftrace_allocate_pages(unsigned long num_to_init)
 	pg = start_pg;
 	while (pg) {
 		order = get_count_order(pg->size / ENTRIES_PER_PAGE);
+<<<<<<< HEAD
 		if (order >= 0)
 			free_pages((unsigned long)pg->records, order);
+=======
+<<<<<<< HEAD
+		if (order >= 0)
+			free_pages((unsigned long)pg->records, order);
+=======
+		free_pages((unsigned long)pg->records, order);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		start_pg = pg->next;
 		kfree(pg);
 		pg = start_pg;
@@ -5637,10 +5655,14 @@ int ftrace_regex_release(struct inode *inode, struct file *file)
 
 	parser = &iter->parser;
 	if (trace_parser_loaded(parser)) {
+<<<<<<< HEAD
 		int enable = !(iter->flags & FTRACE_ITER_NOTRACE);
 
 		ftrace_process_regex(iter, parser->buffer,
 				     parser->idx, enable);
+=======
+		ftrace_match_records(iter->hash, parser->buffer, parser->idx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	trace_parser_put(parser);
@@ -6461,8 +6483,17 @@ void ftrace_release_mod(struct module *mod)
 		clear_mod_from_hashes(pg);
 
 		order = get_count_order(pg->size / ENTRIES_PER_PAGE);
+<<<<<<< HEAD
 		if (order >= 0)
 			free_pages((unsigned long)pg->records, order);
+=======
+<<<<<<< HEAD
+		if (order >= 0)
+			free_pages((unsigned long)pg->records, order);
+=======
+		free_pages((unsigned long)pg->records, order);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tmp_page = pg->next;
 		kfree(pg);
 		ftrace_number_of_pages -= 1 << order;
@@ -6822,8 +6853,17 @@ void ftrace_free_mem(struct module *mod, void *start_ptr, void *end_ptr)
 		if (!pg->index) {
 			*last_pg = pg->next;
 			order = get_count_order(pg->size / ENTRIES_PER_PAGE);
+<<<<<<< HEAD
 			if (order >= 0)
 				free_pages((unsigned long)pg->records, order);
+=======
+<<<<<<< HEAD
+			if (order >= 0)
+				free_pages((unsigned long)pg->records, order);
+=======
+			free_pages((unsigned long)pg->records, order);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ftrace_number_of_pages -= 1 << order;
 			ftrace_number_of_groups--;
 			kfree(pg);

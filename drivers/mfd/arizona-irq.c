@@ -100,7 +100,11 @@ static irqreturn_t arizona_irq_thread(int irq, void *data)
 	unsigned int val;
 	int ret;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(arizona->dev);
+=======
+	ret = pm_runtime_get_sync(arizona->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		dev_err(arizona->dev, "Failed to resume device: %d\n", ret);
 		return IRQ_NONE;

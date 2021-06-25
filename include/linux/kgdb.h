@@ -325,6 +325,13 @@ extern char *kgdb_mem2hex(char *mem, char *buf, int count);
 extern int kgdb_hex2mem(char *buf, char *mem, int count);
 
 extern int kgdb_isremovedbreak(unsigned long addr);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+extern void kgdb_schedule_breakpoint(void);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int kgdb_has_hit_break(unsigned long addr);
 
 extern int

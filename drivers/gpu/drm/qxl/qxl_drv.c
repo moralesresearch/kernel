@@ -141,7 +141,11 @@ static void qxl_drm_release(struct drm_device *dev)
 
 	/*
 	 * TODO: qxl_device_fini() call should be in qxl_pci_remove(),
+<<<<<<< HEAD
 	 * reordering qxl_modeset_fini() + qxl_device_fini() calls is
+=======
+	 * reodering qxl_modeset_fini() + qxl_device_fini() calls is
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * non-trivial though.
 	 */
 	qxl_modeset_fini(qdev);
@@ -163,7 +167,11 @@ DEFINE_DRM_GEM_FOPS(qxl_fops);
 
 static int qxl_drm_freeze(struct drm_device *dev)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+	struct pci_dev *pdev = dev->pdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct qxl_device *qdev = to_qxl(dev);
 	int ret;
 

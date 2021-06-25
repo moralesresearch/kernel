@@ -918,8 +918,16 @@ struct xhci_bw_info {
 #define SS_BW_RESERVED		10
 
 struct xhci_virt_ep {
+<<<<<<< HEAD
 	struct xhci_virt_device		*vdev;	/* parent */
 	unsigned int			ep_index;
+=======
+<<<<<<< HEAD
+	struct xhci_virt_device		*vdev;	/* parent */
+	unsigned int			ep_index;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xhci_ring		*ring;
 	/* Related to endpoints that are configured to use stream IDs only */
 	struct xhci_stream_info		*stream_info;
@@ -995,10 +1003,21 @@ struct xhci_interval_bw_table {
 	unsigned int		ss_bw_out;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define EP_CTX_PER_DEV		31
 
 struct xhci_virt_device {
 	int				slot_id;
+<<<<<<< HEAD
+=======
+=======
+
+struct xhci_virt_device {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct usb_device		*udev;
 	/*
 	 * Commands to the hardware are passed an "input context" that
@@ -1011,7 +1030,15 @@ struct xhci_virt_device {
 	struct xhci_container_ctx       *out_ctx;
 	/* Used for addressing devices and configuration changes */
 	struct xhci_container_ctx       *in_ctx;
+<<<<<<< HEAD
 	struct xhci_virt_ep		eps[EP_CTX_PER_DEV];
+=======
+<<<<<<< HEAD
+	struct xhci_virt_ep		eps[EP_CTX_PER_DEV];
+=======
+	struct xhci_virt_ep		eps[31];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8				fake_port;
 	u8				real_port;
 	struct xhci_interval_bw_table	*bw_table;
@@ -1419,7 +1446,15 @@ union xhci_trb {
 /* MFINDEX Wrap Event - microframe counter wrapped */
 #define TRB_MFINDEX_WRAP	39
 /* TRB IDs 40-47 reserved, 48-63 is vendor-defined */
+<<<<<<< HEAD
 #define TRB_VENDOR_DEFINED_LOW	48
+=======
+<<<<<<< HEAD
+#define TRB_VENDOR_DEFINED_LOW	48
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Nec vendor-specific command completion event. */
 #define	TRB_NEC_CMD_COMP	48
 /* Get NEC firmware revision. */
@@ -1539,6 +1574,10 @@ struct xhci_segment {
 	unsigned int		bounce_len;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum xhci_cancelled_td_status {
 	TD_DIRTY = 0,
 	TD_HALTED,
@@ -1551,15 +1590,35 @@ struct xhci_td {
 	struct list_head	cancelled_td_list;
 	int			status;
 	enum xhci_cancelled_td_status	cancel_status;
+<<<<<<< HEAD
+=======
+=======
+struct xhci_td {
+	struct list_head	td_list;
+	struct list_head	cancelled_td_list;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct urb		*urb;
 	struct xhci_segment	*start_seg;
 	union xhci_trb		*first_trb;
 	union xhci_trb		*last_trb;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xhci_segment	*last_trb_seg;
 	struct xhci_segment	*bounce_seg;
 	/* actual_length of the URB has already been set */
 	bool			urb_length_set;
 	unsigned int		num_trbs;
+<<<<<<< HEAD
+=======
+=======
+	struct xhci_segment	*bounce_seg;
+	/* actual_length of the URB has already been set */
+	bool			urb_length_set;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* xHCI command default timeout value */
@@ -1571,6 +1630,19 @@ struct xhci_cd {
 	union xhci_trb		*cmd_trb;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+struct xhci_dequeue_state {
+	struct xhci_segment *new_deq_seg;
+	union xhci_trb *new_deq_ptr;
+	int new_cycle_state;
+	unsigned int stream_id;
+};
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum xhci_ring_type {
 	TYPE_CTRL = 0,
 	TYPE_ISOC,
@@ -1892,7 +1964,10 @@ struct xhci_hcd {
 #define XHCI_DISABLE_SPARSE	BIT_ULL(38)
 #define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
 #define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
+<<<<<<< HEAD
 #define XHCI_BROKEN_D3COLD	BIT_ULL(41)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned int		num_active_eps;
 	unsigned int		limit_active_eps;
@@ -2058,6 +2133,16 @@ void xhci_free_device_endpoint_resources(struct xhci_hcd *xhci,
 struct xhci_ring *xhci_dma_to_transfer_ring(
 		struct xhci_virt_ep *ep,
 		u64 address);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+struct xhci_ring *xhci_stream_id_to_ring(
+		struct xhci_virt_device *dev,
+		unsigned int ep_index,
+		unsigned int stream_id);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct xhci_command *xhci_alloc_command(struct xhci_hcd *xhci,
 		bool allocate_completion, gfp_t mem_flags);
 struct xhci_command *xhci_alloc_command_with_ctx(struct xhci_hcd *xhci,
@@ -2131,6 +2216,19 @@ int xhci_queue_reset_ep(struct xhci_hcd *xhci, struct xhci_command *cmd,
 		enum xhci_ep_reset_type reset_type);
 int xhci_queue_reset_device(struct xhci_hcd *xhci, struct xhci_command *cmd,
 		u32 slot_id);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void xhci_find_new_dequeue_state(struct xhci_hcd *xhci,
+		unsigned int slot_id, unsigned int ep_index,
+		unsigned int stream_id, struct xhci_td *cur_td,
+		struct xhci_dequeue_state *state);
+void xhci_queue_new_dequeue_state(struct xhci_hcd *xhci,
+		unsigned int slot_id, unsigned int ep_index,
+		struct xhci_dequeue_state *deq_state);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void xhci_cleanup_stalled_ring(struct xhci_hcd *xhci, unsigned int slot_id,
 			       unsigned int ep_index, unsigned int stream_id,
 			       struct xhci_td *td);

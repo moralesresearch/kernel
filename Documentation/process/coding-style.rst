@@ -69,6 +69,7 @@ something to hide:
 	if (condition) do_this;
 	  do_something_everytime;
 
+<<<<<<< HEAD
 Don't use commas to avoid using braces:
 
 .. code-block:: c
@@ -89,6 +90,11 @@ Don't put multiple assignments on a single line either.  Kernel coding style
 is super simple.  Avoid tricky expressions.
 
 
+=======
+Don't put multiple assignments on a single line either.  Kernel coding style
+is super simple.  Avoid tricky expressions.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Outside of comments, documentation and except in Kconfig, spaces are never
 used for indentation, and the above example is deliberately broken.
 
@@ -323,7 +329,12 @@ that counts the number of active users, you should call that
 
 Encoding the type of a function into the name (so-called Hungarian
 notation) is asinine - the compiler knows the types anyway and can check
+<<<<<<< HEAD
 those, and it only confuses the programmer.
+=======
+those, and it only confuses the programmer. No wonder Microsoft makes buggy
+programs.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 LOCAL variable names should be short, and to the point.  If you have
 some random integer loop counter, it should probably be called ``i``.

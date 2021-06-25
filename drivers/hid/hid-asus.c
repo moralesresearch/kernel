@@ -335,7 +335,11 @@ static int asus_raw_event(struct hid_device *hdev,
 	if (drvdata->quirks & QUIRK_MEDION_E1239T)
 		return asus_e1239t_event(drvdata, data, size);
 
+<<<<<<< HEAD
 	if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) {
+=======
+	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Skip these report ID, the device emits a continuous stream associated
 		 * with the AURA mode it is in which looks like an 'echo'.
@@ -355,6 +359,7 @@ static int asus_raw_event(struct hid_device *hdev,
 				return -1;
 			}
 		}
+<<<<<<< HEAD
 		if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
 			/*
 			 * G713 and G733 send these codes on some keypresses, depending on
@@ -365,6 +370,8 @@ static int asus_raw_event(struct hid_device *hdev,
 			}
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1232,9 +1239,12 @@ static const struct hid_device_id asus_devices[] = {
 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+<<<<<<< HEAD
 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
 	  QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,

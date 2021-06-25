@@ -116,12 +116,15 @@ struct ath11k_generic_iter {
 
 #define ATH11K_CHAN_WIDTH_NUM			8
 
+<<<<<<< HEAD
 #define ATH11K_OBSS_PD_MAX_THRESHOLD			-82
 #define ATH11K_OBSS_PD_NON_SRG_MAX_THRESHOLD		-62
 #define ATH11K_OBSS_PD_THRESHOLD_IN_DBM			BIT(29)
 #define ATH11K_OBSS_PD_SRG_EN				BIT(30)
 #define ATH11K_OBSS_PD_NON_SRG_EN			BIT(31)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct htt_rx_ring_tlv_filter ath11k_mac_mon_status_filter_default;
 
 void ath11k_mac_destroy(struct ath11k_base *ab);

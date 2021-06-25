@@ -89,12 +89,19 @@ and elsewhere regarding submitting Linux kernel patches.
     Patches that change userspace interfaces should be CCed to
     linux-api@vger.kernel.org.
 
+<<<<<<< HEAD
 19) Has been checked with injection of at least slab and page-allocation
+=======
+19) Check that it all passes ``make headers_check``.
+
+20) Has been checked with injection of at least slab and page-allocation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     failures.  See ``Documentation/fault-injection/``.
 
     If the new code is substantial, addition of subsystem-specific fault
     injection might be appropriate.
 
+<<<<<<< HEAD
 20) Newly-added code has been compiled with ``gcc -W`` (use
     ``make KCFLAGS=-W``).  This will generate lots of noise, but is good
     for finding bugs like "warning: comparison between signed and unsigned".
@@ -111,6 +118,24 @@ and elsewhere regarding submitting Linux kernel patches.
     ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
 
 24) If your modified source code depends on or uses any of the kernel
+=======
+21) Newly-added code has been compiled with ``gcc -W`` (use
+    ``make EXTRA_CFLAGS=-W``).  This will generate lots of noise, but is good
+    for finding bugs like "warning: comparison between signed and unsigned".
+
+22) Tested after it has been merged into the -mm patchset to make sure
+    that it still works with all of the other queued patches and various
+    changes in the VM, VFS, and other subsystems.
+
+23) All memory barriers {e.g., ``barrier()``, ``rmb()``, ``wmb()``} need a
+    comment in the source code that explains the logic of what they are doing
+    and why.
+
+24) If any ioctl's are added by the patch, then also update
+    ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
+
+25) If your modified source code depends on or uses any of the kernel
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     APIs or features that are related to the following ``Kconfig`` symbols,
     then test multiple builds with the related ``Kconfig`` symbols disabled
     and/or ``=m`` (if that option is available) [not all of these at the

@@ -196,6 +196,7 @@ static const struct stratix10_pll_clock agilex_pll_clks[] = {
 	  0, 0x9c},
 };
 
+<<<<<<< HEAD
 static const struct n5x_perip_c_clock n5x_main_perip_c_clks[] = {
 	{ AGILEX_MAIN_PLL_C0_CLK, "main_pll_c0", "main_pll", NULL, 1, 0, 0x54, 0},
 	{ AGILEX_MAIN_PLL_C1_CLK, "main_pll_c1", "main_pll", NULL, 1, 0, 0x54, 8},
@@ -207,6 +208,8 @@ static const struct n5x_perip_c_clock n5x_main_perip_c_clks[] = {
 	{ AGILEX_PERIPH_PLL_C3_CLK, "peri_pll_c3", "periph_pll", NULL, 1, 0, 0xA8, 24},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct stratix10_perip_c_clock agilex_main_perip_c_clks[] = {
 	{ AGILEX_MAIN_PLL_C0_CLK, "main_pll_c0", "main_pll", NULL, 1, 0, 0x58},
 	{ AGILEX_MAIN_PLL_C1_CLK, "main_pll_c1", "main_pll", NULL, 1, 0, 0x5C},
@@ -300,6 +303,7 @@ static const struct stratix10_gate_clock agilex_gate_clks[] = {
 	  10, 0, 0, 0, 0, 0, 4},
 };
 
+<<<<<<< HEAD
 static int n5x_clk_register_c_perip(const struct n5x_perip_c_clock *clks,
 				       int nums, struct stratix10_clock_data *data)
 {
@@ -319,6 +323,8 @@ static int n5x_clk_register_c_perip(const struct n5x_perip_c_clock *clks,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int agilex_clk_register_c_perip(const struct stratix10_perip_c_clock *clks,
 				       int nums, struct stratix10_clock_data *data)
 {
@@ -397,6 +403,7 @@ static int agilex_clk_register_pll(const struct stratix10_pll_clock *clks,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int n5x_clk_register_pll(const struct stratix10_pll_clock *clks,
 				 int nums, struct stratix10_clock_data *data)
 {
@@ -417,6 +424,8 @@ static int n5x_clk_register_pll(const struct stratix10_pll_clock *clks,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct stratix10_clock_data *__socfpga_agilex_clk_init(struct platform_device *pdev,
 						    int nr_clks)
 {
@@ -451,7 +460,11 @@ static struct stratix10_clock_data *__socfpga_agilex_clk_init(struct platform_de
 	return clk_data;
 }
 
+<<<<<<< HEAD
 static int agilex_clkmgr_init(struct platform_device *pdev)
+=======
+static int agilex_clkmgr_probe(struct platform_device *pdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct stratix10_clock_data *clk_data;
 
@@ -473,6 +486,7 @@ static int agilex_clkmgr_init(struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int n5x_clkmgr_init(struct platform_device *pdev)
 {
 	struct stratix10_clock_data *clk_data;
@@ -510,6 +524,11 @@ static const struct of_device_id agilex_clkmgr_match_table[] = {
 	  .data = agilex_clkmgr_init },
 	{ .compatible = "intel,easic-n5x-clkmgr",
 	  .data = n5x_clkmgr_init },
+=======
+static const struct of_device_id agilex_clkmgr_match_table[] = {
+	{ .compatible = "intel,agilex-clkmgr",
+	  .data = agilex_clkmgr_probe },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 

@@ -4,8 +4,12 @@ Required properties:
 - compatible: "microchip,mcp16502"
 - reg: I2C slave address
 - lpm-gpios: GPIO for LPM pin. Note that this GPIO *must* remain high during
+<<<<<<< HEAD
 	     suspend-to-ram, keeping the PMIC into HIBERNATE mode; this
 	     property is optional;
+=======
+	     suspend-to-ram, keeping the PMIC into HIBERNATE mode.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - regulators: A node that houses a sub-node for each regulator within
               the device. Each sub-node is identified using the node's
               name. The content of each sub-node is defined by the

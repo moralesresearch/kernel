@@ -961,6 +961,7 @@ unsigned int kexec_fdt_totalsize_ppc64(struct kimage *image)
 }
 
 /**
+<<<<<<< HEAD
  * add_node_props - Reads node properties from device node structure and add
  *                  them to fdt.
  * @fdt:            Flattened device tree of the kernel
@@ -1048,6 +1049,8 @@ out:
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * setup_new_fdt_ppc64 - Update the flattend device-tree of the kernel
  *                       being loaded.
  * @image:               kexec image being loaded.
@@ -1107,11 +1110,14 @@ int setup_new_fdt_ppc64(const struct kimage *image, void *fdt,
 		}
 	}
 
+<<<<<<< HEAD
 	/* Update cpus nodes information to account hotplug CPUs. */
 	ret =  update_cpus_node(fdt);
 	if (ret < 0)
 		goto out;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Update memory reserve map */
 	ret = get_reserved_memory_ranges(&rmem);
 	if (ret)

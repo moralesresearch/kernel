@@ -5,14 +5,21 @@
 // Intel KeemBay Platform driver.
 //
 
+<<<<<<< HEAD
 #include <linux/bitrev.h>
 #include <linux/clk.h>
 #include <linux/dma-mapping.h>
+=======
+#include <linux/clk.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/io.h>
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/of_device.h>
+<<<<<<< HEAD
 #include <sound/dmaengine_pcm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <sound/pcm.h>
 #include <sound/pcm_params.h>
 #include <sound/soc.h>
@@ -40,8 +47,12 @@ static const struct snd_pcm_hardware kmb_pcm_hardware = {
 	.rate_max = 48000,
 	.formats = SNDRV_PCM_FMTBIT_S16_LE |
 		   SNDRV_PCM_FMTBIT_S24_LE |
+<<<<<<< HEAD
 		   SNDRV_PCM_FMTBIT_S32_LE |
 		   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
+=======
+		   SNDRV_PCM_FMTBIT_S32_LE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.channels_min = 2,
 	.channels_max = 2,
 	.buffer_bytes_max = BUFFER_BYTES_MAX,
@@ -52,6 +63,7 @@ static const struct snd_pcm_hardware kmb_pcm_hardware = {
 	.fifo_size = 16,
 };
 
+<<<<<<< HEAD
 /*
  * Convert to ADV7511 HDMI hardware format.
  * ADV7511 HDMI chip need parity bit replaced by block start bit and
@@ -96,6 +108,8 @@ static void hdmi_reformat_iec958(struct snd_pcm_runtime *runtime,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned int kmb_pcm_tx_fn(struct kmb_i2s_info *kmb_i2s,
 				  struct snd_pcm_runtime *runtime,
 				  unsigned int tx_ptr, bool *period_elapsed)
@@ -111,8 +125,11 @@ static unsigned int kmb_pcm_tx_fn(struct kmb_i2s_info *kmb_i2s,
 			writel(((u16(*)[2])buf)[tx_ptr][0], i2s_base + LRBR_LTHR(0));
 			writel(((u16(*)[2])buf)[tx_ptr][1], i2s_base + RRBR_RTHR(0));
 		} else {
+<<<<<<< HEAD
 			if (kmb_i2s->iec958_fmt)
 				hdmi_reformat_iec958(runtime, kmb_i2s, tx_ptr);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			writel(((u32(*)[2])buf)[tx_ptr][0], i2s_base + LRBR_LTHR(0));
 			writel(((u32(*)[2])buf)[tx_ptr][1], i2s_base + RRBR_RTHR(0));
 		}
@@ -283,7 +300,10 @@ static int kmb_pcm_trigger(struct snd_soc_component *component,
 			kmb_i2s->tx_substream = NULL;
 		else
 			kmb_i2s->rx_substream = NULL;
+<<<<<<< HEAD
 		kmb_i2s->iec958_fmt = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EINVAL;
@@ -394,6 +414,7 @@ static const struct snd_soc_component_driver kmb_component = {
 	.pointer	= kmb_pcm_pointer,
 };
 
+<<<<<<< HEAD
 static const struct snd_soc_component_driver kmb_component_dma = {
 	.name		= "kmb",
 };
@@ -441,6 +462,8 @@ static inline void kmb_i2s_disable_dma(struct kmb_i2s_info *kmb_i2s, u32 stream)
 	writel(dma_reg, kmb_i2s->i2s_base + I2S_DMACR);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void kmb_i2s_start(struct kmb_i2s_info *kmb_i2s,
 			  struct snd_pcm_substream *substream)
 {
@@ -454,11 +477,15 @@ static void kmb_i2s_start(struct kmb_i2s_info *kmb_i2s,
 	else
 		writel(1, kmb_i2s->i2s_base + IRER);
 
+<<<<<<< HEAD
 	if (kmb_i2s->use_pio)
 		kmb_i2s_irq_trigger(kmb_i2s, substream->stream,
 				    config->chan_nr, true);
 	else
 		kmb_i2s_enable_dma(kmb_i2s, substream->stream);
+=======
+	kmb_i2s_irq_trigger(kmb_i2s, substream->stream, config->chan_nr, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (kmb_i2s->clock_provider)
 		writel(1, kmb_i2s->i2s_base + CER);
@@ -536,8 +563,12 @@ static int kmb_dai_trigger(struct snd_pcm_substream *substream,
 		break;
 	case SNDRV_PCM_TRIGGER_STOP:
 		kmb_i2s->active--;
+<<<<<<< HEAD
 		if (kmb_i2s->use_pio)
 			kmb_i2s_stop(kmb_i2s, substream);
+=======
+		kmb_i2s_stop(kmb_i2s, substream);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return  -EINVAL;
@@ -588,25 +619,35 @@ static int kmb_dai_hw_params(struct snd_pcm_substream *substream,
 		config->data_width = 16;
 		kmb_i2s->ccr = 0x00;
 		kmb_i2s->xfer_resolution = 0x02;
+<<<<<<< HEAD
 		kmb_i2s->play_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
 		kmb_i2s->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
 		config->data_width = 32;
 		kmb_i2s->ccr = 0x14;
 		kmb_i2s->xfer_resolution = 0x05;
+<<<<<<< HEAD
 		kmb_i2s->play_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
 		kmb_i2s->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
 		break;
 	case SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE:
 		kmb_i2s->iec958_fmt = true;
 		fallthrough;
+=======
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SNDRV_PCM_FORMAT_S32_LE:
 		config->data_width = 32;
 		kmb_i2s->ccr = 0x10;
 		kmb_i2s->xfer_resolution = 0x05;
+<<<<<<< HEAD
 		kmb_i2s->play_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
 		kmb_i2s->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		dev_err(kmb_i2s->dev, "kmb: unsupported PCM fmt");
@@ -684,6 +725,7 @@ static int kmb_dai_prepare(struct snd_pcm_substream *substream,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int kmb_dai_startup(struct snd_pcm_substream *substream,
 			   struct snd_soc_dai *cpu_dai)
 {
@@ -734,10 +776,16 @@ static struct snd_soc_dai_ops kmb_dai_ops = {
 	.trigger	= kmb_dai_trigger,
 	.hw_params	= kmb_dai_hw_params,
 	.hw_free	= kmb_dai_hw_free,
+=======
+static struct snd_soc_dai_ops kmb_dai_ops = {
+	.trigger	= kmb_dai_trigger,
+	.hw_params	= kmb_dai_hw_params,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prepare	= kmb_dai_prepare,
 	.set_fmt	= kmb_set_dai_fmt,
 };
 
+<<<<<<< HEAD
 static struct snd_soc_dai_driver intel_kmb_hdmi_dai[] = {
 	{
 		.name = "intel_kmb_hdmi_i2s",
@@ -756,6 +804,8 @@ static struct snd_soc_dai_driver intel_kmb_hdmi_dai[] = {
 	},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct snd_soc_dai_driver intel_kmb_i2s_dai[] = {
 	{
 		.name = "intel_kmb_i2s",
@@ -784,7 +834,10 @@ static struct snd_soc_dai_driver intel_kmb_i2s_dai[] = {
 				    SNDRV_PCM_FMTBIT_S16_LE),
 		},
 		.ops = &kmb_dai_ops,
+<<<<<<< HEAD
 		.probe = kmb_probe,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -804,25 +857,37 @@ static struct snd_soc_dai_driver intel_kmb_tdm_dai[] = {
 				    SNDRV_PCM_FMTBIT_S16_LE),
 		},
 		.ops = &kmb_dai_ops,
+<<<<<<< HEAD
 		.probe = kmb_probe,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
 static const struct of_device_id kmb_plat_of_match[] = {
 	{ .compatible = "intel,keembay-i2s", .data = &intel_kmb_i2s_dai},
+<<<<<<< HEAD
 	{ .compatible = "intel,keembay-hdmi-i2s", .data = &intel_kmb_hdmi_dai},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "intel,keembay-tdm", .data = &intel_kmb_tdm_dai},
 	{}
 };
 
 static int kmb_plat_dai_probe(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct device_node *np = pdev->dev.of_node;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_soc_dai_driver *kmb_i2s_dai;
 	const struct of_device_id *match;
 	struct device *dev = &pdev->dev;
 	struct kmb_i2s_info *kmb_i2s;
+<<<<<<< HEAD
 	struct resource *res;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret, irq;
 	u32 comp1_reg;
 
@@ -864,7 +929,11 @@ static int kmb_plat_dai_probe(struct platform_device *pdev)
 		return PTR_ERR(kmb_i2s->clk_i2s);
 	}
 
+<<<<<<< HEAD
 	kmb_i2s->i2s_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+=======
+	kmb_i2s->i2s_base = devm_platform_ioremap_resource(pdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(kmb_i2s->i2s_base))
 		return PTR_ERR(kmb_i2s->i2s_base);
 
@@ -874,6 +943,7 @@ static int kmb_plat_dai_probe(struct platform_device *pdev)
 
 	kmb_i2s->dev = &pdev->dev;
 
+<<<<<<< HEAD
 	comp1_reg = readl(kmb_i2s->i2s_base + I2S_COMP_PARAM_1);
 
 	kmb_i2s->fifo_th = (1 << COMP1_FIFO_DEPTH(comp1_reg)) / 2;
@@ -906,6 +976,24 @@ static int kmb_plat_dai_probe(struct platform_device *pdev)
 						      kmb_i2s_dai, 1);
 	}
 
+=======
+	irq = platform_get_irq_optional(pdev, 0);
+	if (irq > 0) {
+		ret = devm_request_irq(dev, irq, kmb_i2s_irq_handler, 0,
+				       pdev->name, kmb_i2s);
+		if (ret < 0) {
+			dev_err(dev, "failed to request irq\n");
+			return ret;
+		}
+	}
+
+	comp1_reg = readl(kmb_i2s->i2s_base + I2S_COMP_PARAM_1);
+
+	kmb_i2s->fifo_th = (1 << COMP1_FIFO_DEPTH(comp1_reg)) / 2;
+
+	ret = devm_snd_soc_register_component(dev, &kmb_component,
+					      kmb_i2s_dai, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(dev, "not able to register dai\n");
 		return ret;

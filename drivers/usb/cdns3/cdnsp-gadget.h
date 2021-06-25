@@ -835,7 +835,10 @@ struct cdnsp_ep {
 #define EP_WEDGE		BIT(4)
 #define EP0_HALTED_STATUS	BIT(5)
 #define EP_HAS_STREAMS		BIT(6)
+<<<<<<< HEAD
 #define EP_UNCONFIGURED		BIT(7)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bool skip;
 };

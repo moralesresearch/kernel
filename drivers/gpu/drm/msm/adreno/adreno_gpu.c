@@ -186,6 +186,10 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
 	return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void adreno_set_llc_attributes(struct iommu_domain *iommu)
 {
 	struct io_pgtable_domain_attr pgtbl_cfg;
@@ -194,10 +198,22 @@ void adreno_set_llc_attributes(struct iommu_domain *iommu)
 	iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, &pgtbl_cfg);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct msm_gem_address_space *
 adreno_iommu_create_address_space(struct msm_gpu *gpu,
 		struct platform_device *pdev)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iommu_domain *iommu;
 	struct msm_mmu *mmu;
 	struct msm_gem_address_space *aspace;
@@ -207,6 +223,26 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
 	if (!iommu)
 		return NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (adreno_is_a6xx(adreno_gpu)) {
+		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+		struct io_pgtable_domain_attr pgtbl_cfg;
+
+		/*
+		 * This allows GPU to set the bus attributes required to use system
+		 * cache on behalf of the iommu page table walker.
+		 */
+		if (!IS_ERR_OR_NULL(a6xx_gpu->htw_llc_slice)) {
+			pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
+			iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, &pgtbl_cfg);
+		}
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmu = msm_iommu_new(&pdev->dev, iommu);
 	if (IS_ERR(mmu)) {
 		iommu_domain_free(iommu);

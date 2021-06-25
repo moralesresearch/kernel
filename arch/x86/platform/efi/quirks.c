@@ -687,12 +687,17 @@ int efi_capsule_setup_info(struct capsule_info *cap_info, void *kbuff,
  * @return: Returns, if the page fault is not handled. This function
  * will never return if the page fault is handled successfully.
  */
+<<<<<<< HEAD
 void efi_crash_gracefully_on_page_fault(unsigned long phys_addr)
+=======
+void efi_recover_from_page_fault(unsigned long phys_addr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!IS_ENABLED(CONFIG_X86_64))
 		return;
 
 	/*
+<<<<<<< HEAD
 	 * If we get an interrupt/NMI while processing an EFI runtime service
 	 * then this is a regular OOPS, not an EFI failure.
 	 */
@@ -706,6 +711,11 @@ void efi_crash_gracefully_on_page_fault(unsigned long phys_addr)
 	 */
 	if (READ_ONCE(efi_rts_work.efi_rts_id) == EFI_NONE ||
 	    current_work() != &efi_rts_work.work)
+=======
+	 * Make sure that an efi runtime service caused the page fault.
+	 */
+	if (efi_rts_work.efi_rts_id == EFI_NONE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	/*
@@ -757,4 +767,9 @@ void efi_crash_gracefully_on_page_fault(unsigned long phys_addr)
 		set_current_state(TASK_IDLE);
 		schedule();
 	}
+<<<<<<< HEAD
+=======
+
+	return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

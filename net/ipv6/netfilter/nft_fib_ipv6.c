@@ -135,6 +135,7 @@ void nft_fib6_eval_type(const struct nft_expr *expr, struct nft_regs *regs,
 }
 EXPORT_SYMBOL_GPL(nft_fib6_eval_type);
 
+<<<<<<< HEAD
 static bool nft_fib_v6_skip_icmpv6(const struct sk_buff *skb, u8 next, const struct ipv6hdr *iph)
 {
 	if (likely(next != IPPROTO_ICMPV6))
@@ -146,6 +147,8 @@ static bool nft_fib_v6_skip_icmpv6(const struct sk_buff *skb, u8 next, const str
 	return ipv6_addr_type(&iph->daddr) & IPV6_ADDR_LINKLOCAL;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nft_fib6_eval(const struct nft_expr *expr, struct nft_regs *regs,
 		   const struct nft_pktinfo *pkt)
 {
@@ -174,6 +177,7 @@ void nft_fib6_eval(const struct nft_expr *expr, struct nft_regs *regs,
 
 	lookup_flags = nft_fib6_flowi_init(&fl6, priv, pkt, oif, iph);
 
+<<<<<<< HEAD
 	if (nft_hook(pkt) == NF_INET_PRE_ROUTING ||
 	    nft_hook(pkt) == NF_INET_INGRESS) {
 		if (nft_fib_is_loopback(pkt->skb, nft_in(pkt)) ||
@@ -181,6 +185,12 @@ void nft_fib6_eval(const struct nft_expr *expr, struct nft_regs *regs,
 			nft_fib_store_result(dest, priv, nft_in(pkt));
 			return;
 		}
+=======
+	if (nft_hook(pkt) == NF_INET_PRE_ROUTING &&
+	    nft_fib_is_loopback(pkt->skb, nft_in(pkt))) {
+		nft_fib_store_result(dest, priv, nft_in(pkt));
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	*dest = 0;

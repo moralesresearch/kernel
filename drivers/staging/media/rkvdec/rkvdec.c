@@ -55,13 +55,25 @@ static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
 
 static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
 	{
+<<<<<<< HEAD
 		.cfg.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,
 	},
 	{
+=======
+		.mandatory = true,
+		.cfg.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,
+	},
+	{
+		.mandatory = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cfg.id = V4L2_CID_STATELESS_H264_SPS,
 		.cfg.ops = &rkvdec_ctrl_ops,
 	},
 	{
+<<<<<<< HEAD
+=======
+		.mandatory = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cfg.id = V4L2_CID_STATELESS_H264_PPS,
 	},
 	{
@@ -140,7 +152,11 @@ static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f,
 	memset(f, 0, sizeof(*f));
 	f->fmt.pix_mp.pixelformat = fourcc;
 	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
+<<<<<<< HEAD
 	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
+=======
+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
 	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
 	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
@@ -582,7 +598,29 @@ static const struct vb2_ops rkvdec_queue_ops = {
 
 static int rkvdec_request_validate(struct media_request *req)
 {
+<<<<<<< HEAD
 	unsigned int count;
+=======
+	struct media_request_object *obj;
+	const struct rkvdec_ctrls *ctrls;
+	struct v4l2_ctrl_handler *hdl;
+	struct rkvdec_ctx *ctx = NULL;
+	unsigned int count, i;
+	int ret;
+
+	list_for_each_entry(obj, &req->objects, list) {
+		if (vb2_request_object_is_buffer(obj)) {
+			struct vb2_buffer *vb;
+
+			vb = container_of(obj, struct vb2_buffer, req_obj);
+			ctx = vb2_get_drv_priv(vb->vb2_queue);
+			break;
+		}
+	}
+
+	if (!ctx)
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	count = vb2_request_buffer_cnt(req);
 	if (!count)
@@ -590,6 +628,34 @@ static int rkvdec_request_validate(struct media_request *req)
 	else if (count > 1)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+	hdl = v4l2_ctrl_request_hdl_find(req, &ctx->ctrl_hdl);
+	if (!hdl)
+		return -ENOENT;
+
+	ret = 0;
+	ctrls = ctx->coded_fmt_desc->ctrls;
+	for (i = 0; ctrls && i < ctrls->num_ctrls; i++) {
+		u32 id = ctrls->ctrls[i].cfg.id;
+		struct v4l2_ctrl *ctrl;
+
+		if (!ctrls->ctrls[i].mandatory)
+			continue;
+
+		ctrl = v4l2_ctrl_request_hdl_ctrl_find(hdl, id);
+		if (!ctrl) {
+			ret = -ENOENT;
+			break;
+		}
+	}
+
+	v4l2_ctrl_request_hdl_put(hdl);
+
+	if (ret)
+		return ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return vb2_request_validate(req);
 }
 
@@ -1072,7 +1138,11 @@ static struct platform_driver rkvdec_driver = {
 	.remove = rkvdec_remove,
 	.driver = {
 		   .name = "rkvdec",
+<<<<<<< HEAD
 		   .of_match_table = of_rkvdec_match,
+=======
+		   .of_match_table = of_match_ptr(of_rkvdec_match),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   .pm = &rkvdec_pm_ops,
 	},
 };

@@ -765,6 +765,7 @@
 					phys = <&phy_gmii_sel 2 1>;
 				};
 			};
+<<<<<<< HEAD
 
 			mac_sw: switch@0 {
 				compatible = "ti,am335x-cpsw-switch", "ti,cpsw-switch";
@@ -814,6 +815,8 @@
 					clock-names = "cpts";
 				};
 			};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		target-module@180000 {			/* 0x4a180000, ap 5 10.0 */

@@ -210,13 +210,20 @@ static irqreturn_t parport_interrupt(int irq, void *d)
 	struct comedi_device *dev = d;
 	struct comedi_subdevice *s = dev->read_subdev;
 	unsigned int ctrl;
+<<<<<<< HEAD
 	unsigned short val = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ctrl = inb(dev->iobase + PARPORT_CTRL_REG);
 	if (!(ctrl & PARPORT_CTRL_IRQ_ENA))
 		return IRQ_NONE;
 
+<<<<<<< HEAD
 	comedi_buf_write_samples(s, &val, 1);
+=======
+	comedi_buf_write_samples(s, &s->state, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	comedi_handle_events(dev, s);
 
 	return IRQ_HANDLED;

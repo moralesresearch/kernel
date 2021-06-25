@@ -162,10 +162,17 @@ static bool contains_event(struct evsel **metric_events, int num_events,
 	return false;
 }
 
+<<<<<<< HEAD
 static bool evsel_same_pmu_or_none(struct evsel *ev1, struct evsel *ev2)
 {
 	if (!ev1->pmu_name || !ev2->pmu_name)
 		return true;
+=======
+static bool evsel_same_pmu(struct evsel *ev1, struct evsel *ev2)
+{
+	if (!ev1->pmu_name || !ev2->pmu_name)
+		return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return !strcmp(ev1->pmu_name, ev2->pmu_name);
 }
@@ -288,7 +295,11 @@ static struct evsel *find_evsel_group(struct evlist *perf_evlist,
 			 */
 			if (!has_constraint &&
 			    ev->leader != metric_events[i]->leader &&
+<<<<<<< HEAD
 			    evsel_same_pmu_or_none(ev->leader, metric_events[i]->leader))
+=======
+			    evsel_same_pmu(ev->leader, metric_events[i]->leader))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			if (!strcmp(metric_events[i]->name, ev->name)) {
 				set_bit(ev->idx, evlist_used);
@@ -379,7 +390,11 @@ static int metricgroup__setup_events(struct list_head *groups,
 				metric_refs[i].metric_expr = ref->metric_expr;
 				i++;
 			}
+<<<<<<< HEAD
 		}
+=======
+		};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		expr->metric_refs = metric_refs;
 		expr->metric_expr = m->metric_expr;
@@ -1072,11 +1087,16 @@ static int metricgroup__add_metric_sys_event_iter(struct pmu_event *pe,
 
 	ret = add_metric(d->metric_list, pe, d->metric_no_group, &m, NULL, d->ids);
 	if (ret)
+<<<<<<< HEAD
 		goto out;
+=======
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = resolve_metric(d->metric_no_group,
 				     d->metric_list, NULL, d->ids);
 	if (ret)
+<<<<<<< HEAD
 		goto out;
 
 	*(d->has_match) = true;
@@ -1084,6 +1104,13 @@ static int metricgroup__add_metric_sys_event_iter(struct pmu_event *pe,
 out:
 	*(d->ret) = ret;
 	return ret;
+=======
+		return ret;
+
+	*(d->has_match) = true;
+
+	return *d->ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int metricgroup__add_metric(const char *metric, bool metric_no_group,

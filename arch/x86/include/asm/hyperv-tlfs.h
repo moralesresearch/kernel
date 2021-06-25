@@ -21,9 +21,13 @@
 #define HYPERV_CPUID_FEATURES			0x40000003
 #define HYPERV_CPUID_ENLIGHTMENT_INFO		0x40000004
 #define HYPERV_CPUID_IMPLEMENT_LIMITS		0x40000005
+<<<<<<< HEAD
 #define HYPERV_CPUID_CPU_MANAGEMENT_FEATURES	0x40000007
 #define HYPERV_CPUID_NESTED_FEATURES		0x4000000A
 #define HYPERV_CPUID_ISOLATION_CONFIG		0x4000000C
+=======
+#define HYPERV_CPUID_NESTED_FEATURES		0x4000000A
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define HYPERV_CPUID_VIRT_STACK_INTERFACE	0x40000081
 #define HYPERV_VS_INTERFACE_EAX_SIGNATURE	0x31235356  /* "VS#1" */
@@ -113,6 +117,7 @@
 #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
 
 /*
+<<<<<<< HEAD
  * CPU management features identification.
  * These are HYPERV_CPUID_CPU_MANAGEMENT_FEATURES.EAX bits.
  */
@@ -122,6 +127,8 @@
 #define HV_X64_RESERVED_IDENTITY_BIT			BIT(31)
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Virtual processor will never share a physical core with another virtual
  * processor, except for virtual processors that are reported as sibling SMT
  * threads.
@@ -133,6 +140,7 @@
 #define HV_X64_NESTED_GUEST_MAPPING_FLUSH		BIT(18)
 #define HV_X64_NESTED_MSR_BITMAP			BIT(19)
 
+<<<<<<< HEAD
 /* HYPERV_CPUID_ISOLATION_CONFIG.EAX bits. */
 #define HV_PARAVISOR_PRESENT				BIT(0)
 
@@ -147,6 +155,8 @@ enum hv_isolation_type {
 	HV_ISOLATION_TYPE_SNP	= 2
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Hyper-V specific model specific registers (MSRs) */
 
 /* MSR used to identify the guest OS. */
@@ -548,6 +558,7 @@ struct hv_partition_assist_pg {
 	u32 tlb_lock_count;
 };
 
+<<<<<<< HEAD
 enum hv_interrupt_type {
 	HV_X64_INTERRUPT_TYPE_FIXED             = 0x0000,
 	HV_X64_INTERRUPT_TYPE_LOWESTPRIORITY    = 0x0001,
@@ -561,6 +572,8 @@ enum hv_interrupt_type {
 	HV_X64_INTERRUPT_TYPE_LOCALINT1         = 0x0009,
 	HV_X64_INTERRUPT_TYPE_MAXIMUM           = 0x000A,
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm-generic/hyperv-tlfs.h>
 

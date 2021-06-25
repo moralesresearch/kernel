@@ -6,4 +6,7 @@ obj-$(CONFIG_MTK_PMIC_WRAP) += mtk-pmic-wrap.o
 obj-$(CONFIG_MTK_SCPSYS) += mtk-scpsys.o
 obj-$(CONFIG_MTK_SCPSYS_PM_DOMAINS) += mtk-pm-domains.o
 obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+<<<<<<< HEAD
 obj-$(CONFIG_MTK_MMSYS) += mtk-mutex.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

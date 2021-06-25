@@ -17,7 +17,10 @@ struct dpaa2_mac {
 	struct dpmac_link_state state;
 	struct net_device *net_dev;
 	struct fsl_mc_io *mc_io;
+<<<<<<< HEAD
 	struct dpmac_attr attr;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct phylink_config phylink_config;
 	struct phylink *phylink;
@@ -29,10 +32,13 @@ struct dpaa2_mac {
 bool dpaa2_mac_is_type_fixed(struct fsl_mc_device *dpmac_dev,
 			     struct fsl_mc_io *mc_io);
 
+<<<<<<< HEAD
 int dpaa2_mac_open(struct dpaa2_mac *mac);
 
 void dpaa2_mac_close(struct dpaa2_mac *mac);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dpaa2_mac_connect(struct dpaa2_mac *mac);
 
 void dpaa2_mac_disconnect(struct dpaa2_mac *mac);

@@ -6,7 +6,10 @@
 #define NFSD_EXPORT_H
 
 #include <linux/sunrpc/cache.h>
+<<<<<<< HEAD
 #include <linux/percpu_counter.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <uapi/linux/nfsd/export.h>
 #include <linux/nfs4.h>
 
@@ -47,6 +50,7 @@ struct exp_flavor_info {
 	u32	flags;
 };
 
+<<<<<<< HEAD
 /* Per-export stats */
 enum {
 	EXP_STATS_FH_STALE,
@@ -60,6 +64,8 @@ struct export_stats {
 	struct percpu_counter	counter[EXP_STATS_COUNTERS_NUM];
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct svc_export {
 	struct cache_head	h;
 	struct auth_domain *	ex_client;
@@ -76,7 +82,10 @@ struct svc_export {
 	struct nfsd4_deviceid_map *ex_devid_map;
 	struct cache_detail	*cd;
 	struct rcu_head		ex_rcu;
+<<<<<<< HEAD
 	struct export_stats	ex_stats;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* an "export key" (expkey) maps a filehandlefragement to an

@@ -865,8 +865,12 @@ int reconfigure_super(struct fs_context *fc)
 
 	if (fc->sb_flags_mask & SB_RDONLY) {
 #ifdef CONFIG_BLOCK
+<<<<<<< HEAD
 		if (!(fc->sb_flags & SB_RDONLY) && sb->s_bdev &&
 		    bdev_read_only(sb->s_bdev))
+=======
+		if (!(fc->sb_flags & SB_RDONLY) && bdev_read_only(sb->s_bdev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 #endif
 
@@ -1719,6 +1723,15 @@ int freeze_super(struct super_block *sb)
 }
 EXPORT_SYMBOL(freeze_super);
 
+<<<<<<< HEAD
+=======
+/**
+ * thaw_super -- unlock filesystem
+ * @sb: the super to thaw
+ *
+ * Unlocks the filesystem and marks it writeable again after freeze_super().
+ */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int thaw_super_locked(struct super_block *sb)
 {
 	int error;
@@ -1754,12 +1767,15 @@ out:
 	return 0;
 }
 
+<<<<<<< HEAD
 /**
  * thaw_super -- unlock filesystem
  * @sb: the super to thaw
  *
  * Unlocks the filesystem and marks it writeable again after freeze_super().
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int thaw_super(struct super_block *sb)
 {
 	down_write(&sb->s_umount);

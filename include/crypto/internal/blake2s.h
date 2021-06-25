@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+<<<<<<< HEAD
 /*
  * Helper functions for BLAKE2s implementations.
  * Keep this in sync with the corresponding BLAKE2b header.
@@ -10,6 +11,18 @@
 #include <crypto/blake2s.h>
 #include <crypto/internal/hash.h>
 #include <linux/string.h>
+=======
+
+#ifndef BLAKE2S_INTERNAL_H
+#define BLAKE2S_INTERNAL_H
+
+#include <crypto/blake2s.h>
+
+struct blake2s_tfm_ctx {
+	u8 key[BLAKE2S_KEY_SIZE];
+	unsigned int keylen;
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void blake2s_compress_generic(struct blake2s_state *state,const u8 *block,
 			      size_t nblocks, const u32 inc);
@@ -24,6 +37,7 @@ static inline void blake2s_set_lastblock(struct blake2s_state *state)
 	state->f[0] = -1;
 }
 
+<<<<<<< HEAD
 typedef void (*blake2s_compress_t)(struct blake2s_state *state,
 				   const u8 *block, size_t nblocks, u32 inc);
 
@@ -117,3 +131,6 @@ static inline int crypto_blake2s_final(struct shash_desc *desc, u8 *out,
 }
 
 #endif /* _CRYPTO_INTERNAL_BLAKE2S_H */
+=======
+#endif /* BLAKE2S_INTERNAL_H */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

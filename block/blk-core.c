@@ -59,7 +59,10 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(block_rq_remap);
 EXPORT_TRACEPOINT_SYMBOL_GPL(block_bio_complete);
 EXPORT_TRACEPOINT_SYMBOL_GPL(block_split);
 EXPORT_TRACEPOINT_SYMBOL_GPL(block_unplug);
+<<<<<<< HEAD
 EXPORT_TRACEPOINT_SYMBOL_GPL(block_rq_insert);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DEFINE_IDA(blk_queue_ida);
 
@@ -477,7 +480,11 @@ int blk_queue_enter(struct request_queue *q, blk_mq_req_flags_t flags)
 
 static inline int bio_queue_enter(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
+=======
+	struct request_queue *q = bio->bi_disk->queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool nowait = bio->bi_opf & REQ_NOWAIT;
 	int ret;
 
@@ -532,7 +539,11 @@ struct request_queue *blk_alloc_queue(int node_id)
 	if (q->id < 0)
 		goto fail_q;
 
+<<<<<<< HEAD
 	ret = bioset_init(&q->bio_split, BIO_POOL_SIZE, 0, 0);
+=======
+	ret = bioset_init(&q->bio_split, BIO_POOL_SIZE, 0, BIOSET_NEED_BVECS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		goto fail_id;
 
@@ -693,9 +704,17 @@ static inline bool should_fail_request(struct block_device *part,
 
 #endif /* CONFIG_FAIL_MAKE_REQUEST */
 
+<<<<<<< HEAD
 static inline bool bio_check_ro(struct bio *bio)
 {
 	if (op_is_write(bio_op(bio)) && bdev_read_only(bio->bi_bdev)) {
+=======
+static inline bool bio_check_ro(struct bio *bio, struct block_device *part)
+{
+	const int op = bio_op(bio);
+
+	if (part->bd_read_only && op_is_write(op)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		char b[BDEVNAME_SIZE];
 
 		if (op_is_flush(bio->bi_opf) && !bio_sectors(bio))
@@ -703,7 +722,11 @@ static inline bool bio_check_ro(struct bio *bio)
 
 		WARN_ONCE(1,
 		       "Trying to write to read-only block-device %s (partno %d)\n",
+<<<<<<< HEAD
 			bio_devname(bio, b), bio->bi_bdev->bd_partno);
+=======
+			bio_devname(bio, b), part->bd_partno);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Older lvm-tools actually trigger this */
 		return false;
 	}
@@ -713,7 +736,11 @@ static inline bool bio_check_ro(struct bio *bio)
 
 static noinline int should_fail_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	if (should_fail_request(bdev_whole(bio->bi_bdev), bio->bi_iter.bi_size))
+=======
+	if (should_fail_request(bio->bi_disk->part0, bio->bi_iter.bi_size))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EIO;
 	return 0;
 }
@@ -724,9 +751,14 @@ ALLOW_ERROR_INJECTION(should_fail_bio, ERRNO);
  * This may well happen - the kernel calls bread() without checking the size of
  * the device, e.g., when mounting a file system.
  */
+<<<<<<< HEAD
 static inline int bio_check_eod(struct bio *bio)
 {
 	sector_t maxsector = bdev_nr_sectors(bio->bi_bdev);
+=======
+static inline int bio_check_eod(struct bio *bio, sector_t maxsector)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int nr_sectors = bio_sectors(bio);
 
 	if (nr_sectors && maxsector &&
@@ -741,6 +773,7 @@ static inline int bio_check_eod(struct bio *bio)
 /*
  * Remap block n of partition p to block n+start(p) of the disk.
  */
+<<<<<<< HEAD
 static int blk_partition_remap(struct bio *bio)
 {
 	struct block_device *p = bio->bi_bdev;
@@ -748,13 +781,40 @@ static int blk_partition_remap(struct bio *bio)
 	if (unlikely(should_fail_request(p, bio->bi_iter.bi_size)))
 		return -EIO;
 	if (bio_sectors(bio)) {
+=======
+static inline int blk_partition_remap(struct bio *bio)
+{
+	struct block_device *p;
+	int ret = -EIO;
+
+	rcu_read_lock();
+	p = __disk_get_part(bio->bi_disk, bio->bi_partno);
+	if (unlikely(!p))
+		goto out;
+	if (unlikely(should_fail_request(p, bio->bi_iter.bi_size)))
+		goto out;
+	if (unlikely(bio_check_ro(bio, p)))
+		goto out;
+
+	if (bio_sectors(bio)) {
+		if (bio_check_eod(bio, bdev_nr_sectors(p)))
+			goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bio->bi_iter.bi_sector += p->bd_start_sect;
 		trace_block_bio_remap(bio, p->bd_dev,
 				      bio->bi_iter.bi_sector -
 				      p->bd_start_sect);
 	}
+<<<<<<< HEAD
 	bio_set_flag(bio, BIO_REMAPPED);
 	return 0;
+=======
+	bio->bi_partno = 0;
+	ret = 0;
+out:
+	rcu_read_unlock();
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -794,8 +854,12 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
 
 static noinline_for_stack bool submit_bio_checks(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct block_device *bdev = bio->bi_bdev;
 	struct request_queue *q = bdev->bd_disk->queue;
+=======
+	struct request_queue *q = bio->bi_disk->queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_status_t status = BLK_STS_IOERR;
 	struct blk_plug *plug;
 
@@ -814,12 +878,23 @@ static noinline_for_stack bool submit_bio_checks(struct bio *bio)
 
 	if (should_fail_bio(bio))
 		goto end_io;
+<<<<<<< HEAD
 	if (unlikely(bio_check_ro(bio)))
 		goto end_io;
 	if (!bio_flagged(bio, BIO_REMAPPED)) {
 		if (unlikely(bio_check_eod(bio)))
 			goto end_io;
 		if (bdev->bd_partno && unlikely(blk_partition_remap(bio)))
+=======
+
+	if (bio->bi_partno) {
+		if (unlikely(blk_partition_remap(bio)))
+			goto end_io;
+	} else {
+		if (unlikely(bio_check_ro(bio, bio->bi_disk->part0)))
+			goto end_io;
+		if (unlikely(bio_check_eod(bio, get_capacity(bio->bi_disk))))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto end_io;
 	}
 
@@ -912,7 +987,11 @@ end_io:
 
 static blk_qc_t __submit_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct gendisk *disk = bio->bi_bdev->bd_disk;
+=======
+	struct gendisk *disk = bio->bi_disk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_qc_t ret = BLK_QC_T_NONE;
 
 	if (blk_crypto_bio_prep(&bio)) {
@@ -954,7 +1033,11 @@ static blk_qc_t __submit_bio_noacct(struct bio *bio)
 	current->bio_list = bio_list_on_stack;
 
 	do {
+<<<<<<< HEAD
 		struct request_queue *q = bio->bi_bdev->bd_disk->queue;
+=======
+		struct request_queue *q = bio->bi_disk->queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct bio_list lower, same;
 
 		if (unlikely(bio_queue_enter(bio) != 0))
@@ -975,7 +1058,11 @@ static blk_qc_t __submit_bio_noacct(struct bio *bio)
 		bio_list_init(&lower);
 		bio_list_init(&same);
 		while ((bio = bio_list_pop(&bio_list_on_stack[0])) != NULL)
+<<<<<<< HEAD
 			if (q == bio->bi_bdev->bd_disk->queue)
+=======
+			if (q == bio->bi_disk->queue)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				bio_list_add(&same, bio);
 			else
 				bio_list_add(&lower, bio);
@@ -1000,7 +1087,11 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
 	current->bio_list = bio_list;
 
 	do {
+<<<<<<< HEAD
 		struct gendisk *disk = bio->bi_bdev->bd_disk;
+=======
+		struct gendisk *disk = bio->bi_disk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (unlikely(bio_queue_enter(bio) != 0))
 			continue;
@@ -1043,7 +1134,11 @@ blk_qc_t submit_bio_noacct(struct bio *bio)
 		return BLK_QC_T_NONE;
 	}
 
+<<<<<<< HEAD
 	if (!bio->bi_bdev->bd_disk->fops->submit_bio)
+=======
+	if (!bio->bi_disk->fops->submit_bio)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return __submit_bio_noacct_mq(bio);
 	return __submit_bio_noacct(bio);
 }
@@ -1055,7 +1150,11 @@ EXPORT_SYMBOL(submit_bio_noacct);
  *
  * submit_bio() is used to submit I/O requests to block devices.  It is passed a
  * fully set up &struct bio that describes the I/O that needs to be done.  The
+<<<<<<< HEAD
  * bio will be send to the device described by the bi_bdev field.
+=======
+ * bio will be send to the device described by the bi_disk and bi_partno fields.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The success/failure status of the request, along with notification of
  * completion, is delivered asynchronously through the ->bi_end_io() callback
@@ -1075,8 +1174,12 @@ blk_qc_t submit_bio(struct bio *bio)
 		unsigned int count;
 
 		if (unlikely(bio_op(bio) == REQ_OP_WRITE_SAME))
+<<<<<<< HEAD
 			count = queue_logical_block_size(
 					bio->bi_bdev->bd_disk->queue) >> 9;
+=======
+			count = queue_logical_block_size(bio->bi_disk->queue) >> 9;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			count = bio_sectors(bio);
 
@@ -1300,11 +1403,15 @@ void blk_account_io_start(struct request *rq)
 	if (!blk_do_io_stat(rq))
 		return;
 
+<<<<<<< HEAD
 	/* passthrough requests can hold bios that do not have ->bi_bdev set */
 	if (rq->bio && rq->bio->bi_bdev)
 		rq->part = rq->bio->bi_bdev;
 	else
 		rq->part = rq->rq_disk->part0;
+=======
+	rq->part = disk_map_sector_rcu(rq->rq_disk, blk_rq_pos(rq));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	part_stat_lock();
 	update_io_ticks(rq->part, jiffies, false);
@@ -1327,6 +1434,7 @@ static unsigned long __part_start_io_acct(struct block_device *part,
 	return now;
 }
 
+<<<<<<< HEAD
 /**
  * bio_start_io_acct - start I/O accounting for bio based drivers
  * @bio:	bio to start account for
@@ -1338,6 +1446,16 @@ unsigned long bio_start_io_acct(struct bio *bio)
 	return __part_start_io_acct(bio->bi_bdev, bio_sectors(bio), bio_op(bio));
 }
 EXPORT_SYMBOL_GPL(bio_start_io_acct);
+=======
+unsigned long part_start_io_acct(struct gendisk *disk, struct block_device **part,
+				 struct bio *bio)
+{
+	*part = disk_map_sector_rcu(disk, bio->bi_iter.bi_sector);
+
+	return __part_start_io_acct(*part, bio_sectors(bio), bio_op(bio));
+}
+EXPORT_SYMBOL_GPL(part_start_io_acct);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
 				 unsigned int op)
@@ -1360,12 +1478,21 @@ static void __part_end_io_acct(struct block_device *part, unsigned int op,
 	part_stat_unlock();
 }
 
+<<<<<<< HEAD
 void bio_end_io_acct_remapped(struct bio *bio, unsigned long start_time,
 		struct block_device *orig_bdev)
 {
 	__part_end_io_acct(orig_bdev, bio_op(bio), start_time);
 }
 EXPORT_SYMBOL_GPL(bio_end_io_acct_remapped);
+=======
+void part_end_io_acct(struct block_device *part, struct bio *bio,
+		      unsigned long start_time)
+{
+	__part_end_io_acct(part, bio_op(bio), start_time);
+}
+EXPORT_SYMBOL_GPL(part_end_io_acct);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void disk_end_io_acct(struct gendisk *disk, unsigned int op,
 		      unsigned long start_time)

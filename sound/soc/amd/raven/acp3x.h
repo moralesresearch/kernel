@@ -77,7 +77,10 @@
 #define ACP_POWER_OFF_IN_PROGRESS	0x03
 
 #define ACP3x_ITER_IRER_SAMP_LEN_MASK	0x38
+<<<<<<< HEAD
 #define ACP_EXT_INTR_STAT_CLEAR_MASK 0xFFFFFFFF
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct acp3x_platform_info {
 	u16 play_i2s_instance;

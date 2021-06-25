@@ -1517,6 +1517,7 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
 {
 	struct cdnsp_device *pdev = (struct cdnsp_device *)data;
 	union cdnsp_trb *event_ring_deq;
+<<<<<<< HEAD
 	unsigned long flags;
 	int counter = 0;
 
@@ -1525,6 +1526,15 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
 	if (pdev->cdnsp_state & (CDNSP_STATE_HALTED | CDNSP_STATE_DYING)) {
 		cdnsp_died(pdev);
 		spin_unlock_irqrestore(&pdev->lock, flags);
+=======
+	int counter = 0;
+
+	spin_lock(&pdev->lock);
+
+	if (pdev->cdnsp_state & (CDNSP_STATE_HALTED | CDNSP_STATE_DYING)) {
+		cdnsp_died(pdev);
+		spin_unlock(&pdev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return IRQ_HANDLED;
 	}
 
@@ -1540,7 +1550,11 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
 
 	cdnsp_update_erst_dequeue(pdev, event_ring_deq, 1);
 
+<<<<<<< HEAD
 	spin_unlock_irqrestore(&pdev->lock, flags);
+=======
+	spin_unlock(&pdev->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }

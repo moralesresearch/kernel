@@ -1507,6 +1507,11 @@ static int rtl8192eu_power_on(struct rtl8xxxu_priv *priv)
 	u32 val32;
 	int ret;
 
+<<<<<<< HEAD
+=======
+	ret = 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val32 = rtl8xxxu_read32(priv, REG_SYS_CFG);
 	if (val32 & SYS_CFG_SPS_LDO_SEL) {
 		rtl8xxxu_write8(priv, REG_LDO_SW_CTRL, 0xc3);

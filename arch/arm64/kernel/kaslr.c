@@ -19,7 +19,10 @@
 #include <asm/memory.h>
 #include <asm/mmu.h>
 #include <asm/sections.h>
+<<<<<<< HEAD
 #include <asm/setup.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum kaslr_status {
 	KASLR_ENABLED,
@@ -51,7 +54,43 @@ static __init u64 get_kaslr_seed(void *fdt)
 	return ret;
 }
 
+<<<<<<< HEAD
 struct arm64_ftr_override kaslr_feature_override __initdata;
+=======
+static __init bool cmdline_contains_nokaslr(const u8 *cmdline)
+{
+	const u8 *str;
+
+	str = strstr(cmdline, "nokaslr");
+	return str == cmdline || (str > cmdline && *(str - 1) == ' ');
+}
+
+static __init bool is_kaslr_disabled_cmdline(void *fdt)
+{
+	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
+		int node;
+		const u8 *prop;
+
+		node = fdt_path_offset(fdt, "/chosen");
+		if (node < 0)
+			goto out;
+
+		prop = fdt_getprop(fdt, node, "bootargs", NULL);
+		if (!prop)
+			goto out;
+
+		if (cmdline_contains_nokaslr(prop))
+			return true;
+
+		if (IS_ENABLED(CONFIG_CMDLINE_EXTEND))
+			goto out;
+
+		return false;
+	}
+out:
+	return cmdline_contains_nokaslr(CONFIG_CMDLINE);
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * This routine will be executed with the kernel mapped at its default virtual
@@ -61,11 +100,19 @@ struct arm64_ftr_override kaslr_feature_override __initdata;
  * containing function pointers) to be reinitialized, and zero-initialized
  * .bss variables will be reset to 0.
  */
+<<<<<<< HEAD
 u64 __init kaslr_early_init(void)
+=======
+u64 __init kaslr_early_init(u64 dt_phys)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *fdt;
 	u64 seed, offset, mask, module_range;
 	unsigned long raw;
+<<<<<<< HEAD
+=======
+	int size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Set a reasonable default for module_alloc_base in case
@@ -79,7 +126,12 @@ u64 __init kaslr_early_init(void)
 	 * and proceed with KASLR disabled. We will make another
 	 * attempt at mapping the FDT in setup_machine()
 	 */
+<<<<<<< HEAD
 	fdt = get_early_fdt_ptr();
+=======
+	early_fixmap_init();
+	fdt = fixmap_remap_fdt(dt_phys, &size, PAGE_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fdt) {
 		kaslr_status = KASLR_DISABLED_FDT_REMAP;
 		return 0;
@@ -94,7 +146,11 @@ u64 __init kaslr_early_init(void)
 	 * Check if 'nokaslr' appears on the command line, and
 	 * return 0 if that is the case.
 	 */
+<<<<<<< HEAD
 	if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
+=======
+	if (is_kaslr_disabled_cmdline(fdt)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kaslr_status = KASLR_DISABLED_CMDLINE;
 		return 0;
 	}

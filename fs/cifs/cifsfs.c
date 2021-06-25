@@ -305,8 +305,17 @@ static long cifs_fallocate(struct file *file, int mode, loff_t off, loff_t len)
 	return -EOPNOTSUPP;
 }
 
+<<<<<<< HEAD
 static int cifs_permission(struct user_namespace *mnt_userns,
 			   struct inode *inode, int mask)
+=======
+<<<<<<< HEAD
+static int cifs_permission(struct user_namespace *mnt_userns,
+			   struct inode *inode, int mask)
+=======
+static int cifs_permission(struct inode *inode, int mask)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cifs_sb_info *cifs_sb;
 
@@ -321,7 +330,15 @@ static int cifs_permission(struct user_namespace *mnt_userns,
 		on the client (above and beyond ACL on servers) for
 		servers which do not support setting and viewing mode bits,
 		so allowing client to check permissions is useful */
+<<<<<<< HEAD
 		return generic_permission(&init_user_ns, inode, mask);
+=======
+<<<<<<< HEAD
+		return generic_permission(&init_user_ns, inode, mask);
+=======
+		return generic_permission(inode, mask);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct kmem_cache *cifs_inode_cachep;
@@ -476,8 +493,17 @@ static int cifs_show_devname(struct seq_file *m, struct dentry *root)
 		seq_puts(m, "none");
 	else {
 		convert_delimiter(devname, '/');
+<<<<<<< HEAD
 		/* escape all spaces in share names */
 		seq_escape(m, devname, " \t");
+=======
+<<<<<<< HEAD
+		/* escape all spaces in share names */
+		seq_escape(m, devname, " \t");
+=======
+		seq_puts(m, devname);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(devname);
 	}
 	return 0;
@@ -639,6 +665,10 @@ cifs_show_options(struct seq_file *s, struct dentry *root)
 		seq_printf(s, ",snapshot=%llu", tcon->snapshot_time);
 	if (tcon->handle_timeout)
 		seq_printf(s, ",handletimeout=%u", tcon->handle_timeout);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Display file and directory attribute timeout in seconds.
@@ -651,6 +681,13 @@ cifs_show_options(struct seq_file *s, struct dentry *root)
 		seq_printf(s, ",acdirmax=%lu", cifs_sb->ctx->acdirmax / HZ);
 		seq_printf(s, ",acregmax=%lu", cifs_sb->ctx->acregmax / HZ);
 	}
+<<<<<<< HEAD
+=======
+=======
+	/* convert actimeo and display it in seconds */
+	seq_printf(s, ",actimeo=%lu", cifs_sb->ctx->actimeo / HZ);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tcon->ses->chan_max > 1)
 		seq_printf(s, ",multichannel,max_channels=%zu",
@@ -834,7 +871,11 @@ cifs_smb3_do_mount(struct file_system_type *fs_type,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	rc = cifs_setup_volume_info(cifs_sb->ctx, NULL, NULL);
+=======
+	rc = cifs_setup_volume_info(cifs_sb->ctx, NULL, old_ctx->UNC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc) {
 		root = ERR_PTR(rc);
 		goto out;
@@ -1537,7 +1578,14 @@ init_cifs(void)
  */
 	atomic_set(&sesInfoAllocCount, 0);
 	atomic_set(&tconInfoAllocCount, 0);
+<<<<<<< HEAD
 	atomic_set(&tcpSesNextId, 0);
+=======
+<<<<<<< HEAD
+	atomic_set(&tcpSesNextId, 0);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&tcpSesAllocCount, 0);
 	atomic_set(&tcpSesReconnectCount, 0);
 	atomic_set(&tconInfoReconnectCount, 0);

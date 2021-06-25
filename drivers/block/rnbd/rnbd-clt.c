@@ -693,11 +693,15 @@ static void remap_devs(struct rnbd_clt_session *sess)
 		return;
 	}
 
+<<<<<<< HEAD
 	err = rtrs_clt_query(sess->rtrs, &attrs);
 	if (err) {
 		pr_err("rtrs_clt_query(\"%s\"): %d\n", sess->sessname, err);
 		return;
 	}
+=======
+	rtrs_clt_query(sess->rtrs, &attrs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&sess->lock);
 	sess->max_io_size = attrs.max_io_size;
 
@@ -1238,11 +1242,15 @@ find_and_get_or_create_sess(const char *sessname,
 		err = PTR_ERR(sess->rtrs);
 		goto wake_up_and_put;
 	}
+<<<<<<< HEAD
 
 	err = rtrs_clt_query(sess->rtrs, &attrs);
 	if (err)
 		goto close_rtrs;
 
+=======
+	rtrs_clt_query(sess->rtrs, &attrs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sess->max_io_size = attrs.max_io_size;
 	sess->queue_depth = attrs.queue_depth;
 

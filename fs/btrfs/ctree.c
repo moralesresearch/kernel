@@ -1365,6 +1365,7 @@ get_old_root(struct btrfs_root *root, u64 time_seq)
 				   "failed to read tree block %llu from get_old_root",
 				   logical);
 		} else {
+<<<<<<< HEAD
 			struct tree_mod_elem *tm2;
 
 			btrfs_tree_read_lock(old);
@@ -1389,6 +1390,12 @@ get_old_root(struct btrfs_root *root, u64 time_seq)
 				return NULL;
 			}
 			tm = tm2;
+=======
+			btrfs_tree_read_lock(old);
+			eb = btrfs_clone_extent_buffer(old);
+			btrfs_tree_read_unlock(old);
+			free_extent_buffer(old);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (old_root) {
 		eb_root_owner = btrfs_header_owner(eb_root);
@@ -1519,7 +1526,14 @@ noinline int btrfs_cow_block(struct btrfs_trans_handle *trans,
 
 	return ret;
 }
+<<<<<<< HEAD
 ALLOW_ERROR_INJECTION(btrfs_cow_block, ERRNO);
+=======
+<<<<<<< HEAD
+ALLOW_ERROR_INJECTION(btrfs_cow_block, ERRNO);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * helper function for defrag to decide if two blocks pointed to by a
@@ -2847,7 +2861,14 @@ done:
 		btrfs_release_path(p);
 	return ret;
 }
+<<<<<<< HEAD
 ALLOW_ERROR_INJECTION(btrfs_search_slot, ERRNO);
+=======
+<<<<<<< HEAD
+ALLOW_ERROR_INJECTION(btrfs_search_slot, ERRNO);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Like btrfs_search_slot, this looks for a key in the given tree. It uses the

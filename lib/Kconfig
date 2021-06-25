@@ -651,6 +651,7 @@ config STACKDEPOT
 	bool
 	select STACKTRACE
 
+<<<<<<< HEAD
 config STACK_HASH_ORDER
 	int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
 	range 12 20
@@ -660,6 +661,8 @@ config STACK_HASH_ORDER
 	 Select the hash size as a power of 2 for the stackdepot hash table.
 	 Choose a lower value to reduce the memory impact.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config SBITMAP
 	bool
 

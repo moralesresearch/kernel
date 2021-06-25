@@ -121,6 +121,10 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f,
 		return -EINVAL;
 
 	f->pixelformat = formats[f->index].fourcc;
+<<<<<<< HEAD
+=======
+	memset(f->reserved, 0, sizeof(f->reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -251,6 +255,10 @@ static int vidioc_try_fmt(struct v4l2_format *f,
 			  const struct mtk_video_fmt *fmt)
 {
 	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
+<<<<<<< HEAD
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pix_fmt_mp->field = V4L2_FIELD_NONE;
 
@@ -318,7 +326,17 @@ static int vidioc_try_fmt(struct v4l2_format *f,
 		}
 	}
 
+<<<<<<< HEAD
 	pix_fmt_mp->flags = 0;
+=======
+	for (i = 0; i < pix_fmt_mp->num_planes; i++)
+		memset(&(pix_fmt_mp->plane_fmt[i].reserved[0]), 0x0,
+			   sizeof(pix_fmt_mp->plane_fmt[0].reserved));
+
+	pix_fmt_mp->flags = 0;
+	memset(&pix_fmt_mp->reserved, 0x0,
+		sizeof(pix_fmt_mp->reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -524,6 +542,11 @@ static int vidioc_venc_g_fmt(struct file *file, void *priv,
 	for (i = 0; i < pix->num_planes; i++) {
 		pix->plane_fmt[i].bytesperline = q_data->bytesperline[i];
 		pix->plane_fmt[i].sizeimage = q_data->sizeimage[i];
+<<<<<<< HEAD
+=======
+		memset(&(pix->plane_fmt[i].reserved[0]), 0x0,
+		       sizeof(pix->plane_fmt[i].reserved));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	pix->flags = 0;

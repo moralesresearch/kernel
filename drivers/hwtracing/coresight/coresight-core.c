@@ -145,6 +145,7 @@ static int coresight_find_link_outport(struct coresight_device *csdev,
 	return -ENODEV;
 }
 
+<<<<<<< HEAD
 static inline u32 coresight_read_claim_tags(struct coresight_device *csdev)
 {
 	return csdev_access_relaxed_read32(&csdev->access, CORESIGHT_CLAIMCLR);
@@ -171,6 +172,32 @@ static inline void coresight_clear_claim_tags(struct coresight_device *csdev)
 {
 	csdev_access_relaxed_write32(&csdev->access, CORESIGHT_CLAIM_SELF_HOSTED,
 				     CORESIGHT_CLAIMCLR);
+=======
+static inline u32 coresight_read_claim_tags(void __iomem *base)
+{
+	return readl_relaxed(base + CORESIGHT_CLAIMCLR);
+}
+
+static inline bool coresight_is_claimed_self_hosted(void __iomem *base)
+{
+	return coresight_read_claim_tags(base) == CORESIGHT_CLAIM_SELF_HOSTED;
+}
+
+static inline bool coresight_is_claimed_any(void __iomem *base)
+{
+	return coresight_read_claim_tags(base) != 0;
+}
+
+static inline void coresight_set_claim_tags(void __iomem *base)
+{
+	writel_relaxed(CORESIGHT_CLAIM_SELF_HOSTED, base + CORESIGHT_CLAIMSET);
+	isb();
+}
+
+static inline void coresight_clear_claim_tags(void __iomem *base)
+{
+	writel_relaxed(CORESIGHT_CLAIM_SELF_HOSTED, base + CORESIGHT_CLAIMCLR);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	isb();
 }
 
@@ -184,6 +211,7 @@ static inline void coresight_clear_claim_tags(struct coresight_device *csdev)
  * Called with CS_UNLOCKed for the component.
  * Returns : 0 on success
  */
+<<<<<<< HEAD
 int coresight_claim_device_unlocked(struct coresight_device *csdev)
 {
 	if (WARN_ON(!csdev))
@@ -197,10 +225,23 @@ int coresight_claim_device_unlocked(struct coresight_device *csdev)
 		return 0;
 	/* There was a race setting the tags, clean up and fail */
 	coresight_clear_claim_tags(csdev);
+=======
+int coresight_claim_device_unlocked(void __iomem *base)
+{
+	if (coresight_is_claimed_any(base))
+		return -EBUSY;
+
+	coresight_set_claim_tags(base);
+	if (coresight_is_claimed_self_hosted(base))
+		return 0;
+	/* There was a race setting the tags, clean up and fail */
+	coresight_clear_claim_tags(base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EBUSY;
 }
 EXPORT_SYMBOL_GPL(coresight_claim_device_unlocked);
 
+<<<<<<< HEAD
 int coresight_claim_device(struct coresight_device *csdev)
 {
 	int rc;
@@ -211,6 +252,15 @@ int coresight_claim_device(struct coresight_device *csdev)
 	CS_UNLOCK(csdev->access.base);
 	rc = coresight_claim_device_unlocked(csdev);
 	CS_LOCK(csdev->access.base);
+=======
+int coresight_claim_device(void __iomem *base)
+{
+	int rc;
+
+	CS_UNLOCK(base);
+	rc = coresight_claim_device_unlocked(base);
+	CS_LOCK(base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return rc;
 }
@@ -220,6 +270,7 @@ EXPORT_SYMBOL_GPL(coresight_claim_device);
  * coresight_disclaim_device_unlocked : Clear the claim tags for the device.
  * Called with CS_UNLOCKed for the component.
  */
+<<<<<<< HEAD
 void coresight_disclaim_device_unlocked(struct coresight_device *csdev)
 {
 
@@ -228,6 +279,13 @@ void coresight_disclaim_device_unlocked(struct coresight_device *csdev)
 
 	if (coresight_is_claimed_self_hosted(csdev))
 		coresight_clear_claim_tags(csdev);
+=======
+void coresight_disclaim_device_unlocked(void __iomem *base)
+{
+
+	if (coresight_is_claimed_self_hosted(base))
+		coresight_clear_claim_tags(base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		/*
 		 * The external agent may have not honoured our claim
@@ -238,6 +296,7 @@ void coresight_disclaim_device_unlocked(struct coresight_device *csdev)
 }
 EXPORT_SYMBOL_GPL(coresight_disclaim_device_unlocked);
 
+<<<<<<< HEAD
 void coresight_disclaim_device(struct coresight_device *csdev)
 {
 	if (WARN_ON(!csdev))
@@ -246,6 +305,13 @@ void coresight_disclaim_device(struct coresight_device *csdev)
 	CS_UNLOCK(csdev->access.base);
 	coresight_disclaim_device_unlocked(csdev);
 	CS_LOCK(csdev->access.base);
+=======
+void coresight_disclaim_device(void __iomem *base)
+{
+	CS_UNLOCK(base);
+	coresight_disclaim_device_unlocked(base);
+	CS_LOCK(base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(coresight_disclaim_device);
 
@@ -1432,24 +1498,39 @@ static void coresight_remove_conns(struct coresight_device *csdev)
 }
 
 /**
+<<<<<<< HEAD
  * coresight_timeout - loop until a bit has changed to a specific register
  *			state.
  * @csa: coresight device access for the device
  * @offset: Offset of the register from the base of the device.
+=======
+ * coresight_timeout - loop until a bit has changed to a specific state.
+ * @addr: base address of the area of interest.
+ * @offset: address of a register, starting from @addr.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @position: the position of the bit of interest.
  * @value: the value the bit should have.
  *
  * Return: 0 as soon as the bit has taken the desired state or -EAGAIN if
  * TIMEOUT_US has elapsed, which ever happens first.
  */
+<<<<<<< HEAD
 int coresight_timeout(struct csdev_access *csa, u32 offset,
 		      int position, int value)
+=======
+
+int coresight_timeout(void __iomem *addr, u32 offset, int position, int value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 	u32 val;
 
 	for (i = TIMEOUT_US; i > 0; i--) {
+<<<<<<< HEAD
 		val = csdev_access_read32(csa, offset);
+=======
+		val = __raw_readl(addr + offset);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* waiting on the bit to go from 0 to 1 */
 		if (value) {
 			if (val & BIT(position))
@@ -1473,6 +1554,7 @@ int coresight_timeout(struct csdev_access *csa, u32 offset,
 }
 EXPORT_SYMBOL_GPL(coresight_timeout);
 
+<<<<<<< HEAD
 u32 coresight_relaxed_read32(struct coresight_device *csdev, u32 offset)
 {
 	return csdev_access_relaxed_read32(&csdev->access, offset);
@@ -1515,6 +1597,8 @@ void coresight_write64(struct coresight_device *csdev, u64 val, u32 offset)
 	csdev_access_write64(&csdev->access, val, offset);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * coresight_release_platform_data: Release references to the devices connected
  * to the output port of this device.
@@ -1579,7 +1663,10 @@ struct coresight_device *coresight_register(struct coresight_desc *desc)
 	csdev->type = desc->type;
 	csdev->subtype = desc->subtype;
 	csdev->ops = desc->ops;
+<<<<<<< HEAD
 	csdev->access = desc->access;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	csdev->orphan = false;
 
 	csdev->dev.type = &coresight_dev_type[desc->type];

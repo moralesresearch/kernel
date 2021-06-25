@@ -33,6 +33,7 @@ nvkm_memory_tags_put(struct nvkm_memory *memory, struct nvkm_device *device,
 	struct nvkm_fb *fb = device->fb;
 	struct nvkm_tags *tags = *ptags;
 	if (tags) {
+<<<<<<< HEAD
 		mutex_lock(&fb->tags.mutex);
 		if (refcount_dec_and_test(&tags->refcount)) {
 			nvkm_mm_free(&fb->tags.mm, &tags->mn);
@@ -40,6 +41,15 @@ nvkm_memory_tags_put(struct nvkm_memory *memory, struct nvkm_device *device,
 			memory->tags = NULL;
 		}
 		mutex_unlock(&fb->tags.mutex);
+=======
+		mutex_lock(&fb->subdev.mutex);
+		if (refcount_dec_and_test(&tags->refcount)) {
+			nvkm_mm_free(&fb->tags, &tags->mn);
+			kfree(memory->tags);
+			memory->tags = NULL;
+		}
+		mutex_unlock(&fb->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*ptags = NULL;
 	}
 }
@@ -52,29 +62,49 @@ nvkm_memory_tags_get(struct nvkm_memory *memory, struct nvkm_device *device,
 	struct nvkm_fb *fb = device->fb;
 	struct nvkm_tags *tags;
 
+<<<<<<< HEAD
 	mutex_lock(&fb->tags.mutex);
+=======
+	mutex_lock(&fb->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((tags = memory->tags)) {
 		/* If comptags exist for the memory, but a different amount
 		 * than requested, the buffer is being mapped with settings
 		 * that are incompatible with existing mappings.
 		 */
 		if (tags->mn && tags->mn->length != nr) {
+<<<<<<< HEAD
 			mutex_unlock(&fb->tags.mutex);
+=======
+			mutex_unlock(&fb->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EINVAL;
 		}
 
 		refcount_inc(&tags->refcount);
+<<<<<<< HEAD
 		mutex_unlock(&fb->tags.mutex);
+=======
+		mutex_unlock(&fb->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*ptags = tags;
 		return 0;
 	}
 
 	if (!(tags = kmalloc(sizeof(*tags), GFP_KERNEL))) {
+<<<<<<< HEAD
 		mutex_unlock(&fb->tags.mutex);
 		return -ENOMEM;
 	}
 
 	if (!nvkm_mm_head(&fb->tags.mm, 0, 1, nr, nr, 1, &tags->mn)) {
+=======
+		mutex_unlock(&fb->subdev.mutex);
+		return -ENOMEM;
+	}
+
+	if (!nvkm_mm_head(&fb->tags, 0, 1, nr, nr, 1, &tags->mn)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (clr)
 			clr(device, tags->mn->offset, tags->mn->length);
 	} else {
@@ -92,7 +122,11 @@ nvkm_memory_tags_get(struct nvkm_memory *memory, struct nvkm_device *device,
 
 	refcount_set(&tags->refcount, 1);
 	*ptags = memory->tags = tags;
+<<<<<<< HEAD
 	mutex_unlock(&fb->tags.mutex);
+=======
+	mutex_unlock(&fb->subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

@@ -117,6 +117,13 @@ struct sk_buff *tipc_msg_create(uint user, uint type,
 	msg_set_origport(msg, oport);
 	msg_set_destport(msg, dport);
 	msg_set_errcode(msg, errcode);
+<<<<<<< HEAD
+=======
+	if (hdr_sz > SHORT_H_SIZE) {
+		msg_set_orignode(msg, onode);
+		msg_set_destnode(msg, dnode);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return buf;
 }
 
@@ -149,13 +156,26 @@ int tipc_buf_append(struct sk_buff **headbuf, struct sk_buff **buf)
 		if (unlikely(head))
 			goto err;
 		*buf = NULL;
+<<<<<<< HEAD
 		if (skb_has_frag_list(frag) && __skb_linearize(frag))
 			goto err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		frag = skb_unshare(frag, GFP_ATOMIC);
 		if (unlikely(!frag))
 			goto err;
 		head = *headbuf = frag;
 		TIPC_SKB_CB(head)->tail = NULL;
+<<<<<<< HEAD
+=======
+		if (skb_is_nonlinear(head)) {
+			skb_walk_frags(head, tail) {
+				TIPC_SKB_CB(head)->tail = tail;
+			}
+		} else {
+			skb_frag_list_init(head);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 

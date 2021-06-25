@@ -857,7 +857,11 @@ static struct snd_kcontrol_new fsl_xcvr_tx_ctls[] = {
 	},
 };
 
+<<<<<<< HEAD
 static const struct snd_soc_dai_ops fsl_xcvr_dai_ops = {
+=======
+static struct snd_soc_dai_ops fsl_xcvr_dai_ops = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.prepare = fsl_xcvr_prepare,
 	.startup = fsl_xcvr_startup,
 	.shutdown = fsl_xcvr_shutdown,
@@ -1130,11 +1134,22 @@ MODULE_DEVICE_TABLE(of, fsl_xcvr_dt_ids);
 static int fsl_xcvr_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
+<<<<<<< HEAD
+=======
+	const struct of_device_id *of_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fsl_xcvr *xcvr;
 	struct resource *ram_res, *regs_res, *rx_res, *tx_res;
 	void __iomem *regs;
 	int ret, irq;
 
+<<<<<<< HEAD
+=======
+	of_id = of_match_device(fsl_xcvr_dt_ids, dev);
+	if (!of_id)
+		return -EINVAL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xcvr = devm_kzalloc(dev, sizeof(*xcvr), GFP_KERNEL);
 	if (!xcvr)
 		return -ENOMEM;

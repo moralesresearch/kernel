@@ -2,6 +2,7 @@
 /*
  * Device Tree Source for J7200 SoC Family Main Domain peripherals
  *
+<<<<<<< HEAD
  * Copyright (C) 2020-2021 Texas Instruments Incorporated - https://www.ti.com/
  */
 
@@ -12,6 +13,11 @@
 	};
 };
 
+=======
+ * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &cbass_main {
 	msmc_ram: sram@70000000 {
 		compatible = "mmio-sram";
@@ -85,8 +91,11 @@
 		#size-cells = <2>;
 		ranges = <0x00 0x30000000 0x00 0x30000000 0x00 0x0c400000>;
 		ti,sci-dev-id = <199>;
+<<<<<<< HEAD
 		dma-coherent;
 		dma-ranges;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		main_navss_intr: interrupt-controller1 {
 			compatible = "ti,sci-intr";
@@ -508,8 +517,13 @@
 		reg = <0x00 0x04f80000 0x00 0x260>, <0x00 0x4f88000 0x00 0x134>;
 		interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
 		power-domains = <&k3_pds 91 TI_SCI_PD_EXCLUSIVE>;
+<<<<<<< HEAD
 		clock-names = "clk_ahb", "clk_xin";
 		clocks = <&k3_clks 91 0>, <&k3_clks 91 3>;
+=======
+		clock-names = "clk_xin", "clk_ahb";
+		clocks = <&k3_clks 91 3>, <&k3_clks 91 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ti,otap-del-sel-legacy = <0x0>;
 		ti,otap-del-sel-mmc-hs = <0x0>;
 		ti,otap-del-sel-ddr52 = <0x6>;
@@ -527,8 +541,13 @@
 		reg = <0x00 0x04fb0000 0x00 0x260>, <0x00 0x4fb8000 0x00 0x134>;
 		interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
 		power-domains = <&k3_pds 92 TI_SCI_PD_EXCLUSIVE>;
+<<<<<<< HEAD
 		clock-names = "clk_ahb", "clk_xin";
 		clocks = <&k3_clks 92 1>, <&k3_clks 92 2>;
+=======
+		clock-names = "clk_xin", "clk_ahb";
+		clocks = <&k3_clks 92 2>, <&k3_clks 92 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ti,otap-del-sel-legacy = <0x0>;
 		ti,otap-del-sel-sd-hs = <0x0>;
 		ti,otap-del-sel-sdr12 = <0xf>;
@@ -540,6 +559,7 @@
 		dma-coherent;
 	};
 
+<<<<<<< HEAD
 	serdes_wiz0: wiz@5060000 {
 		compatible = "ti,j721e-wiz-10g";
 		#address-cells = <1>;
@@ -644,6 +664,8 @@
 		dma-coherent;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usbss0: cdns-usb@4104000 {
 		compatible = "ti,j721e-usb";
 		reg = <0x00 0x4104000 0x00 0x100>;
@@ -673,6 +695,7 @@
 			dr_mode = "otg";
 		};
 	};
+<<<<<<< HEAD
 
 	main_r5fss0: r5fss@5c00000 {
 		compatible = "ti,j7200-r5fss";
@@ -713,4 +736,6 @@
 			ti,loczrama = <1>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

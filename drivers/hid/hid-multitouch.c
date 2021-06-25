@@ -70,7 +70,10 @@ MODULE_LICENSE("GPL");
 #define MT_QUIRK_WIN8_PTP_BUTTONS	BIT(18)
 #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
 #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+<<<<<<< HEAD
 #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MT_INPUTMODE_TOUCHSCREEN	0x02
 #define MT_INPUTMODE_TOUCHPAD		0x03
@@ -192,7 +195,10 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
 #define MT_CLS_EXPORT_ALL_INPUTS		0x0013
 /* reserved					0x0014 */
 #define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
+<<<<<<< HEAD
 #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* vendor specific classes */
 #define MT_CLS_3M				0x0101
@@ -285,6 +291,7 @@ static const struct mt_class mt_classes[] = {
 			MT_QUIRK_WIN8_PTP_BUTTONS |
 			MT_QUIRK_FORCE_MULTI_INPUT,
 		.export_all_inputs = true },
+<<<<<<< HEAD
 	{ .name = MT_CLS_WIN_8_DISABLE_WAKEUP,
 		.quirks = MT_QUIRK_ALWAYS_VALID |
 			MT_QUIRK_IGNORE_DUPLICATES |
@@ -294,6 +301,8 @@ static const struct mt_class mt_classes[] = {
 			MT_QUIRK_WIN8_PTP_BUTTONS |
 			MT_QUIRK_DISABLE_WAKEUP,
 		.export_all_inputs = true },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * vendor specific classes
@@ -615,6 +624,7 @@ static struct mt_report_data *mt_allocate_report_data(struct mt_device *td,
 		if (!(HID_MAIN_ITEM_VARIABLE & field->flags))
 			continue;
 
+<<<<<<< HEAD
 		if (field->logical == HID_DG_FINGER || td->hdev->group != HID_GROUP_MULTITOUCH_WIN_8) {
 			for (n = 0; n < field->report_count; n++) {
 				if (field->usage[n].hid == HID_DG_CONTACTID) {
@@ -622,6 +632,11 @@ static struct mt_report_data *mt_allocate_report_data(struct mt_device *td,
 					break;
 				}
 			}
+=======
+		for (n = 0; n < field->report_count; n++) {
+			if (field->usage[n].hid == HID_DG_CONTACTID)
+				rdata->is_mt_collection = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -774,8 +789,12 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 			return 1;
 		case HID_DG_CONFIDENCE:
 			if ((cls->name == MT_CLS_WIN_8 ||
+<<<<<<< HEAD
 			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
 			     cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
+=======
+			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				(field->application == HID_DG_TOUCHPAD ||
 				 field->application == HID_DG_TOUCHSCREEN))
 				app->quirks |= MT_QUIRK_CONFIDENCE;
@@ -1592,6 +1611,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
 		/* we do not set suffix = "Touchscreen" */
 		hi->input->name = hdev->name;
 		break;
+<<<<<<< HEAD
 	case HID_VD_ASUS_CUSTOM_MEDIA_KEYS:
 		suffix = "Custom Media Keys";
 		break;
@@ -1599,6 +1619,15 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
 		/* force BTN_STYLUS to allow tablet matching in udev */
 		__set_bit(BTN_STYLUS, hi->input->keybit);
 		fallthrough;
+=======
+	case HID_DG_STYLUS:
+		/* force BTN_STYLUS to allow tablet matching in udev */
+		__set_bit(BTN_STYLUS, hi->input->keybit);
+		break;
+	case HID_VD_ASUS_CUSTOM_MEDIA_KEYS:
+		suffix = "Custom Media Keys";
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case HID_DG_PEN:
 		suffix = "Stylus";
 		break;
@@ -1763,6 +1792,7 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
 }
 
 #ifdef CONFIG_PM
+<<<<<<< HEAD
 static int mt_suspend(struct hid_device *hdev, pm_message_t state)
 {
 	struct mt_device *td = hid_get_drvdata(hdev);
@@ -1776,6 +1806,8 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mt_reset_resume(struct hid_device *hdev)
 {
 	mt_release_contacts(hdev);
@@ -1791,8 +1823,11 @@ static int mt_resume(struct hid_device *hdev)
 
 	hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
 
+<<<<<<< HEAD
 	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 #endif
@@ -1831,12 +1866,15 @@ static const struct hid_device_id mt_devices[] = {
 		MT_USB_DEVICE(USB_VENDOR_ID_ANTON,
 			USB_DEVICE_ID_ANTON_TOUCH_PAD) },
 
+<<<<<<< HEAD
 	/* Asus T101HA */
 	{ .driver_data = MT_CLS_WIN_8_DISABLE_WAKEUP,
 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
 			   USB_VENDOR_ID_ASUSTEK,
 			   USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Asus T304UA */
 	{ .driver_data = MT_CLS_ASUS,
 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
@@ -2192,7 +2230,10 @@ static struct hid_driver mt_driver = {
 	.event = mt_event,
 	.report = mt_report,
 #ifdef CONFIG_PM
+<<<<<<< HEAD
 	.suspend = mt_suspend,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset_resume = mt_reset_resume,
 	.resume = mt_resume,
 #endif

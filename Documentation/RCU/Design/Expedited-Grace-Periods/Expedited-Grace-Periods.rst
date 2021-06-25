@@ -38,7 +38,11 @@ sections.
 RCU-preempt Expedited Grace Periods
 ===================================
 
+<<<<<<< HEAD
 ``CONFIG_PREEMPTION=y`` kernels implement RCU-preempt.
+=======
+``CONFIG_PREEMPT=y`` kernels implement RCU-preempt.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 The overall flow of the handling of a given CPU by an RCU-preempt
 expedited grace period is shown in the following diagram:
 
@@ -112,7 +116,11 @@ things.
 RCU-sched Expedited Grace Periods
 ---------------------------------
 
+<<<<<<< HEAD
 ``CONFIG_PREEMPTION=n`` kernels implement RCU-sched. The overall flow of
+=======
+``CONFIG_PREEMPT=n`` kernels implement RCU-sched. The overall flow of
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 the handling of a given CPU by an RCU-sched expedited grace period is
 shown in the following diagram:
 

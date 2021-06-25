@@ -273,7 +273,11 @@ To reduce its OS jitter, do any of the following:
 		However, there is an RFC patch from Christoph Lameter
 		(based on an earlier one from Gilad Ben-Yossef) that
 		reduces or even eliminates vmstat overhead for some
+<<<<<<< HEAD
 		workloads at https://lore.kernel.org/r/00000140e9dfd6bd-40db3d4f-c1be-434f-8132-7820f81bb586-000000@email.amazonses.com.
+=======
+		workloads at https://lkml.org/lkml/2013/9/4/379.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	e.	If running on high-end powerpc servers, build with
 		CONFIG_PPC_RTAS_DAEMON=n.  This prevents the RTAS
 		daemon from running on each CPU every second or so.

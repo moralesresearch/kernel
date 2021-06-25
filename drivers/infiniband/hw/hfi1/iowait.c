@@ -26,7 +26,11 @@ inline void iowait_clear_flag(struct iowait *wait, u32 flag)
 	clear_bit(flag, &wait->flags);
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * iowait_init() - initialize wait structure
  * @wait: wait struct to initialize
  * @tx_limit: limit for overflow queuing
@@ -88,7 +92,11 @@ void iowait_cancel_work(struct iowait *w)
 
 /**
  * iowait_set_work_flag - set work flag based on leg
+<<<<<<< HEAD
  * @w: the iowait work struct
+=======
+ * @w - the iowait work struct
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int iowait_set_work_flag(struct iowait_work *w)
 {

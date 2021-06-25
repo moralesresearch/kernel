@@ -68,8 +68,12 @@ bool is_ima_appraise_enabled(void)
  *
  * Return 1 to appraise or hash
  */
+<<<<<<< HEAD
 int ima_must_appraise(struct user_namespace *mnt_userns, struct inode *inode,
 		      int mask, enum ima_hooks func)
+=======
+int ima_must_appraise(struct inode *inode, int mask, enum ima_hooks func)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 secid;
 
@@ -77,8 +81,13 @@ int ima_must_appraise(struct user_namespace *mnt_userns, struct inode *inode,
 		return 0;
 
 	security_task_getsecid(current, &secid);
+<<<<<<< HEAD
 	return ima_match_policy(mnt_userns, inode, current_cred(), secid, func,
 				mask, IMA_APPRAISE | IMA_HASH, NULL, NULL, NULL);
+=======
+	return ima_match_policy(inode, current_cred(), secid, func, mask,
+				IMA_APPRAISE | IMA_HASH, NULL, NULL, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ima_fix_xattr(struct dentry *dentry,
@@ -95,7 +104,11 @@ static int ima_fix_xattr(struct dentry *dentry,
 		iint->ima_hash->xattr.ng.type = IMA_XATTR_DIGEST_NG;
 		iint->ima_hash->xattr.ng.algo = algo;
 	}
+<<<<<<< HEAD
 	rc = __vfs_setxattr_noperm(&init_user_ns, dentry, XATTR_NAME_IMA,
+=======
+	rc = __vfs_setxattr_noperm(dentry, XATTR_NAME_IMA,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   &iint->ima_hash->xattr.data[offset],
 				   (sizeof(iint->ima_hash->xattr) - offset) +
 				   iint->ima_hash->length, 0);
@@ -216,8 +229,13 @@ int ima_read_xattr(struct dentry *dentry,
 {
 	ssize_t ret;
 
+<<<<<<< HEAD
 	ret = vfs_getxattr_alloc(&init_user_ns, dentry, XATTR_NAME_IMA,
 				 (char **)xattr_value, 0, GFP_NOFS);
+=======
+	ret = vfs_getxattr_alloc(dentry, XATTR_NAME_IMA, (char **)xattr_value,
+				 0, GFP_NOFS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret == -EOPNOTSUPP)
 		ret = 0;
 	return ret;
@@ -351,9 +369,15 @@ int ima_check_blacklist(struct integrity_iint_cache *iint,
 
 		rc = is_binary_blacklisted(digest, digestsize);
 		if ((rc == -EPERM) && (iint->flags & IMA_MEASURE))
+<<<<<<< HEAD
 			process_buffer_measurement(&init_user_ns, NULL, digest, digestsize,
 						   "blacklisted-hash", NONE,
 						   pcr, NULL, false);
+=======
+			process_buffer_measurement(NULL, digest, digestsize,
+						   "blacklisted-hash", NONE,
+						   pcr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return rc;
@@ -502,7 +526,10 @@ void ima_update_xattr(struct integrity_iint_cache *iint, struct file *file)
 
 /**
  * ima_inode_post_setattr - reflect file metadata changes
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dentry: pointer to the affected dentry
  *
  * Changes to a dentry's metadata might result in needing to appraise.
@@ -510,8 +537,12 @@ void ima_update_xattr(struct integrity_iint_cache *iint, struct file *file)
  * This function is called from notify_change(), which expects the caller
  * to lock the inode's i_mutex.
  */
+<<<<<<< HEAD
 void ima_inode_post_setattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry)
+=======
+void ima_inode_post_setattr(struct dentry *dentry)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_backing_inode(dentry);
 	struct integrity_iint_cache *iint;
@@ -521,9 +552,15 @@ void ima_inode_post_setattr(struct user_namespace *mnt_userns,
 	    || !(inode->i_opflags & IOP_XATTR))
 		return;
 
+<<<<<<< HEAD
 	action = ima_must_appraise(mnt_userns, inode, MAY_ACCESS, POST_SETATTR);
 	if (!action)
 		__vfs_removexattr(&init_user_ns, dentry, XATTR_NAME_IMA);
+=======
+	action = ima_must_appraise(inode, MAY_ACCESS, POST_SETATTR);
+	if (!action)
+		__vfs_removexattr(dentry, XATTR_NAME_IMA);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iint = integrity_iint_find(inode);
 	if (iint) {
 		set_bit(IMA_CHANGE_ATTR, &iint->atomic_flags);

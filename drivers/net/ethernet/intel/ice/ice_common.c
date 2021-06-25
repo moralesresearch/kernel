@@ -110,7 +110,11 @@ ice_aq_manage_mac_read(struct ice_hw *hw, void *buf, u16 buf_size,
 	if (status)
 		return status;
 
+<<<<<<< HEAD
 	resp = buf;
+=======
+	resp = (struct ice_aqc_manage_mac_read_resp *)buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flags = le16_to_cpu(cmd->flags) & ICE_AQC_MAN_MAC_READ_M;
 
 	if (!(flags & ICE_AQC_MAN_MAC_LAN_ADDR_VALID)) {
@@ -717,8 +721,13 @@ static enum ice_status ice_cfg_fw_log(struct ice_hw *hw, bool enable)
 
 			if (!data) {
 				data = devm_kcalloc(ice_hw_to_dev(hw),
+<<<<<<< HEAD
 						    ICE_AQC_FW_LOG_ID_MAX,
 						    sizeof(*data),
+=======
+						    sizeof(*data),
+						    ICE_AQC_FW_LOG_ID_MAX,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						    GFP_KERNEL);
 				if (!data)
 					return ICE_ERR_NO_MEMORY;
@@ -907,7 +916,10 @@ enum ice_status ice_init_hw(struct ice_hw *hw)
 		ice_debug(hw, ICE_DBG_SCHED, "Failed to get scheduler allocated resources\n");
 		goto err_unroll_alloc;
 	}
+<<<<<<< HEAD
 	ice_sched_get_psm_clk_freq(hw);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Initialize port_info struct with scheduler data */
 	status = ice_sched_init_port(hw->port_info);
@@ -1654,7 +1666,11 @@ ice_aq_alloc_free_res(struct ice_hw *hw, u16 num_entries,
 	if (!buf)
 		return ICE_ERR_PARAM;
 
+<<<<<<< HEAD
 	if (buf_size < flex_array_size(buf, elem, num_entries))
+=======
+	if (buf_size < (num_entries * sizeof(buf->elem[0])))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ICE_ERR_PARAM;
 
 	ice_fill_dflt_direct_cmd_desc(&desc, opc);
@@ -1980,7 +1996,11 @@ ice_parse_func_caps(struct ice_hw *hw, struct ice_hw_func_caps *func_p,
 	struct ice_aqc_list_caps_elem *cap_resp;
 	u32 i;
 
+<<<<<<< HEAD
 	cap_resp = buf;
+=======
+	cap_resp = (struct ice_aqc_list_caps_elem *)buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(func_p, 0, sizeof(*func_p));
 
@@ -2110,7 +2130,11 @@ ice_parse_dev_caps(struct ice_hw *hw, struct ice_hw_dev_caps *dev_p,
 	struct ice_aqc_list_caps_elem *cap_resp;
 	u32 i;
 
+<<<<<<< HEAD
 	cap_resp = buf;
+=======
+	cap_resp = (struct ice_aqc_list_caps_elem *)buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(dev_p, 0, sizeof(*dev_p));
 
@@ -4079,7 +4103,10 @@ static enum ice_status ice_replay_pre_init(struct ice_hw *hw)
 	for (i = 0; i < ICE_SW_LKUP_LAST; i++)
 		list_replace_init(&sw->recp_list[i].filt_rules,
 				  &sw->recp_list[i].filt_replay_rules);
+<<<<<<< HEAD
 	ice_sched_replay_agg_vsi_preinit(hw);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -4111,8 +4138,11 @@ enum ice_status ice_replay_vsi(struct ice_hw *hw, u16 vsi_handle)
 		return status;
 	/* Replay per VSI all filters */
 	status = ice_replay_vsi_all_fltr(hw, vsi_handle);
+<<<<<<< HEAD
 	if (!status)
 		status = ice_replay_vsi_agg(hw, vsi_handle);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return status;
 }
 
@@ -4126,7 +4156,10 @@ void ice_replay_post(struct ice_hw *hw)
 {
 	/* Delete old entries from replay filter list head */
 	ice_rm_all_sw_replay_rule_info(hw);
+<<<<<<< HEAD
 	ice_sched_replay_agg(hw);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -4371,6 +4404,7 @@ ice_aq_set_lldp_mib(struct ice_hw *hw, u8 mib_type, void *buf, u16 buf_size,
 
 	return ice_aq_send_cmd(hw, &desc, buf, buf_size, cd);
 }
+<<<<<<< HEAD
 
 /**
  * ice_fw_supports_lldp_fltr - check NVM version supports lldp_fltr_ctrl
@@ -4418,3 +4452,5 @@ ice_lldp_fltr_add_remove(struct ice_hw *hw, u16 vsi_num, bool add)
 
 	return ice_aq_send_cmd(hw, &desc, NULL, 0, NULL);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -1109,7 +1109,10 @@ struct pcr_ops {
 };
 
 enum PDEV_STAT  {PDEV_STAT_IDLE, PDEV_STAT_RUN};
+<<<<<<< HEAD
 enum ASPM_MODE  {ASPM_MODE_CFG, ASPM_MODE_REG};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define ASPM_L1_1_EN			BIT(0)
 #define ASPM_L1_2_EN			BIT(1)
@@ -1235,7 +1238,10 @@ struct rtsx_pcr {
 	u8				card_drive_sel;
 #define ASPM_L1_EN			0x02
 	u8				aspm_en;
+<<<<<<< HEAD
 	enum ASPM_MODE			aspm_mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool				aspm_enabled;
 
 #define PCR_MS_PMOS			(1 << 0)

@@ -464,6 +464,7 @@ static int snmp_seq_show(struct seq_file *seq, void *v)
  */
 static int netstat_seq_show(struct seq_file *seq, void *v)
 {
+<<<<<<< HEAD
 	const int ip_cnt = ARRAY_SIZE(snmp4_ipextstats_list) - 1;
 	const int tcp_cnt = ARRAY_SIZE(snmp4_net_list) - 1;
 	struct net *net = seq->private;
@@ -510,6 +511,32 @@ static int netstat_seq_show(struct seq_file *seq, void *v)
 						     offsetof(struct ipstats_mib, syncp)));
 	}
 	kfree(buff);
+=======
+	int i;
+	struct net *net = seq->private;
+
+	seq_puts(seq, "TcpExt:");
+	for (i = 0; snmp4_net_list[i].name; i++)
+		seq_printf(seq, " %s", snmp4_net_list[i].name);
+
+	seq_puts(seq, "\nTcpExt:");
+	for (i = 0; snmp4_net_list[i].name; i++)
+		seq_printf(seq, " %lu",
+			   snmp_fold_field(net->mib.net_statistics,
+					   snmp4_net_list[i].entry));
+
+	seq_puts(seq, "\nIpExt:");
+	for (i = 0; snmp4_ipextstats_list[i].name; i++)
+		seq_printf(seq, " %s", snmp4_ipextstats_list[i].name);
+
+	seq_puts(seq, "\nIpExt:");
+	for (i = 0; snmp4_ipextstats_list[i].name; i++)
+		seq_printf(seq, " %llu",
+			   snmp_fold_field64(net->mib.ip_statistics,
+					     snmp4_ipextstats_list[i].entry,
+					     offsetof(struct ipstats_mib, syncp)));
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_putc(seq, '\n');
 	mptcp_seq_show(seq);
 	return 0;

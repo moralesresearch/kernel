@@ -74,6 +74,25 @@ static const char * const mmcc_xo_mmpll0_dsi_hdmi_gpll0[] = {
 	"dsi1pll",
 };
 
+<<<<<<< HEAD
+=======
+static const struct parent_map mmcc_xo_mmpll0_1_2_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_MMPLL0, 1 },
+	{ P_MMPLL1, 2 },
+	{ P_GPLL0, 5 },
+	{ P_MMPLL2, 3 }
+};
+
+static const char * const mmcc_xo_mmpll0_1_2_gpll0[] = {
+	"xo",
+	"mmpll0_vote",
+	"mmpll1_vote",
+	"mmss_gpll0_vote",
+	"mmpll2",
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct parent_map mmcc_xo_mmpll0_1_3_gpll0_map[] = {
 	{ P_XO, 0 },
 	{ P_MMPLL0, 1 },

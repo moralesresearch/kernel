@@ -2,7 +2,11 @@
 /*
  * Device Tree Source for J7200 SoC Family MCU/WAKEUP Domain peripherals
  *
+<<<<<<< HEAD
  * Copyright (C) 2020-2021 Texas Instruments Incorporated - https://www.ti.com/
+=======
+ * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 &cbass_mcu_wakeup {
@@ -289,6 +293,7 @@
 			compatible = "ti,am3359-adc";
 		};
 	};
+<<<<<<< HEAD
 
 	mcu_r5fss0: r5fss@41000000 {
 		compatible = "ti,j7200-r5fss";
@@ -329,4 +334,6 @@
 			ti,loczrama = <1>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

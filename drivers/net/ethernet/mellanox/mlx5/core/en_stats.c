@@ -116,6 +116,10 @@ static const struct counter_desc sw_stats_desc[] = {
 #ifdef CONFIG_MLX5_EN_TLS
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_encrypted_packets) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_encrypted_bytes) },
+<<<<<<< HEAD
+=======
+	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_ctx) },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_ooo) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_dump_packets) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, tx_tls_dump_bytes) },
@@ -179,6 +183,11 @@ static const struct counter_desc sw_stats_desc[] = {
 #ifdef CONFIG_MLX5_EN_TLS
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_decrypted_packets) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_decrypted_bytes) },
+<<<<<<< HEAD
+=======
+	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_ctx) },
+	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_del) },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_resync_req_pkt) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_resync_req_start) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_resync_req_end) },
@@ -339,6 +348,11 @@ static void mlx5e_stats_grp_sw_update_stats_rq_stats(struct mlx5e_sw_stats *s,
 #ifdef CONFIG_MLX5_EN_TLS
 	s->rx_tls_decrypted_packets   += rq_stats->tls_decrypted_packets;
 	s->rx_tls_decrypted_bytes     += rq_stats->tls_decrypted_bytes;
+<<<<<<< HEAD
+=======
+	s->rx_tls_ctx                 += rq_stats->tls_ctx;
+	s->rx_tls_del                 += rq_stats->tls_del;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s->rx_tls_resync_req_pkt      += rq_stats->tls_resync_req_pkt;
 	s->rx_tls_resync_req_start    += rq_stats->tls_resync_req_start;
 	s->rx_tls_resync_req_end      += rq_stats->tls_resync_req_end;
@@ -385,6 +399,10 @@ static void mlx5e_stats_grp_sw_update_stats_sq(struct mlx5e_sw_stats *s,
 #ifdef CONFIG_MLX5_EN_TLS
 	s->tx_tls_encrypted_packets += sq_stats->tls_encrypted_packets;
 	s->tx_tls_encrypted_bytes   += sq_stats->tls_encrypted_bytes;
+<<<<<<< HEAD
+=======
+	s->tx_tls_ctx               += sq_stats->tls_ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s->tx_tls_ooo               += sq_stats->tls_ooo;
 	s->tx_tls_dump_bytes        += sq_stats->tls_dump_bytes;
 	s->tx_tls_dump_packets      += sq_stats->tls_dump_packets;
@@ -414,6 +432,7 @@ static void mlx5e_stats_grp_sw_update_stats_ptp(struct mlx5e_priv *priv,
 	}
 }
 
+<<<<<<< HEAD
 static void mlx5e_stats_grp_sw_update_stats_qos(struct mlx5e_priv *priv,
 						struct mlx5e_sw_stats *s)
 {
@@ -433,6 +452,8 @@ static void mlx5e_stats_grp_sw_update_stats_qos(struct mlx5e_priv *priv,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static MLX5E_DECLARE_STATS_GRP_OP_UPDATE_STATS(sw)
 {
 	struct mlx5e_sw_stats *s = &priv->stats.sw;
@@ -462,7 +483,10 @@ static MLX5E_DECLARE_STATS_GRP_OP_UPDATE_STATS(sw)
 		}
 	}
 	mlx5e_stats_grp_sw_update_stats_ptp(priv, s);
+<<<<<<< HEAD
 	mlx5e_stats_grp_sw_update_stats_qos(priv, s);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct counter_desc q_stats_desc[] = {
@@ -1616,6 +1640,11 @@ static const struct counter_desc rq_stats_desc[] = {
 #ifdef CONFIG_MLX5_EN_TLS
 	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_decrypted_packets) },
 	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_decrypted_bytes) },
+<<<<<<< HEAD
+=======
+	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_ctx) },
+	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_del) },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_resync_req_pkt) },
 	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_resync_req_start) },
 	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_resync_req_end) },
@@ -1642,6 +1671,10 @@ static const struct counter_desc sq_stats_desc[] = {
 #ifdef CONFIG_MLX5_EN_TLS
 	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_encrypted_packets) },
 	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_encrypted_bytes) },
+<<<<<<< HEAD
+=======
+	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_ctx) },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_ooo) },
 	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_dump_packets) },
 	{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tls_dump_bytes) },
@@ -1751,6 +1784,7 @@ static const struct counter_desc ptp_cq_stats_desc[] = {
 	{ MLX5E_DECLARE_PTP_CQ_STAT(struct mlx5e_ptp_cq_stats, abort_abs_diff_ns) },
 };
 
+<<<<<<< HEAD
 static const struct counter_desc qos_sq_stats_desc[] = {
 	{ MLX5E_DECLARE_QOS_TX_STAT(struct mlx5e_sq_stats, packets) },
 	{ MLX5E_DECLARE_QOS_TX_STAT(struct mlx5e_sq_stats, bytes) },
@@ -1785,6 +1819,8 @@ static const struct counter_desc qos_sq_stats_desc[] = {
 	{ MLX5E_DECLARE_QOS_TX_STAT(struct mlx5e_sq_stats, cqe_err) },
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NUM_RQ_STATS			ARRAY_SIZE(rq_stats_desc)
 #define NUM_SQ_STATS			ARRAY_SIZE(sq_stats_desc)
 #define NUM_XDPSQ_STATS			ARRAY_SIZE(xdpsq_stats_desc)
@@ -1795,6 +1831,7 @@ static const struct counter_desc qos_sq_stats_desc[] = {
 #define NUM_PTP_SQ_STATS		ARRAY_SIZE(ptp_sq_stats_desc)
 #define NUM_PTP_CH_STATS		ARRAY_SIZE(ptp_ch_stats_desc)
 #define NUM_PTP_CQ_STATS		ARRAY_SIZE(ptp_cq_stats_desc)
+<<<<<<< HEAD
 #define NUM_QOS_SQ_STATS		ARRAY_SIZE(qos_sq_stats_desc)
 
 static MLX5E_DECLARE_STATS_GRP_OP_NUM_STATS(qos)
@@ -1838,6 +1875,8 @@ static MLX5E_DECLARE_STATS_GRP_OP_FILL_STATS(qos)
 }
 
 static MLX5E_DECLARE_STATS_GRP_OP_UPDATE_STATS(qos) { return; }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static MLX5E_DECLARE_STATS_GRP_OP_NUM_STATS(ptp)
 {
@@ -2020,7 +2059,10 @@ MLX5E_DEFINE_STATS_GRP(per_port_buff_congest, 0);
 MLX5E_DEFINE_STATS_GRP(eth_ext, 0);
 static MLX5E_DEFINE_STATS_GRP(tls, 0);
 static MLX5E_DEFINE_STATS_GRP(ptp, 0);
+<<<<<<< HEAD
 static MLX5E_DEFINE_STATS_GRP(qos, 0);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* The stats groups order is opposite to the update_stats() order calls */
 mlx5e_stats_grp_t mlx5e_nic_stats_grps[] = {
@@ -2044,7 +2086,10 @@ mlx5e_stats_grp_t mlx5e_nic_stats_grps[] = {
 	&MLX5E_STATS_GRP(channels),
 	&MLX5E_STATS_GRP(per_port_buff_congest),
 	&MLX5E_STATS_GRP(ptp),
+<<<<<<< HEAD
 	&MLX5E_STATS_GRP(qos),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 unsigned int mlx5e_nic_stats_grps_num(struct mlx5e_priv *priv)

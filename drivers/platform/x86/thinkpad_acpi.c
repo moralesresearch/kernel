@@ -66,7 +66,14 @@
 #include <linux/acpi.h>
 #include <linux/pci.h>
 #include <linux/power_supply.h>
+<<<<<<< HEAD
 #include <linux/platform_profile.h>
+=======
+<<<<<<< HEAD
+#include <linux/platform_profile.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <sound/core.h>
 #include <sound/control.h>
 #include <sound/initval.h>
@@ -6260,7 +6267,10 @@ enum thermal_access_mode {
 enum { /* TPACPI_THERMAL_TPEC_* */
 	TP_EC_THERMAL_TMP0 = 0x78,	/* ACPI EC regs TMP 0..7 */
 	TP_EC_THERMAL_TMP8 = 0xC0,	/* ACPI EC regs TMP 8..15 */
+<<<<<<< HEAD
 	TP_EC_FUNCREV      = 0xEF,      /* ACPI EC Functional revision */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TP_EC_THERMAL_TMP_NA = -128,	/* ACPI EC sensor not available */
 
 	TPACPI_THERMAL_SENSOR_NA = -128000, /* Sensor not available */
@@ -6459,7 +6469,11 @@ static const struct attribute_group thermal_temp_input8_group = {
 
 static int __init thermal_init(struct ibm_init_struct *iibm)
 {
+<<<<<<< HEAD
 	u8 t, ta1, ta2, ver = 0;
+=======
+	u8 t, ta1, ta2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 	int acpi_tmp7;
 	int res;
@@ -6474,6 +6488,7 @@ static int __init thermal_init(struct ibm_init_struct *iibm)
 		 * 0x78-0x7F, 0xC0-0xC7.  Registers return 0x00 for
 		 * non-implemented, thermal sensors return 0x80 when
 		 * not available
+<<<<<<< HEAD
 		 * The above rule is unfortunately flawed. This has been seen with
 		 * 0xC2 (power supply ID) causing thermal control problems.
 		 * The EC version can be determined by offset 0xEF and at least for
@@ -6482,6 +6497,9 @@ static int __init thermal_init(struct ibm_init_struct *iibm)
 		 */
 		if (!acpi_ec_read(TP_EC_FUNCREV, &ver))
 			pr_warn("Thinkpad ACPI EC unable to access EC version\n");
+=======
+		 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ta1 = ta2 = 0;
 		for (i = 0; i < 8; i++) {
@@ -6491,6 +6509,7 @@ static int __init thermal_init(struct ibm_init_struct *iibm)
 				ta1 = 0;
 				break;
 			}
+<<<<<<< HEAD
 			if (ver < 3) {
 				if (acpi_ec_read(TP_EC_THERMAL_TMP8 + i, &t)) {
 					ta2 |= t;
@@ -6498,6 +6517,13 @@ static int __init thermal_init(struct ibm_init_struct *iibm)
 					ta1 = 0;
 					break;
 				}
+=======
+			if (acpi_ec_read(TP_EC_THERMAL_TMP8 + i, &t)) {
+				ta2 |= t;
+			} else {
+				ta1 = 0;
+				break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 		if (ta1 == 0) {
@@ -6510,12 +6536,18 @@ static int __init thermal_init(struct ibm_init_struct *iibm)
 				thermal_read_mode = TPACPI_THERMAL_NONE;
 			}
 		} else {
+<<<<<<< HEAD
 			if (ver >= 3)
 				thermal_read_mode = TPACPI_THERMAL_TPEC_8;
 			else
 				thermal_read_mode =
 					(ta2 != 0) ?
 					TPACPI_THERMAL_TPEC_16 : TPACPI_THERMAL_TPEC_8;
+=======
+			thermal_read_mode =
+			    (ta2 != 0) ?
+			    TPACPI_THERMAL_TPEC_16 : TPACPI_THERMAL_TPEC_8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (acpi_tmp7) {
 		if (tpacpi_is_ibm() &&
@@ -8808,7 +8840,10 @@ static const struct tpacpi_quirk fan_quirk_table[] __initconst = {
 	TPACPI_Q_LNV3('N', '2', 'O', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (2nd gen) */
 	TPACPI_Q_LNV3('N', '2', 'V', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (3nd gen) */
 	TPACPI_Q_LNV3('N', '3', '0', TPACPI_FAN_2CTL),	/* P15 (1st gen) / P15v (1st gen) */
+<<<<<<< HEAD
 	TPACPI_Q_LNV3('N', '3', '2', TPACPI_FAN_2CTL),	/* X1 Carbon (9th gen) */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init fan_init(struct ibm_init_struct *iibm)
@@ -9865,11 +9900,20 @@ static struct ibm_struct lcdshadow_driver_data = {
  * Thinkpad sensor interfaces
  */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DYTC_CMD_QUERY        0 /* To get DYTC status - enable/revision */
 #define DYTC_QUERY_ENABLE_BIT 8  /* Bit        8 - 0 = disabled, 1 = enabled */
 #define DYTC_QUERY_SUBREV_BIT 16 /* Bits 16 - 27 - sub revision */
 #define DYTC_QUERY_REV_BIT    28 /* Bits 28 - 31 - revision */
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DYTC_CMD_GET          2 /* To get current IC function and mode */
 #define DYTC_GET_LAPMODE_BIT 17 /* Set when in lapmode */
 
@@ -9880,6 +9924,10 @@ static bool has_palmsensor;
 static bool has_lapsensor;
 static bool palm_state;
 static bool lap_state;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int dytc_version;
 
 static int dytc_command(int command, int *output)
@@ -9930,6 +9978,22 @@ static int lapsensor_get(bool *present, bool *state)
 	err = dytc_command(DYTC_CMD_GET, &output);
 	if (err)
 		return err;
+<<<<<<< HEAD
+=======
+=======
+
+static int lapsensor_get(bool *present, bool *state)
+{
+	acpi_handle dytc_handle;
+	int output;
+
+	*present = false;
+	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DYTC", &dytc_handle)))
+		return -ENODEV;
+	if (!acpi_evalf(dytc_handle, &output, NULL, "dd", DYTC_CMD_GET))
+		return -EIO;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*present = true; /*If we get his far, we have lapmode support*/
 	*state = output & BIT(DYTC_GET_LAPMODE_BIT) ? true : false;
@@ -10027,6 +10091,10 @@ static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
 		if (err)
 			return err;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Check if we know the DYTC version, if we don't then get it */
 	if (!dytc_version) {
@@ -10039,6 +10107,12 @@ static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
 	 * ignore them
 	 */
 	if (has_lapsensor && (dytc_version >= 5)) {
+<<<<<<< HEAD
+=======
+=======
+	if (has_lapsensor) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = sysfs_create_file(&tpacpi_pdev->dev.kobj, &dev_attr_dytc_lapmode.attr);
 		if (err)
 			return err;
@@ -10059,6 +10133,10 @@ static struct ibm_struct proxsensor_driver_data = {
 	.exit = proxsensor_exit,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*************************************************************************
  * DYTC Platform Profile interface
  */
@@ -10487,6 +10565,11 @@ static struct ibm_struct kbdlang_driver_data = {
 	.exit = kbdlang_exit,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /****************************************************************************
  ****************************************************************************
  *
@@ -10535,12 +10618,23 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
 		mutex_unlock(&kbdlight_mutex);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED) {
 		lapsensor_refresh();
 		/* If we are already accessing DYTC then skip dytc update */
 		if (!atomic_add_unless(&dytc_ignore_event, -1, 0))
 			dytc_profile_refresh();
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED)
+		lapsensor_refresh();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hotkey_driver_event(const unsigned int scancode)
@@ -10983,6 +11077,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
 		.init = tpacpi_proxsensor_init,
 		.data = &proxsensor_driver_data,
 	},
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.init = tpacpi_dytc_profile_init,
 		.data = &dytc_profile_driver_data,
@@ -10991,6 +11089,11 @@ static struct ibm_init_struct ibms_init[] __initdata = {
 		.init = tpacpi_kbdlang_init,
 		.data = &kbdlang_driver_data,
 	},
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init set_ibm_param(const char *val, const struct kernel_param *kp)

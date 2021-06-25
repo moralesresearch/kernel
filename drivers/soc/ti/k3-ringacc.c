@@ -9,7 +9,10 @@
 #include <linux/io.h>
 #include <linux/init.h>
 #include <linux/of.h>
+<<<<<<< HEAD
 #include <linux/of_device.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/platform_device.h>
 #include <linux/sys_soc.h>
 #include <linux/dma/ti-cppi5.h>
@@ -1518,13 +1521,24 @@ EXPORT_SYMBOL_GPL(k3_ringacc_dmarings_init);
 static int k3_ringacc_probe(struct platform_device *pdev)
 {
 	const struct ringacc_match_data *match_data;
+<<<<<<< HEAD
+=======
+	const struct of_device_id *match;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = &pdev->dev;
 	struct k3_ringacc *ringacc;
 	int ret;
 
+<<<<<<< HEAD
 	match_data = of_device_get_match_data(&pdev->dev);
 	if (!match_data)
 		return -ENODEV;
+=======
+	match = of_match_node(k3_ringacc_of_match, dev->of_node);
+	if (!match)
+		return -ENODEV;
+	match_data = match->data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ringacc = devm_kzalloc(dev, sizeof(*ringacc), GFP_KERNEL);
 	if (!ringacc)

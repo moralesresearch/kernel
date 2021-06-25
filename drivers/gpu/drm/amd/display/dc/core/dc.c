@@ -175,8 +175,16 @@ static bool create_links(
 
 	connectors_num = bios->funcs->get_connectors_number(bios);
 
+<<<<<<< HEAD
 	DC_LOG_DC("BIOS object table - number of connectors: %d", connectors_num);
 
+=======
+<<<<<<< HEAD
+	DC_LOG_DC("BIOS object table - number of connectors: %d", connectors_num);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (connectors_num > ENUM_ID_COUNT) {
 		dm_error(
 			"DC: Number of connectors %d exceeds maximum of %d!\n",
@@ -195,8 +203,16 @@ static bool create_links(
 		struct link_init_data link_init_params = {0};
 		struct dc_link *link;
 
+<<<<<<< HEAD
 		DC_LOG_DC("BIOS object table - printing link object info for connector number: %d, link_index: %d", i, dc->link_count);
 
+=======
+<<<<<<< HEAD
+		DC_LOG_DC("BIOS object table - printing link object info for connector number: %d, link_index: %d", i, dc->link_count);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		link_init_params.ctx = dc->ctx;
 		/* next BIOS object table connector */
 		link_init_params.connector_index = i;
@@ -205,6 +221,10 @@ static bool create_links(
 		link = link_create(&link_init_params);
 
 		if (link) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dc->links[dc->link_count] = link;
 				link->dc = dc;
 				++dc->link_count;
@@ -213,6 +233,35 @@ static bool create_links(
 
 	DC_LOG_DC("BIOS object table - end");
 
+<<<<<<< HEAD
+=======
+=======
+			bool should_destory_link = false;
+
+			if (link->connector_signal == SIGNAL_TYPE_EDP) {
+				if (dc->config.edp_not_connected) {
+					if (!IS_DIAG_DC(dc->ctx->dce_environment))
+						should_destory_link = true;
+				} else {
+					enum dc_connection_type type;
+					dc_link_detect_sink(link, &type);
+					if (type == dc_connection_none)
+						should_destory_link = true;
+				}
+			}
+
+			if (dc->config.force_enum_edp || !should_destory_link) {
+				dc->links[dc->link_count] = link;
+				link->dc = dc;
+				++dc->link_count;
+			} else {
+				link_destroy(&link);
+			}
+		}
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < num_virtual_links; i++) {
 		struct dc_link *link = kzalloc(sizeof(*link), GFP_KERNEL);
 		struct encoder_init_data enc_init = {0};
@@ -272,6 +321,10 @@ static void dc_perf_trace_destroy(struct dc_perf_trace **perf_trace)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  dc_stream_adjust_vmin_vmax:
  *
  *  Looks up the pipe context of dc_stream_state and updates the
@@ -282,6 +335,25 @@ static void dc_perf_trace_destroy(struct dc_perf_trace **perf_trace)
  *  @dc:     dc reference
  *  @stream: Initial dc stream state
  *  @adjust: Updated parameters for vertical_total_min and vertical_total_max
+<<<<<<< HEAD
+=======
+=======
+ *****************************************************************************
+ *  Function: dc_stream_adjust_vmin_vmax
+ *
+ *  @brief
+ *     Looks up the pipe context of dc_stream_state and updates the
+ *     vertical_total_min and vertical_total_max of the DRR, Dynamic Refresh
+ *     Rate, which is a power-saving feature that targets reducing panel
+ *     refresh rate while the screen is static
+ *
+ *  @param [in] dc: dc reference
+ *  @param [in] stream: Initial dc stream state
+ *  @param [in] adjust: Updated parameters for vertical_total_min and
+ *  vertical_total_max
+ *****************************************************************************
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool dc_stream_adjust_vmin_vmax(struct dc *dc,
 		struct dc_stream_state *stream,
@@ -339,7 +411,14 @@ bool dc_stream_get_crtc_position(struct dc *dc,
  * @dc: DC Object
  * @stream: The stream to configure CRC on.
  * @enable: Enable CRC if true, disable otherwise.
+<<<<<<< HEAD
  * @crc_window: CRC window (x/y start/end) information
+=======
+<<<<<<< HEAD
+ * @crc_window: CRC window (x/y start/end) information
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @continuous: Capture CRC on every frame if true. Otherwise, only capture
  *              once.
  *
@@ -405,9 +484,19 @@ bool dc_stream_configure_crc(struct dc *dc, struct dc_stream_state *stream,
  * dc_stream_get_crc() - Get CRC values for the given stream.
  * @dc: DC object
  * @stream: The DC stream state of the stream to get CRCs from.
+<<<<<<< HEAD
  * @r_cr: CRC value for the first of the 3 channels stored here.
  * @g_y:  CRC value for the second of the 3 channels stored here.
  * @b_cb: CRC value for the third of the 3 channels stored here.
+=======
+<<<<<<< HEAD
+ * @r_cr: CRC value for the first of the 3 channels stored here.
+ * @g_y:  CRC value for the second of the 3 channels stored here.
+ * @b_cb: CRC value for the third of the 3 channels stored here.
+=======
+ * @r_cr, g_y, b_cb: CRC values for the three channels are stored here.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * dc_stream_configure_crc needs to be called beforehand to enable CRCs.
  * Return false if stream is not found, or if CRCs are not enabled.
@@ -694,6 +783,13 @@ static bool dc_construct(struct dc *dc,
 	}
 
 	dc->dcn_ip = dcn_ip;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dc->soc_bounding_box = init_params->soc_bounding_box;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	if (!dc_construct_ctx(dc, init_params)) {
@@ -743,10 +839,19 @@ static bool dc_construct(struct dc *dc,
 	if (!dc->res_pool)
 		goto fail;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* set i2c speed if not done by the respective dcnxxx__resource.c */
 	if (dc->caps.i2c_speed_in_khz_hdcp == 0)
 		dc->caps.i2c_speed_in_khz_hdcp = dc->caps.i2c_speed_in_khz;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dc->clk_mgr = dc_clk_mgr_create(dc->ctx, dc->res_pool->pp_smu, dc->res_pool->dccg);
 	if (!dc->clk_mgr)
 		goto fail;
@@ -754,6 +859,14 @@ static bool dc_construct(struct dc *dc,
 	dc->clk_mgr->force_smu_not_present = init_params->force_smu_not_present;
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dc->debug.force_ignore_link_settings = init_params->force_ignore_link_settings;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dc->res_pool->funcs->update_bw_bounding_box)
 		dc->res_pool->funcs->update_bw_bounding_box(dc, dc->clk_mgr->bw_params);
 
@@ -791,8 +904,17 @@ static void disable_all_writeback_pipes_for_stream(
 		stream->writeback_info[i].wb_enabled = false;
 }
 
+<<<<<<< HEAD
 static void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context,
 					  struct dc_stream_state *stream, bool lock)
+=======
+<<<<<<< HEAD
+static void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context,
+					  struct dc_stream_state *stream, bool lock)
+=======
+void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context, struct dc_stream_state *stream, bool lock)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i = 0;
 
@@ -953,6 +1075,10 @@ struct dc *dc_create(const struct dc_init_data *init_params)
 	struct dc *dc = kzalloc(sizeof(*dc), GFP_KERNEL);
 	unsigned int full_pipe_count;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dc)
 		return NULL;
 
@@ -962,6 +1088,24 @@ struct dc *dc_create(const struct dc_init_data *init_params)
 	} else {
 		if (!dc_construct(dc, init_params))
 			goto destruct_dc;
+<<<<<<< HEAD
+=======
+=======
+	if (NULL == dc)
+		goto alloc_fail;
+
+	if (init_params->dce_environment == DCE_ENV_VIRTUAL_HW) {
+		if (false == dc_construct_ctx(dc, init_params)) {
+			dc_destruct(dc);
+			goto construct_fail;
+		}
+	} else {
+		if (false == dc_construct(dc, init_params)) {
+			dc_destruct(dc);
+			goto construct_fail;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		full_pipe_count = dc->res_pool->pipe_count;
 		if (dc->res_pool->underlay_pipe_index != NO_UNDERLAY_PIPE)
@@ -992,6 +1136,10 @@ struct dc *dc_create(const struct dc_init_data *init_params)
 
 	return dc;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 destruct_dc:
 	dc_destruct(dc);
 	kfree(dc);
@@ -1016,12 +1164,30 @@ static void detect_edp_presence(struct dc *dc)
 	}
 
 	edp_link->edp_sink_present = edp_sink_present;
+<<<<<<< HEAD
+=======
+=======
+construct_fail:
+	kfree(dc);
+
+alloc_fail:
+	return NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void dc_hardware_init(struct dc *dc)
 {
+<<<<<<< HEAD
 
 	detect_edp_presence(dc);
+=======
+<<<<<<< HEAD
+
+	detect_edp_presence(dc);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dc->ctx->dce_environment != DCE_ENV_VIRTUAL_HW)
 		dc->hwss.init_hw(dc);
 }
@@ -1499,7 +1665,15 @@ bool dc_commit_state(struct dc *dc, struct dc_state *context)
 	enum dc_status result = DC_ERROR_UNEXPECTED;
 	int i;
 
+<<<<<<< HEAD
 	if (!context_changed(dc, context))
+=======
+<<<<<<< HEAD
+	if (!context_changed(dc, context))
+=======
+	if (false == context_changed(dc, context))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return DC_OK;
 
 	DC_LOG_DC("%s: %d streams\n",
@@ -1546,7 +1720,15 @@ bool dc_acquire_release_mpc_3dlut(
 		if (found_pipe_idx) {
 			if (acquire && pool->funcs->acquire_post_bldn_3dlut)
 				ret = pool->funcs->acquire_post_bldn_3dlut(res_ctx, pool, mpcc_id, lut, shaper);
+<<<<<<< HEAD
 			else if (!acquire && pool->funcs->release_post_bldn_3dlut)
+=======
+<<<<<<< HEAD
+			else if (!acquire && pool->funcs->release_post_bldn_3dlut)
+=======
+			else if (acquire == false && pool->funcs->release_post_bldn_3dlut)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ret = pool->funcs->release_post_bldn_3dlut(res_ctx, pool, lut, shaper);
 		}
 	}
@@ -2022,7 +2204,15 @@ static enum surface_update_type check_update_surfaces_for_stream(
 	return overall_type;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_check_update_surfaces_for_stream() - Determine update type (fast, med, or full)
  *
  * See :c:type:`enum surface_update_type <surface_update_type>` for explanation of update types
@@ -2276,9 +2466,18 @@ static void copy_stream_update_to_stream(struct dc *dc,
 
 	if (update->dither_option)
 		stream->dither_option = *update->dither_option;
+<<<<<<< HEAD
 
 	if (update->pending_test_pattern)
 		stream->test_pattern = *update->pending_test_pattern;
+=======
+<<<<<<< HEAD
+
+	if (update->pending_test_pattern)
+		stream->test_pattern = *update->pending_test_pattern;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* update current stream with writeback info */
 	if (update->wb_update) {
 		int i;
@@ -2375,6 +2574,10 @@ static void commit_planes_do_stream_update(struct dc *dc,
 				}
 			}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (stream_update->pending_test_pattern) {
 				dc_link_dp_set_test_pattern(stream->link,
 					stream->test_pattern.type,
@@ -2384,6 +2587,11 @@ static void commit_planes_do_stream_update(struct dc *dc,
 					stream->test_pattern.cust_pattern_size);
 			}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Full fe update*/
 			if (update_type == UPDATE_TYPE_FAST)
 				continue;
@@ -2398,8 +2606,12 @@ static void commit_planes_do_stream_update(struct dc *dc,
 					if (pipe_ctx->stream_res.audio && !dc->debug.az_endpoint_mute_only)
 						pipe_ctx->stream_res.audio->funcs->az_disable(pipe_ctx->stream_res.audio);
 
+<<<<<<< HEAD
 					dc->optimized_required = true;
 
+=======
+					dc->hwss.optimize_bandwidth(dc, dc->current_state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				} else {
 					if (dc->optimize_seamless_boot_streams == 0)
 						dc->hwss.prepare_bandwidth(dc, dc->current_state);
@@ -2546,10 +2758,13 @@ static void commit_planes_for_stream(struct dc *dc,
 						plane_state->triplebuffer_flips = true;
 				}
 			}
+<<<<<<< HEAD
 			if (update_type == UPDATE_TYPE_FULL) {
 				/* force vsync flip when reconfiguring pipes to prevent underflow */
 				plane_state->flip_immediate = false;
 			}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -2842,7 +3057,15 @@ enum dc_irq_source dc_interrupt_to_irq_source(
 	return dal_irq_service_to_irq_source(dc->res_pool->irqs, src_id, ext_id);
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_interrupt_set() - Enable/disable an AMD hw interrupt source
  */
 bool dc_interrupt_set(struct dc *dc, enum dc_irq_source src, bool enable)
@@ -2976,7 +3199,15 @@ static bool link_add_remote_sink_helper(struct dc_link *dc_link, struct dc_sink 
 	return true;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_link_add_remote_sink() - Create a sink and attach it to an existing link
  *
  * EDID length is in bytes
@@ -3039,7 +3270,15 @@ fail_add_sink:
 	return NULL;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_link_remove_remote_sink() - Remove a remote sink from a dc_link
  *
  * Note that this just removes the struct dc_sink - it doesn't
@@ -3166,11 +3405,23 @@ void dc_lock_memory_clock_frequency(struct dc *dc)
 			core_link_enable_stream(dc->current_state, &dc->current_state->res_ctx.pipe_ctx[i]);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dc_is_plane_eligible_for_idle_optimizations(struct dc *dc, struct dc_plane_state *plane,
 		struct dc_cursor_attributes *cursor_attr)
 {
 	if (dc->hwss.does_plane_fit_in_mall && dc->hwss.does_plane_fit_in_mall(dc, plane, cursor_attr))
 		return true;
+<<<<<<< HEAD
+=======
+=======
+bool dc_is_plane_eligible_for_idle_optimizaitons(struct dc *dc,
+						 struct dc_plane_state *plane)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return false;
 }
 

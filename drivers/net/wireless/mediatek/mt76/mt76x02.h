@@ -82,6 +82,11 @@ struct mt76x02_dev {
 
 	struct mutex phy_mutex;
 
+<<<<<<< HEAD
+=======
+	u16 chainmask;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 txdone_seq;
 	DECLARE_KFIFO_PTR(txstatus_fifo, struct mt76x02_tx_status);
 	spinlock_t txstatus_fifo_lock;

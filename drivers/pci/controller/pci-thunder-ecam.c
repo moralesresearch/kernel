@@ -116,7 +116,11 @@ static int thunder_ecam_p2_config_read(struct pci_bus *bus, unsigned int devfn,
 	 * the config space access window.  Since we are working with
 	 * the high-order 32 bits, shift everything down by 32 bits.
 	 */
+<<<<<<< HEAD
 	node_bits = upper_32_bits(cfg->res.start) & (1 << 12);
+=======
+	node_bits = (cfg->res.start >> 32) & (1 << 12);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	v |= node_bits;
 	set_val(v, where, size, val);

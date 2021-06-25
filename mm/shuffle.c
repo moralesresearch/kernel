@@ -147,8 +147,13 @@ void __meminit __shuffle_zone(struct zone *z)
 	spin_unlock_irqrestore(&z->lock, flags);
 }
 
+<<<<<<< HEAD
 /*
  * __shuffle_free_memory - reduce the predictability of the page allocator
+=======
+/**
+ * shuffle_free_memory - reduce the predictability of the page allocator
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pgdat: node page data
  */
 void __meminit __shuffle_free_memory(pg_data_t *pgdat)

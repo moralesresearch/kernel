@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
+<<<<<<< HEAD
  * Copyright (C) 2012-2014, 2018-2020 Intel Corporation
+=======
+ * Copyright (C) 2012-2014, 2018-2019 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2013-2014 Intel Mobile Communications GmbH
  * Copyright (C) 2015 Intel Deutschland GmbH
  */
@@ -95,6 +99,10 @@ static const struct iwl_ht_params iwl7000_ht_params = {
 	.led_mode = IWL_LED_RF_STATE,				\
 	.nvm_hw_section_num = 0,				\
 	.non_shared_ant = ANT_A,				\
+<<<<<<< HEAD
+=======
+	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dccm_offset = IWL7000_DCCM_OFFSET
 
 #define IWL_DEVICE_7000						\

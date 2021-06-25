@@ -43,7 +43,11 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led {
+=======
+		power {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "beelink:white:power";
 			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
 			default-state = "on";
@@ -289,6 +293,13 @@
 	vcc-pm-supply = <&reg_aldo1>;
 };
 
+<<<<<<< HEAD
+=======
+&rtc {
+	clocks = <&ext_osc32k>;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &spdif {
 	status = "okay";
 };

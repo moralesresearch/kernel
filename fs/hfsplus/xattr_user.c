@@ -22,7 +22,10 @@ static int hfsplus_user_getxattr(const struct xattr_handler *handler,
 }
 
 static int hfsplus_user_setxattr(const struct xattr_handler *handler,
+<<<<<<< HEAD
 				 struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 struct dentry *unused, struct inode *inode,
 				 const char *name, const void *buffer,
 				 size_t size, int flags)

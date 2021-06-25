@@ -144,6 +144,11 @@ static void __init pas_setup_arch(void)
 	/* Setup SMP callback */
 	smp_ops = &pas_smp_ops;
 #endif
+<<<<<<< HEAD
+=======
+	/* Lookup PCI hosts */
+	pas_pci_init();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Remap SDC register for doing reset */
 	/* XXXOJN This should maybe come out of the device tree */
@@ -444,7 +449,10 @@ define_machine(pasemi) {
 	.name			= "PA Semi PWRficient",
 	.probe			= pas_probe,
 	.setup_arch		= pas_setup_arch,
+<<<<<<< HEAD
 	.discover_phbs		= pas_pci_init,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= pas_init_IRQ,
 	.get_irq		= mpic_get_irq,
 	.restart		= pas_restart,

@@ -784,15 +784,26 @@ static void ksz8795_flush_dyn_mac_table(struct ksz_device *dev, int port)
 
 static int ksz8795_port_vlan_filtering(struct dsa_switch *ds, int port,
 				       bool flag,
+<<<<<<< HEAD
 				       struct netlink_ext_ack *extack)
 {
 	struct ksz_device *dev = ds->priv;
 
+=======
+				       struct switchdev_trans *trans)
+{
+	struct ksz_device *dev = ds->priv;
+
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ksz_cfg(dev, S_MIRROR_CTRL, SW_VLAN_ENABLE, flag);
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static int ksz8795_port_vlan_add(struct dsa_switch *ds, int port,
 				 const struct switchdev_obj_port_vlan *vlan,
 				 struct netlink_ext_ack *extack)
@@ -800,10 +811,19 @@ static int ksz8795_port_vlan_add(struct dsa_switch *ds, int port,
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
 	struct ksz_device *dev = ds->priv;
 	u16 data, new_pvid = 0;
+=======
+static void ksz8795_port_vlan_add(struct dsa_switch *ds, int port,
+				  const struct switchdev_obj_port_vlan *vlan)
+{
+	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
+	struct ksz_device *dev = ds->priv;
+	u16 data, vid, new_pvid = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 fid, member, valid;
 
 	ksz_port_cfg(dev, port, P_TAG_CTRL, PORT_REMOVE_TAG, untagged);
 
+<<<<<<< HEAD
 	ksz8795_r_vlan_table(dev, vlan->vid, &data);
 	ksz8795_from_vlan(data, &fid, &member, &valid);
 
@@ -825,13 +845,39 @@ static int ksz8795_port_vlan_add(struct dsa_switch *ds, int port,
 	if (new_pvid) {
 		u16 vid;
 
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		ksz8795_r_vlan_table(dev, vid, &data);
+		ksz8795_from_vlan(data, &fid, &member, &valid);
+
+		/* First time to setup the VLAN entry. */
+		if (!valid) {
+			/* Need to find a way to map VID to FID. */
+			fid = 1;
+			valid = 1;
+		}
+		member |= BIT(port);
+
+		ksz8795_to_vlan(fid, member, valid, &data);
+		ksz8795_w_vlan_table(dev, vid, data);
+
+		/* change PVID */
+		if (vlan->flags & BRIDGE_VLAN_INFO_PVID)
+			new_pvid = vid;
+	}
+
+	if (new_pvid) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ksz_pread16(dev, port, REG_PORT_CTRL_VID, &vid);
 		vid &= 0xfff;
 		vid |= new_pvid;
 		ksz_pwrite16(dev, port, REG_PORT_CTRL_VID, vid);
 	}
+<<<<<<< HEAD
 
 	return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ksz8795_port_vlan_del(struct dsa_switch *ds, int port,
@@ -839,7 +885,11 @@ static int ksz8795_port_vlan_del(struct dsa_switch *ds, int port,
 {
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
 	struct ksz_device *dev = ds->priv;
+<<<<<<< HEAD
 	u16 data, pvid, new_pvid = 0;
+=======
+	u16 data, vid, pvid, new_pvid = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 fid, member, valid;
 
 	ksz_pread16(dev, port, REG_PORT_CTRL_VID, &pvid);
@@ -847,6 +897,7 @@ static int ksz8795_port_vlan_del(struct dsa_switch *ds, int port,
 
 	ksz_port_cfg(dev, port, P_TAG_CTRL, PORT_REMOVE_TAG, untagged);
 
+<<<<<<< HEAD
 	ksz8795_r_vlan_table(dev, vlan->vid, &data);
 	ksz8795_from_vlan(data, &fid, &member, &valid);
 
@@ -863,6 +914,26 @@ static int ksz8795_port_vlan_del(struct dsa_switch *ds, int port,
 
 	ksz8795_to_vlan(fid, member, valid, &data);
 	ksz8795_w_vlan_table(dev, vlan->vid, data);
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
+		ksz8795_r_vlan_table(dev, vid, &data);
+		ksz8795_from_vlan(data, &fid, &member, &valid);
+
+		member &= ~BIT(port);
+
+		/* Invalidate the entry if no more member. */
+		if (!member) {
+			fid = 0;
+			valid = 0;
+		}
+
+		if (pvid == vid)
+			new_pvid = 1;
+
+		ksz8795_to_vlan(fid, member, valid, &data);
+		ksz8795_w_vlan_table(dev, vid, data);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (new_pvid != pvid)
 		ksz_pwrite16(dev, port, REG_PORT_CTRL_VID, pvid);
@@ -1096,8 +1167,11 @@ static int ksz8795_setup(struct dsa_switch *ds)
 
 	ksz_init_mib_timer(dev);
 
+<<<<<<< HEAD
 	ds->configure_vlan_while_not_filtering = false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1116,9 +1190,17 @@ static const struct dsa_switch_ops ksz8795_switch_ops = {
 	.port_stp_state_set	= ksz8795_port_stp_state_set,
 	.port_fast_age		= ksz_port_fast_age,
 	.port_vlan_filtering	= ksz8795_port_vlan_filtering,
+<<<<<<< HEAD
 	.port_vlan_add		= ksz8795_port_vlan_add,
 	.port_vlan_del		= ksz8795_port_vlan_del,
 	.port_fdb_dump		= ksz_port_fdb_dump,
+=======
+	.port_vlan_prepare	= ksz_port_vlan_prepare,
+	.port_vlan_add		= ksz8795_port_vlan_add,
+	.port_vlan_del		= ksz8795_port_vlan_del,
+	.port_fdb_dump		= ksz_port_fdb_dump,
+	.port_mdb_prepare       = ksz_port_mdb_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_mdb_add           = ksz_port_mdb_add,
 	.port_mdb_del           = ksz_port_mdb_del,
 	.port_mirror_add	= ksz8795_port_mirror_add,

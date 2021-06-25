@@ -78,6 +78,10 @@ struct pmc_reg_config {
 	u8 mckr;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ddrc_reg_config {
 	u32 type_offset;
 	u32 type_mask;
@@ -87,6 +91,14 @@ struct reg_config {
 	struct shdwc_reg_config shdwc;
 	struct pmc_reg_config pmc;
 	struct ddrc_reg_config ddrc;
+<<<<<<< HEAD
+=======
+=======
+struct reg_config {
+	struct shdwc_reg_config shdwc;
+	struct pmc_reg_config pmc;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct shdwc {
@@ -268,10 +280,19 @@ static const struct reg_config sama5d2_reg_config = {
 	.pmc = {
 		.mckr		= 0x30,
 	},
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ddrc = {
 		.type_offset	= AT91_DDRSDRC_MDR,
 		.type_mask	= AT91_DDRSDRC_MD
 	},
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct reg_config sam9x60_reg_config = {
@@ -285,6 +306,10 @@ static const struct reg_config sam9x60_reg_config = {
 	.pmc = {
 		.mckr		= 0x28,
 	},
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ddrc = {
 		.type_offset	= AT91_DDRSDRC_MDR,
 		.type_mask	= AT91_DDRSDRC_MD
@@ -302,6 +327,11 @@ static const struct reg_config sama7g5_reg_config = {
 	.pmc = {
 		.mckr		= 0x28,
 	},
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct of_device_id at91_shdwc_of_match[] = {
@@ -312,10 +342,19 @@ static const struct of_device_id at91_shdwc_of_match[] = {
 	{
 		.compatible = "microchip,sam9x60-shdwc",
 		.data = &sam9x60_reg_config,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.compatible = "microchip,sama7g5-shdwc",
 		.data = &sama7g5_reg_config,
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}, {
 		/*sentinel*/
 	}
@@ -325,7 +364,14 @@ MODULE_DEVICE_TABLE(of, at91_shdwc_of_match);
 static const struct of_device_id at91_pmc_ids[] = {
 	{ .compatible = "atmel,sama5d2-pmc" },
 	{ .compatible = "microchip,sam9x60-pmc" },
+<<<<<<< HEAD
 	{ .compatible = "microchip,sama7g5-pmc" },
+=======
+<<<<<<< HEAD
+	{ .compatible = "microchip,sama7g5-pmc" },
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* Sentinel. */ }
 };
 
@@ -387,6 +433,10 @@ static int __init at91_shdwc_probe(struct platform_device *pdev)
 		goto clk_disable;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (at91_shdwc->rcfg->ddrc.type_mask) {
 		np = of_find_compatible_node(NULL, NULL,
 					     "atmel,sama5d3-ddramc");
@@ -411,10 +461,41 @@ static int __init at91_shdwc_probe(struct platform_device *pdev)
 			iounmap(at91_shdwc->mpddrc_base);
 			at91_shdwc->mpddrc_base = NULL;
 		}
+<<<<<<< HEAD
+=======
+=======
+	np = of_find_compatible_node(NULL, NULL, "atmel,sama5d3-ddramc");
+	if (!np) {
+		ret = -ENODEV;
+		goto unmap;
+	}
+
+	at91_shdwc->mpddrc_base = of_iomap(np, 0);
+	of_node_put(np);
+
+	if (!at91_shdwc->mpddrc_base) {
+		ret = -ENOMEM;
+		goto unmap;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	pm_power_off = at91_poweroff;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	ddr_type = readl(at91_shdwc->mpddrc_base + AT91_DDRSDRC_MDR) &
+			 AT91_DDRSDRC_MD;
+	if (ddr_type != AT91_DDRSDRC_MD_LPDDR2 &&
+	    ddr_type != AT91_DDRSDRC_MD_LPDDR3) {
+		iounmap(at91_shdwc->mpddrc_base);
+		at91_shdwc->mpddrc_base = NULL;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 unmap:

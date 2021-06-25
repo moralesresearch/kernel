@@ -23,6 +23,7 @@ current size and related sub resources. To access a sub resource, you
 specify the path of the resource. For example ``/IPv4/fib`` is the id for
 the ``fib`` sub-resource under the ``IPv4`` resource.
 
+<<<<<<< HEAD
 Generic Resources
 =================
 
@@ -37,6 +38,8 @@ device drivers and their description must be added to the following table:
    * - ``physical_ports``
      - A limited capacity of physical ports that the switch ASIC can support
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 example usage
 -------------
 

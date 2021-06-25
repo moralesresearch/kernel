@@ -849,7 +849,11 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 		smp_mb();
 
 		/* Space might have just been freed - check again */
+<<<<<<< HEAD
 		if (temac_check_tx_bd_space(lp, num_frag + 1))
+=======
+		if (temac_check_tx_bd_space(lp, num_frag))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return NETDEV_TX_BUSY;
 
 		netif_wake_queue(ndev);
@@ -876,6 +880,10 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 		return NETDEV_TX_OK;
 	}
 	cur_p->phys = cpu_to_be32(skb_dma_addr);
+<<<<<<< HEAD
+=======
+	ptr_to_txbd((void *)skb, cur_p);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (ii = 0; ii < num_frag; ii++) {
 		if (++lp->tx_bd_tail >= lp->tx_bd_num)
@@ -914,11 +922,14 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 	}
 	cur_p->app0 |= cpu_to_be32(STS_CTRL_APP0_EOP);
 
+<<<<<<< HEAD
 	/* Mark last fragment with skb address, so it can be consumed
 	 * in temac_start_xmit_done()
 	 */
 	ptr_to_txbd((void *)skb, cur_p);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tail_p = lp->tx_bd_p + sizeof(*lp->tx_bd_v) * lp->tx_bd_tail;
 	lp->tx_bd_tail++;
 	if (lp->tx_bd_tail >= lp->tx_bd_num)

@@ -54,6 +54,7 @@
  * PGID_CPU: used for whitelisting certain MAC addresses, such as the addresses
  *           of the switch port net devices, towards the CPU port module.
  * PGID_UC: the flooding destinations for unknown unicast traffic.
+<<<<<<< HEAD
  * PGID_MC: the flooding destinations for non-IP multicast traffic.
  * PGID_MCIPV4: the flooding destinations for IPv4 multicast traffic.
  * PGID_MCIPV6: the flooding destinations for IPv6 multicast traffic.
@@ -65,6 +66,18 @@
 #define PGID_MCIPV4			61
 #define PGID_MCIPV6			62
 #define PGID_BC				63
+=======
+ * PGID_MC: the flooding destinations for broadcast and non-IP multicast
+ *          traffic.
+ * PGID_MCIPV4: the flooding destinations for IPv4 multicast traffic.
+ * PGID_MCIPV6: the flooding destinations for IPv6 multicast traffic.
+ */
+#define PGID_CPU			59
+#define PGID_UC				60
+#define PGID_MC				61
+#define PGID_MCIPV4			62
+#define PGID_MCIPV6			63
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define for_each_unicast_dest_pgid(ocelot, pgid)		\
 	for ((pgid) = 0;					\
@@ -87,6 +100,12 @@
 /* Source PGIDs, one per physical port */
 #define PGID_SRC			80
 
+<<<<<<< HEAD
+=======
+#define IFH_INJ_BYPASS			BIT(31)
+#define IFH_INJ_POP_CNT_DISABLE		(3 << 28)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IFH_TAG_TYPE_C			0
 #define IFH_TAG_TYPE_S			1
 
@@ -96,7 +115,14 @@
 #define IFH_REW_OP_TWO_STEP_PTP		0x3
 #define IFH_REW_OP_ORIGIN_PTP		0x5
 
+<<<<<<< HEAD
 #define OCELOT_NUM_TC			8
+=======
+#define OCELOT_TAG_LEN			16
+#define OCELOT_SHORT_PREFIX_LEN		4
+#define OCELOT_LONG_PREFIX_LEN		16
+#define OCELOT_TOTAL_TAG_LEN	(OCELOT_SHORT_PREFIX_LEN + OCELOT_TAG_LEN)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define OCELOT_SPEED_2500		0
 #define OCELOT_SPEED_1000		1
@@ -112,8 +138,11 @@
 #define REG_RESERVED_ADDR		0xffffffff
 #define REG_RESERVED(reg)		REG(reg, REG_RESERVED_ADDR)
 
+<<<<<<< HEAD
 #define OCELOT_MRP_CPUQ			7
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum ocelot_target {
 	ANA = 1,
 	QS,
@@ -560,8 +589,11 @@ struct ocelot_ops {
 	int (*netdev_to_port)(struct net_device *dev);
 	int (*reset)(struct ocelot *ocelot);
 	u16 (*wm_enc)(u16 value);
+<<<<<<< HEAD
 	u16 (*wm_dec)(u16 value);
 	void (*wm_stat)(u32 val, u32 *inuse, u32 *maxuse);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ocelot_vcap_block {
@@ -575,6 +607,7 @@ struct ocelot_vlan {
 	u16 vid;
 };
 
+<<<<<<< HEAD
 enum ocelot_sb {
 	OCELOT_SB_BUF,
 	OCELOT_SB_REF,
@@ -587,6 +620,8 @@ enum ocelot_sb_pool {
 	OCELOT_SB_POOL_NUM,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ocelot_port {
 	struct ocelot			*ocelot;
 
@@ -606,17 +641,23 @@ struct ocelot_port {
 	phy_interface_t			phy_mode;
 
 	u8				*xmit_template;
+<<<<<<< HEAD
 	bool				is_dsa_8021q_cpu;
 	bool				learn_ena;
 
 	struct net_device		*bond;
 	bool				lag_tx_active;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ocelot {
 	struct device			*dev;
+<<<<<<< HEAD
 	struct devlink			*devlink;
 	struct devlink_port		*devlink_ports;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	const struct ocelot_ops		*ops;
 	struct regmap			*targets[TARGET_MAX];
@@ -625,9 +666,13 @@ struct ocelot {
 	const struct ocelot_stat_layout	*stats_layout;
 	unsigned int			num_stats;
 
+<<<<<<< HEAD
 	u32				pool_size[OCELOT_SB_NUM][OCELOT_SB_POOL_NUM];
 	int				packet_buffer_size;
 	int				num_frame_refs;
+=======
+	int				shared_queue_sz;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int				num_mact_rows;
 
 	struct net_device		*hw_bridge_dev;
@@ -652,8 +697,15 @@ struct ocelot {
 
 	int				npi;
 
+<<<<<<< HEAD
 	enum ocelot_tag_prefix		npi_inj_prefix;
 	enum ocelot_tag_prefix		npi_xtr_prefix;
+=======
+	enum ocelot_tag_prefix		inj_prefix;
+	enum ocelot_tag_prefix		xtr_prefix;
+
+	u32				*lags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head		multicast;
 	struct list_head		pgids;
@@ -679,12 +731,15 @@ struct ocelot {
 	/* Protects the PTP clock */
 	spinlock_t			ptp_clock_lock;
 	struct ptp_pin_desc		ptp_pins[OCELOT_PTP_PINS_NUM];
+<<<<<<< HEAD
 
 #if IS_ENABLED(CONFIG_BRIDGE_MRP)
 	u16				mrp_ring_id;
 	struct net_device		*mrp_p_port;
 	struct net_device		*mrp_s_port;
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ocelot_policer {
@@ -743,6 +798,7 @@ u32 __ocelot_target_read_ix(struct ocelot *ocelot, enum ocelot_target target,
 void __ocelot_target_write_ix(struct ocelot *ocelot, enum ocelot_target target,
 			      u32 val, u32 reg, u32 offset);
 
+<<<<<<< HEAD
 /* Packet I/O */
 #if IS_ENABLED(CONFIG_MSCC_OCELOT_SWITCH_LIB)
 
@@ -777,6 +833,8 @@ static inline void ocelot_drain_cpu_queue(struct ocelot *ocelot, int grp)
 
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Hardware initialization */
 int ocelot_regfields_init(struct ocelot *ocelot,
 			  const struct reg_field *const regfields);
@@ -799,6 +857,7 @@ void ocelot_set_ageing_time(struct ocelot *ocelot, unsigned int msecs);
 int ocelot_port_flush(struct ocelot *ocelot, int port);
 void ocelot_adjust_link(struct ocelot *ocelot, int port,
 			struct phy_device *phydev);
+<<<<<<< HEAD
 int ocelot_port_vlan_filtering(struct ocelot *ocelot, int port, bool enabled);
 void ocelot_bridge_stp_state_set(struct ocelot *ocelot, int port, u8 state);
 void ocelot_apply_bridge_fwd_mask(struct ocelot *ocelot);
@@ -806,6 +865,11 @@ int ocelot_port_pre_bridge_flags(struct ocelot *ocelot, int port,
 				 struct switchdev_brport_flags val);
 void ocelot_port_bridge_flags(struct ocelot *ocelot, int port,
 			      struct switchdev_brport_flags val);
+=======
+int ocelot_port_vlan_filtering(struct ocelot *ocelot, int port, bool enabled,
+			       struct switchdev_trans *trans);
+void ocelot_bridge_stp_state_set(struct ocelot *ocelot, int port, u8 state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ocelot_port_bridge_join(struct ocelot *ocelot, int port,
 			    struct net_device *bridge);
 int ocelot_port_bridge_leave(struct ocelot *ocelot, int port,
@@ -841,6 +905,7 @@ int ocelot_port_mdb_add(struct ocelot *ocelot, int port,
 			const struct switchdev_obj_port_mdb *mdb);
 int ocelot_port_mdb_del(struct ocelot *ocelot, int port,
 			const struct switchdev_obj_port_mdb *mdb);
+<<<<<<< HEAD
 int ocelot_port_lag_join(struct ocelot *ocelot, int port,
 			 struct net_device *bond,
 			 struct netdev_lag_upper_info *info);
@@ -918,5 +983,7 @@ ocelot_mrp_del_ring_role(struct ocelot *ocelot, int port,
 	return -EOPNOTSUPP;
 }
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

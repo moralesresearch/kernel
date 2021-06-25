@@ -19,7 +19,11 @@
 /* List of all valid flags for the how->resolve argument: */
 #define VALID_RESOLVE_FLAGS \
 	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+<<<<<<< HEAD
 	 RESOLVE_BENEATH | RESOLVE_IN_ROOT | RESOLVE_CACHED)
+=======
+	 RESOLVE_BENEATH | RESOLVE_IN_ROOT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* List of all open_how "versions". */
 #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */

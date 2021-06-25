@@ -28,7 +28,11 @@ DECLARE_EVENT_CLASS(bcache_request,
 		__entry->sector		= bio->bi_iter.bi_sector;
 		__entry->orig_sector	= bio->bi_iter.bi_sector - 16;
 		__entry->nr_sector	= bio->bi_iter.bi_size >> 9;
+<<<<<<< HEAD
 		blk_fill_rwbs(__entry->rwbs, bio->bi_opf);
+=======
+		blk_fill_rwbs(__entry->rwbs, bio->bi_opf, bio->bi_iter.bi_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 
 	TP_printk("%d,%d %s %llu + %u (from %d,%d @ %llu)",
@@ -102,7 +106,11 @@ DECLARE_EVENT_CLASS(bcache_bio,
 		__entry->dev		= bio_dev(bio);
 		__entry->sector		= bio->bi_iter.bi_sector;
 		__entry->nr_sector	= bio->bi_iter.bi_size >> 9;
+<<<<<<< HEAD
 		blk_fill_rwbs(__entry->rwbs, bio->bi_opf);
+=======
+		blk_fill_rwbs(__entry->rwbs, bio->bi_opf, bio->bi_iter.bi_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 
 	TP_printk("%d,%d  %s %llu + %u",
@@ -137,7 +145,11 @@ TRACE_EVENT(bcache_read,
 		__entry->dev		= bio_dev(bio);
 		__entry->sector		= bio->bi_iter.bi_sector;
 		__entry->nr_sector	= bio->bi_iter.bi_size >> 9;
+<<<<<<< HEAD
 		blk_fill_rwbs(__entry->rwbs, bio->bi_opf);
+=======
+		blk_fill_rwbs(__entry->rwbs, bio->bi_opf, bio->bi_iter.bi_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->cache_hit = hit;
 		__entry->bypass = bypass;
 	),
@@ -168,7 +180,11 @@ TRACE_EVENT(bcache_write,
 		__entry->inode		= inode;
 		__entry->sector		= bio->bi_iter.bi_sector;
 		__entry->nr_sector	= bio->bi_iter.bi_size >> 9;
+<<<<<<< HEAD
 		blk_fill_rwbs(__entry->rwbs, bio->bi_opf);
+=======
+		blk_fill_rwbs(__entry->rwbs, bio->bi_opf, bio->bi_iter.bi_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->writeback = writeback;
 		__entry->bypass = bypass;
 	),
@@ -238,7 +254,11 @@ TRACE_EVENT(bcache_journal_write,
 		__entry->sector		= bio->bi_iter.bi_sector;
 		__entry->nr_sector	= bio->bi_iter.bi_size >> 9;
 		__entry->nr_keys	= keys;
+<<<<<<< HEAD
 		blk_fill_rwbs(__entry->rwbs, bio->bi_opf);
+=======
+		blk_fill_rwbs(__entry->rwbs, bio->bi_opf, bio->bi_iter.bi_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 
 	TP_printk("%d,%d  %s %llu + %u keys %u",

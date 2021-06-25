@@ -36,7 +36,10 @@
 #include "psp_v12_0.h"
 
 #include "amdgpu_ras.h"
+<<<<<<< HEAD
 #include "amdgpu_securedisplay.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int psp_sysfs_init(struct amdgpu_device *adev);
 static void psp_sysfs_fini(struct amdgpu_device *adev);
@@ -250,7 +253,11 @@ psp_cmd_submit_buf(struct psp_context *psp,
 {
 	int ret;
 	int index;
+<<<<<<< HEAD
 	int timeout = 20000;
+=======
+	int timeout = 2000;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool ras_intr = false;
 	bool skip_unsupport = false;
 
@@ -283,7 +290,11 @@ psp_cmd_submit_buf(struct psp_context *psp,
 		ras_intr = amdgpu_ras_intr_triggered();
 		if (ras_intr)
 			break;
+<<<<<<< HEAD
 		usleep_range(10, 100);
+=======
+		msleep(1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		amdgpu_asic_invalidate_hdp(psp->adev, NULL);
 	}
 
@@ -1653,6 +1664,7 @@ int psp_rap_invoke(struct psp_context *psp, uint32_t ta_cmd_id)
 }
 // RAP end
 
+<<<<<<< HEAD
 /* securedisplay start */
 static int psp_securedisplay_init_shared_buf(struct psp_context *psp)
 {
@@ -1822,6 +1834,8 @@ int psp_securedisplay_invoke(struct psp_context *psp, uint32_t ta_cmd_id)
 }
 /* SECUREDISPLAY end */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int psp_hw_start(struct psp_context *psp)
 {
 	struct amdgpu_device *adev = psp->adev;
@@ -2296,11 +2310,14 @@ skip_memalloc:
 		if (ret)
 			dev_err(psp->adev->dev,
 				"RAP: Failed to initialize RAP\n");
+<<<<<<< HEAD
 
 		ret = psp_securedisplay_initialize(psp);
 		if (ret)
 			dev_err(psp->adev->dev,
 				"SECUREDISPLAY: Failed to initialize SECUREDISPLAY\n");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -2351,7 +2368,10 @@ static int psp_hw_fini(void *handle)
 
 	if (psp->adev->psp.ta_fw) {
 		psp_ras_terminate(psp);
+<<<<<<< HEAD
 		psp_securedisplay_terminate(psp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		psp_rap_terminate(psp);
 		psp_dtm_terminate(psp);
 		psp_hdcp_terminate(psp);
@@ -2416,11 +2436,14 @@ static int psp_suspend(void *handle)
 			DRM_ERROR("Failed to terminate rap ta\n");
 			return ret;
 		}
+<<<<<<< HEAD
 		ret = psp_securedisplay_terminate(psp);
 		if (ret) {
 			DRM_ERROR("Failed to terminate securedisplay ta\n");
 			return ret;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = psp_asd_unload(psp);
@@ -2504,11 +2527,14 @@ static int psp_resume(void *handle)
 		if (ret)
 			dev_err(psp->adev->dev,
 				"RAP: Failed to initialize RAP\n");
+<<<<<<< HEAD
 
 		ret = psp_securedisplay_initialize(psp);
 		if (ret)
 			dev_err(psp->adev->dev,
 				"SECUREDISPLAY: Failed to initialize SECUREDISPLAY\n");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	mutex_unlock(&adev->firmware.mutex);
@@ -2815,11 +2841,14 @@ static int parse_ta_bin_descriptor(struct psp_context *psp,
 		psp->ta_rap_ucode_size     = le32_to_cpu(desc->size_bytes);
 		psp->ta_rap_start_addr     = ucode_start_addr;
 		break;
+<<<<<<< HEAD
 	case TA_FW_TYPE_PSP_SECUREDISPLAY:
 		psp->ta_securedisplay_ucode_version  = le32_to_cpu(desc->fw_version);
 		psp->ta_securedisplay_ucode_size     = le32_to_cpu(desc->size_bytes);
 		psp->ta_securedisplay_start_addr     = ucode_start_addr;
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		dev_warn(psp->adev->dev, "Unsupported TA type: %d\n", desc->fw_type);
 		break;

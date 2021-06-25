@@ -212,6 +212,10 @@ to the mailing list, e.g.::
 Posting as one thread is discouraged because it confuses patchwork
 (as of patchwork 2.2.2).
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Can I reproduce the checks from patchwork on my local machine?
 --------------------------------------------------------------
 
@@ -228,6 +232,11 @@ before posting to the mailing list. The patchwork build bot instance
 gets overloaded very easily and netdev@vger really doesn't need more
 traffic if we can help it.
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Any other tips to help ensure my net/net-next patch gets OK'd?
 --------------------------------------------------------------
 Attention to detail.  Re-read your own work as if you were the

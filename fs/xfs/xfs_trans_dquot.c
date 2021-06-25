@@ -16,7 +16,10 @@
 #include "xfs_quota.h"
 #include "xfs_qm.h"
 #include "xfs_trace.h"
+<<<<<<< HEAD
 #include "xfs_error.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 STATIC void	xfs_trans_alloc_dqinfo(xfs_trans_t *);
 
@@ -692,11 +695,17 @@ xfs_trans_dqresv(
 				    nblks);
 		xfs_trans_mod_dquot(tp, dqp, XFS_TRANS_DQ_RES_INOS, ninos);
 	}
+<<<<<<< HEAD
 
 	if (XFS_IS_CORRUPT(mp, dqp->q_blk.reserved < dqp->q_blk.count) ||
 	    XFS_IS_CORRUPT(mp, dqp->q_rtb.reserved < dqp->q_rtb.count) ||
 	    XFS_IS_CORRUPT(mp, dqp->q_ino.reserved < dqp->q_ino.count))
 		goto error_corrupt;
+=======
+	ASSERT(dqp->q_blk.reserved >= dqp->q_blk.count);
+	ASSERT(dqp->q_rtb.reserved >= dqp->q_rtb.count);
+	ASSERT(dqp->q_ino.reserved >= dqp->q_ino.count);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xfs_dqunlock(dqp);
 	return 0;
@@ -706,10 +715,13 @@ error_return:
 	if (xfs_dquot_type(dqp) == XFS_DQTYPE_PROJ)
 		return -ENOSPC;
 	return -EDQUOT;
+<<<<<<< HEAD
 error_corrupt:
 	xfs_dqunlock(dqp);
 	xfs_force_shutdown(mp, SHUTDOWN_CORRUPT_INCORE);
 	return -EFSCORRUPTED;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -787,6 +799,7 @@ int
 xfs_trans_reserve_quota_nblks(
 	struct xfs_trans	*tp,
 	struct xfs_inode	*ip,
+<<<<<<< HEAD
 	int64_t			dblocks,
 	int64_t			rblocks,
 	bool			force)
@@ -794,11 +807,19 @@ xfs_trans_reserve_quota_nblks(
 	struct xfs_mount	*mp = ip->i_mount;
 	unsigned int		qflags = 0;
 	int			error;
+=======
+	int64_t			nblks,
+	long			ninos,
+	uint			flags)
+{
+	struct xfs_mount	*mp = ip->i_mount;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!XFS_IS_QUOTA_RUNNING(mp) || !XFS_IS_QUOTA_ON(mp))
 		return 0;
 
 	ASSERT(!xfs_is_quota_inode(&mp->m_sb, ip->i_ino));
+<<<<<<< HEAD
 	ASSERT(xfs_isilocked(ip, XFS_ILOCK_EXCL));
 
 	if (force)
@@ -841,6 +862,20 @@ xfs_trans_reserve_quota_icreate(
 
 	return xfs_trans_reserve_quota_bydquots(tp, mp, udqp, gdqp, pdqp,
 			dblocks, 1, XFS_QMOPT_RES_REGBLKS);
+=======
+
+	ASSERT(xfs_isilocked(ip, XFS_ILOCK_EXCL));
+	ASSERT((flags & ~(XFS_QMOPT_FORCE_RES)) == XFS_TRANS_DQ_RES_RTBLKS ||
+	       (flags & ~(XFS_QMOPT_FORCE_RES)) == XFS_TRANS_DQ_RES_BLKS);
+
+	/*
+	 * Reserve nblks against these dquots, with trans as the mediator.
+	 */
+	return xfs_trans_reserve_quota_bydquots(tp, mp,
+						ip->i_udquot, ip->i_gdquot,
+						ip->i_pdquot,
+						nblks, ninos, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

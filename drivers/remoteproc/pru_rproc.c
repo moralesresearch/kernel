@@ -266,17 +266,24 @@ static void pru_rproc_create_debug_entries(struct rproc *rproc)
 
 static void pru_dispose_irq_mapping(struct pru_rproc *pru)
 {
+<<<<<<< HEAD
 	if (!pru->mapped_irq)
 		return;
 
 	while (pru->evt_count) {
 		pru->evt_count--;
+=======
+	while (pru->evt_count--) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pru->mapped_irq[pru->evt_count] > 0)
 			irq_dispose_mapping(pru->mapped_irq[pru->evt_count]);
 	}
 
 	kfree(pru->mapped_irq);
+<<<<<<< HEAD
 	pru->mapped_irq = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -289,7 +296,11 @@ static int pru_handle_intrmap(struct rproc *rproc)
 	struct pru_rproc *pru = rproc->priv;
 	struct pru_irq_rsc *rsc = pru->pru_interrupt_map;
 	struct irq_fwspec fwspec;
+<<<<<<< HEAD
 	struct device_node *parent, *irq_parent;
+=======
+	struct device_node *irq_parent;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret = 0;
 
 	/* not having pru_interrupt_map is not an error */
@@ -312,6 +323,7 @@ static int pru_handle_intrmap(struct rproc *rproc)
 	pru->evt_count = rsc->num_evts;
 	pru->mapped_irq = kcalloc(pru->evt_count, sizeof(unsigned int),
 				  GFP_KERNEL);
+<<<<<<< HEAD
 	if (!pru->mapped_irq) {
 		pru->evt_count = 0;
 		return -ENOMEM;
@@ -337,6 +349,18 @@ static int pru_handle_intrmap(struct rproc *rproc)
 		kfree(pru->mapped_irq);
 		pru->mapped_irq = NULL;
 		pru->evt_count = 0;
+=======
+	if (!pru->mapped_irq)
+		return -ENOMEM;
+
+	/*
+	 * parse and fill in system event to interrupt channel and
+	 * channel-to-host mapping
+	 */
+	irq_parent = of_irq_find_parent(pru->dev->of_node);
+	if (!irq_parent) {
+		kfree(pru->mapped_irq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 
@@ -352,6 +376,7 @@ static int pru_handle_intrmap(struct rproc *rproc)
 
 		pru->mapped_irq[i] = irq_create_fwspec_mapping(&fwspec);
 		if (!pru->mapped_irq[i]) {
+<<<<<<< HEAD
 			dev_err(dev, "failed to get virq for fw mapping %d: event %d chnl %d host %d\n",
 				i, fwspec.param[0], fwspec.param[1],
 				fwspec.param[2]);
@@ -360,12 +385,22 @@ static int pru_handle_intrmap(struct rproc *rproc)
 		}
 	}
 	of_node_put(irq_parent);
+=======
+			dev_err(dev, "failed to get virq\n");
+			ret = pru->mapped_irq[i];
+			goto map_fail;
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 
 map_fail:
 	pru_dispose_irq_mapping(pru);
+<<<<<<< HEAD
 	of_node_put(irq_parent);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -411,7 +446,12 @@ static int pru_rproc_stop(struct rproc *rproc)
 	pru_control_write_reg(pru, PRU_CTRL_CTRL, val);
 
 	/* dispose irq mapping - new firmware can provide new mapping */
+<<<<<<< HEAD
 	pru_dispose_irq_mapping(pru);
+=======
+	if (pru->mapped_irq)
+		pru_dispose_irq_mapping(pru);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -473,6 +513,7 @@ static void *pru_i_da_to_va(struct pru_rproc *pru, u32 da, size_t len)
 	if (len == 0)
 		return NULL;
 
+<<<<<<< HEAD
 	/*
 	 * GNU binutils do not support multiple address spaces. The GNU
 	 * linker's default linker script places IRAM at an arbitrary high
@@ -491,6 +532,8 @@ static void *pru_i_da_to_va(struct pru_rproc *pru, u32 da, size_t len)
 	 */
 	da &= 0xfffff;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (da >= PRU_IRAM_DA &&
 	    da + len <= PRU_IRAM_DA + pru->mem_regions[PRU_IOMEM_IRAM].size) {
 		offset = da - PRU_IRAM_DA;
@@ -626,7 +669,11 @@ pru_rproc_load_elf_segments(struct rproc *rproc, const struct firmware *fw)
 			break;
 		}
 
+<<<<<<< HEAD
 		if (pru->data->is_k3) {
+=======
+		if (pru->data->is_k3 && is_iram) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = pru_rproc_memcpy(ptr, elf_data + phdr->p_offset,
 					       filesz);
 			if (ret) {

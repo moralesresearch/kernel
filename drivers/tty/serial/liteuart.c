@@ -270,8 +270,13 @@ static int liteuart_probe(struct platform_device *pdev)
 
 	/* get membase */
 	port->membase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+<<<<<<< HEAD
 	if (IS_ERR(port->membase))
 		return PTR_ERR(port->membase);
+=======
+	if (!port->membase)
+		return -ENXIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* values not from device tree */
 	port->dev = &pdev->dev;

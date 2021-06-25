@@ -41,13 +41,20 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
 	struct drm_crtc *crtc = &output->crtc;
 	struct drm_plane *primary, *cursor = NULL;
 	int ret;
+<<<<<<< HEAD
 	int writeback;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
 	if (IS_ERR(primary))
 		return PTR_ERR(primary);
 
+<<<<<<< HEAD
 	if (vkmsdev->config->cursor) {
+=======
+	if (enable_cursor) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
 		if (IS_ERR(cursor)) {
 			ret = PTR_ERR(cursor);
@@ -81,11 +88,17 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
 		goto err_attach;
 	}
 
+<<<<<<< HEAD
 	if (vkmsdev->config->writeback) {
 		writeback = vkms_enable_writeback_connector(vkmsdev);
 		if (writeback)
 			DRM_ERROR("Failed to init writeback connector\n");
 	}
+=======
+	ret = vkms_enable_writeback_connector(vkmsdev);
+	if (ret)
+		DRM_ERROR("Failed to init writeback connector\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_mode_config_reset(dev);
 
@@ -101,7 +114,11 @@ err_connector:
 	drm_crtc_cleanup(crtc);
 
 err_crtc:
+<<<<<<< HEAD
 	if (vkmsdev->config->cursor)
+=======
+	if (enable_cursor)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		drm_plane_cleanup(cursor);
 
 err_cursor:

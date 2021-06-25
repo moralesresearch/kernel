@@ -9,8 +9,11 @@
 
 #include <linux/types.h>
 
+<<<<<<< HEAD
 #define CTX_DESC_FORCE_RESTORE BIT_ULL(2)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* GEN8 to GEN12 Reg State Context */
 #define CTX_CONTEXT_CONTROL		(0x02 + 1)
 #define CTX_RING_HEAD			(0x04 + 1)
@@ -54,6 +57,7 @@
 #define GEN8_EXECLISTS_STATUS_BUF 0x370
 #define GEN11_EXECLISTS_STATUS_BUF2 0x3c0
 
+<<<<<<< HEAD
 /* Execlists regs */
 #define RING_ELSP(base)				_MMIO((base) + 0x230)
 #define RING_EXECLIST_STATUS_LO(base)		_MMIO((base) + 0x234)
@@ -93,4 +97,6 @@
 /* in Gen12 ID 0x7FF is reserved to indicate idle */
 #define GEN12_MAX_CONTEXT_HW_ID	(GEN11_MAX_CONTEXT_HW_ID - 1)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _INTEL_LRC_REG_H_ */

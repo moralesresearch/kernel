@@ -19,9 +19,12 @@ extern int __read_mostly pt_mode;
 #define PT_MODE_HOST_GUEST	1
 
 #define PMU_CAP_FW_WRITES	(1ULL << 13)
+<<<<<<< HEAD
 #define PMU_CAP_LBR_FMT		0x3f
 
 #define DEBUGCTLMSR_LBR_MASK		(DEBUGCTLMSR_LBR | DEBUGCTLMSR_FREEZE_LBRS_ON_PMI)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nested_vmx_msrs {
 	/*
@@ -265,12 +268,15 @@ static inline bool cpu_has_vmx_tsc_scaling(void)
 		SECONDARY_EXEC_TSC_SCALING;
 }
 
+<<<<<<< HEAD
 static inline bool cpu_has_vmx_bus_lock_detection(void)
 {
 	return vmcs_config.cpu_based_2nd_exec_ctrl &
 	    SECONDARY_EXEC_BUS_LOCK_DETECTION;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool cpu_has_vmx_apicv(void)
 {
 	return cpu_has_vmx_apic_register_virt() &&
@@ -380,6 +386,7 @@ static inline bool vmx_pt_mode_is_host_guest(void)
 
 static inline u64 vmx_get_perf_capabilities(void)
 {
+<<<<<<< HEAD
 	u64 perf_cap = 0;
 
 	if (boot_cpu_has(X86_FEATURE_PDCM))
@@ -387,10 +394,13 @@ static inline u64 vmx_get_perf_capabilities(void)
 
 	perf_cap &= PMU_CAP_LBR_FMT;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Since counters are virtualized, KVM would support full
 	 * width counting unconditionally, even if the host lacks it.
 	 */
+<<<<<<< HEAD
 	return PMU_CAP_FW_WRITES | perf_cap;
 }
 
@@ -402,6 +412,9 @@ static inline u64 vmx_supported_debugctl(void)
 		debugctl |= DEBUGCTLMSR_LBR_MASK;
 
 	return debugctl;
+=======
+	return PMU_CAP_FW_WRITES;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif /* __KVM_X86_VMX_CAPS_H */

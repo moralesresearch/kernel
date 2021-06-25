@@ -299,7 +299,11 @@ static int q54sj108a2_probe(struct i2c_client *client)
 		dev_err(&client->dev, "Failed to read Manufacturer ID\n");
 		return ret;
 	}
+<<<<<<< HEAD
 	if (ret != 6 || strncmp(buf, "DELTA", 5)) {
+=======
+	if (ret != 5 || strncmp(buf, "DELTA", 5)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		buf[ret] = '\0';
 		dev_err(dev, "Unsupported Manufacturer ID '%s'\n", buf);
 		return -ENODEV;

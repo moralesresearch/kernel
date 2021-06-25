@@ -67,8 +67,13 @@ mt7615_tm_set_tx_power(struct mt7615_phy *phy)
 	};
 	u8 *tx_power = NULL;
 
+<<<<<<< HEAD
 	if (mphy->test.state != MT76_TM_STATE_OFF)
 		tx_power = mphy->test.tx_power;
+=======
+	if (dev->mt76.test.state != MT76_TM_STATE_OFF)
+		tx_power = dev->mt76.test.tx_power;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	len = MT7615_EE_MAX - MT_EE_NIC_CONF_0;
 	skb = mt76_mcu_msg_alloc(&dev->mt76, NULL, sizeof(req_hdr) + len);
@@ -95,15 +100,25 @@ mt7615_tm_set_tx_power(struct mt7615_phy *phy)
 }
 
 static void
+<<<<<<< HEAD
 mt7615_tm_reg_backup_restore(struct mt7615_phy *phy)
 {
 	struct mt7615_dev *dev = phy->dev;
 	u32 *b = phy->test.reg_backup;
+=======
+mt7615_tm_reg_backup_restore(struct mt7615_dev *dev)
+{
+	u32 *b = dev->test.reg_backup;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int n_regs = ARRAY_SIZE(reg_backup_list);
 	int n_rf_regs = ARRAY_SIZE(rf_backup_list);
 	int i;
 
+<<<<<<< HEAD
 	if (phy->mt76->test.state == MT76_TM_STATE_OFF) {
+=======
+	if (dev->mt76.test.state == MT76_TM_STATE_OFF) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < n_regs; i++)
 			mt76_wr(dev, reg_backup_list[i], b[i]);
 
@@ -121,7 +136,11 @@ mt7615_tm_reg_backup_restore(struct mt7615_phy *phy)
 	if (!b)
 		return;
 
+<<<<<<< HEAD
 	phy->test.reg_backup = b;
+=======
+	dev->test.reg_backup = b;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < n_regs; i++)
 		b[i] = mt76_rr(dev, reg_backup_list[i]);
 	for (i = 0; i < n_rf_regs; i++)
@@ -129,23 +148,46 @@ mt7615_tm_reg_backup_restore(struct mt7615_phy *phy)
 					     rf_backup_list[i].reg);
 }
 
+<<<<<<< HEAD
 static void
 mt7615_tm_init(struct mt7615_phy *phy)
 {
 	struct mt7615_dev *dev = phy->dev;
+=======
+
+static void
+mt7615_tm_init_phy(struct mt7615_dev *dev, struct mt7615_phy *phy)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int total_flags = ~0;
 
 	if (!test_bit(MT76_STATE_RUNNING, &phy->mt76->state))
 		return;
 
+<<<<<<< HEAD
 	mt7615_mcu_set_sku_en(phy, phy->mt76->test.state == MT76_TM_STATE_OFF);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dev->mt76.mutex);
 	mt7615_set_channel(phy);
 	mt7615_ops.configure_filter(phy->mt76->hw, 0, &total_flags, 0);
 	mutex_lock(&dev->mt76.mutex);
 
+<<<<<<< HEAD
 	mt7615_tm_reg_backup_restore(phy);
+=======
+	mt7615_tm_reg_backup_restore(dev);
+}
+
+static void
+mt7615_tm_init(struct mt7615_dev *dev)
+{
+	mt7615_tm_init_phy(dev, &dev->phy);
+
+	if (dev->mt76.phy2)
+		mt7615_tm_init_phy(dev, dev->mt76.phy2->priv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void
@@ -169,10 +211,16 @@ mt7615_tm_set_rx_enable(struct mt7615_dev *dev, bool en)
 }
 
 static void
+<<<<<<< HEAD
 mt7615_tm_set_tx_antenna(struct mt7615_phy *phy, bool en)
 {
 	struct mt7615_dev *dev = phy->dev;
 	struct mt76_testmode_data *td = &phy->mt76->test;
+=======
+mt7615_tm_set_tx_antenna(struct mt7615_dev *dev, bool en)
+{
+	struct mt76_testmode_data *td = &dev->mt76.test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 mask = td->tx_antenna_mask;
 	int i;
 
@@ -180,7 +228,11 @@ mt7615_tm_set_tx_antenna(struct mt7615_phy *phy, bool en)
 		return;
 
 	if (!en)
+<<<<<<< HEAD
 		mask = phy->mt76->chainmask;
+=======
+		mask = dev->phy.chainmask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < 4; i++) {
 		mt76_rmw_field(dev, MT_WF_PHY_RFINTF3_0(i),
@@ -223,6 +275,7 @@ mt7615_tm_set_tx_antenna(struct mt7615_phy *phy, bool en)
 }
 
 static void
+<<<<<<< HEAD
 mt7615_tm_set_tx_frames(struct mt7615_phy *phy, bool en)
 {
 	struct mt7615_dev *dev = phy->dev;
@@ -231,11 +284,21 @@ mt7615_tm_set_tx_frames(struct mt7615_phy *phy, bool en)
 
 	mt7615_mcu_set_chan_info(phy, MCU_EXT_CMD_SET_RX_PATH);
 	mt7615_tm_set_tx_antenna(phy, en);
+=======
+mt7615_tm_set_tx_frames(struct mt7615_dev *dev, bool en)
+{
+	struct ieee80211_tx_info *info;
+	struct sk_buff *skb = dev->mt76.test.tx_skb;
+
+	mt7615_mcu_set_chan_info(&dev->phy, MCU_EXT_CMD_SET_RX_PATH);
+	mt7615_tm_set_tx_antenna(dev, en);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt7615_tm_set_rx_enable(dev, !en);
 	if (!en || !skb)
 		return;
 
 	info = IEEE80211_SKB_CB(skb);
+<<<<<<< HEAD
 	info->control.vif = phy->monitor_vif;
 }
 
@@ -245,6 +308,16 @@ mt7615_tm_update_params(struct mt7615_phy *phy, u32 changed)
 	struct mt7615_dev *dev = phy->dev;
 	struct mt76_testmode_data *td = &phy->mt76->test;
 	bool en = phy->mt76->test.state != MT76_TM_STATE_OFF;
+=======
+	info->control.vif = dev->phy.monitor_vif;
+}
+
+static void
+mt7615_tm_update_params(struct mt7615_dev *dev, u32 changed)
+{
+	struct mt76_testmode_data *td = &dev->mt76.test;
+	bool en = dev->mt76.test.state != MT76_TM_STATE_OFF;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (changed & BIT(TM_CHANGED_TXPOWER_CTRL))
 		mt7615_mcu_set_test_param(dev, MCU_ATE_SET_TX_POWER_CONTROL,
@@ -253,6 +326,7 @@ mt7615_tm_update_params(struct mt7615_phy *phy, u32 changed)
 		mt7615_mcu_set_test_param(dev, MCU_ATE_SET_FREQ_OFFSET,
 					  en, en ? td->freq_offset : 0);
 	if (changed & BIT(TM_CHANGED_TXPOWER))
+<<<<<<< HEAD
 		mt7615_tm_set_tx_power(phy);
 }
 
@@ -272,6 +346,27 @@ mt7615_tm_set_state(struct mt76_phy *mphy, enum mt76_testmode_state state)
 
 	if (state <= MT76_TM_STATE_IDLE)
 		mt7615_tm_init(phy);
+=======
+		mt7615_tm_set_tx_power(&dev->phy);
+}
+
+static int
+mt7615_tm_set_state(struct mt76_dev *mdev, enum mt76_testmode_state state)
+{
+	struct mt7615_dev *dev = container_of(mdev, struct mt7615_dev, mt76);
+	struct mt76_testmode_data *td = &mdev->test;
+	enum mt76_testmode_state prev_state = td->state;
+
+	mdev->test.state = state;
+
+	if (prev_state == MT76_TM_STATE_TX_FRAMES)
+		mt7615_tm_set_tx_frames(dev, false);
+	else if (state == MT76_TM_STATE_TX_FRAMES)
+		mt7615_tm_set_tx_frames(dev, true);
+
+	if (state <= MT76_TM_STATE_IDLE)
+		mt7615_tm_init(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((state == MT76_TM_STATE_IDLE &&
 	     prev_state == MT76_TM_STATE_OFF) ||
@@ -287,18 +382,30 @@ mt7615_tm_set_state(struct mt76_phy *mphy, enum mt76_testmode_state state)
 				changed |= BIT(i);
 		}
 
+<<<<<<< HEAD
 		mt7615_tm_update_params(phy, changed);
+=======
+		mt7615_tm_update_params(dev, changed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 }
 
 static int
+<<<<<<< HEAD
 mt7615_tm_set_params(struct mt76_phy *mphy, struct nlattr **tb,
 		     enum mt76_testmode_state new_state)
 {
 	struct mt76_testmode_data *td = &mphy->test;
 	struct mt7615_phy *phy = mphy->priv;
+=======
+mt7615_tm_set_params(struct mt76_dev *mdev, struct nlattr **tb,
+		     enum mt76_testmode_state new_state)
+{
+	struct mt7615_dev *dev = container_of(mdev, struct mt7615_dev, mt76);
+	struct mt76_testmode_data *td = &dev->mt76.test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 changed = 0;
 	int i;
 
@@ -308,7 +415,11 @@ mt7615_tm_set_params(struct mt76_phy *mphy, struct nlattr **tb,
 	    td->state == MT76_TM_STATE_OFF)
 		return 0;
 
+<<<<<<< HEAD
 	if (td->tx_antenna_mask & ~mphy->chainmask)
+=======
+	if (td->tx_antenna_mask & ~dev->phy.chainmask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	for (i = 0; i < ARRAY_SIZE(tm_change_map); i++) {
@@ -316,15 +427,25 @@ mt7615_tm_set_params(struct mt76_phy *mphy, struct nlattr **tb,
 			changed |= BIT(i);
 	}
 
+<<<<<<< HEAD
 	mt7615_tm_update_params(phy, changed);
+=======
+	mt7615_tm_update_params(dev, changed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 static int
+<<<<<<< HEAD
 mt7615_tm_dump_stats(struct mt76_phy *mphy, struct sk_buff *msg)
 {
 	struct mt7615_phy *phy = mphy->priv;
+=======
+mt7615_tm_dump_stats(struct mt76_dev *mdev, struct sk_buff *msg)
+{
+	struct mt7615_dev *dev = container_of(mdev, struct mt7615_dev, mt76);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *rx, *rssi;
 	int i;
 
@@ -332,15 +453,24 @@ mt7615_tm_dump_stats(struct mt76_phy *mphy, struct sk_buff *msg)
 	if (!rx)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (nla_put_s32(msg, MT76_TM_RX_ATTR_FREQ_OFFSET, phy->test.last_freq_offset))
+=======
+	if (nla_put_s32(msg, MT76_TM_RX_ATTR_FREQ_OFFSET, dev->test.last_freq_offset))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 
 	rssi = nla_nest_start(msg, MT76_TM_RX_ATTR_RCPI);
 	if (!rssi)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_rcpi); i++)
 		if (nla_put_u8(msg, i, phy->test.last_rcpi[i]))
+=======
+	for (i = 0; i < ARRAY_SIZE(dev->test.last_rcpi); i++)
+		if (nla_put_u8(msg, i, dev->test.last_rcpi[i]))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);
@@ -349,8 +479,13 @@ mt7615_tm_dump_stats(struct mt76_phy *mphy, struct sk_buff *msg)
 	if (!rssi)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_ib_rssi); i++)
 		if (nla_put_s8(msg, i, phy->test.last_ib_rssi[i]))
+=======
+	for (i = 0; i < ARRAY_SIZE(dev->test.last_ib_rssi); i++)
+		if (nla_put_s8(msg, i, dev->test.last_ib_rssi[i]))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);
@@ -359,8 +494,13 @@ mt7615_tm_dump_stats(struct mt76_phy *mphy, struct sk_buff *msg)
 	if (!rssi)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_wb_rssi); i++)
 		if (nla_put_s8(msg, i, phy->test.last_wb_rssi[i]))
+=======
+	for (i = 0; i < ARRAY_SIZE(dev->test.last_wb_rssi); i++)
+		if (nla_put_s8(msg, i, dev->test.last_wb_rssi[i]))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);

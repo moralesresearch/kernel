@@ -360,7 +360,15 @@
 					#size-cells = <0>;
 					#power-domain-cells = <1>;
 
+<<<<<<< HEAD
 					mfg: power-domain@MT8183_POWER_DOMAIN_MFG {
+=======
+<<<<<<< HEAD
+					mfg: power-domain@MT8183_POWER_DOMAIN_MFG {
+=======
+					power-domain@MT8183_POWER_DOMAIN_MFG {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						reg = <MT8183_POWER_DOMAIN_MFG>;
 						#address-cells = <1>;
 						#size-cells = <0>;
@@ -668,6 +676,10 @@
 			clock-names = "main", "mm";
 		};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pwm1: pwm@11006000 {
 			compatible = "mediatek,mt8183-pwm";
 			reg = <0 0x11006000 0 0x1000>;
@@ -682,6 +694,11 @@
 				      "pwm4";
 		};
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i2c3: i2c@1100f000 {
 			compatible = "mediatek,mt8183-i2c";
 			reg = <0 0x1100f000 0 0x1000>,
@@ -983,9 +1000,12 @@
 			compatible = "mediatek,mt8183-mmsys", "syscon";
 			reg = <0 0x14000000 0 0x1000>;
 			#clock-cells = <1>;
+<<<<<<< HEAD
 			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
 				 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		ovl0: ovl@14008000 {
@@ -1061,7 +1081,10 @@
 			interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_LOW>;
 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
+<<<<<<< HEAD
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		aal0: aal@14010000 {
@@ -1071,7 +1094,10 @@
 			interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_LOW>;
 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 			clocks = <&mmsys CLK_MM_DISP_AAL0>;
+<<<<<<< HEAD
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		gamma0: gamma@14011000 {
@@ -1080,7 +1106,10 @@
 			interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_LOW>;
 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
+<<<<<<< HEAD
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		dither0: dither@14012000 {
@@ -1089,7 +1118,10 @@
 			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_LOW>;
 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
+<<<<<<< HEAD
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		dsi0: dsi@14014000 {

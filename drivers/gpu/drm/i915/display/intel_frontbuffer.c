@@ -225,10 +225,15 @@ static void frontbuffer_release(struct kref *ref)
 	struct i915_vma *vma;
 
 	spin_lock(&obj->vma.lock);
+<<<<<<< HEAD
 	for_each_ggtt_vma(vma, obj) {
 		i915_vma_clear_scanout(vma);
 		vma->display_alignment = I915_GTT_MIN_ALIGNMENT;
 	}
+=======
+	for_each_ggtt_vma(vma, obj)
+		vma->display_alignment = I915_GTT_MIN_ALIGNMENT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&obj->vma.lock);
 
 	RCU_INIT_POINTER(obj->frontbuffer, NULL);

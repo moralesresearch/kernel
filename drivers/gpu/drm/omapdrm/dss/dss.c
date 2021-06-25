@@ -1308,7 +1308,10 @@ static int dss_bind(struct device *dev)
 {
 	struct dss_device *dss = dev_get_drvdata(dev);
 	struct platform_device *drm_pdev;
+<<<<<<< HEAD
 	struct dss_pdata pdata;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int r;
 
 	r = component_bind_all(dev, NULL);
@@ -1317,9 +1320,15 @@ static int dss_bind(struct device *dev)
 
 	pm_set_vt_switch(0);
 
+<<<<<<< HEAD
 	pdata.dss = dss;
 	drm_pdev = platform_device_register_data(NULL, "omapdrm", 0,
 						 &pdata, sizeof(pdata));
+=======
+	omapdss_set_dss(dss);
+
+	drm_pdev = platform_device_register_simple("omapdrm", 0, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(drm_pdev)) {
 		component_unbind_all(dev, NULL);
 		return PTR_ERR(drm_pdev);
@@ -1336,6 +1345,11 @@ static void dss_unbind(struct device *dev)
 
 	platform_device_unregister(dss->drm_pdev);
 
+<<<<<<< HEAD
+=======
+	omapdss_set_dss(NULL);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	component_unbind_all(dev, NULL);
 }
 
@@ -1568,7 +1582,19 @@ static int dss_remove(struct platform_device *pdev)
 
 static void dss_shutdown(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	DSSDBG("shutdown\n");
+=======
+	struct omap_dss_device *dssdev = NULL;
+
+	DSSDBG("shutdown\n");
+
+	for_each_dss_output(dssdev) {
+		if (dssdev->state == OMAP_DSS_DISPLAY_ACTIVE &&
+		    dssdev->ops && dssdev->ops->disable)
+			dssdev->ops->disable(dssdev);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dss_runtime_suspend(struct device *dev)
@@ -1641,14 +1667,32 @@ static struct platform_driver * const omap_dss_drivers[] = {
 #endif
 };
 
+<<<<<<< HEAD
 int __init omap_dss_init(void)
+=======
+static int __init omap_dss_init(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return platform_register_drivers(omap_dss_drivers,
 					 ARRAY_SIZE(omap_dss_drivers));
 }
 
+<<<<<<< HEAD
 void omap_dss_exit(void)
+=======
+static void __exit omap_dss_exit(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	platform_unregister_drivers(omap_dss_drivers,
 				    ARRAY_SIZE(omap_dss_drivers));
 }
+<<<<<<< HEAD
+=======
+
+module_init(omap_dss_init);
+module_exit(omap_dss_exit);
+
+MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
+MODULE_DESCRIPTION("OMAP2/3/4/5 Display Subsystem");
+MODULE_LICENSE("GPL v2");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

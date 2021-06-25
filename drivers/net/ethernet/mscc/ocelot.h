@@ -32,6 +32,18 @@
 
 #define OCELOT_PTP_QUEUE_SZ	128
 
+<<<<<<< HEAD
+=======
+struct frame_info {
+	u32 len;
+	u16 port;
+	u16 vid;
+	u8 tag_type;
+	u16 rew_op;
+	u32 timestamp;	/* rew_val */
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ocelot_port_tc {
 	bool block_shared;
 	unsigned long offload_cnt;
@@ -100,6 +112,13 @@ int ocelot_mact_learn(struct ocelot *ocelot, int port,
 		      unsigned int vid, enum macaccess_entry_type type);
 int ocelot_mact_forget(struct ocelot *ocelot,
 		       const unsigned char mac[ETH_ALEN], unsigned int vid);
+<<<<<<< HEAD
+=======
+int ocelot_port_lag_join(struct ocelot *ocelot, int port,
+			 struct net_device *bond);
+void ocelot_port_lag_leave(struct ocelot *ocelot, int port,
+			   struct net_device *bond);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct net_device *ocelot_port_to_netdev(struct ocelot *ocelot, int port);
 int ocelot_netdev_to_port(struct net_device *dev);
 
@@ -108,16 +127,26 @@ void ocelot_port_writel(struct ocelot_port *port, u32 val, u32 reg);
 
 int ocelot_probe_port(struct ocelot *ocelot, int port, struct regmap *target,
 		      struct phy_device *phy);
+<<<<<<< HEAD
 void ocelot_release_port(struct ocelot_port *ocelot_port);
 int ocelot_devlink_init(struct ocelot *ocelot);
 void ocelot_devlink_teardown(struct ocelot *ocelot);
 int ocelot_port_devlink_init(struct ocelot *ocelot, int port,
 			     enum devlink_port_flavour flavour);
 void ocelot_port_devlink_teardown(struct ocelot *ocelot, int port);
+=======
+
+void ocelot_set_cpu_port(struct ocelot *ocelot, int cpu,
+			 enum ocelot_tag_prefix injection,
+			 enum ocelot_tag_prefix extraction);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern struct notifier_block ocelot_netdevice_nb;
 extern struct notifier_block ocelot_switchdev_nb;
 extern struct notifier_block ocelot_switchdev_blocking_nb;
+<<<<<<< HEAD
 extern const struct devlink_ops ocelot_devlink_ops;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

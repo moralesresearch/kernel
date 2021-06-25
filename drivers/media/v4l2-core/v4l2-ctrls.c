@@ -920,6 +920,10 @@ const char *v4l2_ctrl_get_name(u32 id)
 	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:		return "H264 I-Frame Maximum QP Value";
 	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:		return "H264 P-Frame Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:		return "H264 P-Frame Maximum QP Value";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:		return "H264 B-Frame Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:		return "H264 B-Frame Maximum QP Value";
 	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR:	return "H264 Hierarchical Lay 0 Bitrate";
@@ -929,6 +933,11 @@ const char *v4l2_ctrl_get_name(u32 id)
 	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR:	return "H264 Hierarchical Lay 4 Bitrate";
 	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR:	return "H264 Hierarchical Lay 5 Bitrate";
 	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR:	return "H264 Hierarchical Lay 6 Bitrate";
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:			return "MPEG2 Level";
 	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:			return "MPEG2 Profile";
 	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:		return "MPEG4 I-Frame QP Value";
@@ -950,7 +959,14 @@ const char *v4l2_ctrl_get_name(u32 id)
 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+<<<<<<< HEAD
 	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
+=======
+<<<<<<< HEAD
+	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
 	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
@@ -979,12 +995,21 @@ const char *v4l2_ctrl_get_name(u32 id)
 	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:		return "HEVC B-Frame QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:			return "HEVC Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:			return "HEVC Maximum QP Value";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:		return "HEVC I-Frame Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:		return "HEVC I-Frame Maximum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:		return "HEVC P-Frame Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:		return "HEVC P-Frame Maximum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:		return "HEVC B-Frame Minimum QP Value";
 	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:		return "HEVC B-Frame Maximum QP Value";
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:			return "HEVC Profile";
 	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:			return "HEVC Level";
 	case V4L2_CID_MPEG_VIDEO_HEVC_TIER:			return "HEVC Tier";
@@ -1675,8 +1700,11 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
 		p_fwht_params->version = V4L2_FWHT_VERSION;
 		p_fwht_params->width = 1280;
 		p_fwht_params->height = 720;
+<<<<<<< HEAD
 		p_fwht_params->flags = V4L2_FWHT_FL_PIXENC_YUV |
 			(2 << V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -2397,6 +2425,7 @@ static void new_to_req(struct v4l2_ctrl_ref *ref)
 	if (!ref)
 		return;
 	ptr_to_ptr(ref->ctrl, ref->ctrl->p_new, ref->p_req);
+<<<<<<< HEAD
 	ref->valid_p_req = true;
 }
 
@@ -2407,6 +2436,9 @@ static void cur_to_req(struct v4l2_ctrl_ref *ref)
 		return;
 	ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->p_req);
 	ref->valid_p_req = true;
+=======
+	ref->req = ref;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Copy the request value to the new value */
@@ -2414,8 +2446,13 @@ static void req_to_new(struct v4l2_ctrl_ref *ref)
 {
 	if (!ref)
 		return;
+<<<<<<< HEAD
 	if (ref->valid_p_req)
 		ptr_to_ptr(ref->ctrl, ref->p_req, ref->ctrl->p_new);
+=======
+	if (ref->req)
+		ptr_to_ptr(ref->ctrl, ref->req->p_req, ref->ctrl->p_new);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->ctrl->p_new);
 }
@@ -2552,6 +2589,7 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
 	if (hdl == NULL || hdl->buckets == NULL)
 		return;
 
+<<<<<<< HEAD
 	/*
 	 * If the main handler is freed and it is used by handler objects in
 	 * outstanding requests, then unbind and put those objects before
@@ -2561,6 +2599,9 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
 	 * the request object.
 	 */
 	if (!hdl->req_obj.ops && !list_empty(&hdl->requests)) {
+=======
+	if (!hdl->req_obj.req && !list_empty(&hdl->requests)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct v4l2_ctrl_handler *req, *next_req;
 
 		list_for_each_entry_safe(req, next_req, &hdl->requests, requests) {
@@ -3590,8 +3631,44 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
 	struct v4l2_ctrl_handler *hdl =
 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
 	struct v4l2_ctrl_handler *main_hdl = obj->priv;
+<<<<<<< HEAD
 
 	mutex_lock(main_hdl->lock);
+=======
+	struct v4l2_ctrl_handler *prev_hdl = NULL;
+	struct v4l2_ctrl_ref *ref_ctrl, *ref_ctrl_prev = NULL;
+
+	mutex_lock(main_hdl->lock);
+	if (list_empty(&main_hdl->requests_queued))
+		goto queue;
+
+	prev_hdl = list_last_entry(&main_hdl->requests_queued,
+				   struct v4l2_ctrl_handler, requests_queued);
+	/*
+	 * Note: prev_hdl and hdl must contain the same list of control
+	 * references, so if any differences are detected then that is a
+	 * driver bug and the WARN_ON is triggered.
+	 */
+	mutex_lock(prev_hdl->lock);
+	ref_ctrl_prev = list_first_entry(&prev_hdl->ctrl_refs,
+					 struct v4l2_ctrl_ref, node);
+	list_for_each_entry(ref_ctrl, &hdl->ctrl_refs, node) {
+		if (ref_ctrl->req)
+			continue;
+		while (ref_ctrl_prev->ctrl->id < ref_ctrl->ctrl->id) {
+			/* Should never happen, but just in case... */
+			if (list_is_last(&ref_ctrl_prev->node,
+					 &prev_hdl->ctrl_refs))
+				break;
+			ref_ctrl_prev = list_next_entry(ref_ctrl_prev, node);
+		}
+		if (WARN_ON(ref_ctrl_prev->ctrl->id != ref_ctrl->ctrl->id))
+			break;
+		ref_ctrl->req = ref_ctrl_prev->req;
+	}
+	mutex_unlock(prev_hdl->lock);
+queue:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add_tail(&hdl->requests_queued, &main_hdl->requests_queued);
 	hdl->request_is_queued = true;
 	mutex_unlock(main_hdl->lock);
@@ -3603,8 +3680,13 @@ static void v4l2_ctrl_request_unbind(struct media_request_object *obj)
 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
 	struct v4l2_ctrl_handler *main_hdl = obj->priv;
 
+<<<<<<< HEAD
 	mutex_lock(main_hdl->lock);
 	list_del_init(&hdl->requests);
+=======
+	list_del_init(&hdl->requests);
+	mutex_lock(main_hdl->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (hdl->request_is_queued) {
 		list_del_init(&hdl->requests_queued);
 		hdl->request_is_queued = false;
@@ -3648,7 +3730,11 @@ v4l2_ctrl_request_hdl_ctrl_find(struct v4l2_ctrl_handler *hdl, u32 id)
 {
 	struct v4l2_ctrl_ref *ref = find_ref_lock(hdl, id);
 
+<<<<<<< HEAD
 	return (ref && ref->valid_p_req) ? ref->ctrl : NULL;
+=======
+	return (ref && ref->req == ref) ? ref->ctrl : NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(v4l2_ctrl_request_hdl_ctrl_find);
 
@@ -3663,11 +3749,16 @@ static int v4l2_ctrl_request_bind(struct media_request *req,
 	if (!ret) {
 		ret = media_request_object_bind(req, &req_ops,
 						from, false, &hdl->req_obj);
+<<<<<<< HEAD
 		if (!ret) {
 			mutex_lock(from->lock);
 			list_add_tail(&hdl->requests, &from->requests);
 			mutex_unlock(from->lock);
 		}
+=======
+		if (!ret)
+			list_add_tail(&hdl->requests, &from->requests);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return ret;
 }
@@ -3837,6 +3928,7 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
 	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
 }
 
+<<<<<<< HEAD
 /*
  * Get extended controls. Allocates the helpers array if needed.
  *
@@ -3844,6 +3936,9 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
  * V4L2_CTRL_WHICH_REQUEST_VAL is only called if the request was
  * completed, and in that case valid_p_req is true for all controls.
  */
+=======
+/* Get extended controls. Allocates the helpers array if needed. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 				   struct v4l2_ext_controls *cs,
 				   struct video_device *vdev)
@@ -3852,10 +3947,16 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 	struct v4l2_ctrl_helper *helpers = helper;
 	int ret;
 	int i, j;
+<<<<<<< HEAD
 	bool is_default, is_request;
 
 	is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
 	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
+=======
+	bool def_value;
+
+	def_value = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cs->error_idx = cs->count;
 	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
@@ -3881,9 +3982,17 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 			ret = -EACCES;
 
 	for (i = 0; !ret && i < cs->count; i++) {
+<<<<<<< HEAD
 		struct v4l2_ctrl *master;
 		bool is_volatile = false;
 		u32 idx = i;
+=======
+		int (*ctrl_to_user)(struct v4l2_ext_control *c,
+				    struct v4l2_ctrl *ctrl);
+		struct v4l2_ctrl *master;
+
+		ctrl_to_user = def_value ? def_to_user : cur_to_user;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (helpers[i].mref == NULL)
 			continue;
@@ -3893,6 +4002,7 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 
 		v4l2_ctrl_lock(master);
 
+<<<<<<< HEAD
 		/*
 		 * g_volatile_ctrl will update the new control values.
 		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL and
@@ -3902,11 +4012,16 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 		 * to the request, so you don't want to do that again.
 		 */
 		if (!is_default && !is_request &&
+=======
+		/* g_volatile_ctrl will update the new control values */
+		if (!def_value &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
 		    (master->has_volatiles && !is_cur_manual(master)))) {
 			for (j = 0; j < master->ncontrols; j++)
 				cur_to_new(master->cluster[j]);
 			ret = call_op(master, g_volatile_ctrl);
+<<<<<<< HEAD
 			is_volatile = true;
 		}
 
@@ -3935,6 +4050,26 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
 			idx = helpers[idx].next;
 		} while (!ret && idx);
 
+=======
+			ctrl_to_user = new_to_user;
+		}
+		/* If OK, then copy the current (for non-volatile controls)
+		   or the new (for volatile controls) control values to the
+		   caller */
+		if (!ret) {
+			u32 idx = i;
+
+			do {
+				if (helpers[idx].ref->req)
+					ret = req_to_user(cs->controls + idx,
+						helpers[idx].ref->req);
+				else
+					ret = ctrl_to_user(cs->controls + idx,
+						helpers[idx].ref->ctrl);
+				idx = helpers[idx].next;
+			} while (!ret && idx);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		v4l2_ctrl_unlock(master);
 	}
 
@@ -4577,6 +4712,11 @@ void v4l2_ctrl_request_complete(struct media_request *req,
 		unsigned int i;
 
 		if (ctrl->flags & V4L2_CTRL_FLAG_VOLATILE) {
+<<<<<<< HEAD
+=======
+			ref->req = ref;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			v4l2_ctrl_lock(master);
 			/* g_volatile_ctrl will update the current control values */
 			for (i = 0; i < master->ncontrols; i++)
@@ -4586,12 +4726,30 @@ void v4l2_ctrl_request_complete(struct media_request *req,
 			v4l2_ctrl_unlock(master);
 			continue;
 		}
+<<<<<<< HEAD
 		if (ref->valid_p_req)
 			continue;
 
 		/* Copy the current control value into the request */
 		v4l2_ctrl_lock(ctrl);
 		cur_to_req(ref);
+=======
+		if (ref->req == ref)
+			continue;
+
+		v4l2_ctrl_lock(ctrl);
+		if (ref->req) {
+			ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
+		} else {
+			ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req);
+			/*
+			 * Set ref->req to ensure that when userspace wants to
+			 * obtain the controls of this request it will take
+			 * this value and not the current value of the control.
+			 */
+			ref->req = ref;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		v4l2_ctrl_unlock(ctrl);
 	}
 
@@ -4655,7 +4813,11 @@ int v4l2_ctrl_request_setup(struct media_request *req,
 				struct v4l2_ctrl_ref *r =
 					find_ref(hdl, master->cluster[i]->id);
 
+<<<<<<< HEAD
 				if (r->valid_p_req) {
+=======
+				if (r->req && r == r->req) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					have_new_data = true;
 					break;
 				}

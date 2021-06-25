@@ -145,7 +145,11 @@ out:
 unsigned long os_get_top_address(void)
 {
 	/* The old value of CONFIG_TOP_ADDR */
+<<<<<<< HEAD
 	return 0x7fc0002000;
+=======
+	return 0x7fc0000000;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif

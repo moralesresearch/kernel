@@ -1704,6 +1704,13 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			goto free_card;
 
 		if (err) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			err = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * Just disable enhanced area off & sz
 			 * will try to enable ERASE_GROUP_DEF
@@ -1808,6 +1815,13 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			pr_warn("%s: Enabling HPI failed\n",
 				mmc_hostname(card->host));
 			card->ext_csd.hpi_en = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			err = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			card->ext_csd.hpi_en = 1;
 		}
@@ -1836,6 +1850,13 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			pr_warn("%s: Cache is supported, but failed to turn on (%d)\n",
 				mmc_hostname(card->host), err);
 			card->ext_csd.cache_ctrl = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			err = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			card->ext_csd.cache_ctrl = 1;
 		}
@@ -1855,6 +1876,13 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 				mmc_hostname(card->host));
 			card->ext_csd.cmdq_support = false;
 			card->ext_csd.cmdq_depth = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			err = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	/*
@@ -1902,7 +1930,15 @@ err:
 
 static int mmc_can_sleep(struct mmc_card *card)
 {
+<<<<<<< HEAD
 	return card->ext_csd.rev >= 3;
+=======
+<<<<<<< HEAD
+	return card->ext_csd.rev >= 3;
+=======
+	return (card && card->ext_csd.rev >= 3);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mmc_sleep(struct mmc_host *host)
@@ -2029,12 +2065,15 @@ static void mmc_detect(struct mmc_host *host)
 	}
 }
 
+<<<<<<< HEAD
 static bool _mmc_cache_enabled(struct mmc_host *host)
 {
 	return host->card->ext_csd.cache_size > 0 &&
 	       host->card->ext_csd.cache_ctrl & 1;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
 {
 	int err = 0;
@@ -2214,7 +2253,10 @@ static const struct mmc_bus_ops mmc_ops = {
 	.alive = mmc_alive,
 	.shutdown = mmc_shutdown,
 	.hw_reset = _mmc_hw_reset,
+<<<<<<< HEAD
 	.cache_enabled = _mmc_cache_enabled,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*

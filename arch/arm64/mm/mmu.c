@@ -492,8 +492,12 @@ static void __init map_mem(pgd_t *pgdp)
 	int flags = 0;
 	u64 i;
 
+<<<<<<< HEAD
 	if (rodata_full || crash_mem_map || debug_pagealloc_enabled() ||
 	    IS_ENABLED(CONFIG_KFENCE))
+=======
+	if (rodata_full || crash_mem_map || debug_pagealloc_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
 
 	/*
@@ -630,7 +634,15 @@ static bool arm64_early_this_cpu_has_bti(void)
 	if (!IS_ENABLED(CONFIG_ARM64_BTI_KERNEL))
 		return false;
 
+<<<<<<< HEAD
 	pfr1 = __read_sysreg_by_encoding(SYS_ID_AA64PFR1_EL1);
+=======
+<<<<<<< HEAD
+	pfr1 = __read_sysreg_by_encoding(SYS_ID_AA64PFR1_EL1);
+=======
+	pfr1 = read_sysreg_s(SYS_ID_AA64PFR1_EL1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return cpuid_feature_extract_unsigned_field(pfr1,
 						    ID_AA64PFR1_BT_SHIFT);
 }
@@ -1096,7 +1108,14 @@ static void free_empty_tables(unsigned long addr, unsigned long end,
 int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
 		struct vmem_altmap *altmap)
 {
+<<<<<<< HEAD
 	WARN_ON((start < VMEMMAP_START) || (end > VMEMMAP_END));
+=======
+<<<<<<< HEAD
+	WARN_ON((start < VMEMMAP_START) || (end > VMEMMAP_END));
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return vmemmap_populate_basepages(start, end, node, altmap);
 }
 #else	/* !ARM64_SWAPPER_USES_SECTION_MAPS */
@@ -1110,7 +1129,14 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
 	pud_t *pudp;
 	pmd_t *pmdp;
 
+<<<<<<< HEAD
 	WARN_ON((start < VMEMMAP_START) || (end > VMEMMAP_END));
+=======
+<<<<<<< HEAD
+	WARN_ON((start < VMEMMAP_START) || (end > VMEMMAP_END));
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		next = pmd_addr_end(addr, end);
 
@@ -1157,7 +1183,15 @@ void vmemmap_free(unsigned long start, unsigned long end,
 }
 #endif	/* CONFIG_SPARSEMEM_VMEMMAP */
 
+<<<<<<< HEAD
 static inline pud_t *fixmap_pud(unsigned long addr)
+=======
+<<<<<<< HEAD
+static inline pud_t *fixmap_pud(unsigned long addr)
+=======
+static inline pud_t * fixmap_pud(unsigned long addr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	pgd_t *pgdp = pgd_offset_k(addr);
 	p4d_t *p4dp = p4d_offset(pgdp, addr);
@@ -1168,7 +1202,15 @@ static inline pud_t *fixmap_pud(unsigned long addr)
 	return pud_offset_kimg(p4dp, addr);
 }
 
+<<<<<<< HEAD
 static inline pmd_t *fixmap_pmd(unsigned long addr)
+=======
+<<<<<<< HEAD
+static inline pmd_t *fixmap_pmd(unsigned long addr)
+=======
+static inline pmd_t * fixmap_pmd(unsigned long addr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	pud_t *pudp = fixmap_pud(addr);
 	pud_t pud = READ_ONCE(*pudp);
@@ -1178,7 +1220,15 @@ static inline pmd_t *fixmap_pmd(unsigned long addr)
 	return pmd_offset_kimg(pudp, addr);
 }
 
+<<<<<<< HEAD
 static inline pte_t *fixmap_pte(unsigned long addr)
+=======
+<<<<<<< HEAD
+static inline pte_t *fixmap_pte(unsigned long addr)
+=======
+static inline pte_t * fixmap_pte(unsigned long addr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return &bm_pte[pte_index(addr)];
 }
@@ -1446,9 +1496,20 @@ static void __remove_pgd_mapping(pgd_t *pgdir, unsigned long start, u64 size)
 	free_empty_tables(start, end, PAGE_OFFSET, PAGE_END);
 }
 
+<<<<<<< HEAD
 struct range arch_get_mappable_range(void)
 {
 	struct range mhp_range;
+=======
+<<<<<<< HEAD
+struct range arch_get_mappable_range(void)
+{
+	struct range mhp_range;
+=======
+static bool inside_linear_region(u64 start, u64 size)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 start_linear_pa = __pa(_PAGE_OFFSET(vabits_actual));
 	u64 end_linear_pa = __pa(PAGE_END - 1);
 
@@ -1472,10 +1533,20 @@ struct range arch_get_mappable_range(void)
 	 * range which can be mapped inside this linear mapping range, must
 	 * also be derived from its end points.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mhp_range.start = start_linear_pa;
 	mhp_range.end =  end_linear_pa;
 
 	return mhp_range;
+<<<<<<< HEAD
+=======
+=======
+	return start >= start_linear_pa && (start + size - 1) <= end_linear_pa;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int arch_add_memory(int nid, u64 start, u64 size,
@@ -1483,6 +1554,10 @@ int arch_add_memory(int nid, u64 start, u64 size,
 {
 	int ret, flags = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	VM_BUG_ON(!mhp_range_allowed(start, size, true));
 
 	/*
@@ -1491,6 +1566,17 @@ int arch_add_memory(int nid, u64 start, u64 size,
 	 */
 	if (rodata_full || debug_pagealloc_enabled() ||
 	    IS_ENABLED(CONFIG_KFENCE))
+<<<<<<< HEAD
+=======
+=======
+	if (!inside_linear_region(start, size)) {
+		pr_err("[%llx %llx] is outside linear mapping region\n", start, start + size);
+		return -EINVAL;
+	}
+
+	if (rodata_full || debug_pagealloc_enabled())
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
 
 	__create_pgd_mapping(swapper_pg_dir, start, __phys_to_virt(start),

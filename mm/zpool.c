@@ -23,7 +23,10 @@ struct zpool {
 	void *pool;
 	const struct zpool_ops *ops;
 	bool evictable;
+<<<<<<< HEAD
 	bool can_sleep_mapped;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head list;
 };
@@ -184,7 +187,10 @@ struct zpool *zpool_create_pool(const char *type, const char *name, gfp_t gfp,
 	zpool->pool = driver->create(name, gfp, ops, zpool);
 	zpool->ops = ops;
 	zpool->evictable = driver->shrink && ops && ops->evict;
+<<<<<<< HEAD
 	zpool->can_sleep_mapped = driver->sleep_mapped;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!zpool->pool) {
 		pr_err("couldn't create %s pool\n", type);
@@ -395,6 +401,7 @@ bool zpool_evictable(struct zpool *zpool)
 	return zpool->evictable;
 }
 
+<<<<<<< HEAD
 /**
  * zpool_can_sleep_mapped - Test if zpool can sleep when do mapped.
  * @zpool:	The zpool to test
@@ -406,6 +413,8 @@ bool zpool_can_sleep_mapped(struct zpool *zpool)
 	return zpool->can_sleep_mapped;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Dan Streetman <ddstreet@ieee.org>");
 MODULE_DESCRIPTION("Common API for compressed memory storage");

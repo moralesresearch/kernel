@@ -3,7 +3,10 @@
 # Makefile for the video capture/playback device drivers.
 #
 
+<<<<<<< HEAD
 obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
 obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
 obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o

@@ -37,7 +37,10 @@
 
 #include <linux/sched/signal.h>
 #include <linux/module.h>
+<<<<<<< HEAD
 #include <linux/splice.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/aead.h>
 
 #include <net/strparser.h>
@@ -1282,7 +1285,11 @@ int tls_sw_sendpage(struct sock *sk, struct page *page,
 }
 
 static struct sk_buff *tls_wait_data(struct sock *sk, struct sk_psock *psock,
+<<<<<<< HEAD
 				     bool nonblock, long timeo, int *err)
+=======
+				     int flags, long timeo, int *err)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
@@ -1307,7 +1314,11 @@ static struct sk_buff *tls_wait_data(struct sock *sk, struct sk_psock *psock,
 		if (sock_flag(sk, SOCK_DONE))
 			return NULL;
 
+<<<<<<< HEAD
 		if (nonblock || !timeo) {
+=======
+		if ((flags & MSG_DONTWAIT) || !timeo) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*err = -EAGAIN;
 			return NULL;
 		}
@@ -1787,7 +1798,11 @@ int tls_sw_recvmsg(struct sock *sk,
 		bool async_capable;
 		bool async = false;
 
+<<<<<<< HEAD
 		skb = tls_wait_data(sk, psock, flags & MSG_DONTWAIT, timeo, &err);
+=======
+		skb = tls_wait_data(sk, psock, flags, timeo, &err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!skb) {
 			if (psock) {
 				int ret = __tcp_bpf_recvmsg(sk, psock,
@@ -1991,9 +2006,15 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
 
 	lock_sock(sk);
 
+<<<<<<< HEAD
 	timeo = sock_rcvtimeo(sk, flags & SPLICE_F_NONBLOCK);
 
 	skb = tls_wait_data(sk, NULL, flags & SPLICE_F_NONBLOCK, timeo, &err);
+=======
+	timeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);
+
+	skb = tls_wait_data(sk, NULL, flags, timeo, &err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb)
 		goto splice_read_end;
 

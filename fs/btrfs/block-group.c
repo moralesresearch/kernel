@@ -15,7 +15,14 @@
 #include "delalloc-space.h"
 #include "discard.h"
 #include "raid56.h"
+<<<<<<< HEAD
 #include "zoned.h"
+=======
+<<<<<<< HEAD
+#include "zoned.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Return target flags in extended format or 0 if restripe for this chunk_type
@@ -725,10 +732,19 @@ int btrfs_cache_block_group(struct btrfs_block_group *cache, int load_cache_only
 	struct btrfs_caching_control *caching_ctl = NULL;
 	int ret = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Allocator for zoned filesystems does not use the cache at all */
 	if (btrfs_is_zoned(fs_info))
 		return 0;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	caching_ctl = kzalloc(sizeof(*caching_ctl), GFP_NOFS);
 	if (!caching_ctl)
 		return -ENOMEM;
@@ -901,8 +917,16 @@ int btrfs_remove_block_group(struct btrfs_trans_handle *trans,
 	btrfs_return_cluster_to_free_space(block_group, cluster);
 	spin_unlock(&cluster->refill_lock);
 
+<<<<<<< HEAD
 	btrfs_clear_treelog_bg(block_group);
 
+=======
+<<<<<<< HEAD
+	btrfs_clear_treelog_bg(block_group);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	path = btrfs_alloc_path();
 	if (!path) {
 		ret = -ENOMEM;
@@ -1015,17 +1039,37 @@ int btrfs_remove_block_group(struct btrfs_trans_handle *trans,
 		WARN_ON(block_group->space_info->total_bytes
 			< block_group->length);
 		WARN_ON(block_group->space_info->bytes_readonly
+<<<<<<< HEAD
 			< block_group->length - block_group->zone_unusable);
 		WARN_ON(block_group->space_info->bytes_zone_unusable
 			< block_group->zone_unusable);
+=======
+<<<<<<< HEAD
+			< block_group->length - block_group->zone_unusable);
+		WARN_ON(block_group->space_info->bytes_zone_unusable
+			< block_group->zone_unusable);
+=======
+			< block_group->length);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WARN_ON(block_group->space_info->disk_total
 			< block_group->length * factor);
 	}
 	block_group->space_info->total_bytes -= block_group->length;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	block_group->space_info->bytes_readonly -=
 		(block_group->length - block_group->zone_unusable);
 	block_group->space_info->bytes_zone_unusable -=
 		block_group->zone_unusable;
+<<<<<<< HEAD
+=======
+=======
+	block_group->space_info->bytes_readonly -= block_group->length;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	block_group->space_info->disk_total -= block_group->length * factor;
 
 	spin_unlock(&block_group->space_info->lock);
@@ -1174,7 +1218,15 @@ static int inc_block_group_ro(struct btrfs_block_group *cache, int force)
 	}
 
 	num_bytes = cache->length - cache->reserved - cache->pinned -
+<<<<<<< HEAD
 		    cache->bytes_super - cache->zone_unusable - cache->used;
+=======
+<<<<<<< HEAD
+		    cache->bytes_super - cache->zone_unusable - cache->used;
+=======
+		    cache->bytes_super - cache->used;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Data never overcommits, even in mixed mode, so do just the straight
@@ -1205,12 +1257,21 @@ static int inc_block_group_ro(struct btrfs_block_group *cache, int force)
 
 	if (!ret) {
 		sinfo->bytes_readonly += num_bytes;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (btrfs_is_zoned(cache->fs_info)) {
 			/* Migrate zone_unusable bytes to readonly */
 			sinfo->bytes_readonly += cache->zone_unusable;
 			sinfo->bytes_zone_unusable -= cache->zone_unusable;
 			cache->zone_unusable = 0;
 		}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cache->ro++;
 		list_add_tail(&cache->ro_list, &sinfo->ro_bgs);
 	}
@@ -1285,6 +1346,10 @@ void btrfs_delete_unused_bgs(struct btrfs_fs_info *fs_info)
 	if (!test_bit(BTRFS_FS_OPEN, &fs_info->flags))
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Long running balances can keep us blocked here for eternity, so
 	 * simply skip deletion if we're unable to get the mutex.
@@ -1292,6 +1357,11 @@ void btrfs_delete_unused_bgs(struct btrfs_fs_info *fs_info)
 	if (!mutex_trylock(&fs_info->delete_unused_bgs_mutex))
 		return;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&fs_info->unused_bgs_lock);
 	while (!list_empty(&fs_info->unused_bgs)) {
 		int trimming;
@@ -1311,6 +1381,14 @@ void btrfs_delete_unused_bgs(struct btrfs_fs_info *fs_info)
 
 		btrfs_discard_cancel_work(&fs_info->discard_ctl, block_group);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		mutex_lock(&fs_info->delete_unused_bgs_mutex);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Don't want to race with allocators so take the groups_sem */
 		down_write(&space_info->groups_sem);
 
@@ -1415,12 +1493,23 @@ void btrfs_delete_unused_bgs(struct btrfs_fs_info *fs_info)
 		if (!async_trim_enabled && btrfs_test_opt(fs_info, DISCARD_ASYNC))
 			goto flip_async;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * DISCARD can flip during remount. On zoned filesystems, we
 		 * need to reset sequential-required zones.
 		 */
 		trimming = btrfs_test_opt(fs_info, DISCARD_SYNC) ||
 				btrfs_is_zoned(fs_info);
+<<<<<<< HEAD
+=======
+=======
+		/* DISCARD can flip during remount */
+		trimming = btrfs_test_opt(fs_info, DISCARD_SYNC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Implicit trim during transaction commit. */
 		if (trimming)
@@ -1458,11 +1547,25 @@ void btrfs_delete_unused_bgs(struct btrfs_fs_info *fs_info)
 end_trans:
 		btrfs_end_transaction(trans);
 next:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		btrfs_put_block_group(block_group);
 		spin_lock(&fs_info->unused_bgs_lock);
 	}
 	spin_unlock(&fs_info->unused_bgs_lock);
+<<<<<<< HEAD
 	mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+=======
+<<<<<<< HEAD
+	mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 
 flip_async:
@@ -1591,11 +1694,22 @@ static void set_avail_alloc_bits(struct btrfs_fs_info *fs_info, u64 flags)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Map a physical disk address to a list of logical addresses
  *
  * @fs_info:       the filesystem
  * @chunk_start:   logical address of block group
  * @bdev:	   physical device to resolve, can be NULL to indicate any device
+<<<<<<< HEAD
+=======
+=======
+ * btrfs_rmap_block - Map a physical disk address to a list of logical addresses
+ * @chunk_start:   logical address of block group
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @physical:	   physical address to map to logical addresses
  * @logical:	   return array of logical addresses which map to @physical
  * @naddrs:	   length of @logical
@@ -1605,9 +1719,21 @@ static void set_avail_alloc_bits(struct btrfs_fs_info *fs_info, u64 flags)
  * Used primarily to exclude those portions of a block group that contain super
  * block copies.
  */
+<<<<<<< HEAD
 int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
 		     struct block_device *bdev, u64 physical, u64 **logical,
 		     int *naddrs, int *stripe_len)
+=======
+<<<<<<< HEAD
+int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
+		     struct block_device *bdev, u64 physical, u64 **logical,
+		     int *naddrs, int *stripe_len)
+=======
+EXPORT_FOR_TESTS
+int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
+		     u64 physical, u64 **logical, int *naddrs, int *stripe_len)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct extent_map *em;
 	struct map_lookup *map;
@@ -1625,7 +1751,14 @@ int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
 	map = em->map_lookup;
 	data_stripe_length = em->orig_block_len;
 	io_stripe_size = map->stripe_len;
+<<<<<<< HEAD
 	chunk_start = em->start;
+=======
+<<<<<<< HEAD
+	chunk_start = em->start;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* For RAID5/6 adjust to a full IO stripe length */
 	if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK)
@@ -1640,18 +1773,36 @@ int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
 	for (i = 0; i < map->num_stripes; i++) {
 		bool already_inserted = false;
 		u64 stripe_nr;
+<<<<<<< HEAD
 		u64 offset;
+=======
+<<<<<<< HEAD
+		u64 offset;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		int j;
 
 		if (!in_range(physical, map->stripes[i].physical,
 			      data_stripe_length))
 			continue;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (bdev && map->stripes[i].dev->bdev != bdev)
 			continue;
 
 		stripe_nr = physical - map->stripes[i].physical;
 		stripe_nr = div64_u64_rem(stripe_nr, map->stripe_len, &offset);
+<<<<<<< HEAD
+=======
+=======
+		stripe_nr = physical - map->stripes[i].physical;
+		stripe_nr = div64_u64(stripe_nr, map->stripe_len);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (map->type & BTRFS_BLOCK_GROUP_RAID10) {
 			stripe_nr = stripe_nr * map->num_stripes + i;
@@ -1665,7 +1816,15 @@ int btrfs_rmap_block(struct btrfs_fs_info *fs_info, u64 chunk_start,
 		 * instead of map->stripe_len
 		 */
 
+<<<<<<< HEAD
 		bytenr = chunk_start + stripe_nr * io_stripe_size + offset;
+=======
+<<<<<<< HEAD
+		bytenr = chunk_start + stripe_nr * io_stripe_size + offset;
+=======
+		bytenr = chunk_start + stripe_nr * io_stripe_size;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Ensure we don't add duplicate addresses */
 		for (j = 0; j < nr; j++) {
@@ -1707,7 +1866,15 @@ static int exclude_super_stripes(struct btrfs_block_group *cache)
 
 	for (i = 0; i < BTRFS_SUPER_MIRROR_MAX; i++) {
 		bytenr = btrfs_sb_offset(i);
+<<<<<<< HEAD
 		ret = btrfs_rmap_block(fs_info, cache->start, NULL,
+=======
+<<<<<<< HEAD
+		ret = btrfs_rmap_block(fs_info, cache->start, NULL,
+=======
+		ret = btrfs_rmap_block(fs_info, cache->start,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       bytenr, &logical, &nr, &stripe_len);
 		if (ret)
 			return ret;
@@ -1843,8 +2010,34 @@ static int check_chunk_block_group_mappings(struct btrfs_fs_info *fs_info)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int read_one_block_group(struct btrfs_fs_info *info,
 				struct btrfs_block_group_item *bgi,
+=======
+<<<<<<< HEAD
+static int read_one_block_group(struct btrfs_fs_info *info,
+				struct btrfs_block_group_item *bgi,
+=======
+static void read_block_group_item(struct btrfs_block_group *cache,
+				 struct btrfs_path *path,
+				 const struct btrfs_key *key)
+{
+	struct extent_buffer *leaf = path->nodes[0];
+	struct btrfs_block_group_item bgi;
+	int slot = path->slots[0];
+
+	cache->length = key->offset;
+
+	read_extent_buffer(leaf, &bgi, btrfs_item_ptr_offset(leaf, slot),
+			   sizeof(bgi));
+	cache->used = btrfs_stack_block_group_used(&bgi);
+	cache->flags = btrfs_stack_block_group_flags(&bgi);
+}
+
+static int read_one_block_group(struct btrfs_fs_info *info,
+				struct btrfs_path *path,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				const struct btrfs_key *key,
 				int need_clear)
 {
@@ -1859,9 +2052,19 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 	if (!cache)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	cache->length = key->offset;
 	cache->used = btrfs_stack_block_group_used(bgi);
 	cache->flags = btrfs_stack_block_group_flags(bgi);
+=======
+<<<<<<< HEAD
+	cache->length = key->offset;
+	cache->used = btrfs_stack_block_group_used(bgi);
+	cache->flags = btrfs_stack_block_group_flags(bgi);
+=======
+	read_block_group_item(cache, path, key);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	set_free_space_tree_thresholds(cache);
 
@@ -1888,6 +2091,10 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 			goto error;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = btrfs_load_block_group_zone_info(cache, false);
 	if (ret) {
 		btrfs_err(info, "zoned: failed to load zone info of bg %llu",
@@ -1895,6 +2102,11 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 		goto error;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We need to exclude the super stripes now so that the space info has
 	 * super bytes accounted for, otherwise we'll think we have more space
@@ -1908,6 +2120,10 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 	}
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * For zoned filesystem, space after the allocation offset is the only
 	 * free space for a block group. So, we don't need any caching work.
 	 * btrfs_calc_zone_unusable() will set the amount of free space and
@@ -1922,6 +2138,17 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 	if (btrfs_is_zoned(info)) {
 		btrfs_calc_zone_unusable(cache);
 	} else if (cache->length == cache->used) {
+<<<<<<< HEAD
+=======
+=======
+	 * Check for two cases, either we are full, and therefore don't need
+	 * to bother with the caching work since we won't find any space, or we
+	 * are empty, and we can just add all the space in and be done with it.
+	 * This saves us _a_lot_ of time, particularly in the full case.
+	 */
+	if (cache->length == cache->used) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cache->last_byte_to_unpin = (u64)-1;
 		cache->cached = BTRFS_CACHE_FINISHED;
 		btrfs_free_excluded_extents(cache);
@@ -1940,8 +2167,17 @@ static int read_one_block_group(struct btrfs_fs_info *info,
 	}
 	trace_btrfs_add_block_group(info, cache, 0);
 	btrfs_update_space_info(info, cache->flags, cache->length,
+<<<<<<< HEAD
 				cache->used, cache->bytes_super,
 				cache->zone_unusable, &space_info);
+=======
+<<<<<<< HEAD
+				cache->used, cache->bytes_super,
+				cache->zone_unusable, &space_info);
+=======
+				cache->used, cache->bytes_super, &space_info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cache->space_info = space_info;
 
@@ -1997,7 +2233,15 @@ static int fill_dummy_bgs(struct btrfs_fs_info *fs_info)
 			break;
 		}
 		btrfs_update_space_info(fs_info, bg->flags, em->len, em->len,
+<<<<<<< HEAD
 					0, 0, &space_info);
+=======
+<<<<<<< HEAD
+					0, 0, &space_info);
+=======
+					0, &space_info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bg->space_info = space_info;
 		link_block_group(bg);
 
@@ -2036,16 +2280,29 @@ int btrfs_read_block_groups(struct btrfs_fs_info *info)
 		need_clear = 1;
 
 	while (1) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct btrfs_block_group_item bgi;
 		struct extent_buffer *leaf;
 		int slot;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = find_first_block_group(info, path, &key);
 		if (ret > 0)
 			break;
 		if (ret != 0)
 			goto error;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		leaf = path->nodes[0];
 		slot = path->slots[0];
 
@@ -2055,10 +2312,24 @@ int btrfs_read_block_groups(struct btrfs_fs_info *info)
 		btrfs_item_key_to_cpu(leaf, &key, slot);
 		btrfs_release_path(path);
 		ret = read_one_block_group(info, &bgi, &key, need_clear);
+<<<<<<< HEAD
+=======
+=======
+		btrfs_item_key_to_cpu(path->nodes[0], &key, path->slots[0]);
+		ret = read_one_block_group(info, path, &key, need_clear);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto error;
 		key.objectid += key.offset;
 		key.offset = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		btrfs_release_path(path);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	btrfs_release_path(path);
 
@@ -2190,6 +2461,10 @@ int btrfs_make_block_group(struct btrfs_trans_handle *trans, u64 bytes_used,
 	cache->cached = BTRFS_CACHE_FINISHED;
 	if (btrfs_fs_compat_ro(fs_info, FREE_SPACE_TREE))
 		cache->needs_free_space = 1;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = btrfs_load_block_group_zone_info(cache, true);
 	if (ret) {
@@ -2197,6 +2472,11 @@ int btrfs_make_block_group(struct btrfs_trans_handle *trans, u64 bytes_used,
 		return ret;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = exclude_super_stripes(cache);
 	if (ret) {
 		/* We may have excluded something, so call this just in case */
@@ -2238,7 +2518,15 @@ int btrfs_make_block_group(struct btrfs_trans_handle *trans, u64 bytes_used,
 	 */
 	trace_btrfs_add_block_group(fs_info, cache, 1);
 	btrfs_update_space_info(fs_info, cache->flags, size, bytes_used,
+<<<<<<< HEAD
 				cache->bytes_super, 0, &cache->space_info);
+=======
+<<<<<<< HEAD
+				cache->bytes_super, 0, &cache->space_info);
+=======
+				cache->bytes_super, &cache->space_info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	btrfs_update_global_block_rsv(fs_info);
 
 	link_block_group(cache);
@@ -2347,16 +2635,31 @@ void btrfs_dec_block_group_ro(struct btrfs_block_group *cache)
 	spin_lock(&sinfo->lock);
 	spin_lock(&cache->lock);
 	if (!--cache->ro) {
+<<<<<<< HEAD
+=======
+		num_bytes = cache->length - cache->reserved -
+<<<<<<< HEAD
+			    cache->pinned - cache->bytes_super -
+			    cache->zone_unusable - cache->used;
+		sinfo->bytes_readonly -= num_bytes;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (btrfs_is_zoned(cache->fs_info)) {
 			/* Migrate zone_unusable bytes back */
 			cache->zone_unusable = cache->alloc_offset - cache->used;
 			sinfo->bytes_zone_unusable += cache->zone_unusable;
 			sinfo->bytes_readonly -= cache->zone_unusable;
 		}
+<<<<<<< HEAD
 		num_bytes = cache->length - cache->reserved -
 			    cache->pinned - cache->bytes_super -
 			    cache->zone_unusable - cache->used;
 		sinfo->bytes_readonly -= num_bytes;
+=======
+=======
+			    cache->pinned - cache->bytes_super - cache->used;
+		sinfo->bytes_readonly -= num_bytes;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		list_del_init(&cache->ro_list);
 	}
 	spin_unlock(&cache->lock);
@@ -3269,7 +3572,10 @@ static u64 get_profile_num_devs(struct btrfs_fs_info *fs_info, u64 type)
  */
 void check_system_chunk(struct btrfs_trans_handle *trans, u64 type)
 {
+<<<<<<< HEAD
 	struct btrfs_transaction *cur_trans = trans->transaction;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct btrfs_fs_info *fs_info = trans->fs_info;
 	struct btrfs_space_info *info;
 	u64 left;
@@ -3284,7 +3590,10 @@ void check_system_chunk(struct btrfs_trans_handle *trans, u64 type)
 	lockdep_assert_held(&fs_info->chunk_mutex);
 
 	info = btrfs_find_space_info(fs_info, BTRFS_BLOCK_GROUP_SYSTEM);
+<<<<<<< HEAD
 again:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&info->lock);
 	left = info->total_bytes - btrfs_space_info_used(info, true);
 	spin_unlock(&info->lock);
@@ -3303,6 +3612,7 @@ again:
 
 	if (left < thresh) {
 		u64 flags = btrfs_system_alloc_profile(fs_info);
+<<<<<<< HEAD
 		u64 reserved = atomic64_read(&cur_trans->chunk_bytes_reserved);
 
 		/*
@@ -3355,6 +3665,8 @@ again:
 			mutex_lock(&fs_info->chunk_mutex);
 			goto again;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Ignore failure to create system chunk. We might end up not
@@ -3369,10 +3681,15 @@ again:
 		ret = btrfs_block_rsv_add(fs_info->chunk_root,
 					  &fs_info->chunk_block_rsv,
 					  thresh, BTRFS_RESERVE_NO_FLUSH);
+<<<<<<< HEAD
 		if (!ret) {
 			atomic64_add(thresh, &cur_trans->chunk_bytes_reserved);
 			trans->chunk_bytes_reserved += thresh;
 		}
+=======
+		if (!ret)
+			trans->chunk_bytes_reserved += thresh;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

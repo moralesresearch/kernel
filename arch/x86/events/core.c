@@ -81,12 +81,15 @@ DEFINE_STATIC_CALL_NULL(x86_pmu_swap_task_ctx, *x86_pmu.swap_task_ctx);
 DEFINE_STATIC_CALL_NULL(x86_pmu_drain_pebs,   *x86_pmu.drain_pebs);
 DEFINE_STATIC_CALL_NULL(x86_pmu_pebs_aliases, *x86_pmu.pebs_aliases);
 
+<<<<<<< HEAD
 /*
  * This one is magic, it will get called even when PMU init fails (because
  * there is no PMU), in which case it should simply return NULL.
  */
 DEFINE_STATIC_CALL_RET0(x86_pmu_guest_get_msrs, *x86_pmu.guest_get_msrs);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u64 __read_mostly hw_cache_event_ids
 				[PERF_COUNT_HW_CACHE_MAX]
 				[PERF_COUNT_HW_CACHE_OP_MAX]
@@ -259,8 +262,11 @@ static bool check_hw_exists(void)
 		if (ret)
 			goto msr_fail;
 		for (i = 0; i < x86_pmu.num_counters_fixed; i++) {
+<<<<<<< HEAD
 			if (fixed_counter_disabled(i))
 				continue;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (val & (0x03 << i*4)) {
 				bios_fail = 1;
 				val_fail = val;
@@ -673,12 +679,15 @@ void x86_pmu_disable_all(void)
 	}
 }
 
+<<<<<<< HEAD
 struct perf_guest_switch_msr *perf_guest_get_msrs(int *nr)
 {
 	return static_call(x86_pmu_guest_get_msrs)(nr);
 }
 EXPORT_SYMBOL_GPL(perf_guest_get_msrs);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * There may be PMI landing after enabled=0. The PMI hitting could be before or
  * after disable_all.
@@ -1537,8 +1546,11 @@ void perf_event_print_debug(void)
 			cpu, idx, prev_left);
 	}
 	for (idx = 0; idx < x86_pmu.num_counters_fixed; idx++) {
+<<<<<<< HEAD
 		if (fixed_counter_disabled(idx))
 			continue;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rdmsrl(MSR_ARCH_PERFMON_FIXED_CTR0 + idx, pmc_count);
 
 		pr_info("CPU#%d: fixed-PMC%d count: %016llx\n",
@@ -1939,8 +1951,11 @@ static void x86_pmu_static_call_update(void)
 
 	static_call_update(x86_pmu_drain_pebs, x86_pmu.drain_pebs);
 	static_call_update(x86_pmu_pebs_aliases, x86_pmu.pebs_aliases);
+<<<<<<< HEAD
 
 	static_call_update(x86_pmu_guest_get_msrs, x86_pmu.guest_get_msrs);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void _x86_pmu_read(struct perf_event *event)
@@ -2013,17 +2028,24 @@ static int __init init_hw_perf_events(void)
 	pr_info("... generic registers:      %d\n",     x86_pmu.num_counters);
 	pr_info("... value mask:             %016Lx\n", x86_pmu.cntval_mask);
 	pr_info("... max period:             %016Lx\n", x86_pmu.max_period);
+<<<<<<< HEAD
 	pr_info("... fixed-purpose events:   %lu\n",
 			hweight64((((1ULL << x86_pmu.num_counters_fixed) - 1)
 					<< INTEL_PMC_IDX_FIXED) & x86_pmu.intel_ctrl));
+=======
+	pr_info("... fixed-purpose events:   %d\n",     x86_pmu.num_counters_fixed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_info("... event mask:             %016Lx\n", x86_pmu.intel_ctrl);
 
 	if (!x86_pmu.read)
 		x86_pmu.read = _x86_pmu_read;
 
+<<<<<<< HEAD
 	if (!x86_pmu.guest_get_msrs)
 		x86_pmu.guest_get_msrs = (void *)&__static_call_return0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	x86_pmu_static_call_update();
 
 	/*

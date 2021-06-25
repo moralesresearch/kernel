@@ -357,7 +357,15 @@ static void cache_free_handle(struct zs_pool *pool, unsigned long handle)
 
 static struct zspage *cache_alloc_zspage(struct zs_pool *pool, gfp_t flags)
 {
+<<<<<<< HEAD
 	return kmem_cache_zalloc(pool->zspage_cachep,
+=======
+<<<<<<< HEAD
+	return kmem_cache_zalloc(pool->zspage_cachep,
+=======
+	return kmem_cache_alloc(pool->zspage_cachep,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			flags & ~(__GFP_HIGHMEM|__GFP_MOVABLE));
 }
 
@@ -816,7 +824,15 @@ static int get_pages_per_zspage(int class_size)
 
 static struct zspage *get_zspage(struct page *page)
 {
+<<<<<<< HEAD
 	struct zspage *zspage = (struct zspage *)page_private(page);
+=======
+<<<<<<< HEAD
+	struct zspage *zspage = (struct zspage *)page_private(page);
+=======
+	struct zspage *zspage = (struct zspage *)page->private;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	BUG_ON(zspage->magic != ZSPAGE_MAGIC);
 	return zspage;
@@ -1064,6 +1080,13 @@ static struct zspage *alloc_zspage(struct zs_pool *pool,
 	if (!zspage)
 		return NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	memset(zspage, 0, sizeof(struct zspage));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zspage->magic = ZSPAGE_MAGIC;
 	migrate_lock_init(zspage);
 

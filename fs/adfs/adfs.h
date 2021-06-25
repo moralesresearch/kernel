@@ -144,8 +144,12 @@ struct adfs_discmap {
 /* Inode stuff */
 struct inode *adfs_iget(struct super_block *sb, struct object_info *obj);
 int adfs_write_inode(struct inode *inode, struct writeback_control *wbc);
+<<<<<<< HEAD
 int adfs_notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		       struct iattr *attr);
+=======
+int adfs_notify_change(struct dentry *dentry, struct iattr *attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* map.c */
 int adfs_map_lookup(struct super_block *sb, u32 frag_id, unsigned int offset);

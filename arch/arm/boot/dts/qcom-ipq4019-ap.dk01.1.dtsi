@@ -30,7 +30,11 @@
 
 	soc {
 		rng@22000 {
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		pinctrl@1000000 {
@@ -66,13 +70,21 @@
 		};
 
 		blsp_dma: dma@7884000 {
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		spi@78b5000 {
 			pinctrl-0 = <&spi_0_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cs-gpios = <&tlmm 54 0>;
 
 			mx25l25635e@0 {
@@ -87,6 +99,7 @@
 		serial@78af000 {
 			pinctrl-0 = <&serial_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
 		};
 
@@ -108,6 +121,29 @@
 
 		wifi@a800000 {
 			status = "okay";
+=======
+			status = "ok";
+		};
+
+		cryptobam: dma@8e04000 {
+			status = "ok";
+		};
+
+		crypto@8e3a000 {
+			status = "ok";
+		};
+
+		watchdog@b017000 {
+			status = "ok";
+		};
+
+		wifi@a000000 {
+			status = "ok";
+		};
+
+		wifi@a800000 {
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

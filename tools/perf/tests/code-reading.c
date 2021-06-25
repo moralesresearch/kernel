@@ -26,7 +26,10 @@
 #include "event.h"
 #include "record.h"
 #include "util/mmap.h"
+<<<<<<< HEAD
 #include "util/string2.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "util/synthetic-events.h"
 #include "thread.h"
 
@@ -42,6 +45,18 @@ struct state {
 	size_t done_cnt;
 };
 
+<<<<<<< HEAD
+=======
+static unsigned int hex(char c)
+{
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'f')
+		return c - 'a' + 10;
+	return c - 'A' + 10;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static size_t read_objdump_chunk(const char **line, unsigned char **buf,
 				 size_t *buf_len)
 {
@@ -706,9 +721,19 @@ static int do_test_code_reading(bool try_kcore)
 out_put:
 	thread__put(thread);
 out_err:
+<<<<<<< HEAD
 	evlist__delete(evlist);
 	perf_cpu_map__put(cpus);
 	perf_thread_map__put(threads);
+=======
+
+	if (evlist) {
+		evlist__delete(evlist);
+	} else {
+		perf_cpu_map__put(cpus);
+		perf_thread_map__put(threads);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	machine__delete_threads(machine);
 	machine__delete(machine);
 

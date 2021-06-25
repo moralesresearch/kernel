@@ -23,7 +23,11 @@
 #include "internal.h"
 
 /**
+<<<<<<< HEAD
  * struct psz_buffer - header of zone to flush to storage
+=======
+ * struct psz_head - header of zone to flush to storage
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @sig: signature to indicate header (PSZ_SIG xor PSZONE-type value)
  * @datalen: length of data in @data

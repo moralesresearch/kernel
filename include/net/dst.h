@@ -18,7 +18,14 @@
 #include <linux/refcount.h>
 #include <net/neighbour.h>
 #include <asm/processor.h>
+<<<<<<< HEAD
 #include <linux/indirect_call_wrapper.h>
+=======
+<<<<<<< HEAD
+#include <linux/indirect_call_wrapper.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct sk_buff;
 
@@ -194,11 +201,23 @@ dst_feature(const struct dst_entry *dst, u32 feature)
 	return dst_metric(dst, RTAX_FEATURES) & feature;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 INDIRECT_CALLABLE_DECLARE(unsigned int ip6_mtu(const struct dst_entry *));
 INDIRECT_CALLABLE_DECLARE(unsigned int ipv4_mtu(const struct dst_entry *));
 static inline u32 dst_mtu(const struct dst_entry *dst)
 {
 	return INDIRECT_CALL_INET(dst->ops->mtu, ip6_mtu, ipv4_mtu, dst);
+<<<<<<< HEAD
+=======
+=======
+static inline u32 dst_mtu(const struct dst_entry *dst)
+{
+	return dst->ops->mtu(dst);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* RTT metrics are stored in milliseconds for user ABI, but used as jiffies */
@@ -438,6 +457,10 @@ static inline void dst_set_expires(struct dst_entry *dst, int timeout)
 		dst->expires = expires;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 INDIRECT_CALLABLE_DECLARE(int ip6_output(struct net *, struct sock *,
 					 struct sk_buff *));
 INDIRECT_CALLABLE_DECLARE(int ip_output(struct net *, struct sock *,
@@ -468,6 +491,27 @@ static inline struct dst_entry *dst_check(struct dst_entry *dst, u32 cookie)
 	if (dst->obsolete)
 		dst = INDIRECT_CALL_INET(dst->ops->check, ip6_dst_check,
 					 ipv4_dst_check, dst, cookie);
+<<<<<<< HEAD
+=======
+=======
+/* Output packet to network from transport.  */
+static inline int dst_output(struct net *net, struct sock *sk, struct sk_buff *skb)
+{
+	return skb_dst(skb)->output(net, sk, skb);
+}
+
+/* Input packet from network to transport.  */
+static inline int dst_input(struct sk_buff *skb)
+{
+	return skb_dst(skb)->input(skb);
+}
+
+static inline struct dst_entry *dst_check(struct dst_entry *dst, u32 cookie)
+{
+	if (dst->obsolete)
+		dst = dst->ops->check(dst, cookie);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return dst;
 }
 

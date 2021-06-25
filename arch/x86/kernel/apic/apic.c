@@ -1747,7 +1747,14 @@ void apic_ap_setup(void)
 
 #ifdef CONFIG_X86_X2APIC
 int x2apic_mode;
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(x2apic_mode);
+=======
+<<<<<<< HEAD
+EXPORT_SYMBOL_GPL(x2apic_mode);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum {
 	X2APIC_OFF,
@@ -2138,11 +2145,32 @@ void __init register_lapic_address(unsigned long address)
  * Local APIC interrupts
  */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Common handling code for spurious_interrupt and spurious_vector entry
  * points below. No point in allowing the compiler to inline it twice.
  */
 static noinline void handle_spurious_interrupt(u8 vector)
+<<<<<<< HEAD
+=======
+=======
+/**
+ * spurious_interrupt - Catch all for interrupts raised on unused vectors
+ * @regs:	Pointer to pt_regs on stack
+ * @vector:	The vector number
+ *
+ * This is invoked from ASM entry code to catch all interrupts which
+ * trigger on an entry which is routed to the common_spurious idtentry
+ * point.
+ *
+ * Also called from sysvec_spurious_apic_interrupt().
+ */
+DEFINE_IDTENTRY_IRQ(spurious_interrupt)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 v;
 
@@ -2177,6 +2205,10 @@ out:
 	trace_spurious_apic_exit(vector);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * spurious_interrupt - Catch all for interrupts raised on unused vectors
  * @regs:	Pointer to pt_regs on stack
@@ -2194,6 +2226,14 @@ DEFINE_IDTENTRY_IRQ(spurious_interrupt)
 DEFINE_IDTENTRY_SYSVEC(sysvec_spurious_apic_interrupt)
 {
 	handle_spurious_interrupt(SPURIOUS_APIC_VECTOR);
+<<<<<<< HEAD
+=======
+=======
+DEFINE_IDTENTRY_SYSVEC(sysvec_spurious_apic_interrupt)
+{
+	__spurious_interrupt(regs, SPURIOUS_APIC_VECTOR);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -2604,7 +2644,10 @@ static void __init apic_bsp_setup(bool upmode)
 	end_local_APIC_setup();
 	irq_remap_enable_fault_handling();
 	setup_IO_APIC();
+<<<<<<< HEAD
 	lapic_update_legacy_vectors();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_UP_LATE_INIT

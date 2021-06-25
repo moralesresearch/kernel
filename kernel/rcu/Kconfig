@@ -95,7 +95,10 @@ config TASKS_RUDE_RCU
 
 config TASKS_TRACE_RCU
 	def_bool 0
+<<<<<<< HEAD
 	select IRQ_WORK
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This option enables a task-based RCU implementation that uses
 	  explicit rcu_read_lock_trace() read-side markers, and allows
@@ -189,8 +192,13 @@ config RCU_FAST_NO_HZ
 
 config RCU_BOOST
 	bool "Enable RCU priority boosting"
+<<<<<<< HEAD
 	depends on (RT_MUTEXES && PREEMPT_RCU && RCU_EXPERT) || PREEMPT_RT
 	default y if PREEMPT_RT
+=======
+	depends on RT_MUTEXES && PREEMPT_RCU && RCU_EXPERT
+	default n
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This option boosts the priority of preempted RCU readers that
 	  block the current preemptible RCU grace period for too long.

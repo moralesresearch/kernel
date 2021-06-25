@@ -97,6 +97,12 @@ extern unsigned long pfn_base;
 #define ARCH_PFN_OFFSET		(PAGE_OFFSET >> PAGE_SHIFT)
 #endif /* CONFIG_MMU */
 
+<<<<<<< HEAD
+=======
+extern unsigned long max_low_pfn;
+extern unsigned long min_low_pfn;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __pa_to_va_nodebug(x)	((void *)((unsigned long) (x) + va_pa_offset))
 #define __va_to_pa_nodebug(x)	((unsigned long)(x) - va_pa_offset)
 

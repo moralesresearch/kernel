@@ -113,6 +113,10 @@ struct igc_nvm_operations {
 	s32 (*write)(struct igc_hw *hw, u16 offset, u16 i, u16 *data);
 	s32 (*update)(struct igc_hw *hw);
 	s32 (*validate)(struct igc_hw *hw);
+<<<<<<< HEAD
+=======
+	s32 (*valid_led_default)(struct igc_hw *hw, u16 *data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct igc_phy_operations {

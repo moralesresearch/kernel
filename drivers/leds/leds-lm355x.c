@@ -349,9 +349,15 @@ static int lm355x_indicator_brightness_set(struct led_classdev *cdev,
 }
 
 /* indicator pattern only for lm3556*/
+<<<<<<< HEAD
 static ssize_t pattern_store(struct device *dev,
 			     struct device_attribute *attr,
 			     const char *buf, size_t size)
+=======
+static ssize_t lm3556_indicator_pattern_store(struct device *dev,
+					      struct device_attribute *attr,
+					      const char *buf, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ssize_t ret;
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
@@ -381,7 +387,11 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_WO(pattern);
+=======
+static DEVICE_ATTR(pattern, S_IWUSR, NULL, lm3556_indicator_pattern_store);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *lm355x_indicator_attrs[] = {
 	&dev_attr_pattern.attr,

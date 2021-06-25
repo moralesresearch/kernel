@@ -761,7 +761,11 @@ tape_3590_done(struct tape_device *device, struct tape_request *request)
  * This function is called, when error recovery was successful
  */
 static inline int
+<<<<<<< HEAD
 tape_3590_erp_succeeded(struct tape_device *device, struct tape_request *request)
+=======
+tape_3590_erp_succeded(struct tape_device *device, struct tape_request *request)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	DBF_EVENT(3, "Error Recovery successful for %s\n",
 		  tape_op_verbose[request->op]);
@@ -831,7 +835,11 @@ tape_3590_erp_basic(struct tape_device *device, struct tape_request *request,
 	case SENSE_BRA_PER:
 		return tape_3590_erp_failed(device, request, irb, rc);
 	case SENSE_BRA_CONT:
+<<<<<<< HEAD
 		return tape_3590_erp_succeeded(device, request);
+=======
+		return tape_3590_erp_succeded(device, request);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SENSE_BRA_RE:
 		return tape_3590_erp_retry(device, request, irb);
 	case SENSE_BRA_DRE:

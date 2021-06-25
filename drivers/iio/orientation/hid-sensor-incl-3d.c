@@ -24,21 +24,31 @@ enum incl_3d_channel {
 	INCLI_3D_CHANNEL_MAX,
 };
 
+<<<<<<< HEAD
 #define CHANNEL_SCAN_INDEX_TIMESTAMP INCLI_3D_CHANNEL_MAX
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct incl_3d_state {
 	struct hid_sensor_hub_callbacks callbacks;
 	struct hid_sensor_common common_attributes;
 	struct hid_sensor_hub_attribute_info incl[INCLI_3D_CHANNEL_MAX];
+<<<<<<< HEAD
 	struct {
 		u32 incl_val[INCLI_3D_CHANNEL_MAX];
 		u64 timestamp __aligned(8);
 	} scan;
+=======
+	u32 incl_val[INCLI_3D_CHANNEL_MAX];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int scale_pre_decml;
 	int scale_post_decml;
 	int scale_precision;
 	int value_offset;
+<<<<<<< HEAD
 	s64 timestamp;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const u32 incl_3d_addresses[INCLI_3D_CHANNEL_MAX] = {
@@ -79,8 +89,12 @@ static const struct iio_chan_spec incl_3d_channels[] = {
 		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
 		BIT(IIO_CHAN_INFO_HYSTERESIS),
 		.scan_index = CHANNEL_SCAN_INDEX_Z,
+<<<<<<< HEAD
 	},
 	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP),
+=======
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Adjust channel real bits based on report descriptor */
@@ -185,6 +199,16 @@ static const struct iio_info incl_3d_info = {
 	.write_raw = &incl_3d_write_raw,
 };
 
+<<<<<<< HEAD
+=======
+/* Function to push data to buffer */
+static void hid_sensor_push_data(struct iio_dev *indio_dev, u8 *data, int len)
+{
+	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
+	iio_push_to_buffers(indio_dev, (u8 *)data);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Callback handler to send event after all samples are received and captured */
 static int incl_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 				unsigned usage_id,
@@ -194,6 +218,7 @@ static int incl_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 	struct incl_3d_state *incl_state = iio_priv(indio_dev);
 
 	dev_dbg(&indio_dev->dev, "incl_3d_proc_event\n");
+<<<<<<< HEAD
 	if (atomic_read(&incl_state->common_attributes.data_ready)) {
 		if (!incl_state->timestamp)
 			incl_state->timestamp = iio_get_time_ns(indio_dev);
@@ -204,6 +229,12 @@ static int incl_3d_proc_event(struct hid_sensor_hub_device *hsdev,
 
 		incl_state->timestamp = 0;
 	}
+=======
+	if (atomic_read(&incl_state->common_attributes.data_ready))
+		hid_sensor_push_data(indio_dev,
+				(u8 *)incl_state->incl_val,
+				sizeof(incl_state->incl_val));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -220,6 +251,7 @@ static int incl_3d_capture_sample(struct hid_sensor_hub_device *hsdev,
 
 	switch (usage_id) {
 	case HID_USAGE_SENSOR_ORIENT_TILT_X:
+<<<<<<< HEAD
 		incl_state->scan.incl_val[CHANNEL_SCAN_INDEX_X] = *(u32 *)raw_data;
 	break;
 	case HID_USAGE_SENSOR_ORIENT_TILT_Y:
@@ -232,6 +264,15 @@ static int incl_3d_capture_sample(struct hid_sensor_hub_device *hsdev,
 		incl_state->timestamp =
 			hid_sensor_convert_timestamp(&incl_state->common_attributes,
 						     *(s64 *)raw_data);
+=======
+		incl_state->incl_val[CHANNEL_SCAN_INDEX_X] = *(u32 *)raw_data;
+	break;
+	case HID_USAGE_SENSOR_ORIENT_TILT_Y:
+		incl_state->incl_val[CHANNEL_SCAN_INDEX_Y] = *(u32 *)raw_data;
+	break;
+	case HID_USAGE_SENSOR_ORIENT_TILT_Z:
+		incl_state->incl_val[CHANNEL_SCAN_INDEX_Z] = *(u32 *)raw_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	break;
 	default:
 		ret = -EINVAL;

@@ -368,6 +368,7 @@ static int igt_check_page_sizes(struct i915_vma *vma)
 		err = -EINVAL;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * The dma-api is like a box of chocolates when it comes to the
 	 * alignment of dma addresses, however for LMEM we have total control
@@ -389,6 +390,8 @@ static int igt_check_page_sizes(struct i915_vma *vma)
 		err = -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (obj->mm.page_sizes.gtt) {
 		pr_err("obj->page_sizes.gtt(%u) should never be set\n",
 		       obj->mm.page_sizes.gtt);
@@ -1354,7 +1357,10 @@ static int igt_ppgtt_sanity_check(void *arg)
 		unsigned int flags;
 	} backends[] = {
 		{ igt_create_system, 0,                        },
+<<<<<<< HEAD
 		{ igt_create_local,  0,                        },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{ igt_create_local,  I915_BO_ALLOC_CONTIGUOUS, },
 	};
 	struct {

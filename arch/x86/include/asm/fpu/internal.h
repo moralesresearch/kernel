@@ -578,6 +578,7 @@ static inline void switch_fpu_finish(struct fpu *new_fpu)
 	 * PKRU state is switched eagerly because it needs to be valid before we
 	 * return to userland e.g. for a copy_to_user() operation.
 	 */
+<<<<<<< HEAD
 	if (!(current->flags & PF_KTHREAD)) {
 		/*
 		 * If the PKRU bit in xsave.header.xfeatures is not set,
@@ -591,6 +592,21 @@ static inline void switch_fpu_finish(struct fpu *new_fpu)
 		pkru_val = pk ? pk->pkru : 0;
 	}
 	__write_pkru(pkru_val);
+=======
+	if (current->mm) {
+		pk = get_xsave_addr(&new_fpu->state.xsave, XFEATURE_PKRU);
+		if (pk)
+			pkru_val = pk->pkru;
+	}
+	__write_pkru(pkru_val);
+
+	/*
+	 * Expensive PASID MSR write will be avoided in update_pasid() because
+	 * TIF_NEED_FPU_LOAD was set. And the PASID state won't be updated
+	 * unless it's different from mm->pasid to reduce overhead.
+	 */
+	update_pasid();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif /* _ASM_X86_FPU_INTERNAL_H */

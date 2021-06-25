@@ -238,6 +238,10 @@
 		compatible = "wlf,wm8962";
 		reg = <0x1a>;
 		clocks = <&clks IMX6QDL_CLK_CKO>;
+<<<<<<< HEAD
+=======
+		clock-names = "xclk";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DCVDD-supply = <&reg_audio>;
 		DBVDD-supply = <&reg_audio>;
 		AVDD-supply = <&reg_audio>;

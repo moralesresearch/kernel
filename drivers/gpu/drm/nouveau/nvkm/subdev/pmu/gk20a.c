@@ -210,8 +210,12 @@ gk20a_pmu_fwif[] = {
 };
 
 int
+<<<<<<< HEAD
 gk20a_pmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_pmu **ppmu)
+=======
+gk20a_pmu_new(struct nvkm_device *device, int index, struct nvkm_pmu **ppmu)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gk20a_pmu *pmu;
 	int ret;
@@ -220,7 +224,11 @@ gk20a_pmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		return -ENOMEM;
 	*ppmu = &pmu->base;
 
+<<<<<<< HEAD
 	ret = nvkm_pmu_ctor(gk20a_pmu_fwif, device, type, inst, &pmu->base);
+=======
+	ret = nvkm_pmu_ctor(gk20a_pmu_fwif, device, index, &pmu->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 

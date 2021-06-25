@@ -87,6 +87,7 @@ config ACPI_SPCR_TABLE
 	  This table provides information about the configuration of the
 	  earlycon console.
 
+<<<<<<< HEAD
 config ACPI_FPDT
 	bool "ACPI Firmware Performance Data Table (FPDT) support"
 	depends on X86_64
@@ -95,6 +96,8 @@ config ACPI_FPDT
 	  This table provides information on the timing of the system
 	  boot, S3 suspend and S3 resume firmware code paths.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ACPI_LPIT
 	bool
 	depends on X86_64
@@ -334,9 +337,12 @@ config ACPI_THERMAL
 	  To compile this driver as a module, choose M here:
 	  the module will be called thermal.
 
+<<<<<<< HEAD
 config ACPI_PLATFORM_PROFILE
 	tristate
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ACPI_CUSTOM_DSDT_FILE
 	string "Custom DSDT Table file to include"
 	default ""

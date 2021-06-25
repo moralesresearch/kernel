@@ -22,7 +22,10 @@ whole; patches welcome!
    ubsan
    kmemleak
    kcsan
+<<<<<<< HEAD
    kfence
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    gdb-kernel-debugging
    kgdb
    kselftest

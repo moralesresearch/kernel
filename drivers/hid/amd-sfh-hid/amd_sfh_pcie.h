@@ -61,6 +61,10 @@ struct amd_mp2_dev {
 	struct pci_dev *pdev;
 	struct amdtp_cl_data *cl_data;
 	void __iomem *mmio;
+<<<<<<< HEAD
+=======
+	u32 activecontrolstatus;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct amd_mp2_sensor_info {

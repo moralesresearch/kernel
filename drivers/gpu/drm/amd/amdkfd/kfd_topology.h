@@ -57,6 +57,10 @@
 
 struct kfd_node_properties {
 	uint64_t hive_id;
+<<<<<<< HEAD
+=======
+	uint64_t unique_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t cpu_cores_count;
 	uint32_t simd_count;
 	uint32_t mem_banks_count;

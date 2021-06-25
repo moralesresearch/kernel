@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
+<<<<<<< HEAD
  * ROHM BD9571MWV-M and BD9574MWF-M regulator driver
+=======
+ * ROHM BD9571MWV-M regulator driver
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
  *
@@ -9,7 +13,10 @@
  * NOTE: VD09 is missing
  */
 
+<<<<<<< HEAD
 #include <linux/mfd/rohm-generic.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/platform_device.h>
@@ -18,7 +25,11 @@
 #include <linux/mfd/bd9571mwv.h>
 
 struct bd9571mwv_reg {
+<<<<<<< HEAD
 	struct regmap *regmap;
+=======
+	struct bd9571mwv *bd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* DDR Backup Power */
 	u8 bkup_mode_cnt_keepon;	/* from "rohm,ddr-backup-power" */
@@ -125,7 +136,11 @@ static const struct regulator_ops vid_ops = {
 
 static const struct regulator_desc regulators[] = {
 	BD9571MWV_REG("VD09", "vd09", VD09, avs_ops, 0, 0x7f,
+<<<<<<< HEAD
 		      0x6f, 600000, 10000, 0x3c),
+=======
+		      0x80, 600000, 10000, 0x3c),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BD9571MWV_REG("VD18", "vd18", VD18, vid_ops, BD9571MWV_VD18_VID, 0xf,
 		      16, 1625000, 25000, 0),
 	BD9571MWV_REG("VD25", "vd25", VD25, vid_ops, BD9571MWV_VD25_VID, 0xf,
@@ -134,6 +149,7 @@ static const struct regulator_desc regulators[] = {
 		      11, 2800000, 100000, 0),
 	BD9571MWV_REG("DVFS", "dvfs", DVFS, reg_ops,
 		      BD9571MWV_DVFS_MONIVDAC, 0x7f,
+<<<<<<< HEAD
 		      0x6f, 600000, 10000, 0x3c),
 };
 
@@ -147,12 +163,26 @@ static int bd9571mwv_bkup_mode_read(struct bd9571mwv_reg *bdreg,
 	if (ret) {
 		dev_err(regmap_get_device(bdreg->regmap),
 			"failed to read backup mode (%d)\n", ret);
+=======
+		      0x80, 600000, 10000, 0x3c),
+};
+
+#ifdef CONFIG_PM_SLEEP
+static int bd9571mwv_bkup_mode_read(struct bd9571mwv *bd, unsigned int *mode)
+{
+	int ret;
+
+	ret = regmap_read(bd->regmap, BD9571MWV_BKUP_MODE_CNT, mode);
+	if (ret) {
+		dev_err(bd->dev, "failed to read backup mode (%d)\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static int bd9571mwv_bkup_mode_write(struct bd9571mwv_reg *bdreg,
 				     unsigned int mode)
 {
@@ -162,6 +192,15 @@ static int bd9571mwv_bkup_mode_write(struct bd9571mwv_reg *bdreg,
 	if (ret) {
 		dev_err(regmap_get_device(bdreg->regmap),
 			"failed to configure backup mode 0x%x (%d)\n",
+=======
+static int bd9571mwv_bkup_mode_write(struct bd9571mwv *bd, unsigned int mode)
+{
+	int ret;
+
+	ret = regmap_write(bd->regmap, BD9571MWV_BKUP_MODE_CNT, mode);
+	if (ret) {
+		dev_err(bd->dev, "failed to configure backup mode 0x%x (%d)\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mode, ret);
 		return ret;
 	}
@@ -174,7 +213,11 @@ static ssize_t backup_mode_show(struct device *dev,
 {
 	struct bd9571mwv_reg *bdreg = dev_get_drvdata(dev);
 
+<<<<<<< HEAD
 	return sysfs_emit(buf, "%s\n", bdreg->bkup_mode_enabled ? "on" : "off");
+=======
+	return sprintf(buf, "%s\n", bdreg->bkup_mode_enabled ? "on" : "off");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t backup_mode_store(struct device *dev,
@@ -199,7 +242,11 @@ static ssize_t backup_mode_store(struct device *dev,
 	 * Configure DDR Backup Mode, to change the role of the accessory power
 	 * switch from a power switch to a wake-up switch, or vice versa
 	 */
+<<<<<<< HEAD
 	ret = bd9571mwv_bkup_mode_read(bdreg, &mode);
+=======
+	ret = bd9571mwv_bkup_mode_read(bdreg->bd, &mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -207,7 +254,11 @@ static ssize_t backup_mode_store(struct device *dev,
 	if (bdreg->bkup_mode_enabled)
 		mode |= bdreg->bkup_mode_cnt_keepon;
 
+<<<<<<< HEAD
 	ret = bd9571mwv_bkup_mode_write(bdreg, mode);
+=======
+	ret = bd9571mwv_bkup_mode_write(bdreg->bd, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -226,7 +277,11 @@ static int bd9571mwv_suspend(struct device *dev)
 		return 0;
 
 	/* Save DDR Backup Mode */
+<<<<<<< HEAD
 	ret = bd9571mwv_bkup_mode_read(bdreg, &mode);
+=======
+	ret = bd9571mwv_bkup_mode_read(bdreg->bd, &mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -240,7 +295,11 @@ static int bd9571mwv_suspend(struct device *dev)
 	mode |= bdreg->bkup_mode_cnt_keepon;
 
 	if (mode != bdreg->bkup_mode_cnt_saved)
+<<<<<<< HEAD
 		return bd9571mwv_bkup_mode_write(bdreg, mode);
+=======
+		return bd9571mwv_bkup_mode_write(bdreg->bd, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -253,7 +312,11 @@ static int bd9571mwv_resume(struct device *dev)
 		return 0;
 
 	/* Restore DDR Backup Mode */
+<<<<<<< HEAD
 	return bd9571mwv_bkup_mode_write(bdreg, bdreg->bkup_mode_cnt_saved);
+=======
+	return bd9571mwv_bkup_mode_write(bdreg->bd, bdreg->bkup_mode_cnt_saved);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct dev_pm_ops bd9571mwv_pm  = {
@@ -273,22 +336,34 @@ static int bd9571mwv_regulator_remove(struct platform_device *pdev)
 
 static int bd9571mwv_regulator_probe(struct platform_device *pdev)
 {
+<<<<<<< HEAD
+=======
+	struct bd9571mwv *bd = dev_get_drvdata(pdev->dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct regulator_config config = { };
 	struct bd9571mwv_reg *bdreg;
 	struct regulator_dev *rdev;
 	unsigned int val;
 	int i;
+<<<<<<< HEAD
 	enum rohm_chip_type chip = platform_get_device_id(pdev)->driver_data;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bdreg = devm_kzalloc(&pdev->dev, sizeof(*bdreg), GFP_KERNEL);
 	if (!bdreg)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	bdreg->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+=======
+	bdreg->bd = bd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	platform_set_drvdata(pdev, bdreg);
 
 	config.dev = &pdev->dev;
+<<<<<<< HEAD
 	config.dev->of_node = pdev->dev.parent->of_node;
 	config.driver_data = bdreg;
 	config.regmap = bdreg->regmap;
@@ -302,25 +377,52 @@ static int bd9571mwv_regulator_probe(struct platform_device *pdev)
 		if (IS_ERR(rdev)) {
 			dev_err(&pdev->dev, "failed to register %s regulator\n",
 				regulators[i].name);
+=======
+	config.dev->of_node = bd->dev->of_node;
+	config.driver_data = bd;
+	config.regmap = bd->regmap;
+
+	for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+		rdev = devm_regulator_register(&pdev->dev, &regulators[i],
+					       &config);
+		if (IS_ERR(rdev)) {
+			dev_err(bd->dev, "failed to register %s regulator\n",
+				pdev->name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return PTR_ERR(rdev);
 		}
 	}
 
 	val = 0;
+<<<<<<< HEAD
 	of_property_read_u32(config.dev->of_node, "rohm,ddr-backup-power", &val);
 	if (val & ~BD9571MWV_BKUP_MODE_CNT_KEEPON_MASK) {
 		dev_err(&pdev->dev, "invalid %s mode %u\n",
+=======
+	of_property_read_u32(bd->dev->of_node, "rohm,ddr-backup-power", &val);
+	if (val & ~BD9571MWV_BKUP_MODE_CNT_KEEPON_MASK) {
+		dev_err(bd->dev, "invalid %s mode %u\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"rohm,ddr-backup-power", val);
 		return -EINVAL;
 	}
 	bdreg->bkup_mode_cnt_keepon = val;
 
+<<<<<<< HEAD
 	bdreg->rstbmode_level = of_property_read_bool(config.dev->of_node,
 						      "rohm,rstbmode-level");
 	bdreg->rstbmode_pulse = of_property_read_bool(config.dev->of_node,
 						      "rohm,rstbmode-pulse");
 	if (bdreg->rstbmode_level && bdreg->rstbmode_pulse) {
 		dev_err(&pdev->dev, "only one rohm,rstbmode-* may be specified");
+=======
+	bdreg->rstbmode_level = of_property_read_bool(bd->dev->of_node,
+						      "rohm,rstbmode-level");
+	bdreg->rstbmode_pulse = of_property_read_bool(bd->dev->of_node,
+						      "rohm,rstbmode-pulse");
+	if (bdreg->rstbmode_level && bdreg->rstbmode_pulse) {
+		dev_err(bd->dev, "only one rohm,rstbmode-* may be specified");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -344,8 +446,12 @@ static int bd9571mwv_regulator_probe(struct platform_device *pdev)
 }
 
 static const struct platform_device_id bd9571mwv_regulator_id_table[] = {
+<<<<<<< HEAD
 	{ "bd9571mwv-regulator", ROHM_CHIP_TYPE_BD9571 },
 	{ "bd9574mwf-regulator", ROHM_CHIP_TYPE_BD9574 },
+=======
+	{ "bd9571mwv-regulator", },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(platform, bd9571mwv_regulator_id_table);

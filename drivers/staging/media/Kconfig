@@ -20,6 +20,11 @@ menuconfig STAGING_MEDIA
 if STAGING_MEDIA && MEDIA_SUPPORT
 
 # Please keep them in alphabetic order
+<<<<<<< HEAD
+=======
+source "drivers/staging/media/allegro-dvt/Kconfig"
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/staging/media/atomisp/Kconfig"
 
 source "drivers/staging/media/hantro/Kconfig"

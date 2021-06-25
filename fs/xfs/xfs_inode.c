@@ -766,7 +766,10 @@ xfs_inode_inherit_flags2(
  */
 static int
 xfs_init_new_inode(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_trans	*tp,
 	struct xfs_inode	*pip,
 	xfs_ino_t		ino,
@@ -776,7 +779,10 @@ xfs_init_new_inode(
 	prid_t			prid,
 	struct xfs_inode	**ipp)
 {
+<<<<<<< HEAD
 	struct inode		*dir = pip ? VFS_I(pip) : NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_mount	*mp = tp->t_mountp;
 	struct xfs_inode	*ip;
 	unsigned int		flags;
@@ -806,6 +812,7 @@ xfs_init_new_inode(
 
 	ASSERT(ip != NULL);
 	inode = VFS_I(ip);
+<<<<<<< HEAD
 	set_nlink(inode, nlink);
 	inode->i_rdev = rdev;
 	ip->i_d.di_projid = prid;
@@ -817,6 +824,20 @@ xfs_init_new_inode(
 		inode->i_mode = mode;
 	} else {
 		inode_init_owner(mnt_userns, inode, dir, mode);
+=======
+	inode->i_mode = mode;
+	set_nlink(inode, nlink);
+	inode->i_uid = current_fsuid();
+	inode->i_rdev = rdev;
+	ip->i_d.di_projid = prid;
+
+	if (pip && XFS_INHERIT_GID(pip)) {
+		inode->i_gid = VFS_I(pip)->i_gid;
+		if ((VFS_I(pip)->i_mode & S_ISGID) && S_ISDIR(mode))
+			inode->i_mode |= S_ISGID;
+	} else {
+		inode->i_gid = current_fsgid();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -825,8 +846,12 @@ xfs_init_new_inode(
 	 * (and only if the irix_sgid_inherit compatibility variable is set).
 	 */
 	if (irix_sgid_inherit &&
+<<<<<<< HEAD
 	    (inode->i_mode & S_ISGID) &&
 	    !in_group_p(i_gid_into_mnt(mnt_userns, inode)))
+=======
+	    (inode->i_mode & S_ISGID) && !in_group_p(inode->i_gid))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode->i_mode &= ~S_ISGID;
 
 	ip->i_d.di_size = 0;
@@ -903,7 +928,10 @@ xfs_init_new_inode(
  */
 int
 xfs_dir_ialloc(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_trans	**tpp,
 	struct xfs_inode	*dp,
 	umode_t			mode,
@@ -936,8 +964,12 @@ xfs_dir_ialloc(
 		return error;
 	ASSERT(ino != NULLFSINO);
 
+<<<<<<< HEAD
 	return xfs_init_new_inode(mnt_userns, *tpp, dp, ino, mode, nlink, rdev,
 				  prid, ipp);
+=======
+	return xfs_init_new_inode(*tpp, dp, ino, mode, nlink, rdev, prid, ipp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -977,7 +1009,10 @@ xfs_bumplink(
 
 int
 xfs_create(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_inode_t		*dp,
 	struct xfs_name		*name,
 	umode_t			mode,
@@ -1007,10 +1042,16 @@ xfs_create(
 	/*
 	 * Make sure that we have allocated dquot(s) on disk.
 	 */
+<<<<<<< HEAD
 	error = xfs_qm_vop_dqalloc(dp, fsuid_into_mnt(mnt_userns),
 			fsgid_into_mnt(mnt_userns), prid,
 			XFS_QMOPT_QUOTALL | XFS_QMOPT_INHERIT,
 			&udqp, &gdqp, &pdqp);
+=======
+	error = xfs_qm_vop_dqalloc(dp, current_fsuid(), current_fsgid(), prid,
+					XFS_QMOPT_QUOTALL | XFS_QMOPT_INHERIT,
+					&udqp, &gdqp, &pdqp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -1028,6 +1069,7 @@ xfs_create(
 	 * the case we'll drop the one we have and get a more
 	 * appropriate transaction later.
 	 */
+<<<<<<< HEAD
 	error = xfs_trans_alloc_icreate(mp, tres, udqp, gdqp, pdqp, resblks,
 			&tp);
 	if (error == -ENOSPC) {
@@ -1038,12 +1080,30 @@ xfs_create(
 	}
 	if (error)
 		goto out_release_dquots;
+=======
+	error = xfs_trans_alloc(mp, tres, resblks, 0, 0, &tp);
+	if (error == -ENOSPC) {
+		/* flush outstanding delalloc blocks and retry */
+		xfs_flush_inodes(mp);
+		error = xfs_trans_alloc(mp, tres, resblks, 0, 0, &tp);
+	}
+	if (error)
+		goto out_release_inode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xfs_ilock(dp, XFS_ILOCK_EXCL | XFS_ILOCK_PARENT);
 	unlock_dp_on_error = true;
 
+<<<<<<< HEAD
 	error = xfs_iext_count_may_overflow(dp, XFS_DATA_FORK,
 			XFS_IEXT_DIR_MANIP_CNT(mp));
+=======
+	/*
+	 * Reserve disk quota and the inode.
+	 */
+	error = xfs_trans_reserve_quota(tp, mp, udqp, gdqp,
+						pdqp, resblks, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 
@@ -1052,8 +1112,12 @@ xfs_create(
 	 * entry pointing to them, but a directory also the "." entry
 	 * pointing to itself.
 	 */
+<<<<<<< HEAD
 	error = xfs_dir_ialloc(mnt_userns, &tp, dp, mode, is_dir ? 2 : 1, rdev,
 			       prid, &ip);
+=======
+	error = xfs_dir_ialloc(&tp, dp, mode, is_dir ? 2 : 1, rdev, prid, &ip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 
@@ -1122,7 +1186,11 @@ xfs_create(
 		xfs_finish_inode_setup(ip);
 		xfs_irele(ip);
 	}
+<<<<<<< HEAD
  out_release_dquots:
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_qm_dqrele(udqp);
 	xfs_qm_dqrele(gdqp);
 	xfs_qm_dqrele(pdqp);
@@ -1134,7 +1202,10 @@ xfs_create(
 
 int
 xfs_create_tmpfile(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*dp,
 	umode_t			mode,
 	struct xfs_inode	**ipp)
@@ -1158,22 +1229,41 @@ xfs_create_tmpfile(
 	/*
 	 * Make sure that we have allocated dquot(s) on disk.
 	 */
+<<<<<<< HEAD
 	error = xfs_qm_vop_dqalloc(dp, fsuid_into_mnt(mnt_userns),
 			fsgid_into_mnt(mnt_userns), prid,
 			XFS_QMOPT_QUOTALL | XFS_QMOPT_INHERIT,
 			&udqp, &gdqp, &pdqp);
+=======
+	error = xfs_qm_vop_dqalloc(dp, current_fsuid(), current_fsgid(), prid,
+				XFS_QMOPT_QUOTALL | XFS_QMOPT_INHERIT,
+				&udqp, &gdqp, &pdqp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
 	resblks = XFS_IALLOC_SPACE_RES(mp);
 	tres = &M_RES(mp)->tr_create_tmpfile;
 
+<<<<<<< HEAD
 	error = xfs_trans_alloc_icreate(mp, tres, udqp, gdqp, pdqp, resblks,
 			&tp);
 	if (error)
 		goto out_release_dquots;
 
 	error = xfs_dir_ialloc(mnt_userns, &tp, dp, mode, 0, 0, prid, &ip);
+=======
+	error = xfs_trans_alloc(mp, tres, resblks, 0, 0, &tp);
+	if (error)
+		goto out_release_inode;
+
+	error = xfs_trans_reserve_quota(tp, mp, udqp, gdqp,
+						pdqp, resblks, 1, 0);
+	if (error)
+		goto out_trans_cancel;
+
+	error = xfs_dir_ialloc(&tp, dp, mode, 0, 0, prid, &ip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 
@@ -1214,7 +1304,11 @@ xfs_create_tmpfile(
 		xfs_finish_inode_setup(ip);
 		xfs_irele(ip);
 	}
+<<<<<<< HEAD
  out_release_dquots:
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_qm_dqrele(udqp);
 	xfs_qm_dqrele(gdqp);
 	xfs_qm_dqrele(pdqp);
@@ -1262,11 +1356,14 @@ xfs_link(
 	xfs_trans_ijoin(tp, sip, XFS_ILOCK_EXCL);
 	xfs_trans_ijoin(tp, tdp, XFS_ILOCK_EXCL);
 
+<<<<<<< HEAD
 	error = xfs_iext_count_may_overflow(tdp, XFS_DATA_FORK,
 			XFS_IEXT_DIR_MANIP_CNT(mp));
 	if (error)
 		goto error_return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If we are using project inheritance, we only allow hard link
 	 * creation in our tree when the project IDs are the same; else
@@ -2986,15 +3083,22 @@ out_trans_abort:
  */
 static int
 xfs_rename_alloc_whiteout(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*dp,
 	struct xfs_inode	**wip)
 {
 	struct xfs_inode	*tmpfile;
 	int			error;
 
+<<<<<<< HEAD
 	error = xfs_create_tmpfile(mnt_userns, dp, S_IFCHR | WHITEOUT_MODE,
 				   &tmpfile);
+=======
+	error = xfs_create_tmpfile(dp, S_IFCHR | WHITEOUT_MODE, &tmpfile);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -3016,7 +3120,10 @@ xfs_rename_alloc_whiteout(
  */
 int
 xfs_rename(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*src_dp,
 	struct xfs_name		*src_name,
 	struct xfs_inode	*src_ip,
@@ -3029,7 +3136,11 @@ xfs_rename(
 	struct xfs_trans	*tp;
 	struct xfs_inode	*wip = NULL;		/* whiteout inode */
 	struct xfs_inode	*inodes[__XFS_SORT_INODES];
+<<<<<<< HEAD
 	int			i;
+=======
+	struct xfs_buf		*agibp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			num_inodes = __XFS_SORT_INODES;
 	bool			new_parent = (src_dp != target_dp);
 	bool			src_is_directory = S_ISDIR(VFS_I(src_ip)->i_mode);
@@ -3048,7 +3159,11 @@ xfs_rename(
 	 */
 	if (flags & RENAME_WHITEOUT) {
 		ASSERT(!(flags & (RENAME_NOREPLACE | RENAME_EXCHANGE)));
+<<<<<<< HEAD
 		error = xfs_rename_alloc_whiteout(mnt_userns, target_dp, &wip);
+=======
+		error = xfs_rename_alloc_whiteout(target_dp, &wip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			return error;
 
@@ -3118,6 +3233,7 @@ xfs_rename(
 	/*
 	 * Check for expected errors before we dirty the transaction
 	 * so we can return an error without a transaction abort.
+<<<<<<< HEAD
 	 *
 	 * Extent count overflow check:
 	 *
@@ -3147,6 +3263,8 @@ xfs_rename(
 	 * we need to do is change the inode number associated with the already
 	 * existing entry. Hence there is no need to perform an extent count
 	 * overflow check.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (target_ip == NULL) {
 		/*
@@ -3157,12 +3275,15 @@ xfs_rename(
 			error = xfs_dir_canenter(tp, target_dp, target_name);
 			if (error)
 				goto out_trans_cancel;
+<<<<<<< HEAD
 		} else {
 			error = xfs_iext_count_may_overflow(target_dp,
 					XFS_DATA_FORK,
 					XFS_IEXT_DIR_MANIP_CNT(mp));
 			if (error)
 				goto out_trans_cancel;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		/*
@@ -3178,6 +3299,7 @@ xfs_rename(
 	}
 
 	/*
+<<<<<<< HEAD
 	 * Lock the AGI buffers we need to handle bumping the nlink of the
 	 * whiteout inode off the unlinked list and to handle dropping the
 	 * nlink of the target inode.  Per locking order rules, do this in
@@ -3202,6 +3324,8 @@ xfs_rename(
 	}
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Directory entry creation below may acquire the AGF. Remove
 	 * the whiteout from the unlinked list first to preserve correct
 	 * AGI/AGF locking order. This dirties the transaction so failures
@@ -3253,6 +3377,25 @@ xfs_rename(
 		 * In case there is already an entry with the same
 		 * name at the destination directory, remove it first.
 		 */
+<<<<<<< HEAD
+=======
+
+		/*
+		 * Check whether the replace operation will need to allocate
+		 * blocks.  This happens when the shortform directory lacks
+		 * space and we have to convert it to a block format directory.
+		 * When more blocks are necessary, we must lock the AGI first
+		 * to preserve locking order (AGI -> AGF).
+		 */
+		if (xfs_dir2_sf_replace_needblock(target_dp, src_ip->i_ino)) {
+			error = xfs_read_agi(mp, tp,
+					XFS_INO_TO_AGNO(mp, target_ip->i_ino),
+					&agibp);
+			if (error)
+				goto out_trans_cancel;
+		}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		error = xfs_dir_replace(tp, target_dp, target_name,
 					src_ip->i_ino, spaceres);
 		if (error)
@@ -3328,6 +3471,7 @@ xfs_rename(
 	if (wip) {
 		error = xfs_dir_replace(tp, src_dp, src_name, wip->i_ino,
 					spaceres);
+<<<<<<< HEAD
 	} else {
 		/*
 		 * NOTE: We don't need to check for extent count overflow here
@@ -3338,6 +3482,11 @@ xfs_rename(
 					   spaceres);
 	}
 
+=======
+	} else
+		error = xfs_dir_removename(tp, src_dp, src_name, src_ip->i_ino,
+					   spaceres);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 

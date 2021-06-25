@@ -91,12 +91,21 @@ struct bpf_prog *bpf_prog_alloc_no_stats(unsigned int size, gfp_t gfp_extra_flag
 		vfree(fp);
 		return NULL;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fp->active = alloc_percpu_gfp(int, GFP_KERNEL_ACCOUNT | gfp_extra_flags);
 	if (!fp->active) {
 		vfree(fp);
 		kfree(aux);
 		return NULL;
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fp->pages = size / PAGE_SIZE;
 	fp->aux = aux;
@@ -120,9 +129,20 @@ struct bpf_prog *bpf_prog_alloc(unsigned int size, gfp_t gfp_extra_flags)
 	if (!prog)
 		return NULL;
 
+<<<<<<< HEAD
 	prog->stats = alloc_percpu_gfp(struct bpf_prog_stats, gfp_flags);
 	if (!prog->stats) {
 		free_percpu(prog->active);
+=======
+<<<<<<< HEAD
+	prog->stats = alloc_percpu_gfp(struct bpf_prog_stats, gfp_flags);
+	if (!prog->stats) {
+		free_percpu(prog->active);
+=======
+	prog->aux->stats = alloc_percpu_gfp(struct bpf_prog_stats, gfp_flags);
+	if (!prog->aux->stats) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(prog->aux);
 		vfree(prog);
 		return NULL;
@@ -131,7 +151,15 @@ struct bpf_prog *bpf_prog_alloc(unsigned int size, gfp_t gfp_extra_flags)
 	for_each_possible_cpu(cpu) {
 		struct bpf_prog_stats *pstats;
 
+<<<<<<< HEAD
 		pstats = per_cpu_ptr(prog->stats, cpu);
+=======
+<<<<<<< HEAD
+		pstats = per_cpu_ptr(prog->stats, cpu);
+=======
+		pstats = per_cpu_ptr(prog->aux->stats, cpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64_stats_init(&pstats->syncp);
 	}
 	return prog;
@@ -245,8 +273,16 @@ struct bpf_prog *bpf_prog_realloc(struct bpf_prog *fp_old, unsigned int size,
 		 * reallocated structure.
 		 */
 		fp_old->aux = NULL;
+<<<<<<< HEAD
 		fp_old->stats = NULL;
 		fp_old->active = NULL;
+=======
+<<<<<<< HEAD
+		fp_old->stats = NULL;
+		fp_old->active = NULL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__bpf_prog_free(fp_old);
 	}
 
@@ -258,11 +294,24 @@ void __bpf_prog_free(struct bpf_prog *fp)
 	if (fp->aux) {
 		mutex_destroy(&fp->aux->used_maps_mutex);
 		mutex_destroy(&fp->aux->dst_mutex);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(fp->aux->poke_tab);
 		kfree(fp->aux);
 	}
 	free_percpu(fp->stats);
 	free_percpu(fp->active);
+<<<<<<< HEAD
+=======
+=======
+		free_percpu(fp->aux->stats);
+		kfree(fp->aux->poke_tab);
+		kfree(fp->aux);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vfree(fp);
 }
 
@@ -1118,8 +1167,16 @@ static void bpf_prog_clone_free(struct bpf_prog *fp)
 	 * clone is guaranteed to not be locked.
 	 */
 	fp->aux = NULL;
+<<<<<<< HEAD
 	fp->stats = NULL;
 	fp->active = NULL;
+=======
+<<<<<<< HEAD
+	fp->stats = NULL;
+	fp->active = NULL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__bpf_prog_free(fp);
 }
 
@@ -1321,8 +1378,18 @@ EXPORT_SYMBOL_GPL(__bpf_call_base);
 	INSN_3(STX, MEM,  H),			\
 	INSN_3(STX, MEM,  W),			\
 	INSN_3(STX, MEM,  DW),			\
+<<<<<<< HEAD
 	INSN_3(STX, ATOMIC, W),			\
 	INSN_3(STX, ATOMIC, DW),		\
+=======
+<<<<<<< HEAD
+	INSN_3(STX, ATOMIC, W),			\
+	INSN_3(STX, ATOMIC, DW),		\
+=======
+	INSN_3(STX, XADD, W),			\
+	INSN_3(STX, XADD, DW),			\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*   Immediate based. */		\
 	INSN_3(ST, MEM, B),			\
 	INSN_3(ST, MEM, H),			\
@@ -1630,6 +1697,10 @@ out:
 	LDX_PROBE(DW, 8)
 #undef LDX_PROBE
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ATOMIC_ALU_OP(BOP, KOP)						\
 		case BOP:						\
 			if (BPF_SIZE(insn->code) == BPF_W)		\
@@ -1683,6 +1754,18 @@ out:
 		default:
 			goto default_label;
 		}
+<<<<<<< HEAD
+=======
+=======
+	STX_XADD_W: /* lock xadd *(u32 *)(dst_reg + off16) += src_reg */
+		atomic_add((u32) SRC, (atomic_t *)(unsigned long)
+			   (DST + insn->off));
+		CONT;
+	STX_XADD_DW: /* lock xadd *(u64 *)(dst_reg + off16) += src_reg */
+		atomic64_add((u64) SRC, (atomic64_t *)(unsigned long)
+			     (DST + insn->off));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		CONT;
 
 	default_label:
@@ -1692,8 +1775,17 @@ out:
 		 *
 		 * Note, verifier whitelists all opcodes in bpf_opcode_in_insntable().
 		 */
+<<<<<<< HEAD
 		pr_warn("BPF interpreter: unknown opcode %02x (imm: 0x%x)\n",
 			insn->code, insn->imm);
+=======
+<<<<<<< HEAD
+		pr_warn("BPF interpreter: unknown opcode %02x (imm: 0x%x)\n",
+			insn->code, insn->imm);
+=======
+		pr_warn("BPF interpreter: unknown opcode %02x\n", insn->code);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BUG_ON(1);
 		return 0;
 }
@@ -2178,6 +2270,10 @@ static void bpf_free_used_maps(struct bpf_prog_aux *aux)
 	kfree(aux->used_maps);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __bpf_free_used_btfs(struct bpf_prog_aux *aux,
 			  struct btf_mod_pair *used_btfs, u32 len)
 {
@@ -2200,6 +2296,11 @@ static void bpf_free_used_btfs(struct bpf_prog_aux *aux)
 	kfree(aux->used_btfs);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void bpf_prog_free_deferred(struct work_struct *work)
 {
 	struct bpf_prog_aux *aux;
@@ -2207,7 +2308,14 @@ static void bpf_prog_free_deferred(struct work_struct *work)
 
 	aux = container_of(work, struct bpf_prog_aux, work);
 	bpf_free_used_maps(aux);
+<<<<<<< HEAD
 	bpf_free_used_btfs(aux);
+=======
+<<<<<<< HEAD
+	bpf_free_used_btfs(aux);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bpf_prog_is_dev_bound(aux))
 		bpf_prog_offload_destroy(aux->prog);
 #ifdef CONFIG_PERF_EVENTS
@@ -2344,10 +2452,19 @@ bool __weak bpf_helper_changes_pkt_data(void *func)
 /* Return TRUE if the JIT backend wants verifier to enable sub-register usage
  * analysis code and wants explicit zero extension inserted by verifier.
  * Otherwise, return FALSE.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The verifier inserts an explicit zero extension after BPF_CMPXCHGs even if
  * you don't override this. JITs that don't want these extra insns can detect
  * them using insn_is_zext.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool __weak bpf_jit_needs_zext(void)
 {

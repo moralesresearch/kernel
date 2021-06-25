@@ -178,7 +178,11 @@ static ssize_t perst_reloads_same_image_store(struct device *device,
 	if ((rc != 1) || !(val == 1 || val == 0))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	adapter->perst_same_image = (val == 1);
+=======
+	adapter->perst_same_image = (val == 1 ? true : false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return count;
 }
 

@@ -251,6 +251,7 @@ void ieee80211_scan_rx(struct ieee80211_local *local, struct sk_buff *skb)
 	struct ieee80211_mgmt *mgmt = (void *)skb->data;
 	struct ieee80211_bss *bss;
 	struct ieee80211_channel *channel;
+<<<<<<< HEAD
 	size_t min_hdr_len = offsetof(struct ieee80211_mgmt,
 				      u.probe_resp.variable);
 
@@ -269,6 +270,15 @@ void ieee80211_scan_rx(struct ieee80211_local *local, struct sk_buff *skb)
 	}
 
 	if (skb->len < min_hdr_len)
+=======
+
+	if (ieee80211_is_s1g_beacon(mgmt->frame_control)) {
+		if (skb->len < 15)
+			return;
+	} else if (skb->len < 24 ||
+		 (!ieee80211_is_probe_resp(mgmt->frame_control) &&
+		  !ieee80211_is_beacon(mgmt->frame_control)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	sdata1 = rcu_dereference(local->scan_sdata);

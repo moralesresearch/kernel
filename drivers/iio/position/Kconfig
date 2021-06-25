@@ -16,6 +16,7 @@ config IQS624_POS
 	  To compile this driver as a module, choose M here: the module
 	  will be called iqs624-pos.
 
+<<<<<<< HEAD
 config HID_SENSOR_CUSTOM_INTEL_HINGE
 	depends on HID_SENSOR_HUB
 	select IIO_BUFFER
@@ -32,4 +33,6 @@ config HID_SENSOR_CUSTOM_INTEL_HINGE
 	  To compile this driver as a module, choose M here: the
 	  module will be called hid-sensor-custom-hinge.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endmenu

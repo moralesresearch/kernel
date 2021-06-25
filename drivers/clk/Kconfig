@@ -247,8 +247,12 @@ config CLK_TWL6040
 
 config COMMON_CLK_AXI_CLKGEN
 	tristate "AXI clkgen driver"
+<<<<<<< HEAD
 	depends on HAS_IOMEM || COMPILE_TEST
 	depends on OF
+=======
+	depends on ARCH_ZYNQ || MICROBLAZE || COMPILE_TEST
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Support for the Analog Devices axi-clkgen pcore clock generator for Xilinx
 	  FPGAs. It is commonly used in Analog Devices' reference designs.
@@ -369,6 +373,7 @@ config COMMON_CLK_FIXED_MMIO
 	help
 	  Support for Memory Mapped IO Fixed clocks
 
+<<<<<<< HEAD
 config COMMON_CLK_K210
 	bool "Clock driver for the Canaan Kendryte K210 SoC"
 	depends on OF && RISCV && SOC_CANAAN
@@ -376,6 +381,8 @@ config COMMON_CLK_K210
 	help
 	  Support for the Canaan Kendryte K210 RISC-V SoC clocks.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/clk/actions/Kconfig"
 source "drivers/clk/analogbits/Kconfig"
 source "drivers/clk/baikal-t1/Kconfig"
@@ -387,7 +394,10 @@ source "drivers/clk/ingenic/Kconfig"
 source "drivers/clk/keystone/Kconfig"
 source "drivers/clk/mediatek/Kconfig"
 source "drivers/clk/meson/Kconfig"
+<<<<<<< HEAD
 source "drivers/clk/mstar/Kconfig"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/clk/mvebu/Kconfig"
 source "drivers/clk/qcom/Kconfig"
 source "drivers/clk/renesas/Kconfig"
@@ -401,7 +411,10 @@ source "drivers/clk/tegra/Kconfig"
 source "drivers/clk/ti/Kconfig"
 source "drivers/clk/uniphier/Kconfig"
 source "drivers/clk/x86/Kconfig"
+<<<<<<< HEAD
 source "drivers/clk/xilinx/Kconfig"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/clk/zynqmp/Kconfig"
 
 endif

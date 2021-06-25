@@ -217,6 +217,7 @@ For example::
 	 NPA_AF_ERR:
 	        NPA Error Interrupt Reg : 4096
 	        AQ Doorbell Error
+<<<<<<< HEAD
 
 
 NIX Reporters
@@ -287,3 +288,5 @@ For example::
 	 NIX_AF_ERR:
 	        NIX Error Interrupt Reg : 64
 	        Rx on unmapped PF_FUNC
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
 /*
+<<<<<<< HEAD
  * Copyright 2018-2021 Amazon.com, Inc. or its affiliates. All rights reserved.
+=======
+ * Copyright 2018-2020 Amazon.com, Inc. or its affiliates. All rights reserved.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef _EFA_ADMIN_H_
@@ -82,7 +86,11 @@ struct efa_admin_acq_common_desc {
 
 	/*
 	 * indicates to the driver which AQ entry has been consumed by the
+<<<<<<< HEAD
 	 * device and could be reused
+=======
+	 *    device and could be reused
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	u16 sq_head_indx;
 };

@@ -36,9 +36,14 @@
 /**
  * struct clk_icst - ICST VCO clock wrapper
  * @hw: corresponding clock hardware entry
+<<<<<<< HEAD
  * @map: register map
  * @vcoreg_off: VCO register address
  * @lockreg_off: VCO lock register address
+=======
+ * @vcoreg: VCO register address
+ * @lockreg: VCO lock register address
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @params: parameters for this ICST instance
  * @rate: current rate
  * @ctype: the type of control register for the ICST
@@ -429,7 +434,11 @@ static const struct icst_params icst307_params = {
 	.idx2s		= icst307_idx2s,
 };
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * The core modules on the Integrator/AP and Integrator/CP have
  * especially crippled ICST525 control.
  */

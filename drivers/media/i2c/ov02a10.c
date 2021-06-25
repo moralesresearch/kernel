@@ -388,7 +388,11 @@ static int ov02a10_check_sensor_id(struct ov02a10 *ov02a10)
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
 	chip_id = le16_to_cpu((__force __le16)ret);
+=======
+	chip_id = le16_to_cpu(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((chip_id & OV02A10_ID_MASK) != OV02A10_ID) {
 		dev_err(&client->dev, "unexpected sensor id(0x%04x)\n", chip_id);

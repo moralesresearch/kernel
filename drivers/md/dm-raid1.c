@@ -145,7 +145,11 @@ static void dispatch_bios(void *context, struct bio_list *bio_list)
 
 struct dm_raid1_bio_record {
 	struct mirror *m;
+<<<<<<< HEAD
 	/* if details->bi_bdev == NULL, details were not saved */
+=======
+	/* if details->bi_disk == NULL, details were not saved */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dm_bio_details details;
 	region_t write_region;
 };
@@ -1190,7 +1194,11 @@ static int mirror_map(struct dm_target *ti, struct bio *bio)
 	struct dm_raid1_bio_record *bio_record =
 	  dm_per_bio_data(bio, sizeof(struct dm_raid1_bio_record));
 
+<<<<<<< HEAD
 	bio_record->details.bi_bdev = NULL;
+=======
+	bio_record->details.bi_disk = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rw == WRITE) {
 		/* Save region for mirror_end_io() handler */
@@ -1257,7 +1265,11 @@ static int mirror_end_io(struct dm_target *ti, struct bio *bio,
 		goto out;
 
 	if (unlikely(*error)) {
+<<<<<<< HEAD
 		if (!bio_record->details.bi_bdev) {
+=======
+		if (!bio_record->details.bi_disk) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * There wasn't enough memory to record necessary
 			 * information for a retry or there was no other
@@ -1282,7 +1294,11 @@ static int mirror_end_io(struct dm_target *ti, struct bio *bio,
 			bd = &bio_record->details;
 
 			dm_bio_restore(bd, bio);
+<<<<<<< HEAD
 			bio_record->details.bi_bdev = NULL;
+=======
+			bio_record->details.bi_disk = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			bio->bi_status = 0;
 
 			queue_bio(ms, bio, rw);
@@ -1292,7 +1308,11 @@ static int mirror_end_io(struct dm_target *ti, struct bio *bio,
 	}
 
 out:
+<<<<<<< HEAD
 	bio_record->details.bi_bdev = NULL;
+=======
+	bio_record->details.bi_disk = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return DM_ENDIO_DONE;
 }

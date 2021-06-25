@@ -88,6 +88,9 @@ static inline int read_current_timer(unsigned long *timer_val)
 	return 0;
 }
 
+<<<<<<< HEAD
 extern void time_init(void);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _ASM_RISCV_TIMEX_H */

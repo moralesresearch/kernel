@@ -90,7 +90,11 @@ nfsd_proc_setattr(struct svc_rqst *rqstp)
 		if (delta < 0)
 			delta = -delta;
 		if (delta < MAX_TOUCH_TIME_ERROR &&
+<<<<<<< HEAD
 		    setattr_prepare(&init_user_ns, fhp->fh_dentry, iap) != 0) {
+=======
+		    setattr_prepare(fhp->fh_dentry, iap) != 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * Turn off ATTR_[AM]TIME_SET but leave ATTR_[AM]TIME.
 			 * This will cause notify_change to set these times
@@ -149,15 +153,24 @@ out:
 static __be32
 nfsd_proc_readlink(struct svc_rqst *rqstp)
 {
+<<<<<<< HEAD
 	struct nfsd_fhandle *argp = rqstp->rq_argp;
 	struct nfsd_readlinkres *resp = rqstp->rq_resp;
 	char *buffer = page_address(*(rqstp->rq_next_page++));
+=======
+	struct nfsd_readlinkargs *argp = rqstp->rq_argp;
+	struct nfsd_readlinkres *resp = rqstp->rq_resp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("nfsd: READLINK %s\n", SVCFH_fmt(&argp->fh));
 
 	/* Read the symlink. */
 	resp->len = NFS_MAXPATHLEN;
+<<<<<<< HEAD
 	resp->status = nfsd_readlink(rqstp, &argp->fh, buffer, &resp->len);
+=======
+	resp->status = nfsd_readlink(rqstp, &argp->fh, argp->buffer, &resp->len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fh_put(&argp->fh);
 	return rpc_success;
@@ -172,14 +185,19 @@ nfsd_proc_read(struct svc_rqst *rqstp)
 {
 	struct nfsd_readargs *argp = rqstp->rq_argp;
 	struct nfsd_readres *resp = rqstp->rq_resp;
+<<<<<<< HEAD
 	unsigned int len;
 	u32 eof;
 	int v;
+=======
+	u32 eof;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("nfsd: READ    %s %d bytes at %d\n",
 		SVCFH_fmt(&argp->fh),
 		argp->count, argp->offset);
 
+<<<<<<< HEAD
 	argp->count = min_t(u32, argp->count, NFSSVC_MAXBLKSIZE_V2);
 
 	v = 0;
@@ -202,6 +220,28 @@ nfsd_proc_read(struct svc_rqst *rqstp)
 	fh_copy(&resp->fh, &argp->fh);
 	resp->status = nfsd_read(rqstp, &resp->fh, argp->offset,
 				 rqstp->rq_vec, v, &resp->count, &eof);
+=======
+	/* Obtain buffer pointer for payload. 19 is 1 word for
+	 * status, 17 words for fattr, and 1 word for the byte count.
+	 */
+
+	if (NFSSVC_MAXBLKSIZE_V2 < argp->count) {
+		char buf[RPC_MAX_ADDRBUFLEN];
+		printk(KERN_NOTICE
+			"oversized read request from %s (%d bytes)\n",
+				svc_print_addr(rqstp, buf, sizeof(buf)),
+				argp->count);
+		argp->count = NFSSVC_MAXBLKSIZE_V2;
+	}
+	svc_reserve_auth(rqstp, (19<<2) + argp->count + 4);
+
+	resp->count = argp->count;
+	resp->status = nfsd_read(rqstp, fh_copy(&resp->fh, &argp->fh),
+				 argp->offset,
+				 rqstp->rq_vec, argp->vlen,
+				 &resp->count,
+				 &eof);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (resp->status == nfs_ok)
 		resp->status = fh_getattr(&resp->fh, &resp->stat);
 	else if (resp->status == nfserr_jukebox)
@@ -553,6 +593,7 @@ nfsd_proc_rmdir(struct svc_rqst *rqstp)
 	return rpc_success;
 }
 
+<<<<<<< HEAD
 static void nfsd_init_dirlist_pages(struct svc_rqst *rqstp,
 				    struct nfsd_readdirres *resp,
 				    int count)
@@ -567,6 +608,8 @@ static void nfsd_init_dirlist_pages(struct svc_rqst *rqstp,
 	rqstp->rq_next_page++;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Read a portion of a directory.
  */
@@ -575,24 +618,47 @@ nfsd_proc_readdir(struct svc_rqst *rqstp)
 {
 	struct nfsd_readdirargs *argp = rqstp->rq_argp;
 	struct nfsd_readdirres *resp = rqstp->rq_resp;
+<<<<<<< HEAD
 	loff_t		offset;
 	__be32		*buffer;
+=======
+	int		count;
+	loff_t		offset;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("nfsd: READDIR  %s %d bytes at %d\n",
 		SVCFH_fmt(&argp->fh),		
 		argp->count, argp->cookie);
 
+<<<<<<< HEAD
 	nfsd_init_dirlist_pages(rqstp, resp, argp->count);
 	buffer = resp->buffer;
 
 	resp->offset = NULL;
+=======
+	/* Shrink to the client read size */
+	count = (argp->count >> 2) - 2;
+
+	/* Make sure we've room for the NULL ptr & eof flag */
+	count -= 2;
+	if (count < 0)
+		count = 0;
+
+	resp->buffer = argp->buffer;
+	resp->offset = NULL;
+	resp->buflen = count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	resp->common.err = nfs_ok;
 	/* Read directory and encode entries on the fly */
 	offset = argp->cookie;
 	resp->status = nfsd_readdir(rqstp, &argp->fh, &offset,
 				    &resp->common, nfssvc_encode_entry);
 
+<<<<<<< HEAD
 	resp->count = resp->buffer - buffer;
+=======
+	resp->count = resp->buffer - argp->buffer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (resp->offset)
 		*resp->offset = htonl(offset);
 
@@ -635,18 +701,28 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_voidres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = 0,
+<<<<<<< HEAD
 		.pc_name = "NULL",
 	},
 	[NFSPROC_GETATTR] = {
 		.pc_func = nfsd_proc_getattr,
 		.pc_decode = nfssvc_decode_fhandleargs,
+=======
+	},
+	[NFSPROC_GETATTR] = {
+		.pc_func = nfsd_proc_getattr,
+		.pc_decode = nfssvc_decode_fhandle,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.pc_encode = nfssvc_encode_attrstat,
 		.pc_release = nfssvc_release_attrstat,
 		.pc_argsize = sizeof(struct nfsd_fhandle),
 		.pc_ressize = sizeof(struct nfsd_attrstat),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+AT,
+<<<<<<< HEAD
 		.pc_name = "GETATTR",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_SETATTR] = {
 		.pc_func = nfsd_proc_setattr,
@@ -657,7 +733,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_attrstat),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+AT,
+<<<<<<< HEAD
 		.pc_name = "SETATTR",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_ROOT] = {
 		.pc_func = nfsd_proc_root,
@@ -667,7 +746,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_voidres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = 0,
+<<<<<<< HEAD
 		.pc_name = "ROOT",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_LOOKUP] = {
 		.pc_func = nfsd_proc_lookup,
@@ -678,6 +760,7 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_diropres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+FH+AT,
+<<<<<<< HEAD
 		.pc_name = "LOOKUP",
 	},
 	[NFSPROC_READLINK] = {
@@ -689,6 +772,17 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+1+NFS_MAXPATHLEN/4,
 		.pc_name = "READLINK",
+=======
+	},
+	[NFSPROC_READLINK] = {
+		.pc_func = nfsd_proc_readlink,
+		.pc_decode = nfssvc_decode_readlinkargs,
+		.pc_encode = nfssvc_encode_readlinkres,
+		.pc_argsize = sizeof(struct nfsd_readlinkargs),
+		.pc_ressize = sizeof(struct nfsd_readlinkres),
+		.pc_cachetype = RC_NOCACHE,
+		.pc_xdrressize = ST+1+NFS_MAXPATHLEN/4,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_READ] = {
 		.pc_func = nfsd_proc_read,
@@ -699,7 +793,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_readres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+AT+1+NFSSVC_MAXBLKSIZE_V2/4,
+<<<<<<< HEAD
 		.pc_name = "READ",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_WRITECACHE] = {
 		.pc_func = nfsd_proc_writecache,
@@ -709,7 +806,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_voidres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = 0,
+<<<<<<< HEAD
 		.pc_name = "WRITECACHE",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_WRITE] = {
 		.pc_func = nfsd_proc_write,
@@ -720,7 +820,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_attrstat),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+AT,
+<<<<<<< HEAD
 		.pc_name = "WRITE",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_CREATE] = {
 		.pc_func = nfsd_proc_create,
@@ -731,7 +834,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_diropres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+FH+AT,
+<<<<<<< HEAD
 		.pc_name = "CREATE",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_REMOVE] = {
 		.pc_func = nfsd_proc_remove,
@@ -741,7 +847,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_stat),
 		.pc_cachetype = RC_REPLSTAT,
 		.pc_xdrressize = ST,
+<<<<<<< HEAD
 		.pc_name = "REMOVE",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_RENAME] = {
 		.pc_func = nfsd_proc_rename,
@@ -751,7 +860,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_stat),
 		.pc_cachetype = RC_REPLSTAT,
 		.pc_xdrressize = ST,
+<<<<<<< HEAD
 		.pc_name = "RENAME",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_LINK] = {
 		.pc_func = nfsd_proc_link,
@@ -761,7 +873,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_stat),
 		.pc_cachetype = RC_REPLSTAT,
 		.pc_xdrressize = ST,
+<<<<<<< HEAD
 		.pc_name = "LINK",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_SYMLINK] = {
 		.pc_func = nfsd_proc_symlink,
@@ -771,7 +886,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_stat),
 		.pc_cachetype = RC_REPLSTAT,
 		.pc_xdrressize = ST,
+<<<<<<< HEAD
 		.pc_name = "SYMLINK",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_MKDIR] = {
 		.pc_func = nfsd_proc_mkdir,
@@ -782,7 +900,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_diropres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+FH+AT,
+<<<<<<< HEAD
 		.pc_name = "MKDIR",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_RMDIR] = {
 		.pc_func = nfsd_proc_rmdir,
@@ -792,7 +913,10 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_ressize = sizeof(struct nfsd_stat),
 		.pc_cachetype = RC_REPLSTAT,
 		.pc_xdrressize = ST,
+<<<<<<< HEAD
 		.pc_name = "RMDIR",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC_READDIR] = {
 		.pc_func = nfsd_proc_readdir,
@@ -801,17 +925,27 @@ static const struct svc_procedure nfsd_procedures2[18] = {
 		.pc_argsize = sizeof(struct nfsd_readdirargs),
 		.pc_ressize = sizeof(struct nfsd_readdirres),
 		.pc_cachetype = RC_NOCACHE,
+<<<<<<< HEAD
 		.pc_name = "READDIR",
 	},
 	[NFSPROC_STATFS] = {
 		.pc_func = nfsd_proc_statfs,
 		.pc_decode = nfssvc_decode_fhandleargs,
+=======
+	},
+	[NFSPROC_STATFS] = {
+		.pc_func = nfsd_proc_statfs,
+		.pc_decode = nfssvc_decode_fhandle,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.pc_encode = nfssvc_encode_statfsres,
 		.pc_argsize = sizeof(struct nfsd_fhandle),
 		.pc_ressize = sizeof(struct nfsd_statfsres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+5,
+<<<<<<< HEAD
 		.pc_name = "STATFS",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

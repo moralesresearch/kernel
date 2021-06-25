@@ -391,6 +391,7 @@ static void
 mt7921_mcu_tx_rate_report(struct mt7921_dev *dev, struct sk_buff *skb,
 			  u16 wlan_idx)
 {
+<<<<<<< HEAD
 	struct mt7921_mcu_wlan_info_event *wtbl_info;
 	struct mt76_phy *mphy = &dev->mphy;
 	struct mt7921_sta_stats *stats;
@@ -412,16 +413,39 @@ mt7921_mcu_tx_rate_report(struct mt7921_dev *dev, struct sk_buff *skb,
 	wcid = rcu_dereference(dev->mt76.wcid[wlan_idx]);
 	if (!wcid)
 		goto out;
+=======
+	struct mt7921_mcu_wlan_info_event *wtbl_info =
+		(struct mt7921_mcu_wlan_info_event *)(skb->data);
+	struct rate_info rate = {};
+	u8 curr_idx = wtbl_info->rate_info.rate_idx;
+	u16 curr = le16_to_cpu(wtbl_info->rate_info.rate[curr_idx]);
+	struct mt7921_mcu_peer_cap peer = wtbl_info->peer_cap;
+	struct mt76_phy *mphy = &dev->mphy;
+	struct mt7921_sta_stats *stats;
+	struct mt7921_sta *msta;
+	struct mt76_wcid *wcid;
+
+	if (wlan_idx >= MT76_N_WCIDS)
+		return;
+	wcid = rcu_dereference(dev->mt76.wcid[wlan_idx]);
+	if (!wcid)
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	msta = container_of(wcid, struct mt7921_sta, wcid);
 	stats = &msta->stats;
 
 	/* current rate */
+<<<<<<< HEAD
 	mt7921_mcu_tx_rate_parse(mphy, &wtbl_info->peer_cap, &rate,
 				 le16_to_cpu(wtbl_info->rate_info.rate[idx]));
 	stats->tx_rate = rate;
 out:
 	rcu_read_unlock();
+=======
+	mt7921_mcu_tx_rate_parse(mphy, &peer, &rate, curr);
+	stats->tx_rate = rate;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void
@@ -1312,6 +1336,7 @@ mt7921_pm_interface_iter(void *priv, u8 *mac, struct ieee80211_vif *vif)
 		mt76_clear(dev, MT_WF_RFCR(0), MT_WF_RFCR_DROP_OTHER_BEACON);
 	}
 }
+<<<<<<< HEAD
 
 int mt7921_mcu_update_arp_filter(struct ieee80211_hw *hw,
 				 struct ieee80211_vif *vif,
@@ -1356,3 +1381,5 @@ int mt7921_mcu_update_arp_filter(struct ieee80211_hw *hw,
 	return mt76_mcu_skb_send_msg(&dev->mt76, skb, MCU_UNI_CMD_OFFLOAD,
 				     true);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

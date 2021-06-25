@@ -273,8 +273,13 @@ err_dev_reg:
 	return res;
 }
 
+<<<<<<< HEAD
 static void radio_isa_common_remove(struct radio_isa_card *isa,
 				    unsigned region_size)
+=======
+static int radio_isa_common_remove(struct radio_isa_card *isa,
+				   unsigned region_size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct radio_isa_ops *ops = isa->drv->ops;
 
@@ -285,6 +290,10 @@ static void radio_isa_common_remove(struct radio_isa_card *isa,
 	release_region(isa->io, region_size);
 	v4l2_info(&isa->v4l2_dev, "Removed radio card %s\n", isa->drv->card);
 	kfree(isa);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int radio_isa_probe(struct device *pdev, unsigned int dev)
@@ -337,11 +346,19 @@ int radio_isa_probe(struct device *pdev, unsigned int dev)
 }
 EXPORT_SYMBOL_GPL(radio_isa_probe);
 
+<<<<<<< HEAD
 void radio_isa_remove(struct device *pdev, unsigned int dev)
 {
 	struct radio_isa_card *isa = dev_get_drvdata(pdev);
 
 	radio_isa_common_remove(isa, isa->drv->region_size);
+=======
+int radio_isa_remove(struct device *pdev, unsigned int dev)
+{
+	struct radio_isa_card *isa = dev_get_drvdata(pdev);
+
+	return radio_isa_common_remove(isa, isa->drv->region_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(radio_isa_remove);
 

@@ -130,7 +130,10 @@ static void signal_our_withdraw(struct gfs2_sbd *sdp)
 	if (test_bit(SDF_NORECOVERY, &sdp->sd_flags) || !sdp->sd_jdesc)
 		return;
 
+<<<<<<< HEAD
 	gfs2_ail_drain(sdp); /* frees all transactions */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode = sdp->sd_jdesc->jd_inode;
 	ip = GFS2_I(inode);
 	i_gl = ip->i_gl;
@@ -162,7 +165,15 @@ static void signal_our_withdraw(struct gfs2_sbd *sdp)
 				ret = 0;
 		}
 		if (!ret)
+<<<<<<< HEAD
 			gfs2_make_fs_ro(sdp);
+=======
+<<<<<<< HEAD
+			gfs2_make_fs_ro(sdp);
+=======
+			ret = gfs2_make_fs_ro(sdp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gfs2_freeze_unlock(&freeze_gh);
 	}
 

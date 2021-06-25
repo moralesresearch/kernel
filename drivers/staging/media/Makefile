@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_VIDEO_ALLEGRO_DVT)	+= allegro-dvt/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
 obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
 obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/

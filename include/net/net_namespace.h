@@ -165,7 +165,11 @@ struct net {
 	struct netns_xfrm	xfrm;
 #endif
 
+<<<<<<< HEAD
 	u64			net_cookie; /* written once */
+=======
+	atomic64_t		net_cookie; /* written once */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if IS_ENABLED(CONFIG_IP_VS)
 	struct netns_ipvs	*ipvs;
@@ -197,8 +201,11 @@ struct net *copy_net_ns(unsigned long flags, struct user_namespace *user_ns,
 void net_ns_get_ownership(const struct net *net, kuid_t *uid, kgid_t *gid);
 
 void net_ns_barrier(void);
+<<<<<<< HEAD
 
 struct ns_common *get_net_ns(struct ns_common *ns);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_NET_NS */
 #include <linux/sched.h>
 #include <linux/nsproxy.h>
@@ -218,11 +225,14 @@ static inline void net_ns_get_ownership(const struct net *net,
 }
 
 static inline void net_ns_barrier(void) {}
+<<<<<<< HEAD
 
 static inline struct ns_common *get_net_ns(struct ns_common *ns)
 {
 	return ERR_PTR(-EINVAL);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_NET_NS */
 
 
@@ -231,6 +241,11 @@ extern struct list_head net_namespace_list;
 struct net *get_net_ns_by_pid(pid_t pid);
 struct net *get_net_ns_by_fd(int fd);
 
+<<<<<<< HEAD
+=======
+u64 __net_gen_cookie(struct net *net);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SYSCTL
 void ipx_register_sysctl(void);
 void ipx_unregister_sysctl(void);

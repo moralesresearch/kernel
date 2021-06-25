@@ -62,7 +62,11 @@ xfs_setfilesize_trans_alloc(
 	 * We hand off the transaction to the completion thread now, so
 	 * clear the flag here.
 	 */
+<<<<<<< HEAD
 	xfs_trans_clear_context(tp);
+=======
+	current_restore_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -125,7 +129,11 @@ xfs_setfilesize_ioend(
 	 * thus we need to mark ourselves as being in a transaction manually.
 	 * Similarly for freeze protection.
 	 */
+<<<<<<< HEAD
 	xfs_trans_set_context(tp);
+=======
+	current_set_flags_nested(&tp->t_pflags, PF_MEMALLOC_NOFS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__sb_writers_acquired(VFS_I(ip)->i_sb, SB_FREEZE_FS);
 
 	/* we abort the update if there was an IO error */
@@ -568,12 +576,15 @@ xfs_vm_writepage(
 {
 	struct xfs_writepage_ctx wpc = { };
 
+<<<<<<< HEAD
 	if (WARN_ON_ONCE(current->journal_info)) {
 		redirty_page_for_writepage(wbc, page);
 		unlock_page(page);
 		return 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return iomap_writepage(page, wbc, &wpc.ctx, &xfs_writeback_ops);
 }
 
@@ -584,6 +595,7 @@ xfs_vm_writepages(
 {
 	struct xfs_writepage_ctx wpc = { };
 
+<<<<<<< HEAD
 	/*
 	 * Writing back data in a transaction context can result in recursive
 	 * transactions. This is bad, so issue a warning and get out of here.
@@ -591,6 +603,8 @@ xfs_vm_writepages(
 	if (WARN_ON_ONCE(current->journal_info))
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_iflags_clear(XFS_I(mapping->host), XFS_ITRUNCATED);
 	return iomap_writepages(mapping, wbc, &wpc.ctx, &xfs_writeback_ops);
 }

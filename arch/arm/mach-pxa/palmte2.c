@@ -273,6 +273,10 @@ static struct platform_device power_supply = {
 static struct wm97xx_batt_pdata palmte2_batt_pdata = {
 	.batt_aux	= WM97XX_AUX_ID3,
 	.temp_aux	= WM97XX_AUX_ID2,
+<<<<<<< HEAD
+=======
+	.charge_gpio	= -1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.max_voltage	= PALMTE2_BAT_MAX_VOLTAGE,
 	.min_voltage	= PALMTE2_BAT_MIN_VOLTAGE,
 	.batt_mult	= 1000,

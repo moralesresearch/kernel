@@ -1099,7 +1099,10 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
 	struct fuse_file *ff = file->private_data;
 	struct fuse_mount *fm = ff->fm;
 	unsigned int offset, i;
+<<<<<<< HEAD
 	bool short_write;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	for (i = 0; i < ap->num_pages; i++)
@@ -1114,12 +1117,16 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
 	if (!err && ia->write.out.size > count)
 		err = -EIO;
 
+<<<<<<< HEAD
 	short_write = ia->write.out.size < count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	offset = ap->descs[0].offset;
 	count = ia->write.out.size;
 	for (i = 0; i < ap->num_pages; i++) {
 		struct page *page = ap->pages[i];
 
+<<<<<<< HEAD
 		if (err) {
 			ClearPageUptodate(page);
 		} else {
@@ -1134,18 +1141,37 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
 		}
 		if (ia->write.page_locked && (i == ap->num_pages - 1))
 			unlock_page(page);
+=======
+		if (!err && !offset && count >= PAGE_SIZE)
+			SetPageUptodate(page);
+
+		if (count > PAGE_SIZE - offset)
+			count -= PAGE_SIZE - offset;
+		else
+			count = 0;
+		offset = 0;
+
+		unlock_page(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		put_page(page);
 	}
 
 	return err;
 }
 
+<<<<<<< HEAD
 static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
+=======
+static ssize_t fuse_fill_write_pages(struct fuse_args_pages *ap,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     struct address_space *mapping,
 				     struct iov_iter *ii, loff_t pos,
 				     unsigned int max_pages)
 {
+<<<<<<< HEAD
 	struct fuse_args_pages *ap = &ia->ap;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fuse_conn *fc = get_fuse_conn(mapping->host);
 	unsigned offset = pos & (PAGE_SIZE - 1);
 	size_t count = 0;
@@ -1198,6 +1224,7 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
 		if (offset == PAGE_SIZE)
 			offset = 0;
 
+<<<<<<< HEAD
 		/* If we copied full page, mark it uptodate */
 		if (tmp == PAGE_SIZE)
 			SetPageUptodate(page);
@@ -1208,6 +1235,8 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
 			ia->write.page_locked = true;
 			break;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!fc->big_writes)
 			break;
 	} while (iov_iter_count(ii) && count < fc->max_write &&
@@ -1251,7 +1280,11 @@ static ssize_t fuse_perform_write(struct kiocb *iocb,
 			break;
 		}
 
+<<<<<<< HEAD
 		count = fuse_fill_write_pages(&ia, mapping, ii, pos, nr_pages);
+=======
+		count = fuse_fill_write_pages(ap, mapping, ii, pos, nr_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (count <= 0) {
 			err = count;
 		} else {
@@ -1776,6 +1809,7 @@ static void fuse_writepage_end(struct fuse_mount *fm, struct fuse_args *args,
 		container_of(args, typeof(*wpa), ia.ap.args);
 	struct inode *inode = wpa->inode;
 	struct fuse_inode *fi = get_fuse_inode(inode);
+<<<<<<< HEAD
 	struct fuse_conn *fc = get_fuse_conn(inode);
 
 	mapping_set_error(inode->i_mapping, error);
@@ -1787,6 +1821,10 @@ static void fuse_writepage_end(struct fuse_mount *fm, struct fuse_args *args,
 	 */
 	if (!fc->writeback_cache)
 		fuse_invalidate_attr(inode);
+=======
+
+	mapping_set_error(inode->i_mapping, error);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&fi->lock);
 	rb_erase(&wpa->writepages_entry, &fi->writepages);
 	while (wpa->next) {

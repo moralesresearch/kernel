@@ -172,7 +172,11 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
  * mipi_dbi_command - MIPI DCS command with optional parameter(s)
  * @dbi: MIPI DBI structure
  * @cmd: Command
+<<<<<<< HEAD
  * @seq: Optional parameter(s)
+=======
+ * @seq...: Optional parameter(s)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Send MIPI DCS command to the controller. Use mipi_dbi_command_read() for
  * get/read.

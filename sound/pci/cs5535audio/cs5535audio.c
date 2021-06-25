@@ -269,7 +269,12 @@ static int snd_cs5535audio_create(struct snd_card *card,
 	if ((err = pci_enable_device(pci)) < 0)
 		return err;
 
+<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32))) {
+=======
+	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(32)) < 0 ||
+	    dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(32)) < 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_warn(card->dev, "unable to get 32bit dma\n");
 		err = -ENXIO;
 		goto pcifail;
@@ -393,3 +398,7 @@ module_pci_driver(cs5535audio_driver);
 MODULE_AUTHOR("Jaya Kumar");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("CS5535 Audio");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("CS5535 Audio");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

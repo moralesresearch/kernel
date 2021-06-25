@@ -6,14 +6,20 @@
 //  MyungJoo Ham <myungjoo.ham@samsung.com>
 
 #include <linux/err.h>
+<<<<<<< HEAD
 #include <linux/extcon.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/slab.h>
 #include <linux/platform_device.h>
 #include <linux/power_supply.h>
 #include <linux/mfd/max8997.h>
 #include <linux/mfd/max8997-private.h>
+<<<<<<< HEAD
 #include <linux/regulator/consumer.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* MAX8997_REG_STATUS4 */
 #define DCINOK_SHIFT		1
@@ -33,10 +39,13 @@ struct charger_data {
 	struct device *dev;
 	struct max8997_dev *iodev;
 	struct power_supply *battery;
+<<<<<<< HEAD
 	struct regulator *reg;
 	struct extcon_dev *edev;
 	struct notifier_block extcon_nb;
 	struct work_struct extcon_work;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static enum power_supply_property max8997_battery_props[] = {
@@ -94,6 +103,7 @@ static int max8997_battery_get_property(struct power_supply *psy,
 	return 0;
 }
 
+<<<<<<< HEAD
 static void max8997_battery_extcon_evt_stop_work(void *data)
 {
 	struct charger_data *charger = data;
@@ -155,6 +165,8 @@ static int max8997_battery_extcon_evt(struct notifier_block *nb,
 	return NOTIFY_OK;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct power_supply_desc max8997_battery_desc = {
 	.name		= "max8997_pmic",
 	.type		= POWER_SUPPLY_TYPE_BATTERY,
@@ -237,6 +249,7 @@ static int max8997_battery_probe(struct platform_device *pdev)
 		return PTR_ERR(charger->battery);
 	}
 
+<<<<<<< HEAD
 	charger->reg = devm_regulator_get_optional(&pdev->dev, "charger");
 	if (IS_ERR(charger->reg)) {
 		if (PTR_ERR(charger->reg) == -EPROBE_DEFER)
@@ -266,6 +279,8 @@ static int max8997_battery_probe(struct platform_device *pdev)
 		};
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

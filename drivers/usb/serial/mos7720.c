@@ -215,10 +215,21 @@ static int read_mos_reg(struct usb_serial *serial, unsigned int serial_portnum,
 	int status;
 
 	buf = kmalloc(1, GFP_KERNEL);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!buf) {
 		*data = 0;
 		return -ENOMEM;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (!buf)
+		return -ENOMEM;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = usb_control_msg(usbdev, pipe, request, requesttype, value,
 				     index, buf, 1, MOS_WDR_TIMEOUT);
@@ -1760,12 +1771,28 @@ static int mos7720_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void mos7720_port_remove(struct usb_serial_port *port)
+=======
+<<<<<<< HEAD
+static void mos7720_port_remove(struct usb_serial_port *port)
+=======
+static int mos7720_port_remove(struct usb_serial_port *port)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct moschip_port *mos7720_port;
 
 	mos7720_port = usb_get_serial_port_data(port);
 	kfree(mos7720_port);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct usb_serial_driver moschip7720_2port_driver = {

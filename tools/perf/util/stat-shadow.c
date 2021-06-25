@@ -273,6 +273,7 @@ void perf_stat__update_shadow_stats(struct evsel *counter, u64 count,
 	else if (perf_stat_evsel__is(counter, TOPDOWN_BE_BOUND))
 		update_runtime_stat(st, STAT_TOPDOWN_BE_BOUND,
 				    cpu, count, &rsd);
+<<<<<<< HEAD
 	else if (perf_stat_evsel__is(counter, TOPDOWN_HEAVY_OPS))
 		update_runtime_stat(st, STAT_TOPDOWN_HEAVY_OPS,
 				    cpu, count, &rsd);
@@ -285,6 +286,8 @@ void perf_stat__update_shadow_stats(struct evsel *counter, u64 count,
 	else if (perf_stat_evsel__is(counter, TOPDOWN_MEM_BOUND))
 		update_runtime_stat(st, STAT_TOPDOWN_MEM_BOUND,
 				    cpu, count, &rsd);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (evsel__match(counter, HARDWARE, HW_STALLED_CYCLES_FRONTEND))
 		update_runtime_stat(st, STAT_STALLED_CYCLES_FRONT,
 				    cpu, count, &rsd);
@@ -1186,6 +1189,7 @@ void perf_stat__print_shadow_stats(struct perf_stat_config *config,
 			color = PERF_COLOR_RED;
 		print_metric(config, ctxp, color, "%8.1f%%", "bad speculation",
 				bad_spec * 100.);
+<<<<<<< HEAD
 	} else if (perf_stat_evsel__is(evsel, TOPDOWN_HEAVY_OPS) &&
 			full_td(cpu, st, &rsd) && (config->topdown_level > 1)) {
 		double retiring = td_metric_ratio(cpu,
@@ -1266,6 +1270,8 @@ void perf_stat__print_shadow_stats(struct perf_stat_config *config,
 			color = NULL;
 		print_metric(config, ctxp, color, "%8.1f%%", "Core bound",
 				core_bound * 100.);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (evsel->metric_expr) {
 		generic_metric(config, evsel->metric_expr, evsel->metric_events, NULL,
 				evsel->name, evsel->metric_name, NULL, 1, cpu, out, st);

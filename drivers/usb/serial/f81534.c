@@ -235,9 +235,17 @@ static int f81534_set_register(struct usb_serial *serial, u16 reg, u8 data)
 					 USB_TYPE_VENDOR | USB_DIR_OUT,
 					 reg, 0, tmp, sizeof(u8),
 					 F81534_USB_TIMEOUT);
+<<<<<<< HEAD
 		if (status == sizeof(u8)) {
 			status = 0;
 			break;
+=======
+		if (status > 0) {
+			status = 0;
+			break;
+		} else if (status == 0) {
+			status = -EIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1430,11 +1438,19 @@ static int f81534_port_probe(struct usb_serial_port *port)
 	return f81534_set_port_output_pin(port);
 }
 
+<<<<<<< HEAD
 static void f81534_port_remove(struct usb_serial_port *port)
+=======
+static int f81534_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f81534_port_private *port_priv = usb_get_serial_port_data(port);
 
 	flush_work(&port_priv->lsr_work);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int f81534_tiocmget(struct tty_struct *tty)

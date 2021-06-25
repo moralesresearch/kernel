@@ -44,7 +44,11 @@
 
 	sound {
 		compatible = "amlogic,axg-sound-card";
+<<<<<<< HEAD
 		model = "GTKING-PRO";
+=======
+		model = "G12B-GTKING-PRO";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-aux-devs = <&tdmout_b>;
 		audio-routing = "TDMOUT_B IN 0", "FRDDR_A OUT 1",
 				"TDMOUT_B IN 1", "FRDDR_B OUT 1",

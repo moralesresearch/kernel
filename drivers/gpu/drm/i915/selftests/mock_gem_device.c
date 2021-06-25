@@ -64,6 +64,11 @@ static void mock_device_release(struct drm_device *dev)
 	mock_device_flush(i915);
 	intel_gt_driver_remove(&i915->gt);
 
+<<<<<<< HEAD
+=======
+	i915_gem_driver_release__contexts(i915);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i915_gem_drain_workqueue(i915);
 	i915_gem_drain_freed_objects(i915);
 

@@ -79,7 +79,11 @@
 #endif
 
 /**
+<<<<<<< HEAD
  * TH_LOG()
+=======
+ * TH_LOG(fmt, ...)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @fmt: format string
  * @...: optional arguments
@@ -113,16 +117,23 @@
 			__FILE__, __LINE__, _metadata->name, ##__VA_ARGS__)
 
 /**
+<<<<<<< HEAD
  * SKIP()
+=======
+ * SKIP(statement, fmt, ...)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @statement: statement to run after reporting SKIP
  * @fmt: format string
  * @...: optional arguments
  *
+<<<<<<< HEAD
  * .. code-block:: c
  *
  *     SKIP(statement, fmt, ...);
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * This forces a "pass" after reporting why something is being skipped
  * and runs "statement", which is usually "return" or "goto skip".
  */
@@ -140,7 +151,11 @@
 } while (0)
 
 /**
+<<<<<<< HEAD
  * TEST() - Defines the test function and creates the registration
+=======
+ * TEST(test_name) - Defines the test function and creates the registration
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * stub
  *
  * @test_name: test name
@@ -159,7 +174,11 @@
 #define TEST(test_name) __TEST_IMPL(test_name, -1)
 
 /**
+<<<<<<< HEAD
  * TEST_SIGNAL()
+=======
+ * TEST_SIGNAL(test_name, signal)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @test_name: test name
  * @signal: signal number
@@ -199,7 +218,11 @@
 		struct __test_metadata __attribute__((unused)) *_metadata)
 
 /**
+<<<<<<< HEAD
  * FIXTURE_DATA() - Wraps the struct name so we have one less
+=======
+ * FIXTURE_DATA(datatype_name) - Wraps the struct name so we have one less
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * argument to pass around
  *
  * @datatype_name: datatype name
@@ -216,7 +239,11 @@
 #define FIXTURE_DATA(datatype_name) struct _test_data_##datatype_name
 
 /**
+<<<<<<< HEAD
  * FIXTURE() - Called once per fixture to setup the data and
+=======
+ * FIXTURE(fixture_name) - Called once per fixture to setup the data and
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * register
  *
  * @fixture_name: fixture name
@@ -243,7 +270,11 @@
 	FIXTURE_DATA(fixture_name)
 
 /**
+<<<<<<< HEAD
  * FIXTURE_SETUP() - Prepares the setup function for the fixture.
+=======
+ * FIXTURE_SETUP(fixture_name) - Prepares the setup function for the fixture.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
  *
  * @fixture_name: fixture name
@@ -269,7 +300,11 @@
 			__attribute__((unused)) *variant)
 
 /**
+<<<<<<< HEAD
  * FIXTURE_TEARDOWN()
+=======
+ * FIXTURE_TEARDOWN(fixture_name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
  *
  * @fixture_name: fixture name
@@ -290,7 +325,11 @@
 		FIXTURE_DATA(fixture_name) __attribute__((unused)) *self)
 
 /**
+<<<<<<< HEAD
  * FIXTURE_VARIANT() - Optionally called once per fixture
+=======
+ * FIXTURE_VARIANT(fixture_name) - Optionally called once per fixture
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * to declare fixture variant
  *
  * @fixture_name: fixture name
@@ -309,7 +348,11 @@
 #define FIXTURE_VARIANT(fixture_name) struct _fixture_variant_##fixture_name
 
 /**
+<<<<<<< HEAD
  * FIXTURE_VARIANT_ADD() - Called once per fixture
+=======
+ * FIXTURE_VARIANT_ADD(fixture_name, variant_name) - Called once per fixture
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * variant to setup and register the data
  *
  * @fixture_name: fixture name
@@ -343,7 +386,11 @@
 		_##fixture_name##_##variant_name##_variant =
 
 /**
+<<<<<<< HEAD
  * TEST_F() - Emits test registration and helpers for
+=======
+ * TEST_F(fixture_name, test_name) - Emits test registration and helpers for
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * fixture-based test cases
  *
  * @fixture_name: fixture name

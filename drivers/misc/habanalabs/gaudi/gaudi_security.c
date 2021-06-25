@@ -13052,8 +13052,11 @@ void gaudi_init_security(struct hl_device *hdev)
 
 	gaudi_init_protection_bits(hdev);
 }
+<<<<<<< HEAD
 
 void gaudi_ack_protection_bits_errors(struct hl_device *hdev)
 {
 
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

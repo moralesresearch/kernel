@@ -238,7 +238,11 @@ static int do_gfs2_set_flags(struct file *filp, u32 reqflags, u32 mask,
 		goto out;
 
 	error = -EACCES;
+<<<<<<< HEAD
 	if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+	if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	error = 0;
@@ -256,7 +260,11 @@ static int do_gfs2_set_flags(struct file *filp, u32 reqflags, u32 mask,
 	    !capable(CAP_LINUX_IMMUTABLE))
 		goto out;
 	if (!IS_IMMUTABLE(inode)) {
+<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, inode, MAY_WRITE);
+=======
+		error = gfs2_permission(inode, MAY_WRITE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out;
 	}
@@ -716,10 +724,17 @@ static int gfs2_release(struct inode *inode, struct file *file)
 	kfree(file->private_data);
 	file->private_data = NULL;
 
+<<<<<<< HEAD
 	if (gfs2_rs_active(&ip->i_res))
 		gfs2_rs_delete(ip, &inode->i_writecount);
 	if (file->f_mode & FMODE_WRITE)
 		gfs2_qa_put(ip);
+=======
+	if (file->f_mode & FMODE_WRITE) {
+		gfs2_rs_delete(ip, &inode->i_writecount);
+		gfs2_qa_put(ip);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -749,7 +764,11 @@ static int gfs2_fsync(struct file *file, loff_t start, loff_t end,
 {
 	struct address_space *mapping = file->f_mapping;
 	struct inode *inode = mapping->host;
+<<<<<<< HEAD
 	int sync_state = inode->i_state & I_DIRTY;
+=======
+	int sync_state = inode->i_state & I_DIRTY_ALL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gfs2_inode *ip = GFS2_I(inode);
 	int ret = 0, ret1 = 0;
 
@@ -762,7 +781,11 @@ static int gfs2_fsync(struct file *file, loff_t start, loff_t end,
 	if (!gfs2_is_jdata(ip))
 		sync_state &= ~I_DIRTY_PAGES;
 	if (datasync)
+<<<<<<< HEAD
 		sync_state &= ~I_DIRTY_SYNC;
+=======
+		sync_state &= ~(I_DIRTY_SYNC | I_DIRTY_TIME);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sync_state) {
 		ret = sync_inode_metadata(inode, 1);
@@ -797,7 +820,13 @@ static ssize_t gfs2_file_direct_read(struct kiocb *iocb, struct iov_iter *to,
 	if (ret)
 		goto out_uninit;
 
+<<<<<<< HEAD
 	ret = iomap_dio_rw(iocb, to, &gfs2_iomap_ops, NULL, 0);
+=======
+	ret = iomap_dio_rw(iocb, to, &gfs2_iomap_ops, NULL,
+			   is_sync_kiocb(iocb));
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gfs2_glock_dq(gh);
 out_uninit:
 	gfs2_holder_uninit(gh);
@@ -831,7 +860,12 @@ static ssize_t gfs2_file_direct_write(struct kiocb *iocb, struct iov_iter *from,
 	if (offset + len > i_size_read(&ip->i_inode))
 		goto out;
 
+<<<<<<< HEAD
 	ret = iomap_dio_rw(iocb, from, &gfs2_iomap_ops, NULL, 0);
+=======
+	ret = iomap_dio_rw(iocb, from, &gfs2_iomap_ops, NULL,
+			   is_sync_kiocb(iocb));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret == -ENOTBLK)
 		ret = 0;
 out:
@@ -935,11 +969,16 @@ static ssize_t gfs2_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
 		current->backing_dev_info = inode_to_bdi(inode);
 		buffered = iomap_file_buffered_write(iocb, from, &gfs2_iomap_ops);
 		current->backing_dev_info = NULL;
+<<<<<<< HEAD
 		if (unlikely(buffered <= 0)) {
 			if (!ret)
 				ret = buffered;
 			goto out_unlock;
 		}
+=======
+		if (unlikely(buffered <= 0))
+			goto out_unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * We need to ensure that the page cache pages are written to
@@ -1115,8 +1154,13 @@ static long __gfs2_fallocate(struct file *file, int mode, loff_t offset, loff_t 
 			goto out_qunlock;
 
 		/* check if the selected rgrp limits our max_blks further */
+<<<<<<< HEAD
 		if (ip->i_res.rs_reserved < max_blks)
 			max_blks = ip->i_res.rs_reserved;
+=======
+		if (ap.allowed && ap.allowed < max_blks)
+			max_blks = ap.allowed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Almost done. Calculate bytes that can be written using
 		 * max_blks. We also recompute max_bytes, data_blocks and

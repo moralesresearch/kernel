@@ -38,9 +38,13 @@
 #include <linux/mlx5/fs.h>
 #include "mlx5_core.h"
 #include "eswitch.h"
+<<<<<<< HEAD
 #include "esw/indir_table.h"
 #include "esw/acl/ofld.h"
 #include "esw/indir_table.h"
+=======
+#include "esw/acl/ofld.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "rdma.h"
 #include "en.h"
 #include "fs_core.h"
@@ -259,9 +263,13 @@ mlx5_eswitch_set_rule_flow_source(struct mlx5_eswitch *esw,
 static void
 mlx5_eswitch_set_rule_source_port(struct mlx5_eswitch *esw,
 				  struct mlx5_flow_spec *spec,
+<<<<<<< HEAD
 				  struct mlx5_flow_attr *attr,
 				  struct mlx5_eswitch *src_esw,
 				  u16 vport)
+=======
+				  struct mlx5_esw_flow_attr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *misc2;
 	void *misc;
@@ -270,12 +278,19 @@ mlx5_eswitch_set_rule_source_port(struct mlx5_eswitch *esw,
 	 * VHCA in dual-port RoCE mode, and matching on source vport may fail.
 	 */
 	if (mlx5_eswitch_vport_match_metadata_enabled(esw)) {
+<<<<<<< HEAD
 		if (mlx5_esw_indir_table_decap_vport(attr))
 			vport = mlx5_esw_indir_table_decap_vport(attr);
 		misc2 = MLX5_ADDR_OF(fte_match_param, spec->match_value, misc_parameters_2);
 		MLX5_SET(fte_match_set_misc2, misc2, metadata_reg_c_0,
 			 mlx5_eswitch_get_vport_metadata_for_match(src_esw,
 								   vport));
+=======
+		misc2 = MLX5_ADDR_OF(fte_match_param, spec->match_value, misc_parameters_2);
+		MLX5_SET(fte_match_set_misc2, misc2, metadata_reg_c_0,
+			 mlx5_eswitch_get_vport_metadata_for_match(attr->in_mdev->priv.eswitch,
+								   attr->in_rep->vport));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		misc2 = MLX5_ADDR_OF(fte_match_param, spec->match_criteria, misc_parameters_2);
 		MLX5_SET(fte_match_set_misc2, misc2, metadata_reg_c_0,
@@ -284,12 +299,20 @@ mlx5_eswitch_set_rule_source_port(struct mlx5_eswitch *esw,
 		spec->match_criteria_enable |= MLX5_MATCH_MISC_PARAMETERS_2;
 	} else {
 		misc = MLX5_ADDR_OF(fte_match_param, spec->match_value, misc_parameters);
+<<<<<<< HEAD
 		MLX5_SET(fte_match_set_misc, misc, source_port, vport);
+=======
+		MLX5_SET(fte_match_set_misc, misc, source_port, attr->in_rep->vport);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
 			MLX5_SET(fte_match_set_misc, misc,
 				 source_eswitch_owner_vhca_id,
+<<<<<<< HEAD
 				 MLX5_CAP_GEN(src_esw->dev, vhca_id));
+=======
+				 MLX5_CAP_GEN(attr->in_mdev, vhca_id));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		misc = MLX5_ADDR_OF(fte_match_param, spec->match_criteria, misc_parameters);
 		MLX5_SET_TO_ONES(fte_match_set_misc, misc, source_port);
@@ -301,6 +324,7 @@ mlx5_eswitch_set_rule_source_port(struct mlx5_eswitch *esw,
 	}
 }
 
+<<<<<<< HEAD
 static int
 esw_setup_decap_indir(struct mlx5_eswitch *esw,
 		      struct mlx5_flow_attr *attr,
@@ -602,6 +626,8 @@ esw_cleanup_dests(struct mlx5_eswitch *esw,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mlx5_flow_handle *
 mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
 				struct mlx5_flow_spec *spec,
@@ -615,7 +641,11 @@ mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
 	struct mlx5_vport_tbl_attr fwd_attr;
 	struct mlx5_flow_handle *rule;
 	struct mlx5_flow_table *fdb;
+<<<<<<< HEAD
 	int i = 0;
+=======
+	int j, i = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (esw->mode != MLX5_ESWITCH_OFFLOADS)
 		return ERR_PTR(-EOPNOTSUPP);
@@ -636,6 +666,7 @@ mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
 		}
 	}
 
+<<<<<<< HEAD
 	mlx5_eswitch_set_rule_flow_source(esw, spec, esw_attr);
 
 	if (flow_act.action & MLX5_FLOW_CONTEXT_ACTION_FWD_DEST) {
@@ -645,6 +676,52 @@ mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
 		if (err) {
 			rule = ERR_PTR(err);
 			goto err_create_goto_table;
+=======
+	if (flow_act.action & MLX5_FLOW_CONTEXT_ACTION_FWD_DEST) {
+		struct mlx5_flow_table *ft;
+
+		if (attr->dest_ft) {
+			flow_act.flags |= FLOW_ACT_IGNORE_FLOW_LEVEL;
+			dest[i].type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
+			dest[i].ft = attr->dest_ft;
+			i++;
+		} else if (attr->flags & MLX5_ESW_ATTR_FLAG_SLOW_PATH) {
+			flow_act.flags |= FLOW_ACT_IGNORE_FLOW_LEVEL;
+			dest[i].type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
+			dest[i].ft = mlx5_chains_get_tc_end_ft(chains);
+			i++;
+		} else if (attr->dest_chain) {
+			flow_act.flags |= FLOW_ACT_IGNORE_FLOW_LEVEL;
+			ft = mlx5_chains_get_table(chains, attr->dest_chain,
+						   1, 0);
+			if (IS_ERR(ft)) {
+				rule = ERR_CAST(ft);
+				goto err_create_goto_table;
+			}
+
+			dest[i].type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
+			dest[i].ft = ft;
+			i++;
+		} else {
+			for (j = esw_attr->split_count; j < esw_attr->out_count; j++) {
+				dest[i].type = MLX5_FLOW_DESTINATION_TYPE_VPORT;
+				dest[i].vport.num = esw_attr->dests[j].rep->vport;
+				dest[i].vport.vhca_id =
+					MLX5_CAP_GEN(esw_attr->dests[j].mdev, vhca_id);
+				if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
+					dest[i].vport.flags |=
+						MLX5_FLOW_DEST_VPORT_VHCA_ID;
+				if (esw_attr->dests[j].flags & MLX5_ESW_DEST_ENCAP) {
+					flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_PACKET_REFORMAT;
+					flow_act.pkt_reformat =
+							esw_attr->dests[j].pkt_reformat;
+					dest[i].vport.flags |= MLX5_FLOW_DEST_VPORT_REFORMAT_ID;
+					dest[i].vport.pkt_reformat =
+						esw_attr->dests[j].pkt_reformat;
+				}
+				i++;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -679,15 +756,24 @@ mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
 			fdb = attr->ft;
 
 		if (!(attr->flags & MLX5_ESW_ATTR_FLAG_NO_IN_PORT))
+<<<<<<< HEAD
 			mlx5_eswitch_set_rule_source_port(esw, spec, attr,
 							  esw_attr->in_mdev->priv.eswitch,
 							  esw_attr->in_rep->vport);
+=======
+			mlx5_eswitch_set_rule_source_port(esw, spec, esw_attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (IS_ERR(fdb)) {
 		rule = ERR_CAST(fdb);
 		goto err_esw_get;
 	}
 
+<<<<<<< HEAD
+=======
+	mlx5_eswitch_set_rule_flow_source(esw, spec, esw_attr);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mlx5_eswitch_termtbl_required(esw, attr, &flow_act, spec))
 		rule = mlx5_eswitch_add_termtbl_rule(esw, fdb, spec, esw_attr,
 						     &flow_act, dest, i);
@@ -706,7 +792,12 @@ err_add_rule:
 	else if (attr->chain || attr->prio)
 		mlx5_chains_put_table(chains, attr->chain, attr->prio, 0);
 err_esw_get:
+<<<<<<< HEAD
 	esw_cleanup_dests(esw, attr);
+=======
+	if (!(attr->flags & MLX5_ESW_ATTR_FLAG_SLOW_PATH) && attr->dest_chain)
+		mlx5_chains_put_table(chains, attr->dest_chain, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_create_goto_table:
 	return rule;
 }
@@ -724,7 +815,11 @@ mlx5_eswitch_add_fwd_rule(struct mlx5_eswitch *esw,
 	struct mlx5_flow_table *fast_fdb;
 	struct mlx5_flow_table *fwd_fdb;
 	struct mlx5_flow_handle *rule;
+<<<<<<< HEAD
 	int i, err = 0;
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fast_fdb = mlx5_chains_get_table(chains, attr->chain, attr->prio, 0);
 	if (IS_ERR(fast_fdb)) {
@@ -743,6 +838,7 @@ mlx5_eswitch_add_fwd_rule(struct mlx5_eswitch *esw,
 
 	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
 	for (i = 0; i < esw_attr->split_count; i++) {
+<<<<<<< HEAD
 		if (esw_is_indir_table(esw, attr))
 			err = esw_setup_indir_table(dest, &flow_act, esw, attr, spec, false, &i);
 		else if (esw_is_chain_src_port_rewrite(esw, esw_attr))
@@ -754,15 +850,30 @@ mlx5_eswitch_add_fwd_rule(struct mlx5_eswitch *esw,
 		if (err) {
 			rule = ERR_PTR(err);
 			goto err_chain_src_rewrite;
+=======
+		dest[i].type = MLX5_FLOW_DESTINATION_TYPE_VPORT;
+		dest[i].vport.num = esw_attr->dests[i].rep->vport;
+		dest[i].vport.vhca_id =
+			MLX5_CAP_GEN(esw_attr->dests[i].mdev, vhca_id);
+		if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
+			dest[i].vport.flags |= MLX5_FLOW_DEST_VPORT_VHCA_ID;
+		if (esw_attr->dests[i].flags & MLX5_ESW_DEST_ENCAP) {
+			dest[i].vport.flags |= MLX5_FLOW_DEST_VPORT_REFORMAT_ID;
+			dest[i].vport.pkt_reformat = esw_attr->dests[i].pkt_reformat;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	dest[i].type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
 	dest[i].ft = fwd_fdb;
 	i++;
 
+<<<<<<< HEAD
 	mlx5_eswitch_set_rule_source_port(esw, spec, attr,
 					  esw_attr->in_mdev->priv.eswitch,
 					  esw_attr->in_rep->vport);
+=======
+	mlx5_eswitch_set_rule_source_port(esw, spec, esw_attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (attr->outer_match_level != MLX5_MATCH_NONE)
 		spec->match_criteria_enable |= MLX5_MATCH_OUTER_HEADERS;
@@ -770,16 +881,25 @@ mlx5_eswitch_add_fwd_rule(struct mlx5_eswitch *esw,
 	flow_act.flags |= FLOW_ACT_IGNORE_FLOW_LEVEL;
 	rule = mlx5_add_flow_rules(fast_fdb, spec, &flow_act, dest, i);
 
+<<<<<<< HEAD
 	if (IS_ERR(rule)) {
 		i = esw_attr->split_count;
 		goto err_chain_src_rewrite;
 	}
+=======
+	if (IS_ERR(rule))
+		goto add_err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic64_inc(&esw->offloads.num_flows);
 
 	return rule;
+<<<<<<< HEAD
 err_chain_src_rewrite:
 	esw_put_dest_tables_loop(esw, attr, 0, i);
+=======
+add_err:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	esw_vport_tbl_put(esw, &fwd_attr);
 err_get_fwd:
 	mlx5_chains_put_table(chains, attr->chain, attr->prio, 0);
@@ -820,13 +940,21 @@ __mlx5_eswitch_del_rule(struct mlx5_eswitch *esw,
 	if (fwd_rule)  {
 		esw_vport_tbl_put(esw, &fwd_attr);
 		mlx5_chains_put_table(chains, attr->chain, attr->prio, 0);
+<<<<<<< HEAD
 		esw_put_dest_tables_loop(esw, attr, 0, esw_attr->split_count);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		if (split)
 			esw_vport_tbl_put(esw, &fwd_attr);
 		else if (attr->chain || attr->prio)
 			mlx5_chains_put_table(chains, attr->chain, attr->prio, 0);
+<<<<<<< HEAD
 		esw_cleanup_dests(esw, attr);
+=======
+		if (attr->dest_chain)
+			mlx5_chains_put_table(chains, attr->dest_chain, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -1088,6 +1216,7 @@ void mlx5_eswitch_del_send_to_vport_rule(struct mlx5_flow_handle *rule)
 	mlx5_del_flow_rules(rule);
 }
 
+<<<<<<< HEAD
 static void mlx5_eswitch_del_send_to_vport_meta_rules(struct mlx5_eswitch *esw)
 {
 	struct mlx5_flow_handle **flows = esw->fdb_table.offloads.send_to_vport_meta_rules;
@@ -1163,6 +1292,8 @@ alloc_err:
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mlx5_eswitch_reg_c1_loopback_supported(struct mlx5_eswitch *esw)
 {
 	return MLX5_CAP_ESW_FLOWTABLE(esw->dev, fdb_to_vport_reg_c_id) &
@@ -1645,11 +1776,18 @@ static int esw_create_offloads_fdb_tables(struct mlx5_eswitch *esw)
 {
 	int inlen = MLX5_ST_SZ_BYTES(create_flow_group_in);
 	struct mlx5_flow_table_attr ft_attr = {};
+<<<<<<< HEAD
 	int num_vfs, table_size, ix, err = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_core_dev *dev = esw->dev;
 	struct mlx5_flow_namespace *root_ns;
 	struct mlx5_flow_table *fdb = NULL;
 	u32 flags = 0, *flow_group_in;
+<<<<<<< HEAD
+=======
+	int table_size, ix, err = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_flow_group *g;
 	void *match_criteria;
 	u8 *dmac;
@@ -1675,7 +1813,11 @@ static int esw_create_offloads_fdb_tables(struct mlx5_eswitch *esw)
 	}
 
 	table_size = esw->total_vports * MAX_SQ_NVPORTS + MAX_PF_SQ +
+<<<<<<< HEAD
 		MLX5_ESW_MISS_FLOWS + esw->total_vports + esw->esw_funcs.num_vfs;
+=======
+		MLX5_ESW_MISS_FLOWS + esw->total_vports;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* create the slow path fdb with encap set, so further table instances
 	 * can be created at run time while VFs are probed if the FW allows that.
@@ -1723,6 +1865,7 @@ static int esw_create_offloads_fdb_tables(struct mlx5_eswitch *esw)
 	}
 	esw->fdb_table.offloads.send_to_vport_grp = g;
 
+<<<<<<< HEAD
 	if (esw_src_port_rewrite_supported(esw)) {
 		/* meta send to vport */
 		memset(flow_group_in, 0, inlen);
@@ -1759,6 +1902,8 @@ static int esw_create_offloads_fdb_tables(struct mlx5_eswitch *esw)
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (MLX5_CAP_ESW(esw->dev, merged_eswitch)) {
 		/* create peer esw miss group */
 		memset(flow_group_in, 0, inlen);
@@ -1826,11 +1971,14 @@ miss_err:
 	if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
 		mlx5_destroy_flow_group(esw->fdb_table.offloads.peer_miss_grp);
 peer_miss_err:
+<<<<<<< HEAD
 	mlx5_eswitch_del_send_to_vport_meta_rules(esw);
 meta_rule_err:
 	if (esw->fdb_table.offloads.send_to_vport_meta_grp)
 		mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_meta_grp);
 send_vport_meta_err:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_grp);
 send_vport_err:
 	esw_chains_destroy(esw, esw_chains(esw));
@@ -1852,10 +2000,14 @@ static void esw_destroy_offloads_fdb_tables(struct mlx5_eswitch *esw)
 	esw_debug(esw->dev, "Destroy offloads FDB Tables\n");
 	mlx5_del_flow_rules(esw->fdb_table.offloads.miss_rule_multi);
 	mlx5_del_flow_rules(esw->fdb_table.offloads.miss_rule_uni);
+<<<<<<< HEAD
 	mlx5_eswitch_del_send_to_vport_meta_rules(esw);
 	mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_grp);
 	if (esw->fdb_table.offloads.send_to_vport_meta_grp)
 		mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_meta_grp);
+=======
+	mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_grp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
 		mlx5_destroy_flow_group(esw->fdb_table.offloads.peer_miss_grp);
 	mlx5_destroy_flow_group(esw->fdb_table.offloads.miss_grp);
@@ -2197,6 +2349,7 @@ static void __esw_offloads_unload_rep(struct mlx5_eswitch *esw,
 		esw->offloads.rep_ops[rep_type]->unload(rep);
 }
 
+<<<<<<< HEAD
 static void __unload_reps_sf_vport(struct mlx5_eswitch *esw, u8 rep_type)
 {
 	struct mlx5_eswitch_rep *rep;
@@ -2206,13 +2359,18 @@ static void __unload_reps_sf_vport(struct mlx5_eswitch *esw, u8 rep_type)
 		__esw_offloads_unload_rep(esw, rep, rep_type);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __unload_reps_all_vport(struct mlx5_eswitch *esw, u8 rep_type)
 {
 	struct mlx5_eswitch_rep *rep;
 	int i;
 
+<<<<<<< HEAD
 	__unload_reps_sf_vport(esw, rep_type);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_esw_for_each_vf_rep_reverse(esw, i, rep, esw->esw_funcs.num_vfs)
 		__esw_offloads_unload_rep(esw, rep, rep_type);
 
@@ -2230,7 +2388,11 @@ static void __unload_reps_all_vport(struct mlx5_eswitch *esw, u8 rep_type)
 	__esw_offloads_unload_rep(esw, rep, rep_type);
 }
 
+<<<<<<< HEAD
 int mlx5_esw_offloads_rep_load(struct mlx5_eswitch *esw, u16 vport_num)
+=======
+static int mlx5_esw_offloads_rep_load(struct mlx5_eswitch *esw, u16 vport_num)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mlx5_eswitch_rep *rep;
 	int rep_type;
@@ -2254,7 +2416,11 @@ err_reps:
 	return err;
 }
 
+<<<<<<< HEAD
 void mlx5_esw_offloads_rep_unload(struct mlx5_eswitch *esw, u16 vport_num)
+=======
+static void mlx5_esw_offloads_rep_unload(struct mlx5_eswitch *esw, u16 vport_num)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mlx5_eswitch_rep *rep;
 	int rep_type;
@@ -2579,13 +2745,17 @@ static void esw_destroy_uplink_offloads_acl_tables(struct mlx5_eswitch *esw)
 
 static int esw_offloads_steering_init(struct mlx5_eswitch *esw)
 {
+<<<<<<< HEAD
 	struct mlx5_esw_indir_table *indir;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	memset(&esw->fdb_table.offloads, 0, sizeof(struct offloads_fdb));
 	mutex_init(&esw->fdb_table.offloads.vports.lock);
 	hash_init(esw->fdb_table.offloads.vports.table);
 
+<<<<<<< HEAD
 	indir = mlx5_esw_indir_table_init();
 	if (IS_ERR(indir)) {
 		err = PTR_ERR(indir);
@@ -2593,6 +2763,8 @@ static int esw_offloads_steering_init(struct mlx5_eswitch *esw)
 	}
 	esw->fdb_table.offloads.indir = indir;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = esw_create_uplink_offloads_acl_tables(esw);
 	if (err)
 		goto create_acl_err;
@@ -2624,8 +2796,11 @@ create_restore_err:
 create_offloads_err:
 	esw_destroy_uplink_offloads_acl_tables(esw);
 create_acl_err:
+<<<<<<< HEAD
 	mlx5_esw_indir_table_destroy(esw->fdb_table.offloads.indir);
 create_indir_err:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&esw->fdb_table.offloads.vports.lock);
 	return err;
 }
@@ -2637,7 +2812,10 @@ static void esw_offloads_steering_cleanup(struct mlx5_eswitch *esw)
 	esw_destroy_restore_table(esw);
 	esw_destroy_offloads_table(esw);
 	esw_destroy_uplink_offloads_acl_tables(esw);
+<<<<<<< HEAD
 	mlx5_esw_indir_table_destroy(esw->fdb_table.offloads.indir);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&esw->fdb_table.offloads.vports.lock);
 }
 
@@ -3243,6 +3421,7 @@ u32 mlx5_eswitch_get_vport_metadata_for_match(struct mlx5_eswitch *esw,
 	return vport->metadata << (32 - ESW_SOURCE_PORT_METADATA_BITS);
 }
 EXPORT_SYMBOL(mlx5_eswitch_get_vport_metadata_for_match);
+<<<<<<< HEAD
 
 int mlx5_esw_offloads_sf_vport_enable(struct mlx5_eswitch *esw, struct devlink_port *dl_port,
 				      u16 vport_num, u32 sfnum)
@@ -3366,3 +3545,5 @@ u32 mlx5_eswitch_get_vport_metadata_for_set(struct mlx5_eswitch *esw,
 	return vport->metadata;
 }
 EXPORT_SYMBOL(mlx5_eswitch_get_vport_metadata_for_set);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

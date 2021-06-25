@@ -336,7 +336,14 @@ static void lme2510_int_response(struct urb *lme_urb)
 				st->signal_level = ibuf[5];
 				st->signal_sn = ibuf[4];
 				st->time_key = ibuf[7];
+<<<<<<< HEAD
 				break;
+=======
+<<<<<<< HEAD
+				break;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			default:
 				break;
 			}
@@ -374,7 +381,15 @@ static int lme2510_int_read(struct dvb_usb_adapter *adap)
 	struct lme2510_state *lme_int = adap_to_priv(adap);
 	struct usb_host_endpoint *ep;
 
+<<<<<<< HEAD
 	lme_int->lme_urb = usb_alloc_urb(0, GFP_KERNEL);
+=======
+<<<<<<< HEAD
+	lme_int->lme_urb = usb_alloc_urb(0, GFP_KERNEL);
+=======
+	lme_int->lme_urb = usb_alloc_urb(0, GFP_ATOMIC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (lme_int->lme_urb == NULL)
 			return -ENOMEM;
@@ -394,7 +409,15 @@ static int lme2510_int_read(struct dvb_usb_adapter *adap)
 	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
 		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa);
 
+<<<<<<< HEAD
 	usb_submit_urb(lme_int->lme_urb, GFP_KERNEL);
+=======
+<<<<<<< HEAD
+	usb_submit_urb(lme_int->lme_urb, GFP_KERNEL);
+=======
+	usb_submit_urb(lme_int->lme_urb, GFP_ATOMIC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info("INT Interrupt Service Started");
 
 	return 0;
@@ -752,6 +775,26 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
 	return fw_lme;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static int lme2510_kill_urb(struct usb_data_stream *stream)
+{
+	int i;
+
+	for (i = 0; i < stream->urbs_submitted; i++) {
+		deb_info(3, "killing URB no. %d.", i);
+		/* stop the URB */
+		usb_kill_urb(stream->urb_list[i]);
+	}
+	stream->urbs_submitted = 0;
+
+	return 0;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct tda10086_config tda10086_config = {
 	.demod_address = 0x0e,
 	.invert = 0,
@@ -1185,6 +1228,17 @@ static int lme2510_get_rc_config(struct dvb_usb_device *d,
 static void lme2510_exit(struct dvb_usb_device *d)
 {
 	struct lme2510_state *st = d->priv;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct dvb_usb_adapter *adap = &d->adapter[0];
+
+	if (adap != NULL) {
+		lme2510_kill_urb(&adap->stream);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (st->lme_urb) {
 		usb_kill_urb(st->lme_urb);

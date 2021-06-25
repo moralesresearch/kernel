@@ -17,6 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
+<<<<<<< HEAD
+=======
+ * Maintained by: Jim Gill <jgill@vmware.com>
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/kernel.h>
@@ -585,6 +590,7 @@ static void pvscsi_complete_request(struct pvscsi_adapter *adapter,
 		case BTSTAT_SUCCESS:
 		case BTSTAT_LINKED_COMMAND_COMPLETED:
 		case BTSTAT_LINKED_COMMAND_COMPLETED_WITH_FLAG:
+<<<<<<< HEAD
 			/*
 			 * Commands like INQUIRY may transfer less data than
 			 * requested by the initiator via bufflen. Set residual
@@ -592,6 +598,9 @@ static void pvscsi_complete_request(struct pvscsi_adapter *adapter,
 			 * of data returned.
 			 */
 			scsi_set_resid(cmd, scsi_bufflen(cmd) - e->dataLen);
+=======
+			/* If everything went fine, let's move on..  */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cmd->result = (DID_OK << 16);
 			break;
 

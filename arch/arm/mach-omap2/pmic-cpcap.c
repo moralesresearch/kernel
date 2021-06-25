@@ -246,10 +246,17 @@ int __init omap4_cpcap_init(void)
 	omap_voltage_register_pmic(voltdm, &omap443x_max8952_mpu);
 
 	if (of_machine_is_compatible("motorola,droid-bionic")) {
+<<<<<<< HEAD
 		voltdm = voltdm_lookup("core");
 		omap_voltage_register_pmic(voltdm, &omap_cpcap_core);
 
 		voltdm = voltdm_lookup("iva");
+=======
+		voltdm = voltdm_lookup("mpu");
+		omap_voltage_register_pmic(voltdm, &omap_cpcap_core);
+
+		voltdm = voltdm_lookup("mpu");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		omap_voltage_register_pmic(voltdm, &omap_cpcap_iva);
 	} else {
 		voltdm = voltdm_lookup("core");

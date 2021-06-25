@@ -217,7 +217,11 @@ static int scmi_cpufreq_exit(struct cpufreq_policy *policy)
 
 static struct cpufreq_driver scmi_cpufreq_driver = {
 	.name	= "scmi",
+<<<<<<< HEAD
 	.flags	= CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
+=======
+	.flags	= CPUFREQ_STICKY | CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  CPUFREQ_NEED_INITIAL_FREQ_CHECK |
 		  CPUFREQ_IS_COOLING_DEV,
 	.verify	= cpufreq_generic_frequency_table_verify,

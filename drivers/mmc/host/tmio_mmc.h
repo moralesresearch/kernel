@@ -181,7 +181,11 @@ struct tmio_mmc_host {
 			      unsigned int direction, int blk_size);
 	int (*write16_hook)(struct tmio_mmc_host *host, int addr);
 	void (*reset)(struct tmio_mmc_host *host);
+<<<<<<< HEAD
 	bool (*check_retune)(struct tmio_mmc_host *host, struct mmc_request *mrq);
+=======
+	bool (*check_retune)(struct tmio_mmc_host *host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*fixup_request)(struct tmio_mmc_host *host, struct mmc_request *mrq);
 	unsigned int (*get_timeout_cycles)(struct tmio_mmc_host *host);
 

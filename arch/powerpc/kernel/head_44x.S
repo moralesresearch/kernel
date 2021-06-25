@@ -376,7 +376,11 @@ interrupt_base:
 	/* Load the next available TLB index */
 	lwz	r13,tlb_44x_index@l(r10)
 
+<<<<<<< HEAD
 	bne	2f			/* Bail if permission mismatch */
+=======
+	bne	2f			/* Bail if permission mismach */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Increment, rollover, and store TLB index */
 	addi	r13,r13,1
@@ -471,7 +475,11 @@ interrupt_base:
 	/* Load the next available TLB index */
 	lwz	r13,tlb_44x_index@l(r10)
 
+<<<<<<< HEAD
 	bne	2f			/* Bail if permission mismatch */
+=======
+	bne	2f			/* Bail if permission mismach */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Increment, rollover, and store TLB index */
 	addi	r13,r13,1

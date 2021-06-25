@@ -95,7 +95,11 @@ examples:
         reg = <0x1e6e2000 0xf6c>;
 
         pinctrl: pinctrl {
+<<<<<<< HEAD
             compatible = "aspeed,ast2600-pinctrl";
+=======
+            compatible = "aspeed,g6-pinctrl";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             pinctrl_pwm10g1_default: pwm10g1_default {
                 function = "PWM10";

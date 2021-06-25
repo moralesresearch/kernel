@@ -76,9 +76,19 @@ struct cpufreq_cooling_device {
 	struct em_perf_domain *em;
 	struct cpufreq_policy *policy;
 	struct list_head node;
+<<<<<<< HEAD
 #ifndef CONFIG_SMP
 	struct time_in_idle *idle_time;
 #endif
+=======
+<<<<<<< HEAD
+#ifndef CONFIG_SMP
+	struct time_in_idle *idle_time;
+#endif
+=======
+	struct time_in_idle *idle_time;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct freq_qos_request qos_req;
 };
 
@@ -125,7 +135,11 @@ static u32 cpu_power_to_freq(struct cpufreq_cooling_device *cpufreq_cdev,
 {
 	int i;
 
+<<<<<<< HEAD
 	for (i = cpufreq_cdev->max_level; i > 0; i--) {
+=======
+	for (i = cpufreq_cdev->max_level; i >= 0; i--) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (power >= cpufreq_cdev->em->table[i].power)
 			break;
 	}
@@ -134,14 +148,31 @@ static u32 cpu_power_to_freq(struct cpufreq_cooling_device *cpufreq_cdev,
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * get_load() - get load for a cpu
  * @cpufreq_cdev: struct cpufreq_cooling_device for the cpu
  * @cpu: cpu number
  * @cpu_idx: index of the cpu in time_in_idle array
+<<<<<<< HEAD
+=======
+=======
+ * get_load() - get load for a cpu since last updated
+ * @cpufreq_cdev:	&struct cpufreq_cooling_device for this cpu
+ * @cpu:	cpu number
+ * @cpu_idx:	index of the cpu in time_in_idle*
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: The average load of cpu @cpu in percentage since this
  * function was last called.
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 static u32 get_load(struct cpufreq_cooling_device *cpufreq_cdev, int cpu,
 		    int cpu_idx)
@@ -153,6 +184,11 @@ static u32 get_load(struct cpufreq_cooling_device *cpufreq_cdev, int cpu,
 	return (util * 100) / max;
 }
 #else /* !CONFIG_SMP */
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 get_load(struct cpufreq_cooling_device *cpufreq_cdev, int cpu,
 		    int cpu_idx)
 {
@@ -174,7 +210,14 @@ static u32 get_load(struct cpufreq_cooling_device *cpufreq_cdev, int cpu,
 
 	return load;
 }
+<<<<<<< HEAD
 #endif /* CONFIG_SMP */
+=======
+<<<<<<< HEAD
+#endif /* CONFIG_SMP */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * get_dynamic_power() - calculate the dynamic power
@@ -360,6 +403,10 @@ static inline bool em_is_sane(struct cpufreq_cooling_device *cpufreq_cdev,
 }
 #endif /* CONFIG_THERMAL_GOV_POWER_ALLOCATOR */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 static inline int allocate_idle_time(struct cpufreq_cooling_device *cpufreq_cdev)
 {
@@ -390,6 +437,11 @@ static void free_idle_time(struct cpufreq_cooling_device *cpufreq_cdev)
 }
 #endif /* CONFIG_SMP */
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned int get_state_freq(struct cpufreq_cooling_device *cpufreq_cdev,
 				   unsigned long state)
 {
@@ -529,7 +581,15 @@ __cpufreq_cooling_register(struct device_node *np,
 	struct thermal_cooling_device *cdev;
 	struct cpufreq_cooling_device *cpufreq_cdev;
 	char dev_name[THERMAL_NAME_LENGTH];
+<<<<<<< HEAD
 	unsigned int i;
+=======
+<<<<<<< HEAD
+	unsigned int i;
+=======
+	unsigned int i, num_cpus;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev;
 	int ret;
 	struct thermal_cooling_device_ops *cooling_ops;
@@ -540,6 +600,13 @@ __cpufreq_cooling_register(struct device_node *np,
 		return ERR_PTR(-ENODEV);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR_OR_NULL(policy)) {
 		pr_err("%s: cpufreq policy isn't valid: %p\n", __func__, policy);
 		return ERR_PTR(-EINVAL);
@@ -557,10 +624,25 @@ __cpufreq_cooling_register(struct device_node *np,
 		return ERR_PTR(-ENOMEM);
 
 	cpufreq_cdev->policy = policy;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = allocate_idle_time(cpufreq_cdev);
 	if (ret) {
 		cdev = ERR_PTR(ret);
+<<<<<<< HEAD
+=======
+=======
+	num_cpus = cpumask_weight(policy->related_cpus);
+	cpufreq_cdev->idle_time = kcalloc(num_cpus,
+					 sizeof(*cpufreq_cdev->idle_time),
+					 GFP_KERNEL);
+	if (!cpufreq_cdev->idle_time) {
+		cdev = ERR_PTR(-ENOMEM);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto free_cdev;
 	}
 
@@ -620,7 +702,15 @@ remove_qos_req:
 remove_ida:
 	ida_simple_remove(&cpufreq_ida, cpufreq_cdev->id);
 free_idle_time:
+<<<<<<< HEAD
 	free_idle_time(cpufreq_cdev);
+=======
+<<<<<<< HEAD
+	free_idle_time(cpufreq_cdev);
+=======
+	kfree(cpufreq_cdev->idle_time);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 free_cdev:
 	kfree(cpufreq_cdev);
 	return cdev;
@@ -713,7 +803,15 @@ void cpufreq_cooling_unregister(struct thermal_cooling_device *cdev)
 	thermal_cooling_device_unregister(cdev);
 	freq_qos_remove_request(&cpufreq_cdev->qos_req);
 	ida_simple_remove(&cpufreq_ida, cpufreq_cdev->id);
+<<<<<<< HEAD
 	free_idle_time(cpufreq_cdev);
+=======
+<<<<<<< HEAD
+	free_idle_time(cpufreq_cdev);
+=======
+	kfree(cpufreq_cdev->idle_time);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(cpufreq_cdev);
 }
 EXPORT_SYMBOL_GPL(cpufreq_cooling_unregister);

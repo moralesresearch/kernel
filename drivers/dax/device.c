@@ -452,9 +452,21 @@ int dev_dax_probe(struct dev_dax *dev_dax)
 }
 EXPORT_SYMBOL_GPL(dev_dax_probe);
 
+<<<<<<< HEAD
 static struct dax_device_driver device_dax_driver = {
 	.probe = dev_dax_probe,
 	/* all probe actions are unwound by devm, so .remove isn't necessary */
+=======
+static int dev_dax_remove(struct dev_dax *dev_dax)
+{
+	/* all probe actions are unwound by devm */
+	return 0;
+}
+
+static struct dax_device_driver device_dax_driver = {
+	.probe = dev_dax_probe,
+	.remove = dev_dax_remove,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.match_always = 1,
 };
 

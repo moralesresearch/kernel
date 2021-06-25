@@ -1181,6 +1181,10 @@ struct status_entry {
 	uint32_t handle;	/* 04-07 */
 
 	uint8_t scsiStatus;	/* 08 */
+<<<<<<< HEAD
+=======
+#define SCSI_CHECK_CONDITION		  0x02
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	uint8_t iscsiFlags;	/* 09 */
 #define ISCSI_FLAG_RESIDUAL_UNDER	  0x02

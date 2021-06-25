@@ -832,7 +832,15 @@ void ieee80211_iterate_active_interfaces_atomic(
 }
 EXPORT_SYMBOL_GPL(ieee80211_iterate_active_interfaces_atomic);
 
+<<<<<<< HEAD
 void ieee80211_iterate_active_interfaces_mtx(
+=======
+<<<<<<< HEAD
+void ieee80211_iterate_active_interfaces_mtx(
+=======
+void ieee80211_iterate_active_interfaces_rtnl(
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ieee80211_hw *hw, u32 iter_flags,
 	void (*iterator)(void *data, u8 *mac,
 			 struct ieee80211_vif *vif),
@@ -840,12 +848,28 @@ void ieee80211_iterate_active_interfaces_mtx(
 {
 	struct ieee80211_local *local = hw_to_local(hw);
 
+<<<<<<< HEAD
 	lockdep_assert_wiphy(hw->wiphy);
+=======
+<<<<<<< HEAD
+	lockdep_assert_wiphy(hw->wiphy);
+=======
+	ASSERT_RTNL();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__iterate_interfaces(local, iter_flags | IEEE80211_IFACE_ITER_ACTIVE,
 			     iterator, data);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(ieee80211_iterate_active_interfaces_mtx);
+=======
+<<<<<<< HEAD
+EXPORT_SYMBOL_GPL(ieee80211_iterate_active_interfaces_mtx);
+=======
+EXPORT_SYMBOL_GPL(ieee80211_iterate_active_interfaces_rtnl);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __iterate_stations(struct ieee80211_local *local,
 			       void (*iterator)(void *data,
@@ -2186,6 +2210,11 @@ static void ieee80211_handle_reconfig_failure(struct ieee80211_local *local)
 	list_for_each_entry(ctx, &local->chanctx_list, list)
 		ctx->driver_present = false;
 	mutex_unlock(&local->chanctx_mtx);
+<<<<<<< HEAD
+=======
+
+	cfg80211_shutdown_all_interfaces(local->hw.wiphy);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ieee80211_assign_chanctx(struct ieee80211_local *local,
@@ -2593,7 +2622,15 @@ int ieee80211_reconfig(struct ieee80211_local *local)
 	mutex_unlock(&local->mtx);
 
 	if (sched_scan_stopped)
+<<<<<<< HEAD
 		cfg80211_sched_scan_stopped_locked(local->hw.wiphy, 0);
+=======
+<<<<<<< HEAD
+		cfg80211_sched_scan_stopped_locked(local->hw.wiphy, 0);
+=======
+		cfg80211_sched_scan_stopped_rtnl(local->hw.wiphy, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
  wake_up:
 
@@ -3809,7 +3846,15 @@ void ieee80211_dfs_cac_cancel(struct ieee80211_local *local)
 	struct cfg80211_chan_def chandef;
 
 	/* for interface list, to avoid linking iflist_mtx and chanctx_mtx */
+<<<<<<< HEAD
 	lockdep_assert_wiphy(local->hw.wiphy);
+=======
+<<<<<<< HEAD
+	lockdep_assert_wiphy(local->hw.wiphy);
+=======
+	ASSERT_RTNL();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&local->mtx);
 	list_for_each_entry(sdata, &local->interfaces, list) {
@@ -3849,9 +3894,21 @@ void ieee80211_dfs_radar_detected_work(struct work_struct *work)
 	}
 	mutex_unlock(&local->chanctx_mtx);
 
+<<<<<<< HEAD
 	wiphy_lock(local->hw.wiphy);
 	ieee80211_dfs_cac_cancel(local);
 	wiphy_unlock(local->hw.wiphy);
+=======
+<<<<<<< HEAD
+	wiphy_lock(local->hw.wiphy);
+	ieee80211_dfs_cac_cancel(local);
+	wiphy_unlock(local->hw.wiphy);
+=======
+	rtnl_lock();
+	ieee80211_dfs_cac_cancel(local);
+	rtnl_unlock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (num_chanctx > 1)
 		/* XXX: multi-channel is not supported yet */

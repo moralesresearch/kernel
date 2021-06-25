@@ -90,10 +90,21 @@ SYSCALL_DEFINE6(mmap, unsigned long, addr, unsigned long, len,
 		unsigned long, prot, unsigned long, flags,
 		unsigned long, fd, unsigned long, off)
 {
+<<<<<<< HEAD
 	if (off & ~PAGE_MASK)
 		return -EINVAL;
 
 	return ksys_mmap_pgoff(addr, len, prot, flags, fd, off >> PAGE_SHIFT);
+=======
+	long error;
+	error = -EINVAL;
+	if (off & ~PAGE_MASK)
+		goto out;
+
+	error = ksys_mmap_pgoff(addr, len, prot, flags, fd, off >> PAGE_SHIFT);
+out:
+	return error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void find_start_end(unsigned long addr, unsigned long flags,

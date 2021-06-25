@@ -1384,6 +1384,7 @@ ipv4_rt_replace()
 	ipv4_rt_replace_mpath
 }
 
+<<<<<<< HEAD
 # checks that cached input route on VRF port is deleted
 # when VRF is deleted
 ipv4_local_rt_cache()
@@ -1408,13 +1409,18 @@ ipv4_local_rt_cache()
 	log_test $? 0 "Cached route removed from VRF port device"
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ipv4_route_test()
 {
 	route_setup
 
 	ipv4_rt_add
 	ipv4_rt_replace
+<<<<<<< HEAD
 	ipv4_local_rt_cache
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	route_cleanup
 }

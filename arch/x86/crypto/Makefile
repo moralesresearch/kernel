@@ -4,6 +4,11 @@
 
 OBJECT_FILES_NON_STANDARD := y
 
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_CRYPTO_GLUE_HELPER_X86) += glue_helper.o
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_CRYPTO_TWOFISH_586) += twofish-i586.o
 twofish-i586-y := twofish-i586-asm_32.o twofish_glue.o
 obj-$(CONFIG_CRYPTO_TWOFISH_X86_64) += twofish-x86_64.o

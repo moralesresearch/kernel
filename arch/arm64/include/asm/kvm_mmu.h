@@ -73,6 +73,7 @@ alternative_cb_end
 .endm
 
 /*
+<<<<<<< HEAD
  * Convert a hypervisor VA to a PA
  * reg: hypervisor address to be converted in place
  * tmp: temporary register
@@ -85,10 +86,37 @@ alternative_cb_end
 /*
  * Convert a hypervisor VA to a kernel image address
  * reg: hypervisor address to be converted in place
+=======
+ * Convert a kernel image address to a PA
+ * reg: kernel address to be converted in place
  * tmp: temporary register
  *
  * The actual code generation takes place in kvm_get_kimage_voffset, and
  * the instructions below are only there to reserve the space and
+ * perform the register allocation (kvm_get_kimage_voffset uses the
+ * specific registers encoded in the instructions).
+ */
+.macro kimg_pa reg, tmp
+alternative_cb kvm_get_kimage_voffset
+	movz	\tmp, #0
+	movk	\tmp, #0, lsl #16
+	movk	\tmp, #0, lsl #32
+	movk	\tmp, #0, lsl #48
+alternative_cb_end
+
+	/* reg = __pa(reg) */
+	sub	\reg, \reg, \tmp
+.endm
+
+/*
+ * Convert a kernel image address to a hyp VA
+ * reg: kernel address to be converted in place
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+ * tmp: temporary register
+ *
+ * The actual code generation takes place in kvm_get_kimage_voffset, and
+ * the instructions below are only there to reserve the space and
+<<<<<<< HEAD
  * perform the register allocation (kvm_get_kimage_voffset uses the
  * specific registers encoded in the instructions).
  */
@@ -98,14 +126,28 @@ alternative_cb_end
 
 	/* Load kimage_voffset. */
 alternative_cb kvm_get_kimage_voffset
+=======
+ * perform the register allocation (kvm_update_kimg_phys_offset uses the
+ * specific registers encoded in the instructions).
+ */
+.macro kimg_hyp_va reg, tmp
+alternative_cb kvm_update_kimg_phys_offset
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movz	\tmp, #0
 	movk	\tmp, #0, lsl #16
 	movk	\tmp, #0, lsl #32
 	movk	\tmp, #0, lsl #48
 alternative_cb_end
 
+<<<<<<< HEAD
 	/* Convert PA -> kimg VA. */
 	add	\reg, \reg, \tmp
+=======
+	sub	\reg, \reg, \tmp
+	mov_q	\tmp, PAGE_OFFSET
+	orr	\reg, \reg, \tmp
+	kern_hyp_va \reg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .endm
 
 #else
@@ -119,7 +161,10 @@ alternative_cb_end
 void kvm_update_va_mask(struct alt_instr *alt,
 			__le32 *origptr, __le32 *updptr, int nr_inst);
 void kvm_compute_layout(void);
+<<<<<<< HEAD
 void kvm_apply_hyp_relocations(void);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static __always_inline unsigned long __kern_hyp_va(unsigned long v)
 {
@@ -135,6 +180,27 @@ static __always_inline unsigned long __kern_hyp_va(unsigned long v)
 
 #define kern_hyp_va(v) 	((typeof(v))(__kern_hyp_va((unsigned long)(v))))
 
+<<<<<<< HEAD
+=======
+static __always_inline unsigned long __kimg_hyp_va(unsigned long v)
+{
+	unsigned long offset;
+
+	asm volatile(ALTERNATIVE_CB("movz %0, #0\n"
+				    "movk %0, #0, lsl #16\n"
+				    "movk %0, #0, lsl #32\n"
+				    "movk %0, #0, lsl #48\n",
+				    kvm_update_kimg_phys_offset)
+		     : "=r" (offset));
+
+	return __kern_hyp_va((v - offset) | PAGE_OFFSET);
+}
+
+#define kimg_fn_hyp_va(v) 	((typeof(*v))(__kimg_hyp_va((unsigned long)(v))))
+
+#define kimg_fn_ptr(x)	(typeof(x) **)(x)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * We currently support using a VM-specified IPA size. For backward
  * compatibility, the default IPA size is fixed to 40bits.

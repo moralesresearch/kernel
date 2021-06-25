@@ -2474,6 +2474,7 @@ xfs_defer_agfl_block(
 	xfs_defer_add(tp, XFS_DEFER_OPS_TYPE_AGFL_FREE, &new->xefi_list);
 }
 
+<<<<<<< HEAD
 #ifdef DEBUG
 /*
  * Check if an AGF has a free extent record whose length is equal to
@@ -2515,6 +2516,8 @@ out:
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Decide whether to use this allocation group for this allocation.
  * If so, fix up the btree freelist's size.
@@ -2586,6 +2589,7 @@ xfs_alloc_fix_freelist(
 	if (!xfs_alloc_space_available(args, need, flags))
 		goto out_agbp_relse;
 
+<<<<<<< HEAD
 #ifdef DEBUG
 	if (args->alloc_minlen_only) {
 		int stat;
@@ -2595,6 +2599,8 @@ xfs_alloc_fix_freelist(
 			goto out_agbp_relse;
 	}
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Make the freelist shorter if it's too long.
 	 *

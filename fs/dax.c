@@ -144,6 +144,7 @@ struct wait_exceptional_entry_queue {
 	struct exceptional_entry_key key;
 };
 
+<<<<<<< HEAD
 /**
  * enum dax_wake_mode: waitqueue wakeup behaviour
  * @WAKE_ALL: wake all waiters in the waitqueue
@@ -154,6 +155,8 @@ enum dax_wake_mode {
 	WAKE_NEXT,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static wait_queue_head_t *dax_entry_waitqueue(struct xa_state *xas,
 		void *entry, struct exceptional_entry_key *key)
 {
@@ -192,8 +195,12 @@ static int wake_exceptional_entry_func(wait_queue_entry_t *wait,
  * The important information it's conveying is whether the entry at
  * this index used to be a PMD entry.
  */
+<<<<<<< HEAD
 static void dax_wake_entry(struct xa_state *xas, void *entry,
 			   enum dax_wake_mode mode)
+=======
+static void dax_wake_entry(struct xa_state *xas, void *entry, bool wake_all)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct exceptional_entry_key key;
 	wait_queue_head_t *wq;
@@ -207,7 +214,11 @@ static void dax_wake_entry(struct xa_state *xas, void *entry,
 	 * must be in the waitqueue and the following check will see them.
 	 */
 	if (waitqueue_active(wq))
+<<<<<<< HEAD
 		__wake_up(wq, TASK_NORMAL, mode == WAKE_ALL ? 0 : 1, &key);
+=======
+		__wake_up(wq, TASK_NORMAL, wake_all ? 0 : 1, &key);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -275,11 +286,19 @@ static void wait_entry_unlocked(struct xa_state *xas, void *entry)
 	finish_wait(wq, &ewait.wait);
 }
 
+<<<<<<< HEAD
 static void put_unlocked_entry(struct xa_state *xas, void *entry,
 			       enum dax_wake_mode mode)
 {
 	if (entry && !dax_is_conflict(entry))
 		dax_wake_entry(xas, entry, mode);
+=======
+static void put_unlocked_entry(struct xa_state *xas, void *entry)
+{
+	/* If we were the only waiter woken, wake the next one */
+	if (entry && !dax_is_conflict(entry))
+		dax_wake_entry(xas, entry, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -297,7 +316,11 @@ static void dax_unlock_entry(struct xa_state *xas, void *entry)
 	old = xas_store(xas, entry);
 	xas_unlock_irq(xas);
 	BUG_ON(!dax_is_locked(old));
+<<<<<<< HEAD
 	dax_wake_entry(xas, entry, WAKE_NEXT);
+=======
+	dax_wake_entry(xas, entry, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -535,7 +558,11 @@ retry:
 
 		dax_disassociate_entry(entry, mapping, false);
 		xas_store(xas, NULL);	/* undo the PMD join */
+<<<<<<< HEAD
 		dax_wake_entry(xas, entry, WAKE_ALL);
+=======
+		dax_wake_entry(xas, entry, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mapping->nrexceptional--;
 		entry = NULL;
 		xas_set(xas, index);
@@ -633,7 +660,11 @@ struct page *dax_layout_busy_page_range(struct address_space *mapping,
 			entry = get_unlocked_entry(&xas, 0);
 		if (entry)
 			page = dax_busy_page(entry);
+<<<<<<< HEAD
 		put_unlocked_entry(&xas, entry, WAKE_NEXT);
+=======
+		put_unlocked_entry(&xas, entry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (page)
 			break;
 		if (++scanned % XA_CHECK_SCHED)
@@ -675,7 +706,11 @@ static int __dax_invalidate_entry(struct address_space *mapping,
 	mapping->nrexceptional--;
 	ret = 1;
 out:
+<<<<<<< HEAD
 	put_unlocked_entry(&xas, entry, WAKE_ALL);
+=======
+	put_unlocked_entry(&xas, entry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xas_unlock_irq(&xas);
 	return ret;
 }
@@ -948,13 +983,21 @@ static int dax_writeback_one(struct xa_state *xas, struct dax_device *dax_dev,
 	xas_lock_irq(xas);
 	xas_store(xas, entry);
 	xas_clear_mark(xas, PAGECACHE_TAG_DIRTY);
+<<<<<<< HEAD
 	dax_wake_entry(xas, entry, WAKE_NEXT);
+=======
+	dax_wake_entry(xas, entry, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_dax_writeback_one(mapping->host, index, count);
 	return ret;
 
  put_unlocked:
+<<<<<<< HEAD
 	put_unlocked_entry(xas, entry, WAKE_NEXT);
+=======
+	put_unlocked_entry(xas, entry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1695,7 +1738,11 @@ dax_insert_pfn_mkwrite(struct vm_fault *vmf, pfn_t pfn, unsigned int order)
 	/* Did we race with someone splitting entry or so? */
 	if (!entry || dax_is_conflict(entry) ||
 	    (order == 0 && !dax_is_pte_entry(entry))) {
+<<<<<<< HEAD
 		put_unlocked_entry(&xas, entry, WAKE_NEXT);
+=======
+		put_unlocked_entry(&xas, entry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xas_unlock_irq(&xas);
 		trace_dax_insert_pfn_mkwrite_no_entry(mapping->host, vmf,
 						      VM_FAULT_NOPAGE);

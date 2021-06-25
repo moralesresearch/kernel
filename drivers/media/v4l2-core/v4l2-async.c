@@ -5,7 +5,10 @@
  * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
  */
 
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/device.h>
 #include <linux/err.h>
 #include <linux/i2c.h>
@@ -15,7 +18,10 @@
 #include <linux/mutex.h>
 #include <linux/of.h>
 #include <linux/platform_device.h>
+<<<<<<< HEAD
 #include <linux/seq_file.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 #include <linux/types.h>
 
@@ -66,6 +72,15 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
 #endif
 }
 
+<<<<<<< HEAD
+=======
+static bool match_devname(struct v4l2_async_notifier *notifier,
+			  struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+{
+	return !strcmp(asd->match.device_name, dev_name(sd->dev));
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool match_fwnode(struct v4l2_async_notifier *notifier,
 			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
 {
@@ -84,6 +99,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
 		return true;
 
 	/*
+<<<<<<< HEAD
 	 * Check the same situation for any possible secondary assigned to the
 	 * subdev's fwnode
 	 */
@@ -92,6 +108,8 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
 		return true;
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
 	 * endpoint or a device. If they're of the same type, there's no match.
 	 * Technically speaking this checks if the nodes refer to a connected
@@ -143,6 +161,19 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+static bool match_custom(struct v4l2_async_notifier *notifier,
+			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+{
+	if (!asd->match.custom.match)
+		/* Match always */
+		return true;
+
+	return asd->match.custom.match(sd->dev, asd);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static LIST_HEAD(subdev_list);
 static LIST_HEAD(notifier_list);
 static DEFINE_MUTEX(list_lock);
@@ -158,6 +189,15 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
 	list_for_each_entry(asd, &notifier->waiting, list) {
 		/* bus_type has been verified valid before */
 		switch (asd->match_type) {
+<<<<<<< HEAD
+=======
+		case V4L2_ASYNC_MATCH_CUSTOM:
+			match = match_custom;
+			break;
+		case V4L2_ASYNC_MATCH_DEVNAME:
+			match = match_devname;
+			break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case V4L2_ASYNC_MATCH_I2C:
 			match = match_i2c;
 			break;
@@ -186,6 +226,12 @@ static bool asd_equal(struct v4l2_async_subdev *asd_x,
 		return false;
 
 	switch (asd_x->match_type) {
+<<<<<<< HEAD
+=======
+	case V4L2_ASYNC_MATCH_DEVNAME:
+		return strcmp(asd_x->match.device_name,
+			      asd_y->match.device_name) == 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_ASYNC_MATCH_I2C:
 		return asd_x->match.i2c.adapter_id ==
 			asd_y->match.i2c.adapter_id &&
@@ -452,6 +498,11 @@ static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
 		return -EINVAL;
 
 	switch (asd->match_type) {
+<<<<<<< HEAD
+=======
+	case V4L2_ASYNC_MATCH_CUSTOM:
+	case V4L2_ASYNC_MATCH_DEVNAME:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_ASYNC_MATCH_I2C:
 	case V4L2_ASYNC_MATCH_FWNODE:
 		if (v4l2_async_notifier_has_async_subdev(notifier, asd,
@@ -611,7 +662,11 @@ void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
 }
 EXPORT_SYMBOL_GPL(v4l2_async_notifier_cleanup);
 
+<<<<<<< HEAD
 int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+=======
+int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   struct v4l2_async_subdev *asd)
 {
 	int ret;
@@ -628,12 +683,21 @@ unlock:
 	mutex_unlock(&list_lock);
 	return ret;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
 
 struct v4l2_async_subdev *
 __v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
 					struct fwnode_handle *fwnode,
 					unsigned int asd_struct_size)
+=======
+EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_subdev);
+
+struct v4l2_async_subdev *
+v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+				      struct fwnode_handle *fwnode,
+				      unsigned int asd_struct_size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct v4l2_async_subdev *asd;
 	int ret;
@@ -645,7 +709,11 @@ __v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
 	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
 	asd->match.fwnode = fwnode_handle_get(fwnode);
 
+<<<<<<< HEAD
 	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+=======
+	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		fwnode_handle_put(fwnode);
 		kfree(asd);
@@ -654,6 +722,7 @@ __v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
 
 	return asd;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_fwnode_subdev);
 
 struct v4l2_async_subdev *
@@ -683,6 +752,37 @@ struct v4l2_async_subdev *
 __v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
 				     int adapter_id, unsigned short address,
 				     unsigned int asd_struct_size)
+=======
+EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_fwnode_subdev);
+
+int
+v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+					     struct fwnode_handle *endpoint,
+					     struct v4l2_async_subdev *asd)
+{
+	struct fwnode_handle *remote;
+	int ret;
+
+	remote = fwnode_graph_get_remote_port_parent(endpoint);
+	if (!remote)
+		return -ENOTCONN;
+
+	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+	asd->match.fwnode = remote;
+
+	ret = v4l2_async_notifier_add_subdev(notif, asd);
+	if (ret)
+		fwnode_handle_put(remote);
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_fwnode_remote_subdev);
+
+struct v4l2_async_subdev *
+v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+				   int adapter_id, unsigned short address,
+				   unsigned int asd_struct_size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct v4l2_async_subdev *asd;
 	int ret;
@@ -695,7 +795,11 @@ __v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
 	asd->match.i2c.adapter_id = adapter_id;
 	asd->match.i2c.address = address;
 
+<<<<<<< HEAD
 	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+=======
+	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		kfree(asd);
 		return ERR_PTR(ret);
@@ -703,7 +807,36 @@ __v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
 
 	return asd;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_i2c_subdev);
+=======
+EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_i2c_subdev);
+
+struct v4l2_async_subdev *
+v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+				       const char *device_name,
+				       unsigned int asd_struct_size)
+{
+	struct v4l2_async_subdev *asd;
+	int ret;
+
+	asd = kzalloc(asd_struct_size, GFP_KERNEL);
+	if (!asd)
+		return ERR_PTR(-ENOMEM);
+
+	asd->match_type = V4L2_ASYNC_MATCH_DEVNAME;
+	asd->match.device_name = device_name;
+
+	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+	if (ret) {
+		kfree(asd);
+		return ERR_PTR(ret);
+	}
+
+	return asd;
+}
+EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_devname_subdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int v4l2_async_register_subdev(struct v4l2_subdev *sd)
 {
@@ -775,9 +908,12 @@ EXPORT_SYMBOL(v4l2_async_register_subdev);
 
 void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
 {
+<<<<<<< HEAD
 	if (!sd->async_list.next)
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&list_lock);
 
 	__v4l2_async_notifier_unregister(sd->subdev_notifier);
@@ -798,6 +934,7 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
 	mutex_unlock(&list_lock);
 }
 EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+<<<<<<< HEAD
 
 static void print_waiting_subdev(struct seq_file *s,
 				 struct v4l2_async_subdev *asd)
@@ -859,3 +996,5 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir)
 	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
 			    &pending_subdevs_fops);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

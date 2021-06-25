@@ -88,9 +88,15 @@ static int __init ingenic_ost_probe(struct platform_device *pdev)
 		return PTR_ERR(ost->regs);
 
 	map = device_node_to_regmap(dev->parent->of_node);
+<<<<<<< HEAD
 	if (IS_ERR(map)) {
 		dev_err(dev, "regmap not found");
 		return PTR_ERR(map);
+=======
+	if (!map) {
+		dev_err(dev, "regmap not found");
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ost->clk = devm_clk_get(dev, "ost");

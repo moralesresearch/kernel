@@ -134,6 +134,7 @@
 		#clock-cells = <0>;
 	};
 
+<<<<<<< HEAD
 	clk125mhz: clk125mhz {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
@@ -154,6 +155,8 @@
 		#clock-cells = <0>;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	soc {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -177,6 +180,7 @@
 			reg = <0 0x24190000 0 0x10000>;
 		};
 
+<<<<<<< HEAD
 		gpio: gpio@28020000 {
 			compatible = "toshiba,gpio-tmpv7708";
 			reg = <0 0x28020000 0 0x1000>;
@@ -188,6 +192,8 @@
 			interrupt-parent = <&gic>;
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		uart0: serial@28200000 {
 			compatible = "arm,pl011", "arm,primecell";
 			reg = <0 0x28200000 0 0x1000>;
@@ -415,6 +421,7 @@
 			#size-cells = <0>;
 			status = "disabled";
 		};
+<<<<<<< HEAD
 
 		piether: ethernet@28000000 {
 			compatible = "toshiba,visconti-dwmac", "snps,dwmac-4.20a";
@@ -432,6 +439,8 @@
 			reg = <0 0x28330000 0 0x1000>;
 			status = "disabled";
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

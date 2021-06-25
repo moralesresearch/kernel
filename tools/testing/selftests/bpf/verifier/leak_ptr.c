@@ -5,7 +5,11 @@
 	BPF_STX_MEM(BPF_DW, BPF_REG_1, BPF_REG_0,
 		    offsetof(struct __sk_buff, cb[0])),
 	BPF_LD_MAP_FD(BPF_REG_2, 0),
+<<<<<<< HEAD
 	BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_1, BPF_REG_2,
+=======
+	BPF_STX_XADD(BPF_DW, BPF_REG_1, BPF_REG_2,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      offsetof(struct __sk_buff, cb[0])),
 	BPF_EXIT_INSN(),
 	},
@@ -13,7 +17,11 @@
 	.errstr_unpriv = "R2 leaks addr into mem",
 	.result_unpriv = REJECT,
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "BPF_ATOMIC stores into R1 ctx is not allowed",
+=======
+	.errstr = "BPF_XADD stores into R1 ctx is not allowed",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 },
 {
 	"leak pointer into ctx 2",
@@ -21,14 +29,22 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_STX_MEM(BPF_DW, BPF_REG_1, BPF_REG_0,
 		    offsetof(struct __sk_buff, cb[0])),
+<<<<<<< HEAD
 	BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_1, BPF_REG_10,
+=======
+	BPF_STX_XADD(BPF_DW, BPF_REG_1, BPF_REG_10,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      offsetof(struct __sk_buff, cb[0])),
 	BPF_EXIT_INSN(),
 	},
 	.errstr_unpriv = "R10 leaks addr into mem",
 	.result_unpriv = REJECT,
 	.result = REJECT,
+<<<<<<< HEAD
 	.errstr = "BPF_ATOMIC stores into R1 ctx is not allowed",
+=======
+	.errstr = "BPF_XADD stores into R1 ctx is not allowed",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 },
 {
 	"leak pointer into ctx 3",
@@ -56,7 +72,11 @@
 	BPF_JMP_IMM(BPF_JEQ, BPF_REG_0, 0, 3),
 	BPF_MOV64_IMM(BPF_REG_3, 0),
 	BPF_STX_MEM(BPF_DW, BPF_REG_0, BPF_REG_3, 0),
+<<<<<<< HEAD
 	BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_0, BPF_REG_6, 0),
+=======
+	BPF_STX_XADD(BPF_DW, BPF_REG_0, BPF_REG_6, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},

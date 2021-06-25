@@ -19,7 +19,10 @@ properties:
     const: nxp,ptn5150
 
   int-gpios:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     deprecated: true
     description:
       GPIO pin (input) connected to the PTN5150's INTB pin.
@@ -32,7 +35,10 @@ properties:
     maxItems: 1
 
   vbus-gpios:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       GPIO pin (output) used to control VBUS. If skipped, no such control
       takes place.

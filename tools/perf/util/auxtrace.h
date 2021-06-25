@@ -559,7 +559,10 @@ int auxtrace_parse_snapshot_options(struct auxtrace_record *itr,
 int auxtrace_parse_sample_options(struct auxtrace_record *itr,
 				  struct evlist *evlist,
 				  struct record_opts *opts, const char *str);
+<<<<<<< HEAD
 void auxtrace_regroup_aux_output(struct evlist *evlist);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int auxtrace_record__options(struct auxtrace_record *itr,
 			     struct evlist *evlist,
 			     struct record_opts *opts);
@@ -742,11 +745,14 @@ int auxtrace_parse_sample_options(struct auxtrace_record *itr __maybe_unused,
 }
 
 static inline
+<<<<<<< HEAD
 void auxtrace_regroup_aux_output(struct evlist *evlist __maybe_unused)
 {
 }
 
 static inline
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int auxtrace__process_event(struct perf_session *session __maybe_unused,
 			    union perf_event *event __maybe_unused,
 			    struct perf_sample *sample __maybe_unused,

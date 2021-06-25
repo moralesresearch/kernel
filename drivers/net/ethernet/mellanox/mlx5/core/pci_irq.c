@@ -30,9 +30,12 @@ int mlx5_irq_table_init(struct mlx5_core_dev *dev)
 {
 	struct mlx5_irq_table *irq_table;
 
+<<<<<<< HEAD
 	if (mlx5_core_is_sf(dev))
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	irq_table = kvzalloc(sizeof(*irq_table), GFP_KERNEL);
 	if (!irq_table)
 		return -ENOMEM;
@@ -43,9 +46,12 @@ int mlx5_irq_table_init(struct mlx5_core_dev *dev)
 
 void mlx5_irq_table_cleanup(struct mlx5_core_dev *dev)
 {
+<<<<<<< HEAD
 	if (mlx5_core_is_sf(dev))
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kvfree(dev->priv.irq_table);
 }
 
@@ -274,9 +280,12 @@ int mlx5_irq_table_create(struct mlx5_core_dev *dev)
 	int nvec;
 	int err;
 
+<<<<<<< HEAD
 	if (mlx5_core_is_sf(dev))
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nvec = MLX5_CAP_GEN(dev, num_ports) * num_online_cpus() +
 	       MLX5_IRQ_VEC_COMP_BASE;
 	nvec = min_t(int, nvec, num_eqs);
@@ -328,9 +337,12 @@ void mlx5_irq_table_destroy(struct mlx5_core_dev *dev)
 	struct mlx5_irq_table *table = dev->priv.irq_table;
 	int i;
 
+<<<<<<< HEAD
 	if (mlx5_core_is_sf(dev))
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* free_irq requires that affinity and rmap will be cleared
 	 * before calling it. This is why there is asymmetry with set_rmap
 	 * which should be called after alloc_irq but before request_irq.
@@ -344,6 +356,7 @@ void mlx5_irq_table_destroy(struct mlx5_core_dev *dev)
 	kfree(table->irq);
 }
 
+<<<<<<< HEAD
 struct mlx5_irq_table *mlx5_irq_table_get(struct mlx5_core_dev *dev)
 {
 #ifdef CONFIG_MLX5_SF
@@ -352,3 +365,5 @@ struct mlx5_irq_table *mlx5_irq_table_get(struct mlx5_core_dev *dev)
 #endif
 	return dev->priv.irq_table;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

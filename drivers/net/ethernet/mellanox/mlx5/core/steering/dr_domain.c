@@ -4,11 +4,14 @@
 #include <linux/mlx5/eswitch.h>
 #include "dr_types.h"
 
+<<<<<<< HEAD
 #define DR_DOMAIN_SW_STEERING_SUPPORTED(dmn, dmn_type)	\
 	((dmn)->info.caps.dmn_type##_sw_owner ||	\
 	 ((dmn)->info.caps.dmn_type##_sw_owner_v2 &&	\
 	  (dmn)->info.caps.sw_format_ver <= MLX5_STEERING_FORMAT_CONNECTX_6DX))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int dr_domain_init_cache(struct mlx5dr_domain *dmn)
 {
 	/* Per vport cached FW FT for checksum recalculation, this
@@ -62,12 +65,15 @@ static int dr_domain_init_resources(struct mlx5dr_domain *dmn)
 {
 	int ret;
 
+<<<<<<< HEAD
 	dmn->ste_ctx = mlx5dr_ste_get_ctx(dmn->info.caps.sw_format_ver);
 	if (!dmn->ste_ctx) {
 		mlx5dr_err(dmn, "SW Steering on this device is unsupported\n");
 		return -EOPNOTSUPP;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = mlx5_core_alloc_pd(dmn->mdev, &dmn->pdn);
 	if (ret) {
 		mlx5dr_err(dmn, "Couldn't allocate PD, ret: %d", ret);
@@ -192,7 +198,10 @@ static int dr_domain_query_fdb_caps(struct mlx5_core_dev *mdev,
 		return ret;
 
 	dmn->info.caps.fdb_sw_owner = dmn->info.caps.esw_caps.sw_owner;
+<<<<<<< HEAD
 	dmn->info.caps.fdb_sw_owner_v2 = dmn->info.caps.esw_caps.sw_owner_v2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dmn->info.caps.esw_rx_drop_address = dmn->info.caps.esw_caps.drop_icm_address_rx;
 	dmn->info.caps.esw_tx_drop_address = dmn->info.caps.esw_caps.drop_icm_address_tx;
 
@@ -235,13 +244,25 @@ static int dr_domain_caps_init(struct mlx5_core_dev *mdev,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+=======
+	if (dmn->info.caps.sw_format_ver != MLX5_STEERING_FORMAT_CONNECTX_5) {
+		mlx5dr_err(dmn, "SW steering is not supported on this device\n");
+		return -EOPNOTSUPP;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = dr_domain_query_fdb_caps(mdev, dmn);
 	if (ret)
 		return ret;
 
 	switch (dmn->type) {
 	case MLX5DR_DOMAIN_TYPE_NIC_RX:
+<<<<<<< HEAD
 		if (!DR_DOMAIN_SW_STEERING_SUPPORTED(dmn, rx))
+=======
+		if (!dmn->info.caps.rx_sw_owner)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOTSUPP;
 
 		dmn->info.supp_sw_steering = true;
@@ -250,7 +271,11 @@ static int dr_domain_caps_init(struct mlx5_core_dev *mdev,
 		dmn->info.rx.drop_icm_addr = dmn->info.caps.nic_rx_drop_address;
 		break;
 	case MLX5DR_DOMAIN_TYPE_NIC_TX:
+<<<<<<< HEAD
 		if (!DR_DOMAIN_SW_STEERING_SUPPORTED(dmn, tx))
+=======
+		if (!dmn->info.caps.tx_sw_owner)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOTSUPP;
 
 		dmn->info.supp_sw_steering = true;
@@ -262,7 +287,11 @@ static int dr_domain_caps_init(struct mlx5_core_dev *mdev,
 		if (!dmn->info.caps.eswitch_manager)
 			return -ENOTSUPP;
 
+<<<<<<< HEAD
 		if (!DR_DOMAIN_SW_STEERING_SUPPORTED(dmn, fdb))
+=======
+		if (!dmn->info.caps.fdb_sw_owner)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOTSUPP;
 
 		dmn->info.rx.ste_type = MLX5DR_STE_TYPE_RX;

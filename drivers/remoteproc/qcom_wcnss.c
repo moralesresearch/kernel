@@ -570,7 +570,11 @@ static int wcnss_probe(struct platform_device *pdev)
 	if (IS_ERR(mmio)) {
 		ret = PTR_ERR(mmio);
 		goto free_rproc;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = wcnss_alloc_memory_region(wcnss);
 	if (ret)

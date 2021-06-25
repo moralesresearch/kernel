@@ -251,6 +251,7 @@ static void coda_evict_inode(struct inode *inode)
 	coda_cache_clear_inode(inode);
 }
 
+<<<<<<< HEAD
 int coda_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		 struct kstat *stat, u32 request_mask, unsigned int flags)
 {
@@ -262,6 +263,18 @@ int coda_getattr(struct user_namespace *mnt_userns, const struct path *path,
 
 int coda_setattr(struct user_namespace *mnt_userns, struct dentry *de,
 		 struct iattr *iattr)
+=======
+int coda_getattr(const struct path *path, struct kstat *stat,
+		 u32 request_mask, unsigned int flags)
+{
+	int err = coda_revalidate_inode(d_inode(path->dentry));
+	if (!err)
+		generic_fillattr(d_inode(path->dentry), stat);
+	return err;
+}
+
+int coda_setattr(struct dentry *de, struct iattr *iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(de);
 	struct coda_vattr vattr;

@@ -1375,13 +1375,20 @@ poll_mode:
 	ret = spi_register_controller(ctlr);
 	if (ret != 0) {
 		dev_err(&pdev->dev, "Problem registering DSPI ctlr\n");
+<<<<<<< HEAD
 		goto out_release_dma;
+=======
+		goto out_free_irq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;
 
+<<<<<<< HEAD
 out_release_dma:
 	dspi_release_dma(dspi);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_free_irq:
 	if (dspi->irq)
 		free_irq(dspi->irq, dspi);

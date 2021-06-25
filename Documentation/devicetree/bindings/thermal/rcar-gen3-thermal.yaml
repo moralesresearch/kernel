@@ -28,7 +28,18 @@ properties:
       - renesas,r8a77980-thermal # R-Car V3H
       - renesas,r8a779a0-thermal # R-Car V3U
 
+<<<<<<< HEAD
   reg: true
+=======
+  reg:
+    minItems: 2
+    maxItems: 4
+    items:
+      - description: TSC1 registers
+      - description: TSC2 registers
+      - description: TSC3 registers
+      - description: TSC4 registers
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   interrupts:
     items:
@@ -64,6 +75,7 @@ if:
           enum:
             - renesas,r8a779a0-thermal
 then:
+<<<<<<< HEAD
   properties:
     reg:
       minItems: 2
@@ -83,6 +95,10 @@ else:
         - description: TSC2 registers
         - description: TSC3 registers
         - description: TSC4 registers
+=======
+  required:
+    - interrupts
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 additionalProperties: false
 
@@ -121,6 +137,7 @@ examples:
                     };
             };
     };
+<<<<<<< HEAD
   - |
     #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
     #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -138,3 +155,5 @@ examples:
             resets = <&cpg 919>;
             #thermal-sensor-cells = <1>;
     };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

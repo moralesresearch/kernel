@@ -26,7 +26,10 @@ Required properties:
 	"fsl,ls1046a-pcie-ep", "fsl,ls-pcie-ep"
 	"fsl,ls1088a-pcie-ep", "fsl,ls-pcie-ep"
 	"fsl,ls2088a-pcie-ep", "fsl,ls-pcie-ep"
+<<<<<<< HEAD
 	"fsl,lx2160ar2-pcie-ep", "fsl,ls-pcie-ep"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - reg: base addresses and lengths of the PCIe controller register blocks.
 - interrupts: A list of interrupt outputs of the controller. Must contain an
   entry for each entry in the interrupt-names property.

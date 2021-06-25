@@ -176,14 +176,23 @@ static int rpcif_spi_remove(struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int __maybe_unused rpcif_spi_suspend(struct device *dev)
+=======
+#ifdef CONFIG_PM_SLEEP
+static int rpcif_spi_suspend(struct device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct spi_controller *ctlr = dev_get_drvdata(dev);
 
 	return spi_controller_suspend(ctlr);
 }
 
+<<<<<<< HEAD
 static int __maybe_unused rpcif_spi_resume(struct device *dev)
+=======
+static int rpcif_spi_resume(struct device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct spi_controller *ctlr = dev_get_drvdata(dev);
 
@@ -191,15 +200,26 @@ static int __maybe_unused rpcif_spi_resume(struct device *dev)
 }
 
 static SIMPLE_DEV_PM_OPS(rpcif_spi_pm_ops, rpcif_spi_suspend, rpcif_spi_resume);
+<<<<<<< HEAD
+=======
+#define DEV_PM_OPS	(&rpcif_spi_pm_ops)
+#else
+#define DEV_PM_OPS	NULL
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct platform_driver rpcif_spi_driver = {
 	.probe	= rpcif_spi_probe,
 	.remove	= rpcif_spi_remove,
 	.driver = {
 		.name	= "rpc-if-spi",
+<<<<<<< HEAD
 #ifdef CONFIG_PM_SLEEP
 		.pm	= &rpcif_spi_pm_ops,
 #endif
+=======
+		.pm	= DEV_PM_OPS,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 module_platform_driver(rpcif_spi_driver);

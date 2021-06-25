@@ -506,7 +506,11 @@ error:
  * keyring, otherwise replace the link to the matching key with a link to the
  * new key.
  *
+<<<<<<< HEAD
  * The key must grant the caller Link permission and the keyring must grant
+=======
+ * The key must grant the caller Link permission and the the keyring must grant
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * the caller Write permission.  Furthermore, if an additional link is created,
  * the keyring's quota will be extended.
  *

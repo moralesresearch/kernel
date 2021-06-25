@@ -40,11 +40,15 @@ properties:
       Digital core voltage supply, 1.2 volts
 
   reset-gpios:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |-
       Reference to the GPIO connected to the xclr pin, if any.
       Must be released (set high) after all supplies are applied.
 
+<<<<<<< HEAD
   port:
     $ref: /schemas/graph.yaml#/$defs/port-base
     additionalProperties: false
@@ -54,6 +58,14 @@ properties:
         $ref: /schemas/media/video-interfaces.yaml#
         unevaluatedProperties: false
 
+=======
+  # See ../video-interfaces.txt for more details
+  port:
+    type: object
+    properties:
+      endpoint:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         properties:
           data-lanes:
             description: |-
@@ -64,8 +76,21 @@ properties:
               - const: 1
               - const: 2
 
+<<<<<<< HEAD
           clock-noncontinuous: true
           link-frequencies: true
+=======
+          clock-noncontinuous:
+            type: boolean
+            description: |-
+              MIPI CSI-2 clock is non-continuous if this property is present,
+              otherwise it's continuous.
+
+          link-frequencies:
+            $ref: /schemas/types.yaml#/definitions/uint64-array
+            description:
+              Allowed data bus frequencies.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         required:
           - link-frequencies

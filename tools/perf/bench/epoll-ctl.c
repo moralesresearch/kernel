@@ -21,6 +21,10 @@
 #include <sys/resource.h>
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
+<<<<<<< HEAD
+=======
+#include <internal/cpumap.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <perf/cpumap.h>
 
 #include "../util/stat.h"

@@ -400,6 +400,7 @@ enum vcap_es0_action_field {
 	VCAP_ES0_ACT_HIT_STICKY,
 };
 
+<<<<<<< HEAD
 struct ocelot_ipv4 {
 	u8 addr[4];
 };
@@ -697,4 +698,6 @@ struct ocelot_vcap_filter *
 ocelot_vcap_block_find_filter_by_id(struct ocelot_vcap_block *block, int id,
 				    bool tc_offload);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _OCELOT_VCAP_H_ */

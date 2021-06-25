@@ -261,14 +261,22 @@ static __always_inline void jump_label_init(void)
 
 static __always_inline bool static_key_false(struct static_key *key)
 {
+<<<<<<< HEAD
 	if (unlikely_notrace(static_key_count(key) > 0))
+=======
+	if (unlikely(static_key_count(key) > 0))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
 
 static __always_inline bool static_key_true(struct static_key *key)
 {
+<<<<<<< HEAD
 	if (likely_notrace(static_key_count(key) > 0))
+=======
+	if (likely(static_key_count(key) > 0))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
@@ -460,7 +468,11 @@ extern bool ____wrong_branch_error(void);
 		branch = !arch_static_branch_jump(&(x)->key, true);		\
 	else									\
 		branch = ____wrong_branch_error();				\
+<<<<<<< HEAD
 	likely_notrace(branch);								\
+=======
+	likely(branch);								\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 #define static_branch_unlikely(x)						\
@@ -472,13 +484,22 @@ extern bool ____wrong_branch_error(void);
 		branch = arch_static_branch(&(x)->key, false);			\
 	else									\
 		branch = ____wrong_branch_error();				\
+<<<<<<< HEAD
 	unlikely_notrace(branch);							\
+=======
+	unlikely(branch);							\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 #else /* !CONFIG_JUMP_LABEL */
 
+<<<<<<< HEAD
 #define static_branch_likely(x)		likely_notrace(static_key_enabled(&(x)->key))
 #define static_branch_unlikely(x)	unlikely_notrace(static_key_enabled(&(x)->key))
+=======
+#define static_branch_likely(x)		likely(static_key_enabled(&(x)->key))
+#define static_branch_unlikely(x)	unlikely(static_key_enabled(&(x)->key))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* CONFIG_JUMP_LABEL */
 

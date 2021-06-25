@@ -177,7 +177,10 @@ struct tcp_congestion_ops {
 	 * after all the ca_state processing. (optional)
 	 */
 	void (*cong_control)(struct sock *sk, const struct rate_sample *rs);
+<<<<<<< HEAD
 	void *owner;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define min(a, b) ((a) < (b) ? (a) : (b))

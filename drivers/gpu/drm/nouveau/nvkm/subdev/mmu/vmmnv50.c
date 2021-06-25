@@ -184,7 +184,11 @@ nv50_vmm_flush(struct nvkm_vmm *vmm, int level)
 	struct nvkm_device *device = subdev->device;
 	int i, id;
 
+<<<<<<< HEAD
 	mutex_lock(&vmm->mmu->mutex);
+=======
+	mutex_lock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < NVKM_SUBDEV_NR; i++) {
 		if (!atomic_read(&vmm->engref[i]))
 			continue;
@@ -207,7 +211,11 @@ nv50_vmm_flush(struct nvkm_vmm *vmm, int level)
 		case NVKM_ENGINE_MSVLD : id = 0x09; break;
 		case NVKM_ENGINE_CIPHER:
 		case NVKM_ENGINE_SEC   : id = 0x0a; break;
+<<<<<<< HEAD
 		case NVKM_ENGINE_CE    : id = 0x0d; break;
+=======
+		case NVKM_ENGINE_CE0   : id = 0x0d; break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			continue;
 		}
@@ -217,9 +225,16 @@ nv50_vmm_flush(struct nvkm_vmm *vmm, int level)
 			if (!(nvkm_rd32(device, 0x100c80) & 0x00000001))
 				break;
 		) < 0)
+<<<<<<< HEAD
 			nvkm_error(subdev, "%s mmu invalidate timeout\n", nvkm_subdev_type[i]);
 	}
 	mutex_unlock(&vmm->mmu->mutex);
+=======
+			nvkm_error(subdev, "%s mmu invalidate timeout\n",
+				   nvkm_subdev_name[i]);
+	}
+	mutex_unlock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int

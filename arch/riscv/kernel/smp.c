@@ -54,7 +54,11 @@ int riscv_hartid_to_cpuid(int hartid)
 			return i;
 
 	pr_err("Couldn't find cpu id for hartid [%d]\n", hartid);
+<<<<<<< HEAD
 	return -ENOENT;
+=======
+	return i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void riscv_cpuid_to_hartid_mask(const struct cpumask *in, struct cpumask *out)

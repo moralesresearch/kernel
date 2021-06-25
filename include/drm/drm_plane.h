@@ -764,6 +764,7 @@ int drm_plane_init(struct drm_device *dev,
 		   bool is_primary);
 void drm_plane_cleanup(struct drm_plane *plane);
 
+<<<<<<< HEAD
 __printf(10, 11)
 void *__drmm_universal_plane_alloc(struct drm_device *dev,
 				   size_t size, size_t offset,
@@ -806,6 +807,8 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev,
 					      format_count, format_modifiers, \
 					      plane_type, name, ##__VA_ARGS__))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * drm_plane_index - find the index of a registered plane
  * @plane: plane to find index for

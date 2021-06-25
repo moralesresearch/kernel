@@ -174,7 +174,18 @@
 		.macro	be32tocpu, val, tmp
 #ifndef __ARMEB__
 		/* convert to little endian */
+<<<<<<< HEAD
 		rev_l	\val, \tmp
+=======
+<<<<<<< HEAD
+		rev_l	\val, \tmp
+=======
+		eor	\tmp, \val, \val, ror #16
+		bic	\tmp, \tmp, #0x00ff0000
+		mov	\val, \val, ror #8
+		eor	\val, \val, \tmp, lsr #8
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 		.endm
 
@@ -279,6 +290,10 @@ not_angel:
 		 * are already placing their zImage in (eg) the top 64MB
 		 * of this range.
 		 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mov	r0, pc
 		and	r0, r0, #0xf8000000
 #ifdef CONFIG_USE_OF
@@ -313,6 +328,15 @@ not_angel:
 #endif /* CONFIG_USE_OF */
 		/* Determine final kernel image address. */
 		add	r4, r0, #TEXT_OFFSET
+<<<<<<< HEAD
+=======
+=======
+		mov	r4, pc
+		and	r4, r4, #0xf8000000
+		/* Determine final kernel image address. */
+		add	r4, r4, #TEXT_OFFSET
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 		ldr	r4, =zreladdr
 #endif

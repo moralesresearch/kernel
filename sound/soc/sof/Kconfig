@@ -9,6 +9,7 @@ config SND_SOC_SOF_TOPLEVEL
 
 if SND_SOC_SOF_TOPLEVEL
 
+<<<<<<< HEAD
 config SND_SOC_SOF_PCI_DEV
 	tristate
 
@@ -20,12 +21,23 @@ config SND_SOC_SOF_PCI
 	  required to enable Intel Skylake+ devices.
 	  For backwards-compatibility with previous configurations the selection will
 	  be used as default for platform-specific drivers.
+=======
+config SND_SOC_SOF_PCI
+	tristate "SOF PCI enumeration support"
+	depends on PCI
+	select SND_SOC_SOF
+	select SND_SOC_ACPI if ACPI
+	help
+	  This adds support for PCI enumeration. This option is
+	  required to enable Intel Skylake+ devices.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  Say Y if you need this option.
 	  If unsure select "N".
 
 config SND_SOC_SOF_ACPI
 	tristate "SOF ACPI enumeration support"
 	depends on ACPI || COMPILE_TEST
+<<<<<<< HEAD
 	help
 	  This adds support for ACPI enumeration. This option is required
 	  to enable Intel Broadwell/Baytrail/Cherrytrail devices.
@@ -37,6 +49,17 @@ config SND_SOC_SOF_ACPI
 config SND_SOC_SOF_ACPI_DEV
 	tristate
 
+=======
+	select SND_SOC_SOF
+	select SND_SOC_ACPI if ACPI
+	select IOSF_MBI if X86 && PCI
+	help
+	  This adds support for ACPI enumeration. This option is required
+	  to enable Intel Broadwell/Baytrail/Cherrytrail devices.
+	  Say Y if you need this option.
+	  If unsure select "N".
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config SND_SOC_SOF_OF
 	tristate "SOF OF enumeration support"
 	depends on OF || COMPILE_TEST

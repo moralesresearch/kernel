@@ -39,7 +39,11 @@ For example:
 		      <0x660009b0 0x40>;
 
 		pinctrl-names = "default";
+<<<<<<< HEAD
 		pinctrl-0 = <&nand_sel>, <&uart3_rx>, <&sdio0_d4>;
+=======
+		pinctrl-0 = <&nand_sel &uart3_rx &sdio0_d4>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Select nand function */
 		nand_sel: nand_sel {

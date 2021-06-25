@@ -255,4 +255,8 @@ err_free:
  * The TCB is used as the clocksource so its clock is needed early. This means
  * this can't be a platform driver.
  */
+<<<<<<< HEAD
 CLK_OF_DECLARE(sama5d3_pmc, "atmel,sama5d3-pmc", sama5d3_pmc_setup);
+=======
+CLK_OF_DECLARE_DRIVER(sama5d3_pmc, "atmel,sama5d3-pmc", sama5d3_pmc_setup);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

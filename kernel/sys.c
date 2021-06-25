@@ -24,6 +24,10 @@
 #include <linux/times.h>
 #include <linux/posix-timers.h>
 #include <linux/security.h>
+<<<<<<< HEAD
+=======
+#include <linux/dcookies.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/suspend.h>
 #include <linux/tty.h>
 #include <linux/signal.h>
@@ -1242,7 +1246,11 @@ static int override_release(char __user *release, size_t len)
 				break;
 			rest++;
 		}
+<<<<<<< HEAD
 		v = LINUX_VERSION_PATCHLEVEL + 60;
+=======
+		v = ((LINUX_VERSION_CODE >> 8) & 0xff) + 60;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		copy = clamp_t(size_t, len, 1, sizeof(buf));
 		copy = scnprintf(buf, copy, "2.6.%u%s", v, rest);
 		ret = copy_to_user(release, buf, copy + 1);
@@ -1847,7 +1855,11 @@ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
 	if (!S_ISREG(inode->i_mode) || path_noexec(&exe.file->f_path))
 		goto exit;
 
+<<<<<<< HEAD
 	err = file_permission(exe.file, MAY_EXEC);
+=======
+	err = inode_permission(inode, MAY_EXEC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto exit;
 
@@ -2079,7 +2091,11 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
 	 * up to the caller to provide sane values here, otherwise userspace
 	 * tools which use this vector might be unhappy.
 	 */
+<<<<<<< HEAD
 	unsigned long user_auxv[AT_VECTOR_SIZE] = {};
+=======
+	unsigned long user_auxv[AT_VECTOR_SIZE];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (len > sizeof(user_auxv))
 		return -EINVAL;

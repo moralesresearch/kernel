@@ -70,7 +70,10 @@
 static void	 xprt_init(struct rpc_xprt *xprt, struct net *net);
 static __be32	xprt_alloc_xid(struct rpc_xprt *xprt);
 static void	 xprt_destroy(struct rpc_xprt *xprt);
+<<<<<<< HEAD
 static void	 xprt_request_init(struct rpc_task *task);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static DEFINE_SPINLOCK(xprt_list_lock);
 static LIST_HEAD(xprt_list);
@@ -699,9 +702,15 @@ int xprt_adjust_timeout(struct rpc_rqst *req)
 	const struct rpc_timeout *to = req->rq_task->tk_client->cl_timeout;
 	int status = 0;
 
+<<<<<<< HEAD
 	if (time_before(jiffies, req->rq_majortimeo)) {
 		if (time_before(jiffies, req->rq_minortimeo))
 			return status;
+=======
+	if (time_before(jiffies, req->rq_minortimeo))
+		return status;
+	if (time_before(jiffies, req->rq_majortimeo)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (to->to_exponential)
 			req->rq_timeout <<= 1;
 		else
@@ -1470,6 +1479,11 @@ bool xprt_prepare_transmit(struct rpc_task *task)
 	struct rpc_xprt	*xprt = req->rq_xprt;
 
 	if (!xprt_lock_write(xprt, task)) {
+<<<<<<< HEAD
+=======
+		trace_xprt_transmit_queued(xprt, task);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Race breaker: someone may have transmitted us */
 		if (!test_bit(RPC_TASK_NEED_XMIT, &task->tk_runstate))
 			rpc_wake_up_queued_task_set_status(&xprt->sending,
@@ -1482,10 +1496,14 @@ bool xprt_prepare_transmit(struct rpc_task *task)
 
 void xprt_end_transmit(struct rpc_task *task)
 {
+<<<<<<< HEAD
 	struct rpc_xprt	*xprt = task->tk_rqstp->rq_xprt;
 
 	xprt_inject_disconnect(xprt);
 	xprt_release_write(xprt, task);
+=======
+	xprt_release_write(task->tk_rqstp->rq_xprt, task);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1603,6 +1621,7 @@ xprt_transmit(struct rpc_task *task)
 	spin_unlock(&xprt->queue_lock);
 }
 
+<<<<<<< HEAD
 static void xprt_complete_request_init(struct rpc_task *task)
 {
 	if (task->tk_rqstp)
@@ -1637,6 +1656,19 @@ bool xprt_wake_up_backlog(struct rpc_xprt *xprt, struct rpc_rqst *req)
 	return true;
 }
 EXPORT_SYMBOL_GPL(xprt_wake_up_backlog);
+=======
+static void xprt_add_backlog(struct rpc_xprt *xprt, struct rpc_task *task)
+{
+	set_bit(XPRT_CONGESTED, &xprt->state);
+	rpc_sleep_on(&xprt->backlog, task, NULL);
+}
+
+static void xprt_wake_up_backlog(struct rpc_xprt *xprt)
+{
+	if (rpc_wake_up_next(&xprt->backlog) == NULL)
+		clear_bit(XPRT_CONGESTED, &xprt->state);
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static bool xprt_throttle_congested(struct rpc_xprt *xprt, struct rpc_task *task)
 {
@@ -1646,7 +1678,11 @@ static bool xprt_throttle_congested(struct rpc_xprt *xprt, struct rpc_task *task
 		goto out;
 	spin_lock(&xprt->reserve_lock);
 	if (test_bit(XPRT_CONGESTED, &xprt->state)) {
+<<<<<<< HEAD
 		xprt_add_backlog(xprt, task);
+=======
+		rpc_sleep_on(&xprt->backlog, task, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = true;
 	}
 	spin_unlock(&xprt->reserve_lock);
@@ -1723,11 +1759,19 @@ EXPORT_SYMBOL_GPL(xprt_alloc_slot);
 void xprt_free_slot(struct rpc_xprt *xprt, struct rpc_rqst *req)
 {
 	spin_lock(&xprt->reserve_lock);
+<<<<<<< HEAD
 	if (!xprt_wake_up_backlog(xprt, req) &&
 	    !xprt_dynamic_free_slot(xprt, req)) {
 		memset(req, 0, sizeof(*req));	/* mark unused */
 		list_add(&req->rq_list, &xprt->free);
 	}
+=======
+	if (!xprt_dynamic_free_slot(xprt, req)) {
+		memset(req, 0, sizeof(*req));	/* mark unused */
+		list_add(&req->rq_list, &xprt->free);
+	}
+	xprt_wake_up_backlog(xprt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&xprt->reserve_lock);
 }
 EXPORT_SYMBOL_GPL(xprt_free_slot);
@@ -1910,14 +1954,25 @@ void xprt_release(struct rpc_task *task)
 	spin_unlock(&xprt->transport_lock);
 	if (req->rq_buffer)
 		xprt->ops->buf_free(task);
+<<<<<<< HEAD
+=======
+	xprt_inject_disconnect(xprt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xdr_free_bvec(&req->rq_rcv_buf);
 	xdr_free_bvec(&req->rq_snd_buf);
 	if (req->rq_cred != NULL)
 		put_rpccred(req->rq_cred);
+<<<<<<< HEAD
 	if (req->rq_release_snd_buf)
 		req->rq_release_snd_buf(req);
 
 	task->tk_rqstp = NULL;
+=======
+	task->tk_rqstp = NULL;
+	if (req->rq_release_snd_buf)
+		req->rq_release_snd_buf(req);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (likely(!bc_prealloc(req)))
 		xprt->ops->free_slot(xprt, req);
 	else

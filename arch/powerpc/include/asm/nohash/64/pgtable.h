@@ -6,8 +6,11 @@
  * the ppc64 non-hashed page table.
  */
 
+<<<<<<< HEAD
 #include <linux/sizes.h>
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/nohash/64/pgtable-4k.h>
 #include <asm/barrier.h>
 #include <asm/asm-const.h>
@@ -56,8 +59,12 @@
 #define  PHB_IO_END	(KERN_IO_START + FULL_IO_SIZE)
 #define IOREMAP_BASE	(PHB_IO_END)
 #define IOREMAP_START	(ioremap_bot)
+<<<<<<< HEAD
 #define IOREMAP_END	(KERN_VIRT_START + KERN_VIRT_SIZE - FIXADDR_SIZE)
 #define FIXADDR_SIZE	SZ_32M
+=======
+#define IOREMAP_END	(KERN_VIRT_START + KERN_VIRT_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 /*

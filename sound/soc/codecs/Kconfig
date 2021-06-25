@@ -104,7 +104,10 @@ config SND_SOC_ALL_CODECS
 	imply SND_SOC_ISABELLE
 	imply SND_SOC_JZ4740_CODEC
 	imply SND_SOC_JZ4725B_CODEC
+<<<<<<< HEAD
 	imply SND_SOC_JZ4760_CODEC
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	imply SND_SOC_JZ4770_CODEC
 	imply SND_SOC_LM4857
 	imply SND_SOC_LM49453
@@ -186,6 +189,10 @@ config SND_SOC_ALL_CODECS
 	imply SND_SOC_SI476X
 	imply SND_SOC_SIMPLE_AMPLIFIER
 	imply SND_SOC_SIMPLE_MUX
+<<<<<<< HEAD
+=======
+	imply SND_SOC_SIRF_AUDIO_CODEC
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	imply SND_SOC_SPDIF
 	imply SND_SOC_SSM2305
 	imply SND_SOC_SSM2518
@@ -227,8 +234,11 @@ config SND_SOC_ALL_CODECS
 	imply SND_SOC_UDA1380
 	imply SND_SOC_WCD9335
 	imply SND_SOC_WCD934X
+<<<<<<< HEAD
 	imply SND_SOC_LPASS_RX_MACRO
 	imply SND_SOC_LPASS_TX_MACRO
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	imply SND_SOC_WL1273
 	imply SND_SOC_WM0010
 	imply SND_SOC_WM1250_EV1
@@ -714,7 +724,11 @@ config SND_SOC_CX2072X
 	  Enable support for Conexant CX20721 and CX20723 codec chips.
 
 config SND_SOC_JZ4740_CODEC
+<<<<<<< HEAD
 	depends on MACH_INGENIC || COMPILE_TEST
+=======
+	depends on MIPS || COMPILE_TEST
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on OF
 	select REGMAP_MMIO
 	tristate "Ingenic JZ4740 internal CODEC"
@@ -726,7 +740,11 @@ config SND_SOC_JZ4740_CODEC
 	  will be called snd-soc-jz4740-codec.
 
 config SND_SOC_JZ4725B_CODEC
+<<<<<<< HEAD
 	depends on MACH_INGENIC || COMPILE_TEST
+=======
+	depends on MIPS || COMPILE_TEST
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on OF
 	select REGMAP
 	tristate "Ingenic JZ4725B internal CODEC"
@@ -737,6 +755,7 @@ config SND_SOC_JZ4725B_CODEC
 	  This driver can also be built as a module. If so, the module
 	  will be called snd-soc-jz4725b-codec.
 
+<<<<<<< HEAD
 config SND_SOC_JZ4760_CODEC
         depends on MACH_INGENIC || COMPILE_TEST
         depends on OF
@@ -751,6 +770,10 @@ config SND_SOC_JZ4760_CODEC
 
 config SND_SOC_JZ4770_CODEC
 	depends on MACH_INGENIC || COMPILE_TEST
+=======
+config SND_SOC_JZ4770_CODEC
+	depends on MIPS || COMPILE_TEST
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on OF
 	select REGMAP
 	tristate "Ingenic JZ4770 internal CODEC"
@@ -1176,7 +1199,11 @@ config SND_SOC_RT5651
 	depends on I2C
 
 config SND_SOC_RT5659
+<<<<<<< HEAD
 	tristate "Realtek RT5658/RT5659 Codec"
+=======
+	tristate
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on I2C
 
 config SND_SOC_RT5660
@@ -1278,6 +1305,13 @@ config SND_SOC_SIMPLE_MUX
 	tristate "Simple Audio Mux"
 	select GPIOLIB
 
+<<<<<<< HEAD
+=======
+config SND_SOC_SIRF_AUDIO_CODEC
+	tristate "SiRF SoC internal audio codec"
+	select REGMAP_MMIO
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config SND_SOC_SPDIF
 	tristate "S/PDIF CODEC"
 
@@ -1830,6 +1864,7 @@ config SND_SOC_LPASS_VA_MACRO
 	depends on COMMON_CLK
 	tristate "Qualcomm VA Macro in LPASS(Low Power Audio SubSystem)"
 
+<<<<<<< HEAD
 config SND_SOC_LPASS_RX_MACRO
 	depends on COMMON_CLK
 	tristate "Qualcomm RX Macro in LPASS(Low Power Audio SubSystem)"
@@ -1838,4 +1873,6 @@ config SND_SOC_LPASS_TX_MACRO
 	depends on COMMON_CLK
 	tristate "Qualcomm TX Macro in LPASS(Low Power Audio SubSystem)"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endmenu

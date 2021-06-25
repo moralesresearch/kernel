@@ -20,7 +20,10 @@
 #include <linux/platform_device.h>
 #include <linux/input.h>
 #include <linux/gpio_keys.h>
+<<<<<<< HEAD
 #include <linux/gpio/machine.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/geode.h>
 
@@ -56,7 +59,13 @@ static struct platform_device net5501_buttons_dev = {
 static struct gpio_led net5501_leds[] = {
 	{
 		.name = "net5501:1",
+<<<<<<< HEAD
 		.default_trigger = "default-on",
+=======
+		.gpio = 6,
+		.default_trigger = "default-on",
+		.active_low = 0,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -65,6 +74,7 @@ static struct gpio_led_platform_data net5501_leds_data = {
 	.leds = net5501_leds,
 };
 
+<<<<<<< HEAD
 static struct gpiod_lookup_table net5501_leds_gpio_table = {
 	.dev_id = "leds-gpio",
 	.table = {
@@ -74,6 +84,8 @@ static struct gpiod_lookup_table net5501_leds_gpio_table = {
 	},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct platform_device net5501_leds_dev = {
 	.name = "leds-gpio",
 	.id = -1,
@@ -88,7 +100,10 @@ static struct platform_device *net5501_devs[] __initdata = {
 static void __init register_net5501(void)
 {
 	/* Setup LED control through leds-gpio driver */
+<<<<<<< HEAD
 	gpiod_add_lookup_table(&net5501_leds_gpio_table);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_add_devices(net5501_devs, ARRAY_SIZE(net5501_devs));
 }
 

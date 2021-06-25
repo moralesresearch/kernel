@@ -580,8 +580,11 @@ static int kvm_vcpu_first_run_init(struct kvm_vcpu *vcpu)
 
 	vcpu->arch.has_run_once = true;
 
+<<<<<<< HEAD
 	kvm_arm_vcpu_init_debug(vcpu);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (likely(irqchip_in_kernel(kvm))) {
 		/*
 		 * Map the VGIC hardware resources before running a vcpu the
@@ -715,12 +718,19 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
 			return ret;
 	}
 
+<<<<<<< HEAD
 	vcpu_load(vcpu);
 
 	if (run->immediate_exit) {
 		ret = -EINTR;
 		goto out;
 	}
+=======
+	if (run->immediate_exit)
+		return -EINTR;
+
+	vcpu_load(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kvm_sigset_activate(vcpu);
 
@@ -894,6 +904,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
 
 	kvm_sigset_deactivate(vcpu);
 
+<<<<<<< HEAD
 out:
 	/*
 	 * In the unlikely event that we are returning to userspace
@@ -906,6 +917,8 @@ out:
 					 KVM_ARM64_INCREMENT_PC)))
 		kvm_call_hyp(__kvm_adjust_pc, vcpu);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vcpu_put(vcpu);
 	return ret;
 }
@@ -1771,10 +1784,24 @@ static int init_hyp_mode(void)
 		goto out_err;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = create_hyp_mappings(kvm_ksym_ref(__hyp_rodata_start),
 				  kvm_ksym_ref(__hyp_rodata_end), PAGE_HYP_RO);
 	if (err) {
 		kvm_err("Cannot map .hyp.rodata section\n");
+<<<<<<< HEAD
+=======
+=======
+	err = create_hyp_mappings(kvm_ksym_ref(__hyp_data_ro_after_init_start),
+				  kvm_ksym_ref(__hyp_data_ro_after_init_end),
+				  PAGE_HYP_RO);
+	if (err) {
+		kvm_err("Cannot map .hyp.data..ro_after_init section\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out_err;
 	}
 
@@ -1824,10 +1851,15 @@ static int init_hyp_mode(void)
 	if (is_protected_kvm_enabled()) {
 		init_cpu_logical_map();
 
+<<<<<<< HEAD
 		if (!init_psci_relay()) {
 			err = -ENODEV;
 			goto out_err;
 		}
+=======
+		if (!init_psci_relay())
+			goto out_err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1989,9 +2021,18 @@ static int __init early_kvm_mode_cfg(char *arg)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (strcmp(arg, "nvhe") == 0 && !WARN_ON(is_kernel_in_hyp_mode()))
 		return 0;
 
+=======
+<<<<<<< HEAD
+	if (strcmp(arg, "nvhe") == 0 && !WARN_ON(is_kernel_in_hyp_mode()))
+		return 0;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EINVAL;
 }
 early_param("kvm-arm.mode", early_kvm_mode_cfg);

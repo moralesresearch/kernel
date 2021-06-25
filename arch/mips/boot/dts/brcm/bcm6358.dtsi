@@ -59,7 +59,11 @@
 
 		periph_cntl: syscon@fffe0008 {
 			compatible = "syscon";
+<<<<<<< HEAD
 			reg = <0xfffe0008 0x4>;
+=======
+			reg = <0xfffe0000 0x4>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			native-endian;
 		};
 

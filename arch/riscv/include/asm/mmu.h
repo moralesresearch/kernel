@@ -12,8 +12,11 @@
 typedef struct {
 #ifndef CONFIG_MMU
 	unsigned long	end_brk;
+<<<<<<< HEAD
 #else
 	atomic_long_t id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	void *vdso;
 #ifdef CONFIG_SMP

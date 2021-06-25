@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 .. _cgroup-v2:
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ================
 Control Group v2
 ================
@@ -174,6 +177,10 @@ disabling controllers in v1 and make them always available in v2.
 cgroup v2 currently supports the following mount options.
 
   nsdelegate
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	Consider cgroup namespaces as delegation boundaries.  This
 	option is system wide and can only be set on mount or modified
 	through remount from the init namespace.  The mount option is
@@ -181,6 +188,10 @@ cgroup v2 currently supports the following mount options.
 	Delegation section for details.
 
   memory_localevents
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         Only populate memory.events with data for the current cgroup,
         and not any subtrees. This is legacy behaviour, the default
         behaviour without this option is to include subtree counts.
@@ -189,6 +200,10 @@ cgroup v2 currently supports the following mount options.
         option is ignored on non-init namespace mounts.
 
   memory_recursiveprot
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         Recursively apply memory.min and memory.low protection to
         entire subtrees, without requiring explicit downward
         propagation into leaf cgroups.  This allows protecting entire
@@ -785,6 +800,10 @@ Core Interface Files
 All cgroup core files are prefixed with "cgroup."
 
   cgroup.type
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	A read-write single value file which exists on non-root
 	cgroups.
 
@@ -952,8 +971,11 @@ All cgroup core files are prefixed with "cgroup."
 Controllers
 ===========
 
+<<<<<<< HEAD
 .. _cgroup-v2-cpu:
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CPU
 ---
 
@@ -1259,9 +1281,15 @@ PAGE_SIZE multiple when read back.
 	can show up in the middle. Don't rely on items remaining in a
 	fixed position; use the keys to look up specific values!
 
+<<<<<<< HEAD
 	If the entry has no per-node counter (or not show in the
 	memory.numa_stat). We use 'npn' (non-per-node) as the tag
 	to indicate that it will not show in the memory.numa_stat.
+=======
+	If the entry has no per-node counter(or not show in the
+	mempry.numa_stat). We use 'npn'(non-per-node) as the tag
+	to indicate that it will not show in the mempry.numa_stat.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	  anon
 		Amount of memory used in anonymous mappings such as
@@ -1277,11 +1305,19 @@ PAGE_SIZE multiple when read back.
 	  pagetables
                 Amount of memory allocated for page tables.
 
+<<<<<<< HEAD
 	  percpu (npn)
 		Amount of memory used for storing per-cpu kernel
 		data structures.
 
 	  sock (npn)
+=======
+	  percpu(npn)
+		Amount of memory used for storing per-cpu kernel
+		data structures.
+
+	  sock(npn)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		Amount of memory used in network transmission buffers
 
 	  shmem
@@ -1299,10 +1335,13 @@ PAGE_SIZE multiple when read back.
 		Amount of cached filesystem data that was modified and
 		is currently being written back to disk
 
+<<<<<<< HEAD
 	  swapcached
 		Amount of swap cached in memory. The swapcache is accounted
 		against both memory and swap usage.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  anon_thp
 		Amount of memory used in anonymous mappings backed by
 		transparent hugepages
@@ -1333,7 +1372,11 @@ PAGE_SIZE multiple when read back.
 		Part of "slab" that cannot be reclaimed on memory
 		pressure.
 
+<<<<<<< HEAD
 	  slab (npn)
+=======
+	  slab(npn)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		Amount of memory used for storing in-kernel data
 		structures.
 
@@ -1361,6 +1404,7 @@ PAGE_SIZE multiple when read back.
 	  workingset_nodereclaim
 		Number of times a shadow node has been reclaimed
 
+<<<<<<< HEAD
 	  pgfault (npn)
 		Total number of page faults incurred
 
@@ -1389,11 +1433,45 @@ PAGE_SIZE multiple when read back.
 		Amount of reclaimed lazyfree pages
 
 	  thp_fault_alloc (npn)
+=======
+	  pgfault(npn)
+		Total number of page faults incurred
+
+	  pgmajfault(npn)
+		Number of major page faults incurred
+
+	  pgrefill(npn)
+		Amount of scanned pages (in an active LRU list)
+
+	  pgscan(npn)
+		Amount of scanned pages (in an inactive LRU list)
+
+	  pgsteal(npn)
+		Amount of reclaimed pages
+
+	  pgactivate(npn)
+		Amount of pages moved to the active LRU list
+
+	  pgdeactivate(npn)
+		Amount of pages moved to the inactive LRU list
+
+	  pglazyfree(npn)
+		Amount of pages postponed to be freed under memory pressure
+
+	  pglazyfreed(npn)
+		Amount of reclaimed lazyfree pages
+
+	  thp_fault_alloc(npn)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		Number of transparent hugepages which were allocated to satisfy
 		a page fault. This counter is not present when CONFIG_TRANSPARENT_HUGEPAGE
                 is not set.
 
+<<<<<<< HEAD
 	  thp_collapse_alloc (npn)
+=======
+	  thp_collapse_alloc(npn)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		Number of transparent hugepages which were allocated to allow
 		collapsing an existing range of pages. This counter is not
 		present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
@@ -1562,7 +1640,11 @@ IO Interface Files
 	  8:0 rbytes=90430464 wbytes=299008000 rios=8950 wios=1252 dbytes=50331648 dios=3021
 
   io.cost.qos
+<<<<<<< HEAD
 	A read-write nested-keyed file which exists only on the root
+=======
+	A read-write nested-keyed file with exists only on the root
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cgroup.
 
 	This file configures the Quality of Service of the IO cost
@@ -1617,7 +1699,11 @@ IO Interface Files
 	automatic mode can be restored by setting "ctrl" to "auto".
 
   io.cost.model
+<<<<<<< HEAD
 	A read-write nested-keyed file which exists only on the root
+=======
+	A read-write nested-keyed file with exists only on the root
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cgroup.
 
 	This file configures the cost model of the IO cost model based
@@ -2004,12 +2090,19 @@ Cpuset Interface Files
 	cpuset-enabled cgroups.  This flag is owned by the parent cgroup
 	and is not delegatable.
 
+<<<<<<< HEAD
 	It accepts only the following input values when written to.
 
 	  ========	================================
 	  "root"	a partition root
 	  "member"	a non-root member of a partition
 	  ========	================================
+=======
+        It accepts only the following input values when written to.
+
+        "root"   - a partition root
+        "member" - a non-root member of a partition
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	When set to be a partition root, the current cgroup is the
 	root of a new partition or scheduling domain that comprises
@@ -2050,11 +2143,17 @@ Cpuset Interface Files
 	root to change.  On read, the "cpuset.sched.partition" file
 	can show the following values.
 
+<<<<<<< HEAD
 	  ==============	==============================
 	  "member"		Non-root member of a partition
 	  "root"		Partition root
 	  "root invalid"	Invalid partition root
 	  ==============	==============================
+=======
+	"member"       Non-root member of a partition
+	"root"         Partition root
+	"root invalid" Invalid partition root
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	It is a partition root if the first 2 partition root conditions
 	above are true and at least one CPU from "cpuset.cpus" is
@@ -2098,7 +2197,11 @@ If the program returns 0, the attempt fails with -EPERM, otherwise
 it succeeds.
 
 An example of BPF_CGROUP_DEVICE program may be found in the kernel
+<<<<<<< HEAD
 source tree in the tools/testing/selftests/bpf/progs/dev_cgroup.c file.
+=======
+source tree in the tools/testing/selftests/bpf/dev_cgroup.c file.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 RDMA
@@ -2227,7 +2330,11 @@ Without cgroup namespace, the "/proc/$PID/cgroup" file shows the
 complete path of the cgroup of a process.  In a container setup where
 a set of cgroups and namespaces are intended to isolate processes the
 "/proc/$PID/cgroup" file may leak potential system level information
+<<<<<<< HEAD
 to the isolated processes.  For example::
+=======
+to the isolated processes.  For Example::
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   # cat /proc/self/cgroup
   0::/batchjobs/container_id1

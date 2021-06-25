@@ -18,7 +18,10 @@
 #include <asm/reboot.h>
 #include <asm/setup.h>
 #include <asm/mach-au1x00/au1000.h>
+<<<<<<< HEAD
 #include <asm/mach-au1x00/gpio-au1000.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <prom.h>
 
 const char *get_system_type(void)

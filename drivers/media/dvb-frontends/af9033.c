@@ -125,7 +125,10 @@ static int af9033_init(struct dvb_frontend *fe)
 	if (i == ARRAY_SIZE(clock_adc_lut)) {
 		dev_err(&client->dev, "Couldn't find ADC config for clock %d\n",
 			dev->cfg.clock);
+<<<<<<< HEAD
 		ret = -ENODEV;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err;
 	}
 
@@ -853,7 +856,10 @@ static int af9033_read_snr(struct dvb_frontend *fe, u16 *snr)
 				*snr = *snr * 0xffff / 32;
 				break;
 			default:
+<<<<<<< HEAD
 				ret = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto err;
 			}
 		}

@@ -240,7 +240,11 @@ struct carl9170_cmd {
 		struct carl9170_bcn_ctrl_cmd	bcn_ctrl;
 		struct carl9170_rx_filter_cmd	rx_filter;
 		u8 data[CARL9170_MAX_CMD_PAYLOAD_LEN];
+<<<<<<< HEAD
 	} __packed __aligned(4);
+=======
+	} __packed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed __aligned(4);
 
 #define	CARL9170_TX_STATUS_QUEUE	3

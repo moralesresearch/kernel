@@ -69,18 +69,32 @@
 
 /* Buffer Descriptor Header [BDESC]. SPU in big-endian mode. */
 struct BDESC_HEADER {
+<<<<<<< HEAD
 	__be16 offset_mac;		/* word 0 [31-16] */
 	__be16 length_mac;		/* word 0 [15-0]  */
 	__be16 offset_crypto;		/* word 1 [31-16] */
 	__be16 length_crypto;		/* word 1 [15-0]  */
 	__be16 offset_icv;		/* word 2 [31-16] */
 	__be16 offset_iv;		/* word 2 [15-0]  */
+=======
+	u16 offset_mac;		/* word 0 [31-16] */
+	u16 length_mac;		/* word 0 [15-0]  */
+	u16 offset_crypto;	/* word 1 [31-16] */
+	u16 length_crypto;	/* word 1 [15-0]  */
+	u16 offset_icv;		/* word 2 [31-16] */
+	u16 offset_iv;		/* word 2 [15-0]  */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Buffer Data Header [BD]. SPU in big-endian mode. */
 struct BD_HEADER {
+<<<<<<< HEAD
 	__be16 size;
 	__be16 prev_length;
+=======
+	u16 size;
+	u16 prev_length;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Command Context Header. SPU-M in big endian mode. */
@@ -144,6 +158,7 @@ struct MHEADER {
 /* Generic Mode Security Context Structure [SCTX] */
 struct SCTX {
 /* word 0: protocol flags */
+<<<<<<< HEAD
 	__be32 proto_flags;
 
 /* word 1: cipher flags */
@@ -151,6 +166,15 @@ struct SCTX {
 
 /* word 2: Extended cipher flags */
 	__be32 ecf;
+=======
+	u32 proto_flags;
+
+/* word 1: cipher flags */
+	u32 cipher_flags;
+
+/* word 2: Extended cipher flags */
+	u32 ecf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 };
 

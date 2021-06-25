@@ -30,6 +30,7 @@
 #define PAD_SIZE 16
 #define FILL_CHAR '$'
 
+<<<<<<< HEAD
 KSTM_MODULE_GLOBALS();
 
 static char *test_buffer __initdata;
@@ -37,6 +38,13 @@ static char *alloced_buffer __initdata;
 
 extern bool no_hash_pointers;
 
+=======
+static unsigned total_tests __initdata;
+static unsigned failed_tests __initdata;
+static char *test_buffer __initdata;
+static char *alloced_buffer __initdata;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __printf(4, 0) __init
 do_test(int bufsize, const char *expect, int elen,
 	const char *fmt, va_list ap)
@@ -303,12 +311,15 @@ plain(void)
 {
 	int err;
 
+<<<<<<< HEAD
 	if (no_hash_pointers) {
 		pr_warn("skipping plain 'p' tests");
 		skipped_tests += 2;
 		return;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = plain_hash();
 	if (err) {
 		pr_warn("plain 'p' does not appear to be hashed\n");
@@ -652,7 +663,13 @@ static void __init fwnode_pointer(void)
 	test(second_name, "%pfwP", software_node_fwnode(&softnodes[1]));
 	test(third_name, "%pfwP", software_node_fwnode(&softnodes[2]));
 
+<<<<<<< HEAD
 	software_node_unregister_nodes(softnodes);
+=======
+	software_node_unregister(&softnodes[2]);
+	software_node_unregister(&softnodes[1]);
+	software_node_unregister(&softnodes[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init

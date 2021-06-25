@@ -1513,7 +1513,11 @@ static int rsi_restore(struct device *dev)
 }
 static const struct dev_pm_ops rsi_pm_ops = {
 	.suspend = rsi_suspend,
+<<<<<<< HEAD
 	.resume_noirq = rsi_resume,
+=======
+	.resume = rsi_resume,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.freeze = rsi_freeze,
 	.thaw = rsi_thaw,
 	.restore = rsi_restore,
@@ -1571,6 +1575,10 @@ module_exit(rsi_module_exit);
 
 MODULE_AUTHOR("Redpine Signals Inc");
 MODULE_DESCRIPTION("Common SDIO layer for RSI drivers");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("RSI-91x");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DEVICE_TABLE(sdio, rsi_dev_table);
 MODULE_FIRMWARE(FIRMWARE_RSI9113);
 MODULE_VERSION("0.1");

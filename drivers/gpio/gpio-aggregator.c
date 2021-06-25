@@ -62,6 +62,37 @@ static char *get_arg(char **args)
 	return start;
 }
 
+<<<<<<< HEAD
+=======
+static bool isrange(const char *s)
+{
+	size_t n;
+
+	if (IS_ERR_OR_NULL(s))
+		return false;
+
+	while (1) {
+		n = strspn(s, "0123456789");
+		if (!n)
+			return false;
+
+		s += n;
+
+		switch (*s++) {
+		case '\0':
+			return true;
+
+		case '-':
+		case ',':
+			break;
+
+		default:
+			return false;
+		}
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *key,
 			 int hwnum, unsigned int *n)
 {
@@ -72,7 +103,12 @@ static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *key,
 	if (!lookups)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	lookups->table[*n] = GPIO_LOOKUP_IDX(key, hwnum, NULL, *n, 0);
+=======
+	lookups->table[*n] =
+		(struct gpiod_lookup)GPIO_LOOKUP_IDX(key, hwnum, NULL, *n, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	(*n)++;
 	memset(&lookups->table[*n], 0, sizeof(lookups->table[*n]));
@@ -83,10 +119,17 @@ static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *key,
 
 static int aggr_parse(struct gpio_aggregator *aggr)
 {
+<<<<<<< HEAD
 	char *name, *offsets, *p;
 	char *args = aggr->args;
 	unsigned long *bitmap;
 	unsigned int i, n = 0;
+=======
+	char *args = aggr->args;
+	unsigned long *bitmap;
+	unsigned int i, n = 0;
+	char *name, *offsets;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int error = 0;
 
 	bitmap = bitmap_alloc(ARCH_NR_GPIOS, GFP_KERNEL);
@@ -101,8 +144,12 @@ static int aggr_parse(struct gpio_aggregator *aggr)
 			goto free_bitmap;
 		}
 
+<<<<<<< HEAD
 		p = get_options(offsets, 0, &error);
 		if (error == 0 || *p) {
+=======
+		if (!isrange(offsets)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Named GPIO line */
 			error = aggr_add_gpio(aggr, name, U16_MAX, &n);
 			if (error)
@@ -243,7 +290,11 @@ static DRIVER_ATTR_WO(delete_device);
 static struct attribute *gpio_aggregator_attrs[] = {
 	&driver_attr_new_device.attr,
 	&driver_attr_delete_device.attr,
+<<<<<<< HEAD
 	NULL
+=======
+	NULL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 ATTRIBUTE_GROUPS(gpio_aggregator);
 
@@ -517,7 +568,11 @@ static const struct of_device_id gpio_aggregator_dt_ids[] = {
 	 * Add GPIO-operated devices controlled from userspace below,
 	 * or use "driver_override" in sysfs
 	 */
+<<<<<<< HEAD
 	{}
+=======
+	{},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 MODULE_DEVICE_TABLE(of, gpio_aggregator_dt_ids);
 #endif

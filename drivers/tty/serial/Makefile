@@ -64,13 +64,25 @@ obj-$(CONFIG_SERIAL_TIMBERDALE)	+= timbuart.o
 obj-$(CONFIG_SERIAL_GRLIB_GAISLER_APBUART) += apbuart.o
 obj-$(CONFIG_SERIAL_ALTERA_JTAGUART) += altera_jtaguart.o
 obj-$(CONFIG_SERIAL_VT8500) += vt8500_serial.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_SERIAL_IFX6X60)  	+= ifx6x60.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SERIAL_PCH_UART)	+= pch_uart.o
 obj-$(CONFIG_SERIAL_MXS_AUART) += mxs-auart.o
 obj-$(CONFIG_SERIAL_LANTIQ)	+= lantiq.o
 obj-$(CONFIG_SERIAL_XILINX_PS_UART) += xilinx_uartps.o
+<<<<<<< HEAD
 obj-$(CONFIG_SERIAL_TEGRA) += serial-tegra.o
 obj-$(CONFIG_SERIAL_TEGRA_TCU) += tegra-tcu.o
 obj-$(CONFIG_SERIAL_AR933X)   += ar933x_uart.o
+=======
+obj-$(CONFIG_SERIAL_SIRFSOC) += sirfsoc_uart.o
+obj-$(CONFIG_SERIAL_TEGRA) += serial-tegra.o
+obj-$(CONFIG_SERIAL_TEGRA_TCU) += tegra-tcu.o
+obj-$(CONFIG_SERIAL_AR933X)   += ar933x_uart.o
+obj-$(CONFIG_SERIAL_EFM32_UART) += efm32-uart.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SERIAL_ARC)	+= arc_uart.o
 obj-$(CONFIG_SERIAL_RP2)	+= rp2.o
 obj-$(CONFIG_SERIAL_FSL_LPUART)	+= fsl_lpuart.o

@@ -2,7 +2,11 @@
 /*
  * Watchdog driver for Marvell Armada 37xx SoCs
  *
+<<<<<<< HEAD
  * Author: Marek Behún <kabel@kernel.org>
+=======
+ * Author: Marek Behun <marek.behun@nic.cz>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/clk.h>
@@ -366,7 +370,11 @@ static struct platform_driver armada_37xx_wdt_driver = {
 
 module_platform_driver(armada_37xx_wdt_driver);
 
+<<<<<<< HEAD
 MODULE_AUTHOR("Marek Behun <kabel@kernel.org>");
+=======
+MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("Armada 37xx CPU Watchdog");
 
 MODULE_LICENSE("GPL v2");

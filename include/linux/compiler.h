@@ -76,8 +76,11 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
 #else
 # define likely(x)	__builtin_expect(!!(x), 1)
 # define unlikely(x)	__builtin_expect(!!(x), 0)
+<<<<<<< HEAD
 # define likely_notrace(x)	likely(x)
 # define unlikely_notrace(x)	unlikely(x)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /* Optimization barrier */

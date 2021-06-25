@@ -3,6 +3,12 @@
 # Kernel configuration targets
 # These targets are used from top-level makefile
 
+<<<<<<< HEAD
+=======
+PHONY += xconfig gconfig menuconfig config localmodconfig localyesconfig \
+	build_menuconfig build_nconfig build_gconfig build_xconfig
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ifdef KBUILD_KCONFIG
 Kconfig := $(KBUILD_KCONFIG)
 else
@@ -16,6 +22,7 @@ endif
 # We need this, in case the user has it in its environment
 unexport CONFIG_
 
+<<<<<<< HEAD
 config-prog	:= conf
 menuconfig-prog	:= mconf
 nconfig-prog	:= nconf
@@ -34,6 +41,31 @@ endef
 $(foreach c, config menuconfig nconfig gconfig xconfig, $(eval $(call config_rule,$(c))))
 
 PHONY += localmodconfig localyesconfig
+=======
+xconfig: $(obj)/qconf
+	$(Q)$< $(silent) $(Kconfig)
+
+gconfig: $(obj)/gconf
+	$(Q)$< $(silent) $(Kconfig)
+
+menuconfig: $(obj)/mconf
+	$(Q)$< $(silent) $(Kconfig)
+
+config: $(obj)/conf
+	$(Q)$< $(silent) --oldaskconfig $(Kconfig)
+
+nconfig: $(obj)/nconf
+	$(Q)$< $(silent) $(Kconfig)
+
+build_menuconfig: $(obj)/mconf
+
+build_nconfig: $(obj)/nconf
+
+build_gconfig: $(obj)/gconf
+
+build_xconfig: $(obj)/qconf
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 localyesconfig localmodconfig: $(obj)/conf
 	$(Q)$(PERL) $(srctree)/$(src)/streamline_config.pl --$@ $(srctree) $(Kconfig) > .tmp.config
 	$(Q)if [ -f .config ]; then 				\

@@ -198,7 +198,11 @@ static ssize_t w1_slave_read(struct file *filp, struct kobject *kobj,
 			     struct bin_attribute *bin_attr, char *buf,
 			     loff_t off, size_t count)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return w1_ds2760_read(dev, buf, off, count);
 }
 

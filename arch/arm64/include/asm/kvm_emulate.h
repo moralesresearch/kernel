@@ -463,9 +463,12 @@ static __always_inline void kvm_incr_pc(struct kvm_vcpu *vcpu)
 	vcpu->arch.flags |= KVM_ARM64_INCREMENT_PC;
 }
 
+<<<<<<< HEAD
 static inline bool vcpu_has_feature(struct kvm_vcpu *vcpu, int feature)
 {
 	return test_bit(feature, vcpu->arch.features);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ARM64_KVM_EMULATE_H__ */

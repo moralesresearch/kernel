@@ -230,7 +230,10 @@ static void tick_sched_handle(struct tick_sched *ts, struct pt_regs *regs)
 
 #ifdef CONFIG_NO_HZ_FULL
 cpumask_var_t tick_nohz_full_mask;
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(tick_nohz_full_mask);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool tick_nohz_full_running;
 EXPORT_SYMBOL_GPL(tick_nohz_full_running);
 static atomic_t tick_dep_mask;

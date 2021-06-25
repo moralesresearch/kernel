@@ -96,7 +96,11 @@ static int ocfs2_set_inode_attr(struct inode *inode, unsigned flags,
 	}
 
 	status = -EACCES;
+<<<<<<< HEAD
 	if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+	if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto bail_unlock;
 
 	if (!S_ISDIR(inode->i_mode))

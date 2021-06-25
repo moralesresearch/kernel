@@ -56,11 +56,17 @@ properties:
       - const: usb2_reset
 
   usb0_id_det-gpios:
+<<<<<<< HEAD
     maxItems: 1
     description: GPIO to the USB OTG ID pin
 
   usb0_vbus_det-gpios:
     maxItems: 1
+=======
+    description: GPIO to the USB OTG ID pin
+
+  usb0_vbus_det-gpios:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: GPIO to the USB OTG VBUS detect pin
 
   usb0_vbus_power-supply:

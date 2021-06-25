@@ -5,7 +5,11 @@ uapi := arch/$(SRCARCH)/include/generated/uapi/asm
 _dummy := $(shell [ -d '$(uapi)' ] || mkdir -p '$(uapi)')	\
 	  $(shell [ -d '$(kapi)' ] || mkdir -p '$(kapi)')
 
+<<<<<<< HEAD
 syscall := $(src)/syscall.tbl
+=======
+syscall := $(srctree)/$(src)/syscall.tbl
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 syshdr := $(srctree)/$(src)/syscallhdr.sh
 systbl := $(srctree)/$(src)/syscalltbl.sh
 
@@ -22,31 +26,55 @@ quiet_cmd_systbl = SYSTBL  $@
 		   '$(systbl_offset_$(basetarget))'
 
 syshdr_abis_unistd_32 := common,nospu,32
+<<<<<<< HEAD
 $(uapi)/unistd_32.h: $(syscall) $(syshdr) FORCE
 	$(call if_changed,syshdr)
 
 syshdr_abis_unistd_64 := common,nospu,64
 $(uapi)/unistd_64.h: $(syscall) $(syshdr) FORCE
+=======
+$(uapi)/unistd_32.h: $(syscall) $(syshdr)
+	$(call if_changed,syshdr)
+
+syshdr_abis_unistd_64 := common,nospu,64
+$(uapi)/unistd_64.h: $(syscall) $(syshdr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,syshdr)
 
 systbl_abis_syscall_table_32 := common,nospu,32
 systbl_abi_syscall_table_32 := 32
+<<<<<<< HEAD
 $(kapi)/syscall_table_32.h: $(syscall) $(systbl) FORCE
+=======
+$(kapi)/syscall_table_32.h: $(syscall) $(systbl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,systbl)
 
 systbl_abis_syscall_table_64 := common,nospu,64
 systbl_abi_syscall_table_64 := 64
+<<<<<<< HEAD
 $(kapi)/syscall_table_64.h: $(syscall) $(systbl) FORCE
+=======
+$(kapi)/syscall_table_64.h: $(syscall) $(systbl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,systbl)
 
 systbl_abis_syscall_table_c32 := common,nospu,32
 systbl_abi_syscall_table_c32 := c32
+<<<<<<< HEAD
 $(kapi)/syscall_table_c32.h: $(syscall) $(systbl) FORCE
+=======
+$(kapi)/syscall_table_c32.h: $(syscall) $(systbl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,systbl)
 
 systbl_abis_syscall_table_spu := common,spu
 systbl_abi_syscall_table_spu := spu
+<<<<<<< HEAD
 $(kapi)/syscall_table_spu.h: $(syscall) $(systbl) FORCE
+=======
+$(kapi)/syscall_table_spu.h: $(syscall) $(systbl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,systbl)
 
 uapisyshdr-y		+= unistd_32.h unistd_64.h
@@ -55,10 +83,18 @@ kapisyshdr-y		+= syscall_table_32.h		\
 			   syscall_table_c32.h		\
 			   syscall_table_spu.h
 
+<<<<<<< HEAD
 uapisyshdr-y	:= $(addprefix $(uapi)/, $(uapisyshdr-y))
 kapisyshdr-y	:= $(addprefix $(kapi)/, $(kapisyshdr-y))
 targets		+= $(addprefix ../../../../, $(uapisyshdr-y) $(kapisyshdr-y))
 
 PHONY += all
 all: $(uapisyshdr-y) $(kapisyshdr-y)
+=======
+targets	+= $(uapisyshdr-y) $(kapisyshdr-y)
+
+PHONY += all
+all: $(addprefix $(uapi)/,$(uapisyshdr-y))
+all: $(addprefix $(kapi)/,$(kapisyshdr-y))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	@:

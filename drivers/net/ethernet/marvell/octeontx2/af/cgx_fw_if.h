@@ -43,6 +43,7 @@ enum cgx_error_type {
 	CGX_ERR_TRAINING_FAIL,
 	CGX_ERR_RX_EQU_FAIL,
 	CGX_ERR_SPUX_BER_FAIL,
+<<<<<<< HEAD
 	CGX_ERR_SPUX_RSFEC_ALGN_FAIL,
 	CGX_ERR_SPUX_MARKER_LOCK_FAIL,
 	CGX_ERR_SET_FEC_INVALID,
@@ -50,6 +51,9 @@ enum cgx_error_type {
 	CGX_ERR_MODULE_INVALID,
 	CGX_ERR_MODULE_NOT_PRESENT,
 	CGX_ERR_SPEED_CHANGE_INVALID,
+=======
+	CGX_ERR_SPUX_RSFEC_ALGN_FAIL,   /* = 22 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* LINK speed types */
@@ -65,11 +69,15 @@ enum cgx_link_speed {
 	CGX_LINK_25G,
 	CGX_LINK_40G,
 	CGX_LINK_50G,
+<<<<<<< HEAD
 	CGX_LINK_80G,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CGX_LINK_100G,
 	CGX_LINK_SPEED_MAX,
 };
 
+<<<<<<< HEAD
 enum CGX_MODE_ {
 	CGX_MODE_SGMII,
 	CGX_MODE_1000_BASEX,
@@ -100,6 +108,8 @@ enum CGX_MODE_ {
 	CGX_MODE_100G_KR4,
 	CGX_MODE_MAX /* = 29 */
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* REQUEST ID types. Input to firmware */
 enum cgx_cmd_id {
 	CGX_CMD_NONE,
@@ -112,12 +122,17 @@ enum cgx_cmd_id {
 	CGX_CMD_INTERNAL_LBK,
 	CGX_CMD_EXTERNAL_LBK,
 	CGX_CMD_HIGIG,
+<<<<<<< HEAD
 	CGX_CMD_LINK_STAT_CHANGE,
+=======
+	CGX_CMD_LINK_STATE_CHANGE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CGX_CMD_MODE_CHANGE,		/* hot plug support */
 	CGX_CMD_INTF_SHUTDOWN,
 	CGX_CMD_GET_MKEX_PRFL_SIZE,
 	CGX_CMD_GET_MKEX_PRFL_ADDR,
 	CGX_CMD_GET_FWD_BASE,		/* get base address of shared FW data */
+<<<<<<< HEAD
 	CGX_CMD_GET_LINK_MODES,		/* Supported Link Modes */
 	CGX_CMD_SET_LINK_MODE,
 	CGX_CMD_GET_SUPPORTED_FEC,
@@ -131,6 +146,8 @@ enum cgx_cmd_id {
 	CGX_CMD_PRBS,
 	CGX_CMD_DISPLAY_EYE,
 	CGX_CMD_GET_PHY_FEC_STATS,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* async event ids */
@@ -204,7 +221,10 @@ enum cgx_cmd_own {
  * CGX_STAT_SUCCESS
  */
 #define RESP_FWD_BASE		GENMASK_ULL(56, 9)
+<<<<<<< HEAD
 #define RESP_LINKSTAT_LMAC_TYPE                GENMASK_ULL(35, 28)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Response to cmd ID - CGX_CMD_LINK_BRING_UP/DOWN, event ID CGX_EVT_LINK_CHANGE
  * status can be either CGX_STAT_FAIL or CGX_STAT_SUCCESS
@@ -222,19 +242,26 @@ struct cgx_lnk_sts {
 	uint64_t full_duplex:1;
 	uint64_t speed:4;		/* cgx_link_speed */
 	uint64_t err_type:10;
+<<<<<<< HEAD
 	uint64_t an:1;			/* AN supported or not */
 	uint64_t fec:2;			/* FEC type if enabled, if not 0 */
 	uint64_t port:8;
 	uint64_t reserved2:28;
+=======
+	uint64_t reserved2:39;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define RESP_LINKSTAT_UP		GENMASK_ULL(9, 9)
 #define RESP_LINKSTAT_FDUPLEX		GENMASK_ULL(10, 10)
 #define RESP_LINKSTAT_SPEED		GENMASK_ULL(14, 11)
 #define RESP_LINKSTAT_ERRTYPE		GENMASK_ULL(24, 15)
+<<<<<<< HEAD
 #define RESP_LINKSTAT_AN		GENMASK_ULL(25, 25)
 #define RESP_LINKSTAT_FEC		GENMASK_ULL(27, 26)
 #define RESP_LINKSTAT_PORT		GENMASK_ULL(35, 28)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* scratchx(1) CSR used for non-secure SW->ATF communication
  * This CSR acts as a command register
@@ -256,6 +283,7 @@ struct cgx_lnk_sts {
 #define CMDLINKCHANGE_FULLDPLX	BIT_ULL(9)
 #define CMDLINKCHANGE_SPEED	GENMASK_ULL(13, 10)
 
+<<<<<<< HEAD
 #define CMDSETFEC			GENMASK_ULL(9, 8)
 /* command argument to be passed for cmd ID - CGX_CMD_MODE_CHANGE */
 #define CMDMODECHANGE_SPEED		GENMASK_ULL(11, 8)
@@ -264,4 +292,6 @@ struct cgx_lnk_sts {
 #define CMDMODECHANGE_PORT		GENMASK_ULL(21, 14)
 #define CMDMODECHANGE_FLAGS		GENMASK_ULL(63, 22)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __CGX_FW_INTF_H__ */

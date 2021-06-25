@@ -56,10 +56,15 @@
 #ifndef CONFIG_TINY_RCU
 module_param(rcu_expedited, int, 0);
 module_param(rcu_normal, int, 0);
+<<<<<<< HEAD
 static int rcu_normal_after_boot = IS_ENABLED(CONFIG_PREEMPT_RT);
 #ifndef CONFIG_PREEMPT_RT
 module_param(rcu_normal_after_boot, int, 0);
 #endif
+=======
+static int rcu_normal_after_boot;
+module_param(rcu_normal_after_boot, int, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* #ifndef CONFIG_TINY_RCU */
 
 #ifdef CONFIG_DEBUG_LOCK_ALLOC

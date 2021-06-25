@@ -19,6 +19,10 @@
 #include <uapi/misc/pvpanic.h>
 
 static void __iomem *base;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned int capability = PVPANIC_PANICKED | PVPANIC_CRASH_LOADED;
 static unsigned int events;
 
@@ -60,6 +64,11 @@ static struct attribute *pvpanic_dev_attrs[] = {
 	NULL
 };
 ATTRIBUTE_GROUPS(pvpanic_dev);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 MODULE_AUTHOR("Hu Tao <hutao@cn.fujitsu.com>");
 MODULE_DESCRIPTION("pvpanic device driver");
@@ -68,8 +77,17 @@ MODULE_LICENSE("GPL");
 static void
 pvpanic_send_event(unsigned int event)
 {
+<<<<<<< HEAD
 	if (event & capability & events)
 		iowrite8(event, base);
+=======
+<<<<<<< HEAD
+	if (event & capability & events)
+		iowrite8(event, base);
+=======
+	iowrite8(event, base);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -115,6 +133,10 @@ static int pvpanic_mmio_probe(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* initlize capability by RDPT */
 	capability &= ioread8(base);
 	events = capability;
@@ -122,6 +144,13 @@ static int pvpanic_mmio_probe(struct platform_device *pdev)
 	if (capability)
 		atomic_notifier_chain_register(&panic_notifier_list,
 					       &pvpanic_panic_nb);
+<<<<<<< HEAD
+=======
+=======
+	atomic_notifier_chain_register(&panic_notifier_list,
+				       &pvpanic_panic_nb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -129,9 +158,20 @@ static int pvpanic_mmio_probe(struct platform_device *pdev)
 static int pvpanic_mmio_remove(struct platform_device *pdev)
 {
 
+<<<<<<< HEAD
 	if (capability)
 		atomic_notifier_chain_unregister(&panic_notifier_list,
 						 &pvpanic_panic_nb);
+=======
+<<<<<<< HEAD
+	if (capability)
+		atomic_notifier_chain_unregister(&panic_notifier_list,
+						 &pvpanic_panic_nb);
+=======
+	atomic_notifier_chain_unregister(&panic_notifier_list,
+					 &pvpanic_panic_nb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -153,7 +193,14 @@ static struct platform_driver pvpanic_mmio_driver = {
 		.name = "pvpanic-mmio",
 		.of_match_table = pvpanic_mmio_match,
 		.acpi_match_table = pvpanic_device_ids,
+<<<<<<< HEAD
 		.dev_groups = pvpanic_dev_groups,
+=======
+<<<<<<< HEAD
+		.dev_groups = pvpanic_dev_groups,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.probe = pvpanic_mmio_probe,
 	.remove = pvpanic_mmio_remove,

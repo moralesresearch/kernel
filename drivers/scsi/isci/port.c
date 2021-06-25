@@ -164,8 +164,18 @@ static void isci_port_bc_change_received(struct isci_host *ihost,
 		"%s: isci_phy = %p, sas_phy = %p\n",
 		__func__, iphy, &iphy->sas_phy);
 
+<<<<<<< HEAD
 	sas_notify_port_event(&iphy->sas_phy,
 			      PORTE_BROADCAST_RCVD, GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+	sas_notify_port_event(&iphy->sas_phy,
+			      PORTE_BROADCAST_RCVD, GFP_ATOMIC);
+=======
+	sas_notify_port_event_gfp(&iphy->sas_phy,
+				  PORTE_BROADCAST_RCVD, GFP_ATOMIC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sci_port_bcn_enable(iport);
 }
 
@@ -224,8 +234,18 @@ static void isci_port_link_up(struct isci_host *isci_host,
 	/* Notify libsas that we have an address frame, if indeed
 	 * we've found an SSP, SMP, or STP target */
 	if (success)
+<<<<<<< HEAD
 		sas_notify_port_event(&iphy->sas_phy,
 				      PORTE_BYTES_DMAED, GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+		sas_notify_port_event(&iphy->sas_phy,
+				      PORTE_BYTES_DMAED, GFP_ATOMIC);
+=======
+		sas_notify_port_event_gfp(&iphy->sas_phy,
+					  PORTE_BYTES_DMAED, GFP_ATOMIC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -271,8 +291,18 @@ static void isci_port_link_down(struct isci_host *isci_host,
 	 * isci_port_deformed and isci_dev_gone functions.
 	 */
 	sas_phy_disconnected(&isci_phy->sas_phy);
+<<<<<<< HEAD
 	sas_notify_phy_event(&isci_phy->sas_phy,
 			     PHYE_LOSS_OF_SIGNAL, GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+	sas_notify_phy_event(&isci_phy->sas_phy,
+			     PHYE_LOSS_OF_SIGNAL, GFP_ATOMIC);
+=======
+	sas_notify_phy_event_gfp(&isci_phy->sas_phy,
+				 PHYE_LOSS_OF_SIGNAL, GFP_ATOMIC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_dbg(&isci_host->pdev->dev,
 		"%s: isci_port = %p - Done\n", __func__, isci_port);

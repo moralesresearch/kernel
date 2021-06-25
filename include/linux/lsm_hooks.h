@@ -233,6 +233,7 @@
  *	Returns 0 if @name and @value have been successfully set,
  *	-EOPNOTSUPP if no security attribute is needed, or
  *	-ENOMEM on memory allocation failure.
+<<<<<<< HEAD
  * @inode_init_security_anon:
  *      Set up the incore security field for the new anonymous inode
  *      and return whether the inode creation is permitted by the security
@@ -242,6 +243,8 @@
  *      @context_inode optional related inode
  *	Returns 0 on success, -EACCES if the security module denies the
  *	creation of this inode, or another -errno upon other errors.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode_create:
  *	Check permission to create a regular file.
  *	@dir contains inode structure of the parent of the new file.
@@ -453,7 +456,10 @@
  * @inode_killpriv:
  *	The setuid bit is being removed.  Remove similar security labels.
  *	Called with the dentry->d_inode->i_mutex held.
+<<<<<<< HEAD
  *	@mnt_userns: user namespace of the mount
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@dentry is the dentry being changed.
  *	Return 0 on success.  If error is returned, then the operation
  *	causing setuid bit removal is failed.

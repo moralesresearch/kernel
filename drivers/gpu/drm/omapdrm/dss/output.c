@@ -30,6 +30,10 @@ int omapdss_device_init_output(struct omap_dss_device *out,
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+	out->next = omapdss_find_device_by_node(remote_node);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	out->bridge = of_drm_find_bridge(remote_node);
 	out->panel = of_drm_find_panel(remote_node);
 	if (IS_ERR(out->panel))
@@ -37,6 +41,15 @@ int omapdss_device_init_output(struct omap_dss_device *out,
 
 	of_node_put(remote_node);
 
+<<<<<<< HEAD
+=======
+	if (out->next && out->type != out->next->type) {
+		dev_err(out->dev, "output type and display type don't match\n");
+		ret = -EINVAL;
+		goto error;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (out->panel) {
 		struct drm_bridge *bridge;
 
@@ -62,7 +75,11 @@ int omapdss_device_init_output(struct omap_dss_device *out,
 		out->bridge = local_bridge;
 	}
 
+<<<<<<< HEAD
 	if (!out->bridge) {
+=======
+	if (!out->next && !out->bridge) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EPROBE_DEFER;
 		goto error;
 	}
@@ -71,26 +88,70 @@ int omapdss_device_init_output(struct omap_dss_device *out,
 
 error:
 	omapdss_device_cleanup_output(out);
+<<<<<<< HEAD
 	return ret;
 }
+=======
+	out->next = NULL;
+	return ret;
+}
+EXPORT_SYMBOL(omapdss_device_init_output);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void omapdss_device_cleanup_output(struct omap_dss_device *out)
 {
 	if (out->bridge && out->panel)
 		drm_panel_bridge_remove(out->next_bridge ?
 					out->next_bridge : out->bridge);
+<<<<<<< HEAD
 }
+=======
+
+	if (out->next)
+		omapdss_device_put(out->next);
+}
+EXPORT_SYMBOL(omapdss_device_cleanup_output);
+
+int dss_install_mgr_ops(struct dss_device *dss,
+			const struct dss_mgr_ops *mgr_ops,
+			struct omap_drm_private *priv)
+{
+	if (dss->mgr_ops)
+		return -EBUSY;
+
+	dss->mgr_ops = mgr_ops;
+	dss->mgr_ops_priv = priv;
+
+	return 0;
+}
+EXPORT_SYMBOL(dss_install_mgr_ops);
+
+void dss_uninstall_mgr_ops(struct dss_device *dss)
+{
+	dss->mgr_ops = NULL;
+	dss->mgr_ops_priv = NULL;
+}
+EXPORT_SYMBOL(dss_uninstall_mgr_ops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void dss_mgr_set_timings(struct omap_dss_device *dssdev,
 			 const struct videomode *vm)
 {
+<<<<<<< HEAD
 	omap_crtc_dss_set_timings(dssdev->dss->mgr_ops_priv,
 					  dssdev->dispc_channel, vm);
 }
+=======
+	dssdev->dss->mgr_ops->set_timings(dssdev->dss->mgr_ops_priv,
+					  dssdev->dispc_channel, vm);
+}
+EXPORT_SYMBOL(dss_mgr_set_timings);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void dss_mgr_set_lcd_config(struct omap_dss_device *dssdev,
 		const struct dss_lcd_mgr_config *config)
 {
+<<<<<<< HEAD
 	omap_crtc_dss_set_lcd_config(dssdev->dss->mgr_ops_priv,
 					     dssdev->dispc_channel, config);
 }
@@ -112,23 +173,66 @@ void dss_mgr_start_update(struct omap_dss_device *dssdev)
 	omap_crtc_dss_start_update(dssdev->dss->mgr_ops_priv,
 					   dssdev->dispc_channel);
 }
+=======
+	dssdev->dss->mgr_ops->set_lcd_config(dssdev->dss->mgr_ops_priv,
+					     dssdev->dispc_channel, config);
+}
+EXPORT_SYMBOL(dss_mgr_set_lcd_config);
+
+int dss_mgr_enable(struct omap_dss_device *dssdev)
+{
+	return dssdev->dss->mgr_ops->enable(dssdev->dss->mgr_ops_priv,
+					    dssdev->dispc_channel);
+}
+EXPORT_SYMBOL(dss_mgr_enable);
+
+void dss_mgr_disable(struct omap_dss_device *dssdev)
+{
+	dssdev->dss->mgr_ops->disable(dssdev->dss->mgr_ops_priv,
+				      dssdev->dispc_channel);
+}
+EXPORT_SYMBOL(dss_mgr_disable);
+
+void dss_mgr_start_update(struct omap_dss_device *dssdev)
+{
+	dssdev->dss->mgr_ops->start_update(dssdev->dss->mgr_ops_priv,
+					   dssdev->dispc_channel);
+}
+EXPORT_SYMBOL(dss_mgr_start_update);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int dss_mgr_register_framedone_handler(struct omap_dss_device *dssdev,
 		void (*handler)(void *), void *data)
 {
 	struct dss_device *dss = dssdev->dss;
 
+<<<<<<< HEAD
 	return omap_crtc_dss_register_framedone(dss->mgr_ops_priv,
 							dssdev->dispc_channel,
 							handler, data);
 }
+=======
+	return dss->mgr_ops->register_framedone_handler(dss->mgr_ops_priv,
+							dssdev->dispc_channel,
+							handler, data);
+}
+EXPORT_SYMBOL(dss_mgr_register_framedone_handler);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void dss_mgr_unregister_framedone_handler(struct omap_dss_device *dssdev,
 		void (*handler)(void *), void *data)
 {
 	struct dss_device *dss = dssdev->dss;
 
+<<<<<<< HEAD
 	omap_crtc_dss_unregister_framedone(dss->mgr_ops_priv,
 						   dssdev->dispc_channel,
 						   handler, data);
 }
+=======
+	dss->mgr_ops->unregister_framedone_handler(dss->mgr_ops_priv,
+						   dssdev->dispc_channel,
+						   handler, data);
+}
+EXPORT_SYMBOL(dss_mgr_unregister_framedone_handler);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

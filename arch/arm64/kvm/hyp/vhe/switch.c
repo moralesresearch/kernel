@@ -4,6 +4,10 @@
  * Author: Marc Zyngier <marc.zyngier@arm.com>
  */
 
+<<<<<<< HEAD
+=======
+#include <hyp/adjust_pc.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <hyp/switch.h>
 
 #include <linux/arm-smccc.h>
@@ -133,7 +137,11 @@ static int __kvm_vcpu_run_vhe(struct kvm_vcpu *vcpu)
 	__load_guest_stage2(vcpu->arch.hw_mmu);
 	__activate_traps(vcpu);
 
+<<<<<<< HEAD
 	__kvm_adjust_pc(vcpu);
+=======
+	__adjust_pc(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sysreg_restore_guest_state_vhe(guest_ctxt);
 	__debug_switch_to_guest(vcpu);

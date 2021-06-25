@@ -22,21 +22,31 @@ enum {
 	CHANNEL_SCAN_INDEX_MAX
 };
 
+<<<<<<< HEAD
 #define CHANNEL_SCAN_INDEX_TIMESTAMP CHANNEL_SCAN_INDEX_MAX
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct als_state {
 	struct hid_sensor_hub_callbacks callbacks;
 	struct hid_sensor_common common_attributes;
 	struct hid_sensor_hub_attribute_info als_illum;
+<<<<<<< HEAD
 	struct {
 		u32 illum[CHANNEL_SCAN_INDEX_MAX];
 		u64 timestamp __aligned(8);
 	} scan;
+=======
+	u32 illum[CHANNEL_SCAN_INDEX_MAX];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int scale_pre_decml;
 	int scale_post_decml;
 	int scale_precision;
 	int value_offset;
+<<<<<<< HEAD
 	s64 timestamp;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Channel definitions */
@@ -60,8 +70,12 @@ static const struct iio_chan_spec als_channels[] = {
 		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
 		BIT(IIO_CHAN_INFO_HYSTERESIS),
 		.scan_index = CHANNEL_SCAN_INDEX_ILLUM,
+<<<<<<< HEAD
 	},
 	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
+=======
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Adjust channel real bits based on report descriptor */
@@ -175,6 +189,17 @@ static const struct iio_info als_info = {
 	.write_raw = &als_write_raw,
 };
 
+<<<<<<< HEAD
+=======
+/* Function to push data to buffer */
+static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data,
+					int len)
+{
+	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
+	iio_push_to_buffers(indio_dev, data);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Callback handler to send event after all samples are received and captured */
 static int als_proc_event(struct hid_sensor_hub_device *hsdev,
 				unsigned usage_id,
@@ -184,6 +209,7 @@ static int als_proc_event(struct hid_sensor_hub_device *hsdev,
 	struct als_state *als_state = iio_priv(indio_dev);
 
 	dev_dbg(&indio_dev->dev, "als_proc_event\n");
+<<<<<<< HEAD
 	if (atomic_read(&als_state->common_attributes.data_ready)) {
 		if (!als_state->timestamp)
 			als_state->timestamp = iio_get_time_ns(indio_dev);
@@ -192,6 +218,12 @@ static int als_proc_event(struct hid_sensor_hub_device *hsdev,
 						   als_state->timestamp);
 		als_state->timestamp = 0;
 	}
+=======
+	if (atomic_read(&als_state->common_attributes.data_ready))
+		hid_sensor_push_data(indio_dev,
+				&als_state->illum,
+				sizeof(als_state->illum));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -209,6 +241,7 @@ static int als_capture_sample(struct hid_sensor_hub_device *hsdev,
 
 	switch (usage_id) {
 	case HID_USAGE_SENSOR_LIGHT_ILLUM:
+<<<<<<< HEAD
 		als_state->scan.illum[CHANNEL_SCAN_INDEX_INTENSITY] = sample_data;
 		als_state->scan.illum[CHANNEL_SCAN_INDEX_ILLUM] = sample_data;
 		ret = 0;
@@ -217,6 +250,12 @@ static int als_capture_sample(struct hid_sensor_hub_device *hsdev,
 		als_state->timestamp = hid_sensor_convert_timestamp(&als_state->common_attributes,
 								    *(s64 *)raw_data);
 		break;
+=======
+		als_state->illum[CHANNEL_SCAN_INDEX_INTENSITY] = sample_data;
+		als_state->illum[CHANNEL_SCAN_INDEX_ILLUM] = sample_data;
+		ret = 0;
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}

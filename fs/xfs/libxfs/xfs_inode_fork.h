@@ -35,6 +35,7 @@ struct xfs_ifork {
 #define	XFS_IFBROOT	0x04	/* i_broot points to the bmap b-tree root */
 
 /*
+<<<<<<< HEAD
  * Worst-case increase in the fork extent count when we're adding a single
  * extent to a fork and there's no possibility of splitting an existing mapping.
  */
@@ -96,6 +97,8 @@ struct xfs_ifork {
 #define XFS_IEXT_SWAP_RMAP_CNT		(1)
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Fork handling.
  */
 
@@ -233,7 +236,10 @@ extern void xfs_ifork_init_cow(struct xfs_inode *ip);
 
 int xfs_ifork_verify_local_data(struct xfs_inode *ip);
 int xfs_ifork_verify_local_attr(struct xfs_inode *ip);
+<<<<<<< HEAD
 int xfs_iext_count_may_overflow(struct xfs_inode *ip, int whichfork,
 		int nr_to_add);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif	/* __XFS_INODE_FORK_H__ */

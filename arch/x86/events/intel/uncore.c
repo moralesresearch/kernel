@@ -31,21 +31,36 @@ struct event_constraint uncore_constraint_empty =
 
 MODULE_LICENSE("GPL");
 
+<<<<<<< HEAD
 int uncore_pcibus_to_dieid(struct pci_bus *bus)
 {
 	struct pci2phy_map *map;
 	int die_id = -1;
+=======
+int uncore_pcibus_to_physid(struct pci_bus *bus)
+{
+	struct pci2phy_map *map;
+	int phys_id = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	raw_spin_lock(&pci2phy_map_lock);
 	list_for_each_entry(map, &pci2phy_map_head, list) {
 		if (map->segment == pci_domain_nr(bus)) {
+<<<<<<< HEAD
 			die_id = map->pbus_to_dieid[bus->number];
+=======
+			phys_id = map->pbus_to_physid[bus->number];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
 	raw_spin_unlock(&pci2phy_map_lock);
 
+<<<<<<< HEAD
 	return die_id;
+=======
+	return phys_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void uncore_free_pcibus_map(void)
@@ -86,7 +101,11 @@ lookup:
 	alloc = NULL;
 	map->segment = segment;
 	for (i = 0; i < 256; i++)
+<<<<<<< HEAD
 		map->pbus_to_dieid[i] = -1;
+=======
+		map->pbus_to_physid[i] = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add_tail(&map->list, &pci2phy_map_head);
 
 end:
@@ -332,6 +351,10 @@ static struct intel_uncore_box *uncore_alloc_box(struct intel_uncore_type *type,
 
 	uncore_pmu_init_hrtimer(box);
 	box->cpu = -1;
+<<<<<<< HEAD
+=======
+	box->pci_phys_id = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	box->dieid = -1;
 
 	/* set default hrtimer timeout */
@@ -992,11 +1015,26 @@ uncore_types_init(struct intel_uncore_type **types, bool setid)
 /*
  * Get the die information of a PCI device.
  * @pdev: The PCI device.
+<<<<<<< HEAD
  * @die: The die id which the device maps to.
  */
 static int uncore_pci_get_dev_die_info(struct pci_dev *pdev, int *die)
 {
 	*die = uncore_pcibus_to_dieid(pdev->bus);
+=======
+ * @phys_id: The physical socket id which the device maps to.
+ * @die: The die id which the device maps to.
+ */
+static int uncore_pci_get_dev_die_info(struct pci_dev *pdev,
+				       int *phys_id, int *die)
+{
+	*phys_id = uncore_pcibus_to_physid(pdev->bus);
+	if (*phys_id < 0)
+		return -ENODEV;
+
+	*die = (topology_max_die_per_package() > 1) ? *phys_id :
+				topology_phys_to_logical_pkg(*phys_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (*die < 0)
 		return -EINVAL;
 
@@ -1038,12 +1076,20 @@ uncore_pci_find_dev_pmu(struct pci_dev *pdev, const struct pci_device_id *ids)
  * @pdev: The PCI device.
  * @type: The corresponding PMU type of the device.
  * @pmu: The corresponding PMU of the device.
+<<<<<<< HEAD
+=======
+ * @phys_id: The physical socket id which the device maps to.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @die: The die id which the device maps to.
  */
 static int uncore_pci_pmu_register(struct pci_dev *pdev,
 				   struct intel_uncore_type *type,
 				   struct intel_uncore_pmu *pmu,
+<<<<<<< HEAD
 				   int die)
+=======
+				   int phys_id, int die)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_uncore_box *box;
 	int ret;
@@ -1061,6 +1107,10 @@ static int uncore_pci_pmu_register(struct pci_dev *pdev,
 		WARN_ON_ONCE(pmu->func_id != pdev->devfn);
 
 	atomic_inc(&box->refcnt);
+<<<<<<< HEAD
+=======
+	box->pci_phys_id = phys_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	box->dieid = die;
 	box->pci_dev = pdev;
 	box->pmu = pmu;
@@ -1087,9 +1137,15 @@ static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id
 {
 	struct intel_uncore_type *type;
 	struct intel_uncore_pmu *pmu = NULL;
+<<<<<<< HEAD
 	int die, ret;
 
 	ret = uncore_pci_get_dev_die_info(pdev, &die);
+=======
+	int phys_id, die, ret;
+
+	ret = uncore_pci_get_dev_die_info(pdev, &phys_id, &die);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1122,7 +1178,11 @@ static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id
 		pmu = &type->pmus[UNCORE_PCI_DEV_IDX(id->driver_data)];
 	}
 
+<<<<<<< HEAD
 	ret = uncore_pci_pmu_register(pdev, type, pmu, die);
+=======
+	ret = uncore_pci_pmu_register(pdev, type, pmu, phys_id, die);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pci_set_drvdata(pdev, pmu->boxes[die]);
 
@@ -1132,12 +1192,26 @@ static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id
 /*
  * Unregister the PMU of a PCI device
  * @pmu: The corresponding PMU is unregistered.
+<<<<<<< HEAD
  * @die: The die id which the device maps to.
  */
 static void uncore_pci_pmu_unregister(struct intel_uncore_pmu *pmu, int die)
 {
 	struct intel_uncore_box *box = pmu->boxes[die];
 
+=======
+ * @phys_id: The physical socket id which the device maps to.
+ * @die: The die id which the device maps to.
+ */
+static void uncore_pci_pmu_unregister(struct intel_uncore_pmu *pmu,
+				      int phys_id, int die)
+{
+	struct intel_uncore_box *box = pmu->boxes[die];
+
+	if (WARN_ON_ONCE(phys_id != box->pci_phys_id))
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pmu->boxes[die] = NULL;
 	if (atomic_dec_return(&pmu->activeboxes) == 0)
 		uncore_pmu_unregister(pmu);
@@ -1149,9 +1223,15 @@ static void uncore_pci_remove(struct pci_dev *pdev)
 {
 	struct intel_uncore_box *box;
 	struct intel_uncore_pmu *pmu;
+<<<<<<< HEAD
 	int i, die;
 
 	if (uncore_pci_get_dev_die_info(pdev, &die))
+=======
+	int i, phys_id, die;
+
+	if (uncore_pci_get_dev_die_info(pdev, &phys_id, &die))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	box = pci_get_drvdata(pdev);
@@ -1170,7 +1250,11 @@ static void uncore_pci_remove(struct pci_dev *pdev)
 
 	pci_set_drvdata(pdev, NULL);
 
+<<<<<<< HEAD
 	uncore_pci_pmu_unregister(pmu, die);
+=======
+	uncore_pci_pmu_unregister(pmu, phys_id, die);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int uncore_bus_notify(struct notifier_block *nb,
@@ -1179,7 +1263,11 @@ static int uncore_bus_notify(struct notifier_block *nb,
 	struct device *dev = data;
 	struct pci_dev *pdev = to_pci_dev(dev);
 	struct intel_uncore_pmu *pmu;
+<<<<<<< HEAD
 	int die;
+=======
+	int phys_id, die;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Unregister the PMU when the device is going to be deleted. */
 	if (action != BUS_NOTIFY_DEL_DEVICE)
@@ -1189,10 +1277,17 @@ static int uncore_bus_notify(struct notifier_block *nb,
 	if (!pmu)
 		return NOTIFY_DONE;
 
+<<<<<<< HEAD
 	if (uncore_pci_get_dev_die_info(pdev, &die))
 		return NOTIFY_DONE;
 
 	uncore_pci_pmu_unregister(pmu, die);
+=======
+	if (uncore_pci_get_dev_die_info(pdev, &phys_id, &die))
+		return NOTIFY_DONE;
+
+	uncore_pci_pmu_unregister(pmu, phys_id, die);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return NOTIFY_OK;
 }
@@ -1209,7 +1304,11 @@ static void uncore_pci_sub_driver_init(void)
 	struct pci_dev *pci_sub_dev;
 	bool notify = false;
 	unsigned int devfn;
+<<<<<<< HEAD
 	int die;
+=======
+	int phys_id, die;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (ids && ids->vendor) {
 		pci_sub_dev = NULL;
@@ -1229,11 +1328,20 @@ static void uncore_pci_sub_driver_init(void)
 			if (!pmu)
 				continue;
 
+<<<<<<< HEAD
 			if (uncore_pci_get_dev_die_info(pci_sub_dev, &die))
 				continue;
 
 			if (!uncore_pci_pmu_register(pci_sub_dev, type, pmu,
 						     die))
+=======
+			if (uncore_pci_get_dev_die_info(pci_sub_dev,
+							&phys_id, &die))
+				continue;
+
+			if (!uncore_pci_pmu_register(pci_sub_dev, type, pmu,
+						     phys_id, die))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				notify = true;
 		}
 		ids++;

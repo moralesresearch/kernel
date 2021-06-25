@@ -31,7 +31,10 @@ help:
 	@echo '  bootconfig             - boot config tool'
 	@echo '  spi                    - spi tools'
 	@echo '  tmon                   - thermal monitoring and tuning tool'
+<<<<<<< HEAD
 	@echo '  tracing                - misc tracing tools'
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	@echo '  turbostat              - Intel CPU idle stats and freq reporting tool'
 	@echo '  usb                    - USB testing tools'
 	@echo '  virtio                 - vhost test module'
@@ -65,7 +68,11 @@ acpi: FORCE
 cpupower: FORCE
 	$(call descend,power/$@)
 
+<<<<<<< HEAD
 cgroup firewire hv guest bootconfig spi usb virtio vm bpf iio gpio objtool leds wmi pci firmware debugging tracing: FORCE
+=======
+cgroup firewire hv guest bootconfig spi usb virtio vm bpf iio gpio objtool leds wmi pci firmware debugging: FORCE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call descend,$@)
 
 bpf/%: FORCE
@@ -104,7 +111,11 @@ all: acpi cgroup cpupower gpio hv firewire liblockdep \
 		perf selftests bootconfig spi turbostat usb \
 		virtio vm bpf x86_energy_perf_policy \
 		tmon freefall iio objtool kvm_stat wmi \
+<<<<<<< HEAD
 		pci debugging tracing
+=======
+		pci debugging
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 acpi_install:
 	$(call descend,power/$(@:_install=),install)
@@ -112,7 +123,11 @@ acpi_install:
 cpupower_install:
 	$(call descend,power/$(@:_install=),install)
 
+<<<<<<< HEAD
 cgroup_install firewire_install gpio_install hv_install iio_install perf_install bootconfig_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install debugging_install tracing_install:
+=======
+cgroup_install firewire_install gpio_install hv_install iio_install perf_install bootconfig_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install debugging_install:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call descend,$(@:_install=),install)
 
 liblockdep_install:
@@ -138,8 +153,12 @@ install: acpi_install cgroup_install cpupower_install gpio_install \
 		perf_install selftests_install turbostat_install usb_install \
 		virtio_install vm_install bpf_install x86_energy_perf_policy_install \
 		tmon_install freefall_install objtool_install kvm_stat_install \
+<<<<<<< HEAD
 		wmi_install pci_install debugging_install intel-speed-select_install \
 		tracing_install
+=======
+		wmi_install pci_install debugging_install intel-speed-select_install
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 acpi_clean:
 	$(call descend,power/acpi,clean)
@@ -147,7 +166,11 @@ acpi_clean:
 cpupower_clean:
 	$(call descend,power/cpupower,clean)
 
+<<<<<<< HEAD
 cgroup_clean hv_clean firewire_clean bootconfig_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean firmware_clean debugging_clean tracing_clean:
+=======
+cgroup_clean hv_clean firewire_clean bootconfig_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean firmware_clean debugging_clean:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call descend,$(@:_clean=),clean)
 
 liblockdep_clean:
@@ -186,6 +209,10 @@ clean: acpi_clean cgroup_clean cpupower_clean hv_clean firewire_clean \
 		vm_clean bpf_clean iio_clean x86_energy_perf_policy_clean tmon_clean \
 		freefall_clean build_clean libbpf_clean libsubcmd_clean liblockdep_clean \
 		gpio_clean objtool_clean leds_clean wmi_clean pci_clean firmware_clean debugging_clean \
+<<<<<<< HEAD
 		intel-speed-select_clean tracing_clean
+=======
+		intel-speed-select_clean
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 .PHONY: FORCE

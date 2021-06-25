@@ -313,6 +313,7 @@ struct ice_orom_info {
 	u16 build;			/* Build version of OROM */
 };
 
+<<<<<<< HEAD
 /* NVM version information */
 struct ice_nvm_info {
 	u32 eetrack;
@@ -369,6 +370,16 @@ struct ice_flash_info {
 	struct ice_bank_info banks;	/* Flash Bank information */
 	u16 sr_words;			/* Shadow RAM size in words */
 	u32 flash_size;			/* Size of available flash in bytes */
+=======
+/* NVM Information */
+struct ice_nvm_info {
+	struct ice_orom_info orom;	/* Option ROM version info */
+	u32 eetrack;			/* NVM data version */
+	u16 sr_words;			/* Shadow RAM size in words */
+	u32 flash_size;			/* Size of available flash in bytes */
+	u8 major_ver;			/* major version of NVM package */
+	u8 minor_ver;			/* minor version of dev starter */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 blank_nvm_mode;		/* is NVM empty (no FW present) */
 };
 
@@ -396,6 +407,19 @@ struct ice_link_default_override_tlv {
 
 #define ICE_NVM_VER_LEN	32
 
+<<<<<<< HEAD
+=======
+/* netlist version information */
+struct ice_netlist_ver_info {
+	u32 major;			/* major high/low */
+	u32 minor;			/* minor high/low */
+	u32 type;			/* type high/low */
+	u32 rev;			/* revision high/low */
+	u32 hash;			/* SHA-1 hash word */
+	u16 cust_ver;			/* customer version */
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Max number of port to queue branches w.r.t topology */
 #define ICE_MAX_TRAFFIC_CLASS 8
 #define ICE_TXSCHED_MAX_BRANCHES ICE_MAX_TRAFFIC_CLASS
@@ -403,11 +427,15 @@ struct ice_link_default_override_tlv {
 #define ice_for_each_traffic_class(_i)	\
 	for ((_i) = 0; (_i) < ICE_MAX_TRAFFIC_CLASS; (_i)++)
 
+<<<<<<< HEAD
 /* ICE_DFLT_AGG_ID means that all new VM(s)/VSI node connects
  * to driver defined policy for default aggregator
  */
 #define ICE_INVAL_TEID 0xFFFFFFFF
 #define ICE_DFLT_AGG_ID 0
+=======
+#define ICE_INVAL_TEID 0xFFFFFFFF
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct ice_sched_node {
 	struct ice_sched_node *parent;
@@ -535,7 +563,10 @@ struct ice_dcb_app_priority_table {
 #define ICE_TLV_STATUS_ERR	0x4
 #define ICE_APP_PROT_ID_FCOE	0x8906
 #define ICE_APP_PROT_ID_ISCSI	0x0cbc
+<<<<<<< HEAD
 #define ICE_APP_PROT_ID_ISCSI_860 0x035c
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_APP_PROT_ID_FIP	0x8914
 #define ICE_APP_SEL_ETHTYPE	0x1
 #define ICE_APP_SEL_TCPIP	0x2
@@ -557,6 +588,7 @@ struct ice_dcbx_cfg {
 #define ICE_DCBX_APPS_NON_WILLING	0x1
 };
 
+<<<<<<< HEAD
 struct ice_qos_cfg {
 	struct ice_dcbx_cfg local_dcbx_cfg;	/* Oper/Local Cfg */
 	struct ice_dcbx_cfg desired_dcbx_cfg;	/* CEE Desired Cfg */
@@ -565,6 +597,8 @@ struct ice_qos_cfg {
 	u8 is_sw_lldp : 1;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ice_port_info {
 	struct ice_sched_node *root;	/* Root Node per Port */
 	struct ice_hw *hw;		/* back pointer to HW instance */
@@ -588,7 +622,17 @@ struct ice_port_info {
 		sib_head[ICE_MAX_TRAFFIC_CLASS][ICE_AQC_TOPO_MAX_LEVEL_NUM];
 	/* List contain profile ID(s) and other params per layer */
 	struct list_head rl_prof_list[ICE_AQC_TOPO_MAX_LEVEL_NUM];
+<<<<<<< HEAD
 	struct ice_qos_cfg qos_cfg;
+=======
+	struct ice_dcbx_cfg local_dcbx_cfg;	/* Oper/Local Cfg */
+	/* DCBX info */
+	struct ice_dcbx_cfg remote_dcbx_cfg;	/* Peer Cfg */
+	struct ice_dcbx_cfg desired_dcbx_cfg;	/* CEE Desired Cfg */
+	/* LLDP/DCBX Status */
+	u8 dcbx_status:3;		/* see ICE_DCBX_STATUS_DIS */
+	u8 is_sw_lldp:1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 is_vf:1;
 };
 
@@ -621,8 +665,11 @@ struct ice_hw {
 	void *back;
 	struct ice_aqc_layer_props *layer_info;
 	struct ice_port_info *port_info;
+<<<<<<< HEAD
 	/* PSM clock frequency for calculating RL profile params */
 	u32 psm_clk_freq;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 debug_mask;		/* bitmap for debug mask */
 	enum ice_mac_type mac_type;
 
@@ -652,9 +699,16 @@ struct ice_hw {
 	u8 evb_veb;		/* true for VEB, false for VEPA */
 	u8 reset_ongoing;	/* true if HW is in reset, false otherwise */
 	struct ice_bus_info bus;
+<<<<<<< HEAD
 	struct ice_flash_info flash;
 	struct ice_hw_dev_caps dev_caps;	/* device capabilities */
 	struct ice_hw_func_caps func_caps;	/* function capabilities */
+=======
+	struct ice_nvm_info nvm;
+	struct ice_hw_dev_caps dev_caps;	/* device capabilities */
+	struct ice_hw_func_caps func_caps;	/* function capabilities */
+	struct ice_netlist_ver_info netlist_ver; /* netlist version info */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct ice_switch_info *switch_info;	/* switch filter lists */
 
@@ -811,7 +865,10 @@ struct ice_hw_port_stats {
 };
 
 /* Checksum and Shadow RAM pointers */
+<<<<<<< HEAD
 #define ICE_SR_NVM_CTRL_WORD		0x00
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_SR_BOOT_CFG_PTR		0x132
 #define ICE_SR_NVM_WOL_CFG		0x19
 #define ICE_NVM_OROM_VER_OFF		0x02
@@ -831,6 +888,7 @@ struct ice_hw_port_stats {
 #define ICE_OROM_VER_MASK		(0xff << ICE_OROM_VER_SHIFT)
 #define ICE_SR_PFA_PTR			0x40
 #define ICE_SR_1ST_NVM_BANK_PTR		0x42
+<<<<<<< HEAD
 #define ICE_SR_NVM_BANK_SIZE		0x43
 #define ICE_SR_1ST_OROM_BANK_PTR	0x44
 #define ICE_SR_OROM_BANK_SIZE		0x45
@@ -896,6 +954,12 @@ struct ice_hw_port_stats {
 
 #define ICE_SR_NVM_PTR_4KB_UNITS	BIT(15)
 
+=======
+#define ICE_SR_1ST_OROM_BANK_PTR	0x44
+#define ICE_SR_NETLIST_BANK_PTR		0x46
+#define ICE_SR_SECTOR_SIZE_IN_WORDS	0x800
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Link override related */
 #define ICE_SR_PFA_LINK_OVERRIDE_WORDS		10
 #define ICE_SR_PFA_LINK_OVERRIDE_PHY_WORDS	4
@@ -911,9 +975,12 @@ struct ice_hw_port_stats {
 /* Hash redirection LUT for VSI - maximum array size */
 #define ICE_VSIQF_HLUT_ARRAY_SIZE	((VSIQF_HLUT_MAX_INDEX + 1) * 4)
 
+<<<<<<< HEAD
 /* AQ API version for LLDP_FILTER_CONTROL */
 #define ICE_FW_API_LLDP_FLTR_MAJ	1
 #define ICE_FW_API_LLDP_FLTR_MIN	7
 #define ICE_FW_API_LLDP_FLTR_PATCH	1
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _ICE_TYPE_H_ */

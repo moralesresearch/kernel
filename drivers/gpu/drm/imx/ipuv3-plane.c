@@ -11,7 +11,10 @@
 #include <drm/drm_fourcc.h>
 #include <drm/drm_gem_cma_helper.h>
 #include <drm/drm_gem_framebuffer_helper.h>
+<<<<<<< HEAD
 #include <drm/drm_managed.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_plane_helper.h>
 
 #include <video/imx-ipu-v3.h>
@@ -143,10 +146,15 @@ drm_plane_state_to_vbo(struct drm_plane_state *state)
 	       fb->format->cpp[2] * x - eba;
 }
 
+<<<<<<< HEAD
 static void ipu_plane_put_resources(struct drm_device *dev, void *ptr)
 {
 	struct ipu_plane *ipu_plane = ptr;
 
+=======
+void ipu_plane_put_resources(struct ipu_plane *ipu_plane)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!IS_ERR_OR_NULL(ipu_plane->dp))
 		ipu_dp_put(ipu_plane->dp);
 	if (!IS_ERR_OR_NULL(ipu_plane->dmfc))
@@ -157,8 +165,12 @@ static void ipu_plane_put_resources(struct drm_device *dev, void *ptr)
 		ipu_idmac_put(ipu_plane->alpha_ch);
 }
 
+<<<<<<< HEAD
 static int ipu_plane_get_resources(struct drm_device *dev,
 				   struct ipu_plane *ipu_plane)
+=======
+int ipu_plane_get_resources(struct ipu_plane *ipu_plane)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	int alpha_ch;
@@ -170,10 +182,13 @@ static int ipu_plane_get_resources(struct drm_device *dev,
 		return ret;
 	}
 
+<<<<<<< HEAD
 	ret = drmm_add_action_or_reset(dev, ipu_plane_put_resources, ipu_plane);
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	alpha_ch = ipu_channel_alpha_channel(ipu_plane->dma);
 	if (alpha_ch >= 0) {
 		ipu_plane->alpha_ch = ipu_idmac_get(ipu_plane->ipu, alpha_ch);
@@ -189,7 +204,11 @@ static int ipu_plane_get_resources(struct drm_device *dev,
 	if (IS_ERR(ipu_plane->dmfc)) {
 		ret = PTR_ERR(ipu_plane->dmfc);
 		DRM_ERROR("failed to get dmfc: ret %d\n", ret);
+<<<<<<< HEAD
 		return ret;
+=======
+		goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (ipu_plane->dp_flow >= 0) {
@@ -197,11 +216,22 @@ static int ipu_plane_get_resources(struct drm_device *dev,
 		if (IS_ERR(ipu_plane->dp)) {
 			ret = PTR_ERR(ipu_plane->dp);
 			DRM_ERROR("failed to get dp flow: %d\n", ret);
+<<<<<<< HEAD
 			return ret;
+=======
+			goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	return 0;
+<<<<<<< HEAD
+=======
+err_out:
+	ipu_plane_put_resources(ipu_plane);
+
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool ipu_plane_separate_alpha(struct ipu_plane *ipu_plane)
@@ -266,6 +296,19 @@ void ipu_plane_disable_deferred(struct drm_plane *plane)
 }
 EXPORT_SYMBOL_GPL(ipu_plane_disable_deferred);
 
+<<<<<<< HEAD
+=======
+static void ipu_plane_destroy(struct drm_plane *plane)
+{
+	struct ipu_plane *ipu_plane = to_ipu_plane(plane);
+
+	DRM_DEBUG_KMS("[%d] %s\n", __LINE__, __func__);
+
+	drm_plane_cleanup(plane);
+	kfree(ipu_plane);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ipu_plane_state_reset(struct drm_plane *plane)
 {
 	unsigned int zpos = (plane->type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
@@ -330,6 +373,10 @@ static bool ipu_plane_format_mod_supported(struct drm_plane *plane,
 static const struct drm_plane_funcs ipu_plane_funcs = {
 	.update_plane	= drm_atomic_helper_update_plane,
 	.disable_plane	= drm_atomic_helper_disable_plane,
+<<<<<<< HEAD
+=======
+	.destroy	= ipu_plane_destroy,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset		= ipu_plane_state_reset,
 	.atomic_duplicate_state	= ipu_plane_duplicate_state,
 	.atomic_destroy_state	= ipu_plane_destroy_state,
@@ -827,6 +874,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
 		      dma, dp, possible_crtcs);
 
+<<<<<<< HEAD
 	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
 					       possible_crtcs, &ipu_plane_funcs,
 					       ipu_plane_formats,
@@ -836,6 +884,12 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
 		DRM_ERROR("failed to allocate and initialize %s plane\n",
 			  zpos ? "overlay" : "primary");
 		return ipu_plane;
+=======
+	ipu_plane = kzalloc(sizeof(*ipu_plane), GFP_KERNEL);
+	if (!ipu_plane) {
+		DRM_ERROR("failed to allocate plane\n");
+		return ERR_PTR(-ENOMEM);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ipu_plane->ipu = ipu;
@@ -845,6 +899,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
 	if (ipu_prg_present(ipu))
 		modifiers = pre_format_modifiers;
 
+<<<<<<< HEAD
 	drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
 
 	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
@@ -862,6 +917,24 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
 			  zpos ? "overlay" : "primary", &ret);
 		return ERR_PTR(ret);
 	}
+=======
+	ret = drm_universal_plane_init(dev, &ipu_plane->base, possible_crtcs,
+				       &ipu_plane_funcs, ipu_plane_formats,
+				       ARRAY_SIZE(ipu_plane_formats),
+				       modifiers, type, NULL);
+	if (ret) {
+		DRM_ERROR("failed to initialize plane\n");
+		kfree(ipu_plane);
+		return ERR_PTR(ret);
+	}
+
+	drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
+
+	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
+		drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0, 1);
+	else
+		drm_plane_create_zpos_immutable_property(&ipu_plane->base, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ipu_plane;
 }

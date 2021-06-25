@@ -854,7 +854,11 @@ static int dm_add_exception(void *context, chunk_t old, chunk_t new)
 static uint32_t __minimum_chunk_size(struct origin *o)
 {
 	struct dm_snapshot *snap;
+<<<<<<< HEAD
 	unsigned chunk_size = rounddown_pow_of_two(UINT_MAX);
+=======
+	unsigned chunk_size = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (o)
 		list_for_each_entry(snap, &o->snapshots, list)
@@ -1408,7 +1412,10 @@ static int snapshot_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 
 	if (!s->store->chunk_size) {
 		ti->error = "Chunk size not set";
+<<<<<<< HEAD
 		r = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto bad_read_metadata;
 	}
 

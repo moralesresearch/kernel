@@ -192,13 +192,21 @@ static int store_color_common(struct device *dev, const char *buf, int color)
 	return 0;
 }
 
+<<<<<<< HEAD
 static ssize_t red_show(struct device *dev, struct device_attribute *attr,
+=======
+static ssize_t show_red(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			char *buf)
 {
 	return show_color_common(dev, buf, RED);
 }
 
+<<<<<<< HEAD
 static ssize_t red_store(struct device *dev, struct device_attribute *attr,
+=======
+static ssize_t store_red(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 const char *buf, size_t count)
 {
 	int ret;
@@ -209,15 +217,25 @@ static ssize_t red_store(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(red);
 
 static ssize_t green_show(struct device *dev, struct device_attribute *attr,
+=======
+static DEVICE_ATTR(red, S_IRUGO | S_IWUSR, show_red, store_red);
+
+static ssize_t show_green(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  char *buf)
 {
 	return show_color_common(dev, buf, GREEN);
 }
 
+<<<<<<< HEAD
 static ssize_t green_store(struct device *dev, struct device_attribute *attr,
+=======
+static ssize_t store_green(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   const char *buf, size_t count)
 {
 
@@ -229,15 +247,25 @@ static ssize_t green_store(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(green);
 
 static ssize_t blue_show(struct device *dev, struct device_attribute *attr,
+=======
+static DEVICE_ATTR(green, S_IRUGO | S_IWUSR, show_green, store_green);
+
+static ssize_t show_blue(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 char *buf)
 {
 	return show_color_common(dev, buf, BLUE);
 }
 
+<<<<<<< HEAD
 static ssize_t blue_store(struct device *dev, struct device_attribute *attr,
+=======
+static ssize_t store_blue(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  const char *buf, size_t count)
 {
 	int ret;
@@ -248,16 +276,26 @@ static ssize_t blue_store(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(blue);
 
 static ssize_t test_show(struct device *dev, struct device_attribute *attr,
+=======
+static DEVICE_ATTR(blue, S_IRUGO | S_IWUSR, show_blue, store_blue);
+
+static ssize_t show_test(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 char *buf)
 {
 	return scnprintf(buf, PAGE_SIZE,
 			 "#Write into test to start test sequence!#\n");
 }
 
+<<<<<<< HEAD
 static ssize_t test_store(struct device *dev, struct device_attribute *attr,
+=======
+static ssize_t store_test(struct device *dev, struct device_attribute *attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  const char *buf, size_t count)
 {
 
@@ -273,7 +311,11 @@ static ssize_t test_store(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(test);
+=======
+static DEVICE_ATTR(test, S_IRUGO | S_IWUSR, show_test, store_test);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* TODO: HSB, fade, timeadj, script ... */
 

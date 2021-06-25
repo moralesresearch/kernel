@@ -84,6 +84,7 @@ const char *dsa_tag_protocol_to_str(const struct dsa_device_ops *ops)
 	return ops->name;
 };
 
+<<<<<<< HEAD
 /* Function takes a reference on the module owning the tagger,
  * so dsa_tag_driver_put must be called afterwards.
  */
@@ -110,6 +111,8 @@ const struct dsa_device_ops *dsa_find_tagger_by_name(const char *buf)
 	return ops;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct dsa_device_ops *dsa_tag_driver_get(int tag_protocol)
 {
 	struct dsa_tag_driver *dsa_tag_driver;
@@ -245,10 +248,15 @@ static int dsa_switch_rcv(struct sk_buff *skb, struct net_device *dev,
 	}
 
 	skb = nskb;
+<<<<<<< HEAD
+=======
+	p = netdev_priv(skb->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_push(skb, ETH_HLEN);
 	skb->pkt_type = PACKET_HOST;
 	skb->protocol = eth_type_trans(skb, skb->dev);
 
+<<<<<<< HEAD
 	if (unlikely(!dsa_slave_dev_check(skb->dev))) {
 		/* Packet is to be injected directly on an upper
 		 * device, e.g. a team/bond, so skip all DSA-port
@@ -260,6 +268,8 @@ static int dsa_switch_rcv(struct sk_buff *skb, struct net_device *dev,
 
 	p = netdev_priv(skb->dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cpu_dp->ds->untag_bridge_pvid)) {
 		nskb = dsa_untag_bridge_pvid(skb);
 		if (!nskb) {
@@ -345,6 +355,31 @@ bool dsa_schedule_work(struct work_struct *work)
 	return queue_work(dsa_owq, work);
 }
 
+<<<<<<< HEAD
+=======
+static ATOMIC_NOTIFIER_HEAD(dsa_notif_chain);
+
+int register_dsa_notifier(struct notifier_block *nb)
+{
+	return atomic_notifier_chain_register(&dsa_notif_chain, nb);
+}
+EXPORT_SYMBOL_GPL(register_dsa_notifier);
+
+int unregister_dsa_notifier(struct notifier_block *nb)
+{
+	return atomic_notifier_chain_unregister(&dsa_notif_chain, nb);
+}
+EXPORT_SYMBOL_GPL(unregister_dsa_notifier);
+
+int call_dsa_notifiers(unsigned long val, struct net_device *dev,
+		       struct dsa_notifier_info *info)
+{
+	info->dev = dev;
+	return atomic_notifier_call_chain(&dsa_notif_chain, val, info);
+}
+EXPORT_SYMBOL_GPL(call_dsa_notifiers);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dsa_devlink_param_get(struct devlink *dl, u32 id,
 			  struct devlink_param_gset_ctx *ctx)
 {

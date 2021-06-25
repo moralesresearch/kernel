@@ -406,9 +406,12 @@ enum dmub_status dmub_srv_hw_init(struct dmub_srv *dmub,
 	dmub->fb_offset = params->fb_offset;
 	dmub->psp_version = params->psp_version;
 
+<<<<<<< HEAD
 	if (dmub->hw_funcs.reset)
 		dmub->hw_funcs.reset(dmub);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (inst_fb && data_fb) {
 		cw0.offset.quad_part = inst_fb->gpu_addr;
 		cw0.region.base = DMUB_CW0_BASE;
@@ -430,6 +433,12 @@ enum dmub_status dmub_srv_hw_init(struct dmub_srv *dmub,
 
 	}
 
+<<<<<<< HEAD
+=======
+	if (dmub->hw_funcs.reset)
+		dmub->hw_funcs.reset(dmub);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (inst_fb && data_fb && bios_fb && mail_fb && tracebuff_fb &&
 	    fw_state_fb && scratch_mem_fb) {
 		cw2.offset.quad_part = data_fb->gpu_addr;
@@ -489,6 +498,12 @@ enum dmub_status dmub_srv_hw_reset(struct dmub_srv *dmub)
 	if (!dmub->sw_init)
 		return DMUB_STATUS_INVALID;
 
+<<<<<<< HEAD
+=======
+	if (dmub->hw_init == false)
+		return DMUB_STATUS_OK;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dmub->hw_funcs.reset)
 		dmub->hw_funcs.reset(dmub);
 

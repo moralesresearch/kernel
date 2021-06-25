@@ -43,7 +43,10 @@
 
 struct drm_file;
 struct drm_i915_gem_object;
+<<<<<<< HEAD
 struct drm_printer;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct i915_request;
 
 struct i915_capture_list {
@@ -309,14 +312,22 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp);
 struct i915_request * __must_check
 i915_request_create(struct intel_context *ce);
 
+<<<<<<< HEAD
 void __i915_request_skip(struct i915_request *rq);
 void i915_request_set_error_once(struct i915_request *rq, int error);
 void i915_request_mark_eio(struct i915_request *rq);
+=======
+void i915_request_set_error_once(struct i915_request *rq, int error);
+void __i915_request_skip(struct i915_request *rq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct i915_request *__i915_request_commit(struct i915_request *request);
 void __i915_request_queue(struct i915_request *rq,
 			  const struct i915_sched_attr *attr);
+<<<<<<< HEAD
 void __i915_request_queue_bh(struct i915_request *rq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool i915_request_retire(struct i915_request *rq);
 void i915_request_retire_upto(struct i915_request *rq);
@@ -374,11 +385,14 @@ long i915_request_wait(struct i915_request *rq,
 #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
 #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
 
+<<<<<<< HEAD
 void i915_request_show(struct drm_printer *m,
 		       const struct i915_request *rq,
 		       const char *prefix,
 		       int indent);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool i915_request_signaled(const struct i915_request *rq)
 {
 	/* The request may live longer than its HWSP, so check flags first! */

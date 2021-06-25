@@ -3563,7 +3563,10 @@ login_logout:
 					       __func__, __LINE__,
 					       fcport->port_name);
 
+<<<<<<< HEAD
 					fcport->tgt_link_down_time = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					qlt_schedule_sess_for_deletion(fcport);
 					continue;
 				}

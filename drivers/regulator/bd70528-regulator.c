@@ -244,14 +244,28 @@ static const struct regulator_desc bd70528_desc[] = {
 
 static int bd70528_probe(struct platform_device *pdev)
 {
+<<<<<<< HEAD
+=======
+	struct rohm_regmap_dev *bd70528;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 	struct regulator_config config = {
 		.dev = pdev->dev.parent,
 	};
 
+<<<<<<< HEAD
 	config.regmap = dev_get_regmap(pdev->dev.parent, NULL);
 	if (!config.regmap)
 		return -ENODEV;
+=======
+	bd70528 = dev_get_drvdata(pdev->dev.parent);
+	if (!bd70528) {
+		dev_err(&pdev->dev, "No MFD driver data\n");
+		return -EINVAL;
+	}
+
+	config.regmap = bd70528->regmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < ARRAY_SIZE(bd70528_desc); i++) {
 		struct regulator_dev *rdev;

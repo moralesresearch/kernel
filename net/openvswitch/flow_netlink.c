@@ -2515,15 +2515,21 @@ static int validate_and_copy_dec_ttl(struct net *net,
 		if (type > OVS_DEC_TTL_ATTR_MAX)
 			continue;
 
+<<<<<<< HEAD
 		if (!type || attrs[type]) {
 			OVS_NLERR(log, "Duplicate or invalid key (type %d).",
 				  type);
 			return -EINVAL;
 		}
+=======
+		if (!type || attrs[type])
+			return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		attrs[type] = a;
 	}
 
+<<<<<<< HEAD
 	if (rem) {
 		OVS_NLERR(log, "Message has %d unknown bytes.", rem);
 		return -EINVAL;
@@ -2534,6 +2540,11 @@ static int validate_and_copy_dec_ttl(struct net *net,
 		OVS_NLERR(log, "Missing valid actions attribute.");
 		return -EINVAL;
 	}
+=======
+	actions = attrs[OVS_DEC_TTL_ATTR_ACTION];
+	if (rem || !actions || (nla_len(actions) && nla_len(actions) < NLA_HDRLEN))
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	start = add_nested_action_start(sfa, OVS_ACTION_ATTR_DEC_TTL, log);
 	if (start < 0)

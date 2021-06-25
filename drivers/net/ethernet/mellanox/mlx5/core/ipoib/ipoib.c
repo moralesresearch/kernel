@@ -72,6 +72,7 @@ static void mlx5i_build_nic_params(struct mlx5_core_dev *mdev,
 }
 
 /* Called directly after IPoIB netdevice was created to initialize SW structs */
+<<<<<<< HEAD
 int mlx5i_init(struct mlx5_core_dev *mdev, struct net_device *netdev)
 {
 	struct mlx5e_priv *priv  = mlx5i_epriv(netdev);
@@ -81,6 +82,25 @@ int mlx5i_init(struct mlx5_core_dev *mdev, struct net_device *netdev)
 	netdev->mtu = netdev->max_mtu;
 
 	mlx5e_build_nic_params(priv, NULL, netdev->mtu);
+=======
+int mlx5i_init(struct mlx5_core_dev *mdev,
+	       struct net_device *netdev,
+	       const struct mlx5e_profile *profile,
+	       void *ppriv)
+{
+	struct mlx5e_priv *priv  = mlx5i_epriv(netdev);
+	int err;
+
+	err = mlx5e_netdev_init(netdev, priv, mdev, profile, ppriv);
+	if (err)
+		return err;
+
+	mlx5e_set_netdev_mtu_boundaries(priv);
+	netdev->mtu = netdev->max_mtu;
+
+	mlx5e_build_nic_params(priv, NULL, &priv->rss_params, &priv->channels.params,
+			       netdev->mtu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5i_build_nic_params(mdev, &priv->channels.params);
 
 	mlx5e_timestamp_init(priv);
@@ -104,7 +124,11 @@ int mlx5i_init(struct mlx5_core_dev *mdev, struct net_device *netdev)
 /* Called directly before IPoIB netdevice is destroyed to cleanup SW structs */
 void mlx5i_cleanup(struct mlx5e_priv *priv)
 {
+<<<<<<< HEAD
 	mlx5e_priv_cleanup(priv);
+=======
+	mlx5e_netdev_cleanup(priv->netdev, priv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mlx5i_grp_sw_update_stats(struct mlx5e_priv *priv)
@@ -233,7 +257,10 @@ int mlx5i_create_underlay_qp(struct mlx5e_priv *priv)
 	}
 
 	qpc = MLX5_ADDR_OF(create_qp_in, in, qpc);
+<<<<<<< HEAD
 	MLX5_SET(qpc, qpc, ts_format, mlx5_get_qp_default_ts(priv->mdev));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLX5_SET(qpc, qpc, st, MLX5_QP_ST_UD);
 	MLX5_SET(qpc, qpc, pm_state, MLX5_QP_PM_MIGRATED);
 	MLX5_SET(qpc, qpc, ulp_stateless_offload_mode,
@@ -695,7 +722,10 @@ static int mlx5i_check_required_hca_cap(struct mlx5_core_dev *mdev)
 static void mlx5_rdma_netdev_free(struct net_device *netdev)
 {
 	struct mlx5e_priv *priv = mlx5i_epriv(netdev);
+<<<<<<< HEAD
 	struct mlx5_core_dev *mdev = priv->mdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5i_priv *ipriv = priv->ppriv;
 	const struct mlx5e_profile *profile = priv->profile;
 
@@ -704,7 +734,11 @@ static void mlx5_rdma_netdev_free(struct net_device *netdev)
 
 	if (!ipriv->sub_interface) {
 		mlx5i_pkey_qpn_ht_cleanup(netdev);
+<<<<<<< HEAD
 		mlx5e_destroy_mdev_resources(mdev);
+=======
+		mlx5e_destroy_mdev_resources(priv->mdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -747,6 +781,7 @@ static int mlx5_rdma_setup_rn(struct ib_device *ibdev, u8 port_num,
 			goto destroy_ht;
 	}
 
+<<<<<<< HEAD
 	err = mlx5e_priv_init(epriv, netdev, mdev);
 	if (err)
 		goto destroy_mdev_resources;
@@ -755,6 +790,9 @@ static int mlx5_rdma_setup_rn(struct ib_device *ibdev, u8 port_num,
 	epriv->ppriv = ipriv;
 
 	prof->init(mdev, netdev);
+=======
+	prof->init(mdev, netdev, prof, ipriv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mlx5e_attach_netdev(epriv);
 	if (err)
@@ -778,7 +816,10 @@ detach:
 	prof->cleanup(epriv);
 	if (ipriv->sub_interface)
 		return err;
+<<<<<<< HEAD
 destroy_mdev_resources:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5e_destroy_mdev_resources(mdev);
 destroy_ht:
 	mlx5i_pkey_qpn_ht_cleanup(netdev);

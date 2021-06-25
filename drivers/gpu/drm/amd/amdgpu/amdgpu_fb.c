@@ -271,7 +271,15 @@ static int amdgpufb_create(struct drm_fb_helper *helper,
 	DRM_INFO("fb depth is %d\n", fb->format->depth);
 	DRM_INFO("   pitch is %d\n", fb->pitches[0]);
 
+<<<<<<< HEAD
 	vga_switcheroo_client_fb_set(adev->pdev, info);
+=======
+<<<<<<< HEAD
+	vga_switcheroo_client_fb_set(adev->pdev, info);
+=======
+	vga_switcheroo_client_fb_set(adev_to_drm(adev)->pdev, info);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 out:
@@ -290,13 +298,19 @@ out:
 static int amdgpu_fbdev_destroy(struct drm_device *dev, struct amdgpu_fbdev *rfbdev)
 {
 	struct amdgpu_framebuffer *rfb = &rfbdev->rfb;
+<<<<<<< HEAD
 	int i;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_fb_helper_unregister_fbi(&rfbdev->helper);
 
 	if (rfb->base.obj[0]) {
+<<<<<<< HEAD
 		for (i = 0; i < rfb->base.format->num_planes; i++)
 			drm_gem_object_put(rfb->base.obj[0]);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		amdgpufb_destroy_pinned_object(rfb->base.obj[0]);
 		rfb->base.obj[0] = NULL;
 		drm_framebuffer_unregister_private(&rfb->base);

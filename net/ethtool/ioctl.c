@@ -489,7 +489,11 @@ store_link_ksettings_for_user(void __user *to,
 {
 	struct ethtool_link_usettings link_usettings;
 
+<<<<<<< HEAD
 	memcpy(&link_usettings, from, sizeof(link_usettings));
+=======
+	memcpy(&link_usettings.base, &from->base, sizeof(link_usettings));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bitmap_to_arr32(link_usettings.link_modes.supported,
 			from->link_modes.supported,
 			__ETHTOOL_LINK_MODE_MASK_NBITS);

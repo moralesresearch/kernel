@@ -4,6 +4,10 @@
  * Author: Marc Zyngier <marc.zyngier@arm.com>
  */
 
+<<<<<<< HEAD
+=======
+#include <hyp/adjust_pc.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <hyp/switch.h>
 #include <hyp/sysreg-sr.h>
 
@@ -200,7 +204,11 @@ int __kvm_vcpu_run(struct kvm_vcpu *vcpu)
 	 */
 	__debug_save_host_buffers_nvhe(vcpu);
 
+<<<<<<< HEAD
 	__kvm_adjust_pc(vcpu);
+=======
+	__adjust_pc(vcpu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We must restore the 32-bit state before the sysregs, thanks

@@ -84,6 +84,7 @@
 		};
 	};
 
+<<<<<<< HEAD
 	spdif_sound: spdif-sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "SPDIF";
@@ -105,11 +106,39 @@
 
 &analog_sound {
 	status = "okay";
+=======
+	sound {
+		compatible = "audio-graph-card";
+		label = "rockchip,rk3328";
+		dais = <&i2s1_p0
+			&spdif_p0>;
+	};
+
+	spdif-dit {
+		compatible = "linux,spdif-dit";
+		#sound-dai-cells = <0>;
+
+		port {
+			dit_p0_0: endpoint {
+				remote-endpoint = <&spdif_p0_0>;
+			};
+		};
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &codec {
 	mute-gpios = <&grf_gpio 0 GPIO_ACTIVE_LOW>;
 	status = "okay";
+<<<<<<< HEAD
+=======
+
+	port@0 {
+		codec_p0_0: endpoint {
+			remote-endpoint = <&i2s1_p0_0>;
+		};
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &cpu0 {
@@ -161,10 +190,13 @@
 	status = "okay";
 };
 
+<<<<<<< HEAD
 &hdmi_sound {
 	status = "okay";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &hdmiphy {
 	status = "okay";
 };
@@ -280,12 +312,25 @@
 	};
 };
 
+<<<<<<< HEAD
 &i2s0 {
 	status = "okay";
 };
 
 &i2s1 {
 	status = "okay";
+=======
+&i2s1 {
+	status = "okay";
+
+	i2s1_p0: port {
+		i2s1_p0_0: endpoint {
+			dai-format = "i2s";
+			mclk-fs = <256>;
+			remote-endpoint = <&codec_p0_0>;
+		};
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &io_domains {
@@ -335,6 +380,15 @@
 &spdif {
 	pinctrl-0 = <&spdifm0_tx>;
 	status = "okay";
+<<<<<<< HEAD
+=======
+
+	spdif_p0: port {
+		spdif_p0_0: endpoint {
+			remote-endpoint = <&dit_p0_0>;
+		};
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &spi0 {

@@ -55,7 +55,10 @@
 /**
  * hfi1_make_uc_req - construct a request packet (SEND, RDMA write)
  * @qp: a pointer to the QP
+<<<<<<< HEAD
  * @ps: the current packet state
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Assume s_lock is held.
  *
@@ -292,7 +295,16 @@ bail_no_tx:
 
 /**
  * hfi1_uc_rcv - handle an incoming UC packet
+<<<<<<< HEAD
  * @packet: the packet structure
+=======
+ * @ibp: the port the packet came in on
+ * @hdr: the header of the packet
+ * @rcv_flags: flags relevant to rcv processing
+ * @data: the packet data
+ * @tlen: the length of the packet
+ * @qp: the QP for this packet.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This is called from qp_rcv() to process an incoming UC packet
  * for the given QP.

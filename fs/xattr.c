@@ -83,8 +83,12 @@ xattr_resolve_name(struct inode *inode, const char **name)
  * because different namespaces have very different rules.
  */
 static int
+<<<<<<< HEAD
 xattr_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		 const char *name, int mask)
+=======
+xattr_permission(struct inode *inode, const char *name, int mask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * We can never set or remove an extended attribute on a read-only
@@ -98,7 +102,11 @@ xattr_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		 * to be writen back improperly if their true value is
 		 * unknown to the vfs.
 		 */
+<<<<<<< HEAD
 		if (HAS_UNMAPPED_ID(mnt_userns, inode))
+=======
+		if (HAS_UNMAPPED_ID(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EPERM;
 	}
 
@@ -128,12 +136,20 @@ xattr_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		if (!S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
 			return (mask & MAY_WRITE) ? -EPERM : -ENODATA;
 		if (S_ISDIR(inode->i_mode) && (inode->i_mode & S_ISVTX) &&
+<<<<<<< HEAD
 		    (mask & MAY_WRITE) &&
 		    !inode_owner_or_capable(mnt_userns, inode))
 			return -EPERM;
 	}
 
 	return inode_permission(mnt_userns, inode, mask);
+=======
+		    (mask & MAY_WRITE) && !inode_owner_or_capable(inode))
+			return -EPERM;
+	}
+
+	return inode_permission(inode, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -164,9 +180,14 @@ xattr_supported_namespace(struct inode *inode, const char *prefix)
 EXPORT_SYMBOL(xattr_supported_namespace);
 
 int
+<<<<<<< HEAD
 __vfs_setxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	       struct inode *inode, const char *name, const void *value,
 	       size_t size, int flags)
+=======
+__vfs_setxattr(struct dentry *dentry, struct inode *inode, const char *name,
+	       const void *value, size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct xattr_handler *handler;
 
@@ -177,8 +198,12 @@ __vfs_setxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		return -EOPNOTSUPP;
 	if (size == 0)
 		value = "";  /* empty EA, do not remove */
+<<<<<<< HEAD
 	return handler->set(handler, mnt_userns, dentry, inode, name, value,
 			    size, flags);
+=======
+	return handler->set(handler, dentry, inode, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__vfs_setxattr);
 
@@ -186,7 +211,10 @@ EXPORT_SYMBOL(__vfs_setxattr);
  *  __vfs_setxattr_noperm - perform setxattr operation without performing
  *  permission checks.
  *
+<<<<<<< HEAD
  *  @mnt_userns - user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  @dentry - object to perform setxattr on
  *  @name - xattr name to set
  *  @value - value to set @name to
@@ -199,9 +227,14 @@ EXPORT_SYMBOL(__vfs_setxattr);
  *  is executed. It also assumes that the caller will make the appropriate
  *  permission checks.
  */
+<<<<<<< HEAD
 int __vfs_setxattr_noperm(struct user_namespace *mnt_userns,
 			  struct dentry *dentry, const char *name,
 			  const void *value, size_t size, int flags)
+=======
+int __vfs_setxattr_noperm(struct dentry *dentry, const char *name,
+		const void *value, size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	int error = -EAGAIN;
@@ -211,8 +244,12 @@ int __vfs_setxattr_noperm(struct user_namespace *mnt_userns,
 	if (issec)
 		inode->i_flags &= ~S_NOSEC;
 	if (inode->i_opflags & IOP_XATTR) {
+<<<<<<< HEAD
 		error = __vfs_setxattr(mnt_userns, dentry, inode, name, value,
 				       size, flags);
+=======
+		error = __vfs_setxattr(dentry, inode, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!error) {
 			fsnotify_xattr(dentry);
 			security_inode_post_setxattr(dentry, name, value,
@@ -251,19 +288,33 @@ int __vfs_setxattr_noperm(struct user_namespace *mnt_userns,
  *  a delegation was broken on, NULL if none.
  */
 int
+<<<<<<< HEAD
 __vfs_setxattr_locked(struct user_namespace *mnt_userns, struct dentry *dentry,
 		      const char *name, const void *value, size_t size,
 		      int flags, struct inode **delegated_inode)
+=======
+__vfs_setxattr_locked(struct dentry *dentry, const char *name,
+		const void *value, size_t size, int flags,
+		struct inode **delegated_inode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	int error;
 
+<<<<<<< HEAD
 	error = xattr_permission(mnt_userns, inode, name, MAY_WRITE);
 	if (error)
 		return error;
 
 	error = security_inode_setxattr(mnt_userns, dentry, name, value, size,
 					flags);
+=======
+	error = xattr_permission(inode, name, MAY_WRITE);
+	if (error)
+		return error;
+
+	error = security_inode_setxattr(dentry, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out;
 
@@ -271,8 +322,12 @@ __vfs_setxattr_locked(struct user_namespace *mnt_userns, struct dentry *dentry,
 	if (error)
 		goto out;
 
+<<<<<<< HEAD
 	error = __vfs_setxattr_noperm(mnt_userns, dentry, name, value,
 				      size, flags);
+=======
+	error = __vfs_setxattr_noperm(dentry, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	return error;
@@ -280,8 +335,13 @@ out:
 EXPORT_SYMBOL_GPL(__vfs_setxattr_locked);
 
 int
+<<<<<<< HEAD
 vfs_setxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	     const char *name, const void *value, size_t size, int flags)
+=======
+vfs_setxattr(struct dentry *dentry, const char *name, const void *value,
+		size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	struct inode *delegated_inode = NULL;
@@ -289,7 +349,11 @@ vfs_setxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	int error;
 
 	if (size && strcmp(name, XATTR_NAME_CAPS) == 0) {
+<<<<<<< HEAD
 		error = cap_convert_nscap(mnt_userns, dentry, &value, size);
+=======
+		error = cap_convert_nscap(dentry, &value, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error < 0)
 			return error;
 		size = error;
@@ -297,8 +361,13 @@ vfs_setxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 
 retry_deleg:
 	inode_lock(inode);
+<<<<<<< HEAD
 	error = __vfs_setxattr_locked(mnt_userns, dentry, name, value, size,
 				      flags, &delegated_inode);
+=======
+	error = __vfs_setxattr_locked(dentry, name, value, size, flags,
+	    &delegated_inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode_unlock(inode);
 
 	if (delegated_inode) {
@@ -314,13 +383,19 @@ retry_deleg:
 EXPORT_SYMBOL_GPL(vfs_setxattr);
 
 static ssize_t
+<<<<<<< HEAD
 xattr_getsecurity(struct user_namespace *mnt_userns, struct inode *inode,
 		  const char *name, void *value, size_t size)
+=======
+xattr_getsecurity(struct inode *inode, const char *name, void *value,
+			size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *buffer = NULL;
 	ssize_t len;
 
 	if (!value || !size) {
+<<<<<<< HEAD
 		len = security_inode_getsecurity(mnt_userns, inode, name,
 						 &buffer, false);
 		goto out_noalloc;
@@ -328,6 +403,13 @@ xattr_getsecurity(struct user_namespace *mnt_userns, struct inode *inode,
 
 	len = security_inode_getsecurity(mnt_userns, inode, name, &buffer,
 					 true);
+=======
+		len = security_inode_getsecurity(inode, name, &buffer, false);
+		goto out_noalloc;
+	}
+
+	len = security_inode_getsecurity(inode, name, &buffer, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (len < 0)
 		return len;
 	if (size < len) {
@@ -350,16 +432,25 @@ out_noalloc:
  * Returns the result of alloc, if failed, or the getxattr operation.
  */
 ssize_t
+<<<<<<< HEAD
 vfs_getxattr_alloc(struct user_namespace *mnt_userns, struct dentry *dentry,
 		   const char *name, char **xattr_value, size_t xattr_size,
 		   gfp_t flags)
+=======
+vfs_getxattr_alloc(struct dentry *dentry, const char *name, char **xattr_value,
+		   size_t xattr_size, gfp_t flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct xattr_handler *handler;
 	struct inode *inode = dentry->d_inode;
 	char *value = *xattr_value;
 	int error;
 
+<<<<<<< HEAD
 	error = xattr_permission(mnt_userns, inode, name, MAY_READ);
+=======
+	error = xattr_permission(inode, name, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -400,13 +491,21 @@ __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
 EXPORT_SYMBOL(__vfs_getxattr);
 
 ssize_t
+<<<<<<< HEAD
 vfs_getxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	     const char *name, void *value, size_t size)
+=======
+vfs_getxattr(struct dentry *dentry, const char *name, void *value, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	int error;
 
+<<<<<<< HEAD
 	error = xattr_permission(mnt_userns, inode, name, MAY_READ);
+=======
+	error = xattr_permission(inode, name, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -417,8 +516,12 @@ vfs_getxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	if (!strncmp(name, XATTR_SECURITY_PREFIX,
 				XATTR_SECURITY_PREFIX_LEN)) {
 		const char *suffix = name + XATTR_SECURITY_PREFIX_LEN;
+<<<<<<< HEAD
 		int ret = xattr_getsecurity(mnt_userns, inode, suffix, value,
 					    size);
+=======
+		int ret = xattr_getsecurity(inode, suffix, value, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Only overwrite the return value if a security module
 		 * is actually active.
@@ -453,8 +556,12 @@ vfs_listxattr(struct dentry *dentry, char *list, size_t size)
 EXPORT_SYMBOL_GPL(vfs_listxattr);
 
 int
+<<<<<<< HEAD
 __vfs_removexattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		  const char *name)
+=======
+__vfs_removexattr(struct dentry *dentry, const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	const struct xattr_handler *handler;
@@ -464,8 +571,12 @@ __vfs_removexattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		return PTR_ERR(handler);
 	if (!handler->set)
 		return -EOPNOTSUPP;
+<<<<<<< HEAD
 	return handler->set(handler, mnt_userns, dentry, inode, name, NULL, 0,
 			    XATTR_REPLACE);
+=======
+	return handler->set(handler, dentry, inode, name, NULL, 0, XATTR_REPLACE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__vfs_removexattr);
 
@@ -479,18 +590,31 @@ EXPORT_SYMBOL(__vfs_removexattr);
  *  a delegation was broken on, NULL if none.
  */
 int
+<<<<<<< HEAD
 __vfs_removexattr_locked(struct user_namespace *mnt_userns,
 			 struct dentry *dentry, const char *name,
 			 struct inode **delegated_inode)
+=======
+__vfs_removexattr_locked(struct dentry *dentry, const char *name,
+		struct inode **delegated_inode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	int error;
 
+<<<<<<< HEAD
 	error = xattr_permission(mnt_userns, inode, name, MAY_WRITE);
 	if (error)
 		return error;
 
 	error = security_inode_removexattr(mnt_userns, dentry, name);
+=======
+	error = xattr_permission(inode, name, MAY_WRITE);
+	if (error)
+		return error;
+
+	error = security_inode_removexattr(dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out;
 
@@ -498,7 +622,11 @@ __vfs_removexattr_locked(struct user_namespace *mnt_userns,
 	if (error)
 		goto out;
 
+<<<<<<< HEAD
 	error = __vfs_removexattr(mnt_userns, dentry, name);
+=======
+	error = __vfs_removexattr(dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!error) {
 		fsnotify_xattr(dentry);
@@ -511,8 +639,12 @@ out:
 EXPORT_SYMBOL_GPL(__vfs_removexattr_locked);
 
 int
+<<<<<<< HEAD
 vfs_removexattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		const char *name)
+=======
+vfs_removexattr(struct dentry *dentry, const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = dentry->d_inode;
 	struct inode *delegated_inode = NULL;
@@ -520,8 +652,12 @@ vfs_removexattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 
 retry_deleg:
 	inode_lock(inode);
+<<<<<<< HEAD
 	error = __vfs_removexattr_locked(mnt_userns, dentry,
 					 name, &delegated_inode);
+=======
+	error = __vfs_removexattr_locked(dentry, name, &delegated_inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode_unlock(inode);
 
 	if (delegated_inode) {
@@ -538,9 +674,14 @@ EXPORT_SYMBOL_GPL(vfs_removexattr);
  * Extended attribute SET operations
  */
 static long
+<<<<<<< HEAD
 setxattr(struct user_namespace *mnt_userns, struct dentry *d,
 	 const char __user *name, const void __user *value, size_t size,
 	 int flags)
+=======
+setxattr(struct dentry *d, const char __user *name, const void __user *value,
+	 size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 	void *kvalue = NULL;
@@ -567,10 +708,17 @@ setxattr(struct user_namespace *mnt_userns, struct dentry *d,
 		}
 		if ((strcmp(kname, XATTR_NAME_POSIX_ACL_ACCESS) == 0) ||
 		    (strcmp(kname, XATTR_NAME_POSIX_ACL_DEFAULT) == 0))
+<<<<<<< HEAD
 			posix_acl_fix_xattr_from_user(mnt_userns, kvalue, size);
 	}
 
 	error = vfs_setxattr(mnt_userns, d, kname, kvalue, size, flags);
+=======
+			posix_acl_fix_xattr_from_user(kvalue, size);
+	}
+
+	error = vfs_setxattr(d, kname, kvalue, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	kvfree(kvalue);
 
@@ -583,15 +731,22 @@ static int path_setxattr(const char __user *pathname,
 {
 	struct path path;
 	int error;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 retry:
 	error = user_path_at(AT_FDCWD, pathname, lookup_flags, &path);
 	if (error)
 		return error;
 	error = mnt_want_write(path.mnt);
 	if (!error) {
+<<<<<<< HEAD
 		error = setxattr(mnt_user_ns(path.mnt), path.dentry, name,
 				 value, size, flags);
+=======
+		error = setxattr(path.dentry, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mnt_drop_write(path.mnt);
 	}
 	path_put(&path);
@@ -627,9 +782,13 @@ SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
 	audit_file(f.file);
 	error = mnt_want_write_file(f.file);
 	if (!error) {
+<<<<<<< HEAD
 		error = setxattr(file_mnt_user_ns(f.file),
 				 f.file->f_path.dentry, name,
 				 value, size, flags);
+=======
+		error = setxattr(f.file->f_path.dentry, name, value, size, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mnt_drop_write_file(f.file);
 	}
 	fdput(f);
@@ -640,8 +799,13 @@ SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
  * Extended attribute GET operations
  */
 static ssize_t
+<<<<<<< HEAD
 getxattr(struct user_namespace *mnt_userns, struct dentry *d,
 	 const char __user *name, void __user *value, size_t size)
+=======
+getxattr(struct dentry *d, const char __user *name, void __user *value,
+	 size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ssize_t error;
 	void *kvalue = NULL;
@@ -661,11 +825,19 @@ getxattr(struct user_namespace *mnt_userns, struct dentry *d,
 			return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	error = vfs_getxattr(mnt_userns, d, kname, kvalue, size);
 	if (error > 0) {
 		if ((strcmp(kname, XATTR_NAME_POSIX_ACL_ACCESS) == 0) ||
 		    (strcmp(kname, XATTR_NAME_POSIX_ACL_DEFAULT) == 0))
 			posix_acl_fix_xattr_to_user(mnt_userns, kvalue, error);
+=======
+	error = vfs_getxattr(d, kname, kvalue, size);
+	if (error > 0) {
+		if ((strcmp(kname, XATTR_NAME_POSIX_ACL_ACCESS) == 0) ||
+		    (strcmp(kname, XATTR_NAME_POSIX_ACL_DEFAULT) == 0))
+			posix_acl_fix_xattr_to_user(kvalue, error);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (size && copy_to_user(value, kvalue, error))
 			error = -EFAULT;
 	} else if (error == -ERANGE && size >= XATTR_SIZE_MAX) {
@@ -689,7 +861,11 @@ retry:
 	error = user_path_at(AT_FDCWD, pathname, lookup_flags, &path);
 	if (error)
 		return error;
+<<<<<<< HEAD
 	error = getxattr(mnt_user_ns(path.mnt), path.dentry, name, value, size);
+=======
+	error = getxattr(path.dentry, name, value, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	path_put(&path);
 	if (retry_estale(error, lookup_flags)) {
 		lookup_flags |= LOOKUP_REVAL;
@@ -719,8 +895,12 @@ SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
 	if (!f.file)
 		return error;
 	audit_file(f.file);
+<<<<<<< HEAD
 	error = getxattr(file_mnt_user_ns(f.file), f.file->f_path.dentry,
 			 name, value, size);
+=======
+	error = getxattr(f.file->f_path.dentry, name, value, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fdput(f);
 	return error;
 }
@@ -804,8 +984,12 @@ SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
  * Extended attribute REMOVE operations
  */
 static long
+<<<<<<< HEAD
 removexattr(struct user_namespace *mnt_userns, struct dentry *d,
 	    const char __user *name)
+=======
+removexattr(struct dentry *d, const char __user *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 	char kname[XATTR_NAME_MAX + 1];
@@ -816,7 +1000,11 @@ removexattr(struct user_namespace *mnt_userns, struct dentry *d,
 	if (error < 0)
 		return error;
 
+<<<<<<< HEAD
 	return vfs_removexattr(mnt_userns, d, kname);
+=======
+	return vfs_removexattr(d, kname);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int path_removexattr(const char __user *pathname,
@@ -830,7 +1018,11 @@ retry:
 		return error;
 	error = mnt_want_write(path.mnt);
 	if (!error) {
+<<<<<<< HEAD
 		error = removexattr(mnt_user_ns(path.mnt), path.dentry, name);
+=======
+		error = removexattr(path.dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mnt_drop_write(path.mnt);
 	}
 	path_put(&path);
@@ -863,8 +1055,12 @@ SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
 	audit_file(f.file);
 	error = mnt_want_write_file(f.file);
 	if (!error) {
+<<<<<<< HEAD
 		error = removexattr(file_mnt_user_ns(f.file),
 				    f.file->f_path.dentry, name);
+=======
+		error = removexattr(f.file->f_path.dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mnt_drop_write_file(f.file);
 	}
 	fdput(f);

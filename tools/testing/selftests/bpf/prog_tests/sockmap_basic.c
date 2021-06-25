@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (c) 2020 Cloudflare
 #include <error.h>
+<<<<<<< HEAD
 #include <netinet/tcp.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "test_progs.h"
 #include "test_skmsg_load_helpers.skel.h"

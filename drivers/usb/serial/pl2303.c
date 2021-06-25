@@ -113,7 +113,10 @@ static const struct usb_device_id id_table[] = {
 	{ USB_DEVICE(SONY_VENDOR_ID, SONY_QN3USB_PRODUCT_ID) },
 	{ USB_DEVICE(SANWA_VENDOR_ID, SANWA_PRODUCT_ID) },
 	{ USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530_PRODUCT_ID) },
+<<<<<<< HEAD
 	{ USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530GC_PRODUCT_ID) },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
 	{ USB_DEVICE(AT_VENDOR_ID, AT_VTKIT3_PRODUCT_ID) },
 	{ }					/* Terminating entry */
@@ -451,11 +454,27 @@ static int pl2303_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void pl2303_port_remove(struct usb_serial_port *port)
+=======
+<<<<<<< HEAD
+static void pl2303_port_remove(struct usb_serial_port *port)
+=======
+static int pl2303_port_remove(struct usb_serial_port *port)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pl2303_private *priv = usb_get_serial_port_data(port);
 
 	kfree(priv);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int pl2303_set_control_lines(struct usb_serial_port *port, u8 value)

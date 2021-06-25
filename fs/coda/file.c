@@ -175,10 +175,17 @@ coda_file_mmap(struct file *coda_file, struct vm_area_struct *vma)
 	ret = call_mmap(vma->vm_file, vma);
 
 	if (ret) {
+<<<<<<< HEAD
 		/* if call_mmap fails, our caller will put host_file so we
 		 * should drop the reference to the coda_file that we got.
 		 */
 		fput(coda_file);
+=======
+		/* if call_mmap fails, our caller will put coda_file so we
+		 * should drop the reference to the host_file that we got.
+		 */
+		fput(host_file);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(cvm_ops);
 	} else {
 		/* here we add redirects for the open/close vm_operations */

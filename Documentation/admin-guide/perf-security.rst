@@ -72,7 +72,11 @@ monitoring and observability operations, thus, bypass *scope* permissions
 checks in the kernel. CAP_PERFMON implements the principle of least
 privilege [13]_ (POSIX 1003.1e: 2.2.2.39) for performance monitoring and
 observability operations in the kernel and provides a secure approach to
+<<<<<<< HEAD
 performance monitoring and observability in the system.
+=======
+perfomance monitoring and observability in the system.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 For backward compatibility reasons the access to perf_events monitoring and
 observability operations is also open for CAP_SYS_ADMIN privileged

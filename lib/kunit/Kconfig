@@ -4,7 +4,10 @@
 
 menuconfig KUNIT
 	tristate "KUnit - Enable support for unit tests"
+<<<<<<< HEAD
 	select GLOB if KUNIT=y
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Enables support for kernel unit tests (KUnit), a lightweight unit
 	  testing and mocking framework for the Linux kernel. These tests are

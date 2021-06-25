@@ -378,7 +378,11 @@ static int wcove_pd_transmit(struct tcpc_dev *tcpc,
 		const u8 *data = (void *)msg;
 		int i;
 
+<<<<<<< HEAD
 		for (i = 0; i < pd_header_cnt_le(msg->header) * 4 + 2; i++) {
+=======
+		for (i = 0; i < pd_header_cnt(msg->header) * 4 + 2; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = regmap_write(wcove->regmap, USBC_TX_DATA + i,
 					   data[i]);
 			if (ret)

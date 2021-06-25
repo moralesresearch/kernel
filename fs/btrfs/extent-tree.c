@@ -34,8 +34,16 @@
 #include "block-group.h"
 #include "discard.h"
 #include "rcu-string.h"
+<<<<<<< HEAD
 #include "zoned.h"
 #include "dev-replace.h"
+=======
+<<<<<<< HEAD
+#include "zoned.h"
+#include "dev-replace.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #undef SCRAMBLE_DELAYED_REFS
 
@@ -1266,6 +1274,10 @@ static int btrfs_issue_discard(struct block_device *bdev, u64 start, u64 len,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int do_discard_extent(struct btrfs_bio_stripe *stripe, u64 *bytes)
 {
 	struct btrfs_device *dev = stripe->dev;
@@ -1306,6 +1318,11 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_discard_extent(struct btrfs_fs_info *fs_info, u64 bytenr,
 			 u64 num_bytes, u64 *actual_bytes)
 {
@@ -1340,6 +1357,7 @@ int btrfs_discard_extent(struct btrfs_fs_info *fs_info, u64 bytenr,
 		stripe = bbio->stripes;
 		for (i = 0; i < bbio->num_stripes; i++, stripe++) {
 			u64 bytes;
+<<<<<<< HEAD
 			struct btrfs_device *device = stripe->dev;
 
 			if (!device->bdev) {
@@ -1351,6 +1369,30 @@ int btrfs_discard_extent(struct btrfs_fs_info *fs_info, u64 bytenr,
 				continue;
 
 			ret = do_discard_extent(stripe, &bytes);
+=======
+<<<<<<< HEAD
+=======
+			struct request_queue *req_q;
+>>>>>>> stable
+
+			if (!stripe->dev->bdev) {
+				ASSERT(btrfs_test_opt(fs_info, DEGRADED));
+				continue;
+			}
+<<<<<<< HEAD
+
+			ret = do_discard_extent(stripe, &bytes);
+=======
+			req_q = bdev_get_queue(stripe->dev->bdev);
+			if (!blk_queue_discard(req_q))
+				continue;
+
+			ret = btrfs_issue_discard(stripe->dev->bdev,
+						  stripe->physical,
+						  stripe->length,
+						  &bytes);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!ret) {
 				discarded_bytes += bytes;
 			} else if (ret != -EOPNOTSUPP) {
@@ -1868,7 +1910,11 @@ static int cleanup_ref_head(struct btrfs_trans_handle *trans,
 	trace_run_delayed_ref_head(fs_info, head, 0);
 	btrfs_delayed_ref_unlock(head);
 	btrfs_put_delayed_ref_head(head);
+<<<<<<< HEAD
 	return ret;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct btrfs_delayed_ref_head *btrfs_obtain_ref_head(
@@ -2152,7 +2198,15 @@ int btrfs_run_delayed_refs(struct btrfs_trans_handle *trans,
 
 	delayed_refs = &trans->transaction->delayed_refs;
 	if (count == 0)
+<<<<<<< HEAD
 		count = delayed_refs->num_heads_ready;
+=======
+<<<<<<< HEAD
+		count = delayed_refs->num_heads_ready;
+=======
+		count = atomic_read(&delayed_refs->num_entries) * 2;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 again:
 #ifdef SCRAMBLE_DELAYED_REFS
@@ -2779,10 +2833,19 @@ static int unpin_extent_range(struct btrfs_fs_info *fs_info,
 		if (cache->ro) {
 			space_info->bytes_readonly += len;
 			readonly = true;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else if (btrfs_is_zoned(fs_info)) {
 			/* Need reset before reusing in a zoned block group */
 			space_info->bytes_zone_unusable += len;
 			readonly = true;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		spin_unlock(&cache->lock);
 		if (!readonly && return_free_space &&
@@ -3327,6 +3390,10 @@ void btrfs_free_tree_block(struct btrfs_trans_handle *trans,
 
 	if (last_ref && btrfs_header_generation(buf) == trans->transid) {
 		struct btrfs_block_group *cache;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bool must_pin = false;
 
 		if (root->root_key.objectid != BTRFS_TREE_LOG_OBJECTID) {
@@ -3335,6 +3402,16 @@ void btrfs_free_tree_block(struct btrfs_trans_handle *trans,
 				btrfs_redirty_list_add(trans->transaction, buf);
 				goto out;
 			}
+<<<<<<< HEAD
+=======
+=======
+
+		if (root->root_key.objectid != BTRFS_TREE_LOG_OBJECTID) {
+			ret = check_ref_cleanup(trans, buf->start);
+			if (!ret)
+				goto out;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		cache = btrfs_lookup_block_group(fs_info, buf->start);
@@ -3345,6 +3422,10 @@ void btrfs_free_tree_block(struct btrfs_trans_handle *trans,
 			goto out;
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * If this is a leaf and there are tree mod log users, we may
 		 * have recorded mod log operations that point to this leaf.
@@ -3372,6 +3453,11 @@ void btrfs_free_tree_block(struct btrfs_trans_handle *trans,
 			goto out;
 		}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WARN_ON(test_bit(EXTENT_BUFFER_DIRTY, &buf->bflags));
 
 		btrfs_add_free_space(cache, buf->start, buf->len);
@@ -3497,7 +3583,14 @@ btrfs_release_block_group(struct btrfs_block_group *cache,
 
 enum btrfs_extent_allocation_policy {
 	BTRFS_EXTENT_ALLOC_CLUSTERED,
+<<<<<<< HEAD
 	BTRFS_EXTENT_ALLOC_ZONED,
+=======
+<<<<<<< HEAD
+	BTRFS_EXTENT_ALLOC_ZONED,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -3522,9 +3615,18 @@ struct find_free_extent_ctl {
 	bool have_caching_bg;
 	bool orig_have_caching_bg;
 
+<<<<<<< HEAD
 	/* Allocation is called for tree-log */
 	bool for_treelog;
 
+=======
+<<<<<<< HEAD
+	/* Allocation is called for tree-log */
+	bool for_treelog;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* RAID index, converted from flags */
 	int index;
 
@@ -3753,6 +3855,10 @@ static int do_allocation_clustered(struct btrfs_block_group *block_group,
 	return find_free_extent_unclustered(block_group, ffe_ctl);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Tree-log block group locking
  * ============================
@@ -3865,6 +3971,11 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int do_allocation(struct btrfs_block_group *block_group,
 			 struct find_free_extent_ctl *ffe_ctl,
 			 struct btrfs_block_group **bg_ret)
@@ -3872,8 +3983,16 @@ static int do_allocation(struct btrfs_block_group *block_group,
 	switch (ffe_ctl->policy) {
 	case BTRFS_EXTENT_ALLOC_CLUSTERED:
 		return do_allocation_clustered(block_group, ffe_ctl, bg_ret);
+<<<<<<< HEAD
 	case BTRFS_EXTENT_ALLOC_ZONED:
 		return do_allocation_zoned(block_group, ffe_ctl, bg_ret);
+=======
+<<<<<<< HEAD
+	case BTRFS_EXTENT_ALLOC_ZONED:
+		return do_allocation_zoned(block_group, ffe_ctl, bg_ret);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -3888,9 +4007,18 @@ static void release_block_group(struct btrfs_block_group *block_group,
 		ffe_ctl->retry_clustered = false;
 		ffe_ctl->retry_unclustered = false;
 		break;
+<<<<<<< HEAD
 	case BTRFS_EXTENT_ALLOC_ZONED:
 		/* Nothing to do */
 		break;
+=======
+<<<<<<< HEAD
+	case BTRFS_EXTENT_ALLOC_ZONED:
+		/* Nothing to do */
+		break;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -3919,9 +4047,18 @@ static void found_extent(struct find_free_extent_ctl *ffe_ctl,
 	case BTRFS_EXTENT_ALLOC_CLUSTERED:
 		found_extent_clustered(ffe_ctl, ins);
 		break;
+<<<<<<< HEAD
 	case BTRFS_EXTENT_ALLOC_ZONED:
 		/* Nothing to do */
 		break;
+=======
+<<<<<<< HEAD
+	case BTRFS_EXTENT_ALLOC_ZONED:
+		/* Nothing to do */
+		break;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -3937,9 +4074,18 @@ static int chunk_allocation_failed(struct find_free_extent_ctl *ffe_ctl)
 		 */
 		ffe_ctl->loop = LOOP_NO_EMPTY_SIZE;
 		return 0;
+<<<<<<< HEAD
 	case BTRFS_EXTENT_ALLOC_ZONED:
 		/* Give up here */
 		return -ENOSPC;
+=======
+<<<<<<< HEAD
+	case BTRFS_EXTENT_ALLOC_ZONED:
+		/* Give up here */
+		return -ENOSPC;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -4108,6 +4254,10 @@ static int prepare_allocation(struct btrfs_fs_info *fs_info,
 	case BTRFS_EXTENT_ALLOC_CLUSTERED:
 		return prepare_allocation_clustered(fs_info, ffe_ctl,
 						    space_info, ins);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case BTRFS_EXTENT_ALLOC_ZONED:
 		if (ffe_ctl->for_treelog) {
 			spin_lock(&fs_info->treelog_bg_lock);
@@ -4116,6 +4266,11 @@ static int prepare_allocation(struct btrfs_fs_info *fs_info,
 			spin_unlock(&fs_info->treelog_bg_lock);
 		}
 		return 0;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -4158,7 +4313,14 @@ static noinline int find_free_extent(struct btrfs_root *root,
 	struct find_free_extent_ctl ffe_ctl = {0};
 	struct btrfs_space_info *space_info;
 	bool full_search = false;
+<<<<<<< HEAD
 	bool for_treelog = (root->root_key.objectid == BTRFS_TREE_LOG_OBJECTID);
+=======
+<<<<<<< HEAD
+	bool for_treelog = (root->root_key.objectid == BTRFS_TREE_LOG_OBJECTID);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	WARN_ON(num_bytes < fs_info->sectorsize);
 
@@ -4172,7 +4334,14 @@ static noinline int find_free_extent(struct btrfs_root *root,
 	ffe_ctl.orig_have_caching_bg = false;
 	ffe_ctl.found_offset = 0;
 	ffe_ctl.hint_byte = hint_byte_orig;
+<<<<<<< HEAD
 	ffe_ctl.for_treelog = for_treelog;
+=======
+<<<<<<< HEAD
+	ffe_ctl.for_treelog = for_treelog;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ffe_ctl.policy = BTRFS_EXTENT_ALLOC_CLUSTERED;
 
 	/* For clustered allocation */
@@ -4181,9 +4350,18 @@ static noinline int find_free_extent(struct btrfs_root *root,
 	ffe_ctl.last_ptr = NULL;
 	ffe_ctl.use_cluster = true;
 
+<<<<<<< HEAD
 	if (btrfs_is_zoned(fs_info))
 		ffe_ctl.policy = BTRFS_EXTENT_ALLOC_ZONED;
 
+=======
+<<<<<<< HEAD
+	if (btrfs_is_zoned(fs_info))
+		ffe_ctl.policy = BTRFS_EXTENT_ALLOC_ZONED;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ins->type = BTRFS_EXTENT_ITEM_KEY;
 	ins->objectid = 0;
 	ins->offset = 0;
@@ -4247,11 +4425,22 @@ search:
 		struct btrfs_block_group *bg_ret;
 
 		/* If the block group is read-only, we can skip it entirely. */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(block_group->ro)) {
 			if (for_treelog)
 				btrfs_clear_treelog_bg(block_group);
 			continue;
 		}
+<<<<<<< HEAD
+=======
+=======
+		if (unlikely(block_group->ro))
+			continue;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		btrfs_grab_block_group(block_group, delalloc);
 		ffe_ctl.search_start = block_group->start;
@@ -4329,21 +4518,52 @@ have_block_group:
 		/* move on to the next group */
 		if (ffe_ctl.search_start + num_bytes >
 		    block_group->start + block_group->length) {
+<<<<<<< HEAD
 			btrfs_add_free_space_unused(block_group,
 					    ffe_ctl.found_offset, num_bytes);
+=======
+<<<<<<< HEAD
+			btrfs_add_free_space_unused(block_group,
+					    ffe_ctl.found_offset, num_bytes);
+=======
+			btrfs_add_free_space(block_group, ffe_ctl.found_offset,
+					     num_bytes);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto loop;
 		}
 
 		if (ffe_ctl.found_offset < ffe_ctl.search_start)
+<<<<<<< HEAD
 			btrfs_add_free_space_unused(block_group,
 					ffe_ctl.found_offset,
 					ffe_ctl.search_start - ffe_ctl.found_offset);
+=======
+<<<<<<< HEAD
+			btrfs_add_free_space_unused(block_group,
+					ffe_ctl.found_offset,
+					ffe_ctl.search_start - ffe_ctl.found_offset);
+=======
+			btrfs_add_free_space(block_group, ffe_ctl.found_offset,
+				ffe_ctl.search_start - ffe_ctl.found_offset);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = btrfs_add_reserved_bytes(block_group, ram_bytes,
 				num_bytes, delalloc);
 		if (ret == -EAGAIN) {
+<<<<<<< HEAD
 			btrfs_add_free_space_unused(block_group,
 					ffe_ctl.found_offset, num_bytes);
+=======
+<<<<<<< HEAD
+			btrfs_add_free_space_unused(block_group,
+					ffe_ctl.found_offset, num_bytes);
+=======
+			btrfs_add_free_space(block_group, ffe_ctl.found_offset,
+					     num_bytes);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto loop;
 		}
 		btrfs_inc_block_group_reservations(block_group);
@@ -4437,7 +4657,14 @@ int btrfs_reserve_extent(struct btrfs_root *root, u64 ram_bytes,
 	bool final_tried = num_bytes == min_alloc_size;
 	u64 flags;
 	int ret;
+<<<<<<< HEAD
 	bool for_treelog = (root->root_key.objectid == BTRFS_TREE_LOG_OBJECTID);
+=======
+<<<<<<< HEAD
+	bool for_treelog = (root->root_key.objectid == BTRFS_TREE_LOG_OBJECTID);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	flags = get_alloc_profile_by_root(root, is_data);
 again:
@@ -4461,8 +4688,18 @@ again:
 
 			sinfo = btrfs_find_space_info(fs_info, flags);
 			btrfs_err(fs_info,
+<<<<<<< HEAD
 			"allocation failed flags %llu, wanted %llu tree-log %d",
 				  flags, num_bytes, for_treelog);
+=======
+<<<<<<< HEAD
+			"allocation failed flags %llu, wanted %llu tree-log %d",
+				  flags, num_bytes, for_treelog);
+=======
+				  "allocation failed flags %llu, wanted %llu",
+				  flags, num_bytes);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (sinfo)
 				btrfs_dump_space_info(fs_info, sinfo,
 						      num_bytes, 1);
@@ -4644,6 +4881,13 @@ static int alloc_reserved_tree_block(struct btrfs_trans_handle *trans,
 	}
 
 	if (node->type == BTRFS_SHARED_BLOCK_REF_KEY) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		BUG_ON(!(flags & BTRFS_BLOCK_FLAG_FULL_BACKREF));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		btrfs_set_extent_inline_ref_type(leaf, iref,
 						 BTRFS_SHARED_BLOCK_REF_KEY);
 		btrfs_set_extent_inline_ref_offset(leaf, iref, ref->parent);
@@ -4770,7 +5014,14 @@ btrfs_init_new_buffer(struct btrfs_trans_handle *trans, struct btrfs_root *root,
 	__btrfs_tree_lock(buf, nest);
 	btrfs_clean_tree_block(buf);
 	clear_bit(EXTENT_BUFFER_STALE, &buf->bflags);
+<<<<<<< HEAD
 	clear_bit(EXTENT_BUFFER_NO_CHECK, &buf->bflags);
+=======
+<<<<<<< HEAD
+	clear_bit(EXTENT_BUFFER_NO_CHECK, &buf->bflags);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	set_extent_buffer_uptodate(buf);
 

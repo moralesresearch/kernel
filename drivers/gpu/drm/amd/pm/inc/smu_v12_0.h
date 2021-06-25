@@ -60,5 +60,10 @@ int smu_v12_0_set_soft_freq_limited_range(struct smu_context *smu, enum smu_clk_
 
 int smu_v12_0_set_driver_table_location(struct smu_context *smu);
 
+<<<<<<< HEAD
+=======
+void smu_v12_0_init_gpu_metrics_v2_0(struct gpu_metrics_v2_0 *gpu_metrics);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #endif

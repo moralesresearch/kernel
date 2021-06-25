@@ -43,24 +43,52 @@ properties:
       This soc uses GRF regs to switch the HDMI TX input between vop0 and vop1.
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Port node with two endpoints, numbered 0 and 1,
           connected respectively to vop0 and vop1.
 
       port@1:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Port node with one endpoint connected to a hdmi-connector node.
 
     required:
+<<<<<<< HEAD
       - port@0
       - port@1
 
+=======
+      - "#address-cells"
+      - "#size-cells"
+      - port@0
+      - port@1
+
+    additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

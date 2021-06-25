@@ -57,8 +57,11 @@
 #include <asm/processor.h>
 #include <asm/pointer_auth.h>
 #include <asm/stacktrace.h>
+<<<<<<< HEAD
 #include <asm/switch_to.h>
 #include <asm/system_misc.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if defined(CONFIG_STACKPROTECTOR) && !defined(CONFIG_STACKPROTECTOR_PER_TASK)
 #include <linux/stackprotector.h>
@@ -306,7 +309,11 @@ void __show_regs(struct pt_regs *regs)
 	}
 }
 
+<<<<<<< HEAD
 void show_regs(struct pt_regs *regs)
+=======
+void show_regs(struct pt_regs * regs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	__show_regs(regs);
 	dump_backtrace(regs, NULL, KERN_DEFAULT);
@@ -400,7 +407,11 @@ int copy_thread(unsigned long clone_flags, unsigned long stack_start,
 
 	ptrauth_thread_init_kernel(p);
 
+<<<<<<< HEAD
 	if (likely(!(p->flags & (PF_KTHREAD | PF_IO_WORKER)))) {
+=======
+	if (likely(!(p->flags & PF_KTHREAD))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*childregs = *current_pt_regs();
 		childregs->regs[0] = 0;
 
@@ -589,7 +600,11 @@ unsigned long get_wchan(struct task_struct *p)
 			ret = frame.pc;
 			goto out;
 		}
+<<<<<<< HEAD
 	} while (count++ < 16);
+=======
+	} while (count ++ < 16);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	put_task_stack(p);

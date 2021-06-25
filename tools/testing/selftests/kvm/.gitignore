@@ -7,6 +7,7 @@
 /x86_64/cr4_cpuid_sync_test
 /x86_64/debug_regs
 /x86_64/evmcs_test
+<<<<<<< HEAD
 /x86_64/get_cpuid_test
 /x86_64/get_msr_index_features
 /x86_64/kvm_pv_test
@@ -15,6 +16,12 @@
 /x86_64/mmio_warning_test
 /x86_64/platform_info_test
 /x86_64/set_boot_cpu_id
+=======
+/x86_64/kvm_pv_test
+/x86_64/hyperv_cpuid
+/x86_64/mmio_warning_test
+/x86_64/platform_info_test
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /x86_64/set_sregs_test
 /x86_64/smm_test
 /x86_64/state_test
@@ -28,6 +35,7 @@
 /x86_64/vmx_preemption_timer_test
 /x86_64/vmx_set_nested_state_test
 /x86_64/vmx_tsc_adjust_test
+<<<<<<< HEAD
 /x86_64/xapic_ipi_test
 /x86_64/xen_shinfo_test
 /x86_64/xen_vmcall_test
@@ -39,5 +47,12 @@
 /hardware_disable_test
 /kvm_create_max_vcpus
 /memslot_modification_stress_test
+=======
+/x86_64/xss_msr_test
+/demand_paging_test
+/dirty_log_test
+/dirty_log_perf_test
+/kvm_create_max_vcpus
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /set_memory_region_test
 /steal_time

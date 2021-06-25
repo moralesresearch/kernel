@@ -81,11 +81,23 @@ enum rt6_nud_state {
 	RT6_NUD_SUCCEED = 1
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 INDIRECT_CALLABLE_SCOPE
 struct dst_entry	*ip6_dst_check(struct dst_entry *dst, u32 cookie);
 static unsigned int	 ip6_default_advmss(const struct dst_entry *dst);
 INDIRECT_CALLABLE_SCOPE
 unsigned int		ip6_mtu(const struct dst_entry *dst);
+<<<<<<< HEAD
+=======
+=======
+static struct dst_entry	*ip6_dst_check(struct dst_entry *dst, u32 cookie);
+static unsigned int	 ip6_default_advmss(const struct dst_entry *dst);
+static unsigned int	 ip6_mtu(const struct dst_entry *dst);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dst_entry *ip6_negative_advice(struct dst_entry *);
 static void		ip6_dst_destroy(struct dst_entry *);
 static void		ip6_dst_ifdown(struct dst_entry *,
@@ -2595,8 +2607,17 @@ static struct dst_entry *rt6_dst_from_check(struct rt6_info *rt,
 		return NULL;
 }
 
+<<<<<<< HEAD
 INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst_check(struct dst_entry *dst,
 							u32 cookie)
+=======
+<<<<<<< HEAD
+INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst_check(struct dst_entry *dst,
+							u32 cookie)
+=======
+static struct dst_entry *ip6_dst_check(struct dst_entry *dst, u32 cookie)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dst_entry *dst_ret;
 	struct fib6_info *from;
@@ -2626,7 +2647,14 @@ INDIRECT_CALLABLE_SCOPE struct dst_entry *ip6_dst_check(struct dst_entry *dst,
 
 	return dst_ret;
 }
+<<<<<<< HEAD
 EXPORT_INDIRECT_CALLABLE(ip6_dst_check);
+=======
+<<<<<<< HEAD
+EXPORT_INDIRECT_CALLABLE(ip6_dst_check);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct dst_entry *ip6_negative_advice(struct dst_entry *dst)
 {
@@ -3075,7 +3103,15 @@ static unsigned int ip6_default_advmss(const struct dst_entry *dst)
 	return mtu;
 }
 
+<<<<<<< HEAD
 INDIRECT_CALLABLE_SCOPE unsigned int ip6_mtu(const struct dst_entry *dst)
+=======
+<<<<<<< HEAD
+INDIRECT_CALLABLE_SCOPE unsigned int ip6_mtu(const struct dst_entry *dst)
+=======
+static unsigned int ip6_mtu(const struct dst_entry *dst)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inet6_dev *idev;
 	unsigned int mtu;
@@ -3097,7 +3133,14 @@ out:
 
 	return mtu - lwtunnel_headroom(dst->lwtstate, mtu);
 }
+<<<<<<< HEAD
 EXPORT_INDIRECT_CALLABLE(ip6_mtu);
+=======
+<<<<<<< HEAD
+EXPORT_INDIRECT_CALLABLE(ip6_mtu);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* MTU selection:
  * 1. mtu on route is locked - use it
@@ -3676,11 +3719,19 @@ static struct fib6_info *ip6_route_info_create(struct fib6_config *cfg,
 	if (nh) {
 		if (rt->fib6_src.plen) {
 			NL_SET_ERR_MSG(extack, "Nexthops can not be used with source routing");
+<<<<<<< HEAD
 			goto out_free;
 		}
 		if (!nexthop_get(nh)) {
 			NL_SET_ERR_MSG(extack, "Nexthop has been deleted");
 			goto out_free;
+=======
+			goto out;
+		}
+		if (!nexthop_get(nh)) {
+			NL_SET_ERR_MSG(extack, "Nexthop has been deleted");
+			goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		rt->nh = nh;
 		fib6_nh = nexthop_fib6_nh(rt->nh);
@@ -3717,10 +3768,13 @@ static struct fib6_info *ip6_route_info_create(struct fib6_config *cfg,
 out:
 	fib6_info_release(rt);
 	return ERR_PTR(err);
+<<<<<<< HEAD
 out_free:
 	ip_fib_metrics_put(rt->fib6_metrics);
 	kfree(rt);
 	return ERR_PTR(err);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int ip6_route_add(struct fib6_config *cfg, gfp_t gfp_flags,
@@ -4243,12 +4297,26 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
 struct fib6_info *rt6_add_dflt_router(struct net *net,
 				     const struct in6_addr *gwaddr,
 				     struct net_device *dev,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     unsigned int pref,
 				     u32 defrtr_usr_metric)
 {
 	struct fib6_config cfg = {
 		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
 		.fc_metric	= defrtr_usr_metric,
+<<<<<<< HEAD
+=======
+=======
+				     unsigned int pref)
+{
+	struct fib6_config cfg = {
+		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
+		.fc_metric	= IP6_RT_PRIO_USER,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.fc_ifindex	= dev->ifindex,
 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
 				  RTF_UP | RTF_EXPIRES | RTF_PREF(pref),
@@ -5213,11 +5281,23 @@ static int ip6_route_multipath_add(struct fib6_config *cfg,
 		 * nexthops have been replaced by first new, the rest should
 		 * be added to it.
 		 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (cfg->fc_nlinfo.nlh) {
 			cfg->fc_nlinfo.nlh->nlmsg_flags &= ~(NLM_F_EXCL |
 							     NLM_F_REPLACE);
 			cfg->fc_nlinfo.nlh->nlmsg_flags |= NLM_F_CREATE;
 		}
+<<<<<<< HEAD
+=======
+=======
+		cfg->fc_nlinfo.nlh->nlmsg_flags &= ~(NLM_F_EXCL |
+						     NLM_F_REPLACE);
+		cfg->fc_nlinfo.nlh->nlmsg_flags |= NLM_F_CREATE;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nhn++;
 	}
 
@@ -5607,8 +5687,16 @@ static int rt6_fill_node(struct net *net, struct sk_buff *skb,
 			rtm->rtm_flags |= RTM_F_OFFLOAD;
 		if (rt->trap)
 			rtm->rtm_flags |= RTM_F_TRAP;
+<<<<<<< HEAD
 		if (rt->offload_failed)
 			rtm->rtm_flags |= RTM_F_OFFLOAD_FAILED;
+=======
+<<<<<<< HEAD
+		if (rt->offload_failed)
+			rtm->rtm_flags |= RTM_F_OFFLOAD_FAILED;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (rtnl_put_cacheinfo(skb, dst, 0, expires, dst ? dst->error : 0) < 0)
@@ -6059,6 +6147,10 @@ errout:
 		rtnl_set_sk_err(net, RTNLGRP_IPV6_ROUTE, err);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void fib6_info_hw_flags_set(struct net *net, struct fib6_info *f6i,
 			    bool offload, bool trap, bool offload_failed)
 {
@@ -6111,6 +6203,11 @@ errout:
 }
 EXPORT_SYMBOL(fib6_info_hw_flags_set);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ip6_route_dev_notify(struct notifier_block *this,
 				unsigned long event, void *ptr)
 {

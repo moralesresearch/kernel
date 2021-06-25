@@ -87,7 +87,11 @@ static int squashfs_bio_read(struct super_block *sb, u64 index, int length,
 	int error, i;
 	struct bio *bio;
 
+<<<<<<< HEAD
 	if (page_count <= BIO_MAX_VECS)
+=======
+	if (page_count <= BIO_MAX_PAGES)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bio = bio_alloc(GFP_NOIO, page_count);
 	else
 		bio = bio_kmalloc(GFP_NOIO, page_count);

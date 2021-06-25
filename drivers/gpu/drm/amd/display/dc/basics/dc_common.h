@@ -30,9 +30,15 @@
 
 bool is_rgb_cspace(enum dc_color_space output_color_space);
 
+<<<<<<< HEAD
 bool is_child_pipe_tree_visible(struct pipe_ctx *pipe_ctx);
 
 bool is_parent_pipe_tree_visible(struct pipe_ctx *pipe_ctx);
+=======
+bool is_lower_pipe_tree_visible(struct pipe_ctx *pipe_ctx);
+
+bool is_upper_pipe_tree_visible(struct pipe_ctx *pipe_ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool is_pipe_tree_visible(struct pipe_ctx *pipe_ctx);
 

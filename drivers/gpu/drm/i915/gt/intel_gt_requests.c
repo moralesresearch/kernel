@@ -135,8 +135,18 @@ long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout)
 	struct intel_gt_timelines *timelines = &gt->timelines;
 	struct intel_timeline *tl, *tn;
 	unsigned long active_count = 0;
+<<<<<<< HEAD
 	LIST_HEAD(free);
 
+=======
+	bool interruptible;
+	LIST_HEAD(free);
+
+	interruptible = true;
+	if (unlikely(timeout < 0))
+		timeout = -timeout, interruptible = false;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flush_submission(gt, timeout); /* kick the ksoftirqd tasklets */
 	spin_lock(&timelines->lock);
 	list_for_each_entry_safe(tl, tn, &timelines->active_list, link) {
@@ -158,7 +168,11 @@ long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout)
 				mutex_unlock(&tl->mutex);
 
 				timeout = dma_fence_wait_timeout(fence,
+<<<<<<< HEAD
 								 true,
+=======
+								 interruptible,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								 timeout);
 				dma_fence_put(fence);
 

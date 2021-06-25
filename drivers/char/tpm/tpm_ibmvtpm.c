@@ -343,7 +343,11 @@ static int ibmvtpm_crq_send_init_complete(struct ibmvtpm_dev *ibmvtpm)
  *
  * Return: Always 0.
  */
+<<<<<<< HEAD
 static void tpm_ibmvtpm_remove(struct vio_dev *vdev)
+=======
+static int tpm_ibmvtpm_remove(struct vio_dev *vdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tpm_chip *chip = dev_get_drvdata(&vdev->dev);
 	struct ibmvtpm_dev *ibmvtpm = dev_get_drvdata(&chip->dev);
@@ -372,6 +376,11 @@ static void tpm_ibmvtpm_remove(struct vio_dev *vdev)
 	kfree(ibmvtpm);
 	/* For tpm_ibmvtpm_get_desired_dma */
 	dev_set_drvdata(&vdev->dev, NULL);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

@@ -705,6 +705,7 @@ void host1x_driver_unregister(struct host1x_driver *driver)
 EXPORT_SYMBOL(host1x_driver_unregister);
 
 /**
+<<<<<<< HEAD
  * __host1x_client_init() - initialize a host1x client
  * @client: host1x client
  * @key: lock class key for the client-specific mutex
@@ -731,6 +732,10 @@ EXPORT_SYMBOL(host1x_client_exit);
  * __host1x_client_register() - register a host1x client
  * @client: host1x client
  * @key: lock class key for the client-specific mutex
+=======
+ * host1x_client_register() - register a host1x client
+ * @client: host1x client
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Registers a host1x client with each host1x controller instance. Note that
  * each client will only match their parent host1x controller and will only be
@@ -739,11 +744,22 @@ EXPORT_SYMBOL(host1x_client_exit);
  * device and call host1x_device_init(), which will in turn call each client's
  * &host1x_client_ops.init implementation.
  */
+<<<<<<< HEAD
 int __host1x_client_register(struct host1x_client *client)
+=======
+int host1x_client_register(struct host1x_client *client)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct host1x *host1x;
 	int err;
 
+<<<<<<< HEAD
+=======
+	INIT_LIST_HEAD(&client->list);
+	mutex_init(&client->lock);
+	client->usecount = 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&devices_lock);
 
 	list_for_each_entry(host1x, &devices, list) {
@@ -762,7 +778,11 @@ int __host1x_client_register(struct host1x_client *client)
 
 	return 0;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(__host1x_client_register);
+=======
+EXPORT_SYMBOL(host1x_client_register);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * host1x_client_unregister() - unregister a host1x client

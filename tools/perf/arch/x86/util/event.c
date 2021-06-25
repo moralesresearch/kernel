@@ -75,6 +75,7 @@ int perf_event__synthesize_extra_kmaps(struct perf_tool *tool,
 }
 
 #endif
+<<<<<<< HEAD
 
 void arch_perf_parse_sample_weight(struct perf_sample *data,
 				   const __u64 *array, u64 type)
@@ -100,3 +101,5 @@ void arch_perf_synthesize_sample_weight(const struct perf_sample *data,
 		*array |= ((u64)data->ins_lat << 32);
 	}
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

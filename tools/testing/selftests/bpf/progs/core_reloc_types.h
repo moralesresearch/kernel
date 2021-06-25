@@ -700,11 +700,35 @@ struct core_reloc_existence___minimal {
 	int a;
 };
 
+<<<<<<< HEAD
 struct core_reloc_existence___wrong_field_defs {
 	void *a;
 	int b[1];
 	struct{ int x; } c;
 	int arr;
+=======
+struct core_reloc_existence___err_wrong_int_sz {
+	short a;
+};
+
+struct core_reloc_existence___err_wrong_int_type {
+	int b[1];
+};
+
+struct core_reloc_existence___err_wrong_int_kind {
+	struct{ int x; } c;
+};
+
+struct core_reloc_existence___err_wrong_arr_kind {
+	int arr;
+};
+
+struct core_reloc_existence___err_wrong_arr_value_type {
+	short arr[1];
+};
+
+struct core_reloc_existence___err_wrong_struct_type {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int s;
 };
 

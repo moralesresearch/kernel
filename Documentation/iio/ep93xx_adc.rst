@@ -13,7 +13,11 @@ touchscreen/ADC module.
 ====================
 
 Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
+<<<<<<< HEAD
 EP9307, EP9312 and EP9315 have 3 channels more (total 8), but the numbering is
+=======
+EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 not defined. So the last three are numbered randomly, let's say.
 
 Assuming ep93xx_adc is IIO device0, you'd find the following entries under

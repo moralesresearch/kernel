@@ -46,7 +46,12 @@ required:
 if:
   properties:
     compatible:
+<<<<<<< HEAD
       const: allwinner,sun5i-a13-hstimer
+=======
+      items:
+        const: allwinner,sun5i-a13-hstimer
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 then:
   properties:

@@ -143,7 +143,11 @@ struct mvpp2_cls_c2_entry {
 /* Number of per-port dedicated entries in the C2 TCAM */
 #define MVPP22_CLS_C2_PORT_N_FLOWS	MVPP2_N_RFS_ENTRIES_PER_FLOW
 
+<<<<<<< HEAD
 /* Each port has one range per flow type + one entry controlling the global RSS
+=======
+/* Each port has oen range per flow type + one entry controling the global RSS
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * setting and the default rx queue
  */
 #define MVPP22_CLS_C2_PORT_RANGE	(MVPP22_CLS_C2_PORT_N_FLOWS + 1)

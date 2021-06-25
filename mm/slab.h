@@ -110,7 +110,12 @@ __kmem_cache_alias(const char *name, unsigned int size, unsigned int align,
 		   slab_flags_t flags, void (*ctor)(void *));
 
 slab_flags_t kmem_cache_flags(unsigned int object_size,
+<<<<<<< HEAD
 	slab_flags_t flags, const char *name);
+=======
+	slab_flags_t flags, const char *name,
+	void (*ctor)(void *));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline struct kmem_cache *
 __kmem_cache_alias(const char *name, unsigned int size, unsigned int align,
@@ -118,7 +123,12 @@ __kmem_cache_alias(const char *name, unsigned int size, unsigned int align,
 { return NULL; }
 
 static inline slab_flags_t kmem_cache_flags(unsigned int object_size,
+<<<<<<< HEAD
 	slab_flags_t flags, const char *name)
+=======
+	slab_flags_t flags, const char *name,
+	void (*ctor)(void *))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return flags;
 }
@@ -238,7 +248,11 @@ static inline bool kmem_cache_debug_flags(struct kmem_cache *s, slab_flags_t fla
 
 #ifdef CONFIG_MEMCG_KMEM
 int memcg_alloc_page_obj_cgroups(struct page *page, struct kmem_cache *s,
+<<<<<<< HEAD
 				 gfp_t gfp, bool new_page);
+=======
+				 gfp_t gfp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void memcg_free_page_obj_cgroups(struct page *page)
 {
@@ -315,8 +329,12 @@ static inline void memcg_slab_post_alloc_hook(struct kmem_cache *s,
 			page = virt_to_head_page(p[i]);
 
 			if (!page_objcgs(page) &&
+<<<<<<< HEAD
 			    memcg_alloc_page_obj_cgroups(page, s, flags,
 							 false)) {
+=======
+			    memcg_alloc_page_obj_cgroups(page, s, flags)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				obj_cgroup_uncharge(objcg, obj_full_size(s));
 				continue;
 			}
@@ -380,8 +398,12 @@ static inline struct mem_cgroup *memcg_from_slab_obj(void *ptr)
 }
 
 static inline int memcg_alloc_page_obj_cgroups(struct page *page,
+<<<<<<< HEAD
 					       struct kmem_cache *s, gfp_t gfp,
 					       bool new_page)
+=======
+					       struct kmem_cache *s, gfp_t gfp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return 0;
 }
@@ -422,12 +444,17 @@ static inline struct kmem_cache *virt_to_cache(const void *obj)
 }
 
 static __always_inline void account_slab_page(struct page *page, int order,
+<<<<<<< HEAD
 					      struct kmem_cache *s,
 					      gfp_t gfp)
 {
 	if (memcg_kmem_enabled() && (s->flags & SLAB_ACCOUNT))
 		memcg_alloc_page_obj_cgroups(page, s, gfp, true);
 
+=======
+					      struct kmem_cache *s)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mod_node_page_state(page_pgdat(page), cache_vmstat_idx(s),
 			    PAGE_SIZE << order);
 }
@@ -619,6 +646,7 @@ static inline bool slab_want_init_on_free(struct kmem_cache *c)
 	return false;
 }
 
+<<<<<<< HEAD
 #define KS_ADDRS_COUNT 16
 struct kmem_obj_info {
 	void *kp_ptr;
@@ -631,4 +659,6 @@ struct kmem_obj_info {
 };
 void kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct page *page);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* MM_SLAB_H */

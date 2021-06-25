@@ -4,16 +4,22 @@
 #include <net/flow_offload.h>
 #include <net/netfilter/nf_tables.h>
 
+<<<<<<< HEAD
 enum nft_offload_reg_flags {
 	NFT_OFFLOAD_F_NETWORK2HOST	= (1 << 0),
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nft_offload_reg {
 	u32		key;
 	u32		len;
 	u32		base_offset;
 	u32		offset;
+<<<<<<< HEAD
 	u32		flags;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nft_data data;
 	struct nft_data	mask;
 };
@@ -50,7 +56,10 @@ struct nft_flow_key {
 	struct flow_dissector_key_ports			tp;
 	struct flow_dissector_key_ip			ip;
 	struct flow_dissector_key_vlan			vlan;
+<<<<<<< HEAD
 	struct flow_dissector_key_vlan			cvlan;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct flow_dissector_key_eth_addrs		eth_addrs;
 	struct flow_dissector_key_meta			meta;
 } __aligned(BITS_PER_LONG / 8); /* Ensure that we can do comparisons as longs. */
@@ -77,17 +86,24 @@ struct nft_flow_rule *nft_flow_rule_create(struct net *net, const struct nft_rul
 void nft_flow_rule_destroy(struct nft_flow_rule *flow);
 int nft_flow_rule_offload_commit(struct net *net);
 
+<<<<<<< HEAD
 #define NFT_OFFLOAD_MATCH_FLAGS(__key, __base, __field, __len, __reg, __flags)	\
+=======
+#define NFT_OFFLOAD_MATCH(__key, __base, __field, __len, __reg)		\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	(__reg)->base_offset	=					\
 		offsetof(struct nft_flow_key, __base);			\
 	(__reg)->offset		=					\
 		offsetof(struct nft_flow_key, __base.__field);		\
 	(__reg)->len		= __len;				\
 	(__reg)->key		= __key;				\
+<<<<<<< HEAD
 	(__reg)->flags		= __flags;
 
 #define NFT_OFFLOAD_MATCH(__key, __base, __field, __len, __reg)		\
 	NFT_OFFLOAD_MATCH_FLAGS(__key, __base, __field, __len, __reg, 0)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define NFT_OFFLOAD_MATCH_EXACT(__key, __base, __field, __len, __reg)	\
 	NFT_OFFLOAD_MATCH(__key, __base, __field, __len, __reg)		\

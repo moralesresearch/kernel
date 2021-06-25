@@ -254,11 +254,17 @@ static struct sk_buff *esp6_gso_segment(struct sk_buff *skb,
 	skb->encap_hdr_csum = 1;
 
 	if (!(features & NETIF_F_HW_ESP) || x->xso.dev != skb->dev)
+<<<<<<< HEAD
 		esp_features = features & ~(NETIF_F_SG | NETIF_F_CSUM_MASK |
 					    NETIF_F_SCTP_CRC);
 	else if (!(features & NETIF_F_HW_ESP_TX_CSUM))
 		esp_features = features & ~(NETIF_F_CSUM_MASK |
 					    NETIF_F_SCTP_CRC);
+=======
+		esp_features = features & ~(NETIF_F_SG | NETIF_F_CSUM_MASK);
+	else if (!(features & NETIF_F_HW_ESP_TX_CSUM))
+		esp_features = features & ~NETIF_F_CSUM_MASK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xo->flags |= XFRM_GSO_SEGMENT;
 
@@ -348,6 +354,7 @@ static int esp6_xmit(struct xfrm_state *x, struct sk_buff *skb,  netdev_features
 
 	ipv6_hdr(skb)->payload_len = htons(len);
 
+<<<<<<< HEAD
 	if (hw_offload) {
 		if (!skb_ext_add(skb, SKB_EXT_SEC_PATH))
 			return -ENOMEM;
@@ -359,6 +366,10 @@ static int esp6_xmit(struct xfrm_state *x, struct sk_buff *skb,  netdev_features
 		xo->flags |= XFRM_XMIT;
 		return 0;
 	}
+=======
+	if (hw_offload)
+		return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = esp6_output_tail(x, skb, &esp);
 	if (err)

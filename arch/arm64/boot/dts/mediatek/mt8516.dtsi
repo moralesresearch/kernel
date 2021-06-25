@@ -276,6 +276,7 @@
 				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
 		};
 
+<<<<<<< HEAD
 		apdma: dma-controller@11000480 {
 			compatible = "mediatek,mt8516-uart-dma",
 				     "mediatek,mt6577-uart-dma";
@@ -297,6 +298,8 @@
 			#dma-cells = <1>;
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		uart0: serial@11005000 {
 			compatible = "mediatek,mt8516-uart",
 				     "mediatek,mt6577-uart";
@@ -305,9 +308,12 @@
 			clocks = <&topckgen CLK_TOP_UART0_SEL>,
 				 <&topckgen CLK_TOP_UART0>;
 			clock-names = "baud", "bus";
+<<<<<<< HEAD
 			dmas = <&apdma 0
 				&apdma 1>;
 			dma-names = "tx", "rx";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -319,9 +325,12 @@
 			clocks = <&topckgen CLK_TOP_UART1_SEL>,
 				 <&topckgen CLK_TOP_UART1>;
 			clock-names = "baud", "bus";
+<<<<<<< HEAD
 			dmas = <&apdma 2
 				&apdma 3>;
 			dma-names = "tx", "rx";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -333,9 +342,12 @@
 			clocks = <&topckgen CLK_TOP_UART2_SEL>,
 				 <&topckgen CLK_TOP_UART2>;
 			clock-names = "baud", "bus";
+<<<<<<< HEAD
 			dmas = <&apdma 4
 				&apdma 5>;
 			dma-names = "tx", "rx";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 

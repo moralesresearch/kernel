@@ -184,6 +184,7 @@ static void xsk_copy_xdp(struct xdp_buff *to, struct xdp_buff *from, u32 len)
 	memcpy(to_buf, from_buf, len + metalen);
 }
 
+<<<<<<< HEAD
 static int __xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 {
 	struct xdp_buff *xsk_xdp;
@@ -191,6 +192,14 @@ static int __xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 	u32 len;
 
 	len = xdp->data_end - xdp->data;
+=======
+static int __xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len,
+		     bool explicit_free)
+{
+	struct xdp_buff *xsk_xdp;
+	int err;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (len > xsk_pool_get_rx_frame_size(xs->pool)) {
 		xs->rx_dropped++;
 		return -ENOSPC;
@@ -208,6 +217,11 @@ static int __xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 		xsk_buff_free(xsk_xdp);
 		return err;
 	}
+<<<<<<< HEAD
+=======
+	if (explicit_free)
+		xdp_return_buff(xdp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -229,8 +243,16 @@ static bool xsk_is_bound(struct xdp_sock *xs)
 	return false;
 }
 
+<<<<<<< HEAD
 static int xsk_rcv_check(struct xdp_sock *xs, struct xdp_buff *xdp)
 {
+=======
+static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp,
+		   bool explicit_free)
+{
+	u32 len;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!xsk_is_bound(xs))
 		return -EINVAL;
 
@@ -238,7 +260,15 @@ static int xsk_rcv_check(struct xdp_sock *xs, struct xdp_buff *xdp)
 		return -EINVAL;
 
 	sk_mark_napi_id_once_xdp(&xs->sk, xdp);
+<<<<<<< HEAD
 	return 0;
+=======
+	len = xdp->data_end - xdp->data;
+
+	return xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL ?
+		__xsk_rcv_zc(xs, xdp, len) :
+		__xsk_rcv(xs, xdp, len, explicit_free);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void xsk_flush(struct xdp_sock *xs)
@@ -253,15 +283,21 @@ int xsk_generic_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 	int err;
 
 	spin_lock_bh(&xs->rx_lock);
+<<<<<<< HEAD
 	err = xsk_rcv_check(xs, xdp);
 	if (!err) {
 		err = __xsk_rcv(xs, xdp);
 		xsk_flush(xs);
 	}
+=======
+	err = xsk_rcv(xs, xdp, false);
+	xsk_flush(xs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_bh(&xs->rx_lock);
 	return err;
 }
 
+<<<<<<< HEAD
 static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 {
 	int err;
@@ -282,12 +318,18 @@ static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __xsk_map_redirect(struct xdp_sock *xs, struct xdp_buff *xdp)
 {
 	struct list_head *flush_list = this_cpu_ptr(&xskmap_flush_list);
 	int err;
 
+<<<<<<< HEAD
 	err = xsk_rcv(xs, xdp);
+=======
+	err = xsk_rcv(xs, xdp, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -454,16 +496,22 @@ static int xsk_generic_xmit(struct sock *sk)
 	struct sk_buff *skb;
 	unsigned long flags;
 	int err = 0;
+<<<<<<< HEAD
 	u32 hr, tr;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&xs->mutex);
 
 	if (xs->queue_id >= xs->dev->real_num_tx_queues)
 		goto out;
 
+<<<<<<< HEAD
 	hr = max(NET_SKB_PAD, L1_CACHE_ALIGN(xs->dev->needed_headroom));
 	tr = xs->dev->needed_tailroom;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (xskq_cons_peek_desc(xs->tx, &desc, xs->pool)) {
 		char *buffer;
 		u64 addr;
@@ -475,6 +523,7 @@ static int xsk_generic_xmit(struct sock *sk)
 		}
 
 		len = desc.len;
+<<<<<<< HEAD
 		skb = sock_alloc_send_skb(sk, hr + len + tr, 1, &err);
 		if (unlikely(!skb))
 			goto out;
@@ -482,6 +531,13 @@ static int xsk_generic_xmit(struct sock *sk)
 		skb_reserve(skb, hr);
 		skb_put(skb, len);
 
+=======
+		skb = sock_alloc_send_skb(sk, len, 1, &err);
+		if (unlikely(!skb))
+			goto out;
+
+		skb_put(skb, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		addr = desc.addr;
 		buffer = xsk_buff_raw_get_data(xs->pool, addr);
 		err = skb_store_bits(skb, 0, buffer, len);

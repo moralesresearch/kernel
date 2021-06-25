@@ -518,9 +518,21 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
 {
 	const struct v4l2_create_buffers *p = arg;
 
+<<<<<<< HEAD
 	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
 		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
 		p->capabilities);
+=======
+<<<<<<< HEAD
+	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
+		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
+		p->capabilities);
+=======
+	pr_cont("index=%d, count=%d, memory=%s, ",
+			p->index, p->count,
+			prt_names(p->memory, v4l2_memory_names));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v4l_print_format(&p->format, write_only);
 }
 
@@ -3300,7 +3312,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
 			parg = sbuf;
 		} else {
 			/* too big to allocate from stack */
+<<<<<<< HEAD
 			mbuf = kmalloc(ioc_size, GFP_KERNEL);
+=======
+<<<<<<< HEAD
+			mbuf = kmalloc(ioc_size, GFP_KERNEL);
+=======
+			mbuf = kvmalloc(ioc_size, GFP_KERNEL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (NULL == mbuf)
 				return -ENOMEM;
 			parg = mbuf;
@@ -3377,7 +3397,15 @@ out_array_args:
 		err = -EFAULT;
 out:
 	kvfree(array_buf);
+<<<<<<< HEAD
 	kfree(mbuf);
+=======
+<<<<<<< HEAD
+	kfree(mbuf);
+=======
+	kvfree(mbuf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

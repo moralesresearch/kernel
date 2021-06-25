@@ -105,6 +105,7 @@ static int ice_vsi_alloc_arrays(struct ice_vsi *vsi)
 	if (!vsi->q_vectors)
 		goto err_vectors;
 
+<<<<<<< HEAD
 	vsi->af_xdp_zc_qps = bitmap_zalloc(max_t(int, vsi->alloc_txq, vsi->alloc_rxq), GFP_KERNEL);
 	if (!vsi->af_xdp_zc_qps)
 		goto err_zc_qps;
@@ -113,6 +114,10 @@ static int ice_vsi_alloc_arrays(struct ice_vsi *vsi)
 
 err_zc_qps:
 	devm_kfree(dev, vsi->q_vectors);
+=======
+	return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_vectors:
 	devm_kfree(dev, vsi->rxq_map);
 err_rxq_map:
@@ -198,8 +203,11 @@ static void ice_vsi_set_num_qs(struct ice_vsi *vsi, u16 vf_id)
 		break;
 	case ICE_VSI_VF:
 		vf = &pf->vf[vsi->vf_id];
+<<<<<<< HEAD
 		if (vf->num_req_qs)
 			vf->num_vf_qs = vf->num_req_qs;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vsi->alloc_txq = vf->num_vf_qs;
 		vsi->alloc_rxq = vf->num_vf_qs;
 		/* pf->num_msix_per_vf includes (VF miscellaneous vector +
@@ -294,10 +302,13 @@ static void ice_vsi_free_arrays(struct ice_vsi *vsi)
 
 	dev = ice_pf_to_dev(pf);
 
+<<<<<<< HEAD
 	if (vsi->af_xdp_zc_qps) {
 		bitmap_free(vsi->af_xdp_zc_qps);
 		vsi->af_xdp_zc_qps = NULL;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* free the ring and vector containers */
 	if (vsi->q_vectors) {
 		devm_kfree(dev, vsi->q_vectors);
@@ -1715,13 +1726,20 @@ setup_rings:
  * ice_vsi_cfg_txqs - Configure the VSI for Tx
  * @vsi: the VSI being configured
  * @rings: Tx ring array to be configured
+<<<<<<< HEAD
  * @count: number of Tx ring array elements
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return 0 on success and a negative value on error
  * Configure the Tx VSI for operation.
  */
 static int
+<<<<<<< HEAD
 ice_vsi_cfg_txqs(struct ice_vsi *vsi, struct ice_ring **rings, u16 count)
+=======
+ice_vsi_cfg_txqs(struct ice_vsi *vsi, struct ice_ring **rings)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ice_aqc_add_tx_qgrp *qg_buf;
 	u16 q_idx = 0;
@@ -1733,7 +1751,11 @@ ice_vsi_cfg_txqs(struct ice_vsi *vsi, struct ice_ring **rings, u16 count)
 
 	qg_buf->num_txqs = 1;
 
+<<<<<<< HEAD
 	for (q_idx = 0; q_idx < count; q_idx++) {
+=======
+	for (q_idx = 0; q_idx < vsi->num_txq; q_idx++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = ice_vsi_cfg_txq(vsi, rings[q_idx], qg_buf);
 		if (err)
 			goto err_cfg_txqs;
@@ -1753,7 +1775,11 @@ err_cfg_txqs:
  */
 int ice_vsi_cfg_lan_txqs(struct ice_vsi *vsi)
 {
+<<<<<<< HEAD
 	return ice_vsi_cfg_txqs(vsi, vsi->tx_rings, vsi->num_txq);
+=======
+	return ice_vsi_cfg_txqs(vsi, vsi->tx_rings);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1768,7 +1794,11 @@ int ice_vsi_cfg_xdp_txqs(struct ice_vsi *vsi)
 	int ret;
 	int i;
 
+<<<<<<< HEAD
 	ret = ice_vsi_cfg_txqs(vsi, vsi->xdp_rings, vsi->num_xdp_txq);
+=======
+	ret = ice_vsi_cfg_txqs(vsi, vsi->xdp_rings);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1966,18 +1996,29 @@ int ice_vsi_stop_all_rx_rings(struct ice_vsi *vsi)
  * @rst_src: reset source
  * @rel_vmvf_num: Relative ID of VF/VM
  * @rings: Tx ring array to be stopped
+<<<<<<< HEAD
  * @count: number of Tx ring array elements
  */
 static int
 ice_vsi_stop_tx_rings(struct ice_vsi *vsi, enum ice_disq_rst_src rst_src,
 		      u16 rel_vmvf_num, struct ice_ring **rings, u16 count)
+=======
+ */
+static int
+ice_vsi_stop_tx_rings(struct ice_vsi *vsi, enum ice_disq_rst_src rst_src,
+		      u16 rel_vmvf_num, struct ice_ring **rings)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u16 q_idx;
 
 	if (vsi->num_txq > ICE_LAN_TXQ_MAX_QDIS)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	for (q_idx = 0; q_idx < count; q_idx++) {
+=======
+	for (q_idx = 0; q_idx < vsi->num_txq; q_idx++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct ice_txq_meta txq_meta = { };
 		int status;
 
@@ -2005,7 +2046,11 @@ int
 ice_vsi_stop_lan_tx_rings(struct ice_vsi *vsi, enum ice_disq_rst_src rst_src,
 			  u16 rel_vmvf_num)
 {
+<<<<<<< HEAD
 	return ice_vsi_stop_tx_rings(vsi, rst_src, rel_vmvf_num, vsi->tx_rings, vsi->num_txq);
+=======
+	return ice_vsi_stop_tx_rings(vsi, rst_src, rel_vmvf_num, vsi->tx_rings);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2014,7 +2059,11 @@ ice_vsi_stop_lan_tx_rings(struct ice_vsi *vsi, enum ice_disq_rst_src rst_src,
  */
 int ice_vsi_stop_xdp_tx_rings(struct ice_vsi *vsi)
 {
+<<<<<<< HEAD
 	return ice_vsi_stop_tx_rings(vsi, ICE_NO_RESET, 0, vsi->xdp_rings, vsi->num_xdp_txq);
+=======
+	return ice_vsi_stop_tx_rings(vsi, ICE_NO_RESET, 0, vsi->xdp_rings);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2092,7 +2141,11 @@ err_out:
 
 static void ice_vsi_set_tc_cfg(struct ice_vsi *vsi)
 {
+<<<<<<< HEAD
 	struct ice_dcbx_cfg *cfg = &vsi->port_info->qos_cfg.local_dcbx_cfg;
+=======
+	struct ice_dcbx_cfg *cfg = &vsi->port_info->local_dcbx_cfg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vsi->tc_cfg.ena_tc = ice_dcb_get_ena_tc(cfg);
 	vsi->tc_cfg.numtc = ice_dcb_get_num_tc(cfg);
@@ -2159,6 +2212,7 @@ void ice_cfg_sw_lldp(struct ice_vsi *vsi, bool tx, bool create)
 	dev = ice_pf_to_dev(pf);
 	eth_fltr = create ? ice_fltr_add_eth : ice_fltr_remove_eth;
 
+<<<<<<< HEAD
 	if (tx) {
 		status = eth_fltr(vsi, ETH_P_LLDP, ICE_FLTR_TX,
 				  ICE_DROP_PACKET);
@@ -2171,6 +2225,13 @@ void ice_cfg_sw_lldp(struct ice_vsi *vsi, bool tx, bool create)
 					  ICE_FWD_TO_VSI);
 		}
 	}
+=======
+	if (tx)
+		status = eth_fltr(vsi, ETH_P_LLDP, ICE_FLTR_TX,
+				  ICE_DROP_PACKET);
+	else
+		status = eth_fltr(vsi, ETH_P_LLDP, ICE_FLTR_RX, ICE_FWD_TO_VSI);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (status)
 		dev_err(dev, "Fail %s %s LLDP rule on VSI %i error: %s\n",
@@ -2179,6 +2240,7 @@ void ice_cfg_sw_lldp(struct ice_vsi *vsi, bool tx, bool create)
 }
 
 /**
+<<<<<<< HEAD
  * ice_set_agg_vsi - sets up scheduler aggregator node and move VSI into it
  * @vsi: pointer to the VSI
  *
@@ -2299,6 +2361,8 @@ static void ice_set_agg_vsi(struct ice_vsi *vsi)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_vsi_setup - Set up a VSI by a given type
  * @pf: board private structure
  * @pi: pointer to the port_info instance
@@ -2468,8 +2532,11 @@ ice_vsi_setup(struct ice_pf *pf, struct ice_port_info *pi,
 			ice_cfg_sw_lldp(vsi, true, true);
 		}
 
+<<<<<<< HEAD
 	if (!vsi->agg_node)
 		ice_set_agg_vsi(vsi);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return vsi;
 
 unroll_clear_rings:
@@ -2485,8 +2552,11 @@ unroll_vsi_init:
 unroll_get_qs:
 	ice_vsi_put_qs(vsi);
 unroll_vsi_alloc:
+<<<<<<< HEAD
 	if (vsi_type == ICE_VSI_VF)
 		ice_enable_lag(pf->lag);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ice_vsi_clear(vsi);
 
 	return NULL;
@@ -2634,7 +2704,11 @@ int ice_ena_vsi(struct ice_vsi *vsi, bool locked)
 			if (!locked)
 				rtnl_lock();
 
+<<<<<<< HEAD
 			err = ice_open_internal(vsi->netdev);
+=======
+			err = ice_open(vsi->netdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (!locked)
 				rtnl_unlock();
@@ -2663,7 +2737,11 @@ void ice_dis_vsi(struct ice_vsi *vsi, bool locked)
 			if (!locked)
 				rtnl_lock();
 
+<<<<<<< HEAD
 			ice_vsi_close(vsi);
+=======
+			ice_stop(vsi->netdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (!locked)
 				rtnl_unlock();
@@ -2814,9 +2892,12 @@ int ice_vsi_release(struct ice_vsi *vsi)
 		vsi->netdev = NULL;
 	}
 
+<<<<<<< HEAD
 	if (vsi->type == ICE_VSI_VF &&
 	    vsi->agg_node && vsi->agg_node->valid)
 		vsi->agg_node->num_vsis--;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ice_vsi_clear_rings(vsi);
 
 	ice_vsi_put_qs(vsi);
@@ -2832,6 +2913,7 @@ int ice_vsi_release(struct ice_vsi *vsi)
 }
 
 /**
+<<<<<<< HEAD
  * ice_vsi_rebuild_update_coalesce_intrl - set interrupt rate limit for a q_vector
  * @q_vector: pointer to q_vector which is being updated
  * @stored_intrl_setting: original INTRL setting
@@ -2854,10 +2936,16 @@ ice_vsi_rebuild_update_coalesce_intrl(struct ice_q_vector *q_vector,
  * @q_vector: pointer to q_vector which is being updated
  * @rc: pointer to ring container
  * @stored_itr_setting: original ITR setting
+=======
+ * ice_vsi_rebuild_update_coalesce - set coalesce for a q_vector
+ * @q_vector: pointer to q_vector which is being updated
+ * @coalesce: pointer to array of struct with stored coalesce
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Set coalesce param in q_vector and update these parameters in HW.
  */
 static void
+<<<<<<< HEAD
 ice_vsi_rebuild_update_coalesce_itr(struct ice_q_vector *q_vector,
 				    struct ice_ring_container *rc,
 				    u16 stored_itr_setting)
@@ -2870,6 +2958,31 @@ ice_vsi_rebuild_update_coalesce_itr(struct ice_q_vector *q_vector,
 	if (!ITR_IS_DYNAMIC(rc->itr_setting))
 		wr32(hw, GLINT_ITR(rc->itr_idx, q_vector->reg_idx),
 		     ITR_REG_ALIGN(rc->itr_setting) >> ICE_ITR_GRAN_S);
+=======
+ice_vsi_rebuild_update_coalesce(struct ice_q_vector *q_vector,
+				struct ice_coalesce_stored *coalesce)
+{
+	struct ice_ring_container *rx_rc = &q_vector->rx;
+	struct ice_ring_container *tx_rc = &q_vector->tx;
+	struct ice_hw *hw = &q_vector->vsi->back->hw;
+
+	tx_rc->itr_setting = coalesce->itr_tx;
+	rx_rc->itr_setting = coalesce->itr_rx;
+
+	/* dynamic ITR values will be updated during Tx/Rx */
+	if (!ITR_IS_DYNAMIC(tx_rc->itr_setting))
+		wr32(hw, GLINT_ITR(tx_rc->itr_idx, q_vector->reg_idx),
+		     ITR_REG_ALIGN(tx_rc->itr_setting) >>
+		     ICE_ITR_GRAN_S);
+	if (!ITR_IS_DYNAMIC(rx_rc->itr_setting))
+		wr32(hw, GLINT_ITR(rx_rc->itr_idx, q_vector->reg_idx),
+		     ITR_REG_ALIGN(rx_rc->itr_setting) >>
+		     ICE_ITR_GRAN_S);
+
+	q_vector->intrl = coalesce->intrl;
+	wr32(hw, GLINT_RATE(q_vector->reg_idx),
+	     ice_intrl_usec_to_reg(q_vector->intrl, hw->intrl_gran));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2891,11 +3004,14 @@ ice_vsi_rebuild_get_coalesce(struct ice_vsi *vsi,
 		coalesce[i].itr_tx = q_vector->tx.itr_setting;
 		coalesce[i].itr_rx = q_vector->rx.itr_setting;
 		coalesce[i].intrl = q_vector->intrl;
+<<<<<<< HEAD
 
 		if (i < vsi->num_txq)
 			coalesce[i].tx_valid = true;
 		if (i < vsi->num_rxq)
 			coalesce[i].rx_valid = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return vsi->num_q_vectors;
@@ -2920,6 +3036,7 @@ ice_vsi_rebuild_set_coalesce(struct ice_vsi *vsi,
 	if ((size && !coalesce) || !vsi)
 		return;
 
+<<<<<<< HEAD
 	/* There are a couple of cases that have to be handled here:
 	 *   1. The case where the number of queue vectors stays the same, but
 	 *      the number of Tx or Rx rings changes (the first for loop)
@@ -2973,6 +3090,19 @@ ice_vsi_rebuild_set_coalesce(struct ice_vsi *vsi,
 		ice_vsi_rebuild_update_coalesce_intrl(vsi->q_vectors[i],
 						      coalesce[0].intrl);
 	}
+=======
+	for (i = 0; i < size && i < vsi->num_q_vectors; i++)
+		ice_vsi_rebuild_update_coalesce(vsi->q_vectors[i],
+						&coalesce[i]);
+
+	/* number of q_vectors increased, so assume coalesce settings were
+	 * changed globally (i.e. ethtool -C eth0 instead of per-queue) and use
+	 * the previous settings from q_vector 0 for all of the new q_vectors
+	 */
+	for (; i < vsi->num_q_vectors; i++)
+		ice_vsi_rebuild_update_coalesce(vsi->q_vectors[i],
+						&coalesce[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -3001,11 +3131,17 @@ int ice_vsi_rebuild(struct ice_vsi *vsi, bool init_vsi)
 
 	coalesce = kcalloc(vsi->num_q_vectors,
 			   sizeof(struct ice_coalesce_stored), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!coalesce)
 		return -ENOMEM;
 
 	prev_num_q_vectors = ice_vsi_rebuild_get_coalesce(vsi, coalesce);
 
+=======
+	if (coalesce)
+		prev_num_q_vectors = ice_vsi_rebuild_get_coalesce(vsi,
+								  coalesce);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ice_rm_vsi_lan_cfg(vsi->port_info, vsi->idx);
 	ice_vsi_free_q_vectors(vsi);
 
@@ -3149,6 +3285,10 @@ err_vsi:
 bool ice_is_reset_in_progress(unsigned long *state)
 {
 	return test_bit(__ICE_RESET_OICR_RECV, state) ||
+<<<<<<< HEAD
+=======
+	       test_bit(__ICE_DCBNL_DEVRESET, state) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       test_bit(__ICE_PFR_REQ, state) ||
 	       test_bit(__ICE_CORER_REQ, state) ||
 	       test_bit(__ICE_GLOBR_REQ, state);

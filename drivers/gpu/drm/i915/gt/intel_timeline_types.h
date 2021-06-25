@@ -84,8 +84,11 @@ struct intel_timeline {
 	struct list_head link;
 	struct intel_gt *gt;
 
+<<<<<<< HEAD
 	struct list_head engine_link;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct kref kref;
 	struct rcu_head rcu;
 };

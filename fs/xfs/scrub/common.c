@@ -888,7 +888,11 @@ xchk_stop_reaping(
 	struct xfs_scrub	*sc)
 {
 	sc->flags |= XCHK_REAPING_DISABLED;
+<<<<<<< HEAD
 	xfs_blockgc_stop(sc->mp);
+=======
+	xfs_stop_block_reaping(sc->mp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Restart background reaping of resources. */
@@ -896,6 +900,10 @@ void
 xchk_start_reaping(
 	struct xfs_scrub	*sc)
 {
+<<<<<<< HEAD
 	xfs_blockgc_start(sc->mp);
+=======
+	xfs_start_block_reaping(sc->mp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sc->flags &= ~XCHK_REAPING_DISABLED;
 }

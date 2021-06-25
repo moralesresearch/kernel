@@ -30,6 +30,13 @@
 MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
 MODULE_DESCRIPTION("C-Media CMI8x38 PCI");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{C-Media,CMI8738},"
+		"{C-Media,CMI8738B},"
+		"{C-Media,CMI8338A},"
+		"{C-Media,CMI8338B}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if IS_REACHABLE(CONFIG_GAMEPORT)
 #define SUPPORT_JOYSTICK 1

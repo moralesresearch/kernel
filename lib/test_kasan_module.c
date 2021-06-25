@@ -22,7 +22,11 @@ static noinline void __init copy_user_test(void)
 	char *kmem;
 	char __user *usermem;
 	size_t size = 10;
+<<<<<<< HEAD
 	int __maybe_unused unused;
+=======
+	int unused;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kmem = kmalloc(size, GFP_KERNEL);
 	if (!kmem)
@@ -123,9 +127,14 @@ static noinline void __init kasan_workqueue_uaf(void)
 static int __init test_kasan_module_init(void)
 {
 	/*
+<<<<<<< HEAD
 	 * Temporarily enable multi-shot mode. Otherwise, KASAN would only
 	 * report the first detected bug and panic the kernel if panic_on_warn
 	 * is enabled.
+=======
+	 * Temporarily enable multi-shot mode. Otherwise, we'd only get a
+	 * report for the first case.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	bool multishot = kasan_save_enable_multi_shot();
 

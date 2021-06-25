@@ -25,6 +25,11 @@ static inline int irq_canonicalize(int irq)
 
 extern int irq_init_percpu_irqstack(unsigned int cpu);
 
+<<<<<<< HEAD
+=======
+#define __ARCH_HAS_DO_SOFTIRQ
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct irq_desc;
 
 extern void fixup_irqs(void);
@@ -38,6 +43,11 @@ extern void native_init_IRQ(void);
 
 extern void __handle_irq(struct irq_desc *desc, struct pt_regs *regs);
 
+<<<<<<< HEAD
+=======
+extern __visible void do_IRQ(struct pt_regs *regs, unsigned long vector);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void init_ISA_irqs(void);
 
 extern void __init init_IRQ(void);

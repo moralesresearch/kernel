@@ -3964,6 +3964,12 @@ static int trace__run(struct trace *trace, int argc, const char **argv)
 
 	evlist__config(evlist, &trace->opts, &callchain_param);
 
+<<<<<<< HEAD
+=======
+	signal(SIGCHLD, sig_handler);
+	signal(SIGINT, sig_handler);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (forks) {
 		err = evlist__prepare_workload(evlist, &trace->opts.target, argv, false, NULL);
 		if (err < 0) {
@@ -4824,8 +4830,11 @@ int cmd_trace(int argc, const char **argv)
 
 	signal(SIGSEGV, sighandler_dump_stack);
 	signal(SIGFPE, sighandler_dump_stack);
+<<<<<<< HEAD
 	signal(SIGCHLD, sig_handler);
 	signal(SIGINT, sig_handler);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace.evlist = evlist__new();
 	trace.sctbl = syscalltbl__new();

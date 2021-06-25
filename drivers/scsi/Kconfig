@@ -669,6 +669,23 @@ config SCSI_FDOMAIN_ISA
 	  To compile this driver as a module, choose M here: the
 	  module will be called fdomain_isa.
 
+<<<<<<< HEAD
+=======
+config SCSI_GDTH
+	tristate "Intel/ICP (former GDT SCSI Disk Array) RAID Controller support"
+	depends on PCI && SCSI
+	help
+	  Formerly called GDT SCSI Disk Array Controller Support.
+
+	  This is a driver for RAID/SCSI Disk Array Controllers (EISA/ISA/PCI) 
+	  manufactured by Intel Corporation/ICP vortex GmbH. It is documented
+	  in the kernel source in <file:drivers/scsi/gdth.c> and
+	  <file:drivers/scsi/gdth.h>.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called gdth.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config SCSI_ISCI
 	tristate "Intel(R) C600 Series Chipset SAS Controller"
 	depends on PCI && SCSI
@@ -1145,7 +1162,10 @@ config SCSI_LPFC
 	depends on NVME_TARGET_FC || NVME_TARGET_FC=n
 	depends on NVME_FC || NVME_FC=n
 	select CRC_T10DIF
+<<<<<<< HEAD
 	select IRQ_POLL
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
           This lpfc driver supports the Emulex LightPulse
           Family of Fibre Channel PCI host adapters.
@@ -1169,7 +1189,10 @@ config SCSI_SIM710
 config SCSI_DC395x
 	tristate "Tekram DC395(U/UW/F) and DC315(U) SCSI support"
 	depends on PCI && SCSI
+<<<<<<< HEAD
 	select SCSI_SPI_ATTRS
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This driver supports PCI SCSI host adapters based on the ASIC
 	  TRM-S1040 chip, e.g Tekram DC395(U/UW/F) and DC315(U) variants.

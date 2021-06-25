@@ -17,6 +17,7 @@
 #include "ccs-pll.h"
 
 /* Return an even number or one. */
+<<<<<<< HEAD
 static inline u32 clk_div_even(u32 a)
 {
 	return max_t(u32, 1, a & ~1);
@@ -24,13 +25,26 @@ static inline u32 clk_div_even(u32 a)
 
 /* Return an even number or one. */
 static inline u32 clk_div_even_up(u32 a)
+=======
+static inline uint32_t clk_div_even(uint32_t a)
+{
+	return max_t(uint32_t, 1, a & ~1);
+}
+
+/* Return an even number or one. */
+static inline uint32_t clk_div_even_up(uint32_t a)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (a == 1)
 		return 1;
 	return (a + 1) & ~1;
 }
 
+<<<<<<< HEAD
 static inline u32 is_one_or_even(u32 a)
+=======
+static inline uint32_t is_one_or_even(uint32_t a)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (a == 1)
 		return 1;
@@ -40,13 +54,22 @@ static inline u32 is_one_or_even(u32 a)
 	return 1;
 }
 
+<<<<<<< HEAD
 static inline u32 one_or_more(u32 a)
+=======
+static inline uint32_t one_or_more(uint32_t a)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return a ?: 1;
 }
 
+<<<<<<< HEAD
 static int bounds_check(struct device *dev, u32 val,
 			u32 min, u32 max, const char *prefix,
+=======
+static int bounds_check(struct device *dev, uint32_t val,
+			uint32_t min, uint32_t max, const char *prefix,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			char *str)
 {
 	if (val >= min && val <= max)
@@ -138,12 +161,20 @@ static void print_pll(struct device *dev, struct ccs_pll *pll)
 		pll->flags & PLL_FL(OP_PIX_DDR) ? " op-pix-ddr" : "");
 }
 
+<<<<<<< HEAD
 static u32 op_sys_ddr(u32 flags)
+=======
+static uint32_t op_sys_ddr(uint32_t flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return flags & CCS_PLL_FLAG_OP_SYS_DDR ? 1 : 0;
 }
 
+<<<<<<< HEAD
 static u32 op_pix_ddr(u32 flags)
+=======
+static uint32_t op_pix_ddr(uint32_t flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return flags & CCS_PLL_FLAG_OP_PIX_DDR ? 1 : 0;
 }
@@ -250,8 +281,13 @@ static int check_ext_bounds(struct device *dev, struct ccs_pll *pll)
 static void
 ccs_pll_find_vt_sys_div(struct device *dev, const struct ccs_pll_limits *lim,
 			struct ccs_pll *pll, struct ccs_pll_branch_fr *pll_fr,
+<<<<<<< HEAD
 			u16 min_vt_div, u16 max_vt_div,
 			u16 *min_sys_div, u16 *max_sys_div)
+=======
+			uint16_t min_vt_div, uint16_t max_vt_div,
+			uint16_t *min_sys_div, uint16_t *max_sys_div)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * Find limits for sys_clk_div. Not all values are possible with all
@@ -259,11 +295,19 @@ ccs_pll_find_vt_sys_div(struct device *dev, const struct ccs_pll_limits *lim,
 	 */
 	*min_sys_div = lim->vt_bk.min_sys_clk_div;
 	dev_dbg(dev, "min_sys_div: %u\n", *min_sys_div);
+<<<<<<< HEAD
 	*min_sys_div = max_t(u16, *min_sys_div,
 			     DIV_ROUND_UP(min_vt_div,
 					  lim->vt_bk.max_pix_clk_div));
 	dev_dbg(dev, "min_sys_div: max_vt_pix_clk_div: %u\n", *min_sys_div);
 	*min_sys_div = max_t(u16, *min_sys_div,
+=======
+	*min_sys_div = max_t(uint16_t, *min_sys_div,
+			     DIV_ROUND_UP(min_vt_div,
+					  lim->vt_bk.max_pix_clk_div));
+	dev_dbg(dev, "min_sys_div: max_vt_pix_clk_div: %u\n", *min_sys_div);
+	*min_sys_div = max_t(uint16_t, *min_sys_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     pll_fr->pll_op_clk_freq_hz
 			     / lim->vt_bk.max_sys_clk_freq_hz);
 	dev_dbg(dev, "min_sys_div: max_pll_op_clk_freq_hz: %u\n", *min_sys_div);
@@ -272,11 +316,19 @@ ccs_pll_find_vt_sys_div(struct device *dev, const struct ccs_pll_limits *lim,
 
 	*max_sys_div = lim->vt_bk.max_sys_clk_div;
 	dev_dbg(dev, "max_sys_div: %u\n", *max_sys_div);
+<<<<<<< HEAD
 	*max_sys_div = min_t(u16, *max_sys_div,
 			     DIV_ROUND_UP(max_vt_div,
 					  lim->vt_bk.min_pix_clk_div));
 	dev_dbg(dev, "max_sys_div: min_vt_pix_clk_div: %u\n", *max_sys_div);
 	*max_sys_div = min_t(u16, *max_sys_div,
+=======
+	*max_sys_div = min_t(uint16_t, *max_sys_div,
+			     DIV_ROUND_UP(max_vt_div,
+					  lim->vt_bk.min_pix_clk_div));
+	dev_dbg(dev, "max_sys_div: min_vt_pix_clk_div: %u\n", *max_sys_div);
+	*max_sys_div = min_t(uint16_t, *max_sys_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     DIV_ROUND_UP(pll_fr->pll_op_clk_freq_hz,
 					  lim->vt_bk.min_pix_clk_freq_hz));
 	dev_dbg(dev, "max_sys_div: min_vt_pix_clk_freq_hz: %u\n", *max_sys_div);
@@ -289,15 +341,25 @@ ccs_pll_find_vt_sys_div(struct device *dev, const struct ccs_pll_limits *lim,
 static inline int
 __ccs_pll_calculate_vt_tree(struct device *dev,
 			    const struct ccs_pll_limits *lim,
+<<<<<<< HEAD
 			    struct ccs_pll *pll, u32 mul, u32 div)
+=======
+			    struct ccs_pll *pll, uint32_t mul, uint32_t div)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct ccs_pll_branch_limits_fr *lim_fr = &lim->vt_fr;
 	const struct ccs_pll_branch_limits_bk *lim_bk = &lim->vt_bk;
 	struct ccs_pll_branch_fr *pll_fr = &pll->vt_fr;
 	struct ccs_pll_branch_bk *pll_bk = &pll->vt_bk;
+<<<<<<< HEAD
 	u32 more_mul;
 	u16 best_pix_div = SHRT_MAX >> 1, best_div;
 	u16 vt_div, min_sys_div, max_sys_div, sys_div;
+=======
+	uint32_t more_mul;
+	uint16_t best_pix_div = SHRT_MAX >> 1, best_div;
+	uint16_t vt_div, min_sys_div, max_sys_div, sys_div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pll_fr->pll_ip_clk_freq_hz =
 		pll->ext_clk_freq_hz / pll_fr->pre_pll_clk_div;
@@ -331,7 +393,11 @@ __ccs_pll_calculate_vt_tree(struct device *dev,
 
 	for (sys_div = min_sys_div; sys_div <= max_sys_div;
 	     sys_div += 2 - (sys_div & 1)) {
+<<<<<<< HEAD
 		u16 pix_div;
+=======
+		uint16_t pix_div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (vt_div % sys_div)
 			continue;
@@ -379,9 +445,15 @@ static int ccs_pll_calculate_vt_tree(struct device *dev,
 {
 	const struct ccs_pll_branch_limits_fr *lim_fr = &lim->vt_fr;
 	struct ccs_pll_branch_fr *pll_fr = &pll->vt_fr;
+<<<<<<< HEAD
 	u16 min_pre_pll_clk_div = lim_fr->min_pre_pll_clk_div;
 	u16 max_pre_pll_clk_div = lim_fr->max_pre_pll_clk_div;
 	u32 pre_mul, pre_div;
+=======
+	uint16_t min_pre_pll_clk_div = lim_fr->min_pre_pll_clk_div;
+	uint16_t max_pre_pll_clk_div = lim_fr->max_pre_pll_clk_div;
+	uint32_t pre_mul, pre_div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pre_div = gcd(pll->pixel_rate_csi,
 		      pll->ext_clk_freq_hz * pll->vt_lanes);
@@ -390,11 +462,19 @@ static int ccs_pll_calculate_vt_tree(struct device *dev,
 
 	/* Make sure PLL input frequency is within limits */
 	max_pre_pll_clk_div =
+<<<<<<< HEAD
 		min_t(u16, max_pre_pll_clk_div,
 		      DIV_ROUND_UP(pll->ext_clk_freq_hz,
 				   lim_fr->min_pll_ip_clk_freq_hz));
 
 	min_pre_pll_clk_div = max_t(u16, min_pre_pll_clk_div,
+=======
+		min_t(uint16_t, max_pre_pll_clk_div,
+		      DIV_ROUND_UP(pll->ext_clk_freq_hz,
+				   lim_fr->min_pll_ip_clk_freq_hz));
+
+	min_pre_pll_clk_div = max_t(uint16_t, min_pre_pll_clk_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    pll->ext_clk_freq_hz /
 				    lim_fr->max_pll_ip_clk_freq_hz);
 
@@ -406,7 +486,11 @@ static int ccs_pll_calculate_vt_tree(struct device *dev,
 	     pll_fr->pre_pll_clk_div +=
 		     (pll->flags & CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER) ? 1 :
 		     2 - (pll_fr->pre_pll_clk_div & 1)) {
+<<<<<<< HEAD
 		u32 mul, div;
+=======
+		uint32_t mul, div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		int rval;
 
 		div = gcd(pre_mul * pll_fr->pre_pll_clk_div, pre_div);
@@ -440,6 +524,7 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
 		     const struct ccs_pll_branch_limits_bk *op_lim_bk,
 		     struct ccs_pll *pll, struct ccs_pll_branch_fr *pll_fr,
 		     struct ccs_pll_branch_bk *op_pll_bk, bool cphy,
+<<<<<<< HEAD
 		     u32 phy_const)
 {
 	u16 sys_div;
@@ -447,6 +532,15 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
 	u16 vt_op_binning_div;
 	u16 min_vt_div, max_vt_div, vt_div;
 	u16 min_sys_div, max_sys_div;
+=======
+		     uint32_t phy_const)
+{
+	uint16_t sys_div;
+	uint16_t best_pix_div = SHRT_MAX >> 1;
+	uint16_t vt_op_binning_div;
+	uint16_t min_vt_div, max_vt_div, vt_div;
+	uint16_t min_sys_div, max_sys_div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (pll->flags & CCS_PLL_FLAG_NO_OP_CLOCKS)
 		goto out_calc_pixel_rate;
@@ -500,18 +594,31 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
 
 	/* Find smallest and biggest allowed vt divisor. */
 	dev_dbg(dev, "min_vt_div: %u\n", min_vt_div);
+<<<<<<< HEAD
 	min_vt_div = max_t(u16, min_vt_div,
+=======
+	min_vt_div = max_t(uint16_t, min_vt_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   DIV_ROUND_UP(pll_fr->pll_op_clk_freq_hz,
 					lim->vt_bk.max_pix_clk_freq_hz));
 	dev_dbg(dev, "min_vt_div: max_vt_pix_clk_freq_hz: %u\n",
 		min_vt_div);
+<<<<<<< HEAD
 	min_vt_div = max_t(u16, min_vt_div, lim->vt_bk.min_pix_clk_div
 					    * lim->vt_bk.min_sys_clk_div);
+=======
+	min_vt_div = max_t(uint16_t, min_vt_div, lim->vt_bk.min_pix_clk_div
+						 * lim->vt_bk.min_sys_clk_div);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_dbg(dev, "min_vt_div: min_vt_clk_div: %u\n", min_vt_div);
 
 	max_vt_div = lim->vt_bk.max_sys_clk_div * lim->vt_bk.max_pix_clk_div;
 	dev_dbg(dev, "max_vt_div: %u\n", max_vt_div);
+<<<<<<< HEAD
 	max_vt_div = min_t(u16, max_vt_div,
+=======
+	max_vt_div = min_t(uint16_t, max_vt_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   DIV_ROUND_UP(pll_fr->pll_op_clk_freq_hz,
 				      lim->vt_bk.min_pix_clk_freq_hz));
 	dev_dbg(dev, "max_vt_div: min_vt_pix_clk_freq_hz: %u\n",
@@ -526,12 +633,21 @@ ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
 	 * divisor.
 	 */
 	for (vt_div = min_vt_div; vt_div <= max_vt_div; vt_div++) {
+<<<<<<< HEAD
 		u16 __max_sys_div = vt_div & 1 ? 1 : max_sys_div;
 
 		for (sys_div = min_sys_div; sys_div <= __max_sys_div;
 		     sys_div += 2 - (sys_div & 1)) {
 			u16 pix_div;
 			u16 rounded_div;
+=======
+		uint16_t __max_sys_div = vt_div & 1 ? 1 : max_sys_div;
+
+		for (sys_div = min_sys_div; sys_div <= __max_sys_div;
+		     sys_div += 2 - (sys_div & 1)) {
+			uint16_t pix_div;
+			uint16_t rounded_div;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			pix_div = DIV_ROUND_UP(vt_div, sys_div);
 
@@ -588,9 +704,15 @@ ccs_pll_calculate_op(struct device *dev, const struct ccs_pll_limits *lim,
 		     const struct ccs_pll_branch_limits_fr *op_lim_fr,
 		     const struct ccs_pll_branch_limits_bk *op_lim_bk,
 		     struct ccs_pll *pll, struct ccs_pll_branch_fr *op_pll_fr,
+<<<<<<< HEAD
 		     struct ccs_pll_branch_bk *op_pll_bk, u32 mul,
 		     u32 div, u32 op_sys_clk_freq_hz_sdr, u32 l,
 		     bool cphy, u32 phy_const)
+=======
+		     struct ccs_pll_branch_bk *op_pll_bk, uint32_t mul,
+		     uint32_t div, uint32_t op_sys_clk_freq_hz_sdr, uint32_t l,
+		     bool cphy, uint32_t phy_const)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * Higher multipliers (and divisors) are often required than
@@ -598,9 +720,15 @@ ccs_pll_calculate_op(struct device *dev, const struct ccs_pll_limits *lim,
 	 * There are limits for all values in the clock tree. These
 	 * are the minimum and maximum multiplier for mul.
 	 */
+<<<<<<< HEAD
 	u32 more_mul_min, more_mul_max;
 	u32 more_mul_factor;
 	u32 i;
+=======
+	uint32_t more_mul_min, more_mul_max;
+	uint32_t more_mul_factor;
+	uint32_t i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Get pre_pll_clk_div so that our pll_op_clk_freq_hz won't be
@@ -614,7 +742,11 @@ ccs_pll_calculate_op(struct device *dev, const struct ccs_pll_limits *lim,
 		more_mul_max);
 	/* Don't go above max pll op frequency. */
 	more_mul_max =
+<<<<<<< HEAD
 		min_t(u32,
+=======
+		min_t(uint32_t,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      more_mul_max,
 		      op_lim_fr->max_pll_op_clk_freq_hz
 		      / (pll->ext_clk_freq_hz /
@@ -706,6 +838,7 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
 	struct ccs_pll_branch_fr *op_pll_fr;
 	struct ccs_pll_branch_bk *op_pll_bk;
 	bool cphy = pll->bus_type == CCS_PLL_BUS_TYPE_CSI2_CPHY;
+<<<<<<< HEAD
 	u32 phy_const = cphy ? CPHY_CONST : DPHY_CONST;
 	u32 op_sys_clk_freq_hz_sdr;
 	u16 min_op_pre_pll_clk_div;
@@ -714,6 +847,16 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
 	u32 l = (!pll->op_bits_per_lane ||
 		 pll->op_bits_per_lane >= pll->bits_per_pixel) ? 1 : 2;
 	u32 i;
+=======
+	uint32_t phy_const = cphy ? CPHY_CONST : DPHY_CONST;
+	uint32_t op_sys_clk_freq_hz_sdr;
+	uint16_t min_op_pre_pll_clk_div;
+	uint16_t max_op_pre_pll_clk_div;
+	uint32_t mul, div;
+	uint32_t l = (!pll->op_bits_per_lane ||
+		      pll->op_bits_per_lane >= pll->bits_per_pixel) ? 1 : 2;
+	uint32_t i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rval = -EINVAL;
 
 	if (!(pll->flags & CCS_PLL_FLAG_LANE_SPEED_MODEL)) {
@@ -791,11 +934,19 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
 	dev_dbg(dev, "min / max op_pre_pll_clk_div: %u / %u\n",
 		op_lim_fr->min_pre_pll_clk_div, op_lim_fr->max_pre_pll_clk_div);
 	max_op_pre_pll_clk_div =
+<<<<<<< HEAD
 		min_t(u16, op_lim_fr->max_pre_pll_clk_div,
 		      clk_div_even(pll->ext_clk_freq_hz /
 				   op_lim_fr->min_pll_ip_clk_freq_hz));
 	min_op_pre_pll_clk_div =
 		max_t(u16, op_lim_fr->min_pre_pll_clk_div,
+=======
+		min_t(uint16_t, op_lim_fr->max_pre_pll_clk_div,
+		      clk_div_even(pll->ext_clk_freq_hz /
+				   op_lim_fr->min_pll_ip_clk_freq_hz));
+	min_op_pre_pll_clk_div =
+		max_t(uint16_t, op_lim_fr->min_pre_pll_clk_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      clk_div_even_up(
 			      DIV_ROUND_UP(pll->ext_clk_freq_hz,
 					   op_lim_fr->max_pll_ip_clk_freq_hz)));
@@ -809,7 +960,11 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
 	dev_dbg(dev, "mul %u / div %u\n", mul, div);
 
 	min_op_pre_pll_clk_div =
+<<<<<<< HEAD
 		max_t(u16, min_op_pre_pll_clk_div,
+=======
+		max_t(uint16_t, min_op_pre_pll_clk_div,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      clk_div_even_up(
 			      mul /
 			      one_or_more(
@@ -877,4 +1032,8 @@ EXPORT_SYMBOL_GPL(ccs_pll_calculate);
 
 MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
 MODULE_DESCRIPTION("Generic MIPI CCS/SMIA/SMIA++ PLL calculator");
+<<<<<<< HEAD
 MODULE_LICENSE("GPL");
+=======
+MODULE_LICENSE("GPL v2");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

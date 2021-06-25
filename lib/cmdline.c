@@ -83,7 +83,11 @@ EXPORT_SYMBOL(get_option);
  *	get_options - Parse a string into a list of integers
  *	@str: String to be parsed
  *	@nints: size of integer array
+<<<<<<< HEAD
  *	@ints: integer array (must have room for at least one element)
+=======
+ *	@ints: integer array
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	This function parses a string containing a comma-separated
  *	list of integers, a hyphen-separated range of _positive_ integers,
@@ -91,6 +95,7 @@ EXPORT_SYMBOL(get_option);
  *	full, or when no more numbers can be retrieved from the
  *	string.
  *
+<<<<<<< HEAD
  *	When @nints is 0, the function just validates the given @str and
  *	returns the amount of parseable integers as described below.
  *
@@ -99,6 +104,8 @@ EXPORT_SYMBOL(get_option);
  *	The first element is filled by the number of collected integers
  *	in the range. The rest is what was parsed from the @str.
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	Return value is the character in the string which caused
  *	the parse to end (typically a null terminator, if @str is
  *	completely parseable).
@@ -106,6 +113,7 @@ EXPORT_SYMBOL(get_option);
 
 char *get_options(const char *str, int nints, int *ints)
 {
+<<<<<<< HEAD
 	bool validate = (nints == 0);
 	int res, i = 1;
 
@@ -120,6 +128,17 @@ char *get_options(const char *str, int nints, int *ints)
 			int range_nums;
 
 			range_nums = get_range((char **)&str, pint, n);
+=======
+	int res, i = 1;
+
+	while (i < nints) {
+		res = get_option((char **)&str, ints + i);
+		if (res == 0)
+			break;
+		if (res == 3) {
+			int range_nums;
+			range_nums = get_range((char **)&str, ints + i, nints - i);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (range_nums < 0)
 				break;
 			/*
@@ -228,6 +247,10 @@ char *next_arg(char *args, char **param, char **val)
 {
 	unsigned int i, equals = 0;
 	int in_quote = 0, quoted = 0;
+<<<<<<< HEAD
+=======
+	char *next;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (*args == '"') {
 		args++;
@@ -265,10 +288,19 @@ char *next_arg(char *args, char **param, char **val)
 
 	if (args[i]) {
 		args[i] = '\0';
+<<<<<<< HEAD
 		args += i + 1;
 	} else
 		args += i;
 
 	/* Chew up trailing spaces. */
 	return skip_spaces(args);
+=======
+		next = args + i + 1;
+	} else
+		next = args + i;
+
+	/* Chew up trailing spaces. */
+	return skip_spaces(next);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

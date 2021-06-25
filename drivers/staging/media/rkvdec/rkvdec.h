@@ -25,6 +25,10 @@
 struct rkvdec_ctx;
 
 struct rkvdec_ctrl_desc {
+<<<<<<< HEAD
+=======
+	u32 mandatory : 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_ctrl_config cfg;
 };
 

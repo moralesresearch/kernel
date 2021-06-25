@@ -89,7 +89,12 @@ static inline void update_tty_status(struct ser_device *ser)
 	ser->tty_status =
 		ser->tty->stopped << 5 |
 		ser->tty->flow_stopped << 3 |
+<<<<<<< HEAD
 		ser->tty->packet << 2;
+=======
+		ser->tty->packet << 2 |
+		ser->tty->port->low_latency << 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static inline void debugfs_init(struct ser_device *ser, struct tty_struct *tty)
 {
@@ -269,6 +274,12 @@ static netdev_tx_t caif_xmit(struct sk_buff *skb, struct net_device *dev)
 {
 	struct ser_device *ser;
 
+<<<<<<< HEAD
+=======
+	if (WARN_ON(!dev))
+		return -EINVAL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ser = netdev_priv(dev);
 
 	/* Send flow off once, on high water mark */

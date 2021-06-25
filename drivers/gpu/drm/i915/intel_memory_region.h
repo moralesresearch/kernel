@@ -51,16 +51,31 @@ enum intel_region_id {
 	for (id = 0; id < ARRAY_SIZE((i915)->mm.regions); id++) \
 		for_each_if((mr) = (i915)->mm.regions[id])
 
+<<<<<<< HEAD
+=======
+/**
+ * Memory regions encoded as type | instance
+ */
+extern const u32 intel_region_map[];
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct intel_memory_region_ops {
 	unsigned int flags;
 
 	int (*init)(struct intel_memory_region *mem);
 	void (*release)(struct intel_memory_region *mem);
 
+<<<<<<< HEAD
 	int (*init_object)(struct intel_memory_region *mem,
 			   struct drm_i915_gem_object *obj,
 			   resource_size_t size,
 			   unsigned int flags);
+=======
+	struct drm_i915_gem_object *
+	(*create_object)(struct intel_memory_region *mem,
+			 resource_size_t size,
+			 unsigned int flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct intel_memory_region {

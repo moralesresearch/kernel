@@ -30,13 +30,17 @@ bool kvm_cpuid(struct kvm_vcpu *vcpu, u32 *eax, u32 *ebx,
 	       u32 *ecx, u32 *edx, bool exact_only);
 
 int cpuid_query_maxphyaddr(struct kvm_vcpu *vcpu);
+<<<<<<< HEAD
 u64 kvm_vcpu_reserved_gpa_bits_raw(struct kvm_vcpu *vcpu);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int cpuid_maxphyaddr(struct kvm_vcpu *vcpu)
 {
 	return vcpu->arch.maxphyaddr;
 }
 
+<<<<<<< HEAD
 static inline bool kvm_vcpu_is_legal_gpa(struct kvm_vcpu *vcpu, gpa_t gpa)
 {
 	return !(gpa & vcpu->arch.reserved_gpa_bits);
@@ -56,6 +60,11 @@ static inline bool kvm_vcpu_is_legal_aligned_gpa(struct kvm_vcpu *vcpu,
 static inline bool page_address_valid(struct kvm_vcpu *vcpu, gpa_t gpa)
 {
 	return kvm_vcpu_is_legal_aligned_gpa(vcpu, gpa, PAGE_SIZE);
+=======
+static inline bool kvm_vcpu_is_illegal_gpa(struct kvm_vcpu *vcpu, gpa_t gpa)
+{
+	return (gpa >= BIT_ULL(cpuid_maxphyaddr(vcpu)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct cpuid_reg {
@@ -341,6 +350,14 @@ static __always_inline void kvm_cpu_cap_check_and_set(unsigned int x86_feature)
 		kvm_cpu_cap_set(x86_feature);
 }
 
+<<<<<<< HEAD
+=======
+static inline bool page_address_valid(struct kvm_vcpu *vcpu, gpa_t gpa)
+{
+	return PAGE_ALIGNED(gpa) && !(gpa >> cpuid_maxphyaddr(vcpu));
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline bool guest_pv_has(struct kvm_vcpu *vcpu,
 					 unsigned int kvm_feature)
 {

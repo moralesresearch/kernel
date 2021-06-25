@@ -174,7 +174,10 @@ static inline int apic_is_clustered_box(void)
 extern int setup_APIC_eilvt(u8 lvt_off, u8 vector, u8 msg_type, u8 mask);
 extern void lapic_assign_system_vectors(void);
 extern void lapic_assign_legacy_vector(unsigned int isairq, bool replace);
+<<<<<<< HEAD
 extern void lapic_update_legacy_vectors(void);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void lapic_online(void);
 extern void lapic_offline(void);
 extern bool apic_needs_pit(void);

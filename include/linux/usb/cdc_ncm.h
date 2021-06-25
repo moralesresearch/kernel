@@ -98,8 +98,11 @@ struct cdc_ncm_ctx {
 	struct hrtimer tx_timer;
 	struct tasklet_struct bh;
 
+<<<<<<< HEAD
 	struct usbnet *dev;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct usb_cdc_ncm_desc *func_desc;
 	const struct usb_cdc_mbim_desc *mbim_desc;
 	const struct usb_cdc_mbim_extended_desc *mbim_extended_desc;

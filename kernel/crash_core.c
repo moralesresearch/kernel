@@ -464,7 +464,10 @@ static int __init crash_save_vmcoreinfo_init(void)
 	VMCOREINFO_LENGTH(mem_section, NR_SECTION_ROOTS);
 	VMCOREINFO_STRUCT_SIZE(mem_section);
 	VMCOREINFO_OFFSET(mem_section, section_mem_map);
+<<<<<<< HEAD
 	VMCOREINFO_NUMBER(SECTION_SIZE_BITS);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	VMCOREINFO_NUMBER(MAX_PHYSMEM_BITS);
 #endif
 	VMCOREINFO_STRUCT_SIZE(page);

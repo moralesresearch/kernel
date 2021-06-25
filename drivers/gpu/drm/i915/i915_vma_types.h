@@ -249,9 +249,12 @@ struct i915_vma {
 #define I915_VMA_USERFAULT	((int)BIT(I915_VMA_USERFAULT_BIT))
 #define I915_VMA_GGTT_WRITE	((int)BIT(I915_VMA_GGTT_WRITE_BIT))
 
+<<<<<<< HEAD
 #define I915_VMA_SCANOUT_BIT	18
 #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i915_active active;
 
 #define I915_VMA_PAGES_BIAS 24

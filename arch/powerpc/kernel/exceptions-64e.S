@@ -398,6 +398,10 @@ exc_##n##_common:							    \
 	std	r10,_NIP(r1);		/* save SRR0 to stackframe */	    \
 	std	r11,_MSR(r1);		/* save SRR1 to stackframe */	    \
 	beq	2f;			/* if from kernel mode */	    \
+<<<<<<< HEAD
+=======
+	ACCOUNT_CPU_USER_ENTRY(r13,r10,r11);/* accounting (uses cr0+eq) */  \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 2:	ld	r3,excf+EX_R10(r13);	/* get back r10 */		    \
 	ld	r4,excf+EX_R11(r13);	/* get back r11 */		    \
 	mfspr	r5,scratch;		/* get back r13 */		    \
@@ -790,6 +794,10 @@ END_FTR_SECTION_IFSET(CPU_FTR_ALTIVEC)
 	EXCEPTION_COMMON_CRIT(0xd00)
 	std	r14,_DSISR(r1)
 	addi	r3,r1,STACK_FRAME_OVERHEAD
+<<<<<<< HEAD
+=======
+	mr	r4,r14
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ld	r14,PACA_EXCRIT+EX_R14(r13)
 	ld	r15,PACA_EXCRIT+EX_R15(r13)
 	bl	save_nvgprs
@@ -862,6 +870,10 @@ kernel_dbg_exc:
 	INTS_DISABLE
 	std	r14,_DSISR(r1)
 	addi	r3,r1,STACK_FRAME_OVERHEAD
+<<<<<<< HEAD
+=======
+	mr	r4,r14
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ld	r14,PACA_EXDBG+EX_R14(r13)
 	ld	r15,PACA_EXDBG+EX_R15(r13)
 	bl	save_nvgprs
@@ -1008,6 +1020,11 @@ storage_fault_common:
 	std	r14,_DAR(r1)
 	std	r15,_DSISR(r1)
 	addi	r3,r1,STACK_FRAME_OVERHEAD
+<<<<<<< HEAD
+=======
+	mr	r4,r14
+	mr	r5,r15
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ld	r14,PACA_EXGEN+EX_R14(r13)
 	ld	r15,PACA_EXGEN+EX_R15(r13)
 	bl	do_page_fault
@@ -1015,8 +1032,14 @@ storage_fault_common:
 	bne-	1f
 	b	ret_from_except_lite
 1:	bl	save_nvgprs
+<<<<<<< HEAD
 	mr	r4,r3
 	addi	r3,r1,STACK_FRAME_OVERHEAD
+=======
+	mr	r5,r3
+	addi	r3,r1,STACK_FRAME_OVERHEAD
+	ld	r4,_DAR(r1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bl	__bad_page_fault
 	b	ret_from_except
 

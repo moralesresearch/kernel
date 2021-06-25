@@ -475,7 +475,11 @@ struct search {
 	unsigned int		read_dirty_data:1;
 	unsigned int		cache_missed:1;
 
+<<<<<<< HEAD
 	struct block_device	*orig_bdev;
+=======
+	struct block_device	*part;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long		start_time;
 
 	struct btree_op		op;
@@ -670,8 +674,13 @@ static void bio_complete(struct search *s)
 {
 	if (s->orig_bio) {
 		/* Count on bcache device */
+<<<<<<< HEAD
 		bio_end_io_acct_remapped(s->orig_bio, s->start_time,
 					 s->orig_bdev);
+=======
+		part_end_io_acct(s->part, s->orig_bio, s->start_time);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_bcache_request_end(s->d, s->orig_bio);
 		s->orig_bio->bi_status = s->iop.status;
 		bio_endio(s->orig_bio);
@@ -714,8 +723,12 @@ static void search_free(struct closure *cl)
 }
 
 static inline struct search *search_alloc(struct bio *bio,
+<<<<<<< HEAD
 		struct bcache_device *d, struct block_device *orig_bdev,
 		unsigned long start_time)
+=======
+					  struct bcache_device *d)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct search *s;
 
@@ -733,8 +746,12 @@ static inline struct search *search_alloc(struct bio *bio,
 	s->write		= op_is_write(bio_op(bio));
 	s->read_dirty_data	= 0;
 	/* Count on the bcache device */
+<<<<<<< HEAD
 	s->orig_bdev		= orig_bdev;
 	s->start_time		= start_time;
+=======
+	s->start_time		= part_start_io_acct(d->disk, &s->part, bio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s->iop.c		= d->c;
 	s->iop.bio		= NULL;
 	s->iop.inode		= d->id;
@@ -880,9 +897,15 @@ static int cached_dev_cache_miss(struct btree *b, struct search *s,
 				 struct bio *bio, unsigned int sectors)
 {
 	int ret = MAP_CONTINUE;
+<<<<<<< HEAD
 	struct cached_dev *dc = container_of(s->d, struct cached_dev, disk);
 	struct bio *miss, *cache_bio;
 	unsigned int size_limit;
+=======
+	unsigned int reada = 0;
+	struct cached_dev *dc = container_of(s->d, struct cached_dev, disk);
+	struct bio *miss, *cache_bio;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	s->cache_missed = 1;
 
@@ -892,10 +915,20 @@ static int cached_dev_cache_miss(struct btree *b, struct search *s,
 		goto out_submit;
 	}
 
+<<<<<<< HEAD
 	/* Limitation for valid replace key size and cache_bio bvecs number */
 	size_limit = min_t(unsigned int, BIO_MAX_VECS * PAGE_SECTORS,
 			   (1 << KEY_SIZE_BITS) - 1);
 	s->insert_bio_sectors = min3(size_limit, sectors, bio_sectors(bio));
+=======
+	if (!(bio->bi_opf & REQ_RAHEAD) &&
+	    !(bio->bi_opf & (REQ_META|REQ_PRIO)) &&
+	    s->iop.c->gc_stats.in_use < CUTOFF_CACHE_READA)
+		reada = min_t(sector_t, dc->readahead >> 9,
+			      get_capacity(bio->bi_disk) - bio_end_sector(bio));
+
+	s->insert_bio_sectors = min(sectors, bio_sectors(bio) + reada);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	s->iop.replace_key = KEY(s->iop.inode,
 				 bio->bi_iter.bi_sector + s->insert_bio_sectors,
@@ -907,8 +940,12 @@ static int cached_dev_cache_miss(struct btree *b, struct search *s,
 
 	s->iop.replace = true;
 
+<<<<<<< HEAD
 	miss = bio_next_split(bio, s->insert_bio_sectors, GFP_NOIO,
 			      &s->d->bio_split);
+=======
+	miss = bio_next_split(bio, sectors, GFP_NOIO, &s->d->bio_split);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* btree_search_recurse()'s btree iterator is no good anymore */
 	ret = miss == bio ? MAP_DONE : -EINTR;
@@ -930,6 +967,12 @@ static int cached_dev_cache_miss(struct btree *b, struct search *s,
 	if (bch_bio_alloc_pages(cache_bio, __GFP_NOWARN|GFP_NOIO))
 		goto out_put;
 
+<<<<<<< HEAD
+=======
+	if (reada)
+		bch_mark_cache_readahead(s->iop.c, s->d);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s->cache_miss	= miss;
 	s->iop.bio	= cache_bio;
 	bio_get(cache_bio);
@@ -1070,7 +1113,11 @@ struct detached_dev_io_private {
 	unsigned long		start_time;
 	bio_end_io_t		*bi_end_io;
 	void			*bi_private;
+<<<<<<< HEAD
 	struct block_device	*orig_bdev;
+=======
+	struct block_device	*part;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void detached_dev_end_io(struct bio *bio)
@@ -1082,7 +1129,11 @@ static void detached_dev_end_io(struct bio *bio)
 	bio->bi_private = ddip->bi_private;
 
 	/* Count on the bcache device */
+<<<<<<< HEAD
 	bio_end_io_acct_remapped(bio, ddip->start_time, ddip->orig_bdev);
+=======
+	part_end_io_acct(ddip->part, bio, ddip->start_time);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bio->bi_status) {
 		struct cached_dev *dc = container_of(ddip->d,
@@ -1095,8 +1146,12 @@ static void detached_dev_end_io(struct bio *bio)
 	bio->bi_end_io(bio);
 }
 
+<<<<<<< HEAD
 static void detached_dev_do_request(struct bcache_device *d, struct bio *bio,
 		struct block_device *orig_bdev, unsigned long start_time)
+=======
+static void detached_dev_do_request(struct bcache_device *d, struct bio *bio)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct detached_dev_io_private *ddip;
 	struct cached_dev *dc = container_of(d, struct cached_dev, disk);
@@ -1109,8 +1164,12 @@ static void detached_dev_do_request(struct bcache_device *d, struct bio *bio,
 	ddip = kzalloc(sizeof(struct detached_dev_io_private), GFP_NOIO);
 	ddip->d = d;
 	/* Count on the bcache device */
+<<<<<<< HEAD
 	ddip->orig_bdev = orig_bdev;
 	ddip->start_time = start_time;
+=======
+	ddip->start_time = part_start_io_acct(d->disk, &ddip->part, bio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ddip->bi_end_io = bio->bi_end_io;
 	ddip->bi_private = bio->bi_private;
 	bio->bi_end_io = detached_dev_end_io;
@@ -1166,10 +1225,15 @@ static void quit_max_writeback_rate(struct cache_set *c,
 blk_qc_t cached_dev_submit_bio(struct bio *bio)
 {
 	struct search *s;
+<<<<<<< HEAD
 	struct block_device *orig_bdev = bio->bi_bdev;
 	struct bcache_device *d = orig_bdev->bd_disk->private_data;
 	struct cached_dev *dc = container_of(d, struct cached_dev, disk);
 	unsigned long start_time;
+=======
+	struct bcache_device *d = bio->bi_disk->private_data;
+	struct cached_dev *dc = container_of(d, struct cached_dev, disk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rw = bio_data_dir(bio);
 
 	if (unlikely((d->c && test_bit(CACHE_SET_IO_DISABLE, &d->c->flags)) ||
@@ -1194,13 +1258,20 @@ blk_qc_t cached_dev_submit_bio(struct bio *bio)
 		}
 	}
 
+<<<<<<< HEAD
 	start_time = bio_start_io_acct(bio);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio_set_dev(bio, dc->bdev);
 	bio->bi_iter.bi_sector += dc->sb.data_offset;
 
 	if (cached_dev_get(dc)) {
+<<<<<<< HEAD
 		s = search_alloc(bio, d, orig_bdev, start_time);
+=======
+		s = search_alloc(bio, d);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_bcache_request_start(s->d, bio);
 
 		if (!bio->bi_iter.bi_size) {
@@ -1221,7 +1292,11 @@ blk_qc_t cached_dev_submit_bio(struct bio *bio)
 		}
 	} else
 		/* I/O request sent to backing device */
+<<<<<<< HEAD
 		detached_dev_do_request(d, bio, orig_bdev, start_time);
+=======
+		detached_dev_do_request(d, bio);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return BLK_QC_T_NONE;
 }
@@ -1277,7 +1352,11 @@ blk_qc_t flash_dev_submit_bio(struct bio *bio)
 {
 	struct search *s;
 	struct closure *cl;
+<<<<<<< HEAD
 	struct bcache_device *d = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct bcache_device *d = bio->bi_disk->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(d->c && test_bit(CACHE_SET_IO_DISABLE, &d->c->flags))) {
 		bio->bi_status = BLK_STS_IOERR;
@@ -1285,7 +1364,11 @@ blk_qc_t flash_dev_submit_bio(struct bio *bio)
 		return BLK_QC_T_NONE;
 	}
 
+<<<<<<< HEAD
 	s = search_alloc(bio, d, bio->bi_bdev, bio_start_io_acct(bio));
+=======
+	s = search_alloc(bio, d);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cl = &s->cl;
 	bio = &s->bio.bio;
 

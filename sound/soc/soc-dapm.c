@@ -2528,6 +2528,7 @@ static struct snd_soc_dapm_widget *dapm_find_widget(
 {
 	struct snd_soc_dapm_widget *w;
 	struct snd_soc_dapm_widget *fallback = NULL;
+<<<<<<< HEAD
 	char prefixed_pin[80];
 	const char *pin_name;
 	const char *prefix = soc_dapm_prefix(dapm);
@@ -2542,6 +2543,11 @@ static struct snd_soc_dapm_widget *dapm_find_widget(
 
 	for_each_card_widgets(dapm->card, w) {
 		if (!strcmp(w->name, pin_name)) {
+=======
+
+	for_each_card_widgets(dapm->card, w) {
+		if (!strcmp(w->name, pin)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (w->dapm == dapm)
 				return w;
 			else

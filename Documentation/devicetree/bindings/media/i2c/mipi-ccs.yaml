@@ -71,6 +71,7 @@ properties:
     enum: [ 0, 180 ]
 
   port:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/$defs/port-base
     additionalProperties: false
 
@@ -83,6 +84,21 @@ properties:
           link-frequencies: true
           data-lanes: true
           bus-type:
+=======
+    type: object
+    properties:
+      endpoint:
+        type: object
+        properties:
+          link-frequencies:
+            $ref: /schemas/types.yaml#/definitions/uint64-array
+            description: List of allowed data link frequencies.
+          data-lanes:
+            minItems: 1
+            maxItems: 8
+          bus-type:
+            description: The type of the data bus.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             oneOf:
               - const: 1 # CSI-2 C-PHY
               - const: 3 # CCP2

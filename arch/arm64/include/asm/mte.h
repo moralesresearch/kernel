@@ -8,6 +8,11 @@
 #include <asm/compiler.h>
 #include <asm/mte-def.h>
 
+<<<<<<< HEAD
+=======
+#define __MTE_PREAMBLE		ARM64_ASM_PREAMBLE ".arch_extension memtag\n"
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef __ASSEMBLY__
 
 #include <linux/bitfield.h>

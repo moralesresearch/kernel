@@ -20,8 +20,11 @@
 #include <mm/mmu_decl.h>
 #include <trace/events/thp.h>
 
+<<<<<<< HEAD
 #include "internal.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unsigned long __pmd_frag_nr;
 EXPORT_SYMBOL(__pmd_frag_nr);
 unsigned long __pmd_frag_size_shift;
@@ -81,6 +84,7 @@ void set_pmd_at(struct mm_struct *mm, unsigned long addr,
 	return set_pte_at(mm, addr, pmdp_ptep(pmdp), pmd_pte(pmd));
 }
 
+<<<<<<< HEAD
 static void do_serialize(void *arg)
 {
 	/* We've taken the IPI, so try to trim the mask while here */
@@ -90,6 +94,12 @@ static void do_serialize(void *arg)
 	}
 }
 
+=======
+static void do_nothing(void *unused)
+{
+
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Serialize against find_current_mm_pte which does lock-less
  * lookup in page tables with local interrupts disabled. For huge pages
@@ -103,7 +113,11 @@ static void do_serialize(void *arg)
 void serialize_against_pte_lookup(struct mm_struct *mm)
 {
 	smp_mb();
+<<<<<<< HEAD
 	smp_call_function_many(mm_cpumask(mm), do_serialize, mm, 1);
+=======
+	smp_call_function_many(mm_cpumask(mm), do_nothing, NULL, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

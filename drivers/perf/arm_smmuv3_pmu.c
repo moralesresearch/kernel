@@ -493,7 +493,11 @@ static struct attribute *smmu_pmu_cpumask_attrs[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group smmu_pmu_cpumask_group = {
+=======
+static struct attribute_group smmu_pmu_cpumask_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = smmu_pmu_cpumask_attrs,
 };
 
@@ -548,7 +552,11 @@ static umode_t smmu_pmu_event_is_visible(struct kobject *kobj,
 	return 0;
 }
 
+<<<<<<< HEAD
 static const struct attribute_group smmu_pmu_events_group = {
+=======
+static struct attribute_group smmu_pmu_events_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = smmu_pmu_events,
 	.is_visible = smmu_pmu_event_is_visible,
@@ -583,7 +591,11 @@ static struct attribute *smmu_pmu_identifier_attrs[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group smmu_pmu_identifier_group = {
+=======
+static struct attribute_group smmu_pmu_identifier_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = smmu_pmu_identifier_attrs,
 	.is_visible = smmu_pmu_identifier_attr_visible,
 };
@@ -602,7 +614,11 @@ static struct attribute *smmu_pmu_formats[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group smmu_pmu_format_group = {
+=======
+static struct attribute_group smmu_pmu_format_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = smmu_pmu_formats,
 };

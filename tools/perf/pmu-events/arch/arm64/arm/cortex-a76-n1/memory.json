@@ -1,7 +1,14 @@
 [
     {
+<<<<<<< HEAD
         "PublicDescription": "This event counts memory accesses due to load or store instructions. This event counts the sum of MEM_ACCESS_RD and MEM_ACCESS_WR.",
         "ArchStdEvent": "MEM_ACCESS",
+=======
+        "PublicDescription": "Data memory access. This event counts memory accesses due to load or store instructions. This event counts the sum of MEM_ACCESS_RD and MEM_ACCESS_WR.",
+        "EventCode": "0x13",
+        "EventName": "MEM_ACCESS",
+        "BriefDescription": "Data memory access"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     },
     {
          "ArchStdEvent": "MEM_ACCESS_RD"

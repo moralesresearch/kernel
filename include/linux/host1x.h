@@ -320,6 +320,7 @@ static inline struct host1x_device *to_host1x_device(struct device *dev)
 int host1x_device_init(struct host1x_device *device);
 int host1x_device_exit(struct host1x_device *device);
 
+<<<<<<< HEAD
 void __host1x_client_init(struct host1x_client *client, struct lock_class_key *key);
 void host1x_client_exit(struct host1x_client *client);
 
@@ -346,6 +347,9 @@ int __host1x_client_register(struct host1x_client *client);
 		__host1x_client_register(client);	\
 	})
 
+=======
+int host1x_client_register(struct host1x_client *client);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int host1x_client_unregister(struct host1x_client *client);
 
 int host1x_client_suspend(struct host1x_client *client);

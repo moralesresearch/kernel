@@ -10,6 +10,10 @@ struct nvkm_gsp_fwif {
 	const struct nvkm_falcon_func *flcn;
 };
 
+<<<<<<< HEAD
 int nvkm_gsp_new_(const struct nvkm_gsp_fwif *, struct nvkm_device *, enum nvkm_subdev_type, int,
+=======
+int nvkm_gsp_new_(const struct nvkm_gsp_fwif *, struct nvkm_device *, int,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  struct nvkm_gsp **);
 #endif

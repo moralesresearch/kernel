@@ -271,7 +271,11 @@ struct qxl_mode {
 /* qxl-1 compat: fixed */
 struct qxl_modes {
 	uint32_t n_modes;
+<<<<<<< HEAD
 	struct qxl_mode modes[];
+=======
+	struct qxl_mode modes[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* qxl-1 compat: append only */
@@ -382,12 +386,20 @@ struct qxl_data_chunk {
 	uint32_t data_size;
 	QXLPHYSICAL prev_chunk;
 	QXLPHYSICAL next_chunk;
+<<<<<<< HEAD
 	uint8_t data[];
+=======
+	uint8_t data[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_message {
 	union qxl_release_info release_info;
+<<<<<<< HEAD
 	uint8_t data[];
+=======
+	uint8_t data[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_compat_update_cmd {
@@ -469,7 +481,11 @@ struct qxl_raster_glyph {
 	struct qxl_point glyph_origin;
 	uint16_t width;
 	uint16_t height;
+<<<<<<< HEAD
 	uint8_t data[];
+=======
+	uint8_t data[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_string {
@@ -768,7 +784,11 @@ enum {
 struct qxl_path_seg {
 	uint32_t flags;
 	uint32_t count;
+<<<<<<< HEAD
 	struct qxl_point_fix points[];
+=======
+	struct qxl_point_fix points[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_path {
@@ -819,7 +839,11 @@ struct qxl_image_descriptor {
 struct qxl_palette {
 	uint64_t unique;
 	uint16_t num_ents;
+<<<<<<< HEAD
 	uint32_t ents[];
+=======
+	uint32_t ents[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_bitmap {
@@ -838,7 +862,11 @@ struct qxl_surface_id {
 
 struct qxl_encoder_data {
 	uint32_t data_size;
+<<<<<<< HEAD
 	uint8_t data[];
+=======
+	uint8_t data[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qxl_image {
@@ -868,7 +896,11 @@ struct qxl_monitors_config {
 	uint16_t count;
 	uint16_t max_allowed; /* If it is 0 no fixed limit is given by the
 				 driver */
+<<<<<<< HEAD
 	struct qxl_head heads[];
+=======
+	struct qxl_head heads[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #pragma pack(pop)

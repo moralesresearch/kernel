@@ -107,6 +107,14 @@ cpu_enable_trap_ctr_access(const struct arm64_cpu_capabilities *cap)
 }
 
 #ifdef CONFIG_ARM64_ERRATUM_1463225
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+DEFINE_PER_CPU(int, __in_cortex_a76_erratum_1463225_wa);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool
 has_cortex_a76_erratum_1463225(const struct arm64_cpu_capabilities *entry,
 			       int scope)

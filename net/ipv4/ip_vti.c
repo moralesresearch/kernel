@@ -218,7 +218,15 @@ static netdev_tx_t vti_xmit(struct sk_buff *skb, struct net_device *dev,
 	}
 
 	if (dst->flags & DST_XFRM_QUEUE)
+<<<<<<< HEAD
 		goto xmit;
+=======
+<<<<<<< HEAD
+		goto xmit;
+=======
+		goto queued;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!vti_state_check(dst->xfrm, parms->iph.daddr, parms->iph.saddr)) {
 		dev->stats.tx_carrier_errors++;
@@ -238,8 +246,16 @@ static netdev_tx_t vti_xmit(struct sk_buff *skb, struct net_device *dev,
 	if (skb->len > mtu) {
 		skb_dst_update_pmtu_no_confirm(skb, mtu);
 		if (skb->protocol == htons(ETH_P_IP)) {
+<<<<<<< HEAD
 			if (!(ip_hdr(skb)->frag_off & htons(IP_DF)))
 				goto xmit;
+=======
+<<<<<<< HEAD
+			if (!(ip_hdr(skb)->frag_off & htons(IP_DF)))
+				goto xmit;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			icmp_ndo_send(skb, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED,
 				      htonl(mtu));
 		} else {
@@ -253,7 +269,15 @@ static netdev_tx_t vti_xmit(struct sk_buff *skb, struct net_device *dev,
 		goto tx_error;
 	}
 
+<<<<<<< HEAD
 xmit:
+=======
+<<<<<<< HEAD
+xmit:
+=======
+queued:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_scrub_packet(skb, !net_eq(tunnel->net, dev_net(dev)));
 	skb_dst_set(skb, dst);
 	skb->dev = skb_dst(skb)->dev;

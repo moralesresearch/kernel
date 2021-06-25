@@ -1095,7 +1095,12 @@ void adau17x1_remove(struct device *dev)
 {
 	struct adau *adau = dev_get_drvdata(dev);
 
+<<<<<<< HEAD
 	clk_disable_unprepare(adau->mclk);
+=======
+	if (adau->mclk)
+		clk_disable_unprepare(adau->mclk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(adau17x1_remove);
 

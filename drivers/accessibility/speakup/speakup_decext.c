@@ -218,7 +218,11 @@ static void do_catch_up(struct spk_synth *synth)
 static void synth_flush(struct spk_synth *synth)
 {
 	in_escape = 0;
+<<<<<<< HEAD
 	synth->io_ops->flush_buffer(synth);
+=======
+	synth->io_ops->flush_buffer();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	synth->synth_immediate(synth, "\033P;10z\033\\");
 }
 

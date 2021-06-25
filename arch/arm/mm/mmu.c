@@ -18,6 +18,10 @@
 #include <asm/cp15.h>
 #include <asm/cputype.h>
 #include <asm/cachetype.h>
+<<<<<<< HEAD
+=======
+#include <asm/fixmap.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/sections.h>
 #include <asm/setup.h>
 #include <asm/smp_plat.h>
@@ -387,7 +391,12 @@ void __set_fixmap(enum fixed_addresses idx, phys_addr_t phys, pgprot_t prot)
 	pte_t *pte = pte_offset_fixmap(pmd_off_k(vaddr), vaddr);
 
 	/* Make sure fixmap region does not exceed available allocation. */
+<<<<<<< HEAD
 	BUILD_BUG_ON(__fix_to_virt(__end_of_fixed_addresses) < FIXADDR_START);
+=======
+	BUILD_BUG_ON(FIXADDR_START + (__end_of_fixed_addresses * PAGE_SIZE) >
+		     FIXADDR_END);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BUG_ON(idx >= __end_of_fixed_addresses);
 
 	/* we only support device mappings until pgprot_kernel has been set */

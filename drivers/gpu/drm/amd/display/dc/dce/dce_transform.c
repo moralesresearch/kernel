@@ -493,6 +493,13 @@ static void dce60_transform_set_scaler(
 {
 	struct dce_transform *xfm_dce = TO_DCE_TRANSFORM(xfm);
 	bool is_scaling_required;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	bool filter_updated = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const uint16_t *coeffs_v, *coeffs_h;
 
 	/*Use whole line buffer memory always*/
@@ -557,6 +564,13 @@ static void dce60_transform_set_scaler(
 
 			xfm_dce->filter_v = coeffs_v;
 			xfm_dce->filter_h = coeffs_h;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			filter_updated = true;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1035,11 +1049,22 @@ static void dce60_transform_set_pixel_storage_depth(
 	const struct bit_depth_reduction_params *bit_depth_params)
 {
 	struct dce_transform *xfm_dce = TO_DCE_TRANSFORM(xfm);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	int pixel_depth, expan_mode;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum dc_color_depth color_depth;
 
 	switch (depth) {
 	case LB_PIXEL_DEPTH_18BPP:
 		color_depth = COLOR_DEPTH_666;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case LB_PIXEL_DEPTH_24BPP:
 		color_depth = COLOR_DEPTH_888;
@@ -1052,6 +1077,33 @@ static void dce60_transform_set_pixel_storage_depth(
 		break;
 	default:
 		color_depth = COLOR_DEPTH_101010;
+<<<<<<< HEAD
+=======
+=======
+		pixel_depth = 2;
+		expan_mode  = 1;
+		break;
+	case LB_PIXEL_DEPTH_24BPP:
+		color_depth = COLOR_DEPTH_888;
+		pixel_depth = 1;
+		expan_mode  = 1;
+		break;
+	case LB_PIXEL_DEPTH_30BPP:
+		color_depth = COLOR_DEPTH_101010;
+		pixel_depth = 0;
+		expan_mode  = 1;
+		break;
+	case LB_PIXEL_DEPTH_36BPP:
+		color_depth = COLOR_DEPTH_121212;
+		pixel_depth = 3;
+		expan_mode  = 0;
+		break;
+	default:
+		color_depth = COLOR_DEPTH_101010;
+		pixel_depth = 0;
+		expan_mode  = 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BREAK_TO_DEBUGGER();
 		break;
 	}
@@ -1100,7 +1152,15 @@ static void program_gamut_remap(
 
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *****************************************************************************
  *  Function: dal_transform_wide_gamut_set_gamut_remap
  *

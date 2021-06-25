@@ -15,6 +15,10 @@
 #define FW_FILENAME	"idtcm.bin"
 #define MAX_TOD		(4)
 #define MAX_PLL		(8)
+<<<<<<< HEAD
+=======
+#define MAX_OUTPUT	(12)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MAX_ABS_WRITE_PHASE_PICOSECONDS (107374182350LL)
 
@@ -50,9 +54,12 @@
 #define TOD_WRITE_OVERHEAD_COUNT_MAX		(2)
 #define TOD_BYTE_COUNT				(11)
 
+<<<<<<< HEAD
 #define LOCK_TIMEOUT_MS			(2000)
 #define LOCK_POLL_INTERVAL_MS		(10)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PEROUT_ENABLE_OUTPUT_MASK	(0xdeadbeef)
 
 #define IDTCM_MAX_WRITE_COUNT		(512)
@@ -107,6 +114,7 @@ enum scsr_tod_write_type_sel {
 	SCSR_TOD_WR_TYPE_SEL_MAX = SCSR_TOD_WR_TYPE_SEL_DELTA_MINUS,
 };
 
+<<<<<<< HEAD
 /* Values STATUS.DPLL_SYS_STATUS.DPLL_SYS_STATE */
 enum dpll_state {
 	DPLL_STATE_MIN = 0,
@@ -119,6 +127,8 @@ enum dpll_state {
 	DPLL_STATE_MAX = DPLL_STATE_OPEN_LOOP,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct idtcm;
 
 struct idtcm_channel {
@@ -137,6 +147,10 @@ struct idtcm_channel {
 	enum pll_mode		pll_mode;
 	u8			pll;
 	u16			output_mask;
+<<<<<<< HEAD
+=======
+	u8			output_phase_adj[MAX_OUTPUT][4];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct idtcm {

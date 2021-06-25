@@ -142,6 +142,10 @@ struct ubi_eba_table *ubi_eba_create_table(struct ubi_volume *vol,
 	return tbl;
 
 err:
+<<<<<<< HEAD
+=======
+	kfree(tbl->entries);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(tbl);
 
 	return ERR_PTR(err);

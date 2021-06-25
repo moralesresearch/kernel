@@ -209,7 +209,11 @@ int c4iw_fill_res_cm_id_entry(struct sk_buff *msg,
 	epcp = (struct c4iw_ep_common *)iw_cm_id->provider_data;
 	if (!epcp)
 		return 0;
+<<<<<<< HEAD
 	uep = kzalloc(sizeof(*uep), GFP_KERNEL);
+=======
+	uep = kcalloc(1, sizeof(*uep), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!uep)
 		return 0;
 

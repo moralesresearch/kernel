@@ -258,7 +258,11 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
 	struct device_node *plat = NULL;
 	char prop[128];
 	char *prefix = "";
+<<<<<<< HEAD
 	int ret, single_cpu = 0;
+=======
+	int ret, single_cpu;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 *	 |CPU   |Codec   : turn

@@ -40,6 +40,10 @@ struct frame_vector *vb2_create_framevec(unsigned long start,
 	unsigned long first, last;
 	unsigned long nr;
 	struct frame_vector *vec;
+<<<<<<< HEAD
+=======
+	unsigned int flags = FOLL_FORCE | FOLL_WRITE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	first = start >> PAGE_SHIFT;
 	last = (start + length - 1) >> PAGE_SHIFT;
@@ -47,7 +51,11 @@ struct frame_vector *vb2_create_framevec(unsigned long start,
 	vec = frame_vector_create(nr);
 	if (!vec)
 		return ERR_PTR(-ENOMEM);
+<<<<<<< HEAD
 	ret = get_vaddr_frames(start & PAGE_MASK, nr, vec);
+=======
+	ret = get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		goto out_destroy;
 	/* We accept only complete set of PFNs */

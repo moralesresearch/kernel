@@ -3,7 +3,11 @@ ks0108 LCD Controller Driver Documentation
 ==========================================
 
 :License:		GPLv2
+<<<<<<< HEAD
 :Author & Maintainer:	Miguel Ojeda <ojeda@kernel.org>
+=======
+:Author & Maintainer:	Miguel Ojeda Sandonis
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 :Date:			2006-10-27
 
 

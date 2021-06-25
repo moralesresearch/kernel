@@ -32,6 +32,13 @@
 #include <asm/cacheflush.h>
 #include <asm/processor.h>
 #include <asm/sigcontext.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <linux/uaccess.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/irq_regs.h>
 
 static struct hard_trap_info {
@@ -207,6 +214,24 @@ void arch_kgdb_breakpoint(void)
 		".set\treorder");
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void kgdb_call_nmi_hook(void *ignored)
+{
+	mm_segment_t old_fs;
+
+	old_fs = get_fs();
+	set_fs(KERNEL_DS);
+
+	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
+
+	set_fs(old_fs);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int compute_signal(int tt)
 {
 	struct hard_trap_info *ht;
@@ -289,6 +314,13 @@ static int kgdb_mips_notify(struct notifier_block *self, unsigned long cmd,
 	struct die_args *args = (struct die_args *)ptr;
 	struct pt_regs *regs = args->regs;
 	int trap = (regs->cp0_cause & 0x7c) >> 2;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	mm_segment_t old_fs;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_KPROBES
 	/*
@@ -303,11 +335,31 @@ static int kgdb_mips_notify(struct notifier_block *self, unsigned long cmd,
 	if (user_mode(regs))
 		return NOTIFY_DONE;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (atomic_read(&kgdb_active) != -1)
 		kgdb_nmicallback(smp_processor_id(), regs);
 
 	if (kgdb_handle_exception(trap, compute_signal(trap), cmd, regs))
 		return NOTIFY_DONE;
+<<<<<<< HEAD
+=======
+=======
+	/* Kernel mode. Set correct address limit */
+	old_fs = get_fs();
+	set_fs(KERNEL_DS);
+
+	if (atomic_read(&kgdb_active) != -1)
+		kgdb_nmicallback(smp_processor_id(), regs);
+
+	if (kgdb_handle_exception(trap, compute_signal(trap), cmd, regs)) {
+		set_fs(old_fs);
+		return NOTIFY_DONE;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (atomic_read(&kgdb_setting_breakpoint))
 		if ((trap == 9) && (regs->cp0_epc == (unsigned long)breakinst))
@@ -317,6 +369,13 @@ static int kgdb_mips_notify(struct notifier_block *self, unsigned long cmd,
 	local_irq_enable();
 	__flush_cache_all();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	set_fs(old_fs);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NOTIFY_STOP;
 }
 

@@ -23,7 +23,10 @@
 
 #include <linux/clk.h>
 #include <linux/io.h>
+<<<<<<< HEAD
 #include <linux/iopoll.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/fsl_devices.h>
 #include <linux/i2c.h>
 #include <linux/interrupt.h>
@@ -50,7 +53,10 @@
 #define CCR_MTX  0x10
 #define CCR_TXAK 0x08
 #define CCR_RSTA 0x04
+<<<<<<< HEAD
 #define CCR_RSVD 0x02
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CSR_MCF  0x80
 #define CSR_MAAS 0x40
@@ -72,7 +78,10 @@ struct mpc_i2c {
 	u8 fdr, dfsrr;
 #endif
 	struct clk *clk_per;
+<<<<<<< HEAD
 	bool has_errata_A004447;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mpc_i2c_divider {
@@ -179,6 +188,7 @@ static int i2c_wait(struct mpc_i2c *i2c, unsigned timeout, int writing)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int i2c_mpc_wait_sr(struct mpc_i2c *i2c, int mask)
 {
 	void __iomem *addr = i2c->base + MPC_I2C_SR;
@@ -248,6 +258,8 @@ static void mpc_i2c_fixup_A004447(struct mpc_i2c *i2c)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_PPC_MPC52xx) || defined(CONFIG_PPC_MPC512x)
 static const struct mpc_i2c_divider mpc_i2c_dividers_52xx[] = {
 	{20, 0x20}, {22, 0x21}, {24, 0x22}, {26, 0x23},
@@ -658,7 +670,11 @@ static int mpc_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 			if ((status & (CSR_MCF | CSR_MBB | CSR_RXAK)) != 0) {
 				writeb(status & ~CSR_MAL,
 				       i2c->base + MPC_I2C_SR);
+<<<<<<< HEAD
 				i2c_recover_bus(&i2c->adap);
+=======
+				mpc_i2c_fixup(i2c);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			return -EIO;
 		}
@@ -694,7 +710,11 @@ static int mpc_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 			if ((status & (CSR_MCF | CSR_MBB | CSR_RXAK)) != 0) {
 				writeb(status & ~CSR_MAL,
 				       i2c->base + MPC_I2C_SR);
+<<<<<<< HEAD
 				i2c_recover_bus(&i2c->adap);
+=======
+				mpc_i2c_fixup(i2c);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			return -EIO;
 		}
@@ -709,6 +729,7 @@ static u32 mpc_functionality(struct i2c_adapter *adap)
 	  | I2C_FUNC_SMBUS_READ_BLOCK_DATA | I2C_FUNC_SMBUS_BLOCK_PROC_CALL;
 }
 
+<<<<<<< HEAD
 static int fsl_i2c_bus_recovery(struct i2c_adapter *adap)
 {
 	struct mpc_i2c *i2c = i2c_get_adapdata(adap);
@@ -721,6 +742,8 @@ static int fsl_i2c_bus_recovery(struct i2c_adapter *adap)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct i2c_algorithm mpc_algo = {
 	.master_xfer = mpc_xfer,
 	.functionality = mpc_functionality,
@@ -732,10 +755,13 @@ static struct i2c_adapter mpc_ops = {
 	.timeout = HZ,
 };
 
+<<<<<<< HEAD
 static struct i2c_bus_recovery_info fsl_i2c_recovery_info = {
 	.recover_bus = fsl_i2c_bus_recovery,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id mpc_i2c_of_match[];
 static int fsl_i2c_probe(struct platform_device *op)
 {
@@ -820,8 +846,11 @@ static int fsl_i2c_probe(struct platform_device *op)
 	dev_info(i2c->dev, "timeout %u us\n", mpc_ops.timeout * 1000000 / HZ);
 
 	platform_set_drvdata(op, i2c);
+<<<<<<< HEAD
 	if (of_property_read_bool(op->dev.of_node, "fsl,i2c-erratum-a004447"))
 		i2c->has_errata_A004447 = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i2c->adap = mpc_ops;
 	of_address_to_resource(op->dev.of_node, 0, &res);
@@ -830,7 +859,10 @@ static int fsl_i2c_probe(struct platform_device *op)
 	i2c_set_adapdata(&i2c->adap, i2c);
 	i2c->adap.dev.parent = &op->dev;
 	i2c->adap.dev.of_node = of_node_get(op->dev.of_node);
+<<<<<<< HEAD
 	i2c->adap.bus_recovery_info = &fsl_i2c_recovery_info;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	result = i2c_add_adapter(&i2c->adap);
 	if (result < 0)

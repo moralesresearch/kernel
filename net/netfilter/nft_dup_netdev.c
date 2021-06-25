@@ -14,7 +14,11 @@
 #include <net/netfilter/nf_dup_netdev.h>
 
 struct nft_dup_netdev {
+<<<<<<< HEAD
 	u8	sreg_dev;
+=======
+	enum nft_registers	sreg_dev:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void nft_dup_netdev_eval(const struct nft_expr *expr,
@@ -40,8 +44,13 @@ static int nft_dup_netdev_init(const struct nft_ctx *ctx,
 	if (tb[NFTA_DUP_SREG_DEV] == NULL)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	return nft_parse_register_load(tb[NFTA_DUP_SREG_DEV], &priv->sreg_dev,
 				       sizeof(int));
+=======
+	priv->sreg_dev = nft_parse_register(tb[NFTA_DUP_SREG_DEV]);
+	return nft_validate_register_load(priv->sreg_dev, sizeof(int));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nft_dup_netdev_dump(struct sk_buff *skb, const struct nft_expr *expr)

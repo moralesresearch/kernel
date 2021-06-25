@@ -884,12 +884,15 @@
 #define TDUE_V(x) ((x) << TDUE_S)
 #define TDUE_F    TDUE_V(1U)
 
+<<<<<<< HEAD
 /* SPARE2 register contains 32-bit value at offset 0x6 in Serial INIT
  * Configuration flashed on EEPROM. This value corresponds to 32-bit
  * Serial Configuration Version information.
  */
 #define PCIE_STATIC_SPARE2_A	0x5bfc
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* registers for module MC */
 #define MC_INT_CAUSE_A		0x7518
 #define MC_P_INT_CAUSE_A	0x41318

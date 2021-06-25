@@ -201,8 +201,17 @@ static int hns_roce_query_device(struct ib_device *ib_dev,
 		props->max_srq_sge = hr_dev->caps.max_srq_sges;
 	}
 
+<<<<<<< HEAD
 	if (hr_dev->caps.flags & HNS_ROCE_CAP_FLAG_FRMR &&
 	    hr_dev->pci_dev->revision >= PCI_REVISION_ID_HIP09) {
+=======
+<<<<<<< HEAD
+	if (hr_dev->caps.flags & HNS_ROCE_CAP_FLAG_FRMR &&
+	    hr_dev->pci_dev->revision >= PCI_REVISION_ID_HIP09) {
+=======
+	if (hr_dev->caps.flags & HNS_ROCE_CAP_FLAG_FRMR) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		props->device_cap_flags |= IB_DEVICE_MEM_MGT_EXTENSIONS;
 		props->max_fast_reg_page_list_len = HNS_ROCE_FRMR_MAX_PA;
 	}
@@ -733,7 +742,19 @@ static int hns_roce_setup_hca(struct hns_roce_dev *hr_dev)
 		goto err_pd_table_free;
 	}
 
+<<<<<<< HEAD
 	hns_roce_init_cq_table(hr_dev);
+=======
+<<<<<<< HEAD
+	hns_roce_init_cq_table(hr_dev);
+=======
+	ret = hns_roce_init_cq_table(hr_dev);
+	if (ret) {
+		dev_err(dev, "Failed to init completion queue table.\n");
+		goto err_mr_table_free;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = hns_roce_init_qp_table(hr_dev);
 	if (ret) {
@@ -757,6 +778,14 @@ err_qp_table_free:
 
 err_cq_table_free:
 	hns_roce_cleanup_cq_table(hr_dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+err_mr_table_free:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hns_roce_cleanup_mr_table(hr_dev);
 
 err_pd_table_free:

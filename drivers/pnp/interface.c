@@ -33,7 +33,10 @@ struct pnp_info_buffer {
 
 typedef struct pnp_info_buffer pnp_info_buffer_t;
 
+<<<<<<< HEAD
 __printf(2, 3)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int pnp_printf(pnp_info_buffer_t * buffer, char *fmt, ...)
 {
 	va_list args;

@@ -385,7 +385,14 @@ static int btrfs_xattr_handler_get(const struct xattr_handler *handler,
 }
 
 static int btrfs_xattr_handler_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 				   struct user_namespace *mnt_userns,
+=======
+<<<<<<< HEAD
+				   struct user_namespace *mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   struct dentry *unused, struct inode *inode,
 				   const char *name, const void *buffer,
 				   size_t size, int flags)
@@ -395,7 +402,14 @@ static int btrfs_xattr_handler_set(const struct xattr_handler *handler,
 }
 
 static int btrfs_xattr_handler_set_prop(const struct xattr_handler *handler,
+<<<<<<< HEAD
 					struct user_namespace *mnt_userns,
+=======
+<<<<<<< HEAD
+					struct user_namespace *mnt_userns,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					struct dentry *unused, struct inode *inode,
 					const char *name, const void *value,
 					size_t size, int flags)

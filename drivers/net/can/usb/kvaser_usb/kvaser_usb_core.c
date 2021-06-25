@@ -580,7 +580,15 @@ static netdev_tx_t kvaser_usb_start_xmit(struct sk_buff *skb,
 
 	context->priv = priv;
 
+<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, context->echo_index, 0);
+=======
+<<<<<<< HEAD
+	can_put_echo_skb(skb, netdev, context->echo_index, 0);
+=======
+	can_put_echo_skb(skb, netdev, context->echo_index);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	usb_fill_bulk_urb(urb, dev->udev,
 			  usb_sndbulkpipe(dev->udev,

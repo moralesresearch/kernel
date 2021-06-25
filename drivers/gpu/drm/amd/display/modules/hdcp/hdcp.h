@@ -397,7 +397,11 @@ static inline uint8_t is_dp_hdcp(struct mod_hdcp *hdcp)
 static inline uint8_t is_dp_mst_hdcp(struct mod_hdcp *hdcp)
 {
 	return (hdcp->connection.link.mode == MOD_HDCP_MODE_DP &&
+<<<<<<< HEAD
 			hdcp->connection.link.dp.mst_enabled);
+=======
+			hdcp->connection.link.dp.mst_supported);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline uint8_t is_hdmi_dvi_sl_hdcp(struct mod_hdcp *hdcp)

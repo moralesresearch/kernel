@@ -175,6 +175,7 @@ struct drm_scdc {
 	struct drm_scrambling scrambling;
 };
 
+<<<<<<< HEAD
 /**
  * struct drm_hdmi_dsc_cap - DSC capabilities of HDMI sink
  *
@@ -215,6 +216,8 @@ struct drm_hdmi_dsc_cap {
 	/** @total_chunk_kbytes: max size of chunks in KBs supported per line*/
 	u8 total_chunk_kbytes;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct drm_hdmi_info - runtime information about the connected HDMI sink
@@ -247,6 +250,7 @@ struct drm_hdmi_info {
 
 	/** @y420_dc_modes: bitmap of deep color support index */
 	u8 y420_dc_modes;
+<<<<<<< HEAD
 
 	/** @max_frl_rate_per_lane: support fixed rate link */
 	u8 max_frl_rate_per_lane;
@@ -256,6 +260,8 @@ struct drm_hdmi_info {
 
 	/** @dsc_cap: DSC capabilities of the sink */
 	struct drm_hdmi_dsc_cap dsc_cap;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**

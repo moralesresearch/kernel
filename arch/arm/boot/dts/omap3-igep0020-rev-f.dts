@@ -2,7 +2,11 @@
 /*
  * Device Tree Source for IGEPv2 Rev. F (TI OMAP AM/DM37x)
  *
+<<<<<<< HEAD
  * Copyright (C) Javier Martinez Canillas <javier@dowhile0.org>
+=======
+ * Copyright (C) 2012 Javier Martinez Canillas <javier@osg.samsung.com>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2012 Enric Balletbo i Serra <eballetbo@gmail.com>
  */
 

@@ -940,11 +940,18 @@ void t1_sge_intr_clear(struct sge *sge)
 /*
  * SGE 'Error' interrupt handler
  */
+<<<<<<< HEAD
 bool t1_sge_intr_error_handler(struct sge *sge)
 {
 	struct adapter *adapter = sge->adapter;
 	u32 cause = readl(adapter->regs + A_SG_INT_CAUSE);
 	bool wake = false;
+=======
+int t1_sge_intr_error_handler(struct sge *sge)
+{
+	struct adapter *adapter = sge->adapter;
+	u32 cause = readl(adapter->regs + A_SG_INT_CAUSE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (adapter->port[0].dev->hw_features & NETIF_F_TSO)
 		cause &= ~F_PACKET_TOO_BIG;
@@ -968,6 +975,7 @@ bool t1_sge_intr_error_handler(struct sge *sge)
 		sge->stats.pkt_mismatch++;
 		pr_alert("%s: SGE packet mismatch\n", adapter->name);
 	}
+<<<<<<< HEAD
 	if (cause & SGE_INT_FATAL) {
 		t1_interrupts_disable(adapter);
 		adapter->pending_thread_intr |= F_PL_INTR_SGE_ERR;
@@ -976,6 +984,13 @@ bool t1_sge_intr_error_handler(struct sge *sge)
 
 	writel(cause, adapter->regs + A_SG_INT_CAUSE);
 	return wake;
+=======
+	if (cause & SGE_INT_FATAL)
+		t1_fatal_err(adapter);
+
+	writel(cause, adapter->regs + A_SG_INT_CAUSE);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const struct sge_intr_counts *t1_sge_get_intr_counts(const struct sge *sge)
@@ -1623,6 +1638,7 @@ int t1_poll(struct napi_struct *napi, int budget)
 	return work_done;
 }
 
+<<<<<<< HEAD
 irqreturn_t t1_interrupt_thread(int irq, void *data)
 {
 	struct adapter *adapter = data;
@@ -1658,11 +1674,17 @@ irqreturn_t t1_interrupt_thread(int irq, void *data)
 	return IRQ_HANDLED;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 irqreturn_t t1_interrupt(int irq, void *data)
 {
 	struct adapter *adapter = data;
 	struct sge *sge = adapter->sge;
+<<<<<<< HEAD
 	irqreturn_t handled;
+=======
+	int handled;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (likely(responses_pending(adapter))) {
 		writel(F_PL_INTR_SGE_DATA, adapter->regs + A_PL_CAUSE);
@@ -1684,10 +1706,17 @@ irqreturn_t t1_interrupt(int irq, void *data)
 	handled = t1_slow_intr_handler(adapter);
 	spin_unlock(&adapter->async_lock);
 
+<<<<<<< HEAD
 	if (handled == IRQ_NONE)
 		sge->stats.unhandled_irqs++;
 
 	return handled;
+=======
+	if (!handled)
+		sge->stats.unhandled_irqs++;
+
+	return IRQ_RETVAL(handled != 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

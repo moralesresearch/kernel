@@ -15,7 +15,11 @@ struct process_cmd_struct {
 	int arg;
 };
 
+<<<<<<< HEAD
 static const char *version_str = "v1.8";
+=======
+static const char *version_str = "v1.7";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const int supported_api_ver = 1;
 static struct isst_if_platform_info isst_platform_info;
 static char *progname;
@@ -2304,6 +2308,7 @@ static void get_clos_assoc(int arg)
 	isst_ctdp_display_information_end(outf);
 }
 
+<<<<<<< HEAD
 static void set_turbo_mode_for_cpu(int cpu, int status)
 {
 	int base_freq;
@@ -2400,6 +2405,8 @@ static void process_trl(int arg)
 	isst_ctdp_display_information_end(outf);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct process_cmd_struct clx_n_cmds[] = {
 	{ "perf-profile", "info", dump_isst_config, 0 },
 	{ "base-freq", "info", dump_pbf_config, 0 },
@@ -2430,10 +2437,13 @@ static struct process_cmd_struct isst_cmds[] = {
 	{ "core-power", "get-config", dump_clos_config, 0 },
 	{ "core-power", "assoc", set_clos_assoc, 0 },
 	{ "core-power", "get-assoc", get_clos_assoc, 0 },
+<<<<<<< HEAD
 	{ "turbo-mode", "enable", set_turbo_mode, 0 },
 	{ "turbo-mode", "disable", set_turbo_mode, 1 },
 	{ "turbo-mode", "get-trl", process_trl, 0 },
 	{ "turbo-mode", "set-trl", process_trl, 1 },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ NULL, NULL, NULL }
 };
 
@@ -2649,6 +2659,7 @@ static void fact_help(void)
 	printf("\tcommand : disable\n");
 }
 
+<<<<<<< HEAD
 static void turbo_mode_help(void)
 {
 	printf("turbo-mode:\tEnables users to enable/disable turbo mode by adjusting frequency settings. Also allows to get and set turbo ratio limits (TRL).\n");
@@ -2659,6 +2670,8 @@ static void turbo_mode_help(void)
 }
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void core_power_help(void)
 {
 	printf("core-power:\tInterface that allows user to define per core/tile\n\
@@ -2683,7 +2696,10 @@ static struct process_cmd_help_struct isst_help_cmds[] = {
 	{ "base-freq", pbf_help },
 	{ "turbo-freq", fact_help },
 	{ "core-power", core_power_help },
+<<<<<<< HEAD
 	{ "turbo-mode", turbo_mode_help },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ NULL, NULL }
 };
 
@@ -2747,7 +2763,11 @@ static void usage(void)
 	if (is_clx_n_platform())
 		printf("\nFEATURE : [perf-profile|base-freq]\n");
 	else
+<<<<<<< HEAD
 		printf("\nFEATURE : [perf-profile|base-freq|turbo-freq|core-power|turbo-mode]\n");
+=======
+		printf("\nFEATURE : [perf-profile|base-freq|turbo-freq|core-power]\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	printf("\nFor help on each feature, use -h|--help\n");
 	printf("\tFor example:  intel-speed-select perf-profile -h\n");
 

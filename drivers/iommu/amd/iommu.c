@@ -31,7 +31,14 @@
 #include <linux/irqdomain.h>
 #include <linux/percpu.h>
 #include <linux/iova.h>
+<<<<<<< HEAD
 #include <linux/io-pgtable.h>
+=======
+<<<<<<< HEAD
+#include <linux/io-pgtable.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/irq_remapping.h>
 #include <asm/io_apic.h>
 #include <asm/apic.h>
@@ -58,6 +65,22 @@
 #define HT_RANGE_START		(0xfd00000000ULL)
 #define HT_RANGE_END		(0xffffffffffULL)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/*
+ * This bitmap is used to advertise the page sizes our hardware support
+ * to the IOMMU core, which will then use this information to split
+ * physically contiguous memory regions it is mapping into page sizes
+ * that we support.
+ *
+ * 512GB Pages are not supported due to a hardware bug
+ */
+#define AMD_IOMMU_PGSIZES	((~0xFFFUL) & ~(2ULL << 38))
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DEFAULT_PGTABLE_LEVEL	PAGE_MODE_3_LEVEL
 
 static DEFINE_SPINLOCK(pd_bitmap_lock);
@@ -87,7 +110,18 @@ struct iommu_cmd {
 
 struct kmem_cache *amd_iommu_irq_cache;
 
+<<<<<<< HEAD
 static void detach_device(struct device *dev);
+=======
+<<<<<<< HEAD
+static void detach_device(struct device *dev);
+=======
+static void update_domain(struct protection_domain *domain);
+static void detach_device(struct device *dev);
+static void update_and_flush_device_table(struct protection_domain *domain,
+					  struct domain_pgtable *pgtable);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /****************************************************************************
  *
@@ -139,6 +173,43 @@ static struct protection_domain *to_pdomain(struct iommu_domain *dom)
 	return container_of(dom, struct protection_domain, domain);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void amd_iommu_domain_get_pgtable(struct protection_domain *domain,
+					 struct domain_pgtable *pgtable)
+{
+	u64 pt_root = atomic64_read(&domain->pt_root);
+
+	pgtable->root = (u64 *)(pt_root & PAGE_MASK);
+	pgtable->mode = pt_root & 7; /* lowest 3 bits encode pgtable mode */
+}
+
+static void amd_iommu_domain_set_pt_root(struct protection_domain *domain, u64 root)
+{
+	atomic64_set(&domain->pt_root, root);
+}
+
+static void amd_iommu_domain_clr_pt_root(struct protection_domain *domain)
+{
+	amd_iommu_domain_set_pt_root(domain, 0);
+}
+
+static void amd_iommu_domain_set_pgtable(struct protection_domain *domain,
+					 u64 *root, int mode)
+{
+	u64 pt_root;
+
+	/* lowest 3 bits encode pgtable mode */
+	pt_root = mode & 7;
+	pt_root |= (u64)root;
+
+	amd_iommu_domain_set_pt_root(domain, pt_root);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct iommu_dev_data *alloc_dev_data(u16 devid)
 {
 	struct iommu_dev_data *dev_data;
@@ -394,6 +465,35 @@ static void amd_iommu_uninit_device(struct device *dev)
 	 */
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/*
+ * Helper function to get the first pte of a large mapping
+ */
+static u64 *first_pte_l7(u64 *pte, unsigned long *page_size,
+			 unsigned long *count)
+{
+	unsigned long pte_mask, pg_size, cnt;
+	u64 *fpte;
+
+	pg_size  = PTE_PAGE_SIZE(*pte);
+	cnt      = PAGE_SIZE_PTE_COUNT(pg_size);
+	pte_mask = ~((cnt << 3) - 1);
+	fpte     = (u64 *)(((unsigned long)pte) & pte_mask);
+
+	if (page_size)
+		*page_size = pg_size;
+
+	if (count)
+		*count = cnt;
+
+	return fpte;
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /****************************************************************************
  *
  * Interrupt handling functions
@@ -1269,12 +1369,28 @@ static void domain_flush_pages(struct protection_domain *domain,
 }
 
 /* Flush the whole IO/TLB for a given protection domain - including PDE */
+<<<<<<< HEAD
 void amd_iommu_domain_flush_tlb_pde(struct protection_domain *domain)
+=======
+<<<<<<< HEAD
+void amd_iommu_domain_flush_tlb_pde(struct protection_domain *domain)
+=======
+static void domain_flush_tlb_pde(struct protection_domain *domain)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	__domain_flush_pages(domain, 0, CMD_INV_IOMMU_ALL_PAGES_ADDRESS, 1);
 }
 
+<<<<<<< HEAD
 void amd_iommu_domain_flush_complete(struct protection_domain *domain)
+=======
+<<<<<<< HEAD
+void amd_iommu_domain_flush_complete(struct protection_domain *domain)
+=======
+static void domain_flush_complete(struct protection_domain *domain)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -1299,7 +1415,15 @@ static void domain_flush_np_cache(struct protection_domain *domain,
 
 		spin_lock_irqsave(&domain->lock, flags);
 		domain_flush_pages(domain, iova, size);
+<<<<<<< HEAD
 		amd_iommu_domain_flush_complete(domain);
+=======
+<<<<<<< HEAD
+		amd_iommu_domain_flush_complete(domain);
+=======
+		domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock_irqrestore(&domain->lock, flags);
 	}
 }
@@ -1318,6 +1442,451 @@ static void domain_flush_devices(struct protection_domain *domain)
 
 /****************************************************************************
  *
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+ * The functions below are used the create the page table mappings for
+ * unity mapped regions.
+ *
+ ****************************************************************************/
+
+static void free_page_list(struct page *freelist)
+{
+	while (freelist != NULL) {
+		unsigned long p = (unsigned long)page_address(freelist);
+		freelist = freelist->freelist;
+		free_page(p);
+	}
+}
+
+static struct page *free_pt_page(unsigned long pt, struct page *freelist)
+{
+	struct page *p = virt_to_page((void *)pt);
+
+	p->freelist = freelist;
+
+	return p;
+}
+
+#define DEFINE_FREE_PT_FN(LVL, FN)						\
+static struct page *free_pt_##LVL (unsigned long __pt, struct page *freelist)	\
+{										\
+	unsigned long p;							\
+	u64 *pt;								\
+	int i;									\
+										\
+	pt = (u64 *)__pt;							\
+										\
+	for (i = 0; i < 512; ++i) {						\
+		/* PTE present? */						\
+		if (!IOMMU_PTE_PRESENT(pt[i]))					\
+			continue;						\
+										\
+		/* Large PTE? */						\
+		if (PM_PTE_LEVEL(pt[i]) == 0 ||					\
+		    PM_PTE_LEVEL(pt[i]) == 7)					\
+			continue;						\
+										\
+		p = (unsigned long)IOMMU_PTE_PAGE(pt[i]);			\
+		freelist = FN(p, freelist);					\
+	}									\
+										\
+	return free_pt_page((unsigned long)pt, freelist);			\
+}
+
+DEFINE_FREE_PT_FN(l2, free_pt_page)
+DEFINE_FREE_PT_FN(l3, free_pt_l2)
+DEFINE_FREE_PT_FN(l4, free_pt_l3)
+DEFINE_FREE_PT_FN(l5, free_pt_l4)
+DEFINE_FREE_PT_FN(l6, free_pt_l5)
+
+static struct page *free_sub_pt(unsigned long root, int mode,
+				struct page *freelist)
+{
+	switch (mode) {
+	case PAGE_MODE_NONE:
+	case PAGE_MODE_7_LEVEL:
+		break;
+	case PAGE_MODE_1_LEVEL:
+		freelist = free_pt_page(root, freelist);
+		break;
+	case PAGE_MODE_2_LEVEL:
+		freelist = free_pt_l2(root, freelist);
+		break;
+	case PAGE_MODE_3_LEVEL:
+		freelist = free_pt_l3(root, freelist);
+		break;
+	case PAGE_MODE_4_LEVEL:
+		freelist = free_pt_l4(root, freelist);
+		break;
+	case PAGE_MODE_5_LEVEL:
+		freelist = free_pt_l5(root, freelist);
+		break;
+	case PAGE_MODE_6_LEVEL:
+		freelist = free_pt_l6(root, freelist);
+		break;
+	default:
+		BUG();
+	}
+
+	return freelist;
+}
+
+static void free_pagetable(struct domain_pgtable *pgtable)
+{
+	struct page *freelist = NULL;
+	unsigned long root;
+
+	if (pgtable->mode == PAGE_MODE_NONE)
+		return;
+
+	BUG_ON(pgtable->mode < PAGE_MODE_NONE ||
+	       pgtable->mode > PAGE_MODE_6_LEVEL);
+
+	root = (unsigned long)pgtable->root;
+	freelist = free_sub_pt(root, pgtable->mode, freelist);
+
+	free_page_list(freelist);
+}
+
+/*
+ * This function is used to add another level to an IO page table. Adding
+ * another level increases the size of the address space by 9 bits to a size up
+ * to 64 bits.
+ */
+static bool increase_address_space(struct protection_domain *domain,
+				   unsigned long address,
+				   gfp_t gfp)
+{
+	struct domain_pgtable pgtable;
+	unsigned long flags;
+	bool ret = true;
+	u64 *pte;
+
+	pte = (void *)get_zeroed_page(gfp);
+	if (!pte)
+		return false;
+
+	spin_lock_irqsave(&domain->lock, flags);
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+
+	if (address <= PM_LEVEL_SIZE(pgtable.mode))
+		goto out;
+
+	ret = false;
+	if (WARN_ON_ONCE(pgtable.mode == PAGE_MODE_6_LEVEL))
+		goto out;
+
+	*pte = PM_LEVEL_PDE(pgtable.mode, iommu_virt_to_phys(pgtable.root));
+
+	pgtable.root  = pte;
+	pgtable.mode += 1;
+	update_and_flush_device_table(domain, &pgtable);
+	domain_flush_complete(domain);
+
+	/*
+	 * Device Table needs to be updated and flushed before the new root can
+	 * be published.
+	 */
+	amd_iommu_domain_set_pgtable(domain, pte, pgtable.mode);
+
+	pte = NULL;
+	ret = true;
+
+out:
+	spin_unlock_irqrestore(&domain->lock, flags);
+	free_page((unsigned long)pte);
+
+	return ret;
+}
+
+static u64 *alloc_pte(struct protection_domain *domain,
+		      unsigned long address,
+		      unsigned long page_size,
+		      u64 **pte_page,
+		      gfp_t gfp,
+		      bool *updated)
+{
+	struct domain_pgtable pgtable;
+	int level, end_lvl;
+	u64 *pte, *page;
+
+	BUG_ON(!is_power_of_2(page_size));
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+
+	while (address > PM_LEVEL_SIZE(pgtable.mode)) {
+		/*
+		 * Return an error if there is no memory to update the
+		 * page-table.
+		 */
+		if (!increase_address_space(domain, address, gfp))
+			return NULL;
+
+		/* Read new values to check if update was successful */
+		amd_iommu_domain_get_pgtable(domain, &pgtable);
+	}
+
+
+	level   = pgtable.mode - 1;
+	pte     = &pgtable.root[PM_LEVEL_INDEX(level, address)];
+	address = PAGE_SIZE_ALIGN(address, page_size);
+	end_lvl = PAGE_SIZE_LEVEL(page_size);
+
+	while (level > end_lvl) {
+		u64 __pte, __npte;
+		int pte_level;
+
+		__pte     = *pte;
+		pte_level = PM_PTE_LEVEL(__pte);
+
+		/*
+		 * If we replace a series of large PTEs, we need
+		 * to tear down all of them.
+		 */
+		if (IOMMU_PTE_PRESENT(__pte) &&
+		    pte_level == PAGE_MODE_7_LEVEL) {
+			unsigned long count, i;
+			u64 *lpte;
+
+			lpte = first_pte_l7(pte, NULL, &count);
+
+			/*
+			 * Unmap the replicated PTEs that still match the
+			 * original large mapping
+			 */
+			for (i = 0; i < count; ++i)
+				cmpxchg64(&lpte[i], __pte, 0ULL);
+
+			*updated = true;
+			continue;
+		}
+
+		if (!IOMMU_PTE_PRESENT(__pte) ||
+		    pte_level == PAGE_MODE_NONE) {
+			page = (u64 *)get_zeroed_page(gfp);
+
+			if (!page)
+				return NULL;
+
+			__npte = PM_LEVEL_PDE(level, iommu_virt_to_phys(page));
+
+			/* pte could have been changed somewhere. */
+			if (cmpxchg64(pte, __pte, __npte) != __pte)
+				free_page((unsigned long)page);
+			else if (IOMMU_PTE_PRESENT(__pte))
+				*updated = true;
+
+			continue;
+		}
+
+		/* No level skipping support yet */
+		if (pte_level != level)
+			return NULL;
+
+		level -= 1;
+
+		pte = IOMMU_PTE_PAGE(__pte);
+
+		if (pte_page && level == end_lvl)
+			*pte_page = pte;
+
+		pte = &pte[PM_LEVEL_INDEX(level, address)];
+	}
+
+	return pte;
+}
+
+/*
+ * This function checks if there is a PTE for a given dma address. If
+ * there is one, it returns the pointer to it.
+ */
+static u64 *fetch_pte(struct protection_domain *domain,
+		      unsigned long address,
+		      unsigned long *page_size)
+{
+	struct domain_pgtable pgtable;
+	int level;
+	u64 *pte;
+
+	*page_size = 0;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+
+	if (address > PM_LEVEL_SIZE(pgtable.mode))
+		return NULL;
+
+	level	   =  pgtable.mode - 1;
+	pte	   = &pgtable.root[PM_LEVEL_INDEX(level, address)];
+	*page_size =  PTE_LEVEL_PAGE_SIZE(level);
+
+	while (level > 0) {
+
+		/* Not Present */
+		if (!IOMMU_PTE_PRESENT(*pte))
+			return NULL;
+
+		/* Large PTE */
+		if (PM_PTE_LEVEL(*pte) == 7 ||
+		    PM_PTE_LEVEL(*pte) == 0)
+			break;
+
+		/* No level skipping support yet */
+		if (PM_PTE_LEVEL(*pte) != level)
+			return NULL;
+
+		level -= 1;
+
+		/* Walk to the next level */
+		pte	   = IOMMU_PTE_PAGE(*pte);
+		pte	   = &pte[PM_LEVEL_INDEX(level, address)];
+		*page_size = PTE_LEVEL_PAGE_SIZE(level);
+	}
+
+	/*
+	 * If we have a series of large PTEs, make
+	 * sure to return a pointer to the first one.
+	 */
+	if (PM_PTE_LEVEL(*pte) == PAGE_MODE_7_LEVEL)
+		pte = first_pte_l7(pte, page_size, NULL);
+
+	return pte;
+}
+
+static struct page *free_clear_pte(u64 *pte, u64 pteval, struct page *freelist)
+{
+	unsigned long pt;
+	int mode;
+
+	while (cmpxchg64(pte, pteval, 0) != pteval) {
+		pr_warn("AMD-Vi: IOMMU pte changed since we read it\n");
+		pteval = *pte;
+	}
+
+	if (!IOMMU_PTE_PRESENT(pteval))
+		return freelist;
+
+	pt   = (unsigned long)IOMMU_PTE_PAGE(pteval);
+	mode = IOMMU_PTE_MODE(pteval);
+
+	return free_sub_pt(pt, mode, freelist);
+}
+
+/*
+ * Generic mapping functions. It maps a physical address into a DMA
+ * address space. It allocates the page table pages if necessary.
+ * In the future it can be extended to a generic mapping function
+ * supporting all features of AMD IOMMU page tables like level skipping
+ * and full 64 bit address spaces.
+ */
+static int iommu_map_page(struct protection_domain *dom,
+			  unsigned long bus_addr,
+			  unsigned long phys_addr,
+			  unsigned long page_size,
+			  int prot,
+			  gfp_t gfp)
+{
+	struct page *freelist = NULL;
+	bool updated = false;
+	u64 __pte, *pte;
+	int ret, i, count;
+
+	BUG_ON(!IS_ALIGNED(bus_addr, page_size));
+	BUG_ON(!IS_ALIGNED(phys_addr, page_size));
+
+	ret = -EINVAL;
+	if (!(prot & IOMMU_PROT_MASK))
+		goto out;
+
+	count = PAGE_SIZE_PTE_COUNT(page_size);
+	pte   = alloc_pte(dom, bus_addr, page_size, NULL, gfp, &updated);
+
+	ret = -ENOMEM;
+	if (!pte)
+		goto out;
+
+	for (i = 0; i < count; ++i)
+		freelist = free_clear_pte(&pte[i], pte[i], freelist);
+
+	if (freelist != NULL)
+		updated = true;
+
+	if (count > 1) {
+		__pte = PAGE_SIZE_PTE(__sme_set(phys_addr), page_size);
+		__pte |= PM_LEVEL_ENC(7) | IOMMU_PTE_PR | IOMMU_PTE_FC;
+	} else
+		__pte = __sme_set(phys_addr) | IOMMU_PTE_PR | IOMMU_PTE_FC;
+
+	if (prot & IOMMU_PROT_IR)
+		__pte |= IOMMU_PTE_IR;
+	if (prot & IOMMU_PROT_IW)
+		__pte |= IOMMU_PTE_IW;
+
+	for (i = 0; i < count; ++i)
+		pte[i] = __pte;
+
+	ret = 0;
+
+out:
+	if (updated) {
+		unsigned long flags;
+
+		spin_lock_irqsave(&dom->lock, flags);
+		/*
+		 * Flush domain TLB(s) and wait for completion. Any Device-Table
+		 * Updates and flushing already happened in
+		 * increase_address_space().
+		 */
+		domain_flush_tlb_pde(dom);
+		domain_flush_complete(dom);
+		spin_unlock_irqrestore(&dom->lock, flags);
+	}
+
+	/* Everything flushed out, free pages now */
+	free_page_list(freelist);
+
+	return ret;
+}
+
+static unsigned long iommu_unmap_page(struct protection_domain *dom,
+				      unsigned long bus_addr,
+				      unsigned long page_size)
+{
+	unsigned long long unmapped;
+	unsigned long unmap_size;
+	u64 *pte;
+
+	BUG_ON(!is_power_of_2(page_size));
+
+	unmapped = 0;
+
+	while (unmapped < page_size) {
+
+		pte = fetch_pte(dom, bus_addr, &unmap_size);
+
+		if (pte) {
+			int i, count;
+
+			count = PAGE_SIZE_PTE_COUNT(unmap_size);
+			for (i = 0; i < count; i++)
+				pte[i] = 0ULL;
+		}
+
+		bus_addr  = (bus_addr & ~(unmap_size - 1)) + unmap_size;
+		unmapped += unmap_size;
+	}
+
+	BUG_ON(unmapped && !is_power_of_2(unmapped));
+
+	return unmapped;
+}
+
+/****************************************************************************
+ *
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * The next functions belong to the domain allocation. A domain is
  * allocated for every IOMMU as the default domain. If device isolation
  * is enabled, every device get its own domain. The most important thing
@@ -1393,16 +1962,36 @@ static void free_gcr3_table(struct protection_domain *domain)
 }
 
 static void set_dte_entry(u16 devid, struct protection_domain *domain,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			  struct domain_pgtable *pgtable,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  bool ats, bool ppr)
 {
 	u64 pte_root = 0;
 	u64 flags = 0;
 	u32 old_domid;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (domain->iop.mode != PAGE_MODE_NONE)
 		pte_root = iommu_virt_to_phys(domain->iop.root);
 
 	pte_root |= (domain->iop.mode & DEV_ENTRY_MODE_MASK)
+<<<<<<< HEAD
+=======
+=======
+	if (pgtable->mode != PAGE_MODE_NONE)
+		pte_root = iommu_virt_to_phys(pgtable->root);
+
+	pte_root |= (pgtable->mode & DEV_ENTRY_MODE_MASK)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    << DEV_ENTRY_MODE_SHIFT;
 	pte_root |= DTE_FLAG_IR | DTE_FLAG_IW | DTE_FLAG_V | DTE_FLAG_TV;
 
@@ -1475,6 +2064,13 @@ static void clear_dte_entry(u16 devid)
 static void do_attach(struct iommu_dev_data *dev_data,
 		      struct protection_domain *domain)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct domain_pgtable pgtable;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct amd_iommu *iommu;
 	bool ats;
 
@@ -1490,7 +2086,16 @@ static void do_attach(struct iommu_dev_data *dev_data,
 	domain->dev_cnt                 += 1;
 
 	/* Update device table */
+<<<<<<< HEAD
 	set_dte_entry(dev_data->devid, domain,
+=======
+<<<<<<< HEAD
+	set_dte_entry(dev_data->devid, domain,
+=======
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	set_dte_entry(dev_data->devid, domain, &pgtable,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      ats, dev_data->iommu_v2);
 	clone_aliases(dev_data->pdev);
 
@@ -1514,10 +2119,23 @@ static void do_detach(struct iommu_dev_data *dev_data)
 	device_flush_dte(dev_data);
 
 	/* Flush IOTLB */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amd_iommu_domain_flush_tlb_pde(domain);
 
 	/* Wait for the flushes to finish */
 	amd_iommu_domain_flush_complete(domain);
+<<<<<<< HEAD
+=======
+=======
+	domain_flush_tlb_pde(domain);
+
+	/* Wait for the flushes to finish */
+	domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* decrease reference counters - needs to happen after the flushes */
 	domain->dev_iommu[iommu->index] -= 1;
@@ -1650,9 +2268,21 @@ skip_ats_check:
 	 * left the caches in the IOMMU dirty. So we have to flush
 	 * here to evict all dirty stuff.
 	 */
+<<<<<<< HEAD
 	amd_iommu_domain_flush_tlb_pde(domain);
 
 	amd_iommu_domain_flush_complete(domain);
+=======
+<<<<<<< HEAD
+	amd_iommu_domain_flush_tlb_pde(domain);
+
+	amd_iommu_domain_flush_complete(domain);
+=======
+	domain_flush_tlb_pde(domain);
+
+	domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	spin_unlock(&dev_data->lock);
@@ -1747,8 +2377,11 @@ static void amd_iommu_probe_finalize(struct device *dev)
 	domain = iommu_get_domain_for_dev(dev);
 	if (domain->type == IOMMU_DOMAIN_DMA)
 		iommu_setup_dma_ops(dev, IOVA_START_PFN << PAGE_SHIFT, 0);
+<<<<<<< HEAD
 	else
 		set_dma_ops(dev, NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void amd_iommu_release_device(struct device *dev)
@@ -1799,17 +2432,38 @@ static int amd_iommu_domain_get_attr(struct iommu_domain *domain,
  *
  *****************************************************************************/
 
+<<<<<<< HEAD
 static void update_device_table(struct protection_domain *domain)
+=======
+<<<<<<< HEAD
+static void update_device_table(struct protection_domain *domain)
+=======
+static void update_device_table(struct protection_domain *domain,
+				struct domain_pgtable *pgtable)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iommu_dev_data *dev_data;
 
 	list_for_each_entry(dev_data, &domain->dev_list, list) {
+<<<<<<< HEAD
 		set_dte_entry(dev_data->devid, domain,
+=======
+<<<<<<< HEAD
+		set_dte_entry(dev_data->devid, domain,
+=======
+		set_dte_entry(dev_data->devid, domain, pgtable,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      dev_data->ats.enabled, dev_data->iommu_v2);
 		clone_aliases(dev_data->pdev);
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void amd_iommu_update_and_flush_device_table(struct protection_domain *domain)
 {
 	update_device_table(domain);
@@ -1824,6 +2478,29 @@ void amd_iommu_domain_update(struct protection_domain *domain)
 	/* Flush domain TLB(s) and wait for completion */
 	amd_iommu_domain_flush_tlb_pde(domain);
 	amd_iommu_domain_flush_complete(domain);
+<<<<<<< HEAD
+=======
+=======
+static void update_and_flush_device_table(struct protection_domain *domain,
+					  struct domain_pgtable *pgtable)
+{
+	update_device_table(domain, pgtable);
+	domain_flush_devices(domain);
+}
+
+static void update_domain(struct protection_domain *domain)
+{
+	struct domain_pgtable pgtable;
+
+	/* Update device table */
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	update_and_flush_device_table(domain, &pgtable);
+
+	/* Flush domain TLB(s) and wait for completion */
+	domain_flush_tlb_pde(domain);
+	domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int __init amd_iommu_init_api(void)
@@ -1891,19 +2568,46 @@ static void cleanup_domain(struct protection_domain *domain)
 
 static void protection_domain_free(struct protection_domain *domain)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct domain_pgtable pgtable;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!domain)
 		return;
 
 	if (domain->id)
 		domain_id_free(domain->id);
 
+<<<<<<< HEAD
 	if (domain->iop.pgtbl_cfg.tlb)
 		free_io_pgtable_ops(&domain->iop.iop.ops);
+=======
+<<<<<<< HEAD
+	if (domain->iop.pgtbl_cfg.tlb)
+		free_io_pgtable_ops(&domain->iop.iop.ops);
+=======
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	amd_iommu_domain_clr_pt_root(domain);
+	free_pagetable(&pgtable);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(domain);
 }
 
+<<<<<<< HEAD
 static int protection_domain_init_v1(struct protection_domain *domain, int mode)
+=======
+<<<<<<< HEAD
+static int protection_domain_init_v1(struct protection_domain *domain, int mode)
+=======
+static int protection_domain_init(struct protection_domain *domain, int mode)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u64 *pt_root = NULL;
 
@@ -1926,6 +2630,10 @@ static int protection_domain_init_v1(struct protection_domain *domain, int mode)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct protection_domain *protection_domain_alloc(unsigned int type)
 {
 	struct io_pgtable_ops *pgtbl_ops;
@@ -1933,11 +2641,23 @@ static struct protection_domain *protection_domain_alloc(unsigned int type)
 	int pgtable = amd_iommu_pgtable;
 	int mode = DEFAULT_PGTABLE_LEVEL;
 	int ret;
+<<<<<<< HEAD
+=======
+=======
+static struct protection_domain *protection_domain_alloc(int mode)
+{
+	struct protection_domain *domain;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
 	if (!domain)
 		return NULL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Force IOMMU v1 page table when iommu=pt and
 	 * when allocating domain for pass-through devices.
@@ -1967,14 +2687,41 @@ static struct protection_domain *protection_domain_alloc(unsigned int type)
 	return domain;
 out_err:
 	kfree(domain);
+<<<<<<< HEAD
+=======
+=======
+	if (protection_domain_init(domain, mode))
+		goto out_err;
+
+	return domain;
+
+out_err:
+	kfree(domain);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }
 
 static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
 {
 	struct protection_domain *domain;
+<<<<<<< HEAD
 
 	domain = protection_domain_alloc(type);
+=======
+<<<<<<< HEAD
+
+	domain = protection_domain_alloc(type);
+=======
+	int mode = DEFAULT_PGTABLE_LEVEL;
+
+	if (type == IOMMU_DOMAIN_IDENTITY)
+		mode = PAGE_MODE_NONE;
+
+	domain = protection_domain_alloc(mode);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!domain)
 		return NULL;
 
@@ -2089,12 +2836,27 @@ static int amd_iommu_map(struct iommu_domain *dom, unsigned long iova,
 			 gfp_t gfp)
 {
 	struct protection_domain *domain = to_pdomain(dom);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
 	int prot = 0;
 	int ret = -EINVAL;
 
 	if ((amd_iommu_pgtable == AMD_IOMMU_V1) &&
 	    (domain->iop.mode == PAGE_MODE_NONE))
+<<<<<<< HEAD
+=======
+=======
+	struct domain_pgtable pgtable;
+	int prot = 0;
+	int ret;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	if (pgtable.mode == PAGE_MODE_NONE)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	if (iommu_prot & IOMMU_READ)
@@ -2102,10 +2864,22 @@ static int amd_iommu_map(struct iommu_domain *dom, unsigned long iova,
 	if (iommu_prot & IOMMU_WRITE)
 		prot |= IOMMU_PROT_IW;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ops->map) {
 		ret = ops->map(ops, iova, paddr, page_size, prot, gfp);
 		domain_flush_np_cache(domain, iova, page_size);
 	}
+<<<<<<< HEAD
+=======
+=======
+	ret = iommu_map_page(domain, iova, paddr, page_size, prot, gfp);
+
+	domain_flush_np_cache(domain, iova, page_size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -2115,6 +2889,10 @@ static size_t amd_iommu_unmap(struct iommu_domain *dom, unsigned long iova,
 			      struct iommu_iotlb_gather *gather)
 {
 	struct protection_domain *domain = to_pdomain(dom);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
 
 	if ((amd_iommu_pgtable == AMD_IOMMU_V1) &&
@@ -2122,15 +2900,53 @@ static size_t amd_iommu_unmap(struct iommu_domain *dom, unsigned long iova,
 		return 0;
 
 	return (ops->unmap) ? ops->unmap(ops, iova, page_size, gather) : 0;
+<<<<<<< HEAD
+=======
+=======
+	struct domain_pgtable pgtable;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	if (pgtable.mode == PAGE_MODE_NONE)
+		return 0;
+
+	return iommu_unmap_page(domain, iova, page_size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static phys_addr_t amd_iommu_iova_to_phys(struct iommu_domain *dom,
 					  dma_addr_t iova)
 {
 	struct protection_domain *domain = to_pdomain(dom);
+<<<<<<< HEAD
 	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
 
 	return ops->iova_to_phys(ops, iova);
+=======
+<<<<<<< HEAD
+	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
+
+	return ops->iova_to_phys(ops, iova);
+=======
+	unsigned long offset_mask, pte_pgsize;
+	struct domain_pgtable pgtable;
+	u64 *pte, __pte;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	if (pgtable.mode == PAGE_MODE_NONE)
+		return iova;
+
+	pte = fetch_pte(domain, iova, &pte_pgsize);
+
+	if (!pte || !IOMMU_PTE_PRESENT(*pte))
+		return 0;
+
+	offset_mask = pte_pgsize - 1;
+	__pte	    = __sme_clr(*pte & PM_ADDR_MASK);
+
+	return (__pte & ~offset_mask) | (iova & offset_mask);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool amd_iommu_capable(enum iommu_cap cap)
@@ -2216,8 +3032,18 @@ static void amd_iommu_flush_iotlb_all(struct iommu_domain *domain)
 	unsigned long flags;
 
 	spin_lock_irqsave(&dom->lock, flags);
+<<<<<<< HEAD
 	amd_iommu_domain_flush_tlb_pde(dom);
 	amd_iommu_domain_flush_complete(dom);
+=======
+<<<<<<< HEAD
+	amd_iommu_domain_flush_tlb_pde(dom);
+	amd_iommu_domain_flush_complete(dom);
+=======
+	domain_flush_tlb_pde(dom);
+	domain_flush_complete(dom);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&dom->lock, flags);
 }
 
@@ -2295,12 +3121,38 @@ EXPORT_SYMBOL(amd_iommu_unregister_ppr_notifier);
 void amd_iommu_domain_direct_map(struct iommu_domain *dom)
 {
 	struct protection_domain *domain = to_pdomain(dom);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct domain_pgtable pgtable;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 
 	spin_lock_irqsave(&domain->lock, flags);
 
+<<<<<<< HEAD
 	if (domain->iop.pgtbl_cfg.tlb)
 		free_io_pgtable_ops(&domain->iop.iop.ops);
+=======
+<<<<<<< HEAD
+	if (domain->iop.pgtbl_cfg.tlb)
+		free_io_pgtable_ops(&domain->iop.iop.ops);
+=======
+	/* First save pgtable configuration*/
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+
+	/* Remove page-table from domain */
+	amd_iommu_domain_clr_pt_root(domain);
+
+	/* Make changes visible to IOMMUs */
+	update_domain(domain);
+
+	/* Page-table is not visible to IOMMU anymore, so free it */
+	free_pagetable(&pgtable);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_unlock_irqrestore(&domain->lock, flags);
 }
@@ -2341,7 +3193,15 @@ int amd_iommu_domain_enable_v2(struct iommu_domain *dom, int pasids)
 	domain->glx      = levels;
 	domain->flags   |= PD_IOMMUV2_MASK;
 
+<<<<<<< HEAD
 	amd_iommu_domain_update(domain);
+=======
+<<<<<<< HEAD
+	amd_iommu_domain_update(domain);
+=======
+	update_domain(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = 0;
 
@@ -2378,7 +3238,15 @@ static int __flush_pasid(struct protection_domain *domain, u32 pasid,
 	}
 
 	/* Wait until IOMMU TLB flushes are complete */
+<<<<<<< HEAD
 	amd_iommu_domain_flush_complete(domain);
+=======
+<<<<<<< HEAD
+	amd_iommu_domain_flush_complete(domain);
+=======
+	domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Now flush device TLBs */
 	list_for_each_entry(dev_data, &domain->dev_list, list) {
@@ -2404,7 +3272,15 @@ static int __flush_pasid(struct protection_domain *domain, u32 pasid,
 	}
 
 	/* Wait until all device TLBs are flushed */
+<<<<<<< HEAD
 	amd_iommu_domain_flush_complete(domain);
+=======
+<<<<<<< HEAD
+	amd_iommu_domain_flush_complete(domain);
+=======
+	domain_flush_complete(domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = 0;
 
@@ -2489,9 +3365,23 @@ static u64 *__get_gcr3_pte(u64 *root, int level, u32 pasid, bool alloc)
 static int __set_gcr3(struct protection_domain *domain, u32 pasid,
 		      unsigned long cr3)
 {
+<<<<<<< HEAD
 	u64 *pte;
 
 	if (domain->iop.mode != PAGE_MODE_NONE)
+=======
+<<<<<<< HEAD
+	u64 *pte;
+
+	if (domain->iop.mode != PAGE_MODE_NONE)
+=======
+	struct domain_pgtable pgtable;
+	u64 *pte;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	if (pgtable.mode != PAGE_MODE_NONE)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	pte = __get_gcr3_pte(domain->gcr3_tbl, domain->glx, pasid, true);
@@ -2505,9 +3395,23 @@ static int __set_gcr3(struct protection_domain *domain, u32 pasid,
 
 static int __clear_gcr3(struct protection_domain *domain, u32 pasid)
 {
+<<<<<<< HEAD
 	u64 *pte;
 
 	if (domain->iop.mode != PAGE_MODE_NONE)
+=======
+<<<<<<< HEAD
+	u64 *pte;
+
+	if (domain->iop.mode != PAGE_MODE_NONE)
+=======
+	struct domain_pgtable pgtable;
+	u64 *pte;
+
+	amd_iommu_domain_get_pgtable(domain, &pgtable);
+	if (pgtable.mode != PAGE_MODE_NONE)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	pte = __get_gcr3_pte(domain->gcr3_tbl, domain->glx, pasid, false);

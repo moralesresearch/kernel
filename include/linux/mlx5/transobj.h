@@ -85,5 +85,8 @@ mlx5_core_hairpin_create(struct mlx5_core_dev *func_mdev,
 			 struct mlx5_hairpin_params *params);
 
 void mlx5_core_hairpin_destroy(struct mlx5_hairpin *pair);
+<<<<<<< HEAD
 void mlx5_core_hairpin_clear_dead_peer(struct mlx5_hairpin *hp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __TRANSOBJ_H__ */

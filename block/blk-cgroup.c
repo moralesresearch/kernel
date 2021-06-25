@@ -32,6 +32,11 @@
 #include <linux/psi.h>
 #include "blk.h"
 
+<<<<<<< HEAD
+=======
+#define MAX_KEY_LEN 100
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * blkcg_pol_mutex protects blkcg_policy[] and policy [de]activation.
  * blkcg_pol_register_mutex nests outside of it and synchronizes entire
@@ -1763,6 +1768,7 @@ void blkcg_schedule_throttle(struct request_queue *q, bool use_memdelay)
 	if (unlikely(current->flags & PF_KTHREAD))
 		return;
 
+<<<<<<< HEAD
 	if (current->throttle_queue != q) {
 		if (!blk_get_queue(q))
 			return;
@@ -1772,6 +1778,14 @@ void blkcg_schedule_throttle(struct request_queue *q, bool use_memdelay)
 		current->throttle_queue = q;
 	}
 
+=======
+	if (!blk_get_queue(q))
+		return;
+
+	if (current->throttle_queue)
+		blk_put_queue(current->throttle_queue);
+	current->throttle_queue = q;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (use_memdelay)
 		current->use_memdelay = use_memdelay;
 	set_notify_resume(current);
@@ -1809,8 +1823,12 @@ static inline struct blkcg_gq *blkg_tryget_closest(struct bio *bio,
 	struct blkcg_gq *blkg, *ret_blkg = NULL;
 
 	rcu_read_lock();
+<<<<<<< HEAD
 	blkg = blkg_lookup_create(css_to_blkcg(css),
 				  bio->bi_bdev->bd_disk->queue);
+=======
+	blkg = blkg_lookup_create(css_to_blkcg(css), bio->bi_disk->queue);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (blkg) {
 		if (blkg_tryget(blkg)) {
 			ret_blkg = blkg;
@@ -1846,8 +1864,13 @@ void bio_associate_blkg_from_css(struct bio *bio,
 	if (css && css->parent) {
 		bio->bi_blkg = blkg_tryget_closest(bio, css);
 	} else {
+<<<<<<< HEAD
 		blkg_get(bio->bi_bdev->bd_disk->queue->root_blkg);
 		bio->bi_blkg = bio->bi_bdev->bd_disk->queue->root_blkg;
+=======
+		blkg_get(bio->bi_disk->queue->root_blkg);
+		bio->bi_blkg = bio->bi_disk->queue->root_blkg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL_GPL(bio_associate_blkg_from_css);

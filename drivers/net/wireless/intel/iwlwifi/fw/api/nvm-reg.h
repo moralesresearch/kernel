@@ -415,15 +415,24 @@ enum iwl_lari_config_masks {
 };
 
 /**
+<<<<<<< HEAD
  * struct iwl_lari_config_change_cmd_v1 - change LARI configuration
  * @config_bitmap: bit map of the config commands. each bit will trigger a
  * different predefined FW config operation
  */
 struct iwl_lari_config_change_cmd_v1 {
+=======
+ * struct iwl_lari_config_change_cmd - change LARI configuration
+ * @config_bitmap: bit map of the config commands. each bit will trigger a
+ * different predefined FW config operation
+ */
+struct iwl_lari_config_change_cmd {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__le32 config_bitmap;
 } __packed; /* LARI_CHANGE_CONF_CMD_S_VER_1 */
 
 /**
+<<<<<<< HEAD
  * struct iwl_lari_config_change_cmd_v2 - change LARI configuration
  * @config_bitmap: bit map of the config commands. each bit will trigger a
  * different predefined FW config operation
@@ -435,6 +444,8 @@ struct iwl_lari_config_change_cmd_v2 {
 } __packed; /* LARI_CHANGE_CONF_CMD_S_VER_2 */
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct iwl_pnvm_init_complete_ntfy - PNVM initialization complete
  * @status: PNVM image loading status
  */

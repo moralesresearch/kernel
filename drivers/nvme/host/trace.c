@@ -102,6 +102,7 @@ static const char *nvme_trace_get_lba_status(struct trace_seq *p,
 	return ret;
 }
 
+<<<<<<< HEAD
 static const char *nvme_trace_admin_format_nvm(struct trace_seq *p, u8 *cdw10)
 {
 	const char *ret = trace_seq_buffer_ptr(p);
@@ -119,6 +120,8 @@ static const char *nvme_trace_admin_format_nvm(struct trace_seq *p, u8 *cdw10)
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
 {
 	const char *ret = trace_seq_buffer_ptr(p);
@@ -148,6 +151,7 @@ static const char *nvme_trace_dsm(struct trace_seq *p, u8 *cdw10)
 	return ret;
 }
 
+<<<<<<< HEAD
 static const char *nvme_trace_zone_mgmt_send(struct trace_seq *p, u8 *cdw10)
 {
 	const char *ret = trace_seq_buffer_ptr(p);
@@ -177,6 +181,8 @@ static const char *nvme_trace_zone_mgmt_recv(struct trace_seq *p, u8 *cdw10)
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *nvme_trace_common(struct trace_seq *p, u8 *cdw10)
 {
 	const char *ret = trace_seq_buffer_ptr(p);
@@ -205,8 +211,11 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
 		return nvme_trace_admin_get_features(p, cdw10);
 	case nvme_admin_get_lba_status:
 		return nvme_trace_get_lba_status(p, cdw10);
+<<<<<<< HEAD
 	case nvme_admin_format_nvm:
 		return nvme_trace_admin_format_nvm(p, cdw10);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return nvme_trace_common(p, cdw10);
 	}
@@ -219,6 +228,7 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
 	case nvme_cmd_read:
 	case nvme_cmd_write:
 	case nvme_cmd_write_zeroes:
+<<<<<<< HEAD
 	case nvme_cmd_zone_append:
 		return nvme_trace_read_write(p, cdw10);
 	case nvme_cmd_dsm:
@@ -227,6 +237,11 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
 		return nvme_trace_zone_mgmt_send(p, cdw10);
 	case nvme_cmd_zone_mgmt_recv:
 		return nvme_trace_zone_mgmt_recv(p, cdw10);
+=======
+		return nvme_trace_read_write(p, cdw10);
+	case nvme_cmd_dsm:
+		return nvme_trace_dsm(p, cdw10);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return nvme_trace_common(p, cdw10);
 	}

@@ -39,6 +39,10 @@
 #include "en/txrx.h"
 #include "ipoib/ipoib.h"
 #include "en_accel/en_accel.h"
+<<<<<<< HEAD
+=======
+#include "lib/clock.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "en/ptp.h"
 
 static void mlx5e_dma_unmap_wqe_err(struct mlx5e_txqsq *sq, u8 num_dma)
@@ -105,6 +109,7 @@ return_txq:
 	return priv->port_ptp_tc2realtxq[up];
 }
 
+<<<<<<< HEAD
 static int mlx5e_select_htb_queue(struct mlx5e_priv *priv, struct sk_buff *skb,
 				  u16 htb_maj_id)
 {
@@ -121,15 +126,21 @@ static int mlx5e_select_htb_queue(struct mlx5e_priv *priv, struct sk_buff *skb,
 	return mlx5e_get_txq_by_classid(priv, classid);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u16 mlx5e_select_queue(struct net_device *dev, struct sk_buff *skb,
 		       struct net_device *sb_dev)
 {
 	struct mlx5e_priv *priv = netdev_priv(dev);
+<<<<<<< HEAD
 	int num_tc_x_num_ch;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int txq_ix;
 	int up = 0;
 	int ch_ix;
 
+<<<<<<< HEAD
 	/* Sync with mlx5e_update_num_tc_x_num_ch - avoid refetching. */
 	num_tc_x_num_ch = READ_ONCE(priv->num_tc_x_num_ch);
 	if (unlikely(dev->real_num_tx_queues > num_tc_x_num_ch)) {
@@ -152,6 +163,22 @@ u16 mlx5e_select_queue(struct net_device *dev, struct sk_buff *skb,
 		 * If they are selected, switch to regular queues.
 		 * Driver to select these queues only at mlx5e_select_ptpsq()
 		 * and mlx5e_select_htb_queue().
+=======
+	if (unlikely(priv->channels.port_ptp)) {
+		int num_tc_x_num_ch;
+
+		if (unlikely(skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) &&
+		    mlx5e_use_ptpsq(skb))
+			return mlx5e_select_ptpsq(dev, skb);
+
+		/* Sync with mlx5e_update_num_tc_x_num_ch - avoid refetching. */
+		num_tc_x_num_ch = READ_ONCE(priv->num_tc_x_num_ch);
+
+		txq_ix = netdev_pick_tx(dev, skb, NULL);
+		/* Fix netdev_pick_tx() not to choose ptp_channel txqs.
+		 * If they are selected, switch to regular queues.
+		 * Driver to select these queues only at mlx5e_select_ptpsq().
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		if (unlikely(txq_ix >= num_tc_x_num_ch))
 			txq_ix %= num_tc_x_num_ch;
@@ -265,8 +292,14 @@ mlx5e_txwqe_build_eseg_csum(struct mlx5e_txqsq *sq, struct sk_buff *skb,
 		eseg->cs_flags = MLX5_ETH_WQE_L3_CSUM | MLX5_ETH_WQE_L4_CSUM;
 		sq->stats->csum_partial++;
 #endif
+<<<<<<< HEAD
 	} else if (unlikely(mlx5e_ipsec_eseg_meta(eseg))) {
 		ipsec_txwqe_build_eseg_csum(sq, skb, eseg);
+=======
+	} else if (unlikely(eseg->flow_table_metadata & cpu_to_be32(MLX5_ETH_WQE_FT_META_IPSEC))) {
+		ipsec_txwqe_build_eseg_csum(sq, skb, eseg);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else
 		sq->stats->csum_none++;
 }
@@ -576,7 +609,11 @@ static void mlx5e_tx_mpwqe_session_start(struct mlx5e_txqsq *sq,
 
 	pi = mlx5e_txqsq_get_next_pi(sq, MLX5E_TX_MPW_MAX_WQEBBS);
 	wqe = MLX5E_TX_FETCH_WQE(sq, pi);
+<<<<<<< HEAD
 	net_prefetchw(wqe->data);
+=======
+	prefetchw(wqe->data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*session = (struct mlx5e_tx_mpwqe) {
 		.wqe = wqe,
@@ -726,10 +763,13 @@ netdev_tx_t mlx5e_xmit(struct sk_buff *skb, struct net_device *dev)
 	u16 pi;
 
 	sq = priv->txq2sq[skb_get_queue_mapping(skb)];
+<<<<<<< HEAD
 	if (unlikely(!sq)) {
 		dev_kfree_skb_any(skb);
 		return NETDEV_TX_OK;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* May send SKBs and WQEs. */
 	if (unlikely(!mlx5e_accel_tx_begin(dev, sq, skb, &accel)))
@@ -801,7 +841,11 @@ static void mlx5e_consume_skb(struct mlx5e_txqsq *sq, struct sk_buff *skb,
 		struct skb_shared_hwtstamps hwts = {};
 		u64 ts = get_cqe_ts(cqe);
 
+<<<<<<< HEAD
 		hwts.hwtstamp = mlx5e_cqe_ts_to_ns(sq->ptp_cyc2time, sq->clock, ts);
+=======
+		hwts.hwtstamp = mlx5_timecounter_cyc2time(sq->clock, ts);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (sq->ptpsq)
 			mlx5e_skb_cb_hwtstamp_handler(skb, MLX5E_SKB_CB_CQE_HWTSTAMP,
 						      hwts.hwtstamp, sq->ptpsq->cq_stats);

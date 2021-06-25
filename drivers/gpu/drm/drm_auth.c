@@ -314,10 +314,16 @@ int drm_master_open(struct drm_file *file_priv)
 void drm_master_release(struct drm_file *file_priv)
 {
 	struct drm_device *dev = file_priv->minor->dev;
+<<<<<<< HEAD
 	struct drm_master *master;
 
 	mutex_lock(&dev->master_mutex);
 	master = file_priv->master;
+=======
+	struct drm_master *master = file_priv->master;
+
+	mutex_lock(&dev->master_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (file_priv->magic)
 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
 

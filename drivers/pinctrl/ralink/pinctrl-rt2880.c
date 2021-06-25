@@ -127,7 +127,11 @@ static int rt2880_pmx_group_enable(struct pinctrl_dev *pctrldev,
 	if (p->groups[group].enabled) {
 		dev_err(p->dev, "%s is already enabled\n",
 			p->groups[group].name);
+<<<<<<< HEAD
 		return 0;
+=======
+		return -EBUSY;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	p->groups[group].enabled = 1;
@@ -193,6 +197,10 @@ static struct rt2880_pmx_func gpio_func = {
 
 static int rt2880_pinmux_index(struct rt2880_priv *p)
 {
+<<<<<<< HEAD
+=======
+	struct rt2880_pmx_func **f;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rt2880_pmx_group *mux = p->groups;
 	int i, j, c = 0;
 
@@ -206,7 +214,11 @@ static int rt2880_pinmux_index(struct rt2880_priv *p)
 	p->group_names = devm_kcalloc(p->dev, p->group_count,
 				      sizeof(char *), GFP_KERNEL);
 	if (!p->group_names)
+<<<<<<< HEAD
 		return -ENOMEM;
+=======
+		return -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < p->group_count; i++) {
 		p->group_names[i] = p->groups[i].name;
@@ -217,24 +229,40 @@ static int rt2880_pinmux_index(struct rt2880_priv *p)
 	p->func_count++;
 
 	/* allocate our function and group mapping index buffers */
+<<<<<<< HEAD
 	p->func = devm_kcalloc(p->dev, p->func_count,
 			       sizeof(*p->func), GFP_KERNEL);
 	gpio_func.groups = devm_kcalloc(p->dev, p->group_count, sizeof(int),
 					GFP_KERNEL);
 	if (!p->func || !gpio_func.groups)
 		return -ENOMEM;
+=======
+	f = p->func = devm_kcalloc(p->dev,
+				   p->func_count,
+				   sizeof(*p->func),
+				   GFP_KERNEL);
+	gpio_func.groups = devm_kcalloc(p->dev, p->group_count, sizeof(int),
+					GFP_KERNEL);
+	if (!f || !gpio_func.groups)
+		return -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* add a backpointer to the function so it knows its group */
 	gpio_func.group_count = p->group_count;
 	for (i = 0; i < gpio_func.group_count; i++)
 		gpio_func.groups[i] = i;
 
+<<<<<<< HEAD
 	p->func[c] = &gpio_func;
+=======
+	f[c] = &gpio_func;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	c++;
 
 	/* add remaining functions */
 	for (i = 0; i < p->group_count; i++) {
 		for (j = 0; j < p->groups[i].func_count; j++) {
+<<<<<<< HEAD
 			p->func[c] = &p->groups[i].func[j];
 			p->func[c]->groups = devm_kzalloc(p->dev, sizeof(int),
 						    GFP_KERNEL);
@@ -242,6 +270,13 @@ static int rt2880_pinmux_index(struct rt2880_priv *p)
 				return -ENOMEM;
 			p->func[c]->groups[0] = i;
 			p->func[c]->group_count = 1;
+=======
+			f[c] = &p->groups[i].func[j];
+			f[c]->groups = devm_kzalloc(p->dev, sizeof(int),
+						    GFP_KERNEL);
+			f[c]->groups[0] = i;
+			f[c]->group_count = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			c++;
 		}
 	}
@@ -279,8 +314,15 @@ static int rt2880_pinmux_pins(struct rt2880_priv *p)
 	/* the pads needed to tell pinctrl about our pins */
 	p->pads = devm_kcalloc(p->dev, p->max_pins,
 			       sizeof(struct pinctrl_pin_desc), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!p->pads || !p->gpio)
 		return -ENOMEM;
+=======
+	if (!p->pads || !p->gpio) {
+		dev_err(p->dev, "Failed to allocate gpio data\n");
+		return -ENOMEM;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(p->gpio, 1, sizeof(u8) * p->max_pins);
 	for (i = 0; i < p->func_count; i++) {
@@ -315,7 +357,10 @@ static int rt2880_pinmux_probe(struct platform_device *pdev)
 {
 	struct rt2880_priv *p;
 	struct pinctrl_dev *dev;
+<<<<<<< HEAD
 	int err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!rt2880_pinmux_data)
 		return -ENOTSUPP;
@@ -331,6 +376,7 @@ static int rt2880_pinmux_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, p);
 
 	/* init the device */
+<<<<<<< HEAD
 	err = rt2880_pinmux_index(p);
 	if (err) {
 		dev_err(&pdev->dev, "failed to load index\n");
@@ -345,6 +391,21 @@ static int rt2880_pinmux_probe(struct platform_device *pdev)
 	dev = pinctrl_register(p->desc, &pdev->dev, p);
 
 	return PTR_ERR_OR_ZERO(dev);
+=======
+	if (rt2880_pinmux_index(p)) {
+		dev_err(&pdev->dev, "failed to load index\n");
+		return -EINVAL;
+	}
+	if (rt2880_pinmux_pins(p)) {
+		dev_err(&pdev->dev, "failed to load pins\n");
+		return -EINVAL;
+	}
+	dev = pinctrl_register(p->desc, &pdev->dev, p);
+	if (IS_ERR(dev))
+		return PTR_ERR(dev);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct of_device_id rt2880_pinmux_match[] = {
@@ -361,7 +422,11 @@ static struct platform_driver rt2880_pinmux_driver = {
 	},
 };
 
+<<<<<<< HEAD
 static int __init rt2880_pinmux_init(void)
+=======
+int __init rt2880_pinmux_init(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return platform_driver_register(&rt2880_pinmux_driver);
 }

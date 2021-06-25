@@ -10,7 +10,10 @@
 #include <api/debug.h>
 #include <linux/kernel.h>
 #include <linux/time64.h>
+<<<<<<< HEAD
 #include <sys/time.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef HAVE_BACKTRACE_SUPPORT
 #include <execinfo.h>
 #endif
@@ -32,13 +35,17 @@ int debug_ordered_events;
 static int redirect_to_stderr;
 int debug_data_convert;
 static FILE *debug_file;
+<<<<<<< HEAD
 bool debug_display_time;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void debug_set_file(FILE *file)
 {
 	debug_file = file;
 }
 
+<<<<<<< HEAD
 void debug_set_display_time(bool set)
 {
 	debug_display_time = set;
@@ -63,17 +70,26 @@ static int fprintf_time(FILE *file)
 	return fprintf(file, "[%s.%06lu] ", date, (long)tod.tv_usec);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int veprintf(int level, int var, const char *fmt, va_list args)
 {
 	int ret = 0;
 
 	if (var >= level) {
+<<<<<<< HEAD
 		if (use_browser >= 1 && !redirect_to_stderr) {
 			ui_helpline__vshow(fmt, args);
 		} else {
 			ret = fprintf_time(debug_file);
 			ret += vfprintf(debug_file, fmt, args);
 		}
+=======
+		if (use_browser >= 1 && !redirect_to_stderr)
+			ui_helpline__vshow(fmt, args);
+		else
+			ret = vfprintf(debug_file, fmt, args);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;

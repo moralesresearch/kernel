@@ -126,8 +126,16 @@ include ../scripts/utilities.mak
 #
 # Define NO_LIBDEBUGINFOD if you do not want support debuginfod
 #
+<<<<<<< HEAD
 # Define BUILD_BPF_SKEL to enable BPF skeletons
 #
+=======
+<<<<<<< HEAD
+# Define BUILD_BPF_SKEL to enable BPF skeletons
+#
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # As per kernel Makefile, avoid funny character set dependencies
 unexport LC_ALL
@@ -177,6 +185,10 @@ endef
 
 LD += $(EXTRA_LDFLAGS)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 HOSTCC  ?= gcc
 HOSTLD  ?= ld
 HOSTAR  ?= ar
@@ -184,6 +196,13 @@ CLANG   ?= clang
 LLVM_STRIP ?= llvm-strip
 
 PKG_CONFIG = $(CROSS_COMPILE)pkg-config
+<<<<<<< HEAD
+=======
+=======
+PKG_CONFIG = $(CROSS_COMPILE)pkg-config
+LLVM_CONFIG ?= llvm-config
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 RM      = rm -f
 LN      = ln -f
@@ -738,8 +757,17 @@ prepare: $(OUTPUT)PERF-VERSION-FILE $(OUTPUT)common-cmds.h archheaders $(drm_ioc
 	$(x86_arch_prctl_code_array) \
 	$(rename_flags_array) \
 	$(arch_errno_name_array) \
+<<<<<<< HEAD
 	$(sync_file_range_arrays) \
 	bpf-skel
+=======
+<<<<<<< HEAD
+	$(sync_file_range_arrays) \
+	bpf-skel
+=======
+	$(sync_file_range_arrays)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 $(OUTPUT)%.o: %.c prepare FORCE
 	$(Q)$(MAKE) -f $(srctree)/tools/build/Makefile.build dir=$(build-dir) $@
@@ -1001,6 +1029,10 @@ $(INSTALL_DOC_TARGETS):
 
 ### Cleaning rules
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 python-clean:
 	$(python-clean)
 
@@ -1041,6 +1073,23 @@ bpf-skel-clean:
 	$(call QUIET_CLEAN, bpf-skel) $(RM) -r $(SKEL_TMP_OUT) $(SKELETONS)
 
 clean:: $(LIBTRACEEVENT)-clean $(LIBAPI)-clean $(LIBBPF)-clean $(LIBSUBCMD)-clean $(LIBPERF)-clean fixdep-clean python-clean bpf-skel-clean
+<<<<<<< HEAD
+=======
+=======
+#
+# This is here, not in Makefile.config, because Makefile.config does
+# not get included for the clean target:
+#
+config-clean:
+	$(call QUIET_CLEAN, config)
+	$(Q)$(MAKE) -C $(srctree)/tools/build/feature/ $(if $(OUTPUT),OUTPUT=$(OUTPUT)feature/,) clean >/dev/null
+
+python-clean:
+	$(python-clean)
+
+clean:: $(LIBTRACEEVENT)-clean $(LIBAPI)-clean $(LIBBPF)-clean $(LIBSUBCMD)-clean $(LIBPERF)-clean config-clean fixdep-clean python-clean
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call QUIET_CLEAN, core-objs)  $(RM) $(LIBPERF_A) $(OUTPUT)perf-archive $(OUTPUT)perf-with-kcore $(LANG_BINDINGS)
 	$(Q)find $(if $(OUTPUT),$(OUTPUT),.) -name '*.o' -delete -o -name '\.*.cmd' -delete -o -name '\.*.d' -delete
 	$(Q)$(RM) $(OUTPUT).config-detected

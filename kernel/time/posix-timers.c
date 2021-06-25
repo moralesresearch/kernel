@@ -1191,8 +1191,13 @@ SYSCALL_DEFINE2(clock_adjtime32, clockid_t, which_clock,
 
 	err = do_clock_adjtime(which_clock, &ktx);
 
+<<<<<<< HEAD
 	if (err >= 0 && put_old_timex32(utp, &ktx))
 		return -EFAULT;
+=======
+	if (err >= 0)
+		err = put_old_timex32(utp, &ktx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }

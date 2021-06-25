@@ -99,7 +99,11 @@ struct occ {
 	u8 poll_cmd_data;		/* to perform OCC poll command */
 	int (*send_cmd)(struct occ *occ, u8 *cmd);
 
+<<<<<<< HEAD
 	unsigned long next_update;
+=======
+	unsigned long last_update;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mutex lock;		/* lock OCC access */
 
 	struct device *hwmon;

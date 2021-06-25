@@ -31,8 +31,16 @@ obj-$(CONFIG_PINCTRL_PIC32)	+= pinctrl-pic32.o
 obj-$(CONFIG_PINCTRL_PISTACHIO)	+= pinctrl-pistachio.o
 obj-$(CONFIG_PINCTRL_ROCKCHIP)	+= pinctrl-rockchip.o
 obj-$(CONFIG_PINCTRL_SINGLE)	+= pinctrl-single.o
+<<<<<<< HEAD
 obj-$(CONFIG_PINCTRL_SX150X)	+= pinctrl-sx150x.o
 obj-$(CONFIG_ARCH_TEGRA)	+= tegra/
+=======
+obj-$(CONFIG_PINCTRL_SIRF)	+= sirf/
+obj-$(CONFIG_PINCTRL_SX150X)	+= pinctrl-sx150x.o
+obj-$(CONFIG_ARCH_TEGRA)	+= tegra/
+obj-$(CONFIG_PINCTRL_U300)	+= pinctrl-u300.o
+obj-$(CONFIG_PINCTRL_COH901)	+= pinctrl-coh901.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_PINCTRL_XWAY)	+= pinctrl-xway.o
 obj-$(CONFIG_PINCTRL_LANTIQ)	+= pinctrl-lantiq.o
 obj-$(CONFIG_PINCTRL_LPC18XX)	+= pinctrl-lpc18xx.o
@@ -45,7 +53,10 @@ obj-$(CONFIG_PINCTRL_RK805)	+= pinctrl-rk805.o
 obj-$(CONFIG_PINCTRL_OCELOT)	+= pinctrl-ocelot.o
 obj-$(CONFIG_PINCTRL_MICROCHIP_SGPIO)	+= pinctrl-microchip-sgpio.o
 obj-$(CONFIG_PINCTRL_EQUILIBRIUM)   += pinctrl-equilibrium.o
+<<<<<<< HEAD
 obj-$(CONFIG_PINCTRL_K210)	+= pinctrl-k210.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 obj-y				+= actions/
 obj-$(CONFIG_ARCH_ASPEED)	+= aspeed/
@@ -69,5 +80,9 @@ obj-y				+= ti/
 obj-$(CONFIG_PINCTRL_UNIPHIER)	+= uniphier/
 obj-$(CONFIG_ARCH_VT8500)	+= vt8500/
 obj-y				+= mediatek/
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_PINCTRL_ZX)	+= zte/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-y				+= cirrus/
 obj-$(CONFIG_PINCTRL_VISCONTI)	+= visconti/

@@ -20,7 +20,11 @@ static int pingpong_tearcheck_setup(struct drm_encoder *encoder,
 {
 	struct mdp5_kms *mdp5_kms = get_kms(encoder);
 	struct device *dev = encoder->dev->dev;
+<<<<<<< HEAD
 	u32 total_lines, vclks_line, cfg;
+=======
+	u32 total_lines_x100, vclks_line, cfg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	long vsync_clk_speed;
 	struct mdp5_hw_mixer *mixer = mdp5_crtc_get_mixer(encoder->crtc);
 	int pp_id = mixer->pp;
@@ -30,8 +34,13 @@ static int pingpong_tearcheck_setup(struct drm_encoder *encoder,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	total_lines = mode->vtotal * drm_mode_vrefresh(mode);
 	if (!total_lines) {
+=======
+	total_lines_x100 = mode->vtotal * drm_mode_vrefresh(mode);
+	if (!total_lines_x100) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DRM_DEV_ERROR(dev, "%s: vtotal(%d) or vrefresh(%d) is 0\n",
 			      __func__, mode->vtotal, drm_mode_vrefresh(mode));
 		return -EINVAL;
@@ -43,12 +52,17 @@ static int pingpong_tearcheck_setup(struct drm_encoder *encoder,
 							vsync_clk_speed);
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 	vclks_line = vsync_clk_speed / total_lines;
+=======
+	vclks_line = vsync_clk_speed * 100 / total_lines_x100;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cfg = MDP5_PP_SYNC_CONFIG_VSYNC_COUNTER_EN
 		| MDP5_PP_SYNC_CONFIG_VSYNC_IN_EN;
 	cfg |= MDP5_PP_SYNC_CONFIG_VSYNC_COUNT(vclks_line);
 
+<<<<<<< HEAD
 	/*
 	 * Tearcheck emits a blanking signal every vclks_line * vtotal * 2 ticks on
 	 * the vsync_clk equating to roughly half the desired panel refresh rate.
@@ -60,6 +74,11 @@ static int pingpong_tearcheck_setup(struct drm_encoder *encoder,
 	mdp5_write(mdp5_kms,
 		REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), (2 * mode->vtotal));
 
+=======
+	mdp5_write(mdp5_kms, REG_MDP5_PP_SYNC_CONFIG_VSYNC(pp_id), cfg);
+	mdp5_write(mdp5_kms,
+		REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), 0xfff0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mdp5_write(mdp5_kms,
 		REG_MDP5_PP_VSYNC_INIT_VAL(pp_id), mode->vdisplay);
 	mdp5_write(mdp5_kms, REG_MDP5_PP_RD_PTR_IRQ(pp_id), mode->vdisplay + 1);

@@ -95,9 +95,14 @@ reference_lists_fini(struct intel_gt *gt, struct wa_lists *lists)
 }
 
 static struct drm_i915_gem_object *
+<<<<<<< HEAD
 read_nonprivs(struct intel_context *ce)
 {
 	struct intel_engine_cs *engine = ce->engine;
+=======
+read_nonprivs(struct i915_gem_context *ctx, struct intel_engine_cs *engine)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const u32 base = engine->mmio_base;
 	struct drm_i915_gem_object *result;
 	struct i915_request *rq;
@@ -131,7 +136,11 @@ read_nonprivs(struct intel_context *ce)
 	if (err)
 		goto err_obj;
 
+<<<<<<< HEAD
 	rq = intel_context_create_request(ce);
+=======
+	rq = igt_request_alloc(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(rq)) {
 		err = PTR_ERR(rq);
 		goto err_pin;
@@ -146,7 +155,11 @@ read_nonprivs(struct intel_context *ce)
 		goto err_req;
 
 	srm = MI_STORE_REGISTER_MEM | MI_SRM_LRM_GLOBAL_GTT;
+<<<<<<< HEAD
 	if (INTEL_GEN(engine->i915) >= 8)
+=======
+	if (INTEL_GEN(ctx->i915) >= 8)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		srm++;
 
 	cs = intel_ring_begin(rq, 4 * RING_MAX_NONPRIV_SLOTS);
@@ -201,16 +214,26 @@ print_results(const struct intel_engine_cs *engine, const u32 *results)
 	}
 }
 
+<<<<<<< HEAD
 static int check_whitelist(struct intel_context *ce)
 {
 	struct intel_engine_cs *engine = ce->engine;
+=======
+static int check_whitelist(struct i915_gem_context *ctx,
+			   struct intel_engine_cs *engine)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_i915_gem_object *results;
 	struct intel_wedge_me wedge;
 	u32 *vaddr;
 	int err;
 	int i;
 
+<<<<<<< HEAD
 	results = read_nonprivs(ce);
+=======
+	results = read_nonprivs(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(results))
 		return PTR_ERR(results);
 
@@ -294,7 +317,12 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
 					int (*reset)(struct intel_engine_cs *),
 					const char *name)
 {
+<<<<<<< HEAD
 	struct intel_context *ce, *tmp;
+=======
+	struct drm_i915_private *i915 = engine->i915;
+	struct i915_gem_context *ctx, *tmp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct igt_spinner spin;
 	intel_wakeref_t wakeref;
 	int err;
@@ -302,15 +330,25 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
 	pr_info("Checking %d whitelisted registers on %s (RING_NONPRIV) [%s]\n",
 		engine->whitelist.count, engine->name, name);
 
+<<<<<<< HEAD
 	ce = intel_context_create(engine);
 	if (IS_ERR(ce))
 		return PTR_ERR(ce);
+=======
+	ctx = kernel_context(i915);
+	if (IS_ERR(ctx))
+		return PTR_ERR(ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = igt_spinner_init(&spin, engine->gt);
 	if (err)
 		goto out_ctx;
 
+<<<<<<< HEAD
 	err = check_whitelist(ce);
+=======
+	err = check_whitelist(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		pr_err("Invalid whitelist *before* %s reset!\n", name);
 		goto out_spin;
@@ -330,22 +368,37 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
 		goto out_spin;
 	}
 
+<<<<<<< HEAD
 	err = check_whitelist(ce);
+=======
+	err = check_whitelist(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		pr_err("Whitelist not preserved in context across %s reset!\n",
 		       name);
 		goto out_spin;
 	}
 
+<<<<<<< HEAD
 	tmp = intel_context_create(engine);
+=======
+	tmp = kernel_context(i915);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(tmp)) {
 		err = PTR_ERR(tmp);
 		goto out_spin;
 	}
+<<<<<<< HEAD
 	intel_context_put(ce);
 	ce = tmp;
 
 	err = check_whitelist(ce);
+=======
+	kernel_context_close(ctx);
+	ctx = tmp;
+
+	err = check_whitelist(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		pr_err("Invalid whitelist *after* %s reset in fresh context!\n",
 		       name);
@@ -355,7 +408,11 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
 out_spin:
 	igt_spinner_fini(&spin);
 out_ctx:
+<<<<<<< HEAD
 	intel_context_put(ce);
+=======
+	kernel_context_close(ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -486,11 +543,18 @@ static int check_dirty_whitelist(struct intel_context *ce)
 	struct intel_engine_cs *engine = ce->engine;
 	struct i915_vma *scratch;
 	struct i915_vma *batch;
+<<<<<<< HEAD
 	int err = 0, i, v, sz;
 	u32 *cs, *results;
 
 	sz = (2 * ARRAY_SIZE(values) + 1) * sizeof(u32);
 	scratch = __vm_create_scratch_for_read(ce->vm, sz);
+=======
+	int err = 0, i, v;
+	u32 *cs, *results;
+
+	scratch = create_scratch(ce->vm, 2 * ARRAY_SIZE(values) + 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(scratch))
 		return PTR_ERR(scratch);
 
@@ -787,15 +851,26 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 static int read_whitelisted_registers(struct intel_context *ce,
 				      struct i915_vma *results)
 {
 	struct intel_engine_cs *engine = ce->engine;
+=======
+static int read_whitelisted_registers(struct i915_gem_context *ctx,
+				      struct intel_engine_cs *engine,
+				      struct i915_vma *results)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i915_request *rq;
 	int i, err = 0;
 	u32 srm, *cs;
 
+<<<<<<< HEAD
 	rq = intel_context_create_request(ce);
+=======
+	rq = igt_request_alloc(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(rq))
 		return PTR_ERR(rq);
 
@@ -808,7 +883,11 @@ static int read_whitelisted_registers(struct intel_context *ce,
 		goto err_req;
 
 	srm = MI_STORE_REGISTER_MEM;
+<<<<<<< HEAD
 	if (INTEL_GEN(engine->i915) >= 8)
+=======
+	if (INTEL_GEN(ctx->i915) >= 8)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		srm++;
 
 	cs = intel_ring_begin(rq, 4 * engine->whitelist.count);
@@ -835,15 +914,28 @@ err_req:
 	return request_add_sync(rq, err);
 }
 
+<<<<<<< HEAD
 static int scrub_whitelisted_registers(struct intel_context *ce)
 {
 	struct intel_engine_cs *engine = ce->engine;
+=======
+static int scrub_whitelisted_registers(struct i915_gem_context *ctx,
+				       struct intel_engine_cs *engine)
+{
+	struct i915_address_space *vm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i915_request *rq;
 	struct i915_vma *batch;
 	int i, err = 0;
 	u32 *cs;
 
+<<<<<<< HEAD
 	batch = create_batch(ce->vm);
+=======
+	vm = i915_gem_context_get_vm_rcu(ctx);
+	batch = create_batch(vm);
+	i915_vm_put(vm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(batch))
 		return PTR_ERR(batch);
 
@@ -871,7 +963,11 @@ static int scrub_whitelisted_registers(struct intel_context *ce)
 	i915_gem_object_flush_map(batch->obj);
 	intel_gt_chipset_flush(engine->gt);
 
+<<<<<<< HEAD
 	rq = intel_context_create_request(ce);
+=======
+	rq = igt_request_alloc(ctx, engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(rq)) {
 		err = PTR_ERR(rq);
 		goto err_unpin;
@@ -1014,6 +1110,10 @@ static int live_isolated_whitelist(void *arg)
 {
 	struct intel_gt *gt = arg;
 	struct {
+<<<<<<< HEAD
+=======
+		struct i915_gem_context *ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct i915_vma *scratch[2];
 	} client[2] = {};
 	struct intel_engine_cs *engine;
@@ -1029,6 +1129,7 @@ static int live_isolated_whitelist(void *arg)
 		return 0;
 
 	for (i = 0; i < ARRAY_SIZE(client); i++) {
+<<<<<<< HEAD
 		client[i].scratch[0] =
 			__vm_create_scratch_for_read(gt->vm, 4096);
 		if (IS_ERR(client[i].scratch[0])) {
@@ -1048,12 +1149,48 @@ static int live_isolated_whitelist(void *arg)
 	for_each_engine(engine, gt, id) {
 		struct intel_context *ce[2];
 
+=======
+		struct i915_address_space *vm;
+		struct i915_gem_context *c;
+
+		c = kernel_context(gt->i915);
+		if (IS_ERR(c)) {
+			err = PTR_ERR(c);
+			goto err;
+		}
+
+		vm = i915_gem_context_get_vm_rcu(c);
+
+		client[i].scratch[0] = create_scratch(vm, 1024);
+		if (IS_ERR(client[i].scratch[0])) {
+			err = PTR_ERR(client[i].scratch[0]);
+			i915_vm_put(vm);
+			kernel_context_close(c);
+			goto err;
+		}
+
+		client[i].scratch[1] = create_scratch(vm, 1024);
+		if (IS_ERR(client[i].scratch[1])) {
+			err = PTR_ERR(client[i].scratch[1]);
+			i915_vma_unpin_and_release(&client[i].scratch[0], 0);
+			i915_vm_put(vm);
+			kernel_context_close(c);
+			goto err;
+		}
+
+		client[i].ctx = c;
+		i915_vm_put(vm);
+	}
+
+	for_each_engine(engine, gt, id) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!engine->kernel_context->vm)
 			continue;
 
 		if (!whitelist_writable_count(engine))
 			continue;
 
+<<<<<<< HEAD
 		ce[0] = intel_context_create(engine);
 		if (IS_ERR(ce[0])) {
 			err = PTR_ERR(ce[0]);
@@ -1080,6 +1217,24 @@ static int live_isolated_whitelist(void *arg)
 		err = read_whitelisted_registers(ce[1], client[1].scratch[0]);
 		if (err)
 			goto err_ce;
+=======
+		/* Read default values */
+		err = read_whitelisted_registers(client[0].ctx, engine,
+						 client[0].scratch[0]);
+		if (err)
+			goto err;
+
+		/* Try to overwrite registers (should only affect ctx0) */
+		err = scrub_whitelisted_registers(client[0].ctx, engine);
+		if (err)
+			goto err;
+
+		/* Read values from ctx1, we expect these to be defaults */
+		err = read_whitelisted_registers(client[1].ctx, engine,
+						 client[1].scratch[0]);
+		if (err)
+			goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Verify that both reads return the same default values */
 		err = check_whitelisted_registers(engine,
@@ -1087,29 +1242,53 @@ static int live_isolated_whitelist(void *arg)
 						  client[1].scratch[0],
 						  result_eq);
 		if (err)
+<<<<<<< HEAD
 			goto err_ce;
 
 		/* Read back the updated values in ctx0 */
 		err = read_whitelisted_registers(ce[0], client[0].scratch[1]);
 		if (err)
 			goto err_ce;
+=======
+			goto err;
+
+		/* Read back the updated values in ctx0 */
+		err = read_whitelisted_registers(client[0].ctx, engine,
+						 client[0].scratch[1]);
+		if (err)
+			goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* User should be granted privilege to overwhite regs */
 		err = check_whitelisted_registers(engine,
 						  client[0].scratch[0],
 						  client[0].scratch[1],
 						  result_neq);
+<<<<<<< HEAD
 err_ce:
 		intel_context_put(ce[1]);
 		intel_context_put(ce[0]);
 		if (err)
 			break;
+=======
+		if (err)
+			goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 err:
 	for (i = 0; i < ARRAY_SIZE(client); i++) {
+<<<<<<< HEAD
 		i915_vma_unpin_and_release(&client[i].scratch[1], 0);
 		i915_vma_unpin_and_release(&client[i].scratch[0], 0);
+=======
+		if (!client[i].ctx)
+			break;
+
+		i915_vma_unpin_and_release(&client[i].scratch[1], 0);
+		i915_vma_unpin_and_release(&client[i].scratch[0], 0);
+		kernel_context_close(client[i].ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (igt_flush_test(gt->i915))
@@ -1119,6 +1298,7 @@ err:
 }
 
 static bool
+<<<<<<< HEAD
 verify_wa_lists(struct intel_gt *gt, struct wa_lists *lists,
 		const char *str)
 {
@@ -1134,6 +1314,20 @@ verify_wa_lists(struct intel_gt *gt, struct wa_lists *lists,
 		ce = intel_context_create(engine);
 		if (IS_ERR(ce))
 			return false;
+=======
+verify_wa_lists(struct i915_gem_context *ctx, struct wa_lists *lists,
+		const char *str)
+{
+	struct drm_i915_private *i915 = ctx->i915;
+	struct i915_gem_engines_iter it;
+	struct intel_context *ce;
+	bool ok = true;
+
+	ok &= wa_list_verify(&i915->uncore, &lists->gt_wa_list, str);
+
+	for_each_gem_engine(ce, i915_gem_context_engines(ctx), it) {
+		enum intel_engine_id id = ce->engine->id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ok &= engine_wa_list_verify(ce,
 					    &lists->engine[id].wa_list,
@@ -1142,8 +1336,11 @@ verify_wa_lists(struct intel_gt *gt, struct wa_lists *lists,
 		ok &= engine_wa_list_verify(ce,
 					    &lists->engine[id].ctx_wa_list,
 					    str) == 0;
+<<<<<<< HEAD
 
 		intel_context_put(ce);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ok;
@@ -1153,6 +1350,10 @@ static int
 live_gpu_reset_workarounds(void *arg)
 {
 	struct intel_gt *gt = arg;
+<<<<<<< HEAD
+=======
+	struct i915_gem_context *ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_wakeref_t wakeref;
 	struct wa_lists lists;
 	bool ok;
@@ -1160,6 +1361,15 @@ live_gpu_reset_workarounds(void *arg)
 	if (!intel_has_gpu_reset(gt))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	ctx = kernel_context(gt->i915);
+	if (IS_ERR(ctx))
+		return PTR_ERR(ctx);
+
+	i915_gem_context_lock_engines(ctx);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_info("Verifying after GPU reset...\n");
 
 	igt_global_reset_lock(gt);
@@ -1167,15 +1377,27 @@ live_gpu_reset_workarounds(void *arg)
 
 	reference_lists_init(gt, &lists);
 
+<<<<<<< HEAD
 	ok = verify_wa_lists(gt, &lists, "before reset");
+=======
+	ok = verify_wa_lists(ctx, &lists, "before reset");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ok)
 		goto out;
 
 	intel_gt_reset(gt, ALL_ENGINES, "live_workarounds");
 
+<<<<<<< HEAD
 	ok = verify_wa_lists(gt, &lists, "after reset");
 
 out:
+=======
+	ok = verify_wa_lists(ctx, &lists, "after reset");
+
+out:
+	i915_gem_context_unlock_engines(ctx);
+	kernel_context_close(ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reference_lists_fini(gt, &lists);
 	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
 	igt_global_reset_unlock(gt);
@@ -1187,8 +1409,13 @@ static int
 live_engine_reset_workarounds(void *arg)
 {
 	struct intel_gt *gt = arg;
+<<<<<<< HEAD
 	struct intel_engine_cs *engine;
 	enum intel_engine_id id;
+=======
+	struct i915_gem_engines_iter it;
+	struct i915_gem_context *ctx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_context *ce;
 	struct igt_spinner spin;
 	struct i915_request *rq;
@@ -1199,11 +1426,19 @@ live_engine_reset_workarounds(void *arg)
 	if (!intel_has_reset_engine(gt))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	ctx = kernel_context(gt->i915);
+	if (IS_ERR(ctx))
+		return PTR_ERR(ctx);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	igt_global_reset_lock(gt);
 	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
 
 	reference_lists_init(gt, &lists);
 
+<<<<<<< HEAD
 	for_each_engine(engine, gt, id) {
 		bool ok;
 
@@ -1215,14 +1450,29 @@ live_engine_reset_workarounds(void *arg)
 		}
 
 		ok = verify_wa_lists(gt, &lists, "before reset");
+=======
+	for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it) {
+		struct intel_engine_cs *engine = ce->engine;
+		bool ok;
+
+		pr_info("Verifying after %s reset...\n", engine->name);
+
+		ok = verify_wa_lists(ctx, &lists, "before reset");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ok) {
 			ret = -ESRCH;
 			goto err;
 		}
 
+<<<<<<< HEAD
 		intel_engine_reset(engine, "live_workarounds:idle");
 
 		ok = verify_wa_lists(gt, &lists, "after idle reset");
+=======
+		intel_engine_reset(engine, "live_workarounds");
+
+		ok = verify_wa_lists(ctx, &lists, "after idle reset");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ok) {
 			ret = -ESRCH;
 			goto err;
@@ -1246,16 +1496,25 @@ live_engine_reset_workarounds(void *arg)
 			goto err;
 		}
 
+<<<<<<< HEAD
 		intel_engine_reset(engine, "live_workarounds:active");
+=======
+		intel_engine_reset(engine, "live_workarounds");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		igt_spinner_end(&spin);
 		igt_spinner_fini(&spin);
 
+<<<<<<< HEAD
 		ok = verify_wa_lists(gt, &lists, "after busy reset");
+=======
+		ok = verify_wa_lists(ctx, &lists, "after busy reset");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ok) {
 			ret = -ESRCH;
 			goto err;
 		}
+<<<<<<< HEAD
 
 err:
 		intel_context_put(ce);
@@ -1266,6 +1525,15 @@ err:
 	reference_lists_fini(gt, &lists);
 	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
 	igt_global_reset_unlock(gt);
+=======
+	}
+err:
+	i915_gem_context_unlock_engines(ctx);
+	reference_lists_fini(gt, &lists);
+	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
+	igt_global_reset_unlock(gt);
+	kernel_context_close(ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	igt_flush_test(gt->i915);
 

@@ -39,7 +39,11 @@ struct cpc_reg {
 	u8 bit_width;
 	u8 bit_offset;
 	u8 access_width;
+<<<<<<< HEAD
 	u64 address;
+=======
+	u64 __iomem address;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 /*

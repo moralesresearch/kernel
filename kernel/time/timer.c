@@ -1237,6 +1237,7 @@ int try_to_del_timer_sync(struct timer_list *timer)
 }
 EXPORT_SYMBOL(try_to_del_timer_sync);
 
+<<<<<<< HEAD
 bool timer_curr_running(struct timer_list *timer)
 {
 	int i;
@@ -1251,6 +1252,8 @@ bool timer_curr_running(struct timer_list *timer)
 	return false;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PREEMPT_RT
 static __init void timer_base_init_expiry_lock(struct timer_base *base)
 {

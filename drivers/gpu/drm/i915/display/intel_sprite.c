@@ -49,8 +49,11 @@
 #include "intel_psr.h"
 #include "intel_dsi.h"
 #include "intel_sprite.h"
+<<<<<<< HEAD
 #include "i9xx_plane.h"
 #include "intel_vrr.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int intel_usecs_to_scanlines(const struct drm_display_mode *adjusted_mode,
 			     int usecs)
@@ -63,6 +66,7 @@ int intel_usecs_to_scanlines(const struct drm_display_mode *adjusted_mode,
 			    1000 * adjusted_mode->crtc_htotal);
 }
 
+<<<<<<< HEAD
 static int intel_mode_vblank_start(const struct drm_display_mode *mode)
 {
 	int vblank_start = mode->crtc_vblank_start;
@@ -72,6 +76,15 @@ static int intel_mode_vblank_start(const struct drm_display_mode *mode)
 
 	return vblank_start;
 }
+=======
+/* FIXME: We should instead only take spinlocks once for the entire update
+ * instead of once per mmio. */
+#if IS_ENABLED(CONFIG_PROVE_LOCKING)
+#define VBLANK_EVASION_TIME_US 250
+#else
+#define VBLANK_EVASION_TIME_US 100
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * intel_pipe_update_start() - start update of a set of display registers
@@ -101,10 +114,16 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
 	if (new_crtc_state->uapi.async_flip)
 		return;
 
+<<<<<<< HEAD
 	if (new_crtc_state->vrr.enable)
 		vblank_start = intel_vrr_vmax_vblank_start(new_crtc_state);
 	else
 		vblank_start = intel_mode_vblank_start(adjusted_mode);
+=======
+	vblank_start = adjusted_mode->crtc_vblank_start;
+	if (adjusted_mode->flags & DRM_MODE_FLAG_INTERLACE)
+		vblank_start = DIV_ROUND_UP(vblank_start, 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* FIXME needs to be calibrated sensibly */
 	min = vblank_start - intel_usecs_to_scanlines(adjusted_mode,
@@ -192,6 +211,7 @@ irq_disable:
 	local_irq_disable();
 }
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_VBLANK_EVADE)
 static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end)
 {
@@ -222,6 +242,8 @@ static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end)
 static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end) {}
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * intel_pipe_update_end() - end update of a set of display registers
  * @new_crtc_state: the new crtc state
@@ -270,9 +292,12 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
 
 	local_irq_enable();
 
+<<<<<<< HEAD
 	/* Send VRR Push to terminate Vblank */
 	intel_vrr_send_push(new_crtc_state);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (intel_vgpu_active(dev_priv))
 		return;
 
@@ -287,8 +312,20 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
 			crtc->debug.min_vbl, crtc->debug.max_vbl,
 			crtc->debug.scanline_start, scanline_end);
 	}
+<<<<<<< HEAD
 
 	dbg_vblank_evade(crtc, end_vbl_time);
+=======
+#ifdef CONFIG_DRM_I915_DEBUG_VBLANK_EVADE
+	else if (ktime_us_delta(end_vbl_time, crtc->debug.start_vbl_time) >
+		 VBLANK_EVASION_TIME_US)
+		drm_warn(&dev_priv->drm,
+			 "Atomic update on pipe (%c) took %lld us, max time under evasion is %u us\n",
+			 pipe_name(pipe),
+			 ktime_us_delta(end_vbl_time, crtc->debug.start_vbl_time),
+			 VBLANK_EVASION_TIME_US);
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int intel_plane_check_stride(const struct intel_plane_state *plane_state)
@@ -741,8 +778,12 @@ icl_program_input_csc(struct intel_plane *plane,
 static void
 skl_plane_async_flip(struct intel_plane *plane,
 		     const struct intel_crtc_state *crtc_state,
+<<<<<<< HEAD
 		     const struct intel_plane_state *plane_state,
 		     bool async_flip)
+=======
+		     const struct intel_plane_state *plane_state)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
 	unsigned long irqflags;
@@ -753,9 +794,12 @@ skl_plane_async_flip(struct intel_plane *plane,
 
 	plane_ctl |= skl_plane_ctl_crtc(crtc_state);
 
+<<<<<<< HEAD
 	if (async_flip)
 		plane_ctl |= PLANE_CTL_ASYNC_FLIP;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
 
 	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
@@ -841,10 +885,13 @@ skl_program_plane(struct intel_plane *plane,
 	if (fb->format->is_yuv && icl_is_hdr_plane(dev_priv, plane_id))
 		icl_program_input_csc(plane, crtc_state, plane_state);
 
+<<<<<<< HEAD
 	if (fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC)
 		intel_uncore_write64_fw(&dev_priv->uncore,
 					PLANE_CC_VAL(pipe, plane_id), plane_state->ccval);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skl_write_plane_wm(plane, crtc_state);
 
 	intel_de_write_fw(dev_priv, PLANE_KEYVAL(pipe, plane_id),
@@ -936,6 +983,7 @@ skl_plane_get_hw_state(struct intel_plane *plane,
 	return ret;
 }
 
+<<<<<<< HEAD
 static void
 skl_plane_enable_flip_done(struct intel_plane *plane)
 {
@@ -958,6 +1006,8 @@ skl_plane_disable_flip_done(struct intel_plane *plane)
 	spin_unlock_irq(&i915->irq_lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void i9xx_plane_linear_gamma(u16 gamma[8])
 {
 	/* The points are not evenly spaced. */
@@ -1851,6 +1901,7 @@ g4x_sprite_max_stride(struct intel_plane *plane,
 		      u32 pixel_format, u64 modifier,
 		      unsigned int rotation)
 {
+<<<<<<< HEAD
 	const struct drm_format_info *info = drm_format_info(pixel_format);
 	int cpp = info->cpp[0];
 
@@ -1871,6 +1922,9 @@ hsw_sprite_max_stride(struct intel_plane *plane,
 
 	/* Limit to 8k pixels to guarantee OFFSET.x doesn't get too big. */
 	return min(8192 * cpp, 16 * 1024);
+=======
+	return 16384;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u32 g4x_sprite_ctl_crtc(const struct intel_crtc_state *crtc_state)
@@ -2385,8 +2439,12 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_CCS ||
 	     fb->modifier == I915_FORMAT_MOD_Yf_TILED_CCS ||
 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS ||
+<<<<<<< HEAD
 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS ||
 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC)) {
+=======
+	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		drm_dbg_kms(&dev_priv->drm,
 			    "Y/Yf tiling not supported in IF-ID mode\n");
 		return -EINVAL;
@@ -2876,7 +2934,10 @@ static const u64 skl_plane_format_modifiers_ccs[] = {
 static const u64 gen12_plane_format_modifiers_mc_ccs[] = {
 	I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS,
 	I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
+<<<<<<< HEAD
 	I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	I915_FORMAT_MOD_Y_TILED,
 	I915_FORMAT_MOD_X_TILED,
 	DRM_FORMAT_MOD_LINEAR,
@@ -2885,7 +2946,10 @@ static const u64 gen12_plane_format_modifiers_mc_ccs[] = {
 
 static const u64 gen12_plane_format_modifiers_rc_ccs[] = {
 	I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
+<<<<<<< HEAD
 	I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	I915_FORMAT_MOD_Y_TILED,
 	I915_FORMAT_MOD_X_TILED,
 	DRM_FORMAT_MOD_LINEAR,
@@ -3076,7 +3140,10 @@ static bool gen12_plane_format_mod_supported(struct drm_plane *_plane,
 	case I915_FORMAT_MOD_X_TILED:
 	case I915_FORMAT_MOD_Y_TILED:
 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS:
+<<<<<<< HEAD
 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return false;
@@ -3313,6 +3380,7 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
 	plane->get_hw_state = skl_plane_get_hw_state;
 	plane->check_plane = skl_plane_check;
 	plane->min_cdclk = skl_plane_min_cdclk;
+<<<<<<< HEAD
 
 	if (plane_id == PLANE_PRIMARY) {
 		plane->need_async_flip_disable_wa = IS_GEN_RANGE(dev_priv, 9, 10);
@@ -3320,6 +3388,9 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
 		plane->enable_flip_done = skl_plane_enable_flip_done;
 		plane->disable_flip_done = skl_plane_disable_flip_done;
 	}
+=======
+	plane->async_flip = skl_plane_async_flip;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (INTEL_GEN(dev_priv) >= 11)
 		formats = icl_get_plane_formats(dev_priv, pipe,
@@ -3427,11 +3498,18 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
 		return plane;
 
 	if (IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) {
+<<<<<<< HEAD
+=======
+		plane->max_stride = i9xx_plane_max_stride;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		plane->update_plane = vlv_update_plane;
 		plane->disable_plane = vlv_disable_plane;
 		plane->get_hw_state = vlv_plane_get_hw_state;
 		plane->check_plane = vlv_sprite_check;
+<<<<<<< HEAD
 		plane->max_stride = i965_plane_max_stride;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		plane->min_cdclk = vlv_plane_min_cdclk;
 
 		if (IS_CHERRYVIEW(dev_priv) && pipe == PIPE_B) {
@@ -3445,11 +3523,16 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
 
 		plane_funcs = &vlv_sprite_funcs;
 	} else if (INTEL_GEN(dev_priv) >= 7) {
+<<<<<<< HEAD
+=======
+		plane->max_stride = g4x_sprite_max_stride;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		plane->update_plane = ivb_update_plane;
 		plane->disable_plane = ivb_disable_plane;
 		plane->get_hw_state = ivb_plane_get_hw_state;
 		plane->check_plane = g4x_sprite_check;
 
+<<<<<<< HEAD
 		if (IS_BROADWELL(dev_priv) || IS_HASWELL(dev_priv)) {
 			plane->max_stride = hsw_sprite_max_stride;
 			plane->min_cdclk = hsw_plane_min_cdclk;
@@ -3457,6 +3540,12 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
 			plane->max_stride = g4x_sprite_max_stride;
 			plane->min_cdclk = ivb_sprite_min_cdclk;
 		}
+=======
+		if (IS_BROADWELL(dev_priv) || IS_HASWELL(dev_priv))
+			plane->min_cdclk = hsw_plane_min_cdclk;
+		else
+			plane->min_cdclk = ivb_sprite_min_cdclk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		formats = snb_plane_formats;
 		num_formats = ARRAY_SIZE(snb_plane_formats);
@@ -3464,11 +3553,18 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
 
 		plane_funcs = &snb_sprite_funcs;
 	} else {
+<<<<<<< HEAD
+=======
+		plane->max_stride = g4x_sprite_max_stride;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		plane->update_plane = g4x_update_plane;
 		plane->disable_plane = g4x_disable_plane;
 		plane->get_hw_state = g4x_plane_get_hw_state;
 		plane->check_plane = g4x_sprite_check;
+<<<<<<< HEAD
 		plane->max_stride = g4x_sprite_max_stride;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		plane->min_cdclk = g4x_sprite_min_cdclk;
 
 		modifiers = i9xx_plane_format_modifiers;

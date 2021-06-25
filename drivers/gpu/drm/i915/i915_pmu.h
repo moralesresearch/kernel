@@ -14,6 +14,7 @@
 
 struct drm_i915_private;
 
+<<<<<<< HEAD
 /**
  * Non-engine events that we need to track enabled-disabled transition and
  * current state.
@@ -29,6 +30,8 @@ enum i915_pmu_tracked_events {
  * Slots used from the sampling timer (non-engine events) with some extras for
  * convenience.
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum {
 	__I915_SAMPLE_FREQ_ACT = 0,
 	__I915_SAMPLE_FREQ_REQ,
@@ -43,7 +46,12 @@ enum {
  * It is also used to know to needed number of event reference counters.
  */
 #define I915_PMU_MASK_BITS \
+<<<<<<< HEAD
 	(I915_ENGINE_SAMPLE_COUNT + __I915_PMU_TRACKED_EVENT_COUNT)
+=======
+	((1 << I915_PMU_SAMPLE_BITS) + \
+	 (I915_PMU_LAST + 1 - __I915_PMU_OTHER(0)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define I915_ENGINE_SAMPLE_COUNT (I915_SAMPLE_SEMA + 1)
 
@@ -80,6 +88,7 @@ struct i915_pmu {
 	 */
 	struct hrtimer timer;
 	/**
+<<<<<<< HEAD
 	 * @enable: Bitmask of specific enabled events.
 	 *
 	 * For some events we need to track their state and do some internal
@@ -91,6 +100,20 @@ struct i915_pmu {
 	 * Low bits are engine samplers and other events continue from there.
 	 */
 	u32 enable;
+=======
+	 * @enable: Bitmask of all currently enabled events.
+	 *
+	 * Bits are derived from uAPI event numbers in a way that low 16 bits
+	 * correspond to engine event _sample_ _type_ (I915_SAMPLE_QUEUED is
+	 * bit 0), and higher bits correspond to other events (for instance
+	 * I915_PMU_ACTUAL_FREQUENCY is bit 16 etc).
+	 *
+	 * In other words, low 16 bits are not per engine but per engine
+	 * sampler type, while the upper bits are directly mapped to other
+	 * event types.
+	 */
+	u64 enable;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * @timer_last:

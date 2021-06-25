@@ -43,7 +43,11 @@ static kmem_zone_t *xfs_buf_zone;
  *	  pag_buf_lock
  *	    lru_lock
  *
+<<<<<<< HEAD
  * xfs_buftarg_drain_rele
+=======
+ * xfs_buftarg_wait_rele
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	lru_lock
  *	  b_lock (trylock due to inversion)
  *
@@ -88,7 +92,11 @@ xfs_buf_vmap_len(
  * because the corresponding decrement is deferred to buffer release. Buffers
  * can undergo I/O multiple times in a hold-release cycle and per buffer I/O
  * tracking adds unnecessary overhead. This is used for sychronization purposes
+<<<<<<< HEAD
  * with unmount (see xfs_buftarg_drain()), so all we really need is a count of
+=======
+ * with unmount (see xfs_wait_buftarg()), so all we really need is a count of
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * in-flight buffers.
  *
  * Buffers that are never released (e.g., superblock, iclog buffers) must set
@@ -1480,7 +1488,11 @@ xfs_buf_ioapply_map(
 	int		op)
 {
 	int		page_index;
+<<<<<<< HEAD
 	unsigned int	total_nr_pages = bp->b_page_count;
+=======
+	int		total_nr_pages = bp->b_page_count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int		nr_pages;
 	struct bio	*bio;
 	sector_t	sector =  bp->b_maps[map].bm_bn;
@@ -1505,7 +1517,11 @@ xfs_buf_ioapply_map(
 
 next_chunk:
 	atomic_inc(&bp->b_io_remaining);
+<<<<<<< HEAD
 	nr_pages = bio_max_segs(total_nr_pages);
+=======
+	nr_pages = min(total_nr_pages, BIO_MAX_PAGES);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bio = bio_alloc(GFP_NOIO, nr_pages);
 	bio_set_dev(bio, bp->b_target->bt_bdev);
@@ -1786,7 +1802,11 @@ __xfs_buf_mark_corrupt(
  * while freeing all the buffers only held by the LRU.
  */
 static enum lru_status
+<<<<<<< HEAD
 xfs_buftarg_drain_rele(
+=======
+xfs_buftarg_wait_rele(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct list_head	*item,
 	struct list_lru_one	*lru,
 	spinlock_t		*lru_lock,
@@ -1798,7 +1818,11 @@ xfs_buftarg_drain_rele(
 
 	if (atomic_read(&bp->b_hold) > 1) {
 		/* need to wait, so skip it this pass */
+<<<<<<< HEAD
 		trace_xfs_buf_drain_buftarg(bp, _RET_IP_);
+=======
+		trace_xfs_buf_wait_buftarg(bp, _RET_IP_);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return LRU_SKIP;
 	}
 	if (!spin_trylock(&bp->b_lock))
@@ -1815,6 +1839,7 @@ xfs_buftarg_drain_rele(
 	return LRU_REMOVED;
 }
 
+<<<<<<< HEAD
 /*
  * Wait for outstanding I/O on the buftarg to complete.
  */
@@ -1822,6 +1847,16 @@ void
 xfs_buftarg_wait(
 	struct xfs_buftarg	*btp)
 {
+=======
+void
+xfs_wait_buftarg(
+	struct xfs_buftarg	*btp)
+{
+	LIST_HEAD(dispose);
+	int			loop = 0;
+	bool			write_fail = false;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * First wait on the buftarg I/O count for all in-flight buffers to be
 	 * released. This is critical as new buffers do not make the LRU until
@@ -1837,6 +1872,7 @@ xfs_buftarg_wait(
 	while (percpu_counter_sum(&btp->bt_io_count))
 		delay(100);
 	flush_workqueue(btp->bt_mount->m_buf_workqueue);
+<<<<<<< HEAD
 }
 
 void
@@ -1852,6 +1888,12 @@ xfs_buftarg_drain(
 	/* loop until there is nothing left on the lru list. */
 	while (list_lru_count(&btp->bt_lru)) {
 		list_lru_walk(&btp->bt_lru, xfs_buftarg_drain_rele,
+=======
+
+	/* loop until there is nothing left on the lru list. */
+	while (list_lru_count(&btp->bt_lru)) {
+		list_lru_walk(&btp->bt_lru, xfs_buftarg_wait_rele,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      &dispose, LONG_MAX);
 
 		while (!list_empty(&dispose)) {

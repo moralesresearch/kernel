@@ -987,9 +987,15 @@ static inline struct mmc_data *wbsd_get_data(struct wbsd_host *host)
 	return host->mrq->cmd->data;
 }
 
+<<<<<<< HEAD
 static void wbsd_tasklet_card(struct tasklet_struct *t)
 {
 	struct wbsd_host *host = from_tasklet(host, t, card_tasklet);
+=======
+static void wbsd_tasklet_card(unsigned long param)
+{
+	struct wbsd_host *host = (struct wbsd_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 csr;
 	int delay = -1;
 
@@ -1036,9 +1042,15 @@ static void wbsd_tasklet_card(struct tasklet_struct *t)
 		mmc_detect_change(host->mmc, msecs_to_jiffies(delay));
 }
 
+<<<<<<< HEAD
 static void wbsd_tasklet_fifo(struct tasklet_struct *t)
 {
 	struct wbsd_host *host = from_tasklet(host, t, fifo_tasklet);
+=======
+static void wbsd_tasklet_fifo(unsigned long param)
+{
+	struct wbsd_host *host = (struct wbsd_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mmc_data *data;
 
 	spin_lock(&host->lock);
@@ -1067,9 +1079,15 @@ end:
 	spin_unlock(&host->lock);
 }
 
+<<<<<<< HEAD
 static void wbsd_tasklet_crc(struct tasklet_struct *t)
 {
 	struct wbsd_host *host = from_tasklet(host, t, crc_tasklet);
+=======
+static void wbsd_tasklet_crc(unsigned long param)
+{
+	struct wbsd_host *host = (struct wbsd_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mmc_data *data;
 
 	spin_lock(&host->lock);
@@ -1091,9 +1109,15 @@ end:
 	spin_unlock(&host->lock);
 }
 
+<<<<<<< HEAD
 static void wbsd_tasklet_timeout(struct tasklet_struct *t)
 {
 	struct wbsd_host *host = from_tasklet(host, t, timeout_tasklet);
+=======
+static void wbsd_tasklet_timeout(unsigned long param)
+{
+	struct wbsd_host *host = (struct wbsd_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mmc_data *data;
 
 	spin_lock(&host->lock);
@@ -1115,9 +1139,15 @@ end:
 	spin_unlock(&host->lock);
 }
 
+<<<<<<< HEAD
 static void wbsd_tasklet_finish(struct tasklet_struct *t)
 {
 	struct wbsd_host *host = from_tasklet(host, t, finish_tasklet);
+=======
+static void wbsd_tasklet_finish(unsigned long param)
+{
+	struct wbsd_host *host = (struct wbsd_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mmc_data *data;
 
 	spin_lock(&host->lock);
@@ -1449,11 +1479,24 @@ static int wbsd_request_irq(struct wbsd_host *host, int irq)
 	/*
 	 * Set up tasklets. Must be done before requesting interrupt.
 	 */
+<<<<<<< HEAD
 	tasklet_setup(&host->card_tasklet, wbsd_tasklet_card);
 	tasklet_setup(&host->fifo_tasklet, wbsd_tasklet_fifo);
 	tasklet_setup(&host->crc_tasklet, wbsd_tasklet_crc);
 	tasklet_setup(&host->timeout_tasklet, wbsd_tasklet_timeout);
 	tasklet_setup(&host->finish_tasklet, wbsd_tasklet_finish);
+=======
+	tasklet_init(&host->card_tasklet, wbsd_tasklet_card,
+			(unsigned long)host);
+	tasklet_init(&host->fifo_tasklet, wbsd_tasklet_fifo,
+			(unsigned long)host);
+	tasklet_init(&host->crc_tasklet, wbsd_tasklet_crc,
+			(unsigned long)host);
+	tasklet_init(&host->timeout_tasklet, wbsd_tasklet_timeout,
+			(unsigned long)host);
+	tasklet_init(&host->finish_tasklet, wbsd_tasklet_finish,
+			(unsigned long)host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Allocate interrupt.

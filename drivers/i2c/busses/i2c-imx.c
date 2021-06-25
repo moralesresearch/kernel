@@ -209,7 +209,10 @@ struct imx_i2c_struct {
 
 	struct imx_i2c_dma	*dma;
 	struct i2c_client	*slave;
+<<<<<<< HEAD
 	enum i2c_slave_event last_slave_event;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct imx_i2c_hwdata imx1_i2c_hwdata = {
@@ -551,7 +554,11 @@ static void i2c_imx_set_clk(struct imx_i2c_struct *i2c_imx,
 
 	i2c_imx->cur_clk = i2c_clk_rate;
 
+<<<<<<< HEAD
 	div = DIV_ROUND_UP(i2c_clk_rate, i2c_imx->bitrate);
+=======
+	div = (i2c_clk_rate + i2c_imx->bitrate - 1) / i2c_imx->bitrate;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (div < i2c_clk_div[0].div)
 		i = 0;
 	else if (div > i2c_clk_div[i2c_imx->hwdata->ndivs - 1].div)
@@ -569,8 +576,13 @@ static void i2c_imx_set_clk(struct imx_i2c_struct *i2c_imx,
 	 * This delay is used in I2C bus disable function
 	 * to fix chip hardware bug.
 	 */
+<<<<<<< HEAD
 	i2c_imx->disable_delay = DIV_ROUND_UP(500000U * i2c_clk_div[i].div,
 					      i2c_clk_rate / 2);
+=======
+	i2c_imx->disable_delay = (500000U * i2c_clk_div[i].div
+		+ (i2c_clk_rate / 2) - 1) / (i2c_clk_rate / 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_I2C_DEBUG_BUS
 	dev_dbg(&i2c_imx->adapter.dev, "I2C_CLK=%d, REQ DIV=%d\n",
@@ -676,6 +688,7 @@ static void i2c_imx_enable_bus_idle(struct imx_i2c_struct *i2c_imx)
 	}
 }
 
+<<<<<<< HEAD
 static void i2c_imx_slave_event(struct imx_i2c_struct *i2c_imx,
 				enum i2c_slave_event event, u8 *val)
 {
@@ -706,6 +719,8 @@ static void i2c_imx_slave_finish_op(struct imx_i2c_struct *i2c_imx)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static irqreturn_t i2c_imx_slave_isr(struct imx_i2c_struct *i2c_imx,
 				     unsigned int status, unsigned int ctl)
 {
@@ -718,11 +733,17 @@ static irqreturn_t i2c_imx_slave_isr(struct imx_i2c_struct *i2c_imx,
 	}
 
 	if (status & I2SR_IAAS) { /* Addressed as a slave */
+<<<<<<< HEAD
 		i2c_imx_slave_finish_op(i2c_imx);
 		if (status & I2SR_SRW) { /* Master wants to read from us*/
 			dev_dbg(&i2c_imx->adapter.dev, "read requested");
 			i2c_imx_slave_event(i2c_imx,
 					    I2C_SLAVE_READ_REQUESTED, &value);
+=======
+		if (status & I2SR_SRW) { /* Master wants to read from us*/
+			dev_dbg(&i2c_imx->adapter.dev, "read requested");
+			i2c_slave_event(i2c_imx->slave, I2C_SLAVE_READ_REQUESTED, &value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* Slave transmit */
 			ctl |= I2CR_MTX;
@@ -732,8 +753,12 @@ static irqreturn_t i2c_imx_slave_isr(struct imx_i2c_struct *i2c_imx,
 			imx_i2c_write_reg(value, i2c_imx, IMX_I2C_I2DR);
 		} else { /* Master wants to write to us */
 			dev_dbg(&i2c_imx->adapter.dev, "write requested");
+<<<<<<< HEAD
 			i2c_imx_slave_event(i2c_imx,
 					    I2C_SLAVE_WRITE_REQUESTED, &value);
+=======
+			i2c_slave_event(i2c_imx->slave,	I2C_SLAVE_WRITE_REQUESTED, &value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* Slave receive */
 			ctl &= ~I2CR_MTX;
@@ -744,6 +769,7 @@ static irqreturn_t i2c_imx_slave_isr(struct imx_i2c_struct *i2c_imx,
 	} else if (!(ctl & I2CR_MTX)) { /* Receive mode */
 		if (status & I2SR_IBB) { /* No STOP signal detected */
 			value = imx_i2c_read_reg(i2c_imx, IMX_I2C_I2DR);
+<<<<<<< HEAD
 			i2c_imx_slave_event(i2c_imx,
 					    I2C_SLAVE_WRITE_RECEIVED, &value);
 		} else { /* STOP signal is detected */
@@ -751,13 +777,24 @@ static irqreturn_t i2c_imx_slave_isr(struct imx_i2c_struct *i2c_imx,
 				"STOP signal detected");
 			i2c_imx_slave_event(i2c_imx,
 					    I2C_SLAVE_STOP, &value);
+=======
+			i2c_slave_event(i2c_imx->slave,	I2C_SLAVE_WRITE_RECEIVED, &value);
+		} else { /* STOP signal is detected */
+			dev_dbg(&i2c_imx->adapter.dev,
+				"STOP signal detected");
+			i2c_slave_event(i2c_imx->slave, I2C_SLAVE_STOP, &value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (!(status & I2SR_RXAK)) { /* Transmit mode received ACK */
 		ctl |= I2CR_MTX;
 		imx_i2c_write_reg(ctl, i2c_imx, IMX_I2C_I2CR);
 
+<<<<<<< HEAD
 		i2c_imx_slave_event(i2c_imx,
 				    I2C_SLAVE_READ_PROCESSED, &value);
+=======
+		i2c_slave_event(i2c_imx->slave,	I2C_SLAVE_READ_PROCESSED, &value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		imx_i2c_write_reg(value, i2c_imx, IMX_I2C_I2DR);
 	} else { /* Transmit mode received NAK */
@@ -798,10 +835,16 @@ static int i2c_imx_reg_slave(struct i2c_client *client)
 		return -EBUSY;
 
 	i2c_imx->slave = client;
+<<<<<<< HEAD
 	i2c_imx->last_slave_event = I2C_SLAVE_STOP;
 
 	/* Resume */
 	ret = pm_runtime_resume_and_get(i2c_imx->adapter.dev.parent);
+=======
+
+	/* Resume */
+	ret = pm_runtime_get_sync(i2c_imx->adapter.dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		dev_err(&i2c_imx->adapter.dev, "failed to resume i2c controller");
 		return ret;
@@ -851,6 +894,7 @@ static irqreturn_t i2c_imx_isr(int irq, void *dev_id)
 
 	status = imx_i2c_read_reg(i2c_imx, IMX_I2C_I2SR);
 	ctl = imx_i2c_read_reg(i2c_imx, IMX_I2C_I2CR);
+<<<<<<< HEAD
 
 	if (status & I2SR_IIF) {
 		i2c_imx_clear_irq(i2c_imx, I2SR_IIF);
@@ -862,6 +906,12 @@ static irqreturn_t i2c_imx_isr(int irq, void *dev_id)
 				i2c_imx_slave_finish_op(i2c_imx);
 			}
 		}
+=======
+	if (status & I2SR_IIF) {
+		i2c_imx_clear_irq(i2c_imx, I2SR_IIF);
+		if (i2c_imx->slave && !(ctl & I2CR_MSTA))
+			return i2c_imx_slave_isr(i2c_imx, status, ctl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return i2c_imx_master_isr(i2c_imx, status);
 	}
 
@@ -1253,7 +1303,11 @@ static int i2c_imx_xfer(struct i2c_adapter *adapter,
 	struct imx_i2c_struct *i2c_imx = i2c_get_adapdata(adapter);
 	int result;
 
+<<<<<<< HEAD
 	result = pm_runtime_resume_and_get(i2c_imx->adapter.dev.parent);
+=======
+	result = pm_runtime_get_sync(i2c_imx->adapter.dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (result < 0)
 		return result;
 
@@ -1496,7 +1550,11 @@ static int i2c_imx_remove(struct platform_device *pdev)
 	struct imx_i2c_struct *i2c_imx = platform_get_drvdata(pdev);
 	int irq, ret;
 
+<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(&pdev->dev);
+=======
+	ret = pm_runtime_get_sync(&pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

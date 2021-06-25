@@ -66,8 +66,13 @@ bool efivarfs_valid_name(const char *str, int len)
 	return uuid_is_valid(s);
 }
 
+<<<<<<< HEAD
 static int efivarfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 			   struct dentry *dentry, umode_t mode, bool excl)
+=======
+static int efivarfs_create(struct inode *dir, struct dentry *dentry,
+			  umode_t mode, bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = NULL;
 	struct efivar_entry *var;

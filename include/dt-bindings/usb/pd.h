@@ -93,6 +93,7 @@
 #define FRS_DEFAULT_POWER      1
 #define FRS_5V_1P5A            2
 #define FRS_5V_3A              3
+<<<<<<< HEAD
 
 /*
  * SVDM Identity Header
@@ -403,3 +404,6 @@
 	 | ((gi) & 0x3f) << 1 | (ct))
 
 #endif /* __DT_POWER_DELIVERY_H */
+=======
+ #endif /* __DT_POWER_DELIVERY_H */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -6,7 +6,10 @@
  * Copyright (C) 2010 ARM Ltd., Will Deacon <will.deacon@arm.com>
  */
 #define pr_fmt(fmt) "hw perfevents: " fmt
+<<<<<<< HEAD
 #define dev_fmt pr_fmt
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/bug.h>
 #include <linux/cpumask.h>
@@ -101,8 +104,15 @@ static int pmu_parse_irqs(struct arm_pmu *pmu)
 	struct pmu_hw_events __percpu *hw_events = pmu->hw_events;
 
 	num_irqs = platform_irq_count(pdev);
+<<<<<<< HEAD
 	if (num_irqs < 0)
 		return dev_err_probe(&pdev->dev, num_irqs, "unable to count PMU IRQs\n");
+=======
+	if (num_irqs < 0) {
+		pr_err("unable to count PMU IRQs\n");
+		return num_irqs;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * In this case we have no idea which CPUs are covered by the PMU.
@@ -235,7 +245,11 @@ int arm_pmu_device_probe(struct platform_device *pdev,
 
 	ret = armpmu_register(pmu);
 	if (ret)
+<<<<<<< HEAD
 		goto out_free_irqs;
+=======
+		goto out_free;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 

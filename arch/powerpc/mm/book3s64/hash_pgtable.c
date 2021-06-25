@@ -428,14 +428,22 @@ static bool hash__change_memory_range(unsigned long start, unsigned long end,
 
 void hash__mark_rodata_ro(void)
 {
+<<<<<<< HEAD
 	unsigned long start, end, pp;
+=======
+	unsigned long start, end;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	start = (unsigned long)_stext;
 	end = (unsigned long)__init_begin;
 
+<<<<<<< HEAD
 	pp = htab_convert_pte_flags(pgprot_val(PAGE_KERNEL_ROX), HPTE_USE_KERNEL_KEY);
 
 	WARN_ON(!hash__change_memory_range(start, end, pp));
+=======
+	WARN_ON(!hash__change_memory_range(start, end, PP_RXXX));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hash__mark_initmem_nx(void)

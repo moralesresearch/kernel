@@ -918,7 +918,11 @@ void ___cfg80211_scan_done(struct cfg80211_registered_device *rdev,
 	union iwreq_data wrqu;
 #endif
 
+<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rdev->scan_msg) {
 		nl80211_send_scan_msg(rdev, rdev->scan_msg);
@@ -987,9 +991,15 @@ void __cfg80211_scan_done(struct work_struct *wk)
 	rdev = container_of(wk, struct cfg80211_registered_device,
 			    scan_done_wk);
 
+<<<<<<< HEAD
 	wiphy_lock(&rdev->wiphy);
 	___cfg80211_scan_done(rdev, true);
 	wiphy_unlock(&rdev->wiphy);
+=======
+	rtnl_lock();
+	___cfg80211_scan_done(rdev, true);
+	rtnl_unlock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void cfg80211_scan_done(struct cfg80211_scan_request *request,
@@ -1022,7 +1032,11 @@ EXPORT_SYMBOL(cfg80211_scan_done);
 void cfg80211_add_sched_scan_req(struct cfg80211_registered_device *rdev,
 				 struct cfg80211_sched_scan_request *req)
 {
+<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_add_rcu(&req->list, &rdev->sched_scan_req_list);
 }
@@ -1030,7 +1044,11 @@ void cfg80211_add_sched_scan_req(struct cfg80211_registered_device *rdev,
 static void cfg80211_del_sched_scan_req(struct cfg80211_registered_device *rdev,
 					struct cfg80211_sched_scan_request *req)
 {
+<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_del_rcu(&req->list);
 	kfree_rcu(req, rcu_head);
@@ -1042,7 +1060,11 @@ cfg80211_find_sched_scan_req(struct cfg80211_registered_device *rdev, u64 reqid)
 	struct cfg80211_sched_scan_request *pos;
 
 	list_for_each_entry_rcu(pos, &rdev->sched_scan_req_list, list,
+<<<<<<< HEAD
 				lockdep_is_held(&rdev->wiphy.mtx)) {
+=======
+				lockdep_rtnl_is_held()) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pos->reqid == reqid)
 			return pos;
 	}
@@ -1090,7 +1112,11 @@ void cfg80211_sched_scan_results_wk(struct work_struct *work)
 	rdev = container_of(work, struct cfg80211_registered_device,
 			   sched_scan_res_wk);
 
+<<<<<<< HEAD
 	wiphy_lock(&rdev->wiphy);
+=======
+	rtnl_lock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_safe(req, tmp, &rdev->sched_scan_req_list, list) {
 		if (req->report_results) {
 			req->report_results = false;
@@ -1105,7 +1131,11 @@ void cfg80211_sched_scan_results_wk(struct work_struct *work)
 						NL80211_CMD_SCHED_SCAN_RESULTS);
 		}
 	}
+<<<<<<< HEAD
 	wiphy_unlock(&rdev->wiphy);
+=======
+	rtnl_unlock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void cfg80211_sched_scan_results(struct wiphy *wiphy, u64 reqid)
@@ -1126,16 +1156,25 @@ void cfg80211_sched_scan_results(struct wiphy *wiphy, u64 reqid)
 }
 EXPORT_SYMBOL(cfg80211_sched_scan_results);
 
+<<<<<<< HEAD
 void cfg80211_sched_scan_stopped_locked(struct wiphy *wiphy, u64 reqid)
 {
 	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
 
 	lockdep_assert_held(&wiphy->mtx);
+=======
+void cfg80211_sched_scan_stopped_rtnl(struct wiphy *wiphy, u64 reqid)
+{
+	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
+
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_cfg80211_sched_scan_stopped(wiphy, reqid);
 
 	__cfg80211_stop_sched_scan(rdev, reqid, true);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(cfg80211_sched_scan_stopped_locked);
 
 void cfg80211_sched_scan_stopped(struct wiphy *wiphy, u64 reqid)
@@ -1143,6 +1182,15 @@ void cfg80211_sched_scan_stopped(struct wiphy *wiphy, u64 reqid)
 	wiphy_lock(wiphy);
 	cfg80211_sched_scan_stopped_locked(wiphy, reqid);
 	wiphy_unlock(wiphy);
+=======
+EXPORT_SYMBOL(cfg80211_sched_scan_stopped_rtnl);
+
+void cfg80211_sched_scan_stopped(struct wiphy *wiphy, u64 reqid)
+{
+	rtnl_lock();
+	cfg80211_sched_scan_stopped_rtnl(wiphy, reqid);
+	rtnl_unlock();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(cfg80211_sched_scan_stopped);
 
@@ -1150,7 +1198,11 @@ int cfg80211_stop_sched_scan_req(struct cfg80211_registered_device *rdev,
 				 struct cfg80211_sched_scan_request *req,
 				 bool driver_initiated)
 {
+<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!driver_initiated) {
 		int err = rdev_sched_scan_stop(rdev, req->dev, req->reqid);
@@ -1170,7 +1222,11 @@ int __cfg80211_stop_sched_scan(struct cfg80211_registered_device *rdev,
 {
 	struct cfg80211_sched_scan_request *sched_scan_req;
 
+<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
+=======
+	ASSERT_RTNL();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sched_scan_req = cfg80211_find_sched_scan_req(rdev, reqid);
 	if (!sched_scan_req)
@@ -1751,8 +1807,11 @@ cfg80211_bss_update(struct cfg80211_registered_device *rdev,
 
 		if (rdev->bss_entries >= bss_entries_limit &&
 		    !cfg80211_bss_expire_oldest(rdev)) {
+<<<<<<< HEAD
 			if (!list_empty(&new->hidden_list))
 				list_del(&new->hidden_list);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			kfree(new);
 			goto drop;
 		}
@@ -2354,6 +2413,7 @@ cfg80211_inform_single_bss_frame_data(struct wiphy *wiphy,
 		return NULL;
 
 	if (ext) {
+<<<<<<< HEAD
 		const struct ieee80211_s1g_bcn_compat_ie *compat;
 		const struct element *elem;
 
@@ -2364,6 +2424,16 @@ cfg80211_inform_single_bss_frame_data(struct wiphy *wiphy,
 		if (elem->datalen < sizeof(*compat))
 			return NULL;
 		compat = (void *)elem->data;
+=======
+		struct ieee80211_s1g_bcn_compat_ie *compat;
+		u8 *ie;
+
+		ie = (void *)cfg80211_find_ie(WLAN_EID_S1G_BCN_COMPAT,
+					      variable, ielen);
+		if (!ie)
+			return NULL;
+		compat = (void *)(ie + 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bssid = ext->u.s1g_beacon.sa;
 		capability = le16_to_cpu(compat->compat_info);
 		beacon_int = le16_to_cpu(compat->beacon_int);
@@ -2778,8 +2848,11 @@ int cfg80211_wext_siwscan(struct net_device *dev,
 
 	eth_broadcast_addr(creq->bssid);
 
+<<<<<<< HEAD
 	wiphy_lock(&rdev->wiphy);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rdev->scan_req = creq;
 	err = rdev_scan(rdev, creq);
 	if (err) {
@@ -2791,7 +2864,10 @@ int cfg80211_wext_siwscan(struct net_device *dev,
 		creq = NULL;
 		dev_hold(dev);
 	}
+<<<<<<< HEAD
 	wiphy_unlock(&rdev->wiphy);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  out:
 	kfree(creq);
 	return err;

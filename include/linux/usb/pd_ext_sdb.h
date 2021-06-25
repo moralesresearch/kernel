@@ -24,4 +24,11 @@ enum usb_pd_ext_sdb_fields {
 #define USB_PD_EXT_SDB_EVENT_OVP		BIT(3)
 #define USB_PD_EXT_SDB_EVENT_CF_CV_MODE		BIT(4)
 
+<<<<<<< HEAD
+=======
+#define USB_PD_EXT_SDB_PPS_EVENTS	(USB_PD_EXT_SDB_EVENT_OCP |	\
+					 USB_PD_EXT_SDB_EVENT_OTP |	\
+					 USB_PD_EXT_SDB_EVENT_OVP)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_USB_PD_EXT_SDB_H */

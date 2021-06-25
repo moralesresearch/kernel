@@ -32,10 +32,16 @@
 #include <linux/module.h>
 #include <linux/device.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
 #include <drm/drm_sysfs.h>
 
 #include "ttm_module.h"
 
+=======
+#include <drm/ttm/ttm_module.h>
+#include <drm/drm_sysfs.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DECLARE_WAIT_QUEUE_HEAD(exit_q);
 static atomic_t device_released;
 

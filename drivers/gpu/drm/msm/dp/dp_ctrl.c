@@ -1158,7 +1158,15 @@ static int dp_ctrl_link_rate_down_shift(struct dp_ctrl_private *ctrl)
 	default:
 		ret = -EINVAL;
 		break;
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!ret)
 		DRM_DEBUG_DP("new rate=0x%x\n", ctrl->link->link_params.rate);
@@ -1296,6 +1304,13 @@ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
 	 * transitioned to PUSH_IDLE. In order to start transmitting
 	 * a link training pattern, we have to first do soft reset.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dp_catalog_ctrl_reset(ctrl->catalog);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = dp_ctrl_link_train(ctrl, cr, training_step);
 
@@ -1364,7 +1379,15 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
 	return ret;
 }
 
+<<<<<<< HEAD
 int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+=======
+<<<<<<< HEAD
+int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+=======
+int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dp_ctrl_private *ctrl;
 	struct dp_io *dp_io;
@@ -1381,9 +1404,18 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
 
 	ctrl->dp_ctrl.orientation = flip;
 
+<<<<<<< HEAD
 	if (reset)
 		dp_catalog_ctrl_reset(ctrl->catalog);
 
+=======
+<<<<<<< HEAD
+	if (reset)
+		dp_catalog_ctrl_reset(ctrl->catalog);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
 	phy_init(phy);
 	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
@@ -1422,14 +1454,34 @@ void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
 static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
 {
 	u8 *dpcd = ctrl->panel->dpcd;
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	u32 edid_quirks = 0;
+
+	edid_quirks = drm_dp_get_edid_quirks(ctrl->panel->edid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * For better interop experience, used a fixed NVID=0x8000
 	 * whenever connected to a VGA dongle downstream.
 	 */
 	if (drm_dp_is_branch(dpcd))
+<<<<<<< HEAD
 		return (drm_dp_has_quirk(&ctrl->panel->desc,
 					 DP_DPCD_QUIRK_CONSTANT_N));
+=======
+<<<<<<< HEAD
+		return (drm_dp_has_quirk(&ctrl->panel->desc,
+					 DP_DPCD_QUIRK_CONSTANT_N));
+=======
+		return (drm_dp_has_quirk(&ctrl->panel->desc, edid_quirks,
+				DP_DPCD_QUIRK_CONSTANT_N));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return false;
 }
@@ -1498,6 +1550,13 @@ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
 	int training_step = DP_TRAINING_NONE;
 
 	dp_ctrl_push_idle(&ctrl->dp_ctrl);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	dp_catalog_ctrl_reset(ctrl->catalog);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
 
@@ -1786,14 +1845,30 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
 	 * Set up transfer unit values and set controller state to send
 	 * video.
 	 */
+<<<<<<< HEAD
 	reinit_completion(&ctrl->video_comp);
 
+=======
+<<<<<<< HEAD
+	reinit_completion(&ctrl->video_comp);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_ctrl_configure_source_params(ctrl);
 
 	dp_catalog_ctrl_config_msa(ctrl->catalog,
 		ctrl->link->link_params.rate,
 		ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	reinit_completion(&ctrl->video_comp);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_ctrl_setup_tr_unit(ctrl);
 
 	dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);

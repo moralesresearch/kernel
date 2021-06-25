@@ -59,8 +59,11 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
 		info.pre_mult_alpha = 1;
 	else
 		info.pre_mult_alpha = 0;
+<<<<<<< HEAD
 	info.color_encoding = state->color_encoding;
 	info.color_range = state->color_range;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* update scanout: */
 	omap_framebuffer_update_scanout(state->fb, state, &info);
@@ -72,17 +75,29 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
 			&info.paddr, &info.p_uv_addr);
 
 	/* and finally, update omapdss: */
+<<<<<<< HEAD
 	ret = dispc_ovl_setup(priv->dispc, omap_plane->id, &info,
+=======
+	ret = priv->dispc_ops->ovl_setup(priv->dispc, omap_plane->id, &info,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      omap_crtc_timings(state->crtc), false,
 			      omap_crtc_channel(state->crtc));
 	if (ret) {
 		dev_err(plane->dev->dev, "Failed to setup plane %s\n",
 			omap_plane->name);
+<<<<<<< HEAD
 		dispc_ovl_enable(priv->dispc, omap_plane->id, false);
 		return;
 	}
 
 	dispc_ovl_enable(priv->dispc, omap_plane->id, true);
+=======
+		priv->dispc_ops->ovl_enable(priv->dispc, omap_plane->id, false);
+		return;
+	}
+
+	priv->dispc_ops->ovl_enable(priv->dispc, omap_plane->id, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void omap_plane_atomic_disable(struct drm_plane *plane,
@@ -95,7 +110,11 @@ static void omap_plane_atomic_disable(struct drm_plane *plane,
 	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
 			   ? 0 : omap_plane->id;
 
+<<<<<<< HEAD
 	dispc_ovl_enable(priv->dispc, omap_plane->id, false);
+=======
+	priv->dispc_ops->ovl_enable(priv->dispc, omap_plane->id, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int omap_plane_atomic_check(struct drm_plane *plane,
@@ -191,8 +210,11 @@ static void omap_plane_reset(struct drm_plane *plane)
 	 */
 	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
 			   ? 0 : omap_plane->id;
+<<<<<<< HEAD
 	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
 	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int omap_plane_atomic_set_property(struct drm_plane *plane,
@@ -236,6 +258,7 @@ static const struct drm_plane_funcs omap_plane_funcs = {
 	.atomic_get_property = omap_plane_atomic_get_property,
 };
 
+<<<<<<< HEAD
 static bool omap_plane_supports_yuv(struct drm_plane *plane)
 {
 	struct omap_drm_private *priv = plane->dev->dev_private;
@@ -252,6 +275,8 @@ static bool omap_plane_supports_yuv(struct drm_plane *plane)
 	return false;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *plane_id_to_name[] = {
 	[OMAP_DSS_GFX] = "gfx",
 	[OMAP_DSS_VIDEO1] = "vid1",
@@ -272,7 +297,11 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
 		u32 possible_crtcs)
 {
 	struct omap_drm_private *priv = dev->dev_private;
+<<<<<<< HEAD
 	unsigned int num_planes = dispc_get_num_ovls(priv->dispc);
+=======
+	unsigned int num_planes = priv->dispc_ops->get_num_ovls(priv->dispc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_plane *plane;
 	struct omap_plane *omap_plane;
 	enum omap_plane_id id;
@@ -291,7 +320,11 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
 	if (!omap_plane)
 		return ERR_PTR(-ENOMEM);
 
+<<<<<<< HEAD
 	formats = dispc_ovl_get_color_modes(priv->dispc, id);
+=======
+	formats = priv->dispc_ops->ovl_get_color_modes(priv->dispc, id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (nformats = 0; formats[nformats]; ++nformats)
 		;
 	omap_plane->id = id;
@@ -313,6 +346,7 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
 	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
 					     BIT(DRM_MODE_BLEND_COVERAGE));
 
+<<<<<<< HEAD
 	if (omap_plane_supports_yuv(plane))
 		drm_plane_create_color_properties(plane,
 						  BIT(DRM_COLOR_YCBCR_BT601) |
@@ -322,6 +356,8 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
 						  DRM_COLOR_YCBCR_BT601,
 						  DRM_COLOR_YCBCR_FULL_RANGE);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return plane;
 
 error:

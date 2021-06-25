@@ -17,7 +17,10 @@
 #include <net/pkt_cls.h>
 #include <net/tc_act/tc_mirred.h>
 #include <linux/if_bridge.h>
+<<<<<<< HEAD
 #include <linux/if_hsr.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/netpoll.h>
 #include <linux/ptp_classify.h>
 
@@ -69,11 +72,16 @@ static int dsa_slave_open(struct net_device *dev)
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	int err;
 
+<<<<<<< HEAD
 	err = dev_open(master, NULL);
 	if (err < 0) {
 		netdev_err(dev, "failed to open master %s\n", master->name);
 		goto out;
 	}
+=======
+	if (!(master->flags & IFF_UP))
+		return -ENETDOWN;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!ether_addr_equal(dev->dev_addr, master->dev_addr)) {
 		err = dev_uc_add(master, dev->dev_addr);
@@ -273,13 +281,18 @@ static int dsa_slave_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 
 static int dsa_slave_port_attr_set(struct net_device *dev,
 				   const struct switchdev_attr *attr,
+<<<<<<< HEAD
 				   struct netlink_ext_ack *extack)
+=======
+				   struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	int ret;
 
 	switch (attr->id) {
 	case SWITCHDEV_ATTR_ID_PORT_STP_STATE:
+<<<<<<< HEAD
 		if (!dsa_port_offloads_bridge_port(dp, attr->orig_dev))
 			return -EOPNOTSUPP;
 
@@ -316,6 +329,26 @@ static int dsa_slave_port_attr_set(struct net_device *dev,
 			return -EOPNOTSUPP;
 
 		ret = dsa_port_mrouter(dp->cpu_dp, attr->u.mrouter, extack);
+=======
+		ret = dsa_port_set_state(dp, attr->u.stp_state, trans);
+		break;
+	case SWITCHDEV_ATTR_ID_BRIDGE_VLAN_FILTERING:
+		ret = dsa_port_vlan_filtering(dp, attr->u.vlan_filtering,
+					      trans);
+		break;
+	case SWITCHDEV_ATTR_ID_BRIDGE_AGEING_TIME:
+		ret = dsa_port_ageing_time(dp, attr->u.ageing_time, trans);
+		break;
+	case SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS:
+		ret = dsa_port_pre_bridge_flags(dp, attr->u.brport_flags,
+						trans);
+		break;
+	case SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS:
+		ret = dsa_port_bridge_flags(dp, attr->u.brport_flags, trans);
+		break;
+	case SWITCHDEV_ATTR_ID_BRIDGE_MROUTER:
+		ret = dsa_port_mrouter(dp->cpu_dp, attr->u.mrouter, trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		ret = -EOPNOTSUPP;
@@ -340,7 +373,11 @@ dsa_slave_vlan_check_for_8021q_uppers(struct net_device *slave,
 			continue;
 
 		vid = vlan_dev_vlan_id(upper_dev);
+<<<<<<< HEAD
 		if (vid == vlan->vid)
+=======
+		if (vid >= vlan->vid_begin && vid <= vlan->vid_end)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EBUSY;
 	}
 
@@ -349,23 +386,38 @@ dsa_slave_vlan_check_for_8021q_uppers(struct net_device *slave,
 
 static int dsa_slave_vlan_add(struct net_device *dev,
 			      const struct switchdev_obj *obj,
+<<<<<<< HEAD
 			      struct netlink_ext_ack *extack)
+=======
+			      struct switchdev_trans *trans)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *master = dsa_slave_to_master(dev);
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	struct switchdev_obj_port_vlan vlan;
+<<<<<<< HEAD
 	int err;
 
 	if (dsa_port_skip_vlan_configuration(dp)) {
 		NL_SET_ERR_MSG_MOD(extack, "skipping configuration of VLAN");
 		return 0;
 	}
+=======
+	int vid, err;
+
+	if (obj->orig_dev != dev)
+		return -EOPNOTSUPP;
+
+	if (dsa_port_skip_vlan_configuration(dp))
+		return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vlan = *SWITCHDEV_OBJ_PORT_VLAN(obj);
 
 	/* Deny adding a bridge VLAN when there is already an 802.1Q upper with
 	 * the same VID.
 	 */
+<<<<<<< HEAD
 	if (br_vlan_enabled(dp->bridge_dev)) {
 		rcu_read_lock();
 		err = dsa_slave_vlan_check_for_8021q_uppers(dev, &vlan);
@@ -378,6 +430,17 @@ static int dsa_slave_vlan_add(struct net_device *dev,
 	}
 
 	err = dsa_port_vlan_add(dp, &vlan, extack);
+=======
+	if (trans->ph_prepare && br_vlan_enabled(dp->bridge_dev)) {
+		rcu_read_lock();
+		err = dsa_slave_vlan_check_for_8021q_uppers(dev, &vlan);
+		rcu_read_unlock();
+		if (err)
+			return err;
+	}
+
+	err = dsa_port_vlan_add(dp, &vlan, trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -387,20 +450,39 @@ static int dsa_slave_vlan_add(struct net_device *dev,
 	 */
 	vlan.flags &= ~BRIDGE_VLAN_INFO_PVID;
 
+<<<<<<< HEAD
 	err = dsa_port_vlan_add(dp->cpu_dp, &vlan, extack);
 	if (err)
 		return err;
 
 	return vlan_vid_add(master, htons(ETH_P_8021Q), vlan.vid);
+=======
+	err = dsa_port_vlan_add(dp->cpu_dp, &vlan, trans);
+	if (err)
+		return err;
+
+	for (vid = vlan.vid_begin; vid <= vlan.vid_end; vid++) {
+		err = vlan_vid_add(master, htons(ETH_P_8021Q), vid);
+		if (err)
+			return err;
+	}
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dsa_slave_port_obj_add(struct net_device *dev,
 				  const struct switchdev_obj *obj,
+<<<<<<< HEAD
+=======
+				  struct switchdev_trans *trans,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  struct netlink_ext_ack *extack)
 {
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	int err;
 
+<<<<<<< HEAD
 	switch (obj->id) {
 	case SWITCHDEV_OBJ_ID_PORT_MDB:
 		if (!dsa_port_offloads_bridge_port(dp, obj->orig_dev))
@@ -435,6 +517,28 @@ static int dsa_slave_port_obj_add(struct net_device *dev,
 
 		err = dsa_port_mrp_add_ring_role(dp,
 						 SWITCHDEV_OBJ_RING_ROLE_MRP(obj));
+=======
+	/* For the prepare phase, ensure the full set of changes is feasable in
+	 * one go in order to signal a failure properly. If an operation is not
+	 * supported, return -EOPNOTSUPP.
+	 */
+
+	switch (obj->id) {
+	case SWITCHDEV_OBJ_ID_PORT_MDB:
+		if (obj->orig_dev != dev)
+			return -EOPNOTSUPP;
+		err = dsa_port_mdb_add(dp, SWITCHDEV_OBJ_PORT_MDB(obj), trans);
+		break;
+	case SWITCHDEV_OBJ_ID_HOST_MDB:
+		/* DSA can directly translate this to a normal MDB add,
+		 * but on the CPU port.
+		 */
+		err = dsa_port_mdb_add(dp->cpu_dp, SWITCHDEV_OBJ_PORT_MDB(obj),
+				       trans);
+		break;
+	case SWITCHDEV_OBJ_ID_PORT_VLAN:
+		err = dsa_slave_vlan_add(dev, obj, trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		err = -EOPNOTSUPP;
@@ -450,7 +554,14 @@ static int dsa_slave_vlan_del(struct net_device *dev,
 	struct net_device *master = dsa_slave_to_master(dev);
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	struct switchdev_obj_port_vlan *vlan;
+<<<<<<< HEAD
 	int err;
+=======
+	int vid, err;
+
+	if (obj->orig_dev != dev)
+		return -EOPNOTSUPP;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dsa_port_skip_vlan_configuration(dp))
 		return 0;
@@ -464,7 +575,12 @@ static int dsa_slave_vlan_del(struct net_device *dev,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	vlan_vid_del(master, htons(ETH_P_8021Q), vlan->vid);
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++)
+		vlan_vid_del(master, htons(ETH_P_8021Q), vid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -477,6 +593,7 @@ static int dsa_slave_port_obj_del(struct net_device *dev,
 
 	switch (obj->id) {
 	case SWITCHDEV_OBJ_ID_PORT_MDB:
+<<<<<<< HEAD
 		if (!dsa_port_offloads_bridge_port(dp, obj->orig_dev))
 			return -EOPNOTSUPP;
 
@@ -486,12 +603,20 @@ static int dsa_slave_port_obj_del(struct net_device *dev,
 		if (!dsa_port_offloads_bridge(dp, obj->orig_dev))
 			return -EOPNOTSUPP;
 
+=======
+		if (obj->orig_dev != dev)
+			return -EOPNOTSUPP;
+		err = dsa_port_mdb_del(dp, SWITCHDEV_OBJ_PORT_MDB(obj));
+		break;
+	case SWITCHDEV_OBJ_ID_HOST_MDB:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* DSA can directly translate this to a normal MDB add,
 		 * but on the CPU port.
 		 */
 		err = dsa_port_mdb_del(dp->cpu_dp, SWITCHDEV_OBJ_PORT_MDB(obj));
 		break;
 	case SWITCHDEV_OBJ_ID_PORT_VLAN:
+<<<<<<< HEAD
 		if (!dsa_port_offloads_bridge_port(dp, obj->orig_dev))
 			return -EOPNOTSUPP;
 
@@ -510,6 +635,10 @@ static int dsa_slave_port_obj_del(struct net_device *dev,
 		err = dsa_port_mrp_del_ring_role(dp,
 						 SWITCHDEV_OBJ_RING_ROLE_MRP(obj));
 		break;
+=======
+		err = dsa_slave_vlan_del(dev, obj);
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		err = -EOPNOTSUPP;
 		break;
@@ -787,6 +916,7 @@ static int dsa_slave_get_sset_count(struct net_device *dev, int sset)
 	struct dsa_switch *ds = dp->ds;
 
 	if (sset == ETH_SS_STATS) {
+<<<<<<< HEAD
 		int count = 0;
 
 		if (ds->ops->get_sset_count) {
@@ -796,6 +926,15 @@ static int dsa_slave_get_sset_count(struct net_device *dev, int sset)
 		}
 
 		return count + 4;
+=======
+		int count;
+
+		count = 4;
+		if (ds->ops->get_sset_count)
+			count += ds->ops->get_sset_count(ds, dp->index, sset);
+
+		return count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return -EOPNOTSUPP;
@@ -1338,6 +1477,7 @@ static int dsa_slave_vlan_rx_add_vid(struct net_device *dev, __be16 proto,
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	struct switchdev_obj_port_vlan vlan = {
 		.obj.id = SWITCHDEV_OBJ_ID_PORT_VLAN,
+<<<<<<< HEAD
 		.vid = vid,
 		/* This API only allows programming tagged, non-PVID VIDs */
 		.flags = 0,
@@ -1361,6 +1501,37 @@ static int dsa_slave_vlan_rx_add_vid(struct net_device *dev, __be16 proto,
 				   extack._msg);
 		return ret;
 	}
+=======
+		.vid_begin = vid,
+		.vid_end = vid,
+		/* This API only allows programming tagged, non-PVID VIDs */
+		.flags = 0,
+	};
+	struct switchdev_trans trans;
+	int ret;
+
+	/* User port... */
+	trans.ph_prepare = true;
+	ret = dsa_port_vlan_add(dp, &vlan, &trans);
+	if (ret)
+		return ret;
+
+	trans.ph_prepare = false;
+	ret = dsa_port_vlan_add(dp, &vlan, &trans);
+	if (ret)
+		return ret;
+
+	/* And CPU port... */
+	trans.ph_prepare = true;
+	ret = dsa_port_vlan_add(dp->cpu_dp, &vlan, &trans);
+	if (ret)
+		return ret;
+
+	trans.ph_prepare = false;
+	ret = dsa_port_vlan_add(dp->cpu_dp, &vlan, &trans);
+	if (ret)
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return vlan_vid_add(master, proto, vid);
 }
@@ -1371,7 +1542,12 @@ static int dsa_slave_vlan_rx_kill_vid(struct net_device *dev, __be16 proto,
 	struct net_device *master = dsa_slave_to_master(dev);
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 	struct switchdev_obj_port_vlan vlan = {
+<<<<<<< HEAD
 		.vid = vid,
+=======
+		.vid_begin = vid,
+		.vid_end = vid,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* This API only allows programming tagged, non-PVID VIDs */
 		.flags = 0,
 	};
@@ -1499,7 +1675,11 @@ out:
 	dsa_hw_port_list_free(&hw_port_list);
 }
 
+<<<<<<< HEAD
 int dsa_slave_change_mtu(struct net_device *dev, int new_mtu)
+=======
+static int dsa_slave_change_mtu(struct net_device *dev, int new_mtu)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *master = dsa_slave_to_master(dev);
 	struct dsa_port *dp = dsa_slave_to_port(dev);
@@ -1617,20 +1797,34 @@ static const struct ethtool_ops dsa_slave_ethtool_ops = {
 };
 
 /* legacy way, bypassing the bridge *****************************************/
+<<<<<<< HEAD
 static int dsa_legacy_fdb_add(struct ndmsg *ndm, struct nlattr *tb[],
 			      struct net_device *dev,
 			      const unsigned char *addr, u16 vid,
 			      u16 flags,
 			      struct netlink_ext_ack *extack)
+=======
+int dsa_legacy_fdb_add(struct ndmsg *ndm, struct nlattr *tb[],
+		       struct net_device *dev,
+		       const unsigned char *addr, u16 vid,
+		       u16 flags,
+		       struct netlink_ext_ack *extack)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 
 	return dsa_port_fdb_add(dp, addr, vid);
 }
 
+<<<<<<< HEAD
 static int dsa_legacy_fdb_del(struct ndmsg *ndm, struct nlattr *tb[],
 			      struct net_device *dev,
 			      const unsigned char *addr, u16 vid)
+=======
+int dsa_legacy_fdb_del(struct ndmsg *ndm, struct nlattr *tb[],
+		       struct net_device *dev,
+		       const unsigned char *addr, u16 vid)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dsa_port *dp = dsa_slave_to_port(dev);
 
@@ -1644,6 +1838,7 @@ static struct devlink_port *dsa_slave_get_devlink_port(struct net_device *dev)
 	return dp->ds->devlink ? &dp->devlink_port : NULL;
 }
 
+<<<<<<< HEAD
 static void dsa_slave_get_stats64(struct net_device *dev,
 				  struct rtnl_link_stats64 *s)
 {
@@ -1656,6 +1851,8 @@ static void dsa_slave_get_stats64(struct net_device *dev,
 		dev_get_tstats64(dev, s);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct net_device_ops dsa_slave_netdev_ops = {
 	.ndo_open	 	= dsa_slave_open,
 	.ndo_stop		= dsa_slave_close,
@@ -1675,7 +1872,11 @@ static const struct net_device_ops dsa_slave_netdev_ops = {
 #endif
 	.ndo_get_phys_port_name	= dsa_slave_get_phys_port_name,
 	.ndo_setup_tc		= dsa_slave_setup_tc,
+<<<<<<< HEAD
 	.ndo_get_stats64	= dsa_slave_get_stats64,
+=======
+	.ndo_get_stats64	= dev_get_tstats64,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_get_port_parent_id	= dsa_slave_get_port_parent_id,
 	.ndo_vlan_rx_add_vid	= dsa_slave_vlan_rx_add_vid,
 	.ndo_vlan_rx_kill_vid	= dsa_slave_vlan_rx_kill_vid,
@@ -1777,6 +1978,7 @@ static int dsa_slave_phy_setup(struct net_device *slave_dev)
 	return ret;
 }
 
+<<<<<<< HEAD
 void dsa_slave_setup_tagger(struct net_device *slave)
 {
 	struct dsa_port *dp = dsa_slave_to_port(slave);
@@ -1798,6 +2000,8 @@ void dsa_slave_setup_tagger(struct net_device *slave)
 	p->xmit = cpu_dp->tag_ops->xmit;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct lock_class_key dsa_slave_netdev_xmit_lock_key;
 static void dsa_slave_set_lockdep_class_one(struct net_device *dev,
 					    struct netdev_queue *txq,
@@ -1839,6 +2043,23 @@ int dsa_slave_resume(struct net_device *slave_dev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static void dsa_slave_notify(struct net_device *dev, unsigned long val)
+{
+	struct net_device *master = dsa_slave_to_master(dev);
+	struct dsa_port *dp = dsa_slave_to_port(dev);
+	struct dsa_notifier_register_info rinfo = {
+		.switch_number = dp->ds->index,
+		.port_number = dp->index,
+		.master = master,
+		.info.dev = dev,
+	};
+
+	call_dsa_notifiers(val, dev, &rinfo.info);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dsa_slave_create(struct dsa_port *port)
 {
 	const struct dsa_port *cpu_dp = port->cpu_dp;
@@ -1872,6 +2093,19 @@ int dsa_slave_create(struct dsa_port *port)
 	slave_dev->netdev_ops = &dsa_slave_netdev_ops;
 	if (ds->ops->port_max_mtu)
 		slave_dev->max_mtu = ds->ops->port_max_mtu(ds, port->index);
+<<<<<<< HEAD
+=======
+	if (cpu_dp->tag_ops->tail_tag)
+		slave_dev->needed_tailroom = cpu_dp->tag_ops->overhead;
+	else
+		slave_dev->needed_headroom = cpu_dp->tag_ops->overhead;
+	/* Try to save one extra realloc later in the TX path (in the master)
+	 * by also inheriting the master's needed headroom and tailroom.
+	 * The 8021q driver also does this.
+	 */
+	slave_dev->needed_headroom += master->needed_headroom;
+	slave_dev->needed_tailroom += master->needed_tailroom;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SET_NETDEV_DEVTYPE(slave_dev, &dsa_type);
 
 	netdev_for_each_tx_queue(slave_dev, dsa_slave_set_lockdep_class_one,
@@ -1894,8 +2128,13 @@ int dsa_slave_create(struct dsa_port *port)
 
 	p->dp = port;
 	INIT_LIST_HEAD(&p->mall_tc_list);
+<<<<<<< HEAD
 	port->slave = slave_dev;
 	dsa_slave_setup_tagger(slave_dev);
+=======
+	p->xmit = cpu_dp->tag_ops->xmit;
+	port->slave = slave_dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rtnl_lock();
 	ret = dsa_slave_change_mtu(slave_dev, ETH_DATA_LEN);
@@ -1914,6 +2153,11 @@ int dsa_slave_create(struct dsa_port *port)
 		goto out_gcells;
 	}
 
+<<<<<<< HEAD
+=======
+	dsa_slave_notify(slave_dev, DSA_PORT_REGISTER);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtnl_lock();
 
 	ret = register_netdevice(slave_dev);
@@ -1962,6 +2206,10 @@ void dsa_slave_destroy(struct net_device *slave_dev)
 	phylink_disconnect_phy(dp->pl);
 	rtnl_unlock();
 
+<<<<<<< HEAD
+=======
+	dsa_slave_notify(slave_dev, DSA_PORT_UNREGISTER);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phylink_destroy(dp->pl);
 	gro_cells_destroy(&p->gcells);
 	free_percpu(slave_dev->tstats);
@@ -1972,7 +2220,10 @@ bool dsa_slave_dev_check(const struct net_device *dev)
 {
 	return dev->netdev_ops == &dsa_slave_netdev_ops;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(dsa_slave_dev_check);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int dsa_slave_changeupper(struct net_device *dev,
 				 struct netdev_notifier_changeupper_info *info)
@@ -1990,6 +2241,7 @@ static int dsa_slave_changeupper(struct net_device *dev,
 			dsa_port_bridge_leave(dp, info->upper_dev);
 			err = NOTIFY_OK;
 		}
+<<<<<<< HEAD
 	} else if (netif_is_lag_master(info->upper_dev)) {
 		if (info->linking) {
 			err = dsa_port_lag_join(dp, info->upper_dev,
@@ -2043,6 +2295,8 @@ dsa_slave_lag_changeupper(struct net_device *dev,
 		err = dsa_slave_changeupper(lower, info);
 		if (notifier_to_errno(err))
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return err;
@@ -2140,6 +2394,7 @@ static int dsa_slave_netdevice_event(struct notifier_block *nb,
 		break;
 	}
 	case NETDEV_CHANGEUPPER:
+<<<<<<< HEAD
 		if (dsa_slave_dev_check(dev))
 			return dsa_slave_changeupper(dev, ptr);
 
@@ -2184,11 +2439,18 @@ static int dsa_slave_netdevice_event(struct notifier_block *nb,
 	}
 	default:
 		break;
+=======
+		if (!dsa_slave_dev_check(dev))
+			return NOTIFY_DONE;
+
+		return dsa_slave_changeupper(dev, ptr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return NOTIFY_DONE;
 }
 
+<<<<<<< HEAD
 static void
 dsa_fdb_offload_notify(struct dsa_switchdev_event_work *switchdev_work)
 {
@@ -2206,11 +2468,20 @@ dsa_fdb_offload_notify(struct dsa_switchdev_event_work *switchdev_work)
 	call_switchdev_notifiers(SWITCHDEV_FDB_OFFLOADED,
 				 dp->slave, &info.info, NULL);
 }
+=======
+struct dsa_switchdev_event_work {
+	struct work_struct work;
+	struct switchdev_notifier_fdb_info fdb_info;
+	struct net_device *dev;
+	unsigned long event;
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void dsa_slave_switchdev_event_work(struct work_struct *work)
 {
 	struct dsa_switchdev_event_work *switchdev_work =
 		container_of(work, struct dsa_switchdev_event_work, work);
+<<<<<<< HEAD
 	struct dsa_switch *ds = switchdev_work->ds;
 	struct dsa_port *dp;
 	int err;
@@ -2242,10 +2513,45 @@ static void dsa_slave_switchdev_event_work(struct work_struct *work)
 				switchdev_work->vid, err);
 		}
 
+=======
+	struct net_device *dev = switchdev_work->dev;
+	struct switchdev_notifier_fdb_info *fdb_info;
+	struct dsa_port *dp = dsa_slave_to_port(dev);
+	int err;
+
+	rtnl_lock();
+	switch (switchdev_work->event) {
+	case SWITCHDEV_FDB_ADD_TO_DEVICE:
+		fdb_info = &switchdev_work->fdb_info;
+		if (!fdb_info->added_by_user)
+			break;
+
+		err = dsa_port_fdb_add(dp, fdb_info->addr, fdb_info->vid);
+		if (err) {
+			netdev_dbg(dev, "fdb add failed err=%d\n", err);
+			break;
+		}
+		fdb_info->offloaded = true;
+		call_switchdev_notifiers(SWITCHDEV_FDB_OFFLOADED, dev,
+					 &fdb_info->info, NULL);
+		break;
+
+	case SWITCHDEV_FDB_DEL_TO_DEVICE:
+		fdb_info = &switchdev_work->fdb_info;
+		if (!fdb_info->added_by_user)
+			break;
+
+		err = dsa_port_fdb_del(dp, fdb_info->addr, fdb_info->vid);
+		if (err) {
+			netdev_dbg(dev, "fdb del failed err=%d\n", err);
+			dev_close(dev);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	rtnl_unlock();
 
+<<<<<<< HEAD
 	kfree(switchdev_work);
 	if (dsa_is_user_port(ds, dp->index))
 		dev_put(dp->slave);
@@ -2273,11 +2579,35 @@ static struct dsa_slave_priv *dsa_slave_dev_lower_find(struct net_device *dev)
 	return (struct dsa_slave_priv *)priv.data;
 }
 
+=======
+	kfree(switchdev_work->fdb_info.addr);
+	kfree(switchdev_work);
+	dev_put(dev);
+}
+
+static int
+dsa_slave_switchdev_fdb_work_init(struct dsa_switchdev_event_work *
+				  switchdev_work,
+				  const struct switchdev_notifier_fdb_info *
+				  fdb_info)
+{
+	memcpy(&switchdev_work->fdb_info, fdb_info,
+	       sizeof(switchdev_work->fdb_info));
+	switchdev_work->fdb_info.addr = kzalloc(ETH_ALEN, GFP_ATOMIC);
+	if (!switchdev_work->fdb_info.addr)
+		return -ENOMEM;
+	ether_addr_copy((u8 *)switchdev_work->fdb_info.addr,
+			fdb_info->addr);
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Called under rcu_read_lock() */
 static int dsa_slave_switchdev_event(struct notifier_block *unused,
 				     unsigned long event, void *ptr)
 {
 	struct net_device *dev = switchdev_notifier_info_to_dev(ptr);
+<<<<<<< HEAD
 	const struct switchdev_notifier_fdb_info *fdb_info;
 	struct dsa_switchdev_event_work *switchdev_work;
 	struct dsa_port *dp;
@@ -2285,10 +2615,17 @@ static int dsa_slave_switchdev_event(struct notifier_block *unused,
 
 	switch (event) {
 	case SWITCHDEV_PORT_ATTR_SET:
+=======
+	struct dsa_switchdev_event_work *switchdev_work;
+	int err;
+
+	if (event == SWITCHDEV_PORT_ATTR_SET) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = switchdev_handle_port_attr_set(dev, ptr,
 						     dsa_slave_dev_check,
 						     dsa_slave_port_attr_set);
 		return notifier_from_errno(err);
+<<<<<<< HEAD
 	case SWITCHDEV_FDB_ADD_TO_DEVICE:
 	case SWITCHDEV_FDB_DEL_TO_DEVICE:
 		fdb_info = ptr;
@@ -2358,6 +2695,40 @@ static int dsa_slave_switchdev_event(struct notifier_block *unused,
 	}
 
 	return NOTIFY_OK;
+=======
+	}
+
+	if (!dsa_slave_dev_check(dev))
+		return NOTIFY_DONE;
+
+	switchdev_work = kzalloc(sizeof(*switchdev_work), GFP_ATOMIC);
+	if (!switchdev_work)
+		return NOTIFY_BAD;
+
+	INIT_WORK(&switchdev_work->work,
+		  dsa_slave_switchdev_event_work);
+	switchdev_work->dev = dev;
+	switchdev_work->event = event;
+
+	switch (event) {
+	case SWITCHDEV_FDB_ADD_TO_DEVICE:
+	case SWITCHDEV_FDB_DEL_TO_DEVICE:
+		if (dsa_slave_switchdev_fdb_work_init(switchdev_work, ptr))
+			goto err_fdb_work_init;
+		dev_hold(dev);
+		break;
+	default:
+		kfree(switchdev_work);
+		return NOTIFY_DONE;
+	}
+
+	dsa_schedule_work(&switchdev_work->work);
+	return NOTIFY_OK;
+
+err_fdb_work_init:
+	kfree(switchdev_work);
+	return NOTIFY_BAD;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dsa_slave_switchdev_blocking_event(struct notifier_block *unused,

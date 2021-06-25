@@ -15,8 +15,11 @@
 #include "record.h"
 #include "../perf-sys.h"
 #include "topdown.h"
+<<<<<<< HEAD
 #include "map_symbol.h"
 #include "mem-events.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * evsel__config_leader_sampling() uses special rules for leader sampling.
@@ -27,8 +30,12 @@ static struct evsel *evsel__read_sampler(struct evsel *evsel, struct evlist *evl
 {
 	struct evsel *leader = evsel->leader;
 
+<<<<<<< HEAD
 	if (evsel__is_aux_event(leader) || arch_topdown_sample_read(leader) ||
 	    is_mem_loads_aux_event(leader)) {
+=======
+	if (evsel__is_aux_event(leader) || arch_topdown_sample_read(leader)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		evlist__for_each_entry(evlist, evsel) {
 			if (evsel->leader == leader && evsel != evsel->leader)
 				return evsel;
@@ -204,10 +211,17 @@ static int record_opts__config_freq(struct record_opts *opts)
 	 * Default frequency is over current maximum.
 	 */
 	if (max_rate < opts->freq) {
+<<<<<<< HEAD
 		pr_warning("Lowering default frequency rate from %u to %u.\n"
 			   "Please consider tweaking "
 			   "/proc/sys/kernel/perf_event_max_sample_rate.\n",
 			   opts->freq, max_rate);
+=======
+		pr_warning("Lowering default frequency rate to %u.\n"
+			   "Please consider tweaking "
+			   "/proc/sys/kernel/perf_event_max_sample_rate.\n",
+			   max_rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		opts->freq = max_rate;
 	}
 

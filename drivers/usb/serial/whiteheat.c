@@ -79,7 +79,11 @@ static int  whiteheat_firmware_attach(struct usb_serial *serial);
 static int  whiteheat_attach(struct usb_serial *serial);
 static void whiteheat_release(struct usb_serial *serial);
 static int  whiteheat_port_probe(struct usb_serial_port *port);
+<<<<<<< HEAD
 static void whiteheat_port_remove(struct usb_serial_port *port);
+=======
+static int  whiteheat_port_remove(struct usb_serial_port *port);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int  whiteheat_open(struct tty_struct *tty,
 			struct usb_serial_port *port);
 static void whiteheat_close(struct usb_serial_port *port);
@@ -345,12 +349,21 @@ static int whiteheat_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void whiteheat_port_remove(struct usb_serial_port *port)
+=======
+static int whiteheat_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct whiteheat_private *info;
 
 	info = usb_get_serial_port_data(port);
 	kfree(info);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int whiteheat_open(struct tty_struct *tty, struct usb_serial_port *port)

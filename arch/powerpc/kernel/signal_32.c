@@ -775,7 +775,11 @@ int handle_rt_signal32(struct ksignal *ksig, sigset_t *oldset,
 	else
 		prepare_save_user_regs(1);
 
+<<<<<<< HEAD
 	if (!user_access_begin(frame, sizeof(*frame)))
+=======
+	if (!user_write_access_begin(frame, sizeof(*frame)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto badframe;
 
 	/* Put the siginfo & fill in most of the ucontext */
@@ -809,15 +813,28 @@ int handle_rt_signal32(struct ksignal *ksig, sigset_t *oldset,
 		unsafe_put_user(PPC_INST_ADDI + __NR_rt_sigreturn, &mctx->mc_pad[0],
 				failed);
 		unsafe_put_user(PPC_INST_SC, &mctx->mc_pad[1], failed);
+<<<<<<< HEAD
 		asm("dcbst %y0; sync; icbi %y0; sync" :: "Z" (mctx->mc_pad[0]));
 	}
 	unsafe_put_sigset_t(&frame->uc.uc_sigmask, oldset, failed);
 
 	user_access_end();
+=======
+	}
+	unsafe_put_sigset_t(&frame->uc.uc_sigmask, oldset, failed);
+
+	user_write_access_end();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_siginfo_to_user(&frame->info, &ksig->info))
 		goto badframe;
 
+<<<<<<< HEAD
+=======
+	if (tramp == (unsigned long)mctx->mc_pad)
+		flush_icache_range(tramp, tramp + 2 * sizeof(unsigned long));
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regs->link = tramp;
 
 #ifdef CONFIG_PPC_FPU_REGS
@@ -842,7 +859,11 @@ int handle_rt_signal32(struct ksignal *ksig, sigset_t *oldset,
 	return 0;
 
 failed:
+<<<<<<< HEAD
 	user_access_end();
+=======
+	user_write_access_end();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 badframe:
 	signal_fault(tsk, regs, "handle_rt_signal32", frame);
@@ -877,7 +898,11 @@ int handle_signal32(struct ksignal *ksig, sigset_t *oldset,
 	else
 		prepare_save_user_regs(1);
 
+<<<<<<< HEAD
 	if (!user_access_begin(frame, sizeof(*frame)))
+=======
+	if (!user_write_access_begin(frame, sizeof(*frame)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto badframe;
 	sc = (struct sigcontext __user *) &frame->sctx;
 
@@ -906,9 +931,17 @@ int handle_signal32(struct ksignal *ksig, sigset_t *oldset,
 		/* Set up the sigreturn trampoline: li r0,sigret; sc */
 		unsafe_put_user(PPC_INST_ADDI + __NR_sigreturn, &mctx->mc_pad[0], failed);
 		unsafe_put_user(PPC_INST_SC, &mctx->mc_pad[1], failed);
+<<<<<<< HEAD
 		asm("dcbst %y0; sync; icbi %y0; sync" :: "Z" (mctx->mc_pad[0]));
 	}
 	user_access_end();
+=======
+	}
+	user_write_access_end();
+
+	if (tramp == (unsigned long)mctx->mc_pad)
+		flush_icache_range(tramp, tramp + 2 * sizeof(unsigned long));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	regs->link = tramp;
 
@@ -925,6 +958,7 @@ int handle_signal32(struct ksignal *ksig, sigset_t *oldset,
 	regs->gpr[3] = ksig->sig;
 	regs->gpr[4] = (unsigned long) sc;
 	regs->nip = (unsigned long)ksig->ka.sa.sa_handler;
+<<<<<<< HEAD
 	/* enter the signal handler in native-endian mode */
 	regs->msr &= ~MSR_LE;
 	regs->msr |= (MSR_KERNEL & MSR_LE);
@@ -932,6 +966,14 @@ int handle_signal32(struct ksignal *ksig, sigset_t *oldset,
 
 failed:
 	user_access_end();
+=======
+	/* enter the signal handler in big-endian mode */
+	regs->msr &= ~MSR_LE;
+	return 0;
+
+failed:
+	user_write_access_end();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 badframe:
 	signal_fault(tsk, regs, "handle_signal32", frame);

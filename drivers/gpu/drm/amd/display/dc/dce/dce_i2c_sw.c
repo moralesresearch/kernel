@@ -339,7 +339,11 @@ static bool start_sync_sw(
 	return false;
 }
 
+<<<<<<< HEAD
 static void dce_i2c_sw_engine_set_speed(
+=======
+void dce_i2c_sw_engine_set_speed(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dce_i2c_sw *engine,
 	uint32_t speed)
 {
@@ -353,7 +357,11 @@ static void dce_i2c_sw_engine_set_speed(
 		engine->clock_delay = 12;
 }
 
+<<<<<<< HEAD
 static bool dce_i2c_sw_engine_acquire_engine(
+=======
+bool dce_i2c_sw_engine_acquire_engine(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dce_i2c_sw *engine,
 	struct ddc *ddc)
 {
@@ -397,7 +405,11 @@ bool dce_i2c_engine_acquire_sw(
 
 
 
+<<<<<<< HEAD
 static void dce_i2c_sw_engine_submit_channel_request(
+=======
+void dce_i2c_sw_engine_submit_channel_request(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dce_i2c_sw *engine,
 	struct i2c_request_transaction_data *req)
 {
@@ -440,8 +452,12 @@ static void dce_i2c_sw_engine_submit_channel_request(
 		I2C_CHANNEL_OPERATION_SUCCEEDED :
 		I2C_CHANNEL_OPERATION_FAILED;
 }
+<<<<<<< HEAD
 
 static bool dce_i2c_sw_engine_submit_payload(
+=======
+bool dce_i2c_sw_engine_submit_payload(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dce_i2c_sw *engine,
 	struct i2c_payload *payload,
 	bool middle_of_transaction)

@@ -121,8 +121,11 @@
 	pca9555@27 {
 		compatible = "nxp,pca9555";
 		reg = <0x27>;
+<<<<<<< HEAD
 		gpio-controller;
 		#gpio-cells = <2>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

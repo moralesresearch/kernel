@@ -1254,8 +1254,11 @@ static int setup_cs(struct spi_device *spi, struct chip_data *chip,
 		chip->gpio_cs_inverted = spi->mode & SPI_CS_HIGH;
 
 		err = gpiod_direction_output(gpiod, !chip->gpio_cs_inverted);
+<<<<<<< HEAD
 		if (err)
 			gpiod_put(chip->gpiod_cs);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return err;
@@ -1269,7 +1272,10 @@ static int setup(struct spi_device *spi)
 	struct driver_data *drv_data =
 		spi_controller_get_devdata(spi->controller);
 	uint tx_thres, tx_hi_thres, rx_thres;
+<<<<<<< HEAD
 	int err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (drv_data->ssp_type) {
 	case QUARK_X1000_SSP:
@@ -1416,11 +1422,15 @@ static int setup(struct spi_device *spi)
 	if (drv_data->ssp_type == CE4100_SSP)
 		return 0;
 
+<<<<<<< HEAD
 	err = setup_cs(spi, chip, chip_info);
 	if (err)
 		kfree(chip);
 
 	return err;
+=======
+	return setup_cs(spi, chip, chip_info);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void cleanup(struct spi_device *spi)
@@ -1499,10 +1509,13 @@ static const struct pci_device_id pxa2xx_spi_pci_compound_match[] = {
 	{ PCI_VDEVICE(INTEL, 0x43ab), LPSS_CNL_SSP },
 	{ PCI_VDEVICE(INTEL, 0x43fb), LPSS_CNL_SSP },
 	{ PCI_VDEVICE(INTEL, 0x43fd), LPSS_CNL_SSP },
+<<<<<<< HEAD
 	/* ADL-P */
 	{ PCI_VDEVICE(INTEL, 0x51aa), LPSS_CNL_SSP },
 	{ PCI_VDEVICE(INTEL, 0x51ab), LPSS_CNL_SSP },
 	{ PCI_VDEVICE(INTEL, 0x51fb), LPSS_CNL_SSP },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* APL */
 	{ PCI_VDEVICE(INTEL, 0x5ac2), LPSS_BXT_SSP },
 	{ PCI_VDEVICE(INTEL, 0x5ac4), LPSS_BXT_SSP },

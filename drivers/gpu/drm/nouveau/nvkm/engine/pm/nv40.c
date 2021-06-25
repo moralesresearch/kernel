@@ -80,7 +80,11 @@ nv40_pm_ = {
 
 int
 nv40_pm_new_(const struct nvkm_specdom *doms, struct nvkm_device *device,
+<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_pm **ppm)
+=======
+	     int index, struct nvkm_pm **ppm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv40_pm *pm;
 	int ret;
@@ -89,7 +93,11 @@ nv40_pm_new_(const struct nvkm_specdom *doms, struct nvkm_device *device,
 		return -ENOMEM;
 	*ppm = &pm->base;
 
+<<<<<<< HEAD
 	ret = nvkm_pm_ctor(&nv40_pm_, device, type, inst, &pm->base);
+=======
+	ret = nvkm_pm_ctor(&nv40_pm_, device, index, &pm->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -117,7 +125,13 @@ nv40_pm[] = {
 };
 
 int
+<<<<<<< HEAD
 nv40_pm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_pm **ppm)
 {
 	return nv40_pm_new_(nv40_pm, device, type, inst, ppm);
+=======
+nv40_pm_new(struct nvkm_device *device, int index, struct nvkm_pm **ppm)
+{
+	return nv40_pm_new_(nv40_pm, device, index, ppm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

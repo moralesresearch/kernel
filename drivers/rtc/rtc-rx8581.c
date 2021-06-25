@@ -314,7 +314,11 @@ static const struct i2c_device_id rx8581_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, rx8581_id);
 
+<<<<<<< HEAD
 static const __maybe_unused struct of_device_id rx8581_of_match[] = {
+=======
+static const struct of_device_id rx8581_of_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "epson,rx8571", .data = &rx8571_config },
 	{ .compatible = "epson,rx8581", .data = &rx8581_config },
 	{ /* sentinel */ }

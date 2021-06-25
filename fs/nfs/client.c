@@ -406,7 +406,11 @@ struct nfs_client *nfs_get_client(const struct nfs_client_initdata *cl_init)
 
 	if (cl_init->hostname == NULL) {
 		WARN_ON(1);
+<<<<<<< HEAD
 		return ERR_PTR(-EINVAL);
+=======
+		return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* see if the client already exists */

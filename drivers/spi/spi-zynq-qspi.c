@@ -528,17 +528,30 @@ static int zynq_qspi_exec_mem_op(struct spi_mem *mem,
 	struct zynq_qspi *xqspi = spi_controller_get_devdata(mem->spi->master);
 	int err = 0, i;
 	u8 *tmpbuf;
+<<<<<<< HEAD
 
 	dev_dbg(xqspi->dev, "cmd:%#x mode:%d.%d.%d.%d\n",
 		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
+=======
+	u8 opcode = op->cmd.opcode;
+
+	dev_dbg(xqspi->dev, "cmd:%#x mode:%d.%d.%d.%d\n",
+		opcode, op->cmd.buswidth, op->addr.buswidth,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		op->dummy.buswidth, op->data.buswidth);
 
 	zynq_qspi_chipselect(mem->spi, true);
 	zynq_qspi_config_op(xqspi, mem->spi);
 
+<<<<<<< HEAD
 	if (op->cmd.opcode) {
 		reinit_completion(&xqspi->data_completion);
 		xqspi->txbuf = (u8 *)&op->cmd.opcode;
+=======
+	if (op->cmd.nbytes) {
+		reinit_completion(&xqspi->data_completion);
+		xqspi->txbuf = &opcode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xqspi->rxbuf = NULL;
 		xqspi->tx_bytes = op->cmd.nbytes;
 		xqspi->rx_bytes = op->cmd.nbytes;
@@ -678,14 +691,22 @@ static int zynq_qspi_probe(struct platform_device *pdev)
 	xqspi->irq = platform_get_irq(pdev, 0);
 	if (xqspi->irq <= 0) {
 		ret = -ENXIO;
+<<<<<<< HEAD
 		goto clk_dis_all;
+=======
+		goto remove_master;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	ret = devm_request_irq(&pdev->dev, xqspi->irq, zynq_qspi_irq,
 			       0, pdev->name, xqspi);
 	if (ret != 0) {
 		ret = -ENXIO;
 		dev_err(&pdev->dev, "request_irq failed\n");
+<<<<<<< HEAD
 		goto clk_dis_all;
+=======
+		goto remove_master;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = of_property_read_u32(np, "num-cs",
@@ -693,9 +714,14 @@ static int zynq_qspi_probe(struct platform_device *pdev)
 	if (ret < 0) {
 		ctlr->num_chipselect = 1;
 	} else if (num_cs > ZYNQ_QSPI_MAX_NUM_CS) {
+<<<<<<< HEAD
 		ret = -EINVAL;
 		dev_err(&pdev->dev, "only 2 chip selects are available\n");
 		goto clk_dis_all;
+=======
+		dev_err(&pdev->dev, "only 2 chip selects are available\n");
+		goto remove_master;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ctlr->num_chipselect = num_cs;
 	}

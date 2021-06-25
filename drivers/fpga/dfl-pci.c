@@ -27,6 +27,7 @@
 #define DRV_VERSION	"0.8"
 #define DRV_NAME	"dfl-pci"
 
+<<<<<<< HEAD
 #define PCI_VSEC_ID_INTEL_DFLS 0x43
 
 #define PCI_VNDR_DFLS_CNT 0x8
@@ -35,6 +36,8 @@
 #define PCI_VNDR_DFLS_RES_BAR_MASK GENMASK(2, 0)
 #define PCI_VNDR_DFLS_RES_OFF_MASK GENMASK(31, 3)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct cci_drvdata {
 	struct dfl_fpga_cdev *cdev;	/* container device */
 };
@@ -69,6 +72,7 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
 }
 
 /* PCI Device ID */
+<<<<<<< HEAD
 #define PCIE_DEVICE_ID_PF_INT_5_X		0xBCBD
 #define PCIE_DEVICE_ID_PF_INT_6_X		0xBCC0
 #define PCIE_DEVICE_ID_PF_DSC_1_X		0x09C4
@@ -79,6 +83,16 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
 #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
 #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
 #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
+=======
+#define PCIE_DEVICE_ID_PF_INT_5_X	0xBCBD
+#define PCIE_DEVICE_ID_PF_INT_6_X	0xBCC0
+#define PCIE_DEVICE_ID_PF_DSC_1_X	0x09C4
+#define PCIE_DEVICE_ID_INTEL_PAC_N3000	0x0B30
+/* VF Device */
+#define PCIE_DEVICE_ID_VF_INT_5_X	0xBCBF
+#define PCIE_DEVICE_ID_VF_INT_6_X	0xBCC1
+#define PCIE_DEVICE_ID_VF_DSC_1_X	0x09C5
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct pci_device_id cci_pcie_id_tbl[] = {
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
@@ -88,8 +102,11 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_DSC_1_X),},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_VF_DSC_1_X),},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_N3000),},
+<<<<<<< HEAD
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005),},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{0,}
 };
 MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
@@ -131,6 +148,7 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
 	return table;
 }
 
+<<<<<<< HEAD
 static int find_dfls_by_vsec(struct pci_dev *pcidev, struct dfl_fpga_enum_info *info)
 {
 	u32 bir, offset, vndr_hdr, dfl_cnt, dfl_res;
@@ -219,6 +237,51 @@ static int find_dfls_by_default(struct pci_dev *pcidev,
 	base = cci_pci_ioremap_bar0(pcidev);
 	if (!base)
 		return -ENOMEM;
+=======
+/* enumerate feature devices under pci device */
+static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
+{
+	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
+	int port_num, bar, i, nvec, ret = 0;
+	struct dfl_fpga_enum_info *info;
+	struct dfl_fpga_cdev *cdev;
+	resource_size_t start, len;
+	void __iomem *base;
+	int *irq_table;
+	u32 offset;
+	u64 v;
+
+	/* allocate enumeration info via pci_dev */
+	info = dfl_fpga_enum_info_alloc(&pcidev->dev);
+	if (!info)
+		return -ENOMEM;
+
+	/* add irq info for enumeration if the device support irq */
+	nvec = cci_pci_alloc_irq(pcidev);
+	if (nvec < 0) {
+		dev_err(&pcidev->dev, "Fail to alloc irq %d.\n", nvec);
+		ret = nvec;
+		goto enum_info_free_exit;
+	} else if (nvec) {
+		irq_table = cci_pci_create_irq_table(pcidev, nvec);
+		if (!irq_table) {
+			ret = -ENOMEM;
+			goto irq_free_exit;
+		}
+
+		ret = dfl_fpga_enum_info_add_irq(info, nvec, irq_table);
+		kfree(irq_table);
+		if (ret)
+			goto irq_free_exit;
+	}
+
+	/* start to find Device Feature List in Bar 0 */
+	base = cci_pci_ioremap_bar0(pcidev);
+	if (!base) {
+		ret = -ENOMEM;
+		goto irq_free_exit;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * PF device has FME and Ports/AFUs, and VF device only has one
@@ -265,11 +328,16 @@ static int find_dfls_by_default(struct pci_dev *pcidev,
 		dfl_fpga_enum_info_add_dfl(info, start, len);
 	} else {
 		ret = -ENODEV;
+<<<<<<< HEAD
+=======
+		goto irq_free_exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* release I/O mappings for next step enumeration */
 	pcim_iounmap_regions(pcidev, BIT(0));
 
+<<<<<<< HEAD
 	return ret;
 }
 
@@ -313,6 +381,8 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
 	if (ret)
 		goto irq_free_exit;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* start enumeration with prepared enumeration information */
 	cdev = dfl_fpga_feature_devs_enumerate(info);
 	if (IS_ERR(cdev)) {

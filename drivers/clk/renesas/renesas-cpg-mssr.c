@@ -136,8 +136,13 @@ static const u16 srstclr_for_v3u[] = {
  * @control_regs: Pointer to control registers array
  * @reset_regs: Pointer to reset registers array
  * @reset_clear_regs:  Pointer to reset clearing registers array
+<<<<<<< HEAD
  * @smstpcr_saved: [].mask: Mask of SMSTPCR[] bits under our control
  *                 [].val: Saved values of SMSTPCR[]
+=======
+ * @smstpcr_saved[].mask: Mask of SMSTPCR[] bits under our control
+ * @smstpcr_saved[].val: Saved values of SMSTPCR[]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @clks: Array containing all Core and Module Clocks
  */
 struct cpg_mssr_priv {

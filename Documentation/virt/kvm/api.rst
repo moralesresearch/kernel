@@ -963,6 +963,10 @@ memory.
 	__u8 pad2[30];
   };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 If the KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL flag is returned from the
 KVM_CAP_XEN_HVM check, it may be set in the flags field of this ioctl.
 This requests KVM to generate the contents of the hypercall page
@@ -971,6 +975,11 @@ through KVM_EXIT_XEN.  In this case, all of the blob size and address
 fields must be zero.
 
 No other flags are currently valid in the struct kvm_xen_hvm_config.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 4.29 KVM_GET_CLOCK
 ------------------
@@ -1495,8 +1504,17 @@ Fails if any VCPU has already been created.
 
 Define which vcpu is the Bootstrap Processor (BSP).  Values are the same
 as the vcpu id in KVM_CREATE_VCPU.  If this ioctl is not called, the default
+<<<<<<< HEAD
 is vcpu 0. This ioctl has to be called before vcpu creation,
 otherwise it will return EBUSY error.
+=======
+<<<<<<< HEAD
+is vcpu 0. This ioctl has to be called before vcpu creation,
+otherwise it will return EBUSY error.
+=======
+is vcpu 0.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 4.42 KVM_GET_XSAVE
@@ -2280,8 +2298,16 @@ registers, find a list below:
   PPC     KVM_REG_PPC_PSSCR               64
   PPC     KVM_REG_PPC_DEC_EXPIRY          64
   PPC     KVM_REG_PPC_PTCR                64
+<<<<<<< HEAD
   PPC     KVM_REG_PPC_DAWR1               64
   PPC     KVM_REG_PPC_DAWRX1              64
+=======
+<<<<<<< HEAD
+  PPC     KVM_REG_PPC_DAWR1               64
+  PPC     KVM_REG_PPC_DAWRX1              64
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   PPC     KVM_REG_PPC_TM_GPR0             64
   ...
   PPC     KVM_REG_PPC_TM_GPR31            64
@@ -3860,12 +3886,59 @@ base 2 of the page size in the bottom 6 bits.
          -EFAULT if struct kvm_reinject_control cannot be read,
 	 -EINVAL if the supplied shift or flags are invalid,
 	 -ENOMEM if unable to allocate the new HPT,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	 -ENOSPC if there was a hash collision
+
+::
+
+  struct kvm_ppc_rmmu_info {
+	struct kvm_ppc_radix_geom {
+		__u8	page_shift;
+		__u8	level_bits[4];
+		__u8	pad[3];
+	}	geometries[8];
+	__u32	ap_encodings[8];
+  };
+
+The geometries[] field gives up to 8 supported geometries for the
+radix page table, in terms of the log base 2 of the smallest page
+size, and the number of bits indexed at each level of the tree, from
+the PTE level up to the PGD level in that order.  Any unused entries
+will have 0 in the page_shift field.
+
+The ap_encodings gives the supported page sizes and their AP field
+encodings, encoded with the AP value in the top 3 bits and the log
+base 2 of the page size in the bottom 6 bits.
+
+4.102 KVM_PPC_RESIZE_HPT_PREPARE
+--------------------------------
+
+:Capability: KVM_CAP_SPAPR_RESIZE_HPT
+:Architectures: powerpc
+:Type: vm ioctl
+:Parameters: struct kvm_ppc_resize_hpt (in)
+:Returns: 0 on successful completion,
+	 >0 if a new HPT is being prepared, the value is an estimated
+         number of milliseconds until preparation is complete,
+         -EFAULT if struct kvm_reinject_control cannot be read,
+	 -EINVAL if the supplied shift or flags are invalid,when moving existing
+         HPT entries to the new HPT,
+	 -EIO on other error conditions
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Used to implement the PAPR extension for runtime resizing of a guest's
 Hashed Page Table (HPT).  Specifically this starts, stops or monitors
 the preparation of a new potential HPT for the guest, essentially
 implementing the H_RESIZE_HPT_PREPARE hypercall.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ::
 
   struct kvm_ppc_resize_hpt {
@@ -3874,6 +3947,11 @@ implementing the H_RESIZE_HPT_PREPARE hypercall.
 	__u32 pad;
   };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 If called with shift > 0 when there is no pending HPT for the guest,
 this begins preparation of a new pending HPT of size 2^(shift) bytes.
 It then returns a positive integer with the estimated number of
@@ -3901,6 +3979,20 @@ Normally this will be called repeatedly with the same parameters until
 it returns <= 0.  The first call will initiate preparation, subsequent
 ones will monitor preparation until it completes or fails.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+::
+
+  struct kvm_ppc_resize_hpt {
+	__u64 flags;
+	__u32 shift;
+	__u32 pad;
+  };
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 4.103 KVM_PPC_RESIZE_HPT_COMMIT
 -------------------------------
 
@@ -3923,6 +4015,10 @@ Hashed Page Table (HPT).  Specifically this requests that the guest be
 transferred to working with the new HPT, essentially implementing the
 H_RESIZE_HPT_COMMIT hypercall.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ::
 
   struct kvm_ppc_resize_hpt {
@@ -3931,6 +4027,11 @@ H_RESIZE_HPT_COMMIT hypercall.
 	__u32 pad;
   };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 This should only be called after KVM_PPC_RESIZE_HPT_PREPARE has
 returned 0 with the same parameters.  In other cases
 KVM_PPC_RESIZE_HPT_COMMIT will return an error (usually -ENXIO or
@@ -3946,6 +4047,20 @@ HPT and the previous HPT will be discarded.
 
 On failure, the guest will still be operating on its previous HPT.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+::
+
+  struct kvm_ppc_resize_hpt {
+	__u64 flags;
+	__u32 shift;
+	__u32 pad;
+  };
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 4.104 KVM_X86_GET_MCE_CAP_SUPPORTED
 -----------------------------------
 
@@ -4486,7 +4601,14 @@ KVM_GET_SUPPORTED_CPUID ioctl because some of them intersect with KVM feature
 leaves (0x40000000, 0x40000001).
 
 Currently, the following list of CPUID leaves are returned:
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  - HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS
  - HYPERV_CPUID_INTERFACE
  - HYPERV_CPUID_VERSION
@@ -4511,7 +4633,14 @@ userspace should not expect to get any particular value there.
 Note, vcpu version of KVM_GET_SUPPORTED_HV_CPUID is currently deprecated. Unlike
 system ioctl which exposes all supported feature bits unconditionally, vcpu
 version has the following quirks:
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - HYPERV_CPUID_NESTED_FEATURES leaf and HV_X64_ENLIGHTENED_VMCS_RECOMMENDED
   feature bit are only exposed when Enlightened VMCS was previously enabled
   on the corresponding vCPU (KVM_CAP_HYPERV_ENLIGHTENED_VMCS).
@@ -4812,6 +4941,10 @@ KVM does guarantee that vCPUs will see either the previous filter or the new
 filter, e.g. MSRs with identical settings in both the old and new filter will
 have deterministic behavior.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 4.127 KVM_XEN_HVM_SET_ATTR
 --------------------------
 
@@ -4943,6 +5076,11 @@ see KVM_XEN_VCPU_SET_ATTR above.
 
 The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
 with the KVM_XEN_VCPU_GET_ATTR ioctl.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 5. The kvm_run structure
 ========================
@@ -5005,12 +5143,24 @@ local APIC is not used.
 	__u16 flags;
 
 More architecture-specific flags detailing state of the VCPU that may
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 affect the device's behavior. Current defined flags::
 
   /* x86, set if the VCPU is in system management mode */
   #define KVM_RUN_X86_SMM     (1 << 0)
   /* x86, set if bus lock detected in VM */
   #define KVM_RUN_BUS_LOCK    (1 << 1)
+<<<<<<< HEAD
+=======
+=======
+affect the device's behavior.  The only currently defined flag is
+KVM_RUN_X86_SMM, which is valid on x86 machines and is set if the
+VCPU is in system management mode.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ::
 
@@ -5111,6 +5261,10 @@ to the byte array.
 
 .. note::
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       For KVM_EXIT_IO, KVM_EXIT_MMIO, KVM_EXIT_OSI, KVM_EXIT_PAPR, KVM_EXIT_XEN,
       KVM_EXIT_EPR, KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR the corresponding
       operations are complete (and guest state is consistent) only after userspace
@@ -5123,6 +5277,18 @@ to the byte array.
       guest with an unmasked signal pending or with the immediate_exit field set
       to complete pending operations without allowing any further instructions
       to be executed.
+<<<<<<< HEAD
+=======
+=======
+      For KVM_EXIT_IO, KVM_EXIT_MMIO, KVM_EXIT_OSI, KVM_EXIT_PAPR,
+      KVM_EXIT_EPR, KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR the corresponding
+      operations are complete (and guest state is consistent) only after userspace
+      has re-entered the kernel with KVM_RUN.  The kernel side will first finish
+      incomplete operations and then check for pending signals.  Userspace
+      can re-enter the guest with an unmasked signal pending to complete
+      pending operations.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ::
 
@@ -5449,6 +5615,10 @@ vCPU execution. If the MSR write was unsuccessful, user space also sets the
 
 ::
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		struct kvm_xen_exit {
   #define KVM_EXIT_XEN_HCALL          1
@@ -5477,6 +5647,11 @@ Valid values for 'type' are:
 
 ::
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Fix the size of the union. */
 		char padding[256];
 	};
@@ -6186,6 +6361,10 @@ KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR exit notifications which user space
 can then handle to implement model specific MSR handling and/or user notifications
 to inform a user that an MSR was not handled.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 7.22 KVM_CAP_X86_BUS_LOCK_EXIT
 -------------------------------
 
@@ -6233,6 +6412,11 @@ KVM_RUN_BUS_LOCK flag is used to distinguish between them.
 This capability can be used to check / enable 2nd DAWR feature provided
 by POWER10 processor.
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 8. Other capabilities.
 ======================
 
@@ -6610,6 +6794,13 @@ guest according to the bits in the KVM_CPUID_FEATURES CPUID leaf
 (0x40000001). Otherwise, a guest may use the paravirtual features
 regardless of what has actually been exposed through the CPUID leaf.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 8.29 KVM_CAP_DIRTY_LOG_RING
 ---------------------------
 
@@ -6696,6 +6887,10 @@ KVM_GET_DIRTY_LOG and KVM_CLEAR_DIRTY_LOG.  After enabling
 KVM_CAP_DIRTY_LOG_RING with an acceptable dirty ring size, the virtual
 machine will switch to ring-buffer dirty page tracking and further
 KVM_GET_DIRTY_LOG or KVM_CLEAR_DIRTY_LOG ioctls will fail.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 8.30 KVM_CAP_XEN_HVM
 --------------------
@@ -6727,3 +6922,8 @@ vcpu_info is set.
 The KVM_XEN_HVM_CONFIG_RUNSTATE flag indicates that the runstate-related
 features KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR/_CURRENT/_DATA/_ADJUST are
 supported by the KVM_XEN_VCPU_SET_ATTR/KVM_XEN_VCPU_GET_ATTR ioctls.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

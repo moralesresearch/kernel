@@ -216,6 +216,21 @@ struct vmscsi_request {
 
 } __attribute((packed));
 
+<<<<<<< HEAD
+=======
+
+/*
+ * The size of the vmscsi_request has changed in win8. The
+ * additional size is because of new elements added to the
+ * structure. These elements are valid only when we are talking
+ * to a win8 host.
+ * Track the correction to size we need to apply. This value
+ * will likely change during protocol negotiation but it is
+ * valid to start by assuming pre-Win8.
+ */
+static int vmscsi_size_delta = sizeof(struct vmscsi_win8_extension);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The list of storage protocols in order of preference.
  */
@@ -439,6 +454,7 @@ struct storvsc_device {
 	unsigned char target_id;
 
 	/*
+<<<<<<< HEAD
 	 * The size of the vmscsi_request has changed in win8. The
 	 * additional size is because of new elements added to the
 	 * structure. These elements are valid only when we are talking
@@ -450,6 +466,8 @@ struct storvsc_device {
 	int vmscsi_size_delta;
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Max I/O, the device can support.
 	 */
 	u32   max_transfer_bytes;
@@ -768,7 +786,11 @@ static void  handle_multichannel_storage(struct hv_device *device, int max_chns)
 
 	ret = vmbus_sendpacket(device->channel, vstor_packet,
 			       (sizeof(struct vstor_packet) -
+<<<<<<< HEAD
 			       stor_device->vmscsi_size_delta),
+=======
+			       vmscsi_size_delta),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       (unsigned long)request,
 			       VM_PKT_DATA_INBAND,
 			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
@@ -822,6 +844,7 @@ static int storvsc_execute_vstor_op(struct hv_device *device,
 				    struct storvsc_cmd_request *request,
 				    bool status_check)
 {
+<<<<<<< HEAD
 	struct storvsc_device *stor_device;
 	struct vstor_packet *vstor_packet;
 	int ret, t;
@@ -830,6 +853,11 @@ static int storvsc_execute_vstor_op(struct hv_device *device,
 	if (!stor_device)
 		return -ENODEV;
 
+=======
+	struct vstor_packet *vstor_packet;
+	int ret, t;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vstor_packet = &request->vstor_packet;
 
 	init_completion(&request->wait_event);
@@ -837,7 +865,11 @@ static int storvsc_execute_vstor_op(struct hv_device *device,
 
 	ret = vmbus_sendpacket(device->channel, vstor_packet,
 			       (sizeof(struct vstor_packet) -
+<<<<<<< HEAD
 			       stor_device->vmscsi_size_delta),
+=======
+			       vmscsi_size_delta),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       (unsigned long)request,
 			       VM_PKT_DATA_INBAND,
 			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
@@ -914,7 +946,11 @@ static int storvsc_channel_init(struct hv_device *device, bool is_fc)
 			sense_buffer_size =
 				vmstor_protocols[i].sense_buffer_size;
 
+<<<<<<< HEAD
 			stor_device->vmscsi_size_delta =
+=======
+			vmscsi_size_delta =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				vmstor_protocols[i].vmscsi_size_delta;
 
 			break;
@@ -1265,6 +1301,7 @@ static void storvsc_on_channel_callback(void *context)
 
 		request = (struct storvsc_cmd_request *)(unsigned long)cmd_rqst;
 
+<<<<<<< HEAD
 		if (hv_pkt_datalen(desc) < sizeof(struct vstor_packet) -
 				stor_device->vmscsi_size_delta) {
 			dev_err(&device->device, "Invalid packet len\n");
@@ -1275,6 +1312,12 @@ static void storvsc_on_channel_callback(void *context)
 		    request == &stor_device->reset_request) {
 			memcpy(&request->vstor_packet, packet,
 			       (sizeof(struct vstor_packet) - stor_device->vmscsi_size_delta));
+=======
+		if (request == &stor_device->init_request ||
+		    request == &stor_device->reset_request) {
+			memcpy(&request->vstor_packet, packet,
+			       (sizeof(struct vstor_packet) - vmscsi_size_delta));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			complete(&request->wait_event);
 		} else {
 			storvsc_on_receive(stor_device, packet, request);
@@ -1492,7 +1535,11 @@ found_channel:
 	vstor_packet->flags |= REQUEST_COMPLETION_FLAG;
 
 	vstor_packet->vm_srb.length = (sizeof(struct vmscsi_request) -
+<<<<<<< HEAD
 					stor_device->vmscsi_size_delta);
+=======
+					vmscsi_size_delta);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 	vstor_packet->vm_srb.sense_info_length = sense_buffer_size;
@@ -1509,12 +1556,20 @@ found_channel:
 				request->payload, request->payload_sz,
 				vstor_packet,
 				(sizeof(struct vstor_packet) -
+<<<<<<< HEAD
 				stor_device->vmscsi_size_delta),
+=======
+				vmscsi_size_delta),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				(unsigned long)request);
 	} else {
 		ret = vmbus_sendpacket(outgoing_channel, vstor_packet,
 			       (sizeof(struct vstor_packet) -
+<<<<<<< HEAD
 				stor_device->vmscsi_size_delta),
+=======
+				vmscsi_size_delta),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       (unsigned long)request,
 			       VM_PKT_DATA_INBAND,
 			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
@@ -1619,7 +1674,11 @@ static int storvsc_host_reset_handler(struct scsi_cmnd *scmnd)
 
 	ret = vmbus_sendpacket(device->channel, vstor_packet,
 			       (sizeof(struct vstor_packet) -
+<<<<<<< HEAD
 				stor_device->vmscsi_size_delta),
+=======
+				vmscsi_size_delta),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       (unsigned long)&stor_device->reset_request,
 			       VM_PKT_DATA_INBAND,
 			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
@@ -1671,7 +1730,11 @@ static bool storvsc_scsi_cmd_ok(struct scsi_cmnd *scmnd)
 	 * this. So, don't send it.
 	 */
 	case SET_WINDOW:
+<<<<<<< HEAD
 		scmnd->result = DID_ERROR << 16;
+=======
+		scmnd->result = ILLEGAL_REQUEST << 16;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		allowed = false;
 		break;
 	default:
@@ -1969,7 +2032,10 @@ static int storvsc_probe(struct hv_device *device,
 	init_waitqueue_head(&stor_device->waiting_to_drain);
 	stor_device->device = device;
 	stor_device->host = host;
+<<<<<<< HEAD
 	stor_device->vmscsi_size_delta = sizeof(struct vmscsi_win8_extension);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_init(&stor_device->lock);
 	hv_set_drvdata(device, stor_device);
 
@@ -2172,15 +2238,23 @@ static int __init storvsc_drv_init(void)
 	 * than the ring buffer size since that page is reserved for
 	 * the ring buffer indices) by the max request size (which is
 	 * vmbus_channel_packet_multipage_buffer + struct vstor_packet + u64)
+<<<<<<< HEAD
 	 *
 	 * The computation underestimates max_outstanding_req_per_channel
 	 * for Win7 and older hosts because it does not take into account
 	 * the vmscsi_size_delta correction to the max request size.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	max_outstanding_req_per_channel =
 		((storvsc_ringbuffer_size - PAGE_SIZE) /
 		ALIGN(MAX_MULTIPAGE_BUFFER_PACKET +
+<<<<<<< HEAD
 		sizeof(struct vstor_packet) + sizeof(u64),
+=======
+		sizeof(struct vstor_packet) + sizeof(u64) -
+		vmscsi_size_delta,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sizeof(u64)));
 
 #if IS_ENABLED(CONFIG_SCSI_FC_ATTRS)

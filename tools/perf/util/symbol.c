@@ -1568,7 +1568,15 @@ int dso__load_bfd_symbols(struct dso *dso, const char *debugfile)
 	bfd *abfd;
 	u64 start, len;
 
+<<<<<<< HEAD
 	abfd = bfd_openr(debugfile, NULL);
+=======
+<<<<<<< HEAD
+	abfd = bfd_openr(debugfile, NULL);
+=======
+	abfd = bfd_openr(dso->long_name, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!abfd)
 		return -1;
 
@@ -1585,6 +1593,27 @@ int dso__load_bfd_symbols(struct dso *dso, const char *debugfile)
 	if (section)
 		dso->text_offset = section->vma - section->filepos;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	bfd_close(abfd);
+
+	abfd = bfd_openr(debugfile, NULL);
+	if (!abfd)
+		return -1;
+
+	if (!bfd_check_format(abfd, bfd_object)) {
+		pr_debug2("%s: cannot read %s bfd file.\n", __func__,
+			  debugfile);
+		goto out_close;
+	}
+
+	if (bfd_get_flavour(abfd) == bfd_target_elf_flavour)
+		goto out_close;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	symbols_size = bfd_get_symtab_upper_bound(abfd);
 	if (symbols_size == 0) {
 		bfd_close(abfd);
@@ -2392,6 +2421,10 @@ int setup_intlist(struct intlist **list, const char *list_str,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int setup_addrlist(struct intlist **addr_list, struct strlist *sym_list)
 {
 	struct str_node *pos, *tmp;
@@ -2435,6 +2468,11 @@ static int setup_addrlist(struct intlist **addr_list, struct strlist *sym_list)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool symbol__read_kptr_restrict(void)
 {
 	bool value = false;
@@ -2518,10 +2556,19 @@ int symbol__init(struct perf_env *env)
 		       symbol_conf.sym_list_str, "symbol") < 0)
 		goto out_free_tid_list;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (symbol_conf.sym_list &&
 	    setup_addrlist(&symbol_conf.addr_list, symbol_conf.sym_list) < 0)
 		goto out_free_sym_list;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (setup_list(&symbol_conf.bt_stop_list,
 		       symbol_conf.bt_stop_list_str, "symbol") < 0)
 		goto out_free_sym_list;
@@ -2545,7 +2592,14 @@ int symbol__init(struct perf_env *env)
 
 out_free_sym_list:
 	strlist__delete(symbol_conf.sym_list);
+<<<<<<< HEAD
 	intlist__delete(symbol_conf.addr_list);
+=======
+<<<<<<< HEAD
+	intlist__delete(symbol_conf.addr_list);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_free_tid_list:
 	intlist__delete(symbol_conf.tid_list);
 out_free_pid_list:
@@ -2567,7 +2621,14 @@ void symbol__exit(void)
 	strlist__delete(symbol_conf.comm_list);
 	intlist__delete(symbol_conf.tid_list);
 	intlist__delete(symbol_conf.pid_list);
+<<<<<<< HEAD
 	intlist__delete(symbol_conf.addr_list);
+=======
+<<<<<<< HEAD
+	intlist__delete(symbol_conf.addr_list);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmlinux_path__exit();
 	symbol_conf.sym_list = symbol_conf.dso_list = symbol_conf.comm_list = NULL;
 	symbol_conf.bt_stop_list = NULL;

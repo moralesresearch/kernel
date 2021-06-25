@@ -503,7 +503,11 @@ static int do_rx(int fd)
 		if (rbuf != cfg_payload_char)
 			error(1, 0, "recv: payload mismatch");
 		num++;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return num;
 }

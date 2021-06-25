@@ -751,7 +751,15 @@ static void _dpu_kms_set_encoder_mode(struct msm_kms *kms,
 	case DRM_MODE_ENCODER_TMDS:
 		info.num_of_h_tiles = 1;
 		break;
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = dpu_encoder_setup(encoder->dev, encoder, &info);
 	if (rc)
@@ -933,7 +941,12 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
 		DPU_DEBUG("REG_DMA is not defined");
 	}
 
+<<<<<<< HEAD
 	dpu_kms_parse_data_bus_icc_path(dpu_kms);
+=======
+	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
+		dpu_kms_parse_data_bus_icc_path(dpu_kms);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
 

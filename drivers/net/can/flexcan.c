@@ -821,7 +821,15 @@ static netdev_tx_t flexcan_start_xmit(struct sk_buff *skb, struct net_device *de
 		priv->write(data, &priv->tx_mb->data[i / sizeof(u32)]);
 	}
 
+<<<<<<< HEAD
 	can_put_echo_skb(skb, dev, 0, 0);
+=======
+<<<<<<< HEAD
+	can_put_echo_skb(skb, dev, 0, 0);
+=======
+	can_put_echo_skb(skb, dev, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv->write(can_id, &priv->tx_mb->can_id);
 	priv->write(ctrl, &priv->tx_mb->can_ctrl);
@@ -1128,9 +1136,20 @@ static irqreturn_t flexcan_irq(int irq, void *dev_id)
 		u32 reg_ctrl = priv->read(&priv->tx_mb->can_ctrl);
 
 		handled = IRQ_HANDLED;
+<<<<<<< HEAD
 		stats->tx_bytes +=
 			can_rx_offload_get_echo_skb(&priv->offload, 0,
 						    reg_ctrl << 16, NULL);
+=======
+<<<<<<< HEAD
+		stats->tx_bytes +=
+			can_rx_offload_get_echo_skb(&priv->offload, 0,
+						    reg_ctrl << 16, NULL);
+=======
+		stats->tx_bytes += can_rx_offload_get_echo_skb(&priv->offload,
+							       0, reg_ctrl << 16);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stats->tx_packets++;
 		can_led_event(dev, CAN_LED_EVENT_TX);
 
@@ -1987,14 +2006,30 @@ static int flexcan_setup_stop_mode_scfw(struct platform_device *pdev)
 	priv = netdev_priv(dev);
 	priv->scu_idx = scu_idx;
 
+<<<<<<< HEAD
 	/* this function could be deferred probe, return -EPROBE_DEFER */
+=======
+<<<<<<< HEAD
+	/* this function could be deferred probe, return -EPROBE_DEFER */
+=======
+	/* this function could be defered probe, return -EPROBE_DEFER */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return imx_scu_get_handle(&priv->sc_ipc_handle);
 }
 
 /* flexcan_setup_stop_mode - Setup stop mode for wakeup
  *
  * Return: = 0 setup stop mode successfully or doesn't support this feature
+<<<<<<< HEAD
  *         < 0 fail to setup stop mode (could be deferred probe)
+=======
+<<<<<<< HEAD
+ *         < 0 fail to setup stop mode (could be deferred probe)
+=======
+ *         < 0 fail to setup stop mode (could be defered probe)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int flexcan_setup_stop_mode(struct platform_device *pdev)
 {

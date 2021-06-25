@@ -948,7 +948,11 @@ static void layout_attached_codec(struct aoa_codec *codec)
 				ldev->gpio.methods->set_lineout(codec->gpio, 1);
 			ctl = snd_ctl_new1(&lineout_ctl, codec->gpio);
 			if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+<<<<<<< HEAD
 				strscpy(ctl->id.name,
+=======
+				strlcpy(ctl->id.name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					"Headphone Switch", sizeof(ctl->id.name));
 			ldev->lineout_ctrl = ctl;
 			aoa_snd_ctl_add(ctl);
@@ -962,14 +966,22 @@ static void layout_attached_codec(struct aoa_codec *codec)
 				ctl = snd_ctl_new1(&lineout_detect_choice,
 						   ldev);
 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+<<<<<<< HEAD
 					strscpy(ctl->id.name,
+=======
+					strlcpy(ctl->id.name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						"Headphone Detect Autoswitch",
 						sizeof(ctl->id.name));
 				aoa_snd_ctl_add(ctl);
 				ctl = snd_ctl_new1(&lineout_detected,
 						   ldev);
 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+<<<<<<< HEAD
 					strscpy(ctl->id.name,
+=======
+					strlcpy(ctl->id.name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						"Headphone Detected",
 						sizeof(ctl->id.name));
 				ldev->lineout_detected_ctrl = ctl;

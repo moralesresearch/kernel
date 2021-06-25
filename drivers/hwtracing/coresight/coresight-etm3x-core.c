@@ -358,11 +358,18 @@ static int etm_enable_hw(struct etm_drvdata *drvdata)
 	int i, rc;
 	u32 etmcr;
 	struct etm_config *config = &drvdata->config;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
 
 	CS_UNLOCK(drvdata->base);
 
 	rc = coresight_claim_device_unlocked(csdev);
+=======
+
+	CS_UNLOCK(drvdata->base);
+
+	rc = coresight_claim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc)
 		goto done;
 
@@ -567,7 +574,10 @@ static void etm_disable_hw(void *info)
 	int i;
 	struct etm_drvdata *drvdata = info;
 	struct etm_config *config = &drvdata->config;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_UNLOCK(drvdata->base);
 	etm_set_prog(drvdata);
@@ -579,7 +589,11 @@ static void etm_disable_hw(void *info)
 		config->cntr_val[i] = etm_readl(drvdata, ETMCNTVRn(i));
 
 	etm_set_pwrdwn(drvdata);
+<<<<<<< HEAD
 	coresight_disclaim_device_unlocked(csdev);
+=======
+	coresight_disclaim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_LOCK(drvdata->base);
 
@@ -604,7 +618,11 @@ static void etm_disable_perf(struct coresight_device *csdev)
 	 * power down the tracer.
 	 */
 	etm_set_pwrdwn(drvdata);
+<<<<<<< HEAD
 	coresight_disclaim_device_unlocked(csdev);
+=======
+	coresight_disclaim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_LOCK(drvdata->base);
 }
@@ -841,7 +859,10 @@ static int etm_probe(struct amba_device *adev, const struct amba_id *id)
 		return PTR_ERR(base);
 
 	drvdata->base = base;
+<<<<<<< HEAD
 	desc.access = CSDEV_ACCESS_IOMEM(base);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_init(&drvdata->spinlock);
 
@@ -912,7 +933,11 @@ static void clear_etmdrvdata(void *info)
 	etmdrvdata[cpu] = NULL;
 }
 
+<<<<<<< HEAD
 static void etm_remove(struct amba_device *adev)
+=======
+static int etm_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct etm_drvdata *drvdata = dev_get_drvdata(&adev->dev);
 
@@ -935,6 +960,11 @@ static void etm_remove(struct amba_device *adev)
 	cpus_read_unlock();
 
 	coresight_unregister(drvdata->csdev);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

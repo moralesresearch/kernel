@@ -390,10 +390,13 @@ static const struct imx219_reg raw10_framefmt_regs[] = {
 	{0x0309, 0x0a},
 };
 
+<<<<<<< HEAD
 static const s64 imx219_link_freq_menu[] = {
 	IMX219_DEFAULT_LINK_FREQ,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char * const imx219_test_pattern_menu[] = {
 	"Disabled",
 	"Color Bars",
@@ -551,7 +554,10 @@ struct imx219 {
 	struct v4l2_ctrl_handler ctrl_handler;
 	/* V4L2 Controls */
 	struct v4l2_ctrl *pixel_rate;
+<<<<<<< HEAD
 	struct v4l2_ctrl *link_freq;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_ctrl *exposure;
 	struct v4l2_ctrl *vflip;
 	struct v4l2_ctrl *hflip;
@@ -811,9 +817,13 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
 	if (code->index >= (ARRAY_SIZE(codes) / 4))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	mutex_lock(&imx219->mutex);
 	code->code = imx219_get_format_code(imx219, codes[code->index * 4]);
 	mutex_unlock(&imx219->mutex);
+=======
+	code->code = imx219_get_format_code(imx219, codes[code->index * 4]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -823,15 +833,22 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
 				  struct v4l2_subdev_frame_size_enum *fse)
 {
 	struct imx219 *imx219 = to_imx219(sd);
+<<<<<<< HEAD
 	u32 code;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (fse->index >= ARRAY_SIZE(supported_modes))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	mutex_lock(&imx219->mutex);
 	code = imx219_get_format_code(imx219, fse->code);
 	mutex_unlock(&imx219->mutex);
 	if (fse->code != code)
+=======
+	if (fse->code != imx219_get_format_code(imx219, fse->code))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	fse->min_width = supported_modes[fse->index].width;
@@ -1035,30 +1052,42 @@ static int imx219_start_streaming(struct imx219 *imx219)
 	const struct imx219_reg_list *reg_list;
 	int ret;
 
+<<<<<<< HEAD
 	ret = pm_runtime_get_sync(&client->dev);
 	if (ret < 0) {
 		pm_runtime_put_noidle(&client->dev);
 		return ret;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Apply default values of current mode */
 	reg_list = &imx219->mode->reg_list;
 	ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
 	if (ret) {
 		dev_err(&client->dev, "%s failed to set mode\n", __func__);
+<<<<<<< HEAD
 		goto err_rpm_put;
+=======
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = imx219_set_framefmt(imx219);
 	if (ret) {
 		dev_err(&client->dev, "%s failed to set frame format: %d\n",
 			__func__, ret);
+<<<<<<< HEAD
 		goto err_rpm_put;
+=======
+		return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Apply customized values from user */
 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
 	if (ret)
+<<<<<<< HEAD
 		goto err_rpm_put;
 
 	/* set stream on register */
@@ -1076,6 +1105,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
 err_rpm_put:
 	pm_runtime_put(&client->dev);
 	return ret;
+=======
+		return ret;
+
+	/* set stream on register */
+	return imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+				IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void imx219_stop_streaming(struct imx219 *imx219)
@@ -1088,16 +1124,23 @@ static void imx219_stop_streaming(struct imx219 *imx219)
 			       IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
 	if (ret)
 		dev_err(&client->dev, "%s failed to set stream\n", __func__);
+<<<<<<< HEAD
 
 	__v4l2_ctrl_grab(imx219->vflip, false);
 	__v4l2_ctrl_grab(imx219->hflip, false);
 
 	pm_runtime_put(&client->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
 {
 	struct imx219 *imx219 = to_imx219(sd);
+<<<<<<< HEAD
+=======
+	struct i2c_client *client = v4l2_get_subdevdata(sd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	mutex_lock(&imx219->mutex);
@@ -1107,23 +1150,51 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
 	}
 
 	if (enable) {
+<<<<<<< HEAD
+=======
+		ret = pm_runtime_get_sync(&client->dev);
+		if (ret < 0) {
+			pm_runtime_put_noidle(&client->dev);
+			goto err_unlock;
+		}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Apply default & customized values
 		 * and then start streaming.
 		 */
 		ret = imx219_start_streaming(imx219);
 		if (ret)
+<<<<<<< HEAD
 			goto err_unlock;
 	} else {
 		imx219_stop_streaming(imx219);
+=======
+			goto err_rpm_put;
+	} else {
+		imx219_stop_streaming(imx219);
+		pm_runtime_put(&client->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	imx219->streaming = enable;
 
+<<<<<<< HEAD
+=======
+	/* vflip and hflip cannot change during streaming */
+	__v4l2_ctrl_grab(imx219->vflip, enable);
+	__v4l2_ctrl_grab(imx219->hflip, enable);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&imx219->mutex);
 
 	return ret;
 
+<<<<<<< HEAD
+=======
+err_rpm_put:
+	pm_runtime_put(&client->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_unlock:
 	mutex_unlock(&imx219->mutex);
 
@@ -1283,7 +1354,11 @@ static int imx219_init_controls(struct imx219 *imx219)
 	int i, ret;
 
 	ctrl_hdlr = &imx219->ctrl_handler;
+<<<<<<< HEAD
 	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+=======
+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1297,6 +1372,7 @@ static int imx219_init_controls(struct imx219 *imx219)
 					       IMX219_PIXEL_RATE, 1,
 					       IMX219_PIXEL_RATE);
 
+<<<<<<< HEAD
 	imx219->link_freq =
 		v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
 				       V4L2_CID_LINK_FREQ,
@@ -1305,6 +1381,8 @@ static int imx219_init_controls(struct imx219 *imx219)
 	if (imx219->link_freq)
 		imx219->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Initial vblank/hblank/exposure parameters based on current mode */
 	imx219->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
 					   V4L2_CID_VBLANK, IMX219_VBLANK_MIN,

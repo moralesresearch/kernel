@@ -943,7 +943,11 @@ static struct tcphdr *cake_get_tcphdr(const struct sk_buff *skb,
 	}
 
 	tcph = skb_header_pointer(skb, offset, sizeof(_tcph), &_tcph);
+<<<<<<< HEAD
 	if (!tcph || tcph->doff < 5)
+=======
+	if (!tcph)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 
 	return skb_header_pointer(skb, offset,
@@ -967,8 +971,11 @@ static const void *cake_get_tcpopt(const struct tcphdr *tcph,
 			length--;
 			continue;
 		}
+<<<<<<< HEAD
 		if (length < 2)
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		opsize = *ptr++;
 		if (opsize < 2 || opsize > length)
 			break;
@@ -1106,8 +1113,11 @@ static bool cake_tcph_may_drop(const struct tcphdr *tcph,
 			length--;
 			continue;
 		}
+<<<<<<< HEAD
 		if (length < 2)
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		opsize = *ptr++;
 		if (opsize < 2 || opsize > length)
 			break;

@@ -113,8 +113,12 @@ dr_mask_is_vxlan_gpe_set(struct mlx5dr_match_misc3 *misc3)
 static bool
 dr_matcher_supp_vxlan_gpe(struct mlx5dr_cmd_caps *caps)
 {
+<<<<<<< HEAD
 	return (caps->sw_format_ver == MLX5_STEERING_FORMAT_CONNECTX_6DX) ||
 	       (caps->flex_protocols & MLX5_FLEX_PARSER_VXLAN_GPE_ENABLED);
+=======
+	return caps->flex_protocols & MLX5_FLEX_PARSER_VXLAN_GPE_ENABLED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool
@@ -136,8 +140,12 @@ static bool dr_mask_is_tnl_geneve_set(struct mlx5dr_match_misc *misc)
 static bool
 dr_matcher_supp_tnl_geneve(struct mlx5dr_cmd_caps *caps)
 {
+<<<<<<< HEAD
 	return (caps->sw_format_ver == MLX5_STEERING_FORMAT_CONNECTX_6DX) ||
 	       (caps->flex_protocols & MLX5_FLEX_PARSER_GENEVE_ENABLED);
+=======
+	return caps->flex_protocols & MLX5_FLEX_PARSER_GENEVE_ENABLED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool
@@ -150,14 +158,22 @@ dr_mask_is_tnl_geneve(struct mlx5dr_match_param *mask,
 
 static int dr_matcher_supp_icmp_v4(struct mlx5dr_cmd_caps *caps)
 {
+<<<<<<< HEAD
 	return (caps->sw_format_ver == MLX5_STEERING_FORMAT_CONNECTX_6DX) ||
 	       (caps->flex_protocols & MLX5_FLEX_PARSER_ICMP_V4_ENABLED);
+=======
+	return caps->flex_protocols & MLX5_FLEX_PARSER_ICMP_V4_ENABLED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dr_matcher_supp_icmp_v6(struct mlx5dr_cmd_caps *caps)
 {
+<<<<<<< HEAD
 	return (caps->sw_format_ver == MLX5_STEERING_FORMAT_CONNECTX_6DX) ||
 	       (caps->flex_protocols & MLX5_FLEX_PARSER_ICMP_V6_ENABLED);
+=======
+	return caps->flex_protocols & MLX5_FLEX_PARSER_ICMP_V6_ENABLED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dr_mask_is_icmpv6_set(struct mlx5dr_match_misc3 *misc3)
@@ -225,7 +241,10 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 {
 	struct mlx5dr_domain_rx_tx *nic_dmn = nic_matcher->nic_tbl->nic_dmn;
 	struct mlx5dr_domain *dmn = matcher->tbl->dmn;
+<<<<<<< HEAD
 	struct mlx5dr_ste_ctx *ste_ctx = dmn->ste_ctx;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5dr_match_param mask = {};
 	struct mlx5dr_ste_build *sb;
 	bool inner, rx;
@@ -264,6 +283,7 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 		inner = false;
 
 		if (dr_mask_is_wqe_metadata_set(&mask.misc2))
+<<<<<<< HEAD
 			mlx5dr_ste_build_general_purpose(ste_ctx, &sb[idx++],
 							 &mask, inner, rx);
 
@@ -274,16 +294,31 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 		if (dr_mask_is_reg_c_4_7_set(&mask.misc2))
 			mlx5dr_ste_build_register_1(ste_ctx, &sb[idx++],
 						    &mask, inner, rx);
+=======
+			mlx5dr_ste_build_general_purpose(&sb[idx++], &mask, inner, rx);
+
+		if (dr_mask_is_reg_c_0_3_set(&mask.misc2))
+			mlx5dr_ste_build_register_0(&sb[idx++], &mask, inner, rx);
+
+		if (dr_mask_is_reg_c_4_7_set(&mask.misc2))
+			mlx5dr_ste_build_register_1(&sb[idx++], &mask, inner, rx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (dr_mask_is_gvmi_or_qpn_set(&mask.misc) &&
 		    (dmn->type == MLX5DR_DOMAIN_TYPE_FDB ||
 		     dmn->type == MLX5DR_DOMAIN_TYPE_NIC_RX)) {
+<<<<<<< HEAD
 			mlx5dr_ste_build_src_gvmi_qpn(ste_ctx, &sb[idx++],
 						      &mask, dmn, inner, rx);
+=======
+			mlx5dr_ste_build_src_gvmi_qpn(&sb[idx++], &mask,
+						      dmn, inner, rx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (dr_mask_is_smac_set(&mask.outer) &&
 		    dr_mask_is_dmac_set(&mask.outer)) {
+<<<<<<< HEAD
 			mlx5dr_ste_build_eth_l2_src_dst(ste_ctx, &sb[idx++],
 							&mask, inner, rx);
 		}
@@ -339,14 +374,70 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 
 		if (dr_mask_is_icmp(&mask, dmn)) {
 			ret = mlx5dr_ste_build_icmp(ste_ctx, &sb[idx++],
+=======
+			mlx5dr_ste_build_eth_l2_src_dst(&sb[idx++], &mask,
+							inner, rx);
+		}
+
+		if (dr_mask_is_smac_set(&mask.outer))
+			mlx5dr_ste_build_eth_l2_src(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_L2_DST(mask.outer, mask.misc, outer))
+			mlx5dr_ste_build_eth_l2_dst(&sb[idx++], &mask, inner, rx);
+
+		if (outer_ipv == DR_RULE_IPV6) {
+			if (dr_mask_is_dst_addr_set(&mask.outer))
+				mlx5dr_ste_build_eth_l3_ipv6_dst(&sb[idx++], &mask,
+								 inner, rx);
+
+			if (dr_mask_is_src_addr_set(&mask.outer))
+				mlx5dr_ste_build_eth_l3_ipv6_src(&sb[idx++], &mask,
+								 inner, rx);
+
+			if (DR_MASK_IS_ETH_L4_SET(mask.outer, mask.misc, outer))
+				mlx5dr_ste_build_eth_ipv6_l3_l4(&sb[idx++], &mask,
+								inner, rx);
+		} else {
+			if (dr_mask_is_ipv4_5_tuple_set(&mask.outer))
+				mlx5dr_ste_build_eth_l3_ipv4_5_tuple(&sb[idx++], &mask,
+								     inner, rx);
+
+			if (dr_mask_is_ttl_set(&mask.outer))
+				mlx5dr_ste_build_eth_l3_ipv4_misc(&sb[idx++], &mask,
+								  inner, rx);
+		}
+
+		if (dr_mask_is_tnl_vxlan_gpe(&mask, dmn))
+			mlx5dr_ste_build_tnl_vxlan_gpe(&sb[idx++], &mask,
+						       inner, rx);
+		else if (dr_mask_is_tnl_geneve(&mask, dmn))
+			mlx5dr_ste_build_tnl_geneve(&sb[idx++], &mask,
+						    inner, rx);
+
+		if (DR_MASK_IS_ETH_L4_MISC_SET(mask.misc3, outer))
+			mlx5dr_ste_build_eth_l4_misc(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_FIRST_MPLS_SET(mask.misc2, outer))
+			mlx5dr_ste_build_mpls(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_TNL_MPLS_SET(mask.misc2))
+			mlx5dr_ste_build_tnl_mpls(&sb[idx++], &mask, inner, rx);
+
+		if (dr_mask_is_icmp(&mask, dmn)) {
+			ret = mlx5dr_ste_build_icmp(&sb[idx++],
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						    &mask, &dmn->info.caps,
 						    inner, rx);
 			if (ret)
 				return ret;
 		}
 		if (dr_mask_is_tnl_gre_set(&mask.misc))
+<<<<<<< HEAD
 			mlx5dr_ste_build_tnl_gre(ste_ctx, &sb[idx++],
 						 &mask, inner, rx);
+=======
+			mlx5dr_ste_build_tnl_gre(&sb[idx++], &mask, inner, rx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Inner */
@@ -357,16 +448,25 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 		inner = true;
 
 		if (dr_mask_is_eth_l2_tnl_set(&mask.misc))
+<<<<<<< HEAD
 			mlx5dr_ste_build_eth_l2_tnl(ste_ctx, &sb[idx++],
 						    &mask, inner, rx);
 
 		if (dr_mask_is_smac_set(&mask.inner) &&
 		    dr_mask_is_dmac_set(&mask.inner)) {
 			mlx5dr_ste_build_eth_l2_src_dst(ste_ctx, &sb[idx++],
+=======
+			mlx5dr_ste_build_eth_l2_tnl(&sb[idx++], &mask, inner, rx);
+
+		if (dr_mask_is_smac_set(&mask.inner) &&
+		    dr_mask_is_dmac_set(&mask.inner)) {
+			mlx5dr_ste_build_eth_l2_src_dst(&sb[idx++],
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							&mask, inner, rx);
 		}
 
 		if (dr_mask_is_smac_set(&mask.inner))
+<<<<<<< HEAD
 			mlx5dr_ste_build_eth_l2_src(ste_ctx, &sb[idx++],
 						    &mask, inner, rx);
 
@@ -407,6 +507,43 @@ static int dr_matcher_set_ste_builders(struct mlx5dr_matcher *matcher,
 		if (DR_MASK_IS_TNL_MPLS_SET(mask.misc2))
 			mlx5dr_ste_build_tnl_mpls(ste_ctx, &sb[idx++],
 						  &mask, inner, rx);
+=======
+			mlx5dr_ste_build_eth_l2_src(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_L2_DST(mask.inner, mask.misc, inner))
+			mlx5dr_ste_build_eth_l2_dst(&sb[idx++], &mask, inner, rx);
+
+		if (inner_ipv == DR_RULE_IPV6) {
+			if (dr_mask_is_dst_addr_set(&mask.inner))
+				mlx5dr_ste_build_eth_l3_ipv6_dst(&sb[idx++], &mask,
+								 inner, rx);
+
+			if (dr_mask_is_src_addr_set(&mask.inner))
+				mlx5dr_ste_build_eth_l3_ipv6_src(&sb[idx++], &mask,
+								 inner, rx);
+
+			if (DR_MASK_IS_ETH_L4_SET(mask.inner, mask.misc, inner))
+				mlx5dr_ste_build_eth_ipv6_l3_l4(&sb[idx++], &mask,
+								inner, rx);
+		} else {
+			if (dr_mask_is_ipv4_5_tuple_set(&mask.inner))
+				mlx5dr_ste_build_eth_l3_ipv4_5_tuple(&sb[idx++], &mask,
+								     inner, rx);
+
+			if (dr_mask_is_ttl_set(&mask.inner))
+				mlx5dr_ste_build_eth_l3_ipv4_misc(&sb[idx++], &mask,
+								  inner, rx);
+		}
+
+		if (DR_MASK_IS_ETH_L4_MISC_SET(mask.misc3, inner))
+			mlx5dr_ste_build_eth_l4_misc(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_FIRST_MPLS_SET(mask.misc2, inner))
+			mlx5dr_ste_build_mpls(&sb[idx++], &mask, inner, rx);
+
+		if (DR_MASK_IS_TNL_MPLS_SET(mask.misc2))
+			mlx5dr_ste_build_tnl_mpls(&sb[idx++], &mask, inner, rx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	/* Empty matcher, takes all */
 	if (matcher->match_criteria == DR_MATCHER_CRITERIA_EMPTY)

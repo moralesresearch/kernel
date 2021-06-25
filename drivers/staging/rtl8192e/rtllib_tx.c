@@ -297,7 +297,11 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
 			netdev_info(ieee->dev, "%s: can't get TS\n", __func__);
 			return;
 		}
+<<<<<<< HEAD
 		if (!pTxTs->TxAdmittedBARecord.bValid) {
+=======
+		if (pTxTs->TxAdmittedBARecord.bValid == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ieee->wpa_ie_len && (ieee->pairwise_key_type ==
 			    KEY_TYPE_NA)) {
 				;
@@ -307,7 +311,11 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
 				TsStartAddBaProcess(ieee, pTxTs);
 			}
 			goto FORCED_AGG_SETTING;
+<<<<<<< HEAD
 		} else if (!pTxTs->bUsingBa) {
+=======
+		} else if (pTxTs->bUsingBa == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (SN_LESS(pTxTs->TxAdmittedBARecord.BaStartSeqCtrl.field.SeqNum,
 			   (pTxTs->TxCurSeq+1)%4096))
 				pTxTs->bUsingBa = true;
@@ -365,9 +373,15 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
 		return;
 	}
 
+<<<<<<< HEAD
 	if (pHTInfo->bCurBW40MHz && pHTInfo->bCurShortGI40MHz)
 		tcb_desc->bUseShortGI = true;
 	else if (!pHTInfo->bCurBW40MHz && pHTInfo->bCurShortGI20MHz)
+=======
+	if ((pHTInfo->bCurBW40MHz == true) && pHTInfo->bCurShortGI40MHz)
+		tcb_desc->bUseShortGI = true;
+	else if ((pHTInfo->bCurBW40MHz == false) && pHTInfo->bCurShortGI20MHz)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcb_desc->bUseShortGI = true;
 }
 

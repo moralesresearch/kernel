@@ -2376,6 +2376,7 @@ YAMAHA_DEVICE(0x7010, "UB99"),
 	}
 },
 
+<<<<<<< HEAD
 {
 	USB_DEVICE_VENDOR_SPEC(0x0944, 0x0204),
 	.driver_info = (unsigned long) & (const struct snd_usb_audio_quirk) {
@@ -2386,6 +2387,8 @@ YAMAHA_DEVICE(0x7010, "UB99"),
 	}
 },
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* AKAI devices */
 {
 	USB_DEVICE(0x09e8, 0x0062),
@@ -3829,6 +3832,7 @@ AU0828_DEVICE(0x2040, 0x7270, "Hauppauge", "HVR-950Q"),
 },
 {
 	/*
+<<<<<<< HEAD
 	 * Pioneer DJ DJM-850
 	 * 8 channels playback and 8 channels capture @ 44.1/48/96kHz S24LE
 	 * Playback on EP 0x05
@@ -3892,6 +3896,8 @@ AU0828_DEVICE(0x2040, 0x7270, "Hauppauge", "HVR-950Q"),
 },
 {
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Pioneer DJ DJM-450
 	 * PCM is 8 channels out @ 48 fixed (endpoint 0x01)
 	 * and 8 channels in @ 48 fixed (endpoint 0x82).

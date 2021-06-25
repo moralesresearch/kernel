@@ -12,7 +12,10 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/netdevice.h>
+<<<<<<< HEAD
 #include <linux/dsa/brcm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/etherdevice.h>
 #include <linux/platform_device.h>
 #include <linux/of.h>
@@ -2311,6 +2314,7 @@ static const struct net_device_ops bcm_sysport_netdev_ops = {
 	.ndo_select_queue	= bcm_sysport_select_queue,
 };
 
+<<<<<<< HEAD
 static int bcm_sysport_map_queues(struct net_device *dev,
 				  struct net_device *slave_dev)
 {
@@ -2319,14 +2323,42 @@ static int bcm_sysport_map_queues(struct net_device *dev,
 	struct bcm_sysport_tx_ring *ring;
 	unsigned int num_tx_queues;
 	unsigned int q, qp, port;
+=======
+static int bcm_sysport_map_queues(struct notifier_block *nb,
+				  struct dsa_notifier_register_info *info)
+{
+	struct bcm_sysport_tx_ring *ring;
+	struct bcm_sysport_priv *priv;
+	struct net_device *slave_dev;
+	unsigned int num_tx_queues;
+	unsigned int q, qp, port;
+	struct net_device *dev;
+
+	priv = container_of(nb, struct bcm_sysport_priv, dsa_notifier);
+	if (priv->netdev != info->master)
+		return 0;
+
+	dev = info->master;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* We can't be setting up queue inspection for non directly attached
 	 * switches
 	 */
+<<<<<<< HEAD
 	if (dp->ds->index)
 		return 0;
 
 	port = dp->index;
+=======
+	if (info->switch_number)
+		return 0;
+
+	if (dev->netdev_ops != &bcm_sysport_netdev_ops)
+		return 0;
+
+	port = info->port_number;
+	slave_dev = info->info.dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* On SYSTEMPORT Lite we have twice as less queues, so we cannot do a
 	 * 1:1 mapping, we can only do a 2:1 mapping. By reducing the number of
@@ -2366,6 +2398,7 @@ static int bcm_sysport_map_queues(struct net_device *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int bcm_sysport_unmap_queues(struct net_device *dev,
 				    struct net_device *slave_dev)
 {
@@ -2376,6 +2409,29 @@ static int bcm_sysport_unmap_queues(struct net_device *dev,
 	unsigned int q, qp, port;
 
 	port = dp->index;
+=======
+static int bcm_sysport_unmap_queues(struct notifier_block *nb,
+				    struct dsa_notifier_register_info *info)
+{
+	struct bcm_sysport_tx_ring *ring;
+	struct bcm_sysport_priv *priv;
+	struct net_device *slave_dev;
+	unsigned int num_tx_queues;
+	struct net_device *dev;
+	unsigned int q, qp, port;
+
+	priv = container_of(nb, struct bcm_sysport_priv, dsa_notifier);
+	if (priv->netdev != info->master)
+		return 0;
+
+	dev = info->master;
+
+	if (dev->netdev_ops != &bcm_sysport_netdev_ops)
+		return 0;
+
+	port = info->port_number;
+	slave_dev = info->info.dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	num_tx_queues = slave_dev->real_num_tx_queues;
 
@@ -2396,6 +2452,7 @@ static int bcm_sysport_unmap_queues(struct net_device *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int bcm_sysport_netdevice_event(struct notifier_block *nb,
 				       unsigned long event, void *ptr)
 {
@@ -2420,6 +2477,19 @@ static int bcm_sysport_netdevice_event(struct notifier_block *nb,
 			ret = bcm_sysport_map_queues(dev, info->upper_dev);
 		else
 			ret = bcm_sysport_unmap_queues(dev, info->upper_dev);
+=======
+static int bcm_sysport_dsa_notifier(struct notifier_block *nb,
+				    unsigned long event, void *ptr)
+{
+	int ret = NOTIFY_DONE;
+
+	switch (event) {
+	case DSA_PORT_REGISTER:
+		ret = bcm_sysport_map_queues(nb, ptr);
+		break;
+	case DSA_PORT_UNREGISTER:
+		ret = bcm_sysport_unmap_queues(nb, ptr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -2594,9 +2664,15 @@ static int bcm_sysport_probe(struct platform_device *pdev)
 	priv->rx_max_coalesced_frames = 1;
 	u64_stats_init(&priv->syncp);
 
+<<<<<<< HEAD
 	priv->netdev_notifier.notifier_call = bcm_sysport_netdevice_event;
 
 	ret = register_netdevice_notifier(&priv->netdev_notifier);
+=======
+	priv->dsa_notifier.notifier_call = bcm_sysport_dsa_notifier;
+
+	ret = register_dsa_notifier(&priv->dsa_notifier);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(&pdev->dev, "failed to register DSA notifier\n");
 		goto err_deregister_fixed_link;
@@ -2623,7 +2699,11 @@ static int bcm_sysport_probe(struct platform_device *pdev)
 	return 0;
 
 err_deregister_notifier:
+<<<<<<< HEAD
 	unregister_netdevice_notifier(&priv->netdev_notifier);
+=======
+	unregister_dsa_notifier(&priv->dsa_notifier);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_deregister_fixed_link:
 	if (of_phy_is_fixed_link(dn))
 		of_phy_deregister_fixed_link(dn);
@@ -2641,7 +2721,11 @@ static int bcm_sysport_remove(struct platform_device *pdev)
 	/* Not much to do, ndo_close has been called
 	 * and we use managed allocations
 	 */
+<<<<<<< HEAD
 	unregister_netdevice_notifier(&priv->netdev_notifier);
+=======
+	unregister_dsa_notifier(&priv->dsa_notifier);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unregister_netdev(dev);
 	if (of_phy_is_fixed_link(dn))
 		of_phy_deregister_fixed_link(dn);

@@ -172,10 +172,17 @@ static const struct clkgen_quadfs_data st_fs660c32_D = {
  *                                  ST quad channel frequency synthesizer block
  *
  * @hw: handle between common and hardware-specific interfaces.
+<<<<<<< HEAD
  * @regs_base: base address of the configuration registers.
  * @lock: spinlock.
  * @data: local driver data
  * @ndiv: regmap field for the ndiv control.
+=======
+ * @ndiv: regmap field for the ndiv control.
+ * @regs_base: base address of the configuration registers.
+ * @lock: spinlock.
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct st_clk_quadfs_pll {
 	struct clk_hw	hw;
@@ -426,7 +433,11 @@ static struct clk * __init st_clk_register_quadfs_pll(
  * parent - fixed parent.  No clk_set_parent support
  */
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct st_clk_quadfs_fsynth - One clock output from a four channel digital
  *                                  frequency synthesizer (fsynth) block.
  *

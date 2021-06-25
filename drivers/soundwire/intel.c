@@ -967,7 +967,11 @@ static int intel_hw_params(struct snd_pcm_substream *substream,
 	}
 
 	/* Port configuration */
+<<<<<<< HEAD
 	pconfig = kzalloc(sizeof(*pconfig), GFP_KERNEL);
+=======
+	pconfig = kcalloc(1, sizeof(*pconfig), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!pconfig) {
 		ret =  -ENOMEM;
 		goto error;
@@ -1673,12 +1677,19 @@ static int __maybe_unused intel_suspend_runtime(struct device *dev)
 
 	} else if (clock_stop_quirks & SDW_INTEL_CLK_STOP_BUS_RESET ||
 		   !clock_stop_quirks) {
+<<<<<<< HEAD
 		bool wake_enable = true;
 
 		ret = sdw_cdns_clock_stop(cdns, true);
 		if (ret < 0) {
 			dev_err(dev, "cannot enable clock stop on suspend\n");
 			wake_enable = false;
+=======
+		ret = sdw_cdns_clock_stop(cdns, true);
+		if (ret < 0) {
+			dev_err(dev, "cannot enable clock stop on suspend\n");
+			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		ret = sdw_cdns_enable_interrupt(cdns, false);
@@ -1693,7 +1704,11 @@ static int __maybe_unused intel_suspend_runtime(struct device *dev)
 			return ret;
 		}
 
+<<<<<<< HEAD
 		intel_shim_wake(sdw, wake_enable);
+=======
+		intel_shim_wake(sdw, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		dev_err(dev, "%s clock_stop_quirks %x unsupported\n",
 			__func__, clock_stop_quirks);

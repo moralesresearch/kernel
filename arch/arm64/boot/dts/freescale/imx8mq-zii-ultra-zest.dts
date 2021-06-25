@@ -10,6 +10,7 @@
 / {
 	model = "ZII Ultra Zest Board";
 	compatible = "zii,imx8mq-ultra-zest", "zii,imx8mq-ultra", "fsl,imx8mq";
+<<<<<<< HEAD
 
 	sound {
 		compatible = "simple-audio-card";
@@ -40,6 +41,8 @@
 			clocks = <&cs2000>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &i2c4 {

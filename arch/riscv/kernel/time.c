@@ -9,7 +9,10 @@
 #include <linux/delay.h>
 #include <asm/sbi.h>
 #include <asm/processor.h>
+<<<<<<< HEAD
 #include <asm/timex.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unsigned long riscv_timebase;
 EXPORT_SYMBOL_GPL(riscv_timebase);

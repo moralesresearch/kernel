@@ -72,7 +72,11 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led {
+=======
+		blue {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "i7:blue:usr";
 			gpios = <&pio 7 13 GPIO_ACTIVE_HIGH>;
 		};

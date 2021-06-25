@@ -60,8 +60,11 @@
 #include "dce/dce_i2c.h"
 /* TODO remove this include */
 
+<<<<<<< HEAD
 #include "dce80_resource.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef mmMC_HUB_RDREQ_DMIF_LIMIT
 #include "gmc/gmc_7_1_d.h"
 #include "gmc/gmc_7_1_sh_mask.h"
@@ -404,7 +407,11 @@ static const struct dc_plane_cap plane_cap = {
 	.pixel_format_support = {
 			.argb8888 = true,
 			.nv12 = false,
+<<<<<<< HEAD
 			.fp16 = true
+=======
+			.fp16 = false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	.max_upscale_factor = {

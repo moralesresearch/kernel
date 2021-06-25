@@ -636,7 +636,10 @@ struct tls_context *tls_ctx_create(struct sock *sk)
 	mutex_init(&ctx->tx_lock);
 	rcu_assign_pointer(icsk->icsk_ulp_data, ctx);
 	ctx->sk_proto = READ_ONCE(sk->sk_prot);
+<<<<<<< HEAD
 	ctx->sk = sk;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ctx;
 }
 

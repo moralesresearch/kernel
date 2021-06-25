@@ -50,8 +50,14 @@ gk104_ltc = {
 };
 
 int
+<<<<<<< HEAD
 gk104_ltc_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_ltc **pltc)
 {
 	return nvkm_ltc_new_(&gk104_ltc, device, type, inst, pltc);
+=======
+gk104_ltc_new(struct nvkm_device *device, int index, struct nvkm_ltc **pltc)
+{
+	return nvkm_ltc_new_(&gk104_ltc, device, index, pltc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

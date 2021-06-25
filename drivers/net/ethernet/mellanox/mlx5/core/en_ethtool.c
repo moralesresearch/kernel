@@ -447,6 +447,10 @@ int mlx5e_ethtool_set_channels(struct mlx5e_priv *priv,
 		goto out;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Don't allow changing the number of channels if HTB offload is active,
 	 * because the numeration of the QoS SQs will change, while per-queue
 	 * qdiscs are attached.
@@ -458,6 +462,11 @@ int mlx5e_ethtool_set_channels(struct mlx5e_priv *priv,
 		goto out;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	new_channels.params = *cur_params;
 	new_channels.params.num_channels = count;
 
@@ -758,11 +767,25 @@ static int get_fec_supported_advertised(struct mlx5_core_dev *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ptys2ethtool_supported_advertised_port(struct mlx5_core_dev *mdev,
 						   struct ethtool_link_ksettings *link_ksettings,
 						   u32 eth_proto_cap, u8 connector_type)
 {
 	if (!MLX5_CAP_PCAM_FEATURE(mdev, ptys_connector_type)) {
+<<<<<<< HEAD
+=======
+=======
+static void ptys2ethtool_supported_advertised_port(struct ethtool_link_ksettings *link_ksettings,
+						   u32 eth_proto_cap,
+						   u8 connector_type, bool ext)
+{
+	if ((!connector_type && !ext) || connector_type >= MLX5E_CONNECTOR_TYPE_NUMBER) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (eth_proto_cap & (MLX5E_PROT_MASK(MLX5E_10GBASE_CR)
 				   | MLX5E_PROT_MASK(MLX5E_10GBASE_SR)
 				   | MLX5E_PROT_MASK(MLX5E_40GBASE_CR4)
@@ -898,9 +921,21 @@ static int ptys2connector_type[MLX5E_CONNECTOR_TYPE_NUMBER] = {
 		[MLX5E_PORT_OTHER]              = PORT_OTHER,
 	};
 
+<<<<<<< HEAD
 static u8 get_connector_port(struct mlx5_core_dev *mdev, u32 eth_proto, u8 connector_type)
 {
 	if (MLX5_CAP_PCAM_FEATURE(mdev, ptys_connector_type))
+=======
+<<<<<<< HEAD
+static u8 get_connector_port(struct mlx5_core_dev *mdev, u32 eth_proto, u8 connector_type)
+{
+	if (MLX5_CAP_PCAM_FEATURE(mdev, ptys_connector_type))
+=======
+static u8 get_connector_port(u32 eth_proto, u8 connector_type, bool ext)
+{
+	if ((connector_type || ext) && connector_type < MLX5E_CONNECTOR_TYPE_NUMBER)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ptys2connector_type[connector_type];
 
 	if (eth_proto &
@@ -1001,11 +1036,25 @@ int mlx5e_ethtool_get_link_ksettings(struct mlx5e_priv *priv,
 			 data_rate_oper, link_ksettings);
 
 	eth_proto_oper = eth_proto_oper ? eth_proto_oper : eth_proto_cap;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	connector_type = connector_type < MLX5E_CONNECTOR_TYPE_NUMBER ?
 			 connector_type : MLX5E_PORT_UNKNOWN;
 	link_ksettings->base.port = get_connector_port(mdev, eth_proto_oper, connector_type);
 	ptys2ethtool_supported_advertised_port(mdev, link_ksettings, eth_proto_admin,
 					       connector_type);
+<<<<<<< HEAD
+=======
+=======
+
+	link_ksettings->base.port = get_connector_port(eth_proto_oper,
+						       connector_type, ext);
+	ptys2ethtool_supported_advertised_port(link_ksettings, eth_proto_admin,
+					       connector_type, ext);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	get_lp_advertising(mdev, eth_proto_lp, link_ksettings);
 
 	if (an_status == MLX5_AN_COMPLETE)
@@ -1632,13 +1681,21 @@ static int mlx5e_set_fecparam(struct net_device *netdev,
 {
 	struct mlx5e_priv *priv = netdev_priv(netdev);
 	struct mlx5_core_dev *mdev = priv->mdev;
+<<<<<<< HEAD
 	unsigned long fec_bitmap;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 fec_policy = 0;
 	int mode;
 	int err;
 
+<<<<<<< HEAD
 	bitmap_from_arr32(&fec_bitmap, &fecparam->fec, sizeof(fecparam->fec) * BITS_PER_BYTE);
 	if (bitmap_weight(&fec_bitmap, ETHTOOL_FEC_LLRS_BIT + 1) > 1)
+=======
+	if (bitmap_weight((unsigned long *)&fecparam->fec,
+			  ETHTOOL_FEC_LLRS_BIT + 1) > 1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	for (mode = 0; mode < ARRAY_SIZE(pplm_fec_2_ethtool); mode++) {
@@ -2001,6 +2058,10 @@ static int set_pflag_tx_port_ts(struct net_device *netdev, bool enable)
 	if (!MLX5_CAP_GEN(mdev, ts_cqe_to_dest_cqn))
 		return -EOPNOTSUPP;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Don't allow changing the PTP state if HTB offload is active, because
 	 * the numeration of the QoS SQs will change, while per-queue qdiscs are
 	 * attached.
@@ -2011,6 +2072,11 @@ static int set_pflag_tx_port_ts(struct net_device *netdev, bool enable)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	new_channels.params = priv->channels.params;
 	MLX5E_SET_PFLAG(&new_channels.params, MLX5E_PFLAG_TX_PORT_TS, enable);
 	/* No need to verify SQ stop room as

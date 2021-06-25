@@ -70,6 +70,7 @@ static int ea_check_size(struct gfs2_sbd *sdp, unsigned int nsize, size_t dsize)
 	return 0;
 }
 
+<<<<<<< HEAD
 static bool gfs2_eatype_valid(struct gfs2_sbd *sdp, u8 type)
 {
 	switch(sdp->sd_sb.sb_fs_format) {
@@ -84,6 +85,8 @@ static bool gfs2_eatype_valid(struct gfs2_sbd *sdp, u8 type)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 typedef int (*ea_call_t) (struct gfs2_inode *ip, struct buffer_head *bh,
 			  struct gfs2_ea_header *ea,
 			  struct gfs2_ea_header *prev, void *private);
@@ -91,7 +94,10 @@ typedef int (*ea_call_t) (struct gfs2_inode *ip, struct buffer_head *bh,
 static int ea_foreach_i(struct gfs2_inode *ip, struct buffer_head *bh,
 			ea_call_t ea_call, void *data)
 {
+<<<<<<< HEAD
 	struct gfs2_sbd *sdp = GFS2_SB(&ip->i_inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gfs2_ea_header *ea, *prev = NULL;
 	int error = 0;
 
@@ -104,8 +110,14 @@ static int ea_foreach_i(struct gfs2_inode *ip, struct buffer_head *bh,
 		if (!(bh->b_data <= (char *)ea && (char *)GFS2_EA2NEXT(ea) <=
 						  bh->b_data + bh->b_size))
 			goto fail;
+<<<<<<< HEAD
 		if (!gfs2_eatype_valid(sdp, ea->ea_type))
 			goto fail;
+=======
+		if (!GFS2_EATYPE_VALID(ea->ea_type))
+			goto fail;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		error = ea_call(ip, bh, ea, prev, data);
 		if (error)
 			return error;
@@ -273,8 +285,12 @@ static int ea_dealloc_unstuffed(struct gfs2_inode *ip, struct buffer_head *bh,
 		return -EIO;
 	}
 
+<<<<<<< HEAD
 	error = gfs2_glock_nq_init(rgd->rd_gl, LM_ST_EXCLUSIVE,
 				   LM_FLAG_NODE_SCOPE, &rg_gh);
+=======
+	error = gfs2_glock_nq_init(rgd->rd_gl, LM_ST_EXCLUSIVE, 0, &rg_gh);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -359,7 +375,10 @@ static int ea_list_i(struct gfs2_inode *ip, struct buffer_head *bh,
 		     struct gfs2_ea_header *ea, struct gfs2_ea_header *prev,
 		     void *private)
 {
+<<<<<<< HEAD
 	struct gfs2_sbd *sdp = GFS2_SB(&ip->i_inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ea_list *ei = private;
 	struct gfs2_ea_request *er = ei->ei_er;
 	unsigned int ea_size;
@@ -369,8 +388,11 @@ static int ea_list_i(struct gfs2_inode *ip, struct buffer_head *bh,
 	if (ea->ea_type == GFS2_EATYPE_UNUSED)
 		return 0;
 
+<<<<<<< HEAD
 	BUG_ON(ea->ea_type > GFS2_EATYPE_SECURITY &&
 	       sdp->sd_sb.sb_fs_format == GFS2_FS_FORMAT_MIN);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (ea->ea_type) {
 	case GFS2_EATYPE_USR:
 		prefix = "user.";
@@ -384,12 +406,17 @@ static int ea_list_i(struct gfs2_inode *ip, struct buffer_head *bh,
 		prefix = "security.";
 		l = 9;
 		break;
+<<<<<<< HEAD
 	case GFS2_EATYPE_TRUSTED:
 		prefix = "trusted.";
 		l = 8;
 		break;
 	default:
 		return 0;
+=======
+	default:
+		BUG();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ea_size = l + ea->ea_name_len + 1;
@@ -1236,7 +1263,10 @@ int __gfs2_xattr_set(struct inode *inode, const char *name,
 }
 
 static int gfs2_xattr_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 			  struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  struct dentry *unused, struct inode *inode,
 			  const char *name, const void *value,
 			  size_t size, int flags)
@@ -1408,8 +1438,12 @@ static int ea_dealloc_block(struct gfs2_inode *ip)
 		return -EIO;
 	}
 
+<<<<<<< HEAD
 	error = gfs2_glock_nq_init(rgd->rd_gl, LM_ST_EXCLUSIVE,
 				   LM_FLAG_NODE_SCOPE, &gh);
+=======
+	error = gfs2_glock_nq_init(rgd->rd_gl, LM_ST_EXCLUSIVE, 0, &gh);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -1487,6 +1521,7 @@ static const struct xattr_handler gfs2_xattr_security_handler = {
 	.set    = gfs2_xattr_set,
 };
 
+<<<<<<< HEAD
 static bool
 gfs2_xattr_trusted_list(struct dentry *dentry)
 {
@@ -1506,6 +1541,9 @@ const struct xattr_handler *gfs2_xattr_handlers_max[] = {
 	&gfs2_xattr_trusted_handler,
 
 	/* GFS2_FS_FORMAT_MIN */
+=======
+const struct xattr_handler *gfs2_xattr_handlers[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&gfs2_xattr_user_handler,
 	&gfs2_xattr_security_handler,
 	&posix_acl_access_xattr_handler,
@@ -1513,4 +1551,7 @@ const struct xattr_handler *gfs2_xattr_handlers_max[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 const struct xattr_handler **gfs2_xattr_handlers_min = gfs2_xattr_handlers_max + 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

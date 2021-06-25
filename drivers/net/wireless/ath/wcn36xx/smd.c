@@ -485,6 +485,10 @@ static void init_hal_msg(struct wcn36xx_hal_msg_header *hdr,
 
 #define PREPARE_HAL_PTT_MSG_BUF(send_buf, p_msg_body) \
 	do {							\
+<<<<<<< HEAD
+=======
+		memset(send_buf, 0, p_msg_body->header.len); \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(send_buf, p_msg_body, p_msg_body->header.len); \
 	} while (0)
 
@@ -2466,7 +2470,11 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 int wcn36xx_smd_del_ba(struct wcn36xx *wcn, u16 tid, u8 direction, u8 sta_index)
+=======
+int wcn36xx_smd_del_ba(struct wcn36xx *wcn, u16 tid, u8 sta_index)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct wcn36xx_hal_del_ba_req_msg msg_body;
 	int ret;
@@ -2476,7 +2484,11 @@ int wcn36xx_smd_del_ba(struct wcn36xx *wcn, u16 tid, u8 direction, u8 sta_index)
 
 	msg_body.sta_index = sta_index;
 	msg_body.tid = tid;
+<<<<<<< HEAD
 	msg_body.direction = direction;
+=======
+	msg_body.direction = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PREPARE_HAL_BUF(wcn->hal_buf, msg_body);
 
 	ret = wcn36xx_smd_send_and_wait(wcn, msg_body.header.len);

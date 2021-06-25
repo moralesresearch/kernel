@@ -40,7 +40,11 @@
 /*
  * Definition of governor attribute flags except for common sysfs attributes
  * - DEVFREQ_GOV_ATTR_POLLING_INTERVAL
+<<<<<<< HEAD
  *   : Indicate polling_interval sysfs attribute
+=======
+ *   : Indicate polling_interal sysfs attribute
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * - DEVFREQ_GOV_ATTR_TIMER
  *   : Indicate timer sysfs attribute
  */

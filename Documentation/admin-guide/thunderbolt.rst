@@ -47,9 +47,12 @@ be DMA masters and thus read contents of the host memory without CPU and OS
 knowing about it. There are ways to prevent this by setting up an IOMMU but
 it is not always available for various reasons.
 
+<<<<<<< HEAD
 Some USB4 systems have a BIOS setting to disable PCIe tunneling. This is
 treated as another security level (nopcie).
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 The security levels are as follows:
 
   none
@@ -80,10 +83,13 @@ The security levels are as follows:
     Display Port in a dock. All PCIe links downstream of the dock are
     removed.
 
+<<<<<<< HEAD
   nopcie
     PCIe tunneling is disabled/forbidden from the BIOS. Available in some
     USB4 systems.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 The current security level can be read from
 ``/sys/bus/thunderbolt/devices/domainX/security`` where ``domainX`` is
 the Thunderbolt domain the host controller manages. There is typically
@@ -160,6 +166,7 @@ If the user still wants to connect the device they can either approve
 the device without a key or write a new key and write 1 to the
 ``authorized`` file to get the new key stored on the device NVM.
 
+<<<<<<< HEAD
 De-authorizing devices
 ----------------------
 It is possible to de-authorize devices by writing ``0`` to their
@@ -176,6 +183,8 @@ authorized again. If there is storage such as NVMe or similar involved,
 there is a risk for data loss if the filesystem on that storage is not
 properly shut down. You have been warned!
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DMA protection utilizing IOMMU
 ------------------------------
 Recent systems from 2018 and forward with Thunderbolt ports may natively

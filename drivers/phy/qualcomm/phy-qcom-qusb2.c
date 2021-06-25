@@ -22,7 +22,10 @@
 
 #include <dt-bindings/phy/phy-qcom-qusb2.h>
 
+<<<<<<< HEAD
 #define QUSB2PHY_PLL			0x0
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define QUSB2PHY_PLL_TEST		0x04
 #define CLK_REF_SEL			BIT(7)
 
@@ -136,6 +139,7 @@ enum qusb2phy_reg_layout {
 	QUSB2PHY_INTR_CTRL,
 };
 
+<<<<<<< HEAD
 static const struct qusb2_phy_init_tbl ipq6018_init_tbl[] = {
 	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL, 0x14),
 	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TUNE1, 0xF8),
@@ -165,6 +169,8 @@ static const unsigned int ipq6018_regs_layout[] = {
 	[QUSB2PHY_INTR_CTRL]               = 0xBC,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const unsigned int msm8996_regs_layout[] = {
 	[QUSB2PHY_PLL_STATUS]		= 0x38,
 	[QUSB2PHY_PORT_TUNE1]		= 0x80,
@@ -275,9 +281,12 @@ struct qusb2_phy_cfg {
 
 	/* true if PHY has PLL_CORE_INPUT_OVERRIDE register to reset PLL */
 	bool has_pll_override;
+<<<<<<< HEAD
 
 	/* true if PHY default clk scheme is single-ended */
 	bool se_clk_scheme_default;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct qusb2_phy_cfg msm8996_phy_cfg = {
@@ -286,7 +295,10 @@ static const struct qusb2_phy_cfg msm8996_phy_cfg = {
 	.regs		= msm8996_regs_layout,
 
 	.has_pll_test	= true,
+<<<<<<< HEAD
 	.se_clk_scheme_default = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.disable_ctrl	= (CLAMP_N_EN | FREEZIO_N | POWER_DOWN),
 	.mask_core_ready = PLL_LOCKED,
 	.autoresume_en	 = BIT(3),
@@ -300,11 +312,15 @@ static const struct qusb2_phy_cfg msm8998_phy_cfg = {
 	.disable_ctrl   = POWER_DOWN,
 	.mask_core_ready = CORE_READY_STATUS,
 	.has_pll_override = true,
+<<<<<<< HEAD
 	.se_clk_scheme_default = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.autoresume_en   = BIT(0),
 	.update_tune1_with_efuse = true,
 };
 
+<<<<<<< HEAD
 static const struct qusb2_phy_cfg ipq6018_phy_cfg = {
 	.tbl            = ipq6018_init_tbl,
 	.tbl_num        = ARRAY_SIZE(ipq6018_init_tbl),
@@ -316,6 +332,8 @@ static const struct qusb2_phy_cfg ipq6018_phy_cfg = {
 	.autoresume_en   = BIT(0),
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct qusb2_phy_cfg qusb2_v2_phy_cfg = {
 	.tbl		= qusb2_v2_init_tbl,
 	.tbl_num	= ARRAY_SIZE(qusb2_v2_init_tbl),
@@ -325,11 +343,15 @@ static const struct qusb2_phy_cfg qusb2_v2_phy_cfg = {
 			   POWER_DOWN),
 	.mask_core_ready = CORE_READY_STATUS,
 	.has_pll_override = true,
+<<<<<<< HEAD
 	.se_clk_scheme_default = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.autoresume_en	  = BIT(0),
 	.update_tune1_with_efuse = true,
 };
 
+<<<<<<< HEAD
 static const struct qusb2_phy_cfg sdm660_phy_cfg = {
 	.tbl		= msm8996_init_tbl,
 	.tbl_num	= ARRAY_SIZE(msm8996_init_tbl),
@@ -342,6 +364,8 @@ static const struct qusb2_phy_cfg sdm660_phy_cfg = {
 	.autoresume_en	 = BIT(3),
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char * const qusb2_phy_vreg_names[] = {
 	"vdda-pll", "vdda-phy-dpdm",
 };
@@ -760,6 +784,7 @@ static int qusb2_phy_init(struct phy *phy)
 	/* Required to get phy pll lock successfully */
 	usleep_range(150, 160);
 
+<<<<<<< HEAD
 	/*
 	 * Not all the SoCs have got a readable TCSR_PHY_CLK_SCHEME
 	 * register in the TCSR so, if there's none, use the default
@@ -767,6 +792,10 @@ static int qusb2_phy_init(struct phy *phy)
 	 */
 	qphy->has_se_clk_scheme = cfg->se_clk_scheme_default;
 
+=======
+	/* Default is single-ended clock on msm8996 */
+	qphy->has_se_clk_scheme = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * read TCSR_PHY_CLK_SCHEME register to check if single-ended
 	 * clock scheme is selected. If yes, then disable differential
@@ -874,9 +903,12 @@ static const struct phy_ops qusb2_phy_gen_ops = {
 
 static const struct of_device_id qusb2_phy_of_match_table[] = {
 	{
+<<<<<<< HEAD
 		.compatible	= "qcom,ipq6018-qusb2-phy",
 		.data		= &ipq6018_phy_cfg,
 	}, {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.compatible	= "qcom,ipq8074-qusb2-phy",
 		.data		= &msm8996_phy_cfg,
 	}, {
@@ -886,9 +918,12 @@ static const struct of_device_id qusb2_phy_of_match_table[] = {
 		.compatible	= "qcom,msm8998-qusb2-phy",
 		.data		= &msm8998_phy_cfg,
 	}, {
+<<<<<<< HEAD
 		.compatible	= "qcom,sdm660-qusb2-phy",
 		.data		= &sdm660_phy_cfg,
 	}, {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Deprecated. Only here to support legacy device
 		 * trees that didn't include "qcom,qusb2-v2-phy"

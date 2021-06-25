@@ -204,7 +204,13 @@ rpcrdma_alloc_sparse_pages(struct xdr_buf *buf)
 	return 0;
 }
 
+<<<<<<< HEAD
 /* Convert @vec to a single SGL element.
+=======
+/* Split @vec on page boundaries into SGEs. FMR registers pages, not
+ * a byte range. Other modes coalesce these SGEs into a single MR
+ * when they can.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns pointer to next available SGE, and bumps the total number
  * of SGEs consumed.
@@ -213,11 +219,30 @@ static struct rpcrdma_mr_seg *
 rpcrdma_convert_kvec(struct kvec *vec, struct rpcrdma_mr_seg *seg,
 		     unsigned int *n)
 {
+<<<<<<< HEAD
 	seg->mr_page = virt_to_page(vec->iov_base);
 	seg->mr_offset = offset_in_page(vec->iov_base);
 	seg->mr_len = vec->iov_len;
 	++seg;
 	++(*n);
+=======
+	u32 remaining, page_offset;
+	char *base;
+
+	base = vec->iov_base;
+	page_offset = offset_in_page(base);
+	remaining = vec->iov_len;
+	while (remaining) {
+		seg->mr_page = NULL;
+		seg->mr_offset = base;
+		seg->mr_len = min_t(u32, PAGE_SIZE - page_offset, remaining);
+		remaining -= seg->mr_len;
+		base += seg->mr_len;
+		++seg;
+		++(*n);
+		page_offset = 0;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return seg;
 }
 
@@ -246,7 +271,11 @@ rpcrdma_convert_iovs(struct rpcrdma_xprt *r_xprt, struct xdr_buf *xdrbuf,
 	page_base = offset_in_page(xdrbuf->page_base);
 	while (len) {
 		seg->mr_page = *ppages;
+<<<<<<< HEAD
 		seg->mr_offset = page_base;
+=======
+		seg->mr_offset = (char *)page_base;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		seg->mr_len = min_t(u32, PAGE_SIZE - page_base, len);
 		len -= seg->mr_len;
 		++ppages;
@@ -255,7 +284,14 @@ rpcrdma_convert_iovs(struct rpcrdma_xprt *r_xprt, struct xdr_buf *xdrbuf,
 		page_base = 0;
 	}
 
+<<<<<<< HEAD
 	if (type == rpcrdma_readch)
+=======
+	/* When encoding a Read chunk, the tail iovec contains an
+	 * XDR pad and may be omitted.
+	 */
+	if (type == rpcrdma_readch && r_xprt->rx_ep->re_implicit_roundup)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	/* When encoding a Write chunk, some servers need to see an
@@ -267,7 +303,11 @@ rpcrdma_convert_iovs(struct rpcrdma_xprt *r_xprt, struct xdr_buf *xdrbuf,
 		goto out;
 
 	if (xdrbuf->tail[0].iov_len)
+<<<<<<< HEAD
 		rpcrdma_convert_kvec(&xdrbuf->tail[0], seg, &n);
+=======
+		seg = rpcrdma_convert_kvec(&xdrbuf->tail[0], seg, &n);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	if (unlikely(n > RPCRDMA_MAX_SEGS))
@@ -1148,10 +1188,21 @@ rpcrdma_is_bcall(struct rpcrdma_xprt *r_xprt, struct rpcrdma_rep *rep)
 	 */
 	p = xdr_inline_decode(xdr, 3 * sizeof(*p));
 	if (unlikely(!p))
+<<<<<<< HEAD
 		return true;
 
 	rpcrdma_bc_receive_call(r_xprt, rep);
 	return true;
+=======
+		goto out_short;
+
+	rpcrdma_bc_receive_call(r_xprt, rep);
+	return true;
+
+out_short:
+	pr_warn("RPC/RDMA short backward direction call\n");
+	return true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #else	/* CONFIG_SUNRPC_BACKCHANNEL */
 {
@@ -1439,10 +1490,16 @@ void rpcrdma_reply_handler(struct rpcrdma_rep *rep)
 		credits = 1;	/* don't deadlock */
 	else if (credits > r_xprt->rx_ep->re_max_requests)
 		credits = r_xprt->rx_ep->re_max_requests;
+<<<<<<< HEAD
 	rpcrdma_post_recvs(r_xprt, credits + (buf->rb_bc_srv_max_requests << 1),
 			   false);
 	if (buf->rb_credits != credits)
 		rpcrdma_update_cwnd(r_xprt, credits);
+=======
+	if (buf->rb_credits != credits)
+		rpcrdma_update_cwnd(r_xprt, credits);
+	rpcrdma_post_recvs(r_xprt, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req = rpcr_to_rdmar(rqst);
 	if (unlikely(req->rl_reply))

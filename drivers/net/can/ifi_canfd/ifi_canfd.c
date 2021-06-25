@@ -629,7 +629,11 @@ static irqreturn_t ifi_canfd_isr(int irq, void *dev_id)
 
 	/* TX IRQ */
 	if (isr & IFI_CANFD_INTERRUPT_TXFIFO_REMOVE) {
+<<<<<<< HEAD
 		stats->tx_bytes += can_get_echo_skb(ndev, 0, NULL);
+=======
+		stats->tx_bytes += can_get_echo_skb(ndev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stats->tx_packets++;
 		can_led_event(ndev, CAN_LED_EVENT_TX);
 	}
@@ -922,7 +926,11 @@ static netdev_tx_t ifi_canfd_start_xmit(struct sk_buff *skb,
 	writel(0, priv->base + IFI_CANFD_TXFIFO_REPEATCOUNT);
 	writel(0, priv->base + IFI_CANFD_TXFIFO_SUSPEND_US);
 
+<<<<<<< HEAD
 	can_put_echo_skb(skb, ndev, 0, 0);
+=======
+	can_put_echo_skb(skb, ndev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Start the transmission */
 	writel(IFI_CANFD_TXSTCMD_ADD_MSG, priv->base + IFI_CANFD_TXSTCMD);

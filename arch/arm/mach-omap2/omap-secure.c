@@ -9,7 +9,10 @@
  */
 
 #include <linux/arm-smccc.h>
+<<<<<<< HEAD
 #include <linux/cpu_pm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -21,7 +24,10 @@
 
 #include "common.h"
 #include "omap-secure.h"
+<<<<<<< HEAD
 #include "soc.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static phys_addr_t omap_secure_memblock_base;
 
@@ -215,6 +221,7 @@ void __init omap_secure_init(void)
 {
 	omap_optee_init_check();
 }
+<<<<<<< HEAD
 
 /*
  * Dummy dispatcher call after core OSWR and MPU off. Updates the ROM return
@@ -252,3 +259,5 @@ static int __init secure_pm_init(void)
 	return 0;
 }
 omap_arch_initcall(secure_pm_init);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

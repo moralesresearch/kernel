@@ -829,7 +829,11 @@ xs_stream_record_marker(struct xdr_buf *xdr)
  *   EAGAIN:	The socket was blocked, please call again later to
  *		complete the request
  * ENOTCONN:	Caller needs to invoke connect logic then call again
+<<<<<<< HEAD
  *    other:	Some other error occurred, the request was not sent
+=======
+ *    other:	Some other error occured, the request was not sent
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int xs_local_send_request(struct rpc_rqst *req)
 {
@@ -1665,7 +1669,11 @@ static int xs_bind(struct sock_xprt *transport, struct socket *sock)
 	 * This ensures that we can continue to establish TCP
 	 * connections even when all local ephemeral ports are already
 	 * a part of some TCP connection.  This makes no difference
+<<<<<<< HEAD
 	 * for UDP sockets, but also doesn't harm them.
+=======
+	 * for UDP sockets, but also doens't harm them.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * If we're asking for any reserved port (i.e. port == 0 &&
 	 * transport->xprt.resvport == 1) xs_get_srcport above will
@@ -1875,7 +1883,10 @@ static int xs_local_setup_socket(struct sock_xprt *transport)
 		xprt->stat.connect_time += (long)jiffies -
 					   xprt->stat.connect_start;
 		xprt_set_connected(xprt);
+<<<<<<< HEAD
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case -ENOBUFS:
 		break;
 	case -ENOENT:
@@ -2277,8 +2288,15 @@ static void xs_tcp_setup_socket(struct work_struct *work)
 	case -EHOSTUNREACH:
 	case -EADDRINUSE:
 	case -ENOBUFS:
+<<<<<<< HEAD
 		/* xs_tcp_force_close() wakes tasks with a fixed error code.
 		 * We need to wake them first to ensure the correct error code.
+=======
+		/*
+		 * xs_tcp_force_close() wakes tasks with -EIO.
+		 * We need to wake them first to ensure the
+		 * correct error code.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		xprt_wake_pending_tasks(xprt, status);
 		xs_tcp_force_close(xprt);
@@ -2379,7 +2397,11 @@ static void xs_error_handle(struct work_struct *work)
 }
 
 /**
+<<<<<<< HEAD
  * xs_local_print_stats - display AF_LOCAL socket-specific stats
+=======
+ * xs_local_print_stats - display AF_LOCAL socket-specifc stats
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @xprt: rpc_xprt struct containing statistics
  * @seq: output file
  *
@@ -2408,7 +2430,11 @@ static void xs_local_print_stats(struct rpc_xprt *xprt, struct seq_file *seq)
 }
 
 /**
+<<<<<<< HEAD
  * xs_udp_print_stats - display UDP socket-specific stats
+=======
+ * xs_udp_print_stats - display UDP socket-specifc stats
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @xprt: rpc_xprt struct containing statistics
  * @seq: output file
  *
@@ -2432,7 +2458,11 @@ static void xs_udp_print_stats(struct rpc_xprt *xprt, struct seq_file *seq)
 }
 
 /**
+<<<<<<< HEAD
  * xs_tcp_print_stats - display TCP socket-specific stats
+=======
+ * xs_tcp_print_stats - display TCP socket-specifc stats
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @xprt: rpc_xprt struct containing statistics
  * @seq: output file
  *

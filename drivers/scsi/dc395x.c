@@ -64,7 +64,10 @@
 #include <scsi/scsi_cmnd.h>
 #include <scsi/scsi_device.h>
 #include <scsi/scsi_host.h>
+<<<<<<< HEAD
 #include <scsi/scsi_transport_spi.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "dc395x.h"
 
@@ -1282,8 +1285,17 @@ static void build_sdtr(struct AdapterCtlBlk *acb, struct DeviceCtlBlk *dcb,
 	} else if (dcb->sync_offset == 0)
 		dcb->sync_offset = SYNC_NEGO_OFFSET;
 
+<<<<<<< HEAD
 	srb->msg_count += spi_populate_sync_msg(ptr, dcb->min_nego_period,
 						dcb->sync_offset);
+=======
+	*ptr++ = MSG_EXTENDED;	/* (01h) */
+	*ptr++ = 3;		/* length */
+	*ptr++ = EXTENDED_SDTR;	/* (01h) */
+	*ptr++ = dcb->min_nego_period;	/* Transfer period (in 4ns) */
+	*ptr++ = dcb->sync_offset;	/* Transfer period (max. REQ/ACK dist) */
+	srb->msg_count += 5;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srb->state |= SRB_DO_SYNC_NEGO;
 }
 
@@ -1302,7 +1314,15 @@ static void build_wdtr(struct AdapterCtlBlk *acb, struct DeviceCtlBlk *dcb,
 			srb->msgout_buf[1]);
 		return;
 	}
+<<<<<<< HEAD
 	srb->msg_count += spi_populate_width_msg(ptr, wide);
+=======
+	*ptr++ = MSG_EXTENDED;	/* (01h) */
+	*ptr++ = 2;		/* length */
+	*ptr++ = EXTENDED_WDTR;	/* (03h) */
+	*ptr++ = wide;
+	srb->msg_count += 4;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srb->state |= SRB_DO_WIDE_NEGO;
 }
 
@@ -1469,7 +1489,11 @@ static u8 start_scsi(struct AdapterCtlBlk* acb, struct DeviceCtlBlk* dcb,
 			return 1;
 		}
 		/* Send Tag id */
+<<<<<<< HEAD
 		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, SIMPLE_QUEUE_TAG);
+=======
+		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, MSG_SIMPLE_QTAG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, tag_number);
 		dcb->tag_mask |= tag_mask;
 		srb->tag_number = tag_number;
@@ -1725,9 +1749,14 @@ static void msgout_phase1(struct AdapterCtlBlk *acb, struct ScsiReqBlk *srb,
 	if (!srb->msg_count) {
 		dprintkdbg(DBG_0, "msgout_phase1: (0x%p) NOP msg\n",
 			srb->cmd);
+<<<<<<< HEAD
 		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, NOP);
 		DC395x_write16(acb, TRM_S1040_SCSI_CONTROL, DO_DATALATCH);
 		/* it's important for atn stop */
+=======
+		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, MSG_NOP);
+		DC395x_write16(acb, TRM_S1040_SCSI_CONTROL, DO_DATALATCH);	/* it's important for atn stop */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DC395x_write8(acb, TRM_S1040_SCSI_COMMAND, SCMD_FIFO_OUT);
 		return;
 	}
@@ -1735,7 +1764,11 @@ static void msgout_phase1(struct AdapterCtlBlk *acb, struct ScsiReqBlk *srb,
 	for (i = 0; i < srb->msg_count; i++)
 		DC395x_write8(acb, TRM_S1040_SCSI_FIFO, *ptr++);
 	srb->msg_count = 0;
+<<<<<<< HEAD
 	if (srb->msgout_buf[0] == ABORT_TASK_SET)
+=======
+	if (srb->msgout_buf[0] == MSG_ABORT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		srb->state = SRB_ABORT_SENT;
 
 	DC395x_write8(acb, TRM_S1040_SCSI_COMMAND, SCMD_FIFO_OUT);
@@ -2532,7 +2565,11 @@ static struct ScsiReqBlk *msgin_qtag(struct AdapterCtlBlk *acb,
 	srb = acb->tmp_srb;
 	srb->state = SRB_UNEXPECT_RESEL;
 	dcb->active_srb = srb;
+<<<<<<< HEAD
 	srb->msgout_buf[0] = ABORT_TASK;
+=======
+	srb->msgout_buf[0] = MSG_ABORT_TAG;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srb->msg_count = 1;
 	DC395x_ENABLE_MSGOUT;
 	dprintkl(KERN_DEBUG, "msgin_qtag: Unknown tag %i - abort\n", tag);
@@ -2774,7 +2811,11 @@ static void msgin_phase0(struct AdapterCtlBlk *acb, struct ScsiReqBlk *srb,
 			msgin_reject(acb, srb);
 			break;
 
+<<<<<<< HEAD
 		case IGNORE_WIDE_RESIDUE:
+=======
+		case MSG_IGNOREWIDE:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Discard  wide residual */
 			dprintkdbg(DBG_0, "msgin_phase0: Ignore Wide Residual!\n");
 			break;

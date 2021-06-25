@@ -181,7 +181,11 @@ sram_code:
   udelay: /* r11 - tb_ticks_per_usec, r12 - usecs, overwrites r13 */
 	mullw	r12, r12, r11
 	mftb	r13	/* start */
+<<<<<<< HEAD
 	add	r12, r13, r12 /* end */
+=======
+	addi	r12, r13, r12 /* end */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     1:
 	mftb	r13	/* current */
 	cmp	cr0, r13, r12

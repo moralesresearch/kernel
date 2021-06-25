@@ -416,7 +416,11 @@ static void qt2_close(struct usb_serial_port *port)
 
 	/* flush the port transmit buffer */
 	i = usb_control_msg(serial->dev,
+<<<<<<< HEAD
 			    usb_sndctrlpipe(serial->dev, 0),
+=======
+			    usb_rcvctrlpipe(serial->dev, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    QT2_FLUSH_DEVICE, 0x40, 1,
 			    port_priv->device_port, NULL, 0, QT2_USB_TIMEOUT);
 
@@ -426,7 +430,11 @@ static void qt2_close(struct usb_serial_port *port)
 
 	/* flush the port receive buffer */
 	i = usb_control_msg(serial->dev,
+<<<<<<< HEAD
 			    usb_sndctrlpipe(serial->dev, 0),
+=======
+			    usb_rcvctrlpipe(serial->dev, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    QT2_FLUSH_DEVICE, 0x40, 0,
 			    port_priv->device_port, NULL, 0, QT2_USB_TIMEOUT);
 
@@ -654,7 +662,11 @@ static int qt2_attach(struct usb_serial *serial)
 	int status;
 
 	/* power on unit */
+<<<<<<< HEAD
 	status = usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
+=======
+	status = usb_control_msg(serial->dev, usb_rcvctrlpipe(serial->dev, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 0xc2, 0x40, 0x8000, 0, NULL, 0,
 				 QT2_USB_TIMEOUT);
 	if (status < 0) {
@@ -727,7 +739,11 @@ err_buf:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
 static void qt2_port_remove(struct usb_serial_port *port)
+=======
+static int qt2_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qt2_port_private *port_priv;
 
@@ -735,6 +751,11 @@ static void qt2_port_remove(struct usb_serial_port *port)
 	usb_free_urb(port_priv->write_urb);
 	kfree(port_priv->write_buffer);
 	kfree(port_priv);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int qt2_tiocmget(struct tty_struct *tty)

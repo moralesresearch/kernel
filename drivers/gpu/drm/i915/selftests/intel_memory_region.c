@@ -129,6 +129,7 @@ static void igt_object_release(struct drm_i915_gem_object *obj)
 	i915_gem_object_put(obj);
 }
 
+<<<<<<< HEAD
 static bool is_contiguous(struct drm_i915_gem_object *obj)
 {
 	struct scatterlist *sg;
@@ -144,6 +145,8 @@ static bool is_contiguous(struct drm_i915_gem_object *obj)
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int igt_mock_contiguous(void *arg)
 {
 	struct intel_memory_region *mem = arg;
@@ -165,8 +168,13 @@ static int igt_mock_contiguous(void *arg)
 	if (IS_ERR(obj))
 		return PTR_ERR(obj);
 
+<<<<<<< HEAD
 	if (!is_contiguous(obj)) {
 		pr_err("%s min object spans disjoint sg entries\n", __func__);
+=======
+	if (obj->mm.pages->nents != 1) {
+		pr_err("%s min object spans multiple sg entries\n", __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		goto err_close_objects;
 	}
@@ -178,8 +186,13 @@ static int igt_mock_contiguous(void *arg)
 	if (IS_ERR(obj))
 		return PTR_ERR(obj);
 
+<<<<<<< HEAD
 	if (!is_contiguous(obj)) {
 		pr_err("%s max object spans disjoint sg entries\n", __func__);
+=======
+	if (obj->mm.pages->nents != 1) {
+		pr_err("%s max object spans multiple sg entries\n", __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		goto err_close_objects;
 	}
@@ -204,8 +217,13 @@ static int igt_mock_contiguous(void *arg)
 		goto err_close_objects;
 	}
 
+<<<<<<< HEAD
 	if (!is_contiguous(obj)) {
 		pr_err("%s object spans disjoint sg entries\n", __func__);
+=======
+	if (obj->mm.pages->nents != 1) {
+		pr_err("%s object spans multiple sg entries\n", __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		goto err_close_objects;
 	}
@@ -352,6 +370,7 @@ out_put:
 	return err;
 }
 
+<<<<<<< HEAD
 #ifndef SZ_8G
 #define SZ_8G BIT_ULL(33)
 #endif
@@ -414,6 +433,8 @@ out_put:
 	return err;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int igt_gpu_write_dw(struct intel_context *ce,
 			    struct i915_vma *vma,
 			    u32 dword,
@@ -852,6 +873,7 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
 		}
 
 		sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
+<<<<<<< HEAD
 		if (t[0] <= 0) {
 			/* ignore the impossible to protect our sanity */
 			pr_debug("Skipping %s src(%s, %s) -> dst(%s, %s) %14s %4lluKiB copy, unstable measurement [%lld, %lld]\n",
@@ -868,6 +890,16 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
 			src_mr->name, repr_type(src_type),
 			dst_mr->name, repr_type(dst_type),
 			tests[i].name, size >> 10,
+=======
+		pr_info("%s src(%s, %s) -> dst(%s, %s) %14s %4llu KiB copy: %5lld MiB/s\n",
+			__func__,
+			src_mr->name,
+			repr_type(src_type),
+			dst_mr->name,
+			repr_type(dst_type),
+			tests[i].name,
+			size >> 10,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			div64_u64(mul_u32_u32(4 * size,
 					      1000 * 1000 * 1000),
 				  t[1] + 2 * t[2] + t[3]) >> 20);
@@ -933,7 +965,10 @@ int intel_memory_region_mock_selftests(void)
 		SUBTEST(igt_mock_fill),
 		SUBTEST(igt_mock_contiguous),
 		SUBTEST(igt_mock_splintered_region),
+<<<<<<< HEAD
 		SUBTEST(igt_mock_max_segment),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	struct intel_memory_region *mem;
 	struct drm_i915_private *i915;

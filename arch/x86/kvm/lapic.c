@@ -91,8 +91,18 @@ static inline int __apic_test_and_clear_vector(int vec, void *bitmap)
 	return __test_and_clear_bit(VEC_POS(vec), (bitmap) + REG_POS(vec));
 }
 
+<<<<<<< HEAD
 __read_mostly DEFINE_STATIC_KEY_DEFERRED_FALSE(apic_hw_disabled, HZ);
 __read_mostly DEFINE_STATIC_KEY_DEFERRED_FALSE(apic_sw_disabled, HZ);
+=======
+<<<<<<< HEAD
+__read_mostly DEFINE_STATIC_KEY_DEFERRED_FALSE(apic_hw_disabled, HZ);
+__read_mostly DEFINE_STATIC_KEY_DEFERRED_FALSE(apic_sw_disabled, HZ);
+=======
+struct static_key_deferred apic_hw_disabled __read_mostly;
+struct static_key_deferred apic_sw_disabled __read_mostly;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int apic_enabled(struct kvm_lapic *apic)
 {
@@ -290,6 +300,7 @@ static inline void apic_set_spiv(struct kvm_lapic *apic, u32 val)
 	if (enabled != apic->sw_enabled) {
 		apic->sw_enabled = enabled;
 		if (enabled)
+<<<<<<< HEAD
 			static_branch_slow_dec_deferred(&apic_sw_disabled);
 		else
 			static_branch_inc(&apic_sw_disabled.key);
@@ -300,6 +311,20 @@ static inline void apic_set_spiv(struct kvm_lapic *apic, u32 val)
 	/* Check if there are APF page ready requests pending */
 	if (enabled)
 		kvm_make_request(KVM_REQ_APF_READY, apic->vcpu);
+=======
+<<<<<<< HEAD
+			static_branch_slow_dec_deferred(&apic_sw_disabled);
+		else
+			static_branch_inc(&apic_sw_disabled.key);
+=======
+			static_key_slow_dec_deferred(&apic_sw_disabled);
+		else
+			static_key_slow_inc(&apic_sw_disabled.key);
+>>>>>>> stable
+
+		atomic_set_release(&apic->vcpu->kvm->arch.apic_map_dirty, DIRTY);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void kvm_apic_set_xapic_id(struct kvm_lapic *apic, u8 id)
@@ -488,7 +513,15 @@ static inline void apic_clear_irr(int vec, struct kvm_lapic *apic)
 	if (unlikely(vcpu->arch.apicv_active)) {
 		/* need to update RVI */
 		kvm_lapic_clear_vector(vec, apic->regs + APIC_IRR);
+<<<<<<< HEAD
 		static_call(kvm_x86_hwapic_irr_update)(vcpu,
+=======
+<<<<<<< HEAD
+		static_call(kvm_x86_hwapic_irr_update)(vcpu,
+=======
+		kvm_x86_ops.hwapic_irr_update(vcpu,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				apic_find_highest_irr(apic));
 	} else {
 		apic->irr_pending = false;
@@ -519,7 +552,15 @@ static inline void apic_set_isr(int vec, struct kvm_lapic *apic)
 	 * just set SVI.
 	 */
 	if (unlikely(vcpu->arch.apicv_active))
+<<<<<<< HEAD
 		static_call(kvm_x86_hwapic_isr_update)(vcpu, vec);
+=======
+<<<<<<< HEAD
+		static_call(kvm_x86_hwapic_isr_update)(vcpu, vec);
+=======
+		kvm_x86_ops.hwapic_isr_update(vcpu, vec);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else {
 		++apic->isr_count;
 		BUG_ON(apic->isr_count > MAX_APIC_VECTOR);
@@ -567,8 +608,18 @@ static inline void apic_clear_isr(int vec, struct kvm_lapic *apic)
 	 * and must be left alone.
 	 */
 	if (unlikely(vcpu->arch.apicv_active))
+<<<<<<< HEAD
 		static_call(kvm_x86_hwapic_isr_update)(vcpu,
 						apic_find_highest_isr(apic));
+=======
+<<<<<<< HEAD
+		static_call(kvm_x86_hwapic_isr_update)(vcpu,
+						apic_find_highest_isr(apic));
+=======
+		kvm_x86_ops.hwapic_isr_update(vcpu,
+					       apic_find_highest_isr(apic));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else {
 		--apic->isr_count;
 		BUG_ON(apic->isr_count < 0);
@@ -705,7 +756,15 @@ static int apic_has_interrupt_for_ppr(struct kvm_lapic *apic, u32 ppr)
 {
 	int highest_irr;
 	if (apic->vcpu->arch.apicv_active)
+<<<<<<< HEAD
 		highest_irr = static_call(kvm_x86_sync_pir_to_irr)(apic->vcpu);
+=======
+<<<<<<< HEAD
+		highest_irr = static_call(kvm_x86_sync_pir_to_irr)(apic->vcpu);
+=======
+		highest_irr = kvm_x86_ops.sync_pir_to_irr(apic->vcpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		highest_irr = apic_find_highest_irr(apic);
 	if (highest_irr == -1 || (highest_irr & 0xF0) <= ppr)
@@ -1094,7 +1153,15 @@ static int __apic_accept_irq(struct kvm_lapic *apic, int delivery_mode,
 						       apic->regs + APIC_TMR);
 		}
 
+<<<<<<< HEAD
 		if (static_call(kvm_x86_deliver_posted_interrupt)(vcpu, vector)) {
+=======
+<<<<<<< HEAD
+		if (static_call(kvm_x86_deliver_posted_interrupt)(vcpu, vector)) {
+=======
+		if (kvm_x86_ops.deliver_posted_interrupt(vcpu, vector)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			kvm_lapic_set_irr(vector, apic);
 			kvm_make_request(KVM_REQ_EVENT, vcpu);
 			kvm_vcpu_kick(vcpu);
@@ -1249,8 +1316,17 @@ static int apic_set_eoi(struct kvm_lapic *apic)
 	apic_clear_isr(vector, apic);
 	apic_update_ppr(apic);
 
+<<<<<<< HEAD
 	if (to_hv_vcpu(apic->vcpu) &&
 	    test_bit(vector, to_hv_synic(apic->vcpu)->vec_bitmap))
+=======
+<<<<<<< HEAD
+	if (to_hv_vcpu(apic->vcpu) &&
+	    test_bit(vector, to_hv_synic(apic->vcpu)->vec_bitmap))
+=======
+	if (test_bit(vector, vcpu_to_synic(apic->vcpu)->vec_bitmap))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kvm_hv_synic_send_eoi(apic->vcpu, vector);
 
 	kvm_ioapic_send_eoi(apic, vector);
@@ -1410,9 +1486,12 @@ int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
 	if (!apic_x2apic_mode(apic))
 		valid_reg_mask |= APIC_REG_MASK(APIC_ARBPRI);
 
+<<<<<<< HEAD
 	if (alignment + len > 4)
 		return 1;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (offset > 0x3f0 || !(valid_reg_mask & APIC_REG_MASK(offset)))
 		return 1;
 
@@ -1831,7 +1910,15 @@ static void cancel_hv_timer(struct kvm_lapic *apic)
 {
 	WARN_ON(preemptible());
 	WARN_ON(!apic->lapic_timer.hv_timer_in_use);
+<<<<<<< HEAD
 	static_call(kvm_x86_cancel_hv_timer)(apic->vcpu);
+=======
+<<<<<<< HEAD
+	static_call(kvm_x86_cancel_hv_timer)(apic->vcpu);
+=======
+	kvm_x86_ops.cancel_hv_timer(apic->vcpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	apic->lapic_timer.hv_timer_in_use = false;
 }
 
@@ -1848,7 +1935,15 @@ static bool start_hv_timer(struct kvm_lapic *apic)
 	if (!ktimer->tscdeadline)
 		return false;
 
+<<<<<<< HEAD
 	if (static_call(kvm_x86_set_hv_timer)(vcpu, ktimer->tscdeadline, &expired))
+=======
+<<<<<<< HEAD
+	if (static_call(kvm_x86_set_hv_timer)(vcpu, ktimer->tscdeadline, &expired))
+=======
+	if (kvm_x86_ops.set_hv_timer(vcpu, ktimer->tscdeadline, &expired))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	ktimer->hv_timer_in_use = true;
@@ -1916,8 +2011,13 @@ void kvm_lapic_expired_hv_timer(struct kvm_vcpu *vcpu)
 	if (!apic->lapic_timer.hv_timer_in_use)
 		goto out;
 	WARN_ON(rcuwait_active(&vcpu->wait));
+<<<<<<< HEAD
 	apic_timer_expired(apic, false);
 	cancel_hv_timer(apic);
+=======
+	cancel_hv_timer(apic);
+	apic_timer_expired(apic, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (apic_lvtt_period(apic) && apic->lapic_timer.period) {
 		advance_periodic_target_expiration(apic);
@@ -2192,10 +2292,23 @@ void kvm_free_lapic(struct kvm_vcpu *vcpu)
 	hrtimer_cancel(&apic->lapic_timer.timer);
 
 	if (!(vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		static_branch_slow_dec_deferred(&apic_hw_disabled);
 
 	if (!apic->sw_enabled)
 		static_branch_slow_dec_deferred(&apic_sw_disabled);
+<<<<<<< HEAD
+=======
+=======
+		static_key_slow_dec_deferred(&apic_hw_disabled);
+
+	if (!apic->sw_enabled)
+		static_key_slow_dec_deferred(&apic_sw_disabled);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (apic->regs)
 		free_page((unsigned long)apic->regs);
@@ -2267,11 +2380,23 @@ void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value)
 	if ((old_value ^ value) & MSR_IA32_APICBASE_ENABLE) {
 		if (value & MSR_IA32_APICBASE_ENABLE) {
 			kvm_apic_set_xapic_id(apic, vcpu->vcpu_id);
+<<<<<<< HEAD
 			static_branch_slow_dec_deferred(&apic_hw_disabled);
 			/* Check if there are APF page ready requests pending */
 			kvm_make_request(KVM_REQ_APF_READY, vcpu);
 		} else {
 			static_branch_inc(&apic_hw_disabled.key);
+=======
+<<<<<<< HEAD
+			static_branch_slow_dec_deferred(&apic_hw_disabled);
+		} else {
+			static_branch_inc(&apic_hw_disabled.key);
+=======
+			static_key_slow_dec_deferred(&apic_hw_disabled);
+		} else {
+			static_key_slow_inc(&apic_hw_disabled.key);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			atomic_set_release(&apic->vcpu->kvm->arch.apic_map_dirty, DIRTY);
 		}
 	}
@@ -2280,7 +2405,15 @@ void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value)
 		kvm_apic_set_x2apic_id(apic, vcpu->vcpu_id);
 
 	if ((old_value ^ value) & (MSR_IA32_APICBASE_ENABLE | X2APIC_ENABLE))
+<<<<<<< HEAD
 		static_call(kvm_x86_set_virtual_apic_mode)(vcpu);
+=======
+<<<<<<< HEAD
+		static_call(kvm_x86_set_virtual_apic_mode)(vcpu);
+=======
+		kvm_x86_ops.set_virtual_apic_mode(vcpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	apic->base_address = apic->vcpu->arch.apic_base &
 			     MSR_IA32_APICBASE_BASE;
@@ -2357,9 +2490,21 @@ void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event)
 	vcpu->arch.pv_eoi.msr_val = 0;
 	apic_update_ppr(apic);
 	if (vcpu->arch.apicv_active) {
+<<<<<<< HEAD
 		static_call(kvm_x86_apicv_post_state_restore)(vcpu);
 		static_call(kvm_x86_hwapic_irr_update)(vcpu, -1);
 		static_call(kvm_x86_hwapic_isr_update)(vcpu, -1);
+=======
+<<<<<<< HEAD
+		static_call(kvm_x86_apicv_post_state_restore)(vcpu);
+		static_call(kvm_x86_hwapic_irr_update)(vcpu, -1);
+		static_call(kvm_x86_hwapic_isr_update)(vcpu, -1);
+=======
+		kvm_x86_ops.apicv_post_state_restore(vcpu);
+		kvm_x86_ops.hwapic_irr_update(vcpu, -1);
+		kvm_x86_ops.hwapic_isr_update(vcpu, -1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	vcpu->arch.apic_arb_prio = 0;
@@ -2468,7 +2613,15 @@ int kvm_create_lapic(struct kvm_vcpu *vcpu, int timer_advance_ns)
 	 * thinking that APIC state has changed.
 	 */
 	vcpu->arch.apic_base = MSR_IA32_APICBASE_ENABLE;
+<<<<<<< HEAD
 	static_branch_inc(&apic_sw_disabled.key); /* sw disabled at reset */
+=======
+<<<<<<< HEAD
+	static_branch_inc(&apic_sw_disabled.key); /* sw disabled at reset */
+=======
+	static_key_slow_inc(&apic_sw_disabled.key); /* sw disabled at reset */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kvm_iodevice_init(&apic->dev, &apic_mmio_ops);
 
 	return 0;
@@ -2531,7 +2684,15 @@ int kvm_get_apic_interrupt(struct kvm_vcpu *vcpu)
 	 */
 
 	apic_clear_irr(vector, apic);
+<<<<<<< HEAD
 	if (to_hv_vcpu(vcpu) && test_bit(vector, to_hv_synic(vcpu)->auto_eoi_bitmap)) {
+=======
+<<<<<<< HEAD
+	if (to_hv_vcpu(vcpu) && test_bit(vector, to_hv_synic(vcpu)->auto_eoi_bitmap)) {
+=======
+	if (test_bit(vector, vcpu_to_synic(vcpu)->auto_eoi_bitmap)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * For auto-EOI interrupts, there might be another pending
 		 * interrupt above PPR, so check whether to raise another
@@ -2613,7 +2774,14 @@ int kvm_apic_set_state(struct kvm_vcpu *vcpu, struct kvm_lapic_state *s)
 
 	apic_update_ppr(apic);
 	hrtimer_cancel(&apic->lapic_timer.timer);
+<<<<<<< HEAD
 	apic->lapic_timer.expired_tscdeadline = 0;
+=======
+<<<<<<< HEAD
+	apic->lapic_timer.expired_tscdeadline = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	apic_update_lvtt(apic);
 	apic_manage_nmi_watchdog(apic, kvm_lapic_get_reg(apic, APIC_LVT0));
 	update_divide_count(apic);
@@ -2621,10 +2789,23 @@ int kvm_apic_set_state(struct kvm_vcpu *vcpu, struct kvm_lapic_state *s)
 	kvm_apic_update_apicv(vcpu);
 	apic->highest_isr_cache = -1;
 	if (vcpu->arch.apicv_active) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		static_call(kvm_x86_apicv_post_state_restore)(vcpu);
 		static_call(kvm_x86_hwapic_irr_update)(vcpu,
 				apic_find_highest_irr(apic));
 		static_call(kvm_x86_hwapic_isr_update)(vcpu,
+<<<<<<< HEAD
+=======
+=======
+		kvm_x86_ops.apicv_post_state_restore(vcpu);
+		kvm_x86_ops.hwapic_irr_update(vcpu,
+				apic_find_highest_irr(apic));
+		kvm_x86_ops.hwapic_isr_update(vcpu,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				apic_find_highest_isr(apic));
 	}
 	kvm_make_request(KVM_REQ_EVENT, vcpu);
@@ -2924,6 +3105,19 @@ void kvm_apic_accept_events(struct kvm_vcpu *vcpu)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void kvm_lapic_init(void)
+{
+	/* do not patch jump label more than once per second */
+	jump_label_rate_limit(&apic_hw_disabled, HZ);
+	jump_label_rate_limit(&apic_sw_disabled, HZ);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_lapic_exit(void)
 {
 	static_key_deferred_flush(&apic_hw_disabled);

@@ -10,7 +10,14 @@
 
 #include <linux/bitfield.h>
 #include <linux/devfreq.h>
+<<<<<<< HEAD
 #include <linux/nvmem-consumer.h>
+=======
+<<<<<<< HEAD
+#include <linux/nvmem-consumer.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/soc/qcom/llcc-qcom.h>
 
 #define GPU_PAS_ID 13
@@ -157,7 +164,11 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
 	 * GPU registers so we need to add 0x1a800 to the register value on A630
 	 * to get the right value from PM4.
 	 */
+<<<<<<< HEAD
 	get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
+=======
+	get_stats_counter(ring, REG_A6XX_GMU_ALWAYS_ON_COUNTER_L + 0x1a800,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rbmemptr_stats(ring, index, alwayson_start));
 
 	/* Invalidate CCU depth and color */
@@ -187,7 +198,11 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
 
 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
 		rbmemptr_stats(ring, index, cpcycles_end));
+<<<<<<< HEAD
 	get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
+=======
+	get_stats_counter(ring, REG_A6XX_GMU_ALWAYS_ON_COUNTER_L + 0x1a800,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rbmemptr_stats(ring, index, alwayson_end));
 
 	/* Write the fence to the scratch register */
@@ -206,8 +221,13 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
 	OUT_RING(ring, submit->seqno);
 
 	trace_msm_gpu_submit_flush(submit,
+<<<<<<< HEAD
 		gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
 			REG_A6XX_CP_ALWAYS_ON_COUNTER_HI));
+=======
+		gmu_read64(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_L,
+			REG_A6XX_GMU_ALWAYS_ON_COUNTER_H));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	a6xx_flush(gpu, ring);
 }
@@ -462,6 +482,7 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
 	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
 }
 
+<<<<<<< HEAD
 /* For a615, a616, a618, A619, a630, a640 and a680 */
 static const u32 a6xx_protect[] = {
 	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
@@ -569,6 +590,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
 	gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
@@ -596,7 +619,11 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
 		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
 	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
 	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
+<<<<<<< HEAD
 		uavflagprd_inv << 4 | lower_bit << 1);
+=======
+		uavflagprd_inv >> 4 | lower_bit << 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, lower_bit << 21);
 }
 
@@ -674,17 +701,38 @@ static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
 	}  else {
 		/*
 		 * a650 tier targets don't need whereami but still need to be
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * equal to or newer than 0.95 for other security fixes
 		 */
 		if (adreno_is_a650(adreno_gpu)) {
 			if ((buf[0] & 0xfff) >= 0x095) {
+<<<<<<< HEAD
+=======
+=======
+		 * equal to or newer than 1.95 for other security fixes
+		 */
+		if (adreno_is_a650(adreno_gpu)) {
+			if ((buf[0] & 0xfff) >= 0x195) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ret = true;
 				goto out;
 			}
 
 			DRM_DEV_ERROR(&gpu->pdev->dev,
 				"a650 SQE ucode is too old. Have version %x need at least %x\n",
+<<<<<<< HEAD
 				buf[0] & 0xfff, 0x095);
+=======
+<<<<<<< HEAD
+				buf[0] & 0xfff, 0x095);
+=======
+				buf[0] & 0xfff, 0x195);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		/*
@@ -883,7 +931,45 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
 	}
 
 	/* Protect registers from the CP */
+<<<<<<< HEAD
 	a6xx_set_cp_protect(gpu);
+=======
+	gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, 0x00000003);
+
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(0),
+		A6XX_PROTECT_RDONLY(0x600, 0x51));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(1), A6XX_PROTECT_RW(0xae50, 0x2));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(2), A6XX_PROTECT_RW(0x9624, 0x13));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(3), A6XX_PROTECT_RW(0x8630, 0x8));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(4), A6XX_PROTECT_RW(0x9e70, 0x1));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(5), A6XX_PROTECT_RW(0x9e78, 0x187));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(6), A6XX_PROTECT_RW(0xf000, 0x810));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(7),
+		A6XX_PROTECT_RDONLY(0xfc00, 0x3));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(8), A6XX_PROTECT_RW(0x50e, 0x0));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(9), A6XX_PROTECT_RDONLY(0x50f, 0x0));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(10), A6XX_PROTECT_RW(0x510, 0x0));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(11),
+		A6XX_PROTECT_RDONLY(0x0, 0x4f9));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(12),
+		A6XX_PROTECT_RDONLY(0x501, 0xa));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(13),
+		A6XX_PROTECT_RDONLY(0x511, 0x44));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(14), A6XX_PROTECT_RW(0xe00, 0xe));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(15), A6XX_PROTECT_RW(0x8e00, 0x0));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(16), A6XX_PROTECT_RW(0x8e50, 0xf));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(17), A6XX_PROTECT_RW(0xbe02, 0x0));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(18),
+		A6XX_PROTECT_RW(0xbe20, 0x11f3));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(19), A6XX_PROTECT_RW(0x800, 0x82));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(20), A6XX_PROTECT_RW(0x8a0, 0x8));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(21), A6XX_PROTECT_RW(0x8ab, 0x19));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(22), A6XX_PROTECT_RW(0x900, 0x4d));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(23), A6XX_PROTECT_RW(0x98d, 0x76));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(24),
+			A6XX_PROTECT_RDONLY(0x980, 0x4));
+	gpu_write(gpu, REG_A6XX_CP_PROTECT(25), A6XX_PROTECT_RW(0xa630, 0x0));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Enable expanded apriv for targets that support it */
 	if (gpu->hw_apriv) {
@@ -1226,6 +1312,13 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
 {
 	struct device_node *phandle;
 
+<<<<<<< HEAD
+=======
+	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
+	if (IS_ERR(a6xx_gpu->llc_mmio))
+		return;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * There is a different programming path for targets with an mmu500
 	 * attached, so detect if that is the case
@@ -1235,11 +1328,14 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
 		of_device_is_compatible(phandle, "arm,mmu-500"));
 	of_node_put(phandle);
 
+<<<<<<< HEAD
 	if (a6xx_gpu->have_mmu500)
 		a6xx_gpu->llc_mmio = NULL;
 	else
 		a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	a6xx_gpu->llc_slice = llcc_slice_getd(LLCC_GPU);
 	a6xx_gpu->htw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
 
@@ -1284,7 +1380,11 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	if (a6xx_gpu->shadow_bo)
+=======
+	if (adreno_gpu->base.hw_apriv || a6xx_gpu->has_whereami)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < gpu->nr_rings; i++)
 			a6xx_gpu->shadow[i] = 0;
 
@@ -1302,8 +1402,18 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
 	/* Force the GPU power on so we can read this register */
 	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
 
+<<<<<<< HEAD
 	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
 		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
+=======
+<<<<<<< HEAD
+	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
+		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
+=======
+	*value = gpu_read64(gpu, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
+		REG_A6XX_RBBM_PERFCTR_CP_0_HI);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
 	mutex_unlock(&perfcounter_oob);
@@ -1338,10 +1448,19 @@ static void a6xx_destroy(struct msm_gpu *gpu)
 	a6xx_gmu_remove(a6xx_gpu);
 
 	adreno_gpu_cleanup(adreno_gpu);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (a6xx_gpu->opp_table)
 		dev_pm_opp_put_supported_hw(a6xx_gpu->opp_table);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(a6xx_gpu);
 }
 
@@ -1374,6 +1493,10 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
 }
 
 static struct msm_gem_address_space *
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
@@ -1418,6 +1541,11 @@ a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
 }
 
 static struct msm_gem_address_space *
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 a6xx_create_private_address_space(struct msm_gpu *gpu)
 {
 	struct msm_mmu *mmu;
@@ -1442,6 +1570,10 @@ static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
 	return ring->memptrs->rptr = gpu_read(gpu, REG_A6XX_CP_RB_RPTR);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 a618_get_speed_bin(u32 fuse)
 {
 	if (fuse == 0)
@@ -1505,6 +1637,11 @@ done:
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct adreno_gpu_funcs funcs = {
 	.base = {
 		.get_param = adreno_get_param,
@@ -1526,7 +1663,15 @@ static const struct adreno_gpu_funcs funcs = {
 		.gpu_state_get = a6xx_gpu_state_get,
 		.gpu_state_put = a6xx_gpu_state_put,
 #endif
+<<<<<<< HEAD
 		.create_address_space = a6xx_create_address_space,
+=======
+<<<<<<< HEAD
+		.create_address_space = a6xx_create_address_space,
+=======
+		.create_address_space = adreno_iommu_create_address_space,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.create_private_address_space = a6xx_create_private_address_space,
 		.get_rptr = a6xx_get_rptr,
 	},
@@ -1566,12 +1711,21 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
 
 	a6xx_llc_slices_init(pdev, a6xx_gpu);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = a6xx_set_supported_hw(&pdev->dev, a6xx_gpu, info->revn);
 	if (ret) {
 		a6xx_destroy(&(a6xx_gpu->base.base));
 		return ERR_PTR(ret);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
 	if (ret) {
 		a6xx_destroy(&(a6xx_gpu->base.base));

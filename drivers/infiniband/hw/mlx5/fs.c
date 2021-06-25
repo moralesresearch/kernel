@@ -1194,8 +1194,14 @@ static struct ib_flow *mlx5_ib_create_flow(struct ib_qp *qp,
 		goto free_ucmd;
 	}
 
+<<<<<<< HEAD
 	if (flow_attr->flags &
 	    ~(IB_FLOW_ATTR_FLAGS_DONT_TRAP | IB_FLOW_ATTR_FLAGS_EGRESS)) {
+=======
+	if (flow_attr->port > dev->num_ports ||
+	    (flow_attr->flags &
+	     ~(IB_FLOW_ATTR_FLAGS_DONT_TRAP | IB_FLOW_ATTR_FLAGS_EGRESS))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		goto free_ucmd;
 	}
@@ -1527,8 +1533,13 @@ static struct mlx5_ib_flow_handler *raw_fs_rule_add(
 		dst_num++;
 	}
 
+<<<<<<< HEAD
 	handler = _create_raw_flow_rule(dev, ft_prio, dst_num ? dst : NULL,
 					fs_matcher, flow_context, flow_act,
+=======
+	handler = _create_raw_flow_rule(dev, ft_prio, dst, fs_matcher,
+					flow_context, flow_act,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					cmd_in, inlen, dst_num);
 
 	if (IS_ERR(handler)) {
@@ -1884,9 +1895,14 @@ static int get_dests(struct uverbs_attr_bundle *attrs,
 		else
 			*dest_id = mqp->raw_packet_qp.rq.tirn;
 		*dest_type = MLX5_FLOW_DESTINATION_TYPE_TIR;
+<<<<<<< HEAD
 	} else if ((fs_matcher->ns_type == MLX5_FLOW_NAMESPACE_EGRESS ||
 		    fs_matcher->ns_type == MLX5_FLOW_NAMESPACE_RDMA_TX) &&
 		   !(*flags & MLX5_IB_ATTR_CREATE_FLOW_FLAGS_DROP)) {
+=======
+	} else if (fs_matcher->ns_type == MLX5_FLOW_NAMESPACE_EGRESS ||
+		   fs_matcher->ns_type == MLX5_FLOW_NAMESPACE_RDMA_TX) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*dest_type = MLX5_FLOW_DESTINATION_TYPE_PORT;
 	}
 
@@ -2133,12 +2149,15 @@ static int UVERBS_HANDLER(MLX5_IB_METHOD_FLOW_MATCHER_CREATE)(
 	if (err)
 		goto end;
 
+<<<<<<< HEAD
 	if (obj->ns_type == MLX5_FLOW_NAMESPACE_FDB &&
 	    mlx5_eswitch_mode(dev->mdev) != MLX5_ESWITCH_OFFLOADS) {
 		err = -EINVAL;
 		goto end;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uobj->object = obj;
 	obj->mdev = dev->mdev;
 	atomic_set(&obj->usecnt, 0);

@@ -352,7 +352,11 @@ static int inotify_find_inode(const char __user *dirname, struct path *path,
 	if (error)
 		return error;
 	/* you can only watch an inode if you have read permissions on it */
+<<<<<<< HEAD
 	error = path_permission(path, MAY_READ);
+=======
+	error = inode_permission(path->dentry->d_inode, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error) {
 		path_put(path);
 		return error;
@@ -632,11 +636,19 @@ static struct fsnotify_group *inotify_new_group(unsigned int max_events)
 	struct fsnotify_group *group;
 	struct inotify_event_info *oevent;
 
+<<<<<<< HEAD
 	group = fsnotify_alloc_user_group(&inotify_fsnotify_ops);
 	if (IS_ERR(group))
 		return group;
 
 	oevent = kmalloc(sizeof(struct inotify_event_info), GFP_KERNEL_ACCOUNT);
+=======
+	group = fsnotify_alloc_group(&inotify_fsnotify_ops);
+	if (IS_ERR(group))
+		return group;
+
+	oevent = kmalloc(sizeof(struct inotify_event_info), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(!oevent)) {
 		fsnotify_destroy_group(group);
 		return ERR_PTR(-ENOMEM);

@@ -253,7 +253,10 @@ int ip_local_deliver(struct sk_buff *skb)
 		       net, NULL, skb, skb->dev, NULL,
 		       ip_local_deliver_finish);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ip_local_deliver);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline bool ip_rcv_options(struct sk_buff *skb, struct net_device *dev)
 {

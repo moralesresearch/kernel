@@ -51,6 +51,7 @@ int ocfs2_extend_no_holes(struct inode *inode, struct buffer_head *di_bh,
 			  u64 new_i_size, u64 zero_to);
 int ocfs2_zero_extend(struct inode *inode, struct buffer_head *di_bh,
 		      loff_t zero_to);
+<<<<<<< HEAD
 int ocfs2_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		  struct iattr *attr);
 int ocfs2_getattr(struct user_namespace *mnt_userns, const struct path *path,
@@ -58,6 +59,12 @@ int ocfs2_getattr(struct user_namespace *mnt_userns, const struct path *path,
 int ocfs2_permission(struct user_namespace *mnt_userns,
 		     struct inode *inode,
 		     int mask);
+=======
+int ocfs2_setattr(struct dentry *dentry, struct iattr *attr);
+int ocfs2_getattr(const struct path *path, struct kstat *stat,
+		  u32 request_mask, unsigned int flags);
+int ocfs2_permission(struct inode *inode, int mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int ocfs2_should_update_atime(struct inode *inode,
 			      struct vfsmount *vfsmnt);

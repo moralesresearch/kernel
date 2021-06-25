@@ -633,7 +633,11 @@ static const struct net_device_ops brcmf_netdev_ops_pri = {
 	.ndo_set_rx_mode = brcmf_netdev_set_multicast_list
 };
 
+<<<<<<< HEAD
 int brcmf_net_attach(struct brcmf_if *ifp, bool locked)
+=======
+int brcmf_net_attach(struct brcmf_if *ifp, bool rtnl_locked)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct brcmf_pub *drvr = ifp->drvr;
 	struct net_device *ndev;
@@ -656,8 +660,13 @@ int brcmf_net_attach(struct brcmf_if *ifp, bool locked)
 	INIT_WORK(&ifp->multicast_work, _brcmf_set_multicast_list);
 	INIT_WORK(&ifp->ndoffload_work, _brcmf_update_ndtable);
 
+<<<<<<< HEAD
 	if (locked)
 		err = cfg80211_register_netdevice(ndev);
+=======
+	if (rtnl_locked)
+		err = register_netdevice(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		err = register_netdev(ndev);
 	if (err != 0) {
@@ -677,11 +686,19 @@ fail:
 	return -EBADE;
 }
 
+<<<<<<< HEAD
 void brcmf_net_detach(struct net_device *ndev, bool locked)
 {
 	if (ndev->reg_state == NETREG_REGISTERED) {
 		if (locked)
 			cfg80211_unregister_netdevice(ndev);
+=======
+void brcmf_net_detach(struct net_device *ndev, bool rtnl_locked)
+{
+	if (ndev->reg_state == NETREG_REGISTERED) {
+		if (rtnl_locked)
+			unregister_netdevice(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			unregister_netdev(ndev);
 	} else {
@@ -758,7 +775,11 @@ int brcmf_net_mon_attach(struct brcmf_if *ifp)
 	ndev = ifp->ndev;
 	ndev->netdev_ops = &brcmf_netdev_ops_mon;
 
+<<<<<<< HEAD
 	err = cfg80211_register_netdevice(ndev);
+=======
+	err = register_netdevice(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		bphy_err(drvr, "Failed to register %s device\n", ndev->name);
 
@@ -909,7 +930,11 @@ struct brcmf_if *brcmf_add_if(struct brcmf_pub *drvr, s32 bsscfgidx, s32 ifidx,
 }
 
 static void brcmf_del_if(struct brcmf_pub *drvr, s32 bsscfgidx,
+<<<<<<< HEAD
 			 bool locked)
+=======
+			 bool rtnl_locked)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct brcmf_if *ifp;
 	int ifidx;
@@ -938,7 +963,11 @@ static void brcmf_del_if(struct brcmf_pub *drvr, s32 bsscfgidx,
 			cancel_work_sync(&ifp->multicast_work);
 			cancel_work_sync(&ifp->ndoffload_work);
 		}
+<<<<<<< HEAD
 		brcmf_net_detach(ifp->ndev, locked);
+=======
+		brcmf_net_detach(ifp->ndev, rtnl_locked);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		/* Only p2p device interfaces which get dynamically created
 		 * end up here. In this case the p2p module should be informed
@@ -947,7 +976,11 @@ static void brcmf_del_if(struct brcmf_pub *drvr, s32 bsscfgidx,
 		 * serious troublesome side effects. The p2p module will clean
 		 * up the ifp if needed.
 		 */
+<<<<<<< HEAD
 		brcmf_p2p_ifp_removed(ifp, locked);
+=======
+		brcmf_p2p_ifp_removed(ifp, rtnl_locked);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(ifp);
 	}
 
@@ -956,14 +989,22 @@ static void brcmf_del_if(struct brcmf_pub *drvr, s32 bsscfgidx,
 		drvr->if2bss[ifidx] = BRCMF_BSSIDX_INVALID;
 }
 
+<<<<<<< HEAD
 void brcmf_remove_interface(struct brcmf_if *ifp, bool locked)
+=======
+void brcmf_remove_interface(struct brcmf_if *ifp, bool rtnl_locked)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!ifp || WARN_ON(ifp->drvr->iflist[ifp->bsscfgidx] != ifp))
 		return;
 	brcmf_dbg(TRACE, "Enter, bsscfgidx=%d, ifidx=%d\n", ifp->bsscfgidx,
 		  ifp->ifidx);
 	brcmf_proto_del_if(ifp->drvr, ifp);
+<<<<<<< HEAD
 	brcmf_del_if(ifp->drvr, ifp->bsscfgidx, locked);
+=======
+	brcmf_del_if(ifp->drvr, ifp->bsscfgidx, rtnl_locked);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int brcmf_psm_watchdog_notify(struct brcmf_if *ifp,
@@ -1518,6 +1559,7 @@ void brcmf_bus_change_state(struct brcmf_bus *bus, enum brcmf_bus_state state)
 	}
 }
 
+<<<<<<< HEAD
 int __init brcmf_core_init(void)
 {
 	int err;
@@ -1540,12 +1582,48 @@ error_pcie_register:
 error_usb_register:
 	brcmf_sdio_exit();
 	return err;
+=======
+static void brcmf_driver_register(struct work_struct *work)
+{
+#ifdef CONFIG_BRCMFMAC_SDIO
+	brcmf_sdio_register();
+#endif
+#ifdef CONFIG_BRCMFMAC_USB
+	brcmf_usb_register();
+#endif
+#ifdef CONFIG_BRCMFMAC_PCIE
+	brcmf_pcie_register();
+#endif
+}
+static DECLARE_WORK(brcmf_driver_work, brcmf_driver_register);
+
+int __init brcmf_core_init(void)
+{
+	if (!schedule_work(&brcmf_driver_work))
+		return -EBUSY;
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __exit brcmf_core_exit(void)
 {
+<<<<<<< HEAD
 	brcmf_sdio_exit();
 	brcmf_usb_exit();
 	brcmf_pcie_exit();
+=======
+	cancel_work_sync(&brcmf_driver_work);
+
+#ifdef CONFIG_BRCMFMAC_SDIO
+	brcmf_sdio_exit();
+#endif
+#ifdef CONFIG_BRCMFMAC_USB
+	brcmf_usb_exit();
+#endif
+#ifdef CONFIG_BRCMFMAC_PCIE
+	brcmf_pcie_exit();
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 

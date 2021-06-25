@@ -198,7 +198,15 @@ static int __init parse_noapic(char *str)
 }
 early_param("noapic", parse_noapic);
 
+<<<<<<< HEAD
 /* Will be called in mpparse/ACPI codes for saving IRQ info */
+=======
+<<<<<<< HEAD
+/* Will be called in mpparse/ACPI codes for saving IRQ info */
+=======
+/* Will be called in mpparse/acpi/sfi codes for saving IRQ info */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mp_save_irq(struct mpc_intsrc *m)
 {
 	int i;
@@ -2873,7 +2881,15 @@ int mp_register_ioapic(int id, u32 address, u32 gsi_base,
 
 	/*
 	 * If mp_register_ioapic() is called during early boot stage when
+<<<<<<< HEAD
 	 * walking ACPI/DT tables, it's too early to create irqdomain,
+=======
+<<<<<<< HEAD
+	 * walking ACPI/DT tables, it's too early to create irqdomain,
+=======
+	 * walking ACPI/SFI/DT tables, it's too early to create irqdomain,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * we are still using bootmem allocator. So delay it to setup_IO_APIC().
 	 */
 	if (hotplug) {

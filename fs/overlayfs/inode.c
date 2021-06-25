@@ -14,15 +14,23 @@
 #include "overlayfs.h"
 
 
+<<<<<<< HEAD
 int ovl_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		struct iattr *attr)
+=======
+int ovl_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	bool full_copy_up = false;
 	struct dentry *upperdentry;
 	const struct cred *old_cred;
 
+<<<<<<< HEAD
 	err = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	err = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -80,7 +88,11 @@ int ovl_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 
 		inode_lock(upperdentry->d_inode);
 		old_cred = ovl_override_creds(dentry->d_sb);
+<<<<<<< HEAD
 		err = notify_change(&init_user_ns, upperdentry, attr, NULL);
+=======
+		err = notify_change(upperdentry, attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		revert_creds(old_cred);
 		if (!err)
 			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
@@ -155,8 +167,13 @@ static int ovl_map_dev_ino(struct dentry *dentry, struct kstat *stat, int fsid)
 	return 0;
 }
 
+<<<<<<< HEAD
 int ovl_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		struct kstat *stat, u32 request_mask, unsigned int flags)
+=======
+int ovl_getattr(const struct path *path, struct kstat *stat,
+		u32 request_mask, unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *dentry = path->dentry;
 	enum ovl_path_type type;
@@ -278,8 +295,12 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 int ovl_permission(struct user_namespace *mnt_userns,
 		   struct inode *inode, int mask)
+=======
+int ovl_permission(struct inode *inode, int mask)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *upperinode = ovl_inode_upper(inode);
 	struct inode *realinode = upperinode ?: ovl_inode_lower(inode);
@@ -296,7 +317,11 @@ int ovl_permission(struct user_namespace *mnt_userns,
 	 * Check overlay inode with the creds of task and underlying inode
 	 * with creds of mounter
 	 */
+<<<<<<< HEAD
 	err = generic_permission(&init_user_ns, inode, mask);
+=======
+	err = generic_permission(inode, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -307,7 +332,11 @@ int ovl_permission(struct user_namespace *mnt_userns,
 		/* Make sure mounter can read file for copy up later */
 		mask |= MAY_READ;
 	}
+<<<<<<< HEAD
 	err = inode_permission(&init_user_ns, realinode, mask);
+=======
+	err = inode_permission(realinode, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	revert_creds(old_cred);
 
 	return err;
@@ -355,7 +384,11 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
 
 	if (!value && !upperdentry) {
 		old_cred = ovl_override_creds(dentry->d_sb);
+<<<<<<< HEAD
 		err = vfs_getxattr(&init_user_ns, realdentry, name, NULL, 0);
+=======
+		err = vfs_getxattr(realdentry, name, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		revert_creds(old_cred);
 		if (err < 0)
 			goto out_drop_write;
@@ -371,11 +404,18 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
 
 	old_cred = ovl_override_creds(dentry->d_sb);
 	if (value)
+<<<<<<< HEAD
 		err = vfs_setxattr(&init_user_ns, realdentry, name, value, size,
 				   flags);
 	else {
 		WARN_ON(flags != XATTR_REPLACE);
 		err = vfs_removexattr(&init_user_ns, realdentry, name);
+=======
+		err = vfs_setxattr(realdentry, name, value, size, flags);
+	else {
+		WARN_ON(flags != XATTR_REPLACE);
+		err = vfs_removexattr(realdentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	revert_creds(old_cred);
 
@@ -397,7 +437,11 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
 		ovl_i_dentry_upper(inode) ?: ovl_dentry_lower(dentry);
 
 	old_cred = ovl_override_creds(dentry->d_sb);
+<<<<<<< HEAD
 	res = vfs_getxattr(&init_user_ns, realdentry, name, value, size);
+=======
+	res = vfs_getxattr(realdentry, name, value, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	revert_creds(old_cred);
 	return res;
 }

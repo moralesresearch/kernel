@@ -380,8 +380,11 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
 			   ofs->config.metacopy ? "on" : "off");
 	if (ofs->config.ovl_volatile)
 		seq_puts(m, ",volatile");
+<<<<<<< HEAD
 	if (ofs->config.userxattr)
 		seq_puts(m, ",userxattr");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -805,6 +808,7 @@ retry:
 		 * allowed as upper are limited to "normal" ones, where checking
 		 * for the above two errors is sufficient.
 		 */
+<<<<<<< HEAD
 		err = vfs_removexattr(&init_user_ns, work,
 				      XATTR_NAME_POSIX_ACL_DEFAULT);
 		if (err && err != -ENODATA && err != -EOPNOTSUPP)
@@ -812,12 +816,23 @@ retry:
 
 		err = vfs_removexattr(&init_user_ns, work,
 				      XATTR_NAME_POSIX_ACL_ACCESS);
+=======
+		err = vfs_removexattr(work, XATTR_NAME_POSIX_ACL_DEFAULT);
+		if (err && err != -ENODATA && err != -EOPNOTSUPP)
+			goto out_dput;
+
+		err = vfs_removexattr(work, XATTR_NAME_POSIX_ACL_ACCESS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err && err != -ENODATA && err != -EOPNOTSUPP)
 			goto out_dput;
 
 		/* Clear any inherited mode bits */
 		inode_lock(work->d_inode);
+<<<<<<< HEAD
 		err = notify_change(&init_user_ns, work, &attr, NULL);
+=======
+		err = notify_change(work, &attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode_unlock(work->d_inode);
 		if (err)
 			goto out_dput;
@@ -869,10 +884,13 @@ static int ovl_mount_dir_noesc(const char *name, struct path *path)
 		pr_err("filesystem on '%s' not supported\n", name);
 		goto out_put;
 	}
+<<<<<<< HEAD
 	if (mnt_user_ns(path->mnt) != &init_user_ns) {
 		pr_err("idmapped layers are currently not supported\n");
 		goto out_put;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!d_is_dir(path->dentry)) {
 		pr_err("'%s' not a directory\n", name);
 		goto out_put;
@@ -997,7 +1015,10 @@ ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
 
 static int __maybe_unused
 ovl_posix_acl_xattr_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 			struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct dentry *dentry, struct inode *inode,
 			const char *name, const void *value,
 			size_t size, int flags)
@@ -1023,7 +1044,11 @@ ovl_posix_acl_xattr_set(const struct xattr_handler *handler,
 		goto out_acl_release;
 	}
 	err = -EPERM;
+<<<<<<< HEAD
 	if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+	if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out_acl_release;
 
 	posix_acl_release(acl);
@@ -1035,10 +1060,17 @@ ovl_posix_acl_xattr_set(const struct xattr_handler *handler,
 	if (unlikely(inode->i_mode & S_ISGID) &&
 	    handler->flags == ACL_TYPE_ACCESS &&
 	    !in_group_p(inode->i_gid) &&
+<<<<<<< HEAD
 	    !capable_wrt_inode_uidgid(&init_user_ns, inode, CAP_FSETID)) {
 		struct iattr iattr = { .ia_valid = ATTR_KILL_SGID };
 
 		err = ovl_setattr(&init_user_ns, dentry, &iattr);
+=======
+	    !capable_wrt_inode_uidgid(inode, CAP_FSETID)) {
+		struct iattr iattr = { .ia_valid = ATTR_KILL_SGID };
+
+		err = ovl_setattr(dentry, &iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -1062,7 +1094,10 @@ static int ovl_own_xattr_get(const struct xattr_handler *handler,
 }
 
 static int ovl_own_xattr_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 			     struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     struct dentry *dentry, struct inode *inode,
 			     const char *name, const void *value,
 			     size_t size, int flags)
@@ -1078,7 +1113,10 @@ static int ovl_other_xattr_get(const struct xattr_handler *handler,
 }
 
 static int ovl_other_xattr_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 			       struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       struct dentry *dentry, struct inode *inode,
 			       const char *name, const void *value,
 			       size_t size, int flags)
@@ -1828,8 +1866,12 @@ out_err:
  * - upper/work dir of any overlayfs instance
  */
 static int ovl_check_layer(struct super_block *sb, struct ovl_fs *ofs,
+<<<<<<< HEAD
 			   struct dentry *dentry, const char *name,
 			   bool is_lower)
+=======
+			   struct dentry *dentry, const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *next = dentry, *parent;
 	int err = 0;
@@ -1841,7 +1883,11 @@ static int ovl_check_layer(struct super_block *sb, struct ovl_fs *ofs,
 
 	/* Walk back ancestors to root (inclusive) looking for traps */
 	while (!err && parent != next) {
+<<<<<<< HEAD
 		if (is_lower && ovl_lookup_trap_inode(sb, parent)) {
+=======
+		if (ovl_lookup_trap_inode(sb, parent)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = -ELOOP;
 			pr_err("overlapping %s path\n", name);
 		} else if (ovl_is_inuse(parent)) {
@@ -1867,7 +1913,11 @@ static int ovl_check_overlapping_layers(struct super_block *sb,
 
 	if (ovl_upper_mnt(ofs)) {
 		err = ovl_check_layer(sb, ofs, ovl_upper_mnt(ofs)->mnt_root,
+<<<<<<< HEAD
 				      "upperdir", false);
+=======
+				      "upperdir");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 
@@ -1878,8 +1928,12 @@ static int ovl_check_overlapping_layers(struct super_block *sb,
 		 * workbasedir.  In that case, we already have their traps in
 		 * inode cache and we will catch that case on lookup.
 		 */
+<<<<<<< HEAD
 		err = ovl_check_layer(sb, ofs, ofs->workbasedir, "workdir",
 				      false);
+=======
+		err = ovl_check_layer(sb, ofs, ofs->workbasedir, "workdir");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -1887,7 +1941,11 @@ static int ovl_check_overlapping_layers(struct super_block *sb,
 	for (i = 1; i < ofs->numlayer; i++) {
 		err = ovl_check_layer(sb, ofs,
 				      ofs->layers[i].mnt->mnt_root,
+<<<<<<< HEAD
 				      "lowerdir", true);
+=======
+				      "lowerdir");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}

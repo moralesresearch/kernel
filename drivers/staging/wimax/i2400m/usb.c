@@ -333,8 +333,13 @@ static void i2400mu_get_drvinfo(struct net_device *net_dev,
 	struct i2400mu *i2400mu = container_of(i2400m, struct i2400mu, i2400m);
 	struct usb_device *udev = i2400mu->usb_dev;
 
+<<<<<<< HEAD
 	strscpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
 	strscpy(info->fw_version, i2400m->fw_name ? : "",
+=======
+	strlcpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
+	strlcpy(info->fw_version, i2400m->fw_name ? : "",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sizeof(info->fw_version));
 	usb_make_path(udev, info->bus_info, sizeof(info->bus_info));
 }

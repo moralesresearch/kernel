@@ -9,7 +9,15 @@
 #include "iwl-prph.h"
 
 /* Highest firmware API version supported */
+<<<<<<< HEAD
 #define IWL_22000_UCODE_API_MAX	62
+=======
+<<<<<<< HEAD
+#define IWL_22000_UCODE_API_MAX	62
+=======
+#define IWL_22000_UCODE_API_MAX	59
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Lowest firmware API version supported */
 #define IWL_22000_UCODE_API_MIN	39
@@ -42,10 +50,20 @@
 #define IWL_SNJ_A_GF4_A_FW_PRE		"iwlwifi-SoSnj-a0-gf4-a0-"
 #define IWL_SNJ_A_GF_A_FW_PRE		"iwlwifi-SoSnj-a0-gf-a0-"
 #define IWL_SNJ_A_HR_B_FW_PRE		"iwlwifi-SoSnj-a0-hr-b0-"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_SNJ_A_JF_B_FW_PRE		"iwlwifi-SoSnj-a0-jf-b0-"
 #define IWL_MA_A_HR_B_FW_PRE		"iwlwifi-ma-a0-hr-b0-"
 #define IWL_MA_A_GF_A_FW_PRE		"iwlwifi-ma-a0-gf-a0-"
 #define IWL_MA_A_GF4_A_FW_PRE		"iwlwifi-ma-a0-gf4-a0-"
+<<<<<<< HEAD
+=======
+=======
+#define IWL_MA_A_GF_A_FW_PRE		"iwlwifi-ma-a0-gf-a0-"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_MA_A_MR_A_FW_PRE		"iwlwifi-ma-a0-mr-a0-"
 #define IWL_SNJ_A_MR_A_FW_PRE		"iwlwifi-SoSnj-a0-mr-a0-"
 
@@ -79,6 +97,10 @@
 	IWL_SNJ_A_GF_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_SNJ_A_HR_B_MODULE_FIRMWARE(api) \
 	IWL_SNJ_A_HR_B_FW_PRE __stringify(api) ".ucode"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_SNJ_A_JF_B_MODULE_FIRMWARE(api) \
 	IWL_SNJ_A_JF_B_FW_PRE __stringify(api) ".ucode"
 #define IWL_MA_A_HR_B_FW_MODULE_FIRMWARE(api)		\
@@ -87,6 +109,13 @@
 	IWL_MA_A_GF_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_MA_A_GF4_A_FW_MODULE_FIRMWARE(api)		\
 	IWL_MA_A_GF4_A_FW_PRE __stringify(api) ".ucode"
+<<<<<<< HEAD
+=======
+=======
+#define IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(api) \
+	IWL_MA_A_GF_A_FW_PRE __stringify(api) ".ucode"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_MA_A_MR_A_FW_MODULE_FIRMWARE(api) \
 	IWL_MA_A_MR_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_SNJ_A_MR_A_MODULE_FIRMWARE(api) \
@@ -142,6 +171,13 @@ static const struct iwl_ht_params iwl_22000_ht_params = {
 	.mac_addr_from_csr = true,					\
 	.ht_params = &iwl_22000_ht_params,				\
 	.nvm_ver = IWL_22000_NVM_VERSION,				\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,		\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.trans.use_tfh = true,						\
 	.trans.rf_id = true,						\
 	.trans.gen2 = true,						\
@@ -246,6 +282,10 @@ const struct iwl_cfg_trans_params iwl_qu_long_latency_trans_cfg = {
 	.ltr_delay = IWL_CFG_TRANS_LTR_DELAY_2500US,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg_trans_params iwl_snj_trans_cfg = {
 	.mq_rx_supported = true,
 	.use_tfh = true,
@@ -284,6 +324,11 @@ const struct iwl_cfg_trans_params iwl_so_long_latency_trans_cfg = {
 	.ltr_delay = IWL_CFG_TRANS_LTR_DELAY_2500US,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * If the device doesn't support HE, no need to have that many buffers.
  * 22000 devices can split multiple frames into a single RB, so fewer are
@@ -652,6 +697,10 @@ const struct iwl_cfg iwlax211_cfg_snj_gf_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_snj_hr_b0 = {
 	.fw_name_pre = IWL_SNJ_A_HR_B_FW_PRE,
 	.uhb_supported = true,
@@ -668,6 +717,14 @@ const struct iwl_cfg iwl_cfg_snj_a0_jf_b0 = {
 
 const struct iwl_cfg iwl_cfg_ma_a0_hr_b0 = {
 	.fw_name_pre = IWL_MA_A_HR_B_FW_PRE,
+<<<<<<< HEAD
+=======
+=======
+const struct iwl_cfg iwlax201_cfg_snj_hr_b0 = {
+	.name = iwl_ax201_name,
+	.fw_name_pre = IWL_QU_B_HR_B_FW_PRE,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.uhb_supported = true,
 	IWL_DEVICE_AX210,
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
@@ -680,6 +737,10 @@ const struct iwl_cfg iwl_cfg_ma_a0_gf_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_ma_a0_gf4_a0 = {
 	.fw_name_pre = IWL_MA_A_GF4_A_FW_PRE,
 	.uhb_supported = true,
@@ -687,6 +748,11 @@ const struct iwl_cfg iwl_cfg_ma_a0_gf4_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_ma_a0_mr_a0 = {
 	.fw_name_pre = IWL_MA_A_MR_A_FW_PRE,
 	.uhb_supported = true,
@@ -734,9 +800,19 @@ MODULE_FIRMWARE(IWL_TY_A_GF_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_GF4_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_GF_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE(IWL_SNJ_A_JF_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_HR_B_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_GF4_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+<<<<<<< HEAD
+=======
+=======
+MODULE_FIRMWARE(IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE(IWL_MA_A_MR_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_MR_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));

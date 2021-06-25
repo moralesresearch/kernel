@@ -468,7 +468,10 @@ static void rtl8411_init_common_params(struct rtsx_pcr *pcr)
 	pcr->sd30_drive_sel_1v8 = DRIVER_TYPE_B;
 	pcr->sd30_drive_sel_3v3 = DRIVER_TYPE_D;
 	pcr->aspm_en = ASPM_L1_EN;
+<<<<<<< HEAD
 	pcr->aspm_mode = ASPM_MODE_CFG;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcr->tx_initial_phase = SET_CLOCK_PHASE(23, 7, 14);
 	pcr->rx_initial_phase = SET_CLOCK_PHASE(4, 3, 10);
 	pcr->ic_version = rtl8411_get_ic_version(pcr);

@@ -629,6 +629,10 @@ int close_fd(unsigned fd)
 }
 EXPORT_SYMBOL(close_fd); /* for ksys_close() */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * last_fd - return last valid index into fd table
  * @cur_fds: files struct
@@ -642,17 +646,37 @@ static inline unsigned last_fd(struct fdtable *fdt)
 	return fdt->max_fds - 1;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void __range_cloexec(struct files_struct *cur_fds,
 				   unsigned int fd, unsigned int max_fd)
 {
 	struct fdtable *fdt;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* make sure we're using the correct maximum value */
 	spin_lock(&cur_fds->file_lock);
 	fdt = files_fdtable(cur_fds);
 	max_fd = min(last_fd(fdt), max_fd);
 	if (fd <= max_fd)
 		bitmap_set(fdt->close_on_exec, fd, max_fd - fd + 1);
+<<<<<<< HEAD
+=======
+=======
+	if (fd > max_fd)
+		return;
+
+	spin_lock(&cur_fds->file_lock);
+	fdt = files_fdtable(cur_fds);
+	bitmap_set(fdt->close_on_exec, fd, max_fd - fd + 1);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&cur_fds->file_lock);
 }
 

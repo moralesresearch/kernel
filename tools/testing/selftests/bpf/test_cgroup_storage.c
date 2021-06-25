@@ -29,7 +29,11 @@ int main(int argc, char **argv)
 		BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0,
 			     BPF_FUNC_get_local_storage),
 		BPF_MOV64_IMM(BPF_REG_1, 1),
+<<<<<<< HEAD
 		BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_0, BPF_REG_1, 0),
+=======
+		BPF_STX_XADD(BPF_DW, BPF_REG_0, BPF_REG_1, 0),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BPF_LDX_MEM(BPF_DW, BPF_REG_1, BPF_REG_0, 0),
 		BPF_ALU64_IMM(BPF_AND, BPF_REG_1, 0x1),
 		BPF_MOV64_REG(BPF_REG_0, BPF_REG_1),

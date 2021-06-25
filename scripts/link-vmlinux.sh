@@ -43,6 +43,7 @@ info()
 	fi
 }
 
+<<<<<<< HEAD
 # Generate a linker script to ensure correct ordering of initcalls.
 gen_initcalls()
 {
@@ -68,12 +69,17 @@ gen_symversions()
 	done
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Link of vmlinux.o used for section mismatch analysis
 # ${1} output file
 modpost_link()
 {
 	local objects
+<<<<<<< HEAD
 	local lds=""
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	objects="--whole-archive				\
 		${KBUILD_VMLINUX_OBJS}				\
@@ -82,6 +88,7 @@ modpost_link()
 		${KBUILD_VMLINUX_LIBS}				\
 		--end-group"
 
+<<<<<<< HEAD
 	if [ -n "${CONFIG_LTO_CLANG}" ]; then
 		gen_initcalls
 		lds="-T .tmp_initcalls.lds"
@@ -99,10 +106,14 @@ modpost_link()
 	fi
 
 	${LD} ${KBUILD_LDFLAGS} -r -o ${1} ${lds} ${objects}
+=======
+	${LD} ${KBUILD_LDFLAGS} -r -o ${1} ${objects}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 objtool_link()
 {
+<<<<<<< HEAD
 	local objtoolcmd;
 	local objtoolopt;
 
@@ -133,6 +144,16 @@ objtool_link()
 			objtoolopt="${objtoolopt} --no-fp"
 		fi
 		if [ -n "${CONFIG_GCOV_KERNEL}" ] || [ -n "${CONFIG_LTO_CLANG}" ]; then
+=======
+	local objtoolopt;
+
+	if [ -n "${CONFIG_VMLINUX_VALIDATION}" ]; then
+		objtoolopt="check"
+		if [ -z "${CONFIG_FRAME_POINTER}" ]; then
+			objtoolopt="${objtoolopt} --no-fp"
+		fi
+		if [ -n "${CONFIG_GCOV_KERNEL}" ]; then
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			objtoolopt="${objtoolopt} --no-unreachable"
 		fi
 		if [ -n "${CONFIG_RETPOLINE}" ]; then
@@ -142,7 +163,11 @@ objtool_link()
 			objtoolopt="${objtoolopt} --uaccess"
 		fi
 		info OBJTOOL ${1}
+<<<<<<< HEAD
 		tools/objtool/objtool ${objtoolcmd} ${objtoolopt} ${1}
+=======
+		tools/objtool/objtool ${objtoolopt} ${1}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fi
 }
 
@@ -167,6 +192,7 @@ vmlinux_link()
 	fi
 
 	if [ "${SRCARCH}" != "um" ]; then
+<<<<<<< HEAD
 		if [ -n "${CONFIG_LTO_CLANG}" ]; then
 			# Use vmlinux.o instead of performing the slow LTO
 			# link again.
@@ -183,6 +209,15 @@ vmlinux_link()
 				--end-group			\
 				${@}"
 		fi
+=======
+		objects="--whole-archive			\
+			${KBUILD_VMLINUX_OBJS}			\
+			--no-whole-archive			\
+			--start-group				\
+			${KBUILD_VMLINUX_LIBS}			\
+			--end-group				\
+			${@}"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}	\
 			${strip_debug#-Wl,}			\
@@ -228,7 +263,11 @@ gen_btf()
 	vmlinux_link ${1}
 
 	info "BTF" ${2}
+<<<<<<< HEAD
 	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${1}
+=======
+	LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${1}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	# Create ${2} which contains just .BTF section but no symbols. Add
 	# SHF_ALLOC because .BTF will be part of the vmlinux image. --strip-all
@@ -298,8 +337,11 @@ cleanup()
 {
 	rm -f .btf.*
 	rm -f .tmp_System.map
+<<<<<<< HEAD
 	rm -f .tmp_initcalls.lds
 	rm -f .tmp_symversions.lds
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rm -f .tmp_vmlinux*
 	rm -f System.map
 	rm -f vmlinux
@@ -349,6 +391,10 @@ fi;
 ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
 
 #link vmlinux.o
+<<<<<<< HEAD
+=======
+info LD vmlinux.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 modpost_link vmlinux.o
 objtool_link vmlinux.o
 

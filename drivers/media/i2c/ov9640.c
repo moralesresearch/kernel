@@ -17,7 +17,10 @@
  * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
  */
 
+<<<<<<< HEAD
 #include <linux/clk.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/i2c.h>
@@ -27,6 +30,10 @@
 #include <linux/videodev2.h>
 
 #include <media/v4l2-async.h>
+<<<<<<< HEAD
+=======
+#include <media/v4l2-clk.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <media/v4l2-common.h>
 #include <media/v4l2-ctrls.h>
 #include <media/v4l2-device.h>
@@ -333,13 +340,21 @@ static int ov9640_s_power(struct v4l2_subdev *sd, int on)
 	if (on) {
 		gpiod_set_value(priv->gpio_power, 1);
 		usleep_range(1000, 2000);
+<<<<<<< HEAD
 		ret = clk_prepare_enable(priv->clk);
+=======
+		ret = v4l2_clk_enable(priv->clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usleep_range(1000, 2000);
 		gpiod_set_value(priv->gpio_reset, 0);
 	} else {
 		gpiod_set_value(priv->gpio_reset, 1);
 		usleep_range(1000, 2000);
+<<<<<<< HEAD
 		clk_disable_unprepare(priv->clk);
+=======
+		v4l2_clk_disable(priv->clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usleep_range(1000, 2000);
 		gpiod_set_value(priv->gpio_power, 0);
 	}
@@ -719,7 +734,11 @@ static int ov9640_probe(struct i2c_client *client,
 
 	priv->subdev.ctrl_handler = &priv->hdl;
 
+<<<<<<< HEAD
 	priv->clk = devm_clk_get(&client->dev, "mclk");
+=======
+	priv->clk = v4l2_clk_get(&client->dev, "mclk");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(priv->clk)) {
 		ret = PTR_ERR(priv->clk);
 		goto ectrlinit;
@@ -727,15 +746,28 @@ static int ov9640_probe(struct i2c_client *client,
 
 	ret = ov9640_video_probe(client);
 	if (ret)
+<<<<<<< HEAD
 		goto ectrlinit;
+=======
+		goto eprobe;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv->subdev.dev = &client->dev;
 	ret = v4l2_async_register_subdev(&priv->subdev);
 	if (ret)
+<<<<<<< HEAD
 		goto ectrlinit;
 
 	return 0;
 
+=======
+		goto eprobe;
+
+	return 0;
+
+eprobe:
+	v4l2_clk_put(priv->clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ectrlinit:
 	v4l2_ctrl_handler_free(&priv->hdl);
 
@@ -747,6 +779,10 @@ static int ov9640_remove(struct i2c_client *client)
 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 	struct ov9640_priv *priv = to_ov9640_sensor(sd);
 
+<<<<<<< HEAD
+=======
+	v4l2_clk_put(priv->clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v4l2_async_unregister_subdev(&priv->subdev);
 	v4l2_ctrl_handler_free(&priv->hdl);
 

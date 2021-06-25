@@ -282,6 +282,13 @@ union octeon_cvmemctl {
 extern void octeon_check_cpu_bist(void);
 
 int octeon_prune_device_tree(void);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+extern const char __appended_dtb;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const char __dtb_octeon_3xxx_begin;
 extern const char __dtb_octeon_68xx_begin;
 

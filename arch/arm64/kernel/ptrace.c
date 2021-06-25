@@ -194,7 +194,14 @@ static void ptrace_hbptriggered(struct perf_event *bp,
 		}
 		arm64_force_sig_ptrace_errno_trap(si_errno, bkpt->trigger,
 						  desc);
+<<<<<<< HEAD
 		return;
+=======
+<<<<<<< HEAD
+		return;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 #endif
 	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT, bkpt->trigger, desc);

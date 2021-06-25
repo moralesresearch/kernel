@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
 /*
+<<<<<<< HEAD
  * Copyright (C) 2012-2014, 2018, 2020 Intel Corporation
+=======
+ * Copyright (C) 2012-2014, 2018 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2013-2015 Intel Mobile Communications GmbH
  * Copyright (C) 2016-2017 Intel Deutschland GmbH
  */
@@ -36,6 +40,9 @@
 #include "fw/api/stats.h"
 #include "fw/api/location.h"
 #include "fw/api/tx.h"
+<<<<<<< HEAD
 #include "fw/api/rfi.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __fw_api_h__ */

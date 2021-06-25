@@ -280,7 +280,15 @@ armv8pmu_event_attr_is_visible(struct kobject *kobj,
 	return 0;
 }
 
+<<<<<<< HEAD
 static const struct attribute_group armv8_pmuv3_events_attr_group = {
+=======
+<<<<<<< HEAD
+static const struct attribute_group armv8_pmuv3_events_attr_group = {
+=======
+static struct attribute_group armv8_pmuv3_events_attr_group = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = armv8_pmuv3_event_attrs,
 	.is_visible = armv8pmu_event_attr_is_visible,
@@ -300,7 +308,15 @@ static struct attribute *armv8_pmuv3_format_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group armv8_pmuv3_format_attr_group = {
+=======
+<<<<<<< HEAD
+static const struct attribute_group armv8_pmuv3_format_attr_group = {
+=======
+static struct attribute_group armv8_pmuv3_format_attr_group = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = armv8_pmuv3_format_attrs,
 };
@@ -322,7 +338,15 @@ static struct attribute *armv8_pmuv3_caps_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group armv8_pmuv3_caps_attr_group = {
+=======
+<<<<<<< HEAD
+static const struct attribute_group armv8_pmuv3_caps_attr_group = {
+=======
+static struct attribute_group armv8_pmuv3_caps_attr_group = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "caps",
 	.attrs = armv8_pmuv3_caps_attrs,
 };
@@ -810,7 +834,15 @@ static int armv8pmu_get_single_idx(struct pmu_hw_events *cpuc,
 {
 	int idx;
 
+<<<<<<< HEAD
 	for (idx = ARMV8_IDX_COUNTER0; idx < cpu_pmu->num_events; idx++) {
+=======
+<<<<<<< HEAD
+	for (idx = ARMV8_IDX_COUNTER0; idx < cpu_pmu->num_events; idx++) {
+=======
+	for (idx = ARMV8_IDX_COUNTER0; idx < cpu_pmu->num_events; idx ++) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!test_and_set_bit(idx, cpuc->used_mask))
 			return idx;
 	}
@@ -1188,12 +1220,21 @@ static int armv8_a77_pmu_init(struct arm_pmu *cpu_pmu)
 				       armv8_pmuv3_map_event);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int armv8_a78_pmu_init(struct arm_pmu *cpu_pmu)
 {
 	return armv8_pmu_init_nogroups(cpu_pmu, "armv8_cortex_a78",
 				       armv8_pmuv3_map_event);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int armv8_e1_pmu_init(struct arm_pmu *cpu_pmu)
 {
 	return armv8_pmu_init_nogroups(cpu_pmu, "armv8_neoverse_e1",
@@ -1231,7 +1272,14 @@ static const struct of_device_id armv8_pmu_of_device_ids[] = {
 	{.compatible = "arm,cortex-a75-pmu",	.data = armv8_a75_pmu_init},
 	{.compatible = "arm,cortex-a76-pmu",	.data = armv8_a76_pmu_init},
 	{.compatible = "arm,cortex-a77-pmu",	.data = armv8_a77_pmu_init},
+<<<<<<< HEAD
 	{.compatible = "arm,cortex-a78-pmu",	.data = armv8_a78_pmu_init},
+=======
+<<<<<<< HEAD
+	{.compatible = "arm,cortex-a78-pmu",	.data = armv8_a78_pmu_init},
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{.compatible = "arm,neoverse-e1-pmu",	.data = armv8_e1_pmu_init},
 	{.compatible = "arm,neoverse-n1-pmu",	.data = armv8_n1_pmu_init},
 	{.compatible = "cavium,thunder-pmu",	.data = armv8_thunder_pmu_init},

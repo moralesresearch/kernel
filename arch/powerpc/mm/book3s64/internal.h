@@ -15,6 +15,9 @@ static inline bool stress_slb(void)
 
 void slb_setup_new_exec(void);
 
+<<<<<<< HEAD
 void exit_lazy_flush_tlb(struct mm_struct *mm, bool always_flush);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* ARCH_POWERPC_MM_BOOK3S64_INTERNAL_H */

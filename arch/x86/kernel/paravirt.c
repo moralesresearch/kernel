@@ -135,7 +135,12 @@ unsigned paravirt_patch_default(u8 type, void *insn_buff,
 	else if (opfunc == _paravirt_ident_64)
 		ret = paravirt_patch_ident_64(insn_buff, len);
 
+<<<<<<< HEAD
 	else if (type == PARAVIRT_PATCH(cpu.iret))
+=======
+	else if (type == PARAVIRT_PATCH(cpu.iret) ||
+		 type == PARAVIRT_PATCH(cpu.usergs_sysret64))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* If operation requires a jmp, then jmp */
 		ret = paravirt_patch_jmp(insn_buff, opfunc, addr, len);
 #endif
@@ -169,6 +174,10 @@ static u64 native_steal_clock(int cpu)
 
 /* These are in entry.S */
 extern void native_iret(void);
+<<<<<<< HEAD
+=======
+extern void native_usergs_sysret64(void);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct resource reserve_ioports = {
 	.start = 0,
@@ -308,7 +317,13 @@ struct paravirt_patch_template pv_ops = {
 
 	.cpu.load_sp0		= native_load_sp0,
 
+<<<<<<< HEAD
 	.cpu.iret		= native_iret,
+=======
+	.cpu.usergs_sysret64	= native_usergs_sysret64,
+	.cpu.iret		= native_iret,
+	.cpu.swapgs		= native_swapgs,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_X86_IOPL_IOPERM
 	.cpu.invalidate_io_bitmap	= native_tss_invalidate_io_bitmap,
@@ -320,6 +335,10 @@ struct paravirt_patch_template pv_ops = {
 
 	/* Irq ops. */
 	.irq.save_fl		= __PV_IS_CALLEE_SAVE(native_save_fl),
+<<<<<<< HEAD
+=======
+	.irq.restore_fl		= __PV_IS_CALLEE_SAVE(native_restore_fl),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.irq.irq_disable	= __PV_IS_CALLEE_SAVE(native_irq_disable),
 	.irq.irq_enable		= __PV_IS_CALLEE_SAVE(native_irq_enable),
 	.irq.safe_halt		= native_safe_halt,

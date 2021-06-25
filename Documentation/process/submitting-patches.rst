@@ -551,11 +551,20 @@ which stable kernel versions should receive your fix. This is the preferred
 method for indicating a bug fixed by the patch. See :ref:`describe_changes`
 for more details.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Note: Attaching a Fixes: tag does not subvert the stable kernel rules
 process nor the requirement to Cc: stable@vger.kernel.org on all stable 
 patch candidates. For more information, please read
 :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
      
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .. _the_canonical_patch_format:
 
 The canonical patch format
@@ -679,6 +688,10 @@ generates appropriate diffstats by default.)
 See more details on the proper patch format in the following
 references.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Backtraces in commit mesages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -699,6 +712,11 @@ issue. Here is an example of a well-trimmed backtrace::
   update_domains
   rdtgroup_mkdir
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .. _explicit_in_reply_to:
 
 Explicit In-Reply-To headers
@@ -789,13 +807,29 @@ Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
   <http://www.kroah.com/log/linux/maintainer-06.html>
 
 NO!!!! No more huge patch bombs to linux-kernel@vger.kernel.org people!
+<<<<<<< HEAD
   <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+=======
+<<<<<<< HEAD
+  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+=======
+  <https://lkml.org/lkml/2005/7/11/336>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Kernel Documentation/process/coding-style.rst:
   :ref:`Documentation/process/coding-style.rst <codingstyle>`
 
 Linus Torvalds's mail on the canonical patch format:
+<<<<<<< HEAD
   <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
+=======
+<<<<<<< HEAD
+  <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
+=======
+  <http://lkml.org/lkml/2005/4/7/183>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Andi Kleen, "On submitting kernel patches"
   Some strategies to get difficult or controversial changes in.

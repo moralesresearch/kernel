@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0
 #include <string.h>
+<<<<<<< HEAD
 #include <linux/tcp.h>
 #include <linux/bpf.h>
 #include <netinet/in.h>
+=======
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <linux/bpf.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <bpf/bpf_helpers.h>
 
 char _license[] SEC("license") = "GPL";
@@ -12,10 +18,13 @@ __u32 _version SEC("version") = 1;
 #define PAGE_SIZE 4096
 #endif
 
+<<<<<<< HEAD
 #ifndef SOL_TCP
 #define SOL_TCP IPPROTO_TCP
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SOL_CUSTOM			0xdeadbeef
 
 struct sockopt_sk {
@@ -61,6 +70,7 @@ int _getsockopt(struct bpf_sockopt *ctx)
 		return 1;
 	}
 
+<<<<<<< HEAD
 	if (ctx->level == SOL_TCP && ctx->optname == TCP_ZEROCOPY_RECEIVE) {
 		/* Verify that TCP_ZEROCOPY_RECEIVE triggers.
 		 * It has a custom implementation for performance
@@ -76,6 +86,8 @@ int _getsockopt(struct bpf_sockopt *ctx)
 		return 1;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ctx->level == SOL_IP && ctx->optname == IP_FREEBIND) {
 		if (optval + 1 > optval_end)
 			return 0; /* EPERM, bounds check */

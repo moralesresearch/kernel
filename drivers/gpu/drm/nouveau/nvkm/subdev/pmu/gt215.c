@@ -34,7 +34,11 @@ gt215_pmu_send(struct nvkm_pmu *pmu, u32 reply[2],
 	struct nvkm_device *device = subdev->device;
 	u32 addr;
 
+<<<<<<< HEAD
 	mutex_lock(&pmu->send.mutex);
+=======
+	mutex_lock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* wait for a free slot in the fifo */
 	addr  = nvkm_rd32(device, 0x10a4a0);
 	if (nvkm_msec(device, 2000,
@@ -42,7 +46,11 @@ gt215_pmu_send(struct nvkm_pmu *pmu, u32 reply[2],
 		if (tmp != (addr ^ 8))
 			break;
 	) < 0) {
+<<<<<<< HEAD
 		mutex_unlock(&pmu->send.mutex);
+=======
+		mutex_unlock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EBUSY;
 	}
 
@@ -79,7 +87,11 @@ gt215_pmu_send(struct nvkm_pmu *pmu, u32 reply[2],
 		reply[1] = pmu->recv.data[1];
 	}
 
+<<<<<<< HEAD
 	mutex_unlock(&pmu->send.mutex);
+=======
+	mutex_unlock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -282,8 +294,14 @@ gt215_pmu_fwif[] = {
 };
 
 int
+<<<<<<< HEAD
 gt215_pmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_pmu **ppmu)
 {
 	return nvkm_pmu_new_(gt215_pmu_fwif, device, type, inst, ppmu);
+=======
+gt215_pmu_new(struct nvkm_device *device, int index, struct nvkm_pmu **ppmu)
+{
+	return nvkm_pmu_new_(gt215_pmu_fwif, device, index, ppmu);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

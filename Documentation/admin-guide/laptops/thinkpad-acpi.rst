@@ -51,7 +51,10 @@ detailed description):
 	- UWB enable and disable
 	- LCD Shadow (PrivacyGuard) enable and disable
 	- Lap mode sensor
+<<<<<<< HEAD
 	- Setting keyboard language
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 A compatibility table by model and feature is maintained on the web
 site, http://ibm-acpi.sf.net/. I appreciate any success or failure
@@ -1467,6 +1470,7 @@ Sysfs notes
 	rfkill controller switch "tpacpi_uwb_sw": refer to
 	Documentation/driver-api/rfkill.rst for details.
 
+<<<<<<< HEAD
 
 Setting keyboard language
 -------------------------
@@ -1491,6 +1495,8 @@ nl(Dutch), nn(Norway), pl(Polish), pt(portugese), sl(Slovenian), sv(Sweden),
 tr(Turkey)
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Adaptive keyboard
 -----------------
 

@@ -90,11 +90,27 @@ static ssize_t do_id_store(struct device_driver *drv, const char *buf,
 				list_add(&dax_id->list, &dax_drv->ids);
 			} else
 				rc = -ENOMEM;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (action == ID_REMOVE) {
 		list_del(&dax_id->list);
 		kfree(dax_id);
 	}
+<<<<<<< HEAD
+=======
+=======
+		} else
+			/* nothing to remove */;
+	} else if (action == ID_REMOVE) {
+		list_del(&dax_id->list);
+		kfree(dax_id);
+	} else
+		/* dax_id already added */;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dax_bus_lock);
 
 	if (rc < 0)
@@ -177,10 +193,20 @@ static int dax_bus_remove(struct device *dev)
 	struct dax_device_driver *dax_drv = to_dax_drv(dev->driver);
 	struct dev_dax *dev_dax = to_dev_dax(dev);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dax_drv->remove)
 		dax_drv->remove(dev_dax);
 
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	return dax_drv->remove(dev_dax);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct bus_type dax_bus_type = {
@@ -1393,6 +1419,10 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
 	struct device_driver *drv = &dax_drv->drv;
 	int rc = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * dax_bus_probe() calls dax_drv->probe() unconditionally.
 	 * So better be safe than sorry and ensure it is provided.
@@ -1400,6 +1430,11 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
 	if (!dax_drv->probe)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&dax_drv->ids);
 	drv->owner = module;
 	drv->name = mod_name;
@@ -1417,6 +1452,10 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
 	mutex_unlock(&dax_bus_lock);
 	if (rc)
 		return rc;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = driver_register(drv);
 	if (rc && dax_drv->match_always) {
@@ -1426,6 +1465,12 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
 	}
 
 	return rc;
+<<<<<<< HEAD
+=======
+=======
+	return driver_register(drv);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(__dax_driver_register);
 

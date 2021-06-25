@@ -22,7 +22,11 @@ TRACE_EVENT(radeon_bo_create,
 
 	    TP_fast_assign(
 			   __entry->bo = bo;
+<<<<<<< HEAD
 			   __entry->pages = bo->tbo.mem.num_pages;
+=======
+			   __entry->pages = bo->tbo.num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   ),
 	    TP_printk("bo=%p, pages=%u", __entry->bo, __entry->pages)
 );

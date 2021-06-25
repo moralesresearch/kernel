@@ -156,7 +156,11 @@ void rvt_wss_exit(struct rvt_dev_info *rdi)
 	rdi->wss = NULL;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * rvt_wss_init - Init wss data structures
  *
  * Return: 0 on success
@@ -323,7 +327,10 @@ static void get_map_page(struct rvt_qpn_table *qpt,
 
 /**
  * init_qpn_table - initialize the QP number table for a device
+<<<<<<< HEAD
  * @rdi: rvt dev struct
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @qpt: the QPN table
  */
 static int init_qpn_table(struct rvt_dev_info *rdi, struct rvt_qpn_table *qpt)
@@ -525,7 +532,10 @@ static inline unsigned mk_qpn(struct rvt_qpn_table *qpt,
  *	       IB_QPT_SMI/IB_QPT_GSI
  * @rdi: rvt device info structure
  * @qpt: queue pair number table pointer
+<<<<<<< HEAD
  * @type: the QP type
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @port_num: IB port number, 1 based, comes from core
  * @exclude_prefix: prefix of special queue pair number being allocated
  *
@@ -657,8 +667,13 @@ static void rvt_clear_mr_refs(struct rvt_qp *qp, int clr_sends)
 
 /**
  * rvt_swqe_has_lkey - return true if lkey is used by swqe
+<<<<<<< HEAD
  * @wqe: the send wqe
  * @lkey: the lkey
+=======
+ * @wqe - the send wqe
+ * @lkey - the lkey
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Test the swqe for using lkey
  */
@@ -677,8 +692,13 @@ static bool rvt_swqe_has_lkey(struct rvt_swqe *wqe, u32 lkey)
 
 /**
  * rvt_qp_sends_has_lkey - return true is qp sends use lkey
+<<<<<<< HEAD
  * @qp: the rvt_qp
  * @lkey: the lkey
+=======
+ * @qp - the rvt_qp
+ * @lkey - the lkey
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static bool rvt_qp_sends_has_lkey(struct rvt_qp *qp, u32 lkey)
 {
@@ -701,8 +721,13 @@ static bool rvt_qp_sends_has_lkey(struct rvt_qp *qp, u32 lkey)
 
 /**
  * rvt_qp_acks_has_lkey - return true if acks have lkey
+<<<<<<< HEAD
  * @qp: the qp
  * @lkey: the lkey
+=======
+ * @qp - the qp
+ * @lkey - the lkey
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static bool rvt_qp_acks_has_lkey(struct rvt_qp *qp, u32 lkey)
 {
@@ -718,10 +743,17 @@ static bool rvt_qp_acks_has_lkey(struct rvt_qp *qp, u32 lkey)
 	return false;
 }
 
+<<<<<<< HEAD
 /**
  * rvt_qp_mr_clean - clean up remote ops for lkey
  * @qp: the qp
  * @lkey: the lkey that is being de-registered
+=======
+/*
+ * rvt_qp_mr_clean - clean up remote ops for lkey
+ * @qp - the qp
+ * @lkey - the lkey that is being de-registered
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine checks if the lkey is being used by
  * the qp.
@@ -855,7 +887,10 @@ bail:
 
 /**
  * rvt_init_qp - initialize the QP state to the reset state
+<<<<<<< HEAD
  * @rdi: rvt dev struct
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @qp: the QP to init or reinit
  * @type: the QP type
  *
@@ -910,7 +945,10 @@ static void rvt_init_qp(struct rvt_dev_info *rdi, struct rvt_qp *qp,
 
 /**
  * _rvt_reset_qp - initialize the QP state to the reset state
+<<<<<<< HEAD
  * @rdi: rvt dev struct
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @qp: the QP to reset
  * @type: the QP type
  *
@@ -1730,7 +1768,10 @@ inval:
 /**
  * rvt_destroy_qp - destroy a queue pair
  * @ibqp: the queue pair to destroy
+<<<<<<< HEAD
  * @udata: unused by the driver
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Note that this can be called while the QP is actively sending or
  * receiving!
@@ -1906,9 +1947,15 @@ int rvt_post_recv(struct ib_qp *ibqp, const struct ib_recv_wr *wr,
 
 /**
  * rvt_qp_valid_operation - validate post send wr request
+<<<<<<< HEAD
  * @qp: the qp
  * @post_parms: the post send table for the driver
  * @wr: the work request
+=======
+ * @qp - the qp
+ * @post-parms - the post send table for the driver
+ * @wr - the work request
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The routine validates the operation based on the
  * validation table an returns the length of the operation
@@ -2018,7 +2065,10 @@ static inline int rvt_qp_is_avail(
  * rvt_post_one_wr - post one RC, UC, or UD send work request
  * @qp: the QP to post on
  * @wr: the work request to send
+<<<<<<< HEAD
  * @call_send: kick the send engine into gear
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int rvt_post_one_wr(struct rvt_qp *qp,
 			   const struct ib_send_wr *wr,
@@ -2618,7 +2668,11 @@ EXPORT_SYMBOL(rvt_stop_rc_timers);
 
 /**
  * rvt_stop_rnr_timer - stop an rnr timer
+<<<<<<< HEAD
  * @qp: the QP
+=======
+ * @qp - the QP
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * stop an rnr timer and return if the timer
  * had been pending.

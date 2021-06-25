@@ -154,8 +154,11 @@ static int xrx200_close(struct net_device *net_dev)
 
 static int xrx200_alloc_skb(struct xrx200_chan *ch)
 {
+<<<<<<< HEAD
 	struct sk_buff *skb = ch->skb[ch->dma.desc];
 	dma_addr_t mapping;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	ch->skb[ch->dma.desc] = netdev_alloc_skb_ip_align(ch->priv->net_dev,
@@ -165,18 +168,30 @@ static int xrx200_alloc_skb(struct xrx200_chan *ch)
 		goto skip;
 	}
 
+<<<<<<< HEAD
 	mapping = dma_map_single(ch->priv->dev, ch->skb[ch->dma.desc]->data,
 				 XRX200_DMA_DATA_LEN, DMA_FROM_DEVICE);
 	if (unlikely(dma_mapping_error(ch->priv->dev, mapping))) {
 		dev_kfree_skb_any(ch->skb[ch->dma.desc]);
 		ch->skb[ch->dma.desc] = skb;
+=======
+	ch->dma.desc_base[ch->dma.desc].addr = dma_map_single(ch->priv->dev,
+			ch->skb[ch->dma.desc]->data, XRX200_DMA_DATA_LEN,
+			DMA_FROM_DEVICE);
+	if (unlikely(dma_mapping_error(ch->priv->dev,
+				       ch->dma.desc_base[ch->dma.desc].addr))) {
+		dev_kfree_skb_any(ch->skb[ch->dma.desc]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -ENOMEM;
 		goto skip;
 	}
 
+<<<<<<< HEAD
 	ch->dma.desc_base[ch->dma.desc].addr = mapping;
 	/* Make sure the address is written before we give it to HW */
 	wmb();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 skip:
 	ch->dma.desc_base[ch->dma.desc].ctl =
 		LTQ_DMA_OWN | LTQ_DMA_RX_OFFSET(NET_IP_ALIGN) |
@@ -200,7 +215,10 @@ static int xrx200_hw_receive(struct xrx200_chan *ch)
 	ch->dma.desc %= LTQ_DESC_NUM;
 
 	if (ret) {
+<<<<<<< HEAD
 		net_dev->stats.rx_dropped++;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netdev_err(net_dev, "failed to allocate new rx buffer\n");
 		return ret;
 	}
@@ -353,8 +371,13 @@ static irqreturn_t xrx200_dma_irq(int irq, void *ptr)
 	struct xrx200_chan *ch = ptr;
 
 	if (napi_schedule_prep(&ch->napi)) {
+<<<<<<< HEAD
 		ltq_dma_disable_irq(&ch->dma);
 		__napi_schedule(&ch->napi);
+=======
+		__napi_schedule(&ch->napi);
+		ltq_dma_disable_irq(&ch->dma);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ltq_dma_ack_irq(&ch->dma);

@@ -15,7 +15,10 @@ properties:
     const: "fsl,dpaa2-console"
 
   reg:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: A standard property. Specifies the region where the MCFBA
                 (MC firmware base address) register can be found.
 

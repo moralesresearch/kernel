@@ -433,7 +433,10 @@
 	pinctrl-0 = <&pinctrl_usdhc2>;
 	cd-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
 	wp-gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
+<<<<<<< HEAD
 	vmmc-supply = <&vdd_sd1_reg>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "disabled";
 };
 
@@ -443,6 +446,9 @@
 		     &pinctrl_usdhc3_cdwp>;
 	cd-gpios = <&gpio1 27 GPIO_ACTIVE_LOW>;
 	wp-gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
+<<<<<<< HEAD
 	vmmc-supply = <&vdd_sd0_reg>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "disabled";
 };

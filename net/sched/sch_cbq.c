@@ -1675,8 +1675,12 @@ failure:
 	return err;
 }
 
+<<<<<<< HEAD
 static int cbq_delete(struct Qdisc *sch, unsigned long arg,
 		      struct netlink_ext_ack *extack)
+=======
+static int cbq_delete(struct Qdisc *sch, unsigned long arg)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cbq_sched_data *q = qdisc_priv(sch);
 	struct cbq_class *cl = (struct cbq_class *)arg;

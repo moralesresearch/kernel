@@ -471,8 +471,14 @@ static netdev_tx_t vrf_process_v6_outbound(struct sk_buff *skb,
 
 	skb_dst_drop(skb);
 
+<<<<<<< HEAD
 	/* if dst.dev is the VRF device again this is locally originated traffic
 	 * destined to a local address. Short circuit to Rx path.
+=======
+	/* if dst.dev is loopback or the VRF device again this is locally
+	 * originated traffic destined to a local address. Short circuit
+	 * to Rx path
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (dst->dev == dev)
 		return vrf_local_xmit(skb, dev, dst);
@@ -546,8 +552,14 @@ static netdev_tx_t vrf_process_v4_outbound(struct sk_buff *skb,
 
 	skb_dst_drop(skb);
 
+<<<<<<< HEAD
 	/* if dst.dev is the VRF device again this is locally originated traffic
 	 * destined to a local address. Short circuit to Rx path.
+=======
+	/* if dst.dev is loopback or the VRF device again this is locally
+	 * originated traffic destined to a local address. Short circuit
+	 * to Rx path
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (rt->dst.dev == vrf_dev)
 		return vrf_local_xmit(skb, vrf_dev, &rt->dst);
@@ -1183,6 +1195,12 @@ static int vrf_dev_init(struct net_device *dev)
 
 	dev->flags = IFF_MASTER | IFF_NOARP;
 
+<<<<<<< HEAD
+=======
+	/* MTU is irrelevant for VRF device; set to 64k similar to lo */
+	dev->mtu = 64 * 1024;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* similarly, oper state is irrelevant; set to up to avoid confusion */
 	dev->operstate = IF_OPER_UP;
 	netdev_lockdep_set_classes(dev);
@@ -1682,8 +1700,12 @@ static void vrf_setup(struct net_device *dev)
 	 * which breaks networking.
 	 */
 	dev->min_mtu = IPV6_MIN_MTU;
+<<<<<<< HEAD
 	dev->max_mtu = IP6_MAX_MTU;
 	dev->mtu = dev->max_mtu;
+=======
+	dev->max_mtu = ETH_MAX_MTU;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int vrf_validate(struct nlattr *tb[], struct nlattr *data[],

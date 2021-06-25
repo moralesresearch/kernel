@@ -3125,21 +3125,33 @@ static int tegra_sor_init(struct host1x_client *client)
 		if (err < 0) {
 			dev_err(sor->dev, "failed to acquire SOR reset: %d\n",
 				err);
+<<<<<<< HEAD
 			goto rpm_put;
+=======
+			return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		err = reset_control_assert(sor->rst);
 		if (err < 0) {
 			dev_err(sor->dev, "failed to assert SOR reset: %d\n",
 				err);
+<<<<<<< HEAD
 			goto rpm_put;
+=======
+			return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	err = clk_prepare_enable(sor->clk);
 	if (err < 0) {
 		dev_err(sor->dev, "failed to enable clock: %d\n", err);
+<<<<<<< HEAD
 		goto rpm_put;
+=======
+		return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	usleep_range(1000, 3000);
@@ -3150,7 +3162,11 @@ static int tegra_sor_init(struct host1x_client *client)
 			dev_err(sor->dev, "failed to deassert SOR reset: %d\n",
 				err);
 			clk_disable_unprepare(sor->clk);
+<<<<<<< HEAD
 			goto rpm_put;
+=======
+			return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		reset_control_release(sor->rst);
@@ -3171,12 +3187,15 @@ static int tegra_sor_init(struct host1x_client *client)
 	}
 
 	return 0;
+<<<<<<< HEAD
 
 rpm_put:
 	if (sor->rst)
 		pm_runtime_put(sor->dev);
 
 	return err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int tegra_sor_exit(struct host1x_client *client)
@@ -3922,10 +3941,24 @@ static int tegra_sor_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, sor);
 	pm_runtime_enable(&pdev->dev);
 
+<<<<<<< HEAD
 	host1x_client_init(&sor->client);
 	sor->client.ops = &sor_client_ops;
 	sor->client.dev = &pdev->dev;
 
+=======
+	INIT_LIST_HEAD(&sor->client.list);
+	sor->client.ops = &sor_client_ops;
+	sor->client.dev = &pdev->dev;
+
+	err = host1x_client_register(&sor->client);
+	if (err < 0) {
+		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
+			err);
+		goto rpm_disable;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * On Tegra210 and earlier, provide our own implementation for the
 	 * pad output clock.
@@ -3937,13 +3970,21 @@ static int tegra_sor_probe(struct platform_device *pdev)
 				      sor->index);
 		if (!name) {
 			err = -ENOMEM;
+<<<<<<< HEAD
 			goto uninit;
+=======
+			goto unregister;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		err = host1x_client_resume(&sor->client);
 		if (err < 0) {
 			dev_err(sor->dev, "failed to resume: %d\n", err);
+<<<<<<< HEAD
 			goto uninit;
+=======
+			goto unregister;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		sor->clk_pad = tegra_clk_sor_pad_register(sor, name);
@@ -3954,6 +3995,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
 		err = PTR_ERR(sor->clk_pad);
 		dev_err(sor->dev, "failed to register SOR pad clock: %d\n",
 			err);
+<<<<<<< HEAD
 		goto uninit;
 	}
 
@@ -3962,12 +4004,21 @@ static int tegra_sor_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
 			err);
 		goto uninit;
+=======
+		goto unregister;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 
+<<<<<<< HEAD
 uninit:
 	host1x_client_exit(&sor->client);
+=======
+unregister:
+	host1x_client_unregister(&sor->client);
+rpm_disable:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_disable(&pdev->dev);
 remove:
 	tegra_output_remove(&sor->output);

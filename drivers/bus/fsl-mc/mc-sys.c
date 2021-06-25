@@ -35,7 +35,11 @@ static enum mc_cmd_status mc_cmd_hdr_read_status(struct fsl_mc_command *cmd)
 	return (enum mc_cmd_status)hdr->status;
 }
 
+<<<<<<< HEAD
 u16 mc_cmd_hdr_read_cmdid(struct fsl_mc_command *cmd)
+=======
+static u16 mc_cmd_hdr_read_cmdid(struct fsl_mc_command *cmd)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mc_cmd_header *hdr = (struct mc_cmd_header *)&cmd->header;
 	u16 cmd_id = le16_to_cpu(hdr->cmd_id);

@@ -890,6 +890,7 @@ static void dwc3_debugfs_create_endpoint_files(struct dwc3_ep *dep,
 	}
 }
 
+<<<<<<< HEAD
 void dwc3_debugfs_create_endpoint_dir(struct dwc3_ep *dep)
 {
 	struct dentry		*dir;
@@ -898,6 +899,32 @@ void dwc3_debugfs_create_endpoint_dir(struct dwc3_ep *dep)
 	dwc3_debugfs_create_endpoint_files(dep, dir);
 }
 
+=======
+static void dwc3_debugfs_create_endpoint_dir(struct dwc3_ep *dep,
+		struct dentry *parent)
+{
+	struct dentry		*dir;
+
+	dir = debugfs_create_dir(dep->name, parent);
+	dwc3_debugfs_create_endpoint_files(dep, dir);
+}
+
+static void dwc3_debugfs_create_endpoint_dirs(struct dwc3 *dwc,
+		struct dentry *parent)
+{
+	int			i;
+
+	for (i = 0; i < dwc->num_eps; i++) {
+		struct dwc3_ep	*dep = dwc->eps[i];
+
+		if (!dep)
+			continue;
+
+		dwc3_debugfs_create_endpoint_dir(dep, parent);
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dwc3_debugfs_init(struct dwc3 *dwc)
 {
 	struct dentry		*root;
@@ -928,6 +955,10 @@ void dwc3_debugfs_init(struct dwc3 *dwc)
 				&dwc3_testmode_fops);
 		debugfs_create_file("link_state", 0644, root, dwc,
 				    &dwc3_link_state_fops);
+<<<<<<< HEAD
+=======
+		dwc3_debugfs_create_endpoint_dirs(dwc, root);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

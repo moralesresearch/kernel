@@ -2353,7 +2353,10 @@ static struct pci_dev *pci_scan_device(struct pci_bus *bus, int devfn)
 	pci_set_of_node(dev);
 
 	if (pci_setup_device(dev)) {
+<<<<<<< HEAD
 		pci_release_of_node(dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pci_bus_put(dev->bus);
 		kfree(dev);
 		return NULL;

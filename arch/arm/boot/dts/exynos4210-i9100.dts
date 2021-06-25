@@ -136,7 +136,11 @@
 			compatible = "maxim,max17042";
 
 			interrupt-parent = <&gpx2>;
+<<<<<<< HEAD
 			interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+=======
+			interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			pinctrl-0 = <&max17042_fuel_irq>;
 			pinctrl-names = "default";
@@ -560,6 +564,7 @@
 				regulator-boot-on;
 			};
 
+<<<<<<< HEAD
 			EN32KHZ_AP {
 				regulator-name = "EN32KHZ_AP";
 				regulator-always-on;
@@ -574,10 +579,18 @@
 				regulator-name = "CHARGER";
 				regulator-min-microamp = <200000>;
 				regulator-max-microamp = <950000>;
+=======
+			charger_reg: CHARGER {
+				regulator-name = "CHARGER";
+				regulator-min-microamp = <60000>;
+				regulator-max-microamp = <2580000>;
+				regulator-always-on;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			chargercv_reg: CHARGER_CV {
 				regulator-name = "CHARGER_CV";
+<<<<<<< HEAD
 				regulator-min-microvolt = <4200000>;
 				regulator-max-microvolt = <4200000>;
 				regulator-always-on;
@@ -587,6 +600,20 @@
 				regulator-name = "CHARGER_TOPOFF";
 				regulator-min-microamp = <200000>;
 				regulator-max-microamp = <200000>;
+=======
+				regulator-min-microvolt = <3800000>;
+				regulator-max-microvolt = <4100000>;
+				regulator-always-on;
+			};
+
+			EN32KHZ_AP {
+				regulator-name = "EN32KHZ_AP";
+				regulator-always-on;
+			};
+
+			EN32KHZ_CP {
+				regulator-name = "EN32KHZ_CP";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-always-on;
 			};
 		};

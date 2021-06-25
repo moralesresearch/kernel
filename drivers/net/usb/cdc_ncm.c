@@ -61,7 +61,11 @@ static bool prefer_mbim;
 module_param(prefer_mbim, bool, 0644);
 MODULE_PARM_DESC(prefer_mbim, "Prefer MBIM setting on dual NCM/MBIM functions");
 
+<<<<<<< HEAD
 static void cdc_ncm_txpath_bh(struct tasklet_struct *t);
+=======
+static void cdc_ncm_txpath_bh(unsigned long param);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void cdc_ncm_tx_timeout_start(struct cdc_ncm_ctx *ctx);
 static enum hrtimer_restart cdc_ncm_tx_timer_cb(struct hrtimer *hr_timer);
 static struct usb_driver cdc_ncm_driver;
@@ -813,11 +817,17 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
 	if (!ctx)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ctx->dev = dev;
 
 	hrtimer_init(&ctx->tx_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	ctx->tx_timer.function = &cdc_ncm_tx_timer_cb;
 	tasklet_setup(&ctx->bh, cdc_ncm_txpath_bh);
+=======
+	hrtimer_init(&ctx->tx_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+	ctx->tx_timer.function = &cdc_ncm_tx_timer_cb;
+	tasklet_init(&ctx->bh, cdc_ncm_txpath_bh, (unsigned long)dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&ctx->stop, 0);
 	spin_lock_init(&ctx->mtx);
 
@@ -851,17 +861,29 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
 
 	/* check if we got everything */
 	if (!ctx->data) {
+<<<<<<< HEAD
 		dev_err(&intf->dev, "CDC Union missing and no IAD found\n");
+=======
+		dev_dbg(&intf->dev, "CDC Union missing and no IAD found\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto error;
 	}
 	if (cdc_ncm_comm_intf_is_mbim(intf->cur_altsetting)) {
 		if (!ctx->mbim_desc) {
+<<<<<<< HEAD
 			dev_err(&intf->dev, "MBIM functional descriptor missing\n");
+=======
+			dev_dbg(&intf->dev, "MBIM functional descriptor missing\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 	} else {
 		if (!ctx->ether_desc || !ctx->func_desc) {
+<<<<<<< HEAD
 			dev_err(&intf->dev, "NCM or ECM functional descriptors missing\n");
+=======
+			dev_dbg(&intf->dev, "NCM or ECM functional descriptors missing\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 	}
@@ -870,7 +892,11 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
 	if (ctx->data != ctx->control) {
 		temp = usb_driver_claim_interface(driver, ctx->data, dev);
 		if (temp) {
+<<<<<<< HEAD
 			dev_err(&intf->dev, "failed to claim data intf\n");
+=======
+			dev_dbg(&intf->dev, "failed to claim data intf\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 	}
@@ -926,7 +952,11 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
 	if (ctx->ether_desc) {
 		temp = usbnet_get_ethernet_addr(dev, ctx->ether_desc->iMACAddress);
 		if (temp) {
+<<<<<<< HEAD
 			dev_err(&intf->dev, "failed to get mac address\n");
+=======
+			dev_dbg(&intf->dev, "failed to get mac address\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error2;
 		}
 		dev_info(&intf->dev, "MAC-Address: %pM\n", dev->net->dev_addr);
@@ -1474,10 +1504,17 @@ static enum hrtimer_restart cdc_ncm_tx_timer_cb(struct hrtimer *timer)
 	return HRTIMER_NORESTART;
 }
 
+<<<<<<< HEAD
 static void cdc_ncm_txpath_bh(struct tasklet_struct *t)
 {
 	struct cdc_ncm_ctx *ctx = from_tasklet(ctx, t, bh);
 	struct usbnet *dev = ctx->dev;
+=======
+static void cdc_ncm_txpath_bh(unsigned long param)
+{
+	struct usbnet *dev = (struct usbnet *)param;
+	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_bh(&ctx->mtx);
 	if (ctx->tx_timer_pending != 0) {
@@ -1902,7 +1939,11 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
 static const struct driver_info cdc_ncm_info = {
 	.description = "CDC NCM",
 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
+<<<<<<< HEAD
 			| FLAG_LINK_INTR | FLAG_ETHER,
+=======
+			| FLAG_LINK_INTR,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.bind = cdc_ncm_bind,
 	.unbind = cdc_ncm_unbind,
 	.manage_power = usbnet_manage_power,

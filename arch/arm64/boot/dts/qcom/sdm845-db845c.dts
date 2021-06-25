@@ -1015,7 +1015,11 @@
 		left_spkr: wsa8810-left{
 			compatible = "sdw10217201000";
 			reg = <0 1>;
+<<<<<<< HEAD
 			powerdown-gpios = <&wcdgpio 1 GPIO_ACTIVE_HIGH>;
+=======
+			powerdown-gpios = <&wcdgpio 2 GPIO_ACTIVE_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			#thermal-sensor-cells = <0>;
 			sound-name-prefix = "SpkrLeft";
 			#sound-dai-cells = <0>;
@@ -1023,7 +1027,11 @@
 
 		right_spkr: wsa8810-right{
 			compatible = "sdw10217201000";
+<<<<<<< HEAD
 			powerdown-gpios = <&wcdgpio 1 GPIO_ACTIVE_HIGH>;
+=======
+			powerdown-gpios = <&wcdgpio 2 GPIO_ACTIVE_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			reg = <0 2>;
 			#thermal-sensor-cells = <0>;
 			sound-name-prefix = "SpkrRight";

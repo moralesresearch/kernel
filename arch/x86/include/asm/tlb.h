@@ -4,6 +4,10 @@
 
 #define tlb_start_vma(tlb, vma) do { } while (0)
 #define tlb_end_vma(tlb, vma) do { } while (0)
+<<<<<<< HEAD
+=======
+#define __tlb_remove_tlb_entry(tlb, ptep, address) do { } while (0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define tlb_flush tlb_flush
 static inline void tlb_flush(struct mmu_gather *tlb);

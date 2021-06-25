@@ -58,6 +58,7 @@ struct hl_eq_ecc_data {
 	__u8 pad[7];
 };
 
+<<<<<<< HEAD
 enum hl_sm_sei_cause {
 	SM_SEI_SO_OVERFLOW,
 	SM_SEI_LBW_4B_UNALIGNED,
@@ -71,12 +72,17 @@ struct hl_eq_sm_sei_data {
 	__u8 pad[3];
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct hl_eq_entry {
 	struct hl_eq_header hdr;
 	union {
 		struct hl_eq_ecc_data ecc_data;
 		struct hl_eq_hbm_ecc_data hbm_ecc_data;
+<<<<<<< HEAD
 		struct hl_eq_sm_sei_data sm_sei_data;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__le64 data[7];
 	};
 };

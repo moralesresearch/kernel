@@ -206,13 +206,17 @@ enum node_stat_item {
 	NR_KERNEL_SCS_KB,	/* measured in KiB */
 #endif
 	NR_PAGETABLE,		/* used for pagetables */
+<<<<<<< HEAD
 #ifdef CONFIG_SWAP
 	NR_SWAPCACHE,
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NR_VM_NODE_STAT_ITEMS
 };
 
 /*
+<<<<<<< HEAD
  * Returns true if the item should be printed in THPs (/proc/vmstat
  * currently prints number of anon, file and shmem THPs. But the item
  * is charged in pages).
@@ -230,6 +234,8 @@ static __always_inline bool vmstat_item_print_in_thp(enum node_stat_item item)
 }
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Returns true if the value is measured in bytes (most vmstat values are
  * measured in pages). This defines the API part, the internal representation
  * might be different.
@@ -503,9 +509,12 @@ struct zone {
 	 * bootmem allocator):
 	 *	managed_pages = present_pages - reserved_pages;
 	 *
+<<<<<<< HEAD
 	 * cma pages is present pages that are assigned for CMA use
 	 * (MIGRATE_CMA).
 	 *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * So present_pages may be used by memory hotplug or memory power
 	 * management logic to figure out unmanaged pages by checking
 	 * (present_pages - managed_pages). And managed_pages should be used
@@ -530,9 +539,12 @@ struct zone {
 	atomic_long_t		managed_pages;
 	unsigned long		spanned_pages;
 	unsigned long		present_pages;
+<<<<<<< HEAD
 #ifdef CONFIG_CMA
 	unsigned long		cma_pages;
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	const char		*name;
 
@@ -630,6 +642,7 @@ static inline unsigned long zone_managed_pages(struct zone *zone)
 	return (unsigned long)atomic_long_read(&zone->managed_pages);
 }
 
+<<<<<<< HEAD
 static inline unsigned long zone_cma_pages(struct zone *zone)
 {
 #ifdef CONFIG_CMA
@@ -639,6 +652,8 @@ static inline unsigned long zone_cma_pages(struct zone *zone)
 #endif
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline unsigned long zone_end_pfn(const struct zone *zone)
 {
 	return zone->zone_start_pfn + zone->spanned_pages;
@@ -907,6 +922,11 @@ static inline struct pglist_data *lruvec_pgdat(struct lruvec *lruvec)
 #endif
 }
 
+<<<<<<< HEAD
+=======
+extern unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru, int zone_idx);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_HAVE_MEMORYLESS_NODES
 int local_memory_node(int node_id);
 #else
@@ -918,6 +938,7 @@ static inline int local_memory_node(int node_id) { return node_id; };
  */
 #define zone_idx(zone)		((zone) - (zone)->zone_pgdat->node_zones)
 
+<<<<<<< HEAD
 #ifdef CONFIG_ZONE_DEVICE
 static inline bool zone_is_zone_device(struct zone *zone)
 {
@@ -930,6 +951,8 @@ static inline bool zone_is_zone_device(struct zone *zone)
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Returns true if a zone has pages managed by the buddy allocator.
  * All the reclaim decisions have to use this function rather than
@@ -1318,6 +1341,7 @@ extern size_t mem_section_usage_size(void);
  *      which results in PFN_SECTION_SHIFT equal 6.
  * To sum it up, at least 6 bits are available.
  */
+<<<<<<< HEAD
 #define SECTION_MARKED_PRESENT		(1UL<<0)
 #define SECTION_HAS_MEM_MAP		(1UL<<1)
 #define SECTION_IS_ONLINE		(1UL<<2)
@@ -1326,6 +1350,15 @@ extern size_t mem_section_usage_size(void);
 #define SECTION_MAP_LAST_BIT		(1UL<<5)
 #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
 #define SECTION_NID_SHIFT		3
+=======
+#define	SECTION_MARKED_PRESENT	(1UL<<0)
+#define SECTION_HAS_MEM_MAP	(1UL<<1)
+#define SECTION_IS_ONLINE	(1UL<<2)
+#define SECTION_IS_EARLY	(1UL<<3)
+#define SECTION_MAP_LAST_BIT	(1UL<<4)
+#define SECTION_MAP_MASK	(~(SECTION_MAP_LAST_BIT-1))
+#define SECTION_NID_SHIFT	3
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline struct page *__section_mem_map_addr(struct mem_section *section)
 {
@@ -1364,6 +1397,7 @@ static inline int online_section(struct mem_section *section)
 	return (section && (section->section_mem_map & SECTION_IS_ONLINE));
 }
 
+<<<<<<< HEAD
 static inline int online_device_section(struct mem_section *section)
 {
 	unsigned long flags = SECTION_IS_ONLINE | SECTION_TAINT_ZONE_DEVICE;
@@ -1371,6 +1405,8 @@ static inline int online_device_section(struct mem_section *section)
 	return section && ((section->section_mem_map & flags) == flags);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int online_section_nr(unsigned long nr)
 {
 	return online_section(__nr_to_section(nr));

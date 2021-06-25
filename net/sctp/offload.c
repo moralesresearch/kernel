@@ -68,7 +68,11 @@ static struct sk_buff *sctp_gso_segment(struct sk_buff *skb,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	segs = skb_segment(skb, (features | NETIF_F_HW_CSUM) & ~NETIF_F_SG);
+=======
+	segs = skb_segment(skb, features | NETIF_F_HW_CSUM | NETIF_F_SG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(segs))
 		goto out;
 

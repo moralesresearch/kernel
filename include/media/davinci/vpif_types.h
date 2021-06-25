@@ -48,6 +48,11 @@ struct vpif_display_config {
 	int i2c_adapter_id;
 	struct vpif_display_chan_config chan_config[VPIF_DISPLAY_MAX_CHANNELS];
 	const char *card_name;
+<<<<<<< HEAD
+=======
+	struct v4l2_async_subdev **asd;	/* Flat array, arranged in groups */
+	int *asd_sizes;		/* 0-terminated array of asd group sizes */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct vpif_input {

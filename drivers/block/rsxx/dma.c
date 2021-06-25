@@ -944,7 +944,12 @@ failed_dma_setup:
 			ctrl->done_wq = NULL;
 		}
 
+<<<<<<< HEAD
 		vfree(ctrl->trackers);
+=======
+		if (ctrl->trackers)
+			vfree(ctrl->trackers);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (ctrl->status.buf)
 			dma_free_coherent(&card->dev->dev, STATUS_BUFFER_SIZE8,

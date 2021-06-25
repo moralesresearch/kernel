@@ -138,7 +138,15 @@ int get_c0_fdc_int(void)
 	case CPU_INTERAPTIV:
 	case CPU_PROAPTIV:
 		return -1;
+<<<<<<< HEAD
 	}
+=======
+<<<<<<< HEAD
+	}
+=======
+	};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cpu_has_veic)
 		return -1;

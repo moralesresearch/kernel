@@ -58,6 +58,7 @@ int mpc7448_hpc2_exclude_device(struct pci_controller *hose,
 		return PCIBIOS_SUCCESSFUL;
 }
 
+<<<<<<< HEAD
 static void __init mpc7448_hpc2_setup_pci(void)
 {
 #ifdef CONFIG_PCI
@@ -66,6 +67,18 @@ static void __init mpc7448_hpc2_setup_pci(void)
 		ppc_md.progress("mpc7448_hpc2_setup_pci():set_bridge", 0);
 
 	/* setup PCI host bridge */
+=======
+static void __init mpc7448_hpc2_setup_arch(void)
+{
+	struct device_node *np;
+	if (ppc_md.progress)
+		ppc_md.progress("mpc7448_hpc2_setup_arch():set_bridge", 0);
+
+	tsi108_csr_vir_base = get_vir_csrbase();
+
+	/* setup PCI host bridge */
+#ifdef CONFIG_PCI
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for_each_compatible_node(np, "pci", "tsi108-pci")
 		tsi108_setup_pci(np, MPC7448HPC2_PCI_CFG_PHYS, 0);
 
@@ -73,11 +86,14 @@ static void __init mpc7448_hpc2_setup_pci(void)
 	if (ppc_md.progress)
 		ppc_md.progress("tsi108: resources set", 0x100);
 #endif
+<<<<<<< HEAD
 }
 
 static void __init mpc7448_hpc2_setup_arch(void)
 {
 	tsi108_csr_vir_base = get_vir_csrbase();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	printk(KERN_INFO "MPC7448HPC2 (TAIGA) Platform\n");
 	printk(KERN_INFO
@@ -184,7 +200,10 @@ define_machine(mpc7448_hpc2){
 	.name 			= "MPC7448 HPC2",
 	.probe 			= mpc7448_hpc2_probe,
 	.setup_arch 		= mpc7448_hpc2_setup_arch,
+<<<<<<< HEAD
 	.discover_phbs		= mpc7448_hpc2_setup_pci,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ 		= mpc7448_hpc2_init_IRQ,
 	.show_cpuinfo 		= mpc7448_hpc2_show_cpuinfo,
 	.get_irq 		= mpic_get_irq,

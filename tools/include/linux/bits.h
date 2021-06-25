@@ -22,7 +22,11 @@
 #include <linux/build_bug.h>
 #define GENMASK_INPUT_CHECK(h, l) \
 	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
+<<<<<<< HEAD
 		__is_constexpr((l) > (h)), (l) > (h), 0)))
+=======
+		__builtin_constant_p((l) > (h)), (l) > (h), 0)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 /*
  * BUILD_BUG_ON_ZERO is not available in h files included from asm files,

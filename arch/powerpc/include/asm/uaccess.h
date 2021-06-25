@@ -52,6 +52,14 @@ static inline bool __access_ok(unsigned long addr, unsigned long size)
 	__get_user_nocheck((x), (ptr), sizeof(*(ptr)), true)
 #define __put_user(x, ptr) \
 	__put_user_nocheck((__typeof__(*(ptr)))(x), (ptr), sizeof(*(ptr)))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#define __put_user_goto(x, ptr, label) \
+	__put_user_nocheck_goto((__typeof__(*(ptr)))(x), (ptr), sizeof(*(ptr)), label)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define __get_user_allowed(x, ptr) \
 	__get_user_nocheck((x), (ptr), sizeof(*(ptr)), false)
@@ -108,18 +116,48 @@ static inline bool __access_ok(unsigned long addr, unsigned long size)
 
 extern long __put_user_bad(void);
 
+<<<<<<< HEAD
 #define __put_user_size(x, ptr, size, retval)			\
+=======
+<<<<<<< HEAD
+#define __put_user_size(x, ptr, size, retval)			\
+=======
+#define __put_user_size_allowed(x, ptr, size, retval)		\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 do {								\
 	__label__ __pu_failed;					\
 								\
 	retval = 0;						\
+<<<<<<< HEAD
 	allow_write_to_user(ptr, size);				\
 	__put_user_size_goto(x, ptr, size, __pu_failed);	\
 	prevent_write_to_user(ptr, size);			\
+=======
+<<<<<<< HEAD
+	allow_write_to_user(ptr, size);				\
+	__put_user_size_goto(x, ptr, size, __pu_failed);	\
+	prevent_write_to_user(ptr, size);			\
+=======
+	__put_user_size_goto(x, ptr, size, __pu_failed);	\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	break;							\
 								\
 __pu_failed:							\
 	retval = -EFAULT;					\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+} while (0)
+
+#define __put_user_size(x, ptr, size, retval)			\
+do {								\
+	allow_write_to_user(ptr, size);				\
+	__put_user_size_allowed(x, ptr, size, retval);		\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	prevent_write_to_user(ptr, size);			\
 } while (0)
 
@@ -207,7 +245,15 @@ do {								\
 	}							\
 } while (0)
 
+<<<<<<< HEAD
 #define __unsafe_put_user_goto(x, ptr, size, label)		\
+=======
+<<<<<<< HEAD
+#define __unsafe_put_user_goto(x, ptr, size, label)		\
+=======
+#define __put_user_nocheck_goto(x, ptr, size, label)		\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 do {								\
 	__typeof__(*(ptr)) __user *__pu_addr = (ptr);		\
 	__chk_user_ptr(ptr);					\
@@ -307,6 +353,13 @@ do {								\
 	__chk_user_ptr(__gu_addr);				\
 	if (do_allow && !is_kernel_addr((unsigned long)__gu_addr)) \
 		might_fault();					\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	barrier_nospec();					\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (do_allow)								\
 		__get_user_size(__gu_val, __gu_addr, __gu_size, __gu_err);	\
 	else									\
@@ -324,8 +377,20 @@ do {								\
 	__typeof__(size) __gu_size = (size);				\
 									\
 	might_fault();							\
+<<<<<<< HEAD
 	if (access_ok(__gu_addr, __gu_size))				\
 		__get_user_size(__gu_val, __gu_addr, __gu_size, __gu_err); \
+=======
+<<<<<<< HEAD
+	if (access_ok(__gu_addr, __gu_size))				\
+		__get_user_size(__gu_val, __gu_addr, __gu_size, __gu_err); \
+=======
+	if (access_ok(__gu_addr, __gu_size)) {				\
+		barrier_nospec();					\
+		__get_user_size(__gu_val, __gu_addr, __gu_size, __gu_err); \
+	}								\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	(x) = (__force __typeof__(*(ptr)))__gu_val;				\
 									\
 	__gu_err;							\
@@ -339,6 +404,13 @@ do {								\
 	__typeof__(size) __gu_size = (size);			\
 								\
 	__chk_user_ptr(__gu_addr);				\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	barrier_nospec();					\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__get_user_size(__gu_val, __gu_addr, __gu_size, __gu_err); \
 	(x) = (__force __typeof__(*(ptr)))__gu_val;			\
 								\
@@ -383,6 +455,13 @@ raw_copy_in_user(void __user *to, const void __user *from, unsigned long n)
 {
 	unsigned long ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	barrier_nospec();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	allow_read_write_user(to, from, n);
 	ret = __copy_tofrom_user(to, from, n);
 	prevent_read_write_user(to, from, n);
@@ -394,7 +473,40 @@ static inline unsigned long raw_copy_from_user(void *to,
 		const void __user *from, unsigned long n)
 {
 	unsigned long ret;
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	if (__builtin_constant_p(n) && (n <= 8)) {
+		ret = 1;
+
+		switch (n) {
+		case 1:
+			barrier_nospec();
+			__get_user_size(*(u8 *)to, from, 1, ret);
+			break;
+		case 2:
+			barrier_nospec();
+			__get_user_size(*(u16 *)to, from, 2, ret);
+			break;
+		case 4:
+			barrier_nospec();
+			__get_user_size(*(u32 *)to, from, 4, ret);
+			break;
+		case 8:
+			barrier_nospec();
+			__get_user_size(*(u64 *)to, from, 8, ret);
+			break;
+		}
+		if (ret == 0)
+			return 0;
+	}
+
+	barrier_nospec();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	allow_read_from_user(from, n);
 	ret = __copy_tofrom_user((__force void __user *)to, from, n);
 	prevent_read_from_user(from, n);
@@ -402,12 +514,53 @@ static inline unsigned long raw_copy_from_user(void *to,
 }
 
 static inline unsigned long
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+raw_copy_to_user_allowed(void __user *to, const void *from, unsigned long n)
+{
+	if (__builtin_constant_p(n) && (n <= 8)) {
+		unsigned long ret = 1;
+
+		switch (n) {
+		case 1:
+			__put_user_size_allowed(*(u8 *)from, (u8 __user *)to, 1, ret);
+			break;
+		case 2:
+			__put_user_size_allowed(*(u16 *)from, (u16 __user *)to, 2, ret);
+			break;
+		case 4:
+			__put_user_size_allowed(*(u32 *)from, (u32 __user *)to, 4, ret);
+			break;
+		case 8:
+			__put_user_size_allowed(*(u64 *)from, (u64 __user *)to, 8, ret);
+			break;
+		}
+		if (ret == 0)
+			return 0;
+	}
+
+	return __copy_tofrom_user(to, (__force const void __user *)from, n);
+}
+
+static inline unsigned long
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 raw_copy_to_user(void __user *to, const void *from, unsigned long n)
 {
 	unsigned long ret;
 
 	allow_write_to_user(to, n);
+<<<<<<< HEAD
 	ret = __copy_tofrom_user(to, (__force const void __user *)from, n);
+=======
+<<<<<<< HEAD
+	ret = __copy_tofrom_user(to, (__force const void __user *)from, n);
+=======
+	ret = raw_copy_to_user_allowed(to, from, n);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	prevent_write_to_user(to, n);
 	return ret;
 }
@@ -484,8 +637,17 @@ user_write_access_begin(const void __user *ptr, size_t len)
 
 #define unsafe_op_wrap(op, err) do { if (unlikely(op)) goto err; } while (0)
 #define unsafe_get_user(x, p, e) unsafe_op_wrap(__get_user_allowed(x, p), e)
+<<<<<<< HEAD
 #define unsafe_put_user(x, p, e) \
 	__unsafe_put_user_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+=======
+<<<<<<< HEAD
+#define unsafe_put_user(x, p, e) \
+	__unsafe_put_user_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+=======
+#define unsafe_put_user(x, p, e) __put_user_goto(x, p, e)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define unsafe_copy_to_user(d, s, l, e) \
 do {									\
@@ -495,6 +657,10 @@ do {									\
 	int _i;								\
 									\
 	for (_i = 0; _i < (_len & ~(sizeof(long) - 1)); _i += sizeof(long))		\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsafe_put_user(*(long*)(_src + _i), (long __user *)(_dst + _i), e); \
 	if (IS_ENABLED(CONFIG_PPC64) && (_len & 4)) {			\
 		unsafe_put_user(*(u32*)(_src + _i), (u32 __user *)(_dst + _i), e); \
@@ -506,6 +672,22 @@ do {									\
 	}								\
 	if (_len & 1) \
 		unsafe_put_user(*(u8*)(_src + _i), (u8 __user *)(_dst + _i), e); \
+<<<<<<< HEAD
+=======
+=======
+		__put_user_goto(*(long*)(_src + _i), (long __user *)(_dst + _i), e);\
+	if (IS_ENABLED(CONFIG_PPC64) && (_len & 4)) {			\
+		__put_user_goto(*(u32*)(_src + _i), (u32 __user *)(_dst + _i), e);	\
+		_i += 4;						\
+	}								\
+	if (_len & 2) {							\
+		__put_user_goto(*(u16*)(_src + _i), (u16 __user *)(_dst + _i), e);	\
+		_i += 2;						\
+	}								\
+	if (_len & 1) \
+		__put_user_goto(*(u8*)(_src + _i), (u8 __user *)(_dst + _i), e);\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } while (0)
 
 #define HAVE_GET_KERNEL_NOFAULT

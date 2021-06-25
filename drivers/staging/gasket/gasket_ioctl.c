@@ -40,11 +40,18 @@ static int gasket_set_event_fd(struct gasket_dev *gasket_dev,
 
 /* Read the size of the page table. */
 static int gasket_read_page_table_size(struct gasket_dev *gasket_dev,
+<<<<<<< HEAD
 				       struct gasket_page_table_ioctl __user *argp)
 {
 	int ret = 0;
 	struct gasket_page_table_ioctl ibuf;
 	struct gasket_page_table *table;
+=======
+	struct gasket_page_table_ioctl __user *argp)
+{
+	int ret = 0;
+	struct gasket_page_table_ioctl ibuf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&ibuf, argp, sizeof(struct gasket_page_table_ioctl)))
 		return -EFAULT;
@@ -52,8 +59,13 @@ static int gasket_read_page_table_size(struct gasket_dev *gasket_dev,
 	if (ibuf.page_table_index >= gasket_dev->num_page_tables)
 		return -EFAULT;
 
+<<<<<<< HEAD
 	table = gasket_dev->page_table[ibuf.page_table_index];
 	ibuf.size = gasket_page_table_num_entries(table);
+=======
+	ibuf.size = gasket_page_table_num_entries(
+		gasket_dev->page_table[ibuf.page_table_index]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_gasket_ioctl_page_table_data(ibuf.page_table_index, ibuf.size,
 					   ibuf.host_address,
@@ -67,11 +79,18 @@ static int gasket_read_page_table_size(struct gasket_dev *gasket_dev,
 
 /* Read the size of the simple page table. */
 static int gasket_read_simple_page_table_size(struct gasket_dev *gasket_dev,
+<<<<<<< HEAD
 					      struct gasket_page_table_ioctl __user *argp)
 {
 	int ret = 0;
 	struct gasket_page_table_ioctl ibuf;
 	struct gasket_page_table *table;
+=======
+	struct gasket_page_table_ioctl __user *argp)
+{
+	int ret = 0;
+	struct gasket_page_table_ioctl ibuf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&ibuf, argp, sizeof(struct gasket_page_table_ioctl)))
 		return -EFAULT;
@@ -79,8 +98,13 @@ static int gasket_read_simple_page_table_size(struct gasket_dev *gasket_dev,
 	if (ibuf.page_table_index >= gasket_dev->num_page_tables)
 		return -EFAULT;
 
+<<<<<<< HEAD
 	table = gasket_dev->page_table[ibuf.page_table_index];
 	ibuf.size = gasket_page_table_num_simple_entries(table);
+=======
+	ibuf.size =
+		gasket_page_table_num_simple_entries(gasket_dev->page_table[ibuf.page_table_index]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_gasket_ioctl_page_table_data(ibuf.page_table_index, ibuf.size,
 					   ibuf.host_address,
@@ -94,12 +118,19 @@ static int gasket_read_simple_page_table_size(struct gasket_dev *gasket_dev,
 
 /* Set the boundary between the simple and extended page tables. */
 static int gasket_partition_page_table(struct gasket_dev *gasket_dev,
+<<<<<<< HEAD
 				       struct gasket_page_table_ioctl __user *argp)
+=======
+	struct gasket_page_table_ioctl __user *argp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct gasket_page_table_ioctl ibuf;
 	uint max_page_table_size;
+<<<<<<< HEAD
 	struct gasket_page_table *table;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&ibuf, argp, sizeof(struct gasket_page_table_ioctl)))
 		return -EFAULT;
@@ -110,8 +141,13 @@ static int gasket_partition_page_table(struct gasket_dev *gasket_dev,
 
 	if (ibuf.page_table_index >= gasket_dev->num_page_tables)
 		return -EFAULT;
+<<<<<<< HEAD
 	table = gasket_dev->page_table[ibuf.page_table_index];
 	max_page_table_size = gasket_page_table_max_size(table);
+=======
+	max_page_table_size = gasket_page_table_max_size(
+		gasket_dev->page_table[ibuf.page_table_index]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ibuf.size > max_page_table_size) {
 		dev_dbg(gasket_dev->dev,
@@ -122,7 +158,12 @@ static int gasket_partition_page_table(struct gasket_dev *gasket_dev,
 
 	mutex_lock(&gasket_dev->mutex);
 
+<<<<<<< HEAD
 	ret = gasket_page_table_partition(table, ibuf.size);
+=======
+	ret = gasket_page_table_partition(
+		gasket_dev->page_table[ibuf.page_table_index], ibuf.size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&gasket_dev->mutex);
 
 	return ret;
@@ -133,7 +174,10 @@ static int gasket_map_buffers(struct gasket_dev *gasket_dev,
 			      struct gasket_page_table_ioctl __user *argp)
 {
 	struct gasket_page_table_ioctl ibuf;
+<<<<<<< HEAD
 	struct gasket_page_table *table;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&ibuf, argp, sizeof(struct gasket_page_table_ioctl)))
 		return -EFAULT;
@@ -145,12 +189,22 @@ static int gasket_map_buffers(struct gasket_dev *gasket_dev,
 	if (ibuf.page_table_index >= gasket_dev->num_page_tables)
 		return -EFAULT;
 
+<<<<<<< HEAD
 	table = gasket_dev->page_table[ibuf.page_table_index];
 	if (gasket_page_table_are_addrs_bad(table, ibuf.host_address,
 					    ibuf.device_address, ibuf.size))
 		return -EINVAL;
 
 	return gasket_page_table_map(table, ibuf.host_address, ibuf.device_address,
+=======
+	if (gasket_page_table_are_addrs_bad(gasket_dev->page_table[ibuf.page_table_index],
+					    ibuf.host_address,
+					    ibuf.device_address, ibuf.size))
+		return -EINVAL;
+
+	return gasket_page_table_map(gasket_dev->page_table[ibuf.page_table_index],
+				     ibuf.host_address, ibuf.device_address,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     ibuf.size / PAGE_SIZE);
 }
 
@@ -159,7 +213,10 @@ static int gasket_unmap_buffers(struct gasket_dev *gasket_dev,
 				struct gasket_page_table_ioctl __user *argp)
 {
 	struct gasket_page_table_ioctl ibuf;
+<<<<<<< HEAD
 	struct gasket_page_table *table;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&ibuf, argp, sizeof(struct gasket_page_table_ioctl)))
 		return -EFAULT;
@@ -171,11 +228,20 @@ static int gasket_unmap_buffers(struct gasket_dev *gasket_dev,
 	if (ibuf.page_table_index >= gasket_dev->num_page_tables)
 		return -EFAULT;
 
+<<<<<<< HEAD
 	table = gasket_dev->page_table[ibuf.page_table_index];
 	if (gasket_page_table_is_dev_addr_bad(table, ibuf.device_address, ibuf.size))
 		return -EINVAL;
 
 	gasket_page_table_unmap(table, ibuf.device_address, ibuf.size / PAGE_SIZE);
+=======
+	if (gasket_page_table_is_dev_addr_bad(gasket_dev->page_table[ibuf.page_table_index],
+					      ibuf.device_address, ibuf.size))
+		return -EINVAL;
+
+	gasket_page_table_unmap(gasket_dev->page_table[ibuf.page_table_index],
+				ibuf.device_address, ibuf.size / PAGE_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -185,7 +251,11 @@ static int gasket_unmap_buffers(struct gasket_dev *gasket_dev,
  * corresponding memory.
  */
 static int gasket_config_coherent_allocator(struct gasket_dev *gasket_dev,
+<<<<<<< HEAD
 					    struct gasket_coherent_alloc_config_ioctl __user *argp)
+=======
+	struct gasket_coherent_alloc_config_ioctl __user *argp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct gasket_coherent_alloc_config_ioctl ibuf;

@@ -17,6 +17,9 @@ obj-$(CONFIG_SND_HDA_EXT_CORE) += ext/
 snd-intel-dspcfg-objs := intel-dsp-config.o
 snd-intel-dspcfg-$(CONFIG_SND_INTEL_NHLT) += intel-nhlt.o
 obj-$(CONFIG_SND_INTEL_DSP_CONFIG) += snd-intel-dspcfg.o
+<<<<<<< HEAD
 
 snd-intel-sdw-acpi-objs := intel-sdw-acpi.o
 obj-$(CONFIG_SND_INTEL_SOUNDWIRE_ACPI) += snd-intel-sdw-acpi.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

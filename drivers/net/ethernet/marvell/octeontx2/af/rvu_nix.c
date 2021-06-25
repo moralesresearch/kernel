@@ -16,7 +16,10 @@
 #include "rvu.h"
 #include "npc.h"
 #include "cgx.h"
+<<<<<<< HEAD
 #include "lmac_common.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void nix_free_tx_vtag_entries(struct rvu *rvu, u16 pcifunc);
 static int rvu_nix_get_bpid(struct rvu *rvu, struct nix_bp_cfg_req *req,
@@ -215,7 +218,10 @@ static bool is_valid_txschq(struct rvu *rvu, int blkaddr,
 static int nix_interface_init(struct rvu *rvu, u16 pcifunc, int type, int nixlf)
 {
 	struct rvu_pfvf *pfvf = rvu_get_pfvf(rvu, pcifunc);
+<<<<<<< HEAD
 	struct mac_ops *mac_ops;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int pkind, pf, vf, lbkid;
 	u8 cgx_id, lmac_id;
 	int err;
@@ -235,19 +241,30 @@ static int nix_interface_init(struct rvu *rvu, u16 pcifunc, int type, int nixlf)
 				"PF_Func 0x%x: Invalid pkind\n", pcifunc);
 			return -EINVAL;
 		}
+<<<<<<< HEAD
 		pfvf->rx_chan_base = rvu_nix_chan_cgx(rvu, cgx_id, lmac_id, 0);
+=======
+		pfvf->rx_chan_base = NIX_CHAN_CGX_LMAC_CHX(cgx_id, lmac_id, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pfvf->tx_chan_base = pfvf->rx_chan_base;
 		pfvf->rx_chan_cnt = 1;
 		pfvf->tx_chan_cnt = 1;
 		cgx_set_pkind(rvu_cgx_pdata(cgx_id, rvu), lmac_id, pkind);
 		rvu_npc_set_pkind(rvu, pkind, pfvf);
 
+<<<<<<< HEAD
 		mac_ops = get_mac_ops(rvu_cgx_pdata(cgx_id, rvu));
 		/* By default we enable pause frames */
 		if ((pcifunc & RVU_PFVF_FUNC_MASK) == 0)
 			mac_ops->mac_enadis_pause_frm(rvu_cgx_pdata(cgx_id,
 								    rvu),
 						      lmac_id, true, true);
+=======
+		/* By default we enable pause frames */
+		if ((pcifunc & RVU_PFVF_FUNC_MASK) == 0)
+			cgx_lmac_set_pause_frm(rvu_cgx_pdata(cgx_id, rvu),
+					       lmac_id, true, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case NIX_INTF_TYPE_LBK:
 		vf = (pcifunc & RVU_PFVF_FUNC_MASK) - 1;
@@ -266,10 +283,17 @@ static int nix_interface_init(struct rvu *rvu, u16 pcifunc, int type, int nixlf)
 		 * loopback channels.Therefore if odd number of AF VFs are
 		 * enabled then the last VF remains with no pair.
 		 */
+<<<<<<< HEAD
 		pfvf->rx_chan_base = rvu_nix_chan_lbk(rvu, lbkid, vf);
 		pfvf->tx_chan_base = vf & 0x1 ?
 					rvu_nix_chan_lbk(rvu, lbkid, vf - 1) :
 					rvu_nix_chan_lbk(rvu, lbkid, vf + 1);
+=======
+		pfvf->rx_chan_base = NIX_CHAN_LBK_CHX(lbkid, vf);
+		pfvf->tx_chan_base = vf & 0x1 ?
+					NIX_CHAN_LBK_CHX(lbkid, vf - 1) :
+					NIX_CHAN_LBK_CHX(lbkid, vf + 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pfvf->rx_chan_cnt = 1;
 		pfvf->tx_chan_cnt = 1;
 		rvu_npc_install_promisc_entry(rvu, pcifunc, nixlf,
@@ -1004,6 +1028,7 @@ int rvu_mbox_handler_nix_aq_enq(struct rvu *rvu,
 	return rvu_nix_aq_enq_inst(rvu, req, rsp);
 }
 #endif
+<<<<<<< HEAD
 /* CN10K mbox handler */
 int rvu_mbox_handler_nix_cn10k_aq_enq(struct rvu *rvu,
 				      struct nix_cn10k_aq_enq_req *req,
@@ -1012,6 +1037,8 @@ int rvu_mbox_handler_nix_cn10k_aq_enq(struct rvu *rvu,
 	return rvu_nix_aq_enq_inst(rvu, (struct nix_aq_enq_req *)req,
 				  (struct nix_aq_enq_rsp *)rsp);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int rvu_mbox_handler_nix_hwctx_disable(struct rvu *rvu,
 				       struct hwctx_disable_req *req,
@@ -2547,6 +2574,7 @@ static int nix_af_mark_format_setup(struct rvu *rvu, struct nix_hw *nix_hw,
 	return 0;
 }
 
+<<<<<<< HEAD
 static void rvu_get_lbk_link_max_frs(struct rvu *rvu,  u16 *max_mtu)
 {
 	/* CN10K supports LBK FIFO size 72 KB */
@@ -2584,6 +2612,8 @@ int rvu_mbox_handler_nix_get_hw_info(struct rvu *rvu, struct msg_req *req,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rvu_mbox_handler_nix_stats_rst(struct rvu *rvu, struct msg_req *req,
 				   struct msg_rsp *rsp)
 {
@@ -2629,7 +2659,10 @@ static int set_flowkey_fields(struct nix_rx_flowkey_alg *alg, u32 flow_cfg)
 	struct nix_rx_flowkey_alg *field;
 	struct nix_rx_flowkey_alg tmp;
 	u32 key_type, valid_key;
+<<<<<<< HEAD
 	int l4_key_offset = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!alg)
 		return -EINVAL;
@@ -2762,12 +2795,15 @@ static int set_flowkey_fields(struct nix_rx_flowkey_alg *alg, u32 flow_cfg)
 				field_marker = false;
 				keyoff_marker = false;
 			}
+<<<<<<< HEAD
 
 			/* TCP/UDP/SCTP and ESP/AH falls at same offset so
 			 * remember the TCP key offset of 40 byte hash key.
 			 */
 			if (key_type == NIX_FLOW_KEY_TYPE_TCP)
 				l4_key_offset = key_off;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case NIX_FLOW_KEY_TYPE_NVGRE:
 			field->lid = NPC_LID_LD;
@@ -2839,6 +2875,7 @@ static int set_flowkey_fields(struct nix_rx_flowkey_alg *alg, u32 flow_cfg)
 			field->ltype_mask = 0xF;
 			field->fn_mask = 1; /* Mask out the first nibble */
 			break;
+<<<<<<< HEAD
 		case NIX_FLOW_KEY_TYPE_AH:
 		case NIX_FLOW_KEY_TYPE_ESP:
 			field->hdr_offset = 0;
@@ -2853,17 +2890,22 @@ static int set_flowkey_fields(struct nix_rx_flowkey_alg *alg, u32 flow_cfg)
 				keyoff_marker = false;
 			}
 			break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		field->ena = 1;
 
 		/* Found a valid flow key type */
 		if (valid_key) {
+<<<<<<< HEAD
 			/* Use the key offset of TCP/UDP/SCTP fields
 			 * for ESP/AH fields.
 			 */
 			if (key_type == NIX_FLOW_KEY_TYPE_ESP ||
 			    key_type == NIX_FLOW_KEY_TYPE_AH)
 				key_off = l4_key_offset;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			field->key_offset = key_off;
 			memcpy(&alg[nr_field], field, sizeof(*field));
 			max_key_off = max(max_key_off, field->bytesm1 + 1);
@@ -3148,7 +3190,10 @@ int rvu_mbox_handler_nix_set_hw_frs(struct rvu *rvu, struct nix_frs_cfg *req,
 	u64 cfg, lmac_fifo_len;
 	struct nix_hw *nix_hw;
 	u8 cgx = 0, lmac = 0;
+<<<<<<< HEAD
 	u16 max_mtu;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_NIX, pcifunc);
 	if (blkaddr < 0)
@@ -3158,12 +3203,16 @@ int rvu_mbox_handler_nix_set_hw_frs(struct rvu *rvu, struct nix_frs_cfg *req,
 	if (!nix_hw)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (is_afvf(pcifunc))
 		rvu_get_lbk_link_max_frs(rvu, &max_mtu);
 	else
 		rvu_get_lmac_link_max_frs(rvu, &max_mtu);
 
 	if (!req->sdp_link && req->maxlen > max_mtu)
+=======
+	if (!req->sdp_link && req->maxlen > NIC_HW_MAX_FRS)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NIX_AF_ERR_FRS_INVALID;
 
 	if (req->update_minlen && req->minlen < NIC_HW_MIN_FRS)
@@ -3223,8 +3272,12 @@ linkcfg:
 
 	/* Update transmit credits for CGX links */
 	lmac_fifo_len =
+<<<<<<< HEAD
 		rvu_cgx_get_fifolen(rvu) /
 		cgx_get_lmac_cnt(rvu_cgx_pdata(cgx, rvu));
+=======
+		CGX_FIFO_LEN / cgx_get_lmac_cnt(rvu_cgx_pdata(cgx, rvu));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cfg = rvu_read64(rvu, blkaddr, NIX_AF_TX_LINKX_NORM_CREDIT(link));
 	cfg &= ~(0xFFFFFULL << 12);
 	cfg |=  ((lmac_fifo_len - req->maxlen) / 16) << 12;
@@ -3264,6 +3317,7 @@ int rvu_mbox_handler_nix_set_rx_cfg(struct rvu *rvu, struct nix_rx_cfg *req,
 	return 0;
 }
 
+<<<<<<< HEAD
 static u64 rvu_get_lbk_link_credits(struct rvu *rvu, u16 lbk_max_frs)
 {
 	/* CN10k supports 72KB FIFO size and max packet size of 64k */
@@ -3273,22 +3327,30 @@ static u64 rvu_get_lbk_link_credits(struct rvu *rvu, u16 lbk_max_frs)
 	return 1600; /* 16 * max LBK datarate = 16 * 100Gbps */
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void nix_link_config(struct rvu *rvu, int blkaddr)
 {
 	struct rvu_hwinfo *hw = rvu->hw;
 	int cgx, lmac_cnt, slink, link;
+<<<<<<< HEAD
 	u16 lbk_max_frs, lmac_max_frs;
 	u64 tx_credits;
 
 	rvu_get_lbk_link_max_frs(rvu, &lbk_max_frs);
 	rvu_get_lmac_link_max_frs(rvu, &lmac_max_frs);
 
+=======
+	u64 tx_credits;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Set default min/max packet lengths allowed on NIX Rx links.
 	 *
 	 * With HW reset minlen value of 60byte, HW will treat ARP pkts
 	 * as undersize and report them to SW as error pkts, hence
 	 * setting it to 40 bytes.
 	 */
+<<<<<<< HEAD
 	for (link = 0; link < hw->cgx_links; link++) {
 		rvu_write64(rvu, blkaddr, NIX_AF_RX_LINKX_CFG(link),
 				((u64)lmac_max_frs << 16) | NIC_HW_MIN_FRS);
@@ -3298,6 +3360,13 @@ static void nix_link_config(struct rvu *rvu, int blkaddr)
 		rvu_write64(rvu, blkaddr, NIX_AF_RX_LINKX_CFG(link),
 			    ((u64)lbk_max_frs << 16) | NIC_HW_MIN_FRS);
 	}
+=======
+	for (link = 0; link < (hw->cgx_links + hw->lbk_links); link++) {
+		rvu_write64(rvu, blkaddr, NIX_AF_RX_LINKX_CFG(link),
+			    NIC_HW_MAX_FRS << 16 | NIC_HW_MIN_FRS);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (hw->sdp_links) {
 		link = hw->cgx_links + hw->lbk_links;
 		rvu_write64(rvu, blkaddr, NIX_AF_RX_LINKX_CFG(link),
@@ -3309,8 +3378,12 @@ static void nix_link_config(struct rvu *rvu, int blkaddr)
 	 */
 	for (cgx = 0; cgx < hw->cgx; cgx++) {
 		lmac_cnt = cgx_get_lmac_cnt(rvu_cgx_pdata(cgx, rvu));
+<<<<<<< HEAD
 		tx_credits = ((rvu_cgx_get_fifolen(rvu) / lmac_cnt) -
 			       lmac_max_frs) / 16;
+=======
+		tx_credits = ((CGX_FIFO_LEN / lmac_cnt) - NIC_HW_MAX_FRS) / 16;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Enable credits and set credit pkt count to max allowed */
 		tx_credits =  (tx_credits << 12) | (0x1FF << 2) | BIT_ULL(1);
 		slink = cgx * hw->lmac_per_cgx;
@@ -3324,7 +3397,11 @@ static void nix_link_config(struct rvu *rvu, int blkaddr)
 	/* Set Tx credits for LBK link */
 	slink = hw->cgx_links;
 	for (link = slink; link < (slink + hw->lbk_links); link++) {
+<<<<<<< HEAD
 		tx_credits = rvu_get_lbk_link_credits(rvu, lbk_max_frs);
+=======
+		tx_credits = 1000; /* 10 * max LBK datarate = 10 * 100Gbps */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Enable credits and set credit pkt count to max allowed */
 		tx_credits =  (tx_credits << 12) | (0x1FF << 2) | BIT_ULL(1);
 		rvu_write64(rvu, blkaddr,
@@ -3455,6 +3532,17 @@ static int rvu_nix_block_init(struct rvu *rvu, struct nix_hw *nix_hw)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
+=======
+	/* Set num of links of each type */
+	cfg = rvu_read64(rvu, blkaddr, NIX_AF_CONST);
+	hw->cgx = (cfg >> 12) & 0xF;
+	hw->lmac_per_cgx = (cfg >> 8) & 0xF;
+	hw->cgx_links = hw->cgx * hw->lmac_per_cgx;
+	hw->lbk_links = (cfg >> 24) & 0xF;
+	hw->sdp_links = 1;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Initialize admin queue */
 	err = nix_aq_init(rvu, block);
 	if (err)
@@ -3689,6 +3777,7 @@ static int rvu_nix_lf_ptp_tx_cfg(struct rvu *rvu, u16 pcifunc, bool enable)
 {
 	struct rvu_hwinfo *hw = rvu->hw;
 	struct rvu_block *block;
+<<<<<<< HEAD
 	int blkaddr, pf;
 	int nixlf;
 	u64 cfg;
@@ -3697,6 +3786,12 @@ static int rvu_nix_lf_ptp_tx_cfg(struct rvu *rvu, u16 pcifunc, bool enable)
 	if (!is_mac_feature_supported(rvu, pf, RVU_LMAC_FEAT_PTP))
 		return 0;
 
+=======
+	int blkaddr;
+	int nixlf;
+	u64 cfg;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_NIX, pcifunc);
 	if (blkaddr < 0)
 		return NIX_AF_ERR_AF_LF_INVALID;

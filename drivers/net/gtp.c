@@ -189,10 +189,21 @@ static int gtp_rx(struct pdp_ctx *pctx, struct sk_buff *skb,
 
 	/* Get rid of the GTP + UDP headers. */
 	if (iptunnel_pull_header(skb, hdrlen, skb->protocol,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 !net_eq(sock_net(pctx->sk), dev_net(pctx->dev)))) {
 		pctx->dev->stats.rx_length_errors++;
 		goto err;
 	}
+<<<<<<< HEAD
+=======
+=======
+				 !net_eq(sock_net(pctx->sk), dev_net(pctx->dev))))
+		return -1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netdev_dbg(pctx->dev, "forwarding packet from GGSN to uplink\n");
 
@@ -208,10 +219,19 @@ static int gtp_rx(struct pdp_ctx *pctx, struct sk_buff *skb,
 
 	netif_rx(skb);
 	return 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 err:
 	pctx->dev->stats.rx_dropped++;
 	return -1;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* 1 means pass up to the stack, -1 means drop and 0 means decapsulated. */
@@ -521,6 +541,14 @@ static int gtp_build_skb_ip4(struct sk_buff *skb, struct net_device *dev,
 		goto err_rt;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	skb_dst_drop(skb);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This is similar to tnl_update_pmtu(). */
 	df = iph->frag_off;
 	if (df) {
@@ -595,9 +623,19 @@ static netdev_tx_t gtp_dev_xmit(struct sk_buff *skb, struct net_device *dev)
 				    ip4_dst_hoplimit(&pktinfo.rt->dst),
 				    0,
 				    pktinfo.gtph_port, pktinfo.gtph_port,
+<<<<<<< HEAD
 				    !net_eq(sock_net(pktinfo.pctx->sk),
 					    dev_net(dev)),
 				    false);
+=======
+<<<<<<< HEAD
+				    !net_eq(sock_net(pktinfo.pctx->sk),
+					    dev_net(dev)),
+				    false);
+=======
+				    true, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -615,6 +653,10 @@ static const struct net_device_ops gtp_netdev_ops = {
 	.ndo_get_stats64	= dev_get_tstats64,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct device_type gtp_type = {
 	.name = "gtp",
 };
@@ -632,6 +674,18 @@ static void gtp_link_setup(struct net_device *dev)
 	dev->hard_header_len = 0;
 	dev->addr_len = 0;
 	dev->mtu = ETH_DATA_LEN - max_gtp_header_len;
+<<<<<<< HEAD
+=======
+=======
+static void gtp_link_setup(struct net_device *dev)
+{
+	dev->netdev_ops		= &gtp_netdev_ops;
+	dev->needs_free_netdev	= true;
+
+	dev->hard_header_len = 0;
+	dev->addr_len = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Zero header length. */
 	dev->type = ARPHRD_NONE;
@@ -641,7 +695,19 @@ static void gtp_link_setup(struct net_device *dev)
 	dev->features	|= NETIF_F_LLTX;
 	netif_keep_dst(dev);
 
+<<<<<<< HEAD
 	dev->needed_headroom	= LL_MAX_HEADER + max_gtp_header_len;
+=======
+<<<<<<< HEAD
+	dev->needed_headroom	= LL_MAX_HEADER + max_gtp_header_len;
+=======
+	/* Assume largest header, ie. GTPv0. */
+	dev->needed_headroom	= LL_MAX_HEADER +
+				  sizeof(struct iphdr) +
+				  sizeof(struct udphdr) +
+				  sizeof(struct gtp0_header);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int gtp_hashtable_new(struct gtp_dev *gtp, int hsize);
@@ -738,8 +804,17 @@ static int gtp_validate(struct nlattr *tb[], struct nlattr *data[],
 
 static size_t gtp_get_size(const struct net_device *dev)
 {
+<<<<<<< HEAD
 	return nla_total_size(sizeof(__u32)) + /* IFLA_GTP_PDP_HASHSIZE */
 		nla_total_size(sizeof(__u32)); /* IFLA_GTP_ROLE */
+=======
+<<<<<<< HEAD
+	return nla_total_size(sizeof(__u32)) + /* IFLA_GTP_PDP_HASHSIZE */
+		nla_total_size(sizeof(__u32)); /* IFLA_GTP_ROLE */
+=======
+	return nla_total_size(sizeof(__u32));	/* IFLA_GTP_PDP_HASHSIZE */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int gtp_fill_info(struct sk_buff *skb, const struct net_device *dev)
@@ -748,8 +823,16 @@ static int gtp_fill_info(struct sk_buff *skb, const struct net_device *dev)
 
 	if (nla_put_u32(skb, IFLA_GTP_PDP_HASHSIZE, gtp->hash_size))
 		goto nla_put_failure;
+<<<<<<< HEAD
 	if (nla_put_u32(skb, IFLA_GTP_ROLE, gtp->role))
 		goto nla_put_failure;
+=======
+<<<<<<< HEAD
+	if (nla_put_u32(skb, IFLA_GTP_ROLE, gtp->role))
+		goto nla_put_failure;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 

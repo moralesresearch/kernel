@@ -45,6 +45,10 @@ static DEFINE_MUTEX(devpts_mutex);
 
 static void pty_close(struct tty_struct *tty, struct file *filp)
 {
+<<<<<<< HEAD
+=======
+	BUG_ON(!tty);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tty->driver->subtype == PTY_TYPE_MASTER)
 		WARN_ON(tty->count > 1);
 	else {

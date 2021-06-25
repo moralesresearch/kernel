@@ -885,15 +885,29 @@ static int bcm_sf2_cfp_rule_insert(struct dsa_switch *ds, int port,
 			return -EINVAL;
 
 		vid = be16_to_cpu(fs->h_ext.vlan_tci) & VLAN_VID_MASK;
+<<<<<<< HEAD
 		vlan.vid = vid;
 		if (be32_to_cpu(fs->h_ext.data[1]) & 1)
+=======
+		vlan.vid_begin = vid;
+		vlan.vid_end = vid;
+		if (cpu_to_be32(fs->h_ext.data[1]) & 1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			vlan.flags = BRIDGE_VLAN_INFO_UNTAGGED;
 		else
 			vlan.flags = 0;
 
+<<<<<<< HEAD
 		ret = ds->ops->port_vlan_add(ds, port_num, &vlan, NULL);
 		if (ret)
 			return ret;
+=======
+		ret = ds->ops->port_vlan_prepare(ds, port_num, &vlan);
+		if (ret)
+			return ret;
+
+		ds->ops->port_vlan_add(ds, port_num, &vlan);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -939,7 +953,12 @@ static int bcm_sf2_cfp_rule_set(struct dsa_switch *ds, int port,
 		return -EINVAL;
 
 	if ((fs->flow_type & FLOW_EXT) &&
+<<<<<<< HEAD
 	    !(ds->ops->port_vlan_add || ds->ops->port_vlan_del))
+=======
+	    !(ds->ops->port_vlan_prepare || ds->ops->port_vlan_add ||
+	      ds->ops->port_vlan_del))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	if (fs->location != RX_CLS_LOC_ANY &&

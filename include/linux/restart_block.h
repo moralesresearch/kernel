@@ -23,7 +23,10 @@ enum timespec_type {
  * System call restart block.
  */
 struct restart_block {
+<<<<<<< HEAD
 	unsigned long arch_data;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	long (*fn)(struct restart_block *);
 	union {
 		/* For futex_wait and futex_wait_requeue_pi */

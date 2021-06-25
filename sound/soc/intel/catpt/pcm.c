@@ -331,7 +331,11 @@ static int catpt_dai_apply_usettings(struct snd_soc_dai *dai,
 {
 	struct catpt_dev *cdev = dev_get_drvdata(dai->dev);
 	struct snd_soc_component *component = dai->component;
+<<<<<<< HEAD
 	struct snd_kcontrol *pos;
+=======
+	struct snd_kcontrol *pos, *kctl = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *name;
 	int ret;
 	u32 id = stream->info.stream_hw_id;
@@ -352,6 +356,7 @@ static int catpt_dai_apply_usettings(struct snd_soc_dai *dai,
 		break;
 	default:
 		return 0;
+<<<<<<< HEAD
 	}
 
 	list_for_each_entry(pos, &component->card->snd_card->controls, list) {
@@ -365,6 +370,23 @@ static int catpt_dai_apply_usettings(struct snd_soc_dai *dai,
 	if (stream->template->type != CATPT_STRM_TYPE_LOOPBACK)
 		return catpt_set_dspvol(cdev, id, (long *)pos->private_value);
 	ret = catpt_ipc_mute_loopback(cdev, id, *(bool *)pos->private_value);
+=======
+	};
+
+	list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+		if (pos->private_data == component &&
+		    !strncmp(name, pos->id.name, sizeof(pos->id.name))) {
+			kctl = pos;
+			break;
+		}
+	}
+	if (!kctl)
+		return -ENOENT;
+
+	if (stream->template->type != CATPT_STRM_TYPE_LOOPBACK)
+		return catpt_set_dspvol(cdev, id, (long *)kctl->private_value);
+	ret = catpt_ipc_mute_loopback(cdev, id, *(bool *)kctl->private_value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return CATPT_IPC_ERROR(ret);
 	return 0;

@@ -338,7 +338,11 @@ static const struct power_supply_desc nvec_psy_desc = {
 };
 
 static int counter;
+<<<<<<< HEAD
 static const int bat_iter[] = {
+=======
+static int const bat_iter[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SLOT_STATUS, VOLTAGE, CURRENT, CAPACITY_REMAINING,
 #ifdef EC_FULL_DIAG
 	AVERAGE_CURRENT, TEMPERATURE, TIME_REMAINING,

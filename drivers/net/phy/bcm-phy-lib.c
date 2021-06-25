@@ -369,7 +369,11 @@ EXPORT_SYMBOL_GPL(bcm_phy_enable_apd);
 
 int bcm_phy_set_eee(struct phy_device *phydev, bool enable)
 {
+<<<<<<< HEAD
 	int val, mask = 0;
+=======
+	int val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Enable EEE at PHY level */
 	val = phy_read_mmd(phydev, MDIO_MMD_AN, BRCM_CL45VEN_EEE_CONTROL);
@@ -388,6 +392,7 @@ int bcm_phy_set_eee(struct phy_device *phydev, bool enable)
 	if (val < 0)
 		return val;
 
+<<<<<<< HEAD
 	if (linkmode_test_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
 			      phydev->supported))
 		mask |= MDIO_EEE_1000T;
@@ -399,6 +404,12 @@ int bcm_phy_set_eee(struct phy_device *phydev, bool enable)
 		val |= mask;
 	else
 		val &= ~mask;
+=======
+	if (enable)
+		val |= (MDIO_EEE_100TX | MDIO_EEE_1000T);
+	else
+		val &= ~(MDIO_EEE_100TX | MDIO_EEE_1000T);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	phy_write_mmd(phydev, MDIO_MMD_AN, BCM_CL45VEN_EEE_ADV, (u32)val);
 

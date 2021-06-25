@@ -218,6 +218,11 @@ static int ipip6_tunnel_create(struct net_device *dev)
 
 	ipip6_tunnel_clone_6rd(dev, sitn);
 
+<<<<<<< HEAD
+=======
+	dev_hold(dev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ipip6_tunnel_link(sitn, t);
 	return 0;
 
@@ -1454,7 +1459,11 @@ static int ipip6_tunnel_init(struct net_device *dev)
 		dev->tstats = NULL;
 		return err;
 	}
+<<<<<<< HEAD
 	dev_hold(dev);
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1470,6 +1479,10 @@ static void __net_init ipip6_fb_tunnel_init(struct net_device *dev)
 	iph->ihl		= 5;
 	iph->ttl		= 64;
 
+<<<<<<< HEAD
+=======
+	dev_hold(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_assign_pointer(sitn->tunnels_wc[0], tunnel);
 }
 
@@ -1864,9 +1877,21 @@ static void __net_exit sit_destroy_tunnels(struct net *net,
 		if (dev->rtnl_link_ops == &sit_link_ops)
 			unregister_netdevice_queue(dev, head);
 
+<<<<<<< HEAD
 	for (prio = 0; prio < 4; prio++) {
 		int h;
 		for (h = 0; h < (prio ? IP6_SIT_HASH_SIZE : 1); h++) {
+=======
+<<<<<<< HEAD
+	for (prio = 0; prio < 4; prio++) {
+		int h;
+		for (h = 0; h < (prio ? IP6_SIT_HASH_SIZE : 1); h++) {
+=======
+	for (prio = 1; prio < 4; prio++) {
+		int h;
+		for (h = 0; h < IP6_SIT_HASH_SIZE; h++) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct ip_tunnel *t;
 
 			t = rtnl_dereference(sitn->tunnels[prio][h]);

@@ -243,7 +243,11 @@ static int optee_rng_probe(struct device *dev)
 	if (err)
 		goto out_sess;
 
+<<<<<<< HEAD
 	err = devm_hwrng_register(dev, &pvt_data.optee_rng);
+=======
+	err = hwrng_register(&pvt_data.optee_rng);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		dev_err(dev, "hwrng registration failed (%d)\n", err);
 		goto out_sess;
@@ -263,6 +267,10 @@ out_ctx:
 
 static int optee_rng_remove(struct device *dev)
 {
+<<<<<<< HEAD
+=======
+	hwrng_unregister(&pvt_data.optee_rng);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tee_client_close_session(pvt_data.ctx, pvt_data.session_id);
 	tee_client_close_context(pvt_data.ctx);
 

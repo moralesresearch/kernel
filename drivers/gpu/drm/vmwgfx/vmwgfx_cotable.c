@@ -175,7 +175,11 @@ static int vmw_cotable_unscrub(struct vmw_resource *res)
 	WARN_ON_ONCE(bo->mem.mem_type != VMW_PL_MOB);
 	dma_resv_assert_held(bo->base.resv);
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cmd)
 		return -ENOMEM;
 
@@ -188,7 +192,11 @@ static int vmw_cotable_unscrub(struct vmw_resource *res)
 	cmd->body.mobid = bo->mem.start;
 	cmd->body.validSizeInBytes = vcotbl->size_read_back;
 
+<<<<<<< HEAD
 	vmw_cmd_commit_flush(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit_flush(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vcotbl->scrubbed = false;
 
 	return 0;
@@ -263,7 +271,11 @@ int vmw_cotable_scrub(struct vmw_resource *res, bool readback)
 	if (readback)
 		submit_size += sizeof(*cmd0);
 
+<<<<<<< HEAD
 	cmd1 = VMW_CMD_RESERVE(dev_priv, submit_size);
+=======
+	cmd1 = VMW_FIFO_RESERVE(dev_priv, submit_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cmd1)
 		return -ENOMEM;
 
@@ -283,7 +295,11 @@ int vmw_cotable_scrub(struct vmw_resource *res, bool readback)
 	cmd1->body.type = vcotbl->type;
 	cmd1->body.mobid = SVGA3D_INVALID_ID;
 	cmd1->body.validSizeInBytes = 0;
+<<<<<<< HEAD
 	vmw_cmd_commit_flush(dev_priv, submit_size);
+=======
+	vmw_fifo_commit_flush(dev_priv, submit_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vcotbl->scrubbed = true;
 
 	/* Trigger a create() on next validate. */
@@ -349,7 +365,11 @@ static int vmw_cotable_readback(struct vmw_resource *res)
 	struct vmw_fence_obj *fence;
 
 	if (!vcotbl->scrubbed) {
+<<<<<<< HEAD
 		cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+=======
+		cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!cmd)
 			return -ENOMEM;
 
@@ -358,7 +378,11 @@ static int vmw_cotable_readback(struct vmw_resource *res)
 		cmd->body.cid = vcotbl->ctx->id;
 		cmd->body.type = vcotbl->type;
 		vcotbl->size_read_back = res->backup_size;
+<<<<<<< HEAD
 		vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+		vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	(void) vmw_execbuf_fence_commands(NULL, dev_priv, &fence, NULL);
@@ -430,7 +454,11 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
 	 * Do a page by page copy of COTables. This eliminates slow vmap()s.
 	 * This should really be a TTM utility.
 	 */
+<<<<<<< HEAD
 	for (i = 0; i < old_bo->mem.num_pages; ++i) {
+=======
+	for (i = 0; i < old_bo->num_pages; ++i) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bool dummy;
 
 		ret = ttm_bo_kmap(old_bo, i, 1, &old_map);
@@ -481,15 +509,21 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
 	vmw_bo_unreference(&old_buf);
 	res->id = vcotbl->type;
 
+<<<<<<< HEAD
 	/* Release the pin acquired in vmw_bo_init */
 	ttm_bo_unpin(bo);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 out_map_new:
 	ttm_bo_kunmap(&old_map);
 out_wait:
+<<<<<<< HEAD
 	ttm_bo_unpin(bo);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ttm_bo_unreserve(bo);
 	vmw_bo_unreference(&buf);
 

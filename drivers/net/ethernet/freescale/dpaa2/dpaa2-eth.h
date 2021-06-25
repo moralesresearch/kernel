@@ -693,6 +693,7 @@ static inline unsigned int dpaa2_eth_rx_head_room(struct dpaa2_eth_priv *priv)
 	return priv->tx_data_offset - DPAA2_ETH_RX_HWA_SIZE;
 }
 
+<<<<<<< HEAD
 static inline bool dpaa2_eth_is_type_phy(struct dpaa2_eth_priv *priv)
 {
 	if (priv->mac &&
@@ -708,6 +709,8 @@ static inline bool dpaa2_eth_has_mac(struct dpaa2_eth_priv *priv)
 	return priv->mac ? true : false;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dpaa2_eth_set_hash(struct net_device *net_dev, u64 flags);
 int dpaa2_eth_set_cls(struct net_device *net_dev, u64 key);
 int dpaa2_eth_cls_key_size(u64 key);

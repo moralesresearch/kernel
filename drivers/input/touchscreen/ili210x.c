@@ -87,7 +87,11 @@ static bool ili210x_touchdata_to_coords(const u8 *touchdata,
 					unsigned int *x, unsigned int *y,
 					unsigned int *z)
 {
+<<<<<<< HEAD
 	if (!(touchdata[0] & BIT(finger)))
+=======
+	if (touchdata[0] & BIT(finger))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	*x = get_unaligned_be16(touchdata + 1 + (finger * 4) + 0);

@@ -25,7 +25,11 @@ struct inode;
 struct group_info {
 	atomic_t	usage;
 	int		ngroups;
+<<<<<<< HEAD
 	kgid_t		gid[];
+=======
+	kgid_t		gid[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __randomize_layout;
 
 /**

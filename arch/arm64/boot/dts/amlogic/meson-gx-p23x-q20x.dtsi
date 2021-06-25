@@ -121,7 +121,11 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
+<<<<<<< HEAD
 		model = "P230-Q200";
+=======
+		model = "GX-P230-Q200";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-aux-devs = <&dio2133>;
 		audio-widgets = "Line", "Lineout";
 		audio-routing = "AU2 INL", "ACODEC LOLP",

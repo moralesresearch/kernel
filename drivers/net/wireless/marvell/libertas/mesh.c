@@ -801,6 +801,27 @@ static const struct attribute_group mesh_ie_group = {
 	.attrs = mesh_ie_attrs,
 };
 
+<<<<<<< HEAD
+=======
+static void lbs_persist_config_init(struct net_device *dev)
+{
+	int ret;
+	ret = sysfs_create_group(&(dev->dev.kobj), &boot_opts_group);
+	if (ret)
+		pr_err("failed to create boot_opts_group.\n");
+
+	ret = sysfs_create_group(&(dev->dev.kobj), &mesh_ie_group);
+	if (ret)
+		pr_err("failed to create mesh_ie_group.\n");
+}
+
+static void lbs_persist_config_remove(struct net_device *dev)
+{
+	sysfs_remove_group(&(dev->dev.kobj), &boot_opts_group);
+	sysfs_remove_group(&(dev->dev.kobj), &mesh_ie_group);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /***************************************************************************
  * Initializing and starting, stopping mesh
@@ -996,10 +1017,13 @@ static int lbs_add_mesh(struct lbs_private *priv)
 	SET_NETDEV_DEV(priv->mesh_dev, priv->dev->dev.parent);
 
 	mesh_dev->flags |= IFF_BROADCAST | IFF_MULTICAST;
+<<<<<<< HEAD
 	mesh_dev->sysfs_groups[0] = &lbs_mesh_attr_group;
 	mesh_dev->sysfs_groups[1] = &boot_opts_group;
 	mesh_dev->sysfs_groups[2] = &mesh_ie_group;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Register virtual mesh interface */
 	ret = register_netdev(mesh_dev);
 	if (ret) {
@@ -1007,10 +1031,25 @@ static int lbs_add_mesh(struct lbs_private *priv)
 		goto err_free_netdev;
 	}
 
+<<<<<<< HEAD
+=======
+	ret = sysfs_create_group(&(mesh_dev->dev.kobj), &lbs_mesh_attr_group);
+	if (ret)
+		goto err_unregister;
+
+	lbs_persist_config_init(mesh_dev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Everything successful */
 	ret = 0;
 	goto done;
 
+<<<<<<< HEAD
+=======
+err_unregister:
+	unregister_netdev(mesh_dev);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_netdev:
 	free_netdev(mesh_dev);
 
@@ -1031,6 +1070,11 @@ void lbs_remove_mesh(struct lbs_private *priv)
 
 	netif_stop_queue(mesh_dev);
 	netif_carrier_off(mesh_dev);
+<<<<<<< HEAD
+=======
+	sysfs_remove_group(&(mesh_dev->dev.kobj), &lbs_mesh_attr_group);
+	lbs_persist_config_remove(mesh_dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unregister_netdev(mesh_dev);
 	priv->mesh_dev = NULL;
 	kfree(mesh_dev->ieee80211_ptr);

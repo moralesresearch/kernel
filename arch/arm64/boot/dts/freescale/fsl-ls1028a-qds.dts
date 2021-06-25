@@ -109,6 +109,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &can0 {
 	status = "okay";
 };
@@ -117,6 +118,8 @@
 	status = "okay";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &dspi0 {
 	bus-num = <0>;
 	status = "okay";

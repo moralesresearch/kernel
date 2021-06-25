@@ -269,9 +269,14 @@ unsigned long omap2_get_dpll_rate(struct clk_hw_omap *clk)
 
 /**
  * omap2_dpll_round_rate - round a target rate for an OMAP DPLL
+<<<<<<< HEAD
  * @hw: struct clk_hw containing the struct clk * for a DPLL
  * @target_rate: desired DPLL clock rate
  * @parent_rate: parent's DPLL clock rate
+=======
+ * @clk: struct clk * for a DPLL
+ * @target_rate: desired DPLL clock rate
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Given a DPLL and a desired target rate, round the target rate to a
  * possible, programmable rate for this DPLL.  Attempts to select the

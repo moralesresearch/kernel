@@ -25,6 +25,10 @@
 #ifndef CONFIG_VIRT_CPU_ACCOUNTING_NATIVE
 #define ACCOUNT_CPU_USER_ENTRY(ptr, ra, rb)
 #define ACCOUNT_CPU_USER_EXIT(ptr, ra, rb)
+<<<<<<< HEAD
+=======
+#define ACCOUNT_STOLEN_TIME
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 #define ACCOUNT_CPU_USER_ENTRY(ptr, ra, rb)				\
 	MFTB(ra);			/* get timebase */		\
@@ -43,6 +47,32 @@
 	PPC_LL	ra, ACCOUNT_SYSTEM_TIME(ptr);				\
 	add	ra,ra,rb;		/* add on to system time */	\
 	PPC_STL	ra, ACCOUNT_SYSTEM_TIME(ptr)
+<<<<<<< HEAD
+=======
+
+#ifdef CONFIG_PPC_SPLPAR
+#define ACCOUNT_STOLEN_TIME						\
+BEGIN_FW_FTR_SECTION;							\
+	beq	33f;							\
+	/* from user - see if there are any DTL entries to process */	\
+	ld	r10,PACALPPACAPTR(r13);	/* get ptr to VPA */		\
+	ld	r11,PACA_DTL_RIDX(r13);	/* get log read index */	\
+	addi	r10,r10,LPPACA_DTLIDX;					\
+	LDX_BE	r10,0,r10;		/* get log write index */	\
+	cmpd	cr1,r11,r10;						\
+	beq+	cr1,33f;						\
+	bl	accumulate_stolen_time;				\
+	ld	r12,_MSR(r1);						\
+	andi.	r10,r12,MSR_PR;		/* Restore cr0 (coming from user) */ \
+33:									\
+END_FW_FTR_SECTION_IFSET(FW_FEATURE_SPLPAR)
+
+#else  /* CONFIG_PPC_SPLPAR */
+#define ACCOUNT_STOLEN_TIME
+
+#endif /* CONFIG_PPC_SPLPAR */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_VIRT_CPU_ACCOUNTING_NATIVE */
 
 /*

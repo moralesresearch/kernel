@@ -24,6 +24,7 @@ config SND_SGI_HAL2
 	help
 	  Sound support for the SGI Indy and Indigo2 Workstation.
 
+<<<<<<< HEAD
 config SND_N64
 	bool "N64 Audio"
 	depends on MACH_NINTENDO64 && SND=y
@@ -31,5 +32,7 @@ config SND_N64
 	help
 	  Sound support for the N64.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif	# SND_MIPS
 

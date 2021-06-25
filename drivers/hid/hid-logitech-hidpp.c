@@ -92,8 +92,11 @@ MODULE_PARM_DESC(disable_tap_to_click,
 #define HIDPP_CAPABILITY_BATTERY_MILEAGE	BIT(2)
 #define HIDPP_CAPABILITY_BATTERY_LEVEL_STATUS	BIT(3)
 #define HIDPP_CAPABILITY_BATTERY_VOLTAGE	BIT(4)
+<<<<<<< HEAD
 #define HIDPP_CAPABILITY_BATTERY_PERCENTAGE	BIT(5)
 #define HIDPP_CAPABILITY_UNIFIED_BATTERY	BIT(6)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define lg_map_key_clear(c)  hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
 
@@ -154,7 +157,10 @@ struct hidpp_battery {
 	int voltage;
 	int charge_type;
 	bool online;
+<<<<<<< HEAD
 	u8 supported_levels_1004;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -1174,7 +1180,11 @@ static int hidpp20_batterylevel_get_battery_info(struct hidpp_device *hidpp,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int hidpp20_query_battery_info_1000(struct hidpp_device *hidpp)
+=======
+static int hidpp20_query_battery_info(struct hidpp_device *hidpp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 feature_type;
 	int ret;
@@ -1211,7 +1221,11 @@ static int hidpp20_query_battery_info_1000(struct hidpp_device *hidpp)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int hidpp20_battery_event_1000(struct hidpp_device *hidpp,
+=======
+static int hidpp20_battery_event(struct hidpp_device *hidpp,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 u8 *data, int size)
 {
 	struct hidpp_report *report = (struct hidpp_report *)data;
@@ -1262,7 +1276,10 @@ static int hidpp20_battery_map_status_voltage(u8 data[3], int *voltage,
 	int status;
 
 	long flags = (long) data[2];
+<<<<<<< HEAD
 	*level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (flags & 0x80)
 		switch (flags & 0x07) {
@@ -1384,6 +1401,7 @@ static int hidpp20_battery_voltage_event(struct hidpp_device *hidpp,
 	return 0;
 }
 
+<<<<<<< HEAD
 /* -------------------------------------------------------------------------- */
 /* 0x1004: Unified battery                                                    */
 /* -------------------------------------------------------------------------- */
@@ -1602,6 +1620,8 @@ static int hidpp20_battery_event_1004(struct hidpp_device *hidpp,
 /* Battery feature helpers                                                    */
 /* -------------------------------------------------------------------------- */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum power_supply_property hidpp_battery_props[] = {
 	POWER_SUPPLY_PROP_ONLINE,
 	POWER_SUPPLY_PROP_STATUS,
@@ -3529,10 +3549,14 @@ static int hidpp_raw_hidpp_event(struct hidpp_device *hidpp, u8 *data,
 	}
 
 	if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP20_BATTERY) {
+<<<<<<< HEAD
 		ret = hidpp20_battery_event_1000(hidpp, data, size);
 		if (ret != 0)
 			return ret;
 		ret = hidpp20_battery_event_1004(hidpp, data, size);
+=======
+		ret = hidpp20_battery_event(hidpp, data, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret != 0)
 			return ret;
 		ret = hidpp_solar_battery_event(hidpp, data, size);
@@ -3668,6 +3692,7 @@ static int hidpp_initialize_battery(struct hidpp_device *hidpp)
 		if (hidpp->quirks & HIDPP_QUIRK_CLASS_K750)
 			ret = hidpp_solar_request_battery_event(hidpp);
 		else {
+<<<<<<< HEAD
 			/* we only support one battery feature right now, so let's
 			   first check the ones that support battery level first
 			   and leave voltage for last */
@@ -3676,6 +3701,11 @@ static int hidpp_initialize_battery(struct hidpp_device *hidpp)
 				ret = hidpp20_query_battery_info_1004(hidpp);
 			if (ret)
 				ret = hidpp20_query_battery_voltage_info(hidpp);
+=======
+			ret = hidpp20_query_battery_voltage_info(hidpp);
+			if (ret)
+				ret = hidpp20_query_battery_info(hidpp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (ret)
@@ -3703,8 +3733,12 @@ static int hidpp_initialize_battery(struct hidpp_device *hidpp)
 
 	num_battery_props = ARRAY_SIZE(hidpp_battery_props) - 3;
 
+<<<<<<< HEAD
 	if (hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_MILEAGE ||
 	    hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_PERCENTAGE)
+=======
+	if (hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_MILEAGE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		battery_props[num_battery_props++] =
 				POWER_SUPPLY_PROP_CAPACITY;
 
@@ -3881,10 +3915,15 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
 	} else if (hidpp->capabilities & HIDPP_CAPABILITY_HIDPP20_BATTERY) {
 		if (hidpp->capabilities & HIDPP_CAPABILITY_BATTERY_VOLTAGE)
 			hidpp20_query_battery_voltage_info(hidpp);
+<<<<<<< HEAD
 		else if (hidpp->capabilities & HIDPP_CAPABILITY_UNIFIED_BATTERY)
 			hidpp20_query_battery_info_1004(hidpp);
 		else
 			hidpp20_query_battery_info_1000(hidpp);
+=======
+		else
+			hidpp20_query_battery_info(hidpp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (hidpp->battery.ps)
 		power_supply_changed(hidpp->battery.ps);

@@ -65,7 +65,14 @@
 #include "ebitmap.h"
 #include "audit.h"
 #include "policycap_names.h"
+<<<<<<< HEAD
 #include "ima.h"
+=======
+<<<<<<< HEAD
+#include "ima.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct convert_context_args {
 	struct selinux_state *state;
@@ -1552,7 +1559,14 @@ static int security_context_to_sid_core(struct selinux_state *state,
 		if (!str)
 			goto out;
 	}
+<<<<<<< HEAD
 retry:
+=======
+<<<<<<< HEAD
+retry:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -1566,6 +1580,10 @@ retry:
 	} else if (rc)
 		goto out_unlock;
 	rc = sidtab_context_to_sid(sidtab, &context, sid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc == -ESTALE) {
 		rcu_read_unlock();
 		if (context.str) {
@@ -1575,6 +1593,11 @@ retry:
 		context_destroy(&context);
 		goto retry;
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	context_destroy(&context);
 out_unlock:
 	rcu_read_unlock();
@@ -1724,7 +1747,15 @@ static int security_compute_sid(struct selinux_state *state,
 	struct selinux_policy *policy;
 	struct policydb *policydb;
 	struct sidtab *sidtab;
+<<<<<<< HEAD
 	struct class_datum *cladatum;
+=======
+<<<<<<< HEAD
+	struct class_datum *cladatum;
+=======
+	struct class_datum *cladatum = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct context *scontext, *tcontext, newcontext;
 	struct sidtab_entry *sentry, *tentry;
 	struct avtab_key avkey;
@@ -1746,8 +1777,16 @@ static int security_compute_sid(struct selinux_state *state,
 		goto out;
 	}
 
+<<<<<<< HEAD
 retry:
 	cladatum = NULL;
+=======
+<<<<<<< HEAD
+retry:
+	cladatum = NULL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	context_init(&newcontext);
 
 	rcu_read_lock();
@@ -1892,11 +1931,20 @@ retry:
 	}
 	/* Obtain the sid for the context. */
 	rc = sidtab_context_to_sid(sidtab, &newcontext, out_sid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc == -ESTALE) {
 		rcu_read_unlock();
 		context_destroy(&newcontext);
 		goto retry;
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_unlock:
 	rcu_read_unlock();
 	context_destroy(&newcontext);
@@ -2202,14 +2250,28 @@ static void selinux_notify_policy_change(struct selinux_state *state,
 	selinux_status_update_policyload(state, seqno);
 	selinux_netlbl_cache_invalidate();
 	selinux_xfrm_notify_policyload();
+<<<<<<< HEAD
 	selinux_ima_measure_state(state);
+=======
+<<<<<<< HEAD
+	selinux_ima_measure_state(state);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void selinux_policy_commit(struct selinux_state *state,
 			   struct selinux_load_state *load_state)
 {
 	struct selinux_policy *oldpolicy, *newpolicy = load_state->policy;
+<<<<<<< HEAD
 	unsigned long flags;
+=======
+<<<<<<< HEAD
+	unsigned long flags;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 seqno;
 
 	oldpolicy = rcu_dereference_protected(state->policy,
@@ -2231,6 +2293,10 @@ void selinux_policy_commit(struct selinux_state *state,
 	seqno = newpolicy->latest_granting;
 
 	/* Install the new policy. */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (oldpolicy) {
 		sidtab_freeze_begin(oldpolicy->sidtab, &flags);
 		rcu_assign_pointer(state->policy, newpolicy);
@@ -2238,6 +2304,12 @@ void selinux_policy_commit(struct selinux_state *state,
 	} else {
 		rcu_assign_pointer(state->policy, newpolicy);
 	}
+<<<<<<< HEAD
+=======
+=======
+	rcu_assign_pointer(state->policy, newpolicy);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Load the policycaps from the new policy */
 	security_load_policycaps(state, newpolicy);
@@ -2381,15 +2453,31 @@ int security_port_sid(struct selinux_state *state,
 	struct policydb *policydb;
 	struct sidtab *sidtab;
 	struct ocontext *c;
+<<<<<<< HEAD
 	int rc;
+=======
+<<<<<<< HEAD
+	int rc;
+=======
+	int rc = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!selinux_initialized(state)) {
 		*out_sid = SECINITSID_PORT;
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2408,10 +2496,19 @@ retry:
 		if (!c->sid[0]) {
 			rc = sidtab_context_to_sid(sidtab, &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2438,15 +2535,31 @@ int security_ib_pkey_sid(struct selinux_state *state,
 	struct policydb *policydb;
 	struct sidtab *sidtab;
 	struct ocontext *c;
+<<<<<<< HEAD
 	int rc;
+=======
+<<<<<<< HEAD
+	int rc;
+=======
+	int rc = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!selinux_initialized(state)) {
 		*out_sid = SECINITSID_UNLABELED;
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2467,10 +2580,19 @@ retry:
 			rc = sidtab_context_to_sid(sidtab,
 						   &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2496,15 +2618,31 @@ int security_ib_endport_sid(struct selinux_state *state,
 	struct policydb *policydb;
 	struct sidtab *sidtab;
 	struct ocontext *c;
+<<<<<<< HEAD
 	int rc;
+=======
+<<<<<<< HEAD
+	int rc;
+=======
+	int rc = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!selinux_initialized(state)) {
 		*out_sid = SECINITSID_UNLABELED;
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2525,10 +2663,19 @@ retry:
 		if (!c->sid[0]) {
 			rc = sidtab_context_to_sid(sidtab, &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2552,7 +2699,15 @@ int security_netif_sid(struct selinux_state *state,
 	struct selinux_policy *policy;
 	struct policydb *policydb;
 	struct sidtab *sidtab;
+<<<<<<< HEAD
 	int rc;
+=======
+<<<<<<< HEAD
+	int rc;
+=======
+	int rc = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ocontext *c;
 
 	if (!selinux_initialized(state)) {
@@ -2560,8 +2715,16 @@ int security_netif_sid(struct selinux_state *state,
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2578,18 +2741,36 @@ retry:
 		if (!c->sid[0] || !c->sid[1]) {
 			rc = sidtab_context_to_sid(sidtab, &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 			rc = sidtab_context_to_sid(sidtab, &c->context[1],
 						   &c->sid[1]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2639,7 +2820,14 @@ int security_node_sid(struct selinux_state *state,
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
+=======
+<<<<<<< HEAD
+retry:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2688,10 +2876,19 @@ retry:
 			rc = sidtab_context_to_sid(sidtab,
 						   &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2733,16 +2930,34 @@ int security_get_user_sids(struct selinux_state *state,
 	struct sidtab *sidtab;
 	struct context *fromcon, usercon;
 	u32 *mysids = NULL, *mysids2, sid;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 i, j, mynel, maxnel = SIDS_NEL;
 	struct user_datum *user;
 	struct role_datum *role;
 	struct ebitmap_node *rnode, *tnode;
 	int rc;
+<<<<<<< HEAD
+=======
+=======
+	u32 mynel = 0, maxnel = SIDS_NEL;
+	struct user_datum *user;
+	struct role_datum *role;
+	struct ebitmap_node *rnode, *tnode;
+	int rc = 0, i, j;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*sids = NULL;
 	*nel = 0;
 
 	if (!selinux_initialized(state))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	mysids = kcalloc(maxnel, sizeof(*mysids), GFP_KERNEL);
@@ -2751,6 +2966,13 @@ int security_get_user_sids(struct selinux_state *state,
 
 retry:
 	mynel = 0;
+<<<<<<< HEAD
+=======
+=======
+		goto out;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2770,6 +2992,17 @@ retry:
 
 	usercon.user = user->value;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	rc = -ENOMEM;
+	mysids = kcalloc(maxnel, sizeof(*mysids), GFP_ATOMIC);
+	if (!mysids)
+		goto out_unlock;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ebitmap_for_each_positive_bit(&user->roles, rnode, i) {
 		role = policydb->role_val_to_struct[i];
 		usercon.role = i + 1;
@@ -2781,10 +3014,19 @@ retry:
 				continue;
 
 			rc = sidtab_context_to_sid(sidtab, &usercon, &sid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out_unlock;
 			if (mynel < maxnel) {
@@ -2807,14 +3049,30 @@ out_unlock:
 	rcu_read_unlock();
 	if (rc || !mynel) {
 		kfree(mysids);
+<<<<<<< HEAD
 		return rc;
+=======
+<<<<<<< HEAD
+		return rc;
+=======
+		goto out;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	rc = -ENOMEM;
 	mysids2 = kcalloc(mynel, sizeof(*mysids2), GFP_KERNEL);
 	if (!mysids2) {
 		kfree(mysids);
+<<<<<<< HEAD
 		return rc;
+=======
+<<<<<<< HEAD
+		return rc;
+=======
+		goto out;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	for (i = 0, j = 0; i < mynel; i++) {
 		struct av_decision dummy_avd;
@@ -2827,10 +3085,25 @@ out_unlock:
 			mysids2[j++] = mysids[i];
 		cond_resched();
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(mysids);
 	*sids = mysids2;
 	*nel = j;
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+	rc = 0;
+	kfree(mysids);
+	*sids = mysids2;
+	*nel = j;
+out:
+	return rc;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -2843,9 +3116,18 @@ out_unlock:
  * Obtain a SID to use for a file in a filesystem that
  * cannot support xattr or use a fixed labeling behavior like
  * transition SIDs or task SIDs.
+<<<<<<< HEAD
  *
  * WARNING: This function may return -ESTALE, indicating that the caller
  * must retry the operation after re-acquiring the policy pointer!
+=======
+<<<<<<< HEAD
+ *
+ * WARNING: This function may return -ESTALE, indicating that the caller
+ * must retry the operation after re-acquiring the policy pointer!
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static inline int __security_genfs_sid(struct selinux_policy *policy,
 				       const char *fstype,
@@ -2924,6 +3206,10 @@ int security_genfs_sid(struct selinux_state *state,
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		rcu_read_lock();
 		policy = rcu_dereference(state->policy);
@@ -2931,6 +3217,16 @@ int security_genfs_sid(struct selinux_state *state,
 					      orig_sclass, sid);
 		rcu_read_unlock();
 	} while (retval == -ESTALE);
+<<<<<<< HEAD
+=======
+=======
+	rcu_read_lock();
+	policy = rcu_dereference(state->policy);
+	retval = __security_genfs_sid(policy,
+				fstype, path, orig_sclass, sid);
+	rcu_read_unlock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return retval;
 }
 
@@ -2953,7 +3249,15 @@ int security_fs_use(struct selinux_state *state, struct super_block *sb)
 	struct selinux_policy *policy;
 	struct policydb *policydb;
 	struct sidtab *sidtab;
+<<<<<<< HEAD
 	int rc;
+=======
+<<<<<<< HEAD
+	int rc;
+=======
+	int rc = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ocontext *c;
 	struct superblock_security_struct *sbsec = sb->s_security;
 	const char *fstype = sb->s_type->name;
@@ -2964,8 +3268,16 @@ int security_fs_use(struct selinux_state *state, struct super_block *sb)
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -2983,10 +3295,19 @@ retry:
 		if (!c->sid[0]) {
 			rc = sidtab_context_to_sid(sidtab, &c->context[0],
 						   &c->sid[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == -ESTALE) {
 				rcu_read_unlock();
 				goto retry;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				goto out;
 		}
@@ -2994,10 +3315,19 @@ retry:
 	} else {
 		rc = __security_genfs_sid(policy, fstype, "/",
 					SECCLASS_DIR, &sbsec->sid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc == -ESTALE) {
 			rcu_read_unlock();
 			goto retry;
 		}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc) {
 			sbsec->behavior = SECURITY_FS_USE_NONE;
 			rc = 0;
@@ -3207,6 +3537,10 @@ int security_sid_mls_copy(struct selinux_state *state,
 	u32 len;
 	int rc;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!selinux_initialized(state)) {
 		*new_sid = sid;
 		return 0;
@@ -3214,6 +3548,17 @@ int security_sid_mls_copy(struct selinux_state *state,
 
 retry:
 	rc = 0;
+<<<<<<< HEAD
+=======
+=======
+	rc = 0;
+	if (!selinux_initialized(state)) {
+		*new_sid = sid;
+		goto out;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	context_init(&newcon);
 
 	rcu_read_lock();
@@ -3272,6 +3617,10 @@ retry:
 		}
 	}
 	rc = sidtab_context_to_sid(sidtab, &newcon, new_sid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc == -ESTALE) {
 		rcu_read_unlock();
 		context_destroy(&newcon);
@@ -3280,6 +3629,15 @@ retry:
 out_unlock:
 	rcu_read_unlock();
 	context_destroy(&newcon);
+<<<<<<< HEAD
+=======
+=======
+out_unlock:
+	rcu_read_unlock();
+	context_destroy(&newcon);
+out:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -3790,11 +4148,29 @@ out:
 	return match;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int aurule_avc_callback(u32 event)
 {
 	if (event == AVC_CALLBACK_RESET)
 		return audit_update_lsm_rules();
 	return 0;
+<<<<<<< HEAD
+=======
+=======
+static int (*aurule_callback)(void) = audit_update_lsm_rules;
+
+static int aurule_avc_callback(u32 event)
+{
+	int err = 0;
+
+	if (event == AVC_CALLBACK_RESET && aurule_callback)
+		err = aurule_callback();
+	return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __init aurule_init(void)
@@ -3872,8 +4248,16 @@ int security_netlbl_secattr_to_sid(struct selinux_state *state,
 		return 0;
 	}
 
+<<<<<<< HEAD
 retry:
 	rc = 0;
+=======
+<<<<<<< HEAD
+retry:
+	rc = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
@@ -3900,6 +4284,10 @@ retry:
 				goto out;
 		}
 		rc = -EIDRM;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!mls_context_isvalid(policydb, &ctx_new)) {
 			ebitmap_destroy(&ctx_new.range.level[0].cat);
 			goto out;
@@ -3918,6 +4306,28 @@ retry:
 	} else
 		*sid = SECSID_NULL;
 
+<<<<<<< HEAD
+=======
+=======
+		if (!mls_context_isvalid(policydb, &ctx_new))
+			goto out_free;
+
+		rc = sidtab_context_to_sid(sidtab, &ctx_new, sid);
+		if (rc)
+			goto out_free;
+
+		security_netlbl_cache_add(secattr, *sid);
+
+		ebitmap_destroy(&ctx_new.range.level[0].cat);
+	} else
+		*sid = SECSID_NULL;
+
+	rcu_read_unlock();
+	return 0;
+out_free:
+	ebitmap_destroy(&ctx_new.range.level[0].cat);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	rcu_read_unlock();
 	return rc;
@@ -3970,6 +4380,10 @@ out:
 #endif /* CONFIG_NETLABEL */
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * __security_read_policy - read the policy.
  * @policy: SELinux policy
  * @data: binary policy data
@@ -3996,6 +4410,12 @@ static int __security_read_policy(struct selinux_policy *policy,
 /**
  * security_read_policy - read the policy.
  * @state: selinux_state
+<<<<<<< HEAD
+=======
+=======
+ * security_read_policy - read the policy.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @data: binary policy data
  * @len: length of data in bytes
  *
@@ -4004,6 +4424,14 @@ int security_read_policy(struct selinux_state *state,
 			 void **data, size_t *len)
 {
 	struct selinux_policy *policy;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	int rc;
+	struct policy_file fp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	policy = rcu_dereference_protected(
 			state->policy, lockdep_is_held(&state->policy_mutex));
@@ -4015,6 +4443,10 @@ int security_read_policy(struct selinux_state *state,
 	if (!*data)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return __security_read_policy(policy, *data, len);
 }
 
@@ -4046,4 +4478,19 @@ int security_read_state_kernel(struct selinux_state *state,
 		return -ENOMEM;
 
 	return __security_read_policy(policy, *data, len);
+<<<<<<< HEAD
+=======
+=======
+	fp.data = *data;
+	fp.len = *len;
+
+	rc = policydb_write(&policy->policydb, &fp);
+	if (rc)
+		return rc;
+
+	*len = (unsigned long)fp.data - (unsigned long)*data;
+	return 0;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

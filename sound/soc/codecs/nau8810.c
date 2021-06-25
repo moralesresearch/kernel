@@ -837,7 +837,11 @@ static struct snd_soc_dai_driver nau8810_dai = {
 		.formats = NAU8810_FORMATS,
 	},
 	.ops = &nau8810_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct regmap_config nau8810_regmap_config = {

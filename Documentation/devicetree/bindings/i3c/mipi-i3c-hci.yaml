@@ -9,9 +9,12 @@ title: MIPI I3C HCI Device Tree Bindings
 maintainers:
   - Nicolas Pitre <npitre@baylibre.com>
 
+<<<<<<< HEAD
 allOf:
   - $ref: /schemas/i3c/i3c.yaml#
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 description: |
   MIPI I3C Host Controller Interface
 
@@ -39,6 +42,7 @@ required:
   - reg
   - interrupts
 
+<<<<<<< HEAD
 unevaluatedProperties: false
 
 examples:
@@ -49,4 +53,14 @@ examples:
       interrupts = <89>;
       #address-cells = <3>;
       #size-cells = <0>;
+=======
+additionalProperties: false
+
+examples:
+  - |
+    i3c@a0000000 {
+      compatible = "mipi-i3c-hci";
+      reg = <0xa0000000 0x2000>;
+      interrupts = <89>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     };

@@ -91,7 +91,11 @@ void uapi_compute_bundle_size(struct uverbs_api_ioctl_method *method_elm,
 }
 
 /**
+<<<<<<< HEAD
  * _uverbs_alloc() - Quickly allocate memory for use with a bundle
+=======
+ * uverbs_alloc() - Quickly allocate memory for use with a bundle
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bundle: The bundle
  * @size: Number of bytes to allocate
  * @flags: Allocator flags

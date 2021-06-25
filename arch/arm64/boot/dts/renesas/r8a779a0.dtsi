@@ -14,6 +14,7 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+<<<<<<< HEAD
 	aliases {
 		i2c0 = &i2c0;
 		i2c1 = &i2c1;
@@ -24,6 +25,8 @@
 		i2c6 = &i2c6;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -60,7 +63,14 @@
 
 	pmu_a76 {
 		compatible = "arm,cortex-a76-pmu";
+<<<<<<< HEAD
 		interrupts-extended = <&gic GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
+=======
+		interrupts-extended = <&gic GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>,
+				      <&gic GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>,
+				      <&gic GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>,
+				      <&gic GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/* External SCIF clock - to be overridden by boards that provide it */
@@ -77,6 +87,7 @@
 		#size-cells = <2>;
 		ranges;
 
+<<<<<<< HEAD
 		rwdt: watchdog@e6020000 {
 			compatible = "renesas,r8a779a0-wdt",
 				     "renesas,rcar-gen3-wdt";
@@ -236,6 +247,8 @@
 			#interrupt-cells = <2>;
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpg: clock-controller@e6150000 {
 			compatible = "renesas,r8a779a0-cpg-mssr";
 			reg = <0 0xe6150000 0 0x4000>;
@@ -257,6 +270,7 @@
 			#power-domain-cells = <1>;
 		};
 
+<<<<<<< HEAD
 		i2c0: i2c@e6500000 {
 			compatible = "renesas,i2c-r8a779a0",
 				     "renesas,rcar-gen3-i2c";
@@ -715,6 +729,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		scif0: serial@e6e60000 {
 			compatible = "renesas,scif-r8a779a0",
 				     "renesas,rcar-gen3-scif", "renesas,scif";
@@ -724,13 +740,17 @@
 				 <&cpg CPG_CORE R8A779A0_CLK_S1D2>,
 				 <&scif_clk>;
 			clock-names = "fck", "brg_int", "scif_clk";
+<<<<<<< HEAD
 			dmas = <&dmac1 0x51>, <&dmac1 0x50>;
 			dma-names = "tx", "rx";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
 			resets = <&cpg 702>;
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		scif1: serial@e6e68000 {
 			compatible = "renesas,scif-r8a779a0",
 				     "renesas,rcar-gen3-scif", "renesas,scif";
@@ -939,6 +959,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gic: interrupt-controller@f1000000 {
 			compatible = "arm,gic-v3";
 			#interrupt-cells = <3>;

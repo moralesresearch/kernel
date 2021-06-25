@@ -154,7 +154,11 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
 			return -ENODEV;
 		break;
 	case I915_PARAM_CS_TIMESTAMP_FREQUENCY:
+<<<<<<< HEAD
 		value = i915->gt.clock_frequency;
+=======
+		value = RUNTIME_INFO(i915)->cs_timestamp_frequency_hz;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case I915_PARAM_MMAP_GTT_COHERENT:
 		value = INTEL_INFO(i915)->has_coherent_ggtt;

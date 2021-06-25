@@ -18,7 +18,10 @@
 #include <linux/regulator/consumer.h>
 #include <linux/reset.h>
 #include <linux/gpio/consumer.h>
+<<<<<<< HEAD
 #include <linux/gpio/driver.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/dsa.h>
 
 #include "mt7530.h"
@@ -436,6 +439,7 @@ mt7530_pad_clk_setup(struct dsa_switch *ds, phy_interface_t interface)
 			     TD_DM_DRVP(8) | TD_DM_DRVN(8));
 
 	/* Setup core clock for MT7530 */
+<<<<<<< HEAD
 	/* Disable MT7530 core clock */
 	core_clear(priv, CORE_TRGMII_GSW_CLK_CG, REG_GSWCK_EN);
 
@@ -462,6 +466,36 @@ mt7530_pad_clk_setup(struct dsa_switch *ds, phy_interface_t interface)
 
 	/* Enable MT7530 core clock */
 	core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_GSWCK_EN);
+=======
+	if (!trgint) {
+		/* Disable MT7530 core clock */
+		core_clear(priv, CORE_TRGMII_GSW_CLK_CG, REG_GSWCK_EN);
+
+		/* Disable PLL, since phy_device has not yet been created
+		 * provided for phy_[read,write]_mmd_indirect is called, we
+		 * provide our own core_write_mmd_indirect to complete this
+		 * function.
+		 */
+		core_write_mmd_indirect(priv,
+					CORE_GSWPLL_GRP1,
+					MDIO_MMD_VEND2,
+					0);
+
+		/* Set core clock into 500Mhz */
+		core_write(priv, CORE_GSWPLL_GRP2,
+			   RG_GSWPLL_POSDIV_500M(1) |
+			   RG_GSWPLL_FBKDIV_500M(25));
+
+		/* Enable PLL */
+		core_write(priv, CORE_GSWPLL_GRP1,
+			   RG_GSWPLL_EN_PRE |
+			   RG_GSWPLL_POSDIV_200M(2) |
+			   RG_GSWPLL_FBKDIV_200M(32));
+
+		/* Enable MT7530 core clock */
+		core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_GSWCK_EN);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Setup the MT7530 TRGMII Tx Clock */
 	core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_GSWCK_EN);
@@ -1214,6 +1248,17 @@ mt7530_port_set_vlan_aware(struct dsa_switch *ds, int port)
 {
 	struct mt7530_priv *priv = ds->priv;
 
+<<<<<<< HEAD
+=======
+	/* The real fabric path would be decided on the membership in the
+	 * entry of VLAN table. PCR_MATRIX set up here with ALL_MEMBERS
+	 * means potential VLAN can be consisting of certain subset of all
+	 * ports.
+	 */
+	mt7530_rmw(priv, MT7530_PCR_P(port),
+		   PCR_MATRIX_MASK, PCR_MATRIX(MT7530_ALL_MEMBERS));
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Trapped into security mode allows packet forwarding through VLAN
 	 * table lookup. CPU port is set to fallback mode to let untagged
 	 * frames pass through.
@@ -1366,9 +1411,19 @@ mt7530_vlan_cmd(struct mt7530_priv *priv, enum mt7530_vlan_cmd cmd, u16 vid)
 }
 
 static int
+<<<<<<< HEAD
 mt7530_port_vlan_filtering(struct dsa_switch *ds, int port, bool vlan_filtering,
 			   struct netlink_ext_ack *extack)
 {
+=======
+mt7530_port_vlan_filtering(struct dsa_switch *ds, int port,
+			   bool vlan_filtering,
+			   struct switchdev_trans *trans)
+{
+	if (switchdev_trans_ph_prepare(trans))
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vlan_filtering) {
 		/* The port is being kept as VLAN-unaware port when bridge is
 		 * set up with vlan_filtering not being set, Otherwise, the
@@ -1384,6 +1439,18 @@ mt7530_port_vlan_filtering(struct dsa_switch *ds, int port, bool vlan_filtering,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int
+mt7530_port_vlan_prepare(struct dsa_switch *ds, int port,
+			 const struct switchdev_obj_port_vlan *vlan)
+{
+	/* nothing needed */
+
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 mt7530_hw_vlan_add(struct mt7530_priv *priv,
 		   struct mt7530_hw_vlan_entry *entry)
@@ -1471,15 +1538,22 @@ mt7530_hw_vlan_update(struct mt7530_priv *priv, u16 vid,
 	mt7530_vlan_cmd(priv, MT7530_VTCR_WR_VID, vid);
 }
 
+<<<<<<< HEAD
 static int
 mt7530_port_vlan_add(struct dsa_switch *ds, int port,
 		     const struct switchdev_obj_port_vlan *vlan,
 		     struct netlink_ext_ack *extack)
+=======
+static void
+mt7530_port_vlan_add(struct dsa_switch *ds, int port,
+		     const struct switchdev_obj_port_vlan *vlan)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool untagged = vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED;
 	bool pvid = vlan->flags & BRIDGE_VLAN_INFO_PVID;
 	struct mt7530_hw_vlan_entry new_entry;
 	struct mt7530_priv *priv = ds->priv;
+<<<<<<< HEAD
 
 	mutex_lock(&priv->reg_mutex);
 
@@ -1495,6 +1569,25 @@ mt7530_port_vlan_add(struct dsa_switch *ds, int port,
 	mutex_unlock(&priv->reg_mutex);
 
 	return 0;
+=======
+	u16 vid;
+
+	mutex_lock(&priv->reg_mutex);
+
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid) {
+		mt7530_hw_vlan_entry_init(&new_entry, port, untagged);
+		mt7530_hw_vlan_update(priv, vid, &new_entry,
+				      mt7530_hw_vlan_add);
+	}
+
+	if (pvid) {
+		mt7530_rmw(priv, MT7530_PPBV1_P(port), G0_PORT_VID_MASK,
+			   G0_PORT_VID(vlan->vid_end));
+		priv->ports[port].pvid = vlan->vid_end;
+	}
+
+	mutex_unlock(&priv->reg_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -1503,11 +1596,16 @@ mt7530_port_vlan_del(struct dsa_switch *ds, int port,
 {
 	struct mt7530_hw_vlan_entry target_entry;
 	struct mt7530_priv *priv = ds->priv;
+<<<<<<< HEAD
 	u16 pvid;
+=======
+	u16 vid, pvid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&priv->reg_mutex);
 
 	pvid = priv->ports[port].pvid;
+<<<<<<< HEAD
 	mt7530_hw_vlan_entry_init(&target_entry, port, 0);
 	mt7530_hw_vlan_update(priv, vlan->vid, &target_entry,
 			      mt7530_hw_vlan_del);
@@ -1517,6 +1615,19 @@ mt7530_port_vlan_del(struct dsa_switch *ds, int port,
 	 */
 	if (pvid == vlan->vid)
 		pvid = G0_PORT_VID_DEF;
+=======
+	for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid) {
+		mt7530_hw_vlan_entry_init(&target_entry, port, 0);
+		mt7530_hw_vlan_update(priv, vid, &target_entry,
+				      mt7530_hw_vlan_del);
+
+		/* PVID is being restored to the default whenever the PVID port
+		 * is being removed from the VLAN.
+		 */
+		if (pvid == vid)
+			pvid = G0_PORT_VID_DEF;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mt7530_rmw(priv, MT7530_PPBV1_P(port), G0_PORT_VID_MASK, pvid);
 	priv->ports[port].pvid = pvid;
@@ -1614,6 +1725,7 @@ mtk_get_tag_protocol(struct dsa_switch *ds, int port,
 	}
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_GPIOLIB
 static inline u32
 mt7530_gpio_to_bit(unsigned int offset)
@@ -1719,6 +1831,8 @@ mt7530_setup_gpio(struct mt7530_priv *priv)
 }
 #endif /* CONFIG_GPIOLIB */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int
 mt7530_setup(struct dsa_switch *ds)
 {
@@ -1736,6 +1850,10 @@ mt7530_setup(struct dsa_switch *ds)
 	 * as two netdev instances.
 	 */
 	dn = dsa_to_port(ds, MT7530_CPU_PORT)->master->dev.of_node->parent;
+<<<<<<< HEAD
+=======
+	ds->configure_vlan_while_not_filtering = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ds->mtu_enforcement_ingress = true;
 
 	if (priv->id == ID_MT7530) {
@@ -1860,6 +1978,7 @@ mt7530_setup(struct dsa_switch *ds)
 		}
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_GPIOLIB
 	if (of_property_read_bool(priv->dev->of_node, "gpio-controller")) {
 		ret = mt7530_setup_gpio(priv);
@@ -1868,6 +1987,8 @@ mt7530_setup(struct dsa_switch *ds)
 	}
 #endif /* CONFIG_GPIOLIB */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt7530_setup_port5(ds, interface);
 
 	/* Flush the FDB table */
@@ -1982,6 +2103,10 @@ mt7531_setup(struct dsa_switch *ds)
 			   PVC_EG_TAG(MT7530_VLAN_EG_CONSISTENT));
 	}
 
+<<<<<<< HEAD
+=======
+	ds->configure_vlan_while_not_filtering = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ds->mtu_enforcement_ingress = true;
 
 	/* Flush the FDB table */
@@ -2704,6 +2829,10 @@ static const struct dsa_switch_ops mt7530_switch_ops = {
 	.port_fdb_del		= mt7530_port_fdb_del,
 	.port_fdb_dump		= mt7530_port_fdb_dump,
 	.port_vlan_filtering	= mt7530_port_vlan_filtering,
+<<<<<<< HEAD
+=======
+	.port_vlan_prepare	= mt7530_port_vlan_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_vlan_add		= mt7530_port_vlan_add,
 	.port_vlan_del		= mt7530_port_vlan_del,
 	.port_mirror_add	= mt753x_port_mirror_add,

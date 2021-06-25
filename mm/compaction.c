@@ -137,6 +137,13 @@ EXPORT_SYMBOL(__SetPageMovable);
 
 void __ClearPageMovable(struct page *page)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	VM_BUG_ON_PAGE(!PageLocked(page), page);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	VM_BUG_ON_PAGE(!PageMovable(page), page);
 	/*
 	 * Clear registered address_space val with keeping PAGE_MAPPING_MOVABLE
@@ -987,13 +994,28 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 		if (unlikely(!get_page_unless_zero(page)))
 			goto isolate_fail;
 
+<<<<<<< HEAD
 		if (!__isolate_lru_page_prepare(page, isolate_mode))
+=======
+<<<<<<< HEAD
+		if (!__isolate_lru_page_prepare(page, isolate_mode))
+=======
+		if (__isolate_lru_page_prepare(page, isolate_mode) != 0)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto isolate_fail_put;
 
 		/* Try isolate the page */
 		if (!TestClearPageLRU(page))
 			goto isolate_fail_put;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		rcu_read_lock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lruvec = mem_cgroup_page_lruvec(page, pgdat);
 
 		/* If we already hold the lock, we can skip some rechecking */
@@ -1003,6 +1025,13 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 
 			compact_lock_irqsave(&lruvec->lru_lock, &flags, cc);
 			locked = lruvec;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			rcu_read_unlock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			lruvec_memcg_debug(lruvec, page);
 
@@ -1023,14 +1052,31 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 				SetPageLRU(page);
 				goto isolate_fail_put;
 			}
+<<<<<<< HEAD
 		}
+=======
+<<<<<<< HEAD
+		}
+=======
+		} else
+			rcu_read_unlock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* The whole page is taken off the LRU; skip the tail pages. */
 		if (PageCompound(page))
 			low_pfn += compound_nr(page) - 1;
 
 		/* Successfully isolated */
+<<<<<<< HEAD
 		del_page_from_lru_list(page, lruvec);
+=======
+<<<<<<< HEAD
+		del_page_from_lru_list(page, lruvec);
+=======
+		del_page_from_lru_list(page, lruvec, page_lru(page));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mod_node_page_state(page_pgdat(page),
 				NR_ISOLATED_ANON + page_is_file_lru(page),
 				thp_nr_pages(page));
@@ -1925,6 +1971,10 @@ static bool kswapd_is_running(pg_data_t *pgdat)
 
 /*
  * A zone's fragmentation score is the external fragmentation wrt to the
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * COMPACTION_HPAGE_ORDER. It returns a value in the range [0, 100].
  */
 static unsigned int fragmentation_score_zone(struct zone *zone)
@@ -1936,17 +1986,39 @@ static unsigned int fragmentation_score_zone(struct zone *zone)
  * A weighted zone's fragmentation score is the external fragmentation
  * wrt to the COMPACTION_HPAGE_ORDER scaled by the zone's size. It
  * returns a value in the range [0, 100].
+<<<<<<< HEAD
+=======
+=======
+ * COMPACTION_HPAGE_ORDER scaled by the zone's size. It returns a value
+ * in the range [0, 100].
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The scaling factor ensures that proactive compaction focuses on larger
  * zones like ZONE_NORMAL, rather than smaller, specialized zones like
  * ZONE_DMA32. For smaller zones, the score value remains close to zero,
  * and thus never exceeds the high threshold for proactive compaction.
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned int fragmentation_score_zone_weighted(struct zone *zone)
 {
 	unsigned long score;
 
 	score = zone->present_pages * fragmentation_score_zone(zone);
+<<<<<<< HEAD
+=======
+=======
+static unsigned int fragmentation_score_zone(struct zone *zone)
+{
+	unsigned long score;
+
+	score = zone->present_pages *
+			extfrag_for_order(zone, COMPACTION_HPAGE_ORDER);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return div64_ul(score, zone->zone_pgdat->node_present_pages + 1);
 }
 
@@ -1966,7 +2038,15 @@ static unsigned int fragmentation_score_node(pg_data_t *pgdat)
 		struct zone *zone;
 
 		zone = &pgdat->node_zones[zoneid];
+<<<<<<< HEAD
 		score += fragmentation_score_zone_weighted(zone);
+=======
+<<<<<<< HEAD
+		score += fragmentation_score_zone_weighted(zone);
+=======
+		score += fragmentation_score_zone(zone);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return score;

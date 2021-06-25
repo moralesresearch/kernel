@@ -79,7 +79,15 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
 	if (i == ARRAY_SIZE(tpm2_hash_map))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	rc = tpm_try_get_ops(chip);
+=======
+<<<<<<< HEAD
+	rc = tpm_try_get_ops(chip);
+=======
+	rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_CREATE);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc)
 		return rc;
 
@@ -97,12 +105,19 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
 			     TPM_DIGEST_SIZE);
 
 	/* sensitive */
+<<<<<<< HEAD
 	tpm_buf_append_u16(&buf, 4 + options->blobauth_len + payload->key_len + 1);
 
 	tpm_buf_append_u16(&buf, options->blobauth_len);
 	if (options->blobauth_len)
 		tpm_buf_append(&buf, options->blobauth, options->blobauth_len);
 
+=======
+	tpm_buf_append_u16(&buf, 4 + TPM_DIGEST_SIZE + payload->key_len + 1);
+
+	tpm_buf_append_u16(&buf, TPM_DIGEST_SIZE);
+	tpm_buf_append(&buf, options->blobauth, TPM_DIGEST_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tpm_buf_append_u16(&buf, payload->key_len + 1);
 	tpm_buf_append(&buf, payload->key, payload->key_len);
 	tpm_buf_append_u8(&buf, payload->migratable);
@@ -267,7 +282,11 @@ static int tpm2_unseal_cmd(struct tpm_chip *chip,
 			     NULL /* nonce */, 0,
 			     TPM2_SA_CONTINUE_SESSION,
 			     options->blobauth /* hmac */,
+<<<<<<< HEAD
 			     options->blobauth_len);
+=======
+			     TPM_DIGEST_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = tpm_transmit_cmd(chip, &buf, 6, "unsealing");
 	if (rc > 0)

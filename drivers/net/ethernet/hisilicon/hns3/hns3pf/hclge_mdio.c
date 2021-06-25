@@ -255,8 +255,11 @@ void hclge_mac_start_phy(struct hclge_dev *hdev)
 	if (!phydev)
 		return;
 
+<<<<<<< HEAD
 	phy_loopback(phydev, false);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phy_start(phydev);
 }
 

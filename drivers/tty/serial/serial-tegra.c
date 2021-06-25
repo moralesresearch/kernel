@@ -338,7 +338,11 @@ static void tegra_uart_fifo_reset(struct tegra_uart_port *tup, u8 fcr_bits)
 
 	do {
 		lsr = tegra_uart_read(tup, UART_LSR);
+<<<<<<< HEAD
 		if ((lsr & UART_LSR_TEMT) && !(lsr & UART_LSR_DR))
+=======
+		if ((lsr | UART_LSR_TEMT) && !(lsr & UART_LSR_DR))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		udelay(1);
 	} while (--tmout);

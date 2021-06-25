@@ -34,8 +34,12 @@ struct f2fs_acl_header {
 #ifdef CONFIG_F2FS_FS_POSIX_ACL
 
 extern struct posix_acl *f2fs_get_acl(struct inode *, int);
+<<<<<<< HEAD
 extern int f2fs_set_acl(struct user_namespace *, struct inode *,
 			struct posix_acl *, int);
+=======
+extern int f2fs_set_acl(struct inode *, struct posix_acl *, int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int f2fs_init_acl(struct inode *, struct inode *, struct page *,
 							struct page *);
 #else

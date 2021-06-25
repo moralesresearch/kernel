@@ -105,6 +105,7 @@
 	phy-reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
 	phy-reset-duration = <20>;
 	phy-supply = <&sw2_reg>;
+<<<<<<< HEAD
 	status = "okay";
 
 	fixed-link {
@@ -112,6 +113,11 @@
 		full-duplex;
 	};
 
+=======
+	phy-handle = <&ethphy0>;
+	status = "okay";
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;

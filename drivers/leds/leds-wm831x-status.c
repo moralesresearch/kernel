@@ -155,8 +155,13 @@ static const char * const led_src_texts[] = {
 	"soft",
 };
 
+<<<<<<< HEAD
 static ssize_t src_show(struct device *dev,
 			struct device_attribute *attr, char *buf)
+=======
+static ssize_t wm831x_status_src_show(struct device *dev,
+				      struct device_attribute *attr, char *buf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct wm831x_status *led = to_wm831x_status(led_cdev);
@@ -178,9 +183,15 @@ static ssize_t src_show(struct device *dev,
 	return ret;
 }
 
+<<<<<<< HEAD
 static ssize_t src_store(struct device *dev,
 			 struct device_attribute *attr,
 			 const char *buf, size_t size)
+=======
+static ssize_t wm831x_status_src_store(struct device *dev,
+				       struct device_attribute *attr,
+				       const char *buf, size_t size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct wm831x_status *led = to_wm831x_status(led_cdev);
@@ -197,7 +208,11 @@ static ssize_t src_store(struct device *dev,
 	return size;
 }
 
+<<<<<<< HEAD
 static DEVICE_ATTR_RW(src);
+=======
+static DEVICE_ATTR(src, 0644, wm831x_status_src_show, wm831x_status_src_store);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *wm831x_status_attrs[] = {
 	&dev_attr_src.attr,

@@ -195,7 +195,10 @@
 
 &emmc {
 	status = "okay";
+<<<<<<< HEAD
 	clk-phase-mmc-hs200 = <180>, <180>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &fsim0 {
@@ -580,7 +583,11 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 
+<<<<<<< HEAD
 		smbus0-hog {
+=======
+		smbus0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			gpio-hog;
 			gpios = <4 GPIO_ACTIVE_HIGH>;
 			output-high;
@@ -713,9 +720,15 @@
 	multi-master;
 	status = "okay";
 
+<<<<<<< HEAD
 	si7021-a20@40 {
 		compatible = "silabs,si7020";
 		reg = <0x40>;
+=======
+	si7021-a20@20 {
+		compatible = "silabs,si7020";
+		reg = <0x20>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	tmp275@48 {

@@ -289,6 +289,31 @@ extern void (*mce_threshold_vector)(void);
 extern void (*deferred_error_int_vector)(void);
 
 /*
+<<<<<<< HEAD
+=======
+ * Thermal handler
+ */
+
+void intel_init_thermal(struct cpuinfo_x86 *c);
+
+/* Interrupt Handler for core thermal thresholds */
+extern int (*platform_thermal_notify)(__u64 msr_val);
+
+/* Interrupt Handler for package thermal thresholds */
+extern int (*platform_thermal_package_notify)(__u64 msr_val);
+
+/* Callback support of rate control, return true, if
+ * callback has rate control */
+extern bool (*platform_thermal_package_rate_control)(void);
+
+#ifdef CONFIG_X86_THERMAL_VECTOR
+extern void mcheck_intel_therm_init(void);
+#else
+static inline void mcheck_intel_therm_init(void) { }
+#endif
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Used by APEI to report memory error via /dev/mcelog
  */
 

@@ -38,6 +38,12 @@ parameters may be changed at runtime by the command
 			See drivers/scsi/BusLogic.c, comment before function
 			BusLogic_ParseDriverOptions().
 
+<<<<<<< HEAD
+=======
+	gdth=		[HW,SCSI]
+			See header of drivers/scsi/gdth.c.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gvp11=		[HW,SCSI]
 
 	ips=		[HW,SCSI] Adaptec / IBM ServeRAID controller
@@ -91,7 +97,11 @@ parameters may be changed at runtime by the command
 			(/proc/sys/dev/scsi/logging_level).
 			There is also a nice 'scsi_logging_level' script in the
 			S390-tools package, available for download at
+<<<<<<< HEAD
 			https://github.com/ibm-s390-linux/s390-tools/blob/master/scripts/scsi_logging_level
+=======
+			https://github.com/ibm-s390-tools/s390-tools/blob/master/scripts/scsi_logging_level
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	scsi_mod.scan=	[SCSI] sync (default) scans SCSI busses as they are
 			discovered.  async scans them in kernel threads,

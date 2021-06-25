@@ -396,6 +396,10 @@ static struct crypto_alg fcrypt_alg = {
 	.cra_blocksize		=	8,
 	.cra_ctxsize		=	sizeof(struct fcrypt_ctx),
 	.cra_module		=	THIS_MODULE,
+<<<<<<< HEAD
+=======
+	.cra_alignmask		=	3,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.cra_u			=	{ .cipher = {
 	.cia_min_keysize	=	8,
 	.cia_max_keysize	=	8,

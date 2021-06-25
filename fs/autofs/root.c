@@ -10,12 +10,19 @@
 
 #include "autofs_i.h"
 
+<<<<<<< HEAD
 static int autofs_dir_symlink(struct user_namespace *, struct inode *,
 			      struct dentry *, const char *);
 static int autofs_dir_unlink(struct inode *, struct dentry *);
 static int autofs_dir_rmdir(struct inode *, struct dentry *);
 static int autofs_dir_mkdir(struct user_namespace *, struct inode *,
 			    struct dentry *, umode_t);
+=======
+static int autofs_dir_symlink(struct inode *, struct dentry *, const char *);
+static int autofs_dir_unlink(struct inode *, struct dentry *);
+static int autofs_dir_rmdir(struct inode *, struct dentry *);
+static int autofs_dir_mkdir(struct inode *, struct dentry *, umode_t);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static long autofs_root_ioctl(struct file *, unsigned int, unsigned long);
 #ifdef CONFIG_COMPAT
 static long autofs_root_compat_ioctl(struct file *,
@@ -526,9 +533,15 @@ static struct dentry *autofs_lookup(struct inode *dir,
 	return NULL;
 }
 
+<<<<<<< HEAD
 static int autofs_dir_symlink(struct user_namespace *mnt_userns,
 			      struct inode *dir, struct dentry *dentry,
 			      const char *symname)
+=======
+static int autofs_dir_symlink(struct inode *dir,
+			       struct dentry *dentry,
+			       const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct autofs_sb_info *sbi = autofs_sbi(dir->i_sb);
 	struct autofs_info *ino = autofs_dentry_ino(dentry);
@@ -717,9 +730,14 @@ static int autofs_dir_rmdir(struct inode *dir, struct dentry *dentry)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int autofs_dir_mkdir(struct user_namespace *mnt_userns,
 			    struct inode *dir, struct dentry *dentry,
 			    umode_t mode)
+=======
+static int autofs_dir_mkdir(struct inode *dir,
+			    struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct autofs_sb_info *sbi = autofs_sbi(dir->i_sb);
 	struct autofs_info *ino = autofs_dentry_ino(dentry);

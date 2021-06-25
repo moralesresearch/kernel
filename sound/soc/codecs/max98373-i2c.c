@@ -446,7 +446,10 @@ static bool max98373_volatile_reg(struct device *dev, unsigned int reg)
 	case MAX98373_R2054_MEAS_ADC_PVDD_CH_READBACK:
 	case MAX98373_R2055_MEAS_ADC_THERM_CH_READBACK:
 	case MAX98373_R20B6_BDE_CUR_STATE_READBACK:
+<<<<<<< HEAD
 	case MAX98373_R20FF_GLOBAL_SHDN:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MAX98373_R21FF_REV_ID:
 		return true;
 	default:

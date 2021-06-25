@@ -472,7 +472,10 @@ void cipso_v4_doi_free(struct cipso_v4_doi *doi_def)
 		kfree(doi_def->map.std->lvl.local);
 		kfree(doi_def->map.std->cat.cipso);
 		kfree(doi_def->map.std->cat.local);
+<<<<<<< HEAD
 		kfree(doi_def->map.std);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	kfree(doi_def);
@@ -1154,7 +1157,15 @@ static void cipso_v4_gentag_hdr(const struct cipso_v4_doi *doi_def,
 {
 	buf[0] = IPOPT_CIPSO;
 	buf[1] = CIPSO_V4_HDR_LEN + len;
+<<<<<<< HEAD
 	put_unaligned_be32(doi_def->doi, &buf[2]);
+=======
+<<<<<<< HEAD
+	put_unaligned_be32(doi_def->doi, &buf[2]);
+=======
+	*(__be32 *)&buf[2] = htonl(doi_def->doi);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

@@ -651,7 +651,15 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
 	}
 
 	if (args->offset < RADEON_VA_RESERVED_SIZE) {
+<<<<<<< HEAD
 		dev_err(dev->dev,
+=======
+<<<<<<< HEAD
+		dev_err(dev->dev,
+=======
+		dev_err(&dev->pdev->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"offset 0x%lX is in reserved area 0x%X\n",
 			(unsigned long)args->offset,
 			RADEON_VA_RESERVED_SIZE);
@@ -665,7 +673,15 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
 	 */
 	invalid_flags = RADEON_VM_PAGE_VALID | RADEON_VM_PAGE_SYSTEM;
 	if ((args->flags & invalid_flags)) {
+<<<<<<< HEAD
 		dev_err(dev->dev, "invalid flags 0x%08X vs 0x%08X\n",
+=======
+<<<<<<< HEAD
+		dev_err(dev->dev, "invalid flags 0x%08X vs 0x%08X\n",
+=======
+		dev_err(&dev->pdev->dev, "invalid flags 0x%08X vs 0x%08X\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			args->flags, invalid_flags);
 		args->operation = RADEON_VA_RESULT_ERROR;
 		return -EINVAL;
@@ -676,7 +692,15 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
 	case RADEON_VA_UNMAP:
 		break;
 	default:
+<<<<<<< HEAD
 		dev_err(dev->dev, "unsupported operation %d\n",
+=======
+<<<<<<< HEAD
+		dev_err(dev->dev, "unsupported operation %d\n",
+=======
+		dev_err(&dev->pdev->dev, "unsupported operation %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			args->operation);
 		args->operation = RADEON_VA_RESULT_ERROR;
 		return -EINVAL;

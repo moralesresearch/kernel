@@ -186,7 +186,11 @@ struct qm_eqcr_entry {
 	__be32 tag;
 	struct qm_fd fd;
 	u8 __reserved3[32];
+<<<<<<< HEAD
 } __packed __aligned(8);
+=======
+} __packed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define QM_EQCR_VERB_VBIT		0x80
 #define QM_EQCR_VERB_CMD_MASK		0x61	/* but only one value; */
 #define QM_EQCR_VERB_CMD_ENQUEUE	0x01

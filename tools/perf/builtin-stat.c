@@ -67,7 +67,10 @@
 #include "util/top.h"
 #include "util/affinity.h"
 #include "util/pfm.h"
+<<<<<<< HEAD
 #include "util/bpf_counter.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "asm/bug.h"
 
 #include <linux/time64.h>
@@ -138,6 +141,7 @@ static const char *topdown_metric_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const char *topdown_metric_L2_attrs[] = {
 	"slots",
 	"topdown-retiring",
@@ -151,6 +155,8 @@ static const char *topdown_metric_L2_attrs[] = {
 	NULL,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *smi_cost_attrs = {
 	"{"
 	"msr/aperf/,"
@@ -423,6 +429,7 @@ static int read_affinity_counters(struct timespec *rs)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int read_bpf_map_counters(void)
 {
 	struct evsel *counter;
@@ -449,6 +456,14 @@ static void read_counters(struct timespec *rs)
 		if (err < 0)
 			return;
 	}
+=======
+static void read_counters(struct timespec *rs)
+{
+	struct evsel *counter;
+
+	if (!stat_config.stop_read_counter && (read_affinity_counters(rs) < 0))
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	evlist__for_each_entry(evsel_list, counter) {
 		if (counter->err)
@@ -530,6 +545,7 @@ static bool handle_interval(unsigned int interval, int *times)
 	return false;
 }
 
+<<<<<<< HEAD
 static int enable_counters(void)
 {
 	struct evsel *evsel;
@@ -546,6 +562,13 @@ static int enable_counters(void)
 	if (stat_config.initial_delay < 0) {
 		pr_info(EVLIST_DISABLED_MSG);
 		return 0;
+=======
+static void enable_counters(void)
+{
+	if (stat_config.initial_delay < 0) {
+		pr_info(EVLIST_DISABLED_MSG);
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (stat_config.initial_delay > 0) {
@@ -563,7 +586,10 @@ static int enable_counters(void)
 		if (stat_config.initial_delay > 0)
 			pr_info(EVLIST_ENABLED_MSG);
 	}
+<<<<<<< HEAD
 	return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void disable_counters(void)
@@ -624,19 +650,30 @@ static void process_evlist(struct evlist *evlist, unsigned int interval)
 	if (evlist__ctlfd_process(evlist, &cmd) > 0) {
 		switch (cmd) {
 		case EVLIST_CTL_CMD_ENABLE:
+<<<<<<< HEAD
+=======
+			pr_info(EVLIST_ENABLED_MSG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (interval)
 				process_interval();
 			break;
 		case EVLIST_CTL_CMD_DISABLE:
 			if (interval)
 				process_interval();
+<<<<<<< HEAD
+=======
+			pr_info(EVLIST_DISABLED_MSG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case EVLIST_CTL_CMD_SNAPSHOT:
 		case EVLIST_CTL_CMD_ACK:
 		case EVLIST_CTL_CMD_UNSUPPORTED:
+<<<<<<< HEAD
 		case EVLIST_CTL_CMD_EVLIST:
 		case EVLIST_CTL_CMD_STOP:
 		case EVLIST_CTL_CMD_PING:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			break;
 		}
@@ -767,7 +804,11 @@ static int __run_perf_stat(int argc, const char **argv, int run_idx)
 	const bool forks = (argc > 0);
 	bool is_pipe = STAT_RECORD ? perf_stat.data.is_pipe : false;
 	struct affinity affinity;
+<<<<<<< HEAD
 	int i, cpu, err;
+=======
+	int i, cpu;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool second_pass = false;
 
 	if (forks) {
@@ -784,6 +825,7 @@ static int __run_perf_stat(int argc, const char **argv, int run_idx)
 	if (affinity__setup(&affinity) < 0)
 		return -1;
 
+<<<<<<< HEAD
 	if (target__has_bpf(&target)) {
 		evlist__for_each_entry(evsel_list, counter) {
 			if (bpf_counter__load(counter, &target))
@@ -791,6 +833,8 @@ static int __run_perf_stat(int argc, const char **argv, int run_idx)
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	evlist__for_each_cpu (evsel_list, i, cpu) {
 		affinity__set(&affinity, cpu);
 
@@ -904,7 +948,11 @@ try_again_reset:
 	}
 
 	if (STAT_RECORD) {
+<<<<<<< HEAD
 		int fd = perf_data__fd(&perf_stat.data);
+=======
+		int err, fd = perf_data__fd(&perf_stat.data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (is_pipe) {
 			err = perf_header__write_pipe(perf_data__fd(&perf_stat.data));
@@ -930,9 +978,13 @@ try_again_reset:
 
 	if (forks) {
 		evlist__start_workload(evsel_list);
+<<<<<<< HEAD
 		err = enable_counters();
 		if (err)
 			return -1;
+=======
+		enable_counters();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (interval || timeout || evlist__ctlfd_initialized(evsel_list))
 			status = dispatch_events(forks, timeout, interval, &times);
@@ -951,9 +1003,13 @@ try_again_reset:
 		if (WIFSIGNALED(status))
 			psignal(WTERMSIG(status), argv[0]);
 	} else {
+<<<<<<< HEAD
 		err = enable_counters();
 		if (err)
 			return -1;
+=======
+		enable_counters();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		status = dispatch_events(forks, timeout, interval, &times);
 	}
 
@@ -1143,10 +1199,13 @@ static struct option stat_options[] = {
 		   "stat events on existing process id"),
 	OPT_STRING('t', "tid", &target.tid, "tid",
 		   "stat events on existing thread id"),
+<<<<<<< HEAD
 #ifdef HAVE_BPF_SKEL
 	OPT_STRING('b', "bpf-prog", &target.bpf_str, "bpf-prog-id",
 		   "stat events on existing bpf program id"),
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN('a', "all-cpus", &target.system_wide,
 		    "system-wide collection from all CPUs"),
 	OPT_BOOLEAN('g', "group", &group,
@@ -1215,9 +1274,13 @@ static struct option stat_options[] = {
 	OPT_BOOLEAN(0, "metric-no-merge", &stat_config.metric_no_merge,
 		       "don't try to share events between metrics in a group"),
 	OPT_BOOLEAN(0, "topdown", &topdown_run,
+<<<<<<< HEAD
 			"measure top-down statistics"),
 	OPT_UINTEGER(0, "td-level", &stat_config.topdown_level,
 			"Set the metrics level for the top-down statistics (0: max level)"),
+=======
+			"measure topdown level 1 statistics"),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN(0, "smi-cost", &smi_cost,
 			"measure SMI cost"),
 	OPT_CALLBACK('M', "metrics", &evsel_list, "metric/metric group list",
@@ -1770,14 +1833,18 @@ static int add_default_attributes(void)
 	}
 
 	if (topdown_run) {
+<<<<<<< HEAD
 		const char **metric_attrs = topdown_metric_attrs;
 		unsigned int max_level = 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		char *str = NULL;
 		bool warn = false;
 
 		if (!force_metric_only)
 			stat_config.metric_only = true;
 
+<<<<<<< HEAD
 		if (pmu_have_event("cpu", topdown_metric_L2_attrs[5])) {
 			metric_attrs = topdown_metric_L2_attrs;
 			max_level = 2;
@@ -1794,6 +1861,13 @@ static int add_default_attributes(void)
 			return -1;
 		}
 		if (metric_attrs[0] && str) {
+=======
+		if (topdown_filter_events(topdown_metric_attrs, &str, 1) < 0) {
+			pr_err("Out of memory\n");
+			return -1;
+		}
+		if (topdown_metric_attrs[0] && str) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!stat_config.interval && !stat_config.metric_only) {
 				fprintf(stat_config.output,
 					"Topdown accuracy may decrease when measuring long periods.\n"
@@ -1856,9 +1930,12 @@ setup_metrics:
 		}
 		if (evlist__add_default_attrs(evsel_list, default_attrs1) < 0)
 			return -1;
+<<<<<<< HEAD
 
 		if (arch_evlist__add_default_attrs(evsel_list) < 0)
 			return -1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Detailed events get appended to the event list: */
@@ -2144,12 +2221,19 @@ int cmd_stat(int argc, const char **argv)
 		"perf stat [<options>] [<command>]",
 		NULL
 	};
+<<<<<<< HEAD
 	int status = -EINVAL, run_idx, err;
+=======
+	int status = -EINVAL, run_idx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *mode;
 	FILE *output = stderr;
 	unsigned int interval, timeout;
 	const char * const stat_subcommands[] = { "record", "report" };
+<<<<<<< HEAD
 	char errbuf[BUFSIZ];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	setlocale(LC_ALL, "");
 
@@ -2260,12 +2344,15 @@ int cmd_stat(int argc, const char **argv)
 	} else if (big_num_opt == 0) /* User passed --no-big-num */
 		stat_config.big_num = false;
 
+<<<<<<< HEAD
 	err = target__validate(&target);
 	if (err) {
 		target__strerror(&target, err, errbuf, BUFSIZ);
 		pr_warning("%s\n", errbuf);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	setup_system_wide(argc);
 
 	/*
@@ -2339,6 +2426,11 @@ int cmd_stat(int argc, const char **argv)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	target__validate(&target);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((stat_config.aggr_mode == AGGR_THREAD) && (target.system_wide))
 		target.per_thread = true;
 
@@ -2469,10 +2561,16 @@ int cmd_stat(int argc, const char **argv)
 		 * tools remain  -acme
 		 */
 		int fd = perf_data__fd(&perf_stat.data);
+<<<<<<< HEAD
 
 		err = perf_event__synthesize_kernel_mmap((void *)&perf_stat,
 							 process_synthesized_event,
 							 &perf_stat.session->machines.host);
+=======
+		int err = perf_event__synthesize_kernel_mmap((void *)&perf_stat,
+							     process_synthesized_event,
+							     &perf_stat.session->machines.host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err) {
 			pr_warning("Couldn't synthesize the kernel mmap record, harmless, "
 				   "older tools may produce warnings about this file\n.");

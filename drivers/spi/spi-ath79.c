@@ -156,7 +156,12 @@ static int ath79_spi_probe(struct platform_device *pdev)
 
 	master->use_gpio_descriptors = true;
 	master->bits_per_word_mask = SPI_BPW_RANGE_MASK(1, 32);
+<<<<<<< HEAD
 	master->flags = SPI_MASTER_GPIO_SS;
+=======
+	master->setup = spi_bitbang_setup;
+	master->cleanup = spi_bitbang_cleanup;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pdata) {
 		master->bus_num = pdata->bus_num;
 		master->num_chipselect = pdata->num_chipselect;

@@ -260,10 +260,15 @@ int __kprobes kprobe_fault_handler(struct pt_regs *regs, unsigned int trapnr)
 
 		if (kcb->kprobe_status == KPROBE_REENTER)
 			restore_previous_kprobe(kcb);
+<<<<<<< HEAD
 		else {
 			kprobes_restore_local_irqflag(kcb, regs);
 			reset_current_kprobe();
 		}
+=======
+		else
+			reset_current_kprobe();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		break;
 	case KPROBE_HIT_ACTIVE:

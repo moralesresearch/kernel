@@ -535,14 +535,22 @@ static void unix_release_sock(struct sock *sk, int embrion)
 	u->path.mnt = NULL;
 	state = sk->sk_state;
 	sk->sk_state = TCP_CLOSE;
+<<<<<<< HEAD
 
 	skpair = unix_peer(sk);
 	unix_peer(sk) = NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unix_state_unlock(sk);
 
 	wake_up_interruptible_all(&u->peer_wait);
 
+<<<<<<< HEAD
+=======
+	skpair = unix_peer(sk);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (skpair != NULL) {
 		if (sk->sk_type == SOCK_STREAM || sk->sk_type == SOCK_SEQPACKET) {
 			unix_state_lock(skpair);
@@ -557,6 +565,10 @@ static void unix_release_sock(struct sock *sk, int embrion)
 
 		unix_dgram_peer_wake_disconnect(sk, skpair);
 		sock_put(skpair); /* It may now die */
+<<<<<<< HEAD
+=======
+		unix_peer(sk) = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Try to flush out this socket. Throw out buffers at least */
@@ -937,7 +949,11 @@ static struct sock *unix_find_other(struct net *net,
 		if (err)
 			goto fail;
 		inode = d_backing_inode(path.dentry);
+<<<<<<< HEAD
 		err = path_permission(&path, MAY_WRITE);
+=======
+		err = inode_permission(inode, MAY_WRITE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto put_fail;
 
@@ -997,8 +1013,12 @@ static int unix_mknod(const char *sun_path, umode_t mode, struct path *res)
 	 */
 	err = security_path_mknod(&path, dentry, mode, 0);
 	if (!err) {
+<<<<<<< HEAD
 		err = vfs_mknod(mnt_user_ns(path.mnt), d_inode(path.dentry),
 				dentry, mode, 0);
+=======
+		err = vfs_mknod(d_inode(path.dentry), dentry, mode, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!err) {
 			res->mnt = mntget(path.mnt);
 			res->dentry = dget(dentry);

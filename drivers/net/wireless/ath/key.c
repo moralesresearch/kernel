@@ -84,7 +84,12 @@ bool ath_hw_keyreset(struct ath_common *common, u16 entry)
 }
 EXPORT_SYMBOL(ath_hw_keyreset);
 
+<<<<<<< HEAD
 bool ath_hw_keysetmac(struct ath_common *common, u16 entry, const u8 *mac)
+=======
+static bool ath_hw_keysetmac(struct ath_common *common,
+			     u16 entry, const u8 *mac)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 macHi, macLo;
 	u32 unicast_flag = AR_KEYTABLE_VALID;
@@ -124,7 +129,10 @@ bool ath_hw_keysetmac(struct ath_common *common, u16 entry, const u8 *mac)
 
 	return true;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ath_hw_keysetmac);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static bool ath_hw_set_keycache_entry(struct ath_common *common, u16 entry,
 				      const struct ath_keyval *k,
@@ -581,6 +589,7 @@ EXPORT_SYMBOL(ath_key_config);
 /*
  * Delete Key.
  */
+<<<<<<< HEAD
 void ath_key_delete(struct ath_common *common, u8 hw_key_idx)
 {
 	/* Leave CCMP and TKIP (main key) configured to avoid disabling
@@ -613,6 +622,31 @@ void ath_key_delete(struct ath_common *common, u8 hw_key_idx)
 
 		clear_bit(hw_key_idx + 32, common->tkip_keymap);
 		clear_bit(hw_key_idx + 64 + 32, common->tkip_keymap);
+=======
+void ath_key_delete(struct ath_common *common, struct ieee80211_key_conf *key)
+{
+	ath_hw_keyreset(common, key->hw_key_idx);
+	if (key->hw_key_idx < IEEE80211_WEP_NKID)
+		return;
+
+	clear_bit(key->hw_key_idx, common->keymap);
+	clear_bit(key->hw_key_idx, common->ccmp_keymap);
+	if (key->cipher != WLAN_CIPHER_SUITE_TKIP)
+		return;
+
+	clear_bit(key->hw_key_idx + 64, common->keymap);
+
+	clear_bit(key->hw_key_idx, common->tkip_keymap);
+	clear_bit(key->hw_key_idx + 64, common->tkip_keymap);
+
+	if (!(common->crypt_caps & ATH_CRYPT_CAP_MIC_COMBINED)) {
+		ath_hw_keyreset(common, key->hw_key_idx + 32);
+		clear_bit(key->hw_key_idx + 32, common->keymap);
+		clear_bit(key->hw_key_idx + 64 + 32, common->keymap);
+
+		clear_bit(key->hw_key_idx + 32, common->tkip_keymap);
+		clear_bit(key->hw_key_idx + 64 + 32, common->tkip_keymap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL(ath_key_delete);

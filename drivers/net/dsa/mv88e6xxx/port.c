@@ -789,8 +789,13 @@ int mv88e6351_port_set_frame_mode(struct mv88e6xxx_chip *chip, int port,
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL0, reg);
 }
 
+<<<<<<< HEAD
 int mv88e6185_port_set_forward_unknown(struct mv88e6xxx_chip *chip,
 				       int port, bool unicast)
+=======
+static int mv88e6185_port_set_forward_unknown(struct mv88e6xxx_chip *chip,
+					      int port, bool unicast)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	u16 reg;
@@ -807,8 +812,13 @@ int mv88e6185_port_set_forward_unknown(struct mv88e6xxx_chip *chip,
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL0, reg);
 }
 
+<<<<<<< HEAD
 int mv88e6352_port_set_ucast_flood(struct mv88e6xxx_chip *chip, int port,
 				   bool unicast)
+=======
+int mv88e6352_port_set_egress_floods(struct mv88e6xxx_chip *chip, int port,
+				     bool unicast, bool multicast)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	u16 reg;
@@ -817,6 +827,7 @@ int mv88e6352_port_set_ucast_flood(struct mv88e6xxx_chip *chip, int port,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	if (unicast)
 		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_UC;
 	else
@@ -839,6 +850,18 @@ int mv88e6352_port_set_mcast_flood(struct mv88e6xxx_chip *chip, int port,
 		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_MC;
 	else
 		reg &= ~MV88E6352_PORT_CTL0_EGRESS_FLOODS_MC;
+=======
+	reg &= ~MV88E6352_PORT_CTL0_EGRESS_FLOODS_MASK;
+
+	if (unicast && multicast)
+		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_ALL_UNKNOWN_DA;
+	else if (unicast)
+		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_MC_DA;
+	else if (multicast)
+		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_UC_DA;
+	else
+		reg |= MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_DA;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL0, reg);
 }
@@ -863,6 +886,7 @@ int mv88e6xxx_port_set_message_port(struct mv88e6xxx_chip *chip, int port,
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL1, val);
 }
 
+<<<<<<< HEAD
 int mv88e6xxx_port_set_trunk(struct mv88e6xxx_chip *chip, int port,
 			     bool trunk, u8 id)
 {
@@ -884,6 +908,8 @@ int mv88e6xxx_port_set_trunk(struct mv88e6xxx_chip *chip, int port,
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL1, val);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Offset 0x06: Port Based VLAN Map */
 
 int mv88e6xxx_port_set_vlan_map(struct mv88e6xxx_chip *chip, int port, u16 map)
@@ -1025,8 +1051,13 @@ static const char * const mv88e6xxx_port_8021q_mode_names[] = {
 	[MV88E6XXX_PORT_CTL2_8021Q_MODE_SECURE] = "Secure",
 };
 
+<<<<<<< HEAD
 int mv88e6185_port_set_default_forward(struct mv88e6xxx_chip *chip,
 				       int port, bool multicast)
+=======
+static int mv88e6185_port_set_default_forward(struct mv88e6xxx_chip *chip,
+					      int port, bool multicast)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	u16 reg;
@@ -1043,6 +1074,21 @@ int mv88e6185_port_set_default_forward(struct mv88e6xxx_chip *chip,
 	return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_CTL2, reg);
 }
 
+<<<<<<< HEAD
+=======
+int mv88e6185_port_set_egress_floods(struct mv88e6xxx_chip *chip, int port,
+				     bool unicast, bool multicast)
+{
+	int err;
+
+	err = mv88e6185_port_set_forward_unknown(chip, port, unicast);
+	if (err)
+		return err;
+
+	return mv88e6185_port_set_default_forward(chip, port, multicast);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int mv88e6095_port_set_upstream_port(struct mv88e6xxx_chip *chip, int port,
 				     int upstream_port)
 {

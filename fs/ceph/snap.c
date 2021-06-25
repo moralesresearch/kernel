@@ -623,6 +623,7 @@ int __ceph_finish_cap_snap(struct ceph_inode_info *ci,
 		return 0;
 	}
 
+<<<<<<< HEAD
 	/* Fb cap still in use, delay it */
 	if (ci->i_wb_ref) {
 		dout("finish_cap_snap %p cap_snap %p snapc %p %llu %s s=%llu "
@@ -633,6 +634,8 @@ int __ceph_finish_cap_snap(struct ceph_inode_info *ci,
 		return 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ci->i_ceph_flags |= CEPH_I_FLUSH_SNAPS;
 	dout("finish_cap_snap %p cap_snap %p snapc %p %llu %s s=%llu\n",
 	     inode, capsnap, capsnap->context,

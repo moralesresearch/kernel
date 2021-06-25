@@ -102,6 +102,7 @@ END_FTR_SECTION(0, 1);						\
 #define HCALL_BRANCH(LABEL)
 #endif
 
+<<<<<<< HEAD
 _GLOBAL_TOC(plpar_hcall_norets_notrace)
 	HMT_MEDIUM
 
@@ -112,6 +113,8 @@ _GLOBAL_TOC(plpar_hcall_norets_notrace)
 	mtcrf	0xff,r0
 	blr				/* return r3 = status */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 _GLOBAL_TOC(plpar_hcall_norets)
 	HMT_MEDIUM
 

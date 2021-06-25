@@ -1219,8 +1219,18 @@ static inline pte_t mk_pte(struct page *page, pgprot_t pgprot)
 #define pud_index(address) (((address) >> PUD_SHIFT) & (PTRS_PER_PUD-1))
 #define pmd_index(address) (((address) >> PMD_SHIFT) & (PTRS_PER_PMD-1))
 
+<<<<<<< HEAD
 #define p4d_deref(pud) ((unsigned long)__va(p4d_val(pud) & _REGION_ENTRY_ORIGIN))
 #define pgd_deref(pgd) ((unsigned long)__va(pgd_val(pgd) & _REGION_ENTRY_ORIGIN))
+=======
+<<<<<<< HEAD
+#define p4d_deref(pud) ((unsigned long)__va(p4d_val(pud) & _REGION_ENTRY_ORIGIN))
+#define pgd_deref(pgd) ((unsigned long)__va(pgd_val(pgd) & _REGION_ENTRY_ORIGIN))
+=======
+#define p4d_deref(pud) (p4d_val(pud) & _REGION_ENTRY_ORIGIN)
+#define pgd_deref(pgd) (pgd_val(pgd) & _REGION_ENTRY_ORIGIN)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline unsigned long pmd_deref(pmd_t pmd)
 {
@@ -1229,12 +1239,28 @@ static inline unsigned long pmd_deref(pmd_t pmd)
 	origin_mask = _SEGMENT_ENTRY_ORIGIN;
 	if (pmd_large(pmd))
 		origin_mask = _SEGMENT_ENTRY_ORIGIN_LARGE;
+<<<<<<< HEAD
 	return (unsigned long)__va(pmd_val(pmd) & origin_mask);
+=======
+<<<<<<< HEAD
+	return (unsigned long)__va(pmd_val(pmd) & origin_mask);
+=======
+	return pmd_val(pmd) & origin_mask;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned long pmd_pfn(pmd_t pmd)
 {
+<<<<<<< HEAD
 	return __pa(pmd_deref(pmd)) >> PAGE_SHIFT;
+=======
+<<<<<<< HEAD
+	return __pa(pmd_deref(pmd)) >> PAGE_SHIFT;
+=======
+	return pmd_deref(pmd) >> PAGE_SHIFT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned long pud_deref(pud_t pud)
@@ -1244,12 +1270,28 @@ static inline unsigned long pud_deref(pud_t pud)
 	origin_mask = _REGION_ENTRY_ORIGIN;
 	if (pud_large(pud))
 		origin_mask = _REGION3_ENTRY_ORIGIN_LARGE;
+<<<<<<< HEAD
 	return (unsigned long)__va(pud_val(pud) & origin_mask);
+=======
+<<<<<<< HEAD
+	return (unsigned long)__va(pud_val(pud) & origin_mask);
+=======
+	return pud_val(pud) & origin_mask;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned long pud_pfn(pud_t pud)
 {
+<<<<<<< HEAD
 	return __pa(pud_deref(pud)) >> PAGE_SHIFT;
+=======
+<<<<<<< HEAD
+	return __pa(pud_deref(pud)) >> PAGE_SHIFT;
+=======
+	return pud_deref(pud) >> PAGE_SHIFT;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1329,7 +1371,15 @@ static inline bool gup_fast_permitted(unsigned long start, unsigned long end)
 }
 #define gup_fast_permitted gup_fast_permitted
 
+<<<<<<< HEAD
 #define pfn_pte(pfn, pgprot)	mk_pte_phys(((pfn) << PAGE_SHIFT), (pgprot))
+=======
+<<<<<<< HEAD
+#define pfn_pte(pfn, pgprot)	mk_pte_phys(((pfn) << PAGE_SHIFT), (pgprot))
+=======
+#define pfn_pte(pfn,pgprot) mk_pte_phys(__pa((pfn) << PAGE_SHIFT),(pgprot))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define pte_pfn(x) (pte_val(x) >> PAGE_SHIFT)
 #define pte_page(x) pfn_to_page(pte_pfn(x))
 
@@ -1636,7 +1686,15 @@ static inline pmd_t pmdp_collapse_flush(struct vm_area_struct *vma,
 }
 #define pmdp_collapse_flush pmdp_collapse_flush
 
+<<<<<<< HEAD
 #define pfn_pmd(pfn, pgprot)	mk_pmd_phys(((pfn) << PAGE_SHIFT), (pgprot))
+=======
+<<<<<<< HEAD
+#define pfn_pmd(pfn, pgprot)	mk_pmd_phys(((pfn) << PAGE_SHIFT), (pgprot))
+=======
+#define pfn_pmd(pfn, pgprot)	mk_pmd_phys(__pa((pfn) << PAGE_SHIFT), (pgprot))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define mk_pmd(page, pgprot)	pfn_pmd(page_to_pfn(page), (pgprot))
 
 static inline int pmd_trans_huge(pmd_t pmd)

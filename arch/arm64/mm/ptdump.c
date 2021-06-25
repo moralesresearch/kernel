@@ -324,7 +324,10 @@ void ptdump_walk(struct seq_file *s, struct ptdump_info *info)
 	st = (struct pg_state){
 		.seq = s,
 		.marker = info->markers,
+<<<<<<< HEAD
 		.level = -1,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ptdump = {
 			.note_page = note_page,
 			.range = (struct ptdump_range[]){

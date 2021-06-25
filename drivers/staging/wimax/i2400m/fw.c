@@ -189,6 +189,7 @@ void i2400m_bm_cmd_prepare(struct i2400m_bootrom_header *cmd)
 {
 	if (i2400m_brh_get_use_checksum(cmd)) {
 		int i;
+<<<<<<< HEAD
 		__le32 checksum = 0;
 		const u32 *checksum_ptr = (void *) cmd->payload;
 
@@ -200,6 +201,14 @@ void i2400m_bm_cmd_prepare(struct i2400m_bootrom_header *cmd)
 		le32_add_cpu(&checksum, le32_to_cpu(cmd->data_size));
 
 		cmd->block_checksum = checksum;
+=======
+		u32 checksum = 0;
+		const u32 *checksum_ptr = (void *) cmd->payload;
+		for (i = 0; i < cmd->data_size / 4; i++)
+			checksum += cpu_to_le32(*checksum_ptr++);
+		checksum += cmd->command + cmd->target_addr + cmd->data_size;
+		cmd->block_checksum = cpu_to_le32(checksum);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL_GPL(i2400m_bm_cmd_prepare);
@@ -588,7 +597,11 @@ ssize_t i2400m_bm_cmd(struct i2400m *i2400m,
 		      struct i2400m_bootrom_header *ack, size_t ack_size,
 		      int flags)
 {
+<<<<<<< HEAD
 	ssize_t result, rx_bytes;
+=======
+	ssize_t result = -ENOMEM, rx_bytes;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = i2400m_dev(i2400m);
 	int opcode = cmd == NULL ? -1 : i2400m_brh_get_opcode(cmd);
 

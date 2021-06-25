@@ -11,6 +11,11 @@
 #include <linux/soc/brcmstb/brcmstb.h>
 #include <linux/sys_soc.h>
 
+<<<<<<< HEAD
+=======
+#include <soc/brcmstb/common.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 family_id;
 static u32 product_id;
 
@@ -19,6 +24,24 @@ static const struct of_device_id brcmstb_machine_match[] = {
 	{ }
 };
 
+<<<<<<< HEAD
+=======
+bool soc_is_brcmstb(void)
+{
+	const struct of_device_id *match;
+	struct device_node *root;
+
+	root = of_find_node_by_path("/");
+	if (!root)
+		return false;
+
+	match = of_match_node(brcmstb_machine_match, root);
+	of_node_put(root);
+
+	return match != NULL;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u32 brcmstb_get_family_id(void)
 {
 	return family_id;

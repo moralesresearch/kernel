@@ -76,7 +76,10 @@ int lc_try_lock(struct lru_cache *lc)
 /**
  * lc_create - prepares to track objects in an active set
  * @name: descriptive name only used in lc_seq_printf_stats and lc_seq_dump_details
+<<<<<<< HEAD
  * @cache: cache root pointer
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @max_pending_changes: maximum changes to accumulate until a transaction is required
  * @e_count: number of elements allowed to be active simultaneously
  * @e_size: size of the tracked objects
@@ -628,7 +631,11 @@ void lc_set(struct lru_cache *lc, unsigned int enr, int index)
 }
 
 /**
+<<<<<<< HEAD
  * lc_seq_dump_details - Dump a complete LRU cache to seq in textual form.
+=======
+ * lc_dump - Dump a complete LRU cache to seq in textual form.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @lc: the lru cache to operate on
  * @seq: the &struct seq_file pointer to seq_printf into
  * @utext: user supplied additional "heading" or other info

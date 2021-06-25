@@ -86,7 +86,10 @@ struct sidtab {
 	u32 count;
 	/* access only under spinlock */
 	struct sidtab_convert_params *convert;
+<<<<<<< HEAD
 	bool frozen;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t lock;
 
 #if CONFIG_SECURITY_SELINUX_SID2STR_CACHE_SIZE > 0
@@ -126,9 +129,12 @@ int sidtab_convert(struct sidtab *s, struct sidtab_convert_params *params);
 
 void sidtab_cancel_convert(struct sidtab *s);
 
+<<<<<<< HEAD
 void sidtab_freeze_begin(struct sidtab *s, unsigned long *flags) __acquires(&s->lock);
 void sidtab_freeze_end(struct sidtab *s, unsigned long *flags) __releases(&s->lock);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int sidtab_context_to_sid(struct sidtab *s, struct context *context, u32 *sid);
 
 void sidtab_destroy(struct sidtab *s);

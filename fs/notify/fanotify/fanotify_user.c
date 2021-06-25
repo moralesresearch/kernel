@@ -378,7 +378,11 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
 					info_type, fanotify_info_name(info),
 					info->name_len, buf, count);
 		if (ret < 0)
+<<<<<<< HEAD
 			goto out_close_fd;
+=======
+			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		buf += ret;
 		count -= ret;
@@ -426,7 +430,11 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
 					fanotify_event_object_fh(event),
 					info_type, dot, dot_len, buf, count);
 		if (ret < 0)
+<<<<<<< HEAD
 			goto out_close_fd;
+=======
+			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		buf += ret;
 		count -= ret;
@@ -702,7 +710,11 @@ static int fanotify_find_path(int dfd, const char __user *filename,
 	}
 
 	/* you can only watch an inode if you have read permissions on it */
+<<<<<<< HEAD
 	ret = path_permission(path, MAY_READ);
+=======
+	ret = inode_permission(path->dentry->d_inode, MAY_READ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		path_put(path);
 		goto out;
@@ -976,7 +988,11 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
 		f_flags |= O_NONBLOCK;
 
 	/* fsnotify_alloc_group takes a ref.  Dropped in fanotify_release */
+<<<<<<< HEAD
 	group = fsnotify_alloc_user_group(&fanotify_fsnotify_ops);
+=======
+	group = fsnotify_alloc_group(&fanotify_fsnotify_ops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(group)) {
 		free_uid(user);
 		return PTR_ERR(group);

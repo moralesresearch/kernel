@@ -182,7 +182,11 @@ int measure_cache_vals(struct resctrl_val_param *param, int bm_pid)
 	/*
 	 * Measure cache miss from perf.
 	 */
+<<<<<<< HEAD
 	if (!strncmp(param->resctrl_val, CAT_STR, sizeof(CAT_STR))) {
+=======
+	if (!strcmp(param->resctrl_val, "cat")) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = get_llc_perf(&llc_perf_miss);
 		if (ret < 0)
 			return ret;
@@ -192,7 +196,11 @@ int measure_cache_vals(struct resctrl_val_param *param, int bm_pid)
 	/*
 	 * Measure llc occupancy from resctrl.
 	 */
+<<<<<<< HEAD
 	if (!strncmp(param->resctrl_val, CQM_STR, sizeof(CQM_STR))) {
+=======
+	if (!strcmp(param->resctrl_val, "cqm")) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = get_llc_occu_resctrl(&llc_occu_resc);
 		if (ret < 0)
 			return ret;
@@ -234,7 +242,11 @@ int cat_val(struct resctrl_val_param *param)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	if (!strncmp(resctrl_val, CAT_STR, sizeof(CAT_STR))) {
+=======
+	if ((strcmp(resctrl_val, "cat") == 0)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = initialize_llc_perf();
 		if (ret)
 			return ret;
@@ -242,7 +254,11 @@ int cat_val(struct resctrl_val_param *param)
 
 	/* Test runs until the callback setup() tells the test to stop. */
 	while (1) {
+<<<<<<< HEAD
 		if (!strncmp(resctrl_val, CAT_STR, sizeof(CAT_STR))) {
+=======
+		if (strcmp(resctrl_val, "cat") == 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = param->setup(1, param);
 			if (ret) {
 				ret = 0;

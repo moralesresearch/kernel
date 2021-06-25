@@ -26,7 +26,11 @@
 #include <xen/platform_pci.h>
 
 #include <asm/xen/swiotlb-xen.h>
+<<<<<<< HEAD
 
+=======
+#define INVALID_GRANT_REF (0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define INVALID_EVTCHN    (-1)
 
 struct pci_bus_entry {
@@ -42,7 +46,11 @@ struct pcifront_device {
 	struct list_head root_buses;
 
 	int evtchn;
+<<<<<<< HEAD
 	grant_ref_t gnt_ref;
+=======
+	int gnt_ref;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	int irq;
 

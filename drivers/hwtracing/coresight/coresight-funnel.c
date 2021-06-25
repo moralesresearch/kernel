@@ -52,14 +52,21 @@ static int dynamic_funnel_enable_hw(struct funnel_drvdata *drvdata, int port)
 {
 	u32 functl;
 	int rc = 0;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_UNLOCK(drvdata->base);
 
 	functl = readl_relaxed(drvdata->base + FUNNEL_FUNCTL);
 	/* Claim the device only when we enable the first slave */
 	if (!(functl & FUNNEL_ENSx_MASK)) {
+<<<<<<< HEAD
 		rc = coresight_claim_device_unlocked(csdev);
+=======
+		rc = coresight_claim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc)
 			goto done;
 	}
@@ -102,7 +109,10 @@ static void dynamic_funnel_disable_hw(struct funnel_drvdata *drvdata,
 				      int inport)
 {
 	u32 functl;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_UNLOCK(drvdata->base);
 
@@ -112,7 +122,11 @@ static void dynamic_funnel_disable_hw(struct funnel_drvdata *drvdata,
 
 	/* Disclaim the device if none of the slaves are now active */
 	if (!(functl & FUNNEL_ENSx_MASK))
+<<<<<<< HEAD
 		coresight_disclaim_device_unlocked(csdev);
+=======
+		coresight_disclaim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_LOCK(drvdata->base);
 }
@@ -244,7 +258,10 @@ static int funnel_probe(struct device *dev, struct resource *res)
 		}
 		drvdata->base = base;
 		desc.groups = coresight_funnel_groups;
+<<<<<<< HEAD
 		desc.access = CSDEV_ACCESS_IOMEM(base);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_set_drvdata(dev, drvdata);
@@ -373,9 +390,15 @@ static int dynamic_funnel_probe(struct amba_device *adev,
 	return funnel_probe(&adev->dev, &adev->res);
 }
 
+<<<<<<< HEAD
 static void dynamic_funnel_remove(struct amba_device *adev)
 {
 	funnel_remove(&adev->dev);
+=======
+static int dynamic_funnel_remove(struct amba_device *adev)
+{
+	return funnel_remove(&adev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id dynamic_funnel_ids[] = {

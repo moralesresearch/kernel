@@ -254,6 +254,7 @@ int __init numa_cleanup_meminfo(struct numa_meminfo *mi)
 
 		/* make sure all non-reserved blocks are inside the limits */
 		bi->start = max(bi->start, low);
+<<<<<<< HEAD
 
 		/* preserve info for non-RAM areas above 'max_pfn': */
 		if (bi->end > high) {
@@ -261,6 +262,9 @@ int __init numa_cleanup_meminfo(struct numa_meminfo *mi)
 					   &numa_reserved_meminfo);
 			bi->end = high;
 		}
+=======
+		bi->end = min(bi->end, high);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* and there's no empty block */
 		if (bi->start >= bi->end)

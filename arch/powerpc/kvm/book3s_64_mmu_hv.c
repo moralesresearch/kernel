@@ -27,7 +27,10 @@
 #include <asm/cputable.h>
 #include <asm/pte-walk.h>
 
+<<<<<<< HEAD
 #include "book3s.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "trace_hv.h"
 
 //#define DEBUG_RESIZE_HPT	1
@@ -591,7 +594,11 @@ int kvmppc_book3s_hv_page_fault(struct kvm_vcpu *vcpu,
 	} else {
 		/* Call KVM generic code to do the slow-path check */
 		pfn = __gfn_to_pfn_memslot(memslot, gfn, false, NULL,
+<<<<<<< HEAD
 					   writing, &write_ok, NULL);
+=======
+					   writing, &write_ok);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (is_error_noslot_pfn(pfn))
 			return -EFAULT;
 		page = NULL;

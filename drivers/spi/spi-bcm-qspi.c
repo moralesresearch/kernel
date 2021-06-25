@@ -881,7 +881,11 @@ static int bcm_qspi_bspi_exec_mem_op(struct spi_device *spi,
 	 * when using flex mode we need to send
 	 * the upper address byte to bspi
 	 */
+<<<<<<< HEAD
 	if (!bcm_qspi_bspi_ver_three(qspi)) {
+=======
+	if (bcm_qspi_bspi_ver_three(qspi) == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		addr = from & 0xff000000;
 		bcm_qspi_write(qspi, BSPI,
 			       BSPI_BSPI_FLASH_UPPER_ADDR_BYTE, addr);

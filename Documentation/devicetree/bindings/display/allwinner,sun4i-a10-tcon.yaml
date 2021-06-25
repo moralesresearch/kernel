@@ -115,24 +115,49 @@ properties:
           - const: lvds
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+    description: |
+      A ports node with endpoint definitions as defined in
+      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Input endpoints of the controller.
 
       port@1:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/$defs/port-base
         unevaluatedProperties: false
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Output endpoints of the controller.
 
         patternProperties:
           "^endpoint(@[0-9])$":
+<<<<<<< HEAD
             $ref: /schemas/graph.yaml#/$defs/endpoint-base
             unevaluatedProperties: false
+=======
+            type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             properties:
               allwinner,tcon-channel:
@@ -149,10 +174,23 @@ properties:
                   property is not present, the endpoint number will be
                   used as the channel number.
 
+<<<<<<< HEAD
     required:
       - port@0
       - port@1
 
+=======
+            unevaluatedProperties: true
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+      - port@0
+      - port@1
+
+    additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

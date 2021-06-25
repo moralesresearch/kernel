@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 // Copyright (c) 2018 ARM Ltd.
 
+<<<<<<< HEAD
 #include <dt-bindings/leds/common.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "sun50i-a64-sopine-baseboard.dts"
 
 / {
 	model = "Pine64 LTS";
 	compatible = "pine64,pine64-lts", "allwinner,sun50i-r18",
 		     "allwinner,sun50i-a64";
+<<<<<<< HEAD
 
 	leds {
 		compatible = "gpio-leds";
@@ -22,4 +26,6 @@
 
 &mmc0 {
 	broken-cd;		/* card detect is broken on *some* boards */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

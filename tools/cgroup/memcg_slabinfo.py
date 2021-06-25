@@ -128,9 +128,15 @@ def detect_kernel_config():
 
     cfg['nr_nodes'] = prog['nr_online_nodes'].value_()
 
+<<<<<<< HEAD
     if prog.type('struct kmem_cache').members[1].name == 'flags':
         cfg['allocator'] = 'SLUB'
     elif prog.type('struct kmem_cache').members[1].name == 'batchcount':
+=======
+    if prog.type('struct kmem_cache').members[1][1] == 'flags':
+        cfg['allocator'] = 'SLUB'
+    elif prog.type('struct kmem_cache').members[1][1] == 'batchcount':
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         cfg['allocator'] = 'SLAB'
     else:
         err('Can\'t determine the slab allocator')
@@ -193,7 +199,11 @@ def main():
         # look over all slab pages, belonging to non-root memcgs
         # and look for objects belonging to the given memory cgroup
         for page in for_each_slab_page(prog):
+<<<<<<< HEAD
             objcg_vec_raw = page.memcg_data.value_()
+=======
+            objcg_vec_raw = page.obj_cgroups.value_()
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             if objcg_vec_raw == 0:
                 continue
             cache = page.slab_cache
@@ -202,7 +212,11 @@ def main():
             addr = cache.value_()
             caches[addr] = cache
             # clear the lowest bit to get the true obj_cgroups
+<<<<<<< HEAD
             objcg_vec = Object(prog, 'struct obj_cgroup **',
+=======
+            objcg_vec = Object(prog, page.obj_cgroups.type_,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                                value=objcg_vec_raw & ~1)
 
             if addr not in stats:

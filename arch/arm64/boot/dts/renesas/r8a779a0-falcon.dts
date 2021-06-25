@@ -13,6 +13,7 @@
 	compatible = "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0";
 
 	aliases {
+<<<<<<< HEAD
 		ethernet0 = &avb0;
 	};
 };
@@ -20,4 +21,12 @@
 &rwdt {
 	timeout-sec = <60>;
 	status = "okay";
+=======
+		serial0 = &scif0;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

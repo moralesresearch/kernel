@@ -25,17 +25,29 @@
  */
 static int
 xfs_growfs_data_private(
+<<<<<<< HEAD
 	struct xfs_mount	*mp,		/* mount point for filesystem */
 	struct xfs_growfs_data	*in)		/* growfs data input struct */
+=======
+	xfs_mount_t		*mp,		/* mount point for filesystem */
+	xfs_growfs_data_t	*in)		/* growfs data input struct */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct xfs_buf		*bp;
 	int			error;
 	xfs_agnumber_t		nagcount;
 	xfs_agnumber_t		nagimax = 0;
+<<<<<<< HEAD
 	xfs_rfsblock_t		nb, nb_div, nb_mod;
 	xfs_rfsblock_t		delta;
 	xfs_agnumber_t		oagcount;
 	struct xfs_trans	*tp;
+=======
+	xfs_rfsblock_t		nb, nb_mod;
+	xfs_rfsblock_t		new;
+	xfs_agnumber_t		oagcount;
+	xfs_trans_t		*tp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct aghdr_init_data	id = {};
 
 	nb = in->newblocks;
@@ -50,16 +62,26 @@ xfs_growfs_data_private(
 		return error;
 	xfs_buf_relse(bp);
 
+<<<<<<< HEAD
 	nb_div = nb;
 	nb_mod = do_div(nb_div, mp->m_sb.sb_agblocks);
 	nagcount = nb_div + (nb_mod != 0);
+=======
+	new = nb;	/* use new as a temporary here */
+	nb_mod = do_div(new, mp->m_sb.sb_agblocks);
+	nagcount = new + (nb_mod != 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (nb_mod && nb_mod < XFS_MIN_AG_BLOCKS) {
 		nagcount--;
 		nb = (xfs_rfsblock_t)nagcount * mp->m_sb.sb_agblocks;
 		if (nb < mp->m_sb.sb_dblocks)
 			return -EINVAL;
 	}
+<<<<<<< HEAD
 	delta = nb - mp->m_sb.sb_dblocks;
+=======
+	new = nb - mp->m_sb.sb_dblocks;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	oagcount = mp->m_sb.sb_agcount;
 
 	/* allocate the new per-ag structures */
@@ -89,7 +111,11 @@ xfs_growfs_data_private(
 	INIT_LIST_HEAD(&id.buffer_list);
 	for (id.agno = nagcount - 1;
 	     id.agno >= oagcount;
+<<<<<<< HEAD
 	     id.agno--, delta -= id.agsize) {
+=======
+	     id.agno--, new -= id.agsize) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (id.agno == nagcount - 1)
 			id.agsize = nb -
@@ -110,8 +136,13 @@ xfs_growfs_data_private(
 	xfs_trans_agblocks_delta(tp, id.nfree);
 
 	/* If there are new blocks in the old last AG, extend it. */
+<<<<<<< HEAD
 	if (delta) {
 		error = xfs_ag_extend_space(mp, tp, &id, delta);
+=======
+	if (new) {
+		error = xfs_ag_extend_space(mp, tp, &id, new);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_trans_cancel;
 	}
@@ -143,7 +174,11 @@ xfs_growfs_data_private(
 	 * If we expanded the last AG, free the per-AG reservation
 	 * so we can reinitialize it with the new size.
 	 */
+<<<<<<< HEAD
 	if (delta) {
+=======
+	if (new) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct xfs_perag	*pag;
 
 		pag = xfs_perag_get(mp, id.agno);
@@ -170,8 +205,13 @@ out_trans_cancel:
 
 static int
 xfs_growfs_log_private(
+<<<<<<< HEAD
 	struct xfs_mount	*mp,	/* mount point for filesystem */
 	struct xfs_growfs_log	*in)	/* growfs log input struct */
+=======
+	xfs_mount_t		*mp,	/* mount point for filesystem */
+	xfs_growfs_log_t	*in)	/* growfs log input struct */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	xfs_extlen_t		nb;
 
@@ -268,7 +308,11 @@ out_error:
 int
 xfs_growfs_log(
 	xfs_mount_t		*mp,
+<<<<<<< HEAD
 	struct xfs_growfs_log	*in)
+=======
+	xfs_growfs_log_t	*in)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 

@@ -9,6 +9,7 @@
 #include <linux/pgtable.h>
 #include <asm/tlbflush.h>
 #include <asm/fixmap.h>
+<<<<<<< HEAD
 #include <asm/pgalloc.h>
 
 static __init void *early_alloc(size_t size, int node)
@@ -22,6 +23,8 @@ static __init void *early_alloc(size_t size, int node)
 
 	return ptr;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern pgd_t early_pg_dir[PTRS_PER_PGD];
 asmlinkage void __init kasan_early_init(void)
@@ -60,6 +63,7 @@ asmlinkage void __init kasan_early_init(void)
 	local_flush_tlb_all();
 }
 
+<<<<<<< HEAD
 static void kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long end)
 {
 	phys_addr_t phys_addr;
@@ -189,6 +193,42 @@ static void __init kasan_shallow_populate(void *start, void *end)
 	}
 
 	local_flush_tlb_all();
+=======
+static void __init populate(void *start, void *end)
+{
+	unsigned long i, offset;
+	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+	unsigned long vend = PAGE_ALIGN((unsigned long)end);
+	unsigned long n_pages = (vend - vaddr) / PAGE_SIZE;
+	unsigned long n_ptes =
+	    ((n_pages + PTRS_PER_PTE) & -PTRS_PER_PTE) / PTRS_PER_PTE;
+	unsigned long n_pmds =
+	    ((n_ptes + PTRS_PER_PMD) & -PTRS_PER_PMD) / PTRS_PER_PMD;
+
+	pte_t *pte =
+	    memblock_alloc(n_ptes * PTRS_PER_PTE * sizeof(pte_t), PAGE_SIZE);
+	pmd_t *pmd =
+	    memblock_alloc(n_pmds * PTRS_PER_PMD * sizeof(pmd_t), PAGE_SIZE);
+	pgd_t *pgd = pgd_offset_k(vaddr);
+
+	for (i = 0; i < n_pages; i++) {
+		phys_addr_t phys = memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
+		set_pte(&pte[i], pfn_pte(PHYS_PFN(phys), PAGE_KERNEL));
+	}
+
+	for (i = 0, offset = 0; i < n_ptes; i++, offset += PTRS_PER_PTE)
+		set_pmd(&pmd[i],
+			pfn_pmd(PFN_DOWN(__pa(&pte[offset])),
+				__pgprot(_PAGE_TABLE)));
+
+	for (i = 0, offset = 0; i < n_pmds; i++, offset += PTRS_PER_PMD)
+		set_pgd(&pgd[i],
+			pfn_pgd(PFN_DOWN(__pa(&pmd[offset])),
+				__pgprot(_PAGE_TABLE)));
+
+	local_flush_tlb_all();
+	memset(start, 0, end - start);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __init kasan_init(void)
@@ -198,6 +238,7 @@ void __init kasan_init(void)
 
 	kasan_populate_early_shadow((void *)KASAN_SHADOW_START,
 				    (void *)kasan_mem_to_shadow((void *)
+<<<<<<< HEAD
 								VMEMMAP_END));
 	if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
 		kasan_shallow_populate(
@@ -207,6 +248,9 @@ void __init kasan_init(void)
 		kasan_populate_early_shadow(
 			(void *)kasan_mem_to_shadow((void *)VMALLOC_START),
 			(void *)kasan_mem_to_shadow((void *)VMALLOC_END));
+=======
+								VMALLOC_END));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for_each_mem_range(i, &_start, &_end) {
 		void *start = (void *)__va(_start);
@@ -215,8 +259,13 @@ void __init kasan_init(void)
 		if (start >= end)
 			break;
 
+<<<<<<< HEAD
 		kasan_populate(kasan_mem_to_shadow(start), kasan_mem_to_shadow(end));
 	}
+=======
+		populate(kasan_mem_to_shadow(start), kasan_mem_to_shadow(end));
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < PTRS_PER_PTE; i++)
 		set_pte(&kasan_early_shadow_pte[i],
@@ -224,6 +273,10 @@ void __init kasan_init(void)
 			       __pgprot(_PAGE_PRESENT | _PAGE_READ |
 					_PAGE_ACCESSED)));
 
+<<<<<<< HEAD
 	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+=======
+	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_task.kasan_depth = 0;
 }

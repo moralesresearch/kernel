@@ -336,11 +336,14 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
 			cmd->connect.recfmt);
 		break;
 
+<<<<<<< HEAD
 	case NVME_SC_HOST_PATH_ERROR:
 		dev_err(ctrl->device,
 			"Connect command failed: host path error\n");
 		break;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		dev_err(ctrl->device,
 			"Connect command failed, error wo/DNR bit: %d\n",
@@ -557,7 +560,15 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
 	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
 		return BLK_STS_RESOURCE;
+<<<<<<< HEAD
 	return nvme_host_path_error(rq);
+=======
+
+	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
+	blk_mq_start_request(rq);
+	nvme_complete_rq(rq);
+	return BLK_STS_OK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
 
@@ -635,7 +646,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
 	opts->nr_io_queues = num_online_cpus();
 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+<<<<<<< HEAD
 	opts->kato = 0;
+=======
+	opts->kato = NVME_DEFAULT_KATO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	opts->duplicate_connect = false;
 	opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
 	opts->hdr_digest = false;
@@ -898,9 +913,12 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
 		opts->nr_write_queues = 0;
 		opts->nr_poll_queues = 0;
 		opts->duplicate_connect = true;
+<<<<<<< HEAD
 	} else {
 		if (!opts->kato)
 			opts->kato = NVME_DEFAULT_KATO;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (ctrl_loss_tmo < 0) {
 		opts->max_reconnects = -1;

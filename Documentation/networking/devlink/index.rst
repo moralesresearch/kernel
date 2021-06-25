@@ -18,7 +18,10 @@ general.
    devlink-info
    devlink-flash
    devlink-params
+<<<<<<< HEAD
    devlink-port
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    devlink-region
    devlink-resource
    devlink-reload
@@ -45,4 +48,7 @@ parameters, info versions, and other features it supports.
    sja1105
    qed
    ti-cpsw-switch
+<<<<<<< HEAD
    am65-nuss-cpsw-switch
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

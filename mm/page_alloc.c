@@ -764,6 +764,7 @@ static inline void clear_page_guard(struct zone *zone, struct page *page,
  */
 void init_mem_debugging_and_hardening(void)
 {
+<<<<<<< HEAD
 	bool page_poisoning_requested = false;
 
 #ifdef CONFIG_PAGE_POISONING
@@ -781,19 +782,41 @@ void init_mem_debugging_and_hardening(void)
 
 	if (_init_on_alloc_enabled_early) {
 		if (page_poisoning_requested)
+=======
+	if (_init_on_alloc_enabled_early) {
+		if (page_poisoning_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pr_info("mem auto-init: CONFIG_PAGE_POISONING is on, "
 				"will take precedence over init_on_alloc\n");
 		else
 			static_branch_enable(&init_on_alloc);
 	}
 	if (_init_on_free_enabled_early) {
+<<<<<<< HEAD
 		if (page_poisoning_requested)
+=======
+		if (page_poisoning_enabled())
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pr_info("mem auto-init: CONFIG_PAGE_POISONING is on, "
 				"will take precedence over init_on_free\n");
 		else
 			static_branch_enable(&init_on_free);
 	}
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_PAGE_POISONING
+	/*
+	 * Page poisoning is debug page alloc for some arches. If
+	 * either of those options are enabled, enable poisoning.
+	 */
+	if (page_poisoning_enabled() ||
+	     (!IS_ENABLED(CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC) &&
+	      debug_pagealloc_enabled()))
+		static_branch_enable(&_page_poisoning_enabled);
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DEBUG_PAGEALLOC
 	if (!debug_pagealloc_enabled())
 		return;
@@ -2176,7 +2199,14 @@ void __init init_cma_reserved_pageblock(struct page *page)
 	}
 
 	adjust_managed_page_count(page, pageblock_nr_pages);
+<<<<<<< HEAD
 	page_zone(page)->cma_pages += pageblock_nr_pages;
+=======
+<<<<<<< HEAD
+	page_zone(page)->cma_pages += pageblock_nr_pages;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
@@ -5147,9 +5177,20 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
 }
 EXPORT_SYMBOL(__page_frag_cache_drain);
 
+<<<<<<< HEAD
 void *page_frag_alloc_align(struct page_frag_cache *nc,
 		      unsigned int fragsz, gfp_t gfp_mask,
 		      unsigned int align_mask)
+=======
+<<<<<<< HEAD
+void *page_frag_alloc_align(struct page_frag_cache *nc,
+		      unsigned int fragsz, gfp_t gfp_mask,
+		      unsigned int align_mask)
+=======
+void *page_frag_alloc(struct page_frag_cache *nc,
+		      unsigned int fragsz, gfp_t gfp_mask)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int size = PAGE_SIZE;
 	struct page *page;
@@ -5201,12 +5242,27 @@ refill:
 	}
 
 	nc->pagecnt_bias--;
+<<<<<<< HEAD
 	offset &= align_mask;
+=======
+<<<<<<< HEAD
+	offset &= align_mask;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nc->offset = offset;
 
 	return nc->va + offset;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(page_frag_alloc_align);
+=======
+<<<<<<< HEAD
+EXPORT_SYMBOL(page_frag_alloc_align);
+=======
+EXPORT_SYMBOL(page_frag_alloc);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Frees a page fragment allocated out of either a compound or order 0 page.
@@ -5594,9 +5650,22 @@ void show_free_areas(unsigned int filter, nodemask_t *nodemask)
 			K(node_page_state(pgdat, NR_WRITEBACK)),
 			K(node_page_state(pgdat, NR_SHMEM)),
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+<<<<<<< HEAD
 			K(node_page_state(pgdat, NR_SHMEM_THPS)),
 			K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
 			K(node_page_state(pgdat, NR_ANON_THPS)),
+=======
+<<<<<<< HEAD
+			K(node_page_state(pgdat, NR_SHMEM_THPS)),
+			K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
+			K(node_page_state(pgdat, NR_ANON_THPS)),
+=======
+			K(node_page_state(pgdat, NR_SHMEM_THPS) * HPAGE_PMD_NR),
+			K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)
+					* HPAGE_PMD_NR),
+			K(node_page_state(pgdat, NR_ANON_THPS) * HPAGE_PMD_NR),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 			K(node_page_state(pgdat, NR_WRITEBACK_TEMP)),
 			node_page_state(pgdat, NR_KERNEL_STACK_KB),
@@ -6131,7 +6200,15 @@ overlap_memmap_init(unsigned long zone, unsigned long *pfn)
  * (usually MIGRATE_MOVABLE). Besides setting the migratetype, no related
  * zone stats (e.g., nr_isolate_pageblock) are touched.
  */
+<<<<<<< HEAD
 void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone,
+=======
+<<<<<<< HEAD
+void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone,
+=======
+void __meminit memmap_init_zone(unsigned long size, int nid, unsigned long zone,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long start_pfn, unsigned long zone_end_pfn,
 		enum meminit_context context,
 		struct vmem_altmap *altmap, int migratetype)
@@ -6319,6 +6396,10 @@ static inline u64 init_unavailable_range(unsigned long spfn, unsigned long epfn,
 }
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __meminit __weak memmap_init_zone(struct zone *zone)
 {
 	unsigned long zone_start_pfn = zone->zone_start_pfn;
@@ -6340,6 +6421,34 @@ void __meminit __weak memmap_init_zone(struct zone *zone)
 		if (hole_pfn < start_pfn)
 			pgcnt += init_unavailable_range(hole_pfn, start_pfn,
 							zone_id, nid);
+<<<<<<< HEAD
+=======
+=======
+void __meminit __weak memmap_init(unsigned long size, int nid,
+				  unsigned long zone,
+				  unsigned long range_start_pfn)
+{
+	static unsigned long hole_pfn;
+	unsigned long start_pfn, end_pfn;
+	unsigned long range_end_pfn = range_start_pfn + size;
+	int i;
+	u64 pgcnt = 0;
+
+	for_each_mem_pfn_range(i, nid, &start_pfn, &end_pfn, NULL) {
+		start_pfn = clamp(start_pfn, range_start_pfn, range_end_pfn);
+		end_pfn = clamp(end_pfn, range_start_pfn, range_end_pfn);
+
+		if (end_pfn > start_pfn) {
+			size = end_pfn - start_pfn;
+			memmap_init_zone(size, nid, zone, start_pfn, range_end_pfn,
+					 MEMINIT_EARLY, NULL, MIGRATE_MOVABLE);
+		}
+
+		if (hole_pfn < start_pfn)
+			pgcnt += init_unavailable_range(hole_pfn, start_pfn,
+							zone, nid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hole_pfn = end_pfn;
 	}
 
@@ -6350,15 +6459,36 @@ void __meminit __weak memmap_init_zone(struct zone *zone)
 	 * will be re-initialized during the call to this function for the
 	 * higher zone.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	end_pfn = round_up(zone_end_pfn, PAGES_PER_SECTION);
 	if (hole_pfn < end_pfn)
 		pgcnt += init_unavailable_range(hole_pfn, end_pfn,
 						zone_id, nid);
+<<<<<<< HEAD
+=======
+=======
+	end_pfn = round_up(range_end_pfn, PAGES_PER_SECTION);
+	if (hole_pfn < end_pfn)
+		pgcnt += init_unavailable_range(hole_pfn, end_pfn,
+						zone, nid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	if (pgcnt)
 		pr_info("  %s zone: %llu pages in unavailable ranges\n",
+<<<<<<< HEAD
 			zone->name, pgcnt);
+=======
+<<<<<<< HEAD
+			zone->name, pgcnt);
+=======
+			zone_names[zone], pgcnt);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int zone_batchsize(struct zone *zone)
@@ -6850,14 +6980,33 @@ static unsigned long __init usemap_size(unsigned long zone_start_pfn, unsigned l
 	return usemapsize / 8;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __ref setup_usemap(struct zone *zone)
 {
 	unsigned long usemapsize = usemap_size(zone->zone_start_pfn,
 					       zone->spanned_pages);
+<<<<<<< HEAD
+=======
+=======
+static void __ref setup_usemap(struct pglist_data *pgdat,
+				struct zone *zone,
+				unsigned long zone_start_pfn,
+				unsigned long zonesize)
+{
+	unsigned long usemapsize = usemap_size(zone_start_pfn, zonesize);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	zone->pageblock_flags = NULL;
 	if (usemapsize) {
 		zone->pageblock_flags =
 			memblock_alloc_node(usemapsize, SMP_CACHE_BYTES,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    zone_to_nid(zone));
 		if (!zone->pageblock_flags)
 			panic("Failed to allocate %ld bytes for zone %s pageblock flags on node %d\n",
@@ -6866,6 +7015,20 @@ static void __ref setup_usemap(struct zone *zone)
 }
 #else
 static inline void setup_usemap(struct zone *zone) {}
+<<<<<<< HEAD
+=======
+=======
+					    pgdat->node_id);
+		if (!zone->pageblock_flags)
+			panic("Failed to allocate %ld bytes for zone %s pageblock flags on node %d\n",
+			      usemapsize, zone->name, pgdat->node_id);
+	}
+}
+#else
+static inline void setup_usemap(struct pglist_data *pgdat, struct zone *zone,
+				unsigned long zone_start_pfn, unsigned long zonesize) {}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_SPARSEMEM */
 
 #ifdef CONFIG_HUGETLB_PAGE_SIZE_VARIABLE
@@ -7012,6 +7175,13 @@ static void __init free_area_init_core(struct pglist_data *pgdat)
 	for (j = 0; j < MAX_NR_ZONES; j++) {
 		struct zone *zone = pgdat->node_zones + j;
 		unsigned long size, freesize, memmap_pages;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		unsigned long zone_start_pfn = zone->zone_start_pfn;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		size = zone->spanned_pages;
 		freesize = zone->present_pages;
@@ -7059,9 +7229,21 @@ static void __init free_area_init_core(struct pglist_data *pgdat)
 			continue;
 
 		set_pageblock_order();
+<<<<<<< HEAD
 		setup_usemap(zone);
 		init_currently_empty_zone(zone, zone->zone_start_pfn, size);
 		memmap_init_zone(zone);
+=======
+<<<<<<< HEAD
+		setup_usemap(zone);
+		init_currently_empty_zone(zone, zone->zone_start_pfn, size);
+		memmap_init_zone(zone);
+=======
+		setup_usemap(pgdat, zone, zone_start_pfn, size);
+		init_currently_empty_zone(zone, zone_start_pfn, size);
+		memmap_init(size, nid, j, zone_start_pfn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -7693,6 +7875,23 @@ unsigned long free_reserved_area(void *start, void *end, int poison, const char 
 	return pages;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifdef	CONFIG_HIGHMEM
+void free_highmem_page(struct page *page)
+{
+	__free_reserved_page(page);
+	totalram_pages_inc();
+	atomic_long_inc(&page_zone(page)->managed_pages);
+	totalhigh_pages_inc();
+}
+#endif
+
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init mem_init_print_info(const char *str)
 {
 	unsigned long physpages, codesize, datasize, rosize, bss_size;
@@ -8951,8 +9150,11 @@ bool take_page_off_buddy(struct page *page)
 			del_page_from_free_list(page_head, zone, page_order);
 			break_down_buddy_pages(zone, page_head, page, 0,
 						page_order, migratetype);
+<<<<<<< HEAD
 			if (!is_migrate_isolate(migratetype))
 				__mod_zone_freepage_state(zone, -1, migratetype);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = true;
 			break;
 		}

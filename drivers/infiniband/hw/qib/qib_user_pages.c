@@ -43,7 +43,11 @@ static void __qib_release_user_pages(struct page **p, size_t num_pages,
 	unpin_user_pages_dirty_lock(p, num_pages, dirty);
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * qib_map_page - a safety wrapper around pci_map_page()
  *
  * A dma_addr of all 0's is interpreted by the chip as "disabled".

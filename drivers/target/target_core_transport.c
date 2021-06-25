@@ -1320,6 +1320,10 @@ target_cmd_size_check(struct se_cmd *cmd, unsigned int size)
 			" %u does not match SCSI CDB Length: %u for SAM Opcode:"
 			" 0x%02x\n", cmd->se_tfo->fabric_name,
 				cmd->data_length, size, cmd->t_task_cdb[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * For READ command for the overflow case keep the existing
 		 * fabric provided ->data_length. Otherwise for the underflow
@@ -1340,12 +1344,25 @@ target_cmd_size_check(struct se_cmd *cmd, unsigned int size)
 				cmd->data_length = size;
 			}
 		}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (cmd->data_direction == DMA_TO_DEVICE) {
 			if (cmd->se_cmd_flags & SCF_SCSI_DATA_CDB) {
 				pr_err_ratelimited("Rejecting underflow/overflow"
 						   " for WRITE data CDB\n");
+<<<<<<< HEAD
 				return TCM_INVALID_FIELD_IN_COMMAND_IU;
+=======
+<<<<<<< HEAD
+				return TCM_INVALID_FIELD_IN_COMMAND_IU;
+=======
+				return TCM_INVALID_CDB_FIELD;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			/*
 			 * Some fabric drivers like iscsi-target still expect to
@@ -1359,6 +1376,37 @@ target_cmd_size_check(struct se_cmd *cmd, unsigned int size)
 				return TCM_INVALID_CDB_FIELD;
 			}
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		/*
+		 * Reject READ_* or WRITE_* with overflow/underflow for
+		 * type SCF_SCSI_DATA_CDB.
+		 */
+		if (dev->dev_attrib.block_size != 512)  {
+			pr_err("Failing OVERFLOW/UNDERFLOW for LBA op"
+				" CDB on non 512-byte sector setup subsystem"
+				" plugin: %s\n", dev->transport->name);
+			/* Returns CHECK_CONDITION + INVALID_CDB_FIELD */
+			return TCM_INVALID_CDB_FIELD;
+		}
+		/*
+		 * For the overflow case keep the existing fabric provided
+		 * ->data_length.  Otherwise for the underflow case, reset
+		 * ->data_length to the smaller SCSI expected data transfer
+		 * length.
+		 */
+		if (size > cmd->data_length) {
+			cmd->se_cmd_flags |= SCF_OVERFLOW_BIT;
+			cmd->residual_count = (size - cmd->data_length);
+		} else {
+			cmd->se_cmd_flags |= SCF_UNDERFLOW_BIT;
+			cmd->residual_count = (cmd->data_length - size);
+			cmd->data_length = size;
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return target_check_max_data_sg_nents(cmd, dev, size);
@@ -1400,7 +1448,11 @@ void transport_init_se_cmd(
 	cmd->orig_fe_lun = unpacked_lun;
 
 	if (!(cmd->se_cmd_flags & SCF_USE_CPUID))
+<<<<<<< HEAD
 		cmd->cpuid = raw_smp_processor_id();
+=======
+		cmd->cpuid = smp_processor_id();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cmd->state_active = false;
 }
@@ -1514,14 +1566,35 @@ int transport_handle_cdb_direct(
 {
 	sense_reason_t ret;
 
+<<<<<<< HEAD
 	might_sleep();
 
+=======
+<<<<<<< HEAD
+	might_sleep();
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cmd->se_lun) {
 		dump_stack();
 		pr_err("cmd->se_lun is NULL\n");
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	if (in_interrupt()) {
+		dump_stack();
+		pr_err("transport_generic_handle_cdb cannot be called"
+				" from interrupt context\n");
+		return -EINVAL;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Set TRANSPORT_NEW_CMD state and CMD_T_ACTIVE to ensure that
 	 * outstanding descriptors are handled correctly during shutdown via
@@ -1612,11 +1685,24 @@ int target_submit_cmd_map_sgls(struct se_cmd *se_cmd, struct se_session *se_sess
 	sense_reason_t rc;
 	int ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	might_sleep();
 
 	se_tpg = se_sess->se_tpg;
 	BUG_ON(!se_tpg);
 	BUG_ON(se_cmd->se_tfo || se_cmd->se_sess);
+<<<<<<< HEAD
+=======
+=======
+	se_tpg = se_sess->se_tpg;
+	BUG_ON(!se_tpg);
+	BUG_ON(se_cmd->se_tfo || se_cmd->se_sess);
+	BUG_ON(in_interrupt());
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (flags & TARGET_SCF_USE_CPUID)
 		se_cmd->se_cmd_flags |= SCF_USE_CPUID;
@@ -1884,7 +1970,14 @@ void transport_generic_request_failure(struct se_cmd *cmd,
 	case TCM_UNSUPPORTED_TARGET_DESC_TYPE_CODE:
 	case TCM_TOO_MANY_SEGMENT_DESCS:
 	case TCM_UNSUPPORTED_SEGMENT_DESC_TYPE_CODE:
+<<<<<<< HEAD
 	case TCM_INVALID_FIELD_IN_COMMAND_IU:
+=======
+<<<<<<< HEAD
+	case TCM_INVALID_FIELD_IN_COMMAND_IU:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case TCM_OUT_OF_RESOURCES:
 		cmd->scsi_status = SAM_STAT_TASK_SET_FULL;
@@ -2995,7 +3088,13 @@ __transport_wait_for_tasks(struct se_cmd *cmd, bool fabric_stop,
 	__releases(&cmd->t_state_lock)
 	__acquires(&cmd->t_state_lock)
 {
+<<<<<<< HEAD
 	lockdep_assert_held(&cmd->t_state_lock);
+=======
+
+	assert_spin_locked(&cmd->t_state_lock);
+	WARN_ON_ONCE(!irqs_disabled());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (fabric_stop)
 		cmd->transport_state |= CMD_T_FABRIC_STOP;
@@ -3209,11 +3308,20 @@ static const struct sense_detail sense_detail_table[] = {
 		.asc = 0x55,
 		.ascq = 0x04, /* INSUFFICIENT REGISTRATION RESOURCES */
 	},
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[TCM_INVALID_FIELD_IN_COMMAND_IU] = {
 		.key = ILLEGAL_REQUEST,
 		.asc = 0x0e,
 		.ascq = 0x03, /* INVALID FIELD IN COMMAND INFORMATION UNIT */
 	},
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**

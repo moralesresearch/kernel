@@ -93,9 +93,15 @@ int ovl_copy_xattr(struct super_block *sb, struct dentry *old,
 			continue; /* Discard */
 		}
 retry:
+<<<<<<< HEAD
 		size = vfs_getxattr(&init_user_ns, old, name, value, value_size);
 		if (size == -ERANGE)
 			size = vfs_getxattr(&init_user_ns, old, name, NULL, 0);
+=======
+		size = vfs_getxattr(old, name, value, value_size);
+		if (size == -ERANGE)
+			size = vfs_getxattr(old, name, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (size < 0) {
 			error = size;
@@ -115,7 +121,11 @@ retry:
 			goto retry;
 		}
 
+<<<<<<< HEAD
 		error = vfs_setxattr(&init_user_ns, new, name, value, size, 0);
+=======
+		error = vfs_setxattr(new, name, value, size, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error) {
 			if (error != -EOPNOTSUPP || ovl_must_copy_xattr(name))
 				break;
@@ -236,7 +246,11 @@ static int ovl_set_size(struct dentry *upperdentry, struct kstat *stat)
 		.ia_size = stat->size,
 	};
 
+<<<<<<< HEAD
 	return notify_change(&init_user_ns, upperdentry, &attr, NULL);
+=======
+	return notify_change(upperdentry, &attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ovl_set_timestamps(struct dentry *upperdentry, struct kstat *stat)
@@ -248,7 +262,11 @@ static int ovl_set_timestamps(struct dentry *upperdentry, struct kstat *stat)
 		.ia_mtime = stat->mtime,
 	};
 
+<<<<<<< HEAD
 	return notify_change(&init_user_ns, upperdentry, &attr, NULL);
+=======
+	return notify_change(upperdentry, &attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int ovl_set_attr(struct dentry *upperdentry, struct kstat *stat)
@@ -260,7 +278,11 @@ int ovl_set_attr(struct dentry *upperdentry, struct kstat *stat)
 			.ia_valid = ATTR_MODE,
 			.ia_mode = stat->mode,
 		};
+<<<<<<< HEAD
 		err = notify_change(&init_user_ns, upperdentry, &attr, NULL);
+=======
+		err = notify_change(upperdentry, &attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (!err) {
 		struct iattr attr = {
@@ -268,7 +290,11 @@ int ovl_set_attr(struct dentry *upperdentry, struct kstat *stat)
 			.ia_uid = stat->uid,
 			.ia_gid = stat->gid,
 		};
+<<<<<<< HEAD
 		err = notify_change(&init_user_ns, upperdentry, &attr, NULL);
+=======
+		err = notify_change(upperdentry, &attr, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (!err)
 		ovl_set_timestamps(upperdentry, stat);
@@ -796,7 +822,11 @@ static ssize_t ovl_getxattr(struct dentry *dentry, char *name, char **value)
 	ssize_t res;
 	char *buf;
 
+<<<<<<< HEAD
 	res = vfs_getxattr(&init_user_ns, dentry, name, NULL, 0);
+=======
+	res = vfs_getxattr(dentry, name, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (res == -ENODATA || res == -EOPNOTSUPP)
 		res = 0;
 
@@ -805,7 +835,11 @@ static ssize_t ovl_getxattr(struct dentry *dentry, char *name, char **value)
 		if (!buf)
 			return -ENOMEM;
 
+<<<<<<< HEAD
 		res = vfs_getxattr(&init_user_ns, dentry, name, buf, res);
+=======
+		res = vfs_getxattr(dentry, name, buf, res);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (res < 0)
 			kfree(buf);
 		else
@@ -847,8 +881,13 @@ static int ovl_copy_up_meta_inode_data(struct ovl_copy_up_ctx *c)
 	 * don't want that to happen for normal copy-up operation.
 	 */
 	if (capability) {
+<<<<<<< HEAD
 		err = vfs_setxattr(&init_user_ns, upperpath.dentry,
 				   XATTR_NAME_CAPS, capability, cap_size, 0);
+=======
+		err = vfs_setxattr(upperpath.dentry, XATTR_NAME_CAPS,
+				   capability, cap_size, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out_free;
 	}
@@ -932,7 +971,11 @@ static int ovl_copy_up_one(struct dentry *parent, struct dentry *dentry,
 static int ovl_copy_up_flags(struct dentry *dentry, int flags)
 {
 	int err = 0;
+<<<<<<< HEAD
 	const struct cred *old_cred;
+=======
+	const struct cred *old_cred = ovl_override_creds(dentry->d_sb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool disconnected = (dentry->d_flags & DCACHE_DISCONNECTED);
 
 	/*
@@ -943,7 +986,10 @@ static int ovl_copy_up_flags(struct dentry *dentry, int flags)
 	if (WARN_ON(disconnected && d_is_dir(dentry)))
 		return -EIO;
 
+<<<<<<< HEAD
 	old_cred = ovl_override_creds(dentry->d_sb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (!err) {
 		struct dentry *next;
 		struct dentry *parent = NULL;

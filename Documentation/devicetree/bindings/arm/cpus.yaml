@@ -169,7 +169,10 @@ properties:
       - qcom,kryo385
       - qcom,kryo468
       - qcom,kryo485
+<<<<<<< HEAD
       - qcom,kryo685
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - qcom,scorpion
 
   enable-method:

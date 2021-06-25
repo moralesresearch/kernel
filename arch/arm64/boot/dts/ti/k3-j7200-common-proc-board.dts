@@ -6,10 +6,15 @@
 /dts-v1/;
 
 #include "k3-j7200-som-p0.dtsi"
+<<<<<<< HEAD
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/net/ti-dp83867.h>
 #include <dt-bindings/mux/ti-serdes.h>
 #include <dt-bindings/phy/phy.h>
+=======
+#include <dt-bindings/net/ti-dp83867.h>
+#include <dt-bindings/mux/ti-serdes.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	chosen {
@@ -220,6 +225,7 @@
 		ti,adc-channels = <0 1 2 3 4 5 6 7>;
 	};
 };
+<<<<<<< HEAD
 
 &serdes_refclk {
 	clock-frequency = <100000000>;
@@ -256,3 +262,5 @@
 	num-lanes = <2>;
 	status = "disabled";
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

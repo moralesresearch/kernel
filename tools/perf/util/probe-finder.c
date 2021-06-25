@@ -190,9 +190,12 @@ static int convert_variable_location(Dwarf_Die *vr_die, Dwarf_Addr addr,
 	    immediate_value_is_supported()) {
 		Dwarf_Sword snum;
 
+<<<<<<< HEAD
 		if (!tvar)
 			return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dwarf_formsdata(&attr, &snum);
 		ret = asprintf(&tvar->value, "\\%ld", (long)snum);
 
@@ -1190,10 +1193,15 @@ static int debuginfo__find_probe_location(struct debuginfo *dbg,
 	while (!dwarf_nextcu(dbg->dbg, off, &noff, &cuhl, NULL, NULL, NULL)) {
 		/* Get the DIE(Debugging Information Entry) of this CU */
 		diep = dwarf_offdie(dbg->dbg, off + cuhl, &pf->cu_die);
+<<<<<<< HEAD
 		if (!diep) {
 			off = noff;
 			continue;
 		}
+=======
+		if (!diep)
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Check if target file is included. */
 		if (pp->file)
@@ -1954,10 +1962,15 @@ int debuginfo__find_line_range(struct debuginfo *dbg, struct line_range *lr)
 
 		/* Get the DIE(Debugging Information Entry) of this CU */
 		diep = dwarf_offdie(dbg->dbg, off + cuhl, &lf.cu_die);
+<<<<<<< HEAD
 		if (!diep) {
 			off = noff;
 			continue;
 		}
+=======
+		if (!diep)
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Check if target file is included. */
 		if (lr->file)

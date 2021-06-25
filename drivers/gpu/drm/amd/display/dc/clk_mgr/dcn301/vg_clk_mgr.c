@@ -75,8 +75,12 @@ int vg_get_active_display_cnt_wa(
 		const struct dc_link *link = dc->links[i];
 
 		/* abusing the fact that the dig and phy are coupled to see if the phy is enabled */
+<<<<<<< HEAD
 		if (link->link_enc->funcs->is_dig_enabled &&
 				link->link_enc->funcs->is_dig_enabled(link->link_enc))
+=======
+		if (link->link_enc->funcs->is_dig_enabled(link->link_enc))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			display_count++;
 	}
 

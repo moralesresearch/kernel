@@ -33,7 +33,11 @@ struct file *shmem_create_from_object(struct drm_i915_gem_object *obj)
 	struct file *file;
 	void *ptr;
 
+<<<<<<< HEAD
 	if (i915_gem_object_is_shmem(obj)) {
+=======
+	if (obj->ops == &i915_gem_shmem_ops) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		file = obj->base.filp;
 		atomic_long_inc(&file->f_count);
 		return file;

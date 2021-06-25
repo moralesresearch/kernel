@@ -11,7 +11,10 @@
 #include <linux/signal.h>
 #include <linux/sched.h>
 #include <linux/bug.h>
+<<<<<<< HEAD
 #include <linux/minmax.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mm.h>
 #include <linux/mmu_notifier.h>
 #include <linux/preempt.h>
@@ -192,8 +195,13 @@ int kvm_io_bus_read(struct kvm_vcpu *vcpu, enum kvm_bus bus_idx, gpa_t addr,
 		    int len, void *val);
 int kvm_io_bus_register_dev(struct kvm *kvm, enum kvm_bus bus_idx, gpa_t addr,
 			    int len, struct kvm_io_device *dev);
+<<<<<<< HEAD
 int kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 			      struct kvm_io_device *dev);
+=======
+void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
+			       struct kvm_io_device *dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct kvm_io_device *kvm_io_bus_get_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 					 gpa_t addr);
 
@@ -426,8 +434,14 @@ struct kvm_irq_routing_table {
 #define KVM_PRIVATE_MEM_SLOTS 0
 #endif
 
+<<<<<<< HEAD
 #define KVM_MEM_SLOTS_NUM SHRT_MAX
 #define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_PRIVATE_MEM_SLOTS)
+=======
+#ifndef KVM_MEM_SLOTS_NUM
+#define KVM_MEM_SLOTS_NUM (KVM_USER_MEM_SLOTS + KVM_PRIVATE_MEM_SLOTS)
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifndef __KVM_VCPU_MULTIPLE_ADDRESS_SPACE
 static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
@@ -451,12 +465,16 @@ struct kvm_memslots {
 };
 
 struct kvm {
+<<<<<<< HEAD
 #ifdef KVM_HAVE_MMU_RWLOCK
 	rwlock_t mmu_lock;
 #else
 	spinlock_t mmu_lock;
 #endif /* KVM_HAVE_MMU_RWLOCK */
 
+=======
+	spinlock_t mmu_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mutex slots_lock;
 	struct mm_struct *mm; /* userspace tied to this vm */
 	struct kvm_memslots __rcu *memslots[KVM_ADDRESS_SPACE_NUM];
@@ -507,8 +525,11 @@ struct kvm {
 	struct mmu_notifier mmu_notifier;
 	unsigned long mmu_notifier_seq;
 	long mmu_notifier_count;
+<<<<<<< HEAD
 	unsigned long mmu_notifier_range_start;
 	unsigned long mmu_notifier_range_end;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	long tlbs_dirty;
 	struct list_head devices;
@@ -736,7 +757,11 @@ kvm_pfn_t gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn);
 kvm_pfn_t gfn_to_pfn_memslot_atomic(struct kvm_memory_slot *slot, gfn_t gfn);
 kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
 			       bool atomic, bool *async, bool write_fault,
+<<<<<<< HEAD
 			       bool *writable, hva_t *hva);
+=======
+			       bool *writable);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void kvm_release_pfn_clean(kvm_pfn_t pfn);
 void kvm_release_pfn_dirty(kvm_pfn_t pfn);
@@ -1118,6 +1143,7 @@ __gfn_to_memslot(struct kvm_memslots *slots, gfn_t gfn)
 static inline unsigned long
 __gfn_to_hva_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
 {
+<<<<<<< HEAD
 	/*
 	 * The index was checked originally in search_memslots.  To avoid
 	 * that a malicious guest builds a Spectre gadget out of e.g. page
@@ -1127,6 +1153,9 @@ __gfn_to_hva_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
 	unsigned long offset = gfn - slot->base_gfn;
 	offset = array_index_nospec(offset, slot->npages);
 	return slot->userspace_addr + offset * PAGE_SIZE;
+=======
+	return slot->userspace_addr + (gfn - slot->base_gfn) * PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int memslot_id(struct kvm *kvm, gfn_t gfn)
@@ -1218,6 +1247,7 @@ static inline int mmu_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
 		return 1;
 	return 0;
 }
+<<<<<<< HEAD
 
 static inline int mmu_notifier_retry_hva(struct kvm *kvm,
 					 unsigned long mmu_seq,
@@ -1238,6 +1268,8 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
 		return 1;
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_HAVE_KVM_IRQ_ROUTING

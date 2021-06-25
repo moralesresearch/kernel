@@ -44,6 +44,10 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_sdw_machines[] = {
 		.link_mask = 0x1, /* link0 required */
 		.links = adl_rvp,
 		.drv_name = "sof_sdw",
+<<<<<<< HEAD
+=======
+		.sof_fw_filename = "sof-adl.ri",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sof_tplg_filename = "sof-adl-rt711.tplg",
 	},
 	{},

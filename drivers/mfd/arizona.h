@@ -50,4 +50,16 @@ int arizona_dev_exit(struct arizona *arizona);
 int arizona_irq_init(struct arizona *arizona);
 int arizona_irq_exit(struct arizona *arizona);
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_OF
+unsigned long arizona_of_get_type(struct device *dev);
+#else
+static inline unsigned long arizona_of_get_type(struct device *dev)
+{
+	return 0;
+}
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

@@ -159,10 +159,21 @@ struct qcom_pcie_resources_2_3_3 {
 	struct reset_control *rst[7];
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* 6 clocks typically, 7 for sm8250 */
 struct qcom_pcie_resources_2_7_0 {
 	struct clk_bulk_data clks[7];
 	int num_clks;
+<<<<<<< HEAD
+=======
+=======
+struct qcom_pcie_resources_2_7_0 {
+	struct clk_bulk_data clks[6];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct regulator_bulk_data supplies[2];
 	struct reset_control *pci_reset;
 	struct clk *pipe_clk;
@@ -1156,6 +1167,10 @@ static int qcom_pcie_get_resources_2_7_0(struct qcom_pcie *pcie)
 	res->clks[3].id = "bus_slave";
 	res->clks[4].id = "slave_q2a";
 	res->clks[5].id = "tbu";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (of_device_is_compatible(dev->of_node, "qcom,pcie-sm8250")) {
 		res->clks[6].id = "ddrss_sf_tbu";
 		res->num_clks = 7;
@@ -1164,6 +1179,13 @@ static int qcom_pcie_get_resources_2_7_0(struct qcom_pcie *pcie)
 	}
 
 	ret = devm_clk_bulk_get(dev, res->num_clks, res->clks);
+<<<<<<< HEAD
+=======
+=======
+
+	ret = devm_clk_bulk_get(dev, ARRAY_SIZE(res->clks), res->clks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1185,7 +1207,15 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
 		return ret;
 	}
 
+<<<<<<< HEAD
 	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
+=======
+<<<<<<< HEAD
+	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
+=======
+	ret = clk_bulk_prepare_enable(ARRAY_SIZE(res->clks), res->clks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		goto err_disable_regulators;
 
@@ -1237,7 +1267,15 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
 
 	return 0;
 err_disable_clocks:
+<<<<<<< HEAD
 	clk_bulk_disable_unprepare(res->num_clks, res->clks);
+=======
+<<<<<<< HEAD
+	clk_bulk_disable_unprepare(res->num_clks, res->clks);
+=======
+	clk_bulk_disable_unprepare(ARRAY_SIZE(res->clks), res->clks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_disable_regulators:
 	regulator_bulk_disable(ARRAY_SIZE(res->supplies), res->supplies);
 
@@ -1248,7 +1286,15 @@ static void qcom_pcie_deinit_2_7_0(struct qcom_pcie *pcie)
 {
 	struct qcom_pcie_resources_2_7_0 *res = &pcie->res.v2_7_0;
 
+<<<<<<< HEAD
 	clk_bulk_disable_unprepare(res->num_clks, res->clks);
+=======
+<<<<<<< HEAD
+	clk_bulk_disable_unprepare(res->num_clks, res->clks);
+=======
+	clk_bulk_disable_unprepare(ARRAY_SIZE(res->clks), res->clks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regulator_bulk_disable(ARRAY_SIZE(res->supplies), res->supplies);
 }
 

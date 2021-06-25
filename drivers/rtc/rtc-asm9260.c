@@ -116,15 +116,26 @@ static irqreturn_t asm9260_rtc_irq(int irq, void *dev_id)
 	u32 isr;
 	unsigned long events = 0;
 
+<<<<<<< HEAD
 	rtc_lock(priv->rtc);
 	isr = ioread32(priv->iobase + HW_CIIR);
 	if (!isr) {
 		rtc_unlock(priv->rtc);
+=======
+	mutex_lock(&priv->rtc->ops_lock);
+	isr = ioread32(priv->iobase + HW_CIIR);
+	if (!isr) {
+		mutex_unlock(&priv->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return IRQ_NONE;
 	}
 
 	iowrite32(0, priv->iobase + HW_CIIR);
+<<<<<<< HEAD
 	rtc_unlock(priv->rtc);
+=======
+	mutex_unlock(&priv->rtc->ops_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	events |= RTC_AF | RTC_IRQF;
 

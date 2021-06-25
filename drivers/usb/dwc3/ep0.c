@@ -292,9 +292,12 @@ static struct dwc3_ep *dwc3_wIndex_to_dep(struct dwc3 *dwc, __le16 wIndex_le)
 		epnum |= 1;
 
 	dep = dwc->eps[epnum];
+<<<<<<< HEAD
 	if (dep == NULL)
 		return NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dep->flags & DWC3_EP_ENABLED)
 		return dep;
 

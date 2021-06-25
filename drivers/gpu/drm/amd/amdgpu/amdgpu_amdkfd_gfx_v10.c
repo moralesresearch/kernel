@@ -23,6 +23,10 @@
 #include "amdgpu_amdkfd.h"
 #include "gc/gc_10_1_0_offset.h"
 #include "gc/gc_10_1_0_sh_mask.h"
+<<<<<<< HEAD
+=======
+#include "navi10_enum.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "athub/athub_2_0_0_offset.h"
 #include "athub/athub_2_0_0_sh_mask.h"
 #include "oss/osssys_5_0_0_offset.h"

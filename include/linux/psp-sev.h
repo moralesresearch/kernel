@@ -66,7 +66,10 @@ enum sev_cmd {
 	SEV_CMD_LAUNCH_MEASURE		= 0x033,
 	SEV_CMD_LAUNCH_UPDATE_SECRET	= 0x034,
 	SEV_CMD_LAUNCH_FINISH		= 0x035,
+<<<<<<< HEAD
 	SEV_CMD_ATTESTATION_REPORT	= 0x036,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Guest migration commands (outgoing) */
 	SEV_CMD_SEND_START		= 0x040,
@@ -484,6 +487,7 @@ struct sev_data_dbg {
 	u32 len;				/* In */
 } __packed;
 
+<<<<<<< HEAD
 /**
  * struct sev_data_attestation_report - SEV_ATTESTATION_REPORT command parameters
  *
@@ -500,6 +504,8 @@ struct sev_data_attestation_report {
 	u32 len;				/* In/Out */
 } __packed;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_CRYPTO_DEV_SP_PSP
 
 /**

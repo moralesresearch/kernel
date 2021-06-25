@@ -666,7 +666,11 @@ static struct snd_soc_dai_driver cs35l34_dai = {
 			.formats = CS35L34_FORMATS,
 		},
 		.ops = &cs35l34_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cs35l34_boost_inductor(struct cs35l34_private *cs35l34,

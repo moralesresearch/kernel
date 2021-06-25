@@ -34,12 +34,20 @@ struct node_header {
 	__le32 max_entries;
 	__le32 value_size;
 	__le32 padding;
+<<<<<<< HEAD
 } __attribute__((packed, aligned(8)));
+=======
+} __packed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct btree_node {
 	struct node_header header;
 	__le64 keys[];
+<<<<<<< HEAD
 } __attribute__((packed, aligned(8)));
+=======
+} __packed;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 /*
@@ -100,7 +108,11 @@ struct dm_block *shadow_parent(struct shadow_spine *s);
 
 int shadow_has_parent(struct shadow_spine *s);
 
+<<<<<<< HEAD
 dm_block_t shadow_root(struct shadow_spine *s);
+=======
+int shadow_root(struct shadow_spine *s);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Some inlines.

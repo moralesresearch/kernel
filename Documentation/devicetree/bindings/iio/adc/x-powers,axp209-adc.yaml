@@ -46,6 +46,7 @@ description: |
 
 properties:
   compatible:
+<<<<<<< HEAD
     oneOf:
       - const: x-powers,axp209-adc
       - const: x-powers,axp221-adc
@@ -54,6 +55,12 @@ properties:
       - items:
           - const: x-powers,axp803-adc
           - const: x-powers,axp813-adc
+=======
+    enum:
+      - x-powers,axp209-adc
+      - x-powers,axp221-adc
+      - x-powers,axp813-adc
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   "#io-channel-cells":
     const: 1

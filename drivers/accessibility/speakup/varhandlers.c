@@ -23,7 +23,10 @@ static struct st_var_header var_headers[] = {
 	{ "trigger_time", TRIGGER, VAR_TIME, NULL, NULL },
 	{ "jiffy_delta", JIFFY, VAR_TIME, NULL, NULL },
 	{ "full_time", FULL, VAR_TIME, NULL, NULL },
+<<<<<<< HEAD
 	{ "flush_time", FLUSH, VAR_TIME, NULL, NULL },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ "spell_delay", SPELL_DELAY, VAR_NUM, &spk_spell_delay, NULL },
 	{ "bleeps", BLEEPS, VAR_NUM, &spk_bleeps, NULL },
 	{ "attrib_bleep", ATTRIB_BLEEP, VAR_NUM, &spk_attrib_bleep, NULL },

@@ -530,8 +530,15 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
 		return -ENOMEM;
 
 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+<<<<<<< HEAD
 	if (IS_ERR(ctx->reset_gpio))
 		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio), "Failed to get reset gpio\n");
+=======
+	if (IS_ERR(ctx->reset_gpio)) {
+		dev_err(dev, "cannot get reset gpio\n");
+		return PTR_ERR(ctx->reset_gpio);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mipi_dsi_set_drvdata(dsi, ctx);
 
@@ -543,6 +550,7 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
 	dsi->lanes = ctx->desc->lanes;
 
 	ctx->vcc = devm_regulator_get(dev, "vcc");
+<<<<<<< HEAD
 	if (IS_ERR(ctx->vcc))
 		return dev_err_probe(dev, PTR_ERR(ctx->vcc), "Failed to request vcc regulator\n");
 
@@ -550,6 +558,21 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
 	if (IS_ERR(ctx->iovcc))
 		return dev_err_probe(dev, PTR_ERR(ctx->iovcc),
 				     "Failed to request iovcc regulator\n");
+=======
+	if (IS_ERR(ctx->vcc)) {
+		ret = PTR_ERR(ctx->vcc);
+		if (ret != -EPROBE_DEFER)
+			dev_err(dev, "Failed to request vcc regulator: %d\n", ret);
+		return ret;
+	}
+	ctx->iovcc = devm_regulator_get(dev, "iovcc");
+	if (IS_ERR(ctx->iovcc)) {
+		ret = PTR_ERR(ctx->iovcc);
+		if (ret != -EPROBE_DEFER)
+			dev_err(dev, "Failed to request iovcc regulator: %d\n", ret);
+		return ret;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_panel_init(&ctx->panel, dev, &st7703_drm_funcs,
 		       DRM_MODE_CONNECTOR_DSI);

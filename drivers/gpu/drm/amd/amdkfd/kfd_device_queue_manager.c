@@ -1128,9 +1128,12 @@ static int set_sched_resources(struct device_queue_manager *dqm)
 
 static int initialize_cpsch(struct device_queue_manager *dqm)
 {
+<<<<<<< HEAD
 	uint64_t num_sdma_queues;
 	uint64_t num_xgmi_sdma_queues;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_debug("num of pipes: %d\n", get_pipes_per_mec(dqm));
 
 	mutex_init(&dqm->lock_hidden);
@@ -1139,6 +1142,7 @@ static int initialize_cpsch(struct device_queue_manager *dqm)
 	dqm->active_cp_queue_count = 0;
 	dqm->gws_queue_count = 0;
 	dqm->active_runlist = false;
+<<<<<<< HEAD
 
 	num_sdma_queues = get_num_sdma_queues(dqm);
 	if (num_sdma_queues >= BITS_PER_TYPE(dqm->sdma_bitmap))
@@ -1151,6 +1155,10 @@ static int initialize_cpsch(struct device_queue_manager *dqm)
 		dqm->xgmi_sdma_bitmap = ULLONG_MAX;
 	else
 		dqm->xgmi_sdma_bitmap = (BIT_ULL(num_xgmi_sdma_queues) - 1);
+=======
+	dqm->sdma_bitmap = ~0ULL >> (64 - get_num_sdma_queues(dqm));
+	dqm->xgmi_sdma_bitmap = ~0ULL >> (64 - get_num_xgmi_sdma_queues(dqm));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	INIT_WORK(&dqm->hw_exception_work, kfd_process_hw_exception);
 

@@ -154,8 +154,16 @@
 #define MV88E6185_PORT_CTL0_USE_IP				0x0020
 #define MV88E6185_PORT_CTL0_USE_TAG				0x0010
 #define MV88E6185_PORT_CTL0_FORWARD_UNKNOWN			0x0004
+<<<<<<< HEAD
 #define MV88E6352_PORT_CTL0_EGRESS_FLOODS_UC			0x0004
 #define MV88E6352_PORT_CTL0_EGRESS_FLOODS_MC			0x0008
+=======
+#define MV88E6352_PORT_CTL0_EGRESS_FLOODS_MASK			0x000c
+#define MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_DA		0x0000
+#define MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_MC_DA	0x0004
+#define MV88E6352_PORT_CTL0_EGRESS_FLOODS_NO_UNKNOWN_UC_DA	0x0008
+#define MV88E6352_PORT_CTL0_EGRESS_FLOODS_ALL_UNKNOWN_DA	0x000c
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MV88E6XXX_PORT_CTL0_STATE_MASK				0x0003
 #define MV88E6XXX_PORT_CTL0_STATE_DISABLED			0x0000
 #define MV88E6XXX_PORT_CTL0_STATE_BLOCKING			0x0001
@@ -165,9 +173,12 @@
 /* Offset 0x05: Port Control 1 */
 #define MV88E6XXX_PORT_CTL1			0x05
 #define MV88E6XXX_PORT_CTL1_MESSAGE_PORT	0x8000
+<<<<<<< HEAD
 #define MV88E6XXX_PORT_CTL1_TRUNK_PORT		0x4000
 #define MV88E6XXX_PORT_CTL1_TRUNK_ID_MASK	0x0f00
 #define MV88E6XXX_PORT_CTL1_TRUNK_ID_SHIFT	8
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MV88E6XXX_PORT_CTL1_FID_11_4_MASK	0x00ff
 
 /* Offset 0x06: Port Based VLAN Map */
@@ -340,6 +351,7 @@ int mv88e6085_port_set_frame_mode(struct mv88e6xxx_chip *chip, int port,
 				  enum mv88e6xxx_frame_mode mode);
 int mv88e6351_port_set_frame_mode(struct mv88e6xxx_chip *chip, int port,
 				  enum mv88e6xxx_frame_mode mode);
+<<<<<<< HEAD
 int mv88e6185_port_set_forward_unknown(struct mv88e6xxx_chip *chip,
 				       int port, bool unicast);
 int mv88e6185_port_set_default_forward(struct mv88e6xxx_chip *chip,
@@ -348,6 +360,12 @@ int mv88e6352_port_set_ucast_flood(struct mv88e6xxx_chip *chip, int port,
 				   bool unicast);
 int mv88e6352_port_set_mcast_flood(struct mv88e6xxx_chip *chip, int port,
 				   bool multicast);
+=======
+int mv88e6185_port_set_egress_floods(struct mv88e6xxx_chip *chip, int port,
+				     bool unicast, bool multicast);
+int mv88e6352_port_set_egress_floods(struct mv88e6xxx_chip *chip, int port,
+				     bool unicast, bool multicast);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int mv88e6352_port_set_policy(struct mv88e6xxx_chip *chip, int port,
 			      enum mv88e6xxx_policy_mapping mapping,
 			      enum mv88e6xxx_policy_action action);
@@ -355,8 +373,11 @@ int mv88e6351_port_set_ether_type(struct mv88e6xxx_chip *chip, int port,
 				  u16 etype);
 int mv88e6xxx_port_set_message_port(struct mv88e6xxx_chip *chip, int port,
 				    bool message_port);
+<<<<<<< HEAD
 int mv88e6xxx_port_set_trunk(struct mv88e6xxx_chip *chip, int port,
 			     bool trunk, u8 id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int mv88e6165_port_set_jumbo_size(struct mv88e6xxx_chip *chip, int port,
 				  size_t size);
 int mv88e6095_port_egress_rate_limiting(struct mv88e6xxx_chip *chip, int port);

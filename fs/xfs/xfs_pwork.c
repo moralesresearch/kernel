@@ -61,18 +61,28 @@ xfs_pwork_init(
 	struct xfs_mount	*mp,
 	struct xfs_pwork_ctl	*pctl,
 	xfs_pwork_work_fn	work_fn,
+<<<<<<< HEAD
 	const char		*tag)
 {
 	unsigned int		nr_threads = 0;
 
+=======
+	const char		*tag,
+	unsigned int		nr_threads)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef DEBUG
 	if (xfs_globals.pwork_threads >= 0)
 		nr_threads = xfs_globals.pwork_threads;
 #endif
 	trace_xfs_pwork_init(mp, nr_threads, current->pid);
 
+<<<<<<< HEAD
 	pctl->wq = alloc_workqueue("%s-%d",
 			WQ_UNBOUND | WQ_SYSFS | WQ_FREEZABLE, nr_threads, tag,
+=======
+	pctl->wq = alloc_workqueue("%s-%d", WQ_FREEZABLE, nr_threads, tag,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			current->pid);
 	if (!pctl->wq)
 		return -ENOMEM;
@@ -119,3 +129,23 @@ xfs_pwork_poll(
 				atomic_read(&pctl->nr_work) == 0, HZ) == 0)
 		touch_softlockup_watchdog();
 }
+<<<<<<< HEAD
+=======
+
+/*
+ * Return the amount of parallelism that the data device can handle, or 0 for
+ * no limit.
+ */
+unsigned int
+xfs_pwork_guess_datadev_parallelism(
+	struct xfs_mount	*mp)
+{
+	struct xfs_buftarg	*btp = mp->m_ddev_targp;
+
+	/*
+	 * For now we'll go with the most conservative setting possible,
+	 * which is two threads for an SSD and 1 thread everywhere else.
+	 */
+	return blk_queue_nonrot(btp->bt_bdev->bd_disk->queue) ? 2 : 1;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

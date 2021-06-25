@@ -272,7 +272,11 @@ static void ak5558_power_off(struct ak5558_priv *ak5558)
 	if (!ak5558->reset_gpiod)
 		return;
 
+<<<<<<< HEAD
 	gpiod_set_value_cansleep(ak5558->reset_gpiod, 1);
+=======
+	gpiod_set_value_cansleep(ak5558->reset_gpiod, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usleep_range(1000, 2000);
 }
 
@@ -281,7 +285,11 @@ static void ak5558_power_on(struct ak5558_priv *ak5558)
 	if (!ak5558->reset_gpiod)
 		return;
 
+<<<<<<< HEAD
 	gpiod_set_value_cansleep(ak5558->reset_gpiod, 0);
+=======
+	gpiod_set_value_cansleep(ak5558->reset_gpiod, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usleep_range(1000, 2000);
 }
 

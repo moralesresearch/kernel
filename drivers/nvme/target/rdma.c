@@ -700,7 +700,11 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
 {
 	struct nvmet_rdma_rsp *rsp =
 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
+<<<<<<< HEAD
 	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+=======
+	struct nvmet_rdma_queue *queue = cq->cq_context;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nvmet_rdma_release_rsp(rsp);
 
@@ -786,7 +790,11 @@ static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc)
 {
 	struct nvmet_rdma_rsp *rsp =
 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, write_cqe);
+<<<<<<< HEAD
 	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+=======
+	struct nvmet_rdma_queue *queue = cq->cq_context;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
 	u16 status;
 

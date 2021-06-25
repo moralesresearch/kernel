@@ -135,11 +135,19 @@ Resume
 On transmit:
 ------------
 
+<<<<<<< HEAD
 dev_has_header(dev) == true
    mac_header -> ll header
    data       -> ll header
 
 dev_has_header(dev) == false (ll header is invisible to us)
+=======
+dev->header_ops != NULL
+   mac_header -> ll header
+   data       -> ll header
+
+dev->header_ops == NULL (ll header is invisible to us)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    mac_header -> data
    data       -> data
 
@@ -422,8 +430,12 @@ static __u32 tpacket_get_timestamp(struct sk_buff *skb, struct timespec64 *ts,
 	    ktime_to_timespec64_cond(shhwtstamps->hwtstamp, ts))
 		return TP_STATUS_TS_RAW_HARDWARE;
 
+<<<<<<< HEAD
 	if ((flags & SOF_TIMESTAMPING_SOFTWARE) &&
 	    ktime_to_timespec64_cond(skb->tstamp, ts))
+=======
+	if (ktime_to_timespec64_cond(skb->tstamp, ts))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return TP_STATUS_TS_SOFTWARE;
 
 	return 0;
@@ -1360,7 +1372,11 @@ static unsigned int fanout_demux_rollover(struct packet_fanout *f,
 	struct packet_sock *po, *po_next, *po_skip = NULL;
 	unsigned int i, j, room = ROOM_NONE;
 
+<<<<<<< HEAD
 	po = pkt_sk(rcu_dereference(f->arr[idx]));
+=======
+	po = pkt_sk(f->arr[idx]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (try_self) {
 		room = packet_rcv_has_room(po, skb);
@@ -1372,7 +1388,11 @@ static unsigned int fanout_demux_rollover(struct packet_fanout *f,
 
 	i = j = min_t(int, po->rollover->sock, num - 1);
 	do {
+<<<<<<< HEAD
 		po_next = pkt_sk(rcu_dereference(f->arr[i]));
+=======
+		po_next = pkt_sk(f->arr[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (po_next != po_skip && !READ_ONCE(po_next->pressure) &&
 		    packet_rcv_has_room(po_next, skb) == ROOM_NORMAL) {
 			if (i != j)
@@ -1467,7 +1487,11 @@ static int packet_rcv_fanout(struct sk_buff *skb, struct net_device *dev,
 	if (fanout_has_flag(f, PACKET_FANOUT_FLAG_ROLLOVER))
 		idx = fanout_demux_rollover(f, skb, idx, true, num);
 
+<<<<<<< HEAD
 	po = pkt_sk(rcu_dereference(f->arr[idx]));
+=======
+	po = pkt_sk(f->arr[idx]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return po->prot_hook.func(skb, dev, &po->prot_hook, orig_dev);
 }
 
@@ -1481,7 +1505,11 @@ static void __fanout_link(struct sock *sk, struct packet_sock *po)
 	struct packet_fanout *f = po->fanout;
 
 	spin_lock(&f->lock);
+<<<<<<< HEAD
 	rcu_assign_pointer(f->arr[f->num_members], sk);
+=======
+	f->arr[f->num_members] = sk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smp_wmb();
 	f->num_members++;
 	if (f->num_members == 1)
@@ -1496,6 +1524,7 @@ static void __fanout_unlink(struct sock *sk, struct packet_sock *po)
 
 	spin_lock(&f->lock);
 	for (i = 0; i < f->num_members; i++) {
+<<<<<<< HEAD
 		if (rcu_dereference_protected(f->arr[i],
 					      lockdep_is_held(&f->lock)) == sk)
 			break;
@@ -1504,6 +1533,13 @@ static void __fanout_unlink(struct sock *sk, struct packet_sock *po)
 	rcu_assign_pointer(f->arr[i],
 			   rcu_dereference_protected(f->arr[f->num_members - 1],
 						     lockdep_is_held(&f->lock)));
+=======
+		if (f->arr[i] == sk)
+			break;
+	}
+	BUG_ON(i >= f->num_members);
+	f->arr[i] = f->arr[f->num_members - 1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	f->num_members--;
 	if (f->num_members == 0)
 		__dev_remove_pack(&f->prot_hook);
@@ -2341,12 +2377,16 @@ static int tpacket_rcv(struct sk_buff *skb, struct net_device *dev,
 
 	skb_copy_bits(skb, 0, h.raw + macoff, snaplen);
 
+<<<<<<< HEAD
 	/* Always timestamp; prefer an existing software timestamp taken
 	 * closer to the time of capture.
 	 */
 	ts_status = tpacket_get_timestamp(skb, &ts,
 					  po->tp_tstamp | SOF_TIMESTAMPING_SOFTWARE);
 	if (!ts_status)
+=======
+	if (!(ts_status = tpacket_get_timestamp(skb, &ts, po->tp_tstamp)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ktime_get_real_ts64(&ts);
 
 	status |= ts_status;

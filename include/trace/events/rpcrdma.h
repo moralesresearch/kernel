@@ -60,6 +60,7 @@ DECLARE_EVENT_CLASS(rpcrdma_completion_class,
 				),					\
 				TP_ARGS(wc, cid))
 
+<<<<<<< HEAD
 DECLARE_EVENT_CLASS(rpcrdma_receive_completion_class,
 	TP_PROTO(
 		const struct ib_wc *wc,
@@ -105,6 +106,8 @@ DECLARE_EVENT_CLASS(rpcrdma_receive_completion_class,
 				),					\
 				TP_ARGS(wc, cid))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DECLARE_EVENT_CLASS(xprtrdma_reply_class,
 	TP_PROTO(
 		const struct rpcrdma_rep *rep
@@ -883,8 +886,12 @@ TRACE_EVENT(xprtrdma_post_linv_err,
  ** Completion events
  **/
 
+<<<<<<< HEAD
 DEFINE_RECEIVE_COMPLETION_EVENT(xprtrdma_wc_receive);
 
+=======
+DEFINE_COMPLETION_EVENT(xprtrdma_wc_receive);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_COMPLETION_EVENT(xprtrdma_wc_send);
 DEFINE_COMPLETION_EVENT(xprtrdma_wc_fastreg);
 DEFINE_COMPLETION_EVENT(xprtrdma_wc_li);
@@ -1836,7 +1843,11 @@ TRACE_EVENT(svcrdma_post_recv,
 	)
 );
 
+<<<<<<< HEAD
 DEFINE_RECEIVE_COMPLETION_EVENT(svcrdma_wc_receive);
+=======
+DEFINE_COMPLETION_EVENT(svcrdma_wc_receive);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 TRACE_EVENT(svcrdma_rq_post_err,
 	TP_PROTO(

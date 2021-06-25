@@ -47,6 +47,16 @@ struct intel_guc {
 	struct i915_vma *stage_desc_pool;
 	void *stage_desc_pool_vaddr;
 
+<<<<<<< HEAD
+=======
+	struct i915_vma *workqueue;
+	void *workqueue_vaddr;
+	spinlock_t wq_lock;
+
+	struct i915_vma *proc_desc;
+	void *proc_desc_vaddr;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Control params for fw initialization */
 	u32 params[GUC_CTL_MAX_DWORDS];
 

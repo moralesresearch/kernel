@@ -134,6 +134,7 @@ static const struct adreno_info gpulist[] = {
 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
 		.init  = a4xx_gpu_init,
 	}, {
+<<<<<<< HEAD
 		.rev   = ADRENO_REV(5, 0, 8, ANY_ID),
 		.revn = 508,
 		.name = "A508",
@@ -169,6 +170,8 @@ static const struct adreno_info gpulist[] = {
 		/* Adreno 509 uses the same ZAP as 512 */
 		.zapfw = "a512_zap.mdt",
 	}, {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.rev   = ADRENO_REV(5, 1, 0, ANY_ID),
 		.revn = 510,
 		.name = "A510",
@@ -184,6 +187,7 @@ static const struct adreno_info gpulist[] = {
 		.inactive_period = 250,
 		.init = a5xx_gpu_init,
 	}, {
+<<<<<<< HEAD
 		.rev   = ADRENO_REV(5, 1, 2, ANY_ID),
 		.revn = 512,
 		.name = "A512",
@@ -201,6 +205,8 @@ static const struct adreno_info gpulist[] = {
 		.init = a5xx_gpu_init,
 		.zapfw = "a512_zap.mdt",
 	}, {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.rev = ADRENO_REV(5, 3, 0, 2),
 		.revn = 530,
 		.name = "A530",
@@ -220,7 +226,11 @@ static const struct adreno_info gpulist[] = {
 		.init = a5xx_gpu_init,
 		.zapfw = "a530_zap.mdt",
 	}, {
+<<<<<<< HEAD
 		.rev = ADRENO_REV(5, 4, 0, ANY_ID),
+=======
+		.rev = ADRENO_REV(5, 4, 0, 2),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.revn = 540,
 		.name = "A540",
 		.fw = {

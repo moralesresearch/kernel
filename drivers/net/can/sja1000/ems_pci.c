@@ -21,6 +21,10 @@
 
 MODULE_AUTHOR("Sebastian Haas <haas@ems-wuenche.com>");
 MODULE_DESCRIPTION("Socket-CAN driver for EMS CPC-PCI/PCIe/104P CAN cards");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("EMS CPC-PCI/PCIe/104P CAN card");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL v2");
 
 #define EMS_PCI_V1_MAX_CHAN 2

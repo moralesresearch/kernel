@@ -107,12 +107,18 @@ void ext4_reset_inode_seed(struct inode *inode)
  * important fields of the inodes.
  *
  * @sb:         the super block of the filesystem
+<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode:      the inode to swap with EXT4_BOOT_LOADER_INO
  *
  */
 static long swap_inode_boot_loader(struct super_block *sb,
+<<<<<<< HEAD
 				struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				struct inode *inode)
 {
 	handle_t *handle;
@@ -141,8 +147,12 @@ static long swap_inode_boot_loader(struct super_block *sb,
 	}
 
 	if (IS_RDONLY(inode) || IS_APPEND(inode) || IS_IMMUTABLE(inode) ||
+<<<<<<< HEAD
 	    !inode_owner_or_capable(mnt_userns, inode) ||
 	    !capable(CAP_SYS_ADMIN)) {
+=======
+	    !inode_owner_or_capable(inode) || !capable(CAP_SYS_ADMIN)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EPERM;
 		goto journal_err_out;
 	}
@@ -315,12 +325,15 @@ static void ext4_dax_dontcache(struct inode *inode, unsigned int flags)
 static bool dax_compatible(struct inode *inode, unsigned int oldflags,
 			   unsigned int flags)
 {
+<<<<<<< HEAD
 	/* Allow the DAX flag to be changed on inline directories */
 	if (S_ISDIR(inode->i_mode)) {
 		flags &= ~EXT4_INLINE_DATA_FL;
 		oldflags &= ~EXT4_INLINE_DATA_FL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (flags & EXT4_DAX_FL) {
 		if ((oldflags & EXT4_DAX_MUT_EXCL) ||
 		     ext4_test_inode_state(inode,
@@ -823,7 +836,10 @@ static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	struct inode *inode = file_inode(filp);
 	struct super_block *sb = inode->i_sb;
 	struct ext4_inode_info *ei = EXT4_I(inode);
+<<<<<<< HEAD
 	struct user_namespace *mnt_userns = file_mnt_user_ns(filp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int flags;
 
 	ext4_debug("cmd = %u, arg = %lu\n", cmd, arg);
@@ -839,7 +855,11 @@ static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	case FS_IOC_SETFLAGS: {
 		int err;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		if (get_user(flags, (int __user *) arg))
@@ -881,7 +901,11 @@ static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		__u32 generation;
 		int err;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EPERM;
 
 		if (ext4_has_metadata_csum(inode->i_sb)) {
@@ -1020,7 +1044,11 @@ mext_out:
 	case EXT4_IOC_MIGRATE:
 	{
 		int err;
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		err = mnt_want_write_file(filp);
@@ -1042,7 +1070,11 @@ mext_out:
 	case EXT4_IOC_ALLOC_DA_BLKS:
 	{
 		int err;
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		err = mnt_want_write_file(filp);
@@ -1061,7 +1093,11 @@ mext_out:
 		err = mnt_want_write_file(filp);
 		if (err)
 			return err;
+<<<<<<< HEAD
 		err = swap_inode_boot_loader(sb, mnt_userns, inode);
+=======
+		err = swap_inode_boot_loader(sb, inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mnt_drop_write_file(filp);
 		return err;
 	}
@@ -1227,7 +1263,11 @@ resizefs_out:
 
 	case EXT4_IOC_CLEAR_ES_CACHE:
 	{
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 		ext4_clear_inode_es(inode);
 		return 0;
@@ -1273,7 +1313,11 @@ resizefs_out:
 			return -EFAULT;
 
 		/* Make sure caller has proper permission */
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(mnt_userns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		if (fa.fsx_xflags & ~EXT4_SUPPORTED_FS_XFLAGS)
@@ -1319,12 +1363,15 @@ out:
 			return -EOPNOTSUPP;
 		return fsverity_ioctl_measure(filp, (void __user *)arg);
 
+<<<<<<< HEAD
 	case FS_IOC_READ_VERITY_METADATA:
 		if (!ext4_has_feature_verity(sb))
 			return -EOPNOTSUPP;
 		return fsverity_ioctl_read_metadata(filp,
 						    (const void __user *)arg);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -ENOTTY;
 	}
@@ -1407,7 +1454,10 @@ long ext4_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case FS_IOC_GETFSMAP:
 	case FS_IOC_ENABLE_VERITY:
 	case FS_IOC_MEASURE_VERITY:
+<<<<<<< HEAD
 	case FS_IOC_READ_VERITY_METADATA:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case EXT4_IOC_CLEAR_ES_CACHE:
 	case EXT4_IOC_GETSTATE:
 	case EXT4_IOC_GET_ES_CACHE:

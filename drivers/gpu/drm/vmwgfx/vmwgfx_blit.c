@@ -482,8 +482,13 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
 	d.src_addr = NULL;
 	d.dst_pages = dst->ttm->pages;
 	d.src_pages = src->ttm->pages;
+<<<<<<< HEAD
 	d.dst_num_pages = dst->mem.num_pages;
 	d.src_num_pages = src->mem.num_pages;
+=======
+	d.dst_num_pages = dst->num_pages;
+	d.src_num_pages = src->num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	d.dst_prot = ttm_io_prot(dst, &dst->mem, PAGE_KERNEL);
 	d.src_prot = ttm_io_prot(src, &src->mem, PAGE_KERNEL);
 	d.diff = diff;

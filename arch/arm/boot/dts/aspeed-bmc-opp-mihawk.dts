@@ -827,7 +827,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus0-hog {
+=======
+				smbus0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -852,7 +856,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus1-hog {
+=======
+				smbus1 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -900,7 +908,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus2-hog {
+=======
+				smbus2 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -925,7 +937,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus3-hog {
+=======
+				smbus3 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -992,7 +1008,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus4-hog {
+=======
+				smbus4 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -1017,7 +1037,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus5-hog {
+=======
+				smbus5 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -1065,7 +1089,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus6-hog {
+=======
+				smbus6 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;
@@ -1090,7 +1118,11 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 
+<<<<<<< HEAD
 				smbus7-hog {
+=======
+				smbus7 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					gpio-hog;
 					gpios = <4 GPIO_ACTIVE_HIGH>;
 					output-high;

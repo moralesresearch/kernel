@@ -151,7 +151,11 @@ patternProperties:
       WIZ node should have '1' subnode for the SERDES. It could be either
       Sierra SERDES or Torrent SERDES. Sierra SERDES should follow the
       bindings specified in
+<<<<<<< HEAD
       Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
+=======
+      Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       Torrent SERDES should follow the bindings specified in
       Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
 

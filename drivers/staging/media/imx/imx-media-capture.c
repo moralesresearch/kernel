@@ -557,7 +557,11 @@ static int capture_validate_fmt(struct capture_priv *priv)
 		priv->vdev.fmt.fmt.pix.height != f.fmt.pix.height ||
 		priv->vdev.cc->cs != cc->cs ||
 		priv->vdev.compose.width != compose.width ||
+<<<<<<< HEAD
 		priv->vdev.compose.height != compose.height) ? -EPIPE : 0;
+=======
+		priv->vdev.compose.height != compose.height) ? -EINVAL : 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int capture_start_streaming(struct vb2_queue *vq, unsigned int count)
@@ -816,8 +820,19 @@ void imx_media_capture_device_unregister(struct imx_media_video_dev *vdev)
 	struct capture_priv *priv = to_capture_priv(vdev);
 	struct video_device *vfd = priv->vdev.vfd;
 
+<<<<<<< HEAD
 	media_entity_cleanup(&vfd->entity);
 	video_unregister_device(vfd);
+=======
+	mutex_lock(&priv->mutex);
+
+	if (video_is_registered(vfd)) {
+		video_unregister_device(vfd);
+		media_entity_cleanup(&vfd->entity);
+	}
+
+	mutex_unlock(&priv->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
 

@@ -435,12 +435,20 @@ static const struct rtc_class_ops ds1305_ops = {
 static void ds1305_work(struct work_struct *work)
 {
 	struct ds1305	*ds1305 = container_of(work, struct ds1305, work);
+<<<<<<< HEAD
+=======
+	struct mutex	*lock = &ds1305->rtc->ops_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct spi_device *spi = ds1305->spi;
 	u8		buf[3];
 	int		status;
 
 	/* lock to protect ds1305->ctrl */
+<<<<<<< HEAD
 	rtc_lock(ds1305->rtc);
+=======
+	mutex_lock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable the IRQ, and clear its status ... for now, we "know"
 	 * that if more than one alarm is active, they're in sync.
@@ -458,7 +466,11 @@ static void ds1305_work(struct work_struct *work)
 	if (status < 0)
 		dev_dbg(&spi->dev, "clear irq --> %d\n", status);
 
+<<<<<<< HEAD
 	rtc_unlock(ds1305->rtc);
+=======
+	mutex_unlock(lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!test_bit(FLAG_EXITING, &ds1305->flags))
 		enable_irq(spi->irq);

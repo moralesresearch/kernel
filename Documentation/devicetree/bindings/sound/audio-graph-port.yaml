@@ -71,6 +71,12 @@ properties:
             description: CPU to Codec rate channels.
             $ref: /schemas/types.yaml#/definitions/uint32
 
+<<<<<<< HEAD
+=======
+        required:
+          - remote-endpoint
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   ports:
     description: multi OF-Graph subnode
     type: object

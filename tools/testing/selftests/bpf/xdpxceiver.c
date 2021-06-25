@@ -224,6 +224,10 @@ static inline u16 udp_csum(u32 saddr, u32 daddr, u32 len, u8 proto, u16 *udp_pkt
 	return csum_tcpudp_magic(saddr, daddr, len, proto, csum);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void gen_eth_hdr(struct ifobject *ifobject, struct ethhdr *eth_hdr)
 {
 	memcpy(eth_hdr->h_dest, ifobject->dst_mac, ETH_ALEN);
@@ -232,6 +236,19 @@ static void gen_eth_hdr(struct ifobject *ifobject, struct ethhdr *eth_hdr)
 }
 
 static void gen_ip_hdr(struct ifobject *ifobject, struct iphdr *ip_hdr)
+<<<<<<< HEAD
+=======
+=======
+static void gen_eth_hdr(void *data, struct ethhdr *eth_hdr)
+{
+	memcpy(eth_hdr->h_dest, ((struct ifobject *)data)->dst_mac, ETH_ALEN);
+	memcpy(eth_hdr->h_source, ((struct ifobject *)data)->src_mac, ETH_ALEN);
+	eth_hdr->h_proto = htons(ETH_P_IP);
+}
+
+static void gen_ip_hdr(void *data, struct iphdr *ip_hdr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	ip_hdr->version = IP_PKT_VER;
 	ip_hdr->ihl = 0x5;
@@ -241,6 +258,10 @@ static void gen_ip_hdr(struct ifobject *ifobject, struct iphdr *ip_hdr)
 	ip_hdr->frag_off = 0;
 	ip_hdr->ttl = IPDEFTTL;
 	ip_hdr->protocol = IPPROTO_UDP;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ip_hdr->saddr = ifobject->src_ip;
 	ip_hdr->daddr = ifobject->dst_ip;
 	ip_hdr->check = 0;
@@ -253,6 +274,23 @@ static void gen_udp_hdr(struct generic_data *data, struct ifobject *ifobject,
 	udp_hdr->dest = htons(ifobject->dst_port);
 	udp_hdr->len = htons(UDP_PKT_SIZE);
 	memset32_htonl(pkt_data + PKT_HDR_SIZE, htonl(data->seqnum), UDP_PKT_DATA_SIZE);
+<<<<<<< HEAD
+=======
+=======
+	ip_hdr->saddr = ((struct ifobject *)data)->src_ip;
+	ip_hdr->daddr = ((struct ifobject *)data)->dst_ip;
+	ip_hdr->check = 0;
+}
+
+static void gen_udp_hdr(void *data, void *arg, struct udphdr *udp_hdr)
+{
+	udp_hdr->source = htons(((struct ifobject *)arg)->src_port);
+	udp_hdr->dest = htons(((struct ifobject *)arg)->dst_port);
+	udp_hdr->len = htons(UDP_PKT_SIZE);
+	memset32_htonl(pkt_data + PKT_HDR_SIZE,
+		       htonl(((struct generic_data *)data)->seqnum), UDP_PKT_DATA_SIZE);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void gen_udp_csum(struct udphdr *udp_hdr, struct iphdr *ip_hdr)
@@ -382,6 +420,10 @@ static bool switch_namespace(int idx)
 
 static void *nsswitchthread(void *args)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct targs *targs = args;
 
 	targs->retptr = false;
@@ -395,6 +437,26 @@ static void *nsswitchthread(void *args)
 			ksft_print_msg("Interface found: %s\n", ifdict[targs->idx]->ifname);
 			targs->retptr = true;
 		}
+<<<<<<< HEAD
+=======
+=======
+	if (switch_namespace(((struct targs *)args)->idx)) {
+		ifdict[((struct targs *)args)->idx]->ifindex =
+		    if_nametoindex(ifdict[((struct targs *)args)->idx]->ifname);
+		if (!ifdict[((struct targs *)args)->idx]->ifindex) {
+			ksft_test_result_fail
+			    ("ERROR: [%s] interface \"%s\" does not exist\n",
+			     __func__, ifdict[((struct targs *)args)->idx]->ifname);
+			((struct targs *)args)->retptr = false;
+		} else {
+			ksft_print_msg("Interface found: %s\n",
+				       ifdict[((struct targs *)args)->idx]->ifname);
+			((struct targs *)args)->retptr = true;
+		}
+	} else {
+		((struct targs *)args)->retptr = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	pthread_exit(NULL);
 }
@@ -411,12 +473,28 @@ static int validate_interfaces(void)
 		if (strcmp(ifdict[i]->nsname, "")) {
 			struct targs *targs;
 
+<<<<<<< HEAD
 			targs = malloc(sizeof(*targs));
+=======
+<<<<<<< HEAD
+			targs = malloc(sizeof(*targs));
+=======
+			targs = (struct targs *)malloc(sizeof(struct targs));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!targs)
 				exit_with_error(errno);
 
 			targs->idx = i;
+<<<<<<< HEAD
 			if (pthread_create(&ns_thread, NULL, nsswitchthread, targs))
+=======
+<<<<<<< HEAD
+			if (pthread_create(&ns_thread, NULL, nsswitchthread, targs))
+=======
+			if (pthread_create(&ns_thread, NULL, nsswitchthread, (void *)targs))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				exit_with_error(errno);
 
 			pthread_join(ns_thread, NULL);
@@ -567,18 +645,38 @@ static void rx_pkt(struct xsk_socket_info *xsk, struct pollfd *fds)
 	}
 
 	for (i = 0; i < rcvd; i++) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64 addr, orig;
 
 		addr = xsk_ring_cons__rx_desc(&xsk->rx, idx_rx)->addr;
 		xsk_ring_cons__rx_desc(&xsk->rx, idx_rx++);
 		orig = xsk_umem__extract_addr(addr);
+<<<<<<< HEAD
+=======
+=======
+		u64 addr = xsk_ring_cons__rx_desc(&xsk->rx, idx_rx)->addr;
+		(void)xsk_ring_cons__rx_desc(&xsk->rx, idx_rx++)->len;
+		u64 orig = xsk_umem__extract_addr(addr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		addr = xsk_umem__add_offset_to_addr(addr);
 		pkt_node_rx = malloc(sizeof(struct pkt) + PKT_SIZE);
 		if (!pkt_node_rx)
 			exit_with_error(errno);
 
+<<<<<<< HEAD
 		pkt_node_rx->pkt_frame = malloc(PKT_SIZE);
+=======
+<<<<<<< HEAD
+		pkt_node_rx->pkt_frame = malloc(PKT_SIZE);
+=======
+		pkt_node_rx->pkt_frame = (char *)malloc(PKT_SIZE);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!pkt_node_rx->pkt_frame)
 			exit_with_error(errno);
 
@@ -628,27 +726,64 @@ static inline int get_batch_size(int pkt_cnt)
 	return opt_pkt_count - pkt_cnt;
 }
 
+<<<<<<< HEAD
 static void complete_tx_only_all(struct ifobject *ifobject)
+=======
+<<<<<<< HEAD
+static void complete_tx_only_all(struct ifobject *ifobject)
+=======
+static void complete_tx_only_all(void *arg)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool pending;
 
 	do {
 		pending = false;
+<<<<<<< HEAD
 		if (ifobject->xsk->outstanding_tx) {
 			complete_tx_only(ifobject->xsk, BATCH_SIZE);
 			pending = !!ifobject->xsk->outstanding_tx;
+=======
+<<<<<<< HEAD
+		if (ifobject->xsk->outstanding_tx) {
+			complete_tx_only(ifobject->xsk, BATCH_SIZE);
+			pending = !!ifobject->xsk->outstanding_tx;
+=======
+		if (((struct ifobject *)arg)->xsk->outstanding_tx) {
+			complete_tx_only(((struct ifobject *)
+					  arg)->xsk, BATCH_SIZE);
+			pending = !!((struct ifobject *)arg)->xsk->outstanding_tx;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} while (pending);
 }
 
+<<<<<<< HEAD
 static void tx_only_all(struct ifobject *ifobject)
+=======
+<<<<<<< HEAD
+static void tx_only_all(struct ifobject *ifobject)
+=======
+static void tx_only_all(void *arg)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pollfd fds[MAX_SOCKS] = { };
 	u32 frame_nb = 0;
 	int pkt_cnt = 0;
 	int ret;
 
+<<<<<<< HEAD
 	fds[0].fd = xsk_socket__fd(ifobject->xsk->xsk);
+=======
+<<<<<<< HEAD
+	fds[0].fd = xsk_socket__fd(ifobject->xsk->xsk);
+=======
+	fds[0].fd = xsk_socket__fd(((struct ifobject *)arg)->xsk->xsk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fds[0].events = POLLOUT;
 
 	while ((opt_pkt_count && pkt_cnt < opt_pkt_count) || !opt_pkt_count) {
@@ -663,12 +798,28 @@ static void tx_only_all(struct ifobject *ifobject)
 				continue;
 		}
 
+<<<<<<< HEAD
 		tx_only(ifobject->xsk, &frame_nb, batch_size);
+=======
+<<<<<<< HEAD
+		tx_only(ifobject->xsk, &frame_nb, batch_size);
+=======
+		tx_only(((struct ifobject *)arg)->xsk, &frame_nb, batch_size);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pkt_cnt += batch_size;
 	}
 
 	if (opt_pkt_count)
+<<<<<<< HEAD
 		complete_tx_only_all(ifobject);
+=======
+<<<<<<< HEAD
+		complete_tx_only_all(ifobject);
+=======
+		complete_tx_only_all(arg);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void worker_pkt_dump(void)
@@ -726,12 +877,23 @@ static void worker_pkt_dump(void)
 static void worker_pkt_validate(void)
 {
 	u32 payloadseqnum = -2;
+<<<<<<< HEAD
 	struct iphdr *iphdr;
+=======
+<<<<<<< HEAD
+	struct iphdr *iphdr;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (1) {
 		pkt_node_rx_q = TAILQ_LAST(&head, head_s);
 		if (!pkt_node_rx_q)
 			break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		iphdr = (struct iphdr *)(pkt_node_rx_q->pkt_frame + sizeof(struct ethhdr));
 
@@ -741,6 +903,20 @@ static void worker_pkt_validate(void)
 			if (debug_pkt_dump && payloadseqnum != EOT) {
 				pkt_obj = malloc(sizeof(*pkt_obj));
 				pkt_obj->payload = malloc(PKT_SIZE);
+<<<<<<< HEAD
+=======
+=======
+		/*do not increment pktcounter if !(tos=0x9 and ipv4) */
+		if ((((struct iphdr *)(pkt_node_rx_q->pkt_frame +
+				       sizeof(struct ethhdr)))->version == IP_PKT_VER)
+		    && (((struct iphdr *)(pkt_node_rx_q->pkt_frame + sizeof(struct ethhdr)))->tos ==
+			IP_PKT_TOS)) {
+			payloadseqnum = *((uint32_t *) (pkt_node_rx_q->pkt_frame + PKT_HDR_SIZE));
+			if (debug_pkt_dump && payloadseqnum != EOT) {
+				pkt_obj = (struct pkt_frame *)malloc(sizeof(struct pkt_frame));
+				pkt_obj->payload = (char *)malloc(PKT_SIZE);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				memcpy(pkt_obj->payload, pkt_node_rx_q->pkt_frame, PKT_SIZE);
 				pkt_buf[payloadseqnum] = pkt_obj;
 			}
@@ -758,10 +934,24 @@ static void worker_pkt_validate(void)
 				ksft_exit_xfail();
 			}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			TAILQ_REMOVE(&head, pkt_node_rx_q, pkt_nodes);
+			free(pkt_node_rx_q->pkt_frame);
+			free(pkt_node_rx_q);
+			pkt_node_rx_q = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			prev_pkt = payloadseqnum;
 			pkt_counter++;
 		} else {
 			ksft_print_msg("Invalid frame received: ");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ksft_print_msg("[IP_PKT_VER: %02X], [IP_PKT_TOS: %02X]\n", iphdr->version,
 				       iphdr->tos);
 		}
@@ -774,13 +964,42 @@ static void worker_pkt_validate(void)
 }
 
 static void thread_common_ops(struct ifobject *ifobject, void *bufs, pthread_mutex_t *mutexptr,
+<<<<<<< HEAD
+=======
+=======
+			ksft_print_msg("[IP_PKT_VER: %02X], [IP_PKT_TOS: %02X]\n",
+				((struct iphdr *)(pkt_node_rx_q->pkt_frame +
+				       sizeof(struct ethhdr)))->version,
+				((struct iphdr *)(pkt_node_rx_q->pkt_frame +
+				       sizeof(struct ethhdr)))->tos);
+			TAILQ_REMOVE(&head, pkt_node_rx_q, pkt_nodes);
+			free(pkt_node_rx_q->pkt_frame);
+			free(pkt_node_rx_q);
+			pkt_node_rx_q = NULL;
+		}
+	}
+}
+
+static void thread_common_ops(void *arg, void *bufs, pthread_mutex_t *mutexptr,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      atomic_int *spinningptr)
 {
 	int ctr = 0;
 	int ret;
 
+<<<<<<< HEAD
 	xsk_configure_umem(ifobject, bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
 	ret = xsk_configure_socket(ifobject);
+=======
+<<<<<<< HEAD
+	xsk_configure_umem(ifobject, bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
+	ret = xsk_configure_socket(ifobject);
+=======
+	xsk_configure_umem((struct ifobject *)arg, bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
+	ret = xsk_configure_socket((struct ifobject *)arg);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Retry Create Socket if it fails as xsk_socket__create()
 	 * is asynchronous
@@ -791,8 +1010,19 @@ static void thread_common_ops(struct ifobject *ifobject, void *bufs, pthread_mut
 	pthread_mutex_lock(mutexptr);
 	while (ret && ctr < SOCK_RECONF_CTR) {
 		atomic_store(spinningptr, 1);
+<<<<<<< HEAD
 		xsk_configure_umem(ifobject, bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
 		ret = xsk_configure_socket(ifobject);
+=======
+<<<<<<< HEAD
+		xsk_configure_umem(ifobject, bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
+		ret = xsk_configure_socket(ifobject);
+=======
+		xsk_configure_umem((struct ifobject *)arg,
+				   bufs, num_frames * XSK_UMEM__DEFAULT_FRAME_SIZE);
+		ret = xsk_configure_socket((struct ifobject *)arg);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usleep(USLEEP_MAX);
 		ctr++;
 	}
@@ -807,10 +1037,22 @@ static void *worker_testapp_validate(void *arg)
 {
 	struct udphdr *udp_hdr =
 	    (struct udphdr *)(pkt_data + sizeof(struct ethhdr) + sizeof(struct iphdr));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iphdr *ip_hdr = (struct iphdr *)(pkt_data + sizeof(struct ethhdr));
 	struct ethhdr *eth_hdr = (struct ethhdr *)pkt_data;
 	struct ifobject *ifobject = (struct ifobject *)arg;
 	struct generic_data data;
+<<<<<<< HEAD
+=======
+=======
+	struct generic_data *data = (struct generic_data *)malloc(sizeof(struct generic_data));
+	struct iphdr *ip_hdr = (struct iphdr *)(pkt_data + sizeof(struct ethhdr));
+	struct ethhdr *eth_hdr = (struct ethhdr *)pkt_data;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *bufs = NULL;
 
 	pthread_attr_setstacksize(&attr, THREAD_STACK);
@@ -821,6 +1063,10 @@ static void *worker_testapp_validate(void *arg)
 		if (bufs == MAP_FAILED)
 			exit_with_error(errno);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (strcmp(ifobject->nsname, ""))
 			switch_namespace(ifobject->ifdict_index);
 	}
@@ -830,12 +1076,30 @@ static void *worker_testapp_validate(void *arg)
 
 		if (!bidi_pass)
 			thread_common_ops(ifobject, bufs, &sync_mutex_tx, &spinning_tx);
+<<<<<<< HEAD
+=======
+=======
+		if (strcmp(((struct ifobject *)arg)->nsname, ""))
+			switch_namespace(((struct ifobject *)arg)->ifdict_index);
+	}
+
+	if (((struct ifobject *)arg)->fv.vector == tx) {
+		int spinningrxctr = 0;
+
+		if (!bidi_pass)
+			thread_common_ops(arg, bufs, &sync_mutex_tx, &spinning_tx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		while (atomic_load(&spinning_rx) && spinningrxctr < SOCK_RECONF_CTR) {
 			spinningrxctr++;
 			usleep(USLEEP_MAX);
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ksft_print_msg("Interface [%s] vector [Tx]\n", ifobject->ifname);
 		for (int i = 0; i < num_frames; i++) {
 			/*send EOT frame */
@@ -854,10 +1118,39 @@ static void *worker_testapp_validate(void *arg)
 			       (opt_pkt_count - 1), ifobject->ifname);
 		tx_only_all(ifobject);
 	} else if (ifobject->fv.vector == rx) {
+<<<<<<< HEAD
+=======
+=======
+		ksft_print_msg("Interface [%s] vector [Tx]\n", ((struct ifobject *)arg)->ifname);
+		for (int i = 0; i < num_frames; i++) {
+			/*send EOT frame */
+			if (i == (num_frames - 1))
+				data->seqnum = -1;
+			else
+				data->seqnum = i;
+			gen_udp_hdr((void *)data, (void *)arg, udp_hdr);
+			gen_ip_hdr((void *)arg, ip_hdr);
+			gen_udp_csum(udp_hdr, ip_hdr);
+			gen_eth_hdr((void *)arg, eth_hdr);
+			gen_eth_frame(((struct ifobject *)arg)->umem,
+				      i * XSK_UMEM__DEFAULT_FRAME_SIZE);
+		}
+
+		free(data);
+		ksft_print_msg("Sending %d packets on interface %s\n",
+			       (opt_pkt_count - 1), ((struct ifobject *)arg)->ifname);
+		tx_only_all(arg);
+	} else if (((struct ifobject *)arg)->fv.vector == rx) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct pollfd fds[MAX_SOCKS] = { };
 		int ret;
 
 		if (!bidi_pass)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			thread_common_ops(ifobject, bufs, &sync_mutex_tx, &spinning_rx);
 
 		ksft_print_msg("Interface [%s] vector [Rx]\n", ifobject->ifname);
@@ -866,11 +1159,32 @@ static void *worker_testapp_validate(void *arg)
 		TAILQ_INIT(&head);
 		if (debug_pkt_dump) {
 			pkt_buf = calloc(num_frames, sizeof(*pkt_buf));
+<<<<<<< HEAD
+=======
+=======
+			thread_common_ops(arg, bufs, &sync_mutex_tx, &spinning_rx);
+
+		ksft_print_msg("Interface [%s] vector [Rx]\n", ((struct ifobject *)arg)->ifname);
+		xsk_populate_fill_ring(((struct ifobject *)arg)->umem);
+
+		TAILQ_INIT(&head);
+		if (debug_pkt_dump) {
+			pkt_buf = malloc(sizeof(struct pkt_frame **) * num_frames);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!pkt_buf)
 				exit_with_error(errno);
 		}
 
+<<<<<<< HEAD
 		fds[0].fd = xsk_socket__fd(ifobject->xsk->xsk);
+=======
+<<<<<<< HEAD
+		fds[0].fd = xsk_socket__fd(ifobject->xsk->xsk);
+=======
+		fds[0].fd = xsk_socket__fd(((struct ifobject *)arg)->xsk->xsk);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fds[0].events = POLLIN;
 
 		pthread_mutex_lock(&sync_mutex);
@@ -883,7 +1197,15 @@ static void *worker_testapp_validate(void *arg)
 				if (ret <= 0)
 					continue;
 			}
+<<<<<<< HEAD
 			rx_pkt(ifobject->xsk, fds);
+=======
+<<<<<<< HEAD
+			rx_pkt(ifobject->xsk, fds);
+=======
+			rx_pkt(((struct ifobject *)arg)->xsk, fds);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			worker_pkt_validate();
 
 			if (sigvar)
@@ -891,23 +1213,51 @@ static void *worker_testapp_validate(void *arg)
 		}
 
 		ksft_print_msg("Received %d packets on interface %s\n",
+<<<<<<< HEAD
 			       pkt_counter, ifobject->ifname);
+=======
+<<<<<<< HEAD
+			       pkt_counter, ifobject->ifname);
+=======
+			       pkt_counter, ((struct ifobject *)arg)->ifname);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (opt_teardown)
 			ksft_print_msg("Destroying socket\n");
 	}
 
+<<<<<<< HEAD
 	if (!opt_bidi || bidi_pass) {
 		xsk_socket__delete(ifobject->xsk->xsk);
 		(void)xsk_umem__delete(ifobject->umem->umem);
+=======
+<<<<<<< HEAD
+	if (!opt_bidi || bidi_pass) {
+		xsk_socket__delete(ifobject->xsk->xsk);
+		(void)xsk_umem__delete(ifobject->umem->umem);
+=======
+	if (!opt_bidi || (opt_bidi && bidi_pass)) {
+		xsk_socket__delete(((struct ifobject *)arg)->xsk->xsk);
+		(void)xsk_umem__delete(((struct ifobject *)arg)->umem->umem);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	pthread_exit(NULL);
 }
 
 static void testapp_validate(void)
 {
+<<<<<<< HEAD
 	struct timespec max_wait = { 0, 0 };
 
+=======
+<<<<<<< HEAD
+	struct timespec max_wait = { 0, 0 };
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pthread_attr_init(&attr);
 	pthread_attr_setstacksize(&attr, THREAD_STACK);
 
@@ -922,16 +1272,41 @@ static void testapp_validate(void)
 	pthread_mutex_lock(&sync_mutex);
 
 	/*Spawn RX thread */
+<<<<<<< HEAD
 	if (!opt_bidi || !bidi_pass) {
 		if (pthread_create(&t0, &attr, worker_testapp_validate, ifdict[1]))
+=======
+<<<<<<< HEAD
+	if (!opt_bidi || !bidi_pass) {
+		if (pthread_create(&t0, &attr, worker_testapp_validate, ifdict[1]))
+=======
+	if (!opt_bidi || (opt_bidi && !bidi_pass)) {
+		if (pthread_create(&t0, &attr, worker_testapp_validate, (void *)ifdict[1]))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			exit_with_error(errno);
 	} else if (opt_bidi && bidi_pass) {
 		/*switch Tx/Rx vectors */
 		ifdict[0]->fv.vector = rx;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pthread_create(&t0, &attr, worker_testapp_validate, ifdict[0]))
 			exit_with_error(errno);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+		if (pthread_create(&t0, &attr, worker_testapp_validate, (void *)ifdict[0]))
+			exit_with_error(errno);
+	}
+
+	struct timespec max_wait = { 0, 0 };
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (clock_gettime(CLOCK_REALTIME, &max_wait))
 		exit_with_error(errno);
 	max_wait.tv_sec += TMOUT_SEC;
@@ -942,13 +1317,31 @@ static void testapp_validate(void)
 	pthread_mutex_unlock(&sync_mutex);
 
 	/*Spawn TX thread */
+<<<<<<< HEAD
 	if (!opt_bidi || !bidi_pass) {
 		if (pthread_create(&t1, &attr, worker_testapp_validate, ifdict[0]))
+=======
+<<<<<<< HEAD
+	if (!opt_bidi || !bidi_pass) {
+		if (pthread_create(&t1, &attr, worker_testapp_validate, ifdict[0]))
+=======
+	if (!opt_bidi || (opt_bidi && !bidi_pass)) {
+		if (pthread_create(&t1, &attr, worker_testapp_validate, (void *)ifdict[0]))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			exit_with_error(errno);
 	} else if (opt_bidi && bidi_pass) {
 		/*switch Tx/Rx vectors */
 		ifdict[1]->fv.vector = tx;
+<<<<<<< HEAD
 		if (pthread_create(&t1, &attr, worker_testapp_validate, ifdict[1]))
+=======
+<<<<<<< HEAD
+		if (pthread_create(&t1, &attr, worker_testapp_validate, ifdict[1]))
+=======
+		if (pthread_create(&t1, &attr, worker_testapp_validate, (void *)ifdict[1]))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			exit_with_error(errno);
 	}
 
@@ -982,6 +1375,10 @@ static void testapp_sockets(void)
 	print_ksft_result();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void init_iface_config(struct ifaceconfigobj *ifaceconfig)
 {
 	/*Init interface0 */
@@ -1001,6 +1398,30 @@ static void init_iface_config(struct ifaceconfigobj *ifaceconfig)
 	ifdict[1]->src_ip = ifaceconfig->dst_ip.s_addr;
 	ifdict[1]->dst_port = ifaceconfig->src_port;
 	ifdict[1]->src_port = ifaceconfig->dst_port;
+<<<<<<< HEAD
+=======
+=======
+static void init_iface_config(void *ifaceconfig)
+{
+	/*Init interface0 */
+	ifdict[0]->fv.vector = tx;
+	memcpy(ifdict[0]->dst_mac, ((struct ifaceconfigobj *)ifaceconfig)->dst_mac, ETH_ALEN);
+	memcpy(ifdict[0]->src_mac, ((struct ifaceconfigobj *)ifaceconfig)->src_mac, ETH_ALEN);
+	ifdict[0]->dst_ip = ((struct ifaceconfigobj *)ifaceconfig)->dst_ip.s_addr;
+	ifdict[0]->src_ip = ((struct ifaceconfigobj *)ifaceconfig)->src_ip.s_addr;
+	ifdict[0]->dst_port = ((struct ifaceconfigobj *)ifaceconfig)->dst_port;
+	ifdict[0]->src_port = ((struct ifaceconfigobj *)ifaceconfig)->src_port;
+
+	/*Init interface1 */
+	ifdict[1]->fv.vector = rx;
+	memcpy(ifdict[1]->dst_mac, ((struct ifaceconfigobj *)ifaceconfig)->src_mac, ETH_ALEN);
+	memcpy(ifdict[1]->src_mac, ((struct ifaceconfigobj *)ifaceconfig)->dst_mac, ETH_ALEN);
+	ifdict[1]->dst_ip = ((struct ifaceconfigobj *)ifaceconfig)->src_ip.s_addr;
+	ifdict[1]->src_ip = ((struct ifaceconfigobj *)ifaceconfig)->dst_ip.s_addr;
+	ifdict[1]->dst_port = ((struct ifaceconfigobj *)ifaceconfig)->src_port;
+	ifdict[1]->src_port = ((struct ifaceconfigobj *)ifaceconfig)->dst_port;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int main(int argc, char **argv)
@@ -1017,7 +1438,15 @@ int main(int argc, char **argv)
 	u16 UDP_DST_PORT = 2020;
 	u16 UDP_SRC_PORT = 2121;
 
+<<<<<<< HEAD
 	ifaceconfig = malloc(sizeof(struct ifaceconfigobj));
+=======
+<<<<<<< HEAD
+	ifaceconfig = malloc(sizeof(struct ifaceconfigobj));
+=======
+	ifaceconfig = (struct ifaceconfigobj *)malloc(sizeof(struct ifaceconfigobj));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(ifaceconfig->dst_mac, MAC1, ETH_ALEN);
 	memcpy(ifaceconfig->src_mac, MAC2, ETH_ALEN);
 	inet_aton(IP1, &ifaceconfig->dst_ip);
@@ -1026,7 +1455,15 @@ int main(int argc, char **argv)
 	ifaceconfig->src_port = UDP_SRC_PORT;
 
 	for (int i = 0; i < MAX_INTERFACES; i++) {
+<<<<<<< HEAD
 		ifdict[i] = malloc(sizeof(struct ifobject));
+=======
+<<<<<<< HEAD
+		ifdict[i] = malloc(sizeof(struct ifobject));
+=======
+		ifdict[i] = (struct ifobject *)malloc(sizeof(struct ifobject));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ifdict[i])
 			exit_with_error(errno);
 
@@ -1039,7 +1476,15 @@ int main(int argc, char **argv)
 
 	num_frames = ++opt_pkt_count;
 
+<<<<<<< HEAD
 	init_iface_config(ifaceconfig);
+=======
+<<<<<<< HEAD
+	init_iface_config(ifaceconfig);
+=======
+	init_iface_config((void *)ifaceconfig);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pthread_init_mutex();
 

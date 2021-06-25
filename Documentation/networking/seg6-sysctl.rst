@@ -24,6 +24,7 @@ seg6_require_hmac - INTEGER
 	* 1 - Drop SR packets without HMAC, validate SR packets with HMAC
 
 	Default is 0.
+<<<<<<< HEAD
 
 seg6_flowlabel - INTEGER
 	Controls the behaviour of computing the flowlabel of outer
@@ -37,3 +38,5 @@ seg6_flowlabel - INTEGER
 	 == =======================================================
 
 	Default is 0.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

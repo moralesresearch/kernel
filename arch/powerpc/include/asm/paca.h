@@ -29,7 +29,10 @@
 #include <asm/hmi.h>
 #include <asm/cpuidle.h>
 #include <asm/atomic.h>
+<<<<<<< HEAD
 #include <asm/mce.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm-generic/mmiowb_types.h>
 
@@ -109,7 +112,12 @@ struct paca_struct {
 	 */
 	/* used for most interrupts/exceptions */
 	u64 exgen[EX_SIZE] __attribute__((aligned(0x80)));
+<<<<<<< HEAD
 
+=======
+	u64 exslb[EX_SIZE];	/* used for SLB/segment table misses
+ 				 * on the linear mapping */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* SLB related definitions */
 	u16 vmalloc_sllp;
 	u8 slb_cache_ptr;
@@ -273,9 +281,12 @@ struct paca_struct {
 #ifdef CONFIG_MMIOWB
 	struct mmiowb_state mmiowb_state;
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_PPC_BOOK3S_64
 	struct mce_info *mce_info;
 #endif /* CONFIG_PPC_BOOK3S_64 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } ____cacheline_aligned;
 
 extern void copy_mm_to_paca(struct mm_struct *mm);
@@ -288,9 +299,15 @@ extern void free_unused_pacas(void);
 
 #else /* CONFIG_PPC64 */
 
+<<<<<<< HEAD
 static inline void allocate_paca_ptrs(void) { }
 static inline void allocate_paca(int cpu) { }
 static inline void free_unused_pacas(void) { }
+=======
+static inline void allocate_paca_ptrs(void) { };
+static inline void allocate_paca(int cpu) { };
+static inline void free_unused_pacas(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* CONFIG_PPC64 */
 

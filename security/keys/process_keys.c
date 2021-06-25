@@ -783,7 +783,10 @@ try_again:
 				if (need_perm != KEY_AUTHTOKEN_OVERRIDE &&
 				    need_perm != KEY_DEFER_PERM_CHECK)
 					goto invalid_key;
+<<<<<<< HEAD
 				break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case 0:
 				break;
 			}

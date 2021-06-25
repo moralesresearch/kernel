@@ -117,7 +117,12 @@ static void stm32_dfsdm_clk_disable_unprepare(struct stm32_dfsdm *dfsdm)
 {
 	struct dfsdm_priv *priv = to_stm32_dfsdm_priv(dfsdm);
 
+<<<<<<< HEAD
 	clk_disable_unprepare(priv->aclk);
+=======
+	if (priv->aclk)
+		clk_disable_unprepare(priv->aclk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(priv->clk);
 }
 

@@ -351,6 +351,7 @@ static void smi_dma_xfer(struct tasklet_struct *t)
 static void smi_port_dma_free(struct smi_port *port)
 {
 	if (port->cpu_addr[0]) {
+<<<<<<< HEAD
 		dma_free_coherent(&port->dev->pci_dev->dev,
 				  SMI_TS_DMA_BUF_SIZE, port->cpu_addr[0],
 				  port->dma_addr[0]);
@@ -360,6 +361,15 @@ static void smi_port_dma_free(struct smi_port *port)
 		dma_free_coherent(&port->dev->pci_dev->dev,
 				  SMI_TS_DMA_BUF_SIZE, port->cpu_addr[1],
 				  port->dma_addr[1]);
+=======
+		pci_free_consistent(port->dev->pci_dev, SMI_TS_DMA_BUF_SIZE,
+				    port->cpu_addr[0], port->dma_addr[0]);
+		port->cpu_addr[0] = NULL;
+	}
+	if (port->cpu_addr[1]) {
+		pci_free_consistent(port->dev->pci_dev, SMI_TS_DMA_BUF_SIZE,
+				    port->cpu_addr[1], port->dma_addr[1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->cpu_addr[1] = NULL;
 	}
 }
@@ -400,10 +410,16 @@ static int smi_port_init(struct smi_port *port, int dmaChanUsed)
 	}
 
 	if (port->_dmaInterruptCH0) {
+<<<<<<< HEAD
 		port->cpu_addr[0] = dma_alloc_coherent(&port->dev->pci_dev->dev,
 						       SMI_TS_DMA_BUF_SIZE,
 						       &port->dma_addr[0],
 						       GFP_KERNEL);
+=======
+		port->cpu_addr[0] = pci_alloc_consistent(port->dev->pci_dev,
+					SMI_TS_DMA_BUF_SIZE,
+					&port->dma_addr[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!port->cpu_addr[0]) {
 			dev_err(&port->dev->pci_dev->dev,
 				"Port[%d] DMA CH0 memory allocation failed!\n",
@@ -413,10 +429,16 @@ static int smi_port_init(struct smi_port *port, int dmaChanUsed)
 	}
 
 	if (port->_dmaInterruptCH1) {
+<<<<<<< HEAD
 		port->cpu_addr[1] = dma_alloc_coherent(&port->dev->pci_dev->dev,
 						       SMI_TS_DMA_BUF_SIZE,
 						       &port->dma_addr[1],
 						       GFP_KERNEL);
+=======
+		port->cpu_addr[1] = pci_alloc_consistent(port->dev->pci_dev,
+					SMI_TS_DMA_BUF_SIZE,
+					&port->dma_addr[1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!port->cpu_addr[1]) {
 			dev_err(&port->dev->pci_dev->dev,
 				"Port[%d] DMA CH1 memory allocation failed!\n",
@@ -967,7 +989,11 @@ static int smi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	}
 
 	/* should we set to 32bit DMA? */
+<<<<<<< HEAD
 	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+=======
+	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		goto err_pci_iounmap;
 

@@ -1383,6 +1383,10 @@ static long check_bp_loc(unsigned long addr)
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+#ifndef CONFIG_PPC_8xx
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int find_free_data_bpt(void)
 {
 	int i;
@@ -1394,6 +1398,10 @@ static int find_free_data_bpt(void)
 	printf("Couldn't find free breakpoint register\n");
 	return -1;
 }
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void print_data_bpts(void)
 {
@@ -1433,6 +1441,10 @@ bpt_cmds(void)
 	cmd = inchar();
 
 	switch (cmd) {
+<<<<<<< HEAD
+=======
+#ifndef CONFIG_PPC_8xx
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static const char badaddr[] = "Only kernel addresses are permitted for breakpoints\n";
 	int mode;
 	case 'd':	/* bd - hardware data breakpoint */
@@ -1494,6 +1506,10 @@ bpt_cmds(void)
 			force_enable_xmon();
 		}
 		break;
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	case 'c':
 		if (!scanhex(&a)) {
@@ -3719,7 +3735,11 @@ void dump_segments(void)
 
 	printf("sr0-15 =");
 	for (i = 0; i < 16; ++i)
+<<<<<<< HEAD
 		printf(" %x", mfsr(i << 28));
+=======
+		printf(" %x", mfsrin(i << 28));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	printf("\n");
 }
 #endif

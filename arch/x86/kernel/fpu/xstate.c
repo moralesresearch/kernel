@@ -167,14 +167,22 @@ void fpstate_sanitize_xstate(struct fpu *fpu)
 		fx->fop = 0;
 		fx->rip = 0;
 		fx->rdp = 0;
+<<<<<<< HEAD
 		memset(fx->st_space, 0, sizeof(fx->st_space));
+=======
+		memset(&fx->st_space[0], 0, 128);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
 	 * SSE is in init state
 	 */
 	if (!(xfeatures & XFEATURE_MASK_SSE))
+<<<<<<< HEAD
 		memset(fx->xmm_space, 0, sizeof(fx->xmm_space));
+=======
+		memset(&fx->xmm_space[0], 0, 256);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * First two features are FPU and SSE, which above we handled
@@ -1402,3 +1410,63 @@ int proc_pid_arch_status(struct seq_file *m, struct pid_namespace *ns,
 	return 0;
 }
 #endif /* CONFIG_PROC_PID_ARCH_STATUS */
+<<<<<<< HEAD
+=======
+
+#ifdef CONFIG_IOMMU_SUPPORT
+void update_pasid(void)
+{
+	u64 pasid_state;
+	u32 pasid;
+
+	if (!cpu_feature_enabled(X86_FEATURE_ENQCMD))
+		return;
+
+	if (!current->mm)
+		return;
+
+	pasid = READ_ONCE(current->mm->pasid);
+	/* Set the valid bit in the PASID MSR/state only for valid pasid. */
+	pasid_state = pasid == PASID_DISABLED ?
+		      pasid : pasid | MSR_IA32_PASID_VALID;
+
+	/*
+	 * No need to hold fregs_lock() since the task's fpstate won't
+	 * be changed by others (e.g. ptrace) while the task is being
+	 * switched to or is in IPI.
+	 */
+	if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
+		/* The MSR is active and can be directly updated. */
+		wrmsrl(MSR_IA32_PASID, pasid_state);
+	} else {
+		struct fpu *fpu = &current->thread.fpu;
+		struct ia32_pasid_state *ppasid_state;
+		struct xregs_state *xsave;
+
+		/*
+		 * The CPU's xstate registers are not currently active. Just
+		 * update the PASID state in the memory buffer here. The
+		 * PASID MSR will be loaded when returning to user mode.
+		 */
+		xsave = &fpu->state.xsave;
+		xsave->header.xfeatures |= XFEATURE_MASK_PASID;
+		ppasid_state = get_xsave_addr(xsave, XFEATURE_PASID);
+		/*
+		 * Since XFEATURE_MASK_PASID is set in xfeatures, ppasid_state
+		 * won't be NULL and no need to check its value.
+		 *
+		 * Only update the task's PASID state when it's different
+		 * from the mm's pasid.
+		 */
+		if (ppasid_state->pasid != pasid_state) {
+			/*
+			 * Invalid fpregs so that state restoring will pick up
+			 * the PASID state.
+			 */
+			__fpu_invalidate_fpregs_state(fpu);
+			ppasid_state->pasid = pasid_state;
+		}
+	}
+}
+#endif /* CONFIG_IOMMU_SUPPORT */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

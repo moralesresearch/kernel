@@ -164,10 +164,14 @@ enum nft_hook_attributes {
  */
 enum nft_table_flags {
 	NFT_TABLE_F_DORMANT	= 0x1,
+<<<<<<< HEAD
 	NFT_TABLE_F_OWNER	= 0x2,
 };
 #define NFT_TABLE_F_MASK	(NFT_TABLE_F_DORMANT | \
 				 NFT_TABLE_F_OWNER)
+=======
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum nft_table_attributes - nf_tables table netlink attributes
@@ -176,7 +180,10 @@ enum nft_table_flags {
  * @NFTA_TABLE_FLAGS: bitmask of enum nft_table_flags (NLA_U32)
  * @NFTA_TABLE_USE: number of chains in this table (NLA_U32)
  * @NFTA_TABLE_USERDATA: user data (NLA_BINARY)
+<<<<<<< HEAD
  * @NFTA_TABLE_OWNER: owner of this table through netlink portID (NLA_U32)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum nft_table_attributes {
 	NFTA_TABLE_UNSPEC,
@@ -186,7 +193,10 @@ enum nft_table_attributes {
 	NFTA_TABLE_HANDLE,
 	NFTA_TABLE_PAD,
 	NFTA_TABLE_USERDATA,
+<<<<<<< HEAD
 	NFTA_TABLE_OWNER,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__NFTA_TABLE_MAX
 };
 #define NFTA_TABLE_MAX		(__NFTA_TABLE_MAX - 1)

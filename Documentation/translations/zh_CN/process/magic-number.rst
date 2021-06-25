@@ -124,6 +124,10 @@ FW_HEADER_MAGIC       0x65726F66       fw_header                ``drivers/atm/fo
 SLOT_MAGIC            0x67267321       slot                     ``drivers/hotplug/cpqphp.h``
 SLOT_MAGIC            0x67267322       slot                     ``drivers/hotplug/acpiphp.h``
 LO_MAGIC              0x68797548       nbd_device               ``include/linux/nbd.h``
+<<<<<<< HEAD
+=======
+OPROFILE_MAGIC        0x6f70726f       super_block              ``drivers/oprofile/oprofilefs.h``
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 M3_STATE_MAGIC        0x734d724d       m3_state                 ``sound/oss/maestro3.c``
 VMALLOC_MAGIC         0x87654320       snd_alloc_track          ``sound/core/memory.c``
 KMALLOC_MAGIC         0x87654321       snd_alloc_track          ``sound/core/memory.c``

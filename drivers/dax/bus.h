@@ -39,7 +39,11 @@ struct dax_device_driver {
 	struct list_head ids;
 	int match_always;
 	int (*probe)(struct dev_dax *dev);
+<<<<<<< HEAD
 	void (*remove)(struct dev_dax *dev);
+=======
+	int (*remove)(struct dev_dax *dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int __dax_driver_register(struct dax_device_driver *dax_drv,

@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-only
 menu "Core Netfilter Configuration"
+<<<<<<< HEAD
 	depends on INET && NETFILTER
+=======
+	depends on NET && INET && NETFILTER
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config NETFILTER_INGRESS
 	bool "Netfilter ingress support"

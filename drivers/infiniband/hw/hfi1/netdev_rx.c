@@ -173,7 +173,12 @@ u32 hfi1_num_netdev_contexts(struct hfi1_devdata *dd, u32 available_contexts,
 		return 0;
 	}
 
+<<<<<<< HEAD
 	cpumask_and(node_cpu_mask, cpu_mask, cpumask_of_node(dd->node));
+=======
+	cpumask_and(node_cpu_mask, cpu_mask,
+		    cpumask_of_node(pcibus_to_node(dd->pcidev->bus)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	available_cpus = cpumask_weight(node_cpu_mask);
 
@@ -466,7 +471,11 @@ void *hfi1_netdev_get_data(struct hfi1_devdata *dd, int id)
  * hfi1_netdev_get_first_dat - Gets first entry with greater or equal id.
  *
  * @dd: hfi1 dev data
+<<<<<<< HEAD
  * @start_id: requested integer id up to INT_MAX
+=======
+ * @id: requested integer id up to INT_MAX
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void *hfi1_netdev_get_first_data(struct hfi1_devdata *dd, int *start_id)
 {

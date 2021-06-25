@@ -913,7 +913,14 @@
 		};
 
 		mdss: mdss@1a00000 {
+<<<<<<< HEAD
 			status = "disabled";
+=======
+<<<<<<< HEAD
+			status = "disabled";
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,mdss";
 			reg = <0x01a00000 0x1000>,
 			      <0x01ac8000 0x3000>;
@@ -1529,6 +1536,10 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		blsp_i2c3: i2c@78b7000 {
 			compatible = "qcom,i2c-qup-v2.2.1";
 			reg = <0x078b7000 0x500>;
@@ -1544,6 +1555,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		blsp_spi3: spi@78b7000 {
 			compatible = "qcom,spi-qup-v2.2.1";
 			reg = <0x078b7000 0x500>;

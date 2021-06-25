@@ -21,6 +21,11 @@
 MODULE_AUTHOR("Tim Blechmann");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("digigram lx6464es");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{digigram lx6464es{}}");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;

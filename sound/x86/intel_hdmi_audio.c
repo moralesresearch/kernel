@@ -1770,7 +1770,12 @@ static int hdmi_lpe_audio_probe(struct platform_device *pdev)
 	card_ctx->irq = irq;
 
 	/* only 32bit addressable */
+<<<<<<< HEAD
 	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+=======
+	dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	init_channel_allocations();
 
@@ -1789,7 +1794,11 @@ static int hdmi_lpe_audio_probe(struct platform_device *pdev)
 		/* setup private data which can be retrieved when required */
 		pcm->private_data = ctx;
 		pcm->info_flags = 0;
+<<<<<<< HEAD
 		strscpy(pcm->name, card->shortname, strlen(card->shortname));
+=======
+		strlcpy(pcm->name, card->shortname, strlen(card->shortname));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* setup the ops for playabck */
 		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &had_pcm_ops);
 
@@ -1887,3 +1896,7 @@ MODULE_AUTHOR("Vaibhav Agarwal <vaibhav.agarwal@intel.com>");
 MODULE_AUTHOR("Jerome Anand <jerome.anand@intel.com>");
 MODULE_DESCRIPTION("Intel HDMI Audio driver");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{Intel,Intel_HAD}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

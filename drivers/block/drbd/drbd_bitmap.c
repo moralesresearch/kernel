@@ -976,7 +976,11 @@ static void drbd_bm_endio(struct bio *bio)
 
 static void bm_page_io_async(struct drbd_bm_aio_ctx *ctx, int page_nr) __must_hold(local)
 {
+<<<<<<< HEAD
 	struct bio *bio = bio_alloc_bioset(GFP_NOIO, 1, &drbd_md_io_bio_set);
+=======
+	struct bio *bio = bio_alloc_drbd(GFP_NOIO);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drbd_device *device = ctx->device;
 	struct drbd_bitmap *b = device->bitmap;
 	struct page *page;
