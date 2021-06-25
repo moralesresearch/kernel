@@ -1360,7 +1360,6 @@ static struct genl_family genl_ctrl __ro_after_init = {
 	.netnsok = true,
 };
 
-<<<<<<< HEAD
 static int genl_bind(struct net *net, int group)
 {
 	const struct genl_family *family;
@@ -1392,17 +1391,12 @@ static int genl_bind(struct net *net, int group)
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __net_init genl_pernet_init(struct net *net)
 {
 	struct netlink_kernel_cfg cfg = {
 		.input		= genl_rcv,
 		.flags		= NL_CFG_F_NONROOT_RECV,
-<<<<<<< HEAD
 		.bind		= genl_bind,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/* we'll bump the group number right afterwards */

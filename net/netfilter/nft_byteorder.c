@@ -16,13 +16,8 @@
 #include <net/netfilter/nf_tables.h>
 
 struct nft_byteorder {
-<<<<<<< HEAD
 	u8			sreg;
 	u8			dreg;
-=======
-	enum nft_registers	sreg:8;
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum nft_byteorder_ops	op:8;
 	u8			len;
 	u8			size;
@@ -136,17 +131,12 @@ static int nft_byteorder_init(const struct nft_ctx *ctx,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-	priv->sreg = nft_parse_register(tb[NFTA_BYTEORDER_SREG]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = nft_parse_u32_check(tb[NFTA_BYTEORDER_LEN], U8_MAX, &len);
 	if (err < 0)
 		return err;
 
 	priv->len = len;
 
-<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_BYTEORDER_SREG], &priv->sreg,
 				      priv->len);
 	if (err < 0)
@@ -155,15 +145,6 @@ static int nft_byteorder_init(const struct nft_ctx *ctx,
 	return nft_parse_register_store(ctx, tb[NFTA_BYTEORDER_DREG],
 					&priv->dreg, NULL, NFT_DATA_VALUE,
 					priv->len);
-=======
-	err = nft_validate_register_load(priv->sreg, priv->len);
-	if (err < 0)
-		return err;
-
-	priv->dreg = nft_parse_register(tb[NFTA_BYTEORDER_DREG]);
-	return nft_validate_register_store(ctx, priv->dreg, NULL,
-					   NFT_DATA_VALUE, priv->len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nft_byteorder_dump(struct sk_buff *skb, const struct nft_expr *expr)

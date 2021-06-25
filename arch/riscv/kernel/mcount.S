@@ -47,13 +47,8 @@
 
 ENTRY(ftrace_stub)
 #ifdef CONFIG_DYNAMIC_FTRACE
-<<<<<<< HEAD
        .global MCOUNT_NAME
        .set    MCOUNT_NAME, ftrace_stub
-=======
-       .global _mcount
-       .set    _mcount, ftrace_stub
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	ret
 ENDPROC(ftrace_stub)
@@ -83,11 +78,7 @@ ENDPROC(return_to_handler)
 #endif
 
 #ifndef CONFIG_DYNAMIC_FTRACE
-<<<<<<< HEAD
 ENTRY(MCOUNT_NAME)
-=======
-ENTRY(_mcount)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	la	t4, ftrace_stub
 #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 	la	t0, ftrace_graph_return
@@ -133,12 +124,6 @@ do_trace:
 	jalr	t5
 	RESTORE_ABI_STATE
 	ret
-<<<<<<< HEAD
 ENDPROC(MCOUNT_NAME)
 #endif
 EXPORT_SYMBOL(MCOUNT_NAME)
-=======
-ENDPROC(_mcount)
-#endif
-EXPORT_SYMBOL(_mcount)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

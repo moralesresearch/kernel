@@ -81,17 +81,10 @@
 		};
 	};
 
-<<<<<<< HEAD
 	led-controller {
 		compatible = "pwm-leds";
 
 		led-1 {
-=======
-	pwmleds {
-		compatible = "pwm-leds";
-
-		power {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "vim:red:power";
 			pwms = <&pwm_AO_ab 1 7812500 0>;
 			max-brightness = <255>;
@@ -155,11 +148,7 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
-<<<<<<< HEAD
 		model = "KHADAS-VIM2";
-=======
-		model = "GXM-KHADAS-VIM2";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&clkc CLKID_MPLL0>,
 				  <&clkc CLKID_MPLL1>,
 				  <&clkc CLKID_MPLL2>;

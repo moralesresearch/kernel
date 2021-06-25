@@ -66,10 +66,7 @@ int nsinfo__init(struct nsinfo *nsi)
 	char spath[PATH_MAX];
 	char *newns = NULL;
 	char *statln = NULL;
-<<<<<<< HEAD
 	char *nspid;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct stat old_stat;
 	struct stat new_stat;
 	FILE *f = NULL;
@@ -116,17 +113,12 @@ int nsinfo__init(struct nsinfo *nsi)
 		}
 
 		if (strstr(statln, "NStgid:") != NULL) {
-<<<<<<< HEAD
 			nspid = strrchr(statln, '\t');
 			nsi->nstgid = (pid_t)strtol(nspid, NULL, 10);
 			/* If innermost tgid is not the first, process is in a different
 			 * PID namespace.
 			 */
 			nsi->in_pidns = (statln + sizeof("NStgid:") - 1) != nspid;
-=======
-			nsi->nstgid = (pid_t)strtol(strrchr(statln, '\t'),
-						     NULL, 10);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
@@ -153,10 +145,7 @@ struct nsinfo *nsinfo__new(pid_t pid)
 		nsi->tgid = pid;
 		nsi->nstgid = pid;
 		nsi->need_setns = false;
-<<<<<<< HEAD
 		nsi->in_pidns = false;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Init may fail if the process exits while we're trying to look
 		 * at its proc information.  In that case, save the pid but
 		 * don't try to enter the namespace.
@@ -183,10 +172,7 @@ struct nsinfo *nsinfo__copy(struct nsinfo *nsi)
 		nnsi->tgid = nsi->tgid;
 		nnsi->nstgid = nsi->nstgid;
 		nnsi->need_setns = nsi->need_setns;
-<<<<<<< HEAD
 		nnsi->in_pidns = nsi->in_pidns;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (nsi->mntns_path) {
 			nnsi->mntns_path = strdup(nsi->mntns_path);
 			if (!nnsi->mntns_path) {
@@ -301,7 +287,6 @@ char *nsinfo__realpath(const char *path, struct nsinfo *nsi)
 
 	return rpath;
 }
-<<<<<<< HEAD
 
 int nsinfo__stat(const char *filename, struct stat *st, struct nsinfo *nsi)
 {
@@ -314,5 +299,3 @@ int nsinfo__stat(const char *filename, struct stat *st, struct nsinfo *nsi)
 
 	return ret;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

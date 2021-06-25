@@ -9,10 +9,6 @@
  * Copyright (C) 2004 Thiemo Seufer
  * Copyright (C) 2013  Imagination Technologies Ltd.
  */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/cpu.h>
 #include <linux/errno.h>
 #include <linux/init.h>
@@ -42,55 +38,6 @@
 #include <asm/processor.h>
 #include <asm/reg.h>
 #include <asm/stacktrace.h>
-<<<<<<< HEAD
-=======
-=======
-#include <linux/errno.h>
-#include <linux/sched.h>
-#include <linux/sched/debug.h>
-#include <linux/sched/task.h>
-#include <linux/sched/task_stack.h>
-#include <linux/tick.h>
-#include <linux/kernel.h>
-#include <linux/mm.h>
-#include <linux/stddef.h>
-#include <linux/unistd.h>
-#include <linux/export.h>
-#include <linux/ptrace.h>
-#include <linux/mman.h>
-#include <linux/personality.h>
-#include <linux/sys.h>
-#include <linux/init.h>
-#include <linux/completion.h>
-#include <linux/kallsyms.h>
-#include <linux/random.h>
-#include <linux/prctl.h>
-#include <linux/nmi.h>
-#include <linux/cpu.h>
-
-#include <asm/abi.h>
-#include <asm/asm.h>
-#include <asm/bootinfo.h>
-#include <asm/cpu.h>
-#include <asm/dsemul.h>
-#include <asm/dsp.h>
-#include <asm/fpu.h>
-#include <asm/irq.h>
-#include <asm/mips-cps.h>
-#include <asm/msa.h>
-#include <asm/mipsregs.h>
-#include <asm/processor.h>
-#include <asm/reg.h>
-#include <linux/uaccess.h>
-#include <asm/io.h>
-#include <asm/elf.h>
-#include <asm/isadep.h>
-#include <asm/inst.h>
-#include <asm/stacktrace.h>
-#include <asm/irq_regs.h>
-#include <asm/exec.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_HOTPLUG_CPU
 void arch_cpu_idle_dead(void)
@@ -173,19 +120,10 @@ int copy_thread(unsigned long clone_flags, unsigned long usp,
 	/*  Put the stack after the struct pt_regs.  */
 	childksp = (unsigned long) childregs;
 	p->thread.cp0_status = (read_c0_status() & ~(ST0_CU2|ST0_CU1)) | ST0_KERNEL_CUMASK;
-<<<<<<< HEAD
 	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
-=======
-<<<<<<< HEAD
-	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
-=======
-	if (unlikely(p->flags & PF_KTHREAD)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* kernel thread */
 		unsigned long status = p->thread.cp0_status;
 		memset(childregs, 0, sizeof(struct pt_regs));
-		ti->addr_limit = KERNEL_DS;
 		p->thread.reg16 = usp; /* fn */
 		p->thread.reg17 = kthread_arg;
 		p->thread.reg29 = childksp;
@@ -206,7 +144,6 @@ int copy_thread(unsigned long clone_flags, unsigned long usp,
 	childregs->regs[2] = 0; /* Child gets zero as return value */
 	if (usp)
 		childregs->regs[29] = usp;
-	ti->addr_limit = USER_DS;
 
 	p->thread.reg29 = (unsigned long) childregs;
 	p->thread.reg31 = (unsigned long) ret_from_fork;
@@ -251,10 +188,6 @@ struct mips_frame_info {
 #define J_TARGET(pc,target)	\
 		(((unsigned long)(pc) & 0xf0000000) | ((target) << 2))
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int is_jr_ra_ins(union mips_instruction *ip)
 {
 #ifdef CONFIG_CPU_MICROMIPS
@@ -285,11 +218,6 @@ static inline int is_jr_ra_ins(union mips_instruction *ip)
 #endif
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int is_ra_save_ins(union mips_instruction *ip, int *poff)
 {
 #ifdef CONFIG_CPU_MICROMIPS
@@ -475,20 +403,8 @@ static inline int is_sp_move_ins(union mips_instruction *ip, int *frame_size)
 static int get_frame_info(struct mips_frame_info *info)
 {
 	bool is_mmips = IS_ENABLED(CONFIG_CPU_MICROMIPS);
-<<<<<<< HEAD
 	union mips_instruction insn, *ip, *ip_end;
 	unsigned int last_insn_size = 0;
-=======
-<<<<<<< HEAD
-	union mips_instruction insn, *ip, *ip_end;
-	unsigned int last_insn_size = 0;
-=======
-	union mips_instruction insn, *ip;
-	const unsigned int max_insns = 128;
-	unsigned int last_insn_size = 0;
-	unsigned int i;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool saw_jump = false;
 
 	info->pc_offset = -1;
@@ -498,19 +414,9 @@ static int get_frame_info(struct mips_frame_info *info)
 	if (!ip)
 		goto err;
 
-<<<<<<< HEAD
 	ip_end = (void *)ip + (info->func_size ? info->func_size : 512);
 
 	while (ip < ip_end) {
-=======
-<<<<<<< HEAD
-	ip_end = (void *)ip + (info->func_size ? info->func_size : 512);
-
-	while (ip < ip_end) {
-=======
-	for (i = 0; i < max_insns; i++) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ip = (void *)ip + last_insn_size;
 
 		if (is_mmips && mm_insn_16bit(ip->halfword[0])) {
@@ -524,19 +430,9 @@ static int get_frame_info(struct mips_frame_info *info)
 			last_insn_size = 4;
 		}
 
-<<<<<<< HEAD
 		if (is_jr_ra_ins(ip)) {
 			break;
 		} else if (!info->frame_size) {
-=======
-<<<<<<< HEAD
-		if (is_jr_ra_ins(ip)) {
-			break;
-		} else if (!info->frame_size) {
-=======
-		if (!info->frame_size) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			is_sp_move_ins(&insn, &info->frame_size);
 			continue;
 		} else if (!saw_jump && is_jump_ins(ip)) {

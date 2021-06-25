@@ -464,10 +464,7 @@ struct tb_regs_hop {
 #define TB_LC_SX_CTRL_L1D		BIT(17)
 #define TB_LC_SX_CTRL_L2C		BIT(20)
 #define TB_LC_SX_CTRL_L2D		BIT(21)
-<<<<<<< HEAD
 #define TB_LC_SX_CTRL_SLI		BIT(29)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TB_LC_SX_CTRL_UPSTREAM		BIT(30)
 #define TB_LC_SX_CTRL_SLP		BIT(31)
 

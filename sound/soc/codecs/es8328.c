@@ -715,11 +715,7 @@ static struct snd_soc_dai_driver es8328_dai = {
 		.formats = ES8328_FORMATS,
 	},
 	.ops = &es8328_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int es8328_suspend(struct snd_soc_component *component)
@@ -813,12 +809,7 @@ static void es8328_remove(struct snd_soc_component *component)
 
 	es8328 = snd_soc_component_get_drvdata(component);
 
-<<<<<<< HEAD
 	clk_disable_unprepare(es8328->clk);
-=======
-	if (es8328->clk)
-		clk_disable_unprepare(es8328->clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	regulator_bulk_disable(ARRAY_SIZE(es8328->supplies),
 			       es8328->supplies);

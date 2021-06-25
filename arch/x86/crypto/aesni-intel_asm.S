@@ -43,16 +43,6 @@
 #ifdef __x86_64__
 
 # constants in mergeable sections, linker can reorder and merge
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-.section	.rodata.cst16.gf128mul_x_ble_mask, "aM", @progbits, 16
-.align 16
-.Lgf128mul_x_ble_mask:
-	.octa 0x00000000000000010000000000000087
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .section	.rodata.cst16.POLY, "aM", @progbits, 16
 .align 16
 POLY:   .octa 0xC2000000000000000000000000000001
@@ -152,15 +142,7 @@ ALL_F:      .octa 0xffffffffffffffffffffffffffffffff
 #define CTR	%xmm11
 #define INC	%xmm12
 
-<<<<<<< HEAD
 #define GF128MUL_MASK %xmm7
-=======
-<<<<<<< HEAD
-#define GF128MUL_MASK %xmm7
-=======
-#define GF128MUL_MASK %xmm10
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef __x86_64__
 #define AREG	%rax
@@ -2591,10 +2573,6 @@ SYM_FUNC_START(aesni_cbc_dec)
 	ret
 SYM_FUNC_END(aesni_cbc_dec)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * void aesni_cts_cbc_enc(struct crypto_aes_ctx *ctx, const u8 *dst, u8 *src,
  *			  size_t len, u8 *iv)
@@ -2729,18 +2707,6 @@ SYM_FUNC_END(aesni_cts_cbc_dec)
 .popsection
 
 #ifdef __x86_64__
-<<<<<<< HEAD
-=======
-=======
-#ifdef __x86_64__
-.pushsection .rodata
-.align 16
-.Lbswap_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
-.popsection
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * _aesni_inc_init:	internal ABI
  *	setup registers used by _aesni_inc
@@ -2853,10 +2819,6 @@ SYM_FUNC_START(aesni_ctr_enc)
 	ret
 SYM_FUNC_END(aesni_ctr_enc)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 .section	.rodata.cst16.gf128mul_x_ble_mask, "aM", @progbits, 16
@@ -2865,11 +2827,6 @@ SYM_FUNC_END(aesni_ctr_enc)
 	.octa 0x00000000000000010000000000000087
 .previous
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * _aesni_gf128mul_x_ble:		internal ABI
  *	Multiply in GF(2^128) for XTS IVs
@@ -2882,25 +2839,11 @@ SYM_FUNC_END(aesni_ctr_enc)
  *	CTR:	== temporary value
  */
 #define _aesni_gf128mul_x_ble() \
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pshufd $0x13, IV, KEY; \
 	paddq IV, IV; \
 	psrad $31, KEY; \
 	pand GF128MUL_MASK, KEY; \
 	pxor KEY, IV;
-<<<<<<< HEAD
-=======
-=======
-	pshufd $0x13, IV, CTR; \
-	paddq IV, IV; \
-	psrad $31, CTR; \
-	pand GF128MUL_MASK, CTR; \
-	pxor CTR, IV;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * void aesni_xts_encrypt(const struct crypto_aes_ctx *ctx, u8 *dst,
@@ -2908,10 +2851,6 @@ SYM_FUNC_END(aesni_ctr_enc)
  */
 SYM_FUNC_START(aesni_xts_encrypt)
 	FRAME_BEGIN
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef __x86_64__
 	pushl IVP
 	pushl LEN
@@ -2926,92 +2865,39 @@ SYM_FUNC_START(aesni_xts_encrypt)
 #else
 	movdqa .Lgf128mul_x_ble_mask(%rip), GF128MUL_MASK
 #endif
-<<<<<<< HEAD
-=======
-=======
-
-	movdqa .Lgf128mul_x_ble_mask, GF128MUL_MASK
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movups (IVP), IV
 
 	mov 480(KEYP), KLEN
 
 .Lxts_enc_loop4:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sub $64, LEN
 	jl .Lxts_enc_1x
 
 	movdqa IV, STATE1
 	movdqu 0x00(INP), IN
 	pxor IN, STATE1
-<<<<<<< HEAD
-=======
-=======
-	movdqa IV, STATE1
-	movdqu 0x00(INP), INC
-	pxor INC, STATE1
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x00(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE2
-<<<<<<< HEAD
 	movdqu 0x10(INP), IN
 	pxor IN, STATE2
-=======
-<<<<<<< HEAD
-	movdqu 0x10(INP), IN
-	pxor IN, STATE2
-=======
-	movdqu 0x10(INP), INC
-	pxor INC, STATE2
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x10(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE3
-<<<<<<< HEAD
 	movdqu 0x20(INP), IN
 	pxor IN, STATE3
-=======
-<<<<<<< HEAD
-	movdqu 0x20(INP), IN
-	pxor IN, STATE3
-=======
-	movdqu 0x20(INP), INC
-	pxor INC, STATE3
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x20(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE4
-<<<<<<< HEAD
 	movdqu 0x30(INP), IN
 	pxor IN, STATE4
-=======
-<<<<<<< HEAD
-	movdqu 0x30(INP), IN
-	pxor IN, STATE4
-=======
-	movdqu 0x30(INP), INC
-	pxor INC, STATE4
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x30(OUTP)
 
 	call _aesni_enc4
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu 0x00(OUTP), IN
 	pxor IN, STATE1
 	movdqu STATE1, 0x00(OUTP)
@@ -3026,35 +2912,12 @@ SYM_FUNC_START(aesni_xts_encrypt)
 
 	movdqu 0x30(OUTP), IN
 	pxor IN, STATE4
-<<<<<<< HEAD
-=======
-=======
-	movdqu 0x00(OUTP), INC
-	pxor INC, STATE1
-	movdqu STATE1, 0x00(OUTP)
-
-	movdqu 0x10(OUTP), INC
-	pxor INC, STATE2
-	movdqu STATE2, 0x10(OUTP)
-
-	movdqu 0x20(OUTP), INC
-	pxor INC, STATE3
-	movdqu STATE3, 0x20(OUTP)
-
-	movdqu 0x30(OUTP), INC
-	pxor INC, STATE4
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu STATE4, 0x30(OUTP)
 
 	_aesni_gf128mul_x_ble()
 
 	add $64, INP
 	add $64, OUTP
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	test LEN, LEN
 	jnz .Lxts_enc_loop4
 
@@ -3135,18 +2998,6 @@ SYM_FUNC_START(aesni_xts_encrypt)
 
 	movups STATE, (OUTP)
 	jmp .Lxts_enc_ret
-<<<<<<< HEAD
-=======
-=======
-	sub $64, LEN
-	ja .Lxts_enc_loop4
-
-	movups IV, (IVP)
-
-	FRAME_END
-	ret
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SYM_FUNC_END(aesni_xts_encrypt)
 
 /*
@@ -3155,10 +3006,6 @@ SYM_FUNC_END(aesni_xts_encrypt)
  */
 SYM_FUNC_START(aesni_xts_decrypt)
 	FRAME_BEGIN
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef __x86_64__
 	pushl IVP
 	pushl LEN
@@ -3173,22 +3020,11 @@ SYM_FUNC_START(aesni_xts_decrypt)
 #else
 	movdqa .Lgf128mul_x_ble_mask(%rip), GF128MUL_MASK
 #endif
-<<<<<<< HEAD
-=======
-=======
-
-	movdqa .Lgf128mul_x_ble_mask, GF128MUL_MASK
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movups (IVP), IV
 
 	mov 480(KEYP), KLEN
 	add $240, KEYP
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	test $15, LEN
 	jz .Lxts_dec_loop4
 	sub $16, LEN
@@ -3200,71 +3036,28 @@ SYM_FUNC_START(aesni_xts_decrypt)
 	movdqa IV, STATE1
 	movdqu 0x00(INP), IN
 	pxor IN, STATE1
-<<<<<<< HEAD
-=======
-=======
-.Lxts_dec_loop4:
-	movdqa IV, STATE1
-	movdqu 0x00(INP), INC
-	pxor INC, STATE1
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x00(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE2
-<<<<<<< HEAD
 	movdqu 0x10(INP), IN
 	pxor IN, STATE2
-=======
-<<<<<<< HEAD
-	movdqu 0x10(INP), IN
-	pxor IN, STATE2
-=======
-	movdqu 0x10(INP), INC
-	pxor INC, STATE2
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x10(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE3
-<<<<<<< HEAD
 	movdqu 0x20(INP), IN
 	pxor IN, STATE3
-=======
-<<<<<<< HEAD
-	movdqu 0x20(INP), IN
-	pxor IN, STATE3
-=======
-	movdqu 0x20(INP), INC
-	pxor INC, STATE3
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x20(OUTP)
 
 	_aesni_gf128mul_x_ble()
 	movdqa IV, STATE4
-<<<<<<< HEAD
 	movdqu 0x30(INP), IN
 	pxor IN, STATE4
-=======
-<<<<<<< HEAD
-	movdqu 0x30(INP), IN
-	pxor IN, STATE4
-=======
-	movdqu 0x30(INP), INC
-	pxor INC, STATE4
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu IV, 0x30(OUTP)
 
 	call _aesni_dec4
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu 0x00(OUTP), IN
 	pxor IN, STATE1
 	movdqu STATE1, 0x00(OUTP)
@@ -3279,35 +3072,12 @@ SYM_FUNC_START(aesni_xts_decrypt)
 
 	movdqu 0x30(OUTP), IN
 	pxor IN, STATE4
-<<<<<<< HEAD
-=======
-=======
-	movdqu 0x00(OUTP), INC
-	pxor INC, STATE1
-	movdqu STATE1, 0x00(OUTP)
-
-	movdqu 0x10(OUTP), INC
-	pxor INC, STATE2
-	movdqu STATE2, 0x10(OUTP)
-
-	movdqu 0x20(OUTP), INC
-	pxor INC, STATE3
-	movdqu STATE3, 0x20(OUTP)
-
-	movdqu 0x30(OUTP), INC
-	pxor INC, STATE4
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movdqu STATE4, 0x30(OUTP)
 
 	_aesni_gf128mul_x_ble()
 
 	add $64, INP
 	add $64, OUTP
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	test LEN, LEN
 	jnz .Lxts_dec_loop4
 
@@ -3391,18 +3161,3 @@ SYM_FUNC_START(aesni_xts_decrypt)
 	movups STATE, (OUTP)
 	jmp .Lxts_dec_ret
 SYM_FUNC_END(aesni_xts_decrypt)
-<<<<<<< HEAD
-=======
-=======
-	sub $64, LEN
-	ja .Lxts_dec_loop4
-
-	movups IV, (IVP)
-
-	FRAME_END
-	ret
-SYM_FUNC_END(aesni_xts_decrypt)
-
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

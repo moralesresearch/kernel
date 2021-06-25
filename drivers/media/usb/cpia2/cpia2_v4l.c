@@ -56,10 +56,6 @@ MODULE_PARM_DESC(flicker_mode, "Flicker frequency (0 (disabled), " __stringify(5
 
 MODULE_AUTHOR("Steve Miller (STMicroelectronics) <steve.miller@st.com>");
 MODULE_DESCRIPTION("V4L-driver for STMicroelectronics CPiA2 based cameras");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("video");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 MODULE_VERSION(CPIA_VERSION);
 

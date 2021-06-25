@@ -1059,11 +1059,7 @@ static struct snd_soc_dai_driver da7210_dai = {
 		.formats = DA7210_FORMATS,
 	},
 	.ops = &da7210_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int da7210_probe(struct snd_soc_component *component)

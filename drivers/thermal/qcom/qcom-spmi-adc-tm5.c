@@ -441,11 +441,7 @@ static int adc_tm5_get_dt_channel_data(struct adc_tm5_chip *adc_tm,
 
 	if (args.args_count != 1 || args.args[0] >= ADC5_MAX_CHANNEL) {
 		dev_err(dev, "%s: invalid ADC channel number %d\n", name, chan);
-<<<<<<< HEAD
 		return -EINVAL;
-=======
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	channel->adc_channel = args.args[0];
 

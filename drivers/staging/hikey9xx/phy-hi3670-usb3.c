@@ -8,10 +8,7 @@
  * Authors: Yu Chen <chenyu56@huawei.com>
  */
 
-<<<<<<< HEAD
 #include <linux/bitfield.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/clk.h>
 #include <linux/kernel.h>
 #include <linux/mfd/syscon.h>
@@ -45,7 +42,6 @@
 #define SC_CLK_USB3PHY_3MUX1_SEL	BIT(25)
 
 #define USB3OTG_CTRL0			(0x00)
-<<<<<<< HEAD
 #define USB3OTG_CTRL3			(0x0c)
 #define USB3OTG_CTRL4			(0x10)
 #define USB3OTG_CTRL5			(0x14)
@@ -55,17 +51,6 @@
 #define USB_MISC_CFG58			(0x58)
 #define USB_MISC_CFG5C			(0x5c)
 #define USB_MISC_CFGA0			(0xa0)
-=======
-#define USB3OTG_CTRL3			(0x0C)
-#define USB3OTG_CTRL4			(0x10)
-#define USB3OTG_CTRL5			(0x14)
-#define USB3OTG_CTRL7			(0x1C)
-#define USB_MISC_CFG50			(0x50)
-#define USB_MISC_CFG54			(0x54)
-#define USB_MISC_CFG58			(0x58)
-#define USB_MISC_CFG5C			(0x5C)
-#define USB_MISC_CFGA0			(0xA0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TCA_CLK_RST			(0x200)
 #define TCA_INTR_EN			(0x204)
 #define TCA_INTR_STS			(0x208)
@@ -82,7 +67,6 @@
 
 #define CTRL5_USB2_SIDDQ		BIT(0)
 
-<<<<<<< HEAD
 #define CTRL7_USB2_REFCLKSEL_MASK	GENMASK(4, 3)
 #define CTRL7_USB2_REFCLKSEL_ABB	(BIT(4) | BIT(3))
 #define CTRL7_USB2_REFCLKSEL_PAD	BIT(4)
@@ -91,16 +75,6 @@
 
 #define CFG54_USB31PHY_CR_ADDR_MASK	GENMASK(31, 16)
 
-=======
-#define CTRL7_USB2_REFCLKSEL_MASK	(3 << 3)
-#define CTRL7_USB2_REFCLKSEL_ABB	(3 << 3)
-#define CTRL7_USB2_REFCLKSEL_PAD	(2 << 3)
-
-#define CFG50_USB3_PHY_TEST_POWERDOWN	BIT(23)
-
-#define CFG54_USB31PHY_CR_ADDR_MASK	(0xFFFF)
-#define CFG54_USB31PHY_CR_ADDR_SHIFT	(16)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CFG54_USB3PHY_REF_USE_PAD	BIT(12)
 #define CFG54_PHY0_PMA_PWR_STABLE	BIT(11)
 #define CFG54_PHY0_PCS_PWR_STABLE	BIT(9)
@@ -111,12 +85,7 @@
 #define CFG54_USB31PHY_CR_CLK		BIT(2)
 #define CFG54_USB3_PHY0_ANA_PWR_EN	BIT(1)
 
-<<<<<<< HEAD
 #define CFG58_USB31PHY_CR_DATA_MASK     GENMASK(31, 16)
-=======
-#define CFG58_USB31PHY_CR_DATA_MASK     (0xFFFF)
-#define CFG58_USB31PHY_CR_DATA_RD_START (16)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN	BIT(1)
 
@@ -133,35 +102,20 @@
 #define CLK_RST_SUSPEND_CLK_EN		BIT(0)
 
 #define GCFG_ROLE_HSTDEV		BIT(4)
-<<<<<<< HEAD
 #define GCFG_OP_MODE			GENMASK(1, 0)
-=======
-#define GCFG_OP_MODE			(3 << 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define GCFG_OP_MODE_CTRL_SYNC_MODE	BIT(0)
 
 #define TCPC_VALID			BIT(4)
 #define TCPC_LOW_POWER_EN		BIT(3)
-<<<<<<< HEAD
 #define TCPC_MUX_CONTROL_MASK		GENMASK(1, 0)
-=======
-#define TCPC_MUX_CONTROL_MASK		(3 << 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TCPC_MUX_CONTROL_USB31		BIT(0)
 
 #define SYSMODE_CFG_TYPEC_DISABLE	BIT(3)
 
-<<<<<<< HEAD
 #define VBUS_CTRL_POWERPRESENT_OVERRD	GENMASK(3, 2)
 #define VBUS_CTRL_VBUSVALID_OVERRD	GENMASK(1, 0)
 
 #define KIRIN970_USB_DEFAULT_PHY_PARAM	(0xfdfee4)
-=======
-#define VBUS_CTRL_POWERPRESENT_OVERRD	(3 << 2)
-#define VBUS_CTRL_VBUSVALID_OVERRD	(3 << 0)
-
-#define KIRIN970_USB_DEFAULT_PHY_PARAM	(0xFDFEE4)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KIRIN970_USB_DEFAULT_PHY_VBOOST	(0x5)
 
 #define TX_VBOOST_LVL_REG		(0xf)
@@ -208,7 +162,6 @@ static int hi3670_phy_cr_set_sel(struct regmap *usb31misc)
 
 static int hi3670_phy_cr_start(struct regmap *usb31misc, int direction)
 {
-<<<<<<< HEAD
 	int ret, reg;
 
 	if (direction)
@@ -217,18 +170,6 @@ static int hi3670_phy_cr_start(struct regmap *usb31misc, int direction)
 		reg = CFG54_USB31PHY_CR_RD_EN;
 
 	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54, reg, reg);
-=======
-	int ret;
-
-	if (direction)
-		ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
-					 CFG54_USB31PHY_CR_WR_EN,
-					 CFG54_USB31PHY_CR_WR_EN);
-	else
-		ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
-					 CFG54_USB31PHY_CR_RD_EN,
-					 CFG54_USB31PHY_CR_RD_EN);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret)
 		return ret;
@@ -237,25 +178,14 @@ static int hi3670_phy_cr_start(struct regmap *usb31misc, int direction)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
 				  CFG54_USB31PHY_CR_RD_EN | CFG54_USB31PHY_CR_WR_EN, 0);
-=======
-	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
-				 CFG54_USB31PHY_CR_RD_EN | CFG54_USB31PHY_CR_WR_EN, 0);
-
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hi3670_phy_cr_wait_ack(struct regmap *usb31misc)
 {
 	u32 reg;
-<<<<<<< HEAD
 	int retry = 10;
-=======
-	int retry = 100000;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	while (retry-- > 0) {
@@ -268,11 +198,8 @@ static int hi3670_phy_cr_wait_ack(struct regmap *usb31misc)
 		ret = hi3670_phy_cr_clk(usb31misc);
 		if (ret)
 			return ret;
-<<<<<<< HEAD
 
 		usleep_range(10, 20);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return -ETIMEDOUT;
@@ -287,15 +214,9 @@ static int hi3670_phy_cr_set_addr(struct regmap *usb31misc, u32 addr)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	reg = FIELD_PREP(CFG54_USB31PHY_CR_ADDR_MASK, addr);
 	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
 				 CFG54_USB31PHY_CR_ADDR_MASK, reg);
-=======
-	reg &= ~(CFG54_USB31PHY_CR_ADDR_MASK << CFG54_USB31PHY_CR_ADDR_SHIFT);
-	reg |= ((addr & CFG54_USB31PHY_CR_ADDR_MASK) << CFG54_USB31PHY_CR_ADDR_SHIFT);
-	ret = regmap_write(usb31misc, USB_MISC_CFG54, reg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -332,12 +253,7 @@ static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	*val = FIELD_GET(CFG58_USB31PHY_CR_DATA_MASK, reg);
-=======
-	*val = (reg >> CFG58_USB31PHY_CR_DATA_RD_START) &
-		CFG58_USB31PHY_CR_DATA_MASK;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -362,11 +278,7 @@ static int hi3670_phy_cr_write(struct regmap *usb31misc, u32 addr, u32 val)
 		return ret;
 
 	ret = regmap_write(usb31misc, USB_MISC_CFG58,
-<<<<<<< HEAD
 			   FIELD_PREP(CFG58_USB31PHY_CR_DATA_MASK, val));
-=======
-			   val & CFG58_USB31PHY_CR_DATA_MASK);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -414,26 +326,17 @@ static int hi3670_phy_set_params(struct hi3670_priv *priv)
 	return ret;
 }
 
-<<<<<<< HEAD
 static bool hi3670_is_abbclk_selected(struct hi3670_priv *priv)
-=======
-static int hi3670_is_abbclk_seleted(struct hi3670_priv *priv)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 reg;
 
 	if (!priv->sctrl) {
 		dev_err(priv->dev, "priv->sctrl is null!\n");
-<<<<<<< HEAD
 		return false;
-=======
-		return 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (regmap_read(priv->sctrl, SCTRL_SCDEEPSLEEPED, &reg)) {
 		dev_err(priv->dev, "SCTRL_SCDEEPSLEEPED read failed!\n");
-<<<<<<< HEAD
 		return false;
 	}
 
@@ -441,15 +344,6 @@ static int hi3670_is_abbclk_seleted(struct hi3670_priv *priv)
 		return false;
 
 	return true;
-=======
-		return 1;
-	}
-
-	if ((reg & USB_CLK_SELECTED) == 0)
-		return 1;
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hi3670_config_phy_clock(struct hi3670_priv *priv)
@@ -457,11 +351,7 @@ static int hi3670_config_phy_clock(struct hi3670_priv *priv)
 	u32 val, mask;
 	int ret;
 
-<<<<<<< HEAD
 	if (!hi3670_is_abbclk_selected(priv)) {
-=======
-	if (hi3670_is_abbclk_seleted(priv)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* usb refclk iso disable */
 		ret = regmap_write(priv->peri_crg, PERI_CRG_ISODIS,
 				   USB_REFCLK_ISO_EN);
@@ -678,11 +568,7 @@ static int hi3670_phy_exit(struct phy *phy)
 	if (ret)
 		goto out;
 
-<<<<<<< HEAD
 	if (!hi3670_is_abbclk_selected(priv)) {
-=======
-	if (hi3670_is_abbclk_seleted(priv)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* disable usb_tcxo_en */
 		ret = regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
 				   USB_TCXO_EN << PCTRL_PERI_CTRL3_MSK_START);
@@ -699,11 +585,7 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static const struct phy_ops hi3670_phy_ops = {
-=======
-static struct phy_ops hi3670_phy_ops = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init		= hi3670_phy_init,
 	.exit		= hi3670_phy_exit,
 	.owner		= THIS_MODULE,

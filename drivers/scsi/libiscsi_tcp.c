@@ -524,7 +524,6 @@ static int iscsi_tcp_data_in(struct iscsi_conn *conn, struct iscsi_task *task)
 /**
  * iscsi_tcp_r2t_rsp - iSCSI R2T Response processing
  * @conn: iscsi connection
-<<<<<<< HEAD
  * @hdr: PDU header
  */
 static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
@@ -567,27 +566,10 @@ static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
 	iscsi_update_cmdsn(session, (struct iscsi_nopin *)rhdr);
 	spin_unlock(&session->back_lock);
 
-=======
- * @task: scsi command task
- */
-static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_task *task)
-{
-	struct iscsi_session *session = conn->session;
-	struct iscsi_tcp_task *tcp_task = task->dd_data;
-	struct iscsi_tcp_conn *tcp_conn = conn->dd_data;
-	struct iscsi_r2t_rsp *rhdr = (struct iscsi_r2t_rsp *)tcp_conn->in.hdr;
-	struct iscsi_r2t_info *r2t;
-	int r2tsn = be32_to_cpu(rhdr->r2tsn);
-	u32 data_length;
-	u32 data_offset;
-	int rc;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tcp_conn->in.datalen) {
 		iscsi_conn_printk(KERN_ERR, conn,
 				  "invalid R2t with datalen %d\n",
 				  tcp_conn->in.datalen);
-<<<<<<< HEAD
 		rc = ISCSI_ERR_DATALEN;
 		goto put_task;
 	}
@@ -607,37 +589,14 @@ static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_task *task)
 				  task->itt);
 		rc = 0;
 		goto put_task;
-=======
-		return ISCSI_ERR_DATALEN;
-	}
-
-	if (tcp_task->exp_datasn != r2tsn){
-		ISCSI_DBG_TCP(conn, "task->exp_datasn(%d) != rhdr->r2tsn(%d)\n",
-			      tcp_task->exp_datasn, r2tsn);
-		return ISCSI_ERR_R2TSN;
-	}
-
-	/* fill-in new R2T associated with the task */
-	iscsi_update_cmdsn(session, (struct iscsi_nopin*)rhdr);
-
-	if (!task->sc || session->state != ISCSI_STATE_LOGGED_IN) {
-		iscsi_conn_printk(KERN_INFO, conn,
-				  "dropping R2T itt %d in recovery.\n",
-				  task->itt);
-		return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	data_length = be32_to_cpu(rhdr->data_length);
 	if (data_length == 0) {
 		iscsi_conn_printk(KERN_ERR, conn,
 				  "invalid R2T with zero data len\n");
-<<<<<<< HEAD
 		rc = ISCSI_ERR_DATALEN;
 		goto put_task;
-=======
-		return ISCSI_ERR_DATALEN;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (data_length > session->max_burst)
@@ -651,12 +610,8 @@ static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_task *task)
 				  "invalid R2T with data len %u at offset %u "
 				  "and total length %d\n", data_length,
 				  data_offset, task->sc->sdb.length);
-<<<<<<< HEAD
 		rc = ISCSI_ERR_DATALEN;
 		goto put_task;
-=======
-		return ISCSI_ERR_DATALEN;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	spin_lock(&tcp_task->pool2queue);
@@ -666,12 +621,8 @@ static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_task *task)
 				  "Target has sent more R2Ts than it "
 				  "negotiated for or driver has leaked.\n");
 		spin_unlock(&tcp_task->pool2queue);
-<<<<<<< HEAD
 		rc = ISCSI_ERR_PROTO;
 		goto put_task;
-=======
-		return ISCSI_ERR_PROTO;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	r2t->exp_statsn = rhdr->statsn;
@@ -689,13 +640,10 @@ static int iscsi_tcp_r2t_rsp(struct iscsi_conn *conn, struct iscsi_task *task)
 
 	iscsi_requeue_task(task);
 	return 0;
-<<<<<<< HEAD
 
 put_task:
 	iscsi_put_task(task);
 	return rc;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -819,28 +767,11 @@ iscsi_tcp_hdr_dissect(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
 		rc = iscsi_complete_pdu(conn, hdr, NULL, 0);
 		break;
 	case ISCSI_OP_R2T:
-<<<<<<< HEAD
 		if (ahslen) {
 			rc = ISCSI_ERR_AHSLEN;
 			break;
 		}
 		rc = iscsi_tcp_r2t_rsp(conn, hdr);
-=======
-		spin_lock(&conn->session->back_lock);
-		task = iscsi_itt_to_ctask(conn, hdr->itt);
-		spin_unlock(&conn->session->back_lock);
-		if (!task)
-			rc = ISCSI_ERR_BAD_ITT;
-		else if (ahslen)
-			rc = ISCSI_ERR_AHSLEN;
-		else if (task->sc->sc_data_direction == DMA_TO_DEVICE) {
-			task->last_xfer = jiffies;
-			spin_lock(&conn->session->frwd_lock);
-			rc = iscsi_tcp_r2t_rsp(conn, task);
-			spin_unlock(&conn->session->frwd_lock);
-		} else
-			rc = ISCSI_ERR_PROTO;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case ISCSI_OP_LOGIN_RSP:
 	case ISCSI_OP_TEXT_RSP:

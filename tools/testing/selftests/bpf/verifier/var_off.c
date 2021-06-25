@@ -18,11 +18,7 @@
 	.prog_type = BPF_PROG_TYPE_LWT_IN,
 },
 {
-<<<<<<< HEAD
 	"variable-offset stack read, priv vs unpriv",
-=======
-	"variable-offset stack access",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.insns = {
 	/* Fill the top 8 bytes of the stack */
 	BPF_ST_MEM(BPF_DW, BPF_REG_10, -8, 0),
@@ -35,7 +31,6 @@
 	 * we don't know which
 	 */
 	BPF_ALU64_REG(BPF_ADD, BPF_REG_2, BPF_REG_10),
-<<<<<<< HEAD
 	/* dereference it for a stack read */
 	BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_2, 0),
 	BPF_MOV64_IMM(BPF_REG_0, 0),
@@ -140,17 +135,6 @@
 	.result = REJECT,
 },
 {
-=======
-	/* dereference it */
-	BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_2, 0),
-	BPF_EXIT_INSN(),
-	},
-	.errstr = "variable stack access var_off=(0xfffffffffffffff8; 0x4)",
-	.result = REJECT,
-	.prog_type = BPF_PROG_TYPE_LWT_IN,
-},
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"indirect variable-offset stack access, unbounded",
 	.insns = {
 	BPF_MOV64_IMM(BPF_REG_2, 6),
@@ -174,11 +158,7 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
-<<<<<<< HEAD
 	.errstr = "invalid unbounded variable-offset indirect access to stack R4",
-=======
-	.errstr = "R4 unbounded indirect variable offset stack access",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_SOCK_OPS,
 },
@@ -203,11 +183,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 5 },
-<<<<<<< HEAD
 	.errstr = "invalid variable-offset indirect access to stack R2",
-=======
-	.errstr = "R2 max value is outside of stack bound",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_LWT_IN,
 },
@@ -232,11 +208,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 5 },
-<<<<<<< HEAD
 	.errstr = "invalid variable-offset indirect access to stack R2",
-=======
-	.errstr = "R2 min value is outside of stack bound",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_LWT_IN,
 },
@@ -261,11 +233,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 5 },
-<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R2 var_off",
-=======
-	.errstr = "invalid indirect read from stack var_off",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_LWT_IN,
 },
@@ -290,11 +258,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 5 },
-<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R2 var_off",
-=======
-	.errstr = "invalid indirect read from stack var_off",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_LWT_IN,
 },
@@ -320,11 +284,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 6 },
-<<<<<<< HEAD
 	.errstr_unpriv = "R2 variable stack access prohibited for !root",
-=======
-	.errstr_unpriv = "R2 stack pointer arithmetic goes out of range, prohibited for !root",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
 	.prog_type = BPF_PROG_TYPE_CGROUP_SKB,
@@ -352,11 +312,7 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
-<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R4 var_off",
-=======
-	.errstr = "invalid indirect read from stack var_off",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_SOCK_OPS,
 },

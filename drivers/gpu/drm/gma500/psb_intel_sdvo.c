@@ -221,11 +221,7 @@ static bool
 psb_intel_sdvo_create_enhance_property(struct psb_intel_sdvo *psb_intel_sdvo,
 				   struct psb_intel_sdvo_connector *psb_intel_sdvo_connector);
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Writes the SDVOB or SDVOC with the given value, but always writes both
  * SDVOB and SDVOC to work around apparent hardware issues (according to
  * comments in the BIOS).
@@ -592,11 +588,7 @@ static bool psb_intel_sdvo_set_target_input(struct psb_intel_sdvo *psb_intel_sdv
 				    &targets, sizeof(targets));
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Return whether each input is trained.
  *
  * This function is making an assumption about the layout of the response,
@@ -1826,11 +1818,7 @@ psb_intel_sdvo_guess_ddc_bus(struct psb_intel_sdvo *sdvo)
 #endif
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Choose the appropriate DDC bus for control bus switch command for this
  * SDVO output based on the controlled output.
  *
@@ -2418,11 +2406,7 @@ psb_intel_sdvo_init_ddc_proxy(struct psb_intel_sdvo *sdvo,
 	sdvo->ddc.owner = THIS_MODULE;
 	sdvo->ddc.class = I2C_CLASS_DDC;
 	snprintf(sdvo->ddc.name, I2C_NAME_SIZE, "SDVO DDC proxy");
-<<<<<<< HEAD
 	sdvo->ddc.dev.parent = dev->dev;
-=======
-	sdvo->ddc.dev.parent = &dev->pdev->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sdvo->ddc.algo_data = sdvo;
 	sdvo->ddc.algo = &psb_intel_sdvo_ddc_proxy;
 

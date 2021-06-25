@@ -100,10 +100,7 @@
 #include	<linux/seq_file.h>
 #include	<linux/notifier.h>
 #include	<linux/kallsyms.h>
-<<<<<<< HEAD
 #include	<linux/kfence.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include	<linux/cpu.h>
 #include	<linux/sysctl.h>
 #include	<linux/module.h>
@@ -262,7 +259,7 @@ static void kmem_cache_node_init(struct kmem_cache_node *parent)
 
 #define BATCHREFILL_LIMIT	16
 /*
- * Optimization question: fewer reaps means less probability for unnessary
+ * Optimization question: fewer reaps means less probability for unnecessary
  * cpucache drain/refill cycles.
  *
  * OTOH the cpuarrays can contain lots of objects,
@@ -276,11 +273,7 @@ static void kmem_cache_node_init(struct kmem_cache_node *parent)
 #define	STATS_DEC_ACTIVE(x)	((x)->num_active--)
 #define	STATS_INC_ALLOCED(x)	((x)->num_allocations++)
 #define	STATS_INC_GROWN(x)	((x)->grown++)
-<<<<<<< HEAD
 #define	STATS_ADD_REAPED(x, y)	((x)->reaped += (y))
-=======
-#define	STATS_ADD_REAPED(x,y)	((x)->reaped += (y))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define	STATS_SET_HIGH(x)						\
 	do {								\
 		if ((x)->num_active > (x)->high_mark)			\
@@ -304,11 +297,7 @@ static void kmem_cache_node_init(struct kmem_cache_node *parent)
 #define	STATS_DEC_ACTIVE(x)	do { } while (0)
 #define	STATS_INC_ALLOCED(x)	do { } while (0)
 #define	STATS_INC_GROWN(x)	do { } while (0)
-<<<<<<< HEAD
 #define	STATS_ADD_REAPED(x, y)	do { (void)(y); } while (0)
-=======
-#define	STATS_ADD_REAPED(x,y)	do { (void)(y); } while (0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define	STATS_SET_HIGH(x)	do { } while (0)
 #define	STATS_INC_ERR(x)	do { } while (0)
 #define	STATS_INC_NODEALLOCS(x)	do { } while (0)
@@ -344,11 +333,7 @@ static int obj_offset(struct kmem_cache *cachep)
 static unsigned long long *dbg_redzone1(struct kmem_cache *cachep, void *objp)
 {
 	BUG_ON(!(cachep->flags & SLAB_RED_ZONE));
-<<<<<<< HEAD
 	return (unsigned long long *) (objp + obj_offset(cachep) -
-=======
-	return (unsigned long long*) (objp + obj_offset(cachep) -
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      sizeof(unsigned long long));
 }
 
@@ -596,11 +581,7 @@ static int transfer_objects(struct array_cache *to,
 	if (!nr)
 		return 0;
 
-<<<<<<< HEAD
 	memcpy(to->entry + to->avail, from->entry + from->avail - nr,
-=======
-	memcpy(to->entry + to->avail, from->entry + from->avail -nr,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sizeof(void *) *nr);
 
 	from->avail -= nr;
@@ -1399,11 +1380,7 @@ static struct page *kmem_getpages(struct kmem_cache *cachep, gfp_t flags,
 		return NULL;
 	}
 
-<<<<<<< HEAD
 	account_slab_page(page, cachep->gfporder, cachep, flags);
-=======
-	account_slab_page(page, cachep->gfporder, cachep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__SetPageSlab(page);
 	/* Record if ALLOC_NO_WATERMARKS was set when allocating the slab */
 	if (sk_memalloc_socks() && page_is_pfmemalloc(page))
@@ -1814,12 +1791,7 @@ static int __ref setup_cpu_cache(struct kmem_cache *cachep, gfp_t gfp)
 }
 
 slab_flags_t kmem_cache_flags(unsigned int object_size,
-<<<<<<< HEAD
 	slab_flags_t flags, const char *name)
-=======
-	slab_flags_t flags, const char *name,
-	void (*ctor)(void *))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return flags;
 }
@@ -2312,7 +2284,7 @@ void __kmem_cache_release(struct kmem_cache *cachep)
  * Because if it is the case, that means we defer the creation of
  * the kmalloc_{dma,}_cache of size sizeof(slab descriptor) to this point.
  * And we eventually call down to __kmem_cache_create(), which
- * in turn looks up in the kmalloc_{dma,}_caches for the disired-size one.
+ * in turn looks up in the kmalloc_{dma,}_caches for the desired-size one.
  * This is a "chicken-and-egg" problem.
  *
  * So the off-slab slab descriptor shall come from the kmalloc_{dma,}_caches,
@@ -2409,8 +2381,8 @@ union freelist_init_state {
 };
 
 /*
- * Initialize the state based on the randomization methode available.
- * return true if the pre-computed list is available, false otherwize.
+ * Initialize the state based on the randomization method available.
+ * return true if the pre-computed list is available, false otherwise.
  */
 static bool freelist_state_initialize(union freelist_init_state *state,
 				struct kmem_cache *cachep,
@@ -2766,11 +2738,7 @@ static void *cache_free_debugcheck(struct kmem_cache *cachep, void *objp,
 
 #else
 #define kfree_debugcheck(x) do { } while(0)
-<<<<<<< HEAD
 #define cache_free_debugcheck(x, objp, z) (objp)
-=======
-#define cache_free_debugcheck(x,objp,z) (objp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static inline void fixup_objfreelist_debug(struct kmem_cache *cachep,
@@ -3024,11 +2992,7 @@ static void *cache_alloc_debugcheck_after(struct kmem_cache *cachep,
 				gfp_t flags, void *objp, unsigned long caller)
 {
 	WARN_ON_ONCE(cachep->ctor && (flags & __GFP_ZERO));
-<<<<<<< HEAD
 	if (!objp || is_kfence_address(objp))
-=======
-	if (!objp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return objp;
 	if (cachep->flags & SLAB_POISON) {
 		check_poison_obj(cachep, objp);
@@ -3061,11 +3025,7 @@ static void *cache_alloc_debugcheck_after(struct kmem_cache *cachep,
 	return objp;
 }
 #else
-<<<<<<< HEAD
 #define cache_alloc_debugcheck_after(a, b, objp, d) (objp)
-=======
-#define cache_alloc_debugcheck_after(a,b,objp,d) (objp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static inline void *____cache_alloc(struct kmem_cache *cachep, gfp_t flags)
@@ -3249,30 +3209,24 @@ must_grow:
 }
 
 static __always_inline void *
-<<<<<<< HEAD
 slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
-=======
-slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   unsigned long caller)
 {
 	unsigned long save_flags;
 	void *ptr;
 	int slab_node = numa_mem_id();
 	struct obj_cgroup *objcg = NULL;
+	bool init = false;
 
 	flags &= gfp_allowed_mask;
 	cachep = slab_pre_alloc_hook(cachep, &objcg, 1, flags);
 	if (unlikely(!cachep))
 		return NULL;
 
-<<<<<<< HEAD
 	ptr = kfence_alloc(cachep, orig_size, flags);
 	if (unlikely(ptr))
 		goto out_hooks;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cache_alloc_debugcheck_before(cachep, flags);
 	local_irq_save(save_flags);
 
@@ -3301,15 +3255,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
   out:
 	local_irq_restore(save_flags);
 	ptr = cache_alloc_debugcheck_after(cachep, flags, ptr, caller);
+	init = slab_want_init_on_alloc(flags, cachep);
 
-	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
-		memset(ptr, 0, cachep->object_size);
-
-<<<<<<< HEAD
 out_hooks:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
+	slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr, init);
 	return ptr;
 }
 
@@ -3346,43 +3295,32 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 #endif /* CONFIG_NUMA */
 
 static __always_inline void *
-<<<<<<< HEAD
 slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
-=======
-slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long save_flags;
 	void *objp;
 	struct obj_cgroup *objcg = NULL;
+	bool init = false;
 
 	flags &= gfp_allowed_mask;
 	cachep = slab_pre_alloc_hook(cachep, &objcg, 1, flags);
 	if (unlikely(!cachep))
 		return NULL;
 
-<<<<<<< HEAD
 	objp = kfence_alloc(cachep, orig_size, flags);
 	if (unlikely(objp))
 		goto out;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cache_alloc_debugcheck_before(cachep, flags);
 	local_irq_save(save_flags);
 	objp = __do_cache_alloc(cachep, flags);
 	local_irq_restore(save_flags);
 	objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
 	prefetchw(objp);
+	init = slab_want_init_on_alloc(flags, cachep);
 
-	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
-		memset(objp, 0, cachep->object_size);
-
-<<<<<<< HEAD
 out:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
+	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp, init);
 	return objp;
 }
 
@@ -3487,24 +3425,24 @@ free_done:
 static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
 					 unsigned long caller)
 {
-<<<<<<< HEAD
+	bool init;
+
 	if (is_kfence_address(objp)) {
 		kmemleak_free_recursive(objp, cachep->flags);
 		__kfence_free(objp);
 		return;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	if (unlikely(slab_want_init_on_free(cachep)))
+	/*
+	 * As memory initialization might be integrated into KASAN,
+	 * kasan_slab_free and initialization memset must be
+	 * kept together to avoid discrepancies in behavior.
+	 */
+	init = slab_want_init_on_free(cachep);
+	if (init && !kasan_has_integrated_init())
 		memset(objp, 0, cachep->object_size);
-
-	/* Put the object into the quarantine, don't touch it for now. */
-<<<<<<< HEAD
-	if (kasan_slab_free(cachep, objp))
-=======
-	if (kasan_slab_free(cachep, objp, _RET_IP_))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	/* KASAN might put objp into memory quarantine, delaying its reuse. */
+	if (kasan_slab_free(cachep, objp, init))
 		return;
 
 	/* Use KCSAN to help debug racy use-after-free. */
@@ -3566,11 +3504,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
  */
 void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 {
-<<<<<<< HEAD
 	void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
-=======
-	void *ret = slab_alloc(cachep, flags, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_kmem_cache_alloc(_RET_IP_, ret,
 			       cachep->object_size, cachep->size, flags);
@@ -3603,11 +3537,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
 
 	local_irq_disable();
 	for (i = 0; i < size; i++) {
-<<<<<<< HEAD
 		void *objp = kfence_alloc(s, s->object_size, flags) ?: __do_cache_alloc(s, flags);
-=======
-		void *objp = __do_cache_alloc(s, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (unlikely(!objp))
 			goto error;
@@ -3617,18 +3547,18 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
 
 	cache_alloc_debugcheck_after_bulk(s, flags, size, p, _RET_IP_);
 
-	/* Clear memory outside IRQ disabled section */
-	if (unlikely(slab_want_init_on_alloc(flags, s)))
-		for (i = 0; i < size; i++)
-			memset(p[i], 0, s->object_size);
-
-	slab_post_alloc_hook(s, objcg, flags, size, p);
+	/*
+	 * memcg and kmem_cache debug support and memory initialization.
+	 * Done outside of the IRQ disabled section.
+	 */
+	slab_post_alloc_hook(s, objcg, flags, size, p,
+				slab_want_init_on_alloc(flags, s));
 	/* FIXME: Trace call missing. Christoph would like a bulk variant */
 	return size;
 error:
 	local_irq_enable();
 	cache_alloc_debugcheck_after_bulk(s, flags, i, p, _RET_IP_);
-	slab_post_alloc_hook(s, objcg, flags, i, p);
+	slab_post_alloc_hook(s, objcg, flags, i, p, false);
 	__kmem_cache_free_bulk(s, i, p);
 	return 0;
 }
@@ -3640,11 +3570,7 @@ kmem_cache_alloc_trace(struct kmem_cache *cachep, gfp_t flags, size_t size)
 {
 	void *ret;
 
-<<<<<<< HEAD
 	ret = slab_alloc(cachep, flags, size, _RET_IP_);
-=======
-	ret = slab_alloc(cachep, flags, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = kasan_kmalloc(cachep, ret, size, flags);
 	trace_kmalloc(_RET_IP_, ret,
@@ -3670,11 +3596,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_trace);
  */
 void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid)
 {
-<<<<<<< HEAD
 	void *ret = slab_alloc_node(cachep, flags, nodeid, cachep->object_size, _RET_IP_);
-=======
-	void *ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_kmem_cache_alloc_node(_RET_IP_, ret,
 				    cachep->object_size, cachep->size,
@@ -3692,11 +3614,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *cachep,
 {
 	void *ret;
 
-<<<<<<< HEAD
 	ret = slab_alloc_node(cachep, flags, nodeid, size, _RET_IP_);
-=======
-	ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = kasan_kmalloc(cachep, ret, size, flags);
 	trace_kmalloc_node(_RET_IP_, ret,
@@ -3738,7 +3656,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t flags,
 EXPORT_SYMBOL(__kmalloc_node_track_caller);
 #endif /* CONFIG_NUMA */
 
-<<<<<<< HEAD
+#ifdef CONFIG_PRINTK
 void kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct page *page)
 {
 	struct kmem_cache *cachep;
@@ -3758,9 +3676,8 @@ void kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct page *page)
 	if (DEBUG && cachep->flags & SLAB_STORE_USER)
 		kpp->kp_ret = *dbg_userword(cachep, objp);
 }
+#endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * __do_kmalloc - allocate memory
  * @size: how many bytes of memory are required.
@@ -3780,11 +3697,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
 	cachep = kmalloc_slab(size, flags);
 	if (unlikely(ZERO_OR_NULL_PTR(cachep)))
 		return cachep;
-<<<<<<< HEAD
 	ret = slab_alloc(cachep, flags, size, caller);
-=======
-	ret = slab_alloc(cachep, flags, caller);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = kasan_kmalloc(cachep, ret, size, flags);
 	trace_kmalloc(caller, ret,
@@ -3827,11 +3740,7 @@ void kmem_cache_free(struct kmem_cache *cachep, void *objp)
 	__cache_free(cachep, objp, _RET_IP_);
 	local_irq_restore(flags);
 
-<<<<<<< HEAD
 	trace_kmem_cache_free(_RET_IP_, objp, cachep->name);
-=======
-	trace_kmem_cache_free(_RET_IP_, objp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(kmem_cache_free);
 
@@ -4287,14 +4196,10 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
 	BUG_ON(objnr >= cachep->num);
 
 	/* Find offset within object. */
-<<<<<<< HEAD
 	if (is_kfence_address(ptr))
 		offset = ptr - kfence_object_start(ptr);
 	else
 		offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
-=======
-	offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Allow address range falling entirely within usercopy region. */
 	if (offset >= cachep->useroffset &&

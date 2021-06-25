@@ -35,7 +35,7 @@ bool mlx5_lag_is_multipath(struct mlx5_core_dev *dev)
 }
 
 /**
- * Set lag port affinity
+ * mlx5_lag_set_port_affinity
  *
  * @ldev: lag device
  * @port:
@@ -307,14 +307,11 @@ int mlx5_lag_mp_init(struct mlx5_lag *ldev)
 	struct lag_mp *mp = &ldev->lag_mp;
 	int err;
 
-<<<<<<< HEAD
 	/* always clear mfi, as it might become stale when a route delete event
 	 * has been missed
 	 */
 	mp->mfi = NULL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mp->fib_nb.notifier_call)
 		return 0;
 
@@ -343,8 +340,5 @@ void mlx5_lag_mp_cleanup(struct mlx5_lag *ldev)
 	unregister_fib_notifier(&init_net, &mp->fib_nb);
 	destroy_workqueue(mp->wq);
 	mp->fib_nb.notifier_call = NULL;
-<<<<<<< HEAD
 	mp->mfi = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

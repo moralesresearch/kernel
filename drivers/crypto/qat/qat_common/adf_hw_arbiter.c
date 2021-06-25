@@ -19,10 +19,7 @@ int adf_init_arb(struct adf_accel_dev *accel_dev)
 {
 	struct adf_hw_device_data *hw_data = accel_dev->hw_device;
 	void __iomem *csr = accel_dev->transport->banks[0].csr_addr;
-<<<<<<< HEAD
 	unsigned long ae_mask = hw_data->ae_mask;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 arb_off, wt_off, arb_cfg;
 	const u32 *thd_2_arb_cfg;
 	struct arb_info info;
@@ -39,18 +36,9 @@ int adf_init_arb(struct adf_accel_dev *accel_dev)
 		WRITE_CSR_ARB_SARCONFIG(csr, arb_off, arb, arb_cfg);
 
 	/* Map worker threads to service arbiters */
-<<<<<<< HEAD
 	thd_2_arb_cfg = hw_data->get_arb_mapping();
 
 	for_each_set_bit(i, &ae_mask, hw_data->num_engines)
-=======
-	hw_data->get_arb_mapping(accel_dev, &thd_2_arb_cfg);
-
-	if (!thd_2_arb_cfg)
-		return -EFAULT;
-
-	for (i = 0; i < hw_data->num_engines; i++)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WRITE_CSR_ARB_WT2SAM(csr, arb_off, wt_off, i, thd_2_arb_cfg[i]);
 
 	return 0;

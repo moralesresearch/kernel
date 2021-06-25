@@ -13,6 +13,10 @@
 	model = "FriendlyElec NanoPi R2S";
 	compatible = "friendlyarm,nanopi-r2s", "rockchip,rk3328";
 
+	aliases {
+		mmc0 = &sdmmc;
+	};
+
 	chosen {
 		stdout-path = "serial2:1500000n8";
 	};
@@ -50,10 +54,7 @@
 		sys_led: led-1 {
 			gpios = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
 			label = "nanopi-r2s:red:sys";
-<<<<<<< HEAD
 			default-state = "on";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		wan_led: led-2 {
@@ -288,11 +289,7 @@
 		};
 	};
 
-<<<<<<< HEAD
 	gmac2io {
-=======
-	ethernet-phy {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		eth_phy_reset_pin: eth-phy-reset-pin {
 			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;
 		};

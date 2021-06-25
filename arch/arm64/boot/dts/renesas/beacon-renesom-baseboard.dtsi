@@ -5,56 +5,24 @@
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
-<<<<<<< HEAD
 #include <dt-bindings/clk/versaclock.h>
-=======
-<<<<<<< HEAD
-#include <dt-bindings/clk/versaclock.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	backlight_lvds: backlight-lvds {
 		compatible = "pwm-backlight";
 		power-supply = <&reg_lcd>;
-<<<<<<< HEAD
 		enable-gpios = <&gpio_exp1 3 GPIO_ACTIVE_HIGH>;
 		pwms = <&pwm2 0 25000>;
-=======
-<<<<<<< HEAD
-		enable-gpios = <&gpio_exp1 3 GPIO_ACTIVE_HIGH>;
-		pwms = <&pwm2 0 25000>;
-=======
-		enable-gpios = <&gpio_exp1 3 GPIO_ACTIVE_LOW>;
-		pwms = <&pwm2 0 50000>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		brightness-levels = <0 4 8 16 32 64 128 255>;
 		default-brightness-level = <6>;
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	backlight_dpi: backlight-dpi {
 		compatible = "pwm-backlight";
 		power-supply = <&reg_lcd>;
 		enable-gpios = <&gpio_exp1 7 GPIO_ACTIVE_LOW>;
 		pwms = <&pwm0 0 25000>;
 		brightness-levels = <0 25 33 50 63 75 88 100>;
-<<<<<<< HEAD
-=======
-=======
-	backlight_rgb: backlight-rgb {
-		compatible = "pwm-backlight";
-		power-supply = <&reg_lcd>;
-		enable-gpios = <&gpio_exp1 7 GPIO_ACTIVE_LOW>;
-		pwms = <&pwm0 0 50000>;
-		brightness-levels = <0 4 8 16 32 64 128 255>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default-brightness-level = <6>;
 	};
 
@@ -72,10 +40,6 @@
 	keys {
 		compatible = "gpio-keys";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		key-1 { /* S19 */
 			gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_UP>;
@@ -108,43 +72,6 @@
 			gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_ENTER>;
 			label = "Center";
-<<<<<<< HEAD
-=======
-=======
-		key-1 {
-			gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_1>;
-			label = "Switch-1";
-			wakeup-source;
-			debounce-interval = <20>;
-		};
-		key-2 {
-			gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_2>;
-			label = "Switch-2";
-			wakeup-source;
-			debounce-interval = <20>;
-		};
-		key-3 {
-			gpios = <&gpio5 17 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_3>;
-			label = "Switch-3";
-			wakeup-source;
-			debounce-interval = <20>;
-		};
-		key-4 {
-			gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_4>;
-			label = "Switch-4";
-			wakeup-source;
-			debounce-interval = <20>;
-		};
-		key-5 {
-			gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_5>;
-			label = "Switch-4";
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wakeup-source;
 			debounce-interval = <20>;
 		};
@@ -192,21 +119,9 @@
 			hback-porch = <40>;
 			vfront-porch = <13>;
 			vback-porch = <29>;
-<<<<<<< HEAD
 			vsync-len = <1>;
 			hsync-active = <1>;
 			vsync-active = <3>;
-=======
-<<<<<<< HEAD
-			vsync-len = <1>;
-			hsync-active = <1>;
-			vsync-active = <3>;
-=======
-			vsync-len = <3>;
-			hsync-active = <1>;
-			vsync-active = <1>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			de-active = <1>;
 			pixelclk-active = <0>;
 		};
@@ -221,15 +136,7 @@
 	rgb {
 		/* Different LCD with compatible timings */
 		compatible = "rocktech,rk070er9427";
-<<<<<<< HEAD
 		backlight = <&backlight_dpi>;
-=======
-<<<<<<< HEAD
-		backlight = <&backlight_dpi>;
-=======
-		backlight = <&backlight_rgb>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		enable-gpios = <&gpio1 21 GPIO_ACTIVE_HIGH>;
 		power-supply = <&reg_lcd>;
 		port {
@@ -294,33 +201,12 @@
 
 	vccq_sdhi0: regulator-vccq-sdhi0 {
 		compatible = "regulator-gpio";
-<<<<<<< HEAD
 		regulator-name = "SDHI0 VccQ";
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <3300000>;
 		gpios = <&gpio6 30 GPIO_ACTIVE_HIGH>;
 		gpios-states = <1>;
 		states = <3300000 1>, <1800000 0>;
-=======
-<<<<<<< HEAD
-		regulator-name = "SDHI0 VccQ";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <3300000>;
-		gpios = <&gpio6 30 GPIO_ACTIVE_HIGH>;
-		gpios-states = <1>;
-		states = <3300000 1>, <1800000 0>;
-=======
-
-		regulator-name = "SDHI0 VccQ";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <3300000>;
-
-		gpios = <&gpio6 30 GPIO_ACTIVE_HIGH>;
-		gpios-states = <1>;
-		states = <3300000 1>, <1800000 0>;
-		regulator-always-on;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/* External DU dot clocks */
@@ -360,18 +246,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-&audio_clk_a {
-	clock-frequency = <24576000>;
-	assigned-clocks = <&versaclock6_bb 4>;
-	assigned-clock-rates = <24576000>;
-};
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &audio_clk_b {
 	clock-frequency = <22579200>;
 };
@@ -390,27 +264,6 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-&du {
-	pinctrl-0 = <&du_pins>;
-	pinctrl-names = "default";
-	status = "okay";
-
-	clocks = <&cpg CPG_MOD 724>,
-		<&cpg CPG_MOD 723>,
-		<&cpg CPG_MOD 722>,
-		<&versaclock5 1>,
-		<&x302_clk>,
-		<&versaclock5 2>;
-	clock-names = "du.0", "du.1", "du.2",
-		"dclkin.0", "dclkin.1", "dclkin.2";
-};
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &du_out_rgb {
 	remote-endpoint = <&rgb_panel>;
 };
@@ -466,15 +319,7 @@
 
 &i2c2 {
 	status = "okay";
-<<<<<<< HEAD
 	clock-frequency = <400000>;
-=======
-<<<<<<< HEAD
-	clock-frequency = <400000>;
-=======
-	clock-frequency = <100000>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-0 = <&i2c2_pins>;
 	pinctrl-names = "default";
 
@@ -505,24 +350,12 @@
 		#clock-cells = <1>;
 		clocks = <&x304_clk>;
 		clock-names = "xin";
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
-		/* CSI0_MCLK, CSI1_MCLK, AUDIO_CLKIN, USB_HUB_MCLK_BB */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&versaclock6_bb 1>,
 				   <&versaclock6_bb 2>,
 				   <&versaclock6_bb 3>,
 				   <&versaclock6_bb 4>;
 		assigned-clock-rates =	<24000000>, <24000000>, <24000000>, <24576000>;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		OUT1 {
 			idt,mode = <VC5_CMOS>;
@@ -547,11 +380,6 @@
 			idt,voltage-microvolt = <3300000>;
 			idt,slew-percent = <100>;
 		};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 
@@ -565,29 +393,14 @@
 
 &i2c5 {
 	status = "okay";
-<<<<<<< HEAD
 	clock-frequency = <400000>;
-=======
-<<<<<<< HEAD
-	clock-frequency = <400000>;
-=======
-	clock-frequency = <100000>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-0 = <&i2c5_pins>;
 	pinctrl-names = "default";
 
 	codec: wm8962@1a {
 		compatible = "wlf,wm8962";
 		reg = <0x1a>;
-<<<<<<< HEAD
 		clocks = <&versaclock6_bb 3>;
-=======
-<<<<<<< HEAD
-		clocks = <&versaclock6_bb 3>;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DCVDD-supply = <&reg_audio>;
 		DBVDD-supply = <&reg_audio>;
 		AVDD-supply = <&reg_audio>;
@@ -670,10 +483,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &msiof1 {
 	pinctrl-0 = <&msiof1_pins>;
 	pinctrl-names = "default";
@@ -681,11 +490,6 @@
 	cs-gpios = <&gpio3 10 GPIO_ACTIVE_LOW>;
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &ohci0 {
 	dr_mode = "otg";
 	status = "okay";
@@ -739,20 +543,11 @@
 		bias-pull-down;
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msiof1_pins: msiof1 {
 		groups = "msiof1_clk_g", "msiof1_rxd_g", "msiof1_txd_g";
 		function = "msiof1";
 	};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pwm0_pins: pwm0 {
 		groups = "pwm0";
 		function = "pwm0";
@@ -760,15 +555,7 @@
 
 	pwm2_pins: pwm2 {
 		groups = "pwm2_a";
-<<<<<<< HEAD
 		function = "pwm2";
-=======
-<<<<<<< HEAD
-		function = "pwm2";
-=======
-		function = "pwm2_a";
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	sdhi0_pins: sd0 {
@@ -789,15 +576,7 @@
 	};
 
 	sound_clk_pins: sound_clk {
-<<<<<<< HEAD
 		groups = "audio_clk_a_a", "audio_clk_b_a";
-=======
-<<<<<<< HEAD
-		groups = "audio_clk_a_a", "audio_clk_b_a";
-=======
-		groups = "audio_clk_a_a";
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		function = "audio_clk";
 	};
 
@@ -836,7 +615,7 @@
 };
 
 &rcar_sound {
-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
+	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
 	pinctrl-names = "default";
 
 	/* Single DAI */
@@ -848,29 +627,6 @@
 
 	status = "okay";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	clocks = <&cpg CPG_MOD 1005>,
-		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
-		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
-		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
-		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
-		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
-		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
-		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
-		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
-		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
-		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
-		 <&audio_clk_a>, <&audio_clk_b>, <&audio_clk_c>,
-		 <&cpg CPG_CORE R8A774A1_CLK_S0D4>;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ports {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -883,7 +639,7 @@
 				bitclock-master = <&rsnd_endpoint0>;
 				frame-master = <&rsnd_endpoint0>;
 
-				playback = <&ssi1 &dvc1 &src1>;
+				playback = <&ssi1>, <&dvc1>, <&src1>;
 				capture = <&ssi0>;
 			};
 		};

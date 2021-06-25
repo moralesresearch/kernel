@@ -222,12 +222,9 @@ bool dss_pll_calc_a(const struct dss_pll *pll, unsigned long clkin,
 	n_stop = min((unsigned)(clkin / fint_hw_min), hw->n_max);
 	n_inc = 1;
 
-<<<<<<< HEAD
 	if (n_start > n_stop)
 		return false;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (hw->errata_i886) {
 		swap(n_start, n_stop);
 		n_inc = -1;
@@ -245,12 +242,9 @@ bool dss_pll_calc_a(const struct dss_pll *pll, unsigned long clkin,
 				hw->m_max);
 		m_inc = 1;
 
-<<<<<<< HEAD
 		if (m_start > m_stop)
 			continue;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (hw->errata_i886) {
 			swap(m_start, m_stop);
 			m_inc = -1;

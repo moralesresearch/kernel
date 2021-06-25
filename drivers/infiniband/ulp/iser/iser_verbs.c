@@ -685,11 +685,7 @@ static void iser_cleanup_handler(struct rdma_cm_id *cma_id,
 	iser_disconnected_handler(cma_id);
 	iser_free_ib_conn_res(iser_conn, destroy);
 	complete(&iser_conn->ib_completion);
-<<<<<<< HEAD
 }
-=======
-};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int iser_cma_handler(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
 {

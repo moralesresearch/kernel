@@ -66,13 +66,8 @@ properties:
       - arm,syscon-icst525-integratorcp-cm-mem
       - arm,integrator-cm-auxosc
       - arm,versatile-cm-auxosc
-<<<<<<< HEAD
       - arm,impd1-vco1
       - arm,impd1-vco2
-=======
-      - arm,impd-vco1
-      - arm,impd-vco2
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   clocks:
     description: Parent clock for the ICST VCO

@@ -29,6 +29,7 @@ enum rtrs_clt_state {
 enum rtrs_mp_policy {
 	MP_POLICY_RR,
 	MP_POLICY_MIN_INFLIGHT,
+	MP_POLICY_MIN_LATENCY,
 };
 
 /* see Documentation/ABI/testing/sysfs-class-rtrs-client for details */
@@ -166,7 +167,6 @@ struct rtrs_clt {
 	unsigned int		max_reconnect_attempts;
 	unsigned int		reconnect_delay_sec;
 	unsigned int		max_segments;
-	size_t			max_segment_size;
 	void			*permits;
 	unsigned long		*permits_map;
 	size_t			queue_depth;
@@ -244,16 +244,7 @@ ssize_t rtrs_clt_reset_all_help(struct rtrs_clt_stats *stats,
 /* rtrs-clt-sysfs.c */
 
 int rtrs_clt_create_sysfs_root_files(struct rtrs_clt *clt);
-<<<<<<< HEAD
 void rtrs_clt_destroy_sysfs_root(struct rtrs_clt *clt);
-=======
-<<<<<<< HEAD
-void rtrs_clt_destroy_sysfs_root(struct rtrs_clt *clt);
-=======
-void rtrs_clt_destroy_sysfs_root_folders(struct rtrs_clt *clt);
-void rtrs_clt_destroy_sysfs_root_files(struct rtrs_clt *clt);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int rtrs_clt_create_sess_files(struct rtrs_clt_sess *sess);
 void rtrs_clt_destroy_sess_files(struct rtrs_clt_sess *sess,

@@ -8,6 +8,7 @@
  */
 
 #include <linux/blkdev.h>
+#include <linux/pagemap.h>
 #include <linux/hdreg.h>
 #include <linux/init.h>
 #include <linux/platform_device.h>
@@ -26,10 +27,7 @@
 #include <linux/mm.h>
 #include <asm/cacheflush.h>
 #include "pmem.h"
-<<<<<<< HEAD
 #include "btt.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "pfn.h"
 #include "nd.h"
 
@@ -200,21 +198,13 @@ static blk_qc_t pmem_submit_bio(struct bio *bio)
 	unsigned long start;
 	struct bio_vec bvec;
 	struct bvec_iter iter;
-<<<<<<< HEAD
 	struct pmem_device *pmem = bio->bi_bdev->bd_disk->private_data;
-=======
-	struct pmem_device *pmem = bio->bi_disk->private_data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nd_region *nd_region = to_region(pmem);
 
 	if (bio->bi_opf & REQ_PREFLUSH)
 		ret = nvdimm_flush(nd_region, bio);
 
-<<<<<<< HEAD
 	do_acct = blk_queue_io_stat(bio->bi_bdev->bd_disk->queue);
-=======
-	do_acct = blk_queue_io_stat(bio->bi_disk->queue);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (do_acct)
 		start = bio_start_io_acct(bio);
 	bio_for_each_segment(bvec, bio, iter) {
@@ -575,11 +565,7 @@ static int nd_pmem_probe(struct device *dev)
 	return pmem_attach_disk(dev, ndns);
 }
 
-<<<<<<< HEAD
 static void nd_pmem_remove(struct device *dev)
-=======
-static int nd_pmem_remove(struct device *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pmem_device *pmem = dev_get_drvdata(dev);
 
@@ -594,11 +580,6 @@ static int nd_pmem_remove(struct device *dev)
 		pmem->bb_state = NULL;
 	}
 	nvdimm_flush(to_nd_region(dev->parent), NULL);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nd_pmem_shutdown(struct device *dev)
@@ -606,11 +587,7 @@ static void nd_pmem_shutdown(struct device *dev)
 	nvdimm_flush(to_nd_region(dev->parent), NULL);
 }
 
-<<<<<<< HEAD
 static void pmem_revalidate_poison(struct device *dev)
-=======
-static void nd_pmem_notify(struct device *dev, enum nvdimm_event event)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nd_region *nd_region;
 	resource_size_t offset = 0, end_trunc = 0;
@@ -620,12 +597,6 @@ static void nd_pmem_notify(struct device *dev, enum nvdimm_event event)
 	struct range range;
 	struct kernfs_node *bb_state;
 
-<<<<<<< HEAD
-=======
-	if (event != NVDIMM_REVALIDATE_POISON)
-		return;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_nd_btt(dev)) {
 		struct nd_btt *nd_btt = to_nd_btt(dev);
 
@@ -663,7 +634,6 @@ static void nd_pmem_notify(struct device *dev, enum nvdimm_event event)
 		sysfs_notify_dirent(bb_state);
 }
 
-<<<<<<< HEAD
 static void pmem_revalidate_region(struct device *dev)
 {
 	struct pmem_device *pmem;
@@ -695,8 +665,6 @@ static void nd_pmem_notify(struct device *dev, enum nvdimm_event event)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_ALIAS("pmem");
 MODULE_ALIAS_ND_DEVICE(ND_DEVICE_NAMESPACE_IO);
 MODULE_ALIAS_ND_DEVICE(ND_DEVICE_NAMESPACE_PMEM);

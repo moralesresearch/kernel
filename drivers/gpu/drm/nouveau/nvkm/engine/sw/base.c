@@ -97,11 +97,7 @@ nvkm_sw = {
 
 int
 nvkm_sw_new_(const struct nvkm_sw_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_sw **psw)
-=======
-	     int index, struct nvkm_sw **psw)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_sw *sw;
 
@@ -110,9 +106,5 @@ nvkm_sw_new_(const struct nvkm_sw_func *func, struct nvkm_device *device,
 	INIT_LIST_HEAD(&sw->chan);
 	sw->func = func;
 
-<<<<<<< HEAD
 	return nvkm_engine_ctor(&nvkm_sw, device, type, inst, true, &sw->engine);
-=======
-	return nvkm_engine_ctor(&nvkm_sw, device, index, true, &sw->engine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

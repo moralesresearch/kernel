@@ -189,18 +189,10 @@ static irqreturn_t mxc_rtc_interrupt(int irq, void *dev_id)
 	struct platform_device *pdev = dev_id;
 	struct rtc_plat_data *pdata = platform_get_drvdata(pdev);
 	void __iomem *ioaddr = pdata->ioaddr;
-<<<<<<< HEAD
 	u32 status;
 	u32 events = 0;
 
 	spin_lock(&pdata->rtc->irq_lock);
-=======
-	unsigned long flags;
-	u32 status;
-	u32 events = 0;
-
-	spin_lock_irqsave(&pdata->rtc->irq_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = readw(ioaddr + RTC_RTCISR) & readw(ioaddr + RTC_RTCIENR);
 	/* clear interrupt sources */
 	writew(status, ioaddr + RTC_RTCISR);
@@ -216,11 +208,7 @@ static irqreturn_t mxc_rtc_interrupt(int irq, void *dev_id)
 		events |= (RTC_PF | RTC_IRQF);
 
 	rtc_update_irq(pdata->rtc, 1, events);
-<<<<<<< HEAD
 	spin_unlock(&pdata->rtc->irq_lock);
-=======
-	spin_unlock_irqrestore(&pdata->rtc->irq_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }
@@ -427,7 +415,7 @@ static int mxc_rtc_probe(struct platform_device *pdev)
 static struct platform_driver mxc_rtc_driver = {
 	.driver = {
 		   .name	= "mxc_rtc",
-		   .of_match_table = of_match_ptr(imx_rtc_dt_ids),
+		   .of_match_table = imx_rtc_dt_ids,
 	},
 	.probe = mxc_rtc_probe,
 };

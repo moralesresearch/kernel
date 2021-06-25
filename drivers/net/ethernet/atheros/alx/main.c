@@ -1849,10 +1849,7 @@ out_free_netdev:
 	free_netdev(netdev);
 out_pci_release:
 	pci_release_mem_regions(pdev);
-<<<<<<< HEAD
 	pci_disable_pcie_error_reporting(pdev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_pci_disable:
 	pci_disable_device(pdev);
 	return err;
@@ -2020,7 +2017,7 @@ static struct pci_driver alx_driver = {
 module_pci_driver(alx_driver);
 MODULE_DEVICE_TABLE(pci, alx_pci_tbl);
 MODULE_AUTHOR("Johannes Berg <johannes@sipsolutions.net>");
-MODULE_AUTHOR("Qualcomm Corporation, <nic-devel@qualcomm.com>");
+MODULE_AUTHOR("Qualcomm Corporation");
 MODULE_DESCRIPTION(
 	"Qualcomm Atheros(R) AR816x/AR817x PCI-E Ethernet Network Driver");
 MODULE_LICENSE("GPL");

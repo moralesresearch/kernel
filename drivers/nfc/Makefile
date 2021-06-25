@@ -17,7 +17,4 @@ obj-$(CONFIG_NFC_ST_NCI)	+= st-nci/
 obj-$(CONFIG_NFC_NXP_NCI)	+= nxp-nci/
 obj-$(CONFIG_NFC_S3FWRN5)	+= s3fwrn5/
 obj-$(CONFIG_NFC_ST95HF)	+= st95hf/
-<<<<<<< HEAD
 obj-$(CONFIG_NFC_VIRTUAL_NCI)	+= virtual_ncidev.o
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

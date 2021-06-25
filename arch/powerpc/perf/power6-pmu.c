@@ -173,12 +173,8 @@ static int power6_marked_instr_event(u64 event)
  * Assign PMC numbers and compute MMCR1 value for a set of events
  */
 static int p6_compute_mmcr(u64 event[], int n_ev,
-<<<<<<< HEAD
 			   unsigned int hwc[], struct mmcr_regs *mmcr, struct perf_event *pevents[],
 			   u32 flags __maybe_unused)
-=======
-			   unsigned int hwc[], struct mmcr_regs *mmcr, struct perf_event *pevents[])
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long mmcr1 = 0;
 	unsigned long mmcra = MMCRA_SDAR_DCACHE_MISS | MMCRA_SDAR_ERAT_MISS;
@@ -271,11 +267,7 @@ static int p6_compute_mmcr(u64 event[], int n_ev,
  *	32-34	select field: nest (subunit) event selector
  */
 static int p6_get_constraint(u64 event, unsigned long *maskp,
-<<<<<<< HEAD
 			     unsigned long *valp, u64 event_config1 __maybe_unused)
-=======
-			     unsigned long *valp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int pmc, byte, sh, subunit;
 	unsigned long mask = 0, value = 0;

@@ -88,7 +88,6 @@ static int reg_domain_disable(struct regulator_dev *rdev)
 {
 	struct fixed_voltage_data *priv = rdev_get_drvdata(rdev);
 	struct device *dev = rdev->dev.parent;
-<<<<<<< HEAD
 	int ret;
 
 	ret = dev_pm_genpd_set_performance_state(dev, 0);
@@ -98,12 +97,6 @@ static int reg_domain_disable(struct regulator_dev *rdev)
 	priv->enable_counter--;
 
 	return 0;
-=======
-
-	priv->enable_counter--;
-
-	return dev_pm_genpd_set_performance_state(dev, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int reg_is_enabled(struct regulator_dev *rdev)

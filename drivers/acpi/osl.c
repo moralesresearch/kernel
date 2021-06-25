@@ -9,11 +9,8 @@
  *   Author: Matthew Wilcox <willy@linux.intel.com>
  */
 
-<<<<<<< HEAD
 #define pr_fmt(fmt) "ACPI: OSL: " fmt
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/slab.h>
@@ -42,10 +39,7 @@
 #include "acpica/acnamesp.h"
 #include "internal.h"
 
-<<<<<<< HEAD
 /* Definitions for ACPI_DEBUG_PRINT() */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _COMPONENT		ACPI_OS_SERVICES
 ACPI_MODULE_NAME("osl");
 
@@ -336,11 +330,7 @@ void __iomem __ref
 	acpi_size pg_sz;
 
 	if (phys > ULONG_MAX) {
-<<<<<<< HEAD
 		pr_err("Cannot map memory that high: 0x%llx\n", phys);
-=======
-		printk(KERN_ERR PREFIX "Cannot map memory that high\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 	}
 
@@ -541,21 +531,12 @@ acpi_os_predefined_override(const struct acpi_predefined_names *init_val,
 
 	*new_val = NULL;
 	if (!memcmp(init_val->name, "_OS_", 4) && strlen(acpi_os_name)) {
-<<<<<<< HEAD
 		pr_info("Overriding _OS definition to '%s'\n", acpi_os_name);
-=======
-		printk(KERN_INFO PREFIX "Overriding _OS definition to '%s'\n",
-		       acpi_os_name);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*new_val = acpi_os_name;
 	}
 
 	if (!memcmp(init_val->name, "_REV", 4) && acpi_rev_override) {
-<<<<<<< HEAD
 		pr_info("Overriding _REV return value to 5\n");
-=======
-		printk(KERN_INFO PREFIX "Overriding _REV return value to 5\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*new_val = (char *)5;
 	}
 
@@ -596,23 +577,14 @@ acpi_os_install_interrupt_handler(u32 gsi, acpi_osd_handler handler,
 		return AE_ALREADY_ACQUIRED;
 
 	if (acpi_gsi_to_irq(gsi, &irq) < 0) {
-<<<<<<< HEAD
 		pr_err("SCI (ACPI GSI %d) not registered\n", gsi);
-=======
-		printk(KERN_ERR PREFIX "SCI (ACPI GSI %d) not registered\n",
-		       gsi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return AE_OK;
 	}
 
 	acpi_irq_handler = handler;
 	acpi_irq_context = context;
 	if (request_irq(irq, acpi_irq, IRQF_SHARED, "acpi", acpi_irq)) {
-<<<<<<< HEAD
 		pr_err("SCI (IRQ%d) allocation failed\n", irq);
-=======
-		printk(KERN_ERR PREFIX "SCI (IRQ%d) allocation failed\n", irq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		acpi_irq_handler = NULL;
 		return AE_NOT_ACQUIRED;
 	}
@@ -1100,11 +1072,7 @@ acpi_status acpi_os_execute(acpi_execute_type type,
 	if (type == OSL_DEBUGGER_MAIN_THREAD) {
 		ret = acpi_debugger_create_thread(function, context);
 		if (ret) {
-<<<<<<< HEAD
 			pr_err("Kernel thread creation failed\n");
-=======
-			pr_err("Call to kthread_create() failed.\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = AE_ERROR;
 		}
 		goto out_thread;
@@ -1154,12 +1122,7 @@ acpi_status acpi_os_execute(acpi_execute_type type,
 	 */
 	ret = queue_work_on(0, queue, &dpc->work);
 	if (!ret) {
-<<<<<<< HEAD
 		pr_err("Unable to queue work\n");
-=======
-		printk(KERN_ERR PREFIX
-			  "Call to queue_work() failed.\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		status = AE_ERROR;
 	}
 err_workqueue:
@@ -1202,15 +1165,9 @@ acpi_status acpi_hotplug_schedule(struct acpi_device *adev, u32 src)
 {
 	struct acpi_hp_work *hpw;
 
-<<<<<<< HEAD
 	acpi_handle_debug(adev->handle,
 			  "Scheduling hotplug event %u for deferred handling\n",
 			   src);
-=======
-	ACPI_DEBUG_PRINT((ACPI_DB_EXEC,
-		  "Scheduling hotplug event (%p, %u) for deferred execution.\n",
-		  adev, src));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hpw = kmalloc(sizeof(*hpw), GFP_KERNEL);
 	if (!hpw)
@@ -1398,11 +1355,7 @@ acpi_status acpi_os_signal(u32 function, void *info)
 {
 	switch (function) {
 	case ACPI_SIGNAL_FATAL:
-<<<<<<< HEAD
 		pr_err("Fatal opcode executed\n");
-=======
-		printk(KERN_ERR PREFIX "Fatal opcode executed\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case ACPI_SIGNAL_BREAKPOINT:
 		/*
@@ -1454,11 +1407,7 @@ __setup("acpi_os_name=", acpi_os_name_setup);
 static int __init acpi_no_auto_serialize_setup(char *str)
 {
 	acpi_gbl_auto_serialize_methods = FALSE;
-<<<<<<< HEAD
 	pr_info("Auto-serialization disabled\n");
-=======
-	pr_info("ACPI: auto-serialization disabled\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 1;
 }
@@ -1509,7 +1458,6 @@ __setup("acpi_enforce_resources=", acpi_enforce_resources_setup);
 int acpi_check_resource_conflict(const struct resource *res)
 {
 	acpi_adr_space_type space_id;
-<<<<<<< HEAD
 
 	if (acpi_enforce_resources == ENFORCE_RESOURCES_NO)
 		return 0;
@@ -1532,40 +1480,6 @@ int acpi_check_resource_conflict(const struct resource *res)
 	if (acpi_enforce_resources == ENFORCE_RESOURCES_LAX)
 		pr_notice("Resource conflict: System may be unstable or behave erratically\n");
 
-=======
-	acpi_size length;
-	u8 warn = 0;
-	int clash = 0;
-
-	if (acpi_enforce_resources == ENFORCE_RESOURCES_NO)
-		return 0;
-	if (!(res->flags & IORESOURCE_IO) && !(res->flags & IORESOURCE_MEM))
-		return 0;
-
-	if (res->flags & IORESOURCE_IO)
-		space_id = ACPI_ADR_SPACE_SYSTEM_IO;
-	else
-		space_id = ACPI_ADR_SPACE_SYSTEM_MEMORY;
-
-	length = resource_size(res);
-	if (acpi_enforce_resources != ENFORCE_RESOURCES_NO)
-		warn = 1;
-	clash = acpi_check_address_range(space_id, res->start, length, warn);
-
-	if (clash) {
-		if (acpi_enforce_resources != ENFORCE_RESOURCES_NO) {
-			if (acpi_enforce_resources == ENFORCE_RESOURCES_LAX)
-				printk(KERN_NOTICE "ACPI: This conflict may"
-				       " cause random problems and system"
-				       " instability\n");
-			printk(KERN_INFO "ACPI: If an ACPI driver is available"
-			       " for this device, you should use it instead of"
-			       " the native driver\n");
-		}
-		if (acpi_enforce_resources == ENFORCE_RESOURCES_STRICT)
-			return -EBUSY;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(acpi_check_resource_conflict);
@@ -1798,11 +1712,7 @@ acpi_status acpi_os_release_object(acpi_cache_t * cache, void *object)
 static int __init acpi_no_static_ssdt_setup(char *s)
 {
 	acpi_gbl_disable_ssdt_table_install = TRUE;
-<<<<<<< HEAD
 	pr_info("Static SSDT installation disabled\n");
-=======
-	pr_info("ACPI: static SSDT installation disabled\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1811,12 +1721,7 @@ early_param("acpi_no_static_ssdt", acpi_no_static_ssdt_setup);
 
 static int __init acpi_disable_return_repair(char *s)
 {
-<<<<<<< HEAD
 	pr_notice("Predefined validation mechanism disabled\n");
-=======
-	printk(KERN_NOTICE PREFIX
-	       "ACPI: Predefined validation mechanism disabled\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	acpi_gbl_disable_auto_repair = TRUE;
 
 	return 1;
@@ -1842,11 +1747,7 @@ acpi_status __init acpi_os_initialize(void)
 		void *rv;
 
 		rv = acpi_os_map_generic_address(&acpi_gbl_FADT.reset_register);
-<<<<<<< HEAD
 		pr_debug("%s: Reset register mapping %s\n", __func__,
-=======
-		pr_debug(PREFIX "%s: map reset_reg %s\n", __func__,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 rv ? "successful" : "failed");
 	}
 	acpi_os_initialized = true;

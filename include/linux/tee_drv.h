@@ -88,11 +88,7 @@ struct tee_param {
  * @close_session:	close a session
  * @invoke_func:	invoke a trusted function
  * @cancel_req:		request cancel of an ongoing invoke or open
-<<<<<<< HEAD
  * @supp_recv:		called for supplicant to get a command
-=======
- * @supp_revc:		called for supplicant to get a command
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @supp_send:		called for supplicant to send a response
  * @shm_register:	register shared memory buffer in TEE
  * @shm_unregister:	unregister shared memory buffer in TEE

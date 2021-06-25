@@ -23,48 +23,24 @@ properties:
   interrupts:
     maxItems: 1
 
-<<<<<<< HEAD
   power-domains:
     maxItems: 1
 
   port:
     $ref: /schemas/graph.yaml#/$defs/port-base
-=======
-  port:
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     additionalProperties: false
 
     properties:
       endpoint:
-<<<<<<< HEAD
         $ref: video-interfaces.yaml#
         unevaluatedProperties: false
 
         properties:
-=======
-        type: object
-        additionalProperties: false
-
-        # Properties described in
-        # Documentation/devicetree/bindings/media/video-interfaces.txt
-        properties:
-          remote-endpoint: true
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           hsync-active: true
           vsync-active: true
           pclk-sample: true
           bus-type: true
 
-<<<<<<< HEAD
-=======
-        required:
-          - remote-endpoint
-
-    required:
-      - endpoint
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   clocks:
     minItems: 1
     maxItems: 3
@@ -93,10 +69,7 @@ additionalProperties: false
 examples:
   - |
     #include <dt-bindings/clock/marvell,mmp2.h>
-<<<<<<< HEAD
     #include <dt-bindings/power/marvell,mmp2.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
     camera@d420a000 {
       compatible = "marvell,mmp2-ccic";
@@ -106,10 +79,7 @@ examples:
       clock-names = "axi";
       #clock-cells = <0>;
       clock-output-names = "mclk";
-<<<<<<< HEAD
       power-domains = <&soc_clocks MMP3_POWER_DOMAIN_CAMERA>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
       port {
         camera0_0: endpoint {

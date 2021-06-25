@@ -152,10 +152,6 @@ struct jz4740_mmc_host {
 	enum jz4740_mmc_version version;
 
 	int irq;
-<<<<<<< HEAD
-=======
-	int card_detect_irq;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	void __iomem *base;
 	struct resource *mem_res;

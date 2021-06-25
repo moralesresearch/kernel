@@ -26,11 +26,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
 	struct nvme_ctrl *pctrl = ctrl->subsys->passthru_ctrl;
 	u16 status = NVME_SC_SUCCESS;
 	struct nvme_id_ctrl *id;
-<<<<<<< HEAD
 	unsigned int max_hw_sectors;
-=======
-	int max_hw_sectors;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int page_shift;
 
 	id = kzalloc(sizeof(*id), GFP_KERNEL);
@@ -54,15 +50,9 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
 
 	/*
 	 * nvmet_passthru_map_sg is limitted to using a single bio so limit
-<<<<<<< HEAD
 	 * the mdts based on BIO_MAX_VECS as well
 	 */
 	max_hw_sectors = min_not_zero(BIO_MAX_VECS << (PAGE_SHIFT - 9),
-=======
-	 * the mdts based on BIO_MAX_PAGES as well
-	 */
-	max_hw_sectors = min_not_zero(BIO_MAX_PAGES << (PAGE_SHIFT - 9),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      max_hw_sectors);
 
 	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
@@ -201,7 +191,6 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
 	struct bio *bio;
 	int i;
 
-<<<<<<< HEAD
 	if (req->sg_cnt > BIO_MAX_VECS)
 		return -EINVAL;
 
@@ -210,16 +199,6 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
 		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
 	} else {
 		bio = bio_alloc(GFP_KERNEL, bio_max_segs(req->sg_cnt));
-=======
-	if (req->sg_cnt > BIO_MAX_PAGES)
-		return -EINVAL;
-
-	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
-		bio = &req->p.inline_bio;
-		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
-	} else {
-		bio = bio_alloc(GFP_KERNEL, min(req->sg_cnt, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bio->bi_end_io = bio_put;
 	}
 	bio->bi_opf = req_op(rq);
@@ -260,15 +239,9 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
 		}
 
 		q = ns->queue;
-<<<<<<< HEAD
 		timeout = nvmet_req_subsys(req)->io_timeout;
 	} else {
 		timeout = nvmet_req_subsys(req)->admin_timeout;
-=======
-		timeout = req->sq->ctrl->subsys->io_timeout;
-	} else {
-		timeout = req->sq->ctrl->subsys->admin_timeout;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	rq = nvme_alloc_request(q, req->cmd, 0);
@@ -302,11 +275,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
 		schedule_work(&req->p.work);
 	} else {
 		rq->end_io_data = req;
-<<<<<<< HEAD
 		blk_execute_rq_nowait(ns ? ns->disk : NULL, rq, 0,
-=======
-		blk_execute_rq_nowait(rq->q, ns ? ns->disk : NULL, rq, 0,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      nvmet_passthru_req_done);
 	}
 
@@ -525,11 +494,7 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
 		return nvmet_setup_passthru_command(req);
 	default:
 		/* Reject commands not in the allowlist above */
-<<<<<<< HEAD
 		return nvmet_report_invalid_opcode(req);
-=======
-		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

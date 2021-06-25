@@ -68,10 +68,6 @@ int radeon_vce_init(struct radeon_device *rdev)
 	case CHIP_TAHITI:
 	case CHIP_PITCAIRN:
 	case CHIP_VERDE:
-<<<<<<< HEAD
-=======
-	case CHIP_OLAND:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case CHIP_ARUBA:
 		fw_name = FIRMWARE_TAHITI;
 		break;

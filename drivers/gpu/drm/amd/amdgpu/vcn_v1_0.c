@@ -32,10 +32,6 @@
 
 #include "vcn/vcn_1_0_offset.h"
 #include "vcn/vcn_1_0_sh_mask.h"
-<<<<<<< HEAD
-=======
-#include "hdp/hdp_4_0_offset.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mmhub/mmhub_9_1_offset.h"
 #include "mmhub/mmhub_9_1_sh_mask.h"
 
@@ -133,7 +129,7 @@ static int vcn_v1_0_sw_init(void *handle)
 	ring = &adev->vcn.inst->ring_dec;
 	sprintf(ring->name, "vcn_dec");
 	r = amdgpu_ring_init(adev, ring, 512, &adev->vcn.inst->irq, 0,
-			     AMDGPU_RING_PRIO_DEFAULT);
+			     AMDGPU_RING_PRIO_DEFAULT, NULL);
 	if (r)
 		return r;
 
@@ -152,7 +148,7 @@ static int vcn_v1_0_sw_init(void *handle)
 		ring = &adev->vcn.inst->ring_enc[i];
 		sprintf(ring->name, "vcn_enc%d", i);
 		r = amdgpu_ring_init(adev, ring, 512, &adev->vcn.inst->irq, 0,
-				     AMDGPU_RING_PRIO_DEFAULT);
+				     AMDGPU_RING_PRIO_DEFAULT, NULL);
 		if (r)
 			return r;
 	}
@@ -235,7 +231,6 @@ static int vcn_v1_0_hw_fini(void *handle)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&adev->vcn.idle_work);
 
 	if ((adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) ||
@@ -243,11 +238,6 @@ static int vcn_v1_0_hw_fini(void *handle)
 		 RREG32_SOC15(VCN, 0, mmUVD_STATUS))) {
 		vcn_v1_0_set_powergating_state(adev, AMD_PG_STATE_GATE);
 	}
-=======
-	if ((adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) ||
-		RREG32_SOC15(VCN, 0, mmUVD_STATUS))
-		vcn_v1_0_set_powergating_state(adev, AMD_PG_STATE_GATE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1133,10 +1123,10 @@ static int vcn_v1_0_stop_spg_mode(struct amdgpu_device *adev)
 		UVD_LMI_STATUS__WRITE_CLEAN_RAW_MASK;
 	SOC15_WAIT_ON_RREG(UVD, 0, mmUVD_LMI_STATUS, tmp, tmp);
 
-	/* put VCPU into reset */
-	WREG32_P(SOC15_REG_OFFSET(UVD, 0, mmUVD_SOFT_RESET),
-		UVD_SOFT_RESET__VCPU_SOFT_RESET_MASK,
-		~UVD_SOFT_RESET__VCPU_SOFT_RESET_MASK);
+	/* stall UMC channel */
+	WREG32_P(SOC15_REG_OFFSET(UVD, 0, mmUVD_LMI_CTRL2),
+		UVD_LMI_CTRL2__STALL_ARB_UMC_MASK,
+		~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
 
 	tmp = UVD_LMI_STATUS__UMC_READ_CLEAN_RAW_MASK |
 		UVD_LMI_STATUS__UMC_WRITE_CLEAN_RAW_MASK;
@@ -1154,6 +1144,11 @@ static int vcn_v1_0_stop_spg_mode(struct amdgpu_device *adev)
 	WREG32_P(SOC15_REG_OFFSET(UVD, 0, mmUVD_SOFT_RESET),
 		UVD_SOFT_RESET__LMI_SOFT_RESET_MASK,
 		~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK);
+
+	/* put VCPU into reset */
+	WREG32_P(SOC15_REG_OFFSET(UVD, 0, mmUVD_SOFT_RESET),
+		UVD_SOFT_RESET__VCPU_SOFT_RESET_MASK,
+		~UVD_SOFT_RESET__VCPU_SOFT_RESET_MASK);
 
 	WREG32_SOC15(UVD, 0, mmUVD_STATUS, 0);
 

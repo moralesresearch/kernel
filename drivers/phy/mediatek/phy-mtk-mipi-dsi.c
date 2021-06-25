@@ -235,15 +235,7 @@ static const struct of_device_id mtk_mipi_tx_match[] = {
 };
 MODULE_DEVICE_TABLE(of, mtk_mipi_tx_match);
 
-<<<<<<< HEAD
 static struct platform_driver mtk_mipi_tx_driver = {
-=======
-<<<<<<< HEAD
-static struct platform_driver mtk_mipi_tx_driver = {
-=======
-struct platform_driver mtk_mipi_tx_driver = {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.probe = mtk_mipi_tx_probe,
 	.remove = mtk_mipi_tx_remove,
 	.driver = {

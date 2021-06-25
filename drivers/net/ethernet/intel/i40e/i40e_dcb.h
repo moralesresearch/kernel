@@ -1,24 +1,15 @@
 /* SPDX-License-Identifier: GPL-2.0 */
-<<<<<<< HEAD
 /* Copyright(c) 2013 - 2021 Intel Corporation. */
-=======
-/* Copyright(c) 2013 - 2018 Intel Corporation. */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifndef _I40E_DCB_H_
 #define _I40E_DCB_H_
 
 #include "i40e_type.h"
 
-<<<<<<< HEAD
 #define I40E_DCBX_STATUS_NOT_STARTED	0
 #define I40E_DCBX_STATUS_IN_PROGRESS	1
 #define I40E_DCBX_STATUS_DONE		2
 #define I40E_DCBX_STATUS_MULTIPLE_PEERS	3
-=======
-#define I40E_DCBX_STATUS_IN_PROGRESS	1
-#define I40E_DCBX_STATUS_DONE		2
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I40E_DCBX_STATUS_DISABLED	7
 
 #define I40E_TLV_TYPE_END		0
@@ -33,10 +24,7 @@
 #define I40E_CEE_DCBX_OUI		0x001b21
 #define I40E_CEE_DCBX_TYPE		2
 
-<<<<<<< HEAD
 #define I40E_CEE_SUBTYPE_CTRL		1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I40E_CEE_SUBTYPE_PG_CFG		2
 #define I40E_CEE_SUBTYPE_PFC_CFG	3
 #define I40E_CEE_SUBTYPE_APP_PRI	4
@@ -79,11 +67,8 @@
 #define I40E_IEEE_TSA_ETS		2
 
 /* Defines for IEEE PFC TLV */
-<<<<<<< HEAD
 #define I40E_DCB_PFC_ENABLED		2
 #define I40E_DCB_PFC_FORCED_NUM_TC	2
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I40E_IEEE_PFC_CAP_SHIFT		0
 #define I40E_IEEE_PFC_CAP_MASK		(0xF << I40E_IEEE_PFC_CAP_SHIFT)
 #define I40E_IEEE_PFC_MBC_SHIFT		6
@@ -97,7 +82,6 @@
 #define I40E_IEEE_APP_PRIO_SHIFT	5
 #define I40E_IEEE_APP_PRIO_MASK		(0x7 << I40E_IEEE_APP_PRIO_SHIFT)
 
-<<<<<<< HEAD
 /* TLV definitions for preparing MIB */
 #define I40E_TLV_ID_CHASSIS_ID		0
 #define I40E_TLV_ID_PORT_ID		1
@@ -122,11 +106,6 @@
 #define I40E_IEEE_DEFAULT_APP_PRIO	3
 
 #pragma pack(1)
-=======
-
-#pragma pack(1)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* IEEE 802.1AB LLDP Organization specific TLV */
 struct i40e_lldp_org_tlv {
 	__be16 typelength;
@@ -149,13 +128,9 @@ struct i40e_cee_ctrl_tlv {
 struct i40e_cee_feat_tlv {
 	struct i40e_cee_tlv_hdr hdr;
 	u8 en_will_err; /* Bits: |En|Will|Err|Reserved(5)| */
-<<<<<<< HEAD
 #define I40E_CEE_FEAT_TLV_ENABLE_MASK	0x80
 #define I40E_CEE_FEAT_TLV_WILLING_MASK	0x40
 #define I40E_CEE_FEAT_TLV_ERR_MASK	0x20
-=======
-#define I40E_CEE_FEAT_TLV_WILLING_MASK	0x40
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 subtype;
 	u8 tlvinfo[1];
 };
@@ -169,7 +144,6 @@ struct i40e_cee_app_prio {
 };
 #pragma pack()
 
-<<<<<<< HEAD
 enum i40e_get_fw_lldp_status_resp {
 	I40E_GET_FW_LLDP_STATUS_DISABLED = 0,
 	I40E_GET_FW_LLDP_STATUS_ENABLED = 1
@@ -306,15 +280,4 @@ i40e_get_fw_lldp_status(struct i40e_hw *hw,
 i40e_status i40e_set_dcb_config(struct i40e_hw *hw);
 i40e_status i40e_dcb_config_to_lldp(u8 *lldpmib, u16 *miblen,
 				    struct i40e_dcbx_config *dcbcfg);
-=======
-i40e_status i40e_get_dcbx_status(struct i40e_hw *hw,
-					   u16 *status);
-i40e_status i40e_lldp_to_dcb_config(u8 *lldpmib,
-					      struct i40e_dcbx_config *dcbcfg);
-i40e_status i40e_aq_get_dcb_config(struct i40e_hw *hw, u8 mib_type,
-					     u8 bridgetype,
-					     struct i40e_dcbx_config *dcbcfg);
-i40e_status i40e_get_dcb_config(struct i40e_hw *hw);
-i40e_status i40e_init_dcb(struct i40e_hw *hw, bool enable_mib_change);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _I40E_DCB_H_ */

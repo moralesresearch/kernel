@@ -152,11 +152,7 @@ err_tfm0:
 	crypto_free_sync_skcipher(key->tfm0);
 err_tfm:
 	for (i = 0; i < ARRAY_SIZE(key->tfm); i++)
-<<<<<<< HEAD
 		if (!IS_ERR_OR_NULL(key->tfm[i]))
-=======
-		if (key->tfm[i])
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			crypto_free_aead(key->tfm[i]);
 
 	kfree_sensitive(key);

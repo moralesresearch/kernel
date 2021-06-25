@@ -66,11 +66,7 @@ static const char *const ahc_chip_names[] = {
  * Hardware error codes.
  */
 struct ahc_hard_error_entry {
-<<<<<<< HEAD
 	uint8_t errno;
-=======
-        uint8_t errno;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *errmesg;
 };
 
@@ -88,7 +84,6 @@ static const u_int num_errors = ARRAY_SIZE(ahc_hard_errors);
 
 static const struct ahc_phase_table_entry ahc_phase_table[] =
 {
-<<<<<<< HEAD
 	{ P_DATAOUT,	NOP,			"in Data-out phase"	},
 	{ P_DATAIN,	INITIATOR_ERROR,	"in Data-in phase"	},
 	{ P_DATAOUT_DT,	NOP,			"in DT Data-out phase"	},
@@ -99,18 +94,6 @@ static const struct ahc_phase_table_entry ahc_phase_table[] =
 	{ P_MESGIN,	MSG_PARITY_ERROR,	"in Message-in phase"	},
 	{ P_BUSFREE,	NOP,			"while idle"		},
 	{ 0,		NOP,			"in unknown phase"	}
-=======
-	{ P_DATAOUT,	MSG_NOOP,		"in Data-out phase"	},
-	{ P_DATAIN,	MSG_INITIATOR_DET_ERR,	"in Data-in phase"	},
-	{ P_DATAOUT_DT,	MSG_NOOP,		"in DT Data-out phase"	},
-	{ P_DATAIN_DT,	MSG_INITIATOR_DET_ERR,	"in DT Data-in phase"	},
-	{ P_COMMAND,	MSG_NOOP,		"in Command phase"	},
-	{ P_MESGOUT,	MSG_NOOP,		"in Message-out phase"	},
-	{ P_STATUS,	MSG_INITIATOR_DET_ERR,	"in Status phase"	},
-	{ P_MESGIN,	MSG_PARITY_ERROR,	"in Message-in phase"	},
-	{ P_BUSFREE,	MSG_NOOP,		"while idle"		},
-	{ 0,		MSG_NOOP,		"in unknown phase"	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -159,11 +142,7 @@ static void		ahc_free_tstate(struct ahc_softc *ahc,
 #endif
 static const struct ahc_syncrate*
 			ahc_devlimited_syncrate(struct ahc_softc *ahc,
-<<<<<<< HEAD
 						struct ahc_initiator_tinfo *,
-=======
-					        struct ahc_initiator_tinfo *,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						u_int *period,
 						u_int *ppr_options,
 						role_t role);
@@ -216,11 +195,7 @@ static void		ahc_setup_target_msgin(struct ahc_softc *ahc,
 					       struct scb *scb);
 #endif
 
-<<<<<<< HEAD
 static bus_dmamap_callback_t	ahc_dmamap_cb;
-=======
-static bus_dmamap_callback_t	ahc_dmamap_cb; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void		ahc_build_free_scb_list(struct ahc_softc *ahc);
 static int		ahc_init_scbdata(struct ahc_softc *ahc);
 static void		ahc_fini_scbdata(struct ahc_softc *ahc);
@@ -840,11 +815,7 @@ ahc_restart(struct ahc_softc *ahc)
 	ahc_clear_msg_state(ahc);
 
 	ahc_outb(ahc, SCSISIGO, 0);		/* De-assert BSY */
-<<<<<<< HEAD
 	ahc_outb(ahc, MSG_OUT, NOP);	/* No message to send */
-=======
-	ahc_outb(ahc, MSG_OUT, MSG_NOOP);	/* No message to send */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_outb(ahc, SXFRCTL1, ahc_inb(ahc, SXFRCTL1) & ~BITBUCKET);
 	ahc_outb(ahc, LASTPHASE, P_BUSFREE);
 	ahc_outb(ahc, SAVED_SCSIID, 0xFF);
@@ -1007,11 +978,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 {
 	struct scb *scb;
 	struct ahc_devinfo devinfo;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_fetch_devinfo(ahc, &devinfo);
 
 	/*
@@ -1055,11 +1022,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 			goto unpause;
 		}
 
-<<<<<<< HEAD
 		hscb = scb->hscb;
-=======
-		hscb = scb->hscb; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Don't want to clobber the original sense code */
 		if ((scb->flags & SCB_SENSE) != 0) {
@@ -1078,21 +1041,12 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 		ahc_freeze_scb(scb);
 		ahc_set_scsi_status(scb, hscb->shared_data.status.scsi_status);
 		switch (hscb->shared_data.status.scsi_status) {
-<<<<<<< HEAD
 		case SAM_STAT_GOOD:
 			printk("%s: Interrupted for status of 0???\n",
 			       ahc_name(ahc));
 			break;
 		case SAM_STAT_COMMAND_TERMINATED:
 		case SAM_STAT_CHECK_CONDITION:
-=======
-		case SCSI_STATUS_OK:
-			printk("%s: Interrupted for status of 0???\n",
-			       ahc_name(ahc));
-			break;
-		case SCSI_STATUS_CMD_TERMINATED:
-		case SCSI_STATUS_CHECK_COND:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{
 			struct ahc_dma_seg *sg;
 			struct scsi_sense *sc;
@@ -1117,11 +1071,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 							&tstate);
 			tinfo = &targ_info->curr;
 			sg = scb->sg_list;
-<<<<<<< HEAD
 			sc = (struct scsi_sense *)(&hscb->shared_data.cdb);
-=======
-			sc = (struct scsi_sense *)(&hscb->shared_data.cdb); 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * Save off the residual if there is one.
 			 */
@@ -1167,13 +1117,8 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 			 * errors will be reported before any data
 			 * phases occur.
 			 */
-<<<<<<< HEAD
 			if (ahc_get_residual(scb)
 			    == ahc_get_transfer_length(scb)) {
-=======
-			if (ahc_get_residual(scb) 
-			 == ahc_get_transfer_length(scb)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ahc_update_neg_request(ahc, &devinfo,
 						       tstate, targ_info,
 						       AHC_NEG_IF_NON_ASYNC);
@@ -1184,11 +1129,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 				scb->flags |= SCB_AUTO_NEGOTIATE;
 			}
 			hscb->cdb_len = sizeof(*sc);
-<<<<<<< HEAD
 			hscb->dataptr = sg->addr;
-=======
-			hscb->dataptr = sg->addr; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			hscb->datacnt = sg->len;
 			hscb->sgptr = scb->sg_list_phys | SG_FULL_RESID;
 			hscb->sgptr = ahc_htole32(hscb->sgptr);
@@ -1238,11 +1179,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 		printk("SXFRCTL0 == 0x%x\n", ahc_inb(ahc, SXFRCTL0));
 		printk("SEQCTL == 0x%x\n", ahc_inb(ahc, SEQCTL));
 		ahc_dump_card_state(ahc);
-<<<<<<< HEAD
 		ahc->msgout_buf[0] = TARGET_RESET;
-=======
-		ahc->msgout_buf[0] = MSG_BUS_DEV_RESET;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc->msgout_len = 1;
 		ahc->msgout_index = 0;
 		ahc->msg_type = MSG_TYPE_INITIATOR_MSGOUT;
@@ -1250,7 +1187,6 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 		ahc_assert_atn(ahc);
 		break;
 	}
-<<<<<<< HEAD
 	case SEND_REJECT:
 	{
 		u_int rejbyte = ahc_inb(ahc, ACCUM);
@@ -1258,15 +1194,6 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 		       "target (0x%x).  Rejecting\n",
 		       ahc_name(ahc), devinfo.channel, devinfo.target, rejbyte);
 		break;
-=======
-	case SEND_REJECT: 
-	{
-		u_int rejbyte = ahc_inb(ahc, ACCUM);
-		printk("%s:%c:%d: Warning - unknown message received from "
-		       "target (0x%x).  Rejecting\n", 
-		       ahc_name(ahc), devinfo.channel, devinfo.target, rejbyte);
-		break; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	case PROTO_VIOLATION:
 	{
@@ -1359,12 +1286,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 					ahc->msg_type =
 					    MSG_TYPE_TARGET_MSGOUT;
 					ahc->msgin_index = 0;
-<<<<<<< HEAD
 				} else
-=======
-				}
-				else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					ahc_setup_target_msgin(ahc,
 							       &devinfo,
 							       scb);
@@ -1436,11 +1358,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 					if (scb != NULL)
 						ahc_set_transaction_status(scb,
 						    CAM_UNCOR_PARITY);
-<<<<<<< HEAD
 					ahc_reset_channel(ahc, devinfo.channel,
-=======
-					ahc_reset_channel(ahc, devinfo.channel, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							  /*init reset*/TRUE);
 				}
 			} else {
@@ -1472,11 +1390,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 		printk("data overrun detected %s."
 		       "  Tag == 0x%x.\n",
 		       ahc_phase_table[i].phasemsg,
-<<<<<<< HEAD
 		       scb->hscb->tag);
-=======
-  		       scb->hscb->tag);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc_print_path(ahc, scb);
 		printk("%s seen Data Phase.  Length = %ld.  NumSGs = %d.\n",
 		       ahc_inb(ahc, SEQ_FLAGS) & DPHASE ? "Have" : "Haven't",
@@ -1487,11 +1401,7 @@ ahc_handle_seqint(struct ahc_softc *ahc, u_int intstat)
 				printk("sg[%d] - Addr 0x%x%x : Length %d\n",
 				       i,
 				       (ahc_le32toh(scb->sg_list[i].len) >> 24
-<<<<<<< HEAD
 					& SG_HIGH_ADDR_BITS),
-=======
-				        & SG_HIGH_ADDR_BITS),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       ahc_le32toh(scb->sg_list[i].addr),
 				       ahc_le32toh(scb->sg_list[i].len)
 				       & AHC_SG_LEN_MASK);
@@ -1638,11 +1548,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 	if (status == 0 && status0 == 0) {
 		if ((ahc->features & AHC_TWIN) != 0) {
 			/* Try the other channel */
-<<<<<<< HEAD
 			ahc_outb(ahc, SBLKCTL, ahc_inb(ahc, SBLKCTL) ^ SELBUSB);
-=======
-		 	ahc_outb(ahc, SBLKCTL, ahc_inb(ahc, SBLKCTL) ^ SELBUSB);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = ahc_inb(ahc, SSTAT1)
 			       & (SELTO|SCSIRSTI|BUSFREE|SCSIPERR);
 			intr_channel = (cur_channel == 'A') ? 'B' : 'A';
@@ -1688,11 +1594,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 		printk("%s: Someone reset channel %c\n",
 			ahc_name(ahc), intr_channel);
 		if (intr_channel != cur_channel)
-<<<<<<< HEAD
 			ahc_outb(ahc, SBLKCTL, ahc_inb(ahc, SBLKCTL) ^ SELBUSB);
-=======
-		 	ahc_outb(ahc, SBLKCTL, ahc_inb(ahc, SBLKCTL) ^ SELBUSB);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc_reset_channel(ahc, intr_channel, /*Initiate Reset*/FALSE);
 	} else if ((status & SCSIPERR) != 0) {
 		/*
@@ -1781,30 +1683,17 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 			 * data direction, so ignore the value
 			 * in the phase table.
 			 */
-<<<<<<< HEAD
 			mesg_out = INITIATOR_ERROR;
 		}
 
 		/*
 		 * We've set the hardware to assert ATN if we
 		 * get a parity error on "in" phases, so all we
-=======
-			mesg_out = MSG_INITIATOR_DET_ERR;
-		}
-
-		/*
-		 * We've set the hardware to assert ATN if we   
-		 * get a parity error on "in" phases, so all we  
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * need to do is stuff the message buffer with
 		 * the appropriate message.  "In" phases have set
 		 * mesg_out to something other than MSG_NOP.
 		 */
-<<<<<<< HEAD
 		if (mesg_out != NOP) {
-=======
-		if (mesg_out != MSG_NOOP) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ahc->msg_type != MSG_TYPE_NONE)
 				ahc->send_msg_perror = TRUE;
 			else
@@ -1928,17 +1817,10 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 			u_int tag;
 
 			tag = SCB_LIST_NULL;
-<<<<<<< HEAD
 			if (ahc_sent_msg(ahc, AHCMSG_1B, ABORT_TASK, TRUE)
 			 || ahc_sent_msg(ahc, AHCMSG_1B, ABORT_TASK_SET, TRUE)) {
 				if (ahc->msgout_buf[ahc->msgout_index - 1]
 				 == ABORT_TASK)
-=======
-			if (ahc_sent_msg(ahc, AHCMSG_1B, MSG_ABORT_TAG, TRUE)
-			 || ahc_sent_msg(ahc, AHCMSG_1B, MSG_ABORT, TRUE)) {
-				if (ahc->msgout_buf[ahc->msgout_index - 1]
-				 == MSG_ABORT_TAG)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					tag = scb->hscb->tag;
 				ahc_print_path(ahc, scb);
 				printk("SCB %d - Abort%s Completed.\n",
@@ -1950,11 +1832,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 					       CAM_REQ_ABORTED);
 				printerror = 0;
 			} else if (ahc_sent_msg(ahc, AHCMSG_1B,
-<<<<<<< HEAD
 						TARGET_RESET, TRUE)) {
-=======
-						MSG_BUS_DEV_RESET, TRUE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ahc_compile_devinfo(&devinfo,
 						    initiator_role_id,
 						    target,
@@ -1967,11 +1845,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 						    /*verbose_level*/0);
 				printerror = 0;
 			} else if (ahc_sent_msg(ahc, AHCMSG_EXT,
-<<<<<<< HEAD
 						EXTENDED_PPR, FALSE)) {
-=======
-						MSG_EXT_PPR, FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				struct ahc_initiator_tinfo *tinfo;
 				struct ahc_tmode_tstate *tstate;
 
@@ -1990,11 +1864,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 				ahc_qinfifo_requeue_tail(ahc, scb);
 				printerror = 0;
 			} else if (ahc_sent_msg(ahc, AHCMSG_EXT,
-<<<<<<< HEAD
 						EXTENDED_WDTR, FALSE)) {
-=======
-						MSG_EXT_WDTR, FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Negotiation Rejected.  Go-narrow and
 				 * retry command.
@@ -2006,11 +1876,7 @@ ahc_handle_scsiint(struct ahc_softc *ahc, u_int intstat)
 				ahc_qinfifo_requeue_tail(ahc, scb);
 				printerror = 0;
 			} else if (ahc_sent_msg(ahc, AHCMSG_EXT,
-<<<<<<< HEAD
 						EXTENDED_SDTR, FALSE)) {
-=======
-						MSG_EXT_SDTR, FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Negotiation Rejected.  Go-async and
 				 * retry command.
@@ -2119,11 +1985,7 @@ ahc_clear_critical_section(struct ahc_softc *ahc)
 			| (ahc_inb(ahc, SEQADDR1) << 8);
 
 		/*
-<<<<<<< HEAD
 		 * Seqaddr represents the next instruction to execute,
-=======
-		 * Seqaddr represents the next instruction to execute, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * so we are really executing the instruction just
 		 * before it.
 		 */
@@ -2131,10 +1993,6 @@ ahc_clear_critical_section(struct ahc_softc *ahc)
 			seqaddr -= 1;
 		cs = ahc->critical_sections;
 		for (i = 0; i < ahc->num_critical_sections; i++, cs++) {
-<<<<<<< HEAD
-=======
-			
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (cs->begin < seqaddr && cs->end >= seqaddr)
 				break;
 		}
@@ -2204,11 +2062,7 @@ ahc_clear_intstat(struct ahc_softc *ahc)
 				CLRREQINIT);
 	ahc_flush_device_writes(ahc);
 	ahc_outb(ahc, CLRSINT0, CLRSELDO|CLRSELDI|CLRSELINGO);
-<<<<<<< HEAD
 	ahc_flush_device_writes(ahc);
-=======
- 	ahc_flush_device_writes(ahc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_outb(ahc, CLRINT, CLRSCSIINT);
 	ahc_flush_device_writes(ahc);
 }
@@ -2245,11 +2099,7 @@ ahc_print_scb(struct scb *scb)
 			printk("sg[%d] - Addr 0x%x%x : Length %d\n",
 			       i,
 			       (ahc_le32toh(scb->sg_list[i].len) >> 24
-<<<<<<< HEAD
 				& SG_HIGH_ADDR_BITS),
-=======
-			        & SG_HIGH_ADDR_BITS),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       ahc_le32toh(scb->sg_list[i].addr),
 			       ahc_le32toh(scb->sg_list[i].len));
 		}
@@ -2371,11 +2221,7 @@ ahc_devlimited_syncrate(struct ahc_softc *ahc,
 	 */
 	if (role == ROLE_TARGET)
 		transinfo = &tinfo->user;
-<<<<<<< HEAD
 	else
-=======
-	else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		transinfo = &tinfo->goal;
 	*ppr_options &= transinfo->ppr_options;
 	if (transinfo->width == MSG_EXT_WDTR_BUS_8_BIT) {
@@ -2807,15 +2653,9 @@ ahc_set_tags(struct ahc_softc *ahc, struct scsi_cmnd *cmd,
 {
 	struct scsi_device *sdev = cmd->device;
 
-<<<<<<< HEAD
 	ahc_platform_set_tags(ahc, sdev, devinfo, alg);
 	ahc_send_async(ahc, devinfo->channel, devinfo->target,
 		       devinfo->lun, AC_TRANSFER_NEG);
-=======
- 	ahc_platform_set_tags(ahc, sdev, devinfo, alg);
- 	ahc_send_async(ahc, devinfo->channel, devinfo->target,
- 		       devinfo->lun, AC_TRANSFER_NEG);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -2914,15 +2754,9 @@ ahc_fetch_devinfo(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		role = ROLE_INITIATOR;
 
 	if (role == ROLE_TARGET
-<<<<<<< HEAD
 	    && (ahc->features & AHC_MULTI_TID) != 0
 	    && (ahc_inb(ahc, SEQ_FLAGS)
 	     & (CMDPHASE_PENDING|TARG_CMD_PENDING|NO_DISCONNECT)) != 0) {
-=======
-	 && (ahc->features & AHC_MULTI_TID) != 0
-	 && (ahc_inb(ahc, SEQ_FLAGS)
- 	   & (CMDPHASE_PENDING|TARG_CMD_PENDING|NO_DISCONNECT)) != 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* We were selected, so pull our id from TARGIDIN */
 		our_id = ahc_inb(ahc, TARGIDIN) & OID;
 	} else if ((ahc->features & AHC_ULTRA2) != 0)
@@ -3044,11 +2878,7 @@ ahc_setup_initiator_msgout(struct ahc_softc *ahc, struct ahc_devinfo *devinfo,
 	}
 
 	if (scb->flags & SCB_DEVICE_RESET) {
-<<<<<<< HEAD
 		ahc->msgout_buf[ahc->msgout_index++] = TARGET_RESET;
-=======
-		ahc->msgout_buf[ahc->msgout_index++] = MSG_BUS_DEV_RESET;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc->msgout_len++;
 		ahc_print_path(ahc, scb);
 		printk("Bus Device Reset Message Sent\n");
@@ -3062,15 +2892,9 @@ ahc_setup_initiator_msgout(struct ahc_softc *ahc, struct ahc_devinfo *devinfo,
 		ahc_outb(ahc, SCSISEQ, (ahc_inb(ahc, SCSISEQ) & ~ENSELO));
 	} else if ((scb->flags & SCB_ABORT) != 0) {
 		if ((scb->hscb->control & TAG_ENB) != 0)
-<<<<<<< HEAD
 			ahc->msgout_buf[ahc->msgout_index++] = ABORT_TASK;
 		else
 			ahc->msgout_buf[ahc->msgout_index++] = ABORT_TASK_SET;
-=======
-			ahc->msgout_buf[ahc->msgout_index++] = MSG_ABORT_TAG;
-		else
-			ahc->msgout_buf[ahc->msgout_index++] = MSG_ABORT;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc->msgout_len++;
 		ahc_print_path(ahc, scb);
 		printk("Abort%s Message Sent\n",
@@ -3280,11 +3104,7 @@ ahc_clear_msg_state(struct ahc_softc *ahc)
 		 */
 		ahc_outb(ahc, CLRSINT1, CLRATNO);
 	}
-<<<<<<< HEAD
 	ahc_outb(ahc, MSG_OUT, NOP);
-=======
-	ahc_outb(ahc, MSG_OUT, MSG_NOOP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_outb(ahc, SEQ_FLAGS2,
 		 ahc_inb(ahc, SEQ_FLAGS2) & ~TARGET_MSG_PENDING);
 }
@@ -3370,11 +3190,7 @@ proto_violation_reset:
 		ahc_outb(ahc, MSG_OUT, HOST_MSG);
 		if (scb == NULL) {
 			ahc_print_devinfo(ahc, &devinfo);
-<<<<<<< HEAD
 			ahc->msgout_buf[0] = ABORT_TASK;
-=======
-			ahc->msgout_buf[0] = MSG_ABORT_TASK;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ahc->msgout_len = 1;
 			ahc->msgout_index = 0;
 			ahc->msg_type = MSG_TYPE_INITIATOR_MSGOUT;
@@ -3548,11 +3364,7 @@ reswitch:
 #endif
 				ahc_assert_atn(ahc);
 			}
-<<<<<<< HEAD
 		} else
-=======
-		} else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ahc->msgin_index++;
 
 		if (message_done == MSGLOOP_TERMINATED) {
@@ -3645,11 +3457,7 @@ reswitch:
 			 */
 			return;
 		}
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc->msgin_index++;
 
 		/*
@@ -3710,11 +3518,7 @@ ahc_sent_msg(struct ahc_softc *ahc, ahc_msgtype type, u_int msgval, int full)
 	index = 0;
 
 	while (index < ahc->msgout_len) {
-<<<<<<< HEAD
 		if (ahc->msgout_buf[index] == EXTENDED_MESSAGE) {
-=======
-		if (ahc->msgout_buf[index] == MSG_EXTENDED) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			u_int end_index;
 
 			end_index = index + 1 + ahc->msgout_buf[index + 1];
@@ -3728,13 +3532,8 @@ ahc_sent_msg(struct ahc_softc *ahc, ahc_msgtype type, u_int msgval, int full)
 					found = TRUE;
 			}
 			index = end_index;
-<<<<<<< HEAD
 		} else if (ahc->msgout_buf[index] >= SIMPLE_QUEUE_TAG
 			&& ahc->msgout_buf[index] <= IGNORE_WIDE_RESIDUE) {
-=======
-		} else if (ahc->msgout_buf[index] >= MSG_SIMPLE_TASK
-			&& ahc->msgout_buf[index] <= MSG_IGN_WIDE_RESIDUE) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* Skip tag type and tag id or residue param*/
 			index += 2;
@@ -3785,26 +3584,17 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 	 * extended message type.
 	 */
 	switch (ahc->msgin_buf[0]) {
-<<<<<<< HEAD
 	case DISCONNECT:
 	case SAVE_POINTERS:
 	case COMMAND_COMPLETE:
 	case RESTORE_POINTERS:
 	case IGNORE_WIDE_RESIDUE:
-=======
-	case MSG_DISCONNECT:
-	case MSG_SAVEDATAPOINTER:
-	case MSG_CMDCOMPLETE:
-	case MSG_RESTOREPOINTERS:
-	case MSG_IGN_WIDE_RESIDUE:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * End our message loop as these are messages
 		 * the sequencer handles on its own.
 		 */
 		done = MSGLOOP_TERMINATED;
 		break;
-<<<<<<< HEAD
 	case MESSAGE_REJECT:
 		response = ahc_handle_msg_reject(ahc, devinfo);
 		fallthrough;
@@ -3812,36 +3602,19 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		done = MSGLOOP_MSGCOMPLETE;
 		break;
 	case EXTENDED_MESSAGE:
-=======
-	case MSG_MESSAGE_REJECT:
-		response = ahc_handle_msg_reject(ahc, devinfo);
-		fallthrough;
-	case MSG_NOOP:
-		done = MSGLOOP_MSGCOMPLETE;
-		break;
-	case MSG_EXTENDED:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		/* Wait for enough of the message to begin validation */
 		if (ahc->msgin_index < 2)
 			break;
 		switch (ahc->msgin_buf[2]) {
-<<<<<<< HEAD
 		case EXTENDED_SDTR:
-=======
-		case MSG_EXT_SDTR:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{
 			const struct ahc_syncrate *syncrate;
 			u_int	 period;
 			u_int	 ppr_options;
 			u_int	 offset;
 			u_int	 saved_offset;
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ahc->msgin_buf[1] != MSG_EXT_SDTR_LEN) {
 				reject = TRUE;
 				break;
@@ -3875,11 +3648,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 				       ahc->msgin_buf[3], saved_offset,
 				       period, offset);
 			}
-<<<<<<< HEAD
 			ahc_set_syncrate(ahc, devinfo,
-=======
-			ahc_set_syncrate(ahc, devinfo, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					 syncrate, period,
 					 offset, ppr_options,
 					 AHC_TRANS_ACTIVE|AHC_TRANS_GOAL,
@@ -3890,11 +3659,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			 * and didn't have to fall down to async
 			 * transfers.
 			 */
-<<<<<<< HEAD
 			if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_SDTR, TRUE)) {
-=======
-			if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_SDTR, TRUE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/* We started it */
 				if (saved_offset != offset) {
 					/* Went too low - force async */
@@ -3921,11 +3686,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			done = MSGLOOP_MSGCOMPLETE;
 			break;
 		}
-<<<<<<< HEAD
 		case EXTENDED_WDTR:
-=======
-		case MSG_EXT_WDTR:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{
 			u_int bus_width;
 			u_int saved_width;
@@ -3959,11 +3720,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 				       saved_width, bus_width);
 			}
 
-<<<<<<< HEAD
 			if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_WDTR, TRUE)) {
-=======
-			if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_WDTR, TRUE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Don't send a WDTR back to the
 				 * target, since we asked first.
@@ -4025,11 +3782,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			done = MSGLOOP_MSGCOMPLETE;
 			break;
 		}
-<<<<<<< HEAD
 		case EXTENDED_PPR:
-=======
-		case MSG_EXT_PPR:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{
 			const struct ahc_syncrate *syncrate;
 			u_int	period;
@@ -4089,11 +3842,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 					    &offset, bus_width,
 					    devinfo->role);
 
-<<<<<<< HEAD
 			if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_PPR, TRUE)) {
-=======
-			if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_PPR, TRUE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * If we are unable to do any of the
 				 * requested options (we went too low),
@@ -4157,11 +3906,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		break;
 	}
 #ifdef AHC_TARGET_MODE
-<<<<<<< HEAD
 	case TARGET_RESET:
-=======
-	case MSG_BUS_DEV_RESET:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc_handle_devreset(ahc, devinfo,
 				    CAM_BDR_SENT,
 				    "Bus Device Reset Received",
@@ -4169,15 +3914,9 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		ahc_restart(ahc);
 		done = MSGLOOP_TERMINATED;
 		break;
-<<<<<<< HEAD
 	case ABORT_TASK:
 	case ABORT_TASK_SET:
 	case CLEAR_QUEUE_TASK_SET:
-=======
-	case MSG_ABORT_TAG:
-	case MSG_ABORT:
-	case MSG_CLEAR_QUEUE:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		int tag;
 
@@ -4187,11 +3926,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			break;
 		}
 		tag = SCB_LIST_NULL;
-<<<<<<< HEAD
 		if (ahc->msgin_buf[0] == ABORT_TASK)
-=======
-		if (ahc->msgin_buf[0] == MSG_ABORT_TAG)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tag = ahc_inb(ahc, INITIATOR_TAG);
 		ahc_abort_scbs(ahc, devinfo->target, devinfo->channel,
 			       devinfo->lun, tag, ROLE_TARGET,
@@ -4215,11 +3950,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		break;
 	}
 #endif
-<<<<<<< HEAD
 	case TERMINATE_IO_PROC:
-=======
-	case MSG_TERM_IO_PROC:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		reject = TRUE;
 		break;
@@ -4231,11 +3962,7 @@ ahc_parse_msg(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		 */
 		ahc->msgout_index = 0;
 		ahc->msgout_len = 1;
-<<<<<<< HEAD
 		ahc->msgout_buf[0] = MESSAGE_REJECT;
-=======
-		ahc->msgout_buf[0] = MSG_MESSAGE_REJECT;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		done = MSGLOOP_MSGCOMPLETE;
 		response = TRUE;
 	}
@@ -4274,11 +4001,7 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 	/* Might be necessary */
 	last_msg = ahc_inb(ahc, LAST_MSG);
 
-<<<<<<< HEAD
 	if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_PPR, /*full*/FALSE)) {
-=======
-	if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_PPR, /*full*/FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Target does not support the PPR message.
 		 * Attempt to negotiate SPI-2 style.
@@ -4297,11 +4020,7 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		ahc_build_transfer_msg(ahc, devinfo);
 		ahc->msgout_index = 0;
 		response = 1;
-<<<<<<< HEAD
 	} else if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_WDTR, /*full*/FALSE)) {
-=======
-	} else if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_WDTR, /*full*/FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* note 8bit xfers */
 		printk("(%s:%c:%d:%d): refuses WIDE negotiation.  Using "
@@ -4326,11 +4045,7 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			ahc->msgout_index = 0;
 			response = 1;
 		}
-<<<<<<< HEAD
 	} else if (ahc_sent_msg(ahc, AHCMSG_EXT, EXTENDED_SDTR, /*full*/FALSE)) {
-=======
-	} else if (ahc_sent_msg(ahc, AHCMSG_EXT, MSG_EXT_SDTR, /*full*/FALSE)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* note asynch xfers and clear flag */
 		ahc_set_syncrate(ahc, devinfo, /*syncrate*/NULL, /*period*/0,
 				 /*offset*/0, /*ppr_options*/0,
@@ -4340,7 +4055,6 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		       "Using asynchronous transfers\n",
 		       ahc_name(ahc), devinfo->channel,
 		       devinfo->target, devinfo->lun);
-<<<<<<< HEAD
 	} else if ((scb->hscb->control & SIMPLE_QUEUE_TAG) != 0) {
 		int tag_type;
 		int mask;
@@ -4348,15 +4062,6 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		tag_type = (scb->hscb->control & SIMPLE_QUEUE_TAG);
 
 		if (tag_type == SIMPLE_QUEUE_TAG) {
-=======
-	} else if ((scb->hscb->control & MSG_SIMPLE_TASK) != 0) {
-		int tag_type;
-		int mask;
-
-		tag_type = (scb->hscb->control & MSG_SIMPLE_TASK);
-
-		if (tag_type == MSG_SIMPLE_TASK) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			printk("(%s:%c:%d:%d): refuses tagged commands.  "
 			       "Performing non-tagged I/O\n", ahc_name(ahc),
 			       devinfo->channel, devinfo->target, devinfo->lun);
@@ -4366,11 +4071,7 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 			printk("(%s:%c:%d:%d): refuses %s tagged commands.  "
 			       "Performing simple queue tagged I/O only\n",
 			       ahc_name(ahc), devinfo->channel, devinfo->target,
-<<<<<<< HEAD
 			       devinfo->lun, tag_type == ORDERED_QUEUE_TAG
-=======
-			       devinfo->lun, tag_type == MSG_ORDERED_TASK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       ? "ordered" : "head of queue");
 			ahc_set_tags(ahc, scb->io_ctx, devinfo, AHC_QUEUE_BASIC);
 			mask = ~0x03;
@@ -4382,15 +4083,9 @@ ahc_handle_msg_reject(struct ahc_softc *ahc, struct ahc_devinfo *devinfo)
 		 */
 		ahc_outb(ahc, SCB_CONTROL,
 			 ahc_inb(ahc, SCB_CONTROL) & mask);
-<<<<<<< HEAD
 		scb->hscb->control &= mask;
 		ahc_set_transaction_tag(scb, /*enabled*/FALSE,
 					/*type*/SIMPLE_QUEUE_TAG);
-=======
-	 	scb->hscb->control &= mask;
-		ahc_set_transaction_tag(scb, /*enabled*/FALSE,
-					/*type*/MSG_SIMPLE_TASK);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc_outb(ahc, MSG_OUT, MSG_IDENTIFYFLAG);
 		ahc_assert_atn(ahc);
 
@@ -4627,11 +4322,7 @@ ahc_handle_devreset(struct ahc_softc *ahc, struct ahc_devinfo *devinfo,
 				continue;
 
 			ahc_queue_lstate_event(ahc, lstate, devinfo->our_scsiid,
-<<<<<<< HEAD
 					       TARGET_RESET, /*arg*/0);
-=======
-					       MSG_BUS_DEV_RESET, /*arg*/0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ahc_send_lstate_events(ahc, lstate);
 		}
 	}
@@ -4645,11 +4336,7 @@ ahc_handle_devreset(struct ahc_softc *ahc, struct ahc_devinfo *devinfo,
 	ahc_set_syncrate(ahc, devinfo, /*syncrate*/NULL,
 			 /*period*/0, /*offset*/0, /*ppr_options*/0,
 			 AHC_TRANS_CUR, /*paused*/TRUE);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status != CAM_SEL_TIMEOUT)
 		ahc_send_async(ahc, devinfo->channel, devinfo->target,
 			       CAM_LUN_WILDCARD, AC_SENT_BDR);
@@ -4666,19 +4353,11 @@ ahc_setup_target_msgin(struct ahc_softc *ahc, struct ahc_devinfo *devinfo,
 		       struct scb *scb)
 {
 
-<<<<<<< HEAD
 	/*
 	 * To facilitate adding multiple messages together,
 	 * each routine should increment the index and len
 	 * variables instead of setting them explicitly.
 	 */
-=======
-	/*              
-	 * To facilitate adding multiple messages together,
-	 * each routine should increment the index and len
-	 * variables instead of setting them explicitly.
-	 */             
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc->msgout_index = 0;
 	ahc->msgout_len = 0;
 
@@ -4751,11 +4430,7 @@ ahc_softc_init(struct ahc_softc *ahc)
 		ahc->unpause = ahc_inb(ahc, HCNTRL) & IRQMS;
 	else
 		ahc->unpause = 0;
-<<<<<<< HEAD
 	ahc->pause = ahc->unpause | PAUSE;
-=======
-	ahc->pause = ahc->unpause | PAUSE; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* XXX The shared scb data stuff should be deprecated */
 	if (ahc->scb_data == NULL) {
 		ahc->scb_data = kzalloc(sizeof(*ahc->scb_data), GFP_ATOMIC);
@@ -4877,11 +4552,7 @@ ahc_reset(struct ahc_softc *ahc, int reinit)
 	u_int	sxfrctl1_a, sxfrctl1_b;
 	int	error;
 	int	wait;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Preserve the value of the SXFRCTL1 register for all channels.
 	 * It contains settings that affect termination and we don't want
@@ -4970,11 +4641,7 @@ ahc_reset(struct ahc_softc *ahc, int reinit)
 		 */
 		error = ahc->bus_chip_init(ahc);
 #ifdef AHC_DUMP_SEQ
-<<<<<<< HEAD
 	else
-=======
-	else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ahc_dumpseq(ahc);
 #endif
 
@@ -5039,11 +4706,7 @@ ahc_build_free_scb_list(struct ahc_softc *ahc)
 		/* Set the next pointer */
 		if ((ahc->flags & AHC_PAGESCBS) != 0)
 			ahc_outb(ahc, SCB_NEXT, i+1);
-<<<<<<< HEAD
 		else
-=======
-		else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ahc_outb(ahc, SCB_NEXT, SCB_LIST_NULL);
 
 		/* Make the tag number, SCSIID, and lun invalid */
@@ -5196,11 +4859,7 @@ ahc_init_scbdata(struct ahc_softc *ahc)
 	/*
 	 * Note that we were successful
 	 */
-<<<<<<< HEAD
 	return (0);
-=======
-	return (0); 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 error_exit:
 
@@ -5343,11 +5002,7 @@ ahc_controller_info(struct ahc_softc *ahc, char *buf)
 	len = sprintf(buf, "%s: ", ahc_chip_names[ahc->chip & AHC_CHIPID_MASK]);
 	buf += len;
 	if ((ahc->features & AHC_TWIN) != 0)
-<<<<<<< HEAD
 		len = sprintf(buf, "Twin Channel, A SCSI Id=%d, "
-=======
- 		len = sprintf(buf, "Twin Channel, A SCSI Id=%d, "
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      "B SCSI Id=%d, primary %c, ",
 			      ahc->our_id, ahc->our_id_b,
 			      (ahc->flags & AHC_PRIMARY_CHANNEL) + 'A');
@@ -5483,11 +5138,7 @@ ahc_chip_init(struct ahc_softc *ahc)
 	ahc_outb(ahc, CMDSIZE_TABLE + 5, 11);
 	ahc_outb(ahc, CMDSIZE_TABLE + 6, 0);
 	ahc_outb(ahc, CMDSIZE_TABLE + 7, 0);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((ahc->features & AHC_HS_MAILBOX) != 0)
 		ahc_outb(ahc, HS_MAILBOX, 0);
 
@@ -5517,11 +5168,7 @@ ahc_chip_init(struct ahc_softc *ahc)
 	ahc_outb(ahc, DISCONNECTED_SCBH, SCB_LIST_NULL);
 
 	/* Message out buffer starts empty */
-<<<<<<< HEAD
 	ahc_outb(ahc, MSG_OUT, NOP);
-=======
-	ahc_outb(ahc, MSG_OUT, MSG_NOOP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Setup the allowed SCSI Sequences based on operational mode.
@@ -5622,11 +5269,7 @@ ahc_init(struct ahc_softc *ahc)
 	 */
 	if ((ahc->flags & AHC_USEDEFAULTS) != 0)
 		ahc->our_id = ahc->our_id_b = 7;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Default to allowing initiator operations.
 	 */
@@ -5644,11 +5287,7 @@ ahc_init(struct ahc_softc *ahc)
 	 * DMA tag for our command fifos and other data in system memory
 	 * the card's sequencer must be able to access.  For initiator
 	 * roles, we need to allocate space for the qinfifo and qoutfifo.
-<<<<<<< HEAD
 	 * The qinfifo and qoutfifo are composed of 256 1 byte elements.
-=======
-	 * The qinfifo and qoutfifo are composed of 256 1 byte elements. 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * When providing for the target mode role, we must additionally
 	 * provide space for the incoming target command fifo and an extra
 	 * byte to deal with a dma bug in some chip versions.
@@ -5757,11 +5396,7 @@ ahc_init(struct ahc_softc *ahc)
 	 && (ahc->flags & AHC_INITIATORROLE) != 0)
 		ahc->flags |= AHC_RESET_BUS_A;
 
-<<<<<<< HEAD
 	ultraenb = 0;
-=======
-	ultraenb = 0;	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tagenable = ALL_TARGETS_MASK;
 
 	/* Grab the disconnection disable table and invert it for our needs */
@@ -5857,15 +5492,9 @@ ahc_init(struct ahc_softc *ahc)
 				 && (ultraenb & mask) != 0) {
 					/* Treat 10MHz as a non-ultra speed */
 					scsirate &= ~SXFR;
-<<<<<<< HEAD
 					ultraenb &= ~mask;
 				}
 				tinfo->user.period =
-=======
-				 	ultraenb &= ~mask;
-				}
-				tinfo->user.period = 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    ahc_find_period(ahc, scsirate,
 						    (ultraenb & mask)
 						   ? AHC_SYNCRATE_ULTRA
@@ -5991,11 +5620,7 @@ ahc_resume(struct ahc_softc *ahc)
 {
 
 	ahc_reset(ahc, /*reinit*/TRUE);
-<<<<<<< HEAD
 	ahc_intr_enable(ahc, TRUE);
-=======
-	ahc_intr_enable(ahc, TRUE); 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_restart(ahc);
 	return (0);
 }
@@ -6012,11 +5637,7 @@ ahc_index_busy_tcl(struct ahc_softc *ahc, u_int tcl)
 
 	if ((ahc->flags & AHC_SCB_BTT) != 0) {
 		u_int saved_scbptr;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		saved_scbptr = ahc_inb(ahc, SCBPTR);
 		ahc_outb(ahc, SCBPTR, TCL_LUN(tcl));
 		scbid = ahc_inb(ahc, SCB_64_BTT + TCL_TARGET_OFFSET(tcl));
@@ -6036,11 +5657,7 @@ ahc_unbusy_tcl(struct ahc_softc *ahc, u_int tcl)
 
 	if ((ahc->flags & AHC_SCB_BTT) != 0) {
 		u_int saved_scbptr;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		saved_scbptr = ahc_inb(ahc, SCBPTR);
 		ahc_outb(ahc, SCBPTR, TCL_LUN(tcl));
 		ahc_outb(ahc, SCB_64_BTT+TCL_TARGET_OFFSET(tcl), SCB_LIST_NULL);
@@ -6058,11 +5675,7 @@ ahc_busy_tcl(struct ahc_softc *ahc, u_int tcl, u_int scbid)
 
 	if ((ahc->flags & AHC_SCB_BTT) != 0) {
 		u_int saved_scbptr;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		saved_scbptr = ahc_inb(ahc, SCBPTR);
 		ahc_outb(ahc, SCBPTR, TCL_LUN(tcl));
 		ahc_outb(ahc, SCB_64_BTT + TCL_TARGET_OFFSET(tcl), scbid);
@@ -6120,11 +5733,7 @@ ahc_freeze_devq(struct ahc_softc *ahc, struct scb *scb)
 	target = SCB_GET_TARGET(ahc, scb);
 	lun = SCB_GET_LUN(scb);
 	channel = SCB_GET_CHANNEL(ahc, scb);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_search_qinfifo(ahc, target, channel, lun,
 			   /*tag*/SCB_LIST_NULL, ROLE_UNKNOWN,
 			   CAM_REQUEUE_REQ, SEARCH_COMPLETE);
@@ -6162,11 +5771,7 @@ ahc_qinfifo_requeue(struct ahc_softc *ahc, struct scb *prev_scb,
 		ahc_outb(ahc, NEXT_QUEUED_SCB, scb->hscb->tag);
 	} else {
 		prev_scb->hscb->next = scb->hscb->tag;
-<<<<<<< HEAD
 		ahc_sync_scb(ahc, prev_scb,
-=======
-		ahc_sync_scb(ahc, prev_scb, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     BUS_DMASYNC_PREREAD|BUS_DMASYNC_PREWRITE);
 	}
 	ahc->qinfifo[ahc->qinfifonext++] = scb->hscb->tag;
@@ -6382,10 +5987,6 @@ ahc_search_qinfifo(struct ahc_softc *ahc, int target, char channel,
 				break;
 			}
 		} else {
-<<<<<<< HEAD
-=======
-			
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			prev = next;
 			next = ahc_inb(ahc, SCB_NEXT);
 		}
@@ -6631,11 +6232,7 @@ ahc_rem_wscb(struct ahc_softc *ahc, u_int scbpos, u_int prev)
 	/* update the waiting list */
 	if (prev == SCB_LIST_NULL) {
 		/* First in the list */
-<<<<<<< HEAD
 		ahc_outb(ahc, WAITING_SCBH, next);
-=======
-		ahc_outb(ahc, WAITING_SCBH, next); 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Ensure we aren't attempting to perform
@@ -6644,11 +6241,7 @@ ahc_rem_wscb(struct ahc_softc *ahc, u_int scbpos, u_int prev)
 		ahc_outb(ahc, SCSISEQ, (ahc_inb(ahc, SCSISEQ) & ~ENSELO));
 	} else {
 		/*
-<<<<<<< HEAD
 		 * Select the scb that pointed to us
-=======
-		 * Select the scb that pointed to us 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * and update its next pointer.
 		 */
 		ahc_outb(ahc, SCBPTR, prev);
@@ -7042,11 +6635,7 @@ ahc_calc_residual(struct ahc_softc *ahc, struct scb *scb)
 
 		/*
 		 * Remainder of the SG where the transfer
-<<<<<<< HEAD
 		 * stopped.
-=======
-		 * stopped.  
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		resid = ahc_le32toh(spkt->residual_datacnt) & AHC_SG_LEN_MASK;
 		sg = ahc_sg_bus_to_virt(scb, resid_sgptr & SG_PTR_MASK);
@@ -7098,11 +6687,7 @@ ahc_queue_lstate_event(struct ahc_softc *ahc, struct ahc_tmode_lstate *lstate,
 			- (lstate->event_r_idx - lstate->event_w_idx);
 
 	if (event_type == EVENT_TYPE_BUS_RESET
-<<<<<<< HEAD
 	 || event_type == TARGET_RESET) {
-=======
-	 || event_type == MSG_BUS_DEV_RESET) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Any earlier events are irrelevant, so reset our buffer.
 		 * This has the effect of allowing us to deal with reset
@@ -7269,11 +6854,7 @@ ahc_loadseq(struct ahc_softc *ahc)
 				if (begin_set[cs_count] == TRUE
 				 && end_set[cs_count] == FALSE) {
 					cs_table[cs_count].end = downloaded;
-<<<<<<< HEAD
 					end_set[cs_count] = TRUE;
-=======
-				 	end_set[cs_count] = TRUE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					cs_count++;
 				}
 				continue;
@@ -7501,10 +7082,6 @@ ahc_print_register(const ahc_reg_parse_entry_t *table, u_int num_entries,
 					  printed_mask == 0 ? ":(" : "|",
 					  table[entry].name);
 			printed_mask |= table[entry].mask;
-<<<<<<< HEAD
-=======
-			
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		if (entry >= num_entries)
@@ -7618,11 +7195,7 @@ ahc_dump_card_state(struct ahc_softc *ahc)
 		scb_index = ahc_inb(ahc, SCB_NEXT);
 	}
 	printk("\n");
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ahc_sync_qoutfifo(ahc, BUS_DMASYNC_POSTREAD);
 	printk("QOUTFIFO entries: ");
 	qoutpos = ahc->qoutfifonext;
@@ -7799,11 +7372,7 @@ ahc_handle_en_lun(struct ahc_softc *ahc, struct cam_sim *sim, union ccb *ccb)
 		if ((ahc->features & AHC_MULTIROLE) != 0) {
 
 			if ((ahc->features & AHC_MULTI_TID) != 0
-<<<<<<< HEAD
 			 && (ahc->flags & AHC_INITIATORROLE) != 0) {
-=======
-		   	 && (ahc->flags & AHC_INITIATORROLE) != 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Only allow additional targets if
 				 * the initiator role is disabled.
@@ -7954,10 +7523,6 @@ ahc_handle_en_lun(struct ahc_softc *ahc, struct cam_sim *sim, union ccb *ccb)
 				targid_mask |= target_mask;
 				ahc_outb(ahc, TARGID, targid_mask);
 				ahc_outb(ahc, TARGID+1, (targid_mask >> 8));
-<<<<<<< HEAD
-=======
-				
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ahc_update_scsiid(ahc, targid_mask);
 			} else {
 				u_int our_id;
@@ -8022,11 +7587,7 @@ ahc_handle_en_lun(struct ahc_softc *ahc, struct cam_sim *sim, union ccb *ccb)
 		}
 
 		ahc_lock(ahc, &s);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ccb->ccb_h.status = CAM_REQ_CMP;
 		LIST_FOREACH(scb, &ahc->pending_scbs, pending_links) {
 			struct ccb_hdr *ccbh;
@@ -8085,11 +7646,7 @@ ahc_handle_en_lun(struct ahc_softc *ahc, struct cam_sim *sim, union ccb *ccb)
 					targid_mask &= ~target_mask;
 					ahc_outb(ahc, TARGID, targid_mask);
 					ahc_outb(ahc, TARGID+1,
-<<<<<<< HEAD
 						 (targid_mask >> 8));
-=======
-					 	 (targid_mask >> 8));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					ahc_update_scsiid(ahc, targid_mask);
 				}
 			}
@@ -8218,11 +7775,7 @@ ahc_run_tqinfifo(struct ahc_softc *ahc, int paused)
 				ahc_outb(ahc, HS_MAILBOX, hs_mailbox);
 			} else {
 				if (!paused)
-<<<<<<< HEAD
 					ahc_pause(ahc);
-=======
-					ahc_pause(ahc);	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ahc_outb(ahc, KERNEL_TQINPOS,
 					 ahc->tqinfifonext & HOST_TQINPOS);
 				if (!paused)
@@ -8321,11 +7874,7 @@ ahc_handle_target_cmd(struct ahc_softc *ahc, struct target_cmd *cmd)
 		printk("Reserved or VU command code type encountered\n");
 		break;
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(atio->cdb_io.cdb_bytes, byte, atio->cdb_len);
 
 	atio->ccb_h.status |= CAM_CDB_RECVD;

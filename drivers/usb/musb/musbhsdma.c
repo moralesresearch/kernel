@@ -321,11 +321,6 @@ irqreturn_t dma_controller_irq(int irq, void *private_data)
 				musb_channel->channel.status =
 					MUSB_DMA_STATUS_BUS_ABORT;
 			} else {
-<<<<<<< HEAD
-=======
-				u8 devctl;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				addr = musb_read_hsdma_addr(mbase,
 						bchannel);
 				channel->actual_len = addr
@@ -339,11 +334,6 @@ irqreturn_t dma_controller_irq(int irq, void *private_data)
 						< musb_channel->len) ?
 					"=> reconfig 0" : "=> complete");
 
-<<<<<<< HEAD
-=======
-				devctl = musb_readb(mbase, MUSB_DEVCTL);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				channel->status = MUSB_DMA_STATUS_FREE;
 
 				/* completed */

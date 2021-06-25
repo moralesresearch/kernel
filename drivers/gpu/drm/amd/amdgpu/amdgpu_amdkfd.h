@@ -80,6 +80,7 @@ struct amdgpu_amdkfd_fence {
 struct amdgpu_kfd_dev {
 	struct kfd_dev *dev;
 	uint64_t vram_used;
+	bool init_complete;
 };
 
 enum kgd_engine_type {
@@ -94,14 +95,6 @@ enum kgd_engine_type {
 	KGD_ENGINE_MAX
 };
 
-<<<<<<< HEAD
-=======
-struct amdgpu_amdkfd_fence *amdgpu_amdkfd_fence_create(u64 context,
-						       struct mm_struct *mm);
-bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm);
-struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f);
-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct amdkfd_process_info {
 	/* List head of all VMs that belong to a KFD process */
@@ -135,11 +128,6 @@ void amdgpu_amdkfd_interrupt(struct amdgpu_device *adev,
 void amdgpu_amdkfd_device_probe(struct amdgpu_device *adev);
 void amdgpu_amdkfd_device_init(struct amdgpu_device *adev);
 void amdgpu_amdkfd_device_fini(struct amdgpu_device *adev);
-<<<<<<< HEAD
-=======
-
-int amdgpu_amdkfd_evict_userptr(struct kgd_mem *mem, struct mm_struct *mm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int amdgpu_amdkfd_submit_ib(struct kgd_dev *kgd, enum kgd_engine_type engine,
 				uint32_t vmid, uint64_t gpu_addr,
 				uint32_t *ib_cmd, uint32_t ib_len);
@@ -159,7 +147,6 @@ void amdgpu_amdkfd_gpu_reset(struct kgd_dev *kgd);
 int amdgpu_queue_mask_bit_to_set_resource_bit(struct amdgpu_device *adev,
 					int queue_bit);
 
-<<<<<<< HEAD
 struct amdgpu_amdkfd_fence *amdgpu_amdkfd_fence_create(u64 context,
 								struct mm_struct *mm);
 #if IS_ENABLED(CONFIG_HSA_AMD)
@@ -192,8 +179,6 @@ int amdgpu_amdkfd_evict_userptr(struct kgd_mem *mem, struct mm_struct *mm)
 	return 0;
 }
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Shared API */
 int amdgpu_amdkfd_alloc_gtt_mem(struct kgd_dev *kgd, size_t size,
 				void **mem_obj, uint64_t *gpu_addr,
@@ -249,19 +234,10 @@ uint8_t amdgpu_amdkfd_get_xgmi_hops_count(struct kgd_dev *dst, struct kgd_dev *s
 	})
 
 /* GPUVM API */
-int amdgpu_amdkfd_gpuvm_create_process_vm(struct kgd_dev *kgd, u32 pasid,
-					void **vm, void **process_info,
-					struct dma_fence **ef);
 int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct kgd_dev *kgd,
 					struct file *filp, u32 pasid,
 					void **vm, void **process_info,
 					struct dma_fence **ef);
-<<<<<<< HEAD
-=======
-void amdgpu_amdkfd_gpuvm_destroy_cb(struct amdgpu_device *adev,
-				struct amdgpu_vm *vm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-void amdgpu_amdkfd_gpuvm_destroy_process_vm(struct kgd_dev *kgd, void *vm);
 void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *vm);
 uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *vm);
 int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
@@ -280,21 +256,13 @@ int amdgpu_amdkfd_gpuvm_map_gtt_bo_to_kernel(struct kgd_dev *kgd,
 		struct kgd_mem *mem, void **kptr, uint64_t *size);
 int amdgpu_amdkfd_gpuvm_restore_process_bos(void *process_info,
 					    struct dma_fence **ef);
-<<<<<<< HEAD
 int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
 					      struct kfd_vm_fault_info *info);
-=======
-
-int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
-					      struct kfd_vm_fault_info *info);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
 				      struct dma_buf *dmabuf,
 				      uint64_t va, void *vm,
 				      struct kgd_mem **mem, uint64_t *size,
 				      uint64_t *mmap_offset);
-<<<<<<< HEAD
 int amdgpu_amdkfd_get_tile_config(struct kgd_dev *kgd,
 				struct tile_config *config);
 #if IS_ENABLED(CONFIG_HSA_AMD)
@@ -325,16 +293,6 @@ int kgd2kfd_resume_mm(struct mm_struct *mm);
 int kgd2kfd_schedule_evict_and_restore_process(struct mm_struct *mm,
 						struct dma_fence *fence);
 #if IS_ENABLED(CONFIG_HSA_AMD)
-=======
-
-void amdgpu_amdkfd_gpuvm_init_mem_limits(void);
-void amdgpu_amdkfd_unreserve_memory_limit(struct amdgpu_bo *bo);
-
-int amdgpu_amdkfd_get_tile_config(struct kgd_dev *kgd,
-				struct tile_config *config);
-
-/* KGD2KFD callbacks */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int kgd2kfd_init(void);
 void kgd2kfd_exit(void);
 struct kfd_dev *kgd2kfd_probe(struct kgd_dev *kgd, struct pci_dev *pdev,
@@ -348,7 +306,6 @@ int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm);
 int kgd2kfd_pre_reset(struct kfd_dev *kfd);
 int kgd2kfd_post_reset(struct kfd_dev *kfd);
 void kgd2kfd_interrupt(struct kfd_dev *kfd, const void *ih_ring_entry);
-<<<<<<< HEAD
 void kgd2kfd_set_sram_ecc_flag(struct kfd_dev *kfd);
 void kgd2kfd_smi_event_throttle(struct kfd_dev *kfd, uint32_t throttle_bitmask);
 #else
@@ -413,13 +370,4 @@ void kgd2kfd_smi_event_throttle(struct kfd_dev *kfd, uint32_t throttle_bitmask)
 {
 }
 #endif
-=======
-int kgd2kfd_quiesce_mm(struct mm_struct *mm);
-int kgd2kfd_resume_mm(struct mm_struct *mm);
-int kgd2kfd_schedule_evict_and_restore_process(struct mm_struct *mm,
-					       struct dma_fence *fence);
-void kgd2kfd_set_sram_ecc_flag(struct kfd_dev *kfd);
-void kgd2kfd_smi_event_throttle(struct kfd_dev *kfd, uint32_t throttle_bitmask);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* AMDGPU_AMDKFD_H_INCLUDED */

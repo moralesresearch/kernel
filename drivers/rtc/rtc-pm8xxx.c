@@ -20,10 +20,7 @@
 /* RTC_CTRL register bit fields */
 #define PM8xxx_RTC_ENABLE		BIT(7)
 #define PM8xxx_RTC_ALARM_CLEAR		BIT(0)
-<<<<<<< HEAD
 #define PM8xxx_RTC_ALARM_ENABLE		BIT(7)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define NUM_8_BIT_RTC_REGS		0x4
 
@@ -269,10 +266,7 @@ rtc_rw_fail:
 static int pm8xxx_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 {
 	int rc;
-<<<<<<< HEAD
 	unsigned int ctrl_reg;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 value[NUM_8_BIT_RTC_REGS];
 	unsigned long secs;
 	struct pm8xxx_rtc *rtc_dd = dev_get_drvdata(dev);
@@ -290,7 +284,6 @@ static int pm8xxx_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 
 	rtc_time64_to_tm(secs, &alarm->time);
 
-<<<<<<< HEAD
 	rc = regmap_read(rtc_dd->regmap, regs->alarm_ctrl, &ctrl_reg);
 	if (rc) {
 		dev_err(dev, "Read from RTC alarm control register failed\n");
@@ -298,8 +291,6 @@ static int pm8xxx_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 	}
 	alarm->enabled = !!(ctrl_reg & PM8xxx_RTC_ALARM_ENABLE);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_dbg(dev, "Alarm set for - h:m:s=%ptRt, y-m-d=%ptRdr\n",
 		&alarm->time, &alarm->time);
 
@@ -361,27 +352,15 @@ static irqreturn_t pm8xxx_alarm_trigger(int irq, void *dev_id)
 	const struct pm8xxx_rtc_regs *regs = rtc_dd->regs;
 	unsigned int ctrl_reg;
 	int rc;
-<<<<<<< HEAD
 
 	rtc_update_irq(rtc_dd->rtc, 1, RTC_IRQF | RTC_AF);
 
 	spin_lock(&rtc_dd->ctrl_reg_lock);
-=======
-	unsigned long irq_flags;
-
-	rtc_update_irq(rtc_dd->rtc, 1, RTC_IRQF | RTC_AF);
-
-	spin_lock_irqsave(&rtc_dd->ctrl_reg_lock, irq_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Clear the alarm enable bit */
 	rc = regmap_read(rtc_dd->regmap, regs->alarm_ctrl, &ctrl_reg);
 	if (rc) {
-<<<<<<< HEAD
 		spin_unlock(&rtc_dd->ctrl_reg_lock);
-=======
-		spin_unlock_irqrestore(&rtc_dd->ctrl_reg_lock, irq_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto rtc_alarm_handled;
 	}
 
@@ -389,21 +368,13 @@ static irqreturn_t pm8xxx_alarm_trigger(int irq, void *dev_id)
 
 	rc = regmap_write(rtc_dd->regmap, regs->alarm_ctrl, ctrl_reg);
 	if (rc) {
-<<<<<<< HEAD
 		spin_unlock(&rtc_dd->ctrl_reg_lock);
-=======
-		spin_unlock_irqrestore(&rtc_dd->ctrl_reg_lock, irq_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(rtc_dd->rtc_dev,
 			"Write to alarm control register failed\n");
 		goto rtc_alarm_handled;
 	}
 
-<<<<<<< HEAD
 	spin_unlock(&rtc_dd->ctrl_reg_lock);
-=======
-	spin_unlock_irqrestore(&rtc_dd->ctrl_reg_lock, irq_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Clear RTC alarm register */
 	rc = regmap_read(rtc_dd->regmap, regs->alarm_ctrl2, &ctrl_reg);
@@ -474,6 +445,16 @@ static const struct pm8xxx_rtc_regs pm8941_regs = {
 	.alarm_en	= BIT(7),
 };
 
+static const struct pm8xxx_rtc_regs pmk8350_regs = {
+	.ctrl		= 0x6146,
+	.write		= 0x6140,
+	.read		= 0x6148,
+	.alarm_rw	= 0x6240,
+	.alarm_ctrl	= 0x6246,
+	.alarm_ctrl2	= 0x6248,
+	.alarm_en	= BIT(7),
+};
+
 /*
  * Hardcoded RTC bases until IORESOURCE_REG mapping is figured out
  */
@@ -482,6 +463,7 @@ static const struct of_device_id pm8xxx_id_table[] = {
 	{ .compatible = "qcom,pm8018-rtc", .data = &pm8921_regs },
 	{ .compatible = "qcom,pm8058-rtc", .data = &pm8058_regs },
 	{ .compatible = "qcom,pm8941-rtc", .data = &pm8941_regs },
+	{ .compatible = "qcom,pmk8350-rtc", .data = &pmk8350_regs },
 	{ },
 };
 MODULE_DEVICE_TABLE(of, pm8xxx_id_table);

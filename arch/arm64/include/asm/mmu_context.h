@@ -63,10 +63,6 @@ static inline void cpu_switch_mm(pgd_t *pgd, struct mm_struct *mm)
 extern u64 idmap_t0sz;
 extern u64 idmap_ptrs_per_pgd;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Ensure TCR.T0SZ is set to the provided value.
  */
@@ -77,36 +73,6 @@ static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
 	if ((tcr & TCR_T0SZ_MASK) >> TCR_T0SZ_OFFSET == t0sz)
 		return;
 
-<<<<<<< HEAD
-=======
-=======
-static inline bool __cpu_uses_extended_idmap(void)
-{
-	return unlikely(idmap_t0sz != TCR_T0SZ(vabits_actual));
-}
-
-/*
- * True if the extended ID map requires an extra level of translation table
- * to be configured.
- */
-static inline bool __cpu_uses_extended_idmap_level(void)
-{
-	return ARM64_HW_PGTABLE_LEVELS(64 - idmap_t0sz) > CONFIG_PGTABLE_LEVELS;
-}
-
-/*
- * Set TCR.T0SZ to its default value (based on VA_BITS)
- */
-static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
-{
-	unsigned long tcr;
-
-	if (!__cpu_uses_extended_idmap())
-		return;
-
-	tcr = read_sysreg(tcr_el1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcr &= ~TCR_T0SZ_MASK;
 	tcr |= t0sz << TCR_T0SZ_OFFSET;
 	write_sysreg(tcr, tcr_el1);
@@ -153,7 +119,7 @@ static inline void cpu_install_idmap(void)
  * Atomically replaces the active TTBR1_EL1 PGD with a new VA-compatible PGD,
  * avoiding the possibility of conflicting TLB entries being allocated.
  */
-static inline void cpu_replace_ttbr1(pgd_t *pgdp)
+static inline void __nocfi cpu_replace_ttbr1(pgd_t *pgdp)
 {
 	typedef void (ttbr_replace_func)(phys_addr_t);
 	extern ttbr_replace_func idmap_cpu_replace_ttbr1;
@@ -174,7 +140,7 @@ static inline void cpu_replace_ttbr1(pgd_t *pgdp)
 		ttbr1 |= TTBR_CNP_BIT;
 	}
 
-	replace_phys = (void *)__pa_symbol(idmap_cpu_replace_ttbr1);
+	replace_phys = (void *)__pa_symbol(function_nocfi(idmap_cpu_replace_ttbr1));
 
 	cpu_install_idmap();
 	replace_phys(ttbr1);

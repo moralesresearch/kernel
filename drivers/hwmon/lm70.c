@@ -22,15 +22,9 @@
 #include <linux/hwmon.h>
 #include <linux/mutex.h>
 #include <linux/mod_devicetable.h>
-<<<<<<< HEAD
 #include <linux/property.h>
 #include <linux/spi/spi.h>
 #include <linux/slab.h>
-=======
-#include <linux/spi/spi.h>
-#include <linux/slab.h>
-#include <linux/of_device.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/acpi.h>
 
 #define DRVNAME		"lm70"
@@ -179,36 +173,15 @@ MODULE_DEVICE_TABLE(acpi, lm70_acpi_ids);
 
 static int lm70_probe(struct spi_device *spi)
 {
-<<<<<<< HEAD
-=======
-	const struct of_device_id *of_match;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *hwmon_dev;
 	struct lm70 *p_lm70;
 	int chip;
 
-<<<<<<< HEAD
 	if (dev_fwnode(&spi->dev))
 		chip = (int)(uintptr_t)device_get_match_data(&spi->dev);
 	else
 		chip = spi_get_device_id(spi)->driver_data;
 
-=======
-	of_match = of_match_device(lm70_of_ids, &spi->dev);
-	if (of_match)
-		chip = (int)(uintptr_t)of_match->data;
-	else {
-#ifdef CONFIG_ACPI
-		const struct acpi_device_id *acpi_match;
-
-		acpi_match = acpi_match_device(lm70_acpi_ids, &spi->dev);
-		if (acpi_match)
-			chip = (int)(uintptr_t)acpi_match->driver_data;
-		else
-#endif
-			chip = spi_get_device_id(spi)->driver_data;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* signaling is SPI_MODE_0 */
 	if (spi->mode & (SPI_CPOL | SPI_CPHA))

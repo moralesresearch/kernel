@@ -30,7 +30,6 @@ struct {
 	__type(value, __u64);
 } lru_hash SEC(".maps");
 
-<<<<<<< HEAD
 struct {
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
 	__uint(max_entries, 1);
@@ -78,8 +77,6 @@ struct outer_hash {
 	.values = { [0] = &inner_map },
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 char _license[] SEC("license") = "GPL";
 
 int monitored_pid = 0;
@@ -111,10 +108,7 @@ SEC("lsm.s/bprm_committed_creds")
 int BPF_PROG(test_void_hook, struct linux_binprm *bprm)
 {
 	__u32 pid = bpf_get_current_pid_tgid() >> 32;
-<<<<<<< HEAD
 	struct inner_map *inner_map;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char args[64];
 	__u32 key = 0;
 	__u64 *value;
@@ -134,7 +128,6 @@ int BPF_PROG(test_void_hook, struct linux_binprm *bprm)
 	value = bpf_map_lookup_elem(&lru_hash, &key);
 	if (value)
 		*value = 0;
-<<<<<<< HEAD
 	value = bpf_map_lookup_elem(&percpu_array, &key);
 	if (value)
 		*value = 0;
@@ -156,8 +149,6 @@ int BPF_PROG(test_void_hook, struct linux_binprm *bprm)
 		if (value)
 			*value = 0;
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

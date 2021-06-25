@@ -2,15 +2,10 @@
 #ifndef PERF_BUILD_ID_H_
 #define PERF_BUILD_ID_H_ 1
 
-<<<<<<< HEAD
 #define BUILD_ID_SIZE	20 /* SHA-1 length in bytes */
 #define BUILD_ID_MIN_SIZE	16 /* MD5/UUID/GUID length in bytes */
 #define SBUILD_ID_SIZE	(BUILD_ID_SIZE * 2 + 1)
 #define SBUILD_ID_MIN_SIZE	(BUILD_ID_MIN_SIZE * 2 + 1)
-=======
-#define BUILD_ID_SIZE	20
-#define SBUILD_ID_SIZE	(BUILD_ID_SIZE * 2 + 1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "machine.h"
 #include "tool.h"

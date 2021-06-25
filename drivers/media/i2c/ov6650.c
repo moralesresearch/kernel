@@ -22,20 +22,13 @@
  */
 
 #include <linux/bitops.h>
-<<<<<<< HEAD
 #include <linux/clk.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/i2c.h>
 #include <linux/slab.h>
 #include <linux/v4l2-mediabus.h>
 #include <linux/module.h>
 
-<<<<<<< HEAD
-=======
-#include <media/v4l2-clk.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <media/v4l2-ctrls.h>
 #include <media/v4l2-device.h>
 
@@ -201,11 +194,7 @@ struct ov6650 {
 		struct v4l2_ctrl *blue;
 		struct v4l2_ctrl *red;
 	};
-<<<<<<< HEAD
 	struct clk		*clk;
-=======
-	struct v4l2_clk		*clk;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			half_scale;	/* scale down output by 2 */
 	struct v4l2_rect	rect;		/* sensor cropping window */
 	struct v4l2_fract	tpf;		/* as requested with s_frame_interval */
@@ -470,15 +459,9 @@ static int ov6650_s_power(struct v4l2_subdev *sd, int on)
 	int ret = 0;
 
 	if (on)
-<<<<<<< HEAD
 		ret = clk_prepare_enable(priv->clk);
 	else
 		clk_disable_unprepare(priv->clk);
-=======
-		ret = v4l2_clk_enable(priv->clk);
-	else
-		v4l2_clk_disable(priv->clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -838,7 +821,6 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
 	u8 pidh, pidl, midh, midl;
 	int i, ret = 0;
 
-<<<<<<< HEAD
 	priv->clk = devm_clk_get(&client->dev, NULL);
 	if (IS_ERR(priv->clk)) {
 		ret = PTR_ERR(priv->clk);
@@ -847,16 +829,6 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
 	}
 
 	rate = clk_get_rate(priv->clk);
-=======
-	priv->clk = v4l2_clk_get(&client->dev, NULL);
-	if (IS_ERR(priv->clk)) {
-		ret = PTR_ERR(priv->clk);
-		dev_err(&client->dev, "v4l2_clk request err: %d\n", ret);
-		return ret;
-	}
-
-	rate = v4l2_clk_get_rate(priv->clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; rate && i < ARRAY_SIZE(ov6650_xclk); i++) {
 		if (rate != ov6650_xclk[i].rate)
 			continue;
@@ -867,13 +839,8 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
 		break;
 	}
 	for (i = 0; !xclk && i < ARRAY_SIZE(ov6650_xclk); i++) {
-<<<<<<< HEAD
 		ret = clk_set_rate(priv->clk, ov6650_xclk[i].rate);
 		if (ret || clk_get_rate(priv->clk) != ov6650_xclk[i].rate)
-=======
-		ret = v4l2_clk_set_rate(priv->clk, ov6650_xclk[i].rate);
-		if (ret || v4l2_clk_get_rate(priv->clk) != ov6650_xclk[i].rate)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		xclk = &ov6650_xclk[i];
@@ -885,20 +852,12 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
 		dev_err(&client->dev, "unable to get supported clock rate\n");
 		if (!ret)
 			ret = -EINVAL;
-<<<<<<< HEAD
 		return ret;
-=======
-		goto eclkput;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = ov6650_s_power(sd, 1);
 	if (ret < 0)
-<<<<<<< HEAD
 		return ret;
-=======
-		goto eclkput;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	msleep(20);
 
@@ -940,14 +899,6 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
 
 done:
 	ov6650_s_power(sd, 0);
-<<<<<<< HEAD
-=======
-	if (!ret)
-		return 0;
-eclkput:
-	v4l2_clk_put(priv->clk);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1133,10 +1084,6 @@ static int ov6650_remove(struct i2c_client *client)
 {
 	struct ov6650 *priv = to_ov6650(client);
 
-<<<<<<< HEAD
-=======
-	v4l2_clk_put(priv->clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v4l2_async_unregister_subdev(&priv->subdev);
 	v4l2_ctrl_handler_free(&priv->hdl);
 	return 0;

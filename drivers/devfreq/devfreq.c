@@ -11,6 +11,7 @@
 #include <linux/kmod.h>
 #include <linux/sched.h>
 #include <linux/debugfs.h>
+#include <linux/devfreq_cooling.h>
 #include <linux/errno.h>
 #include <linux/err.h>
 #include <linux/init.h>
@@ -387,11 +388,7 @@ static int devfreq_set_target(struct devfreq *devfreq, unsigned long new_freq,
 	devfreq->previous_freq = new_freq;
 
 	if (devfreq->suspend_freq)
-<<<<<<< HEAD
 		devfreq->resume_freq = new_freq;
-=======
-		devfreq->resume_freq = cur_freq;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -761,12 +758,9 @@ static void devfreq_dev_release(struct device *dev)
 	if (devfreq->profile->exit)
 		devfreq->profile->exit(devfreq->dev.parent);
 
-<<<<<<< HEAD
 	if (devfreq->opp_table)
 		dev_pm_opp_put_opp_table(devfreq->opp_table);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&devfreq->lock);
 	kfree(devfreq);
 }
@@ -828,12 +822,8 @@ struct devfreq *devfreq_add_device(struct device *dev,
 
 	if (devfreq->profile->timer < 0
 		|| devfreq->profile->timer >= DEVFREQ_TIMER_NUM) {
-<<<<<<< HEAD
 		mutex_unlock(&devfreq->lock);
 		goto err_dev;
-=======
-		goto err_out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (!devfreq->profile->max_state && !devfreq->profile->freq_table) {
@@ -859,13 +849,10 @@ struct devfreq *devfreq_add_device(struct device *dev,
 	}
 
 	devfreq->suspend_freq = dev_pm_opp_get_suspend_opp_freq(dev);
-<<<<<<< HEAD
 	devfreq->opp_table = dev_pm_opp_get_opp_table(dev);
 	if (IS_ERR(devfreq->opp_table))
 		devfreq->opp_table = NULL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&devfreq->suspend_count, 0);
 
 	dev_set_name(&devfreq->dev, "%s", dev_name(dev));
@@ -915,21 +902,13 @@ struct devfreq *devfreq_add_device(struct device *dev,
 		goto err_devfreq;
 
 	devfreq->nb_min.notifier_call = qos_min_notifier_call;
-<<<<<<< HEAD
 	err = dev_pm_qos_add_notifier(dev, &devfreq->nb_min,
-=======
-	err = dev_pm_qos_add_notifier(devfreq->dev.parent, &devfreq->nb_min,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      DEV_PM_QOS_MIN_FREQUENCY);
 	if (err)
 		goto err_devfreq;
 
 	devfreq->nb_max.notifier_call = qos_max_notifier_call;
-<<<<<<< HEAD
 	err = dev_pm_qos_add_notifier(dev, &devfreq->nb_max,
-=======
-	err = dev_pm_qos_add_notifier(devfreq->dev.parent, &devfreq->nb_max,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      DEV_PM_QOS_MAX_FREQUENCY);
 	if (err)
 		goto err_devfreq;
@@ -958,6 +937,12 @@ struct devfreq *devfreq_add_device(struct device *dev,
 
 	mutex_unlock(&devfreq_list_lock);
 
+	if (devfreq->profile->is_cooling_device) {
+		devfreq->cdev = devfreq_cooling_em_register(devfreq, NULL);
+		if (IS_ERR(devfreq->cdev))
+			devfreq->cdev = NULL;
+	}
+
 	return devfreq;
 
 err_init:
@@ -982,6 +967,8 @@ int devfreq_remove_device(struct devfreq *devfreq)
 {
 	if (!devfreq)
 		return -EINVAL;
+
+	devfreq_cooling_unregister(devfreq->cdev);
 
 	if (devfreq->governor) {
 		devfreq->governor->event_handler(devfreq,

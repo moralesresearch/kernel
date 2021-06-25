@@ -47,6 +47,7 @@
 #define FIRMWARE_NAVY_FLOUNDER	"amdgpu/navy_flounder_vcn.bin"
 #define FIRMWARE_VANGOGH	"amdgpu/vangogh_vcn.bin"
 #define FIRMWARE_DIMGREY_CAVEFISH	"amdgpu/dimgrey_cavefish_vcn.bin"
+#define FIRMWARE_ALDEBARAN	"amdgpu/aldebaran_vcn.bin"
 
 MODULE_FIRMWARE(FIRMWARE_RAVEN);
 MODULE_FIRMWARE(FIRMWARE_PICASSO);
@@ -54,6 +55,7 @@ MODULE_FIRMWARE(FIRMWARE_RAVEN2);
 MODULE_FIRMWARE(FIRMWARE_ARCTURUS);
 MODULE_FIRMWARE(FIRMWARE_RENOIR);
 MODULE_FIRMWARE(FIRMWARE_GREEN_SARDINE);
+MODULE_FIRMWARE(FIRMWARE_ALDEBARAN);
 MODULE_FIRMWARE(FIRMWARE_NAVI10);
 MODULE_FIRMWARE(FIRMWARE_NAVI14);
 MODULE_FIRMWARE(FIRMWARE_NAVI12);
@@ -100,6 +102,12 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
 		else
 			fw_name = FIRMWARE_GREEN_SARDINE;
 
+		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+			adev->vcn.indirect_sram = true;
+		break;
+	case CHIP_ALDEBARAN:
+		fw_name = FIRMWARE_ALDEBARAN;
 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
 			adev->vcn.indirect_sram = true;
@@ -496,10 +504,7 @@ static int amdgpu_vcn_dec_send_msg(struct amdgpu_ring *ring,
 	struct amdgpu_job *job;
 	struct amdgpu_ib *ib;
 	uint64_t addr;
-<<<<<<< HEAD
 	void *msg = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, r;
 
 	r = amdgpu_job_alloc_with_ib(adev, 64,
@@ -509,10 +514,7 @@ static int amdgpu_vcn_dec_send_msg(struct amdgpu_ring *ring,
 
 	ib = &job->ibs[0];
 	addr = amdgpu_bo_gpu_offset(bo);
-<<<<<<< HEAD
 	msg = amdgpu_bo_kptr(bo);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ib->ptr[0] = PACKET0(adev->vcn.internal.data0, 0);
 	ib->ptr[1] = addr;
 	ib->ptr[2] = PACKET0(adev->vcn.internal.data1, 0);
@@ -531,11 +533,7 @@ static int amdgpu_vcn_dec_send_msg(struct amdgpu_ring *ring,
 
 	amdgpu_bo_fence(bo, f, false);
 	amdgpu_bo_unreserve(bo);
-<<<<<<< HEAD
 	amdgpu_bo_free_kernel(&bo, NULL, (void **)&msg);
-=======
-	amdgpu_bo_unref(&bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (fence)
 		*fence = dma_fence_get(f);
@@ -548,11 +546,7 @@ err_free:
 
 err:
 	amdgpu_bo_unreserve(bo);
-<<<<<<< HEAD
 	amdgpu_bo_free_kernel(&bo, NULL, (void **)&msg);
-=======
-	amdgpu_bo_unref(&bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return r;
 }
 
@@ -906,11 +900,7 @@ int amdgpu_vcn_enc_ring_test_ib(struct amdgpu_ring *ring, long timeout)
 error:
 	dma_fence_put(fence);
 	amdgpu_bo_unreserve(bo);
-<<<<<<< HEAD
 	amdgpu_bo_free_kernel(&bo, NULL, NULL);
 
-=======
-	amdgpu_bo_unref(&bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return r;
 }

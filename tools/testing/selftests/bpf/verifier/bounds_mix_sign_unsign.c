@@ -19,10 +19,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -46,10 +42,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -75,10 +67,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R8 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -103,10 +91,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R8 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -153,10 +137,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -225,10 +205,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -278,10 +254,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -308,10 +280,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -337,10 +305,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -369,10 +333,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R7 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -402,10 +362,6 @@
 	},
 	.fixup_map_hash_8b = { 4 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 },
 {
@@ -433,11 +389,5 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	.errstr = "unbounded min value",
-<<<<<<< HEAD
 	.result = REJECT,
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds",
-	.result = REJECT,
-	.result_unpriv = REJECT,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 },

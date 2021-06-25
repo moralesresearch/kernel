@@ -54,14 +54,7 @@
 #include <linux/pgtable.h>
 
 #include <linux/uaccess.h>
-<<<<<<< HEAD
 #include <asm/interrupt.h>
-=======
-<<<<<<< HEAD
-#include <asm/interrupt.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/cache.h>
@@ -73,14 +66,7 @@
 #include <asm/livepatch.h>
 #include <asm/asm-prototypes.h>
 #include <asm/hw_irq.h>
-<<<<<<< HEAD
 #include <asm/softirq_stack.h>
-=======
-<<<<<<< HEAD
-#include <asm/softirq_stack.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_PPC64
 #include <asm/paca.h>
@@ -117,82 +103,6 @@ static inline notrace unsigned long get_irq_happened(void)
 
 	return happened;
 }
-
-#ifdef CONFIG_PPC_BOOK3E
-
-/* This is called whenever we are re-enabling interrupts
- * and returns either 0 (nothing to do) or 500/900/280 if
- * there's an EE, DEC or DBELL to generate.
- *
- * This is called in two contexts: From arch_local_irq_restore()
- * before soft-enabling interrupts, and from the exception exit
- * path when returning from an interrupt from a soft-disabled to
- * a soft enabled context. In both case we have interrupts hard
- * disabled.
- *
- * We take care of only clearing the bits we handled in the
- * PACA irq_happened field since we can only re-emit one at a
- * time and we don't want to "lose" one.
- */
-notrace unsigned int __check_irq_replay(void)
-{
-	/*
-	 * We use local_paca rather than get_paca() to avoid all
-	 * the debug_smp_processor_id() business in this low level
-	 * function
-	 */
-	unsigned char happened = local_paca->irq_happened;
-
-	/*
-	 * We are responding to the next interrupt, so interrupt-off
-	 * latencies should be reset here.
-	 */
-	trace_hardirqs_on();
-	trace_hardirqs_off();
-
-	if (happened & PACA_IRQ_DEC) {
-		local_paca->irq_happened &= ~PACA_IRQ_DEC;
-		return 0x900;
-	}
-
-	if (happened & PACA_IRQ_EE) {
-		local_paca->irq_happened &= ~PACA_IRQ_EE;
-		return 0x500;
-	}
-
-	if (happened & PACA_IRQ_DBELL) {
-		local_paca->irq_happened &= ~PACA_IRQ_DBELL;
-		return 0x280;
-	}
-
-	if (happened & PACA_IRQ_HARD_DIS)
-		local_paca->irq_happened &= ~PACA_IRQ_HARD_DIS;
-
-	/* There should be nothing left ! */
-	BUG_ON(local_paca->irq_happened != 0);
-
-	return 0;
-}
-
-/*
- * This is specifically called by assembly code to re-enable interrupts
- * if they are currently disabled. This is typically called before
- * schedule() or do_signal() when returning to userspace. We do it
- * in C to avoid the burden of dealing with lockdep etc...
- *
- * NOTE: This is called with interrupts hard disabled but not marked
- * as such in paca->irq_happened, so we need to resync this.
- */
-void notrace restore_interrupts(void)
-{
-	if (irqs_disabled()) {
-		local_paca->irq_happened |= PACA_IRQ_HARD_DIS;
-		local_irq_enable();
-	} else
-		__hard_irq_enable();
-}
-
-#endif /* CONFIG_PPC_BOOK3E */
 
 void replay_soft_interrupts(void)
 {
@@ -232,7 +142,7 @@ again:
 	 */
 	if (IS_ENABLED(CONFIG_PPC_BOOK3S) && (local_paca->irq_happened & PACA_IRQ_HMI)) {
 		local_paca->irq_happened &= ~PACA_IRQ_HMI;
-		regs.trap = 0xe60;
+		regs.trap = INTERRUPT_HMI;
 		handle_hmi_exception(&regs);
 		if (!(local_paca->irq_happened & PACA_IRQ_HARD_DIS))
 			hard_irq_disable();
@@ -240,7 +150,7 @@ again:
 
 	if (local_paca->irq_happened & PACA_IRQ_DEC) {
 		local_paca->irq_happened &= ~PACA_IRQ_DEC;
-		regs.trap = 0x900;
+		regs.trap = INTERRUPT_DECREMENTER;
 		timer_interrupt(&regs);
 		if (!(local_paca->irq_happened & PACA_IRQ_HARD_DIS))
 			hard_irq_disable();
@@ -248,7 +158,7 @@ again:
 
 	if (local_paca->irq_happened & PACA_IRQ_EE) {
 		local_paca->irq_happened &= ~PACA_IRQ_EE;
-		regs.trap = 0x500;
+		regs.trap = INTERRUPT_EXTERNAL;
 		do_IRQ(&regs);
 		if (!(local_paca->irq_happened & PACA_IRQ_HARD_DIS))
 			hard_irq_disable();
@@ -256,10 +166,7 @@ again:
 
 	if (IS_ENABLED(CONFIG_PPC_DOORBELL) && (local_paca->irq_happened & PACA_IRQ_DBELL)) {
 		local_paca->irq_happened &= ~PACA_IRQ_DBELL;
-		if (IS_ENABLED(CONFIG_PPC_BOOK3E))
-			regs.trap = 0x280;
-		else
-			regs.trap = 0xa00;
+		regs.trap = INTERRUPT_DOORBELL;
 		doorbell_exception(&regs);
 		if (!(local_paca->irq_happened & PACA_IRQ_HARD_DIS))
 			hard_irq_disable();
@@ -268,7 +175,7 @@ again:
 	/* Book3E does not support soft-masking PMI interrupts */
 	if (IS_ENABLED(CONFIG_PPC_BOOK3S) && (local_paca->irq_happened & PACA_IRQ_PMI)) {
 		local_paca->irq_happened &= ~PACA_IRQ_PMI;
-		regs.trap = 0xf00;
+		regs.trap = INTERRUPT_PERFMON;
 		performance_monitor_exception(&regs);
 		if (!(local_paca->irq_happened & PACA_IRQ_HARD_DIS))
 			hard_irq_disable();
@@ -296,7 +203,7 @@ static inline void replay_soft_interrupts_irqrestore(void)
 	 * and re-locking AMR but we shouldn't get here in the first place,
 	 * hence the warning.
 	 */
-	kuap_check_amr();
+	kuap_assert_locked();
 
 	if (kuap_state != AMR_KUAP_BLOCKED)
 		set_kuap(AMR_KUAP_BLOCKED);
@@ -681,18 +588,51 @@ static inline void check_stack_overflow(void)
 	}
 }
 
+static __always_inline void call_do_softirq(const void *sp)
+{
+	/* Temporarily switch r1 to sp, call __do_softirq() then restore r1. */
+	asm volatile (
+		 PPC_STLU "	%%r1, %[offset](%[sp])	;"
+		"mr		%%r1, %[sp]		;"
+		"bl		%[callee]		;"
+		 PPC_LL "	%%r1, 0(%%r1)		;"
+		 : // Outputs
+		 : // Inputs
+		   [sp] "b" (sp), [offset] "i" (THREAD_SIZE - STACK_FRAME_OVERHEAD),
+		   [callee] "i" (__do_softirq)
+		 : // Clobbers
+		   "lr", "xer", "ctr", "memory", "cr0", "cr1", "cr5", "cr6",
+		   "cr7", "r0", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",
+		   "r11", "r12"
+	);
+}
+
+static __always_inline void call_do_irq(struct pt_regs *regs, void *sp)
+{
+	register unsigned long r3 asm("r3") = (unsigned long)regs;
+
+	/* Temporarily switch r1 to sp, call __do_irq() then restore r1. */
+	asm volatile (
+		 PPC_STLU "	%%r1, %[offset](%[sp])	;"
+		"mr		%%r1, %[sp]		;"
+		"bl		%[callee]		;"
+		 PPC_LL "	%%r1, 0(%%r1)		;"
+		 : // Outputs
+		   "+r" (r3)
+		 : // Inputs
+		   [sp] "b" (sp), [offset] "i" (THREAD_SIZE - STACK_FRAME_OVERHEAD),
+		   [callee] "i" (__do_irq)
+		 : // Clobbers
+		   "lr", "xer", "ctr", "memory", "cr0", "cr1", "cr5", "cr6",
+		   "cr7", "r0", "r4", "r5", "r6", "r7", "r8", "r9", "r10",
+		   "r11", "r12"
+	);
+}
+
 void __do_irq(struct pt_regs *regs)
 {
 	unsigned int irq;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	irq_enter();
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trace_irq_entry(regs);
 
 	/*
@@ -712,23 +652,9 @@ void __do_irq(struct pt_regs *regs)
 		generic_handle_irq(irq);
 
 	trace_irq_exit(regs);
-<<<<<<< HEAD
 }
 
 DEFINE_INTERRUPT_HANDLER_ASYNC(do_IRQ)
-=======
-<<<<<<< HEAD
-}
-
-DEFINE_INTERRUPT_HANDLER_ASYNC(do_IRQ)
-=======
-
-	irq_exit();
-}
-
-void do_IRQ(struct pt_regs *regs)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pt_regs *old_regs = set_irq_regs(regs);
 	void *cursp, *irqsp, *sirqsp;

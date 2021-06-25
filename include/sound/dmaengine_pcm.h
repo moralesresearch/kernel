@@ -66,12 +66,9 @@ struct dma_chan *snd_dmaengine_pcm_get_chan(struct snd_pcm_substream *substream)
  * @chan_name: Custom channel name to use when requesting DMA channel.
  * @fifo_size: FIFO size of the DAI controller in bytes
  * @flags: PCM_DAI flags, only SND_DMAENGINE_PCM_DAI_FLAG_PACK for now
-<<<<<<< HEAD
  * @peripheral_config: peripheral configuration for programming peripheral
  * for dmaengine transfer
  * @peripheral_size: peripheral configuration buffer size
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct snd_dmaengine_dai_dma_data {
 	dma_addr_t addr;
@@ -82,11 +79,8 @@ struct snd_dmaengine_dai_dma_data {
 	const char *chan_name;
 	unsigned int fifo_size;
 	unsigned int flags;
-<<<<<<< HEAD
 	void *peripheral_config;
 	size_t peripheral_size;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void snd_dmaengine_pcm_set_config_from_dai_data(

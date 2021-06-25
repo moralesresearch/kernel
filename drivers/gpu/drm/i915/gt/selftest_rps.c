@@ -185,14 +185,10 @@ static u8 rps_set_check(struct intel_rps *rps, u8 freq)
 {
 	mutex_lock(&rps->lock);
 	GEM_BUG_ON(!intel_rps_is_active(rps));
-<<<<<<< HEAD
 	if (wait_for(!intel_rps_set(rps, freq), 50)) {
 		mutex_unlock(&rps->lock);
 		return 0;
 	}
-=======
-	intel_rps_set(rps, freq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GEM_BUG_ON(rps->last_freq != freq);
 	mutex_unlock(&rps->lock);
 

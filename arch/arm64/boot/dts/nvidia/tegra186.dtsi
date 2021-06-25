@@ -73,11 +73,7 @@
 		snps,rxpbl = <8>;
 	};
 
-<<<<<<< HEAD
 	aconnect@2900000 {
-=======
-	aconnect {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		compatible = "nvidia,tegra186-aconnect",
 			     "nvidia,tegra210-aconnect";
 		clocks = <&bpmp TEGRA186_CLK_APE>,
@@ -1682,7 +1678,6 @@
 		interrupt-affinity = <&ca57_0 &ca57_1 &ca57_2 &ca57_3>;
 	};
 
-<<<<<<< HEAD
 	sound {
 		status = "disabled";
 
@@ -1705,8 +1700,6 @@
 		iommus = <&smmu TEGRA186_SID_APE>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	thermal-zones {
 		a57 {
 			polling-delay = <0>;

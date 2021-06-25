@@ -125,15 +125,9 @@ static int tegra186_emc_debug_min_rate_set(void *data, u64 rate)
 	return 0;
 }
 
-<<<<<<< HEAD
 DEFINE_DEBUGFS_ATTRIBUTE(tegra186_emc_debug_min_rate_fops,
 			  tegra186_emc_debug_min_rate_get,
 			  tegra186_emc_debug_min_rate_set, "%llu\n");
-=======
-DEFINE_SIMPLE_ATTRIBUTE(tegra186_emc_debug_min_rate_fops,
-			tegra186_emc_debug_min_rate_get,
-			tegra186_emc_debug_min_rate_set, "%llu\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int tegra186_emc_debug_max_rate_get(void *data, u64 *rate)
 {
@@ -161,15 +155,9 @@ static int tegra186_emc_debug_max_rate_set(void *data, u64 rate)
 	return 0;
 }
 
-<<<<<<< HEAD
 DEFINE_DEBUGFS_ATTRIBUTE(tegra186_emc_debug_max_rate_fops,
 			  tegra186_emc_debug_max_rate_get,
 			  tegra186_emc_debug_max_rate_set, "%llu\n");
-=======
-DEFINE_SIMPLE_ATTRIBUTE(tegra186_emc_debug_max_rate_fops,
-			tegra186_emc_debug_max_rate_get,
-			tegra186_emc_debug_max_rate_set, "%llu\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int tegra186_emc_probe(struct platform_device *pdev)
 {

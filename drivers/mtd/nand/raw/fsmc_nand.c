@@ -25,10 +25,7 @@
 #include <linux/sched.h>
 #include <linux/types.h>
 #include <linux/mtd/mtd.h>
-<<<<<<< HEAD
 #include <linux/mtd/nand-ecc-sw-hamming.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mtd/rawnand.h>
 #include <linux/platform_device.h>
 #include <linux/of.h>
@@ -436,7 +433,6 @@ static int fsmc_read_hwecc_ecc1(struct nand_chip *chip, const u8 *data,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int fsmc_correct_ecc1(struct nand_chip *chip,
 			     unsigned char *buf,
 			     unsigned char *read_ecc,
@@ -446,8 +442,6 @@ static int fsmc_correct_ecc1(struct nand_chip *chip,
 				      chip->ecc.size, false);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Count the number of 0's in buff upto a max of max_bits */
 static int count_written_bits(u8 *buff, int size, int max_bits)
 {
@@ -933,11 +927,7 @@ static int fsmc_nand_attach_chip(struct nand_chip *nand)
 	case NAND_ECC_ENGINE_TYPE_ON_HOST:
 		dev_info(host->dev, "Using 1-bit HW ECC scheme\n");
 		nand->ecc.calculate = fsmc_read_hwecc_ecc1;
-<<<<<<< HEAD
 		nand->ecc.correct = fsmc_correct_ecc1;
-=======
-		nand->ecc.correct = rawnand_sw_hamming_correct;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nand->ecc.hwctl = fsmc_enable_hwecc;
 		nand->ecc.bytes = 3;
 		nand->ecc.strength = 1;
@@ -950,6 +940,7 @@ static int fsmc_nand_attach_chip(struct nand_chip *nand)
 				 "Using 4-bit SW BCH ECC scheme\n");
 			break;
 		}
+		break;
 
 	case NAND_ECC_ENGINE_TYPE_ON_DIE:
 		break;
@@ -1097,19 +1088,13 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
 		host->read_dma_chan = dma_request_channel(mask, filter, NULL);
 		if (!host->read_dma_chan) {
 			dev_err(&pdev->dev, "Unable to get read dma channel\n");
-<<<<<<< HEAD
 			ret = -ENODEV;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto disable_clk;
 		}
 		host->write_dma_chan = dma_request_channel(mask, filter, NULL);
 		if (!host->write_dma_chan) {
 			dev_err(&pdev->dev, "Unable to get write dma channel\n");
-<<<<<<< HEAD
 			ret = -ENODEV;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto release_dma_read_chan;
 		}
 	}

@@ -272,7 +272,6 @@ static void iwl_mvm_get_signal_strength(struct iwl_mvm *mvm,
 	rx_status->chain_signal[2] = S8_MIN;
 }
 
-<<<<<<< HEAD
 static int iwl_mvm_rx_mgmt_prot(struct ieee80211_sta *sta,
 				struct ieee80211_hdr *hdr,
 				struct iwl_rx_mpdu_desc *desc,
@@ -342,9 +341,6 @@ static int iwl_mvm_rx_mgmt_prot(struct ieee80211_sta *sta,
 
 static int iwl_mvm_rx_crypto(struct iwl_mvm *mvm, struct ieee80211_sta *sta,
 			     struct ieee80211_hdr *hdr,
-=======
-static int iwl_mvm_rx_crypto(struct iwl_mvm *mvm, struct ieee80211_hdr *hdr,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     struct ieee80211_rx_status *stats, u16 phy_info,
 			     struct iwl_rx_mpdu_desc *desc,
 			     u32 pkt_flags, int queue, u8 *crypt_len)
@@ -363,13 +359,10 @@ static int iwl_mvm_rx_crypto(struct iwl_mvm *mvm, struct ieee80211_hdr *hdr,
 	    IWL_RX_MPDU_STATUS_SEC_UNKNOWN && !mvm->monitor_on)
 		return -1;
 
-<<<<<<< HEAD
 	if (unlikely(ieee80211_is_mgmt(hdr->frame_control) &&
 		     !ieee80211_has_protected(hdr->frame_control)))
 		return iwl_mvm_rx_mgmt_prot(sta, hdr, desc, status);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ieee80211_has_protected(hdr->frame_control) ||
 	    (status & IWL_RX_MPDU_STATUS_SEC_MASK) ==
 	    IWL_RX_MPDU_STATUS_SEC_NONE)
@@ -424,11 +417,8 @@ static int iwl_mvm_rx_crypto(struct iwl_mvm *mvm, struct ieee80211_hdr *hdr,
 			return -1;
 		stats->flag |= RX_FLAG_DECRYPTED;
 		return 0;
-<<<<<<< HEAD
 	case RX_MPDU_RES_STATUS_SEC_CMAC_GMAC_ENC:
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		/*
 		 * Sometimes we can get frames that were not decrypted
@@ -537,37 +527,6 @@ static bool iwl_mvm_is_dup(struct ieee80211_sta *sta, int queue,
 	return false;
 }
 
-int iwl_mvm_notify_rx_queue(struct iwl_mvm *mvm, u32 rxq_mask,
-			    const struct iwl_mvm_internal_rxq_notif *notif,
-			    u32 notif_size, bool async)
-{
-	u8 buf[sizeof(struct iwl_rxq_sync_cmd) +
-	       sizeof(struct iwl_mvm_rss_sync_notif)];
-	struct iwl_rxq_sync_cmd *cmd = (void *)buf;
-	u32 data_size = sizeof(*cmd) + notif_size;
-	int ret;
-
-	/*
-	 * size must be a multiple of DWORD
-	 * Ensure we don't overflow buf
-	 */
-	if (WARN_ON(notif_size & 3 ||
-		    notif_size > sizeof(struct iwl_mvm_rss_sync_notif)))
-		return -EINVAL;
-
-	cmd->rxq_mask = cpu_to_le32(rxq_mask);
-	cmd->count =  cpu_to_le32(notif_size);
-	cmd->flags = 0;
-	memcpy(cmd->payload, notif, notif_size);
-
-	ret = iwl_mvm_send_cmd_pdu(mvm,
-				   WIDE_ID(DATA_PATH_GROUP,
-					   TRIGGER_RX_QUEUES_NOTIF_CMD),
-				   async ? CMD_ASYNC : 0, data_size, cmd);
-
-	return ret;
-}
-
 /*
  * Returns true if sn2 - buffer_size < sn1 < sn2.
  * To be used only in order to compare reorder buffer head with NSSN.
@@ -583,15 +542,13 @@ static bool iwl_mvm_is_sn_less(u16 sn1, u16 sn2, u16 buffer_size)
 static void iwl_mvm_sync_nssn(struct iwl_mvm *mvm, u8 baid, u16 nssn)
 {
 	if (IWL_MVM_USE_NSSN_SYNC) {
-		struct iwl_mvm_rss_sync_notif notif = {
-			.metadata.type = IWL_MVM_RXQ_NSSN_SYNC,
-			.metadata.sync = 0,
-			.nssn_sync.baid = baid,
-			.nssn_sync.nssn = nssn,
+		struct iwl_mvm_nssn_sync_data notif = {
+			.baid = baid,
+			.nssn = nssn,
 		};
 
-		iwl_mvm_sync_rx_queues_internal(mvm, (void *)&notif,
-						sizeof(notif));
+		iwl_mvm_sync_rx_queues_internal(mvm, IWL_MVM_RXQ_NSSN_SYNC, false,
+						&notif, sizeof(notif));
 	}
 }
 
@@ -840,8 +797,7 @@ void iwl_mvm_rx_queue_notif(struct iwl_mvm *mvm, struct napi_struct *napi,
 		      "invalid notification size %d (%d)",
 		      len, (int)(sizeof(*notif) + sizeof(*internal_notif))))
 		return;
-	/* remove only the firmware header, we want all of our payload below */
-	len -= sizeof(*notif);
+	len -= sizeof(*notif) + sizeof(*internal_notif);
 
 	if (internal_notif->sync &&
 	    mvm->queue_sync_cookie != internal_notif->cookie) {
@@ -851,21 +807,19 @@ void iwl_mvm_rx_queue_notif(struct iwl_mvm *mvm, struct napi_struct *napi,
 
 	switch (internal_notif->type) {
 	case IWL_MVM_RXQ_EMPTY:
-		WARN_ONCE(len != sizeof(*internal_notif),
-			  "invalid empty notification size %d (%d)",
-			  len, (int)sizeof(*internal_notif));
+		WARN_ONCE(len, "invalid empty notification size %d", len);
 		break;
 	case IWL_MVM_RXQ_NOTIF_DEL_BA:
-		if (WARN_ONCE(len != sizeof(struct iwl_mvm_rss_sync_notif),
+		if (WARN_ONCE(len != sizeof(struct iwl_mvm_delba_data),
 			      "invalid delba notification size %d (%d)",
-			      len, (int)sizeof(struct iwl_mvm_rss_sync_notif)))
+			      len, (int)sizeof(struct iwl_mvm_delba_data)))
 			break;
 		iwl_mvm_del_ba(mvm, queue, (void *)internal_notif->data);
 		break;
 	case IWL_MVM_RXQ_NSSN_SYNC:
-		if (WARN_ONCE(len != sizeof(struct iwl_mvm_rss_sync_notif),
+		if (WARN_ONCE(len != sizeof(struct iwl_mvm_nssn_sync_data),
 			      "invalid nssn sync notification size %d (%d)",
-			      len, (int)sizeof(struct iwl_mvm_rss_sync_notif)))
+			      len, (int)sizeof(struct iwl_mvm_nssn_sync_data)))
 			break;
 		iwl_mvm_nssn_sync(mvm, napi, queue,
 				  (void *)internal_notif->data);
@@ -1651,7 +1605,6 @@ static inline u8 iwl_mvm_nl80211_band_from_rx_msdu(u8 phy_band)
 	}
 }
 
-<<<<<<< HEAD
 struct iwl_rx_sta_csa {
 	bool all_sta_unblocked;
 	struct ieee80211_vif *vif;
@@ -1669,8 +1622,6 @@ static void iwl_mvm_rx_get_sta_block_tx(void *data, struct ieee80211_sta *sta)
 		rx_sta_csa->all_sta_unblocked = false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 			struct iwl_rx_cmd_buffer *rxb, int queue)
 {
@@ -1786,18 +1737,6 @@ void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 
 	iwl_mvm_decode_lsig(skb, &phy_data);
 
-<<<<<<< HEAD
-=======
-	rx_status = IEEE80211_SKB_RXCB(skb);
-
-	if (iwl_mvm_rx_crypto(mvm, hdr, rx_status, phy_info, desc,
-			      le32_to_cpu(pkt->len_n_flags), queue,
-			      &crypt_len)) {
-		kfree_skb(skb);
-		return;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Keep packets with CRC errors (and with overrun) for monitor mode
 	 * (otherwise the firmware discards them) but mark them as bad.
@@ -1881,7 +1820,6 @@ void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 		sta = ieee80211_find_sta_by_ifaddr(mvm->hw, hdr->addr2, NULL);
 	}
 
-<<<<<<< HEAD
 	if (iwl_mvm_rx_crypto(mvm, sta, hdr, rx_status, phy_info, desc,
 			      le32_to_cpu(pkt->len_n_flags), queue,
 			      &crypt_len)) {
@@ -1889,8 +1827,6 @@ void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 		goto out;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sta) {
 		struct iwl_mvm_sta *mvmsta = iwl_mvm_sta_from_mac80211(sta);
 		struct ieee80211_vif *tx_blocked_vif =
@@ -1915,18 +1851,14 @@ void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 		if (unlikely(tx_blocked_vif) && tx_blocked_vif == vif) {
 			struct iwl_mvm_vif *mvmvif =
 				iwl_mvm_vif_from_mac80211(tx_blocked_vif);
-<<<<<<< HEAD
 			struct iwl_rx_sta_csa rx_sta_csa = {
 				.all_sta_unblocked = true,
 				.vif = tx_blocked_vif,
 			};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (mvmvif->csa_target_freq == rx_status->freq)
 				iwl_mvm_sta_modify_disable_tx_ap(mvm, sta,
 								 false);
-<<<<<<< HEAD
 			ieee80211_iterate_stations_atomic(mvm->hw,
 							  iwl_mvm_rx_get_sta_block_tx,
 							  &rx_sta_csa);
@@ -1937,8 +1869,6 @@ void iwl_mvm_rx_mpdu_mq(struct iwl_mvm *mvm, struct napi_struct *napi,
 				iwl_mvm_modify_all_sta_disable_tx(mvm, mvmvif, false);
 				cancel_delayed_work_sync(&mvm->cs_tx_unblock_dwork);
 			}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		rs_update_last_rssi(mvm, mvmsta, rx_status);
@@ -2075,12 +2005,9 @@ void iwl_mvm_rx_monitor_no_data(struct iwl_mvm *mvm, struct napi_struct *napi,
 		.info_type = IWL_RX_PHY_INFO_TYPE_NONE,
 	};
 
-<<<<<<< HEAD
 	if (unlikely(iwl_rx_packet_payload_len(pkt) < sizeof(*desc)))
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(test_bit(IWL_MVM_STATUS_IN_HW_RESTART, &mvm->status)))
 		return;
 
@@ -2210,12 +2137,9 @@ void iwl_mvm_rx_frame_release(struct iwl_mvm *mvm, struct napi_struct *napi,
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
 	struct iwl_frame_release *release = (void *)pkt->data;
 
-<<<<<<< HEAD
 	if (unlikely(iwl_rx_packet_payload_len(pkt) < sizeof(*release)))
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iwl_mvm_release_frames_from_notif(mvm, napi, release->baid,
 					  le16_to_cpu(release->nssn),
 					  queue, 0);
@@ -2236,12 +2160,9 @@ void iwl_mvm_rx_bar_frame_release(struct iwl_mvm *mvm, struct napi_struct *napi,
 					 IWL_BAR_FRAME_RELEASE_TID_MASK);
 	struct iwl_mvm_baid_data *baid_data;
 
-<<<<<<< HEAD
 	if (unlikely(iwl_rx_packet_payload_len(pkt) < sizeof(*release)))
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON_ONCE(baid == IWL_RX_REORDER_DATA_INVALID_BAID ||
 			 baid >= ARRAY_SIZE(mvm->baid_map)))
 		return;

@@ -106,7 +106,6 @@ out:
 static int ufshcd_populate_vreg(struct device *dev, const char *name,
 		struct ufs_vreg **out_vreg)
 {
-	int ret = 0;
 	char prop_name[MAX_PROP_SIZE];
 	struct ufs_vreg *vreg = NULL;
 	struct device_node *np = dev->of_node;
@@ -135,9 +134,8 @@ static int ufshcd_populate_vreg(struct device *dev, const char *name,
 		vreg->max_uA = 0;
 	}
 out:
-	if (!ret)
-		*out_vreg = vreg;
-	return ret;
+	*out_vreg = vreg;
+	return 0;
 }
 
 /**
@@ -377,11 +375,7 @@ int ufshcd_pltfrm_init(struct platform_device *pdev,
 
 	irq = platform_get_irq(pdev, 0);
 	if (irq < 0) {
-<<<<<<< HEAD
 		err = irq;
-=======
-		err = -ENODEV;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 

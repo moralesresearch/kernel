@@ -29,10 +29,6 @@ int bench_futex_wake_parallel(int argc __maybe_unused, const char **argv __maybe
 #include <linux/time64.h>
 #include <errno.h>
 #include "futex.h"
-<<<<<<< HEAD
-=======
-#include <internal/cpumap.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <perf/cpumap.h>
 
 #include <err.h>

@@ -404,17 +404,8 @@ void sas_resume_ha(struct sas_ha_struct *ha)
 
 		if (phy->suspended) {
 			dev_warn(&phy->phy->dev, "resume timeout\n");
-<<<<<<< HEAD
 			sas_notify_phy_event(phy, PHYE_RESUME_TIMEOUT,
 					     GFP_KERNEL);
-=======
-<<<<<<< HEAD
-			sas_notify_phy_event(phy, PHYE_RESUME_TIMEOUT,
-					     GFP_KERNEL);
-=======
-			sas_notify_phy_event(phy, PHYE_RESUME_TIMEOUT);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -594,18 +585,8 @@ sas_domain_attach_transport(struct sas_domain_function_template *dft)
 }
 EXPORT_SYMBOL_GPL(sas_domain_attach_transport);
 
-<<<<<<< HEAD
 struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy,
 				      gfp_t gfp_flags)
-=======
-<<<<<<< HEAD
-struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy,
-				      gfp_t gfp_flags)
-=======
-static struct asd_sas_event *__sas_alloc_event(struct asd_sas_phy *phy,
-					       gfp_t gfp_flags)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct asd_sas_event *event;
 	struct sas_ha_struct *sas_ha = phy->ha;
@@ -623,18 +604,8 @@ static struct asd_sas_event *__sas_alloc_event(struct asd_sas_phy *phy,
 			if (cmpxchg(&phy->in_shutdown, 0, 1) == 0) {
 				pr_notice("The phy%d bursting events, shut it down.\n",
 					  phy->id);
-<<<<<<< HEAD
 				sas_notify_phy_event(phy, PHYE_SHUTDOWN,
 						     gfp_flags);
-=======
-<<<<<<< HEAD
-				sas_notify_phy_event(phy, PHYE_SHUTDOWN,
-						     gfp_flags);
-=======
-				sas_notify_phy_event_gfp(phy, PHYE_SHUTDOWN,
-							 gfp_flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		} else {
 			/* Do not support PHY control, stop allocating events */
@@ -648,23 +619,6 @@ static struct asd_sas_event *__sas_alloc_event(struct asd_sas_phy *phy,
 	return event;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy)
-{
-	return __sas_alloc_event(phy, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
-}
-
-struct asd_sas_event *sas_alloc_event_gfp(struct asd_sas_phy *phy,
-					  gfp_t gfp_flags)
-{
-	return __sas_alloc_event(phy, gfp_flags);
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sas_free_event(struct asd_sas_event *event)
 {
 	struct asd_sas_phy *phy = event->phy;

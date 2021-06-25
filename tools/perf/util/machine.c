@@ -369,7 +369,6 @@ out:
 	return machine;
 }
 
-<<<<<<< HEAD
 struct machine *machines__find_guest(struct machines *machines, pid_t pid)
 {
 	struct machine *machine = machines__find(machines, pid);
@@ -379,8 +378,6 @@ struct machine *machines__find_guest(struct machines *machines, pid_t pid)
 	return machine;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void machines__process_guests(struct machines *machines,
 			      machine__process_t process, void *data)
 {
@@ -601,7 +598,6 @@ struct thread *machine__find_thread(struct machine *machine, pid_t pid,
 	return th;
 }
 
-<<<<<<< HEAD
 /*
  * Threads are identified by pid and tid, and the idle task has pid == tid == 0.
  * So here a single thread is created for that, but actually there is a separate
@@ -620,8 +616,6 @@ struct thread *machine__idle_thread(struct machine *machine)
 	return thread;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct comm *machine__thread_exec_comm(struct machine *machine,
 				       struct thread *thread)
 {
@@ -782,10 +776,10 @@ static int machine__process_ksymbol_register(struct machine *machine,
 		if (dso) {
 			dso->kernel = DSO_SPACE__KERNEL;
 			map = map__new2(0, dso);
+			dso__put(dso);
 		}
 
 		if (!dso || !map) {
-			dso__put(dso);
 			return -ENOMEM;
 		}
 
@@ -798,6 +792,7 @@ static int machine__process_ksymbol_register(struct machine *machine,
 		map->start = event->ksymbol.addr;
 		map->end = map->start + event->ksymbol.len;
 		maps__insert(&machine->kmaps, map);
+		map__put(map);
 		dso__set_loaded(dso);
 
 		if (is_bpf_image(event->ksymbol.name)) {
@@ -911,7 +906,7 @@ static struct map *machine__addnew_module_map(struct machine *machine, u64 start
 
 	maps__insert(&machine->kmaps, map);
 
-	/* Put the map here because maps__insert alread got it */
+	/* Put the map here because maps__insert already got it */
 	map__put(map);
 out:
 	/* put the dso here, corresponding to  machine__findnew_module_dso */
@@ -1632,12 +1627,8 @@ static int machine__process_extra_kernel_map(struct machine *machine,
 }
 
 static int machine__process_kernel_mmap_event(struct machine *machine,
-<<<<<<< HEAD
 					      struct extra_kernel_map *xm,
 					      struct build_id *bid)
-=======
-					      struct extra_kernel_map *xm)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct map *map;
 	enum dso_space_type dso_space;
@@ -1662,13 +1653,10 @@ static int machine__process_kernel_mmap_event(struct machine *machine,
 			goto out_problem;
 
 		map->end = map->start + xm->end - xm->start;
-<<<<<<< HEAD
 
 		if (build_id__is_defined(bid))
 			dso__set_build_id(map->dso, bid);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (is_kernel_mmap) {
 		const char *symbol_name = (xm->name + strlen(machine->mmap_name));
 		/*
@@ -1726,12 +1714,9 @@ static int machine__process_kernel_mmap_event(struct machine *machine,
 
 		machine__update_kernel_mmap(machine, xm->start, xm->end);
 
-<<<<<<< HEAD
 		if (build_id__is_defined(bid))
 			dso__set_build_id(kernel, bid);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Avoid using a zero address (kptr_restrict) for the ref reloc
 		 * symbol. Effectively having zero here means that at record
@@ -1769,23 +1754,17 @@ int machine__process_mmap2_event(struct machine *machine,
 		.ino = event->mmap2.ino,
 		.ino_generation = event->mmap2.ino_generation,
 	};
-<<<<<<< HEAD
 	struct build_id __bid, *bid = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	if (dump_trace)
 		perf_event__fprintf_mmap2(event, stdout);
 
-<<<<<<< HEAD
 	if (event->header.misc & PERF_RECORD_MISC_MMAP_BUILD_ID) {
 		bid = &__bid;
 		build_id__init(bid, event->mmap2.build_id, event->mmap2.build_id_size);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sample->cpumode == PERF_RECORD_MISC_GUEST_KERNEL ||
 	    sample->cpumode == PERF_RECORD_MISC_KERNEL) {
 		struct extra_kernel_map xm = {
@@ -1795,11 +1774,7 @@ int machine__process_mmap2_event(struct machine *machine,
 		};
 
 		strlcpy(xm.name, event->mmap2.filename, KMAP_NAME_LEN);
-<<<<<<< HEAD
 		ret = machine__process_kernel_mmap_event(machine, &xm, bid);
-=======
-		ret = machine__process_kernel_mmap_event(machine, &xm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto out_problem;
 		return 0;
@@ -1813,11 +1788,7 @@ int machine__process_mmap2_event(struct machine *machine,
 	map = map__new(machine, event->mmap2.start,
 			event->mmap2.len, event->mmap2.pgoff,
 			&dso_id, event->mmap2.prot,
-<<<<<<< HEAD
 			event->mmap2.flags, bid,
-=======
-			event->mmap2.flags,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			event->mmap2.filename, thread);
 
 	if (map == NULL)
@@ -1860,11 +1831,7 @@ int machine__process_mmap_event(struct machine *machine, union perf_event *event
 		};
 
 		strlcpy(xm.name, event->mmap.filename, KMAP_NAME_LEN);
-<<<<<<< HEAD
 		ret = machine__process_kernel_mmap_event(machine, &xm, NULL);
-=======
-		ret = machine__process_kernel_mmap_event(machine, &xm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto out_problem;
 		return 0;
@@ -1880,11 +1847,7 @@ int machine__process_mmap_event(struct machine *machine, union perf_event *event
 
 	map = map__new(machine, event->mmap.start,
 			event->mmap.len, event->mmap.pgoff,
-<<<<<<< HEAD
 			NULL, prot, 0, NULL, event->mmap.filename, thread);
-=======
-			NULL, prot, 0, event->mmap.filename, thread);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (map == NULL)
 		goto out_problem_map;
@@ -1990,7 +1953,7 @@ int machine__process_fork_event(struct machine *machine, union perf_event *event
 	 * maps because that is what the kernel just did.
 	 *
 	 * But when synthesizing, this should not be done.  If we do, we end up
-	 * with overlapping maps as we process the sythesized MMAP2 events that
+	 * with overlapping maps as we process the synthesized MMAP2 events that
 	 * get delivered shortly thereafter.
 	 *
 	 * Use the FORK event misc flags in an internal way to signal this
@@ -2076,8 +2039,8 @@ int machine__process_event(struct machine *machine, union perf_event *event,
 static bool symbol__match_regex(struct symbol *sym, regex_t *regex)
 {
 	if (!regexec(regex, sym->name, 0, NULL, 0))
-		return 1;
-	return 0;
+		return true;
+	return false;
 }
 
 static void ip__resolve_ams(struct thread *thread,
@@ -2556,7 +2519,7 @@ static bool has_stitched_lbr(struct thread *thread,
 
 	/*
 	 * Check if there are identical LBRs between two samples.
-	 * Identicall LBRs must have same from, to and flags values. Also,
+	 * Identical LBRs must have same from, to and flags values. Also,
 	 * they have to be saved in the same LBR registers (same physical
 	 * index).
 	 *
@@ -2626,7 +2589,7 @@ err:
 }
 
 /*
- * Recolve LBR callstack chain sample
+ * Resolve LBR callstack chain sample
  * Return:
  * 1 on success get LBR callchain information
  * 0 no available LBR callchain information, should try fp

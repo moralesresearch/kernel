@@ -253,11 +253,7 @@ int saa7146_pgtable_build_single(struct pci_dev *pci, struct saa7146_pgtable *pt
 			 i, sg_dma_address(list), sg_dma_len(list),
 			 list->offset);
 */
-<<<<<<< HEAD
 		for (p = 0; p * 4096 < sg_dma_len(list); p++, ptr++) {
-=======
-		for (p = 0; p * 4096 < list->length; p++, ptr++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*ptr = cpu_to_le32(sg_dma_address(list) + p * 4096);
 			nr_pages++;
 		}

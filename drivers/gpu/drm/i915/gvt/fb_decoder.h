@@ -38,13 +38,10 @@
 
 #include <linux/types.h>
 
-<<<<<<< HEAD
 #include "display/intel_display.h"
 
 struct intel_vgpu;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _PLANE_CTL_FORMAT_SHIFT		24
 #define _PLANE_CTL_TILED_SHIFT		10
 #define _PIPE_V_SRCSZ_SHIFT		0
@@ -105,11 +102,6 @@ enum DDI_PORT {
 	DDI_PORT_E	= 4
 };
 
-<<<<<<< HEAD
-=======
-struct intel_gvt;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* color space conversion and gamma correction are not included */
 struct intel_vgpu_primary_plane_format {
 	u8	enabled;	/* plane is enabled */

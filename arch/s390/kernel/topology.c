@@ -62,48 +62,20 @@ static struct mask_info drawer_info;
 struct cpu_topology_s390 cpu_topology[NR_CPUS];
 EXPORT_SYMBOL_GPL(cpu_topology);
 
-<<<<<<< HEAD
 static void cpu_group_map(cpumask_t *dst, struct mask_info *info, unsigned int cpu)
 {
 	static cpumask_t mask;
-=======
-<<<<<<< HEAD
-static void cpu_group_map(cpumask_t *dst, struct mask_info *info, unsigned int cpu)
-{
-	static cpumask_t mask;
-=======
-static cpumask_t cpu_group_map(struct mask_info *info, unsigned int cpu)
-{
-	cpumask_t mask;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpumask_copy(&mask, cpumask_of(cpu));
 	switch (topology_mode) {
 	case TOPOLOGY_MODE_HW:
 		while (info) {
 			if (cpumask_test_cpu(cpu, &info->mask)) {
-<<<<<<< HEAD
 				cpumask_copy(&mask, &info->mask);
-=======
-<<<<<<< HEAD
-				cpumask_copy(&mask, &info->mask);
-=======
-				mask = info->mask;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			}
 			info = info->next;
 		}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		if (cpumask_empty(&mask))
-			cpumask_copy(&mask, cpumask_of(cpu));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case TOPOLOGY_MODE_PACKAGE:
 		cpumask_copy(&mask, cpu_present_mask);
@@ -115,56 +87,24 @@ static cpumask_t cpu_group_map(struct mask_info *info, unsigned int cpu)
 		break;
 	}
 	cpumask_and(&mask, &mask, cpu_online_mask);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cpumask_copy(dst, &mask);
 }
 
 static void cpu_thread_map(cpumask_t *dst, unsigned int cpu)
 {
 	static cpumask_t mask;
-<<<<<<< HEAD
-=======
-=======
-	return mask;
-}
-
-static cpumask_t cpu_thread_map(unsigned int cpu)
-{
-	cpumask_t mask;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	cpumask_copy(&mask, cpumask_of(cpu));
 	if (topology_mode != TOPOLOGY_MODE_HW)
-<<<<<<< HEAD
 		goto out;
-=======
-<<<<<<< HEAD
-		goto out;
-=======
-		return mask;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cpu -= cpu % (smp_cpu_mtid + 1);
 	for (i = 0; i <= smp_cpu_mtid; i++)
 		if (cpu_present(cpu + i))
 			cpumask_set_cpu(cpu + i, &mask);
 	cpumask_and(&mask, &mask, cpu_online_mask);
-<<<<<<< HEAD
 out:
 	cpumask_copy(dst, &mask);
-=======
-<<<<<<< HEAD
-out:
-	cpumask_copy(dst, &mask);
-=======
-	return mask;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define TOPOLOGY_CORE_BITS	64
@@ -309,23 +249,10 @@ void update_cpu_masks(void)
 
 	for_each_possible_cpu(cpu) {
 		topo = &cpu_topology[cpu];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpu_thread_map(&topo->thread_mask, cpu);
 		cpu_group_map(&topo->core_mask, &socket_info, cpu);
 		cpu_group_map(&topo->book_mask, &book_info, cpu);
 		cpu_group_map(&topo->drawer_mask, &drawer_info, cpu);
-<<<<<<< HEAD
-=======
-=======
-		topo->thread_mask = cpu_thread_map(cpu);
-		topo->core_mask = cpu_group_map(&socket_info, cpu);
-		topo->book_mask = cpu_group_map(&book_info, cpu);
-		topo->drawer_mask = cpu_group_map(&drawer_info, cpu);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		topo->booted_cores = 0;
 		if (topology_mode != TOPOLOGY_MODE_HW) {
 			id = topology_mode == TOPOLOGY_MODE_PACKAGE ? 0 : cpu;

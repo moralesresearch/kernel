@@ -42,11 +42,7 @@ static void rtw_ops_wake_tx_queue(struct ieee80211_hw *hw,
 		list_add_tail(&rtwtxq->list, &rtwdev->txqs);
 	spin_unlock_bh(&rtwdev->txq_lock);
 
-<<<<<<< HEAD
 	queue_work(rtwdev->tx_wq, &rtwdev->tx_work);
-=======
-	tasklet_schedule(&rtwdev->tx_tasklet);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int rtw_ops_start(struct ieee80211_hw *hw)
@@ -524,6 +520,7 @@ static int rtw_ops_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 				  hw_key_type, hw_key_idx);
 		break;
 	case DISABLE_KEY:
+		rtw_hci_flush_all_queues(rtwdev, false);
 		rtw_mac_flush_all_queues(rtwdev, false);
 		rtw_sec_clear_cam(rtwdev, sec, key->hw_key_idx);
 		break;
@@ -674,6 +671,7 @@ static void rtw_ops_flush(struct ieee80211_hw *hw,
 	mutex_lock(&rtwdev->mutex);
 	rtw_leave_lps_deep(rtwdev);
 
+	rtw_hci_flush_queues(rtwdev, queues, drop);
 	rtw_mac_flush_queues(rtwdev, queues, drop);
 	mutex_unlock(&rtwdev->mutex);
 }

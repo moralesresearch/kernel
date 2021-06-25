@@ -9,7 +9,9 @@
 #include "expr.h"
 #include "metricgroup.h"
 #include "cgroup.h"
+#include "units.h"
 #include <linux/zalloc.h>
+#include "iostat.h"
 
 /*
  * AGGR_GLOBAL: Use CPU 0
@@ -273,7 +275,6 @@ void perf_stat__update_shadow_stats(struct evsel *counter, u64 count,
 	else if (perf_stat_evsel__is(counter, TOPDOWN_BE_BOUND))
 		update_runtime_stat(st, STAT_TOPDOWN_BE_BOUND,
 				    cpu, count, &rsd);
-<<<<<<< HEAD
 	else if (perf_stat_evsel__is(counter, TOPDOWN_HEAVY_OPS))
 		update_runtime_stat(st, STAT_TOPDOWN_HEAVY_OPS,
 				    cpu, count, &rsd);
@@ -286,8 +287,6 @@ void perf_stat__update_shadow_stats(struct evsel *counter, u64 count,
 	else if (perf_stat_evsel__is(counter, TOPDOWN_MEM_BOUND))
 		update_runtime_stat(st, STAT_TOPDOWN_MEM_BOUND,
 				    cpu, count, &rsd);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (evsel__match(counter, HARDWARE, HW_STALLED_CYCLES_FRONTEND))
 		update_runtime_stat(st, STAT_STALLED_CYCLES_FRONT,
 				    cpu, count, &rsd);
@@ -964,7 +963,9 @@ void perf_stat__print_shadow_stats(struct perf_stat_config *config,
 	struct metric_event *me;
 	int num = 1;
 
-	if (evsel__match(evsel, HARDWARE, HW_INSTRUCTIONS)) {
+	if (config->iostat_run) {
+		iostat_print_metric(config, evsel, out);
+	} else if (evsel__match(evsel, HARDWARE, HW_INSTRUCTIONS)) {
 		total = runtime_stat_avg(st, STAT_CYCLES, cpu, &rsd);
 
 		if (total) {
@@ -1189,7 +1190,6 @@ void perf_stat__print_shadow_stats(struct perf_stat_config *config,
 			color = PERF_COLOR_RED;
 		print_metric(config, ctxp, color, "%8.1f%%", "bad speculation",
 				bad_spec * 100.);
-<<<<<<< HEAD
 	} else if (perf_stat_evsel__is(evsel, TOPDOWN_HEAVY_OPS) &&
 			full_td(cpu, st, &rsd) && (config->topdown_level > 1)) {
 		double retiring = td_metric_ratio(cpu,
@@ -1270,24 +1270,19 @@ void perf_stat__print_shadow_stats(struct perf_stat_config *config,
 			color = NULL;
 		print_metric(config, ctxp, color, "%8.1f%%", "Core bound",
 				core_bound * 100.);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (evsel->metric_expr) {
 		generic_metric(config, evsel->metric_expr, evsel->metric_events, NULL,
 				evsel->name, evsel->metric_name, NULL, 1, cpu, out, st);
 	} else if (runtime_stat_n(st, STAT_NSECS, cpu, &rsd) != 0) {
-		char unit = 'M';
-		char unit_buf[10];
+		char unit = ' ';
+		char unit_buf[10] = "/sec";
 
 		total = runtime_stat_avg(st, STAT_NSECS, cpu, &rsd);
-
 		if (total)
-			ratio = 1000.0 * avg / total;
-		if (ratio < 0.001) {
-			ratio *= 1000;
-			unit = 'K';
-		}
-		snprintf(unit_buf, sizeof(unit_buf), "%c/sec", unit);
+			ratio = convert_unit_double(1000000000.0 * avg / total, &unit);
+
+		if (unit != ' ')
+			snprintf(unit_buf, sizeof(unit_buf), "%c/sec", unit);
 		print_metric(config, ctxp, NULL, "%8.3f", unit_buf, ratio);
 	} else if (perf_stat_evsel__is(evsel, SMI_NUM)) {
 		print_smi_cost(config, cpu, out, st, &rsd);

@@ -17,18 +17,12 @@
 #include <ctype.h>
 #include <string.h>
 #include <limits.h>
-<<<<<<< HEAD
-=======
-#include <stdbool.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <errno.h>
 #include "modpost.h"
 #include "../../include/linux/license.h"
 
 /* Are we using CONFIG_MODVERSIONS? */
 static int modversions = 0;
-/* Warn about undefined symbols? (do so if we have vmlinux) */
-static int have_vmlinux = 0;
 /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
 static int all_versions = 0;
 /* If we are modposting external module set to 1 */
@@ -45,15 +39,17 @@ static int allow_missing_ns_imports;
 
 static bool error_occurred;
 
+/*
+ * Cut off the warnings when there are too many. This typically occurs when
+ * vmlinux is missing. ('make modules' without building vmlinux.)
+ */
+#define MAX_UNRESOLVED_REPORTS	10
+static unsigned int nr_unresolved;
+
 enum export {
-<<<<<<< HEAD
 	export_plain,
 	export_gpl,
 	export_unknown
-=======
-	export_plain,      export_unused,     export_gpl,
-	export_unused_gpl, export_gpl_future, export_unknown
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* In kernel, this size is defined in linux/module.h;
@@ -93,17 +89,6 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...)
 		error_occurred = true;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool strends(const char *str, const char *postfix)
-{
-	if (strlen(str) < strlen(postfix))
-		return false;
-
-	return strcmp(str + strlen(str) - strlen(postfix), postfix) == 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *do_nofail(void *ptr, const char *expr)
 {
 	if (!ptr)
@@ -197,9 +182,6 @@ static struct module *new_module(const char *modname)
 	mod->next = modules;
 	modules = mod;
 
-	if (mod->is_vmlinux)
-		have_vmlinux = 1;
-
 	return mod;
 }
 
@@ -222,7 +204,7 @@ struct symbol {
 
 static struct symbol *symbolhash[SYMBOL_HASH_SIZE];
 
-/* This is based on the hash agorithm from gdbm, via tdb */
+/* This is based on the hash algorithm from gdbm, via tdb */
 static inline unsigned int tdb_hash(const char *name)
 {
 	unsigned value;	/* Used to compute the hash value.  */
@@ -313,14 +295,7 @@ static const struct {
 	enum export export;
 } export_list[] = {
 	{ .str = "EXPORT_SYMBOL",            .export = export_plain },
-<<<<<<< HEAD
 	{ .str = "EXPORT_SYMBOL_GPL",        .export = export_gpl },
-=======
-	{ .str = "EXPORT_UNUSED_SYMBOL",     .export = export_unused },
-	{ .str = "EXPORT_SYMBOL_GPL",        .export = export_gpl },
-	{ .str = "EXPORT_UNUSED_SYMBOL_GPL", .export = export_unused_gpl },
-	{ .str = "EXPORT_SYMBOL_GPL_FUTURE", .export = export_gpl_future },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .str = "(unknown)",                .export = export_unknown },
 };
 
@@ -379,19 +354,8 @@ static enum export export_from_secname(struct elf_info *elf, unsigned int sec)
 
 	if (strstarts(secname, "___ksymtab+"))
 		return export_plain;
-<<<<<<< HEAD
 	else if (strstarts(secname, "___ksymtab_gpl+"))
 		return export_gpl;
-=======
-	else if (strstarts(secname, "___ksymtab_unused+"))
-		return export_unused;
-	else if (strstarts(secname, "___ksymtab_gpl+"))
-		return export_gpl;
-	else if (strstarts(secname, "___ksymtab_unused_gpl+"))
-		return export_unused_gpl;
-	else if (strstarts(secname, "___ksymtab_gpl_future+"))
-		return export_gpl_future;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		return export_unknown;
 }
@@ -400,19 +364,8 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
 {
 	if (sec == elf->export_sec)
 		return export_plain;
-<<<<<<< HEAD
 	else if (sec == elf->export_gpl_sec)
 		return export_gpl;
-=======
-	else if (sec == elf->export_unused_sec)
-		return export_unused;
-	else if (sec == elf->export_gpl_sec)
-		return export_gpl;
-	else if (sec == elf->export_unused_gpl_sec)
-		return export_unused_gpl;
-	else if (sec == elf->export_gpl_future_sec)
-		return export_gpl_future;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		return export_unknown;
 }
@@ -616,19 +569,8 @@ static int parse_elf(struct elf_info *info, const char *filename)
 			info->modinfo_len = sechdrs[i].sh_size;
 		} else if (strcmp(secname, "__ksymtab") == 0)
 			info->export_sec = i;
-<<<<<<< HEAD
 		else if (strcmp(secname, "__ksymtab_gpl") == 0)
 			info->export_gpl_sec = i;
-=======
-		else if (strcmp(secname, "__ksymtab_unused") == 0)
-			info->export_unused_sec = i;
-		else if (strcmp(secname, "__ksymtab_gpl") == 0)
-			info->export_gpl_sec = i;
-		else if (strcmp(secname, "__ksymtab_unused_gpl") == 0)
-			info->export_unused_gpl_sec = i;
-		else if (strcmp(secname, "__ksymtab_gpl_future") == 0)
-			info->export_gpl_future_sec = i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (sechdrs[i].sh_type == SHT_SYMTAB) {
 			unsigned int sh_link_idx;
@@ -1045,7 +987,7 @@ enum mismatch {
 };
 
 /**
- * Describe how to match sections on different criterias:
+ * Describe how to match sections on different criteria:
  *
  * @fromsec: Array of sections to be matched.
  *
@@ -1053,12 +995,12 @@ enum mismatch {
  * this array is forbidden (black-list).  Can be empty.
  *
  * @good_tosec: Relocations applied to a section in @fromsec must be
- * targetting sections in this array (white-list).  Can be empty.
+ * targeting sections in this array (white-list).  Can be empty.
  *
  * @mismatch: Type of mismatch.
  *
  * @symbol_white_list: Do not match a relocation to a symbol in this list
- * even if it is targetting a section in @bad_to_sec.
+ * even if it is targeting a section in @bad_to_sec.
  *
  * @handler: Specific handler to call when a match is found.  If NULL,
  * default_mismatch_handler() will be called.
@@ -2019,13 +1961,10 @@ static char *remove_dot(char *s)
 		size_t m = strspn(s + n + 1, "0123456789");
 		if (m && (s[n + m] == '.' || s[n + m] == 0))
 			s[n] = 0;
-<<<<<<< HEAD
 
 		/* strip trailing .lto */
 		if (strends(s, ".lto"))
 			s[strlen(s) - 4] = '\0';
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return s;
 }
@@ -2049,12 +1988,9 @@ static void read_symbols(const char *modname)
 		/* strip trailing .o */
 		tmp = NOFAIL(strdup(modname));
 		tmp[strlen(tmp) - 2] = '\0';
-<<<<<<< HEAD
 		/* strip trailing .lto */
 		if (strends(tmp, ".lto"))
 			tmp[strlen(tmp) - 4] = '\0';
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mod = new_module(tmp);
 		free(tmp);
 	}
@@ -2192,43 +2128,13 @@ static void check_for_gpl_usage(enum export exp, const char *m, const char *s)
 		error("GPL-incompatible module %s.ko uses GPL-only symbol '%s'\n",
 		      m, s);
 		break;
-<<<<<<< HEAD
 	case export_plain:
-=======
-	case export_unused_gpl:
-		error("GPL-incompatible module %s.ko uses GPL-only symbol marked UNUSED '%s'\n",
-		      m, s);
-		break;
-	case export_gpl_future:
-		warn("GPL-incompatible module %s.ko uses future GPL-only symbol '%s'\n",
-		     m, s);
-		break;
-	case export_plain:
-	case export_unused:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case export_unknown:
 		/* ignore */
 		break;
 	}
 }
 
-<<<<<<< HEAD
-=======
-static void check_for_unused(enum export exp, const char *m, const char *s)
-{
-	switch (exp) {
-	case export_unused:
-	case export_unused_gpl:
-		warn("module %s.ko uses symbol '%s' marked UNUSED\n",
-		     m, s);
-		break;
-	default:
-		/* ignore */
-		break;
-	}
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void check_exports(struct module *mod)
 {
 	struct symbol *s, *exp;
@@ -2237,7 +2143,7 @@ static void check_exports(struct module *mod)
 		const char *basename;
 		exp = find_symbol(s->name);
 		if (!exp || exp->module == mod) {
-			if (have_vmlinux && !s->weak)
+			if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
 				modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
 					    "\"%s\" [%s.ko] undefined!\n",
 					    s->name, mod->name);
@@ -2259,10 +2165,6 @@ static void check_exports(struct module *mod)
 
 		if (!mod->gpl_compatible)
 			check_for_gpl_usage(exp->export, basename, exp->name);
-<<<<<<< HEAD
-=======
-		check_for_unused(exp->export, basename, exp->name);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2291,10 +2193,12 @@ static void add_header(struct buffer *b, struct module *mod)
 	 */
 	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
 	buf_printf(b, "#include <linux/build-salt.h>\n");
+	buf_printf(b, "#include <linux/elfnote-lto.h>\n");
 	buf_printf(b, "#include <linux/vermagic.h>\n");
 	buf_printf(b, "#include <linux/compiler.h>\n");
 	buf_printf(b, "\n");
 	buf_printf(b, "BUILD_SALT;\n");
+	buf_printf(b, "BUILD_LTO_INFO;\n");
 	buf_printf(b, "\n");
 	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
@@ -2523,22 +2427,6 @@ fail:
 	fatal("parse error in symbol dump file\n");
 }
 
-<<<<<<< HEAD
-=======
-/* For normal builds always dump all symbols.
- * For external modules only dump symbols
- * that are not read from kernel Module.symvers.
- **/
-static int dump_sym(struct symbol *sym)
-{
-	if (!external_module)
-		return 1;
-	if (sym->module->from_dump)
-		return 0;
-	return 1;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void write_dump(const char *fname)
 {
 	struct buffer buf = { };
@@ -2549,11 +2437,7 @@ static void write_dump(const char *fname)
 	for (n = 0; n < SYMBOL_HASH_SIZE ; n++) {
 		symbol = symbolhash[n];
 		while (symbol) {
-<<<<<<< HEAD
 			if (!symbol->module->from_dump) {
-=======
-			if (dump_sym(symbol)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				namespace = symbol->namespace;
 				buf_printf(&buf, "0x%08x\t%s\t%s\t%s\t%s\n",
 					   symbol->crc, symbol->name,
@@ -2665,13 +2549,6 @@ int main(int argc, char **argv)
 	if (files_source)
 		read_symbols_from_files(files_source);
 
-	/*
-	 * When there's no vmlinux, don't print warnings about
-	 * unresolved symbols (since there'll be too many ;)
-	 */
-	if (!have_vmlinux)
-		warn("Symbol info of vmlinux is missing. Unresolved symbol check will be entirely skipped.\n");
-
 	for (mod = modules; mod; mod = mod->next) {
 		char fname[PATH_MAX];
 
@@ -2714,6 +2591,10 @@ int main(int argc, char **argv)
 				      export_str(s->export));
 		}
 	}
+
+	if (nr_unresolved > MAX_UNRESOLVED_REPORTS)
+		warn("suppressed %u unresolved symbol warnings because there were too many)\n",
+		     nr_unresolved - MAX_UNRESOLVED_REPORTS);
 
 	free(buf.p);
 

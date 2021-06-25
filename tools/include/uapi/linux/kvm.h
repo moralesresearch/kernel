@@ -8,10 +8,7 @@
  * Note: you must update KVM_API_VERSION if you change this interface.
  */
 
-<<<<<<< HEAD
 #include <linux/const.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/types.h>
 #include <linux/compiler.h>
 #include <linux/ioctl.h>
@@ -220,7 +217,6 @@ struct kvm_hyperv_exit {
 	} u;
 };
 
-<<<<<<< HEAD
 struct kvm_xen_exit {
 #define KVM_EXIT_XEN_HCALL          1
 	__u32 type;
@@ -235,8 +231,6 @@ struct kvm_xen_exit {
 	} u;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_S390_GET_SKEYS_NONE   1
 #define KVM_S390_SKEYS_MAX        1048576
 
@@ -273,11 +267,8 @@ struct kvm_xen_exit {
 #define KVM_EXIT_X86_WRMSR        30
 #define KVM_EXIT_DIRTY_RING_FULL  31
 #define KVM_EXIT_AP_RESET_HOLD    32
-<<<<<<< HEAD
 #define KVM_EXIT_X86_BUS_LOCK     33
 #define KVM_EXIT_XEN              34
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* For KVM_EXIT_INTERNAL_ERROR */
 /* Emulate instruction failed. */
@@ -454,11 +445,8 @@ struct kvm_run {
 			__u32 index; /* kernel -> user */
 			__u64 data; /* kernel <-> user */
 		} msr;
-<<<<<<< HEAD
 		/* KVM_EXIT_XEN */
 		struct kvm_xen_exit xen;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Fix the size of the union. */
 		char padding[256];
 	};
@@ -1089,11 +1077,12 @@ struct kvm_ppc_resize_hpt {
 #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
 #define KVM_CAP_SYS_HYPERV_CPUID 191
 #define KVM_CAP_DIRTY_LOG_RING 192
-<<<<<<< HEAD
 #define KVM_CAP_X86_BUS_LOCK_EXIT 193
 #define KVM_CAP_PPC_DAWR1 194
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#define KVM_CAP_SET_GUEST_DEBUG2 195
+#define KVM_CAP_SGX_ATTRIBUTE 196
+#define KVM_CAP_VM_COPY_ENC_CONTEXT_FROM 197
+#define KVM_CAP_PTP_KVM 198
 
 #ifdef KVM_CAP_IRQ_ROUTING
 
@@ -1167,14 +1156,11 @@ struct kvm_x86_mce {
 #endif
 
 #ifdef KVM_CAP_XEN_HVM
-<<<<<<< HEAD
 #define KVM_XEN_HVM_CONFIG_HYPERCALL_MSR	(1 << 0)
 #define KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL	(1 << 1)
 #define KVM_XEN_HVM_CONFIG_SHARED_INFO		(1 << 2)
 #define KVM_XEN_HVM_CONFIG_RUNSTATE		(1 << 3)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct kvm_xen_hvm_config {
 	__u32 flags;
 	__u32 msr;
@@ -1609,7 +1595,6 @@ struct kvm_pv_cmd {
 /* Available with KVM_CAP_DIRTY_LOG_RING */
 #define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc7)
 
-<<<<<<< HEAD
 /* Per-VM Xen attributes */
 #define KVM_XEN_HVM_GET_ATTR	_IOWR(KVMIO, 0xc8, struct kvm_xen_hvm_attr)
 #define KVM_XEN_HVM_SET_ATTR	_IOW(KVMIO,  0xc9, struct kvm_xen_hvm_attr)
@@ -1661,8 +1646,6 @@ struct kvm_xen_vcpu_attr {
 #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_DATA	0x4
 #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST	0x5
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Secure Encrypted Virtualization command */
 enum sev_cmd_id {
 	/* Guest initialization commands */
@@ -1691,11 +1674,10 @@ enum sev_cmd_id {
 	KVM_SEV_DBG_ENCRYPT,
 	/* Guest certificates commands */
 	KVM_SEV_CERT_EXPORT,
-<<<<<<< HEAD
 	/* Attestation report */
 	KVM_SEV_GET_ATTESTATION_REPORT,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	/* Guest Migration Extension */
+	KVM_SEV_SEND_CANCEL,
 
 	KVM_SEV_NR_MAX,
 };
@@ -1748,15 +1730,51 @@ struct kvm_sev_dbg {
 	__u32 len;
 };
 
-<<<<<<< HEAD
 struct kvm_sev_attestation_report {
 	__u8 mnonce[16];
 	__u64 uaddr;
 	__u32 len;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+struct kvm_sev_send_start {
+	__u32 policy;
+	__u64 pdh_cert_uaddr;
+	__u32 pdh_cert_len;
+	__u64 plat_certs_uaddr;
+	__u32 plat_certs_len;
+	__u64 amd_certs_uaddr;
+	__u32 amd_certs_len;
+	__u64 session_uaddr;
+	__u32 session_len;
+};
+
+struct kvm_sev_send_update_data {
+	__u64 hdr_uaddr;
+	__u32 hdr_len;
+	__u64 guest_uaddr;
+	__u32 guest_len;
+	__u64 trans_uaddr;
+	__u32 trans_len;
+};
+
+struct kvm_sev_receive_start {
+	__u32 handle;
+	__u32 policy;
+	__u64 pdh_uaddr;
+	__u32 pdh_len;
+	__u64 session_uaddr;
+	__u32 session_len;
+};
+
+struct kvm_sev_receive_update_data {
+	__u64 hdr_uaddr;
+	__u32 hdr_len;
+	__u64 guest_uaddr;
+	__u32 guest_len;
+	__u64 trans_uaddr;
+	__u32 trans_len;
+};
+
 #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
 #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
 #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
@@ -1862,13 +1880,8 @@ struct kvm_hyperv_eventfd {
  * conversion after harvesting an entry.  Also, it must not skip any
  * dirty bits, so that dirty bits are always harvested in sequence.
  */
-<<<<<<< HEAD
 #define KVM_DIRTY_GFN_F_DIRTY           _BITUL(0)
 #define KVM_DIRTY_GFN_F_RESET           _BITUL(1)
-=======
-#define KVM_DIRTY_GFN_F_DIRTY           BIT(0)
-#define KVM_DIRTY_GFN_F_RESET           BIT(1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_DIRTY_GFN_F_MASK            0x3
 
 /*
@@ -1883,10 +1896,7 @@ struct kvm_dirty_gfn {
 	__u64 offset;
 };
 
-<<<<<<< HEAD
 #define KVM_BUS_LOCK_DETECTION_OFF             (1 << 0)
 #define KVM_BUS_LOCK_DETECTION_EXIT            (1 << 1)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_KVM_H */

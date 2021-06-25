@@ -19,10 +19,6 @@
 MODULE_DESCRIPTION("Edirol UA-101/1000 driver");
 MODULE_AUTHOR("Clemens Ladisch <clemens@ladisch.de>");
 MODULE_LICENSE("GPL v2");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Edirol,UA-101},{Edirol,UA-1000}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Should not be lower than the minimum scheduling delay of the host

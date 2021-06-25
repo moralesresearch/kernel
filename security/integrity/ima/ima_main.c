@@ -218,13 +218,8 @@ static int process_measurement(struct file *file, const struct cred *cred,
 	 * bitmask based on the appraise/audit/measurement policy.
 	 * Included is the appraise submask.
 	 */
-<<<<<<< HEAD
 	action = ima_get_action(file_mnt_user_ns(file), inode, cred, secid,
 				mask, func, &pcr, &template_desc, NULL);
-=======
-	action = ima_get_action(inode, cred, secid, mask, func, &pcr,
-				&template_desc, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	violation_check = ((func == FILE_CHECK || func == MMAP_CHECK) &&
 			   (ima_policy_flag & IMA_MEASURE));
 	if (!action && !violation_check)
@@ -396,7 +391,7 @@ int ima_file_mmap(struct file *file, unsigned long prot)
 	u32 secid;
 
 	if (file && (prot & PROT_EXEC)) {
-		security_task_getsecid(current, &secid);
+		security_task_getsecid_subj(current, &secid);
 		return process_measurement(file, current_cred(), secid, NULL,
 					   0, MAY_EXEC, MMAP_CHECK);
 	}
@@ -434,16 +429,11 @@ int ima_file_mprotect(struct vm_area_struct *vma, unsigned long prot)
 	    !(prot & PROT_EXEC) || (vma->vm_flags & VM_EXEC))
 		return 0;
 
-	security_task_getsecid(current, &secid);
+	security_task_getsecid_subj(current, &secid);
 	inode = file_inode(vma->vm_file);
-<<<<<<< HEAD
 	action = ima_get_action(file_mnt_user_ns(vma->vm_file), inode,
 				current_cred(), secid, MAY_EXEC, MMAP_CHECK,
 				&pcr, &template, 0);
-=======
-	action = ima_get_action(inode, current_cred(), secid, MAY_EXEC,
-				MMAP_CHECK, &pcr, &template, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Is the mmap'ed file in policy? */
 	if (!(action & (IMA_MEASURE | IMA_APPRAISE_SUBMASK)))
@@ -480,7 +470,7 @@ int ima_bprm_check(struct linux_binprm *bprm)
 	int ret;
 	u32 secid;
 
-	security_task_getsecid(current, &secid);
+	security_task_getsecid_subj(current, &secid);
 	ret = process_measurement(bprm->file, current_cred(), secid, NULL, 0,
 				  MAY_EXEC, BPRM_CHECK);
 	if (ret)
@@ -492,7 +482,7 @@ int ima_bprm_check(struct linux_binprm *bprm)
 }
 
 /**
- * ima_path_check - based on policy, collect/store measurement.
+ * ima_file_check - based on policy, collect/store measurement.
  * @file: pointer to the file to be measured
  * @mask: contains MAY_READ, MAY_WRITE, MAY_EXEC or MAY_APPEND
  *
@@ -505,7 +495,7 @@ int ima_file_check(struct file *file, int mask)
 {
 	u32 secid;
 
-	security_task_getsecid(current, &secid);
+	security_task_getsecid_subj(current, &secid);
 	return process_measurement(file, current_cred(), secid, NULL, 0,
 				   mask & (MAY_READ | MAY_WRITE | MAY_EXEC |
 					   MAY_APPEND), FILE_CHECK);
@@ -603,32 +593,24 @@ EXPORT_SYMBOL_GPL(ima_inode_hash);
 
 /**
  * ima_post_create_tmpfile - mark newly created tmpfile as new
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @file : newly created tmpfile
  *
  * No measuring, appraising or auditing of newly created tmpfiles is needed.
  * Skip calling process_measurement(), but indicate which newly, created
  * tmpfiles are in policy.
  */
-<<<<<<< HEAD
 void ima_post_create_tmpfile(struct user_namespace *mnt_userns,
 			     struct inode *inode)
-=======
-void ima_post_create_tmpfile(struct inode *inode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct integrity_iint_cache *iint;
 	int must_appraise;
 
-<<<<<<< HEAD
+	if (!ima_policy_flag || !S_ISREG(inode->i_mode))
+		return;
+
 	must_appraise = ima_must_appraise(mnt_userns, inode, MAY_ACCESS,
 					  FILE_CHECK);
-=======
-	must_appraise = ima_must_appraise(inode, MAY_ACCESS, FILE_CHECK);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!must_appraise)
 		return;
 
@@ -644,32 +626,24 @@ void ima_post_create_tmpfile(struct inode *inode)
 
 /**
  * ima_post_path_mknod - mark as a new inode
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dentry: newly created dentry
  *
  * Mark files created via the mknodat syscall as new, so that the
  * file data can be written later.
  */
-<<<<<<< HEAD
 void ima_post_path_mknod(struct user_namespace *mnt_userns,
 			 struct dentry *dentry)
-=======
-void ima_post_path_mknod(struct dentry *dentry)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct integrity_iint_cache *iint;
 	struct inode *inode = dentry->d_inode;
 	int must_appraise;
 
-<<<<<<< HEAD
+	if (!ima_policy_flag || !S_ISREG(inode->i_mode))
+		return;
+
 	must_appraise = ima_must_appraise(mnt_userns, inode, MAY_ACCESS,
 					  FILE_CHECK);
-=======
-	must_appraise = ima_must_appraise(inode, MAY_ACCESS, FILE_CHECK);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!must_appraise)
 		return;
 
@@ -718,7 +692,7 @@ int ima_read_file(struct file *file, enum kernel_read_file_id read_id,
 
 	/* Read entire file for all partial reads. */
 	func = read_idmap[read_id] ?: FILE_CHECK;
-	security_task_getsecid(current, &secid);
+	security_task_getsecid_subj(current, &secid);
 	return process_measurement(file, current_cred(), secid, NULL,
 				   0, MAY_READ, func);
 }
@@ -761,7 +735,7 @@ int ima_post_read_file(struct file *file, void *buf, loff_t size,
 	}
 
 	func = read_idmap[read_id] ?: FILE_CHECK;
-	security_task_getsecid(current, &secid);
+	security_task_getsecid_subj(current, &secid);
 	return process_measurement(file, current_cred(), secid, buf, size,
 				   MAY_READ, func);
 }
@@ -812,6 +786,7 @@ int ima_load_data(enum kernel_load_data_id id, bool contents)
 			pr_err("impossible to appraise a module without a file descriptor. sig_enforce kernel parameter might help\n");
 			return -EACCES;	/* INTEGRITY_UNKNOWN */
 		}
+		break;
 	default:
 		break;
 	}
@@ -848,19 +823,14 @@ int ima_post_load_data(char *buf, loff_t size,
 }
 
 /*
-<<<<<<< HEAD
  * process_buffer_measurement - Measure the buffer or the buffer data hash
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
- * process_buffer_measurement - Measure the buffer to ima log.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: inode associated with the object being measured (NULL for KEY_CHECK)
  * @buf: pointer to the buffer that needs to be added to the log.
  * @size: size of buffer(in bytes).
  * @eventname: event name to be used for the buffer entry.
  * @func: IMA hook
  * @pcr: pcr to extend the measurement
-<<<<<<< HEAD
  * @func_data: func specific data, may be NULL
  * @buf_hash: measure buffer data hash
  *
@@ -871,15 +841,6 @@ void process_buffer_measurement(struct user_namespace *mnt_userns,
 				const char *eventname, enum ima_hooks func,
 				int pcr, const char *func_data,
 				bool buf_hash)
-=======
- * @keyring: keyring name to determine the action to be performed
- *
- * Based on policy, the buffer is measured into the ima log.
- */
-void process_buffer_measurement(struct inode *inode, const void *buf, int size,
-				const char *eventname, enum ima_hooks func,
-				int pcr, const char *keyring)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0;
 	const char *audit_cause = "ENOMEM";
@@ -894,11 +855,8 @@ void process_buffer_measurement(struct inode *inode, const void *buf, int size,
 		struct ima_digest_data hdr;
 		char digest[IMA_MAX_DIGEST_SIZE];
 	} hash = {};
-<<<<<<< HEAD
 	char digest_hash[IMA_MAX_DIGEST_SIZE];
 	int digest_hash_len = hash_digest_size[ima_hash_algo];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int violation = 0;
 	int action = 0;
 	u32 secid;
@@ -921,15 +879,10 @@ void process_buffer_measurement(struct inode *inode, const void *buf, int size,
 	 * buffer measurements.
 	 */
 	if (func) {
-		security_task_getsecid(current, &secid);
-<<<<<<< HEAD
+		security_task_getsecid_subj(current, &secid);
 		action = ima_get_action(mnt_userns, inode, current_cred(),
 					secid, 0, func, &pcr, &template,
 					func_data);
-=======
-		action = ima_get_action(inode, current_cred(), secid, 0, func,
-					&pcr, &template, keyring);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!(action & IMA_MEASURE))
 			return;
 	}
@@ -947,7 +900,6 @@ void process_buffer_measurement(struct inode *inode, const void *buf, int size,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	if (buf_hash) {
 		memcpy(digest_hash, hash.hdr.digest, digest_hash_len);
 
@@ -962,19 +914,13 @@ void process_buffer_measurement(struct inode *inode, const void *buf, int size,
 		event_data.buf_len = digest_hash_len;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ima_alloc_init_template(&event_data, &entry, template);
 	if (ret < 0) {
 		audit_cause = "alloc_entry";
 		goto out;
 	}
 
-<<<<<<< HEAD
 	ret = ima_store_template(entry, violation, NULL, event_data.buf, pcr);
-=======
-	ret = ima_store_template(entry, violation, NULL, buf, pcr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		audit_cause = "store_entry";
 		ima_free_template_entry(entry);
@@ -1008,7 +954,6 @@ void ima_kexec_cmdline(int kernel_fd, const void *buf, int size)
 	if (!f.file)
 		return;
 
-<<<<<<< HEAD
 	process_buffer_measurement(file_mnt_user_ns(f.file), file_inode(f.file),
 				   buf, size, "kexec-cmdline", KEXEC_CMDLINE, 0,
 				   NULL, false);
@@ -1041,13 +986,6 @@ void ima_measure_critical_data(const char *event_label,
 				   hash);
 }
 
-=======
-	process_buffer_measurement(file_inode(f.file), buf, size,
-				   "kexec-cmdline", KEXEC_CMDLINE, 0, NULL);
-	fdput(f);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init init_ima(void)
 {
 	int error;

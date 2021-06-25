@@ -103,11 +103,7 @@ struct inode *udf_new_inode(struct inode *dir, umode_t mode)
 		mutex_unlock(&sbi->s_alloc_mutex);
 	}
 
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-	inode_init_owner(inode, dir, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (UDF_QUERY_FLAG(sb, UDF_FLAG_UID_SET))
 		inode->i_uid = sbi->s_uid;
 	if (UDF_QUERY_FLAG(sb, UDF_FLAG_GID_SET))

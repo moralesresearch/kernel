@@ -234,7 +234,6 @@
 
 #define IMX8MN_CLK_A53_CORE			214
 
-<<<<<<< HEAD
 #define IMX8MN_CLK_CLKOUT1_SEL			215
 #define IMX8MN_CLK_CLKOUT1_DIV			216
 #define IMX8MN_CLK_CLKOUT1			217
@@ -243,8 +242,5 @@
 #define IMX8MN_CLK_CLKOUT2			220
 
 #define IMX8MN_CLK_END				221
-=======
-#define IMX8MN_CLK_END				215
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

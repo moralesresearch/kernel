@@ -1220,10 +1220,7 @@ int bnx2fc_eh_abort(struct scsi_cmnd *sc_cmd)
 		   was a result from the ABTS request rather than the CLEANUP
 		   request */
 		set_bit(BNX2FC_FLAG_IO_CLEANUP,	&io_req->req_flags);
-<<<<<<< HEAD
 		rc = FAILED;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto done;
 	}
 

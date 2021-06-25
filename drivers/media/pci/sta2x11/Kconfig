@@ -3,10 +3,7 @@ config STA2X11_VIP
 	tristate "STA2X11 VIP Video For Linux"
 	depends on PCI && VIDEO_V4L2 && VIRT_TO_BUS && I2C
 	depends on STA2X11 || COMPILE_TEST
-<<<<<<< HEAD
 	select GPIOLIB if MEDIA_SUBDRV_AUTOSELECT
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select VIDEO_ADV7180 if MEDIA_SUBDRV_AUTOSELECT
 	select VIDEOBUF2_DMA_CONTIG
 	select MEDIA_CONTROLLER

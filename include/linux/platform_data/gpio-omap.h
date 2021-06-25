@@ -85,10 +85,7 @@
  * omap2+ specific GPIO registers
  */
 #define OMAP24XX_GPIO_REVISION		0x0000
-<<<<<<< HEAD
 #define OMAP24XX_GPIO_SYSCONFIG		0x0010
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define OMAP24XX_GPIO_IRQSTATUS1	0x0018
 #define OMAP24XX_GPIO_IRQSTATUS2	0x0028
 #define OMAP24XX_GPIO_IRQENABLE2	0x002c
@@ -112,10 +109,7 @@
 #define OMAP24XX_GPIO_SETDATAOUT	0x0094
 
 #define OMAP4_GPIO_REVISION		0x0000
-<<<<<<< HEAD
 #define OMAP4_GPIO_SYSCONFIG		0x0010
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define OMAP4_GPIO_EOI			0x0020
 #define OMAP4_GPIO_IRQSTATUSRAW0	0x0024
 #define OMAP4_GPIO_IRQSTATUSRAW1	0x0028
@@ -156,10 +150,7 @@
 #ifndef __ASSEMBLER__
 struct omap_gpio_reg_offs {
 	u16 revision;
-<<<<<<< HEAD
 	u16 sysconfig;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 direction;
 	u16 datain;
 	u16 dataout;

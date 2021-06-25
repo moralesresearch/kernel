@@ -136,14 +136,6 @@ static struct gfs2_sbd *init_sbd(struct super_block *sb)
 
 	init_rwsem(&sdp->sd_log_flush_lock);
 	atomic_set(&sdp->sd_log_in_flight, 0);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	atomic_set(&sdp->sd_reserving_log, 0);
-	init_waitqueue_head(&sdp->sd_reserving_log_wait);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_waitqueue_head(&sdp->sd_log_flush_wait);
 	atomic_set(&sdp->sd_freeze_state, SFS_UNFROZEN);
 	mutex_init(&sdp->sd_freeze_mutex);
@@ -158,7 +150,6 @@ fail:
 /**
  * gfs2_check_sb - Check superblock
  * @sdp: the filesystem
- * @sb: The superblock
  * @silent: Don't print a message if the check fails
  *
  * Checks the version code of the FS is one that we understand how to
@@ -177,17 +168,8 @@ static int gfs2_check_sb(struct gfs2_sbd *sdp, int silent)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (sb->sb_fs_format < GFS2_FS_FORMAT_MIN ||
 	    sb->sb_fs_format > GFS2_FS_FORMAT_MAX ||
-=======
-<<<<<<< HEAD
-	if (sb->sb_fs_format < GFS2_FS_FORMAT_MIN ||
-	    sb->sb_fs_format > GFS2_FS_FORMAT_MAX ||
-=======
-	if (sb->sb_fs_format != GFS2_FORMAT_FS ||
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    sb->sb_multihost_format != GFS2_FORMAT_MULTI) {
 		fs_warn(sdp, "Unknown on-disk format, unable to mount\n");
 		return -EINVAL;
@@ -195,15 +177,7 @@ static int gfs2_check_sb(struct gfs2_sbd *sdp, int silent)
 
 	if (sb->sb_bsize < 512 || sb->sb_bsize > PAGE_SIZE ||
 	    (sb->sb_bsize & (sb->sb_bsize - 1))) {
-<<<<<<< HEAD
 		pr_warn("Invalid block size\n");
-=======
-<<<<<<< HEAD
-		pr_warn("Invalid block size\n");
-=======
-		pr_warn("Invalid superblock size\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -229,7 +203,6 @@ static void gfs2_sb_in(struct gfs2_sbd *sdp, const void *buf)
 
 	sb->sb_magic = be32_to_cpu(str->sb_header.mh_magic);
 	sb->sb_type = be32_to_cpu(str->sb_header.mh_type);
-	sb->sb_format = be32_to_cpu(str->sb_header.mh_format);
 	sb->sb_fs_format = be32_to_cpu(str->sb_fs_format);
 	sb->sb_multihost_format = be32_to_cpu(str->sb_multihost_format);
 	sb->sb_bsize = be32_to_cpu(str->sb_bsize);
@@ -248,7 +221,7 @@ static void gfs2_sb_in(struct gfs2_sbd *sdp, const void *buf)
  * gfs2_read_super - Read the gfs2 super block from disk
  * @sdp: The GFS2 super block
  * @sector: The location of the super block
- * @error: The error code to return
+ * @silent: Don't print a message if the check fails
  *
  * This uses the bio functions to read the super block from disk
  * because we want to be 100% sure that we never read cached data.
@@ -341,10 +314,6 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
 				     sizeof(struct gfs2_meta_header))
 		* GFS2_NBBY; /* not the rgrp bitmap, subsequent bitmaps only */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We always keep at least one block reserved for revokes in
 	 * transactions.  This greatly simplifies allocating additional
@@ -352,11 +321,6 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
 	 */
 	atomic_set(&sdp->sd_log_revokes_available, sdp->sd_ldptrs);
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Compute maximum reservation required to add a entry to a directory */
 
 	hash_blocks = DIV_ROUND_UP(sizeof(u64) * BIT(GFS2_DIR_MAX_DEPTH),
@@ -528,10 +492,6 @@ static int init_sb(struct gfs2_sbd *sdp, int silent)
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch(sdp->sd_sb.sb_fs_format) {
 	case GFS2_FS_FORMAT_MAX:
 		sb->s_xattr = gfs2_xattr_handlers_max;
@@ -545,11 +505,6 @@ static int init_sb(struct gfs2_sbd *sdp, int silent)
 		BUG();
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Set up the buffer cache and SB for real */
 	if (sdp->sd_sb.sb_bsize < bdev_logical_block_size(sb->s_bdev)) {
 		ret = -EINVAL;
@@ -1026,7 +981,6 @@ static const struct lm_lockops nolock_ops = {
 /**
  * gfs2_lm_mount - mount a locking protocol
  * @sdp: the filesystem
- * @args: mount arguments
  * @silent: if 1, don't complain if the FS isn't a GFS2 fs
  *
  * Returns: errno
@@ -1094,31 +1048,14 @@ hostdata_error:
 	}
 
 	if (lm->lm_mount == NULL) {
-<<<<<<< HEAD
 		fs_info(sdp, "Now mounting FS (format %u)...\n", sdp->sd_sb.sb_fs_format);
-=======
-<<<<<<< HEAD
-		fs_info(sdp, "Now mounting FS (format %u)...\n", sdp->sd_sb.sb_fs_format);
-=======
-		fs_info(sdp, "Now mounting FS...\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		complete_all(&sdp->sd_locking_init);
 		return 0;
 	}
 	ret = lm->lm_mount(sdp, table);
 	if (ret == 0)
-<<<<<<< HEAD
 		fs_info(sdp, "Joined cluster. Now mounting FS (format %u)...\n",
 		        sdp->sd_sb.sb_fs_format);
-=======
-<<<<<<< HEAD
-		fs_info(sdp, "Joined cluster. Now mounting FS (format %u)...\n",
-		        sdp->sd_sb.sb_fs_format);
-=======
-		fs_info(sdp, "Joined cluster. Now mounting FS...\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	complete_all(&sdp->sd_locking_init);
 	return ret;
 }
@@ -1153,8 +1090,7 @@ void gfs2_online_uevent(struct gfs2_sbd *sdp)
 /**
  * gfs2_fill_super - Read in superblock
  * @sb: The VFS superblock
- * @args: Mount options
- * @silent: Don't complain if it's not a GFS2 filesystem
+ * @fc: Mount options and flags
  *
  * Returns: -errno
  */
@@ -1188,13 +1124,6 @@ static int gfs2_fill_super(struct super_block *sb, struct fs_context *fc)
 	sb->s_op = &gfs2_super_ops;
 	sb->s_d_op = &gfs2_dops;
 	sb->s_export_op = &gfs2_export_ops;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	sb->s_xattr = gfs2_xattr_handlers;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sb->s_qcop = &gfs2_quotactl_ops;
 	sb->s_quota_types = QTYPE_MASK_USR | QTYPE_MASK_GRP;
 	sb_dqopt(sb)->flags |= DQUOT_QUOTA_SYS_FILE;
@@ -1243,19 +1172,10 @@ static int gfs2_fill_super(struct super_block *sb, struct fs_context *fc)
 	if (error)
 		goto fail_locking;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Turn rgrplvb on by default if fs format is recent enough */
 	if (!sdp->sd_args.ar_got_rgrplvb && sdp->sd_sb.sb_fs_format > 1801)
 		sdp->sd_args.ar_rgrplvb = 1;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = wait_on_journal(sdp);
 	if (error)
 		goto fail_sb;
@@ -1549,14 +1469,7 @@ static int gfs2_parse_param(struct fs_context *fc, struct fs_parameter *param)
 		break;
 	case Opt_rgrplvb:
 		args->ar_rgrplvb = result.boolean;
-<<<<<<< HEAD
 		args->ar_got_rgrplvb = 1;
-=======
-<<<<<<< HEAD
-		args->ar_got_rgrplvb = 1;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case Opt_loccookie:
 		args->ar_loccookie = result.boolean;
@@ -1622,17 +1535,7 @@ static int gfs2_reconfigure(struct fs_context *fc)
 			return -EINVAL;
 
 		if (fc->sb_flags & SB_RDONLY) {
-<<<<<<< HEAD
 			gfs2_make_fs_ro(sdp);
-=======
-<<<<<<< HEAD
-			gfs2_make_fs_ro(sdp);
-=======
-			error = gfs2_make_fs_ro(sdp);
-			if (error)
-				errorfc(fc, "unable to remount read-only");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			error = gfs2_make_fs_rw(sdp);
 			if (error)

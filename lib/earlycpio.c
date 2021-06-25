@@ -40,11 +40,7 @@ enum cpio_fields {
 };
 
 /**
-<<<<<<< HEAD
  * find_cpio_data - Search for files in an uncompressed cpio
-=======
- * cpio_data find_cpio_data - Search for files in an uncompressed cpio
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @path:       The directory to search for, including a slash at the end
  * @data:       Pointer to the cpio archive or a header inside
  * @len:        Remaining length of the cpio based on data pointer
@@ -53,11 +49,7 @@ enum cpio_fields {
  *              matching file itself. It can be used to iterate through the cpio
  *              to find all files inside of a directory path.
  *
-<<<<<<< HEAD
  * Return:      &struct cpio_data containing the address, length and
-=======
- * @return:     struct cpio_data containing the address, length and
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *              filename (with the directory path cut off) of the found file.
  *              If you search for a filename and not for files in a directory,
  *              pass the absolute path of the filename in the cpio and make sure

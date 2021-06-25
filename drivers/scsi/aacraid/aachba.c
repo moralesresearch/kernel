@@ -556,11 +556,7 @@ static void get_container_name_callback(void *context, struct fib * fibptr)
 		}
 	}
 
-<<<<<<< HEAD
 	scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-	scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	aac_fib_complete(fibptr);
 	scsicmd->scsi_done(scsicmd);
@@ -790,8 +786,8 @@ static int _aac_probe_container(struct scsi_cmnd * scsicmd, int (*callback)(stru
 }
 
 /**
- *	aac_probe_container		-	query a logical volume
- * @scsicmd: the scsi command block
+ *	aac_probe_container_callback1	-	query a logical volume
+ *	@scsicmd: the scsi command block
  *
  *	Queries the controller about the given volume. The volume information
  *	is updated in the struct fsa_dev_info structure rather than returned.
@@ -842,7 +838,7 @@ struct scsi_inq {
 };
 
 /**
- *	InqStrCopy	-	string merge
+ *	inqstrcpy	-	string merge
  *	@a:	string to copy from
  *	@b:	string to copy to
  *
@@ -1096,11 +1092,7 @@ static void get_container_serial_callback(void *context, struct fib * fibptr)
 		}
 	}
 
-<<<<<<< HEAD
 	scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-	scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	aac_fib_complete(fibptr);
 	scsicmd->scsi_done(scsicmd);
@@ -1199,12 +1191,7 @@ static int aac_bounds_32(struct aac_dev * dev, struct scsi_cmnd * cmd, u64 lba)
 	if (lba & 0xffffffff00000000LL) {
 		int cid = scmd_id(cmd);
 		dprintk((KERN_DEBUG "aacraid: Illegal lba\n"));
-<<<<<<< HEAD
 		cmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		cmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 		  HARDWARE_ERROR, SENCODE_INTERNAL_TARGET_FAILURE,
 		  ASENCODE_INTERNAL_TARGET_FAILURE, 0, 0);
@@ -1817,7 +1804,7 @@ static inline void aac_free_safw_ciss_luns(struct aac_dev *dev)
 }
 
 /**
- *	aac_get_safw_ciss_luns()	Process topology change
+ *	aac_get_safw_ciss_luns() - Process topology change
  *	@dev:		aac_dev structure
  *
  *	Execute a CISS REPORT PHYS LUNS and process the results into
@@ -1892,11 +1879,6 @@ static inline u32 aac_get_safw_phys_attribs(struct aac_dev *dev, int lun)
 static inline u32 aac_get_safw_phys_nexus(struct aac_dev *dev, int lun)
 {
 	return *((u32 *)&dev->safw_phys_luns->lun[lun].node_ident[12]);
-}
-
-static inline u32 aac_get_safw_phys_device_type(struct aac_dev *dev, int lun)
-{
-	return dev->safw_phys_luns->lun[lun].node_ident[8];
 }
 
 static inline void aac_free_safw_identify_resp(struct aac_dev *dev,
@@ -2376,21 +2358,11 @@ static void io_callback(void *context, struct fib * fibptr)
 	readreply = (struct aac_read_reply *)fib_data(fibptr);
 	switch (le32_to_cpu(readreply->status)) {
 	case ST_OK:
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
 		dev->fsa_dev[cid].sense_data.sense_key = NO_SENSE;
 		break;
 	case ST_NOT_READY:
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_GOOD;
-		dev->fsa_dev[cid].sense_data.sense_key = NO_SENSE;
-		break;
-	case ST_NOT_READY:
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data, NOT_READY,
 		  SENCODE_BECOMING_READY, ASENCODE_BECOMING_READY, 0, 0);
 		memcpy(scsicmd->sense_buffer, &dev->fsa_dev[cid].sense_data,
@@ -2398,12 +2370,7 @@ static void io_callback(void *context, struct fib * fibptr)
 			     SCSI_SENSE_BUFFERSIZE));
 		break;
 	case ST_MEDERR:
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data, MEDIUM_ERROR,
 		  SENCODE_UNRECOVERED_READ_ERROR, ASENCODE_NO_SENSE, 0, 0);
 		memcpy(scsicmd->sense_buffer, &dev->fsa_dev[cid].sense_data,
@@ -2415,12 +2382,7 @@ static void io_callback(void *context, struct fib * fibptr)
 		printk(KERN_WARNING "io_callback: io failed, status = %d\n",
 		  le32_to_cpu(readreply->status));
 #endif
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 		  HARDWARE_ERROR, SENCODE_INTERNAL_TARGET_FAILURE,
 		  ASENCODE_INTERNAL_TARGET_FAILURE, 0, 0);
@@ -2495,12 +2457,7 @@ static int aac_read(struct scsi_cmnd * scsicmd)
 	if ((lba + count) > (dev->fsa_dev[scmd_id(scsicmd)].size)) {
 		cid = scmd_id(scsicmd);
 		dprintk((KERN_DEBUG "aacraid: Illegal lba\n"));
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 			  ILLEGAL_REQUEST, SENCODE_LBA_OUT_OF_RANGE,
 			  ASENCODE_INTERNAL_TARGET_FAILURE, 0, 0);
@@ -2532,11 +2489,7 @@ static int aac_read(struct scsi_cmnd * scsicmd)
 	/*
 	 *	For some reason, the Fib didn't queue, return QUEUE_FULL
 	 */
-<<<<<<< HEAD
 	scsicmd->result = DID_OK << 16 | SAM_STAT_TASK_SET_FULL;
-=======
-	scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_TASK_SET_FULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scsicmd->scsi_done(scsicmd);
 	aac_fib_complete(cmd_fibcontext);
 	aac_fib_free(cmd_fibcontext);
@@ -2595,12 +2548,7 @@ static int aac_write(struct scsi_cmnd * scsicmd)
 	if ((lba + count) > (dev->fsa_dev[scmd_id(scsicmd)].size)) {
 		cid = scmd_id(scsicmd);
 		dprintk((KERN_DEBUG "aacraid: Illegal lba\n"));
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-			SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 			  ILLEGAL_REQUEST, SENCODE_LBA_OUT_OF_RANGE,
 			  ASENCODE_INTERNAL_TARGET_FAILURE, 0, 0);
@@ -2632,11 +2580,7 @@ static int aac_write(struct scsi_cmnd * scsicmd)
 	/*
 	 *	For some reason, the Fib didn't queue, return QUEUE_FULL
 	 */
-<<<<<<< HEAD
 	scsicmd->result = DID_OK << 16 | SAM_STAT_TASK_SET_FULL;
-=======
-	scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_TASK_SET_FULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scsicmd->scsi_done(scsicmd);
 
 	aac_fib_complete(cmd_fibcontext);
@@ -2659,12 +2603,7 @@ static void synchronize_callback(void *context, struct fib *fibptr)
 
 	synchronizereply = fib_data(fibptr);
 	if (le32_to_cpu(synchronizereply->status) == CT_OK)
-<<<<<<< HEAD
 		cmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		cmd->result = DID_OK << 16 |
-			COMMAND_COMPLETE << 8 | SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else {
 		struct scsi_device *sdev = cmd->device;
 		struct aac_dev *dev = fibptr->dev;
@@ -2672,12 +2611,7 @@ static void synchronize_callback(void *context, struct fib *fibptr)
 		printk(KERN_WARNING
 		     "synchronize_callback: synchronize failed, status = %d\n",
 		     le32_to_cpu(synchronizereply->status));
-<<<<<<< HEAD
 		cmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		cmd->result = DID_OK << 16 |
-			COMMAND_COMPLETE << 8 | SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 		  HARDWARE_ERROR, SENCODE_INTERNAL_TARGET_FAILURE,
 		  ASENCODE_INTERNAL_TARGET_FAILURE, 0, 0);
@@ -2751,11 +2685,7 @@ static void aac_start_stop_callback(void *context, struct fib *fibptr)
 
 	BUG_ON(fibptr == NULL);
 
-<<<<<<< HEAD
 	scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-	scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	aac_fib_complete(fibptr);
 	aac_fib_free(fibptr);
@@ -2772,12 +2702,7 @@ static int aac_start_stop(struct scsi_cmnd *scsicmd)
 
 	if (!(aac->supplement_adapter_info.supported_options2 &
 	      AAC_OPTION_POWER_MANAGEMENT)) {
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		scsicmd->scsi_done(scsicmd);
 		return 0;
 	}
@@ -2908,11 +2833,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 		(scsicmd->cmnd[0] != TEST_UNIT_READY))
 	{
 		dprintk((KERN_WARNING "Only INQUIRY & TUR command supported for controller, rcvd = 0x%x.\n", scsicmd->cmnd[0]));
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 		  ILLEGAL_REQUEST, SENCODE_INVALID_COMMAND,
 		  ASENCODE_INVALID_COMMAND, 0, 0);
@@ -2941,12 +2862,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 
 	case SYNCHRONIZE_CACHE:
 		if (((aac_cache & 6) == 6) && dev->cache_protected) {
-<<<<<<< HEAD
 			scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-			scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-					  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		/* Issue FIB to tell Firmware to flush it's cache */
@@ -2975,13 +2891,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 				arr[1] = scsicmd->cmnd[2];
 				scsi_sg_copy_from_buffer(scsicmd, &inq_data,
 							 sizeof(inq_data));
-<<<<<<< HEAD
 				scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-				scsicmd->result = DID_OK << 16 |
-						  COMMAND_COMPLETE << 8 |
-						  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else if (scsicmd->cmnd[2] == 0x80) {
 				/* unit serial number page */
 				arr[3] = setinqserial(dev, &arr[4],
@@ -2992,13 +2902,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 				if (aac_wwn != 2)
 					return aac_get_container_serial(
 						scsicmd);
-<<<<<<< HEAD
 				scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-				scsicmd->result = DID_OK << 16 |
-						  COMMAND_COMPLETE << 8 |
-						  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else if (scsicmd->cmnd[2] == 0x83) {
 				/* vpd page 0x83 - Device Identification Page */
 				char *sno = (char *)&inq_data;
@@ -3007,21 +2911,10 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 				if (aac_wwn != 2)
 					return aac_get_container_serial(
 						scsicmd);
-<<<<<<< HEAD
 				scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
 			} else {
 				/* vpd page not implemented */
 				scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-				scsicmd->result = DID_OK << 16 |
-						  COMMAND_COMPLETE << 8 |
-						  SAM_STAT_GOOD;
-			} else {
-				/* vpd page not implemented */
-				scsicmd->result = DID_OK << 16 |
-				  COMMAND_COMPLETE << 8 |
-				  SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				set_sense(&dev->fsa_dev[cid].sense_data,
 				  ILLEGAL_REQUEST, SENCODE_INVALID_CDB_FIELD,
 				  ASENCODE_NO_SENSE, 7, 2);
@@ -3047,12 +2940,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 			inq_data.inqd_pdt = INQD_PDT_PROC;	/* Processor device */
 			scsi_sg_copy_from_buffer(scsicmd, &inq_data,
 						 sizeof(inq_data));
-<<<<<<< HEAD
 			scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-			scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-					  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		if (dev->in_reset)
@@ -3101,12 +2989,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 		/* Do not cache partition table for arrays */
 		scsicmd->device->removable = 1;
 
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -3132,12 +3015,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 		scsi_sg_copy_from_buffer(scsicmd, cp, sizeof(cp));
 		/* Do not cache partition table for arrays */
 		scsicmd->device->removable = 1;
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -3216,12 +3094,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 		scsi_sg_copy_from_buffer(scsicmd,
 					 (char *)&mpd,
 					 mode_buf_length);
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case MODE_SENSE_10:
@@ -3298,12 +3171,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 					 (char *)&mpd10,
 					 mode_buf_length);
 
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case REQUEST_SENSE:
@@ -3312,12 +3180,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 				sizeof(struct sense_data));
 		memset(&dev->fsa_dev[cid].sense_data, 0,
 				sizeof(struct sense_data));
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case ALLOW_MEDIUM_REMOVAL:
@@ -3327,24 +3190,14 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 		else
 			fsa_dev_ptr[cid].locked = 0;
 
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	/*
 	 *	These commands are all No-Ops
 	 */
 	case TEST_UNIT_READY:
 		if (fsa_dev_ptr[cid].sense_data.sense_key == NOT_READY) {
-<<<<<<< HEAD
 			scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-			scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			set_sense(&dev->fsa_dev[cid].sense_data,
 				  NOT_READY, SENCODE_BECOMING_READY,
 				  ASENCODE_BECOMING_READY, 0, 0);
@@ -3361,12 +3214,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 	case REZERO_UNIT:
 	case REASSIGN_BLOCKS:
 	case SEEK_10:
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_GOOD;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				  SAM_STAT_GOOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case START_STOP:
@@ -3378,12 +3226,7 @@ int aac_scsi_cmd(struct scsi_cmnd * scsicmd)
 	 */
 		dprintk((KERN_WARNING "Unhandled SCSI Command: 0x%x.\n",
 				scsicmd->cmnd[0]));
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 |
-				SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		set_sense(&dev->fsa_dev[cid].sense_data,
 			  ILLEGAL_REQUEST, SENCODE_INVALID_COMMAND,
 			  ASENCODE_INVALID_COMMAND, 0, 0);
@@ -3564,13 +3407,7 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 				le32_to_cpu(srbreply->status));
 		len = min_t(u32, le32_to_cpu(srbreply->sense_data_size),
 			    SCSI_SENSE_BUFFERSIZE);
-<<<<<<< HEAD
 		scsicmd->result = DID_ERROR << 16 | SAM_STAT_CHECK_CONDITION;
-=======
-		scsicmd->result = DID_ERROR << 16
-				| COMMAND_COMPLETE << 8
-				| SAM_STAT_CHECK_CONDITION;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(scsicmd->sense_buffer,
 				srbreply->sense_data, len);
 	}
@@ -3582,11 +3419,7 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 	case SRB_STATUS_ERROR_RECOVERY:
 	case SRB_STATUS_PENDING:
 	case SRB_STATUS_SUCCESS:
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SRB_STATUS_DATA_OVERRUN:
 		switch (scsicmd->cmnd[0]) {
@@ -3603,7 +3436,6 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 				pr_warn("aacraid: SCSI CMD underflow\n");
 			else
 				pr_warn("aacraid: SCSI CMD Data Overrun\n");
-<<<<<<< HEAD
 			scsicmd->result = DID_ERROR << 16;
 			break;
 		case INQUIRY:
@@ -3611,61 +3443,32 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 			break;
 		default:
 			scsicmd->result = DID_OK << 16;
-=======
-			scsicmd->result = DID_ERROR << 16
-					| COMMAND_COMPLETE << 8;
-			break;
-		case INQUIRY:
-			scsicmd->result = DID_OK << 16
-					| COMMAND_COMPLETE << 8;
-			break;
-		default:
-			scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		break;
 	case SRB_STATUS_ABORTED:
-<<<<<<< HEAD
 		scsicmd->result = DID_ABORT << 16;
-=======
-		scsicmd->result = DID_ABORT << 16 | ABORT << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SRB_STATUS_ABORT_FAILED:
 		/*
 		 * Not sure about this one - but assuming the
 		 * hba was trying to abort for some reason
 		 */
-<<<<<<< HEAD
 		scsicmd->result = DID_ERROR << 16;
 		break;
 	case SRB_STATUS_PARITY_ERROR:
 		scsicmd->result = DID_PARITY << 16;
-=======
-		scsicmd->result = DID_ERROR << 16 | ABORT << 8;
-		break;
-	case SRB_STATUS_PARITY_ERROR:
-		scsicmd->result = DID_PARITY << 16
-				| MSG_PARITY_ERROR << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SRB_STATUS_NO_DEVICE:
 	case SRB_STATUS_INVALID_PATH_ID:
 	case SRB_STATUS_INVALID_TARGET_ID:
 	case SRB_STATUS_INVALID_LUN:
 	case SRB_STATUS_SELECTION_TIMEOUT:
-<<<<<<< HEAD
 		scsicmd->result = DID_NO_CONNECT << 16;
-=======
-		scsicmd->result = DID_NO_CONNECT << 16
-				| COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case SRB_STATUS_COMMAND_TIMEOUT:
 	case SRB_STATUS_TIMEOUT:
-<<<<<<< HEAD
 		scsicmd->result = DID_TIME_OUT << 16;
 		break;
 
@@ -3679,25 +3482,6 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 
 	case SRB_STATUS_MESSAGE_REJECTED:
 		scsicmd->result = DID_ERROR << 16;
-=======
-		scsicmd->result = DID_TIME_OUT << 16
-				| COMMAND_COMPLETE << 8;
-		break;
-
-	case SRB_STATUS_BUSY:
-		scsicmd->result = DID_BUS_BUSY << 16
-				| COMMAND_COMPLETE << 8;
-		break;
-
-	case SRB_STATUS_BUS_RESET:
-		scsicmd->result = DID_RESET << 16
-				| COMMAND_COMPLETE << 8;
-		break;
-
-	case SRB_STATUS_MESSAGE_REJECTED:
-		scsicmd->result = DID_ERROR << 16
-				| MESSAGE_REJECT << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SRB_STATUS_REQUEST_FLUSHED:
 	case SRB_STATUS_ERROR:
@@ -3733,7 +3517,6 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 			|| (scsicmd->cmnd[0] == ATA_16)) {
 
 			if (scsicmd->cmnd[2] & (0x01 << 5)) {
-<<<<<<< HEAD
 				scsicmd->result = DID_OK << 16;
 			} else {
 				scsicmd->result = DID_ERROR << 16;
@@ -3742,21 +3525,6 @@ static void aac_srb_callback(void *context, struct fib * fibptr)
 			scsicmd->result = DID_ERROR << 16;
 		}
 		break;
-=======
-				scsicmd->result = DID_OK << 16
-					| COMMAND_COMPLETE << 8;
-			break;
-			} else {
-				scsicmd->result = DID_ERROR << 16
-					| COMMAND_COMPLETE << 8;
-			break;
-			}
-		} else {
-			scsicmd->result = DID_ERROR << 16
-				| COMMAND_COMPLETE << 8;
-			break;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (le32_to_cpu(srbreply->scsi_status)
 			== SAM_STAT_CHECK_CONDITION) {
@@ -3792,11 +3560,7 @@ static void hba_resp_task_complete(struct aac_dev *dev,
 
 	switch (err->status) {
 	case SAM_STAT_GOOD:
-<<<<<<< HEAD
 		scsicmd->result |= DID_OK << 16;
-=======
-		scsicmd->result |= DID_OK << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SAM_STAT_CHECK_CONDITION:
 	{
@@ -3807,7 +3571,6 @@ static void hba_resp_task_complete(struct aac_dev *dev,
 		if (len)
 			memcpy(scsicmd->sense_buffer,
 				err->sense_response_buf, len);
-<<<<<<< HEAD
 		scsicmd->result |= DID_OK << 16;
 		break;
 	}
@@ -3816,25 +3579,11 @@ static void hba_resp_task_complete(struct aac_dev *dev,
 		break;
 	case SAM_STAT_TASK_ABORTED:
 		scsicmd->result |= DID_ABORT << 16;
-=======
-		scsicmd->result |= DID_OK << 16 | COMMAND_COMPLETE << 8;
-		break;
-	}
-	case SAM_STAT_BUSY:
-		scsicmd->result |= DID_BUS_BUSY << 16 | COMMAND_COMPLETE << 8;
-		break;
-	case SAM_STAT_TASK_ABORTED:
-		scsicmd->result |= DID_ABORT << 16 | ABORT << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SAM_STAT_RESERVATION_CONFLICT:
 	case SAM_STAT_TASK_SET_FULL:
 	default:
-<<<<<<< HEAD
 		scsicmd->result |= DID_ERROR << 16;
-=======
-		scsicmd->result |= DID_ERROR << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -3854,16 +3603,11 @@ static void hba_resp_task_failure(struct aac_dev *dev,
 			dev->hba_map[bus][cid].devtype = AAC_DEVTYPE_ARC_RAW;
 			dev->hba_map[bus][cid].rmw_nexus = 0xffffffff;
 		}
-<<<<<<< HEAD
 		scsicmd->result = DID_NO_CONNECT << 16;
-=======
-		scsicmd->result = DID_NO_CONNECT << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case HBA_RESP_STAT_IO_ERROR:
 	case HBA_RESP_STAT_NO_PATH_TO_DEVICE:
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16 | SAM_STAT_BUSY;
 		break;
 	case HBA_RESP_STAT_IO_ABORTED:
@@ -3879,24 +3623,6 @@ static void hba_resp_task_failure(struct aac_dev *dev,
 	case HBA_RESP_STAT_OVERRUN:
 	default:
 		scsicmd->result = DID_ERROR << 16;
-=======
-		scsicmd->result = DID_OK << 16 |
-			COMMAND_COMPLETE << 8 | SAM_STAT_BUSY;
-		break;
-	case HBA_RESP_STAT_IO_ABORTED:
-		scsicmd->result = DID_ABORT << 16 | ABORT << 8;
-		break;
-	case HBA_RESP_STAT_INVALID_DEVICE:
-		scsicmd->result = DID_NO_CONNECT << 16 | COMMAND_COMPLETE << 8;
-		break;
-	case HBA_RESP_STAT_UNDERRUN:
-		/* UNDERRUN is OK */
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8;
-		break;
-	case HBA_RESP_STAT_OVERRUN:
-	default:
-		scsicmd->result = DID_ERROR << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -3929,11 +3655,7 @@ void aac_hba_callback(void *context, struct fib *fibptr)
 
 	if (fibptr->flags & FIB_CONTEXT_FLAG_FASTRESP) {
 		/* fast response */
-<<<<<<< HEAD
 		scsicmd->result = DID_OK << 16;
-=======
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -3945,7 +3667,6 @@ void aac_hba_callback(void *context, struct fib *fibptr)
 		hba_resp_task_failure(dev, scsicmd, err);
 		break;
 	case HBA_RESP_SVCRES_TMF_REJECTED:
-<<<<<<< HEAD
 		scsicmd->result = DID_ERROR << 16;
 		break;
 	case HBA_RESP_SVCRES_TMF_LUN_INVALID:
@@ -3957,19 +3678,6 @@ void aac_hba_callback(void *context, struct fib *fibptr)
 		break;
 	default:
 		scsicmd->result = DID_ERROR << 16;
-=======
-		scsicmd->result = DID_ERROR << 16 | MESSAGE_REJECT << 8;
-		break;
-	case HBA_RESP_SVCRES_TMF_LUN_INVALID:
-		scsicmd->result = DID_NO_CONNECT << 16 | COMMAND_COMPLETE << 8;
-		break;
-	case HBA_RESP_SVCRES_TMF_COMPLETE:
-	case HBA_RESP_SVCRES_TMF_SUCCEEDED:
-		scsicmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8;
-		break;
-	default:
-		scsicmd->result = DID_ERROR << 16 | COMMAND_COMPLETE << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 

@@ -7,16 +7,8 @@
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-<<<<<<< HEAD
 #include <dt-bindings/sound/qcom,q6afe.h>
 #include <dt-bindings/sound/qcom,q6asm.h>
-=======
-<<<<<<< HEAD
-#include <dt-bindings/sound/qcom,q6afe.h>
-#include <dt-bindings/sound/qcom,q6asm.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "sm8250.dtsi"
 #include "pm8150.dtsi"
 #include "pm8150b.dtsi"
@@ -50,10 +42,6 @@
 		regulator-always-on;
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hdmi-out {
 		compatible = "hdmi-connector";
 		type = "a";
@@ -65,11 +53,6 @@
 		};
 	};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	leds {
 		compatible = "gpio-leds";
 
@@ -96,10 +79,6 @@
 
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lt9611_1v2: lt9611-vdd12-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "LT9611_1V2";
@@ -192,11 +171,6 @@
 		};
 	};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vbat: vbat-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "VBAT";
@@ -218,15 +192,7 @@
 	vdc_3v3: vdc-3v3-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "VDC_3V3";
-<<<<<<< HEAD
 		vin-supply = <&vreg_l11c_3p3>;
-=======
-<<<<<<< HEAD
-		vin-supply = <&vreg_l11c_3p3>;
-=======
-		vin-supply = <&dc12v>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
@@ -259,20 +225,11 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &adsp {
 	status = "okay";
 	firmware-name = "qcom/sm8250/adsp.mbn";
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &apps_rsc {
 	pm8009-rpmh-regulators {
 		compatible = "qcom,pm8009-1-rpmh-regulators";
@@ -566,10 +523,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &cdsp {
 	status = "okay";
 	firmware-name = "qcom/sm8250/cdsp.mbn";
@@ -606,11 +559,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* LS-I2C0 */
 &i2c4 {
 	status = "okay";
@@ -618,10 +566,6 @@
 
 &i2c5 {
 	status = "okay";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clock-frequency = <400000>;
 
 	lt9611_codec: hdmi-bridge@2b {
@@ -671,11 +615,6 @@
 
 		};
 	};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* LS-I2C1 */
@@ -683,10 +622,6 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &mdss {
 	status = "okay";
 };
@@ -769,11 +704,6 @@
 	vdda-pll-supply = <&vreg_l9a_1p2>;
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8150_gpios {
 	gpio-reserved-ranges = <1 1>, <3 2>, <7 1>;
 	gpio-line-names =
@@ -789,10 +719,6 @@
 		"GPIO_10_P"; /* Green LED */
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8150b_adc {
 	conn-therm@4f {
 		reg = <ADC5_AMUX_THM3_100K_PU>;
@@ -812,11 +738,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8150b_gpios {
 	gpio-line-names =
 		"NC",
@@ -833,10 +754,6 @@
 		"NC";
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8150l_adc {
 	skin-msm-therm@4e {
 		reg = <ADC5_AMUX_THM2_100K_PU>;
@@ -869,11 +786,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8150l_gpios {
 	gpio-line-names =
 		"NC",
@@ -888,10 +800,6 @@
 		"PM_GPIO-B",
 		"NC",
 		"PM3003A_MODE";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	lt9611_rst_pin: lt9611-rst-pin {
 		pins = "gpio5";
@@ -901,15 +809,6 @@
 		input-disable;
 		power-source = <0>;
 	};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-};
-
-&pm8150_rtc {
-	status = "okay";
 };
 
 &qupv3_id_0 {
@@ -924,10 +823,6 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &q6afedai {
 	qi2s@16 {
 		reg = <16>;
@@ -957,11 +852,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &sdhc_2 {
 	status = "okay";
 	pinctrl-names = "default";
@@ -974,10 +864,6 @@
 	no-emmc;
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &sound {
 	compatible = "qcom,qrb5165-rb5-sndcard";
 	pinctrl-0 = <&tert_mi2s_active>;
@@ -1059,14 +945,12 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* CAN */
 &spi0 {
 	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&qup_spi0_data_clk>, <&qup_spi0_cs_gpio>;
+	cs-gpios = <&tlmm 31 GPIO_ACTIVE_LOW>;
 
 	can@0 {
 		compatible = "microchip,mcp2518fd";
@@ -1079,10 +963,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &swr0 {
 	left_spkr: wsa8810-left{
 		compatible = "sdw10217211000";
@@ -1103,11 +983,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &tlmm {
 	gpio-reserved-ranges = <40 4>;
 	gpio-line-names =
@@ -1292,10 +1167,6 @@
 		"HST_WLAN_UART_TX",
 		"HST_WLAN_UART_RX";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lt9611_irq_pin: lt9611-irq {
 		pins = "gpio63";
 		function = "gpio";
@@ -1377,11 +1248,6 @@
 		};
 	};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sdc2_default_state: sdc2-default {
 		clk {
 			pins = "sdc2_clk";
@@ -1478,10 +1344,6 @@
 	vdda-phy-supply = <&vreg_l9a_1p2>;
 	vdda-pll-supply = <&vreg_l18a_0p92>;
 };
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 &vamacro {
 	pinctrl-0 = <&dmic01_active>;
@@ -1489,8 +1351,14 @@
 	vdd-micb-supply = <&vreg_s4a_1p8>;
 	qcom,dmic-sample-rate = <600000>;
 };
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+/* PINCTRL - additions to nodes defined in sm8250.dtsi */
+&qup_spi0_cs_gpio {
+	drive-strength = <6>;
+	bias-disable;
+};
+
+&qup_spi0_data_clk {
+	drive-strength = <6>;
+	bias-disable;
+};

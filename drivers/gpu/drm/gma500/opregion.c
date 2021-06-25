@@ -305,20 +305,13 @@ void psb_intel_opregion_fini(struct drm_device *dev)
 int psb_intel_opregion_setup(struct drm_device *dev)
 {
 	struct drm_psb_private *dev_priv = dev->dev_private;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct psb_intel_opregion *opregion = &dev_priv->opregion;
 	u32 opregion_phy, mboxes;
 	void __iomem *base;
 	int err = 0;
 
-<<<<<<< HEAD
 	pci_read_config_dword(pdev, PCI_ASLS, &opregion_phy);
-=======
-	pci_read_config_dword(dev->pdev, PCI_ASLS, &opregion_phy);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (opregion_phy == 0) {
 		DRM_DEBUG_DRIVER("ACPI Opregion not supported\n");
 		return -ENOTSUPP;

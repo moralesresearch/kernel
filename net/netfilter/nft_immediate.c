@@ -48,15 +48,9 @@ static int nft_immediate_init(const struct nft_ctx *ctx,
 
 	priv->dlen = desc.len;
 
-<<<<<<< HEAD
 	err = nft_parse_register_store(ctx, tb[NFTA_IMMEDIATE_DREG],
 				       &priv->dreg, &priv->data, desc.type,
 				       desc.len);
-=======
-	priv->dreg = nft_parse_register(tb[NFTA_IMMEDIATE_DREG]);
-	err = nft_validate_register_store(ctx, priv->dreg, &priv->data,
-					  desc.type, desc.len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto err1;
 

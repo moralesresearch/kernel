@@ -331,18 +331,8 @@
 
 &usbphyc_port0 {
 	phy-supply = <&vdd_usb>;
-<<<<<<< HEAD
-=======
-	vdda1v1-supply = <&reg11>;
-	vdda1v8-supply = <&reg18>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &usbphyc_port1 {
 	phy-supply = <&vdd_usb>;
-<<<<<<< HEAD
-=======
-	vdda1v1-supply = <&reg11>;
-	vdda1v8-supply = <&reg18>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

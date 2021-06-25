@@ -79,12 +79,9 @@ static void show_mnt_opts(struct seq_file *m, struct vfsmount *mnt)
 		if (mnt->mnt_flags & fs_infop->flag)
 			seq_puts(m, fs_infop->str);
 	}
-<<<<<<< HEAD
 
 	if (mnt_user_ns(mnt) != &init_user_ns)
 		seq_puts(m, ",idmapped");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void mangle(struct seq_file *m, const char *s)

@@ -20,12 +20,9 @@ properties:
   reg:
     maxItems: 1
 
-<<<<<<< HEAD
   vdd-supply: true
   vddio-supply: true
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   mount-matrix:
     description: an optional 3x3 mounting rotation matrix.
 

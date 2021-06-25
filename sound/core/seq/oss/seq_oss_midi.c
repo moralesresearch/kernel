@@ -173,11 +173,7 @@ snd_seq_oss_midi_check_new_port(struct snd_seq_port_info *pinfo)
 	snd_use_lock_init(&mdev->use_lock);
 
 	/* copy and truncate the name of synth device */
-<<<<<<< HEAD
 	strscpy(mdev->name, pinfo->name, sizeof(mdev->name));
-=======
-	strlcpy(mdev->name, pinfo->name, sizeof(mdev->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* create MIDI coder */
 	if (snd_midi_event_new(MAX_MIDI_EVENT_BUF, &mdev->coder) < 0) {
@@ -651,11 +647,7 @@ snd_seq_oss_midi_make_info(struct seq_oss_devinfo *dp, int dev, struct midi_info
 	inf->device = dev;
 	inf->dev_type = 0; /* FIXME: ?? */
 	inf->capabilities = 0; /* FIXME: ?? */
-<<<<<<< HEAD
 	strscpy(inf->name, mdev->name, sizeof(inf->name));
-=======
-	strlcpy(inf->name, mdev->name, sizeof(inf->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snd_use_lock_free(&mdev->use_lock);
 	return 0;
 }

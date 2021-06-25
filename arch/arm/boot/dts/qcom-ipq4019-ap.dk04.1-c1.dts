@@ -9,19 +9,11 @@
 
 	soc {
 		dma@7984000 {
-<<<<<<< HEAD
 			status = "okay";
 		};
 
 		qpic-nand@79b0000 {
 			status = "okay";
-=======
-			status = "ok";
-		};
-
-		qpic-nand@79b0000 {
-			status = "ok";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

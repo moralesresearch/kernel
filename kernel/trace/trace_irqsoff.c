@@ -143,21 +143,14 @@ irqsoff_tracer_call(unsigned long ip, unsigned long parent_ip,
 	struct trace_array *tr = irqsoff_trace;
 	struct trace_array_cpu *data;
 	unsigned long flags;
-<<<<<<< HEAD
 	unsigned int trace_ctx;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!func_prolog_dec(tr, &data, &flags))
 		return;
 
-<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx_flags(flags);
 
 	trace_function(tr, ip, parent_ip, trace_ctx);
-=======
-	trace_function(tr, ip, parent_ip, flags, preempt_count());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_dec(&data->disabled);
 }
@@ -187,13 +180,8 @@ static int irqsoff_graph_entry(struct ftrace_graph_ent *trace)
 	struct trace_array *tr = irqsoff_trace;
 	struct trace_array_cpu *data;
 	unsigned long flags;
-<<<<<<< HEAD
 	unsigned int trace_ctx;
 	int ret;
-=======
-	int ret;
-	int pc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ftrace_graph_ignore_func(trace))
 		return 0;
@@ -210,13 +198,8 @@ static int irqsoff_graph_entry(struct ftrace_graph_ent *trace)
 	if (!func_prolog_dec(tr, &data, &flags))
 		return 0;
 
-<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx_flags(flags);
 	ret = __trace_graph_entry(tr, trace, trace_ctx);
-=======
-	pc = preempt_count();
-	ret = __trace_graph_entry(tr, trace, flags, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_dec(&data->disabled);
 
 	return ret;
@@ -227,24 +210,15 @@ static void irqsoff_graph_return(struct ftrace_graph_ret *trace)
 	struct trace_array *tr = irqsoff_trace;
 	struct trace_array_cpu *data;
 	unsigned long flags;
-<<<<<<< HEAD
 	unsigned int trace_ctx;
-=======
-	int pc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ftrace_graph_addr_finish(trace);
 
 	if (!func_prolog_dec(tr, &data, &flags))
 		return;
 
-<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx_flags(flags);
 	__trace_graph_return(tr, trace, trace_ctx);
-=======
-	pc = preempt_count();
-	__trace_graph_return(tr, trace, flags, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_dec(&data->disabled);
 }
 
@@ -296,21 +270,12 @@ static void irqsoff_print_header(struct seq_file *s)
 static void
 __trace_function(struct trace_array *tr,
 		 unsigned long ip, unsigned long parent_ip,
-<<<<<<< HEAD
 		 unsigned int trace_ctx)
 {
 	if (is_graph(tr))
 		trace_graph_function(tr, ip, parent_ip, trace_ctx);
 	else
 		trace_function(tr, ip, parent_ip, trace_ctx);
-=======
-		 unsigned long flags, int pc)
-{
-	if (is_graph(tr))
-		trace_graph_function(tr, ip, parent_ip, flags, pc);
-	else
-		trace_function(tr, ip, parent_ip, flags, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #else
@@ -360,23 +325,13 @@ check_critical_timing(struct trace_array *tr,
 {
 	u64 T0, T1, delta;
 	unsigned long flags;
-<<<<<<< HEAD
 	unsigned int trace_ctx;
-=======
-	int pc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	T0 = data->preempt_timestamp;
 	T1 = ftrace_now(cpu);
 	delta = T1-T0;
 
-<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx();
-=======
-	local_save_flags(flags);
-
-	pc = preempt_count();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!report_latency(tr, delta))
 		goto out;
@@ -387,15 +342,9 @@ check_critical_timing(struct trace_array *tr,
 	if (!report_latency(tr, delta))
 		goto out_unlock;
 
-<<<<<<< HEAD
 	__trace_function(tr, CALLER_ADDR0, parent_ip, trace_ctx);
 	/* Skip 5 functions to get to the irq/preempt enable function */
 	__trace_stack(tr, trace_ctx, 5);
-=======
-	__trace_function(tr, CALLER_ADDR0, parent_ip, flags, pc);
-	/* Skip 5 functions to get to the irq/preempt enable function */
-	__trace_stack(tr, flags, 5, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (data->critical_sequence != max_sequence)
 		goto out_unlock;
@@ -415,27 +364,15 @@ out_unlock:
 out:
 	data->critical_sequence = max_sequence;
 	data->preempt_timestamp = ftrace_now(cpu);
-<<<<<<< HEAD
 	__trace_function(tr, CALLER_ADDR0, parent_ip, trace_ctx);
 }
 
 static nokprobe_inline void
 start_critical_timing(unsigned long ip, unsigned long parent_ip)
-=======
-	__trace_function(tr, CALLER_ADDR0, parent_ip, flags, pc);
-}
-
-static nokprobe_inline void
-start_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int cpu;
 	struct trace_array *tr = irqsoff_trace;
 	struct trace_array_cpu *data;
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!tracer_enabled || !tracing_is_enabled())
 		return;
@@ -456,13 +393,7 @@ start_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
 	data->preempt_timestamp = ftrace_now(cpu);
 	data->critical_start = parent_ip ? : ip;
 
-<<<<<<< HEAD
 	__trace_function(tr, ip, parent_ip, tracing_gen_ctx());
-=======
-	local_save_flags(flags);
-
-	__trace_function(tr, ip, parent_ip, flags, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	per_cpu(tracing_cpu, cpu) = 1;
 
@@ -470,20 +401,12 @@ start_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
 }
 
 static nokprobe_inline void
-<<<<<<< HEAD
 stop_critical_timing(unsigned long ip, unsigned long parent_ip)
-=======
-stop_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int cpu;
 	struct trace_array *tr = irqsoff_trace;
 	struct trace_array_cpu *data;
-<<<<<<< HEAD
 	unsigned int trace_ctx;
-=======
-	unsigned long flags;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpu = raw_smp_processor_id();
 	/* Always clear the tracing cpu on stopping the trace */
@@ -503,13 +426,8 @@ stop_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
 
 	atomic_inc(&data->disabled);
 
-<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx();
 	__trace_function(tr, ip, parent_ip, trace_ctx);
-=======
-	local_save_flags(flags);
-	__trace_function(tr, ip, parent_ip, flags, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	check_critical_timing(tr, data, parent_ip ? : ip, cpu);
 	data->critical_start = 0;
 	atomic_dec(&data->disabled);
@@ -518,30 +436,16 @@ stop_critical_timing(unsigned long ip, unsigned long parent_ip, int pc)
 /* start and stop critical timings used to for stoppage (in idle) */
 void start_critical_timings(void)
 {
-<<<<<<< HEAD
 	if (preempt_trace(preempt_count()) || irq_trace())
 		start_critical_timing(CALLER_ADDR0, CALLER_ADDR1);
-=======
-	int pc = preempt_count();
-
-	if (preempt_trace(pc) || irq_trace())
-		start_critical_timing(CALLER_ADDR0, CALLER_ADDR1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(start_critical_timings);
 NOKPROBE_SYMBOL(start_critical_timings);
 
 void stop_critical_timings(void)
 {
-<<<<<<< HEAD
 	if (preempt_trace(preempt_count()) || irq_trace())
 		stop_critical_timing(CALLER_ADDR0, CALLER_ADDR1);
-=======
-	int pc = preempt_count();
-
-	if (preempt_trace(pc) || irq_trace())
-		stop_critical_timing(CALLER_ADDR0, CALLER_ADDR1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(stop_critical_timings);
 NOKPROBE_SYMBOL(stop_critical_timings);
@@ -703,29 +607,15 @@ static void irqsoff_tracer_stop(struct trace_array *tr)
  */
 void tracer_hardirqs_on(unsigned long a0, unsigned long a1)
 {
-<<<<<<< HEAD
 	if (!preempt_trace(preempt_count()) && irq_trace())
 		stop_critical_timing(a0, a1);
-=======
-	unsigned int pc = preempt_count();
-
-	if (!preempt_trace(pc) && irq_trace())
-		stop_critical_timing(a0, a1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 NOKPROBE_SYMBOL(tracer_hardirqs_on);
 
 void tracer_hardirqs_off(unsigned long a0, unsigned long a1)
 {
-<<<<<<< HEAD
 	if (!preempt_trace(preempt_count()) && irq_trace())
 		start_critical_timing(a0, a1);
-=======
-	unsigned int pc = preempt_count();
-
-	if (!preempt_trace(pc) && irq_trace())
-		start_critical_timing(a0, a1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 NOKPROBE_SYMBOL(tracer_hardirqs_off);
 
@@ -765,28 +655,14 @@ static struct tracer irqsoff_tracer __read_mostly =
 #ifdef CONFIG_PREEMPT_TRACER
 void tracer_preempt_on(unsigned long a0, unsigned long a1)
 {
-<<<<<<< HEAD
 	if (preempt_trace(preempt_count()) && !irq_trace())
 		stop_critical_timing(a0, a1);
-=======
-	int pc = preempt_count();
-
-	if (preempt_trace(pc) && !irq_trace())
-		stop_critical_timing(a0, a1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void tracer_preempt_off(unsigned long a0, unsigned long a1)
 {
-<<<<<<< HEAD
 	if (preempt_trace(preempt_count()) && !irq_trace())
 		start_critical_timing(a0, a1);
-=======
-	int pc = preempt_count();
-
-	if (preempt_trace(pc) && !irq_trace())
-		start_critical_timing(a0, a1, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int preemptoff_tracer_init(struct trace_array *tr)

@@ -454,10 +454,7 @@ void nfp_bpf_ctrl_msg_rx(struct nfp_app *app, struct sk_buff *skb)
 			dev_consume_skb_any(skb);
 		else
 			dev_kfree_skb_any(skb);
-<<<<<<< HEAD
 		return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	nfp_ccm_rx(&bpf->ccm, skb);

@@ -28,14 +28,8 @@ gv100_dma = {
 };
 
 int
-<<<<<<< HEAD
 gv100_dma_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_dma **pdma)
 {
 	return nvkm_dma_new_(&gv100_dma, device, type, inst, pdma);
-=======
-gv100_dma_new(struct nvkm_device *device, int index, struct nvkm_dma **pdma)
-{
-	return nvkm_dma_new_(&gv100_dma, device, index, pdma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

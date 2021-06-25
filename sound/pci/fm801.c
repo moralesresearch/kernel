@@ -26,11 +26,6 @@
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_DESCRIPTION("ForteMedia FM801");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{ForteMedia,FM801},"
-		"{Genius,SoundMaker Live 5.1}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */
@@ -1303,11 +1298,7 @@ static int snd_fm801_create(struct snd_card *card,
 		chip->tea575x_tuner |= tuner_only;
 	}
 	if (!(chip->tea575x_tuner & TUNER_DISABLED)) {
-<<<<<<< HEAD
 		strscpy(chip->tea.card, get_tea575x_gpio(chip)->name,
-=======
-		strlcpy(chip->tea.card, get_tea575x_gpio(chip)->name,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sizeof(chip->tea.card));
 	}
 #endif

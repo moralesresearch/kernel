@@ -254,19 +254,11 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
 
 	device_enable_async_suspend(&shost->shost_dev);
 
-<<<<<<< HEAD
 	get_device(&shost->shost_gendev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = device_add(&shost->shost_dev);
 	if (error)
 		goto out_del_gendev;
 
-<<<<<<< HEAD
-=======
-	get_device(&shost->shost_gendev);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (shost->transportt->host_size) {
 		shost->shost_data = kzalloc(shost->transportt->host_size,
 					 GFP_KERNEL);
@@ -285,27 +277,18 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
 
 		if (!shost->work_q) {
 			error = -EINVAL;
-<<<<<<< HEAD
 			goto out_del_dev;
-=======
-			goto out_free_shost_data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	error = scsi_sysfs_add_host(shost);
 	if (error)
-<<<<<<< HEAD
 		goto out_del_dev;
-=======
-		goto out_destroy_host;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	scsi_proc_host_add(shost);
 	scsi_autopm_put_host(shost);
 	return error;
 
-<<<<<<< HEAD
 	/*
 	 * Any host allocation in this function will be freed in
 	 * scsi_host_dev_release().
@@ -318,26 +301,12 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
 	 * ->shost_dev.
 	 */
 	put_device(&shost->shost_dev);
-=======
- out_destroy_host:
-	if (shost->work_q)
-		destroy_workqueue(shost->work_q);
- out_free_shost_data:
-	kfree(shost->shost_data);
- out_del_dev:
-	device_del(&shost->shost_dev);
- out_del_gendev:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	device_del(&shost->shost_gendev);
  out_disable_runtime_pm:
 	device_disable_async_suspend(&shost->shost_gendev);
 	pm_runtime_disable(&shost->shost_gendev);
 	pm_runtime_set_suspended(&shost->shost_gendev);
 	pm_runtime_put_noidle(&shost->shost_gendev);
-<<<<<<< HEAD
-=======
-	scsi_mq_destroy_tags(shost);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  fail:
 	return error;
 }
@@ -378,11 +347,7 @@ static void scsi_host_dev_release(struct device *dev)
 
 	ida_simple_remove(&host_index_ida, shost->host_no);
 
-<<<<<<< HEAD
 	if (shost->shost_state != SHOST_CREATED)
-=======
-	if (parent)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		put_device(parent);
 	kfree(shost);
 }
@@ -408,13 +373,9 @@ static struct device_type scsi_host_type = {
 struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 {
 	struct Scsi_Host *shost;
-	gfp_t gfp_mask = GFP_KERNEL;
 	int index;
 
-	if (sht->unchecked_isa_dma && privsize)
-		gfp_mask |= __GFP_DMA;
-
-	shost = kzalloc(sizeof(struct Scsi_Host) + privsize, gfp_mask);
+	shost = kzalloc(sizeof(struct Scsi_Host) + privsize, GFP_KERNEL);
 	if (!shost)
 		return NULL;
 
@@ -429,15 +390,10 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 	mutex_init(&shost->scan_mutex);
 
 	index = ida_simple_get(&host_index_ida, 0, 0, GFP_KERNEL);
-<<<<<<< HEAD
 	if (index < 0) {
 		kfree(shost);
 		return NULL;
 	}
-=======
-	if (index < 0)
-		goto fail_kfree;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	shost->host_no = index;
 
 	shost->dma_channel = 0xff;
@@ -463,7 +419,6 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 	shost->sg_tablesize = sht->sg_tablesize;
 	shost->sg_prot_tablesize = sht->sg_prot_tablesize;
 	shost->cmd_per_lun = sht->cmd_per_lun;
-	shost->unchecked_isa_dma = sht->unchecked_isa_dma;
 	shost->no_write_same = sht->no_write_same;
 	shost->host_tagset = sht->host_tagset;
 
@@ -530,11 +485,7 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 		shost_printk(KERN_WARNING, shost,
 			"error handler thread failed to spawn, error = %ld\n",
 			PTR_ERR(shost->ehandler));
-<<<<<<< HEAD
 		goto fail;
-=======
-		goto fail_index_remove;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	shost->tmf_work_q = alloc_workqueue("scsi_tmf_%d",
@@ -543,7 +494,6 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 	if (!shost->tmf_work_q) {
 		shost_printk(KERN_WARNING, shost,
 			     "failed to create tmf workq\n");
-<<<<<<< HEAD
 		goto fail;
 	}
 	scsi_proc_hostdir_add(shost->hostt);
@@ -556,19 +506,6 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
 	 */
 	put_device(&shost->shost_gendev);
 
-=======
-		goto fail_kthread;
-	}
-	scsi_proc_hostdir_add(shost->hostt);
-	return shost;
-
- fail_kthread:
-	kthread_stop(shost->ehandler);
- fail_index_remove:
-	ida_simple_remove(&host_index_ida, shost->host_no);
- fail_kfree:
-	kfree(shost);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }
 EXPORT_SYMBOL(scsi_host_alloc);

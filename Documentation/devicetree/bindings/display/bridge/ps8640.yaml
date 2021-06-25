@@ -41,7 +41,6 @@ properties:
     description: Regulator for 3.3V digital core power.
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -53,39 +52,11 @@ properties:
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
         description:
-=======
-    type: object
-    description:
-      A node containing DSI input & output port nodes with endpoint
-      definitions as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
-      Documentation/devicetree/bindings/graph.txt
-    properties:
-      '#address-cells':
-        const: 1
-
-      '#size-cells':
-        const: 0
-
-      port@0:
-        type: object
-        description: |
-          Video port for DSI input
-
-      port@1:
-        type: object
-        description: |
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           Video port for eDP output (panel or connector).
 
     required:
       - port@0
 
-<<<<<<< HEAD
-=======
-    additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

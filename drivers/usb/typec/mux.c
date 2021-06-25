@@ -13,9 +13,9 @@
 #include <linux/mutex.h>
 #include <linux/property.h>
 #include <linux/slab.h>
-#include <linux/usb/typec_mux.h>
 
-#include "bus.h"
+#include "class.h"
+#include "mux.h"
 
 static bool dev_name_ends_with(struct device *dev, const char *suffix)
 {
@@ -191,10 +191,7 @@ static void *typec_mux_match(struct fwnode_handle *fwnode, const char *id,
 	bool match;
 	int nval;
 	u16 *val;
-<<<<<<< HEAD
 	int ret;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	/*
@@ -222,17 +219,10 @@ static void *typec_mux_match(struct fwnode_handle *fwnode, const char *id,
 	if (!val)
 		return ERR_PTR(-ENOMEM);
 
-<<<<<<< HEAD
 	ret = fwnode_property_read_u16_array(fwnode, "svid", val, nval);
 	if (ret < 0) {
 		kfree(val);
 		return ERR_PTR(ret);
-=======
-	nval = fwnode_property_read_u16_array(fwnode, "svid", val, nval);
-	if (nval < 0) {
-		kfree(val);
-		return ERR_PTR(nval);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (i = 0; i < nval; i++) {
@@ -249,11 +239,7 @@ find_mux:
 	dev = class_find_device(&typec_mux_class, NULL, fwnode,
 				mux_fwnode_match);
 
-<<<<<<< HEAD
 	return dev ? to_typec_mux(dev) : ERR_PTR(-EPROBE_DEFER);
-=======
-	return dev ? to_typec_switch(dev) : ERR_PTR(-EPROBE_DEFER);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

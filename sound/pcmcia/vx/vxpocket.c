@@ -17,19 +17,9 @@
 #include <sound/initval.h>
 #include <sound/tlv.h>
 
-<<<<<<< HEAD
 MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
 MODULE_DESCRIPTION("Digigram VXPocket");
 MODULE_LICENSE("GPL");
-=======
-/*
- */
-
-MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
-MODULE_DESCRIPTION("Digigram VXPocket");
-MODULE_LICENSE("GPL");
-MODULE_SUPPORTED_DEVICE("{{Digigram,VXPocket},{Digigram,VXPocket440}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */

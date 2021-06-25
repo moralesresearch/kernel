@@ -93,15 +93,7 @@ ath10k_wmi_tlv_iter(struct ath10k *ar, const void *ptr, size_t len,
 
 		if (tlv_len > len) {
 			ath10k_dbg(ar, ATH10K_DBG_WMI,
-<<<<<<< HEAD
 				   "wmi tlv parse failure of tag %u at byte %zd (%zu bytes left, %u expected)\n",
-=======
-<<<<<<< HEAD
-				   "wmi tlv parse failure of tag %u at byte %zd (%zu bytes left, %u expected)\n",
-=======
-				   "wmi tlv parse failure of tag %hhu at byte %zd (%zu bytes left, %hhu expected)\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   tlv_tag, ptr - begin, len, tlv_len);
 			return -EINVAL;
 		}
@@ -110,15 +102,7 @@ ath10k_wmi_tlv_iter(struct ath10k *ar, const void *ptr, size_t len,
 		    wmi_tlv_policies[tlv_tag].min_len &&
 		    wmi_tlv_policies[tlv_tag].min_len > tlv_len) {
 			ath10k_dbg(ar, ATH10K_DBG_WMI,
-<<<<<<< HEAD
 				   "wmi tlv parse failure of tag %u at byte %zd (%u bytes is less than min length %zu)\n",
-=======
-<<<<<<< HEAD
-				   "wmi tlv parse failure of tag %u at byte %zd (%u bytes is less than min length %zu)\n",
-=======
-				   "wmi tlv parse failure of tag %hhu at byte %zd (%hhu bytes is less than min length %zu)\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   tlv_tag, ptr - begin, tlv_len,
 				   wmi_tlv_policies[tlv_tag].min_len);
 			return -EINVAL;
@@ -440,15 +424,7 @@ static int ath10k_wmi_tlv_event_p2p_noa(struct ath10k *ar,
 	vdev_id = __le32_to_cpu(ev->vdev_id);
 
 	ath10k_dbg(ar, ATH10K_DBG_WMI,
-<<<<<<< HEAD
 		   "wmi tlv p2p noa vdev_id %i descriptors %u\n",
-=======
-<<<<<<< HEAD
-		   "wmi tlv p2p noa vdev_id %i descriptors %u\n",
-=======
-		   "wmi tlv p2p noa vdev_id %i descriptors %hhu\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   vdev_id, noa->num_descriptors);
 
 	ath10k_p2p_noa_update_by_vdev_id(ar, vdev_id, noa);
@@ -616,12 +592,9 @@ static void ath10k_wmi_event_tdls_peer(struct ath10k *ar, struct sk_buff *skb)
 					GFP_ATOMIC
 					);
 		break;
-<<<<<<< HEAD
 	default:
 		kfree(tb);
 		return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 exit:

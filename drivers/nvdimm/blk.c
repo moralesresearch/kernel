@@ -165,11 +165,7 @@ static int nsblk_do_bvec(struct nd_namespace_blk *nsblk,
 static blk_qc_t nd_blk_submit_bio(struct bio *bio)
 {
 	struct bio_integrity_payload *bip;
-<<<<<<< HEAD
 	struct nd_namespace_blk *nsblk = bio->bi_bdev->bd_disk->private_data;
-=======
-	struct nd_namespace_blk *nsblk = bio->bi_disk->private_data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bvec_iter iter;
 	unsigned long start;
 	struct bio_vec bvec;
@@ -181,11 +177,7 @@ static blk_qc_t nd_blk_submit_bio(struct bio *bio)
 
 	bip = bio_integrity(bio);
 	rw = bio_data_dir(bio);
-<<<<<<< HEAD
 	do_acct = blk_queue_io_stat(bio->bi_bdev->bd_disk->queue);
-=======
-	do_acct = blk_queue_io_stat(bio->bi_disk->queue);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (do_acct)
 		start = bio_start_io_acct(bio);
 	bio_for_each_segment(bvec, bio, iter) {
@@ -318,18 +310,10 @@ static int nd_blk_probe(struct device *dev)
 		return nsblk_attach_disk(nsblk);
 }
 
-<<<<<<< HEAD
 static void nd_blk_remove(struct device *dev)
 {
 	if (is_nd_btt(dev))
 		nvdimm_namespace_detach_btt(to_nd_btt(dev));
-=======
-static int nd_blk_remove(struct device *dev)
-{
-	if (is_nd_btt(dev))
-		nvdimm_namespace_detach_btt(to_nd_btt(dev));
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct nd_device_driver nd_blk_driver = {

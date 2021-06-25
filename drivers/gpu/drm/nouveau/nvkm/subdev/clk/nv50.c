@@ -507,22 +507,14 @@ nv50_clk_tidy(struct nvkm_clk *base)
 
 int
 nv50_clk_new_(const struct nvkm_clk_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, bool allow_reclock, struct nvkm_clk **pclk)
-=======
-	      int index, bool allow_reclock, struct nvkm_clk **pclk)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv50_clk *clk;
 	int ret;
 
 	if (!(clk = kzalloc(sizeof(*clk), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	ret = nvkm_clk_ctor(func, device, type, inst, allow_reclock, &clk->base);
-=======
-	ret = nvkm_clk_ctor(func, device, index, allow_reclock, &clk->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*pclk = &clk->base;
 	if (ret)
 		return ret;
@@ -563,14 +555,8 @@ nv50_clk = {
 };
 
 int
-<<<<<<< HEAD
 nv50_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_clk **pclk)
 {
 	return nv50_clk_new_(&nv50_clk, device, type, inst, false, pclk);
-=======
-nv50_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
-{
-	return nv50_clk_new_(&nv50_clk, device, index, false, pclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

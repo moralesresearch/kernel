@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
 // Copyright (c) 2019 Mellanox Technologies.
 
-<<<<<<< HEAD
 #include "en_accel/tls.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "en_accel/ktls_txrx.h"
 #include "en_accel/ktls_utils.h"
 
@@ -54,10 +51,7 @@ static int mlx5e_ktls_create_tis(struct mlx5_core_dev *mdev, u32 *tisn)
 struct mlx5e_ktls_offload_context_tx {
 	struct tls_offload_context_tx *tx_ctx;
 	struct tls12_crypto_info_aes_gcm_128 crypto_info;
-<<<<<<< HEAD
 	struct mlx5e_tls_sw_stats *sw_stats;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 expected_seq;
 	u32 tisn;
 	u32 key_id;
@@ -107,10 +101,7 @@ int mlx5e_ktls_add_tx(struct net_device *netdev, struct sock *sk,
 	if (err)
 		goto err_create_key;
 
-<<<<<<< HEAD
 	priv_tx->sw_stats = &priv->tls->sw_stats;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv_tx->expected_seq = start_offload_tcp_sn;
 	priv_tx->crypto_info  =
 		*(struct tls12_crypto_info_aes_gcm_128 *)crypto_info;
@@ -123,10 +114,7 @@ int mlx5e_ktls_add_tx(struct net_device *netdev, struct sock *sk,
 		goto err_create_tis;
 
 	priv_tx->ctx_post_pending = true;
-<<<<<<< HEAD
 	atomic64_inc(&priv_tx->sw_stats->tx_tls_ctx);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -468,10 +456,6 @@ bool mlx5e_ktls_handle_tx_skb(struct tls_context *tls_ctx, struct mlx5e_txqsq *s
 
 	if (unlikely(mlx5e_ktls_tx_offload_test_and_clear_pending(priv_tx))) {
 		mlx5e_ktls_tx_post_param_wqes(sq, priv_tx, false, false);
-<<<<<<< HEAD
-=======
-		stats->tls_ctx++;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	seq = ntohl(tcp_hdr(skb)->seq);

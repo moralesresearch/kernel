@@ -1866,17 +1866,8 @@ static int tclass_notify(struct net *net, struct sk_buff *oskb,
 static int tclass_del_notify(struct net *net,
 			     const struct Qdisc_class_ops *cops,
 			     struct sk_buff *oskb, struct nlmsghdr *n,
-<<<<<<< HEAD
 			     struct Qdisc *q, unsigned long cl,
 			     struct netlink_ext_ack *extack)
-=======
-<<<<<<< HEAD
-			     struct Qdisc *q, unsigned long cl,
-			     struct netlink_ext_ack *extack)
-=======
-			     struct Qdisc *q, unsigned long cl)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 portid = oskb ? NETLINK_CB(oskb).portid : 0;
 	struct sk_buff *skb;
@@ -1895,15 +1886,7 @@ static int tclass_del_notify(struct net *net,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	err = cops->delete(q, cl, extack);
-=======
-<<<<<<< HEAD
-	err = cops->delete(q, cl, extack);
-=======
-	err = cops->delete(q, cl);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		kfree_skb(skb);
 		return err;
@@ -2106,15 +2089,7 @@ static int tc_ctl_tclass(struct sk_buff *skb, struct nlmsghdr *n,
 				goto out;
 			break;
 		case RTM_DELTCLASS:
-<<<<<<< HEAD
 			err = tclass_del_notify(net, cops, skb, n, q, cl, extack);
-=======
-<<<<<<< HEAD
-			err = tclass_del_notify(net, cops, skb, n, q, cl, extack);
-=======
-			err = tclass_del_notify(net, cops, skb, n, q, cl);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Unbind the class with flilters with 0 */
 			tc_bind_tclass(q, portid, clid, 0);
 			goto out;

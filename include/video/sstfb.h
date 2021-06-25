@@ -23,11 +23,7 @@
 #  define SST_DEBUG_FUNC 1
 #  define SST_DEBUG_VAR  1
 #else
-<<<<<<< HEAD
 #  define dprintk(X...)		no_printk(X)
-=======
-#  define dprintk(X...)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #  define SST_DEBUG_REG  0
 #  define SST_DEBUG_FUNC 0
 #  define SST_DEBUG_VAR  0
@@ -52,11 +48,7 @@
 #if (SST_DEBUG_FUNC > 1)
 #  define f_ddprintk(X...)	dprintk(" " X)
 #else
-<<<<<<< HEAD
 #  define f_ddprintk(X...)	no_printk(X)
-=======
-#  define f_ddprintk(X...)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #if (SST_DEBUG_FUNC > 2)
 #  define f_dddprintk(X...)	dprintk(" " X)

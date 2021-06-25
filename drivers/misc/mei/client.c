@@ -9,10 +9,7 @@
 #include <linux/delay.h>
 #include <linux/slab.h>
 #include <linux/pm_runtime.h>
-<<<<<<< HEAD
 #include <linux/dma-mapping.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/mei.h>
 
@@ -994,12 +991,8 @@ int mei_cl_disconnect(struct mei_cl *cl)
 		return 0;
 	}
 
-<<<<<<< HEAD
 	if (dev->dev_state == MEI_DEV_POWERING_DOWN ||
 	    dev->dev_state == MEI_DEV_POWER_DOWN) {
-=======
-	if (dev->dev_state == MEI_DEV_POWER_DOWN) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cl_dbg(dev, cl, "Device is powering down, don't bother with disconnection\n");
 		mei_cl_set_disconnected(cl);
 		return 0;
@@ -1746,11 +1739,7 @@ static inline u8 mei_ext_hdr_set_vtag(struct mei_ext_hdr *ext, u8 vtag)
  *
  * @cb: message callback structure
  *
-<<<<<<< HEAD
  * Return: a pointer to initialized header or ERR_PTR on failure
-=======
- * Return: a pointer to initialized header
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static struct mei_msg_hdr *mei_msg_hdr_init(const struct mei_cl_cb *cb)
 {
@@ -2126,11 +2115,8 @@ void mei_cl_complete(struct mei_cl *cl, struct mei_cl_cb *cb)
 	case MEI_FOP_DISCONNECT:
 	case MEI_FOP_NOTIFY_STOP:
 	case MEI_FOP_NOTIFY_START:
-<<<<<<< HEAD
 	case MEI_FOP_DMA_MAP:
 	case MEI_FOP_DMA_UNMAP:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (waitqueue_active(&cl->wait))
 			wake_up(&cl->wait);
 
@@ -2157,7 +2143,6 @@ void mei_cl_all_disconnect(struct mei_device *dev)
 	list_for_each_entry(cl, &dev->file_list, link)
 		mei_cl_set_disconnected(cl);
 }
-<<<<<<< HEAD
 
 static struct mei_cl *mei_cl_dma_map_find(struct mei_device *dev, u8 buffer_id)
 {
@@ -2438,5 +2423,3 @@ out:
 	mei_io_cb_free(cb);
 	return rets;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

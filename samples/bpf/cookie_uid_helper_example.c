@@ -147,21 +147,12 @@ static void prog_load(void)
 		 */
 		BPF_MOV64_REG(BPF_REG_9, BPF_REG_0),
 		BPF_MOV64_IMM(BPF_REG_1, 1),
-<<<<<<< HEAD
 		BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_9, BPF_REG_1,
 			      offsetof(struct stats, packets)),
 		BPF_LDX_MEM(BPF_W, BPF_REG_1, BPF_REG_6,
 				offsetof(struct __sk_buff, len)),
 		BPF_ATOMIC_OP(BPF_DW, BPF_ADD, BPF_REG_9, BPF_REG_1,
 			      offsetof(struct stats, bytes)),
-=======
-		BPF_STX_XADD(BPF_DW, BPF_REG_9, BPF_REG_1,
-				offsetof(struct stats, packets)),
-		BPF_LDX_MEM(BPF_W, BPF_REG_1, BPF_REG_6,
-				offsetof(struct __sk_buff, len)),
-		BPF_STX_XADD(BPF_DW, BPF_REG_9, BPF_REG_1,
-				offsetof(struct stats, bytes)),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_6,
 				offsetof(struct __sk_buff, len)),
 		BPF_EXIT_INSN(),
@@ -322,11 +313,7 @@ int main(int argc, char *argv[])
 			print_table();
 			printf("\n");
 			sleep(1);
-<<<<<<< HEAD
 		}
-=======
-		};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (cfg_test_cookie) {
 		udp_client();
 	}

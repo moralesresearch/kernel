@@ -6,10 +6,7 @@
 #ifndef __LINUX_SPI_H
 #define __LINUX_SPI_H
 
-<<<<<<< HEAD
 #include <linux/bits.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/device.h>
 #include <linux/mod_devicetable.h>
 #include <linux/slab.h>
@@ -19,13 +16,10 @@
 #include <linux/gpio/consumer.h>
 #include <linux/ptp_clock_kernel.h>
 
-<<<<<<< HEAD
 #include <uapi/linux/spi/spi.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct dma_chan;
-struct property_entry;
+struct software_node;
 struct spi_controller;
 struct spi_transfer;
 struct spi_controller_mem_ops;
@@ -173,7 +167,6 @@ struct spi_device {
 	u8			chip_select;
 	u8			bits_per_word;
 	bool			rt;
-<<<<<<< HEAD
 #define SPI_NO_TX	BIT(31)		/* no transmit wire */
 #define SPI_NO_RX	BIT(30)		/* no receive wire */
 	/*
@@ -187,30 +180,6 @@ struct spi_device {
 	 */
 #define SPI_MODE_KERNEL_MASK	(~(BIT(30) - 1))
 	u32			mode;
-=======
-	u32			mode;
-#define	SPI_CPHA	0x01			/* clock phase */
-#define	SPI_CPOL	0x02			/* clock polarity */
-#define	SPI_MODE_0	(0|0)			/* (original MicroWire) */
-#define	SPI_MODE_1	(0|SPI_CPHA)
-#define	SPI_MODE_2	(SPI_CPOL|0)
-#define	SPI_MODE_3	(SPI_CPOL|SPI_CPHA)
-#define	SPI_MODE_X_MASK	(SPI_CPOL|SPI_CPHA)
-#define	SPI_CS_HIGH	0x04			/* chipselect active high? */
-#define	SPI_LSB_FIRST	0x08			/* per-word bits-on-wire */
-#define	SPI_3WIRE	0x10			/* SI/SO signals shared */
-#define	SPI_LOOP	0x20			/* loopback mode */
-#define	SPI_NO_CS	0x40			/* 1 dev/bus, no chipselect */
-#define	SPI_READY	0x80			/* slave pulls low to pause */
-#define	SPI_TX_DUAL	0x100			/* transmit with 2 wires */
-#define	SPI_TX_QUAD	0x200			/* transmit with 4 wires */
-#define	SPI_RX_DUAL	0x400			/* receive with 2 wires */
-#define	SPI_RX_QUAD	0x800			/* receive with 4 wires */
-#define	SPI_CS_WORD	0x1000			/* toggle cs after each word */
-#define	SPI_TX_OCTAL	0x2000			/* transmit with 8 wires */
-#define	SPI_RX_OCTAL	0x4000			/* receive with 8 wires */
-#define	SPI_3WIRE_HIZ	0x8000			/* high impedance turnaround */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			irq;
 	void			*controller_state;
 	void			*controller_data;
@@ -233,13 +202,10 @@ struct spi_device {
 	 */
 };
 
-<<<<<<< HEAD
 /* Make sure that SPI_MODE_KERNEL_MASK & SPI_MODE_USER_MASK don't overlap */
 static_assert((SPI_MODE_KERNEL_MASK & SPI_MODE_USER_MASK) == 0,
 	      "SPI_MODE_USER_MASK & SPI_MODE_KERNEL_MASK must not overlap");
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct spi_device *to_spi_device(struct device *dev)
 {
 	return dev ? container_of(dev, struct spi_device, dev) : NULL;
@@ -281,7 +247,6 @@ static inline void *spi_get_drvdata(struct spi_device *spi)
 }
 
 struct spi_message;
-struct spi_transfer;
 
 /**
  * struct spi_driver - Host side "protocol" driver
@@ -544,12 +509,9 @@ struct spi_controller {
 
 #define SPI_MASTER_GPIO_SS		BIT(5)	/* GPIO CS must select slave */
 
-<<<<<<< HEAD
 	/* flag indicating this is a non-devres managed controller */
 	bool			devm_allocated;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* flag indicating this is an SPI slave controller */
 	bool			slave;
 
@@ -662,11 +624,7 @@ struct spi_controller {
 
 	/*
 	 * These hooks are for drivers that use a generic implementation
-<<<<<<< HEAD
 	 * of transfer_one_message() provided by the core.
-=======
-	 * of transfer_one_message() provied by the core.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	void (*set_cs)(struct spi_device *spi, bool enable);
 	int (*transfer_one)(struct spi_controller *ctlr, struct spi_device *spi,
@@ -686,8 +644,8 @@ struct spi_controller {
 	int			*cs_gpios;
 	struct gpio_desc	**cs_gpiods;
 	bool			use_gpio_descriptors;
-	u8			unused_native_cs;
-	u8			max_native_cs;
+	s8			unused_native_cs;
+	s8			max_native_cs;
 
 	/* statistics */
 	struct spi_statistics	statistics;
@@ -869,17 +827,11 @@ extern void spi_res_release(struct spi_controller *ctlr,
  *      transfer. If 0 the default (from @spi_device) is used.
  * @bits_per_word: select a bits_per_word other than the device default
  *      for this transfer. If 0 the default (from @spi_device) is used.
-<<<<<<< HEAD
  * @dummy_data: indicates transfer is dummy bytes transfer.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @cs_change: affects chipselect after this transfer completes
  * @cs_change_delay: delay between cs deassert and assert when
  *      @cs_change is set and @spi_transfer is not the last in @spi_message
  * @delay: delay to be introduced after this transfer before
- *	(optionally) changing the chipselect status, then starting
- *	the next transfer or completing this @spi_message.
- * @delay_usecs: microseconds to delay after this transfer before
  *	(optionally) changing the chipselect status, then starting
  *	the next transfer or completing this @spi_message.
  * @word_delay: inter word delay to be introduced after each word size
@@ -985,10 +937,7 @@ struct spi_transfer {
 	struct sg_table tx_sg;
 	struct sg_table rx_sg;
 
-<<<<<<< HEAD
 	unsigned	dummy_data:1;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned	cs_change:1;
 	unsigned	tx_nbits:3;
 	unsigned	rx_nbits:3;
@@ -996,7 +945,6 @@ struct spi_transfer {
 #define	SPI_NBITS_DUAL		0x02 /* 2bits transfer */
 #define	SPI_NBITS_QUAD		0x04 /* 4bits transfer */
 	u8		bits_per_word;
-	u16		delay_usecs;
 	struct spi_delay	delay;
 	struct spi_delay	cs_change_delay;
 	struct spi_delay	word_delay;
@@ -1110,14 +1058,6 @@ spi_transfer_del(struct spi_transfer *t)
 static inline int
 spi_transfer_delay_exec(struct spi_transfer *t)
 {
-	struct spi_delay d;
-
-	if (t->delay_usecs) {
-		d.value = t->delay_usecs;
-		d.unit = SPI_DELAY_UNIT_USECS;
-		return spi_delay_exec(&d, NULL);
-	}
-
 	return spi_delay_exec(&t->delay, t);
 }
 
@@ -1459,7 +1399,7 @@ static inline ssize_t spi_w8r16be(struct spi_device *spi, u8 cmd)
  * @modalias: Initializes spi_device.modalias; identifies the driver.
  * @platform_data: Initializes spi_device.platform_data; the particular
  *	data stored there is driver-specific.
- * @properties: Additional device properties for the device.
+ * @swnode: Software node for the device.
  * @controller_data: Initializes spi_device.controller_data; some
  *	controllers need hints about hardware setup, e.g. for DMA.
  * @irq: Initializes spi_device.irq; depends on how the board is wired.
@@ -1492,12 +1432,11 @@ struct spi_board_info {
 	 *
 	 * platform_data goes to spi_device.dev.platform_data,
 	 * controller_data goes to spi_device.controller_data,
-	 * device properties are copied and attached to spi_device,
 	 * irq is copied too
 	 */
 	char		modalias[SPI_NAME_SIZE];
 	const void	*platform_data;
-	const struct property_entry *properties;
+	const struct software_node *swnode;
 	void		*controller_data;
 	int		irq;
 

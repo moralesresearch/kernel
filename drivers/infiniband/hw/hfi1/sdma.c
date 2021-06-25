@@ -1285,7 +1285,7 @@ bail:
 }
 
 /**
- * sdma_clean()  Clean up allocated memory
+ * sdma_clean - Clean up allocated memory
  * @dd:          struct hfi1_devdata
  * @num_engines: num sdma engines
  *
@@ -1740,11 +1740,7 @@ retry:
 			sane = (hwhead == swhead);
 
 		if (unlikely(!sane)) {
-<<<<<<< HEAD
 			dd_dev_err(dd, "SDMA(%u) bad head (%s) hwhd=%u swhd=%u swtl=%u cnt=%u\n",
-=======
-			dd_dev_err(dd, "SDMA(%u) bad head (%s) hwhd=%hu swhd=%hu swtl=%hu cnt=%hu\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   sde->this_idx,
 				   use_dmahead ? "dma" : "kreg",
 				   hwhead, swhead, swtail, cnt);
@@ -2452,19 +2448,11 @@ nodesc:
  * @sde: sdma engine to use
  * @wait: SE wait structure to use when full (may be NULL)
  * @tx_list: list of sdma_txreqs to submit
-<<<<<<< HEAD
  * @count_out: pointer to a u16 which, after return will contain the total number of
  *             sdma_txreqs removed from the tx_list. This will include sdma_txreqs
  *             whose SDMA descriptors are submitted to the ring and the sdma_txreqs
  *             which are added to SDMA engine flush list if the SDMA engine state is
  *             not running.
-=======
- * @count: pointer to a u16 which, after return will contain the total number of
- *         sdma_txreqs removed from the tx_list. This will include sdma_txreqs
- *         whose SDMA descriptors are submitted to the ring and the sdma_txreqs
- *         which are added to SDMA engine flush list if the SDMA engine state is
- *         not running.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The call submits the list into the ring.
  *

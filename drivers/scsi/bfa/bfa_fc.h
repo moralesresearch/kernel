@@ -33,24 +33,6 @@ struct scsi_cdb_s {
 	u8         scsi_cdb[SCSI_MAX_CDBLEN];
 };
 
-<<<<<<< HEAD
-=======
-/* ------------------------------------------------------------
- * SCSI status byte values
- * ------------------------------------------------------------
- */
-#define SCSI_STATUS_GOOD                   0x00
-#define SCSI_STATUS_CHECK_CONDITION        0x02
-#define SCSI_STATUS_CONDITION_MET          0x04
-#define SCSI_STATUS_BUSY                   0x08
-#define SCSI_STATUS_INTERMEDIATE           0x10
-#define SCSI_STATUS_ICM                    0x14 /* intermediate condition met */
-#define SCSI_STATUS_RESERVATION_CONFLICT   0x18
-#define SCSI_STATUS_COMMAND_TERMINATED     0x22
-#define SCSI_STATUS_QUEUE_FULL             0x28
-#define SCSI_STATUS_ACA_ACTIVE             0x30
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SCSI_MAX_ALLOC_LEN      0xFF    /* maximum allocarion length */
 
 /*
@@ -1211,7 +1193,7 @@ enum {
 };
 
 /*
- * defintions for CT reason code
+ * definitions for CT reason code
  */
 enum {
 	CT_RSN_INV_CMD		= 0x01,
@@ -1258,7 +1240,7 @@ enum {
 };
 
 /*
- * defintions for the explanation code for all servers
+ * definitions for the explanation code for all servers
  */
 enum {
 	CT_EXP_AUTH_EXCEPTION		= 0xF1,

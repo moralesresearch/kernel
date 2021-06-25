@@ -335,7 +335,6 @@ static void cpsw_rx_handler(void *token, int len, int status)
 	}
 
 	if (priv->xdp_prog) {
-<<<<<<< HEAD
 		int headroom = CPSW_HEADROOM, size = len;
 
 		xdp_init_buff(&xdp, PAGE_SIZE, &priv->xdp_rxq[ch]);
@@ -350,30 +349,6 @@ static void cpsw_rx_handler(void *token, int len, int status)
 		if (ret != CPSW_XDP_PASS)
 			goto requeue;
 
-=======
-		if (status & CPDMA_RX_VLAN_ENCAP) {
-			xdp.data = pa + CPSW_HEADROOM +
-				   CPSW_RX_VLAN_ENCAP_HDR_SIZE;
-			xdp.data_end = xdp.data + len -
-				       CPSW_RX_VLAN_ENCAP_HDR_SIZE;
-		} else {
-			xdp.data = pa + CPSW_HEADROOM;
-			xdp.data_end = xdp.data + len;
-		}
-
-		xdp_set_data_meta_invalid(&xdp);
-
-		xdp.data_hard_start = pa;
-		xdp.rxq = &priv->xdp_rxq[ch];
-		xdp.frame_sz = PAGE_SIZE;
-
-		ret = cpsw_run_xdp(priv, ch, &xdp, page, priv->emac_port);
-		if (ret != CPSW_XDP_PASS)
-			goto requeue;
-
-		/* XDP prog might have changed packet data and boundaries */
-		len = xdp.data_end - xdp.data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		headroom = xdp.data - xdp.data_hard_start;
 
 		/* XDP prog can modify vlan tag, so can't use encap header */
@@ -1118,24 +1093,22 @@ static int cpsw_ndo_xdp_xmit(struct net_device *ndev, int n,
 {
 	struct cpsw_priv *priv = netdev_priv(ndev);
 	struct xdp_frame *xdpf;
-	int i, drops = 0;
+	int i, nxmit = 0;
 
 	if (unlikely(flags & ~XDP_XMIT_FLAGS_MASK))
 		return -EINVAL;
 
 	for (i = 0; i < n; i++) {
 		xdpf = frames[i];
-		if (xdpf->len < CPSW_MIN_PACKET_SIZE) {
-			xdp_return_frame_rx_napi(xdpf);
-			drops++;
-			continue;
-		}
+		if (xdpf->len < CPSW_MIN_PACKET_SIZE)
+			break;
 
 		if (cpsw_xdp_tx_frame(priv, xdpf, NULL, priv->emac_port))
-			drops++;
+			break;
+		nxmit++;
 	}
 
-	return n - drops;
+	return nxmit;
 }
 
 static int cpsw_get_port_parent_id(struct net_device *ndev,
@@ -1284,7 +1257,6 @@ static int cpsw_probe_dt(struct cpsw_common *cpsw)
 
 	for_each_child_of_node(tmp_node, port_np) {
 		struct cpsw_slave_data *slave_data;
-		const void *mac_addr;
 		u32 port_id;
 
 		ret = of_property_read_u32(port_np, "reg", &port_id);
@@ -1343,10 +1315,8 @@ static int cpsw_probe_dt(struct cpsw_common *cpsw)
 			goto err_node_put;
 		}
 
-		mac_addr = of_get_mac_address(port_np);
-		if (!IS_ERR(mac_addr)) {
-			ether_addr_copy(slave_data->mac_addr, mac_addr);
-		} else {
+		ret = of_get_mac_address(port_np, slave_data->mac_addr);
+		if (ret) {
 			ret = ti_cm_get_macid(dev, port_id - 1,
 					      slave_data->mac_addr);
 			if (ret)

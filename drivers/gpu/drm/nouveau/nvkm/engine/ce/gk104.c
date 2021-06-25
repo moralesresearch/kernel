@@ -58,15 +58,9 @@ gk104_ce_intr_launcherr(struct nvkm_engine *ce, const u32 base)
 void
 gk104_ce_intr(struct nvkm_engine *ce)
 {
-<<<<<<< HEAD
 	struct nvkm_subdev *subdev = &ce->subdev;
 	struct nvkm_device *device = subdev->device;
 	const u32 base = subdev->inst * 0x1000;
-=======
-	const u32 base = (ce->subdev.index - NVKM_ENGINE_CE0) * 0x1000;
-	struct nvkm_subdev *subdev = &ce->subdev;
-	struct nvkm_device *device = subdev->device;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 mask = nvkm_rd32(device, 0x104904 + base);
 	u32 intr = nvkm_rd32(device, 0x104908 + base) & mask;
 	if (intr & 0x00000001) {
@@ -100,15 +94,8 @@ gk104_ce = {
 };
 
 int
-<<<<<<< HEAD
 gk104_ce_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_engine **pengine)
 {
 	return nvkm_engine_new_(&gk104_ce, device, type, inst, true, pengine);
-=======
-gk104_ce_new(struct nvkm_device *device, int index,
-	     struct nvkm_engine **pengine)
-{
-	return nvkm_engine_new_(&gk104_ce, device, index, true, pengine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

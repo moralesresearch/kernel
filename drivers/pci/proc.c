@@ -274,14 +274,11 @@ static int proc_bus_pci_mmap(struct file *file, struct vm_area_struct *vma)
 		else
 			return -EINVAL;
 	}
-<<<<<<< HEAD
 
 	if (dev->resource[i].flags & IORESOURCE_MEM &&
 	    iomem_is_exclusive(dev->resource[i].start))
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = pci_mmap_page_range(dev, i, vma,
 				  fpriv->mmap_state, write_combine);
 	if (ret < 0)
@@ -301,10 +298,7 @@ static int proc_bus_pci_open(struct inode *inode, struct file *file)
 	fpriv->write_combine = 0;
 
 	file->private_data = fpriv;
-<<<<<<< HEAD
 	file->f_mapping = iomem_get_mapping();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

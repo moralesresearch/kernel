@@ -3,9 +3,6 @@ perf-$(CONFIG_DWARF_UNWIND) += dwarf-unwind.o
 
 perf-y += arch-tests.o
 perf-y += rdpmc.o
-<<<<<<< HEAD
 perf-y += sample-parsing.o
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 perf-$(CONFIG_AUXTRACE) += insn-x86.o intel-pt-pkt-decoder-test.o
 perf-$(CONFIG_X86_64) += bp-modify.o

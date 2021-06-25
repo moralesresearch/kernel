@@ -1164,7 +1164,6 @@ int clk_enable(struct clk *clk)
 }
 EXPORT_SYMBOL_GPL(clk_enable);
 
-<<<<<<< HEAD
 /**
  * clk_is_enabled_when_prepared - indicate if preparing a clock also enables it.
  * @clk: clock source
@@ -1186,8 +1185,6 @@ bool clk_is_enabled_when_prepared(struct clk *clk)
 }
 EXPORT_SYMBOL_GPL(clk_is_enabled_when_prepared);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int clk_core_prepare_enable(struct clk_core *core)
 {
 	int ret;
@@ -1333,7 +1330,7 @@ static int clk_core_determine_round_nolock(struct clk_core *core,
 		return 0;
 
 	/*
-	 * At this point, core protection will be disabled if
+	 * At this point, core protection will be disabled
 	 * - if the provider is not protected at all
 	 * - if the calling consumer is the only one which has exclusivity
 	 *   over the provider
@@ -2081,12 +2078,8 @@ static void clk_change_rate(struct clk_core *core)
 		return;
 
 	if (core->flags & CLK_SET_RATE_UNGATE) {
-		unsigned long flags;
-
 		clk_core_prepare(core);
-		flags = clk_enable_lock();
-		clk_core_enable(core);
-		clk_enable_unlock(flags);
+		clk_core_enable_lock(core);
 	}
 
 	if (core->new_parent && core->new_parent != core->parent) {
@@ -2119,11 +2112,7 @@ static void clk_change_rate(struct clk_core *core)
 	core->rate = clk_recalc(core, best_parent_rate);
 
 	if (core->flags & CLK_SET_RATE_UNGATE) {
-		unsigned long flags;
-
-		flags = clk_enable_lock();
-		clk_core_disable(core);
-		clk_enable_unlock(flags);
+		clk_core_disable_lock(core);
 		clk_core_unprepare(core);
 	}
 
@@ -3567,8 +3556,6 @@ static int __clk_core_init(struct clk_core *core)
 	 * reparenting clocks
 	 */
 	if (core->flags & CLK_IS_CRITICAL) {
-		unsigned long flags;
-
 		ret = clk_core_prepare(core);
 		if (ret) {
 			pr_warn("%s: critical clk '%s' failed to prepare\n",
@@ -3576,9 +3563,7 @@ static int __clk_core_init(struct clk_core *core)
 			goto out;
 		}
 
-		flags = clk_enable_lock();
-		ret = clk_core_enable(core);
-		clk_enable_unlock(flags);
+		ret = clk_core_enable_lock(core);
 		if (ret) {
 			pr_warn("%s: critical clk '%s' failed to enable\n",
 			       __func__, core->name);
@@ -4360,7 +4345,6 @@ int clk_notifier_register(struct clk *clk, struct notifier_block *nb)
 	/* search the list of notifiers for this clk */
 	list_for_each_entry(cn, &clk_notifier_list, node)
 		if (cn->clk == clk)
-<<<<<<< HEAD
 			goto found;
 
 	/* if clk wasn't in the notifier list, allocate new clk_notifier */
@@ -4374,22 +4358,6 @@ int clk_notifier_register(struct clk *clk, struct notifier_block *nb)
 	list_add(&cn->node, &clk_notifier_list);
 
 found:
-=======
-			break;
-
-	/* if clk wasn't in the notifier list, allocate new clk_notifier */
-	if (cn->clk != clk) {
-		cn = kzalloc(sizeof(*cn), GFP_KERNEL);
-		if (!cn)
-			goto out;
-
-		cn->clk = clk;
-		srcu_init_notifier_head(&cn->notifier_head);
-
-		list_add(&cn->node, &clk_notifier_list);
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = srcu_notifier_chain_register(&cn->notifier_head, nb);
 
 	clk->core->notifier_count++;
@@ -4414,20 +4382,14 @@ EXPORT_SYMBOL_GPL(clk_notifier_register);
  */
 int clk_notifier_unregister(struct clk *clk, struct notifier_block *nb)
 {
-<<<<<<< HEAD
 	struct clk_notifier *cn;
 	int ret = -ENOENT;
-=======
-	struct clk_notifier *cn = NULL;
-	int ret = -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!clk || !nb)
 		return -EINVAL;
 
 	clk_prepare_lock();
 
-<<<<<<< HEAD
 	list_for_each_entry(cn, &clk_notifier_list, node) {
 		if (cn->clk == clk) {
 			ret = srcu_notifier_chain_unregister(&cn->notifier_head, nb);
@@ -4442,26 +4404,6 @@ int clk_notifier_unregister(struct clk *clk, struct notifier_block *nb)
 			}
 			break;
 		}
-=======
-	list_for_each_entry(cn, &clk_notifier_list, node)
-		if (cn->clk == clk)
-			break;
-
-	if (cn->clk == clk) {
-		ret = srcu_notifier_chain_unregister(&cn->notifier_head, nb);
-
-		clk->core->notifier_count--;
-
-		/* XXX the notifier code should handle this better */
-		if (!cn->notifier_head.head) {
-			srcu_cleanup_notifier_head(&cn->notifier_head);
-			list_del(&cn->node);
-			kfree(cn);
-		}
-
-	} else {
-		ret = -ENOENT;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	clk_prepare_unlock();
@@ -4598,6 +4540,9 @@ int of_clk_add_provider(struct device_node *np,
 	struct of_clk_provider *cp;
 	int ret;
 
+	if (!np)
+		return 0;
+
 	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
 	if (!cp)
 		return -ENOMEM;
@@ -4617,11 +4562,8 @@ int of_clk_add_provider(struct device_node *np,
 	if (ret < 0)
 		of_clk_del_provider(np);
 
-<<<<<<< HEAD
 	fwnode_dev_initialized(&np->fwnode, true);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 EXPORT_SYMBOL_GPL(of_clk_add_provider);
@@ -4639,6 +4581,9 @@ int of_clk_add_hw_provider(struct device_node *np,
 {
 	struct of_clk_provider *cp;
 	int ret;
+
+	if (!np)
+		return 0;
 
 	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
 	if (!cp)
@@ -4658,6 +4603,8 @@ int of_clk_add_hw_provider(struct device_node *np,
 	ret = of_clk_set_defaults(np, true);
 	if (ret < 0)
 		of_clk_del_provider(np);
+
+	fwnode_dev_initialized(&np->fwnode, true);
 
 	return ret;
 }
@@ -4735,14 +4682,14 @@ void of_clk_del_provider(struct device_node *np)
 {
 	struct of_clk_provider *cp;
 
+	if (!np)
+		return;
+
 	mutex_lock(&of_clk_mutex);
 	list_for_each_entry(cp, &of_clk_providers, link) {
 		if (cp->node == np) {
 			list_del(&cp->link);
-<<<<<<< HEAD
 			fwnode_dev_initialized(&np->fwnode, false);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			of_node_put(cp->node);
 			kfree(cp);
 			break;

@@ -100,11 +100,7 @@ static int iuu_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void iuu_port_remove(struct usb_serial_port *port)
-=======
-static int iuu_port_remove(struct usb_serial_port *port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iuu_private *priv = usb_get_serial_port_data(port);
 
@@ -112,11 +108,6 @@ static int iuu_port_remove(struct usb_serial_port *port)
 	kfree(priv->writebuf);
 	kfree(priv->buf);
 	kfree(priv);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int iuu_tiocmset(struct tty_struct *tty,
@@ -652,7 +643,6 @@ static void iuu_uart_read_callback(struct urb *urb)
 	struct iuu_private *priv = usb_get_serial_port_data(port);
 	unsigned long flags;
 	int status = urb->status;
-	int error = 0;
 	int len = 0;
 	unsigned char *data = urb->transfer_buffer;
 	priv->poll++;
@@ -669,12 +659,11 @@ static void iuu_uart_read_callback(struct urb *urb)
 	if (urb->actual_length > 1) {
 		dev_dbg(&port->dev, "%s - urb->actual_length = %i\n", __func__,
 		    urb->actual_length);
-		error = 1;
 		return;
 	}
 	/* if len > 0 call readbuf */
 
-	if (len > 0 && error == 0) {
+	if (len > 0) {
 		dev_dbg(&port->dev, "%s - call read buf - len to read is %i\n",
 			__func__, len);
 		status = iuu_read_buf(port, len);

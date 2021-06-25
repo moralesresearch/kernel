@@ -25,10 +25,7 @@
 #include <linux/mmc/slot-gpio.h>
 
 #include "core.h"
-<<<<<<< HEAD
 #include "crypto.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "host.h"
 #include "slot-gpio.h"
 #include "pwrseq.h"
@@ -38,7 +35,6 @@
 
 static DEFINE_IDA(mmc_host_ida);
 
-<<<<<<< HEAD
 #ifdef CONFIG_PM_SLEEP
 static int mmc_host_class_prepare(struct device *dev)
 {
@@ -75,8 +71,6 @@ static const struct dev_pm_ops mmc_host_class_dev_pm_ops = {
 #define MMC_HOST_CLASS_DEV_PM_OPS NULL
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mmc_host_classdev_release(struct device *dev)
 {
 	struct mmc_host *host = cls_dev_to_mmc_host(dev);
@@ -88,10 +82,7 @@ static void mmc_host_classdev_release(struct device *dev)
 static struct class mmc_host_class = {
 	.name		= "mmc_host",
 	.dev_release	= mmc_host_classdev_release,
-<<<<<<< HEAD
 	.pm		= MMC_HOST_CLASS_DEV_PM_OPS,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int mmc_register_host_class(void)
@@ -210,7 +201,6 @@ static void mmc_retune_timer(struct timer_list *t)
 	mmc_retune_needed(host);
 }
 
-<<<<<<< HEAD
 static void mmc_of_parse_timing_phase(struct device *dev, const char *prop,
 				      struct mmc_clk_phase *phase)
 {
@@ -255,11 +245,9 @@ mmc_of_parse_clk_phase(struct mmc_host *host, struct mmc_clk_phase_map *map)
 }
 EXPORT_SYMBOL(mmc_of_parse_clk_phase);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
- *	mmc_of_parse() - parse host's device-tree node
- *	@host: host whose node should be parsed.
+ * mmc_of_parse() - parse host's device properties
+ * @host: host whose properties should be parsed.
  *
  * To keep the rest of the MMC subsystem unaware of whether DT has been
  * used to to instantiate and configure this host instance or not, we
@@ -428,43 +416,61 @@ EXPORT_SYMBOL(mmc_of_parse);
 
 /**
  * mmc_of_parse_voltage - return mask of supported voltages
- * @np: The device node need to be parsed.
+ * @host: host whose properties should be parsed.
  * @mask: mask of voltages available for MMC/SD/SDIO
  *
- * Parse the "voltage-ranges" DT property, returning zero if it is not
+ * Parse the "voltage-ranges" property, returning zero if it is not
  * found, negative errno if the voltage-range specification is invalid,
  * or one if the voltage-range is specified and successfully parsed.
  */
-int mmc_of_parse_voltage(struct device_node *np, u32 *mask)
+int mmc_of_parse_voltage(struct mmc_host *host, u32 *mask)
 {
-	const u32 *voltage_ranges;
+	const char *prop = "voltage-ranges";
+	struct device *dev = host->parent;
+	u32 *voltage_ranges;
 	int num_ranges, i;
+	int ret;
 
-	voltage_ranges = of_get_property(np, "voltage-ranges", &num_ranges);
-	if (!voltage_ranges) {
-		pr_debug("%pOF: voltage-ranges unspecified\n", np);
+	if (!device_property_present(dev, prop)) {
+		dev_dbg(dev, "%s unspecified\n", prop);
 		return 0;
 	}
-	num_ranges = num_ranges / sizeof(*voltage_ranges) / 2;
+
+	ret = device_property_count_u32(dev, prop);
+	if (ret < 0)
+		return ret;
+
+	num_ranges = ret / 2;
 	if (!num_ranges) {
-		pr_err("%pOF: voltage-ranges empty\n", np);
+		dev_err(dev, "%s empty\n", prop);
 		return -EINVAL;
+	}
+
+	voltage_ranges = kcalloc(2 * num_ranges, sizeof(*voltage_ranges), GFP_KERNEL);
+	if (!voltage_ranges)
+		return -ENOMEM;
+
+	ret = device_property_read_u32_array(dev, prop, voltage_ranges, 2 * num_ranges);
+	if (ret) {
+		kfree(voltage_ranges);
+		return ret;
 	}
 
 	for (i = 0; i < num_ranges; i++) {
 		const int j = i * 2;
 		u32 ocr_mask;
 
-		ocr_mask = mmc_vddrange_to_ocrmask(
-				be32_to_cpu(voltage_ranges[j]),
-				be32_to_cpu(voltage_ranges[j + 1]));
+		ocr_mask = mmc_vddrange_to_ocrmask(voltage_ranges[j + 0],
+						   voltage_ranges[j + 1]);
 		if (!ocr_mask) {
-			pr_err("%pOF: voltage-range #%d is invalid\n",
-				np, i);
+			dev_err(dev, "range #%d in %s is invalid\n", i, prop);
+			kfree(voltage_ranges);
 			return -EINVAL;
 		}
 		*mask |= ocr_mask;
 	}
+
+	kfree(voltage_ranges);
 
 	return 1;
 }
@@ -587,11 +593,6 @@ int mmc_add_host(struct mmc_host *host)
 #endif
 
 	mmc_start_host(host);
-<<<<<<< HEAD
-=======
-	mmc_register_pm_notifier(host);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -607,10 +608,6 @@ EXPORT_SYMBOL(mmc_add_host);
  */
 void mmc_remove_host(struct mmc_host *host)
 {
-<<<<<<< HEAD
-=======
-	mmc_unregister_pm_notifier(host);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmc_stop_host(host);
 
 #ifdef CONFIG_DEBUG_FS

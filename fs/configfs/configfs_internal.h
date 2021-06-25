@@ -1,7 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
-/* -*- mode: c; c-basic-offset:8; -*-
- * vim: noexpandtab sw=8 ts=8 sts=0:
- *
+/*
  * configfs_internal.h - Internal stuff for configfs
  *
  * Based on sysfs:
@@ -79,12 +77,8 @@ extern void configfs_hash_and_remove(struct dentry * dir, const char * name);
 
 extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
 extern void configfs_drop_dentry(struct configfs_dirent *sd, struct dentry *parent);
-<<<<<<< HEAD
 extern int configfs_setattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry, struct iattr *iattr);
-=======
-extern int configfs_setattr(struct dentry *dentry, struct iattr *iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern struct dentry *configfs_pin_fs(void);
 extern void configfs_release_fs(void);
@@ -97,12 +91,8 @@ extern const struct inode_operations configfs_root_inode_operations;
 extern const struct inode_operations configfs_symlink_inode_operations;
 extern const struct dentry_operations configfs_dentry_ops;
 
-<<<<<<< HEAD
 extern int configfs_symlink(struct user_namespace *mnt_userns,
 			    struct inode *dir, struct dentry *dentry,
-=======
-extern int configfs_symlink(struct inode *dir, struct dentry *dentry,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    const char *symname);
 extern int configfs_unlink(struct inode *dir, struct dentry *dentry);
 

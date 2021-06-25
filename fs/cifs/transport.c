@@ -445,15 +445,7 @@ unmask:
 		 */
 		server->tcpStatus = CifsNeedReconnect;
 		trace_smb3_partial_send_reconnect(server->CurrentMid,
-<<<<<<< HEAD
 						  server->conn_id, server->hostname);
-=======
-<<<<<<< HEAD
-						  server->conn_id, server->hostname);
-=======
-						  server->hostname);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 smbd_done:
 	if (rc < 0 && rc != -EINTR)
@@ -535,15 +527,7 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 	int *credits;
 	int optype;
 	long int t;
-<<<<<<< HEAD
 	int scredits, in_flight;
-=======
-<<<<<<< HEAD
-	int scredits, in_flight;
-=======
-	int scredits = server->credits;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (timeout < 0)
 		t = MAX_JIFFY_OFFSET;
@@ -567,10 +551,6 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 			server->max_in_flight = server->in_flight;
 		*credits -= 1;
 		*instance = server->reconnect_instance;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		scredits = *credits;
 		in_flight = server->in_flight;
 		spin_unlock(&server->req_lock);
@@ -580,39 +560,19 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 		cifs_dbg(FYI, "%s: remove %u credits total=%d\n",
 				__func__, 1, scredits);
 
-<<<<<<< HEAD
-=======
-=======
-		spin_unlock(&server->req_lock);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
 	while (1) {
 		if (*credits < num_credits) {
-<<<<<<< HEAD
 			scredits = *credits;
 			spin_unlock(&server->req_lock);
 
-=======
-<<<<<<< HEAD
-			scredits = *credits;
-			spin_unlock(&server->req_lock);
-
-=======
-			spin_unlock(&server->req_lock);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cifs_num_waiters_inc(server);
 			rc = wait_event_killable_timeout(server->request_q,
 				has_credits(server, credits, num_credits), t);
 			cifs_num_waiters_dec(server);
 			if (!rc) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				spin_lock(&server->req_lock);
 				scredits = *credits;
 				in_flight = server->in_flight;
@@ -624,16 +584,6 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 				cifs_server_dbg(VFS, "wait timed out after %d ms\n",
 						timeout);
 				return -EBUSY;
-<<<<<<< HEAD
-=======
-=======
-				trace_smb3_credit_timeout(server->CurrentMid,
-					server->hostname, num_credits, 0);
-				cifs_server_dbg(VFS, "wait timed out after %d ms\n",
-					 timeout);
-				return -ENOTSUPP;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			if (rc == -ERESTARTSYS)
 				return -ERESTARTSYS;
@@ -661,14 +611,7 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 			    server->in_flight > 2 * MAX_COMPOUND &&
 			    *credits <= MAX_COMPOUND) {
 				spin_unlock(&server->req_lock);
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cifs_num_waiters_inc(server);
 				rc = wait_event_killable_timeout(
 					server->request_q,
@@ -677,10 +620,6 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 					t);
 				cifs_num_waiters_dec(server);
 				if (!rc) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					spin_lock(&server->req_lock);
 					scredits = *credits;
 					in_flight = server->in_flight;
@@ -693,18 +632,6 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 					cifs_server_dbg(VFS, "wait timed out after %d ms\n",
 							timeout);
 					return -EBUSY;
-<<<<<<< HEAD
-=======
-=======
-					trace_smb3_credit_timeout(
-						server->CurrentMid,
-						server->hostname, num_credits,
-						0);
-					cifs_server_dbg(VFS, "wait timed out after %d ms\n",
-						 timeout);
-					return -ENOTSUPP;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				}
 				if (rc == -ERESTARTSYS)
 					return -ERESTARTSYS;
@@ -720,22 +647,11 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 			/* update # of requests on the wire to server */
 			if ((flags & CIFS_TIMEOUT_MASK) != CIFS_BLOCKING_OP) {
 				*credits -= num_credits;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-				scredits = *credits;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				server->in_flight += num_credits;
 				if (server->in_flight > server->max_in_flight)
 					server->max_in_flight = server->in_flight;
 				*instance = server->reconnect_instance;
 			}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			scredits = *credits;
 			in_flight = server->in_flight;
 			spin_unlock(&server->req_lock);
@@ -743,15 +659,6 @@ wait_for_free_credits(struct TCP_Server_Info *server, const int num_credits,
 			trace_smb3_add_credits(server->CurrentMid,
 					server->conn_id, server->hostname, scredits,
 					-(num_credits), in_flight);
-<<<<<<< HEAD
-=======
-=======
-			spin_unlock(&server->req_lock);
-
-			trace_smb3_add_credits(server->CurrentMid,
-					server->hostname, scredits, -(num_credits));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cifs_dbg(FYI, "%s: remove %u credits total=%d\n",
 					__func__, num_credits, scredits);
 			break;
@@ -773,29 +680,13 @@ wait_for_compound_request(struct TCP_Server_Info *server, int num,
 			  const int flags, unsigned int *instance)
 {
 	int *credits;
-<<<<<<< HEAD
 	int scredits, in_flight;
-=======
-<<<<<<< HEAD
-	int scredits, in_flight;
-=======
-	int scredits, sin_flight;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	credits = server->ops->get_credits_field(server, flags & CIFS_OP_MASK);
 
 	spin_lock(&server->req_lock);
 	scredits = *credits;
-<<<<<<< HEAD
 	in_flight = server->in_flight;
-=======
-<<<<<<< HEAD
-	in_flight = server->in_flight;
-=======
-	sin_flight = server->in_flight;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (*credits < num) {
 		/*
@@ -817,24 +708,11 @@ wait_for_compound_request(struct TCP_Server_Info *server, int num,
 		if (server->in_flight == 0) {
 			spin_unlock(&server->req_lock);
 			trace_smb3_insufficient_credits(server->CurrentMid,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					server->conn_id, server->hostname, scredits,
 					num, in_flight);
 			cifs_dbg(FYI, "%s: %d requests in flight, needed %d total=%d\n",
 					__func__, in_flight, num, scredits);
 			return -EDEADLK;
-<<<<<<< HEAD
-=======
-=======
-					server->hostname, scredits, sin_flight);
-			cifs_dbg(FYI, "%s: %d requests in flight, needed %d total=%d\n",
-					__func__, sin_flight, num, scredits);
-			return -ENOTSUPP;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	spin_unlock(&server->req_lock);
@@ -1318,15 +1196,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
 	/*
 	 * Compounding is never used during session establish.
 	 */
-<<<<<<< HEAD
 	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-=======
-<<<<<<< HEAD
-	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-=======
-	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mutex_lock(&server->srv_mutex);
 		smb311_update_preauth_hash(ses, rqst[0].rq_iov,
 					   rqst[0].rq_nvec);
@@ -1394,15 +1264,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
 	/*
 	 * Compounding is never used during session establish.
 	 */
-<<<<<<< HEAD
 	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-=======
-<<<<<<< HEAD
-	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-=======
-	if ((ses->status == CifsNew) || (optype & CIFS_NEG_OP)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct kvec iov = {
 			.iov_base = resp_iov[0].iov_base,
 			.iov_len = resp_iov[0].iov_len

@@ -49,7 +49,6 @@ properties:
     maxItems: 1
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -59,38 +58,12 @@ properties:
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
-    description: |
-      This device has two video ports. Their connections are modelled using the
-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-      Each port shall have a single endpoint.
-
-    properties:
-      '#address-cells':
-        const: 1
-
-      '#size-cells':
-        const: 0
-
-      port@0:
-        type: object
-        description: Parallel RGB input port
-
-      port@1:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: LVDS output port
 
     required:
       - port@0
       - port@1
 
-<<<<<<< HEAD
-=======
-    additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   power-domains:
     maxItems: 1
 
@@ -98,15 +71,9 @@ properties:
     $ref: /schemas/types.yaml#/definitions/phandle
     description:
       phandle to the companion LVDS encoder. This property is mandatory
-<<<<<<< HEAD
       for the first LVDS encoder on R-Car D3 and E3, and RZ/G2E SoCs, and shall
       point to the second encoder to be used as a companion in dual-link mode.
       It shall not be set for any other LVDS encoder.
-=======
-      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-      the second encoder to be used as a companion in dual-link mode. It
-      shall not be set for any other LVDS encoder.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible

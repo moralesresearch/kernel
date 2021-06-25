@@ -77,14 +77,9 @@
 #define MPT3SAS_DRIVER_NAME		"mpt3sas"
 #define MPT3SAS_AUTHOR "Avago Technologies <MPT-FusionLinux.pdl@avagotech.com>"
 #define MPT3SAS_DESCRIPTION	"LSI MPT Fusion SAS 3.0 Device Driver"
-<<<<<<< HEAD
-#define MPT3SAS_DRIVER_VERSION		"37.100.00.00"
+#define MPT3SAS_DRIVER_VERSION		"37.101.00.00"
 #define MPT3SAS_MAJOR_VERSION		37
-=======
-#define MPT3SAS_DRIVER_VERSION		"36.100.00.00"
-#define MPT3SAS_MAJOR_VERSION		36
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-#define MPT3SAS_MINOR_VERSION		100
+#define MPT3SAS_MINOR_VERSION		101
 #define MPT3SAS_BUILD_VERSION		0
 #define MPT3SAS_RELEASE_VERSION	00
 
@@ -1078,7 +1073,6 @@ struct hba_port {
 
 #define MULTIPATH_DISABLED_PORT_ID     0xFF
 
-<<<<<<< HEAD
 /**
  * struct htb_rel_query - diagnostic buffer release reason
  * @unique_id - unique id associated with this buffer.
@@ -1123,8 +1117,6 @@ struct htb_rel_query {
 #define MPT_DIAG_RESET_ISSUED_BY_DRIVER 0x00000000
 #define MPT_DIAG_RESET_ISSUED_BY_USER	0x00000001
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 typedef void (*MPT3SAS_FLUSH_RUNNING_CMDS)(struct MPT3SAS_ADAPTER *ioc);
 /**
  * struct MPT3SAS_ADAPTER - per adapter struct
@@ -1379,6 +1371,7 @@ struct MPT3SAS_ADAPTER {
 	u16		thresh_hold;
 	u8		high_iops_queues;
 	u32		drv_support_bitmap;
+	u32             dma_mask;
 	bool		enable_sdev_max_qd;
 	bool		use_32bit_dma;
 
@@ -1491,10 +1484,7 @@ struct MPT3SAS_ADAPTER {
 	spinlock_t	scsi_lookup_lock;
 	int		pending_io_count;
 	wait_queue_head_t reset_wq;
-<<<<<<< HEAD
 	u16		*io_queue_num;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* PCIe SGL */
 	struct dma_pool *pcie_sgl_dma_pool;
@@ -1585,11 +1575,8 @@ struct MPT3SAS_ADAPTER {
 	u32		diagnostic_flags[MPI2_DIAG_BUF_TYPE_COUNT];
 	u32		ring_buffer_offset;
 	u32		ring_buffer_sz;
-<<<<<<< HEAD
 	struct htb_rel_query htb_rel;
 	u8 reset_from_user;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8		is_warpdrive;
 	u8		is_mcpu_endpoint;
 	u8		hide_ir_msg;
@@ -1626,10 +1613,7 @@ struct mpt3sas_debugfs_buffer {
 };
 
 #define MPT_DRV_SUPPORT_BITMAP_MEMMOVE 0x00000001
-<<<<<<< HEAD
 #define MPT_DRV_SUPPORT_BITMAP_ADDNLQUERY	0x00000002
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 typedef u8 (*MPT_CALLBACK)(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 msix_index,
 	u32 reply);

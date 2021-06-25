@@ -31,7 +31,6 @@ enum {
 					 SH_PFC_PIN_CFG_PULL_DOWN)
 #define SH_PFC_PIN_CFG_IO_VOLTAGE	(1 << 4)
 #define SH_PFC_PIN_CFG_DRIVE_STRENGTH	(1 << 5)
-<<<<<<< HEAD
 
 #define SH_PFC_PIN_VOLTAGE_18_33	(0 << 6)
 #define SH_PFC_PIN_VOLTAGE_25_33	(1 << 6)
@@ -41,8 +40,6 @@ enum {
 #define SH_PFC_PIN_CFG_IO_VOLTAGE_25_33	(SH_PFC_PIN_CFG_IO_VOLTAGE | \
 					 SH_PFC_PIN_VOLTAGE_25_33)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SH_PFC_PIN_CFG_NO_GPIO		(1 << 31)
 
 struct sh_pfc_pin {
@@ -191,9 +188,9 @@ struct pinmux_drive_reg {
 	.reg = r, \
 	.fields =
 
-struct pinmux_bias_reg {
+struct pinmux_bias_reg {	/* At least one of puen/pud must exist */
 	u32 puen;		/* Pull-enable or pull-up control register */
-	u32 pud;		/* Pull-up/down control register (optional) */
+	u32 pud;		/* Pull-up/down or pull-down control register */
 	const u16 pins[32];
 };
 
@@ -276,6 +273,7 @@ struct sh_pfc_soc_operations {
 	void (*set_bias)(struct sh_pfc *pfc, unsigned int pin,
 			 unsigned int bias);
 	int (*pin_to_pocctrl)(struct sh_pfc *pfc, unsigned int pin, u32 *pocctrl);
+	void __iomem * (*pin_to_portcr)(struct sh_pfc *pfc, unsigned int pin);
 };
 
 struct sh_pfc_soc_info {
@@ -312,11 +310,7 @@ struct sh_pfc_soc_info {
 	const u16 *pinmux_data;
 	unsigned int pinmux_data_size;
 
-<<<<<<< HEAD
 	u32 unlock_reg;		/* can be literal address or mask */
-=======
-	u32 unlock_reg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern const struct sh_pfc_soc_info emev2_pinmux_info;
@@ -347,10 +341,7 @@ extern const struct sh_pfc_soc_info r8a77970_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77980_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77990_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77995_pinmux_info;
-<<<<<<< HEAD
 extern const struct sh_pfc_soc_info r8a779a0_pinmux_info;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct sh_pfc_soc_info sh7203_pinmux_info;
 extern const struct sh_pfc_soc_info sh7264_pinmux_info;
 extern const struct sh_pfc_soc_info sh7269_pinmux_info;
@@ -471,7 +462,6 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 	fn(bank, pin, GP_##bank##_##pin, sfx, cfg)
 #define PORT_GP_1(bank, pin, fn, sfx)	PORT_GP_CFG_1(bank, pin, fn, sfx, 0)
 
-<<<<<<< HEAD
 #define PORT_GP_CFG_2(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 1,  fn, sfx, cfg)
@@ -479,11 +469,6 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 
 #define PORT_GP_CFG_4(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_2(bank, fn, sfx, cfg),				\
-=======
-#define PORT_GP_CFG_4(bank, fn, sfx, cfg)				\
-	PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),				\
-	PORT_GP_CFG_1(bank, 1,  fn, sfx, cfg),				\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PORT_GP_CFG_1(bank, 2,  fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 3,  fn, sfx, cfg)
 #define PORT_GP_4(bank, fn, sfx)	PORT_GP_CFG_4(bank, fn, sfx, 0)
@@ -494,9 +479,13 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 	PORT_GP_CFG_1(bank, 5,  fn, sfx, cfg)
 #define PORT_GP_6(bank, fn, sfx)	PORT_GP_CFG_6(bank, fn, sfx, 0)
 
-#define PORT_GP_CFG_8(bank, fn, sfx, cfg)				\
+#define PORT_GP_CFG_7(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_6(bank, fn, sfx, cfg),				\
-	PORT_GP_CFG_1(bank, 6,  fn, sfx, cfg),				\
+	PORT_GP_CFG_1(bank, 6,  fn, sfx, cfg)
+#define PORT_GP_7(bank, fn, sfx)	PORT_GP_CFG_7(bank, fn, sfx, 0)
+
+#define PORT_GP_CFG_8(bank, fn, sfx, cfg)				\
+	PORT_GP_CFG_7(bank, fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 7,  fn, sfx, cfg)
 #define PORT_GP_8(bank, fn, sfx)	PORT_GP_CFG_8(bank, fn, sfx, 0)
 
@@ -602,7 +591,6 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 	PORT_GP_CFG_1(bank, 29, fn, sfx, cfg)
 #define PORT_GP_30(bank, fn, sfx)	PORT_GP_CFG_30(bank, fn, sfx, 0)
 
-<<<<<<< HEAD
 #define PORT_GP_CFG_31(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_30(bank, fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 30, fn, sfx, cfg)
@@ -610,11 +598,6 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 
 #define PORT_GP_CFG_32(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_31(bank, fn, sfx, cfg),				\
-=======
-#define PORT_GP_CFG_32(bank, fn, sfx, cfg)				\
-	PORT_GP_CFG_30(bank, fn, sfx, cfg),				\
-	PORT_GP_CFG_1(bank, 30, fn, sfx, cfg),				\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PORT_GP_CFG_1(bank, 31, fn, sfx, cfg)
 #define PORT_GP_32(bank, fn, sfx)	PORT_GP_CFG_32(bank, fn, sfx, 0)
 
@@ -794,5 +777,16 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
  * GPIO number helper macro for R-Car
  */
 #define RCAR_GP_PIN(bank, pin)		(((bank) * 32) + (pin))
+
+/*
+ * Bias helpers
+ */
+unsigned int rcar_pinmux_get_bias(struct sh_pfc *pfc, unsigned int pin);
+void rcar_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
+			  unsigned int bias);
+
+unsigned int rmobile_pinmux_get_bias(struct sh_pfc *pfc, unsigned int pin);
+void rmobile_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
+			     unsigned int bias);
 
 #endif /* __SH_PFC_H */

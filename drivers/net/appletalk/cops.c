@@ -327,11 +327,8 @@ static int __init cops_probe1(struct net_device *dev, int ioaddr)
 			break;
 	}
 
-<<<<<<< HEAD
 	dev->base_addr = ioaddr;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Reserve any actual interrupt. */
 	if (dev->irq) {
 		retval = request_irq(dev->irq, cops_interrupt, 0, dev->name, dev);
@@ -339,11 +336,6 @@ static int __init cops_probe1(struct net_device *dev, int ioaddr)
 			goto err_out;
 	}
 
-<<<<<<< HEAD
-=======
-	dev->base_addr = ioaddr;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         lp = netdev_priv(dev);
         spin_lock_init(&lp->lock);
 

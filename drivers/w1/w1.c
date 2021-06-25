@@ -25,11 +25,8 @@
 #include "w1_netlink.h"
 
 #define W1_FAMILY_DEFAULT	0
-<<<<<<< HEAD
 #define W1_FAMILY_DS28E04       0x1C /* for crc quirk */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int w1_timeout = 10;
 module_param_named(timeout, w1_timeout, int, 0);
@@ -918,7 +915,6 @@ void w1_reconnect_slaves(struct w1_family *f, int attach)
 	mutex_unlock(&w1_mlock);
 }
 
-<<<<<<< HEAD
 static int w1_addr_crc_is_valid(struct w1_master *dev, u64 rn)
 {
 	u64 rn_le = cpu_to_le64(rn);
@@ -953,16 +949,10 @@ static int w1_addr_crc_is_valid(struct w1_master *dev, u64 rn)
 	return 1;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void w1_slave_found(struct w1_master *dev, u64 rn)
 {
 	struct w1_slave *sl;
 	struct w1_reg_num *tmp;
-<<<<<<< HEAD
-=======
-	u64 rn_le = cpu_to_le64(rn);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&dev->refcnt);
 
@@ -972,11 +962,7 @@ void w1_slave_found(struct w1_master *dev, u64 rn)
 	if (sl) {
 		set_bit(W1_SLAVE_ACTIVE, &sl->flags);
 	} else {
-<<<<<<< HEAD
 		if (rn && w1_addr_crc_is_valid(dev, rn))
-=======
-		if (rn && tmp->crc == w1_calc_crc8((u8 *)&rn_le, 7))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			w1_attach_slave_device(dev, tmp);
 	}
 

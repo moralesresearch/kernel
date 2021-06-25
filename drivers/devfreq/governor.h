@@ -40,11 +40,7 @@
 /*
  * Definition of governor attribute flags except for common sysfs attributes
  * - DEVFREQ_GOV_ATTR_POLLING_INTERVAL
-<<<<<<< HEAD
  *   : Indicate polling_interval sysfs attribute
-=======
- *   : Indicate polling_interal sysfs attribute
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * - DEVFREQ_GOV_ATTR_TIMER
  *   : Indicate timer sysfs attribute
  */
@@ -61,8 +57,6 @@
  *			Basically, get_target_freq will run
  *			devfreq_dev_profile.get_dev_status() to get the
  *			status of the device (load = busy_time / total_time).
- *			If no_central_polling is set, this callback is called
- *			only with update_devfreq() notified by OPP.
  * @event_handler:      Callback for devfreq core framework to notify events
  *                      to governors. Events include per device governor
  *                      init and exit, opp changes out of devfreq, suspend
@@ -95,6 +89,9 @@ int devfreq_update_target(struct devfreq *devfreq, unsigned long freq);
 
 static inline int devfreq_update_stats(struct devfreq *df)
 {
+	if (!df->profile->get_dev_status)
+		return -EINVAL;
+
 	return df->profile->get_dev_status(df->dev.parent, &df->last_status);
 }
 #endif /* _GOVERNOR_H */

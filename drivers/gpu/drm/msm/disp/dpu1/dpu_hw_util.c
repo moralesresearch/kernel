@@ -59,7 +59,6 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
 #define QSEED3_SEP_LUT_SIZE \
 	(QSEED3_LUT_SIZE * QSEED3_SEPARABLE_LUTS * sizeof(u32))
 
-<<<<<<< HEAD
 /* DPU_SCALER_QSEED3LITE */
 #define QSEED3LITE_COEF_LUT_Y_SEP_BIT         4
 #define QSEED3LITE_COEF_LUT_UV_SEP_BIT        5
@@ -73,8 +72,6 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
 	        (QSEED3LITE_LUT_SIZE * QSEED3LITE_SEPARABLE_LUTS * sizeof(u32))
 
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
 		u32 reg_off,
 		u32 val,
@@ -172,7 +169,6 @@ static void _dpu_hw_setup_scaler3_lut(struct dpu_hw_blk_reg_map *c,
 
 }
 
-<<<<<<< HEAD
 static void _dpu_hw_setup_scaler3lite_lut(struct dpu_hw_blk_reg_map *c,
 		struct dpu_hw_scaler3_cfg *scaler3_cfg, u32 offset)
 {
@@ -224,8 +220,6 @@ static void _dpu_hw_setup_scaler3lite_lut(struct dpu_hw_blk_reg_map *c,
 
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void _dpu_hw_setup_scaler3_de(struct dpu_hw_blk_reg_map *c,
 		struct dpu_hw_scaler3_de_cfg *de_cfg, u32 offset)
 {
@@ -312,18 +306,12 @@ void dpu_hw_setup_scaler3(struct dpu_hw_blk_reg_map *c,
 		op_mode |= BIT(8);
 	}
 
-<<<<<<< HEAD
 	if (scaler3_cfg->lut_flag) {
 		if (scaler_version < 0x2004)
 			_dpu_hw_setup_scaler3_lut(c, scaler3_cfg, scaler_offset);
 		else
 			_dpu_hw_setup_scaler3lite_lut(c, scaler3_cfg, scaler_offset);
 	}
-=======
-	if (scaler3_cfg->lut_flag)
-		_dpu_hw_setup_scaler3_lut(c, scaler3_cfg,
-								scaler_offset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (scaler_version == 0x1002) {
 		phase_init =

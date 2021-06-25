@@ -3,13 +3,13 @@
  * Copyright (C) 2009-2015 Cavium, Inc.
  */
 
-#include <linux/platform_device.h>
+#include <linux/gfp.h>
+#include <linux/io.h>
+#include <linux/module.h>
 #include <linux/of_address.h>
 #include <linux/of_mdio.h>
-#include <linux/module.h>
-#include <linux/gfp.h>
 #include <linux/phy.h>
-#include <linux/io.h>
+#include <linux/platform_device.h>
 
 #include "mdio-cavium.h"
 
@@ -71,10 +71,6 @@ static int octeon_mdiobus_probe(struct platform_device *pdev)
 
 	return 0;
 fail_register:
-<<<<<<< HEAD
-=======
-	mdiobus_free(bus->mii_bus);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smi_en.u64 = 0;
 	oct_mdio_writeq(smi_en.u64, bus->register_base + SMI_EN);
 	return err;
@@ -88,10 +84,6 @@ static int octeon_mdiobus_remove(struct platform_device *pdev)
 	bus = platform_get_drvdata(pdev);
 
 	mdiobus_unregister(bus->mii_bus);
-<<<<<<< HEAD
-=======
-	mdiobus_free(bus->mii_bus);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smi_en.u64 = 0;
 	oct_mdio_writeq(smi_en.u64, bus->register_base + SMI_EN);
 	return 0;

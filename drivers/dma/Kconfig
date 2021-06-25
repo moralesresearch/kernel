@@ -59,10 +59,7 @@ config DMA_OF
 #devices
 config ALTERA_MSGDMA
 	tristate "Altera / Intel mSGDMA Engine"
-<<<<<<< HEAD
 	depends on HAS_IOMEM
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DMA_ENGINE
 	help
 	  Enable support for Altera / Intel mSGDMA controller.
@@ -104,7 +101,7 @@ config AT_XDMAC
 
 config AXI_DMAC
 	tristate "Analog Devices AXI-DMAC DMA support"
-	depends on MICROBLAZE || NIOS2 || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_SOCFPGA || COMPILE_TEST
+	depends on MICROBLAZE || NIOS2 || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA || COMPILE_TEST
 	select DMA_ENGINE
 	select DMA_VIRTUAL_CHANNELS
 	select REGMAP_MMIO
@@ -128,16 +125,6 @@ config BCM_SBA_RAID
 	  has the capability to offload memcpy, xor and pq computation
 	  for raid5/6.
 
-<<<<<<< HEAD
-=======
-config COH901318
-	bool "ST-Ericsson COH901318 DMA support"
-	select DMA_ENGINE
-	depends on ARCH_U300 || COMPILE_TEST
-	help
-	  Enable support for ST-Ericsson COH 901 318 DMA.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config DMA_BCM2835
 	tristate "BCM2835 DMA engine support"
 	depends on ARCH_BCM2835
@@ -186,10 +173,7 @@ config DMA_SUN6I
 config DW_AXI_DMAC
 	tristate "Synopsys DesignWare AXI DMA support"
 	depends on OF || COMPILE_TEST
-<<<<<<< HEAD
 	depends on HAS_IOMEM
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DMA_ENGINE
 	select DMA_VIRTUAL_CHANNELS
 	help
@@ -317,6 +301,18 @@ config INTEL_IDXD_SVM
 	depends on PCI_PASID
 	depends on PCI_IOV
 
+config INTEL_IDXD_PERFMON
+	bool "Intel Data Accelerators performance monitor support"
+	depends on INTEL_IDXD
+	help
+	  Enable performance monitor (pmu) support for the Intel(R)
+	  data accelerators present in Intel Xeon CPU.  With this
+	  enabled, perf can be used to monitor the DSA (Intel Data
+	  Streaming Accelerator) events described in the Intel DSA
+	  spec.
+
+	  If unsure, say N.
+
 config INTEL_IOATDMA
 	tristate "Intel I/OAT DMA support"
 	depends on PCI && X86_64
@@ -389,22 +385,14 @@ config MILBEAUT_XDMAC
 	  XDMAC device.
 
 config MMP_PDMA
-<<<<<<< HEAD
 	tristate "MMP PDMA support"
-=======
-	bool "MMP PDMA support"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on ARCH_MMP || ARCH_PXA || COMPILE_TEST
 	select DMA_ENGINE
 	help
 	  Support the MMP PDMA engine for PXA and MMP platform.
 
 config MMP_TDMA
-<<<<<<< HEAD
 	tristate "MMP Two-Channel DMA support"
-=======
-	bool "MMP Two-Channel DMA support"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on ARCH_MMP || COMPILE_TEST
 	select DMA_ENGINE
 	select GENERIC_ALLOCATOR
@@ -538,16 +526,6 @@ config PLX_DMA
 	  These are exposed via extra functions on the switch's
 	  upstream port. Each function exposes one DMA channel.
 
-<<<<<<< HEAD
-=======
-config SIRF_DMA
-	tristate "CSR SiRFprimaII/SiRFmarco DMA support"
-	depends on ARCH_SIRF
-	select DMA_ENGINE
-	help
-	  Enable support for the CSR SiRFprimaII DMA engine.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config STE_DMA40
 	bool "ST-Ericsson DMA40 support"
 	depends on ARCH_U8500
@@ -724,6 +702,7 @@ config XILINX_ZYNQMP_DMA
 
 config XILINX_ZYNQMP_DPDMA
 	tristate "Xilinx DPDMA Engine"
+	depends on HAS_IOMEM && OF
 	select DMA_ENGINE
 	select DMA_VIRTUAL_CHANNELS
 	help
@@ -732,18 +711,6 @@ config XILINX_ZYNQMP_DPDMA
 	  driver provides the dmaengine required by the DisplayPort subsystem
 	  display driver.
 
-<<<<<<< HEAD
-=======
-config ZX_DMA
-	tristate "ZTE ZX DMA support"
-	depends on ARCH_ZX || COMPILE_TEST
-	select DMA_ENGINE
-	select DMA_VIRTUAL_CHANNELS
-	help
-	  Support the DMA engine for ZTE ZX family platform devices.
-
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # driver files
 source "drivers/dma/bestcomm/Kconfig"
 
@@ -765,11 +732,8 @@ source "drivers/dma/ti/Kconfig"
 
 source "drivers/dma/fsl-dpaa2-qdma/Kconfig"
 
-<<<<<<< HEAD
 source "drivers/dma/lgm/Kconfig"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # clients
 comment "DMA Clients"
 	depends on DMA_ENGINE

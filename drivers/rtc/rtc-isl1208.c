@@ -99,11 +99,7 @@ static const struct i2c_device_id isl1208_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, isl1208_id);
 
-<<<<<<< HEAD
 static const __maybe_unused struct of_device_id isl1208_of_match[] = {
-=======
-static const struct of_device_id isl1208_of_match[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "isil,isl1208", .data = &isl1208_configs[TYPE_ISL1208] },
 	{ .compatible = "isil,isl1209", .data = &isl1208_configs[TYPE_ISL1209] },
 	{ .compatible = "isil,isl1218", .data = &isl1208_configs[TYPE_ISL1218] },

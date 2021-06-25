@@ -16,7 +16,6 @@ Optional subnodes:
 The sub-functions of CPCAP get their own node with their own compatible values,
 which are described in the following files:
 
-<<<<<<< HEAD
 - Documentation/devicetree/bindings/power/supply/cpcap-battery.txt
 - Documentation/devicetree/bindings/power/supply/cpcap-charger.txt
 - Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
@@ -25,16 +24,6 @@ which are described in the following files:
 - Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
 - Documentation/devicetree/bindings/leds/leds-cpcap.txt
 - Documentation/devicetree/bindings/iio/adc/motorola,cpcap-adc.yaml
-=======
-- ../power/supply/cpcap-battery.txt
-- ../power/supply/cpcap-charger.txt
-- ../regulator/cpcap-regulator.txt
-- ../phy/phy-cpcap-usb.txt
-- ../input/cpcap-pwrbutton.txt
-- ../rtc/cpcap-rtc.txt
-- ../leds/leds-cpcap.txt
-- ../iio/adc/cpcap-adc.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The only exception is the audio codec. Instead of a compatible value its
 node must be named "audio-codec".

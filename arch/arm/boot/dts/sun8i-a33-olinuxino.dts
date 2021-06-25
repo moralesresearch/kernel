@@ -62,11 +62,7 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a33-olinuxino:green:usr";
 			gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>;
 		};
@@ -102,12 +98,8 @@
 	axp22x: pmic@3a3 {
 		compatible = "x-powers,axp223";
 		reg = <0x3a3>;
-<<<<<<< HEAD
 		interrupt-parent = <&r_intc>;
-=======
-		interrupt-parent = <&nmi_intc>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
 		eldoin-supply = <&reg_dcdc1>;
 		x-powers,drive-vbus-en;
 	};

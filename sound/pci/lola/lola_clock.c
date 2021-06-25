@@ -135,11 +135,7 @@ int lola_init_clock_widget(struct lola *chip, int nid)
 	}
 
 	nitems = chip->clock.items;
-<<<<<<< HEAD
 	nb_verbs = DIV_ROUND_UP(nitems, 4);
-=======
-	nb_verbs = (nitems + 3) / 4;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	idx = 0;
 	idx_list = 0;
 	for (i = 0; i < nb_verbs; i++) {

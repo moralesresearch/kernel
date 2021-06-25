@@ -121,7 +121,6 @@ static int amd_params_to_tee_params(struct tee_param *tee, u32 count,
 	return ret;
 }
 
-<<<<<<< HEAD
 static DEFINE_MUTEX(ta_refcount_mutex);
 static struct list_head ta_list = LIST_HEAD_INIT(ta_list);
 
@@ -169,18 +168,11 @@ int handle_unload_ta(u32 ta_handle)
 {
 	struct tee_cmd_unload_ta cmd = {0};
 	u32 status, count;
-=======
-int handle_unload_ta(u32 ta_handle)
-{
-	struct tee_cmd_unload_ta cmd = {0};
-	u32 status;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (!ta_handle)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	mutex_lock(&ta_refcount_mutex);
 
 	count = put_ta_refcount(ta_handle);
@@ -192,8 +184,6 @@ int handle_unload_ta(u32 ta_handle)
 		goto unlock;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cmd.ta_handle = ta_handle;
 
 	ret = psp_tee_process_cmd(TEE_CMD_ID_UNLOAD_TA, (void *)&cmd,
@@ -201,17 +191,12 @@ int handle_unload_ta(u32 ta_handle)
 	if (!ret && status != 0) {
 		pr_err("unload ta: status = 0x%x\n", status);
 		ret = -EBUSY;
-<<<<<<< HEAD
 	} else {
 		pr_debug("unloaded ta handle %u\n", ta_handle);
 	}
 
 unlock:
 	mutex_unlock(&ta_refcount_mutex);
-=======
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -413,12 +398,8 @@ int handle_open_session(struct tee_ioctl_open_session_arg *arg, u32 *info,
 
 int handle_load_ta(void *data, u32 size, struct tee_ioctl_open_session_arg *arg)
 {
-<<<<<<< HEAD
 	struct tee_cmd_unload_ta unload_cmd = {};
 	struct tee_cmd_load_ta load_cmd = {};
-=======
-	struct tee_cmd_load_ta cmd = {0};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phys_addr_t blob;
 	int ret;
 
@@ -431,7 +412,6 @@ int handle_load_ta(void *data, u32 size, struct tee_ioctl_open_session_arg *arg)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	load_cmd.hi_addr = upper_32_bits(blob);
 	load_cmd.low_addr = lower_32_bits(blob);
 	load_cmd.size = size;
@@ -462,23 +442,6 @@ int handle_load_ta(void *data, u32 size, struct tee_ioctl_open_session_arg *arg)
 
 	pr_debug("load TA: TA handle = 0x%x, RO = 0x%x, ret = 0x%x\n",
 		 load_cmd.ta_handle, arg->ret_origin, arg->ret);
-=======
-	cmd.hi_addr = upper_32_bits(blob);
-	cmd.low_addr = lower_32_bits(blob);
-	cmd.size = size;
-
-	ret = psp_tee_process_cmd(TEE_CMD_ID_LOAD_TA, (void *)&cmd,
-				  sizeof(cmd), &arg->ret);
-	if (ret) {
-		arg->ret_origin = TEEC_ORIGIN_COMMS;
-		arg->ret = TEEC_ERROR_COMMUNICATION;
-	} else {
-		set_session_id(cmd.ta_handle, 0, &arg->session);
-	}
-
-	pr_debug("load TA: TA handle = 0x%x, RO = 0x%x, ret = 0x%x\n",
-		 cmd.ta_handle, arg->ret_origin, arg->ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

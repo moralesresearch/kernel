@@ -7,10 +7,7 @@
 
 #include <uapi/linux/virtio_ids.h>
 #include <uapi/linux/virtio_input.h>
-<<<<<<< HEAD
 #include <linux/input/mt.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct virtio_input {
 	struct virtio_device       *vdev;
@@ -68,7 +65,6 @@ static int virtinput_send_status(struct virtio_input *vi,
 	unsigned long flags;
 	int rc;
 
-<<<<<<< HEAD
 	/*
 	 * Since 29cc309d8bf1 (HID: hid-multitouch: forward MSC_TIMESTAMP),
 	 * EV_MSC/MSC_TIMESTAMP is added to each before EV_SYN event.
@@ -84,8 +80,6 @@ static int virtinput_send_status(struct virtio_input *vi,
 	if (vi->idev->mt && type == EV_MSC && code == MSC_TIMESTAMP)
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stsbuf = kzalloc(sizeof(*stsbuf), GFP_ATOMIC);
 	if (!stsbuf)
 		return -ENOMEM;
@@ -226,11 +220,7 @@ static int virtinput_probe(struct virtio_device *vdev)
 	struct virtio_input *vi;
 	unsigned long flags;
 	size_t size;
-<<<<<<< HEAD
 	int abs, err, nslots;
-=======
-	int abs, err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
 		return -ENODEV;
@@ -315,7 +305,6 @@ static int virtinput_probe(struct virtio_device *vdev)
 				continue;
 			virtinput_cfg_abs(vi, abs);
 		}
-<<<<<<< HEAD
 
 		if (test_bit(ABS_MT_SLOT, vi->idev->absbit)) {
 			nslots = input_abs_get_max(vi->idev, ABS_MT_SLOT) + 1;
@@ -323,8 +312,6 @@ static int virtinput_probe(struct virtio_device *vdev)
 			if (err)
 				goto err_mt_init_slots;
 		}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	virtio_device_ready(vdev);
@@ -340,10 +327,7 @@ err_input_register:
 	spin_lock_irqsave(&vi->lock, flags);
 	vi->ready = false;
 	spin_unlock_irqrestore(&vi->lock, flags);
-<<<<<<< HEAD
 err_mt_init_slots:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	input_free_device(vi->idev);
 err_input_alloc:
 	vdev->config->del_vqs(vdev);

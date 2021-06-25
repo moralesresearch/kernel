@@ -52,7 +52,6 @@ _GLOBAL(isa300_idle_stop_mayloss)
 	std	r1,PACAR1(r13)
 	mflr	r4
 	mfcr	r5
-<<<<<<< HEAD
 	/*
 	 * Use the stack red zone rather than a new frame for saving regs since
 	 * in the case of no GPR loss the wakeup code branches directly back to
@@ -79,30 +78,6 @@ _GLOBAL(isa300_idle_stop_mayloss)
 	std	r31,-8*19(r1)
 	std	r4,-8*20(r1)
 	std	r5,-8*21(r1)
-=======
-	/* use stack red zone rather than a new frame for saving regs */
-	std	r2,-8*0(r1)
-	std	r14,-8*1(r1)
-	std	r15,-8*2(r1)
-	std	r16,-8*3(r1)
-	std	r17,-8*4(r1)
-	std	r18,-8*5(r1)
-	std	r19,-8*6(r1)
-	std	r20,-8*7(r1)
-	std	r21,-8*8(r1)
-	std	r22,-8*9(r1)
-	std	r23,-8*10(r1)
-	std	r24,-8*11(r1)
-	std	r25,-8*12(r1)
-	std	r26,-8*13(r1)
-	std	r27,-8*14(r1)
-	std	r28,-8*15(r1)
-	std	r29,-8*16(r1)
-	std	r30,-8*17(r1)
-	std	r31,-8*18(r1)
-	std	r4,-8*19(r1)
-	std	r5,-8*20(r1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* 168 bytes */
 	PPC_STOP
 	b	.	/* catch bugs */
@@ -118,13 +93,8 @@ _GLOBAL(isa300_idle_stop_mayloss)
  */
 _GLOBAL(idle_return_gpr_loss)
 	ld	r1,PACAR1(r13)
-<<<<<<< HEAD
 	ld	r4,-8*20(r1)
 	ld	r5,-8*21(r1)
-=======
-	ld	r4,-8*19(r1)
-	ld	r5,-8*20(r1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mtlr	r4
 	mtcr	r5
 	/*
@@ -132,7 +102,6 @@ _GLOBAL(idle_return_gpr_loss)
 	 * from PACATOC. This could be avoided for that less common case
 	 * if KVM saved its r2.
 	 */
-<<<<<<< HEAD
 	ld	r2,-8*1(r1)
 	ld	r14,-8*2(r1)
 	ld	r15,-8*3(r1)
@@ -152,27 +121,6 @@ _GLOBAL(idle_return_gpr_loss)
 	ld	r29,-8*17(r1)
 	ld	r30,-8*18(r1)
 	ld	r31,-8*19(r1)
-=======
-	ld	r2,-8*0(r1)
-	ld	r14,-8*1(r1)
-	ld	r15,-8*2(r1)
-	ld	r16,-8*3(r1)
-	ld	r17,-8*4(r1)
-	ld	r18,-8*5(r1)
-	ld	r19,-8*6(r1)
-	ld	r20,-8*7(r1)
-	ld	r21,-8*8(r1)
-	ld	r22,-8*9(r1)
-	ld	r23,-8*10(r1)
-	ld	r24,-8*11(r1)
-	ld	r25,-8*12(r1)
-	ld	r26,-8*13(r1)
-	ld	r27,-8*14(r1)
-	ld	r28,-8*15(r1)
-	ld	r29,-8*16(r1)
-	ld	r30,-8*17(r1)
-	ld	r31,-8*18(r1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blr
 
 /*
@@ -210,7 +158,6 @@ _GLOBAL(isa206_idle_insn_mayloss)
 	std	r1,PACAR1(r13)
 	mflr	r4
 	mfcr	r5
-<<<<<<< HEAD
 	/*
 	 * Use the stack red zone rather than a new frame for saving regs since
 	 * in the case of no GPR loss the wakeup code branches directly back to
@@ -237,30 +184,6 @@ _GLOBAL(isa206_idle_insn_mayloss)
 	std	r31,-8*19(r1)
 	std	r4,-8*20(r1)
 	std	r5,-8*21(r1)
-=======
-	/* use stack red zone rather than a new frame for saving regs */
-	std	r2,-8*0(r1)
-	std	r14,-8*1(r1)
-	std	r15,-8*2(r1)
-	std	r16,-8*3(r1)
-	std	r17,-8*4(r1)
-	std	r18,-8*5(r1)
-	std	r19,-8*6(r1)
-	std	r20,-8*7(r1)
-	std	r21,-8*8(r1)
-	std	r22,-8*9(r1)
-	std	r23,-8*10(r1)
-	std	r24,-8*11(r1)
-	std	r25,-8*12(r1)
-	std	r26,-8*13(r1)
-	std	r27,-8*14(r1)
-	std	r28,-8*15(r1)
-	std	r29,-8*16(r1)
-	std	r30,-8*17(r1)
-	std	r31,-8*18(r1)
-	std	r4,-8*19(r1)
-	std	r5,-8*20(r1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cmpwi	r3,PNV_THREAD_NAP
 	bne	1f
 	IDLE_STATE_ENTER_SEQ_NORET(PPC_NAP)
@@ -286,4 +209,8 @@ _GLOBAL(power4_idle_nap)
 	mtmsrd	r7
 	isync
 	b	1b
+
+	.globl power4_idle_nap_return
+power4_idle_nap_return:
+	blr
 #endif

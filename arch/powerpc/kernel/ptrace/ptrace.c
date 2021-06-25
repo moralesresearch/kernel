@@ -59,7 +59,6 @@ long arch_ptrace(struct task_struct *child, long request,
 		if ((addr & (sizeof(long) - 1)) || !child->thread.regs)
 			break;
 
-		CHECK_FULL_REGS(child->thread.regs);
 		if (index < PT_FPR0)
 			ret = ptrace_get_reg(child, (int) index, &tmp);
 		else
@@ -81,7 +80,6 @@ long arch_ptrace(struct task_struct *child, long request,
 		if ((addr & (sizeof(long) - 1)) || !child->thread.regs)
 			break;
 
-		CHECK_FULL_REGS(child->thread.regs);
 		if (index < PT_FPR0)
 			ret = ptrace_put_reg(child, index, data);
 		else
@@ -262,11 +260,6 @@ long do_syscall_trace_enter(struct pt_regs *regs)
 {
 	u32 flags;
 
-<<<<<<< HEAD
-=======
-	user_exit();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flags = READ_ONCE(current_thread_info()->flags) &
 		(_TIF_SYSCALL_EMU | _TIF_SYSCALL_TRACE);
 
@@ -343,11 +336,6 @@ void do_syscall_trace_leave(struct pt_regs *regs)
 	step = test_thread_flag(TIF_SINGLESTEP);
 	if (step || test_thread_flag(TIF_SYSCALL_TRACE))
 		tracehook_report_syscall_exit(regs, step);
-<<<<<<< HEAD
-=======
-
-	user_enter();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void __init pt_regs_check(void);
@@ -362,8 +350,6 @@ void __init pt_regs_check(void)
 		     offsetof(struct user_pt_regs, gpr));
 	BUILD_BUG_ON(offsetof(struct pt_regs, nip) !=
 		     offsetof(struct user_pt_regs, nip));
-	BUILD_BUG_ON(offsetof(struct pt_regs, msr) !=
-		     offsetof(struct user_pt_regs, msr));
 	BUILD_BUG_ON(offsetof(struct pt_regs, msr) !=
 		     offsetof(struct user_pt_regs, msr));
 	BUILD_BUG_ON(offsetof(struct pt_regs, orig_gpr3) !=

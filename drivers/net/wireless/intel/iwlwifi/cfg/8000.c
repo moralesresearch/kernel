@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
-<<<<<<< HEAD
  * Copyright (C) 2014, 2018-2020 Intel Corporation
-=======
- * Copyright (C) 2014, 2018-2019 Intel Corporation
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2014-2015 Intel Mobile Communications GmbH
  * Copyright (C) 2016 Intel Deutschland GmbH
  */
@@ -129,10 +125,6 @@ const struct iwl_cfg iwl8260_2ac_cfg = {
 	IWL_DEVICE_8260,
 	.ht_params = &iwl8000_ht_params,
 	.nvm_ver = IWL8000_NVM_VERSION,
-<<<<<<< HEAD
-=======
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 const struct iwl_cfg iwl8265_2ac_cfg = {
@@ -141,10 +133,6 @@ const struct iwl_cfg iwl8265_2ac_cfg = {
 	IWL_DEVICE_8265,
 	.ht_params = &iwl8000_ht_params,
 	.nvm_ver = IWL8000_NVM_VERSION,
-<<<<<<< HEAD
-=======
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.vht_mu_mimo_supported = true,
 };
 
@@ -154,10 +142,6 @@ const struct iwl_cfg iwl8275_2ac_cfg = {
 	IWL_DEVICE_8265,
 	.ht_params = &iwl8000_ht_params,
 	.nvm_ver = IWL8000_NVM_VERSION,
-<<<<<<< HEAD
-=======
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.vht_mu_mimo_supported = true,
 };
 
@@ -167,10 +151,6 @@ const struct iwl_cfg iwl4165_2ac_cfg = {
 	IWL_DEVICE_8000,
 	.ht_params = &iwl8000_ht_params,
 	.nvm_ver = IWL8000_NVM_VERSION,
-<<<<<<< HEAD
-=======
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 MODULE_FIRMWARE(IWL8000_MODULE_FIRMWARE(IWL8000_UCODE_API_MAX));

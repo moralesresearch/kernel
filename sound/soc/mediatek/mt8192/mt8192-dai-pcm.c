@@ -360,13 +360,8 @@ static struct snd_soc_dai_driver mtk_dai_pcm_driver[] = {
 			.formats = MTK_PCM_FORMATS,
 		},
 		.ops = &mtk_dai_pcm_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_sample_bits = 1,
-=======
-		.symmetric_rates = 1,
-		.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "PCM 2",
@@ -386,13 +381,8 @@ static struct snd_soc_dai_driver mtk_dai_pcm_driver[] = {
 			.formats = MTK_PCM_FORMATS,
 		},
 		.ops = &mtk_dai_pcm_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_sample_bits = 1,
-=======
-		.symmetric_rates = 1,
-		.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

@@ -113,29 +113,14 @@ static int nvdimm_probe(struct device *dev)
 	return rc;
 }
 
-<<<<<<< HEAD
 static void nvdimm_remove(struct device *dev)
 {
 	struct nvdimm_drvdata *ndd = dev_get_drvdata(dev);
 
-=======
-static int nvdimm_remove(struct device *dev)
-{
-	struct nvdimm_drvdata *ndd = dev_get_drvdata(dev);
-
-	if (!ndd)
-		return 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nvdimm_bus_lock(dev);
 	dev_set_drvdata(dev, NULL);
 	nvdimm_bus_unlock(dev);
 	put_ndd(ndd);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct nd_device_driver nvdimm_driver = {

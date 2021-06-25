@@ -595,16 +595,6 @@ static const struct {
 	[WM_ADSP_FW_MISC] =     { .file = "misc" },
 };
 
-<<<<<<< HEAD
-=======
-struct wm_coeff_ctl_ops {
-	int (*xget)(struct snd_kcontrol *kcontrol,
-		    struct snd_ctl_elem_value *ucontrol);
-	int (*xput)(struct snd_kcontrol *kcontrol,
-		    struct snd_ctl_elem_value *ucontrol);
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct wm_coeff_ctl {
 	const char *name;
 	const char *fw_name;
@@ -612,10 +602,6 @@ struct wm_coeff_ctl {
 	const char *subname;
 	unsigned int subname_len;
 	struct wm_adsp_alg_region alg_region;
-<<<<<<< HEAD
-=======
-	struct wm_coeff_ctl_ops ops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct wm_adsp *dsp;
 	unsigned int enabled:1;
 	struct list_head list;
@@ -625,11 +611,7 @@ struct wm_coeff_ctl {
 	unsigned int set:1;
 	struct soc_bytes_ext bytes_ext;
 	unsigned int flags;
-<<<<<<< HEAD
 	snd_ctl_elem_type_t type;
-=======
-	unsigned int type;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const char *wm_adsp_mem_region_name(unsigned int type)
@@ -990,11 +972,7 @@ static int wm_coeff_write_acked_control(struct wm_coeff_ctl *ctl,
 					unsigned int event_id)
 {
 	struct wm_adsp *dsp = ctl->dsp;
-<<<<<<< HEAD
 	__be32 val = cpu_to_be32(event_id);
-=======
-	u32 val = cpu_to_be32(event_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int reg;
 	int i, ret;
 
@@ -1434,11 +1412,7 @@ static int wm_adsp_create_control(struct wm_adsp *dsp,
 				  const struct wm_adsp_alg_region *alg_region,
 				  unsigned int offset, unsigned int len,
 				  const char *subname, unsigned int subname_len,
-<<<<<<< HEAD
 				  unsigned int flags, snd_ctl_elem_type_t type)
-=======
-				  unsigned int flags, unsigned int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct wm_coeff_ctl *ctl;
 	struct wmfw_ctl_work *ctl_work;
@@ -1515,11 +1489,6 @@ static int wm_adsp_create_control(struct wm_adsp *dsp,
 	}
 	ctl->enabled = 1;
 	ctl->set = 0;
-<<<<<<< HEAD
-=======
-	ctl->ops.xget = wm_coeff_get;
-	ctl->ops.xput = wm_coeff_put;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctl->dsp = dsp;
 
 	ctl->flags = flags;
@@ -1575,11 +1544,7 @@ struct wm_coeff_parsed_coeff {
 	int mem_type;
 	const u8 *name;
 	int name_len;
-<<<<<<< HEAD
 	snd_ctl_elem_type_t ctl_type;
-=======
-	int ctl_type;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int flags;
 	int len;
 };
@@ -1674,11 +1639,7 @@ static inline void wm_coeff_parse_coeff(struct wm_adsp *dsp, const u8 **data,
 		blk->mem_type = le16_to_cpu(raw->hdr.type);
 		blk->name = raw->name;
 		blk->name_len = strlen(raw->name);
-<<<<<<< HEAD
 		blk->ctl_type = (__force snd_ctl_elem_type_t)le16_to_cpu(raw->ctl_type);
-=======
-		blk->ctl_type = le16_to_cpu(raw->ctl_type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		blk->flags = le16_to_cpu(raw->flags);
 		blk->len = le32_to_cpu(raw->len);
 		break;
@@ -1691,13 +1652,9 @@ static inline void wm_coeff_parse_coeff(struct wm_adsp *dsp, const u8 **data,
 						      &blk->name);
 		wm_coeff_parse_string(sizeof(u8), &tmp, NULL);
 		wm_coeff_parse_string(sizeof(u16), &tmp, NULL);
-<<<<<<< HEAD
 		blk->ctl_type =
 			(__force snd_ctl_elem_type_t)wm_coeff_parse_int(sizeof(raw->ctl_type),
 									&tmp);
-=======
-		blk->ctl_type = wm_coeff_parse_int(sizeof(raw->ctl_type), &tmp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		blk->flags = wm_coeff_parse_int(sizeof(raw->flags), &tmp);
 		blk->len = wm_coeff_parse_int(sizeof(raw->len), &tmp);
 
@@ -2122,7 +2079,7 @@ int wm_adsp_write_ctl(struct wm_adsp *dsp, const char *name, int type,
 	snd_ctl_notify(dsp->component->card->snd_card,
 		       SNDRV_CTL_EVENT_MASK_VALUE, &kcontrol->id);
 
-	return ret;
+	return 0;
 }
 EXPORT_SYMBOL_GPL(wm_adsp_write_ctl);
 
@@ -3702,21 +3659,12 @@ int wm_adsp_compr_get_caps(struct snd_soc_component *component,
 }
 EXPORT_SYMBOL_GPL(wm_adsp_compr_get_caps);
 
-<<<<<<< HEAD
 static int wm_adsp_read_raw_data_block(struct wm_adsp *dsp, int mem_type,
 				       unsigned int mem_addr,
 				       unsigned int num_words, __be32 *data)
 {
 	struct wm_adsp_region const *mem = wm_adsp_find_region(dsp, mem_type);
 	unsigned int reg;
-=======
-static int wm_adsp_read_data_block(struct wm_adsp *dsp, int mem_type,
-				   unsigned int mem_addr,
-				   unsigned int num_words, u32 *data)
-{
-	struct wm_adsp_region const *mem = wm_adsp_find_region(dsp, mem_type);
-	unsigned int i, reg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (!mem)
@@ -3729,19 +3677,12 @@ static int wm_adsp_read_data_block(struct wm_adsp *dsp, int mem_type,
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
-=======
-	for (i = 0; i < num_words; ++i)
-		data[i] = be32_to_cpu(data[i]) & 0x00ffffffu;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
 static inline int wm_adsp_read_data_word(struct wm_adsp *dsp, int mem_type,
 					 unsigned int mem_addr, u32 *data)
 {
-<<<<<<< HEAD
 	__be32 raw;
 	int ret;
 
@@ -3752,19 +3693,13 @@ static inline int wm_adsp_read_data_word(struct wm_adsp *dsp, int mem_type,
 	*data = be32_to_cpu(raw) & 0x00ffffffu;
 
 	return 0;
-=======
-	return wm_adsp_read_data_block(dsp, mem_type, mem_addr, 1, data);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int wm_adsp_write_data_word(struct wm_adsp *dsp, int mem_type,
 				   unsigned int mem_addr, u32 data)
 {
 	struct wm_adsp_region const *mem = wm_adsp_find_region(dsp, mem_type);
-<<<<<<< HEAD
 	__be32 val = cpu_to_be32(data & 0x00ffffffu);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int reg;
 
 	if (!mem)
@@ -3772,13 +3707,7 @@ static int wm_adsp_write_data_word(struct wm_adsp *dsp, int mem_type,
 
 	reg = dsp->ops->region_to_reg(mem, mem_addr);
 
-<<<<<<< HEAD
 	return regmap_raw_write(dsp->regmap, reg, &val, sizeof(val));
-=======
-	data = cpu_to_be32(data & 0x00ffffffu);
-
-	return regmap_raw_write(dsp->regmap, reg, &data, sizeof(data));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int wm_adsp_buffer_read(struct wm_adsp_compr_buf *buf,
@@ -3795,7 +3724,6 @@ static inline int wm_adsp_buffer_write(struct wm_adsp_compr_buf *buf,
 				       buf->host_buf_ptr + field_offset, data);
 }
 
-<<<<<<< HEAD
 static void wm_adsp_remove_padding(u32 *buf, int nwords)
 {
 	const __be32 *pack_in = (__be32 *)buf;
@@ -3812,20 +3740,6 @@ static void wm_adsp_remove_padding(u32 *buf, int nwords)
 		*pack_out++ = (u8)word;
 		*pack_out++ = (u8)(word >> 8);
 		*pack_out++ = (u8)(word >> 16);
-=======
-static void wm_adsp_remove_padding(u32 *buf, int nwords, int data_word_size)
-{
-	u8 *pack_in = (u8 *)buf;
-	u8 *pack_out = (u8 *)buf;
-	int i, j;
-
-	/* Remove the padding bytes from the data read from the DSP */
-	for (i = 0; i < nwords; i++) {
-		for (j = 0; j < data_word_size; j++)
-			*pack_out++ = *pack_in++;
-
-		pack_in += sizeof(*buf) - data_word_size;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -3950,12 +3864,8 @@ static int wm_adsp_buffer_parse_coeff(struct wm_coeff_ctl *ctl)
 {
 	struct wm_adsp_host_buf_coeff_v1 coeff_v1;
 	struct wm_adsp_compr_buf *buf;
-<<<<<<< HEAD
 	unsigned int reg, version;
 	__be32 bufp;
-=======
-	unsigned int val, reg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret, i;
 
 	ret = wm_coeff_base_reg(ctl, &reg);
@@ -3963,29 +3873,17 @@ static int wm_adsp_buffer_parse_coeff(struct wm_coeff_ctl *ctl)
 		return ret;
 
 	for (i = 0; i < 5; ++i) {
-<<<<<<< HEAD
 		ret = regmap_raw_read(ctl->dsp->regmap, reg, &bufp, sizeof(bufp));
 		if (ret < 0)
 			return ret;
 
 		if (bufp)
-=======
-		ret = regmap_raw_read(ctl->dsp->regmap, reg, &val, sizeof(val));
-		if (ret < 0)
-			return ret;
-
-		if (val)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		usleep_range(1000, 2000);
 	}
 
-<<<<<<< HEAD
 	if (!bufp) {
-=======
-	if (!val) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		adsp_err(ctl->dsp, "Failed to acquire host buffer\n");
 		return -EIO;
 	}
@@ -3995,11 +3893,7 @@ static int wm_adsp_buffer_parse_coeff(struct wm_coeff_ctl *ctl)
 		return -ENOMEM;
 
 	buf->host_buf_mem_type = ctl->alg_region.type;
-<<<<<<< HEAD
 	buf->host_buf_ptr = be32_to_cpu(bufp);
-=======
-	buf->host_buf_ptr = be32_to_cpu(val);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = wm_adsp_buffer_populate(buf);
 	if (ret < 0)
@@ -4019,7 +3913,6 @@ static int wm_adsp_buffer_parse_coeff(struct wm_coeff_ctl *ctl)
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
 	version = be32_to_cpu(coeff_v1.versions) & HOST_BUF_COEFF_COMPAT_VER_MASK;
 	version >>= HOST_BUF_COEFF_COMPAT_VER_SHIFT;
 
@@ -4031,39 +3924,14 @@ static int wm_adsp_buffer_parse_coeff(struct wm_coeff_ctl *ctl)
 	}
 
 	wm_adsp_remove_padding((u32 *)&coeff_v1.name, ARRAY_SIZE(coeff_v1.name));
-=======
-	coeff_v1.versions = be32_to_cpu(coeff_v1.versions);
-	val = coeff_v1.versions & HOST_BUF_COEFF_COMPAT_VER_MASK;
-	val >>= HOST_BUF_COEFF_COMPAT_VER_SHIFT;
-
-	if (val > HOST_BUF_COEFF_SUPPORTED_COMPAT_VER) {
-		adsp_err(ctl->dsp,
-			 "Host buffer coeff ver %u > supported version %u\n",
-			 val, HOST_BUF_COEFF_SUPPORTED_COMPAT_VER);
-		return -EINVAL;
-	}
-
-	for (i = 0; i < ARRAY_SIZE(coeff_v1.name); i++)
-		coeff_v1.name[i] = be32_to_cpu(coeff_v1.name[i]);
-
-	wm_adsp_remove_padding((u32 *)&coeff_v1.name,
-			       ARRAY_SIZE(coeff_v1.name),
-			       WM_ADSP_DATA_WORD_SIZE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	buf->name = kasprintf(GFP_KERNEL, "%s-dsp-%s", ctl->dsp->part,
 			      (char *)&coeff_v1.name);
 
 	compr_dbg(buf, "host_buf_ptr=%x coeff version %u\n",
-<<<<<<< HEAD
 		  buf->host_buf_ptr, version);
 
 	return version;
-=======
-		  buf->host_buf_ptr, val);
-
-	return val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int wm_adsp_buffer_init(struct wm_adsp *dsp)
@@ -4394,21 +4262,12 @@ static int wm_adsp_buffer_capture_block(struct wm_adsp_compr *compr, int target)
 		return 0;
 
 	/* Read data from DSP */
-<<<<<<< HEAD
 	ret = wm_adsp_read_raw_data_block(buf->dsp, mem_type, adsp_addr,
 					  nwords, (__be32 *)compr->raw_buf);
 	if (ret < 0)
 		return ret;
 
 	wm_adsp_remove_padding(compr->raw_buf, nwords);
-=======
-	ret = wm_adsp_read_data_block(buf->dsp, mem_type, adsp_addr,
-				      nwords, compr->raw_buf);
-	if (ret < 0)
-		return ret;
-
-	wm_adsp_remove_padding(compr->raw_buf, nwords, WM_ADSP_DATA_WORD_SIZE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* update read index to account for words read */
 	buf->read_index += nwords;

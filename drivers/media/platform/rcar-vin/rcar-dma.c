@@ -1301,14 +1301,11 @@ void rvin_stop_streaming(struct rvin_dev *vin)
 
 	spin_lock_irqsave(&vin->qlock, flags);
 
-<<<<<<< HEAD
 	if (vin->state == STOPPED) {
 		spin_unlock_irqrestore(&vin->qlock, flags);
 		return;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vin->state = STOPPING;
 
 	/* Wait until only scratch buffer is used, max 3 interrupts. */

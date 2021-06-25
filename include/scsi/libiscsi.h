@@ -187,11 +187,7 @@ struct iscsi_conn {
 	struct iscsi_task	*task;		/* xmit task in progress */
 
 	/* xmit */
-<<<<<<< HEAD
 	/* items must be added/deleted under frwd lock */
-=======
-	spinlock_t		taskqueuelock;  /* protects the next three lists */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct list_head	mgmtqueue;	/* mgmt (control) xmit queue */
 	struct list_head	cmdqueue;	/* data-path cmd queue */
 	struct list_head	requeue;	/* tasks needing another run */
@@ -336,11 +332,7 @@ struct iscsi_session {
 						 * cmdsn, queued_cmdsn     *
 						 * session resources:      *
 						 * - cmdpool kfifo_out ,   *
-<<<<<<< HEAD
 						 * - mgmtpool, queues	   */
-=======
-						 * - mgmtpool,		   */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t		back_lock;	/* protects cmdsn_exp      *
 						 * cmdsn_max,              *
 						 * cmdpool kfifo_in        */
@@ -403,11 +395,8 @@ extern struct Scsi_Host *iscsi_host_alloc(struct scsi_host_template *sht,
 extern void iscsi_host_remove(struct Scsi_Host *shost);
 extern void iscsi_host_free(struct Scsi_Host *shost);
 extern int iscsi_target_alloc(struct scsi_target *starget);
-<<<<<<< HEAD
 extern int iscsi_host_get_max_scsi_cmds(struct Scsi_Host *shost,
 					uint16_t requested_cmds_max);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * session management

@@ -29,10 +29,6 @@
  * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
  */
 
-<<<<<<< HEAD
-=======
-#include <drm/ttm/ttm_module.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
 #include <drm/drm_mm.h>
@@ -115,7 +111,7 @@ static void ttm_range_man_free(struct ttm_resource_manager *man,
 
 static const struct ttm_resource_manager_func ttm_range_manager_func;
 
-int ttm_range_man_init(struct ttm_bo_device *bdev,
+int ttm_range_man_init(struct ttm_device *bdev,
 		       unsigned type, bool use_tt,
 		       unsigned long p_size)
 {
@@ -142,7 +138,7 @@ int ttm_range_man_init(struct ttm_bo_device *bdev,
 }
 EXPORT_SYMBOL(ttm_range_man_init);
 
-int ttm_range_man_fini(struct ttm_bo_device *bdev,
+int ttm_range_man_fini(struct ttm_device *bdev,
 		       unsigned type)
 {
 	struct ttm_resource_manager *man = ttm_manager_type(bdev, type);

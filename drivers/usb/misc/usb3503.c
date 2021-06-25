@@ -409,7 +409,6 @@ static int __init usb3503_init(void)
 	int err;
 
 	err = i2c_add_driver(&usb3503_i2c_driver);
-<<<<<<< HEAD
 	if (err) {
 		pr_err("usb3503: Failed to register I2C driver: %d\n", err);
 		return err;
@@ -422,15 +421,6 @@ static int __init usb3503_init(void)
 		i2c_del_driver(&usb3503_i2c_driver);
 		return err;
 	}
-=======
-	if (err != 0)
-		pr_err("usb3503: Failed to register I2C driver: %d\n", err);
-
-	err = platform_driver_register(&usb3503_platform_driver);
-	if (err != 0)
-		pr_err("usb3503: Failed to register platform driver: %d\n",
-		       err);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

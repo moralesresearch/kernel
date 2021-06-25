@@ -40,10 +40,7 @@
 /**
  * qib_make_uc_req - construct a request packet (SEND, RDMA write)
  * @qp: a pointer to the QP
-<<<<<<< HEAD
  * @flags: unused
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Assumes the s_lock is held.
  *

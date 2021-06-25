@@ -12,40 +12,28 @@
 
 static const struct scpsys_domain_data scpsys_domain_data_mt8173[] = {
 	[MT8173_POWER_DOMAIN_VDEC] = {
-<<<<<<< HEAD
 		.name = "vdec",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_VDEC,
 		.ctl_offs = SPM_VDE_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(12, 12),
 	},
 	[MT8173_POWER_DOMAIN_VENC] = {
-<<<<<<< HEAD
 		.name = "venc",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_VENC,
 		.ctl_offs = SPM_VEN_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(15, 12),
 	},
 	[MT8173_POWER_DOMAIN_ISP] = {
-<<<<<<< HEAD
 		.name = "isp",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_ISP,
 		.ctl_offs = SPM_ISP_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(13, 12),
 	},
 	[MT8173_POWER_DOMAIN_MM] = {
-<<<<<<< HEAD
 		.name = "mm",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_DISP,
 		.ctl_offs = SPM_DIS_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
@@ -56,30 +44,21 @@ static const struct scpsys_domain_data scpsys_domain_data_mt8173[] = {
 		},
 	},
 	[MT8173_POWER_DOMAIN_VENC_LT] = {
-<<<<<<< HEAD
 		.name = "venc_lt",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_VENC_LT,
 		.ctl_offs = SPM_VEN2_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(15, 12),
 	},
 	[MT8173_POWER_DOMAIN_AUDIO] = {
-<<<<<<< HEAD
 		.name = "audio",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_AUDIO,
 		.ctl_offs = SPM_AUDIO_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(15, 12),
 	},
 	[MT8173_POWER_DOMAIN_USB] = {
-<<<<<<< HEAD
 		.name = "usb",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_USB,
 		.ctl_offs = SPM_USB_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
@@ -87,30 +66,21 @@ static const struct scpsys_domain_data scpsys_domain_data_mt8173[] = {
 		.caps = MTK_SCPD_ACTIVE_WAKEUP,
 	},
 	[MT8173_POWER_DOMAIN_MFG_ASYNC] = {
-<<<<<<< HEAD
 		.name = "mfg_async",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_MFG_ASYNC,
 		.ctl_offs = SPM_MFG_ASYNC_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = 0,
 	},
 	[MT8173_POWER_DOMAIN_MFG_2D] = {
-<<<<<<< HEAD
 		.name = "mfg_2d",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_MFG_2D,
 		.ctl_offs = SPM_MFG_2D_PWR_CON,
 		.sram_pdn_bits = GENMASK(11, 8),
 		.sram_pdn_ack_bits = GENMASK(13, 12),
 	},
 	[MT8173_POWER_DOMAIN_MFG] = {
-<<<<<<< HEAD
 		.name = "mfg",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sta_mask = PWR_STATUS_MFG,
 		.ctl_offs = SPM_MFG_PWR_CON,
 		.sram_pdn_bits = GENMASK(13, 8),

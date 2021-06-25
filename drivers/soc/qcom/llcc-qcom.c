@@ -4,10 +4,7 @@
  *
  */
 
-<<<<<<< HEAD
 #include <linux/bitfield.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/bitmap.h>
 #include <linux/bitops.h>
 #include <linux/device.h>
@@ -39,12 +36,9 @@
 
 #define CACHE_LINE_SIZE_SHIFT         6
 
-<<<<<<< HEAD
 #define LLCC_COMMON_HW_INFO           0x00030000
 #define LLCC_MAJOR_VERSION_MASK       GENMASK(31, 24)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define LLCC_COMMON_STATUS0           0x0003000c
 #define LLCC_LB_CNT_MASK              GENMASK(31, 28)
 #define LLCC_LB_CNT_SHIFT             28
@@ -57,10 +51,7 @@
 
 #define LLCC_TRP_SCID_DIS_CAP_ALLOC   0x21f00
 #define LLCC_TRP_PCB_ACT              0x21f04
-<<<<<<< HEAD
 #define LLCC_TRP_WRSC_EN              0x21f20
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define BANK_OFFSET_STRIDE	      0x80000
 
@@ -87,10 +78,7 @@
  *               then the ways assigned to this client are not flushed on power
  *               collapse.
  * @activate_on_init: Activate the slice immediately after it is programmed
-<<<<<<< HEAD
  * @write_scid_en: Bit enables write cache support for a given scid.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct llcc_slice_config {
 	u32 usecase_id;
@@ -105,10 +93,7 @@ struct llcc_slice_config {
 	bool dis_cap_alloc;
 	bool retain_on_pc;
 	bool activate_on_init;
-<<<<<<< HEAD
 	bool write_scid_en;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qcom_llcc_config {
@@ -122,6 +107,18 @@ static const struct llcc_slice_config sc7180_data[] =  {
 	{ LLCC_MDM,      8,  128, 1, 0, 0xf, 0x0, 0, 0, 0, 1, 0 },
 	{ LLCC_GPUHTW,   11, 128, 1, 0, 0xf, 0x0, 0, 0, 0, 1, 0 },
 	{ LLCC_GPU,      12, 128, 1, 0, 0xf, 0x0, 0, 0, 0, 1, 0 },
+};
+
+static const struct llcc_slice_config sc7280_data[] =  {
+	{ LLCC_CPUSS,    1,  768, 1, 0, 0x3f, 0x0, 0, 0, 0, 1, 1, 0},
+	{ LLCC_MDMHPGRW, 7,  512, 2, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_CMPT,     10, 768, 1, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_GPUHTW,   11, 256, 1, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_GPU,      12, 512, 1, 0, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_MMUHWT,   13, 256, 1, 1, 0x3f, 0x0, 0, 0, 0, 1, 1, 0},
+	{ LLCC_MDMPNG,   21, 768, 0, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_WLHW,     24, 256, 1, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
+	{ LLCC_MODPE,    29, 64,  1, 1, 0x3f, 0x0, 0, 0, 0, 1, 0, 0},
 };
 
 static const struct llcc_slice_config sdm845_data[] =  {
@@ -169,7 +166,6 @@ static const struct llcc_slice_config sm8150_data[] =  {
 	{  LLCC_WRCACHE, 31, 128,  1, 1, 0xFFF, 0x0,   0, 0, 0, 0, 0 },
 };
 
-<<<<<<< HEAD
 static const struct llcc_slice_config sm8250_data[] =  {
 	{ LLCC_CPUSS,    1, 3072, 1, 1, 0xfff, 0x0, 0, 0, 0, 1, 1, 0 },
 	{ LLCC_VIDSC0,   2, 512,  3, 1, 0xfff, 0x0, 0, 0, 0, 1, 0, 0 },
@@ -189,11 +185,15 @@ static const struct llcc_slice_config sm8250_data[] =  {
 	{ LLCC_WRCACHE, 31, 256,  1, 1, 0xfff, 0x0, 0, 0, 0, 0, 1, 0 },
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct qcom_llcc_config sc7180_cfg = {
 	.sct_data	= sc7180_data,
 	.size		= ARRAY_SIZE(sc7180_data),
+	.need_llcc_cfg	= true,
+};
+
+static const struct qcom_llcc_config sc7280_cfg = {
+	.sct_data	= sc7280_data,
+	.size		= ARRAY_SIZE(sc7280_data),
 	.need_llcc_cfg	= true,
 };
 
@@ -208,14 +208,11 @@ static const struct qcom_llcc_config sm8150_cfg = {
 	.size           = ARRAY_SIZE(sm8150_data),
 };
 
-<<<<<<< HEAD
 static const struct qcom_llcc_config sm8250_cfg = {
 	.sct_data       = sm8250_data,
 	.size           = ARRAY_SIZE(sm8250_data),
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct llcc_drv_data *drv_data = (void *) -EPROBE_DEFER;
 
 /**
@@ -465,7 +462,6 @@ static int _qcom_llcc_cfg_program(const struct llcc_slice_config *config,
 			return ret;
 	}
 
-<<<<<<< HEAD
 	if (drv_data->major_version == 2) {
 		u32 wren;
 
@@ -476,8 +472,6 @@ static int _qcom_llcc_cfg_program(const struct llcc_slice_config *config,
 			return ret;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (config->activate_on_init) {
 		desc.slice_id = config->slice_id;
 		ret = llcc_slice_activate(&desc);
@@ -541,10 +535,7 @@ static int qcom_llcc_probe(struct platform_device *pdev)
 	const struct qcom_llcc_config *cfg;
 	const struct llcc_slice_config *llcc_cfg;
 	u32 sz;
-<<<<<<< HEAD
 	u32 version;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drv_data = devm_kzalloc(dev, sizeof(*drv_data), GFP_KERNEL);
 	if (!drv_data) {
@@ -565,7 +556,6 @@ static int qcom_llcc_probe(struct platform_device *pdev)
 		goto err;
 	}
 
-<<<<<<< HEAD
 	/* Extract major version of the IP */
 	ret = regmap_read(drv_data->bcast_regmap, LLCC_COMMON_HW_INFO, &version);
 	if (ret)
@@ -573,8 +563,6 @@ static int qcom_llcc_probe(struct platform_device *pdev)
 
 	drv_data->major_version = FIELD_GET(LLCC_MAJOR_VERSION_MASK, version);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = regmap_read(drv_data->regmap, LLCC_COMMON_STATUS0,
 						&num_banks);
 	if (ret)
@@ -636,12 +624,10 @@ err:
 
 static const struct of_device_id qcom_llcc_of_match[] = {
 	{ .compatible = "qcom,sc7180-llcc", .data = &sc7180_cfg },
+	{ .compatible = "qcom,sc7280-llcc", .data = &sc7280_cfg },
 	{ .compatible = "qcom,sdm845-llcc", .data = &sdm845_cfg },
 	{ .compatible = "qcom,sm8150-llcc", .data = &sm8150_cfg },
-<<<<<<< HEAD
 	{ .compatible = "qcom,sm8250-llcc", .data = &sm8250_cfg },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 

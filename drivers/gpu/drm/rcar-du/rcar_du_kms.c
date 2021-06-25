@@ -14,14 +14,7 @@
 #include <drm/drm_fb_cma_helper.h>
 #include <drm/drm_gem_cma_helper.h>
 #include <drm/drm_gem_framebuffer_helper.h>
-<<<<<<< HEAD
 #include <drm/drm_managed.h>
-=======
-<<<<<<< HEAD
-#include <drm/drm_managed.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_probe_helper.h>
 #include <drm/drm_vblank.h>
 
@@ -335,15 +328,7 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
 int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
 			struct drm_mode_create_dumb *args)
 {
-<<<<<<< HEAD
 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-<<<<<<< HEAD
-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-	struct rcar_du_device *rcdu = dev->dev_private;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
 	unsigned int align;
 
@@ -365,15 +350,7 @@ static struct drm_framebuffer *
 rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
 		  const struct drm_mode_fb_cmd2 *mode_cmd)
 {
-<<<<<<< HEAD
 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-<<<<<<< HEAD
-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-	struct rcar_du_device *rcdu = dev->dev_private;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct rcar_du_format_info *format;
 	unsigned int chroma_pitch;
 	unsigned int max_pitch;
@@ -445,15 +422,7 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
 static int rcar_du_atomic_check(struct drm_device *dev,
 				struct drm_atomic_state *state)
 {
-<<<<<<< HEAD
 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-<<<<<<< HEAD
-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-	struct rcar_du_device *rcdu = dev->dev_private;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ret = drm_atomic_helper_check(dev, state);
@@ -469,15 +438,7 @@ static int rcar_du_atomic_check(struct drm_device *dev,
 static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
 {
 	struct drm_device *dev = old_state->dev;
-<<<<<<< HEAD
 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-<<<<<<< HEAD
-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-=======
-	struct rcar_du_device *rcdu = dev->dev_private;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_crtc_state *crtc_state;
 	struct drm_crtc *crtc;
 	unsigned int i;
@@ -623,15 +584,7 @@ static int rcar_du_properties_init(struct rcar_du_device *rcdu)
 	 * or enable source color keying (1).
 	 */
 	rcdu->props.colorkey =
-<<<<<<< HEAD
 		drm_property_create_range(&rcdu->ddev, 0, "colorkey",
-=======
-<<<<<<< HEAD
-		drm_property_create_range(&rcdu->ddev, 0, "colorkey",
-=======
-		drm_property_create_range(rcdu->ddev, 0, "colorkey",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  0, 0x01ffffff);
 	if (rcdu->props.colorkey == NULL)
 		return -ENOMEM;
@@ -774,23 +727,12 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
 		 * disabled: return 0 and let the DU continue probing.
 		 */
 		ret = rcar_cmm_init(pdev);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			platform_device_put(pdev);
 			return ret == -ENODEV ? 0 : ret;
 		}
 
 		rcdu->cmms[i] = pdev;
-<<<<<<< HEAD
-=======
-=======
-		if (ret)
-			return ret == -ENODEV ? 0 : ret;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Enforce suspend/resume ordering by making the CMM a provider
@@ -802,23 +744,11 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
 				"Failed to create device link to CMM%u\n", i);
 			return -EINVAL;
 		}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-		rcdu->cmms[i] = pdev;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
 {
 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
@@ -828,26 +758,13 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
 		platform_device_put(rcdu->cmms[i]);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 {
 	static const unsigned int mmio_offsets[] = {
 		DU0_REG_OFFSET, DU2_REG_OFFSET
 	};
 
-<<<<<<< HEAD
 	struct drm_device *dev = &rcdu->ddev;
-=======
-<<<<<<< HEAD
-	struct drm_device *dev = &rcdu->ddev;
-=======
-	struct drm_device *dev = rcdu->ddev;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_encoder *encoder;
 	unsigned int dpad0_sources;
 	unsigned int num_encoders;
@@ -861,19 +778,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = drmm_add_action(&rcdu->ddev, rcar_du_modeset_cleanup, NULL);
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->mode_config.min_width = 0;
 	dev->mode_config.min_height = 0;
 	dev->mode_config.normalize_zpos = true;

@@ -53,10 +53,7 @@ struct arm_spe {
 	u8				sample_tlb;
 	u8				sample_branch;
 	u8				sample_remote_access;
-<<<<<<< HEAD
 	u8				sample_memory;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u64				l1d_miss_id;
 	u64				l1d_access_id;
@@ -66,10 +63,7 @@ struct arm_spe {
 	u64				tlb_access_id;
 	u64				branch_miss_id;
 	u64				remote_access_id;
-<<<<<<< HEAD
 	u64				memory_id;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u64				kernel_start;
 
@@ -243,10 +237,6 @@ static void arm_spe_prep_sample(struct arm_spe *spe,
 	sample->cpumode = arm_spe_cpumode(spe, sample->ip);
 	sample->pid = speq->pid;
 	sample->tid = speq->tid;
-<<<<<<< HEAD
-=======
-	sample->addr = record->to_ip;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sample->period = 1;
 	sample->cpu = speq->cpu;
 
@@ -270,7 +260,6 @@ arm_spe_deliver_synth_event(struct arm_spe *spe,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int arm_spe__synth_mem_sample(struct arm_spe_queue *speq,
 				     u64 spe_events_id, u64 data_src)
 {
@@ -295,13 +284,6 @@ static int arm_spe__synth_branch_sample(struct arm_spe_queue *speq,
 {
 	struct arm_spe *spe = speq->spe;
 	struct arm_spe_record *record = &speq->decoder->record;
-=======
-static int
-arm_spe_synth_spe_events_sample(struct arm_spe_queue *speq,
-				u64 spe_events_id)
-{
-	struct arm_spe *spe = speq->spe;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union perf_event *event = speq->event_buf;
 	struct perf_sample sample = { .ip = 0, };
 
@@ -309,15 +291,11 @@ arm_spe_synth_spe_events_sample(struct arm_spe_queue *speq,
 
 	sample.id = spe_events_id;
 	sample.stream_id = spe_events_id;
-<<<<<<< HEAD
 	sample.addr = record->to_ip;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return arm_spe_deliver_synth_event(spe, speq, event, &sample);
 }
 
-<<<<<<< HEAD
 #define SPE_MEM_TYPE	(ARM_SPE_L1D_ACCESS | ARM_SPE_L1D_MISS | \
 			 ARM_SPE_LLC_ACCESS | ARM_SPE_LLC_MISS | \
 			 ARM_SPE_REMOTE_ACCESS)
@@ -370,13 +348,10 @@ static u64 arm_spe__synth_data_source(const struct arm_spe_record *record)
 	return data_src.val;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int arm_spe_sample(struct arm_spe_queue *speq)
 {
 	const struct arm_spe_record *record = &speq->decoder->record;
 	struct arm_spe *spe = speq->spe;
-<<<<<<< HEAD
 	u64 data_src;
 	int err;
 
@@ -386,26 +361,13 @@ static int arm_spe_sample(struct arm_spe_queue *speq)
 		if (record->type & ARM_SPE_L1D_MISS) {
 			err = arm_spe__synth_mem_sample(speq, spe->l1d_miss_id,
 							data_src);
-=======
-	int err;
-
-	if (spe->sample_flc) {
-		if (record->type & ARM_SPE_L1D_MISS) {
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->l1d_miss_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
 
 		if (record->type & ARM_SPE_L1D_ACCESS) {
-<<<<<<< HEAD
 			err = arm_spe__synth_mem_sample(speq, spe->l1d_access_id,
 							data_src);
-=======
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->l1d_access_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
@@ -413,25 +375,15 @@ static int arm_spe_sample(struct arm_spe_queue *speq)
 
 	if (spe->sample_llc) {
 		if (record->type & ARM_SPE_LLC_MISS) {
-<<<<<<< HEAD
 			err = arm_spe__synth_mem_sample(speq, spe->llc_miss_id,
 							data_src);
-=======
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->llc_miss_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
 
 		if (record->type & ARM_SPE_LLC_ACCESS) {
-<<<<<<< HEAD
 			err = arm_spe__synth_mem_sample(speq, spe->llc_access_id,
 							data_src);
-=======
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->llc_access_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
@@ -439,44 +391,28 @@ static int arm_spe_sample(struct arm_spe_queue *speq)
 
 	if (spe->sample_tlb) {
 		if (record->type & ARM_SPE_TLB_MISS) {
-<<<<<<< HEAD
 			err = arm_spe__synth_mem_sample(speq, spe->tlb_miss_id,
 							data_src);
-=======
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->tlb_miss_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
 
 		if (record->type & ARM_SPE_TLB_ACCESS) {
-<<<<<<< HEAD
 			err = arm_spe__synth_mem_sample(speq, spe->tlb_access_id,
 							data_src);
-=======
-			err = arm_spe_synth_spe_events_sample(
-					speq, spe->tlb_access_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				return err;
 		}
 	}
 
 	if (spe->sample_branch && (record->type & ARM_SPE_BRANCH_MISS)) {
-<<<<<<< HEAD
 		err = arm_spe__synth_branch_sample(speq, spe->branch_miss_id);
-=======
-		err = arm_spe_synth_spe_events_sample(speq,
-						      spe->branch_miss_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
 
 	if (spe->sample_remote_access &&
 	    (record->type & ARM_SPE_REMOTE_ACCESS)) {
-<<<<<<< HEAD
 		err = arm_spe__synth_mem_sample(speq, spe->remote_access_id,
 						data_src);
 		if (err)
@@ -485,10 +421,6 @@ static int arm_spe_sample(struct arm_spe_queue *speq)
 
 	if (spe->sample_memory && arm_spe__is_memory_event(record->type)) {
 		err = arm_spe__synth_mem_sample(speq, spe->memory_id, data_src);
-=======
-		err = arm_spe_synth_spe_events_sample(speq,
-						      spe->remote_access_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -952,11 +884,7 @@ arm_spe_synth_events(struct arm_spe *spe, struct perf_session *session)
 	attr.type = PERF_TYPE_HARDWARE;
 	attr.sample_type = evsel->core.attr.sample_type & PERF_SAMPLE_MASK;
 	attr.sample_type |= PERF_SAMPLE_IP | PERF_SAMPLE_TID |
-<<<<<<< HEAD
 			    PERF_SAMPLE_PERIOD | PERF_SAMPLE_DATA_SRC;
-=======
-		PERF_SAMPLE_PERIOD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (spe->timeless_decoding)
 		attr.sample_type &= ~(u64)PERF_SAMPLE_TIME;
 	else
@@ -1060,7 +988,6 @@ arm_spe_synth_events(struct arm_spe *spe, struct perf_session *session)
 		id += 1;
 	}
 
-<<<<<<< HEAD
 	if (spe->synth_opts.mem) {
 		spe->sample_memory = true;
 
@@ -1071,8 +998,6 @@ arm_spe_synth_events(struct arm_spe *spe, struct perf_session *session)
 		arm_spe_set_event_name(evlist, id, "memory");
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

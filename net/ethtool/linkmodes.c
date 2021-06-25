@@ -4,11 +4,8 @@
 #include "common.h"
 #include "bitset.h"
 
-<<<<<<< HEAD
 /* LINKMODES_GET */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct linkmodes_req_info {
 	struct ethnl_req_info		base;
 };
@@ -48,12 +45,9 @@ static int linkmodes_prepare_data(const struct ethnl_req_info *req_base,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	if (!dev->ethtool_ops->cap_link_lanes_supported)
 		data->ksettings.lanes = 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	data->peer_empty =
 		bitmap_empty(data->ksettings.link_modes.lp_advertising,
 			     __ETHTOOL_LINK_MODE_MASK_NBITS);
@@ -74,10 +68,7 @@ static int linkmodes_reply_size(const struct ethnl_req_info *req_base,
 
 	len = nla_total_size(sizeof(u8)) /* LINKMODES_AUTONEG */
 		+ nla_total_size(sizeof(u32)) /* LINKMODES_SPEED */
-<<<<<<< HEAD
 		+ nla_total_size(sizeof(u32)) /* LINKMODES_LANES */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		+ nla_total_size(sizeof(u8)) /* LINKMODES_DUPLEX */
 		+ 0;
 	ret = ethnl_bitset_size(ksettings->link_modes.advertising,
@@ -138,13 +129,10 @@ static int linkmodes_fill_reply(struct sk_buff *skb,
 	    nla_put_u8(skb, ETHTOOL_A_LINKMODES_DUPLEX, lsettings->duplex))
 		return -EMSGSIZE;
 
-<<<<<<< HEAD
 	if (ksettings->lanes &&
 	    nla_put_u32(skb, ETHTOOL_A_LINKMODES_LANES, ksettings->lanes))
 		return -EMSGSIZE;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (lsettings->master_slave_cfg != MASTER_SLAVE_CFG_UNSUPPORTED &&
 	    nla_put_u8(skb, ETHTOOL_A_LINKMODES_MASTER_SLAVE_CFG,
 		       lsettings->master_slave_cfg))
@@ -172,125 +160,6 @@ const struct ethnl_request_ops ethnl_linkmodes_request_ops = {
 
 /* LINKMODES_SET */
 
-<<<<<<< HEAD
-=======
-struct link_mode_info {
-	int				speed;
-	u8				duplex;
-};
-
-#define __DEFINE_LINK_MODE_PARAMS(_speed, _type, _duplex) \
-	[ETHTOOL_LINK_MODE(_speed, _type, _duplex)] = { \
-		.speed	= SPEED_ ## _speed, \
-		.duplex	= __DUPLEX_ ## _duplex \
-	}
-#define __DUPLEX_Half DUPLEX_HALF
-#define __DUPLEX_Full DUPLEX_FULL
-#define __DEFINE_SPECIAL_MODE_PARAMS(_mode) \
-	[ETHTOOL_LINK_MODE_ ## _mode ## _BIT] = { \
-		.speed	= SPEED_UNKNOWN, \
-		.duplex	= DUPLEX_UNKNOWN, \
-	}
-
-static const struct link_mode_info link_mode_params[] = {
-	__DEFINE_LINK_MODE_PARAMS(10, T, Half),
-	__DEFINE_LINK_MODE_PARAMS(10, T, Full),
-	__DEFINE_LINK_MODE_PARAMS(100, T, Half),
-	__DEFINE_LINK_MODE_PARAMS(100, T, Full),
-	__DEFINE_LINK_MODE_PARAMS(1000, T, Half),
-	__DEFINE_LINK_MODE_PARAMS(1000, T, Full),
-	__DEFINE_SPECIAL_MODE_PARAMS(Autoneg),
-	__DEFINE_SPECIAL_MODE_PARAMS(TP),
-	__DEFINE_SPECIAL_MODE_PARAMS(AUI),
-	__DEFINE_SPECIAL_MODE_PARAMS(MII),
-	__DEFINE_SPECIAL_MODE_PARAMS(FIBRE),
-	__DEFINE_SPECIAL_MODE_PARAMS(BNC),
-	__DEFINE_LINK_MODE_PARAMS(10000, T, Full),
-	__DEFINE_SPECIAL_MODE_PARAMS(Pause),
-	__DEFINE_SPECIAL_MODE_PARAMS(Asym_Pause),
-	__DEFINE_LINK_MODE_PARAMS(2500, X, Full),
-	__DEFINE_SPECIAL_MODE_PARAMS(Backplane),
-	__DEFINE_LINK_MODE_PARAMS(1000, KX, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, KX4, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, KR, Full),
-	[ETHTOOL_LINK_MODE_10000baseR_FEC_BIT] = {
-		.speed	= SPEED_10000,
-		.duplex = DUPLEX_FULL,
-	},
-	__DEFINE_LINK_MODE_PARAMS(20000, MLD2, Full),
-	__DEFINE_LINK_MODE_PARAMS(20000, KR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(40000, KR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(40000, CR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(40000, SR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(40000, LR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(56000, KR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(56000, CR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(56000, SR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(56000, LR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(25000, CR, Full),
-	__DEFINE_LINK_MODE_PARAMS(25000, KR, Full),
-	__DEFINE_LINK_MODE_PARAMS(25000, SR, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, CR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, KR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, KR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, SR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, CR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, LR4_ER4, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, SR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(1000, X, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, CR, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, SR, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, LR, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, LRM, Full),
-	__DEFINE_LINK_MODE_PARAMS(10000, ER, Full),
-	__DEFINE_LINK_MODE_PARAMS(2500, T, Full),
-	__DEFINE_LINK_MODE_PARAMS(5000, T, Full),
-	__DEFINE_SPECIAL_MODE_PARAMS(FEC_NONE),
-	__DEFINE_SPECIAL_MODE_PARAMS(FEC_RS),
-	__DEFINE_SPECIAL_MODE_PARAMS(FEC_BASER),
-	__DEFINE_LINK_MODE_PARAMS(50000, KR, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, SR, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, CR, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, LR_ER_FR, Full),
-	__DEFINE_LINK_MODE_PARAMS(50000, DR, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, KR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, SR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, CR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, LR2_ER2_FR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, DR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, KR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, SR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, LR4_ER4_FR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, DR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, CR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(100, T1, Full),
-	__DEFINE_LINK_MODE_PARAMS(1000, T1, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, KR8, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, SR8, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, LR8_ER8_FR8, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, DR8, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, CR8, Full),
-	__DEFINE_SPECIAL_MODE_PARAMS(FEC_LLRS),
-	__DEFINE_LINK_MODE_PARAMS(100000, KR, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, SR, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, LR_ER_FR, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, DR, Full),
-	__DEFINE_LINK_MODE_PARAMS(100000, CR, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, KR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, SR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, LR2_ER2_FR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, DR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(200000, CR2, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, KR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, SR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, LR4_ER4_FR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, DR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(400000, CR4, Full),
-	__DEFINE_LINK_MODE_PARAMS(100, FX, Half),
-	__DEFINE_LINK_MODE_PARAMS(100, FX, Full),
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct nla_policy ethnl_linkmodes_set_policy[] = {
 	[ETHTOOL_A_LINKMODES_HEADER]		=
 		NLA_POLICY_NESTED(ethnl_header_policy),
@@ -299,7 +168,6 @@ const struct nla_policy ethnl_linkmodes_set_policy[] = {
 	[ETHTOOL_A_LINKMODES_SPEED]		= { .type = NLA_U32 },
 	[ETHTOOL_A_LINKMODES_DUPLEX]		= { .type = NLA_U8 },
 	[ETHTOOL_A_LINKMODES_MASTER_SLAVE_CFG]	= { .type = NLA_U8 },
-<<<<<<< HEAD
 	[ETHTOOL_A_LINKMODES_LANES]		= NLA_POLICY_RANGE(NLA_U32, 1, 8),
 };
 
@@ -311,30 +179,12 @@ const struct nla_policy ethnl_linkmodes_set_policy[] = {
  */
 static bool ethnl_auto_linkmodes(struct ethtool_link_ksettings *ksettings,
 				 bool req_speed, bool req_lanes, bool req_duplex)
-=======
-};
-
-/* Set advertised link modes to all supported modes matching requested speed
- * and duplex values. Called when autonegotiation is on, speed or duplex is
- * requested but no link mode change. This is done in userspace with ioctl()
- * interface, move it into kernel for netlink.
- * Returns true if advertised modes bitmap was modified.
- */
-static bool ethnl_auto_linkmodes(struct ethtool_link_ksettings *ksettings,
-				 bool req_speed, bool req_duplex)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long *advertising = ksettings->link_modes.advertising;
 	unsigned long *supported = ksettings->link_modes.supported;
 	DECLARE_BITMAP(old_adv, __ETHTOOL_LINK_MODE_MASK_NBITS);
 	unsigned int i;
 
-<<<<<<< HEAD
-=======
-	BUILD_BUG_ON(ARRAY_SIZE(link_mode_params) !=
-		     __ETHTOOL_LINK_MODE_MASK_NBITS);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bitmap_copy(old_adv, advertising, __ETHTOOL_LINK_MODE_MASK_NBITS);
 
 	for (i = 0; i < __ETHTOOL_LINK_MODE_MASK_NBITS; i++) {
@@ -344,10 +194,7 @@ static bool ethnl_auto_linkmodes(struct ethtool_link_ksettings *ksettings,
 			continue;
 		if (test_bit(i, supported) &&
 		    (!req_speed || info->speed == ksettings->base.speed) &&
-<<<<<<< HEAD
 		    (!req_lanes || info->lanes == ksettings->lanes) &&
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    (!req_duplex || info->duplex == ksettings->base.duplex))
 			set_bit(i, advertising);
 		else
@@ -371,7 +218,6 @@ static bool ethnl_validate_master_slave_cfg(u8 cfg)
 	return false;
 }
 
-<<<<<<< HEAD
 static int ethnl_check_linkmodes(struct genl_info *info, struct nlattr **tb)
 {
 	const struct nlattr *master_slave_cfg, *lanes_cfg;
@@ -401,51 +247,24 @@ static int ethnl_update_linkmodes(struct genl_info *info, struct nlattr **tb,
 	struct ethtool_link_settings *lsettings = &ksettings->base;
 	bool req_speed, req_lanes, req_duplex;
 	const struct nlattr *master_slave_cfg, *lanes_cfg;
-=======
-static int ethnl_update_linkmodes(struct genl_info *info, struct nlattr **tb,
-				  struct ethtool_link_ksettings *ksettings,
-				  bool *mod)
-{
-	struct ethtool_link_settings *lsettings = &ksettings->base;
-	bool req_speed, req_duplex;
-	const struct nlattr *master_slave_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	master_slave_cfg = tb[ETHTOOL_A_LINKMODES_MASTER_SLAVE_CFG];
 	if (master_slave_cfg) {
-<<<<<<< HEAD
-=======
-		u8 cfg = nla_get_u8(master_slave_cfg);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (lsettings->master_slave_cfg == MASTER_SLAVE_CFG_UNSUPPORTED) {
 			NL_SET_ERR_MSG_ATTR(info->extack, master_slave_cfg,
 					    "master/slave configuration not supported by device");
 			return -EOPNOTSUPP;
 		}
-<<<<<<< HEAD
-=======
-
-		if (!ethnl_validate_master_slave_cfg(cfg)) {
-			NL_SET_ERR_MSG_ATTR(info->extack, master_slave_cfg,
-					    "master/slave value is invalid");
-			return -EOPNOTSUPP;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	*mod = false;
 	req_speed = tb[ETHTOOL_A_LINKMODES_SPEED];
-<<<<<<< HEAD
 	req_lanes = tb[ETHTOOL_A_LINKMODES_LANES];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	req_duplex = tb[ETHTOOL_A_LINKMODES_DUPLEX];
 
 	ethnl_update_u8(&lsettings->autoneg, tb[ETHTOOL_A_LINKMODES_AUTONEG],
 			mod);
-<<<<<<< HEAD
 
 	lanes_cfg = tb[ETHTOOL_A_LINKMODES_LANES];
 	if (lanes_cfg) {
@@ -465,8 +284,6 @@ static int ethnl_update_linkmodes(struct genl_info *info, struct nlattr **tb,
 		ksettings->lanes = 0;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ethnl_update_bitset(ksettings->link_modes.advertising,
 				  __ETHTOOL_LINK_MODE_MASK_NBITS,
 				  tb[ETHTOOL_A_LINKMODES_OURS], link_mode_names,
@@ -475,22 +292,14 @@ static int ethnl_update_linkmodes(struct genl_info *info, struct nlattr **tb,
 		return ret;
 	ethnl_update_u32(&lsettings->speed, tb[ETHTOOL_A_LINKMODES_SPEED],
 			 mod);
-<<<<<<< HEAD
 	ethnl_update_u32(&ksettings->lanes, lanes_cfg, mod);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ethnl_update_u8(&lsettings->duplex, tb[ETHTOOL_A_LINKMODES_DUPLEX],
 			mod);
 	ethnl_update_u8(&lsettings->master_slave_cfg, master_slave_cfg, mod);
 
 	if (!tb[ETHTOOL_A_LINKMODES_OURS] && lsettings->autoneg &&
-<<<<<<< HEAD
 	    (req_speed || req_lanes || req_duplex) &&
 	    ethnl_auto_linkmodes(ksettings, req_speed, req_lanes, req_duplex))
-=======
-	    (req_speed || req_duplex) &&
-	    ethnl_auto_linkmodes(ksettings, req_speed, req_duplex))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*mod = true;
 
 	return 0;
@@ -505,13 +314,10 @@ int ethnl_set_linkmodes(struct sk_buff *skb, struct genl_info *info)
 	bool mod = false;
 	int ret;
 
-<<<<<<< HEAD
 	ret = ethnl_check_linkmodes(info, tb);
 	if (ret < 0)
 		return ret;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ethnl_parse_header_dev_get(&req_info,
 					 tb[ETHTOOL_A_LINKMODES_HEADER],
 					 genl_info_net(info), info->extack,
@@ -535,11 +341,7 @@ int ethnl_set_linkmodes(struct sk_buff *skb, struct genl_info *info)
 		goto out_ops;
 	}
 
-<<<<<<< HEAD
 	ret = ethnl_update_linkmodes(info, tb, &ksettings, &mod, dev);
-=======
-	ret = ethnl_update_linkmodes(info, tb, &ksettings, &mod);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		goto out_ops;
 

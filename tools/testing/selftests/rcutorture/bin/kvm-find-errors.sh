@@ -39,20 +39,14 @@ done
 if test -n "$files"
 then
 	$editor $files
-<<<<<<< HEAD
 	editorret=1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 else
 	echo No build errors.
 fi
 if grep -q -e "--buildonly" < ${rundir}/log
 then
 	echo Build-only run, no console logs to check.
-<<<<<<< HEAD
 	exit $editorret
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fi
 
 # Find console logs with errors
@@ -70,14 +64,10 @@ then
 	exit 1
 else
 	echo No errors in console logs.
-<<<<<<< HEAD
 	if test -n "$editorret"
 	then
 		exit $editorret
 	else
 		exit 0
 	fi
-=======
-	exit 0
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fi

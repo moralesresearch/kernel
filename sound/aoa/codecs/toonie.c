@@ -126,11 +126,7 @@ static int __init toonie_init(void)
 	if (!toonie)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	strscpy(toonie->codec.name, "toonie", sizeof(toonie->codec.name));
-=======
-	strlcpy(toonie->codec.name, "toonie", sizeof(toonie->codec.name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	toonie->codec.owner = THIS_MODULE;
 	toonie->codec.init = toonie_init_codec;
 	toonie->codec.exit = toonie_exit_codec;

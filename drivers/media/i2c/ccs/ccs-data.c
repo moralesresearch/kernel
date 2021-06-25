@@ -10,10 +10,6 @@
 #include <linux/limits.h>
 #include <linux/mm.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
-=======
-#include <linux/types.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ccs-data-defs.h"
 
@@ -218,11 +214,7 @@ static int ccs_data_parse_regs(struct bin_container *bin,
 			       size_t *__num_regs, const void *payload,
 			       const void *endp, struct device *dev)
 {
-<<<<<<< HEAD
 	struct ccs_reg *regs_base = NULL, *regs = NULL;
-=======
-	struct ccs_reg *regs_base, *regs;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	size_t num_regs = 0;
 	u16 addr = 0;
 
@@ -293,12 +285,9 @@ static int ccs_data_parse_regs(struct bin_container *bin,
 		if (!bin->base) {
 			bin_reserve(bin, len);
 		} else if (__regs) {
-<<<<<<< HEAD
 			if (!regs)
 				return -EIO;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			regs->addr = addr;
 			regs->len = len;
 			regs->value = bin_alloc(bin, len);
@@ -319,17 +308,12 @@ static int ccs_data_parse_regs(struct bin_container *bin,
 	if (__num_regs)
 		*__num_regs = num_regs;
 
-<<<<<<< HEAD
 	if (bin->base && __regs) {
 		if (!regs_base)
 			return -EIO;
 
 		*__regs = regs_base;
 	}
-=======
-	if (bin->base && __regs)
-		*__regs = regs_base;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -448,11 +432,7 @@ static int ccs_data_parse_rules(struct bin_container *bin,
 				size_t *__num_rules, const void *payload,
 				const void *endp, struct device *dev)
 {
-<<<<<<< HEAD
 	struct ccs_rule *rules_base = NULL, *rules = NULL, *next_rule = NULL;
-=======
-	struct ccs_rule *rules_base, *rules = NULL, *next_rule;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	size_t num_rules = 0;
 	const void *__next_rule = payload;
 	int rval;
@@ -510,12 +490,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
 			} else {
 				unsigned int i;
 
-<<<<<<< HEAD
 				if (!next_rule)
 					return -EIO;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rules = next_rule;
 				next_rule++;
 
@@ -588,12 +565,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
 		bin_reserve(bin, sizeof(*rules) * num_rules);
 		*__num_rules = num_rules;
 	} else {
-<<<<<<< HEAD
 		if (!rules_base)
 			return -EIO;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*__rules = rules_base;
 	}
 
@@ -729,11 +703,7 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
 	}
 
 	for (i = 0; i < max_block_type_id; i++) {
-<<<<<<< HEAD
 		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup = NULL;
-=======
-		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned int j;
 
 		if (!is_contained(__num_pixel_descs, endp))
@@ -764,12 +734,9 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
 			if (!bin->base)
 				continue;
 
-<<<<<<< HEAD
 			if (!pdgroup)
 				return -EIO;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pdesc = &pdgroup->descs[j];
 			pdesc->pixel_type = __pixel_desc->pixel_type;
 			pdesc->small_offset_x = __pixel_desc->small_offset_x;

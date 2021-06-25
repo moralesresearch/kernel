@@ -41,11 +41,7 @@ struct fsl_mc {
 	struct fsl_mc_device *root_mc_bus_dev;
 	u8 num_translation_ranges;
 	struct fsl_mc_addr_translation_range *translation_ranges;
-<<<<<<< HEAD
 	void __iomem *fsl_mc_regs;
-=======
-	void *fsl_mc_regs;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -212,7 +208,6 @@ static struct attribute *fsl_mc_dev_attrs[] = {
 
 ATTRIBUTE_GROUPS(fsl_mc_dev);
 
-<<<<<<< HEAD
 static int scan_fsl_mc_bus(struct device *dev, void *data)
 {
 	struct fsl_mc_device *root_mc_dev;
@@ -308,18 +303,13 @@ static struct attribute *fsl_mc_bus_attrs[] = {
 
 ATTRIBUTE_GROUPS(fsl_mc_bus);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bus_type fsl_mc_bus_type = {
 	.name = "fsl-mc",
 	.match = fsl_mc_bus_match,
 	.uevent = fsl_mc_bus_uevent,
 	.dma_configure  = fsl_mc_dma_configure,
 	.dev_groups = fsl_mc_dev_groups,
-<<<<<<< HEAD
 	.bus_groups = fsl_mc_bus_groups,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 EXPORT_SYMBOL_GPL(fsl_mc_bus_type);
 
@@ -398,14 +388,11 @@ struct device_type fsl_mc_bus_dpdmai_type = {
 };
 EXPORT_SYMBOL_GPL(fsl_mc_bus_dpdmai_type);
 
-<<<<<<< HEAD
 struct device_type fsl_mc_bus_dpdbg_type = {
 	.name = "fsl_mc_bus_dpdbg"
 };
 EXPORT_SYMBOL_GPL(fsl_mc_bus_dpdbg_type);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct device_type *fsl_mc_get_device_type(const char *type)
 {
 	static const struct {
@@ -427,10 +414,7 @@ static struct device_type *fsl_mc_get_device_type(const char *type)
 		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
 		{ &fsl_mc_bus_dpci_type, "dpci" },
 		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
-<<<<<<< HEAD
 		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{ NULL, NULL }
 	};
 	int i;
@@ -958,7 +942,6 @@ struct fsl_mc_device *fsl_mc_get_endpoint(struct fsl_mc_device *mc_dev)
 	endpoint_desc.id = endpoint2.id;
 	endpoint = fsl_mc_device_lookup(&endpoint_desc, mc_bus_dev);
 
-<<<<<<< HEAD
 	/*
 	 * We know that the device has an endpoint because we verified by
 	 * interrogating the firmware. This is the case when the device was not
@@ -968,8 +951,6 @@ struct fsl_mc_device *fsl_mc_get_endpoint(struct fsl_mc_device *mc_dev)
 	if (!endpoint)
 		return ERR_PTR(-EPROBE_DEFER);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return endpoint;
 }
 EXPORT_SYMBOL_GPL(fsl_mc_get_endpoint);

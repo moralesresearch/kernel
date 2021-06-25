@@ -11,11 +11,7 @@ maintainers:
 
 properties:
   compatible:
-<<<<<<< HEAD
     const: ti,afe4404
-=======
-    const: ti,afe4403
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1

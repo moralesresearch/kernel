@@ -10,7 +10,6 @@
 	model = "NVIDIA Jetson TX2 Developer Kit";
 	compatible = "nvidia,p2771-0000", "nvidia,tegra186";
 
-<<<<<<< HEAD
 	aconnect@2900000 {
 		status = "okay";
 
@@ -730,8 +729,6 @@
 		};
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c@3160000 {
 		power-monitor@42 {
 			compatible = "ti,ina3221";
@@ -1091,7 +1088,6 @@
 
 		vin-supply = <&vdd_5v0_sys>;
 	};
-<<<<<<< HEAD
 
 	sound {
 		compatible = "nvidia,tegra186-audio-graph-card";
@@ -1115,6 +1111,4 @@
 
 		label = "jetson-tx2-ape";
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

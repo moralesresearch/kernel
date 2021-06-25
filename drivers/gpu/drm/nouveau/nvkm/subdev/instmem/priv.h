@@ -16,11 +16,7 @@ struct nvkm_instmem_func {
 };
 
 void nvkm_instmem_ctor(const struct nvkm_instmem_func *, struct nvkm_device *,
-<<<<<<< HEAD
 		       enum nvkm_subdev_type, int, struct nvkm_instmem *);
-=======
-		       int index, struct nvkm_instmem *);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nvkm_instmem_boot(struct nvkm_instmem *);
 
 #include <core/memory.h>

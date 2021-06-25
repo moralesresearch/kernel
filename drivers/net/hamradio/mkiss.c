@@ -799,10 +799,7 @@ static void mkiss_close(struct tty_struct *tty)
 	ax->tty = NULL;
 
 	unregister_netdev(ax->dev);
-<<<<<<< HEAD
 	free_netdev(ax->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Perform I/O control on an active ax25 channel. */
@@ -937,7 +934,6 @@ out:
 
 static struct tty_ldisc_ops ax_ldisc = {
 	.owner		= THIS_MODULE,
-	.magic		= TTY_LDISC_MAGIC,
 	.name		= "mkiss",
 	.open		= mkiss_open,
 	.close		= mkiss_close,

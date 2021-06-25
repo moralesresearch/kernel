@@ -28,11 +28,7 @@ static ssize_t reboot_show(struct device *dev,
 	int count = 0;
 
 	count += scnprintf(buf + count, PAGE_SIZE - count,
-<<<<<<< HEAD
 			   "ro|rw|cancel|cold|disable-jump|hibernate|cold-ap-off");
-=======
-			   "ro|rw|cancel|cold|disable-jump|hibernate");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	count += scnprintf(buf + count, PAGE_SIZE - count,
 			   " [at-shutdown]\n");
 	return count;
@@ -50,10 +46,7 @@ static ssize_t reboot_store(struct device *dev,
 		{"cancel",       EC_REBOOT_CANCEL, 0},
 		{"ro",           EC_REBOOT_JUMP_RO, 0},
 		{"rw",           EC_REBOOT_JUMP_RW, 0},
-<<<<<<< HEAD
 		{"cold-ap-off",  EC_REBOOT_COLD_AP_OFF, 0},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{"cold",         EC_REBOOT_COLD, 0},
 		{"disable-jump", EC_REBOOT_DISABLE_JUMP, 0},
 		{"hibernate",    EC_REBOOT_HIBERNATE, 0},
@@ -337,11 +330,7 @@ static umode_t cros_ec_ctrl_visible(struct kobject *kobj,
 	return a->mode;
 }
 
-<<<<<<< HEAD
 static const struct attribute_group cros_ec_attr_group = {
-=======
-static struct attribute_group cros_ec_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = __ec_attrs,
 	.is_visible = cros_ec_ctrl_visible,
 };

@@ -327,11 +327,7 @@ int snd_seq_set_port_info(struct snd_seq_client_port * port,
 
 	/* set port name */
 	if (info->name[0])
-<<<<<<< HEAD
 		strscpy(port->name, info->name, sizeof(port->name));
-=======
-		strlcpy(port->name, info->name, sizeof(port->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	
 	/* set capabilities */
 	port->capability = info->capability;
@@ -360,11 +356,7 @@ int snd_seq_get_port_info(struct snd_seq_client_port * port,
 		return -EINVAL;
 
 	/* get port name */
-<<<<<<< HEAD
 	strscpy(info->name, port->name, sizeof(info->name));
-=======
-	strlcpy(info->name, port->name, sizeof(info->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	
 	/* get capabilities */
 	info->capability = port->capability;
@@ -662,11 +654,7 @@ int snd_seq_event_port_attach(int client,
 	/* Set up the port */
 	memset(&portinfo, 0, sizeof(portinfo));
 	portinfo.addr.client = client;
-<<<<<<< HEAD
 	strscpy(portinfo.name, portname ? portname : "Unnamed port",
-=======
-	strlcpy(portinfo.name, portname ? portname : "Unnamed port",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sizeof(portinfo.name));
 
 	portinfo.capability = cap;

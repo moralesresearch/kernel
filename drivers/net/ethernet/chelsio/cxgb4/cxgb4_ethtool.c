@@ -1337,7 +1337,6 @@ static int cxgb4_ethtool_flash_phy(struct net_device *netdev,
 		return ret;
 	}
 
-<<<<<<< HEAD
 	/* We have to RESET the chip/firmware because we need the
 	 * chip in uninitialized state for loading new PHY image.
 	 * Otherwise, the running firmware will only store the PHY
@@ -1359,15 +1358,6 @@ static int cxgb4_ethtool_flash_phy(struct net_device *netdev,
 	}
 
 	return 0;
-=======
-	spin_lock_bh(&adap->win0_lock);
-	ret = t4_load_phy_fw(adap, MEMWIN_NIC, NULL, data, size);
-	spin_unlock_bh(&adap->win0_lock);
-	if (ret)
-		dev_err(adap->pdev_dev, "Failed to load PHY FW\n");
-
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int cxgb4_ethtool_flash_fw(struct net_device *netdev,
@@ -1634,7 +1624,6 @@ static struct filter_entry *cxgb4_get_filter_entry(struct adapter *adap,
 						   u32 ftid)
 {
 	struct tid_info *t = &adap->tids;
-<<<<<<< HEAD
 
 	if (ftid >= t->hpftid_base && ftid < t->hpftid_base + t->nhpftids)
 		return &t->hpftid_tab[ftid - t->hpftid_base];
@@ -1643,18 +1632,6 @@ static struct filter_entry *cxgb4_get_filter_entry(struct adapter *adap,
 		return &t->ftid_tab[ftid - t->ftid_base];
 
 	return lookup_tid(t, ftid);
-=======
-	struct filter_entry *f;
-
-	if (ftid < t->nhpftids)
-		f = &adap->tids.hpftid_tab[ftid];
-	else if (ftid < t->nftids)
-		f = &adap->tids.ftid_tab[ftid - t->nhpftids];
-	else
-		f = lookup_tid(&adap->tids, ftid);
-
-	return f;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void cxgb4_fill_filter_rule(struct ethtool_rx_flow_spec *fs,
@@ -1861,14 +1838,11 @@ static int cxgb4_ntuple_del_filter(struct net_device *dev,
 	filter_id = filter_info->loc_array[cmd->fs.location];
 	f = cxgb4_get_filter_entry(adapter, filter_id);
 
-<<<<<<< HEAD
 	if (f->fs.prio)
 		filter_id -= adapter->tids.hpftid_base;
 	else if (!f->fs.hash)
 		filter_id -= (adapter->tids.ftid_base - adapter->tids.nhpftids);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = cxgb4_flow_rule_destroy(dev, f->fs.tc_prio, &f->fs, filter_id);
 	if (ret)
 		goto err;
@@ -1928,14 +1902,11 @@ static int cxgb4_ntuple_set_filter(struct net_device *netdev,
 
 	filter_info = &adapter->ethtool_filters->port[pi->port_id];
 
-<<<<<<< HEAD
 	if (fs.prio)
 		tid += adapter->tids.hpftid_base;
 	else if (!fs.hash)
 		tid += (adapter->tids.ftid_base - adapter->tids.nhpftids);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	filter_info->loc_array[cmd->fs.location] = tid;
 	set_bit(cmd->fs.location, filter_info->bmap);
 	filter_info->in_use++;

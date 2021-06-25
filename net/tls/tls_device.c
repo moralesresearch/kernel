@@ -50,10 +50,7 @@ static void tls_device_gc_task(struct work_struct *work);
 static DECLARE_WORK(tls_device_gc_work, tls_device_gc_task);
 static LIST_HEAD(tls_device_gc_list);
 static LIST_HEAD(tls_device_list);
-<<<<<<< HEAD
 static LIST_HEAD(tls_device_down_list);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_SPINLOCK(tls_device_lock);
 
 static void tls_device_free_ctx(struct tls_context *ctx)
@@ -117,11 +114,7 @@ static struct net_device *get_netdev_for_sock(struct sock *sk)
 	struct net_device *netdev = NULL;
 
 	if (likely(dst)) {
-<<<<<<< HEAD
 		netdev = netdev_sk_get_lowest_dev(dst->dev, sk);
-=======
-		netdev = dst->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_hold(netdev);
 	}
 
@@ -426,7 +419,7 @@ static int tls_push_data(struct sock *sk,
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_prot_info *prot = &tls_ctx->prot_info;
 	struct tls_offload_context_tx *ctx = tls_offload_ctx_tx(tls_ctx);
-	struct tls_record_info *record = ctx->open_record;
+	struct tls_record_info *record;
 	int tls_push_record_flags;
 	struct page_frag *pfrag;
 	size_t orig_size = size;
@@ -609,7 +602,7 @@ struct tls_record_info *tls_get_record(struct tls_offload_context_tx *context,
 	if (!info ||
 	    before(seq, info->end_seq - info->len)) {
 		/* if retransmit_hint is irrelevant start
-		 * from the beggining of the list
+		 * from the beginning of the list
 		 */
 		info = list_first_entry_or_null(&context->records_list,
 						struct tls_record_info, list);
@@ -688,24 +681,13 @@ static void tls_device_resync_rx(struct tls_context *tls_ctx,
 	struct tls_offload_context_rx *rx_ctx = tls_offload_ctx_rx(tls_ctx);
 	struct net_device *netdev;
 
-<<<<<<< HEAD
 	trace_tls_device_rx_resync_send(sk, seq, rcd_sn, rx_ctx->resync_type);
 	rcu_read_lock();
-=======
-	if (WARN_ON(test_and_set_bit(TLS_RX_SYNC_RUNNING, &tls_ctx->flags)))
-		return;
-
-	trace_tls_device_rx_resync_send(sk, seq, rcd_sn, rx_ctx->resync_type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netdev = READ_ONCE(tls_ctx->netdev);
 	if (netdev)
 		netdev->tlsdev_ops->tls_dev_resync(netdev, sk, seq, rcd_sn,
 						   TLS_OFFLOAD_CTX_DIR_RX);
-<<<<<<< HEAD
 	rcu_read_unlock();
-=======
-	clear_bit_unlock(TLS_RX_SYNC_RUNNING, &tls_ctx->flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXDEVICERESYNC);
 }
 
@@ -778,11 +760,8 @@ void tls_device_rx_resync_new_rec(struct sock *sk, u32 rcd_len, u32 seq)
 
 	if (tls_ctx->rx_conf != TLS_HW)
 		return;
-<<<<<<< HEAD
 	if (unlikely(test_bit(TLS_RX_DEV_DEGRADED, &tls_ctx->flags)))
 		return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	prot = &tls_ctx->prot_info;
 	rx_ctx = tls_offload_ctx_rx(tls_ctx);
@@ -985,7 +964,6 @@ int tls_device_decrypted(struct sock *sk, struct tls_context *tls_ctx,
 
 	ctx->sw.decrypted |= is_decrypted;
 
-<<<<<<< HEAD
 	if (unlikely(test_bit(TLS_RX_DEV_DEGRADED, &tls_ctx->flags))) {
 		if (likely(is_encrypted || is_decrypted))
 			return 0;
@@ -997,8 +975,6 @@ int tls_device_decrypted(struct sock *sk, struct tls_context *tls_ctx,
 		return tls_device_reencrypt(sk, skb);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Return immediately if the record is either entirely plaintext or
 	 * entirely ciphertext. Otherwise handle reencrypt partially decrypted
 	 * record.
@@ -1328,7 +1304,6 @@ static int tls_device_down(struct net_device *netdev)
 	spin_unlock_irqrestore(&tls_device_lock, flags);
 
 	list_for_each_entry_safe(ctx, tmp, &list, list)	{
-<<<<<<< HEAD
 		/* Stop offloaded TX and switch to the fallback.
 		 * tls_is_sk_tx_device_offloaded will return false.
 		 */
@@ -1349,8 +1324,6 @@ static int tls_device_down(struct net_device *netdev)
 		synchronize_net();
 
 		/* Release the offload context on the driver side. */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ctx->tx_conf == TLS_HW)
 			netdev->tlsdev_ops->tls_dev_del(netdev, ctx,
 							TLS_OFFLOAD_CTX_DIR_TX);
@@ -1358,7 +1331,6 @@ static int tls_device_down(struct net_device *netdev)
 		    !test_bit(TLS_RX_DEV_CLOSED, &ctx->flags))
 			netdev->tlsdev_ops->tls_dev_del(netdev, ctx,
 							TLS_OFFLOAD_CTX_DIR_RX);
-<<<<<<< HEAD
 
 		dev_put(netdev);
 
@@ -1374,17 +1346,6 @@ static int tls_device_down(struct net_device *netdev)
 		/* Device contexts for RX and TX will be freed in on sk_destruct
 		 * by tls_device_free_ctx. rx_conf and tx_conf stay in TLS_HW.
 		 */
-=======
-		WRITE_ONCE(ctx->netdev, NULL);
-		smp_mb__before_atomic(); /* pairs with test_and_set_bit() */
-		while (test_bit(TLS_RX_SYNC_RUNNING, &ctx->flags))
-			usleep_range(10, 200);
-		dev_put(netdev);
-		list_del_init(&ctx->list);
-
-		if (refcount_dec_and_test(&ctx->refcount))
-			tls_device_free_ctx(ctx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	up_write(&device_offload_lock);
@@ -1406,11 +1367,8 @@ static int tls_dev_event(struct notifier_block *this, unsigned long event,
 	switch (event) {
 	case NETDEV_REGISTER:
 	case NETDEV_FEAT_CHANGE:
-<<<<<<< HEAD
 		if (netif_is_bond_master(dev))
 			return NOTIFY_DONE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((dev->features & NETIF_F_HW_TLS_RX) &&
 		    !dev->tlsdev_ops->tls_dev_resync)
 			return NOTIFY_BAD;

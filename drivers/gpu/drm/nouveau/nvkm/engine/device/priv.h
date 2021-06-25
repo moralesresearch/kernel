@@ -15,10 +15,6 @@
 #include <subdev/gpio.h>
 #include <subdev/gsp.h>
 #include <subdev/i2c.h>
-<<<<<<< HEAD
-=======
-#include <subdev/ibus.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <subdev/iccsense.h>
 #include <subdev/instmem.h>
 #include <subdev/ltc.h>
@@ -27,10 +23,7 @@
 #include <subdev/mxm.h>
 #include <subdev/pci.h>
 #include <subdev/pmu.h>
-<<<<<<< HEAD
 #include <subdev/privring.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <subdev/therm.h>
 #include <subdev/timer.h>
 #include <subdev/top.h>

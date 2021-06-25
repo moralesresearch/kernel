@@ -535,7 +535,6 @@ mlxsw_sp_mr_route_evif_resolve(struct mlxsw_sp_mr_table *mr_table,
 	u16 erif_index = 0;
 	int err;
 
-<<<<<<< HEAD
 	/* Add the eRIF */
 	if (mlxsw_sp_mr_vif_valid(rve->mr_vif)) {
 		erif_index = mlxsw_sp_rif_index(rve->mr_vif->rif);
@@ -546,8 +545,6 @@ mlxsw_sp_mr_route_evif_resolve(struct mlxsw_sp_mr_table *mr_table,
 			return err;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Update the route action, as the new eVIF can be a tunnel or a pimreg
 	 * device which will require updating the action.
 	 */
@@ -557,21 +554,7 @@ mlxsw_sp_mr_route_evif_resolve(struct mlxsw_sp_mr_table *mr_table,
 						      rve->mr_route->route_priv,
 						      route_action);
 		if (err)
-<<<<<<< HEAD
 			goto err_route_action_update;
-=======
-			return err;
-	}
-
-	/* Add the eRIF */
-	if (mlxsw_sp_mr_vif_valid(rve->mr_vif)) {
-		erif_index = mlxsw_sp_rif_index(rve->mr_vif->rif);
-		err = mr->mr_ops->route_erif_add(mlxsw_sp,
-						 rve->mr_route->route_priv,
-						 erif_index);
-		if (err)
-			goto err_route_erif_add;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Update the minimum MTU */
@@ -589,24 +572,14 @@ mlxsw_sp_mr_route_evif_resolve(struct mlxsw_sp_mr_table *mr_table,
 	return 0;
 
 err_route_min_mtu_update:
-<<<<<<< HEAD
-=======
-	if (mlxsw_sp_mr_vif_valid(rve->mr_vif))
-		mr->mr_ops->route_erif_del(mlxsw_sp, rve->mr_route->route_priv,
-					   erif_index);
-err_route_erif_add:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (route_action != rve->mr_route->route_action)
 		mr->mr_ops->route_action_update(mlxsw_sp,
 						rve->mr_route->route_priv,
 						rve->mr_route->route_action);
-<<<<<<< HEAD
 err_route_action_update:
 	if (mlxsw_sp_mr_vif_valid(rve->mr_vif))
 		mr->mr_ops->route_erif_del(mlxsw_sp, rve->mr_route->route_priv,
 					   erif_index);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

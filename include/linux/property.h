@@ -254,6 +254,13 @@ struct software_node_ref_args {
 	u64 args[NR_FWNODE_REFERENCE_ARGS];
 };
 
+#define SOFTWARE_NODE_REFERENCE(_ref_, ...)			\
+(const struct software_node_ref_args) {				\
+	.node = _ref_,						\
+	.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
+	.args = { __VA_ARGS__ },				\
+}
+
 /**
  * struct property_entry - "Built-in" device property representation.
  * @name: Name of the property.
@@ -362,11 +369,7 @@ struct property_entry {
 	.name = _name_,							\
 	.length = sizeof(struct software_node_ref_args),		\
 	.type = DEV_PROP_REF,						\
-	{ .pointer = &(const struct software_node_ref_args) {		\
-		.node = _ref_,						\
-		.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
-		.args = { __VA_ARGS__ },				\
-	} },								\
+	{ .pointer = &SOFTWARE_NODE_REFERENCE(_ref_, ##__VA_ARGS__), },	\
 }
 
 struct property_entry *
@@ -488,7 +491,6 @@ fwnode_create_software_node(const struct property_entry *properties,
 			    const struct fwnode_handle *parent);
 void fwnode_remove_software_node(struct fwnode_handle *fwnode);
 
-<<<<<<< HEAD
 int device_add_software_node(struct device *dev, const struct software_node *node);
 void device_remove_software_node(struct device *dev);
 
@@ -496,6 +498,4 @@ int device_create_managed_software_node(struct device *dev,
 					const struct property_entry *properties,
 					const struct software_node *parent);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _LINUX_PROPERTY_H_ */

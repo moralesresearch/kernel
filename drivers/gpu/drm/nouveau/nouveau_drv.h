@@ -54,11 +54,6 @@
 #include <drm/ttm/ttm_bo_api.h>
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
-#include <drm/ttm/ttm_memory.h>
-<<<<<<< HEAD
-=======
-#include <drm/ttm/ttm_module.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <drm/drm_audio_component.h>
 
@@ -155,7 +150,7 @@ struct nouveau_drm {
 
 	/* TTM interface support */
 	struct {
-		struct ttm_bo_device bdev;
+		struct ttm_device bdev;
 		atomic_t validate_sequence;
 		int (*move)(struct nouveau_channel *,
 			    struct ttm_buffer_object *,
@@ -225,10 +220,7 @@ struct nouveau_drm {
 
 	struct {
 		struct drm_audio_component *component;
-<<<<<<< HEAD
 		struct mutex lock;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bool component_registered;
 	} audio;
 };

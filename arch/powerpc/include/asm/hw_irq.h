@@ -38,11 +38,8 @@
 #define PACA_IRQ_MUST_HARD_MASK	(PACA_IRQ_EE)
 #endif
 
-<<<<<<< HEAD
 #endif /* CONFIG_PPC64 */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * flags for paca->irq_soft_mask
  */
@@ -51,7 +48,6 @@
 #define IRQS_PMI_DISABLED	2
 #define IRQS_ALL_DISABLED	(IRQS_DISABLED | IRQS_PMI_DISABLED)
 
-<<<<<<< HEAD
 #ifndef __ASSEMBLY__
 
 static inline void __hard_irq_enable(void)
@@ -102,20 +98,6 @@ static inline void __hard_RI_enable(void)
 	else
 		mtmsr(mfmsr() | MSR_RI);
 }
-=======
-#endif /* CONFIG_PPC64 */
-
-#ifndef __ASSEMBLY__
-
-extern void replay_system_reset(void);
-extern void replay_soft_interrupts(void);
-
-extern void timer_interrupt(struct pt_regs *);
-extern void timer_broadcast_interrupt(void);
-extern void performance_monitor_exception(struct pt_regs *regs);
-extern void WatchdogException(struct pt_regs *regs);
-extern void unknown_exception(struct pt_regs *regs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_PPC64
 #include <asm/paca.h>
@@ -279,21 +261,6 @@ static inline bool arch_irqs_disabled(void)
 
 #endif /* CONFIG_PPC_BOOK3S */
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PPC_BOOK3E
-#define __hard_irq_enable()	wrtee(MSR_EE)
-#define __hard_irq_disable()	wrtee(0)
-#define __hard_EE_RI_disable()	wrtee(0)
-#define __hard_RI_enable()	do { } while (0)
-#else
-#define __hard_irq_enable()	__mtmsrd(MSR_EE|MSR_RI, 1)
-#define __hard_irq_disable()	__mtmsrd(MSR_RI, 1)
-#define __hard_EE_RI_disable()	__mtmsrd(0, 1)
-#define __hard_RI_enable()	__mtmsrd(MSR_RI, 1)
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define hard_irq_disable()	do {					\
 	unsigned long flags;						\
 	__hard_irq_disable();						\
@@ -357,7 +324,6 @@ extern void irq_set_pending_from_srr1(unsigned long srr1);
 
 extern void force_external_irq_replay(void);
 
-<<<<<<< HEAD
 static inline void irq_soft_mask_regs_set_state(struct pt_regs *regs, unsigned long val)
 {
 	regs->softe = val;
@@ -369,10 +335,6 @@ static inline notrace unsigned long irq_soft_mask_return(void)
 	return 0;
 }
 
-=======
-#else /* CONFIG_PPC64 */
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline unsigned long arch_local_save_flags(void)
 {
 	return mfmsr();
@@ -402,30 +364,12 @@ static inline unsigned long arch_local_irq_save(void)
 
 static inline void arch_local_irq_disable(void)
 {
-<<<<<<< HEAD
 	__hard_irq_disable();
-=======
-	if (IS_ENABLED(CONFIG_BOOKE))
-		wrtee(0);
-	else if (IS_ENABLED(CONFIG_PPC_8xx))
-		wrtspr(SPRN_EID);
-	else
-		mtmsr(mfmsr() & ~MSR_EE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void arch_local_irq_enable(void)
 {
-<<<<<<< HEAD
 	__hard_irq_enable();
-=======
-	if (IS_ENABLED(CONFIG_BOOKE))
-		wrtee(MSR_EE);
-	else if (IS_ENABLED(CONFIG_PPC_8xx))
-		wrtspr(SPRN_EIE);
-	else
-		mtmsr(mfmsr() | MSR_EE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool arch_irqs_disabled_flags(unsigned long flags)
@@ -447,12 +391,9 @@ static inline bool arch_irq_disabled_regs(struct pt_regs *regs)
 
 static inline void may_hard_irq_enable(void) { }
 
-<<<<<<< HEAD
 static inline void irq_soft_mask_regs_set_state(struct pt_regs *regs, unsigned long val)
 {
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_PPC64 */
 
 #define ARCH_IRQ_INIT_FLAGS	IRQ_NOREQUEST

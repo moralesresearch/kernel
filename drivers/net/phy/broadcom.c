@@ -251,14 +251,7 @@ static void bcm54xx_adjust_rxrefclk(struct phy_device *phydev)
 	if (BRCM_PHY_MODEL(phydev) != PHY_ID_BCM57780 &&
 	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM50610 &&
 	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM50610M &&
-<<<<<<< HEAD
 	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM54210E &&
-=======
-<<<<<<< HEAD
-	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM54210E &&
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM54810 &&
 	    BRCM_PHY_MODEL(phydev) != PHY_ID_BCM54811)
 		return;
@@ -293,22 +286,10 @@ static void bcm54xx_adjust_rxrefclk(struct phy_device *phydev)
 		val |= BCM54XX_SHD_SCR3_DLLAPD_DIS;
 
 	if (phydev->dev_flags & PHY_BRCM_DIS_TXCRXC_NOENRGY) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (BRCM_PHY_MODEL(phydev) == PHY_ID_BCM54210E ||
 		    BRCM_PHY_MODEL(phydev) == PHY_ID_BCM54810 ||
 		    BRCM_PHY_MODEL(phydev) == PHY_ID_BCM54210E)
 			val |= BCM54XX_SHD_SCR3_RXCTXC_DIS;
-<<<<<<< HEAD
-=======
-=======
-		if (BRCM_PHY_MODEL(phydev) == PHY_ID_BCM54810 ||
-		    BRCM_PHY_MODEL(phydev) == PHY_ID_BCM54811)
-			val |= BCM54810_SHD_SCR3_TRDDAPD;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			val |= BCM54XX_SHD_SCR3_TRDDAPD;
 	}
@@ -389,10 +370,6 @@ static int bcm54xx_config_init(struct phy_device *phydev)
 
 	bcm54xx_phydsp_config(phydev);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* For non-SFP setups, encode link speed into LED1 and LED3 pair
 	 * (green/amber).
 	 * Also flash these two LEDs on activity. This means configuring
@@ -411,23 +388,6 @@ static int bcm54xx_config_init(struct phy_device *phydev)
 			BCM5482_SHD_LEDS1_LED3(BCM_LED_MULTICOLOR_LINK_ACT);
 		bcm_phy_write_exp(phydev, BCM_EXP_MULTICOLOR, val);
 	}
-<<<<<<< HEAD
-=======
-=======
-	/* Encode link speed into LED1 and LED3 pair (green/amber).
-	 * Also flash these two LEDs on activity. This means configuring
-	 * them for MULTICOLOR and encoding link/activity into them.
-	 */
-	val = BCM5482_SHD_LEDS1_LED1(BCM_LED_SRC_MULTICOLOR1) |
-		BCM5482_SHD_LEDS1_LED3(BCM_LED_SRC_MULTICOLOR1);
-	bcm_phy_write_shadow(phydev, BCM5482_SHD_LEDS1, val);
-
-	val = BCM_LED_MULTICOLOR_IN_PHASE |
-		BCM5482_SHD_LEDS1_LED1(BCM_LED_MULTICOLOR_LINK_ACT) |
-		BCM5482_SHD_LEDS1_LED3(BCM_LED_MULTICOLOR_LINK_ACT);
-	bcm_phy_write_exp(phydev, BCM_EXP_MULTICOLOR, val);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -477,102 +437,6 @@ static int bcm54811_config_init(struct phy_device *phydev)
 	return err;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static int bcm5482_config_init(struct phy_device *phydev)
-{
-	int err, reg;
-
-	err = bcm54xx_config_init(phydev);
-
-	if (phydev->dev_flags & PHY_BCM_FLAGS_MODE_1000BX) {
-		/*
-		 * Enable secondary SerDes and its use as an LED source
-		 */
-		reg = bcm_phy_read_shadow(phydev, BCM5482_SHD_SSD);
-		bcm_phy_write_shadow(phydev, BCM5482_SHD_SSD,
-				     reg |
-				     BCM5482_SHD_SSD_LEDM |
-				     BCM5482_SHD_SSD_EN);
-
-		/*
-		 * Enable SGMII slave mode and auto-detection
-		 */
-		reg = BCM5482_SSD_SGMII_SLAVE | MII_BCM54XX_EXP_SEL_SSD;
-		err = bcm_phy_read_exp(phydev, reg);
-		if (err < 0)
-			return err;
-		err = bcm_phy_write_exp(phydev, reg, err |
-					BCM5482_SSD_SGMII_SLAVE_EN |
-					BCM5482_SSD_SGMII_SLAVE_AD);
-		if (err < 0)
-			return err;
-
-		/*
-		 * Disable secondary SerDes powerdown
-		 */
-		reg = BCM5482_SSD_1000BX_CTL | MII_BCM54XX_EXP_SEL_SSD;
-		err = bcm_phy_read_exp(phydev, reg);
-		if (err < 0)
-			return err;
-		err = bcm_phy_write_exp(phydev, reg,
-					err & ~BCM5482_SSD_1000BX_CTL_PWRDOWN);
-		if (err < 0)
-			return err;
-
-		/*
-		 * Select 1000BASE-X register set (primary SerDes)
-		 */
-		reg = bcm_phy_read_shadow(phydev, BCM54XX_SHD_MODE);
-		bcm_phy_write_shadow(phydev, BCM54XX_SHD_MODE,
-				     reg | BCM54XX_SHD_MODE_1000BX);
-
-		/*
-		 * LED1=ACTIVITYLED, LED3=LINKSPD[2]
-		 * (Use LED1 as secondary SerDes ACTIVITY LED)
-		 */
-		bcm_phy_write_shadow(phydev, BCM5482_SHD_LEDS1,
-			BCM5482_SHD_LEDS1_LED1(BCM_LED_SRC_ACTIVITYLED) |
-			BCM5482_SHD_LEDS1_LED3(BCM_LED_SRC_LINKSPD2));
-
-		/*
-		 * Auto-negotiation doesn't seem to work quite right
-		 * in this mode, so we disable it and force it to the
-		 * right speed/duplex setting.  Only 'link status'
-		 * is important.
-		 */
-		phydev->autoneg = AUTONEG_DISABLE;
-		phydev->speed = SPEED_1000;
-		phydev->duplex = DUPLEX_FULL;
-	}
-
-	return err;
-}
-
-static int bcm5482_read_status(struct phy_device *phydev)
-{
-	int err;
-
-	err = genphy_read_status(phydev);
-
-	if (phydev->dev_flags & PHY_BCM_FLAGS_MODE_1000BX) {
-		/*
-		 * Only link status matters for 1000Base-X mode, so force
-		 * 1000 Mbit/s full-duplex status
-		 */
-		if (phydev->link) {
-			phydev->speed = SPEED_1000;
-			phydev->duplex = DUPLEX_FULL;
-		}
-	}
-
-	return err;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int bcm5481_config_aneg(struct phy_device *phydev)
 {
 	struct device_node *np = phydev->mdio.dev.of_node;
@@ -595,10 +459,6 @@ static int bcm5481_config_aneg(struct phy_device *phydev)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bcm54616s_phy_priv {
 	bool mode_1000bx_en;
 };
@@ -614,15 +474,6 @@ static int bcm54616s_probe(struct phy_device *phydev)
 
 	phydev->priv = priv;
 
-<<<<<<< HEAD
-=======
-=======
-static int bcm54616s_probe(struct phy_device *phydev)
-{
-	int val;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	val = bcm_phy_read_shadow(phydev, BCM54XX_SHD_MODE);
 	if (val < 0)
 		return val;
@@ -644,15 +495,7 @@ static int bcm54616s_probe(struct phy_device *phydev)
 		 * 1000BASE-X configuration.
 		 */
 		if (!(val & BCM54616S_100FX_MODE))
-<<<<<<< HEAD
 			priv->mode_1000bx_en = true;
-=======
-<<<<<<< HEAD
-			priv->mode_1000bx_en = true;
-=======
-			phydev->dev_flags |= PHY_BCM_FLAGS_MODE_1000BX;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		phydev->port = PORT_FIBRE;
 	}
@@ -662,24 +505,11 @@ static int bcm54616s_probe(struct phy_device *phydev)
 
 static int bcm54616s_config_aneg(struct phy_device *phydev)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bcm54616s_phy_priv *priv = phydev->priv;
 	int ret;
 
 	/* Aneg firstly. */
 	if (priv->mode_1000bx_en)
-<<<<<<< HEAD
-=======
-=======
-	int ret;
-
-	/* Aneg firstly. */
-	if (phydev->dev_flags & PHY_BCM_FLAGS_MODE_1000BX)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = genphy_c37_config_aneg(phydev);
 	else
 		ret = genphy_config_aneg(phydev);
@@ -692,22 +522,10 @@ static int bcm54616s_config_aneg(struct phy_device *phydev)
 
 static int bcm54616s_read_status(struct phy_device *phydev)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bcm54616s_phy_priv *priv = phydev->priv;
 	int err;
 
 	if (priv->mode_1000bx_en)
-<<<<<<< HEAD
-=======
-=======
-	int err;
-
-	if (phydev->dev_flags & PHY_BCM_FLAGS_MODE_1000BX)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = genphy_c37_read_status(phydev);
 	else
 		err = genphy_read_status(phydev);
@@ -853,13 +671,13 @@ static irqreturn_t brcm_fet_handle_interrupt(struct phy_device *phydev)
 	return IRQ_HANDLED;
 }
 
-struct bcm53xx_phy_priv {
+struct bcm54xx_phy_priv {
 	u64	*stats;
 };
 
-static int bcm53xx_phy_probe(struct phy_device *phydev)
+static int bcm54xx_phy_probe(struct phy_device *phydev)
 {
-	struct bcm53xx_phy_priv *priv;
+	struct bcm54xx_phy_priv *priv;
 
 	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
 	if (!priv)
@@ -876,10 +694,10 @@ static int bcm53xx_phy_probe(struct phy_device *phydev)
 	return 0;
 }
 
-static void bcm53xx_phy_get_stats(struct phy_device *phydev,
-				  struct ethtool_stats *stats, u64 *data)
+static void bcm54xx_get_stats(struct phy_device *phydev,
+			      struct ethtool_stats *stats, u64 *data)
 {
-	struct bcm53xx_phy_priv *priv = phydev->priv;
+	struct bcm54xx_phy_priv *priv = phydev->priv;
 
 	bcm_phy_get_stats(phydev, priv->stats, stats, data);
 }
@@ -890,6 +708,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5411",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -898,6 +720,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5421",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -906,6 +732,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM54210E",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -914,6 +744,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5461",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -922,6 +756,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM54612E",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -941,6 +779,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5464",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -951,6 +793,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5481",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_aneg	= bcm5481_config_aneg,
 	.config_intr	= bcm_phy_config_intr,
@@ -960,6 +806,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask    = 0xfffffff0,
 	.name           = "Broadcom BCM54810",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init    = bcm54xx_config_init,
 	.config_aneg    = bcm5481_config_aneg,
 	.config_intr    = bcm_phy_config_intr,
@@ -971,6 +821,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask    = 0xfffffff0,
 	.name           = "Broadcom BCM54811",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init    = bcm54811_config_init,
 	.config_aneg    = bcm5481_config_aneg,
 	.config_intr    = bcm_phy_config_intr,
@@ -982,16 +836,11 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM5482",
 	/* PHY_GBIT_FEATURES */
-<<<<<<< HEAD
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
-=======
-<<<<<<< HEAD
-	.config_init	= bcm54xx_config_init,
-=======
-	.config_init	= bcm5482_config_init,
-	.read_status	= bcm5482_read_status,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
 }, {
@@ -999,6 +848,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM50610",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -1007,6 +860,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM50610M",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -1015,6 +872,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask	= 0xfffffff0,
 	.name		= "Broadcom BCM57780",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -1042,8 +903,8 @@ static struct phy_driver broadcom_drivers[] = {
 	/* PHY_GBIT_FEATURES */
 	.get_sset_count	= bcm_phy_get_sset_count,
 	.get_strings	= bcm_phy_get_strings,
-	.get_stats	= bcm53xx_phy_get_stats,
-	.probe		= bcm53xx_phy_probe,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 }, {
 	.phy_id		= PHY_ID_BCM53125,
 	.phy_id_mask	= 0xfffffff0,
@@ -1052,8 +913,8 @@ static struct phy_driver broadcom_drivers[] = {
 	/* PHY_GBIT_FEATURES */
 	.get_sset_count	= bcm_phy_get_sset_count,
 	.get_strings	= bcm_phy_get_strings,
-	.get_stats	= bcm53xx_phy_get_stats,
-	.probe		= bcm53xx_phy_probe,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init	= bcm54xx_config_init,
 	.config_intr	= bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,
@@ -1062,6 +923,10 @@ static struct phy_driver broadcom_drivers[] = {
 	.phy_id_mask    = 0xfffffff0,
 	.name           = "Broadcom BCM89610",
 	/* PHY_GBIT_FEATURES */
+	.get_sset_count	= bcm_phy_get_sset_count,
+	.get_strings	= bcm_phy_get_strings,
+	.get_stats	= bcm54xx_get_stats,
+	.probe		= bcm54xx_phy_probe,
 	.config_init    = bcm54xx_config_init,
 	.config_intr    = bcm_phy_config_intr,
 	.handle_interrupt = bcm_phy_handle_interrupt,

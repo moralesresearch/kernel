@@ -331,10 +331,7 @@ struct amdgpu_vm_manager {
 	/* Handling of VMIDs */
 	struct amdgpu_vmid_mgr			id_mgr[AMDGPU_MAX_VMHUBS];
 	unsigned int				first_kfd_vmid;
-<<<<<<< HEAD
 	bool					concurrent_flush;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Handling of VM fences */
 	u64					fence_context;

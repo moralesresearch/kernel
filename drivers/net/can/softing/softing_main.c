@@ -104,11 +104,7 @@ static netdev_tx_t softing_netdev_start_xmit(struct sk_buff *skb,
 	card->tx.last_bus = priv->index;
 	++card->tx.pending;
 	++priv->tx.pending;
-<<<<<<< HEAD
 	can_put_echo_skb(skb, dev, priv->tx.echo_put, 0);
-=======
-	can_put_echo_skb(skb, dev, priv->tx.echo_put);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	++priv->tx.echo_put;
 	if (priv->tx.echo_put >= TX_ECHO_SKB_MAX)
 		priv->tx.echo_put = 0;
@@ -288,11 +284,7 @@ static int softing_handle_1(struct softing *card)
 			skb = priv->can.echo_skb[priv->tx.echo_get];
 			if (skb)
 				skb->tstamp = ktime;
-<<<<<<< HEAD
 			can_get_echo_skb(netdev, priv->tx.echo_get, NULL);
-=======
-			can_get_echo_skb(netdev, priv->tx.echo_get);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			++priv->tx.echo_get;
 			if (priv->tx.echo_get >= TX_ECHO_SKB_MAX)
 				priv->tx.echo_get = 0;

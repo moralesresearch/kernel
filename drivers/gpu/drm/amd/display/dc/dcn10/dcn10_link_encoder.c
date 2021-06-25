@@ -955,10 +955,6 @@ void dcn10_link_encoder_enable_tmds_output(
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dcn10_link_encoder_enable_tmds_output_with_clk_pattern_wa(
 	struct link_encoder *enc,
 	enum clock_source_id clock_source,
@@ -974,11 +970,6 @@ void dcn10_link_encoder_enable_tmds_output_with_clk_pattern_wa(
 	REG_UPDATE(DIG_CLOCK_PATTERN, DIG_CLOCK_PATTERN, 0x1F);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* enables DP PHY output */
 void dcn10_link_encoder_enable_dp_output(
 	struct link_encoder *enc,

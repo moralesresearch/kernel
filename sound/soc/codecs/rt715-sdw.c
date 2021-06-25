@@ -488,7 +488,7 @@ static int rt715_bus_config(struct sdw_slave *slave,
 	return 0;
 }
 
-static struct sdw_slave_ops rt715_slave_ops = {
+static const struct sdw_slave_ops rt715_slave_ops = {
 	.read_prop = rt715_read_prop,
 	.update_status = rt715_update_status,
 	.bus_config = rt715_bus_config,
@@ -533,11 +533,7 @@ static int __maybe_unused rt715_dev_suspend(struct device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 #define RT715_PROBE_TIMEOUT 5000
-=======
-#define RT715_PROBE_TIMEOUT 2000
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __maybe_unused rt715_dev_resume(struct device *dev)
 {

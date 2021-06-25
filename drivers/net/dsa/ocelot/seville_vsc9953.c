@@ -8,11 +8,7 @@
 #include <soc/mscc/ocelot.h>
 #include <linux/of_platform.h>
 #include <linux/pcs-lynx.h>
-<<<<<<< HEAD
 #include <linux/dsa/ocelot.h>
-=======
-#include <linux/packing.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/iopoll.h>
 #include "felix.h"
 
@@ -1061,7 +1057,6 @@ static u16 vsc9953_wm_enc(u16 value)
 	return value;
 }
 
-<<<<<<< HEAD
 static u16 vsc9953_wm_dec(u16 wm)
 {
 	WARN_ON(wm & ~GENMASK(9, 0));
@@ -1083,11 +1078,6 @@ static const struct ocelot_ops vsc9953_ops = {
 	.wm_enc			= vsc9953_wm_enc,
 	.wm_dec			= vsc9953_wm_dec,
 	.wm_stat		= vsc9953_wm_stat,
-=======
-static const struct ocelot_ops vsc9953_ops = {
-	.reset			= vsc9953_reset,
-	.wm_enc			= vsc9953_wm_enc,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_to_netdev		= felix_port_to_netdev,
 	.netdev_to_port		= felix_netdev_to_port,
 };
@@ -1175,34 +1165,6 @@ static void vsc9953_mdio_bus_free(struct ocelot *ocelot)
 	mdiobus_unregister(felix->imdio);
 }
 
-<<<<<<< HEAD
-=======
-static void vsc9953_xmit_template_populate(struct ocelot *ocelot, int port)
-{
-	struct ocelot_port *ocelot_port = ocelot->ports[port];
-	u8 *template = ocelot_port->xmit_template;
-	u64 bypass, dest, src;
-	__be32 *prefix;
-	u8 *injection;
-
-	/* Set the source port as the CPU port module and not the
-	 * NPI port
-	 */
-	src = ocelot->num_phys_ports;
-	dest = BIT(port);
-	bypass = true;
-
-	injection = template + OCELOT_SHORT_PREFIX_LEN;
-	prefix = (__be32 *)template;
-
-	packing(injection, &bypass, 127, 127, OCELOT_TAG_LEN, PACK, 0);
-	packing(injection, &dest,    67,  57, OCELOT_TAG_LEN, PACK, 0);
-	packing(injection, &src,     46,  43, OCELOT_TAG_LEN, PACK, 0);
-
-	*prefix = cpu_to_be32(0x88800005);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct felix_info seville_info_vsc9953 = {
 	.target_io_res		= vsc9953_target_io_res,
 	.port_io_res		= vsc9953_port_io_res,
@@ -1212,23 +1174,13 @@ static const struct felix_info seville_info_vsc9953 = {
 	.stats_layout		= vsc9953_stats_layout,
 	.num_stats		= ARRAY_SIZE(vsc9953_stats_layout),
 	.vcap			= vsc9953_vcap_props,
-<<<<<<< HEAD
 	.num_mact_rows		= 2048,
 	.num_ports		= 10,
 	.num_tx_queues		= OCELOT_NUM_TC,
-=======
-	.shared_queue_sz	= 256 * 1024,
-	.num_mact_rows		= 2048,
-	.num_ports		= 10,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.mdio_bus_alloc		= vsc9953_mdio_bus_alloc,
 	.mdio_bus_free		= vsc9953_mdio_bus_free,
 	.phylink_validate	= vsc9953_phylink_validate,
 	.prevalidate_phy_mode	= vsc9953_prevalidate_phy_mode,
-<<<<<<< HEAD
-=======
-	.xmit_template_populate	= vsc9953_xmit_template_populate,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int seville_probe(struct platform_device *pdev)
@@ -1268,10 +1220,7 @@ static int seville_probe(struct platform_device *pdev)
 	ds->ops = &felix_switch_ops;
 	ds->priv = ocelot;
 	felix->ds = ds;
-<<<<<<< HEAD
 	felix->tag_proto = DSA_TAG_PROTO_SEVILLE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = dsa_register_switch(ds);
 	if (err) {

@@ -649,11 +649,7 @@ nvkm_clk = {
 
 int
 nvkm_clk_ctor(const struct nvkm_clk_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, bool allow_reclock, struct nvkm_clk *clk)
-=======
-	      int index, bool allow_reclock, struct nvkm_clk *clk)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_subdev *subdev = &clk->subdev;
 	struct nvkm_bios *bios = device->bios;
@@ -661,11 +657,7 @@ nvkm_clk_ctor(const struct nvkm_clk_func *func, struct nvkm_device *device,
 	const char *mode;
 	struct nvbios_vpstate_header h;
 
-<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_clk, device, type, inst, subdev);
-=======
-	nvkm_subdev_ctor(&nvkm_clk, device, index, subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bios && !nvbios_vpstate_parse(bios, &h)) {
 		struct nvbios_vpstate_entry base, boost;
@@ -724,17 +716,9 @@ nvkm_clk_ctor(const struct nvkm_clk_func *func, struct nvkm_device *device,
 
 int
 nvkm_clk_new_(const struct nvkm_clk_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, bool allow_reclock, struct nvkm_clk **pclk)
 {
 	if (!(*pclk = kzalloc(sizeof(**pclk), GFP_KERNEL)))
 		return -ENOMEM;
 	return nvkm_clk_ctor(func, device, type, inst, allow_reclock, *pclk);
-=======
-	      int index, bool allow_reclock, struct nvkm_clk **pclk)
-{
-	if (!(*pclk = kzalloc(sizeof(**pclk), GFP_KERNEL)))
-		return -ENOMEM;
-	return nvkm_clk_ctor(func, device, index, allow_reclock, *pclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

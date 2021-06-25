@@ -19,7 +19,6 @@
 #define NVMF_DEF_FAIL_FAST_TMO		-1
 
 /*
-<<<<<<< HEAD
  * Reserved one command for internal usage.  This command is used for sending
  * the connect command, as well as for the keep alive command on the admin
  * queue once live.
@@ -27,8 +26,6 @@
 #define NVMF_RESERVED_TAGS	1
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Define a host as seen by the target.  We allocate one at boot, but also
  * allow the override it when creating controllers.  This is both to provide
  * persistence of the Host NQN over multiple boots, and to allow using
@@ -187,20 +184,7 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
 void nvmf_free_options(struct nvmf_ctrl_options *opts);
 int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
 bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
-blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
-		struct request *rq);
-bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
-		bool queue_live);
 bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
 		struct nvmf_ctrl_options *opts);
-
-static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
-		bool queue_live)
-{
-	if (likely(ctrl->state == NVME_CTRL_LIVE ||
-		   ctrl->state == NVME_CTRL_DELETING))
-		return true;
-	return __nvmf_check_ready(ctrl, rq, queue_live);
-}
 
 #endif /* _NVME_FABRICS_H */

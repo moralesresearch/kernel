@@ -196,11 +196,7 @@ static int tcx_setcolreg(unsigned regno,
 
 /**
  *      tcx_blank - Optional function.  Blanks the display.
-<<<<<<< HEAD
  *      @blank: the blank mode we want.
-=======
- *      @blank_mode: the blank mode we want.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *      @info: frame buffer structure that represents a single frame buffer
  */
 static int

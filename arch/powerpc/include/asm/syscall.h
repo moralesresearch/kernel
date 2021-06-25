@@ -41,7 +41,6 @@ static inline void syscall_rollback(struct task_struct *task,
 static inline long syscall_get_error(struct task_struct *task,
 				     struct pt_regs *regs)
 {
-<<<<<<< HEAD
 	if (trap_is_scv(regs)) {
 		unsigned long error = regs->gpr[3];
 
@@ -53,13 +52,6 @@ static inline long syscall_get_error(struct task_struct *task,
 		 */
 		return (regs->ccr & 0x10000000UL) ? -regs->gpr[3] : 0;
 	}
-=======
-	/*
-	 * If the system call failed,
-	 * regs->gpr[3] contains a positive ERRORCODE.
-	 */
-	return (regs->ccr & 0x10000000UL) ? -regs->gpr[3] : 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline long syscall_get_return_value(struct task_struct *task,
@@ -72,7 +64,6 @@ static inline void syscall_set_return_value(struct task_struct *task,
 					    struct pt_regs *regs,
 					    int error, long val)
 {
-<<<<<<< HEAD
 	if (trap_is_scv(regs)) {
 		regs->gpr[3] = (long) error ?: val;
 	} else {
@@ -89,20 +80,6 @@ static inline void syscall_set_return_value(struct task_struct *task,
 			regs->ccr &= ~0x10000000L;
 			regs->gpr[3] = val;
 		}
-=======
-	/*
-	 * In the general case it's not obvious that we must deal with CCR
-	 * here, as the syscall exit path will also do that for us. However
-	 * there are some places, eg. the signal code, which check ccr to
-	 * decide if the value in r3 is actually an error.
-	 */
-	if (error) {
-		regs->ccr |= 0x10000000L;
-		regs->gpr[3] = error;
-	} else {
-		regs->ccr &= ~0x10000000L;
-		regs->gpr[3] = val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

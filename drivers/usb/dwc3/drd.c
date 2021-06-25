@@ -441,13 +441,8 @@ static int dwc3_drd_notifier(struct notifier_block *nb,
 static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
 {
 	struct device *dev = dwc->dev;
-<<<<<<< HEAD
 	struct device_node *np_phy;
 	struct extcon_dev *edev = NULL;
-=======
-	struct device_node *np_phy, *np_conn;
-	struct extcon_dev *edev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *name;
 
 	if (device_property_read_bool(dev, "extcon"))
@@ -467,7 +462,6 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
 		return edev;
 	}
 
-<<<<<<< HEAD
 	/*
 	 * Try to get an extcon device from the USB PHY controller's "port"
 	 * node. Check if it has the "port" node first, to avoid printing the
@@ -484,17 +478,6 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
 			edev = extcon_find_edev_by_node(np_conn);
 		of_node_put(np_conn);
 	}
-=======
-	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
-	np_conn = of_graph_get_remote_node(np_phy, -1, -1);
-
-	if (np_conn)
-		edev = extcon_find_edev_by_node(np_conn);
-	else
-		edev = NULL;
-
-	of_node_put(np_conn);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_node_put(np_phy);
 
 	return edev;

@@ -457,11 +457,8 @@ Userspace API Structures
 .. kernel-doc:: include/uapi/drm/drm_mode.h
    :doc: overview
 
-<<<<<<< HEAD
 .. kernel-doc:: include/uapi/drm/drm.h
    :internal:
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .. kernel-doc:: include/uapi/drm/drm_mode.h
    :internal:

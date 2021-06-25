@@ -11,7 +11,6 @@
 
 #include "amd_iommu_types.h"
 
-extern int amd_iommu_get_num_iommus(void);
 extern int amd_iommu_init_dma_ops(void);
 extern int amd_iommu_init_passthrough(void);
 extern irqreturn_t amd_iommu_int_thread(int irq, void *data);
@@ -36,10 +35,7 @@ extern void amd_iommu_disable(void);
 extern int amd_iommu_reenable(int);
 extern int amd_iommu_enable_faulting(void);
 extern int amd_iommu_guest_ir;
-<<<<<<< HEAD
 extern enum io_pgtable_fmt amd_iommu_pgtable;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* IOMMUv2 specific functions */
 struct iommu_domain;
@@ -60,18 +56,14 @@ extern void amd_iommu_domain_direct_map(struct iommu_domain *dom);
 extern int amd_iommu_domain_enable_v2(struct iommu_domain *dom, int pasids);
 extern int amd_iommu_flush_page(struct iommu_domain *dom, u32 pasid,
 				u64 address);
-<<<<<<< HEAD
 extern void amd_iommu_update_and_flush_device_table(struct protection_domain *domain);
 extern void amd_iommu_domain_update(struct protection_domain *domain);
 extern void amd_iommu_domain_flush_complete(struct protection_domain *domain);
 extern void amd_iommu_domain_flush_tlb_pde(struct protection_domain *domain);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int amd_iommu_flush_tlb(struct iommu_domain *dom, u32 pasid);
 extern int amd_iommu_domain_set_gcr3(struct iommu_domain *dom, u32 pasid,
 				     unsigned long cr3);
 extern int amd_iommu_domain_clear_gcr3(struct iommu_domain *dom, u32 pasid);
-extern struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev);
 
 #ifdef CONFIG_IRQ_REMAP
 extern int amd_iommu_create_irq_domain(struct amd_iommu *iommu);
@@ -110,7 +102,6 @@ static inline void *iommu_phys_to_virt(unsigned long paddr)
 	return phys_to_virt(__sme_clr(paddr));
 }
 
-<<<<<<< HEAD
 static inline
 void amd_iommu_domain_set_pt_root(struct protection_domain *domain, u64 root)
 {
@@ -126,8 +117,6 @@ void amd_iommu_domain_clr_pt_root(struct protection_domain *domain)
 }
 
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern bool translation_pre_enabled(struct amd_iommu *iommu);
 extern bool amd_iommu_is_attach_deferred(struct iommu_domain *domain,
 					 struct device *dev);
@@ -140,9 +129,6 @@ void amd_iommu_apply_ivrs_quirks(void);
 static inline void amd_iommu_apply_ivrs_quirks(void) { }
 #endif
 
-<<<<<<< HEAD
 extern void amd_iommu_domain_set_pgtable(struct protection_domain *domain,
 					 u64 *root, int mode);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

@@ -26,23 +26,14 @@
 static void
 tu102_vmm_flush(struct nvkm_vmm *vmm, int depth)
 {
-<<<<<<< HEAD
 	struct nvkm_device *device = vmm->mmu->subdev.device;
-=======
-	struct nvkm_subdev *subdev = &vmm->mmu->subdev;
-	struct nvkm_device *device = subdev->device;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 type = (5 /* CACHE_LEVEL_UP_TO_PDE3 */ - depth) << 24;
 
 	type |= 0x00000001; /* PAGE_ALL */
 	if (atomic_read(&vmm->engref[NVKM_SUBDEV_BAR]))
 		type |= 0x00000004; /* HUB_ONLY */
 
-<<<<<<< HEAD
 	mutex_lock(&vmm->mmu->mutex);
-=======
-	mutex_lock(&subdev->mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nvkm_wr32(device, 0xb830a0, vmm->pd->pt[0]->addr >> 8);
 	nvkm_wr32(device, 0xb830a4, 0x00000000);
@@ -54,11 +45,7 @@ tu102_vmm_flush(struct nvkm_vmm *vmm, int depth)
 			break;
 	);
 
-<<<<<<< HEAD
 	mutex_unlock(&vmm->mmu->mutex);
-=======
-	mutex_unlock(&subdev->mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct nvkm_vmm_func

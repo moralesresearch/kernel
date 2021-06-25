@@ -53,6 +53,7 @@ filesystem implementations.
    journalling
    fscrypt
    fsverity
+   netfs_library
 
 Filesystems
 ===========
@@ -83,10 +84,7 @@ Documentation for filesystem implementations.
    erofs
    ext2
    ext3
-<<<<<<< HEAD
    ext4/index
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    f2fs
    gfs2
    gfs2-uevents

@@ -241,9 +241,5 @@ module_platform_driver_probe(amiga_parallel_driver, amiga_parallel_probe);
 
 MODULE_AUTHOR("Joerg Dorchain <joerg@dorchain.net>");
 MODULE_DESCRIPTION("Parport Driver for Amiga builtin Port");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("Amiga builtin Parallel Port");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("platform:amiga-parallel");

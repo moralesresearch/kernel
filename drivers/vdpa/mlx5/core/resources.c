@@ -246,12 +246,8 @@ int mlx5_vdpa_alloc_resources(struct mlx5_vdpa_dev *mvdev)
 	if (err)
 		goto err_key;
 
-<<<<<<< HEAD
 	kick_addr = mdev->bar_addr + offset;
 
-=======
-	kick_addr = pci_resource_start(mdev->pdev, 0) + offset;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	res->kick_addr = ioremap(kick_addr, PAGE_SIZE);
 	if (!res->kick_addr) {
 		err = -ENOMEM;

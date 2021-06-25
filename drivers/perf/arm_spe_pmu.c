@@ -54,11 +54,7 @@ struct arm_spe_pmu {
 	struct hlist_node			hotplug_node;
 
 	int					irq; /* PPI */
-<<<<<<< HEAD
 	u16					pmsver;
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16					min_period;
 	u16					counter_sz;
 
@@ -130,8 +126,7 @@ static ssize_t arm_spe_pmu_cap_show(struct device *dev,
 		container_of(attr, struct dev_ext_attribute, attr);
 	int cap = (long)ea->var;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n",
-		arm_spe_pmu_cap_get(spe_pmu, cap));
+	return sysfs_emit(buf, "%u\n", arm_spe_pmu_cap_get(spe_pmu, cap));
 }
 
 #define SPE_EXT_ATTR_ENTRY(_name, _func, _var)				\
@@ -150,11 +145,7 @@ static struct attribute *arm_spe_pmu_cap_attr[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group arm_spe_pmu_cap_group = {
-=======
-static struct attribute_group arm_spe_pmu_cap_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name	= "caps",
 	.attrs	= arm_spe_pmu_cap_attr,
 };
@@ -235,11 +226,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group arm_spe_pmu_format_group = {
-=======
-static struct attribute_group arm_spe_pmu_format_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name	= "format",
 	.attrs	= arm_spe_pmu_formats_attr,
 };
@@ -259,11 +246,7 @@ static struct attribute *arm_spe_pmu_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group arm_spe_pmu_group = {
-=======
-static struct attribute_group arm_spe_pmu_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs	= arm_spe_pmu_attrs,
 };
 
@@ -671,7 +654,6 @@ static irqreturn_t arm_spe_pmu_irq_handler(int irq, void *dev)
 	return IRQ_HANDLED;
 }
 
-<<<<<<< HEAD
 static u64 arm_spe_pmsevfr_res0(u16 pmsver)
 {
 	switch (pmsver) {
@@ -684,8 +666,6 @@ static u64 arm_spe_pmsevfr_res0(u16 pmsver)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Perf callbacks */
 static int arm_spe_pmu_event_init(struct perf_event *event)
 {
@@ -701,11 +681,7 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
 	    !cpumask_test_cpu(event->cpu, &spe_pmu->supported_cpus))
 		return -ENOENT;
 
-<<<<<<< HEAD
 	if (arm_spe_event_to_pmsevfr(event) & arm_spe_pmsevfr_res0(spe_pmu->pmsver))
-=======
-	if (arm_spe_event_to_pmsevfr(event) & SYS_PMSEVFR_EL1_RES0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EOPNOTSUPP;
 
 	if (attr->exclude_idle)
@@ -972,10 +948,7 @@ static void __arm_spe_pmu_dev_probe(void *info)
 			fld, smp_processor_id());
 		return;
 	}
-<<<<<<< HEAD
 	spe_pmu->pmsver = (u16)fld;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Read PMBIDR first to determine whether or not we have access */
 	reg = read_sysreg_s(SYS_PMBIDR_EL1);

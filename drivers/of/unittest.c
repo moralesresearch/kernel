@@ -22,10 +22,7 @@
 #include <linux/slab.h>
 #include <linux/device.h>
 #include <linux/platform_device.h>
-<<<<<<< HEAD
 #include <linux/kernel.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/i2c.h>
 #include <linux/i2c-mux.h>
@@ -1290,11 +1287,7 @@ static void __init of_unittest_platform_populate(void)
 			unittest(pdev,
 				 "Could not create device for node '%pOFn'\n",
 				 grandchild);
-<<<<<<< HEAD
 			platform_device_put(pdev);
-=======
-			of_dev_put(pdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1416,12 +1409,8 @@ static void attach_node_and_children(struct device_node *np)
 static int __init unittest_data_add(void)
 {
 	void *unittest_data;
-<<<<<<< HEAD
 	void *unittest_data_align;
 	struct device_node *unittest_data_node = NULL, *np;
-=======
-	struct device_node *unittest_data_node, *np;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * __dtb_testcases_begin[] and __dtb_testcases_end[] are magically
 	 * created by cmd_dt_S_dtb in scripts/Makefile.lib
@@ -1430,22 +1419,14 @@ static int __init unittest_data_add(void)
 	extern uint8_t __dtb_testcases_end[];
 	const int size = __dtb_testcases_end - __dtb_testcases_begin;
 	int rc;
-<<<<<<< HEAD
 	void *ret;
 
 	if (!size) {
 		pr_warn("%s: testcases is empty\n", __func__);
-=======
-
-	if (!size) {
-		pr_warn("%s: No testcase data to attach; not running tests\n",
-			__func__);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODATA;
 	}
 
 	/* creating copy */
-<<<<<<< HEAD
 	unittest_data = kmalloc(size + FDT_ALIGN_SIZE, GFP_KERNEL);
 	if (!unittest_data)
 		return -ENOMEM;
@@ -1461,15 +1442,6 @@ static int __init unittest_data_add(void)
 	}
 	if (!unittest_data_node) {
 		pr_warn("%s: testcases tree is empty\n", __func__);
-=======
-	unittest_data = kmemdup(__dtb_testcases_begin, size, GFP_KERNEL);
-	if (!unittest_data)
-		return -ENOMEM;
-
-	of_fdt_unflatten_tree(unittest_data, NULL, &unittest_data_node);
-	if (!unittest_data_node) {
-		pr_warn("%s: No tree to attach; not running tests\n", __func__);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(unittest_data);
 		return -ENODATA;
 	}

@@ -43,10 +43,6 @@
 MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
 MODULE_DESCRIPTION("Dummy soundcard for virtual rawmidi devices");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{ALSA,Virtual rawmidi device}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MAX_MIDI_DEVICES	4
 

@@ -409,12 +409,8 @@ mcp77_clk = {
 };
 
 int
-<<<<<<< HEAD
 mcp77_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_clk **pclk)
-=======
-mcp77_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mcp77_clk *clk;
 
@@ -422,9 +418,5 @@ mcp77_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
 		return -ENOMEM;
 	*pclk = &clk->base;
 
-<<<<<<< HEAD
 	return nvkm_clk_ctor(&mcp77_clk, device, type, inst, true, &clk->base);
-=======
-	return nvkm_clk_ctor(&mcp77_clk, device, index, true, &clk->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

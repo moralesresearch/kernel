@@ -202,11 +202,7 @@ static int thc63_probe(struct platform_device *pdev)
 	thc63->dev = &pdev->dev;
 	platform_set_drvdata(pdev, thc63);
 
-<<<<<<< HEAD
 	thc63->vcc = devm_regulator_get(thc63->dev, "vcc");
-=======
-	thc63->vcc = devm_regulator_get_optional(thc63->dev, "vcc");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(thc63->vcc)) {
 		if (PTR_ERR(thc63->vcc) == -EPROBE_DEFER)
 			return -EPROBE_DEFER;

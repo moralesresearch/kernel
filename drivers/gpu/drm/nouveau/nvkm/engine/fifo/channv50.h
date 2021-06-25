@@ -15,7 +15,6 @@ struct nv50_fifo_chan {
 	struct nvkm_gpuobj *pgd;
 	struct nvkm_ramht *ramht;
 
-<<<<<<< HEAD
 #define NV50_FIFO_ENGN_SW   0
 #define NV50_FIFO_ENGN_GR   1
 #define NV50_FIFO_ENGN_MPEG 2
@@ -36,19 +35,13 @@ struct nv50_fifo_chan {
 #define G84_FIFO_ENGN_MSVLD  6
 #define G84_FIFO_ENGN_DMA    7
 	struct nvkm_gpuobj *engn[NVKM_FIFO_ENGN_NR];
-=======
-	struct nvkm_gpuobj *engn[NVKM_SUBDEV_NR];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int nv50_fifo_chan_ctor(struct nv50_fifo *, u64 vmm, u64 push,
 			const struct nvkm_oclass *, struct nv50_fifo_chan *);
 void *nv50_fifo_chan_dtor(struct nvkm_fifo_chan *);
 void nv50_fifo_chan_fini(struct nvkm_fifo_chan *);
-<<<<<<< HEAD
 struct nvkm_gpuobj **nv50_fifo_chan_engine(struct nv50_fifo_chan *, struct nvkm_engine *);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nv50_fifo_chan_engine_dtor(struct nvkm_fifo_chan *, struct nvkm_engine *);
 void nv50_fifo_chan_object_dtor(struct nvkm_fifo_chan *, int);
 

@@ -2,11 +2,7 @@
 Linux Security Module Development
 =================================
 
-<<<<<<< HEAD
 Based on https://lore.kernel.org/r/20071026073721.618b4778@laptopd505.fenrus.org,
-=======
-Based on https://lkml.org/lkml/2007/10/26/215,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 a new LSM is accepted into the kernel when its intent (a description of
 what it tries to protect against and in what cases one would expect to
 use it) has been appropriately documented in ``Documentation/admin-guide/LSM/``.

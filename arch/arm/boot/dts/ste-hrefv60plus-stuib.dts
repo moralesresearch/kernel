@@ -14,7 +14,6 @@
 	model = "ST-Ericsson HREF (v60+) and ST UIB";
 	compatible = "st-ericsson,hrefv60+", "st-ericsson,u8500";
 
-<<<<<<< HEAD
 	/* ST6G3244ME level translator for 1.8/2.9 V */
 	vmmci: regulator-gpio {
 		compatible = "regulator-gpio";
@@ -37,8 +36,6 @@
 		pinctrl-0 = <&vmmci_default_mode>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	soc {
 		/* Reset line for the BU21013 touchscreen */
 		i2c@80110000 {
@@ -58,7 +55,6 @@
 		};
 	};
 };
-<<<<<<< HEAD
 
 &pinctrl {
 	vmmci {
@@ -76,5 +72,3 @@
 		};
 	};
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

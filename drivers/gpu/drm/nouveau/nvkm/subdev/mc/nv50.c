@@ -55,13 +55,7 @@ nv50_mc = {
 };
 
 int
-<<<<<<< HEAD
 nv50_mc_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_mc **pmc)
 {
 	return nvkm_mc_new_(&nv50_mc, device, type, inst, pmc);
-=======
-nv50_mc_new(struct nvkm_device *device, int index, struct nvkm_mc **pmc)
-{
-	return nvkm_mc_new_(&nv50_mc, device, index, pmc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

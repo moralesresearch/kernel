@@ -88,13 +88,10 @@ struct bpf_test {
 	int fixup_map_event_output[MAX_FIXUPS];
 	int fixup_map_reuseport_array[MAX_FIXUPS];
 	int fixup_map_ringbuf[MAX_FIXUPS];
-<<<<<<< HEAD
 	/* Expected verifier log output for result REJECT or VERBOSE_ACCEPT.
 	 * Can be a tab-separated sequence of expected strings. An empty string
 	 * means no log verification.
 	 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *errstr;
 	const char *errstr_unpriv;
 	uint32_t insn_processed;
@@ -108,7 +105,7 @@ struct bpf_test {
 	enum bpf_prog_type prog_type;
 	uint8_t flags;
 	void (*fill_helper)(struct bpf_test *self);
-	uint8_t runs;
+	int runs;
 #define bpf_testdata_struct_t					\
 	struct {						\
 		uint32_t retval, retval_unpriv;			\
@@ -304,7 +301,6 @@ static void bpf_fill_scale(struct bpf_test *self)
 	}
 }
 
-<<<<<<< HEAD
 static int bpf_fill_torturous_jumps_insn_1(struct bpf_insn *insn)
 {
 	unsigned int len = 259, hlen = 128;
@@ -377,8 +373,6 @@ static void bpf_fill_torturous_jumps(struct bpf_test *self)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* BPF_SK_LOOKUP contains 13 instructions, if you need to fix up maps */
 #define BPF_SK_LOOKUP(func)						\
 	/* struct bpf_sock_tuple tuple = {} */				\
@@ -1005,7 +999,6 @@ static int do_prog_test_run(int fd_prog, bool unpriv, uint32_t expected_val,
 	return 0;
 }
 
-<<<<<<< HEAD
 /* Returns true if every part of exp (tab-separated) appears in log, in order.
  *
  * If exp is an empty string, returns true.
@@ -1013,20 +1006,12 @@ static int do_prog_test_run(int fd_prog, bool unpriv, uint32_t expected_val,
 static bool cmp_str_seq(const char *log, const char *exp)
 {
 	char needle[200];
-=======
-static bool cmp_str_seq(const char *log, const char *exp)
-{
-	char needle[80];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *p, *q;
 	int len;
 
 	do {
-<<<<<<< HEAD
 		if (!strlen(exp))
 			break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		p = strchr(exp, '\t');
 		if (!p)
 			p = exp + strlen(exp);
@@ -1040,11 +1025,7 @@ static bool cmp_str_seq(const char *log, const char *exp)
 		needle[len] = 0;
 		q = strstr(log, needle);
 		if (!q) {
-<<<<<<< HEAD
 			printf("FAIL\nUnexpected verifier log!\n"
-=======
-			printf("FAIL\nUnexpected verifier log in successful load!\n"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       "EXP: %s\nRES:\n", needle);
 			return false;
 		}
@@ -1159,18 +1140,14 @@ static void do_test_single(struct bpf_test *test, bool unpriv,
 			printf("FAIL\nUnexpected success to load!\n");
 			goto fail_log;
 		}
-<<<<<<< HEAD
 		if (!expected_err || !cmp_str_seq(bpf_vlog, expected_err)) {
-=======
-		if (!expected_err || !strstr(bpf_vlog, expected_err)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			printf("FAIL\nUnexpected error message!\n\tEXP: %s\n\tRES: %s\n",
 			      expected_err, bpf_vlog);
 			goto fail_log;
 		}
 	}
 
-	if (test->insn_processed) {
+	if (!unpriv && test->insn_processed) {
 		uint32_t insn_processed;
 		char *proc;
 
@@ -1188,7 +1165,7 @@ static void do_test_single(struct bpf_test *test, bool unpriv,
 
 	run_errs = 0;
 	run_successes = 0;
-	if (!alignment_prevented_execution && fd_prog >= 0) {
+	if (!alignment_prevented_execution && fd_prog >= 0 && test->runs >= 0) {
 		uint32_t expected_val;
 		int i;
 

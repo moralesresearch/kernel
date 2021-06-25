@@ -1929,23 +1929,9 @@ static int snd_es18xx_mixer(struct snd_card *card)
 
 /* Card level */
 
-<<<<<<< HEAD
 MODULE_AUTHOR("Christian Fischbach <fishbach@pool.informatik.rwth-aachen.de>, Abramo Bagnara <abramo@alsa-project.org>");
 MODULE_DESCRIPTION("ESS ES18xx AudioDrive");
 MODULE_LICENSE("GPL");
-=======
-MODULE_AUTHOR("Christian Fischbach <fishbach@pool.informatik.rwth-aachen.de>, Abramo Bagnara <abramo@alsa-project.org>");  
-MODULE_DESCRIPTION("ESS ES18xx AudioDrive");
-MODULE_LICENSE("GPL");
-MODULE_SUPPORTED_DEVICE("{{ESS,ES1868 PnP AudioDrive},"
-		"{ESS,ES1869 PnP AudioDrive},"
-		"{ESS,ES1878 PnP AudioDrive},"
-		"{ESS,ES1879 PnP AudioDrive},"
-		"{ESS,ES1887 PnP AudioDrive},"
-		"{ESS,ES1888 PnP AudioDrive},"
-		"{ESS,ES1887 AudioDrive},"
-		"{ESS,ES1888 AudioDrive}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */
@@ -2216,18 +2202,10 @@ static int snd_es18xx_isa_probe(struct device *pdev, unsigned int dev)
 	}
 }
 
-<<<<<<< HEAD
 static void snd_es18xx_isa_remove(struct device *devptr,
 				  unsigned int dev)
 {
 	snd_card_free(dev_get_drvdata(devptr));
-=======
-static int snd_es18xx_isa_remove(struct device *devptr,
-				 unsigned int dev)
-{
-	snd_card_free(dev_get_drvdata(devptr));
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

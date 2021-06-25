@@ -43,7 +43,6 @@
 #define APB_MISC_XM2CFGCPADCTRL2	0x8e4
 #define APB_MISC_XM2CFGDPADCTRL2	0x8e8
 
-<<<<<<< HEAD
 #define PLLC_STORE_MASK			(1 << 0)
 #define PLLM_STORE_MASK			(1 << 1)
 #define PLLP_STORE_MASK			(1 << 2)
@@ -67,17 +66,11 @@
 	test_pll_state \rd, \test_mask
 	beq	1f
 
-=======
-.macro pll_enable, rd, r_car_base, pll_base
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ldr	\rd, [\r_car_base, #\pll_base]
 	tst	\rd, #(1 << 30)
 	orreq	\rd, \rd, #(1 << 30)
 	streq	\rd, [\r_car_base, #\pll_base]
-<<<<<<< HEAD
 1:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .endm
 
 .macro emc_device_mask, rd, base
@@ -207,15 +200,9 @@ ENTRY(tegra20_lp1_reset)
 	str	r1, [r0, #CLK_RESET_CCLK_DIVIDER]
 	str	r1, [r0, #CLK_RESET_SCLK_DIVIDER]
 
-<<<<<<< HEAD
 	pll_enable r1, r0, CLK_RESET_PLLM_BASE, PLLM_STORE_MASK
 	pll_enable r1, r0, CLK_RESET_PLLP_BASE, PLLP_STORE_MASK
 	pll_enable r1, r0, CLK_RESET_PLLC_BASE, PLLC_STORE_MASK
-=======
-	pll_enable r1, r0, CLK_RESET_PLLM_BASE
-	pll_enable r1, r0, CLK_RESET_PLLP_BASE
-	pll_enable r1, r0, CLK_RESET_PLLC_BASE
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	adr	r2, tegra20_sdram_pad_address
 	adr	r4, tegra20_sdram_pad_save
@@ -306,13 +293,10 @@ tegra20_switch_cpu_to_clk32k:
 	add	r1, r1, #2
 	wait_until r1, r7, r9
 
-<<<<<<< HEAD
 	store_pll_state r0, r1, r5, CLK_RESET_PLLC_BASE, PLLC_STORE_MASK
 	store_pll_state r0, r1, r5, CLK_RESET_PLLM_BASE, PLLM_STORE_MASK
 	store_pll_state r0, r1, r5, CLK_RESET_PLLP_BASE, PLLP_STORE_MASK
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* disable PLLM, PLLP and PLLC */
 	ldr	r0, [r5, #CLK_RESET_PLLM_BASE]
 	bic	r0, r0, #(1 << 30)
@@ -439,12 +423,9 @@ tegra20_sdram_pad_save:
 	.long	0
 	.endr
 
-<<<<<<< HEAD
 tegra_pll_state:
 	.word	0x0
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ltorg
 /* dummy symbol for end of IRAM */
 	.align L1_CACHE_SHIFT

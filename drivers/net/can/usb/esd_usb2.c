@@ -357,14 +357,10 @@ static void esd_usb2_tx_done_msg(struct esd_usb2_net_priv *priv,
 	if (!msg->msg.txdone.status) {
 		stats->tx_packets++;
 		stats->tx_bytes += context->len;
-<<<<<<< HEAD
 		can_get_echo_skb(netdev, context->echo_index, NULL);
-=======
-		can_get_echo_skb(netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		stats->tx_errors++;
-		can_free_echo_skb(netdev, context->echo_index);
+		can_free_echo_skb(netdev, context->echo_index, NULL);
 	}
 
 	/* Release context */
@@ -787,11 +783,7 @@ static netdev_tx_t esd_usb2_start_xmit(struct sk_buff *skb,
 
 	usb_anchor_urb(urb, &priv->tx_submitted);
 
-<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, context->echo_index, 0);
-=======
-	can_put_echo_skb(skb, netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&priv->active_tx_jobs);
 
@@ -801,7 +793,7 @@ static netdev_tx_t esd_usb2_start_xmit(struct sk_buff *skb,
 
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err) {
-		can_free_echo_skb(netdev, context->echo_index);
+		can_free_echo_skb(netdev, context->echo_index, NULL);
 
 		atomic_dec(&priv->active_tx_jobs);
 		usb_unanchor_urb(urb);

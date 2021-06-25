@@ -15,11 +15,7 @@
 #define DM_VERITY_VERIFY_ERR(s) DM_VERITY_ROOT_HASH_VERIFICATION " " s
 
 static bool require_signatures;
-<<<<<<< HEAD
 module_param(require_signatures, bool, 0444);
-=======
-module_param(require_signatures, bool, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_PARM_DESC(require_signatures,
 		"Verify the roothash of dm-verity hash tree");
 

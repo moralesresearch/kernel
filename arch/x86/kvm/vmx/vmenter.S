@@ -44,11 +44,7 @@
  * they VM-Fail, whereas a successful VM-Enter + VM-Exit will jump
  * to vmx_vmexit.
  */
-<<<<<<< HEAD
 SYM_FUNC_START_LOCAL(vmx_vmenter)
-=======
-SYM_FUNC_START(vmx_vmenter)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* EFLAGS.ZF is set if VMCS.LAUNCHED == 0 */
 	je 2f
 

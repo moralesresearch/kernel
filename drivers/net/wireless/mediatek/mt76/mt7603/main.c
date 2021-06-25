@@ -17,11 +17,7 @@ mt7603_start(struct ieee80211_hw *hw)
 	mt7603_mac_start(dev);
 	dev->mphy.survey_time = ktime_get_boottime();
 	set_bit(MT76_STATE_RUNNING, &dev->mphy.state);
-<<<<<<< HEAD
 	mt7603_mac_work(&dev->mphy.mac_work.work);
-=======
-	mt7603_mac_work(&dev->mt76.mac_work.work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -32,11 +28,7 @@ mt7603_stop(struct ieee80211_hw *hw)
 	struct mt7603_dev *dev = hw->priv;
 
 	clear_bit(MT76_STATE_RUNNING, &dev->mphy.state);
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&dev->mphy.mac_work);
-=======
-	cancel_delayed_work_sync(&dev->mt76.mac_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt7603_mac_stop(dev);
 }
 
@@ -52,11 +44,7 @@ mt7603_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
 
 	mutex_lock(&dev->mt76.mutex);
 
-<<<<<<< HEAD
 	mvif->idx = ffs(~dev->mt76.vif_mask) - 1;
-=======
-	mvif->idx = ffs(~dev->mphy.vif_mask) - 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mvif->idx >= MT7603_MAX_INTERFACES) {
 		ret = -ENOSPC;
 		goto out;
@@ -77,11 +65,7 @@ mt7603_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
 	}
 
 	idx = MT7603_WTBL_RESERVED - 1 - mvif->idx;
-<<<<<<< HEAD
 	dev->mt76.vif_mask |= BIT(mvif->idx);
-=======
-	dev->mphy.vif_mask |= BIT(mvif->idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&mvif->sta.poll_list);
 	mvif->sta.wcid.idx = idx;
 	mvif->sta.wcid.hw_key_idx = -1;
@@ -121,11 +105,7 @@ mt7603_remove_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
 	spin_unlock_bh(&dev->sta_poll_lock);
 
 	mutex_lock(&dev->mt76.mutex);
-<<<<<<< HEAD
 	dev->mt76.vif_mask &= ~BIT(mvif->idx);
-=======
-	dev->mphy.vif_mask &= ~BIT(mvif->idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dev->mt76.mutex);
 }
 
@@ -157,11 +137,7 @@ mt7603_set_channel(struct mt7603_dev *dev, struct cfg80211_chan_def *def)
 	u8 bw = MT_BW_20;
 	bool failed = false;
 
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&dev->mphy.mac_work);
-=======
-	cancel_delayed_work_sync(&dev->mt76.mac_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tasklet_disable(&dev->mt76.pre_tbtt_tasklet);
 
 	mutex_lock(&dev->mt76.mutex);
@@ -202,11 +178,7 @@ mt7603_set_channel(struct mt7603_dev *dev, struct cfg80211_chan_def *def)
 
 	mt76_txq_schedule_all(&dev->mphy);
 
-<<<<<<< HEAD
 	ieee80211_queue_delayed_work(mt76_hw(dev), &dev->mphy.mac_work,
-=======
-	ieee80211_queue_delayed_work(mt76_hw(dev), &dev->mt76.mac_work,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     msecs_to_jiffies(MT7603_WATCHDOG_TIME));
 
 	/* reset channel stats */
@@ -228,11 +200,7 @@ out:
 	tasklet_enable(&dev->mt76.pre_tbtt_tasklet);
 
 	if (failed)
-<<<<<<< HEAD
 		mt7603_mac_work(&dev->mphy.mac_work.work);
-=======
-		mt7603_mac_work(&dev->mt76.mac_work.work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }

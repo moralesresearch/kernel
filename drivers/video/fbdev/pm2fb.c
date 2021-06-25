@@ -1508,13 +1508,8 @@ static const struct fb_ops pm2fb_ops = {
  *
  * Initialise and allocate resource for PCI device.
  *
-<<<<<<< HEAD
  * @pdev:	PCI device.
  * @id:		PCI device ID.
-=======
- * @param	pdev	PCI device.
- * @param	id	PCI device ID.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 {
@@ -1720,11 +1715,7 @@ static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  *
  * Release all device resources.
  *
-<<<<<<< HEAD
  * @pdev:	PCI device to clean up.
-=======
- * @param	pdev	PCI device to clean up.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void pm2fb_remove(struct pci_dev *pdev)
 {
@@ -1765,11 +1756,7 @@ MODULE_DEVICE_TABLE(pci, pm2fb_id_table);
 
 
 #ifndef MODULE
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Parse user specified options.
  *
  * This is, comma-separated options following `video=pm2fb:'.

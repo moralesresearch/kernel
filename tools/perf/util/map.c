@@ -77,12 +77,7 @@ static inline bool replace_android_lib(const char *filename, char *newfilename)
 	if (strstarts(filename, "/system/lib/")) {
 		char *ndk, *app;
 		const char *arch;
-<<<<<<< HEAD
 		int ndk_length, app_length;
-=======
-		size_t ndk_length;
-		size_t app_length;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ndk = getenv("NDK_ROOT");
 		app = getenv("APP_PLATFORM");
@@ -110,13 +105,8 @@ static inline bool replace_android_lib(const char *filename, char *newfilename)
 		if (new_length > PATH_MAX)
 			return false;
 		snprintf(newfilename, new_length,
-<<<<<<< HEAD
 			"%.*s/platforms/%.*s/arch-%s/usr/lib/%s",
 			ndk_length, ndk, app_length, app, arch, libname);
-=======
-			"%s/platforms/%s/arch-%s/usr/lib/%s",
-			ndk, app, arch, libname);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return true;
 	}
@@ -139,13 +129,8 @@ void map__init(struct map *map, u64 start, u64 end, u64 pgoff, struct dso *dso)
 
 struct map *map__new(struct machine *machine, u64 start, u64 len,
 		     u64 pgoff, struct dso_id *id,
-<<<<<<< HEAD
 		     u32 prot, u32 flags, struct build_id *bid,
 		     char *filename, struct thread *thread)
-=======
-		     u32 prot, u32 flags, char *filename,
-		     struct thread *thread)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct map *map = malloc(sizeof(*map));
 	struct nsinfo *nsi = NULL;
@@ -208,13 +193,10 @@ struct map *map__new(struct machine *machine, u64 start, u64 len,
 				dso__set_loaded(dso);
 		}
 		dso->nsinfo = nsi;
-<<<<<<< HEAD
 
 		if (build_id__is_defined(bid))
 			dso__set_build_id(dso, bid);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dso__put(dso);
 	}
 	return map;
@@ -858,27 +840,18 @@ out:
 int maps__clone(struct thread *thread, struct maps *parent)
 {
 	struct maps *maps = thread->maps;
-<<<<<<< HEAD
 	int err;
-=======
-	int err = -ENOMEM;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct map *map;
 
 	down_read(&parent->lock);
 
 	maps__for_each_entry(parent, map) {
 		struct map *new = map__clone(map);
-<<<<<<< HEAD
 
 		if (new == NULL) {
 			err = -ENOMEM;
 			goto out_unlock;
 		}
-=======
-		if (new == NULL)
-			goto out_unlock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		err = unwind__prepare_access(maps, new, NULL);
 		if (err)

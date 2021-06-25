@@ -720,20 +720,11 @@ static int generic_NCR5380_isa_match(struct device *pdev, unsigned int ndev)
 	return 1;
 }
 
-<<<<<<< HEAD
 static void generic_NCR5380_isa_remove(struct device *pdev,
 				       unsigned int ndev)
 {
 	generic_NCR5380_release_resources(dev_get_drvdata(pdev));
 	dev_set_drvdata(pdev, NULL);
-=======
-static int generic_NCR5380_isa_remove(struct device *pdev,
-                                      unsigned int ndev)
-{
-	generic_NCR5380_release_resources(dev_get_drvdata(pdev));
-	dev_set_drvdata(pdev, NULL);
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver generic_NCR5380_isa_driver = {

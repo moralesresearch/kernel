@@ -25,6 +25,7 @@
 #include <linux/dlm_plock.h>
 #include <linux/delay.h>
 #include <linux/backing-dev.h>
+#include <linux/fileattr.h>
 
 #include "gfs2.h"
 #include "incore.h"
@@ -118,8 +119,8 @@ static int gfs2_readdir(struct file *file, struct dir_context *ctx)
 	return error;
 }
 
-/**
- * fsflag_gfs2flag
+/*
+ * struct fsflag_gfs2flag
  *
  * The FS_JOURNAL_DATA_FL flag maps to GFS2_DIF_INHERIT_JDATA for directories,
  * and to GFS2_DIF_JDATA for non-directories.
@@ -153,13 +154,16 @@ static inline u32 gfs2_gfsflags_to_fsflags(struct inode *inode, u32 gfsflags)
 	return fsflags;
 }
 
-static int gfs2_get_flags(struct file *filp, u32 __user *ptr)
+int gfs2_fileattr_get(struct dentry *dentry, struct fileattr *fa)
 {
-	struct inode *inode = file_inode(filp);
+	struct inode *inode = d_inode(dentry);
 	struct gfs2_inode *ip = GFS2_I(inode);
 	struct gfs2_holder gh;
 	int error;
 	u32 fsflags;
+
+	if (d_is_special(dentry))
+		return -ENOTTY;
 
 	gfs2_holder_init(ip->i_gl, LM_ST_SHARED, 0, &gh);
 	error = gfs2_glock_nq(&gh);
@@ -168,8 +172,7 @@ static int gfs2_get_flags(struct file *filp, u32 __user *ptr)
 
 	fsflags = gfs2_gfsflags_to_fsflags(inode, ip->i_diskflags);
 
-	if (put_user(fsflags, ptr))
-		error = -EFAULT;
+	fileattr_fill_flags(fa, fsflags);
 
 	gfs2_glock_dq(&gh);
 out_uninit:
@@ -213,37 +216,19 @@ void gfs2_set_inode_flags(struct inode *inode)
  * @fsflags: The FS_* inode flags passed in
  *
  */
-static int do_gfs2_set_flags(struct file *filp, u32 reqflags, u32 mask,
+static int do_gfs2_set_flags(struct inode *inode, u32 reqflags, u32 mask,
 			     const u32 fsflags)
 {
-	struct inode *inode = file_inode(filp);
 	struct gfs2_inode *ip = GFS2_I(inode);
 	struct gfs2_sbd *sdp = GFS2_SB(inode);
 	struct buffer_head *bh;
 	struct gfs2_holder gh;
 	int error;
-	u32 new_flags, flags, oldflags;
-
-	error = mnt_want_write_file(filp);
-	if (error)
-		return error;
+	u32 new_flags, flags;
 
 	error = gfs2_glock_nq_init(ip->i_gl, LM_ST_EXCLUSIVE, 0, &gh);
 	if (error)
-		goto out_drop_write;
-
-	oldflags = gfs2_gfsflags_to_fsflags(inode, ip->i_diskflags);
-	error = vfs_ioc_setflags_prepare(inode, oldflags, fsflags);
-	if (error)
-		goto out;
-
-	error = -EACCES;
-<<<<<<< HEAD
-	if (!inode_owner_or_capable(&init_user_ns, inode))
-=======
-	if (!inode_owner_or_capable(inode))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		goto out;
+		return error;
 
 	error = 0;
 	flags = ip->i_diskflags;
@@ -256,15 +241,8 @@ static int do_gfs2_set_flags(struct file *filp, u32 reqflags, u32 mask,
 		goto out;
 	if (IS_APPEND(inode) && (new_flags & GFS2_DIF_APPENDONLY))
 		goto out;
-	if (((new_flags ^ flags) & GFS2_DIF_IMMUTABLE) &&
-	    !capable(CAP_LINUX_IMMUTABLE))
-		goto out;
 	if (!IS_IMMUTABLE(inode)) {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, inode, MAY_WRITE);
-=======
-		error = gfs2_permission(inode, MAY_WRITE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out;
 	}
@@ -299,20 +277,22 @@ out_trans_end:
 	gfs2_trans_end(sdp);
 out:
 	gfs2_glock_dq_uninit(&gh);
-out_drop_write:
-	mnt_drop_write_file(filp);
 	return error;
 }
 
-static int gfs2_set_flags(struct file *filp, u32 __user *ptr)
+int gfs2_fileattr_set(struct user_namespace *mnt_userns,
+		      struct dentry *dentry, struct fileattr *fa)
 {
-	struct inode *inode = file_inode(filp);
-	u32 fsflags, gfsflags = 0;
+	struct inode *inode = d_inode(dentry);
+	u32 fsflags = fa->flags, gfsflags = 0;
 	u32 mask;
 	int i;
 
-	if (get_user(fsflags, ptr))
-		return -EFAULT;
+	if (d_is_special(dentry))
+		return -ENOTTY;
+
+	if (fileattr_has_fsx(fa))
+		return -EOPNOTSUPP;
 
 	for (i = 0; i < ARRAY_SIZE(fsflag_gfs2flag); i++) {
 		if (fsflags & fsflag_gfs2flag[i].fsflag) {
@@ -333,7 +313,7 @@ static int gfs2_set_flags(struct file *filp, u32 __user *ptr)
 		mask &= ~(GFS2_DIF_TOPDIR | GFS2_DIF_INHERIT_JDATA);
 	}
 
-	return do_gfs2_set_flags(filp, gfsflags, mask, fsflags);
+	return do_gfs2_set_flags(inode, gfsflags, mask, fsflags);
 }
 
 static int gfs2_getlabel(struct file *filp, char __user *label)
@@ -350,10 +330,6 @@ static int gfs2_getlabel(struct file *filp, char __user *label)
 static long gfs2_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
 	switch(cmd) {
-	case FS_IOC_GETFLAGS:
-		return gfs2_get_flags(filp, (u32 __user *)arg);
-	case FS_IOC_SETFLAGS:
-		return gfs2_set_flags(filp, (u32 __user *)arg);
 	case FITRIM:
 		return gfs2_fitrim(filp, (void __user *)arg);
 	case FS_IOC_GETFSLABEL:
@@ -367,13 +343,6 @@ static long gfs2_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 static long gfs2_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
 	switch(cmd) {
-	/* These are just misnamed, they actually get/put from/to user an int */
-	case FS_IOC32_GETFLAGS:
-		cmd = FS_IOC_GETFLAGS;
-		break;
-	case FS_IOC32_SETFLAGS:
-		cmd = FS_IOC_SETFLAGS;
-		break;
 	/* Keep this list in sync with gfs2_ioctl */
 	case FITRIM:
 	case FS_IOC_GETFSLABEL:
@@ -429,7 +398,7 @@ static int gfs2_allocate_page_backing(struct page *page, unsigned int length)
 	do {
 		struct iomap iomap = { };
 
-		if (gfs2_iomap_get_alloc(page->mapping->host, pos, length, &iomap))
+		if (gfs2_iomap_alloc(page->mapping->host, pos, length, &iomap))
 			return -EIO;
 
 		if (length < iomap.length)
@@ -443,7 +412,6 @@ static int gfs2_allocate_page_backing(struct page *page, unsigned int length)
 
 /**
  * gfs2_page_mkwrite - Make a shared, mmap()ed, page writable
- * @vma: The virtual memory area
  * @vmf: The virtual memory fault containing the page to become writable
  *
  * When the page becomes writable, we need to ensure that we have
@@ -594,7 +562,7 @@ static const struct vm_operations_struct gfs2_vm_ops = {
 };
 
 /**
- * gfs2_mmap -
+ * gfs2_mmap
  * @file: The file to map
  * @vma: The VMA which described the mapping
  *
@@ -724,17 +692,10 @@ static int gfs2_release(struct inode *inode, struct file *file)
 	kfree(file->private_data);
 	file->private_data = NULL;
 
-<<<<<<< HEAD
 	if (gfs2_rs_active(&ip->i_res))
 		gfs2_rs_delete(ip, &inode->i_writecount);
 	if (file->f_mode & FMODE_WRITE)
 		gfs2_qa_put(ip);
-=======
-	if (file->f_mode & FMODE_WRITE) {
-		gfs2_rs_delete(ip, &inode->i_writecount);
-		gfs2_qa_put(ip);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -764,11 +725,7 @@ static int gfs2_fsync(struct file *file, loff_t start, loff_t end,
 {
 	struct address_space *mapping = file->f_mapping;
 	struct inode *inode = mapping->host;
-<<<<<<< HEAD
 	int sync_state = inode->i_state & I_DIRTY;
-=======
-	int sync_state = inode->i_state & I_DIRTY_ALL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gfs2_inode *ip = GFS2_I(inode);
 	int ret = 0, ret1 = 0;
 
@@ -781,11 +738,7 @@ static int gfs2_fsync(struct file *file, loff_t start, loff_t end,
 	if (!gfs2_is_jdata(ip))
 		sync_state &= ~I_DIRTY_PAGES;
 	if (datasync)
-<<<<<<< HEAD
 		sync_state &= ~I_DIRTY_SYNC;
-=======
-		sync_state &= ~(I_DIRTY_SYNC | I_DIRTY_TIME);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sync_state) {
 		ret = sync_inode_metadata(inode, 1);
@@ -820,13 +773,7 @@ static ssize_t gfs2_file_direct_read(struct kiocb *iocb, struct iov_iter *to,
 	if (ret)
 		goto out_uninit;
 
-<<<<<<< HEAD
 	ret = iomap_dio_rw(iocb, to, &gfs2_iomap_ops, NULL, 0);
-=======
-	ret = iomap_dio_rw(iocb, to, &gfs2_iomap_ops, NULL,
-			   is_sync_kiocb(iocb));
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gfs2_glock_dq(gh);
 out_uninit:
 	gfs2_holder_uninit(gh);
@@ -860,12 +807,7 @@ static ssize_t gfs2_file_direct_write(struct kiocb *iocb, struct iov_iter *from,
 	if (offset + len > i_size_read(&ip->i_inode))
 		goto out;
 
-<<<<<<< HEAD
 	ret = iomap_dio_rw(iocb, from, &gfs2_iomap_ops, NULL, 0);
-=======
-	ret = iomap_dio_rw(iocb, from, &gfs2_iomap_ops, NULL,
-			   is_sync_kiocb(iocb));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret == -ENOTBLK)
 		ret = 0;
 out:
@@ -969,16 +911,11 @@ static ssize_t gfs2_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
 		current->backing_dev_info = inode_to_bdi(inode);
 		buffered = iomap_file_buffered_write(iocb, from, &gfs2_iomap_ops);
 		current->backing_dev_info = NULL;
-<<<<<<< HEAD
 		if (unlikely(buffered <= 0)) {
 			if (!ret)
 				ret = buffered;
 			goto out_unlock;
 		}
-=======
-		if (unlikely(buffered <= 0))
-			goto out_unlock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * We need to ensure that the page cache pages are written to
@@ -1033,8 +970,7 @@ static int fallocate_chunk(struct inode *inode, loff_t offset, loff_t len,
 	while (offset < end) {
 		struct iomap iomap = { };
 
-		error = gfs2_iomap_get_alloc(inode, offset, end - offset,
-					     &iomap);
+		error = gfs2_iomap_alloc(inode, offset, end - offset, &iomap);
 		if (error)
 			goto out;
 		offset = iomap.offset + iomap.length;
@@ -1154,13 +1090,8 @@ static long __gfs2_fallocate(struct file *file, int mode, loff_t offset, loff_t 
 			goto out_qunlock;
 
 		/* check if the selected rgrp limits our max_blks further */
-<<<<<<< HEAD
 		if (ip->i_res.rs_reserved < max_blks)
 			max_blks = ip->i_res.rs_reserved;
-=======
-		if (ap.allowed && ap.allowed < max_blks)
-			max_blks = ap.allowed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Almost done. Calculate bytes that can be written using
 		 * max_blks. We also recompute max_bytes, data_blocks and

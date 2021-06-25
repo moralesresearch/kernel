@@ -458,17 +458,6 @@ static const struct rtc_class_ops armada38x_rtc_ops = {
 	.set_offset = armada38x_rtc_set_offset,
 };
 
-<<<<<<< HEAD
-=======
-static const struct rtc_class_ops armada38x_rtc_ops_noirq = {
-	.read_time = armada38x_rtc_read_time,
-	.set_time = armada38x_rtc_set_time,
-	.read_alarm = armada38x_rtc_read_alarm,
-	.read_offset = armada38x_rtc_read_offset,
-	.set_offset = armada38x_rtc_set_offset,
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct armada38x_rtc_data armada38x_data = {
 	.update_mbus_timing = rtc_update_38x_mbus_timing_params,
 	.read_rtc_reg = read_rtc_register_38x_wa,
@@ -543,31 +532,15 @@ static __init int armada38x_rtc_probe(struct platform_device *pdev)
 	}
 	platform_set_drvdata(pdev, rtc);
 
-<<<<<<< HEAD
 	if (rtc->irq != -1)
 		device_init_wakeup(&pdev->dev, 1);
 	else
 		clear_bit(RTC_FEATURE_ALARM, rtc->rtc_dev->features);
-=======
-	if (rtc->irq != -1) {
-		device_init_wakeup(&pdev->dev, 1);
-		rtc->rtc_dev->ops = &armada38x_rtc_ops;
-	} else {
-		/*
-		 * If there is no interrupt available then we can't
-		 * use the alarm
-		 */
-		rtc->rtc_dev->ops = &armada38x_rtc_ops_noirq;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Update RTC-MBUS bridge timing parameters */
 	rtc->data->update_mbus_timing(rtc);
 
-<<<<<<< HEAD
 	rtc->rtc_dev->ops = &armada38x_rtc_ops;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtc->rtc_dev->range_max = U32_MAX;
 
 	return devm_rtc_register_device(rtc->rtc_dev);

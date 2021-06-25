@@ -16,11 +16,8 @@
 	model = "MediaTek krane sku176 board";
 	compatible = "google,krane-sku176", "google,krane", "mediatek,mt8183";
 };
-<<<<<<< HEAD
 
 &panel {
         status = "okay";
         compatible = "boe,tv101wum-nl6";
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -3,11 +3,7 @@
  *
  * Name: acgcc.h - GCC specific defines, etc.
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -58,7 +54,6 @@ typedef __builtin_va_list va_list;
 
 #define ACPI_USE_NATIVE_MATH64
 
-<<<<<<< HEAD
 /* GCC did not support __has_attribute until 5.1. */
 
 #ifndef __has_attribute
@@ -66,7 +61,7 @@ typedef __builtin_va_list va_list;
 #endif
 
 /*
- * Explictly mark intentional explicit fallthrough to silence
+ * Explicitly mark intentional explicit fallthrough to silence
  * -Wimplicit-fallthrough in GCC 7.1+.
  */
 
@@ -74,6 +69,4 @@ typedef __builtin_va_list va_list;
 #define ACPI_FALLTHROUGH __attribute__((__fallthrough__))
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif				/* __ACGCC_H__ */

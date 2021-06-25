@@ -2,9 +2,5 @@
 #ifndef __NVKM_CIPHER_H__
 #define __NVKM_CIPHER_H__
 #include <core/engine.h>
-<<<<<<< HEAD
 int g84_cipher_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_engine **);
-=======
-int g84_cipher_new(struct nvkm_device *, int, struct nvkm_engine **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

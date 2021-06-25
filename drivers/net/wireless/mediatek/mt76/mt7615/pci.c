@@ -10,15 +10,12 @@
 #include <linux/pci.h>
 
 #include "mt7615.h"
-<<<<<<< HEAD
 #include "mcu.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct pci_device_id mt7615_pci_device_table[] = {
-	{ PCI_DEVICE(0x14c3, 0x7615) },
-	{ PCI_DEVICE(0x14c3, 0x7663) },
-	{ PCI_DEVICE(0x14c3, 0x7611) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7615) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7663) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7611) },
 	{ },
 };
 
@@ -79,22 +76,14 @@ static int mt7615_pci_suspend(struct pci_dev *pdev, pm_message_t state)
 	bool hif_suspend;
 	int i, err;
 
-<<<<<<< HEAD
 	err = mt76_connac_pm_wake(&dev->mphy, &dev->pm);
-=======
-	err = mt7615_pm_wake(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
 	hif_suspend = !test_bit(MT76_STATE_SUSPEND, &dev->mphy.state) &&
 		      mt7615_firmware_offload(dev);
 	if (hif_suspend) {
-<<<<<<< HEAD
 		err = mt76_connac_mcu_set_hif_suspend(mdev, true);
-=======
-		err = mt7615_mcu_set_hif_suspend(dev, true);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -142,11 +131,7 @@ restore:
 	}
 	napi_enable(&mdev->tx_napi);
 	if (hif_suspend)
-<<<<<<< HEAD
 		mt76_connac_mcu_set_hif_suspend(mdev, false);
-=======
-		mt7615_mcu_set_hif_suspend(dev, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -188,11 +173,7 @@ static int mt7615_pci_resume(struct pci_dev *pdev)
 
 	if (!test_bit(MT76_STATE_SUSPEND, &dev->mphy.state) &&
 	    mt7615_firmware_offload(dev))
-<<<<<<< HEAD
 		err = mt76_connac_mcu_set_hif_suspend(mdev, false);
-=======
-		err = mt7615_mcu_set_hif_suspend(dev, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }

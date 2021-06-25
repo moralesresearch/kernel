@@ -813,10 +813,6 @@ config VIDEO_IMX319
 	  To compile this driver as a module, choose M here: the
 	  module will be called imx319.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_IMX334
 	tristate "Sony IMX334 sensor support"
 	depends on OF_GPIO
@@ -831,11 +827,6 @@ config VIDEO_IMX334
 	  To compile this driver as a module, choose M here: the
 	  module will be called imx334.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_IMX355
 	tristate "Sony IMX355 sensor support"
 	depends on I2C && VIDEO_V4L2
@@ -959,10 +950,6 @@ config VIDEO_OV5647
 	  To compile this driver as a module, choose M here: the
 	  module will be called ov5647.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_OV5648
 	tristate "OmniVision OV5648 sensor support"
 	depends on I2C && PM && VIDEO_V4L2
@@ -976,11 +963,6 @@ config VIDEO_OV5648
 	  To compile this driver as a module, choose M here: the
 	  module will be called ov5648.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_OV6650
 	tristate "OmniVision OV6650 sensor support"
 	depends on I2C && VIDEO_V4L2
@@ -1093,10 +1075,6 @@ config VIDEO_OV8856
 	  To compile this driver as a module, choose M here: the
 	  module will be called ov8856.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_OV8865
 	tristate "OmniVision OV8865 sensor support"
 	depends on I2C && PM && VIDEO_V4L2
@@ -1110,11 +1088,6 @@ config VIDEO_OV8865
 	  To compile this driver as a module, choose M here: the
 	  module will be called ov8865.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_OV9640
 	tristate "OmniVision OV9640 sensor support"
 	depends on I2C && VIDEO_V4L2
@@ -1267,32 +1240,16 @@ config VIDEO_NOON010PC30
 
 source "drivers/media/i2c/m5mols/Kconfig"
 
-<<<<<<< HEAD
 config VIDEO_MAX9271_LIB
 	tristate
 
-=======
-<<<<<<< HEAD
-config VIDEO_MAX9271_LIB
-	tristate
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_RDACM20
 	tristate "IMI RDACM20 camera support"
 	depends on I2C
 	select V4L2_FWNODE
 	select VIDEO_V4L2_SUBDEV_API
 	select MEDIA_CONTROLLER
-<<<<<<< HEAD
 	select VIDEO_MAX9271_LIB
-=======
-<<<<<<< HEAD
-	select VIDEO_MAX9271_LIB
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This driver supports the IMI RDACM20 GMSL camera, used in
 	  ADAS systems.
@@ -1300,10 +1257,6 @@ config VIDEO_RDACM20
 	  This camera should be used in conjunction with a GMSL
 	  deserialiser such as the MAX9286.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_RDACM21
 	tristate "IMI RDACM21 camera support"
 	depends on I2C
@@ -1318,11 +1271,6 @@ config VIDEO_RDACM21
 	  This camera should be used in conjunction with a GMSL
 	  deserialiser such as the MAX9286.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_RJ54N1
 	tristate "Sharp RJ54N1CB0C sensor support"
 	depends on I2C && VIDEO_V4L2

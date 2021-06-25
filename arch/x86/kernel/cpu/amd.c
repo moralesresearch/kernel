@@ -593,8 +593,8 @@ static void early_detect_mem_encrypt(struct cpuinfo_x86 *c)
 	 */
 	if (cpu_has(c, X86_FEATURE_SME) || cpu_has(c, X86_FEATURE_SEV)) {
 		/* Check if memory encryption is enabled */
-		rdmsrl(MSR_K8_SYSCFG, msr);
-		if (!(msr & MSR_K8_SYSCFG_MEM_ENCRYPT))
+		rdmsrl(MSR_AMD64_SYSCFG, msr);
+		if (!(msr & MSR_AMD64_SYSCFG_MEM_ENCRYPT))
 			goto clear_all;
 
 		/*
@@ -627,11 +627,6 @@ static void early_init_amd(struct cpuinfo_x86 *c)
 	u32 dummy;
 
 	early_init_amd_mc(c);
-
-#ifdef CONFIG_X86_32
-	if (c->x86 == 6)
-		set_cpu_cap(c, X86_FEATURE_K7);
-#endif
 
 	if (c->x86 >= 0xf)
 		set_cpu_cap(c, X86_FEATURE_K8);
@@ -1170,7 +1165,6 @@ void set_dr_addr_mask(unsigned long mask, int dr)
 		break;
 	}
 }
-<<<<<<< HEAD
 
 u32 amd_get_highest_perf(void)
 {
@@ -1187,5 +1181,3 @@ u32 amd_get_highest_perf(void)
 	return 255;
 }
 EXPORT_SYMBOL_GPL(amd_get_highest_perf);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

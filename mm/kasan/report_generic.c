@@ -30,11 +30,7 @@
 #include "kasan.h"
 #include "../slab.h"
 
-<<<<<<< HEAD
 void *kasan_find_first_bad_addr(void *addr, size_t size)
-=======
-void *find_first_bad_addr(void *addr, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *p = addr;
 
@@ -109,11 +105,7 @@ static const char *get_wild_bug_type(struct kasan_access_info *info)
 	return bug_type;
 }
 
-<<<<<<< HEAD
 const char *kasan_get_bug_type(struct kasan_access_info *info)
-=======
-const char *get_bug_type(struct kasan_access_info *info)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * If access_size is a negative number, then it has reason to be
@@ -131,20 +123,12 @@ const char *get_bug_type(struct kasan_access_info *info)
 	return get_wild_bug_type(info);
 }
 
-<<<<<<< HEAD
 void kasan_metadata_fetch_row(char *buffer, void *row)
-=======
-void metadata_fetch_row(char *buffer, void *row)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	memcpy(buffer, kasan_mem_to_shadow(row), META_BYTES_PER_ROW);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_KASAN_STACK
-=======
-#if CONFIG_KASAN_STACK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool __must_check tokenize_frame_descr(const char **frame_descr,
 					      char *token, size_t max_tok_len,
 					      unsigned long *value)
@@ -164,7 +148,7 @@ static bool __must_check tokenize_frame_descr(const char **frame_descr,
 		}
 
 		/* Copy token (+ 1 byte for '\0'). */
-		strlcpy(token, *frame_descr, tok_len + 1);
+		strscpy(token, *frame_descr, tok_len + 1);
 	}
 
 	/* Advance frame_descr past separator. */
@@ -279,11 +263,7 @@ static bool __must_check get_address_stack_frame_info(const void *addr,
 	return true;
 }
 
-<<<<<<< HEAD
 void kasan_print_address_stack_frame(const void *addr)
-=======
-void print_address_stack_frame(const void *addr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long offset;
 	const char *frame_descr;

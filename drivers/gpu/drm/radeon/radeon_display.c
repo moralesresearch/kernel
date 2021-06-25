@@ -1317,11 +1317,7 @@ radeon_user_framebuffer_create(struct drm_device *dev,
 
 	obj = drm_gem_object_lookup(file_priv, mode_cmd->handles[0]);
 	if (obj ==  NULL) {
-<<<<<<< HEAD
 		dev_err(dev->dev, "No GEM object associated to handle 0x%08X, "
-=======
-		dev_err(&dev->pdev->dev, "No GEM object associated to handle 0x%08X, "
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"can't create framebuffer\n", mode_cmd->handles[0]);
 		return ERR_PTR(-ENOENT);
 	}

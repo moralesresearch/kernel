@@ -27,10 +27,7 @@ all: $(OBJTOOL)
 INCLUDES := -I$(srctree)/tools/include \
 	    -I$(srctree)/tools/arch/$(HOSTARCH)/include/uapi \
 	    -I$(srctree)/tools/arch/$(SRCARCH)/include	\
-<<<<<<< HEAD
 	    -I$(srctree)/tools/objtool/include \
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    -I$(srctree)/tools/objtool/arch/$(SRCARCH)/include
 WARNINGS := $(EXTRA_WARNINGS) -Wno-switch-default -Wno-switch-enum -Wno-packed -Wno-nested-externs
 CFLAGS   := -Werror $(WARNINGS) $(KBUILD_HOSTCFLAGS) -g $(INCLUDES) $(LIBELF_FLAGS)
@@ -50,13 +47,6 @@ ifeq ($(SRCARCH),x86)
 	SUBCMD_ORC := y
 endif
 
-<<<<<<< HEAD
-=======
-ifeq ($(SUBCMD_ORC),y)
-	CFLAGS += -DINSN_USE_ORC
-endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 export SUBCMD_CHECK SUBCMD_ORC
 export srctree OUTPUT CFLAGS SRCARCH AWK
 include $(srctree)/tools/build/Makefile.include

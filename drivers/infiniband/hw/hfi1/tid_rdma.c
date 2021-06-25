@@ -309,12 +309,8 @@ int hfi1_kern_exp_rcv_init(struct hfi1_ctxtdata *rcd, int reinit)
 
 /**
  * qp_to_rcd - determine the receive context used by a qp
-<<<<<<< HEAD
  * @rdi: rvt dev struct
  * @qp: the qp
-=======
- * @qp - the qp
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine returns the receive context associated
  * with a a qp's qpn.
@@ -489,10 +485,7 @@ static struct rvt_qp *first_qp(struct hfi1_ctxtdata *rcd,
 /**
  * kernel_tid_waiters - determine rcd wait
  * @rcd: the receive context
-<<<<<<< HEAD
  * @queue: the queue to operate on
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @qp: the head of the qp being processed
  *
  * This routine will return false IFF
@@ -526,13 +519,9 @@ static bool kernel_tid_waiters(struct hfi1_ctxtdata *rcd,
 
 /**
  * dequeue_tid_waiter - dequeue the qp from the list
-<<<<<<< HEAD
  * @rcd: the receive context
  * @queue: the queue to operate on
  * @qp: the qp to remove the wait list
-=======
- * @qp - the qp to remove the wait list
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine removes the indicated qp from the
  * wait list if it is there.
@@ -564,10 +553,7 @@ static void dequeue_tid_waiter(struct hfi1_ctxtdata *rcd,
 /**
  * queue_qp_for_tid_wait - suspend QP on tid space
  * @rcd: the receive context
-<<<<<<< HEAD
  * @queue: the queue to operate on
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @qp: the qp
  *
  * The qp is inserted at the tail of the rcd
@@ -612,11 +598,7 @@ static void __trigger_tid_waiter(struct rvt_qp *qp)
 
 /**
  * tid_rdma_schedule_tid_wakeup - schedule wakeup for a qp
-<<<<<<< HEAD
  * @qp: the qp
-=======
- * @qp - the qp
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * trigger a schedule or a waiting qp in a deadlock
  * safe manner.  The qp reference is held prior
@@ -653,11 +635,7 @@ static void tid_rdma_schedule_tid_wakeup(struct rvt_qp *qp)
 
 /**
  * tid_rdma_trigger_resume - field a trigger work request
-<<<<<<< HEAD
  * @work: the work item
-=======
- * @work - the work item
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Complete the off qp trigger processing by directly
  * calling the progress routine.
@@ -681,11 +659,7 @@ static void tid_rdma_trigger_resume(struct work_struct *work)
 	rvt_put_qp(qp);
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * tid_rdma_flush_wait - unwind any tid space wait
  *
  * This is called when resetting a qp to
@@ -724,13 +698,8 @@ void hfi1_tid_rdma_flush_wait(struct rvt_qp *qp)
 /* Flow functions */
 /**
  * kern_reserve_flow - allocate a hardware flow
-<<<<<<< HEAD
  * @rcd: the context to use for allocation
  * @last: the index of the preferred flow. Use RXE_NUM_TID_FLOWS to
-=======
- * @rcd - the context to use for allocation
- * @last - the index of the preferred flow. Use RXE_NUM_TID_FLOWS to
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *         signify "don't care".
  *
  * Use a bit mask based allocation to reserve a hardware
@@ -896,16 +865,10 @@ static u8 trdma_pset_order(struct tid_rdma_pageset *s)
 
 /**
  * tid_rdma_find_phys_blocks_4k - get groups base on mr info
-<<<<<<< HEAD
  * @flow: overall info for a TID RDMA segment
  * @pages: pointer to an array of page structs
  * @npages: number of pages
  * @list: page set array to return
-=======
- * @npages - number of pages
- * @pages - pointer to an array of page structs
- * @list - page set array to return
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine returns the number of groups associated with
  * the current sge information.  This implementation is based
@@ -992,17 +955,10 @@ static u32 tid_rdma_find_phys_blocks_4k(struct tid_rdma_flow *flow,
 
 /**
  * tid_flush_pages - dump out pages into pagesets
-<<<<<<< HEAD
  * @list: list of pagesets
  * @idx: pointer to current page index
  * @pages: number of pages to dump
  * @sets: current number of pagesset
-=======
- * @list - list of pagesets
- * @idx - pointer to current page index
- * @pages - number of pages to dump
- * @sets - current number of pagesset
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine flushes out accumuated pages.
  *
@@ -1040,16 +996,10 @@ static u32 tid_flush_pages(struct tid_rdma_pageset *list,
 
 /**
  * tid_rdma_find_phys_blocks_8k - get groups base on mr info
-<<<<<<< HEAD
  * @flow: overall info for a TID RDMA segment
  * @pages: pointer to an array of page structs
  * @npages: number of pages
  * @list: page set array to return
-=======
- * @pages - pointer to an array of page structs
- * @npages - number of pages
- * @list - page set array to return
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine parses an array of pages to compute pagesets
  * in an 8k compatible way.
@@ -1121,11 +1071,7 @@ static u32 tid_rdma_find_phys_blocks_8k(struct tid_rdma_flow *flow,
 	return sets;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Find pages for one segment of a sge array represented by @ss. The function
  * does not check the sge, the sge must have been checked for alignment with a
  * prior call to hfi1_kern_trdma_ok. Other sge checking is done as part of
@@ -1659,11 +1605,7 @@ void hfi1_kern_exp_rcv_clear_all(struct tid_rdma_request *req)
 
 /**
  * hfi1_kern_exp_rcv_free_flows - free priviously allocated flow information
-<<<<<<< HEAD
  * @req: the tid rdma request to be cleaned
-=======
- * @req - the tid rdma request to be cleaned
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void hfi1_kern_exp_rcv_free_flows(struct tid_rdma_request *req)
 {
@@ -3500,11 +3442,7 @@ static u32 hfi1_compute_tid_rnr_timeout(struct rvt_qp *qp, u32 to_seg)
 	return 0;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Central place for resource allocation at TID write responder,
  * is called from write_req and write_data interrupt handlers as
  * well as the send thread when a queued QP is scheduled for

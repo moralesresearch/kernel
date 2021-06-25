@@ -31,237 +31,118 @@ const struct vmbus_device vmbus_devs[] = {
 	{ .dev_type = HV_IDE,
 	  HV_IDE_GUID,
 	  .perf_device = true,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* SCSI */
 	{ .dev_type = HV_SCSI,
 	  HV_SCSI_GUID,
 	  .perf_device = true,
-<<<<<<< HEAD
 	  .allowed_in_isolated = true,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = true,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Fibre Channel */
 	{ .dev_type = HV_FC,
 	  HV_SYNTHFC_GUID,
 	  .perf_device = true,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Synthetic NIC */
 	{ .dev_type = HV_NIC,
 	  HV_NIC_GUID,
 	  .perf_device = true,
-<<<<<<< HEAD
 	  .allowed_in_isolated = true,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = true,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Network Direct */
 	{ .dev_type = HV_ND,
 	  HV_ND_GUID,
 	  .perf_device = true,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* PCIE */
 	{ .dev_type = HV_PCIE,
 	  HV_PCIE_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Synthetic Frame Buffer */
 	{ .dev_type = HV_FB,
 	  HV_SYNTHVID_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Synthetic Keyboard */
 	{ .dev_type = HV_KBD,
 	  HV_KBD_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Synthetic MOUSE */
 	{ .dev_type = HV_MOUSE,
 	  HV_MOUSE_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* KVP */
 	{ .dev_type = HV_KVP,
 	  HV_KVP_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Time Synch */
 	{ .dev_type = HV_TS,
 	  HV_TS_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = true,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = true,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Heartbeat */
 	{ .dev_type = HV_HB,
 	  HV_HEART_BEAT_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = true,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = true,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Shutdown */
 	{ .dev_type = HV_SHUTDOWN,
 	  HV_SHUTDOWN_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = true,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = true,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* File copy */
 	{ .dev_type = HV_FCOPY,
 	  HV_FCOPY_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Backup */
 	{ .dev_type = HV_BACKUP,
 	  HV_VSS_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Dynamic Memory */
 	{ .dev_type = HV_DM,
 	  HV_DM_GUID,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 
 	/* Unknown GUID */
 	{ .dev_type = HV_UNKNOWN,
 	  .perf_device = false,
-<<<<<<< HEAD
 	  .allowed_in_isolated = false,
-=======
-<<<<<<< HEAD
-	  .allowed_in_isolated = false,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -326,14 +207,7 @@ static u16 hv_get_dev_type(const struct vmbus_channel *channel)
  * vmbus_prep_negotiate_resp() - Create default response for Negotiate message
  * @icmsghdrp: Pointer to msg header structure
  * @buf: Raw buffer channel data
-<<<<<<< HEAD
  * @buflen: Length of the raw buffer channel data.
-=======
-<<<<<<< HEAD
- * @buflen: Length of the raw buffer channel data.
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @fw_version: The framework versions we can support.
  * @fw_vercnt: The size of @fw_version.
  * @srv_version: The service versions we can support.
@@ -346,18 +220,8 @@ static u16 hv_get_dev_type(const struct vmbus_channel *channel)
  * Set up and fill in default negotiate response message.
  * Mainly used by Hyper-V drivers.
  */
-<<<<<<< HEAD
 bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
 				u32 buflen, const int *fw_version, int fw_vercnt,
-=======
-<<<<<<< HEAD
-bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
-				u32 buflen, const int *fw_version, int fw_vercnt,
-=======
-bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
-				u8 *buf, const int *fw_version, int fw_vercnt,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				const int *srv_version, int srv_vercnt,
 				int *nego_fw_version, int *nego_srv_version)
 {
@@ -369,10 +233,6 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
 	bool found_match = false;
 	struct icmsg_negotiate *negop;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Check that there's enough space for icframe_vercnt, icmsg_vercnt */
 	if (buflen < ICMSG_HDR + offsetof(struct icmsg_negotiate, reserved)) {
 		pr_err_ratelimited("Invalid icmsg negotiate\n");
@@ -381,15 +241,6 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
 
 	icmsghdrp->icmsgsize = 0x10;
 	negop = (struct icmsg_negotiate *)&buf[ICMSG_HDR];
-<<<<<<< HEAD
-=======
-=======
-	icmsghdrp->icmsgsize = 0x10;
-	negop = (struct icmsg_negotiate *)&buf[
-		sizeof(struct vmbuspipe_hdr) +
-		sizeof(struct icmsg_hdr)];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	icframe_major = negop->icframe_vercnt;
 	icframe_minor = 0;
@@ -397,10 +248,6 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
 	icmsg_major = negop->icmsg_vercnt;
 	icmsg_minor = 0;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Validate negop packet */
 	if (icframe_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
 	    icmsg_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
@@ -410,11 +257,6 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
 		goto fw_error;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Select the framework version number we will
 	 * support.
@@ -491,7 +333,6 @@ fw_error:
 	negop->icversion_data[1].minor = icmsg_minor;
 	return found_match;
 }
-
 EXPORT_SYMBOL_GPL(vmbus_prep_negotiate_resp);
 
 /*
@@ -751,10 +592,10 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
 	 * CPUS_READ_UNLOCK		CPUS_WRITE_UNLOCK
 	 *
 	 * Forbids: CPU1's LOAD from *not* seing CPU2's STORE &&
-	 * 		CPU2's SEARCH from *not* seeing CPU1's INSERT
+	 *              CPU2's SEARCH from *not* seeing CPU1's INSERT
 	 *
 	 * Forbids: CPU2's SEARCH from seeing CPU1's INSERT &&
-	 * 		CPU2's LOAD from *not* seing CPU1's STORE
+	 *              CPU2's LOAD from *not* seing CPU1's STORE
 	 */
 	cpus_read_lock();
 
@@ -914,15 +755,12 @@ static void init_vp_index(struct vmbus_channel *channel)
 	free_cpumask_var(available_mask);
 }
 
-<<<<<<< HEAD
 #define UNLOAD_DELAY_UNIT_MS	10		/* 10 milliseconds */
 #define UNLOAD_WAIT_MS		(100*1000)	/* 100 seconds */
 #define UNLOAD_WAIT_LOOPS	(UNLOAD_WAIT_MS/UNLOAD_DELAY_UNIT_MS)
 #define UNLOAD_MSG_MS		(5*1000)	/* Every 5 seconds */
 #define UNLOAD_MSG_LOOPS	(UNLOAD_MSG_MS/UNLOAD_DELAY_UNIT_MS)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void vmbus_wait_for_unload(void)
 {
 	int cpu;
@@ -940,7 +778,6 @@ static void vmbus_wait_for_unload(void)
 	 * vmbus_connection.unload_event. If not, the last thing we can do is
 	 * read message pages for all CPUs directly.
 	 *
-<<<<<<< HEAD
 	 * Wait up to 100 seconds since an Azure host must writeback any dirty
 	 * data in its disk cache before the VMbus UNLOAD request will
 	 * complete. This flushing has been empirically observed to take up
@@ -952,14 +789,6 @@ static void vmbus_wait_for_unload(void)
 	for (i = 1; i <= UNLOAD_WAIT_LOOPS; i++) {
 		if (completion_done(&vmbus_connection.unload_event))
 			goto completed;
-=======
-	 * Wait no more than 10 seconds so that the panic path can't get
-	 * hung forever in case the response message isn't seen.
-	 */
-	for (i = 0; i < 1000; i++) {
-		if (completion_done(&vmbus_connection.unload_event))
-			break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		for_each_online_cpu(cpu) {
 			struct hv_per_cpu_context *hv_cpu
@@ -982,7 +811,6 @@ static void vmbus_wait_for_unload(void)
 			vmbus_signal_eom(msg, message_type);
 		}
 
-<<<<<<< HEAD
 		/*
 		 * Give a notice periodically so someone watching the
 		 * serial output won't think it is completely hung.
@@ -995,11 +823,6 @@ static void vmbus_wait_for_unload(void)
 	pr_err("Continuing even though VMBus UNLOAD did not complete\n");
 
 completed:
-=======
-		mdelay(10);
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We're crashing and already got the UNLOAD_RESPONSE, cleanup all
 	 * maybe-pending messages on all CPUs to be able to receive new
@@ -1023,6 +846,11 @@ static void vmbus_unload_response(struct vmbus_channel_message_header *hdr)
 	/*
 	 * This is a global event; just wakeup the waiting thread.
 	 * Once we successfully unload, we can cleanup the monitor state.
+	 *
+	 * NB.  A malicious or compromised Hyper-V could send a spurious
+	 * message of type CHANNELMSG_UNLOAD_RESPONSE, and trigger a call
+	 * of the complete() below.  Make sure that unload_event has been
+	 * initialized by the time this complete() is executed.
 	 */
 	complete(&vmbus_connection.unload_event);
 }
@@ -1038,7 +866,7 @@ void vmbus_initiate_unload(bool crash)
 	if (vmbus_proto_version < VERSION_WIN8_1)
 		return;
 
-	init_completion(&vmbus_connection.unload_event);
+	reinit_completion(&vmbus_connection.unload_event);
 	memset(&hdr, 0, sizeof(struct vmbus_channel_message_header));
 	hdr.msgtype = CHANNELMSG_UNLOAD;
 	vmbus_post_msg(&hdr, sizeof(struct vmbus_channel_message_header),
@@ -1116,10 +944,6 @@ find_primary_channel_by_offer(const struct vmbus_channel_offer_channel *offer)
 	return channel;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool vmbus_is_valid_device(const guid_t *guid)
 {
 	u16 i;
@@ -1134,11 +958,6 @@ static bool vmbus_is_valid_device(const guid_t *guid)
 	return false;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * vmbus_onoffer - Handler for channel offers from vmbus in parent partition.
  *
@@ -1153,10 +972,6 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
 
 	trace_vmbus_onoffer(offer);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!vmbus_is_valid_device(&offer->offer.if_type)) {
 		pr_err_ratelimited("Invalid offer %d from the host supporting isolation\n",
 				   offer->child_relid);
@@ -1164,11 +979,6 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	oldchannel = find_primary_channel_by_offer(offer);
 
 	if (oldchannel != NULL) {
@@ -1194,7 +1004,7 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
 		 *					UNLOCK channel_mutex
 		 *
 		 * Forbids: r1 == valid_relid &&
-		 * 		channels[valid_relid] == channel
+		 *              channels[valid_relid] == channel
 		 *
 		 * Note.  r1 can be INVALID_RELID only for an hv_sock channel.
 		 * None of the hv_sock channels which were present before the
@@ -1315,10 +1125,6 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
 
 	mutex_lock(&vmbus_connection.channel_mutex);
 	channel = relid2channel(rescind->child_relid);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (channel != NULL) {
 		/*
 		 * Guarantee that no other instance of vmbus_onoffer_rescind()
@@ -1331,11 +1137,6 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
 		}
 		channel->rescind_ref = true;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&vmbus_connection.channel_mutex);
 
 	if (channel == NULL) {
@@ -1536,6 +1337,46 @@ static void vmbus_ongpadl_created(struct vmbus_channel_message_header *hdr)
 }
 
 /*
+ * vmbus_onmodifychannel_response - Modify Channel response handler.
+ *
+ * This is invoked when we received a response to our channel modify request.
+ * Find the matching request, copy the response and signal the requesting thread.
+ */
+static void vmbus_onmodifychannel_response(struct vmbus_channel_message_header *hdr)
+{
+	struct vmbus_channel_modifychannel_response *response;
+	struct vmbus_channel_msginfo *msginfo;
+	unsigned long flags;
+
+	response = (struct vmbus_channel_modifychannel_response *)hdr;
+
+	trace_vmbus_onmodifychannel_response(response);
+
+	/*
+	 * Find the modify msg, copy the response and signal/unblock the wait event.
+	 */
+	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
+
+	list_for_each_entry(msginfo, &vmbus_connection.chn_msg_list, msglistentry) {
+		struct vmbus_channel_message_header *responseheader =
+				(struct vmbus_channel_message_header *)msginfo->msg;
+
+		if (responseheader->msgtype == CHANNELMSG_MODIFYCHANNEL) {
+			struct vmbus_channel_modifychannel *modifymsg;
+
+			modifymsg = (struct vmbus_channel_modifychannel *)msginfo->msg;
+			if (modifymsg->child_relid == response->child_relid) {
+				memcpy(&msginfo->response.modify_response, response,
+				       sizeof(*response));
+				complete(&msginfo->waitevent);
+				break;
+			}
+		}
+	}
+	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
+}
+
+/*
  * vmbus_ongpadl_torndown - GPADL torndown handler.
  *
  * This is invoked when we received a response to our gpadl teardown request.
@@ -1652,6 +1493,8 @@ channel_message_table[CHANNELMSG_COUNT] = {
 	{ CHANNELMSG_TL_CONNECT_REQUEST,	0, NULL, 0},
 	{ CHANNELMSG_MODIFYCHANNEL,		0, NULL, 0},
 	{ CHANNELMSG_TL_CONNECT_RESULT,		0, NULL, 0},
+	{ CHANNELMSG_MODIFYCHANNEL_RESPONSE,	1, vmbus_onmodifychannel_response,
+		sizeof(struct vmbus_channel_modifychannel_response)},
 };
 
 /*

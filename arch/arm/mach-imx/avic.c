@@ -7,10 +7,7 @@
 #include <linux/module.h>
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
-<<<<<<< HEAD
 #include <linux/irqchip.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/io.h>
 #include <linux/of.h>
 #include <linux/of_address.h>
@@ -166,11 +163,7 @@ static void __exception_irq_entry avic_handle_irq(struct pt_regs *regs)
  * interrupts. It registers the interrupt enable and disable functions
  * to the kernel for each interrupt source.
  */
-<<<<<<< HEAD
 static void __init mxc_init_irq(void __iomem *irqbase)
-=======
-void __init mxc_init_irq(void __iomem *irqbase)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device_node *np;
 	int irq_base;
@@ -228,7 +221,6 @@ void __init mxc_init_irq(void __iomem *irqbase)
 
 	printk(KERN_INFO "MXC IRQ initialized\n");
 }
-<<<<<<< HEAD
 
 static int __init imx_avic_init(struct device_node *node,
 			       struct device_node *parent)
@@ -242,5 +234,3 @@ static int __init imx_avic_init(struct device_node *node,
 }
 
 IRQCHIP_DECLARE(imx_avic, "fsl,avic", imx_avic_init);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

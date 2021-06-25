@@ -385,18 +385,12 @@ static void extent_map_device_clear_bits(struct extent_map *em, unsigned bits)
 }
 
 /**
-<<<<<<< HEAD
  * Add new extent map to the extent tree
  *
  * @tree:	tree to insert new map in
  * @em:		map to insert
  * @modified:	indicate whether the given @em should be added to the
  *	        modified list, which indicates the extent needs to be logged
-=======
- * add_extent_mapping - add new extent map to the extent tree
- * @tree:	tree to insert new map in
- * @em:		map to insert
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Insert @em into @tree or perform a simple forward/backward merge with
  * existing mappings.  The extent_map struct passed in will be inserted
@@ -583,7 +577,6 @@ static noinline int merge_extent_mapping(struct extent_map_tree *em_tree,
 }
 
 /**
-<<<<<<< HEAD
  * Add extent mapping into em_tree
  *
  * @fs_info:  the filesystem
@@ -591,14 +584,6 @@ static noinline int merge_extent_mapping(struct extent_map_tree *em_tree,
  * @em_in:    extent we are inserting
  * @start:    start of the logical range btrfs_get_extent() is requesting
  * @len:      length of the logical range btrfs_get_extent() is requesting
-=======
- * btrfs_add_extent_mapping - add extent mapping into em_tree
- * @fs_info - used for tracepoint
- * @em_tree - the extent tree into which we want to insert the extent mapping
- * @em_in   - extent we are inserting
- * @start   - start of the logical range btrfs_get_extent() is requesting
- * @len     - length of the logical range btrfs_get_extent() is requesting
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Note that @em_in's range may be different from [start, start+len),
  * but they must be overlapped.

@@ -70,31 +70,21 @@ mt7915_tm_set_tx_power(struct mt7915_phy *phy)
 	};
 	u8 *tx_power = NULL;
 
-<<<<<<< HEAD
 	if (phy->mt76->test.state != MT76_TM_STATE_OFF)
 		tx_power = phy->mt76->test.tx_power;
-=======
-	if (dev->mt76.test.state != MT76_TM_STATE_OFF)
-		tx_power = dev->mt76.test.tx_power;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Tx power of the other antennas are the same as antenna 0 */
 	if (tx_power && tx_power[0])
 		req.tx_power = tx_power[0];
 
 	ret = mt76_mcu_send_msg(&dev->mt76,
-<<<<<<< HEAD
 				MCU_EXT_CMD(TX_POWER_FEATURE_CTRL),
-=======
-				MCU_EXT_CMD_TX_POWER_FEATURE_CTRL,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				&req, sizeof(req), false);
 
 	return ret;
 }
 
 static int
-<<<<<<< HEAD
 mt7915_tm_set_freq_offset(struct mt7915_phy *phy, bool en, u32 val)
 {
 	struct mt7915_dev *dev = phy->dev;
@@ -106,17 +96,6 @@ mt7915_tm_set_freq_offset(struct mt7915_phy *phy, bool en, u32 val)
 	};
 
 	return mt76_mcu_send_msg(&dev->mt76, MCU_EXT_CMD(ATE_CTRL), &req,
-=======
-mt7915_tm_set_freq_offset(struct mt7915_dev *dev, bool en, u32 val)
-{
-	struct mt7915_tm_cmd req = {
-		.testmode_en = en,
-		.param_idx = MCU_ATE_SET_FREQ_OFFSET,
-		.param.freq.freq_offset = cpu_to_le32(val),
-	};
-
-	return mt76_mcu_send_msg(&dev->mt76, MCU_EXT_CMD_ATE_CTRL, &req,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 sizeof(req), false);
 }
 
@@ -133,24 +112,14 @@ mt7915_tm_mode_ctrl(struct mt7915_dev *dev, bool enable)
 	};
 
 	return mt76_mcu_send_msg(&dev->mt76,
-<<<<<<< HEAD
 				 MCU_EXT_CMD(TX_POWER_FEATURE_CTRL),
-=======
-				 MCU_EXT_CMD_TX_POWER_FEATURE_CTRL,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 &req, sizeof(req), false);
 }
 
 static int
-<<<<<<< HEAD
 mt7915_tm_set_trx(struct mt7915_phy *phy, int type, bool en)
 {
 	struct mt7915_dev *dev = phy->dev;
-=======
-mt7915_tm_set_trx(struct mt7915_dev *dev, struct mt7915_phy *phy,
-		  int type, bool en)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mt7915_tm_cmd req = {
 		.testmode_en = 1,
 		.param_idx = MCU_ATE_SET_TRX,
@@ -159,7 +128,6 @@ mt7915_tm_set_trx(struct mt7915_dev *dev, struct mt7915_phy *phy,
 		.param.trx.band = phy != &dev->phy,
 	};
 
-<<<<<<< HEAD
 	return mt76_mcu_send_msg(&dev->mt76, MCU_EXT_CMD(ATE_CTRL), &req,
 				 sizeof(req), false);
 }
@@ -289,13 +257,13 @@ mt7915_tm_set_tx_len(struct mt7915_phy *phy, u32 tx_time)
 {
 	struct mt76_phy *mphy = phy->mt76;
 	struct mt76_testmode_data *td = &mphy->test;
-	struct sk_buff *old = td->tx_skb, *new;
 	struct ieee80211_supported_band *sband;
 	struct rate_info rate = {};
 	u16 flags = 0, tx_len;
 	u32 bitrate;
+	int ret;
 
-	if (!tx_time || !old)
+	if (!tx_time)
 		return 0;
 
 	rate.mcs = td->tx_rate_idx;
@@ -355,21 +323,9 @@ mt7915_tm_set_tx_len(struct mt7915_phy *phy, u32 tx_time)
 	bitrate = cfg80211_calculate_bitrate(&rate);
 	tx_len = bitrate * tx_time / 10 / 8;
 
-	if (tx_len < sizeof(struct ieee80211_hdr))
-		tx_len = sizeof(struct ieee80211_hdr);
-	else if (tx_len > IEEE80211_MAX_FRAME_LEN)
-		tx_len = IEEE80211_MAX_FRAME_LEN;
-
-	new = alloc_skb(tx_len, GFP_KERNEL);
-	if (!new)
-		return -ENOMEM;
-
-	skb_copy_header(new, old);
-	__skb_put_zero(new, tx_len);
-	memcpy(new->data, old->data, sizeof(struct ieee80211_hdr));
-
-	dev_kfree_skb(old);
-	td->tx_skb = new;
+	ret = mt76_testmode_alloc_skb(phy->mt76, tx_len);
+	if (ret)
+		return ret;
 
 	return 0;
 }
@@ -384,21 +340,6 @@ mt7915_tm_reg_backup_restore(struct mt7915_phy *phy)
 	int i;
 
 	if (phy->mt76->test.state == MT76_TM_STATE_OFF) {
-=======
-	return mt76_mcu_send_msg(&dev->mt76, MCU_EXT_CMD_ATE_CTRL, &req,
-				 sizeof(req), false);
-}
-
-static void
-mt7915_tm_reg_backup_restore(struct mt7915_dev *dev, struct mt7915_phy *phy)
-{
-	int n_regs = ARRAY_SIZE(reg_backup_list);
-	bool ext_phy = phy != &dev->phy;
-	u32 *b = dev->test.reg_backup;
-	int i;
-
-	if (dev->mt76.test.state == MT76_TM_STATE_OFF) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < n_regs; i++)
 			mt76_wr(dev, reg_backup_list[i].band[ext_phy], b[i]);
 		return;
@@ -411,11 +352,7 @@ mt7915_tm_reg_backup_restore(struct mt7915_dev *dev, struct mt7915_phy *phy)
 	if (!b)
 		return;
 
-<<<<<<< HEAD
 	phy->test.reg_backup = b;
-=======
-	dev->test.reg_backup = b;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < n_regs; i++)
 		b[i] = mt76_rr(dev, reg_backup_list[i].band[ext_phy]);
 
@@ -446,7 +383,6 @@ mt7915_tm_reg_backup_restore(struct mt7915_dev *dev, struct mt7915_phy *phy)
 }
 
 static void
-<<<<<<< HEAD
 mt7915_tm_init(struct mt7915_phy *phy, bool en)
 {
 	struct mt7915_dev *dev = phy->dev;
@@ -701,95 +637,6 @@ mt7915_tm_set_state(struct mt76_phy *mphy, enum mt76_testmode_state state)
 	else if (prev_state == MT76_TM_STATE_OFF ||
 		 state == MT76_TM_STATE_OFF)
 		mt7915_tm_init(phy, !(state == MT76_TM_STATE_OFF));
-=======
-mt7915_tm_init(struct mt7915_dev *dev)
-{
-	bool en = !(dev->mt76.test.state == MT76_TM_STATE_OFF);
-
-	if (!test_bit(MT76_STATE_RUNNING, &dev->phy.mt76->state))
-		return;
-
-	mt7915_tm_mode_ctrl(dev, en);
-	mt7915_tm_reg_backup_restore(dev, &dev->phy);
-	mt7915_tm_set_trx(dev, &dev->phy, TM_MAC_TXRX, !en);
-}
-
-static void
-mt7915_tm_set_tx_frames(struct mt7915_dev *dev, bool en)
-{
-	static const u8 spe_idx_map[] = {0, 0, 1, 0, 3, 2, 4, 0,
-					 9, 8, 6, 10, 16, 12, 18, 0};
-	struct sk_buff *skb = dev->mt76.test.tx_skb;
-	struct ieee80211_tx_info *info;
-
-	mt7915_tm_set_trx(dev, &dev->phy, TM_MAC_RX_RXV, false);
-
-	if (en) {
-		u8 tx_ant = dev->mt76.test.tx_antenna_mask;
-
-		mutex_unlock(&dev->mt76.mutex);
-		mt7915_set_channel(&dev->phy);
-		mutex_lock(&dev->mt76.mutex);
-
-		mt7915_mcu_set_chan_info(&dev->phy, MCU_EXT_CMD_SET_RX_PATH);
-		dev->test.spe_idx = spe_idx_map[tx_ant];
-	}
-
-	mt7915_tm_set_trx(dev, &dev->phy, TM_MAC_TX, en);
-
-	if (!en || !skb)
-		return;
-
-	info = IEEE80211_SKB_CB(skb);
-	info->control.vif = dev->phy.monitor_vif;
-}
-
-static void
-mt7915_tm_set_rx_frames(struct mt7915_dev *dev, bool en)
-{
-	if (en) {
-		mutex_unlock(&dev->mt76.mutex);
-		mt7915_set_channel(&dev->phy);
-		mutex_lock(&dev->mt76.mutex);
-
-		mt7915_mcu_set_chan_info(&dev->phy, MCU_EXT_CMD_SET_RX_PATH);
-	}
-
-	mt7915_tm_set_trx(dev, &dev->phy, TM_MAC_RX_RXV, en);
-}
-
-static void
-mt7915_tm_update_params(struct mt7915_dev *dev, u32 changed)
-{
-	struct mt76_testmode_data *td = &dev->mt76.test;
-	bool en = dev->mt76.test.state != MT76_TM_STATE_OFF;
-
-	if (changed & BIT(TM_CHANGED_FREQ_OFFSET))
-		mt7915_tm_set_freq_offset(dev, en, en ? td->freq_offset : 0);
-	if (changed & BIT(TM_CHANGED_TXPOWER))
-		mt7915_tm_set_tx_power(&dev->phy);
-}
-
-static int
-mt7915_tm_set_state(struct mt76_dev *mdev, enum mt76_testmode_state state)
-{
-	struct mt7915_dev *dev = container_of(mdev, struct mt7915_dev, mt76);
-	struct mt76_testmode_data *td = &mdev->test;
-	enum mt76_testmode_state prev_state = td->state;
-
-	mdev->test.state = state;
-
-	if (prev_state == MT76_TM_STATE_TX_FRAMES)
-		mt7915_tm_set_tx_frames(dev, false);
-	else if (state == MT76_TM_STATE_TX_FRAMES)
-		mt7915_tm_set_tx_frames(dev, true);
-	else if (prev_state == MT76_TM_STATE_RX_FRAMES)
-		mt7915_tm_set_rx_frames(dev, false);
-	else if (state == MT76_TM_STATE_RX_FRAMES)
-		mt7915_tm_set_rx_frames(dev, true);
-	else if (prev_state == MT76_TM_STATE_OFF || state == MT76_TM_STATE_OFF)
-		mt7915_tm_init(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((state == MT76_TM_STATE_IDLE &&
 	     prev_state == MT76_TM_STATE_OFF) ||
@@ -805,30 +652,18 @@ mt7915_tm_set_state(struct mt76_dev *mdev, enum mt76_testmode_state state)
 				changed |= BIT(i);
 		}
 
-<<<<<<< HEAD
 		mt7915_tm_update_params(phy, changed);
-=======
-		mt7915_tm_update_params(dev, changed);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 }
 
 static int
-<<<<<<< HEAD
 mt7915_tm_set_params(struct mt76_phy *mphy, struct nlattr **tb,
 		     enum mt76_testmode_state new_state)
 {
 	struct mt76_testmode_data *td = &mphy->test;
 	struct mt7915_phy *phy = mphy->priv;
-=======
-mt7915_tm_set_params(struct mt76_dev *mdev, struct nlattr **tb,
-		     enum mt76_testmode_state new_state)
-{
-	struct mt7915_dev *dev = container_of(mdev, struct mt7915_dev, mt76);
-	struct mt76_testmode_data *td = &dev->mt76.test;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 changed = 0;
 	int i;
 
@@ -838,11 +673,7 @@ mt7915_tm_set_params(struct mt76_dev *mdev, struct nlattr **tb,
 	    td->state == MT76_TM_STATE_OFF)
 		return 0;
 
-<<<<<<< HEAD
 	if (td->tx_antenna_mask & ~mphy->chainmask)
-=======
-	if (td->tx_antenna_mask & ~dev->phy.chainmask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	for (i = 0; i < ARRAY_SIZE(tm_change_map); i++) {
@@ -850,25 +681,15 @@ mt7915_tm_set_params(struct mt76_dev *mdev, struct nlattr **tb,
 			changed |= BIT(i);
 	}
 
-<<<<<<< HEAD
 	mt7915_tm_update_params(phy, changed);
-=======
-	mt7915_tm_update_params(dev, changed);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 static int
-<<<<<<< HEAD
 mt7915_tm_dump_stats(struct mt76_phy *mphy, struct sk_buff *msg)
 {
 	struct mt7915_phy *phy = mphy->priv;
-=======
-mt7915_tm_dump_stats(struct mt76_dev *mdev, struct sk_buff *msg)
-{
-	struct mt7915_dev *dev = container_of(mdev, struct mt7915_dev, mt76);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *rx, *rssi;
 	int i;
 
@@ -876,24 +697,15 @@ mt7915_tm_dump_stats(struct mt76_dev *mdev, struct sk_buff *msg)
 	if (!rx)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	if (nla_put_s32(msg, MT76_TM_RX_ATTR_FREQ_OFFSET, phy->test.last_freq_offset))
-=======
-	if (nla_put_s32(msg, MT76_TM_RX_ATTR_FREQ_OFFSET, dev->test.last_freq_offset))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 
 	rssi = nla_nest_start(msg, MT76_TM_RX_ATTR_RCPI);
 	if (!rssi)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_rcpi); i++)
 		if (nla_put_u8(msg, i, phy->test.last_rcpi[i]))
-=======
-	for (i = 0; i < ARRAY_SIZE(dev->test.last_rcpi); i++)
-		if (nla_put_u8(msg, i, dev->test.last_rcpi[i]))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);
@@ -902,13 +714,8 @@ mt7915_tm_dump_stats(struct mt76_dev *mdev, struct sk_buff *msg)
 	if (!rssi)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_ib_rssi); i++)
 		if (nla_put_s8(msg, i, phy->test.last_ib_rssi[i]))
-=======
-	for (i = 0; i < ARRAY_SIZE(dev->test.last_ib_rssi); i++)
-		if (nla_put_s8(msg, i, dev->test.last_ib_rssi[i]))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);
@@ -917,22 +724,13 @@ mt7915_tm_dump_stats(struct mt76_dev *mdev, struct sk_buff *msg)
 	if (!rssi)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(phy->test.last_wb_rssi); i++)
 		if (nla_put_s8(msg, i, phy->test.last_wb_rssi[i]))
-=======
-	for (i = 0; i < ARRAY_SIZE(dev->test.last_wb_rssi); i++)
-		if (nla_put_s8(msg, i, dev->test.last_wb_rssi[i]))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOMEM;
 
 	nla_nest_end(msg, rssi);
 
-<<<<<<< HEAD
 	if (nla_put_u8(msg, MT76_TM_RX_ATTR_SNR, phy->test.last_snr))
-=======
-	if (nla_put_u8(msg, MT76_TM_RX_ATTR_SNR, dev->test.last_snr))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 
 	nla_nest_end(msg, rx);

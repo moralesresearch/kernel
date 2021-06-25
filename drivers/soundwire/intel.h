@@ -48,11 +48,6 @@ struct sdw_intel {
 #endif
 };
 
-<<<<<<< HEAD
-=======
-#define SDW_INTEL_QUIRK_MASK_BUS_DISABLE      BIT(1)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int intel_master_startup(struct platform_device *pdev);
 int intel_master_process_wakeen_event(struct platform_device *pdev);
 

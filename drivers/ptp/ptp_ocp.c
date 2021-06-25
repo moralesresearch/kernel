@@ -324,11 +324,7 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	if (!bp->base) {
 		dev_err(&pdev->dev, "io_remap bar0\n");
 		err = -ENOMEM;
-<<<<<<< HEAD
 		goto out_release_regions;
-=======
-		goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	bp->reg = bp->base + OCP_REGISTER_OFFSET;
 	bp->tod = bp->base + TOD_REGISTER_OFFSET;
@@ -351,11 +347,8 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	return 0;
 
 out:
-<<<<<<< HEAD
 	pci_iounmap(pdev, bp->base);
 out_release_regions:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_release_regions(pdev);
 out_disable:
 	pci_disable_device(pdev);

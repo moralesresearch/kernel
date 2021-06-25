@@ -467,7 +467,6 @@ void __init mem_init(void)
 	memblock_free_all();
 	setup_zero_pages();	/* Setup zeroed pages.  */
 	mem_init_free_highmem();
-	mem_init_print_info(NULL);
 
 #ifdef CONFIG_64BIT
 	if ((unsigned long) &_text > (unsigned long) CKSEG0)
@@ -495,20 +494,11 @@ void free_init_pages(const char *what, unsigned long begin, unsigned long end)
 
 void (*free_init_pages_eva)(void *begin, void *end) = NULL;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __weak __init prom_free_prom_memory(void)
 {
 	/* nothing to do */
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __ref free_initmem(void)
 {
 	prom_free_prom_memory();

@@ -24,11 +24,8 @@ properties:
       - qcom,mmcc-msm8974
       - qcom,mmcc-msm8996
       - qcom,mmcc-msm8998
-<<<<<<< HEAD
       - qcom,mmcc-sdm630
       - qcom,mmcc-sdm660
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   clocks:
     items:

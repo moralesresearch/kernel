@@ -28,10 +28,7 @@ config DRM_IMX_TVE
 config DRM_IMX_LDB
 	tristate "Support for LVDS displays"
 	depends on DRM_IMX && MFD_SYSCON
-<<<<<<< HEAD
 	depends on COMMON_CLK
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DRM_PANEL
 	help
 	  Choose this to enable the internal LVDS Display Bridge (LDB)
@@ -40,11 +37,7 @@ config DRM_IMX_LDB
 config DRM_IMX_HDMI
 	tristate "Freescale i.MX DRM HDMI"
 	select DRM_DW_HDMI
-<<<<<<< HEAD
 	depends on DRM_IMX && OF
-=======
-	depends on DRM_IMX
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Choose this if you want to use HDMI on i.MX6.
 

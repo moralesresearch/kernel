@@ -127,20 +127,12 @@ static inline unsigned int x86_cpuid_family(void)
 }
 
 #ifdef CONFIG_MICROCODE
-<<<<<<< HEAD
-=======
-int __init microcode_init(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void __init load_ucode_bsp(void);
 extern void load_ucode_ap(void);
 void reload_early_microcode(void);
 extern bool get_builtin_firmware(struct cpio_data *cd, const char *name);
 extern bool initrd_gone;
 #else
-<<<<<<< HEAD
-=======
-static inline int __init microcode_init(void)			{ return 0; };
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void __init load_ucode_bsp(void)			{ }
 static inline void load_ucode_ap(void)				{ }
 static inline void reload_early_microcode(void)			{ }

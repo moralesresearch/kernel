@@ -41,11 +41,7 @@
 #include "blk-mq-sched.h"
 #include "blk-rq-qos.h"
 
-<<<<<<< HEAD
 static DEFINE_PER_CPU(struct llist_head, blk_cpu_done);
-=======
-static DEFINE_PER_CPU(struct list_head, blk_cpu_done);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void blk_mq_poll_stats_start(struct request_queue *q);
 static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
@@ -365,11 +361,12 @@ static struct request *__blk_mq_alloc_request(struct blk_mq_alloc_data *data)
 
 	if (e) {
 		/*
-		 * Flush requests are special and go directly to the
+		 * Flush/passthrough requests are special and go directly to the
 		 * dispatch list. Don't include reserved tags in the
 		 * limiting, as it isn't useful.
 		 */
 		if (!op_is_flush(data->cmd_flags) &&
+		    !blk_op_is_passthrough(data->cmd_flags) &&
 		    e->type->ops.limit_depth &&
 		    !(data->flags & BLK_MQ_REQ_RESERVED))
 			e->type->ops.limit_depth(data->cmd_flags, data);
@@ -571,7 +568,6 @@ void blk_mq_end_request(struct request *rq, blk_status_t error)
 }
 EXPORT_SYMBOL(blk_mq_end_request);
 
-<<<<<<< HEAD
 static void blk_complete_reqs(struct llist_head *list)
 {
 	struct llist_node *entry = llist_reverse_order(llist_del_all(list));
@@ -584,52 +580,10 @@ static void blk_complete_reqs(struct llist_head *list)
 static __latent_entropy void blk_done_softirq(struct softirq_action *h)
 {
 	blk_complete_reqs(this_cpu_ptr(&blk_cpu_done));
-=======
-/*
- * Softirq action handler - move entries to local list and loop over them
- * while passing them to the queue registered handler.
- */
-static __latent_entropy void blk_done_softirq(struct softirq_action *h)
-{
-	struct list_head *cpu_list, local_list;
-
-	local_irq_disable();
-	cpu_list = this_cpu_ptr(&blk_cpu_done);
-	list_replace_init(cpu_list, &local_list);
-	local_irq_enable();
-
-	while (!list_empty(&local_list)) {
-		struct request *rq;
-
-		rq = list_entry(local_list.next, struct request, ipi_list);
-		list_del_init(&rq->ipi_list);
-		rq->q->mq_ops->complete(rq);
-	}
-}
-
-static void blk_mq_trigger_softirq(struct request *rq)
-{
-	struct list_head *list;
-	unsigned long flags;
-
-	local_irq_save(flags);
-	list = this_cpu_ptr(&blk_cpu_done);
-	list_add_tail(&rq->ipi_list, list);
-
-	/*
-	 * If the list only contains our just added request, signal a raise of
-	 * the softirq.  If there are already entries there, someone already
-	 * raised the irq but it hasn't run yet.
-	 */
-	if (list->next == &rq->ipi_list)
-		raise_softirq_irqoff(BLOCK_SOFTIRQ);
-	local_irq_restore(flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int blk_softirq_cpu_dead(unsigned int cpu)
 {
-<<<<<<< HEAD
 	blk_complete_reqs(&per_cpu(blk_cpu_done, cpu));
 	return 0;
 }
@@ -637,39 +591,6 @@ static int blk_softirq_cpu_dead(unsigned int cpu)
 static void __blk_mq_complete_request_remote(void *data)
 {
 	__raise_softirq_irqoff(BLOCK_SOFTIRQ);
-=======
-	/*
-	 * If a CPU goes away, splice its entries to the current CPU
-	 * and trigger a run of the softirq
-	 */
-	local_irq_disable();
-	list_splice_init(&per_cpu(blk_cpu_done, cpu),
-			 this_cpu_ptr(&blk_cpu_done));
-	raise_softirq_irqoff(BLOCK_SOFTIRQ);
-	local_irq_enable();
-
-	return 0;
-}
-
-
-static void __blk_mq_complete_request_remote(void *data)
-{
-	struct request *rq = data;
-
-	/*
-	 * For most of single queue controllers, there is only one irq vector
-	 * for handling I/O completion, and the only irq's affinity is set
-	 * to all possible CPUs.  On most of ARCHs, this affinity means the irq
-	 * is handled on one specific CPU.
-	 *
-	 * So complete I/O requests in softirq context in case of single queue
-	 * devices to avoid degrading I/O performance due to irqsoff latency.
-	 */
-	if (rq->q->nr_hw_queues == 1)
-		blk_mq_trigger_softirq(rq);
-	else
-		rq->q->mq_ops->complete(rq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool blk_mq_complete_need_ipi(struct request *rq)
@@ -698,7 +619,6 @@ static inline bool blk_mq_complete_need_ipi(struct request *rq)
 	return cpu_online(rq->mq_ctx->cpu);
 }
 
-<<<<<<< HEAD
 static void blk_mq_complete_send_ipi(struct request *rq)
 {
 	struct llist_head *list;
@@ -723,8 +643,6 @@ static void blk_mq_raise_softirq(struct request *rq)
 	preempt_enable();
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool blk_mq_complete_request_remote(struct request *rq)
 {
 	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
@@ -737,7 +655,6 @@ bool blk_mq_complete_request_remote(struct request *rq)
 		return false;
 
 	if (blk_mq_complete_need_ipi(rq)) {
-<<<<<<< HEAD
 		blk_mq_complete_send_ipi(rq);
 		return true;
 	}
@@ -747,17 +664,6 @@ bool blk_mq_complete_request_remote(struct request *rq)
 		return true;
 	}
 	return false;
-=======
-		INIT_CSD(&rq->csd, __blk_mq_complete_request_remote, rq);
-		smp_call_function_single_async(rq->mq_ctx->cpu, &rq->csd);
-	} else {
-		if (rq->q->nr_hw_queues > 1)
-			return false;
-		blk_mq_trigger_softirq(rq);
-	}
-
-	return true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(blk_mq_complete_request_remote);
 
@@ -1372,10 +1278,15 @@ static enum prep_dispatch blk_mq_prep_dispatch_rq(struct request *rq,
 						  bool need_budget)
 {
 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
+	int budget_token = -1;
 
-	if (need_budget && !blk_mq_get_dispatch_budget(rq->q)) {
-		blk_mq_put_driver_tag(rq);
-		return PREP_DISPATCH_NO_BUDGET;
+	if (need_budget) {
+		budget_token = blk_mq_get_dispatch_budget(rq->q);
+		if (budget_token < 0) {
+			blk_mq_put_driver_tag(rq);
+			return PREP_DISPATCH_NO_BUDGET;
+		}
+		blk_mq_set_rq_budget_token(rq, budget_token);
 	}
 
 	if (!blk_mq_get_driver_tag(rq)) {
@@ -1392,7 +1303,7 @@ static enum prep_dispatch blk_mq_prep_dispatch_rq(struct request *rq,
 			 * together during handling partial dispatch
 			 */
 			if (need_budget)
-				blk_mq_put_dispatch_budget(rq->q);
+				blk_mq_put_dispatch_budget(rq->q, budget_token);
 			return PREP_DISPATCH_NO_TAG;
 		}
 	}
@@ -1402,12 +1313,16 @@ static enum prep_dispatch blk_mq_prep_dispatch_rq(struct request *rq,
 
 /* release all allocated budgets before calling to blk_mq_dispatch_rq_list */
 static void blk_mq_release_budgets(struct request_queue *q,
-		unsigned int nr_budgets)
+		struct list_head *list)
 {
-	int i;
+	struct request *rq;
 
-	for (i = 0; i < nr_budgets; i++)
-		blk_mq_put_dispatch_budget(q);
+	list_for_each_entry(rq, list, queuelist) {
+		int budget_token = blk_mq_get_rq_budget_token(rq);
+
+		if (budget_token >= 0)
+			blk_mq_put_dispatch_budget(q, budget_token);
+	}
 }
 
 /*
@@ -1505,7 +1420,8 @@ out:
 			(hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED);
 		bool no_budget_avail = prep == PREP_DISPATCH_NO_BUDGET;
 
-		blk_mq_release_budgets(q, nr_budgets);
+		if (nr_budgets)
+			blk_mq_release_budgets(q, list);
 
 		spin_lock(&hctx->lock);
 		list_splice_tail_init(list, &hctx->dispatch);
@@ -1714,7 +1630,6 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
 }
 EXPORT_SYMBOL(blk_mq_run_hw_queue);
 
-<<<<<<< HEAD
 /*
  * Is the request queue handled by an IO scheduler that does not respect
  * hardware queues when dispatching?
@@ -1751,8 +1666,6 @@ static struct blk_mq_hw_ctx *blk_mq_get_sq_hctx(struct request_queue *q)
 	return NULL;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * blk_mq_run_hw_queues - Run all hardware queues in a request queue.
  * @q: Pointer to the request queue to run.
@@ -1760,7 +1673,6 @@ static struct blk_mq_hw_ctx *blk_mq_get_sq_hctx(struct request_queue *q)
  */
 void blk_mq_run_hw_queues(struct request_queue *q, bool async)
 {
-<<<<<<< HEAD
 	struct blk_mq_hw_ctx *hctx, *sq_hctx;
 	int i;
 
@@ -1778,16 +1690,6 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async)
 		if (!sq_hctx || sq_hctx == hctx ||
 		    !list_empty_careful(&hctx->dispatch))
 			blk_mq_run_hw_queue(hctx, async);
-=======
-	struct blk_mq_hw_ctx *hctx;
-	int i;
-
-	queue_for_each_hw_ctx(q, hctx, i) {
-		if (blk_mq_hctx_stopped(hctx))
-			continue;
-
-		blk_mq_run_hw_queue(hctx, async);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL(blk_mq_run_hw_queues);
@@ -1799,7 +1701,6 @@ EXPORT_SYMBOL(blk_mq_run_hw_queues);
  */
 void blk_mq_delay_run_hw_queues(struct request_queue *q, unsigned long msecs)
 {
-<<<<<<< HEAD
 	struct blk_mq_hw_ctx *hctx, *sq_hctx;
 	int i;
 
@@ -1817,16 +1718,6 @@ void blk_mq_delay_run_hw_queues(struct request_queue *q, unsigned long msecs)
 		if (!sq_hctx || sq_hctx == hctx ||
 		    !list_empty_careful(&hctx->dispatch))
 			blk_mq_delay_run_hw_queue(hctx, msecs);
-=======
-	struct blk_mq_hw_ctx *hctx;
-	int i;
-
-	queue_for_each_hw_ctx(q, hctx, i) {
-		if (blk_mq_hctx_stopped(hctx))
-			continue;
-
-		blk_mq_delay_run_hw_queue(hctx, msecs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL(blk_mq_delay_run_hw_queues);
@@ -2015,7 +1906,8 @@ void blk_mq_insert_requests(struct blk_mq_hw_ctx *hctx, struct blk_mq_ctx *ctx,
 	spin_unlock(&ctx->lock);
 }
 
-static int plug_rq_cmp(void *priv, struct list_head *a, struct list_head *b)
+static int plug_rq_cmp(void *priv, const struct list_head *a,
+		       const struct list_head *b)
 {
 	struct request *rqa = container_of(a, struct request, queuelist);
 	struct request *rqb = container_of(b, struct request, queuelist);
@@ -2129,6 +2021,7 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
 {
 	struct request_queue *q = rq->q;
 	bool run_queue = true;
+	int budget_token;
 
 	/*
 	 * RCU or SRCU read lock is needed before checking quiesced flag.
@@ -2146,11 +2039,14 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
 	if (q->elevator && !bypass_insert)
 		goto insert;
 
-	if (!blk_mq_get_dispatch_budget(q))
+	budget_token = blk_mq_get_dispatch_budget(q);
+	if (budget_token < 0)
 		goto insert;
 
+	blk_mq_set_rq_budget_token(rq, budget_token);
+
 	if (!blk_mq_get_driver_tag(rq)) {
-		blk_mq_put_dispatch_budget(q);
+		blk_mq_put_dispatch_budget(q, budget_token);
 		goto insert;
 	}
 
@@ -2275,11 +2171,7 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
  */
 blk_qc_t blk_mq_submit_bio(struct bio *bio)
 {
-<<<<<<< HEAD
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
-=======
-	struct request_queue *q = bio->bi_disk->queue;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const int is_sync = op_is_sync(bio->bi_opf);
 	const int is_flush_fua = op_is_flush(bio->bi_opf);
 	struct blk_mq_alloc_data data = {
@@ -2340,14 +2232,9 @@ blk_qc_t blk_mq_submit_bio(struct bio *bio)
 		/* Bypass scheduler for flush requests */
 		blk_insert_flush(rq);
 		blk_mq_run_hw_queue(data.hctx, true);
-<<<<<<< HEAD
 	} else if (plug && (q->nr_hw_queues == 1 ||
 		   blk_mq_is_sbitmap_shared(rq->mq_hctx->flags) ||
 		   q->mq_ops->commit_rqs || !blk_queue_nonrot(q))) {
-=======
-	} else if (plug && (q->nr_hw_queues == 1 || q->mq_ops->commit_rqs ||
-				!blk_queue_nonrot(q))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Use plugging if we have a ->commit_rqs() hook as well, as
 		 * we know the driver uses bd->last in a smart fashion.
@@ -2810,10 +2697,6 @@ blk_mq_alloc_hctx(struct request_queue *q, struct blk_mq_tag_set *set,
 		goto free_hctx;
 
 	atomic_set(&hctx->nr_active, 0);
-<<<<<<< HEAD
-=======
-	atomic_set(&hctx->elevator_queued, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (node == NUMA_NO_NODE)
 		node = set->numa_node;
 	hctx->numa_node = node;
@@ -2836,7 +2719,7 @@ blk_mq_alloc_hctx(struct request_queue *q, struct blk_mq_tag_set *set,
 		goto free_cpumask;
 
 	if (sbitmap_init_node(&hctx->ctx_map, nr_cpu_ids, ilog2(8),
-				gfp, node))
+				gfp, node, false, false))
 		goto free_ctxs;
 	hctx->nr_ctx = 0;
 
@@ -3403,19 +3286,12 @@ EXPORT_SYMBOL(blk_mq_init_allocated_queue);
 /* tags can _not_ be used after returning from blk_mq_exit_queue */
 void blk_mq_exit_queue(struct request_queue *q)
 {
-<<<<<<< HEAD
 	struct blk_mq_tag_set *set = q->tag_set;
 
 	/* Checks hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED. */
 	blk_mq_exit_hw_queues(q, set, set->nr_hw_queues);
 	/* May clear BLK_MQ_F_TAG_QUEUE_SHARED in hctx->flags. */
 	blk_mq_del_queue_tag_set(q);
-=======
-	struct blk_mq_tag_set	*set = q->tag_set;
-
-	blk_mq_del_queue_tag_set(q);
-	blk_mq_exit_hw_queues(q, set, set->nr_hw_queues);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
@@ -4073,11 +3949,7 @@ static int __init blk_mq_init(void)
 	int i;
 
 	for_each_possible_cpu(i)
-<<<<<<< HEAD
 		init_llist_head(&per_cpu(blk_cpu_done, i));
-=======
-		INIT_LIST_HEAD(&per_cpu(blk_cpu_done, i));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	open_softirq(BLOCK_SOFTIRQ, blk_done_softirq);
 
 	cpuhp_setup_state_nocalls(CPUHP_BLOCK_SOFTIRQ_DEAD,

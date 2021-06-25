@@ -64,11 +64,7 @@ choice
 	config GCC_PLUGIN_STRUCTLEAK_BYREF
 		bool "zero-init structs passed by reference (strong)"
 		depends on GCC_PLUGINS
-<<<<<<< HEAD
 		depends on !(KASAN && KASAN_STACK)
-=======
-		depends on !(KASAN && KASAN_STACK=1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		select GCC_PLUGIN_STRUCTLEAK
 		help
 		  Zero-initialize any structures on the stack that may
@@ -86,11 +82,7 @@ choice
 	config GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
 		bool "zero-init anything passed by reference (very strong)"
 		depends on GCC_PLUGINS
-<<<<<<< HEAD
 		depends on !(KASAN && KASAN_STACK)
-=======
-		depends on !(KASAN && KASAN_STACK=1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		select GCC_PLUGIN_STRUCTLEAK
 		help
 		  Zero-initialize any stack variables that may be passed

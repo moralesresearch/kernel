@@ -1,8 +1,4 @@
 # SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
-=======
-OBJECT_FILES_NON_STANDARD_xen-asm.o := y
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ifdef CONFIG_FUNCTION_TRACER
 # Do not profile debug and lowlevel utilities

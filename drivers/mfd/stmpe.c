@@ -312,11 +312,7 @@ EXPORT_SYMBOL_GPL(stmpe_set_altfunc);
  * GPIO (all variants)
  */
 
-<<<<<<< HEAD
 static struct resource stmpe_gpio_resources[] = {
-=======
-static const struct resource stmpe_gpio_resources[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Start and end filled dynamically */
 	{
 		.flags	= IORESOURCE_IRQ,
@@ -340,12 +336,8 @@ static const struct mfd_cell stmpe_gpio_cell_noirq = {
  * Keypad (1601, 2401, 2403)
  */
 
-<<<<<<< HEAD
 static struct resource stmpe_keypad_resources[] = {
 	/* Start and end filled dynamically */
-=======
-static const struct resource stmpe_keypad_resources[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.name	= "KEYPAD",
 		.flags	= IORESOURCE_IRQ,
@@ -366,12 +358,8 @@ static const struct mfd_cell stmpe_keypad_cell = {
 /*
  * PWM (1601, 2401, 2403)
  */
-<<<<<<< HEAD
 static struct resource stmpe_pwm_resources[] = {
 	/* Start and end filled dynamically */
-=======
-static const struct resource stmpe_pwm_resources[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.name	= "PWM0",
 		.flags	= IORESOURCE_IRQ,
@@ -459,12 +447,8 @@ static struct stmpe_variant_info stmpe801_noirq = {
  * Touchscreen (STMPE811 or STMPE610)
  */
 
-<<<<<<< HEAD
 static struct resource stmpe_ts_resources[] = {
 	/* Start and end filled dynamically */
-=======
-static const struct resource stmpe_ts_resources[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.name	= "TOUCH_DET",
 		.flags	= IORESOURCE_IRQ,
@@ -486,12 +470,8 @@ static const struct mfd_cell stmpe_ts_cell = {
  * ADC (STMPE811)
  */
 
-<<<<<<< HEAD
 static struct resource stmpe_adc_resources[] = {
 	/* Start and end filled dynamically */
-=======
-static const struct resource stmpe_adc_resources[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.name	= "STMPE_TEMP_SENS",
 		.flags	= IORESOURCE_IRQ,

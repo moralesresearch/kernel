@@ -26,13 +26,6 @@
 
 MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
 MODULE_DESCRIPTION("Joystick device interfaces");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("input/js");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 #define JOYDEV_MINOR_BASE	0

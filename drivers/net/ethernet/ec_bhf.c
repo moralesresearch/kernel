@@ -576,19 +576,12 @@ static void ec_bhf_remove(struct pci_dev *dev)
 	struct ec_bhf_priv *priv = netdev_priv(net_dev);
 
 	unregister_netdev(net_dev);
-<<<<<<< HEAD
 
 	pci_iounmap(dev, priv->dma_io);
 	pci_iounmap(dev, priv->io);
 
 	free_netdev(net_dev);
 
-=======
-	free_netdev(net_dev);
-
-	pci_iounmap(dev, priv->dma_io);
-	pci_iounmap(dev, priv->io);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_release_regions(dev);
 	pci_clear_master(dev);
 	pci_disable_device(dev);

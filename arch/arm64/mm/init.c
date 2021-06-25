@@ -35,6 +35,7 @@
 #include <asm/fixmap.h>
 #include <asm/kasan.h>
 #include <asm/kernel-pgtable.h>
+#include <asm/kvm_host.h>
 #include <asm/memory.h>
 #include <asm/numa.h>
 #include <asm/sections.h>
@@ -42,6 +43,7 @@
 #include <linux/sizes.h>
 #include <asm/tlb.h>
 #include <asm/alternative.h>
+#include <asm/xen/swiotlb-xen.h>
 
 /*
  * We need to be able to catch inadvertent references to memstart_addr
@@ -219,11 +221,8 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
 
 int pfn_valid(unsigned long pfn)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phys_addr_t addr = PFN_PHYS(pfn);
+	struct mem_section *ms;
 
 	/*
 	 * Ensure the upper PAGE_SHIFT bits are clear in the
@@ -234,30 +233,11 @@ int pfn_valid(unsigned long pfn)
 	if (PHYS_PFN(addr) != pfn)
 		return 0;
 
-#ifdef CONFIG_SPARSEMEM
-{
-	struct mem_section *ms;
-
 	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
 		return 0;
 
 	ms = __pfn_to_section(pfn);
 	if (!valid_section(ms))
-<<<<<<< HEAD
-=======
-=======
-	phys_addr_t addr = pfn << PAGE_SHIFT;
-
-	if ((addr >> PAGE_SHIFT) != pfn)
-		return 0;
-
-#ifdef CONFIG_SPARSEMEM
-	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
-		return 0;
-
-	if (!valid_section(__pfn_to_section(pfn)))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	/*
@@ -269,21 +249,9 @@ int pfn_valid(unsigned long pfn)
 	 * memory sections covering all of hotplug memory including
 	 * both normal and ZONE_DEVICE based.
 	 */
-<<<<<<< HEAD
 	if (!early_section(ms))
 		return pfn_section_valid(ms, pfn);
-}
-=======
-<<<<<<< HEAD
-	if (!early_section(ms))
-		return pfn_section_valid(ms, pfn);
-}
-=======
-	if (!early_section(__pfn_to_section(pfn)))
-		return pfn_section_valid(__pfn_to_section(pfn), pfn);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-#endif
+
 	return memblock_is_map_memory(addr);
 }
 EXPORT_SYMBOL(pfn_valid);
@@ -469,23 +437,10 @@ void __init bootmem_init(void)
 	max_pfn = max_low_pfn = max;
 	min_low_pfn = min;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arch_numa_init();
 
 	/*
 	 * must be done after arch_numa_init() which calls numa_init() to
-<<<<<<< HEAD
-=======
-=======
-	arm64_numa_init();
-
-	/*
-	 * must be done after arm64_numa_init() which calls numa_init() to
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * initialize node_online_map that gets used in hugetlb_cma_reserve()
 	 * while allocating required CMA size across online nodes.
 	 */
@@ -494,6 +449,8 @@ void __init bootmem_init(void)
 #endif
 
 	dma_pernuma_cma_reserve();
+
+	kvm_hyp_reserve();
 
 	/*
 	 * sparse_init() tries to allocate memory from memblock, so must be
@@ -526,15 +483,13 @@ void __init mem_init(void)
 	if (swiotlb_force == SWIOTLB_FORCE ||
 	    max_pfn > PFN_DOWN(arm64_dma_phys_limit))
 		swiotlb_init(1);
-	else
+	else if (!xen_swiotlb_detect())
 		swiotlb_force = SWIOTLB_NO_FORCE;
 
 	set_max_mapnr(max_pfn - PHYS_PFN_OFFSET);
 
 	/* this will put all unused low memory onto the freelists */
 	memblock_free_all();
-
-	mem_init_print_info(NULL);
 
 	/*
 	 * Check boundaries twice: Some fundamental inconsistencies can be
@@ -564,7 +519,7 @@ void free_initmem(void)
 	 * prevents the region from being reused for kernel modules, which
 	 * is not supported by kallsyms.
 	 */
-	unmap_kernel_range((u64)__init_begin, (u64)(__init_end - __init_begin));
+	vunmap_range((u64)__init_begin, (u64)__init_end);
 }
 
 void dump_mem_limit(void)

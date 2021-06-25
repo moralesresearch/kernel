@@ -91,14 +91,11 @@
 from __future__ import print_function
 
 import sys
-<<<<<<< HEAD
 # Only change warnings if the python -W option was not used
 if not sys.warnoptions:
 	import warnings
 	# PySide2 causes deprecation warnings, ignore them.
 	warnings.filterwarnings("ignore", category=DeprecationWarning)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 import argparse
 import weakref
 import threading
@@ -133,14 +130,9 @@ if pyside_version_1:
 	from PySide.QtGui import *
 	from PySide.QtSql import *
 
-<<<<<<< HEAD
 from decimal import Decimal, ROUND_HALF_UP
 from ctypes import CDLL, Structure, create_string_buffer, addressof, sizeof, \
 		   c_void_p, c_bool, c_byte, c_char, c_int, c_uint, c_longlong, c_ulonglong
-=======
-from decimal import *
-from ctypes import *
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 from multiprocessing import Process, Array, Value, Event
 
 # xrange is range in Python3
@@ -3882,11 +3874,7 @@ def CopyTableCellsToClipboard(view, as_csv=False, with_hdr=False):
 	if with_hdr:
 		model = indexes[0].model()
 		for col in range(min_col, max_col + 1):
-<<<<<<< HEAD
 			val = model.headerData(col, Qt.Horizontal, Qt.DisplayRole)
-=======
-			val = model.headerData(col, Qt.Horizontal)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if as_csv:
 				text += sep + ToCSValue(val)
 				sep = ","

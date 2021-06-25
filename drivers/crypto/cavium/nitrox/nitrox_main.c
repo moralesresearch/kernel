@@ -442,10 +442,6 @@ static int nitrox_probe(struct pci_dev *pdev,
 	err = pci_request_mem_regions(pdev, nitrox_driver_name);
 	if (err) {
 		pci_disable_device(pdev);
-<<<<<<< HEAD
-=======
-		dev_err(&pdev->dev, "Failed to request mem regions!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return err;
 	}
 	pci_set_master(pdev);

@@ -8,22 +8,24 @@
 #ifndef SELFTEST_KVM_UTIL_INTERNAL_H
 #define SELFTEST_KVM_UTIL_INTERNAL_H
 
+#include "linux/hashtable.h"
+#include "linux/rbtree.h"
+
 #include "sparsebit.h"
 
-<<<<<<< HEAD
-=======
-#define KVM_DEV_PATH		"/dev/kvm"
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct userspace_mem_region {
 	struct kvm_userspace_memory_region region;
 	struct sparsebit *unused_phy_pages;
 	int fd;
 	off_t offset;
 	void *host_mem;
+	void *host_alias;
 	void *mmap_start;
+	void *mmap_alias;
 	size_t mmap_size;
-	struct list_head list;
+	struct rb_node gpa_node;
+	struct rb_node hva_node;
+	struct hlist_node slot_node;
 };
 
 struct vcpu {
@@ -34,6 +36,12 @@ struct vcpu {
 	struct kvm_dirty_gfn *dirty_gfns;
 	uint32_t fetch_index;
 	uint32_t dirty_gfns_count;
+};
+
+struct userspace_mem_regions {
+	struct rb_root gpa_tree;
+	struct rb_root hva_tree;
+	DECLARE_HASHTABLE(slot_hash, 9);
 };
 
 struct kvm_vm {
@@ -48,7 +56,7 @@ struct kvm_vm {
 	unsigned int va_bits;
 	uint64_t max_gfn;
 	struct list_head vcpus;
-	struct list_head userspace_mem_regions;
+	struct userspace_mem_regions regions;
 	struct sparsebit *vpages_valid;
 	struct sparsebit *vpages_mapped;
 	bool has_irqchip;

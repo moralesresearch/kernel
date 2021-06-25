@@ -42,11 +42,7 @@ static int pn544_mei_probe(struct mei_cl_device *cldev,
 	return 0;
 }
 
-<<<<<<< HEAD
 static void pn544_mei_remove(struct mei_cl_device *cldev)
-=======
-static int pn544_mei_remove(struct mei_cl_device *cldev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nfc_mei_phy *phy = mei_cldev_get_drvdata(cldev);
 
@@ -55,11 +51,6 @@ static int pn544_mei_remove(struct mei_cl_device *cldev)
 	pn544_hci_remove(phy->hdev);
 
 	nfc_mei_phy_free(phy);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct mei_cl_device_id pn544_mei_tbl[] = {

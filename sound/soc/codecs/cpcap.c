@@ -16,10 +16,6 @@
 #include <sound/soc.h>
 #include <sound/tlv.h>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Register 512 CPCAP_REG_VAUDIOC --- Audio Regulator and Bias Voltage */
 #define CPCAP_BIT_AUDIO_LOW_PWR           6
 #define CPCAP_BIT_AUD_LOWPWR_SPEED        5
@@ -28,11 +24,6 @@
 #define CPCAP_BIT_VAUDIO_MODE0            1
 #define CPCAP_BIT_V_AUDIO_EN              0
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Register 513 CPCAP_REG_CC     --- CODEC */
 #define CPCAP_BIT_CDC_CLK2                15
 #define CPCAP_BIT_CDC_CLK1                14
@@ -238,14 +229,7 @@ struct cpcap_reg_info {
 };
 
 static const struct cpcap_reg_info cpcap_default_regs[] = {
-<<<<<<< HEAD
 	{ CPCAP_REG_VAUDIOC, 0x003F, 0x0000 },
-=======
-<<<<<<< HEAD
-	{ CPCAP_REG_VAUDIOC, 0x003F, 0x0000 },
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ CPCAP_REG_CC, 0xFFFF, 0x0000 },
 	{ CPCAP_REG_CC, 0xFFFF, 0x0000 },
 	{ CPCAP_REG_CDI, 0xBFFF, 0x0000 },
@@ -1396,10 +1380,6 @@ static int cpcap_voice_set_dai_fmt(struct snd_soc_dai *codec_dai,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Configure codec for voice call if requested.
@@ -1515,13 +1495,6 @@ static int cpcap_voice_set_tdm_slot(struct snd_soc_dai *dai,
 }
 
 static int cpcap_voice_set_mute(struct snd_soc_dai *dai, int mute, int direction)
-<<<<<<< HEAD
-=======
-=======
-static int cpcap_voice_set_mute(struct snd_soc_dai *dai,
-				int mute, int direction)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct snd_soc_component *component = dai->component;
 	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
@@ -1542,14 +1515,7 @@ static const struct snd_soc_dai_ops cpcap_dai_voice_ops = {
 	.hw_params	= cpcap_voice_hw_params,
 	.set_sysclk	= cpcap_voice_set_dai_sysclk,
 	.set_fmt	= cpcap_voice_set_dai_fmt,
-<<<<<<< HEAD
 	.set_tdm_slot	= cpcap_voice_set_tdm_slot,
-=======
-<<<<<<< HEAD
-	.set_tdm_slot	= cpcap_voice_set_tdm_slot,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.mute_stream	= cpcap_voice_set_mute,
 	.no_capture_mute = 1,
 };

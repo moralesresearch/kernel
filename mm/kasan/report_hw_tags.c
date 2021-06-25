@@ -15,29 +15,17 @@
 
 #include "kasan.h"
 
-<<<<<<< HEAD
 const char *kasan_get_bug_type(struct kasan_access_info *info)
-=======
-const char *get_bug_type(struct kasan_access_info *info)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return "invalid-access";
 }
 
-<<<<<<< HEAD
 void *kasan_find_first_bad_addr(void *addr, size_t size)
-=======
-void *find_first_bad_addr(void *addr, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return kasan_reset_tag(addr);
 }
 
-<<<<<<< HEAD
 void kasan_metadata_fetch_row(char *buffer, void *row)
-=======
-void metadata_fetch_row(char *buffer, void *row)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -45,11 +33,7 @@ void metadata_fetch_row(char *buffer, void *row)
 		buffer[i] = hw_get_mem_tag(row + i * KASAN_GRANULE_SIZE);
 }
 
-<<<<<<< HEAD
 void kasan_print_tags(u8 addr_tag, const void *addr)
-=======
-void print_tags(u8 addr_tag, const void *addr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 memory_tag = hw_get_mem_tag((void *)addr);
 

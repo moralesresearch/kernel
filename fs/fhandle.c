@@ -173,11 +173,7 @@ static int handle_to_path(int mountdirfd, struct file_handle __user *ufh,
 
 	/*
 	 * With handle we don't look at the execute bit on the
-<<<<<<< HEAD
 	 * directory. Ideally we would like CAP_DAC_SEARCH.
-=======
-	 * the directory. Ideally we would like CAP_DAC_SEARCH.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * But we don't have that
 	 */
 	if (!capable(CAP_DAC_READ_SEARCH)) {

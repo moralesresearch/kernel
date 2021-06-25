@@ -530,16 +530,7 @@ static ssize_t backing_dev_store(struct device *dev,
 
 	return len;
 out:
-<<<<<<< HEAD
 	kvfree(bitmap);
-=======
-<<<<<<< HEAD
-	kvfree(bitmap);
-=======
-	if (bitmap)
-		kvfree(bitmap);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bdev)
 		blkdev_put(bdev, FMODE_READ | FMODE_WRITE | FMODE_EXCL);
@@ -1609,15 +1600,7 @@ static void __zram_make_request(struct zram *zram, struct bio *bio)
  */
 static blk_qc_t zram_submit_bio(struct bio *bio)
 {
-<<<<<<< HEAD
 	struct zram *zram = bio->bi_bdev->bd_disk->private_data;
-=======
-<<<<<<< HEAD
-	struct zram *zram = bio->bi_bdev->bd_disk->private_data;
-=======
-	struct zram *zram = bio->bi_disk->private_data;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!valid_io_request(zram, bio->bi_iter.bi_sector,
 					bio->bi_iter.bi_size)) {

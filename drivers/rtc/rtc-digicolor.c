@@ -205,11 +205,7 @@ static int __init dc_rtc_probe(struct platform_device *pdev)
 	return devm_rtc_register_device(rtc->rtc_dev);
 }
 
-<<<<<<< HEAD
 static const __maybe_unused struct of_device_id dc_dt_ids[] = {
-=======
-static const struct of_device_id dc_dt_ids[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "cnxt,cx92755-rtc" },
 	{ /* sentinel */ }
 };

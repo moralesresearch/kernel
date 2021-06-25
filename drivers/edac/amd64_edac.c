@@ -500,18 +500,8 @@ static int input_addr_to_csrow(struct mem_ctl_info *mci, u64 input_addr)
  * complete 32-bit values despite the fact that the bitfields in the DHAR
  * only represent bits 31-24 of the base and offset values.
  */
-<<<<<<< HEAD
 static int get_dram_hole_info(struct mem_ctl_info *mci, u64 *hole_base,
 			      u64 *hole_offset, u64 *hole_size)
-=======
-<<<<<<< HEAD
-static int get_dram_hole_info(struct mem_ctl_info *mci, u64 *hole_base,
-			      u64 *hole_offset, u64 *hole_size)
-=======
-int amd64_get_dram_hole_info(struct mem_ctl_info *mci, u64 *hole_base,
-			     u64 *hole_offset, u64 *hole_size)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct amd64_pvt *pvt = mci->pvt_info;
 
@@ -564,10 +554,6 @@ int amd64_get_dram_hole_info(struct mem_ctl_info *mci, u64 *hole_base,
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_EDAC_DEBUG
 #define EDAC_DCT_ATTR_SHOW(reg)						\
@@ -854,12 +840,6 @@ static const struct attribute_group inj_group = {
 	.is_visible = inj_is_visible,
 };
 #endif /* CONFIG_EDAC_DEBUG */
-<<<<<<< HEAD
-=======
-=======
-EXPORT_SYMBOL_GPL(amd64_get_dram_hole_info);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Return the DramAddr that the SysAddr given by @sys_addr maps to.  It is
@@ -898,16 +878,7 @@ static u64 sys_addr_to_dram_addr(struct mem_ctl_info *mci, u64 sys_addr)
 
 	dram_base = get_dram_base(pvt, pvt->mc_node_id);
 
-<<<<<<< HEAD
 	ret = get_dram_hole_info(mci, &hole_base, &hole_offset, &hole_size);
-=======
-<<<<<<< HEAD
-	ret = get_dram_hole_info(mci, &hole_base, &hole_offset, &hole_size);
-=======
-	ret = amd64_get_dram_hole_info(mci, &hole_base, &hole_offset,
-				      &hole_size);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ret) {
 		if ((sys_addr >= (1ULL << 32)) &&
 		    (sys_addr < ((1ULL << 32) + hole_size))) {
@@ -2978,15 +2949,7 @@ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
 	if (pvt->umc) {
 		pvt->F0 = pci_get_related_function(pvt->F3->vendor, pci_id1, pvt->F3);
 		if (!pvt->F0) {
-<<<<<<< HEAD
 			edac_dbg(1, "F0 not found, device 0x%x\n", pci_id1);
-=======
-<<<<<<< HEAD
-			edac_dbg(1, "F0 not found, device 0x%x\n", pci_id1);
-=======
-			amd64_err("F0 not found, device 0x%x (broken BIOS?)\n", pci_id1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENODEV;
 		}
 
@@ -2995,15 +2958,7 @@ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
 			pci_dev_put(pvt->F0);
 			pvt->F0 = NULL;
 
-<<<<<<< HEAD
 			edac_dbg(1, "F6 not found: device 0x%x\n", pci_id2);
-=======
-<<<<<<< HEAD
-			edac_dbg(1, "F6 not found: device 0x%x\n", pci_id2);
-=======
-			amd64_err("F6 not found: device 0x%x (broken BIOS?)\n", pci_id2);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENODEV;
 		}
 
@@ -3020,15 +2975,7 @@ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
 	/* Reserve the ADDRESS MAP Device */
 	pvt->F1 = pci_get_related_function(pvt->F3->vendor, pci_id1, pvt->F3);
 	if (!pvt->F1) {
-<<<<<<< HEAD
 		edac_dbg(1, "F1 not found: device 0x%x\n", pci_id1);
-=======
-<<<<<<< HEAD
-		edac_dbg(1, "F1 not found: device 0x%x\n", pci_id1);
-=======
-		amd64_err("F1 not found: device 0x%x (broken BIOS?)\n", pci_id1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 
@@ -3038,15 +2985,7 @@ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
 		pci_dev_put(pvt->F1);
 		pvt->F1 = NULL;
 
-<<<<<<< HEAD
 		edac_dbg(1, "F2 not found: device 0x%x\n", pci_id2);
-=======
-<<<<<<< HEAD
-		edac_dbg(1, "F2 not found: device 0x%x\n", pci_id2);
-=======
-		amd64_err("F2 not found: device 0x%x (broken BIOS?)\n", pci_id2);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 
@@ -3144,7 +3083,7 @@ static void read_mc_regs(struct amd64_pvt *pvt)
 	edac_dbg(0, "  TOP_MEM:  0x%016llx\n", pvt->top_mem);
 
 	/* Check first whether TOP_MEM2 is enabled: */
-	rdmsrl(MSR_K8_SYSCFG, msr_val);
+	rdmsrl(MSR_AMD64_SYSCFG, msr_val);
 	if (msr_val & BIT(21)) {
 		rdmsrl(MSR_K8_TOP_MEM2, pvt->top_mem2);
 		edac_dbg(0, "  TOP_MEM2: 0x%016llx\n", pvt->top_mem2);
@@ -3589,16 +3528,7 @@ static bool ecc_enabled(struct amd64_pvt *pvt)
 				     MSR_IA32_MCG_CTL, nid);
 	}
 
-<<<<<<< HEAD
 	edac_dbg(3, "Node %d: DRAM ECC %s.\n", nid, (ecc_en ? "enabled" : "disabled"));
-=======
-<<<<<<< HEAD
-	edac_dbg(3, "Node %d: DRAM ECC %s.\n", nid, (ecc_en ? "enabled" : "disabled"));
-=======
-	amd64_info("Node %d: DRAM ECC %s.\n",
-		   nid, (ecc_en ? "enabled" : "disabled"));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!ecc_en || !nb_mce_en)
 		return false;
@@ -3758,36 +3688,13 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
 		return NULL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
-		     (pvt->fam == 0xf ?
-				(pvt->ext_model >= K8_REV_F  ? "revF or later "
-							     : "revE or earlier ")
-				 : ""), pvt->mc_node_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return fam_type;
 }
 
 static const struct attribute_group *amd64_edac_attr_groups[] = {
 #ifdef CONFIG_EDAC_DEBUG
-<<<<<<< HEAD
 	&dbg_group,
 	&inj_group,
-=======
-<<<<<<< HEAD
-	&dbg_group,
-	&inj_group,
-=======
-	&amd64_edac_dbg_group,
-#endif
-#ifdef CONFIG_EDAC_AMD64_ERROR_INJECTION
-	&amd64_edac_inj_group,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	NULL
 };
@@ -3952,21 +3859,12 @@ static int probe_one_instance(unsigned int nid)
 		goto err_enable;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
 		     (pvt->fam == 0xf ?
 				(pvt->ext_model >= K8_REV_F  ? "revF or later "
 							     : "revE or earlier ")
 				 : ""), pvt->mc_node_id);
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dump_misc_regs(pvt);
 
 	return ret;

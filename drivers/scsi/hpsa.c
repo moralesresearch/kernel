@@ -80,10 +80,6 @@
 MODULE_AUTHOR("Hewlett-Packard Company");
 MODULE_DESCRIPTION("Driver for HP Smart Array Controller version " \
 	HPSA_DRIVER_VERSION);
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("HP Smart Array Controllers");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_VERSION(HPSA_DRIVER_VERSION);
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("cciss");
@@ -1154,14 +1150,10 @@ static void __enqueue_cmd_and_start_io(struct ctlr_info *h,
 {
 	dial_down_lockup_detection_during_fw_flash(h, c);
 	atomic_inc(&h->commands_outstanding);
-<<<<<<< HEAD
 	/*
 	 * Check to see if the command is being retried.
 	 */
 	if (c->device && !c->retry_pending)
-=======
-	if (c->device)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		atomic_inc(&c->device->commands_outstanding);
 
 	reply_queue = h->reply_map[raw_smp_processor_id()];
@@ -2406,10 +2398,6 @@ static int handle_ioaccel_mode2_error(struct ctlr_info *h,
 			break;
 		case IOACCEL2_STATUS_SR_UNDERRUN:
 			cmd->result = (DID_OK << 16);		/* host byte */
-<<<<<<< HEAD
-=======
-			cmd->result |= (COMMAND_COMPLETE << 8);	/* msg byte */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ioaccel2_resid = get_unaligned_le32(
 						&c2->error_data.resid_cnt[0]);
 			scsi_set_resid(cmd, ioaccel2_resid);
@@ -2610,12 +2598,7 @@ static void complete_scsi_command(struct CommandList *cp)
 		(c2->sg[0].chain_indicator == IOACCEL2_CHAIN))
 		hpsa_unmap_ioaccel2_sg_chain_block(h, c2);
 
-<<<<<<< HEAD
 	cmd->result = (DID_OK << 16);		/* host byte */
-=======
-	cmd->result = (DID_OK << 16); 		/* host byte */
-	cmd->result |= (COMMAND_COMPLETE << 8);	/* msg byte */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* SCSI command has already been cleaned up in SML */
 	if (dev->was_removed) {
@@ -5586,12 +5569,8 @@ static inline void hpsa_cmd_partial_init(struct ctlr_info *h, int index,
 }
 
 static int hpsa_ioaccel_submit(struct ctlr_info *h,
-<<<<<<< HEAD
 		struct CommandList *c, struct scsi_cmnd *cmd,
 		bool retry)
-=======
-		struct CommandList *c, struct scsi_cmnd *cmd)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hpsa_scsi_dev_t *dev = cmd->device->hostdata;
 	int rc = IO_ACCEL_INELIGIBLE;
@@ -5608,36 +5587,22 @@ static int hpsa_ioaccel_submit(struct ctlr_info *h,
 	cmd->host_scribble = (unsigned char *) c;
 
 	if (dev->offload_enabled) {
-<<<<<<< HEAD
 		hpsa_cmd_init(h, c->cmdindex, c); /* Zeroes out all fields */
 		c->cmd_type = CMD_SCSI;
 		c->scsi_cmd = cmd;
 		c->device = dev;
 		if (retry) /* Resubmit but do not increment device->commands_outstanding. */
 			c->retry_pending = true;
-=======
-		hpsa_cmd_init(h, c->cmdindex, c);
-		c->cmd_type = CMD_SCSI;
-		c->scsi_cmd = cmd;
-		c->device = dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = hpsa_scsi_ioaccel_raid_map(h, c);
 		if (rc < 0)     /* scsi_dma_map failed. */
 			rc = SCSI_MLQUEUE_HOST_BUSY;
 	} else if (dev->hba_ioaccel_enabled) {
-<<<<<<< HEAD
 		hpsa_cmd_init(h, c->cmdindex, c); /* Zeroes out all fields */
 		c->cmd_type = CMD_SCSI;
 		c->scsi_cmd = cmd;
 		c->device = dev;
 		if (retry) /* Resubmit but do not increment device->commands_outstanding. */
 			c->retry_pending = true;
-=======
-		hpsa_cmd_init(h, c->cmdindex, c);
-		c->cmd_type = CMD_SCSI;
-		c->scsi_cmd = cmd;
-		c->device = dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = hpsa_scsi_ioaccel_direct_map(h, c);
 		if (rc < 0)     /* scsi_dma_map failed. */
 			rc = SCSI_MLQUEUE_HOST_BUSY;
@@ -5670,12 +5635,8 @@ static void hpsa_command_resubmit_worker(struct work_struct *work)
 
 		if (c2->error_data.serv_response ==
 				IOACCEL2_STATUS_SR_TASK_COMP_SET_FULL) {
-<<<<<<< HEAD
 			/* Resubmit with the retry_pending flag set. */
 			rc = hpsa_ioaccel_submit(h, c, cmd, true);
-=======
-			rc = hpsa_ioaccel_submit(h, c, cmd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc == 0)
 				return;
 			if (rc == SCSI_MLQUEUE_HOST_BUSY) {
@@ -5691,7 +5652,6 @@ static void hpsa_command_resubmit_worker(struct work_struct *work)
 		}
 	}
 	hpsa_cmd_partial_init(c->h, c->cmdindex, c);
-<<<<<<< HEAD
 	/*
 	 * Here we have not come in though queue_command, so we
 	 * can set the retry_pending flag to true for a driver initiated
@@ -5701,8 +5661,6 @@ static void hpsa_command_resubmit_worker(struct work_struct *work)
 	 *       ioaccel submit does.
 	 */
 	c->retry_pending = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (hpsa_ciss_submit(c->h, c, cmd, dev)) {
 		/*
 		 * If we get here, it means dma mapping failed. Try
@@ -5765,23 +5723,16 @@ static int hpsa_scsi_queue_command(struct Scsi_Host *sh, struct scsi_cmnd *cmd)
 	/*
 	 * Call alternate submit routine for I/O accelerated commands.
 	 * Retries always go down the normal I/O path.
-<<<<<<< HEAD
 	 * Note: If cmd->retries is non-zero, then this is a SML
 	 *       initiated retry and not a driver initiated retry.
 	 *       This command has been obtained from cmd_tagged_alloc
 	 *       and is therefore a brand-new command.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (likely(cmd->retries == 0 &&
 			!blk_rq_is_passthrough(cmd->request) &&
 			h->acciopath_status)) {
-<<<<<<< HEAD
 		/* Submit with the retry_pending flag unset. */
 		rc = hpsa_ioaccel_submit(h, c, cmd, false);
-=======
-		rc = hpsa_ioaccel_submit(h, c, cmd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc == 0)
 			return 0;
 		if (rc == SCSI_MLQUEUE_HOST_BUSY) {
@@ -6176,10 +6127,7 @@ return_reset_status:
  * at init, and managed by cmd_tagged_alloc() and cmd_tagged_free() using the
  * block request tag as an index into a table of entries.  cmd_tagged_free() is
  * the complement, although cmd_free() may be called instead.
-<<<<<<< HEAD
  * This function is only called for new requests from queue_command.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static struct CommandList *cmd_tagged_alloc(struct ctlr_info *h,
 					    struct scsi_cmnd *scmd)
@@ -6214,7 +6162,6 @@ static struct CommandList *cmd_tagged_alloc(struct ctlr_info *h,
 	}
 
 	atomic_inc(&c->refcount);
-<<<<<<< HEAD
 	hpsa_cmd_partial_init(h, idx, c);
 
 	/*
@@ -6223,10 +6170,6 @@ static struct CommandList *cmd_tagged_alloc(struct ctlr_info *h,
 	 */
 	c->retry_pending = false;
 
-=======
-
-	hpsa_cmd_partial_init(h, idx, c);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return c;
 }
 
@@ -6294,7 +6237,6 @@ static struct CommandList *cmd_alloc(struct ctlr_info *h)
 	}
 	hpsa_cmd_partial_init(h, i, c);
 	c->device = NULL;
-<<<<<<< HEAD
 
 	/*
 	 * cmd_alloc is for "internal" commands and they are never
@@ -6302,8 +6244,6 @@ static struct CommandList *cmd_alloc(struct ctlr_info *h)
 	 */
 	c->retry_pending = false;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return c;
 }
 

@@ -166,14 +166,7 @@ struct scrub_ctx {
 	int			pages_per_rd_bio;
 
 	int			is_dev_replace;
-<<<<<<< HEAD
 	u64			write_pointer;
-=======
-<<<<<<< HEAD
-	u64			write_pointer;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct scrub_bio        *wr_curr_bio;
 	struct mutex            wr_lock;
@@ -213,9 +206,6 @@ struct full_stripe_lock {
 	struct mutex mutex;
 };
 
-static void scrub_pending_bio_inc(struct scrub_ctx *sctx);
-static void scrub_pending_bio_dec(struct scrub_ctx *sctx);
-static int scrub_handle_errored_block(struct scrub_block *sblock_to_check);
 static int scrub_setup_recheck_block(struct scrub_block *original_sblock,
 				     struct scrub_block *sblocks_for_recheck);
 static void scrub_recheck_block(struct btrfs_fs_info *fs_info,
@@ -233,14 +223,11 @@ static int scrub_write_page_to_dev_replace(struct scrub_block *sblock,
 static int scrub_checksum_data(struct scrub_block *sblock);
 static int scrub_checksum_tree_block(struct scrub_block *sblock);
 static int scrub_checksum_super(struct scrub_block *sblock);
-static void scrub_block_get(struct scrub_block *sblock);
 static void scrub_block_put(struct scrub_block *sblock);
 static void scrub_page_get(struct scrub_page *spage);
 static void scrub_page_put(struct scrub_page *spage);
 static void scrub_parity_get(struct scrub_parity *sparity);
 static void scrub_parity_put(struct scrub_parity *sparity);
-static int scrub_add_page_to_rd_bio(struct scrub_ctx *sctx,
-				    struct scrub_page *spage);
 static int scrub_pages(struct scrub_ctx *sctx, u64 logical, u32 len,
 		       u64 physical, struct btrfs_device *dev, u64 flags,
 		       u64 gen, int mirror_num, u8 *csum,
@@ -258,8 +245,6 @@ static int scrub_add_page_to_wr_bio(struct scrub_ctx *sctx,
 static void scrub_wr_submit(struct scrub_ctx *sctx);
 static void scrub_wr_bio_end_io(struct bio *bio);
 static void scrub_wr_bio_end_io_worker(struct btrfs_work *work);
-static void __scrub_blocked_if_needed(struct btrfs_fs_info *fs_info);
-static void scrub_blocked_if_needed(struct btrfs_fs_info *fs_info);
 static void scrub_put_ctx(struct scrub_ctx *sctx);
 
 static inline int scrub_is_page_on_raid56(struct scrub_page *spage)
@@ -864,18 +849,9 @@ static int scrub_handle_errored_block(struct scrub_block *sblock_to_check)
 	have_csum = sblock_to_check->pagev[0]->have_csum;
 	dev = sblock_to_check->pagev[0]->dev;
 
-<<<<<<< HEAD
 	if (btrfs_is_zoned(fs_info) && !sctx->is_dev_replace)
 		return btrfs_repair_one_zone(fs_info, logical);
 
-=======
-<<<<<<< HEAD
-	if (btrfs_is_zoned(fs_info) && !sctx->is_dev_replace)
-		return btrfs_repair_one_zone(fs_info, logical);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We must use GFP_NOFS because the scrub task might be waiting for a
 	 * worker task executing this function and in turn a transaction commit
@@ -1444,15 +1420,7 @@ static void scrub_recheck_block_on_raid56(struct btrfs_fs_info *fs_info,
 	if (!first_page->dev->bdev)
 		goto out;
 
-<<<<<<< HEAD
 	bio = btrfs_io_bio_alloc(BIO_MAX_VECS);
-=======
-<<<<<<< HEAD
-	bio = btrfs_io_bio_alloc(BIO_MAX_VECS);
-=======
-	bio = btrfs_io_bio_alloc(BIO_MAX_PAGES);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio_set_dev(bio, first_page->dev->bdev);
 
 	for (page_num = 0; page_num < sblock->page_count; page_num++) {
@@ -1647,10 +1615,6 @@ static int scrub_write_page_to_dev_replace(struct scrub_block *sblock,
 	return scrub_add_page_to_wr_bio(sblock->sctx, spage);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int fill_writer_pointer_gap(struct scrub_ctx *sctx, u64 physical)
 {
 	int ret = 0;
@@ -1673,11 +1637,6 @@ static int fill_writer_pointer_gap(struct scrub_ctx *sctx, u64 physical)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int scrub_add_page_to_wr_bio(struct scrub_ctx *sctx,
 				    struct scrub_page *spage)
 {
@@ -1700,10 +1659,6 @@ again:
 	if (sbio->page_count == 0) {
 		struct bio *bio;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = fill_writer_pointer_gap(sctx,
 					      spage->physical_for_dev_replace);
 		if (ret) {
@@ -1711,11 +1666,6 @@ again:
 			return ret;
 		}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sbio->physical = spage->physical_for_dev_replace;
 		sbio->logical = spage->logical;
 		sbio->dev = sctx->wr_tgtdev;
@@ -1770,33 +1720,16 @@ static void scrub_wr_submit(struct scrub_ctx *sctx)
 
 	sbio = sctx->wr_curr_bio;
 	sctx->wr_curr_bio = NULL;
-<<<<<<< HEAD
 	WARN_ON(!sbio->bio->bi_bdev);
-=======
-<<<<<<< HEAD
-	WARN_ON(!sbio->bio->bi_bdev);
-=======
-	WARN_ON(!sbio->bio->bi_disk);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scrub_pending_bio_inc(sctx);
 	/* process all writes in a single worker thread. Then the block layer
 	 * orders the requests before sending them to the driver which
 	 * doubled the write performance on spinning disks when measured
 	 * with Linux 3.5 */
 	btrfsic_submit_bio(sbio->bio);
-<<<<<<< HEAD
 
 	if (btrfs_is_zoned(sctx->fs_info))
 		sctx->write_pointer = sbio->physical + sbio->page_count * PAGE_SIZE;
-=======
-<<<<<<< HEAD
-
-	if (btrfs_is_zoned(sctx->fs_info))
-		sctx->write_pointer = sbio->physical + sbio->page_count * PAGE_SIZE;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void scrub_wr_bio_end_io(struct bio *bio)
@@ -3120,10 +3053,6 @@ out:
 	return ret < 0 ? ret : 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sync_replace_for_zoned(struct scrub_ctx *sctx)
 {
 	if (!btrfs_is_zoned(sctx->fs_info))
@@ -3164,11 +3093,6 @@ static int sync_write_pointer_for_zoned(struct scrub_ctx *sctx, u64 logical,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static noinline_for_stack int scrub_stripe(struct scrub_ctx *sctx,
 					   struct map_lookup *map,
 					   struct btrfs_device *scrub_dev,
@@ -3309,10 +3233,6 @@ static noinline_for_stack int scrub_stripe(struct scrub_ctx *sctx,
 	 */
 	blk_start_plug(&plug);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sctx->is_dev_replace &&
 	    btrfs_dev_is_sequential(sctx->wr_tgtdev, physical)) {
 		mutex_lock(&sctx->wr_lock);
@@ -3321,11 +3241,6 @@ static noinline_for_stack int scrub_stripe(struct scrub_ctx *sctx,
 		sctx->flush_all_writes = true;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * now find all extents for each stripe and scrub them
 	 */
@@ -3514,18 +3429,9 @@ again:
 			if (ret)
 				goto out;
 
-<<<<<<< HEAD
 			if (sctx->is_dev_replace)
 				sync_replace_for_zoned(sctx);
 
-=======
-<<<<<<< HEAD
-			if (sctx->is_dev_replace)
-				sync_replace_for_zoned(sctx);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (extent_logical + extent_len <
 			    key.objectid + bytes) {
 				if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
@@ -3593,10 +3499,6 @@ out:
 	blk_finish_plug(&plug);
 	btrfs_free_path(path);
 	btrfs_free_path(ppath);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sctx->is_dev_replace && ret >= 0) {
 		int ret2;
@@ -3608,11 +3510,6 @@ out:
 			ret = ret2;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret < 0 ? ret : 0;
 }
 
@@ -3668,10 +3565,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int finish_extent_writes_for_zoned(struct btrfs_root *root,
 					  struct btrfs_block_group *cache)
 {
@@ -3691,11 +3584,6 @@ static int finish_extent_writes_for_zoned(struct btrfs_root *root,
 	return btrfs_commit_transaction(trans);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static noinline_for_stack
 int scrub_enumerate_chunks(struct scrub_ctx *sctx,
 			   struct btrfs_device *scrub_dev, u64 start, u64 end)
@@ -3782,30 +3670,16 @@ int scrub_enumerate_chunks(struct scrub_ctx *sctx,
 		if (!cache)
 			goto skip;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (sctx->is_dev_replace && btrfs_is_zoned(fs_info)) {
 			spin_lock(&cache->lock);
 			if (!cache->to_copy) {
 				spin_unlock(&cache->lock);
-<<<<<<< HEAD
 				btrfs_put_block_group(cache);
 				goto skip;
-=======
-				ro_set = 0;
-				goto done;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			spin_unlock(&cache->lock);
 		}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Make sure that while we are scrubbing the corresponding block
 		 * group doesn't get its logical address and its device extents
@@ -3864,10 +3738,6 @@ int scrub_enumerate_chunks(struct scrub_ctx *sctx,
 		 * group is not RO.
 		 */
 		ret = btrfs_inc_block_group_ro(cache, sctx->is_dev_replace);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret && sctx->is_dev_replace) {
 			ret = finish_extent_writes_for_zoned(root, cache);
 			if (ret) {
@@ -3878,11 +3748,6 @@ int scrub_enumerate_chunks(struct scrub_ctx *sctx,
 			}
 		}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret == 0) {
 			ro_set = 1;
 		} else if (ret == -ENOSPC && !sctx->is_dev_replace) {
@@ -3963,21 +3828,11 @@ int scrub_enumerate_chunks(struct scrub_ctx *sctx,
 
 		scrub_pause_off(fs_info);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (sctx->is_dev_replace &&
 		    !btrfs_finish_block_group_to_copy(dev_replace->srcdev,
 						      cache, found_key.offset))
 			ro_set = 0;
 
-<<<<<<< HEAD
-=======
-done:
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		down_write(&dev_replace->rwsem);
 		dev_replace->cursor_left = dev_replace->cursor_right;
 		dev_replace->item_needs_writeback = 1;

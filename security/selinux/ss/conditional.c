@@ -605,10 +605,6 @@ static int cond_dup_av_list(struct cond_av_list *new,
 			struct cond_av_list *orig,
 			struct avtab *avtab)
 {
-<<<<<<< HEAD
-=======
-	struct avtab_node *avnode;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 i;
 
 	memset(new, 0, sizeof(*new));
@@ -618,18 +614,11 @@ static int cond_dup_av_list(struct cond_av_list *new,
 		return -ENOMEM;
 
 	for (i = 0; i < orig->len; i++) {
-<<<<<<< HEAD
 		new->nodes[i] = avtab_insert_nonunique(avtab,
 						       &orig->nodes[i]->key,
 						       &orig->nodes[i]->datum);
 		if (!new->nodes[i])
 			return -ENOMEM;
-=======
-		avnode = avtab_search_node(avtab, &orig->nodes[i]->key);
-		if (WARN_ON(!avnode))
-			return -EINVAL;
-		new->nodes[i] = avnode;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		new->len++;
 	}
 
@@ -641,11 +630,7 @@ static int duplicate_policydb_cond_list(struct policydb *newp,
 {
 	int rc, i, j;
 
-<<<<<<< HEAD
 	rc = avtab_alloc_dup(&newp->te_cond_avtab, &origp->te_cond_avtab);
-=======
-	rc = avtab_duplicate(&newp->te_cond_avtab, &origp->te_cond_avtab);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc)
 		return rc;
 

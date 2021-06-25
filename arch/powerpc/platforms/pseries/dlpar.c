@@ -329,6 +329,20 @@ int dlpar_release_drc(u32 drc_index)
 	return 0;
 }
 
+int dlpar_unisolate_drc(u32 drc_index)
+{
+	int dr_status, rc;
+
+	rc = rtas_call(rtas_token("get-sensor-state"), 2, 2, &dr_status,
+				DR_ENTITY_SENSE, drc_index);
+	if (rc || dr_status != DR_ENTITY_PRESENT)
+		return -1;
+
+	rtas_set_indicator(ISOLATION_STATE, drc_index, UNISOLATE);
+
+	return 0;
+}
+
 int handle_dlpar_errorlog(struct pseries_hp_errorlog *hp_elog)
 {
 	int rc;
@@ -520,21 +534,8 @@ static ssize_t dlpar_store(struct class *class, struct class_attribute *attr,
 	int rc;
 
 	args = argbuf = kstrdup(buf, GFP_KERNEL);
-<<<<<<< HEAD
 	if (!argbuf)
 		return -ENOMEM;
-=======
-<<<<<<< HEAD
-	if (!argbuf)
-		return -ENOMEM;
-=======
-	if (!argbuf) {
-		pr_info("Could not allocate resources for DLPAR operation\n");
-		kfree(argbuf);
-		return -ENOMEM;
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Parse out the request from the user, this will be in the form:

@@ -6,10 +6,7 @@
 #include "i915_drv.h"
 #include "gt/intel_context.h"
 #include "gt/intel_engine_pm.h"
-<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt.h"
 #include "gt/intel_gt_buffer_pool.h"
 #include "gt/intel_ring.h"
@@ -38,11 +35,7 @@ struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
 	count = div_u64(round_up(vma->size, block_size), block_size);
 	size = (1 + 8 * count) * sizeof(u32);
 	size = round_up(size, PAGE_SIZE);
-<<<<<<< HEAD
 	pool = intel_gt_get_buffer_pool(ce->engine->gt, size, I915_MAP_WC);
-=======
-	pool = intel_gt_get_buffer_pool(ce->engine->gt, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(pool)) {
 		err = PTR_ERR(pool);
 		goto out_pm;
@@ -62,11 +55,10 @@ struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
 	if (unlikely(err))
 		goto out_put;
 
-<<<<<<< HEAD
+	/* we pinned the pool, mark it as such */
+	intel_gt_buffer_pool_mark_used(pool);
+
 	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-=======
-	cmd = i915_gem_object_pin_map(pool->obj, I915_MAP_WC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(cmd)) {
 		err = PTR_ERR(cmd);
 		goto out_unpin;
@@ -268,11 +260,7 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
 	count = div_u64(round_up(dst->size, block_size), block_size);
 	size = (1 + 11 * count) * sizeof(u32);
 	size = round_up(size, PAGE_SIZE);
-<<<<<<< HEAD
 	pool = intel_gt_get_buffer_pool(ce->engine->gt, size, I915_MAP_WC);
-=======
-	pool = intel_gt_get_buffer_pool(ce->engine->gt, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(pool)) {
 		err = PTR_ERR(pool);
 		goto out_pm;
@@ -292,11 +280,10 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
 	if (unlikely(err))
 		goto out_put;
 
-<<<<<<< HEAD
+	/* we pinned the pool, mark it as such */
+	intel_gt_buffer_pool_mark_used(pool);
+
 	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-=======
-	cmd = i915_gem_object_pin_map(pool->obj, I915_MAP_WC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(cmd)) {
 		err = PTR_ERR(cmd);
 		goto out_unpin;

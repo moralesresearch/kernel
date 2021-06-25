@@ -58,56 +58,16 @@ static long qxl_fence_wait(struct dma_fence *fence, bool intr,
 			   signed long timeout)
 {
 	struct qxl_device *qdev;
-	struct qxl_release *release;
-	int count = 0, sc = 0;
-	bool have_drawable_releases;
 	unsigned long cur, end = jiffies + timeout;
 
 	qdev = container_of(fence->lock, struct qxl_device, release_lock);
-	release = container_of(fence, struct qxl_release, base);
-	have_drawable_releases = release->type == QXL_RELEASE_DRAWABLE;
 
-retry:
-	sc++;
+	if (!wait_event_timeout(qdev->release_event,
+				(dma_fence_is_signaled(fence) ||
+				 (qxl_io_notify_oom(qdev), 0)),
+				timeout))
+		return 0;
 
-	if (dma_fence_is_signaled(fence))
-		goto signaled;
-
-	qxl_io_notify_oom(qdev);
-
-	for (count = 0; count < 11; count++) {
-		if (!qxl_queue_garbage_collect(qdev, true))
-			break;
-
-		if (dma_fence_is_signaled(fence))
-			goto signaled;
-	}
-
-	if (dma_fence_is_signaled(fence))
-		goto signaled;
-
-	if (have_drawable_releases || sc < 4) {
-		if (sc > 2)
-			/* back off */
-			usleep_range(500, 1000);
-
-		if (time_after(jiffies, end))
-			return 0;
-
-		if (have_drawable_releases && sc > 300) {
-			DMA_FENCE_WARN(fence, "failed to wait on release %llu "
-				       "after spincount %d\n",
-				       fence->context & ~0xf0000000, sc);
-			goto signaled;
-		}
-		goto retry;
-	}
-	/*
-	 * yeah, original sync_obj_wait gave up after 3 spins when
-	 * have_drawable_releases is not set.
-	 */
-
-signaled:
 	cur = jiffies;
 	if (time_after(cur, end))
 		return 0;
@@ -196,23 +156,16 @@ qxl_release_free(struct qxl_device *qdev,
 		qxl_release_free_list(release);
 		kfree(release);
 	}
+	atomic_dec(&qdev->release_count);
 }
 
 static int qxl_release_bo_alloc(struct qxl_device *qdev,
-<<<<<<< HEAD
 				struct qxl_bo **bo,
 				u32 priority)
 {
 	/* pin releases bo's they are too messy to evict */
 	return qxl_bo_create(qdev, PAGE_SIZE, false, true,
 			     QXL_GEM_DOMAIN_VRAM, priority, NULL, bo);
-=======
-				struct qxl_bo **bo)
-{
-	/* pin releases bo's they are too messy to evict */
-	return qxl_bo_create(qdev, PAGE_SIZE, false, true,
-			     QXL_GEM_DOMAIN_VRAM, NULL, bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int qxl_release_list_add(struct qxl_release *release, struct qxl_bo *bo)
@@ -330,16 +283,11 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 				       int type, struct qxl_release **release,
 				       struct qxl_bo **rbo)
 {
-<<<<<<< HEAD
 	struct qxl_bo *bo, *free_bo = NULL;
-=======
-	struct qxl_bo *bo;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int idr_ret;
 	int ret = 0;
 	union qxl_release_info *info;
 	int cur_idx;
-<<<<<<< HEAD
 	u32 priority;
 
 	if (type == QXL_RELEASE_DRAWABLE) {
@@ -352,15 +300,6 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 		cur_idx = 2;
 		priority = 1;
 	}
-=======
-
-	if (type == QXL_RELEASE_DRAWABLE)
-		cur_idx = 0;
-	else if (type == QXL_RELEASE_SURFACE_CMD)
-		cur_idx = 1;
-	else if (type == QXL_RELEASE_CURSOR_CMD)
-		cur_idx = 2;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else {
 		DRM_ERROR("got illegal type: %d\n", type);
 		return -EINVAL;
@@ -372,19 +311,15 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 			*rbo = NULL;
 		return idr_ret;
 	}
+	atomic_inc(&qdev->release_count);
 
 	mutex_lock(&qdev->release_mutex);
 	if (qdev->current_release_bo_offset[cur_idx] + 1 >= releases_per_bo[cur_idx]) {
-<<<<<<< HEAD
 		free_bo = qdev->current_release_bo[cur_idx];
-=======
-		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		qdev->current_release_bo_offset[cur_idx] = 0;
 		qdev->current_release_bo[cur_idx] = NULL;
 	}
 	if (!qdev->current_release_bo[cur_idx]) {
-<<<<<<< HEAD
 		ret = qxl_release_bo_alloc(qdev, &qdev->current_release_bo[cur_idx], priority);
 		if (ret) {
 			mutex_unlock(&qdev->release_mutex);
@@ -392,11 +327,6 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 				qxl_bo_unpin(free_bo);
 				qxl_bo_unref(&free_bo);
 			}
-=======
-		ret = qxl_release_bo_alloc(qdev, &qdev->current_release_bo[cur_idx]);
-		if (ret) {
-			mutex_unlock(&qdev->release_mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			qxl_release_free(qdev, *release);
 			return ret;
 		}
@@ -412,13 +342,10 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 		*rbo = bo;
 
 	mutex_unlock(&qdev->release_mutex);
-<<<<<<< HEAD
 	if (free_bo) {
 		qxl_bo_unpin(free_bo);
 		qxl_bo_unref(&free_bo);
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = qxl_release_list_add(*release, bo);
 	qxl_bo_unref(&bo);
@@ -478,7 +405,7 @@ void qxl_release_unmap(struct qxl_device *qdev,
 void qxl_release_fence_buffer_objects(struct qxl_release *release)
 {
 	struct ttm_buffer_object *bo;
-	struct ttm_bo_device *bdev;
+	struct ttm_device *bdev;
 	struct ttm_validate_buffer *entry;
 	struct qxl_device *qdev;
 
@@ -499,20 +426,13 @@ void qxl_release_fence_buffer_objects(struct qxl_release *release)
 		       release->id | 0xf0000000, release->base.seqno);
 	trace_dma_fence_emit(&release->base);
 
-	spin_lock(&ttm_bo_glob.lru_lock);
-
 	list_for_each_entry(entry, &release->bos, head) {
 		bo = entry->bo;
 
 		dma_resv_add_shared_fence(bo->base.resv, &release->base);
-<<<<<<< HEAD
-		ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
-=======
-		ttm_bo_move_to_lru_tail(bo, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+		ttm_bo_move_to_lru_tail_unlocked(bo);
 		dma_resv_unlock(bo->base.resv);
 	}
-	spin_unlock(&ttm_bo_glob.lru_lock);
 	ww_acquire_fini(&release->ticket);
 }
 

@@ -724,7 +724,7 @@ static int wm8978_hw_params(struct snd_pcm_substream *substream,
 	/* Sampling rate mask = 0xe (for filters) */
 	u16 add_ctl = snd_soc_component_read(component, WM8978_ADDITIONAL_CONTROL) & ~0xe;
 	u16 clking = snd_soc_component_read(component, WM8978_CLOCKING);
-	enum wm8978_sysclk_src current_clk_id = clking & 0x100 ?
+	enum wm8978_sysclk_src current_clk_id = (clking & 0x100) ?
 		WM8978_PLL : WM8978_MCLK;
 	unsigned int f_sel, diff, diff_best = INT_MAX;
 	int i, best = 0;
@@ -918,11 +918,7 @@ static struct snd_soc_dai_driver wm8978_dai = {
 		.formats = WM8978_FORMATS,
 	},
 	.ops = &wm8978_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int wm8978_suspend(struct snd_soc_component *component)

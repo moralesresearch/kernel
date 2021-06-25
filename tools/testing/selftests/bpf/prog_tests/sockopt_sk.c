@@ -2,15 +2,13 @@
 #include <test_progs.h>
 #include "cgroup_helpers.h"
 
-<<<<<<< HEAD
 #include <linux/tcp.h>
+#include "sockopt_sk.skel.h"
 
 #ifndef SOL_TCP
 #define SOL_TCP IPPROTO_TCP
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SOL_CUSTOM			0xdeadbeef
 
 static int getsetsockopt(void)
@@ -20,10 +18,7 @@ static int getsetsockopt(void)
 		char u8[4];
 		__u32 u32;
 		char cc[16]; /* TCP_CA_NAME_MAX */
-<<<<<<< HEAD
 		struct tcp_zerocopy_receive zc;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} buf = {};
 	socklen_t optlen;
 	char *big_buf = NULL;
@@ -167,7 +162,6 @@ static int getsetsockopt(void)
 		goto err;
 	}
 
-<<<<<<< HEAD
 	/* TCP_ZEROCOPY_RECEIVE triggers */
 	memset(&buf, 0, sizeof(buf));
 	optlen = sizeof(buf.zc);
@@ -189,8 +183,6 @@ static int getsetsockopt(void)
 		goto err;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	free(big_buf);
 	close(fd);
 	return 0;
@@ -200,60 +192,30 @@ err:
 	return -1;
 }
 
-static int prog_attach(struct bpf_object *obj, int cgroup_fd, const char *title)
-{
-	enum bpf_attach_type attach_type;
-	enum bpf_prog_type prog_type;
-	struct bpf_program *prog;
-	int err;
-
-	err = libbpf_prog_type_by_name(title, &prog_type, &attach_type);
-	if (err) {
-		log_err("Failed to deduct types for %s BPF program", title);
-		return -1;
-	}
-
-	prog = bpf_object__find_program_by_title(obj, title);
-	if (!prog) {
-		log_err("Failed to find %s BPF program", title);
-		return -1;
-	}
-
-	err = bpf_prog_attach(bpf_program__fd(prog), cgroup_fd,
-			      attach_type, 0);
-	if (err) {
-		log_err("Failed to attach %s BPF program", title);
-		return -1;
-	}
-
-	return 0;
-}
-
 static void run_test(int cgroup_fd)
 {
-	struct bpf_prog_load_attr attr = {
-		.file = "./sockopt_sk.o",
-	};
-	struct bpf_object *obj;
-	int ignored;
-	int err;
+	struct sockopt_sk *skel;
 
-	err = bpf_prog_load_xattr(&attr, &obj, &ignored);
-	if (CHECK_FAIL(err))
-		return;
+	skel = sockopt_sk__open_and_load();
+	if (!ASSERT_OK_PTR(skel, "skel_load"))
+		goto cleanup;
 
-	err = prog_attach(obj, cgroup_fd, "cgroup/getsockopt");
-	if (CHECK_FAIL(err))
-		goto close_bpf_object;
+	skel->bss->page_size = getpagesize();
 
-	err = prog_attach(obj, cgroup_fd, "cgroup/setsockopt");
-	if (CHECK_FAIL(err))
-		goto close_bpf_object;
+	skel->links._setsockopt =
+		bpf_program__attach_cgroup(skel->progs._setsockopt, cgroup_fd);
+	if (!ASSERT_OK_PTR(skel->links._setsockopt, "setsockopt_link"))
+		goto cleanup;
 
-	CHECK_FAIL(getsetsockopt());
+	skel->links._getsockopt =
+		bpf_program__attach_cgroup(skel->progs._getsockopt, cgroup_fd);
+	if (!ASSERT_OK_PTR(skel->links._getsockopt, "getsockopt_link"))
+		goto cleanup;
 
-close_bpf_object:
-	bpf_object__close(obj);
+	ASSERT_OK(getsetsockopt(), "getsetsockopt");
+
+cleanup:
+	sockopt_sk__destroy(skel);
 }
 
 void test_sockopt_sk(void)

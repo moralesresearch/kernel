@@ -33,6 +33,7 @@ enum bq27xxx_chip {
 	BQ27Z561,
 	BQ28Z610,
 	BQ34Z100,
+	BQ78Z100,
 };
 
 struct bq27xxx_device_info;
@@ -53,10 +54,6 @@ struct bq27xxx_reg_cache {
 	int capacity;
 	int energy;
 	int flags;
-<<<<<<< HEAD
-=======
-	int power_avg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int health;
 };
 

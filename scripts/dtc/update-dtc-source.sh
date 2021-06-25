@@ -37,10 +37,7 @@ DTC_SOURCE="checks.c data.c dtc.c dtc.h flattree.c fstree.c livetree.c srcpos.c 
 LIBFDT_SOURCE="fdt.c fdt.h fdt_addresses.c fdt_empty_tree.c \
 		fdt_overlay.c fdt_ro.c fdt_rw.c fdt_strerror.c fdt_sw.c \
 		fdt_wip.c libfdt.h libfdt_env.h libfdt_internal.h"
-<<<<<<< HEAD
 FDTOVERLAY_SOURCE=fdtoverlay.c
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 get_last_dtc_version() {
 	git log --oneline scripts/dtc/ | grep 'upstream' | head -1 | sed -e 's/^.* \(.*\)/\1/'
@@ -58,11 +55,7 @@ dtc_log=$(git log --oneline ${last_dtc_ver}..)
 
 # Copy the files into the Linux tree
 cd $DTC_LINUX_PATH
-<<<<<<< HEAD
 for f in $DTC_SOURCE $FDTOVERLAY_SOURCE; do
-=======
-for f in $DTC_SOURCE; do
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cp ${DTC_UPSTREAM_PATH}/${f} ${f}
 	git add ${f}
 done

@@ -582,18 +582,15 @@ static int pmc_usb_probe_iom(struct pmc_usb *pmc)
 	acpi_dev_free_resource_list(&resource_list);
 
 	if (!pmc->iom_base) {
-		put_device(&adev->dev);
+		acpi_dev_put(adev);
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	if (IS_ERR(pmc->iom_base)) {
-		put_device(&adev->dev);
+		acpi_dev_put(adev);
 		return PTR_ERR(pmc->iom_base);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pmc->iom_adev = adev;
 
 	return 0;
@@ -644,15 +641,10 @@ static int pmc_usb_probe(struct platform_device *pdev)
 			break;
 
 		ret = pmc_usb_register_port(pmc, i, fwnode);
-<<<<<<< HEAD
 		if (ret) {
 			fwnode_handle_put(fwnode);
 			goto err_remove_ports;
 		}
-=======
-		if (ret)
-			goto err_remove_ports;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	platform_set_drvdata(pdev, pmc);
@@ -666,7 +658,7 @@ err_remove_ports:
 		usb_role_switch_unregister(pmc->port[i].usb_sw);
 	}
 
-	put_device(&pmc->iom_adev->dev);
+	acpi_dev_put(pmc->iom_adev);
 
 	return ret;
 }
@@ -682,7 +674,7 @@ static int pmc_usb_remove(struct platform_device *pdev)
 		usb_role_switch_unregister(pmc->port[i].usb_sw);
 	}
 
-	put_device(&pmc->iom_adev->dev);
+	acpi_dev_put(pmc->iom_adev);
 
 	return 0;
 }

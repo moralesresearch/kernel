@@ -44,11 +44,7 @@ PROG COMMANDS
 |		**cgroup/connect4** | **cgroup/connect6** | **cgroup/getpeername4** | **cgroup/getpeername6** |
 |               **cgroup/getsockname4** | **cgroup/getsockname6** | **cgroup/sendmsg4** | **cgroup/sendmsg6** |
 |		**cgroup/recvmsg4** | **cgroup/recvmsg6** | **cgroup/sysctl** |
-<<<<<<< HEAD
 |		**cgroup/getsockopt** | **cgroup/setsockopt** | **cgroup/sock_release** |
-=======
-|		**cgroup/getsockopt** | **cgroup/setsockopt** |
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 |		**struct_ops** | **fentry** | **fexit** | **freplace** | **sk_lookup**
 |	}
 |       *ATTACH_TYPE* := {

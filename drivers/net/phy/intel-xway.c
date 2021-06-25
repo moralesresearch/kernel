@@ -11,7 +11,6 @@
 
 #define XWAY_MDIO_IMASK			0x19	/* interrupt mask */
 #define XWAY_MDIO_ISTAT			0x1A	/* interrupt status */
-<<<<<<< HEAD
 #define XWAY_MDIO_LED			0x1B	/* led control */
 
 /* bit 15:12 are reserved */
@@ -24,8 +23,6 @@
 #define XWAY_MDIO_LED_LED2_DA		BIT(2)	/* Direct Access to LED2 */
 #define XWAY_MDIO_LED_LED1_DA		BIT(1)	/* Direct Access to LED1 */
 #define XWAY_MDIO_LED_LED0_DA		BIT(0)	/* Direct Access to LED0 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define XWAY_MDIO_INIT_WOL		BIT(15)	/* Wake-On-LAN */
 #define XWAY_MDIO_INIT_MSRE		BIT(14)
@@ -174,7 +171,6 @@ static int xway_gphy_config_init(struct phy_device *phydev)
 	/* Clear all pending interrupts */
 	phy_read(phydev, XWAY_MDIO_ISTAT);
 
-<<<<<<< HEAD
 	/* Ensure that integrated led function is enabled for all leds */
 	err = phy_write(phydev, XWAY_MDIO_LED,
 			XWAY_MDIO_LED_LED0_EN |
@@ -184,8 +180,6 @@ static int xway_gphy_config_init(struct phy_device *phydev)
 	if (err)
 		return err;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phy_write_mmd(phydev, MDIO_MMD_VEND2, XWAY_MMD_LEDCH,
 		      XWAY_MMD_LEDCH_NACS_NONE |
 		      XWAY_MMD_LEDCH_SBF_F02HZ |

@@ -613,15 +613,7 @@ static int tomoyo_check_unix_address(struct sockaddr *addr,
 static bool tomoyo_kernel_service(void)
 {
 	/* Nothing to do if I am a kernel service. */
-<<<<<<< HEAD
 	return current->flags & PF_KTHREAD;
-=======
-<<<<<<< HEAD
-	return current->flags & PF_KTHREAD;
-=======
-	return (current->flags & (PF_KTHREAD | PF_IO_WORKER)) == PF_KTHREAD;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

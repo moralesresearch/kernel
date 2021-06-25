@@ -9,12 +9,7 @@ struct nv40_pm {
 	u32 sequence;
 };
 
-<<<<<<< HEAD
 int nv40_pm_new_(const struct nvkm_specdom *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		 struct nvkm_pm **);
-=======
-int nv40_pm_new_(const struct nvkm_specdom *, struct nvkm_device *,
-		 int index, struct nvkm_pm **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct nvkm_funcdom nv40_perfctr_func;
 #endif

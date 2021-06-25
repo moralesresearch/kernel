@@ -95,11 +95,7 @@ struct vnt_rts_g {
 	u16 wReserved;
 	struct ieee80211_rts data;
 	struct vnt_tx_datahead_g data_head;
-<<<<<<< HEAD
 } __packed __aligned(2);
-=======
-} __packed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct vnt_rts_ab {
 	struct vnt_phy_field ab;
@@ -107,11 +103,7 @@ struct vnt_rts_ab {
 	u16 wReserved;
 	struct ieee80211_rts data;
 	struct vnt_tx_datahead_ab data_head;
-<<<<<<< HEAD
 } __packed __aligned(2);
-=======
-} __packed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* CTS buffer header */
 struct vnt_cts {
@@ -121,11 +113,7 @@ struct vnt_cts {
 	struct ieee80211_cts data;
 	u16 reserved2;
 	struct vnt_tx_datahead_g data_head;
-<<<<<<< HEAD
 } __packed __aligned(2);
-=======
-} __packed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 union vnt_tx_data_head {
 	/* rts g */

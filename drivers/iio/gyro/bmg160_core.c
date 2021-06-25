@@ -19,10 +19,7 @@
 #include <linux/iio/trigger_consumer.h>
 #include <linux/iio/triggered_buffer.h>
 #include <linux/regmap.h>
-<<<<<<< HEAD
 #include <linux/regulator/consumer.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "bmg160.h"
 
 #define BMG160_IRQ_NAME		"bmg160_event"
@@ -96,10 +93,7 @@
 
 struct bmg160_data {
 	struct regmap *regmap;
-<<<<<<< HEAD
 	struct regulator_bulk_data regulators[2];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iio_trigger *dready_trig;
 	struct iio_trigger *motion_trig;
 	struct iio_mount_matrix orientation;
@@ -1069,7 +1063,6 @@ static const char *bmg160_match_acpi_device(struct device *dev)
 	return dev_name(dev);
 }
 
-<<<<<<< HEAD
 static void bmg160_disable_regulators(void *d)
 {
 	struct bmg160_data *data = d;
@@ -1077,8 +1070,6 @@ static void bmg160_disable_regulators(void *d)
 	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int bmg160_core_probe(struct device *dev, struct regmap *regmap, int irq,
 		      const char *name)
 {
@@ -1095,7 +1086,6 @@ int bmg160_core_probe(struct device *dev, struct regmap *regmap, int irq,
 	data->irq = irq;
 	data->regmap = regmap;
 
-<<<<<<< HEAD
 	data->regulators[0].supply = "vdd";
 	data->regulators[1].supply = "vddio";
 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(data->regulators),
@@ -1112,8 +1102,6 @@ int bmg160_core_probe(struct device *dev, struct regmap *regmap, int irq,
 	if (ret)
 		return ret;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = iio_read_mount_matrix(dev, "mount-matrix",
 				&data->orientation);
 	if (ret)
@@ -1160,14 +1148,12 @@ int bmg160_core_probe(struct device *dev, struct regmap *regmap, int irq,
 		if (!data->motion_trig)
 			return -ENOMEM;
 
-		data->dready_trig->dev.parent = dev;
 		data->dready_trig->ops = &bmg160_trigger_ops;
 		iio_trigger_set_drvdata(data->dready_trig, indio_dev);
 		ret = iio_trigger_register(data->dready_trig);
 		if (ret)
 			return ret;
 
-		data->motion_trig->dev.parent = dev;
 		data->motion_trig->ops = &bmg160_trigger_ops;
 		iio_trigger_set_drvdata(data->motion_trig, indio_dev);
 		ret = iio_trigger_register(data->motion_trig);

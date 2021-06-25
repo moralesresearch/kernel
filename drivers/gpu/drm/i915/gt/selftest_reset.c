@@ -9,10 +9,7 @@
 
 #include "i915_memcpy.h"
 #include "i915_selftest.h"
-<<<<<<< HEAD
 #include "intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "selftests/igt_reset.h"
 #include "selftests/igt_atomic.h"
 #include "selftests/igt_spinner.h"
@@ -99,17 +96,10 @@ __igt_reset_stolen(struct intel_gt *gt,
 		if (!__drm_mm_interval_first(&gt->i915->mm.stolen,
 					     page << PAGE_SHIFT,
 					     ((page + 1) << PAGE_SHIFT) - 1))
-<<<<<<< HEAD
 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
 
 		in = (void __force *)s;
 		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
-=======
-			memset32(s, STACK_MAGIC, PAGE_SIZE / sizeof(u32));
-
-		in = s;
-		if (i915_memcpy_from_wc(tmp, s, PAGE_SIZE))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			in = tmp;
 		crc[page] = crc32_le(0, in, PAGE_SIZE);
 
@@ -144,13 +134,8 @@ __igt_reset_stolen(struct intel_gt *gt,
 				      ggtt->error_capture.start,
 				      PAGE_SIZE);
 
-<<<<<<< HEAD
 		in = (void __force *)s;
 		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
-=======
-		in = s;
-		if (i915_memcpy_from_wc(tmp, s, PAGE_SIZE))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			in = tmp;
 		x = crc32_le(0, in, PAGE_SIZE);
 
@@ -336,20 +321,15 @@ static int igt_atomic_engine_reset(void *arg)
 		goto out_unlock;
 
 	for_each_engine(engine, gt, id) {
-<<<<<<< HEAD
 		struct tasklet_struct *t = &engine->execlists.tasklet;
 
 		if (t->func)
 			tasklet_disable(t);
-=======
-		tasklet_disable(&engine->execlists.tasklet);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		intel_engine_pm_get(engine);
 
 		for (p = igt_atomic_phases; p->name; p++) {
 			GEM_TRACE("intel_engine_reset(%s) under %s\n",
 				  engine->name, p->name);
-<<<<<<< HEAD
 			if (strcmp(p->name, "softirq"))
 				local_bh_disable();
 
@@ -360,13 +340,6 @@ static int igt_atomic_engine_reset(void *arg)
 			if (strcmp(p->name, "softirq"))
 				local_bh_enable();
 
-=======
-
-			p->critical_section_begin();
-			err = intel_engine_reset(engine, NULL);
-			p->critical_section_end();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err) {
 				pr_err("intel_engine_reset(%s) failed under %s\n",
 				       engine->name, p->name);
@@ -375,14 +348,10 @@ static int igt_atomic_engine_reset(void *arg)
 		}
 
 		intel_engine_pm_put(engine);
-<<<<<<< HEAD
 		if (t->func) {
 			tasklet_enable(t);
 			tasklet_hi_schedule(t);
 		}
-=======
-		tasklet_enable(&engine->execlists.tasklet);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			break;
 	}

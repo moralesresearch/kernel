@@ -187,7 +187,6 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
 					SOF_RT715_DAI_ID_FIX |
 					SOF_SDW_FOUR_SPK),
 	},
-<<<<<<< HEAD
 	/* AlderLake devices */
 	{
 		.callback = sof_sdw_quirk_cb,
@@ -199,8 +198,6 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
 					SOF_SDW_TGL_HDMI |
 					SOF_SDW_PCH_DMIC),
 	},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 
@@ -490,10 +487,6 @@ static int get_sdw_dailink_info(const struct snd_soc_acpi_link_adr *links,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void init_dai_link(struct device *dev, struct snd_soc_dai_link *dai_links,
 			  int be_id, char *name, int playback, int capture,
 			  struct snd_soc_dai_link_component *cpus, int cpus_num,
@@ -502,20 +495,6 @@ static void init_dai_link(struct device *dev, struct snd_soc_dai_link *dai_links
 			  const struct snd_soc_ops *ops)
 {
 	dev_dbg(dev, "create dai link %s, id %d\n", name, be_id);
-<<<<<<< HEAD
-=======
-=======
-static void init_dai_link(struct snd_soc_dai_link *dai_links, int be_id,
-			  char *name, int playback, int capture,
-			  struct snd_soc_dai_link_component *cpus,
-			  int cpus_num,
-			  struct snd_soc_dai_link_component *codecs,
-			  int codecs_num,
-			  int (*init)(struct snd_soc_pcm_runtime *rtd),
-			  const struct snd_soc_ops *ops)
-{
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dai_links->id = be_id;
 	dai_links->name = name;
 	dai_links->platforms = platform_component;
@@ -853,15 +832,7 @@ static int create_sdw_dailink(struct device *dev, int *be_index,
 
 		playback = (stream == SNDRV_PCM_STREAM_PLAYBACK);
 		capture = (stream == SNDRV_PCM_STREAM_CAPTURE);
-<<<<<<< HEAD
 		init_dai_link(dev, dai_links + *be_index, *be_index, name,
-=======
-<<<<<<< HEAD
-		init_dai_link(dev, dai_links + *be_index, *be_index, name,
-=======
-		init_dai_link(dai_links + *be_index, *be_index, name,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      playback, capture,
 			      cpus + *cpu_id, cpu_dai_num,
 			      codecs, codec_num,
@@ -1100,15 +1071,7 @@ SSP:
 
 		playback = info->direction[SNDRV_PCM_STREAM_PLAYBACK];
 		capture = info->direction[SNDRV_PCM_STREAM_CAPTURE];
-<<<<<<< HEAD
 		init_dai_link(dev, links + link_id, be_id, name,
-=======
-<<<<<<< HEAD
-		init_dai_link(dev, links + link_id, be_id, name,
-=======
-		init_dai_link(links + link_id, be_id, name,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      playback, capture,
 			      cpus + cpu_id, 1,
 			      ssp_components, 1,
@@ -1125,15 +1088,7 @@ DMIC:
 	/* dmic */
 	if (dmic_num > 0) {
 		cpus[cpu_id].dai_name = "DMIC01 Pin";
-<<<<<<< HEAD
 		init_dai_link(dev, links + link_id, be_id, "dmic01",
-=======
-<<<<<<< HEAD
-		init_dai_link(dev, links + link_id, be_id, "dmic01",
-=======
-		init_dai_link(links + link_id, be_id, "dmic01",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      0, 1, // DMIC only supports capture
 			      cpus + cpu_id, 1,
 			      dmic_component, 1,
@@ -1141,15 +1096,7 @@ DMIC:
 		INC_ID(be_id, cpu_id, link_id);
 
 		cpus[cpu_id].dai_name = "DMIC16k Pin";
-<<<<<<< HEAD
 		init_dai_link(dev, links + link_id, be_id, "dmic16k",
-=======
-<<<<<<< HEAD
-		init_dai_link(dev, links + link_id, be_id, "dmic16k",
-=======
-		init_dai_link(links + link_id, be_id, "dmic16k",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      0, 1, // DMIC only supports capture
 			      cpus + cpu_id, 1,
 			      dmic_component, 1,
@@ -1192,15 +1139,7 @@ DMIC:
 			return -ENOMEM;
 
 		cpus[cpu_id].dai_name = cpu_name;
-<<<<<<< HEAD
 		init_dai_link(dev, links + link_id, be_id, name,
-=======
-<<<<<<< HEAD
-		init_dai_link(dev, links + link_id, be_id, name,
-=======
-		init_dai_link(links + link_id, be_id, name,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      1, 0, // HDMI only supports playback
 			      cpus + cpu_id, 1,
 			      idisp_components + i, 1,
@@ -1293,10 +1232,6 @@ static int mc_probe(struct platform_device *pdev)
 	if (!card->components)
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mach->mach_params.dmic_num) {
 		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
 						  "%s mic:dmic cfg-mics:%d",
@@ -1306,11 +1241,6 @@ static int mc_probe(struct platform_device *pdev)
 			return -ENOMEM;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	card->long_name = sdw_card_long_name;
 
 	/* Register the card */

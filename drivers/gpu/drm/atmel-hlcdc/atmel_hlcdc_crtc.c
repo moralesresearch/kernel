@@ -473,10 +473,6 @@ static const struct drm_crtc_funcs atmel_hlcdc_crtc_funcs = {
 	.atomic_destroy_state = atmel_hlcdc_crtc_destroy_state,
 	.enable_vblank = atmel_hlcdc_crtc_enable_vblank,
 	.disable_vblank = atmel_hlcdc_crtc_disable_vblank,
-<<<<<<< HEAD
-=======
-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int atmel_hlcdc_crtc_create(struct drm_device *dev)

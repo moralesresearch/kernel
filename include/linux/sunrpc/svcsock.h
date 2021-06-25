@@ -35,11 +35,8 @@ struct svc_sock {
 	/* Total length of the data (not including fragment headers)
 	 * received so far in the fragments making up this rpc: */
 	u32			sk_datalen;
-<<<<<<< HEAD
 	/* Number of queued send requests */
 	atomic_t		sk_sendqlen;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct page *		sk_pages[RPCSVC_MAXPAGES];	/* received data */
 };

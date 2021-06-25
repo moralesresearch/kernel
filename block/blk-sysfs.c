@@ -60,7 +60,7 @@ static ssize_t queue_var_store64(s64 *var, const char *page)
 
 static ssize_t queue_requests_show(struct request_queue *q, char *page)
 {
-	return queue_var_show(q->nr_requests, (page));
+	return queue_var_show(q->nr_requests, page);
 }
 
 static ssize_t
@@ -219,15 +219,12 @@ static ssize_t queue_write_zeroes_max_show(struct request_queue *q, char *page)
 		(unsigned long long)q->limits.max_write_zeroes_sectors << 9);
 }
 
-<<<<<<< HEAD
 static ssize_t queue_zone_write_granularity_show(struct request_queue *q,
 						 char *page)
 {
 	return queue_var_show(queue_zone_write_granularity(q), page);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t queue_zone_append_max_show(struct request_queue *q, char *page)
 {
 	unsigned long long max_sectors = q->limits.max_zone_append_sectors;
@@ -265,6 +262,11 @@ static ssize_t queue_max_hw_sectors_show(struct request_queue *q, char *page)
 	int max_hw_sectors_kb = queue_max_hw_sectors(q) >> 1;
 
 	return queue_var_show(max_hw_sectors_kb, (page));
+}
+
+static ssize_t queue_virt_boundary_mask_show(struct request_queue *q, char *page)
+{
+	return queue_var_show(q->limits.virt_boundary_mask, (page));
 }
 
 #define QUEUE_SYSFS_BIT_FNS(name, flag, neg)				\
@@ -437,7 +439,6 @@ static ssize_t queue_poll_store(struct request_queue *q, const char *page,
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
 	if (poll_on) {
 		blk_queue_flag_set(QUEUE_FLAG_POLL, q);
 	} else {
@@ -445,12 +446,6 @@ static ssize_t queue_poll_store(struct request_queue *q, const char *page,
 		blk_queue_flag_clear(QUEUE_FLAG_POLL, q);
 		blk_mq_unfreeze_queue(q);
 	}
-=======
-	if (poll_on)
-		blk_queue_flag_set(QUEUE_FLAG_POLL, q);
-	else
-		blk_queue_flag_clear(QUEUE_FLAG_POLL, q);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -604,10 +599,7 @@ QUEUE_RO_ENTRY(queue_discard_zeroes_data, "discard_zeroes_data");
 QUEUE_RO_ENTRY(queue_write_same_max, "write_same_max_bytes");
 QUEUE_RO_ENTRY(queue_write_zeroes_max, "write_zeroes_max_bytes");
 QUEUE_RO_ENTRY(queue_zone_append_max, "zone_append_max_bytes");
-<<<<<<< HEAD
 QUEUE_RO_ENTRY(queue_zone_write_granularity, "zone_write_granularity");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 QUEUE_RO_ENTRY(queue_zoned, "zoned");
 QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
@@ -623,6 +615,7 @@ QUEUE_RO_ENTRY(queue_fua, "fua");
 QUEUE_RO_ENTRY(queue_dax, "dax");
 QUEUE_RW_ENTRY(queue_io_timeout, "io_timeout");
 QUEUE_RW_ENTRY(queue_wb_lat, "wbt_lat_usec");
+QUEUE_RO_ENTRY(queue_virt_boundary_mask, "virt_boundary_mask");
 
 #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
 QUEUE_RW_ENTRY(blk_throtl_sample_time, "throttle_sample_time");
@@ -662,10 +655,7 @@ static struct attribute *queue_attrs[] = {
 	&queue_write_same_max_entry.attr,
 	&queue_write_zeroes_max_entry.attr,
 	&queue_zone_append_max_entry.attr,
-<<<<<<< HEAD
 	&queue_zone_write_granularity_entry.attr,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&queue_nonrot_entry.attr,
 	&queue_zoned_entry.attr,
 	&queue_nr_zones_entry.attr,
@@ -686,6 +676,7 @@ static struct attribute *queue_attrs[] = {
 #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
 	&blk_throtl_sample_time_entry.attr,
 #endif
+	&queue_virt_boundary_mask_entry.attr,
 	NULL,
 };
 

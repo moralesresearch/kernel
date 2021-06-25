@@ -163,10 +163,7 @@ static struct sk_buff *dsa_rcv_ll(struct sk_buff *skb, struct net_device *dev,
 				  u8 extra)
 {
 	int source_device, source_port;
-<<<<<<< HEAD
 	bool trunk = false;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum dsa_code code;
 	enum dsa_cmd cmd;
 	u8 *dsa_header;
@@ -178,11 +175,8 @@ static struct sk_buff *dsa_rcv_ll(struct sk_buff *skb, struct net_device *dev,
 	switch (cmd) {
 	case DSA_CMD_FORWARD:
 		skb->offload_fwd_mark = 1;
-<<<<<<< HEAD
 
 		trunk = !!(dsa_header[1] & 7);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case DSA_CMD_TO_CPU:
@@ -225,7 +219,6 @@ static struct sk_buff *dsa_rcv_ll(struct sk_buff *skb, struct net_device *dev,
 	source_device = dsa_header[0] & 0x1f;
 	source_port = (dsa_header[1] >> 3) & 0x1f;
 
-<<<<<<< HEAD
 	if (trunk) {
 		struct dsa_port *cpu_dp = dev->dsa_ptr;
 
@@ -239,9 +232,6 @@ static struct sk_buff *dsa_rcv_ll(struct sk_buff *skb, struct net_device *dev,
 						 source_port);
 	}
 
-=======
-	skb->dev = dsa_master_find_slave(dev, source_device, source_port);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb->dev)
 		return NULL;
 

@@ -7,10 +7,7 @@
  * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
  */
 
-<<<<<<< HEAD
 #include "drm/drm_modeset_lock.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/mutex.h>
 #include <linux/slab.h>
@@ -1185,17 +1182,11 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
 	struct drm_device *dev = client->dev;
 	struct drm_connector *connector;
 	struct drm_mode_set *modeset;
-<<<<<<< HEAD
 	struct drm_modeset_acquire_ctx ctx;
 	int j;
 	int ret;
 
 	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-=======
-	int j;
-
-	drm_modeset_lock_all(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drm_client_for_each_modeset(modeset, client) {
 		if (!modeset->crtc->enabled)
 			continue;
@@ -1207,11 +1198,7 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
 				dev->mode_config.dpms_property, dpms_mode);
 		}
 	}
-<<<<<<< HEAD
 	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
-=======
-	drm_modeset_unlock_all(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

@@ -689,17 +689,8 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
 		struct page **pages = pvec + pinned;
 
 		ret = pin_user_pages_fast(ptr, num_pages,
-<<<<<<< HEAD
 					  FOLL_WRITE | FOLL_FORCE | FOLL_LONGTERM,
 					  pages);
-=======
-<<<<<<< HEAD
-					  FOLL_WRITE | FOLL_FORCE | FOLL_LONGTERM,
-					  pages);
-=======
-					  FOLL_WRITE | FOLL_FORCE, pages);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0) {
 			unpin_user_pages(pvec, pinned);
 			kvfree(pvec);

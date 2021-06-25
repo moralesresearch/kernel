@@ -81,10 +81,6 @@ struct csi2rx_priv {
 	struct media_pad		pads[CSI2RX_PAD_MAX];
 
 	/* Remote source */
-<<<<<<< HEAD
-=======
-	struct v4l2_async_subdev	asd;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_subdev		*source_subdev;
 	int				source_pad;
 };
@@ -365,10 +361,7 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
 static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
 {
 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fwnode_handle *fwh;
 	struct device_node *ep;
 	int ret;
@@ -402,7 +395,6 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	v4l2_async_notifier_init(&csi2rx->notifier);
 
 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi2rx->notifier,
@@ -411,19 +403,6 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
 	of_node_put(ep);
 	if (IS_ERR(asd))
 		return PTR_ERR(asd);
-=======
-	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_port_parent(fwh);
-	csi2rx->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-	of_node_put(ep);
-
-	v4l2_async_notifier_init(&csi2rx->notifier);
-
-	ret = v4l2_async_notifier_add_subdev(&csi2rx->notifier, &csi2rx->asd);
-	if (ret) {
-		fwnode_handle_put(csi2rx->asd.match.fwnode);
-		return ret;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	csi2rx->notifier.ops = &csi2rx_notifier_ops;
 

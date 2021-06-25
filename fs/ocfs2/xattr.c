@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-/* -*- mode: c; c-basic-offset: 8; -*-
- * vim: noexpandtab sw=8 ts=8 sts=0:
- *
+/*
  * xattr.c
  *
  * Copyright (C) 2004, 2008 Oracle.  All rights reserved.
@@ -7249,10 +7247,7 @@ static int ocfs2_xattr_security_get(const struct xattr_handler *handler,
 }
 
 static int ocfs2_xattr_security_set(const struct xattr_handler *handler,
-<<<<<<< HEAD
 				    struct user_namespace *mnt_userns,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    struct dentry *unused, struct inode *inode,
 				    const char *name, const void *value,
 				    size_t size, int flags)
@@ -7325,10 +7320,7 @@ static int ocfs2_xattr_trusted_get(const struct xattr_handler *handler,
 }
 
 static int ocfs2_xattr_trusted_set(const struct xattr_handler *handler,
-<<<<<<< HEAD
 				   struct user_namespace *mnt_userns,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   struct dentry *unused, struct inode *inode,
 				   const char *name, const void *value,
 				   size_t size, int flags)
@@ -7359,10 +7351,7 @@ static int ocfs2_xattr_user_get(const struct xattr_handler *handler,
 }
 
 static int ocfs2_xattr_user_set(const struct xattr_handler *handler,
-<<<<<<< HEAD
 				struct user_namespace *mnt_userns,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				struct dentry *unused, struct inode *inode,
 				const char *name, const void *value,
 				size_t size, int flags)

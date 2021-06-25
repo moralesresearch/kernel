@@ -1086,10 +1086,7 @@ static int __dma_async_device_channel_register(struct dma_device *device,
 	kfree(chan->dev);
  err_free_local:
 	free_percpu(chan->local);
-<<<<<<< HEAD
 	chan->local = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 

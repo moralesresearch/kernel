@@ -13,10 +13,7 @@
 #include <linux/pm_opp.h>
 #include <linux/slab.h>
 #include <linux/iopoll.h>
-<<<<<<< HEAD
 #include <linux/qcom_scm.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/regulator/consumer.h>
 #include <linux/interconnect.h>
 #include <linux/pinctrl/consumer.h>
@@ -259,22 +256,14 @@ struct sdhci_msm_variant_info {
 struct sdhci_msm_host {
 	struct platform_device *pdev;
 	void __iomem *core_mem;	/* MSM SDCC mapped address */
-<<<<<<< HEAD
 	void __iomem *ice_mem;	/* MSM ICE mapped address (if available) */
 	int pwr_irq;		/* power irq */
 	struct clk *bus_clk;	/* SDHC bus voter clock */
 	struct clk *xo_clk;	/* TCXO clk needed for FLL feature of cm_dll*/
 	/* core, iface, cal, sleep, and ice clocks */
 	struct clk_bulk_data bulk_clks[5];
-=======
-	int pwr_irq;		/* power irq */
-	struct clk *bus_clk;	/* SDHC bus voter clock */
-	struct clk *xo_clk;	/* TCXO clk needed for FLL feature of cm_dll*/
-	struct clk_bulk_data bulk_clks[4]; /* core, iface, cal, sleep clocks */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long clk_rate;
 	struct mmc_host *mmc;
-	struct opp_table *opp_table;
 	bool use_14lpp_dll_reset;
 	bool tuning_done;
 	bool calibration_done;
@@ -340,12 +329,7 @@ static void sdhci_msm_v5_variant_writel_relaxed(u32 val,
 	writel_relaxed(val, host->ioaddr + offset);
 }
 
-<<<<<<< HEAD
 static unsigned int msm_get_clock_mult_for_bus_mode(struct sdhci_host *host)
-=======
-static unsigned int msm_get_clock_rate_for_bus_mode(struct sdhci_host *host,
-						    unsigned int clock)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mmc_ios ios = host->mmc->ios;
 	/*
@@ -358,13 +342,8 @@ static unsigned int msm_get_clock_rate_for_bus_mode(struct sdhci_host *host,
 	    ios.timing == MMC_TIMING_MMC_DDR52 ||
 	    ios.timing == MMC_TIMING_MMC_HS400 ||
 	    host->flags & SDHCI_HS400_TUNING)
-<<<<<<< HEAD
 		return 2;
 	return 1;
-=======
-		clock *= 2;
-	return clock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void msm_set_clock_rate_for_bus_mode(struct sdhci_host *host,
@@ -374,7 +353,6 @@ static void msm_set_clock_rate_for_bus_mode(struct sdhci_host *host,
 	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
 	struct mmc_ios curr_ios = host->mmc->ios;
 	struct clk *core_clk = msm_host->bulk_clks[0].clk;
-<<<<<<< HEAD
 	unsigned long achieved_rate;
 	unsigned int desired_rate;
 	unsigned int mult;
@@ -405,22 +383,6 @@ static void msm_set_clock_rate_for_bus_mode(struct sdhci_host *host,
 
 	pr_debug("%s: Setting clock at rate %lu at timing %d\n",
 		 mmc_hostname(host->mmc), achieved_rate, curr_ios.timing);
-=======
-	int rc;
-
-	clock = msm_get_clock_rate_for_bus_mode(host, clock);
-	rc = dev_pm_opp_set_rate(mmc_dev(host->mmc), clock);
-	if (rc) {
-		pr_err("%s: Failed to set clock at rate %u at timing %d\n",
-		       mmc_hostname(host->mmc), clock,
-		       curr_ios.timing);
-		return;
-	}
-	msm_host->clk_rate = clock;
-	pr_debug("%s: Setting clock at rate %lu at timing %d\n",
-		 mmc_hostname(host->mmc), clk_get_rate(core_clk),
-		 curr_ios.timing);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Platform specific tuning */
@@ -1799,16 +1761,6 @@ static unsigned int sdhci_msm_get_min_clock(struct sdhci_host *host)
 static void __sdhci_msm_set_clock(struct sdhci_host *host, unsigned int clock)
 {
 	u16 clk;
-<<<<<<< HEAD
-=======
-	/*
-	 * Keep actual_clock as zero -
-	 * - since there is no divider used so no need of having actual_clock.
-	 * - MSM controller uses SDCLK for data timeout calculation. If
-	 *   actual_clock is zero, host->clock is taken for calculation.
-	 */
-	host->mmc->actual_clock = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
 
@@ -1831,11 +1783,7 @@ static void sdhci_msm_set_clock(struct sdhci_host *host, unsigned int clock)
 	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
 
 	if (!clock) {
-<<<<<<< HEAD
 		host->mmc->actual_clock = msm_host->clk_rate = 0;
-=======
-		msm_host->clk_rate = clock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -1848,7 +1796,6 @@ out:
 
 /*****************************************************************************\
  *                                                                           *
-<<<<<<< HEAD
  * Inline Crypto Engine (ICE) support                                        *
  *                                                                           *
 \*****************************************************************************/
@@ -1916,7 +1863,6 @@ static int sdhci_msm_ice_init(struct sdhci_msm_host *msm_host,
 	struct mmc_host *mmc = msm_host->mmc;
 	struct device *dev = mmc_dev(mmc);
 	struct resource *res;
-	int err;
 
 	if (!(cqhci_readl(cq_host, CQHCI_CAP) & CQHCI_CAP_CS))
 		return 0;
@@ -1934,11 +1880,8 @@ static int sdhci_msm_ice_init(struct sdhci_msm_host *msm_host,
 	}
 
 	msm_host->ice_mem = devm_ioremap_resource(dev, res);
-	if (IS_ERR(msm_host->ice_mem)) {
-		err = PTR_ERR(msm_host->ice_mem);
-		dev_err(dev, "Failed to map ICE registers; err=%d\n", err);
-		return err;
-	}
+	if (IS_ERR(msm_host->ice_mem))
+		return PTR_ERR(msm_host->ice_mem);
 
 	if (!sdhci_msm_ice_supported(msm_host))
 		goto disable;
@@ -2089,8 +2032,6 @@ sdhci_msm_ice_resume(struct sdhci_msm_host *msm_host)
 
 /*****************************************************************************\
  *                                                                           *
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * MSM Command Queue Engine (CQE)                                            *
  *                                                                           *
 \*****************************************************************************/
@@ -2107,7 +2048,6 @@ static u32 sdhci_msm_cqe_irq(struct sdhci_host *host, u32 intmask)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void sdhci_msm_cqe_enable(struct mmc_host *mmc)
 {
 	struct sdhci_host *host = mmc_priv(mmc);
@@ -2118,8 +2058,6 @@ static void sdhci_msm_cqe_enable(struct mmc_host *mmc)
 	sdhci_msm_ice_enable(msm_host);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sdhci_msm_cqe_disable(struct mmc_host *mmc, bool recovery)
 {
 	struct sdhci_host *host = mmc_priv(mmc);
@@ -2152,16 +2090,11 @@ static void sdhci_msm_cqe_disable(struct mmc_host *mmc, bool recovery)
 }
 
 static const struct cqhci_host_ops sdhci_msm_cqhci_ops = {
-<<<<<<< HEAD
 	.enable		= sdhci_msm_cqe_enable,
 	.disable	= sdhci_msm_cqe_disable,
 #ifdef CONFIG_MMC_CRYPTO
 	.program_key	= sdhci_msm_program_key,
 #endif
-=======
-	.enable		= sdhci_cqe_enable,
-	.disable	= sdhci_msm_cqe_disable,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int sdhci_msm_cqe_add_host(struct sdhci_host *host,
@@ -2197,13 +2130,10 @@ static int sdhci_msm_cqe_add_host(struct sdhci_host *host,
 
 	dma64 = host->flags & SDHCI_USE_64_BIT_DMA;
 
-<<<<<<< HEAD
 	ret = sdhci_msm_ice_init(msm_host, cq_host);
 	if (ret)
 		goto cleanup;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = cqhci_init(cq_host, host->mmc, dma64);
 	if (ret) {
 		dev_err(&pdev->dev, "%s: CQE init: failed (%d)\n",
@@ -2616,17 +2546,15 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	if (ret)
 		goto bus_clk_disable;
 
-	msm_host->opp_table = dev_pm_opp_set_clkname(&pdev->dev, "core");
-	if (IS_ERR(msm_host->opp_table)) {
-		ret = PTR_ERR(msm_host->opp_table);
+	ret = devm_pm_opp_set_clkname(&pdev->dev, "core");
+	if (ret)
 		goto bus_clk_disable;
-	}
 
 	/* OPP table is optional */
-	ret = dev_pm_opp_of_add_table(&pdev->dev);
+	ret = devm_pm_opp_of_add_table(&pdev->dev);
 	if (ret && ret != -ENODEV) {
 		dev_err(&pdev->dev, "Invalid OPP table in Device tree\n");
-		goto opp_put_clkname;
+		goto bus_clk_disable;
 	}
 
 	/* Vote for maximum clock rate for maximum performance */
@@ -2644,18 +2572,15 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 		clk = NULL;
 	msm_host->bulk_clks[3].clk = clk;
 
-<<<<<<< HEAD
 	clk = sdhci_msm_ice_get_clk(&pdev->dev);
 	if (IS_ERR(clk))
 		clk = NULL;
 	msm_host->bulk_clks[4].clk = clk;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = clk_bulk_prepare_enable(ARRAY_SIZE(msm_host->bulk_clks),
 				      msm_host->bulk_clks);
 	if (ret)
-		goto opp_cleanup;
+		goto bus_clk_disable;
 
 	/*
 	 * xo clock is needed for FLL feature of cm_dll.
@@ -2800,10 +2725,6 @@ pm_runtime_disable:
 clk_disable:
 	clk_bulk_disable_unprepare(ARRAY_SIZE(msm_host->bulk_clks),
 				   msm_host->bulk_clks);
-opp_cleanup:
-	dev_pm_opp_of_remove_table(&pdev->dev);
-opp_put_clkname:
-	dev_pm_opp_put_clkname(msm_host->opp_table);
 bus_clk_disable:
 	if (!IS_ERR(msm_host->bus_clk))
 		clk_disable_unprepare(msm_host->bus_clk);
@@ -2822,8 +2743,6 @@ static int sdhci_msm_remove(struct platform_device *pdev)
 
 	sdhci_remove_host(host, dead);
 
-	dev_pm_opp_of_remove_table(&pdev->dev);
-	dev_pm_opp_put_clkname(msm_host->opp_table);
 	pm_runtime_get_sync(&pdev->dev);
 	pm_runtime_disable(&pdev->dev);
 	pm_runtime_put_noidle(&pdev->dev);
@@ -2865,7 +2784,6 @@ static __maybe_unused int sdhci_msm_runtime_resume(struct device *dev)
 	 * Whenever core-clock is gated dynamically, it's needed to
 	 * restore the SDR DLL settings when the clock is ungated.
 	 */
-<<<<<<< HEAD
 	if (msm_host->restore_dll_config && msm_host->clk_rate) {
 		ret = sdhci_msm_restore_sdr_dll_config(host);
 		if (ret)
@@ -2875,14 +2793,6 @@ static __maybe_unused int sdhci_msm_runtime_resume(struct device *dev)
 	dev_pm_opp_set_rate(dev, msm_host->clk_rate);
 
 	return sdhci_msm_ice_resume(msm_host);
-=======
-	if (msm_host->restore_dll_config && msm_host->clk_rate)
-		ret = sdhci_msm_restore_sdr_dll_config(host);
-
-	dev_pm_opp_set_rate(dev, msm_host->clk_rate);
-
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct dev_pm_ops sdhci_msm_pm_ops = {

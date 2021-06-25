@@ -117,10 +117,7 @@ enum perf_output_field {
 	PERF_OUTPUT_IPC             = 1ULL << 31,
 	PERF_OUTPUT_TOD             = 1ULL << 32,
 	PERF_OUTPUT_DATA_PAGE_SIZE  = 1ULL << 33,
-<<<<<<< HEAD
 	PERF_OUTPUT_CODE_PAGE_SIZE  = 1ULL << 34,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct perf_script {
@@ -186,10 +183,7 @@ struct output_option {
 	{.str = "ipc", .field = PERF_OUTPUT_IPC},
 	{.str = "tod", .field = PERF_OUTPUT_TOD},
 	{.str = "data_page_size", .field = PERF_OUTPUT_DATA_PAGE_SIZE},
-<<<<<<< HEAD
 	{.str = "code_page_size", .field = PERF_OUTPUT_CODE_PAGE_SIZE},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -264,11 +258,7 @@ static struct {
 			      PERF_OUTPUT_DSO | PERF_OUTPUT_PERIOD |
 			      PERF_OUTPUT_ADDR | PERF_OUTPUT_DATA_SRC |
 			      PERF_OUTPUT_WEIGHT | PERF_OUTPUT_PHYS_ADDR |
-<<<<<<< HEAD
 			      PERF_OUTPUT_DATA_PAGE_SIZE | PERF_OUTPUT_CODE_PAGE_SIZE,
-=======
-			      PERF_OUTPUT_DATA_PAGE_SIZE,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		.invalid_fields = PERF_OUTPUT_TRACE | PERF_OUTPUT_BPF_OUTPUT,
 	},
@@ -324,8 +314,7 @@ static inline struct evsel_script *evsel_script(struct evsel *evsel)
 	return (struct evsel_script *)evsel->priv;
 }
 
-static struct evsel_script *perf_evsel_script__new(struct evsel *evsel,
-							struct perf_data *data)
+static struct evsel_script *evsel_script__new(struct evsel *evsel, struct perf_data *data)
 {
 	struct evsel_script *es = zalloc(sizeof(*es));
 
@@ -345,7 +334,7 @@ out_free:
 	return NULL;
 }
 
-static void perf_evsel_script__delete(struct evsel_script *es)
+static void evsel_script__delete(struct evsel_script *es)
 {
 	zfree(&es->filename);
 	fclose(es->fp);
@@ -353,7 +342,7 @@ static void perf_evsel_script__delete(struct evsel_script *es)
 	free(es);
 }
 
-static int perf_evsel_script__fprintf(struct evsel_script *es, FILE *fp)
+static int evsel_script__fprintf(struct evsel_script *es, FILE *fp)
 {
 	struct stat st;
 
@@ -535,13 +524,10 @@ static int evsel__check_attr(struct evsel *evsel, struct perf_session *session)
 	    evsel__check_stype(evsel, PERF_SAMPLE_DATA_PAGE_SIZE, "DATA_PAGE_SIZE", PERF_OUTPUT_DATA_PAGE_SIZE))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (PRINT_FIELD(CODE_PAGE_SIZE) &&
 	    evsel__check_stype(evsel, PERF_SAMPLE_CODE_PAGE_SIZE, "CODE_PAGE_SIZE", PERF_OUTPUT_CODE_PAGE_SIZE))
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1550,11 +1536,8 @@ static struct {
 	{PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_TX_ABORT, "tx abrt"},
 	{PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_TRACE_BEGIN, "tr strt"},
 	{PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_TRACE_END, "tr end"},
-<<<<<<< HEAD
 	{PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_CALL | PERF_IP_FLAG_VMENTRY, "vmentry"},
 	{PERF_IP_FLAG_BRANCH | PERF_IP_FLAG_CALL | PERF_IP_FLAG_VMEXIT, "vmexit"},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{0, NULL}
 };
 
@@ -1784,7 +1767,6 @@ static int perf_sample__fprintf_synth_cbr(struct perf_sample *sample, FILE *fp)
 	return len + perf_sample__fprintf_pt_spacing(len, fp);
 }
 
-<<<<<<< HEAD
 static int perf_sample__fprintf_synth_psb(struct perf_sample *sample, FILE *fp)
 {
 	struct perf_synth_intel_psb *data = perf_sample__synth_ptr(sample);
@@ -1797,8 +1779,6 @@ static int perf_sample__fprintf_synth_psb(struct perf_sample *sample, FILE *fp)
 	return len + perf_sample__fprintf_pt_spacing(len, fp);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int perf_sample__fprintf_synth(struct perf_sample *sample,
 				      struct evsel *evsel, FILE *fp)
 {
@@ -1815,11 +1795,8 @@ static int perf_sample__fprintf_synth(struct perf_sample *sample,
 		return perf_sample__fprintf_synth_pwrx(sample, fp);
 	case PERF_SYNTH_INTEL_CBR:
 		return perf_sample__fprintf_synth_cbr(sample, fp);
-<<<<<<< HEAD
 	case PERF_SYNTH_INTEL_PSB:
 		return perf_sample__fprintf_synth_psb(sample, fp);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}
@@ -2080,12 +2057,9 @@ static void process_event(struct perf_script *script,
 	if (PRINT_FIELD(DATA_PAGE_SIZE))
 		fprintf(fp, " %s", get_page_size_name(sample->data_page_size, str));
 
-<<<<<<< HEAD
 	if (PRINT_FIELD(CODE_PAGE_SIZE))
 		fprintf(fp, " %s", get_page_size_name(sample->code_page_size, str));
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	perf_sample__fprintf_ipc(sample, attr, fp);
 
 	fprintf(fp, "\n");
@@ -2244,8 +2218,7 @@ static int process_attr(struct perf_tool *tool, union perf_event *event,
 
 	if (!evsel->priv) {
 		if (scr->per_event_dump) {
-			evsel->priv = perf_evsel_script__new(evsel,
-						scr->session->data);
+			evsel->priv = evsel_script__new(evsel, scr->session->data);
 		} else {
 			es = zalloc(sizeof(*es));
 			if (!es)
@@ -2500,7 +2473,7 @@ static void perf_script__fclose_per_event_dump(struct perf_script *script)
 	evlist__for_each_entry(evlist, evsel) {
 		if (!evsel->priv)
 			break;
-		perf_evsel_script__delete(evsel->priv);
+		evsel_script__delete(evsel->priv);
 		evsel->priv = NULL;
 	}
 }
@@ -2513,14 +2486,14 @@ static int perf_script__fopen_per_event_dump(struct perf_script *script)
 		/*
 		 * Already setup? I.e. we may be called twice in cases like
 		 * Intel PT, one for the intel_pt// and dummy events, then
-		 * for the evsels syntheized from the auxtrace info.
+		 * for the evsels synthesized from the auxtrace info.
 		 *
 		 * Ses perf_script__process_auxtrace_info.
 		 */
 		if (evsel->priv != NULL)
 			continue;
 
-		evsel->priv = perf_evsel_script__new(evsel, script->session->data);
+		evsel->priv = evsel_script__new(evsel, script->session->data);
 		if (evsel->priv == NULL)
 			goto out_err_fclose;
 	}
@@ -2555,8 +2528,8 @@ static void perf_script__exit_per_event_dump_stats(struct perf_script *script)
 	evlist__for_each_entry(script->session->evlist, evsel) {
 		struct evsel_script *es = evsel->priv;
 
-		perf_evsel_script__fprintf(es, stdout);
-		perf_evsel_script__delete(es);
+		evsel_script__fprintf(es, stdout);
+		evsel_script__delete(es);
 		evsel->priv = NULL;
 	}
 }
@@ -2836,11 +2809,7 @@ parse:
 				break;
 		}
 		if (i == imax && strcmp(tok, "flags") == 0) {
-<<<<<<< HEAD
 			print_flags = change != REMOVE;
-=======
-			print_flags = change == REMOVE ? false : true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		}
 		if (i == imax) {
@@ -3114,7 +3083,7 @@ static int list_available_scripts(const struct option *opt __maybe_unused,
  *
  * Fixme: All existing "xxx-record" are all in good formats "-e event ",
  * which is covered well now. And new parsing code should be added to
- * cover the future complexing formats like event groups etc.
+ * cover the future complex formats like event groups etc.
  */
 static int check_ev_match(char *dir_name, char *scriptname,
 			struct perf_session *session)
@@ -3288,11 +3257,7 @@ static char *get_script_path(const char *script_root, const char *suffix)
 
 static bool is_top_script(const char *script_path)
 {
-<<<<<<< HEAD
 	return ends_with(script_path, "top") != NULL;
-=======
-	return ends_with(script_path, "top") == NULL ? false : true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int has_required_arg(char *script_path)
@@ -3593,7 +3558,6 @@ int cmd_script(int argc, const char **argv)
 		     "addr,symoff,srcline,period,iregs,uregs,brstack,"
 		     "brstacksym,flags,bpf-output,brstackinsn,brstackoff,"
 		     "callindent,insn,insnlen,synth,phys_addr,metric,misc,ipc,tod,"
-<<<<<<< HEAD
 		     "data_page_size,code_page_size",
 		     parse_output_fields),
 	OPT_BOOLEAN('a', "all-cpus", &system_wide,
@@ -3604,14 +3568,6 @@ int cmd_script(int argc, const char **argv)
 		   "only consider these symbols"),
 	OPT_INTEGER(0, "addr-range", &symbol_conf.addr_range,
 		    "Use with -S to list traced records within address range"),
-=======
-		     "data_page_size",
-		     parse_output_fields),
-	OPT_BOOLEAN('a', "all-cpus", &system_wide,
-		    "system-wide collection from all CPUs"),
-	OPT_STRING('S', "symbols", &symbol_conf.sym_list_str, "symbol[,symbol...]",
-		   "only consider these symbols"),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_CALLBACK_OPTARG(0, "insn-trace", &itrace_synth_opts, NULL, NULL,
 			"Decode instructions from itrace", parse_insn_trace),
 	OPT_CALLBACK_OPTARG(0, "xed", NULL, NULL, NULL,

@@ -286,19 +286,11 @@ nouveau_check_bl_size(struct nouveau_drm *drm, struct nouveau_bo *nvbo,
 
 	bl_size = bw * bh * (1 << tile_mode) * gob_size;
 
-<<<<<<< HEAD
 	DRM_DEBUG_KMS("offset=%u stride=%u h=%u tile_mode=0x%02x bw=%u bh=%u gob_size=%u bl_size=%llu size=%zu\n",
 		      offset, stride, h, tile_mode, bw, bh, gob_size, bl_size,
 		      nvbo->bo.base.size);
 
 	if (bl_size + offset > nvbo->bo.base.size)
-=======
-	DRM_DEBUG_KMS("offset=%u stride=%u h=%u tile_mode=0x%02x bw=%u bh=%u gob_size=%u bl_size=%llu size=%lu\n",
-		      offset, stride, h, tile_mode, bw, bh, gob_size, bl_size,
-		      nvbo->bo.mem.size);
-
-	if (bl_size + offset > nvbo->bo.mem.size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ERANGE;
 
 	return 0;
@@ -330,12 +322,9 @@ nouveau_framebuffer_new(struct drm_device *dev,
 	     mode_cmd->pitches[0] >= 0x10000 || /* at most 64k pitch */
 	     (mode_cmd->pitches[1] && /* pitches for planes must match */
 	      mode_cmd->pitches[0] != mode_cmd->pitches[1]))) {
-		struct drm_format_name_buf format_name;
-		DRM_DEBUG_KMS("Unsuitable framebuffer: format: %s; pitches: 0x%x\n 0x%x\n",
-			      drm_get_format_name(mode_cmd->pixel_format,
-						  &format_name),
-			      mode_cmd->pitches[0],
-			      mode_cmd->pitches[1]);
+		DRM_DEBUG_KMS("Unsuitable framebuffer: format: %p4cc; pitches: 0x%x\n 0x%x\n",
+			      &mode_cmd->pixel_format,
+			      mode_cmd->pitches[0], mode_cmd->pitches[1]);
 		return -EINVAL;
 	}
 
@@ -371,11 +360,7 @@ nouveau_framebuffer_new(struct drm_device *dev,
 		} else {
 			uint32_t size = mode_cmd->pitches[i] * height;
 
-<<<<<<< HEAD
 			if (size + mode_cmd->offsets[i] > nvbo->bo.base.size)
-=======
-			if (size + mode_cmd->offsets[i] > nvbo->bo.mem.size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -ERANGE;
 		}
 	}

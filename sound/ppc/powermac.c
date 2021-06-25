@@ -18,10 +18,6 @@
 #define CHIP_NAME "PMac"
 
 MODULE_DESCRIPTION("PowerMac");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Apple,PowerMac}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 static int index = SNDRV_DEFAULT_IDX1;		/* Index 0-MAX */

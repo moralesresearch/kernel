@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 What:		/sys/firmware/acpi/fpdt/
 Date:		Jan 2021
 Contact:	Zhang Rui <rui.zhang@intel.com>
@@ -42,8 +41,6 @@ Description:
 				platform runtime firmware S3 resume, just prior to
 				handoff to the OS waking vector. In nanoseconds.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 What:		/sys/firmware/acpi/bgrt/
 Date:		January 2012
 Contact:	Matthew Garrett <mjg@redhat.com>

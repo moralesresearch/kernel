@@ -27,10 +27,7 @@
 #include "util/time-utils.h"
 #include "util/util.h"
 #include "util/probe-file.h"
-<<<<<<< HEAD
 #include "util/config.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/string.h>
 #include <linux/err.h>
 
@@ -352,7 +349,6 @@ static int build_id_cache__show_all(void)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int perf_buildid_cache_config(const char *var, const char *value, void *cb)
 {
 	const char **debuginfod = cb;
@@ -363,18 +359,11 @@ static int perf_buildid_cache_config(const char *var, const char *value, void *c
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int cmd_buildid_cache(int argc, const char **argv)
 {
 	struct strlist *list;
 	struct str_node *pos;
-<<<<<<< HEAD
 	int ret, ns_id = -1;
-=======
-	int ret = 0;
-	int ns_id = -1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool force = false;
 	bool list_files = false;
 	bool opts_flag = false;
@@ -384,12 +373,8 @@ int cmd_buildid_cache(int argc, const char **argv)
 		   *purge_name_list_str = NULL,
 		   *missing_filename = NULL,
 		   *update_name_list_str = NULL,
-<<<<<<< HEAD
 		   *kcore_filename = NULL,
 		   *debuginfod = NULL;
-=======
-		   *kcore_filename = NULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char sbuf[STRERR_BUFSIZE];
 
 	struct perf_data data = {
@@ -414,11 +399,8 @@ int cmd_buildid_cache(int argc, const char **argv)
 	OPT_BOOLEAN('f', "force", &force, "don't complain, do it"),
 	OPT_STRING('u', "update", &update_name_list_str, "file list",
 		    "file(s) to update"),
-<<<<<<< HEAD
 	OPT_STRING(0, "debuginfod", &debuginfod, "debuginfod url",
 		    "set debuginfod url"),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_INCR('v', "verbose", &verbose, "be more verbose"),
 	OPT_INTEGER(0, "target-ns", &ns_id, "target pid for namespace context"),
 	OPT_END()
@@ -428,13 +410,10 @@ int cmd_buildid_cache(int argc, const char **argv)
 		NULL
 	};
 
-<<<<<<< HEAD
 	ret = perf_config(perf_buildid_cache_config, &debuginfod);
 	if (ret)
 		return ret;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	argc = parse_options(argc, argv, buildid_cache_options,
 			     buildid_cache_usage, 0);
 
@@ -446,14 +425,11 @@ int cmd_buildid_cache(int argc, const char **argv)
 	if (argc || !(list_files || opts_flag))
 		usage_with_options(buildid_cache_usage, buildid_cache_options);
 
-<<<<<<< HEAD
 	if (debuginfod) {
 		pr_debug("DEBUGINFOD_URLS=%s\n", debuginfod);
 		setenv("DEBUGINFOD_URLS", debuginfod, 1);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* -l is exclusive. It can not be used with other options. */
 	if (list_files && opts_flag) {
 		usage_with_options_msg(buildid_cache_usage,

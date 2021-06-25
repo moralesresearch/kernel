@@ -44,16 +44,6 @@ int ltq_soc_type(void)
 	return soc_info.type;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void __init prom_free_prom_memory(void)
-{
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init prom_init_cmdline(void)
 {
 	int argc = fw_arg0;
@@ -83,21 +73,8 @@ void __init plat_mem_setup(void)
 
 	set_io_port_base((unsigned long) KSEG1);
 
-<<<<<<< HEAD
 	dtb = get_fdt();
 	if (dtb == NULL)
-=======
-<<<<<<< HEAD
-	dtb = get_fdt();
-	if (dtb == NULL)
-=======
-	if (fw_passed_dtb) /* UHI interface */
-		dtb = (void *)fw_passed_dtb;
-	else if (__dtb_start != __dtb_end)
-		dtb = (void *)__dtb_start;
-	else
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		panic("no dtb found");
 
 	/*

@@ -1820,15 +1820,9 @@ static int nfc_genl_rcv_nl_event(struct notifier_block *this,
 
 	w = kmalloc(sizeof(*w), GFP_ATOMIC);
 	if (w) {
-<<<<<<< HEAD
 		INIT_WORK(&w->w, nfc_urelease_event_work);
 		w->portid = n->portid;
 		schedule_work(&w->w);
-=======
-		INIT_WORK((struct work_struct *) w, nfc_urelease_event_work);
-		w->portid = n->portid;
-		schedule_work((struct work_struct *) w);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 out:

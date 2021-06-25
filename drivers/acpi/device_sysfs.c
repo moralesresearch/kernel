@@ -73,6 +73,7 @@ static const struct sysfs_ops acpi_data_node_sysfs_ops = {
 static void acpi_data_node_release(struct kobject *kobj)
 {
 	struct acpi_data_node *dn = to_data_node(kobj);
+
 	complete(&dn->kobj_done);
 }
 
@@ -130,7 +131,7 @@ static void acpi_hide_nondev_subnodes(struct acpi_device_data *data)
  * Return: 0: no _HID and no _CID
  *         -EINVAL: output error
  *         -ENOMEM: output is truncated
-*/
+ */
 static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
 			       int size)
 {
@@ -325,19 +326,11 @@ int acpi_device_modalias(struct device *dev, char *buf, int size)
 EXPORT_SYMBOL_GPL(acpi_device_modalias);
 
 static ssize_t
-<<<<<<< HEAD
 modalias_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	return __acpi_device_modalias(to_acpi_device(dev), buf, 1024);
 }
 static DEVICE_ATTR_RO(modalias);
-=======
-acpi_device_modalias_show(struct device *dev, struct device_attribute *attr, char *buf)
-{
-	return __acpi_device_modalias(to_acpi_device(dev), buf, 1024);
-}
-static DEVICE_ATTR(modalias, 0444, acpi_device_modalias_show, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t real_power_state_show(struct device *dev,
 				     struct device_attribute *attr, char *buf)
@@ -366,13 +359,8 @@ static ssize_t power_state_show(struct device *dev,
 static DEVICE_ATTR_RO(power_state);
 
 static ssize_t
-<<<<<<< HEAD
 eject_store(struct device *d, struct device_attribute *attr,
 	    const char *buf, size_t count)
-=======
-acpi_eject_store(struct device *d, struct device_attribute *attr,
-		const char *buf, size_t count)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct acpi_device *acpi_device = to_acpi_device(d);
 	acpi_object_type not_used;
@@ -389,60 +377,39 @@ acpi_eject_store(struct device *d, struct device_attribute *attr,
 	if (ACPI_FAILURE(status) || !acpi_device->flags.ejectable)
 		return -ENODEV;
 
-	get_device(&acpi_device->dev);
+	acpi_dev_get(acpi_device);
 	status = acpi_hotplug_schedule(acpi_device, ACPI_OST_EC_OSPM_EJECT);
 	if (ACPI_SUCCESS(status))
 		return count;
 
-	put_device(&acpi_device->dev);
+	acpi_dev_put(acpi_device);
 	acpi_evaluate_ost(acpi_device->handle, ACPI_OST_EC_OSPM_EJECT,
 			  ACPI_OST_SC_NON_SPECIFIC_FAILURE, NULL);
 	return status == AE_NO_MEMORY ? -ENOMEM : -EAGAIN;
 }
 
-<<<<<<< HEAD
 static DEVICE_ATTR_WO(eject);
 
 static ssize_t
 hid_show(struct device *dev, struct device_attribute *attr, char *buf)
-=======
-static DEVICE_ATTR(eject, 0200, NULL, acpi_eject_store);
-
-static ssize_t
-acpi_device_hid_show(struct device *dev, struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 
 	return sprintf(buf, "%s\n", acpi_device_hid(acpi_dev));
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(hid);
 
 static ssize_t uid_show(struct device *dev,
 			struct device_attribute *attr, char *buf)
-=======
-static DEVICE_ATTR(hid, 0444, acpi_device_hid_show, NULL);
-
-static ssize_t acpi_device_uid_show(struct device *dev,
-				    struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 
 	return sprintf(buf, "%s\n", acpi_dev->pnp.unique_id);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(uid);
 
 static ssize_t adr_show(struct device *dev,
 			struct device_attribute *attr, char *buf)
-=======
-static DEVICE_ATTR(uid, 0444, acpi_device_uid_show, NULL);
-
-static ssize_t acpi_device_adr_show(struct device *dev,
-				    struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 
@@ -451,32 +418,22 @@ static ssize_t acpi_device_adr_show(struct device *dev,
 	else
 		return sprintf(buf, "0x%08llx\n", acpi_dev->pnp.bus_address);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(adr);
 
 static ssize_t path_show(struct device *dev,
 			 struct device_attribute *attr, char *buf)
-=======
-static DEVICE_ATTR(adr, 0444, acpi_device_adr_show, NULL);
-
-static ssize_t acpi_device_path_show(struct device *dev,
-				     struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 
 	return acpi_object_path(acpi_dev->handle, buf);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(path);
-=======
-static DEVICE_ATTR(path, 0444, acpi_device_path_show, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* sysfs file that shows description text from the ACPI _STR method */
 static ssize_t description_show(struct device *dev,
 				struct device_attribute *attr,
-				char *buf) {
+				char *buf)
+{
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 	int result;
 
@@ -500,13 +457,9 @@ static ssize_t description_show(struct device *dev,
 static DEVICE_ATTR_RO(description);
 
 static ssize_t
-<<<<<<< HEAD
 sun_show(struct device *dev, struct device_attribute *attr,
-	 char *buf) {
-=======
-acpi_device_sun_show(struct device *dev, struct device_attribute *attr,
-		     char *buf) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	 char *buf)
+{
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 	acpi_status status;
 	unsigned long long sun;
@@ -517,19 +470,12 @@ acpi_device_sun_show(struct device *dev, struct device_attribute *attr,
 
 	return sprintf(buf, "%llu\n", sun);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(sun);
 
 static ssize_t
 hrv_show(struct device *dev, struct device_attribute *attr,
-	 char *buf) {
-=======
-static DEVICE_ATTR(sun, 0444, acpi_device_sun_show, NULL);
-
-static ssize_t
-acpi_device_hrv_show(struct device *dev, struct device_attribute *attr,
-		     char *buf) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	 char *buf)
+{
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 	acpi_status status;
 	unsigned long long hrv;
@@ -540,14 +486,11 @@ acpi_device_hrv_show(struct device *dev, struct device_attribute *attr,
 
 	return sprintf(buf, "%llu\n", hrv);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RO(hrv);
-=======
-static DEVICE_ATTR(hrv, 0444, acpi_device_hrv_show, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t status_show(struct device *dev, struct device_attribute *attr,
-				char *buf) {
+				char *buf)
+{
 	struct acpi_device *acpi_dev = to_acpi_device(dev);
 	acpi_status status;
 	unsigned long long sta;

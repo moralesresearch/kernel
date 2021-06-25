@@ -108,12 +108,7 @@ struct omap_mmc_platform_data {
 		const char *name;
 		u32 ocr_mask;
 
-<<<<<<< HEAD
 		/* Card detection */
-=======
-		/* Card detection IRQs */
-		int card_detect_irq;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		int (*card_detect)(struct device *dev, int slot);
 
 		unsigned int ban_openended:1;

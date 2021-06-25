@@ -71,7 +71,6 @@ static const char *reg_names[] = {
 	[PERF_REG_POWERPC_MMCR3] = "mmcr3",
 	[PERF_REG_POWERPC_SIER2] = "sier2",
 	[PERF_REG_POWERPC_SIER3] = "sier3",
-<<<<<<< HEAD
 	[PERF_REG_POWERPC_PMC1] = "pmc1",
 	[PERF_REG_POWERPC_PMC2] = "pmc2",
 	[PERF_REG_POWERPC_PMC3] = "pmc3",
@@ -81,11 +80,6 @@ static const char *reg_names[] = {
 };
 
 static inline const char *__perf_reg_name(int id)
-=======
-};
-
-static inline const char *perf_reg_name(int id)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return reg_names[id];
 }

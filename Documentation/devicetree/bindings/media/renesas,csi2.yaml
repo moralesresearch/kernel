@@ -46,39 +46,19 @@ properties:
     maxItems: 1
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/$defs/port-base
         unevaluatedProperties: false
-=======
-    type: object
-    description:
-      A node containing input and output port nodes with endpoint definitions
-      as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
-
-    properties:
-      port@0:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Input port node, single endpoint describing the CSI-2 transmitter.
 
         properties:
-<<<<<<< HEAD
           endpoint:
             $ref: video-interfaces.yaml#
             unevaluatedProperties: false
-=======
-          reg:
-            const: 0
-
-          endpoint:
-            type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             properties:
               clock-lanes:
@@ -87,65 +67,19 @@ properties:
               data-lanes:
                 maxItems: 1
 
-<<<<<<< HEAD
             required:
               - clock-lanes
               - data-lanes
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
-=======
-              remote-endpoint: true
-
-            required:
-              - clock-lanes
-              - data-lanes
-              - remote-endpoint
-
-            additionalProperties: false
-
-        additionalProperties: false
-
-      port@1:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Output port node, multiple endpoints describing all the R-Car VIN
           modules connected the CSI-2 receiver.
 
-<<<<<<< HEAD
     required:
       - port@0
       - port@1
-=======
-        properties:
-          '#address-cells':
-            const: 1
-
-          '#size-cells':
-            const: 0
-
-          reg:
-            const: 1
-
-        patternProperties:
-          "^endpoint@[0-9a-f]$":
-            type: object
-
-            properties:
-              reg:
-                maxItems: 1
-
-              remote-endpoint: true
-
-            required:
-              - reg
-              - remote-endpoint
-
-            additionalProperties: false
-
-        additionalProperties: false
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible

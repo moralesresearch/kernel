@@ -177,11 +177,7 @@ static const struct mdp5_cfg_hw msm8x74v2_config = {
 			[3] = INTF_HDMI,
 		},
 	},
-<<<<<<< HEAD
 	.max_clk = 320000000,
-=======
-	.max_clk = 200000000,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct mdp5_cfg_hw apq8084_config = {

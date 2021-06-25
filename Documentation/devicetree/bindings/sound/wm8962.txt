@@ -9,12 +9,9 @@ Required properties:
   - reg : the I2C address of the device.
 
 Optional properties:
-<<<<<<< HEAD
 
   - clocks : The clock source of the mclk
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   - spk-mono: This is a boolean property. If present, the SPK_MONO bit
     of R51 (Class D Control 2) gets set, indicating that the speaker is
     in mono mode.
@@ -33,10 +30,7 @@ Example:
 wm8962: codec@1a {
 	compatible = "wlf,wm8962";
 	reg = <0x1a>;
-<<<<<<< HEAD
 	clocks = <&clks IMX6QDL_CLK_CKO>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gpio-cfg = <
 		0x0000 /* 0:Default */

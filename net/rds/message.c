@@ -347,14 +347,9 @@ struct rds_message *rds_message_map_pages(unsigned long *page_addrs, unsigned in
 	rm->data.op_nents = DIV_ROUND_UP(total_len, PAGE_SIZE);
 	rm->data.op_sg = rds_message_alloc_sgs(rm, num_sgs);
 	if (IS_ERR(rm->data.op_sg)) {
-<<<<<<< HEAD
 		void *err = ERR_CAST(rm->data.op_sg);
 		rds_message_put(rm);
 		return err;
-=======
-		rds_message_put(rm);
-		return ERR_CAST(rm->data.op_sg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (i = 0; i < rm->data.op_nents; ++i) {

@@ -607,11 +607,7 @@ static void do_multicpu_tests(void)
 
 		failures++;
 		asm volatile ("mov %0, %%ss" : : "rm" (orig_ss));
-<<<<<<< HEAD
 	}
-=======
-	};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ftx = 100;  /* Kill the thread. */
 	syscall(SYS_futex, &ftx, FUTEX_WAKE, 0, NULL, NULL, 0);

@@ -13,7 +13,6 @@
 #endif
 #define HAVE_FUNCTION_GRAPH_RET_ADDR_PTR
 
-<<<<<<< HEAD
 /*
  * Clang prior to 13 had "mcount" instead of "_mcount":
  * https://reviews.llvm.org/D98881
@@ -27,11 +26,6 @@
 #define ARCH_SUPPORTS_FTRACE_OPS 1
 #ifndef __ASSEMBLY__
 void MCOUNT_NAME(void);
-=======
-#define ARCH_SUPPORTS_FTRACE_OPS 1
-#ifndef __ASSEMBLY__
-void _mcount(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline unsigned long ftrace_call_adjust(unsigned long addr)
 {
 	return addr;
@@ -52,11 +46,7 @@ struct dyn_arch_ftrace {
  * both auipc and jalr at the same time.
  */
 
-<<<<<<< HEAD
 #define MCOUNT_ADDR		((unsigned long)MCOUNT_NAME)
-=======
-#define MCOUNT_ADDR		((unsigned long)_mcount)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define JALR_SIGN_MASK		(0x00000800)
 #define JALR_OFFSET_MASK	(0x00000fff)
 #define AUIPC_OFFSET_MASK	(0xfffff000)

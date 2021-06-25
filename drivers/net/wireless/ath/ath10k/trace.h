@@ -283,11 +283,7 @@ TRACE_EVENT(ath10k_htt_pktlog,
 	),
 
 	TP_printk(
-<<<<<<< HEAD
 		"%s %s %d size %u",
-=======
-		"%s %s %d size %hu",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__get_str(driver),
 		__get_str(device),
 		__entry->hw_type,
@@ -492,11 +488,7 @@ TRACE_EVENT(ath10k_wmi_diag_container,
 	),
 
 	TP_printk(
-<<<<<<< HEAD
 		"%s %s diag container type %u timestamp %u code %u len %d",
-=======
-		"%s %s diag container type %hhu timestamp %u code %u len %d",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__get_str(driver),
 		__get_str(device),
 		__entry->type,

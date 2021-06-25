@@ -50,12 +50,9 @@ static int qcom_mhi_qrtr_send(struct qrtr_endpoint *ep, struct sk_buff *skb)
 	struct qrtr_mhi_dev *qdev = container_of(ep, struct qrtr_mhi_dev, ep);
 	int rc;
 
-<<<<<<< HEAD
 	if (skb->sk)
 		sock_hold(skb->sk);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = skb_linearize(skb);
 	if (rc)
 		goto free_skb;
@@ -65,20 +62,11 @@ static int qcom_mhi_qrtr_send(struct qrtr_endpoint *ep, struct sk_buff *skb)
 	if (rc)
 		goto free_skb;
 
-<<<<<<< HEAD
 	return rc;
 
 free_skb:
 	if (skb->sk)
 		sock_put(skb->sk);
-=======
-	if (skb->sk)
-		sock_hold(skb->sk);
-
-	return rc;
-
-free_skb:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree_skb(skb);
 
 	return rc;

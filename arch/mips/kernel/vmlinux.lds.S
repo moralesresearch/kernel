@@ -66,22 +66,10 @@ SECTIONS
 		KPROBES_TEXT
 		IRQENTRY_TEXT
 		SOFTIRQENTRY_TEXT
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*(.fixup)
 		*(.gnu.warning)
 		. = ALIGN(16);
 		*(.got)	/* Global offset table */
-<<<<<<< HEAD
-=======
-=======
-		*(.text.*)
-		*(.fixup)
-		*(.gnu.warning)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} :text = 0
 	_etext = .;	/* End of text section */
 
@@ -151,10 +139,6 @@ SECTIONS
 	PERCPU_SECTION(1 << CONFIG_MIPS_L1_CACHE_SHIFT)
 #endif
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.rel.dyn : ALIGN(8) {
 		*(.rel)
 		*(.rel*)
@@ -162,12 +146,6 @@ SECTIONS
 
 #ifdef CONFIG_MIPS_ELF_APPENDED_DTB
 	STRUCT_ALIGN();
-<<<<<<< HEAD
-=======
-=======
-#ifdef CONFIG_MIPS_ELF_APPENDED_DTB
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.appended_dtb : AT(ADDR(.appended_dtb) - LOAD_OFFSET) {
 		*(.appended_dtb)
 		KEEP(*(.appended_dtb))
@@ -195,20 +173,11 @@ SECTIONS
 #endif
 
 #ifdef CONFIG_MIPS_RAW_APPENDED_DTB
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.fill : {
 		FILL(0);
 		BYTE(0);
 		STRUCT_ALIGN();
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__appended_dtb = .;
 	/* leave space for appended DTB */
 	. += 0x100000;
@@ -264,14 +233,7 @@ SECTIONS
 		/* ABI crap starts here */
 		*(.MIPS.abiflags)
 		*(.MIPS.options)
-<<<<<<< HEAD
 		*(.gnu.attributes)
-=======
-<<<<<<< HEAD
-		*(.gnu.attributes)
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*(.options)
 		*(.pdr)
 		*(.reginfo)

@@ -197,7 +197,6 @@ static inline int adreno_is_a430(struct adreno_gpu *gpu)
        return gpu->revn == 430;
 }
 
-<<<<<<< HEAD
 static inline int adreno_is_a508(struct adreno_gpu *gpu)
 {
 	return gpu->revn == 508;
@@ -208,21 +207,16 @@ static inline int adreno_is_a509(struct adreno_gpu *gpu)
 	return gpu->revn == 509;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int adreno_is_a510(struct adreno_gpu *gpu)
 {
 	return gpu->revn == 510;
 }
 
-<<<<<<< HEAD
 static inline int adreno_is_a512(struct adreno_gpu *gpu)
 {
 	return gpu->revn == 512;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int adreno_is_a530(struct adreno_gpu *gpu)
 {
 	return gpu->revn == 530;
@@ -233,14 +227,6 @@ static inline int adreno_is_a540(struct adreno_gpu *gpu)
 	return gpu->revn == 540;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool adreno_is_a6xx(struct adreno_gpu *gpu)
-{
-	return ((gpu->revn < 700 && gpu->revn > 599));
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int adreno_is_a618(struct adreno_gpu *gpu)
 {
        return gpu->revn == 618;
@@ -302,11 +288,8 @@ struct msm_gem_address_space *
 adreno_iommu_create_address_space(struct msm_gpu *gpu,
 		struct platform_device *pdev);
 
-<<<<<<< HEAD
 void adreno_set_llc_attributes(struct iommu_domain *iommu);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * For a5xx and a6xx targets load the zap shader that is used to pull the GPU
  * out of secure mode

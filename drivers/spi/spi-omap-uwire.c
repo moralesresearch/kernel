@@ -424,18 +424,14 @@ done:
 static int uwire_setup(struct spi_device *spi)
 {
 	struct uwire_state *ust = spi->controller_state;
-<<<<<<< HEAD
 	bool initial_setup = false;
 	int status;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ust == NULL) {
 		ust = kzalloc(sizeof(*ust), GFP_KERNEL);
 		if (ust == NULL)
 			return -ENOMEM;
 		spi->controller_state = ust;
-<<<<<<< HEAD
 		initial_setup = true;
 	}
 
@@ -444,11 +440,6 @@ static int uwire_setup(struct spi_device *spi)
 		kfree(ust);
 
 	return status;
-=======
-	}
-
-	return uwire_setup_transfer(spi, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void uwire_cleanup(struct spi_device *spi)

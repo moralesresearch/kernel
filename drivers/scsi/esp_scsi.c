@@ -647,7 +647,7 @@ static void esp_unmap_sense(struct esp *esp, struct esp_cmd_entry *ent)
 	ent->sense_ptr = NULL;
 }
 
-/* When a contingent allegiance conditon is created, we force feed a
+/* When a contingent allegiance condition is created, we force feed a
  * REQUEST_SENSE command to the device to fetch the sense data.  I
  * tried many other schemes, relying on the scsi error handling layer
  * to send out the REQUEST_SENSE automatically, but this was difficult
@@ -896,11 +896,7 @@ static void esp_put_ent(struct esp *esp, struct esp_cmd_entry *ent)
 }
 
 static void esp_cmd_is_done(struct esp *esp, struct esp_cmd_entry *ent,
-<<<<<<< HEAD
 			    struct scsi_cmnd *cmd, unsigned char host_byte)
-=======
-			    struct scsi_cmnd *cmd, unsigned int result)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct scsi_device *dev = cmd->device;
 	int tgt = dev->id;
@@ -909,14 +905,10 @@ static void esp_cmd_is_done(struct esp *esp, struct esp_cmd_entry *ent,
 	esp->active_cmd = NULL;
 	esp_unmap_dma(esp, cmd);
 	esp_free_lun_tag(ent, dev->hostdata);
-<<<<<<< HEAD
 	cmd->result = 0;
 	set_host_byte(cmd, host_byte);
 	if (host_byte == DID_OK)
 		set_status_byte(cmd, ent->status);
-=======
-	cmd->result = result;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ent->eh_done) {
 		complete(ent->eh_done);
@@ -932,10 +924,6 @@ static void esp_cmd_is_done(struct esp *esp, struct esp_cmd_entry *ent,
 		 */
 		cmd->result = ((DRIVER_SENSE << 24) |
 			       (DID_OK << 16) |
-<<<<<<< HEAD
-=======
-			       (COMMAND_COMPLETE << 8) |
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       (SAM_STAT_CHECK_CONDITION << 0));
 
 		ent->flags &= ~ESP_CMD_FLAG_AUTOSENSE;
@@ -958,15 +946,6 @@ static void esp_cmd_is_done(struct esp *esp, struct esp_cmd_entry *ent,
 	esp_maybe_execute_command(esp);
 }
 
-<<<<<<< HEAD
-=======
-static unsigned int compose_result(unsigned int status, unsigned int message,
-				   unsigned int driver_code)
-{
-	return (status | (message << 8) | (driver_code << 16));
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void esp_event_queue_full(struct esp *esp, struct esp_cmd_entry *ent)
 {
 	struct scsi_device *dev = ent->cmd->device;
@@ -1261,11 +1240,7 @@ static int esp_finish_select(struct esp *esp)
 		 * all bets are off.
 		 */
 		esp_schedule_reset(esp);
-<<<<<<< HEAD
 		esp_cmd_is_done(esp, ent, cmd, DID_ERROR);
-=======
-		esp_cmd_is_done(esp, ent, cmd, (DID_ERROR << 16));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -1310,11 +1285,7 @@ static int esp_finish_select(struct esp *esp)
 		esp->target[dev->id].flags |= ESP_TGT_CHECK_NEGO;
 
 		scsi_esp_cmd(esp, ESP_CMD_ESEL);
-<<<<<<< HEAD
 		esp_cmd_is_done(esp, ent, cmd, DID_BAD_TARGET);
-=======
-		esp_cmd_is_done(esp, ent, cmd, (DID_BAD_TARGET << 16));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	}
 
@@ -1370,7 +1341,7 @@ static int esp_data_bytes_sent(struct esp *esp, struct esp_cmd_entry *ent,
 	bytes_sent -= esp->send_cmd_residual;
 
 	/*
-	 * The am53c974 has a DMA 'pecularity'. The doc states:
+	 * The am53c974 has a DMA 'peculiarity'. The doc states:
 	 * In some odd byte conditions, one residual byte will
 	 * be left in the SCSI FIFO, and the FIFO Flags will
 	 * never count to '0 '. When this happens, the residual
@@ -1899,14 +1870,7 @@ again:
 				ent->flags |= ESP_CMD_FLAG_AUTOSENSE;
 				esp_autosense(esp, ent);
 			} else {
-<<<<<<< HEAD
 				esp_cmd_is_done(esp, ent, cmd, DID_OK);
-=======
-				esp_cmd_is_done(esp, ent, cmd,
-						compose_result(ent->status,
-							       ent->message,
-							       DID_OK));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		} else if (ent->message == DISCONNECT) {
 			esp_log_disconnect("Disconnecting tgt[%d] tag[%x:%x]\n",

@@ -11,11 +11,7 @@ struct nvkm_bus_func {
 	u32 hwsq_size;
 };
 
-<<<<<<< HEAD
 int nvkm_bus_new_(const struct nvkm_bus_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
-=======
-int nvkm_bus_new_(const struct nvkm_bus_func *, struct nvkm_device *, int,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  struct nvkm_bus **);
 
 void nv50_bus_init(struct nvkm_bus *);

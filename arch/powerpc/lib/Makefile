@@ -5,12 +5,9 @@
 
 ccflags-$(CONFIG_PPC64)	:= $(NO_MINIMAL_TOC)
 
-<<<<<<< HEAD
 CFLAGS_code-patching.o += -fno-stack-protector
 CFLAGS_feature-fixups.o += -fno-stack-protector
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CFLAGS_REMOVE_code-patching.o = $(CC_FLAGS_FTRACE)
 CFLAGS_REMOVE_feature-fixups.o = $(CC_FLAGS_FTRACE)
 
@@ -22,7 +19,7 @@ CFLAGS_code-patching.o += -DDISABLE_BRANCH_PROFILING
 CFLAGS_feature-fixups.o += -DDISABLE_BRANCH_PROFILING
 endif
 
-obj-y += alloc.o code-patching.o feature-fixups.o pmem.o inst.o test_code-patching.o
+obj-y += alloc.o code-patching.o feature-fixups.o pmem.o test_code-patching.o
 
 ifndef CONFIG_KASAN
 obj-y	+=	string.o memcmp_$(BITS).o
@@ -37,11 +34,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION)	+= error-inject.o
 # 64-bit linker creates .sfpr on demand for final link (vmlinux),
 # so it is only needed for modules, and only for older linkers which
 # do not support --save-restore-funcs
-<<<<<<< HEAD
 ifeq ($(call ld-ifversion, -lt, 22500, y),y)
-=======
-ifeq ($(call ld-ifversion, -lt, 225000000, y),y)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extra-$(CONFIG_PPC64)	+= crtsavres.o
 endif
 

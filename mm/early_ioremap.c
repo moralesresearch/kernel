@@ -181,7 +181,6 @@ void __init early_iounmap(void __iomem *addr, unsigned long size)
 		}
 	}
 
-<<<<<<< HEAD
 	if (WARN(slot < 0, "%s(%p, %08lx) not found slot\n",
 		  __func__, addr, size))
 		return;
@@ -193,19 +192,6 @@ void __init early_iounmap(void __iomem *addr, unsigned long size)
 
 	WARN(early_ioremap_debug, "%s(%p, %08lx) [%d]\n",
 	      __func__, addr, size, slot);
-=======
-	if (WARN(slot < 0, "early_iounmap(%p, %08lx) not found slot\n",
-		 addr, size))
-		return;
-
-	if (WARN(prev_size[slot] != size,
-		 "early_iounmap(%p, %08lx) [%d] size not consistent %08lx\n",
-		 addr, size, slot, prev_size[slot]))
-		return;
-
-	WARN(early_ioremap_debug, "early_iounmap(%p, %08lx) [%d]\n",
-	     addr, size, slot);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	virt_addr = (unsigned long)addr;
 	if (WARN_ON(virt_addr < fix_to_virt(FIX_BTMAP_BEGIN)))

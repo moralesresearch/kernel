@@ -66,6 +66,8 @@
  *
  * For an implementation of how to use this look at
  * drm_atomic_helper_setup_commit() from the atomic helper library.
+ *
+ * See also drm_crtc_commit_wait().
  */
 struct drm_crtc_commit {
 	/**
@@ -248,7 +250,6 @@ struct drm_private_state_funcs {
  *    drm_dev_register()
  * 2/ all calls to drm_atomic_private_obj_fini() must be done after calling
  *    drm_dev_unregister()
-<<<<<<< HEAD
  *
  * If that private object is used to store a state shared by multiple
  * CRTCs, proper care must be taken to ensure that non-blocking commits are
@@ -269,8 +270,6 @@ struct drm_private_state_funcs {
  * commit to complete as the first step of
  * &drm_mode_config_helper_funcs.atomic_commit_tail, similar to
  * drm_atomic_helper_wait_for_dependencies().
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct drm_private_obj {
 	/**
@@ -438,6 +437,8 @@ static inline void drm_crtc_commit_put(struct drm_crtc_commit *commit)
 {
 	kref_put(&commit->ref, __drm_crtc_commit_free);
 }
+
+int drm_crtc_commit_wait(struct drm_crtc_commit *commit);
 
 struct drm_atomic_state * __must_check
 drm_atomic_state_alloc(struct drm_device *dev);

@@ -611,10 +611,7 @@ static const struct usb_device_id id_table_combined[] = {
 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORIONLX_PLUS_PID) },
 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORION_IO_PID) },
-<<<<<<< HEAD
 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORIONMX_PID) },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ USB_DEVICE(FTDI_VID, FTDI_SYNAPSE_SS200_PID) },
 	{ USB_DEVICE(FTDI_VID, FTDI_CUSTOMWARE_MINIPLEX_PID) },
 	{ USB_DEVICE(FTDI_VID, FTDI_CUSTOMWARE_MINIPLEX2_PID) },
@@ -1038,12 +1035,9 @@ static const struct usb_device_id id_table_combined[] = {
 	/* Sienna devices */
 	{ USB_DEVICE(FTDI_VID, FTDI_SIENNA_PID) },
 	{ USB_DEVICE(ECHELON_VID, ECHELON_U20_PID) },
-<<<<<<< HEAD
 	/* IDS GmbH devices */
 	{ USB_DEVICE(IDS_VID, IDS_SI31A_PID) },
 	{ USB_DEVICE(IDS_VID, IDS_CM31A_PID) },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* U-Blox devices */
 	{ USB_DEVICE(UBLOX_VID, UBLOX_C099F9P_ZED_PID) },
 	{ USB_DEVICE(UBLOX_VID, UBLOX_C099F9P_ODIN_PID) },
@@ -1079,15 +1073,7 @@ static const char *ftdi_chip_name[] = {
 static int  ftdi_sio_probe(struct usb_serial *serial,
 					const struct usb_device_id *id);
 static int  ftdi_sio_port_probe(struct usb_serial_port *port);
-<<<<<<< HEAD
 static void ftdi_sio_port_remove(struct usb_serial_port *port);
-=======
-<<<<<<< HEAD
-static void ftdi_sio_port_remove(struct usb_serial_port *port);
-=======
-static int  ftdi_sio_port_remove(struct usb_serial_port *port);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int  ftdi_open(struct tty_struct *tty, struct usb_serial_port *port);
 static void ftdi_dtr_rts(struct usb_serial_port *port, int on);
 static void ftdi_process_read_urb(struct urb *urb);
@@ -1100,8 +1086,7 @@ static int  ftdi_tiocmset(struct tty_struct *tty,
 			unsigned int set, unsigned int clear);
 static int  ftdi_ioctl(struct tty_struct *tty,
 			unsigned int cmd, unsigned long arg);
-static int get_serial_info(struct tty_struct *tty,
-				struct serial_struct *ss);
+static void get_serial_info(struct tty_struct *tty, struct serial_struct *ss);
 static int set_serial_info(struct tty_struct *tty,
 				struct serial_struct *ss);
 static void ftdi_break_ctl(struct tty_struct *tty, int break_state);
@@ -1171,10 +1156,6 @@ static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
 	divisor = divisor3 >> 3;
 	divisor3 &= 0x7;
 	if (divisor3 == 1)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		divisor |= 0xc000;	/* +0.125 */
 	else if (divisor3 >= 4)
 		divisor |= 0x4000;	/* +0.5 */
@@ -1182,18 +1163,6 @@ static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
 		divisor |= 0x8000;	/* +0.25 */
 	else if (divisor == 1)
 		divisor = 0;		/* special case for maximum baud rate */
-<<<<<<< HEAD
-=======
-=======
-		divisor |= 0xc000;
-	else if (divisor3 >= 4)
-		divisor |= 0x4000;
-	else if (divisor3 != 0)
-		divisor |= 0x8000;
-	else if (divisor == 1)
-		divisor = 0;	/* special case for maximum baud rate */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return divisor;
 }
 
@@ -1211,21 +1180,9 @@ static u32 ftdi_232bm_baud_base_to_divisor(int baud, int base)
 	divisor = divisor3 >> 3;
 	divisor |= (u32)divfrac[divisor3 & 0x7] << 14;
 	/* Deal with special cases for highest baud rates. */
-<<<<<<< HEAD
 	if (divisor == 1)		/* 1.0 */
 		divisor = 0;
 	else if (divisor == 0x4001)	/* 1.5 */
-=======
-<<<<<<< HEAD
-	if (divisor == 1)		/* 1.0 */
-		divisor = 0;
-	else if (divisor == 0x4001)	/* 1.5 */
-=======
-	if (divisor == 1)
-		divisor = 0;
-	else if (divisor == 0x4001)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		divisor = 1;
 	return divisor;
 }
@@ -1247,21 +1204,9 @@ static u32 ftdi_2232h_baud_base_to_divisor(int baud, int base)
 	divisor = divisor3 >> 3;
 	divisor |= (u32)divfrac[divisor3 & 0x7] << 14;
 	/* Deal with special cases for highest baud rates. */
-<<<<<<< HEAD
 	if (divisor == 1)		/* 1.0 */
 		divisor = 0;
 	else if (divisor == 0x4001)	/* 1.5 */
-=======
-<<<<<<< HEAD
-	if (divisor == 1)		/* 1.0 */
-		divisor = 0;
-	else if (divisor == 0x4001)	/* 1.5 */
-=======
-	if (divisor == 1)
-		divisor = 0;
-	else if (divisor == 0x4001)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		divisor = 1;
 	/*
 	 * Set this bit to turn off a divide by 2.5 on baud rate generator
@@ -1535,8 +1480,7 @@ static int read_latency_timer(struct usb_serial_port *port)
 	return 0;
 }
 
-static int get_serial_info(struct tty_struct *tty,
-				struct serial_struct *ss)
+static void get_serial_info(struct tty_struct *tty, struct serial_struct *ss)
 {
 	struct usb_serial_port *port = tty->driver_data;
 	struct ftdi_private *priv = usb_get_serial_port_data(port);
@@ -1544,49 +1488,34 @@ static int get_serial_info(struct tty_struct *tty,
 	ss->flags = priv->flags;
 	ss->baud_base = priv->baud_base;
 	ss->custom_divisor = priv->custom_divisor;
-	return 0;
 }
 
-static int set_serial_info(struct tty_struct *tty,
-	struct serial_struct *ss)
+static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
 {
 	struct usb_serial_port *port = tty->driver_data;
 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-	struct ftdi_private old_priv;
+	int old_flags, old_divisor;
 
 	mutex_lock(&priv->cfg_lock);
-	old_priv = *priv;
-
-	/* Do error checking and permission checking */
 
 	if (!capable(CAP_SYS_ADMIN)) {
 		if ((ss->flags ^ priv->flags) & ~ASYNC_USR_MASK) {
 			mutex_unlock(&priv->cfg_lock);
 			return -EPERM;
 		}
-		priv->flags = ((priv->flags & ~ASYNC_USR_MASK) |
-			       (ss->flags & ASYNC_USR_MASK));
-		priv->custom_divisor = ss->custom_divisor;
-		goto check_and_exit;
 	}
 
-	if (ss->baud_base != priv->baud_base) {
-		mutex_unlock(&priv->cfg_lock);
-		return -EINVAL;
-	}
+	old_flags = priv->flags;
+	old_divisor = priv->custom_divisor;
 
-	/* Make the changes - these are privileged changes! */
-
-	priv->flags = ((priv->flags & ~ASYNC_FLAGS) |
-					(ss->flags & ASYNC_FLAGS));
+	priv->flags = ss->flags & ASYNC_FLAGS;
 	priv->custom_divisor = ss->custom_divisor;
 
-check_and_exit:
 	write_latency_timer(port);
 
-	if ((priv->flags ^ old_priv.flags) & ASYNC_SPD_MASK ||
+	if ((priv->flags ^ old_flags) & ASYNC_SPD_MASK ||
 			((priv->flags & ASYNC_SPD_MASK) == ASYNC_SPD_CUST &&
-			 priv->custom_divisor != old_priv.custom_divisor)) {
+			 priv->custom_divisor != old_divisor)) {
 
 		/* warn about deprecation unless clearing */
 		if (priv->flags & ASYNC_SPD_MASK)
@@ -2458,15 +2387,7 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void ftdi_sio_port_remove(struct usb_serial_port *port)
-=======
-<<<<<<< HEAD
-static void ftdi_sio_port_remove(struct usb_serial_port *port)
-=======
-static int ftdi_sio_port_remove(struct usb_serial_port *port)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ftdi_private *priv = usb_get_serial_port_data(port);
 
@@ -2475,14 +2396,6 @@ static int ftdi_sio_port_remove(struct usb_serial_port *port)
 	remove_sysfs_attrs(port);
 
 	kfree(priv);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ftdi_open(struct tty_struct *tty, struct usb_serial_port *port)

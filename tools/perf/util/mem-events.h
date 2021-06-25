@@ -9,10 +9,7 @@
 #include <linux/refcount.h>
 #include <linux/perf_event.h>
 #include "stat.h"
-<<<<<<< HEAD
 #include "evsel.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct perf_mem_event {
 	bool		record;
@@ -43,22 +40,15 @@ int perf_mem_events__init(void);
 
 char *perf_mem_events__name(int i);
 struct perf_mem_event *perf_mem_events__ptr(int i);
-<<<<<<< HEAD
 bool is_mem_loads_aux_event(struct evsel *leader);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void perf_mem_events__list(void);
 
-struct mem_info;
 int perf_mem__tlb_scnprintf(char *out, size_t sz, struct mem_info *mem_info);
 int perf_mem__lvl_scnprintf(char *out, size_t sz, struct mem_info *mem_info);
 int perf_mem__snp_scnprintf(char *out, size_t sz, struct mem_info *mem_info);
 int perf_mem__lck_scnprintf(char *out, size_t sz, struct mem_info *mem_info);
-<<<<<<< HEAD
 int perf_mem__blk_scnprintf(char *out, size_t sz, struct mem_info *mem_info);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int perf_script__meminfo_scnprintf(char *bf, size_t size, struct mem_info *mem_info);
 
@@ -88,12 +78,9 @@ struct c2c_stats {
 	u32	rmt_hit;             /* count of loads with remote hit clean; */
 	u32	lcl_dram;            /* count of loads miss to local DRAM */
 	u32	rmt_dram;            /* count of loads miss to remote DRAM */
-<<<<<<< HEAD
 	u32	blk_data;            /* count of loads blocked by data */
 	u32	blk_addr;            /* count of loads blocked by address conflict */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	u32	nomap;               /* count of load/stores with no phys adrs */
+	u32	nomap;               /* count of load/stores with no phys addrs */
 	u32	noparse;             /* count of unparsable data sources */
 };
 

@@ -3,21 +3,21 @@
 # Makefile for Kernel-based Virtual Machine module, HYP/nVHE part
 #
 
-<<<<<<< HEAD
 asflags-y := -D__KVM_NVHE_HYPERVISOR__ -D__DISABLE_EXPORTS
 ccflags-y := -D__KVM_NVHE_HYPERVISOR__ -D__DISABLE_EXPORTS
 
 hostprogs := gen-hyprel
 HOST_EXTRACFLAGS += -I$(objtree)/include
-=======
-asflags-y := -D__KVM_NVHE_HYPERVISOR__
-ccflags-y := -D__KVM_NVHE_HYPERVISOR__
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+lib-objs := clear_page.o copy_page.o memcpy.o memset.o
+lib-objs := $(addprefix ../../../lib/, $(lib-objs))
 
 obj-y := timer-sr.o sysreg-sr.o debug-sr.o switch.o tlb.o hyp-init.o host.o \
-	 hyp-main.o hyp-smp.o psci-relay.o
+	 hyp-main.o hyp-smp.o psci-relay.o early_alloc.o stub.o page_alloc.o \
+	 cache.o setup.o mm.o mem_protect.o
 obj-y += ../vgic-v3-sr.o ../aarch32.o ../vgic-v2-cpuif-proxy.o ../entry.o \
-	 ../fpsimd.o ../hyp-entry.o ../exception.o
+	 ../fpsimd.o ../hyp-entry.o ../exception.o ../pgtable.o
+obj-y += $(lib-objs)
 
 ##
 ## Build rules for compiling nVHE hyp code
@@ -27,11 +27,7 @@ obj-y += ../vgic-v3-sr.o ../aarch32.o ../vgic-v2-cpuif-proxy.o ../entry.o \
 
 hyp-obj := $(patsubst %.o,%.nvhe.o,$(obj-y))
 obj-y := kvm_nvhe.o
-<<<<<<< HEAD
 extra-y := $(hyp-obj) kvm_nvhe.tmp.o kvm_nvhe.rel.o hyp.lds hyp-reloc.S hyp-reloc.o
-=======
-extra-y := $(hyp-obj) kvm_nvhe.tmp.o hyp.lds
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # 1) Compile all source files to `.nvhe.o` object files. The file extension
 #    avoids file name clashes for files shared with VHE.
@@ -54,7 +50,6 @@ LDFLAGS_kvm_nvhe.tmp.o := -r -T
 $(obj)/kvm_nvhe.tmp.o: $(obj)/hyp.lds $(addprefix $(obj)/,$(hyp-obj)) FORCE
 	$(call if_changed,ld)
 
-<<<<<<< HEAD
 # 4) Generate list of hyp code/data positions that need to be relocated at
 #    runtime. Because the hypervisor is part of the kernel binary, relocations
 #    produce a kernel VA. We enumerate relocations targeting hyp at build time
@@ -80,21 +75,14 @@ $(obj)/kvm_nvhe.o: $(obj)/kvm_nvhe.rel.o FORCE
 quiet_cmd_hyprel = HYPREL  $@
       cmd_hyprel = $(obj)/gen-hyprel $< > $@
 
-=======
-# 4) Produce the final 'kvm_nvhe.o', ready to be linked into 'vmlinux'.
-#    Prefixes names of ELF symbols with '__kvm_nvhe_'.
-$(obj)/kvm_nvhe.o: $(obj)/kvm_nvhe.tmp.o FORCE
-	$(call if_changed,hypcopy)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # The HYPCOPY command uses `objcopy` to prefix all ELF symbol names
 # to avoid clashes with VHE code/data.
 quiet_cmd_hypcopy = HYPCOPY $@
       cmd_hypcopy = $(OBJCOPY) --prefix-symbols=__kvm_nvhe_ $< $@
 
-# Remove ftrace and Shadow Call Stack CFLAGS.
-# This is equivalent to the 'notrace' and '__noscs' annotations.
-KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
+# Remove ftrace, Shadow Call Stack, and CFI CFLAGS.
+# This is equivalent to the 'notrace', '__noscs', and '__nocfi' annotations.
+KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS) $(CC_FLAGS_CFI), $(KBUILD_CFLAGS))
 
 # KVM nVHE code is run at a different exception code with a different map, so
 # compiler instrumentation that inserts callbacks or checks into the code may

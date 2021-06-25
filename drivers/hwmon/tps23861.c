@@ -99,7 +99,6 @@
 #define POWER_ENABLE			0x19
 #define TPS23861_NUM_PORTS		4
 
-<<<<<<< HEAD
 #define TPS23861_GENERAL_MASK_1		0x17
 #define TPS23861_CURRENT_SHUNT_MASK	BIT(0)
 
@@ -108,13 +107,6 @@
 #define SHUNT_RESISTOR_DEFAULT		255000 /* 255 mOhm */
 #define CURRENT_LSB_250			62260 /* 62.260 uA */
 #define CURRENT_LSB_255			61039 /* 61.039 uA */
-=======
-#define TEMPERATURE_LSB			652 /* 0.652 degrees Celsius */
-#define VOLTAGE_LSB			3662 /* 3.662 mV */
-#define SHUNT_RESISTOR_DEFAULT		255000 /* 255 mOhm */
-#define CURRENT_LSB_255			62260 /* 62.260 uA */
-#define CURRENT_LSB_250			61039 /* 61.039 uA */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define RESISTANCE_LSB			110966 /* 11.0966 Ohm*/
 #define RESISTANCE_LSB_LOW		157216 /* 15.7216 Ohm*/
 
@@ -128,10 +120,7 @@ struct tps23861_data {
 static struct regmap_config tps23861_regmap_config = {
 	.reg_bits = 8,
 	.val_bits = 8,
-<<<<<<< HEAD
 	.max_register = 0x6f,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int tps23861_read_temp(struct tps23861_data *data, long *val)
@@ -575,7 +564,6 @@ static int tps23861_probe(struct i2c_client *client)
 	else
 		data->shunt_resistor = SHUNT_RESISTOR_DEFAULT;
 
-<<<<<<< HEAD
 	if (data->shunt_resistor == SHUNT_RESISTOR_DEFAULT)
 		regmap_clear_bits(data->regmap,
 				  TPS23861_GENERAL_MASK_1,
@@ -585,8 +573,6 @@ static int tps23861_probe(struct i2c_client *client)
 				TPS23861_GENERAL_MASK_1,
 				TPS23861_CURRENT_SHUNT_MASK);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
 							 data, &tps23861_chip_info,
 							 NULL);

@@ -21,10 +21,6 @@ id = of_find_device_by_node@p1(x)
 if (id == NULL || ...) { ... return ...; }
 ... when != put_device(&id->dev)
     when != platform_device_put(id)
-<<<<<<< HEAD
-=======
-    when != of_dev_put(id)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     when != if (id) { ... put_device(&id->dev) ... }
     when != e1 = (T)id
     when != e1 = (T)(&id->dev)

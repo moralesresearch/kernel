@@ -16,11 +16,7 @@ struct nv50_bar {
 	struct nvkm_gpuobj *bar2;
 };
 
-<<<<<<< HEAD
 int nv50_bar_new_(const struct nvkm_bar_func *, struct nvkm_device *, enum nvkm_subdev_type,
-=======
-int nv50_bar_new_(const struct nvkm_bar_func *, struct nvkm_device *,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  int, u32 pgd_addr, struct nvkm_bar **);
 void *nv50_bar_dtor(struct nvkm_bar *);
 int nv50_bar_oneinit(struct nvkm_bar *);

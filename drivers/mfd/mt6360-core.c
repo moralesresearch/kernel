@@ -292,7 +292,6 @@ static const struct resource mt6360_ldo_resources[] = {
 };
 
 static const struct mfd_cell mt6360_devs[] = {
-<<<<<<< HEAD
 	MFD_CELL_OF("mt6360_adc", mt6360_adc_resources,
 		    NULL, 0, 0, "mediatek,mt6360_adc"),
 	MFD_CELL_OF("mt6360_chg", mt6360_chg_resources,
@@ -304,19 +303,6 @@ static const struct mfd_cell mt6360_devs[] = {
 	MFD_CELL_OF("mt6360_ldo", mt6360_ldo_resources,
 		    NULL, 0, 0, "mediatek,mt6360_ldo"),
 	MFD_CELL_OF("mt6360_tcpc", NULL,
-=======
-	OF_MFD_CELL("mt6360_adc", mt6360_adc_resources,
-		    NULL, 0, 0, "mediatek,mt6360_adc"),
-	OF_MFD_CELL("mt6360_chg", mt6360_chg_resources,
-		    NULL, 0, 0, "mediatek,mt6360_chg"),
-	OF_MFD_CELL("mt6360_led", mt6360_led_resources,
-		    NULL, 0, 0, "mediatek,mt6360_led"),
-	OF_MFD_CELL("mt6360_pmic", mt6360_pmic_resources,
-		    NULL, 0, 0, "mediatek,mt6360_pmic"),
-	OF_MFD_CELL("mt6360_ldo", mt6360_ldo_resources,
-		    NULL, 0, 0, "mediatek,mt6360_ldo"),
-	OF_MFD_CELL("mt6360_tcpc", NULL,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    NULL, 0, 0, "mediatek,mt6360_tcpc"),
 };
 

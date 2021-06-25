@@ -73,11 +73,7 @@ struct mlx5_ct_attr {
 #define zone_restore_to_reg_ct {\
 	.mfield = MLX5_ACTION_IN_FIELD_METADATA_REG_C_1,\
 	.moffset = 0,\
-<<<<<<< HEAD
 	.mlen = (ESW_ZONE_ID_BITS / 8),\
-=======
-	.mlen = 1,\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.soffset = MLX5_BYTE_OFF(fte_match_param,\
 				 misc_parameters_2.metadata_reg_c_1) + 3,\
 }
@@ -85,21 +81,12 @@ struct mlx5_ct_attr {
 #define nic_zone_restore_to_reg_ct {\
 	.mfield = MLX5_ACTION_IN_FIELD_METADATA_REG_B,\
 	.moffset = 2,\
-<<<<<<< HEAD
 	.mlen = (ESW_ZONE_ID_BITS / 8),\
-=======
-	.mlen = 1,\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define REG_MAPPING_MLEN(reg) (mlx5e_tc_attr_to_reg_mappings[reg].mlen)
 #define REG_MAPPING_MOFFSET(reg) (mlx5e_tc_attr_to_reg_mappings[reg].moffset)
 #define REG_MAPPING_SHIFT(reg) (REG_MAPPING_MOFFSET(reg) * 8)
-<<<<<<< HEAD
-=======
-#define ZONE_RESTORE_BITS (REG_MAPPING_MLEN(ZONE_RESTORE_TO_REG) * 8)
-#define ZONE_RESTORE_MAX GENMASK(ZONE_RESTORE_BITS - 1, 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if IS_ENABLED(CONFIG_MLX5_TC_CT)
 

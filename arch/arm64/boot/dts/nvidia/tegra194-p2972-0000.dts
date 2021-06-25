@@ -21,7 +21,6 @@
 			interrupt-controller@2a40000 {
 				status = "okay";
 			};
-<<<<<<< HEAD
 
 			ahub@2900800 {
 				status = "okay";
@@ -529,8 +528,6 @@
 					};
 				};
 			};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		i2c@3160000 {
@@ -567,13 +564,10 @@
 			pads {
 				usb2 {
 					lanes {
-<<<<<<< HEAD
 						usb2-0 {
 							status = "okay";
 						};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						usb2-1 {
 							status = "okay";
 						};
@@ -590,13 +584,10 @@
 							status = "okay";
 						};
 
-<<<<<<< HEAD
 						usb3-2 {
 							status = "okay";
 						};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						usb3-3 {
 							status = "okay";
 						};
@@ -605,14 +596,11 @@
 			};
 
 			ports {
-<<<<<<< HEAD
 				usb2-0 {
 					mode = "host";
 					status = "okay";
 				};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				usb2-1 {
 					mode = "host";
 					status = "okay";
@@ -628,14 +616,11 @@
 					status = "okay";
 				};
 
-<<<<<<< HEAD
 				usb3-2 {
 					nvidia,usb2-companion = <0>;
 					status = "okay";
 				};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				usb3-3 {
 					nvidia,usb2-companion = <3>;
 					maximum-speed = "super-speed";
@@ -647,7 +632,6 @@
 		usb@3610000 {
 			status = "okay";
 
-<<<<<<< HEAD
 			phys =	<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-0}>,
 				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-1}>,
 				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-3}>,
@@ -679,13 +663,6 @@
 					};
 				};
 			};
-=======
-			phys =	<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-3}>;
-			phy-names = "usb2-1", "usb2-3", "usb3-0", "usb3-3";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		pwm@c340000 {
@@ -837,7 +814,6 @@
 		};
 	};
 
-<<<<<<< HEAD
 	sound {
 		compatible = "nvidia,tegra186-audio-graph-card";
 		status = "okay";
@@ -879,8 +855,6 @@
 			"CVB-RT DMIC R2",	"CVB-RT MIC";
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	thermal-zones {
 		cpu {
 			polling-delay = <0>;

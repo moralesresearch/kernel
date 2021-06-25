@@ -30,10 +30,7 @@ properties:
       panel. The novatek,nt36672a compatible shall always be provided as a fallback.
 
   reset-gpios:
-<<<<<<< HEAD
     maxItems: 1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: phandle of gpio for reset line - This should be 8mA, gpio
       can be configured using mux, pinctrl, pinctrl-names (active high)
 

@@ -546,7 +546,6 @@ static int initio_reset_scsi(struct initio_host * host, int seconds)
 /**
  *	initio_init		-	set up an InitIO host adapter
  *	@host: InitIO host adapter
- *	@num_scbs: Number of SCBS
  *	@bios_addr: BIOS address
  *
  *	Set up the host adapter and devices according to the configuration
@@ -866,17 +865,16 @@ static void initio_unlink_busy_scb(struct initio_host * host, struct scsi_ctrl_b
 
 struct scsi_ctrl_blk *initio_find_busy_scb(struct initio_host * host, u16 tarlun)
 {
-	struct scsi_ctrl_blk *tmp, *prev;
+	struct scsi_ctrl_blk *tmp;
 	u16 scbp_tarlun;
 
 
-	prev = tmp = host->first_busy;
+	tmp = host->first_busy;
 	while (tmp != NULL) {
 		scbp_tarlun = (tmp->lun << 8) | (tmp->target);
 		if (scbp_tarlun == tarlun) {	/* Unlink this SCB              */
 			break;
 		}
-		prev = tmp;
 		tmp = tmp->next;
 	}
 #if DEBUG_QUEUE
@@ -1315,7 +1313,6 @@ static int initio_state_1(struct initio_host * host)
 		}
 		if ((active_tc->flags & (TCF_WDTR_DONE | TCF_NO_WDTR)) == 0) {
 			active_tc->flags |= TCF_WDTR_DONE;
-<<<<<<< HEAD
 			outb(EXTENDED_MESSAGE, host->addr + TUL_SFifo);
 			outb(2, host->addr + TUL_SFifo);	/* Extended msg length */
 			outb(EXTENDED_SDTR, host->addr + TUL_SFifo);	/* Sync request */
@@ -1325,17 +1322,6 @@ static int initio_state_1(struct initio_host * host)
 			outb(EXTENDED_MESSAGE, host->addr + TUL_SFifo);
 			outb(3, host->addr + TUL_SFifo);	/* extended msg length */
 			outb(EXTENDED_SDTR, host->addr + TUL_SFifo);	/* sync request */
-=======
-			outb(MSG_EXTEND, host->addr + TUL_SFifo);
-			outb(2, host->addr + TUL_SFifo);	/* Extended msg length */
-			outb(3, host->addr + TUL_SFifo);	/* Sync request */
-			outb(1, host->addr + TUL_SFifo);	/* Start from 16 bits */
-		} else if ((active_tc->flags & (TCF_SYNC_DONE | TCF_NO_SYNC_NEGO)) == 0) {
-			active_tc->flags |= TCF_SYNC_DONE;
-			outb(MSG_EXTEND, host->addr + TUL_SFifo);
-			outb(3, host->addr + TUL_SFifo);	/* extended msg length */
-			outb(1, host->addr + TUL_SFifo);	/* sync request */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			outb(initio_rate_tbl[active_tc->flags & TCF_SCSI_RATE], host->addr + TUL_SFifo);
 			outb(MAX_OFFSET, host->addr + TUL_SFifo);	/* REQ/ACK offset */
 		}
@@ -1421,26 +1407,16 @@ static int initio_state_3(struct initio_host * host)
 
 		case MSG_OUT:	/* Message out phase            */
 			if (active_tc->flags & (TCF_SYNC_DONE | TCF_NO_SYNC_NEGO)) {
-<<<<<<< HEAD
 				outb(NOP, host->addr + TUL_SFifo);		/* msg nop */
-=======
-				outb(MSG_NOP, host->addr + TUL_SFifo);		/* msg nop */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 				if (wait_tulip(host) == -1)
 					return -1;
 			} else {
 				active_tc->flags |= TCF_SYNC_DONE;
 
-<<<<<<< HEAD
 				outb(EXTENDED_MESSAGE, host->addr + TUL_SFifo);
 				outb(3, host->addr + TUL_SFifo);	/* ext. msg len */
 				outb(EXTENDED_SDTR, host->addr + TUL_SFifo);	/* sync request */
-=======
-				outb(MSG_EXTEND, host->addr + TUL_SFifo);
-				outb(3, host->addr + TUL_SFifo);	/* ext. msg len */
-				outb(1, host->addr + TUL_SFifo);	/* sync request */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				outb(initio_rate_tbl[active_tc->flags & TCF_SCSI_RATE], host->addr + TUL_SFifo);
 				outb(MAX_OFFSET, host->addr + TUL_SFifo);	/* REQ/ACK offset */
 				outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
@@ -1501,11 +1477,7 @@ static int initio_state_4(struct initio_host * host)
 					return -1;
 				return 6;
 			} else {
-<<<<<<< HEAD
 				outb(NOP, host->addr + TUL_SFifo);		/* msg nop */
-=======
-				outb(MSG_NOP, host->addr + TUL_SFifo);		/* msg nop */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 				if (wait_tulip(host) == -1)
 					return -1;
@@ -1642,11 +1614,7 @@ static int initio_state_6(struct initio_host * host)
 			break;
 
 		case MSG_OUT:	/* Message out phase            */
-<<<<<<< HEAD
 			outb(NOP, host->addr + TUL_SFifo);		/* msg nop */
-=======
-			outb(MSG_NOP, host->addr + TUL_SFifo);		/* msg nop */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 			if (wait_tulip(host) == -1)
 				return -1;
@@ -1819,15 +1787,9 @@ int initio_status_msg(struct initio_host * host)
 
 	if (host->phase == MSG_OUT) {
 		if (host->jsstatus0 & TSS_PAR_ERROR)
-<<<<<<< HEAD
 			outb(MSG_PARITY_ERROR, host->addr + TUL_SFifo);
 		else
 			outb(NOP, host->addr + TUL_SFifo);
-=======
-			outb(MSG_PARITY, host->addr + TUL_SFifo);
-		else
-			outb(MSG_NOP, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 		return wait_tulip(host);
 	}
@@ -1838,11 +1800,7 @@ int initio_status_msg(struct initio_host * host)
 				return -1;
 			if (host->phase != MSG_OUT)
 				return initio_bad_seq(host);
-<<<<<<< HEAD
 			outb(MSG_PARITY_ERROR, host->addr + TUL_SFifo);
-=======
-			outb(MSG_PARITY, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 			return wait_tulip(host);
 		}
@@ -1855,12 +1813,8 @@ int initio_status_msg(struct initio_host * host)
 			return initio_wait_done_disc(host);
 
 		}
-<<<<<<< HEAD
 		if (msg == LINKED_CMD_COMPLETE ||
 		    msg == LINKED_FLG_CMD_COMPLETE) {
-=======
-		if (msg == MSG_LINK_COMP || msg == MSG_LINK_FLAG) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if ((scb->tastat & 0x18) == 0x10)
 				return initio_msgin_accept(host);
 		}
@@ -1932,7 +1886,7 @@ static int int_initio_scsi_rst(struct initio_host * host)
 }
 
 /**
- *	int_initio_scsi_resel	-	Reselection occurred
+ *	int_initio_resel	-	Reselection occurred
  *	@host: InitIO host adapter
  *
  *	A SCSI reselection event has been signalled and the interrupt
@@ -1975,12 +1929,8 @@ int int_initio_resel(struct initio_host * host)
 			return -1;
 		msg = inb(host->addr + TUL_SFifo);	/* Read Tag Message    */
 
-<<<<<<< HEAD
 		if (msg < SIMPLE_QUEUE_TAG || msg > ORDERED_QUEUE_TAG)
 			/* Is simple Tag      */
-=======
-		if (msg < MSG_STAG || msg > MSG_OTAG)		/* Is simple Tag      */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto no_tag;
 
 		if (initio_msgin_accept(host) == -1)
@@ -2060,11 +2010,7 @@ static int initio_msgout_abort_targ(struct initio_host * host)
 	if (host->phase != MSG_OUT)
 		return initio_bad_seq(host);
 
-<<<<<<< HEAD
 	outb(ABORT_TASK_SET, host->addr + TUL_SFifo);
-=======
-	outb(MSG_ABORT, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 
 	return initio_wait_disc(host);
@@ -2087,11 +2033,7 @@ static int initio_msgout_abort_tag(struct initio_host * host)
 	if (host->phase != MSG_OUT)
 		return initio_bad_seq(host);
 
-<<<<<<< HEAD
 	outb(ABORT_TASK, host->addr + TUL_SFifo);
-=======
-	outb(MSG_ABORT_TAG, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 
 	return initio_wait_disc(host);
@@ -2117,7 +2059,6 @@ static int initio_msgin(struct initio_host * host)
 			return -1;
 
 		switch (inb(host->addr + TUL_SFifo)) {
-<<<<<<< HEAD
 		case DISCONNECT:	/* Disconnect msg */
 			outb(TSC_MSG_ACCEPT, host->addr + TUL_SCmd);
 			return initio_wait_disc(host);
@@ -2127,17 +2068,6 @@ static int initio_msgin(struct initio_host * host)
 			initio_msgin_accept(host);
 			break;
 		case MESSAGE_REJECT:	/* Clear ATN first              */
-=======
-		case MSG_DISC:	/* Disconnect msg */
-			outb(TSC_MSG_ACCEPT, host->addr + TUL_SCmd);
-			return initio_wait_disc(host);
-		case MSG_SDP:
-		case MSG_RESTORE:
-		case MSG_NOP:
-			initio_msgin_accept(host);
-			break;
-		case MSG_REJ:	/* Clear ATN first              */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			outb((inb(host->addr + TUL_SSignal) & (TSC_SET_ACK | 7)),
 				host->addr + TUL_SSignal);
 			active_tc = host->active_tc;
@@ -2146,7 +2076,6 @@ static int initio_msgin(struct initio_host * host)
 					host->addr + TUL_SSignal);
 			initio_msgin_accept(host);
 			break;
-<<<<<<< HEAD
 		case EXTENDED_MESSAGE:	/* extended msg */
 			initio_msgin_extend(host);
 			break;
@@ -2154,15 +2083,6 @@ static int initio_msgin(struct initio_host * host)
 			initio_msgin_accept(host);
 			break;
 		case COMMAND_COMPLETE:
-=======
-		case MSG_EXTEND:	/* extended msg */
-			initio_msgin_extend(host);
-			break;
-		case MSG_IGNOREWIDE:
-			initio_msgin_accept(host);
-			break;
-		case MSG_COMP:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			outb(TSC_FLUSH_FIFO, host->addr + TUL_SCtrl0);
 			outb(TSC_MSG_ACCEPT, host->addr + TUL_SCmd);
 			return initio_wait_done_disc(host);
@@ -2184,11 +2104,7 @@ static int initio_msgout_reject(struct initio_host * host)
 		return -1;
 
 	if (host->phase == MSG_OUT) {
-<<<<<<< HEAD
 		outb(MESSAGE_REJECT, host->addr + TUL_SFifo);		/* Msg reject           */
-=======
-		outb(MSG_REJ, host->addr + TUL_SFifo);		/* Msg reject           */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 		return wait_tulip(host);
 	}
@@ -2197,11 +2113,7 @@ static int initio_msgout_reject(struct initio_host * host)
 
 static int initio_msgout_ide(struct initio_host * host)
 {
-<<<<<<< HEAD
 	outb(INITIATOR_ERROR, host->addr + TUL_SFifo);		/* Initiator Detected Error */
-=======
-	outb(MSG_IDE, host->addr + TUL_SFifo);		/* Initiator Detected Error */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 	return wait_tulip(host);
 }
@@ -2255,15 +2167,9 @@ static int initio_msgin_extend(struct initio_host * host)
 
 		initio_sync_done(host);
 
-<<<<<<< HEAD
 		outb(EXTENDED_MESSAGE, host->addr + TUL_SFifo);
 		outb(3, host->addr + TUL_SFifo);
 		outb(EXTENDED_SDTR, host->addr + TUL_SFifo);
-=======
-		outb(MSG_EXTEND, host->addr + TUL_SFifo);
-		outb(3, host->addr + TUL_SFifo);
-		outb(1, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		outb(host->msg[2], host->addr + TUL_SFifo);
 		outb(host->msg[3], host->addr + TUL_SFifo);
 		outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
@@ -2293,15 +2199,9 @@ static int initio_msgin_extend(struct initio_host * host)
 	if (initio_msgin_accept(host) != MSG_OUT)
 		return host->phase;
 	/* WDTR msg out                 */
-<<<<<<< HEAD
 	outb(EXTENDED_MESSAGE, host->addr + TUL_SFifo);
 	outb(2, host->addr + TUL_SFifo);
 	outb(EXTENDED_WDTR, host->addr + TUL_SFifo);
-=======
-	outb(MSG_EXTEND, host->addr + TUL_SFifo);
-	outb(2, host->addr + TUL_SFifo);
-	outb(3, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outb(host->msg[2], host->addr + TUL_SFifo);
 	outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 	return wait_tulip(host);
@@ -2491,11 +2391,7 @@ int initio_bus_device_reset(struct initio_host * host)
 		}
 		tmp = tmp->next;
 	}
-<<<<<<< HEAD
 	outb(TARGET_RESET, host->addr + TUL_SFifo);
-=======
-	outb(MSG_DEVRST, host->addr + TUL_SFifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outb(TSC_XF_FIFO_OUT, host->addr + TUL_SCmd);
 	return initio_wait_disc(host);
 
@@ -2704,7 +2600,7 @@ static void initio_build_scb(struct initio_host * host, struct scsi_ctrl_blk * c
 }
 
 /**
- *	i91u_queuecommand	-	Queue a new command if possible
+ *	i91u_queuecommand_lck	-	Queue a new command if possible
  *	@cmd: SCSI command block from the mid layer
  *	@done: Completion handler
  *
@@ -2753,9 +2649,9 @@ static int i91u_bus_reset(struct scsi_cmnd * cmnd)
 }
 
 /**
- *	i91u_biospararm			-	return the "logical geometry
+ *	i91u_biosparam			-	return the "logical geometry
  *	@sdev: SCSI device
- *	@dev; Matching block device
+ *	@dev: Matching block device
  *	@capacity: Sector size of drive
  *	@info_array: Return space for BIOS geometry
  *
@@ -2830,10 +2726,8 @@ static void i91u_unmap_scb(struct pci_dev *pci_dev, struct scsi_cmnd *cmnd)
 	}
 }
 
-/**
+/*
  *	i91uSCBPost		-	SCSI callback
- *	@host: Pointer to host adapter control block.
- *	@cmnd: Pointer to SCSI control block.
  *
  *	This is callback routine be called when tulip finish one
  *	SCSI command.

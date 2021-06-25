@@ -7,7 +7,7 @@
 #define	__STRATIX10_CLK_H
 
 struct stratix10_clock_data {
-	struct clk_onecell_data	clk_data;
+	struct clk_hw_onecell_data	clk_data;
 	void __iomem		*base;
 };
 
@@ -30,7 +30,6 @@ struct stratix10_perip_c_clock {
 	unsigned long		offset;
 };
 
-<<<<<<< HEAD
 struct n5x_perip_c_clock {
 	unsigned int		id;
 	const char		*name;
@@ -42,8 +41,6 @@ struct n5x_perip_c_clock {
 	unsigned long		shift;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct stratix10_perip_cnt_clock {
 	unsigned int		id;
 	const char		*name;
@@ -74,23 +71,18 @@ struct stratix10_gate_clock {
 	u8			fixed_div;
 };
 
-struct clk *s10_register_pll(const struct stratix10_pll_clock *,
-			     void __iomem *);
-struct clk *agilex_register_pll(const struct stratix10_pll_clock *,
-				void __iomem *);
-<<<<<<< HEAD
-struct clk *n5x_register_pll(const struct stratix10_pll_clock *clks,
+struct clk_hw *s10_register_pll(const struct stratix10_pll_clock *clks,
 			     void __iomem *reg);
-struct clk *s10_register_periph(const struct stratix10_perip_c_clock *,
+struct clk_hw *agilex_register_pll(const struct stratix10_pll_clock *clks,
 				void __iomem *reg);
-struct clk *n5x_register_periph(const struct n5x_perip_c_clock *clks,
+struct clk_hw *n5x_register_pll(const struct stratix10_pll_clock *clks,
+			     void __iomem *reg);
+struct clk_hw *s10_register_periph(const struct stratix10_perip_c_clock *clks,
 				void __iomem *reg);
-=======
-struct clk *s10_register_periph(const struct stratix10_perip_c_clock *,
-				void __iomem *);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-struct clk *s10_register_cnt_periph(const struct stratix10_perip_cnt_clock *,
-				    void __iomem *);
-struct clk *s10_register_gate(const struct stratix10_gate_clock *,
-			      void __iomem *);
+struct clk_hw *n5x_register_periph(const struct n5x_perip_c_clock *clks,
+				void __iomem *reg);
+struct clk_hw *s10_register_cnt_periph(const struct stratix10_perip_cnt_clock *clks,
+				    void __iomem *reg);
+struct clk_hw *s10_register_gate(const struct stratix10_gate_clock *clks,
+			      void __iomem *reg);
 #endif	/* __STRATIX10_CLK_H */

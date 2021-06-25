@@ -1101,14 +1101,7 @@ static void vhci_device_init(struct vhci_device *vdev)
 	vdev->ud.side   = USBIP_VHCI;
 	vdev->ud.status = VDEV_ST_NULL;
 	spin_lock_init(&vdev->ud.lock);
-<<<<<<< HEAD
 	mutex_init(&vdev->ud.sysfs_lock);
-=======
-<<<<<<< HEAD
-	mutex_init(&vdev->ud.sysfs_lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	INIT_LIST_HEAD(&vdev->priv_rx);
 	INIT_LIST_HEAD(&vdev->priv_tx);

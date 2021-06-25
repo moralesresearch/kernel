@@ -286,22 +286,14 @@ static void s3c64xx_irq_set_function(struct samsung_pinctrl_drv_data *d,
 	shift = shift * bank_type->fld_width[PINCFG_TYPE_FUNC];
 	mask = (1 << bank_type->fld_width[PINCFG_TYPE_FUNC]) - 1;
 
-<<<<<<< HEAD
 	raw_spin_lock_irqsave(&bank->slock, flags);
-=======
-	spin_lock_irqsave(&bank->slock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	val = readl(reg);
 	val &= ~(mask << shift);
 	val |= bank->eint_func << shift;
 	writel(val, reg);
 
-<<<<<<< HEAD
 	raw_spin_unlock_irqrestore(&bank->slock, flags);
-=======
-	spin_unlock_irqrestore(&bank->slock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

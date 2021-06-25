@@ -598,20 +598,14 @@ static int _mwifiex_fw_dpc(const struct firmware *firmware, void *context)
 	}
 
 	rtnl_lock();
-<<<<<<< HEAD
 	wiphy_lock(adapter->wiphy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Create station interface by default */
 	wdev = mwifiex_add_virtual_intf(adapter->wiphy, "mlan%d", NET_NAME_ENUM,
 					NL80211_IFTYPE_STATION, NULL);
 	if (IS_ERR(wdev)) {
 		mwifiex_dbg(adapter, ERROR,
 			    "cannot create default STA interface\n");
-<<<<<<< HEAD
 		wiphy_unlock(adapter->wiphy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rtnl_unlock();
 		goto err_add_intf;
 	}
@@ -622,10 +616,7 @@ static int _mwifiex_fw_dpc(const struct firmware *firmware, void *context)
 		if (IS_ERR(wdev)) {
 			mwifiex_dbg(adapter, ERROR,
 				    "cannot create AP interface\n");
-<<<<<<< HEAD
 			wiphy_unlock(adapter->wiphy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rtnl_unlock();
 			goto err_add_intf;
 		}
@@ -637,18 +628,12 @@ static int _mwifiex_fw_dpc(const struct firmware *firmware, void *context)
 		if (IS_ERR(wdev)) {
 			mwifiex_dbg(adapter, ERROR,
 				    "cannot create p2p client interface\n");
-<<<<<<< HEAD
 			wiphy_unlock(adapter->wiphy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rtnl_unlock();
 			goto err_add_intf;
 		}
 	}
-<<<<<<< HEAD
 	wiphy_unlock(adapter->wiphy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtnl_unlock();
 
 	mwifiex_drv_get_driver_version(adapter, fmt, sizeof(fmt) - 1);
@@ -1460,17 +1445,11 @@ static void mwifiex_uninit_sw(struct mwifiex_adapter *adapter)
 		if (!priv)
 			continue;
 		rtnl_lock();
-<<<<<<< HEAD
 		wiphy_lock(adapter->wiphy);
 		if (priv->netdev &&
 		    priv->wdev.iftype != NL80211_IFTYPE_UNSPECIFIED)
 			mwifiex_del_virtual_intf(adapter->wiphy, &priv->wdev);
 		wiphy_unlock(adapter->wiphy);
-=======
-		if (priv->netdev &&
-		    priv->wdev.iftype != NL80211_IFTYPE_UNSPECIFIED)
-			mwifiex_del_virtual_intf(adapter->wiphy, &priv->wdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rtnl_unlock();
 	}
 

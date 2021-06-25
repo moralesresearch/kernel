@@ -91,13 +91,6 @@
 	.set	pop
 	.endm
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-.section .text.cps-vec
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .balign 0x1000
 
 LEAF(mips_cps_core_entry)

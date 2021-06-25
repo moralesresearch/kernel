@@ -74,16 +74,12 @@ allOf:
             Any configuration is ignored when the phy-mode is set to "rmii".
 
         amlogic,rx-delay-ns:
-<<<<<<< HEAD
           deprecated: true
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           enum:
             - 0
             - 2
           default: 0
           description:
-<<<<<<< HEAD
             The internal RGMII RX clock delay in nanoseconds. Deprecated, use
             rx-internal-delay-ps instead.
 
@@ -132,14 +128,6 @@ allOf:
             - 2600
             - 2800
             - 3000
-=======
-            The internal RGMII RX clock delay (provided by this IP block) in
-            nanoseconds. When phy-mode is set to "rgmii" then the RX delay
-            should be explicitly configured. When the phy-mode is set to
-            either "rgmii-id" or "rgmii-rxid" the RX clock delay is already
-            provided by the PHY. Any configuration is ignored when the
-            phy-mode is set to "rmii".
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 properties:
   compatible:

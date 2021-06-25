@@ -47,11 +47,7 @@
 
 unsigned int snprintf_count(char *pBuf, unsigned int bufSize, char *fmt, ...)
 {
-<<<<<<< HEAD
 	int ret_vsnprintf;
-=======
-	unsigned int ret_vsnprintf;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int chars_printed;
 
 	va_list args;

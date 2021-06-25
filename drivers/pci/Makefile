@@ -36,8 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
 obj-y				+= controller/
 obj-y				+= switch/
 
-<<<<<<< HEAD
 subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
-=======
-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

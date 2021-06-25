@@ -67,24 +67,14 @@ properties:
   interconnect-names:
     const: dma-mem
 
-<<<<<<< HEAD
   port:
     $ref: /schemas/graph.yaml#/$defs/port-base
-=======
-  # See ./video-interfaces.txt for details
-  port:
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     additionalProperties: false
 
     properties:
       endpoint:
-<<<<<<< HEAD
         $ref: video-interfaces.yaml#
         unevaluatedProperties: false
-=======
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         properties:
           bus-width:
@@ -93,10 +83,6 @@ properties:
           data-active: true
           hsync-active: true
           pclk-sample: true
-<<<<<<< HEAD
-=======
-          remote-endpoint: true
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           vsync-active: true
 
         required:
@@ -104,17 +90,8 @@ properties:
           - data-active
           - hsync-active
           - pclk-sample
-<<<<<<< HEAD
           - vsync-active
 
-=======
-          - remote-endpoint
-          - vsync-active
-
-    required:
-      - endpoint
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

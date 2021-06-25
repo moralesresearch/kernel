@@ -551,10 +551,6 @@ static int jfs_fill_super(struct super_block *sb, void *data, int silent)
 		ret = -ENOMEM;
 		goto out_unload;
 	}
-<<<<<<< HEAD
-=======
-	inode->i_ino = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_size = i_size_read(sb->s_bdev->bd_inode);
 	inode->i_mapping->a_ops = &jfs_metapage_aops;
 	inode_fake_hash(inode);

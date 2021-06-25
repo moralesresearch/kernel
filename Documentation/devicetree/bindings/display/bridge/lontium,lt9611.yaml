@@ -38,7 +38,6 @@ properties:
     description: Regulator for 3.3V IO power.
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -59,84 +58,6 @@ properties:
           HDMI port for HDMI output
 
     required:
-=======
-    type: object
-
-    properties:
-      "#address-cells":
-        const: 1
-
-      "#size-cells":
-        const: 0
-
-      port@0:
-        type: object
-        description: |
-          Primary MIPI port-1 for MIPI input
-
-        properties:
-          reg:
-            const: 0
-
-        patternProperties:
-          "^endpoint(@[0-9])$":
-            type: object
-            additionalProperties: false
-
-            properties:
-              remote-endpoint:
-                $ref: /schemas/types.yaml#/definitions/phandle
-
-        required:
-          - reg
-
-      port@1:
-        type: object
-        description: |
-          Additional MIPI port-2 for MIPI input, used in combination
-          with primary MIPI port-1 to drive higher resolution displays
-
-        properties:
-          reg:
-            const: 1
-
-        patternProperties:
-          "^endpoint(@[0-9])$":
-            type: object
-            additionalProperties: false
-
-            properties:
-              remote-endpoint:
-                $ref: /schemas/types.yaml#/definitions/phandle
-
-        required:
-          - reg
-
-      port@2:
-        type: object
-        description: |
-          HDMI port for HDMI output
-
-        properties:
-          reg:
-            const: 2
-
-        patternProperties:
-          "^endpoint(@[0-9])$":
-            type: object
-            additionalProperties: false
-
-            properties:
-              remote-endpoint:
-                $ref: /schemas/types.yaml#/definitions/phandle
-
-        required:
-          - reg
-
-    required:
-      - "#address-cells"
-      - "#size-cells"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - port@0
       - port@2
 

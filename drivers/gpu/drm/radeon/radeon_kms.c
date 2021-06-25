@@ -76,11 +76,7 @@ void radeon_driver_unload_kms(struct drm_device *dev)
 	}
 
 	radeon_acpi_fini(rdev);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	radeon_modeset_fini(rdev);
 	radeon_device_fini(rdev);
 
@@ -109,10 +105,7 @@ done_free:
  */
 int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 {
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct radeon_device *rdev;
 	int r, acpi_status;
 
@@ -122,7 +115,6 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	}
 	dev->dev_private = (void *)rdev;
 
-<<<<<<< HEAD
 #ifdef __alpha__
 	rdev->hose = pdev->sysdata;
 #endif
@@ -131,12 +123,6 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	if (pci_find_capability(pdev, PCI_CAP_ID_AGP)) {
 		flags |= RADEON_IS_AGP;
 	} else if (pci_is_pcie(pdev)) {
-=======
-	/* update BUS flag */
-	if (pci_find_capability(dev->pdev, PCI_CAP_ID_AGP)) {
-		flags |= RADEON_IS_AGP;
-	} else if (pci_is_pcie(dev->pdev)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags |= RADEON_IS_PCIE;
 	} else {
 		flags |= RADEON_IS_PCI;
@@ -145,11 +131,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	if ((radeon_runtime_pm != 0) &&
 	    radeon_has_atpx() &&
 	    ((flags & RADEON_IS_IGP) == 0) &&
-<<<<<<< HEAD
 	    !pci_is_thunderbolt_attached(pdev))
-=======
-	    !pci_is_thunderbolt_attached(dev->pdev))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags |= RADEON_IS_PX;
 
 	/* radeon_device_init should report only fatal error
@@ -158,15 +140,9 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	 * properly initialize the GPU MC controller and permit
 	 * VRAM allocation
 	 */
-<<<<<<< HEAD
 	r = radeon_device_init(rdev, dev, pdev, flags);
 	if (r) {
 		dev_err(dev->dev, "Fatal error during GPU init\n");
-=======
-	r = radeon_device_init(rdev, dev, dev->pdev, flags);
-	if (r) {
-		dev_err(&dev->pdev->dev, "Fatal error during GPU init\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -176,11 +152,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	 */
 	r = radeon_modeset_init(rdev);
 	if (r)
-<<<<<<< HEAD
 		dev_err(dev->dev, "Fatal error during modeset init\n");
-=======
-		dev_err(&dev->pdev->dev, "Fatal error during modeset init\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Call ACPI methods: require modeset init
 	 * but failure is not fatal
@@ -188,12 +160,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
 	if (!r) {
 		acpi_status = radeon_acpi_init(rdev);
 		if (acpi_status)
-<<<<<<< HEAD
 		dev_dbg(dev->dev, "Error during ACPI methods call\n");
-=======
-		dev_dbg(&dev->pdev->dev,
-				"Error during ACPI methods call\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (radeon_is_px(dev)) {
@@ -276,11 +243,7 @@ int radeon_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
 
 	switch (info->request) {
 	case RADEON_INFO_DEVICE_ID:
-<<<<<<< HEAD
 		*value = to_pci_dev(dev->dev)->device;
-=======
-		*value = dev->pdev->device;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case RADEON_INFO_NUM_GB_PIPES:
 		*value = rdev->num_gb_pipes;
@@ -555,10 +518,7 @@ int radeon_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
 			*value = rdev->config.si.backend_enable_mask;
 		} else {
 			DRM_DEBUG_KMS("BACKEND_ENABLED_MASK is si+ only!\n");
-<<<<<<< HEAD
 			return -EINVAL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	case RADEON_INFO_MAX_SCLK:

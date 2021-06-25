@@ -64,11 +64,7 @@
 #define DSA_8021Q_SUBVLAN_HI_SHIFT	9
 #define DSA_8021Q_SUBVLAN_HI_MASK	GENMASK(9, 9)
 #define DSA_8021Q_SUBVLAN_LO_SHIFT	4
-<<<<<<< HEAD
 #define DSA_8021Q_SUBVLAN_LO_MASK	GENMASK(5, 4)
-=======
-#define DSA_8021Q_SUBVLAN_LO_MASK	GENMASK(4, 3)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DSA_8021Q_SUBVLAN_HI(x)		(((x) & GENMASK(2, 2)) >> 2)
 #define DSA_8021Q_SUBVLAN_LO(x)		((x) & GENMASK(1, 0))
 #define DSA_8021Q_SUBVLAN(x)		\
@@ -137,7 +133,6 @@ u16 dsa_8021q_rx_subvlan(u16 vid)
 }
 EXPORT_SYMBOL_GPL(dsa_8021q_rx_subvlan);
 
-<<<<<<< HEAD
 bool vid_is_dsa_8021q_rxvlan(u16 vid)
 {
 	return (vid & DSA_8021Q_DIR_MASK) == DSA_8021Q_DIR_RX;
@@ -153,12 +148,6 @@ EXPORT_SYMBOL_GPL(vid_is_dsa_8021q_txvlan);
 bool vid_is_dsa_8021q(u16 vid)
 {
 	return vid_is_dsa_8021q_rxvlan(vid) || vid_is_dsa_8021q_txvlan(vid);
-=======
-bool vid_is_dsa_8021q(u16 vid)
-{
-	return ((vid & DSA_8021Q_DIR_MASK) == DSA_8021Q_DIR_RX ||
-		(vid & DSA_8021Q_DIR_MASK) == DSA_8021Q_DIR_TX);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(vid_is_dsa_8021q);
 

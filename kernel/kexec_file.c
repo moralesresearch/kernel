@@ -740,15 +740,10 @@ static int kexec_calculate_store_digests(struct kimage *image)
 
 	sha_region_sz = KEXEC_SEGMENT_MAX * sizeof(struct kexec_sha_region);
 	sha_regions = vzalloc(sha_region_sz);
-<<<<<<< HEAD
 	if (!sha_regions) {
 		ret = -ENOMEM;
 		goto out_free_desc;
 	}
-=======
-	if (!sha_regions)
-		goto out_free_desc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	desc->tfm   = tfm;
 

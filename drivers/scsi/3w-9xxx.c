@@ -128,7 +128,6 @@ static int twa_fill_sense(TW_Device_Extension *tw_dev, int request_id, int copy_
 static void twa_free_request_id(TW_Device_Extension *tw_dev,int request_id);
 static void twa_get_request_id(TW_Device_Extension *tw_dev, int *request_id);
 static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
-<<<<<<< HEAD
 			      u32 set_features, unsigned short current_fw_srl,
 			      unsigned short current_fw_arch_id,
 			      unsigned short current_fw_branch,
@@ -137,16 +136,6 @@ static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
 			      unsigned short *fw_on_ctlr_arch_id,
 			      unsigned short *fw_on_ctlr_branch,
 			      unsigned short *fw_on_ctlr_build,
-=======
- 			      u32 set_features, unsigned short current_fw_srl, 
-			      unsigned short current_fw_arch_id, 
-			      unsigned short current_fw_branch, 
-			      unsigned short current_fw_build, 
-			      unsigned short *fw_on_ctlr_srl, 
-			      unsigned short *fw_on_ctlr_arch_id, 
-			      unsigned short *fw_on_ctlr_branch, 
-			      unsigned short *fw_on_ctlr_build, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      u32 *init_connect_result);
 static void twa_load_sgl(TW_Device_Extension *tw_dev, TW_Command_Full *full_command_packet, int request_id, dma_addr_t dma_handle, int length);
 static int twa_poll_response(TW_Device_Extension *tw_dev, int request_id, int seconds);
@@ -182,11 +171,7 @@ static ssize_t twa_show_stats(struct device *dev,
 		       "Last sector count:         %4d\n"
 		       "Max sector count:          %4d\n"
 		       "SCSI Host Resets:          %4d\n"
-<<<<<<< HEAD
 		       "AEN's:                     %4d\n",
-=======
-		       "AEN's:                     %4d\n", 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       TW_DRIVER_VERSION,
 		       tw_dev->posted_request_count,
 		       tw_dev->max_posted_request_count,
@@ -205,11 +190,7 @@ static ssize_t twa_show_stats(struct device *dev,
 /* Create sysfs 'stats' entry */
 static struct device_attribute twa_host_stats_attr = {
 	.attr = {
-<<<<<<< HEAD
 		.name =		"stats",
-=======
-		.name = 	"stats",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.mode =		S_IRUGO,
 	},
 	.show = twa_show_stats
@@ -261,11 +242,7 @@ static int twa_aen_complete(TW_Device_Extension *tw_dev, int request_id)
 		/* Keep reading the queue in case there are more aen's */
 		if (twa_aen_read_queue(tw_dev, request_id))
 			goto out2;
-<<<<<<< HEAD
 		else {
-=======
-	        else {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			retval = 0;
 			goto out;
 		}
@@ -520,11 +497,7 @@ static void twa_aen_sync_time(TW_Device_Extension *tw_dev, int request_id)
 	param->parameter_id = cpu_to_le16(0x3); /* SchedulerTime */
 	param->parameter_size_bytes = cpu_to_le16(4);
 
-<<<<<<< HEAD
 	/* Convert system time in UTC to local time seconds since last
-=======
-	/* Convert system time in UTC to local time seconds since last 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
            Sunday 12:00AM */
 	local_time = (ktime_get_real_seconds() - (sys_tz.tz_minuteswest * 60));
 	div_u64_rem(local_time - (3 * 86400), 604800, &schedulertime);
@@ -756,11 +729,7 @@ static long twa_chrdev_ioctl(struct file *file, unsigned int cmd, unsigned long 
 
 		/* Now copy in the command packet response */
 		memcpy(&(tw_ioctl->firmware_command), tw_dev->command_packet_virt[request_id], sizeof(TW_Command_Full));
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Now complete the io */
 		spin_lock_irqsave(tw_dev->host->host_lock, flags);
 		tw_dev->posted_request_count--;
@@ -797,11 +766,7 @@ static long twa_chrdev_ioctl(struct file *file, unsigned int cmd, unsigned long 
 			if (tw_dev->aen_clobber) {
 				tw_ioctl->driver_command.status = TW_IOCTL_ERROR_STATUS_AEN_CLOBBER;
 				tw_dev->aen_clobber = 0;
-<<<<<<< HEAD
 			} else
-=======
-			} else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				tw_ioctl->driver_command.status = 0;
 			event_index = tw_dev->error_index;
 		} else {
@@ -974,13 +939,13 @@ out:
 /* This function will empty the response queue */
 static int twa_empty_response_queue(TW_Device_Extension *tw_dev)
 {
-	u32 status_reg_value, response_que_value;
+	u32 status_reg_value;
 	int count = 0, retval = 1;
 
 	status_reg_value = readl(TW_STATUS_REG_ADDR(tw_dev));
 
 	while (((status_reg_value & TW_STATUS_RESPONSE_QUEUE_EMPTY) == 0) && (count < TW_MAX_RESPONSE_DRAIN)) {
-		response_que_value = readl(TW_RESPONSE_QUEUE_REG_ADDR(tw_dev));
+		readl(TW_RESPONSE_QUEUE_REG_ADDR(tw_dev));
 		status_reg_value = readl(TW_STATUS_REG_ADDR(tw_dev));
 		count++;
 	}
@@ -1102,13 +1067,8 @@ static void *twa_get_param(TW_Device_Extension *tw_dev, int request_id, int tabl
 	command_packet = &full_command_packet->command.oldcommand;
 
 	command_packet->opcode__sgloffset = TW_OPSGL_IN(2, TW_OP_GET_PARAM);
-<<<<<<< HEAD
 	command_packet->size		  = TW_COMMAND_SIZE;
 	command_packet->request_id	  = request_id;
-=======
-	command_packet->size              = TW_COMMAND_SIZE;
-	command_packet->request_id        = request_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	command_packet->byte6_offset.block_count = cpu_to_le16(1);
 
 	/* Now setup the param */
@@ -1146,7 +1106,6 @@ static void twa_get_request_id(TW_Device_Extension *tw_dev, int *request_id)
 
 /* This function will send an initconnection command to controller */
 static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
-<<<<<<< HEAD
 			      u32 set_features, unsigned short current_fw_srl,
 			      unsigned short current_fw_arch_id,
 			      unsigned short current_fw_branch,
@@ -1155,16 +1114,6 @@ static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
 			      unsigned short *fw_on_ctlr_arch_id,
 			      unsigned short *fw_on_ctlr_branch,
 			      unsigned short *fw_on_ctlr_build,
-=======
- 			      u32 set_features, unsigned short current_fw_srl, 
-			      unsigned short current_fw_arch_id, 
-			      unsigned short current_fw_branch, 
-			      unsigned short current_fw_build, 
-			      unsigned short *fw_on_ctlr_srl, 
-			      unsigned short *fw_on_ctlr_arch_id, 
-			      unsigned short *fw_on_ctlr_branch, 
-			      unsigned short *fw_on_ctlr_build, 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      u32 *init_connect_result)
 {
 	TW_Command_Full *full_command_packet;
@@ -1175,11 +1124,7 @@ static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
 	full_command_packet = tw_dev->command_packet_virt[request_id];
 	memset(full_command_packet, 0, sizeof(TW_Command_Full));
 	full_command_packet->header.header_desc.size_header = 128;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tw_initconnect = (TW_Initconnect *)&full_command_packet->command.oldcommand;
 	tw_initconnect->opcode__reserved = TW_OPRES_IN(0, TW_OP_INIT_CONNECTION);
 	tw_initconnect->request_id = request_id;
@@ -1197,11 +1142,7 @@ static int twa_initconnection(TW_Device_Extension *tw_dev, int message_credits,
 		tw_initconnect->fw_arch_id = cpu_to_le16(current_fw_arch_id);
 		tw_initconnect->fw_branch = cpu_to_le16(current_fw_branch);
 		tw_initconnect->fw_build = cpu_to_le16(current_fw_build);
-<<<<<<< HEAD
 	} else
-=======
-	} else 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tw_initconnect->size = TW_INIT_COMMAND_PACKET_SIZE;
 
 	/* Send command packet to the board */
@@ -1514,11 +1455,7 @@ out:
 /* This function will poll the status register for a flag */
 static int twa_poll_status(TW_Device_Extension *tw_dev, u32 flag, int seconds)
 {
-<<<<<<< HEAD
 	u32 status_reg_value;
-=======
-	u32 status_reg_value; 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long before;
 	int retval = 1;
 
@@ -1761,9 +1698,6 @@ out:
 static int twa_scsi_biosparam(struct scsi_device *sdev, struct block_device *bdev, sector_t capacity, int geom[])
 {
 	int heads, sectors, cylinders;
-	TW_Device_Extension *tw_dev;
-
-	tw_dev = (TW_Device_Extension *)sdev->host->hostdata;
 
 	if (capacity >= 0x200000) {
 		heads = 255;
@@ -1833,11 +1767,7 @@ static int twa_scsi_queue_lck(struct scsi_cmnd *SCpnt, void (*done)(struct scsi_
 
 	/* Save done function into scsi_cmnd struct */
 	SCpnt->scsi_done = done;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Get a free request id */
 	twa_get_request_id(tw_dev, &request_id);
 
@@ -1876,14 +1806,11 @@ static int twa_scsiop_execute_scsi(TW_Device_Extension *tw_dev, int request_id,
 	u32 num_sectors = 0x0;
 	int i, sg_count;
 	struct scsi_cmnd *srb = NULL;
-	struct scatterlist *sglist = NULL, *sg;
+	struct scatterlist *sg;
 	int retval = 1;
 
-	if (tw_dev->srb[request_id]) {
+	if (tw_dev->srb[request_id])
 		srb = tw_dev->srb[request_id];
-		if (scsi_sglist(srb))
-			sglist = scsi_sglist(srb);
-	}
 
 	/* Initialize command packet */
 	full_command_packet = tw_dev->command_packet_virt[request_id];

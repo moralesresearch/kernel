@@ -108,7 +108,6 @@ static inline void cpu_maps_update_done(void)
 {
 }
 
-<<<<<<< HEAD
 static inline int add_cpu(unsigned int cpu) { return 0;}
 
 #endif /* CONFIG_SMP */
@@ -116,11 +115,6 @@ extern struct bus_type cpu_subsys;
 
 extern int lockdep_is_cpus_held(void);
 
-=======
-#endif /* CONFIG_SMP */
-extern struct bus_type cpu_subsys;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_HOTPLUG_CPU
 extern void cpus_write_lock(void);
 extern void cpus_write_unlock(void);
@@ -145,10 +139,7 @@ static inline int  cpus_read_trylock(void) { return true; }
 static inline void lockdep_assert_cpus_held(void) { }
 static inline void cpu_hotplug_disable(void) { }
 static inline void cpu_hotplug_enable(void) { }
-<<<<<<< HEAD
 static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void smp_shutdown_nonboot_cpus(unsigned int primary_cpu) { }
 #endif	/* !CONFIG_HOTPLUG_CPU */
 

@@ -187,20 +187,11 @@ gf100_vmm_invalidate_pdb(struct nvkm_vmm *vmm, u64 addr)
 void
 gf100_vmm_invalidate(struct nvkm_vmm *vmm, u32 type)
 {
-<<<<<<< HEAD
 	struct nvkm_device *device = vmm->mmu->subdev.device;
 	struct nvkm_mmu_pt *pd = vmm->pd->pt[0];
 	u64 addr = 0;
 
 	mutex_lock(&vmm->mmu->mutex);
-=======
-	struct nvkm_subdev *subdev = &vmm->mmu->subdev;
-	struct nvkm_device *device = subdev->device;
-	struct nvkm_mmu_pt *pd = vmm->pd->pt[0];
-	u64 addr = 0;
-
-	mutex_lock(&subdev->mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Looks like maybe a "free flush slots" counter, the
 	 * faster you write to 0x100cbc to more it decreases.
 	 */
@@ -230,11 +221,7 @@ gf100_vmm_invalidate(struct nvkm_vmm *vmm, u32 type)
 		if (nvkm_rd32(device, 0x100c80) & 0x00008000)
 			break;
 	);
-<<<<<<< HEAD
 	mutex_unlock(&vmm->mmu->mutex);
-=======
-	mutex_unlock(&subdev->mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void

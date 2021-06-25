@@ -17,13 +17,10 @@
  * CILB.
  */
 #define CSI_PORTS_PER_BRICK	2
-<<<<<<< HEAD
 #define CSI_LANES_PER_BRICK	4
 
 /* Maximum 2 CSI x4 ports can be ganged up for streaming */
 #define GANG_PORTS_MAX	2
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* each CSI channel can have one sink and one source pads */
 #define TEGRA_CSI_PADS_NUM	2
@@ -50,15 +47,10 @@ struct tegra_csi;
  * @numpads: number of pads.
  * @csi: Tegra CSI device structure
  * @of_node: csi device tree node
-<<<<<<< HEAD
  * @numgangports: number of immediate ports ganged up to meet the
  *             channel bus-width
  * @numlanes: number of lanes used per port
  * @csi_port_nums: CSI channel port numbers
-=======
- * @numlanes: number of lanes used per port/channel
- * @csi_port_num: CSI channel port number
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pg_mode: test pattern generator mode for channel
  * @format: active format of the channel
  * @framerate: active framerate for TPG
@@ -74,14 +66,9 @@ struct tegra_csi_channel {
 	unsigned int numpads;
 	struct tegra_csi *csi;
 	struct device_node *of_node;
-<<<<<<< HEAD
 	u8 numgangports;
 	unsigned int numlanes;
 	u8 csi_port_nums[GANG_PORTS_MAX];
-=======
-	unsigned int numlanes;
-	u8 csi_port_num;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 pg_mode;
 	struct v4l2_mbus_framefmt format;
 	unsigned int framerate;
@@ -152,7 +139,7 @@ struct tegra_csi_soc {
  * @clks: clock for CSI and CIL
  * @soc: pointer to SoC data structure
  * @ops: csi operations
- * @channels: list head for CSI channels
+ * @csi_chans: list head for CSI channels
  */
 struct tegra_csi {
 	struct device *dev;
@@ -170,10 +157,7 @@ extern const struct tegra_csi_soc tegra210_csi_soc;
 
 void tegra_csi_error_recover(struct v4l2_subdev *subdev);
 void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
-<<<<<<< HEAD
 				u8 csi_port_num,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				u8 *clk_settle_time,
 				u8 *ths_settle_time);
 #endif

@@ -115,7 +115,6 @@ static const struct ts_dmi_data chuwi_hi10_plus_data = {
 	.properties     = chuwi_hi10_plus_props,
 };
 
-<<<<<<< HEAD
 static const struct property_entry chuwi_hi10_pro_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 8),
@@ -142,8 +141,6 @@ static const struct ts_dmi_data chuwi_hi10_pro_data = {
 	.properties     = chuwi_hi10_pro_props,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct property_entry chuwi_vi8_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 6),
@@ -411,7 +408,6 @@ static const struct ts_dmi_data jumper_ezpad_6_m4_data = {
 	.properties	= jumper_ezpad_6_m4_props,
 };
 
-<<<<<<< HEAD
 static const struct property_entry jumper_ezpad_7_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
@@ -429,8 +425,6 @@ static const struct ts_dmi_data jumper_ezpad_7_data = {
 	.properties	= jumper_ezpad_7_props,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct property_entry jumper_ezpad_mini3_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
@@ -747,6 +741,32 @@ static const struct ts_dmi_data techbite_arc_11_6_data = {
 	.properties	= techbite_arc_11_6_props,
 };
 
+static const struct property_entry teclast_tbook11_props[] = {
+	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
+	PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1916),
+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1264),
+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
+	PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-teclast-tbook11.fw"),
+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+	PROPERTY_ENTRY_BOOL("silead,home-button"),
+	{ }
+};
+
+static const struct ts_dmi_data teclast_tbook11_data = {
+	.embedded_fw = {
+		.name	= "silead/gsl3692-teclast-tbook11.fw",
+		.prefix = { 0xf0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 },
+		.length	= 43560,
+		.sha256	= { 0x9d, 0xb0, 0x3d, 0xf1, 0x00, 0x3c, 0xb5, 0x25,
+			    0x62, 0x8a, 0xa0, 0x93, 0x4b, 0xe0, 0x4e, 0x75,
+			    0xd1, 0x27, 0xb1, 0x65, 0x3c, 0xba, 0xa5, 0x0f,
+			    0xcd, 0xb4, 0xbe, 0x00, 0xbb, 0xf6, 0x43, 0x29 },
+	},
+	.acpi_name	= "MSSL1680:00",
+	.properties	= teclast_tbook11_props,
+};
+
 static const struct property_entry teclast_x3_plus_props[] = {
 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
@@ -922,7 +942,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-<<<<<<< HEAD
 		/* Chuwi Hi10 Prus (CWI597) */
 		.driver_data = (void *)&chuwi_hi10_pro_data,
 		.matches = {
@@ -932,8 +951,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Chuwi Vi8 (CWI506) */
 		.driver_data = (void *)&chuwi_vi8_data,
 		.matches = {
@@ -1096,7 +1113,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-<<<<<<< HEAD
 		/* Jumper EZpad 7 */
 		.driver_data = (void *)&jumper_ezpad_7_data,
 		.matches = {
@@ -1107,8 +1123,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Jumper EZpad mini3 */
 		.driver_data = (void *)&jumper_ezpad_mini3_data,
 		.matches = {
@@ -1118,7 +1132,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-<<<<<<< HEAD
 		/* Mediacom WinPad 7.0 W700 (same hw as Wintron surftab 7") */
 		.driver_data = (void *)&trekstor_surftab_wintron70_data,
 		.matches = {
@@ -1127,8 +1140,6 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Mediacom Flexbook Edge 11 (same hw as TS Primebook C11) */
 		.driver_data = (void *)&trekstor_primebook_c11_data,
 		.matches = {
@@ -1302,6 +1313,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
 		},
 	},
 	{
+		/* Teclast Tbook 11 */
+		.driver_data = (void *)&teclast_tbook11_data,
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "TECLAST"),
+			DMI_MATCH(DMI_PRODUCT_NAME, "TbooK 11"),
+			DMI_MATCH(DMI_PRODUCT_SKU, "E5A6_A1"),
+		},
+	},
+	{
 		/* Teclast X3 Plus */
 		.driver_data = (void *)&teclast_x3_plus_data,
 		.matches = {
@@ -1413,7 +1433,7 @@ static void ts_dmi_add_props(struct i2c_client *client)
 
 	if (has_acpi_companion(dev) &&
 	    !strncmp(ts_data->acpi_name, client->name, I2C_NAME_SIZE)) {
-		error = device_add_properties(dev, ts_data->properties);
+		error = device_create_managed_software_node(dev, ts_data->properties, NULL);
 		if (error)
 			dev_err(dev, "failed to add properties: %d\n", error);
 	}

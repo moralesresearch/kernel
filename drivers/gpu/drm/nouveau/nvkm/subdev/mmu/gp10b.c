@@ -37,18 +37,10 @@ gp10b_mmu = {
 };
 
 int
-<<<<<<< HEAD
 gp10b_mmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_mmu **pmmu)
 {
 	if (!nvkm_boolopt(device->cfgopt, "GP100MmuLayout", true))
 		return gm20b_mmu_new(device, type, inst, pmmu);
 	return nvkm_mmu_new_(&gp10b_mmu, device, type, inst, pmmu);
-=======
-gp10b_mmu_new(struct nvkm_device *device, int index, struct nvkm_mmu **pmmu)
-{
-	if (!nvkm_boolopt(device->cfgopt, "GP100MmuLayout", true))
-		return gm20b_mmu_new(device, index, pmmu);
-	return nvkm_mmu_new_(&gp10b_mmu, device, index, pmmu);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

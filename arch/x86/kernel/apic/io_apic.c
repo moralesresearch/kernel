@@ -198,15 +198,7 @@ static int __init parse_noapic(char *str)
 }
 early_param("noapic", parse_noapic);
 
-<<<<<<< HEAD
 /* Will be called in mpparse/ACPI codes for saving IRQ info */
-=======
-<<<<<<< HEAD
-/* Will be called in mpparse/ACPI codes for saving IRQ info */
-=======
-/* Will be called in mpparse/acpi/sfi codes for saving IRQ info */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mp_save_irq(struct mpc_intsrc *m)
 {
 	int i;
@@ -936,7 +928,7 @@ static bool mp_check_pin_attr(int irq, struct irq_alloc_info *info)
 
 	/*
 	 * setup_IO_APIC_irqs() programs all legacy IRQs with default trigger
-	 * and polarity attirbutes. So allow the first user to reprogram the
+	 * and polarity attributes. So allow the first user to reprogram the
 	 * pin with real trigger and polarity attributes.
 	 */
 	if (irq < nr_legacy_irqs() && data->count == 1) {
@@ -1002,7 +994,7 @@ static int alloc_isa_irq_from_domain(struct irq_domain *domain,
 
 	/*
 	 * Legacy ISA IRQ has already been allocated, just add pin to
-	 * the pin list assoicated with this IRQ and program the IOAPIC
+	 * the pin list associated with this IRQ and program the IOAPIC
 	 * entry. The IOAPIC entry
 	 */
 	if (irq_data && irq_data->parent_data) {
@@ -1760,7 +1752,7 @@ static inline void ioapic_finish_move(struct irq_data *data, bool moveit)
 		 * with masking the ioapic entry and then polling until
 		 * Remote IRR was clear before reprogramming the
 		 * ioapic I don't trust the Remote IRR bit to be
-		 * completey accurate.
+		 * completely accurate.
 		 *
 		 * However there appears to be no other way to plug
 		 * this race, so if the Remote IRR bit is not
@@ -1838,7 +1830,7 @@ static void ioapic_ack_level(struct irq_data *irq_data)
 	/*
 	 * Tail end of clearing remote IRR bit (either by delivering the EOI
 	 * message via io-apic EOI register write or simulating it using
-	 * mask+edge followed by unnask+level logic) manually when the
+	 * mask+edge followed by unmask+level logic) manually when the
 	 * level triggered interrupt is seen as the edge triggered interrupt
 	 * at the cpu.
 	 */
@@ -2881,15 +2873,7 @@ int mp_register_ioapic(int id, u32 address, u32 gsi_base,
 
 	/*
 	 * If mp_register_ioapic() is called during early boot stage when
-<<<<<<< HEAD
 	 * walking ACPI/DT tables, it's too early to create irqdomain,
-=======
-<<<<<<< HEAD
-	 * walking ACPI/DT tables, it's too early to create irqdomain,
-=======
-	 * walking ACPI/SFI/DT tables, it's too early to create irqdomain,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * we are still using bootmem allocator. So delay it to setup_IO_APIC().
 	 */
 	if (hotplug) {

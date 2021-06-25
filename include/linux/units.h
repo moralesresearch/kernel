@@ -4,13 +4,10 @@
 
 #include <linux/math.h>
 
-<<<<<<< HEAD
 #define MILLIWATT_PER_WATT	1000L
 #define MICROWATT_PER_MILLIWATT	1000L
 #define MICROWATT_PER_WATT	1000000L
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ABSOLUTE_ZERO_MILLICELSIUS -273150
 
 static inline long milli_kelvin_to_millicelsius(long t)

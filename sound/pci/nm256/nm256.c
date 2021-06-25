@@ -32,11 +32,6 @@
 MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
 MODULE_DESCRIPTION("NeoMagic NM256AV/ZX");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{NeoMagic,NM256AV},"
-		"{NeoMagic,NM256ZX}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * some compile conditions.

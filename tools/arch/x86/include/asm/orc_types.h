@@ -40,11 +40,8 @@
 #define ORC_REG_MAX			15
 
 #ifndef __ASSEMBLY__
-<<<<<<< HEAD
 #include <asm/byteorder.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This struct is more or less a vastly simplified version of the DWARF Call
  * Frame Information standard.  It contains only the necessary parts of DWARF
@@ -56,15 +53,11 @@
 struct orc_entry {
 	s16		sp_offset;
 	s16		bp_offset;
-<<<<<<< HEAD
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned	sp_reg:4;
 	unsigned	bp_reg:4;
 	unsigned	type:2;
 	unsigned	end:1;
-<<<<<<< HEAD
 #elif defined(__BIG_ENDIAN_BITFIELD)
 	unsigned	bp_reg:4;
 	unsigned	sp_reg:4;
@@ -72,8 +65,6 @@ struct orc_entry {
 	unsigned	end:1;
 	unsigned	type:2;
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 #endif /* __ASSEMBLY__ */

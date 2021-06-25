@@ -11,10 +11,7 @@
 
 #include <linux/types.h>
 #include <linux/list.h>
-<<<<<<< HEAD
 #include <linux/err.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct fwnode_operations;
 struct device;
@@ -22,7 +19,6 @@ struct device;
 /*
  * fwnode link flags
  *
-<<<<<<< HEAD
  * LINKS_ADDED:	The fwnode has already be parsed to add fwnode links.
  * NOT_DEVICE:	The fwnode will never be populated as a struct device.
  * INITIALIZED: The hardware corresponding to fwnode has been initialized.
@@ -30,11 +26,6 @@ struct device;
 #define FWNODE_FLAG_LINKS_ADDED		BIT(0)
 #define FWNODE_FLAG_NOT_DEVICE		BIT(1)
 #define FWNODE_FLAG_INITIALIZED		BIT(2)
-=======
- * LINKS_ADDED: The fwnode has already be parsed to add fwnode links.
- */
-#define FWNODE_FLAG_LINKS_ADDED		BIT(0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct fwnode_handle {
 	struct fwnode_handle *secondary;
@@ -64,7 +55,6 @@ struct fwnode_endpoint {
 	const struct fwnode_handle *local_fwnode;
 };
 
-<<<<<<< HEAD
 /*
  * ports and endpoints defined as software_nodes should all follow a common
  * naming scheme; use these macros to ensure commonality.
@@ -72,8 +62,6 @@ struct fwnode_endpoint {
 #define SWNODE_GRAPH_PORT_NAME_FMT		"port@%u"
 #define SWNODE_GRAPH_ENDPOINT_NAME_FMT		"endpoint@%u"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NR_FWNODE_REFERENCE_ARGS	8
 
 /**
@@ -183,7 +171,6 @@ static inline void fwnode_init(struct fwnode_handle *fwnode,
 	INIT_LIST_HEAD(&fwnode->suppliers);
 }
 
-<<<<<<< HEAD
 static inline void fwnode_dev_initialized(struct fwnode_handle *fwnode,
 					  bool initialized)
 {
@@ -198,10 +185,8 @@ static inline void fwnode_dev_initialized(struct fwnode_handle *fwnode,
 
 extern u32 fw_devlink_get_flags(void);
 extern bool fw_devlink_is_strict(void);
-=======
-extern u32 fw_devlink_get_flags(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup);
 void fwnode_links_purge(struct fwnode_handle *fwnode);
+void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
 
 #endif

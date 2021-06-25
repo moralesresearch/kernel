@@ -35,11 +35,7 @@ static struct hdac_ext_stream *cl_stream_prepare(struct snd_sof_dev *sdev, unsig
 	struct pci_dev *pci = to_pci_dev(sdev->dev);
 	int ret;
 
-<<<<<<< HEAD
 	dsp_stream = hda_dsp_stream_get(sdev, direction, 0);
-=======
-	dsp_stream = hda_dsp_stream_get(sdev, direction);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!dsp_stream) {
 		dev_err(sdev->dev, "error: no stream available\n");
@@ -51,11 +47,7 @@ static struct hdac_ext_stream *cl_stream_prepare(struct snd_sof_dev *sdev, unsig
 	/* allocate DMA buffer */
 	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, &pci->dev, size, dmab);
 	if (ret < 0) {
-<<<<<<< HEAD
 		dev_err(sdev->dev, "error: memory alloc failed: %d\n", ret);
-=======
-		dev_err(sdev->dev, "error: memory alloc failed: %x\n", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto error;
 	}
 
@@ -66,21 +58,13 @@ static struct hdac_ext_stream *cl_stream_prepare(struct snd_sof_dev *sdev, unsig
 	if (direction == SNDRV_PCM_STREAM_CAPTURE) {
 		ret = hda_dsp_iccmax_stream_hw_params(sdev, dsp_stream, dmab, NULL);
 		if (ret < 0) {
-<<<<<<< HEAD
 			dev_err(sdev->dev, "error: iccmax stream prepare failed: %d\n", ret);
-=======
-			dev_err(sdev->dev, "error: iccmax stream prepare failed: %x\n", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 	} else {
 		ret = hda_dsp_stream_hw_params(sdev, dsp_stream, dmab, NULL);
 		if (ret < 0) {
-<<<<<<< HEAD
 			dev_err(sdev->dev, "error: hdac prepare failed: %d\n", ret);
-=======
-			dev_err(sdev->dev, "error: hdac prepare failed: %x\n", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 		hda_dsp_stream_spib_config(sdev, dsp_stream, HDA_DSP_SPIB_ENABLE, size);
@@ -109,11 +93,7 @@ static int cl_dsp_init(struct snd_sof_dev *sdev, int stream_tag)
 	int i;
 
 	/* step 1: power up corex */
-<<<<<<< HEAD
 	ret = snd_sof_dsp_core_power_up(sdev, chip->host_managed_cores_mask);
-=======
-	ret = hda_dsp_core_power_up(sdev, chip->host_managed_cores_mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		if (hda->boot_iteration == HDA_FW_BOOT_ATTEMPTS)
 			dev_err(sdev->dev, "error: dsp core 0/1 power up failed\n");
@@ -167,14 +147,9 @@ static int cl_dsp_init(struct snd_sof_dev *sdev, int stream_tag)
 				       chip->ipc_ack_mask,
 				       chip->ipc_ack_mask);
 
-<<<<<<< HEAD
 	/* step 5: power down cores that are no longer needed */
 	ret = snd_sof_dsp_core_power_down(sdev, chip->host_managed_cores_mask &
 					  ~(chip->init_core_mask));
-=======
-	/* step 5: power down corex */
-	ret = hda_dsp_core_power_down(sdev, chip->host_managed_cores_mask & ~(BIT(0)));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		if (hda->boot_iteration == HDA_FW_BOOT_ATTEMPTS)
 			dev_err(sdev->dev,
@@ -209,11 +184,7 @@ err:
 		flags |= SOF_DBG_DUMP_FORCE_ERR_LEVEL;
 
 	hda_dsp_dump(sdev, flags);
-<<<<<<< HEAD
 	snd_sof_dsp_core_power_down(sdev, chip->host_managed_cores_mask);
-=======
-	hda_dsp_core_reset_power_down(sdev, chip->host_managed_cores_mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }

@@ -15,10 +15,7 @@
 #include <linux/mlx5/vport.h>
 #include <linux/mlx5/fs.h>
 #include <linux/mlx5/mlx5_ifc_vdpa.h>
-<<<<<<< HEAD
 #include <linux/mlx5/mpfs.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mlx5_vdpa.h"
 
 MODULE_AUTHOR("Eli Cohen <eli@mellanox.com>");
@@ -824,15 +821,7 @@ static int create_virtqueue(struct mlx5_vdpa_net *ndev, struct mlx5_vdpa_virtque
 	MLX5_SET(virtio_q, vq_ctx, event_qpn_or_msix, mvq->fwqp.mqp.qpn);
 	MLX5_SET(virtio_q, vq_ctx, queue_size, mvq->num_ent);
 	MLX5_SET(virtio_q, vq_ctx, virtio_version_1_0,
-<<<<<<< HEAD
 		 !!(ndev->mvdev.actual_features & BIT_ULL(VIRTIO_F_VERSION_1)));
-=======
-<<<<<<< HEAD
-		 !!(ndev->mvdev.actual_features & BIT_ULL(VIRTIO_F_VERSION_1)));
-=======
-		 !!(ndev->mvdev.actual_features & VIRTIO_F_VERSION_1));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLX5_SET64(virtio_q, vq_ctx, desc_addr, mvq->desc_addr);
 	MLX5_SET64(virtio_q, vq_ctx, used_addr, mvq->device_addr);
 	MLX5_SET64(virtio_q, vq_ctx, available_addr, mvq->driver_addr);
@@ -1181,14 +1170,7 @@ static void suspend_vq(struct mlx5_vdpa_net *ndev, struct mlx5_vdpa_virtqueue *m
 		return;
 	}
 	mvq->avail_idx = attr.available_index;
-<<<<<<< HEAD
 	mvq->used_idx = attr.used_index;
-=======
-<<<<<<< HEAD
-	mvq->used_idx = attr.used_index;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void suspend_vqs(struct mlx5_vdpa_net *ndev)
@@ -1446,14 +1428,7 @@ static int mlx5_vdpa_set_vq_state(struct vdpa_device *vdev, u16 idx,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	mvq->used_idx = state->avail_index;
-=======
-<<<<<<< HEAD
-	mvq->used_idx = state->avail_index;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mvq->avail_idx = state->avail_index;
 	return 0;
 }
@@ -1471,21 +1446,11 @@ static int mlx5_vdpa_get_vq_state(struct vdpa_device *vdev, u16 idx, struct vdpa
 	 * that cares about emulating the index after vq is stopped.
 	 */
 	if (!mvq->initialized) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Firmware returns a wrong value for the available index.
 		 * Since both values should be identical, we take the value of
 		 * used_idx which is reported correctly.
 		 */
 		state->avail_index = mvq->used_idx;
-<<<<<<< HEAD
-=======
-=======
-		state->avail_index = mvq->avail_idx;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -1494,15 +1459,7 @@ static int mlx5_vdpa_get_vq_state(struct vdpa_device *vdev, u16 idx, struct vdpa
 		mlx5_vdpa_warn(mvdev, "failed to query virtqueue\n");
 		return err;
 	}
-<<<<<<< HEAD
 	state->avail_index = attr.used_index;
-=======
-<<<<<<< HEAD
-	state->avail_index = attr.used_index;
-=======
-	state->avail_index = attr.available_index;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1590,35 +1547,11 @@ static void teardown_virtqueues(struct mlx5_vdpa_net *ndev)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static void clear_virtqueues(struct mlx5_vdpa_net *ndev)
-{
-	int i;
-
-	for (i = ndev->mvdev.max_vqs - 1; i >= 0; i--) {
-		ndev->vqs[i].avail_idx = 0;
-		ndev->vqs[i].used_idx = 0;
-	}
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* TODO: cross-endian support */
 static inline bool mlx5_vdpa_is_little_endian(struct mlx5_vdpa_dev *mvdev)
 {
 	return virtio_legacy_is_little_endian() ||
-<<<<<<< HEAD
 		(mvdev->actual_features & BIT_ULL(VIRTIO_F_VERSION_1));
-=======
-<<<<<<< HEAD
-		(mvdev->actual_features & BIT_ULL(VIRTIO_F_VERSION_1));
-=======
-		(mvdev->actual_features & (1ULL << VIRTIO_F_VERSION_1));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __virtio16 cpu_to_mlx5vdpa16(struct mlx5_vdpa_dev *mvdev, u16 val)
@@ -1849,13 +1782,6 @@ static void mlx5_vdpa_set_status(struct vdpa_device *vdev, u8 status)
 	if (!status) {
 		mlx5_vdpa_info(mvdev, "performing device reset\n");
 		teardown_driver(ndev);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		clear_virtqueues(ndev);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mlx5_vdpa_destroy_mr(&ndev->mvdev);
 		ndev->mvdev.status = 0;
 		ndev->mvdev.mlx_features = 0;
@@ -1882,6 +1808,11 @@ static void mlx5_vdpa_set_status(struct vdpa_device *vdev, u8 status)
 err_setup:
 	mlx5_vdpa_destroy_mr(&ndev->mvdev);
 	ndev->mvdev.status |= VIRTIO_CONFIG_S_FAILED;
+}
+
+static size_t mlx5_vdpa_get_config_size(struct vdpa_device *vdev)
+{
+	return sizeof(struct virtio_net_config);
 }
 
 static void mlx5_vdpa_get_config(struct vdpa_device *vdev, unsigned int offset, void *buf,
@@ -1929,22 +1860,16 @@ static int mlx5_vdpa_set_map(struct vdpa_device *vdev, struct vhost_iotlb *iotlb
 static void mlx5_vdpa_free(struct vdpa_device *vdev)
 {
 	struct mlx5_vdpa_dev *mvdev = to_mvdev(vdev);
-<<<<<<< HEAD
 	struct mlx5_core_dev *pfmdev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_vdpa_net *ndev;
 
 	ndev = to_mlx5_vdpa_ndev(mvdev);
 
 	free_resources(ndev);
-<<<<<<< HEAD
 	if (!is_zero_ether_addr(ndev->config.mac)) {
 		pfmdev = pci_get_drvdata(pci_physfn(mvdev->mdev->pdev));
 		mlx5_mpfs_del_mac(pfmdev, ndev->config.mac);
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5_vdpa_free_resources(&ndev->mvdev);
 	mutex_destroy(&ndev->reslock);
 }
@@ -1981,6 +1906,7 @@ static const struct vdpa_config_ops mlx5_vdpa_ops = {
 	.get_vendor_id = mlx5_vdpa_get_vendor_id,
 	.get_status = mlx5_vdpa_get_status,
 	.set_status = mlx5_vdpa_set_status,
+	.get_config_size = mlx5_vdpa_get_config_size,
 	.get_config = mlx5_vdpa_get_config,
 	.set_config = mlx5_vdpa_set_config,
 	.get_generation = mlx5_vdpa_get_generation,
@@ -1988,10 +1914,6 @@ static const struct vdpa_config_ops mlx5_vdpa_ops = {
 	.free = mlx5_vdpa_free,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int query_mtu(struct mlx5_core_dev *mdev, u16 *mtu)
 {
 	u16 hw_mtu;
@@ -2005,11 +1927,6 @@ static int query_mtu(struct mlx5_core_dev *mdev, u16 *mtu)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int alloc_resources(struct mlx5_vdpa_net *ndev)
 {
 	struct mlx5_vdpa_net_resources *res = &ndev->res;
@@ -2069,35 +1986,33 @@ static void init_mvqs(struct mlx5_vdpa_net *ndev)
 	}
 }
 
-static int mlx5v_probe(struct auxiliary_device *adev,
-		       const struct auxiliary_device_id *id)
+struct mlx5_vdpa_mgmtdev {
+	struct vdpa_mgmt_dev mgtdev;
+	struct mlx5_adev *madev;
+	struct mlx5_vdpa_net *ndev;
+};
+
+static int mlx5_vdpa_dev_add(struct vdpa_mgmt_dev *v_mdev, const char *name)
 {
-	struct mlx5_adev *madev = container_of(adev, struct mlx5_adev, adev);
-	struct mlx5_core_dev *mdev = madev->mdev;
+	struct mlx5_vdpa_mgmtdev *mgtdev = container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
 	struct virtio_net_config *config;
-<<<<<<< HEAD
 	struct mlx5_core_dev *pfmdev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_vdpa_dev *mvdev;
 	struct mlx5_vdpa_net *ndev;
+	struct mlx5_core_dev *mdev;
 	u32 max_vqs;
 	int err;
 
+	if (mgtdev->ndev)
+		return -ENOSPC;
+
+	mdev = mgtdev->madev->mdev;
 	/* we save one virtqueue for control virtqueue should we require it */
 	max_vqs = MLX5_CAP_DEV_VDPA_EMULATION(mdev, max_num_virtio_queues);
 	max_vqs = min_t(u32, max_vqs, MLX5_MAX_SUPPORTED_VQS);
 
 	ndev = vdpa_alloc_device(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mlx5_vdpa_ops,
-<<<<<<< HEAD
-				 NULL);
-=======
-<<<<<<< HEAD
-				 NULL);
-=======
-				 2 * mlx5_vdpa_max_qps(max_vqs));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+				 name);
 	if (IS_ERR(ndev))
 		return PTR_ERR(ndev);
 
@@ -2107,15 +2022,7 @@ static int mlx5v_probe(struct auxiliary_device *adev,
 	init_mvqs(ndev);
 	mutex_init(&ndev->reslock);
 	config = &ndev->config;
-<<<<<<< HEAD
 	err = query_mtu(mdev, &ndev->mtu);
-=======
-<<<<<<< HEAD
-	err = query_mtu(mdev, &ndev->mtu);
-=======
-	err = mlx5_query_nic_vport_mtu(mdev, &ndev->mtu);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_mtu;
 
@@ -2123,7 +2030,6 @@ static int mlx5v_probe(struct auxiliary_device *adev,
 	if (err)
 		goto err_mtu;
 
-<<<<<<< HEAD
 	if (!is_zero_ether_addr(config->mac)) {
 		pfmdev = pci_get_drvdata(pci_physfn(mdev->pdev));
 		err = mlx5_mpfs_add_mac(pfmdev, config->mac);
@@ -2135,53 +2041,88 @@ static int mlx5v_probe(struct auxiliary_device *adev,
 	err = mlx5_vdpa_alloc_resources(&ndev->mvdev);
 	if (err)
 		goto err_mpfs;
-=======
-	mvdev->vdev.dma_dev = mdev->device;
-	err = mlx5_vdpa_alloc_resources(&ndev->mvdev);
-	if (err)
-		goto err_mtu;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = alloc_resources(ndev);
 	if (err)
 		goto err_res;
 
-<<<<<<< HEAD
-	err = vdpa_register_device(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
-=======
-<<<<<<< HEAD
-	err = vdpa_register_device(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
-=======
-	err = vdpa_register_device(&mvdev->vdev);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	mvdev->vdev.mdev = &mgtdev->mgtdev;
+	err = _vdpa_register_device(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
 	if (err)
 		goto err_reg;
 
-	dev_set_drvdata(&adev->dev, ndev);
+	mgtdev->ndev = ndev;
 	return 0;
 
 err_reg:
 	free_resources(ndev);
 err_res:
 	mlx5_vdpa_free_resources(&ndev->mvdev);
-<<<<<<< HEAD
 err_mpfs:
 	if (!is_zero_ether_addr(config->mac))
 		mlx5_mpfs_del_mac(pfmdev, config->mac);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_mtu:
 	mutex_destroy(&ndev->reslock);
 	put_device(&mvdev->vdev.dev);
 	return err;
 }
 
+static void mlx5_vdpa_dev_del(struct vdpa_mgmt_dev *v_mdev, struct vdpa_device *dev)
+{
+	struct mlx5_vdpa_mgmtdev *mgtdev = container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
+
+	_vdpa_unregister_device(dev);
+	mgtdev->ndev = NULL;
+}
+
+static const struct vdpa_mgmtdev_ops mdev_ops = {
+	.dev_add = mlx5_vdpa_dev_add,
+	.dev_del = mlx5_vdpa_dev_del,
+};
+
+static struct virtio_device_id id_table[] = {
+	{ VIRTIO_ID_NET, VIRTIO_DEV_ANY_ID },
+	{ 0 },
+};
+
+static int mlx5v_probe(struct auxiliary_device *adev,
+		       const struct auxiliary_device_id *id)
+
+{
+	struct mlx5_adev *madev = container_of(adev, struct mlx5_adev, adev);
+	struct mlx5_core_dev *mdev = madev->mdev;
+	struct mlx5_vdpa_mgmtdev *mgtdev;
+	int err;
+
+	mgtdev = kzalloc(sizeof(*mgtdev), GFP_KERNEL);
+	if (!mgtdev)
+		return -ENOMEM;
+
+	mgtdev->mgtdev.ops = &mdev_ops;
+	mgtdev->mgtdev.device = mdev->device;
+	mgtdev->mgtdev.id_table = id_table;
+	mgtdev->madev = madev;
+
+	err = vdpa_mgmtdev_register(&mgtdev->mgtdev);
+	if (err)
+		goto reg_err;
+
+	dev_set_drvdata(&adev->dev, mgtdev);
+
+	return 0;
+
+reg_err:
+	kfree(mgtdev);
+	return err;
+}
+
 static void mlx5v_remove(struct auxiliary_device *adev)
 {
-	struct mlx5_vdpa_dev *mvdev = dev_get_drvdata(&adev->dev);
+	struct mlx5_vdpa_mgmtdev *mgtdev;
 
-	vdpa_unregister_device(&mvdev->vdev);
+	mgtdev = dev_get_drvdata(&adev->dev);
+	vdpa_mgmtdev_unregister(&mgtdev->mgtdev);
+	kfree(mgtdev);
 }
 
 static const struct auxiliary_device_id mlx5v_id_table[] = {

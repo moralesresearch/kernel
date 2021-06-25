@@ -68,20 +68,7 @@ properties:
 
   # Connectivity
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
-
-  ports:
-    type: object
-    description:
-      Panels receive video data through one or multiple connections. While
-      the nature of those connections is specific to the panel type, the
-      connectivity is expressed in a standard fashion using ports as specified
-      in the device graph bindings defined in
-      Documentation/devicetree/bindings/graph.txt.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   ddc-i2c-bus:
     $ref: /schemas/types.yaml#/definitions/phandle

@@ -6,10 +6,7 @@
 
 #include <linux/linkage.h>
 #include <asm/memory.h>
-<<<<<<< HEAD
 #include <asm/mte-kasan.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/pgtable-types.h>
 
 #define arch_kasan_set_tag(addr, tag)	__tag_set(addr, tag)

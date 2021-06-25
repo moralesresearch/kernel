@@ -46,7 +46,6 @@
 		pinctrl-0 = <&pinctrl_ir>;
 		linux,autosuspend-period = <125>;
 	};
-<<<<<<< HEAD
 
 	wm8524: audio-codec {
 		#sound-dai-cells = <0>;
@@ -81,8 +80,6 @@
 &easrc {
 	fsl,asrc-rate  = <48000>;
 	status = "okay";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &fec1 {
@@ -161,7 +158,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &sai3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_sai3>;
@@ -172,13 +168,10 @@
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &snvs_pwrkey {
 	status = "okay";
 };
 
-<<<<<<< HEAD
 &spdif1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_spdif1>;
@@ -188,8 +181,6 @@
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &uart2 { /* console */
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart2>;
@@ -272,15 +263,12 @@
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_gpio_wlf: gpiowlfgrp {
 		fsl,pins = <
 			MX8MN_IOMUXC_I2C4_SDA_GPIO5_IO21	0xd6
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_ir: irgrp {
 		fsl,pins = <
 			MX8MN_IOMUXC_GPIO1_IO13_GPIO1_IO13              0x4f
@@ -320,7 +308,6 @@
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_sai3: sai3grp {
 		fsl,pins = <
 			MX8MN_IOMUXC_SAI3_TXFS_SAI3_TX_SYNC     0xd6
@@ -337,8 +324,6 @@
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_typec1: typec1grp {
 		fsl,pins = <
 			MX8MN_IOMUXC_SD1_STROBE_GPIO2_IO11	0x159

@@ -223,15 +223,7 @@ static void init_default_table_values(struct pm8001_hba_info *pm8001_ha)
 		PM8001_EVENT_LOG_SIZE;
 	pm8001_ha->main_cfg_tbl.pm8001_tbl.iop_event_log_option		= 0x01;
 	pm8001_ha->main_cfg_tbl.pm8001_tbl.fatal_err_interrupt		= 0x01;
-<<<<<<< HEAD
 	for (i = 0; i < pm8001_ha->max_q_num; i++) {
-=======
-<<<<<<< HEAD
-	for (i = 0; i < pm8001_ha->max_q_num; i++) {
-=======
-	for (i = 0; i < PM8001_MAX_INB_NUM; i++) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm8001_ha->inbnd_q_tbl[i].element_pri_size_cnt	=
 			PM8001_MPI_QUEUE | (pm8001_ha->iomb_size << 16) | (0x00<<30);
 		pm8001_ha->inbnd_q_tbl[i].upper_base_addr	=
@@ -248,6 +240,7 @@ static void init_default_table_values(struct pm8001_hba_info *pm8001_ha)
 			pm8001_ha->memoryMap.region[ci_offset + i].phys_addr_lo;
 		pm8001_ha->inbnd_q_tbl[i].ci_virt		=
 			pm8001_ha->memoryMap.region[ci_offset + i].virt_ptr;
+		pm8001_write_32(pm8001_ha->inbnd_q_tbl[i].ci_virt, 0, 0);
 		offsetib = i * 0x20;
 		pm8001_ha->inbnd_q_tbl[i].pi_pci_bar		=
 			get_pci_bar_index(pm8001_mr32(addressib,
@@ -257,15 +250,7 @@ static void init_default_table_values(struct pm8001_hba_info *pm8001_ha)
 		pm8001_ha->inbnd_q_tbl[i].producer_idx		= 0;
 		pm8001_ha->inbnd_q_tbl[i].consumer_index	= 0;
 	}
-<<<<<<< HEAD
 	for (i = 0; i < pm8001_ha->max_q_num; i++) {
-=======
-<<<<<<< HEAD
-	for (i = 0; i < pm8001_ha->max_q_num; i++) {
-=======
-	for (i = 0; i < PM8001_MAX_OUTB_NUM; i++) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pm8001_ha->outbnd_q_tbl[i].element_size_cnt	=
 			PM8001_MPI_QUEUE | (pm8001_ha->iomb_size << 16) | (0x01<<30);
 		pm8001_ha->outbnd_q_tbl[i].upper_base_addr	=
@@ -284,6 +269,7 @@ static void init_default_table_values(struct pm8001_hba_info *pm8001_ha)
 			0 | (10 << 16) | (i << 24);
 		pm8001_ha->outbnd_q_tbl[i].pi_virt		=
 			pm8001_ha->memoryMap.region[pi_offset + i].virt_ptr;
+		pm8001_write_32(pm8001_ha->outbnd_q_tbl[i].pi_virt, 0, 0);
 		offsetob = i * 0x24;
 		pm8001_ha->outbnd_q_tbl[i].ci_pci_bar		=
 			get_pci_bar_index(pm8001_mr32(addressob,
@@ -659,11 +645,7 @@ static void init_pci_device_addresses(struct pm8001_hba_info *pm8001_ha)
  */
 static int pm8001_chip_init(struct pm8001_hba_info *pm8001_ha)
 {
-<<<<<<< HEAD
 	u32 i = 0;
-=======
-	u8 i = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 deviceid;
 	pci_read_config_word(pm8001_ha->pdev, PCI_DEVICE_ID, &deviceid);
 	/* 8081 controllers need BAR shift to access MPI space
@@ -691,21 +673,9 @@ static int pm8001_chip_init(struct pm8001_hba_info *pm8001_ha)
 	read_outbnd_queue_table(pm8001_ha);
 	/* update main config table ,inbound table and outbound table */
 	update_main_config_table(pm8001_ha);
-<<<<<<< HEAD
 	for (i = 0; i < pm8001_ha->max_q_num; i++)
 		update_inbnd_queue_table(pm8001_ha, i);
 	for (i = 0; i < pm8001_ha->max_q_num; i++)
-=======
-<<<<<<< HEAD
-	for (i = 0; i < pm8001_ha->max_q_num; i++)
-		update_inbnd_queue_table(pm8001_ha, i);
-	for (i = 0; i < pm8001_ha->max_q_num; i++)
-=======
-	for (i = 0; i < PM8001_MAX_INB_NUM; i++)
-		update_inbnd_queue_table(pm8001_ha, i);
-	for (i = 0; i < PM8001_MAX_OUTB_NUM; i++)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		update_outbnd_queue_table(pm8001_ha, i);
 	/* 8081 controller donot require these operations */
 	if (deviceid != 0x8081 && deviceid != 0x0042) {
@@ -1207,7 +1177,7 @@ void pm8001_chip_iounmap(struct pm8001_hba_info *pm8001_ha)
 
 #ifndef PM8001_USE_MSIX
 /**
- * pm8001_chip_interrupt_enable - enable PM8001 chip interrupt
+ * pm8001_chip_intx_interrupt_enable - enable PM8001 chip interrupt
  * @pm8001_ha: our hba card information
  */
 static void
@@ -1280,7 +1250,7 @@ pm8001_chip_interrupt_enable(struct pm8001_hba_info *pm8001_ha, u8 vec)
 }
 
 /**
- * pm8001_chip_intx_interrupt_disable- disable PM8001 chip interrupt
+ * pm8001_chip_interrupt_disable - disable PM8001 chip interrupt
  * @pm8001_ha: our hba card information
  * @vec: unused
  */
@@ -1531,12 +1501,14 @@ void pm8001_work_fn(struct work_struct *work)
 	 * was cancelled. This nullification happens when the device
 	 * goes away.
 	 */
-	pm8001_dev = pw->data; /* Most stash device structure */
-	if ((pm8001_dev == NULL)
-	 || ((pw->handler != IO_XFER_ERROR_BREAK)
-	  && (pm8001_dev->dev_type == SAS_PHY_UNUSED))) {
-		kfree(pw);
-		return;
+	if (pw->handler != IO_FATAL_ERROR) {
+		pm8001_dev = pw->data; /* Most stash device structure */
+		if ((pm8001_dev == NULL)
+		 || ((pw->handler != IO_XFER_ERROR_BREAK)
+			 && (pm8001_dev->dev_type == SAS_PHY_UNUSED))) {
+			kfree(pw);
+			return;
+		}
 	}
 
 	switch (pw->handler) {
@@ -1700,6 +1672,58 @@ void pm8001_work_fn(struct work_struct *work)
 		dev = pm8001_dev->sas_device;
 		pm8001_I_T_nexus_reset(dev);
 		break;
+	case IO_FATAL_ERROR:
+	{
+		struct pm8001_hba_info *pm8001_ha = pw->pm8001_ha;
+		struct pm8001_ccb_info *ccb;
+		struct task_status_struct *ts;
+		struct sas_task *task;
+		int i;
+		u32 tag, device_id;
+
+		for (i = 0; ccb = NULL, i < PM8001_MAX_CCB; i++) {
+			ccb = &pm8001_ha->ccb_info[i];
+			task = ccb->task;
+			ts = &task->task_status;
+			tag = ccb->ccb_tag;
+			/* check if tag is NULL */
+			if (!tag) {
+				pm8001_dbg(pm8001_ha, FAIL,
+					"tag Null\n");
+				continue;
+			}
+			if (task != NULL) {
+				dev = task->dev;
+				if (!dev) {
+					pm8001_dbg(pm8001_ha, FAIL,
+						"dev is NULL\n");
+					continue;
+				}
+				/*complete sas task and update to top layer */
+				pm8001_ccb_task_free(pm8001_ha, task, ccb, tag);
+				ts->resp = SAS_TASK_COMPLETE;
+				task->task_done(task);
+			} else if (tag != 0xFFFFFFFF) {
+				/* complete the internal commands/non-sas task */
+				pm8001_dev = ccb->device;
+				if (pm8001_dev->dcompletion) {
+					complete(pm8001_dev->dcompletion);
+					pm8001_dev->dcompletion = NULL;
+				}
+				complete(pm8001_ha->nvmd_completion);
+				pm8001_tag_free(pm8001_ha, tag);
+			}
+		}
+		/* Deregister all the device ids  */
+		for (i = 0; i < PM8001_MAX_DEVICES; i++) {
+			pm8001_dev = &pm8001_ha->devices[i];
+			device_id = pm8001_dev->device_id;
+			if (device_id) {
+				PM8001_CHIP_DISP->dereg_dev_req(pm8001_ha, device_id);
+				pm8001_free_dev(pm8001_dev);
+			}
+		}
+	}	break;
 	}
 	kfree(pw);
 }
@@ -1858,7 +1882,7 @@ static void pm8001_send_read_log(struct pm8001_hba_info *pm8001_ha,
  * that the task has been finished.
  */
 static void
-mpi_ssp_completion(struct pm8001_hba_info *pm8001_ha , void *piomb)
+mpi_ssp_completion(struct pm8001_hba_info *pm8001_ha, void *piomb)
 {
 	struct sas_task *t;
 	struct pm8001_ccb_info *ccb;
@@ -2090,7 +2114,7 @@ mpi_ssp_completion(struct pm8001_hba_info *pm8001_ha , void *piomb)
 }
 
 /*See the comments for mpi_ssp_completion */
-static void mpi_ssp_event(struct pm8001_hba_info *pm8001_ha , void *piomb)
+static void mpi_ssp_event(struct pm8001_hba_info *pm8001_ha, void *piomb)
 {
 	struct sas_task *t;
 	unsigned long flags;
@@ -2326,9 +2350,9 @@ mpi_sata_completion(struct pm8001_hba_info *pm8001_ha, void *piomb)
 		(status != IO_UNDERFLOW)) {
 		if (!((t->dev->parent) &&
 			(dev_is_expander(t->dev->parent->dev_type)))) {
-			for (i = 0 , j = 4; j <= 7 && i <= 3; i++ , j++)
+			for (i = 0, j = 4; j <= 7 && i <= 3; i++, j++)
 				sata_addr_low[i] = pm8001_ha->sas_addr[j];
-			for (i = 0 , j = 0; j <= 3 && i <= 3; i++ , j++)
+			for (i = 0, j = 0; j <= 3 && i <= 3; i++, j++)
 				sata_addr_hi[i] = pm8001_ha->sas_addr[j];
 			memcpy(&temp_sata_addr_low, sata_addr_low,
 				sizeof(sata_addr_low));
@@ -2657,7 +2681,7 @@ mpi_sata_completion(struct pm8001_hba_info *pm8001_ha, void *piomb)
 }
 
 /*See the comments for mpi_ssp_completion */
-static void mpi_sata_event(struct pm8001_hba_info *pm8001_ha , void *piomb)
+static void mpi_sata_event(struct pm8001_hba_info *pm8001_ha, void *piomb)
 {
 	struct sas_task *t;
 	struct task_status_struct *ts;
@@ -3217,15 +3241,7 @@ void pm8001_bytes_dmaed(struct pm8001_hba_info *pm8001_ha, int i)
 	pm8001_dbg(pm8001_ha, MSG, "phy %d byte dmaded.\n", i);
 
 	sas_phy->frame_rcvd_size = phy->frame_rcvd_size;
-<<<<<<< HEAD
 	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, GFP_ATOMIC);
-=======
-	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Get the link rate speed  */
@@ -3259,7 +3275,7 @@ void pm8001_get_lrate_mode(struct pm8001_phy *phy, u8 link_rate)
 }
 
 /**
- * asd_get_attached_sas_addr -- extract/generate attached SAS address
+ * pm8001_get_attached_sas_addr - extract/generate attached SAS address
  * @phy: pointer to asd_phy
  * @sas_addr: pointer to buffer where the SAS address is to be written
  *
@@ -3382,15 +3398,7 @@ hw_event_sas_phy_up(struct pm8001_hba_info *pm8001_ha, void *piomb)
 	else if (phy->identify.device_type != SAS_PHY_UNUSED)
 		phy->identify.target_port_protocols = SAS_PROTOCOL_SMP;
 	phy->sas_phy.oob_mode = SAS_OOB_MODE;
-<<<<<<< HEAD
 	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&phy->sas_phy.frame_rcvd_lock, flags);
 	memcpy(phy->frame_rcvd, &pPayload->sas_identify,
 		sizeof(struct sas_identify_frame)-4);
@@ -3433,15 +3441,7 @@ hw_event_sata_phy_up(struct pm8001_hba_info *pm8001_ha, void *piomb)
 	phy->phy_type |= PORT_TYPE_SATA;
 	phy->phy_attached = 1;
 	phy->sas_phy.oob_mode = SATA_OOB_MODE;
-<<<<<<< HEAD
 	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-	sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&phy->sas_phy.frame_rcvd_lock, flags);
 	memcpy(phy->frame_rcvd, ((u8 *)&pPayload->sata_fis - 4),
 		sizeof(struct dev_to_host_fis));
@@ -3602,7 +3602,7 @@ int pm8001_mpi_dereg_resp(struct pm8001_hba_info *pm8001_ha, void *piomb)
 }
 
 /**
- * fw_flash_update_resp - Response from FW for flash update command.
+ * pm8001_mpi_fw_flash_update_resp - Response from FW for flash update command.
  * @pm8001_ha: our hba card information
  * @piomb: IO message buffer
  */
@@ -3658,7 +3658,7 @@ int pm8001_mpi_fw_flash_update_resp(struct pm8001_hba_info *pm8001_ha,
 	return 0;
 }
 
-int pm8001_mpi_general_event(struct pm8001_hba_info *pm8001_ha , void *piomb)
+int pm8001_mpi_general_event(struct pm8001_hba_info *pm8001_ha, void *piomb)
 {
 	u32 status;
 	int i;
@@ -3741,7 +3741,7 @@ int pm8001_mpi_task_abort_resp(struct pm8001_hba_info *pm8001_ha, void *piomb)
  * @pm8001_ha: our hba card information
  * @piomb: IO message buffer
  */
-static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
+static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void *piomb)
 {
 	unsigned long flags;
 	struct hw_event_resp *pPayload =
@@ -3765,7 +3765,6 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 	case HW_EVENT_PHY_START_STATUS:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PHY_START_STATUS status = %x\n",
 			   status);
-<<<<<<< HEAD
 		if (status == 0)
 			phy->phy_state = 1;
 
@@ -3773,13 +3772,6 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 				phy->enable_completion != NULL) {
 			complete(phy->enable_completion);
 			phy->enable_completion = NULL;
-=======
-		if (status == 0) {
-			phy->phy_state = 1;
-			if (pm8001_ha->flags == PM8001F_RUN_TIME &&
-					phy->enable_completion != NULL)
-				complete(phy->enable_completion);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	case HW_EVENT_SAS_PHY_UP:
@@ -3798,10 +3790,6 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		break;
 	case HW_EVENT_SATA_SPINUP_HOLD:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_SATA_SPINUP_HOLD\n");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sas_notify_phy_event(&phy->sas_phy, PHYE_SPINUP_HOLD,
 			GFP_ATOMIC);
 		break;
@@ -3809,16 +3797,6 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PHY_DOWN\n");
 		sas_notify_phy_event(&phy->sas_phy, PHYE_LOSS_OF_SIGNAL,
 			GFP_ATOMIC);
-<<<<<<< HEAD
-=======
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_SPINUP_HOLD);
-		break;
-	case HW_EVENT_PHY_DOWN:
-		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PHY_DOWN\n");
-		sas_notify_phy_event(&phy->sas_phy, PHYE_LOSS_OF_SIGNAL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		phy->phy_attached = 0;
 		phy->phy_state = 0;
 		hw_event_phy_down(pm8001_ha, piomb);
@@ -3827,17 +3805,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PORT_INVALID\n");
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	/* the broadcast change primitive received, tell the LIBSAS this event
 	to revalidate the sas domain*/
@@ -3848,48 +3817,22 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		spin_lock_irqsave(&sas_phy->sas_prim_lock, flags);
 		sas_phy->sas_prim = HW_EVENT_BROADCAST_CHANGE;
 		spin_unlock_irqrestore(&sas_phy->sas_prim_lock, flags);
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_PHY_ERROR:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PHY_ERROR\n");
 		sas_phy_disconnected(&phy->sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR, GFP_ATOMIC);
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_BROADCAST_EXP:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_BROADCAST_EXP\n");
 		spin_lock_irqsave(&sas_phy->sas_prim_lock, flags);
 		sas_phy->sas_prim = HW_EVENT_BROADCAST_EXP;
 		spin_unlock_irqrestore(&sas_phy->sas_prim_lock, flags);
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_LINK_ERR_INVALID_DWORD:
 		pm8001_dbg(pm8001_ha, MSG,
@@ -3898,17 +3841,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 			HW_EVENT_LINK_ERR_INVALID_DWORD, port_id, phy_id, 0, 0);
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_LINK_ERR_DISPARITY_ERROR:
 		pm8001_dbg(pm8001_ha, MSG,
@@ -3918,17 +3852,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 			port_id, phy_id, 0, 0);
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_LINK_ERR_CODE_VIOLATION:
 		pm8001_dbg(pm8001_ha, MSG,
@@ -3938,17 +3863,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 			port_id, phy_id, 0, 0);
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_LINK_ERR_LOSS_OF_DWORD_SYNCH:
 		pm8001_dbg(pm8001_ha, MSG,
@@ -3958,17 +3874,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 			port_id, phy_id, 0, 0);
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_MALFUNCTION:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_MALFUNCTION\n");
@@ -3978,17 +3885,8 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		spin_lock_irqsave(&sas_phy->sas_prim_lock, flags);
 		sas_phy->sas_prim = HW_EVENT_BROADCAST_SES;
 		spin_unlock_irqrestore(&sas_phy->sas_prim_lock, flags);
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_INBOUND_CRC_ERROR:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_INBOUND_CRC_ERROR\n");
@@ -3998,31 +3896,14 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 		break;
 	case HW_EVENT_HARD_RESET_RECEIVED:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_HARD_RESET_RECEIVED\n");
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_HARD_RESET, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_HARD_RESET, GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_HARD_RESET);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_ID_FRAME_TIMEOUT:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_ID_FRAME_TIMEOUT\n");
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_LINK_ERR_PHY_RESET_FAILED:
 		pm8001_dbg(pm8001_ha, MSG,
@@ -4032,50 +3913,23 @@ static int mpi_hw_event(struct pm8001_hba_info *pm8001_ha, void* piomb)
 			port_id, phy_id, 0, 0);
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_PORT_RESET_TIMER_TMO:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PORT_RESET_TIMER_TMO\n");
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_PORT_RECOVERY_TIMER_TMO:
 		pm8001_dbg(pm8001_ha, MSG,
 			   "HW_EVENT_PORT_RECOVERY_TIMER_TMO\n");
 		sas_phy_disconnected(sas_phy);
 		phy->phy_attached = 0;
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
 			GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR,
-			GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HW_EVENT_PORT_RECOVER:
 		pm8001_dbg(pm8001_ha, MSG, "HW_EVENT_PORT_RECOVER\n");
@@ -5220,12 +5074,5 @@ const struct pm8001_dispatch pm8001_8001_dispatch = {
 	.fw_flash_update_req	= pm8001_chip_fw_flash_update_req,
 	.set_dev_state_req	= pm8001_chip_set_dev_state_req,
 	.sas_re_init_req	= pm8001_chip_sas_re_initialization,
-<<<<<<< HEAD
 	.fatal_errors		= pm80xx_fatal_errors,
-=======
-<<<<<<< HEAD
-	.fatal_errors		= pm80xx_fatal_errors,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

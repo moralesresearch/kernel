@@ -733,13 +733,7 @@ static int venc_init_output(struct venc_device *venc)
 	out->type = OMAP_DISPLAY_TYPE_VENC;
 	out->name = "venc.0";
 	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
-<<<<<<< HEAD
 	out->of_port = 0;
-=======
-	out->owner = THIS_MODULE;
-	out->of_port = 0;
-	out->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	r = omapdss_device_init_output(out, &venc->bridge);
 	if (r < 0) {

@@ -1519,7 +1519,7 @@ static int sd_getgeo(struct block_device *bdev, struct hd_geometry *geo)
 }
 
 /**
- *	sd_ioctl - process an ioctl
+ *	sd_ioctl_common - process an ioctl
  *	@bdev: target block device
  *	@mode: FMODE_* mask
  *	@cmd: ioctl command number
@@ -1623,6 +1623,7 @@ static unsigned int sd_check_events(struct gendisk *disk, unsigned int clearing)
 	struct scsi_disk *sdkp = scsi_disk_get(disk);
 	struct scsi_device *sdp;
 	int retval;
+	bool disk_changed;
 
 	if (!sdkp)
 		return 0;
@@ -1680,10 +1681,10 @@ out:
 	 *	Medium present state has changed in either direction.
 	 *	Device has indicated UNIT_ATTENTION.
 	 */
-	retval = sdp->changed ? DISK_EVENT_MEDIA_CHANGE : 0;
+	disk_changed = sdp->changed;
 	sdp->changed = 0;
 	scsi_disk_put(sdkp);
-	return retval;
+	return disk_changed ? DISK_EVENT_MEDIA_CHANGE : 0;
 }
 
 static int sd_sync_cache(struct scsi_disk *sdkp, struct scsi_sense_hdr *sshdr)
@@ -3379,25 +3380,12 @@ static int sd_probe(struct device *dev)
 	    sdp->type != TYPE_RBC)
 		goto out;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED) && sdp->type == TYPE_ZBC) {
 		sdev_printk(KERN_WARNING, sdp,
 			    "Unsupported ZBC host-managed device.\n");
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-=======
-#ifndef CONFIG_BLK_DEV_ZONED
-	if (sdp->type == TYPE_ZBC)
-		goto out;
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SCSI_LOG_HLQUEUE(3, sdev_printk(KERN_INFO, sdp,
 					"sd_probe\n"));
 

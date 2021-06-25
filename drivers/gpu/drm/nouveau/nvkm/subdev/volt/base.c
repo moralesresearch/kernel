@@ -281,20 +281,12 @@ nvkm_volt = {
 
 void
 nvkm_volt_ctor(const struct nvkm_volt_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	       enum nvkm_subdev_type type, int inst, struct nvkm_volt *volt)
-=======
-	       int index, struct nvkm_volt *volt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_bios *bios = device->bios;
 	int i;
 
-<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_volt, device, type, inst, &volt->subdev);
-=======
-	nvkm_subdev_ctor(&nvkm_volt, device, index, &volt->subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	volt->func = func;
 
 	/* Assuming the non-bios device should build the voltage table later */
@@ -327,18 +319,10 @@ nvkm_volt_ctor(const struct nvkm_volt_func *func, struct nvkm_device *device,
 
 int
 nvkm_volt_new_(const struct nvkm_volt_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	       enum nvkm_subdev_type type, int inst, struct nvkm_volt **pvolt)
 {
 	if (!(*pvolt = kzalloc(sizeof(**pvolt), GFP_KERNEL)))
 		return -ENOMEM;
 	nvkm_volt_ctor(func, device, type, inst, *pvolt);
-=======
-	       int index, struct nvkm_volt **pvolt)
-{
-	if (!(*pvolt = kzalloc(sizeof(**pvolt), GFP_KERNEL)))
-		return -ENOMEM;
-	nvkm_volt_ctor(func, device, index, *pvolt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

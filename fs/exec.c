@@ -708,11 +708,7 @@ static int shift_arg_pages(struct vm_area_struct *vma, unsigned long shift)
 		return -ENOMEM;
 
 	lru_add_drain();
-<<<<<<< HEAD
 	tlb_gather_mmu(&tlb, mm);
-=======
-	tlb_gather_mmu(&tlb, mm, old_start, old_end);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (new_end > old_start) {
 		/*
 		 * when the old and new regions overlap clear from new_end.
@@ -729,11 +725,7 @@ static int shift_arg_pages(struct vm_area_struct *vma, unsigned long shift)
 		free_pgd_range(&tlb, old_start, old_end, new_end,
 			vma->vm_next ? vma->vm_next->vm_start : USER_PGTABLES_CEILING);
 	}
-<<<<<<< HEAD
 	tlb_finish_mmu(&tlb);
-=======
-	tlb_finish_mmu(&tlb, old_start, old_end);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Shrink the vma to just the new range.  Always succeeds.
@@ -1412,23 +1404,15 @@ EXPORT_SYMBOL(begin_new_exec);
 void would_dump(struct linux_binprm *bprm, struct file *file)
 {
 	struct inode *inode = file_inode(file);
-<<<<<<< HEAD
 	struct user_namespace *mnt_userns = file_mnt_user_ns(file);
 	if (inode_permission(mnt_userns, inode, MAY_READ) < 0) {
-=======
-	if (inode_permission(inode, MAY_READ) < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct user_namespace *old, *user_ns;
 		bprm->interp_flags |= BINPRM_FLAGS_ENFORCE_NONDUMP;
 
 		/* Ensure mm->user_ns contains the executable */
 		user_ns = old = bprm->mm->user_ns;
 		while ((user_ns != &init_user_ns) &&
-<<<<<<< HEAD
 		       !privileged_wrt_inode_uidgid(user_ns, mnt_userns, inode))
-=======
-		       !privileged_wrt_inode_uidgid(user_ns, inode))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			user_ns = user_ns->parent;
 
 		if (old != user_ns) {
@@ -1471,11 +1455,7 @@ EXPORT_SYMBOL(finalize_exec);
 /*
  * Prepare credentials and lock ->cred_guard_mutex.
  * setup_new_exec() commits the new creds and drops the lock.
-<<<<<<< HEAD
  * Or, if exec fails before, free_bprm() should release ->cred
-=======
- * Or, if exec fails before, free_bprm() should release ->cred and
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * and unlock.
  */
 static int prepare_bprm_creds(struct linux_binprm *bprm)
@@ -1600,10 +1580,7 @@ static void check_unsafe_exec(struct linux_binprm *bprm)
 static void bprm_fill_uid(struct linux_binprm *bprm, struct file *file)
 {
 	/* Handle suid and sgid on files */
-<<<<<<< HEAD
 	struct user_namespace *mnt_userns;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct inode *inode;
 	unsigned int mode;
 	kuid_t uid;
@@ -1620,23 +1597,15 @@ static void bprm_fill_uid(struct linux_binprm *bprm, struct file *file)
 	if (!(mode & (S_ISUID|S_ISGID)))
 		return;
 
-<<<<<<< HEAD
 	mnt_userns = file_mnt_user_ns(file);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Be careful if suid/sgid is set */
 	inode_lock(inode);
 
 	/* reload atomically mode/uid/gid now that lock held */
 	mode = inode->i_mode;
-<<<<<<< HEAD
 	uid = i_uid_into_mnt(mnt_userns, inode);
 	gid = i_gid_into_mnt(mnt_userns, inode);
-=======
-	uid = inode->i_uid;
-	gid = inode->i_gid;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode_unlock(inode);
 
 	/* We ignore suid/sgid if there are no mappings for them in the ns */
@@ -1872,11 +1841,7 @@ static int bprm_execve(struct linux_binprm *bprm,
 
 out:
 	/*
-<<<<<<< HEAD
 	 * If past the point of no return ensure the code never
-=======
-	 * If past the point of no return ensure the the code never
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * returns to the userspace process.  Use an existing fatal
 	 * signal if present otherwise terminate the process with
 	 * SIGSEGV.

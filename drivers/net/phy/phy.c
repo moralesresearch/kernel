@@ -701,7 +701,7 @@ out:
 }
 EXPORT_SYMBOL(phy_start_cable_test_tdr);
 
-static int phy_config_aneg(struct phy_device *phydev)
+int phy_config_aneg(struct phy_device *phydev)
 {
 	if (phydev->drv->config_aneg)
 		return phydev->drv->config_aneg(phydev);
@@ -714,6 +714,7 @@ static int phy_config_aneg(struct phy_device *phydev)
 
 	return genphy_config_aneg(phydev);
 }
+EXPORT_SYMBOL(phy_config_aneg);
 
 /**
  * phy_check_link_status - check link status and set state accordingly
@@ -726,15 +727,7 @@ static int phy_check_link_status(struct phy_device *phydev)
 {
 	int err;
 
-<<<<<<< HEAD
 	lockdep_assert_held(&phydev->lock);
-=======
-<<<<<<< HEAD
-	lockdep_assert_held(&phydev->lock);
-=======
-	WARN_ON(!mutex_is_locked(&phydev->lock));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Keep previous state if loopback is enabled because some PHYs
 	 * report that Link is Down when loopback is enabled.
@@ -1155,15 +1148,7 @@ void phy_state_machine(struct work_struct *work)
 	}
 
 	/* Only re-schedule a PHY state machine change if we are polling the
-<<<<<<< HEAD
 	 * PHY, if PHY_MAC_INTERRUPT is set, then we will be moving
-=======
-<<<<<<< HEAD
-	 * PHY, if PHY_MAC_INTERRUPT is set, then we will be moving
-=======
-	 * PHY, if PHY_IGNORE_INTERRUPT is set, then we will be moving
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * between states from phy_mac_interrupt().
 	 *
 	 * In state PHY_HALTED the PHY gets suspended, so rescheduling the

@@ -34,18 +34,12 @@ its hardware characteristcs.
 					Program Flow Trace Macrocell:
 			"arm,coresight-etm3x", "arm,primecell";
 
-<<<<<<< HEAD
 		- Embedded Trace Macrocell (version 4.x), with memory mapped access.
 			"arm,coresight-etm4x", "arm,primecell";
 
 		- Embedded Trace Macrocell (version 4.x), with system register access only.
 			"arm,coresight-etm4x-sysreg";
 
-=======
-		- Embedded Trace Macrocell (version 4.x):
-			"arm,coresight-etm4x", "arm,primecell";
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		- Coresight programmable Replicator :
 			"arm,coresight-dynamic-replicator", "arm,primecell";
 

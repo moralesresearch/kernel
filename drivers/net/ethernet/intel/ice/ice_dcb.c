@@ -738,17 +738,12 @@ ice_aq_get_cee_dcb_cfg(struct ice_hw *hw,
 /**
  * ice_cee_to_dcb_cfg
  * @cee_cfg: pointer to CEE configuration struct
-<<<<<<< HEAD
  * @pi: port information structure
-=======
- * @dcbcfg: DCB configuration struct
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Convert CEE configuration from firmware to DCB configuration
  */
 static void
 ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
-<<<<<<< HEAD
 		   struct ice_port_info *pi)
 {
 	u32 status, tlv_status = le32_to_cpu(cee_cfg->tlv_status);
@@ -764,18 +759,6 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 	dcbcfg->tlv_status = tlv_status;
 
 	/* CEE PG data */
-=======
-		   struct ice_dcbx_cfg *dcbcfg)
-{
-	u32 status, tlv_status = le32_to_cpu(cee_cfg->tlv_status);
-	u32 ice_aqc_cee_status_mask, ice_aqc_cee_status_shift;
-	u16 app_prio = le16_to_cpu(cee_cfg->oper_app_prio);
-	u8 i, err, sync, oper, app_index, ice_app_sel_type;
-	u16 ice_aqc_cee_app_mask, ice_aqc_cee_app_shift;
-	u16 ice_app_prot_id_type;
-
-	/* CEE PG data to ETS config */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dcbcfg->etscfg.maxtcs = cee_cfg->oper_num_tc;
 
 	/* Note that the FW creates the oper_prio_tc nibbles reversed
@@ -802,7 +785,6 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 		}
 	}
 
-<<<<<<< HEAD
 	/* CEE PFC data */
 	dcbcfg->pfc.pfcena = cee_cfg->oper_pfc_en;
 	dcbcfg->pfc.pfccap = ICE_MAX_TRAFFIC_CLASS;
@@ -813,12 +795,6 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 	else
 		cmp_dcbcfg = &pi->qos_cfg.remote_dcbx_cfg;
 
-=======
-	/* CEE PFC data to ETS config */
-	dcbcfg->pfc.pfcena = cee_cfg->oper_pfc_en;
-	dcbcfg->pfc.pfccap = ICE_MAX_TRAFFIC_CLASS;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	app_index = 0;
 	for (i = 0; i < 3; i++) {
 		if (i == 0) {
@@ -828,7 +804,7 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 			ice_aqc_cee_app_mask = ICE_AQC_CEE_APP_FCOE_M;
 			ice_aqc_cee_app_shift = ICE_AQC_CEE_APP_FCOE_S;
 			ice_app_sel_type = ICE_APP_SEL_ETHTYPE;
-			ice_app_prot_id_type = ICE_APP_PROT_ID_FCOE;
+			ice_app_prot_id_type = ETH_P_FCOE;
 		} else if (i == 1) {
 			/* iSCSI APP */
 			ice_aqc_cee_status_mask = ICE_AQC_CEE_ISCSI_STATUS_M;
@@ -836,22 +812,19 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 			ice_aqc_cee_app_mask = ICE_AQC_CEE_APP_ISCSI_M;
 			ice_aqc_cee_app_shift = ICE_AQC_CEE_APP_ISCSI_S;
 			ice_app_sel_type = ICE_APP_SEL_TCPIP;
-			ice_app_prot_id_type = ICE_APP_PROT_ID_ISCSI;
-<<<<<<< HEAD
+			ice_app_prot_id_type = ISCSI_LISTEN_PORT;
 
 			for (j = 0; j < cmp_dcbcfg->numapps; j++) {
 				u16 prot_id = cmp_dcbcfg->app[j].prot_id;
 				u8 sel = cmp_dcbcfg->app[j].selector;
 
 				if  (sel == ICE_APP_SEL_TCPIP &&
-				     (prot_id == ICE_APP_PROT_ID_ISCSI ||
+				     (prot_id == ISCSI_LISTEN_PORT ||
 				      prot_id == ICE_APP_PROT_ID_ISCSI_860)) {
 					ice_app_prot_id_type = prot_id;
 					break;
 				}
 			}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			/* FIP APP */
 			ice_aqc_cee_status_mask = ICE_AQC_CEE_FIP_STATUS_M;
@@ -859,7 +832,7 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 			ice_aqc_cee_app_mask = ICE_AQC_CEE_APP_FIP_M;
 			ice_aqc_cee_app_shift = ICE_AQC_CEE_APP_FIP_S;
 			ice_app_sel_type = ICE_APP_SEL_ETHTYPE;
-			ice_app_prot_id_type = ICE_APP_PROT_ID_FIP;
+			ice_app_prot_id_type = ETH_P_FIP;
 		}
 
 		status = (tlv_status & ice_aqc_cee_status_mask) >>
@@ -884,7 +857,7 @@ ice_cee_to_dcb_cfg(struct ice_aqc_get_cee_dcb_cfg_resp *cee_cfg,
 }
 
 /**
- * ice_get_ieee_dcb_cfg
+ * ice_get_ieee_or_cee_dcb_cfg
  * @pi: port information structure
  * @dcbx_mode: mode of DCBX (IEEE or CEE)
  *
@@ -900,15 +873,9 @@ ice_get_ieee_or_cee_dcb_cfg(struct ice_port_info *pi, u8 dcbx_mode)
 		return ICE_ERR_PARAM;
 
 	if (dcbx_mode == ICE_DCBX_MODE_IEEE)
-<<<<<<< HEAD
 		dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
 	else if (dcbx_mode == ICE_DCBX_MODE_CEE)
 		dcbx_cfg = &pi->qos_cfg.desired_dcbx_cfg;
-=======
-		dcbx_cfg = &pi->local_dcbx_cfg;
-	else if (dcbx_mode == ICE_DCBX_MODE_CEE)
-		dcbx_cfg = &pi->desired_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get Local DCB Config in case of ICE_DCBX_MODE_IEEE
 	 * or get CEE DCB Desired Config in case of ICE_DCBX_MODE_CEE
@@ -919,11 +886,7 @@ ice_get_ieee_or_cee_dcb_cfg(struct ice_port_info *pi, u8 dcbx_mode)
 		goto out;
 
 	/* Get Remote DCB Config */
-<<<<<<< HEAD
 	dcbx_cfg = &pi->qos_cfg.remote_dcbx_cfg;
-=======
-	dcbx_cfg = &pi->remote_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ice_aq_get_dcb_cfg(pi->hw, ICE_AQ_LLDP_MIB_REMOTE,
 				 ICE_AQ_LLDP_BRID_TYPE_NEAREST_BRID, dcbx_cfg);
 	/* Don't treat ENOENT as an error for Remote MIBs */
@@ -952,22 +915,11 @@ enum ice_status ice_get_dcb_cfg(struct ice_port_info *pi)
 	ret = ice_aq_get_cee_dcb_cfg(pi->hw, &cee_cfg, NULL);
 	if (!ret) {
 		/* CEE mode */
-<<<<<<< HEAD
 		ret = ice_get_ieee_or_cee_dcb_cfg(pi, ICE_DCBX_MODE_CEE);
 		ice_cee_to_dcb_cfg(&cee_cfg, pi);
 	} else if (pi->hw->adminq.sq_last_status == ICE_AQ_RC_ENOENT) {
 		/* CEE mode not enabled try querying IEEE data */
 		dcbx_cfg = &pi->qos_cfg.local_dcbx_cfg;
-=======
-		dcbx_cfg = &pi->local_dcbx_cfg;
-		dcbx_cfg->dcbx_mode = ICE_DCBX_MODE_CEE;
-		dcbx_cfg->tlv_status = le32_to_cpu(cee_cfg.tlv_status);
-		ice_cee_to_dcb_cfg(&cee_cfg, dcbx_cfg);
-		ret = ice_get_ieee_or_cee_dcb_cfg(pi, ICE_DCBX_MODE_CEE);
-	} else if (pi->hw->adminq.sq_last_status == ICE_AQ_RC_ENOENT) {
-		/* CEE mode not enabled try querying IEEE data */
-		dcbx_cfg = &pi->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dcbx_cfg->dcbx_mode = ICE_DCBX_MODE_IEEE;
 		ret = ice_get_ieee_or_cee_dcb_cfg(pi, ICE_DCBX_MODE_IEEE);
 	}
@@ -984,17 +936,12 @@ enum ice_status ice_get_dcb_cfg(struct ice_port_info *pi)
  */
 enum ice_status ice_init_dcb(struct ice_hw *hw, bool enable_mib_change)
 {
-<<<<<<< HEAD
 	struct ice_qos_cfg *qos_cfg = &hw->port_info->qos_cfg;
-=======
-	struct ice_port_info *pi = hw->port_info;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum ice_status ret = 0;
 
 	if (!hw->func_caps.common_cap.dcb)
 		return ICE_ERR_NOT_SUPPORTED;
 
-<<<<<<< HEAD
 	qos_cfg->is_sw_lldp = true;
 
 	/* Get DCBX status */
@@ -1009,22 +956,6 @@ enum ice_status ice_init_dcb(struct ice_hw *hw, bool enable_mib_change)
 			return ret;
 		qos_cfg->is_sw_lldp = false;
 	} else if (qos_cfg->dcbx_status == ICE_DCBX_STATUS_DIS) {
-=======
-	pi->is_sw_lldp = true;
-
-	/* Get DCBX status */
-	pi->dcbx_status = ice_get_dcbx_status(hw);
-
-	if (pi->dcbx_status == ICE_DCBX_STATUS_DONE ||
-	    pi->dcbx_status == ICE_DCBX_STATUS_IN_PROGRESS ||
-	    pi->dcbx_status == ICE_DCBX_STATUS_NOT_STARTED) {
-		/* Get current DCBX configuration */
-		ret = ice_get_dcb_cfg(pi);
-		if (ret)
-			return ret;
-		pi->is_sw_lldp = false;
-	} else if (pi->dcbx_status == ICE_DCBX_STATUS_DIS) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ICE_ERR_NOT_READY;
 	}
 
@@ -1032,11 +963,7 @@ enum ice_status ice_init_dcb(struct ice_hw *hw, bool enable_mib_change)
 	if (enable_mib_change) {
 		ret = ice_aq_cfg_lldp_mib_change(hw, true, NULL);
 		if (ret)
-<<<<<<< HEAD
 			qos_cfg->is_sw_lldp = true;
-=======
-			pi->is_sw_lldp = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;
@@ -1051,35 +978,21 @@ enum ice_status ice_init_dcb(struct ice_hw *hw, bool enable_mib_change)
  */
 enum ice_status ice_cfg_lldp_mib_change(struct ice_hw *hw, bool ena_mib)
 {
-<<<<<<< HEAD
 	struct ice_qos_cfg *qos_cfg = &hw->port_info->qos_cfg;
-=======
-	struct ice_port_info *pi = hw->port_info;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum ice_status ret;
 
 	if (!hw->func_caps.common_cap.dcb)
 		return ICE_ERR_NOT_SUPPORTED;
 
 	/* Get DCBX status */
-<<<<<<< HEAD
 	qos_cfg->dcbx_status = ice_get_dcbx_status(hw);
 
 	if (qos_cfg->dcbx_status == ICE_DCBX_STATUS_DIS)
-=======
-	pi->dcbx_status = ice_get_dcbx_status(hw);
-
-	if (pi->dcbx_status == ICE_DCBX_STATUS_DIS)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ICE_ERR_NOT_READY;
 
 	ret = ice_aq_cfg_lldp_mib_change(hw, ena_mib, NULL);
 	if (!ret)
-<<<<<<< HEAD
 		qos_cfg->is_sw_lldp = !ena_mib;
-=======
-		pi->is_sw_lldp = !ena_mib;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -1377,11 +1290,7 @@ enum ice_status ice_set_dcb_cfg(struct ice_port_info *pi)
 	hw = pi->hw;
 
 	/* update the HW local config */
-<<<<<<< HEAD
 	dcbcfg = &pi->qos_cfg.local_dcbx_cfg;
-=======
-	dcbcfg = &pi->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Allocate the LLDPDU */
 	lldpmib = devm_kzalloc(ice_hw_to_dev(hw), ICE_LLDPDU_SIZE, GFP_KERNEL);
 	if (!lldpmib)

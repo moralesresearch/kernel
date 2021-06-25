@@ -617,10 +617,6 @@ static void pm8xxx_mpp_dbg_show_one(struct seq_file *s,
 		}
 		break;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void pm8xxx_mpp_dbg_show(struct seq_file *s, struct gpio_chip *chip)

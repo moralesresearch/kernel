@@ -510,10 +510,6 @@ static void malidp_crtc_disable_vblank(struct drm_crtc *crtc)
 }
 
 static const struct drm_crtc_funcs malidp_crtc_funcs = {
-<<<<<<< HEAD
-=======
-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.destroy = drm_crtc_cleanup,
 	.set_config = drm_atomic_helper_set_config,
 	.page_flip = drm_atomic_helper_page_flip,

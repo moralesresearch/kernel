@@ -50,7 +50,7 @@ tool-archpref		= $(64bit-tool-archpref)
 UTS_MACHINE		:= mips64
 endif
 
-ifneq ($(SUBARCH),$(ARCH))
+ifdef cross_compiling
   ifeq ($(CROSS_COMPILE),)
     CROSS_COMPILE := $(call cc-cross-prefix, $(tool-archpref)-linux-  $(tool-archpref)-linux-gnu-  $(tool-archpref)-unknown-linux-gnu-)
   endif
@@ -160,14 +160,7 @@ cflags-y += $(call as-option,-Wa$(comma)-mno-fix-loongson3-llsc,)
 #
 cflags-$(CONFIG_CPU_R3000)	+= -march=r3000
 cflags-$(CONFIG_CPU_TX39XX)	+= -march=r3900
-<<<<<<< HEAD
 cflags-$(CONFIG_CPU_R4300)	+= -march=r4300 -Wa,--trap
-=======
-<<<<<<< HEAD
-cflags-$(CONFIG_CPU_R4300)	+= -march=r4300 -Wa,--trap
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 cflags-$(CONFIG_CPU_VR41XX)	+= -march=r4100 -Wa,--trap
 cflags-$(CONFIG_CPU_R4X00)	+= -march=r4600 -Wa,--trap
 cflags-$(CONFIG_CPU_TX49XX)	+= -march=r4600 -Wa,--trap
@@ -343,13 +336,6 @@ libs-$(CONFIG_MIPS_FP_SUPPORT) += arch/mips/math-emu/
 core-y += arch/mips/
 
 drivers-y			+= arch/mips/crypto/
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-drivers-$(CONFIG_OPROFILE)	+= arch/mips/oprofile/
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # suspend and hibernation support
 drivers-$(CONFIG_PM)	+= arch/mips/power/

@@ -5,19 +5,10 @@
  * MAXIM TCPCI based TCPC driver
  */
 
-<<<<<<< HEAD
-=======
-#include <linux/gpio.h>
-#include <linux/gpio/consumer.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/interrupt.h>
 #include <linux/i2c.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-<<<<<<< HEAD
-=======
-#include <linux/of_gpio.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/regmap.h>
 #include <linux/usb/pd.h>
 #include <linux/usb/tcpm.h>
@@ -28,12 +19,9 @@
 #define PD_ACTIVITY_TIMEOUT_MS				10000
 
 #define TCPC_VENDOR_ALERT				0x80
-<<<<<<< HEAD
 #define TCPC_VENDOR_USBSW_CTRL				0x93
 #define TCPC_VENDOR_USBSW_CTRL_ENABLE_USB_DATA		0x9
 #define TCPC_VENDOR_USBSW_CTRL_DISABLE_USB_DATA		0
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define TCPC_RECEIVE_BUFFER_COUNT_OFFSET		0
 #define TCPC_RECEIVE_BUFFER_FRAME_TYPE_OFFSET		1
@@ -64,7 +52,7 @@ static const struct regmap_range max_tcpci_tcpci_range[] = {
 	regmap_reg_range(0x00, 0x95)
 };
 
-const struct regmap_access_table max_tcpci_tcpci_write_table = {
+static const struct regmap_access_table max_tcpci_tcpci_write_table = {
 	.yes_ranges = max_tcpci_tcpci_range,
 	.n_yes_ranges = ARRAY_SIZE(max_tcpci_tcpci_range),
 };
@@ -170,11 +158,7 @@ static void process_rx(struct max_tcpci_chip *chip, u16 status)
 	 */
 	ret = regmap_raw_read(chip->data.regmap, TCPC_RX_BYTE_CNT, rx_buf, 2);
 	if (ret < 0) {
-<<<<<<< HEAD
 		dev_err(chip->dev, "TCPC_RX_BYTE_CNT read failed ret:%d\n", ret);
-=======
-		dev_err(chip->dev, "TCPC_RX_BYTE_CNT read failed ret:%d", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -183,21 +167,13 @@ static void process_rx(struct max_tcpci_chip *chip, u16 status)
 
 	if (count == 0 || frame_type != TCPC_RX_BUF_FRAME_TYPE_SOP) {
 		max_tcpci_write16(chip, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
-<<<<<<< HEAD
 		dev_err(chip->dev, "%s\n", count ==  0 ? "error: count is 0" :
-=======
-		dev_err(chip->dev, "%s", count ==  0 ? "error: count is 0" :
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"error frame_type is not SOP");
 		return;
 	}
 
 	if (count > sizeof(struct pd_message) || count + 1 > TCPC_RECEIVE_BUFFER_LEN) {
-<<<<<<< HEAD
 		dev_err(chip->dev, "Invalid TCPC_RX_BYTE_CNT %d\n", count);
-=======
-		dev_err(chip->dev, "Invalid TCPC_RX_BYTE_CNT %d", count);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -208,11 +184,7 @@ static void process_rx(struct max_tcpci_chip *chip, u16 status)
 	count += 1;
 	ret = regmap_raw_read(chip->data.regmap, TCPC_RX_BYTE_CNT, rx_buf, count);
 	if (ret < 0) {
-<<<<<<< HEAD
 		dev_err(chip->dev, "Error: TCPC_RX_BYTE_CNT read failed: %d\n", ret);
-=======
-		dev_err(chip->dev, "Error: TCPC_RX_BYTE_CNT read failed: %d", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -305,7 +277,6 @@ static void process_tx(struct max_tcpci_chip *chip, u16 status)
 		max_tcpci_init_regs(chip);
 }
 
-<<<<<<< HEAD
 /* Enable USB switches when partner is USB communications capable */
 static void max_tcpci_set_partner_usb_comm_capable(struct tcpci *tcpci, struct tcpci_data *data,
 						   bool capable)
@@ -321,8 +292,6 @@ static void max_tcpci_set_partner_usb_comm_capable(struct tcpci *tcpci, struct t
 		dev_err(chip->dev, "Failed to enable USB switches");
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
 {
 	u16 mask;
@@ -363,11 +332,7 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
 			return ret;
 
 		if (reg_status & TCPC_SINK_FAST_ROLE_SWAP) {
-<<<<<<< HEAD
 			dev_info(chip->dev, "FRS Signal\n");
-=======
-			dev_info(chip->dev, "FRS Signal");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_sink_frs(chip->port);
 		}
 	}
@@ -506,20 +471,12 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
 	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
 	chip->data.auto_discharge_disconnect = true;
 	chip->data.vbus_vsafe0v = true;
-<<<<<<< HEAD
 	chip->data.set_partner_usb_comm_capable = max_tcpci_set_partner_usb_comm_capable;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	max_tcpci_init_regs(chip);
 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
 	if (IS_ERR(chip->tcpci)) {
-<<<<<<< HEAD
 		dev_err(&client->dev, "TCPCI port registration failed\n");
-=======
-		dev_err(&client->dev, "TCPCI port registration failed");
-		ret = PTR_ERR(chip->tcpci);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return PTR_ERR(chip->tcpci);
 	}
 	chip->port = tcpci_get_tcpm_port(chip->tcpci);

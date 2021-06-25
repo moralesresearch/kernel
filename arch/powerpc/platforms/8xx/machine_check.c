@@ -26,11 +26,7 @@ int machine_check_8xx(struct pt_regs *regs)
 	 * to deal with that than having a wart in the mcheck handler.
 	 * -- BenH
 	 */
-<<<<<<< HEAD
 	bad_page_fault(regs, SIGBUS);
-=======
-	bad_page_fault(regs, regs->dar, SIGBUS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 1;
 #else
 	return 0;

@@ -649,12 +649,8 @@ static int sfb_change_class(struct Qdisc *sch, u32 classid, u32 parentid,
 	return -ENOSYS;
 }
 
-<<<<<<< HEAD
 static int sfb_delete(struct Qdisc *sch, unsigned long cl,
 		      struct netlink_ext_ack *extack)
-=======
-static int sfb_delete(struct Qdisc *sch, unsigned long cl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return -ENOSYS;
 }

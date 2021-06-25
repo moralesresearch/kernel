@@ -263,7 +263,6 @@ static u32 iwl_mvm_get_tx_ant(struct iwl_mvm *mvm,
 
 static u32 iwl_mvm_get_tx_rate(struct iwl_mvm *mvm,
 			       struct ieee80211_tx_info *info,
-<<<<<<< HEAD
 			       struct ieee80211_sta *sta, __le16 fc)
 {
 	int rate_idx = -1;
@@ -284,21 +283,6 @@ static u32 iwl_mvm_get_tx_rate(struct iwl_mvm *mvm,
 		rate_idx = info->control.rates[0].idx;
 	}
 
-=======
-			       struct ieee80211_sta *sta)
-{
-	int rate_idx;
-	u8 rate_plcp;
-	u32 rate_flags = 0;
-
-	/* HT rate doesn't make sense for a non data frame */
-	WARN_ONCE(info->control.rates[0].flags & IEEE80211_TX_RC_MCS,
-		  "Got an HT rate (flags:0x%x/mcs:%d) for a non data frame\n",
-		  info->control.rates[0].flags,
-		  info->control.rates[0].idx);
-
-	rate_idx = info->control.rates[0].idx;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* if the rate isn't a well known legacy rate, take the lowest one */
 	if (rate_idx < 0 || rate_idx >= IWL_RATE_COUNT_LEGACY)
 		rate_idx = rate_lowest_index(
@@ -328,11 +312,7 @@ static u32 iwl_mvm_get_tx_rate_n_flags(struct iwl_mvm *mvm,
 				       struct ieee80211_tx_info *info,
 				       struct ieee80211_sta *sta, __le16 fc)
 {
-<<<<<<< HEAD
 	return iwl_mvm_get_tx_rate(mvm, info, sta, fc) |
-=======
-	return iwl_mvm_get_tx_rate(mvm, info, sta) |
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		iwl_mvm_get_tx_ant(mvm, info, sta, fc);
 }
 
@@ -1351,17 +1331,12 @@ static void iwl_mvm_hwrate_to_tx_status(u32 rate_n_flags,
 }
 
 static void iwl_mvm_tx_status_check_trigger(struct iwl_mvm *mvm,
-<<<<<<< HEAD
 					    u32 status, __le16 frame_control)
-=======
-					    u32 status)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iwl_fw_dbg_trigger_tlv *trig;
 	struct iwl_fw_dbg_trigger_tx_status *status_trig;
 	int i;
 
-<<<<<<< HEAD
 	if ((status & TX_STATUS_MSK) != TX_STATUS_SUCCESS) {
 		enum iwl_fw_ini_time_point tp =
 			IWL_FW_INI_TIME_POINT_TX_FAILED;
@@ -1374,8 +1349,6 @@ static void iwl_mvm_tx_status_check_trigger(struct iwl_mvm *mvm,
 		return;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trig = iwl_fw_dbg_trigger_on(&mvm->fwrt, NULL,
 				     FW_DBG_TRIGGER_TX_STATUS);
 	if (!trig)
@@ -1493,11 +1466,7 @@ static void iwl_mvm_rx_tx_cmd_single(struct iwl_mvm *mvm,
 		if (skb_freed > 1)
 			info->flags |= IEEE80211_TX_STAT_ACK;
 
-<<<<<<< HEAD
 		iwl_mvm_tx_status_check_trigger(mvm, status, hdr->frame_control);
-=======
-		iwl_mvm_tx_status_check_trigger(mvm, status);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		info->status.rates[0].count = tx_resp->failure_frame + 1;
 		iwl_mvm_hwrate_to_tx_status(le32_to_cpu(tx_resp->initial_rate),
@@ -1681,7 +1650,6 @@ static void iwl_mvm_rx_tx_cmd_agg_dbg(struct iwl_mvm *mvm,
 	struct agg_tx_status *frame_status =
 		iwl_mvm_get_agg_status(mvm, tx_resp);
 	int i;
-<<<<<<< HEAD
 	bool tirgger_timepoint = false;
 
 	for (i = 0; i < tx_resp->frame_count; i++) {
@@ -1689,12 +1657,6 @@ static void iwl_mvm_rx_tx_cmd_agg_dbg(struct iwl_mvm *mvm,
 		/* In case one frame wasn't transmitted trigger time point */
 		tirgger_timepoint |= ((fstatus & AGG_TX_STATE_STATUS_MSK) !=
 				      AGG_TX_STATE_TRANSMITTED);
-=======
-
-	for (i = 0; i < tx_resp->frame_count; i++) {
-		u16 fstatus = le16_to_cpu(frame_status[i].status);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IWL_DEBUG_TX_REPLY(mvm,
 				   "status %s (0x%04x), try-count (%d) seq (0x%x)\n",
 				   iwl_get_agg_tx_status(fstatus),
@@ -1703,14 +1665,11 @@ static void iwl_mvm_rx_tx_cmd_agg_dbg(struct iwl_mvm *mvm,
 					AGG_TX_STATE_TRY_CNT_POS,
 				   le16_to_cpu(frame_status[i].sequence));
 	}
-<<<<<<< HEAD
 
 	if (tirgger_timepoint)
 		iwl_dbg_tlv_time_point(&mvm->fwrt,
 				       IWL_FW_INI_TIME_POINT_TX_FAILED, NULL);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #else
 static void iwl_mvm_rx_tx_cmd_agg_dbg(struct iwl_mvm *mvm,
@@ -1772,12 +1731,8 @@ void iwl_mvm_rx_tx_cmd(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 
 static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 			       int txq, int index,
-<<<<<<< HEAD
 			       struct ieee80211_tx_info *tx_info, u32 rate,
 			       bool is_flush)
-=======
-			       struct ieee80211_tx_info *ba_info, u32 rate)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct sk_buff_head reclaimed_skbs;
 	struct iwl_mvm_tid_data *tid_data = NULL;
@@ -1820,12 +1775,8 @@ static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 		 * frames because before failing a frame the firmware transmits
 		 * it without aggregation at least once.
 		 */
-<<<<<<< HEAD
 		if (!is_flush)
 			info->flags |= IEEE80211_TX_STAT_ACK;
-=======
-		info->flags |= IEEE80211_TX_STAT_ACK;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -1844,11 +1795,7 @@ static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 
 	if (tid_data->txq_id != txq) {
 		IWL_ERR(mvm,
-<<<<<<< HEAD
 			"invalid reclaim request: Q %d, tid %d\n",
-=======
-			"invalid BA notification: Q %d, tid %d\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tid_data->txq_id, tid);
 		rcu_read_unlock();
 		return;
@@ -1863,47 +1810,28 @@ static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 	freed = 0;
 
 	/* pack lq color from tid_data along the reduced txp */
-<<<<<<< HEAD
 	tx_info->status.status_driver_data[0] =
 		RS_DRV_DATA_PACK(tid_data->lq_color,
 				 tx_info->status.status_driver_data[0]);
 	tx_info->status.status_driver_data[1] = (void *)(uintptr_t)rate;
-=======
-	ba_info->status.status_driver_data[0] =
-		RS_DRV_DATA_PACK(tid_data->lq_color,
-				 ba_info->status.status_driver_data[0]);
-	ba_info->status.status_driver_data[1] = (void *)(uintptr_t)rate;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	skb_queue_walk(&reclaimed_skbs, skb) {
 		struct ieee80211_hdr *hdr = (void *)skb->data;
 		struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
 
-<<<<<<< HEAD
 		if (!is_flush) {
 			if (ieee80211_is_data_qos(hdr->frame_control))
 				freed++;
 			else
 				WARN_ON_ONCE(tid != IWL_MAX_TID_COUNT);
 		}
-=======
-		if (ieee80211_is_data_qos(hdr->frame_control))
-			freed++;
-		else
-			WARN_ON_ONCE(tid != IWL_MAX_TID_COUNT);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* this is the first skb we deliver in this batch */
 		/* put the rate scaling data there */
 		if (freed == 1) {
 			info->flags |= IEEE80211_TX_STAT_AMPDU;
-<<<<<<< HEAD
 			memcpy(&info->status, &tx_info->status,
 			       sizeof(tx_info->status));
-=======
-			memcpy(&info->status, &ba_info->status,
-			       sizeof(ba_info->status));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			iwl_mvm_hwrate_to_tx_status(rate, info);
 		}
 	}
@@ -1914,11 +1842,7 @@ static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 	 * possible (i.e. first MPDU in the aggregation wasn't acked)
 	 * Still it's important to update RS about sent vs. acked.
 	 */
-<<<<<<< HEAD
 	if (!is_flush && skb_queue_empty(&reclaimed_skbs)) {
-=======
-	if (skb_queue_empty(&reclaimed_skbs)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct ieee80211_chanctx_conf *chanctx_conf = NULL;
 
 		if (mvmsta->vif)
@@ -1928,22 +1852,13 @@ static void iwl_mvm_tx_reclaim(struct iwl_mvm *mvm, int sta_id, int tid,
 		if (WARN_ON_ONCE(!chanctx_conf))
 			goto out;
 
-<<<<<<< HEAD
 		tx_info->band = chanctx_conf->def.chan->band;
 		iwl_mvm_hwrate_to_tx_status(rate, tx_info);
-=======
-		ba_info->band = chanctx_conf->def.chan->band;
-		iwl_mvm_hwrate_to_tx_status(rate, ba_info);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!iwl_mvm_has_tlc_offload(mvm)) {
 			IWL_DEBUG_TX_REPLY(mvm,
 					   "No reclaim. Update rs directly\n");
-<<<<<<< HEAD
 			iwl_mvm_rs_tx_status(mvm, sta, tid, tx_info, false);
-=======
-			iwl_mvm_rs_tx_status(mvm, sta, tid, ba_info, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1959,10 +1874,7 @@ out:
 void iwl_mvm_rx_ba_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
-<<<<<<< HEAD
 	unsigned int pkt_len = iwl_rx_packet_payload_len(pkt);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int sta_id, tid, txq, index;
 	struct ieee80211_tx_info ba_info = {};
 	struct iwl_mvm_ba_notif *ba_notif;
@@ -1975,17 +1887,12 @@ void iwl_mvm_rx_ba_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 		struct iwl_mvm_compressed_ba_notif *ba_res =
 			(void *)pkt->data;
 		u8 lq_color = TX_RES_RATE_TABLE_COL_GET(ba_res->tlc_rate_info);
-<<<<<<< HEAD
 		u16 tfd_cnt;
 		int i;
 
 		if (unlikely(sizeof(*ba_res) > pkt_len))
 			return;
 
-=======
-		int i;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sta_id = ba_res->sta_id;
 		ba_info.status.ampdu_ack_len = (u8)le16_to_cpu(ba_res->done);
 		ba_info.status.ampdu_len = (u8)le16_to_cpu(ba_res->txed);
@@ -1994,14 +1901,9 @@ void iwl_mvm_rx_ba_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 		ba_info.status.status_driver_data[0] =
 			(void *)(uintptr_t)ba_res->reduced_txp;
 
-<<<<<<< HEAD
 		tfd_cnt = le16_to_cpu(ba_res->tfd_cnt);
 		if (!tfd_cnt || struct_size(ba_res, tfd, tfd_cnt) > pkt_len)
 			return;
-=======
-		if (!le16_to_cpu(ba_res->tfd_cnt))
-			goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		rcu_read_lock();
 
@@ -2016,11 +1918,7 @@ void iwl_mvm_rx_ba_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 		 */
 
 		/* Free per TID */
-<<<<<<< HEAD
 		for (i = 0; i < tfd_cnt; i++) {
-=======
-		for (i = 0; i < le16_to_cpu(ba_res->tfd_cnt); i++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct iwl_mvm_compressed_ba_tfd *ba_tfd =
 				&ba_res->tfd[i];
 
@@ -2035,22 +1933,14 @@ void iwl_mvm_rx_ba_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 					   (int)(le16_to_cpu(ba_tfd->q_num)),
 					   le16_to_cpu(ba_tfd->tfd_index),
 					   &ba_info,
-<<<<<<< HEAD
 					   le32_to_cpu(ba_res->tx_rate), false);
-=======
-					   le32_to_cpu(ba_res->tx_rate));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (mvmsta)
 			iwl_mvm_tx_airtime(mvm, mvmsta,
 					   le32_to_cpu(ba_res->wireless_time));
 		rcu_read_unlock();
-<<<<<<< HEAD
 
-=======
-out:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IWL_DEBUG_TX_REPLY(mvm,
 				   "BA_NOTIFICATION Received from sta_id = %d, flags %x, sent:%d, acked:%d\n",
 				   sta_id, le32_to_cpu(ba_res->flags),
@@ -2086,11 +1976,7 @@ out:
 	rcu_read_unlock();
 
 	iwl_mvm_tx_reclaim(mvm, sta_id, tid, txq, index, &ba_info,
-<<<<<<< HEAD
 			   tid_data->rate_n_flags, false);
-=======
-			   tid_data->rate_n_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	IWL_DEBUG_TX_REPLY(mvm,
 			   "BA_NOTIFICATION Received from %pM, sta_id = %d\n",
@@ -2114,11 +2000,7 @@ out:
  * 2) flush the Tx path
  * 3) wait for the transport queues to be empty
  */
-<<<<<<< HEAD
 int iwl_mvm_flush_tx_path(struct iwl_mvm *mvm, u32 tfd_msk)
-=======
-int iwl_mvm_flush_tx_path(struct iwl_mvm *mvm, u32 tfd_msk, u32 flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct iwl_tx_path_flush_cmd_v1 flush_cmd = {
@@ -2127,35 +2009,22 @@ int iwl_mvm_flush_tx_path(struct iwl_mvm *mvm, u32 tfd_msk, u32 flags)
 	};
 
 	WARN_ON(iwl_mvm_has_new_tx_api(mvm));
-<<<<<<< HEAD
 	ret = iwl_mvm_send_cmd_pdu(mvm, TXPATH_FLUSH, 0,
-=======
-
-	ret = iwl_mvm_send_cmd_pdu(mvm, TXPATH_FLUSH, flags,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   sizeof(flush_cmd), &flush_cmd);
 	if (ret)
 		IWL_ERR(mvm, "Failed to send flush command (%d)\n", ret);
 	return ret;
 }
 
-<<<<<<< HEAD
 int iwl_mvm_flush_sta_tids(struct iwl_mvm *mvm, u32 sta_id, u16 tids)
 {
 	int ret;
 	struct iwl_tx_path_flush_cmd_rsp *rsp;
-=======
-int iwl_mvm_flush_sta_tids(struct iwl_mvm *mvm, u32 sta_id,
-			   u16 tids, u32 flags)
-{
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_tx_path_flush_cmd flush_cmd = {
 		.sta_id = cpu_to_le32(sta_id),
 		.tid_mask = cpu_to_le16(tids),
 	};
 
-<<<<<<< HEAD
 	struct iwl_host_cmd cmd = {
 		.id = TXPATH_FLUSH,
 		.len = { sizeof(flush_cmd), },
@@ -2223,14 +2092,6 @@ int iwl_mvm_flush_sta_tids(struct iwl_mvm *mvm, u32 sta_id,
 free_rsp:
 		iwl_free_resp(&cmd);
 	}
-=======
-	WARN_ON(!iwl_mvm_has_new_tx_api(mvm));
-
-	ret = iwl_mvm_send_cmd_pdu(mvm, TXPATH_FLUSH, flags,
-				   sizeof(flush_cmd), &flush_cmd);
-	if (ret)
-		IWL_ERR(mvm, "Failed to send flush command (%d)\n", ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -2243,19 +2104,10 @@ int iwl_mvm_flush_sta(struct iwl_mvm *mvm, void *sta, bool internal)
 		     offsetof(struct iwl_mvm_sta, sta_id));
 
 	if (iwl_mvm_has_new_tx_api(mvm))
-<<<<<<< HEAD
 		return iwl_mvm_flush_sta_tids(mvm, mvm_sta->sta_id, 0xffff);
 
 	if (internal)
 		return iwl_mvm_flush_tx_path(mvm, int_sta->tfd_queue_msk);
 
 	return iwl_mvm_flush_tx_path(mvm, mvm_sta->tfd_queue_msk);
-=======
-		return iwl_mvm_flush_sta_tids(mvm, mvm_sta->sta_id, 0xffff, 0);
-
-	if (internal)
-		return iwl_mvm_flush_tx_path(mvm, int_sta->tfd_queue_msk, 0);
-
-	return iwl_mvm_flush_tx_path(mvm, mvm_sta->tfd_queue_msk, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

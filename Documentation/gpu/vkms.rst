@@ -7,7 +7,6 @@
 .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
    :doc: vkms (Virtual Kernel Modesetting)
 
-<<<<<<< HEAD
 Setup
 =====
 
@@ -90,8 +89,6 @@ You can also run subtests if you do not want to run the entire test::
   sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
   sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 TODO
 ====
 

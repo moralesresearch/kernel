@@ -438,7 +438,7 @@ static void temac_do_set_mac_address(struct net_device *ndev)
 
 static int temac_init_mac_address(struct net_device *ndev, const void *address)
 {
-	ether_addr_copy(ndev->dev_addr, address);
+	memcpy(ndev->dev_addr, address, ETH_ALEN);
 	if (!is_valid_ether_addr(ndev->dev_addr))
 		eth_hw_addr_random(ndev);
 	temac_do_set_mac_address(ndev);
@@ -774,12 +774,15 @@ static void temac_start_xmit_done(struct net_device *ndev)
 	stat = be32_to_cpu(cur_p->app0);
 
 	while (stat & STS_CTRL_APP0_CMPLT) {
+		/* Make sure that the other fields are read after bd is
+		 * released by dma
+		 */
+		rmb();
 		dma_unmap_single(ndev->dev.parent, be32_to_cpu(cur_p->phys),
 				 be32_to_cpu(cur_p->len), DMA_TO_DEVICE);
 		skb = (struct sk_buff *)ptr_from_txbd(cur_p);
 		if (skb)
 			dev_consume_skb_irq(skb);
-		cur_p->app0 = 0;
 		cur_p->app1 = 0;
 		cur_p->app2 = 0;
 		cur_p->app3 = 0;
@@ -787,6 +790,12 @@ static void temac_start_xmit_done(struct net_device *ndev)
 
 		ndev->stats.tx_packets++;
 		ndev->stats.tx_bytes += be32_to_cpu(cur_p->len);
+
+		/* app0 must be visible last, as it is used to flag
+		 * availability of the bd
+		 */
+		smp_mb();
+		cur_p->app0 = 0;
 
 		lp->tx_bd_ci++;
 		if (lp->tx_bd_ci >= lp->tx_bd_num)
@@ -813,6 +822,9 @@ static inline int temac_check_tx_bd_space(struct temac_local *lp, int num_frag)
 	do {
 		if (cur_p->app0)
 			return NETDEV_TX_BUSY;
+
+		/* Make sure to read next bd app0 after this one */
+		rmb();
 
 		tail++;
 		if (tail >= lp->tx_bd_num)
@@ -849,11 +861,7 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 		smp_mb();
 
 		/* Space might have just been freed - check again */
-<<<<<<< HEAD
 		if (temac_check_tx_bd_space(lp, num_frag + 1))
-=======
-		if (temac_check_tx_bd_space(lp, num_frag))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return NETDEV_TX_BUSY;
 
 		netif_wake_queue(ndev);
@@ -880,10 +888,6 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 		return NETDEV_TX_OK;
 	}
 	cur_p->phys = cpu_to_be32(skb_dma_addr);
-<<<<<<< HEAD
-=======
-	ptr_to_txbd((void *)skb, cur_p);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (ii = 0; ii < num_frag; ii++) {
 		if (++lp->tx_bd_tail >= lp->tx_bd_num)
@@ -922,14 +926,11 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 	}
 	cur_p->app0 |= cpu_to_be32(STS_CTRL_APP0_EOP);
 
-<<<<<<< HEAD
 	/* Mark last fragment with skb address, so it can be consumed
 	 * in temac_start_xmit_done()
 	 */
 	ptr_to_txbd((void *)skb, cur_p);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tail_p = lp->tx_bd_p + sizeof(*lp->tx_bd_v) * lp->tx_bd_tail;
 	lp->tx_bd_tail++;
 	if (lp->tx_bd_tail >= lp->tx_bd_num)
@@ -940,6 +941,11 @@ temac_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 	/* Kick off the transfer */
 	wmb();
 	lp->dma_out(lp, TX_TAILDESC_PTR, tail_p); /* DMA start */
+
+	if (temac_check_tx_bd_space(lp, MAX_SKB_FRAGS + 1)) {
+		netdev_info(ndev, "%s -> netif_stop_queue\n", __func__);
+		netif_stop_queue(ndev);
+	}
 
 	return NETDEV_TX_OK;
 }
@@ -1366,7 +1372,7 @@ static int temac_probe(struct platform_device *pdev)
 	struct device_node *temac_np = dev_of_node(&pdev->dev), *dma_np;
 	struct temac_local *lp;
 	struct net_device *ndev;
-	const void *addr;
+	u8 addr[ETH_ALEN];
 	__be32 *p;
 	bool little_endian;
 	int rc = 0;
@@ -1557,8 +1563,8 @@ static int temac_probe(struct platform_device *pdev)
 
 	if (temac_np) {
 		/* Retrieve the MAC address */
-		addr = of_get_mac_address(temac_np);
-		if (IS_ERR(addr)) {
+		rc = of_get_mac_address(temac_np, addr);
+		if (rc) {
 			dev_err(&pdev->dev, "could not find MAC address\n");
 			return -ENODEV;
 		}

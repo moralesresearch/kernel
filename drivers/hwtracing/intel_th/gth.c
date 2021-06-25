@@ -543,11 +543,7 @@ static void intel_th_gth_disable(struct intel_th_device *thdev,
 	output->active = false;
 
 	for_each_set_bit(master, gth->output[output->port].master,
-<<<<<<< HEAD
 			 TH_CONFIGURABLE_MASTERS + 1) {
-=======
-			 TH_CONFIGURABLE_MASTERS) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gth_master_set(gth, master, -1);
 	}
 	spin_unlock(&gth->gth_lock);
@@ -701,11 +697,7 @@ static void intel_th_gth_unassign(struct intel_th_device *thdev,
 	othdev->output.port = -1;
 	othdev->output.active = false;
 	gth->output[port].output = NULL;
-<<<<<<< HEAD
 	for (master = 0; master < TH_CONFIGURABLE_MASTERS + 1; master++)
-=======
-	for (master = 0; master <= TH_CONFIGURABLE_MASTERS; master++)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (gth->master[master] == port)
 			gth->master[master] = -1;
 	spin_unlock(&gth->gth_lock);

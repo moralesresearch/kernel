@@ -376,14 +376,6 @@ static int pod_init(struct usb_line6 *line6,
 	if (err < 0)
 		return err;
 
-<<<<<<< HEAD
-=======
-	/* initialize MIDI subsystem: */
-	err = line6_init_midi(line6);
-	if (err < 0)
-		return err;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* initialize PCM subsystem: */
 	err = line6_init_pcm(line6, &pod_pcm_properties);
 	if (err < 0)

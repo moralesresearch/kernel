@@ -123,11 +123,7 @@ static int hpwdt_settimeout(struct watchdog_device *wdd, unsigned int val)
 	if (val <= wdd->pretimeout) {
 		dev_dbg(wdd->parent, "pretimeout < timeout. Setting to zero\n");
 		wdd->pretimeout = 0;
-<<<<<<< HEAD
 		pretimeout = false;
-=======
-		pretimeout = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (watchdog_active(wdd))
 			hpwdt_start(wdd);
 	}
@@ -340,21 +336,13 @@ static int hpwdt_init_one(struct pci_dev *dev,
 	watchdog_init_timeout(&hpwdt_dev, soft_margin, NULL);
 
 	if (is_kdump_kernel()) {
-<<<<<<< HEAD
 		pretimeout = false;
-=======
-		pretimeout = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kdumptimeout = 0;
 	}
 
 	if (pretimeout && hpwdt_dev.timeout <= PRETIMEOUT_SEC) {
 		dev_warn(&dev->dev, "timeout <= pretimeout. Setting pretimeout to zero\n");
-<<<<<<< HEAD
 		pretimeout = false;
-=======
-		pretimeout = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	hpwdt_dev.pretimeout = pretimeout ? PRETIMEOUT_SEC : 0;
 	kdumptimeout = min(kdumptimeout, HPWDT_MAX_TIMER);

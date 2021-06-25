@@ -1813,15 +1813,9 @@ int kvmppc_xive_set_irq(struct kvm *kvm, int irq_source_id, u32 irq, int level,
 		return -EINVAL;
 
 	if ((level == 1 && state->lsi) || level == KVM_INTERRUPT_SET_LEVEL)
-<<<<<<< HEAD
 		state->asserted = true;
 	else if (level == 0 || level == KVM_INTERRUPT_UNSET) {
 		state->asserted = false;
-=======
-		state->asserted = 1;
-	else if (level == 0 || level == KVM_INTERRUPT_UNSET) {
-		state->asserted = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 

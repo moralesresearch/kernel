@@ -18,10 +18,7 @@ properties:
 
   compatible:
     enum:
-<<<<<<< HEAD
       - brcm,bcm2711-dsi1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - brcm,bcm2835-dsi0
       - brcm,bcm2835-dsi1
 
@@ -80,12 +77,6 @@ examples:
 
         clock-output-names = "dsi1_byte", "dsi1_ddr2", "dsi1_ddr";
 
-        pitouchscreen: panel@0 {
-            compatible = "raspberrypi,touchscreen";
-            reg = <0>;
-
-            /* ... */
-        };
     };
 
 ...

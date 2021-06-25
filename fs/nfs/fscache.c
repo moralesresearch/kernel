@@ -390,13 +390,6 @@ static void nfs_readpage_from_fscache_complete(struct page *page,
 	if (!error) {
 		SetPageUptodate(page);
 		unlock_page(page);
-<<<<<<< HEAD
-=======
-	} else {
-		error = nfs_readpage_async(context, page->mapping->host, page);
-		if (error)
-			unlock_page(page);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

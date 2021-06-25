@@ -4,13 +4,8 @@
 #define nvkm_pci(p) container_of((p), struct nvkm_pci, subdev)
 #include <subdev/pci.h>
 
-<<<<<<< HEAD
 int nvkm_pci_new_(const struct nvkm_pci_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		  struct nvkm_pci **);
-=======
-int nvkm_pci_new_(const struct nvkm_pci_func *, struct nvkm_device *,
-		  int index, struct nvkm_pci **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_pci_func {
 	void (*init)(struct nvkm_pci *);

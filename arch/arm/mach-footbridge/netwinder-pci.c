@@ -18,11 +18,7 @@
  * We now use the slot ID instead of the device identifiers to select
  * which interrupt is routed where.
  */
-<<<<<<< HEAD
 static int netwinder_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
-=======
-static int __init netwinder_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (slot) {
 	case 0:  /* host bridge */

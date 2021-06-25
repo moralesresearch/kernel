@@ -29,6 +29,7 @@ static inline size_t f2fs_acl_size(int count)
 static inline int f2fs_acl_count(size_t size)
 {
 	ssize_t s;
+
 	size -= sizeof(struct f2fs_acl_header);
 	s = size - 4 * sizeof(struct f2fs_acl_entry_short);
 	if (s < 0) {
@@ -200,7 +201,6 @@ struct posix_acl *f2fs_get_acl(struct inode *inode, int type)
 	return __f2fs_get_acl(inode, type, NULL);
 }
 
-<<<<<<< HEAD
 static int f2fs_acl_update_mode(struct inode *inode, umode_t *mode_p,
 			  struct posix_acl **acl)
 {
@@ -222,8 +222,6 @@ static int f2fs_acl_update_mode(struct inode *inode, umode_t *mode_p,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __f2fs_set_acl(struct inode *inode, int type,
 			struct posix_acl *acl, struct page *ipage)
 {
@@ -237,11 +235,7 @@ static int __f2fs_set_acl(struct inode *inode, int type,
 	case ACL_TYPE_ACCESS:
 		name_index = F2FS_XATTR_INDEX_POSIX_ACL_ACCESS;
 		if (acl && !ipage) {
-<<<<<<< HEAD
 			error = f2fs_acl_update_mode(inode, &mode, &acl);
-=======
-			error = posix_acl_update_mode(inode, &mode, &acl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (error)
 				return error;
 			set_acl_inode(inode, mode);
@@ -276,12 +270,8 @@ static int __f2fs_set_acl(struct inode *inode, int type,
 	return error;
 }
 
-<<<<<<< HEAD
 int f2fs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		 struct posix_acl *acl, int type)
-=======
-int f2fs_set_acl(struct inode *inode, struct posix_acl *acl, int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (unlikely(f2fs_cp_error(F2FS_I_SB(inode))))
 		return -EIO;

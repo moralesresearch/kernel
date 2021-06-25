@@ -14,10 +14,7 @@
 #include <linux/init.h>
 #include <linux/kasan.h>
 #include <linux/kernel.h>
-<<<<<<< HEAD
 #include <linux/kfence.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kmemleak.h>
 #include <linux/linkage.h>
 #include <linux/memblock.h>
@@ -162,11 +159,7 @@ static __always_inline bool memory_is_poisoned(unsigned long addr, size_t size)
 	return memory_is_poisoned_n(addr, size);
 }
 
-<<<<<<< HEAD
 static __always_inline bool check_region_inline(unsigned long addr,
-=======
-static __always_inline bool check_memory_region_inline(unsigned long addr,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						size_t size, bool write,
 						unsigned long ret_ip)
 {
@@ -187,7 +180,6 @@ static __always_inline bool check_memory_region_inline(unsigned long addr,
 	return !kasan_report(addr, size, write, ret_ip);
 }
 
-<<<<<<< HEAD
 bool kasan_check_range(unsigned long addr, size_t size, bool write,
 					unsigned long ret_ip)
 {
@@ -199,55 +191,28 @@ bool kasan_byte_accessible(const void *addr)
 	s8 shadow_byte = READ_ONCE(*(s8 *)kasan_mem_to_shadow(addr));
 
 	return shadow_byte >= 0 && shadow_byte < KASAN_GRANULE_SIZE;
-=======
-bool check_memory_region(unsigned long addr, size_t size, bool write,
-				unsigned long ret_ip)
-{
-	return check_memory_region_inline(addr, size, write, ret_ip);
-}
-
-bool check_invalid_free(void *addr)
-{
-	s8 shadow_byte = READ_ONCE(*(s8 *)kasan_mem_to_shadow(addr));
-
-	return shadow_byte < 0 || shadow_byte >= KASAN_GRANULE_SIZE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void kasan_cache_shrink(struct kmem_cache *cache)
 {
-<<<<<<< HEAD
 	kasan_quarantine_remove_cache(cache);
-=======
-	quarantine_remove_cache(cache);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void kasan_cache_shutdown(struct kmem_cache *cache)
 {
 	if (!__kmem_cache_empty(cache))
-<<<<<<< HEAD
 		kasan_quarantine_remove_cache(cache);
-=======
-		quarantine_remove_cache(cache);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void register_global(struct kasan_global *global)
 {
 	size_t aligned_size = round_up(global->size, KASAN_GRANULE_SIZE);
 
-<<<<<<< HEAD
-	kasan_unpoison(global->beg, global->size);
+	kasan_unpoison(global->beg, global->size, false);
 
 	kasan_poison(global->beg + aligned_size,
-=======
-	unpoison_range(global->beg, global->size);
-
-	poison_range(global->beg + aligned_size,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     global->size_with_redzone - aligned_size,
-		     KASAN_GLOBAL_REDZONE);
+		     KASAN_GLOBAL_REDZONE, false);
 }
 
 void __asan_register_globals(struct kasan_global *globals, size_t size)
@@ -267,11 +232,7 @@ EXPORT_SYMBOL(__asan_unregister_globals);
 #define DEFINE_ASAN_LOAD_STORE(size)					\
 	void __asan_load##size(unsigned long addr)			\
 	{								\
-<<<<<<< HEAD
 		check_region_inline(addr, size, false, _RET_IP_);	\
-=======
-		check_memory_region_inline(addr, size, false, _RET_IP_);\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 	EXPORT_SYMBOL(__asan_load##size);				\
 	__alias(__asan_load##size)					\
@@ -279,11 +240,7 @@ EXPORT_SYMBOL(__asan_unregister_globals);
 	EXPORT_SYMBOL(__asan_load##size##_noabort);			\
 	void __asan_store##size(unsigned long addr)			\
 	{								\
-<<<<<<< HEAD
 		check_region_inline(addr, size, true, _RET_IP_);	\
-=======
-		check_memory_region_inline(addr, size, true, _RET_IP_);	\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 	EXPORT_SYMBOL(__asan_store##size);				\
 	__alias(__asan_store##size)					\
@@ -298,11 +255,7 @@ DEFINE_ASAN_LOAD_STORE(16);
 
 void __asan_loadN(unsigned long addr, size_t size)
 {
-<<<<<<< HEAD
 	kasan_check_range(addr, size, false, _RET_IP_);
-=======
-	check_memory_region(addr, size, false, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__asan_loadN);
 
@@ -312,11 +265,7 @@ EXPORT_SYMBOL(__asan_loadN_noabort);
 
 void __asan_storeN(unsigned long addr, size_t size)
 {
-<<<<<<< HEAD
 	kasan_check_range(addr, size, true, _RET_IP_);
-=======
-	check_memory_region(addr, size, true, _RET_IP_);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(__asan_storeN);
 
@@ -342,20 +291,12 @@ void __asan_alloca_poison(unsigned long addr, size_t size)
 
 	WARN_ON(!IS_ALIGNED(addr, KASAN_ALLOCA_REDZONE_SIZE));
 
-<<<<<<< HEAD
 	kasan_unpoison((const void *)(addr + rounded_down_size),
-			size - rounded_down_size);
+			size - rounded_down_size, false);
 	kasan_poison(left_redzone, KASAN_ALLOCA_REDZONE_SIZE,
-		     KASAN_ALLOCA_LEFT);
+		     KASAN_ALLOCA_LEFT, false);
 	kasan_poison(right_redzone, padding_size + KASAN_ALLOCA_REDZONE_SIZE,
-=======
-	unpoison_range((const void *)(addr + rounded_down_size),
-		       size - rounded_down_size);
-	poison_range(left_redzone, KASAN_ALLOCA_REDZONE_SIZE,
-		     KASAN_ALLOCA_LEFT);
-	poison_range(right_redzone, padding_size + KASAN_ALLOCA_REDZONE_SIZE,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		     KASAN_ALLOCA_RIGHT);
+		     KASAN_ALLOCA_RIGHT, false);
 }
 EXPORT_SYMBOL(__asan_alloca_poison);
 
@@ -365,11 +306,7 @@ void __asan_allocas_unpoison(const void *stack_top, const void *stack_bottom)
 	if (unlikely(!stack_top || stack_top > stack_bottom))
 		return;
 
-<<<<<<< HEAD
-	kasan_unpoison(stack_top, stack_bottom - stack_top);
-=======
-	unpoison_range(stack_top, stack_bottom - stack_top);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	kasan_unpoison(stack_top, stack_bottom - stack_top, false);
 }
 EXPORT_SYMBOL(__asan_allocas_unpoison);
 
@@ -395,11 +332,7 @@ void kasan_record_aux_stack(void *addr)
 	struct kasan_alloc_meta *alloc_meta;
 	void *object;
 
-<<<<<<< HEAD
 	if (is_kfence_address(addr) || !(page && PageSlab(page)))
-=======
-	if (!(page && PageSlab(page)))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	cache = page->slab_cache;

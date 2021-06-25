@@ -527,10 +527,7 @@ int dp_audio_hw_params(struct device *dev,
 	dp_audio_setup_acr(audio);
 	dp_audio_safe_to_exit_level(audio);
 	dp_audio_enable(audio, true);
-<<<<<<< HEAD
 	dp_display_signal_audio_start(dp_display);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp_display->audio_enabled = true;
 
 end:

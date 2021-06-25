@@ -53,10 +53,6 @@
 MODULE_AUTHOR("Michael T. Mayers");
 MODULE_DESCRIPTION("MOTU MidiTimePiece AV multiport MIDI");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{MOTU,MidiTimePiece AV multiport MIDI}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 // io resources
 #define MTPAV_IOBASE		0x378

@@ -3,10 +3,7 @@
 #define __LINUX_ENTRYKVM_H
 
 #include <linux/entry-common.h>
-<<<<<<< HEAD
 #include <linux/tick.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Transfer to guest mode work */
 #ifdef CONFIG_KVM_XFER_TO_GUEST_WORK
@@ -61,11 +58,7 @@ int xfer_to_guest_mode_handle_work(struct kvm_vcpu *vcpu);
 static inline void xfer_to_guest_mode_prepare(void)
 {
 	lockdep_assert_irqs_disabled();
-<<<<<<< HEAD
 	tick_nohz_user_enter_prepare();
-=======
-	rcu_nocb_flush_deferred_wakeup();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

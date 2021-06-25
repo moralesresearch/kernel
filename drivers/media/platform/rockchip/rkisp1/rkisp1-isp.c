@@ -600,7 +600,6 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
 	return -EINVAL;
 }
 
-<<<<<<< HEAD
 static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
 				      struct v4l2_subdev_pad_config *cfg,
 				      struct v4l2_subdev_frame_size_enum *fse)
@@ -634,8 +633,6 @@ static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
 				  struct v4l2_subdev_pad_config *cfg)
 {
@@ -916,10 +913,7 @@ static int rkisp1_subdev_link_validate(struct media_link *link)
 
 static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
 	.enum_mbus_code = rkisp1_isp_enum_mbus_code,
-<<<<<<< HEAD
 	.enum_frame_size = rkisp1_isp_enum_frame_size,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_selection = rkisp1_isp_get_selection,
 	.set_selection = rkisp1_isp_set_selection,
 	.init_cfg = rkisp1_isp_init_config,

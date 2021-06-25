@@ -206,13 +206,7 @@ static inline u8 crt_inb(struct tdfx_par *par, u32 idx)
 
 static inline void att_outb(struct tdfx_par *par, u32 idx, u8 val)
 {
-<<<<<<< HEAD
 	vga_inb(par, IS1_R);
-=======
-	unsigned char tmp;
-
-	tmp = vga_inb(par, IS1_R);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vga_outb(par, ATT_IW, idx);
 	vga_outb(par, ATT_IW, val);
 }

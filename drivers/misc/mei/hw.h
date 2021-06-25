@@ -88,15 +88,12 @@
 #define HBM_MINOR_VERSION_CAP              2
 #define HBM_MAJOR_VERSION_CAP              2
 
-<<<<<<< HEAD
 /*
  * MEI version with client DMA support
  */
 #define HBM_MINOR_VERSION_CD               2
 #define HBM_MAJOR_VERSION_CD               2
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Host bus message command opcode */
 #define MEI_HBM_CMD_OP_MSK                  0x7f
 /* Host bus message command RESPONSE */
@@ -145,15 +142,12 @@
 #define MEI_HBM_CAPABILITIES_REQ_CMD        0x13
 #define MEI_HBM_CAPABILITIES_RES_CMD        0x93
 
-<<<<<<< HEAD
 #define MEI_HBM_CLIENT_DMA_MAP_REQ_CMD      0x14
 #define MEI_HBM_CLIENT_DMA_MAP_RES_CMD      0x94
 
 #define MEI_HBM_CLIENT_DMA_UNMAP_REQ_CMD    0x15
 #define MEI_HBM_CLIENT_DMA_UNMAP_RES_CMD    0x95
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * MEI Stop Reason
  * used by hbm_host_stop_request.reason
@@ -666,11 +660,8 @@ struct hbm_dma_ring_ctrl {
 
 /* virtual tag supported */
 #define HBM_CAP_VT BIT(0)
-<<<<<<< HEAD
 /* client dma supported */
 #define HBM_CAP_CD BIT(2)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct hbm_capability_request - capability request from host to fw
@@ -694,7 +685,6 @@ struct hbm_capability_response {
 	u8 capability_granted[3];
 } __packed;
 
-<<<<<<< HEAD
 /**
  * struct hbm_client_dma_map_request - client dma map request from host to fw
  *
@@ -742,6 +732,4 @@ struct hbm_client_dma_response {
 	u8 status;
 } __packed;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

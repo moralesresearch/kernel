@@ -345,7 +345,6 @@ EXPORT_SYMBOL(posix_acl_from_mode);
  * by the acl. Returns -E... otherwise.
  */
 int
-<<<<<<< HEAD
 posix_acl_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		     const struct posix_acl *acl, int want)
 {
@@ -353,12 +352,6 @@ posix_acl_permission(struct user_namespace *mnt_userns, struct inode *inode,
 	int found = 0;
 	kuid_t uid;
 	kgid_t gid;
-=======
-posix_acl_permission(struct inode *inode, const struct posix_acl *acl, int want)
-{
-	const struct posix_acl_entry *pa, *pe, *mask_obj;
-	int found = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	want &= MAY_READ | MAY_WRITE | MAY_EXEC;
 
@@ -366,7 +359,6 @@ posix_acl_permission(struct inode *inode, const struct posix_acl *acl, int want)
                 switch(pa->e_tag) {
                         case ACL_USER_OBJ:
 				/* (May have been checked already) */
-<<<<<<< HEAD
 				uid = i_uid_into_mnt(mnt_userns, inode);
 				if (uid_eq(uid, current_fsuid()))
                                         goto check_perm;
@@ -379,29 +371,14 @@ posix_acl_permission(struct inode *inode, const struct posix_acl *acl, int want)
                         case ACL_GROUP_OBJ:
 				gid = i_gid_into_mnt(mnt_userns, inode);
 				if (in_group_p(gid)) {
-=======
-				if (uid_eq(inode->i_uid, current_fsuid()))
-                                        goto check_perm;
-                                break;
-                        case ACL_USER:
-				if (uid_eq(pa->e_uid, current_fsuid()))
-                                        goto mask;
-				break;
-                        case ACL_GROUP_OBJ:
-                                if (in_group_p(inode->i_gid)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					found = 1;
 					if ((pa->e_perm & want) == want)
 						goto mask;
                                 }
 				break;
                         case ACL_GROUP:
-<<<<<<< HEAD
 				gid = kgid_into_mnt(mnt_userns, pa->e_gid);
 				if (in_group_p(gid)) {
-=======
-				if (in_group_p(pa->e_gid)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					found = 1;
 					if ((pa->e_perm & want) == want)
 						goto mask;
@@ -581,7 +558,6 @@ __posix_acl_chmod(struct posix_acl **acl, gfp_t gfp, umode_t mode)
 }
 EXPORT_SYMBOL(__posix_acl_chmod);
 
-<<<<<<< HEAD
 /**
  * posix_acl_chmod - chmod a posix acl
  *
@@ -598,10 +574,6 @@ EXPORT_SYMBOL(__posix_acl_chmod);
 int
  posix_acl_chmod(struct user_namespace *mnt_userns, struct inode *inode,
 		    umode_t mode)
-=======
-int
-posix_acl_chmod(struct inode *inode, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct posix_acl *acl;
 	int ret = 0;
@@ -621,11 +593,7 @@ posix_acl_chmod(struct inode *inode, umode_t mode)
 	ret = __posix_acl_chmod(&acl, GFP_KERNEL, mode);
 	if (ret)
 		return ret;
-<<<<<<< HEAD
 	ret = inode->i_op->set_acl(mnt_userns, inode, acl, ACL_TYPE_ACCESS);
-=======
-	ret = inode->i_op->set_acl(inode, acl, ACL_TYPE_ACCESS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	posix_acl_release(acl);
 	return ret;
 }
@@ -684,16 +652,10 @@ EXPORT_SYMBOL_GPL(posix_acl_create);
 
 /**
  * posix_acl_update_mode  -  update mode in set_acl
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount @inode was found from
  * @inode:	target inode
  * @mode_p:	mode (pointer) for update
  * @acl:	acl pointer
-=======
- * @inode: target inode
- * @mode_p: mode (pointer) for update
- * @acl: acl pointer
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Update the file mode when setting an ACL: compute the new file permission
  * bits based on the ACL.  In addition, if the ACL is equivalent to the new
@@ -702,7 +664,6 @@ EXPORT_SYMBOL_GPL(posix_acl_create);
  * As with chmod, clear the setgid bit if the caller is not in the owning group
  * or capable of CAP_FSETID (see inode_change_ok).
  *
-<<<<<<< HEAD
  * If the inode has been found through an idmapped mount the user namespace of
  * the vfsmount must be passed through @mnt_userns. This function will then
  * take care to map the inode according to @mnt_userns before checking
@@ -713,11 +674,6 @@ EXPORT_SYMBOL_GPL(posix_acl_create);
  */
 int posix_acl_update_mode(struct user_namespace *mnt_userns,
 			  struct inode *inode, umode_t *mode_p,
-=======
- * Called from set_acl inode operations.
- */
-int posix_acl_update_mode(struct inode *inode, umode_t *mode_p,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  struct posix_acl **acl)
 {
 	umode_t mode = inode->i_mode;
@@ -728,13 +684,8 @@ int posix_acl_update_mode(struct inode *inode, umode_t *mode_p,
 		return error;
 	if (error == 0)
 		*acl = NULL;
-<<<<<<< HEAD
 	if (!in_group_p(i_gid_into_mnt(mnt_userns, inode)) &&
 	    !capable_wrt_inode_uidgid(mnt_userns, inode, CAP_FSETID))
-=======
-	if (!in_group_p(inode->i_gid) &&
-	    !capable_wrt_inode_uidgid(inode, CAP_FSETID))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mode &= ~S_ISGID;
 	*mode_p = mode;
 	return 0;
@@ -746,12 +697,8 @@ EXPORT_SYMBOL(posix_acl_update_mode);
  */
 static void posix_acl_fix_xattr_userns(
 	struct user_namespace *to, struct user_namespace *from,
-<<<<<<< HEAD
 	struct user_namespace *mnt_userns,
 	void *value, size_t size, bool from_user)
-=======
-	void *value, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct posix_acl_xattr_header *header = value;
 	struct posix_acl_xattr_entry *entry = (void *)(header + 1), *end;
@@ -776,24 +723,18 @@ static void posix_acl_fix_xattr_userns(
 		switch(le16_to_cpu(entry->e_tag)) {
 		case ACL_USER:
 			uid = make_kuid(from, le32_to_cpu(entry->e_id));
-<<<<<<< HEAD
 			if (from_user)
 				uid = kuid_from_mnt(mnt_userns, uid);
 			else
 				uid = kuid_into_mnt(mnt_userns, uid);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			entry->e_id = cpu_to_le32(from_kuid(to, uid));
 			break;
 		case ACL_GROUP:
 			gid = make_kgid(from, le32_to_cpu(entry->e_id));
-<<<<<<< HEAD
 			if (from_user)
 				gid = kgid_from_mnt(mnt_userns, gid);
 			else
 				gid = kgid_into_mnt(mnt_userns, gid);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			entry->e_id = cpu_to_le32(from_kgid(to, gid));
 			break;
 		default:
@@ -802,7 +743,6 @@ static void posix_acl_fix_xattr_userns(
 	}
 }
 
-<<<<<<< HEAD
 void posix_acl_fix_xattr_from_user(struct user_namespace *mnt_userns,
 				   void *value, size_t size)
 {
@@ -821,22 +761,6 @@ void posix_acl_fix_xattr_to_user(struct user_namespace *mnt_userns,
 		return;
 	posix_acl_fix_xattr_userns(user_ns, &init_user_ns, mnt_userns, value,
 				   size, false);
-=======
-void posix_acl_fix_xattr_from_user(void *value, size_t size)
-{
-	struct user_namespace *user_ns = current_user_ns();
-	if (user_ns == &init_user_ns)
-		return;
-	posix_acl_fix_xattr_userns(&init_user_ns, user_ns, value, size);
-}
-
-void posix_acl_fix_xattr_to_user(void *value, size_t size)
-{
-	struct user_namespace *user_ns = current_user_ns();
-	if (user_ns == &init_user_ns)
-		return;
-	posix_acl_fix_xattr_userns(user_ns, &init_user_ns, value, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -976,12 +900,8 @@ posix_acl_xattr_get(const struct xattr_handler *handler,
 }
 
 int
-<<<<<<< HEAD
 set_posix_acl(struct user_namespace *mnt_userns, struct inode *inode,
 	      int type, struct posix_acl *acl)
-=======
-set_posix_acl(struct inode *inode, int type, struct posix_acl *acl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (!IS_POSIXACL(inode))
 		return -EOPNOTSUPP;
@@ -990,11 +910,7 @@ set_posix_acl(struct inode *inode, int type, struct posix_acl *acl)
 
 	if (type == ACL_TYPE_DEFAULT && !S_ISDIR(inode->i_mode))
 		return acl ? -EACCES : 0;
-<<<<<<< HEAD
 	if (!inode_owner_or_capable(mnt_userns, inode))
-=======
-	if (!inode_owner_or_capable(inode))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EPERM;
 
 	if (acl) {
@@ -1002,26 +918,16 @@ set_posix_acl(struct inode *inode, int type, struct posix_acl *acl)
 		if (ret)
 			return ret;
 	}
-<<<<<<< HEAD
 	return inode->i_op->set_acl(mnt_userns, inode, acl, type);
-=======
-	return inode->i_op->set_acl(inode, acl, type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(set_posix_acl);
 
 static int
 posix_acl_xattr_set(const struct xattr_handler *handler,
-<<<<<<< HEAD
 			   struct user_namespace *mnt_userns,
 			   struct dentry *unused, struct inode *inode,
 			   const char *name, const void *value, size_t size,
 			   int flags)
-=======
-		    struct dentry *unused, struct inode *inode,
-		    const char *name, const void *value,
-		    size_t size, int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct posix_acl *acl = NULL;
 	int ret;
@@ -1031,11 +937,7 @@ posix_acl_xattr_set(const struct xattr_handler *handler,
 		if (IS_ERR(acl))
 			return PTR_ERR(acl);
 	}
-<<<<<<< HEAD
 	ret = set_posix_acl(mnt_userns, inode, handler->flags, acl);
-=======
-	ret = set_posix_acl(inode, handler->flags, acl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	posix_acl_release(acl);
 	return ret;
 }
@@ -1064,21 +966,13 @@ const struct xattr_handler posix_acl_default_xattr_handler = {
 };
 EXPORT_SYMBOL_GPL(posix_acl_default_xattr_handler);
 
-<<<<<<< HEAD
 int simple_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		   struct posix_acl *acl, int type)
-=======
-int simple_set_acl(struct inode *inode, struct posix_acl *acl, int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 
 	if (type == ACL_TYPE_ACCESS) {
-<<<<<<< HEAD
 		error = posix_acl_update_mode(mnt_userns, inode,
-=======
-		error = posix_acl_update_mode(inode,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				&inode->i_mode, &acl);
 		if (error)
 			return error;

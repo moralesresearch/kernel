@@ -117,19 +117,10 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
 void vmw_update_seqno(struct vmw_private *dev_priv,
 			 struct vmw_fifo_state *fifo_state)
 {
-<<<<<<< HEAD
 	uint32_t seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
 
 	if (dev_priv->last_read_seqno != seqno) {
 		dev_priv->last_read_seqno = seqno;
-=======
-	u32 *fifo_mem = dev_priv->mmio_virt;
-	uint32_t seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
-
-	if (dev_priv->last_read_seqno != seqno) {
-		dev_priv->last_read_seqno = seqno;
-		vmw_marker_pull(&fifo_state->marker_queue, seqno);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vmw_fences_update(dev_priv->fman);
 	}
 }
@@ -229,17 +220,9 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
 		}
 	}
 	finish_wait(&dev_priv->fence_queue, &__wait);
-<<<<<<< HEAD
 	if (ret == 0 && fifo_idle)
 		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, signal_seq);
 
-=======
-	if (ret == 0 && fifo_idle) {
-		u32 *fifo_mem = dev_priv->mmio_virt;
-
-		vmw_mmio_write(signal_seq, fifo_mem + SVGA_FIFO_FENCE);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wake_up_all(&dev_priv->fence_queue);
 out_err:
 	if (fifo_idle)

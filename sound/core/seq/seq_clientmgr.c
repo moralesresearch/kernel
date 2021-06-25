@@ -1584,11 +1584,7 @@ static int snd_seq_ioctl_get_queue_info(struct snd_seq_client *client,
 	info->queue = q->queue;
 	info->owner = q->owner;
 	info->locked = q->locked;
-<<<<<<< HEAD
 	strscpy(info->name, q->name, sizeof(info->name));
-=======
-	strlcpy(info->name, q->name, sizeof(info->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	queuefree(q);
 
 	return 0;

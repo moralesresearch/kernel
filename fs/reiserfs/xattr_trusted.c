@@ -20,12 +20,8 @@ trusted_get(const struct xattr_handler *handler, struct dentry *unused,
 }
 
 static int
-<<<<<<< HEAD
 trusted_set(const struct xattr_handler *handler,
 	    struct user_namespace *mnt_userns, struct dentry *unused,
-=======
-trusted_set(const struct xattr_handler *handler, struct dentry *unused,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    struct inode *inode, const char *name, const void *buffer,
 	    size_t size, int flags)
 {

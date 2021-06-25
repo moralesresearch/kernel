@@ -86,10 +86,7 @@
 #define PCIE_ATU_TYPE_IO		0x2
 #define PCIE_ATU_TYPE_CFG0		0x4
 #define PCIE_ATU_TYPE_CFG1		0x5
-<<<<<<< HEAD
 #define PCIE_ATU_TD			BIT(8)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PCIE_ATU_FUNC_NUM(pf)           ((pf) << 20)
 #define PCIE_ATU_CR2			0x908
 #define PCIE_ATU_ENABLE			BIT(31)
@@ -103,10 +100,7 @@
 #define PCIE_ATU_DEV(x)			FIELD_PREP(GENMASK(23, 19), x)
 #define PCIE_ATU_FUNC(x)		FIELD_PREP(GENMASK(18, 16), x)
 #define PCIE_ATU_UPPER_TARGET		0x91C
-<<<<<<< HEAD
 #define PCIE_ATU_UPPER_LIMIT		0x924
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PCIE_MISC_CONTROL_1_OFF		0x8BC
 #define PCIE_DBI_RO_WR_EN		BIT(0)
@@ -305,21 +299,14 @@ void dw_pcie_prog_outbound_atu(struct dw_pcie *pci, int index,
 			       u64 size);
 void dw_pcie_prog_ep_outbound_atu(struct dw_pcie *pci, u8 func_no, int index,
 				  int type, u64 cpu_addr, u64 pci_addr,
-<<<<<<< HEAD
 				  u64 size);
-=======
-				  u32 size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dw_pcie_prog_inbound_atu(struct dw_pcie *pci, u8 func_no, int index,
 			     int bar, u64 cpu_addr,
 			     enum dw_pcie_as_type as_type);
 void dw_pcie_disable_atu(struct dw_pcie *pci, int index,
 			 enum dw_pcie_region_type type);
 void dw_pcie_setup(struct dw_pcie *pci);
-<<<<<<< HEAD
 void dw_pcie_iatu_detect(struct dw_pcie *pci);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void dw_pcie_writel_dbi(struct dw_pcie *pci, u32 reg, u32 val)
 {

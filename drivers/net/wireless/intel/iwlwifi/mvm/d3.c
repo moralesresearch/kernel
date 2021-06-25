@@ -975,11 +975,7 @@ static int __iwl_mvm_suspend(struct ieee80211_hw *hw,
 	};
 	struct iwl_host_cmd d3_cfg_cmd = {
 		.id = D3_CONFIG_CMD,
-<<<<<<< HEAD
 		.flags = CMD_WANT_SKB | CMD_SEND_IN_D3,
-=======
-		.flags = CMD_WANT_SKB,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.data[0] = &d3_cfg_cmd_data,
 		.len[0] = sizeof(d3_cfg_cmd_data),
 	};
@@ -1001,11 +997,8 @@ static int __iwl_mvm_suspend(struct ieee80211_hw *hw,
 
 	set_bit(IWL_MVM_STATUS_IN_D3, &mvm->status);
 
-<<<<<<< HEAD
 	synchronize_net();
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vif = iwl_mvm_get_bss_vif(mvm);
 	if (IS_ERR_OR_NULL(vif)) {
 		ret = 1;
@@ -1074,11 +1067,8 @@ static int __iwl_mvm_suspend(struct ieee80211_hw *hw,
 	if (mvm->trans->trans_cfg->device_family < IWL_DEVICE_FAMILY_9000)
 		iwl_fw_dbg_stop_restart_recording(&mvm->fwrt, NULL, true);
 
-<<<<<<< HEAD
 	mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_D3;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* must be last -- this switches firmware state */
 	ret = iwl_mvm_send_cmd(mvm, &d3_cfg_cmd);
 	if (ret)
@@ -1117,25 +1107,11 @@ static int __iwl_mvm_suspend(struct ieee80211_hw *hw,
 int iwl_mvm_suspend(struct ieee80211_hw *hw, struct cfg80211_wowlan *wowlan)
 {
 	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
-<<<<<<< HEAD
-=======
-	struct iwl_trans *trans = mvm->trans;
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iwl_mvm_pause_tcm(mvm, true);
 
 	iwl_fw_runtime_suspend(&mvm->fwrt);
 
-<<<<<<< HEAD
-=======
-	ret = iwl_trans_suspend(trans);
-	if (ret)
-		return ret;
-
-	trans->system_pm_mode = IWL_PLAT_PM_MODE_D3;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return __iwl_mvm_suspend(hw, wowlan, false);
 }
 
@@ -2052,6 +2028,8 @@ static int __iwl_mvm_resume(struct iwl_mvm *mvm, bool test)
 
 	mutex_lock(&mvm->mutex);
 
+	mvm->last_reset_or_resume_time_jiffies = jiffies;
+
 	/* get the BSS vif pointer again */
 	vif = iwl_mvm_get_bss_vif(mvm);
 	if (IS_ERR_OR_NULL(vif))
@@ -2067,19 +2045,10 @@ static int __iwl_mvm_resume(struct iwl_mvm *mvm, bool test)
 		iwl_fw_dbg_collect_desc(&mvm->fwrt, &iwl_dump_desc_assert,
 					false, 0);
 		ret = 1;
-<<<<<<< HEAD
 		mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_DISABLED;
 		goto err;
 	}
 
-=======
-		goto err;
-	}
-
-	iwl_dbg_tlv_time_point(&mvm->fwrt, IWL_FW_INI_TIME_POINT_HOST_D3_END,
-			       NULL);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = iwl_trans_d3_resume(mvm->trans, &d3_status, test, !unified_image);
 	if (ret)
 		goto err;
@@ -2092,11 +2061,7 @@ static int __iwl_mvm_resume(struct iwl_mvm *mvm, bool test)
 	if (d0i3_first) {
 		struct iwl_host_cmd cmd = {
 			.id = D0I3_END_CMD,
-<<<<<<< HEAD
 			.flags = CMD_WANT_SKB | CMD_SEND_IN_D3,
-=======
-			.flags = CMD_WANT_SKB,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 		int len;
 
@@ -2129,11 +2094,8 @@ static int __iwl_mvm_resume(struct iwl_mvm *mvm, bool test)
 		}
 	}
 
-<<<<<<< HEAD
 	mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_DISABLED;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Query the current location and source from the D3 firmware so we
 	 * can play it back when we re-intiailize the D0 firmware
@@ -2177,11 +2139,7 @@ err:
 
 out_iterate:
 	if (!test)
-<<<<<<< HEAD
 		ieee80211_iterate_active_interfaces_mtx(mvm->hw,
-=======
-		ieee80211_iterate_active_interfaces_rtnl(mvm->hw,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			IEEE80211_IFACE_ITER_NORMAL,
 			iwl_mvm_d3_disconnect_iter, keep ? vif : NULL);
 
@@ -2209,28 +2167,12 @@ out:
 	return 1;
 }
 
-<<<<<<< HEAD
-=======
-static int iwl_mvm_resume_d3(struct iwl_mvm *mvm)
-{
-	iwl_trans_resume(mvm->trans);
-
-	return __iwl_mvm_resume(mvm, false);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int iwl_mvm_resume(struct ieee80211_hw *hw)
 {
 	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
 	int ret;
 
-<<<<<<< HEAD
 	ret = __iwl_mvm_resume(mvm, false);
-=======
-	ret = iwl_mvm_resume_d3(mvm);
-
-	mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_DISABLED;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iwl_mvm_resume_tcm(mvm);
 
@@ -2257,13 +2199,6 @@ static int iwl_mvm_d3_test_open(struct inode *inode, struct file *file)
 
 	file->private_data = inode->i_private;
 
-<<<<<<< HEAD
-=======
-	synchronize_net();
-
-	mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_D3;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iwl_mvm_pause_tcm(mvm, true);
 
 	iwl_fw_runtime_suspend(&mvm->fwrt);
@@ -2333,11 +2268,6 @@ static int iwl_mvm_d3_test_release(struct inode *inode, struct file *file)
 
 	iwl_fw_runtime_resume(&mvm->fwrt);
 
-<<<<<<< HEAD
-=======
-	mvm->trans->system_pm_mode = IWL_PLAT_PM_MODE_DISABLED;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iwl_abort_notification_waits(&mvm->notif_wait);
 	if (!unified_image) {
 		int remaining_time = 10;

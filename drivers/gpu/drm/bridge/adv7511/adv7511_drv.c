@@ -1292,12 +1292,7 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
 
 err_unregister_cec:
 	i2c_unregister_device(adv7511->i2c_cec);
-<<<<<<< HEAD
 	clk_disable_unprepare(adv7511->cec_clk);
-=======
-	if (adv7511->cec_clk)
-		clk_disable_unprepare(adv7511->cec_clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_i2c_unregister_packet:
 	i2c_unregister_device(adv7511->i2c_packet);
 err_i2c_unregister_edid:
@@ -1315,12 +1310,7 @@ static int adv7511_remove(struct i2c_client *i2c)
 	if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
 		adv7533_detach_dsi(adv7511);
 	i2c_unregister_device(adv7511->i2c_cec);
-<<<<<<< HEAD
 	clk_disable_unprepare(adv7511->cec_clk);
-=======
-	if (adv7511->cec_clk)
-		clk_disable_unprepare(adv7511->cec_clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	adv7511_uninit_regulators(adv7511);
 

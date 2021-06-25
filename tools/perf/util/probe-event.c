@@ -894,7 +894,6 @@ static int try_to_find_probe_trace_events(struct perf_probe_event *pev,
 	struct debuginfo *dinfo;
 	int ntevs, ret = 0;
 
-<<<<<<< HEAD
 	/* Workaround for gcc #98776 issue.
 	 * Perf failed to add kretprobe event with debuginfo of vmlinux which is
 	 * compiled by gcc with -fpatchable-function-entry option enabled. The
@@ -905,8 +904,6 @@ static int try_to_find_probe_trace_events(struct perf_probe_event *pev,
 	if (pev->point.retprobe)
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dinfo = open_debuginfo(pev->target, pev->nsi, !need_dwarf);
 	if (!dinfo) {
 		if (need_dwarf)
@@ -1087,11 +1084,7 @@ static int __show_line_range(struct line_range *lr, const char *module,
 	}
 
 	intlist__for_each_entry(ln, lr->line_list) {
-<<<<<<< HEAD
 		for (; ln->i > (unsigned long)l; l++) {
-=======
-		for (; ln->i > l; l++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = show_one_line(fp, l - lr->offset);
 			if (ret < 0)
 				goto end;
@@ -3235,7 +3228,7 @@ errout:
 	return err;
 }
 
-/* Concatinate two arrays */
+/* Concatenate two arrays */
 static void *memcat(void *a, size_t sz_a, void *b, size_t sz_b)
 {
 	void *ret;
@@ -3265,7 +3258,7 @@ concat_probe_trace_events(struct probe_trace_event **tevs, int *ntevs,
 	if (*ntevs + ntevs2 > probe_conf.max_probes)
 		ret = -E2BIG;
 	else {
-		/* Concatinate the array of probe_trace_event */
+		/* Concatenate the array of probe_trace_event */
 		new_tevs = memcat(*tevs, (*ntevs) * sizeof(**tevs),
 				  *tevs2, ntevs2 * sizeof(**tevs2));
 		if (!new_tevs)

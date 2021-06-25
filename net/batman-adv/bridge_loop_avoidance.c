@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
-=======
-/* Copyright (C) 2011-2020  B.A.T.M.A.N. contributors:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Simon Wunderlich
  */
@@ -29,7 +25,6 @@
 #include <linux/lockdep.h>
 #include <linux/netdevice.h>
 #include <linux/netlink.h>
-#include <linux/preempt.h>
 #include <linux/rculist.h>
 #include <linux/rcupdate.h>
 #include <linux/skbuff.h>
@@ -442,10 +437,7 @@ static void batadv_bla_send_claim(struct batadv_priv *bat_priv, u8 *mac,
 	batadv_add_counter(bat_priv, BATADV_CNT_RX_BYTES,
 			   skb->len + ETH_HLEN);
 
-	if (in_interrupt())
-		netif_rx(skb);
-	else
-		netif_rx_ni(skb);
+	netif_rx_any_context(skb);
 out:
 	if (primary_if)
 		batadv_hardif_put(primary_if);

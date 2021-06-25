@@ -11,10 +11,7 @@
 #include <linux/module.h>
 #include <linux/delay.h>
 #include <linux/mtd/mtd.h>
-<<<<<<< HEAD
 #include <linux/mtd/nand-ecc-sw-hamming.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mtd/rawnand.h>
 #include <linux/mtd/partitions.h>
 #include <linux/mtd/sharpsl.h>
@@ -100,7 +97,6 @@ static int sharpsl_nand_calculate_ecc(struct nand_chip *chip,
 	return readb(sharpsl->io + ECCCNTR) != 0;
 }
 
-<<<<<<< HEAD
 static int sharpsl_nand_correct_ecc(struct nand_chip *chip,
 				    unsigned char *buf,
 				    unsigned char *read_ecc,
@@ -110,8 +106,6 @@ static int sharpsl_nand_correct_ecc(struct nand_chip *chip,
 				      chip->ecc.size, false);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sharpsl_attach_chip(struct nand_chip *chip)
 {
 	if (chip->ecc.engine_type != NAND_ECC_ENGINE_TYPE_ON_HOST)
@@ -122,11 +116,7 @@ static int sharpsl_attach_chip(struct nand_chip *chip)
 	chip->ecc.strength = 1;
 	chip->ecc.hwctl = sharpsl_nand_enable_hwecc;
 	chip->ecc.calculate = sharpsl_nand_calculate_ecc;
-<<<<<<< HEAD
 	chip->ecc.correct = sharpsl_nand_correct_ecc;
-=======
-	chip->ecc.correct = rawnand_sw_hamming_correct;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

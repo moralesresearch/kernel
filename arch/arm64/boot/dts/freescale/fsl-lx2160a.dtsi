@@ -4,10 +4,7 @@
 //
 // Copyright 2018-2020 NXP
 
-<<<<<<< HEAD
 #include <dt-bindings/clock/fsl,qoriq-clockgen.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/thermal/thermal.h>
@@ -34,11 +31,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x0>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
-=======
-			clocks = <&clockgen 1 0>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -55,11 +48,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x1>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
-=======
-			clocks = <&clockgen 1 0>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -76,11 +65,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x100>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
-=======
-			clocks = <&clockgen 1 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -97,11 +82,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x101>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
-=======
-			clocks = <&clockgen 1 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -118,11 +99,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x200>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 2>;
-=======
-			clocks = <&clockgen 1 2>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -139,11 +116,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x201>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 2>;
-=======
-			clocks = <&clockgen 1 2>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -160,11 +133,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x300>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 3>;
-=======
-			clocks = <&clockgen 1 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -181,11 +150,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x301>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 3>;
-=======
-			clocks = <&clockgen 1 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -202,11 +167,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x400>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 4>;
-=======
-			clocks = <&clockgen 1 4>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -223,11 +184,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x401>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 4>;
-=======
-			clocks = <&clockgen 1 4>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -244,11 +201,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x500>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 5>;
-=======
-			clocks = <&clockgen 1 5>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -265,11 +218,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x501>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 5>;
-=======
-			clocks = <&clockgen 1 5>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -286,11 +235,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x600>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 6>;
-=======
-			clocks = <&clockgen 1 6>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -307,11 +252,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x601>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 6>;
-=======
-			clocks = <&clockgen 1 6>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -328,11 +269,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x700>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 7>;
-=======
-			clocks = <&clockgen 1 7>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -349,11 +286,7 @@
 			compatible = "arm,cortex-a72";
 			enable-method = "psci";
 			reg = <0x701>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 7>;
-=======
-			clocks = <&clockgen 1 7>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			d-cache-size = <0x8000>;
 			d-cache-line-size = <64>;
 			d-cache-sets = <128>;
@@ -732,7 +665,6 @@
 			little-endian;
 		};
 
-<<<<<<< HEAD
 		isc: syscon@1f70000 {
 			compatible = "fsl,lx2160a-isc", "syscon";
 			reg = <0x0 0x1f70000 0x0 0x10000>;
@@ -764,8 +696,6 @@
 			};
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tmu: tmu@1f80000 {
 			compatible = "fsl,qoriq-tmu";
 			reg = <0x0 0x1f80000 0x0 0x10000>;
@@ -787,12 +717,8 @@
 			reg = <0x0 0x2000000 0x0 0x10000>;
 			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			scl-gpio = <&gpio2 15 GPIO_ACTIVE_HIGH>;
 			status = "disabled";
 		};
@@ -804,12 +730,8 @@
 			reg = <0x0 0x2010000 0x0 0x10000>;
 			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -820,12 +742,8 @@
 			reg = <0x0 0x2020000 0x0 0x10000>;
 			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -836,12 +754,8 @@
 			reg = <0x0 0x2030000 0x0 0x10000>;
 			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -852,12 +766,8 @@
 			reg = <0x0 0x2040000 0x0 0x10000>;
 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			scl-gpio = <&gpio2 16 GPIO_ACTIVE_HIGH>;
 			status = "disabled";
 		};
@@ -869,12 +779,8 @@
 			reg = <0x0 0x2050000 0x0 0x10000>;
 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -885,12 +791,8 @@
 			reg = <0x0 0x2060000 0x0 0x10000>;
 			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -901,12 +803,8 @@
 			reg = <0x0 0x2070000 0x0 0x10000>;
 			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "i2c";
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
-=======
-			clocks = <&clockgen 4 15>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -918,14 +816,10 @@
 			      <0x0 0x20000000 0x0 0x10000000>;
 			reg-names = "fspi_base", "fspi_mmap";
 			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
-=======
-			clocks = <&clockgen 4 3>, <&clockgen 4 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "fspi_en", "fspi";
 			status = "disabled";
 		};
@@ -936,12 +830,8 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2100000 0x0 0x10000>;
 			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
-=======
-			clocks = <&clockgen 4 7>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "dspi";
 			spi-num-chipselects = <5>;
 			bus-num = <0>;
@@ -954,12 +844,8 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2110000 0x0 0x10000>;
 			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
-=======
-			clocks = <&clockgen 4 7>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "dspi";
 			spi-num-chipselects = <5>;
 			bus-num = <1>;
@@ -972,12 +858,8 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2120000 0x0 0x10000>;
 			interrupts = <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
-=======
-			clocks = <&clockgen 4 7>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "dspi";
 			spi-num-chipselects = <5>;
 			bus-num = <2>;
@@ -988,12 +870,8 @@
 			compatible = "fsl,esdhc";
 			reg = <0x0 0x2140000 0x0 0x10000>;
 			interrupts = <0 28 0x4>; /* Level high type */
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(2)>;
-=======
-			clocks = <&clockgen 4 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			voltage-ranges = <1800 1800 3300 3300>;
 			sdhci,auto-cmd12;
@@ -1006,12 +884,8 @@
 			compatible = "fsl,esdhc";
 			reg = <0x0 0x2150000 0x0 0x10000>;
 			interrupts = <0 63 0x4>; /* Level high type */
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(2)>;
-=======
-			clocks = <&clockgen 4 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			voltage-ranges = <1800 1800 3300 3300>;
 			sdhci,auto-cmd12;
@@ -1021,7 +895,6 @@
 			status = "disabled";
 		};
 
-<<<<<<< HEAD
 		can0: can@2180000 {
 			compatible = "fsl,lx2160ar1-flexcan";
 			reg = <0x0 0x2180000 0x0 0x10000>;
@@ -1046,8 +919,6 @@
 			status = "disabled";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		uart0: serial@21c0000 {
 			compatible = "arm,sbsa-uart","arm,pl011";
 			reg = <0x0 0x21c0000 0x0 0x1000>;
@@ -1174,12 +1045,8 @@
 			      <0x7 0x100520 0x0 0x4>;
 			reg-names = "ahci", "sata-ecc";
 			interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
-=======
-			clocks = <&clockgen 4 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			status = "disabled";
 		};
@@ -1190,12 +1057,8 @@
 			      <0x7 0x100520 0x0 0x4>;
 			reg-names = "ahci", "sata-ecc";
 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
-=======
-			clocks = <&clockgen 4 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			status = "disabled";
 		};
@@ -1206,12 +1069,8 @@
 			      <0x7 0x100520 0x0 0x4>;
 			reg-names = "ahci", "sata-ecc";
 			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
-=======
-			clocks = <&clockgen 4 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			status = "disabled";
 		};
@@ -1222,12 +1081,8 @@
 			      <0x7 0x100520 0x0 0x4>;
 			reg-names = "ahci", "sata-ecc";
 			interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
-=======
-			clocks = <&clockgen 4 3>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			status = "disabled";
 		};
@@ -1500,12 +1355,8 @@
 		ptp-timer@8b95000 {
 			compatible = "fsl,dpaa2-ptp";
 			reg = <0x0 0x8b95000 0x0 0x100>;
-<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(2)>;
-=======
-			clocks = <&clockgen 4 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			little-endian;
 			fsl,extts-fifo;
 		};

@@ -764,11 +764,7 @@ int snd_hda_get_pin_label(struct hda_codec *codec, hda_nid_t nid,
 	}
 	if (!name)
 		return 0;
-<<<<<<< HEAD
 	strscpy(label, name, maxlen);
-=======
-	strlcpy(label, name, maxlen);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 1;
 }
 EXPORT_SYMBOL_GPL(snd_hda_get_pin_label);

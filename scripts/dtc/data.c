@@ -21,17 +21,10 @@ void data_free(struct data d)
 		free(d.val);
 }
 
-<<<<<<< HEAD
 struct data data_grow_for(struct data d, unsigned int xlen)
 {
 	struct data nd;
 	unsigned int newsize;
-=======
-struct data data_grow_for(struct data d, int xlen)
-{
-	struct data nd;
-	int newsize;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (xlen == 0)
 		return d;
@@ -91,11 +84,7 @@ struct data data_copy_file(FILE *f, size_t maxlen)
 	while (!feof(f) && (d.len < maxlen)) {
 		size_t chunksize, ret;
 
-<<<<<<< HEAD
 		if (maxlen == (size_t)-1)
-=======
-		if (maxlen == -1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			chunksize = 4096;
 		else
 			chunksize = maxlen - d.len;

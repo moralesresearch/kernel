@@ -26,14 +26,6 @@
 MODULE_DESCRIPTION(CRD_NAME);
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{ESS,ES688 PnP AudioDrive,pnp:ESS0100},"
-	        "{ESS,ES1688 PnP AudioDrive,pnp:ESS0102},"
-	        "{ESS,ES688 AudioDrive,pnp:ESS6881},"
-	        "{ESS,ES1688 AudioDrive,pnp:ESS1681}}");
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_ALIAS("snd_es968");
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
@@ -136,13 +128,8 @@ static int snd_es1688_probe(struct snd_card *card, unsigned int n)
 	if (error < 0)
 		return error;
 
-<<<<<<< HEAD
 	strscpy(card->driver, "ES1688", sizeof(card->driver));
 	strscpy(card->shortname, chip->pcm->name, sizeof(card->shortname));
-=======
-	strlcpy(card->driver, "ES1688", sizeof(card->driver));
-	strlcpy(card->shortname, chip->pcm->name, sizeof(card->shortname));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snprintf(card->longname, sizeof(card->longname),
 		"%s at 0x%lx, irq %i, dma %i", chip->pcm->name, chip->port,
 		 chip->irq, chip->dma8);
@@ -200,16 +187,9 @@ out:
 	return error;
 }
 
-<<<<<<< HEAD
 static void snd_es1688_isa_remove(struct device *dev, unsigned int n)
 {
 	snd_card_free(dev_get_drvdata(dev));
-=======
-static int snd_es1688_isa_remove(struct device *dev, unsigned int n)
-{
-	snd_card_free(dev_get_drvdata(dev));
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver snd_es1688_driver = {

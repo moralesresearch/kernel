@@ -235,11 +235,8 @@ static const struct sh_cmt_info sh_cmt_info[] = {
 #define CMCNT 1 /* channel register */
 #define CMCOR 2 /* channel register */
 
-<<<<<<< HEAD
 #define CMCLKE	0x1000	/* CLK Enable Register (R-Car Gen2) */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline u32 sh_cmt_read_cmstr(struct sh_cmt_channel *ch)
 {
 	if (ch->iostart)
@@ -342,8 +339,9 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
 		sh_cmt_write_cmcsr(ch, SH_CMT16_CMCSR_CMIE |
 				   SH_CMT16_CMCSR_CKS512);
 	} else {
-		sh_cmt_write_cmcsr(ch, SH_CMT32_CMCSR_CMM |
-				   SH_CMT32_CMCSR_CMTOUT_IE |
+		u32 cmtout = ch->cmt->info->model <= SH_CMT_48BIT ?
+			      SH_CMT32_CMCSR_CMTOUT_IE : 0;
+		sh_cmt_write_cmcsr(ch, cmtout | SH_CMT32_CMCSR_CMM |
 				   SH_CMT32_CMCSR_CMR_IRQ |
 				   SH_CMT32_CMCSR_CKS_RCLK8);
 	}
@@ -858,10 +856,7 @@ static int sh_cmt_setup_channel(struct sh_cmt_channel *ch, unsigned int index,
 				unsigned int hwidx, bool clockevent,
 				bool clocksource, struct sh_cmt_device *cmt)
 {
-<<<<<<< HEAD
 	u32 value;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	/* Skip unused channels. */
@@ -891,14 +886,11 @@ static int sh_cmt_setup_channel(struct sh_cmt_channel *ch, unsigned int index,
 		ch->iostart = cmt->mapbase + ch->hwidx * 0x100;
 		ch->ioctrl = ch->iostart + 0x10;
 		ch->timer_bit = 0;
-<<<<<<< HEAD
 
 		/* Enable the clock supply to the channel */
 		value = ioread32(cmt->mapbase + CMCLKE);
 		value |= BIT(hwidx);
 		iowrite32(value, cmt->mapbase + CMCLKE);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -1031,19 +1023,10 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
 	else
 		cmt->rate = clk_get_rate(cmt->clk) / 8;
 
-<<<<<<< HEAD
 	/* Map the memory resource(s). */
 	ret = sh_cmt_map_memory(cmt);
 	if (ret < 0)
 		goto err_clk_disable;
-=======
-	clk_disable(cmt->clk);
-
-	/* Map the memory resource(s). */
-	ret = sh_cmt_map_memory(cmt);
-	if (ret < 0)
-		goto err_clk_unprepare;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Allocate and setup the channels. */
 	cmt->num_channels = hweight8(cmt->hw_channels);
@@ -1071,11 +1054,8 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
 		mask &= ~(1 << hwidx);
 	}
 
-<<<<<<< HEAD
 	clk_disable(cmt->clk);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_set_drvdata(pdev, cmt);
 
 	return 0;
@@ -1083,11 +1063,8 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
 err_unmap:
 	kfree(cmt->channels);
 	iounmap(cmt->mapbase);
-<<<<<<< HEAD
 err_clk_disable:
 	clk_disable(cmt->clk);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_clk_unprepare:
 	clk_unprepare(cmt->clk);
 err_clk_put:

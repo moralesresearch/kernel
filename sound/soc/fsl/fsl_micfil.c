@@ -31,6 +31,7 @@ struct fsl_micfil {
 	struct platform_device *pdev;
 	struct regmap *regmap;
 	const struct fsl_micfil_soc_data *soc;
+	struct clk *busclk;
 	struct clk *mclk;
 	struct snd_dmaengine_dai_dma_data dma_params_rx;
 	unsigned int dataline;
@@ -381,11 +382,7 @@ static int fsl_micfil_set_dai_sysclk(struct snd_soc_dai *dai, int clk_id,
 	return ret;
 }
 
-<<<<<<< HEAD
 static const struct snd_soc_dai_ops fsl_micfil_dai_ops = {
-=======
-static struct snd_soc_dai_ops fsl_micfil_dai_ops = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.startup = fsl_micfil_startup,
 	.trigger = fsl_micfil_trigger,
 	.hw_params = fsl_micfil_hw_params,
@@ -426,8 +423,6 @@ static int fsl_micfil_dai_probe(struct snd_soc_dai *cpu_dai)
 		dev_err(dev, "failed to set FIFOWMK\n");
 		return ret;
 	}
-
-	snd_soc_dai_set_drvdata(cpu_dai, micfil);
 
 	return 0;
 }
@@ -641,10 +636,6 @@ static irqreturn_t micfil_err_isr(int irq, void *devid)
 static int fsl_micfil_probe(struct platform_device *pdev)
 {
 	struct device_node *np = pdev->dev.of_node;
-<<<<<<< HEAD
-=======
-	const struct of_device_id *of_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fsl_micfil *micfil;
 	struct resource *res;
 	void __iomem *regs;
@@ -658,15 +649,7 @@ static int fsl_micfil_probe(struct platform_device *pdev)
 	micfil->pdev = pdev;
 	strncpy(micfil->name, np->name, sizeof(micfil->name) - 1);
 
-<<<<<<< HEAD
 	micfil->soc = of_device_get_match_data(&pdev->dev);
-=======
-	of_id = of_match_device(fsl_micfil_dt_ids, &pdev->dev);
-	if (!of_id || !of_id->data)
-		return -EINVAL;
-
-	micfil->soc = of_id->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* ipg_clk is used to control the registers
 	 * ipg_clk_app is used to operate the filter
@@ -678,16 +661,22 @@ static int fsl_micfil_probe(struct platform_device *pdev)
 		return PTR_ERR(micfil->mclk);
 	}
 
+	micfil->busclk = devm_clk_get(&pdev->dev, "ipg_clk");
+	if (IS_ERR(micfil->busclk)) {
+		dev_err(&pdev->dev, "failed to get ipg clock: %ld\n",
+			PTR_ERR(micfil->busclk));
+		return PTR_ERR(micfil->busclk);
+	}
+
 	/* init regmap */
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	regs = devm_ioremap_resource(&pdev->dev, res);
 	if (IS_ERR(regs))
 		return PTR_ERR(regs);
 
-	micfil->regmap = devm_regmap_init_mmio_clk(&pdev->dev,
-						   "ipg_clk",
-						   regs,
-						   &fsl_micfil_regmap_config);
+	micfil->regmap = devm_regmap_init_mmio(&pdev->dev,
+					       regs,
+					       &fsl_micfil_regmap_config);
 	if (IS_ERR(micfil->regmap)) {
 		dev_err(&pdev->dev, "failed to init MICFIL regmap: %ld\n",
 			PTR_ERR(micfil->regmap));
@@ -747,6 +736,7 @@ static int fsl_micfil_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, micfil);
 
 	pm_runtime_enable(&pdev->dev);
+	regcache_cache_only(micfil->regmap, true);
 
 	ret = devm_snd_soc_register_component(&pdev->dev, &fsl_micfil_component,
 					      &fsl_micfil_dai, 1);
@@ -770,6 +760,7 @@ static int __maybe_unused fsl_micfil_runtime_suspend(struct device *dev)
 	regcache_cache_only(micfil->regmap, true);
 
 	clk_disable_unprepare(micfil->mclk);
+	clk_disable_unprepare(micfil->busclk);
 
 	return 0;
 }
@@ -779,9 +770,15 @@ static int __maybe_unused fsl_micfil_runtime_resume(struct device *dev)
 	struct fsl_micfil *micfil = dev_get_drvdata(dev);
 	int ret;
 
-	ret = clk_prepare_enable(micfil->mclk);
+	ret = clk_prepare_enable(micfil->busclk);
 	if (ret < 0)
 		return ret;
+
+	ret = clk_prepare_enable(micfil->mclk);
+	if (ret < 0) {
+		clk_disable_unprepare(micfil->busclk);
+		return ret;
+	}
 
 	regcache_cache_only(micfil->regmap, false);
 	regcache_mark_dirty(micfil->regmap);

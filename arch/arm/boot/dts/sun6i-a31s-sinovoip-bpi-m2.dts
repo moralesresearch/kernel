@@ -59,29 +59,17 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		blue {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bpi-m2:blue:usr";
 			gpios = <&pio 6 11 GPIO_ACTIVE_HIGH>; /* PG11 */
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bpi-m2:green:usr";
 			gpios = <&pio 6 10 GPIO_ACTIVE_HIGH>; /* PG10 */
 		};
 
-<<<<<<< HEAD
 		led-2 {
-=======
-		red {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bpi-m2:red:usr";
 			gpios = <&pio 6 5 GPIO_ACTIVE_HIGH>; /* PG5 */
 		};
@@ -160,12 +148,8 @@
 	axp22x: pmic@68 {
 		compatible = "x-powers,axp221";
 		reg = <0x68>;
-<<<<<<< HEAD
 		interrupt-parent = <&r_intc>;
-=======
-		interrupt-parent = <&nmi_intc>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
 		eldoin-supply = <&reg_dcdc1>;
 		x-powers,drive-vbus-en;
 	};
@@ -277,7 +261,6 @@
 &usbphy {
 	status = "okay";
 };
-<<<<<<< HEAD
 
 &pio {
 	gpio-line-names =
@@ -349,5 +332,3 @@
 		"", "", "", "", "", "", "", "", "", "", "", "", "", "",
 		"", "", "", "", "", "", "", "", "";
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

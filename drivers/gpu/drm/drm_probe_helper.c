@@ -515,12 +515,8 @@ retry:
 	if (count == 0 && connector->status == connector_status_connected)
 		count = drm_add_override_edid_modes(connector);
 
-<<<<<<< HEAD
 	if (count == 0 && (connector->status == connector_status_connected ||
 			   connector->status == connector_status_unknown))
-=======
-	if (count == 0 && connector->status == connector_status_connected)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		count = drm_add_modes_noedid(connector, 1024, 768);
 	count += drm_helper_probe_add_cmdline_mode(connector);
 	if (count == 0)
@@ -628,10 +624,7 @@ static void output_poll_execute(struct work_struct *work)
 	struct drm_connector_list_iter conn_iter;
 	enum drm_connector_status old_status;
 	bool repoll = false, changed;
-<<<<<<< HEAD
 	u64 old_epoch_counter;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!dev->mode_config.poll_enabled)
 		return;
@@ -668,14 +661,9 @@ static void output_poll_execute(struct work_struct *work)
 
 		repoll = true;
 
-<<<<<<< HEAD
 		old_epoch_counter = connector->epoch_counter;
 		connector->status = drm_helper_probe_detect(connector, NULL, false);
 		if (old_epoch_counter != connector->epoch_counter) {
-=======
-		connector->status = drm_helper_probe_detect(connector, NULL, false);
-		if (old_status != connector->status) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			const char *old, *new;
 
 			/*
@@ -704,12 +692,9 @@ static void output_poll_execute(struct work_struct *work)
 				      connector->base.id,
 				      connector->name,
 				      old, new);
-<<<<<<< HEAD
 			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] epoch counter %llu -> %llu\n",
 				      connector->base.id, connector->name,
 				      old_epoch_counter, connector->epoch_counter);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			changed = true;
 		}

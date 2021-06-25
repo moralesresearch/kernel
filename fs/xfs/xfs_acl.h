@@ -11,12 +11,8 @@ struct posix_acl;
 
 #ifdef CONFIG_XFS_POSIX_ACL
 extern struct posix_acl *xfs_get_acl(struct inode *inode, int type);
-<<<<<<< HEAD
 extern int xfs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		       struct posix_acl *acl, int type);
-=======
-extern int xfs_set_acl(struct inode *inode, struct posix_acl *acl, int type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int __xfs_set_acl(struct inode *inode, struct posix_acl *acl, int type);
 void xfs_forget_acl(struct inode *inode, const char *name);
 #else

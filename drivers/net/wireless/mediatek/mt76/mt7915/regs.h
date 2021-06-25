@@ -4,14 +4,11 @@
 #ifndef __MT7915_REGS_H
 #define __MT7915_REGS_H
 
-<<<<<<< HEAD
 /* MCU WFDMA0 */
 #define MT_MCU_WFDMA0_BASE		0x2000
 #define MT_MCU_WFDMA0(ofs)		(MT_MCU_WFDMA0_BASE + (ofs))
 #define MT_MCU_WFDMA0_DUMMY_CR		MT_MCU_WFDMA0(0x120)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* MCU WFDMA1 */
 #define MT_MCU_WFDMA1_BASE		0x3000
 #define MT_MCU_WFDMA1(ofs)		(MT_MCU_WFDMA1_BASE + (ofs))
@@ -67,7 +64,6 @@
 #define MT_TIMEOUT_VAL_PLCP		GENMASK(15, 0)
 #define MT_TIMEOUT_VAL_CCA		GENMASK(31, 16)
 
-<<<<<<< HEAD
 #define MT_TMAC_ATCR(_band)		MT_WF_TMAC(_band, 0x098)
 #define MT_TMAC_ATCR_TXV_TOUT		GENMASK(7, 0)
 
@@ -75,8 +71,6 @@
 #define MT_TMAC_TRCR0_TR2T_CHK		GENMASK(8, 0)
 #define MT_TMAC_TRCR0_I2T_CHK		GENMASK(24, 16)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_TMAC_ICR0(_band)		MT_WF_TMAC(_band, 0x0a4)
 #define MT_IFS_EIFS			GENMASK(8, 0)
 #define MT_IFS_RIFS			GENMASK(14, 10)
@@ -88,10 +82,11 @@
 #define MT_TMAC_CTCR0_INS_DDLMT_EN		BIT(17)
 #define MT_TMAC_CTCR0_INS_DDLMT_VHT_SMPDU_EN	BIT(18)
 
-<<<<<<< HEAD
-=======
-#define MT_TMAC_TRCR0(_band)		MT_WF_TMAC(_band, 0x09c)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#define MT_TMAC_FP0R0(_band)		MT_WF_TMAC(_band, 0x020)
+#define MT_TMAC_FP0R15(_band)		MT_WF_TMAC(_band, 0x080)
+#define MT_TMAC_FP0R18(_band)		MT_WF_TMAC(_band, 0x270)
+#define MT_TMAC_FP_MASK			GENMASK(7, 0)
+
 #define MT_TMAC_TFCR0(_band)		MT_WF_TMAC(_band, 0x1e0)
 
 #define MT_WF_DMA_BASE(_band)		((_band) ? 0xa1e00 : 0x21e00)
@@ -363,31 +358,23 @@
 #define MT_INT_RX_DONE_DATA1		BIT(17)
 #define MT_INT_RX_DONE_WM		BIT(0)
 #define MT_INT_RX_DONE_WA		BIT(1)
-<<<<<<< HEAD
 #define MT_INT_RX_DONE_WA_EXT		BIT(2)
 #define MT_INT_RX_DONE_ALL		(GENMASK(2, 0) | GENMASK(17, 16))
-=======
-#define MT_INT_RX_DONE_ALL		(BIT(0) | BIT(1) | GENMASK(17, 16))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_INT_TX_DONE_MCU_WA		BIT(15)
 #define MT_INT_TX_DONE_FWDL		BIT(26)
 #define MT_INT_TX_DONE_MCU_WM		BIT(27)
 #define MT_INT_TX_DONE_BAND0		BIT(30)
 #define MT_INT_TX_DONE_BAND1		BIT(31)
-<<<<<<< HEAD
 
 #define MT_INT_BAND1_MASK		(MT_INT_RX_DONE_WA_EXT |	\
 					 MT_INT_TX_DONE_BAND1)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_INT_MCU_CMD			BIT(29)
 
 #define MT_INT_TX_DONE_MCU		(MT_INT_TX_DONE_MCU_WA |	\
 					 MT_INT_TX_DONE_MCU_WM |	\
 					 MT_INT_TX_DONE_FWDL)
 
-<<<<<<< HEAD
 #define MT_WFDMA_HOST_CONFIG		MT_WFDMA_EXT_CSR(0x30)
 #define MT_WFDMA_HOST_CONFIG_PDMA_BAND	BIT(0)
 
@@ -401,11 +388,6 @@
 #define MT_PCIE_RECOG_ID_MASK		GENMASK(30, 0)
 #define MT_PCIE_RECOG_ID_SEM		BIT(31)
 
-=======
-#define MT_WFDMA_EXT_CSR_HIF_MISC	MT_WFDMA_EXT_CSR(0x44)
-#define MT_WFDMA_EXT_CSR_HIF_MISC_BUSY	BIT(0)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* WFDMA0 PCIE1 */
 #define MT_WFDMA0_PCIE1_BASE			0xd8000
 #define MT_WFDMA0_PCIE1(ofs)			(MT_WFDMA0_PCIE1_BASE + (ofs))
@@ -424,7 +406,6 @@
 #define MT_WFDMA1_PCIE1_BUSY_ENA_TX_FIFO1	BIT(1)
 #define MT_WFDMA1_PCIE1_BUSY_ENA_RX_FIFO	BIT(2)
 
-<<<<<<< HEAD
 #define MT_TOP_RGU_BASE				0xf0000
 #define MT_TOP_PWR_CTRL				(MT_TOP_RGU_BASE + (0x0))
 #define MT_TOP_PWR_KEY				(0x5746 << 16)
@@ -433,8 +414,6 @@
 #define MT_TOP_PWR_HW_CTRL			BIT(4)
 #define MT_TOP_PWR_PWR_ON			BIT(7)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_INFRA_CFG_BASE		0xf1000
 #define MT_INFRA(ofs)			(MT_INFRA_CFG_BASE + (ofs))
 
@@ -471,13 +450,10 @@
 #define MT_HW_CHIPID			0x70010200
 #define MT_HW_REV			0x70010204
 
-<<<<<<< HEAD
 #define MT_PCIE1_MAC_BASE		0x74020000
 #define MT_PCIE1_MAC(ofs)		(MT_PCIE1_MAC_BASE + (ofs))
 #define MT_PCIE1_MAC_INT_ENABLE		MT_PCIE1_MAC(0x188)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT_PCIE_MAC_BASE		0x74030000
 #define MT_PCIE_MAC(ofs)		(MT_PCIE_MAC_BASE + (ofs))
 #define MT_PCIE_MAC_INT_ENABLE		MT_PCIE_MAC(0x188)

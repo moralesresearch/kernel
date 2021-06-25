@@ -47,14 +47,8 @@ gf119_pmu_fwif[] = {
 };
 
 int
-<<<<<<< HEAD
 gf119_pmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_pmu **ppmu)
 {
 	return nvkm_pmu_new_(gf119_pmu_fwif, device, type, inst, ppmu);
-=======
-gf119_pmu_new(struct nvkm_device *device, int index, struct nvkm_pmu **ppmu)
-{
-	return nvkm_pmu_new_(gf119_pmu_fwif, device, index, ppmu);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

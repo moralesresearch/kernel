@@ -557,10 +557,7 @@ static int smsc911x_mii_read(struct mii_bus *bus, int phyaddr, int regidx)
 	unsigned int addr;
 	int i, reg;
 
-<<<<<<< HEAD
 	pm_runtime_get_sync(bus->parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&pdata->mac_lock, flags);
 
 	/* Confirm MII not busy */
@@ -586,10 +583,7 @@ static int smsc911x_mii_read(struct mii_bus *bus, int phyaddr, int regidx)
 
 out:
 	spin_unlock_irqrestore(&pdata->mac_lock, flags);
-<<<<<<< HEAD
 	pm_runtime_put(bus->parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return reg;
 }
 
@@ -602,10 +596,7 @@ static int smsc911x_mii_write(struct mii_bus *bus, int phyaddr, int regidx,
 	unsigned int addr;
 	int i, reg;
 
-<<<<<<< HEAD
 	pm_runtime_get_sync(bus->parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&pdata->mac_lock, flags);
 
 	/* Confirm MII not busy */
@@ -635,10 +626,7 @@ static int smsc911x_mii_write(struct mii_bus *bus, int phyaddr, int regidx,
 
 out:
 	spin_unlock_irqrestore(&pdata->mac_lock, flags);
-<<<<<<< HEAD
 	pm_runtime_put(bus->parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return reg;
 }
 
@@ -1605,11 +1593,8 @@ static int smsc911x_open(struct net_device *dev)
 	int retval;
 	int irq_flags;
 
-<<<<<<< HEAD
 	pm_runtime_get_sync(dev->dev.parent);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* find and start the given phy */
 	if (!dev->phydev) {
 		retval = smsc911x_mii_probe(dev);
@@ -1756,10 +1741,7 @@ mii_free_out:
 	phy_disconnect(dev->phydev);
 	dev->phydev = NULL;
 out:
-<<<<<<< HEAD
 	pm_runtime_put(dev->dev.parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return retval;
 }
 
@@ -1791,10 +1773,7 @@ static int smsc911x_stop(struct net_device *dev)
 		dev->phydev = NULL;
 	}
 	netif_carrier_off(dev);
-<<<<<<< HEAD
 	pm_runtime_put(dev->dev.parent);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	SMSC_TRACE(pdata, ifdown, "Interface stopped");
 	return 0;
@@ -2363,10 +2342,6 @@ static int smsc911x_drv_remove(struct platform_device *pdev)
 
 	free_netdev(dev);
 
-<<<<<<< HEAD
-=======
-	pm_runtime_put(&pdev->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_disable(&pdev->dev);
 
 	return 0;
@@ -2572,10 +2547,7 @@ static int smsc911x_drv_probe(struct platform_device *pdev)
 	}
 
 	spin_unlock_irq(&pdata->mac_lock);
-<<<<<<< HEAD
 	pm_runtime_put(&pdev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	netdev_info(dev, "MAC Address: %pM\n", dev->dev_addr);
 
@@ -2677,11 +2649,13 @@ static const struct of_device_id smsc911x_dt_ids[] = {
 MODULE_DEVICE_TABLE(of, smsc911x_dt_ids);
 #endif
 
+#ifdef CONFIG_ACPI
 static const struct acpi_device_id smsc911x_acpi_match[] = {
 	{ "ARMH9118", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(acpi, smsc911x_acpi_match);
+#endif
 
 static struct platform_driver smsc911x_driver = {
 	.probe = smsc911x_drv_probe,

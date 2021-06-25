@@ -51,10 +51,8 @@ detailed description):
 	- UWB enable and disable
 	- LCD Shadow (PrivacyGuard) enable and disable
 	- Lap mode sensor
-<<<<<<< HEAD
 	- Setting keyboard language
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	- WWAN Antenna type
 
 A compatibility table by model and feature is maintained on the web
 site, http://ibm-acpi.sf.net/. I appreciate any success or failure
@@ -1470,7 +1468,6 @@ Sysfs notes
 	rfkill controller switch "tpacpi_uwb_sw": refer to
 	Documentation/driver-api/rfkill.rst for details.
 
-<<<<<<< HEAD
 
 Setting keyboard language
 -------------------------
@@ -1494,9 +1491,26 @@ fr(French), fr-ch(French(Switzerland)), hu(Hungarian), it(Italy), jp (Japan),
 nl(Dutch), nn(Norway), pl(Polish), pt(portugese), sl(Slovenian), sv(Sweden),
 tr(Turkey)
 
+WWAN Antenna type
+-----------------
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+sysfs: wwan_antenna_type
+
+On some newer Thinkpads we need to set SAR value based on the antenna
+type. This interface will be used by userspace to get the antenna type
+and set the corresponding SAR value, as is required for FCC certification.
+
+The available commands are::
+
+        cat /sys/devices/platform/thinkpad_acpi/wwan_antenna_type
+
+Currently 2 antenna types are supported as mentioned below:
+- type a
+- type b
+
+The property is read-only. If the platform doesn't have support the sysfs
+class is not created.
+
 Adaptive keyboard
 -----------------
 

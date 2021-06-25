@@ -44,16 +44,7 @@ obj-$(CONFIG_EDAC_IE31200)		+= ie31200_edac.o
 obj-$(CONFIG_EDAC_X38)			+= x38_edac.o
 obj-$(CONFIG_EDAC_I82860)		+= i82860_edac.o
 obj-$(CONFIG_EDAC_R82600)		+= r82600_edac.o
-<<<<<<< HEAD
 obj-$(CONFIG_EDAC_AMD64)		+= amd64_edac.o
-=======
-
-amd64_edac_mod-y := amd64_edac.o
-amd64_edac_mod-$(CONFIG_EDAC_DEBUG) += amd64_edac_dbg.o
-amd64_edac_mod-$(CONFIG_EDAC_AMD64_ERROR_INJECTION) += amd64_edac_inj.o
-
-obj-$(CONFIG_EDAC_AMD64)		+= amd64_edac_mod.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 obj-$(CONFIG_EDAC_PASEMI)		+= pasemi_edac.o
 

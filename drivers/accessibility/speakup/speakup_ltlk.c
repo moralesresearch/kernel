@@ -132,11 +132,7 @@ static void synth_interrogate(struct spk_synth *synth)
 
 	synth->synth_immediate(synth, "\x18\x01?");
 	for (i = 0; i < 50; i++) {
-<<<<<<< HEAD
 		buf[i] = synth->io_ops->synth_in(synth);
-=======
-		buf[i] = synth->io_ops->synth_in();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (i > 2 && buf[i] == 0x7f)
 			break;
 	}

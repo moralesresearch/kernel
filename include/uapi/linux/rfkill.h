@@ -86,7 +86,6 @@ enum rfkill_hard_block_reasons {
  * @op: operation code
  * @hard: hard state (0/1)
  * @soft: soft state (0/1)
-<<<<<<< HEAD
  *
  * Structure used for userspace communication on /dev/rfkill,
  * used for events from the kernel and control to the kernel.
@@ -106,28 +105,20 @@ struct rfkill_event {
  * @op: operation code
  * @hard: hard state (0/1)
  * @soft: soft state (0/1)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @hard_block_reasons: valid if hard is set. One or several reasons from
  *	&enum rfkill_hard_block_reasons.
  *
  * Structure used for userspace communication on /dev/rfkill,
  * used for events from the kernel and control to the kernel.
-<<<<<<< HEAD
  *
  * See the extensibility docs below.
  */
 struct rfkill_event_ext {
-=======
- */
-struct rfkill_event {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__u32 idx;
 	__u8  type;
 	__u8  op;
 	__u8  soft;
 	__u8  hard;
-<<<<<<< HEAD
 
 	/*
 	 * older kernels will accept/send only up to this point,
@@ -179,24 +170,6 @@ struct rfkill_event {
  *    checking against RFKILL_EVENT_SIZE_V1 or such.
  */
 #define RFKILL_EVENT_SIZE_V1	sizeof(struct rfkill_event)
-=======
-	__u8  hard_block_reasons;
-} __attribute__((packed));
-
-/*
- * We are planning to be backward and forward compatible with changes
- * to the event struct, by adding new, optional, members at the end.
- * When reading an event (whether the kernel from userspace or vice
- * versa) we need to accept anything that's at least as large as the
- * version 1 event size, but might be able to accept other sizes in
- * the future.
- *
- * One exception is the kernel -- we already have two event sizes in
- * that we've made the 'hard' member optional since our only option
- * is to ignore it anyway.
- */
-#define RFKILL_EVENT_SIZE_V1	8
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* ioctl for turning off rfkill-input (if present) */
 #define RFKILL_IOC_MAGIC	'R'

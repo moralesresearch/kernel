@@ -309,15 +309,9 @@ static inline bool should_set_clock(bool safe_to_lower, int calc_clk, int cur_cl
 static inline bool should_update_pstate_support(bool safe_to_lower, bool calc_support, bool cur_support)
 {
 	if (cur_support != calc_support) {
-<<<<<<< HEAD
 		if (calc_support && safe_to_lower)
 			return true;
 		else if (!calc_support && !safe_to_lower)
-=======
-		if (calc_support == true && safe_to_lower)
-			return true;
-		else if (calc_support == false && !safe_to_lower)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return true;
 	}
 

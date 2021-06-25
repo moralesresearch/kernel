@@ -63,11 +63,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&led_pin_d978>;
 
-<<<<<<< HEAD
 		led {
-=======
-		home {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "d978:blue:home";
 			gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* PL5 */
 		};

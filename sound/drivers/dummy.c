@@ -25,10 +25,6 @@
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_DESCRIPTION("Dummy soundcard (/dev/null)");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{ALSA,Dummy soundcard}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MAX_PCM_DEVICES		4
 #define MAX_PCM_SUBSTREAMS	128
@@ -239,11 +235,7 @@ struct dummy_systimer_pcm {
 static void dummy_systimer_rearm(struct dummy_systimer_pcm *dpcm)
 {
 	mod_timer(&dpcm->timer, jiffies +
-<<<<<<< HEAD
 		DIV_ROUND_UP(dpcm->frac_period_rest, dpcm->rate));
-=======
-		(dpcm->frac_period_rest + dpcm->rate - 1) / dpcm->rate);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void dummy_systimer_update(struct dummy_systimer_pcm *dpcm)

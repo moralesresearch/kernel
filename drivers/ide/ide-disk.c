@@ -482,11 +482,7 @@ static int set_multcount(ide_drive_t *drive, int arg)
 
 	drive->mult_req = arg;
 	drive->special_flags |= IDE_SFLAG_SET_MULTMODE;
-<<<<<<< HEAD
 	blk_execute_rq(NULL, rq, 0);
-=======
-	blk_execute_rq(drive->queue, NULL, rq, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_put_request(rq);
 
 	return (drive->mult_count == arg) ? 0 : -EIO;

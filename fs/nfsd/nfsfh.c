@@ -40,12 +40,8 @@ static int nfsd_acceptable(void *expv, struct dentry *dentry)
 		/* make sure parents give x permission to user */
 		int err;
 		parent = dget_parent(tdentry);
-<<<<<<< HEAD
 		err = inode_permission(&init_user_ns,
 				       d_inode(parent), MAY_EXEC);
-=======
-		err = inode_permission(d_inode(parent), MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0) {
 			dput(parent);
 			break;
@@ -354,11 +350,7 @@ out:
 __be32
 fh_verify(struct svc_rqst *rqstp, struct svc_fh *fhp, umode_t type, int access)
 {
-<<<<<<< HEAD
 	struct svc_export *exp = NULL;
-=======
-	struct svc_export *exp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dentry	*dentry;
 	__be32		error;
 
@@ -431,11 +423,7 @@ skip_pseudoflavor_check:
 	}
 out:
 	if (error == nfserr_stale)
-<<<<<<< HEAD
 		nfsd_stats_fh_stale_inc(exp);
-=======
-		nfsdstats.fh_stale++;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return error;
 }
 
@@ -723,7 +711,7 @@ char * SVCFH_fmt(struct svc_fh *fhp)
 	return buf;
 }
 
-enum fsid_source fsid_source(struct svc_fh *fhp)
+enum fsid_source fsid_source(const struct svc_fh *fhp)
 {
 	if (fhp->fh_handle.fh_version != 1)
 		return FSIDSOURCE_DEV;

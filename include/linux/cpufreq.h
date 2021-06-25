@@ -387,7 +387,6 @@ struct cpufreq_driver {
 
 /* flags */
 
-<<<<<<< HEAD
 /*
  * Set by drivers that need to update internale upper and lower boundaries along
  * with the target frequency and so the core and governors should also invoke
@@ -395,24 +394,15 @@ struct cpufreq_driver {
  * may have changed.
  */
 #define CPUFREQ_NEED_UPDATE_LIMITS		BIT(0)
-=======
-/* driver isn't removed even if all ->init() calls failed */
-#define CPUFREQ_STICKY				BIT(0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* loops_per_jiffy or other kernel "constants" aren't affected by frequency transitions */
 #define CPUFREQ_CONST_LOOPS			BIT(1)
 
-<<<<<<< HEAD
 /*
  * Set by drivers that want the core to automatically register the cpufreq
  * driver as a thermal cooling device.
  */
 #define CPUFREQ_IS_COOLING_DEV			BIT(2)
-=======
-/* don't warn on suspend/resume speed mismatches */
-#define CPUFREQ_PM_NO_WARN			BIT(2)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * This should be set by platforms having multiple clock-domains, i.e.
@@ -444,23 +434,6 @@ struct cpufreq_driver {
  */
 #define CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING	BIT(6)
 
-<<<<<<< HEAD
-=======
-/*
- * Set by drivers that want the core to automatically register the cpufreq
- * driver as a thermal cooling device.
- */
-#define CPUFREQ_IS_COOLING_DEV			BIT(7)
-
-/*
- * Set by drivers that need to update internale upper and lower boundaries along
- * with the target frequency and so the core and governors should also invoke
- * the diver if the target frequency does not change, but the policy min or max
- * may have changed.
- */
-#define CPUFREQ_NEED_UPDATE_LIMITS		BIT(8)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int cpufreq_register_driver(struct cpufreq_driver *driver_data);
 int cpufreq_unregister_driver(struct cpufreq_driver *driver_data);
 

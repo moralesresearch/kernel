@@ -346,13 +346,8 @@ routine.
 Before inventing your own cache of often-used objects consider using a
 slab cache in ``include/linux/slab.h``
 
-<<<<<<< HEAD
 :c:macro:`current`
 ------------------
-=======
-:c:func:`current()`
--------------------
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Defined in ``include/asm/current.h``
 

@@ -5,7 +5,7 @@
  */
 
 #include <drm/drm_atomic_uapi.h>
-#include <drm/drm_gem_framebuffer_helper.h>
+#include <drm/drm_gem_atomic_helper.h>
 #include <drm/drm_vblank.h>
 
 #include "msm_atomic_trace.h"
@@ -22,7 +22,7 @@ int msm_atomic_prepare_fb(struct drm_plane *plane,
 	if (!new_state->fb)
 		return 0;
 
-	drm_gem_fb_prepare_fb(plane, new_state);
+	drm_gem_plane_helper_prepare_fb(plane, new_state);
 
 	return msm_framebuffer_prepare(new_state->fb, kms->aspace);
 }
@@ -57,7 +57,6 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
 
 static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
 {
-<<<<<<< HEAD
 	int crtc_index;
 	struct drm_crtc *crtc;
 
@@ -65,12 +64,6 @@ static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
 		crtc_index = drm_crtc_index(crtc);
 		mutex_lock_nested(&kms->commit_lock[crtc_index], crtc_index);
 	}
-=======
-	struct drm_crtc *crtc;
-
-	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
-		mutex_lock(&kms->commit_lock[drm_crtc_index(crtc)]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void unlock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)

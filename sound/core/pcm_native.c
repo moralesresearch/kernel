@@ -209,31 +209,13 @@ int snd_pcm_info(struct snd_pcm_substream *substream, struct snd_pcm_info *info)
 	info->device = pcm->device;
 	info->stream = substream->stream;
 	info->subdevice = substream->number;
-<<<<<<< HEAD
 	strscpy(info->id, pcm->id, sizeof(info->id));
 	strscpy(info->name, pcm->name, sizeof(info->name));
-=======
-<<<<<<< HEAD
-	strscpy(info->id, pcm->id, sizeof(info->id));
-	strscpy(info->name, pcm->name, sizeof(info->name));
-=======
-	strlcpy(info->id, pcm->id, sizeof(info->id));
-	strlcpy(info->name, pcm->name, sizeof(info->name));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info->dev_class = pcm->dev_class;
 	info->dev_subclass = pcm->dev_subclass;
 	info->subdevices_count = pstr->substream_count;
 	info->subdevices_avail = pstr->substream_count - pstr->substream_opened;
-<<<<<<< HEAD
 	strscpy(info->subname, substream->name, sizeof(info->subname));
-=======
-<<<<<<< HEAD
-	strscpy(info->subname, substream->name, sizeof(info->subname));
-=======
-	strlcpy(info->subname, substream->name, sizeof(info->subname));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1443,7 +1425,7 @@ static int snd_pcm_do_stop(struct snd_pcm_substream *substream,
 		substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_STOP);
 		substream->runtime->stop_operating = true;
 	}
-	return 0; /* unconditonally stop all substreams */
+	return 0; /* unconditionally stop all substreams */
 }
 
 static void snd_pcm_post_stop(struct snd_pcm_substream *substream,
@@ -1487,7 +1469,7 @@ EXPORT_SYMBOL(snd_pcm_stop);
  * After stopping, the state is changed to SETUP.
  * Unlike snd_pcm_stop(), this affects only the given stream.
  *
- * Return: Zero if succesful, or a negative error code.
+ * Return: Zero if successful, or a negative error code.
  */
 int snd_pcm_drain_done(struct snd_pcm_substream *substream)
 {
@@ -1692,10 +1674,6 @@ int snd_pcm_suspend_all(struct snd_pcm *pcm)
 	if (! pcm)
 		return 0;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for_each_pcm_substream(pcm, stream, substream) {
 		/* FIXME: the open/close code should lock this as well */
 		if (!substream->runtime)
@@ -1715,35 +1693,6 @@ int snd_pcm_suspend_all(struct snd_pcm *pcm)
 
 	for_each_pcm_substream(pcm, stream, substream)
 		snd_pcm_sync_stop(substream, false);
-<<<<<<< HEAD
-=======
-=======
-	for (stream = 0; stream < 2; stream++) {
-		for (substream = pcm->streams[stream].substream;
-		     substream; substream = substream->next) {
-			/* FIXME: the open/close code should lock this as well */
-			if (substream->runtime == NULL)
-				continue;
-
-			/*
-			 * Skip BE dai link PCM's that are internal and may
-			 * not have their substream ops set.
-			 */
-			if (!substream->ops)
-				continue;
-
-			err = snd_pcm_suspend(substream);
-			if (err < 0 && err != -EBUSY)
-				return err;
-		}
-	}
-
-	for (stream = 0; stream < 2; stream++)
-		for (substream = pcm->streams[stream].substream;
-		     substream; substream = substream->next)
-			snd_pcm_sync_stop(substream, false);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

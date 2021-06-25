@@ -99,14 +99,6 @@ int aiu_fifo_hw_params(struct snd_pcm_substream *substream,
 	struct snd_soc_component *component = dai->component;
 	struct aiu_fifo *fifo = dai->playback_dma_data;
 	dma_addr_t end;
-<<<<<<< HEAD
-=======
-	int ret;
-
-	ret = snd_pcm_lib_malloc_pages(substream, params_buffer_bytes(params));
-	if (ret < 0)
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Setup the fifo boundaries */
 	end = runtime->dma_addr + runtime->dma_bytes - fifo->fifo_block;
@@ -127,15 +119,6 @@ int aiu_fifo_hw_params(struct snd_pcm_substream *substream,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-int aiu_fifo_hw_free(struct snd_pcm_substream *substream,
-		     struct snd_soc_dai *dai)
-{
-	return snd_pcm_lib_free_pages(substream);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static irqreturn_t aiu_fifo_isr(int irq, void *dev_id)
 {
 	struct snd_pcm_substream *playback = dev_id;
@@ -193,23 +176,12 @@ void aiu_fifo_shutdown(struct snd_pcm_substream *substream,
 int aiu_fifo_pcm_new(struct snd_soc_pcm_runtime *rtd,
 		     struct snd_soc_dai *dai)
 {
-<<<<<<< HEAD
-=======
-	struct snd_pcm_substream *substream =
-		rtd->pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_card *card = rtd->card->snd_card;
 	struct aiu_fifo *fifo = dai->playback_dma_data;
 	size_t size = fifo->pcm->buffer_bytes_max;
 
-<<<<<<< HEAD
 	snd_pcm_set_managed_buffer_all(rtd->pcm, SNDRV_DMA_TYPE_DEV,
 				       card->dev, size, size);
-=======
-	snd_pcm_lib_preallocate_pages(substream,
-				      SNDRV_DMA_TYPE_DEV,
-				      card->dev, size, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

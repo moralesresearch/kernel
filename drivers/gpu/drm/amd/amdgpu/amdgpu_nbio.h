@@ -47,6 +47,17 @@ struct nbio_hdp_flush_reg {
 	u32 ref_and_mask_sdma7;
 };
 
+struct amdgpu_nbio_ras_funcs {
+	void (*handle_ras_controller_intr_no_bifring)(struct amdgpu_device *adev);
+	void (*handle_ras_err_event_athub_intr_no_bifring)(struct amdgpu_device *adev);
+	int (*init_ras_controller_interrupt)(struct amdgpu_device *adev);
+	int (*init_ras_err_event_athub_interrupt)(struct amdgpu_device *adev);
+	void (*query_ras_error_count)(struct amdgpu_device *adev,
+				      void *ras_error_status);
+	int (*ras_late_init)(struct amdgpu_device *adev);
+	void (*ras_fini)(struct amdgpu_device *adev);
+};
+
 struct amdgpu_nbio_funcs {
 	const struct nbio_hdp_flush_reg *hdp_flush_reg;
 	u32 (*get_hdp_flush_req_offset)(struct amdgpu_device *adev);
@@ -57,10 +68,6 @@ struct amdgpu_nbio_funcs {
 	u32 (*get_pcie_port_data_offset)(struct amdgpu_device *adev);
 	u32 (*get_rev_id)(struct amdgpu_device *adev);
 	void (*mc_access_enable)(struct amdgpu_device *adev, bool enable);
-<<<<<<< HEAD
-=======
-	void (*hdp_flush)(struct amdgpu_device *adev, struct amdgpu_ring *ring);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 (*get_memsize)(struct amdgpu_device *adev);
 	void (*sdma_doorbell_range)(struct amdgpu_device *adev, int instance,
 			bool use_doorbell, int doorbell_index, int doorbell_size);
@@ -83,19 +90,9 @@ struct amdgpu_nbio_funcs {
 	void (*ih_control)(struct amdgpu_device *adev);
 	void (*init_registers)(struct amdgpu_device *adev);
 	void (*remap_hdp_registers)(struct amdgpu_device *adev);
-	void (*handle_ras_controller_intr_no_bifring)(struct amdgpu_device *adev);
-	void (*handle_ras_err_event_athub_intr_no_bifring)(struct amdgpu_device *adev);
-	int (*init_ras_controller_interrupt)(struct amdgpu_device *adev);
-	int (*init_ras_err_event_athub_interrupt)(struct amdgpu_device *adev);
-	void (*query_ras_error_count)(struct amdgpu_device *adev,
-					void *ras_error_status);
-	int (*ras_late_init)(struct amdgpu_device *adev);
 	void (*enable_aspm)(struct amdgpu_device *adev,
 			    bool enable);
-<<<<<<< HEAD
 	void (*program_aspm)(struct amdgpu_device *adev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct amdgpu_nbio {
@@ -104,6 +101,7 @@ struct amdgpu_nbio {
 	struct amdgpu_irq_src ras_err_event_athub_irq;
 	struct ras_common_if *ras_if;
 	const struct amdgpu_nbio_funcs *funcs;
+	const struct amdgpu_nbio_ras_funcs *ras_funcs;
 };
 
 int amdgpu_nbio_ras_late_init(struct amdgpu_device *adev);

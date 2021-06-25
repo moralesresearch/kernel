@@ -75,7 +75,7 @@ static bool page_handle_poison(struct page *page, bool hugepage_or_freepage, boo
 		if (dissolve_free_huge_page(page) || !take_page_off_buddy(page))
 			/*
 			 * We could fail to take off the target page from buddy
-			 * for example due to racy page allocaiton, but that's
+			 * for example due to racy page allocation, but that's
 			 * acceptable because soft-offlined page is not broken
 			 * and if someone really want to use it, they should
 			 * take it.
@@ -243,10 +243,6 @@ static int kill_proc(struct to_kill *tk, unsigned long pfn, int flags)
 			pfn, t->comm, t->pid);
 
 	if (flags & MF_ACTION_REQUIRED) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (t == current)
 			ret = force_sig_mceerr(BUS_MCEERR_AR,
 					 (void __user *)tk->addr, addr_lsb);
@@ -254,14 +250,6 @@ static int kill_proc(struct to_kill *tk, unsigned long pfn, int flags)
 			/* Signal other processes sharing the page if they have PF_MCE_EARLY set. */
 			ret = send_sig_mceerr(BUS_MCEERR_AO, (void __user *)tk->addr,
 				addr_lsb, t);
-<<<<<<< HEAD
-=======
-=======
-		WARN_ON_ONCE(t != current);
-		ret = force_sig_mceerr(BUS_MCEERR_AR,
-					 (void __user *)tk->addr, addr_lsb);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		/*
 		 * Don't use force here, it's convenient if the signal
@@ -456,10 +444,6 @@ static struct task_struct *find_early_kill_thread(struct task_struct *tsk)
  * Determine whether a given process is "early kill" process which expects
  * to be signaled when some page under the process is hwpoisoned.
  * Return task_struct of the dedicated thread (main thread unless explicitly
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * specified) if the process is "early kill" and otherwise returns NULL.
  *
  * Note that the above is true for Action Optional case. For Action Required
@@ -467,25 +451,12 @@ static struct task_struct *find_early_kill_thread(struct task_struct *tsk)
  * with SIGBUS, this error is Action Optional for other non current
  * processes sharing the same error page,if the process is "early kill", the
  * task_struct of the dedicated thread will also be returned.
-<<<<<<< HEAD
-=======
-=======
- * specified) if the process is "early kill," and otherwise returns NULL.
- *
- * Note that the above is true for Action Optional case, but not for Action
- * Required case where SIGBUS should sent only to the current thread.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static struct task_struct *task_early_kill(struct task_struct *tsk,
 					   int force_early)
 {
 	if (!tsk->mm)
 		return NULL;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Comparing ->mm here because current task might represent
 	 * a subthread, while tsk always points to the main thread.
@@ -493,21 +464,6 @@ static struct task_struct *task_early_kill(struct task_struct *tsk,
 	if (force_early && tsk->mm == current->mm)
 		return current;
 
-<<<<<<< HEAD
-=======
-=======
-	if (force_early) {
-		/*
-		 * Comparing ->mm here because current task might represent
-		 * a subthread, while tsk always points to the main thread.
-		 */
-		if (tsk->mm == current->mm)
-			return current;
-		else
-			return NULL;
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return find_early_kill_thread(tsk);
 }
 
@@ -993,7 +949,6 @@ static int page_action(struct page_state *ps, struct page *p,
 	return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
 }
 
-<<<<<<< HEAD
 /*
  * Return true if a page type of a given page is supported by hwpoison
  * mechanism (while handling could fail), otherwise false.  This function
@@ -1005,8 +960,6 @@ static inline bool HWPoisonHandlable(struct page *page)
 	return PageLRU(page) || __PageMovable(page);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * __get_hwpoison_page() - Get refcount for memory error handling:
  * @page:	raw error page (hit by memory error)
@@ -1017,7 +970,6 @@ static inline bool HWPoisonHandlable(struct page *page)
 static int __get_hwpoison_page(struct page *page)
 {
 	struct page *head = compound_head(page);
-<<<<<<< HEAD
 	int ret = 0;
 	bool hugetlb = false;
 
@@ -1034,10 +986,6 @@ static int __get_hwpoison_page(struct page *page)
 		return 0;
 
 	if (PageTransHuge(head)) {
-=======
-
-	if (!PageHuge(head) && PageTransHuge(head)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Non anonymous thp exists only in allocation/free time. We
 		 * can't handle such a case correctly, so let's give it up.
@@ -1094,11 +1042,7 @@ try_again:
 			ret = -EIO;
 		}
 	} else {
-<<<<<<< HEAD
 		if (PageHuge(p) || HWPoisonHandlable(p)) {
-=======
-		if (PageHuge(p) || PageLRU(p) || __PageMovable(p)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = 1;
 		} else {
 			/*
@@ -1449,11 +1393,7 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
 		 * communicated in siginfo, see kill_proc()
 		 */
 		start = (page->index << PAGE_SHIFT) & ~(size - 1);
-<<<<<<< HEAD
 		unmap_mapping_range(page->mapping, start, size, 0);
-=======
-		unmap_mapping_range(page->mapping, start, start + size, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	kill_procs(&tokill, flags & MF_MUST_KILL, !unmap_success, pfn, flags);
 	rc = 0;
@@ -1612,16 +1552,12 @@ try_again:
 		return 0;
 	}
 
-<<<<<<< HEAD
 	/*
 	 * __munlock_pagevec may clear a writeback page's LRU flag without
 	 * page_lock. We need wait writeback completion for this page or it
 	 * may trigger vfs BUG while evict inode.
 	 */
 	if (!PageTransTail(p) && !PageLRU(p) && !PageWriteback(p))
-=======
-	if (!PageTransTail(p) && !PageLRU(p))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto identify_page_state;
 
 	/*

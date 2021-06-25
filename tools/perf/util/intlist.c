@@ -13,11 +13,7 @@
 static struct rb_node *intlist__node_new(struct rblist *rblist __maybe_unused,
 					 const void *entry)
 {
-<<<<<<< HEAD
 	unsigned long i = (unsigned long)entry;
-=======
-	int i = (int)((long)entry);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rb_node *rc = NULL;
 	struct int_node *node = malloc(sizeof(*node));
 
@@ -45,7 +41,6 @@ static void intlist__node_delete(struct rblist *rblist __maybe_unused,
 
 static int intlist__node_cmp(struct rb_node *rb_node, const void *entry)
 {
-<<<<<<< HEAD
 	unsigned long i = (unsigned long)entry;
 	struct int_node *node = container_of(rb_node, struct int_node, rb_node);
 
@@ -60,17 +55,6 @@ static int intlist__node_cmp(struct rb_node *rb_node, const void *entry)
 int intlist__add(struct intlist *ilist, unsigned long i)
 {
 	return rblist__add_node(&ilist->rblist, (void *)i);
-=======
-	int i = (int)((long)entry);
-	struct int_node *node = container_of(rb_node, struct int_node, rb_node);
-
-	return node->i - i;
-}
-
-int intlist__add(struct intlist *ilist, int i)
-{
-	return rblist__add_node(&ilist->rblist, (void *)((long)i));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void intlist__remove(struct intlist *ilist, struct int_node *node)
@@ -79,11 +63,7 @@ void intlist__remove(struct intlist *ilist, struct int_node *node)
 }
 
 static struct int_node *__intlist__findnew(struct intlist *ilist,
-<<<<<<< HEAD
 					   unsigned long i, bool create)
-=======
-					   int i, bool create)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct int_node *node = NULL;
 	struct rb_node *rb_node;
@@ -92,15 +72,9 @@ static struct int_node *__intlist__findnew(struct intlist *ilist,
 		return NULL;
 
 	if (create)
-<<<<<<< HEAD
 		rb_node = rblist__findnew(&ilist->rblist, (void *)i);
 	else
 		rb_node = rblist__find(&ilist->rblist, (void *)i);
-=======
-		rb_node = rblist__findnew(&ilist->rblist, (void *)((long)i));
-	else
-		rb_node = rblist__find(&ilist->rblist, (void *)((long)i));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rb_node)
 		node = container_of(rb_node, struct int_node, rb_node);
@@ -108,20 +82,12 @@ static struct int_node *__intlist__findnew(struct intlist *ilist,
 	return node;
 }
 
-<<<<<<< HEAD
 struct int_node *intlist__find(struct intlist *ilist, unsigned long i)
-=======
-struct int_node *intlist__find(struct intlist *ilist, int i)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return __intlist__findnew(ilist, i, false);
 }
 
-<<<<<<< HEAD
 struct int_node *intlist__findnew(struct intlist *ilist, unsigned long i)
-=======
-struct int_node *intlist__findnew(struct intlist *ilist, int i)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return __intlist__findnew(ilist, i, true);
 }
@@ -132,11 +98,7 @@ static int intlist__parse_list(struct intlist *ilist, const char *s)
 	int err;
 
 	do {
-<<<<<<< HEAD
 		unsigned long value = strtol(s, &sep, 10);
-=======
-		long value = strtol(s, &sep, 10);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		if (*sep != ',' && *sep != '\0')
 			break;

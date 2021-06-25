@@ -185,11 +185,7 @@ static int nvmet_bdev_alloc_bip(struct nvmet_req *req, struct bio *bio,
 	}
 
 	bip = bio_integrity_alloc(bio, GFP_NOIO,
-<<<<<<< HEAD
 					bio_max_segs(req->metadata_sg_cnt));
-=======
-		min_t(unsigned int, req->metadata_sg_cnt, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(bip)) {
 		pr_err("Unable to allocate bio_integrity_payload\n");
 		return PTR_ERR(bip);
@@ -229,11 +225,7 @@ static int nvmet_bdev_alloc_bip(struct nvmet_req *req, struct bio *bio,
 
 static void nvmet_bdev_execute_rw(struct nvmet_req *req)
 {
-<<<<<<< HEAD
 	unsigned int sg_cnt = req->sg_cnt;
-=======
-	int sg_cnt = req->sg_cnt;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bio *bio;
 	struct scatterlist *sg;
 	struct blk_plug plug;
@@ -264,7 +256,6 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
 	if (is_pci_p2pdma_page(sg_page(req->sg)))
 		op |= REQ_NOMERGE;
 
-<<<<<<< HEAD
 	sector = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
 
 	if (nvmet_use_inline_bvec(req)) {
@@ -272,16 +263,6 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
 		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
 	} else {
 		bio = bio_alloc(GFP_KERNEL, bio_max_segs(sg_cnt));
-=======
-	sector = le64_to_cpu(req->cmd->rw.slba);
-	sector <<= (req->ns->blksize_shift - 9);
-
-	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
-		bio = &req->b.inline_bio;
-		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
-	} else {
-		bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	bio_set_dev(bio, req->ns->bdev);
 	bio->bi_iter.bi_sector = sector;
@@ -308,11 +289,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
 				}
 			}
 
-<<<<<<< HEAD
 			bio = bio_alloc(GFP_KERNEL, bio_max_segs(sg_cnt));
-=======
-			bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			bio_set_dev(bio, req->ns->bdev);
 			bio->bi_iter.bi_sector = sector;
 			bio->bi_opf = op;
@@ -355,11 +332,7 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
 
 u16 nvmet_bdev_flush(struct nvmet_req *req)
 {
-<<<<<<< HEAD
 	if (blkdev_issue_flush(req->ns->bdev))
-=======
-	if (blkdev_issue_flush(req->ns->bdev, GFP_KERNEL))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NVME_SC_INTERNAL | NVME_SC_DNR;
 	return 0;
 }
@@ -371,11 +344,7 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
 	int ret;
 
 	ret = __blkdev_issue_discard(ns->bdev,
-<<<<<<< HEAD
 			nvmet_lba_to_sect(ns, range->slba),
-=======
-			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
 			GFP_KERNEL, 0, bio);
 	if (ret && ret != -EOPNOTSUPP) {
@@ -444,12 +413,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
 	if (!nvmet_check_transfer_len(req, 0))
 		return;
 
-<<<<<<< HEAD
 	sector = nvmet_lba_to_sect(req->ns, write_zeroes->slba);
-=======
-	sector = le64_to_cpu(write_zeroes->slba) <<
-		(req->ns->blksize_shift - 9);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
 		(req->ns->blksize_shift - 9));
 
@@ -485,13 +449,6 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
 		req->execute = nvmet_bdev_execute_write_zeroes;
 		return 0;
 	default:
-<<<<<<< HEAD
 		return nvmet_report_invalid_opcode(req);
-=======
-		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
-		       req->sq->qid);
-		req->error_loc = offsetof(struct nvme_common_command, opcode);
-		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }

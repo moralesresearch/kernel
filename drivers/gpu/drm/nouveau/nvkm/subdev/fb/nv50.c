@@ -262,26 +262,15 @@ nv50_fb_ = {
 
 int
 nv50_fb_new_(const struct nv50_fb_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
-=======
-	     int index, struct nvkm_fb **pfb)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv50_fb *fb;
 
 	if (!(fb = kzalloc(sizeof(*fb), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_fb_ctor(&nv50_fb_, device, type, inst, &fb->base);
 	fb->func = func;
 	*pfb = &fb->base;
-=======
-	nvkm_fb_ctor(&nv50_fb_, device, index, &fb->base);
-	fb->func = func;
-	*pfb = &fb->base;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -293,13 +282,7 @@ nv50_fb = {
 };
 
 int
-<<<<<<< HEAD
 nv50_fb_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
 {
 	return nv50_fb_new_(&nv50_fb, device, type, inst, pfb);
-=======
-nv50_fb_new(struct nvkm_device *device, int index, struct nvkm_fb **pfb)
-{
-	return nv50_fb_new_(&nv50_fb, device, index, pfb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

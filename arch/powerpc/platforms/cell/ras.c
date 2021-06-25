@@ -49,11 +49,7 @@ static void dump_fir(int cpu)
 
 }
 
-<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER(cbe_system_error_exception)
-=======
-void cbe_system_error_exception(struct pt_regs *regs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int cpu = smp_processor_id();
 
@@ -62,11 +58,7 @@ void cbe_system_error_exception(struct pt_regs *regs)
 	dump_stack();
 }
 
-<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER(cbe_maintenance_exception)
-=======
-void cbe_maintenance_exception(struct pt_regs *regs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int cpu = smp_processor_id();
 
@@ -78,11 +70,7 @@ void cbe_maintenance_exception(struct pt_regs *regs)
 	dump_stack();
 }
 
-<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER(cbe_thermal_exception)
-=======
-void cbe_thermal_exception(struct pt_regs *regs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int cpu = smp_processor_id();
 

@@ -51,10 +51,6 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 	if (IS_ERR(vbox))
 		return PTR_ERR(vbox);
 
-<<<<<<< HEAD
-=======
-	vbox->ddev.pdev = pdev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, vbox);
 	mutex_init(&vbox->hw_mutex);
 
@@ -112,25 +108,16 @@ static void vbox_pci_remove(struct pci_dev *pdev)
 static int vbox_pm_suspend(struct device *dev)
 {
 	struct vbox_private *vbox = dev_get_drvdata(dev);
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int error;
 
 	error = drm_mode_config_helper_suspend(&vbox->ddev);
 	if (error)
 		return error;
 
-<<<<<<< HEAD
 	pci_save_state(pdev);
 	pci_disable_device(pdev);
 	pci_set_power_state(pdev, PCI_D3hot);
-=======
-	pci_save_state(vbox->ddev.pdev);
-	pci_disable_device(vbox->ddev.pdev);
-	pci_set_power_state(vbox->ddev.pdev, PCI_D3hot);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -138,14 +125,9 @@ static int vbox_pm_suspend(struct device *dev)
 static int vbox_pm_resume(struct device *dev)
 {
 	struct vbox_private *vbox = dev_get_drvdata(dev);
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev);
 
 	if (pci_enable_device(pdev))
-=======
-
-	if (pci_enable_device(vbox->ddev.pdev))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EIO;
 
 	return drm_mode_config_helper_resume(&vbox->ddev);

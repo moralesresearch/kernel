@@ -1,4 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+/*
+ * KCSAN core runtime.
+ *
+ * Copyright (C) 2019, Google LLC.
+ */
 
 #define pr_fmt(fmt) "kcsan: " fmt
 
@@ -639,11 +644,6 @@ void __init kcsan_init(void)
 
 	BUG_ON(!in_task());
 
-<<<<<<< HEAD
-=======
-	kcsan_debugfs_init();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for_each_possible_cpu(cpu)
 		per_cpu(kcsan_rand_state, cpu) = (u32)get_cycles();
 

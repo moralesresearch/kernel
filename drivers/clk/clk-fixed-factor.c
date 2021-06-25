@@ -64,7 +64,6 @@ const struct clk_ops clk_fixed_factor_ops = {
 };
 EXPORT_SYMBOL_GPL(clk_fixed_factor_ops);
 
-<<<<<<< HEAD
 static void devm_clk_hw_register_fixed_factor_release(struct device *dev, void *res)
 {
 	struct clk_fixed_factor *fix = res;
@@ -82,12 +81,6 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
 		const char *name, const char *parent_name, int index,
 		unsigned long flags, unsigned int mult, unsigned int div,
 		bool devm)
-=======
-static struct clk_hw *
-__clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
-		const char *name, const char *parent_name, int index,
-		unsigned long flags, unsigned int mult, unsigned int div)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct clk_fixed_factor *fix;
 	struct clk_init_data init = { };
@@ -95,7 +88,6 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
 	struct clk_hw *hw;
 	int ret;
 
-<<<<<<< HEAD
 	/* You can't use devm without a dev */
 	if (devm && !dev)
 		return ERR_PTR(-EINVAL);
@@ -105,9 +97,6 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
 				sizeof(*fix), GFP_KERNEL);
 	else
 		fix = kmalloc(sizeof(*fix), GFP_KERNEL);
-=======
-	fix = kmalloc(sizeof(*fix), GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fix)
 		return ERR_PTR(-ENOMEM);
 
@@ -131,7 +120,6 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
 	else
 		ret = of_clk_hw_register(np, hw);
 	if (ret) {
-<<<<<<< HEAD
 		if (devm)
 			devres_free(fix);
 		else
@@ -139,11 +127,6 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
 		hw = ERR_PTR(ret);
 	} else if (devm)
 		devres_add(dev, fix);
-=======
-		kfree(fix);
-		hw = ERR_PTR(ret);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return hw;
 }
@@ -153,11 +136,7 @@ struct clk_hw *clk_hw_register_fixed_factor(struct device *dev,
 		unsigned int mult, unsigned int div)
 {
 	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
-<<<<<<< HEAD
 					      flags, mult, div, false);
-=======
-					      flags, mult, div);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor);
 
@@ -199,7 +178,6 @@ void clk_hw_unregister_fixed_factor(struct clk_hw *hw)
 }
 EXPORT_SYMBOL_GPL(clk_hw_unregister_fixed_factor);
 
-<<<<<<< HEAD
 struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
 		const char *name, const char *parent_name, unsigned long flags,
 		unsigned int mult, unsigned int div)
@@ -209,8 +187,6 @@ struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
 }
 EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_OF
 static const struct of_device_id set_rate_parent_matches[] = {
 	{ .compatible = "allwinner,sun4i-a10-pll3-2x-clk" },
@@ -243,11 +219,7 @@ static struct clk_hw *_of_fixed_factor_clk_setup(struct device_node *node)
 		flags |= CLK_SET_RATE_PARENT;
 
 	hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, 0,
-<<<<<<< HEAD
 					    flags, mult, div, false);
-=======
-					    flags, mult, div);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(hw)) {
 		/*
 		 * Clear OF_POPULATED flag so that clock registration can be

@@ -1165,11 +1165,7 @@ megaraid_mbox_setup_dma_pools(adapter_t *adapter)
 	 * structure
 	 * Since passthru and extended passthru commands are exclusive, they
 	 * share common memory pool. Passthru structures piggyback on memory
-<<<<<<< HEAD
 	 * allocated to extended passthru since passthru is smaller of the two
-=======
-	 * allocted to extended passthru since passthru is smaller of the two
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	raid_dev->epthru_pool_handle = dma_pool_create("megaraid mbox pthru",
 			&adapter->pdev->dev, sizeof(mraid_epassthru_t), 128, 0);
@@ -1431,7 +1427,7 @@ mbox_post_cmd(adapter_t *adapter, scb_t *scb)
 
 
 /**
- * megaraid_queue_command - generic queue entry point for all LLDs
+ * megaraid_queue_command_lck - generic queue entry point for all LLDs
  * @scp		: pointer to the scsi command to be executed
  * @done	: callback routine to be called after the cmd has be completed
  *
@@ -4072,5 +4068,3 @@ megaraid_sysfs_show_ldnum(struct device *dev, struct device_attribute *attr, cha
  */
 module_init(megaraid_init);
 module_exit(megaraid_exit);
-
-/* vim: set ts=8 sw=8 tw=78 ai si: */

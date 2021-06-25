@@ -726,7 +726,6 @@
 			#size-cells = <0>;
 		};
 
-<<<<<<< HEAD
 		mali: gpu@1c40000 {
 			compatible = "allwinner,sun4i-a10-mali", "arm,mali-400";
 			reg = <0x01c40000 0x10000>;
@@ -739,8 +738,6 @@
 			assigned-clock-rates = <320000000>;
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		timer@1c60000 {
 			compatible = "allwinner,sun5i-a13-hstimer";
 			reg = <0x01c60000 0x1000>;

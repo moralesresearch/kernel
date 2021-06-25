@@ -28,10 +28,7 @@ perf_msr_probe(struct perf_msr *msr, int cnt, bool zero, void *data)
 	for (bit = 0; bit < cnt; bit++) {
 		if (!msr[bit].no_check) {
 			struct attribute_group *grp = msr[bit].grp;
-<<<<<<< HEAD
 			u64 mask;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* skip entry with no group */
 			if (!grp)
@@ -48,17 +45,12 @@ perf_msr_probe(struct perf_msr *msr, int cnt, bool zero, void *data)
 			/* Virt sucks; you cannot tell if a R/O MSR is present :/ */
 			if (rdmsrl_safe(msr[bit].msr, &val))
 				continue;
-<<<<<<< HEAD
 
 			mask = msr[bit].mask;
 			if (!mask)
 				mask = ~0ULL;
 			/* Disable zero counters if requested. */
 			if (!zero && !(val & mask))
-=======
-			/* Disable zero counters if requested. */
-			if (!zero && !val)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				continue;
 
 			grp->is_visible = NULL;

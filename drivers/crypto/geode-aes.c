@@ -10,10 +10,7 @@
 #include <linux/spinlock.h>
 #include <crypto/algapi.h>
 #include <crypto/aes.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/skcipher.h>
 
 #include <linux/io.h>
@@ -24,7 +21,7 @@
 /* Static structures */
 
 static void __iomem *_iobase;
-static spinlock_t lock;
+static DEFINE_SPINLOCK(lock);
 
 /* Write a 128 bit field (either a writable key or IV) */
 static inline void
@@ -386,8 +383,6 @@ static int geode_aes_probe(struct pci_dev *dev, const struct pci_device_id *id)
 		goto erequest;
 	}
 
-	spin_lock_init(&lock);
-
 	/* Clear any pending activity */
 	iowrite32(AES_INTR_PENDING | AES_INTR_MASK, _iobase + AES_INTR_REG);
 
@@ -438,7 +433,4 @@ module_pci_driver(geode_aes_driver);
 MODULE_AUTHOR("Advanced Micro Devices, Inc.");
 MODULE_DESCRIPTION("Geode LX Hardware AES driver");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

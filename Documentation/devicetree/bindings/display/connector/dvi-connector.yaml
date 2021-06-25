@@ -36,10 +36,7 @@ properties:
     description: the connector has pins for DVI dual-link
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: Connection to controller providing DVI signals
 
 required:

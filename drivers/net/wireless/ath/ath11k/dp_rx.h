@@ -49,10 +49,7 @@ int ath11k_dp_peer_rx_pn_replay_config(struct ath11k_vif *arvif,
 				       const u8 *peer_addr,
 				       enum set_key_cmd key_cmd,
 				       struct ieee80211_key_conf *key);
-<<<<<<< HEAD
 void ath11k_peer_frags_flush(struct ath11k *ar, struct ath11k_peer *peer);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void ath11k_peer_rx_tid_cleanup(struct ath11k *ar, struct ath11k_peer *peer);
 void ath11k_peer_rx_tid_delete(struct ath11k *ar,
 			       struct ath11k_peer *peer, u8 tid);

@@ -70,11 +70,7 @@ struct emif_data {
 };
 
 static struct emif_data *emif1;
-<<<<<<< HEAD
 static DEFINE_SPINLOCK(emif_lock);
-=======
-static spinlock_t	emif_lock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned long	irq_state;
 static u32		t_ck; /* DDR clock period in ps */
 static LIST_HEAD(device_list);
@@ -1535,10 +1531,6 @@ static int __init_or_module emif_probe(struct platform_device *pdev)
 	/* One-time actions taken on probing the first device */
 	if (!emif1) {
 		emif1 = emif;
-<<<<<<< HEAD
-=======
-		spin_lock_init(&emif_lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * TODO: register notifiers for frequency and voltage

@@ -901,11 +901,7 @@ static inline void hlist_add_before(struct hlist_node *n,
 }
 
 /**
-<<<<<<< HEAD
  * hlist_add_behind - add a new entry after the one specified
-=======
- * hlist_add_behing - add a new entry after the one specified
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @n: new entry to be added
  * @prev: hlist node to add it after, which must be non-NULL
  */

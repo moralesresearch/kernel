@@ -928,10 +928,6 @@ module_usb_driver(rsi_driver);
 
 MODULE_AUTHOR("Redpine Signals Inc");
 MODULE_DESCRIPTION("Common USB layer for RSI drivers");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("RSI-91x");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DEVICE_TABLE(usb, rsi_dev_table);
 MODULE_FIRMWARE(FIRMWARE_RSI9113);
 MODULE_VERSION("0.1");

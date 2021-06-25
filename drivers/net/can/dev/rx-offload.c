@@ -263,12 +263,8 @@ int can_rx_offload_queue_sorted(struct can_rx_offload *offload,
 EXPORT_SYMBOL_GPL(can_rx_offload_queue_sorted);
 
 unsigned int can_rx_offload_get_echo_skb(struct can_rx_offload *offload,
-<<<<<<< HEAD
 					 unsigned int idx, u32 timestamp,
 					 unsigned int *frame_len_ptr)
-=======
-					 unsigned int idx, u32 timestamp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *dev = offload->dev;
 	struct net_device_stats *stats = &dev->stats;
@@ -276,11 +272,7 @@ unsigned int can_rx_offload_get_echo_skb(struct can_rx_offload *offload,
 	u8 len;
 	int err;
 
-<<<<<<< HEAD
 	skb = __can_get_echo_skb(dev, idx, &len, frame_len_ptr);
-=======
-	skb = __can_get_echo_skb(dev, idx, &len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb)
 		return 0;
 

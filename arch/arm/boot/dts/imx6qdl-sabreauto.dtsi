@@ -298,10 +298,7 @@
 	interrupts-extended = <&gpio1 6 IRQ_TYPE_LEVEL_HIGH>,
 			      <&intc 0 119 IRQ_TYPE_LEVEL_HIGH>;
 	fsl,err006687-workaround-present;
-<<<<<<< HEAD
 	fsl,magic-packet;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 };
 

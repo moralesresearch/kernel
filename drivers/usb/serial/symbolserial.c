@@ -160,20 +160,11 @@ static int symbol_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void symbol_port_remove(struct usb_serial_port *port)
-=======
-static int symbol_port_remove(struct usb_serial_port *port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct symbol_private *priv = usb_get_serial_port_data(port);
 
 	kfree(priv);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct usb_serial_driver symbol_device = {

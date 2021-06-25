@@ -98,11 +98,8 @@ static enum index msr_to_index(u32 msr)
 static inline struct kvm_pmc *get_gp_pmc_amd(struct kvm_pmu *pmu, u32 msr,
 					     enum pmu_type type)
 {
-<<<<<<< HEAD
 	struct kvm_vcpu *vcpu = pmu_to_vcpu(pmu);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (msr) {
 	case MSR_F15H_PERF_CTL0:
 	case MSR_F15H_PERF_CTL1:
@@ -110,12 +107,9 @@ static inline struct kvm_pmc *get_gp_pmc_amd(struct kvm_pmu *pmu, u32 msr,
 	case MSR_F15H_PERF_CTL3:
 	case MSR_F15H_PERF_CTL4:
 	case MSR_F15H_PERF_CTL5:
-<<<<<<< HEAD
 		if (!guest_cpuid_has(vcpu, X86_FEATURE_PERFCTR_CORE))
 			return NULL;
 		fallthrough;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MSR_K7_EVNTSEL0 ... MSR_K7_EVNTSEL3:
 		if (type != PMU_TYPE_EVNTSEL)
 			return NULL;
@@ -126,12 +120,9 @@ static inline struct kvm_pmc *get_gp_pmc_amd(struct kvm_pmu *pmu, u32 msr,
 	case MSR_F15H_PERF_CTR3:
 	case MSR_F15H_PERF_CTR4:
 	case MSR_F15H_PERF_CTR5:
-<<<<<<< HEAD
 		if (!guest_cpuid_has(vcpu, X86_FEATURE_PERFCTR_CORE))
 			return NULL;
 		fallthrough;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case MSR_K7_PERFCTR0 ... MSR_K7_PERFCTR3:
 		if (type != PMU_TYPE_COUNTER)
 			return NULL;

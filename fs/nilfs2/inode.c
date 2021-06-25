@@ -348,11 +348,7 @@ struct inode *nilfs_new_inode(struct inode *dir, umode_t mode)
 	/* reference count of i_bh inherits from nilfs_mdt_read_block() */
 
 	atomic64_inc(&root->inodes_count);
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-	inode_init_owner(inode, dir, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_ino = ino;
 	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
 
@@ -809,23 +805,15 @@ void nilfs_evict_inode(struct inode *inode)
 	 */
 }
 
-<<<<<<< HEAD
 int nilfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		  struct iattr *iattr)
-=======
-int nilfs_setattr(struct dentry *dentry, struct iattr *iattr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nilfs_transaction_info ti;
 	struct inode *inode = d_inode(dentry);
 	struct super_block *sb = inode->i_sb;
 	int err;
 
-<<<<<<< HEAD
 	err = setattr_prepare(&init_user_ns, dentry, iattr);
-=======
-	err = setattr_prepare(dentry, iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -840,11 +828,7 @@ int nilfs_setattr(struct dentry *dentry, struct iattr *iattr)
 		nilfs_truncate(inode);
 	}
 
-<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, iattr);
-=======
-	setattr_copy(inode, iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 	if (iattr->ia_valid & ATTR_MODE) {
@@ -860,12 +844,8 @@ out_err:
 	return err;
 }
 
-<<<<<<< HEAD
 int nilfs_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		     int mask)
-=======
-int nilfs_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nilfs_root *root = NILFS_I(inode)->i_root;
 
@@ -873,11 +853,7 @@ int nilfs_permission(struct inode *inode, int mask)
 	    root->cno != NILFS_CPTREE_CURRENT_CNO)
 		return -EROFS; /* snapshot is not writable */
 
-<<<<<<< HEAD
 	return generic_permission(&init_user_ns, inode, mask);
-=======
-	return generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int nilfs_load_inode_block(struct inode *inode, struct buffer_head **pbh)

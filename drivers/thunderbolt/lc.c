@@ -158,7 +158,6 @@ void tb_lc_unconfigure_xdomain(struct tb_port *port)
 	tb_lc_set_xdomain_configured(port, false);
 }
 
-<<<<<<< HEAD
 /**
  * tb_lc_start_lane_initialization() - Start lane initialization
  * @port: Device router lane 0 adapter
@@ -194,8 +193,6 @@ int tb_lc_start_lane_initialization(struct tb_port *port)
 	return tb_sw_write(sw, &ctrl, TB_CFG_SWITCH, cap + TB_LC_SX_CTRL, 1);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tb_lc_set_wake_one(struct tb_switch *sw, unsigned int offset,
 			      unsigned int flags)
 {

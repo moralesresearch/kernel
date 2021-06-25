@@ -816,14 +816,6 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
 
 	dw_i3c_master_free_xfer(xfer);
 
-<<<<<<< HEAD
-=======
-	i3c_master_disec_locked(m, I3C_BROADCAST_ADDR,
-				I3C_CCC_EVENT_HJ |
-				I3C_CCC_EVENT_MR |
-				I3C_CCC_EVENT_SIR);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

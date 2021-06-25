@@ -1236,12 +1236,8 @@ static int __cmd_diff(void)
 
  out_delete:
 	data__for_each_file(i, d) {
-<<<<<<< HEAD
 		if (!IS_ERR(d->session))
 			perf_session__delete(d->session);
-=======
-		perf_session__delete(d->session);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		data__free(d);
 	}
 
@@ -1800,7 +1796,7 @@ static int ui_init(void)
 	data__for_each_file(i, d) {
 
 		/*
-		 * Baseline or compute realted columns:
+		 * Baseline or compute related columns:
 		 *
 		 *   PERF_HPP_DIFF__BASELINE
 		 *   PERF_HPP_DIFF__DELTA

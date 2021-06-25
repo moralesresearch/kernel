@@ -85,11 +85,7 @@ static int dpaa2_eth_nway_reset(struct net_device *net_dev)
 {
 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
 
-<<<<<<< HEAD
 	if (dpaa2_eth_is_type_phy(priv))
-=======
-	if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return phylink_ethtool_nway_reset(priv->mac->phylink);
 
 	return -EOPNOTSUPP;
@@ -101,11 +97,7 @@ dpaa2_eth_get_link_ksettings(struct net_device *net_dev,
 {
 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
 
-<<<<<<< HEAD
 	if (dpaa2_eth_is_type_phy(priv))
-=======
-	if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return phylink_ethtool_ksettings_get(priv->mac->phylink,
 						     link_settings);
 
@@ -123,11 +115,7 @@ dpaa2_eth_set_link_ksettings(struct net_device *net_dev,
 {
 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
 
-<<<<<<< HEAD
 	if (!dpaa2_eth_is_type_phy(priv))
-=======
-	if (!priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOTSUPP;
 
 	return phylink_ethtool_ksettings_set(priv->mac->phylink, link_settings);
@@ -139,11 +127,7 @@ static void dpaa2_eth_get_pauseparam(struct net_device *net_dev,
 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
 	u64 link_options = priv->link_state.options;
 
-<<<<<<< HEAD
 	if (dpaa2_eth_is_type_phy(priv)) {
-=======
-	if (priv->mac) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		phylink_ethtool_get_pauseparam(priv->mac->phylink, pause);
 		return;
 	}
@@ -166,11 +150,7 @@ static int dpaa2_eth_set_pauseparam(struct net_device *net_dev,
 		return -EOPNOTSUPP;
 	}
 
-<<<<<<< HEAD
 	if (dpaa2_eth_is_type_phy(priv))
-=======
-	if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return phylink_ethtool_set_pauseparam(priv->mac->phylink,
 						      pause);
 	if (pause->autoneg)
@@ -218,11 +198,7 @@ static void dpaa2_eth_get_strings(struct net_device *netdev, u32 stringset,
 			strlcpy(p, dpaa2_ethtool_extras[i], ETH_GSTRING_LEN);
 			p += ETH_GSTRING_LEN;
 		}
-<<<<<<< HEAD
 		if (dpaa2_eth_has_mac(priv))
-=======
-		if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dpaa2_mac_get_strings(p);
 		break;
 	}
@@ -235,11 +211,7 @@ static int dpaa2_eth_get_sset_count(struct net_device *net_dev, int sset)
 
 	switch (sset) {
 	case ETH_SS_STATS: /* ethtool_get_stats(), ethtool_get_drvinfo() */
-<<<<<<< HEAD
 		if (dpaa2_eth_has_mac(priv))
-=======
-		if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			num_ss_stats += dpaa2_mac_get_sset_count();
 		return num_ss_stats;
 	default:
@@ -341,11 +313,7 @@ static void dpaa2_eth_get_ethtool_stats(struct net_device *net_dev,
 	}
 	*(data + i++) = buf_cnt;
 
-<<<<<<< HEAD
 	if (dpaa2_eth_has_mac(priv))
-=======
-	if (priv->mac)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dpaa2_mac_get_ethtool_stats(priv->mac, data + i);
 }
 
@@ -814,6 +782,44 @@ static int dpaa2_eth_get_ts_info(struct net_device *dev,
 	return 0;
 }
 
+static int dpaa2_eth_get_tunable(struct net_device *net_dev,
+				 const struct ethtool_tunable *tuna,
+				 void *data)
+{
+	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
+	int err = 0;
+
+	switch (tuna->id) {
+	case ETHTOOL_RX_COPYBREAK:
+		*(u32 *)data = priv->rx_copybreak;
+		break;
+	default:
+		err = -EOPNOTSUPP;
+		break;
+	}
+
+	return err;
+}
+
+static int dpaa2_eth_set_tunable(struct net_device *net_dev,
+				 const struct ethtool_tunable *tuna,
+				 const void *data)
+{
+	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
+	int err = 0;
+
+	switch (tuna->id) {
+	case ETHTOOL_RX_COPYBREAK:
+		priv->rx_copybreak = *(u32 *)data;
+		break;
+	default:
+		err = -EOPNOTSUPP;
+		break;
+	}
+
+	return err;
+}
+
 const struct ethtool_ops dpaa2_ethtool_ops = {
 	.get_drvinfo = dpaa2_eth_get_drvinfo,
 	.nway_reset = dpaa2_eth_nway_reset,
@@ -828,4 +834,6 @@ const struct ethtool_ops dpaa2_ethtool_ops = {
 	.get_rxnfc = dpaa2_eth_get_rxnfc,
 	.set_rxnfc = dpaa2_eth_set_rxnfc,
 	.get_ts_info = dpaa2_eth_get_ts_info,
+	.get_tunable = dpaa2_eth_get_tunable,
+	.set_tunable = dpaa2_eth_set_tunable,
 };

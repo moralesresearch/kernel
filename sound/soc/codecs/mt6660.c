@@ -404,15 +404,9 @@ static struct snd_soc_dai_driver mt6660_codec_dai = {
 		.formats = STUB_FORMATS,
 	},
 	/* dai properties */
-<<<<<<< HEAD
 	.symmetric_rate = 1,
 	.symmetric_channels = 1,
 	.symmetric_sample_bits = 1,
-=======
-	.symmetric_rates = 1,
-	.symmetric_channels = 1,
-	.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* dai operations */
 	.ops = &mt6660_component_aif_ops,
 };

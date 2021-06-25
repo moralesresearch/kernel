@@ -176,11 +176,7 @@ struct i3c_device;
 struct i3c_driver {
 	struct device_driver driver;
 	int (*probe)(struct i3c_device *dev);
-<<<<<<< HEAD
 	void (*remove)(struct i3c_device *dev);
-=======
-	int (*remove)(struct i3c_device *dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct i3c_device_id *id_table;
 };
 

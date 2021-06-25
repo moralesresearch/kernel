@@ -81,12 +81,7 @@ struct mmc_queue {
 	int			in_flight[MMC_ISSUE_MAX];
 	unsigned int		cqe_busy;
 #define MMC_CQE_DCMD_BUSY	BIT(0)
-<<<<<<< HEAD
-=======
-#define MMC_CQE_QUEUE_FULL	BIT(1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			busy;
-	bool			use_cqe;
 	bool			recovery_needed;
 	bool			in_recovery;
 	bool			rw_wait;

@@ -648,10 +648,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
 			if (get_word_be(&jpeg_buffer, &word))
 				return 0;
 			skip(&jpeg_buffer, (long)word - 2);
-<<<<<<< HEAD
 			break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case 0:
 			break;
 		default:
@@ -797,10 +794,6 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct jpu_fmt **fmtinfo,
 	pix->colorspace = fmt->colorspace;
 	pix->field = V4L2_FIELD_NONE;
 	pix->num_planes = fmt->num_planes;
-<<<<<<< HEAD
-=======
-	memset(pix->reserved, 0, sizeof(pix->reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	jpu_bound_align_image(&pix->width, JPU_WIDTH_MIN, JPU_WIDTH_MAX,
 			      fmt->h_align, &pix->height, JPU_HEIGHT_MIN,
@@ -815,11 +808,6 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct jpu_fmt **fmtinfo,
 			pix->plane_fmt[0].sizeimage = JPU_JPEG_HDR_SIZE +
 				(JPU_JPEG_MAX_BYTES_PER_PIXEL * w * h);
 		pix->plane_fmt[0].bytesperline = 0;
-<<<<<<< HEAD
-=======
-		memset(pix->plane_fmt[0].reserved, 0,
-		       sizeof(pix->plane_fmt[0].reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		unsigned int i, bpl = 0;
 
@@ -832,11 +820,6 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct jpu_fmt **fmtinfo,
 		for (i = 0; i < pix->num_planes; ++i) {
 			pix->plane_fmt[i].bytesperline = bpl;
 			pix->plane_fmt[i].sizeimage = bpl * h * fmt->bpp[i] / 8;
-<<<<<<< HEAD
-=======
-			memset(pix->plane_fmt[i].reserved, 0,
-			       sizeof(pix->plane_fmt[i].reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 

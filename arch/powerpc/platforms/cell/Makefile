@@ -19,10 +19,6 @@ spu-priv1-$(CONFIG_PPC_CELL_COMMON)	+= spu_priv1_mmio.o
 spu-manage-$(CONFIG_PPC_CELL_COMMON)	+= spu_manage.o
 
 obj-$(CONFIG_SPU_BASE)			+= spu_callbacks.o spu_base.o \
-<<<<<<< HEAD
-=======
-					   spu_notify.o \
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   spu_syscalls.o \
 					   $(spu-priv1-y) \
 					   $(spu-manage-y) \

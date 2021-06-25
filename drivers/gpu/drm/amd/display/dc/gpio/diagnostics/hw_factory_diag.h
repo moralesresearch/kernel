@@ -26,11 +26,8 @@
 #ifndef __DAL_HW_FACTORY_DIAG_FPGA_H__
 #define __DAL_HW_FACTORY_DIAG_FPGA_H__
 
-<<<<<<< HEAD
 struct hw_factory;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Initialize HW factory function pointers and pin info */
 void dal_hw_factory_diag_fpga_init(struct hw_factory *factory);
 

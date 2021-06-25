@@ -12,7 +12,6 @@ struct gf100_fifo_chan {
 	struct list_head head;
 	bool killed;
 
-<<<<<<< HEAD
 #define GF100_FIFO_ENGN_GR     0
 #define GF100_FIFO_ENGN_MSPDEC 1
 #define GF100_FIFO_ENGN_MSPPP  2
@@ -24,12 +23,6 @@ struct gf100_fifo_chan {
 		struct nvkm_gpuobj *inst;
 		struct nvkm_vma *vma;
 	} engn[NVKM_FIFO_ENGN_NR];
-=======
-	struct {
-		struct nvkm_gpuobj *inst;
-		struct nvkm_vma *vma;
-	} engn[NVKM_SUBDEV_NR];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern const struct nvkm_fifo_chan_oclass gf100_fifo_gpfifo_oclass;

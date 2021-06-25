@@ -9,14 +9,7 @@
 #include <linux/delay.h>
 #include <linux/gpio/consumer.h>
 #include <linux/module.h>
-<<<<<<< HEAD
 #include <linux/of_device.h>
-=======
-<<<<<<< HEAD
-#include <linux/of_device.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/regulator/consumer.h>
 
 #include <video/mipi_display.h>
@@ -42,16 +35,8 @@ struct mantix {
 	struct regulator *avdd;
 	struct regulator *avee;
 	struct regulator *vddi;
-<<<<<<< HEAD
 
 	const struct drm_display_mode *default_mode;
-=======
-<<<<<<< HEAD
-
-	const struct drm_display_mode *default_mode;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct mantix *panel_to_mantix(struct drm_panel *panel)
@@ -205,15 +190,7 @@ static int mantix_prepare(struct drm_panel *panel)
 	return 0;
 }
 
-<<<<<<< HEAD
 static const struct drm_display_mode default_mode_mantix = {
-=======
-<<<<<<< HEAD
-static const struct drm_display_mode default_mode_mantix = {
-=======
-static const struct drm_display_mode default_mode = {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.hdisplay    = 720,
 	.hsync_start = 720 + 45,
 	.hsync_end   = 720 + 45 + 14,
@@ -228,10 +205,6 @@ static const struct drm_display_mode default_mode = {
 	.height_mm   = 130,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct drm_display_mode default_mode_ys = {
 	.hdisplay    = 720,
 	.hsync_start = 720 + 45,
@@ -247,36 +220,17 @@ static const struct drm_display_mode default_mode_ys = {
 	.height_mm   = 130,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mantix_get_modes(struct drm_panel *panel,
 			    struct drm_connector *connector)
 {
 	struct mantix *ctx = panel_to_mantix(panel);
 	struct drm_display_mode *mode;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mode = drm_mode_duplicate(connector->dev, ctx->default_mode);
 	if (!mode) {
 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
 			ctx->default_mode->hdisplay, ctx->default_mode->vdisplay,
 			drm_mode_vrefresh(ctx->default_mode));
-<<<<<<< HEAD
-=======
-=======
-	mode = drm_mode_duplicate(connector->dev, &default_mode);
-	if (!mode) {
-		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
-			default_mode.hdisplay, default_mode.vdisplay,
-			drm_mode_vrefresh(&default_mode));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 	}
 
@@ -307,14 +261,7 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
 	if (!ctx)
 		return -ENOMEM;
-<<<<<<< HEAD
 	ctx->default_mode = of_device_get_match_data(dev);
-=======
-<<<<<<< HEAD
-	ctx->default_mode = of_device_get_match_data(dev);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
 	if (IS_ERR(ctx->reset_gpio)) {
@@ -365,18 +312,8 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
 	}
 
 	dev_info(dev, "%ux%u@%u %ubpp dsi %udl - ready\n",
-<<<<<<< HEAD
 		 ctx->default_mode->hdisplay, ctx->default_mode->vdisplay,
 		 drm_mode_vrefresh(ctx->default_mode),
-=======
-<<<<<<< HEAD
-		 ctx->default_mode->hdisplay, ctx->default_mode->vdisplay,
-		 drm_mode_vrefresh(ctx->default_mode),
-=======
-		 default_mode.hdisplay, default_mode.vdisplay,
-		 drm_mode_vrefresh(&default_mode),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 mipi_dsi_pixel_format_to_bpp(dsi->format), dsi->lanes);
 
 	return 0;
@@ -403,17 +340,8 @@ static int mantix_remove(struct mipi_dsi_device *dsi)
 }
 
 static const struct of_device_id mantix_of_match[] = {
-<<<<<<< HEAD
 	{ .compatible = "mantix,mlaf057we51-x", .data = &default_mode_mantix },
 	{ .compatible = "ys,ys57pss36bh5gq", .data = &default_mode_ys },
-=======
-<<<<<<< HEAD
-	{ .compatible = "mantix,mlaf057we51-x", .data = &default_mode_mantix },
-	{ .compatible = "ys,ys57pss36bh5gq", .data = &default_mode_ys },
-=======
-	{ .compatible = "mantix,mlaf057we51-x" },
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, mantix_of_match);

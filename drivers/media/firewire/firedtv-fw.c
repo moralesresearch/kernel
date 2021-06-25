@@ -430,7 +430,3 @@ MODULE_AUTHOR("Andreas Monitzer <andy@monitzer.com>");
 MODULE_AUTHOR("Ben Backx <ben@bbackx.com>");
 MODULE_DESCRIPTION("FireDTV DVB Driver");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("FireDTV DVB");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

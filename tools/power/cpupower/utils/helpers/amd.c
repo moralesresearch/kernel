@@ -13,12 +13,8 @@
 #define MSR_AMD_PSTATE		0xc0010064
 #define MSR_AMD_PSTATE_LIMIT	0xc0010061
 
-<<<<<<< HEAD
 union core_pstate {
 	/* pre fam 17h: */
-=======
-union msr_pstate {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct {
 		unsigned fid:6;
 		unsigned did:3;
@@ -31,12 +27,8 @@ union msr_pstate {
 		unsigned idddiv:2;
 		unsigned res3:21;
 		unsigned en:1;
-<<<<<<< HEAD
 	} pstate;
 	/* since fam 17h: */
-=======
-	} bits;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct {
 		unsigned fid:8;
 		unsigned did:6;
@@ -45,7 +37,6 @@ union msr_pstate {
 		unsigned idddiv:2;
 		unsigned res1:31;
 		unsigned en:1;
-<<<<<<< HEAD
 	} pstatedef;
 	unsigned long long val;
 };
@@ -60,36 +51,15 @@ static int get_did(union core_pstate pstate)
 		t = pstate.val & 0xf;
 	else
 		t = pstate.pstate.did;
-=======
-	} fam17h_bits;
-	unsigned long long val;
-};
-
-static int get_did(int family, union msr_pstate pstate)
-{
-	int t;
-
-	if (family == 0x12)
-		t = pstate.val & 0xf;
-	else if (family == 0x17 || family == 0x18)
-		t = pstate.fam17h_bits.did;
-	else
-		t = pstate.bits.did;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return t;
 }
 
-<<<<<<< HEAD
 static int get_cof(union core_pstate pstate)
-=======
-static int get_cof(int family, union msr_pstate pstate)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int t;
 	int fid, did, cof;
 
-<<<<<<< HEAD
 	did = get_did(pstate);
 	if (cpupower_cpu_info.caps & CPUPOWER_CAP_AMD_PSTATEDEF) {
 		fid = pstate.pstatedef.fid;
@@ -98,16 +68,6 @@ static int get_cof(int family, union msr_pstate pstate)
 		t = 0x10;
 		fid = pstate.pstate.fid;
 		if (cpupower_cpu_info.family == 0x11)
-=======
-	did = get_did(family, pstate);
-	if (family == 0x17 || family == 0x18) {
-		fid = pstate.fam17h_bits.fid;
-		cof = 200 * fid / did;
-	} else {
-		t = 0x10;
-		fid = pstate.bits.fid;
-		if (family == 0x11)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			t = 0x8;
 		cof = (100 * (fid + t)) >> did;
 	}
@@ -116,12 +76,7 @@ static int get_cof(int family, union msr_pstate pstate)
 
 /* Needs:
  * cpu          -> the cpu that gets evaluated
-<<<<<<< HEAD
  * boost_states -> how much boost states the machines support
-=======
- * cpu_family   -> The cpu's family (0x10, 0x12,...)
- * boots_states -> how much boost states the machines support
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Fills up:
  * pstates -> a pointer to an array of size MAX_HW_PSTATES
@@ -131,7 +86,6 @@ static int get_cof(int family, union msr_pstate pstate)
  *
  * returns zero on success, -1 on failure
  */
-<<<<<<< HEAD
 int decode_pstates(unsigned int cpu, int boost_states,
 		   unsigned long *pstates, int *no)
 {
@@ -143,36 +97,12 @@ int decode_pstates(unsigned int cpu, int boost_states,
 	 * otherwise frequencies are exported via ACPI tables.
 	 */
 	if (!(cpupower_cpu_info.caps & CPUPOWER_CAP_AMD_HW_PSTATE))
-=======
-int decode_pstates(unsigned int cpu, unsigned int cpu_family,
-		   int boost_states, unsigned long *pstates, int *no)
-{
-	int i, psmax, pscur;
-	union msr_pstate pstate;
-	unsigned long long val;
-
-	/* Only read out frequencies from HW when CPU might be boostable
-	   to keep the code as short and clean as possible.
-	   Otherwise frequencies are exported via ACPI tables.
-	*/
-	if (cpu_family < 0x10 || cpu_family == 0x14)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -1;
 
 	if (read_msr(cpu, MSR_AMD_PSTATE_LIMIT, &val))
 		return -1;
 
 	psmax = (val >> 4) & 0x7;
-<<<<<<< HEAD
-=======
-
-	if (read_msr(cpu, MSR_AMD_PSTATE_STATUS, &val))
-		return -1;
-
-	pscur = val & 0x7;
-
-	pscur += boost_states;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	psmax += boost_states;
 	for (i = 0; i <= psmax; i++) {
 		if (i >= MAX_HW_PSTATES) {
@@ -182,21 +112,12 @@ int decode_pstates(unsigned int cpu, unsigned int cpu_family,
 		}
 		if (read_msr(cpu, MSR_AMD_PSTATE + i, &pstate.val))
 			return -1;
-<<<<<<< HEAD
 
 		/* The enabled bit (bit 63) is common for all families */
 		if (!pstate.pstatedef.en)
 			continue;
 
 		pstates[i] = get_cof(pstate);
-=======
-		if ((cpu_family == 0x17) && (!pstate.fam17h_bits.en))
-			continue;
-		else if (!pstate.bits.en)
-			continue;
-
-		pstates[i] = get_cof(cpu_family, pstate);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	*no = i;
 	return 0;

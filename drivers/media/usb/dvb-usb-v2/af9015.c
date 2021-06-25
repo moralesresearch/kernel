@@ -51,10 +51,7 @@ static int af9015_ctrl_msg(struct dvb_usb_device *d, struct req_t *req)
 		if (((req->addr & 0xff00) == 0xff00) ||
 		    ((req->addr & 0xff00) == 0xae00))
 			state->buf[0] = WRITE_VIRTUAL_MEMORY;
-<<<<<<< HEAD
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case WRITE_VIRTUAL_MEMORY:
 	case COPY_FIRMWARE:
 	case DOWNLOAD_FIRMWARE:

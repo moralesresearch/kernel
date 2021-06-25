@@ -67,11 +67,7 @@ static void regdump(struct net_device *dev)
 	/* set up the address register */
 	count = 0;
 	arcnet_outb((count >> 8) | RDDATAflag | AUTOINCflag,
-<<<<<<< HEAD
 		    ioaddr, COM20020_REG_W_ADDR_HI);
-=======
-		    ioaddr, com20020_REG_W_ADDR_HI);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arcnet_outb(count & 0xff, ioaddr, COM20020_REG_W_ADDR_LO);
 
 	for (count = 0; count < 256 + 32; count++) {

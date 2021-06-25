@@ -50,10 +50,8 @@ struct he_stat {
 	u64			period_guest_sys;
 	u64			period_guest_us;
 	u64			weight;
-<<<<<<< HEAD
 	u64			ins_lat;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	u64			p_stage_cyc;
 	u32			nr_events;
 };
 
@@ -110,10 +108,7 @@ struct hist_entry {
 	u64			transaction;
 	s32			socket;
 	s32			cpu;
-<<<<<<< HEAD
 	u64			code_page_size;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			cpumode;
 	u8			depth;
 
@@ -237,12 +232,10 @@ enum sort_type {
 	SORT_CGROUP_ID,
 	SORT_SYM_IPC_NULL,
 	SORT_TIME,
-<<<<<<< HEAD
 	SORT_CODE_PAGE_SIZE,
 	SORT_LOCAL_INS_LAT,
 	SORT_GLOBAL_INS_LAT,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	SORT_PIPELINE_STAGE_CYC,
 
 	/* branch stack specific sort keys */
 	__SORT_BRANCH_STACK,
@@ -270,10 +263,7 @@ enum sort_type {
 	SORT_MEM_IADDR_SYMBOL,
 	SORT_MEM_PHYS_DADDR,
 	SORT_MEM_DATA_PAGE_SIZE,
-<<<<<<< HEAD
 	SORT_MEM_BLOCKED,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*

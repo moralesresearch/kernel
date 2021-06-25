@@ -3,11 +3,7 @@
  *
  * Module Name: dsdebug - Parser/Interpreter interface - debugging
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -104,11 +100,7 @@ acpi_ds_dump_method_stack(acpi_status status,
 
 	/* Ignore control codes, they are not errors */
 
-<<<<<<< HEAD
 	if (ACPI_CNTL_EXCEPTION(status)) {
-=======
-	if ((status & AE_CODE_MASK) == AE_CODE_CONTROL) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return_VOID;
 	}
 

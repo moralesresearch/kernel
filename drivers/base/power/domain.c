@@ -297,7 +297,6 @@ static int _genpd_reeval_performance_state(struct generic_pm_domain *genpd,
 	return state;
 }
 
-<<<<<<< HEAD
 static int genpd_xlate_performance_state(struct generic_pm_domain *genpd,
 					 struct generic_pm_domain *parent,
 					 unsigned int pstate)
@@ -310,8 +309,6 @@ static int genpd_xlate_performance_state(struct generic_pm_domain *genpd,
 						  pstate);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
 					unsigned int state, int depth)
 {
@@ -326,18 +323,8 @@ static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
 	list_for_each_entry(link, &genpd->child_links, child_node) {
 		parent = link->parent;
 
-<<<<<<< HEAD
 		/* Find parent's performance state */
 		ret = genpd_xlate_performance_state(genpd, parent, state);
-=======
-		if (!parent->set_performance_state)
-			continue;
-
-		/* Find parent's performance state */
-		ret = dev_pm_opp_xlate_performance_state(genpd->opp_table,
-							 parent->opp_table,
-							 state);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(ret < 0))
 			goto err;
 
@@ -359,17 +346,11 @@ static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
 			goto err;
 	}
 
-<<<<<<< HEAD
 	if (genpd->set_performance_state) {
 		ret = genpd->set_performance_state(genpd, state);
 		if (ret)
 			goto err;
 	}
-=======
-	ret = genpd->set_performance_state(genpd, state);
-	if (ret)
-		goto err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	genpd->performance_state = state;
 	return 0;
@@ -380,12 +361,6 @@ err:
 					     child_node) {
 		parent = link->parent;
 
-<<<<<<< HEAD
-=======
-		if (!parent->set_performance_state)
-			continue;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		genpd_lock_nested(parent, depth + 1);
 
 		parent_state = link->prev_performance_state;
@@ -430,12 +405,6 @@ int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int state)
 	if (!genpd)
 		return -ENODEV;
 
-<<<<<<< HEAD
-=======
-	if (unlikely(!genpd->set_performance_state))
-		return -EINVAL;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON(!dev->power.subsys_data ||
 		     !dev->power.subsys_data->domain_data))
 		return -EINVAL;
@@ -457,7 +426,6 @@ int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int state)
 }
 EXPORT_SYMBOL_GPL(dev_pm_genpd_set_performance_state);
 
-<<<<<<< HEAD
 /**
  * dev_pm_genpd_set_next_wakeup - Notify PM framework of an impending wakeup.
  *
@@ -487,8 +455,6 @@ void dev_pm_genpd_set_next_wakeup(struct device *dev, ktime_t next)
 }
 EXPORT_SYMBOL_GPL(dev_pm_genpd_set_next_wakeup);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
 {
 	unsigned int state_idx = genpd->state_idx;
@@ -1000,12 +966,7 @@ static int genpd_runtime_resume(struct device *dev)
 err_stop:
 	genpd_stop_dev(genpd, dev);
 err_poweroff:
-<<<<<<< HEAD
 	if (!pm_runtime_is_irq_safe(dev) || genpd_is_irq_safe(genpd)) {
-=======
-	if (!pm_runtime_is_irq_safe(dev) ||
-		(pm_runtime_is_irq_safe(dev) && genpd_is_irq_safe(genpd))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		genpd_lock(genpd);
 		genpd_power_off(genpd, true, 0);
 		genpd_unlock(genpd);
@@ -1127,34 +1088,6 @@ static void genpd_sync_power_on(struct generic_pm_domain *genpd, bool use_lock,
 }
 
 /**
- * resume_needed - Check whether to resume a device before system suspend.
- * @dev: Device to check.
- * @genpd: PM domain the device belongs to.
- *
- * There are two cases in which a device that can wake up the system from sleep
- * states should be resumed by genpd_prepare(): (1) if the device is enabled
- * to wake up the system and it has to remain active for this purpose while the
- * system is in the sleep state and (2) if the device is not enabled to wake up
- * the system from sleep states and it generally doesn't generate wakeup signals
- * by itself (those signals are generated on its behalf by other parts of the
- * system).  In the latter case it may be necessary to reconfigure the device's
- * wakeup settings during system suspend, because it may have been set up to
- * signal remote wakeup from the system's working state as needed by runtime PM.
- * Return 'true' in either of the above cases.
- */
-static bool resume_needed(struct device *dev,
-			  const struct generic_pm_domain *genpd)
-{
-	bool active_wakeup;
-
-	if (!device_can_wakeup(dev))
-		return false;
-
-	active_wakeup = genpd_is_active_wakeup(genpd);
-	return device_may_wakeup(dev) ? active_wakeup : !active_wakeup;
-}
-
-/**
  * genpd_prepare - Start power transition of a device in a PM domain.
  * @dev: Device to start the transition of.
  *
@@ -1173,14 +1106,6 @@ static int genpd_prepare(struct device *dev)
 	genpd = dev_to_genpd(dev);
 	if (IS_ERR(genpd))
 		return -EINVAL;
-
-	/*
-	 * If a wakeup request is pending for the device, it should be woken up
-	 * at this point and a system wakeup event should be reported if it's
-	 * set up to wake up the system from sleep states.
-	 */
-	if (resume_needed(dev, genpd))
-		pm_runtime_resume(dev);
 
 	genpd_lock(genpd);
 
@@ -1535,10 +1460,7 @@ static struct generic_pm_domain_data *genpd_alloc_dev_data(struct device *dev)
 	gpd_data->td.constraint_changed = true;
 	gpd_data->td.effective_constraint_ns = PM_QOS_RESUME_LATENCY_NO_CONSTRAINT_NS;
 	gpd_data->nb.notifier_call = genpd_dev_pm_qos_notifier;
-<<<<<<< HEAD
 	gpd_data->next_wakeup = KTIME_MAX;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irq(&dev->power.lock);
 
@@ -2238,10 +2160,7 @@ static int genpd_add_provider(struct device_node *np, genpd_xlate_t xlate,
 	cp->node = of_node_get(np);
 	cp->data = data;
 	cp->xlate = xlate;
-<<<<<<< HEAD
 	fwnode_dev_initialized(&np->fwnode, true);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&of_genpd_mutex);
 	list_add(&cp->link, &of_genpd_providers);
@@ -2431,10 +2350,7 @@ void of_genpd_del_provider(struct device_node *np)
 				}
 			}
 
-<<<<<<< HEAD
 			fwnode_dev_initialized(&cp->node->fwnode, false);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			list_del(&cp->link);
 			of_node_put(cp->node);
 			kfree(cp);
@@ -2545,11 +2461,7 @@ int of_genpd_add_subdomain(struct of_phandle_args *parent_spec,
 out:
 	mutex_unlock(&gpd_list_lock);
 
-<<<<<<< HEAD
 	return ret == -ENOENT ? -EPROBE_DEFER : ret;
-=======
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(of_genpd_add_subdomain);
 
@@ -3038,7 +2950,6 @@ static void rtpm_status_str(struct seq_file *s, struct device *dev)
 	else
 		WARN_ON(1);
 
-<<<<<<< HEAD
 	seq_printf(s, "%-25s  ", p);
 }
 
@@ -3048,9 +2959,6 @@ static void perf_status_str(struct seq_file *s, struct device *dev)
 
 	gpd_data = to_gpd_data(dev->power.subsys_data->domain_data);
 	seq_put_decimal_ull(s, "", gpd_data->performance_state);
-=======
-	seq_puts(s, p);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int genpd_summary_one(struct seq_file *s,
@@ -3078,11 +2986,7 @@ static int genpd_summary_one(struct seq_file *s,
 	else
 		snprintf(state, sizeof(state), "%s",
 			 status_lookup[genpd->status]);
-<<<<<<< HEAD
 	seq_printf(s, "%-30s  %-50s %u", genpd->name, state, genpd->performance_state);
-=======
-	seq_printf(s, "%-30s  %-15s ", genpd->name, state);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Modifications on the list require holding locks on both
@@ -3090,11 +2994,8 @@ static int genpd_summary_one(struct seq_file *s,
 	 * Also genpd->name is immutable.
 	 */
 	list_for_each_entry(link, &genpd->parent_links, parent_node) {
-<<<<<<< HEAD
 		if (list_is_first(&link->parent_node, &genpd->parent_links))
 			seq_printf(s, "\n%48s", " ");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		seq_printf(s, "%s", link->child->name);
 		if (!list_is_last(&link->parent_node, &genpd->parent_links))
 			seq_puts(s, ", ");
@@ -3109,10 +3010,7 @@ static int genpd_summary_one(struct seq_file *s,
 
 		seq_printf(s, "\n    %-50s  ", kobj_path);
 		rtpm_status_str(s, pm_data->dev);
-<<<<<<< HEAD
 		perf_status_str(s, pm_data->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(kobj_path);
 	}
 
@@ -3128,15 +3026,9 @@ static int summary_show(struct seq_file *s, void *data)
 	struct generic_pm_domain *genpd;
 	int ret = 0;
 
-<<<<<<< HEAD
 	seq_puts(s, "domain                          status          children                           performance\n");
 	seq_puts(s, "    /device                                             runtime status\n");
 	seq_puts(s, "----------------------------------------------------------------------------------------------\n");
-=======
-	seq_puts(s, "domain                          status          children\n");
-	seq_puts(s, "    /device                                             runtime status\n");
-	seq_puts(s, "----------------------------------------------------------------------\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = mutex_lock_interruptible(&gpd_list_lock);
 	if (ret)

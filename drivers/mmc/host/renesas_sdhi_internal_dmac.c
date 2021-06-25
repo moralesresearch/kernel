@@ -56,21 +56,12 @@
 #define INFO2_DTRANERR1		BIT(17)
 #define INFO2_DTRANERR0		BIT(16)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum renesas_sdhi_dma_cookie {
 	COOKIE_UNMAPPED,
 	COOKIE_PRE_MAPPED,
 	COOKIE_MAPPED,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Specification of this driver:
  * - host->chan_{rx,tx} will be used as a flag of enabling/disabling the dma
@@ -106,7 +97,7 @@ static const struct renesas_sdhi_of_data of_rza2_compatible = {
 			  TMIO_MMC_HAVE_CBSY,
 	.tmio_ocr_mask	= MMC_VDD_32_33,
 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-			  MMC_CAP_CMD23,
+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
 	.bus_shift	= 2,
 	.scc_offset	= 0 - 0x1000,
 	.taps		= rcar_gen3_scc_taps,
@@ -120,7 +111,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-			  MMC_CAP_CMD23,
+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
 	.bus_shift	= 2,
 	.scc_offset	= 0x1000,
@@ -187,10 +178,6 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host) {
 	tasklet_schedule(&priv->dma_priv.dma_complete);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * renesas_sdhi_internal_dmac_map() will be called with two difference
  * sg pointers in two mmc_data by .pre_req(), but tmio host can have a single
@@ -235,11 +222,6 @@ renesas_sdhi_internal_dmac_map(struct tmio_mmc_host *host,
 	return true;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
 				     struct mmc_data *data)
@@ -250,26 +232,9 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
 	if (!test_bit(SDHI_INTERNAL_DMAC_ADDR_MODE_FIXED_ONLY, &global_flags))
 		dtran_mode |= DTRAN_MODE_ADDR_MODE;
 
-<<<<<<< HEAD
 	if (!renesas_sdhi_internal_dmac_map(host, data, COOKIE_MAPPED))
 		goto force_pio;
 
-=======
-<<<<<<< HEAD
-	if (!renesas_sdhi_internal_dmac_map(host, data, COOKIE_MAPPED))
-		goto force_pio;
-
-=======
-	if (!dma_map_sg(&host->pdev->dev, sg, host->sg_len,
-			mmc_get_dma_dir(data)))
-		goto force_pio;
-
-	/* This DMAC cannot handle if buffer is not 128-bytes alignment */
-	if (!IS_ALIGNED(sg_dma_address(sg), 128))
-		goto force_pio_with_unmap;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (data->flags & MMC_DATA_READ) {
 		dtran_mode |= DTRAN_MODE_CH_NUM_CH1;
 		if (test_bit(SDHI_INTERNAL_DMAC_ONE_RX_ONLY, &global_flags) &&
@@ -292,15 +257,7 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
 	return;
 
 force_pio_with_unmap:
-<<<<<<< HEAD
 	renesas_sdhi_internal_dmac_unmap(host, data, COOKIE_UNMAPPED);
-=======
-<<<<<<< HEAD
-	renesas_sdhi_internal_dmac_unmap(host, data, COOKIE_UNMAPPED);
-=======
-	dma_unmap_sg(&host->pdev->dev, sg, host->sg_len, mmc_get_dma_dir(data));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 force_pio:
 	renesas_sdhi_internal_dmac_enable_dma(host, false);
@@ -333,15 +290,7 @@ static bool renesas_sdhi_internal_dmac_complete(struct tmio_mmc_host *host)
 		dir = DMA_TO_DEVICE;
 
 	renesas_sdhi_internal_dmac_enable_dma(host, false);
-<<<<<<< HEAD
 	renesas_sdhi_internal_dmac_unmap(host, host->data, COOKIE_MAPPED);
-=======
-<<<<<<< HEAD
-	renesas_sdhi_internal_dmac_unmap(host, host->data, COOKIE_MAPPED);
-=======
-	dma_unmap_sg(&host->pdev->dev, host->sg_ptr, host->sg_len, dir);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dir == DMA_FROM_DEVICE)
 		clear_bit(SDHI_INTERNAL_DMAC_RX_IN_USE, &global_flags);
@@ -370,10 +319,6 @@ static void renesas_sdhi_internal_dmac_end_dma(struct tmio_mmc_host *host)
 		renesas_sdhi_internal_dmac_complete(host);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void renesas_sdhi_internal_dmac_post_req(struct mmc_host *mmc,
 						struct mmc_request *mrq,
 						int err)
@@ -400,11 +345,6 @@ static void renesas_sdhi_internal_dmac_pre_req(struct mmc_host *mmc,
 	renesas_sdhi_internal_dmac_map(host, data, COOKIE_PRE_MAPPED);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 renesas_sdhi_internal_dmac_request_dma(struct tmio_mmc_host *host,
 				       struct tmio_mmc_data *pdata)
@@ -426,19 +366,10 @@ renesas_sdhi_internal_dmac_request_dma(struct tmio_mmc_host *host,
 	tasklet_init(&host->dma_issue,
 		     renesas_sdhi_internal_dmac_issue_tasklet_fn,
 		     (unsigned long)host);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Add pre_req and post_req */
 	host->ops.pre_req = renesas_sdhi_internal_dmac_pre_req;
 	host->ops.post_req = renesas_sdhi_internal_dmac_post_req;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void

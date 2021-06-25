@@ -52,11 +52,7 @@ static int fscrypt_zeroout_range_inline_crypt(const struct inode *inode,
 	int num_pages = 0;
 
 	/* This always succeeds since __GFP_DIRECT_RECLAIM is set. */
-<<<<<<< HEAD
 	bio = bio_alloc(GFP_NOFS, BIO_MAX_VECS);
-=======
-	bio = bio_alloc(GFP_NOFS, BIO_MAX_PAGES);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (len) {
 		unsigned int blocks_this_page = min(len, blocks_per_page);
@@ -78,11 +74,7 @@ static int fscrypt_zeroout_range_inline_crypt(const struct inode *inode,
 		len -= blocks_this_page;
 		lblk += blocks_this_page;
 		pblk += blocks_this_page;
-<<<<<<< HEAD
 		if (num_pages == BIO_MAX_VECS || !len ||
-=======
-		if (num_pages == BIO_MAX_PAGES || !len ||
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    !fscrypt_mergeable_bio(bio, inode, lblk)) {
 			err = submit_bio_wait(bio);
 			if (err)
@@ -134,11 +126,7 @@ int fscrypt_zeroout_range(const struct inode *inode, pgoff_t lblk,
 		return fscrypt_zeroout_range_inline_crypt(inode, lblk, pblk,
 							  len);
 
-<<<<<<< HEAD
 	BUILD_BUG_ON(ARRAY_SIZE(pages) > BIO_MAX_VECS);
-=======
-	BUILD_BUG_ON(ARRAY_SIZE(pages) > BIO_MAX_PAGES);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr_pages = min_t(unsigned int, ARRAY_SIZE(pages),
 			 (len + blocks_per_page - 1) >> blocks_per_page_bits);
 

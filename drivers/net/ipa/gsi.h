@@ -16,8 +16,8 @@
 #include "ipa_version.h"
 
 /* Maximum number of channels and event rings supported by the driver */
-#define GSI_CHANNEL_COUNT_MAX	17
-#define GSI_EVT_RING_COUNT_MAX	13
+#define GSI_CHANNEL_COUNT_MAX	23
+#define GSI_EVT_RING_COUNT_MAX	20
 
 /* Maximum TLV FIFO size for a channel; 64 here is arbitrary (and high) */
 #define GSI_TLV_MAX		64
@@ -142,13 +142,6 @@ enum gsi_evt_ring_state {
 struct gsi_evt_ring {
 	struct gsi_channel *channel;
 	struct completion completion;	/* signals event ring state changes */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	enum gsi_evt_ring_state state;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gsi_ring ring;
 };
 

@@ -81,12 +81,9 @@ properties:
   ranges:
     maxItems: 1
 
-<<<<<<< HEAD
   dma-ranges:
     maxItems: 1
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   power-domains:
     description: |
       This property is as per sci-pm-domain.txt.
@@ -284,12 +281,9 @@ patternProperties:
       that is common to all the PRU cores. This should be represented as an
       interrupt-controller node.
 
-<<<<<<< HEAD
     allOf:
       - $ref: /schemas/interrupt-controller/ti,pruss-intc.yaml#
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     type: object
 
   mdio@[a-f0-9]+$:
@@ -311,12 +305,9 @@ patternProperties:
       present on K3 SoCs have additional auxiliary PRU cores with slightly
       different IP integration.
 
-<<<<<<< HEAD
     allOf:
       - $ref: /schemas/remoteproc/ti,pru-rproc.yaml#
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     type: object
 
 required:
@@ -389,7 +380,6 @@ examples:
             reg = <0x32000 0x58>;
         };
 
-<<<<<<< HEAD
         pruss_intc: interrupt-controller@20000 {
             compatible = "ti,pruss-intc";
             reg = <0x20000 0x2000>;
@@ -420,8 +410,6 @@ examples:
             firmware-name = "am335x-pru1-fw";
         };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         pruss_mdio: mdio@32400 {
             compatible = "ti,davinci_mdio";
             reg = <0x32400 0x90>;
@@ -476,7 +464,6 @@ examples:
             reg = <0x32000 0x58>;
         };
 
-<<<<<<< HEAD
         pruss1_intc: interrupt-controller@20000 {
             compatible = "ti,pruss-intc";
             reg = <0x20000 0x2000>;
@@ -514,8 +501,6 @@ examples:
             firmware-name = "am437x-pru1_1-fw";
         };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         pruss1_mdio: mdio@32400 {
             compatible = "ti,davinci_mdio";
             reg = <0x32400 0x90>;

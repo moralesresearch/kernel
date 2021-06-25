@@ -47,6 +47,7 @@ struct nfp_app;
 #define NFP_FL_FEATS_PRE_TUN_RULES	BIT(6)
 #define NFP_FL_FEATS_IPV6_TUN		BIT(7)
 #define NFP_FL_FEATS_VLAN_QINQ		BIT(8)
+#define NFP_FL_FEATS_QOS_PPS		BIT(9)
 #define NFP_FL_FEATS_HOST_ACK		BIT(31)
 
 #define NFP_FL_ENABLE_FLOW_MERGE	BIT(0)
@@ -61,7 +62,8 @@ struct nfp_app;
 	NFP_FL_FEATS_FLOW_MOD | \
 	NFP_FL_FEATS_PRE_TUN_RULES | \
 	NFP_FL_FEATS_IPV6_TUN | \
-	NFP_FL_FEATS_VLAN_QINQ)
+	NFP_FL_FEATS_VLAN_QINQ | \
+	NFP_FL_FEATS_QOS_PPS)
 
 struct nfp_fl_mask_id {
 	struct circ_buf mask_id_free_list;
@@ -190,10 +192,7 @@ struct nfp_fl_internal_ports {
  * @qos_rate_limiters:	Current active qos rate limiters
  * @qos_stats_lock:	Lock on qos stats updates
  * @pre_tun_rule_cnt:	Number of pre-tunnel rules offloaded
-<<<<<<< HEAD
  * @merge_table:	Hash table to store merged flows
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct nfp_flower_priv {
 	struct nfp_app *app;
@@ -227,10 +226,7 @@ struct nfp_flower_priv {
 	unsigned int qos_rate_limiters;
 	spinlock_t qos_stats_lock; /* Protect the qos stats */
 	int pre_tun_rule_cnt;
-<<<<<<< HEAD
 	struct rhashtable merge_table;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -358,15 +354,12 @@ struct nfp_fl_payload_link {
 };
 
 extern const struct rhashtable_params nfp_flower_table_params;
-<<<<<<< HEAD
 extern const struct rhashtable_params merge_table_params;
 
 struct nfp_merge_info {
 	u64 parent_ctx;
 	struct rhash_head ht_node;
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nfp_fl_stats_frame {
 	__be32 stats_con_id;

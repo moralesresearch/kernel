@@ -5,11 +5,7 @@
 #include <net/netfilter/nf_tables.h>
 
 struct nft_fib {
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			result;
 	u32			flags;
 };

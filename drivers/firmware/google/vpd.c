@@ -298,21 +298,12 @@ static int vpd_probe(struct coreboot_device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void vpd_remove(struct coreboot_device *dev)
-=======
-static int vpd_remove(struct coreboot_device *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	vpd_section_destroy(&ro_vpd);
 	vpd_section_destroy(&rw_vpd);
 
 	kobject_put(vpd_kobj);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct coreboot_driver vpd_driver = {

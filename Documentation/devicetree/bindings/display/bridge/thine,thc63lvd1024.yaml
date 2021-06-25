@@ -25,7 +25,6 @@ properties:
     const: thine,thc63lvd1024
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
     description: |
       The device can operate in single or dual input and output modes.
@@ -55,51 +54,12 @@ properties:
 
       port@3:
         $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
-    description: |
-      This device has four video ports. Their connections are modeled using the
-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-
-      The device can operate in single-link mode or dual-link mode. In
-      single-link mode, all pixels are received on port@0, and port@1 shall not
-      contain any endpoint. In dual-link mode, even-numbered pixels are
-      received on port@0 and odd-numbered pixels on port@1, and both port@0 and
-      port@1 shall contain endpoints.
-
-    properties:
-      '#address-cells':
-        const: 1
-
-      '#size-cells':
-        const: 0
-
-      port@0:
-        type: object
-        description: First LVDS input port
-
-      port@1:
-        type: object
-        description: Second LVDS input port
-
-      port@2:
-        type: object
-        description: First digital CMOS/TTL parallel output
-
-      port@3:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: Second digital CMOS/TTL parallel output
 
     required:
       - port@0
       - port@2
 
-<<<<<<< HEAD
-=======
-    additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   oe-gpios:
     maxItems: 1
     description: Output enable GPIO signal, pin name "OE", active high.

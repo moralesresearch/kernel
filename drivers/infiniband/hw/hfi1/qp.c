@@ -186,11 +186,7 @@ static void flush_iowait(struct rvt_qp *qp)
 	write_sequnlock_irqrestore(lock, flags);
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * This function is what we would push to the core layer if we wanted to be a
  * "first class citizen".  Instead we hide this here and rely on Verbs ULPs
  * to blindly pass the MTU enum value from the PathRecord to us.
@@ -293,15 +289,9 @@ void hfi1_modify_qp(struct rvt_qp *qp, struct ib_qp_attr *attr,
 
 /**
  * hfi1_setup_wqe - set up the wqe
-<<<<<<< HEAD
  * @qp: The qp
  * @wqe: The built wqe
  * @call_send: Determine if the send should be posted or scheduled.
-=======
- * @qp - The qp
- * @wqe - The built wqe
- * @call_send - Determine if the send should be posted or scheduled.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Perform setup of the wqe.  This is called
  * prior to inserting the wqe into the ring but after
@@ -605,11 +595,7 @@ struct sdma_engine *qp_to_sdma_engine(struct rvt_qp *qp, u8 sc5)
 	return sde;
 }
 
-<<<<<<< HEAD
 /**
-=======
-/*
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * qp_to_send_context - map a qp to a send context
  * @qp: the QP
  * @sc5: the 5 bit sc
@@ -926,13 +912,8 @@ void notify_error_qp(struct rvt_qp *qp)
 
 /**
  * hfi1_qp_iter_cb - callback for iterator
-<<<<<<< HEAD
  * @qp: the qp
  * @v: the sl in low bits of v
-=======
- * @qp - the qp
- * @v - the sl in low bits of v
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This is called from the iterator callback to work
  * on an individual qp.

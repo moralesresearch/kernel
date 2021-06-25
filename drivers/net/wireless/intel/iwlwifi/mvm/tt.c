@@ -44,11 +44,7 @@ static void iwl_mvm_exit_ctkill(struct iwl_mvm *mvm)
 	iwl_mvm_set_hw_ctkill_state(mvm, false);
 }
 
-<<<<<<< HEAD
 static void iwl_mvm_tt_temp_changed(struct iwl_mvm *mvm, u32 temp)
-=======
-void iwl_mvm_tt_temp_changed(struct iwl_mvm *mvm, u32 temp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* ignore the notification if we are in test mode */
 	if (mvm->temperature_test)
@@ -150,8 +146,8 @@ void iwl_mvm_temp_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 	if (mvm->tz_device.tzone) {
 		struct iwl_mvm_thermal_device *tz_dev = &mvm->tz_device;
 
-		thermal_notify_framework(tz_dev->tzone,
-					 tz_dev->fw_trips_index[ths_crossed]);
+		thermal_zone_device_update(tz_dev->tzone,
+					   THERMAL_TRIP_VIOLATED);
 	}
 #endif /* CONFIG_THERMAL */
 }
@@ -160,15 +156,6 @@ void iwl_mvm_ct_kill_notif(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
 	struct ct_kill_notif *notif;
-<<<<<<< HEAD
-=======
-	int len = iwl_rx_packet_payload_len(pkt);
-
-	if (WARN_ON_ONCE(len != sizeof(*notif))) {
-		IWL_ERR(mvm, "Invalid CT_KILL_NOTIFICATION\n");
-		return;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	notif = (struct ct_kill_notif *)pkt->data;
 	IWL_DEBUG_TEMP(mvm, "CT Kill notification temperature = %d\n",
@@ -274,11 +261,7 @@ int iwl_mvm_get_temp(struct iwl_mvm *mvm, s32 *temp)
 	ret = iwl_wait_notification(&mvm->notif_wait, &wait_temp_notif,
 				    IWL_MVM_TEMP_NOTIF_WAIT_TIMEOUT);
 	if (ret)
-<<<<<<< HEAD
 		IWL_WARN(mvm, "Getting the temperature timed out\n");
-=======
-		IWL_ERR(mvm, "Getting the temperature timed out\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }

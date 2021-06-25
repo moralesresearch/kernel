@@ -614,7 +614,7 @@ static struct zswap_pool *zswap_pool_create(char *type, char *compressor)
 	}
 	pr_debug("using %s zpool\n", zpool_get_type(pool->zpool));
 
-	strlcpy(pool->tfm_name, compressor, sizeof(pool->tfm_name));
+	strscpy(pool->tfm_name, compressor, sizeof(pool->tfm_name));
 
 	pool->acomp_ctx = alloc_percpu(*pool->acomp_ctx);
 	if (!pool->acomp_ctx) {
@@ -935,26 +935,19 @@ static int zswap_writeback_entry(struct zpool *pool, unsigned long handle)
 	struct scatterlist input, output;
 	struct crypto_acomp_ctx *acomp_ctx;
 
-<<<<<<< HEAD
 	u8 *src, *tmp = NULL;
-=======
-	u8 *src;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int dlen;
 	int ret;
 	struct writeback_control wbc = {
 		.sync_mode = WB_SYNC_NONE,
 	};
 
-<<<<<<< HEAD
 	if (!zpool_can_sleep_mapped(pool)) {
 		tmp = kmalloc(PAGE_SIZE, GFP_ATOMIC);
 		if (!tmp)
 			return -ENOMEM;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* extract swpentry from data */
 	zhdr = zpool_map_handle(pool, handle, ZPOOL_MM_RO);
 	swpentry = zhdr->swpentry; /* here */
@@ -968,10 +961,7 @@ static int zswap_writeback_entry(struct zpool *pool, unsigned long handle)
 		/* entry was invalidated */
 		spin_unlock(&tree->lock);
 		zpool_unmap_handle(pool, handle);
-<<<<<<< HEAD
 		kfree(tmp);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 	spin_unlock(&tree->lock);
@@ -996,7 +986,6 @@ static int zswap_writeback_entry(struct zpool *pool, unsigned long handle)
 		dlen = PAGE_SIZE;
 		src = (u8 *)zhdr + sizeof(struct zswap_header);
 
-<<<<<<< HEAD
 		if (!zpool_can_sleep_mapped(pool)) {
 
 			memcpy(tmp, src, entry->length);
@@ -1005,8 +994,6 @@ static int zswap_writeback_entry(struct zpool *pool, unsigned long handle)
 			zpool_unmap_handle(pool, handle);
 		}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mutex_lock(acomp_ctx->mutex);
 		sg_init_one(&input, src, entry->length);
 		sg_init_table(&output, 1);
@@ -1050,17 +1037,10 @@ static int zswap_writeback_entry(struct zpool *pool, unsigned long handle)
 
 	/*
 	* if we get here due to ZSWAP_SWAPCACHE_EXIST
-<<<<<<< HEAD
 	* a load may be happening concurrently.
 	* it is safe and okay to not free the entry.
 	* if we free the entry in the following put
 	* it is also okay to return !0
-=======
-	* a load may happening concurrently
-	* it is safe and okay to not free the entry
-	* if we free the entry in the following put
-	* it it either okay to return !0
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*/
 fail:
 	spin_lock(&tree->lock);
@@ -1068,15 +1048,11 @@ fail:
 	spin_unlock(&tree->lock);
 
 end:
-<<<<<<< HEAD
 	if (zpool_can_sleep_mapped(pool))
 		zpool_unmap_handle(pool, handle);
 	else
 		kfree(tmp);
 
-=======
-	zpool_unmap_handle(pool, handle);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1278,11 +1254,7 @@ static int zswap_frontswap_load(unsigned type, pgoff_t offset,
 	struct zswap_entry *entry;
 	struct scatterlist input, output;
 	struct crypto_acomp_ctx *acomp_ctx;
-<<<<<<< HEAD
 	u8 *src, *dst, *tmp;
-=======
-	u8 *src, *dst;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int dlen;
 	int ret;
 
@@ -1300,7 +1272,6 @@ static int zswap_frontswap_load(unsigned type, pgoff_t offset,
 		dst = kmap_atomic(page);
 		zswap_fill_page(dst, entry->value);
 		kunmap_atomic(dst);
-<<<<<<< HEAD
 		ret = 0;
 		goto freeentry;
 	}
@@ -1314,18 +1285,12 @@ static int zswap_frontswap_load(unsigned type, pgoff_t offset,
 		}
 	}
 
-=======
-		goto freeentry;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* decompress */
 	dlen = PAGE_SIZE;
 	src = zpool_map_handle(entry->pool->zpool, entry->handle, ZPOOL_MM_RO);
 	if (zpool_evictable(entry->pool->zpool))
 		src += sizeof(struct zswap_header);
 
-<<<<<<< HEAD
 	if (!zpool_can_sleep_mapped(entry->pool->zpool)) {
 
 		memcpy(tmp, src, entry->length);
@@ -1334,8 +1299,6 @@ static int zswap_frontswap_load(unsigned type, pgoff_t offset,
 		zpool_unmap_handle(entry->pool->zpool, entry->handle);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	acomp_ctx = raw_cpu_ptr(entry->pool->acomp_ctx);
 	mutex_lock(acomp_ctx->mutex);
 	sg_init_one(&input, src, entry->length);
@@ -1345,15 +1308,11 @@ static int zswap_frontswap_load(unsigned type, pgoff_t offset,
 	ret = crypto_wait_req(crypto_acomp_decompress(acomp_ctx->req), &acomp_ctx->wait);
 	mutex_unlock(acomp_ctx->mutex);
 
-<<<<<<< HEAD
 	if (zpool_can_sleep_mapped(entry->pool->zpool))
 		zpool_unmap_handle(entry->pool->zpool, entry->handle);
 	else
 		kfree(tmp);
 
-=======
-	zpool_unmap_handle(entry->pool->zpool, entry->handle);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BUG_ON(ret);
 
 freeentry:
@@ -1361,11 +1320,7 @@ freeentry:
 	zswap_entry_put(tree, entry);
 	spin_unlock(&tree->lock);
 
-<<<<<<< HEAD
 	return ret;
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* frees an entry in zswap */

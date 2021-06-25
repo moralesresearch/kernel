@@ -23,13 +23,10 @@ properties:
     $ref: "/schemas/types.yaml#/definitions/phandle"
     description: The phandle of MT8192 ASoC platform.
 
-<<<<<<< HEAD
   mediatek,hdmi-codec:
     $ref: "/schemas/types.yaml#/definitions/phandle"
     description: The phandle of HDMI codec.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 additionalProperties: false
 
 required:
@@ -42,10 +39,7 @@ examples:
     sound: mt8192-sound {
         compatible = "mediatek,mt8192_mt6359_rt1015_rt5682";
         mediatek,platform = <&afe>;
-<<<<<<< HEAD
         mediatek,hdmi-codec = <&anx_bridge_dp>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         pinctrl-names = "aud_clk_mosi_off",
                         "aud_clk_mosi_on";
         pinctrl-0 = <&aud_clk_mosi_off>;

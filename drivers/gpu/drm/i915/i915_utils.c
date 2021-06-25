@@ -87,11 +87,7 @@ bool i915_error_injected(void)
 
 void cancel_timer(struct timer_list *t)
 {
-<<<<<<< HEAD
 	if (!timer_active(t))
-=======
-	if (!READ_ONCE(t->expires))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	del_timer(t);

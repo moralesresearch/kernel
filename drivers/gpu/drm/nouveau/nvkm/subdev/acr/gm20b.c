@@ -129,14 +129,8 @@ gm20b_acr_fwif[] = {
 };
 
 int
-<<<<<<< HEAD
 gm20b_acr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_acr **pacr)
 {
 	return nvkm_acr_new_(gm20b_acr_fwif, device, type, inst, pacr);
-=======
-gm20b_acr_new(struct nvkm_device *device, int index, struct nvkm_acr **pacr)
-{
-	return nvkm_acr_new_(gm20b_acr_fwif, device, index, pacr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

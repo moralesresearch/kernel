@@ -28,11 +28,8 @@ obj-$(CONFIG_STM32_FMC2_EBI)	+= stm32-fmc2-ebi.o
 obj-$(CONFIG_SAMSUNG_MC)	+= samsung/
 obj-$(CONFIG_TEGRA_MC)		+= tegra/
 obj-$(CONFIG_TI_EMIF_SRAM)	+= ti-emif-sram.o
-<<<<<<< HEAD
 obj-$(CONFIG_FPGA_DFL_EMIF)	+= dfl-emif.o
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ti-emif-sram-objs		:= ti-emif-pm.o ti-emif-sram-pm.o
 
 AFLAGS_ti-emif-sram-pm.o	:=-Wa,-march=armv7-a

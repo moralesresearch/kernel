@@ -951,21 +951,11 @@ error_request_region:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void pcwd_isa_remove(struct device *dev, unsigned int id)
-=======
-static int pcwd_isa_remove(struct device *dev, unsigned int id)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (debug >= DEBUG)
 		pr_debug("pcwd_isa_remove id=%d\n", id);
 
-<<<<<<< HEAD
-=======
-	if (!pcwd_private.io_addr)
-		return 1;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*  Disable the board  */
 	if (!nowayout)
 		pcwd_stop();
@@ -978,11 +968,6 @@ static int pcwd_isa_remove(struct device *dev, unsigned int id)
 			(pcwd_private.revision == PCWD_REVISION_A) ? 2 : 4);
 	pcwd_private.io_addr = 0x0000;
 	cards_found--;
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void pcwd_isa_shutdown(struct device *dev, unsigned int id)

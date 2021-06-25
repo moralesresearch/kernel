@@ -48,7 +48,6 @@ static inline struct nvmet_ctrl *nvmet_req_to_ctrl(struct nvmet_req *req)
 
 static inline void __assign_req_name(char *name, struct nvmet_req *req)
 {
-<<<<<<< HEAD
 	if (!req->ns) {
 		memset(name, 0, DISK_NAME_LEN);
 		return;
@@ -56,12 +55,6 @@ static inline void __assign_req_name(char *name, struct nvmet_req *req)
 
 	strncpy(name, req->ns->device_path,
 		min_t(size_t, DISK_NAME_LEN, strlen(req->ns->device_path)));
-=======
-	if (req->ns)
-		strncpy(name, req->ns->device_path, DISK_NAME_LEN);
-	else
-		memset(name, 0, DISK_NAME_LEN);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 

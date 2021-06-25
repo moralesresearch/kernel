@@ -55,17 +55,12 @@ static int create_composite_quirk(struct snd_usb_audio *chip,
 		if (!iface)
 			continue;
 		if (quirk->ifnum != probed_ifnum &&
-<<<<<<< HEAD
 		    !usb_interface_claimed(iface)) {
 			err = usb_driver_claim_interface(driver, iface,
 							 USB_AUDIO_IFACE_UNUSED);
 			if (err < 0)
 				return err;
 		}
-=======
-		    !usb_interface_claimed(iface))
-			usb_driver_claim_interface(driver, iface, (void *)-1L);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -435,17 +430,12 @@ static int create_autodetect_quirks(struct snd_usb_audio *chip,
 			continue;
 
 		err = create_autodetect_quirk(chip, iface, driver);
-<<<<<<< HEAD
 		if (err >= 0) {
 			err = usb_driver_claim_interface(driver, iface,
 							 USB_AUDIO_IFACE_UNUSED);
 			if (err < 0)
 				return err;
 		}
-=======
-		if (err >= 0)
-			usb_driver_claim_interface(driver, iface, (void *)-1L);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1521,13 +1511,10 @@ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
 	case USB_ID(0x2b73, 0x0013): /* Pioneer DJM-450 */
 		pioneer_djm_set_format_quirk(subs, 0x0082);
 		break;
-<<<<<<< HEAD
 	case USB_ID(0x08e4, 0x017f): /* Pioneer DJM-750 */
 	case USB_ID(0x08e4, 0x0163): /* Pioneer DJM-850 */
 		pioneer_djm_set_format_quirk(subs, 0x0086);
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

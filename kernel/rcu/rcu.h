@@ -378,15 +378,11 @@ do {									\
 	smp_mb__after_unlock_lock();					\
 } while (0)
 
-<<<<<<< HEAD
 #define raw_spin_unlock_rcu_node(p)					\
 do {									\
 	lockdep_assert_irqs_disabled();					\
 	raw_spin_unlock(&ACCESS_PRIVATE(p, lock));			\
 } while (0)
-=======
-#define raw_spin_unlock_rcu_node(p) raw_spin_unlock(&ACCESS_PRIVATE(p, lock))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define raw_spin_lock_irq_rcu_node(p)					\
 do {									\
@@ -395,14 +391,10 @@ do {									\
 } while (0)
 
 #define raw_spin_unlock_irq_rcu_node(p)					\
-<<<<<<< HEAD
 do {									\
 	lockdep_assert_irqs_disabled();					\
 	raw_spin_unlock_irq(&ACCESS_PRIVATE(p, lock));			\
 } while (0)
-=======
-	raw_spin_unlock_irq(&ACCESS_PRIVATE(p, lock))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define raw_spin_lock_irqsave_rcu_node(p, flags)			\
 do {									\
@@ -411,14 +403,10 @@ do {									\
 } while (0)
 
 #define raw_spin_unlock_irqrestore_rcu_node(p, flags)			\
-<<<<<<< HEAD
 do {									\
 	lockdep_assert_irqs_disabled();					\
 	raw_spin_unlock_irqrestore(&ACCESS_PRIVATE(p, lock), flags);	\
 } while (0)
-=======
-	raw_spin_unlock_irqrestore(&ACCESS_PRIVATE(p, lock), flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define raw_spin_trylock_rcu_node(p)					\
 ({									\

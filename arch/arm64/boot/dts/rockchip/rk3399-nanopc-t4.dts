@@ -95,10 +95,7 @@
 };
 
 &pcie0 {
-<<<<<<< HEAD
 	ep-gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_HIGH>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	num-lanes = <4>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 };

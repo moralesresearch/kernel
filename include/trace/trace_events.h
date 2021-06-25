@@ -231,17 +231,11 @@ TRACE_MAKE_SYSTEM_STR();
  * {
  *	struct trace_seq *s = &iter->seq;
  *	struct trace_event_raw_<call> *field; <-- defined in stage 1
-<<<<<<< HEAD
  *	struct trace_seq *p = &iter->tmp_seq;
  *
  * -------(for event)-------
  *
  *	struct trace_entry *entry;
-=======
- *	struct trace_entry *entry;
- *	struct trace_seq *p = &iter->tmp_seq;
- *	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	entry = iter->ent;
  *
@@ -253,7 +247,6 @@ TRACE_MAKE_SYSTEM_STR();
  *	field = (typeof(field))entry;
  *
  *	trace_seq_init(p);
-<<<<<<< HEAD
  *	return trace_output_call(iter, <call>, <TP_printk> "\n");
  *
  * ------(or, for event class)------
@@ -271,16 +264,6 @@ TRACE_MAKE_SYSTEM_STR();
  *	return trace_handle_return(s);
  * -------
  *  }
-=======
- *	ret = trace_seq_printf(s, "%s: ", <call>);
- *	if (ret)
- *		ret = trace_seq_printf(s, <TP_printk> "\n");
- *	if (!ret)
- *		return TRACE_TYPE_PARTIAL_LINE;
- *
- *	return TRACE_TYPE_HANDLED;
- * }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This is the method used to print the raw event to the trace
  * output format. Note, this is not needed if the data is read
@@ -392,11 +375,7 @@ trace_raw_output_##call(struct trace_iterator *iter, int flags,		\
 	if (ret != TRACE_TYPE_HANDLED)					\
 		return ret;						\
 									\
-<<<<<<< HEAD
 	trace_event_printf(iter, print);				\
-=======
-	trace_seq_printf(s, print);					\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 	return trace_handle_return(s);					\
 }									\

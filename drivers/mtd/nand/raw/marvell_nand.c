@@ -2396,11 +2396,7 @@ static int marvell_nfc_setup_interface(struct nand_chip *chip, int chipnr,
 	 * be greater than that to be sure tCCS delay is respected.
 	 */
 	nfc_tmg.tWHR = TO_CYCLES(max_t(int, sdr->tWHR_min, sdr->tCCS_min),
-<<<<<<< HEAD
 				 period_ns) - 2;
-=======
-				 period_ns) - 2,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nfc_tmg.tRHW = TO_CYCLES(max_t(int, sdr->tRHW_min, sdr->tCCS_min),
 				 period_ns);
 

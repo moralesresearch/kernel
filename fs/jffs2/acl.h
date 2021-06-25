@@ -28,12 +28,8 @@ struct jffs2_acl_header {
 #ifdef CONFIG_JFFS2_FS_POSIX_ACL
 
 struct posix_acl *jffs2_get_acl(struct inode *inode, int type);
-<<<<<<< HEAD
 int jffs2_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		  struct posix_acl *acl, int type);
-=======
-int jffs2_set_acl(struct inode *inode, struct posix_acl *acl, int type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int jffs2_init_acl_pre(struct inode *, struct inode *, umode_t *);
 extern int jffs2_init_acl_post(struct inode *);
 

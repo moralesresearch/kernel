@@ -10,13 +10,6 @@
 #define _ASM_SPINLOCK_H
 
 #include <asm/processor.h>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include <asm/qrwlock.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm-generic/qspinlock_types.h>
 
@@ -33,13 +26,6 @@ static inline void queued_spin_unlock(struct qspinlock *lock)
 }
 
 #include <asm/qspinlock.h>
-<<<<<<< HEAD
 #include <asm/qrwlock.h>
-=======
-<<<<<<< HEAD
-#include <asm/qrwlock.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _ASM_SPINLOCK_H */

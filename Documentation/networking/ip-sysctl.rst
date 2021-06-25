@@ -178,10 +178,6 @@ min_adv_mss - INTEGER
 	The advertised MSS depends on the first hop route MTU, but will
 	never be lower than this setting.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fib_notify_on_flag_change - INTEGER
         Whether to emit RTM_NEWROUTE notifications whenever RTM_F_OFFLOAD/
         RTM_F_TRAP/RTM_F_OFFLOAD_FAILED flags are changed.
@@ -203,11 +199,6 @@ fib_notify_on_flag_change - INTEGER
         - 1 - Emit notifications.
         - 2 - Emit notifications only for RTM_F_OFFLOAD_FAILED flag change.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 IP Fragmentation:
 
 ipfrag_high_thresh - LONG INTEGER
@@ -1082,7 +1073,9 @@ ip_local_reserved_ports - list of comma separated ranges
 
 	although this is redundant. However such a setting is useful
 	if later the port range is changed to a value that will
-	include the reserved ports.
+	include the reserved ports. Also keep in mind, that overlapping
+	of these ranges may affect probability of selecting ephemeral
+	ports which are right after block of reserved ports.
 
 	Default: Empty
 
@@ -1151,6 +1144,12 @@ icmp_echo_ignore_all - BOOLEAN
 	requests sent to it.
 
 	Default: 0
+
+icmp_echo_enable_probe - BOOLEAN
+        If set to one, then the kernel will respond to RFC 8335 PROBE
+        requests sent to it.
+
+        Default: 0
 
 icmp_echo_ignore_broadcasts - BOOLEAN
 	If set non-zero, then the kernel will ignore all ICMP ECHO and
@@ -1454,10 +1453,6 @@ rp_filter - INTEGER
 	Default value is 0. Note that some distributions enable it
 	in startup scripts.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 src_valid_mark - BOOLEAN
 	- 0 - The fwmark of the packet is not included in reverse path
 	  route lookup.  This allows for asymmetric routing configurations
@@ -1477,11 +1472,6 @@ src_valid_mark - BOOLEAN
 
 	Default value is 0.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 arp_filter - BOOLEAN
 	- 1 - Allows you to have multiple network interfaces on the same
 	  subnet, and have the ARPs for each interface be answered
@@ -1832,10 +1822,6 @@ nexthop_compat_mode - BOOLEAN
 	and extraneous notifications.
 	Default: true (backward compat mode)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fib_notify_on_flag_change - INTEGER
         Whether to emit RTM_NEWROUTE notifications whenever RTM_F_OFFLOAD/
         RTM_F_TRAP/RTM_F_OFFLOAD_FAILED flags are changed.
@@ -1857,11 +1843,6 @@ fib_notify_on_flag_change - INTEGER
         - 1 - Emit notifications.
         - 2 - Emit notifications only for RTM_F_OFFLOAD_FAILED flag change.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 IPv6 Fragmentation:
 
 ip6frag_high_thresh - INTEGER
@@ -1876,27 +1857,6 @@ ip6frag_low_thresh - INTEGER
 ip6frag_time - INTEGER
 	Time in seconds to keep an IPv6 fragment in memory.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-IPv6 Segment Routing:
-
-seg6_flowlabel - INTEGER
-	Controls the behaviour of computing the flowlabel of outer
-	IPv6 header in case of SR T.encaps
-
-	 == =======================================================
-	 -1  set flowlabel to zero.
-	  0  copy flowlabel from Inner packet in case of Inner IPv6
-	     (Set flowlabel to 0 in case IPv4/L2)
-	  1  Compute the flowlabel using seg6_make_flowlabel()
-	 == =======================================================
-
-	Default is 0.
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ``conf/default/*``:
 	Change the interface-specific default settings.
 
@@ -1976,10 +1936,6 @@ accept_ra_defrtr - BOOLEAN
 		- enabled if accept_ra is enabled.
 		- disabled if accept_ra is disabled.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ra_defrtr_metric - UNSIGNED INTEGER
 	Route metric for default route learned in Router Advertisement. This value
 	will be assigned as metric for the default route learned via IPv6 Router
@@ -1990,11 +1946,6 @@ ra_defrtr_metric - UNSIGNED INTEGER
 
 		Default: IP6_RT_PRIO_USER i.e. 1024.
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 accept_ra_from_local - BOOLEAN
 	Accept RA with source-address that is found on local machine
 	if the RA is otherwise proper and able to be accepted.

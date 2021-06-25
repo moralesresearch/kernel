@@ -348,8 +348,14 @@ enum power_desc_param_offset {
 
 /* Exception event mask values */
 enum {
-	MASK_EE_STATUS		= 0xFFFF,
-	MASK_EE_URGENT_BKOPS	= (1 << 2),
+	MASK_EE_STATUS			= 0xFFFF,
+	MASK_EE_DYNCAP_EVENT		= BIT(0),
+	MASK_EE_SYSPOOL_EVENT		= BIT(1),
+	MASK_EE_URGENT_BKOPS		= BIT(2),
+	MASK_EE_TOO_HIGH_TEMP		= BIT(3),
+	MASK_EE_TOO_LOW_TEMP		= BIT(4),
+	MASK_EE_WRITEBOOSTER_EVENT	= BIT(5),
+	MASK_EE_PERFORMANCE_THROTTLING	= BIT(6),
 };
 
 /* Background operation status */
@@ -527,10 +533,6 @@ struct ufs_vreg_info {
 };
 
 struct ufs_dev_info {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool	f_power_on_wp_en;
 	/* Keeps information if any of the LU is power on write protected */
 	bool	is_lu_power_on_wp;
@@ -567,27 +569,6 @@ enum ufs_trace_str_t {
  */
 enum ufs_trace_tsf_t {
 	UFS_TSF_CDB, UFS_TSF_OSF, UFS_TSF_TM_INPUT, UFS_TSF_TM_OUTPUT
-<<<<<<< HEAD
-=======
-=======
-	bool f_power_on_wp_en;
-	/* Keeps information if any of the LU is power on write protected */
-	bool is_lu_power_on_wp;
-	/* Maximum number of general LU supported by the UFS device */
-	u8 max_lu_supported;
-	u8 wb_dedicated_lu;
-	u16 wmanufacturerid;
-	/*UFS device Product Name */
-	u8 *model;
-	u16 wspecversion;
-	u32 clk_gating_wait_us;
-	u32 d_ext_ufs_feature_sup;
-	u8 b_wb_buffer_type;
-	u32 d_wb_alloc_units;
-	bool b_rpm_dev_flush_capable;
-	u8 b_presrv_uspc_en;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**

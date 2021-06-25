@@ -1712,7 +1712,6 @@ ip_vs_dest_conn_overhead(struct ip_vs_dest *dest)
 		atomic_read(&dest->inactconns);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_IP_VS_PROTO_TCP
 INDIRECT_CALLABLE_DECLARE(int
 	tcp_snat_handler(struct sk_buff *skb, struct ip_vs_protocol *pp,
@@ -1724,6 +1723,4 @@ INDIRECT_CALLABLE_DECLARE(int
 	udp_snat_handler(struct sk_buff *skb, struct ip_vs_protocol *pp,
 			 struct ip_vs_conn *cp, struct ip_vs_iphdr *iph));
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* _NET_IP_VS_H */

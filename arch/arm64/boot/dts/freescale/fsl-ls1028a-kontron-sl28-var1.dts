@@ -46,12 +46,8 @@
 			eee-broken-100tx;
 			qca,clk-out-frequency = <125000000>;
 			qca,clk-out-strength = <AR803X_STRENGTH_FULL>;
-<<<<<<< HEAD
 			qca,keep-pll-enabled;
 			vddio-supply = <&vddio>;
-=======
-			vddio-supply = <&vddh>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			vddio: vddio-regulator {
 				regulator-name = "VDDIO";

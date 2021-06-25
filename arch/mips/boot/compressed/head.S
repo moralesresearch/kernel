@@ -15,18 +15,7 @@
 #include <asm/asm.h>
 #include <asm/regdef.h>
 
-<<<<<<< HEAD
 	LEAF(start)
-=======
-<<<<<<< HEAD
-	LEAF(start)
-=======
-	.set noreorder
-	.cprestore
-	LEAF(start)
-start:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Save boot rom start args */
 	move	s0, a0
 	move	s1, a1
@@ -37,64 +26,26 @@ start:
 	PTR_LA	a0, _edata
 	PTR_LA	a2, _end
 1:	sw	zero, 0(a0)
-<<<<<<< HEAD
 	addiu	a0, a0, 4
 	bne	a2, a0, 1b
-=======
-<<<<<<< HEAD
-	addiu	a0, a0, 4
-	bne	a2, a0, 1b
-=======
-	bne	a2, a0, 1b
-	 addiu	a0, a0, 4
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	PTR_LA	a0, (.heap)	     /* heap address */
 	PTR_LA	sp, (.stack + 8192)  /* stack address */
 
-<<<<<<< HEAD
 	PTR_LA	t9, decompress_kernel
 	jalr	t9
 
-=======
-<<<<<<< HEAD
-	PTR_LA	t9, decompress_kernel
-	jalr	t9
-
-=======
-	PTR_LA	ra, 2f
-	PTR_LA	k0, decompress_kernel
-	jr	k0
-	 nop
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 2:
 	move	a0, s0
 	move	a1, s1
 	move	a2, s2
 	move	a3, s3
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PTR_LI	t9, KERNEL_ENTRY
 	jalr	t9
 
 3:
 	b	3b
 
-<<<<<<< HEAD
-=======
-=======
-	PTR_LI	k0, KERNEL_ENTRY
-	jr	k0
-	 nop
-3:
-	b	3b
-	 nop
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	END(start)
 
 	.comm .heap,BOOT_HEAP_SIZE,4

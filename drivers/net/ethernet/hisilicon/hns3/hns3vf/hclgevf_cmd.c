@@ -176,7 +176,6 @@ void hclgevf_cmd_setup_basic_desc(struct hclgevf_desc *desc,
 		desc->flag &= cpu_to_le16(~HCLGEVF_CMD_FLAG_WR);
 }
 
-<<<<<<< HEAD
 struct vf_errcode {
 	u32 imp_errcode;
 	int common_errno;
@@ -282,38 +281,6 @@ static int hclgevf_cmd_check_result(struct hclgevf_hw *hw,
 		dev_warn(&hdev->pdev->dev,
 			 "cleaned %d, need to clean %d\n", handle, num);
 	return ret;
-=======
-static int hclgevf_cmd_convert_err_code(u16 desc_ret)
-{
-	switch (desc_ret) {
-	case HCLGEVF_CMD_EXEC_SUCCESS:
-		return 0;
-	case HCLGEVF_CMD_NO_AUTH:
-		return -EPERM;
-	case HCLGEVF_CMD_NOT_SUPPORTED:
-		return -EOPNOTSUPP;
-	case HCLGEVF_CMD_QUEUE_FULL:
-		return -EXFULL;
-	case HCLGEVF_CMD_NEXT_ERR:
-		return -ENOSR;
-	case HCLGEVF_CMD_UNEXE_ERR:
-		return -ENOTBLK;
-	case HCLGEVF_CMD_PARA_ERR:
-		return -EINVAL;
-	case HCLGEVF_CMD_RESULT_ERR:
-		return -ERANGE;
-	case HCLGEVF_CMD_TIMEOUT:
-		return -ETIME;
-	case HCLGEVF_CMD_HILINK_ERR:
-		return -ENOLINK;
-	case HCLGEVF_CMD_QUEUE_ILLEGAL:
-		return -ENXIO;
-	case HCLGEVF_CMD_INVALID:
-		return -EBADR;
-	default:
-		return -EIO;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* hclgevf_cmd_send - send command to command queue
@@ -328,17 +295,7 @@ int hclgevf_cmd_send(struct hclgevf_hw *hw, struct hclgevf_desc *desc, int num)
 {
 	struct hclgevf_dev *hdev = (struct hclgevf_dev *)hw->hdev;
 	struct hclgevf_cmq_ring *csq = &hw->cmq.csq;
-<<<<<<< HEAD
 	int ret;
-=======
-	struct hclgevf_desc *desc_to_use;
-	bool complete = false;
-	u32 timeout = 0;
-	int handle = 0;
-	int status = 0;
-	u16 retval;
-	u16 opcode;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ntc;
 
 	spin_lock_bh(&hw->cmq.csq.lock);
@@ -362,80 +319,18 @@ int hclgevf_cmd_send(struct hclgevf_hw *hw, struct hclgevf_desc *desc, int num)
 	 * which will be use for hardware to write back
 	 */
 	ntc = hw->cmq.csq.next_to_use;
-<<<<<<< HEAD
 
 	hclgevf_cmd_copy_desc(hw, desc, num);
-=======
-	opcode = le16_to_cpu(desc[0].opcode);
-	while (handle < num) {
-		desc_to_use = &hw->cmq.csq.desc[hw->cmq.csq.next_to_use];
-		*desc_to_use = desc[handle];
-		(hw->cmq.csq.next_to_use)++;
-		if (hw->cmq.csq.next_to_use == hw->cmq.csq.desc_num)
-			hw->cmq.csq.next_to_use = 0;
-		handle++;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Write to hardware */
 	hclgevf_write_dev(hw, HCLGEVF_NIC_CSQ_TAIL_REG,
 			  hw->cmq.csq.next_to_use);
 
-<<<<<<< HEAD
 	ret = hclgevf_cmd_check_result(hw, desc, num, ntc);
 
 	spin_unlock_bh(&hw->cmq.csq.lock);
 
 	return ret;
-=======
-	/* If the command is sync, wait for the firmware to write back,
-	 * if multi descriptors to be sent, use the first one to check
-	 */
-	if (HCLGEVF_SEND_SYNC(le16_to_cpu(desc->flag))) {
-		do {
-			if (hclgevf_cmd_csq_done(hw))
-				break;
-			udelay(1);
-			timeout++;
-		} while (timeout < hw->cmq.tx_timeout);
-	}
-
-	if (hclgevf_cmd_csq_done(hw)) {
-		complete = true;
-		handle = 0;
-
-		while (handle < num) {
-			/* Get the result of hardware write back */
-			desc_to_use = &hw->cmq.csq.desc[ntc];
-			desc[handle] = *desc_to_use;
-
-			if (likely(!hclgevf_is_special_opcode(opcode)))
-				retval = le16_to_cpu(desc[handle].retval);
-			else
-				retval = le16_to_cpu(desc[0].retval);
-
-			status = hclgevf_cmd_convert_err_code(retval);
-			hw->cmq.last_status = (enum hclgevf_cmd_status)retval;
-			ntc++;
-			handle++;
-			if (ntc == hw->cmq.csq.desc_num)
-				ntc = 0;
-		}
-	}
-
-	if (!complete)
-		status = -EBADE;
-
-	/* Clean the command send queue */
-	handle = hclgevf_cmd_csq_clean(hw);
-	if (handle != num)
-		dev_warn(&hdev->pdev->dev,
-			 "cleaned %d, need to clean %d\n", handle, num);
-
-	spin_unlock_bh(&hw->cmq.csq.lock);
-
-	return status;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hclgevf_set_default_capability(struct hclgevf_dev *hdev)
@@ -454,7 +349,6 @@ static void hclgevf_parse_capability(struct hclgevf_dev *hdev,
 	u32 caps;
 
 	caps = __le32_to_cpu(cmd->caps[0]);
-
 	if (hnae3_get_bit(caps, HCLGEVF_CAP_UDP_GSO_B))
 		set_bit(HNAE3_DEV_SUPPORT_UDP_GSO_B, ae_dev->caps);
 	if (hnae3_get_bit(caps, HCLGEVF_CAP_INT_QL_B))
@@ -467,7 +361,6 @@ static void hclgevf_parse_capability(struct hclgevf_dev *hdev,
 		set_bit(HNAE3_DEV_SUPPORT_UDP_TUNNEL_CSUM_B, ae_dev->caps);
 }
 
-<<<<<<< HEAD
 static __le32 hclgevf_build_api_caps(void)
 {
 	u32 api_caps = 0;
@@ -477,8 +370,6 @@ static __le32 hclgevf_build_api_caps(void)
 	return cpu_to_le32(api_caps);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hclgevf_cmd_query_version_and_capability(struct hclgevf_dev *hdev)
 {
 	struct hnae3_ae_dev *ae_dev = pci_get_drvdata(hdev->pdev);
@@ -489,10 +380,7 @@ static int hclgevf_cmd_query_version_and_capability(struct hclgevf_dev *hdev)
 	resp = (struct hclgevf_query_version_cmd *)desc.data;
 
 	hclgevf_cmd_setup_basic_desc(&desc, HCLGEVF_OPC_QUERY_FW_VER, 1);
-<<<<<<< HEAD
 	resp->api_caps = hclgevf_build_api_caps();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = hclgevf_cmd_send(&hdev->hw, &desc, 1);
 	if (status)
 		return status;

@@ -89,14 +89,8 @@ u8 NVReadSeq(struct nvidia_par *par, u8 index)
 }
 void NVWriteAttr(struct nvidia_par *par, u8 index, u8 value)
 {
-<<<<<<< HEAD
 
 	VGA_RD08(par->PCIO, par->IOBase + 0x0a);
-=======
-	volatile u8 tmp;
-
-	tmp = VGA_RD08(par->PCIO, par->IOBase + 0x0a);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (par->paletteEnabled)
 		index &= ~0x20;
 	else
@@ -106,13 +100,7 @@ void NVWriteAttr(struct nvidia_par *par, u8 index, u8 value)
 }
 u8 NVReadAttr(struct nvidia_par *par, u8 index)
 {
-<<<<<<< HEAD
 	VGA_RD08(par->PCIO, par->IOBase + 0x0a);
-=======
-	volatile u8 tmp;
-
-	tmp = VGA_RD08(par->PCIO, par->IOBase + 0x0a);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (par->paletteEnabled)
 		index &= ~0x20;
 	else

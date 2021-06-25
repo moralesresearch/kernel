@@ -76,7 +76,6 @@ static int acp3x_reset(void __iomem *acp3x_base)
 	return -ETIMEDOUT;
 }
 
-<<<<<<< HEAD
 static void acp3x_enable_interrupts(void __iomem *acp_base)
 {
 	rv_writel(0x01, acp_base + mmACP_EXTERNAL_INTR_ENB);
@@ -90,8 +89,6 @@ static void acp3x_disable_interrupts(void __iomem *acp_base)
 	rv_writel(0x00, acp_base + mmACP_EXTERNAL_INTR_ENB);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int acp3x_init(struct acp3x_dev_data *adata)
 {
 	void __iomem *acp3x_base = adata->acp3x_base;
@@ -109,10 +106,7 @@ static int acp3x_init(struct acp3x_dev_data *adata)
 		pr_err("ACP3x reset failed\n");
 		return ret;
 	}
-<<<<<<< HEAD
 	acp3x_enable_interrupts(acp3x_base);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -120,10 +114,7 @@ static int acp3x_deinit(void __iomem *acp3x_base)
 {
 	int ret;
 
-<<<<<<< HEAD
 	acp3x_disable_interrupts(acp3x_base);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Reset */
 	ret = acp3x_reset(acp3x_base);
 	if (ret) {

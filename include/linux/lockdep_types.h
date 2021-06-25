@@ -30,15 +30,12 @@ enum lockdep_wait_type {
 	LD_WAIT_MAX,		/* must be last */
 };
 
-<<<<<<< HEAD
 enum lockdep_lock_type {
 	LD_LOCK_NORMAL = 0,	/* normal, catch all */
 	LD_LOCK_PERCPU,		/* percpu */
 	LD_LOCK_MAX,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_LOCKDEP
 
 /*
@@ -128,15 +125,10 @@ struct lock_class {
 	int				name_version;
 	const char			*name;
 
-<<<<<<< HEAD
 	u8				wait_type_inner;
 	u8				wait_type_outer;
 	u8				lock_type;
 	/* u8				hole; */
-=======
-	short				wait_type_inner;
-	short				wait_type_outer;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_LOCK_STAT
 	unsigned long			contention_point[LOCKSTAT_POINTS];
@@ -185,15 +177,10 @@ struct lockdep_map {
 	struct lock_class_key		*key;
 	struct lock_class		*class_cache[NR_LOCKDEP_CACHING_CLASSES];
 	const char			*name;
-<<<<<<< HEAD
 	u8				wait_type_outer; /* can be taken in this context */
 	u8				wait_type_inner; /* presents this context */
 	u8				lock_type;
 	/* u8				hole; */
-=======
-	short				wait_type_outer; /* can be taken in this context */
-	short				wait_type_inner; /* presents this context */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_LOCK_STAT
 	int				cpu;
 	unsigned long			ip;

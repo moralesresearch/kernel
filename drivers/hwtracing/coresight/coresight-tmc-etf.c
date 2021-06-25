@@ -37,11 +37,7 @@ static void __tmc_etb_enable_hw(struct tmc_drvdata *drvdata)
 
 static int tmc_etb_enable_hw(struct tmc_drvdata *drvdata)
 {
-<<<<<<< HEAD
 	int rc = coresight_claim_device(drvdata->csdev);
-=======
-	int rc = coresight_claim_device(drvdata->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rc)
 		return rc;
@@ -92,11 +88,7 @@ static void __tmc_etb_disable_hw(struct tmc_drvdata *drvdata)
 static void tmc_etb_disable_hw(struct tmc_drvdata *drvdata)
 {
 	__tmc_etb_disable_hw(drvdata);
-<<<<<<< HEAD
 	coresight_disclaim_device(drvdata->csdev);
-=======
-	coresight_disclaim_device(drvdata->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __tmc_etf_enable_hw(struct tmc_drvdata *drvdata)
@@ -117,11 +109,7 @@ static void __tmc_etf_enable_hw(struct tmc_drvdata *drvdata)
 
 static int tmc_etf_enable_hw(struct tmc_drvdata *drvdata)
 {
-<<<<<<< HEAD
 	int rc = coresight_claim_device(drvdata->csdev);
-=======
-	int rc = coresight_claim_device(drvdata->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rc)
 		return rc;
@@ -132,20 +120,13 @@ static int tmc_etf_enable_hw(struct tmc_drvdata *drvdata)
 
 static void tmc_etf_disable_hw(struct tmc_drvdata *drvdata)
 {
-<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CS_UNLOCK(drvdata->base);
 
 	tmc_flush_and_stop(drvdata);
 	tmc_disable_hw(drvdata);
-<<<<<<< HEAD
 	coresight_disclaim_device_unlocked(csdev);
-=======
-	coresight_disclaim_device_unlocked(drvdata->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CS_LOCK(drvdata->base);
 }
 

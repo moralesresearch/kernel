@@ -410,22 +410,14 @@ nvkm_acr_ctor_wpr(struct nvkm_acr *acr, int ver)
 
 int
 nvkm_acr_new_(const struct nvkm_acr_fwif *fwif, struct nvkm_device *device,
-<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, struct nvkm_acr **pacr)
-=======
-	      int index, struct nvkm_acr **pacr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_acr *acr;
 	long wprfw;
 
 	if (!(acr = *pacr = kzalloc(sizeof(*acr), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_acr, device, type, inst, &acr->subdev);
-=======
-	nvkm_subdev_ctor(&nvkm_acr, device, index, &acr->subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&acr->hsfw);
 	INIT_LIST_HEAD(&acr->lsfw);
 	INIT_LIST_HEAD(&acr->hsf);

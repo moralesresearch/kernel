@@ -31,12 +31,8 @@
 #include "gf100.h"
 
 struct gk104_clkgate_engine_info {
-<<<<<<< HEAD
 	enum nvkm_subdev_type type;
 	int inst;
-=======
-	enum nvkm_devidx engine;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 offset;
 };
 

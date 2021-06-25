@@ -2,11 +2,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2008 - 2014 Intel Corporation. All rights reserved.
-<<<<<<< HEAD
  * Copyright(c) 2018 - 2020 Intel Corporation
-=======
- * Copyright(c) 2018 - 2019 Intel Corporation
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Contact Information:
  *  Intel Linux Wireless <linuxwifi@intel.com>
@@ -106,12 +102,7 @@ static const struct iwl_eeprom_params iwl20x0_eeprom_params = {
 	.nvm_calib_ver = EEPROM_2000_TX_POWER_VERSION,		\
 	.trans.base_params = &iwl2000_base_params,		\
 	.eeprom_params = &iwl20x0_eeprom_params,		\
-<<<<<<< HEAD
 	.led_mode = IWL_LED_RF_STATE
-=======
-	.led_mode = IWL_LED_RF_STATE,				\
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 const struct iwl_cfg iwl2000_2bgn_cfg = {
@@ -137,12 +128,7 @@ const struct iwl_cfg iwl2000_2bgn_d_cfg = {
 	.nvm_calib_ver = EEPROM_2000_TX_POWER_VERSION,	\
 	.trans.base_params = &iwl2030_base_params,		\
 	.eeprom_params = &iwl20x0_eeprom_params,		\
-<<<<<<< HEAD
 	.led_mode = IWL_LED_RF_STATE
-=======
-	.led_mode = IWL_LED_RF_STATE,				\
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 const struct iwl_cfg iwl2030_2bgn_cfg = {
 	.name = "Intel(R) Centrino(R) Wireless-N 2230 BGN",
@@ -162,12 +148,7 @@ const struct iwl_cfg iwl2030_2bgn_cfg = {
 	.trans.base_params = &iwl2000_base_params,		\
 	.eeprom_params = &iwl20x0_eeprom_params,		\
 	.led_mode = IWL_LED_RF_STATE,				\
-<<<<<<< HEAD
 	.rx_with_siso_diversity = true
-=======
-	.rx_with_siso_diversity = true,				\
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 const struct iwl_cfg iwl105_bgn_cfg = {
 	.name = "Intel(R) Centrino(R) Wireless-N 105 BGN",
@@ -193,12 +174,7 @@ const struct iwl_cfg iwl105_bgn_d_cfg = {
 	.trans.base_params = &iwl2030_base_params,		\
 	.eeprom_params = &iwl20x0_eeprom_params,		\
 	.led_mode = IWL_LED_RF_STATE,				\
-<<<<<<< HEAD
 	.rx_with_siso_diversity = true
-=======
-	.rx_with_siso_diversity = true,				\
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 const struct iwl_cfg iwl135_bgn_cfg = {
 	.name = "Intel(R) Centrino(R) Wireless-N 135 BGN",

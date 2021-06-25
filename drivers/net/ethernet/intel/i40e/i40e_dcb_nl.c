@@ -1,21 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 /* Copyright(c) 2013 - 2021 Intel Corporation. */
-=======
-/* Copyright(c) 2013 - 2018 Intel Corporation. */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_I40E_DCB
 #include "i40e.h"
 #include <net/dcbnl.h>
 
-<<<<<<< HEAD
 #define I40E_DCBNL_STATUS_SUCCESS	0
 #define I40E_DCBNL_STATUS_ERROR		1
 static bool i40e_dcbnl_find_app(struct i40e_dcbx_config *cfg,
 				struct i40e_dcb_app_priority_table *app);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * i40e_get_pfc_delay - retrieve PFC Link Delay
  * @hw: pointer to hardware struct
@@ -44,23 +37,13 @@ static int i40e_dcbnl_ieee_getets(struct net_device *dev,
 {
 	struct i40e_pf *pf = i40e_netdev_to_pf(dev);
 	struct i40e_dcbx_config *dcbxcfg;
-<<<<<<< HEAD
-=======
-	struct i40e_hw *hw = &pf->hw;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!(pf->dcbx_cap & DCB_CAP_DCBX_VER_IEEE))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	dcbxcfg = &pf->hw.local_dcbx_config;
 	ets->willing = dcbxcfg->etscfg.willing;
 	ets->ets_cap = I40E_MAX_TRAFFIC_CLASS;
-=======
-	dcbxcfg = &hw->local_dcbx_config;
-	ets->willing = dcbxcfg->etscfg.willing;
-	ets->ets_cap = dcbxcfg->etscfg.maxtcs;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ets->cbs = dcbxcfg->etscfg.cbs;
 	memcpy(ets->tc_tx_bw, dcbxcfg->etscfg.tcbwtable,
 		sizeof(ets->tc_tx_bw));
@@ -104,11 +87,7 @@ static int i40e_dcbnl_ieee_getpfc(struct net_device *dev,
 	pfc->mbc = dcbxcfg->pfc.mbc;
 	i40e_get_pfc_delay(hw, &pfc->delay);
 
-<<<<<<< HEAD
 	/* Get Requests/Indications */
-=======
-	/* Get Requests/Indicatiosn */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < I40E_MAX_TRAFFIC_CLASS; i++) {
 		pfc->requests[i] = pf->stats.priority_xoff_tx[i];
 		pfc->indications[i] = pf->stats.priority_xoff_rx[i];
@@ -118,7 +97,6 @@ static int i40e_dcbnl_ieee_getpfc(struct net_device *dev,
 }
 
 /**
-<<<<<<< HEAD
  * i40e_dcbnl_ieee_setets - set IEEE ETS configuration
  * @netdev: the corresponding netdev
  * @ets: structure to hold the ETS information
@@ -414,7 +392,7 @@ static void i40e_dcbnl_set_pg_tc_cfg_tx(struct net_device *netdev, int tc,
 }
 
 /**
- * i40e_dcbnl_set_pg_tc_cfg_tx - Set CEE PG Tx BW config
+ * i40e_dcbnl_set_pg_bwg_cfg_tx - Set CEE PG Tx BW config
  * @netdev: the corresponding netdev
  * @pgid: the corresponding traffic class
  * @bw_pct: the BW percentage for the specified traffic class
@@ -826,8 +804,6 @@ static u8 i40e_dcbnl_setdcbx(struct net_device *netdev, u8 mode)
 }
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i40e_dcbnl_getdcbx - retrieve current DCBx capability
  * @dev: the corresponding netdev
  *
@@ -866,7 +842,6 @@ static const struct dcbnl_rtnl_ops dcbnl_ops = {
 	.ieee_getets	= i40e_dcbnl_ieee_getets,
 	.ieee_getpfc	= i40e_dcbnl_ieee_getpfc,
 	.getdcbx	= i40e_dcbnl_getdcbx,
-<<<<<<< HEAD
 	.getpermhwaddr	= i40e_dcbnl_get_perm_hw_addr,
 	.ieee_setets	= i40e_dcbnl_ieee_setets,
 	.ieee_setpfc	= i40e_dcbnl_ieee_setpfc,
@@ -892,9 +867,6 @@ static const struct dcbnl_rtnl_ops dcbnl_ops = {
 	.setpfcstate	= i40e_dcbnl_setpfcstate,
 	.getapp		= i40e_dcbnl_getapp,
 	.setdcbx	= i40e_dcbnl_setdcbx,
-=======
-	.getpermhwaddr  = i40e_dcbnl_get_perm_hw_addr,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -914,23 +886,16 @@ void i40e_dcbnl_set_all(struct i40e_vsi *vsi)
 	u8 prio, tc_map;
 	int i;
 
-<<<<<<< HEAD
 	/* SW DCB taken care by DCBNL set calls */
 	if (pf->dcbx_cap & DCB_CAP_DCBX_HOST)
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* DCB not enabled */
 	if (!(pf->flags & I40E_FLAG_DCB_ENABLED))
 		return;
 
 	/* MFP mode but not an iSCSI PF so return */
-<<<<<<< HEAD
 	if ((pf->flags & I40E_FLAG_MFP_ENABLED) && !(hw->func_caps.iscsi))
-=======
-	if ((pf->flags & I40E_FLAG_MFP_ENABLED) && !(pf->hw.func_caps.iscsi))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	dcbxcfg = &hw->local_dcbx_config;

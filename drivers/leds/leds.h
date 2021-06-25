@@ -19,15 +19,8 @@ static inline int led_get_brightness(struct led_classdev *led_cdev)
 
 void led_init_core(struct led_classdev *led_cdev);
 void led_stop_software_blink(struct led_classdev *led_cdev);
-<<<<<<< HEAD
 void led_set_brightness_nopm(struct led_classdev *led_cdev, unsigned int value);
 void led_set_brightness_nosleep(struct led_classdev *led_cdev, unsigned int value);
-=======
-void led_set_brightness_nopm(struct led_classdev *led_cdev,
-				enum led_brightness value);
-void led_set_brightness_nosleep(struct led_classdev *led_cdev,
-				enum led_brightness value);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
 			struct bin_attribute *attr, char *buf,
 			loff_t pos, size_t count);

@@ -109,30 +109,12 @@ err_out:
 	return err;
 }
 
-int erofs_map_blocks(struct inode *inode,
-		     struct erofs_map_blocks *map, int flags)
-{
-	if (erofs_inode_is_data_compressed(EROFS_I(inode)->datalayout)) {
-		int err = z_erofs_map_blocks_iter(inode, map, flags);
-
-		if (map->mpage) {
-			put_page(map->mpage);
-			map->mpage = NULL;
-		}
-		return err;
-	}
-	return erofs_map_blocks_flatmode(inode, map, flags);
-}
-
 static inline struct bio *erofs_read_raw_page(struct bio *bio,
 					      struct address_space *mapping,
 					      struct page *page,
 					      erofs_off_t *last_block,
 					      unsigned int nblocks,
-<<<<<<< HEAD
 					      unsigned int *eblks,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					      bool ra)
 {
 	struct inode *const inode = mapping->host;
@@ -149,12 +131,7 @@ static inline struct bio *erofs_read_raw_page(struct bio *bio,
 
 	/* note that for readpage case, bio also equals to NULL */
 	if (bio &&
-<<<<<<< HEAD
 	    (*last_block + 1 != current_block || !*eblks)) {
-=======
-	    /* not continuous */
-	    *last_block + 1 != current_block) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 submit_bio_retry:
 		submit_bio(bio);
 		bio = NULL;
@@ -167,7 +144,7 @@ submit_bio_retry:
 		erofs_blk_t blknr;
 		unsigned int blkoff;
 
-		err = erofs_map_blocks(inode, &map, EROFS_GET_BLOCKS_RAW);
+		err = erofs_map_blocks_flatmode(inode, &map, EROFS_GET_BLOCKS_RAW);
 		if (err)
 			goto err_out;
 
@@ -223,16 +200,9 @@ submit_bio_retry:
 		/* max # of continuous pages */
 		if (nblocks > DIV_ROUND_UP(map.m_plen, PAGE_SIZE))
 			nblocks = DIV_ROUND_UP(map.m_plen, PAGE_SIZE);
-<<<<<<< HEAD
 
 		*eblks = bio_max_segs(nblocks);
 		bio = bio_alloc(GFP_NOIO, *eblks);
-=======
-		if (nblocks > BIO_MAX_PAGES)
-			nblocks = BIO_MAX_PAGES;
-
-		bio = bio_alloc(GFP_NOIO, nblocks);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		bio->bi_end_io = erofs_readendio;
 		bio_set_dev(bio, sb->s_bdev);
@@ -245,21 +215,8 @@ submit_bio_retry:
 	/* out of the extent or bio is full */
 	if (err < PAGE_SIZE)
 		goto submit_bio_retry;
-<<<<<<< HEAD
 	--*eblks;
 	*last_block = current_block;
-=======
-
-	*last_block = current_block;
-
-	/* shift in advance in case of it followed by too many gaps */
-	if (bio->bi_iter.bi_size >= bio->bi_max_vecs * PAGE_SIZE) {
-		/* err should reassign to 0 after submitting */
-		err = 0;
-		goto submit_bio_out;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return bio;
 
 err_out:
@@ -273,10 +230,6 @@ has_updated:
 
 	/* if updated manually, continuous pages has a gap */
 	if (bio)
-<<<<<<< HEAD
-=======
-submit_bio_out:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		submit_bio(bio);
 	return err ? ERR_PTR(err) : NULL;
 }
@@ -288,40 +241,26 @@ submit_bio_out:
 static int erofs_raw_access_readpage(struct file *file, struct page *page)
 {
 	erofs_off_t last_block;
-<<<<<<< HEAD
 	unsigned int eblks;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bio *bio;
 
 	trace_erofs_readpage(page, true);
 
 	bio = erofs_read_raw_page(NULL, page->mapping,
-<<<<<<< HEAD
 				  page, &last_block, 1, &eblks, false);
-=======
-				  page, &last_block, 1, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (IS_ERR(bio))
 		return PTR_ERR(bio);
 
-<<<<<<< HEAD
 	if (bio)
 		submit_bio(bio);
-=======
-	DBG_BUGON(bio);	/* since we have only one bio -- must be NULL */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
 static void erofs_raw_access_readahead(struct readahead_control *rac)
 {
 	erofs_off_t last_block;
-<<<<<<< HEAD
 	unsigned int eblks;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bio *bio = NULL;
 	struct page *page;
 
@@ -332,11 +271,7 @@ static void erofs_raw_access_readahead(struct readahead_control *rac)
 		prefetchw(&page->flags);
 
 		bio = erofs_read_raw_page(bio, rac->mapping, page, &last_block,
-<<<<<<< HEAD
 				readahead_count(rac), &eblks, true);
-=======
-				readahead_count(rac), true);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* all the page errors are ignored when readahead */
 		if (IS_ERR(bio)) {
@@ -350,10 +285,6 @@ static void erofs_raw_access_readahead(struct readahead_control *rac)
 		put_page(page);
 	}
 
-<<<<<<< HEAD
-=======
-	/* the rare case (end in gaps) */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bio)
 		submit_bio(bio);
 }
@@ -372,7 +303,7 @@ static sector_t erofs_bmap(struct address_space *mapping, sector_t block)
 			return 0;
 	}
 
-	if (!erofs_map_blocks(inode, &map, EROFS_GET_BLOCKS_RAW))
+	if (!erofs_map_blocks_flatmode(inode, &map, EROFS_GET_BLOCKS_RAW))
 		return erofs_blknr(map.m_pa);
 
 	return 0;

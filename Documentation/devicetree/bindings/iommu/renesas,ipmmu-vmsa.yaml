@@ -76,10 +76,6 @@ required:
   - compatible
   - reg
   - '#iommu-cells'
-<<<<<<< HEAD
-=======
-  - power-domains
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 oneOf:
   - required:
@@ -89,7 +85,6 @@ oneOf:
 
 additionalProperties: false
 
-<<<<<<< HEAD
 allOf:
   - if:
       properties:
@@ -101,8 +96,6 @@ allOf:
       required:
         - power-domains
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 examples:
   - |
     #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
@@ -110,11 +103,7 @@ examples:
     #include <dt-bindings/power/r8a7791-sysc.h>
 
     ipmmu_mx: iommu@fe951000 {
-<<<<<<< HEAD
         compatible = "renesas,ipmmu-r8a7791", "renesas,ipmmu-vmsa";
-=======
-        compatible = "renasas,ipmmu-r8a7791", "renasas,ipmmu-vmsa";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         reg = <0xfe951000 0x1000>;
         interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>,
                      <GIC_SPI 221 IRQ_TYPE_LEVEL_HIGH>;

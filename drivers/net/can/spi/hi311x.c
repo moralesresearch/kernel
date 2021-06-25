@@ -179,7 +179,7 @@ static void hi3110_clean(struct net_device *net)
 		net->stats.tx_errors++;
 	dev_kfree_skb(priv->tx_skb);
 	if (priv->tx_len)
-		can_free_echo_skb(priv->net, 0);
+		can_free_echo_skb(priv->net, 0, NULL);
 	priv->tx_skb = NULL;
 	priv->tx_len = 0;
 }
@@ -586,11 +586,7 @@ static void hi3110_tx_work_handler(struct work_struct *ws)
 			frame = (struct can_frame *)priv->tx_skb->data;
 			hi3110_hw_tx(spi, frame);
 			priv->tx_len = 1 + frame->len;
-<<<<<<< HEAD
 			can_put_echo_skb(priv->tx_skb, net, 0, 0);
-=======
-			can_put_echo_skb(priv->tx_skb, net, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			priv->tx_skb = NULL;
 		}
 	}
@@ -729,11 +725,7 @@ static irqreturn_t hi3110_can_ist(int irq, void *dev_id)
 			net->stats.tx_bytes += priv->tx_len - 1;
 			can_led_event(net, CAN_LED_EVENT_TX);
 			if (priv->tx_len) {
-<<<<<<< HEAD
 				can_get_echo_skb(net, 0, NULL);
-=======
-				can_get_echo_skb(net, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				priv->tx_len = 0;
 			}
 			netif_wake_queue(net);

@@ -660,10 +660,7 @@ void regmap_debugfs_exit(struct regmap *map)
 		regmap_debugfs_free_dump_cache(map);
 		mutex_unlock(&map->cache_lock);
 		kfree(map->debugfs_name);
-<<<<<<< HEAD
 		map->debugfs_name = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		struct regmap_debugfs_node *node, *tmp;
 

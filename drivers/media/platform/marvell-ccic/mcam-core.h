@@ -151,10 +151,6 @@ struct mcam_camera {
 	 */
 	struct video_device vdev;
 	struct v4l2_async_notifier notifier;
-<<<<<<< HEAD
-=======
-	struct v4l2_async_subdev asd;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_subdev *sensor;
 
 	/* Videobuf2 stuff */

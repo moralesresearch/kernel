@@ -44,11 +44,6 @@ int __must_check __drmm_add_action_or_reset(struct drm_device *dev,
 					    drmres_release_t action,
 					    void *data, const char *name);
 
-<<<<<<< HEAD
-=======
-void drmm_add_final_kfree(struct drm_device *dev, void *container);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp) __malloc;
 
 /**

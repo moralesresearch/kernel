@@ -1,6 +1,5 @@
+// SPDX-License-Identifier: MIT
 /*
- * SPDX-License-Identifier: MIT
- *
  * Copyright © 2019 Intel Corporation
  */
 
@@ -32,12 +31,11 @@ static bool next_heartbeat(struct intel_engine_cs *engine)
 	delay = msecs_to_jiffies_timeout(delay);
 	if (delay >= HZ)
 		delay = round_jiffies_up_relative(delay);
-	mod_delayed_work(system_highpri_wq, &engine->heartbeat.work, delay);
+	mod_delayed_work(system_highpri_wq, &engine->heartbeat.work, delay + 1);
 
 	return true;
 }
 
-<<<<<<< HEAD
 static struct i915_request *
 heartbeat_create(struct intel_context *ce, gfp_t gfp)
 {
@@ -50,8 +48,6 @@ heartbeat_create(struct intel_context *ce, gfp_t gfp)
 	return rq;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void idle_pulse(struct intel_engine_cs *engine, struct i915_request *rq)
 {
 	engine->wakeref_serial = READ_ONCE(engine->serial) + 1;
@@ -60,7 +56,6 @@ static void idle_pulse(struct intel_engine_cs *engine, struct i915_request *rq)
 		engine->heartbeat.systole = i915_request_get(rq);
 }
 
-<<<<<<< HEAD
 static void heartbeat_commit(struct i915_request *rq,
 			     const struct i915_sched_attr *attr)
 {
@@ -70,8 +65,6 @@ static void heartbeat_commit(struct i915_request *rq,
 	__i915_request_queue(rq, attr);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void show_heartbeat(const struct i915_request *rq,
 			   struct intel_engine_cs *engine)
 {
@@ -87,9 +80,7 @@ static void show_heartbeat(const struct i915_request *rq,
 
 static void heartbeat(struct work_struct *wrk)
 {
-	struct i915_sched_attr attr = {
-		.priority = I915_USER_PRIORITY(I915_PRIORITY_MIN),
-	};
+	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
 	struct intel_engine_cs *engine =
 		container_of(wrk, typeof(*engine), heartbeat.work.work);
 	struct intel_context *ce = engine->kernel_context;
@@ -112,6 +103,13 @@ static void heartbeat(struct work_struct *wrk)
 		goto out;
 
 	if (engine->heartbeat.systole) {
+		long delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+
+		/* Safeguard against too-fast worker invocations */
+		if (!time_after(jiffies,
+				rq->emitted_jiffies + msecs_to_jiffies(delay)))
+			goto out;
+
 		if (!i915_sw_fence_signaled(&rq->submit)) {
 			/*
 			 * Not yet submitted, system is stalled.
@@ -131,9 +129,9 @@ static void heartbeat(struct work_struct *wrk)
 			 * low latency and no jitter] the chance to naturally
 			 * complete before being preempted.
 			 */
-			attr.priority = I915_PRIORITY_MASK;
+			attr.priority = 0;
 			if (rq->sched.attr.priority >= attr.priority)
-				attr.priority |= I915_USER_PRIORITY(I915_PRIORITY_HEARTBEAT);
+				attr.priority = I915_PRIORITY_HEARTBEAT;
 			if (rq->sched.attr.priority >= attr.priority)
 				attr.priority = I915_PRIORITY_BARRIER;
 
@@ -149,6 +147,8 @@ static void heartbeat(struct work_struct *wrk)
 					      "stopped heartbeat on %s",
 					      engine->name);
 		}
+
+		rq->emitted_jiffies = jiffies;
 		goto out;
 	}
 
@@ -166,24 +166,11 @@ static void heartbeat(struct work_struct *wrk)
 		goto out;
 	}
 
-<<<<<<< HEAD
 	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
 	if (IS_ERR(rq))
 		goto unlock;
 
 	heartbeat_commit(rq, &attr);
-=======
-	intel_context_enter(ce);
-	rq = __i915_request_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-	intel_context_exit(ce);
-	if (IS_ERR(rq))
-		goto unlock;
-
-	idle_pulse(engine, rq);
-
-	__i915_request_commit(rq);
-	__i915_request_queue(rq, &attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unlock:
 	mutex_unlock(&ce->timeline->mutex);
@@ -222,26 +209,13 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
 	GEM_BUG_ON(!intel_engine_has_preemption(engine));
 	GEM_BUG_ON(!intel_engine_pm_is_awake(engine));
 
-<<<<<<< HEAD
 	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-=======
-	intel_context_enter(ce);
-	rq = __i915_request_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-	intel_context_exit(ce);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(rq))
 		return PTR_ERR(rq);
 
 	__set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
-<<<<<<< HEAD
 
 	heartbeat_commit(rq, &attr);
-=======
-	idle_pulse(engine, rq);
-
-	__i915_request_commit(rq);
-	__i915_request_queue(rq, &attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GEM_BUG_ON(rq->sched.attr.priority < I915_PRIORITY_BARRIER);
 
 	return 0;
@@ -311,23 +285,17 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
 		mutex_unlock(&ce->timeline->mutex);
 	}
 
+	intel_engine_flush_submission(engine);
 	intel_engine_pm_put(engine);
 	return err;
 }
 
 int intel_engine_flush_barriers(struct intel_engine_cs *engine)
 {
-<<<<<<< HEAD
-	struct i915_sched_attr attr = {
-		.priority = I915_USER_PRIORITY(I915_PRIORITY_MIN),
-	};
+	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
 	struct intel_context *ce = engine->kernel_context;
 	struct i915_request *rq;
 	int err;
-=======
-	struct i915_request *rq;
-	int err = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (llist_empty(&engine->barrier_tasks))
 		return 0;
@@ -335,7 +303,6 @@ int intel_engine_flush_barriers(struct intel_engine_cs *engine)
 	if (!intel_engine_pm_get_if_awake(engine))
 		return 0;
 
-<<<<<<< HEAD
 	if (mutex_lock_interruptible(&ce->timeline->mutex)) {
 		err = -EINTR;
 		goto out_rpm;
@@ -352,17 +319,6 @@ int intel_engine_flush_barriers(struct intel_engine_cs *engine)
 	err = 0;
 out_unlock:
 	mutex_unlock(&ce->timeline->mutex);
-=======
-	rq = i915_request_create(engine->kernel_context);
-	if (IS_ERR(rq)) {
-		err = PTR_ERR(rq);
-		goto out_rpm;
-	}
-
-	idle_pulse(engine, rq);
-	i915_request_add(rq);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_rpm:
 	intel_engine_pm_put(engine);
 	return err;

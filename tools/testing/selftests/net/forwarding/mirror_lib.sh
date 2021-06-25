@@ -20,7 +20,6 @@ mirror_uninstall()
 	tc filter del dev $swp1 $direction pref 1000
 }
 
-<<<<<<< HEAD
 is_ipv6()
 {
 	local addr=$1; shift
@@ -28,8 +27,6 @@ is_ipv6()
 	[[ -z ${addr//[0-9a-fA-F:]/} ]]
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 mirror_test()
 {
 	local vrf_name=$1; shift
@@ -39,7 +36,6 @@ mirror_test()
 	local pref=$1; shift
 	local expect=$1; shift
 
-<<<<<<< HEAD
 	if is_ipv6 $dip; then
 		local proto=-6
 		local type="icmp6 type=128" # Echo request.
@@ -51,11 +47,6 @@ mirror_test()
 	local t0=$(tc_rule_stats_get $dev $pref)
 	$MZ $proto $vrf_name ${sip:+-A $sip} -B $dip -a own -b bc -q \
 	    -c 10 -d 100msec -t $type
-=======
-	local t0=$(tc_rule_stats_get $dev $pref)
-	$MZ $vrf_name ${sip:+-A $sip} -B $dip -a own -b bc -q \
-	    -c 10 -d 100msec -t icmp type=8
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sleep 0.5
 	local t1=$(tc_rule_stats_get $dev $pref)
 	local delta=$((t1 - t0))

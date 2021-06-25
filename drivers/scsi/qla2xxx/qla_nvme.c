@@ -245,7 +245,6 @@ static void qla_nvme_abort_work(struct work_struct *work)
 	    __func__, (rval != QLA_SUCCESS) ? "Failed to abort" : "Aborted",
 	    sp, sp->handle, fcport, rval);
 
-<<<<<<< HEAD
 	/*
 	 * Returned before decreasing kref so that I/O requests
 	 * are waited until ABTS complete. This kref is decreased
@@ -253,8 +252,6 @@ static void qla_nvme_abort_work(struct work_struct *work)
 	 */
 	if (ql2xabts_wait_nvme && QLA_ABTS_WAIT_ENABLED(sp))
 		return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	/* kref_get was done before work was schedule. */
 	kref_put(&sp->cmd_kref, sp->put_fn);
@@ -294,12 +291,7 @@ static int qla_nvme_ls_req(struct nvme_fc_local_port *lport,
 	struct qla_hw_data *ha;
 	srb_t           *sp;
 
-<<<<<<< HEAD
 	if (!fcport || fcport->deleted)
-=======
-
-	if (!fcport || (fcport && fcport->deleted))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return rval;
 
 	vha = fcport->vha;
@@ -406,8 +398,13 @@ static inline int qla2x00_start_nvme_mq(srb_t *sp)
 	}
 	req_cnt = qla24xx_calc_iocbs(vha, tot_dsds);
 	if (req->cnt < (req_cnt + 2)) {
-		cnt = IS_SHADOW_REG_CAPABLE(ha) ? *req->out_ptr :
-		    rd_reg_dword_relaxed(req->req_q_out);
+		if (IS_SHADOW_REG_CAPABLE(ha)) {
+			cnt = *req->out_ptr;
+		} else {
+			cnt = rd_reg_dword_relaxed(req->req_q_out);
+			if (qla2x00_check_reg16_for_disconnect(vha, cnt))
+				goto queuing_error;
+		}
 
 		if (req->ring_index < cnt)
 			req->cnt = cnt - req->ring_index;
@@ -544,6 +541,7 @@ static inline int qla2x00_start_nvme_mq(srb_t *sp)
 
 queuing_error:
 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
+
 	return rval;
 }
 
@@ -605,10 +603,7 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
 	sp->put_fn = qla_nvme_release_fcp_cmd_kref;
 	sp->qpair = qpair;
 	sp->vha = vha;
-<<<<<<< HEAD
 	sp->cmd_sp = sp;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nvme = &sp->u.iocb_cmd;
 	nvme->u.nvme.desc = fd;
 
@@ -762,7 +757,6 @@ int qla_nvme_register_hba(struct scsi_qla_host *vha)
 
 	return ret;
 }
-<<<<<<< HEAD
 
 void qla_nvme_abort_set_option(struct abort_entry_24xx *abt, srb_t *orig_sp)
 {
@@ -845,5 +839,3 @@ inline void qla_wait_nvme_release_cmd_kref(srb_t *orig_sp)
 		return;
 	kref_put(&orig_sp->cmd_kref, orig_sp->put_fn);
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

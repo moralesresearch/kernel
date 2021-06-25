@@ -31,11 +31,7 @@ int imx_media_of_add_csi(struct imx_media_dev *imxmd,
 	/* add CSI fwnode to async notifier */
 	asd = v4l2_async_notifier_add_fwnode_subdev(&imxmd->notifier,
 						    of_fwnode_handle(csi_np),
-<<<<<<< HEAD
 						    struct v4l2_async_subdev);
-=======
-						    sizeof(*asd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(asd)) {
 		ret = PTR_ERR(asd);
 		if (ret == -EEXIST)

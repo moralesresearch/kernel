@@ -1731,11 +1731,7 @@ static int mxcnd_probe(struct platform_device *pdev)
 	this->legacy.chip_delay = 5;
 
 	nand_set_controller_data(this, host);
-<<<<<<< HEAD
 	nand_set_flash_node(this, pdev->dev.of_node);
-=======
-	nand_set_flash_node(this, pdev->dev.of_node),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	this->legacy.dev_ready = mxc_nand_dev_ready;
 	this->legacy.cmdfunc = mxc_nand_command;
 	this->legacy.read_byte = mxc_nand_read_byte;
@@ -1853,7 +1849,7 @@ static int mxcnd_remove(struct platform_device *pdev)
 static struct platform_driver mxcnd_driver = {
 	.driver = {
 		   .name = DRIVER_NAME,
-		   .of_match_table = of_match_ptr(mxcnd_dt_ids),
+		   .of_match_table = mxcnd_dt_ids,
 	},
 	.probe = mxcnd_probe,
 	.remove = mxcnd_remove,

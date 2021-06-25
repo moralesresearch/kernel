@@ -144,15 +144,6 @@
 #define VER_MINOR 0
 #define VER_PATCH 6
 
-<<<<<<< HEAD
-=======
-#ifndef ABORT_TAG
-#define ABORT_TAG 0xd
-#else
-#error "Yippee!  ABORT TAG is now defined!  Remove this error!"
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef USE_DMAC
 /*
  * DMAC setup parameters
@@ -1493,13 +1484,8 @@ void acornscsi_message(AS_Host *host)
     }
 
     switch (message[0]) {
-<<<<<<< HEAD
     case ABORT_TASK_SET:
     case ABORT_TASK:
-=======
-    case ABORT:
-    case ABORT_TAG:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     case COMMAND_COMPLETE:
 	if (host->scsi.phase != PHASE_STATUSIN) {
 	    printk(KERN_ERR "scsi%d.%c: command complete following non-status in phase?\n",
@@ -1604,13 +1590,6 @@ void acornscsi_message(AS_Host *host)
 	}
 	break;
 
-<<<<<<< HEAD
-=======
-    case QUEUE_FULL:
-	/* TODO: target queue is full */
-	break;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     case SIMPLE_QUEUE_TAG:
 	/* tag queue reconnect... message[1] = queue tag.  Print something to indicate something happened! */
 	printk("scsi%d.%c: reconnect queue tag %02X\n",

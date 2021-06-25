@@ -57,7 +57,6 @@ properties:
       active low.
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/$defs/port-base
     additionalProperties: false
 
@@ -65,18 +64,6 @@ properties:
       endpoint:
         $ref: /schemas/media/video-interfaces.yaml#
         unevaluatedProperties: false
-=======
-    type: object
-    additionalProperties: false
-    description:
-      A node containing an output port node with an endpoint definition
-      as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
-
-    properties:
-      endpoint:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         properties:
           data-lanes:
@@ -89,28 +76,14 @@ properties:
               - const: 4
 
           link-frequencies:
-<<<<<<< HEAD
             description: Frequencies listed are driver, not h/w limitations.
             maxItems: 2
             items:
               enum: [ 360000000, 180000000 ]
-=======
-            $ref: /schemas/types.yaml#/definitions/uint64-array
-            description:
-              Allowed data bus frequencies. 360000000, 180000000 Hz or both
-              are supported by the driver.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         required:
           - link-frequencies
 
-<<<<<<< HEAD
-=======
-    required:
-      - endpoint
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg
@@ -159,7 +132,3 @@ examples:
         };
     };
 ...
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

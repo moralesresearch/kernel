@@ -127,13 +127,8 @@ static struct hlist_head *get_mapinfo_hash_bucket(struct sockaddr_storage *,
 /**
  * iwpm_create_mapinfo - Store local and mapped IPv4/IPv6 address
  *                       info in a hash table
-<<<<<<< HEAD
  * @local_sockaddr: Local ip/tcp address
  * @mapped_sockaddr: Mapped local ip/tcp address
-=======
- * @local_addr: Local ip/tcp address
- * @mapped_addr: Mapped local ip/tcp address
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @nl_client: The index of the netlink client
  * @map_flags: IWPM mapping flags
  */
@@ -179,11 +174,7 @@ int iwpm_create_mapinfo(struct sockaddr_storage *local_sockaddr,
 /**
  * iwpm_remove_mapinfo - Remove local and mapped IPv4/IPv6 address
  *                       info from the hash table
-<<<<<<< HEAD
  * @local_sockaddr: Local ip/tcp address
-=======
- * @local_addr: Local ip/tcp address
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @mapped_local_addr: Mapped local ip/tcp address
  *
  * Returns err code if mapping info is not found in the hash table,

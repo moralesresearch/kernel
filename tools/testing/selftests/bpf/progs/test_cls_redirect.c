@@ -70,10 +70,7 @@ typedef struct {
 	uint64_t errors_total_encap_adjust_failed;
 	uint64_t errors_total_encap_buffer_too_small;
 	uint64_t errors_total_redirect_loop;
-<<<<<<< HEAD
 	uint64_t errors_total_encap_mtu_violate;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } metrics_t;
 
 typedef enum {
@@ -411,10 +408,7 @@ static INLINING ret_t forward_with_gre(struct __sk_buff *skb, encap_headers_t *e
 		payload_off - sizeof(struct ethhdr) - sizeof(struct iphdr);
 	int32_t delta = sizeof(struct gre_base_hdr) - encap_overhead;
 	uint16_t proto = ETH_P_IP;
-<<<<<<< HEAD
 	uint32_t mtu_len = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Loop protection: the inner packet's TTL is decremented as a safeguard
 	 * against any forwarding loop. As the only interesting field is the TTL
@@ -487,14 +481,11 @@ static INLINING ret_t forward_with_gre(struct __sk_buff *skb, encap_headers_t *e
 		}
 	}
 
-<<<<<<< HEAD
 	if (bpf_check_mtu(skb, skb->ifindex, &mtu_len, delta, 0)) {
 		metrics->errors_total_encap_mtu_violate++;
 		return TC_ACT_SHOT;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bpf_skb_adjust_room(skb, delta, BPF_ADJ_ROOM_NET,
 				BPF_F_ADJ_ROOM_FIXED_GSO |
 				BPF_F_ADJ_ROOM_NO_CSUM_RESET) ||

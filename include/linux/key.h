@@ -361,15 +361,7 @@ static inline struct key *request_key(struct key_type *type,
  * completion of keys undergoing construction with a non-interruptible wait.
  */
 #define request_key_net(type, description, net, callout_info) \
-<<<<<<< HEAD
 	request_key_tag(type, description, net->key_domain, callout_info)
-=======
-<<<<<<< HEAD
-	request_key_tag(type, description, net->key_domain, callout_info)
-=======
-	request_key_tag(type, description, net->key_domain, callout_info);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * request_key_net_rcu - Request a key for a net namespace under RCU conditions
@@ -381,15 +373,7 @@ static inline struct key *request_key(struct key_type *type,
  * network namespace are used.
  */
 #define request_key_net_rcu(type, description, net) \
-<<<<<<< HEAD
 	request_key_rcu(type, description, net->key_domain)
-=======
-<<<<<<< HEAD
-	request_key_rcu(type, description, net->key_domain)
-=======
-	request_key_rcu(type, description, net->key_domain);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_NET */
 
 extern int wait_for_key_construction(struct key *key, bool intr);

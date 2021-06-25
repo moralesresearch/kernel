@@ -79,7 +79,6 @@ static bool dpaa2_mac_phy_mode_mismatch(struct dpaa2_mac *mac,
 					phy_interface_t interface)
 {
 	switch (interface) {
-<<<<<<< HEAD
 	/* We can switch between SGMII and 1000BASE-X at runtime with
 	 * pcs-lynx
 	 */
@@ -94,12 +93,6 @@ static bool dpaa2_mac_phy_mode_mismatch(struct dpaa2_mac *mac,
 	case PHY_INTERFACE_MODE_10GBASER:
 	case PHY_INTERFACE_MODE_USXGMII:
 	case PHY_INTERFACE_MODE_QSGMII:
-=======
-	case PHY_INTERFACE_MODE_10GBASER:
-	case PHY_INTERFACE_MODE_USXGMII:
-	case PHY_INTERFACE_MODE_QSGMII:
-	case PHY_INTERFACE_MODE_SGMII:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PHY_INTERFACE_MODE_RGMII:
 	case PHY_INTERFACE_MODE_RGMII_ID:
 	case PHY_INTERFACE_MODE_RGMII_RXID:
@@ -139,26 +132,17 @@ static void dpaa2_mac_validate(struct phylink_config *config,
 		fallthrough;
 	case PHY_INTERFACE_MODE_SGMII:
 	case PHY_INTERFACE_MODE_QSGMII:
-<<<<<<< HEAD
 	case PHY_INTERFACE_MODE_1000BASEX:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PHY_INTERFACE_MODE_RGMII:
 	case PHY_INTERFACE_MODE_RGMII_ID:
 	case PHY_INTERFACE_MODE_RGMII_RXID:
 	case PHY_INTERFACE_MODE_RGMII_TXID:
-<<<<<<< HEAD
 		phylink_set(mask, 1000baseX_Full);
 		phylink_set(mask, 1000baseT_Full);
 		if (state->interface == PHY_INTERFACE_MODE_1000BASEX)
 			break;
 		phylink_set(mask, 100baseT_Full);
 		phylink_set(mask, 10baseT_Full);
-=======
-		phylink_set(mask, 10baseT_Full);
-		phylink_set(mask, 100baseT_Full);
-		phylink_set(mask, 1000baseT_Full);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		goto empty_set;
@@ -204,7 +188,6 @@ static void dpaa2_mac_link_up(struct phylink_config *config,
 
 	dpmac_state->up = 1;
 
-<<<<<<< HEAD
 	dpmac_state->rate = speed;
 
 	if (duplex == DUPLEX_HALF)
@@ -221,32 +204,6 @@ static void dpaa2_mac_link_up(struct phylink_config *config,
 		dpmac_state->options |= DPMAC_LINK_OPT_ASYM_PAUSE;
 	else
 		dpmac_state->options &= ~DPMAC_LINK_OPT_ASYM_PAUSE;
-=======
-	if (mac->if_link_type == DPMAC_LINK_TYPE_PHY) {
-		/* If the DPMAC is configured for PHY mode, we need
-		 * to pass the link parameters to the MC firmware.
-		 */
-		dpmac_state->rate = speed;
-
-		if (duplex == DUPLEX_HALF)
-			dpmac_state->options |= DPMAC_LINK_OPT_HALF_DUPLEX;
-		else if (duplex == DUPLEX_FULL)
-			dpmac_state->options &= ~DPMAC_LINK_OPT_HALF_DUPLEX;
-
-		/* This is lossy; the firmware really should take the pause
-		 * enablement status rather than pause/asym pause status.
-		 */
-		if (rx_pause)
-			dpmac_state->options |= DPMAC_LINK_OPT_PAUSE;
-		else
-			dpmac_state->options &= ~DPMAC_LINK_OPT_PAUSE;
-
-		if (rx_pause ^ tx_pause)
-			dpmac_state->options |= DPMAC_LINK_OPT_ASYM_PAUSE;
-		else
-			dpmac_state->options &= ~DPMAC_LINK_OPT_ASYM_PAUSE;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = dpmac_set_link_state(mac->mc_io, 0,
 				   mac->mc_dev->mc_handle, dpmac_state);
@@ -277,35 +234,6 @@ static const struct phylink_mac_ops dpaa2_mac_phylink_ops = {
 	.mac_link_down = dpaa2_mac_link_down,
 };
 
-<<<<<<< HEAD
-=======
-bool dpaa2_mac_is_type_fixed(struct fsl_mc_device *dpmac_dev,
-			     struct fsl_mc_io *mc_io)
-{
-	struct dpmac_attr attr;
-	bool fixed = false;
-	u16 mc_handle = 0;
-	int err;
-
-	err = dpmac_open(mc_io, 0, dpmac_dev->obj_desc.id,
-			 &mc_handle);
-	if (err || !mc_handle)
-		return false;
-
-	err = dpmac_get_attributes(mc_io, 0, mc_handle, &attr);
-	if (err)
-		goto out;
-
-	if (attr.link_type == DPMAC_LINK_TYPE_FIXED)
-		fixed = true;
-
-out:
-	dpmac_close(mc_io, 0, mc_handle);
-
-	return fixed;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int dpaa2_pcs_create(struct dpaa2_mac *mac,
 			    struct device_node *dpmac_node, int id)
 {
@@ -354,7 +282,6 @@ static void dpaa2_pcs_destroy(struct dpaa2_mac *mac)
 
 int dpaa2_mac_connect(struct dpaa2_mac *mac)
 {
-<<<<<<< HEAD
 	struct net_device *net_dev = mac->net_dev;
 	struct device_node *dpmac_node;
 	struct phylink *phylink;
@@ -369,38 +296,6 @@ int dpaa2_mac_connect(struct dpaa2_mac *mac)
 	}
 
 	err = dpaa2_mac_get_if_mode(dpmac_node, mac->attr);
-=======
-	struct fsl_mc_device *dpmac_dev = mac->mc_dev;
-	struct net_device *net_dev = mac->net_dev;
-	struct device_node *dpmac_node;
-	struct phylink *phylink;
-	struct dpmac_attr attr;
-	int err;
-
-	err = dpmac_open(mac->mc_io, 0, dpmac_dev->obj_desc.id,
-			 &dpmac_dev->mc_handle);
-	if (err || !dpmac_dev->mc_handle) {
-		netdev_err(net_dev, "dpmac_open() = %d\n", err);
-		return -ENODEV;
-	}
-
-	err = dpmac_get_attributes(mac->mc_io, 0, dpmac_dev->mc_handle, &attr);
-	if (err) {
-		netdev_err(net_dev, "dpmac_get_attributes() = %d\n", err);
-		goto err_close_dpmac;
-	}
-
-	mac->if_link_type = attr.link_type;
-
-	dpmac_node = dpaa2_mac_get_node(attr.id);
-	if (!dpmac_node) {
-		netdev_err(net_dev, "No dpmac@%d node found.\n", attr.id);
-		err = -ENODEV;
-		goto err_close_dpmac;
-	}
-
-	err = dpaa2_mac_get_if_mode(dpmac_node, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0) {
 		err = -EINVAL;
 		goto err_put_node;
@@ -420,16 +315,10 @@ int dpaa2_mac_connect(struct dpaa2_mac *mac)
 		goto err_put_node;
 	}
 
-<<<<<<< HEAD
 	if ((mac->attr.link_type == DPMAC_LINK_TYPE_PHY &&
 	     mac->attr.eth_if != DPMAC_ETH_IF_RGMII) ||
 	    mac->attr.link_type == DPMAC_LINK_TYPE_BACKPLANE) {
 		err = dpaa2_pcs_create(mac, dpmac_node, mac->attr.id);
-=======
-	if (attr.link_type == DPMAC_LINK_TYPE_PHY &&
-	    attr.eth_if != DPMAC_ETH_IF_RGMII) {
-		err = dpaa2_pcs_create(mac, dpmac_node, attr.id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto err_put_node;
 	}
@@ -465,12 +354,7 @@ err_pcs_destroy:
 	dpaa2_pcs_destroy(mac);
 err_put_node:
 	of_node_put(dpmac_node);
-<<<<<<< HEAD
 
-=======
-err_close_dpmac:
-	dpmac_close(mac->mc_io, 0, dpmac_dev->mc_handle);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -482,7 +366,6 @@ void dpaa2_mac_disconnect(struct dpaa2_mac *mac)
 	phylink_disconnect_phy(mac->phylink);
 	phylink_destroy(mac->phylink);
 	dpaa2_pcs_destroy(mac);
-<<<<<<< HEAD
 }
 
 int dpaa2_mac_open(struct dpaa2_mac *mac)
@@ -517,10 +400,6 @@ void dpaa2_mac_close(struct dpaa2_mac *mac)
 	struct fsl_mc_device *dpmac_dev = mac->mc_dev;
 
 	dpmac_close(mac->mc_io, 0, dpmac_dev->mc_handle);
-=======
-
-	dpmac_close(mac->mc_io, 0, mac->mc_dev->mc_handle);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static char dpaa2_mac_ethtool_stats[][ETH_GSTRING_LEN] = {

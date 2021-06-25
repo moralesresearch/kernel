@@ -137,7 +137,6 @@ config TI_EMIF_SRAM
 	  sequence so this driver provides several relocatable PM functions
 	  for the SoC PM code to use.
 
-<<<<<<< HEAD
 config FPGA_DFL_EMIF
 	tristate "FPGA DFL EMIF Driver"
 	depends on FPGA_DFL && HAS_IOMEM
@@ -147,8 +146,6 @@ config FPGA_DFL_EMIF
 	  memory interface status information as well as memory clearing
 	  control.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config MVEBU_DEVBUS
 	bool "Marvell EBU Device Bus Controller"
 	default y if PLAT_ORION
@@ -185,11 +182,7 @@ config JZ4780_NEMC
 	  memory devices such as NAND and SRAM.
 
 config MTK_SMI
-<<<<<<< HEAD
 	tristate "MediaTek SoC Memory Controller driver" if COMPILE_TEST
-=======
-	bool "Mediatek SoC Memory Controller driver" if COMPILE_TEST
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on ARCH_MEDIATEK || COMPILE_TEST
 	help
 	  This driver is for the Memory Controller module in MediaTek SoCs,
@@ -218,15 +211,9 @@ config RENESAS_RPCIF
 	depends on ARCH_RENESAS || COMPILE_TEST
 	select REGMAP_MMIO
 	help
-<<<<<<< HEAD
 	  This supports Renesas R-Car Gen3 or RZ/G2 RPC-IF which provides
 	  either SPI host or HyperFlash. You'll have to select individual
 	  components under the corresponding menu.
-=======
-	  This supports Renesas R-Car Gen3 RPC-IF which provides either SPI
-	  host or HyperFlash. You'll have to select individual components
-	  under the corresponding menu.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config STM32_FMC2_EBI
 	tristate "Support for FMC2 External Bus Interface on STM32MP SoCs"

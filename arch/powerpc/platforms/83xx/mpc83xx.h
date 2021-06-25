@@ -76,11 +76,7 @@ extern void mpc83xx_ipic_init_IRQ(void);
 #ifdef CONFIG_PCI
 extern void mpc83xx_setup_pci(void);
 #else
-<<<<<<< HEAD
 #define mpc83xx_setup_pci	NULL
-=======
-#define mpc83xx_setup_pci()	do {} while (0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 extern int mpc83xx_declare_of_platform_devices(void);

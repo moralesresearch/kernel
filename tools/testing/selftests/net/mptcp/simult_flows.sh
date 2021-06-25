@@ -7,12 +7,8 @@ ns2="ns2-$rndh"
 ns3="ns3-$rndh"
 capture=false
 ksft_skip=4
-<<<<<<< HEAD
 timeout_poll=30
 timeout_test=$((timeout_poll * 2 + 1))
-=======
-timeout=30
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 test_cnt=1
 ret=0
 bail=0
@@ -162,28 +158,20 @@ do_transfer()
 		sleep 1
 	fi
 
-<<<<<<< HEAD
 	timeout ${timeout_test} \
 		ip netns exec ${ns3} \
 			./mptcp_connect -jt ${timeout_poll} -l -p $port \
 				0.0.0.0 < "$sin" > "$sout" &
-=======
-	ip netns exec ${ns3} ./mptcp_connect -jt $timeout -l -p $port 0.0.0.0 < "$sin" > "$sout" &
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local spid=$!
 
 	wait_local_port_listen "${ns3}" "${port}"
 
 	local start
 	start=$(date +%s%3N)
-<<<<<<< HEAD
 	timeout ${timeout_test} \
 		ip netns exec ${ns1} \
 			./mptcp_connect -jt ${timeout_poll} -p $port \
 				10.0.3.3 < "$cin" > "$cout" &
-=======
-	ip netns exec ${ns1} ./mptcp_connect -jt $timeout -p $port 10.0.3.3 < "$cin" > "$cout" &
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local cpid=$!
 
 	wait $cpid

@@ -451,15 +451,6 @@ static int cps_cpu_disable(void)
 	unsigned cpu = smp_processor_id();
 	struct core_boot_config *core_cfg;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	if (!cpu)
-		return -EBUSY;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cps_pm_support_state(CPS_PM_POWER_GATED))
 		return -EINVAL;
 

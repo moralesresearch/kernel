@@ -13,11 +13,7 @@ static ssize_t modalias_show(struct device *dev, struct device_attribute *attr,
 	int length;
 
 	if (*sdev->modalias) {
-<<<<<<< HEAD
 		strscpy(buf, sdev->modalias, sizeof(sdev->modalias) + 1);
-=======
-		strlcpy(buf, sdev->modalias, sizeof(sdev->modalias) + 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		strcat(buf, "\n");
 		length = strlen(buf);
 	} else {

@@ -55,14 +55,8 @@ struct pe_map_bar_entry {
 	__be32     reserved;  /* Reserved Space */
 };
 
-<<<<<<< HEAD
 static int pseries_send_map_pe(struct pci_dev *pdev, u16 num_vfs,
 			       struct pe_map_bar_entry *vf_pe_array)
-=======
-int pseries_send_map_pe(struct pci_dev *pdev,
-			u16 num_vfs,
-			struct pe_map_bar_entry *vf_pe_array)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pci_dn *pdn;
 	int rc;
@@ -93,11 +87,7 @@ int pseries_send_map_pe(struct pci_dev *pdev,
 	return rc;
 }
 
-<<<<<<< HEAD
 static void pseries_set_pe_num(struct pci_dev *pdev, u16 vf_index, __be16 pe_num)
-=======
-void pseries_set_pe_num(struct pci_dev *pdev, u16 vf_index, __be16 pe_num)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pci_dn *pdn;
 
@@ -111,11 +101,7 @@ void pseries_set_pe_num(struct pci_dev *pdev, u16 vf_index, __be16 pe_num)
 		pdn->pe_num_map[vf_index]);
 }
 
-<<<<<<< HEAD
 static int pseries_associate_pes(struct pci_dev *pdev, u16 num_vfs)
-=======
-int pseries_associate_pes(struct pci_dev *pdev, u16 num_vfs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pci_dn *pdn;
 	int i, rc, vf_index;
@@ -159,11 +145,7 @@ int pseries_associate_pes(struct pci_dev *pdev, u16 num_vfs)
 	return rc;
 }
 
-<<<<<<< HEAD
 static int pseries_pci_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
-=======
-int pseries_pci_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pci_dn         *pdn;
 	int                    rc;
@@ -206,22 +188,14 @@ int pseries_pci_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
 	return rc;
 }
 
-<<<<<<< HEAD
 static int pseries_pcibios_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
-=======
-int pseries_pcibios_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Allocate PCI data */
 	add_sriov_vf_pdns(pdev);
 	return pseries_pci_sriov_enable(pdev, num_vfs);
 }
 
-<<<<<<< HEAD
 static int pseries_pcibios_sriov_disable(struct pci_dev *pdev)
-=======
-int pseries_pcibios_sriov_disable(struct pci_dev *pdev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pci_dn         *pdn;
 
@@ -250,8 +224,6 @@ static void __init pSeries_request_regions(void)
 
 void __init pSeries_final_fixup(void)
 {
-	struct pci_controller *hose;
-
 	pSeries_request_regions();
 
 	eeh_show_enabled();
@@ -260,27 +232,6 @@ void __init pSeries_final_fixup(void)
 	ppc_md.pcibios_sriov_enable = pseries_pcibios_sriov_enable;
 	ppc_md.pcibios_sriov_disable = pseries_pcibios_sriov_disable;
 #endif
-	list_for_each_entry(hose, &hose_list, list_node) {
-		struct device_node *dn = hose->dn, *nvdn;
-
-		while (1) {
-			dn = of_find_all_nodes(dn);
-			if (!dn)
-				break;
-			nvdn = of_parse_phandle(dn, "ibm,nvlink", 0);
-			if (!nvdn)
-				continue;
-			if (!of_device_is_compatible(nvdn, "ibm,npu-link"))
-				continue;
-			if (!of_device_is_compatible(nvdn->parent,
-						"ibm,power9-npu"))
-				continue;
-#ifdef CONFIG_PPC_POWERNV
-			WARN_ON_ONCE(pnv_npu2_init(hose));
-#endif
-			break;
-		}
-	}
 }
 
 /*

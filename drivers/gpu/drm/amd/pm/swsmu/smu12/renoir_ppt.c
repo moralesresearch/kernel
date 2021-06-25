@@ -56,11 +56,6 @@ static struct cmn2asic_msg_mapping renoir_message_map[SMU_MSG_MAX_COUNT] = {
 	MSG_MAP(PowerUpSdma,                    PPSMC_MSG_PowerUpSdma,                  1),
 	MSG_MAP(SetHardMinIspclkByFreq,         PPSMC_MSG_SetHardMinIspclkByFreq,       1),
 	MSG_MAP(SetHardMinVcn,                  PPSMC_MSG_SetHardMinVcn,                1),
-<<<<<<< HEAD
-=======
-	MSG_MAP(Spare1,                         PPSMC_MSG_spare1,                       1),
-	MSG_MAP(Spare2,                         PPSMC_MSG_spare2,                       1),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MSG_MAP(SetAllowFclkSwitch,             PPSMC_MSG_SetAllowFclkSwitch,           1),
 	MSG_MAP(SetMinVideoGfxclkFreq,          PPSMC_MSG_SetMinVideoGfxclkFreq,        1),
 	MSG_MAP(ActiveProcessNotify,            PPSMC_MSG_ActiveProcessNotify,          1),
@@ -156,7 +151,7 @@ static int renoir_init_smc_tables(struct smu_context *smu)
 	if (!smu_table->watermarks_table)
 		goto err2_out;
 
-	smu_table->gpu_metrics_table_size = sizeof(struct gpu_metrics_v2_0);
+	smu_table->gpu_metrics_table_size = sizeof(struct gpu_metrics_v2_1);
 	smu_table->gpu_metrics_table = kzalloc(smu_table->gpu_metrics_table_size, GFP_KERNEL);
 	if (!smu_table->gpu_metrics_table)
 		goto err3_out;
@@ -347,7 +342,6 @@ failed:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int renoir_od_edit_dpm_table(struct smu_context *smu,
 							enum PP_OD_DPM_TABLE_COMMAND type,
 							long input[], uint32_t size)
@@ -357,7 +351,7 @@ static int renoir_od_edit_dpm_table(struct smu_context *smu,
 
 	if (!(smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL)) {
 		dev_warn(smu->adev->dev,
-			"pp_od_clk_voltage is not accessible if power_dpm_force_perfomance_level is not in manual mode!\n");
+			"pp_od_clk_voltage is not accessible if power_dpm_force_performance_level is not in manual mode!\n");
 		return -EINVAL;
 	}
 
@@ -459,18 +453,13 @@ static int renoir_set_fine_grain_gfx_freq_parameters(struct smu_context *smu)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int renoir_print_clk_levels(struct smu_context *smu,
 			enum smu_clk_type clk_type, char *buf)
 {
 	int i, size = 0, ret = 0;
 	uint32_t cur_value = 0, value = 0, count = 0, min = 0, max = 0;
 	SmuMetrics_t metrics;
-<<<<<<< HEAD
 	struct smu_dpm_context *smu_dpm_ctx = &(smu->smu_dpm);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool cur_value_match_level = false;
 
 	memset(&metrics, 0, sizeof(metrics));
@@ -480,7 +469,6 @@ static int renoir_print_clk_levels(struct smu_context *smu,
 		return ret;
 
 	switch (clk_type) {
-<<<<<<< HEAD
 	case SMU_OD_RANGE:
 		if (smu_dpm_ctx->dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL) {
 			ret = smu_cmn_send_smc_msg_with_param(smu,
@@ -505,8 +493,6 @@ static int renoir_print_clk_levels(struct smu_context *smu,
 			size += sprintf(buf + size, "1:%10uMhz\n", max);
 		}
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SMU_GFXCLK:
 	case SMU_SCLK:
 		/* retirve table returned paramters unit is MHz */
@@ -547,7 +533,6 @@ static int renoir_print_clk_levels(struct smu_context *smu,
 		cur_value = metrics.ClockFrequency[CLOCK_FCLK];
 		break;
 	default:
-<<<<<<< HEAD
 		break;
 	}
 
@@ -578,26 +563,6 @@ static int renoir_print_clk_levels(struct smu_context *smu,
 		break;
 	}
 
-=======
-		return -EINVAL;
-	}
-
-	for (i = 0; i < count; i++) {
-		ret = renoir_get_dpm_clk_limited(smu, clk_type, i, &value);
-		if (ret)
-			return ret;
-		if (!value)
-			continue;
-		size += sprintf(buf + size, "%d: %uMhz %s\n", i, value,
-				cur_value == value ? "*" : "");
-		if (cur_value == value)
-			cur_value_match_level = true;
-	}
-
-	if (!cur_value_match_level)
-		size += sprintf(buf + size, "   %uMhz *\n", cur_value);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return size;
 }
 
@@ -848,13 +813,10 @@ static int renoir_set_power_profile_mode(struct smu_context *smu, long *input, u
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (profile_mode == PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT ||
 			profile_mode == PP_SMC_POWER_PROFILE_POWERSAVING)
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* conv PP_SMC_POWER_PROFILE* to WORKLOAD_PPLIB_*_BIT */
 	workload_type = smu_cmn_to_asic_specific_index(smu,
 						       CMN2ASIC_MAPPING_WORKLOAD,
@@ -864,11 +826,7 @@ static int renoir_set_power_profile_mode(struct smu_context *smu, long *input, u
 		 * TODO: If some case need switch to powersave/default power mode
 		 * then can consider enter WORKLOAD_COMPUTE/WORKLOAD_CUSTOM for power saving.
 		 */
-<<<<<<< HEAD
 		dev_dbg(smu->adev->dev, "Unsupported power profile mode %d on RENOIR\n", profile_mode);
-=======
-		dev_err_once(smu->adev->dev, "Unsupported power profile mode %d on RENOIR\n", profile_mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -917,7 +875,6 @@ static int renoir_set_performance_level(struct smu_context *smu,
 
 	switch (level) {
 	case AMD_DPM_FORCED_LEVEL_HIGH:
-<<<<<<< HEAD
 		smu->gfx_actual_hard_min_freq = smu->gfx_default_hard_min_freq;
 		smu->gfx_actual_soft_max_freq = smu->gfx_default_soft_max_freq;
 
@@ -939,17 +896,6 @@ static int renoir_set_performance_level(struct smu_context *smu,
 		smu->gfx_actual_hard_min_freq = smu->gfx_default_hard_min_freq;
 		smu->gfx_actual_soft_max_freq = smu->gfx_default_soft_max_freq;
 
-=======
-		ret = renoir_force_dpm_limit_value(smu, true);
-		break;
-	case AMD_DPM_FORCED_LEVEL_LOW:
-		ret = renoir_force_dpm_limit_value(smu, false);
-		break;
-	case AMD_DPM_FORCED_LEVEL_AUTO:
-		ret = renoir_unforce_dpm_levels(smu);
-		break;
-	case AMD_DPM_FORCED_LEVEL_PROFILE_STANDARD:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = smu_cmn_send_smc_msg_with_param(smu,
 						      SMU_MSG_SetHardMinGfxClk,
 						      RENOIR_UMD_PSTATE_GFXCLK,
@@ -1002,12 +948,9 @@ static int renoir_set_performance_level(struct smu_context *smu,
 		break;
 	case AMD_DPM_FORCED_LEVEL_PROFILE_MIN_SCLK:
 	case AMD_DPM_FORCED_LEVEL_PROFILE_MIN_MCLK:
-<<<<<<< HEAD
 		smu->gfx_actual_hard_min_freq = smu->gfx_default_hard_min_freq;
 		smu->gfx_actual_soft_max_freq = smu->gfx_default_soft_max_freq;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = renoir_get_profiling_clk_mask(smu, level,
 						    &sclk_mask,
 						    &mclk_mask,
@@ -1019,12 +962,9 @@ static int renoir_set_performance_level(struct smu_context *smu,
 		renoir_force_clk_levels(smu, SMU_SOCCLK, 1 << soc_mask);
 		break;
 	case AMD_DPM_FORCED_LEVEL_PROFILE_PEAK:
-<<<<<<< HEAD
 		smu->gfx_actual_hard_min_freq = smu->gfx_default_hard_min_freq;
 		smu->gfx_actual_soft_max_freq = smu->gfx_default_soft_max_freq;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = renoir_set_peak_clock_by_device(smu);
 		break;
 	case AMD_DPM_FORCED_LEVEL_MANUAL:
@@ -1172,11 +1112,7 @@ static int renoir_get_smu_metrics_data(struct smu_context *smu,
 		*value = metrics->AverageUvdActivity / 100;
 		break;
 	case METRICS_AVERAGE_SOCKETPOWER:
-<<<<<<< HEAD
 		*value = (metrics->CurrentSocketPower << 8) / 1000;
-=======
-		*value = metrics->CurrentSocketPower << 8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case METRICS_TEMPERATURE_EDGE:
 		*value = (metrics->GfxTemperature / 100) *
@@ -1295,8 +1231,8 @@ static ssize_t renoir_get_gpu_metrics(struct smu_context *smu,
 				      void **table)
 {
 	struct smu_table_context *smu_table = &smu->smu_table;
-	struct gpu_metrics_v2_0 *gpu_metrics =
-		(struct gpu_metrics_v2_0 *)smu_table->gpu_metrics_table;
+	struct gpu_metrics_v2_1 *gpu_metrics =
+		(struct gpu_metrics_v2_1 *)smu_table->gpu_metrics_table;
 	SmuMetrics_t metrics;
 	int ret = 0;
 
@@ -1304,11 +1240,7 @@ static ssize_t renoir_get_gpu_metrics(struct smu_context *smu,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-	smu_cmn_init_soft_gpu_metrics(gpu_metrics, 2, 0);
-=======
-	smu_v12_0_init_gpu_metrics_v2_0(gpu_metrics);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	smu_cmn_init_soft_gpu_metrics(gpu_metrics, 2, 1);
 
 	gpu_metrics->temperature_gfx = metrics.GfxTemperature;
 	gpu_metrics->temperature_soc = metrics.SocTemperature;
@@ -1349,14 +1281,11 @@ static ssize_t renoir_get_gpu_metrics(struct smu_context *smu,
 
 	gpu_metrics->fan_pwm = metrics.FanPwm;
 
-<<<<<<< HEAD
 	gpu_metrics->system_clock_counter = ktime_get_boottime_ns();
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*table = (void *)gpu_metrics;
 
-	return sizeof(struct gpu_metrics_v2_0);
+	return sizeof(struct gpu_metrics_v2_1);
 }
 
 static int renoir_gfx_state_change_set(struct smu_context *smu, uint32_t state)
@@ -1401,11 +1330,9 @@ static const struct pptable_funcs renoir_ppt_funcs = {
 	.set_pp_feature_mask = smu_cmn_set_pp_feature_mask,
 	.get_gpu_metrics = renoir_get_gpu_metrics,
 	.gfx_state_change_set = renoir_gfx_state_change_set,
-<<<<<<< HEAD
 	.set_fine_grain_gfx_freq_parameters = renoir_set_fine_grain_gfx_freq_parameters,
 	.od_edit_dpm_table = renoir_od_edit_dpm_table,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	.get_vbios_bootup_values = smu_v12_0_get_vbios_bootup_values,
 };
 
 void renoir_set_ppt_funcs(struct smu_context *smu)

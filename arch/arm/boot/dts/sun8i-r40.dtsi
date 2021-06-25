@@ -190,7 +190,6 @@
 			};
 		};
 
-<<<<<<< HEAD
 		deinterlace: deinterlace@1400000 {
 			compatible = "allwinner,sun8i-r40-deinterlace",
 				     "allwinner,sun8i-h3-deinterlace";
@@ -210,8 +209,6 @@
 			interconnect-names = "dma-mem";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		syscon: system-control@1c00000 {
 			compatible = "allwinner,sun8i-r40-system-control",
 				     "allwinner,sun4i-a10-system-control";

@@ -5,11 +5,8 @@
 
 #include <linux/init.h>
 #include <linux/io.h>
-<<<<<<< HEAD
 #include <linux/module.h>
 #include <linux/nvmem-consumer.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/of_address.h>
 #include <linux/slab.h>
 #include <linux/sys_soc.h>
@@ -34,11 +31,7 @@
 
 struct imx8_soc_data {
 	char *name;
-<<<<<<< HEAD
 	u32 (*soc_revision)(struct device *dev);
-=======
-	u32 (*soc_revision)(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static u64 soc_uid;
@@ -59,11 +52,7 @@ static u32 imx8mq_soc_revision_from_atf(void)
 static inline u32 imx8mq_soc_revision_from_atf(void) { return 0; };
 #endif
 
-<<<<<<< HEAD
 static u32 __init imx8mq_soc_revision(struct device *dev)
-=======
-static u32 __init imx8mq_soc_revision(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device_node *np;
 	void __iomem *ocotp_base;
@@ -88,7 +77,6 @@ static u32 __init imx8mq_soc_revision(void)
 			rev = REV_B1;
 	}
 
-<<<<<<< HEAD
 	if (dev) {
 		int ret;
 
@@ -103,11 +91,6 @@ static u32 __init imx8mq_soc_revision(void)
 		soc_uid <<= 32;
 		soc_uid |= readl_relaxed(ocotp_base + OCOTP_UID_LOW);
 	}
-=======
-	soc_uid = readl_relaxed(ocotp_base + OCOTP_UID_HIGH);
-	soc_uid <<= 32;
-	soc_uid |= readl_relaxed(ocotp_base + OCOTP_UID_LOW);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iounmap(ocotp_base);
 	of_node_put(np);
@@ -137,11 +120,7 @@ static void __init imx8mm_soc_uid(void)
 	of_node_put(np);
 }
 
-<<<<<<< HEAD
 static u32 __init imx8mm_soc_revision(struct device *dev)
-=======
-static u32 __init imx8mm_soc_revision(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device_node *np;
 	void __iomem *anatop_base;
@@ -159,7 +138,6 @@ static u32 __init imx8mm_soc_revision(void)
 	iounmap(anatop_base);
 	of_node_put(np);
 
-<<<<<<< HEAD
 	if (dev) {
 		int ret;
 
@@ -169,9 +147,6 @@ static u32 __init imx8mm_soc_revision(void)
 	} else {
 		imx8mm_soc_uid();
 	}
-=======
-	imx8mm_soc_uid();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return rev;
 }
@@ -196,11 +171,7 @@ static const struct imx8_soc_data imx8mp_soc_data = {
 	.soc_revision = imx8mm_soc_revision,
 };
 
-<<<<<<< HEAD
 static __maybe_unused const struct of_device_id imx8_machine_match[] = {
-=======
-static __maybe_unused const struct of_device_id imx8_soc_match[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "fsl,imx8mq", .data = &imx8mq_soc_data, },
 	{ .compatible = "fsl,imx8mm", .data = &imx8mm_soc_data, },
 	{ .compatible = "fsl,imx8mn", .data = &imx8mn_soc_data, },
@@ -208,7 +179,6 @@ static __maybe_unused const struct of_device_id imx8_soc_match[] = {
 	{ }
 };
 
-<<<<<<< HEAD
 static __maybe_unused const struct of_device_id imx8_soc_match[] = {
 	{ .compatible = "fsl,imx8mq-soc", .data = &imx8mq_soc_data, },
 	{ .compatible = "fsl,imx8mm-soc", .data = &imx8mm_soc_data, },
@@ -217,18 +187,12 @@ static __maybe_unused const struct of_device_id imx8_soc_match[] = {
 	{ }
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define imx8_revision(soc_rev) \
 	soc_rev ? \
 	kasprintf(GFP_KERNEL, "%d.%d", (soc_rev >> 4) & 0xf,  soc_rev & 0xf) : \
 	"unknown"
 
-<<<<<<< HEAD
 static int imx8_soc_info(struct platform_device *pdev)
-=======
-static int __init imx8_soc_init(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct soc_device_attribute *soc_dev_attr;
 	struct soc_device *soc_dev;
@@ -247,14 +211,10 @@ static int __init imx8_soc_init(void)
 	if (ret)
 		goto free_soc;
 
-<<<<<<< HEAD
 	if (pdev)
 		id = of_match_node(imx8_soc_match, pdev->dev.of_node);
 	else
 		id = of_match_node(imx8_machine_match, of_root);
-=======
-	id = of_match_node(imx8_soc_match, of_root);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!id) {
 		ret = -ENODEV;
 		goto free_soc;
@@ -263,7 +223,6 @@ static int __init imx8_soc_init(void)
 	data = id->data;
 	if (data) {
 		soc_dev_attr->soc_id = data->name;
-<<<<<<< HEAD
 		if (data->soc_revision) {
 			if (pdev) {
 				soc_rev = data->soc_revision(&pdev->dev);
@@ -274,10 +233,6 @@ static int __init imx8_soc_init(void)
 				soc_rev = data->soc_revision(NULL);
 			}
 		}
-=======
-		if (data->soc_revision)
-			soc_rev = data->soc_revision();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	soc_dev_attr->revision = imx8_revision(soc_rev);
@@ -315,7 +270,6 @@ free_soc:
 	kfree(soc_dev_attr);
 	return ret;
 }
-<<<<<<< HEAD
 
 /* Retain device_initcall is for backward compatibility with DTS. */
 static int __init imx8_soc_init(void)
@@ -337,6 +291,3 @@ static struct platform_driver imx8_soc_info_driver = {
 
 module_platform_driver(imx8_soc_info_driver);
 MODULE_LICENSE("GPL v2");
-=======
-device_initcall(imx8_soc_init);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

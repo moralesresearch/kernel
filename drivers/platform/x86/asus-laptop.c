@@ -861,11 +861,7 @@ static ssize_t infos_show(struct device *dev, struct device_attribute *attr,
 	 * The significance of others is yet to be found.
 	 */
 	rv = acpi_evaluate_integer(asus->handle, "SFUN", NULL, &temp);
-<<<<<<< HEAD
 	if (ACPI_SUCCESS(rv))
-=======
-	if (!ACPI_FAILURE(rv))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		len += sprintf(page + len, "SFUN value         : %#x\n",
 			       (uint) temp);
 	/*
@@ -877,11 +873,7 @@ static ssize_t infos_show(struct device *dev, struct device_attribute *attr,
 	 * takes several seconds to run on some systems.
 	 */
 	rv = acpi_evaluate_integer(asus->handle, "HWRS", NULL, &temp);
-<<<<<<< HEAD
 	if (ACPI_SUCCESS(rv))
-=======
-	if (!ACPI_FAILURE(rv))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		len += sprintf(page + len, "HWRS value         : %#x\n",
 			       (uint) temp);
 	/*
@@ -892,11 +884,7 @@ static ssize_t infos_show(struct device *dev, struct device_attribute *attr,
 	 * silently ignored.
 	 */
 	rv = acpi_evaluate_integer(asus->handle, "ASYM", NULL, &temp);
-<<<<<<< HEAD
 	if (ACPI_SUCCESS(rv))
-=======
-	if (!ACPI_FAILURE(rv))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		len += sprintf(page + len, "ASYM value         : %#x\n",
 			       (uint) temp);
 	if (asus->dsdt_info) {
@@ -1581,7 +1569,7 @@ static umode_t asus_sysfs_is_visible(struct kobject *kobj,
 				    struct attribute *attr,
 				    int idx)
 {
-	struct device *dev = container_of(kobj, struct device, kobj);
+	struct device *dev = kobj_to_dev(kobj);
 	struct asus_laptop *asus = dev_get_drvdata(dev);
 	acpi_handle handle = asus->handle;
 	bool supported;

@@ -10,11 +10,8 @@
 
 #include <linux/types.h>
 
-<<<<<<< HEAD
 struct device;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct ccs_data_block_version - CCS static data version
  * @version_major: Major version number
@@ -135,7 +132,7 @@ struct ccs_pdaf_pix_loc_block_desc_group {
 };
 
 /**
- * struct ccs_pdaf_pix_loc_block_desc - PDAF pixel location block descriptor
+ * struct ccs_pdaf_pix_loc_pixel_desc - PDAF pixel location block descriptor
  * @pixel_type: Type of the pixel; CCS_DATA_PDAF_PIXEL_TYPE_*
  * @small_offset_x: offset X coordinate
  * @small_offset_y: offset Y coordinate

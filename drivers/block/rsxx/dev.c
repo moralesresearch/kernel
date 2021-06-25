@@ -122,11 +122,7 @@ static void bio_dma_done_cb(struct rsxx_cardinfo *card,
 
 static blk_qc_t rsxx_submit_bio(struct bio *bio)
 {
-<<<<<<< HEAD
 	struct rsxx_cardinfo *card = bio->bi_bdev->bd_disk->private_data;
-=======
-	struct rsxx_cardinfo *card = bio->bi_disk->private_data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rsxx_bio_meta *bio_meta;
 	blk_status_t st = BLK_STS_IOERR;
 

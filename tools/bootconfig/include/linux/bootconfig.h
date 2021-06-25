@@ -4,11 +4,8 @@
 
 #include "../../../../include/linux/bootconfig.h"
 
-<<<<<<< HEAD
 #ifndef fallthrough
 # define fallthrough
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

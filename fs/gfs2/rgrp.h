@@ -77,11 +77,7 @@ extern int gfs2_fitrim(struct file *filp, void __user *argp);
 /* This is how to tell if a reservation is in the rgrp tree: */
 static inline bool gfs2_rs_active(const struct gfs2_blkreserv *rs)
 {
-<<<<<<< HEAD
 	return !RB_EMPTY_NODE(&rs->rs_node);
-=======
-	return rs && !RB_EMPTY_NODE(&rs->rs_node);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int rgrp_contains_block(struct gfs2_rgrpd *rgd, u64 block)
@@ -92,11 +88,8 @@ static inline int rgrp_contains_block(struct gfs2_rgrpd *rgd, u64 block)
 }
 
 extern void check_and_update_goal(struct gfs2_inode *ip);
-<<<<<<< HEAD
 
 extern void rgrp_lock_local(struct gfs2_rgrpd *rgd);
 extern void rgrp_unlock_local(struct gfs2_rgrpd *rgd);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __RGRP_DOT_H__ */

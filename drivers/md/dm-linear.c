@@ -146,11 +146,8 @@ static int linear_report_zones(struct dm_target *ti,
 	return blkdev_report_zones(lc->dev->bdev, sector, nr_zones,
 				   dm_report_zones_cb, args);
 }
-<<<<<<< HEAD
 #else
 #define linear_report_zones NULL
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int linear_iterate_devices(struct dm_target *ti,
@@ -232,19 +229,9 @@ static int linear_dax_zero_page_range(struct dm_target *ti, pgoff_t pgoff,
 static struct target_type linear_target = {
 	.name   = "linear",
 	.version = {1, 4, 0},
-<<<<<<< HEAD
 	.features = DM_TARGET_PASSES_INTEGRITY | DM_TARGET_NOWAIT |
 		    DM_TARGET_ZONED_HM | DM_TARGET_PASSES_CRYPTO,
 	.report_zones = linear_report_zones,
-=======
-#ifdef CONFIG_BLK_DEV_ZONED
-	.features = DM_TARGET_PASSES_INTEGRITY | DM_TARGET_NOWAIT |
-		    DM_TARGET_ZONED_HM,
-	.report_zones = linear_report_zones,
-#else
-	.features = DM_TARGET_PASSES_INTEGRITY | DM_TARGET_NOWAIT,
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.module = THIS_MODULE,
 	.ctr    = linear_ctr,
 	.dtr    = linear_dtr,

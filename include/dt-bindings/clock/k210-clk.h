@@ -9,10 +9,6 @@
 /*
  * Kendryte K210 SoC clock identifiers (arbitrary values).
  */
-<<<<<<< HEAD
-=======
-#define K210_CLK_ACLK	0
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define K210_CLK_CPU	0
 #define K210_CLK_SRAM0	1
 #define K210_CLK_SRAM1	2

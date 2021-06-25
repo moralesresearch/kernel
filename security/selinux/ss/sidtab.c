@@ -39,10 +39,7 @@ int sidtab_init(struct sidtab *s)
 	for (i = 0; i < SECINITSID_NUM; i++)
 		s->isids[i].set = 0;
 
-<<<<<<< HEAD
 	s->frozen = false;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s->count = 0;
 	s->convert = NULL;
 	hash_init(s->context_to_sid);
@@ -285,7 +282,6 @@ int sidtab_context_to_sid(struct sidtab *s, struct context *context,
 	if (*sid)
 		goto out_unlock;
 
-<<<<<<< HEAD
 	if (unlikely(s->frozen)) {
 		/*
 		 * This sidtab is now frozen - tell the caller to abort and
@@ -295,8 +291,6 @@ int sidtab_context_to_sid(struct sidtab *s, struct context *context,
 		goto out_unlock;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	count = s->count;
 	convert = s->convert;
 
@@ -490,7 +484,6 @@ void sidtab_cancel_convert(struct sidtab *s)
 	spin_unlock_irqrestore(&s->lock, flags);
 }
 
-<<<<<<< HEAD
 void sidtab_freeze_begin(struct sidtab *s, unsigned long *flags) __acquires(&s->lock)
 {
 	spin_lock_irqsave(&s->lock, *flags);
@@ -502,8 +495,6 @@ void sidtab_freeze_end(struct sidtab *s, unsigned long *flags) __releases(&s->lo
 	spin_unlock_irqrestore(&s->lock, *flags);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sidtab_destroy_entry(struct sidtab_entry *entry)
 {
 	context_destroy(&entry->context);

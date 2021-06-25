@@ -1153,11 +1153,7 @@ static void octeon_destroy_resources(struct octeon_device *oct)
  * @lio: per-network private data
  * @start_stop: whether to start or stop
  */
-<<<<<<< HEAD
 static int send_rx_ctrl_cmd(struct lio *lio, int start_stop)
-=======
-static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct octeon_soft_command *sc;
 	union octnet_cmd *ncmd;
@@ -1165,24 +1161,15 @@ static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
 	int retval;
 
 	if (oct->props[lio->ifidx].rx_on == start_stop)
-<<<<<<< HEAD
 		return 0;
-=======
-		return;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sc = (struct octeon_soft_command *)
 		octeon_alloc_soft_command(oct, OCTNET_CMD_SIZE,
 					  16, 0);
 	if (!sc) {
 		netif_info(lio, rx_err, lio->netdev,
-<<<<<<< HEAD
 			   "Failed to allocate octeon_soft_command struct\n");
 		return -ENOMEM;
-=======
-			   "Failed to allocate octeon_soft_command\n");
-		return;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ncmd = (union octnet_cmd *)sc->virtdptr;
@@ -1205,30 +1192,19 @@ static void send_rx_ctrl_cmd(struct lio *lio, int start_stop)
 	if (retval == IQ_SEND_FAILED) {
 		netif_info(lio, rx_err, lio->netdev, "Failed to send RX Control message\n");
 		octeon_free_soft_command(oct, sc);
-<<<<<<< HEAD
-=======
-		return;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		/* Sleep on a wait queue till the cond flag indicates that the
 		 * response arrived or timed-out.
 		 */
 		retval = wait_for_sc_completion_timeout(oct, sc, 0);
 		if (retval)
-<<<<<<< HEAD
 			return retval;
-=======
-			return;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		oct->props[lio->ifidx].rx_on = start_stop;
 		WRITE_ONCE(sc->caller_is_done, true);
 	}
-<<<<<<< HEAD
 
 	return retval;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1803,10 +1779,7 @@ static int liquidio_open(struct net_device *netdev)
 	struct octeon_device_priv *oct_priv =
 		(struct octeon_device_priv *)oct->priv;
 	struct napi_struct *napi, *n;
-<<<<<<< HEAD
 	int ret = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (oct->props[lio->ifidx].napi_enabled == 0) {
 		tasklet_disable(&oct_priv->droq_tasklet);
@@ -1842,13 +1815,9 @@ static int liquidio_open(struct net_device *netdev)
 	netif_info(lio, ifup, lio->netdev, "Interface Open, ready for traffic\n");
 
 	/* tell Octeon to start forwarding packets to host */
-<<<<<<< HEAD
 	ret = send_rx_ctrl_cmd(lio, 1);
 	if (ret)
 		return ret;
-=======
-	send_rx_ctrl_cmd(lio, 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* start periodical statistics fetch */
 	INIT_DELAYED_WORK(&lio->stats_wk.work, lio_fetch_stats);
@@ -1859,11 +1828,7 @@ static int liquidio_open(struct net_device *netdev)
 	dev_info(&oct->pci_dev->dev, "%s interface is opened\n",
 		 netdev->name);
 
-<<<<<<< HEAD
 	return ret;
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1877,10 +1842,7 @@ static int liquidio_stop(struct net_device *netdev)
 	struct octeon_device_priv *oct_priv =
 		(struct octeon_device_priv *)oct->priv;
 	struct napi_struct *napi, *n;
-<<<<<<< HEAD
 	int ret = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ifstate_reset(lio, LIO_IFSTATE_RUNNING);
 
@@ -1897,13 +1859,9 @@ static int liquidio_stop(struct net_device *netdev)
 	lio->link_changes++;
 
 	/* Tell Octeon that nic interface is down. */
-<<<<<<< HEAD
 	ret = send_rx_ctrl_cmd(lio, 0);
 	if (ret)
 		return ret;
-=======
-	send_rx_ctrl_cmd(lio, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (OCTEON_CN23XX_PF(oct)) {
 		if (!oct->msix_on)
@@ -1938,11 +1896,7 @@ static int liquidio_stop(struct net_device *netdev)
 
 	dev_info(&oct->pci_dev->dev, "%s interface is stopped\n", netdev->name);
 
-<<<<<<< HEAD
 	return ret;
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -3272,11 +3226,6 @@ static const struct net_device_ops lionetdevops = {
 	.ndo_do_ioctl		= liquidio_ioctl,
 	.ndo_fix_features	= liquidio_fix_features,
 	.ndo_set_features	= liquidio_set_features,
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_set_vf_mac		= liquidio_set_vf_mac,
 	.ndo_set_vf_vlan	= liquidio_set_vf_vlan,
 	.ndo_get_vf_config	= liquidio_get_vf_config,

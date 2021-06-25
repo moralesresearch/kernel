@@ -13,17 +13,3 @@ SYM_FUNC_START(native_save_fl)
 	ret
 SYM_FUNC_END(native_save_fl)
 EXPORT_SYMBOL(native_save_fl)
-<<<<<<< HEAD
-=======
-
-/*
- * void native_restore_fl(unsigned long flags)
- * %eax/%rdi: flags
- */
-SYM_FUNC_START(native_restore_fl)
-	push %_ASM_ARG1
-	popf
-	ret
-SYM_FUNC_END(native_restore_fl)
-EXPORT_SYMBOL(native_restore_fl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -12,10 +12,7 @@
 #include <linux/pgtable.h>
 
 extern unsigned long efi_fw_vendor, efi_config_table;
-<<<<<<< HEAD
 extern unsigned long efi_mixed_mode_stack_pa;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * We map the EFI regions needed for runtime services non-contiguously,
@@ -72,7 +69,6 @@ extern unsigned long efi_mixed_mode_stack_pa;
 		#f " called with too many arguments (" #p ">" #n ")");	\
 })
 
-<<<<<<< HEAD
 static inline void efi_fpu_begin(void)
 {
 	/*
@@ -93,23 +89,13 @@ static inline void efi_fpu_end(void)
 #define arch_efi_call_virt_setup()					\
 ({									\
 	efi_fpu_begin();						\
-=======
-#ifdef CONFIG_X86_32
-#define arch_efi_call_virt_setup()					\
-({									\
-	kernel_fpu_begin();						\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	firmware_restrict_branch_speculation_start();			\
 })
 
 #define arch_efi_call_virt_teardown()					\
 ({									\
 	firmware_restrict_branch_speculation_end();			\
-<<<<<<< HEAD
 	efi_fpu_end();							\
-=======
-	kernel_fpu_end();						\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 #define arch_efi_call_virt(p, f, args...)	p->f(args)
@@ -125,31 +111,12 @@ extern asmlinkage u64 __efi_call(void *fp, ...);
 	__efi_call(__VA_ARGS__);					\
 })
 
-<<<<<<< HEAD
 #define arch_efi_call_virt_setup()					\
 ({									\
 	efi_sync_low_kernel_mappings();					\
 	efi_fpu_begin();						\
 	firmware_restrict_branch_speculation_start();			\
 	efi_enter_mm();							\
-=======
-/*
- * struct efi_scratch - Scratch space used while switching to/from efi_mm
- * @phys_stack: stack used during EFI Mixed Mode
- * @prev_mm:    store/restore stolen mm_struct while switching to/from efi_mm
- */
-struct efi_scratch {
-	u64			phys_stack;
-	struct mm_struct	*prev_mm;
-} __packed;
-
-#define arch_efi_call_virt_setup()					\
-({									\
-	efi_sync_low_kernel_mappings();					\
-	kernel_fpu_begin();						\
-	firmware_restrict_branch_speculation_start();			\
-	efi_switch_mm(&efi_mm);						\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 #define arch_efi_call_virt(p, f, args...)				\
@@ -157,15 +124,9 @@ struct efi_scratch {
 
 #define arch_efi_call_virt_teardown()					\
 ({									\
-<<<<<<< HEAD
 	efi_leave_mm();							\
 	firmware_restrict_branch_speculation_end();			\
 	efi_fpu_end();							\
-=======
-	efi_switch_mm(efi_scratch.prev_mm);				\
-	firmware_restrict_branch_speculation_end();			\
-	kernel_fpu_end();						\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 #ifdef CONFIG_KASAN
@@ -182,10 +143,6 @@ struct efi_scratch {
 
 #endif /* CONFIG_X86_32 */
 
-<<<<<<< HEAD
-=======
-extern struct efi_scratch efi_scratch;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int __init efi_memblock_x86_reserve_range(void);
 extern void __init efi_print_memmap(void);
 extern void __init efi_map_region(efi_memory_desc_t *md);
@@ -198,19 +155,12 @@ extern void __init efi_dump_pagetable(void);
 extern void __init efi_apply_memmap_quirks(void);
 extern int __init efi_reuse_config(u64 tables, int nr_tables);
 extern void efi_delete_dummy_variable(void);
-<<<<<<< HEAD
 extern void efi_crash_gracefully_on_page_fault(unsigned long phys_addr);
 extern void efi_free_boot_services(void);
 
 void efi_enter_mm(void);
 void efi_leave_mm(void);
 
-=======
-extern void efi_switch_mm(struct mm_struct *mm);
-extern void efi_recover_from_page_fault(unsigned long phys_addr);
-extern void efi_free_boot_services(void);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* kexec external ABI */
 struct efi_setup_data {
 	u64 fw_vendor;

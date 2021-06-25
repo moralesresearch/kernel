@@ -1,25 +1,19 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
- * SPDX-License-Identifier: GPL-2.0
- *
  * Copyright © 2018 Intel Corporation
  */
 
-<<<<<<< HEAD
 #include <linux/sort.h>
 
 #include "i915_selftest.h"
 #include "intel_gpu_commands.h"
 #include "intel_gt_clock_utils.h"
-=======
-#include "i915_selftest.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "selftest_engine.h"
 #include "selftest_engine_heartbeat.h"
 #include "selftests/igt_atomic.h"
 #include "selftests/igt_flush_test.h"
 #include "selftests/igt_spinner.h"
 
-<<<<<<< HEAD
 #define COUNT 5
 
 static int cmp_u64(const void *A, const void *B)
@@ -116,13 +110,15 @@ static int __measure_timestamps(struct intel_context *ce,
 		cpu_relax();
 
 	/* Run the request for a 100us, sampling timestamps before/after */
-	preempt_disable();
-	*dt = local_clock();
+	local_irq_disable();
 	write_semaphore(&sema[2], 0);
+	while (READ_ONCE(sema[1]) == 0) /* wait for the gpu to catch up */
+		cpu_relax();
+	*dt = local_clock();
 	udelay(100);
 	*dt = local_clock() - *dt;
 	write_semaphore(&sema[2], 1);
-	preempt_enable();
+	local_irq_enable();
 
 	if (i915_request_wait(rq, 0, HZ / 2) < 0) {
 		i915_request_put(rq);
@@ -218,8 +214,6 @@ static int live_engine_timestamps(void *arg)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int live_engine_busy_stats(void *arg)
 {
 	struct intel_gt *gt = arg;
@@ -386,10 +380,7 @@ static int live_engine_pm(void *arg)
 int live_engine_pm_selftests(struct intel_gt *gt)
 {
 	static const struct i915_subtest tests[] = {
-<<<<<<< HEAD
 		SUBTEST(live_engine_timestamps),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SUBTEST(live_engine_busy_stats),
 		SUBTEST(live_engine_pm),
 	};

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * USB ZyXEL omni.net LCD PLUS driver
+ * USB ZyXEL omni.net driver
  *
  * Copyright (C) 2013,2017 Johan Hovold <johan@kernel.org>
  *
@@ -22,14 +22,11 @@
 #include <linux/usb/serial.h>
 
 #define DRIVER_AUTHOR "Alessandro Zummo"
-#define DRIVER_DESC "USB ZyXEL omni.net LCD PLUS Driver"
+#define DRIVER_DESC "USB ZyXEL omni.net Driver"
 
 #define ZYXEL_VENDOR_ID		0x0586
 #define ZYXEL_OMNINET_ID	0x1000
-<<<<<<< HEAD
 #define ZYXEL_OMNI_56K_PLUS_ID	0x1500
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* This one seems to be a re-branded ZyXEL device */
 #define BT_IGNITIONPRO_ID	0x2000
 
@@ -40,18 +37,11 @@ static int omninet_prepare_write_buffer(struct usb_serial_port *port,
 static int omninet_calc_num_ports(struct usb_serial *serial,
 				struct usb_serial_endpoints *epds);
 static int omninet_port_probe(struct usb_serial_port *port);
-<<<<<<< HEAD
 static void omninet_port_remove(struct usb_serial_port *port);
 
 static const struct usb_device_id id_table[] = {
 	{ USB_DEVICE(ZYXEL_VENDOR_ID, ZYXEL_OMNINET_ID) },
 	{ USB_DEVICE(ZYXEL_VENDOR_ID, ZYXEL_OMNI_56K_PLUS_ID) },
-=======
-static int omninet_port_remove(struct usb_serial_port *port);
-
-static const struct usb_device_id id_table[] = {
-	{ USB_DEVICE(ZYXEL_VENDOR_ID, ZYXEL_OMNINET_ID) },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ USB_DEVICE(ZYXEL_VENDOR_ID, BT_IGNITIONPRO_ID) },
 	{ }						/* Terminating entry */
 };
@@ -62,7 +52,7 @@ static struct usb_serial_driver zyxel_omninet_device = {
 		.owner =	THIS_MODULE,
 		.name =		"omninet",
 	},
-	.description =		"ZyXEL - omni.net lcd plus usb",
+	.description =		"ZyXEL - omni.net usb",
 	.id_table =		id_table,
 	.num_bulk_out =		2,
 	.calc_num_ports =	omninet_calc_num_ports,
@@ -133,21 +123,12 @@ static int omninet_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void omninet_port_remove(struct usb_serial_port *port)
-=======
-static int omninet_port_remove(struct usb_serial_port *port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct omninet_data *od;
 
 	od = usb_get_serial_port_data(port);
 	kfree(od);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define OMNINET_HEADERLEN	4

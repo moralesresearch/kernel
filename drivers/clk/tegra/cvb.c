@@ -86,10 +86,7 @@ static int build_opp_table(struct device *dev, const struct cvb_table *table,
  * @dev: the struct device * for which the OPP table is built
  * @tables: array of CVB tables
  * @count: size of the previously mentioned array
-<<<<<<< HEAD
  * @align: parameters of the regulator step and offset
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @process_id: process id of the HW module
  * @speedo_id: speedo id of the HW module
  * @speedo_value: speedo value of the HW module

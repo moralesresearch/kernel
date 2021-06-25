@@ -44,7 +44,6 @@ struct vsp1_uif;
 #define VSP1_MAX_UIF		2
 #define VSP1_MAX_WPF		4
 
-<<<<<<< HEAD
 #define VSP1_HAS_LUT		BIT(1)
 #define VSP1_HAS_SRU		BIT(2)
 #define VSP1_HAS_BRU		BIT(3)
@@ -55,18 +54,6 @@ struct vsp1_uif;
 #define VSP1_HAS_HGT		BIT(8)
 #define VSP1_HAS_BRS		BIT(9)
 #define VSP1_HAS_EXT_DL		BIT(10)
-=======
-#define VSP1_HAS_LUT		(1 << 1)
-#define VSP1_HAS_SRU		(1 << 2)
-#define VSP1_HAS_BRU		(1 << 3)
-#define VSP1_HAS_CLU		(1 << 4)
-#define VSP1_HAS_WPF_VFLIP	(1 << 5)
-#define VSP1_HAS_WPF_HFLIP	(1 << 6)
-#define VSP1_HAS_HGO		(1 << 7)
-#define VSP1_HAS_HGT		(1 << 8)
-#define VSP1_HAS_BRS		(1 << 9)
-#define VSP1_HAS_EXT_DL		(1 << 10)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct vsp1_device_info {
 	u32 version;

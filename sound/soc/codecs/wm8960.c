@@ -608,13 +608,6 @@ static const int bclk_divs[] = {
  *		- lrclk      = sysclk / dac_divs
  *		- 10 * bclk  = sysclk / bclk_divs
  *
-<<<<<<< HEAD
-=======
- *	If we cannot find an exact match for (sysclk, lrclk, bclk)
- *	triplet, we relax the bclk such that bclk is chosen as the
- *	closest available frequency greater than expected bclk.
- *
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @wm8960: codec private data
  * @mclk: MCLK used to derive sysclk
  * @sysclk_idx: sysclk_divs index for found sysclk
@@ -632,11 +625,7 @@ int wm8960_configure_sysclk(struct wm8960_priv *wm8960, int mclk,
 {
 	int sysclk, bclk, lrclk;
 	int i, j, k;
-<<<<<<< HEAD
 	int diff;
-=======
-	int diff, closest = mclk;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* marker for no match */
 	*bclk_idx = -1;
@@ -660,15 +649,6 @@ int wm8960_configure_sysclk(struct wm8960_priv *wm8960, int mclk,
 					*bclk_idx = k;
 					break;
 				}
-<<<<<<< HEAD
-=======
-				if (diff > 0 && closest > diff) {
-					*sysclk_idx = i;
-					*dac_idx = j;
-					*bclk_idx = k;
-					closest = diff;
-				}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			if (k != ARRAY_SIZE(bclk_divs))
 				break;
@@ -717,7 +697,6 @@ int wm8960_configure_pll(struct snd_soc_component *component, int freq_in,
 	best_freq_out = -EINVAL;
 	*sysclk_idx = *dac_idx = *bclk_idx = -1;
 
-<<<<<<< HEAD
 	/*
 	 * From Datasheet, the PLL performs best when f2 is between
 	 * 90MHz and 100MHz, the desired sysclk output is 11.2896MHz
@@ -725,9 +704,6 @@ int wm8960_configure_pll(struct snd_soc_component *component, int freq_in,
 	 * So search sysclk_divs from 2 to 1 other than from 1 to 2.
 	 */
 	for (i = ARRAY_SIZE(sysclk_divs) - 1; i >= 0; --i) {
-=======
-	for (i = 0; i < ARRAY_SIZE(sysclk_divs); ++i) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (sysclk_divs[i] == -1)
 			continue;
 		for (j = 0; j < ARRAY_SIZE(dac_divs); ++j) {
@@ -1358,11 +1334,7 @@ static struct snd_soc_dai_driver wm8960_dai = {
 		.rates = WM8960_RATES,
 		.formats = WM8960_FORMATS,},
 	.ops = &wm8960_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int wm8960_probe(struct snd_soc_component *component)

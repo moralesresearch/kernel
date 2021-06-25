@@ -24,7 +24,7 @@
 #include "rdev-ops.h"
 
 
-struct ieee80211_rate *
+const struct ieee80211_rate *
 ieee80211_get_response_rate(struct ieee80211_supported_band *sband,
 			    u32 basic_rates, int bitrate)
 {
@@ -542,11 +542,7 @@ EXPORT_SYMBOL(ieee80211_get_mesh_hdrlen);
 
 int ieee80211_data_to_8023_exthdr(struct sk_buff *skb, struct ethhdr *ehdr,
 				  const u8 *addr, enum nl80211_iftype iftype,
-<<<<<<< HEAD
 				  u8 data_offset, bool is_amsdu)
-=======
-				  u8 data_offset)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
 	struct {
@@ -633,11 +629,7 @@ int ieee80211_data_to_8023_exthdr(struct sk_buff *skb, struct ethhdr *ehdr,
 	skb_copy_bits(skb, hdrlen, &payload, sizeof(payload));
 	tmp.h_proto = payload.proto;
 
-<<<<<<< HEAD
 	if (likely((!is_amsdu && ether_addr_equal(payload.hdr, rfc1042_header) &&
-=======
-	if (likely((ether_addr_equal(payload.hdr, rfc1042_header) &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    tmp.h_proto != htons(ETH_P_AARP) &&
 		    tmp.h_proto != htons(ETH_P_IPX)) ||
 		   ether_addr_equal(payload.hdr, bridge_tunnel_header)))
@@ -779,12 +771,9 @@ void ieee80211_amsdu_to_8023s(struct sk_buff *skb, struct sk_buff_head *list,
 		remaining = skb->len - offset;
 		if (subframe_len > remaining)
 			goto purge;
-<<<<<<< HEAD
 		/* mitigate A-MSDU aggregation injection attacks */
 		if (ether_addr_equal(eth.h_dest, rfc1042_header))
 			goto purge;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		offset += sizeof(struct ethhdr);
 		last = remaining <= subframe_len + padding;
@@ -1011,11 +1000,7 @@ void cfg80211_process_rdev_events(struct cfg80211_registered_device *rdev)
 {
 	struct wireless_dev *wdev;
 
-<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
-=======
-	ASSERT_RTNL();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list)
 		cfg80211_process_wdev_events(wdev);
@@ -1028,11 +1013,7 @@ int cfg80211_change_iface(struct cfg80211_registered_device *rdev,
 	int err;
 	enum nl80211_iftype otype = dev->ieee80211_ptr->iftype;
 
-<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
-=======
-	ASSERT_RTNL();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* don't support changing VLANs, you just re-create them */
 	if (otype == NL80211_IFTYPE_AP_VLAN)
@@ -1077,6 +1058,9 @@ int cfg80211_change_iface(struct cfg80211_registered_device *rdev,
 			break;
 		case NL80211_IFTYPE_MESH_POINT:
 			/* mesh should be handled? */
+			break;
+		case NL80211_IFTYPE_OCB:
+			cfg80211_leave_ocb(rdev, dev);
 			break;
 		default:
 			break;
@@ -1210,7 +1194,6 @@ static u32 cfg80211_calculate_bitrate_dmg(struct rate_info *rate)
 	return __mcs2bitrate[rate->mcs];
 }
 
-<<<<<<< HEAD
 static u32 cfg80211_calculate_bitrate_extended_sc_dmg(struct rate_info *rate)
 {
 	static const u32 __mcs2bitrate[] = {
@@ -1230,8 +1213,6 @@ static u32 cfg80211_calculate_bitrate_extended_sc_dmg(struct rate_info *rate)
 	return __mcs2bitrate[rate->mcs - 6];
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 cfg80211_calculate_bitrate_edmg(struct rate_info *rate)
 {
 	static const u32 __mcs2bitrate[] = {
@@ -1268,11 +1249,7 @@ static u32 cfg80211_calculate_bitrate_edmg(struct rate_info *rate)
 
 static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 {
-<<<<<<< HEAD
 	static const u32 base[4][12] = {
-=======
-	static const u32 base[4][10] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{   6500000,
 		   13000000,
 		   19500000,
@@ -1283,13 +1260,9 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 		   65000000,
 		   78000000,
 		/* not in the spec, but some devices use this: */
-<<<<<<< HEAD
 		   86700000,
 		   97500000,
 		  108300000,
-=======
-		   86500000,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 		{  13500000,
 		   27000000,
@@ -1301,11 +1274,8 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 		  135000000,
 		  162000000,
 		  180000000,
-<<<<<<< HEAD
 		  202500000,
 		  225000000,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 		{  29300000,
 		   58500000,
@@ -1317,11 +1287,8 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 		  292500000,
 		  351000000,
 		  390000000,
-<<<<<<< HEAD
 		  438800000,
 		  487500000,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 		{  58500000,
 		  117000000,
@@ -1333,21 +1300,14 @@ static u32 cfg80211_calculate_bitrate_vht(struct rate_info *rate)
 		  585000000,
 		  702000000,
 		  780000000,
-<<<<<<< HEAD
 		  877500000,
 		  975000000,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 	};
 	u32 bitrate;
 	int idx;
 
-<<<<<<< HEAD
 	if (rate->mcs > 11)
-=======
-	if (rate->mcs > 9)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto warn;
 
 	switch (rate->bw) {
@@ -1471,11 +1431,8 @@ u32 cfg80211_calculate_bitrate(struct rate_info *rate)
 		return cfg80211_calculate_bitrate_ht(rate);
 	if (rate->flags & RATE_INFO_FLAGS_DMG)
 		return cfg80211_calculate_bitrate_dmg(rate);
-<<<<<<< HEAD
 	if (rate->flags & RATE_INFO_FLAGS_EXTENDED_SC_DMG)
 		return cfg80211_calculate_bitrate_extended_sc_dmg(rate);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rate->flags & RATE_INFO_FLAGS_EDMG)
 		return cfg80211_calculate_bitrate_edmg(rate);
 	if (rate->flags & RATE_INFO_FLAGS_VHT_MCS)

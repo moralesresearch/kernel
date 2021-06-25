@@ -101,17 +101,11 @@ static inline struct pppoatm_vcc *chan_to_pvcc(const struct ppp_channel *chan)
  * doesn't want to be called in interrupt context, so we do it from
  * a tasklet
  */
-<<<<<<< HEAD
 static void pppoatm_wakeup_sender(struct tasklet_struct *t)
 {
 	struct pppoatm_vcc *pvcc = from_tasklet(pvcc, t, wakeup_tasklet);
 
 	ppp_output_wakeup(&pvcc->chan);
-=======
-static void pppoatm_wakeup_sender(unsigned long arg)
-{
-	ppp_output_wakeup((struct ppp_channel *) arg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void pppoatm_release_cb(struct atm_vcc *atmvcc)
@@ -397,15 +391,7 @@ static int pppoatm_assign_vcc(struct atm_vcc *atmvcc, void __user *arg)
 	struct atm_backend_ppp be;
 	struct pppoatm_vcc *pvcc;
 	int err;
-<<<<<<< HEAD
 
-=======
-	/*
-	 * Each PPPoATM instance has its own tasklet - this is just a
-	 * prototypical one used to initialize them
-	 */
-	static const DECLARE_TASKLET_OLD(tasklet_proto, pppoatm_wakeup_sender);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (copy_from_user(&be, arg, sizeof be))
 		return -EFAULT;
 	if (be.encaps != PPPOATM_ENCAPS_AUTODETECT &&
@@ -427,12 +413,7 @@ static int pppoatm_assign_vcc(struct atm_vcc *atmvcc, void __user *arg)
 	pvcc->chan.ops = &pppoatm_ops;
 	pvcc->chan.mtu = atmvcc->qos.txtp.max_sdu - PPP_HDRLEN -
 	    (be.encaps == e_vc ? 0 : LLC_LEN);
-<<<<<<< HEAD
 	tasklet_setup(&pvcc->wakeup_tasklet, pppoatm_wakeup_sender);
-=======
-	pvcc->wakeup_tasklet = tasklet_proto;
-	pvcc->wakeup_tasklet.data = (unsigned long) &pvcc->chan;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = ppp_register_channel(&pvcc->chan);
 	if (err != 0) {
 		kfree(pvcc);

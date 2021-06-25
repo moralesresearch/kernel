@@ -413,11 +413,7 @@ static void put_watch(struct watch *watch)
 }
 
 /**
-<<<<<<< HEAD
  * init_watch - Initialise a watch
-=======
- * init_watch_queue - Initialise a watch
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @watch: The watch to initialise.
  * @wqueue: The queue to assign.
  *

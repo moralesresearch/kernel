@@ -6,11 +6,7 @@
 #include <linux/netfilter/nfnetlink_osf.h>
 
 struct nft_osf {
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			ttl;
 	u32			flags;
 };
@@ -82,15 +78,9 @@ static int nft_osf_init(const struct nft_ctx *ctx,
 		priv->flags = flags;
 	}
 
-<<<<<<< HEAD
 	err = nft_parse_register_store(ctx, tb[NFTA_OSF_DREG], &priv->dreg,
 				       NULL, NFT_DATA_VALUE,
 				       NFT_OSF_MAXGENRELEN);
-=======
-	priv->dreg = nft_parse_register(tb[NFTA_OSF_DREG]);
-	err = nft_validate_register_store(ctx, priv->dreg, NULL,
-					  NFT_DATA_VALUE, NFT_OSF_MAXGENRELEN);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 

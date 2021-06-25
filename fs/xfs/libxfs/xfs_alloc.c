@@ -718,7 +718,6 @@ xfs_alloc_update_counters(
 	agbp->b_pag->pagf_freeblks += len;
 	be32_add_cpu(&agf->agf_freeblks, len);
 
-	xfs_trans_agblocks_delta(tp, len);
 	if (unlikely(be32_to_cpu(agf->agf_freeblks) >
 		     be32_to_cpu(agf->agf_length))) {
 		xfs_buf_mark_corrupt(agbp);
@@ -2474,7 +2473,6 @@ xfs_defer_agfl_block(
 	xfs_defer_add(tp, XFS_DEFER_OPS_TYPE_AGFL_FREE, &new->xefi_list);
 }
 
-<<<<<<< HEAD
 #ifdef DEBUG
 /*
  * Check if an AGF has a free extent record whose length is equal to
@@ -2516,8 +2514,6 @@ out:
 }
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Decide whether to use this allocation group for this allocation.
  * If so, fix up the btree freelist's size.
@@ -2589,7 +2585,6 @@ xfs_alloc_fix_freelist(
 	if (!xfs_alloc_space_available(args, need, flags))
 		goto out_agbp_relse;
 
-<<<<<<< HEAD
 #ifdef DEBUG
 	if (args->alloc_minlen_only) {
 		int stat;
@@ -2599,8 +2594,6 @@ xfs_alloc_fix_freelist(
 			goto out_agbp_relse;
 	}
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Make the freelist shorter if it's too long.
 	 *
@@ -2745,7 +2738,6 @@ xfs_alloc_get_freelist(
 	pag = agbp->b_pag;
 	ASSERT(!pag->pagf_agflreset);
 	be32_add_cpu(&agf->agf_flcount, -1);
-	xfs_trans_agflist_delta(tp, -1);
 	pag->pagf_flcount--;
 
 	logflags = XFS_AGF_FLFIRST | XFS_AGF_FLCOUNT;
@@ -2852,7 +2844,6 @@ xfs_alloc_put_freelist(
 	pag = agbp->b_pag;
 	ASSERT(!pag->pagf_agflreset);
 	be32_add_cpu(&agf->agf_flcount, 1);
-	xfs_trans_agflist_delta(tp, 1);
 	pag->pagf_flcount++;
 
 	logflags = XFS_AGF_FLLAST | XFS_AGF_FLCOUNT;
@@ -2912,13 +2903,13 @@ xfs_agf_verify(
 
 	if (be32_to_cpu(agf->agf_levels[XFS_BTNUM_BNO]) < 1 ||
 	    be32_to_cpu(agf->agf_levels[XFS_BTNUM_CNT]) < 1 ||
-	    be32_to_cpu(agf->agf_levels[XFS_BTNUM_BNO]) > XFS_BTREE_MAXLEVELS ||
-	    be32_to_cpu(agf->agf_levels[XFS_BTNUM_CNT]) > XFS_BTREE_MAXLEVELS)
+	    be32_to_cpu(agf->agf_levels[XFS_BTNUM_BNO]) > mp->m_ag_maxlevels ||
+	    be32_to_cpu(agf->agf_levels[XFS_BTNUM_CNT]) > mp->m_ag_maxlevels)
 		return __this_address;
 
 	if (xfs_sb_version_hasrmapbt(&mp->m_sb) &&
 	    (be32_to_cpu(agf->agf_levels[XFS_BTNUM_RMAP]) < 1 ||
-	     be32_to_cpu(agf->agf_levels[XFS_BTNUM_RMAP]) > XFS_BTREE_MAXLEVELS))
+	     be32_to_cpu(agf->agf_levels[XFS_BTNUM_RMAP]) > mp->m_rmap_maxlevels))
 		return __this_address;
 
 	if (xfs_sb_version_hasrmapbt(&mp->m_sb) &&
@@ -2945,7 +2936,7 @@ xfs_agf_verify(
 
 	if (xfs_sb_version_hasreflink(&mp->m_sb) &&
 	    (be32_to_cpu(agf->agf_refcount_level) < 1 ||
-	     be32_to_cpu(agf->agf_refcount_level) > XFS_BTREE_MAXLEVELS))
+	     be32_to_cpu(agf->agf_refcount_level) > mp->m_refc_maxlevels))
 		return __this_address;
 
 	return NULL;
@@ -3042,6 +3033,7 @@ xfs_alloc_read_agf(
 	struct xfs_agf		*agf;		/* ag freelist header */
 	struct xfs_perag	*pag;		/* per allocation group data */
 	int			error;
+	int			allocbt_blks;
 
 	trace_xfs_alloc_read_agf(mp, agno);
 
@@ -3072,6 +3064,19 @@ xfs_alloc_read_agf(
 		pag->pagf_refcount_level = be32_to_cpu(agf->agf_refcount_level);
 		pag->pagf_init = 1;
 		pag->pagf_agflreset = xfs_agfl_needs_reset(mp, agf);
+
+		/*
+		 * Update the in-core allocbt counter. Filter out the rmapbt
+		 * subset of the btreeblks counter because the rmapbt is managed
+		 * by perag reservation. Subtract one for the rmapbt root block
+		 * because the rmap counter includes it while the btreeblks
+		 * counter only tracks non-root blocks.
+		 */
+		allocbt_blks = pag->pagf_btreeblks;
+		if (xfs_sb_version_hasrmapbt(&mp->m_sb))
+			allocbt_blks -= be32_to_cpu(agf->agf_rmap_blocks) - 1;
+		if (allocbt_blks > 0)
+			atomic64_add(allocbt_blks, &mp->m_allocbt_blks);
 	}
 #ifdef DEBUG
 	else if (!XFS_FORCED_SHUTDOWN(mp)) {

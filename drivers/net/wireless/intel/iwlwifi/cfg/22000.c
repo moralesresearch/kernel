@@ -9,15 +9,7 @@
 #include "iwl-prph.h"
 
 /* Highest firmware API version supported */
-<<<<<<< HEAD
-#define IWL_22000_UCODE_API_MAX	62
-=======
-<<<<<<< HEAD
-#define IWL_22000_UCODE_API_MAX	62
-=======
-#define IWL_22000_UCODE_API_MAX	59
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#define IWL_22000_UCODE_API_MAX	63
 
 /* Lowest firmware API version supported */
 #define IWL_22000_UCODE_API_MIN	39
@@ -50,22 +42,16 @@
 #define IWL_SNJ_A_GF4_A_FW_PRE		"iwlwifi-SoSnj-a0-gf4-a0-"
 #define IWL_SNJ_A_GF_A_FW_PRE		"iwlwifi-SoSnj-a0-gf-a0-"
 #define IWL_SNJ_A_HR_B_FW_PRE		"iwlwifi-SoSnj-a0-hr-b0-"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_SNJ_A_JF_B_FW_PRE		"iwlwifi-SoSnj-a0-jf-b0-"
 #define IWL_MA_A_HR_B_FW_PRE		"iwlwifi-ma-a0-hr-b0-"
 #define IWL_MA_A_GF_A_FW_PRE		"iwlwifi-ma-a0-gf-a0-"
 #define IWL_MA_A_GF4_A_FW_PRE		"iwlwifi-ma-a0-gf4-a0-"
-<<<<<<< HEAD
-=======
-=======
-#define IWL_MA_A_GF_A_FW_PRE		"iwlwifi-ma-a0-gf-a0-"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_MA_A_MR_A_FW_PRE		"iwlwifi-ma-a0-mr-a0-"
 #define IWL_SNJ_A_MR_A_FW_PRE		"iwlwifi-SoSnj-a0-mr-a0-"
+#define IWL_BZ_A_HR_B_FW_PRE		"iwlwifi-bz-a0-hr-b0-"
+#define IWL_BZ_A_GF_A_FW_PRE		"iwlwifi-bz-a0-gf-a0-"
+#define IWL_BZ_A_GF4_A_FW_PRE		"iwlwifi-bz-a0-gf4-a0-"
+#define IWL_BZ_A_MR_A_FW_PRE		"iwlwifi-bz-a0-mr-a0-"
 
 #define IWL_QU_B_HR_B_MODULE_FIRMWARE(api) \
 	IWL_QU_B_HR_B_FW_PRE __stringify(api) ".ucode"
@@ -97,10 +83,6 @@
 	IWL_SNJ_A_GF_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_SNJ_A_HR_B_MODULE_FIRMWARE(api) \
 	IWL_SNJ_A_HR_B_FW_PRE __stringify(api) ".ucode"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_SNJ_A_JF_B_MODULE_FIRMWARE(api) \
 	IWL_SNJ_A_JF_B_FW_PRE __stringify(api) ".ucode"
 #define IWL_MA_A_HR_B_FW_MODULE_FIRMWARE(api)		\
@@ -109,17 +91,18 @@
 	IWL_MA_A_GF_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_MA_A_GF4_A_FW_MODULE_FIRMWARE(api)		\
 	IWL_MA_A_GF4_A_FW_PRE __stringify(api) ".ucode"
-<<<<<<< HEAD
-=======
-=======
-#define IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(api) \
-	IWL_MA_A_GF_A_FW_PRE __stringify(api) ".ucode"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_MA_A_MR_A_FW_MODULE_FIRMWARE(api) \
 	IWL_MA_A_MR_A_FW_PRE __stringify(api) ".ucode"
 #define IWL_SNJ_A_MR_A_MODULE_FIRMWARE(api) \
 	IWL_SNJ_A_MR_A_FW_PRE __stringify(api) ".ucode"
+#define IWL_BZ_A_HR_B_MODULE_FIRMWARE(api) \
+	IWL_BZ_A_HR_B_FW_PRE __stringify(api) ".ucode"
+#define IWL_BZ_A_GF_A_MODULE_FIRMWARE(api) \
+	IWL_BZ_A_GF_A_FW_PRE __stringify(api) ".ucode"
+#define IWL_BZ_A_GF4_A_MODULE_FIRMWARE(api) \
+	IWL_BZ_A_GF4_A_FW_PRE __stringify(api) ".ucode"
+#define IWL_BZ_A_MR_A_MODULE_FIRMWARE(api) \
+	IWL_BZ_A_MR_A_FW_PRE __stringify(api) ".ucode"
 
 static const struct iwl_base_params iwl_22000_base_params = {
 	.eeprom_size = OTP_LOW_IMAGE_SIZE_32K,
@@ -171,13 +154,6 @@ static const struct iwl_ht_params iwl_22000_ht_params = {
 	.mac_addr_from_csr = true,					\
 	.ht_params = &iwl_22000_ht_params,				\
 	.nvm_ver = IWL_22000_NVM_VERSION,				\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	.max_ht_ampdu_exponent = IEEE80211_HT_MAX_AMPDU_64K,		\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.trans.use_tfh = true,						\
 	.trans.rf_id = true,						\
 	.trans.gen2 = true,						\
@@ -282,10 +258,6 @@ const struct iwl_cfg_trans_params iwl_qu_long_latency_trans_cfg = {
 	.ltr_delay = IWL_CFG_TRANS_LTR_DELAY_2500US,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg_trans_params iwl_snj_trans_cfg = {
 	.mq_rx_supported = true,
 	.use_tfh = true,
@@ -324,11 +296,6 @@ const struct iwl_cfg_trans_params iwl_so_long_latency_trans_cfg = {
 	.ltr_delay = IWL_CFG_TRANS_LTR_DELAY_2500US,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * If the device doesn't support HE, no need to have that many buffers.
  * 22000 devices can split multiple frames into a single RB, so fewer are
@@ -402,13 +369,27 @@ const struct iwl_cfg_trans_params iwl_ma_trans_cfg = {
 	.umac_prph_offset = 0x300000
 };
 
+const struct iwl_cfg_trans_params iwl_bz_trans_cfg = {
+	.device_family = IWL_DEVICE_FAMILY_AX210,
+	.base_params = &iwl_ax210_base_params,
+	.mq_rx_supported = true,
+	.use_tfh = true,
+	.rf_id = true,
+	.gen2 = true,
+	.integrated = true,
+	.umac_prph_offset = 0x300000,
+	.xtal_latency = 12000,
+	.low_latency_xtal = true,
+	.ltr_delay = IWL_CFG_TRANS_LTR_DELAY_2500US,
+};
+
 const char iwl_ax101_name[] = "Intel(R) Wi-Fi 6 AX101";
 const char iwl_ax200_name[] = "Intel(R) Wi-Fi 6 AX200 160MHz";
 const char iwl_ax201_name[] = "Intel(R) Wi-Fi 6 AX201 160MHz";
 const char iwl_ax203_name[] = "Intel(R) Wi-Fi 6 AX203";
-const char iwl_ax211_name[] = "Intel(R) Wi-Fi 6 AX211 160MHz";
-const char iwl_ax411_name[] = "Intel(R) Wi-Fi 6 AX411 160MHz";
-const char iwl_ma_name[] = "Intel(R) Wi-Fi 6";
+const char iwl_ax211_name[] = "Intel(R) Wi-Fi 6E AX211 160MHz";
+const char iwl_ax221_name[] = "Intel(R) Wi-Fi 6E AX221 160MHz";
+const char iwl_ax411_name[] = "Intel(R) Wi-Fi 6E AX411 160MHz";
 
 const char iwl_ax200_killer_1650w_name[] =
 	"Killer(R) Wi-Fi 6 AX1650w 160MHz Wireless Network Adapter (200D2W)";
@@ -418,6 +399,10 @@ const char iwl_ax201_killer_1650s_name[] =
 	"Killer(R) Wi-Fi 6 AX1650s 160MHz Wireless Network Adapter (201D2W)";
 const char iwl_ax201_killer_1650i_name[] =
 	"Killer(R) Wi-Fi 6 AX1650i 160MHz Wireless Network Adapter (201NGW)";
+const char iwl_ax210_killer_1675w_name[] =
+	"Killer(R) Wi-Fi 6E AX1675w 160MHz Wireless Network Adapter (210D2W)";
+const char iwl_ax210_killer_1675x_name[] =
+	"Killer(R) Wi-Fi 6E AX1675x 160MHz Wireless Network Adapter (210NGW)";
 
 const struct iwl_cfg iwl_qu_b0_hr1_b0 = {
 	.fw_name_pre = IWL_QU_B_HR_B_FW_PRE,
@@ -623,7 +608,7 @@ const struct iwl_cfg iwl_qnj_b0_hr_b0_cfg = {
 	.num_rbds = IWL_NUM_RBDS_22000_HE,
 };
 
-const struct iwl_cfg iwlax210_2ax_cfg_so_jf_a0 = {
+const struct iwl_cfg iwlax210_2ax_cfg_so_jf_b0 = {
 	.name = "Intel(R) Wireless-AC 9560 160MHz",
 	.fw_name_pre = IWL_SO_A_JF_B_FW_PRE,
 	IWL_DEVICE_AX210,
@@ -697,10 +682,6 @@ const struct iwl_cfg iwlax211_cfg_snj_gf_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_snj_hr_b0 = {
 	.fw_name_pre = IWL_SNJ_A_HR_B_FW_PRE,
 	.uhb_supported = true,
@@ -717,14 +698,6 @@ const struct iwl_cfg iwl_cfg_snj_a0_jf_b0 = {
 
 const struct iwl_cfg iwl_cfg_ma_a0_hr_b0 = {
 	.fw_name_pre = IWL_MA_A_HR_B_FW_PRE,
-<<<<<<< HEAD
-=======
-=======
-const struct iwl_cfg iwlax201_cfg_snj_hr_b0 = {
-	.name = iwl_ax201_name,
-	.fw_name_pre = IWL_QU_B_HR_B_FW_PRE,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.uhb_supported = true,
 	IWL_DEVICE_AX210,
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
@@ -737,10 +710,6 @@ const struct iwl_cfg iwl_cfg_ma_a0_gf_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_ma_a0_gf4_a0 = {
 	.fw_name_pre = IWL_MA_A_GF4_A_FW_PRE,
 	.uhb_supported = true,
@@ -748,11 +717,6 @@ const struct iwl_cfg iwl_cfg_ma_a0_gf4_a0 = {
 	.num_rbds = IWL_NUM_RBDS_AX210_HE,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct iwl_cfg iwl_cfg_ma_a0_mr_a0 = {
 	.fw_name_pre = IWL_MA_A_MR_A_FW_PRE,
 	.uhb_supported = true,
@@ -785,6 +749,34 @@ const struct iwl_cfg iwl_cfg_quz_a0_hr_b0 = {
 	.num_rbds = IWL_NUM_RBDS_22000_HE,
 };
 
+const struct iwl_cfg iwl_cfg_bz_a0_hr_b0 = {
+	.fw_name_pre = IWL_BZ_A_HR_B_FW_PRE,
+	.uhb_supported = true,
+	IWL_DEVICE_AX210,
+	.num_rbds = IWL_NUM_RBDS_AX210_HE,
+};
+
+const struct iwl_cfg iwl_cfg_bz_a0_gf_a0 = {
+	.fw_name_pre = IWL_BZ_A_GF_A_FW_PRE,
+	.uhb_supported = true,
+	IWL_DEVICE_AX210,
+	.num_rbds = IWL_NUM_RBDS_AX210_HE,
+};
+
+const struct iwl_cfg iwl_cfg_bz_a0_gf4_a0 = {
+	.fw_name_pre = IWL_BZ_A_GF4_A_FW_PRE,
+	.uhb_supported = true,
+	IWL_DEVICE_AX210,
+	.num_rbds = IWL_NUM_RBDS_AX210_HE,
+};
+
+const struct iwl_cfg iwl_cfg_bz_a0_mr_a0 = {
+	.fw_name_pre = IWL_BZ_A_MR_A_FW_PRE,
+	.uhb_supported = true,
+	IWL_DEVICE_AX210,
+	.num_rbds = IWL_NUM_RBDS_AX210_HE,
+};
+
 MODULE_FIRMWARE(IWL_QU_B_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_QNJ_B_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_QU_C_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
@@ -800,19 +792,13 @@ MODULE_FIRMWARE(IWL_TY_A_GF_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_GF4_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_GF_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE(IWL_SNJ_A_JF_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_HR_B_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_MA_A_GF4_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
-<<<<<<< HEAD
-=======
-=======
-MODULE_FIRMWARE(IWL_MA_A_GF_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE(IWL_MA_A_MR_A_FW_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
 MODULE_FIRMWARE(IWL_SNJ_A_MR_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+MODULE_FIRMWARE(IWL_BZ_A_HR_B_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+MODULE_FIRMWARE(IWL_BZ_A_GF_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+MODULE_FIRMWARE(IWL_BZ_A_GF4_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));
+MODULE_FIRMWARE(IWL_BZ_A_MR_A_MODULE_FIRMWARE(IWL_22000_UCODE_API_MAX));

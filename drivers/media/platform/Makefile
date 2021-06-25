@@ -3,10 +3,7 @@
 # Makefile for the video capture/playback device drivers.
 #
 
-<<<<<<< HEAD
 obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
 obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
 obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
@@ -24,6 +21,7 @@ obj-$(CONFIG_VIDEO_MX2_EMMAPRP)		+= mx2_emmaprp.o
 obj-$(CONFIG_VIDEO_CODA)		+= coda/
 
 obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
+obj-$(CONFIG_VIDEO_IMX8_JPEG)		+= imx-jpeg/
 
 obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
 

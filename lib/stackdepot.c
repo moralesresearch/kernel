@@ -31,10 +31,7 @@
 #include <linux/stackdepot.h>
 #include <linux/string.h>
 #include <linux/types.h>
-<<<<<<< HEAD
 #include <linux/memblock.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DEPOT_STACK_BITS (sizeof(depot_stack_handle_t) * 8)
 
@@ -74,11 +71,7 @@ static void *stack_slabs[STACK_ALLOC_MAX_SLABS];
 static int depot_index;
 static int next_slab_inited;
 static size_t depot_offset;
-<<<<<<< HEAD
 static DEFINE_RAW_SPINLOCK(depot_lock);
-=======
-static DEFINE_SPINLOCK(depot_lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static bool init_stack_slab(void **prealloc)
 {
@@ -149,7 +142,6 @@ static struct stack_record *depot_alloc_stack(unsigned long *entries, int size,
 	return stack;
 }
 
-<<<<<<< HEAD
 #define STACK_HASH_SIZE (1L << CONFIG_STACK_HASH_ORDER)
 #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
 #define STACK_HASH_SEED 0x9747b28c
@@ -182,16 +174,6 @@ int __init stack_depot_init(void)
 	}
 	return 0;
 }
-=======
-#define STACK_HASH_ORDER 20
-#define STACK_HASH_SIZE (1L << STACK_HASH_ORDER)
-#define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
-#define STACK_HASH_SEED 0x9747b28c
-
-static struct stack_record *stack_table[STACK_HASH_SIZE] = {
-	[0 ...	STACK_HASH_SIZE - 1] = NULL
-};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Calculate hash for a stack */
 static inline u32 hash_stack(unsigned long *entries, unsigned int size)
@@ -285,11 +267,7 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
 	unsigned long flags;
 	u32 hash;
 
-<<<<<<< HEAD
 	if (unlikely(nr_entries == 0) || stack_depot_disable)
-=======
-	if (unlikely(nr_entries == 0))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto fast_exit;
 
 	hash = hash_stack(entries, nr_entries);
@@ -327,11 +305,7 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
 			prealloc = page_address(page);
 	}
 
-<<<<<<< HEAD
 	raw_spin_lock_irqsave(&depot_lock, flags);
-=======
-	spin_lock_irqsave(&depot_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	found = find_stack(*bucket, entries, nr_entries, hash);
 	if (!found) {
@@ -355,11 +329,7 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
 		WARN_ON(!init_stack_slab(&prealloc));
 	}
 
-<<<<<<< HEAD
 	raw_spin_unlock_irqrestore(&depot_lock, flags);
-=======
-	spin_unlock_irqrestore(&depot_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit:
 	if (prealloc) {
 		/* Nobody used this memory, ok to free it. */

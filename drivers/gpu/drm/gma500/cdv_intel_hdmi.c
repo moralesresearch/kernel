@@ -22,12 +22,6 @@
  *
  * Authors:
  *	jim liu <jim.liu@intel.com>
-<<<<<<< HEAD
-=======
- *
- * FIXME:
- *	We should probably make this generic and share it with Medfield
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/pm_runtime.h>
@@ -59,10 +53,6 @@ struct mid_intel_hdmi_priv {
 	bool has_hdmi_audio;
 	/* Should set this when detect hotplug */
 	bool hdmi_device_connected;
-<<<<<<< HEAD
-=======
-	struct mdfld_hdmi_i2c *i2c_bus;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i2c_adapter *hdmi_i2c_adapter;	/* for control functions */
 	struct drm_device *dev;
 };

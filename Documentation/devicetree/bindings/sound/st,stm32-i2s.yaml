@@ -54,13 +54,10 @@ properties:
   resets:
     maxItems: 1
 
-<<<<<<< HEAD
   "#clock-cells":
     description: Configure the I2S device as MCLK clock provider.
     const: 0
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - "#sound-dai-cells"

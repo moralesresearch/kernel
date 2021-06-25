@@ -82,12 +82,8 @@ retry:
 	return acl;
 }
 
-<<<<<<< HEAD
 int ceph_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		 struct posix_acl *acl, int type)
-=======
-int ceph_set_acl(struct inode *inode, struct posix_acl *acl, int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret = 0, size = 0;
 	const char *name = NULL;
@@ -105,12 +101,8 @@ int ceph_set_acl(struct inode *inode, struct posix_acl *acl, int type)
 	case ACL_TYPE_ACCESS:
 		name = XATTR_NAME_POSIX_ACL_ACCESS;
 		if (acl) {
-<<<<<<< HEAD
 			ret = posix_acl_update_mode(&init_user_ns, inode,
 						    &new_mode, &acl);
-=======
-			ret = posix_acl_update_mode(inode, &new_mode, &acl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret)
 				goto out;
 		}

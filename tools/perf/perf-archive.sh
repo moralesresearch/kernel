@@ -20,14 +20,8 @@ else
 fi
 
 BUILDIDS=$(mktemp /tmp/perf-archive-buildids.XXXXXX)
-<<<<<<< HEAD
 
 perf buildid-list -i $PERF_DATA --with-hits | grep -v "^ " > $BUILDIDS
-=======
-NOBUILDID=0000000000000000000000000000000000000000
-
-perf buildid-list -i $PERF_DATA --with-hits | grep -v "^$NOBUILDID " > $BUILDIDS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 if [ ! -s $BUILDIDS ] ; then
 	echo "perf archive: no build-ids found"
 	rm $BUILDIDS || true

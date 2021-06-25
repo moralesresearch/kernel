@@ -271,17 +271,11 @@ static void ovs_ct_update_key(const struct sk_buff *skb,
 /* This is called to initialize CT key fields possibly coming in from the local
  * stack.
  */
-<<<<<<< HEAD
 void ovs_ct_fill_key(const struct sk_buff *skb,
 		     struct sw_flow_key *key,
 		     bool post_ct)
 {
 	ovs_ct_update_key(skb, NULL, key, post_ct, false);
-=======
-void ovs_ct_fill_key(const struct sk_buff *skb, struct sw_flow_key *key)
-{
-	ovs_ct_update_key(skb, NULL, key, false, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int ovs_ct_put_key(const struct sw_flow_key *swkey,
@@ -815,8 +809,7 @@ static int ovs_ct_nat_execute(struct sk_buff *skb, struct nf_conn *ct,
 
 	err = nf_nat_packet(ct, ctinfo, hooknum, skb);
 push:
-	skb_push(skb, nh_off);
-	skb_postpush_rcsum(skb, skb->data, nh_off);
+	skb_push_rcsum(skb, nh_off);
 
 	return err;
 }
@@ -1328,8 +1321,7 @@ int ovs_ct_execute(struct net *net, struct sk_buff *skb,
 	else
 		err = ovs_ct_lookup(net, key, info, skb);
 
-	skb_push(skb, nh_ofs);
-	skb_postpush_rcsum(skb, skb->data, nh_ofs);
+	skb_push_rcsum(skb, nh_ofs);
 	if (err)
 		kfree_skb(skb);
 	return err;
@@ -1340,11 +1332,7 @@ int ovs_ct_clear(struct sk_buff *skb, struct sw_flow_key *key)
 	if (skb_nfct(skb)) {
 		nf_conntrack_put(skb_nfct(skb));
 		nf_ct_set(skb, NULL, IP_CT_UNTRACKED);
-<<<<<<< HEAD
 		ovs_ct_fill_key(skb, key, false);
-=======
-		ovs_ct_fill_key(skb, key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -2044,17 +2032,10 @@ static int ovs_ct_limit_del_zone_limit(struct nlattr *nla_zone_limit,
 static int ovs_ct_limit_get_default_limit(struct ovs_ct_limit_info *info,
 					  struct sk_buff *reply)
 {
-<<<<<<< HEAD
 	struct ovs_zone_limit zone_limit = {
 		.zone_id = OVS_ZONE_LIMIT_DEFAULT_ZONE,
 		.limit   = info->default_limit,
 	};
-=======
-	struct ovs_zone_limit zone_limit;
-
-	zone_limit.zone_id = OVS_ZONE_LIMIT_DEFAULT_ZONE;
-	zone_limit.limit = info->default_limit;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return nla_put_nohdr(reply, sizeof(zone_limit), &zone_limit);
 }

@@ -136,11 +136,7 @@ template_filter_fits()
 
 	tc filter add dev $h2 ingress protocol ip pref 1 handle 1102 \
 		flower src_mac $h2mac action drop &> /dev/null
-<<<<<<< HEAD
 	check_fail $? "Incorrectly succeeded to insert filter which does not template"
-=======
-	check_fail $? "Incorrectly succeded to insert filter which does not template"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tc filter add dev $h2 ingress chain 1 protocol ip pref 1 handle 1101 \
 		flower src_mac $h2mac action drop
@@ -148,11 +144,7 @@ template_filter_fits()
 
 	tc filter add dev $h2 ingress chain 1 protocol ip pref 1 handle 1102 \
 		flower dst_mac $h2mac action drop &> /dev/null
-<<<<<<< HEAD
 	check_fail $? "Incorrectly succeeded to insert filter which does not template"
-=======
-	check_fail $? "Incorrectly succeded to insert filter which does not template"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tc filter del dev $h2 ingress chain 1 protocol ip pref 1 handle 1102 \
 		flower &> /dev/null

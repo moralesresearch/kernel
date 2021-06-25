@@ -16,14 +16,7 @@
 #include <linux/smp.h>
 #include <linux/kernel.h>
 #include <linux/signal.h>
-<<<<<<< HEAD
 #include <linux/entry-common.h>
-=======
-<<<<<<< HEAD
-#include <linux/entry-common.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/errno.h>
 #include <linux/wait.h>
 #include <linux/ptrace.h>
@@ -178,14 +171,7 @@ static int restore_sigregs(struct pt_regs *regs, _sigregs __user *sregs)
 	fpregs_load(&user_sregs.fpregs, &current->thread.fpu);
 
 	clear_pt_regs_flag(regs, PIF_SYSCALL); /* No longer in a system call */
-<<<<<<< HEAD
 	clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
-<<<<<<< HEAD
-	clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -475,17 +461,8 @@ static void handle_signal(struct ksignal *ksig, sigset_t *oldset,
  * the kernel can handle, and then we build all the user-level signal handling
  * stack-frames in one go after that.
  */
-<<<<<<< HEAD
 
 void arch_do_signal_or_restart(struct pt_regs *regs, bool has_signal)
-=======
-<<<<<<< HEAD
-
-void arch_do_signal_or_restart(struct pt_regs *regs, bool has_signal)
-=======
-void do_signal(struct pt_regs *regs)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ksignal ksig;
 	sigset_t *oldset = sigmask_to_save();
@@ -498,15 +475,7 @@ void do_signal(struct pt_regs *regs)
 	current->thread.system_call =
 		test_pt_regs_flag(regs, PIF_SYSCALL) ? regs->int_code : 0;
 
-<<<<<<< HEAD
 	if (has_signal && get_signal(&ksig)) {
-=======
-<<<<<<< HEAD
-	if (has_signal && get_signal(&ksig)) {
-=======
-	if (test_thread_flag(TIF_SIGPENDING) && get_signal(&ksig)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Whee!  Actually deliver the signal.  */
 		if (current->thread.system_call) {
 			regs->int_code = current->thread.system_call;
@@ -532,14 +501,7 @@ void do_signal(struct pt_regs *regs)
 		}
 		/* No longer in a system call */
 		clear_pt_regs_flag(regs, PIF_SYSCALL);
-<<<<<<< HEAD
 		clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
-<<<<<<< HEAD
-		clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rseq_signal_deliver(&ksig, regs);
 		if (is_compat_task())
 			handle_signal32(&ksig, oldset, regs);
@@ -550,14 +512,7 @@ void do_signal(struct pt_regs *regs)
 
 	/* No handlers present - check for system call restart */
 	clear_pt_regs_flag(regs, PIF_SYSCALL);
-<<<<<<< HEAD
 	clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
-<<<<<<< HEAD
-	clear_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (current->thread.system_call) {
 		regs->int_code = current->thread.system_call;
 		switch (regs->gprs[2]) {
@@ -570,21 +525,9 @@ void do_signal(struct pt_regs *regs)
 		case -ERESTARTNOINTR:
 			/* Restart system call with magic TIF bit. */
 			regs->gprs[2] = regs->orig_gpr2;
-<<<<<<< HEAD
 			set_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
 			if (test_thread_flag(TIF_SINGLE_STEP))
 				clear_thread_flag(TIF_PER_TRAP);
-=======
-<<<<<<< HEAD
-			set_pt_regs_flag(regs, PIF_SYSCALL_RESTART);
-			if (test_thread_flag(TIF_SINGLE_STEP))
-				clear_thread_flag(TIF_PER_TRAP);
-=======
-			set_pt_regs_flag(regs, PIF_SYSCALL);
-			if (test_thread_flag(TIF_SINGLE_STEP))
-				clear_pt_regs_flag(regs, PIF_PER_TRAP);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}

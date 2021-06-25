@@ -1773,12 +1773,8 @@ fail2:
 	return error;
 }
 
-<<<<<<< HEAD
 static int ns_mkdir_op(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
-=======
-static int ns_mkdir_op(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct aa_ns *ns, *parent;
 	/* TODO: improve permission check */

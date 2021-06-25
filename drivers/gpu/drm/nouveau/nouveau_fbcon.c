@@ -396,13 +396,9 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
 		fb->width, fb->height, nvbo->offset, nvbo);
 
-<<<<<<< HEAD
 	if (dev_is_pci(dev->dev))
 		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), info);
 
-=======
-	vga_switcheroo_client_fb_set(dev->pdev, info);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 out_unlock:
@@ -554,11 +550,7 @@ nouveau_fbcon_init(struct drm_device *dev)
 	int ret;
 
 	if (!dev->mode_config.num_crtc ||
-<<<<<<< HEAD
 	    (to_pci_dev(dev->dev)->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-=======
-	    (dev->pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	fbcon = kzalloc(sizeof(struct nouveau_fbdev), GFP_KERNEL);

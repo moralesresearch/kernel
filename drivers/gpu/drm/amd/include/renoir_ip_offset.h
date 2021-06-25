@@ -33,11 +33,7 @@ struct IP_BASE_INSTANCE
 struct IP_BASE
 {
     struct IP_BASE_INSTANCE instance[MAX_INSTANCE];
-<<<<<<< HEAD
 } __maybe_unused;
-=======
-};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 static const struct IP_BASE ACP_BASE ={ { { { 0x02403800, 0x00480000, 0, 0, 0 } },

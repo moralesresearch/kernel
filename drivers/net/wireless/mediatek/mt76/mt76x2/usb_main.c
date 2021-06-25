@@ -15,11 +15,7 @@ static int mt76x2u_start(struct ieee80211_hw *hw)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	ieee80211_queue_delayed_work(mt76_hw(dev), &dev->mphy.mac_work,
-=======
-	ieee80211_queue_delayed_work(mt76_hw(dev), &dev->mt76.mac_work,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     MT_MAC_WORK_INTERVAL);
 	set_bit(MT76_STATE_RUNNING, &dev->mphy.state);
 

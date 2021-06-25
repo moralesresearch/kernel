@@ -890,11 +890,7 @@ static int bpf_run_stepping(struct sock_filter *f, uint16_t bpf_len,
 	bool stop = false;
 	int i = 1;
 
-<<<<<<< HEAD
 	while (!bpf_curr.Rs && !stop) {
-=======
-	while (bpf_curr.Rs == false && stop == false) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bpf_safe_regs();
 
 		if (i++ == next)
@@ -1202,7 +1198,7 @@ static int cmd_run(char *num)
 		else
 			return CMD_OK;
 		bpf_reset();
-	} while (pcap_next_pkt() && (!has_limit || (has_limit && ++i < pkts)));
+	} while (pcap_next_pkt() && (!has_limit || (++i < pkts)));
 
 	rl_printf("bpf passes:%u fails:%u\n", pass, fail);
 

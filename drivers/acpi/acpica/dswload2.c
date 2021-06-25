@@ -3,11 +3,7 @@
  *
  * Module Name: dswload2 - Dispatcher second pass namespace load callbacks
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -218,11 +214,7 @@ acpi_ds_load2_begin_op(struct acpi_walk_state *walk_state,
 				break;
 			}
 
-<<<<<<< HEAD
 			ACPI_FALLTHROUGH;
-=======
-			/*lint -fallthrough */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		default:
 

@@ -24,10 +24,7 @@ enum intel_pt_insn_op {
 	INTEL_PT_OP_INT,
 	INTEL_PT_OP_SYSCALL,
 	INTEL_PT_OP_SYSRET,
-<<<<<<< HEAD
 	INTEL_PT_OP_VMENTRY,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum intel_pt_insn_branch {

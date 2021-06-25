@@ -23,10 +23,6 @@
 #include <crypto/authenc.h>
 #include <crypto/hash.h>
 #include <crypto/skcipher.h>
-<<<<<<< HEAD
-=======
-#include <linux/version.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/clk.h>
 #include <linux/platform_device.h>
 

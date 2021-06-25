@@ -52,7 +52,6 @@ ieee80211_update_from_he_6ghz_capa(const struct ieee80211_he_6ghz_capa *he_6ghz_
 	sta->sta.he_6ghz_capa = *he_6ghz_capa;
 }
 
-<<<<<<< HEAD
 static void ieee80211_he_mcs_disable(__le16 *he_mcs)
 {
 	u32 i;
@@ -104,8 +103,6 @@ static void ieee80211_he_mcs_intersection(__le16 *he_own_rx, __le16 *he_peer_rx,
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void
 ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
 				  struct ieee80211_supported_band *sband,
@@ -114,18 +111,12 @@ ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
 				  struct sta_info *sta)
 {
 	struct ieee80211_sta_he_cap *he_cap = &sta->sta.he_cap;
-<<<<<<< HEAD
 	struct ieee80211_sta_he_cap own_he_cap = sband->iftype_data->he_cap;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ieee80211_he_cap_elem *he_cap_ie_elem = (void *)he_cap_ie;
 	u8 he_ppe_size;
 	u8 mcs_nss_size;
 	u8 he_total_size;
-<<<<<<< HEAD
 	bool own_160, peer_160, own_80p80, peer_80p80;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(he_cap, 0, sizeof(*he_cap));
 
@@ -163,7 +154,6 @@ ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
 
 	if (sband->band == NL80211_BAND_6GHZ && he_6ghz_capa)
 		ieee80211_update_from_he_6ghz_capa(he_6ghz_capa, sta);
-<<<<<<< HEAD
 
 	ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
 				      &he_cap->he_mcs_nss_supp.rx_mcs_80,
@@ -203,8 +193,6 @@ ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
 		he_cap->he_cap_elem.phy_cap_info[0] &=
 			~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void

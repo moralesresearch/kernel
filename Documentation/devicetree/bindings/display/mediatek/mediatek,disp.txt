@@ -37,21 +37,14 @@ Required properties (all function blocks):
 	"mediatek,<chip>-disp-aal"   		- adaptive ambient light controller
 	"mediatek,<chip>-disp-gamma" 		- gamma correction
 	"mediatek,<chip>-disp-merge" 		- merge streams from two RDMA sources
-<<<<<<< HEAD
 	"mediatek,<chip>-disp-postmask" 	- control round corner for display frame
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"mediatek,<chip>-disp-split" 		- split stream to two encoders
 	"mediatek,<chip>-disp-ufoe"  		- data compression engine
 	"mediatek,<chip>-dsi"        		- DSI controller, see mediatek,dsi.txt
 	"mediatek,<chip>-dpi"        		- DPI controller, see mediatek,dpi.txt
 	"mediatek,<chip>-disp-mutex" 		- display mutex
 	"mediatek,<chip>-disp-od"    		- overdrive
-<<<<<<< HEAD
   the supported chips are mt2701, mt7623, mt2712, mt8167, mt8173, mt8183 and mt8192.
-=======
-  the supported chips are mt2701, mt7623, mt2712, mt8167 and mt8173.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - reg: Physical base address and length of the function block register space
 - interrupts: The interrupt signal from the function block (required, except for
   merge and split function blocks).
@@ -71,10 +64,9 @@ Required properties (DMA function blocks):
 - larb: Should contain a phandle pointing to the local arbiter device as defined
   in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
 - iommus: Should point to the respective IOMMU block with master port as
-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
   for details.
 
-<<<<<<< HEAD
 Optional properties (RDMA function blocks):
 - mediatek,rdma-fifo-size: rdma fifo size may be different even in same SOC, add this
   property to the corresponding rdma
@@ -83,8 +75,6 @@ Optional properties (RDMA function blocks):
   mediatek,rdma-fifo-size of mt8183-rdma0 is 5K
   mediatek,rdma-fifo-size of mt8183-rdma1 is 2K
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Examples:
 
 mmsys: clock-controller@14000000 {
@@ -122,10 +112,7 @@ rdma0: rdma@1400e000 {
 	clocks = <&mmsys CLK_MM_DISP_RDMA0>;
 	iommus = <&iommu M4U_PORT_DISP_RDMA0>;
 	mediatek,larb = <&larb0>;
-<<<<<<< HEAD
 	mediatek,rdma-fifosize = <8192>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 rdma1: rdma@1400f000 {

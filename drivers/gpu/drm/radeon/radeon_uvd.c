@@ -286,11 +286,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
 	if (rdev->uvd.vcpu_bo == NULL)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
-=======
-	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	size = radeon_bo_size(rdev->uvd.vcpu_bo);
 	size -= rdev->uvd_fw->size;
@@ -298,11 +294,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
 	ptr = rdev->uvd.cpu_addr;
 	ptr += rdev->uvd_fw->size;
 
-<<<<<<< HEAD
 	memset_io((void __iomem *)ptr, 0, size);
-=======
-	memset(ptr, 0, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -789,11 +781,7 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
 	uint64_t offs = radeon_bo_size(rdev->uvd.vcpu_bo) -
 		RADEON_GPU_PAGE_SIZE;
 
-<<<<<<< HEAD
 	uint32_t __iomem *msg = (void __iomem *)(rdev->uvd.cpu_addr + offs);
-=======
-	uint32_t *msg = rdev->uvd.cpu_addr + offs;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint64_t addr = rdev->uvd.gpu_addr + offs;
 
 	int r, i;
@@ -803,7 +791,6 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
 		return r;
 
 	/* stitch together an UVD create msg */
-<<<<<<< HEAD
 	writel(cpu_to_le32(0x00000de4), &msg[0]);
 	writel(0x0, (void __iomem *)&msg[1]);
 	writel(cpu_to_le32(handle), &msg[2]);
@@ -817,21 +804,6 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
 	writel(cpu_to_le32(0x01b37000), &msg[10]);
 	for (i = 11; i < 1024; ++i)
 		writel(0x0, &msg[i]);
-=======
-	msg[0] = cpu_to_le32(0x00000de4);
-	msg[1] = cpu_to_le32(0x00000000);
-	msg[2] = cpu_to_le32(handle);
-	msg[3] = cpu_to_le32(0x00000000);
-	msg[4] = cpu_to_le32(0x00000000);
-	msg[5] = cpu_to_le32(0x00000000);
-	msg[6] = cpu_to_le32(0x00000000);
-	msg[7] = cpu_to_le32(0x00000780);
-	msg[8] = cpu_to_le32(0x00000440);
-	msg[9] = cpu_to_le32(0x00000000);
-	msg[10] = cpu_to_le32(0x01b37000);
-	for (i = 11; i < 1024; ++i)
-		msg[i] = cpu_to_le32(0x0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
 	radeon_bo_unreserve(rdev->uvd.vcpu_bo);
@@ -845,11 +817,7 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
 	uint64_t offs = radeon_bo_size(rdev->uvd.vcpu_bo) -
 		RADEON_GPU_PAGE_SIZE;
 
-<<<<<<< HEAD
 	uint32_t __iomem *msg = (void __iomem *)(rdev->uvd.cpu_addr + offs);
-=======
-	uint32_t *msg = rdev->uvd.cpu_addr + offs;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint64_t addr = rdev->uvd.gpu_addr + offs;
 
 	int r, i;
@@ -859,21 +827,12 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
 		return r;
 
 	/* stitch together an UVD destroy msg */
-<<<<<<< HEAD
 	writel(cpu_to_le32(0x00000de4), &msg[0]);
 	writel(cpu_to_le32(0x00000002), &msg[1]);
 	writel(cpu_to_le32(handle), &msg[2]);
 	writel(0x0, &msg[3]);
 	for (i = 4; i < 1024; ++i)
 		writel(0x0, &msg[i]);
-=======
-	msg[0] = cpu_to_le32(0x00000de4);
-	msg[1] = cpu_to_le32(0x00000002);
-	msg[2] = cpu_to_le32(handle);
-	msg[3] = cpu_to_le32(0x00000000);
-	for (i = 4; i < 1024; ++i)
-		msg[i] = cpu_to_le32(0x0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
 	radeon_bo_unreserve(rdev->uvd.vcpu_bo);

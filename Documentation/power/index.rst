@@ -30,10 +30,7 @@ Power Management
     userland-swsusp
 
     powercap/powercap
-<<<<<<< HEAD
     powercap/dtpm
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
     regulator/consumer
     regulator/design

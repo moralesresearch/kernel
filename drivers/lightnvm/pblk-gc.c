@@ -23,12 +23,7 @@
 
 static void pblk_gc_free_gc_rq(struct pblk_gc_rq *gc_rq)
 {
-<<<<<<< HEAD
 	vfree(gc_rq->data);
-=======
-	if (gc_rq->data)
-		vfree(gc_rq->data);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(gc_rq);
 }
 

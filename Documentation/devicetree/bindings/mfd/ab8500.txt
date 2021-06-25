@@ -72,13 +72,9 @@ Required child device properties:
                                                pwm|regulator|rtc|sysctrl|usb]";
 
   A few child devices require ADC channels from the GPADC node. Those follow the
-<<<<<<< HEAD
   standard bindings from
   https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
   and Documentation/devicetree/bindings/iio/adc/adc.yaml
-=======
-  standard bindings from iio/iio-bindings.txt and iio/adc/adc.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   abx500-temp		 : io-channels "aux1" and "aux2" for measuring external
 			   temperatures.

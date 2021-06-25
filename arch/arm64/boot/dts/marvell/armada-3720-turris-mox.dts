@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
  * Device Tree file for CZ.NIC Turris Mox Board
-<<<<<<< HEAD
  * 2019 by Marek Behún <kabel@kernel.org>
-=======
-<<<<<<< HEAD
- * 2019 by Marek Behún <kabel@kernel.org>
-=======
- * 2019 by Marek Behun <marek.behun@nic.cz>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 /dts-v1/;

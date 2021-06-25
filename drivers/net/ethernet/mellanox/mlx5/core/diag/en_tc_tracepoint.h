@@ -77,11 +77,7 @@ TRACE_EVENT(mlx5e_stats_flower,
 TRACE_EVENT(mlx5e_tc_update_neigh_used_value,
 	    TP_PROTO(const struct mlx5e_neigh_hash_entry *nhe, bool neigh_used),
 	    TP_ARGS(nhe, neigh_used),
-<<<<<<< HEAD
 	    TP_STRUCT__entry(__string(devname, nhe->neigh_dev->name)
-=======
-	    TP_STRUCT__entry(__string(devname, nhe->m_neigh.dev->name)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     __array(u8, v4, 4)
 			     __array(u8, v6, 16)
 			     __field(bool, neigh_used)
@@ -90,11 +86,7 @@ TRACE_EVENT(mlx5e_tc_update_neigh_used_value,
 			struct in6_addr *pin6;
 			__be32 *p32;
 
-<<<<<<< HEAD
 			__assign_str(devname, nhe->neigh_dev->name);
-=======
-			__assign_str(devname, mn->dev->name);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__entry->neigh_used = neigh_used;
 
 			p32 = (__be32 *)__entry->v4;

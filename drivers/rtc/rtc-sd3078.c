@@ -207,11 +207,7 @@ static const struct i2c_device_id sd3078_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, sd3078_id);
 
-<<<<<<< HEAD
 static const __maybe_unused struct of_device_id rtc_dt_match[] = {
-=======
-static const struct of_device_id rtc_dt_match[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "whwave,sd3078" },
 	{},
 };

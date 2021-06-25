@@ -122,11 +122,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
 		dev->driver->irq_preinstall(dev);
 
 	/* PCI devices require shared interrupts. */
-<<<<<<< HEAD
 	if (dev_is_pci(dev->dev))
-=======
-	if (dev->pdev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sh_flags = IRQF_SHARED;
 
 	ret = request_irq(irq, dev->driver->irq_handler,
@@ -144,11 +140,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
 	if (ret < 0) {
 		dev->irq_enabled = false;
 		if (drm_core_check_feature(dev, DRIVER_LEGACY))
-<<<<<<< HEAD
 			vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
-=======
-			vga_client_register(dev->pdev, NULL, NULL, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		free_irq(irq, dev);
 	} else {
 		dev->irq = irq;
@@ -211,11 +203,7 @@ int drm_irq_uninstall(struct drm_device *dev)
 	DRM_DEBUG("irq=%d\n", dev->irq);
 
 	if (drm_core_check_feature(dev, DRIVER_LEGACY))
-<<<<<<< HEAD
 		vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
-=======
-		vga_client_register(dev->pdev, NULL, NULL, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dev->driver->irq_uninstall)
 		dev->driver->irq_uninstall(dev);
@@ -226,7 +214,6 @@ int drm_irq_uninstall(struct drm_device *dev)
 }
 EXPORT_SYMBOL(drm_irq_uninstall);
 
-<<<<<<< HEAD
 static void devm_drm_irq_uninstall(void *data)
 {
 	drm_irq_uninstall(data);
@@ -259,18 +246,13 @@ int devm_drm_irq_install(struct drm_device *dev, int irq)
 }
 EXPORT_SYMBOL(devm_drm_irq_install);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_LEGACY)
 int drm_legacy_irq_control(struct drm_device *dev, void *data,
 			   struct drm_file *file_priv)
 {
 	struct drm_control *ctl = data;
 	int ret = 0, irq;
-<<<<<<< HEAD
 	struct pci_dev *pdev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* if we haven't irq we fallback for compatibility reasons -
 	 * this used to be a separate function in drm_dma.h
@@ -281,21 +263,13 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
 	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
 		return 0;
 	/* UMS was only ever supported on pci devices. */
-<<<<<<< HEAD
 	if (WARN_ON(!dev_is_pci(dev->dev)))
-=======
-	if (WARN_ON(!dev->pdev))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	switch (ctl->func) {
 	case DRM_INST_HANDLER:
-<<<<<<< HEAD
 		pdev = to_pci_dev(dev->dev);
 		irq = pdev->irq;
-=======
-		irq = dev->pdev->irq;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (dev->if_version < DRM_IF_VERSION(1, 2) &&
 		    ctl->irq != irq)

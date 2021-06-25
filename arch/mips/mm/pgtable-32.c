@@ -45,13 +45,6 @@ void set_pmd_at(struct mm_struct *mm, unsigned long addr,
 		pmd_t *pmdp, pmd_t pmd)
 {
 	*pmdp = pmd;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	flush_tlb_all();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif /* defined(CONFIG_TRANSPARENT_HUGEPAGE) */
 

@@ -28,21 +28,12 @@ KunitBuildRequest = namedtuple('KunitBuildRequest',
 			       ['jobs', 'build_dir', 'alltests',
 				'make_options'])
 KunitExecRequest = namedtuple('KunitExecRequest',
-<<<<<<< HEAD
 			      ['timeout', 'build_dir', 'alltests', 'filter_glob'])
 KunitParseRequest = namedtuple('KunitParseRequest',
 			       ['raw_output', 'input_data', 'build_dir', 'json'])
 KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs',
 					   'build_dir', 'alltests', 'filter_glob',
 					   'json', 'make_options'])
-=======
-			      ['timeout', 'build_dir', 'alltests'])
-KunitParseRequest = namedtuple('KunitParseRequest',
-			       ['raw_output', 'input_data', 'build_dir', 'json'])
-KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs',
-					   'build_dir', 'alltests', 'json',
-					   'make_options'])
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 KernelDirectoryPath = sys.argv[0].split('tools/testing/kunit/')[0]
 
@@ -102,10 +93,7 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree,
 	test_start = time.time()
 	result = linux.run_kernel(
 		timeout=None if request.alltests else request.timeout,
-<<<<<<< HEAD
                 filter_glob=request.filter_glob,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		build_dir=request.build_dir)
 
 	test_end = time.time()
@@ -162,11 +150,7 @@ def run_tests(linux: kunit_kernel.LinuxSourceTree,
 		return build_result
 
 	exec_request = KunitExecRequest(request.timeout, request.build_dir,
-<<<<<<< HEAD
 					request.alltests, request.filter_glob)
-=======
-					request.alltests)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	exec_result = exec_tests(linux, exec_request)
 	if exec_result.status != KunitStatus.SUCCESS:
 		return exec_result
@@ -199,12 +183,11 @@ def add_common_opts(parser) -> None:
 	parser.add_argument('--alltests',
 			    help='Run all KUnit tests through allyesconfig',
 			    action='store_true')
-<<<<<<< HEAD
 	parser.add_argument('--kunitconfig',
-			     help='Path to Kconfig fragment that enables KUnit tests',
+			     help='Path to Kconfig fragment that enables KUnit tests.'
+			     ' If given a directory, (e.g. lib/kunit), "/.kunitconfig" '
+			     'will get  automatically appended.',
 			     metavar='kunitconfig')
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 def add_build_opts(parser) -> None:
 	parser.add_argument('--jobs',
@@ -220,7 +203,6 @@ def add_exec_opts(parser) -> None:
 			    type=int,
 			    default=300,
 			    metavar='timeout')
-<<<<<<< HEAD
 	parser.add_argument('filter_glob',
 			    help='maximum number of seconds to allow for all tests '
 			    'to run. This does not include time taken to build the '
@@ -229,8 +211,6 @@ def add_exec_opts(parser) -> None:
 			    nargs='?',
 			    default='',
 			    metavar='filter_glob')
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 def add_parse_opts(parser) -> None:
 	parser.add_argument('--raw_output', help='don\'t format output from kernel',
@@ -290,21 +270,14 @@ def main(argv, linux=None):
 			os.mkdir(cli_args.build_dir)
 
 		if not linux:
-<<<<<<< HEAD
 			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir, kunitconfig_path=cli_args.kunitconfig)
-=======
-			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		request = KunitRequest(cli_args.raw_output,
 				       cli_args.timeout,
 				       cli_args.jobs,
 				       cli_args.build_dir,
 				       cli_args.alltests,
-<<<<<<< HEAD
 				       cli_args.filter_glob,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       cli_args.json,
 				       cli_args.make_options)
 		result = run_tests(linux, request)
@@ -316,11 +289,7 @@ def main(argv, linux=None):
 			os.mkdir(cli_args.build_dir)
 
 		if not linux:
-<<<<<<< HEAD
 			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir, kunitconfig_path=cli_args.kunitconfig)
-=======
-			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		request = KunitConfigRequest(cli_args.build_dir,
 					     cli_args.make_options)
@@ -332,11 +301,7 @@ def main(argv, linux=None):
 			sys.exit(1)
 	elif cli_args.subcommand == 'build':
 		if not linux:
-<<<<<<< HEAD
 			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir, kunitconfig_path=cli_args.kunitconfig)
-=======
-			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		request = KunitBuildRequest(cli_args.jobs,
 					    cli_args.build_dir,
@@ -354,12 +319,8 @@ def main(argv, linux=None):
 
 		exec_request = KunitExecRequest(cli_args.timeout,
 						cli_args.build_dir,
-<<<<<<< HEAD
 						cli_args.alltests,
 						cli_args.filter_glob)
-=======
-						cli_args.alltests)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		exec_result = exec_tests(linux, exec_request)
 		parse_request = KunitParseRequest(cli_args.raw_output,
 						  exec_result.result,

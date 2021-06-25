@@ -1,27 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0
 # scripts/dtc makefile
 
-<<<<<<< HEAD
 # *** Also keep .gitignore in sync when changing ***
 hostprogs-always-$(CONFIG_DTC)		+= dtc fdtoverlay
-=======
-hostprogs-always-$(CONFIG_DTC)		+= dtc
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
 
 dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
 		   srcpos.o checks.o util.o
 dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
 
-<<<<<<< HEAD
 # The upstream project builds libfdt as a separate library.  We are choosing to
 # instead directly link the libfdt object files into fdtoverlay.
 libfdt-objs	:= fdt.o fdt_ro.o fdt_wip.o fdt_sw.o fdt_rw.o fdt_strerror.o fdt_empty_tree.o fdt_addresses.o fdt_overlay.o
 libfdt		= $(addprefix libfdt/,$(libfdt-objs))
 fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Source files need to get at the userspace version of libfdt_env.h to compile
 HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
 

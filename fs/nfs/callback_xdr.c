@@ -1060,10 +1060,7 @@ static const struct svc_procedure nfs4_callback_procedures1[] = {
 		.pc_decode = nfs4_decode_void,
 		.pc_encode = nfs4_encode_void,
 		.pc_xdrressize = 1,
-<<<<<<< HEAD
 		.pc_name = "NULL",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[CB_COMPOUND] = {
 		.pc_func = nfs4_callback_compound,
@@ -1071,10 +1068,7 @@ static const struct svc_procedure nfs4_callback_procedures1[] = {
 		.pc_argsize = 256,
 		.pc_ressize = 256,
 		.pc_xdrressize = NFS4_CALLBACK_BUFSIZE,
-<<<<<<< HEAD
 		.pc_name = "COMPOUND",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 };
 

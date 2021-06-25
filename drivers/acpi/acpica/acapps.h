@@ -3,11 +3,7 @@
  *
  * Module Name: acapps - common include for ACPI applications/tools
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -21,11 +17,7 @@
 /* Common info for tool signons */
 
 #define ACPICA_NAME                 "Intel ACPI Component Architecture"
-<<<<<<< HEAD
 #define ACPICA_COPYRIGHT            "Copyright (c) 2000 - 2021 Intel Corporation"
-=======
-#define ACPICA_COPYRIGHT            "Copyright (c) 2000 - 2020 Intel Corporation"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if ACPI_MACHINE_WIDTH == 64
 #define ACPI_WIDTH          " (64-bit version)"

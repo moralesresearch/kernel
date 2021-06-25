@@ -9,7 +9,7 @@
 #include "ufs.h"
 #include "ufs-sysfs.h"
 
-static const char *ufschd_uic_link_state_to_string(
+static const char *ufshcd_uic_link_state_to_string(
 			enum uic_link_state state)
 {
 	switch (state) {
@@ -21,7 +21,7 @@ static const char *ufschd_uic_link_state_to_string(
 	}
 }
 
-static const char *ufschd_ufs_dev_pwr_mode_to_string(
+static const char *ufshcd_ufs_dev_pwr_mode_to_string(
 			enum ufs_dev_pwr_mode state)
 {
 	switch (state) {
@@ -67,15 +67,7 @@ static ssize_t rpm_lvl_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
 	return sysfs_emit(buf, "%d\n", hba->rpm_lvl);
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%d\n", hba->rpm_lvl);
-=======
-	return sprintf(buf, "%d\n", hba->rpm_lvl);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t rpm_lvl_store(struct device *dev,
@@ -89,15 +81,7 @@ static ssize_t rpm_target_dev_state_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
-=======
-	return sprintf(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	return sysfs_emit(buf, "%s\n", ufshcd_ufs_dev_pwr_mode_to_string(
 			ufs_pm_lvl_states[hba->rpm_lvl].dev_state));
 }
 
@@ -106,15 +90,7 @@ static ssize_t rpm_target_link_state_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_uic_link_state_to_string(
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_uic_link_state_to_string(
-=======
-	return sprintf(buf, "%s\n", ufschd_uic_link_state_to_string(
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	return sysfs_emit(buf, "%s\n", ufshcd_uic_link_state_to_string(
 			ufs_pm_lvl_states[hba->rpm_lvl].link_state));
 }
 
@@ -123,15 +99,7 @@ static ssize_t spm_lvl_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
 	return sysfs_emit(buf, "%d\n", hba->spm_lvl);
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%d\n", hba->spm_lvl);
-=======
-	return sprintf(buf, "%d\n", hba->spm_lvl);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t spm_lvl_store(struct device *dev,
@@ -145,15 +113,7 @@ static ssize_t spm_target_dev_state_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
-=======
-	return sprintf(buf, "%s\n", ufschd_ufs_dev_pwr_mode_to_string(
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	return sysfs_emit(buf, "%s\n", ufshcd_ufs_dev_pwr_mode_to_string(
 				ufs_pm_lvl_states[hba->spm_lvl].dev_state));
 }
 
@@ -162,15 +122,7 @@ static ssize_t spm_target_link_state_show(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_uic_link_state_to_string(
-=======
-<<<<<<< HEAD
-	return sysfs_emit(buf, "%s\n", ufschd_uic_link_state_to_string(
-=======
-	return sprintf(buf, "%s\n", ufschd_uic_link_state_to_string(
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	return sysfs_emit(buf, "%s\n", ufshcd_uic_link_state_to_string(
 				ufs_pm_lvl_states[hba->spm_lvl].link_state));
 }
 
@@ -202,55 +154,29 @@ static ssize_t auto_hibern8_show(struct device *dev,
 				 struct device_attribute *attr, char *buf)
 {
 	u32 ahit;
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 
 	if (!ufshcd_is_auto_hibern8_supported(hba))
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down(&hba->host_sem);
 	if (!ufshcd_is_user_access_allowed(hba)) {
 		ret = -EBUSY;
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_get_sync(hba->dev);
 	ufshcd_hold(hba, false);
 	ahit = ufshcd_readl(hba, REG_AUTO_HIBERNATE_IDLE_TIMER);
 	ufshcd_release(hba);
 	pm_runtime_put_sync(hba->dev);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = sysfs_emit(buf, "%d\n", ufshcd_ahit_to_us(ahit));
 
 out:
 	up(&hba->host_sem);
 	return ret;
-<<<<<<< HEAD
-=======
-=======
-	return scnprintf(buf, PAGE_SIZE, "%d\n", ufshcd_ahit_to_us(ahit));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t auto_hibern8_store(struct device *dev,
@@ -259,14 +185,7 @@ static ssize_t auto_hibern8_store(struct device *dev,
 {
 	struct ufs_hba *hba = dev_get_drvdata(dev);
 	unsigned int timer;
-<<<<<<< HEAD
 	int ret = 0;
-=======
-<<<<<<< HEAD
-	int ret = 0;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!ufshcd_is_auto_hibern8_supported(hba))
 		return -EOPNOTSUPP;
@@ -277,10 +196,6 @@ static ssize_t auto_hibern8_store(struct device *dev,
 	if (timer > UFSHCI_AHIBERN8_MAX)
 		return -EINVAL;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down(&hba->host_sem);
 	if (!ufshcd_is_user_access_allowed(hba)) {
 		ret = -EBUSY;
@@ -331,19 +246,11 @@ static ssize_t wb_on_store(struct device *dev, struct device_attribute *attr,
 	}
 
 	pm_runtime_get_sync(hba->dev);
-	res = ufshcd_wb_ctrl(hba, wb_enable);
+	res = ufshcd_wb_toggle(hba, wb_enable);
 	pm_runtime_put_sync(hba->dev);
 out:
 	up(&hba->host_sem);
 	return res < 0 ? res : count;
-<<<<<<< HEAD
-=======
-=======
-	ufshcd_auto_hibern8_update(hba, ufshcd_us_to_ahit(timer));
-
-	return count;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static DEVICE_ATTR_RW(rpm_lvl);
@@ -353,14 +260,7 @@ static DEVICE_ATTR_RW(spm_lvl);
 static DEVICE_ATTR_RO(spm_target_dev_state);
 static DEVICE_ATTR_RO(spm_target_link_state);
 static DEVICE_ATTR_RW(auto_hibern8);
-<<<<<<< HEAD
 static DEVICE_ATTR_RW(wb_on);
-=======
-<<<<<<< HEAD
-static DEVICE_ATTR_RW(wb_on);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *ufs_sysfs_ufshcd_attrs[] = {
 	&dev_attr_rpm_lvl.attr,
@@ -370,14 +270,7 @@ static struct attribute *ufs_sysfs_ufshcd_attrs[] = {
 	&dev_attr_spm_target_dev_state.attr,
 	&dev_attr_spm_target_link_state.attr,
 	&dev_attr_auto_hibern8.attr,
-<<<<<<< HEAD
 	&dev_attr_wb_on.attr,
-=======
-<<<<<<< HEAD
-	&dev_attr_wb_on.attr,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL
 };
 
@@ -398,29 +291,16 @@ static ssize_t ufs_sysfs_read_desc_param(struct ufs_hba *hba,
 	if (param_size > 8)
 		return -EINVAL;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down(&hba->host_sem);
 	if (!ufshcd_is_user_access_allowed(hba)) {
 		ret = -EBUSY;
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_get_sync(hba->dev);
 	ret = ufshcd_read_desc_param(hba, desc_id, desc_index,
 				param_offset, desc_buf, param_size);
 	pm_runtime_put_sync(hba->dev);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		ret = -EINVAL;
 		goto out;
@@ -440,41 +320,12 @@ static ssize_t ufs_sysfs_read_desc_param(struct ufs_hba *hba,
 		break;
 	case 8:
 		ret = sysfs_emit(sysfs_buf, "0x%016llX\n",
-<<<<<<< HEAD
-=======
-=======
-	if (ret)
-		return -EINVAL;
-	switch (param_size) {
-	case 1:
-		ret = sprintf(sysfs_buf, "0x%02X\n", *desc_buf);
-		break;
-	case 2:
-		ret = sprintf(sysfs_buf, "0x%04X\n",
-			get_unaligned_be16(desc_buf));
-		break;
-	case 4:
-		ret = sprintf(sysfs_buf, "0x%08X\n",
-			get_unaligned_be32(desc_buf));
-		break;
-	case 8:
-		ret = sprintf(sysfs_buf, "0x%016llX\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			get_unaligned_be64(desc_buf));
 		break;
 	}
 
-<<<<<<< HEAD
 out:
 	up(&hba->host_sem);
-=======
-<<<<<<< HEAD
-out:
-	up(&hba->host_sem);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -817,10 +668,6 @@ static ssize_t _name##_show(struct device *dev,				\
 	int desc_len = QUERY_DESC_MAX_SIZE;				\
 	u8 *desc_buf;							\
 									\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down(&hba->host_sem);						\
 	if (!ufshcd_is_user_access_allowed(hba)) {			\
 		up(&hba->host_sem);					\
@@ -831,14 +678,6 @@ static ssize_t _name##_show(struct device *dev,				\
 		up(&hba->host_sem);					\
 		return -ENOMEM;						\
 	}								\
-<<<<<<< HEAD
-=======
-=======
-	desc_buf = kzalloc(QUERY_DESC_MAX_SIZE, GFP_ATOMIC);		\
-	if (!desc_buf)                                                  \
-		return -ENOMEM;                                         \
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_get_sync(hba->dev);					\
 	ret = ufshcd_query_descriptor_retry(hba,			\
 		UPIU_QUERY_OPCODE_READ_DESC, QUERY_DESC_IDN_DEVICE,	\
@@ -854,24 +693,11 @@ static ssize_t _name##_show(struct device *dev,				\
 				      SD_ASCII_STD);			\
 	if (ret < 0)							\
 		goto out;						\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = sysfs_emit(buf, "%s\n", desc_buf);			\
 out:									\
 	pm_runtime_put_sync(hba->dev);					\
 	kfree(desc_buf);						\
 	up(&hba->host_sem);						\
-<<<<<<< HEAD
-=======
-=======
-	ret = snprintf(buf, PAGE_SIZE, "%s\n", desc_buf);		\
-out:									\
-	pm_runtime_put_sync(hba->dev);					\
-	kfree(desc_buf);						\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;							\
 }									\
 static DEVICE_ATTR_RO(_name)
@@ -910,31 +736,18 @@ static ssize_t _name##_show(struct device *dev,				\
 	u8 index = 0;							\
 	int ret;							\
 	struct ufs_hba *hba = dev_get_drvdata(dev);			\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 	down(&hba->host_sem);						\
 	if (!ufshcd_is_user_access_allowed(hba)) {			\
 		up(&hba->host_sem);					\
 		return -EBUSY;						\
 	}								\
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ufshcd_is_wb_flags(QUERY_FLAG_IDN##_uname))			\
 		index = ufshcd_wb_get_query_index(hba);			\
 	pm_runtime_get_sync(hba->dev);					\
 	ret = ufshcd_query_flag(hba, UPIU_QUERY_OPCODE_READ_FLAG,	\
 		QUERY_FLAG_IDN##_uname, index, &flag);			\
 	pm_runtime_put_sync(hba->dev);					\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {							\
 		ret = -EINVAL;						\
 		goto out;						\
@@ -943,14 +756,6 @@ static ssize_t _name##_show(struct device *dev,				\
 out:									\
 	up(&hba->host_sem);						\
 	return ret;							\
-<<<<<<< HEAD
-=======
-=======
-	if (ret)							\
-		return -EINVAL;						\
-	return sprintf(buf, "%s\n", flag ? "true" : "false"); \
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }									\
 static DEVICE_ATTR_RO(_name)
 
@@ -1000,31 +805,18 @@ static ssize_t _name##_show(struct device *dev,				\
 	u32 value;							\
 	int ret;							\
 	u8 index = 0;							\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 	down(&hba->host_sem);						\
 	if (!ufshcd_is_user_access_allowed(hba)) {			\
 		up(&hba->host_sem);					\
 		return -EBUSY;						\
 	}								\
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ufshcd_is_wb_attrs(QUERY_ATTR_IDN##_uname))			\
 		index = ufshcd_wb_get_query_index(hba);			\
 	pm_runtime_get_sync(hba->dev);					\
 	ret = ufshcd_query_attr(hba, UPIU_QUERY_OPCODE_READ_ATTR,	\
 		QUERY_ATTR_IDN##_uname, index, 0, &value);		\
 	pm_runtime_put_sync(hba->dev);					\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {							\
 		ret = -EINVAL;						\
 		goto out;						\
@@ -1033,14 +825,6 @@ static ssize_t _name##_show(struct device *dev,				\
 out:									\
 	up(&hba->host_sem);						\
 	return ret;							\
-<<<<<<< HEAD
-=======
-=======
-	if (ret)							\
-		return -EINVAL;						\
-	return sprintf(buf, "0x%08X\n", value);				\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }									\
 static DEVICE_ATTR_RO(_name)
 
@@ -1174,29 +958,16 @@ static ssize_t dyn_cap_needed_attribute_show(struct device *dev,
 	u8 lun = ufshcd_scsi_to_upiu_lun(sdev->lun);
 	int ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down(&hba->host_sem);
 	if (!ufshcd_is_user_access_allowed(hba)) {
 		ret = -EBUSY;
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_get_sync(hba->dev);
 	ret = ufshcd_query_attr(hba, UPIU_QUERY_OPCODE_READ_ATTR,
 		QUERY_ATTR_IDN_DYN_CAP_NEEDED, lun, 0, &value);
 	pm_runtime_put_sync(hba->dev);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		ret = -EINVAL;
 		goto out;
@@ -1207,14 +978,6 @@ static ssize_t dyn_cap_needed_attribute_show(struct device *dev,
 out:
 	up(&hba->host_sem);
 	return ret;
-<<<<<<< HEAD
-=======
-=======
-	if (ret)
-		return -EINVAL;
-	return sprintf(buf, "0x%08X\n", value);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static DEVICE_ATTR_RO(dyn_cap_needed_attribute);
 

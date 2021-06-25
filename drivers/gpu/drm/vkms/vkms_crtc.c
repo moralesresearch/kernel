@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0+
 
+#include <linux/dma-fence.h>
+
 #include <drm/drm_atomic.h>
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_probe_helper.h>
@@ -14,16 +16,14 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
 	struct drm_crtc *crtc = &output->crtc;
 	struct vkms_crtc_state *state;
 	u64 ret_overrun;
-	bool ret;
+	bool ret, fence_cookie;
+
+	fence_cookie = dma_fence_begin_signalling();
 
 	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
 					  output->period_ns);
-<<<<<<< HEAD
 	if (ret_overrun != 1)
 		pr_warn("%s: vblank timer overrun\n", __func__);
-=======
-	WARN_ON(ret_overrun != 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&output->lock);
 	ret = drm_crtc_handle_vblank(crtc);
@@ -53,6 +53,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
 		if (!ret)
 			DRM_DEBUG_DRIVER("Composer worker already queued\n");
 	}
+
+	dma_fence_end_signalling(fence_cookie);
 
 	return HRTIMER_RESTART;
 }

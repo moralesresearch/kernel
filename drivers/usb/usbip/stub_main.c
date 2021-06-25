@@ -23,11 +23,7 @@ struct kmem_cache *stub_priv_cache;
  */
 #define MAX_BUSID 16
 static struct bus_id_priv busid_table[MAX_BUSID];
-<<<<<<< HEAD
 static DEFINE_SPINLOCK(busid_table_lock);
-=======
-static spinlock_t busid_table_lock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void init_busid_table(void)
 {
@@ -39,11 +35,6 @@ static void init_busid_table(void)
 	 */
 	memset(busid_table, 0, sizeof(busid_table));
 
-<<<<<<< HEAD
-=======
-	spin_lock_init(&busid_table_lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < MAX_BUSID; i++)
 		spin_lock_init(&busid_table[i].busid_lock);
 }

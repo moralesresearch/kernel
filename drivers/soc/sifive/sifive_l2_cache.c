@@ -17,13 +17,10 @@
 #define SIFIVE_L2_DIRECCFIX_HIGH 0x104
 #define SIFIVE_L2_DIRECCFIX_COUNT 0x108
 
-<<<<<<< HEAD
 #define SIFIVE_L2_DIRECCFAIL_LOW 0x120
 #define SIFIVE_L2_DIRECCFAIL_HIGH 0x124
 #define SIFIVE_L2_DIRECCFAIL_COUNT 0x128
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SIFIVE_L2_DATECCFIX_LOW 0x140
 #define SIFIVE_L2_DATECCFIX_HIGH 0x144
 #define SIFIVE_L2_DATECCFIX_COUNT 0x148
@@ -36,11 +33,7 @@
 #define SIFIVE_L2_WAYENABLE 0x08
 #define SIFIVE_L2_ECCINJECTERR 0x40
 
-<<<<<<< HEAD
 #define SIFIVE_L2_MAX_ECCINTR 4
-=======
-#define SIFIVE_L2_MAX_ECCINTR 3
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __iomem *l2_base;
 static int g_irq[SIFIVE_L2_MAX_ECCINTR];
@@ -50,10 +43,7 @@ enum {
 	DIR_CORR = 0,
 	DATA_CORR,
 	DATA_UNCORR,
-<<<<<<< HEAD
 	DIR_UNCORR,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #ifdef CONFIG_DEBUG_FS
@@ -108,10 +98,7 @@ static void l2_config_read(void)
 
 static const struct of_device_id sifive_l2_ids[] = {
 	{ .compatible = "sifive,fu540-c000-ccache" },
-<<<<<<< HEAD
 	{ .compatible = "sifive,fu740-c000-ccache" },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* end of table */ },
 };
 
@@ -174,7 +161,6 @@ static irqreturn_t l2_int_handler(int irq, void *device)
 		atomic_notifier_call_chain(&l2_err_chain, SIFIVE_L2_ERR_TYPE_CE,
 					   "DirECCFix");
 	}
-<<<<<<< HEAD
 	if (irq == g_irq[DIR_UNCORR]) {
 		add_h = readl(l2_base + SIFIVE_L2_DIRECCFAIL_HIGH);
 		add_l = readl(l2_base + SIFIVE_L2_DIRECCFAIL_LOW);
@@ -184,8 +170,6 @@ static irqreturn_t l2_int_handler(int irq, void *device)
 					   "DirECCFail");
 		panic("L2CACHE: DirFail @ 0x%08X.%08X\n", add_h, add_l);
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (irq == g_irq[DATA_CORR]) {
 		add_h = readl(l2_base + SIFIVE_L2_DATECCFIX_HIGH);
 		add_l = readl(l2_base + SIFIVE_L2_DATECCFIX_LOW);
@@ -212,11 +196,7 @@ static int __init sifive_l2_init(void)
 {
 	struct device_node *np;
 	struct resource res;
-<<<<<<< HEAD
 	int i, rc, intr_num;
-=======
-	int i, rc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	np = of_find_matching_node(NULL, sifive_l2_ids);
 	if (!np)
@@ -229,7 +209,6 @@ static int __init sifive_l2_init(void)
 	if (!l2_base)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	intr_num = of_property_count_u32_elems(np, "interrupts");
 	if (!intr_num) {
 		pr_err("L2CACHE: no interrupts property\n");
@@ -237,9 +216,6 @@ static int __init sifive_l2_init(void)
 	}
 
 	for (i = 0; i < intr_num; i++) {
-=======
-	for (i = 0; i < SIFIVE_L2_MAX_ECCINTR; i++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		g_irq[i] = irq_of_parse_and_map(np, i);
 		rc = request_irq(g_irq[i], l2_int_handler, 0, "l2_ecc", NULL);
 		if (rc) {

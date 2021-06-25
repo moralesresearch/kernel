@@ -3,10 +3,7 @@
 #ifndef I2C_HID_H
 #define I2C_HID_H
 
-<<<<<<< HEAD
 #include <linux/i2c.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_DMI
 struct i2c_hid_desc *i2c_hid_get_dmi_i2c_hid_desc_override(uint8_t *i2c_name);
@@ -21,7 +18,6 @@ static inline char *i2c_hid_get_dmi_hid_report_desc_override(uint8_t *i2c_name,
 { return NULL; }
 #endif
 
-<<<<<<< HEAD
 /**
  * struct i2chid_ops - Ops provided to the core.
  *
@@ -43,6 +39,4 @@ void i2c_hid_core_shutdown(struct i2c_client *client);
 
 extern const struct dev_pm_ops i2c_hid_core_pm;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

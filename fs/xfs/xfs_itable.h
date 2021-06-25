@@ -8,10 +8,7 @@
 /* In-memory representation of a userspace request for batch inode data. */
 struct xfs_ibulk {
 	struct xfs_mount	*mp;
-<<<<<<< HEAD
 	struct user_namespace   *mnt_userns;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void __user		*ubuffer; /* user output buffer */
 	xfs_ino_t		startino; /* start with this inode */
 	unsigned int		icount;   /* number of elements in ubuffer */

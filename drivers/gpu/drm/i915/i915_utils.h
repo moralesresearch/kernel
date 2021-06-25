@@ -438,7 +438,6 @@ static inline void __add_taint_for_CI(unsigned int taint)
 void cancel_timer(struct timer_list *t);
 void set_timer_ms(struct timer_list *t, unsigned long timeout);
 
-<<<<<<< HEAD
 static inline bool timer_active(const struct timer_list *t)
 {
 	return READ_ONCE(t->expires);
@@ -447,11 +446,6 @@ static inline bool timer_active(const struct timer_list *t)
 static inline bool timer_expired(const struct timer_list *t)
 {
 	return timer_active(t) && !timer_pending(t);
-=======
-static inline bool timer_expired(const struct timer_list *t)
-{
-	return READ_ONCE(t->expires) && !timer_pending(t);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

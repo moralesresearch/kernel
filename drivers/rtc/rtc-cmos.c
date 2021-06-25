@@ -574,15 +574,6 @@ static const struct rtc_class_ops cmos_rtc_ops = {
 	.alarm_irq_enable	= cmos_alarm_irq_enable,
 };
 
-<<<<<<< HEAD
-=======
-static const struct rtc_class_ops cmos_rtc_ops_no_alarm = {
-	.read_time		= cmos_read_time,
-	.set_time		= cmos_set_time,
-	.proc			= cmos_procfs,
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*----------------------------------------------------------------*/
 
 /*
@@ -652,18 +643,10 @@ static struct cmos_rtc	cmos_rtc;
 
 static irqreturn_t cmos_interrupt(int irq, void *p)
 {
-<<<<<<< HEAD
 	u8		irqstat;
 	u8		rtc_control;
 
 	spin_lock(&rtc_lock);
-=======
-	unsigned long	flags;
-	u8		irqstat;
-	u8		rtc_control;
-
-	spin_lock_irqsave(&rtc_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* When the HPET interrupt handler calls us, the interrupt
 	 * status is passed as arg1 instead of the irq number.  But
@@ -697,11 +680,7 @@ static irqreturn_t cmos_interrupt(int irq, void *p)
 			hpet_mask_rtc_irq_bit(RTC_AIE);
 		CMOS_READ(RTC_INTR_FLAGS);
 	}
-<<<<<<< HEAD
 	spin_unlock(&rtc_lock);
-=======
-	spin_unlock_irqrestore(&rtc_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (is_intr(irqstat)) {
 		rtc_update_irq(p, 1, irqstat);
@@ -879,21 +858,12 @@ cmos_do_probe(struct device *dev, struct resource *ports, int rtc_irq)
 			dev_dbg(dev, "IRQ %d is already in use\n", rtc_irq);
 			goto cleanup1;
 		}
-<<<<<<< HEAD
 	} else {
 		clear_bit(RTC_FEATURE_ALARM, cmos_rtc.rtc->features);
 	}
 
 	cmos_rtc.rtc->ops = &cmos_rtc_ops;
 
-=======
-
-		cmos_rtc.rtc->ops = &cmos_rtc_ops;
-	} else {
-		cmos_rtc.rtc->ops = &cmos_rtc_ops_no_alarm;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	retval = devm_rtc_register_device(cmos_rtc.rtc);
 	if (retval)
 		goto cleanup2;

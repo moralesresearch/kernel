@@ -254,6 +254,7 @@ int qxl_garbage_collect(struct qxl_device *qdev)
 		}
 	}
 
+	wake_up_all(&qdev->release_event);
 	DRM_DEBUG_DRIVER("%d\n", i);
 
 	return i;
@@ -268,11 +269,7 @@ int qxl_alloc_bo_reserved(struct qxl_device *qdev,
 	int ret;
 
 	ret = qxl_bo_create(qdev, size, false /* not kernel - device */,
-<<<<<<< HEAD
 			    false, QXL_GEM_DOMAIN_VRAM, 0, NULL, &bo);
-=======
-			    false, QXL_GEM_DOMAIN_VRAM, NULL, &bo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		DRM_ERROR("failed to allocate VRAM BO\n");
 		return ret;

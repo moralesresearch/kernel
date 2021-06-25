@@ -398,11 +398,7 @@ static int cfg_device(struct xen_snd_front_info *front_info,
 
 	str = xenbus_read(XBT_NIL, device_path, XENSND_FIELD_DEVICE_NAME, NULL);
 	if (!IS_ERR(str)) {
-<<<<<<< HEAD
 		strscpy(pcm_instance->name, str, sizeof(pcm_instance->name));
-=======
-		strlcpy(pcm_instance->name, str, sizeof(pcm_instance->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(str);
 	}
 

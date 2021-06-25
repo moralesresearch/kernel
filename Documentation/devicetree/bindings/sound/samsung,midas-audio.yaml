@@ -53,17 +53,11 @@ properties:
     description: Supply for the micbias on the Sub microphone
 
   fm-sel-gpios:
-<<<<<<< HEAD
     maxItems: 1
     description: GPIO pin for FM selection
 
   lineout-sel-gpios:
     maxItems: 1
-=======
-    description: GPIO pin for FM selection
-
-  lineout-sel-gpios:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: GPIO pin for line out selection
 
 required:

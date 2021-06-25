@@ -49,40 +49,20 @@ bool is_rgb_cspace(enum dc_color_space output_color_space)
 	}
 }
 
-<<<<<<< HEAD
-bool is_child_pipe_tree_visible(struct pipe_ctx *pipe_ctx)
-{
-	if (pipe_ctx->plane_state && pipe_ctx->plane_state->visible)
-		return true;
-	if (pipe_ctx->bottom_pipe && is_child_pipe_tree_visible(pipe_ctx->bottom_pipe))
-		return true;
-	if (pipe_ctx->next_odm_pipe && is_child_pipe_tree_visible(pipe_ctx->next_odm_pipe))
-=======
 bool is_lower_pipe_tree_visible(struct pipe_ctx *pipe_ctx)
 {
 	if (pipe_ctx->plane_state && pipe_ctx->plane_state->visible)
 		return true;
 	if (pipe_ctx->bottom_pipe && is_lower_pipe_tree_visible(pipe_ctx->bottom_pipe))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
 
-<<<<<<< HEAD
-bool is_parent_pipe_tree_visible(struct pipe_ctx *pipe_ctx)
-{
-	if (pipe_ctx->plane_state && pipe_ctx->plane_state->visible)
-		return true;
-	if (pipe_ctx->top_pipe && is_parent_pipe_tree_visible(pipe_ctx->top_pipe))
-		return true;
-	if (pipe_ctx->prev_odm_pipe && is_parent_pipe_tree_visible(pipe_ctx->prev_odm_pipe))
-=======
 bool is_upper_pipe_tree_visible(struct pipe_ctx *pipe_ctx)
 {
 	if (pipe_ctx->plane_state && pipe_ctx->plane_state->visible)
 		return true;
 	if (pipe_ctx->top_pipe && is_upper_pipe_tree_visible(pipe_ctx->top_pipe))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
@@ -91,19 +71,9 @@ bool is_pipe_tree_visible(struct pipe_ctx *pipe_ctx)
 {
 	if (pipe_ctx->plane_state && pipe_ctx->plane_state->visible)
 		return true;
-<<<<<<< HEAD
-	if (pipe_ctx->top_pipe && is_parent_pipe_tree_visible(pipe_ctx->top_pipe))
-		return true;
-	if (pipe_ctx->bottom_pipe && is_child_pipe_tree_visible(pipe_ctx->bottom_pipe))
-		return true;
-	if (pipe_ctx->prev_odm_pipe && is_parent_pipe_tree_visible(pipe_ctx->prev_odm_pipe))
-		return true;
-	if (pipe_ctx->next_odm_pipe && is_child_pipe_tree_visible(pipe_ctx->next_odm_pipe))
-=======
 	if (pipe_ctx->top_pipe && is_upper_pipe_tree_visible(pipe_ctx->top_pipe))
 		return true;
 	if (pipe_ctx->bottom_pipe && is_lower_pipe_tree_visible(pipe_ctx->bottom_pipe))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }

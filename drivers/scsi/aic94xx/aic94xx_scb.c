@@ -80,17 +80,8 @@ static void asd_phy_event_tasklet(struct asd_ascb *ascb,
 		ASD_DPRINTK("phy%d: device unplugged\n", phy_id);
 		asd_turn_led(asd_ha, phy_id, 0);
 		sas_phy_disconnected(&phy->sas_phy);
-<<<<<<< HEAD
 		sas_notify_phy_event(&phy->sas_phy, PHYE_LOSS_OF_SIGNAL,
 				     GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(&phy->sas_phy, PHYE_LOSS_OF_SIGNAL,
-				     GFP_ATOMIC);
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_LOSS_OF_SIGNAL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CURRENT_OOB_DONE:
 		/* hot plugged device */
@@ -98,30 +89,13 @@ static void asd_phy_event_tasklet(struct asd_ascb *ascb,
 		get_lrate_mode(phy, oob_mode);
 		ASD_DPRINTK("phy%d device plugged: lrate:0x%x, proto:0x%x\n",
 			    phy_id, phy->sas_phy.linkrate, phy->sas_phy.iproto);
-<<<<<<< HEAD
 		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE, GFP_ATOMIC);
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_DONE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CURRENT_SPINUP_HOLD:
 		/* hot plug SATA, no COMWAKE sent */
 		asd_turn_led(asd_ha, phy_id, 1);
-<<<<<<< HEAD
 		sas_notify_phy_event(&phy->sas_phy, PHYE_SPINUP_HOLD,
 				     GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(&phy->sas_phy, PHYE_SPINUP_HOLD,
-				     GFP_ATOMIC);
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_SPINUP_HOLD);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CURRENT_GTO_TIMEOUT:
 	case CURRENT_OOB_ERROR:
@@ -129,15 +103,7 @@ static void asd_phy_event_tasklet(struct asd_ascb *ascb,
 			    dl->status_block[1]);
 		asd_turn_led(asd_ha, phy_id, 0);
 		sas_phy_disconnected(&phy->sas_phy);
-<<<<<<< HEAD
 		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR, GFP_ATOMIC);
-=======
-		sas_notify_phy_event(&phy->sas_phy, PHYE_OOB_ERROR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -268,15 +234,7 @@ static void asd_bytes_dmaed_tasklet(struct asd_ascb *ascb,
 	spin_unlock_irqrestore(&phy->sas_phy.frame_rcvd_lock, flags);
 	asd_dump_frame_rcvd(phy, dl);
 	asd_form_port(ascb->ha, phy);
-<<<<<<< HEAD
 	sas_notify_port_event(&phy->sas_phy, PORTE_BYTES_DMAED, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-	sas_notify_port_event(&phy->sas_phy, PORTE_BYTES_DMAED, GFP_ATOMIC);
-=======
-	sas_notify_port_event(&phy->sas_phy, PORTE_BYTES_DMAED);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void asd_link_reset_err_tasklet(struct asd_ascb *ascb,
@@ -312,15 +270,7 @@ static void asd_link_reset_err_tasklet(struct asd_ascb *ascb,
 	asd_turn_led(asd_ha, phy_id, 0);
 	sas_phy_disconnected(sas_phy);
 	asd_deform_port(asd_ha, phy);
-<<<<<<< HEAD
 	sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-	sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR, GFP_ATOMIC);
-=======
-	sas_notify_port_event(sas_phy, PORTE_LINK_RESET_ERR);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (retries_left == 0) {
 		int num = 1;
@@ -365,17 +315,8 @@ static void asd_primitive_rcvd_tasklet(struct asd_ascb *ascb,
 			spin_lock_irqsave(&sas_phy->sas_prim_lock, flags);
 			sas_phy->sas_prim = ffs(cont);
 			spin_unlock_irqrestore(&sas_phy->sas_prim_lock, flags);
-<<<<<<< HEAD
 			sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 					      GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-			sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
-					      GFP_ATOMIC);
-=======
-			sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		case LmUNKNOWNP:
@@ -396,17 +337,8 @@ static void asd_primitive_rcvd_tasklet(struct asd_ascb *ascb,
 			/* The sequencer disables all phys on that port.
 			 * We have to re-enable the phys ourselves. */
 			asd_deform_port(asd_ha, phy);
-<<<<<<< HEAD
 			sas_notify_port_event(sas_phy, PORTE_HARD_RESET,
 					      GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-			sas_notify_port_event(sas_phy, PORTE_HARD_RESET,
-					      GFP_ATOMIC);
-=======
-			sas_notify_port_event(sas_phy, PORTE_HARD_RESET);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		default:
@@ -637,15 +569,7 @@ static void escb_tasklet_complete(struct asd_ascb *ascb,
 		/* the device is gone */
 		sas_phy_disconnected(sas_phy);
 		asd_deform_port(asd_ha, phy);
-<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_TIMER_EVENT, GFP_ATOMIC);
-=======
-<<<<<<< HEAD
-		sas_notify_port_event(sas_phy, PORTE_TIMER_EVENT, GFP_ATOMIC);
-=======
-		sas_notify_port_event(sas_phy, PORTE_TIMER_EVENT);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		ASD_DPRINTK("%s: phy%d: unknown event:0x%x\n", __func__,

@@ -80,8 +80,5 @@ void iwl_nvm_fixups(u32 hw_id, unsigned int section, u8 *data,
  */
 struct iwl_nvm_data *iwl_get_nvm(struct iwl_trans *trans,
 				 const struct iwl_fw *fw);
-<<<<<<< HEAD
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __iwl_nvm_parse_h__ */

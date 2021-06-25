@@ -383,14 +383,7 @@ enum clk_gating_state {
  * @delay_attr: sysfs attribute to control delay_attr
  * @enable_attr: sysfs attribute to enable/disable clock gating
  * @is_enabled: Indicates the current status of clock gating
-<<<<<<< HEAD
  * @is_initialized: Indicates whether clock gating is initialized or not
-=======
-<<<<<<< HEAD
- * @is_initialized: Indicates whether clock gating is initialized or not
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @active_reqs: number of requests that are pending and should be waited for
  * completion before gating clocks.
  */
@@ -403,14 +396,7 @@ struct ufs_clk_gating {
 	struct device_attribute delay_attr;
 	struct device_attribute enable_attr;
 	bool is_enabled;
-<<<<<<< HEAD
 	bool is_initialized;
-=======
-<<<<<<< HEAD
-	bool is_initialized;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int active_reqs;
 	struct workqueue_struct *clk_gating_workq;
 };
@@ -439,14 +425,7 @@ struct ufs_saved_pwr_info {
 		clkscale_enable sysfs node
  * @is_allowed: tracks if scaling is currently allowed or not, used to block
 		clock scaling which is not invoked from devfreq governor
-<<<<<<< HEAD
  * @is_initialized: Indicates whether clock scaling is initialized or not
-=======
-<<<<<<< HEAD
- * @is_initialized: Indicates whether clock scaling is initialized or not
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @is_busy_started: tracks if busy period has started or not
  * @is_suspended: tracks if devfreq is suspended or not
  */
@@ -463,14 +442,7 @@ struct ufs_clk_scaling {
 	u32 min_gear;
 	bool is_enabled;
 	bool is_allowed;
-<<<<<<< HEAD
 	bool is_initialized;
-=======
-<<<<<<< HEAD
-	bool is_initialized;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool is_busy_started;
 	bool is_suspended;
 };
@@ -481,27 +453,13 @@ struct ufs_clk_scaling {
  * @pos: index to indicate cyclic buffer position
  * @reg: cyclic buffer for registers value
  * @tstamp: cyclic buffer for time stamp
-<<<<<<< HEAD
  * @cnt: error counter
-=======
-<<<<<<< HEAD
- * @cnt: error counter
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct ufs_event_hist {
 	int pos;
 	u32 val[UFS_EVENT_HIST_LENGTH];
 	ktime_t tstamp[UFS_EVENT_HIST_LENGTH];
-<<<<<<< HEAD
 	unsigned long long cnt;
-=======
-<<<<<<< HEAD
-	unsigned long long cnt;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -719,16 +677,8 @@ struct ufs_hba_variant_params {
  * @intr_mask: Interrupt Mask Bits
  * @ee_ctrl_mask: Exception event control mask
  * @is_powered: flag to check if HBA is powered
-<<<<<<< HEAD
  * @shutting_down: flag to check if shutdown has been invoked
  * @host_sem: semaphore used to serialize concurrent contexts
-=======
-<<<<<<< HEAD
- * @shutting_down: flag to check if shutdown has been invoked
- * @host_sem: semaphore used to serialize concurrent contexts
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @eh_wq: Workqueue that eh_work works on
  * @eh_work: Worker to handle UFS errors that require s/w attention
  * @eeh_work: Worker to handle exception events
@@ -823,19 +773,13 @@ struct ufs_hba {
 	u32 ufshcd_state;
 	u32 eh_flags;
 	u32 intr_mask;
-	u16 ee_ctrl_mask;
+	u16 ee_ctrl_mask; /* Exception event mask */
+	u16 ee_drv_mask;  /* Exception event mask for driver */
+	u16 ee_usr_mask;  /* Exception event mask for user (via debugfs) */
+	struct mutex ee_ctrl_mutex;
 	bool is_powered;
-<<<<<<< HEAD
 	bool shutting_down;
 	struct semaphore host_sem;
-=======
-<<<<<<< HEAD
-	bool shutting_down;
-	struct semaphore host_sem;
-=======
-	struct semaphore eh_sem;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Work Queues */
 	struct workqueue_struct *eh_wq;
@@ -889,14 +833,6 @@ struct ufs_hba {
 
 	struct device		bsg_dev;
 	struct request_queue	*bsg_queue;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	bool wb_buf_flush_enabled;
-	bool wb_enabled;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct delayed_work rpm_dev_flush_recheck_work;
 
 #ifdef CONFIG_SCSI_UFS_CRYPTO
@@ -905,18 +841,11 @@ struct ufs_hba {
 	u32 crypto_cfg_register;
 	struct blk_keyslot_manager ksm;
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS
 	struct dentry *debugfs_root;
+	struct delayed_work debugfs_ee_work;
+	u32 debugfs_ee_rate_limit_ms;
 #endif
-=======
-<<<<<<< HEAD
-#ifdef CONFIG_DEBUG_FS
-	struct dentry *debugfs_root;
-#endif
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Returns true if clocks can be gated. Otherwise false */
@@ -977,20 +906,11 @@ static inline bool ufshcd_is_wb_allowed(struct ufs_hba *hba)
 	return hba->caps & UFSHCD_CAP_WB_EN;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool ufshcd_is_user_access_allowed(struct ufs_hba *hba)
 {
 	return !hba->shutting_down;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ufshcd_writel(hba, val, reg)	\
 	writel((val), (hba)->mmio_base + (reg))
 #define ufshcd_readl(hba, reg)	\
@@ -1062,15 +982,7 @@ static inline bool ufshcd_keep_autobkops_enabled_except_suspend(
 
 static inline u8 ufshcd_wb_get_query_index(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	if (hba->dev_info.wb_buffer_type == WB_BUF_MODE_LU_DEDICATED)
-=======
-<<<<<<< HEAD
-	if (hba->dev_info.wb_buffer_type == WB_BUF_MODE_LU_DEDICATED)
-=======
-	if (hba->dev_info.b_wb_buffer_type == WB_BUF_MODE_LU_DEDICATED)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return hba->dev_info.wb_dedicated_lu;
 	return 0;
 }
@@ -1192,16 +1104,8 @@ int ufshcd_exec_raw_upiu_cmd(struct ufs_hba *hba,
 			     u8 *desc_buff, int *buff_len,
 			     enum query_opcode desc_op);
 
-<<<<<<< HEAD
-int ufshcd_wb_ctrl(struct ufs_hba *hba, bool enable);
+int ufshcd_wb_toggle(struct ufs_hba *hba, bool enable);
 
-=======
-<<<<<<< HEAD
-int ufshcd_wb_ctrl(struct ufs_hba *hba, bool enable);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Wrapper functions for safely calling variant operations */
 static inline const char *ufshcd_get_var_name(struct ufs_hba *hba)
 {
@@ -1282,7 +1186,7 @@ static inline int ufshcd_vops_phy_initialization(struct ufs_hba *hba)
 }
 
 static inline int ufshcd_vops_pwr_change_notify(struct ufs_hba *hba,
-				  bool status,
+				  enum ufs_notify_change_status status,
 				  struct ufs_pa_layer_attr *dev_max_params,
 				  struct ufs_pa_layer_attr *dev_req_params)
 {
@@ -1385,5 +1289,24 @@ static inline u8 ufshcd_scsi_to_upiu_lun(unsigned int scsi_lun)
 
 int ufshcd_dump_regs(struct ufs_hba *hba, size_t offset, size_t len,
 		     const char *prefix);
+
+int __ufshcd_write_ee_control(struct ufs_hba *hba, u32 ee_ctrl_mask);
+int ufshcd_write_ee_control(struct ufs_hba *hba);
+int ufshcd_update_ee_control(struct ufs_hba *hba, u16 *mask, u16 *other_mask,
+			     u16 set, u16 clr);
+
+static inline int ufshcd_update_ee_drv_mask(struct ufs_hba *hba,
+					    u16 set, u16 clr)
+{
+	return ufshcd_update_ee_control(hba, &hba->ee_drv_mask,
+					&hba->ee_usr_mask, set, clr);
+}
+
+static inline int ufshcd_update_ee_usr_mask(struct ufs_hba *hba,
+					    u16 set, u16 clr)
+{
+	return ufshcd_update_ee_control(hba, &hba->ee_usr_mask,
+					&hba->ee_drv_mask, set, clr);
+}
 
 #endif /* End of Header */

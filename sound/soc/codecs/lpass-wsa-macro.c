@@ -40,23 +40,11 @@
 #define CDC_WSA_TOP_I2S_CLK			(0x00A4)
 #define CDC_WSA_TOP_I2S_RESET			(0x00A8)
 #define CDC_WSA_RX_INP_MUX_RX_INT0_CFG0		(0x0100)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CDC_WSA_RX_INTX_1_MIX_INP0_SEL_MASK	GENMASK(2, 0)
 #define CDC_WSA_RX_INTX_1_MIX_INP1_SEL_MASK	GENMASK(5, 3)
 #define CDC_WSA_RX_INP_MUX_RX_INT0_CFG1		(0x0104)
 #define CDC_WSA_RX_INTX_2_SEL_MASK		GENMASK(2, 0)
 #define CDC_WSA_RX_INTX_1_MIX_INP2_SEL_MASK	GENMASK(5, 3)
-<<<<<<< HEAD
-=======
-=======
-#define CDC_WSA_RX_INTX_1_MIX_INP2_SEL_MASK	GENMASK(5, 3)
-#define CDC_WSA_RX_INTX_2_SEL_MASK		GENMASK(2, 0)
-#define CDC_WSA_RX_INP_MUX_RX_INT0_CFG1		(0x0104)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CDC_WSA_RX_INP_MUX_RX_INT1_CFG0		(0x0108)
 #define CDC_WSA_RX_INP_MUX_RX_INT1_CFG1		(0x010C)
 #define CDC_WSA_RX_INP_MUX_RX_MIX_CFG0		(0x0110)
@@ -243,14 +231,6 @@
 #define NUM_INTERPOLATORS 2
 #define WSA_NUM_CLKS_MAX	5
 #define WSA_MACRO_MCLK_FREQ 19200000
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#define WSA_MACRO_MUX_INP_SHFT 0x3
-#define WSA_MACRO_MUX_INP_MASK1 0x07
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define WSA_MACRO_MUX_INP_MASK2 0x38
 #define WSA_MACRO_MUX_CFG_OFFSET 0x8
 #define WSA_MACRO_MUX_CFG1_OFFSET 0x4
@@ -863,13 +843,6 @@ static int wsa_macro_set_prim_interpolator_rate(struct snd_soc_dai *dai,
 	u32 j, port;
 	u16 int_mux_cfg0, int_mux_cfg1;
 	u16 int_fs_reg;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	u8 int_mux_cfg0_val, int_mux_cfg1_val;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 inp0_sel, inp1_sel, inp2_sel;
 	struct snd_soc_component *component = dai->component;
 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
@@ -891,10 +864,6 @@ static int wsa_macro_set_prim_interpolator_rate(struct snd_soc_dai *dai,
 		 */
 		for (j = 0; j < NUM_INTERPOLATORS; j++) {
 			int_mux_cfg1 = int_mux_cfg0 + WSA_MACRO_MUX_CFG1_OFFSET;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			inp0_sel = snd_soc_component_read_field(component, int_mux_cfg0, 
 								CDC_WSA_RX_INTX_1_MIX_INP0_SEL_MASK);
 			inp1_sel = snd_soc_component_read_field(component, int_mux_cfg0, 
@@ -902,20 +871,6 @@ static int wsa_macro_set_prim_interpolator_rate(struct snd_soc_dai *dai,
 			inp2_sel = snd_soc_component_read_field(component, int_mux_cfg1,
 								CDC_WSA_RX_INTX_1_MIX_INP2_SEL_MASK);
 
-<<<<<<< HEAD
-=======
-=======
-			int_mux_cfg0_val = snd_soc_component_read(component,
-								  int_mux_cfg0);
-			int_mux_cfg1_val = snd_soc_component_read(component,
-								  int_mux_cfg1);
-			inp0_sel = int_mux_cfg0_val & WSA_MACRO_MUX_INP_MASK1;
-			inp1_sel = (int_mux_cfg0_val >> WSA_MACRO_MUX_INP_SHFT) &
-						WSA_MACRO_MUX_INP_MASK1;
-			inp2_sel = (int_mux_cfg1_val >> WSA_MACRO_MUX_INP_SHFT) &
-						WSA_MACRO_MUX_INP_MASK1;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if ((inp0_sel == int_1_mix1_inp + INTn_1_INP_SEL_RX0) ||
 			    (inp1_sel == int_1_mix1_inp + INTn_1_INP_SEL_RX0) ||
 			    (inp2_sel == int_1_mix1_inp + INTn_1_INP_SEL_RX0)) {
@@ -954,21 +909,9 @@ static int wsa_macro_set_mix_interpolator_rate(struct snd_soc_dai *dai,
 
 		int_mux_cfg1 = CDC_WSA_RX_INP_MUX_RX_INT0_CFG1;
 		for (j = 0; j < NUM_INTERPOLATORS; j++) {
-<<<<<<< HEAD
 			int_mux_cfg1_val = snd_soc_component_read_field(component, int_mux_cfg1,
 									CDC_WSA_RX_INTX_2_SEL_MASK);
 
-=======
-<<<<<<< HEAD
-			int_mux_cfg1_val = snd_soc_component_read_field(component, int_mux_cfg1,
-									CDC_WSA_RX_INTX_2_SEL_MASK);
-
-=======
-			int_mux_cfg1_val = snd_soc_component_read(component,
-							int_mux_cfg1) &
-							WSA_MACRO_MUX_INP_MASK1;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (int_mux_cfg1_val == int_2_inp + INTn_2_INP_SEL_RX0) {
 				int_fs_reg = CDC_WSA_RX0_RX_PATH_MIX_CTL +
 					WSA_MACRO_RX_PATH_OFFSET * j;
@@ -1001,6 +944,8 @@ static int wsa_macro_set_interpolator_rate(struct snd_soc_dai *dai,
 		goto prim_rate;
 
 	ret = wsa_macro_set_mix_interpolator_rate(dai, (u8) rate_val, sample_rate);
+	if (ret < 0)
+		return ret;
 prim_rate:
 	/* set primary path sample rate */
 	for (i = 0; i < ARRAY_SIZE(int_prim_sample_rate_val); i++) {
@@ -1086,7 +1031,7 @@ static int wsa_macro_get_channel_map(struct snd_soc_dai *dai,
 	return 0;
 }
 
-static struct snd_soc_dai_ops wsa_macro_dai_ops = {
+static const struct snd_soc_dai_ops wsa_macro_dai_ops = {
 	.hw_params = wsa_macro_hw_params,
 	.get_channel_map = wsa_macro_get_channel_map,
 };
@@ -1466,63 +1411,25 @@ static bool wsa_macro_adie_lb(struct snd_soc_component *component,
 			      int interp_idx)
 {
 	u16 int_mux_cfg0,  int_mux_cfg1;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	u8 int_mux_cfg0_val, int_mux_cfg1_val;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 int_n_inp0, int_n_inp1, int_n_inp2;
 
 	int_mux_cfg0 = CDC_WSA_RX_INP_MUX_RX_INT0_CFG0 + interp_idx * 8;
 	int_mux_cfg1 = int_mux_cfg0 + 4;
-<<<<<<< HEAD
 
 	int_n_inp0 = snd_soc_component_read_field(component, int_mux_cfg0,
 						  CDC_WSA_RX_INTX_1_MIX_INP0_SEL_MASK);
-=======
-<<<<<<< HEAD
-
-	int_n_inp0 = snd_soc_component_read_field(component, int_mux_cfg0,
-						  CDC_WSA_RX_INTX_1_MIX_INP0_SEL_MASK);
-=======
-	int_mux_cfg0_val = snd_soc_component_read(component, int_mux_cfg0);
-	int_mux_cfg1_val = snd_soc_component_read(component, int_mux_cfg1);
-
-	int_n_inp0 = int_mux_cfg0_val & 0x0F;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (int_n_inp0 == INTn_1_INP_SEL_DEC0 ||
 		int_n_inp0 == INTn_1_INP_SEL_DEC1)
 		return true;
 
-<<<<<<< HEAD
 	int_n_inp1 = snd_soc_component_read_field(component, int_mux_cfg0,
 						  CDC_WSA_RX_INTX_1_MIX_INP1_SEL_MASK);
-=======
-<<<<<<< HEAD
-	int_n_inp1 = snd_soc_component_read_field(component, int_mux_cfg0,
-						  CDC_WSA_RX_INTX_1_MIX_INP1_SEL_MASK);
-=======
-	int_n_inp1 = int_mux_cfg0_val >> 4;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (int_n_inp1 == INTn_1_INP_SEL_DEC0 ||
 		int_n_inp1 == INTn_1_INP_SEL_DEC1)
 		return true;
 
-<<<<<<< HEAD
 	int_n_inp2 = snd_soc_component_read_field(component, int_mux_cfg1,
 						  CDC_WSA_RX_INTX_1_MIX_INP2_SEL_MASK);
-=======
-<<<<<<< HEAD
-	int_n_inp2 = snd_soc_component_read_field(component, int_mux_cfg1,
-						  CDC_WSA_RX_INTX_1_MIX_INP2_SEL_MASK);
-=======
-	int_n_inp2 = int_mux_cfg1_val >> 4;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (int_n_inp2 == INTn_1_INP_SEL_DEC0 ||
 		int_n_inp2 == INTn_1_INP_SEL_DEC1)
 		return true;
@@ -2430,10 +2337,9 @@ static const struct clk_ops swclk_gate_ops = {
 	.recalc_rate = swclk_recalc_rate,
 };
 
-static struct clk *wsa_macro_register_mclk_output(struct wsa_macro *wsa)
+static int wsa_macro_register_mclk_output(struct wsa_macro *wsa)
 {
 	struct device *dev = wsa->dev;
-	struct device_node *np = dev->of_node;
 	const char *parent_clk_name;
 	const char *clk_name = "mclk";
 	struct clk_hw *hw;
@@ -2451,11 +2357,9 @@ static struct clk *wsa_macro_register_mclk_output(struct wsa_macro *wsa)
 	hw = &wsa->hw;
 	ret = clk_hw_register(wsa->dev, hw);
 	if (ret)
-		return ERR_PTR(ret);
+		return ret;
 
-	of_clk_add_provider(np, of_clk_src_simple_get, hw->clk);
-
-	return NULL;
+	return devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get, hw);
 }
 
 static const struct snd_soc_component_driver wsa_macro_component_drv = {
@@ -2530,8 +2434,6 @@ err:
 static int wsa_macro_remove(struct platform_device *pdev)
 {
 	struct wsa_macro *wsa = dev_get_drvdata(&pdev->dev);
-
-	of_clk_del_provider(pdev->dev.of_node);
 
 	clk_bulk_disable_unprepare(WSA_NUM_CLKS_MAX, wsa->clks);
 

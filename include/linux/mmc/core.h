@@ -162,15 +162,12 @@ struct mmc_request {
 	bool			cap_cmd_during_tfr;
 
 	int			tag;
-<<<<<<< HEAD
 
 #ifdef CONFIG_MMC_CRYPTO
 	bool			crypto_enabled;
 	int			crypto_key_slot;
 	u32			data_unit_num;
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mmc_card;

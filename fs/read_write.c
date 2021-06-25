@@ -1188,10 +1188,7 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
 {
 	struct fd in, out;
 	struct inode *in_inode, *out_inode;
-<<<<<<< HEAD
 	struct pipe_inode_info *opipe;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	loff_t pos;
 	loff_t out_pos;
 	ssize_t retval;
@@ -1232,12 +1229,6 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
 	in_inode = file_inode(in.file);
 	out_inode = file_inode(out.file);
 	out_pos = out.file->f_pos;
-<<<<<<< HEAD
-=======
-	retval = rw_verify_area(WRITE, out.file, &out_pos, count);
-	if (retval < 0)
-		goto fput_out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!max)
 		max = min(in_inode->i_sb->s_maxbytes, out_inode->i_sb->s_maxbytes);
@@ -1260,7 +1251,6 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
 	if (in.file->f_flags & O_NONBLOCK)
 		fl = SPLICE_F_NONBLOCK;
 #endif
-<<<<<<< HEAD
 	opipe = get_pipe_info(out.file, true);
 	if (!opipe) {
 		retval = rw_verify_area(WRITE, out.file, &out_pos, count);
@@ -1273,11 +1263,6 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
 	} else {
 		retval = splice_file_to_pipe(in.file, opipe, &pos, count, fl);
 	}
-=======
-	file_start_write(out.file);
-	retval = do_splice_direct(in.file, &pos, out.file, &out_pos, count, fl);
-	file_end_write(out.file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (retval > 0) {
 		add_rchar(current, retval);

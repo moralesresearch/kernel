@@ -309,7 +309,6 @@ static bool sanity_check(struct ce_array *ca)
 	return ret;
 }
 
-<<<<<<< HEAD
 /**
  * cec_add_elem - Add an element to the CEC array.
  * @pfn:	page frame number to insert
@@ -324,13 +323,6 @@ static int cec_add_elem(u64 pfn)
 	struct ce_array *ca = &ce_arr;
 	int count, err, ret = 0;
 	unsigned int to = 0;
-=======
-static int cec_add_elem(u64 pfn)
-{
-	struct ce_array *ca = &ce_arr;
-	unsigned int to = 0;
-	int count, ret = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We can be called very early on the identify_cpu() path where we are
@@ -347,13 +339,8 @@ static int cec_add_elem(u64 pfn)
 	if (ca->n == MAX_ELEMS)
 		WARN_ON(!del_lru_elem_unlocked(ca));
 
-<<<<<<< HEAD
 	err = find_elem(ca, pfn, &to);
 	if (err < 0) {
-=======
-	ret = find_elem(ca, pfn, &to);
-	if (ret < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Shift range [to-end] to make room for one more element.
 		 */

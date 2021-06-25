@@ -380,11 +380,7 @@ static void rtl92c_dm_initial_gain_multi_sta(struct ieee80211_hw *hw)
 		initialized = false;
 		dm_digtable->dig_ext_port_stage = DIG_EXT_PORT_STAGE_MAX;
 		return;
-<<<<<<< HEAD
 	} else if (!initialized) {
-=======
-	} else if (initialized == false) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		initialized = true;
 		dm_digtable->dig_ext_port_stage = DIG_EXT_PORT_STAGE_0;
 		dm_digtable->cur_igvalue = 0x20;
@@ -513,11 +509,7 @@ static void rtl92c_dm_dig(struct ieee80211_hw *hw)
 {
 	struct rtl_priv *rtlpriv = rtl_priv(hw);
 
-<<<<<<< HEAD
 	if (!rtlpriv->dm.dm_initialgain_enable)
-=======
-	if (rtlpriv->dm.dm_initialgain_enable == false)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	if (!(rtlpriv->dm.dm_flag & DYNAMIC_FUNC_DIG))
 		return;

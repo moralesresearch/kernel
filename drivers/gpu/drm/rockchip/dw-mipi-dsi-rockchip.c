@@ -1089,11 +1089,7 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
 
 	dsi->grf_regmap = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
 	if (IS_ERR(dsi->grf_regmap)) {
-<<<<<<< HEAD
 		DRM_DEV_ERROR(dev, "Unable to get rockchip,grf\n");
-=======
-		DRM_DEV_ERROR(dsi->dev, "Unable to get rockchip,grf\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return PTR_ERR(dsi->grf_regmap);
 	}
 

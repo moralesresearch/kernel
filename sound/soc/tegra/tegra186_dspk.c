@@ -217,11 +217,7 @@ static struct snd_soc_dai_driver tegra186_dspk_dais[] = {
 			   SNDRV_PCM_FMTBIT_S32_LE,
 	    },
 	    .ops = &tegra186_dspk_dai_ops,
-<<<<<<< HEAD
 	    .symmetric_rate = 1,
-=======
-	    .symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

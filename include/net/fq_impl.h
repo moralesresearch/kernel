@@ -11,7 +11,6 @@
 
 /* functions that are embedded into includer */
 
-<<<<<<< HEAD
 
 static void
 __fq_adjust_removal(struct fq *fq, struct fq_flow *flow, unsigned int packets,
@@ -43,37 +42,6 @@ static void fq_adjust_removal(struct fq *fq,
 			      struct sk_buff *skb)
 {
 	__fq_adjust_removal(fq, flow, 1, skb->len, skb->truesize);
-=======
-static void fq_adjust_removal(struct fq *fq,
-			      struct fq_flow *flow,
-			      struct sk_buff *skb)
-{
-	struct fq_tin *tin = flow->tin;
-
-	tin->backlog_bytes -= skb->len;
-	tin->backlog_packets--;
-	flow->backlog -= skb->len;
-	fq->backlog--;
-	fq->memory_usage -= skb->truesize;
-}
-
-static void fq_rejigger_backlog(struct fq *fq, struct fq_flow *flow)
-{
-	struct fq_flow *i;
-
-	if (flow->backlog == 0) {
-		list_del_init(&flow->backlogchain);
-	} else {
-		i = flow;
-
-		list_for_each_entry_continue(i, &fq->backlogs, backlogchain)
-			if (i->backlog < flow->backlog)
-				break;
-
-		list_move_tail(&flow->backlogchain,
-			       &i->backlogchain);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct sk_buff *fq_flow_dequeue(struct fq *fq,
@@ -88,15 +56,10 @@ static struct sk_buff *fq_flow_dequeue(struct fq *fq,
 		return NULL;
 
 	fq_adjust_removal(fq, flow, skb);
-<<<<<<< HEAD
-=======
-	fq_rejigger_backlog(fq, flow);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return skb;
 }
 
-<<<<<<< HEAD
 static int fq_flow_drop(struct fq *fq, struct fq_flow *flow,
 			fq_skb_free_t free_func)
 {
@@ -124,8 +87,6 @@ static int fq_flow_drop(struct fq *fq, struct fq_flow *flow,
 	return packets;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct sk_buff *fq_tin_dequeue(struct fq *fq,
 				      struct fq_tin *tin,
 				      fq_tin_dequeue_t dequeue_func)
@@ -182,12 +143,7 @@ static u32 fq_flow_idx(struct fq *fq, struct sk_buff *skb)
 
 static struct fq_flow *fq_flow_classify(struct fq *fq,
 					struct fq_tin *tin, u32 idx,
-<<<<<<< HEAD
 					struct sk_buff *skb)
-=======
-					struct sk_buff *skb,
-					fq_flow_get_default_t get_default_func)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct fq_flow *flow;
 
@@ -195,11 +151,7 @@ static struct fq_flow *fq_flow_classify(struct fq *fq,
 
 	flow = &fq->flows[idx];
 	if (flow->tin && flow->tin != tin) {
-<<<<<<< HEAD
 		flow = &tin->default_flow;
-=======
-		flow = get_default_func(fq, tin, idx, skb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tin->collisions++;
 		fq->collisions++;
 	}
@@ -210,7 +162,6 @@ static struct fq_flow *fq_flow_classify(struct fq *fq,
 	return flow;
 }
 
-<<<<<<< HEAD
 static struct fq_flow *fq_find_fattest_flow(struct fq *fq)
 {
 	struct fq_tin *tin;
@@ -241,42 +192,18 @@ static struct fq_flow *fq_find_fattest_flow(struct fq *fq)
 	}
 
 	return flow;
-=======
-static void fq_recalc_backlog(struct fq *fq,
-			      struct fq_tin *tin,
-			      struct fq_flow *flow)
-{
-	struct fq_flow *i;
-
-	if (list_empty(&flow->backlogchain))
-		list_add_tail(&flow->backlogchain, &fq->backlogs);
-
-	i = flow;
-	list_for_each_entry_continue_reverse(i, &fq->backlogs,
-					     backlogchain)
-		if (i->backlog > flow->backlog)
-			break;
-
-	list_move(&flow->backlogchain, &i->backlogchain);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void fq_tin_enqueue(struct fq *fq,
 			   struct fq_tin *tin, u32 idx,
 			   struct sk_buff *skb,
-<<<<<<< HEAD
 			   fq_skb_free_t free_func)
-=======
-			   fq_skb_free_t free_func,
-			   fq_flow_get_default_t get_default_func)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct fq_flow *flow;
 	bool oom;
 
 	lockdep_assert_held(&fq->lock);
 
-<<<<<<< HEAD
 	flow = fq_flow_classify(fq, tin, idx, skb);
 
 	if (!flow->backlog) {
@@ -285,9 +212,6 @@ static void fq_tin_enqueue(struct fq *fq,
 		else if (list_empty(&tin->tin_list))
 			list_add(&tin->tin_list, &fq->tin_backlog);
 	}
-=======
-	flow = fq_flow_classify(fq, tin, idx, skb, get_default_func);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	flow->tin = tin;
 	flow->backlog += skb->len;
@@ -296,11 +220,6 @@ static void fq_tin_enqueue(struct fq *fq,
 	fq->memory_usage += skb->truesize;
 	fq->backlog++;
 
-<<<<<<< HEAD
-=======
-	fq_recalc_backlog(fq, tin, flow);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (list_empty(&flow->flowchain)) {
 		flow->deficit = fq->quantum;
 		list_add_tail(&flow->flowchain,
@@ -310,7 +229,6 @@ static void fq_tin_enqueue(struct fq *fq,
 	__skb_queue_tail(&flow->queue, skb);
 	oom = (fq->memory_usage > fq->memory_limit);
 	while (fq->backlog > fq->limit || oom) {
-<<<<<<< HEAD
 		flow = fq_find_fattest_flow(fq);
 		if (!flow)
 			return;
@@ -318,20 +236,6 @@ static void fq_tin_enqueue(struct fq *fq,
 		if (!fq_flow_drop(fq, flow, free_func))
 			return;
 
-=======
-		flow = list_first_entry_or_null(&fq->backlogs,
-						struct fq_flow,
-						backlogchain);
-		if (!flow)
-			return;
-
-		skb = fq_flow_dequeue(fq, flow);
-		if (!skb)
-			return;
-
-		free_func(fq, flow->tin, flow, skb);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flow->tin->overlimit++;
 		fq->overlimit++;
 		if (oom) {
@@ -360,11 +264,6 @@ static void fq_flow_filter(struct fq *fq,
 		fq_adjust_removal(fq, flow, skb);
 		free_func(fq, tin, flow, skb);
 	}
-<<<<<<< HEAD
-=======
-
-	fq_rejigger_backlog(fq, flow);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void fq_tin_filter(struct fq *fq,
@@ -387,7 +286,6 @@ static void fq_flow_reset(struct fq *fq,
 			  struct fq_flow *flow,
 			  fq_skb_free_t free_func)
 {
-<<<<<<< HEAD
 	struct fq_tin *tin = flow->tin;
 	struct sk_buff *skb;
 
@@ -400,18 +298,6 @@ static void fq_flow_reset(struct fq *fq,
 		    list_empty(&tin->old_flows))
 			list_del_init(&tin->tin_list);
 	}
-=======
-	struct sk_buff *skb;
-
-	while ((skb = fq_flow_dequeue(fq, flow)))
-		free_func(fq, flow->tin, flow, skb);
-
-	if (!list_empty(&flow->flowchain))
-		list_del_init(&flow->flowchain);
-
-	if (!list_empty(&flow->backlogchain))
-		list_del_init(&flow->backlogchain);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	flow->tin = NULL;
 
@@ -437,10 +323,7 @@ static void fq_tin_reset(struct fq *fq,
 		fq_flow_reset(fq, flow, free_func);
 	}
 
-<<<<<<< HEAD
 	WARN_ON_ONCE(!list_empty(&tin->tin_list));
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WARN_ON_ONCE(tin->backlog_bytes);
 	WARN_ON_ONCE(tin->backlog_packets);
 }
@@ -448,10 +331,6 @@ static void fq_tin_reset(struct fq *fq,
 static void fq_flow_init(struct fq_flow *flow)
 {
 	INIT_LIST_HEAD(&flow->flowchain);
-<<<<<<< HEAD
-=======
-	INIT_LIST_HEAD(&flow->backlogchain);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__skb_queue_head_init(&flow->queue);
 }
 
@@ -459,11 +338,8 @@ static void fq_tin_init(struct fq_tin *tin)
 {
 	INIT_LIST_HEAD(&tin->new_flows);
 	INIT_LIST_HEAD(&tin->old_flows);
-<<<<<<< HEAD
 	INIT_LIST_HEAD(&tin->tin_list);
 	fq_flow_init(&tin->default_flow);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int fq_init(struct fq *fq, int flows_cnt)
@@ -471,13 +347,8 @@ static int fq_init(struct fq *fq, int flows_cnt)
 	int i;
 
 	memset(fq, 0, sizeof(fq[0]));
-<<<<<<< HEAD
 	spin_lock_init(&fq->lock);
 	INIT_LIST_HEAD(&fq->tin_backlog);
-=======
-	INIT_LIST_HEAD(&fq->backlogs);
-	spin_lock_init(&fq->lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fq->flows_cnt = max_t(u32, flows_cnt, 1);
 	fq->quantum = 300;
 	fq->limit = 8192;
@@ -487,7 +358,6 @@ static int fq_init(struct fq *fq, int flows_cnt)
 	if (!fq->flows)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	fq->flows_bitmap = kcalloc(BITS_TO_LONGS(fq->flows_cnt), sizeof(long),
 				   GFP_KERNEL);
 	if (!fq->flows_bitmap) {
@@ -496,8 +366,6 @@ static int fq_init(struct fq *fq, int flows_cnt)
 		return -ENOMEM;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < fq->flows_cnt; i++)
 		fq_flow_init(&fq->flows[i]);
 
@@ -514,12 +382,9 @@ static void fq_reset(struct fq *fq,
 
 	kvfree(fq->flows);
 	fq->flows = NULL;
-<<<<<<< HEAD
 
 	kfree(fq->flows_bitmap);
 	fq->flows_bitmap = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif

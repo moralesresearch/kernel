@@ -278,11 +278,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
 			case _DRM_SCATTER_GATHER:
 				break;
 			case _DRM_CONSISTENT:
-<<<<<<< HEAD
 				dma_free_coherent(dev->dev,
-=======
-				dma_free_coherent(&dev->pdev->dev,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						  map->size,
 						  map->handle,
 						  map->offset);

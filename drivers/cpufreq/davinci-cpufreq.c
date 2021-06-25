@@ -95,11 +95,7 @@ static int davinci_cpu_init(struct cpufreq_policy *policy)
 }
 
 static struct cpufreq_driver davinci_driver = {
-<<<<<<< HEAD
 	.flags		= CPUFREQ_NEED_INITIAL_FREQ_CHECK,
-=======
-	.flags		= CPUFREQ_STICKY | CPUFREQ_NEED_INITIAL_FREQ_CHECK,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.verify		= cpufreq_generic_frequency_table_verify,
 	.target_index	= davinci_target,
 	.get		= cpufreq_generic_get,

@@ -36,7 +36,6 @@
 
 #include <drm/drm_cache.h>
 #include <drm/drm_crtc_helper.h>
-#include <drm/drm_debugfs.h>
 #include <drm/drm_device.h>
 #include <drm/drm_file.h>
 #include <drm/drm_probe_helper.h>
@@ -1448,15 +1447,8 @@ int radeon_device_init(struct radeon_device *rdev,
 	if (r)
 		goto failed;
 
-	r = radeon_gem_debugfs_init(rdev);
-	if (r) {
-		DRM_ERROR("registering gem debugfs failed (%d).\n", r);
-	}
-
-	r = radeon_mst_debugfs_init(rdev);
-	if (r) {
-		DRM_ERROR("registering mst debugfs failed (%d).\n", r);
-	}
+	radeon_gem_debugfs_init(rdev);
+	radeon_mst_debugfs_init(rdev);
 
 	if (rdev->flags & RADEON_IS_AGP && !rdev->accel_working) {
 		/* Acceleration not working on AGP card try again
@@ -1562,10 +1554,7 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
 		       bool fbcon, bool freeze)
 {
 	struct radeon_device *rdev;
-<<<<<<< HEAD
 	struct pci_dev *pdev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_crtc *crtc;
 	struct drm_connector *connector;
 	int i, r;
@@ -1575,10 +1564,7 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
 	}
 
 	rdev = dev->dev_private;
-<<<<<<< HEAD
 	pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dev->switch_power_state == DRM_SWITCH_POWER_OFF)
 		return 0;
@@ -1644,7 +1630,6 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
 
 	radeon_agp_suspend(rdev);
 
-<<<<<<< HEAD
 	pci_save_state(pdev);
 	if (freeze && rdev->family >= CHIP_CEDAR && !(rdev->flags & RADEON_IS_IGP)) {
 		rdev->asic->asic_reset(rdev, true);
@@ -1653,16 +1638,6 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
 		/* Shut down the device */
 		pci_disable_device(pdev);
 		pci_set_power_state(pdev, PCI_D3hot);
-=======
-	pci_save_state(dev->pdev);
-	if (freeze && rdev->family >= CHIP_CEDAR && !(rdev->flags & RADEON_IS_IGP)) {
-		rdev->asic->asic_reset(rdev, true);
-		pci_restore_state(dev->pdev);
-	} else if (suspend) {
-		/* Shut down the device */
-		pci_disable_device(dev->pdev);
-		pci_set_power_state(dev->pdev, PCI_D3hot);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (fbcon) {
@@ -1684,10 +1659,7 @@ int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon)
 {
 	struct drm_connector *connector;
 	struct radeon_device *rdev = dev->dev_private;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_crtc *crtc;
 	int r;
 
@@ -1698,15 +1670,9 @@ int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon)
 		console_lock();
 	}
 	if (resume) {
-<<<<<<< HEAD
 		pci_set_power_state(pdev, PCI_D0);
 		pci_restore_state(pdev);
 		if (pci_enable_device(pdev)) {
-=======
-		pci_set_power_state(dev->pdev, PCI_D0);
-		pci_restore_state(dev->pdev);
-		if (pci_enable_device(dev->pdev)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (fbcon)
 				console_unlock();
 			return -1;
@@ -1909,39 +1875,4 @@ int radeon_gpu_reset(struct radeon_device *rdev)
 
 	up_read(&rdev->exclusive_lock);
 	return r;
-}
-
-
-/*
- * Debugfs
- */
-int radeon_debugfs_add_files(struct radeon_device *rdev,
-			     struct drm_info_list *files,
-			     unsigned nfiles)
-{
-	unsigned i;
-
-	for (i = 0; i < rdev->debugfs_count; i++) {
-		if (rdev->debugfs[i].files == files) {
-			/* Already registered */
-			return 0;
-		}
-	}
-
-	i = rdev->debugfs_count + 1;
-	if (i > RADEON_DEBUGFS_MAX_COMPONENTS) {
-		DRM_ERROR("Reached maximum number of debugfs components.\n");
-		DRM_ERROR("Report so we increase "
-			  "RADEON_DEBUGFS_MAX_COMPONENTS.\n");
-		return -EINVAL;
-	}
-	rdev->debugfs[rdev->debugfs_count].files = files;
-	rdev->debugfs[rdev->debugfs_count].num_files = nfiles;
-	rdev->debugfs_count = i;
-#if defined(CONFIG_DEBUG_FS)
-	drm_debugfs_create_files(files, nfiles,
-				 rdev->ddev->primary->debugfs_root,
-				 rdev->ddev->primary);
-#endif
-	return 0;
 }

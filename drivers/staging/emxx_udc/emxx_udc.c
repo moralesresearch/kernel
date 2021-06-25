@@ -34,14 +34,10 @@
 #define	DRIVER_DESC	"EMXX UDC driver"
 #define	DMA_ADDR_INVALID	(~(dma_addr_t)0)
 
-<<<<<<< HEAD
 static struct gpio_desc *vbus_gpio;
 static int vbus_irq;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char	driver_name[] = "emxx_udc";
-static const char	driver_desc[] = DRIVER_DESC;
 
 /*===========================================================================*/
 /* Prototype */
@@ -2068,11 +2064,7 @@ static int _nbu2ss_nuke(struct nbu2ss_udc *udc,
 			struct nbu2ss_ep *ep,
 			int status)
 {
-<<<<<<< HEAD
 	struct nbu2ss_req *req, *n;
-=======
-	struct nbu2ss_req *req;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Endpoint Disable */
 	_nbu2ss_epn_exit(udc, ep);
@@ -2084,11 +2076,7 @@ static int _nbu2ss_nuke(struct nbu2ss_udc *udc,
 		return 0;
 
 	/* called with irqs blocked */
-<<<<<<< HEAD
 	list_for_each_entry_safe(req, n, &ep->queue, queue) {
-=======
-	list_for_each_entry(req, &ep->queue, queue) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		_nbu2ss_ep_done(ep, req, status);
 	}
 

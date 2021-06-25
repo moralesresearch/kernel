@@ -82,11 +82,8 @@ struct mcba_priv {
 	bool can_ka_first_pass;
 	bool can_speed_check;
 	atomic_t free_ctx_cnt;
-<<<<<<< HEAD
 	void *rxbuf[MCBA_MAX_RX_URBS];
 	dma_addr_t rxbuf_dma[MCBA_MAX_RX_URBS];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* CAN frame */
@@ -242,11 +239,7 @@ static void mcba_usb_write_bulk_callback(struct urb *urb)
 		netdev->stats.tx_bytes += ctx->dlc;
 
 		can_led_event(netdev, CAN_LED_EVENT_TX);
-<<<<<<< HEAD
 		can_get_echo_skb(netdev, ctx->ndx, NULL);
-=======
-		can_get_echo_skb(netdev, ctx->ndx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (urb->status)
@@ -364,11 +357,7 @@ static netdev_tx_t mcba_usb_start_xmit(struct sk_buff *skb,
 	if (cf->can_id & CAN_RTR_FLAG)
 		usb_msg.dlc |= MCBA_DLC_RTR_MASK;
 
-<<<<<<< HEAD
 	can_put_echo_skb(skb, priv->netdev, ctx->ndx, 0);
-=======
-	can_put_echo_skb(skb, priv->netdev, ctx->ndx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mcba_usb_xmit(priv, (struct mcba_usb_msg *)&usb_msg, ctx);
 	if (err)
@@ -377,7 +366,7 @@ static netdev_tx_t mcba_usb_start_xmit(struct sk_buff *skb,
 	return NETDEV_TX_OK;
 
 xmit_failed:
-	can_free_echo_skb(priv->netdev, ctx->ndx);
+	can_free_echo_skb(priv->netdev, ctx->ndx, NULL);
 	mcba_usb_free_ctx(ctx);
 	dev_kfree_skb(skb);
 	stats->tx_dropped++;
@@ -479,11 +468,7 @@ static void mcba_usb_process_ka_usb(struct mcba_priv *priv,
 				    struct mcba_usb_msg_ka_usb *msg)
 {
 	if (unlikely(priv->usb_ka_first_pass)) {
-<<<<<<< HEAD
 		netdev_info(priv->netdev, "PIC USB version %u.%u\n",
-=======
-		netdev_info(priv->netdev, "PIC USB version %hhu.%hhu\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    msg->soft_ver_major, msg->soft_ver_minor);
 
 		priv->usb_ka_first_pass = false;
@@ -509,11 +494,7 @@ static void mcba_usb_process_ka_can(struct mcba_priv *priv,
 				    struct mcba_usb_msg_ka_can *msg)
 {
 	if (unlikely(priv->can_ka_first_pass)) {
-<<<<<<< HEAD
 		netdev_info(priv->netdev, "PIC CAN version %u.%u\n",
-=======
-		netdev_info(priv->netdev, "PIC CAN version %hhu.%hhu\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    msg->soft_ver_major, msg->soft_ver_minor);
 
 		priv->can_ka_first_pass = false;
@@ -575,11 +556,7 @@ static void mcba_usb_process_rx(struct mcba_priv *priv,
 		break;
 
 	default:
-<<<<<<< HEAD
 		netdev_warn(priv->netdev, "Unsupported msg (0x%X)",
-=======
-		netdev_warn(priv->netdev, "Unsupported msg (0x%hhX)",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    msg->cmd_id);
 		break;
 	}
@@ -658,10 +635,7 @@ static int mcba_usb_start(struct mcba_priv *priv)
 	for (i = 0; i < MCBA_MAX_RX_URBS; i++) {
 		struct urb *urb = NULL;
 		u8 *buf;
-<<<<<<< HEAD
 		dma_addr_t buf_dma;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* create a URB, and a buffer for it */
 		urb = usb_alloc_urb(0, GFP_KERNEL);
@@ -671,11 +645,7 @@ static int mcba_usb_start(struct mcba_priv *priv)
 		}
 
 		buf = usb_alloc_coherent(priv->udev, MCBA_USB_RX_BUFF_SIZE,
-<<<<<<< HEAD
 					 GFP_KERNEL, &buf_dma);
-=======
-					 GFP_KERNEL, &urb->transfer_dma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!buf) {
 			netdev_err(netdev, "No memory left for USB buffer\n");
 			usb_free_urb(urb);
@@ -694,21 +664,14 @@ static int mcba_usb_start(struct mcba_priv *priv)
 		if (err) {
 			usb_unanchor_urb(urb);
 			usb_free_coherent(priv->udev, MCBA_USB_RX_BUFF_SIZE,
-<<<<<<< HEAD
 					  buf, buf_dma);
-=======
-					  buf, urb->transfer_dma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			usb_free_urb(urb);
 			break;
 		}
 
-<<<<<<< HEAD
 		priv->rxbuf[i] = buf;
 		priv->rxbuf_dma[i] = buf_dma;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Drop reference, USB core will take care of freeing it */
 		usb_free_urb(urb);
 	}
@@ -751,7 +714,6 @@ static int mcba_usb_open(struct net_device *netdev)
 
 static void mcba_urb_unlink(struct mcba_priv *priv)
 {
-<<<<<<< HEAD
 	int i;
 
 	usb_kill_anchored_urbs(&priv->rx_submitted);
@@ -760,9 +722,6 @@ static void mcba_urb_unlink(struct mcba_priv *priv)
 		usb_free_coherent(priv->udev, MCBA_USB_RX_BUFF_SIZE,
 				  priv->rxbuf[i], priv->rxbuf_dma[i]);
 
-=======
-	usb_kill_anchored_urbs(&priv->rx_submitted);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usb_kill_anchored_urbs(&priv->tx_submitted);
 }
 

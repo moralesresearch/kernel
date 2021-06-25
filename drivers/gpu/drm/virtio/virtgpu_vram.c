@@ -69,10 +69,7 @@ static const struct drm_gem_object_funcs virtio_gpu_vram_funcs = {
 	.close = virtio_gpu_gem_object_close,
 	.free = virtio_gpu_vram_free,
 	.mmap = virtio_gpu_vram_mmap,
-<<<<<<< HEAD
 	.export = virtgpu_gem_prime_export,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 bool virtio_gpu_is_vram(struct virtio_gpu_object *bo)
@@ -138,11 +135,8 @@ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
 
 	obj = &vram->base.base.base;
 	obj->funcs = &virtio_gpu_vram_funcs;
-<<<<<<< HEAD
 
 	params->size = PAGE_ALIGN(params->size);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drm_gem_private_object_init(vgdev->ddev, obj, params->size);
 
 	/* Create fake offset */

@@ -21,7 +21,6 @@ static int trigger_module_test_read(int read_sz)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int trigger_module_test_write(int write_sz)
 {
 	int fd, err;
@@ -46,17 +45,18 @@ static int trigger_module_test_write(int write_sz)
 	return 0;
 }
 
+static int delete_module(const char *name, int flags)
+{
+	return syscall(__NR_delete_module, name, flags);
+}
+
 void test_module_attach(void)
 {
 	const int READ_SZ = 456;
 	const int WRITE_SZ = 457;
-=======
-void test_module_attach(void)
-{
-	const int READ_SZ = 456;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct test_module_attach* skel;
 	struct test_module_attach__bss *bss;
+	struct bpf_link *link;
 	int err;
 
 	skel = test_module_attach__open();
@@ -79,21 +79,33 @@ void test_module_attach(void)
 
 	/* trigger tracepoint */
 	ASSERT_OK(trigger_module_test_read(READ_SZ), "trigger_read");
-<<<<<<< HEAD
 	ASSERT_OK(trigger_module_test_write(WRITE_SZ), "trigger_write");
 
 	ASSERT_EQ(bss->raw_tp_read_sz, READ_SZ, "raw_tp");
 	ASSERT_EQ(bss->raw_tp_bare_write_sz, WRITE_SZ, "raw_tp_bare");
-=======
-
-	ASSERT_EQ(bss->raw_tp_read_sz, READ_SZ, "raw_tp");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ASSERT_EQ(bss->tp_btf_read_sz, READ_SZ, "tp_btf");
 	ASSERT_EQ(bss->fentry_read_sz, READ_SZ, "fentry");
 	ASSERT_EQ(bss->fentry_manual_read_sz, READ_SZ, "fentry_manual");
 	ASSERT_EQ(bss->fexit_read_sz, READ_SZ, "fexit");
 	ASSERT_EQ(bss->fexit_ret, -EIO, "fexit_tet");
 	ASSERT_EQ(bss->fmod_ret_read_sz, READ_SZ, "fmod_ret");
+
+	test_module_attach__detach(skel);
+
+	/* attach fentry/fexit and make sure it get's module reference */
+	link = bpf_program__attach(skel->progs.handle_fentry);
+	if (!ASSERT_OK_PTR(link, "attach_fentry"))
+		goto cleanup;
+
+	ASSERT_ERR(delete_module("bpf_testmod", 0), "delete_module");
+	bpf_link__destroy(link);
+
+	link = bpf_program__attach(skel->progs.handle_fexit);
+	if (!ASSERT_OK_PTR(link, "attach_fexit"))
+		goto cleanup;
+
+	ASSERT_ERR(delete_module("bpf_testmod", 0), "delete_module");
+	bpf_link__destroy(link);
 
 cleanup:
 	test_module_attach__destroy(skel);

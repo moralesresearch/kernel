@@ -414,10 +414,7 @@ enum {
 	TCA_HTB_RATE64,
 	TCA_HTB_CEIL64,
 	TCA_HTB_PAD,
-<<<<<<< HEAD
 	TCA_HTB_OFFLOAD,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__TCA_HTB_MAX,
 };
 

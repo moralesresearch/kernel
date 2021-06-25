@@ -1919,27 +1919,13 @@ static const struct mips_perf_event *mipsxx_pmu_map_raw_event(u64 config)
 
 static const struct mips_perf_event *octeon_pmu_map_raw_event(u64 config)
 {
-<<<<<<< HEAD
 	unsigned int base_id = config & 0x7f;
 	unsigned int event_max;
-=======
-<<<<<<< HEAD
-	unsigned int base_id = config & 0x7f;
-	unsigned int event_max;
-=======
-	unsigned int raw_id = config & 0xff;
-	unsigned int base_id = raw_id & 0x7f;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 	raw_event.cntr_mask = CNTR_ALL;
 	raw_event.event_id = base_id;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (current_cpu_type() == CPU_CAVIUM_OCTEON3)
 		event_max = 0x5f;
 	else if (current_cpu_type() == CPU_CAVIUM_OCTEON2)
@@ -1949,17 +1935,6 @@ static const struct mips_perf_event *octeon_pmu_map_raw_event(u64 config)
 
 	if (base_id > event_max) {
 		return ERR_PTR(-EOPNOTSUPP);
-<<<<<<< HEAD
-=======
-=======
-	if (current_cpu_type() == CPU_CAVIUM_OCTEON2) {
-		if (base_id > 0x42)
-			return ERR_PTR(-EOPNOTSUPP);
-	} else {
-		if (base_id > 0x3a)
-			return ERR_PTR(-EOPNOTSUPP);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	switch (base_id) {
@@ -1969,15 +1944,7 @@ static const struct mips_perf_event *octeon_pmu_map_raw_event(u64 config)
 	case 0x1f:
 	case 0x2f:
 	case 0x34:
-<<<<<<< HEAD
 	case 0x3e ... 0x3f:
-=======
-<<<<<<< HEAD
-	case 0x3e ... 0x3f:
-=======
-	case 0x3b ... 0x3f:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ERR_PTR(-EOPNOTSUPP);
 	default:
 		break;
@@ -2113,14 +2080,7 @@ init_hw_perf_events(void)
 	case CPU_CAVIUM_OCTEON:
 	case CPU_CAVIUM_OCTEON_PLUS:
 	case CPU_CAVIUM_OCTEON2:
-<<<<<<< HEAD
 	case CPU_CAVIUM_OCTEON3:
-=======
-<<<<<<< HEAD
-	case CPU_CAVIUM_OCTEON3:
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mipspmu.name = "octeon";
 		mipspmu.general_event_map = &octeon_event_map;
 		mipspmu.cache_event_map = &octeon_cache_map;

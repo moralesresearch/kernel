@@ -721,11 +721,7 @@ u16 capi20_put_message(struct capi20_appl *ap, struct sk_buff *skb)
  * Return value: CAPI result code
  */
 
-<<<<<<< HEAD
 u16 capi20_get_manufacturer(u32 contr, u8 buf[CAPI_MANUFACTURER_LEN])
-=======
-u16 capi20_get_manufacturer(u32 contr, u8 *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct capi_ctr *ctr;
 	u16 ret;
@@ -791,11 +787,7 @@ u16 capi20_get_version(u32 contr, struct capi_version *verp)
  * Return value: CAPI result code
  */
 
-<<<<<<< HEAD
 u16 capi20_get_serial(u32 contr, u8 serial[CAPI_SERIAL_LEN])
-=======
-u16 capi20_get_serial(u32 contr, u8 *serial)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct capi_ctr *ctr;
 	u16 ret;

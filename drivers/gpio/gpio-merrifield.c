@@ -194,14 +194,11 @@ static int mrfld_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
 {
 	u32 debounce;
 
-<<<<<<< HEAD
 	if ((pinconf_to_config_param(config) == PIN_CONFIG_BIAS_DISABLE) ||
 	    (pinconf_to_config_param(config) == PIN_CONFIG_BIAS_PULL_UP) ||
 	    (pinconf_to_config_param(config) == PIN_CONFIG_BIAS_PULL_DOWN))
 		return gpiochip_generic_config(chip, offset, config);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pinconf_to_config_param(config) != PIN_CONFIG_INPUT_DEBOUNCE)
 		return -ENOTSUPP;
 

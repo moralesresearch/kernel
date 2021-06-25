@@ -128,7 +128,6 @@ static __always_inline bool in_exception_stack(unsigned long *stack, struct stac
 
 static __always_inline bool in_irq_stack(unsigned long *stack, struct stack_info *info)
 {
-<<<<<<< HEAD
 	unsigned long *end = (unsigned long *)this_cpu_read(hardirq_stack_ptr);
 	unsigned long *begin;
 
@@ -144,14 +143,6 @@ static __always_inline bool in_irq_stack(unsigned long *stack, struct stack_info
 	 * Due to the switching logic RSP can never be == @end because the
 	 * final operation is 'popq %rsp' which means after that RSP points
 	 * to the original stack and not to @end.
-=======
-	unsigned long *end   = (unsigned long *)this_cpu_read(hardirq_stack_ptr);
-	unsigned long *begin = end - (IRQ_STACK_SIZE / sizeof(long));
-
-	/*
-	 * This is a software stack, so 'end' can be a valid stack pointer.
-	 * It just means the stack is empty.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (stack < begin || stack >= end)
 		return false;
@@ -161,14 +152,9 @@ static __always_inline bool in_irq_stack(unsigned long *stack, struct stack_info
 	info->end	= end;
 
 	/*
-<<<<<<< HEAD
 	 * The next stack pointer is stored at the top of the irq stack
 	 * before switching to the irq stack. Actual stack entries are all
 	 * below that.
-=======
-	 * The next stack pointer is the first thing pushed by the entry code
-	 * after switching to the irq stack.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	info->next_sp = (unsigned long *)*(end - 1);
 

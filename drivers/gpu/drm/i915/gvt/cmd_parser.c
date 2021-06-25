@@ -37,26 +37,19 @@
 #include <linux/slab.h>
 
 #include "i915_drv.h"
-<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
 #include "gt/intel_lrc.h"
 #include "gt/intel_ring.h"
 #include "gt/intel_gt_requests.h"
 #include "gt/shmem_utils.h"
-=======
-#include "gt/intel_ring.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gvt.h"
 #include "i915_pvinfo.h"
 #include "trace.h"
 
-<<<<<<< HEAD
 #include "gem/i915_gem_context.h"
 #include "gem/i915_gem_pm.h"
 #include "gt/intel_context.h"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define INVALID_OP    (~0U)
 
 #define OP_LEN_MI           9
@@ -469,10 +462,7 @@ enum {
 	RING_BUFFER_INSTRUCTION,
 	BATCH_BUFFER_INSTRUCTION,
 	BATCH_BUFFER_2ND_LEVEL,
-<<<<<<< HEAD
 	RING_BUFFER_CTX,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -514,10 +504,7 @@ struct parser_exec_state {
 	 */
 	int saved_buf_addr_type;
 	bool is_ctx_wa;
-<<<<<<< HEAD
 	bool is_init_ctx;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	const struct cmd_info *info;
 
@@ -731,14 +718,11 @@ static inline u32 cmd_val(struct parser_exec_state *s, int index)
 	return *cmd_ptr(s, index);
 }
 
-<<<<<<< HEAD
 static inline bool is_init_ctx(struct parser_exec_state *s)
 {
 	return (s->buf_type == RING_BUFFER_CTX && s->is_init_ctx);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void parser_exec_state_dump(struct parser_exec_state *s)
 {
 	int cnt = 0;
@@ -752,12 +736,8 @@ static void parser_exec_state_dump(struct parser_exec_state *s)
 
 	gvt_dbg_cmd("  %s %s ip_gma(%08lx) ",
 			s->buf_type == RING_BUFFER_INSTRUCTION ?
-<<<<<<< HEAD
 			"RING_BUFFER" : ((s->buf_type == RING_BUFFER_CTX) ?
 				"CTX_BUFFER" : "BATCH_BUFFER"),
-=======
-			"RING_BUFFER" : "BATCH_BUFFER",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			s->buf_addr_type == GTT_BUFFER ?
 			"GTT" : "PPGTT", s->ip_gma);
 
@@ -792,12 +772,8 @@ static inline void update_ip_va(struct parser_exec_state *s)
 	if (WARN_ON(s->ring_head == s->ring_tail))
 		return;
 
-<<<<<<< HEAD
 	if (s->buf_type == RING_BUFFER_INSTRUCTION ||
 			s->buf_type == RING_BUFFER_CTX) {
-=======
-	if (s->buf_type == RING_BUFFER_INSTRUCTION) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long ring_top = s->ring_start + s->ring_size;
 
 		if (s->ring_head > s->ring_tail) {
@@ -861,74 +837,12 @@ static inline int cmd_length(struct parser_exec_state *s)
 	*addr = val; \
 } while (0)
 
-<<<<<<< HEAD
-=======
-static bool is_shadowed_mmio(unsigned int offset)
-{
-	bool ret = false;
-
-	if ((offset == 0x2168) || /*BB current head register UDW */
-	    (offset == 0x2140) || /*BB current header register */
-	    (offset == 0x211c) || /*second BB header register UDW */
-	    (offset == 0x2114)) { /*second BB header register UDW */
-		ret = true;
-	}
-	return ret;
-}
-
-static inline bool is_force_nonpriv_mmio(unsigned int offset)
-{
-	return (offset >= 0x24d0 && offset < 0x2500);
-}
-
-static int force_nonpriv_reg_handler(struct parser_exec_state *s,
-		unsigned int offset, unsigned int index, char *cmd)
-{
-	struct intel_gvt *gvt = s->vgpu->gvt;
-	unsigned int data;
-	u32 ring_base;
-	u32 nopid;
-
-	if (!strcmp(cmd, "lri"))
-		data = cmd_val(s, index + 1);
-	else {
-		gvt_err("Unexpected forcenonpriv 0x%x write from cmd %s\n",
-			offset, cmd);
-		return -EINVAL;
-	}
-
-	ring_base = s->engine->mmio_base;
-	nopid = i915_mmio_reg_offset(RING_NOPID(ring_base));
-
-	if (!intel_gvt_in_force_nonpriv_whitelist(gvt, data) &&
-			data != nopid) {
-		gvt_err("Unexpected forcenonpriv 0x%x LRI write, value=0x%x\n",
-			offset, data);
-		patch_value(s, cmd_ptr(s, index), nopid);
-		return 0;
-	}
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool is_mocs_mmio(unsigned int offset)
 {
 	return ((offset >= 0xc800) && (offset <= 0xcff8)) ||
 		((offset >= 0xb020) && (offset <= 0xb0a0));
 }
 
-<<<<<<< HEAD
-=======
-static int mocs_cmd_reg_handler(struct parser_exec_state *s,
-				unsigned int offset, unsigned int index)
-{
-	if (!is_mocs_mmio(offset))
-		return -EINVAL;
-	vgpu_vreg(s->vgpu, offset) = cmd_val(s, index + 1);
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int is_cmd_update_pdps(unsigned int offset,
 			      struct parser_exec_state *s)
 {
@@ -976,10 +890,7 @@ static int cmd_reg_handler(struct parser_exec_state *s,
 	struct intel_vgpu *vgpu = s->vgpu;
 	struct intel_gvt *gvt = vgpu->gvt;
 	u32 ctx_sr_ctl;
-<<<<<<< HEAD
 	u32 *vreg, vreg_old;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (offset + 4 > gvt->device_info.mmio_size) {
 		gvt_vgpu_err("%s access to (%x) outside of MMIO range\n",
@@ -987,7 +898,6 @@ static int cmd_reg_handler(struct parser_exec_state *s,
 		return -EFAULT;
 	}
 
-<<<<<<< HEAD
 	if (is_init_ctx(s)) {
 		struct intel_gvt_mmio_info *mmio_info;
 
@@ -998,15 +908,12 @@ static int cmd_reg_handler(struct parser_exec_state *s,
 		return 0;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!intel_gvt_mmio_is_cmd_accessible(gvt, offset)) {
 		gvt_vgpu_err("%s access to non-render register (%x)\n",
 				cmd, offset);
 		return -EBADRQC;
 	}
 
-<<<<<<< HEAD
 	if (!strncmp(cmd, "srm", 3) ||
 			!strncmp(cmd, "lrm", 3)) {
 		if (offset == i915_mmio_reg_offset(GEN8_L3SQCREG4) ||
@@ -1041,38 +948,17 @@ static int cmd_reg_handler(struct parser_exec_state *s,
 
 	/* below are all lri handlers */
 	vreg = &vgpu_vreg(s->vgpu, offset);
-	if (!intel_gvt_mmio_is_cmd_accessible(gvt, offset)) {
-		gvt_vgpu_err("%s access to non-render register (%x)\n",
-				cmd, offset);
-		return -EBADRQC;
-	}
 
 	if (is_cmd_update_pdps(offset, s) &&
 	    cmd_pdp_mmio_update_handler(s, offset, index))
 		return -EINVAL;
 
-=======
-	if (is_shadowed_mmio(offset)) {
-		gvt_vgpu_err("found access of shadowed MMIO %x\n", offset);
-		return 0;
-	}
-
-	if (is_mocs_mmio(offset) &&
-	    mocs_cmd_reg_handler(s, offset, index))
-		return -EINVAL;
-
-	if (is_force_nonpriv_mmio(offset) &&
-		force_nonpriv_reg_handler(s, offset, index, cmd))
-		return -EPERM;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (offset == i915_mmio_reg_offset(DERRMR) ||
 		offset == i915_mmio_reg_offset(FORCEWAKE_MT)) {
 		/* Writing to HW VGT_PVINFO_PAGE offset will be discarded */
 		patch_value(s, cmd_ptr(s, index), VGT_PVINFO_PAGE);
 	}
 
-<<<<<<< HEAD
 	if (is_mocs_mmio(offset))
 		*vreg = cmd_val(s, index + 1);
 
@@ -1109,11 +995,6 @@ static int cmd_reg_handler(struct parser_exec_state *s,
 
 	/* only patch cmd. restore vreg value if changed in mmio write handler*/
 	*vreg = vreg_old;
-=======
-	if (is_cmd_update_pdps(offset, s) &&
-	    cmd_pdp_mmio_update_handler(s, offset, index))
-		return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* TODO
 	 * In order to let workload with inhibit context to generate
@@ -1365,11 +1246,8 @@ static int cmd_handler_mi_batch_buffer_end(struct parser_exec_state *s)
 		s->buf_type = BATCH_BUFFER_INSTRUCTION;
 		ret = ip_gma_set(s, s->ret_ip_gma_bb);
 		s->buf_addr_type = s->saved_buf_addr_type;
-<<<<<<< HEAD
 	} else if (s->buf_type == RING_BUFFER_CTX) {
 		ret = ip_gma_set(s, s->ring_tail);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		s->buf_type = RING_BUFFER_INSTRUCTION;
 		s->buf_addr_type = GTT_BUFFER;
@@ -2918,12 +2796,8 @@ static int command_scan(struct parser_exec_state *s,
 	gma_bottom = rb_start +  rb_len;
 
 	while (s->ip_gma != gma_tail) {
-<<<<<<< HEAD
 		if (s->buf_type == RING_BUFFER_INSTRUCTION ||
 				s->buf_type == RING_BUFFER_CTX) {
-=======
-		if (s->buf_type == RING_BUFFER_INSTRUCTION) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!(s->ip_gma >= rb_start) ||
 				!(s->ip_gma < gma_bottom)) {
 				gvt_vgpu_err("ip_gma %lx out of ring scope."
@@ -3216,7 +3090,6 @@ int intel_gvt_scan_and_shadow_wa_ctx(struct intel_shadow_wa_ctx *wa_ctx)
 	return 0;
 }
 
-<<<<<<< HEAD
 /* generate dummy contexts by sending empty requests to HW, and let
  * the HW to fill Engine Contexts. This dummy contexts are used for
  * initialization purpose (update reg whitelist), so referred to as
@@ -3329,8 +3202,6 @@ out:
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int init_cmd_table(struct intel_gvt *gvt)
 {
 	unsigned int gen_type = intel_gvt_get_device_type(gvt);

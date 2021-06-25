@@ -635,11 +635,7 @@ static int scarlett2_usb(
 	/* send a second message to get the response */
 
 	err = snd_usb_ctl_msg(mixer->chip->dev,
-<<<<<<< HEAD
 			usb_rcvctrlpipe(mixer->chip->dev, 0),
-=======
-			usb_sndctrlpipe(mixer->chip->dev, 0),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			SCARLETT2_USB_VENDOR_SPECIFIC_CMD_RESP,
 			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
 			0,
@@ -965,11 +961,7 @@ static int scarlett2_add_new_ctl(struct usb_mixer_interface *mixer,
 	}
 	kctl->private_free = snd_usb_mixer_elem_free;
 
-<<<<<<< HEAD
 	strscpy(kctl->id.name, name, sizeof(kctl->id.name));
-=======
-	strlcpy(kctl->id.name, name, sizeof(kctl->id.name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = snd_usb_mixer_add_control(&elem->head, kctl);
 	if (err < 0)
@@ -2005,46 +1997,11 @@ static int scarlett2_mixer_status_create(struct usb_mixer_interface *mixer)
 	return usb_submit_urb(mixer->urb, GFP_KERNEL);
 }
 
-<<<<<<< HEAD
 static int snd_scarlett_gen2_controls_create(struct usb_mixer_interface *mixer,
 					     const struct scarlett2_device_info *info)
 {
 	int err;
 
-=======
-/* Entry point */
-int snd_scarlett_gen2_controls_create(struct usb_mixer_interface *mixer)
-{
-	const struct scarlett2_device_info *info;
-	int err;
-
-	/* only use UAC_VERSION_2 */
-	if (!mixer->protocol)
-		return 0;
-
-	switch (mixer->chip->usb_id) {
-	case USB_ID(0x1235, 0x8203):
-		info = &s6i6_gen2_info;
-		break;
-	case USB_ID(0x1235, 0x8204):
-		info = &s18i8_gen2_info;
-		break;
-	case USB_ID(0x1235, 0x8201):
-		info = &s18i20_gen2_info;
-		break;
-	default: /* device not (yet) supported */
-		return -EINVAL;
-	}
-
-	if (!(mixer->chip->setup & SCARLETT2_ENABLE)) {
-		usb_audio_err(mixer->chip,
-			"Focusrite Scarlett Gen 2 Mixer Driver disabled; "
-			"use options snd_usb_audio device_setup=1 "
-			"to enable and report any issues to g@b4.vu");
-		return 0;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Initialise private data, routing, sequence number */
 	err = scarlett2_init_private(mixer, info);
 	if (err < 0)
@@ -2089,7 +2046,6 @@ int snd_scarlett_gen2_controls_create(struct usb_mixer_interface *mixer)
 
 	return 0;
 }
-<<<<<<< HEAD
 
 int snd_scarlett_gen2_init(struct usb_mixer_interface *mixer)
 {
@@ -2138,5 +2094,3 @@ int snd_scarlett_gen2_init(struct usb_mixer_interface *mixer)
 
 	return err;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

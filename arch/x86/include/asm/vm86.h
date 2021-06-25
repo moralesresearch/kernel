@@ -36,10 +36,6 @@ struct vm86 {
 	unsigned long saved_sp0;
 
 	unsigned long flags;
-<<<<<<< HEAD
-=======
-	unsigned long screen_bitmap;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long cpu_type;
 	struct revectored_struct int_revectored;
 	struct revectored_struct int21_revectored;

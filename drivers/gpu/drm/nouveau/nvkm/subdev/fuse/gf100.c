@@ -47,14 +47,8 @@ gf100_fuse = {
 };
 
 int
-<<<<<<< HEAD
 gf100_fuse_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_fuse **pfuse)
 {
 	return nvkm_fuse_new_(&gf100_fuse, device, type, inst, pfuse);
-=======
-gf100_fuse_new(struct nvkm_device *device, int index, struct nvkm_fuse **pfuse)
-{
-	return nvkm_fuse_new_(&gf100_fuse, device, index, pfuse);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -18,6 +18,7 @@
 #include <linux/usb.h>
 #include <linux/wait.h>
 #include <linux/sched/task.h>
+#include <linux/kcov.h>
 #include <uapi/linux/usbip.h>
 
 #undef pr_fmt
@@ -263,12 +264,9 @@ struct usbip_device {
 	/* lock for status */
 	spinlock_t lock;
 
-<<<<<<< HEAD
 	/* mutex for synchronizing sysfs store paths */
 	struct mutex sysfs_lock;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int sockfd;
 	struct socket *tcp_socket;
 
@@ -283,13 +281,10 @@ struct usbip_device {
 		void (*reset)(struct usbip_device *);
 		void (*unusable)(struct usbip_device *);
 	} eh_ops;
-<<<<<<< HEAD
 
 #ifdef CONFIG_KCOV
 	u64 kcov_handle;
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define kthread_get_run(threadfn, data, namefmt, ...)			   \
@@ -350,7 +345,6 @@ static inline int interface_to_devnum(struct usb_interface *interface)
 	return udev->devnum;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_KCOV
 
 static inline void usbip_kcov_handle_init(struct usbip_device *ud)
@@ -376,6 +370,4 @@ static inline void usbip_kcov_remote_stop(void) { }
 
 #endif /* CONFIG_KCOV */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __USBIP_COMMON_H */

@@ -23,11 +23,7 @@
 	};
 
 	chosen {
-<<<<<<< HEAD
 		bootargs = "earlycon console=ttyS0,115200n8 fw_devlink=on";
-=======
-		bootargs = "earlycon console=ttyS0,115200n8";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stdout-path = "serial0:115200n8";
 	};
 

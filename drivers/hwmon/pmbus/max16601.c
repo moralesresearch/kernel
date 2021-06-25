@@ -1,20 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
-<<<<<<< HEAD
  * Hardware monitoring driver for Maxim MAX16508 and MAX16601.
  *
  * Implementation notes:
  *
  * This chip series supports two rails, VCORE and VSA. Telemetry information
  * for the two rails is reported in two subsequent I2C addresses. The driver
-=======
- * Hardware monitoring driver for Maxim MAX16601
- *
- * Implementation notes:
- *
- * Ths chip supports two rails, VCORE and VSA. Telemetry information for the
- * two rails is reported in two subsequent I2C addresses. The driver
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * instantiates a dummy I2C client at the second I2C address to report
  * information for the VSA rail in a single instance of the driver.
  * Telemetry for the VSA rail is reported to the PMBus core in PMBus page 2.
@@ -40,12 +31,9 @@
 
 #include "pmbus.h"
 
-<<<<<<< HEAD
 enum chips { max16508, max16601 };
 
 #define REG_DEFAULT_NUM_POP	0xc4
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define REG_SETPT_DVID		0xd1
 #define  DAC_10MV_MODE		BIT(4)
 #define REG_IOUT_AVG_PK		0xee
@@ -55,14 +43,10 @@ enum chips { max16508, max16601 };
 #define  CORE_RAIL_INDICATOR	BIT(7)
 #define REG_PHASE_REPORTING	0xf4
 
-<<<<<<< HEAD
 #define MAX16601_NUM_PHASES	8
 
 struct max16601_data {
 	enum chips id;
-=======
-struct max16601_data {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct pmbus_driver_info info;
 	struct i2c_client *vsa;
 	int iout_avg_pkg;
@@ -207,10 +191,7 @@ static int max16601_write_word(struct i2c_client *client, int page, int reg,
 static int max16601_identify(struct i2c_client *client,
 			     struct pmbus_driver_info *info)
 {
-<<<<<<< HEAD
 	struct max16601_data *data = to_max16601_data(info);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int reg;
 
 	reg = i2c_smbus_read_byte_data(client, REG_SETPT_DVID);
@@ -221,7 +202,6 @@ static int max16601_identify(struct i2c_client *client,
 	else
 		info->vrm_version[0] = vr12;
 
-<<<<<<< HEAD
 	if (data->id != max16601)
 		return 0;
 
@@ -237,8 +217,6 @@ static int max16601_identify(struct i2c_client *client,
 	if (reg && reg <= MAX16601_NUM_PHASES)
 		info->phases[0] = reg;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -260,11 +238,7 @@ static struct pmbus_driver_info max16601_info = {
 	.func[2] = PMBUS_HAVE_IIN | PMBUS_HAVE_STATUS_INPUT |
 		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
 		PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP | PMBUS_PAGE_VIRTUAL,
-<<<<<<< HEAD
 	.phases[0] = MAX16601_NUM_PHASES,
-=======
-	.phases[0] = 8,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.pfunc[0] = PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP,
 	.pfunc[1] = PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT,
 	.pfunc[2] = PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP,
@@ -287,7 +261,6 @@ static void max16601_remove(void *_data)
 	i2c_unregister_device(data->vsa);
 }
 
-<<<<<<< HEAD
 static const struct i2c_device_id max16601_id[] = {
 	{"max16508", max16508},
 	{"max16601", max16601},
@@ -315,31 +288,10 @@ static int max16601_get_id(struct i2c_client *client)
 	} else if (!strncmp(buf, "MAX16601", 8)) {
 		id = max16601;
 	} else {
-=======
-static int max16601_probe(struct i2c_client *client)
-{
-	struct device *dev = &client->dev;
-	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
-	struct max16601_data *data;
-	int ret;
-
-	if (!i2c_check_functionality(client->adapter,
-				     I2C_FUNC_SMBUS_READ_BYTE_DATA |
-				     I2C_FUNC_SMBUS_READ_BLOCK_DATA))
-		return -ENODEV;
-
-	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
-	if (ret < 0)
-		return -ENODEV;
-
-	/* PMBUS_IC_DEVICE_ID is expected to return "MAX16601y.xx" */
-	if (ret < 11 || strncmp(buf, "MAX16601", 8)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		buf[ret] = '\0';
 		dev_err(dev, "Unsupported chip '%s'\n", buf);
 		return -ENODEV;
 	}
-<<<<<<< HEAD
 	return id;
 }
 
@@ -364,8 +316,6 @@ static int max16601_probe(struct i2c_client *client)
 		dev_warn(&client->dev,
 			 "Device mismatch: Configured %s (%d), detected %d\n",
 			 id->name, (int) id->driver_data, chip_id);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = i2c_smbus_read_byte_data(client, REG_PHASE_ID);
 	if (ret < 0)
@@ -380,10 +330,7 @@ static int max16601_probe(struct i2c_client *client)
 	if (!data)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	data->id = chip_id;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	data->iout_avg_pkg = 0xfc00;
 	data->vsa = i2c_new_dummy_device(client->adapter, client->addr + 1);
 	if (IS_ERR(data->vsa)) {
@@ -399,16 +346,6 @@ static int max16601_probe(struct i2c_client *client)
 	return pmbus_do_probe(client, &data->info);
 }
 
-<<<<<<< HEAD
-=======
-static const struct i2c_device_id max16601_id[] = {
-	{"max16601", 0},
-	{}
-};
-
-MODULE_DEVICE_TABLE(i2c, max16601_id);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct i2c_driver max16601_driver = {
 	.driver = {
 		   .name = "max16601",
@@ -422,3 +359,4 @@ module_i2c_driver(max16601_driver);
 MODULE_AUTHOR("Guenter Roeck <linux@roeck-us.net>");
 MODULE_DESCRIPTION("PMBus driver for Maxim MAX16601");
 MODULE_LICENSE("GPL v2");
+MODULE_IMPORT_NS(PMBUS);

@@ -68,12 +68,9 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
 {
 	struct drm_device *dev = old_state->dev;
 	struct omap_drm_private *priv = dev->dev_private;
+	bool fence_cookie = dma_fence_begin_signalling();
 
-<<<<<<< HEAD
 	dispc_runtime_get(priv->dispc);
-=======
-	priv->dispc_ops->runtime_get(priv->dispc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Apply the atomic update. */
 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
@@ -94,8 +91,6 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
 		omap_atomic_wait_for_completion(dev, old_state);
 
 		drm_atomic_helper_commit_planes(dev, old_state, 0);
-
-		drm_atomic_helper_commit_hw_done(old_state);
 	} else {
 		/*
 		 * OMAP3 DSS seems to have issues with the work-around above,
@@ -105,9 +100,11 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
 		drm_atomic_helper_commit_planes(dev, old_state, 0);
 
 		drm_atomic_helper_commit_modeset_enables(dev, old_state);
-
-		drm_atomic_helper_commit_hw_done(old_state);
 	}
+
+	drm_atomic_helper_commit_hw_done(old_state);
+
+	dma_fence_end_signalling(fence_cookie);
 
 	/*
 	 * Wait for completion of the page flips to ensure that old buffers
@@ -117,11 +114,7 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
 
 	drm_atomic_helper_cleanup_planes(dev, old_state);
 
-<<<<<<< HEAD
 	dispc_runtime_put(priv->dispc);
-=======
-	priv->dispc_ops->runtime_put(priv->dispc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct drm_mode_config_helper_funcs omap_mode_config_helper_funcs = {
@@ -200,11 +193,7 @@ static int omap_compare_pipelines(const void *a, const void *b)
 static int omap_modeset_init_properties(struct drm_device *dev)
 {
 	struct omap_drm_private *priv = dev->dev_private;
-<<<<<<< HEAD
 	unsigned int num_planes = dispc_get_num_ovls(priv->dispc);
-=======
-	unsigned int num_planes = priv->dispc_ops->get_num_ovls(priv->dispc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	priv->zorder_prop = drm_property_create_range(dev, 0, "zorder", 0,
 						      num_planes - 1);
@@ -218,18 +207,7 @@ static int omap_display_id(struct omap_dss_device *output)
 {
 	struct device_node *node = NULL;
 
-<<<<<<< HEAD
 	if (output->bridge) {
-=======
-	if (output->next) {
-		struct omap_dss_device *display = output;
-
-		while (display->next)
-			display = display->next;
-
-		node = display->dev->of_node;
-	} else if (output->bridge) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct drm_bridge *bridge = output->bridge;
 
 		while (drm_bridge_get_next_bridge(bridge))
@@ -244,13 +222,8 @@ static int omap_display_id(struct omap_dss_device *output)
 static int omap_modeset_init(struct drm_device *dev)
 {
 	struct omap_drm_private *priv = dev->dev_private;
-<<<<<<< HEAD
 	int num_ovls = dispc_get_num_ovls(priv->dispc);
 	int num_mgrs = dispc_get_num_mgrs(priv->dispc);
-=======
-	int num_ovls = priv->dispc_ops->get_num_ovls(priv->dispc);
-	int num_mgrs = priv->dispc_ops->get_num_mgrs(priv->dispc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 	int ret;
 	u32 plane_crtc_mask;
@@ -353,28 +326,12 @@ static int omap_modeset_init(struct drm_device *dev)
 		struct drm_encoder *encoder = pipe->encoder;
 		struct drm_crtc *crtc;
 
-<<<<<<< HEAD
 		pipe->connector = drm_bridge_connector_init(dev, encoder);
 		if (IS_ERR(pipe->connector)) {
 			dev_err(priv->dev,
 				"unable to create bridge connector for %s\n",
 				pipe->output->name);
 			return PTR_ERR(pipe->connector);
-=======
-		if (pipe->output->next) {
-			pipe->connector = omap_connector_init(dev, pipe->output,
-							      encoder);
-			if (!pipe->connector)
-				return -ENOMEM;
-		} else {
-			pipe->connector = drm_bridge_connector_init(dev, encoder);
-			if (IS_ERR(pipe->connector)) {
-				dev_err(priv->dev,
-					"unable to create bridge connector for %s\n",
-					pipe->output->name);
-				return PTR_ERR(pipe->connector);
-			}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		drm_connector_attach_encoder(pipe->connector, encoder);
@@ -598,10 +555,7 @@ static const struct soc_device_attribute omapdrm_soc_devices[] = {
 static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
 {
 	const struct soc_device_attribute *soc;
-<<<<<<< HEAD
 	struct dss_pdata *pdata = dev->platform_data;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_device *ddev;
 	int ret;
 
@@ -616,18 +570,10 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
 	ddev->dev_private = priv;
 
 	priv->dev = dev;
-<<<<<<< HEAD
 	priv->dss = pdata->dss;
 	priv->dispc = dispc_get_dispc(priv->dss);
 
 	priv->dss->mgr_ops_priv = priv;
-=======
-	priv->dss = omapdss_get_dss();
-	priv->dispc = dispc_get_dispc(priv->dss);
-	priv->dispc_ops = dispc_get_ops(priv->dss);
-
-	omap_crtc_pre_init(priv);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	soc = soc_device_match(omapdrm_soc_devices);
 	priv->omaprev = soc ? (unsigned int)soc->data : 0;
@@ -637,13 +583,7 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
 	INIT_LIST_HEAD(&priv->obj_list);
 
 	/* Get memory bandwidth limits */
-<<<<<<< HEAD
 	priv->max_bandwidth = dispc_get_memory_bandwidth_limit(priv->dispc);
-=======
-	if (priv->dispc_ops->get_memory_bandwidth_limit)
-		priv->max_bandwidth =
-			priv->dispc_ops->get_memory_bandwidth_limit(priv->dispc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	omap_gem_init(ddev);
 
@@ -686,10 +626,6 @@ err_gem_deinit:
 	omap_gem_deinit(ddev);
 	destroy_workqueue(priv->wq);
 	omap_disconnect_pipelines(ddev);
-<<<<<<< HEAD
-=======
-	omap_crtc_pre_uninit(priv);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drm_dev_put(ddev);
 	return ret;
 }
@@ -715,10 +651,6 @@ static void omapdrm_cleanup(struct omap_drm_private *priv)
 	destroy_workqueue(priv->wq);
 
 	omap_disconnect_pipelines(ddev);
-<<<<<<< HEAD
-=======
-	omap_crtc_pre_uninit(priv);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_dev_put(ddev);
 }
@@ -728,12 +660,6 @@ static int pdev_probe(struct platform_device *pdev)
 	struct omap_drm_private *priv;
 	int ret;
 
-<<<<<<< HEAD
-=======
-	if (omapdss_is_initialized() == false)
-		return -EPROBE_DEFER;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
 	if (ret) {
 		dev_err(&pdev->dev, "Failed to set the DMA mask\n");
@@ -802,7 +728,6 @@ static struct platform_driver * const drivers[] = {
 
 static int __init omap_drm_init(void)
 {
-<<<<<<< HEAD
 	int r;
 
 	DBG("init");
@@ -818,11 +743,6 @@ static int __init omap_drm_init(void)
 	}
 
 	return 0;
-=======
-	DBG("init");
-
-	return platform_register_drivers(drivers, ARRAY_SIZE(drivers));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __exit omap_drm_fini(void)
@@ -830,7 +750,6 @@ static void __exit omap_drm_fini(void)
 	DBG("fini");
 
 	platform_unregister_drivers(drivers, ARRAY_SIZE(drivers));
-<<<<<<< HEAD
 
 	omap_dss_exit();
 }
@@ -840,15 +759,6 @@ module_exit(omap_drm_fini);
 
 MODULE_AUTHOR("Rob Clark <rob@ti.com>");
 MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
-=======
-}
-
-/* need late_initcall() so we load after dss_driver's are loaded */
-late_initcall(omap_drm_init);
-module_exit(omap_drm_fini);
-
-MODULE_AUTHOR("Rob Clark <rob@ti.com>");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DESCRIPTION("OMAP DRM Display Driver");
 MODULE_ALIAS("platform:" DRIVER_NAME);
 MODULE_LICENSE("GPL v2");

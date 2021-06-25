@@ -1530,25 +1530,16 @@ static noinline void check_store_range(struct xarray *xa)
 
 #ifdef CONFIG_XARRAY_MULTI
 static void check_split_1(struct xarray *xa, unsigned long index,
-<<<<<<< HEAD
 				unsigned int order, unsigned int new_order)
 {
 	XA_STATE_ORDER(xas, xa, index, new_order);
 	unsigned int i;
-=======
-							unsigned int order)
-{
-	XA_STATE(xas, xa, index);
-	void *entry;
-	unsigned int i = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xa_store_order(xa, index, order, xa, GFP_KERNEL);
 
 	xas_split_alloc(&xas, xa, order, GFP_KERNEL);
 	xas_lock(&xas);
 	xas_split(&xas, xa, order);
-<<<<<<< HEAD
 	for (i = 0; i < (1 << order); i += (1 << new_order))
 		__xa_store(xa, index + i, xa_mk_index(index + i), 0);
 	xas_unlock(&xas);
@@ -1557,15 +1548,6 @@ static void check_split_1(struct xarray *xa, unsigned long index,
 		unsigned int val = index + (i & ~((1 << new_order) - 1));
 		XA_BUG_ON(xa, xa_load(xa, index + i) != xa_mk_index(val));
 	}
-=======
-	xas_unlock(&xas);
-
-	xa_for_each(xa, index, entry) {
-		XA_BUG_ON(xa, entry != xa);
-		i++;
-	}
-	XA_BUG_ON(xa, i != 1 << order);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xa_set_mark(xa, index, XA_MARK_0);
 	XA_BUG_ON(xa, !xa_get_mark(xa, index, XA_MARK_0));
@@ -1575,26 +1557,16 @@ static void check_split_1(struct xarray *xa, unsigned long index,
 
 static noinline void check_split(struct xarray *xa)
 {
-<<<<<<< HEAD
 	unsigned int order, new_order;
-=======
-	unsigned int order;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	XA_BUG_ON(xa, !xa_empty(xa));
 
 	for (order = 1; order < 2 * XA_CHUNK_SHIFT; order++) {
-<<<<<<< HEAD
 		for (new_order = 0; new_order < order; new_order++) {
 			check_split_1(xa, 0, order, new_order);
 			check_split_1(xa, 1UL << order, order, new_order);
 			check_split_1(xa, 3UL << order, order, new_order);
 		}
-=======
-		check_split_1(xa, 0, order);
-		check_split_1(xa, 1UL << order, order);
-		check_split_1(xa, 3UL << order, order);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 #else

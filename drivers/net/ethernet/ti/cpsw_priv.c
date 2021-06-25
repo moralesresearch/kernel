@@ -1305,29 +1305,21 @@ int cpsw_xdp_tx_frame(struct cpsw_priv *priv, struct xdp_frame *xdpf,
 		ret = cpdma_chan_submit_mapped(txch, cpsw_xdpf_to_handle(xdpf),
 					       dma, xdpf->len, port);
 	} else {
-		if (sizeof(*xmeta) > xdpf->headroom) {
-			xdp_return_frame_rx_napi(xdpf);
+		if (sizeof(*xmeta) > xdpf->headroom)
 			return -EINVAL;
-		}
 
 		ret = cpdma_chan_submit(txch, cpsw_xdpf_to_handle(xdpf),
 					xdpf->data, xdpf->len, port);
 	}
 
-	if (ret) {
+	if (ret)
 		priv->ndev->stats.tx_dropped++;
-		xdp_return_frame_rx_napi(xdpf);
-	}
 
 	return ret;
 }
 
 int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
-<<<<<<< HEAD
 		 struct page *page, int port, int *len)
-=======
-		 struct page *page, int port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cpsw_common *cpsw = priv->cpsw;
 	struct net_device *ndev = priv->ndev;
@@ -1345,7 +1337,6 @@ int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
 	}
 
 	act = bpf_prog_run_xdp(prog, xdp);
-<<<<<<< HEAD
 	/* XDP prog might have changed packet data and boundaries */
 	*len = xdp->data_end - xdp->data;
 
@@ -1353,18 +1344,13 @@ int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
 	case XDP_PASS:
 		ret = CPSW_XDP_PASS;
 		goto out;
-=======
-	switch (act) {
-	case XDP_PASS:
-		ret = CPSW_XDP_PASS;
-		break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case XDP_TX:
 		xdpf = xdp_convert_buff_to_frame(xdp);
 		if (unlikely(!xdpf))
 			goto drop;
 
-		cpsw_xdp_tx_frame(priv, xdpf, page, port);
+		if (cpsw_xdp_tx_frame(priv, xdpf, page, port))
+			xdp_return_frame_rx_napi(xdpf);
 		break;
 	case XDP_REDIRECT:
 		if (xdp_do_redirect(ndev, xdp, prog))
@@ -1384,7 +1370,6 @@ int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
 		trace_xdp_exception(ndev, prog, act);
 		fallthrough;	/* handle aborts by dropping packet */
 	case XDP_DROP:
-<<<<<<< HEAD
 		ndev->stats.rx_bytes += *len;
 		ndev->stats.rx_packets++;
 		goto drop;
@@ -1392,10 +1377,6 @@ int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
 
 	ndev->stats.rx_bytes += *len;
 	ndev->stats.rx_packets++;
-=======
-		goto drop;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	rcu_read_unlock();
 	return ret;

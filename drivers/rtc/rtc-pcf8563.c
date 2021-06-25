@@ -597,10 +597,7 @@ static int pcf8563_probe(struct i2c_client *client,
 static const struct i2c_device_id pcf8563_id[] = {
 	{ "pcf8563", 0 },
 	{ "rtc8564", 0 },
-<<<<<<< HEAD
 	{ "pca8565", 0 },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, pcf8563_id);
@@ -610,10 +607,7 @@ static const struct of_device_id pcf8563_of_match[] = {
 	{ .compatible = "nxp,pcf8563" },
 	{ .compatible = "epson,rtc8564" },
 	{ .compatible = "microcrystal,rv8564" },
-<<<<<<< HEAD
 	{ .compatible = "nxp,pca8565" },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 MODULE_DEVICE_TABLE(of, pcf8563_of_match);

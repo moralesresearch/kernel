@@ -294,11 +294,7 @@ int
 xfs_mru_cache_init(void)
 {
 	xfs_mru_reap_wq = alloc_workqueue("xfs_mru_cache",
-<<<<<<< HEAD
 			XFS_WQFLAGS(WQ_MEM_RECLAIM | WQ_FREEZABLE), 1);
-=======
-				WQ_MEM_RECLAIM|WQ_FREEZABLE, 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!xfs_mru_reap_wq)
 		return -ENOMEM;
 	return 0;

@@ -43,7 +43,6 @@ config IDLE_INJECT
 	  CPUs for power capping. Idle period can be injected
 	  synchronously on a set of specified CPUs or alternatively
 	  on a per CPU basis.
-<<<<<<< HEAD
 
 config DTPM
 	bool "Power capping for Dynamic Thermal Power Management (EXPERIMENTAL)"
@@ -57,6 +56,4 @@ config DTPM_CPU
 	help
 	  This enables support for CPU power limitation based on
 	  energy model.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif

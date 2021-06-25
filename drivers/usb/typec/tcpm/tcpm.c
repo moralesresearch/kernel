@@ -76,16 +76,8 @@
 	S(SNK_HARD_RESET_SINK_ON),		\
 						\
 	S(SOFT_RESET),				\
-<<<<<<< HEAD
 	S(SRC_SOFT_RESET_WAIT_SNK_TX),		\
 	S(SNK_SOFT_RESET),			\
-=======
-<<<<<<< HEAD
-	S(SRC_SOFT_RESET_WAIT_SNK_TX),		\
-	S(SNK_SOFT_RESET),			\
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	S(SOFT_RESET_SEND),			\
 						\
 	S(DR_SWAP_ACCEPT),			\
@@ -149,10 +141,6 @@
 						\
 	S(ERROR_RECOVERY),			\
 	S(PORT_RESET),				\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	S(PORT_RESET_WAIT_OFF),			\
 						\
 	S(AMS_START),				\
@@ -193,12 +181,6 @@
 	S(STRUCTURED_VDMS),			\
 	S(COUNTRY_INFO),			\
 	S(COUNTRY_CODES)
-<<<<<<< HEAD
-=======
-=======
-	S(PORT_RESET_WAIT_OFF)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define GENERATE_ENUM(e)	e
 #define GENERATE_STRING(s)	#s
@@ -211,10 +193,6 @@ static const char * const tcpm_states[] = {
 	FOREACH_STATE(GENERATE_STRING)
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum tcpm_ams {
 	FOREACH_AMS(GENERATE_ENUM)
 };
@@ -223,11 +201,6 @@ static const char * const tcpm_ams_str[] = {
 	FOREACH_AMS(GENERATE_STRING)
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum vdm_states {
 	VDM_STATE_ERR_BUSY = -3,
 	VDM_STATE_ERR_SEND = -2,
@@ -237,14 +210,7 @@ enum vdm_states {
 	VDM_STATE_READY = 1,
 	VDM_STATE_BUSY = 2,
 	VDM_STATE_WAIT_RSP_BUSY = 3,
-<<<<<<< HEAD
 	VDM_STATE_SEND_MESSAGE = 4,
-=======
-<<<<<<< HEAD
-	VDM_STATE_SEND_MESSAGE = 4,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum pd_msg_request {
@@ -293,6 +259,7 @@ enum frs_typec_current {
 #define ALTMODE_DISCOVERY_MAX	(SVID_DISCOVERY_MAX * MODE_DISCOVERY_MAX)
 
 #define GET_SINK_CAP_RETRY_MS	100
+#define SEND_DISCOVER_RETRY_MS	100
 
 struct pd_mode_data {
 	int svid_index;		/* current SVID index		*/
@@ -302,7 +269,6 @@ struct pd_mode_data {
 	struct typec_altmode_desc altmode_desc[ALTMODE_DISCOVERY_MAX];
 };
 
-<<<<<<< HEAD
 /*
  * @min_volt: Actual min voltage at the local port
  * @req_min_volt: Requested min voltage to the port partner
@@ -324,14 +290,6 @@ struct pd_pps_data {
 	u32 req_max_curr;
 	u32 req_out_volt;
 	u32 req_op_curr;
-=======
-struct pd_pps_data {
-	u32 min_volt;
-	u32 max_volt;
-	u32 max_curr;
-	u32 out_volt;
-	u32 op_curr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool supported;
 	bool active;
 };
@@ -409,15 +367,10 @@ struct tcpm_port {
 	struct kthread_work vdm_state_machine;
 	struct hrtimer enable_frs_timer;
 	struct kthread_work enable_frs;
+	struct hrtimer send_discover_timer;
+	struct kthread_work send_discover_work;
 	bool state_machine_running;
-<<<<<<< HEAD
 	bool vdm_sm_running;
-=======
-<<<<<<< HEAD
-	bool vdm_sm_running;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct completion tx_complete;
 	enum tcpm_transmit_status tx_status;
@@ -448,20 +401,18 @@ struct tcpm_port {
 	unsigned int nr_src_pdo;
 	u32 snk_pdo[PDO_MAX_OBJECTS];
 	unsigned int nr_snk_pdo;
+	u32 snk_vdo_v1[VDO_MAX_OBJECTS];
+	unsigned int nr_snk_vdo_v1;
 	u32 snk_vdo[VDO_MAX_OBJECTS];
 	unsigned int nr_snk_vdo;
 
 	unsigned int operating_snk_mw;
 	bool update_sink_caps;
 
-<<<<<<< HEAD
 	/* Requested current / voltage to the port partner */
 	u32 req_current_limit;
 	u32 req_supply_voltage;
 	/* Actual current / voltage limit of the local port */
-=======
-	/* Requested current / voltage */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 current_limit;
 	u32 supply_voltage;
 
@@ -504,24 +455,21 @@ struct tcpm_port {
 	/* Sink caps have been queried */
 	bool sink_cap_done;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Collision Avoidance and Atomic Message Sequence */
 	enum tcpm_state upcoming_state;
 	enum tcpm_ams ams;
 	enum tcpm_ams next_ams;
 	bool in_ams;
 
-<<<<<<< HEAD
 	/* Auto vbus discharge status */
 	bool auto_vbus_discharge_enabled;
 
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	/*
+	 * When set, port requests PD_P_SNK_STDBY_MW upon entering SNK_DISCOVERY and
+	 * the actual currrent limit after RX of PD_CTRL_PSRDY for PD link,
+	 * SNK_READY for non-pd link.
+	 */
+	bool slow_charger_loop;
 #ifdef CONFIG_DEBUG_FS
 	struct dentry *dentry;
 	struct mutex logbuffer_lock;	/* log buffer access lock */
@@ -537,21 +485,12 @@ struct pd_rx_event {
 	struct pd_message msg;
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char * const pd_rev[] = {
 	[PD_REV10]		= "rev1",
 	[PD_REV20]		= "rev2",
 	[PD_REV30]		= "rev3",
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define tcpm_cc_is_sink(cc) \
 	((cc) == TYPEC_CC_RP_DEF || (cc) == TYPEC_CC_RP_1_5 || \
 	 (cc) == TYPEC_CC_RP_3_0)
@@ -596,22 +535,13 @@ static const char * const pd_rev[] = {
 	((port)->typec_caps.data == TYPEC_PORT_DFP ? \
 	TYPEC_HOST : TYPEC_DEVICE)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define tcpm_sink_tx_ok(port) \
 	(tcpm_port_is_sink(port) && \
 	((port)->cc1 == TYPEC_CC_RP_3_0 || (port)->cc2 == TYPEC_CC_RP_3_0))
 
-<<<<<<< HEAD
 #define tcpm_wait_for_discharge(port) \
 	(((port)->auto_vbus_discharge_enabled && !(port)->vbus_vsafe0v) ? PD_T_SAFE_0V : 0)
 
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum tcpm_state tcpm_default_state(struct tcpm_port *port)
 {
 	if (port->port_type == TYPEC_PORT_DRP) {
@@ -808,8 +738,9 @@ static void tcpm_debugfs_init(struct tcpm_port *port)
 
 	mutex_init(&port->logbuffer_lock);
 	snprintf(name, NAME_MAX, "tcpm-%s", dev_name(port->dev));
-	port->dentry = debugfs_create_file(name, S_IFREG | 0444, usb_debug_root,
-					   port, &tcpm_debug_fops);
+	port->dentry = debugfs_create_dir(name, usb_debug_root);
+	debugfs_create_file("log", S_IFREG | 0444, port->dentry, port,
+			    &tcpm_debug_fops);
 }
 
 static void tcpm_debugfs_exit(struct tcpm_port *port)
@@ -838,10 +769,6 @@ static void tcpm_debugfs_exit(const struct tcpm_port *port) { }
 
 #endif
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcpm_set_cc(struct tcpm_port *port, enum typec_cc_status cc)
 {
 	tcpm_log(port, "cc:=%d", cc);
@@ -882,10 +809,8 @@ static enum typec_cc_status tcpm_rp_cc(struct tcpm_port *port)
 	return TYPEC_CC_RP_DEF;
 }
 
-static int tcpm_ams_finish(struct tcpm_port *port)
+static void tcpm_ams_finish(struct tcpm_port *port)
 {
-	int ret = 0;
-
 	tcpm_log(port, "AMS %s finished", tcpm_ams_str[port->ams]);
 
 	if (port->pd_capable && port->pwr_role == TYPEC_SOURCE) {
@@ -899,15 +824,8 @@ static int tcpm_ams_finish(struct tcpm_port *port)
 
 	port->in_ams = false;
 	port->ams = NONE_AMS;
-
-	return ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tcpm_pd_transmit(struct tcpm_port *port,
 			    enum tcpm_transmit_type type,
 			    const struct pd_message *msg)
@@ -935,10 +853,6 @@ static int tcpm_pd_transmit(struct tcpm_port *port,
 	switch (port->tx_status) {
 	case TCPC_TX_SUCCESS:
 		port->message_id = (port->message_id + 1) & PD_HEADER_ID_MASK;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * USB PD rev 2.0, 8.3.2.2.1:
 		 * USB PD rev 3.0, 8.3.2.1.3:
@@ -963,18 +877,6 @@ static int tcpm_pd_transmit(struct tcpm_port *port,
 		tcpm_ams_finish(port);
 
 	return ret;
-<<<<<<< HEAD
-=======
-=======
-		return 0;
-	case TCPC_TX_DISCARDED:
-		return -EAGAIN;
-	case TCPC_TX_FAILED:
-	default:
-		return -EIO;
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void tcpm_pd_transmit_complete(struct tcpm_port *port,
@@ -1080,45 +982,6 @@ static int tcpm_set_current_limit(struct tcpm_port *port, u32 max_ma, u32 mv)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-/*
- * Determine RP value to set based on maximum current supported
- * by a port if configured as source.
- * Returns CC value to report to link partner.
- */
-static enum typec_cc_status tcpm_rp_cc(struct tcpm_port *port)
-{
-	const u32 *src_pdo = port->src_pdo;
-	int nr_pdo = port->nr_src_pdo;
-	int i;
-
-	/*
-	 * Search for first entry with matching voltage.
-	 * It should report the maximum supported current.
-	 */
-	for (i = 0; i < nr_pdo; i++) {
-		const u32 pdo = src_pdo[i];
-
-		if (pdo_type(pdo) == PDO_TYPE_FIXED &&
-		    pdo_fixed_voltage(pdo) == 5000) {
-			unsigned int curr = pdo_max_current(pdo);
-
-			if (curr >= 3000)
-				return TYPEC_CC_RP_3_0;
-			else if (curr >= 1500)
-				return TYPEC_CC_RP_1_5;
-			return TYPEC_CC_RP_DEF;
-		}
-	}
-
-	return TYPEC_CC_RP_DEF;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tcpm_set_attached_state(struct tcpm_port *port, bool attached)
 {
 	return port->tcpc->set_roles(port->tcpc, attached, port->pwr_role,
@@ -1193,10 +1056,6 @@ static int tcpm_set_pwr_role(struct tcpm_port *port, enum typec_role role)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Transform the PDO to be compliant to PD rev2.0.
  * Return 0 if the PDO type is not defined in PD rev2.0.
@@ -1238,18 +1097,6 @@ static int tcpm_pd_send_source_caps(struct tcpm_port *port)
 	}
 
 	if (!nr_pdo) {
-<<<<<<< HEAD
-=======
-=======
-static int tcpm_pd_send_source_caps(struct tcpm_port *port)
-{
-	struct pd_message msg;
-	int i;
-
-	memset(&msg, 0, sizeof(msg));
-	if (!port->nr_src_pdo) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* No source capabilities defined, sink only */
 		msg.header = PD_HEADER_LE(PD_CTRL_REJECT,
 					  port->pwr_role,
@@ -1262,20 +1109,8 @@ static int tcpm_pd_send_source_caps(struct tcpm_port *port)
 					  port->data_role,
 					  port->negotiated_rev,
 					  port->message_id,
-<<<<<<< HEAD
 					  nr_pdo);
 	}
-=======
-<<<<<<< HEAD
-					  nr_pdo);
-	}
-=======
-					  port->nr_src_pdo);
-	}
-	for (i = 0; i < port->nr_src_pdo; i++)
-		msg.payload[i] = cpu_to_le32(port->src_pdo[i]);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
 }
@@ -1283,10 +1118,6 @@ static int tcpm_pd_send_source_caps(struct tcpm_port *port)
 static int tcpm_pd_send_sink_caps(struct tcpm_port *port)
 {
 	struct pd_message msg;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 pdo;
 	unsigned int i, nr_pdo = 0;
 
@@ -1303,15 +1134,6 @@ static int tcpm_pd_send_sink_caps(struct tcpm_port *port)
 	}
 
 	if (!nr_pdo) {
-<<<<<<< HEAD
-=======
-=======
-	int i;
-
-	memset(&msg, 0, sizeof(msg));
-	if (!port->nr_snk_pdo) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* No sink capabilities defined, source only */
 		msg.header = PD_HEADER_LE(PD_CTRL_REJECT,
 					  port->pwr_role,
@@ -1324,20 +1146,8 @@ static int tcpm_pd_send_sink_caps(struct tcpm_port *port)
 					  port->data_role,
 					  port->negotiated_rev,
 					  port->message_id,
-<<<<<<< HEAD
 					  nr_pdo);
 	}
-=======
-<<<<<<< HEAD
-					  nr_pdo);
-	}
-=======
-					  port->nr_snk_pdo);
-	}
-	for (i = 0; i < port->nr_snk_pdo; i++)
-		msg.payload[i] = cpu_to_le32(port->snk_pdo[i]);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
 }
@@ -1373,44 +1183,31 @@ static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int del
 	}
 }
 
+static void mod_send_discover_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
+{
+	if (delay_ms) {
+		hrtimer_start(&port->send_discover_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
+	} else {
+		hrtimer_cancel(&port->send_discover_timer);
+		kthread_queue_work(port->wq, &port->send_discover_work);
+	}
+}
+
 static void tcpm_set_state(struct tcpm_port *port, enum tcpm_state state,
 			   unsigned int delay_ms)
 {
 	if (delay_ms) {
-<<<<<<< HEAD
 		tcpm_log(port, "pending state change %s -> %s @ %u ms [%s %s]",
 			 tcpm_states[port->state], tcpm_states[state], delay_ms,
 			 pd_rev[port->negotiated_rev], tcpm_ams_str[port->ams]);
-=======
-<<<<<<< HEAD
-		tcpm_log(port, "pending state change %s -> %s @ %u ms [%s %s]",
-			 tcpm_states[port->state], tcpm_states[state], delay_ms,
-			 pd_rev[port->negotiated_rev], tcpm_ams_str[port->ams]);
-=======
-		tcpm_log(port, "pending state change %s -> %s @ %u ms",
-			 tcpm_states[port->state], tcpm_states[state],
-			 delay_ms);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->delayed_state = state;
 		mod_tcpm_delayed_work(port, delay_ms);
 		port->delayed_runtime = ktime_add(ktime_get(), ms_to_ktime(delay_ms));
 		port->delay_ms = delay_ms;
 	} else {
-<<<<<<< HEAD
 		tcpm_log(port, "state change %s -> %s [%s %s]",
 			 tcpm_states[port->state], tcpm_states[state],
 			 pd_rev[port->negotiated_rev], tcpm_ams_str[port->ams]);
-=======
-<<<<<<< HEAD
-		tcpm_log(port, "state change %s -> %s [%s %s]",
-			 tcpm_states[port->state], tcpm_states[state],
-			 pd_rev[port->negotiated_rev], tcpm_ams_str[port->ams]);
-=======
-		tcpm_log(port, "state change %s -> %s",
-			 tcpm_states[port->state], tcpm_states[state]);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->delayed_state = INVALID_STATE;
 		port->prev_state = port->state;
 		port->state = state;
@@ -1432,24 +1229,11 @@ static void tcpm_set_state_cond(struct tcpm_port *port, enum tcpm_state state,
 		tcpm_set_state(port, state, delay_ms);
 	else
 		tcpm_log(port,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 "skipped %sstate change %s -> %s [%u ms], context state %s [%s %s]",
 			 delay_ms ? "delayed " : "",
 			 tcpm_states[port->state], tcpm_states[state],
 			 delay_ms, tcpm_states[port->enter_state],
 			 pd_rev[port->negotiated_rev], tcpm_ams_str[port->ams]);
-<<<<<<< HEAD
-=======
-=======
-			 "skipped %sstate change %s -> %s [%u ms], context state %s",
-			 delay_ms ? "delayed " : "",
-			 tcpm_states[port->state], tcpm_states[state],
-			 delay_ms, tcpm_states[port->enter_state]);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void tcpm_queue_message(struct tcpm_port *port,
@@ -1459,10 +1243,6 @@ static void tcpm_queue_message(struct tcpm_port *port,
 	mod_tcpm_delayed_work(port, 0);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool tcpm_vdm_ams(struct tcpm_port *port)
 {
 	switch (port->ams) {
@@ -1606,11 +1386,6 @@ static int tcpm_ams_start(struct tcpm_port *port, enum tcpm_ams ams)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * VDM/VDO handling functions
  */
@@ -1743,21 +1518,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			const u32 *p, int cnt, u32 *response,
 			enum adev_actions *adev_action)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct typec_port *typec = port->typec_port;
 	struct typec_altmode *pdev;
 	struct pd_mode_data *modep;
 	int svdm_version;
-<<<<<<< HEAD
-=======
-=======
-	struct typec_altmode *pdev;
-	struct pd_mode_data *modep;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rlen = 0;
 	int cmd_type;
 	int cmd;
@@ -1774,24 +1538,14 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
 				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	svdm_version = typec_get_negotiated_svdm_version(typec);
 	if (svdm_version < 0)
 		return 0;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (cmd_type) {
 	case CMDT_INIT:
 		switch (cmd) {
 		case CMD_DISCOVER_IDENT:
-<<<<<<< HEAD
 			if (PD_VDO_VID(p[0]) != USB_SID_PD)
 				break;
 
@@ -1808,47 +1562,20 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			 * "wrong configuation" or "Unrecognized"
 			 */
 			if ((port->data_role == TYPEC_DEVICE || svdm_version >= SVDM_VER_2_0) &&
-=======
-<<<<<<< HEAD
-			if (PD_VDO_VID(p[0]) != USB_SID_PD)
-				break;
+			    port->nr_snk_vdo) {
+				if (svdm_version < SVDM_VER_2_0) {
+					for (i = 0; i < port->nr_snk_vdo_v1; i++)
+						response[i + 1] = port->snk_vdo_v1[i];
+					rlen = port->nr_snk_vdo_v1 + 1;
 
-			if (PD_VDO_SVDM_VER(p[0]) < svdm_version)
-				typec_partner_set_svdm_version(port->partner,
-							       PD_VDO_SVDM_VER(p[0]));
-			/* 6.4.4.3.1: Only respond as UFP (device) */
-			if (port->data_role == TYPEC_DEVICE &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-			    port->nr_snk_vdo) {
-				/*
-				 * Product Type DFP and Connector Type are not defined in SVDM
-				 * version 1.0 and shall be set to zero.
-				 */
-<<<<<<< HEAD
-				if (svdm_version < SVDM_VER_2_0)
-=======
-				if (typec_get_negotiated_svdm_version(typec) < SVDM_VER_2_0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-					response[1] = port->snk_vdo[0] & ~IDH_DFP_MASK
-						      & ~IDH_CONN_MASK;
-				else
-					response[1] = port->snk_vdo[0];
-				for (i = 1; i <  port->nr_snk_vdo; i++)
-<<<<<<< HEAD
-=======
-=======
-			/* 6.4.4.3.1: Only respond as UFP (device) */
-			if (port->data_role == TYPEC_DEVICE &&
-			    port->nr_snk_vdo) {
-				for (i = 0; i <  port->nr_snk_vdo; i++)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-					response[i + 1] = port->snk_vdo[i];
-				rlen = port->nr_snk_vdo + 1;
+				} else {
+					for (i = 0; i < port->nr_snk_vdo; i++)
+						response[i + 1] = port->snk_vdo[i];
+					rlen = port->nr_snk_vdo + 1;
+				}
 			}
 			break;
 		case CMD_DISCOVER_SVID:
-<<<<<<< HEAD
 			port->ams = DISCOVER_SVIDS;
 			break;
 		case CMD_DISCOVER_MODES:
@@ -1859,14 +1586,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			break;
 		case CMD_EXIT_MODE:
 			port->ams = DFP_TO_UFP_EXIT_MODE;
-=======
-			break;
-		case CMD_DISCOVER_MODES:
-			break;
-		case CMD_ENTER_MODE:
-			break;
-		case CMD_EXIT_MODE:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case CMD_ATTENTION:
 			/* Attention command does not have response */
@@ -1884,26 +1603,14 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			response[0] = p[0] | VDO_CMDT(CMDT_RSP_BUSY);
 			rlen = 1;
 		}
-<<<<<<< HEAD
 		response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
 			      (VDO_SVDM_VERS(typec_get_negotiated_svdm_version(typec)));
-=======
-<<<<<<< HEAD
-		response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
-			      (VDO_SVDM_VERS(typec_get_negotiated_svdm_version(typec)));
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CMDT_RSP_ACK:
 		/* silently drop message if we are not connected */
 		if (IS_ERR_OR_NULL(port->partner))
 			break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_ams_finish(port);
 
 		switch (cmd) {
@@ -1915,39 +1622,15 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			svdm_consume_identity(port, p, cnt);
 			response[0] = VDO(USB_SID_PD, 1, typec_get_negotiated_svdm_version(typec),
 					  CMD_DISCOVER_SVID);
-<<<<<<< HEAD
-=======
-=======
-		switch (cmd) {
-		case CMD_DISCOVER_IDENT:
-			/* 6.4.4.3.1 */
-			svdm_consume_identity(port, p, cnt);
-			response[0] = VDO(USB_SID_PD, 1, CMD_DISCOVER_SVID);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rlen = 1;
 			break;
 		case CMD_DISCOVER_SVID:
 			/* 6.4.4.3.2 */
 			if (svdm_consume_svids(port, p, cnt)) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				response[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
 				rlen = 1;
 			} else if (modep->nsvids && supports_modal(port)) {
 				response[0] = VDO(modep->svids[0], 1, svdm_version,
-<<<<<<< HEAD
-=======
-=======
-				response[0] = VDO(USB_SID_PD, 1,
-						  CMD_DISCOVER_SVID);
-				rlen = 1;
-			} else if (modep->nsvids && supports_modal(port)) {
-				response[0] = VDO(modep->svids[0], 1,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						  CMD_DISCOVER_MODES);
 				rlen = 1;
 			}
@@ -1958,24 +1641,11 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			modep->svid_index++;
 			if (modep->svid_index < modep->nsvids) {
 				u16 svid = modep->svids[modep->svid_index];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				response[0] = VDO(svid, 1, svdm_version, CMD_DISCOVER_MODES);
 				rlen = 1;
 			} else {
 				tcpm_register_partner_altmodes(port);
 				port->vdm_sm_running = false;
-<<<<<<< HEAD
-=======
-=======
-				response[0] = VDO(svid, 1, CMD_DISCOVER_MODES);
-				rlen = 1;
-			} else {
-				tcpm_register_partner_altmodes(port);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			break;
 		case CMD_ENTER_MODE:
@@ -1992,10 +1662,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 				return 0;
 			}
 			break;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
 			break;
 		default:
@@ -2004,20 +1670,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 			rlen = 1;
 			response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
 				      (VDO_SVDM_VERS(svdm_version));
-<<<<<<< HEAD
-=======
-=======
-		default:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		break;
 	case CMDT_RSP_NAK:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_ams_finish(port);
 		switch (cmd) {
 		case CMD_DISCOVER_IDENT:
@@ -2025,21 +1681,11 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 		case CMD_DISCOVER_MODES:
 		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
 			break;
-<<<<<<< HEAD
-=======
-=======
-		switch (cmd) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case CMD_ENTER_MODE:
 			/* Back to USB Operation */
 			*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
 			return 0;
 		default:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Unrecognized SVDM */
 			response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
 			rlen = 1;
@@ -2055,15 +1701,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
 		response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
 			      (VDO_SVDM_VERS(svdm_version));
 		port->vdm_sm_running = false;
-<<<<<<< HEAD
-=======
-=======
-			break;
-		}
-		break;
-	default:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -2099,23 +1736,12 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
 		port->vdm_state = VDM_STATE_DONE;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (PD_VDO_SVDM(p[0])) {
 		rlen = tcpm_pd_svdm(port, adev, p, cnt, response, &adev_action);
 	} else {
 		if (port->negotiated_rev >= PD_REV30)
 			tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
 	}
-<<<<<<< HEAD
-=======
-=======
-	if (PD_VDO_SVDM(p[0]))
-		rlen = tcpm_pd_svdm(port, adev, p, cnt, response, &adev_action);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We are done with any state stored in the port struct now, except
@@ -2151,10 +1777,6 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
 			break;
 		case ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL:
 			if (typec_altmode_vdm(adev, p[0], &p[1], cnt)) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				int svdm_version = typec_get_negotiated_svdm_version(
 									port->typec_port);
 				if (svdm_version < 0)
@@ -2162,12 +1784,6 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
 
 				response[0] = VDO(adev->svid, 1, svdm_version,
 						  CMD_EXIT_MODE);
-<<<<<<< HEAD
-=======
-=======
-				response[0] = VDO(adev->svid, 1, CMD_EXIT_MODE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				response[0] |= VDO_OPOS(adev->mode);
 				rlen = 1;
 			}
@@ -2194,39 +1810,19 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
 static void tcpm_send_vdm(struct tcpm_port *port, u32 vid, int cmd,
 			  const u32 *data, int count)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
 	u32 header;
 
 	if (svdm_version < 0)
 		return;
 
-<<<<<<< HEAD
-=======
-=======
-	u32 header;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (WARN_ON(count > VDO_MAX_SIZE - 1))
 		count = VDO_MAX_SIZE - 1;
 
 	/* set VDM header with VID & CMD */
 	header = VDO(vid, ((vid & USB_SID_PD) == USB_SID_PD) ?
-<<<<<<< HEAD
 			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION),
 			svdm_version, cmd);
-=======
-<<<<<<< HEAD
-			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION),
-			svdm_version, cmd);
-=======
-			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION), cmd);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcpm_queue_vdm(port, header, data, count);
 }
 
@@ -2259,17 +1855,8 @@ static unsigned int vdm_ready_timeout(u32 vdm_hdr)
 static void vdm_run_state_machine(struct tcpm_port *port)
 {
 	struct pd_message msg;
-<<<<<<< HEAD
 	int i, res = 0;
 	u32 vdo_hdr = port->vdo_data[0];
-=======
-<<<<<<< HEAD
-	int i, res = 0;
-	u32 vdo_hdr = port->vdo_data[0];
-=======
-	int i, res;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (port->vdm_state) {
 	case VDM_STATE_READY:
@@ -2286,10 +1873,6 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 		if (port->state != SRC_READY && port->state != SNK_READY)
 			break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* TODO: AMS operation for Unstructured VDM */
 		if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMDT(vdo_hdr) == CMDT_INIT) {
 			switch (PD_VDO_CMD(vdo_hdr)) {
@@ -2297,6 +1880,9 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 				res = tcpm_ams_start(port, DISCOVER_IDENTITY);
 				if (res == 0)
 					port->send_discover = false;
+				else if (res == -EAGAIN)
+					mod_send_discover_delayed_work(port,
+								       SEND_DISCOVER_RETRY_MS);
 				break;
 			case CMD_DISCOVER_SVID:
 				res = tcpm_ams_start(port, DISCOVER_SVIDS);
@@ -2322,10 +1908,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 			}
 
 			if (res < 0) {
-<<<<<<< HEAD
-=======
-				port->vdm_sm_running = false;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+				port->vdm_state = VDM_STATE_ERR_BUSY;
 				return;
 			}
 		}
@@ -2336,53 +1919,17 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 					    PD_VDO_SVDM(vdo_hdr) &&
 					    PD_VDO_CMDT(vdo_hdr) == CMDT_INIT) ?
 					   PD_T_SINK_TX : 0);
-<<<<<<< HEAD
-=======
-=======
-		/* Prepare and send VDM */
-		memset(&msg, 0, sizeof(msg));
-		msg.header = PD_HEADER_LE(PD_DATA_VENDOR_DEF,
-					  port->pwr_role,
-					  port->data_role,
-					  port->negotiated_rev,
-					  port->message_id, port->vdo_count);
-		for (i = 0; i < port->vdo_count; i++)
-			msg.payload[i] = cpu_to_le32(port->vdo_data[i]);
-		res = tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
-		if (res < 0) {
-			port->vdm_state = VDM_STATE_ERR_SEND;
-		} else {
-			unsigned long timeout;
-
-			port->vdm_retries = 0;
-			port->vdm_state = VDM_STATE_BUSY;
-			timeout = vdm_ready_timeout(port->vdo_data[0]);
-			mod_vdm_delayed_work(port, timeout);
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case VDM_STATE_WAIT_RSP_BUSY:
 		port->vdo_data[0] = port->vdo_retry;
 		port->vdo_count = 1;
 		port->vdm_state = VDM_STATE_READY;
-<<<<<<< HEAD
 		tcpm_ams_finish(port);
 		break;
 	case VDM_STATE_BUSY:
 		port->vdm_state = VDM_STATE_ERR_TMOUT;
 		if (port->ams != NONE_AMS)
 			tcpm_ams_finish(port);
-=======
-		break;
-	case VDM_STATE_BUSY:
-		port->vdm_state = VDM_STATE_ERR_TMOUT;
-<<<<<<< HEAD
-		if (port->ams != NONE_AMS)
-			tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case VDM_STATE_ERR_SEND:
 		/*
@@ -2395,13 +1942,9 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 			tcpm_log(port, "VDM Tx error, retry");
 			port->vdm_retries++;
 			port->vdm_state = VDM_STATE_READY;
-<<<<<<< HEAD
 			if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMDT(vdo_hdr) == CMDT_INIT)
 				tcpm_ams_finish(port);
 		} else {
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_ams_finish(port);
 		}
 		break;
@@ -2425,11 +1968,6 @@ static void vdm_run_state_machine(struct tcpm_port *port)
 			port->vdm_state = VDM_STATE_BUSY;
 			timeout = vdm_ready_timeout(vdo_hdr);
 			mod_vdm_delayed_work(port, timeout);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	default:
@@ -2452,23 +1990,11 @@ static void vdm_state_machine_work(struct kthread_work *work)
 		prev_state = port->vdm_state;
 		vdm_run_state_machine(port);
 	} while (port->vdm_state != prev_state &&
-<<<<<<< HEAD
 		 port->vdm_state != VDM_STATE_BUSY &&
 		 port->vdm_state != VDM_STATE_SEND_MESSAGE);
 
 	if (port->vdm_state < VDM_STATE_READY)
 		port->vdm_sm_running = false;
-=======
-<<<<<<< HEAD
-		 port->vdm_state != VDM_STATE_BUSY &&
-		 port->vdm_state != VDM_STATE_SEND_MESSAGE);
-
-	if (port->vdm_state == VDM_STATE_ERR_TMOUT)
-		port->vdm_sm_running = false;
-=======
-		 port->vdm_state != VDM_STATE_BUSY);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&port->lock);
 }
@@ -2596,10 +2122,6 @@ static int tcpm_validate_caps(struct tcpm_port *port, const u32 *pdo,
 static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
 {
 	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int svdm_version;
 	u32 header;
 
@@ -2608,14 +2130,6 @@ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
 		return svdm_version;
 
 	header = VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTER_MODE);
-<<<<<<< HEAD
-=======
-=======
-	u32 header;
-
-	header = VDO(altmode->svid, vdo ? 2 : 1, CMD_ENTER_MODE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	header |= VDO_OPOS(altmode->mode);
 
 	tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0);
@@ -2625,10 +2139,6 @@ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
 static int tcpm_altmode_exit(struct typec_altmode *altmode)
 {
 	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int svdm_version;
 	u32 header;
 
@@ -2637,14 +2147,6 @@ static int tcpm_altmode_exit(struct typec_altmode *altmode)
 		return svdm_version;
 
 	header = VDO(altmode->svid, 1, svdm_version, CMD_EXIT_MODE);
-<<<<<<< HEAD
-=======
-=======
-	u32 header;
-
-	header = VDO(altmode->svid, 1, CMD_EXIT_MODE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	header |= VDO_OPOS(altmode->mode);
 
 	tcpm_queue_vdm_unlocked(port, header, NULL, 0);
@@ -2689,16 +2191,12 @@ static void tcpm_handle_alert(struct tcpm_port *port, const __le32 *payload,
 
 	if (!type) {
 		tcpm_log(port, "Alert message received with no type");
-<<<<<<< HEAD
 		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
 	/* Just handling non-battery alerts for now */
 	if (!(type & USB_PD_ADO_TYPE_BATT_STATUS_CHANGE)) {
-<<<<<<< HEAD
 		if (port->pwr_role == TYPEC_SOURCE) {
 			port->upcoming_state = GET_STATUS_SEND;
 			tcpm_ams_start(port, GETTING_SOURCE_SINK_STATUS);
@@ -2712,17 +2210,6 @@ static void tcpm_handle_alert(struct tcpm_port *port, const __le32 *payload,
 		}
 	} else {
 		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-=======
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_set_state(port, GET_STATUS_SEND, 0);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
-			break;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2744,10 +2231,6 @@ static int tcpm_set_auto_vbus_discharge_threshold(struct tcpm_port *port,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcpm_pd_handle_state(struct tcpm_port *port,
 				 enum tcpm_state state,
 				 enum tcpm_ams ams,
@@ -2813,11 +2296,6 @@ static void tcpm_pd_handle_msg(struct tcpm_port *port,
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcpm_pd_data_request(struct tcpm_port *port,
 				 const struct pd_message *msg)
 {
@@ -2829,7 +2307,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 	bool frs_enable;
 	int ret;
 
-<<<<<<< HEAD
 	if (tcpm_vdm_ams(port) && type != PD_DATA_VENDOR_DEF) {
 		port->vdm_state = VDM_STATE_ERR_BUSY;
 		tcpm_ams_finish(port);
@@ -2838,16 +2315,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 
 	switch (type) {
 	case PD_DATA_SOURCE_CAP:
-=======
-	switch (type) {
-	case PD_DATA_SOURCE_CAP:
-<<<<<<< HEAD
-=======
-		if (port->pwr_role != TYPEC_SINK)
-			break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < cnt; i++)
 			port->source_caps[i] = le32_to_cpu(msg->payload[i]);
 
@@ -2863,30 +2330,15 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 		 * to comply with 6.2.1.1.5 of the USB PD 3.0 spec. We don't
 		 * support Rev 1.0 so just do nothing in that scenario.
 		 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rev == PD_REV10) {
 			if (port->ams == GET_SOURCE_CAPABILITIES)
 				tcpm_ams_finish(port);
 			break;
 		}
-<<<<<<< HEAD
-=======
-=======
-		if (rev == PD_REV10)
-			break;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (rev < PD_MAX_REV)
 			port->negotiated_rev = rev;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->pwr_role == TYPEC_SOURCE) {
 			if (port->ams == GET_SOURCE_CAPABILITIES)
 				tcpm_pd_handle_state(port, SRC_READY, NONE_AMS, 0);
@@ -2898,11 +2350,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 						   PD_MSG_CTRL_NOT_SUPP,
 						   NONE_AMS);
 		} else if (port->state == SNK_WAIT_CAPABILITIES) {
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * This message may be received even if VBUS is not
 		 * present. This is quite unexpected; see USB PD
@@ -2916,10 +2363,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 		 * but be prepared to keep waiting for VBUS after it was
 		 * handled.
 		 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			port->ams = POWER_NEGOTIATION;
 			port->in_ams = true;
 			tcpm_set_state(port, SNK_NEGOTIATE_CAPABILITIES, 0);
@@ -2931,51 +2374,23 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 		}
 		break;
 	case PD_DATA_REQUEST:
-<<<<<<< HEAD
-=======
-=======
-		tcpm_set_state(port, SNK_NEGOTIATE_CAPABILITIES, 0);
-		break;
-	case PD_DATA_REQUEST:
-		if (port->pwr_role != TYPEC_SOURCE ||
-		    cnt != 1) {
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-			break;
-		}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Adjust revision in subsequent message headers, as required,
 		 * to comply with 6.2.1.1.5 of the USB PD 3.0 spec. We don't
 		 * support Rev 1.0 so just reject in that scenario.
 		 */
 		if (rev == PD_REV10) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_pd_handle_msg(port,
 					   port->negotiated_rev < PD_REV30 ?
 					   PD_MSG_CTRL_REJECT :
 					   PD_MSG_CTRL_NOT_SUPP,
 					   NONE_AMS);
-<<<<<<< HEAD
-=======
-=======
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 
 		if (rev < PD_MAX_REV)
 			port->negotiated_rev = rev;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->pwr_role != TYPEC_SOURCE || cnt != 1) {
 			tcpm_pd_handle_msg(port,
 					   port->negotiated_rev < PD_REV30 ?
@@ -2997,13 +2412,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 		else
 			tcpm_pd_handle_state(port, SRC_NEGOTIATE_CAPABILITIES,
 					     POWER_NEGOTIATION, 0);
-<<<<<<< HEAD
-=======
-=======
-		port->sink_request = le32_to_cpu(msg->payload[0]);
-		tcpm_set_state(port, SRC_NEGOTIATE_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PD_DATA_SINK_CAP:
 		/* We don't do anything with this at the moment... */
@@ -3024,14 +2432,8 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 
 		port->nr_sink_caps = cnt;
 		port->sink_cap_done = true;
-<<<<<<< HEAD
 		if (port->ams == GET_SINK_CAPABILITIES)
 			tcpm_set_state(port, ready_state(port), 0);
-=======
-<<<<<<< HEAD
-		if (port->ams == GET_SINK_CAPABILITIES)
-			tcpm_pd_handle_state(port, ready_state(port), NONE_AMS, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Unexpected Sink Capabilities */
 		else
 			tcpm_pd_handle_msg(port,
@@ -3039,7 +2441,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 					   PD_MSG_CTRL_REJECT :
 					   PD_MSG_CTRL_NOT_SUPP,
 					   NONE_AMS);
-<<<<<<< HEAD
 		break;
 	case PD_DATA_VENDOR_DEF:
 		if (tcpm_vdm_ams(port) || port->nr_snk_vdo)
@@ -3058,36 +2459,10 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 					     NONE_AMS, 0);
 		else
 			tcpm_handle_alert(port, msg->payload, cnt);
-=======
-=======
-		tcpm_set_state(port, SNK_READY, 0);
->>>>>>> stable
-		break;
-	case PD_DATA_VENDOR_DEF:
-		tcpm_handle_vdm_request(port, msg->payload, cnt);
-		break;
-	case PD_DATA_BIST:
-<<<<<<< HEAD
-		port->bist_request = le32_to_cpu(msg->payload[0]);
-		tcpm_pd_handle_state(port, BIST_RX, BIST, 0);
-=======
-		if (port->state == SRC_READY || port->state == SNK_READY) {
-			port->bist_request = le32_to_cpu(msg->payload[0]);
-			tcpm_set_state(port, BIST_RX, 0);
-		}
->>>>>>> stable
-		break;
-	case PD_DATA_ALERT:
-		tcpm_handle_alert(port, msg->payload, cnt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PD_DATA_BATT_STATUS:
 	case PD_DATA_GET_COUNTRY_INFO:
 		/* Currently unsupported */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_pd_handle_msg(port, port->negotiated_rev < PD_REV30 ?
 				   PD_MSG_CTRL_REJECT :
 				   PD_MSG_CTRL_NOT_SUPP,
@@ -3099,15 +2474,6 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
 				   PD_MSG_CTRL_NOT_SUPP,
 				   NONE_AMS);
 		tcpm_log(port, "Unrecognized data message type %#x", type);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-		break;
-	default:
-		tcpm_log(port, "Unhandled data message type %#x", type);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -3127,7 +2493,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 	enum pd_ctrl_msg_type type = pd_header_type_le(msg->header);
 	enum tcpm_state next_state;
 
-<<<<<<< HEAD
 	/*
 	 * Stop VDM state machine if interrupted by other Messages while NOT_SUPP is allowed in
 	 * VDM AMS if waiting for VDM responses and will be handled later.
@@ -3138,46 +2503,15 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 		mod_vdm_delayed_work(port, 0);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (type) {
 	case PD_CTRL_GOOD_CRC:
 	case PD_CTRL_PING:
 		break;
 	case PD_CTRL_GET_SOURCE_CAP:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_pd_handle_msg(port, PD_MSG_DATA_SOURCE_CAP, GET_SOURCE_CAPABILITIES);
 		break;
 	case PD_CTRL_GET_SINK_CAP:
 		tcpm_pd_handle_msg(port, PD_MSG_DATA_SINK_CAP, GET_SINK_CAPABILITIES);
-<<<<<<< HEAD
-=======
-=======
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_queue_message(port, PD_MSG_DATA_SOURCE_CAP);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-			break;
-		}
-		break;
-	case PD_CTRL_GET_SINK_CAP:
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_queue_message(port, PD_MSG_DATA_SINK_CAP);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-			break;
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PD_CTRL_GOTO_MIN:
 		break;
@@ -3186,31 +2520,17 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 		case SNK_TRANSITION_SINK:
 			if (port->vbus_present) {
 				tcpm_set_current_limit(port,
-<<<<<<< HEAD
 						       port->req_current_limit,
 						       port->req_supply_voltage);
-=======
-						       port->current_limit,
-						       port->supply_voltage);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				port->explicit_contract = true;
 				tcpm_set_auto_vbus_discharge_threshold(port,
 								       TYPEC_PWR_MODE_PD,
 								       port->pps_data.active,
 								       port->supply_voltage);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/* Set VDM running flag ASAP */
 				if (port->data_role == TYPEC_HOST &&
 				    port->send_discover)
 					port->vdm_sm_running = true;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				tcpm_set_state(port, SNK_READY, 0);
 			} else {
 				/*
@@ -3234,20 +2554,11 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			tcpm_set_state(port, FR_SWAP_SNK_SRC_NEW_SINK_READY, 0);
 			break;
 		default:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_pd_handle_state(port,
 					     port->pwr_role == TYPEC_SOURCE ?
 					     SRC_SOFT_RESET_WAIT_SNK_TX :
 					     SNK_SOFT_RESET,
 					     NONE_AMS, 0);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		break;
@@ -3257,10 +2568,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 		switch (port->state) {
 		case SNK_NEGOTIATE_CAPABILITIES:
 			/* USB PD specification, Figure 8-43 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (port->explicit_contract) {
 				next_state = SNK_READY;
 				if (port->data_role == TYPEC_HOST &&
@@ -3269,41 +2576,19 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			} else {
 				next_state = SNK_WAIT_CAPABILITIES;
 			}
-<<<<<<< HEAD
-=======
-=======
-			if (port->explicit_contract)
-				next_state = SNK_READY;
-			else
-				next_state = SNK_WAIT_CAPABILITIES;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, next_state, 0);
 			break;
 		case SNK_NEGOTIATE_PPS_CAPABILITIES:
 			/* Revert data back from any requested PPS updates */
-<<<<<<< HEAD
 			port->pps_data.req_out_volt = port->supply_voltage;
 			port->pps_data.req_op_curr = port->current_limit;
 			port->pps_status = (type == PD_CTRL_WAIT ?
 					    -EAGAIN : -EOPNOTSUPP);
-=======
-			port->pps_data.out_volt = port->supply_voltage;
-			port->pps_data.op_curr = port->current_limit;
-			port->pps_status = (type == PD_CTRL_WAIT ?
-					    -EAGAIN : -EOPNOTSUPP);
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (port->data_role == TYPEC_HOST &&
 			    port->send_discover)
 				port->vdm_sm_running = true;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, SNK_READY, 0);
 			break;
 		case DR_SWAP_SEND:
@@ -3328,7 +2613,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			port->sink_cap_done = true;
 			tcpm_set_state(port, ready_state(port), 0);
 			break;
-<<<<<<< HEAD
 		case SRC_READY:
 		case SNK_READY:
 			if (port->vdm_state > VDM_STATE_READY) {
@@ -3340,20 +2624,11 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			}
 			fallthrough;
 		default:
-=======
-		default:
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_pd_handle_state(port,
 					     port->pwr_role == TYPEC_SOURCE ?
 					     SRC_SOFT_RESET_WAIT_SNK_TX :
 					     SNK_SOFT_RESET,
 					     NONE_AMS, 0);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		break;
@@ -3365,7 +2640,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			break;
 		case SNK_NEGOTIATE_PPS_CAPABILITIES:
 			port->pps_data.active = true;
-<<<<<<< HEAD
 			port->pps_data.min_volt = port->pps_data.req_min_volt;
 			port->pps_data.max_volt = port->pps_data.req_max_volt;
 			port->pps_data.max_curr = port->pps_data.req_max_curr;
@@ -3375,14 +2649,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
 			break;
 		case SOFT_RESET_SEND:
-=======
-			port->supply_voltage = port->pps_data.out_volt;
-			port->current_limit = port->pps_data.op_curr;
-			tcpm_set_state(port, SNK_TRANSITION_SINK, 0);
-			break;
-		case SOFT_RESET_SEND:
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (port->ams == SOFT_RESET_AMS)
 				tcpm_ams_finish(port);
 			if (port->pwr_role == TYPEC_SOURCE) {
@@ -3397,20 +2663,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			    port->send_discover)
 				port->vdm_sm_running = true;
 
-<<<<<<< HEAD
-=======
-=======
-			port->message_id = 0;
-			port->rx_msgid = -1;
-			if (port->pwr_role == TYPEC_SOURCE)
-				next_state = SRC_SEND_CAPABILITIES;
-			else
-				next_state = SNK_WAIT_CAPABILITIES;
-			tcpm_set_state(port, next_state, 0);
-			break;
-		case DR_SWAP_SEND:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, DR_SWAP_CHANGE_DR, 0);
 			break;
 		case PR_SWAP_SEND:
@@ -3423,53 +2675,24 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			tcpm_set_state(port, FR_SWAP_SNK_SRC_TRANSITION_TO_OFF, 0);
 			break;
 		default:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_pd_handle_state(port,
 					     port->pwr_role == TYPEC_SOURCE ?
 					     SRC_SOFT_RESET_WAIT_SNK_TX :
 					     SNK_SOFT_RESET,
 					     NONE_AMS, 0);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 		break;
 	case PD_CTRL_SOFT_RESET:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->ams = SOFT_RESET_AMS;
 		tcpm_set_state(port, SOFT_RESET, 0);
 		break;
 	case PD_CTRL_DR_SWAP:
-<<<<<<< HEAD
-=======
-=======
-		tcpm_set_state(port, SOFT_RESET, 0);
-		break;
-	case PD_CTRL_DR_SWAP:
-		if (port->typec_caps.data != TYPEC_PORT_DRD) {
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-			break;
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * XXX
 		 * 6.3.9: If an alternate mode is active, a request to swap
 		 * alternate modes shall trigger a port reset.
 		 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->typec_caps.data != TYPEC_PORT_DRD) {
 			tcpm_pd_handle_msg(port,
 					   port->negotiated_rev < PD_REV30 ?
@@ -3483,27 +2706,10 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 			}
 
 			tcpm_pd_handle_state(port, DR_SWAP_ACCEPT, DATA_ROLE_SWAP, 0);
-<<<<<<< HEAD
-=======
-=======
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_set_state(port, DR_SWAP_ACCEPT, 0);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
-			break;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	case PD_CTRL_PR_SWAP:
 		if (port->port_type != TYPEC_PORT_DRP) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_pd_handle_msg(port,
 					   port->negotiated_rev < PD_REV30 ?
 					   PD_MSG_CTRL_REJECT :
@@ -3525,34 +2731,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 		}
 
 		tcpm_pd_handle_state(port, VCONN_SWAP_ACCEPT, VCONN_SWAP, 0);
-<<<<<<< HEAD
-=======
-=======
-			tcpm_queue_message(port, PD_MSG_CTRL_REJECT);
-			break;
-		}
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_set_state(port, PR_SWAP_ACCEPT, 0);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
-			break;
-		}
-		break;
-	case PD_CTRL_VCONN_SWAP:
-		switch (port->state) {
-		case SRC_READY:
-		case SNK_READY:
-			tcpm_set_state(port, VCONN_SWAP_ACCEPT, 0);
-			break;
-		default:
-			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
-			break;
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PD_CTRL_GET_SOURCE_CAP_EXT:
 	case PD_CTRL_GET_STATUS:
@@ -3560,10 +2738,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 	case PD_CTRL_GET_PPS_STATUS:
 	case PD_CTRL_GET_COUNTRY_CODES:
 		/* Currently not supported */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_pd_handle_msg(port,
 				   port->negotiated_rev < PD_REV30 ?
 				   PD_MSG_CTRL_REJECT :
@@ -3577,15 +2751,6 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
 				   PD_MSG_CTRL_NOT_SUPP,
 				   NONE_AMS);
 		tcpm_log(port, "Unrecognized ctrl message type %#x", type);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-		break;
-	default:
-		tcpm_log(port, "Unhandled ctrl message type %#x", type);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -3596,7 +2761,6 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
 	enum pd_ext_msg_type type = pd_header_type_le(msg->header);
 	unsigned int data_size = pd_ext_header_data_size_le(msg->ext_msg.header);
 
-<<<<<<< HEAD
 	/* stopping VDM state machine if interrupted by other Messages */
 	if (tcpm_vdm_ams(port)) {
 		port->vdm_state = VDM_STATE_ERR_BUSY;
@@ -3606,33 +2770,18 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
 
 	if (!(le16_to_cpu(msg->ext_msg.header) & PD_EXT_HDR_CHUNKED)) {
 		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
-=======
-	if (!(msg->ext_msg.header & PD_EXT_HDR_CHUNKED)) {
-<<<<<<< HEAD
-		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_log(port, "Unchunked extended messages unsupported");
 		return;
 	}
 
 	if (data_size > PD_EXT_MAX_CHUNK_DATA) {
-<<<<<<< HEAD
 		tcpm_pd_handle_state(port, CHUNK_NOT_SUPP, NONE_AMS, PD_T_CHUNK_NOT_SUPP);
-=======
-<<<<<<< HEAD
-		tcpm_pd_handle_state(port, CHUNK_NOT_SUPP, NONE_AMS, PD_T_CHUNK_NOT_SUPP);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_log(port, "Chunk handling not yet supported");
 		return;
 	}
 
 	switch (type) {
 	case PD_EXT_STATUS:
-<<<<<<< HEAD
 	case PD_EXT_PPS_STATUS:
 		if (port->ams == GETTING_SOURCE_SINK_STATUS) {
 			tcpm_ams_finish(port);
@@ -3643,36 +2792,6 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
 					     SRC_SOFT_RESET_WAIT_SNK_TX : SNK_SOFT_RESET,
 					     NONE_AMS, 0);
 		}
-=======
-		/*
-		 * If PPS related events raised then get PPS status to clear
-		 * (see USB PD 3.0 Spec, 6.5.2.4)
-		 */
-		if (msg->ext_msg.data[USB_PD_EXT_SDB_EVENT_FLAGS] &
-		    USB_PD_EXT_SDB_PPS_EVENTS)
-<<<<<<< HEAD
-			tcpm_pd_handle_state(port, GET_PPS_STATUS_SEND,
-					     GETTING_SOURCE_SINK_STATUS, 0);
-
-		else
-			tcpm_pd_handle_state(port, ready_state(port), NONE_AMS, 0);
-=======
-			tcpm_set_state(port, GET_PPS_STATUS_SEND, 0);
-		else
-			tcpm_set_state(port, ready_state(port), 0);
->>>>>>> stable
-		break;
-	case PD_EXT_PPS_STATUS:
-		/*
-		 * For now the PPS status message is used to clear events
-		 * and nothing more.
-		 */
-<<<<<<< HEAD
-		tcpm_pd_handle_state(port, ready_state(port), NONE_AMS, 0);
-=======
-		tcpm_set_state(port, ready_state(port), 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PD_EXT_SOURCE_CAP_EXT:
 	case PD_EXT_GET_BATT_CAP:
@@ -3686,24 +2805,11 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
 	case PD_EXT_FW_UPDATE_RESPONSE:
 	case PD_EXT_COUNTRY_INFO:
 	case PD_EXT_COUNTRY_CODES:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
 		break;
 	default:
 		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
 		tcpm_log(port, "Unrecognized extended message type %#x", type);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
-		break;
-	default:
-		tcpm_log(port, "Unhandled extended message type %#x", type);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -3748,11 +2854,7 @@ static void tcpm_pd_rx_handler(struct kthread_work *work)
 				 "Data role mismatch, initiating error recovery");
 			tcpm_set_state(port, ERROR_RECOVERY, 0);
 		} else {
-<<<<<<< HEAD
 			if (le16_to_cpu(msg->header) & PD_HEADER_EXT_HDR)
-=======
-			if (msg->header & PD_HEADER_EXT_HDR)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				tcpm_pd_ext_msg_request(port, msg);
 			else if (cnt)
 				tcpm_pd_data_request(port, msg);
@@ -3820,22 +2922,12 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
 			tcpm_pd_send_control(port, PD_CTRL_NOT_SUPP);
 			break;
 		case PD_MSG_DATA_SINK_CAP:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = tcpm_pd_send_sink_caps(port);
 			if (ret < 0) {
 				tcpm_log(port, "Unable to send snk caps, ret=%d", ret);
 				tcpm_set_state(port, SNK_SOFT_RESET, 0);
 			}
 			tcpm_ams_finish(port);
-<<<<<<< HEAD
-=======
-=======
-			tcpm_pd_send_sink_caps(port);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case PD_MSG_DATA_SOURCE_CAP:
 			ret = tcpm_pd_send_source_caps(port);
@@ -3845,22 +2937,11 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
 					 ret);
 				tcpm_set_state(port, SOFT_RESET_SEND, 0);
 			} else if (port->pwr_role == TYPEC_SOURCE) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				tcpm_ams_finish(port);
 				tcpm_set_state(port, HARD_RESET_SEND,
 					       PD_T_SENDER_RESPONSE);
 			} else {
 				tcpm_ams_finish(port);
-<<<<<<< HEAD
-=======
-=======
-				tcpm_set_state(port, HARD_RESET_SEND,
-					       PD_T_SENDER_RESPONSE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			break;
 		default:
@@ -4122,7 +3203,6 @@ static unsigned int tcpm_pd_select_pps_apdo(struct tcpm_port *port)
 		src = port->source_caps[src_pdo];
 		snk = port->snk_pdo[snk_pdo];
 
-<<<<<<< HEAD
 		port->pps_data.req_min_volt = max(pdo_pps_apdo_min_voltage(src),
 						  pdo_pps_apdo_min_voltage(snk));
 		port->pps_data.req_max_volt = min(pdo_pps_apdo_max_voltage(src),
@@ -4133,19 +3213,6 @@ static unsigned int tcpm_pd_select_pps_apdo(struct tcpm_port *port)
 						      port->pps_data.req_out_volt));
 		port->pps_data.req_op_curr = min(port->pps_data.req_max_curr,
 						 port->pps_data.req_op_curr);
-=======
-		port->pps_data.min_volt = max(pdo_pps_apdo_min_voltage(src),
-					      pdo_pps_apdo_min_voltage(snk));
-		port->pps_data.max_volt = min(pdo_pps_apdo_max_voltage(src),
-					      pdo_pps_apdo_max_voltage(snk));
-		port->pps_data.max_curr = min_pps_apdo_current(src, snk);
-		port->pps_data.out_volt = min(port->pps_data.max_volt,
-					      max(port->pps_data.min_volt,
-						  port->pps_data.out_volt));
-		port->pps_data.op_curr = min(port->pps_data.max_curr,
-					     port->pps_data.op_curr);
-		power_supply_changed(port->psy);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return src_pdo;
@@ -4225,13 +3292,8 @@ static int tcpm_pd_build_request(struct tcpm_port *port, u32 *rdo)
 			 flags & RDO_CAP_MISMATCH ? " [mismatch]" : "");
 	}
 
-<<<<<<< HEAD
 	port->req_current_limit = ma;
 	port->req_supply_voltage = mv;
-=======
-	port->current_limit = ma;
-	port->supply_voltage = mv;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -4277,17 +3339,10 @@ static int tcpm_pd_build_pps_request(struct tcpm_port *port, u32 *rdo)
 			tcpm_log(port, "Invalid APDO selected!");
 			return -EINVAL;
 		}
-<<<<<<< HEAD
 		max_mv = port->pps_data.req_max_volt;
 		max_ma = port->pps_data.req_max_curr;
 		out_mv = port->pps_data.req_out_volt;
 		op_ma = port->pps_data.req_op_curr;
-=======
-		max_mv = port->pps_data.max_volt;
-		max_ma = port->pps_data.max_curr;
-		out_mv = port->pps_data.out_volt;
-		op_ma = port->pps_data.op_curr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		tcpm_log(port, "Invalid PDO selected!");
@@ -4334,13 +3389,8 @@ static int tcpm_pd_build_pps_request(struct tcpm_port *port, u32 *rdo)
 	tcpm_log(port, "Requesting APDO %d: %u mV, %u mA",
 		 src_pdo_index, out_mv, op_ma);
 
-<<<<<<< HEAD
 	port->pps_data.req_op_curr = op_ma;
 	port->pps_data.req_out_volt = out_mv;
-=======
-	port->pps_data.op_curr = op_ma;
-	port->pps_data.out_volt = out_mv;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -4414,19 +3464,6 @@ static bool tcpm_start_toggling(struct tcpm_port *port, enum typec_cc_status cc)
 	return ret == 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static void tcpm_set_cc(struct tcpm_port *port, enum typec_cc_status cc)
-{
-	tcpm_log(port, "cc:=%d", cc);
-	port->cc_req = cc;
-	port->tcpc->set_cc(port->tcpc, cc);
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tcpm_init_vbus(struct tcpm_port *port)
 {
 	int ret;
@@ -4481,11 +3518,8 @@ static int tcpm_src_attach(struct tcpm_port *port)
 	if (port->tcpc->enable_auto_vbus_discharge) {
 		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, true);
 		tcpm_log_force(port, "enable vbus discharge ret:%d", ret);
-<<<<<<< HEAD
 		if (!ret)
 			port->auto_vbus_discharge_enabled = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = tcpm_set_roles(port, true, TYPEC_SOURCE, tcpm_data_role_for_source(port));
@@ -4553,10 +3587,6 @@ static void tcpm_unregister_altmodes(struct tcpm_port *port)
 	memset(modep, 0, sizeof(*modep));
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capable)
 {
 	tcpm_log(port, "Setting usb_comm capable %s", capable ? "true" : "false");
@@ -4565,11 +3595,6 @@ static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capab
 		port->tcpc->set_partner_usb_comm_capable(port->tcpc, capable);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcpm_reset_port(struct tcpm_port *port)
 {
 	int ret;
@@ -4577,35 +3602,18 @@ static void tcpm_reset_port(struct tcpm_port *port)
 	if (port->tcpc->enable_auto_vbus_discharge) {
 		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, false);
 		tcpm_log_force(port, "Disable vbus discharge ret:%d", ret);
-<<<<<<< HEAD
 		if (!ret)
 			port->auto_vbus_discharge_enabled = false;
 	}
 	port->in_ams = false;
 	port->ams = NONE_AMS;
 	port->vdm_sm_running = false;
-=======
-	}
-<<<<<<< HEAD
-	port->in_ams = false;
-	port->ams = NONE_AMS;
-	port->vdm_sm_running = false;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcpm_unregister_altmodes(port);
 	tcpm_typec_disconnect(port);
 	port->attached = false;
 	port->pd_capable = false;
 	port->pps_data.supported = false;
-<<<<<<< HEAD
 	tcpm_set_partner_usb_comm_capable(port, false);
-=======
-<<<<<<< HEAD
-	tcpm_set_partner_usb_comm_capable(port, false);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * First Rx ID should be 0; set this to a sentinel of -1 so that
@@ -4629,11 +3637,6 @@ static void tcpm_reset_port(struct tcpm_port *port)
 	port->sink_cap_done = false;
 	if (port->tcpc->enable_frs)
 		port->tcpc->enable_frs(port->tcpc, false);
-<<<<<<< HEAD
-=======
-
-	power_supply_changed(port->psy);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void tcpm_detach(struct tcpm_port *port)
@@ -4673,11 +3676,8 @@ static int tcpm_snk_attach(struct tcpm_port *port)
 		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_PWR_MODE_USB, false, VSAFE5V);
 		ret = port->tcpc->enable_auto_vbus_discharge(port->tcpc, true);
 		tcpm_log_force(port, "enable vbus discharge ret:%d", ret);
-<<<<<<< HEAD
 		if (!ret)
 			port->auto_vbus_discharge_enabled = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = tcpm_set_roles(port, true, TYPEC_SINK, tcpm_data_role_for_sink(port));
@@ -4752,14 +3752,6 @@ static inline enum tcpm_state unattached_state(struct tcpm_port *port)
 	return SNK_UNATTACHED;
 }
 
-static void tcpm_check_send_discover(struct tcpm_port *port)
-{
-	if (port->data_role == TYPEC_HOST && port->send_discover &&
-	    port->pd_capable)
-		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
-	port->send_discover = false;
-}
-
 static void tcpm_swap_complete(struct tcpm_port *port, int result)
 {
 	if (port->swap_pending) {
@@ -4788,14 +3780,7 @@ static void run_state_machine(struct tcpm_port *port)
 	int ret;
 	enum typec_pwr_opmode opmode;
 	unsigned int msecs;
-<<<<<<< HEAD
 	enum tcpm_state upcoming_state;
-=======
-<<<<<<< HEAD
-	enum tcpm_state upcoming_state;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	port->enter_state = port->state;
 	switch (port->state) {
@@ -4896,22 +3881,12 @@ static void run_state_machine(struct tcpm_port *port)
 		port->message_id = 0;
 		port->rx_msgid = -1;
 		port->explicit_contract = false;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* SNK -> SRC POWER/FAST_ROLE_SWAP finished */
 		if (port->ams == POWER_ROLE_SWAP ||
 		    port->ams == FAST_ROLE_SWAP)
 			tcpm_ams_finish(port);
 		port->upcoming_state = SRC_SEND_CAPABILITIES;
 		tcpm_ams_start(port, POWER_NEGOTIATION);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SRC_SEND_CAPABILITIES:
 		port->caps_count++;
@@ -4972,16 +3947,8 @@ static void run_state_machine(struct tcpm_port *port)
 			}
 		} else {
 			tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-<<<<<<< HEAD
 			tcpm_set_partner_usb_comm_capable(port,
 							  !!(port->sink_request & RDO_USB_COMM));
-=======
-<<<<<<< HEAD
-			tcpm_set_partner_usb_comm_capable(port,
-							  !!(port->sink_request & RDO_USB_COMM));
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, SRC_TRANSITION_SUPPLY,
 				       PD_T_SRC_TRANSITION);
 		}
@@ -5003,10 +3970,6 @@ static void run_state_machine(struct tcpm_port *port)
 		tcpm_swap_complete(port, 0);
 		tcpm_typec_connect(port);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->ams != NONE_AMS)
 			tcpm_ams_finish(port);
 		if (port->next_ams != NONE_AMS) {
@@ -5025,12 +3988,18 @@ static void run_state_machine(struct tcpm_port *port)
 			break;
 		}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		tcpm_check_send_discover(port);
+		/*
+		 * 6.4.4.3.1 Discover Identity
+		 * "The Discover Identity Command Shall only be sent to SOP when there is an
+		 * Explicit Contract."
+		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
+		 * port->explicit_contract to decide whether to send the command.
+		 */
+		if (port->explicit_contract)
+			mod_send_discover_delayed_work(port, 0);
+		else
+			port->send_discover = false;
+
 		/*
 		 * 6.3.5
 		 * Sending ping messages is not necessary if
@@ -5147,28 +4116,21 @@ static void run_state_machine(struct tcpm_port *port)
 		port->message_id = 0;
 		port->rx_msgid = -1;
 		port->explicit_contract = false;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (port->ams == POWER_ROLE_SWAP ||
 		    port->ams == FAST_ROLE_SWAP)
 			/* SRC -> SNK POWER/FAST_ROLE_SWAP finished */
 			tcpm_ams_finish(port);
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, SNK_DISCOVERY, 0);
 		break;
 	case SNK_DISCOVERY:
 		if (port->vbus_present) {
-			tcpm_set_current_limit(port,
-					       tcpm_get_current_limit(port),
-					       5000);
+			u32 current_lim = tcpm_get_current_limit(port);
+
+			if (port->slow_charger_loop && (current_lim > PD_P_SNK_STDBY_MW / 5))
+				current_lim = PD_P_SNK_STDBY_MW / 5;
+			tcpm_set_current_limit(port, current_lim, 5000);
 			tcpm_set_charge(port, true);
 			tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
 			break;
@@ -5210,15 +4172,7 @@ static void run_state_machine(struct tcpm_port *port)
 		 */
 		if (port->vbus_never_low) {
 			port->vbus_never_low = false;
-<<<<<<< HEAD
 			tcpm_set_state(port, SNK_SOFT_RESET,
-=======
-<<<<<<< HEAD
-			tcpm_set_state(port, SNK_SOFT_RESET,
-=======
-			tcpm_set_state(port, SOFT_RESET_SEND,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       PD_T_SINK_WAIT_CAP);
 		} else {
 			tcpm_set_state(port, hard_reset_state(port),
@@ -5227,16 +4181,8 @@ static void run_state_machine(struct tcpm_port *port)
 		break;
 	case SNK_NEGOTIATE_CAPABILITIES:
 		port->pd_capable = true;
-<<<<<<< HEAD
 		tcpm_set_partner_usb_comm_capable(port,
 						  !!(port->source_caps[0] & PDO_FIXED_USB_COMM));
-=======
-<<<<<<< HEAD
-		tcpm_set_partner_usb_comm_capable(port,
-						  !!(port->source_caps[0] & PDO_FIXED_USB_COMM));
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->hard_reset_count = 0;
 		ret = tcpm_pd_send_request(port);
 		if (ret < 0) {
@@ -5266,7 +4212,6 @@ static void run_state_machine(struct tcpm_port *port)
 		}
 		break;
 	case SNK_TRANSITION_SINK:
-<<<<<<< HEAD
 		/* From the USB PD spec:
 		 * "The Sink Shall transition to Sink Standby before a positive or
 		 * negative voltage transition of VBUS. During Sink Standby
@@ -5284,8 +4229,6 @@ static void run_state_machine(struct tcpm_port *port)
 			tcpm_set_current_limit(port, stdby_ma, port->supply_voltage);
 		}
 		fallthrough;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SNK_TRANSITION_SINK_VBUS:
 		tcpm_set_state(port, hard_reset_state(port),
 			       PD_T_PS_TRANSITION);
@@ -5299,12 +4242,10 @@ static void run_state_machine(struct tcpm_port *port)
 			port->pwr_opmode = TYPEC_PWR_MODE_PD;
 		}
 
+		if (!port->pd_capable && port->slow_charger_loop)
+			tcpm_set_current_limit(port, tcpm_get_current_limit(port), 5000);
 		tcpm_swap_complete(port, 0);
 		tcpm_typec_connect(port);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mod_enable_frs_delayed_work(port, 0);
 		tcpm_pps_complete(port, port->pps_status);
 
@@ -5326,15 +4267,18 @@ static void run_state_machine(struct tcpm_port *port)
 			break;
 		}
 
-		tcpm_check_send_discover(port);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_check_send_discover(port);
-		mod_enable_frs_delayed_work(port, 0);
-		tcpm_pps_complete(port, port->pps_status);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+		/*
+		 * 6.4.4.3.1 Discover Identity
+		 * "The Discover Identity Command Shall only be sent to SOP when there is an
+		 * Explicit Contract."
+		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
+		 * port->explicit_contract.
+		 */
+		if (port->explicit_contract)
+			mod_send_discover_delayed_work(port, 0);
+		else
+			port->send_discover = false;
+
 		power_supply_changed(port->psy);
 		break;
 
@@ -5355,10 +4299,6 @@ static void run_state_machine(struct tcpm_port *port)
 
 	/* Hard_Reset states */
 	case HARD_RESET_SEND:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->ams != NONE_AMS)
 			tcpm_ams_finish(port);
 		/*
@@ -5367,13 +4307,6 @@ static void run_state_machine(struct tcpm_port *port)
 		 */
 		port->upcoming_state = INVALID_STATE;
 		tcpm_ams_start(port, HARD_RESET);
-<<<<<<< HEAD
-=======
-=======
-		tcpm_pd_transmit(port, TCPC_TX_HARD_RESET, NULL);
-		tcpm_set_state(port, HARD_RESET_START, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case HARD_RESET_START:
 		port->sink_cap_done = false;
@@ -5417,16 +4350,8 @@ static void run_state_machine(struct tcpm_port *port)
 	case SRC_HARD_RESET_VBUS_ON:
 		tcpm_set_vconn(port, true);
 		tcpm_set_vbus(port, true);
-<<<<<<< HEAD
 		if (port->ams == HARD_RESET)
 			tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		if (port->ams == HARD_RESET)
-			tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->tcpc->set_pd_rx(port->tcpc, true);
 		tcpm_set_attached_state(port, true);
 		tcpm_set_state(port, SRC_UNATTACHED, PD_T_PS_SOURCE_ON);
@@ -5448,16 +4373,8 @@ static void run_state_machine(struct tcpm_port *port)
 		tcpm_set_state(port, SNK_HARD_RESET_SINK_ON, PD_T_SAFE_0V);
 		break;
 	case SNK_HARD_RESET_WAIT_VBUS:
-<<<<<<< HEAD
 		if (port->ams == HARD_RESET)
 			tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		if (port->ams == HARD_RESET)
-			tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Assume we're disconnected if VBUS doesn't come back. */
 		tcpm_set_state(port, SNK_UNATTACHED,
 			       PD_T_SRC_RECOVER_MAX + PD_T_SRC_TURN_ON);
@@ -5485,16 +4402,8 @@ static void run_state_machine(struct tcpm_port *port)
 					       5000);
 			tcpm_set_charge(port, true);
 		}
-<<<<<<< HEAD
 		if (port->ams == HARD_RESET)
 			tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		if (port->ams == HARD_RESET)
-			tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_attached_state(port, true);
 		tcpm_set_auto_vbus_discharge_threshold(port, TYPEC_PWR_MODE_USB, false, VSAFE5V);
 		tcpm_set_state(port, SNK_STARTUP, 0);
@@ -5505,10 +4414,6 @@ static void run_state_machine(struct tcpm_port *port)
 		port->message_id = 0;
 		port->rx_msgid = -1;
 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_ams_finish(port);
 		if (port->pwr_role == TYPEC_SOURCE) {
 			port->upcoming_state = SRC_SEND_CAPABILITIES;
@@ -5523,15 +4428,6 @@ static void run_state_machine(struct tcpm_port *port)
 			tcpm_ams_finish(port);
 		port->upcoming_state = SOFT_RESET_SEND;
 		tcpm_ams_start(port, SOFT_RESET_AMS);
-<<<<<<< HEAD
-=======
-=======
-		if (port->pwr_role == TYPEC_SOURCE)
-			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
-		else
-			tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SOFT_RESET_SEND:
 		port->message_id = 0;
@@ -5551,30 +4447,14 @@ static void run_state_machine(struct tcpm_port *port)
 		break;
 	case DR_SWAP_ACCEPT:
 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-<<<<<<< HEAD
 		/* Set VDM state machine running flag ASAP */
 		if (port->data_role == TYPEC_DEVICE && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		/* Set VDM state machine running flag ASAP */
-		if (port->data_role == TYPEC_DEVICE && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state_cond(port, DR_SWAP_CHANGE_DR, 0);
 		break;
 	case DR_SWAP_SEND_TIMEOUT:
 		tcpm_swap_complete(port, -ETIMEDOUT);
-<<<<<<< HEAD
 		tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, ready_state(port), 0);
 		break;
 	case DR_SWAP_CHANGE_DR:
@@ -5587,14 +4467,7 @@ static void run_state_machine(struct tcpm_port *port)
 				       TYPEC_HOST);
 			port->send_discover = true;
 		}
-<<<<<<< HEAD
 		tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, ready_state(port), 0);
 		break;
 
@@ -5722,14 +4595,7 @@ static void run_state_machine(struct tcpm_port *port)
 
 	case VCONN_SWAP_ACCEPT:
 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-<<<<<<< HEAD
 		tcpm_ams_finish(port);
-=======
-<<<<<<< HEAD
-		tcpm_ams_finish(port);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, VCONN_SWAP_START, 0);
 		break;
 	case VCONN_SWAP_SEND:
@@ -5739,16 +4605,8 @@ static void run_state_machine(struct tcpm_port *port)
 		break;
 	case VCONN_SWAP_SEND_TIMEOUT:
 		tcpm_swap_complete(port, -ETIMEDOUT);
-<<<<<<< HEAD
 		if (port->data_role == TYPEC_HOST && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		if (port->data_role == TYPEC_HOST && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, ready_state(port), 0);
 		break;
 	case VCONN_SWAP_START:
@@ -5764,30 +4622,14 @@ static void run_state_machine(struct tcpm_port *port)
 	case VCONN_SWAP_TURN_ON_VCONN:
 		tcpm_set_vconn(port, true);
 		tcpm_pd_send_control(port, PD_CTRL_PS_RDY);
-<<<<<<< HEAD
 		if (port->data_role == TYPEC_HOST && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		if (port->data_role == TYPEC_HOST && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, ready_state(port), 0);
 		break;
 	case VCONN_SWAP_TURN_OFF_VCONN:
 		tcpm_set_vconn(port, false);
-<<<<<<< HEAD
 		if (port->data_role == TYPEC_HOST && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		if (port->data_role == TYPEC_HOST && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, ready_state(port), 0);
 		break;
 
@@ -5795,16 +4637,8 @@ static void run_state_machine(struct tcpm_port *port)
 	case PR_SWAP_CANCEL:
 	case VCONN_SWAP_CANCEL:
 		tcpm_swap_complete(port, port->swap_status);
-<<<<<<< HEAD
 		if (port->data_role == TYPEC_HOST && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		if (port->data_role == TYPEC_HOST && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (port->pwr_role == TYPEC_SOURCE)
 			tcpm_set_state(port, SRC_READY, 0);
 		else
@@ -5874,10 +4708,6 @@ static void run_state_machine(struct tcpm_port *port)
 			       tcpm_default_state(port),
 			       port->vbus_present ? PD_T_PS_SOURCE_OFF : 0);
 		break;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* AMS intermediate state */
 	case AMS_START:
@@ -5897,11 +4727,6 @@ static void run_state_machine(struct tcpm_port *port)
 		tcpm_pd_send_control(port, PD_CTRL_NOT_SUPP);
 		tcpm_set_state(port, port->pwr_role == TYPEC_SOURCE ? SRC_READY : SNK_READY, 0);
 		break;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		WARN(1, "Unexpected port state %d\n", port->state);
 		break;
@@ -5990,15 +4815,9 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
 		if (tcpm_port_is_disconnected(port) ||
 		    !tcpm_port_is_source(port)) {
 			if (port->port_type == TYPEC_PORT_SRC)
-<<<<<<< HEAD
 				tcpm_set_state(port, SRC_UNATTACHED, tcpm_wait_for_discharge(port));
 			else
 				tcpm_set_state(port, SNK_UNATTACHED, tcpm_wait_for_discharge(port));
-=======
-				tcpm_set_state(port, SRC_UNATTACHED, 0);
-			else
-				tcpm_set_state(port, SNK_UNATTACHED, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	case SNK_UNATTACHED:
@@ -6029,7 +4848,6 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
 			tcpm_set_state(port, SNK_DEBOUNCED, 0);
 		break;
 	case SNK_READY:
-<<<<<<< HEAD
 		/*
 		 * EXIT condition is based primarily on vbus disconnect and CC is secondary.
 		 * "A port that has entered into USB PD communications with the Source and
@@ -6047,9 +4865,6 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
 		 * discharge is enabled.
 		 */
 		if (!port->auto_vbus_discharge_enabled && tcpm_port_is_disconnected(port))
-=======
-		if (tcpm_port_is_disconnected(port))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, unattached_state(port), 0);
 		else if (!port->pd_capable &&
 			 (cc1 != old_cc1 || cc2 != old_cc2))
@@ -6148,7 +4963,6 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
 		 * Ignore CC changes here.
 		 */
 		break;
-<<<<<<< HEAD
 	default:
 		/*
 		 * While acting as sink and auto vbus discharge is enabled, Allow disconnect
@@ -6156,11 +4970,6 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
 		 */
 		if (tcpm_port_is_disconnected(port) && !(port->pwr_role == TYPEC_SINK &&
 							 port->auto_vbus_discharge_enabled))
-=======
-
-	default:
-		if (tcpm_port_is_disconnected(port))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tcpm_set_state(port, unattached_state(port), 0);
 		break;
 	}
@@ -6179,18 +4988,9 @@ static void _tcpm_pd_vbus_on(struct tcpm_port *port)
 	switch (port->state) {
 	case SNK_TRANSITION_SINK_VBUS:
 		port->explicit_contract = true;
-<<<<<<< HEAD
 		/* Set the VDM flag ASAP */
 		if (port->data_role == TYPEC_HOST && port->send_discover)
 			port->vdm_sm_running = true;
-=======
-<<<<<<< HEAD
-		/* Set the VDM flag ASAP */
-		if (port->data_role == TYPEC_HOST && port->send_discover)
-			port->vdm_sm_running = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tcpm_set_state(port, SNK_READY, 0);
 		break;
 	case SNK_DISCOVERY:
@@ -6326,10 +5126,6 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
 		/* Do nothing, waiting for sink detection */
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SRC_STARTUP:
 	case SRC_SEND_CAPABILITIES:
 	case SRC_SEND_CAPABILITIES_TIMEOUT:
@@ -6337,7 +5133,6 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
 	case SRC_TRANSITION_SUPPLY:
 	case SRC_READY:
 	case SRC_WAIT_NEW_CAPABILITIES:
-<<<<<<< HEAD
 		/*
 		 * Force to unattached state to re-initiate connection.
 		 * DRP port should move to Unattached.SNK instead of Unattached.SRC if
@@ -6350,14 +5145,6 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
 			tcpm_set_state(port, SNK_UNATTACHED, tcpm_wait_for_discharge(port));
 		break;
 
-=======
-		/* Force to unattached state to re-initiate connection */
-		tcpm_set_state(port, SRC_UNATTACHED, 0);
-		break;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PORT_RESET:
 		/*
 		 * State set back to default mode once the timer completes.
@@ -6374,14 +5161,8 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
 		break;
 
 	default:
-<<<<<<< HEAD
 		if (port->pwr_role == TYPEC_SINK && port->attached)
 			tcpm_set_state(port, SNK_UNATTACHED, tcpm_wait_for_discharge(port));
-=======
-		if (port->pwr_role == TYPEC_SINK &&
-		    port->attached)
-			tcpm_set_state(port, SNK_UNATTACHED, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -6403,7 +5184,6 @@ static void _tcpm_pd_vbus_vsafe0v(struct tcpm_port *port)
 			tcpm_set_state(port, tcpm_try_snk(port) ? SNK_TRY : SRC_ATTACHED,
 				       PD_T_CC_DEBOUNCE);
 		break;
-<<<<<<< HEAD
 	case SRC_STARTUP:
 	case SRC_SEND_CAPABILITIES:
 	case SRC_SEND_CAPABILITIES_TIMEOUT:
@@ -6421,9 +5201,6 @@ static void _tcpm_pd_vbus_vsafe0v(struct tcpm_port *port)
 	default:
 		if (port->pwr_role == TYPEC_SINK && port->auto_vbus_discharge_enabled)
 			tcpm_set_state(port, SNK_UNATTACHED, 0);
-=======
-	default:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 }
@@ -6434,19 +5211,10 @@ static void _tcpm_pd_hard_reset(struct tcpm_port *port)
 	if (port->bist_request == BDO_MODE_TESTDATA && port->tcpc->set_bist_data)
 		port->tcpc->set_bist_data(port->tcpc, false);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (port->ams != NONE_AMS)
 		port->ams = NONE_AMS;
 	if (port->hard_reset_count < PD_N_HARD_RESET_COUNT)
 		port->ams = HARD_RESET;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If we keep receiving hard reset requests, executing the hard reset
 	 * must have failed. Revert to error recovery if that happens.
@@ -6497,10 +5265,6 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
 				_tcpm_cc_change(port, cc1, cc2);
 		}
 		if (events & TCPM_FRS_EVENT) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (port->state == SNK_READY) {
 				int ret;
 
@@ -6511,15 +5275,6 @@ static void tcpm_pd_event_handler(struct kthread_work *work)
 			} else {
 				tcpm_log(port, "Discarding FRS_SIGNAL! Not in sink ready");
 			}
-<<<<<<< HEAD
-=======
-=======
-			if (port->state == SNK_READY)
-				tcpm_set_state(port, FR_SWAP_SEND, 0);
-			else
-				tcpm_log(port, "Discarding FRS_SIGNAL! Not in sink ready");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		if (events & TCPM_SOURCING_VBUS) {
 			tcpm_log(port, "sourcing vbus");
@@ -6588,14 +5343,7 @@ EXPORT_SYMBOL_GPL(tcpm_sourcing_vbus);
 static void tcpm_enable_frs_work(struct kthread_work *work)
 {
 	struct tcpm_port *port = container_of(work, struct tcpm_port, enable_frs);
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&port->lock);
 	/* Not FRS capable */
@@ -6607,10 +5355,6 @@ static void tcpm_enable_frs_work(struct kthread_work *work)
 		goto unlock;
 
 	/* Send when the state machine is idle */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (port->state != SNK_READY || port->vdm_sm_running || port->send_discover)
 		goto resched;
 
@@ -6622,19 +5366,31 @@ static void tcpm_enable_frs_work(struct kthread_work *work)
 		port->sink_cap_done = true;
 		goto unlock;
 	}
-<<<<<<< HEAD
-=======
-=======
-	if (port->state != SNK_READY || port->vdm_state != VDM_STATE_DONE || port->send_discover)
-		goto resched;
-
-	tcpm_set_state(port, GET_SINK_CAP, 0);
-	port->sink_cap_done = true;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 resched:
 	mod_enable_frs_delayed_work(port, GET_SINK_CAP_RETRY_MS);
+unlock:
+	mutex_unlock(&port->lock);
+}
+
+static void tcpm_send_discover_work(struct kthread_work *work)
+{
+	struct tcpm_port *port = container_of(work, struct tcpm_port, send_discover_work);
+
+	mutex_lock(&port->lock);
+	/* No need to send DISCOVER_IDENTITY anymore */
+	if (!port->send_discover)
+		goto unlock;
+
+	/* Retry if the port is not idle */
+	if ((port->state != SRC_READY && port->state != SNK_READY) || port->vdm_sm_running) {
+		mod_send_discover_delayed_work(port, SEND_DISCOVER_RETRY_MS);
+		goto unlock;
+	}
+
+	/* Only send the Message if the port is host for PD rev2.0 */
+	if (port->data_role == TYPEC_HOST || port->negotiated_rev > PD_REV20)
+		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
+
 unlock:
 	mutex_unlock(&port->lock);
 }
@@ -6682,22 +5438,12 @@ static int tcpm_dr_set(struct typec_port *p, enum typec_data_role data)
 		port->non_pd_role_swap = true;
 		tcpm_set_state(port, PORT_RESET, 0);
 	} else {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		port->upcoming_state = DR_SWAP_SEND;
 		ret = tcpm_ams_start(port, DATA_ROLE_SWAP);
 		if (ret == -EAGAIN) {
 			port->upcoming_state = INVALID_STATE;
 			goto port_unlock;
 		}
-<<<<<<< HEAD
-=======
-=======
-		tcpm_set_state(port, DR_SWAP_SEND, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	port->swap_status = 0;
@@ -6743,10 +5489,6 @@ static int tcpm_pr_set(struct typec_port *p, enum typec_role role)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->upcoming_state = PR_SWAP_SEND;
 	ret = tcpm_ams_start(port, POWER_ROLE_SWAP);
 	if (ret == -EAGAIN) {
@@ -6757,15 +5499,6 @@ static int tcpm_pr_set(struct typec_port *p, enum typec_role role)
 	port->swap_status = 0;
 	port->swap_pending = true;
 	reinit_completion(&port->swap_complete);
-<<<<<<< HEAD
-=======
-=======
-	port->swap_status = 0;
-	port->swap_pending = true;
-	reinit_completion(&port->swap_complete);
-	tcpm_set_state(port, PR_SWAP_SEND, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&port->lock);
 
 	if (!wait_for_completion_timeout(&port->swap_complete,
@@ -6801,10 +5534,6 @@ static int tcpm_vconn_set(struct typec_port *p, enum typec_role role)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->upcoming_state = VCONN_SWAP_SEND;
 	ret = tcpm_ams_start(port, VCONN_SWAP);
 	if (ret == -EAGAIN) {
@@ -6815,15 +5544,6 @@ static int tcpm_vconn_set(struct typec_port *p, enum typec_role role)
 	port->swap_status = 0;
 	port->swap_pending = true;
 	reinit_completion(&port->swap_complete);
-<<<<<<< HEAD
-=======
-=======
-	port->swap_status = 0;
-	port->swap_pending = true;
-	reinit_completion(&port->swap_complete);
-	tcpm_set_state(port, VCONN_SWAP_SEND, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&port->lock);
 
 	if (!wait_for_completion_timeout(&port->swap_complete,
@@ -6859,11 +5579,7 @@ static int tcpm_try_role(struct typec_port *p, int role)
 	return ret;
 }
 
-<<<<<<< HEAD
 static int tcpm_pps_set_op_curr(struct tcpm_port *port, u16 req_op_curr)
-=======
-static int tcpm_pps_set_op_curr(struct tcpm_port *port, u16 op_curr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int target_mw;
 	int ret;
@@ -6881,29 +5597,17 @@ static int tcpm_pps_set_op_curr(struct tcpm_port *port, u16 op_curr)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	if (req_op_curr > port->pps_data.max_curr) {
-=======
-	if (op_curr > port->pps_data.max_curr) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EINVAL;
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	target_mw = (req_op_curr * port->supply_voltage) / 1000;
-=======
-	target_mw = (op_curr * port->pps_data.out_volt) / 1000;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (target_mw < port->operating_snk_mw) {
 		ret = -EINVAL;
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->upcoming_state = SNK_NEGOTIATE_PPS_CAPABILITIES;
 	ret = tcpm_ams_start(port, POWER_NEGOTIATION);
 	if (ret == -EAGAIN) {
@@ -6911,7 +5615,6 @@ static int tcpm_pps_set_op_curr(struct tcpm_port *port, u16 op_curr)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	/* Round down operating current to align with PPS valid steps */
 	req_op_curr = req_op_curr - (req_op_curr % RDO_PROG_CURR_MA_STEP);
 
@@ -6919,21 +5622,6 @@ static int tcpm_pps_set_op_curr(struct tcpm_port *port, u16 op_curr)
 	port->pps_data.req_op_curr = req_op_curr;
 	port->pps_status = 0;
 	port->pps_pending = true;
-=======
-=======
->>>>>>> stable
-	/* Round down operating current to align with PPS valid steps */
-	op_curr = op_curr - (op_curr % RDO_PROG_CURR_MA_STEP);
-
-	reinit_completion(&port->pps_complete);
-	port->pps_data.op_curr = op_curr;
-	port->pps_status = 0;
-	port->pps_pending = true;
-<<<<<<< HEAD
-=======
-	tcpm_set_state(port, SNK_NEGOTIATE_PPS_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&port->lock);
 
 	if (!wait_for_completion_timeout(&port->pps_complete,
@@ -6952,11 +5640,7 @@ swap_unlock:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int tcpm_pps_set_out_volt(struct tcpm_port *port, u16 req_out_volt)
-=======
-static int tcpm_pps_set_out_volt(struct tcpm_port *port, u16 out_volt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int target_mw;
 	int ret;
@@ -6974,31 +5658,18 @@ static int tcpm_pps_set_out_volt(struct tcpm_port *port, u16 out_volt)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	if (req_out_volt < port->pps_data.min_volt ||
 	    req_out_volt > port->pps_data.max_volt) {
-=======
-	if (out_volt < port->pps_data.min_volt ||
-	    out_volt > port->pps_data.max_volt) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EINVAL;
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	target_mw = (port->current_limit * req_out_volt) / 1000;
-=======
-	target_mw = (port->pps_data.op_curr * out_volt) / 1000;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (target_mw < port->operating_snk_mw) {
 		ret = -EINVAL;
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->upcoming_state = SNK_NEGOTIATE_PPS_CAPABILITIES;
 	ret = tcpm_ams_start(port, POWER_NEGOTIATION);
 	if (ret == -EAGAIN) {
@@ -7006,7 +5677,6 @@ static int tcpm_pps_set_out_volt(struct tcpm_port *port, u16 out_volt)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
 	/* Round down output voltage to align with PPS valid steps */
 	req_out_volt = req_out_volt - (req_out_volt % RDO_PROG_VOLT_MV_STEP);
 
@@ -7014,21 +5684,6 @@ static int tcpm_pps_set_out_volt(struct tcpm_port *port, u16 out_volt)
 	port->pps_data.req_out_volt = req_out_volt;
 	port->pps_status = 0;
 	port->pps_pending = true;
-=======
-=======
->>>>>>> stable
-	/* Round down output voltage to align with PPS valid steps */
-	out_volt = out_volt - (out_volt % RDO_PROG_VOLT_MV_STEP);
-
-	reinit_completion(&port->pps_complete);
-	port->pps_data.out_volt = out_volt;
-	port->pps_status = 0;
-	port->pps_pending = true;
-<<<<<<< HEAD
-=======
-	tcpm_set_state(port, SNK_NEGOTIATE_PPS_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&port->lock);
 
 	if (!wait_for_completion_timeout(&port->pps_complete,
@@ -7068,10 +5723,6 @@ static int tcpm_pps_activate(struct tcpm_port *port, bool activate)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (activate)
 		port->upcoming_state = SNK_NEGOTIATE_PPS_CAPABILITIES;
 	else
@@ -7082,30 +5733,14 @@ static int tcpm_pps_activate(struct tcpm_port *port, bool activate)
 		goto port_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reinit_completion(&port->pps_complete);
 	port->pps_status = 0;
 	port->pps_pending = true;
 
 	/* Trigger PPS request or move back to standard PDO contract */
 	if (activate) {
-<<<<<<< HEAD
 		port->pps_data.req_out_volt = port->supply_voltage;
 		port->pps_data.req_op_curr = port->current_limit;
-=======
-		port->pps_data.out_volt = port->supply_voltage;
-		port->pps_data.op_curr = port->current_limit;
-<<<<<<< HEAD
-=======
-		tcpm_set_state(port, SNK_NEGOTIATE_PPS_CAPABILITIES, 0);
-	} else {
-		tcpm_set_state(port, SNK_NEGOTIATE_CAPABILITIES, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	mutex_unlock(&port->lock);
 
@@ -7226,6 +5861,15 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
 	if (!fwnode)
 		return -EINVAL;
 
+	/*
+	 * This fwnode has a "compatible" property, but is never populated as a
+	 * struct device. Instead we simply parse it to read the properties.
+	 * This it breaks fw_devlink=on. To maintain backward compatibility
+	 * with existing DT files, we work around this by deleting any
+	 * fwnode_links to/from this fwnode.
+	 */
+	fw_devlink_purge_absent_suppliers(fwnode);
+
 	/* USB data support is optional */
 	ret = fwnode_property_read_string(fwnode, "data-role", &cap_str);
 	if (ret == 0) {
@@ -7245,6 +5889,7 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
 	port->typec_caps.type = ret;
 	port->port_type = port->typec_caps.type;
 
+	port->slow_charger_loop = fwnode_property_read_bool(fwnode, "slow-charger-loop");
 	if (port->port_type == TYPEC_PORT_SNK)
 		goto sink;
 
@@ -7298,10 +5943,6 @@ sink:
 			port->new_source_frs_current = frs_current;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* sink-vdos is optional */
 	ret = fwnode_property_count_u32(fwnode, "sink-vdos");
 	if (ret < 0)
@@ -7316,11 +5957,22 @@ sink:
 			return ret;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	/* If sink-vdos is found, sink-vdos-v1 is expected for backward compatibility. */
+	if (port->nr_snk_vdo) {
+		ret = fwnode_property_count_u32(fwnode, "sink-vdos-v1");
+		if (ret < 0)
+			return ret;
+		else if (ret == 0)
+			return -ENODATA;
+
+		port->nr_snk_vdo_v1 = min(ret, VDO_MAX_OBJECTS);
+		ret = fwnode_property_read_u32_array(fwnode, "sink-vdos-v1",
+						     port->snk_vdo_v1,
+						     port->nr_snk_vdo_v1);
+		if (ret < 0)
+			return ret;
+	}
+
 	return 0;
 }
 
@@ -7573,6 +6225,14 @@ static enum hrtimer_restart enable_frs_timer_handler(struct hrtimer *timer)
 	return HRTIMER_NORESTART;
 }
 
+static enum hrtimer_restart send_discover_timer_handler(struct hrtimer *timer)
+{
+	struct tcpm_port *port = container_of(timer, struct tcpm_port, send_discover_timer);
+
+	kthread_queue_work(port->wq, &port->send_discover_work);
+	return HRTIMER_NORESTART;
+}
+
 struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
 {
 	struct tcpm_port *port;
@@ -7603,12 +6263,15 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
 	kthread_init_work(&port->vdm_state_machine, vdm_state_machine_work);
 	kthread_init_work(&port->event_work, tcpm_pd_event_handler);
 	kthread_init_work(&port->enable_frs, tcpm_enable_frs_work);
+	kthread_init_work(&port->send_discover_work, tcpm_send_discover_work);
 	hrtimer_init(&port->state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	port->state_machine_timer.function = state_machine_timer_handler;
 	hrtimer_init(&port->vdm_state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	port->vdm_state_machine_timer.function = vdm_state_machine_timer_handler;
 	hrtimer_init(&port->enable_frs_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	port->enable_frs_timer.function = enable_frs_timer_handler;
+	hrtimer_init(&port->send_discover_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+	port->send_discover_timer.function = send_discover_timer_handler;
 
 	spin_lock_init(&port->pd_event_lock);
 
@@ -7626,14 +6289,7 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
 	port->typec_caps.fwnode = tcpc->fwnode;
 	port->typec_caps.revision = 0x0120;	/* Type-C spec release 1.2 */
 	port->typec_caps.pd_revision = 0x0300;	/* USB-PD spec release 3.0 */
-<<<<<<< HEAD
 	port->typec_caps.svdm_version = SVDM_VER_2_0;
-=======
-<<<<<<< HEAD
-	port->typec_caps.svdm_version = SVDM_VER_2_0;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->typec_caps.driver_data = port;
 	port->typec_caps.ops = &tcpm_ops;
 	port->typec_caps.orientation_aware = 1;
@@ -7658,6 +6314,10 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
 		goto out_role_sw_put;
 	}
 
+	typec_port_register_altmodes(port->typec_port,
+				     &tcpm_altmode_ops, port,
+				     port->port_altmode, ALTMODE_DISCOVERY_MAX);
+
 	mutex_lock(&port->lock);
 	tcpm_init(port);
 	mutex_unlock(&port->lock);
@@ -7678,13 +6338,11 @@ void tcpm_unregister_port(struct tcpm_port *port)
 {
 	int i;
 
-<<<<<<< HEAD
+	hrtimer_cancel(&port->send_discover_timer);
 	hrtimer_cancel(&port->enable_frs_timer);
 	hrtimer_cancel(&port->vdm_state_machine_timer);
 	hrtimer_cancel(&port->state_machine_timer);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcpm_reset_port(port);
 	for (i = 0; i < ARRAY_SIZE(port->port_altmode); i++)
 		typec_unregister_altmode(port->port_altmode[i]);

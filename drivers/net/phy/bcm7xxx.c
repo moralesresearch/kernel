@@ -612,10 +612,7 @@ static void bcm7xxx_28nm_remove(struct phy_device *phydev)
 
 static struct phy_driver bcm7xxx_driver[] = {
 	BCM7XXX_28NM_EPHY(PHY_ID_BCM72113, "Broadcom BCM72113"),
-<<<<<<< HEAD
 	BCM7XXX_28NM_EPHY(PHY_ID_BCM72116, "Broadcom BCM72116"),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BCM7XXX_28NM_GPHY(PHY_ID_BCM7250, "Broadcom BCM7250"),
 	BCM7XXX_28NM_EPHY(PHY_ID_BCM7255, "Broadcom BCM7255"),
 	BCM7XXX_28NM_EPHY(PHY_ID_BCM7260, "Broadcom BCM7260"),
@@ -637,10 +634,7 @@ static struct phy_driver bcm7xxx_driver[] = {
 
 static struct mdio_device_id __maybe_unused bcm7xxx_tbl[] = {
 	{ PHY_ID_BCM72113, 0xfffffff0 },
-<<<<<<< HEAD
 	{ PHY_ID_BCM72116, 0xfffffff0, },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ PHY_ID_BCM7250, 0xfffffff0, },
 	{ PHY_ID_BCM7255, 0xfffffff0, },
 	{ PHY_ID_BCM7260, 0xfffffff0, },

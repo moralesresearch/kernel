@@ -21,10 +21,7 @@
 		compatible = "pwm-backlight";
 		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
 		enable-gpios = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-<<<<<<< HEAD
 		power-supply = <&reg_ps>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Backlight configuration differs per PinePhone revision. */
 	};
 
@@ -35,38 +32,25 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		blue {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
 		};
 
-<<<<<<< HEAD
 		led-2 {
-=======
-		red {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			function = LED_FUNCTION_INDICATOR;
 			color = <LED_COLOR_ID_RED>;
 			gpios = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
 		};
 	};
 
-<<<<<<< HEAD
 	reg_ps: ps-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "ps";
@@ -75,8 +59,6 @@
 		regulator-boot-on;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg_vbat_wifi: vbat-wifi {
 		compatible = "regulator-fixed";
 		regulator-min-microvolt = <3300000>;
@@ -201,11 +183,6 @@
 		reg = <0x48>;
 		interrupt-parent = <&pio>;
 		interrupts = <1 0 IRQ_TYPE_EDGE_FALLING>; /* PB0 */
-<<<<<<< HEAD
-=======
-		vdd-supply = <&reg_ldo_io0>;
-		leda-supply = <&reg_dldo1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	/* Accelerometer/gyroscope */
@@ -226,10 +203,7 @@
 
 &lradc {
 	vref-supply = <&reg_aldo3>;
-<<<<<<< HEAD
 	wakeup-source;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 
 	button-200 {
@@ -322,7 +296,7 @@
 		compatible = "x-powers,axp803";
 		reg = <0x3a3>;
 		interrupt-parent = <&r_intc>;
-		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
 	};
 };
 

@@ -9,17 +9,11 @@
 #include <linux/arm-smccc.h>
 #include <linux/device.h>
 #include <linux/err.h>
-<<<<<<< HEAD
 #include <linux/interrupt.h>
 #include <linux/mutex.h>
 #include <linux/of.h>
 #include <linux/of_address.h>
 #include <linux/of_irq.h>
-=======
-#include <linux/mutex.h>
-#include <linux/of.h>
-#include <linux/of_address.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 
 #include "common.h"
@@ -31,11 +25,8 @@
  * @shmem: Transmit/Receive shared memory area
  * @shmem_lock: Lock to protect access to Tx/Rx shared memory area
  * @func_id: smc/hvc call function id
-<<<<<<< HEAD
  * @irq: Optional; employed when platforms indicates msg completion by intr.
  * @tx_complete: Optional, employed only when irq is valid.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 struct scmi_smc {
@@ -43,7 +34,6 @@ struct scmi_smc {
 	struct scmi_shared_mem __iomem *shmem;
 	struct mutex shmem_lock;
 	u32 func_id;
-<<<<<<< HEAD
 	int irq;
 	struct completion tx_complete;
 };
@@ -57,10 +47,6 @@ static irqreturn_t smc_msg_done_isr(int irq, void *data)
 	return IRQ_HANDLED;
 }
 
-=======
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool smc_chan_available(struct device *dev, int idx)
 {
 	struct device_node *np = of_parse_phandle(dev->of_node, "shmem", 0);
@@ -80,11 +66,7 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
 	struct resource res;
 	struct device_node *np;
 	u32 func_id;
-<<<<<<< HEAD
 	int ret, irq;
-=======
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!tx)
 		return -ENODEV;
@@ -112,7 +94,6 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
 	/*
 	 * If there is an interrupt named "a2p", then the service and
 	 * completion of a message is signaled by an interrupt rather than by
@@ -131,8 +112,6 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
 		scmi_info->irq = irq;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scmi_info->func_id = func_id;
 	scmi_info->cinfo = cinfo;
 	mutex_init(&scmi_info->shmem_lock);
@@ -164,7 +143,6 @@ static int smc_send_message(struct scmi_chan_info *cinfo,
 
 	shmem_tx_prepare(scmi_info->shmem, xfer);
 
-<<<<<<< HEAD
 	if (scmi_info->irq)
 		reinit_completion(&scmi_info->tx_complete);
 
@@ -173,9 +151,6 @@ static int smc_send_message(struct scmi_chan_info *cinfo,
 	if (scmi_info->irq)
 		wait_for_completion(&scmi_info->tx_complete);
 
-=======
-	arm_smccc_1_1_invoke(scmi_info->func_id, 0, 0, 0, 0, 0, 0, 0, &res);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scmi_rx_callback(scmi_info->cinfo, shmem_read_header(scmi_info->shmem));
 
 	mutex_unlock(&scmi_info->shmem_lock);

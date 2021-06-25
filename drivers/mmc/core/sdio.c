@@ -751,11 +751,7 @@ try_again:
 	 * Read CSD, before selecting the card
 	 */
 	if (!oldcard && card->type == MMC_TYPE_SD_COMBO) {
-<<<<<<< HEAD
 		err = mmc_sd_get_csd(card);
-=======
-		err = mmc_sd_get_csd(host, card);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto remove;
 
@@ -989,17 +985,12 @@ out:
  */
 static int mmc_sdio_pre_suspend(struct mmc_host *host)
 {
-<<<<<<< HEAD
 	int i;
-=======
-	int i, err = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < host->card->sdio_funcs; i++) {
 		struct sdio_func *func = host->card->sdio_func[i];
 		if (func && sdio_func_present(func) && func->dev.driver) {
 			const struct dev_pm_ops *pmops = func->dev.driver->pm;
-<<<<<<< HEAD
 			if (!pmops || !pmops->suspend || !pmops->resume)
 				/* force removal of entire card in that case */
 				goto remove;
@@ -1025,17 +1016,6 @@ remove:
 	host->pm_flags = 0;
 
 	return 0;
-=======
-			if (!pmops || !pmops->suspend || !pmops->resume) {
-				/* force removal of entire card in that case */
-				err = -ENOSYS;
-				break;
-			}
-		}
-	}
-
-	return err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

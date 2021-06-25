@@ -118,10 +118,7 @@ static int sun4i_csi_notifier_init(struct sun4i_csi *csi)
 	struct v4l2_fwnode_endpoint vep = {
 		.bus_type = V4L2_MBUS_PARALLEL,
 	};
-<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct fwnode_handle *ep;
 	int ret;
 
@@ -138,19 +135,12 @@ static int sun4i_csi_notifier_init(struct sun4i_csi *csi)
 
 	csi->bus = vep.bus.parallel;
 
-<<<<<<< HEAD
 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier, ep,
 							   struct v4l2_async_subdev);
 	if (IS_ERR(asd)) {
 		ret = PTR_ERR(asd);
 		goto out;
 	}
-=======
-	ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-							   ep, &csi->asd);
-	if (ret)
-		goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	csi->notifier.ops = &sun4i_csi_notify_ops;
 

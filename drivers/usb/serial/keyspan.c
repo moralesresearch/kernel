@@ -41,31 +41,7 @@
 #define DRIVER_AUTHOR "Hugh Blemings <hugh@misc.nu"
 #define DRIVER_DESC "Keyspan USB to Serial Converter Driver"
 
-/* Function prototypes for Keyspan serial converter */
-static int keyspan_open(struct tty_struct *tty, struct usb_serial_port *port);
-static void keyspan_close(struct usb_serial_port *port);
-static void keyspan_dtr_rts(struct usb_serial_port *port, int on);
-static int keyspan_startup(struct usb_serial *serial);
-static void keyspan_disconnect(struct usb_serial *serial);
-static void keyspan_release(struct usb_serial *serial);
-static int keyspan_port_probe(struct usb_serial_port *port);
-<<<<<<< HEAD
-static void keyspan_port_remove(struct usb_serial_port *port);
-=======
-static int keyspan_port_remove(struct usb_serial_port *port);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-static int keyspan_write_room(struct tty_struct *tty);
-static int keyspan_write(struct tty_struct *tty, struct usb_serial_port *port,
-			 const unsigned char *buf, int count);
 static void keyspan_send_setup(struct usb_serial_port *port, int reset_port);
-static void keyspan_set_termios(struct tty_struct *tty,
-				struct usb_serial_port *port,
-				struct ktermios *old);
-static void keyspan_break_ctl(struct tty_struct *tty, int break_state);
-static int keyspan_tiocmget(struct tty_struct *tty);
-static int keyspan_tiocmset(struct tty_struct *tty, unsigned int set,
-			    unsigned int clear);
-static int keyspan_fake_startup(struct usb_serial *serial);
 
 static int keyspan_usa19_calc_baud(struct usb_serial_port *port,
 				   u32 baud_rate, u32 baudclk,
@@ -2989,11 +2965,7 @@ err_in_buffer:
 	return -ENOMEM;
 }
 
-<<<<<<< HEAD
 static void keyspan_port_remove(struct usb_serial_port *port)
-=======
-static int keyspan_port_remove(struct usb_serial_port *port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct keyspan_port_private *p_priv;
 	int i;
@@ -3022,11 +2994,6 @@ static int keyspan_port_remove(struct usb_serial_port *port)
 		kfree(p_priv->in_buffer[i]);
 
 	kfree(p_priv);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Structs for the devices, pre and post renumeration. */

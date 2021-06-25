@@ -166,14 +166,9 @@ static inline bool can_do_mincore(struct vm_area_struct *vma)
 	 * for writing; otherwise we'd be including shared non-exclusive
 	 * mappings, which opens a side channel.
 	 */
-<<<<<<< HEAD
 	return inode_owner_or_capable(&init_user_ns,
 				      file_inode(vma->vm_file)) ||
 	       file_permission(vma->vm_file, MAY_WRITE) == 0;
-=======
-	return inode_owner_or_capable(file_inode(vma->vm_file)) ||
-		inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct mm_walk_ops mincore_walk_ops = {

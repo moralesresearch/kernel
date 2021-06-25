@@ -34,7 +34,6 @@ properties:
     maxItems: 1
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/$defs/port-base
     unevaluatedProperties: false
 
@@ -44,20 +43,6 @@ properties:
         unevaluatedProperties: false
 
         properties:
-=======
-    type: object
-    additionalProperties: false
-
-    properties:
-      endpoint:
-        type: object
-        additionalProperties: false
-
-         # Properties described in
-         # Documentation/devicetree/bindings/media/video-interfaces.txt
-        properties:
-          remote-endpoint: true
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           hsync-active: true
           vsync-active: true
           field-even-active: false
@@ -65,15 +50,6 @@ properties:
             enum: [8, 16]
             default: 8
 
-<<<<<<< HEAD
-=======
-        required:
-          - remote-endpoint
-
-    required:
-      - endpoint
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

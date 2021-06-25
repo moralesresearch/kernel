@@ -23,13 +23,6 @@
 #include <asm/mipsmtregs.h>
 #include <asm/mmzone.h>
 #include <asm/unroll.h>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include <linux/uaccess.h> /* for uaccess_kernel() */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern void (*r4k_blast_dcache)(void);
 extern void (*r4k_blast_icache)(void);
@@ -108,38 +101,17 @@ static inline void flush_scache_line(unsigned long addr)
 	cache_op(Hit_Writeback_Inv_SD, addr);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_EVA
 
 #define protected_cache_op(op, addr)				\
-=======
-<<<<<<< HEAD
-#ifdef CONFIG_EVA
-
-#define protected_cache_op(op, addr)				\
-=======
-#define protected_cache_op(op,addr)				\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ({								\
 	int __err = 0;						\
 	__asm__ __volatile__(					\
 	"	.set	push			\n"		\
 	"	.set	noreorder		\n"		\
-<<<<<<< HEAD
 	"	.set	mips0			\n"		\
 	"	.set	eva			\n"		\
 	"1:	cachee	%1, (%2)		\n"		\
-=======
-<<<<<<< HEAD
-	"	.set	mips0			\n"		\
-	"	.set	eva			\n"		\
-	"1:	cachee	%1, (%2)		\n"		\
-=======
-	"	.set "MIPS_ISA_ARCH_LEVEL"	\n"		\
-	"1:	cache	%1, (%2)		\n"		\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"2:	.insn				\n"		\
 	"	.set	pop			\n"		\
 	"	.section .fixup,\"ax\"		\n"		\
@@ -153,39 +125,16 @@ static inline void flush_scache_line(unsigned long addr)
 	: "i" (op), "r" (addr), "i" (-EFAULT));			\
 	__err;							\
 })
-<<<<<<< HEAD
 #else
 
 #define protected_cache_op(op, addr)				\
-=======
-<<<<<<< HEAD
-#else
-
-#define protected_cache_op(op, addr)				\
-=======
-
-
-#define protected_cachee_op(op,addr)				\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ({								\
 	int __err = 0;						\
 	__asm__ __volatile__(					\
 	"	.set	push			\n"		\
 	"	.set	noreorder		\n"		\
-<<<<<<< HEAD
 	"	.set "MIPS_ISA_ARCH_LEVEL"	\n"		\
 	"1:	cache	%1, (%2)		\n"		\
-=======
-<<<<<<< HEAD
-	"	.set "MIPS_ISA_ARCH_LEVEL"	\n"		\
-	"1:	cache	%1, (%2)		\n"		\
-=======
-	"	.set	mips0			\n"		\
-	"	.set	eva			\n"		\
-	"1:	cachee	%1, (%2)		\n"		\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"2:	.insn				\n"		\
 	"	.set	pop			\n"		\
 	"	.section .fixup,\"ax\"		\n"		\
@@ -199,14 +148,7 @@ static inline void flush_scache_line(unsigned long addr)
 	: "i" (op), "r" (addr), "i" (-EFAULT));			\
 	__err;							\
 })
-<<<<<<< HEAD
 #endif
-=======
-<<<<<<< HEAD
-#endif
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * The next two are for badland addresses like signal trampolines.
@@ -218,19 +160,7 @@ static inline int protected_flush_icache_line(unsigned long addr)
 		return protected_cache_op(Hit_Invalidate_I_Loongson2, addr);
 
 	default:
-<<<<<<< HEAD
 		return protected_cache_op(Hit_Invalidate_I, addr);
-=======
-<<<<<<< HEAD
-		return protected_cache_op(Hit_Invalidate_I, addr);
-=======
-#ifdef CONFIG_EVA
-		return protected_cachee_op(Hit_Invalidate_I, addr);
-#else
-		return protected_cache_op(Hit_Invalidate_I, addr);
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -242,36 +172,12 @@ static inline int protected_flush_icache_line(unsigned long addr)
  */
 static inline int protected_writeback_dcache_line(unsigned long addr)
 {
-<<<<<<< HEAD
 	return protected_cache_op(Hit_Writeback_Inv_D, addr);
-=======
-<<<<<<< HEAD
-	return protected_cache_op(Hit_Writeback_Inv_D, addr);
-=======
-#ifdef CONFIG_EVA
-	return protected_cachee_op(Hit_Writeback_Inv_D, addr);
-#else
-	return protected_cache_op(Hit_Writeback_Inv_D, addr);
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int protected_writeback_scache_line(unsigned long addr)
 {
-<<<<<<< HEAD
 	return protected_cache_op(Hit_Writeback_Inv_SD, addr);
-=======
-<<<<<<< HEAD
-	return protected_cache_op(Hit_Writeback_Inv_SD, addr);
-=======
-#ifdef CONFIG_EVA
-	return protected_cachee_op(Hit_Writeback_Inv_SD, addr);
-#else
-	return protected_cache_op(Hit_Writeback_Inv_SD, addr);
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -391,53 +297,8 @@ static inline void prot##extra##blast_##pfx##cache##_range(unsigned long start, 
 	}								\
 }
 
-<<<<<<< HEAD
 __BUILD_BLAST_CACHE_RANGE(d, dcache, Hit_Writeback_Inv_D, protected_, )
 __BUILD_BLAST_CACHE_RANGE(i, icache, Hit_Invalidate_I, protected_, )
-=======
-<<<<<<< HEAD
-__BUILD_BLAST_CACHE_RANGE(d, dcache, Hit_Writeback_Inv_D, protected_, )
-__BUILD_BLAST_CACHE_RANGE(i, icache, Hit_Invalidate_I, protected_, )
-=======
-#ifndef CONFIG_EVA
-
-__BUILD_BLAST_CACHE_RANGE(d, dcache, Hit_Writeback_Inv_D, protected_, )
-__BUILD_BLAST_CACHE_RANGE(i, icache, Hit_Invalidate_I, protected_, )
-
-#else
-
-#define __BUILD_PROT_BLAST_CACHE_RANGE(pfx, desc, hitop)		\
-static inline void protected_blast_##pfx##cache##_range(unsigned long start,\
-							unsigned long end) \
-{									\
-	unsigned long lsize = cpu_##desc##_line_size();			\
-	unsigned long addr = start & ~(lsize - 1);			\
-	unsigned long aend = (end - 1) & ~(lsize - 1);			\
-									\
-	if (!uaccess_kernel()) {					\
-		while (1) {						\
-			protected_cachee_op(hitop, addr);		\
-			if (addr == aend)				\
-				break;					\
-			addr += lsize;					\
-		}							\
-	} else {							\
-		while (1) {						\
-			protected_cache_op(hitop, addr);		\
-			if (addr == aend)				\
-				break;					\
-			addr += lsize;					\
-		}                                                       \
-									\
-	}								\
-}
-
-__BUILD_PROT_BLAST_CACHE_RANGE(d, dcache, Hit_Writeback_Inv_D)
-__BUILD_PROT_BLAST_CACHE_RANGE(i, icache, Hit_Invalidate_I)
-
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __BUILD_BLAST_CACHE_RANGE(s, scache, Hit_Writeback_Inv_SD, protected_, )
 __BUILD_BLAST_CACHE_RANGE(i, icache, Hit_Invalidate_I_Loongson2, \
 	protected_, loongson2_)

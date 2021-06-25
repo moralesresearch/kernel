@@ -96,11 +96,8 @@ static int msi_wmi_query_block(int instance, int *ret)
 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
 
 	status = wmi_query_block(MSIWMI_BIOS_GUID, instance, &output);
-<<<<<<< HEAD
 	if (ACPI_FAILURE(status))
 		return -EIO;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	obj = output.pointer;
 

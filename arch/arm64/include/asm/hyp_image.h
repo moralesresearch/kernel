@@ -7,17 +7,18 @@
 #ifndef __ARM64_HYP_IMAGE_H__
 #define __ARM64_HYP_IMAGE_H__
 
-<<<<<<< HEAD
 #define __HYP_CONCAT(a, b)	a ## b
 #define HYP_CONCAT(a, b)	__HYP_CONCAT(a, b)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#ifndef __KVM_NVHE_HYPERVISOR__
 /*
  * KVM nVHE code has its own symbol namespace prefixed with __kvm_nvhe_,
  * to separate it from the kernel proper.
  */
 #define kvm_nvhe_sym(sym)	__kvm_nvhe_##sym
+#else
+#define kvm_nvhe_sym(sym)	sym
+#endif
 
 #ifdef LINKER_SCRIPT
 
@@ -27,7 +28,6 @@
  */
 #define HYP_SECTION_NAME(NAME)	.hyp##NAME
 
-<<<<<<< HEAD
 /* Symbol defined at the beginning of each hyp section. */
 #define HYP_SECTION_SYMBOL_NAME(NAME) \
 	HYP_CONCAT(__hyp_section_, HYP_SECTION_NAME(NAME))
@@ -53,17 +53,15 @@
 	BEGIN_HYP_SECTION(NAME)			\
 		*(NAME NAME##.*)		\
 	END_HYP_SECTION
-=======
-/* Defines an ELF hyp section from input section @NAME and its subsections. */
-#define HYP_SECTION(NAME) \
-	HYP_SECTION_NAME(NAME) : { *(NAME NAME##.*) }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Defines a linker script alias of a kernel-proper symbol referenced by
  * KVM nVHE hyp code.
  */
 #define KVM_NVHE_ALIAS(sym)	kvm_nvhe_sym(sym) = sym;
+
+/* Defines a linker script alias for KVM nVHE hyp symbols */
+#define KVM_NVHE_ALIAS_HYP(first, sec)	kvm_nvhe_sym(first) = kvm_nvhe_sym(sec);
 
 #endif /* LINKER_SCRIPT */
 

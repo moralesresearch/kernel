@@ -463,11 +463,7 @@ static int mtk_cpufreq_exit(struct cpufreq_policy *policy)
 }
 
 static struct cpufreq_driver mtk_cpufreq_driver = {
-<<<<<<< HEAD
 	.flags = CPUFREQ_NEED_INITIAL_FREQ_CHECK |
-=======
-	.flags = CPUFREQ_STICKY | CPUFREQ_NEED_INITIAL_FREQ_CHECK |
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
 		 CPUFREQ_IS_COOLING_DEV,
 	.verify = cpufreq_generic_frequency_table_verify,

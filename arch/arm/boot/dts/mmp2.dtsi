@@ -6,10 +6,7 @@
 
 #include <dt-bindings/clock/marvell,mmp2.h>
 #include <dt-bindings/power/marvell,mmp2.h>
-<<<<<<< HEAD
 #include <dt-bindings/clock/marvell,mmp2-audio.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	#address-cells = <1>;
@@ -247,11 +244,7 @@
 				interrupts = <2>;
 				clock-names = "audio", "bitclk";
 				clocks = <&soc_clocks MMP2_CLK_AUDIO>,
-<<<<<<< HEAD
 					 <&audio_clk MMP2_CLK_AUDIO_SSPA0>;
-=======
-					 <&audio_clk 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				power-domains = <&soc_clocks MMP2_POWER_DOMAIN_AUDIO>;
 				#sound-dai-cells = <0>;
 				status = "disabled";
@@ -264,11 +257,7 @@
 				interrupts = <3>;
 				clock-names = "audio", "bitclk";
 				clocks = <&soc_clocks MMP2_CLK_AUDIO>,
-<<<<<<< HEAD
 					 <&audio_clk MMP2_CLK_AUDIO_SSPA1>;
-=======
-					 <&audio_clk 2>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				power-domains = <&soc_clocks MMP2_POWER_DOMAIN_AUDIO>;
 				#sound-dai-cells = <0>;
 				status = "disabled";

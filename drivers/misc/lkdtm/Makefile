@@ -16,10 +16,7 @@ lkdtm-$(CONFIG_PPC_BOOK3S_64)	+= powerpc.o
 KASAN_SANITIZE_rodata.o		:= n
 KASAN_SANITIZE_stackleak.o	:= n
 KCOV_INSTRUMENT_rodata.o	:= n
-<<<<<<< HEAD
 CFLAGS_REMOVE_rodata.o		+= $(CC_FLAGS_LTO)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 OBJCOPYFLAGS :=
 OBJCOPYFLAGS_rodata_objcopy.o	:= \

@@ -16,7 +16,11 @@ description: |
   The PMIC part is provided by
   drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
 
+allOf:
+  - $ref: spmi.yaml#
+
 properties:
+
   $nodename:
     pattern: "spmi@[0-9a-f]"
 
@@ -26,45 +30,26 @@ properties:
   reg:
     maxItems: 1
 
-<<<<<<< HEAD
-  "#address-cells":
-    const: 2
-
-  "#size-cells":
-    const: 0
-
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   spmi-channel:
+    $ref: /schemas/types.yaml#/definitions/uint32
     description: |
       number of the Kirin 970 SPMI channel where the SPMI devices are connected.
 
 required:
-<<<<<<< HEAD
   - compatible
   - reg
   - spmi-channel
-  - "#address-cells"
-  - "#size-cells"
-=======
- - compatible
- - reg
- - spmi-channel
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 patternProperties:
-  "^pmic@[0-9a-f]$":
+  "@[0-9a-f]$":
     description: |
       PMIC properties, which are specific to the used SPMI PMIC device(s).
       When used in combination with HiSilicon 6421v600, the properties
       are documented at
       drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
 
-<<<<<<< HEAD
-additionalProperties: false
+unevaluatedProperties: false
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 examples:
   - |
     bus {
@@ -73,20 +58,13 @@ examples:
 
       spmi: spmi@fff24000 {
         compatible = "hisilicon,kirin970-spmi-controller";
-<<<<<<< HEAD
         #address-cells = <2>;
         #size-cells = <0>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-        status = "ok";
         reg = <0x0 0xfff24000 0x0 0x1000>;
         spmi-channel = <2>;
 
         pmic@0 {
-<<<<<<< HEAD
           reg = <0 0>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           /* pmic properties */
         };
       };

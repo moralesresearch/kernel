@@ -94,7 +94,7 @@ static int i40iw_query_device(struct ib_device *ibdev,
  * @props: returning device attributes
  */
 static int i40iw_query_port(struct ib_device *ibdev,
-			    u8 port,
+			    u32 port,
 			    struct ib_port_attr *props)
 {
 	props->lid = 1;
@@ -265,13 +265,7 @@ static struct i40iw_pbl *i40iw_get_pbl(unsigned long va,
 
 /**
  * i40iw_free_qp_resources - free up memory resources for qp
-<<<<<<< HEAD
  * @iwqp: qp ptr (user or kernel)
-=======
- * @iwdev: iwarp device
- * @iwqp: qp ptr (user or kernel)
- * @qp_num: qp number assigned
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void i40iw_free_qp_resources(struct i40iw_qp *iwqp)
 {
@@ -306,10 +300,7 @@ static void i40iw_clean_cqes(struct i40iw_qp *iwqp, struct i40iw_cq *iwcq)
 /**
  * i40iw_destroy_qp - destroy qp
  * @ibqp: qp's ib pointer also to get to device's qp address
-<<<<<<< HEAD
  * @udata: user data
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int i40iw_destroy_qp(struct ib_qp *ibqp, struct ib_udata *udata)
 {
@@ -346,13 +337,8 @@ static int i40iw_destroy_qp(struct ib_qp *ibqp, struct ib_udata *udata)
 
 /**
  * i40iw_setup_virt_qp - setup for allocation of virtual qp
-<<<<<<< HEAD
  * @iwdev: iwarp device
  * @iwqp: qp ptr
-=======
- * @dev: iwarp device
- * @qp: qp ptr
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @init_info: initialize info to return
  */
 static int i40iw_setup_virt_qp(struct i40iw_device *iwdev,
@@ -661,7 +647,7 @@ error:
 }
 
 /**
- * i40iw_query - query qp attributes
+ * i40iw_query_qp - query qp attributes
  * @ibqp: qp pointer
  * @attr: attributes pointer
  * @attr_mask: Not used
@@ -1254,11 +1240,7 @@ static void i40iw_copy_user_pgaddrs(struct i40iw_mr *iwmr,
  * i40iw_check_mem_contiguous - check if pbls stored in arr are contiguous
  * @arr: lvl1 pbl array
  * @npages: page count
-<<<<<<< HEAD
  * @pg_size: page size
-=======
- * pg_size: page size
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  */
 static bool i40iw_check_mem_contiguous(u64 *arr, u32 npages, u32 pg_size)
@@ -1275,11 +1257,7 @@ static bool i40iw_check_mem_contiguous(u64 *arr, u32 npages, u32 pg_size)
 /**
  * i40iw_check_mr_contiguous - check if MR is physically contiguous
  * @palloc: pbl allocation struct
-<<<<<<< HEAD
  * @pg_size: page size
-=======
- * pg_size: page size
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static bool i40iw_check_mr_contiguous(struct i40iw_pble_alloc *palloc, u32 pg_size)
 {
@@ -1554,10 +1532,7 @@ static int i40iw_set_page(struct ib_mr *ibmr, u64 addr)
  * @ibmr: ib mem to access iwarp mr pointer
  * @sg: scatter gather list for fmr
  * @sg_nents: number of sg pages
-<<<<<<< HEAD
  * @sg_offset: scatter gather offset
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int i40iw_map_mr_sg(struct ib_mr *ibmr, struct scatterlist *sg,
 			   int sg_nents, unsigned int *sg_offset)
@@ -1871,7 +1846,7 @@ static struct ib_mr *i40iw_get_dma_mr(struct ib_pd *pd, int acc)
 }
 
 /**
- * i40iw_del_mem_list - Deleting pbl list entries for CQ/QP
+ * i40iw_del_memlist - Deleting pbl list entries for CQ/QP
  * @iwmr: iwmr for IB's user page addresses
  * @ucontext: ptr to user context
  */
@@ -1906,10 +1881,7 @@ static void i40iw_del_memlist(struct i40iw_mr *iwmr,
 /**
  * i40iw_dereg_mr - deregister mr
  * @ib_mr: mr ptr for dereg
-<<<<<<< HEAD
  * @udata: user data
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int i40iw_dereg_mr(struct ib_mr *ib_mr, struct ib_udata *udata)
 {
@@ -1974,11 +1946,7 @@ static int i40iw_dereg_mr(struct ib_mr *ib_mr, struct ib_udata *udata)
 	return 0;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * hw_rev_show
  */
 static ssize_t hw_rev_show(struct device *dev,
@@ -1992,11 +1960,7 @@ static ssize_t hw_rev_show(struct device *dev,
 }
 static DEVICE_ATTR_RO(hw_rev);
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * hca_type_show
  */
 static ssize_t hca_type_show(struct device *dev,
@@ -2006,11 +1970,7 @@ static ssize_t hca_type_show(struct device *dev,
 }
 static DEVICE_ATTR_RO(hca_type);
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * board_id_show
  */
 static ssize_t board_id_show(struct device *dev,
@@ -2387,7 +2347,7 @@ static int i40iw_req_notify_cq(struct ib_cq *ibcq,
  * @port_num: port number
  * @immutable: immutable data for the port return
  */
-static int i40iw_port_immutable(struct ib_device *ibdev, u8 port_num,
+static int i40iw_port_immutable(struct ib_device *ibdev, u32 port_num,
 				struct ib_port_immutable *immutable)
 {
 	struct ib_port_attr attr;
@@ -2486,7 +2446,7 @@ static void i40iw_get_dev_fw_str(struct ib_device *dev, char *str)
  * @port_num: port number
  */
 static struct rdma_hw_stats *i40iw_alloc_hw_stats(struct ib_device *ibdev,
-						  u8 port_num)
+						  u32 port_num)
 {
 	struct i40iw_device *iwdev = to_iwdev(ibdev);
 	struct i40iw_sc_dev *dev = &iwdev->sc_dev;
@@ -2517,7 +2477,7 @@ static struct rdma_hw_stats *i40iw_alloc_hw_stats(struct ib_device *ibdev,
  */
 static int i40iw_get_hw_stats(struct ib_device *ibdev,
 			      struct rdma_hw_stats *stats,
-			      u8 port_num, int index)
+			      u32 port_num, int index)
 {
 	struct i40iw_device *iwdev = to_iwdev(ibdev);
 	struct i40iw_sc_dev *dev = &iwdev->sc_dev;
@@ -2544,7 +2504,7 @@ static int i40iw_get_hw_stats(struct ib_device *ibdev,
  * @gid: Global ID
  */
 static int i40iw_query_gid(struct ib_device *ibdev,
-			   u8 port,
+			   u32 port,
 			   int index,
 			   union ib_gid *gid)
 {

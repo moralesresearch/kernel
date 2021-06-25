@@ -33,19 +33,13 @@
 #include <crypto/akcipher.h>
 #include <crypto/kpp.h>
 #include <crypto/acompress.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/simd.h>
 
 #include "internal.h"
 
-<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool notests;
 module_param(notests, bool, 0644);
 MODULE_PARM_DESC(notests, "disable crypto self-tests");
@@ -1174,11 +1168,6 @@ static inline int check_shash_op(const char *op, int err,
 	return err;
 }
 
-static inline const void *sg_data(struct scatterlist *sg)
-{
-	return page_address(sg_page(sg)) + sg->offset;
-}
-
 /* Test one hash test vector in one configuration, using the shash API */
 static int test_shash_vec_cfg(const struct hash_testvec *vec,
 			      const char *vec_name,
@@ -1236,7 +1225,7 @@ static int test_shash_vec_cfg(const struct hash_testvec *vec,
 			return 0;
 		if (cfg->nosimd)
 			crypto_disable_simd_for_test();
-		err = crypto_shash_digest(desc, sg_data(&tsgl->sgl[0]),
+		err = crypto_shash_digest(desc, sg_virt(&tsgl->sgl[0]),
 					  tsgl->sgl[0].length, result);
 		if (cfg->nosimd)
 			crypto_reenable_simd_for_test();
@@ -1272,7 +1261,7 @@ static int test_shash_vec_cfg(const struct hash_testvec *vec,
 		    cfg->finalization_type == FINALIZATION_TYPE_FINUP) {
 			if (divs[i]->nosimd)
 				crypto_disable_simd_for_test();
-			err = crypto_shash_finup(desc, sg_data(&tsgl->sgl[i]),
+			err = crypto_shash_finup(desc, sg_virt(&tsgl->sgl[i]),
 						 tsgl->sgl[i].length, result);
 			if (divs[i]->nosimd)
 				crypto_reenable_simd_for_test();
@@ -1284,7 +1273,7 @@ static int test_shash_vec_cfg(const struct hash_testvec *vec,
 		}
 		if (divs[i]->nosimd)
 			crypto_disable_simd_for_test();
-		err = crypto_shash_update(desc, sg_data(&tsgl->sgl[i]),
+		err = crypto_shash_update(desc, sg_virt(&tsgl->sgl[i]),
 					  tsgl->sgl[i].length);
 		if (divs[i]->nosimd)
 			crypto_reenable_simd_for_test();
@@ -4883,15 +4872,6 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.cipher = __VECS(tea_tv_template)
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "ecb(tnepres)",
-		.test = alg_test_skcipher,
-		.suite = {
-			.cipher = __VECS(tnepres_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "ecb(twofish)",
 		.test = alg_test_skcipher,
 		.suite = {
@@ -4919,11 +4899,38 @@ static const struct alg_test_desc alg_test_descs[] = {
 		}
 	}, {
 #endif
-		.alg = "ecdh",
+#ifndef CONFIG_CRYPTO_FIPS
+		.alg = "ecdh-nist-p192",
 		.test = alg_test_kpp,
 		.fips_allowed = 1,
 		.suite = {
-			.kpp = __VECS(ecdh_tv_template)
+			.kpp = __VECS(ecdh_p192_tv_template)
+		}
+	}, {
+#endif
+		.alg = "ecdh-nist-p256",
+		.test = alg_test_kpp,
+		.fips_allowed = 1,
+		.suite = {
+			.kpp = __VECS(ecdh_p256_tv_template)
+		}
+	}, {
+		.alg = "ecdsa-nist-p192",
+		.test = alg_test_akcipher,
+		.suite = {
+			.akcipher = __VECS(ecdsa_nist_p192_tv_template)
+		}
+	}, {
+		.alg = "ecdsa-nist-p256",
+		.test = alg_test_akcipher,
+		.suite = {
+			.akcipher = __VECS(ecdsa_nist_p256_tv_template)
+		}
+	}, {
+		.alg = "ecdsa-nist-p384",
+		.test = alg_test_akcipher,
+		.suite = {
+			.akcipher = __VECS(ecdsa_nist_p384_tv_template)
 		}
 	}, {
 		.alg = "ecrdsa",
@@ -4967,15 +4974,6 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.hash = __VECS(hmac_md5_tv_template)
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "hmac(rmd128)",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(hmac_rmd128_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "hmac(rmd160)",
 		.test = alg_test_hash,
 		.suite = {
@@ -5288,36 +5286,12 @@ static const struct alg_test_desc alg_test_descs[] = {
 			}
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "rmd128",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(rmd128_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "rmd160",
 		.test = alg_test_hash,
 		.suite = {
 			.hash = __VECS(rmd160_tv_template)
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "rmd256",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(rmd256_tv_template)
-		}
-	}, {
-		.alg = "rmd320",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(rmd320_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "rsa",
 		.test = alg_test_akcipher,
 		.fips_allowed = 1,
@@ -5325,15 +5299,6 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.akcipher = __VECS(rsa_tv_template)
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "salsa20",
-		.test = alg_test_skcipher,
-		.suite = {
-			.cipher = __VECS(salsa20_stream_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "sha1",
 		.test = alg_test_hash,
 		.fips_allowed = 1,
@@ -5421,27 +5386,6 @@ static const struct alg_test_desc alg_test_descs[] = {
 			.hash = __VECS(streebog512_tv_template)
 		}
 	}, {
-<<<<<<< HEAD
-=======
-		.alg = "tgr128",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(tgr128_tv_template)
-		}
-	}, {
-		.alg = "tgr160",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(tgr160_tv_template)
-		}
-	}, {
-		.alg = "tgr192",
-		.test = alg_test_hash,
-		.suite = {
-			.hash = __VECS(tgr192_tv_template)
-		}
-	}, {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.alg = "vmac64(aes)",
 		.test = alg_test_hash,
 		.suite = {

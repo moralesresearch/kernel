@@ -14,10 +14,7 @@ properties:
     items:
       - enum:
           - brcm,bcm2711-pcie # The Raspberry Pi 4
-<<<<<<< HEAD
           - brcm,bcm4908-pcie
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - brcm,bcm7211-pcie # Broadcom STB version of RPi4
           - brcm,bcm7278-pcie # Broadcom 7278 Arm
           - brcm,bcm7216-pcie # Broadcom 7216 Arm
@@ -67,18 +64,6 @@ properties:
 
   aspm-no-l0s: true
 
-<<<<<<< HEAD
-=======
-  resets:
-    description: for "brcm,bcm7216-pcie", must be a valid reset
-      phandle pointing to the RESCAL reset controller provider node.
-    $ref: "/schemas/types.yaml#/definitions/phandle"
-
-  reset-names:
-    items:
-      - const: rescal
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   brcm,scb-sizes:
     description: u64 giving the 64bit PCIe memory
       viewport size of a memory controller.  There may be up to
@@ -109,7 +94,6 @@ allOf:
       properties:
         compatible:
           contains:
-<<<<<<< HEAD
             const: brcm,bcm4908-pcie
     then:
       properties:
@@ -139,10 +123,6 @@ allOf:
           items:
             - const: rescal
 
-=======
-            const: brcm,bcm7216-pcie
-    then:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       required:
         - resets
         - reset-names

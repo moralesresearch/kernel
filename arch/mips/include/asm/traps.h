@@ -25,14 +25,7 @@ extern void (*board_cache_error_setup)(void);
 
 extern int register_nmi_notifier(struct notifier_block *nb);
 extern void reserve_exception_space(phys_addr_t addr, unsigned long size);
-<<<<<<< HEAD
 extern char except_vec_nmi[];
-=======
-<<<<<<< HEAD
-extern char except_vec_nmi[];
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define VECTORSPACING 0x100	/* for EI/VI mode */
 

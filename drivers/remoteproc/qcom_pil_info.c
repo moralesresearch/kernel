@@ -56,11 +56,7 @@ static int qcom_pil_info_init(void)
 	memset_io(base, 0, resource_size(&imem));
 
 	_reloc.base = base;
-<<<<<<< HEAD
 	_reloc.num_entries = (u32)resource_size(&imem) / PIL_RELOC_ENTRY_SIZE;
-=======
-	_reloc.num_entries = resource_size(&imem) / PIL_RELOC_ENTRY_SIZE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

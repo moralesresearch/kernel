@@ -19,13 +19,10 @@
 #include <asm/ptdump.h>
 
 static struct addr_marker address_markers[] = {
-<<<<<<< HEAD
 #ifdef CONFIG_KASAN
 	{ KASAN_SHADOW_START,	"Kasan shadow start"},
 	{ KASAN_SHADOW_END,	"Kasan shadow end"},
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ MODULES_VADDR,	"Modules" },
 	{ PAGE_OFFSET,		"Kernel Mapping" },
 	{ 0,			"vmalloc() Area" },
@@ -423,7 +420,7 @@ void ptdump_walk_pgd(struct seq_file *m, struct ptdump_info *info)
 	note_page(&st, 0, 0, 0, NULL);
 }
 
-static void ptdump_initialize(void)
+static void __init ptdump_initialize(void)
 {
 	unsigned i, j;
 
@@ -436,16 +433,11 @@ static void ptdump_initialize(void)
 				if (pg_level[i].bits[j].nx_bit)
 					pg_level[i].nx_bit = &pg_level[i].bits[j];
 			}
-<<<<<<< HEAD
 #ifdef CONFIG_KASAN
 	address_markers[4].start_address = VMALLOC_START;
 #else
 	address_markers[2].start_address = VMALLOC_START;
 #endif
-=======
-
-	address_markers[2].start_address = VMALLOC_START;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct ptdump_info kernel_ptdump_info = {
@@ -474,7 +466,7 @@ void ptdump_check_wx(void)
 		pr_info("Checked W+X mappings: passed, no W+X pages found\n");
 }
 
-static int ptdump_init(void)
+static int __init ptdump_init(void)
 {
 	ptdump_initialize();
 	ptdump_debugfs_register(&kernel_ptdump_info, "kernel_page_tables");

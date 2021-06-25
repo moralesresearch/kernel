@@ -94,24 +94,6 @@ static int setup_btree_index(unsigned int l, struct dm_table *t)
 	return 0;
 }
 
-void *dm_vcalloc(unsigned long nmemb, unsigned long elem_size)
-{
-	unsigned long size;
-	void *addr;
-
-	/*
-	 * Check that we're not going to overflow.
-	 */
-	if (nmemb > (ULONG_MAX / elem_size))
-		return NULL;
-
-	size = nmemb * elem_size;
-	addr = vzalloc(size);
-
-	return addr;
-}
-EXPORT_SYMBOL(dm_vcalloc);
-
 /*
  * highs, and targets are managed as dynamic arrays during a
  * table load.
@@ -124,15 +106,15 @@ static int alloc_targets(struct dm_table *t, unsigned int num)
 	/*
 	 * Allocate both the target array and offset array at once.
 	 */
-	n_highs = (sector_t *) dm_vcalloc(num, sizeof(struct dm_target) +
-					  sizeof(sector_t));
+	n_highs = kvcalloc(num, sizeof(struct dm_target) + sizeof(sector_t),
+			   GFP_KERNEL);
 	if (!n_highs)
 		return -ENOMEM;
 
 	n_targets = (struct dm_target *) (n_highs + num);
 
 	memset(n_highs, -1, sizeof(*n_highs) * num);
-	vfree(t->highs);
+	kvfree(t->highs);
 
 	t->num_allocated = num;
 	t->highs = n_highs;
@@ -187,16 +169,8 @@ static void free_devices(struct list_head *devices, struct mapped_device *md)
 	}
 }
 
-<<<<<<< HEAD
 static void dm_table_destroy_keyslot_manager(struct dm_table *t);
 
-=======
-<<<<<<< HEAD
-static void dm_table_destroy_keyslot_manager(struct dm_table *t);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dm_table_destroy(struct dm_table *t)
 {
 	unsigned int i;
@@ -206,7 +180,7 @@ void dm_table_destroy(struct dm_table *t)
 
 	/* free the indexes */
 	if (t->depth >= 2)
-		vfree(t->index[t->depth - 2]);
+		kvfree(t->index[t->depth - 2]);
 
 	/* free the targets */
 	for (i = 0; i < t->num_targets; i++) {
@@ -218,23 +192,15 @@ void dm_table_destroy(struct dm_table *t)
 		dm_put_target_type(tgt->type);
 	}
 
-	vfree(t->highs);
+	kvfree(t->highs);
 
 	/* free the device list */
 	free_devices(&t->devices, t->md);
 
 	dm_free_md_mempools(t->mempools);
 
-<<<<<<< HEAD
 	dm_table_destroy_keyslot_manager(t);
 
-=======
-<<<<<<< HEAD
-	dm_table_destroy_keyslot_manager(t);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(t);
 }
 
@@ -1093,7 +1059,7 @@ static int setup_indexes(struct dm_table *t)
 		total += t->counts[i];
 	}
 
-	indexes = (sector_t *) dm_vcalloc(total, (unsigned long) NODE_SIZE);
+	indexes = kvcalloc(total, NODE_SIZE, GFP_KERNEL);
 	if (!indexes)
 		return -ENOMEM;
 
@@ -1223,10 +1189,6 @@ static int dm_table_register_integrity(struct dm_table *t)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BLK_INLINE_ENCRYPTION
 
 struct dm_keyslot_manager {
@@ -1431,11 +1393,6 @@ static void dm_update_keyslot_manager(struct request_queue *q,
 
 #endif /* !CONFIG_BLK_INLINE_ENCRYPTION */
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Prepares the table for use by building the indices,
  * setting the type, and allocating mempools.
@@ -1462,21 +1419,12 @@ int dm_table_complete(struct dm_table *t)
 		return r;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = dm_table_construct_keyslot_manager(t);
 	if (r) {
 		DMERR("could not construct keyslot manager.");
 		return r;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = dm_table_alloc_md_mempools(t, t->md);
 	if (r)
 		DMERR("unable to allocate mempools");
@@ -1625,15 +1573,7 @@ static int device_not_zoned_model(struct dm_target *ti, struct dm_dev *dev,
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 	enum blk_zoned_model *zoned_model = data;
 
-<<<<<<< HEAD
 	return blk_queue_zoned_model(q) != *zoned_model;
-=======
-<<<<<<< HEAD
-	return blk_queue_zoned_model(q) != *zoned_model;
-=======
-	return !q || blk_queue_zoned_model(q) != *zoned_model;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1675,15 +1615,7 @@ static int device_not_matches_zone_sectors(struct dm_target *ti, struct dm_dev *
 	if (!blk_queue_is_zoned(q))
 		return 0;
 
-<<<<<<< HEAD
 	return blk_queue_zone_sectors(q) != *zone_sectors;
-=======
-<<<<<<< HEAD
-	return blk_queue_zone_sectors(q) != *zone_sectors;
-=======
-	return !q || blk_queue_zone_sectors(q) != *zone_sectors;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1837,15 +1769,7 @@ static int device_flush_capable(struct dm_target *ti, struct dm_dev *dev,
 	unsigned long flush = (unsigned long) data;
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return (q->queue_flags & flush);
-=======
-<<<<<<< HEAD
-	return (q->queue_flags & flush);
-=======
-	return q && (q->queue_flags & flush);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_flush(struct dm_table *t, unsigned long flush)
@@ -1895,15 +1819,7 @@ static int device_is_rotational(struct dm_target *ti, struct dm_dev *dev,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !blk_queue_nonrot(q);
-=======
-<<<<<<< HEAD
-	return !blk_queue_nonrot(q);
-=======
-	return q && !blk_queue_nonrot(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int device_is_not_random(struct dm_target *ti, struct dm_dev *dev,
@@ -1911,15 +1827,7 @@ static int device_is_not_random(struct dm_target *ti, struct dm_dev *dev,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !blk_queue_add_random(q);
-=======
-<<<<<<< HEAD
-	return !blk_queue_add_random(q);
-=======
-	return q && !blk_queue_add_random(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int device_not_write_same_capable(struct dm_target *ti, struct dm_dev *dev,
@@ -1927,15 +1835,7 @@ static int device_not_write_same_capable(struct dm_target *ti, struct dm_dev *de
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !q->limits.max_write_same_sectors;
-=======
-<<<<<<< HEAD
-	return !q->limits.max_write_same_sectors;
-=======
-	return q && !q->limits.max_write_same_sectors;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_write_same(struct dm_table *t)
@@ -1962,15 +1862,7 @@ static int device_not_write_zeroes_capable(struct dm_target *ti, struct dm_dev *
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !q->limits.max_write_zeroes_sectors;
-=======
-<<<<<<< HEAD
-	return !q->limits.max_write_zeroes_sectors;
-=======
-	return q && !q->limits.max_write_zeroes_sectors;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_write_zeroes(struct dm_table *t)
@@ -1997,15 +1889,7 @@ static int device_not_nowait_capable(struct dm_target *ti, struct dm_dev *dev,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !blk_queue_nowait(q);
-=======
-<<<<<<< HEAD
-	return !blk_queue_nowait(q);
-=======
-	return q && !blk_queue_nowait(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_nowait(struct dm_table *t)
@@ -2032,15 +1916,7 @@ static int device_not_discard_capable(struct dm_target *ti, struct dm_dev *dev,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !blk_queue_discard(q);
-=======
-<<<<<<< HEAD
-	return !blk_queue_discard(q);
-=======
-	return q && !blk_queue_discard(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_discards(struct dm_table *t)
@@ -2074,15 +1950,7 @@ static int device_not_secure_erase_capable(struct dm_target *ti,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return !blk_queue_secure_erase(q);
-=======
-<<<<<<< HEAD
-	return !blk_queue_secure_erase(q);
-=======
-	return q && !blk_queue_secure_erase(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dm_table_supports_secure_erase(struct dm_table *t)
@@ -2110,15 +1978,7 @@ static int device_requires_stable_pages(struct dm_target *ti,
 {
 	struct request_queue *q = bdev_get_queue(dev->bdev);
 
-<<<<<<< HEAD
 	return blk_queue_stable_writes(q);
-=======
-<<<<<<< HEAD
-	return blk_queue_stable_writes(q);
-=======
-	return q && blk_queue_stable_writes(q);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
@@ -2216,14 +2076,7 @@ void dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
 	}
 #endif
 
-<<<<<<< HEAD
 	dm_update_keyslot_manager(q, t);
-=======
-<<<<<<< HEAD
-	dm_update_keyslot_manager(q, t);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_queue_update_readahead(q);
 }
 

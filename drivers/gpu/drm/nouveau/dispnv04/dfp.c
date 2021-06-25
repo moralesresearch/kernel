@@ -488,21 +488,13 @@ static void nv04_dfp_update_backlight(struct drm_encoder *encoder, int mode)
 #ifdef __powerpc__
 	struct drm_device *dev = encoder->dev;
 	struct nvif_object *device = &nouveau_drm(dev)->client.device.object;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* BIOS scripts usually take care of the backlight, thanks
 	 * Apple for your consistency.
 	 */
-<<<<<<< HEAD
 	if (pdev->device == 0x0174 || pdev->device == 0x0179 ||
 	    pdev->device == 0x0189 || pdev->device == 0x0329) {
-=======
-	if (dev->pdev->device == 0x0174 || dev->pdev->device == 0x0179 ||
-	    dev->pdev->device == 0x0189 || dev->pdev->device == 0x0329) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (mode == DRM_MODE_DPMS_ON) {
 			nvif_mask(device, NV_PBUS_DEBUG_DUALHEAD_CTL, 1 << 31, 1 << 31);
 			nvif_mask(device, NV_PCRTC_GPIO_EXT, 3, 1);

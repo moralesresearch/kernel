@@ -148,8 +148,7 @@ static inline struct acpiphp_root_context *to_acpiphp_root_context(struct acpi_h
  * ACPI has no generic method of setting/getting attention status
  * this allows for device specific driver registration
  */
-struct acpiphp_attention_info
-{
+struct acpiphp_attention_info {
 	int (*set_attn)(struct hotplug_slot *slot, u8 status);
 	int (*get_attn)(struct hotplug_slot *slot, u8 *status);
 	struct module *owner;
@@ -176,12 +175,6 @@ int acpiphp_unregister_attention(struct acpiphp_attention_info *info);
 int acpiphp_register_hotplug_slot(struct acpiphp_slot *slot, unsigned int sun);
 void acpiphp_unregister_hotplug_slot(struct acpiphp_slot *slot);
 
-<<<<<<< HEAD
-=======
-/* acpiphp_glue.c */
-typedef int (*acpiphp_callback)(struct acpiphp_slot *slot, void *data);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int acpiphp_enable_slot(struct acpiphp_slot *slot);
 int acpiphp_disable_slot(struct acpiphp_slot *slot);
 u8 acpiphp_get_power_status(struct acpiphp_slot *slot);

@@ -1218,22 +1218,12 @@ static int get_serial_info(struct tty_struct *tty,
 	struct fwtty_port *port = tty->driver_data;
 
 	mutex_lock(&port->port.mutex);
-<<<<<<< HEAD
 	ss->line = port->index;
 	ss->baud_base = 400000000;
 	ss->close_delay = jiffies_to_msecs(port->port.close_delay) / 10;
 	ss->closing_wait = 3000;
 	mutex_unlock(&port->port.mutex);
 
-=======
-	ss->type =  PORT_UNKNOWN;
-	ss->line =  port->port.tty->index;
-	ss->flags = port->port.flags;
-	ss->xmit_fifo_size = FWTTY_PORT_TXFIFO_LEN;
-	ss->baud_base = 400000000;
-	ss->close_delay = port->port.close_delay;
-	mutex_unlock(&port->port.mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1241,7 +1231,6 @@ static int set_serial_info(struct tty_struct *tty,
 			   struct serial_struct *ss)
 {
 	struct fwtty_port *port = tty->driver_data;
-<<<<<<< HEAD
 	unsigned int cdelay;
 
 	cdelay = msecs_to_jiffies(ss->close_delay * 10);
@@ -1250,26 +1239,12 @@ static int set_serial_info(struct tty_struct *tty,
 	if (!capable(CAP_SYS_ADMIN)) {
 		if (cdelay != port->port.close_delay ||
 		    ((ss->flags & ~ASYNC_USR_MASK) !=
-=======
-
-	if (ss->irq != 0 || ss->port != 0 || ss->custom_divisor != 0 ||
-	    ss->baud_base != 400000000)
-		return -EPERM;
-
-	mutex_lock(&port->port.mutex);
-	if (!capable(CAP_SYS_ADMIN)) {
-		if (((ss->flags & ~ASYNC_USR_MASK) !=
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     (port->port.flags & ~ASYNC_USR_MASK))) {
 			mutex_unlock(&port->port.mutex);
 			return -EPERM;
 		}
 	}
-<<<<<<< HEAD
 	port->port.close_delay = cdelay;
-=======
-	port->port.close_delay = ss->close_delay * HZ / 100;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&port->port.mutex);
 
 	return 0;
@@ -1342,8 +1317,8 @@ static int fwtty_break_ctl(struct tty_struct *tty, int state)
 	if (state == -1) {
 		set_bit(STOP_TX, &port->flags);
 		ret = wait_event_interruptible_timeout(port->wait_tx,
-					       !test_bit(IN_TX, &port->flags),
-					       10);
+						       !test_bit(IN_TX, &port->flags),
+						       10);
 		if (ret == 0 || ret == -ERESTARTSYS) {
 			clear_bit(STOP_TX, &port->flags);
 			fwtty_restart_tx(port);
@@ -2656,7 +2631,7 @@ static int fwserial_parse_mgmt_write(struct fwtty_peer *peer,
 
 	rcode = RCODE_COMPLETE;
 
-	fwtty_dbg(&peer->unit, "mgmt: hdr.code: %04hx\n", pkt->hdr.code);
+	fwtty_dbg(&peer->unit, "mgmt: hdr.code: %04x\n", pkt->hdr.code);
 
 	switch (be16_to_cpu(pkt->hdr.code) & FWSC_CODE_MASK) {
 	case FWSC_VIRT_CABLE_PLUG:

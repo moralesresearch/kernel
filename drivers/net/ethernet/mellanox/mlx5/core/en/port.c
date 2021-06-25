@@ -387,24 +387,6 @@ enum mlx5e_fec_supported_link_mode {
 			*_policy = MLX5_GET(pplm_reg, _buf, fec_override_admin_##link);	\
 	} while (0)
 
-<<<<<<< HEAD
-=======
-#define MLX5E_FEC_OVERRIDE_ADMIN_50G_POLICY(buf, policy, write, link)			\
-	do {										\
-		unsigned long policy_long;						\
-		u16 *__policy = &(policy);						\
-		bool _write = (write);							\
-											\
-		policy_long = *__policy;						\
-		if (_write && *__policy)						\
-			*__policy = find_first_bit(&policy_long,			\
-						   sizeof(policy_long) * BITS_PER_BYTE);\
-		MLX5E_FEC_OVERRIDE_ADMIN_POLICY(buf, *__policy, _write, link);		\
-		if (!_write && *__policy)						\
-			*__policy = 1 << *__policy;					\
-	} while (0)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* get/set FEC admin field for a given speed */
 static int mlx5e_fec_admin_field(u32 *pplm, u16 *fec_policy, bool write,
 				 enum mlx5e_fec_supported_link_mode link_mode)
@@ -426,7 +408,6 @@ static int mlx5e_fec_admin_field(u32 *pplm, u16 *fec_policy, bool write,
 		MLX5E_FEC_OVERRIDE_ADMIN_POLICY(pplm, *fec_policy, write, 100g);
 		break;
 	case MLX5E_FEC_SUPPORTED_LINK_MODE_50G_1X:
-<<<<<<< HEAD
 		MLX5E_FEC_OVERRIDE_ADMIN_POLICY(pplm, *fec_policy, write, 50g_1x);
 		break;
 	case MLX5E_FEC_SUPPORTED_LINK_MODE_100G_2X:
@@ -437,18 +418,6 @@ static int mlx5e_fec_admin_field(u32 *pplm, u16 *fec_policy, bool write,
 		break;
 	case MLX5E_FEC_SUPPORTED_LINK_MODE_400G_8X:
 		MLX5E_FEC_OVERRIDE_ADMIN_POLICY(pplm, *fec_policy, write, 400g_8x);
-=======
-		MLX5E_FEC_OVERRIDE_ADMIN_50G_POLICY(pplm, *fec_policy, write, 50g_1x);
-		break;
-	case MLX5E_FEC_SUPPORTED_LINK_MODE_100G_2X:
-		MLX5E_FEC_OVERRIDE_ADMIN_50G_POLICY(pplm, *fec_policy, write, 100g_2x);
-		break;
-	case MLX5E_FEC_SUPPORTED_LINK_MODE_200G_4X:
-		MLX5E_FEC_OVERRIDE_ADMIN_50G_POLICY(pplm, *fec_policy, write, 200g_4x);
-		break;
-	case MLX5E_FEC_SUPPORTED_LINK_MODE_400G_8X:
-		MLX5E_FEC_OVERRIDE_ADMIN_50G_POLICY(pplm, *fec_policy, write, 400g_8x);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EINVAL;

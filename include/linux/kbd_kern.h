@@ -6,11 +6,6 @@
 #include <linux/interrupt.h>
 #include <linux/keyboard.h>
 
-<<<<<<< HEAD
-=======
-extern struct tasklet_struct keyboard_tasklet;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern char *func_table[MAX_NR_FUNC];
 
 /*
@@ -74,15 +69,6 @@ extern void (*kbd_ledfunc)(unsigned int led);
 extern int set_console(int nr);
 extern void schedule_console_callback(void);
 
-<<<<<<< HEAD
-=======
-/* FIXME: review locking for vt.c callers */
-static inline void set_leds(void)
-{
-	tasklet_schedule(&keyboard_tasklet);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int vc_kbd_mode(struct kbd_struct * kbd, int flag)
 {
 	return ((kbd->modeflags >> flag) & 1);
@@ -141,11 +127,7 @@ static inline void chg_vc_kbd_led(struct kbd_struct * kbd, int flag)
 
 struct console;
 
-<<<<<<< HEAD
 void vt_set_leds_compute_shiftstate(void);
-=======
-void compute_shiftstate(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* defkeymap.c */
 

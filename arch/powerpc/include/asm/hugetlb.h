@@ -17,11 +17,6 @@ extern bool hugetlb_disabled;
 
 void hugetlbpage_init_default(void);
 
-<<<<<<< HEAD
-=======
-void flush_dcache_icache_hugepage(struct page *page);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int slice_is_hugepage_only_range(struct mm_struct *mm, unsigned long addr,
 			   unsigned long len);
 

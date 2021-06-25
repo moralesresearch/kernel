@@ -28,18 +28,8 @@ MODULE_ALIAS_CRYPTO("sha3-256");
 MODULE_ALIAS_CRYPTO("sha3-384");
 MODULE_ALIAS_CRYPTO("sha3-512");
 
-<<<<<<< HEAD
 asmlinkage int sha3_ce_transform(u64 *st, const u8 *data, int blocks,
 				 int md_len);
-=======
-<<<<<<< HEAD
-asmlinkage int sha3_ce_transform(u64 *st, const u8 *data, int blocks,
-				 int md_len);
-=======
-asmlinkage void sha3_ce_transform(u64 *st, const u8 *data, int blocks,
-				  int md_len);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int sha3_update(struct shash_desc *desc, const u8 *data,
 		       unsigned int len)
@@ -69,10 +59,6 @@ static int sha3_update(struct shash_desc *desc, const u8 *data,
 		blocks = len / sctx->rsiz;
 		len %= sctx->rsiz;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		while (blocks) {
 			int rem;
 
@@ -82,16 +68,6 @@ static int sha3_update(struct shash_desc *desc, const u8 *data,
 			kernel_neon_end();
 			data += (blocks - rem) * sctx->rsiz;
 			blocks = rem;
-<<<<<<< HEAD
-=======
-=======
-		if (blocks) {
-			kernel_neon_begin();
-			sha3_ce_transform(sctx->st, data, blocks, digest_size);
-			kernel_neon_end();
-			data += blocks * sctx->rsiz;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 

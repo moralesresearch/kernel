@@ -24,15 +24,8 @@
 #include "priv.h"
 
 int
-<<<<<<< HEAD
 gf100_iccsense_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		   struct nvkm_iccsense **piccsense)
 {
 	return nvkm_iccsense_new_(device, type, inst, piccsense);
-=======
-gf100_iccsense_new(struct nvkm_device *device, int index,
-		   struct nvkm_iccsense **piccsense)
-{
-	return nvkm_iccsense_new_(device, index, piccsense);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -1973,10 +1973,7 @@ EXPORT_SYMBOL(mlx4_get_roce_gid_from_slave);
 #define I2C_ADDR_LOW  0x50
 #define I2C_ADDR_HIGH 0x51
 #define I2C_PAGE_SIZE 256
-<<<<<<< HEAD
 #define I2C_HIGH_PAGE_SIZE 128
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Module Info Data */
 struct mlx4_cable_info {
@@ -2030,7 +2027,6 @@ static inline const char *cable_info_mad_err_str(u16 mad_status)
 	return "Unknown Error";
 }
 
-<<<<<<< HEAD
 static int mlx4_get_module_id(struct mlx4_dev *dev, u8 port, u8 *module_id)
 {
 	struct mlx4_cmd_mailbox *inbox, *outbox;
@@ -2113,8 +2109,6 @@ static void mlx4_qsfp_eeprom_params_set(u8 *i2c_addr, u8 *page_num, u16 *offset)
 	*offset -= *page_num * I2C_HIGH_PAGE_SIZE;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * mlx4_get_module_info - Read cable module eeprom data
  * @dev: mlx4_dev.
@@ -2134,17 +2128,12 @@ int mlx4_get_module_info(struct mlx4_dev *dev, u8 port,
 	struct mlx4_cmd_mailbox *inbox, *outbox;
 	struct mlx4_mad_ifc *inmad, *outmad;
 	struct mlx4_cable_info *cable_info;
-<<<<<<< HEAD
 	u8 module_id, i2c_addr, page_num;
-=======
-	u16 i2c_addr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (size > MODULE_INFO_MAX_READ)
 		size = MODULE_INFO_MAX_READ;
 
-<<<<<<< HEAD
 	ret = mlx4_get_module_id(dev, port, &module_id);
 	if (ret)
 		return ret;
@@ -2163,8 +2152,6 @@ int mlx4_get_module_info(struct mlx4_dev *dev, u8 port,
 		return -EINVAL;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inbox = mlx4_alloc_cmd_mailbox(dev);
 	if (IS_ERR(inbox))
 		return PTR_ERR(inbox);
@@ -2190,17 +2177,9 @@ int mlx4_get_module_info(struct mlx4_dev *dev, u8 port,
 		 */
 		size -= offset + size - I2C_PAGE_SIZE;
 
-<<<<<<< HEAD
 	cable_info = (struct mlx4_cable_info *)inmad->data;
 	cable_info->dev_mem_address = cpu_to_be16(offset);
 	cable_info->page_num = page_num;
-=======
-	i2c_addr = I2C_ADDR_LOW;
-
-	cable_info = (struct mlx4_cable_info *)inmad->data;
-	cable_info->dev_mem_address = cpu_to_be16(offset);
-	cable_info->page_num = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cable_info->i2c_addr = i2c_addr;
 	cable_info->size = cpu_to_be16(size);
 

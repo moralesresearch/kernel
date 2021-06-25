@@ -158,11 +158,6 @@ out_init:
 
 out_delete_evlist:
 	evlist__delete(evlist);
-<<<<<<< HEAD
-=======
-	cpus	= NULL;
-	threads = NULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_free_cpus:
 	perf_cpu_map__put(cpus);
 out_free_threads:

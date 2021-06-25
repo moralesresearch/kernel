@@ -218,11 +218,7 @@ static int pcm_open(struct snd_pcm_substream *substream)
 
 		if (frames_per_period > 0) {
 			// For double_pcm_frame quirk.
-<<<<<<< HEAD
 			if (rate > 96000 && !dice->disable_double_pcm_frames) {
-=======
-			if (rate > 96000) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				frames_per_period *= 2;
 				frames_per_buffer *= 2;
 			}
@@ -277,11 +273,7 @@ static int pcm_hw_params(struct snd_pcm_substream *substream,
 
 		mutex_lock(&dice->mutex);
 		// For double_pcm_frame quirk.
-<<<<<<< HEAD
 		if (rate > 96000 && !dice->disable_double_pcm_frames) {
-=======
-		if (rate > 96000) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			events_per_period /= 2;
 			events_per_buffer /= 2;
 		}

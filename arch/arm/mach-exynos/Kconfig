@@ -13,10 +13,6 @@ menuconfig ARCH_EXYNOS
 	select ARM_GIC
 	select EXYNOS_IRQ_COMBINER
 	select COMMON_CLK_SAMSUNG
-<<<<<<< HEAD
-=======
-	select EXYNOS_ASV
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select EXYNOS_CHIPID
 	select EXYNOS_THERMAL
 	select EXYNOS_PMU

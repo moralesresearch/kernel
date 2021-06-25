@@ -2050,15 +2050,8 @@ void __init reset_all_zones_managed_pages(void)
 
 /**
  * memblock_free_all - release free pages to the buddy allocator
-<<<<<<< HEAD
  */
 void __init memblock_free_all(void)
-=======
- *
- * Return: the number of pages actually released.
- */
-unsigned long __init memblock_free_all(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long pages;
 
@@ -2067,11 +2060,6 @@ unsigned long __init memblock_free_all(void)
 
 	pages = free_low_memory_core_early();
 	totalram_pages_add(pages);
-<<<<<<< HEAD
-=======
-
-	return pages;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #if defined(CONFIG_DEBUG_FS) && defined(CONFIG_ARCH_KEEP_MEMBLOCK)

@@ -92,10 +92,7 @@ config IR_SONY_DECODER
 config IR_SANYO_DECODER
 	tristate "Enable IR raw decoder for the Sanyo protocol"
 	depends on RC_CORE
-<<<<<<< HEAD
 	select BITREVERSE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	help
 	   Enable this option if you have an infrared remote control which
@@ -105,10 +102,7 @@ config IR_SANYO_DECODER
 config IR_SHARP_DECODER
 	tristate "Enable IR raw decoder for the Sharp protocol"
 	depends on RC_CORE
-<<<<<<< HEAD
 	select BITREVERSE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	help
 	   Enable this option if you have an infrared remote control which
@@ -526,17 +520,6 @@ config RC_XBOX_DVD
 
 	   To compile this driver as a module, choose M here: the module will be
 	   called xbox_remote.
-
-config IR_ZX
-	tristate "ZTE ZX IR remote control"
-	depends on RC_CORE
-	depends on ARCH_ZX || COMPILE_TEST
-	help
-	   Say Y if you want to use the IR remote control available
-	   on ZTE ZX family SoCs.
-
-	   To compile this driver as a module, choose M here: the
-	   module will be called zx-irdec.
 
 config IR_TOY
 	tristate "Infrared Toy and IR Droid"

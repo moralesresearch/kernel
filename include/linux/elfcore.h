@@ -29,11 +29,7 @@ struct elf_siginfo
  * the SVR4 structure, but more Linuxy, with things that Linux does
  * not support and which gdb doesn't really use excluded.
  */
-<<<<<<< HEAD
 struct elf_prstatus_common
-=======
-struct elf_prstatus
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct elf_siginfo pr_info;	/* Info associated with signal */
 	short	pr_cursig;		/* Current signal */
@@ -47,14 +43,11 @@ struct elf_prstatus
 	struct __kernel_old_timeval pr_stime;	/* System time */
 	struct __kernel_old_timeval pr_cutime;	/* Cumulative user time */
 	struct __kernel_old_timeval pr_cstime;	/* Cumulative system time */
-<<<<<<< HEAD
 };
 
 struct elf_prstatus
 {
 	struct elf_prstatus_common common;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	elf_gregset_t pr_reg;	/* GP registers */
 	int pr_fpvalid;		/* True if math co-processor being used.  */
 };

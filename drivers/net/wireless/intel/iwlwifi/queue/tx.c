@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
- * Copyright (C) 2020 Intel Corporation
+ * Copyright (C) 2020-2021 Intel Corporation
  */
 #include <net/tso.h>
 #include <linux/tcp.h>
@@ -14,33 +14,6 @@
 #include <linux/dmapool.h>
 
 /*
-<<<<<<< HEAD
-=======
- * iwl_txq_gen2_tx_stop - Stop all Tx DMA channels
- */
-void iwl_txq_gen2_tx_stop(struct iwl_trans *trans)
-{
-	int txq_id;
-
-	/*
-	 * This function can be called before the op_mode disabled the
-	 * queues. This happens when we have an rfkill interrupt.
-	 * Since we stop Tx altogether - mark the queues as stopped.
-	 */
-	memset(trans->txqs.queue_stopped, 0,
-	       sizeof(trans->txqs.queue_stopped));
-	memset(trans->txqs.queue_used, 0, sizeof(trans->txqs.queue_used));
-
-	/* Unmap DMA from host system and free skb's */
-	for (txq_id = 0; txq_id < ARRAY_SIZE(trans->txqs.txq); txq_id++) {
-		if (!trans->txqs.txq[txq_id])
-			continue;
-		iwl_txq_gen2_unmap(trans, txq_id);
-	}
-}
-
-/*
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * iwl_txq_update_byte_tbl - Set up entry in Tx byte-count array
  */
 static void iwl_pcie_gen2_update_byte_tbl(struct iwl_trans *trans,
@@ -402,7 +375,6 @@ static int iwl_txq_gen2_build_amsdu(struct iwl_trans *trans,
 	while (total_len) {
 		/* this is the data left for this subframe */
 		unsigned int data_left = min_t(unsigned int, mss, total_len);
-		struct sk_buff *csum_skb = NULL;
 		unsigned int tb_len;
 		dma_addr_t tb_phys;
 		u8 *subf_hdrs_start = hdr_page->pos;
@@ -433,10 +405,8 @@ static int iwl_txq_gen2_build_amsdu(struct iwl_trans *trans,
 		tb_len = hdr_page->pos - start_hdr;
 		tb_phys = dma_map_single(trans->dev, start_hdr,
 					 tb_len, DMA_TO_DEVICE);
-		if (unlikely(dma_mapping_error(trans->dev, tb_phys))) {
-			dev_kfree_skb(csum_skb);
+		if (unlikely(dma_mapping_error(trans->dev, tb_phys)))
 			goto out_err;
-		}
 		/*
 		 * No need for _with_wa, this is from the TSO page and
 		 * we leave some space at the end of it so can't hit
@@ -461,10 +431,8 @@ static int iwl_txq_gen2_build_amsdu(struct iwl_trans *trans,
 			ret = iwl_txq_gen2_set_tb_with_wa(trans, skb, tfd,
 							  tb_phys, tso.data,
 							  tb_len, NULL);
-			if (ret) {
-				dev_kfree_skb(csum_skb);
+			if (ret)
 				goto out_err;
-			}
 
 			data_left -= tb_len;
 			tso_build_data(skb, &tso, tb_len);
@@ -1192,15 +1160,12 @@ static int iwl_txq_alloc_response(struct iwl_trans *trans, struct iwl_txq *txq,
 		goto error_free_resp;
 	}
 
-<<<<<<< HEAD
 	if (WARN_ONCE(trans->txqs.txq[qid],
 		      "queue %d already allocated\n", qid)) {
 		ret = -EIO;
 		goto error_free_resp;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	txq->id = qid;
 	trans->txqs.txq[qid] = txq;
 	wr_ptr &= (trans->trans_cfg->base_params->max_tfd_queue_size - 1);
@@ -1589,13 +1554,10 @@ void iwl_txq_reclaim(struct iwl_trans *trans, int txq_id, int ssn,
 			__func__, txq_id, last_to_free,
 			trans->trans_cfg->base_params->max_tfd_queue_size,
 			txq->write_ptr, txq->read_ptr);
-<<<<<<< HEAD
 
 		iwl_op_mode_time_point(trans->op_mode,
 				       IWL_FW_INI_TIME_POINT_FAKE_TX,
 				       NULL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -1741,7 +1703,6 @@ next_queue:
 	}
 }
 
-<<<<<<< HEAD
 #define HOST_COMPLETE_TIMEOUT	(2 * HZ)
 
 static int iwl_trans_txq_send_hcmd_sync(struct iwl_trans *trans,
@@ -1871,5 +1832,3 @@ int iwl_trans_txq_send_hcmd(struct iwl_trans *trans,
 	return iwl_trans_txq_send_hcmd_sync(trans, cmd);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -175,11 +175,7 @@ static int fdomain_isa_param_match(struct device *dev, unsigned int ndev)
 	return 1;
 }
 
-<<<<<<< HEAD
 static void fdomain_isa_remove(struct device *dev, unsigned int ndev)
-=======
-static int fdomain_isa_remove(struct device *dev, unsigned int ndev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct Scsi_Host *sh = dev_get_drvdata(dev);
 	int base = sh->io_port;
@@ -187,10 +183,6 @@ static int fdomain_isa_remove(struct device *dev, unsigned int ndev)
 	fdomain_destroy(sh);
 	release_region(base, FDOMAIN_REGION_SIZE);
 	dev_set_drvdata(dev, NULL);
-<<<<<<< HEAD
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver fdomain_isa_driver = {

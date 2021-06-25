@@ -32,21 +32,14 @@
 #include <linux/regmap.h>
 #include <linux/regulator/consumer.h>
 #include <linux/random.h>
-<<<<<<< HEAD
-=======
-#include <linux/unaligned/be_byteshift.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/iio/buffer.h>
 #include <linux/iio/iio.h>
 #include <linux/iio/trigger_consumer.h>
 #include <linux/iio/triggered_buffer.h>
 
-<<<<<<< HEAD
 #include <asm/unaligned.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* This register map covers YAS530 and YAS532 but differs in YAS 537 and YAS539 */
 #define YAS5XX_DEVICE_ID		0x80
 #define YAS5XX_ACTUATE_INIT_COIL	0x81
@@ -895,10 +888,7 @@ static int yas5xx_probe(struct i2c_client *i2c,
 		strncpy(yas5xx->name, "yas532", sizeof(yas5xx->name));
 		break;
 	default:
-<<<<<<< HEAD
 		ret = -ENODEV;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dev, "unhandled device ID %02x\n", yas5xx->devid);
 		goto assert_reset;
 	}

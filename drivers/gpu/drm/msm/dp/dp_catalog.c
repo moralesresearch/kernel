@@ -190,7 +190,6 @@ int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog)
 	return 0;
 }
 
-<<<<<<< HEAD
 /**
  * dp_catalog_aux_reset() - reset AUX controller
  *
@@ -203,8 +202,6 @@ int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog)
  * NOTE: reset AUX controller will also clear any pending HPD related interrupts
  * 
  */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dp_catalog_aux_reset(struct dp_catalog *dp_catalog)
 {
 	u32 aux_ctrl;
@@ -498,7 +495,6 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
 	return 0;
 }
 
-<<<<<<< HEAD
 /**
  * dp_catalog_ctrl_reset() - reset DP controller
  *
@@ -511,8 +507,6 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
  * NOTE: reset DP controller will also clear any pending HPD related interrupts
  * 
  */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog)
 {
 	u32 sw_reset;

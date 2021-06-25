@@ -35,11 +35,7 @@ ability to start and stop the stream.
 
 The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
 
-<<<<<<< HEAD
 	pixel_rate = link_freq * 2 * nr_of_lanes * 16 / k / bits_per_sample
-=======
-	pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 where
 
@@ -57,11 +53,8 @@ where
      - Two bits are transferred per clock cycle per lane.
    * - bits_per_sample
      - Number of bits per sample.
-<<<<<<< HEAD
    * - k
      - 16 for D-PHY and 7 for C-PHY
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The transmitter drivers must, if possible, configure the CSI-2
 transmitter to *LP-11 mode* whenever the transmitter is powered on but

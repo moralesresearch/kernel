@@ -1869,11 +1869,7 @@ int snd_emu10k1_create(struct snd_card *card,
 			emu->serial);
 
 	if (!*card->id && c->id)
-<<<<<<< HEAD
 		strscpy(card->id, c->id, sizeof(card->id));
-=======
-		strlcpy(card->id, c->id, sizeof(card->id));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	is_audigy = emu->audigy = c->emu10k2_chip;
 

@@ -496,11 +496,8 @@
 	vqmmc-supply = <&reg_1p8v>;
 	bus-width = <8>;
 	mmc-hs200-1_8v;
-<<<<<<< HEAD
 	no-sd;
 	no-sdio;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	non-removable;
 	status = "okay";
 };

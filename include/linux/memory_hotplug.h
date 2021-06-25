@@ -16,26 +16,7 @@ struct resource;
 struct vmem_altmap;
 
 #ifdef CONFIG_MEMORY_HOTPLUG
-<<<<<<< HEAD
 struct page *pfn_to_online_page(unsigned long pfn);
-=======
-/*
- * Return page for the valid pfn only if the page is online. All pfn
- * walkers which rely on the fully initialized page->flags and others
- * should use this rather than pfn_valid && pfn_to_page
- */
-#define pfn_to_online_page(pfn)					   \
-({								   \
-	struct page *___page = NULL;				   \
-	unsigned long ___pfn = pfn;				   \
-	unsigned long ___nr = pfn_to_section_nr(___pfn);	   \
-								   \
-	if (___nr < NR_MEM_SECTIONS && online_section_nr(___nr) && \
-	    pfn_valid_within(___pfn))				   \
-		___page = pfn_to_page(___pfn);			   \
-	___page;						   \
-})
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Types for free bootmem stored in page->lru.next. These have to be in
@@ -72,11 +53,15 @@ typedef int __bitwise mhp_t;
  * with this flag set, the resource pointer must no longer be used as it
  * might be stale, or the resource might have changed.
  */
-<<<<<<< HEAD
 #define MHP_MERGE_RESOURCE	((__force mhp_t)BIT(0))
-=======
-#define MEMHP_MERGE_RESOURCE	((__force mhp_t)BIT(0))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+/*
+ * We want memmap (struct page array) to be self contained.
+ * To do so, we will use the beginning of the hot-added range to build
+ * the page tables for the memmap array that describes the entire range.
+ * Only selected architectures support it with SPARSE_VMEMMAP.
+ */
+#define MHP_MEMMAP_ON_MEMORY   ((__force mhp_t)BIT(1))
 
 /*
  * Extended parameters for memory hotplug:
@@ -89,12 +74,9 @@ struct mhp_params {
 	pgprot_t pgprot;
 };
 
-<<<<<<< HEAD
 bool mhp_range_allowed(u64 start, u64 size, bool need_mapping);
 struct range mhp_get_pluggable_range(bool need_mapping);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Zone resizing functions
  *
@@ -125,9 +107,13 @@ static inline void zone_seqlock_init(struct zone *zone)
 extern int zone_grow_free_lists(struct zone *zone, unsigned long new_nr_pages);
 extern int zone_grow_waitqueues(struct zone *zone, unsigned long nr_pages);
 extern int add_one_highpage(struct page *page, int pfn, int bad_ppro);
+extern void adjust_present_page_count(struct zone *zone, long nr_pages);
 /* VM interface that may be used by firmware interface */
+extern int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
+				     struct zone *zone);
+extern void mhp_deinit_memmap_on_memory(unsigned long pfn, unsigned long nr_pages);
 extern int online_pages(unsigned long pfn, unsigned long nr_pages,
-			int online_type, int nid);
+			struct zone *zone);
 extern struct zone *test_pages_in_a_zone(unsigned long start_pfn,
 					 unsigned long end_pfn);
 extern void __offline_isolated_pages(unsigned long start_pfn,
@@ -145,17 +131,10 @@ extern int arch_add_memory(int nid, u64 start, u64 size,
 			   struct mhp_params *params);
 extern u64 max_mem_size;
 
-<<<<<<< HEAD
 extern int mhp_online_type_from_str(const char *str);
 
 /* Default online_type (MMOP_*) when new memory blocks are added. */
 extern int mhp_default_online_type;
-=======
-extern int memhp_online_type_from_str(const char *str);
-
-/* Default online_type (MMOP_*) when new memory blocks are added. */
-extern int memhp_default_online_type;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* If movable_node boot option specified */
 extern bool movable_node_enabled;
 static inline bool movable_node_is_enabled(void)
@@ -302,7 +281,6 @@ static inline bool movable_node_is_enabled(void)
 }
 #endif /* ! CONFIG_MEMORY_HOTPLUG */
 
-<<<<<<< HEAD
 /*
  * Keep this declaration outside CONFIG_MEMORY_HOTPLUG as some
  * platforms might override and use arch_get_mappable_range()
@@ -310,8 +288,6 @@ static inline bool movable_node_is_enabled(void)
  */
 struct range arch_get_mappable_range(void);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_MEMORY_HOTPLUG) || defined(CONFIG_DEFERRED_STRUCT_PAGE_INIT)
 /*
  * pgdat resizing functions
@@ -395,6 +371,7 @@ extern struct zone *zone_for_pfn_range(int online_type, int nid, unsigned start_
 extern int arch_create_linear_mapping(int nid, u64 start, u64 size,
 				      struct mhp_params *params);
 void arch_remove_linear_mapping(u64 start, u64 size);
+extern bool mhp_supports_memmap_on_memory(unsigned long size);
 #endif /* CONFIG_MEMORY_HOTPLUG */
 
 #endif /* __LINUX_MEMORY_HOTPLUG_H */

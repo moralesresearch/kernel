@@ -73,10 +73,7 @@ u64 zpool_get_total_size(struct zpool *pool);
  * @malloc:	allocate mem from a pool.
  * @free:	free mem from a pool.
  * @shrink:	shrink the pool.
-<<<<<<< HEAD
  * @sleep_mapped: whether zpool driver can sleep during map.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @map:	map a handle.
  * @unmap:	unmap a handle.
  * @total_size:	get total size of a pool.
@@ -104,10 +101,7 @@ struct zpool_driver {
 	int (*shrink)(void *pool, unsigned int pages,
 				unsigned int *reclaimed);
 
-<<<<<<< HEAD
 	bool sleep_mapped;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *(*map)(void *pool, unsigned long handle,
 				enum zpool_mapmode mm);
 	void (*unmap)(void *pool, unsigned long handle);
@@ -120,9 +114,6 @@ void zpool_register_driver(struct zpool_driver *driver);
 int zpool_unregister_driver(struct zpool_driver *driver);
 
 bool zpool_evictable(struct zpool *pool);
-<<<<<<< HEAD
 bool zpool_can_sleep_mapped(struct zpool *pool);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

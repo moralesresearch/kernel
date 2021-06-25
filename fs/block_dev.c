@@ -79,7 +79,7 @@ static void kill_bdev(struct block_device *bdev)
 {
 	struct address_space *mapping = bdev->bd_inode->i_mapping;
 
-	if (mapping->nrpages == 0 && mapping->nrexceptional == 0)
+	if (mapping_empty(mapping))
 		return;
 
 	invalidate_bh_lrus();
@@ -135,13 +135,6 @@ invalidate:
 					     lstart >> PAGE_SHIFT,
 					     lend >> PAGE_SHIFT);
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(truncate_bdev_range);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void set_init_blocksize(struct block_device *bdev)
 {
@@ -237,15 +230,7 @@ static void blkdev_bio_end_io_simple(struct bio *bio)
 
 static ssize_t
 __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
-<<<<<<< HEAD
 		unsigned int nr_pages)
-=======
-<<<<<<< HEAD
-		unsigned int nr_pages)
-=======
-		int nr_pages)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct file *file = iocb->ki_filp;
 	struct block_device *bdev = I_BDEV(bdev_file_inode(file));
@@ -290,16 +275,8 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
 		bio.bi_opf = dio_bio_write_op(iocb);
 		task_io_account_write(ret);
 	}
-<<<<<<< HEAD
 	if (iocb->ki_flags & IOCB_NOWAIT)
 		bio.bi_opf |= REQ_NOWAIT;
-=======
-<<<<<<< HEAD
-	if (iocb->ki_flags & IOCB_NOWAIT)
-		bio.bi_opf |= REQ_NOWAIT;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (iocb->ki_flags & IOCB_HIPRI)
 		bio_set_polled(&bio, iocb);
 
@@ -389,18 +366,8 @@ static void blkdev_bio_end_io(struct bio *bio)
 	}
 }
 
-<<<<<<< HEAD
 static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
 		unsigned int nr_pages)
-=======
-<<<<<<< HEAD
-static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
-		unsigned int nr_pages)
-=======
-static ssize_t
-__blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct file *file = iocb->ki_filp;
 	struct inode *inode = bdev_file_inode(file);
@@ -463,29 +430,13 @@ __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
 			bio->bi_opf = dio_bio_write_op(iocb);
 			task_io_account_write(bio->bi_iter.bi_size);
 		}
-<<<<<<< HEAD
 		if (iocb->ki_flags & IOCB_NOWAIT)
 			bio->bi_opf |= REQ_NOWAIT;
-=======
-<<<<<<< HEAD
-		if (iocb->ki_flags & IOCB_NOWAIT)
-			bio->bi_opf |= REQ_NOWAIT;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		dio->size += bio->bi_iter.bi_size;
 		pos += bio->bi_iter.bi_size;
 
-<<<<<<< HEAD
 		nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
-=======
-<<<<<<< HEAD
-		nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
-=======
-		nr_pages = iov_iter_npages(iter, BIO_MAX_PAGES);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!nr_pages) {
 			bool polled = false;
 
@@ -548,10 +499,6 @@ __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
 static ssize_t
 blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int nr_pages;
 
 	if (!iov_iter_count(iter))
@@ -562,20 +509,6 @@ blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
 		return __blkdev_direct_IO_simple(iocb, iter, nr_pages);
 
 	return __blkdev_direct_IO(iocb, iter, bio_max_segs(nr_pages));
-<<<<<<< HEAD
-=======
-=======
-	int nr_pages;
-
-	nr_pages = iov_iter_npages(iter, BIO_MAX_PAGES + 1);
-	if (!nr_pages)
-		return 0;
-	if (is_sync_kiocb(iocb) && nr_pages <= BIO_MAX_PAGES)
-		return __blkdev_direct_IO_simple(iocb, iter, nr_pages);
-
-	return __blkdev_direct_IO(iocb, iter, min(nr_pages, BIO_MAX_PAGES));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static __init int blkdev_init(void)
@@ -768,15 +701,7 @@ int blkdev_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
 	 * i_mutex and doing so causes performance issues with concurrent
 	 * O_SYNC writers to a block device.
 	 */
-<<<<<<< HEAD
 	error = blkdev_issue_flush(bdev);
-=======
-<<<<<<< HEAD
-	error = blkdev_issue_flush(bdev);
-=======
-	error = blkdev_issue_flush(bdev, GFP_KERNEL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error == -EOPNOTSUPP)
 		error = 0;
 
@@ -1315,20 +1240,19 @@ static void __blkdev_put(struct block_device *bdev, fmode_t mode, int for_part);
 int bdev_disk_changed(struct block_device *bdev, bool invalidate)
 {
 	struct gendisk *disk = bdev->bd_disk;
-	int ret;
+	int ret = 0;
 
 	lockdep_assert_held(&bdev->bd_mutex);
 
-<<<<<<< HEAD
 	if (!(disk->flags & GENHD_FL_UP))
 		return -ENXIO;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 rescan:
-	ret = blk_drop_partitions(bdev);
-	if (ret)
-		return ret;
+	if (bdev->bd_part_count)
+		return -EBUSY;
+	sync_blockdev(bdev);
+	invalidate_bdev(bdev);
+	blk_drop_partitions(disk);
 
 	clear_bit(GD_NEED_PART_SCAN, &disk->state);
 
@@ -1344,9 +1268,6 @@ rescan:
 		if (disk_part_scan_enabled(disk) ||
 		    !(disk->flags & GENHD_FL_REMOVABLE))
 			set_capacity(disk, 0);
-	} else {
-		if (disk->fops->revalidate_disk)
-			disk->fops->revalidate_disk(disk);
 	}
 
 	if (get_capacity(disk)) {
@@ -1364,15 +1285,7 @@ rescan:
 	return ret;
 }
 /*
-<<<<<<< HEAD
  * Only exported for loop and dasd for historic reasons.  Don't use in new
-=======
-<<<<<<< HEAD
- * Only exported for loop and dasd for historic reasons.  Don't use in new
-=======
- * Only exported for for loop and dasd for historic reasons.  Don't use in new
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * code!
  */
 EXPORT_SYMBOL_GPL(bdev_disk_changed);
@@ -1387,6 +1300,9 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode)
 {
 	struct gendisk *disk = bdev->bd_disk;
 	int ret = 0;
+
+	if (!(disk->flags & GENHD_FL_UP))
+		return -ENXIO;
 
 	if (!bdev->bd_openers) {
 		if (!bdev_is_partition(bdev)) {
@@ -1422,8 +1338,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode)
 			whole->bd_part_count++;
 			mutex_unlock(&whole->bd_mutex);
 
-			if (!(disk->flags & GENHD_FL_UP) ||
-			    !bdev_nr_sectors(bdev)) {
+			if (!bdev_nr_sectors(bdev)) {
 				__blkdev_put(whole, mode, 1);
 				bdput(whole);
 				return -ENXIO;
@@ -1454,16 +1369,12 @@ struct block_device *blkdev_get_no_open(dev_t dev)
 	struct block_device *bdev;
 	struct gendisk *disk;
 
-	down_read(&bdev_lookup_sem);
 	bdev = bdget(dev);
 	if (!bdev) {
-		up_read(&bdev_lookup_sem);
 		blk_request_module(dev);
-		down_read(&bdev_lookup_sem);
-
 		bdev = bdget(dev);
 		if (!bdev)
-			goto unlock;
+			return NULL;
 	}
 
 	disk = bdev->bd_disk;
@@ -1473,14 +1384,11 @@ struct block_device *blkdev_get_no_open(dev_t dev)
 		goto put_disk;
 	if (!try_module_get(bdev->bd_disk->fops->owner))
 		goto put_disk;
-	up_read(&bdev_lookup_sem);
 	return bdev;
 put_disk:
 	put_disk(disk);
 bdput:
 	bdput(bdev);
-unlock:
-	up_read(&bdev_lookup_sem);
 	return NULL;
 }
 
@@ -1526,10 +1434,6 @@ struct block_device *blkdev_get_by_dev(dev_t dev, fmode_t mode, void *holder)
 	if (ret)
 		return ERR_PTR(ret);
 
-	/*
-	 * If we lost a race with 'disk' being deleted, try again.  See md.c.
-	 */
-retry:
 	bdev = blkdev_get_no_open(dev);
 	if (!bdev)
 		return ERR_PTR(-ENXIO);
@@ -1576,8 +1480,6 @@ abort_claiming:
 	disk_unblock_events(disk);
 put_blkdev:
 	blkdev_put_no_open(bdev);
-	if (ret == -ERESTARTSYS)
-		goto retry;
 	return ERR_PTR(ret);
 }
 EXPORT_SYMBOL(blkdev_get_by_dev);
@@ -1773,10 +1675,7 @@ ssize_t blkdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
 	struct inode *bd_inode = bdev_file_inode(file);
 	loff_t size = i_size_read(bd_inode);
 	struct blk_plug plug;
-<<<<<<< HEAD
 	size_t shorted = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssize_t ret;
 
 	if (bdev_read_only(I_BDEV(bd_inode)))
@@ -1794,24 +1693,17 @@ ssize_t blkdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
 	if ((iocb->ki_flags & (IOCB_NOWAIT | IOCB_DIRECT)) == IOCB_NOWAIT)
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	size -= iocb->ki_pos;
 	if (iov_iter_count(from) > size) {
 		shorted = iov_iter_count(from) - size;
 		iov_iter_truncate(from, size);
 	}
-=======
-	iov_iter_truncate(from, size - iocb->ki_pos);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	blk_start_plug(&plug);
 	ret = __generic_file_write_iter(iocb, from);
 	if (ret > 0)
 		ret = generic_write_sync(iocb, ret);
-<<<<<<< HEAD
 	iov_iter_reexpand(from, iov_iter_count(from) + shorted);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_finish_plug(&plug);
 	return ret;
 }
@@ -1823,17 +1715,13 @@ ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
 	struct inode *bd_inode = bdev_file_inode(file);
 	loff_t size = i_size_read(bd_inode);
 	loff_t pos = iocb->ki_pos;
-<<<<<<< HEAD
 	size_t shorted = 0;
 	ssize_t ret;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (pos >= size)
 		return 0;
 
 	size -= pos;
-<<<<<<< HEAD
 	if (iov_iter_count(to) > size) {
 		shorted = iov_iter_count(to) - size;
 		iov_iter_truncate(to, size);
@@ -1842,10 +1730,6 @@ ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
 	ret = generic_file_read_iter(iocb, to);
 	iov_iter_reexpand(to, iov_iter_count(to) + shorted);
 	return ret;
-=======
-	iov_iter_truncate(to, size);
-	return generic_file_read_iter(iocb, to);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(blkdev_read_iter);
 
@@ -1942,27 +1826,11 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
 		return error;
 
 	/*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Invalidate the page cache again; if someone wandered in and dirtied
 	 * a page, we just discard it - userspace has no way of knowing whether
 	 * the write happened before or after discard completing...
 	 */
 	return truncate_bdev_range(bdev, file->f_mode, start, end);
-<<<<<<< HEAD
-=======
-=======
-	 * Invalidate again; if someone wandered in and dirtied a page,
-	 * the caller will be given -EBUSY.  The third argument is
-	 * inclusive, so the rounding here is safe.
-	 */
-	return invalidate_inode_pages2_range(bdev->bd_inode->i_mapping,
-					     start >> PAGE_SHIFT,
-					     end >> PAGE_SHIFT);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const struct file_operations def_blk_fops = {

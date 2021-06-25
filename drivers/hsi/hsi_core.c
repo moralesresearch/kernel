@@ -210,11 +210,6 @@ static void hsi_add_client_from_dt(struct hsi_port *port,
 	if (err)
 		goto err;
 
-<<<<<<< HEAD
-=======
-	dev_set_name(&cl->device, "%s", name);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = hsi_of_property_parse_mode(client, "hsi-mode", &mode);
 	if (err) {
 		err = hsi_of_property_parse_mode(client, "hsi-rx-mode",
@@ -296,10 +291,7 @@ static void hsi_add_client_from_dt(struct hsi_port *port,
 	cl->device.release = hsi_client_release;
 	cl->device.of_node = client;
 
-<<<<<<< HEAD
 	dev_set_name(&cl->device, "%s", name);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (device_register(&cl->device) < 0) {
 		pr_err("hsi: failed to register client: %s\n", name);
 		put_device(&cl->device);

@@ -40,33 +40,17 @@ static int __connect(struct irq_bypass_producer *prod,
 	if (prod->add_consumer)
 		ret = prod->add_consumer(prod, cons);
 
-<<<<<<< HEAD
 	if (!ret) {
 		ret = cons->add_producer(cons, prod);
 		if (ret && prod->del_consumer)
 			prod->del_consumer(prod, cons);
 	}
-=======
-	if (ret)
-		goto err_add_consumer;
-
-	ret = cons->add_producer(cons, prod);
-	if (ret)
-		goto err_add_producer;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cons->start)
 		cons->start(cons);
 	if (prod->start)
 		prod->start(prod);
-<<<<<<< HEAD
 
-=======
-err_add_producer:
-	if (prod->del_consumer)
-		prod->del_consumer(prod, cons);
-err_add_consumer:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 

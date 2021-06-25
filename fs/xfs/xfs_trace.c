@@ -29,10 +29,7 @@
 #include "xfs_filestream.h"
 #include "xfs_fsmap.h"
 #include "xfs_btree_staging.h"
-<<<<<<< HEAD
 #include "xfs_icache.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * We include this last to have the helpers above available for the trace

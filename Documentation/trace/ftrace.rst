@@ -1159,15 +1159,12 @@ Here are the available options:
 	This simulates the original behavior of the trace file.
 	When the file is closed, tracing will be enabled again.
 
-<<<<<<< HEAD
   hash-ptr
         When set, "%p" in the event printk format displays the
         hashed pointer value instead of real address.
         This will be useful if you want to find out which hashed
         value is corresponding to the real value in trace log.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   record-cmd
 	When any event or tracer is enabled, a hook is enabled
 	in the sched_switch trace point to fill comm cache

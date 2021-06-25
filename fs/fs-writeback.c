@@ -1442,7 +1442,6 @@ static void requeue_inode(struct inode *inode, struct bdi_writeback *wb,
 }
 
 /*
-<<<<<<< HEAD
  * Write out an inode and its dirty pages (or some of its dirty pages, depending
  * on @wbc->nr_to_write), and clear the relevant dirty flags from i_state.
  *
@@ -1452,11 +1451,6 @@ static void requeue_inode(struct inode *inode, struct bdi_writeback *wb,
  *
  * The caller is also responsible for setting the I_SYNC flag beforehand and
  * calling inode_sync_complete() to clear it afterwards.
-=======
- * Write out an inode and its dirty pages. Do not update the writeback list
- * linkage. That is left to the caller. The caller is also responsible for
- * setting I_SYNC flag and calling inode_sync_complete() to clear it.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int
 __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
@@ -1491,11 +1485,7 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 	 * change I_DIRTY_TIME into I_DIRTY_SYNC.
 	 */
 	if ((inode->i_state & I_DIRTY_TIME) &&
-<<<<<<< HEAD
 	    (wbc->sync_mode == WB_SYNC_ALL ||
-=======
-	    (wbc->sync_mode == WB_SYNC_ALL || wbc->for_sync ||
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	     time_after(jiffies, inode->dirtied_time_when +
 			dirtytime_expire_interval * HZ))) {
 		trace_writeback_lazytime(inode);
@@ -1503,16 +1493,10 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 	}
 
 	/*
-<<<<<<< HEAD
 	 * Get and clear the dirty flags from i_state.  This needs to be done
 	 * after calling writepages because some filesystems may redirty the
 	 * inode during writepages due to delalloc.  It also needs to be done
 	 * after handling timestamp expiration, as that may dirty the inode too.
-=======
-	 * Some filesystems may redirty the inode during the writeback
-	 * due to delalloc, clear dirty metadata flags right before
-	 * write_inode()
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	spin_lock(&inode->i_lock);
 	dirty = inode->i_state & I_DIRTY;
@@ -1547,7 +1531,6 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
 }
 
 /*
-<<<<<<< HEAD
  * Write out an inode's dirty data and metadata on-demand, i.e. separately from
  * the regular batched writeback done by the flusher threads in
  * writeback_sb_inodes().  @wbc controls various aspects of the write, such as
@@ -1555,14 +1538,6 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
  *
  * To prevent the inode from going away, either the caller must have a reference
  * to the inode, or the inode must have I_WILL_FREE or I_FREEING set.
-=======
- * Write out an inode's dirty pages. Either the caller has an active reference
- * on the inode or the inode has I_WILL_FREE set.
- *
- * This function is designed to be called for writing back one inode which
- * we go e.g. from filesystem. Flusher thread uses __writeback_single_inode()
- * and does more profound writeback list handling in writeback_sb_inodes().
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int writeback_single_inode(struct inode *inode,
 				  struct writeback_control *wbc)
@@ -1577,7 +1552,6 @@ static int writeback_single_inode(struct inode *inode,
 		WARN_ON(inode->i_state & I_WILL_FREE);
 
 	if (inode->i_state & I_SYNC) {
-<<<<<<< HEAD
 		/*
 		 * Writeback is already running on the inode.  For WB_SYNC_NONE,
 		 * that's enough and we can just return.  For WB_SYNC_ALL, we
@@ -1586,33 +1560,15 @@ static int writeback_single_inode(struct inode *inode,
 		 */
 		if (wbc->sync_mode != WB_SYNC_ALL)
 			goto out;
-=======
-		if (wbc->sync_mode != WB_SYNC_ALL)
-			goto out;
-		/*
-		 * It's a data-integrity sync. We must wait. Since callers hold
-		 * inode reference or inode has I_WILL_FREE set, it cannot go
-		 * away under us.
-		 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__inode_wait_for_writeback(inode);
 	}
 	WARN_ON(inode->i_state & I_SYNC);
 	/*
-<<<<<<< HEAD
 	 * If the inode is already fully clean, then there's nothing to do.
 	 *
 	 * For data-integrity syncs we also need to check whether any pages are
 	 * still under writeback, e.g. due to prior WB_SYNC_NONE writeback.  If
 	 * there are any such pages, we'll need to wait for them.
-=======
-	 * Skip inode if it is clean and we have no outstanding writeback in
-	 * WB_SYNC_ALL mode. We don't want to mess with writeback lists in this
-	 * function since flusher thread may be doing for example sync in
-	 * parallel and if we move the inode, it could get skipped. So here we
-	 * make sure inode is on some writeback list and leave it there unless
-	 * we have completely cleaned the inode.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (!(inode->i_state & I_DIRTY_ALL) &&
 	    (wbc->sync_mode != WB_SYNC_ALL ||
@@ -1628,14 +1584,9 @@ static int writeback_single_inode(struct inode *inode,
 	wb = inode_to_wb_and_lock_list(inode);
 	spin_lock(&inode->i_lock);
 	/*
-<<<<<<< HEAD
 	 * If the inode is now fully clean, then it can be safely removed from
 	 * its writeback list (if any).  Otherwise the flusher threads are
 	 * responsible for the writeback lists.
-=======
-	 * If inode is clean, remove it from writeback lists. Otherwise don't
-	 * touch it. See comment above for explanation.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (!(inode->i_state & I_DIRTY_ALL))
 		inode_io_list_del_locked(inode, wb);
@@ -2277,7 +2228,6 @@ static noinline void block_dump___mark_inode_dirty(struct inode *inode)
 }
 
 /**
-<<<<<<< HEAD
  * __mark_inode_dirty -	internal function to mark an inode dirty
  *
  * @inode: inode to mark
@@ -2296,25 +2246,6 @@ static noinline void block_dump___mark_inode_dirty(struct inode *inode)
  * even if they are later hashed, as they will have been marked dirty already.
  *
  * In short, ensure you hash any inodes _before_ you start marking them dirty.
-=======
- * __mark_inode_dirty -	internal function
- *
- * @inode: inode to mark
- * @flags: what kind of dirty (i.e. I_DIRTY_SYNC)
- *
- * Mark an inode as dirty. Callers should use mark_inode_dirty or
- * mark_inode_dirty_sync.
- *
- * Put the inode on the super block's dirty list.
- *
- * CAREFUL! We mark it dirty unconditionally, but move it onto the
- * dirty list only if it is hashed or if it refers to a blockdev.
- * If it was not hashed, it will never be added to the dirty list
- * even if it is later hashed, as it will have been marked dirty already.
- *
- * In short, make sure you hash any inodes _before_ you start marking
- * them dirty.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Note that for blockdevs, inode->dirtied_when represents the dirtying time of
  * the block-special inode (/dev/hda1) itself.  And the ->dirtied_when field of
@@ -2326,7 +2257,6 @@ static noinline void block_dump___mark_inode_dirty(struct inode *inode)
 void __mark_inode_dirty(struct inode *inode, int flags)
 {
 	struct super_block *sb = inode->i_sb;
-<<<<<<< HEAD
 	int dirtytime = 0;
 
 	trace_writeback_mark_inode_dirty(inode, flags);
@@ -2355,27 +2285,6 @@ void __mark_inode_dirty(struct inode *inode, int flags)
 		dirtytime = flags & I_DIRTY_TIME;
 		WARN_ON_ONCE(dirtytime && flags != I_DIRTY_TIME);
 	}
-=======
-	int dirtytime;
-
-	trace_writeback_mark_inode_dirty(inode, flags);
-
-	/*
-	 * Don't do this for I_DIRTY_PAGES - that doesn't actually
-	 * dirty the inode itself
-	 */
-	if (flags & (I_DIRTY_INODE | I_DIRTY_TIME)) {
-		trace_writeback_dirty_inode_start(inode, flags);
-
-		if (sb->s_op->dirty_inode)
-			sb->s_op->dirty_inode(inode, flags);
-
-		trace_writeback_dirty_inode(inode, flags);
-	}
-	if (flags & I_DIRTY_INODE)
-		flags &= ~I_DIRTY_TIME;
-	dirtytime = flags & I_DIRTY_TIME;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Paired with smp_mb() in __writeback_single_inode() for the
@@ -2398,10 +2307,7 @@ void __mark_inode_dirty(struct inode *inode, int flags)
 
 		inode_attach_wb(inode, NULL);
 
-<<<<<<< HEAD
 		/* I_DIRTY_INODE supersedes I_DIRTY_TIME. */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (flags & I_DIRTY_INODE)
 			inode->i_state &= ~I_DIRTY_TIME;
 		inode->i_state |= flags;

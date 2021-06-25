@@ -245,7 +245,6 @@ static int visconti_set_mux(struct pinctrl_dev *pctldev,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int visconti_gpio_request_enable(struct pinctrl_dev *pctldev,
 				      struct pinctrl_gpio_range *range,
 				      unsigned int pin)
@@ -268,17 +267,12 @@ static int visconti_gpio_request_enable(struct pinctrl_dev *pctldev,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct pinmux_ops visconti_pinmux_ops = {
 	.get_functions_count	= visconti_get_functions_count,
 	.get_function_name	= visconti_get_function_name,
 	.get_function_groups	= visconti_get_function_groups,
 	.set_mux		= visconti_set_mux,
-<<<<<<< HEAD
 	.gpio_request_enable	= visconti_gpio_request_enable,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.strict			= true,
 };
 

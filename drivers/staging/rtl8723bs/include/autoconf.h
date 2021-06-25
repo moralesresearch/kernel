@@ -5,10 +5,6 @@
  *
  ******************************************************************************/
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Automatically generated C config: don't edit
  */
@@ -16,7 +12,6 @@
 /*
  * Functions Config
  */
-/* define DEBUG_CFG80211 */
 
 #ifndef CONFIG_WIRELESS_EXT
 #error CONFIG_WIRELESS_EXT needs to be enabled for this driver to work
@@ -44,21 +39,12 @@
  * Platform dependent
  */
 #define WAKEUP_GPIO_IDX	12	/* WIFI Chip Side */
-#ifdef CONFIG_WOWLAN
-#define CONFIG_GTK_OL
-#endif /* CONFIG_WOWLAN */
 
 /*
  * Debug Related Config
  */
-#undef DEBUG
 
-#ifdef DEBUG
-#define DBG	1	/*  for ODM & BTCOEX debug */
-/*#define DEBUG_RTL871X */
-#else /*  !DEBUG */
 #define DBG	0	/*  for ODM & BTCOEX debug */
-#endif /*  !DEBUG */
 
 /* define DBG_XMIT_BUF */
 /* define DBG_XMIT_BUF_EXT */

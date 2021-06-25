@@ -15,11 +15,6 @@
 #include <linux/i2c.h>
 #include <linux/interrupt.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
-=======
-#include <linux/gpio.h>
-#include <linux/of_gpio.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/of_device.h>
 #include <linux/workqueue.h>
 #include <linux/power_supply.h>

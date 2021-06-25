@@ -100,10 +100,7 @@ SYM_FUNC_END(__cpu_suspend_enter)
 	.pushsection ".idmap.text", "awx"
 SYM_CODE_START(cpu_resume)
 	bl	init_kernel_el
-<<<<<<< HEAD
 	bl	switch_to_vhe
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bl	__cpu_setup
 	/* enable the MMU early - so we can access sleep_save_stash by va */
 	adrp	x1, swapper_pg_dir
@@ -137,11 +134,7 @@ SYM_FUNC_START(_cpu_resume)
 	 */
 	bl	cpu_do_resume
 
-<<<<<<< HEAD
 #if defined(CONFIG_KASAN) && defined(CONFIG_KASAN_STACK)
-=======
-#if defined(CONFIG_KASAN) && CONFIG_KASAN_STACK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mov	x0, sp
 	bl	kasan_unpoison_task_stack_below
 #endif

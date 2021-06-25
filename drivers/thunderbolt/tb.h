@@ -138,11 +138,8 @@ struct tb_switch_tmu {
  *
  * When the switch is being added or removed to the domain (other
  * switches) you need to have domain lock held.
-<<<<<<< HEAD
  *
  * In USB4 terminology this structure represents a router.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct tb_switch {
 	struct device dev;
@@ -201,12 +198,9 @@ struct tb_switch {
  * @in_hopids: Currently allocated input HopIDs
  * @out_hopids: Currently allocated output HopIDs
  * @list: Used to link ports to DP resources list
-<<<<<<< HEAD
  *
  * In USB4 terminology this structure represents an adapter (protocol or
  * lane adapter).
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct tb_port {
 	struct tb_regs_port_header config;
@@ -372,10 +366,7 @@ struct tb_path {
  * @handle_event: Handle thunderbolt event
  * @get_boot_acl: Get boot ACL list
  * @set_boot_acl: Set boot ACL list
-<<<<<<< HEAD
  * @disapprove_switch: Disapprove switch (disconnect PCIe tunnel)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @approve_switch: Approve switch
  * @add_switch_key: Add key to switch
  * @challenge_switch_key: Challenge switch using key
@@ -409,17 +400,18 @@ struct tb_cm_ops {
 			     const void *buf, size_t size);
 	int (*get_boot_acl)(struct tb *tb, uuid_t *uuids, size_t nuuids);
 	int (*set_boot_acl)(struct tb *tb, const uuid_t *uuids, size_t nuuids);
-<<<<<<< HEAD
 	int (*disapprove_switch)(struct tb *tb, struct tb_switch *sw);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int (*approve_switch)(struct tb *tb, struct tb_switch *sw);
 	int (*add_switch_key)(struct tb *tb, struct tb_switch *sw);
 	int (*challenge_switch_key)(struct tb *tb, struct tb_switch *sw,
 				    const u8 *challenge, u8 *response);
 	int (*disconnect_pcie_paths)(struct tb *tb);
-	int (*approve_xdomain_paths)(struct tb *tb, struct tb_xdomain *xd);
-	int (*disconnect_xdomain_paths)(struct tb *tb, struct tb_xdomain *xd);
+	int (*approve_xdomain_paths)(struct tb *tb, struct tb_xdomain *xd,
+				     int transmit_path, int transmit_ring,
+				     int receive_path, int receive_ring);
+	int (*disconnect_xdomain_paths)(struct tb *tb, struct tb_xdomain *xd,
+					int transmit_path, int transmit_ring,
+					int receive_path, int receive_ring);
 	int (*usb4_switch_op)(struct tb_switch *sw, u16 opcode, u32 *metadata,
 			      u8 *status, const void *tx_data, size_t tx_data_len,
 			      void *rx_data, size_t rx_data_len);
@@ -637,7 +629,7 @@ void tb_domain_exit(void);
 int tb_xdomain_init(void);
 void tb_xdomain_exit(void);
 
-struct tb *tb_domain_alloc(struct tb_nhi *nhi, size_t privsize);
+struct tb *tb_domain_alloc(struct tb_nhi *nhi, int timeout_msec, size_t privsize);
 int tb_domain_add(struct tb *tb);
 void tb_domain_remove(struct tb *tb);
 int tb_domain_suspend_noirq(struct tb *tb);
@@ -648,16 +640,17 @@ int tb_domain_thaw_noirq(struct tb *tb);
 void tb_domain_complete(struct tb *tb);
 int tb_domain_runtime_suspend(struct tb *tb);
 int tb_domain_runtime_resume(struct tb *tb);
-<<<<<<< HEAD
 int tb_domain_disapprove_switch(struct tb *tb, struct tb_switch *sw);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int tb_domain_approve_switch(struct tb *tb, struct tb_switch *sw);
 int tb_domain_approve_switch_key(struct tb *tb, struct tb_switch *sw);
 int tb_domain_challenge_switch_key(struct tb *tb, struct tb_switch *sw);
 int tb_domain_disconnect_pcie_paths(struct tb *tb);
-int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd);
-int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd);
+int tb_domain_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+				    int transmit_path, int transmit_ring,
+				    int receive_path, int receive_ring);
+int tb_domain_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+				       int transmit_path, int transmit_ring,
+				       int receive_path, int receive_ring);
 int tb_domain_disconnect_all_paths(struct tb *tb);
 
 static inline struct tb *tb_domain_get(struct tb *tb)
@@ -802,32 +795,6 @@ static inline bool tb_switch_is_titan_ridge(const struct tb_switch *sw)
 	return false;
 }
 
-static inline bool tb_switch_is_ice_lake(const struct tb_switch *sw)
-{
-	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
-		switch (sw->config.device_id) {
-		case PCI_DEVICE_ID_INTEL_ICL_NHI0:
-		case PCI_DEVICE_ID_INTEL_ICL_NHI1:
-			return true;
-		}
-	}
-	return false;
-}
-
-static inline bool tb_switch_is_tiger_lake(const struct tb_switch *sw)
-{
-	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
-		switch (sw->config.device_id) {
-		case PCI_DEVICE_ID_INTEL_TGL_NHI0:
-		case PCI_DEVICE_ID_INTEL_TGL_NHI1:
-		case PCI_DEVICE_ID_INTEL_TGL_H_NHI0:
-		case PCI_DEVICE_ID_INTEL_TGL_H_NHI1:
-			return true;
-		}
-	}
-	return false;
-}
-
 /**
  * tb_switch_is_usb4() - Is the switch USB4 compliant
  * @sw: Switch to check
@@ -875,7 +842,6 @@ static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw)
 
 int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged);
 int tb_port_add_nfc_credits(struct tb_port *port, int credits);
-int tb_port_set_initial_credits(struct tb_port *port, u32 credits);
 int tb_port_clear_counter(struct tb_port *port, int counter);
 int tb_port_unlock(struct tb_port *port);
 int tb_port_enable(struct tb_port *port);
@@ -946,10 +912,7 @@ int tb_lc_configure_port(struct tb_port *port);
 void tb_lc_unconfigure_port(struct tb_port *port);
 int tb_lc_configure_xdomain(struct tb_port *port);
 void tb_lc_unconfigure_xdomain(struct tb_port *port);
-<<<<<<< HEAD
 int tb_lc_start_lane_initialization(struct tb_port *port);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int tb_lc_set_wake(struct tb_switch *sw, unsigned int flags);
 int tb_lc_set_sleep(struct tb_switch *sw);
 bool tb_lc_lane_bonding_possible(struct tb_switch *sw);
@@ -976,10 +939,7 @@ static inline u64 tb_downstream_route(struct tb_port *port)
 	       | ((u64) port->port << (port->sw->config.depth * 8));
 }
 
-<<<<<<< HEAD
 bool tb_is_xdomain_enabled(void);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool tb_xdomain_handle_request(struct tb *tb, enum tb_cfg_pkg_type type,
 			       const void *buf, size_t size);
 struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
@@ -1065,7 +1025,6 @@ void tb_check_quirks(struct tb_switch *sw);
 
 #ifdef CONFIG_ACPI
 void tb_acpi_add_links(struct tb_nhi *nhi);
-<<<<<<< HEAD
 
 bool tb_acpi_is_native(void);
 bool tb_acpi_may_tunnel_usb3(void);
@@ -1080,10 +1039,6 @@ static inline bool tb_acpi_may_tunnel_usb3(void) { return true; }
 static inline bool tb_acpi_may_tunnel_dp(void) { return true; }
 static inline bool tb_acpi_may_tunnel_pcie(void) { return true; }
 static inline bool tb_acpi_is_xdomain_allowed(void) { return true; }
-=======
-#else
-static inline void tb_acpi_add_links(struct tb_nhi *nhi) { }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_DEBUG_FS

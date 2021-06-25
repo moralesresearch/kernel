@@ -887,12 +887,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
 	src_q = v4l2_m2m_get_src_vq(m2m_ctx);
 	dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
 
-<<<<<<< HEAD
-=======
-	poll_wait(file, &src_q->done_wq, wait);
-	poll_wait(file, &dst_q->done_wq, wait);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * There has to be at least one buffer queued on each queued_list, which
 	 * means either in driver already or waiting for driver to claim it
@@ -925,7 +919,6 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
 		       struct poll_table_struct *wait)
 {
 	struct video_device *vfd = video_devdata(file);
-<<<<<<< HEAD
 	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
 	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
 	__poll_t req_events = poll_requested_events(wait);
@@ -941,11 +934,6 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
 	poll_wait(file, &src_q->done_wq, wait);
 	poll_wait(file, &dst_q->done_wq, wait);
 
-=======
-	__poll_t req_events = poll_requested_events(wait);
-	__poll_t rc = 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
 		rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
 

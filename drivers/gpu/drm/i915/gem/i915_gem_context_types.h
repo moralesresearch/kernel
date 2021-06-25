@@ -108,10 +108,6 @@ struct i915_gem_context {
 
 	/** link: place with &drm_i915_private.context_list */
 	struct list_head link;
-<<<<<<< HEAD
-=======
-	struct llist_node free_link;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * @ref: reference count
@@ -157,6 +153,10 @@ struct i915_gem_context {
 	 * hang, but did not cause it.
 	 */
 	atomic_t active_count;
+
+	struct {
+		u64 timeout_us;
+	} watchdog;
 
 	/**
 	 * @hang_timestamp: The last time(s) this context caused a GPU hang

@@ -981,16 +981,7 @@ void qlt_free_session_done(struct work_struct *work)
 			int rc;
 
 			if (!own ||
-<<<<<<< HEAD
 			     (own->iocb.u.isp24.status_subcode == ELS_PLOGI)) {
-=======
-<<<<<<< HEAD
-			     (own->iocb.u.isp24.status_subcode == ELS_PLOGI)) {
-=======
-			    (own &&
-			     (own->iocb.u.isp24.status_subcode == ELS_PLOGI))) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rc = qla2x00_post_async_logout_work(vha, sess,
 				    NULL);
 				if (rc != QLA_SUCCESS)
@@ -1038,7 +1029,12 @@ void qlt_free_session_done(struct work_struct *work)
 			}
 			msleep(100);
 			cnt++;
-			if (cnt > 200)
+			/*
+			 * Driver timeout is set to 22 Sec, update count value to loop
+			 * long enough for log-out to complete before advancing. Otherwise,
+			 * straddling logout can interfere with re-login attempt.
+			 */
+			if (cnt > 230)
 				break;
 		}
 
@@ -1567,18 +1563,12 @@ void qlt_stop_phase2(struct qla_tgt *tgt)
 		return;
 	}
 
-<<<<<<< HEAD
 	mutex_lock(&tgt->ha->optrom_mutex);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&vha->vha_tgt.tgt_mutex);
 	tgt->tgt_stop = 0;
 	tgt->tgt_stopped = 1;
 	mutex_unlock(&vha->vha_tgt.tgt_mutex);
-<<<<<<< HEAD
 	mutex_unlock(&tgt->ha->optrom_mutex);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ql_dbg(ql_dbg_tgt_mgt, vha, 0xf00c, "Stop of tgt %p finished\n",
 	    tgt);
@@ -6476,7 +6466,7 @@ static void qlt_lport_dump(struct scsi_qla_host *vha, u64 wwpn,
 }
 
 /**
- * qla_tgt_lport_register - register lport with external module
+ * qlt_lport_register - register lport with external module
  *
  * @target_lport_ptr: pointer for tcm_qla2xxx specific lport data
  * @phys_wwpn: physical port WWPN
@@ -6552,7 +6542,7 @@ int qlt_lport_register(void *target_lport_ptr, u64 phys_wwpn,
 EXPORT_SYMBOL(qlt_lport_register);
 
 /**
- * qla_tgt_lport_deregister - Degister lport
+ * qlt_lport_deregister - Degister lport
  *
  * @vha:  Registered scsi_qla_host pointer
  */

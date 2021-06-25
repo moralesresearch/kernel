@@ -439,12 +439,7 @@ static struct cpufreq_driver pmac_cpufreq_driver = {
 	.init		= pmac_cpufreq_cpu_init,
 	.suspend	= pmac_cpufreq_suspend,
 	.resume		= pmac_cpufreq_resume,
-<<<<<<< HEAD
 	.flags		= CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING,
-=======
-	.flags		= CPUFREQ_PM_NO_WARN |
-			  CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attr		= cpufreq_generic_attr,
 	.name		= "powermac",
 };

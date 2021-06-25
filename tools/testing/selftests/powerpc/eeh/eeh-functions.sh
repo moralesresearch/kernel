@@ -1,15 +1,12 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0-only
 
-<<<<<<< HEAD
 export KSELFTESTS_SKIP=4
 
 log() {
 	echo >/dev/stderr $*
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 pe_ok() {
 	local dev="$1"
 	local path="/sys/bus/pci/devices/$dev/eeh_pe_state"
@@ -48,7 +45,6 @@ eeh_supported() {
 	grep -q 'EEH Subsystem is enabled' /proc/powerpc/eeh
 }
 
-<<<<<<< HEAD
 eeh_test_prep() {
 	if ! eeh_supported ; then
 		echo "EEH not supported on this system, skipping"
@@ -95,8 +91,6 @@ eeh_can_break() {
 	return 0
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 eeh_one_dev() {
 	local dev="$1"
 
@@ -104,11 +98,7 @@ eeh_one_dev() {
 	# testing so check that the argument is a well-formed sysfs device
 	# name.
 	if ! test -e /sys/bus/pci/devices/$dev/ ; then
-<<<<<<< HEAD
 		log "Error: '$dev' must be a sysfs device name (DDDD:BB:DD.F)"
-=======
-		echo "Error: '$dev' must be a sysfs device name (DDDD:BB:DD.F)"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	fi
 
@@ -132,16 +122,11 @@ eeh_one_dev() {
 		if pe_ok $dev ; then
 			break;
 		fi
-<<<<<<< HEAD
 		log "$dev, waited $i/${max_wait}"
-=======
-		echo "$dev, waited $i/${max_wait}"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sleep 1
 	done
 
 	if ! pe_ok $dev ; then
-<<<<<<< HEAD
 		log "$dev, Failed to recover!"
 		return 1;
 	fi
@@ -258,13 +243,3 @@ eeh_disable_vfs() {
 
 	return 0;
 }
-=======
-		echo "$dev, Failed to recover!"
-		return 1;
-	fi
-
-	echo "$dev, Recovered after $i seconds"
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

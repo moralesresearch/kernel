@@ -10,10 +10,7 @@ util/python.c
 util/cap.c
 util/evlist.c
 util/evsel.c
-<<<<<<< HEAD
 util/evsel_fprintf.c
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 util/perf_event_attr_fprintf.c
 util/cpumap.c
 util/memswap.c
@@ -39,7 +36,6 @@ util/symbol_fprintf.c
 util/units.c
 util/affinity.c
 util/rwsem.c
-<<<<<<< HEAD
 util/hashmap.c
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+util/pmu-hybrid.c
+util/fncache.c

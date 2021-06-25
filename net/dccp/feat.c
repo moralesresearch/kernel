@@ -371,11 +371,7 @@ static int dccp_feat_clone_sp_val(dccp_feat_val *fval, u8 const *val, u8 len)
 		fval->sp.vec = kmemdup(val, len, gfp_any());
 		if (fval->sp.vec == NULL) {
 			fval->sp.len = 0;
-<<<<<<< HEAD
 			return -ENOMEM;
-=======
-			return -ENOBUFS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	return 0;

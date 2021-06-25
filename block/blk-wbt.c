@@ -518,11 +518,7 @@ static void __wbt_wait(struct rq_wb *rwb, enum wbt_flags wb_acct,
 	rq_qos_wait(rqw, &data, wbt_inflight_cb, wbt_cleanup_cb);
 }
 
-<<<<<<< HEAD
 static inline bool wbt_should_throttle(struct bio *bio)
-=======
-static inline bool wbt_should_throttle(struct rq_wb *rwb, struct bio *bio)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (bio_op(bio)) {
 	case REQ_OP_WRITE:
@@ -549,11 +545,7 @@ static enum wbt_flags bio_to_wbt_flags(struct rq_wb *rwb, struct bio *bio)
 
 	if (bio_op(bio) == REQ_OP_READ) {
 		flags = WBT_READ;
-<<<<<<< HEAD
 	} else if (wbt_should_throttle(bio)) {
-=======
-	} else if (wbt_should_throttle(rwb, bio)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (current_is_kswapd())
 			flags |= WBT_KSWAPD;
 		if (bio_op(bio) == REQ_OP_DISCARD)

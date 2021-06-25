@@ -353,7 +353,6 @@ xfs_btree_free_block(
  */
 void
 xfs_btree_del_cursor(
-<<<<<<< HEAD
 	struct xfs_btree_cur	*cur,		/* btree cursor */
 	int			error)		/* del because of error */
 {
@@ -365,22 +364,6 @@ xfs_btree_del_cursor(
 	 * array for buffers to be unlocked. This is because some of the btree
 	 * code works from level n down to 0, and if we get an error along the
 	 * way we won't have initialized all the entries down to 0.
-=======
-	xfs_btree_cur_t	*cur,		/* btree cursor */
-	int		error)		/* del because of error */
-{
-	int		i;		/* btree level */
-
-	/*
-	 * Clear the buffer pointers, and release the buffers.
-	 * If we're doing this in the face of an error, we
-	 * need to make sure to inspect all of the entries
-	 * in the bc_bufs array for buffers to be unlocked.
-	 * This is because some of the btree code works from
-	 * level n down to 0, and if we get an error along
-	 * the way we won't have initialized all the entries
-	 * down to 0.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	for (i = 0; i < cur->bc_nlevels; i++) {
 		if (cur->bc_bufs[i])
@@ -388,25 +371,11 @@ xfs_btree_del_cursor(
 		else if (!error)
 			break;
 	}
-<<<<<<< HEAD
 
 	ASSERT(cur->bc_btnum != XFS_BTNUM_BMAP || cur->bc_ino.allocated == 0 ||
 	       XFS_FORCED_SHUTDOWN(cur->bc_mp));
 	if (unlikely(cur->bc_flags & XFS_BTREE_STAGING))
 		kmem_free(cur->bc_ops);
-=======
-	/*
-	 * Can't free a bmap cursor without having dealt with the
-	 * allocated indirect blocks' accounting.
-	 */
-	ASSERT(cur->bc_btnum != XFS_BTNUM_BMAP ||
-	       cur->bc_ino.allocated == 0);
-	/*
-	 * Free the cursor.
-	 */
-	if (unlikely(cur->bc_flags & XFS_BTREE_STAGING))
-		kmem_free((void *)cur->bc_ops);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kmem_cache_free(xfs_btree_cur_zone, cur);
 }
 
@@ -2836,11 +2805,7 @@ xfs_btree_split_worker(
 	struct xfs_btree_split_args	*args = container_of(work,
 						struct xfs_btree_split_args, work);
 	unsigned long		pflags;
-<<<<<<< HEAD
 	unsigned long		new_pflags = 0;
-=======
-	unsigned long		new_pflags = PF_MEMALLOC_NOFS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * we are in a transaction context here, but may also be doing work
@@ -2852,7 +2817,6 @@ xfs_btree_split_worker(
 		new_pflags |= PF_MEMALLOC | PF_SWAPWRITE | PF_KSWAPD;
 
 	current_set_flags_nested(&pflags, new_pflags);
-<<<<<<< HEAD
 	xfs_trans_set_context(args->cur->bc_tp);
 
 	args->result = __xfs_btree_split(args->cur, args->level, args->ptrp,
@@ -2867,14 +2831,6 @@ xfs_btree_split_worker(
 	 */
 	complete(args->done);
 
-=======
-
-	args->result = __xfs_btree_split(args->cur, args->level, args->ptrp,
-					 args->key, args->curp, args->stat);
-	complete(args->done);
-
-	current_restore_flags_nested(&pflags, new_pflags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

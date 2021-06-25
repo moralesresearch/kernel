@@ -492,7 +492,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
 	 * SS descriptor, but we do need SS to be valid.  It's possible
 	 * that the old SS is entirely bogus -- this can happen if the
 	 * signal we're trying to deliver is #GP or #SS caused by a bad
-	 * SS value.  We also have a compatbility issue here: DOSEMU
+	 * SS value.  We also have a compatibility issue here: DOSEMU
 	 * relies on the contents of the SS register indicating the
 	 * SS value at the time of the signal, even though that code in
 	 * DOSEMU predates sigreturn's ability to restore SS.  (DOSEMU
@@ -767,15 +767,7 @@ handle_signal(struct ksignal *ksig, struct pt_regs *regs)
 static inline unsigned long get_nr_restart_syscall(const struct pt_regs *regs)
 {
 #ifdef CONFIG_IA32_EMULATION
-<<<<<<< HEAD
 	if (current->restart_block.arch_data & TS_COMPAT)
-=======
-<<<<<<< HEAD
-	if (current->restart_block.arch_data & TS_COMPAT)
-=======
-	if (current_thread_info()->status & TS_COMPAT_RESTART)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return __NR_ia32_restart_syscall;
 #endif
 #ifdef CONFIG_X86_X32_ABI

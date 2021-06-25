@@ -116,12 +116,7 @@ void cal_camerarx_disable(struct cal_camerarx *phy)
 #define TCLK_MISS	1
 #define TCLK_SETTLE	14
 
-<<<<<<< HEAD
 static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate)
-=======
-static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate,
-				const struct cal_fmt *fmt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int reg0, reg1;
 	unsigned int ths_term, ths_settle;
@@ -136,15 +131,9 @@ static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate,
 	 * CSI-2 is DDR and we only count used lanes.
 	 *
 	 * csi2_ddrclk_khz = external_rate / 1000
-<<<<<<< HEAD
 	 *		   / (2 * num_lanes) * phy->fmtinfo->bpp;
 	 */
 	csi2_ddrclk_khz = div_s64(external_rate * phy->fmtinfo->bpp,
-=======
-	 *		   / (2 * num_lanes) * fmt->bpp;
-	 */
-	csi2_ddrclk_khz = div_s64(external_rate * fmt->bpp,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  2 * num_lanes * 1000);
 
 	phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
@@ -244,7 +233,6 @@ static void cal_camerarx_wait_stop_state(struct cal_camerarx *phy)
 		phy_err(phy, "Timeout waiting for stop state\n");
 }
 
-<<<<<<< HEAD
 static void cal_camerarx_enable_irqs(struct cal_camerarx *phy)
 {
 	const u32 cio_err_mask =
@@ -281,9 +269,6 @@ static void cal_camerarx_ppi_disable(struct cal_camerarx *phy)
 }
 
 static int cal_camerarx_start(struct cal_camerarx *phy)
-=======
-int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	s64 external_rate;
 	u32 sscounter;
@@ -300,11 +285,8 @@ int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
 		return ret;
 	}
 
-<<<<<<< HEAD
 	cal_camerarx_enable_irqs(phy);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * CSI-2 PHY Link Initialization Sequence, according to the DRA74xP /
 	 * DRA75xP / DRA76xP / DRA77xP TRM. The DRA71x / DRA72x and the AM65x /
@@ -343,11 +325,7 @@ int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
 	camerarx_read(phy, CAL_CSI2_PHY_REG0);
 
 	/* Program the PHY timing parameters. */
-<<<<<<< HEAD
 	cal_camerarx_config(phy, external_rate);
-=======
-	cal_camerarx_config(phy, external_rate, fmt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 *    b. Assert the FORCERXMODE signal.
@@ -398,10 +376,7 @@ int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
 	ret = v4l2_subdev_call(phy->sensor, video, s_stream, 1);
 	if (ret) {
 		v4l2_subdev_call(phy->sensor, core, s_power, 0);
-<<<<<<< HEAD
 		cal_camerarx_disable_irqs(phy);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		phy_err(phy, "stream on failed in subdev\n");
 		return ret;
 	}
@@ -421,7 +396,6 @@ int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
 	 * implemented.
 	 */
 
-<<<<<<< HEAD
 	/* Finally, enable the PHY Protocol Interface (PPI). */
 	cal_camerarx_ppi_enable(phy);
 
@@ -429,23 +403,14 @@ int cal_camerarx_start(struct cal_camerarx *phy, const struct cal_fmt *fmt)
 }
 
 static void cal_camerarx_stop(struct cal_camerarx *phy)
-=======
-	return 0;
-}
-
-void cal_camerarx_stop(struct cal_camerarx *phy)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int i;
 	int ret;
 
-<<<<<<< HEAD
 	cal_camerarx_ppi_disable(phy);
 
 	cal_camerarx_disable_irqs(phy);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cal_camerarx_power(phy, false);
 
 	/* Assert Complex IO Reset */
@@ -507,77 +472,6 @@ void cal_camerarx_i913_errata(struct cal_camerarx *phy)
 	camerarx_write(phy, CAL_CSI2_PHY_REG10, reg10);
 }
 
-<<<<<<< HEAD
-=======
-/*
- * Enable the expected IRQ sources
- */
-void cal_camerarx_enable_irqs(struct cal_camerarx *phy)
-{
-	u32 val;
-
-	const u32 cio_err_mask =
-		CAL_CSI2_COMPLEXIO_IRQ_LANE_ERRORS_MASK |
-		CAL_CSI2_COMPLEXIO_IRQ_FIFO_OVR_MASK |
-		CAL_CSI2_COMPLEXIO_IRQ_SHORT_PACKET_MASK |
-		CAL_CSI2_COMPLEXIO_IRQ_ECC_NO_CORRECTION_MASK;
-
-	/* Enable CIO error irqs */
-	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0),
-		  CAL_HL_IRQ_CIO_MASK(phy->instance));
-	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance),
-		  cio_err_mask);
-
-	/* Always enable OCPO error */
-	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0), CAL_HL_IRQ_OCPO_ERR_MASK);
-
-	/* Enable IRQ_WDMA_END 0/1 */
-	val = 0;
-	cal_set_field(&val, 1, CAL_HL_IRQ_MASK(phy->instance));
-	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(1), val);
-	/* Enable IRQ_WDMA_START 0/1 */
-	val = 0;
-	cal_set_field(&val, 1, CAL_HL_IRQ_MASK(phy->instance));
-	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(2), val);
-	/* Todo: Add VC_IRQ and CSI2_COMPLEXIO_IRQ handling */
-	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(0), 0xFF000000);
-}
-
-void cal_camerarx_disable_irqs(struct cal_camerarx *phy)
-{
-	u32 val;
-
-	/* Disable CIO error irqs */
-	cal_write(phy->cal, CAL_HL_IRQENABLE_CLR(0),
-		  CAL_HL_IRQ_CIO_MASK(phy->instance));
-	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance), 0);
-
-	/* Disable IRQ_WDMA_END 0/1 */
-	val = 0;
-	cal_set_field(&val, 1, CAL_HL_IRQ_MASK(phy->instance));
-	cal_write(phy->cal, CAL_HL_IRQENABLE_CLR(1), val);
-	/* Disable IRQ_WDMA_START 0/1 */
-	val = 0;
-	cal_set_field(&val, 1, CAL_HL_IRQ_MASK(phy->instance));
-	cal_write(phy->cal, CAL_HL_IRQENABLE_CLR(2), val);
-	/* Todo: Add VC_IRQ and CSI2_COMPLEXIO_IRQ handling */
-	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(0), 0);
-}
-
-void cal_camerarx_ppi_enable(struct cal_camerarx *phy)
-{
-	cal_write(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance), BIT(3));
-	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
-			1, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
-}
-
-void cal_camerarx_ppi_disable(struct cal_camerarx *phy)
-{
-	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
-			0, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cal_camerarx_regmap_init(struct cal_dev *cal,
 				    struct cal_camerarx *phy)
 {
@@ -615,13 +509,8 @@ static int cal_camerarx_regmap_init(struct cal_dev *cal,
 static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
 {
 	struct v4l2_fwnode_endpoint *endpoint = &phy->endpoint;
-<<<<<<< HEAD
 	char data_lanes[V4L2_FWNODE_CSI2_MAX_DATA_LANES * 2];
 	struct device_node *ep_node;
-=======
-	struct device_node *ep_node;
-	char data_lanes[V4L2_FWNODE_CSI2_MAX_DATA_LANES * 2];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 	int ret;
 
@@ -669,17 +558,11 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
 		endpoint->bus.mipi_csi2.flags);
 
 	/* Retrieve the connected device and store it for later use. */
-<<<<<<< HEAD
 	phy->sensor_ep_node = of_graph_get_remote_endpoint(ep_node);
 	phy->sensor_node = of_graph_get_port_parent(phy->sensor_ep_node);
 	if (!phy->sensor_node) {
 		phy_dbg(3, phy, "Can't get remote parent\n");
 		of_node_put(phy->sensor_ep_node);
-=======
-	phy->sensor_node = of_graph_get_remote_port_parent(ep_node);
-	if (!phy->sensor_node) {
-		phy_dbg(3, phy, "Can't get remote parent\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EINVAL;
 		goto done;
 	}
@@ -691,7 +574,6 @@ done:
 	return ret;
 }
 
-<<<<<<< HEAD
 /* ------------------------------------------------------------------
  *	V4L2 Subdev Operations
  * ------------------------------------------------------------------
@@ -907,17 +789,12 @@ static struct media_entity_operations cal_camerarx_media_ops = {
  * ------------------------------------------------------------------
  */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
 					 unsigned int instance)
 {
 	struct platform_device *pdev = to_platform_device(cal->dev);
 	struct cal_camerarx *phy;
-<<<<<<< HEAD
 	struct v4l2_subdev *sd;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
@@ -949,11 +826,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
 	if (ret)
 		goto error;
 
-<<<<<<< HEAD
 	/* Initialize the V4L2 subdev and media entity. */
 	sd = &phy->subdev;
 	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
 	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
 	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
 	sd->dev = cal->dev;
 
@@ -975,11 +852,6 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
 
 error:
 	media_entity_cleanup(&phy->subdev.entity);
-=======
-	return phy;
-
-error:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(phy);
 	return ERR_PTR(ret);
 }
@@ -989,12 +861,9 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
 	if (!phy)
 		return;
 
-<<<<<<< HEAD
 	v4l2_device_unregister_subdev(&phy->subdev);
 	media_entity_cleanup(&phy->subdev.entity);
 	of_node_put(phy->sensor_ep_node);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_node_put(phy->sensor_node);
 	kfree(phy);
 }

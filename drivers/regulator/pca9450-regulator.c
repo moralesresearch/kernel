@@ -822,15 +822,7 @@ static int pca9450_i2c_probe(struct i2c_client *i2c,
 
 	if (IS_ERR(pca9450->sd_vsel_gpio)) {
 		dev_err(&i2c->dev, "Failed to get SD_VSEL GPIO\n");
-<<<<<<< HEAD
 		return PTR_ERR(pca9450->sd_vsel_gpio);
-=======
-<<<<<<< HEAD
-		return PTR_ERR(pca9450->sd_vsel_gpio);
-=======
-		return ret;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_info(&i2c->dev, "%s probed.\n",

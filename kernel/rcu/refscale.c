@@ -46,7 +46,6 @@
 #define VERBOSE_SCALEOUT(s, x...) \
 	do { if (verbose) pr_alert("%s" SCALE_FLAG s, scale_type, ## x); } while (0)
 
-<<<<<<< HEAD
 static atomic_t verbose_batch_ctr;
 
 #define VERBOSE_SCALEOUT_BATCH(s, x...)							\
@@ -59,8 +58,6 @@ do {											\
 	}										\
 } while (0)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define VERBOSE_SCALEOUT_ERRSTRING(s, x...) \
 	do { if (verbose) pr_alert("%s" SCALE_FLAG "!!! " s, scale_type, ## x); } while (0)
 
@@ -72,10 +69,7 @@ module_param(scale_type, charp, 0444);
 MODULE_PARM_DESC(scale_type, "Type of test (rcu, srcu, refcnt, rwsem, rwlock.");
 
 torture_param(int, verbose, 0, "Enable verbose debugging printk()s");
-<<<<<<< HEAD
 torture_param(int, verbose_batched, 0, "Batch verbose debugging printk()s");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 // Wait until there are multiple CPUs before starting test.
 torture_param(int, holdoff, IS_BUILTIN(CONFIG_RCU_REF_SCALE_TEST) ? 10 : 0,
@@ -387,22 +381,14 @@ ref_scale_reader(void *arg)
 	u64 start;
 	s64 duration;
 
-<<<<<<< HEAD
 	VERBOSE_SCALEOUT_BATCH("ref_scale_reader %ld: task started", me);
-=======
-	VERBOSE_SCALEOUT("ref_scale_reader %ld: task started", me);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	set_cpus_allowed_ptr(current, cpumask_of(me % nr_cpu_ids));
 	set_user_nice(current, MAX_NICE);
 	atomic_inc(&n_init);
 	if (holdoff)
 		schedule_timeout_interruptible(holdoff * HZ);
 repeat:
-<<<<<<< HEAD
 	VERBOSE_SCALEOUT_BATCH("ref_scale_reader %ld: waiting to start next experiment on cpu %d", me, smp_processor_id());
-=======
-	VERBOSE_SCALEOUT("ref_scale_reader %ld: waiting to start next experiment on cpu %d", me, smp_processor_id());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	// Wait for signal that this reader can start.
 	wait_event(rt->wq, (atomic_read(&nreaders_exp) && smp_load_acquire(&rt->start_reader)) ||
@@ -419,11 +405,7 @@ repeat:
 		while (atomic_read_acquire(&n_started))
 			cpu_relax();
 
-<<<<<<< HEAD
 	VERBOSE_SCALEOUT_BATCH("ref_scale_reader %ld: experiment %d started", me, exp_idx);
-=======
-	VERBOSE_SCALEOUT("ref_scale_reader %ld: experiment %d started", me, exp_idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 	// To reduce noise, do an initial cache-warming invocation, check
@@ -452,13 +434,8 @@ repeat:
 	if (atomic_dec_and_test(&nreaders_exp))
 		wake_up(&main_wq);
 
-<<<<<<< HEAD
 	VERBOSE_SCALEOUT_BATCH("ref_scale_reader %ld: experiment %d ended, (readers remaining=%d)",
 				me, exp_idx, atomic_read(&nreaders_exp));
-=======
-	VERBOSE_SCALEOUT("ref_scale_reader %ld: experiment %d ended, (readers remaining=%d)",
-			me, exp_idx, atomic_read(&nreaders_exp));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!torture_must_stop())
 		goto repeat;

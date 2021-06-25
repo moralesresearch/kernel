@@ -2,15 +2,7 @@
 /*
  * Performance event support for s390x - CPU-measurement Counter Sets
  *
-<<<<<<< HEAD
  *  Copyright IBM Corp. 2019, 2021
-=======
-<<<<<<< HEAD
- *  Copyright IBM Corp. 2019, 2021
-=======
- *  Copyright IBM Corp. 2019
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  Author(s): Hendrik Brueckner <brueckner@linux.ibm.com>
  *	       Thomas Richer <tmricht@linux.ibm.com>
  */
@@ -25,16 +17,8 @@
 #include <linux/export.h>
 #include <linux/slab.h>
 #include <linux/processor.h>
-<<<<<<< HEAD
 #include <linux/miscdevice.h>
 #include <linux/mutex.h>
-=======
-<<<<<<< HEAD
-#include <linux/miscdevice.h>
-#include <linux/mutex.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/ctl_reg.h>
 #include <asm/irq.h>
@@ -42,10 +26,6 @@
 #include <asm/timex.h>
 #include <asm/debug.h>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/hwctrset.h>
 
 #define	CF_DIAG_CTRSET_DEF		0xfeef	/* Counter set header mark */
@@ -58,20 +38,6 @@ struct cf_diag_csd {			/* Counter set data per CPU */
 	unsigned char start[PAGE_SIZE];	/* Counter set at event start */
 	unsigned char data[PAGE_SIZE];	/* Counter set at event delete */
 	unsigned int sets;		/* # Counter set saved in data */
-<<<<<<< HEAD
-=======
-=======
-#define	CF_DIAG_CTRSET_DEF		0xfeef	/* Counter set header mark */
-
-static unsigned int cf_diag_cpu_speed;
-static debug_info_t *cf_diag_dbg;
-
-struct cf_diag_csd {		/* Counter set data per CPU */
-	size_t used;			/* Bytes used in data/start */
-	unsigned char start[PAGE_SIZE];	/* Counter set at event start */
-	unsigned char data[PAGE_SIZE];	/* Counter set at event delete */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 static DEFINE_PER_CPU(struct cf_diag_csd, cf_diag_csd);
 
@@ -157,18 +123,8 @@ static void cf_diag_trailer(struct cf_trailer_entry *te)
 	if (te->cpu_speed)
 		te->speed = 1;
 	te->clock_base = 1;			/* Save clock base */
-<<<<<<< HEAD
 	te->tod_base = tod_clock_base.tod;
 	te->timestamp = get_tod_clock_fast();
-=======
-<<<<<<< HEAD
-	te->tod_base = tod_clock_base.tod;
-	te->timestamp = get_tod_clock_fast();
-=======
-	memcpy(&te->tod_base, &tod_clock_base[1], 8);
-	store_tod_clock((__u64 *)&te->timestamp);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -227,40 +183,20 @@ static void cf_diag_disable(struct pmu *pmu)
 
 /* Number of perf events counting hardware events */
 static atomic_t cf_diag_events = ATOMIC_INIT(0);
-<<<<<<< HEAD
 /* Used to avoid races in calling reserve/release_cpumf_hardware */
 static DEFINE_MUTEX(cf_diag_reserve_mutex);
-=======
-<<<<<<< HEAD
-/* Used to avoid races in calling reserve/release_cpumf_hardware */
-static DEFINE_MUTEX(cf_diag_reserve_mutex);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Release the PMU if event is the last perf event */
 static void cf_diag_perf_event_destroy(struct perf_event *event)
 {
 	debug_sprintf_event(cf_diag_dbg, 5,
 			    "%s event %p cpu %d cf_diag_events %d\n",
-<<<<<<< HEAD
 			    __func__, event, smp_processor_id(),
-=======
-<<<<<<< HEAD
-			    __func__, event, smp_processor_id(),
-=======
-			    __func__, event, event->cpu,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    atomic_read(&cf_diag_events));
 	if (atomic_dec_return(&cf_diag_events) == 0)
 		__kernel_cpumcf_end();
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int get_authctrsets(void)
 {
 	struct cpu_cf_events *cpuhw;
@@ -276,11 +212,6 @@ static int get_authctrsets(void)
 	return auth;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Setup the event. Test for authorized counter sets and only include counter
  * sets which are authorized at the time of the setup. Including unauthorized
  * counter sets result in specification exception (and panic).
@@ -288,27 +219,12 @@ static int get_authctrsets(void)
 static int __hw_perf_event_init(struct perf_event *event)
 {
 	struct perf_event_attr *attr = &event->attr;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	struct cpu_cf_events *cpuhw;
-	enum cpumf_ctr_set i;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 
 	debug_sprintf_event(cf_diag_dbg, 5, "%s event %p cpu %d\n", __func__,
 			    event, event->cpu);
 
 	event->hw.config = attr->config;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	event->hw.config_base = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Add all authorized counter sets to config_base. The
 	 * the hardware init function is either called per-cpu or just once
@@ -318,19 +234,7 @@ static int __hw_perf_event_init(struct perf_event *event)
 	 * Checking the authorization on any CPU is fine as the hardware
 	 * applies the same authorization settings to all CPUs.
 	 */
-<<<<<<< HEAD
 	event->hw.config_base = get_authctrsets();
-=======
-<<<<<<< HEAD
-	event->hw.config_base = get_authctrsets();
-=======
-	cpuhw = &get_cpu_var(cpu_cf_events);
-	for (i = CPUMF_CTR_SET_BASIC; i < CPUMF_CTR_SET_MAX; ++i)
-		if (cpuhw->info.auth_ctl & cpumf_ctr_ctl[i])
-			event->hw.config_base |= cpumf_ctr_ctl[i];
-	put_cpu_var(cpu_cf_events);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* No authorized counter sets, nothing to count/sample */
 	if (!event->hw.config_base) {
@@ -348,10 +252,6 @@ out:
 	return err;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Return 0 if the CPU-measurement counter facility is currently free
  * and an error otherwise.
  */
@@ -371,11 +271,6 @@ static int cf_diag_perf_event_inuse(void)
 	return err;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cf_diag_event_init(struct perf_event *event)
 {
 	struct perf_event_attr *attr = &event->attr;
@@ -403,25 +298,9 @@ static int cf_diag_event_init(struct perf_event *event)
 	}
 
 	/* Initialize for using the CPU-measurement counter facility */
-<<<<<<< HEAD
 	err = cf_diag_perf_event_inuse();
 	if (err < 0)
 		goto out;
-=======
-<<<<<<< HEAD
-	err = cf_diag_perf_event_inuse();
-	if (err < 0)
-		goto out;
-=======
-	if (atomic_inc_return(&cf_diag_events) == 1) {
-		if (__kernel_cpumcf_begin()) {
-			atomic_dec(&cf_diag_events);
-			err = -EBUSY;
-			goto out;
-		}
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	event->destroy = cf_diag_perf_event_destroy;
 
 	err = __hw_perf_event_init(event);
@@ -437,52 +316,6 @@ static void cf_diag_read(struct perf_event *event)
 	debug_sprintf_event(cf_diag_dbg, 5, "%s event %p\n", __func__, event);
 }
 
-/* Return the maximum possible counter set size (in number of 8 byte counters)
- * depending on type and model number.
- */
-static size_t cf_diag_ctrset_size(enum cpumf_ctr_set ctrset,
-				 struct cpumf_ctr_info *info)
-{
-	size_t ctrset_size = 0;
-
-	switch (ctrset) {
-	case CPUMF_CTR_SET_BASIC:
-		if (info->cfvn >= 1)
-			ctrset_size = 6;
-		break;
-	case CPUMF_CTR_SET_USER:
-		if (info->cfvn == 1)
-			ctrset_size = 6;
-		else if (info->cfvn >= 3)
-			ctrset_size = 2;
-		break;
-	case CPUMF_CTR_SET_CRYPTO:
-		if (info->csvn >= 1 && info->csvn <= 5)
-			ctrset_size = 16;
-		else if (info->csvn == 6)
-			ctrset_size = 20;
-		break;
-	case CPUMF_CTR_SET_EXT:
-		if (info->csvn == 1)
-			ctrset_size = 32;
-		else if (info->csvn == 2)
-			ctrset_size = 48;
-		else if (info->csvn >= 3 && info->csvn <= 5)
-			ctrset_size = 128;
-		else if (info->csvn == 6)
-			ctrset_size = 160;
-		break;
-	case CPUMF_CTR_SET_MT_DIAG:
-		if (info->csvn > 3)
-			ctrset_size = 48;
-		break;
-	case CPUMF_CTR_SET_MAX:
-		break;
-	}
-
-	return ctrset_size;
-}
-
 /* Calculate memory needed to store all counter sets together with header and
  * trailer data. This is independend of the counter set authorization which
  * can vary depending on the configuration.
@@ -493,7 +326,7 @@ static size_t cf_diag_ctrset_maxsize(struct cpumf_ctr_info *info)
 	enum cpumf_ctr_set i;
 
 	for (i = CPUMF_CTR_SET_BASIC; i < CPUMF_CTR_SET_MAX; ++i) {
-		size_t size = cf_diag_ctrset_size(i, info);
+		size_t size = cpum_cf_ctrset_size(i, info);
 
 		if (size)
 			max_size += size * sizeof(u64) +
@@ -526,7 +359,7 @@ static size_t cf_diag_getctrset(struct cf_ctrset_entry *ctrdata, int ctrset,
 	ctrdata->def = CF_DIAG_CTRSET_DEF;
 	ctrdata->set = ctrset;
 	ctrdata->res1 = 0;
-	ctrset_size = cf_diag_ctrset_size(ctrset, &cpuhw->info);
+	ctrset_size = cpum_cf_ctrset_size(ctrset, &cpuhw->info);
 
 	if (ctrset_size) {			/* Save data */
 		need = ctrset_size * sizeof(u64) + sizeof(*ctrdata);
@@ -750,16 +583,8 @@ static void cf_diag_del(struct perf_event *event, int flags)
 	cpuhw->flags &= ~PMU_F_IN_USE;
 }
 
-<<<<<<< HEAD
 /* Default counter set events and format attribute groups */
 
-=======
-<<<<<<< HEAD
-/* Default counter set events and format attribute groups */
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 CPUMF_EVENT_ATTR(CF_DIAG, CF_DIAG, PERF_EVENT_CPUM_CF_DIAG);
 
 static struct attribute *cf_diag_events_attr[] = {
@@ -824,10 +649,6 @@ static void cf_diag_get_cpu_speed(void)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Code to create device and file I/O operations */
 static atomic_t ctrset_opencnt = ATOMIC_INIT(0);	/* Excl. access */
 
@@ -978,7 +799,7 @@ static void cf_diag_cpu_read(void *parm)
 
 		if (!(p->sets & cpumf_ctr_ctl[set]))
 			continue;	/* Counter set not in list */
-		set_size = cf_diag_ctrset_size(set, &cpuhw->info);
+		set_size = cpum_cf_ctrset_size(set, &cpuhw->info);
 		space = sizeof(csd->data) - csd->used;
 		space = cf_diag_cpuset_read(sp, set, set_size, space);
 		if (space) {
@@ -1108,7 +929,7 @@ static size_t cf_diag_needspace(unsigned int sets)
 	for (i = CPUMF_CTR_SET_BASIC; i < CPUMF_CTR_SET_MAX; ++i) {
 		if (!(sets & cpumf_ctr_ctl[i]))
 			continue;
-		bytes += cf_diag_ctrset_size(i, &cpuhw->info) * sizeof(u64) +
+		bytes += cpum_cf_ctrset_size(i, &cpuhw->info) * sizeof(u64) +
 			 sizeof(((struct s390_ctrset_setdata *)0)->set) +
 			 sizeof(((struct s390_ctrset_setdata *)0)->no_cnts);
 	}
@@ -1263,11 +1084,6 @@ out:
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Initialize the counter set PMU to generate complete counter set data as
  * event raw data. This relies on the CPU Measurement Counter Facility device
  * already being loaded and initialized.
@@ -1290,10 +1106,6 @@ static int __init cf_diag_init(void)
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = misc_register(&cf_diag_dev);
 	if (rc) {
 		pr_err("Registration of /dev/" S390_HWCTR_DEVICE
@@ -1301,35 +1113,17 @@ static int __init cf_diag_init(void)
 		goto out;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Setup s390dbf facility */
 	cf_diag_dbg = debug_register(KMSG_COMPONENT, 2, 1, 128);
 	if (!cf_diag_dbg) {
 		pr_err("Registration of s390dbf(cpum_cf_diag) failed\n");
-<<<<<<< HEAD
 		rc = -ENOMEM;
 		goto out_dbf;
-=======
-<<<<<<< HEAD
-		rc = -ENOMEM;
-		goto out_dbf;
-=======
-		return -ENOMEM;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	debug_register_view(cf_diag_dbg, &debug_sprintf_view);
 
 	rc = perf_pmu_register(&cf_diag, "cpum_cf_diag", -1);
 	if (rc) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("Registration of PMU(cpum_cf_diag) failed with rc=%i\n",
 		       rc);
 		goto out_perf;
@@ -1352,16 +1146,3 @@ out:
 	return rc;
 }
 device_initcall(cf_diag_init);
-<<<<<<< HEAD
-=======
-=======
-		debug_unregister_view(cf_diag_dbg, &debug_sprintf_view);
-		debug_unregister(cf_diag_dbg);
-		pr_err("Registration of PMU(cpum_cf_diag) failed with rc=%i\n",
-		       rc);
-	}
-	return rc;
-}
-arch_initcall(cf_diag_init);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

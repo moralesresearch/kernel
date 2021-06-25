@@ -10,11 +10,7 @@
 #include <linux/pm_runtime.h>
 #include <linux/slab.h>
 #include <media/v4l2-mem2mem.h>
-<<<<<<< HEAD
 #include <media/videobuf2-dma-contig.h>
-=======
-#include <media/videobuf2-dma-sg.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <media/v4l2-ioctl.h>
 #include <media/v4l2-event.h>
 #include <media/v4l2-ctrls.h>
@@ -194,15 +190,10 @@ venc_try_fmt_common(struct venus_inst *inst, struct v4l2_format *f)
 	pixmp->height = clamp(pixmp->height, frame_height_min(inst),
 			      frame_height_max(inst));
 
-<<<<<<< HEAD
 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
 		pixmp->width = ALIGN(pixmp->width, 128);
 		pixmp->height = ALIGN(pixmp->height, 32);
 	}
-=======
-	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-		pixmp->height = ALIGN(pixmp->height, 32);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pixmp->width = ALIGN(pixmp->width, 2);
 	pixmp->height = ALIGN(pixmp->height, 2);
@@ -346,7 +337,6 @@ venc_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
 	switch (s->target) {
 	case V4L2_SEL_TGT_CROP_DEFAULT:
 	case V4L2_SEL_TGT_CROP_BOUNDS:
-<<<<<<< HEAD
 		s->r.width = inst->out_width;
 		s->r.height = inst->out_height;
 		break;
@@ -354,15 +344,6 @@ venc_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
 		s->r.width = inst->width;
 		s->r.height = inst->height;
 		break;
-=======
-		s->r.width = inst->width;
-		s->r.height = inst->height;
-		break;
-	case V4L2_SEL_TGT_CROP:
-		s->r.width = inst->out_width;
-		s->r.height = inst->out_height;
-		break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EINVAL;
 	}
@@ -381,7 +362,6 @@ venc_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (s->r.width > inst->out_width ||
 	    s->r.height > inst->out_height)
 		return -EINVAL;
@@ -395,14 +375,6 @@ venc_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
 		s->r.left = 0;
 		inst->width = s->r.width;
 		inst->height = s->r.height;
-=======
-	switch (s->target) {
-	case V4L2_SEL_TGT_CROP:
-		if (s->r.width != inst->out_width ||
-		    s->r.height != inst->out_height ||
-		    s->r.top != 0 || s->r.left != 0)
-			return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EINVAL;
@@ -573,15 +545,13 @@ static int venc_set_properties(struct venus_inst *inst)
 	struct hfi_idr_period idrp;
 	struct hfi_quantization quant;
 	struct hfi_quantization_range quant_range;
-<<<<<<< HEAD
 	struct hfi_enable en;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	struct hfi_ltr_mode ltr_mode;
 	u32 ptype, rate_control, bitrate;
 	u32 profile, level;
 	int ret;
 
-	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+	ret = venus_helper_set_work_mode(inst);
 	if (ret)
 		return ret;
 
@@ -629,7 +599,6 @@ static int venc_set_properties(struct venus_inst *inst)
 			return ret;
 	}
 
-<<<<<<< HEAD
 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
 	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
 		/* IDR periodicity, n:
@@ -643,18 +612,35 @@ static int venc_set_properties(struct venus_inst *inst)
 		if (ret)
 			return ret;
 	}
-=======
-	/* IDR periodicity, n:
-	 * n = 0 - only the first I-frame is IDR frame
-	 * n = 1 - all I-frames will be IDR frames
-	 * n > 1 - every n-th I-frame will be IDR frame
-	 */
-	ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
-	idrp.idr_period = 0;
-	ret = hfi_session_set_property(inst, ptype, &idrp);
-	if (ret)
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+		struct hfi_hdr10_pq_sei hdr10;
+		unsigned int c;
+
+		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+
+		for (c = 0; c < 3; c++) {
+			hdr10.mastering.display_primaries_x[c] =
+				ctr->mastering.display_primaries_x[c];
+			hdr10.mastering.display_primaries_y[c] =
+				ctr->mastering.display_primaries_y[c];
+		}
+
+		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
+		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
+		hdr10.mastering.max_display_mastering_luminance =
+			ctr->mastering.max_display_mastering_luminance;
+		hdr10.mastering.min_display_mastering_luminance =
+			ctr->mastering.min_display_mastering_luminance;
+
+		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
+		hdr10.cll.max_pic_average_light =
+			ctr->cll.max_pic_average_light_level;
+
+		ret = hfi_session_set_property(inst, ptype, &hdr10);
+		if (ret)
+			return ret;
+	}
 
 	if (ctr->num_b_frames) {
 		u32 max_num_b_frames = NUM_B_FRAMES_MAX;
@@ -712,7 +698,6 @@ static int venc_set_properties(struct venus_inst *inst)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
 	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
 		ptype = HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER;
@@ -726,8 +711,6 @@ static int venc_set_properties(struct venus_inst *inst)
 			return ret;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ctr->bitrate_peak)
 		bitrate *= 2;
 	else
@@ -742,7 +725,6 @@ static int venc_set_properties(struct venus_inst *inst)
 		return ret;
 
 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
-<<<<<<< HEAD
 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
 		quant.qp_i = ctr->hevc_i_qp;
 		quant.qp_p = ctr->hevc_p_qp;
@@ -752,18 +734,12 @@ static int venc_set_properties(struct venus_inst *inst)
 		quant.qp_p = ctr->h264_p_qp;
 		quant.qp_b = ctr->h264_b_qp;
 	}
-=======
-	quant.qp_i = ctr->h264_i_qp;
-	quant.qp_p = ctr->h264_p_qp;
-	quant.qp_b = ctr->h264_b_qp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	quant.layer_id = 0;
 	ret = hfi_session_set_property(inst, ptype, &quant);
 	if (ret)
 		return ret;
 
 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
-<<<<<<< HEAD
 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
 		quant_range.min_qp = ctr->hevc_min_qp;
 		quant_range.max_qp = ctr->hevc_max_qp;
@@ -771,12 +747,16 @@ static int venc_set_properties(struct venus_inst *inst)
 		quant_range.min_qp = ctr->h264_min_qp;
 		quant_range.max_qp = ctr->h264_max_qp;
 	}
-=======
-	quant_range.min_qp = ctr->h264_min_qp;
-	quant_range.max_qp = ctr->h264_max_qp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	quant_range.layer_id = 0;
 	ret = hfi_session_set_property(inst, ptype, &quant_range);
+	if (ret)
+		return ret;
+
+	ptype = HFI_PROPERTY_PARAM_VENC_LTRMODE;
+	ltr_mode.ltr_count = ctr->ltr_count;
+	ltr_mode.ltr_mode = HFI_LTR_MODE_MANUAL;
+	ltr_mode.trust_mode = 1;
+	ret = hfi_session_set_property(inst, ptype, &ltr_mode);
 	if (ret)
 		return ret;
 
@@ -812,6 +792,20 @@ static int venc_set_properties(struct venus_inst *inst)
 	if (ret)
 		return ret;
 
+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+		struct hfi_enable en = {};
+
+		ptype = HFI_PROPERTY_PARAM_VENC_H264_GENERATE_AUDNAL;
+
+		if (ctr->aud_enable)
+			en.enable = 1;
+
+		ret = hfi_session_set_property(inst, ptype, &en);
+		if (ret)
+			return ret;
+	}
+
 	return 0;
 }
 
@@ -819,7 +813,6 @@ static int venc_init_session(struct venus_inst *inst)
 {
 	int ret;
 
-<<<<<<< HEAD
 	ret = venus_helper_session_init(inst);
 	if (ret == -EALREADY)
 		return 0;
@@ -830,11 +823,6 @@ static int venc_init_session(struct venus_inst *inst)
 				      inst->out_height);
 	if (ret)
 		goto deinit;
-=======
-	ret = hfi_session_init(inst, inst->fmt_cap->pixfmt);
-	if (ret)
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = venus_helper_set_input_resolution(inst, inst->width,
 						inst->height);
@@ -851,13 +839,6 @@ static int venc_init_session(struct venus_inst *inst)
 	if (ret)
 		goto deinit;
 
-<<<<<<< HEAD
-=======
-	ret = venus_helper_init_codec_freq_data(inst);
-	if (ret)
-		goto deinit;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = venc_set_properties(inst);
 	if (ret)
 		goto deinit;
@@ -873,7 +854,6 @@ static int venc_out_num_buffers(struct venus_inst *inst, unsigned int *num)
 	struct hfi_buffer_requirements bufreq;
 	int ret;
 
-<<<<<<< HEAD
 	ret = venus_helper_get_bufreq(inst, HFI_BUFFER_INPUT, &bufreq);
 	if (ret)
 		return ret;
@@ -881,19 +861,6 @@ static int venc_out_num_buffers(struct venus_inst *inst, unsigned int *num)
 	*num = bufreq.count_actual;
 
 	return 0;
-=======
-	ret = venc_init_session(inst);
-	if (ret)
-		return ret;
-
-	ret = venus_helper_get_bufreq(inst, HFI_BUFFER_INPUT, &bufreq);
-
-	*num = bufreq.count_actual;
-
-	hfi_session_deinit(inst);
-
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int venc_queue_setup(struct vb2_queue *q,
@@ -902,11 +869,7 @@ static int venc_queue_setup(struct vb2_queue *q,
 {
 	struct venus_inst *inst = vb2_get_drv_priv(q);
 	unsigned int num, min = 4;
-<<<<<<< HEAD
 	int ret;
-=======
-	int ret = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (*num_planes) {
 		if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
@@ -928,7 +891,6 @@ static int venc_queue_setup(struct vb2_queue *q,
 		return 0;
 	}
 
-<<<<<<< HEAD
 	mutex_lock(&inst->lock);
 	ret = venc_init_session(inst);
 	mutex_unlock(&inst->lock);
@@ -936,8 +898,6 @@ static int venc_queue_setup(struct vb2_queue *q,
 	if (ret)
 		return ret;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (q->type) {
 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
 		*num_planes = inst->fmt_out->num_planes;
@@ -951,13 +911,8 @@ static int venc_queue_setup(struct vb2_queue *q,
 		inst->num_input_bufs = *num_buffers;
 
 		sizes[0] = venus_helper_get_framesz(inst->fmt_out->pixfmt,
-<<<<<<< HEAD
 						    inst->out_width,
 						    inst->out_height);
-=======
-						    inst->width,
-						    inst->height);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inst->input_buf_size = sizes[0];
 		break;
 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
@@ -978,7 +933,6 @@ static int venc_queue_setup(struct vb2_queue *q,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int venc_buf_init(struct vb2_buffer *vb)
 {
 	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
@@ -1022,8 +976,6 @@ static void venc_buf_cleanup(struct vb2_buffer *vb)
 		venc_release_session(inst);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int venc_verify_conf(struct venus_inst *inst)
 {
 	enum hfi_version ver = inst->core->res->hfi_version;
@@ -1074,7 +1026,6 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
 	inst->sequence_cap = 0;
 	inst->sequence_out = 0;
 
-<<<<<<< HEAD
 	ret = venus_pm_acquire_core(inst);
 	if (ret)
 		goto error;
@@ -1086,52 +1037,21 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
 	ret = venc_verify_conf(inst);
 	if (ret)
 		goto error;
-=======
-	ret = venc_init_session(inst);
-	if (ret)
-		goto bufs_done;
-
-	ret = venus_pm_acquire_core(inst);
-	if (ret)
-		goto deinit_sess;
-
-	ret = venc_set_properties(inst);
-	if (ret)
-		goto deinit_sess;
-
-	ret = venc_verify_conf(inst);
-	if (ret)
-		goto deinit_sess;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = venus_helper_set_num_bufs(inst, inst->num_input_bufs,
 					inst->num_output_bufs, 0);
 	if (ret)
-<<<<<<< HEAD
 		goto error;
 
 	ret = venus_helper_vb2_start_streaming(inst);
 	if (ret)
 		goto error;
-=======
-		goto deinit_sess;
-
-	ret = venus_helper_vb2_start_streaming(inst);
-	if (ret)
-		goto deinit_sess;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&inst->lock);
 
 	return 0;
 
-<<<<<<< HEAD
 error:
-=======
-deinit_sess:
-	hfi_session_deinit(inst);
-bufs_done:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_QUEUED);
 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
 		inst->streamon_out = 0;
@@ -1141,7 +1061,6 @@ bufs_done:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void venc_vb2_buf_queue(struct vb2_buffer *vb)
 {
 	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
@@ -1159,15 +1078,6 @@ static const struct vb2_ops venc_vb2_ops = {
 	.start_streaming = venc_start_streaming,
 	.stop_streaming = venus_helper_vb2_stop_streaming,
 	.buf_queue = venc_vb2_buf_queue,
-=======
-static const struct vb2_ops venc_vb2_ops = {
-	.queue_setup = venc_queue_setup,
-	.buf_init = venus_helper_vb2_buf_init,
-	.buf_prepare = venus_helper_vb2_buf_prepare,
-	.start_streaming = venc_start_streaming,
-	.stop_streaming = venus_helper_vb2_stop_streaming,
-	.buf_queue = venus_helper_vb2_buf_queue,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
@@ -1233,11 +1143,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
 	src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 	src_vq->ops = &venc_vb2_ops;
-<<<<<<< HEAD
 	src_vq->mem_ops = &vb2_dma_contig_memops;
-=======
-	src_vq->mem_ops = &vb2_dma_sg_memops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	src_vq->drv_priv = inst;
 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
 	src_vq->allow_zero_bytesused = 1;
@@ -1253,11 +1159,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
 	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 	dst_vq->ops = &venc_vb2_ops;
-<<<<<<< HEAD
 	dst_vq->mem_ops = &vb2_dma_contig_memops;
-=======
-	dst_vq->mem_ops = &vb2_dma_sg_memops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dst_vq->drv_priv = inst;
 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
 	dst_vq->allow_zero_bytesused = 1;

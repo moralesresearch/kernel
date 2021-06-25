@@ -88,7 +88,6 @@ static void __update_writeback_rate(struct cached_dev *dc)
 	int64_t integral_scaled;
 	uint32_t new_rate;
 
-<<<<<<< HEAD
 	/*
 	 * We need to consider the number of dirty buckets as well
 	 * when calculating the proportional_scaled, Otherwise we might
@@ -127,8 +126,6 @@ static void __update_writeback_rate(struct cached_dev *dc)
 		}
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((error < 0 && dc->writeback_rate_integral > 0) ||
 	    (error > 0 && time_before64(local_clock(),
 			 dc->writeback_rate.next + NSEC_PER_MSEC))) {
@@ -419,7 +416,7 @@ static void read_dirty_endio(struct bio *bio)
 	struct dirty_io *io = w->private;
 
 	/* is_read = 1 */
-	bch_count_io_errors(PTR_CACHE(io->dc->disk.c, &w->key, 0),
+	bch_count_io_errors(io->dc->disk.c->cache,
 			    bio->bi_status, 1,
 			    "reading dirty data from cache");
 
@@ -513,8 +510,7 @@ static void read_dirty(struct cached_dev *dc)
 			dirty_init(w);
 			bio_set_op_attrs(&io->bio, REQ_OP_READ, 0);
 			io->bio.bi_iter.bi_sector = PTR_OFFSET(&w->key, 0);
-			bio_set_dev(&io->bio,
-				    PTR_CACHE(dc->disk.c, &w->key, 0)->bdev);
+			bio_set_dev(&io->bio, dc->disk.c->cache->bdev);
 			io->bio.bi_end_io	= read_dirty_endio;
 
 			if (bch_bio_alloc_pages(&io->bio, GFP_KERNEL))
@@ -1018,10 +1014,7 @@ void bch_cached_dev_writeback_init(struct cached_dev *dc)
 
 	dc->writeback_metadata		= true;
 	dc->writeback_running		= false;
-<<<<<<< HEAD
 	dc->writeback_consider_fragment = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dc->writeback_percent		= 10;
 	dc->writeback_delay		= 30;
 	atomic_long_set(&dc->writeback_rate.rate, 1024);
@@ -1029,12 +1022,9 @@ void bch_cached_dev_writeback_init(struct cached_dev *dc)
 
 	dc->writeback_rate_update_seconds = WRITEBACK_RATE_UPDATE_SECS_DEFAULT;
 	dc->writeback_rate_p_term_inverse = 40;
-<<<<<<< HEAD
 	dc->writeback_rate_fp_term_low = 1;
 	dc->writeback_rate_fp_term_mid = 10;
 	dc->writeback_rate_fp_term_high = 1000;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dc->writeback_rate_i_term_inverse = 10000;
 
 	WARN_ON(test_and_clear_bit(BCACHE_DEV_WB_RUNNING, &dc->disk.flags));

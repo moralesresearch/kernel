@@ -22,11 +22,7 @@ struct nvkm_fifo_chan_func {
 
 int nvkm_fifo_chan_ctor(const struct nvkm_fifo_chan_func *, struct nvkm_fifo *,
 			u32 size, u32 align, bool zero, u64 vm, u64 push,
-<<<<<<< HEAD
 			u32 engm, int bar, u32 base, u32 user,
-=======
-			u64 engines, int bar, u32 base, u32 user,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			const struct nvkm_oclass *, struct nvkm_fifo_chan *);
 
 struct nvkm_fifo_chan_oclass {

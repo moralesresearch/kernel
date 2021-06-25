@@ -41,7 +41,6 @@ struct rvu_npa_health_reporters {
 	struct work_struct              ras_work;
 };
 
-<<<<<<< HEAD
 enum nix_af_rvu_health {
 	NIX_AF_RVU_INTR,
 	NIX_AF_RVU_GEN,
@@ -68,17 +67,12 @@ struct rvu_nix_health_reporters {
 	struct work_struct		ras_work;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct rvu_devlink {
 	struct devlink *dl;
 	struct rvu *rvu;
 	struct workqueue_struct *devlink_wq;
 	struct rvu_npa_health_reporters *rvu_npa_health_reporter;
-<<<<<<< HEAD
 	struct rvu_nix_health_reporters *rvu_nix_health_reporter;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Devlink APIs */

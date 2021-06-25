@@ -10,10 +10,7 @@
 struct mei_device;
 struct mei_msg_hdr;
 struct mei_cl;
-<<<<<<< HEAD
 struct mei_dma_data;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum mei_hbm_state - host bus message protocol state
@@ -55,11 +52,7 @@ int mei_hbm_pg(struct mei_device *dev, u8 pg_cmd);
 void mei_hbm_pg_resume(struct mei_device *dev);
 int mei_hbm_cl_notify_req(struct mei_device *dev,
 			  struct mei_cl *cl, u8 request);
-<<<<<<< HEAD
 int mei_hbm_cl_dma_map_req(struct mei_device *dev, struct mei_cl *cl);
 int mei_hbm_cl_dma_unmap_req(struct mei_device *dev, struct mei_cl *cl);
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _MEI_HBM_H_ */
 

@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-/* -*- mode: c; c-basic-offset: 8; -*-
- * vim: noexpandtab sw=8 ts=8 sts=0:
- *
+/*
  * namei.c
  *
  * Create and rename file, directory, symlinks
@@ -50,6 +48,7 @@
 #include "xattr.h"
 #include "acl.h"
 #include "ocfs2_trace.h"
+#include "ioctl.h"
 
 #include "buffer_head_io.h"
 
@@ -198,11 +197,7 @@ static struct inode *ocfs2_get_init_inode(struct inode *dir, umode_t mode)
 	 * callers. */
 	if (S_ISDIR(mode))
 		set_nlink(inode, 2);
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-	inode_init_owner(inode, dir, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = dquot_initialize(inode);
 	if (status)
 		return ERR_PTR(status);
@@ -225,12 +220,8 @@ static void ocfs2_cleanup_add_entry_failure(struct ocfs2_super *osb,
 	iput(inode);
 }
 
-<<<<<<< HEAD
 static int ocfs2_mknod(struct user_namespace *mnt_userns,
 		       struct inode *dir,
-=======
-static int ocfs2_mknod(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       struct dentry *dentry,
 		       umode_t mode,
 		       dev_t dev)
@@ -654,12 +645,8 @@ static int ocfs2_mknod_locked(struct ocfs2_super *osb,
 	return status;
 }
 
-<<<<<<< HEAD
 static int ocfs2_mkdir(struct user_namespace *mnt_userns,
 		       struct inode *dir,
-=======
-static int ocfs2_mkdir(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       struct dentry *dentry,
 		       umode_t mode)
 {
@@ -667,23 +654,15 @@ static int ocfs2_mkdir(struct inode *dir,
 
 	trace_ocfs2_mkdir(dir, dentry, dentry->d_name.len, dentry->d_name.name,
 			  OCFS2_I(dir)->ip_blkno, mode);
-<<<<<<< HEAD
 	ret = ocfs2_mknod(&init_user_ns, dir, dentry, mode | S_IFDIR, 0);
-=======
-	ret = ocfs2_mknod(dir, dentry, mode | S_IFDIR, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		mlog_errno(ret);
 
 	return ret;
 }
 
-<<<<<<< HEAD
 static int ocfs2_create(struct user_namespace *mnt_userns,
 			struct inode *dir,
-=======
-static int ocfs2_create(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct dentry *dentry,
 			umode_t mode,
 			bool excl)
@@ -692,11 +671,7 @@ static int ocfs2_create(struct inode *dir,
 
 	trace_ocfs2_create(dir, dentry, dentry->d_name.len, dentry->d_name.name,
 			   (unsigned long long)OCFS2_I(dir)->ip_blkno, mode);
-<<<<<<< HEAD
 	ret = ocfs2_mknod(&init_user_ns, dir, dentry, mode | S_IFREG, 0);
-=======
-	ret = ocfs2_mknod(dir, dentry, mode | S_IFREG, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		mlog_errno(ret);
 
@@ -1222,12 +1197,8 @@ static void ocfs2_double_unlock(struct inode *inode1, struct inode *inode2)
 		ocfs2_inode_unlock(inode2, 1);
 }
 
-<<<<<<< HEAD
 static int ocfs2_rename(struct user_namespace *mnt_userns,
 			struct inode *old_dir,
-=======
-static int ocfs2_rename(struct inode *old_dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct dentry *old_dentry,
 			struct inode *new_dir,
 			struct dentry *new_dentry,
@@ -1816,12 +1787,8 @@ bail:
 	return status;
 }
 
-<<<<<<< HEAD
 static int ocfs2_symlink(struct user_namespace *mnt_userns,
 			 struct inode *dir,
-=======
-static int ocfs2_symlink(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 struct dentry *dentry,
 			 const char *symname)
 {
@@ -2950,4 +2917,6 @@ const struct inode_operations ocfs2_dir_iops = {
 	.fiemap         = ocfs2_fiemap,
 	.get_acl	= ocfs2_iop_get_acl,
 	.set_acl	= ocfs2_iop_set_acl,
+	.fileattr_get	= ocfs2_fileattr_get,
+	.fileattr_set	= ocfs2_fileattr_set,
 };

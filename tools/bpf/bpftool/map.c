@@ -100,11 +100,7 @@ static int do_dump_btf(const struct btf_dumper *d,
 		       void *value)
 {
 	__u32 value_id;
-<<<<<<< HEAD
 	int ret = 0;
-=======
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* start of key-value pair */
 	jsonw_start_object(d->jw);

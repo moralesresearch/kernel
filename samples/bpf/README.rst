@@ -62,7 +62,6 @@ To generate a smaller llc binary one can use::
 
  -DLLVM_TARGETS_TO_BUILD="BPF"
 
-<<<<<<< HEAD
 We recommend that developers who want the fastest incremental builds
 use the Ninja build system, you can find it in your system's package
 manager, usually the package is ninja or ninja-build.
@@ -78,26 +77,11 @@ Quick sniplet for manually compiling LLVM and clang
             -DCMAKE_BUILD_TYPE=Release        \
             -DLLVM_BUILD_RUNTIME=OFF
  $ ninja
-=======
-Quick sniplet for manually compiling LLVM and clang
-(build dependencies are cmake and gcc-c++)::
-
- $ git clone http://llvm.org/git/llvm.git
- $ cd llvm/tools
- $ git clone --depth 1 http://llvm.org/git/clang.git
- $ cd ..; mkdir build; cd build
- $ cmake .. -DLLVM_TARGETS_TO_BUILD="BPF;X86"
- $ make -j $(getconf _NPROCESSORS_ONLN)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 It is also possible to point make to the newly compiled 'llc' or
 'clang' command via redefining LLC or CLANG on the make command line::
 
-<<<<<<< HEAD
  make M=samples/bpf LLC=~/git/llvm-project/llvm/build/bin/llc CLANG=~/git/llvm-project/llvm/build/bin/clang
-=======
- make M=samples/bpf LLC=~/git/llvm/build/bin/llc CLANG=~/git/llvm/build/bin/clang
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Cross compiling samples
 -----------------------

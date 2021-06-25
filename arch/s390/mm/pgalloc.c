@@ -58,15 +58,7 @@ unsigned long *crst_table_alloc(struct mm_struct *mm)
 	if (!page)
 		return NULL;
 	arch_set_page_dat(page, 2);
-<<<<<<< HEAD
 	return (unsigned long *) page_to_virt(page);
-=======
-<<<<<<< HEAD
-	return (unsigned long *) page_to_virt(page);
-=======
-	return (unsigned long *) page_to_phys(page);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void crst_table_free(struct mm_struct *mm, unsigned long *table)
@@ -169,15 +161,7 @@ struct page *page_table_alloc_pgste(struct mm_struct *mm)
 
 	page = alloc_page(GFP_KERNEL);
 	if (page) {
-<<<<<<< HEAD
 		table = (u64 *)page_to_virt(page);
-=======
-<<<<<<< HEAD
-		table = (u64 *)page_to_virt(page);
-=======
-		table = (u64 *)page_to_phys(page);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memset64(table, _PAGE_INVALID, PTRS_PER_PTE);
 		memset64(table + PTRS_PER_PTE, 0, PTRS_PER_PTE);
 	}
@@ -210,15 +194,7 @@ unsigned long *page_table_alloc(struct mm_struct *mm)
 			mask = atomic_read(&page->_refcount) >> 24;
 			mask = (mask | (mask >> 4)) & 3;
 			if (mask != 3) {
-<<<<<<< HEAD
 				table = (unsigned long *) page_to_virt(page);
-=======
-<<<<<<< HEAD
-				table = (unsigned long *) page_to_virt(page);
-=======
-				table = (unsigned long *) page_to_phys(page);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				bit = mask & 1;		/* =1 -> second 2K */
 				if (bit)
 					table += PTRS_PER_PTE;
@@ -241,15 +217,7 @@ unsigned long *page_table_alloc(struct mm_struct *mm)
 	}
 	arch_set_page_dat(page, 0);
 	/* Initialize page table */
-<<<<<<< HEAD
 	table = (unsigned long *) page_to_virt(page);
-=======
-<<<<<<< HEAD
-	table = (unsigned long *) page_to_virt(page);
-=======
-	table = (unsigned long *) page_to_phys(page);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mm_alloc_pgste(mm)) {
 		/* Return 4K page table with PGSTEs */
 		atomic_xor_bits(&page->_refcount, 3 << 24);
@@ -271,23 +239,10 @@ void page_table_free(struct mm_struct *mm, unsigned long *table)
 	struct page *page;
 	unsigned int bit, mask;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	page = virt_to_page(table);
 	if (!mm_alloc_pgste(mm)) {
 		/* Free 2K page table fragment of a 4K page */
 		bit = ((unsigned long) table & ~PAGE_MASK)/(PTRS_PER_PTE*sizeof(pte_t));
-<<<<<<< HEAD
-=======
-=======
-	page = pfn_to_page(__pa(table) >> PAGE_SHIFT);
-	if (!mm_alloc_pgste(mm)) {
-		/* Free 2K page table fragment of a 4K page */
-		bit = (__pa(table) & ~PAGE_MASK)/(PTRS_PER_PTE*sizeof(pte_t));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_lock_bh(&mm->context.lock);
 		mask = atomic_xor_bits(&page->_refcount, 1U << (bit + 24));
 		mask >>= 24;
@@ -314,10 +269,6 @@ void page_table_free_rcu(struct mmu_gather *tlb, unsigned long *table,
 	unsigned int bit, mask;
 
 	mm = tlb->mm;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	page = virt_to_page(table);
 	if (mm_alloc_pgste(mm)) {
 		gmap_unlink(mm, table, vmaddr);
@@ -326,19 +277,6 @@ void page_table_free_rcu(struct mmu_gather *tlb, unsigned long *table,
 		return;
 	}
 	bit = ((unsigned long) table & ~PAGE_MASK) / (PTRS_PER_PTE*sizeof(pte_t));
-<<<<<<< HEAD
-=======
-=======
-	page = pfn_to_page(__pa(table) >> PAGE_SHIFT);
-	if (mm_alloc_pgste(mm)) {
-		gmap_unlink(mm, table, vmaddr);
-		table = (unsigned long *) (__pa(table) | 3);
-		tlb_remove_table(tlb, table);
-		return;
-	}
-	bit = (__pa(table) & ~PAGE_MASK) / (PTRS_PER_PTE*sizeof(pte_t));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_bh(&mm->context.lock);
 	mask = atomic_xor_bits(&page->_refcount, 0x11U << (bit + 24));
 	mask >>= 24;
@@ -347,15 +285,7 @@ void page_table_free_rcu(struct mmu_gather *tlb, unsigned long *table,
 	else
 		list_del(&page->lru);
 	spin_unlock_bh(&mm->context.lock);
-<<<<<<< HEAD
 	table = (unsigned long *) ((unsigned long) table | (1U << bit));
-=======
-<<<<<<< HEAD
-	table = (unsigned long *) ((unsigned long) table | (1U << bit));
-=======
-	table = (unsigned long *) (__pa(table) | (1U << bit));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tlb_remove_table(tlb, table);
 }
 
@@ -363,15 +293,7 @@ void __tlb_remove_table(void *_table)
 {
 	unsigned int mask = (unsigned long) _table & 3;
 	void *table = (void *)((unsigned long) _table ^ mask);
-<<<<<<< HEAD
 	struct page *page = virt_to_page(table);
-=======
-<<<<<<< HEAD
-	struct page *page = virt_to_page(table);
-=======
-	struct page *page = pfn_to_page(__pa(table) >> PAGE_SHIFT);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (mask) {
 	case 0:		/* pmd, pud, or p4d */

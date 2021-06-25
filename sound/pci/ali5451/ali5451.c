@@ -29,10 +29,6 @@
 MODULE_AUTHOR("Matt Wu <Matt_Wu@acersoftech.com.cn>");
 MODULE_DESCRIPTION("ALI M5451");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{ALI,M5451,pci},{ALI,M5451}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index = SNDRV_DEFAULT_IDX1;	/* Index */
 static char *id = SNDRV_DEFAULT_STR1;	/* ID for this card */
@@ -2060,12 +2056,7 @@ static int snd_ali_create(struct snd_card *card,
 	if (err < 0)
 		return err;
 	/* check, if we can restrict PCI DMA transfers to 31 bits */
-<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(31))) {
-=======
-	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(31)) < 0 ||
-	    dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(31)) < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(card->dev,
 			"architecture does not support 31bit PCI busmaster DMA\n");
 		pci_disable_device(pci);

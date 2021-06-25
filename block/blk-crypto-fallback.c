@@ -80,10 +80,7 @@ static struct blk_crypto_keyslot {
 static struct blk_keyslot_manager blk_crypto_ksm;
 static struct workqueue_struct *blk_crypto_wq;
 static mempool_t *blk_crypto_bounce_page_pool;
-<<<<<<< HEAD
 static struct bio_set crypto_bio_split;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * This is the key we set when evicting a keyslot. This *should* be the all 0's
@@ -168,19 +165,12 @@ static struct bio *blk_crypto_clone_bio(struct bio *bio_src)
 	struct bio_vec bv;
 	struct bio *bio;
 
-<<<<<<< HEAD
 	bio = bio_kmalloc(GFP_NOIO, bio_segments(bio_src));
 	if (!bio)
 		return NULL;
 	bio->bi_bdev		= bio_src->bi_bdev;
 	if (bio_flagged(bio_src, BIO_REMAPPED))
 		bio_set_flag(bio, BIO_REMAPPED);
-=======
-	bio = bio_alloc_bioset(GFP_NOIO, bio_segments(bio_src), NULL);
-	if (!bio)
-		return NULL;
-	bio->bi_disk		= bio_src->bi_disk;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio->bi_opf		= bio_src->bi_opf;
 	bio->bi_ioprio		= bio_src->bi_ioprio;
 	bio->bi_write_hint	= bio_src->bi_write_hint;
@@ -229,22 +219,14 @@ static bool blk_crypto_split_bio_if_needed(struct bio **bio_ptr)
 
 	bio_for_each_segment(bv, bio, iter) {
 		num_sectors += bv.bv_len >> SECTOR_SHIFT;
-<<<<<<< HEAD
 		if (++i == BIO_MAX_VECS)
-=======
-		if (++i == BIO_MAX_PAGES)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 	}
 	if (num_sectors < bio_sectors(bio)) {
 		struct bio *split_bio;
 
-<<<<<<< HEAD
 		split_bio = bio_split(bio, num_sectors, GFP_NOIO,
 				      &crypto_bio_split);
-=======
-		split_bio = bio_split(bio, num_sectors, GFP_NOIO, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!split_bio) {
 			bio->bi_status = BLK_STS_RESOURCE;
 			return false;
@@ -558,7 +540,6 @@ static int blk_crypto_fallback_init(void)
 
 	prandom_bytes(blank_key, BLK_CRYPTO_MAX_KEY_SIZE);
 
-<<<<<<< HEAD
 	err = bioset_init(&crypto_bio_split, 64, 0, 0);
 	if (err)
 		goto out;
@@ -566,11 +547,6 @@ static int blk_crypto_fallback_init(void)
 	err = blk_ksm_init(&blk_crypto_ksm, blk_crypto_num_keyslots);
 	if (err)
 		goto fail_free_bioset;
-=======
-	err = blk_ksm_init(&blk_crypto_ksm, blk_crypto_num_keyslots);
-	if (err)
-		goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = -ENOMEM;
 
 	blk_crypto_ksm.ksm_ll_ops = blk_crypto_ksm_ll_ops;
@@ -621,11 +597,8 @@ fail_free_wq:
 	destroy_workqueue(blk_crypto_wq);
 fail_free_ksm:
 	blk_ksm_destroy(&blk_crypto_ksm);
-<<<<<<< HEAD
 fail_free_bioset:
 	bioset_exit(&crypto_bio_split);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	return err;
 }

@@ -107,13 +107,9 @@ extern int orangefs_init_acl(struct inode *inode, struct inode *dir);
 extern const struct xattr_handler *orangefs_xattr_handlers[];
 
 extern struct posix_acl *orangefs_get_acl(struct inode *inode, int type);
-<<<<<<< HEAD
 extern int orangefs_set_acl(struct user_namespace *mnt_userns,
 			    struct inode *inode, struct posix_acl *acl,
 			    int type);
-=======
-extern int orangefs_set_acl(struct inode *inode, struct posix_acl *acl, int type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * orangefs data structures
@@ -365,7 +361,6 @@ struct inode *orangefs_new_inode(struct super_block *sb,
 			      struct orangefs_object_kref *ref);
 
 int __orangefs_setattr(struct inode *, struct iattr *);
-<<<<<<< HEAD
 int orangefs_setattr(struct user_namespace *, struct dentry *, struct iattr *);
 
 int orangefs_getattr(struct user_namespace *mnt_userns, const struct path *path,
@@ -373,14 +368,6 @@ int orangefs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 
 int orangefs_permission(struct user_namespace *mnt_userns,
 			struct inode *inode, int mask);
-=======
-int orangefs_setattr(struct dentry *, struct iattr *);
-
-int orangefs_getattr(const struct path *path, struct kstat *stat,
-		     u32 request_mask, unsigned int flags);
-
-int orangefs_permission(struct inode *inode, int mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int orangefs_update_time(struct inode *, struct timespec64 *, int);
 

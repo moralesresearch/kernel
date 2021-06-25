@@ -211,19 +211,11 @@ failure:
  * If the skip factor is limited in this way then the file will use multiple
  * slots.
  */
-<<<<<<< HEAD
 static inline int calculate_skip(u64 blocks)
 {
 	u64 skip = blocks / ((SQUASHFS_META_ENTRIES + 1)
 		 * SQUASHFS_META_INDEXES);
 	return min((u64) SQUASHFS_CACHED_BLKS - 1, skip + 1);
-=======
-static inline int calculate_skip(int blocks)
-{
-	int skip = blocks / ((SQUASHFS_META_ENTRIES + 1)
-		 * SQUASHFS_META_INDEXES);
-	return min(SQUASHFS_CACHED_BLKS - 1, skip + 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 

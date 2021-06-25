@@ -52,14 +52,7 @@ struct cqspi_flash_pdata {
 	u8		inst_width;
 	u8		addr_width;
 	u8		data_width;
-<<<<<<< HEAD
 	bool		dtr;
-=======
-<<<<<<< HEAD
-	bool		dtr;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8		cs;
 };
 
@@ -83,14 +76,7 @@ struct cqspi_st {
 	bool			is_decoded_cs;
 	u32			fifo_depth;
 	u32			fifo_width;
-<<<<<<< HEAD
 	u32			num_chipselect;
-=======
-<<<<<<< HEAD
-	u32			num_chipselect;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			rclk_en;
 	u32			trigger_address;
 	u32			wr_delay;
@@ -127,16 +113,8 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_CONFIG_CHIPSELECT_LSB		10
 #define CQSPI_REG_CONFIG_DMA_MASK		BIT(15)
 #define CQSPI_REG_CONFIG_BAUD_LSB		19
-<<<<<<< HEAD
 #define CQSPI_REG_CONFIG_DTR_PROTO		BIT(24)
 #define CQSPI_REG_CONFIG_DUAL_OPCODE		BIT(30)
-=======
-<<<<<<< HEAD
-#define CQSPI_REG_CONFIG_DTR_PROTO		BIT(24)
-#define CQSPI_REG_CONFIG_DUAL_OPCODE		BIT(30)
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CQSPI_REG_CONFIG_IDLE_LSB		31
 #define CQSPI_REG_CONFIG_CHIPSELECT_MASK	0xF
 #define CQSPI_REG_CONFIG_BAUD_MASK		0xF
@@ -199,18 +177,9 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_SDRAMLEVEL_RD_MASK		0xFFFF
 #define CQSPI_REG_SDRAMLEVEL_WR_MASK		0xFFFF
 
-<<<<<<< HEAD
 #define CQSPI_REG_WR_COMPLETION_CTRL		0x38
 #define CQSPI_REG_WR_DISABLE_AUTO_POLL		BIT(14)
 
-=======
-<<<<<<< HEAD
-#define CQSPI_REG_WR_COMPLETION_CTRL		0x38
-#define CQSPI_REG_WR_DISABLE_AUTO_POLL		BIT(14)
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CQSPI_REG_IRQSTATUS			0x40
 #define CQSPI_REG_IRQMASK			0x44
 
@@ -226,14 +195,7 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_CMDCTRL			0x90
 #define CQSPI_REG_CMDCTRL_EXECUTE_MASK		BIT(0)
 #define CQSPI_REG_CMDCTRL_INPROGRESS_MASK	BIT(1)
-<<<<<<< HEAD
 #define CQSPI_REG_CMDCTRL_DUMMY_LSB		7
-=======
-<<<<<<< HEAD
-#define CQSPI_REG_CMDCTRL_DUMMY_LSB		7
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CQSPI_REG_CMDCTRL_WR_BYTES_LSB		12
 #define CQSPI_REG_CMDCTRL_WR_EN_LSB		15
 #define CQSPI_REG_CMDCTRL_ADD_BYTES_LSB		16
@@ -244,14 +206,7 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_CMDCTRL_WR_BYTES_MASK		0x7
 #define CQSPI_REG_CMDCTRL_ADD_BYTES_MASK	0x3
 #define CQSPI_REG_CMDCTRL_RD_BYTES_MASK		0x7
-<<<<<<< HEAD
 #define CQSPI_REG_CMDCTRL_DUMMY_MASK		0x1F
-=======
-<<<<<<< HEAD
-#define CQSPI_REG_CMDCTRL_DUMMY_MASK		0x1F
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CQSPI_REG_INDIRECTWR			0x70
 #define CQSPI_REG_INDIRECTWR_START_MASK		BIT(0)
@@ -268,10 +223,6 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_CMDWRITEDATALOWER		0xA8
 #define CQSPI_REG_CMDWRITEDATAUPPER		0xAC
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CQSPI_REG_POLLING_STATUS		0xB0
 #define CQSPI_REG_POLLING_STATUS_DUMMY_LSB	16
 
@@ -280,11 +231,6 @@ struct cqspi_driver_platdata {
 #define CQSPI_REG_OP_EXT_WRITE_LSB		16
 #define CQSPI_REG_OP_EXT_STIG_LSB		0
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Interrupt status bits */
 #define CQSPI_REG_IRQ_MODE_ERR			BIT(0)
 #define CQSPI_REG_IRQ_UNDERFLOW			BIT(1)
@@ -318,7 +264,7 @@ static bool cqspi_is_idle(struct cqspi_st *cqspi)
 {
 	u32 reg = readl(cqspi->iobase + CQSPI_REG_CONFIG);
 
-	return reg & (1 << CQSPI_REG_CONFIG_IDLE_LSB);
+	return reg & (1UL << CQSPI_REG_CONFIG_IDLE_LSB);
 }
 
 static u32 cqspi_get_rd_sram_level(struct cqspi_st *cqspi)
@@ -359,10 +305,6 @@ static unsigned int cqspi_calc_rdreg(struct cqspi_flash_pdata *f_pdata)
 	return rdreg;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static unsigned int cqspi_calc_dummy(const struct spi_mem_op *op, bool dtr)
 {
 	unsigned int dummy_clk;
@@ -437,11 +379,6 @@ static int cqspi_set_protocol(struct cqspi_flash_pdata *f_pdata,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cqspi_wait_idle(struct cqspi_st *cqspi)
 {
 	const unsigned int poll_idle_retry = 3;
@@ -499,10 +436,6 @@ static int cqspi_exec_flash_cmd(struct cqspi_st *cqspi, unsigned int reg)
 	return cqspi_wait_idle(cqspi);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cqspi_setup_opcode_ext(struct cqspi_flash_pdata *f_pdata,
 				  const struct spi_mem_op *op,
 				  unsigned int shift)
@@ -559,21 +492,12 @@ static int cqspi_enable_dtr(struct cqspi_flash_pdata *f_pdata,
 	return cqspi_wait_idle(cqspi);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cqspi_command_read(struct cqspi_flash_pdata *f_pdata,
 			      const struct spi_mem_op *op)
 {
 	struct cqspi_st *cqspi = f_pdata->cqspi;
 	void __iomem *reg_base = cqspi->iobase;
 	u8 *rxbuf = op->data.buf.in;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 opcode;
 	size_t n_rx = op->data.nbytes;
 	unsigned int rdreg;
@@ -591,18 +515,6 @@ static int cqspi_command_read(struct cqspi_flash_pdata *f_pdata,
 	if (status)
 		return status;
 
-<<<<<<< HEAD
-=======
-=======
-	u8 opcode = op->cmd.opcode;
-	size_t n_rx = op->data.nbytes;
-	unsigned int rdreg;
-	unsigned int reg;
-	size_t read_len;
-	int status;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!n_rx || n_rx > CQSPI_STIG_DATA_LEN_MAX || !rxbuf) {
 		dev_err(&cqspi->pdev->dev,
 			"Invalid input argument, len %zu rxbuf 0x%p\n",
@@ -610,29 +522,16 @@ static int cqspi_command_read(struct cqspi_flash_pdata *f_pdata,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (f_pdata->dtr)
 		opcode = op->cmd.opcode >> 8;
 	else
 		opcode = op->cmd.opcode;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = opcode << CQSPI_REG_CMDCTRL_OPCODE_LSB;
 
 	rdreg = cqspi_calc_rdreg(f_pdata);
 	writel(rdreg, reg_base + CQSPI_REG_RD_INSTR);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dummy_clk = cqspi_calc_dummy(op, f_pdata->dtr);
 	if (dummy_clk > CQSPI_DUMMY_CLKS_MAX)
 		return -EOPNOTSUPP;
@@ -641,11 +540,6 @@ static int cqspi_command_read(struct cqspi_flash_pdata *f_pdata,
 		reg |= (dummy_clk & CQSPI_REG_CMDCTRL_DUMMY_MASK)
 		     << CQSPI_REG_CMDCTRL_DUMMY_LSB;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg |= (0x1 << CQSPI_REG_CMDCTRL_RD_EN_LSB);
 
 	/* 0 means 1 byte. */
@@ -677,24 +571,12 @@ static int cqspi_command_write(struct cqspi_flash_pdata *f_pdata,
 {
 	struct cqspi_st *cqspi = f_pdata->cqspi;
 	void __iomem *reg_base = cqspi->iobase;
-<<<<<<< HEAD
 	u8 opcode;
-=======
-<<<<<<< HEAD
-	u8 opcode;
-=======
-	const u8 opcode = op->cmd.opcode;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const u8 *txbuf = op->data.buf.out;
 	size_t n_tx = op->data.nbytes;
 	unsigned int reg;
 	unsigned int data;
 	size_t write_len;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ret = cqspi_set_protocol(f_pdata, op);
@@ -705,11 +587,6 @@ static int cqspi_command_write(struct cqspi_flash_pdata *f_pdata,
 			       f_pdata->dtr);
 	if (ret)
 		return ret;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (n_tx > CQSPI_STIG_DATA_LEN_MAX || (n_tx && !txbuf)) {
 		dev_err(&cqspi->pdev->dev,
@@ -718,10 +595,6 @@ static int cqspi_command_write(struct cqspi_flash_pdata *f_pdata,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = cqspi_calc_rdreg(f_pdata);
 	writel(reg, reg_base + CQSPI_REG_RD_INSTR);
 
@@ -730,11 +603,6 @@ static int cqspi_command_write(struct cqspi_flash_pdata *f_pdata,
 	else
 		opcode = op->cmd.opcode;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = opcode << CQSPI_REG_CMDCTRL_OPCODE_LSB;
 
 	if (op->addr.nbytes) {
@@ -774,10 +642,6 @@ static int cqspi_read_setup(struct cqspi_flash_pdata *f_pdata,
 	void __iomem *reg_base = cqspi->iobase;
 	unsigned int dummy_clk = 0;
 	unsigned int reg;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 	u8 opcode;
 
@@ -797,17 +661,6 @@ static int cqspi_read_setup(struct cqspi_flash_pdata *f_pdata,
 	/* Setup dummy clock cycles */
 	dummy_clk = cqspi_calc_dummy(op, f_pdata->dtr);
 
-<<<<<<< HEAD
-=======
-=======
-
-	reg = op->cmd.opcode << CQSPI_REG_RD_INSTR_OPCODE_LSB;
-	reg |= cqspi_calc_rdreg(f_pdata);
-
-	/* Setup dummy clock cycles */
-	dummy_clk = op->dummy.nbytes * 8;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dummy_clk > CQSPI_DUMMY_CLKS_MAX)
 		return -EOPNOTSUPP;
 
@@ -921,10 +774,6 @@ static int cqspi_write_setup(struct cqspi_flash_pdata *f_pdata,
 			     const struct spi_mem_op *op)
 {
 	unsigned int reg;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 	struct cqspi_st *cqspi = f_pdata->cqspi;
 	void __iomem *reg_base = cqspi->iobase;
@@ -944,24 +793,10 @@ static int cqspi_write_setup(struct cqspi_flash_pdata *f_pdata,
 	reg = opcode << CQSPI_REG_WR_INSTR_OPCODE_LSB;
 	reg |= f_pdata->data_width << CQSPI_REG_WR_INSTR_TYPE_DATA_LSB;
 	reg |= f_pdata->addr_width << CQSPI_REG_WR_INSTR_TYPE_ADDR_LSB;
-<<<<<<< HEAD
-=======
-=======
-	struct cqspi_st *cqspi = f_pdata->cqspi;
-	void __iomem *reg_base = cqspi->iobase;
-
-	/* Set opcode. */
-	reg = op->cmd.opcode << CQSPI_REG_WR_INSTR_OPCODE_LSB;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	writel(reg, reg_base + CQSPI_REG_WR_INSTR);
 	reg = cqspi_calc_rdreg(f_pdata);
 	writel(reg, reg_base + CQSPI_REG_RD_INSTR);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (f_pdata->dtr) {
 		/*
 		 * Some flashes like the cypress Semper flash expect a 4-byte
@@ -976,11 +811,6 @@ static int cqspi_write_setup(struct cqspi_flash_pdata *f_pdata,
 		writel(reg, reg_base + CQSPI_REG_WR_COMPLETION_CTRL);
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = readl(reg_base + CQSPI_REG_SIZE);
 	reg &= ~CQSPI_REG_SIZE_ADDRESS_MASK;
 	reg |= (op->addr.nbytes - 1);
@@ -1234,41 +1064,6 @@ static void cqspi_configure(struct cqspi_flash_pdata *f_pdata,
 		cqspi_controller_enable(cqspi, 1);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static int cqspi_set_protocol(struct cqspi_flash_pdata *f_pdata,
-			      const struct spi_mem_op *op)
-{
-	f_pdata->inst_width = CQSPI_INST_TYPE_SINGLE;
-	f_pdata->addr_width = CQSPI_INST_TYPE_SINGLE;
-	f_pdata->data_width = CQSPI_INST_TYPE_SINGLE;
-
-	if (op->data.dir == SPI_MEM_DATA_IN) {
-		switch (op->data.buswidth) {
-		case 1:
-			f_pdata->data_width = CQSPI_INST_TYPE_SINGLE;
-			break;
-		case 2:
-			f_pdata->data_width = CQSPI_INST_TYPE_DUAL;
-			break;
-		case 4:
-			f_pdata->data_width = CQSPI_INST_TYPE_QUAD;
-			break;
-		case 8:
-			f_pdata->data_width = CQSPI_INST_TYPE_OCTAL;
-			break;
-		default:
-			return -EINVAL;
-		}
-	}
-
-	return 0;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t cqspi_write(struct cqspi_flash_pdata *f_pdata,
 			   const struct spi_mem_op *op)
 {
@@ -1286,10 +1081,6 @@ static ssize_t cqspi_write(struct cqspi_flash_pdata *f_pdata,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Some flashes like the Cypress Semper flash expect a dummy 4-byte
 	 * address (all 0s) with the read status register command in DTR mode.
@@ -1300,12 +1091,6 @@ static ssize_t cqspi_write(struct cqspi_flash_pdata *f_pdata,
 	 */
 	if (!f_pdata->dtr && cqspi->use_direct_mode &&
 	    ((to + len) <= cqspi->ahb_size)) {
-<<<<<<< HEAD
-=======
-=======
-	if (cqspi->use_direct_mode && ((to + len) <= cqspi->ahb_size)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy_toio(cqspi->ahb_base + to, buf, len);
 		return cqspi_wait_idle(cqspi);
 	}
@@ -1366,15 +1151,7 @@ static int cqspi_direct_read_execute(struct cqspi_flash_pdata *f_pdata,
 
 	dma_async_issue_pending(cqspi->rx_chan);
 	if (!wait_for_completion_timeout(&cqspi->rx_dma_complete,
-<<<<<<< HEAD
 					 msecs_to_jiffies(max_t(size_t, len, 500)))) {
-=======
-<<<<<<< HEAD
-					 msecs_to_jiffies(max_t(size_t, len, 500)))) {
-=======
-					 msecs_to_jiffies(len))) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dmaengine_terminate_sync(cqspi->rx_chan);
 		dev_err(dev, "DMA wait_for_completion_timeout\n");
 		ret = -ETIMEDOUT;
@@ -1442,10 +1219,6 @@ static int cqspi_exec_mem_op(struct spi_mem *mem, const struct spi_mem_op *op)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool cqspi_supports_mem_op(struct spi_mem *mem,
 				  const struct spi_mem_op *op)
 {
@@ -1466,11 +1239,6 @@ static bool cqspi_supports_mem_op(struct spi_mem *mem,
 		return spi_mem_default_supports_op(mem, op);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cqspi_of_get_flash_pdata(struct platform_device *pdev,
 				    struct cqspi_flash_pdata *f_pdata,
 				    struct device_node *np)
@@ -1531,18 +1299,9 @@ static int cqspi_of_get_pdata(struct cqspi_st *cqspi)
 		return -ENXIO;
 	}
 
-<<<<<<< HEAD
 	if (of_property_read_u32(np, "num-cs", &cqspi->num_chipselect))
 		cqspi->num_chipselect = CQSPI_MAX_CHIPSELECT;
 
-=======
-<<<<<<< HEAD
-	if (of_property_read_u32(np, "num-cs", &cqspi->num_chipselect))
-		cqspi->num_chipselect = CQSPI_MAX_CHIPSELECT;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cqspi->rclk_en = of_property_read_bool(np, "cdns,rclk-en");
 
 	return 0;
@@ -1574,25 +1333,12 @@ static void cqspi_controller_init(struct cqspi_st *cqspi)
 	writel(cqspi->fifo_depth * cqspi->fifo_width / 8,
 	       cqspi->iobase + CQSPI_REG_INDIRECTWRWATERMARK);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Disable direct access controller */
 	if (!cqspi->use_direct_mode) {
 		reg = readl(cqspi->iobase + CQSPI_REG_CONFIG);
 		reg &= ~CQSPI_REG_CONFIG_ENB_DIR_ACC_CTRL;
 		writel(reg, cqspi->iobase + CQSPI_REG_CONFIG);
 	}
-<<<<<<< HEAD
-=======
-=======
-	/* Enable Direct Access Controller */
-	reg = readl(cqspi->iobase + CQSPI_REG_CONFIG);
-	reg |= CQSPI_REG_CONFIG_ENB_DIR_ACC_CTRL;
-	writel(reg, cqspi->iobase + CQSPI_REG_CONFIG);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cqspi_controller_enable(cqspi, 1);
 }
@@ -1626,14 +1372,7 @@ static const char *cqspi_get_name(struct spi_mem *mem)
 static const struct spi_controller_mem_ops cqspi_mem_ops = {
 	.exec_op = cqspi_exec_mem_op,
 	.get_name = cqspi_get_name,
-<<<<<<< HEAD
 	.supports_op = cqspi_supports_mem_op,
-=======
-<<<<<<< HEAD
-	.supports_op = cqspi_supports_mem_op,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cqspi_setup_flash(struct cqspi_st *cqspi)
@@ -1650,11 +1389,13 @@ static int cqspi_setup_flash(struct cqspi_st *cqspi)
 		ret = of_property_read_u32(np, "reg", &cs);
 		if (ret) {
 			dev_err(dev, "Couldn't determine chip select.\n");
+			of_node_put(np);
 			return ret;
 		}
 
 		if (cs >= CQSPI_MAX_CHIPSELECT) {
 			dev_err(dev, "Chip select %d out of range.\n", cs);
+			of_node_put(np);
 			return -EINVAL;
 		}
 
@@ -1663,8 +1404,10 @@ static int cqspi_setup_flash(struct cqspi_st *cqspi)
 		f_pdata->cs = cs;
 
 		ret = cqspi_of_get_flash_pdata(pdev, f_pdata, np);
-		if (ret)
+		if (ret) {
+			of_node_put(np);
 			return ret;
+		}
 	}
 
 	return 0;
@@ -1776,10 +1519,6 @@ static int cqspi_probe(struct platform_device *pdev)
 	reset_control_deassert(rstc_ocp);
 
 	cqspi->master_ref_clk_hz = clk_get_rate(cqspi->clk);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	master->max_speed_hz = cqspi->master_ref_clk_hz;
 	ddata  = of_device_get_match_data(dev);
 	if (ddata) {
@@ -1788,18 +1527,6 @@ static int cqspi_probe(struct platform_device *pdev)
 						cqspi->master_ref_clk_hz);
 		if (ddata->hwcaps_mask & CQSPI_SUPPORTS_OCTAL)
 			master->mode_bits |= SPI_RX_OCTAL | SPI_TX_OCTAL;
-<<<<<<< HEAD
-=======
-=======
-	ddata  = of_device_get_match_data(dev);
-	if (ddata) {
-		if (ddata->quirks & CQSPI_NEEDS_WR_DELAY)
-			cqspi->wr_delay = 5 * DIV_ROUND_UP(NSEC_PER_SEC,
-						cqspi->master_ref_clk_hz);
-		if (ddata->hwcaps_mask & CQSPI_SUPPORTS_OCTAL)
-			master->mode_bits |= SPI_RX_OCTAL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!(ddata->quirks & CQSPI_DISABLE_DAC_MODE))
 			cqspi->use_direct_mode = true;
 	}
@@ -1816,16 +1543,8 @@ static int cqspi_probe(struct platform_device *pdev)
 	cqspi->current_cs = -1;
 	cqspi->sclk = 0;
 
-<<<<<<< HEAD
 	master->num_chipselect = cqspi->num_chipselect;
 
-=======
-<<<<<<< HEAD
-	master->num_chipselect = cqspi->num_chipselect;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = cqspi_setup_flash(cqspi);
 	if (ret) {
 		dev_err(dev, "failed to setup flash parameters %d\n", ret);
@@ -1914,19 +1633,10 @@ static const struct cqspi_driver_platdata am654_ospi = {
 	.quirks = CQSPI_NEEDS_WR_DELAY,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct cqspi_driver_platdata intel_lgm_qspi = {
 	.quirks = CQSPI_DISABLE_DAC_MODE,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id cqspi_dt_ids[] = {
 	{
 		.compatible = "cdns,qspi-nor",
@@ -1940,19 +1650,10 @@ static const struct of_device_id cqspi_dt_ids[] = {
 		.compatible = "ti,am654-ospi",
 		.data = &am654_ospi,
 	},
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.compatible = "intel,lgm-qspi",
 		.data = &intel_lgm_qspi,
 	},
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* end of table */ }
 };
 
@@ -1977,11 +1678,4 @@ MODULE_AUTHOR("Ley Foon Tan <lftan@altera.com>");
 MODULE_AUTHOR("Graham Moore <grmoore@opensource.altera.com>");
 MODULE_AUTHOR("Vadivel Murugan R <vadivel.muruganx.ramuthevar@intel.com>");
 MODULE_AUTHOR("Vignesh Raghavendra <vigneshr@ti.com>");
-<<<<<<< HEAD
 MODULE_AUTHOR("Pratyush Yadav <p.yadav@ti.com>");
-=======
-<<<<<<< HEAD
-MODULE_AUTHOR("Pratyush Yadav <p.yadav@ti.com>");
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -130,19 +130,11 @@ static struct clkgen_pll_data st_pll4600c28_418_a9 = {
  * parent - fixed parent.  No clk_set_parent support
  */
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * PLL clock that is integrated in the ClockGenA instances on the STiH415
  * and STiH416.
  *
  * @hw: handle between common and hardware-specific interfaces.
-<<<<<<< HEAD
-=======
- * @type: PLL instance type.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @regs_base: base of the PLL configuration register(s).
  *
  */

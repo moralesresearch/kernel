@@ -8,11 +8,8 @@
  * Copyright (C) 1996-2005 Paul Mackerras.
  */
 
-<<<<<<< HEAD
 #define FDT_ALIGN_SIZE 8
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct alias_prop - Alias property in 'aliases' node
  * @link:	List node to link the structure in aliases_lookup list

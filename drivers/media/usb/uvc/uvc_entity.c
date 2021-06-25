@@ -105,10 +105,7 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
 		case UVC_OTT_DISPLAY:
 		case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
 		case UVC_EXTERNAL_VENDOR_SPECIFIC:
-<<<<<<< HEAD
 		case UVC_EXT_GPIO_UNIT:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
 			break;
@@ -143,14 +140,9 @@ int uvc_mc_register_entities(struct uvc_video_chain *chain)
 	list_for_each_entry(entity, &chain->entities, chain) {
 		ret = uvc_mc_init_entity(chain, entity);
 		if (ret < 0) {
-<<<<<<< HEAD
 			dev_info(&chain->dev->udev->dev,
 				 "Failed to initialize entity for entity %u\n",
 				 entity->id);
-=======
-			uvc_printk(KERN_INFO, "Failed to initialize entity for "
-				   "entity %u\n", entity->id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return ret;
 		}
 	}
@@ -158,14 +150,9 @@ int uvc_mc_register_entities(struct uvc_video_chain *chain)
 	list_for_each_entry(entity, &chain->entities, chain) {
 		ret = uvc_mc_create_links(chain, entity);
 		if (ret < 0) {
-<<<<<<< HEAD
 			dev_info(&chain->dev->udev->dev,
 				 "Failed to create links for entity %u\n",
 				 entity->id);
-=======
-			uvc_printk(KERN_INFO, "Failed to create links for "
-				   "entity %u\n", entity->id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return ret;
 		}
 	}

@@ -124,6 +124,7 @@ config SND_SOC_MT8183_MT6358_TS3A227E_MAX98357A
 	select SND_SOC_MT6358
 	select SND_SOC_MAX98357A
 	select SND_SOC_RT1015
+	select SND_SOC_RT1015P
 	select SND_SOC_BT_SCO
 	select SND_SOC_TS3A227E
 	select SND_SOC_CROS_EC_CODEC if CROS_EC
@@ -172,11 +173,7 @@ config SND_SOC_MT8192
 config SND_SOC_MT8192_MT6359_RT1015_RT5682
 	tristate "ASoC Audio driver for MT8192 with MT6359 RT1015 RT5682 codec"
 	depends on I2C
-<<<<<<< HEAD
 	depends on SND_SOC_MT8192 && MTK_PMIC_WRAP
-=======
-	depends on SND_SOC_MT8192
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SND_SOC_MT6359
 	select SND_SOC_RT1015
 	select SND_SOC_RT1015P

@@ -149,17 +149,8 @@ cros_ec_rpmsg_host_event_function(struct work_struct *host_event_work)
 	struct cros_ec_rpmsg *ec_rpmsg = container_of(host_event_work,
 						      struct cros_ec_rpmsg,
 						      host_event_work);
-<<<<<<< HEAD
 
 	cros_ec_irq_thread(0, dev_get_drvdata(&ec_rpmsg->rpdev->dev));
-=======
-	struct cros_ec_device *ec_dev = dev_get_drvdata(&ec_rpmsg->rpdev->dev);
-	bool ec_has_more_events;
-
-	do {
-		ec_has_more_events = cros_ec_handle_event(ec_dev);
-	} while (ec_has_more_events);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int cros_ec_rpmsg_callback(struct rpmsg_device *rpdev, void *data,

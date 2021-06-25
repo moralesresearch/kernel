@@ -313,11 +313,7 @@
  *                      define.
  *                      Added BIOS Page 4 structure.
  *                      Added MPI_RAID_PHYS_DISK1_PATH_MAX define for RAID
-<<<<<<< HEAD
  *                      Physical Disk Page 1.
-=======
- *                      Physcial Disk Page 1.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  01-15-07  01.05.17  Added additional bit defines for ExtFlags field of
  *                      Manufacturing Page 4.
  *                      Added Solid State Drives Supported bit to IOC Page 6

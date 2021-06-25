@@ -1571,10 +1571,7 @@ static struct clk_branch gcc_gpu_cfg_ahb_clk = {
 		.hw.init = &(struct clk_init_data){
 			.name = "gcc_gpu_cfg_ahb_clk",
 			.ops = &clk_branch2_ops,
-<<<<<<< HEAD
 			.flags = CLK_IS_CRITICAL,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 	},
 };
@@ -1688,15 +1685,12 @@ static struct clk_branch gcc_mmss_noc_cfg_ahb_clk = {
 		.hw.init = &(struct clk_init_data){
 			.name = "gcc_mmss_noc_cfg_ahb_clk",
 			.ops = &clk_branch2_ops,
-<<<<<<< HEAD
 			/*
 			 * Any access to mmss depends on this clock.
 			 * Gating this clock has been shown to crash the system
 			 * when mmssnoc_axi_rpm_clk is inited in rpmcc.
 			 */
 			.flags = CLK_IS_CRITICAL,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 	},
 };

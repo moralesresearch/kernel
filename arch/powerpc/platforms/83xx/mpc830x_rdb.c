@@ -48,10 +48,7 @@ define_machine(mpc830x_rdb) {
 	.name			= "MPC830x RDB",
 	.probe			= mpc830x_rdb_probe,
 	.setup_arch		= mpc830x_rdb_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs		= mpc83xx_setup_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= mpc83xx_ipic_init_IRQ,
 	.get_irq		= ipic_get_irq,
 	.restart		= mpc83xx_restart,

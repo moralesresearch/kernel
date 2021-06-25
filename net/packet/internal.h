@@ -94,11 +94,7 @@ struct packet_fanout {
 	spinlock_t		lock;
 	refcount_t		sk_ref;
 	struct packet_type	prot_hook ____cacheline_aligned_in_smp;
-<<<<<<< HEAD
 	struct sock	__rcu	*arr[];
-=======
-	struct sock		*arr[];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct packet_rollover {
@@ -143,11 +139,7 @@ struct packet_sock {
 	atomic_t		tp_drops ____cacheline_aligned_in_smp;
 };
 
-<<<<<<< HEAD
 static inline struct packet_sock *pkt_sk(struct sock *sk)
-=======
-static struct packet_sock *pkt_sk(struct sock *sk)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return (struct packet_sock *)sk;
 }

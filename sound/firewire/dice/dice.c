@@ -20,19 +20,13 @@ MODULE_LICENSE("GPL v2");
 #define OUI_MYTEK		0x001ee8
 #define OUI_SSL			0x0050c2	// Actually ID reserved by IEEE.
 #define OUI_PRESONUS		0x000a92
-<<<<<<< HEAD
 #define OUI_HARMAN		0x000fd7
 #define OUI_AVID		0x00a07e
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DICE_CATEGORY_ID	0x04
 #define WEISS_CATEGORY_ID	0x00
 #define LOUD_CATEGORY_ID	0x10
-<<<<<<< HEAD
 #define HARMAN_CATEGORY_ID	0x20
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MODEL_ALESIS_IO_BOTH	0x000001
 
@@ -65,11 +59,8 @@ static int check_dice_category(struct fw_unit *unit)
 		category = WEISS_CATEGORY_ID;
 	else if (vendor == OUI_LOUD)
 		category = LOUD_CATEGORY_ID;
-<<<<<<< HEAD
 	else if (vendor == OUI_HARMAN)
 		category = HARMAN_CATEGORY_ID;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		category = DICE_CATEGORY_ID;
 	if (device->config_rom[3] != ((vendor << 8) | category) ||
@@ -232,7 +223,6 @@ static int dice_probe(struct fw_unit *unit,
 				(snd_dice_detect_formats_t)entry->driver_data;
 	}
 
-<<<<<<< HEAD
 	// Below models are compliant to IEC 61883-1/6 and have no quirk at high sampling transfer
 	// frequency.
 	// * Avid M-Box 3 Pro
@@ -241,8 +231,6 @@ static int dice_probe(struct fw_unit *unit,
 	if (entry->vendor_id == OUI_MAUDIO || entry->vendor_id == OUI_AVID)
 		dice->disable_double_pcm_frames = true;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_init(&dice->lock);
 	mutex_init(&dice->mutex);
 	init_completion(&dice->clock_accepted);
@@ -299,7 +287,6 @@ static void dice_bus_reset(struct fw_unit *unit)
 
 #define DICE_INTERFACE	0x000001
 
-<<<<<<< HEAD
 #define DICE_DEV_ENTRY_TYPICAL(vendor, model, data) \
 	{ \
 		.match_flags	= IEEE1394_MATCH_VENDOR_ID | \
@@ -316,9 +303,6 @@ static void dice_bus_reset(struct fw_unit *unit)
 static const struct ieee1394_device_id dice_id_table[] = {
 	// Avid M-Box 3 Pro. To match in probe function.
 	DICE_DEV_ENTRY_TYPICAL(OUI_AVID, 0x000004, snd_dice_detect_extension_formats),
-=======
-static const struct ieee1394_device_id dice_id_table[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* M-Audio Profire 2626 has a different value in version field. */
 	{
 		.match_flags	= IEEE1394_MATCH_VENDOR_ID |
@@ -432,7 +416,6 @@ static const struct ieee1394_device_id dice_id_table[] = {
 		.model_id	= 0x000008,
 		.driver_data	= (kernel_ulong_t)snd_dice_detect_presonus_formats,
 	},
-<<<<<<< HEAD
 	// Lexicon I-ONYX FW810S.
 	{
 		.match_flags	= IEEE1394_MATCH_VENDOR_ID |
@@ -441,8 +424,6 @@ static const struct ieee1394_device_id dice_id_table[] = {
 		.model_id	= 0x000001,
 		.driver_data	= (kernel_ulong_t)snd_dice_detect_harman_formats,
 	},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.match_flags = IEEE1394_MATCH_VERSION,
 		.version     = DICE_INTERFACE,

@@ -37,8 +37,7 @@ config SND_SOC_COMPRESS
 config SND_SOC_TOPOLOGY
 	bool
 
-<<<<<<< HEAD
-config SND_SOC_TOPOLOGY_KUNIT_TESTS
+config SND_SOC_TOPOLOGY_KUNIT_TEST
 	tristate "KUnit tests for SoC topology"
 	depends on KUNIT
 	depends on SND_SOC_TOPOLOGY
@@ -55,8 +54,6 @@ config SND_SOC_TOPOLOGY_KUNIT_TESTS
 	  userspace applications such as pulseaudio, to prevent unnecessary
 	  problems.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config SND_SOC_ACPI
 	tristate
 
@@ -82,10 +79,6 @@ source "sound/soc/qcom/Kconfig"
 source "sound/soc/rockchip/Kconfig"
 source "sound/soc/samsung/Kconfig"
 source "sound/soc/sh/Kconfig"
-<<<<<<< HEAD
-=======
-source "sound/soc/sirf/Kconfig"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "sound/soc/sof/Kconfig"
 source "sound/soc/spear/Kconfig"
 source "sound/soc/sprd/Kconfig"
@@ -94,18 +87,10 @@ source "sound/soc/stm/Kconfig"
 source "sound/soc/sunxi/Kconfig"
 source "sound/soc/tegra/Kconfig"
 source "sound/soc/ti/Kconfig"
-<<<<<<< HEAD
-=======
-source "sound/soc/txx9/Kconfig"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "sound/soc/uniphier/Kconfig"
 source "sound/soc/ux500/Kconfig"
 source "sound/soc/xilinx/Kconfig"
 source "sound/soc/xtensa/Kconfig"
-<<<<<<< HEAD
-=======
-source "sound/soc/zte/Kconfig"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Supported codecs
 source "sound/soc/codecs/Kconfig"

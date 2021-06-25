@@ -79,13 +79,9 @@ properties:
 
 patternProperties:
   "^usb@[0-9a-f]+$":
-<<<<<<< HEAD
     oneOf:
       - $ref: dwc2.yaml#
       - $ref: snps,dwc3.yaml#
-=======
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 additionalProperties: false
 
@@ -235,10 +231,6 @@ examples:
               interrupts = <30>;
               dr_mode = "host";
               snps,dis_u2_susphy_quirk;
-<<<<<<< HEAD
               snps,quirk-frame-length-adjustment = <0x20>;
-=======
-              snps,quirk-frame-length-adjustment;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           };
     };

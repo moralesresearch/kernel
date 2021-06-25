@@ -309,10 +309,7 @@ static struct timing_generator_funcs dcn30_tg_funcs = {
 		.enable_crtc_reset = optc1_enable_crtc_reset,
 		.disable_reset_trigger = optc1_disable_reset_trigger,
 		.lock = optc3_lock,
-<<<<<<< HEAD
 		.is_locked = optc1_is_locked,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.unlock = optc1_unlock,
 		.lock_doublebuffer_enable = optc3_lock_doublebuffer_enable,
 		.lock_doublebuffer_disable = optc3_lock_doublebuffer_disable,

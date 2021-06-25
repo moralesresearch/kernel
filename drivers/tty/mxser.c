@@ -1208,37 +1208,26 @@ static int mxser_get_serial_info(struct tty_struct *tty,
 {
 	struct mxser_port *info = tty->driver_data;
 	struct tty_port *port = &info->port;
-<<<<<<< HEAD
 	unsigned int closing_wait, close_delay;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tty->index == MXSER_PORTS)
 		return -ENOTTY;
 
 	mutex_lock(&port->mutex);
-<<<<<<< HEAD
 
 	close_delay = jiffies_to_msecs(info->port.close_delay) / 10;
 	closing_wait = info->port.closing_wait;
 	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
 		closing_wait = jiffies_to_msecs(closing_wait) / 10;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ss->type = info->type,
 	ss->line = tty->index,
 	ss->port = info->ioaddr,
 	ss->irq = info->board->irq,
 	ss->flags = info->port.flags,
 	ss->baud_base = info->baud_base,
-<<<<<<< HEAD
 	ss->close_delay = close_delay;
 	ss->closing_wait = closing_wait;
-=======
-	ss->close_delay = info->port.close_delay,
-	ss->closing_wait = info->port.closing_wait,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ss->custom_divisor = info->custom_divisor,
 	mutex_unlock(&port->mutex);
 	return 0;
@@ -1251,11 +1240,7 @@ static int mxser_set_serial_info(struct tty_struct *tty,
 	struct tty_port *port = &info->port;
 	speed_t baud;
 	unsigned long sl_flags;
-<<<<<<< HEAD
 	unsigned int flags, close_delay, closing_wait;
-=======
-	unsigned int flags;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int retval = 0;
 
 	if (tty->index == MXSER_PORTS)
@@ -1277,7 +1262,6 @@ static int mxser_set_serial_info(struct tty_struct *tty,
 
 	flags = port->flags & ASYNC_SPD_MASK;
 
-<<<<<<< HEAD
 	close_delay = msecs_to_jiffies(ss->close_delay * 10);
 	closing_wait = ss->closing_wait;
 	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
@@ -1287,11 +1271,6 @@ static int mxser_set_serial_info(struct tty_struct *tty,
 		if ((ss->baud_base != info->baud_base) ||
 				(close_delay != info->port.close_delay) ||
 				(closing_wait != info->port.closing_wait) ||
-=======
-	if (!capable(CAP_SYS_ADMIN)) {
-		if ((ss->baud_base != info->baud_base) ||
-				(ss->close_delay != info->port.close_delay) ||
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				((ss->flags & ~ASYNC_USR_MASK) != (info->port.flags & ~ASYNC_USR_MASK))) {
 			mutex_unlock(&port->mutex);
 			return -EPERM;
@@ -1305,14 +1284,8 @@ static int mxser_set_serial_info(struct tty_struct *tty,
 		 */
 		port->flags = ((port->flags & ~ASYNC_FLAGS) |
 				(ss->flags & ASYNC_FLAGS));
-<<<<<<< HEAD
 		port->close_delay = close_delay;
 		port->closing_wait = closing_wait;
-=======
-		port->close_delay = ss->close_delay * HZ / 100;
-		port->closing_wait = ss->closing_wait * HZ / 100;
-		port->low_latency = (port->flags & ASYNC_LOW_LATENCY) ? 1 : 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((port->flags & ASYNC_SPD_MASK) == ASYNC_SPD_CUST &&
 				(ss->baud_base != info->baud_base ||
 				ss->custom_divisor !=
@@ -1324,19 +1297,11 @@ static int mxser_set_serial_info(struct tty_struct *tty,
 			baud = ss->baud_base / ss->custom_divisor;
 			tty_encode_baud_rate(tty, baud, baud);
 		}
-<<<<<<< HEAD
 
 		info->type = ss->type;
 
 		process_txrx_fifo(info);
 	}
-=======
-	}
-
-	info->type = ss->type;
-
-	process_txrx_fifo(info);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tty_port_initialized(port)) {
 		if (flags != (port->flags & ASYNC_SPD_MASK)) {
@@ -2190,14 +2155,7 @@ end_intr:
 	port->mon_data.rxcnt += cnt;
 	port->mon_data.up_rxcnt += cnt;
 
-	/*
-	 * We are called from an interrupt context with &port->slock
-	 * being held. Drop it temporarily in order to prevent
-	 * recursive locking.
-	 */
-	spin_unlock(&port->slock);
 	tty_flip_buffer_push(&port->port);
-	spin_lock(&port->slock);
 }
 
 static void mxser_transmit_chars(struct tty_struct *tty, struct mxser_port *port)

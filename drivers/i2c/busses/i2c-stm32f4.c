@@ -313,7 +313,7 @@ static int stm32f4_i2c_wait_free_bus(struct stm32f4_i2c_dev *i2c_dev)
 }
 
 /**
- * stm32f4_i2c_write_ byte() - Write a byte in the data register
+ * stm32f4_i2c_write_byte() - Write a byte in the data register
  * @i2c_dev: Controller's private data
  * @byte: Data to write in the register
  */
@@ -534,11 +534,7 @@ static void stm32f4_i2c_handle_rx_addr(struct stm32f4_i2c_dev *i2c_dev)
 	default:
 		/*
 		 * N-byte reception:
-<<<<<<< HEAD
 		 * Enable ACK, reset POS (ACK position) and clear ADDR flag.
-=======
-		 * Enable ACK, reset POS (ACK postion) and clear ADDR flag.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * In that way, ACK will be sent as soon as the current byte
 		 * will be received in the shift register
 		 */

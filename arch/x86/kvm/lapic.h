@@ -6,11 +6,8 @@
 
 #include <linux/kvm_host.h>
 
-<<<<<<< HEAD
 #include "hyperv.h"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_APIC_INIT		0
 #define KVM_APIC_SIPI		1
 #define KVM_APIC_LVT_NUM	6
@@ -130,17 +127,7 @@ int kvm_x2apic_msr_read(struct kvm_vcpu *vcpu, u32 msr, u64 *data);
 int kvm_hv_vapic_msr_write(struct kvm_vcpu *vcpu, u32 msr, u64 data);
 int kvm_hv_vapic_msr_read(struct kvm_vcpu *vcpu, u32 msr, u64 *data);
 
-<<<<<<< HEAD
 int kvm_lapic_enable_pv_eoi(struct kvm_vcpu *vcpu, u64 data, unsigned long len);
-=======
-static inline bool kvm_hv_vapic_assist_page_enabled(struct kvm_vcpu *vcpu)
-{
-	return vcpu->arch.hyperv.hv_vapic & HV_X64_MSR_VP_ASSIST_PAGE_ENABLE;
-}
-
-int kvm_lapic_enable_pv_eoi(struct kvm_vcpu *vcpu, u64 data, unsigned long len);
-void kvm_lapic_init(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_lapic_exit(void);
 
 #define VEC_POS(v) ((v) & (32 - 1))
@@ -181,53 +168,29 @@ static inline void kvm_lapic_set_reg(struct kvm_lapic *apic, int reg_off, u32 va
 	__kvm_lapic_set_reg(apic->regs, reg_off, val);
 }
 
-<<<<<<< HEAD
 DECLARE_STATIC_KEY_FALSE(kvm_has_noapic_vcpu);
 
 static inline bool lapic_in_kernel(struct kvm_vcpu *vcpu)
 {
 	if (static_branch_unlikely(&kvm_has_noapic_vcpu))
-=======
-extern struct static_key kvm_no_apic_vcpu;
-
-static inline bool lapic_in_kernel(struct kvm_vcpu *vcpu)
-{
-	if (static_key_false(&kvm_no_apic_vcpu))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return vcpu->arch.apic;
 	return true;
 }
 
-<<<<<<< HEAD
 extern struct static_key_false_deferred apic_hw_disabled;
 
 static inline int kvm_apic_hw_enabled(struct kvm_lapic *apic)
 {
 	if (static_branch_unlikely(&apic_hw_disabled.key))
-=======
-extern struct static_key_deferred apic_hw_disabled;
-
-static inline int kvm_apic_hw_enabled(struct kvm_lapic *apic)
-{
-	if (static_key_false(&apic_hw_disabled.key))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return apic->vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE;
 	return MSR_IA32_APICBASE_ENABLE;
 }
 
-<<<<<<< HEAD
 extern struct static_key_false_deferred apic_sw_disabled;
 
 static inline bool kvm_apic_sw_enabled(struct kvm_lapic *apic)
 {
 	if (static_branch_unlikely(&apic_sw_disabled.key))
-=======
-extern struct static_key_deferred apic_sw_disabled;
-
-static inline bool kvm_apic_sw_enabled(struct kvm_lapic *apic)
-{
-	if (static_key_false(&apic_sw_disabled.key))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return apic->sw_enabled;
 	return true;
 }

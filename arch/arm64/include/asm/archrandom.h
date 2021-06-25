@@ -4,15 +4,11 @@
 
 #ifdef CONFIG_ARCH_RANDOM
 
-<<<<<<< HEAD
 #include <linux/arm-smccc.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/bug.h>
 #include <linux/kernel.h>
 #include <asm/cpufeature.h>
 
-<<<<<<< HEAD
 #define ARM_SMCCC_TRNG_MIN_VERSION	0x10000UL
 
 extern bool smccc_trng_available;
@@ -28,8 +24,6 @@ static inline bool __init smccc_probe_trng(void)
 	return res.a0 >= ARM_SMCCC_TRNG_MIN_VERSION;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool __arm64_rndr(unsigned long *v)
 {
 	bool ok;
@@ -60,7 +54,6 @@ static inline bool __must_check arch_get_random_int(unsigned int *v)
 
 static inline bool __must_check arch_get_random_seed_long(unsigned long *v)
 {
-<<<<<<< HEAD
 	struct arm_smccc_res res;
 
 	/*
@@ -77,15 +70,12 @@ static inline bool __must_check arch_get_random_seed_long(unsigned long *v)
 		}
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Only support the generic interface after we have detected
 	 * the system wide capability, avoiding complexity with the
 	 * cpufeature code and with potential scheduling between CPUs
 	 * with and without the feature.
 	 */
-<<<<<<< HEAD
 	if (cpus_have_const_cap(ARM64_HAS_RNG) && __arm64_rndr(v))
 		return true;
 
@@ -113,22 +103,6 @@ static inline bool __must_check arch_get_random_seed_int(unsigned int *v)
 	}
 
 	return false;
-=======
-	if (!cpus_have_const_cap(ARM64_HAS_RNG))
-		return false;
-
-	return __arm64_rndr(v);
-}
-
-
-static inline bool __must_check arch_get_random_seed_int(unsigned int *v)
-{
-	unsigned long val;
-	bool ok = arch_get_random_seed_long(&val);
-
-	*v = val;
-	return ok;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool __init __early_cpu_has_rndr(void)
@@ -143,7 +117,6 @@ arch_get_random_seed_long_early(unsigned long *v)
 {
 	WARN_ON(system_state != SYSTEM_BOOTING);
 
-<<<<<<< HEAD
 	if (smccc_trng_available) {
 		struct arm_smccc_res res;
 
@@ -168,14 +141,5 @@ static inline bool __init smccc_probe_trng(void)
 	return false;
 }
 
-=======
-	if (!__early_cpu_has_rndr())
-		return false;
-
-	return __arm64_rndr(v);
-}
-#define arch_get_random_seed_long_early arch_get_random_seed_long_early
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_ARCH_RANDOM */
 #endif /* _ASM_ARCHRANDOM_H */

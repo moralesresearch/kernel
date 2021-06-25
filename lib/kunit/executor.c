@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0
 
 #include <kunit/test.h>
-<<<<<<< HEAD
 #include <linux/glob.h>
 #include <linux/moduleparam.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * These symbols point to the .kunit_test_suites section and are defined in
@@ -16,7 +13,6 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
 
 #if IS_BUILTIN(CONFIG_KUNIT)
 
-<<<<<<< HEAD
 static char *filter_glob;
 module_param(filter_glob, charp, 0);
 MODULE_PARM_DESC(filter_glob,
@@ -87,20 +83,11 @@ static struct suite_set kunit_filter_suites(void)
 }
 
 static void kunit_print_tap_header(struct suite_set *suite_set)
-=======
-static void kunit_print_tap_header(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct kunit_suite * const * const *suites, * const *subsuite;
 	int num_of_suites = 0;
 
-<<<<<<< HEAD
 	for (suites = suite_set->start; suites < suite_set->end; suites++)
-=======
-	for (suites = __kunit_suites_start;
-	     suites < __kunit_suites_end;
-	     suites++)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (subsuite = *suites; *subsuite != NULL; subsuite++)
 			num_of_suites++;
 
@@ -112,7 +99,6 @@ int kunit_run_all_tests(void)
 {
 	struct kunit_suite * const * const *suites;
 
-<<<<<<< HEAD
 	struct suite_set suite_set = kunit_filter_suites();
 
 	kunit_print_tap_header(&suite_set);
@@ -125,14 +111,6 @@ int kunit_run_all_tests(void)
 			kfree(*suites);
 		kfree(suite_set.start);
 	}
-=======
-	kunit_print_tap_header();
-
-	for (suites = __kunit_suites_start;
-	     suites < __kunit_suites_end;
-	     suites++)
-			__kunit_test_suites_init(*suites);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

@@ -74,7 +74,7 @@ enum dev_num {
 	UNKNOWN,
 };
 /**
- * struct u1_data
+ * struct alps_dev
  *
  * @input: pointer to the kernel input device
  * @input2: pointer to the kernel input2 device
@@ -761,10 +761,7 @@ static int alps_input_configured(struct hid_device *hdev, struct hid_input *hi)
 
 		if (input_register_device(data->input2)) {
 			input_free_device(input2);
-<<<<<<< HEAD
 			ret = -ENOENT;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto exit;
 		}
 	}

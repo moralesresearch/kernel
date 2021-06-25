@@ -265,12 +265,10 @@ i915_gem_object_set_tiling(struct drm_i915_gem_object *obj,
 	 * pages to prevent them being swapped out and causing corruption
 	 * due to the change in swizzling.
 	 */
-	mutex_lock(&obj->mm.lock);
 	if (i915_gem_object_has_pages(obj) &&
 	    obj->mm.madv == I915_MADV_WILLNEED &&
 	    i915->quirks & QUIRK_PIN_SWIZZLED_PAGES) {
 		if (tiling == I915_TILING_NONE) {
-<<<<<<< HEAD
 			GEM_BUG_ON(!i915_gem_object_has_tiling_quirk(obj));
 			i915_gem_object_clear_tiling_quirk(obj);
 			i915_gem_object_make_shrinkable(obj);
@@ -279,19 +277,8 @@ i915_gem_object_set_tiling(struct drm_i915_gem_object *obj,
 			GEM_BUG_ON(i915_gem_object_has_tiling_quirk(obj));
 			i915_gem_object_make_unshrinkable(obj);
 			i915_gem_object_set_tiling_quirk(obj);
-=======
-			GEM_BUG_ON(!obj->mm.quirked);
-			__i915_gem_object_unpin_pages(obj);
-			obj->mm.quirked = false;
-		}
-		if (!i915_gem_object_is_tiled(obj)) {
-			GEM_BUG_ON(obj->mm.quirked);
-			__i915_gem_object_pin_pages(obj);
-			obj->mm.quirked = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
-	mutex_unlock(&obj->mm.lock);
 
 	spin_lock(&obj->vma.lock);
 	for_each_ggtt_vma(vma, obj) {

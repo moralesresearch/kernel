@@ -44,47 +44,20 @@ static int bnxt_fw_reporter_diagnose(struct devlink_health_reporter *reporter,
 				     struct netlink_ext_ack *extack)
 {
 	struct bnxt *bp = devlink_health_reporter_priv(reporter);
-<<<<<<< HEAD
 	u32 val;
-=======
-<<<<<<< HEAD
-	u32 val;
-=======
-	u32 val, health_status;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rc;
 
 	if (test_bit(BNXT_STATE_IN_FW_RESET, &bp->state))
 		return 0;
 
 	val = bnxt_fw_health_readl(bp, BNXT_FW_HEALTH_REG);
-<<<<<<< HEAD
 
 	if (BNXT_FW_IS_BOOTING(val)) {
-=======
-<<<<<<< HEAD
-
-	if (BNXT_FW_IS_BOOTING(val)) {
-=======
-	health_status = val & 0xffff;
-
-	if (health_status < BNXT_FW_STATUS_HEALTHY) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = devlink_fmsg_string_pair_put(fmsg, "Description",
 						  "Not yet completed initialization");
 		if (rc)
 			return rc;
-<<<<<<< HEAD
 	} else if (BNXT_FW_IS_ERR(val)) {
-=======
-<<<<<<< HEAD
-	} else if (BNXT_FW_IS_ERR(val)) {
-=======
-	} else if (health_status > BNXT_FW_STATUS_HEALTHY) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = devlink_fmsg_string_pair_put(fmsg, "Description",
 						  "Encountered fatal error and cannot recover");
 		if (rc)

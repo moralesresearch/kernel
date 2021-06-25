@@ -63,11 +63,8 @@ struct dpu_hw_dither_cfg {
  *  @setup_tearcheck : program tear check values
  *  @enable_tearcheck : enables tear check
  *  @get_vsync_info : retries timing info of the panel
-<<<<<<< HEAD
  *  @setup_autorefresh : configure and enable the autorefresh config
  *  @get_autorefresh : retrieve autorefresh config from hardware
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  @setup_dither : function to program the dither hw block
  *  @get_line_count: obtain current vertical line counter
  */
@@ -100,7 +97,6 @@ struct dpu_hw_pingpong_ops {
 			struct dpu_hw_pp_vsync_info  *info);
 
 	/**
-<<<<<<< HEAD
 	 * configure and enable the autorefresh config
 	 */
 	void (*setup_autorefresh)(struct dpu_hw_pingpong *pp,
@@ -113,8 +109,6 @@ struct dpu_hw_pingpong_ops {
 				u32 *frame_count);
 
 	/**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * poll until write pointer transmission starts
 	 * @Return: 0 on success, -ETIMEDOUT on timeout
 	 */

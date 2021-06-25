@@ -437,10 +437,7 @@ struct qeth_qdio_out_buffer {
 
 	struct qeth_qdio_out_q *q;
 	struct list_head list_entry;
-<<<<<<< HEAD
 	struct qaob *aob;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qeth_card;
@@ -503,10 +500,6 @@ struct qeth_out_q_stats {
 struct qeth_qdio_out_q {
 	struct qdio_buffer *qdio_bufs[QDIO_MAX_BUFFERS_PER_Q];
 	struct qeth_qdio_out_buffer *bufs[QDIO_MAX_BUFFERS_PER_Q];
-<<<<<<< HEAD
-=======
-	struct qdio_outbuf_state *bufstates; /* convenience pointer */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct list_head pending_bufs;
 	struct qeth_out_q_stats stats;
 	spinlock_t lock;
@@ -570,10 +563,6 @@ struct qeth_qdio_info {
 	/* output */
 	unsigned int no_out_queues;
 	struct qeth_qdio_out_q *out_qs[QETH_MAX_OUT_QUEUES];
-<<<<<<< HEAD
-=======
-	struct qdio_outbuf_state *out_bufstates;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* priority queueing */
 	int do_prio_queueing;
@@ -967,30 +956,6 @@ static inline int qeth_get_elements_for_range(addr_t start, addr_t end)
 	return PFN_UP(end) - PFN_DOWN(start);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static inline int qeth_get_ip_version(struct sk_buff *skb)
-{
-	struct vlan_ethhdr *veth = vlan_eth_hdr(skb);
-	__be16 prot = veth->h_vlan_proto;
-
-	if (prot == htons(ETH_P_8021Q))
-		prot = veth->h_vlan_encapsulated_proto;
-
-	switch (prot) {
-	case htons(ETH_P_IPV6):
-		return 6;
-	case htons(ETH_P_IP):
-		return 4;
-	default:
-		return 0;
-	}
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int qeth_get_ether_cast_type(struct sk_buff *skb)
 {
 	u8 *addr = eth_hdr(skb)->h_dest;
@@ -1001,26 +966,13 @@ static inline int qeth_get_ether_cast_type(struct sk_buff *skb)
 	return RTN_UNICAST;
 }
 
-<<<<<<< HEAD
 static inline struct dst_entry *qeth_dst_check_rcu(struct sk_buff *skb,
 						   __be16 proto)
-=======
-<<<<<<< HEAD
-static inline struct dst_entry *qeth_dst_check_rcu(struct sk_buff *skb,
-						   __be16 proto)
-=======
-static inline struct dst_entry *qeth_dst_check_rcu(struct sk_buff *skb, int ipv)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dst_entry *dst = skb_dst(skb);
 	struct rt6_info *rt;
 
 	rt = (struct rt6_info *) dst;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dst) {
 		if (proto == htons(ETH_P_IPV6))
 			dst = dst_check(dst, rt6_get_cookie(rt));
@@ -1028,13 +980,6 @@ static inline struct dst_entry *qeth_dst_check_rcu(struct sk_buff *skb, int ipv)
 			dst = dst_check(dst, 0);
 	}
 
-<<<<<<< HEAD
-=======
-=======
-	if (dst)
-		dst = dst_check(dst, (ipv == 6) ? rt6_get_cookie(rt) : 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return dst;
 }
 
@@ -1057,25 +1002,11 @@ static inline struct in6_addr *qeth_next_hop_v6_rcu(struct sk_buff *skb,
 		return &ipv6_hdr(skb)->daddr;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void qeth_tx_csum(struct sk_buff *skb, u8 *flags, __be16 proto)
 {
 	*flags |= QETH_HDR_EXT_CSUM_TRANSP_REQ;
 	if ((proto == htons(ETH_P_IP) && ip_hdr(skb)->protocol == IPPROTO_UDP) ||
 	    (proto == htons(ETH_P_IPV6) && ipv6_hdr(skb)->nexthdr == IPPROTO_UDP))
-<<<<<<< HEAD
-=======
-=======
-static inline void qeth_tx_csum(struct sk_buff *skb, u8 *flags, int ipv)
-{
-	*flags |= QETH_HDR_EXT_CSUM_TRANSP_REQ;
-	if ((ipv == 4 && ip_hdr(skb)->protocol == IPPROTO_UDP) ||
-	    (ipv == 6 && ipv6_hdr(skb)->nexthdr == IPPROTO_UDP))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*flags |= QETH_HDR_EXT_UDP;
 }
 
@@ -1124,18 +1055,8 @@ extern const struct device_type qeth_generic_devtype;
 
 const char *qeth_get_cardname_short(struct qeth_card *);
 int qeth_resize_buffer_pool(struct qeth_card *card, unsigned int count);
-<<<<<<< HEAD
 int qeth_setup_discipline(struct qeth_card *card, enum qeth_discipline_id disc);
 void qeth_remove_discipline(struct qeth_card *card);
-=======
-<<<<<<< HEAD
-int qeth_setup_discipline(struct qeth_card *card, enum qeth_discipline_id disc);
-void qeth_remove_discipline(struct qeth_card *card);
-=======
-int qeth_core_load_discipline(struct qeth_card *, enum qeth_discipline_id);
-void qeth_core_free_discipline(struct qeth_card *);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* exports for qeth discipline device drivers */
 extern struct kmem_cache *qeth_core_header_cache;
@@ -1212,23 +1133,10 @@ int qeth_stop(struct net_device *dev);
 
 int qeth_vm_request_mac(struct qeth_card *card);
 int qeth_xmit(struct qeth_card *card, struct sk_buff *skb,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	      struct qeth_qdio_out_q *queue, __be16 proto,
 	      void (*fill_header)(struct qeth_qdio_out_q *queue,
 				  struct qeth_hdr *hdr, struct sk_buff *skb,
 				  __be16 proto, unsigned int data_len));
-<<<<<<< HEAD
-=======
-=======
-	      struct qeth_qdio_out_q *queue, int ipv,
-	      void (*fill_header)(struct qeth_qdio_out_q *queue,
-				  struct qeth_hdr *hdr, struct sk_buff *skb,
-				  int ipv, unsigned int data_len));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* exports for OSN */
 int qeth_osn_assist(struct net_device *, void *, int);

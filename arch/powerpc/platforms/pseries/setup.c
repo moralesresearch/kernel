@@ -71,6 +71,7 @@
 #include <asm/swiotlb.h>
 #include <asm/svm.h>
 #include <asm/dtl.h>
+#include <asm/hvconsole.h>
 
 #include "pseries.h"
 #include "../../../../drivers/pci/pci.h"
@@ -85,6 +86,7 @@ EXPORT_SYMBOL(CMO_PageSize);
 
 int fwnmi_active;  /* TRUE if an FWNMI handler is present */
 int ibm_nmi_interlock_token;
+u32 pseries_security_flavor;
 
 static void pSeries_show_cpuinfo(struct seq_file *m)
 {
@@ -463,11 +465,7 @@ void pseries_little_endian_exceptions(void)
 }
 #endif
 
-<<<<<<< HEAD
 static void __init pSeries_discover_phbs(void)
-=======
-static void __init find_and_init_phbs(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device_node *node;
 	struct pci_controller *phb;
@@ -485,12 +483,9 @@ static void __init find_and_init_phbs(void)
 		pci_process_bridge_OF_ranges(phb, node, 0);
 		isa_bridge_find_early(phb);
 		phb->controller_ops = pseries_pci_controller_ops;
-<<<<<<< HEAD
 
 		/* create pci_dn's for DT nodes under this PHB */
 		pci_devs_phb_init_dynamic(phb);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	of_node_put(root);
@@ -541,9 +536,15 @@ static void init_cpu_char_feature_flags(struct h_cpu_char_result *result)
 	/*
 	 * The features below are enabled by default, so we instead look to see
 	 * if firmware has *disabled* them, and clear them if so.
+	 * H_CPU_BEHAV_FAVOUR_SECURITY_H could be set only if
+	 * H_CPU_BEHAV_FAVOUR_SECURITY is.
 	 */
 	if (!(result->behaviour & H_CPU_BEHAV_FAVOUR_SECURITY))
 		security_ftr_clear(SEC_FTR_FAVOUR_SECURITY);
+	else if (result->behaviour & H_CPU_BEHAV_FAVOUR_SECURITY_H)
+		pseries_security_flavor = 1;
+	else
+		pseries_security_flavor = 2;
 
 	if (!(result->behaviour & H_CPU_BEHAV_L1D_FLUSH_PR))
 		security_ftr_clear(SEC_FTR_L1D_FLUSH_PR);
@@ -617,13 +618,8 @@ enum get_iov_fw_value_index {
 	WDW_SIZE      = 3     /*  Get Window Size */
 };
 
-<<<<<<< HEAD
 static resource_size_t pseries_get_iov_fw_value(struct pci_dev *dev, int resno,
 						enum get_iov_fw_value_index value)
-=======
-resource_size_t pseries_get_iov_fw_value(struct pci_dev *dev, int resno,
-					 enum get_iov_fw_value_index value)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const int *indexes;
 	struct device_node *dn = pci_device_to_OF_node(dev);
@@ -658,11 +654,7 @@ resource_size_t pseries_get_iov_fw_value(struct pci_dev *dev, int resno,
 	return ret;
 }
 
-<<<<<<< HEAD
 static void of_pci_set_vf_bar_size(struct pci_dev *dev, const int *indexes)
-=======
-void of_pci_set_vf_bar_size(struct pci_dev *dev, const int *indexes)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct resource *res;
 	resource_size_t base, size;
@@ -684,11 +676,7 @@ void of_pci_set_vf_bar_size(struct pci_dev *dev, const int *indexes)
 	}
 }
 
-<<<<<<< HEAD
 static void of_pci_parse_iov_addrs(struct pci_dev *dev, const int *indexes)
-=======
-void of_pci_parse_iov_addrs(struct pci_dev *dev, const int *indexes)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct resource *res, *root, *conflict;
 	resource_size_t base, size;
@@ -809,10 +797,6 @@ static void __init pSeries_setup_arch(void)
 
 	/* Find and initialize PCI host bridges */
 	init_pci_config_tokens();
-<<<<<<< HEAD
-=======
-	find_and_init_phbs();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_reconfig_notifier_register(&pci_dn_reconfig_nb);
 
 	pSeries_nvram_init();
@@ -1076,10 +1060,7 @@ define_machine(pseries) {
 	.init_IRQ		= pseries_init_irq,
 	.show_cpuinfo		= pSeries_show_cpuinfo,
 	.log_error		= pSeries_log_error,
-<<<<<<< HEAD
 	.discover_phbs		= pSeries_discover_phbs,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.pcibios_fixup		= pSeries_final_fixup,
 	.restart		= rtas_restart,
 	.halt			= rtas_halt,

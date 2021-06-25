@@ -63,13 +63,8 @@ struct led_hw_trigger_type {
 
 struct led_classdev {
 	const char		*name;
-<<<<<<< HEAD
 	unsigned int brightness;
 	unsigned int max_brightness;
-=======
-	enum led_brightness	 brightness;
-	enum led_brightness	 max_brightness;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			 flags;
 
 	/* Lower 16 bits reflect status */
@@ -258,12 +253,7 @@ void led_blink_set_oneshot(struct led_classdev *led_cdev,
  * software blink timer that implements blinking when the
  * hardware doesn't. This function is guaranteed not to sleep.
  */
-<<<<<<< HEAD
 void led_set_brightness(struct led_classdev *led_cdev, unsigned int brightness);
-=======
-void led_set_brightness(struct led_classdev *led_cdev,
-			enum led_brightness brightness);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * led_set_brightness_sync - set LED brightness synchronously
@@ -276,12 +266,7 @@ void led_set_brightness(struct led_classdev *led_cdev,
  *
  * Returns: 0 on success or negative error value on failure
  */
-<<<<<<< HEAD
 int led_set_brightness_sync(struct led_classdev *led_cdev, unsigned int value);
-=======
-int led_set_brightness_sync(struct led_classdev *led_cdev,
-			    enum led_brightness value);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * led_update_brightness - update LED brightness
@@ -578,11 +563,7 @@ static inline void ledtrig_cpu(enum cpu_led_event evt)
 
 #ifdef CONFIG_LEDS_BRIGHTNESS_HW_CHANGED
 void led_classdev_notify_brightness_hw_changed(
-<<<<<<< HEAD
 	struct led_classdev *led_cdev, unsigned int brightness);
-=======
-	struct led_classdev *led_cdev, enum led_brightness brightness);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline void led_classdev_notify_brightness_hw_changed(
 	struct led_classdev *led_cdev, enum led_brightness brightness) { }

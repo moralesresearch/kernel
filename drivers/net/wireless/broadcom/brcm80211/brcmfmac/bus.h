@@ -275,7 +275,6 @@ void brcmf_bus_add_txhdrlen(struct device *dev, uint len);
 
 #ifdef CONFIG_BRCMFMAC_SDIO
 void brcmf_sdio_exit(void);
-<<<<<<< HEAD
 int brcmf_sdio_register(void);
 #else
 static inline void brcmf_sdio_exit(void) { }
@@ -296,13 +295,6 @@ int brcmf_pcie_register(void);
 #else
 static inline void brcmf_pcie_exit(void) { }
 static inline int brcmf_pcie_register(void) { return 0; }
-=======
-void brcmf_sdio_register(void);
-#endif
-#ifdef CONFIG_BRCMFMAC_USB
-void brcmf_usb_exit(void);
-void brcmf_usb_register(void);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* BRCMFMAC_BUS_H */

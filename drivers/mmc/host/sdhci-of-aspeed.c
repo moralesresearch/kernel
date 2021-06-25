@@ -6,10 +6,7 @@
 #include <linux/delay.h>
 #include <linux/device.h>
 #include <linux/io.h>
-<<<<<<< HEAD
 #include <linux/math64.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mmc/host.h>
 #include <linux/module.h>
 #include <linux/of_address.h>
@@ -20,7 +17,6 @@
 
 #include "sdhci-pltfm.h"
 
-<<<<<<< HEAD
 #define ASPEED_SDC_INFO			0x00
 #define   ASPEED_SDC_S1_MMC8		BIT(25)
 #define   ASPEED_SDC_S0_MMC8		BIT(24)
@@ -34,11 +30,6 @@
 #define   ASPEED_SDC_S0_PHASE_IN_EN	BIT(2)
 #define   ASPEED_SDC_S0_PHASE_OUT_EN	GENMASK(1, 0)
 #define   ASPEED_SDC_PHASE_MAX		31
-=======
-#define ASPEED_SDC_INFO		0x00
-#define   ASPEED_SDC_S1MMC8	BIT(25)
-#define   ASPEED_SDC_S0MMC8	BIT(24)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct aspeed_sdc {
 	struct clk *clk;
@@ -48,7 +39,6 @@ struct aspeed_sdc {
 	void __iomem *regs;
 };
 
-<<<<<<< HEAD
 struct aspeed_sdhci_tap_param {
 	bool valid;
 
@@ -80,11 +70,6 @@ struct aspeed_sdhci {
 	u32 width_mask;
 	struct mmc_clk_phase_map phase_map;
 	const struct aspeed_sdhci_phase_desc *phase_desc;
-=======
-struct aspeed_sdhci {
-	struct aspeed_sdc *parent;
-	u32 width_mask;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
@@ -104,7 +89,6 @@ static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
 	spin_unlock(&sdc->lock);
 }
 
-<<<<<<< HEAD
 static u32
 aspeed_sdc_set_phase_tap(const struct aspeed_sdhci_tap_desc *desc,
 			 u8 tap, bool enable, u32 reg)
@@ -197,7 +181,7 @@ aspeed_sdhci_configure_phase(struct sdhci_host *host, unsigned long rate)
 	struct aspeed_sdhci *sdhci;
 	struct device *dev;
 
-	dev = host->mmc->parent;
+	dev = mmc_dev(host->mmc);
 	sdhci = sdhci_pltfm_priv(sdhci_priv(host));
 
 	if (!sdhci->phase_desc)
@@ -218,21 +202,12 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
 	struct sdhci_pltfm_host *pltfm_host;
 	unsigned long parent, bus;
 	struct aspeed_sdhci *sdhci;
-=======
-static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
-{
-	struct sdhci_pltfm_host *pltfm_host;
-	unsigned long parent;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int div;
 	u16 clk;
 
 	pltfm_host = sdhci_priv(host);
-<<<<<<< HEAD
 	sdhci = sdhci_pltfm_priv(pltfm_host);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	parent = clk_get_rate(pltfm_host->clk);
 
 	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
@@ -243,7 +218,6 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
 	if (WARN_ON(clock > host->max_clk))
 		clock = host->max_clk;
 
-<<<<<<< HEAD
 	/*
 	 * Regarding the AST2600:
 	 *
@@ -266,21 +240,12 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
 			break;
 	}
 
-=======
-	for (div = 2; div < 256; div *= 2) {
-		if ((parent / div) <= clock)
-			break;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	div >>= 1;
 
 	clk = div << SDHCI_DIVIDER_SHIFT;
 
-<<<<<<< HEAD
 	aspeed_sdhci_configure_phase(host, bus);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sdhci_enable_clk(host, clk);
 }
 
@@ -362,10 +327,7 @@ static inline int aspeed_sdhci_calculate_slot(struct aspeed_sdhci *dev,
 
 static int aspeed_sdhci_probe(struct platform_device *pdev)
 {
-<<<<<<< HEAD
 	const struct aspeed_sdhci_pdata *aspeed_pdata;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sdhci_pltfm_host *pltfm_host;
 	struct aspeed_sdhci *dev;
 	struct sdhci_host *host;
@@ -373,25 +335,19 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
 	int slot;
 	int ret;
 
-<<<<<<< HEAD
 	aspeed_pdata = of_device_get_match_data(&pdev->dev);
 	if (!aspeed_pdata) {
 		dev_err(&pdev->dev, "Missing platform configuration data\n");
 		return -EINVAL;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	host = sdhci_pltfm_init(pdev, &aspeed_sdhci_pdata, sizeof(*dev));
 	if (IS_ERR(host))
 		return PTR_ERR(host);
 
 	pltfm_host = sdhci_priv(host);
 	dev = sdhci_pltfm_priv(pltfm_host);
-<<<<<<< HEAD
 	dev->pdata = aspeed_pdata;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->parent = dev_get_drvdata(pdev->dev.parent);
 
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
@@ -402,7 +358,6 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
 	else if (slot >= 2)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (slot < dev->pdata->nr_phase_descs) {
 		dev->phase_desc = &dev->pdata->phase_desc[slot];
 	} else {
@@ -414,10 +369,6 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
 	dev->width_mask = !slot ? ASPEED_SDC_S0_MMC8 : ASPEED_SDC_S1_MMC8;
 
 	dev_info(&pdev->dev, "Configured for slot %d\n", slot);
-=======
-	dev_info(&pdev->dev, "Configuring for slot %d\n", slot);
-	dev->width_mask = !slot ? ASPEED_SDC_S0MMC8 : ASPEED_SDC_S1MMC8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sdhci_get_of_property(pdev);
 
@@ -435,12 +386,9 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
 	if (ret)
 		goto err_sdhci_add;
 
-<<<<<<< HEAD
 	if (dev->phase_desc)
 		mmc_of_parse_clk_phase(host->mmc, &dev->phase_map);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = sdhci_add_host(host);
 	if (ret)
 		goto err_sdhci_add;
@@ -472,7 +420,6 @@ static int aspeed_sdhci_remove(struct platform_device *pdev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static const struct aspeed_sdhci_pdata ast2400_sdhci_pdata = {
 	.clk_div_start = 2,
 };
@@ -516,12 +463,6 @@ static const struct of_device_id aspeed_sdhci_of_match[] = {
 	{ .compatible = "aspeed,ast2400-sdhci", .data = &ast2400_sdhci_pdata, },
 	{ .compatible = "aspeed,ast2500-sdhci", .data = &ast2400_sdhci_pdata, },
 	{ .compatible = "aspeed,ast2600-sdhci", .data = &ast2600_sdhci_pdata, },
-=======
-static const struct of_device_id aspeed_sdhci_of_match[] = {
-	{ .compatible = "aspeed,ast2400-sdhci", },
-	{ .compatible = "aspeed,ast2500-sdhci", },
-	{ .compatible = "aspeed,ast2600-sdhci", },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 
@@ -615,7 +556,6 @@ static struct platform_driver aspeed_sdc_driver = {
 	.remove		= aspeed_sdc_remove,
 };
 
-<<<<<<< HEAD
 #if defined(CONFIG_MMC_SDHCI_OF_ASPEED_TEST)
 #include "sdhci-of-aspeed-test.c"
 
@@ -639,8 +579,6 @@ static inline void aspeed_sdc_tests_exit(void)
 }
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init aspeed_sdc_init(void)
 {
 	int rc;
@@ -651,7 +589,6 @@ static int __init aspeed_sdc_init(void)
 
 	rc = platform_driver_register(&aspeed_sdc_driver);
 	if (rc < 0)
-<<<<<<< HEAD
 		goto cleanup_sdhci;
 
 	rc = aspeed_sdc_tests_init();
@@ -664,9 +601,6 @@ static int __init aspeed_sdc_init(void)
 
 cleanup_sdhci:
 	platform_driver_unregister(&aspeed_sdhci_driver);
-=======
-		platform_driver_unregister(&aspeed_sdhci_driver);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return rc;
 }
@@ -674,11 +608,8 @@ module_init(aspeed_sdc_init);
 
 static void __exit aspeed_sdc_exit(void)
 {
-<<<<<<< HEAD
 	aspeed_sdc_tests_exit();
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_driver_unregister(&aspeed_sdc_driver);
 	platform_driver_unregister(&aspeed_sdhci_driver);
 }

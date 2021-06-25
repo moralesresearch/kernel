@@ -79,11 +79,7 @@ void dal_irq_service_destroy(struct irq_service **irq_service)
 	*irq_service = NULL;
 }
 
-<<<<<<< HEAD
 static const struct irq_source_info *find_irq_source_info(
-=======
-const struct irq_source_info *find_irq_source_info(
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct irq_service *irq_service,
 	enum dc_irq_source source)
 {

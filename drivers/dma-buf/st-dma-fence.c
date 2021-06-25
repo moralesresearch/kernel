@@ -471,16 +471,11 @@ static int thread_signal_callback(void *arg)
 			dma_fence_signal(f1);
 
 		smp_store_mb(cb.seen, false);
-<<<<<<< HEAD
 		if (!f2 ||
 		    dma_fence_add_callback(f2, &cb.cb, simple_callback)) {
 			miss++;
 			cb.seen = true;
 		}
-=======
-		if (!f2 || dma_fence_add_callback(f2, &cb.cb, simple_callback))
-			miss++, cb.seen = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!t->before)
 			dma_fence_signal(f1);

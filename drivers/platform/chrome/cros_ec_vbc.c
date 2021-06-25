@@ -101,11 +101,7 @@ static struct bin_attribute *cros_ec_vbc_bin_attrs[] = {
 	NULL
 };
 
-<<<<<<< HEAD
 static const struct attribute_group cros_ec_vbc_attr_group = {
-=======
-static struct attribute_group cros_ec_vbc_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "vbc",
 	.bin_attrs = cros_ec_vbc_bin_attrs,
 };

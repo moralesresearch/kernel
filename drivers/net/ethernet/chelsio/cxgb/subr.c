@@ -170,11 +170,7 @@ void t1_link_changed(adapter_t *adapter, int port_id)
 	t1_link_negotiated(adapter, port_id, link_ok, speed, duplex, fc);
 }
 
-<<<<<<< HEAD
 static bool t1_pci_intr_handler(adapter_t *adapter)
-=======
-static int t1_pci_intr_handler(adapter_t *adapter)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 pcix_cause;
 
@@ -183,7 +179,6 @@ static int t1_pci_intr_handler(adapter_t *adapter)
 	if (pcix_cause) {
 		pci_write_config_dword(adapter->pdev, A_PCICFG_INTR_CAUSE,
 				       pcix_cause);
-<<<<<<< HEAD
 		/* PCI errors are fatal */
 		t1_interrupts_disable(adapter);
 		adapter->pending_thread_intr |= F_PL_INTR_SGE_ERR;
@@ -191,11 +186,6 @@ static int t1_pci_intr_handler(adapter_t *adapter)
 		return true;
 	}
 	return false;
-=======
-		t1_fatal_err(adapter);    /* PCI errors are fatal */
-	}
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_CHELSIO_T1_1G
@@ -224,7 +214,6 @@ static int fpga_phy_intr_handler(adapter_t *adapter)
 /*
  * Slow path interrupt handler for FPGAs.
  */
-<<<<<<< HEAD
 static irqreturn_t fpga_slow_intr(adapter_t *adapter)
 {
 	u32 cause = readl(adapter->regs + A_PL_CAUSE);
@@ -235,15 +224,6 @@ static irqreturn_t fpga_slow_intr(adapter_t *adapter)
 		if (t1_sge_intr_error_handler(adapter->sge))
 			ret = IRQ_WAKE_THREAD;
 	}
-=======
-static int fpga_slow_intr(adapter_t *adapter)
-{
-	u32 cause = readl(adapter->regs + A_PL_CAUSE);
-
-	cause &= ~F_PL_INTR_SGE_DATA;
-	if (cause & F_PL_INTR_SGE_ERR)
-		t1_sge_intr_error_handler(adapter->sge);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cause & FPGA_PCIX_INTERRUPT_GMAC)
 		fpga_phy_intr_handler(adapter);
@@ -258,28 +238,19 @@ static int fpga_slow_intr(adapter_t *adapter)
 		/* Clear TP interrupt */
 		writel(tp_cause, adapter->regs + FPGA_TP_ADDR_INTERRUPT_CAUSE);
 	}
-<<<<<<< HEAD
 	if (cause & FPGA_PCIX_INTERRUPT_PCIX) {
 		if (t1_pci_intr_handler(adapter))
 			ret = IRQ_WAKE_THREAD;
 	}
-=======
-	if (cause & FPGA_PCIX_INTERRUPT_PCIX)
-		t1_pci_intr_handler(adapter);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Clear the interrupts just processed. */
 	if (cause)
 		writel(cause, adapter->regs + A_PL_CAUSE);
 
-<<<<<<< HEAD
 	if (ret != IRQ_NONE)
 		return ret;
 
 	return cause == 0 ? IRQ_NONE : IRQ_HANDLED;
-=======
-	return cause != 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
@@ -883,7 +854,6 @@ void t1_interrupts_clear(adapter_t* adapter)
 /*
  * Slow path interrupt handler for ASICs.
  */
-<<<<<<< HEAD
 static irqreturn_t asic_slow_intr(adapter_t *adapter)
 {
 	u32 cause = readl(adapter->regs + A_PL_CAUSE);
@@ -896,22 +866,10 @@ static irqreturn_t asic_slow_intr(adapter_t *adapter)
 		if (t1_sge_intr_error_handler(adapter->sge))
 			ret = IRQ_WAKE_THREAD;
 	}
-=======
-static int asic_slow_intr(adapter_t *adapter)
-{
-	u32 cause = readl(adapter->regs + A_PL_CAUSE);
-
-	cause &= adapter->slow_intr_mask;
-	if (!cause)
-		return 0;
-	if (cause & F_PL_INTR_SGE_ERR)
-		t1_sge_intr_error_handler(adapter->sge);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (cause & F_PL_INTR_TP)
 		t1_tp_intr_handler(adapter->tp);
 	if (cause & F_PL_INTR_ESPI)
 		t1_espi_intr_handler(adapter->espi);
-<<<<<<< HEAD
 	if (cause & F_PL_INTR_PCIX) {
 		if (t1_pci_intr_handler(adapter))
 			ret = IRQ_WAKE_THREAD;
@@ -927,27 +885,14 @@ static int asic_slow_intr(adapter_t *adapter)
 		       adapter->regs + A_PL_ENABLE);
 		ret = IRQ_WAKE_THREAD;
 	}
-=======
-	if (cause & F_PL_INTR_PCIX)
-		t1_pci_intr_handler(adapter);
-	if (cause & F_PL_INTR_EXT)
-		t1_elmer0_ext_intr(adapter);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Clear the interrupts just processed. */
 	writel(cause, adapter->regs + A_PL_CAUSE);
 	readl(adapter->regs + A_PL_CAUSE); /* flush writes */
-<<<<<<< HEAD
 	return ret;
 }
 
 irqreturn_t t1_slow_intr_handler(adapter_t *adapter)
-=======
-	return 1;
-}
-
-int t1_slow_intr_handler(adapter_t *adapter)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #ifdef CONFIG_CHELSIO_T1_1G
 	if (!t1_is_asic(adapter))

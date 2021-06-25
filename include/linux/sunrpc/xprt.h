@@ -247,6 +247,7 @@ struct rpc_xprt {
 	struct rpc_task *	snd_task;	/* Task blocked in send */
 
 	struct list_head	xmit_queue;	/* Send queue */
+	atomic_long_t		xmit_queuelen;
 
 	struct svc_xprt		*bc_xprt;	/* NFSv4.1 backchannel */
 #if defined(CONFIG_SUNRPC_BACKCHANNEL)
@@ -367,11 +368,8 @@ struct rpc_xprt *	xprt_alloc(struct net *net, size_t size,
 				unsigned int num_prealloc,
 				unsigned int max_req);
 void			xprt_free(struct rpc_xprt *);
-<<<<<<< HEAD
 void			xprt_add_backlog(struct rpc_xprt *xprt, struct rpc_task *task);
 bool			xprt_wake_up_backlog(struct rpc_xprt *xprt, struct rpc_rqst *req);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int
 xprt_enable_swap(struct rpc_xprt *xprt)

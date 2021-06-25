@@ -210,10 +210,7 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
 {
 	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
-<<<<<<< HEAD
 	struct vc4_dev *vc4 = to_vc4_dev(vc4_crtc->base.dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 fifo_len_bytes = pv_data->fifo_depth;
 
 	/*
@@ -242,7 +239,6 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
 		if (crtc_data->hvs_output == 5)
 			return 32;
 
-<<<<<<< HEAD
 		/*
 		 * It looks like in some situations, we will overflow
 		 * the PixelValve FIFO (with the bit 10 of PV stat being
@@ -259,8 +255,6 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
 		if (!vc4->hvs->hvs5)
 			return fifo_len_bytes - 3 * HVS_FIFO_LATENCY_PIX - 1;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return fifo_len_bytes - 3 * HVS_FIFO_LATENCY_PIX;
 	}
 }
@@ -426,13 +420,9 @@ static void require_hvs_enabled(struct drm_device *dev)
 		     SCALER_DISPCTRL_ENABLE);
 }
 
-<<<<<<< HEAD
 static int vc4_crtc_disable(struct drm_crtc *crtc,
 			    struct drm_atomic_state *state,
 			    unsigned int channel)
-=======
-static int vc4_crtc_disable(struct drm_crtc *crtc, unsigned int channel)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc);
 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
@@ -464,21 +454,13 @@ static int vc4_crtc_disable(struct drm_crtc *crtc, unsigned int channel)
 	mdelay(20);
 
 	if (vc4_encoder && vc4_encoder->post_crtc_disable)
-<<<<<<< HEAD
 		vc4_encoder->post_crtc_disable(encoder, state);
-=======
-		vc4_encoder->post_crtc_disable(encoder);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vc4_crtc_pixelvalve_reset(crtc);
 	vc4_hvs_stop_channel(dev, channel);
 
 	if (vc4_encoder && vc4_encoder->post_crtc_powerdown)
-<<<<<<< HEAD
 		vc4_encoder->post_crtc_powerdown(encoder, state);
-=======
-		vc4_encoder->post_crtc_powerdown(encoder);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -505,11 +487,7 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
 	if (channel < 0)
 		return 0;
 
-<<<<<<< HEAD
 	return vc4_crtc_disable(crtc, NULL, channel);
-=======
-	return vc4_crtc_disable(crtc, channel);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
@@ -525,11 +503,7 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
 	/* Disable vblank irq handling before crtc is disabled. */
 	drm_crtc_vblank_off(crtc);
 
-<<<<<<< HEAD
 	vc4_crtc_disable(crtc, state, old_vc4_state->assigned_channel);
-=======
-	vc4_crtc_disable(crtc, old_vc4_state->assigned_channel);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Make sure we issue a vblank event after disabling the CRTC if
@@ -548,11 +522,6 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
 static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
 				   struct drm_atomic_state *state)
 {
-<<<<<<< HEAD
-=======
-	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
-									 crtc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_device *dev = crtc->dev;
 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc);
@@ -565,28 +534,17 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
 	 */
 	drm_crtc_vblank_on(crtc);
 
-<<<<<<< HEAD
 	vc4_hvs_atomic_enable(crtc, state);
 
 	if (vc4_encoder->pre_crtc_configure)
 		vc4_encoder->pre_crtc_configure(encoder, state);
-=======
-	vc4_hvs_atomic_enable(crtc, old_state);
-
-	if (vc4_encoder->pre_crtc_configure)
-		vc4_encoder->pre_crtc_configure(encoder);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vc4_crtc_config_pv(crtc);
 
 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
 
 	if (vc4_encoder->pre_crtc_enable)
-<<<<<<< HEAD
 		vc4_encoder->pre_crtc_enable(encoder, state);
-=======
-		vc4_encoder->pre_crtc_enable(encoder);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* When feeding the transposer block the pixelvalve is unneeded and
 	 * should not be enabled.
@@ -595,11 +553,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
 		   CRTC_READ(PV_V_CONTROL) | PV_VCONTROL_VIDEN);
 
 	if (vc4_encoder->post_crtc_enable)
-<<<<<<< HEAD
 		vc4_encoder->post_crtc_enable(encoder, state);
-=======
-		vc4_encoder->post_crtc_enable(encoder);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum drm_mode_status vc4_crtc_mode_valid(struct drm_crtc *crtc,
@@ -656,11 +610,7 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
 	struct drm_connector_state *conn_state;
 	int ret, i;
 
-<<<<<<< HEAD
 	ret = vc4_hvs_atomic_check(crtc, state);
-=======
-	ret = vc4_hvs_atomic_check(crtc, crtc_state);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -764,10 +714,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
 		container_of(cb, struct vc4_async_flip_state, cb);
 	struct drm_crtc *crtc = flip_state->crtc;
 	struct drm_device *dev = crtc->dev;
-<<<<<<< HEAD
-=======
-	struct vc4_dev *vc4 = to_vc4_dev(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_plane *plane = crtc->primary;
 
 	vc4_plane_async_set_fb(plane, flip_state->fb);
@@ -799,11 +745,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
 	}
 
 	kfree(flip_state);
-<<<<<<< HEAD
-=======
-
-	up(&vc4->async_modeset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Implements async (non-vblank-synced) page flips.
@@ -818,10 +759,6 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
 			       uint32_t flags)
 {
 	struct drm_device *dev = crtc->dev;
-<<<<<<< HEAD
-=======
-	struct vc4_dev *vc4 = to_vc4_dev(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_plane *plane = crtc->primary;
 	int ret = 0;
 	struct vc4_async_flip_state *flip_state;
@@ -850,18 +787,6 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
 	flip_state->crtc = crtc;
 	flip_state->event = event;
 
-<<<<<<< HEAD
-=======
-	/* Make sure all other async modesetes have landed. */
-	ret = down_interruptible(&vc4->async_modeset);
-	if (ret) {
-		drm_framebuffer_put(fb);
-		vc4_bo_dec_usecnt(bo);
-		kfree(flip_state);
-		return ret;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Save the current FB before it's replaced by the new one in
 	 * drm_atomic_set_fb_for_plane(). We'll need the old FB in
 	 * vc4_async_page_flip_complete() to decrement the BO usecnt and keep
@@ -963,10 +888,6 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
 	.reset = vc4_crtc_reset,
 	.atomic_duplicate_state = vc4_crtc_duplicate_state,
 	.atomic_destroy_state = vc4_crtc_destroy_state,
-<<<<<<< HEAD
-=======
-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.enable_vblank = vc4_enable_vblank,
 	.disable_vblank = vc4_disable_vblank,
 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,

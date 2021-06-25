@@ -62,13 +62,10 @@
 
 #define DPNI_CMDID_SET_RX_TC_DIST			DPNI_CMD(0x235)
 
-<<<<<<< HEAD
 #define DPNI_CMDID_ENABLE_VLAN_FILTER			DPNI_CMD(0x230)
 #define DPNI_CMDID_ADD_VLAN_ID				DPNI_CMD_V2(0x231)
 #define DPNI_CMDID_REMOVE_VLAN_ID			DPNI_CMD(0x232)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DPNI_CMDID_SET_QOS_TBL				DPNI_CMD(0x240)
 #define DPNI_CMDID_ADD_QOS_ENT				DPNI_CMD(0x241)
 #define DPNI_CMDID_REMOVE_QOS_ENT			DPNI_CMD(0x242)
@@ -669,7 +666,6 @@ struct dpni_rsp_single_step_cfg {
 	__le32 peer_delay;
 };
 
-<<<<<<< HEAD
 struct dpni_cmd_enable_vlan_filter {
 	/* only the LSB */
 	u8 en;
@@ -683,6 +679,4 @@ struct dpni_cmd_vlan_id {
 	__le16 vlan_id;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _FSL_DPNI_CMD_H */

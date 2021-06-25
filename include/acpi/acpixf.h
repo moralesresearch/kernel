@@ -3,11 +3,7 @@
  *
  * Name: acpixf.h - External interfaces to the ACPI subsystem
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -16,11 +12,7 @@
 
 /* Current ACPICA subsystem version in YYYYMMDD format */
 
-<<<<<<< HEAD
-#define ACPI_CA_VERSION                 0x20210105
-=======
-#define ACPI_CA_VERSION                 0x20201113
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#define ACPI_CA_VERSION                 0x20210331
 
 #include <acpi/acconfig.h>
 #include <acpi/actypes.h>

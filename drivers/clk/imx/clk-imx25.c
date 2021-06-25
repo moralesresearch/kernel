@@ -73,19 +73,6 @@ enum mx25_clks {
 
 static struct clk *clk[clk_max];
 
-<<<<<<< HEAD
-=======
-static struct clk ** const uart_clks[] __initconst = {
-	&clk[uart_ipg_per],
-	&clk[uart1_ipg],
-	&clk[uart2_ipg],
-	&clk[uart3_ipg],
-	&clk[uart4_ipg],
-	&clk[uart5_ipg],
-	NULL
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init __mx25_clocks_init(void __iomem *ccm_base)
 {
 	BUG_ON(!ccm_base);
@@ -231,11 +218,7 @@ static int __init __mx25_clocks_init(void __iomem *ccm_base)
 	 */
 	clk_set_parent(clk[cko_sel], clk[ipg]);
 
-<<<<<<< HEAD
 	imx_register_uart_clocks(6);
-=======
-	imx_register_uart_clocks(uart_clks);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

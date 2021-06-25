@@ -74,11 +74,7 @@ bus supply voltage.
 
 The shunt value in micro-ohms can be set via platform data or device tree at
 compile-time or via the shunt_resistor attribute in sysfs at run-time. Please
-<<<<<<< HEAD
 refer to the Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml for bindings
-=======
-refer to the Documentation/devicetree/bindings/hwmon/ina2xx.txt for bindings
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 if the device tree is used.
 
 Additionally ina226 supports update_interval attribute as described in

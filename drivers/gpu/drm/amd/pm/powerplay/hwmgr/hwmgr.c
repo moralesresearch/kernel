@@ -33,10 +33,7 @@
 #include "ppsmc.h"
 #include "amd_acpi.h"
 #include "pp_psm.h"
-<<<<<<< HEAD
 #include "vega10_hwmgr.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern const struct pp_smumgr_func ci_smu_funcs;
 extern const struct pp_smumgr_func smu8_smu_funcs;
@@ -50,10 +47,6 @@ extern const struct pp_smumgr_func vega12_smu_funcs;
 extern const struct pp_smumgr_func smu10_smu_funcs;
 extern const struct pp_smumgr_func vega20_smu_funcs;
 
-<<<<<<< HEAD
-=======
-extern int vega10_hwmgr_init(struct pp_hwmgr *hwmgr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int smu10_init_function_pointers(struct pp_hwmgr *hwmgr);
 
 static int polaris_set_asic_special_caps(struct pp_hwmgr *hwmgr);

@@ -371,12 +371,7 @@ int ext4_mpage_readpages(struct inode *inode,
 			 * bio_alloc will _always_ be able to allocate a bio if
 			 * __GFP_DIRECT_RECLAIM is set, see bio_alloc_bioset().
 			 */
-<<<<<<< HEAD
 			bio = bio_alloc(GFP_KERNEL, bio_max_segs(nr_pages));
-=======
-			bio = bio_alloc(GFP_KERNEL,
-				min_t(int, nr_pages, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			fscrypt_set_bio_crypt_ctx(bio, inode, next_block,
 						  GFP_KERNEL);
 			ext4_set_bio_post_read_ctx(bio, inode, page->index);

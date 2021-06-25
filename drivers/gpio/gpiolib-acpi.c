@@ -1291,6 +1291,13 @@ void acpi_gpiochip_remove(struct gpio_chip *chip)
 	kfree(acpi_gpio);
 }
 
+void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev)
+{
+	/* Set default fwnode to parent's one if present */
+	if (gc->parent)
+		ACPI_COMPANION_SET(&gdev->dev, ACPI_COMPANION(gc->parent));
+}
+
 static int acpi_gpio_package_count(const union acpi_object *obj)
 {
 	const union acpi_object *element = obj->package.elements;
@@ -1440,7 +1447,6 @@ static const struct dmi_system_id gpiolib_acpi_quirks[] __initconst = {
 	},
 	{
 		/*
-<<<<<<< HEAD
 		 * The Dell Venue 10 Pro 5055, with Bay Trail SoC + TI PMIC uses an
 		 * external embedded-controller connected via I2C + an ACPI GPIO
 		 * event handler on INT33FFC:02 pin 12, causing spurious wakeups.
@@ -1455,8 +1461,6 @@ static const struct dmi_system_id gpiolib_acpi_quirks[] __initconst = {
 	},
 	{
 		/*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * HP X2 10 models with Cherry Trail SoC + TI PMIC use an
 		 * external embedded-controller connected via I2C + an ACPI GPIO
 		 * event handler on INT33FF:01 pin 0, causing spurious wakeups.

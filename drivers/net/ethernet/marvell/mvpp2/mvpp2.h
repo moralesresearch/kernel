@@ -60,12 +60,9 @@
 /* Top Registers */
 #define MVPP2_MH_REG(port)			(0x5040 + 4 * (port))
 #define MVPP2_DSA_EXTENDED			BIT(5)
-<<<<<<< HEAD
 #define MVPP2_VER_ID_REG			0x50b0
 #define MVPP2_VER_PP22				0x10
 #define MVPP2_VER_PP23				0x11
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Parser Registers */
 #define MVPP2_PRS_INIT_LOOKUP_REG		0x1000
@@ -298,11 +295,8 @@
 #define     MVPP2_PON_CAUSE_TXP_OCCUP_DESC_ALL_MASK	0x3fc00000
 #define     MVPP2_PON_CAUSE_MISC_SUM_MASK		BIT(31)
 #define MVPP2_ISR_MISC_CAUSE_REG		0x55b0
-<<<<<<< HEAD
 #define MVPP2_ISR_RX_ERR_CAUSE_REG(port)	(0x5520 + 4 * (port))
 #define     MVPP2_ISR_RX_ERR_CAUSE_NONOCC_MASK	0x00ff
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Buffer Manager registers */
 #define MVPP2_BM_POOL_BASE_REG(pool)		(0x6000 + ((pool) * 4))
@@ -330,13 +324,10 @@
 #define     MVPP2_BM_HIGH_THRESH_MASK		0x7f0000
 #define     MVPP2_BM_HIGH_THRESH_VALUE(val)	((val) << \
 						MVPP2_BM_HIGH_THRESH_OFFS)
-<<<<<<< HEAD
 #define     MVPP2_BM_BPPI_HIGH_THRESH		0x1E
 #define     MVPP2_BM_BPPI_LOW_THRESH		0x1C
 #define     MVPP23_BM_BPPI_HIGH_THRESH		0x34
 #define     MVPP23_BM_BPPI_LOW_THRESH		0x28
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP2_BM_INTR_CAUSE_REG(pool)		(0x6240 + ((pool) * 4))
 #define     MVPP2_BM_RELEASED_DELAY_MASK	BIT(0)
 #define     MVPP2_BM_ALLOC_FAILED_MASK		BIT(1)
@@ -365,13 +356,10 @@
 #define MVPP2_OVERRUN_ETH_DROP			0x7000
 #define MVPP2_CLS_ETH_DROP			0x7020
 
-<<<<<<< HEAD
 #define MVPP22_BM_POOL_BASE_ADDR_HIGH_REG	0x6310
 #define     MVPP22_BM_POOL_BASE_ADDR_HIGH_MASK	0xff
 #define     MVPP23_BM_8POOL_MODE		BIT(8)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Hit counters registers */
 #define MVPP2_CTRS_IDX				0x7040
 #define     MVPP22_CTRS_TX_CTR(port, txq)	((txq) | ((port) << 3) | BIT(7))
@@ -494,11 +482,7 @@
 #define     MVPP22_GMAC_INT_SUM_MASK_LINK_STAT	BIT(1)
 #define	    MVPP22_GMAC_INT_SUM_MASK_PTP	BIT(2)
 
-<<<<<<< HEAD
 /* Per-port XGMAC registers. PPv2.2 and PPv2.3, only for GOP port 0,
-=======
-/* Per-port XGMAC registers. PPv2.2 only, only for GOP port 0,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * relative to port->base.
  */
 #define MVPP22_XLG_CTRL0_REG			0x100
@@ -535,11 +519,7 @@
 #define     MVPP22_XLG_CTRL4_MACMODSELECT_GMAC	BIT(12)
 #define     MVPP22_XLG_CTRL4_EN_IDLE_CHECK	BIT(14)
 
-<<<<<<< HEAD
 /* SMI registers. PPv2.2 and PPv2.3, relative to priv->iface_base. */
-=======
-/* SMI registers. PPv2.2 only, relative to priv->iface_base. */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP22_SMI_MISC_CFG_REG			0x1204
 #define     MVPP22_SMI_POLLING_EN		BIT(10)
 
@@ -615,11 +595,7 @@
 #define MVPP2_QUEUE_NEXT_DESC(q, index) \
 	(((index) < (q)->last_desc) ? ((index) + 1) : 0)
 
-<<<<<<< HEAD
 /* XPCS registers.PPv2.2 and PPv2.3 */
-=======
-/* XPCS registers. PPv2.2 only */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP22_MPCS_BASE(port)			(0x7000 + (port) * 0x1000)
 #define MVPP22_MPCS_CTRL			0x14
 #define     MVPP22_MPCS_CTRL_FWD_ERR_CONN	BIT(10)
@@ -630,7 +606,6 @@
 #define     MVPP22_MPCS_CLK_RESET_DIV_RATIO(n)	((n) << 4)
 #define     MVPP22_MPCS_CLK_RESET_DIV_SET	BIT(11)
 
-<<<<<<< HEAD
 /* FCA registers. PPv2.2 and PPv2.3 */
 #define MVPP22_FCA_BASE(port)			(0x7600 + (port) * 0x1000)
 #define MVPP22_FCA_REG_SIZE			16
@@ -641,9 +616,6 @@
 #define MVPP22_PERIODIC_COUNTER_MSB_REG		(0x114)
 
 /* XPCS registers. PPv2.2 and PPv2.3 */
-=======
-/* XPCS registers. PPv2.2 only */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP22_XPCS_BASE(port)			(0x7400 + (port) * 0x1000)
 #define MVPP22_XPCS_CFG0			0x0
 #define     MVPP22_XPCS_CFG0_RESET_DIS		BIT(0)
@@ -701,15 +673,9 @@
 #define     GENCONF_PORT_CTRL1_EN(p)			BIT(p)
 #define     GENCONF_PORT_CTRL1_RESET(p)			(BIT(p) << 28)
 #define GENCONF_CTRL0					0x1120
-<<<<<<< HEAD
 #define     GENCONF_CTRL0_PORT2_RGMII			BIT(0)
 #define     GENCONF_CTRL0_PORT3_RGMII_MII		BIT(1)
 #define     GENCONF_CTRL0_PORT3_RGMII			BIT(2)
-=======
-#define     GENCONF_CTRL0_PORT0_RGMII			BIT(0)
-#define     GENCONF_CTRL0_PORT1_RGMII_MII		BIT(1)
-#define     GENCONF_CTRL0_PORT1_RGMII			BIT(2)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Various constants */
 
@@ -768,13 +734,8 @@
 #define MVPP2_PORT_MAX_RXQ		32
 
 /* Max number of Rx descriptors */
-<<<<<<< HEAD
 #define MVPP2_MAX_RXD_MAX		2048
 #define MVPP2_MAX_RXD_DFLT		1024
-=======
-#define MVPP2_MAX_RXD_MAX		1024
-#define MVPP2_MAX_RXD_DFLT		128
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Max number of Tx descriptors */
 #define MVPP2_MAX_TXD_MAX		2048
@@ -802,20 +763,13 @@
 #define MVPP2_RX_FIFO_PORT_MIN_PKT		0x80
 
 /* TX FIFO constants */
-<<<<<<< HEAD
 #define MVPP22_TX_FIFO_DATA_SIZE_18KB		18
 #define MVPP22_TX_FIFO_DATA_SIZE_10KB		10
 #define MVPP22_TX_FIFO_DATA_SIZE_1KB		1
-=======
-#define MVPP22_TX_FIFO_DATA_SIZE_16KB		16
-#define MVPP22_TX_FIFO_DATA_SIZE_10KB		10
-#define MVPP22_TX_FIFO_DATA_SIZE_3KB		3
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP2_TX_FIFO_THRESHOLD_MIN		256 /* Bytes */
 #define MVPP2_TX_FIFO_THRESHOLD(kb)	\
 		((kb) * 1024 - MVPP2_TX_FIFO_THRESHOLD_MIN)
 
-<<<<<<< HEAD
 /* RX FIFO threshold in 1KB granularity */
 #define MVPP23_PORT0_FIFO_TRSH	(9 * 1024)
 #define MVPP23_PORT1_FIFO_TRSH	(4 * 1024)
@@ -876,8 +830,6 @@
 #define MSS_THRESHOLD_START	1024
 #define MSS_FC_MAX_TIMEOUT	5000
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* RX buffer constants */
 #define MVPP2_SKB_SHINFO_SIZE \
 	SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
@@ -975,13 +927,8 @@ enum mvpp22_ptp_packet_format {
 #define MVPP22_PTP_TIMESTAMPQUEUESELECT	BIT(18)
 
 /* BM constants */
-<<<<<<< HEAD
 #define MVPP2_BM_JUMBO_BUF_NUM		2048
 #define MVPP2_BM_LONG_BUF_NUM		2048
-=======
-#define MVPP2_BM_JUMBO_BUF_NUM		512
-#define MVPP2_BM_LONG_BUF_NUM		1024
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVPP2_BM_SHORT_BUF_NUM		2048
 #define MVPP2_BM_POOL_SIZE_MAX		(16*1024 - MVPP2_BM_POOL_PTR_ALIGN/4)
 #define MVPP2_BM_POOL_PTR_ALIGN		128
@@ -1046,7 +993,6 @@ enum mvpp22_ptp_packet_format {
 
 #define MVPP2_DESC_DMA_MASK	DMA_BIT_MASK(40)
 
-<<<<<<< HEAD
 /* Buffer header info bits */
 #define MVPP2_B_HDR_INFO_MC_ID_MASK	0xfff
 #define MVPP2_B_HDR_INFO_MC_ID(info)	((info) & MVPP2_B_HDR_INFO_MC_ID_MASK)
@@ -1055,8 +1001,6 @@ enum mvpp22_ptp_packet_format {
 #define MVPP2_B_HDR_INFO_IS_LAST(info) \
 	   (((info) & MVPP2_B_HDR_INFO_LAST_MASK) >> MVPP2_B_HDR_INFO_LAST_OFFS)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mvpp2_tai;
 
 /* Definitions */
@@ -1066,7 +1010,6 @@ struct mvpp2_rss_table {
 	u32 indir[MVPP22_RSS_TABLE_ENTRIES];
 };
 
-<<<<<<< HEAD
 struct mvpp2_buff_hdr {
 	__le32 next_phys_addr;
 	__le32 next_dma_addr;
@@ -1081,35 +1024,23 @@ struct mvpp2_buff_hdr {
 	__le16 reserved5;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Shared Packet Processor resources */
 struct mvpp2 {
 	/* Shared registers' base addresses */
 	void __iomem *lms_base;
 	void __iomem *iface_base;
-<<<<<<< HEAD
 	void __iomem *cm3_base;
 
 	/* On PPv2.2 and PPv2.3, each "software thread" can access the base
-=======
-
-	/* On PPv2.2, each "software thread" can access the base
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * register through a separate address space, each 64 KB apart
 	 * from each other. Typically, such address spaces will be
 	 * used per CPU.
 	 */
 	void __iomem *swth_base[MVPP2_MAX_THREADS];
 
-<<<<<<< HEAD
 	/* On PPv2.2 and PPv2.3, some port control registers are located into
 	 * the system controller space. These registers are accessible
 	 * through a regmap.
-=======
-	/* On PPv2.2, some port control registers are located into the system
-	 * controller space. These registers are accessible through a regmap.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	struct regmap *sysctrl_base;
 
@@ -1151,11 +1082,7 @@ struct mvpp2 {
 	u32 tclk;
 
 	/* HW version */
-<<<<<<< HEAD
 	enum { MVPP21, MVPP22, MVPP23 } hw_version;
-=======
-	enum { MVPP21, MVPP22 } hw_version;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Maximum number of RXQs per port */
 	unsigned int max_port_rxqs;
@@ -1175,15 +1102,12 @@ struct mvpp2 {
 
 	/* page_pool allocator */
 	struct page_pool *page_pool[MVPP2_PORT_MAX_RXQ];
-<<<<<<< HEAD
 
 	/* Global TX Flow Control config */
 	bool global_tx_fc;
 
 	/* Spinlocks for CM3 shared memory configuration */
 	spinlock_t mss_spinlock;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mvpp2_pcpu_stats {
@@ -1346,12 +1270,9 @@ struct mvpp2_port {
 	bool rx_hwtstamp;
 	enum hwtstamp_tx_types tx_hwtstamp_type;
 	struct mvpp2_hwtstamp_queue tx_hwtstamp_queue[2];
-<<<<<<< HEAD
 
 	/* Firmware TX flow control */
 	bool tx_fc;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* The mvpp2_tx_desc and mvpp2_rx_desc structures describe the
@@ -1414,11 +1335,7 @@ struct mvpp21_rx_desc {
 	__le32 reserved8;
 };
 
-<<<<<<< HEAD
 /* HW TX descriptor for PPv2.2 and PPv2.3 */
-=======
-/* HW TX descriptor for PPv2.2 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mvpp22_tx_desc {
 	__le32 command;
 	u8  packet_offset;
@@ -1430,11 +1347,7 @@ struct mvpp22_tx_desc {
 	__le64 buf_cookie_misc;
 };
 
-<<<<<<< HEAD
 /* HW RX descriptor for PPv2.2 and PPv2.3 */
-=======
-/* HW RX descriptor for PPv2.2 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mvpp22_rx_desc {
 	__le32 status;
 	__le16 reserved1;
@@ -1620,11 +1533,8 @@ void mvpp2_dbgfs_init(struct mvpp2 *priv, const char *name);
 
 void mvpp2_dbgfs_cleanup(struct mvpp2 *priv);
 
-<<<<<<< HEAD
 void mvpp23_rx_fifo_fc_en(struct mvpp2 *priv, int port, bool en);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_MVPP2_PTP
 int mvpp22_tai_probe(struct device *dev, struct mvpp2 *priv);
 void mvpp22_tai_tstamp(struct mvpp2_tai *tai, u32 tstamp,
@@ -1657,8 +1567,5 @@ static inline bool mvpp22_rx_hwtstamping(struct mvpp2_port *port)
 {
 	return IS_ENABLED(CONFIG_MVPP2_PTP) && port->rx_hwtstamp;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

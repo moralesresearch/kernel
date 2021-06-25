@@ -886,11 +886,7 @@ static void breakpoint_handler(unsigned long unknown, struct pt_regs *regs)
 			info->trigger = addr;
 			pr_debug("breakpoint fired: address = 0x%x\n", addr);
 			perf_bp_event(bp, regs);
-<<<<<<< HEAD
 			if (is_default_overflow_handler(bp))
-=======
-			if (!bp->overflow_handler)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				enable_single_step(bp, addr);
 			goto unlock;
 		}

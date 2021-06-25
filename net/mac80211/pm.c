@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 /*
  * Portions
  * Copyright (C) 2020-2021 Intel Corporation
  */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/mac80211.h>
 #include <net/rtnetlink.h>
 
@@ -18,11 +15,7 @@ static void ieee80211_sched_scan_cancel(struct ieee80211_local *local)
 {
 	if (ieee80211_request_sched_scan_stop(local))
 		return;
-<<<<<<< HEAD
 	cfg80211_sched_scan_stopped_locked(local->hw.wiphy, 0);
-=======
-	cfg80211_sched_scan_stopped_rtnl(local->hw.wiphy, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int __ieee80211_suspend(struct ieee80211_hw *hw, struct cfg80211_wowlan *wowlan)

@@ -65,12 +65,9 @@ void dcn30_set_avmute(struct pipe_ctx *pipe_ctx, bool enable);
 void dcn30_update_info_frame(struct pipe_ctx *pipe_ctx);
 void dcn30_program_dmdata_engine(struct pipe_ctx *pipe_ctx);
 
-<<<<<<< HEAD
 bool dcn30_does_plane_fit_in_mall(struct dc *dc, struct dc_plane_state *plane,
 		struct dc_cursor_attributes *cursor_attr);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable);
 
 void dcn30_hardware_release(struct dc *dc);
@@ -83,11 +80,4 @@ void dcn30_set_disp_pattern_generator(const struct dc *dc,
 		const struct tg_color *solid_color,
 		int width, int height, int offset);
 
-<<<<<<< HEAD
-void dcn30_set_hubp_blank(const struct dc *dc,
-		struct pipe_ctx *pipe_ctx,
-		bool blank_enable);
-
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __DC_HWSS_DCN30_H__ */

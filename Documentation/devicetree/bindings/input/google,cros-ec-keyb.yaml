@@ -31,7 +31,6 @@ properties:
       if the EC does not have its own logic or hardware for this.
     type: boolean
 
-<<<<<<< HEAD
   function-row-physmap:
     minItems: 1
     maxItems: 15
@@ -43,8 +42,6 @@ properties:
       where the lower 16 bits are reserved. This property is specified only
       when the keyboard has a custom design for the top row keys.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
 
@@ -52,16 +49,12 @@ unevaluatedProperties: false
 
 examples:
   - |
-<<<<<<< HEAD
     #include <dt-bindings/input/input.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     cros-ec-keyb {
         compatible = "google,cros-ec-keyb";
         keypad,num-rows = <8>;
         keypad,num-columns = <13>;
         google,needs-ghost-filter;
-<<<<<<< HEAD
         function-row-physmap = <
             MATRIX_KEY(0x00, 0x02, 0)   /* T1 */
             MATRIX_KEY(0x03, 0x02, 0)   /* T2 */
@@ -74,8 +67,6 @@ examples:
             MATRIX_KEY(0x01, 0x09, 0)   /* T9 */
             MATRIX_KEY(0x00, 0x04, 0)   /* T10 */
         >;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         /*
          * Keymap entries take the form of 0xRRCCKKKK where
          * RR=Row CC=Column KKKK=Key Code

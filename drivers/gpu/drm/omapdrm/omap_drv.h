@@ -12,18 +12,11 @@
 #include <linux/workqueue.h>
 
 #include "dss/omapdss.h"
-<<<<<<< HEAD
 #include "dss/dss.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <drm/drm_gem.h>
 #include <drm/omap_drm.h>
 
-<<<<<<< HEAD
-=======
-#include "omap_connector.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "omap_crtc.h"
 #include "omap_encoder.h"
 #include "omap_fb.h"
@@ -54,10 +47,6 @@ struct omap_drm_private {
 
 	struct dss_device *dss;
 	struct dispc_device *dispc;
-<<<<<<< HEAD
-=======
-	const struct dispc_ops *dispc_ops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned int num_pipes;
 	struct omap_drm_pipeline pipes[8];

@@ -154,7 +154,7 @@ static int sof_probe_continue(struct snd_sof_dev *sdev)
 	if (ret < 0) {
 		dev_err(sdev->dev, "error: failed to get machine info %d\n",
 			ret);
-		goto dbg_err;
+		goto dsp_err;
 	}
 
 	/* set up platform component driver */
@@ -232,8 +232,11 @@ static int sof_probe_continue(struct snd_sof_dev *sdev)
 	}
 
 	ret = snd_sof_machine_register(sdev, plat_data);
-	if (ret < 0)
+	if (ret < 0) {
+		dev_err(sdev->dev,
+			"error: failed to register machine driver %d\n", ret);
 		goto fw_trace_err;
+	}
 
 	/*
 	 * Some platforms in SOF, ex: BYT, may not have their platform PM
@@ -246,11 +249,8 @@ static int sof_probe_continue(struct snd_sof_dev *sdev)
 	if (plat_data->sof_probe_complete)
 		plat_data->sof_probe_complete(sdev->dev);
 
-<<<<<<< HEAD
 	sdev->probe_completed = true;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 fw_trace_err:
@@ -260,8 +260,9 @@ fw_run_err:
 fw_load_err:
 	snd_sof_ipc_free(sdev);
 ipc_err:
-	snd_sof_free_debug(sdev);
 dbg_err:
+	snd_sof_free_debug(sdev);
+dsp_err:
 	snd_sof_remove(sdev);
 
 	/* all resources freed, update state to match */
@@ -311,8 +312,10 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
 	    !sof_ops(sdev)->block_read || !sof_ops(sdev)->block_write ||
 	    !sof_ops(sdev)->send_msg || !sof_ops(sdev)->load_firmware ||
 	    !sof_ops(sdev)->ipc_msg_data || !sof_ops(sdev)->ipc_pcm_params ||
-	    !sof_ops(sdev)->fw_ready)
+	    !sof_ops(sdev)->fw_ready) {
+		dev_err(dev, "error: missing mandatory ops\n");
 		return -EINVAL;
+	}
 
 	INIT_LIST_HEAD(&sdev->pcm_list);
 	INIT_LIST_HEAD(&sdev->kcontrol_list);
@@ -321,10 +324,7 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
 	INIT_LIST_HEAD(&sdev->route_list);
 	spin_lock_init(&sdev->ipc_lock);
 	spin_lock_init(&sdev->hw_lock);
-<<<<<<< HEAD
 	mutex_init(&sdev->power_state_access);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (IS_ENABLED(CONFIG_SND_SOC_SOF_PROBE_WORK_QUEUE))
 		INIT_WORK(&sdev->probe_work, sof_probe_work);
@@ -348,7 +348,6 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
 }
 EXPORT_SYMBOL(snd_sof_device_probe);
 
-<<<<<<< HEAD
 bool snd_sof_device_probe_completed(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -357,8 +356,6 @@ bool snd_sof_device_probe_completed(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_probe_completed);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int snd_sof_device_remove(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -404,7 +401,6 @@ int snd_sof_device_remove(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_remove);
 
-<<<<<<< HEAD
 int snd_sof_device_shutdown(struct device *dev)
 {
 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
@@ -419,8 +415,6 @@ int snd_sof_device_shutdown(struct device *dev)
 }
 EXPORT_SYMBOL(snd_sof_device_shutdown);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_AUTHOR("Liam Girdwood");
 MODULE_DESCRIPTION("Sound Open Firmware (SOF) Core");
 MODULE_LICENSE("Dual BSD/GPL");

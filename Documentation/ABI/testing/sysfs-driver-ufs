@@ -1161,7 +1161,6 @@ Description:	This entry shows the configured size of WriteBooster buffer.
 		0400h corresponds to 4GB.
 
 		The file is read only.
-<<<<<<< HEAD
 
 What:		/sys/bus/platform/drivers/ufshcd/*/wb_on
 Date:		January 2021
@@ -1173,5 +1172,3 @@ Description:	This node is used to set or display whether UFS WriteBooster is
 		(if the platform supports UFSHCD_CAP_CLK_SCALING). For a
 		platform that doesn't support UFSHCD_CAP_CLK_SCALING, we can
 		disable/enable WriteBooster through this sysfs node.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

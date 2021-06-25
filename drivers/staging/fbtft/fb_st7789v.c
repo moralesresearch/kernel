@@ -7,7 +7,6 @@
 
 #include <linux/bitops.h>
 #include <linux/delay.h>
-<<<<<<< HEAD
 #include <linux/gpio/consumer.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
@@ -15,11 +14,6 @@
 #include <linux/completion.h>
 #include <linux/module.h>
 
-=======
-#include <linux/init.h>
-#include <linux/kernel.h>
-#include <linux/module.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <video/mipi_display.h>
 
 #include "fbtft.h"
@@ -76,7 +70,6 @@ enum st7789v_command {
 #define MADCTL_MX BIT(6) /* bitmask for column address order */
 #define MADCTL_MY BIT(7) /* bitmask for page address order */
 
-<<<<<<< HEAD
 /* 60Hz for 16.6ms, configured as 2*16.6ms */
 #define PANEL_TE_TIMEOUT_MS  33
 
@@ -133,8 +126,6 @@ static int init_tearing_effect_line(struct fbtft_par *par)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * init_display() - initialize the display controller
  *
@@ -151,15 +142,12 @@ static int init_tearing_effect_line(struct fbtft_par *par)
  */
 static int init_display(struct fbtft_par *par)
 {
-<<<<<<< HEAD
 	int rc;
 
 	rc = init_tearing_effect_line(par);
 	if (rc)
 		return rc;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* turn off sleep mode */
 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
 	mdelay(120);
@@ -215,13 +203,10 @@ static int init_display(struct fbtft_par *par)
 	 */
 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
 
-<<<<<<< HEAD
 	/* TE line output is off by default when powering on */
 	if (irq_te)
 		write_reg(par, MIPI_DCS_SET_TEAR_ON, 0x00);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
 
 	if (HSD20_IPS)
@@ -230,7 +215,6 @@ static int init_display(struct fbtft_par *par)
 	return 0;
 }
 
-<<<<<<< HEAD
 /*
  * write_vmem() - write data to display.
  * @par: FBTFT parameter object.
@@ -275,8 +259,6 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * set_var() - apply LCD properties like rotation and BGR mode
  *
@@ -391,10 +373,7 @@ static struct fbtft_display display = {
 	.gamma = HSD20_IPS_GAMMA,
 	.fbtftops = {
 		.init_display = init_display,
-<<<<<<< HEAD
 		.write_vmem = write_vmem,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.set_var = set_var,
 		.set_gamma = set_gamma,
 		.blank = blank,

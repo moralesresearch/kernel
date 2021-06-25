@@ -27,38 +27,21 @@
 
 TRACE_EVENT(mm_lru_insertion,
 
-<<<<<<< HEAD
 	TP_PROTO(struct page *page),
 
 	TP_ARGS(page),
-=======
-	TP_PROTO(
-		struct page *page,
-		int lru
-	),
-
-	TP_ARGS(page, lru),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	TP_STRUCT__entry(
 		__field(struct page *,	page	)
 		__field(unsigned long,	pfn	)
-<<<<<<< HEAD
 		__field(enum lru_list,	lru	)
-=======
-		__field(int,		lru	)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__field(unsigned long,	flags	)
 	),
 
 	TP_fast_assign(
 		__entry->page	= page;
 		__entry->pfn	= page_to_pfn(page);
-<<<<<<< HEAD
 		__entry->lru	= page_lru(page);
-=======
-		__entry->lru	= lru;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->flags	= trace_pagemap_flags(page);
 	),
 

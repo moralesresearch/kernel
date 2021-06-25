@@ -66,11 +66,7 @@ enum {
  * consists of at least two pages, the memory limit also dictates the
  * number of queue pairs a guest can create.
  */
-<<<<<<< HEAD
 #define VMCI_MAX_GUEST_QP_MEMORY ((size_t)(128 * 1024 * 1024))
-=======
-#define VMCI_MAX_GUEST_QP_MEMORY (128 * 1024 * 1024)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define VMCI_MAX_GUEST_QP_COUNT  (VMCI_MAX_GUEST_QP_MEMORY / PAGE_SIZE / 2)
 
 /*
@@ -84,11 +80,7 @@ enum {
  * too much kernel memory (especially on vmkernel).  We limit a queuepair to
  * 32 KB, or 16 KB per queue for symmetrical pairs.
  */
-<<<<<<< HEAD
 #define VMCI_MAX_PINNED_QP_MEMORY ((size_t)(32 * 1024))
-=======
-#define VMCI_MAX_PINNED_QP_MEMORY (32 * 1024)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * We have a fixed set of resource IDs available in the VMX.

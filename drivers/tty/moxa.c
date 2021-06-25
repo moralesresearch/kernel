@@ -1118,9 +1118,7 @@ static void __exit moxa_exit(void)
 
 	del_timer_sync(&moxaTimer);
 
-	if (tty_unregister_driver(moxaDriver))
-		printk(KERN_ERR "Couldn't unregister MOXA Intellio family "
-				"serial driver\n");
+	tty_unregister_driver(moxaDriver);
 	put_tty_driver(moxaDriver);
 }
 
@@ -2040,11 +2038,7 @@ static int moxa_get_serial_info(struct tty_struct *tty,
 	ss->line = info->port.tty->index,
 	ss->flags = info->port.flags,
 	ss->baud_base = 921600,
-<<<<<<< HEAD
 	ss->close_delay = jiffies_to_msecs(info->port.close_delay) / 10;
-=======
-	ss->close_delay = info->port.close_delay;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&info->port.mutex);
 	return 0;
 }
@@ -2054,22 +2048,13 @@ static int moxa_set_serial_info(struct tty_struct *tty,
 		struct serial_struct *ss)
 {
 	struct moxa_port *info = tty->driver_data;
-<<<<<<< HEAD
 	unsigned int close_delay;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tty->index == MAX_PORTS)
 		return -EINVAL;
 	if (!info)
 		return -ENODEV;
 
-	if (ss->irq != 0 || ss->port != 0 ||
-			ss->custom_divisor != 0 ||
-			ss->baud_base != 921600)
-		return -EPERM;
-
-<<<<<<< HEAD
 	close_delay = msecs_to_jiffies(ss->close_delay * 10);
 
 	mutex_lock(&info->port.mutex);
@@ -2077,16 +2062,10 @@ static int moxa_set_serial_info(struct tty_struct *tty,
 		if (close_delay != info->port.close_delay ||
 		    ss->type != info->type ||
 		    ((ss->flags & ~ASYNC_USR_MASK) !=
-=======
-	mutex_lock(&info->port.mutex);
-	if (!capable(CAP_SYS_ADMIN)) {
-		if (((ss->flags & ~ASYNC_USR_MASK) !=
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     (info->port.flags & ~ASYNC_USR_MASK))) {
 			mutex_unlock(&info->port.mutex);
 			return -EPERM;
 		}
-<<<<<<< HEAD
 	} else {
 		info->port.close_delay = close_delay;
 
@@ -2094,14 +2073,6 @@ static int moxa_set_serial_info(struct tty_struct *tty,
 
 		info->type = ss->type;
 	}
-=======
-	}
-	info->port.close_delay = ss->close_delay * HZ / 100;
-
-	MoxaSetFifo(info, ss->type == PORT_16550A);
-
-	info->type = ss->type;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&info->port.mutex);
 	return 0;
 }

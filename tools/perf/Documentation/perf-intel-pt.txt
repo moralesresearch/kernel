@@ -108,9 +108,9 @@ displayed as follows:
 
 	perf script --itrace=ibxwpe -F+flags
 
-The flags are "bcrosyiABEx" which stand for branch, call, return, conditional,
-system, asynchronous, interrupt, transaction abort, trace begin, trace end, and
-in transaction, respectively.
+The flags are "bcrosyiABExgh" which stand for branch, call, return, conditional,
+system, asynchronous, interrupt, transaction abort, trace begin, trace end,
+in transaction, VM-entry, and VM-exit respectively.
 
 perf script also supports higher level ways to dump instruction traces:
 
@@ -858,11 +858,7 @@ The letters are:
 	b	synthesize "branches" events
 	x	synthesize "transactions" events
 	w	synthesize "ptwrite" events
-<<<<<<< HEAD
 	p	synthesize "power" events (incl. PSB events)
-=======
-	p	synthesize "power" events
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	c	synthesize branches events (calls only)
 	r	synthesize branches events (returns only)
 	e	synthesize tracing error events
@@ -917,14 +913,11 @@ Where:
 For more details refer to the Intel 64 and IA-32 Architectures Software
 Developer Manuals.
 
-<<<<<<< HEAD
 PSB events show when a PSB+ occurred and also the byte-offset in the trace.
 Emitting a PSB+ can cause a CPU a slight delay. When doing timing analysis
 of code with Intel PT, it is useful to know if a timing bubble was caused
 by Intel PT or not.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Error events show where the decoder lost the trace.  Error events
 are quite important.  Users must know if what they are seeing is a complete
 picture or not. The "e" option may be followed by flags which affect what errors
@@ -1153,7 +1146,6 @@ XED
 
 include::build-xed.txt[]
 
-<<<<<<< HEAD
 
 Tracing Virtual Machines
 ------------------------
@@ -1236,8 +1228,6 @@ perf script can be used to provide an instruction trace
 
 
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SEE ALSO
 --------
 

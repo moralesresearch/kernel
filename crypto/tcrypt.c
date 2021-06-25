@@ -70,18 +70,8 @@ static const char *check[] = {
 	"des", "md5", "des3_ede", "rot13", "sha1", "sha224", "sha256", "sm3",
 	"blowfish", "twofish", "serpent", "sha384", "sha512", "md4", "aes",
 	"cast6", "arc4", "michael_mic", "deflate", "crc32c", "tea", "xtea",
-<<<<<<< HEAD
 	"khazad", "wp512", "wp384", "wp256", "xeta",  "fcrypt",
 	"camellia", "seed", "rmd160",
-=======
-<<<<<<< HEAD
-	"khazad", "wp512", "wp384", "wp256", "xeta",  "fcrypt",
-	"camellia", "seed", "rmd160",
-=======
-	"khazad", "wp512", "wp384", "wp256", "tnepres", "xeta",  "fcrypt",
-	"camellia", "seed", "salsa20", "rmd128", "rmd160", "rmd256", "rmd320",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"lzo", "lzo-rle", "cts", "sha3-224", "sha3-256", "sha3-384",
 	"sha3-512", "streebog256", "streebog512",
 	NULL
@@ -1816,39 +1806,11 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		ret += tcrypt_test("wp256");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 25:
-		ret += tcrypt_test("ecb(tnepres)");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 26:
 		ret += tcrypt_test("ecb(anubis)");
 		ret += tcrypt_test("cbc(anubis)");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 27:
-		ret += tcrypt_test("tgr192");
-		break;
-
-	case 28:
-		ret += tcrypt_test("tgr160");
-		break;
-
-	case 29:
-		ret += tcrypt_test("tgr128");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 30:
 		ret += tcrypt_test("ecb(xeta)");
 		break;
@@ -1869,16 +1831,6 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		ret += tcrypt_test("sha224");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 34:
-		ret += tcrypt_test("salsa20");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 35:
 		ret += tcrypt_test("gcm(aes)");
 		break;
@@ -1895,34 +1847,10 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		ret += tcrypt_test("cts(cbc(aes))");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-        case 39:
-		ret += tcrypt_test("rmd128");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         case 40:
 		ret += tcrypt_test("rmd160");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 41:
-		ret += tcrypt_test("rmd256");
-		break;
-
-	case 42:
-		ret += tcrypt_test("rmd320");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 43:
 		ret += tcrypt_test("ecb(seed)");
 		break;
@@ -1995,16 +1923,6 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		ret += tcrypt_test("xcbc(aes)");
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 107:
-		ret += tcrypt_test("hmac(rmd128)");
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 108:
 		ret += tcrypt_test("hmac(rmd160)");
 		break;
@@ -2227,17 +2145,6 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 				speed_template_32_48_64);
 		break;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 206:
-		test_cipher_speed("salsa20", ENCRYPT, sec, NULL, 0,
-				  speed_template_16_32);
-		break;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 207:
 		test_cipher_speed("ecb(serpent)", ENCRYPT, sec, NULL, 0,
 				  speed_template_16_32);
@@ -2445,56 +2352,14 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		test_hash_speed("wp512", sec, generic_hash_speed_template);
 		if (mode > 300 && mode < 400) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 310:
-		test_hash_speed("tgr128", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
-	case 311:
-		test_hash_speed("tgr160", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
-	case 312:
-		test_hash_speed("tgr192", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 313:
 		test_hash_speed("sha224", sec, generic_hash_speed_template);
 		if (mode > 300 && mode < 400) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 314:
-		test_hash_speed("rmd128", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 315:
 		test_hash_speed("rmd160", sec, generic_hash_speed_template);
 		if (mode > 300 && mode < 400) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 316:
-		test_hash_speed("rmd256", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
-	case 317:
-		test_hash_speed("rmd320", sec, generic_hash_speed_template);
-		if (mode > 300 && mode < 400) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 318:
 		klen = 16;
 		test_hash_speed("ghash", sec, generic_hash_speed_template);
@@ -2587,56 +2452,14 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
 		test_ahash_speed("wp512", sec, generic_hash_speed_template);
 		if (mode > 400 && mode < 500) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 410:
-		test_ahash_speed("tgr128", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
-	case 411:
-		test_ahash_speed("tgr160", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
-	case 412:
-		test_ahash_speed("tgr192", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 413:
 		test_ahash_speed("sha224", sec, generic_hash_speed_template);
 		if (mode > 400 && mode < 500) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 414:
-		test_ahash_speed("rmd128", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 415:
 		test_ahash_speed("rmd160", sec, generic_hash_speed_template);
 		if (mode > 400 && mode < 500) break;
 		fallthrough;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	case 416:
-		test_ahash_speed("rmd256", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
-	case 417:
-		test_ahash_speed("rmd320", sec, generic_hash_speed_template);
-		if (mode > 400 && mode < 500) break;
-		fallthrough;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 418:
 		test_ahash_speed("sha3-224", sec, generic_hash_speed_template);
 		if (mode > 400 && mode < 500) break;

@@ -329,10 +329,6 @@ static int mlx5e_tc_tun_parse_geneve(struct mlx5e_priv *priv,
 	return mlx5e_tc_tun_parse_geneve_options(priv, spec, f);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool mlx5e_tc_tun_encap_info_equal_geneve(struct mlx5e_encap_key *a,
 						 struct mlx5e_encap_key *b)
 {
@@ -361,11 +357,6 @@ static bool mlx5e_tc_tun_encap_info_equal_geneve(struct mlx5e_encap_key *a,
 		memcmp(a_info + 1, b_info + 1, a_info->options_len) == 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mlx5e_tc_tunnel geneve_tunnel = {
 	.tunnel_type          = MLX5E_TC_TUNNEL_TYPE_GENEVE,
 	.match_level          = MLX5_MATCH_L4,
@@ -375,12 +366,5 @@ struct mlx5e_tc_tunnel geneve_tunnel = {
 	.generate_ip_tun_hdr  = mlx5e_gen_ip_tunnel_header_geneve,
 	.parse_udp_ports      = mlx5e_tc_tun_parse_udp_ports_geneve,
 	.parse_tunnel         = mlx5e_tc_tun_parse_geneve,
-<<<<<<< HEAD
 	.encap_info_equal     = mlx5e_tc_tun_encap_info_equal_geneve,
-=======
-<<<<<<< HEAD
-	.encap_info_equal     = mlx5e_tc_tun_encap_info_equal_geneve,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

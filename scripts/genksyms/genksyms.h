@@ -47,11 +47,7 @@ typedef struct string_list **yystype;
 #define YYSTYPE yystype
 
 extern int cur_line;
-<<<<<<< HEAD
 extern char *cur_filename;
-=======
-extern char *cur_filename, *source_file;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int in_source_file;
 
 struct symbol *find_symbol(const char *name, enum symbol_type ns, int exact);

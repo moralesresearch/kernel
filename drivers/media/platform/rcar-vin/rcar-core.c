@@ -642,11 +642,7 @@ static int rvin_parallel_parse_of(struct rvin_dev *vin)
 	}
 
 	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->notifier, fwnode,
-<<<<<<< HEAD
 						    struct v4l2_async_subdev);
-=======
-						    sizeof(*asd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(asd)) {
 		ret = PTR_ERR(asd);
 		goto out;
@@ -846,12 +842,8 @@ static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
 	}
 
 	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->group->notifier,
-<<<<<<< HEAD
 						    fwnode,
 						    struct v4l2_async_subdev);
-=======
-						    fwnode, sizeof(*asd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(asd)) {
 		ret = PTR_ERR(asd);
 		goto out;

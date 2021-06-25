@@ -1273,11 +1273,7 @@ static int saa7164_initdev(struct pci_dev *pci_dev,
 
 	pci_set_master(pci_dev);
 	/* TODO */
-<<<<<<< HEAD
 	err = dma_set_mask(&pci_dev->dev, 0xffffffff);
-=======
-	err = pci_set_dma_mask(pci_dev, 0xffffffff);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		printk("%s/0: Oops: no 32bit PCI DMA ???\n", dev->name);
 		goto fail_irq;

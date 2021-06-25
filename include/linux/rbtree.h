@@ -141,7 +141,6 @@ static inline void rb_insert_color_cached(struct rb_node *node,
 	rb_insert_color(node, &root->rb_root);
 }
 
-<<<<<<< HEAD
 
 static inline struct rb_node *
 rb_erase_cached(struct rb_node *node, struct rb_root_cached *root)
@@ -154,14 +153,6 @@ rb_erase_cached(struct rb_node *node, struct rb_root_cached *root)
 	rb_erase(node, &root->rb_root);
 
 	return leftmost;
-=======
-static inline void rb_erase_cached(struct rb_node *node,
-				   struct rb_root_cached *root)
-{
-	if (root->rb_leftmost == node)
-		root->rb_leftmost = rb_next(node);
-	rb_erase(node, &root->rb_root);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void rb_replace_node_cached(struct rb_node *victim,
@@ -173,7 +164,6 @@ static inline void rb_replace_node_cached(struct rb_node *victim,
 	rb_replace_node(victim, new, &root->rb_root);
 }
 
-<<<<<<< HEAD
 /*
  * The below helper functions use 2 operators with 3 different
  * calling conventions. The operators are related like:
@@ -368,6 +358,4 @@ rb_next_match(const void *key, struct rb_node *node,
 	for ((node) = rb_find_first((key), (tree), (cmp)); \
 	     (node); (node) = rb_next_match((key), (node), (cmp)))
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* _LINUX_RBTREE_H */

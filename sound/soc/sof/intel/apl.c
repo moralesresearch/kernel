@@ -27,16 +27,10 @@ static const struct snd_sof_debugfs_map apl_dsp_debugfs[] = {
 
 /* apollolake ops */
 const struct snd_sof_dsp_ops sof_apl_ops = {
-<<<<<<< HEAD
 	/* probe/remove/shutdown */
 	.probe		= hda_dsp_probe,
 	.remove		= hda_dsp_remove,
 	.shutdown	= hda_dsp_shutdown,
-=======
-	/* probe and remove */
-	.probe		= hda_dsp_probe,
-	.remove		= hda_dsp_remove,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Register IO */
 	.write		= sof_io_write,

@@ -62,11 +62,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&led_pins_t004>;
 
-<<<<<<< HEAD
 		led {
-=======
-		red {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "t004-tv-dongle:red:usr";
 			gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
 			default-state = "on";

@@ -124,15 +124,11 @@ int mlx5dr_action_destroy(struct mlx5dr_action *action);
 static inline bool
 mlx5dr_is_supported(struct mlx5_core_dev *dev)
 {
-<<<<<<< HEAD
 	return MLX5_CAP_GEN(dev, roce) &&
 	       (MLX5_CAP_ESW_FLOWTABLE_FDB(dev, sw_owner) ||
 		(MLX5_CAP_ESW_FLOWTABLE_FDB(dev, sw_owner_v2) &&
 		 (MLX5_CAP_GEN(dev, steering_format_version) <=
 		  MLX5_STEERING_FORMAT_CONNECTX_6DX)));
-=======
-	return MLX5_CAP_ESW_FLOWTABLE_FDB(dev, sw_owner);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* buddy functions & structure */

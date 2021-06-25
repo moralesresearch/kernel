@@ -38,14 +38,8 @@ gp100_pci_func = {
 };
 
 int
-<<<<<<< HEAD
 gp100_pci_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_pci **ppci)
 {
 	return nvkm_pci_new_(&gp100_pci_func, device, type, inst, ppci);
-=======
-gp100_pci_new(struct nvkm_device *device, int index, struct nvkm_pci **ppci)
-{
-	return nvkm_pci_new_(&gp100_pci_func, device, index, ppci);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

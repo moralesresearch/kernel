@@ -27,11 +27,7 @@ static DECLARE_BITMAP(irqs_resend, IRQ_BITMAP_BITS);
 /*
  * Run software resends of IRQ's
  */
-<<<<<<< HEAD
 static void resend_irqs(struct tasklet_struct *unused)
-=======
-static void resend_irqs(unsigned long arg)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct irq_desc *desc;
 	int irq;
@@ -49,11 +45,7 @@ static void resend_irqs(unsigned long arg)
 }
 
 /* Tasklet to handle resend: */
-<<<<<<< HEAD
 static DECLARE_TASKLET(resend_tasklet, resend_irqs);
-=======
-static DECLARE_TASKLET_OLD(resend_tasklet, resend_irqs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int irq_sw_resend(struct irq_desc *desc)
 {
@@ -136,7 +128,7 @@ int check_irq_resend(struct irq_desc *desc, bool inject)
 	if (!try_retrigger(desc))
 		err = irq_sw_resend(desc);
 
-	/* If the retrigger was successfull, mark it with the REPLAY bit */
+	/* If the retrigger was successful, mark it with the REPLAY bit */
 	if (!err)
 		desc->istate |= IRQS_REPLAY;
 	return err;

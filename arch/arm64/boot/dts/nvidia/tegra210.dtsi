@@ -1044,14 +1044,7 @@
 		interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
 		resets = <&tegra_car 142>;
 		reset-names = "padctl";
-<<<<<<< HEAD
 		nvidia,pmc =  <&tegra_pmc>;
-=======
-<<<<<<< HEAD
-		nvidia,pmc =  <&tegra_pmc>;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		status = "disabled";
 
@@ -1316,10 +1309,6 @@
 		status = "disabled";
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	soctherm: thermal-sensor@700e2000 {
 		compatible = "nvidia,tegra210-soctherm";
 		reg = <0x0 0x700e2000 0x0 0x600>, /* SOC_THERM reg_base */
@@ -1346,11 +1335,6 @@
 		};
 	};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mipi: mipi@700e3000 {
 		compatible = "nvidia,tegra210-mipi";
 		reg = <0x0 0x700e3000 0x0 0x100>;
@@ -1469,10 +1453,6 @@
 					    "rx9",  "tx9",
 					    "rx10", "tx10";
 				status = "disabled";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				ports {
 					#address-cells = <1>;
@@ -1558,11 +1538,6 @@
 						};
 					};
 				};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			tegra_i2s1: i2s@702d1000 {
@@ -1665,10 +1640,6 @@
 				sound-name-prefix = "DMIC3";
 				status = "disabled";
 			};
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			ports {
 				#address-cells = <1>;
@@ -1752,11 +1723,6 @@
 					};
 				};
 			};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 
@@ -1766,20 +1732,9 @@
 		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
 		#address-cells = <1>;
 		#size-cells = <0>;
-<<<<<<< HEAD
 		clocks = <&tegra_car TEGRA210_CLK_QSPI>,
 			 <&tegra_car TEGRA210_CLK_QSPI_PM>;
 		clock-names = "qspi", "qspi_out";
-=======
-<<<<<<< HEAD
-		clocks = <&tegra_car TEGRA210_CLK_QSPI>,
-			 <&tegra_car TEGRA210_CLK_QSPI_PM>;
-		clock-names = "qspi", "qspi_out";
-=======
-		clocks = <&tegra_car TEGRA210_CLK_QSPI>;
-		clock-names = "qspi";
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		resets = <&tegra_car 211>;
 		reset-names = "qspi";
 		dmas = <&apbdma 5>, <&apbdma 5>;
@@ -1934,10 +1889,6 @@
 				      &{/cpus/cpu@2} &{/cpus/cpu@3}>;
 	};
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sound {
 		status = "disabled";
 
@@ -1950,49 +1901,6 @@
 				  <&tegra_car TEGRA210_CLK_EXTERN1>;
 		assigned-clock-parents = <0>, <0>, <&tegra_car TEGRA210_CLK_PLL_A_OUT0>;
 		assigned-clock-rates = <368640000>, <49152000>, <12288000>;
-<<<<<<< HEAD
-=======
-=======
-	timer {
-		compatible = "arm,armv8-timer";
-		interrupts = <GIC_PPI 13
-				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-			     <GIC_PPI 14
-				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-			     <GIC_PPI 11
-				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-			     <GIC_PPI 10
-				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-		interrupt-parent = <&gic>;
-		arm,no-tick-in-suspend;
-	};
-
-	soctherm: thermal-sensor@700e2000 {
-		compatible = "nvidia,tegra210-soctherm";
-		reg = <0x0 0x700e2000 0x0 0x600>, /* SOC_THERM reg_base */
-		      <0x0 0x60006000 0x0 0x400>; /* CAR reg_base */
-		reg-names = "soctherm-reg", "car-reg";
-		interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
-			     <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-		interrupt-names = "thermal", "edp";
-		clocks = <&tegra_car TEGRA210_CLK_TSENSOR>,
-			<&tegra_car TEGRA210_CLK_SOC_THERM>;
-		clock-names = "tsensor", "soctherm";
-		resets = <&tegra_car 78>;
-		reset-names = "soctherm";
-		#thermal-sensor-cells = <1>;
-
-		throttle-cfgs {
-			throttle_heavy: heavy {
-				nvidia,priority = <100>;
-				nvidia,cpu-throt-percent = <85>;
-				nvidia,gpu-throt-level = <TEGRA_SOCTHERM_THROT_LEVEL_HIGH>;
-
-				#cooling-cells = <2>;
-			};
-		};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	thermal-zones {
@@ -2129,10 +2037,6 @@
 			};
 		};
 	};
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	timer {
 		compatible = "arm,armv8-timer";
@@ -2147,9 +2051,4 @@
 		interrupt-parent = <&gic>;
 		arm,no-tick-in-suspend;
 	};
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

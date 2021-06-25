@@ -536,13 +536,9 @@ static void qedf_update_link_speed(struct qedf_ctx *qedf,
 	if (linkmode_intersects(link->supported_caps, sup_caps))
 		lport->link_supported_speeds |= FC_PORTSPEED_20GBIT;
 
-<<<<<<< HEAD
 	if (lport->host && lport->host->shost_data)
 		fc_host_supported_speeds(lport->host) =
 			lport->link_supported_speeds;
-=======
-	fc_host_supported_speeds(lport->host) = lport->link_supported_speeds;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void qedf_bw_update(void *dev)
@@ -1831,34 +1827,20 @@ static int qedf_vport_create(struct fc_vport *vport, bool disabled)
 		fcoe_wwn_to_str(vport->port_name, buf, sizeof(buf));
 		QEDF_WARN(&(base_qedf->dbg_ctx), "Failed to create vport, "
 			   "WWPN (0x%s) already exists.\n", buf);
-<<<<<<< HEAD
 		return rc;
-=======
-		goto err1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (atomic_read(&base_qedf->link_state) != QEDF_LINK_UP) {
 		QEDF_WARN(&(base_qedf->dbg_ctx), "Cannot create vport "
 			   "because link is not up.\n");
-<<<<<<< HEAD
 		return -EIO;
-=======
-		rc = -EIO;
-		goto err1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	vn_port = libfc_vport_create(vport, sizeof(struct qedf_ctx));
 	if (!vn_port) {
 		QEDF_WARN(&(base_qedf->dbg_ctx), "Could not create lport "
 			   "for vport.\n");
-<<<<<<< HEAD
 		return -ENOMEM;
-=======
-		rc = -ENOMEM;
-		goto err1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	fcoe_wwn_to_str(vport->port_name, buf, sizeof(buf));
@@ -1882,11 +1864,7 @@ static int qedf_vport_create(struct fc_vport *vport, bool disabled)
 	if (rc) {
 		QEDF_ERR(&(base_qedf->dbg_ctx), "Could not allocate memory "
 		    "for lport stats.\n");
-<<<<<<< HEAD
 		goto err;
-=======
-		goto err2;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	fc_set_wwnn(vn_port, vport->node_name);
@@ -1904,11 +1882,7 @@ static int qedf_vport_create(struct fc_vport *vport, bool disabled)
 	if (rc) {
 		QEDF_WARN(&base_qedf->dbg_ctx,
 			  "Error adding Scsi_Host rc=0x%x.\n", rc);
-<<<<<<< HEAD
 		goto err;
-=======
-		goto err2;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Set default dev_loss_tmo based on module parameter */
@@ -1949,16 +1923,10 @@ static int qedf_vport_create(struct fc_vport *vport, bool disabled)
 	vport_qedf->dbg_ctx.host_no = vn_port->host->host_no;
 	vport_qedf->dbg_ctx.pdev = base_qedf->pdev;
 
-<<<<<<< HEAD
 	return 0;
 
 err:
 	scsi_host_put(vn_port->host);
-=======
-err2:
-	scsi_host_put(vn_port->host);
-err1:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -1999,12 +1967,7 @@ static int qedf_vport_destroy(struct fc_vport *vport)
 	fc_lport_free_stats(vn_port);
 
 	/* Release Scsi_Host */
-<<<<<<< HEAD
 	scsi_host_put(vn_port->host);
-=======
-	if (vn_port->host)
-		scsi_host_put(vn_port->host);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	return 0;
@@ -3445,6 +3408,14 @@ retry_probe:
 		goto err2;
 	}
 
+	if (mode != QEDF_MODE_RECOVERY) {
+		qedf->devlink = qed_ops->common->devlink_register(qedf->cdev);
+		if (IS_ERR(qedf->devlink)) {
+			QEDF_ERR(&qedf->dbg_ctx, "Cannot register devlink\n");
+			qedf->devlink = NULL;
+		}
+	}
+
 	/* Record BDQ producer doorbell addresses */
 	qedf->bdq_primary_prod = qedf->dev_info.primary_dbq_rq_addr;
 	qedf->bdq_secondary_prod = qedf->dev_info.secondary_bdq_rq_addr;
@@ -3750,11 +3721,7 @@ static void __qedf_remove(struct pci_dev *pdev, int mode)
 	else
 		fc_fabric_logoff(qedf->lport);
 
-<<<<<<< HEAD
 	if (!qedf_wait_for_upload(qedf))
-=======
-	if (qedf_wait_for_upload(qedf) == false)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		QEDF_ERR(&qedf->dbg_ctx, "Could not upload all sessions.\n");
 
 #ifdef CONFIG_DEBUG_FS
@@ -3830,6 +3797,11 @@ static void __qedf_remove(struct pci_dev *pdev, int mode)
 		QEDF_ERR(&(qedf->dbg_ctx),
 			"Failed to send drv state to MFW.\n");
 
+	if (mode != QEDF_MODE_RECOVERY && qedf->devlink) {
+		qed_ops->common->devlink_unregister(qedf->devlink);
+		qedf->devlink = NULL;
+	}
+
 	qed_ops->common->slowpath_stop(qedf->cdev);
 	qed_ops->common->remove(qedf->cdev);
 
@@ -3887,8 +3859,9 @@ void qedf_schedule_hw_err_handler(void *dev, enum qed_hw_err_type err_type)
 		/* Prevent HW attentions from being reasserted */
 		qed_ops->common->attn_clr_enable(qedf->cdev, true);
 
-		if (qedf_enable_recovery)
-			qed_ops->common->recovery_process(qedf->cdev);
+		if (qedf_enable_recovery && qedf->devlink)
+			qed_ops->common->report_fatal_error(qedf->devlink,
+				err_type);
 
 		break;
 	default:

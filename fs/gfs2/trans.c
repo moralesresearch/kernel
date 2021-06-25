@@ -31,10 +31,6 @@ static void gfs2_print_trans(struct gfs2_sbd *sdp, const struct gfs2_trans *tr)
 	fs_warn(sdp, "blocks=%u revokes=%u reserved=%u touched=%u\n",
 		tr->tr_blocks, tr->tr_revokes, tr->tr_reserved,
 		test_bit(TR_TOUCHED, &tr->tr_flags));
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fs_warn(sdp, "Buf %u/%u Databuf %u/%u Revoke %u\n",
 		tr->tr_num_buf_new, tr->tr_num_buf_rm,
 		tr->tr_num_databuf_new, tr->tr_num_databuf_rm,
@@ -46,22 +42,6 @@ int __gfs2_trans_begin(struct gfs2_trans *tr, struct gfs2_sbd *sdp,
 		       unsigned long ip)
 {
 	unsigned int extra_revokes;
-<<<<<<< HEAD
-=======
-=======
-	fs_warn(sdp, "Buf %u/%u Databuf %u/%u Revoke %u/%u\n",
-		tr->tr_num_buf_new, tr->tr_num_buf_rm,
-		tr->tr_num_databuf_new, tr->tr_num_databuf_rm,
-		tr->tr_num_revoke, tr->tr_num_revoke_rm);
-}
-
-int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
-		     unsigned int revokes)
-{
-	struct gfs2_trans *tr;
-	int error;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (current->journal_info) {
 		gfs2_print_trans(sdp, current->journal_info);
@@ -72,10 +52,6 @@ int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
 	if (!test_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags))
 		return -EROFS;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tr->tr_ip = ip;
 	tr->tr_blocks = blocks;
 	tr->tr_revokes = revokes;
@@ -88,34 +64,12 @@ int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
 		 */
 		tr->tr_reserved += blocks + 1 + DIV_ROUND_UP(blocks - 1, databuf_limit(sdp));
 	}
-<<<<<<< HEAD
-=======
-=======
-	tr = kmem_cache_zalloc(gfs2_trans_cachep, GFP_NOFS);
-	if (!tr)
-		return -ENOMEM;
-
-	tr->tr_ip = _RET_IP_;
-	tr->tr_blocks = blocks;
-	tr->tr_revokes = revokes;
-	tr->tr_reserved = 1;
-	set_bit(TR_ALLOCED, &tr->tr_flags);
-	if (blocks)
-		tr->tr_reserved += 6 + blocks;
-	if (revokes)
-		tr->tr_reserved += gfs2_struct2blk(sdp, revokes);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&tr->tr_databuf);
 	INIT_LIST_HEAD(&tr->tr_buf);
 	INIT_LIST_HEAD(&tr->tr_list);
 	INIT_LIST_HEAD(&tr->tr_ail1_list);
 	INIT_LIST_HEAD(&tr->tr_ail2_list);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gfs2_assert_warn(sdp, tr->tr_reserved <= sdp->sd_jdesc->jd_blocks))
 		return -EINVAL;
 
@@ -146,24 +100,10 @@ reserved:
 		sb_end_intwrite(sdp->sd_vfs);
 		return -EROFS;
 	}
-<<<<<<< HEAD
-=======
-=======
-	sb_start_intwrite(sdp->sd_vfs);
-
-	error = gfs2_log_reserve(sdp, tr->tr_reserved);
-	if (error)
-		goto fail;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	current->journal_info = tr;
 
 	return 0;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
@@ -178,16 +118,6 @@ int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
 	error = __gfs2_trans_begin(tr, sdp, blocks, revokes, _RET_IP_);
 	if (error)
 		kmem_cache_free(gfs2_trans_cachep, tr);
-<<<<<<< HEAD
-=======
-=======
-
-fail:
-	sb_end_intwrite(sdp->sd_vfs);
-	kmem_cache_free(gfs2_trans_cachep, tr);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return error;
 }
 
@@ -195,21 +125,10 @@ void gfs2_trans_end(struct gfs2_sbd *sdp)
 {
 	struct gfs2_trans *tr = current->journal_info;
 	s64 nbuf;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	int alloced = test_bit(TR_ALLOCED, &tr->tr_flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	current->journal_info = NULL;
 
 	if (!test_bit(TR_TOUCHED, &tr->tr_flags)) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gfs2_log_release_revokes(sdp, tr->tr_revokes);
 		up_read(&sdp->sd_log_flush_lock);
 		gfs2_log_release(sdp, tr->tr_reserved);
@@ -221,27 +140,10 @@ void gfs2_trans_end(struct gfs2_sbd *sdp)
 
 	gfs2_log_release_revokes(sdp, tr->tr_revokes - tr->tr_num_revoke);
 
-<<<<<<< HEAD
-=======
-=======
-		gfs2_log_release(sdp, tr->tr_reserved);
-		if (alloced) {
-			gfs2_trans_free(sdp, tr);
-			sb_end_intwrite(sdp->sd_vfs);
-		}
-		return;
-	}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nbuf = tr->tr_num_buf_new + tr->tr_num_databuf_new;
 	nbuf -= tr->tr_num_buf_rm;
 	nbuf -= tr->tr_num_databuf_rm;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gfs2_assert_withdraw(sdp, nbuf <= tr->tr_blocks) ||
 	    gfs2_assert_withdraw(sdp, tr->tr_num_revoke <= tr->tr_revokes))
 		gfs2_print_trans(sdp, tr);
@@ -249,33 +151,13 @@ void gfs2_trans_end(struct gfs2_sbd *sdp)
 	gfs2_log_commit(sdp, tr);
 	if (!test_bit(TR_ONSTACK, &tr->tr_flags) &&
 	    !test_bit(TR_ATTACHED, &tr->tr_flags))
-<<<<<<< HEAD
-=======
-=======
-	if (gfs2_assert_withdraw(sdp, (nbuf <= tr->tr_blocks) &&
-				       (tr->tr_num_revoke <= tr->tr_revokes)))
-		gfs2_print_trans(sdp, tr);
-
-	gfs2_log_commit(sdp, tr);
-	if (alloced && !test_bit(TR_ATTACHED, &tr->tr_flags))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gfs2_trans_free(sdp, tr);
 	up_read(&sdp->sd_log_flush_lock);
 
 	if (sdp->sd_vfs->s_flags & SB_SYNCHRONOUS)
 		gfs2_log_flush(sdp, NULL, GFS2_LOG_HEAD_FLUSH_NORMAL |
 			       GFS2_LFC_TRANS_END);
-<<<<<<< HEAD
 	sb_end_intwrite(sdp->sd_vfs);
-=======
-<<<<<<< HEAD
-	sb_end_intwrite(sdp->sd_vfs);
-=======
-	if (alloced)
-		sb_end_intwrite(sdp->sd_vfs);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct gfs2_bufdata *gfs2_alloc_bufdata(struct gfs2_glock *gl,
@@ -417,13 +299,6 @@ void gfs2_trans_add_revoke(struct gfs2_sbd *sdp, struct gfs2_bufdata *bd)
 void gfs2_trans_remove_revoke(struct gfs2_sbd *sdp, u64 blkno, unsigned int len)
 {
 	struct gfs2_bufdata *bd, *tmp;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	struct gfs2_trans *tr = current->journal_info;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int n = len;
 
 	gfs2_log_lock(sdp);
@@ -435,15 +310,7 @@ void gfs2_trans_remove_revoke(struct gfs2_sbd *sdp, u64 blkno, unsigned int len)
 			if (bd->bd_gl)
 				gfs2_glock_remove_revoke(bd->bd_gl);
 			kmem_cache_free(gfs2_bufdata_cachep, bd);
-<<<<<<< HEAD
 			gfs2_log_release_revokes(sdp, 1);
-=======
-<<<<<<< HEAD
-			gfs2_log_release_revokes(sdp, 1);
-=======
-			tr->tr_num_revoke_rm++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (--n == 0)
 				break;
 		}

@@ -89,17 +89,6 @@ unsigned int nlm_get_cpu_frequency(void)
 	return (unsigned int)nlm_prom_info.cpu_frequency;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void __init prom_free_prom_memory(void)
-{
-	/* Nothing yet */
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nlm_percpu_init(int hwcpuid)
 {
 	if (hwcpuid % 4 == 0)

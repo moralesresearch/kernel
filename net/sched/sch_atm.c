@@ -320,12 +320,8 @@ err_out:
 	return error;
 }
 
-<<<<<<< HEAD
 static int atm_tc_delete(struct Qdisc *sch, unsigned long arg,
 			 struct netlink_ext_ack *extack)
-=======
-static int atm_tc_delete(struct Qdisc *sch, unsigned long arg)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct atm_qdisc_data *p = qdisc_priv(sch);
 	struct atm_flow_data *flow = (struct atm_flow_data *)arg;

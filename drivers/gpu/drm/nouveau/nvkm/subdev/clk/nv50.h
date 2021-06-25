@@ -20,11 +20,7 @@ struct nv50_clk {
 	struct nv50_clk_hwsq hwsq;
 };
 
-<<<<<<< HEAD
 int nv50_clk_new_(const struct nvkm_clk_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
-=======
-int nv50_clk_new_(const struct nvkm_clk_func *, struct nvkm_device *, int,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  bool, struct nvkm_clk **);
 int nv50_clk_read(struct nvkm_clk *, enum nv_clk_src);
 int nv50_clk_calc(struct nvkm_clk *, struct nvkm_cstate *);

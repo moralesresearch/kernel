@@ -9,10 +9,7 @@
  *          Christoffer Dall <c.dall@virtualopensystems.com>
  */
 
-<<<<<<< HEAD
 #include <linux/bitfield.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/bsearch.h>
 #include <linux/kvm_host.h>
 #include <linux/mm.h>
@@ -402,22 +399,14 @@ static bool trap_bvr(struct kvm_vcpu *vcpu,
 		     struct sys_reg_params *p,
 		     const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->CRm];
-=======
-	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (p->is_write)
 		reg_to_dbg(vcpu, p, rd, dbg_reg);
 	else
 		dbg_to_reg(vcpu, p, rd, dbg_reg);
 
-<<<<<<< HEAD
 	trace_trap_reg(__func__, rd->CRm, p->is_write, *dbg_reg);
-=======
-	trace_trap_reg(__func__, rd->reg, p->is_write, *dbg_reg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -425,11 +414,7 @@ static bool trap_bvr(struct kvm_vcpu *vcpu,
 static int set_bvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 		const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(r, uaddr, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -439,11 +424,7 @@ static int set_bvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static int get_bvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 	const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_to_user(uaddr, r, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -453,33 +434,21 @@ static int get_bvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static void reset_bvr(struct kvm_vcpu *vcpu,
 		      const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	vcpu->arch.vcpu_debug_state.dbg_bvr[rd->CRm] = rd->val;
-=======
-	vcpu->arch.vcpu_debug_state.dbg_bvr[rd->reg] = rd->val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool trap_bcr(struct kvm_vcpu *vcpu,
 		     struct sys_reg_params *p,
 		     const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->CRm];
-=======
-	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (p->is_write)
 		reg_to_dbg(vcpu, p, rd, dbg_reg);
 	else
 		dbg_to_reg(vcpu, p, rd, dbg_reg);
 
-<<<<<<< HEAD
 	trace_trap_reg(__func__, rd->CRm, p->is_write, *dbg_reg);
-=======
-	trace_trap_reg(__func__, rd->reg, p->is_write, *dbg_reg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -487,11 +456,7 @@ static bool trap_bcr(struct kvm_vcpu *vcpu,
 static int set_bcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 		const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(r, uaddr, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -502,11 +467,7 @@ static int set_bcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static int get_bcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 	const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_bcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_to_user(uaddr, r, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -516,35 +477,22 @@ static int get_bcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static void reset_bcr(struct kvm_vcpu *vcpu,
 		      const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	vcpu->arch.vcpu_debug_state.dbg_bcr[rd->CRm] = rd->val;
-=======
-	vcpu->arch.vcpu_debug_state.dbg_bcr[rd->reg] = rd->val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool trap_wvr(struct kvm_vcpu *vcpu,
 		     struct sys_reg_params *p,
 		     const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->CRm];
-=======
-	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (p->is_write)
 		reg_to_dbg(vcpu, p, rd, dbg_reg);
 	else
 		dbg_to_reg(vcpu, p, rd, dbg_reg);
 
-<<<<<<< HEAD
 	trace_trap_reg(__func__, rd->CRm, p->is_write,
 		vcpu->arch.vcpu_debug_state.dbg_wvr[rd->CRm]);
-=======
-	trace_trap_reg(__func__, rd->reg, p->is_write,
-		vcpu->arch.vcpu_debug_state.dbg_wvr[rd->reg]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -552,11 +500,7 @@ static bool trap_wvr(struct kvm_vcpu *vcpu,
 static int set_wvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 		const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(r, uaddr, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -566,11 +510,7 @@ static int set_wvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static int get_wvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 	const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wvr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_to_user(uaddr, r, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -580,33 +520,21 @@ static int get_wvr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static void reset_wvr(struct kvm_vcpu *vcpu,
 		      const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	vcpu->arch.vcpu_debug_state.dbg_wvr[rd->CRm] = rd->val;
-=======
-	vcpu->arch.vcpu_debug_state.dbg_wvr[rd->reg] = rd->val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool trap_wcr(struct kvm_vcpu *vcpu,
 		     struct sys_reg_params *p,
 		     const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->CRm];
-=======
-	u64 *dbg_reg = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (p->is_write)
 		reg_to_dbg(vcpu, p, rd, dbg_reg);
 	else
 		dbg_to_reg(vcpu, p, rd, dbg_reg);
 
-<<<<<<< HEAD
 	trace_trap_reg(__func__, rd->CRm, p->is_write, *dbg_reg);
-=======
-	trace_trap_reg(__func__, rd->reg, p->is_write, *dbg_reg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -614,11 +542,7 @@ static bool trap_wcr(struct kvm_vcpu *vcpu,
 static int set_wcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 		const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(r, uaddr, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -628,11 +552,7 @@ static int set_wcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static int get_wcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 	const struct kvm_one_reg *reg, void __user *uaddr)
 {
-<<<<<<< HEAD
 	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->CRm];
-=======
-	__u64 *r = &vcpu->arch.vcpu_debug_state.dbg_wcr[rd->reg];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_to_user(uaddr, r, KVM_REG_SIZE(reg->id)) != 0)
 		return -EFAULT;
@@ -642,11 +562,7 @@ static int get_wcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
 static void reset_wcr(struct kvm_vcpu *vcpu,
 		      const struct sys_reg_desc *rd)
 {
-<<<<<<< HEAD
 	vcpu->arch.vcpu_debug_state.dbg_wcr[rd->CRm] = rd->val;
-=======
-	vcpu->arch.vcpu_debug_state.dbg_wcr[rd->reg] = rd->val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void reset_amair_el1(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
@@ -785,26 +701,18 @@ static bool access_pmselr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
 static bool access_pmceid(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
 			  const struct sys_reg_desc *r)
 {
-<<<<<<< HEAD
 	u64 pmceid, mask, shift;
-=======
-	u64 pmceid;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	BUG_ON(p->is_write);
 
 	if (pmu_access_el0_disabled(vcpu))
 		return false;
 
-<<<<<<< HEAD
 	get_access_mask(r, &mask, &shift);
 
 	pmceid = kvm_pmu_get_pmceid(vcpu, (p->Op2 & 1));
 	pmceid &= mask;
 	pmceid >>= shift;
-=======
-	pmceid = kvm_pmu_get_pmceid(vcpu, (p->Op2 & 1));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	p->regval = pmceid;
 
@@ -1118,11 +1026,8 @@ static bool access_arch_timer(struct kvm_vcpu *vcpu,
 	return true;
 }
 
-<<<<<<< HEAD
 #define FEATURE(x)	(GENMASK_ULL(x##_SHIFT + 3, x##_SHIFT))
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Read a sanitised cpufeature ID register by sys_reg_desc */
 static u64 read_id_reg(const struct kvm_vcpu *vcpu,
 		struct sys_reg_desc const *r, bool raz)
@@ -1130,7 +1035,6 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
 	u32 id = reg_to_encoding(r);
 	u64 val = raz ? 0 : read_sanitised_ftr_reg(id);
 
-<<<<<<< HEAD
 	switch (id) {
 	case SYS_ID_AA64PFR0_EL1:
 		if (!vcpu_has_sve(vcpu))
@@ -1159,6 +1063,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
 		val = cpuid_feature_cap_perfmon_field(val,
 						      ID_AA64DFR0_PMUVER_SHIFT,
 						      kvm_vcpu_has_pmu(vcpu) ? ID_AA64DFR0_PMUVER_8_4 : 0);
+		/* Hide SPE from guests */
+		val &= ~FEATURE(ID_AA64DFR0_PMSVER);
 		break;
 	case SYS_ID_DFR0_EL1:
 		/* Limit guests to PMUv3 for ARMv8.4 */
@@ -1166,38 +1072,6 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
 						      ID_DFR0_PERFMON_SHIFT,
 						      kvm_vcpu_has_pmu(vcpu) ? ID_DFR0_PERFMON_8_4 : 0);
 		break;
-=======
-	if (id == SYS_ID_AA64PFR0_EL1) {
-		if (!vcpu_has_sve(vcpu))
-			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
-		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
-		val &= ~(0xfUL << ID_AA64PFR0_CSV2_SHIFT);
-		val |= ((u64)vcpu->kvm->arch.pfr0_csv2 << ID_AA64PFR0_CSV2_SHIFT);
-		val &= ~(0xfUL << ID_AA64PFR0_CSV3_SHIFT);
-		val |= ((u64)vcpu->kvm->arch.pfr0_csv3 << ID_AA64PFR0_CSV3_SHIFT);
-	} else if (id == SYS_ID_AA64PFR1_EL1) {
-		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
-	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
-		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
-			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
-			 (0xfUL << ID_AA64ISAR1_GPA_SHIFT) |
-			 (0xfUL << ID_AA64ISAR1_GPI_SHIFT));
-	} else if (id == SYS_ID_AA64DFR0_EL1) {
-		u64 cap = 0;
-
-		/* Limit guests to PMUv3 for ARMv8.1 */
-		if (kvm_vcpu_has_pmu(vcpu))
-			cap = ID_AA64DFR0_PMUVER_8_1;
-
-		val = cpuid_feature_cap_perfmon_field(val,
-						ID_AA64DFR0_PMUVER_SHIFT,
-						cap);
-	} else if (id == SYS_ID_DFR0_EL1) {
-		/* Limit guests to PMUv3 for ARMv8.1 */
-		val = cpuid_feature_cap_perfmon_field(val,
-						ID_DFR0_PERFMON_SHIFT,
-						ID_DFR0_PERFMON_8_1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return val;
@@ -1600,6 +1474,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
 	{ SYS_DESC(SYS_GCR_EL1), undef_access },
 
 	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
+	{ SYS_DESC(SYS_TRFCR_EL1), undef_access },
 	{ SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
 	{ SYS_DESC(SYS_TTBR1_EL1), access_vm_reg, reset_unknown, TTBR1_EL1 },
 	{ SYS_DESC(SYS_TCR_EL1), access_vm_reg, reset_val, TCR_EL1, 0 },
@@ -1629,14 +1504,24 @@ static const struct sys_reg_desc sys_reg_descs[] = {
 	{ SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
 	{ SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
 
+	{ SYS_DESC(SYS_PMSCR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSNEVFR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSICR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSIRR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSFCR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSEVFR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSLATFR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMSIDR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMBLIMITR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMBPTR_EL1), undef_access },
+	{ SYS_DESC(SYS_PMBSR_EL1), undef_access },
+	/* PMBIDR_EL1 is not trapped */
+
 	{ PMU_SYS_REG(SYS_PMINTENSET_EL1),
 	  .access = access_pminten, .reg = PMINTENSET_EL1 },
 	{ PMU_SYS_REG(SYS_PMINTENCLR_EL1),
 	  .access = access_pminten, .reg = PMINTENSET_EL1 },
-<<<<<<< HEAD
 	{ SYS_DESC(SYS_PMMIR_EL1), trap_raz_wi },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	{ SYS_DESC(SYS_MAIR_EL1), access_vm_reg, reset_unknown, MAIR_EL1 },
 	{ SYS_DESC(SYS_AMAIR_EL1), access_vm_reg, reset_amair_el1, AMAIR_EL1 },
@@ -1864,11 +1749,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
 	{ SYS_DESC(SYS_FPEXC32_EL2), NULL, reset_val, FPEXC32_EL2, 0x700 },
 };
 
-<<<<<<< HEAD
 static bool trap_dbgdidr(struct kvm_vcpu *vcpu,
-=======
-static bool trap_dbgidr(struct kvm_vcpu *vcpu,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct sys_reg_params *p,
 			const struct sys_reg_desc *r)
 {
@@ -1882,11 +1763,7 @@ static bool trap_dbgidr(struct kvm_vcpu *vcpu,
 		p->regval = ((((dfr >> ID_AA64DFR0_WRPS_SHIFT) & 0xf) << 28) |
 			     (((dfr >> ID_AA64DFR0_BRPS_SHIFT) & 0xf) << 24) |
 			     (((dfr >> ID_AA64DFR0_CTX_CMPS_SHIFT) & 0xf) << 20)
-<<<<<<< HEAD
 			     | (6 << 16) | (1 << 15) | (el3 << 14) | (el3 << 12));
-=======
-			     | (6 << 16) | (el3 << 14) | (el3 << 12));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	}
 }
@@ -1919,13 +1796,8 @@ static bool trap_dbgidr(struct kvm_vcpu *vcpu,
  * guest. Revisit this one day, would this principle change.
  */
 static const struct sys_reg_desc cp14_regs[] = {
-<<<<<<< HEAD
 	/* DBGDIDR */
 	{ Op1( 0), CRn( 0), CRm( 0), Op2( 0), trap_dbgdidr },
-=======
-	/* DBGIDR */
-	{ Op1( 0), CRn( 0), CRm( 0), Op2( 0), trap_dbgidr },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* DBGDTRRXext */
 	{ Op1( 0), CRn( 0), CRm( 0), Op2( 2), trap_raz_wi },
 
@@ -2075,13 +1947,8 @@ static const struct sys_reg_desc cp15_regs[] = {
 	{ Op1( 0), CRn( 9), CRm(12), Op2( 3), access_pmovs },
 	{ Op1( 0), CRn( 9), CRm(12), Op2( 4), access_pmswinc },
 	{ Op1( 0), CRn( 9), CRm(12), Op2( 5), access_pmselr },
-<<<<<<< HEAD
 	{ AA32(LO), Op1( 0), CRn( 9), CRm(12), Op2( 6), access_pmceid },
 	{ AA32(LO), Op1( 0), CRn( 9), CRm(12), Op2( 7), access_pmceid },
-=======
-	{ Op1( 0), CRn( 9), CRm(12), Op2( 6), access_pmceid },
-	{ Op1( 0), CRn( 9), CRm(12), Op2( 7), access_pmceid },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ Op1( 0), CRn( 9), CRm(13), Op2( 0), access_pmu_evcntr },
 	{ Op1( 0), CRn( 9), CRm(13), Op2( 1), access_pmu_evtyper },
 	{ Op1( 0), CRn( 9), CRm(13), Op2( 2), access_pmu_evcntr },
@@ -2089,13 +1956,10 @@ static const struct sys_reg_desc cp15_regs[] = {
 	{ Op1( 0), CRn( 9), CRm(14), Op2( 1), access_pminten },
 	{ Op1( 0), CRn( 9), CRm(14), Op2( 2), access_pminten },
 	{ Op1( 0), CRn( 9), CRm(14), Op2( 3), access_pmovs },
-<<<<<<< HEAD
 	{ AA32(HI), Op1( 0), CRn( 9), CRm(14), Op2( 4), access_pmceid },
 	{ AA32(HI), Op1( 0), CRn( 9), CRm(14), Op2( 5), access_pmceid },
 	/* PMMIR */
 	{ Op1( 0), CRn( 9), CRm(14), Op2( 6), trap_raz_wi },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* PRRR/MAIR0 */
 	{ AA32(LO), Op1( 0), CRn(10), CRm( 2), Op2( 0), access_vm_reg, NULL, MAIR_EL1 },

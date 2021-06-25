@@ -567,7 +567,6 @@ void noist_exc_debug(struct pt_regs *regs);
 
 DEFINE_IDTENTRY_RAW(xenpv_exc_nmi)
 {
-<<<<<<< HEAD
 	/* On Xen PV, NMI doesn't use IST.  The C part is the same as native. */
 	exc_nmi(regs);
 }
@@ -578,12 +577,6 @@ DEFINE_IDTENTRY_RAW_ERRORCODE(xenpv_exc_double_fault)
 	exc_double_fault(regs, error_code);
 }
 
-=======
-	/* On Xen PV, NMI doesn't use IST.  The C part is the sane as native. */
-	exc_nmi(regs);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_IDTENTRY_RAW(xenpv_exc_debug)
 {
 	/*
@@ -603,7 +596,6 @@ DEFINE_IDTENTRY_RAW(exc_xen_unknown_trap)
 	BUG();
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_X86_MCE
 DEFINE_IDTENTRY_RAW(xenpv_exc_machine_check)
 {
@@ -618,8 +610,6 @@ DEFINE_IDTENTRY_RAW(xenpv_exc_machine_check)
 }
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct trap_array_entry {
 	void (*orig)(void);
 	void (*xen)(void);
@@ -638,15 +628,9 @@ struct trap_array_entry {
 
 static struct trap_array_entry trap_array[] = {
 	TRAP_ENTRY_REDIR(exc_debug,			true  ),
-<<<<<<< HEAD
 	TRAP_ENTRY_REDIR(exc_double_fault,		true  ),
 #ifdef CONFIG_X86_MCE
 	TRAP_ENTRY_REDIR(exc_machine_check,		true  ),
-=======
-	TRAP_ENTRY(exc_double_fault,			true  ),
-#ifdef CONFIG_X86_MCE
-	TRAP_ENTRY(exc_machine_check,			true  ),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 	TRAP_ENTRY_REDIR(exc_nmi,			true  ),
 	TRAP_ENTRY(exc_int3,				false ),
@@ -1051,11 +1035,6 @@ void __init xen_setup_vcpu_info_placement(void)
 	 */
 	if (xen_have_vcpu_info_placement) {
 		pv_ops.irq.save_fl = __PV_IS_CALLEE_SAVE(xen_save_fl_direct);
-<<<<<<< HEAD
-=======
-		pv_ops.irq.restore_fl =
-			__PV_IS_CALLEE_SAVE(xen_restore_fl_direct);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pv_ops.irq.irq_disable =
 			__PV_IS_CALLEE_SAVE(xen_irq_disable_direct);
 		pv_ops.irq.irq_enable =
@@ -1091,12 +1070,6 @@ static const struct pv_cpu_ops xen_cpu_ops __initconst = {
 
 	.read_pmc = xen_read_pmc,
 
-	.iret = xen_iret,
-<<<<<<< HEAD
-=======
-	.usergs_sysret64 = xen_sysret64,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-
 	.load_tr_desc = paravirt_nop,
 	.set_ldt = xen_set_ldt,
 	.load_gdt = xen_load_gdt,
@@ -1120,12 +1093,6 @@ static const struct pv_cpu_ops xen_cpu_ops __initconst = {
 #endif
 	.io_delay = xen_io_delay,
 
-<<<<<<< HEAD
-=======
-	/* Xen takes care of %gs when switching to usermode for us */
-	.swapgs = paravirt_nop,
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.start_context_switch = paravirt_start_context_switch,
 	.end_context_switch = xen_end_context_switch,
 };
@@ -1235,7 +1202,6 @@ static void __init xen_setup_gdt(int cpu)
 	pv_ops.cpu.write_gdt_entry = xen_write_gdt_entry_boot;
 	pv_ops.cpu.load_gdt = xen_load_gdt_boot;
 
-	setup_stack_canary_segment(cpu);
 	switch_to_new_gdt(cpu);
 
 	pv_ops.cpu.write_gdt_entry = xen_write_gdt_entry;
@@ -1264,8 +1230,8 @@ asmlinkage __visible void __init xen_start_kernel(void)
 
 	/* Install Xen paravirt ops */
 	pv_info = xen_info;
-	pv_ops.init.patch = paravirt_patch_default;
 	pv_ops.cpu = xen_cpu_ops;
+	paravirt_iret = xen_iret;
 	xen_init_irq_ops();
 
 	/*
@@ -1307,26 +1273,16 @@ asmlinkage __visible void __init xen_start_kernel(void)
 	/* Get mfn list */
 	xen_build_dynamic_phys_to_machine();
 
-<<<<<<< HEAD
 	/* Work out if we support NX */
 	get_cpu_cap(&boot_cpu_data);
 	x86_configure_nx();
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Set up kernel GDT and segment registers, mainly so that
 	 * -fstack-protector code can be executed.
 	 */
 	xen_setup_gdt(0);
 
-<<<<<<< HEAD
-=======
-	/* Work out if we support NX */
-	get_cpu_cap(&boot_cpu_data);
-	x86_configure_nx();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Determine virtual and physical address sizes */
 	get_cpu_address_sizes(&boot_cpu_data);
 

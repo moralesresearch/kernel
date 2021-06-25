@@ -950,7 +950,6 @@ bool drm_dp_downstream_444_to_420_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZE]
 EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
 
 /**
-<<<<<<< HEAD
  * drm_dp_downstream_rgb_to_ycbcr_conversion() - determine downstream facing port
  *                                               RGB->YCbCr conversion capability
  * @dpcd: DisplayPort configuration data
@@ -983,8 +982,6 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
 EXPORT_SYMBOL(drm_dp_downstream_rgb_to_ycbcr_conversion);
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * drm_dp_downstream_mode() - return a mode for downstream facing port
  * @dev: DRM device
  * @dpcd: DisplayPort configuration data
@@ -1239,11 +1236,7 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
 	return connector->connector_type != DRM_MODE_CONNECTOR_eDP &&
 		dpcd[DP_DPCD_REV] >= DP_DPCD_REV_11 &&
 		dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT &&
-<<<<<<< HEAD
 		!drm_dp_has_quirk(desc, DP_DPCD_QUIRK_NO_SINK_COUNT);
-=======
-		!drm_dp_has_quirk(desc, 0, DP_DPCD_QUIRK_NO_SINK_COUNT);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(drm_dp_read_sink_count_cap);
 
@@ -1964,90 +1957,6 @@ drm_dp_get_quirks(const struct drm_dp_dpcd_ident *ident, bool is_branch)
 #undef DEVICE_ID_ANY
 #undef DEVICE_ID
 
-<<<<<<< HEAD
-=======
-struct edid_quirk {
-	u8 mfg_id[2];
-	u8 prod_id[2];
-	u32 quirks;
-};
-
-#define MFG(first, second) { (first), (second) }
-#define PROD_ID(first, second) { (first), (second) }
-
-/*
- * Some devices have unreliable OUIDs where they don't set the device ID
- * correctly, and as a result we need to use the EDID for finding additional
- * DP quirks in such cases.
- */
-static const struct edid_quirk edid_quirk_list[] = {
-	/* Optional 4K AMOLED panel in the ThinkPad X1 Extreme 2nd Generation
-	 * only supports DPCD backlight controls
-	 */
-	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	/*
-	 * Some Dell CML 2020 systems have panels support both AUX and PWM
-	 * backlight control, and some only support AUX backlight control. All
-	 * said panels start up in AUX mode by default, and we don't have any
-	 * support for disabling HDR mode on these panels which would be
-	 * required to switch to PWM backlight control mode (plus, I'm not
-	 * even sure we want PWM backlight controls over DPCD backlight
-	 * controls anyway...). Until we have a better way of detecting these,
-	 * force DPCD backlight mode on all of them.
-	 */
-	{ MFG(0x06, 0xaf), PROD_ID(0x9b, 0x32), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	{ MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	{ MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	{ MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	{ MFG(0x4c, 0x83), PROD_ID(0x47, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-	{ MFG(0x09, 0xe5), PROD_ID(0xde, 0x08), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-};
-
-#undef MFG
-#undef PROD_ID
-
-/**
- * drm_dp_get_edid_quirks() - Check the EDID of a DP device to find additional
- * DP-specific quirks
- * @edid: The EDID to check
- *
- * While OUIDs are meant to be used to recognize a DisplayPort device, a lot
- * of manufacturers don't seem to like following standards and neglect to fill
- * the dev-ID in, making it impossible to only use OUIDs for determining
- * quirks in some cases. This function can be used to check the EDID and look
- * up any additional DP quirks. The bits returned by this function correspond
- * to the quirk bits in &drm_dp_quirk.
- *
- * Returns: a bitmask of quirks, if any. The driver can check this using
- * drm_dp_has_quirk().
- */
-u32 drm_dp_get_edid_quirks(const struct edid *edid)
-{
-	const struct edid_quirk *quirk;
-	u32 quirks = 0;
-	int i;
-
-	if (!edid)
-		return 0;
-
-	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
-		quirk = &edid_quirk_list[i];
-		if (memcmp(quirk->mfg_id, edid->mfg_id,
-			   sizeof(edid->mfg_id)) == 0 &&
-		    memcmp(quirk->prod_id, edid->prod_code,
-			   sizeof(edid->prod_code)) == 0)
-			quirks |= quirk->quirks;
-	}
-
-	DRM_DEBUG_KMS("DP sink: EDID mfg %*phD prod-ID %*phD quirks: 0x%04x\n",
-		      (int)sizeof(edid->mfg_id), edid->mfg_id,
-		      (int)sizeof(edid->prod_code), edid->prod_code, quirks);
-
-	return quirks;
-}
-EXPORT_SYMBOL(drm_dp_get_edid_quirks);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * drm_dp_read_desc - read sink/branch descriptor from DPCD
  * @aux: DisplayPort AUX channel
@@ -2638,7 +2547,6 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
 #undef DP_SDP_LOG
 }
 EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
-<<<<<<< HEAD
 
 /**
  * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
@@ -2727,14 +2635,16 @@ EXPORT_SYMBOL(drm_dp_pcon_is_frl_ready);
  * drm_dp_pcon_frl_configure_1() - Set HDMI LINK Configuration-Step1
  * @aux: DisplayPort AUX channel
  * @max_frl_gbps: maximum frl bw to be configured between PCON and HDMI sink
- * @concurrent_mode: true if concurrent mode or operation is required,
- * false otherwise.
+ * @frl_mode: FRL Training mode, it can be either Concurrent or Sequential.
+ * In Concurrent Mode, the FRL link bring up can be done along with
+ * DP Link training. In Sequential mode, the FRL link bring up is done prior to
+ * the DP Link training.
  *
  * Returns 0 if success, else returns negative error code.
  */
 
 int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
-				bool concurrent_mode)
+				u8 frl_mode)
 {
 	int ret;
 	u8 buf;
@@ -2743,7 +2653,7 @@ int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
 	if (ret < 0)
 		return ret;
 
-	if (concurrent_mode)
+	if (frl_mode == DP_PCON_ENABLE_CONCURRENT_LINK)
 		buf |= DP_PCON_ENABLE_CONCURRENT_LINK;
 	else
 		buf &= ~DP_PCON_ENABLE_CONCURRENT_LINK;
@@ -2786,21 +2696,23 @@ EXPORT_SYMBOL(drm_dp_pcon_frl_configure_1);
  * drm_dp_pcon_frl_configure_2() - Set HDMI Link configuration Step-2
  * @aux: DisplayPort AUX channel
  * @max_frl_mask : Max FRL BW to be tried by the PCON with HDMI Sink
- * @extended_train_mode : true for Extended Mode, false for Normal Mode.
- * In Normal mode, the PCON tries each frl bw from the max_frl_mask starting
- * from min, and stops when link training is successful. In Extended mode, all
- * frl bw selected in the mask are trained by the PCON.
+ * @frl_type : FRL training type, can be Extended, or Normal.
+ * In Normal FRL training, the PCON tries each frl bw from the max_frl_mask
+ * starting from min, and stops when link training is successful. In Extended
+ * FRL training, all frl bw selected in the mask are trained by the PCON.
  *
  * Returns 0 if success, else returns negative error code.
  */
 int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
-				bool extended_train_mode)
+				u8 frl_type)
 {
 	int ret;
 	u8 buf = max_frl_mask;
 
-	if (extended_train_mode)
+	if (frl_type == DP_PCON_FRL_LINK_TRAIN_EXTENDED)
 		buf |= DP_PCON_FRL_LINK_TRAIN_EXTENDED;
+	else
+		buf &= ~DP_PCON_FRL_LINK_TRAIN_EXTENDED;
 
 	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_2, buf);
 	if (ret < 0)
@@ -3174,5 +3086,3 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
 	return 0;
 }
 EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

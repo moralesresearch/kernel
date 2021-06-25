@@ -11,20 +11,12 @@
 #include "hfi_helper.h"
 #include "hfi_parser.h"
 
-<<<<<<< HEAD
 typedef void (*func)(struct hfi_plat_caps *cap, const void *data,
-=======
-typedef void (*func)(struct venus_caps *cap, const void *data,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     unsigned int size);
 
 static void init_codecs(struct venus_core *core)
 {
-<<<<<<< HEAD
 	struct hfi_plat_caps *caps = core->caps, *cap;
-=======
-	struct venus_caps *caps = core->caps, *cap;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long bit;
 
 	for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
@@ -42,19 +34,11 @@ static void init_codecs(struct venus_core *core)
 	}
 }
 
-<<<<<<< HEAD
 static void for_each_codec(struct hfi_plat_caps *caps, unsigned int caps_num,
 			   u32 codecs, u32 domain, func cb, void *data,
 			   unsigned int size)
 {
 	struct hfi_plat_caps *cap;
-=======
-static void for_each_codec(struct venus_caps *caps, unsigned int caps_num,
-			   u32 codecs, u32 domain, func cb, void *data,
-			   unsigned int size)
-{
-	struct venus_caps *cap;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 
 	for (i = 0; i < caps_num; i++) {
@@ -67,11 +51,7 @@ static void for_each_codec(struct venus_caps *caps, unsigned int caps_num,
 }
 
 static void
-<<<<<<< HEAD
 fill_buf_mode(struct hfi_plat_caps *cap, const void *data, unsigned int num)
-=======
-fill_buf_mode(struct venus_caps *cap, const void *data, unsigned int num)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const u32 *type = data;
 
@@ -101,11 +81,7 @@ parse_alloc_mode(struct venus_core *core, u32 codecs, u32 domain, void *data)
 	}
 }
 
-<<<<<<< HEAD
 static void fill_profile_level(struct hfi_plat_caps *cap, const void *data,
-=======
-static void fill_profile_level(struct venus_caps *cap, const void *data,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       unsigned int num)
 {
 	const struct hfi_profile_level *pl = data;
@@ -131,11 +107,7 @@ parse_profile_level(struct venus_core *core, u32 codecs, u32 domain, void *data)
 }
 
 static void
-<<<<<<< HEAD
 fill_caps(struct hfi_plat_caps *cap, const void *data, unsigned int num)
-=======
-fill_caps(struct venus_caps *cap, const void *data, unsigned int num)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct hfi_capability *caps = data;
 
@@ -160,11 +132,7 @@ parse_caps(struct venus_core *core, u32 codecs, u32 domain, void *data)
 		       fill_caps, caps_arr, num_caps);
 }
 
-<<<<<<< HEAD
 static void fill_raw_fmts(struct hfi_plat_caps *cap, const void *fmts,
-=======
-static void fill_raw_fmts(struct venus_caps *cap, const void *fmts,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  unsigned int num_fmts)
 {
 	const struct raw_formats *formats = fmts;
@@ -243,11 +211,7 @@ static void parser_init(struct venus_inst *inst, u32 *codecs, u32 *domain)
 
 static void parser_fini(struct venus_inst *inst, u32 codecs, u32 domain)
 {
-<<<<<<< HEAD
 	struct hfi_plat_caps *caps, *cap;
-=======
-	struct venus_caps *caps, *cap;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 	u32 dom;
 
@@ -264,7 +228,6 @@ static void parser_fini(struct venus_inst *inst, u32 codecs, u32 domain)
 	}
 }
 
-<<<<<<< HEAD
 static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
 {
 	const struct hfi_platform *plat;
@@ -298,36 +261,26 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
 	       u32 size)
 {
 	unsigned int words_count = size >> 2;
 	u32 *word = buf, *data, codecs = 0, domain = 0;
-<<<<<<< HEAD
 	int ret;
 
 	ret = hfi_platform_parser(core, inst);
 	if (!ret)
 		return HFI_ERR_NONE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (size % 4)
 		return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
 
 	parser_init(inst, &codecs, &domain);
 
-<<<<<<< HEAD
 	if (core->res->hfi_version > HFI_VERSION_1XX) {
 		core->codecs_count = 0;
 		memset(core->caps, 0, sizeof(core->caps));
 	}
-=======
-	core->codecs_count = 0;
-	memset(core->caps, 0, sizeof(core->caps));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (words_count) {
 		data = word + 1;
@@ -363,12 +316,9 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
 		words_count--;
 	}
 
-<<<<<<< HEAD
 	if (!core->max_sessions_supported)
 		core->max_sessions_supported = MAX_SESSIONS;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	parser_fini(inst, codecs, domain);
 
 	return HFI_ERR_NONE;

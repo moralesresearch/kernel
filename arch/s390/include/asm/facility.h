@@ -44,15 +44,7 @@ static inline int __test_facility(unsigned long nr, void *facilities)
 }
 
 /*
-<<<<<<< HEAD
  * The test_facility function uses the bit ordering where the MSB is bit 0.
-=======
-<<<<<<< HEAD
- * The test_facility function uses the bit ordering where the MSB is bit 0.
-=======
- * The test_facility function uses the bit odering where the MSB is bit 0.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * That makes it easier to query facility bits with the bit number as
  * documented in the Principles of Operation.
  */

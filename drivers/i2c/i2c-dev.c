@@ -440,7 +440,6 @@ static long i2cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 				   sizeof(rdwr_arg)))
 			return -EFAULT;
 
-<<<<<<< HEAD
 		if (!rdwr_arg.msgs || rdwr_arg.nmsgs == 0)
 			return -EINVAL;
 
@@ -448,10 +447,6 @@ static long i2cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		 * Put an arbitrary limit on the number of messages that can
 		 * be sent at once
 		 */
-=======
-		/* Put an arbitrary limit on the number of messages that can
-		 * be sent at once */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rdwr_arg.nmsgs > I2C_RDWR_IOCTL_MAX_MSGS)
 			return -EINVAL;
 

@@ -582,12 +582,7 @@ error_disable_reg:
 	if (!IS_ERR(st->reg))
 		regulator_disable(st->reg);
 error_disable_clk:
-<<<<<<< HEAD
 	clk_disable_unprepare(clk);
-=======
-	if (clk)
-		clk_disable_unprepare(clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -603,12 +598,7 @@ static int adf4350_remove(struct spi_device *spi)
 
 	iio_device_unregister(indio_dev);
 
-<<<<<<< HEAD
 	clk_disable_unprepare(st->clk);
-=======
-	if (st->clk)
-		clk_disable_unprepare(st->clk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!IS_ERR(reg))
 		regulator_disable(reg);

@@ -84,7 +84,6 @@ static inline struct kthread *to_kthread(struct task_struct *k)
 	return (__force void *)k->set_child_tid;
 }
 
-<<<<<<< HEAD
 /*
  * Variant of to_kthread() that doesn't assume @p is a kthread.
  *
@@ -104,8 +103,6 @@ static inline struct kthread *__to_kthread(struct task_struct *p)
 	return kthread;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void free_kthread_struct(struct task_struct *k)
 {
 	struct kthread *kthread;
@@ -190,14 +187,9 @@ EXPORT_SYMBOL_GPL(kthread_freezable_should_stop);
  */
 void *kthread_func(struct task_struct *task)
 {
-<<<<<<< HEAD
 	struct kthread *kthread = __to_kthread(task);
 	if (kthread)
 		return kthread->threadfn;
-=======
-	if (task->flags & PF_KTHREAD)
-		return to_kthread(task)->threadfn;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }
 EXPORT_SYMBOL_GPL(kthread_func);
@@ -227,18 +219,11 @@ EXPORT_SYMBOL_GPL(kthread_data);
  */
 void *kthread_probe_data(struct task_struct *task)
 {
-<<<<<<< HEAD
 	struct kthread *kthread = __to_kthread(task);
 	void *data = NULL;
 
 	if (kthread)
 		copy_from_kernel_nofault(&data, &kthread->data, sizeof(data));
-=======
-	struct kthread *kthread = to_kthread(task);
-	void *data = NULL;
-
-	copy_from_kernel_nofault(&data, &kthread->data, sizeof(data));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return data;
 }
 
@@ -550,15 +535,9 @@ void kthread_set_per_cpu(struct task_struct *k, int cpu)
 	set_bit(KTHREAD_IS_PER_CPU, &kthread->flags);
 }
 
-<<<<<<< HEAD
 bool kthread_is_per_cpu(struct task_struct *p)
 {
 	struct kthread *kthread = __to_kthread(p);
-=======
-bool kthread_is_per_cpu(struct task_struct *k)
-{
-	struct kthread *kthread = to_kthread(k);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!kthread)
 		return false;
 
@@ -1005,7 +984,8 @@ static void __kthread_queue_delayed_work(struct kthread_worker *worker,
 	struct timer_list *timer = &dwork->timer;
 	struct kthread_work *work = &dwork->work;
 
-	WARN_ON_ONCE(timer->function != kthread_delayed_work_timer_fn);
+	WARN_ON_FUNCTION_MISMATCH(timer->function,
+				  kthread_delayed_work_timer_fn);
 
 	/*
 	 * If @delay is 0, queue @dwork->work immediately.  This is for

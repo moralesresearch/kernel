@@ -355,20 +355,12 @@ static int ibmebus_bus_device_probe(struct device *dev)
 	if (!drv->probe)
 		return error;
 
-<<<<<<< HEAD
 	get_device(dev);
-=======
-	of_dev_get(of_dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (of_driver_match_device(dev, dev->driver))
 		error = drv->probe(of_dev);
 	if (error)
-<<<<<<< HEAD
 		put_device(dev);
-=======
-		of_dev_put(of_dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error;
 }

@@ -222,15 +222,7 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
 	a5xx_preempt_trigger(gpu);
 }
 
-<<<<<<< HEAD
 static const struct adreno_five_hwcg_regs {
-=======
-<<<<<<< HEAD
-static const struct adreno_five_hwcg_regs {
-=======
-static const struct {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 offset;
 	u32 value;
 } a5xx_hwcg[] = {
@@ -326,10 +318,6 @@ static const struct {
 	{REG_A5XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM, 0x00004000},
 	{REG_A5XX_RBBM_CLOCK_DELAY_GPC, 0x00000200},
 	{REG_A5XX_RBBM_CLOCK_DELAY_VFD, 0x00002222}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }, a50x_hwcg[] = {
 	{REG_A5XX_RBBM_CLOCK_CNTL_SP0, 0x02222222},
 	{REG_A5XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
@@ -426,20 +414,11 @@ static const struct {
 	{REG_A5XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM, 0x00004000},
 	{REG_A5XX_RBBM_CLOCK_DELAY_GPC, 0x00000200},
 	{REG_A5XX_RBBM_CLOCK_DELAY_VFD, 0x00002222},
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct adreno_five_hwcg_regs *regs;
 	unsigned int i, sz;
 
@@ -457,16 +436,6 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
 	for (i = 0; i < sz; i++)
 		gpu_write(gpu, regs[i].offset,
 			  state ? regs[i].value : 0);
-<<<<<<< HEAD
-=======
-=======
-	unsigned int i;
-
-	for (i = 0; i < ARRAY_SIZE(a5xx_hwcg); i++)
-		gpu_write(gpu, a5xx_hwcg[i].offset,
-			state ? a5xx_hwcg[i].value : 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (adreno_is_a540(adreno_gpu)) {
 		gpu_write(gpu, REG_A5XX_RBBM_CLOCK_DELAY_GPMU, state ? 0x00000770 : 0);
@@ -677,29 +646,13 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
 	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
-<<<<<<< HEAD
 	u32 regbit;
-=======
-<<<<<<< HEAD
-	u32 regbit;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	gpu_write(gpu, REG_A5XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x00000003);
 
-<<<<<<< HEAD
 	if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu) ||
 	    adreno_is_a540(adreno_gpu))
-=======
-<<<<<<< HEAD
-	if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu) ||
-	    adreno_is_a540(adreno_gpu))
-=======
-	if (adreno_is_a540(adreno_gpu))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gpu_write(gpu, REG_A5XX_VBIF_GATE_OFF_WRREQ_EN, 0x00000009);
 
 	/* Make all blocks contribute to the GPU BUSY perf counter */
@@ -761,10 +714,6 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 		0x00100000 + adreno_gpu->gmem - 1);
 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MAX_HI, 0x00000000);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu)) {
 		gpu_write(gpu, REG_A5XX_CP_MEQ_THRESHOLDS, 0x20);
 		if (adreno_is_a508(adreno_gpu))
@@ -773,26 +722,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x20);
 		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_2, 0x40000030);
 		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_1, 0x20100D0A);
-<<<<<<< HEAD
-=======
-=======
-	if (adreno_is_a510(adreno_gpu)) {
-		gpu_write(gpu, REG_A5XX_CP_MEQ_THRESHOLDS, 0x20);
-		gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x20);
-		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_2, 0x40000030);
-		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_1, 0x20100D0A);
-		gpu_write(gpu, REG_A5XX_PC_DBG_ECO_CNTL,
-			  (0x200 << 11 | 0x200 << 22));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		gpu_write(gpu, REG_A5XX_CP_MEQ_THRESHOLDS, 0x40);
 		if (adreno_is_a530(adreno_gpu))
 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x40);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x400);
 		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_2, 0x80000060);
@@ -809,26 +742,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 	else
 		gpu_write(gpu, REG_A5XX_PC_DBG_ECO_CNTL,
 			  (0x400 << 11 | 0x300 << 22));
-<<<<<<< HEAD
-=======
-=======
-		if (adreno_is_a540(adreno_gpu))
-			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x400);
-		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_2, 0x80000060);
-		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_1, 0x40201B16);
-		gpu_write(gpu, REG_A5XX_PC_DBG_ECO_CNTL,
-			  (0x400 << 11 | 0x300 << 22));
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (adreno_gpu->info->quirks & ADRENO_QUIRK_TWO_PASS_USE_WFI)
 		gpu_rmw(gpu, REG_A5XX_PC_DBG_ECO_CNTL, 0, (1 << 8));
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Disable the RB sampler datapath DP2 clock gating optimization
 	 * for 1-SP GPUs, as it is enabled by default.
@@ -840,11 +757,6 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 	/* Disable UCHE global filter as SP can invalidate/flush independently */
 	gpu_write(gpu, REG_A5XX_UCHE_MODE_CNTL, BIT(29));
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Enable USE_RETENTION_FLOPS */
 	gpu_write(gpu, REG_A5XX_CP_CHICKEN_DBG, 0x02000000);
 
@@ -870,10 +782,6 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 	gpu_write(gpu, REG_A5XX_RBBM_AHB_CNTL2, 0x0000003F);
 
 	/* Set the highest bank bit */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adreno_is_a540(adreno_gpu))
 		regbit = 2;
 	else
@@ -888,15 +796,6 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 
 	/* Disable All flat shading optimization (ALLFLATOPTDIS) */
 	gpu_rmw(gpu, REG_A5XX_VPC_DBG_ECO_CNTL, 0, (1 << 10));
-<<<<<<< HEAD
-=======
-=======
-	gpu_write(gpu, REG_A5XX_TPL1_MODE_CNTL, 2 << 7);
-	gpu_write(gpu, REG_A5XX_RB_MODE_CNTL, 2 << 1);
-	if (adreno_is_a540(adreno_gpu))
-		gpu_write(gpu, REG_A5XX_UCHE_DBG_ECO_CNTL_2, 2);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Protect registers from the CP */
 	gpu_write(gpu, REG_A5XX_CP_PROTECT_CNTL, 0x00000007);
@@ -928,32 +827,14 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 
 	/* VPC */
 	gpu_write(gpu, REG_A5XX_CP_PROTECT(14), ADRENO_PROTECT_RW(0xE68, 8));
-<<<<<<< HEAD
 	gpu_write(gpu, REG_A5XX_CP_PROTECT(15), ADRENO_PROTECT_RW(0xE70, 16));
-=======
-<<<<<<< HEAD
-	gpu_write(gpu, REG_A5XX_CP_PROTECT(15), ADRENO_PROTECT_RW(0xE70, 16));
-=======
-	gpu_write(gpu, REG_A5XX_CP_PROTECT(15), ADRENO_PROTECT_RW(0xE70, 4));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* UCHE */
 	gpu_write(gpu, REG_A5XX_CP_PROTECT(16), ADRENO_PROTECT_RW(0xE80, 16));
 
-<<<<<<< HEAD
 	if (adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
 	    adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu) ||
 	    adreno_is_a530(adreno_gpu))
-=======
-<<<<<<< HEAD
-	if (adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
-	    adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu) ||
-	    adreno_is_a530(adreno_gpu))
-=======
-	if (adreno_is_a530(adreno_gpu) || adreno_is_a510(adreno_gpu))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gpu_write(gpu, REG_A5XX_CP_PROTECT(17),
 			ADRENO_PROTECT_RW(0x10000, 0x8000));
 
@@ -995,17 +876,8 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	if (!(adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
 	      adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu)))
-=======
-<<<<<<< HEAD
-	if (!(adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
-	      adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu)))
-=======
-	if (!adreno_is_a510(adreno_gpu))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		a5xx_gpmu_ucode_init(gpu);
 
 	ret = a5xx_ucode_init(gpu);
@@ -1438,17 +1310,8 @@ static int a5xx_pm_resume(struct msm_gpu *gpu)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	/* Adreno 508, 509, 510, 512 needs manual RBBM sus/res control */
 	if (!(adreno_is_a530(adreno_gpu) || adreno_is_a540(adreno_gpu))) {
-=======
-<<<<<<< HEAD
-	/* Adreno 508, 509, 510, 512 needs manual RBBM sus/res control */
-	if (!(adreno_is_a530(adreno_gpu) || adreno_is_a540(adreno_gpu))) {
-=======
-	if (adreno_is_a510(adreno_gpu)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Halt the sp_input_clk at HM level */
 		gpu_write(gpu, REG_A5XX_RBBM_CLOCK_CNTL, 0x00000055);
 		a5xx_set_hwcg(gpu, true);
@@ -1490,18 +1353,8 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
 	u32 mask = 0xf;
 	int i, ret;
 
-<<<<<<< HEAD
 	/* A508, A510 have 3 XIN ports in VBIF */
 	if (adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu))
-=======
-<<<<<<< HEAD
-	/* A508, A510 have 3 XIN ports in VBIF */
-	if (adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu))
-=======
-	/* A510 has 3 XIN ports in VBIF */
-	if (adreno_is_a510(adreno_gpu))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mask = 0x7;
 
 	/* Clear the VBIF pipe before shutting down */
@@ -1513,25 +1366,12 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
 
 	/*
 	 * Reset the VBIF before power collapse to avoid issue with FIFO
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * entries on Adreno A510 and A530 (the others will tend to lock up)
 	 */
 	if (adreno_is_a510(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
 		gpu_write(gpu, REG_A5XX_RBBM_BLOCK_SW_RESET_CMD, 0x003C0000);
 		gpu_write(gpu, REG_A5XX_RBBM_BLOCK_SW_RESET_CMD, 0x00000000);
 	}
-<<<<<<< HEAD
-=======
-=======
-	 * entries
-	 */
-	gpu_write(gpu, REG_A5XX_RBBM_BLOCK_SW_RESET_CMD, 0x003C0000);
-	gpu_write(gpu, REG_A5XX_RBBM_BLOCK_SW_RESET_CMD, 0x00000000);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = msm_gpu_pm_suspend(gpu);
 	if (ret)
@@ -1546,18 +1386,8 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
 
 static int a5xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
 {
-<<<<<<< HEAD
 	*value = gpu_read64(gpu, REG_A5XX_RBBM_ALWAYSON_COUNTER_LO,
 		REG_A5XX_RBBM_ALWAYSON_COUNTER_HI);
-=======
-<<<<<<< HEAD
-	*value = gpu_read64(gpu, REG_A5XX_RBBM_ALWAYSON_COUNTER_LO,
-		REG_A5XX_RBBM_ALWAYSON_COUNTER_HI);
-=======
-	*value = gpu_read64(gpu, REG_A5XX_RBBM_PERFCTR_CP_0_LO,
-		REG_A5XX_RBBM_PERFCTR_CP_0_HI);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

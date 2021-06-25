@@ -71,7 +71,6 @@ struct mchp_pit64b_clkevt {
 	struct clock_event_device	clkevt;
 };
 
-<<<<<<< HEAD
 #define clkevt_to_mchp_pit64b_timer(x) \
 	((struct mchp_pit64b_timer *)container_of(x,\
 		struct mchp_pit64b_clkevt, clkevt))
@@ -90,12 +89,6 @@ struct mchp_pit64b_clksrc {
 	((struct mchp_pit64b_timer *)container_of(x,\
 		struct mchp_pit64b_clksrc, clksrc))
 
-=======
-#define to_mchp_pit64b_timer(x) \
-	((struct mchp_pit64b_timer *)container_of(x,\
-		struct mchp_pit64b_clkevt, clkevt))
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Base address for clocksource timer. */
 static void __iomem *mchp_pit64b_cs_base;
 /* Default cycles for clockevent timer. */
@@ -137,7 +130,6 @@ static inline void mchp_pit64b_reset(struct mchp_pit64b_timer *timer,
 	writel_relaxed(MCHP_PIT64B_CR_START, timer->base + MCHP_PIT64B_CR);
 }
 
-<<<<<<< HEAD
 static void mchp_pit64b_suspend(struct mchp_pit64b_timer *timer)
 {
 	writel_relaxed(MCHP_PIT64B_CR_SWRST, timer->base + MCHP_PIT64B_CR);
@@ -168,8 +160,6 @@ static void mchp_pit64b_clksrc_resume(struct clocksource *cs)
 	mchp_pit64b_reset(timer, ULLONG_MAX, MCHP_PIT64B_MR_CONT, 0);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u64 mchp_pit64b_clksrc_read(struct clocksource *cs)
 {
 	return mchp_pit64b_cnt_read(mchp_pit64b_cs_base);
@@ -182,11 +172,7 @@ static u64 mchp_pit64b_sched_read_clk(void)
 
 static int mchp_pit64b_clkevt_shutdown(struct clock_event_device *cedev)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_timer *timer = clkevt_to_mchp_pit64b_timer(cedev);
-=======
-	struct mchp_pit64b_timer *timer = to_mchp_pit64b_timer(cedev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	writel_relaxed(MCHP_PIT64B_CR_SWRST, timer->base + MCHP_PIT64B_CR);
 
@@ -195,11 +181,7 @@ static int mchp_pit64b_clkevt_shutdown(struct clock_event_device *cedev)
 
 static int mchp_pit64b_clkevt_set_periodic(struct clock_event_device *cedev)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_timer *timer = clkevt_to_mchp_pit64b_timer(cedev);
-=======
-	struct mchp_pit64b_timer *timer = to_mchp_pit64b_timer(cedev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mchp_pit64b_reset(timer, mchp_pit64b_ce_cycles, MCHP_PIT64B_MR_CONT,
 			  MCHP_PIT64B_IER_PERIOD);
@@ -210,11 +192,7 @@ static int mchp_pit64b_clkevt_set_periodic(struct clock_event_device *cedev)
 static int mchp_pit64b_clkevt_set_next_event(unsigned long evt,
 					     struct clock_event_device *cedev)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_timer *timer = clkevt_to_mchp_pit64b_timer(cedev);
-=======
-	struct mchp_pit64b_timer *timer = to_mchp_pit64b_timer(cedev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mchp_pit64b_reset(timer, evt, MCHP_PIT64B_MR_ONE_SHOT,
 			  MCHP_PIT64B_IER_PERIOD);
@@ -224,33 +202,16 @@ static int mchp_pit64b_clkevt_set_next_event(unsigned long evt,
 
 static void mchp_pit64b_clkevt_suspend(struct clock_event_device *cedev)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_timer *timer = clkevt_to_mchp_pit64b_timer(cedev);
 
 	mchp_pit64b_suspend(timer);
-=======
-	struct mchp_pit64b_timer *timer = to_mchp_pit64b_timer(cedev);
-
-	writel_relaxed(MCHP_PIT64B_CR_SWRST, timer->base + MCHP_PIT64B_CR);
-	if (timer->mode & MCHP_PIT64B_MR_SGCLK)
-		clk_disable_unprepare(timer->gclk);
-	clk_disable_unprepare(timer->pclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mchp_pit64b_clkevt_resume(struct clock_event_device *cedev)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_timer *timer = clkevt_to_mchp_pit64b_timer(cedev);
 
 	mchp_pit64b_resume(timer);
-=======
-	struct mchp_pit64b_timer *timer = to_mchp_pit64b_timer(cedev);
-
-	clk_prepare_enable(timer->pclk);
-	if (timer->mode & MCHP_PIT64B_MR_SGCLK)
-		clk_prepare_enable(timer->gclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static irqreturn_t mchp_pit64b_interrupt(int irq, void *dev_id)
@@ -276,7 +237,7 @@ static void __init mchp_pit64b_pres_compute(u32 *pres, u32 clk_rate,
 			break;
 	}
 
-	/* Use the bigest prescaler if we didn't match one. */
+	/* Use the biggest prescaler if we didn't match one. */
 	if (*pres == MCHP_PIT64B_PRES_MAX)
 		*pres = MCHP_PIT64B_PRES_MAX - 1;
 }
@@ -374,7 +335,6 @@ done:
 static int __init mchp_pit64b_init_clksrc(struct mchp_pit64b_timer *timer,
 					  u32 clk_rate)
 {
-<<<<<<< HEAD
 	struct mchp_pit64b_clksrc *cs;
 	int ret;
 
@@ -382,15 +342,10 @@ static int __init mchp_pit64b_init_clksrc(struct mchp_pit64b_timer *timer,
 	if (!cs)
 		return -ENOMEM;
 
-=======
-	int ret;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mchp_pit64b_reset(timer, ULLONG_MAX, MCHP_PIT64B_MR_CONT, 0);
 
 	mchp_pit64b_cs_base = timer->base;
 
-<<<<<<< HEAD
 	cs->timer.base = timer->base;
 	cs->timer.pclk = timer->pclk;
 	cs->timer.gclk = timer->gclk;
@@ -404,20 +359,13 @@ static int __init mchp_pit64b_init_clksrc(struct mchp_pit64b_timer *timer,
 	cs->clksrc.resume = mchp_pit64b_clksrc_resume;
 
 	ret = clocksource_register_hz(&cs->clksrc, clk_rate);
-=======
-	ret = clocksource_mmio_init(timer->base, MCHP_PIT64B_NAME, clk_rate,
-				    210, 64, mchp_pit64b_clksrc_read);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		pr_debug("clksrc: Failed to register PIT64B clocksource!\n");
 
 		/* Stop timer. */
 		writel_relaxed(MCHP_PIT64B_CR_SWRST,
 			       timer->base + MCHP_PIT64B_CR);
-<<<<<<< HEAD
 		kfree(cs);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return ret;
 	}

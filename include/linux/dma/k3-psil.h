@@ -42,24 +42,14 @@ enum psil_endpoint_type {
 /**
  * struct psil_endpoint_config - PSI-L Endpoint configuration
  * @ep_type:		PSI-L endpoint type
-<<<<<<< HEAD
  * @channel_tpl:	Desired throughput level for the channel
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pkt_mode:		If set, the channel must be in Packet mode, otherwise in
  *			TR mode
  * @notdpkt:		TDCM must be suppressed on the TX channel
  * @needs_epib:		Endpoint needs EPIB
-<<<<<<< HEAD
  * @pdma_acc32:		ACC32 must be enabled on the PDMA side
  * @pdma_burst:		BURST must be enabled on the PDMA side
  * @psd_size:		If set, PSdata is used by the endpoint
-=======
- * @psd_size:		If set, PSdata is used by the endpoint
- * @channel_tpl:	Desired throughput level for the channel
- * @pdma_acc32:		ACC32 must be enabled on the PDMA side
- * @pdma_burst:		BURST must be enabled on the PDMA side
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @mapped_channel_id:	PKTDMA thread to channel mapping for mapped channels.
  *			The thread must be serviced by the specified channel if
  *			mapped_channel_id is >= 0 in case of PKTDMA
@@ -72,25 +62,15 @@ enum psil_endpoint_type {
  */
 struct psil_endpoint_config {
 	enum psil_endpoint_type ep_type;
-<<<<<<< HEAD
 	enum udma_tp_level channel_tpl;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned pkt_mode:1;
 	unsigned notdpkt:1;
 	unsigned needs_epib:1;
-<<<<<<< HEAD
-=======
-	u32 psd_size;
-	enum udma_tp_level channel_tpl;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* PDMA properties, valid for PSIL_EP_PDMA_* */
 	unsigned pdma_acc32:1;
 	unsigned pdma_burst:1;
 
-<<<<<<< HEAD
 	u32 psd_size;
 	/* PKDMA mapped channel */
 	s16 mapped_channel_id;
@@ -98,14 +78,6 @@ struct psil_endpoint_config {
 	u16 flow_start;
 	u16 flow_num;
 	s16 default_flow_id;
-=======
-	/* PKDMA mapped channel */
-	int mapped_channel_id;
-	/* PKTDMA tflow and rflow ranges for mapped channel */
-	u16 flow_start;
-	u16 flow_num;
-	u16 default_flow_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int psil_set_new_ep_config(struct device *dev, const char *name,

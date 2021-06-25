@@ -166,11 +166,6 @@ long keyctl_pkey_query(key_serial_t id,
 	struct kernel_pkey_query res;
 	long ret;
 
-<<<<<<< HEAD
-=======
-	memset(&params, 0, sizeof(params));
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = keyctl_pkey_params_get(id, _info, &params);
 	if (ret < 0)
 		goto error;

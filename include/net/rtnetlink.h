@@ -147,18 +147,8 @@ struct rtnl_af_ops {
 	int			(*validate_link_af)(const struct net_device *dev,
 						    const struct nlattr *attr);
 	int			(*set_link_af)(struct net_device *dev,
-<<<<<<< HEAD
 					       const struct nlattr *attr,
 					       struct netlink_ext_ack *extack);
-=======
-<<<<<<< HEAD
-					       const struct nlattr *attr,
-					       struct netlink_ext_ack *extack);
-=======
-					       const struct nlattr *attr);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			(*fill_stats_af)(struct sk_buff *skb,
 						 const struct net_device *dev);
 	size_t			(*get_stats_af_size)(const struct net_device *dev);

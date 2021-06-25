@@ -29,10 +29,6 @@
 #include <linux/slab.h>
 #include <linux/export.h>
 #include <linux/if_vlan.h>
-<<<<<<< HEAD
-=======
-#include <net/dsa.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/tcp.h>
 #include <net/udp.h>
 #include <net/addrconf.h>
@@ -661,26 +657,15 @@ EXPORT_SYMBOL_GPL(__netpoll_setup);
 
 int netpoll_setup(struct netpoll *np)
 {
-<<<<<<< HEAD
 	struct net_device *ndev = NULL;
-=======
-	struct net_device *ndev = NULL, *dev = NULL;
-	struct net *net = current->nsproxy->net_ns;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct in_device *in_dev;
 	int err;
 
 	rtnl_lock();
-<<<<<<< HEAD
 	if (np->dev_name[0]) {
 		struct net *net = current->nsproxy->net_ns;
 		ndev = __dev_get_by_name(net, np->dev_name);
 	}
-=======
-	if (np->dev_name[0])
-		ndev = __dev_get_by_name(net, np->dev_name);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ndev) {
 		np_err(np, "%s doesn't exist, aborting\n", np->dev_name);
 		err = -ENODEV;
@@ -688,22 +673,6 @@ int netpoll_setup(struct netpoll *np)
 	}
 	dev_hold(ndev);
 
-<<<<<<< HEAD
-=======
-	/* bring up DSA management network devices up first */
-	for_each_netdev(net, dev) {
-		if (!netdev_uses_dsa(dev))
-			continue;
-
-		err = dev_change_flags(dev, dev->flags | IFF_UP, NULL);
-		if (err < 0) {
-			np_err(np, "%s failed to open %s\n",
-			       np->dev_name, dev->name);
-			goto put;
-		}
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (netdev_master_upper_dev_get(ndev)) {
 		np_err(np, "%s is a slave device, aborting\n", np->dev_name);
 		err = -EBUSY;

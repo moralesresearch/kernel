@@ -117,18 +117,8 @@ int __init vpe_module_init(void)
 	}
 
 	device_initialize(&vpe_device);
-<<<<<<< HEAD
 	vpe_device.class	= &vpe_class;
 	vpe_device.parent	= NULL;
-=======
-<<<<<<< HEAD
-	vpe_device.class	= &vpe_class;
-	vpe_device.parent	= NULL;
-=======
-	vpe_device.class	= &vpe_class,
-	vpe_device.parent	= NULL,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_set_name(&vpe_device, "vpe_sp");
 	vpe_device.devt = MKDEV(major, VPE_MODULE_MINOR);
 	err = device_add(&vpe_device);

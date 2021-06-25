@@ -152,24 +152,15 @@ out_unmap:
 	return err;
 }
 
-<<<<<<< HEAD
 static int udf_symlink_getattr(struct user_namespace *mnt_userns,
 			       const struct path *path, struct kstat *stat,
 			       u32 request_mask, unsigned int flags)
-=======
-static int udf_symlink_getattr(const struct path *path, struct kstat *stat,
-				u32 request_mask, unsigned int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *dentry = path->dentry;
 	struct inode *inode = d_backing_inode(dentry);
 	struct page *page;
 
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	page = read_mapping_page(inode->i_mapping, 0, NULL);
 	if (IS_ERR(page))
 		return PTR_ERR(page);

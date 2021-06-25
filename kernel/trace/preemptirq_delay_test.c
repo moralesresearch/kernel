@@ -21,25 +21,16 @@
 static ulong delay = 100;
 static char test_mode[12] = "irq";
 static uint burst_size = 1;
-<<<<<<< HEAD
 static int  cpu_affinity = -1;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 module_param_named(delay, delay, ulong, 0444);
 module_param_string(test_mode, test_mode, 12, 0444);
 module_param_named(burst_size, burst_size, uint, 0444);
-<<<<<<< HEAD
 module_param_named(cpu_affinity, cpu_affinity, int, 0444);
 MODULE_PARM_DESC(delay, "Period in microseconds (100 us default)");
 MODULE_PARM_DESC(test_mode, "Mode of the test such as preempt, irq, or alternate (default irq)");
 MODULE_PARM_DESC(burst_size, "The size of a burst (default 1)");
 MODULE_PARM_DESC(cpu_affinity, "Cpu num test is running on");
-=======
-MODULE_PARM_DESC(delay, "Period in microseconds (100 us default)");
-MODULE_PARM_DESC(test_mode, "Mode of the test such as preempt, irq, or alternate (default irq)");
-MODULE_PARM_DESC(burst_size, "The size of a burst (default 1)");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct completion done;
 
@@ -48,13 +39,9 @@ static struct completion done;
 static void busy_wait(ulong time)
 {
 	u64 start, end;
-<<<<<<< HEAD
 
 	start = trace_clock_local();
 
-=======
-	start = trace_clock_local();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		end = trace_clock_local();
 		if (kthread_should_stop())
@@ -65,10 +52,7 @@ static void busy_wait(ulong time)
 static __always_inline void irqoff_test(void)
 {
 	unsigned long flags;
-<<<<<<< HEAD
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local_irq_save(flags);
 	busy_wait(delay);
 	local_irq_restore(flags);
@@ -135,7 +119,6 @@ static int preemptirq_delay_run(void *data)
 {
 	int i;
 	int s = MIN(burst_size, NR_TEST_FUNCS);
-<<<<<<< HEAD
 	struct cpumask cpu_mask;
 
 	if (cpu_affinity > -1) {
@@ -144,8 +127,6 @@ static int preemptirq_delay_run(void *data)
 		if (set_cpus_allowed_ptr(current, &cpu_mask))
 			pr_err("cpu_affinity:%d, failed\n", cpu_affinity);
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < s; i++)
 		(testfuncs[i])(i);

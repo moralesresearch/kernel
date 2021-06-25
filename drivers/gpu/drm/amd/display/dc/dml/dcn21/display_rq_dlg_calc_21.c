@@ -277,7 +277,6 @@ static void handle_det_buf_split(
 	if (surf_linear) {
 		log2_swath_height_l = 0;
 		log2_swath_height_c = 0;
-<<<<<<< HEAD
 	} else {
 		unsigned int swath_height_l;
 		unsigned int swath_height_c;
@@ -303,15 +302,6 @@ static void handle_det_buf_split(
 			log2_swath_height_c -= 1;
 	}
 
-=======
-	} else if (!surf_vert) {
-		log2_swath_height_l = dml_log2(rq_param->misc.rq_l.blk256_height) - req128_l;
-		log2_swath_height_c = dml_log2(rq_param->misc.rq_c.blk256_height) - req128_c;
-	} else {
-		log2_swath_height_l = dml_log2(rq_param->misc.rq_l.blk256_width) - req128_l;
-		log2_swath_height_c = dml_log2(rq_param->misc.rq_c.blk256_width) - req128_c;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rq_param->dlg.rq_l.swath_height = 1 << log2_swath_height_l;
 	rq_param->dlg.rq_c.swath_height = 1 << log2_swath_height_c;
 

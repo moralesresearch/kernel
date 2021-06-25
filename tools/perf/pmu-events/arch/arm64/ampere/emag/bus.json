@@ -18,13 +18,6 @@
         "ArchStdEvent": "BUS_ACCESS_PERIPH"
     },
     {
-<<<<<<< HEAD
         "ArchStdEvent": "BUS_ACCESS",
-=======
-        "PublicDescription": "Bus access",
-        "EventCode": "0x19",
-        "EventName": "BUS_ACCESS",
-        "BriefDescription": "Bus access"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     }
 ]

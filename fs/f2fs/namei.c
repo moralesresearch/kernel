@@ -46,15 +46,7 @@ static struct inode *f2fs_new_inode(struct inode *dir, umode_t mode)
 
 	nid_free = true;
 
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-<<<<<<< HEAD
-	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-	inode_init_owner(inode, dir, mode);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	inode->i_ino = ino;
 	inode->i_blocks = 0;
@@ -322,18 +314,8 @@ static void set_compress_inode(struct f2fs_sb_info *sbi, struct inode *inode,
 	}
 }
 
-<<<<<<< HEAD
 static int f2fs_create(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode, bool excl)
-=======
-<<<<<<< HEAD
-static int f2fs_create(struct user_namespace *mnt_userns, struct inode *dir,
-		       struct dentry *dentry, umode_t mode, bool excl)
-=======
-static int f2fs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
-						bool excl)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(dir);
 	struct inode *inode;
@@ -434,9 +416,9 @@ out:
 
 struct dentry *f2fs_get_parent(struct dentry *child)
 {
-	struct qstr dotdot = QSTR_INIT("..", 2);
 	struct page *page;
-	unsigned long ino = f2fs_inode_by_name(d_inode(child), &dotdot, &page);
+	unsigned long ino = f2fs_inode_by_name(d_inode(child), &dotdot_name, &page);
+
 	if (!ino) {
 		if (IS_ERR(page))
 			return ERR_CAST(page);
@@ -646,6 +628,7 @@ static const char *f2fs_get_link(struct dentry *dentry,
 				 struct delayed_call *done)
 {
 	const char *link = page_get_link(dentry, inode, done);
+
 	if (!IS_ERR(link) && !*link) {
 		/* this is broken symlink case */
 		do_delayed_call(done);
@@ -655,18 +638,8 @@ static const char *f2fs_get_link(struct dentry *dentry,
 	return link;
 }
 
-<<<<<<< HEAD
 static int f2fs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, const char *symname)
-=======
-<<<<<<< HEAD
-static int f2fs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
-			struct dentry *dentry, const char *symname)
-=======
-static int f2fs_symlink(struct inode *dir, struct dentry *dentry,
-					const char *symname)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(dir);
 	struct inode *inode;
@@ -745,17 +718,8 @@ out_free_encrypted_link:
 	return err;
 }
 
-<<<<<<< HEAD
 static int f2fs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode)
-=======
-<<<<<<< HEAD
-static int f2fs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
-		      struct dentry *dentry, umode_t mode)
-=======
-static int f2fs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(dir);
 	struct inode *inode;
@@ -803,23 +767,14 @@ out_fail:
 static int f2fs_rmdir(struct inode *dir, struct dentry *dentry)
 {
 	struct inode *inode = d_inode(dentry);
+
 	if (f2fs_empty_dir(inode))
 		return f2fs_unlink(dir, dentry);
 	return -ENOTEMPTY;
 }
 
-<<<<<<< HEAD
 static int f2fs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode, dev_t rdev)
-=======
-<<<<<<< HEAD
-static int f2fs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
-		      struct dentry *dentry, umode_t mode, dev_t rdev)
-=======
-static int f2fs_mknod(struct inode *dir, struct dentry *dentry,
-				umode_t mode, dev_t rdev)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(dir);
 	struct inode *inode;
@@ -926,17 +881,8 @@ out:
 	return err;
 }
 
-<<<<<<< HEAD
 static int f2fs_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode)
-=======
-<<<<<<< HEAD
-static int f2fs_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
-			struct dentry *dentry, umode_t mode)
-=======
-static int f2fs_tmpfile(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(dir);
 
@@ -1313,17 +1259,8 @@ out:
 	return err;
 }
 
-<<<<<<< HEAD
 static int f2fs_rename2(struct user_namespace *mnt_userns,
 			struct inode *old_dir, struct dentry *old_dentry,
-=======
-<<<<<<< HEAD
-static int f2fs_rename2(struct user_namespace *mnt_userns,
-			struct inode *old_dir, struct dentry *old_dentry,
-=======
-static int f2fs_rename2(struct inode *old_dir, struct dentry *old_dentry,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct inode *new_dir, struct dentry *new_dentry,
 			unsigned int flags)
 {
@@ -1392,6 +1329,8 @@ const struct inode_operations f2fs_dir_inode_operations = {
 	.set_acl	= f2fs_set_acl,
 	.listxattr	= f2fs_listxattr,
 	.fiemap		= f2fs_fiemap,
+	.fileattr_get	= f2fs_fileattr_get,
+	.fileattr_set	= f2fs_fileattr_set,
 };
 
 const struct inode_operations f2fs_symlink_inode_operations = {

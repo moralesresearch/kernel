@@ -102,16 +102,8 @@
 #define      MVNETA_TX_NO_DATA_SWAP              BIT(5)
 #define      MVNETA_DESC_SWAP                    BIT(6)
 #define      MVNETA_TX_BRST_SZ_MASK(burst)       ((burst) << 22)
-<<<<<<< HEAD
 #define	MVNETA_VLAN_PRIO_TO_RXQ			 0x2440
 #define      MVNETA_VLAN_PRIO_RXQ_MAP(prio, rxq) ((rxq) << ((prio) * 3))
-=======
-<<<<<<< HEAD
-#define	MVNETA_VLAN_PRIO_TO_RXQ			 0x2440
-#define      MVNETA_VLAN_PRIO_RXQ_MAP(prio, rxq) ((rxq) << ((prio) * 3))
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MVNETA_PORT_STATUS                       0x2444
 #define      MVNETA_TX_IN_PRGRS                  BIT(1)
 #define      MVNETA_TX_FIFO_EMPTY                BIT(8)
@@ -500,14 +492,7 @@ struct mvneta_port {
 	u8 mcast_count[256];
 	u16 tx_ring_size;
 	u16 rx_ring_size;
-<<<<<<< HEAD
 	u8 prio_tc_map[8];
-=======
-<<<<<<< HEAD
-	u8 prio_tc_map[8];
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	phy_interface_t phy_interface;
 	struct device_node *dn;
@@ -1102,7 +1087,7 @@ static int mvneta_mbus_io_win_set(struct mvneta_port *pp, u32 base, u32 wsize,
 	return 0;
 }
 
-static  int mvneta_bm_port_mbus_init(struct mvneta_port *pp)
+static int mvneta_bm_port_mbus_init(struct mvneta_port *pp)
 {
 	u32 wsize;
 	u8 target, attr;
@@ -2152,7 +2137,7 @@ mvneta_xdp_xmit(struct net_device *dev, int num_frame,
 {
 	struct mvneta_port *pp = netdev_priv(dev);
 	struct mvneta_pcpu_stats *stats = this_cpu_ptr(pp->stats);
-	int i, nxmit_byte = 0, nxmit = num_frame;
+	int i, nxmit_byte = 0, nxmit = 0;
 	int cpu = smp_processor_id();
 	struct mvneta_tx_queue *txq;
 	struct netdev_queue *nq;
@@ -2170,12 +2155,11 @@ mvneta_xdp_xmit(struct net_device *dev, int num_frame,
 	__netif_tx_lock(nq, cpu);
 	for (i = 0; i < num_frame; i++) {
 		ret = mvneta_xdp_submit_frame(pp, txq, frames[i], true);
-		if (ret == MVNETA_XDP_TX) {
-			nxmit_byte += frames[i]->len;
-		} else {
-			xdp_return_frame_rx_napi(frames[i]);
-			nxmit--;
-		}
+		if (ret != MVNETA_XDP_TX)
+			break;
+
+		nxmit_byte += frames[i]->len;
+		nxmit++;
 	}
 
 	if (unlikely(flags & XDP_XMIT_FLUSH))
@@ -2281,21 +2265,8 @@ mvneta_swbm_rx_frame(struct mvneta_port *pp,
 
 	/* Prefetch header */
 	prefetch(data);
-<<<<<<< HEAD
 	xdp_prepare_buff(xdp, data, pp->rx_offset_correction + MVNETA_MH_SIZE,
 			 data_len, false);
-=======
-<<<<<<< HEAD
-	xdp_prepare_buff(xdp, data, pp->rx_offset_correction + MVNETA_MH_SIZE,
-			 data_len, false);
-=======
-
-	xdp->data_hard_start = data;
-	xdp->data = data + pp->rx_offset_correction + MVNETA_MH_SIZE;
-	xdp->data_end = xdp->data + data_len;
-	xdp_set_data_meta_invalid(xdp);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sinfo = xdp_get_shared_info_from_buff(xdp);
 	sinfo->nr_frags = 0;
@@ -2391,19 +2362,8 @@ static int mvneta_rx_swbm(struct napi_struct *napi,
 	u32 desc_status, frame_sz;
 	struct xdp_buff xdp_buf;
 
-<<<<<<< HEAD
 	xdp_init_buff(&xdp_buf, PAGE_SIZE, &rxq->xdp_rxq);
 	xdp_buf.data_hard_start = NULL;
-=======
-<<<<<<< HEAD
-	xdp_init_buff(&xdp_buf, PAGE_SIZE, &rxq->xdp_rxq);
-	xdp_buf.data_hard_start = NULL;
-=======
-	xdp_buf.data_hard_start = NULL;
-	xdp_buf.frame_sz = PAGE_SIZE;
-	xdp_buf.rxq = &rxq->xdp_rxq;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sinfo.nr_frags = 0;
 
@@ -4033,7 +3993,8 @@ static void mvneta_mac_config(struct phylink_config *config, unsigned int mode,
 
 	/* Armada 370 documentation says we can only change the port mode
 	 * and in-band enable when the link is down, so force it down
-	 * while making these changes. We also do this for GMAC_CTRL2 */
+	 * while making these changes. We also do this for GMAC_CTRL2
+	 */
 	if ((new_ctrl0 ^ gmac_ctrl0) & MVNETA_GMAC0_PORT_1000BASE_X ||
 	    (new_ctrl2 ^ gmac_ctrl2) & MVNETA_GMAC2_INBAND_AN_ENABLE ||
 	    (new_an  ^ gmac_an) & MVNETA_GMAC_INBAND_AN_ENABLE) {
@@ -4215,9 +4176,7 @@ static void mvneta_percpu_elect(struct mvneta_port *pp)
 				rxq_map |= MVNETA_CPU_RXQ_ACCESS(rxq);
 
 		if (cpu == elected_cpu)
-			/* Map the default receive queue queue to the
-			 * elected CPU
-			 */
+			/* Map the default receive queue to the elected CPU */
 			rxq_map |= MVNETA_CPU_RXQ_ACCESS(pp->rxq_def);
 
 		/* We update the TX queue map only if we have one
@@ -4947,7 +4906,8 @@ static int mvneta_ethtool_set_eee(struct net_device *dev,
 	u32 lpi_ctl0;
 
 	/* The Armada 37x documents do not give limits for this other than
-	 * it being an 8-bit register. */
+	 * it being an 8-bit register.
+	 */
 	if (eee->tx_lpi_enabled && eee->tx_lpi_timer > 255)
 		return -EINVAL;
 
@@ -4964,10 +4924,6 @@ static int mvneta_ethtool_set_eee(struct net_device *dev,
 	return phylink_ethtool_set_eee(pp->phylink, eee);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mvneta_clear_rx_prio_map(struct mvneta_port *pp)
 {
 	mvreg_write(pp, MVNETA_VLAN_PRIO_TO_RXQ, 0);
@@ -5025,11 +4981,6 @@ static int mvneta_setup_tc(struct net_device *dev, enum tc_setup_type type,
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct net_device_ops mvneta_netdev_ops = {
 	.ndo_open            = mvneta_open,
 	.ndo_stop            = mvneta_stop,
@@ -5042,14 +4993,7 @@ static const struct net_device_ops mvneta_netdev_ops = {
 	.ndo_do_ioctl        = mvneta_ioctl,
 	.ndo_bpf	     = mvneta_xdp,
 	.ndo_xdp_xmit        = mvneta_xdp_xmit,
-<<<<<<< HEAD
 	.ndo_setup_tc	     = mvneta_setup_tc,
-=======
-<<<<<<< HEAD
-	.ndo_setup_tc	     = mvneta_setup_tc,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct ethtool_ops mvneta_eth_tool_ops = {
@@ -5197,7 +5141,6 @@ static int mvneta_probe(struct platform_device *pdev)
 	struct net_device *dev;
 	struct phylink *phylink;
 	struct phy *comphy;
-	const char *dt_mac_addr;
 	char hw_mac_addr[ETH_ALEN];
 	phy_interface_t phy_mode;
 	const char *mac_from;
@@ -5293,10 +5236,9 @@ static int mvneta_probe(struct platform_device *pdev)
 		goto err_free_ports;
 	}
 
-	dt_mac_addr = of_get_mac_address(dn);
-	if (!IS_ERR(dt_mac_addr)) {
+	err = of_get_mac_address(dn, dev->dev_addr);
+	if (!err) {
 		mac_from = "device tree";
-		ether_addr_copy(dev->dev_addr, dt_mac_addr);
 	} else {
 		mvneta_get_mac_addr(pp, hw_mac_addr);
 		if (is_valid_ether_addr(hw_mac_addr)) {

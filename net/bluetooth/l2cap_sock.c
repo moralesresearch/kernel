@@ -179,7 +179,6 @@ static int l2cap_sock_connect(struct socket *sock, struct sockaddr *addr,
 	struct l2cap_chan *chan = l2cap_pi(sk)->chan;
 	struct sockaddr_l2 la;
 	int len, err = 0;
-<<<<<<< HEAD
 	bool zapped;
 
 	BT_DBG("sk %p", sk);
@@ -191,11 +190,6 @@ static int l2cap_sock_connect(struct socket *sock, struct sockaddr *addr,
 	if (zapped)
 		return -EINVAL;
 
-=======
-
-	BT_DBG("sk %p", sk);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!addr || alen < offsetofend(struct sockaddr, sa_family) ||
 	    addr->sa_family != AF_BLUETOOTH)
 		return -EINVAL;

@@ -139,7 +139,6 @@ config USB_DWC3_QCOM
 	  for peripheral mode support.
 	  Say 'Y' or 'M' if you have one such device.
 
-<<<<<<< HEAD
 config USB_DWC3_IMX8MP
 	tristate "NXP iMX8MP Platform"
 	depends on OF && COMMON_CLK
@@ -150,6 +149,13 @@ config USB_DWC3_IMX8MP
 	  functionality.
 	  Say 'Y' or 'M' if you have one such device.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+config USB_DWC3_XILINX
+	tristate "Xilinx Platforms"
+	depends on (ARCH_ZYNQMP || ARCH_VERSAL) && OF
+	default USB_DWC3
+	help
+	  Support Xilinx SoCs with DesignWare Core USB3 IP.
+	  This driver handles both ZynqMP and Versal SoC operations.
+	  Say 'Y' or 'M' if you have one such device.
+
 endif

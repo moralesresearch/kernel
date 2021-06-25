@@ -27,10 +27,7 @@
 #define RTMV20_REG_LDIRQ	0x30
 #define RTMV20_REG_LDSTAT	0x40
 #define RTMV20_REG_LDMASK	0x50
-<<<<<<< HEAD
 #define RTMV20_MAX_REGS		(RTMV20_REG_LDMASK + 1)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define RTMV20_VID_MASK		GENMASK(7, 4)
 #define RICHTEK_VID		0x80
@@ -107,7 +104,6 @@ static int rtmv20_lsw_disable(struct regulator_dev *rdev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int rtmv20_lsw_set_current_limit(struct regulator_dev *rdev, int min_uA,
 					int max_uA)
 {
@@ -149,11 +145,6 @@ static int rtmv20_lsw_get_current_limit(struct regulator_dev *rdev)
 static const struct regulator_ops rtmv20_regulator_ops = {
 	.set_current_limit = rtmv20_lsw_set_current_limit,
 	.get_current_limit = rtmv20_lsw_get_current_limit,
-=======
-static const struct regulator_ops rtmv20_regulator_ops = {
-	.set_current_limit = regulator_set_current_limit_regmap,
-	.get_current_limit = regulator_get_current_limit_regmap,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.enable = rtmv20_lsw_enable,
 	.disable = rtmv20_lsw_disable,
 	.is_enabled = regulator_is_enabled_regmap,
@@ -323,10 +314,7 @@ static const struct regmap_config rtmv20_regmap_config = {
 	.val_bits = 8,
 	.cache_type = REGCACHE_RBTREE,
 	.max_register = RTMV20_REG_LDMASK,
-<<<<<<< HEAD
 	.num_reg_defaults_raw = RTMV20_MAX_REGS,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	.writeable_reg = rtmv20_is_accessible_reg,
 	.readable_reg = rtmv20_is_accessible_reg,

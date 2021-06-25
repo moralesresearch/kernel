@@ -21,9 +21,6 @@
 #define CLK_IR			11
 #define CLK_W1			12
 
-<<<<<<< HEAD
 #define CLK_R_APB2_RSB		13
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */

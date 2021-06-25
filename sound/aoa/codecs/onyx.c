@@ -1013,11 +1013,7 @@ static int onyx_i2c_probe(struct i2c_client *client,
 		goto fail;
 	}
 
-<<<<<<< HEAD
 	strscpy(onyx->codec.name, "onyx", MAX_CODEC_NAME_LEN);
-=======
-	strlcpy(onyx->codec.name, "onyx", MAX_CODEC_NAME_LEN);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	onyx->codec.owner = THIS_MODULE;
 	onyx->codec.init = onyx_init_codec;
 	onyx->codec.exit = onyx_exit_codec;

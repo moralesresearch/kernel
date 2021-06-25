@@ -46,31 +46,19 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		stat {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a20-som204-evb:green:stat";
 			gpios = <&pio 8 0 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		led1 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a20-som204-evb:green:led1";
 			gpios = <&pio 8 10 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 
-<<<<<<< HEAD
 		led-2 {
-=======
-		led2 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a20-som204-evb:yellow:led2";
 			gpios = <&pio 8 11 GPIO_ACTIVE_HIGH>;
 			default-state = "on";

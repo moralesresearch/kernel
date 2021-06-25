@@ -1079,6 +1079,46 @@ TRACE_EVENT(xprt_transmit,
 		__entry->seqno, __entry->status)
 );
 
+TRACE_EVENT(xprt_retransmit,
+	TP_PROTO(
+		const struct rpc_rqst *rqst
+	),
+
+	TP_ARGS(rqst),
+
+	TP_STRUCT__entry(
+		__field(unsigned int, task_id)
+		__field(unsigned int, client_id)
+		__field(u32, xid)
+		__field(int, ntrans)
+		__field(int, version)
+		__string(progname,
+			 rqst->rq_task->tk_client->cl_program->name)
+		__string(procedure,
+			 rqst->rq_task->tk_msg.rpc_proc->p_name)
+	),
+
+	TP_fast_assign(
+		struct rpc_task *task = rqst->rq_task;
+
+		__entry->task_id = task->tk_pid;
+		__entry->client_id = task->tk_client ?
+			task->tk_client->cl_clid : -1;
+		__entry->xid = be32_to_cpu(rqst->rq_xid);
+		__entry->ntrans = rqst->rq_ntrans;
+		__assign_str(progname,
+			     task->tk_client->cl_program->name)
+		__entry->version = task->tk_client->cl_vers;
+		__assign_str(procedure, task->tk_msg.rpc_proc->p_name)
+	),
+
+	TP_printk(
+		"task:%u@%u xid=0x%08x %sv%d %s ntrans=%d",
+		__entry->task_id, __entry->client_id, __entry->xid,
+		__get_str(progname), __entry->version, __get_str(procedure),
+		__entry->ntrans)
+);
+
 TRACE_EVENT(xprt_ping,
 	TP_PROTO(const struct rpc_xprt *xprt, int status),
 
@@ -1141,10 +1181,6 @@ DECLARE_EVENT_CLASS(xprt_writelock_event,
 
 DEFINE_WRITELOCK_EVENT(reserve_xprt);
 DEFINE_WRITELOCK_EVENT(release_xprt);
-<<<<<<< HEAD
-=======
-DEFINE_WRITELOCK_EVENT(transmit_queued);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DECLARE_EVENT_CLASS(xprt_cong_event,
 	TP_PROTO(
@@ -1606,10 +1642,7 @@ TRACE_EVENT(svc_process,
 		__field(u32, vers)
 		__field(u32, proc)
 		__string(service, name)
-<<<<<<< HEAD
 		__string(procedure, rqst->rq_procinfo->pc_name)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__string(addr, rqst->rq_xprt ?
 			 rqst->rq_xprt->xpt_remotebuf : "(null)")
 	),
@@ -1619,25 +1652,16 @@ TRACE_EVENT(svc_process,
 		__entry->vers = rqst->rq_vers;
 		__entry->proc = rqst->rq_proc;
 		__assign_str(service, name);
-<<<<<<< HEAD
 		__assign_str(procedure, rqst->rq_procinfo->pc_name);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__assign_str(addr, rqst->rq_xprt ?
 			     rqst->rq_xprt->xpt_remotebuf : "(null)");
 	),
 
-<<<<<<< HEAD
 	TP_printk("addr=%s xid=0x%08x service=%s vers=%u proc=%s",
 			__get_str(addr), __entry->xid,
 			__get_str(service), __entry->vers,
 			__get_str(procedure)
 	)
-=======
-	TP_printk("addr=%s xid=0x%08x service=%s vers=%u proc=%u",
-			__get_str(addr), __entry->xid,
-			__get_str(service), __entry->vers, __entry->proc)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 );
 
 DECLARE_EVENT_CLASS(svc_rqst_event,
@@ -1796,6 +1820,7 @@ DECLARE_EVENT_CLASS(svc_xprt_event,
 			), \
 			TP_ARGS(xprt))
 
+DEFINE_SVC_XPRT_EVENT(received);
 DEFINE_SVC_XPRT_EVENT(no_write_space);
 DEFINE_SVC_XPRT_EVENT(close);
 DEFINE_SVC_XPRT_EVENT(detach);
@@ -1893,10 +1918,7 @@ TRACE_EVENT(svc_stats_latency,
 	TP_STRUCT__entry(
 		__field(u32, xid)
 		__field(unsigned long, execute)
-<<<<<<< HEAD
 		__string(procedure, rqst->rq_procinfo->pc_name)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__string(addr, rqst->rq_xprt->xpt_remotebuf)
 	),
 
@@ -1904,7 +1926,6 @@ TRACE_EVENT(svc_stats_latency,
 		__entry->xid = be32_to_cpu(rqst->rq_xid);
 		__entry->execute = ktime_to_us(ktime_sub(ktime_get(),
 							 rqst->rq_stime));
-<<<<<<< HEAD
 		__assign_str(procedure, rqst->rq_procinfo->pc_name);
 		__assign_str(addr, rqst->rq_xprt->xpt_remotebuf);
 	),
@@ -1912,13 +1933,6 @@ TRACE_EVENT(svc_stats_latency,
 	TP_printk("addr=%s xid=0x%08x proc=%s execute-us=%lu",
 		__get_str(addr), __entry->xid, __get_str(procedure),
 		__entry->execute)
-=======
-		__assign_str(addr, rqst->rq_xprt->xpt_remotebuf);
-	),
-
-	TP_printk("addr=%s xid=0x%08x execute-us=%lu",
-		__get_str(addr), __entry->xid, __entry->execute)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 );
 
 DECLARE_EVENT_CLASS(svc_deferred_event,

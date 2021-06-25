@@ -211,11 +211,7 @@ static loff_t nfs4_file_llseek(struct file *filep, loff_t offset, int whence)
 	case SEEK_HOLE:
 	case SEEK_DATA:
 		ret = nfs42_proc_llseek(filep, offset, whence);
-<<<<<<< HEAD
 		if (ret != -EOPNOTSUPP)
-=======
-		if (ret != -ENOTSUPP)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return ret;
 		fallthrough;
 	default:
@@ -424,13 +420,7 @@ static const struct nfs4_ssc_client_ops nfs4_ssc_clnt_ops_tbl = {
  */
 void nfs42_ssc_register_ops(void)
 {
-<<<<<<< HEAD
-#ifdef CONFIG_NFSD_V4
 	nfs42_ssc_register(&nfs4_ssc_clnt_ops_tbl);
-#endif
-=======
-	nfs42_ssc_register(&nfs4_ssc_clnt_ops_tbl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -441,13 +431,7 @@ void nfs42_ssc_register_ops(void)
  */
 void nfs42_ssc_unregister_ops(void)
 {
-<<<<<<< HEAD
-#ifdef CONFIG_NFSD_V4
 	nfs42_ssc_unregister(&nfs4_ssc_clnt_ops_tbl);
-#endif
-=======
-	nfs42_ssc_unregister(&nfs4_ssc_clnt_ops_tbl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif /* CONFIG_NFS_V4_2 */
 

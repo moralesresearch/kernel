@@ -2,7 +2,6 @@
 menu "I2C HID support"
 	depends on I2C
 
-<<<<<<< HEAD
 config I2C_HID_ACPI
 	tristate "HID over I2C transport layer ACPI driver"
 	default n
@@ -26,21 +25,10 @@ config I2C_HID_OF
 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
 	  other HID based devices which is connected to your computer via I2C.
 	  This driver supports Open Firmware (Device Tree)-based systems.
-=======
-config I2C_HID
-	tristate "HID over I2C transport layer"
-	default n
-	depends on I2C && INPUT
-	select HID
-	help
-	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
-	  other HID based devices which is connected to your computer via I2C.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	  If unsure, say N.
 
 	  This support is also available as a module.  If so, the module
-<<<<<<< HEAD
 	  will be called i2c-hid-of.  It will also build/depend on the
 	  module i2c-hid.
 
@@ -66,8 +54,3 @@ config I2C_HID_CORE
 	default y if I2C_HID_ACPI=y || I2C_HID_OF=y || I2C_HID_OF_GOODIX=y
 	default m if I2C_HID_ACPI=m || I2C_HID_OF=m || I2C_HID_OF_GOODIX=m
 	select HID
-=======
-	  will be called i2c-hid.
-
-endmenu
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -132,7 +132,6 @@
 			- "master_bus"	AXI Master clock
 			- "slave_bus"	AXI Slave clock
 
-<<<<<<< HEAD
 - clock-names:
 	Usage: required for sdm845
 	Value type: <stringlist>
@@ -147,10 +146,6 @@
 
 - clock-names:
 	Usage: required for sm8250
-=======
--clock-names:
-	Usage: required for sdm845 and sm8250
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	Value type: <stringlist>
 	Definition: Should contain the following entries
 			- "aux"		Auxiliary clock
@@ -159,10 +154,7 @@
 			- "bus_slave"	Slave AXI clock
 			- "slave_q2a"	Slave Q2A clock
 			- "tbu"		PCIe TBU clock
-<<<<<<< HEAD
 			- "ddrss_sf_tbu" PCIe SF TBU clock
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			- "pipe"	PIPE clock
 
 - resets:

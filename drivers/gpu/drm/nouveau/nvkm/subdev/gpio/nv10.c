@@ -112,14 +112,8 @@ nv10_gpio = {
 };
 
 int
-<<<<<<< HEAD
 nv10_gpio_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_gpio **pgpio)
 {
 	return nvkm_gpio_new_(&nv10_gpio, device, type, inst, pgpio);
-=======
-nv10_gpio_new(struct nvkm_device *device, int index, struct nvkm_gpio **pgpio)
-{
-	return nvkm_gpio_new_(&nv10_gpio, device, index, pgpio);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

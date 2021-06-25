@@ -175,7 +175,6 @@ u32 sh_pfc_read(struct sh_pfc *pfc, u32 reg)
 	return sh_pfc_read_raw_reg(sh_pfc_phys_to_virt(pfc, reg), 32);
 }
 
-<<<<<<< HEAD
 static void sh_pfc_unlock_reg(struct sh_pfc *pfc, u32 reg, u32 data)
 {
 	u32 unlock;
@@ -195,15 +194,6 @@ static void sh_pfc_unlock_reg(struct sh_pfc *pfc, u32 reg, u32 data)
 void sh_pfc_write(struct sh_pfc *pfc, u32 reg, u32 data)
 {
 	sh_pfc_unlock_reg(pfc, reg, data);
-=======
-void sh_pfc_write(struct sh_pfc *pfc, u32 reg, u32 data)
-{
-	if (pfc->info->unlock_reg)
-		sh_pfc_write_raw_reg(
-			sh_pfc_phys_to_virt(pfc, pfc->info->unlock_reg), 32,
-			~data);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sh_pfc_write_raw_reg(sh_pfc_phys_to_virt(pfc, reg), 32, data);
 }
 
@@ -249,15 +239,7 @@ static void sh_pfc_write_config_reg(struct sh_pfc *pfc,
 	data &= mask;
 	data |= value;
 
-<<<<<<< HEAD
 	sh_pfc_unlock_reg(pfc, crp->reg, data);
-=======
-	if (pfc->info->unlock_reg)
-		sh_pfc_write_raw_reg(
-			sh_pfc_phys_to_virt(pfc, pfc->info->unlock_reg), 32,
-			~data);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sh_pfc_write_raw_reg(mapped_reg, crp->reg_width, data);
 }
 
@@ -410,26 +392,6 @@ int sh_pfc_config_mux(struct sh_pfc *pfc, unsigned mark, int pinmux_type)
 	}
 
 	return 0;
-}
-
-const struct pinmux_bias_reg *
-sh_pfc_pin_to_bias_reg(const struct sh_pfc *pfc, unsigned int pin,
-		       unsigned int *bit)
-{
-	unsigned int i, j;
-
-	for (i = 0; pfc->info->bias_regs[i].puen; i++) {
-		for (j = 0; j < ARRAY_SIZE(pfc->info->bias_regs[i].pins); j++) {
-			if (pfc->info->bias_regs[i].pins[j] == pin) {
-				*bit = j;
-				return &pfc->info->bias_regs[i];
-			}
-		}
-	}
-
-	WARN_ONCE(1, "Pin %u is not in bias info list\n", pin);
-
-	return NULL;
 }
 
 static int sh_pfc_init_ranges(struct sh_pfc *pfc)
@@ -664,15 +626,12 @@ static const struct of_device_id sh_pfc_of_table[] = {
 		.data = &r8a77995_pinmux_info,
 	},
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_PINCTRL_PFC_R8A779A0
 	{
 		.compatible = "renesas,pfc-r8a779a0",
 		.data = &r8a779a0_pinmux_info,
 	},
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PINCTRL_PFC_SH73A0
 	{
 		.compatible = "renesas,pfc-sh73a0",
@@ -1087,13 +1046,10 @@ static void __init sh_pfc_check_driver(const struct platform_driver *pdrv)
 {
 	unsigned int i;
 
-<<<<<<< HEAD
 	if (!IS_ENABLED(CONFIG_SUPERH) &&
 	    !of_find_matching_node(NULL, pdrv->driver.of_match_table))
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sh_pfc_regs = kcalloc(SH_PFC_MAX_REGS, sizeof(*sh_pfc_regs),
 			      GFP_KERNEL);
 	if (!sh_pfc_regs)

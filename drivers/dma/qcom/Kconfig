@@ -33,10 +33,7 @@ config QCOM_GPI_DMA
 
 config QCOM_HIDMA_MGMT
 	tristate "Qualcomm Technologies HIDMA Management support"
-<<<<<<< HEAD
 	depends on HAS_IOMEM
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DMA_ENGINE
 	help
 	  Enable support for the Qualcomm Technologies HIDMA Management.

@@ -15,10 +15,7 @@
 #include <linux/slab.h>
 #include <linux/spinlock.h>
 #include <linux/io.h>
-<<<<<<< HEAD
 #include <linux/iopoll.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/soc/renesas/rcar-sysc.h>
 
 #include "rcar-sysc.h"
@@ -48,21 +45,13 @@
 #define PWRER_OFFS		0x14	/* Power Shutoff/Resume Error */
 
 
-<<<<<<< HEAD
 #define SYSCSR_TIMEOUT		100
-=======
-#define SYSCSR_RETRIES		100
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SYSCSR_DELAY_US		1
 
 #define PWRER_RETRIES		100
 #define PWRER_DELAY_US		1
 
-<<<<<<< HEAD
 #define SYSCISR_TIMEOUT		1000
-=======
-#define SYSCISR_RETRIES		1000
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SYSCISR_DELAY_US	1
 
 #define RCAR_PD_ALWAYS_ON	32	/* Always-on power area */
@@ -80,12 +69,8 @@ static u32 rcar_sysc_extmask_offs, rcar_sysc_extmask_val;
 static int rcar_sysc_pwr_on_off(const struct rcar_sysc_ch *sysc_ch, bool on)
 {
 	unsigned int sr_bit, reg_offs;
-<<<<<<< HEAD
 	u32 val;
 	int ret;
-=======
-	int k;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (on) {
 		sr_bit = SYSCSR_PONENB;
@@ -96,20 +81,10 @@ static int rcar_sysc_pwr_on_off(const struct rcar_sysc_ch *sysc_ch, bool on)
 	}
 
 	/* Wait until SYSC is ready to accept a power request */
-<<<<<<< HEAD
 	ret = readl_poll_timeout_atomic(rcar_sysc_base + SYSCSR, val,
 					val & BIT(sr_bit), SYSCSR_DELAY_US,
 					SYSCSR_TIMEOUT);
 	if (ret)
-=======
-	for (k = 0; k < SYSCSR_RETRIES; k++) {
-		if (ioread32(rcar_sysc_base + SYSCSR) & BIT(sr_bit))
-			break;
-		udelay(SYSCSR_DELAY_US);
-	}
-
-	if (k == SYSCSR_RETRIES)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EAGAIN;
 
 	/* Submit power shutoff or power resume request */
@@ -123,16 +98,9 @@ static int rcar_sysc_power(const struct rcar_sysc_ch *sysc_ch, bool on)
 {
 	unsigned int isr_mask = BIT(sysc_ch->isr_bit);
 	unsigned int chan_mask = BIT(sysc_ch->chan_bit);
-<<<<<<< HEAD
 	unsigned int status, k;
 	unsigned long flags;
 	int ret;
-=======
-	unsigned int status;
-	unsigned long flags;
-	int ret = 0;
-	int k;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irqsave(&rcar_sysc_lock, flags);
 
@@ -175,20 +143,10 @@ static int rcar_sysc_power(const struct rcar_sysc_ch *sysc_ch, bool on)
 	}
 
 	/* Wait until the power shutoff or resume request has completed * */
-<<<<<<< HEAD
 	ret = readl_poll_timeout_atomic(rcar_sysc_base + SYSCISR, status,
 					status & isr_mask, SYSCISR_DELAY_US,
 					SYSCISR_TIMEOUT);
 	if (ret)
-=======
-	for (k = 0; k < SYSCISR_RETRIES; k++) {
-		if (ioread32(rcar_sysc_base + SYSCISR) & isr_mask)
-			break;
-		udelay(SYSCISR_DELAY_US);
-	}
-
-	if (k == SYSCISR_RETRIES)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -EIO;
 
 	iowrite32(isr_mask, rcar_sysc_base + SYSCISCR);
@@ -476,11 +434,8 @@ static int __init rcar_sysc_pd_init(void)
 	}
 
 	error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
-<<<<<<< HEAD
 	if (!error)
 		of_node_set_flag(np, OF_POPULATED);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out_put:
 	of_node_put(np);

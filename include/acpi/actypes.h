@@ -3,11 +3,7 @@
  *
  * Name: actypes.h - Common data types for the entire ACPI subsystem
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -1290,13 +1286,10 @@ typedef enum {
 
 #define ACPI_OPT_END                    -1
 
-<<<<<<< HEAD
 /* Definitions for explicit fallthrough */
 
 #ifndef ACPI_FALLTHROUGH
 #define ACPI_FALLTHROUGH do {} while(0)
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif				/* __ACTYPES_H__ */

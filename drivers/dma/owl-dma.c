@@ -1080,20 +1080,9 @@ static struct dma_chan *owl_dma_of_xlate(struct of_phandle_args *dma_spec,
 }
 
 static const struct of_device_id owl_dma_match[] = {
-<<<<<<< HEAD
 	{ .compatible = "actions,s500-dma", .data = (void *)S900_DMA,},
 	{ .compatible = "actions,s700-dma", .data = (void *)S700_DMA,},
 	{ .compatible = "actions,s900-dma", .data = (void *)S900_DMA,},
-=======
-<<<<<<< HEAD
-	{ .compatible = "actions,s500-dma", .data = (void *)S900_DMA,},
-	{ .compatible = "actions,s700-dma", .data = (void *)S700_DMA,},
-	{ .compatible = "actions,s900-dma", .data = (void *)S900_DMA,},
-=======
-	{ .compatible = "actions,s900-dma", .data = (void *)S900_DMA,},
-	{ .compatible = "actions,s700-dma", .data = (void *)S700_DMA,},
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* sentinel */ },
 };
 MODULE_DEVICE_TABLE(of, owl_dma_match);

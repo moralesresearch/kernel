@@ -8,11 +8,8 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_endian.h>
 
-<<<<<<< HEAD
 #include <bpf_sockopt_helpers.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SRC_REWRITE_IP6_0	0
 #define SRC_REWRITE_IP6_1	0
 #define SRC_REWRITE_IP6_2	0
@@ -33,12 +30,9 @@ int sendmsg_v6_prog(struct bpf_sock_addr *ctx)
 	if (ctx->type != SOCK_DGRAM)
 		return 0;
 
-<<<<<<< HEAD
 	if (!get_set_sk_priority(ctx))
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Rewrite source. */
 	if (ctx->msg_src_ip6[3] == bpf_htonl(1) ||
 	    ctx->msg_src_ip6[3] == bpf_htonl(0)) {

@@ -168,10 +168,7 @@ static void stop_cmd(struct qib_devdata *dd);
 /**
  * rd_byte - read a byte, sending STOP on last, else ACK
  * @dd: the qlogic_ib device
-<<<<<<< HEAD
  * @last: identifies the last read
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns byte shifted out of device
  */

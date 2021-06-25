@@ -377,11 +377,7 @@ int fdt_finish(void *fdt)
 	fdt_set_totalsize(fdt, newstroffset + fdt_size_dt_strings(fdt));
 
 	/* And fix up fields that were keeping intermediate state. */
-<<<<<<< HEAD
 	fdt_set_last_comp_version(fdt, FDT_LAST_COMPATIBLE_VERSION);
-=======
-	fdt_set_last_comp_version(fdt, FDT_FIRST_SUPPORTED_VERSION);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fdt_set_magic(fdt, FDT_MAGIC);
 
 	return 0;

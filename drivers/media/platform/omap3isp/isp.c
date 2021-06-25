@@ -691,6 +691,8 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
 
 	pipe->do_propagation = false;
 
+	mutex_lock(&isp->media_dev.graph_mutex);
+
 	entity = &pipe->output->video.entity;
 	while (1) {
 		pad = &entity->pads[0];
@@ -705,8 +707,10 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
 		subdev = media_entity_to_v4l2_subdev(entity);
 
 		ret = v4l2_subdev_call(subdev, video, s_stream, mode);
-		if (ret < 0 && ret != -ENOIOCTLCMD)
+		if (ret < 0 && ret != -ENOIOCTLCMD) {
+			mutex_unlock(&isp->media_dev.graph_mutex);
 			return ret;
+		}
 
 		if (subdev == &isp->isp_ccdc.subdev) {
 			v4l2_subdev_call(&isp->isp_aewb.subdev, video,
@@ -722,6 +726,8 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
 		if (subdev->dev != isp->dev)
 			break;
 	}
+
+	mutex_unlock(&isp->media_dev.graph_mutex);
 
 	return 0;
 }
@@ -2028,6 +2034,8 @@ static int isp_subdev_notifier_complete(struct v4l2_async_notifier *async)
 	struct v4l2_subdev *sd;
 	int ret;
 
+	mutex_lock(&isp->media_dev.graph_mutex);
+
 	ret = media_entity_enum_init(&isp->crashed, &isp->media_dev);
 	if (ret)
 		return ret;
@@ -2038,9 +2046,13 @@ static int isp_subdev_notifier_complete(struct v4l2_async_notifier *async)
 
 		ret = isp_link_entity(isp, &sd->entity,
 				      v4l2_subdev_to_bus_cfg(sd)->interface);
-		if (ret < 0)
+		if (ret < 0) {
+			mutex_unlock(&isp->media_dev.graph_mutex);
 			return ret;
+		}
 	}
+
+	mutex_unlock(&isp->media_dev.graph_mutex);
 
 	ret = v4l2_device_register_subdev_nodes(&isp->v4l2_dev);
 	if (ret < 0)
@@ -2126,24 +2138,6 @@ static void isp_parse_of_csi1_endpoint(struct device *dev,
 	buscfg->bus.ccp2.crc = 1;
 }
 
-<<<<<<< HEAD
-=======
-static int isp_alloc_isd(struct isp_async_subdev **isd,
-			 struct isp_bus_cfg **buscfg)
-{
-	struct isp_async_subdev *__isd;
-
-	__isd = kzalloc(sizeof(*__isd), GFP_KERNEL);
-	if (!__isd)
-		return -ENOMEM;
-
-	*isd = __isd;
-	*buscfg = &__isd->bus;
-
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct {
 	u32 phy;
 	u32 csi2_if;
@@ -2159,10 +2153,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 {
 	struct fwnode_handle *ep;
 	struct isp_async_subdev *isd = NULL;
-<<<<<<< HEAD
-=======
-	struct isp_bus_cfg *buscfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int i;
 
 	ep = fwnode_graph_get_endpoint_by_id(
@@ -2180,7 +2170,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
 
 		if (!ret) {
-<<<<<<< HEAD
 			isd = v4l2_async_notifier_add_fwnode_remote_subdev(
 				&isp->notifier, ep, struct isp_async_subdev);
 			if (!IS_ERR(isd))
@@ -2188,22 +2177,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 		}
 
 		fwnode_handle_put(ep);
-=======
-			ret = isp_alloc_isd(&isd, &buscfg);
-			if (ret)
-				return ret;
-		}
-
-		if (!ret) {
-			isp_parse_of_parallel_endpoint(isp->dev, &vep, buscfg);
-			ret = v4l2_async_notifier_add_fwnode_remote_subdev(
-				&isp->notifier, ep, &isd->asd);
-		}
-
-		fwnode_handle_put(ep);
-		if (ret)
-			kfree(isd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for (i = 0; i < ARRAY_SIZE(isp_bus_interfaces); i++) {
@@ -2222,20 +2195,8 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 		dev_dbg(isp->dev, "parsing serial interface %u, node %pOF\n", i,
 			to_of_node(ep));
 
-<<<<<<< HEAD
 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
 		if (ret == -ENXIO) {
-=======
-		ret = isp_alloc_isd(&isd, &buscfg);
-		if (ret)
-			return ret;
-
-		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-		if (!ret) {
-			buscfg->interface = isp_bus_interfaces[i].csi2_if;
-			isp_parse_of_csi2_endpoint(isp->dev, &vep, buscfg);
-		} else if (ret == -ENXIO) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			vep = (struct v4l2_fwnode_endpoint)
 				{ .bus_type = V4L2_MBUS_CSI1 };
 			ret = v4l2_fwnode_endpoint_parse(ep, &vep);
@@ -2245,7 +2206,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 					{ .bus_type = V4L2_MBUS_CCP2 };
 				ret = v4l2_fwnode_endpoint_parse(ep, &vep);
 			}
-<<<<<<< HEAD
 		}
 
 		if (!ret) {
@@ -2273,23 +2233,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
 		}
 
 		fwnode_handle_put(ep);
-=======
-			if (!ret) {
-				buscfg->interface =
-					isp_bus_interfaces[i].csi1_if;
-				isp_parse_of_csi1_endpoint(isp->dev, &vep,
-							   buscfg);
-			}
-		}
-
-		if (!ret)
-			ret = v4l2_async_notifier_add_fwnode_remote_subdev(
-				&isp->notifier, ep, &isd->asd);
-
-		fwnode_handle_put(ep);
-		if (ret)
-			kfree(isd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

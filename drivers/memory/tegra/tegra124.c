@@ -4,12 +4,8 @@
  */
 
 #include <linux/of.h>
-<<<<<<< HEAD
 #include <linux/of_device.h>
 #include <linux/slab.h>
-=======
-#include <linux/mm.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <dt-bindings/memory/tegra124-mc.h>
 
@@ -1015,7 +1011,6 @@ static const struct tegra_mc_reset tegra124_mc_resets[] = {
 	TEGRA124_MC_RESET(GPU,       0x970, 0x974,  2),
 };
 
-<<<<<<< HEAD
 static int tegra124_mc_icc_set(struct icc_node *src, struct icc_node *dst)
 {
 	/* TODO: program PTSA */
@@ -1093,8 +1088,6 @@ static const struct tegra_mc_icc_ops tegra124_mc_icc_ops = {
 	.set = tegra124_mc_icc_set,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_ARCH_TEGRA_124_SOC
 static const unsigned long tegra124_mc_emem_regs[] = {
 	MC_EMEM_ARB_CFG,
@@ -1146,10 +1139,7 @@ const struct tegra_mc_soc tegra124_mc_soc = {
 	.reset_ops = &tegra_mc_reset_ops_common,
 	.resets = tegra124_mc_resets,
 	.num_resets = ARRAY_SIZE(tegra124_mc_resets),
-<<<<<<< HEAD
 	.icc_ops = &tegra124_mc_icc_ops,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 #endif /* CONFIG_ARCH_TEGRA_124_SOC */
 
@@ -1180,9 +1170,6 @@ const struct tegra_mc_soc tegra132_mc_soc = {
 	.reset_ops = &tegra_mc_reset_ops_common,
 	.resets = tegra124_mc_resets,
 	.num_resets = ARRAY_SIZE(tegra124_mc_resets),
-<<<<<<< HEAD
 	.icc_ops = &tegra124_mc_icc_ops,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 #endif /* CONFIG_ARCH_TEGRA_132_SOC */

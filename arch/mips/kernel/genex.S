@@ -349,18 +349,8 @@ NESTED(ejtag_debug_handler, PT_SIZE, sp)
 	MTC0	k0, CP0_DESAVE
 	mfc0	k0, CP0_DEBUG
 
-<<<<<<< HEAD
 	andi	k0, k0, MIPS_DEBUG_DBP	# Check for SDBBP.
 	beqz	k0, ejtag_return
-=======
-<<<<<<< HEAD
-	andi	k0, k0, MIPS_DEBUG_DBP	# Check for SDBBP.
-	beqz	k0, ejtag_return
-=======
-	sll	k0, k0, 30	# Check for SDBBP.
-	bgez	k0, ejtag_return
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_SMP
 1:	PTR_LA	k0, ejtag_debug_buffer_spinlock

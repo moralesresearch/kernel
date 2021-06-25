@@ -62,11 +62,7 @@ static int remap_sg(pte_t *pte, unsigned long addr, void *data)
 {
 	struct remap_pfn *r = data;
 
-<<<<<<< HEAD
 	if (GEM_WARN_ON(!r->sgt.sgp))
-=======
-	if (GEM_WARN_ON(!r->sgt.pfn))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	/* Special PTE are not associated with any struct page */

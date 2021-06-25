@@ -162,11 +162,7 @@ static int dev_mkdir(const char *name, umode_t mode)
 	if (IS_ERR(dentry))
 		return PTR_ERR(dentry);
 
-<<<<<<< HEAD
 	err = vfs_mkdir(&init_user_ns, d_inode(path.dentry), dentry, mode);
-=======
-	err = vfs_mkdir(d_inode(path.dentry), dentry, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!err)
 		/* mark as kernel-created inode */
 		d_inode(dentry)->i_private = &thread;
@@ -216,12 +212,8 @@ static int handle_create(const char *nodename, umode_t mode, kuid_t uid,
 	if (IS_ERR(dentry))
 		return PTR_ERR(dentry);
 
-<<<<<<< HEAD
 	err = vfs_mknod(&init_user_ns, d_inode(path.dentry), dentry, mode,
 			dev->devt);
-=======
-	err = vfs_mknod(d_inode(path.dentry), dentry, mode, dev->devt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!err) {
 		struct iattr newattrs;
 
@@ -230,11 +222,7 @@ static int handle_create(const char *nodename, umode_t mode, kuid_t uid,
 		newattrs.ia_gid = gid;
 		newattrs.ia_valid = ATTR_MODE|ATTR_UID|ATTR_GID;
 		inode_lock(d_inode(dentry));
-<<<<<<< HEAD
 		notify_change(&init_user_ns, dentry, &newattrs, NULL);
-=======
-		notify_change(dentry, &newattrs, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode_unlock(d_inode(dentry));
 
 		/* mark as kernel-created inode */
@@ -255,12 +243,8 @@ static int dev_rmdir(const char *name)
 		return PTR_ERR(dentry);
 	if (d_really_is_positive(dentry)) {
 		if (d_inode(dentry)->i_private == &thread)
-<<<<<<< HEAD
 			err = vfs_rmdir(&init_user_ns, d_inode(parent.dentry),
 					dentry);
-=======
-			err = vfs_rmdir(d_inode(parent.dentry), dentry);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			err = -EPERM;
 	} else {
@@ -346,16 +330,10 @@ static int handle_remove(const char *nodename, struct device *dev)
 			newattrs.ia_valid =
 				ATTR_UID|ATTR_GID|ATTR_MODE;
 			inode_lock(d_inode(dentry));
-<<<<<<< HEAD
 			notify_change(&init_user_ns, dentry, &newattrs, NULL);
 			inode_unlock(d_inode(dentry));
 			err = vfs_unlink(&init_user_ns, d_inode(parent.dentry),
 					 dentry, NULL);
-=======
-			notify_change(dentry, &newattrs, NULL);
-			inode_unlock(d_inode(dentry));
-			err = vfs_unlink(d_inode(parent.dentry), dentry, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!err || err == -ENOENT)
 				deleted = 1;
 		}
@@ -393,7 +371,7 @@ int __init devtmpfs_mount(void)
 	return err;
 }
 
-static DECLARE_COMPLETION(setup_done);
+static __initdata DECLARE_COMPLETION(setup_done);
 
 static int handle(const char *name, umode_t mode, kuid_t uid, kgid_t gid,
 		  struct device *dev)
@@ -427,7 +405,7 @@ static void __noreturn devtmpfs_work_loop(void)
 	}
 }
 
-static int __init devtmpfs_setup(void *p)
+static noinline int __init devtmpfs_setup(void *p)
 {
 	int err;
 
@@ -441,10 +419,6 @@ static int __init devtmpfs_setup(void *p)
 	init_chroot(".");
 out:
 	*(int *)p = err;
-<<<<<<< HEAD
-=======
-	complete(&setup_done);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -457,10 +431,7 @@ static int __ref devtmpfsd(void *p)
 {
 	int err = devtmpfs_setup(p);
 
-<<<<<<< HEAD
 	complete(&setup_done);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 	devtmpfs_work_loop();

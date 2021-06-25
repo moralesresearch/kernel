@@ -14,10 +14,6 @@
 #include <linux/kernel.h>
 #include <linux/zalloc.h>
 #include <errno.h>
-<<<<<<< HEAD
-=======
-#include <internal/cpumap.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <perf/cpumap.h>
 #include "bench.h"
 #include "futex.h"

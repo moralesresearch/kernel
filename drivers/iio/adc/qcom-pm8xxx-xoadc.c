@@ -10,10 +10,7 @@
  * Author: Linus Walleij <linus.walleij@linaro.org>
  */
 
-<<<<<<< HEAD
 #include <linux/iio/adc/qcom-vadc-common.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
 #include <linux/module.h>
@@ -25,11 +22,6 @@
 #include <linux/interrupt.h>
 #include <linux/regulator/consumer.h>
 
-<<<<<<< HEAD
-=======
-#include "qcom-vadc-common.h"
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Definitions for the "user processor" registers lifted from the v3.4
  * Qualcomm tree. Their kernel has two out-of-tree drivers for the ADC:

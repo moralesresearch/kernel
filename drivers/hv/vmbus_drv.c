@@ -48,8 +48,10 @@ static int hyperv_cpuhp_online;
 
 static void *hv_panic_page;
 
+static long __percpu *vmbus_evt;
+
 /* Values parsed from ACPI DSDT */
-static int vmbus_irq;
+int vmbus_irq;
 int vmbus_interrupt;
 
 /*
@@ -678,7 +680,6 @@ static const struct attribute_group vmbus_dev_group = {
 };
 __ATTRIBUTE_GROUPS(vmbus_dev);
 
-<<<<<<< HEAD
 /* Set up the attribute for /sys/bus/vmbus/hibernation */
 static ssize_t hibernation_show(struct bus_type *bus, char *buf)
 {
@@ -696,8 +697,6 @@ static const struct attribute_group vmbus_bus_group = {
 };
 __ATTRIBUTE_GROUPS(vmbus_bus);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * vmbus_uevent - add uevent for our device
  *
@@ -1044,10 +1043,7 @@ static struct bus_type  hv_bus = {
 	.uevent =		vmbus_uevent,
 	.dev_groups =		vmbus_dev_groups,
 	.drv_groups =		vmbus_drv_groups,
-<<<<<<< HEAD
 	.bus_groups =		vmbus_bus_groups,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.pm =			&vmbus_pm,
 };
 
@@ -1078,7 +1074,6 @@ void vmbus_on_msg_dpc(unsigned long data)
 {
 	struct hv_per_cpu_context *hv_cpu = (void *)data;
 	void *page_addr = hv_cpu->synic_message_page;
-<<<<<<< HEAD
 	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
 				  VMBUS_MESSAGE_SINT;
 	struct vmbus_channel_message_header *hdr;
@@ -1087,14 +1082,6 @@ void vmbus_on_msg_dpc(unsigned long data)
 	struct onmessage_work_context *ctx;
 	__u8 payload_size;
 	u32 message_type;
-=======
-	struct hv_message *msg = (struct hv_message *)page_addr +
-				  VMBUS_MESSAGE_SINT;
-	struct vmbus_channel_message_header *hdr;
-	const struct vmbus_channel_message_table_entry *entry;
-	struct onmessage_work_context *ctx;
-	u32 message_type = msg->header.message_type;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
@@ -1103,7 +1090,6 @@ void vmbus_on_msg_dpc(unsigned long data)
 	 */
 	BUILD_BUG_ON(sizeof(enum vmbus_channel_message_type) != sizeof(u32));
 
-<<<<<<< HEAD
 	/*
 	 * Since the message is in memory shared with the host, an erroneous or
 	 * malicious Hyper-V could modify the message while vmbus_on_msg_dpc()
@@ -1113,13 +1099,10 @@ void vmbus_on_msg_dpc(unsigned long data)
 	memcpy(&msg_copy, msg, sizeof(struct hv_message));
 
 	message_type = msg_copy.header.message_type;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (message_type == HVMSG_NONE)
 		/* no msg */
 		return;
 
-<<<<<<< HEAD
 	hdr = (struct vmbus_channel_message_header *)msg_copy.u.payload;
 	msgtype = hdr->msgtype;
 
@@ -1137,56 +1120,22 @@ void vmbus_on_msg_dpc(unsigned long data)
 	}
 
 	entry = &channel_message_table[msgtype];
-=======
-	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
-
-	trace_vmbus_on_msg_dpc(hdr);
-
-	if (hdr->msgtype >= CHANNELMSG_COUNT) {
-		WARN_ONCE(1, "unknown msgtype=%d\n", hdr->msgtype);
-		goto msg_handled;
-	}
-
-	if (msg->header.payload_size > HV_MESSAGE_PAYLOAD_BYTE_COUNT) {
-		WARN_ONCE(1, "payload size is too large (%d)\n",
-			  msg->header.payload_size);
-		goto msg_handled;
-	}
-
-	entry = &channel_message_table[hdr->msgtype];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!entry->message_handler)
 		goto msg_handled;
 
-<<<<<<< HEAD
 	if (payload_size < entry->min_payload_len) {
 		WARN_ONCE(1, "message too short: msgtype=%d len=%d\n", msgtype, payload_size);
-=======
-	if (msg->header.payload_size < entry->min_payload_len) {
-		WARN_ONCE(1, "message too short: msgtype=%d len=%d\n",
-			  hdr->msgtype, msg->header.payload_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto msg_handled;
 	}
 
 	if (entry->handler_type	== VMHT_BLOCKING) {
-<<<<<<< HEAD
 		ctx = kmalloc(sizeof(*ctx) + payload_size, GFP_ATOMIC);
-=======
-		ctx = kmalloc(sizeof(*ctx) + msg->header.payload_size,
-			      GFP_ATOMIC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ctx == NULL)
 			return;
 
 		INIT_WORK(&ctx->work, vmbus_onmessage_work);
-<<<<<<< HEAD
 		memcpy(&ctx->msg, &msg_copy, sizeof(msg->header) + payload_size);
-=======
-		memcpy(&ctx->msg, msg, sizeof(msg->header) +
-		       msg->header.payload_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * The host can generate a rescind message while we
@@ -1195,11 +1144,7 @@ void vmbus_on_msg_dpc(unsigned long data)
 		 * by offer_in_progress and by channel_mutex.  See also the
 		 * inline comments in vmbus_onoffer_rescind().
 		 */
-<<<<<<< HEAD
 		switch (msgtype) {
-=======
-		switch (hdr->msgtype) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case CHANNELMSG_RESCIND_CHANNELOFFER:
 			/*
 			 * If we are handling the rescind message;
@@ -1438,7 +1383,13 @@ static void vmbus_isr(void)
 			tasklet_schedule(&hv_cpu->msg_dpc);
 	}
 
-	add_interrupt_randomness(hv_get_vector(), 0);
+	add_interrupt_randomness(vmbus_interrupt, 0);
+}
+
+static irqreturn_t vmbus_percpu_isr(int irq, void *dev_id)
+{
+	vmbus_isr();
+	return IRQ_HANDLED;
 }
 
 /*
@@ -1448,23 +1399,39 @@ static void vmbus_isr(void)
 static void hv_kmsg_dump(struct kmsg_dumper *dumper,
 			 enum kmsg_dump_reason reason)
 {
+	struct kmsg_dump_iter iter;
 	size_t bytes_written;
-	phys_addr_t panic_pa;
 
 	/* We are only interested in panics. */
 	if ((reason != KMSG_DUMP_PANIC) || (!sysctl_record_panic_msg))
 		return;
 
-	panic_pa = virt_to_phys(hv_panic_page);
-
 	/*
 	 * Write dump contents to the page. No need to synchronize; panic should
 	 * be single-threaded.
 	 */
-	kmsg_dump_get_buffer(dumper, false, hv_panic_page, HV_HYP_PAGE_SIZE,
+	kmsg_dump_rewind(&iter);
+	kmsg_dump_get_buffer(&iter, false, hv_panic_page, HV_HYP_PAGE_SIZE,
 			     &bytes_written);
-	if (bytes_written)
-		hyperv_report_panic_msg(panic_pa, bytes_written);
+	if (!bytes_written)
+		return;
+	/*
+	 * P3 to contain the physical address of the panic page & P4 to
+	 * contain the size of the panic data in that page. Rest of the
+	 * registers are no-op when the NOTIFY_MSG flag is set.
+	 */
+	hv_set_register(HV_REGISTER_CRASH_P0, 0);
+	hv_set_register(HV_REGISTER_CRASH_P1, 0);
+	hv_set_register(HV_REGISTER_CRASH_P2, 0);
+	hv_set_register(HV_REGISTER_CRASH_P3, virt_to_phys(hv_panic_page));
+	hv_set_register(HV_REGISTER_CRASH_P4, bytes_written);
+
+	/*
+	 * Let Hyper-V know there is crash data available along with
+	 * the panic message.
+	 */
+	hv_set_register(HV_REGISTER_CRASH_CTL,
+	       (HV_CRASH_CTL_CRASH_NOTIFY | HV_CRASH_CTL_CRASH_NOTIFY_MSG));
 }
 
 static struct kmsg_dumper hv_kmsg_dumper = {
@@ -1539,9 +1506,28 @@ static int vmbus_bus_init(void)
 	if (ret)
 		return ret;
 
-	ret = hv_setup_vmbus_irq(vmbus_irq, vmbus_isr);
-	if (ret)
-		goto err_setup;
+	/*
+	 * VMbus interrupts are best modeled as per-cpu interrupts. If
+	 * on an architecture with support for per-cpu IRQs (e.g. ARM64),
+	 * allocate a per-cpu IRQ using standard Linux kernel functionality.
+	 * If not on such an architecture (e.g., x86/x64), then rely on
+	 * code in the arch-specific portion of the code tree to connect
+	 * the VMbus interrupt handler.
+	 */
+
+	if (vmbus_irq == -1) {
+		hv_setup_vmbus_handler(vmbus_isr);
+	} else {
+		vmbus_evt = alloc_percpu(long);
+		ret = request_percpu_irq(vmbus_irq, vmbus_percpu_isr,
+				"Hyper-V VMbus", vmbus_evt);
+		if (ret) {
+			pr_err("Can't request Hyper-V VMbus IRQ %d, Err %d",
+					vmbus_irq, ret);
+			free_percpu(vmbus_evt);
+			goto err_setup;
+		}
+	}
 
 	ret = hv_synic_alloc();
 	if (ret)
@@ -1578,7 +1564,7 @@ static int vmbus_bus_init(void)
 		 * Register for panic kmsg callback only if the right
 		 * capability is supported by the hypervisor.
 		 */
-		hv_get_crash_ctl(hyperv_crash_ctl);
+		hyperv_crash_ctl = hv_get_register(HV_REGISTER_CRASH_CTL);
 		if (hyperv_crash_ctl & HV_CRASH_CTL_CRASH_NOTIFY_MSG)
 			hv_kmsg_dump_register();
 
@@ -1602,7 +1588,12 @@ err_connect:
 err_cpuhp:
 	hv_synic_free();
 err_alloc:
-	hv_remove_vmbus_irq();
+	if (vmbus_irq == -1) {
+		hv_remove_vmbus_handler();
+	} else {
+		free_percpu_irq(vmbus_irq, vmbus_evt);
+		free_percpu(vmbus_evt);
+	}
 err_setup:
 	bus_unregister(&hv_bus);
 	unregister_sysctl_table(hv_ctl_table_hdr);
@@ -1859,13 +1850,15 @@ static ssize_t target_cpu_store(struct vmbus_channel *channel,
 	if (target_cpu == origin_cpu)
 		goto cpu_store_unlock;
 
-	if (vmbus_send_modifychannel(channel->offermsg.child_relid,
+	if (vmbus_send_modifychannel(channel,
 				     hv_cpu_number_to_vp_number(target_cpu))) {
 		ret = -EIO;
 		goto cpu_store_unlock;
 	}
 
 	/*
+	 * For version before VERSION_WIN10_V5_3, the following warning holds:
+	 *
 	 * Warning.  At this point, there is *no* guarantee that the host will
 	 * have successfully processed the vmbus_send_modifychannel() request.
 	 * See the header comment of vmbus_send_modifychannel() for more info.
@@ -2702,12 +2695,9 @@ static int __init hv_acpi_init(void)
 	if (!hv_is_hyperv_initialized())
 		return -ENODEV;
 
-<<<<<<< HEAD
 	if (hv_root_partition)
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_completion(&probe_event);
 
 	/*
@@ -2723,6 +2713,18 @@ static int __init hv_acpi_init(void)
 		ret = -ETIMEDOUT;
 		goto cleanup;
 	}
+
+	/*
+	 * If we're on an architecture with a hardcoded hypervisor
+	 * vector (i.e. x86/x64), override the VMbus interrupt found
+	 * in the ACPI tables. Ensure vmbus_irq is not set since the
+	 * normal Linux IRQ mechanism is not used in this case.
+	 */
+#ifdef HYPERVISOR_CALLBACK_VECTOR
+	vmbus_interrupt = HYPERVISOR_CALLBACK_VECTOR;
+	vmbus_irq = -1;
+#endif
+
 	hv_debug_init();
 
 	ret = vmbus_bus_init();
@@ -2753,7 +2755,12 @@ static void __exit vmbus_exit(void)
 	vmbus_connection.conn_state = DISCONNECTED;
 	hv_stimer_global_cleanup();
 	vmbus_disconnect();
-	hv_remove_vmbus_irq();
+	if (vmbus_irq == -1) {
+		hv_remove_vmbus_handler();
+	} else {
+		free_percpu_irq(vmbus_irq, vmbus_evt);
+		free_percpu(vmbus_evt);
+	}
 	for_each_online_cpu(cpu) {
 		struct hv_per_cpu_context *hv_cpu
 			= per_cpu_ptr(hv_context.cpu_context, cpu);

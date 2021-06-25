@@ -382,7 +382,6 @@ static int cdns_pcie_ep_send_msi_irq(struct cdns_pcie_ep *ep, u8 fn,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int cdns_pcie_ep_map_msi_irq(struct pci_epc *epc, u8 fn,
 				    phys_addr_t addr, u8 interrupt_num,
 				    u32 entry_size, u32 *msi_data,
@@ -434,8 +433,6 @@ static int cdns_pcie_ep_map_msi_irq(struct pci_epc *epc, u8 fn,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cdns_pcie_ep_send_msix_irq(struct cdns_pcie_ep *ep, u8 fn,
 				      u16 interrupt_num)
 {
@@ -509,25 +506,13 @@ static int cdns_pcie_ep_start(struct pci_epc *epc)
 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
 	struct cdns_pcie *pcie = &ep->pcie;
 	struct device *dev = pcie->dev;
-<<<<<<< HEAD
-=======
-	struct pci_epf *epf;
-	u32 cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	/*
 	 * BIT(0) is hardwired to 1, hence function 0 is always enabled
 	 * and can't be disabled anyway.
 	 */
-<<<<<<< HEAD
 	cdns_pcie_writel(pcie, CDNS_PCIE_LM_EP_FUNC_CFG, epc->function_num_map);
-=======
-	cfg = BIT(0);
-	list_for_each_entry(epf, &epc->pci_epf, list)
-		cfg |= BIT(epf->func_no);
-	cdns_pcie_writel(pcie, CDNS_PCIE_LM_EP_FUNC_CFG, cfg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = cdns_pcie_start_link(pcie);
 	if (ret) {
@@ -542,10 +527,7 @@ static const struct pci_epc_features cdns_pcie_epc_features = {
 	.linkup_notifier = false,
 	.msi_capable = true,
 	.msix_capable = true,
-<<<<<<< HEAD
 	.align = 256,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct pci_epc_features*
@@ -565,10 +547,7 @@ static const struct pci_epc_ops cdns_pcie_epc_ops = {
 	.set_msix	= cdns_pcie_ep_set_msix,
 	.get_msix	= cdns_pcie_ep_get_msix,
 	.raise_irq	= cdns_pcie_ep_raise_irq,
-<<<<<<< HEAD
 	.map_msi_irq	= cdns_pcie_ep_map_msi_irq,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.start		= cdns_pcie_ep_start,
 	.get_features	= cdns_pcie_ep_get_features,
 };

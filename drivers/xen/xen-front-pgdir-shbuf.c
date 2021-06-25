@@ -305,7 +305,6 @@ static int backend_map(struct xen_front_pgdir_shbuf *buf)
 
 	/* Save handles even if error, so we can unmap. */
 	for (cur_page = 0; cur_page < buf->num_pages; cur_page++) {
-<<<<<<< HEAD
 		if (likely(map_ops[cur_page].status == GNTST_okay)) {
 			buf->backend_map_handles[cur_page] =
 				map_ops[cur_page].handle;
@@ -318,13 +317,6 @@ static int backend_map(struct xen_front_pgdir_shbuf *buf)
 				"Failed to map page %d: %d\n",
 				cur_page, map_ops[cur_page].status);
 		}
-=======
-		buf->backend_map_handles[cur_page] = map_ops[cur_page].handle;
-		if (unlikely(map_ops[cur_page].status != GNTST_okay))
-			dev_err(&buf->xb_dev->dev,
-				"Failed to map page %d: %d\n",
-				cur_page, map_ops[cur_page].status);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (ret) {

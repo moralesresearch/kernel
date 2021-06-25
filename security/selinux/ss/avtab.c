@@ -23,13 +23,8 @@
 #include "avtab.h"
 #include "policydb.h"
 
-<<<<<<< HEAD
 static struct kmem_cache *avtab_node_cachep __ro_after_init;
 static struct kmem_cache *avtab_xperms_cachep __ro_after_init;
-=======
-static struct kmem_cache *avtab_node_cachep;
-static struct kmem_cache *avtab_xperms_cachep;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Based on MurmurHash3, written by Austin Appleby and placed in the
  * public domain.
@@ -114,11 +109,7 @@ static int avtab_insert(struct avtab *h, struct avtab_key *key, struct avtab_dat
 	struct avtab_node *prev, *cur, *newnode;
 	u16 specified = key->specified & ~(AVTAB_ENABLED|AVTAB_ENABLED_OLD);
 
-<<<<<<< HEAD
 	if (!h || !h->nslot)
-=======
-	if (!h)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	hvalue = avtab_hash(key, h->mask);
@@ -163,11 +154,7 @@ avtab_insert_nonunique(struct avtab *h, struct avtab_key *key, struct avtab_datu
 	struct avtab_node *prev, *cur;
 	u16 specified = key->specified & ~(AVTAB_ENABLED|AVTAB_ENABLED_OLD);
 
-<<<<<<< HEAD
 	if (!h || !h->nslot)
-=======
-	if (!h)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 	hvalue = avtab_hash(key, h->mask);
 	for (prev = NULL, cur = h->htable[hvalue];
@@ -197,11 +184,7 @@ struct avtab_datum *avtab_search(struct avtab *h, struct avtab_key *key)
 	struct avtab_node *cur;
 	u16 specified = key->specified & ~(AVTAB_ENABLED|AVTAB_ENABLED_OLD);
 
-<<<<<<< HEAD
 	if (!h || !h->nslot)
-=======
-	if (!h)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 
 	hvalue = avtab_hash(key, h->mask);
@@ -237,11 +220,7 @@ avtab_search_node(struct avtab *h, struct avtab_key *key)
 	struct avtab_node *cur;
 	u16 specified = key->specified & ~(AVTAB_ENABLED|AVTAB_ENABLED_OLD);
 
-<<<<<<< HEAD
 	if (!h || !h->nslot)
-=======
-	if (!h)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 
 	hvalue = avtab_hash(key, h->mask);
@@ -316,10 +295,7 @@ void avtab_destroy(struct avtab *h)
 	}
 	kvfree(h->htable);
 	h->htable = NULL;
-<<<<<<< HEAD
 	h->nel = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	h->nslot = 0;
 	h->mask = 0;
 }
@@ -328,7 +304,6 @@ void avtab_init(struct avtab *h)
 {
 	h->htable = NULL;
 	h->nel = 0;
-<<<<<<< HEAD
 	h->nslot = 0;
 	h->mask = 0;
 }
@@ -337,36 +312,11 @@ static int avtab_alloc_common(struct avtab *h, u32 nslot)
 {
 	if (!nslot)
 		return 0;
-=======
-}
-
-int avtab_alloc(struct avtab *h, u32 nrules)
-{
-	u32 mask = 0;
-	u32 shift = 0;
-	u32 work = nrules;
-	u32 nslot = 0;
-
-	if (nrules == 0)
-		goto avtab_alloc_out;
-
-	while (work) {
-		work  = work >> 1;
-		shift++;
-	}
-	if (shift > 2)
-		shift = shift - 2;
-	nslot = 1 << shift;
-	if (nslot > MAX_AVTAB_HASH_BUCKETS)
-		nslot = MAX_AVTAB_HASH_BUCKETS;
-	mask = nslot - 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	h->htable = kvcalloc(nslot, sizeof(void *), GFP_KERNEL);
 	if (!h->htable)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	h->nslot = nslot;
 	h->mask = nslot - 1;
 	return 0;
@@ -400,63 +350,6 @@ int avtab_alloc(struct avtab *h, u32 nrules)
 int avtab_alloc_dup(struct avtab *new, const struct avtab *orig)
 {
 	return avtab_alloc_common(new, orig->nslot);
-=======
- avtab_alloc_out:
-	h->nel = 0;
-	h->nslot = nslot;
-	h->mask = mask;
-	pr_debug("SELinux: %d avtab hash slots, %d rules.\n",
-	       h->nslot, nrules);
-	return 0;
-}
-
-int avtab_duplicate(struct avtab *new, struct avtab *orig)
-{
-	int i;
-	struct avtab_node *node, *tmp, *tail;
-
-	memset(new, 0, sizeof(*new));
-
-	new->htable = kvcalloc(orig->nslot, sizeof(void *), GFP_KERNEL);
-	if (!new->htable)
-		return -ENOMEM;
-	new->nslot = orig->nslot;
-	new->mask = orig->mask;
-
-	for (i = 0; i < orig->nslot; i++) {
-		tail = NULL;
-		for (node = orig->htable[i]; node; node = node->next) {
-			tmp = kmem_cache_zalloc(avtab_node_cachep, GFP_KERNEL);
-			if (!tmp)
-				goto error;
-			tmp->key = node->key;
-			if (tmp->key.specified & AVTAB_XPERMS) {
-				tmp->datum.u.xperms =
-					kmem_cache_zalloc(avtab_xperms_cachep,
-							GFP_KERNEL);
-				if (!tmp->datum.u.xperms) {
-					kmem_cache_free(avtab_node_cachep, tmp);
-					goto error;
-				}
-				tmp->datum.u.xperms = node->datum.u.xperms;
-			} else
-				tmp->datum.u.data = node->datum.u.data;
-
-			if (tail)
-				tail->next = tmp;
-			else
-				new->htable[i] = tmp;
-
-			tail = tmp;
-			new->nel++;
-		}
-	}
-
-	return 0;
-error:
-	avtab_destroy(new);
-	return -ENOMEM;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void avtab_hash_eval(struct avtab *h, char *tag)

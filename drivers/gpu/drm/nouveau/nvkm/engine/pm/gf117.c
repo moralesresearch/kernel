@@ -74,13 +74,7 @@ gf117_pm = {
 };
 
 int
-<<<<<<< HEAD
 gf117_pm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_pm **ppm)
 {
 	return gf100_pm_new_(&gf117_pm, device, type, inst, ppm);
-=======
-gf117_pm_new(struct nvkm_device *device, int index, struct nvkm_pm **ppm)
-{
-	return gf100_pm_new_(&gf117_pm, device, index, ppm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

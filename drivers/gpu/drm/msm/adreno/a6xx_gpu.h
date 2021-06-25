@@ -33,11 +33,8 @@ struct a6xx_gpu {
 	void *llc_slice;
 	void *htw_llc_slice;
 	bool have_mmu500;
-<<<<<<< HEAD
 
 	struct opp_table *opp_table;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
@@ -47,11 +44,7 @@ struct a6xx_gpu {
  * REG_CP_PROTECT_REG(n) - this will block both reads and writes for _len
  * registers starting at _reg.
  */
-<<<<<<< HEAD
 #define A6XX_PROTECT_NORDWR(_reg, _len) \
-=======
-#define A6XX_PROTECT_RW(_reg, _len) \
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	((1 << 31) | \
 	(((_len) & 0x3FFF) << 18) | ((_reg) & 0x3FFFF))
 

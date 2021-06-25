@@ -19,7 +19,7 @@
 	BPF_MOV64_IMM(BPF_REG_0, 2),
 	BPF_EXIT_INSN(),
 	},
-	.errstr_unpriv = "function calls to other bpf functions are allowed for",
+	.errstr_unpriv = "loading/calling other bpf or kernel functions are allowed for",
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
 	.retval = 1,
@@ -136,7 +136,7 @@
 {
 	"calls: wrong src reg",
 	.insns = {
-	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 2, 0, 0),
+	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 3, 0, 0),
 	BPF_MOV64_IMM(BPF_REG_0, 1),
 	BPF_EXIT_INSN(),
 	},
@@ -397,7 +397,7 @@
 	BPF_MOV64_IMM(BPF_REG_0, 1),
 	BPF_EXIT_INSN(),
 	},
-	.errstr_unpriv = "function calls to other bpf functions are allowed for",
+	.errstr_unpriv = "loading/calling other bpf or kernel functions are allowed for",
 	.fixup_map_hash_48b = { 3 },
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
@@ -1228,11 +1228,7 @@
 	.prog_type = BPF_PROG_TYPE_XDP,
 	.fixup_map_hash_8b = { 23 },
 	.result = REJECT,
-<<<<<<< HEAD
 	.errstr = "invalid read from stack R7 off=-16 size=8",
-=======
-	.errstr = "invalid read from stack off -16+0 size 8",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 },
 {
 	"calls: two calls that receive map_value via arg=ptr_stack_of_caller. test1",
@@ -1962,11 +1958,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_48b = { 6 },
-<<<<<<< HEAD
 	.errstr = "invalid indirect read from stack R2 off -8+0 size 8",
-=======
-	.errstr = "invalid indirect read from stack off -8+0 size 8",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_XDP,
 },
@@ -1985,7 +1977,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.prog_type = BPF_PROG_TYPE_SOCKET_FILTER,
-	.errstr_unpriv = "function calls to other bpf functions are allowed for",
+	.errstr_unpriv = "loading/calling other bpf or kernel functions are allowed for",
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
 },
@@ -2011,7 +2003,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.prog_type = BPF_PROG_TYPE_SOCKET_FILTER,
-	.errstr_unpriv = "function calls to other bpf functions are allowed for",
+	.errstr_unpriv = "loading/calling other bpf or kernel functions are allowed for",
 	.errstr = "!read_ok",
 	.result = REJECT,
 },
@@ -2036,7 +2028,7 @@
 	BPF_EXIT_INSN(),
 	},
 	.prog_type = BPF_PROG_TYPE_SOCKET_FILTER,
-	.errstr_unpriv = "function calls to other bpf functions are allowed for",
+	.errstr_unpriv = "loading/calling other bpf or kernel functions are allowed for",
 	.errstr = "!read_ok",
 	.result = REJECT,
 },

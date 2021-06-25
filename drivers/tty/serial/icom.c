@@ -118,11 +118,7 @@ MODULE_DEVICE_TABLE(pci, icom_pci_table);
 static LIST_HEAD(icom_adapter_head);
 
 /* spinlock for adapter initialization and changing adapter operations */
-<<<<<<< HEAD
 static DEFINE_SPINLOCK(icom_lock);
-=======
-static spinlock_t icom_lock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef ICOM_TRACE
 static inline void trace(struct icom_port *icom_port, char *trace_pt,
@@ -833,9 +829,7 @@ ignore_char:
 	}
 	icom_port->next_rcv = rcv_buff;
 
-	spin_unlock(&icom_port->uart_port.lock);
 	tty_flip_buffer_push(port);
-	spin_lock(&icom_port->uart_port.lock);
 }
 
 static void process_interrupt(u16 port_int_reg,
@@ -1620,11 +1614,6 @@ static int __init icom_init(void)
 {
 	int ret;
 
-<<<<<<< HEAD
-=======
-	spin_lock_init(&icom_lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = uart_register_driver(&icom_uart_driver);
 	if (ret)
 		return ret;
@@ -1648,11 +1637,6 @@ module_exit(icom_exit);
 
 MODULE_AUTHOR("Michael Anderson <mjanders@us.ibm.com>");
 MODULE_DESCRIPTION("IBM iSeries Serial IOA driver");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE
-    ("IBM iSeries 2745, 2771, 2772, 2742, 2793 and 2805 Communications adapters");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 MODULE_FIRMWARE("icom_call_setup.bin");
 MODULE_FIRMWARE("icom_res_dce.bin");

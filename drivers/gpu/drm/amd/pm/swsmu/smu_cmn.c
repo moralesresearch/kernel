@@ -68,38 +68,23 @@ static const char *smu_get_message_name(struct smu_context *smu,
 	return __smu_message_names[type];
 }
 
-<<<<<<< HEAD
-=======
-static void smu_cmn_send_msg_without_waiting(struct smu_context *smu,
-					     uint16_t msg)
-{
-	struct amdgpu_device *adev = smu->adev;
-
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_66, msg);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void smu_cmn_read_arg(struct smu_context *smu,
 			     uint32_t *arg)
 {
 	struct amdgpu_device *adev = smu->adev;
 
-	*arg = RREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_82);
+	*arg = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82);
 }
 
-static int smu_cmn_wait_for_response(struct smu_context *smu)
+int smu_cmn_wait_for_response(struct smu_context *smu)
 {
 	struct amdgpu_device *adev = smu->adev;
-	uint32_t cur_value, i, timeout = adev->usec_timeout * 10;
+	uint32_t cur_value, i, timeout = adev->usec_timeout * 20;
 
 	for (i = 0; i < timeout; i++) {
-		cur_value = RREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90);
+		cur_value = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_90);
 		if ((cur_value & MP1_C2PMSG_90__CONTENT_MASK) != 0)
-<<<<<<< HEAD
 			return cur_value;
-=======
-			return cur_value == 0x1 ? 0 : -EIO;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		udelay(1);
 	}
@@ -108,8 +93,7 @@ static int smu_cmn_wait_for_response(struct smu_context *smu)
 	if (i == timeout)
 		return -ETIME;
 
-<<<<<<< HEAD
-	return RREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90);
+	return RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_90);
 }
 
 int smu_cmn_send_msg_without_waiting(struct smu_context *smu,
@@ -127,14 +111,11 @@ int smu_cmn_send_msg_without_waiting(struct smu_context *smu,
 		return ret;
 	}
 
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90, 0);
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_82, param);
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_66, msg);
+	WREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_90, 0);
+	WREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82, param);
+	WREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_66, msg);
 
 	return 0;
-=======
-	return RREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90) == 0x1 ? 0 : -EIO;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int smu_cmn_send_smc_msg_with_param(struct smu_context *smu,
@@ -155,7 +136,6 @@ int smu_cmn_send_smc_msg_with_param(struct smu_context *smu,
 		return index == -EACCES ? 0 : index;
 
 	mutex_lock(&smu->message_lock);
-<<<<<<< HEAD
 	ret = smu_cmn_send_msg_without_waiting(smu, (uint16_t)index, param);
 	if (ret)
 		goto out;
@@ -171,35 +151,13 @@ int smu_cmn_send_smc_msg_with_param(struct smu_context *smu,
 				ret);
 			ret = -EIO;
 		}
-=======
-	ret = smu_cmn_wait_for_response(smu);
-	if (ret) {
-		dev_err(adev->dev, "Msg issuing pre-check failed and "
-		       "SMU may be not in the right state!\n");
-		goto out;
-	}
-
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90, 0);
-
-	WREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_82, param);
-
-	smu_cmn_send_msg_without_waiting(smu, (uint16_t)index);
-
-	ret = smu_cmn_wait_for_response(smu);
-	if (ret) {
-		dev_err(adev->dev, "failed send message: %10s (%d) \tparam: 0x%08x response %#x\n",
-		       smu_get_message_name(smu, msg), index, param, ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
 	if (read_arg)
 		smu_cmn_read_arg(smu, read_arg);
 
-<<<<<<< HEAD
 	ret = 0; /* 0 as driver return value */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	mutex_unlock(&smu->message_lock);
 	return ret;
@@ -324,7 +282,6 @@ int smu_cmn_feature_is_enabled(struct smu_context *smu,
 			       enum smu_feature_mask mask)
 {
 	struct smu_feature *feature = &smu->smu_feature;
-<<<<<<< HEAD
 	struct amdgpu_device *adev = smu->adev;
 	int feature_id;
 	int ret = 0;
@@ -332,13 +289,6 @@ int smu_cmn_feature_is_enabled(struct smu_context *smu,
 	if (smu->is_apu && adev->family < AMDGPU_FAMILY_VGH)
 		return 1;
 
-=======
-	int feature_id;
-	int ret = 0;
-
-	if (smu->is_apu)
-		return 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	feature_id = smu_cmn_to_asic_specific_index(smu,
 						    CMN2ASIC_MAPPING_FEATURE,
 						    mask);
@@ -796,7 +746,6 @@ int smu_cmn_get_metrics_table(struct smu_context *smu,
 
 	return ret;
 }
-<<<<<<< HEAD
 
 void smu_cmn_init_soft_gpu_metrics(void *table, uint8_t frev, uint8_t crev)
 {
@@ -809,8 +758,14 @@ void smu_cmn_init_soft_gpu_metrics(void *table, uint8_t frev, uint8_t crev)
 	case METRICS_VERSION(1, 0):
 		structure_size = sizeof(struct gpu_metrics_v1_0);
 		break;
+	case METRICS_VERSION(1, 1):
+		structure_size = sizeof(struct gpu_metrics_v1_1);
+		break;
 	case METRICS_VERSION(2, 0):
 		structure_size = sizeof(struct gpu_metrics_v2_0);
+		break;
+	case METRICS_VERSION(2, 1):
+		structure_size = sizeof(struct gpu_metrics_v2_1);
 		break;
 	default:
 		return;
@@ -825,5 +780,31 @@ void smu_cmn_init_soft_gpu_metrics(void *table, uint8_t frev, uint8_t crev)
 	header->structure_size = structure_size;
 
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+int smu_cmn_set_mp1_state(struct smu_context *smu,
+			  enum pp_mp1_state mp1_state)
+{
+	enum smu_message_type msg;
+	int ret;
+
+	switch (mp1_state) {
+	case PP_MP1_STATE_SHUTDOWN:
+		msg = SMU_MSG_PrepareMp1ForShutdown;
+		break;
+	case PP_MP1_STATE_UNLOAD:
+		msg = SMU_MSG_PrepareMp1ForUnload;
+		break;
+	case PP_MP1_STATE_RESET:
+		msg = SMU_MSG_PrepareMp1ForReset;
+		break;
+	case PP_MP1_STATE_NONE:
+	default:
+		return 0;
+	}
+
+	ret = smu_cmn_send_smc_msg(smu, msg, NULL);
+	if (ret)
+		dev_err(smu->adev->dev, "[PrepareMp1] Failed!\n");
+
+	return ret;
+}

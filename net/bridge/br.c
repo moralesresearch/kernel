@@ -122,11 +122,7 @@ static int br_device_event(struct notifier_block *unused, unsigned long event, v
 		break;
 
 	case NETDEV_PRE_TYPE_CHANGE:
-<<<<<<< HEAD
 		/* Forbid underlying device to change its type. */
-=======
-		/* Forbid underlaying device to change its type. */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NOTIFY_BAD;
 
 	case NETDEV_RESEND_IGMP:

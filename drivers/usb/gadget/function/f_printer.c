@@ -51,11 +51,8 @@
 #define GET_PORT_STATUS		1
 #define SOFT_RESET		2
 
-<<<<<<< HEAD
 #define DEFAULT_Q_LEN		10 /* same as legacy g_printer gadget */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int major, minors;
 static struct class *usb_gadget_class;
 static DEFINE_IDA(printer_ida);
@@ -828,7 +825,7 @@ set_printer_interface(struct printer_dev *dev)
 
 	result = usb_ep_enable(dev->out_ep);
 	if (result != 0) {
-		DBG(dev, "enable %s --> %d\n", dev->in_ep->name, result);
+		DBG(dev, "enable %s --> %d\n", dev->out_ep->name, result);
 		goto done;
 	}
 
@@ -1104,12 +1101,8 @@ autoconf_fail:
 	ss_ep_out_desc.bEndpointAddress = fs_ep_out_desc.bEndpointAddress;
 
 	ret = usb_assign_descriptors(f, fs_printer_function,
-<<<<<<< HEAD
 			hs_printer_function, ss_printer_function,
 			ss_printer_function);
-=======
-			hs_printer_function, ss_printer_function, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1374,12 +1367,9 @@ static struct usb_function_instance *gprinter_alloc_inst(void)
 	opts->func_inst.free_func_inst = gprinter_free_inst;
 	ret = &opts->func_inst;
 
-<<<<<<< HEAD
 	/* Make sure q_len is initialized, otherwise the bound device can't support read/write! */
 	opts->q_len = DEFAULT_Q_LEN;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&printer_ida_lock);
 
 	if (ida_is_empty(&printer_ida)) {

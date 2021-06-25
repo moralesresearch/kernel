@@ -106,7 +106,6 @@
 	// status = "okay";
 };
 
-<<<<<<< HEAD
 &pcie0 {
 	status = "okay";
 };
@@ -115,8 +114,6 @@
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &pm8005_lsid1 {
 	pm8005-regulators {
 		compatible = "qcom,pm8005-regulators";
@@ -331,6 +328,10 @@
 	status = "okay";
 };
 
+&remoteproc_mss {
+	status = "okay";
+};
+
 &remoteproc_slpi {
 	status = "okay";
 };
@@ -356,10 +357,7 @@
 };
 
 &ufshc {
-<<<<<<< HEAD
 	status = "okay";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vcc-supply = <&vreg_l20a_2p95>;
 	vccq-supply = <&vreg_l26a_1p2>;
 	vccq2-supply = <&vreg_s4a_1p8>;
@@ -369,10 +367,7 @@
 };
 
 &ufsphy {
-<<<<<<< HEAD
 	status = "okay";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vdda-phy-supply = <&vreg_l1a_0p875>;
 	vdda-pll-supply = <&vreg_l2a_1p2>;
 	vddp-ref-clk-supply = <&vreg_l26a_1p2>;

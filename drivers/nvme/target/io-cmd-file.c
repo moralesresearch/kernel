@@ -49,17 +49,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
 
 	ns->file = filp_open(ns->device_path, flags, 0);
 	if (IS_ERR(ns->file)) {
-<<<<<<< HEAD
 		ret = PTR_ERR(ns->file);
 		pr_err("failed to open file %s: (%d)\n",
 			ns->device_path, ret);
 		ns->file = NULL;
 		return ret;
-=======
-		pr_err("failed to open file %s: (%ld)\n",
-				ns->device_path, PTR_ERR(ns->file));
-		return PTR_ERR(ns->file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = nvmet_file_ns_revalidate(ns);
@@ -408,13 +402,6 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req)
 		req->execute = nvmet_file_execute_write_zeroes;
 		return 0;
 	default:
-<<<<<<< HEAD
 		return nvmet_report_invalid_opcode(req);
-=======
-		pr_err("unhandled cmd for file ns %d on qid %d\n",
-				cmd->common.opcode, req->sq->qid);
-		req->error_loc = offsetof(struct nvme_common_command, opcode);
-		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }

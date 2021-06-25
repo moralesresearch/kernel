@@ -92,21 +92,13 @@ struct amdgpu_prt_cb {
 static inline void amdgpu_vm_eviction_lock(struct amdgpu_vm *vm)
 {
 	mutex_lock(&vm->eviction_lock);
-<<<<<<< HEAD
 	vm->saved_flags = memalloc_noreclaim_save();
-=======
-	vm->saved_flags = memalloc_nofs_save();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int amdgpu_vm_eviction_trylock(struct amdgpu_vm *vm)
 {
 	if (mutex_trylock(&vm->eviction_lock)) {
-<<<<<<< HEAD
 		vm->saved_flags = memalloc_noreclaim_save();
-=======
-		vm->saved_flags = memalloc_nofs_save();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	}
 	return 0;
@@ -114,11 +106,7 @@ static inline int amdgpu_vm_eviction_trylock(struct amdgpu_vm *vm)
 
 static inline void amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
 {
-<<<<<<< HEAD
 	memalloc_noreclaim_restore(vm->saved_flags);
-=======
-	memalloc_nofs_restore(vm->saved_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&vm->eviction_lock);
 }
 
@@ -650,41 +638,29 @@ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
 	struct amdgpu_vm_bo_base *bo_base;
 
 	if (vm->bulk_moveable) {
-		spin_lock(&ttm_bo_glob.lru_lock);
+		spin_lock(&adev->mman.bdev.lru_lock);
 		ttm_bo_bulk_move_lru_tail(&vm->lru_bulk_move);
-		spin_unlock(&ttm_bo_glob.lru_lock);
+		spin_unlock(&adev->mman.bdev.lru_lock);
 		return;
 	}
 
 	memset(&vm->lru_bulk_move, 0, sizeof(vm->lru_bulk_move));
 
-	spin_lock(&ttm_bo_glob.lru_lock);
+	spin_lock(&adev->mman.bdev.lru_lock);
 	list_for_each_entry(bo_base, &vm->idle, vm_status) {
 		struct amdgpu_bo *bo = bo_base->bo;
 
 		if (!bo->parent)
 			continue;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ttm_bo_move_to_lru_tail(&bo->tbo, &bo->tbo.mem,
 					&vm->lru_bulk_move);
 		if (bo->shadow)
 			ttm_bo_move_to_lru_tail(&bo->shadow->tbo,
 						&bo->shadow->tbo.mem,
-<<<<<<< HEAD
-=======
-=======
-		ttm_bo_move_to_lru_tail(&bo->tbo, &vm->lru_bulk_move);
-		if (bo->shadow)
-			ttm_bo_move_to_lru_tail(&bo->shadow->tbo,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						&vm->lru_bulk_move);
 	}
-	spin_unlock(&ttm_bo_glob.lru_lock);
+	spin_unlock(&adev->mman.bdev.lru_lock);
 
 	vm->bulk_moveable = true;
 }
@@ -893,6 +869,7 @@ static void amdgpu_vm_bo_param(struct amdgpu_device *adev, struct amdgpu_vm *vm,
 	bp->domain = amdgpu_bo_get_preferred_pin_domain(adev, bp->domain);
 	bp->flags = AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS |
 		AMDGPU_GEM_CREATE_CPU_GTT_USWC;
+	bp->bo_ptr_size = sizeof(struct amdgpu_bo);
 	if (vm->use_cpu_for_update)
 		bp->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
 	else if (!vm->root.base.bo || vm->root.base.bo->shadow)
@@ -3171,15 +3148,12 @@ void amdgpu_vm_manager_init(struct amdgpu_device *adev)
 {
 	unsigned i;
 
-<<<<<<< HEAD
 	/* Concurrent flushes are only possible starting with Vega10 and
 	 * are broken on Navi10 and Navi14.
 	 */
 	adev->vm_manager.concurrent_flush = !(adev->asic_type < CHIP_VEGA10 ||
 					      adev->asic_type == CHIP_NAVI10 ||
 					      adev->asic_type == CHIP_NAVI14);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	amdgpu_vmid_mgr_init(adev);
 
 	adev->vm_manager.fence_context =
@@ -3333,15 +3307,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
 	struct amdgpu_bo *root;
 	uint64_t value, flags;
 	struct amdgpu_vm *vm;
-<<<<<<< HEAD
 	int r;
-=======
-<<<<<<< HEAD
-	int r;
-=======
-	long r;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&adev->vm_manager.pasid_lock);
 	vm = idr_find(&adev->vm_manager.pasid_idr, pasid);
@@ -3390,21 +3356,12 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
 		value = 0;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = dma_resv_reserve_shared(root->tbo.base.resv, 1);
 	if (r) {
 		pr_debug("failed %d to reserve fence slot\n", r);
 		goto error_unlock;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = amdgpu_vm_bo_update_mapping(adev, adev, vm, true, false, NULL, addr,
 					addr, flags, value, NULL, NULL,
 					NULL);
@@ -3416,15 +3373,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
 error_unlock:
 	amdgpu_bo_unreserve(root);
 	if (r < 0)
-<<<<<<< HEAD
 		DRM_ERROR("Can't handle page fault (%d)\n", r);
-=======
-<<<<<<< HEAD
-		DRM_ERROR("Can't handle page fault (%d)\n", r);
-=======
-		DRM_ERROR("Can't handle page fault (%ld)\n", r);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 error_unref:
 	amdgpu_bo_unref(&root);

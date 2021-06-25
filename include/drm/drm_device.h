@@ -51,16 +51,6 @@ enum switch_power_state {
  * may contain multiple heads.
  */
 struct drm_device {
-<<<<<<< HEAD
-=======
-	/**
-	 * @legacy_dev_list:
-	 *
-	 * List of devices per driver for stealth attach cleanup
-	 */
-	struct list_head legacy_dev_list;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/** @if_version: Highest interface version set */
 	int if_version;
 
@@ -86,15 +76,7 @@ struct drm_device {
 	} managed;
 
 	/** @driver: DRM driver managing the device */
-<<<<<<< HEAD
 	const struct drm_driver *driver;
-=======
-#ifdef CONFIG_DRM_LEGACY
-	struct drm_driver *driver;
-#else
-	const struct drm_driver *driver;
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/**
 	 * @dev_private:
@@ -300,13 +282,6 @@ struct drm_device {
 	/** @pdev: PCI device structure */
 	struct pci_dev *pdev;
 
-<<<<<<< HEAD
-=======
-#ifdef __alpha__
-	/** @hose: PCI hose, only used on ALPHA platforms. */
-	struct pci_controller *hose;
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/** @num_crtcs: Number of CRTCs on this device */
 	unsigned int num_crtcs;
 
@@ -346,7 +321,6 @@ struct drm_device {
 	/* Everything below here is for legacy driver, never use! */
 	/* private: */
 #if IS_ENABLED(CONFIG_DRM_LEGACY)
-<<<<<<< HEAD
 	/* List of devices per driver for stealth attach cleanup */
 	struct list_head legacy_dev_list;
 
@@ -355,8 +329,6 @@ struct drm_device {
 	struct pci_controller *hose;
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Context handle management - linked list of context handles */
 	struct list_head ctxlist;
 

@@ -890,11 +890,7 @@ static struct snd_soc_dai_driver adau1372_dai_driver = {
 		.sig_bits = 24,
 	},
 	.ops = &adau1372_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int adau1372_setup_pll(struct adau1372 *adau1372, unsigned int rate)

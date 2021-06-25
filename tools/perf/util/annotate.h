@@ -32,10 +32,7 @@ struct ins {
 struct ins_operands {
 	char	*raw;
 	char	*raw_comment;
-<<<<<<< HEAD
 	char	*raw_func_start;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct {
 		char	*raw;
 		char	*name;
@@ -87,6 +84,7 @@ struct annotation_options {
 	     print_lines,
 	     full_path,
 	     show_linenr,
+	     show_fileloc,
 	     show_nr_jumps,
 	     show_minmax_cycle,
 	     show_asm_raw,
@@ -139,6 +137,7 @@ struct annotation_line {
 	s64			 offset;
 	char			*line;
 	int			 line_nr;
+	char			*fileloc;
 	int			 jump_sources;
 	float			 ipc;
 	u64			 cycles;

@@ -516,10 +516,7 @@ struct intel_host {
 	int	drv_strength;
 	bool	d3_retune;
 	bool	rpm_retune_ok;
-<<<<<<< HEAD
 	bool	needs_pwr_off;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32	glk_rx_ctrl1;
 	u32	glk_tun_val;
 	u32	active_ltr;
@@ -647,7 +644,6 @@ out:
 static void sdhci_intel_set_power(struct sdhci_host *host, unsigned char mode,
 				  unsigned short vdd)
 {
-<<<<<<< HEAD
 	struct sdhci_pci_slot *slot = sdhci_priv(host);
 	struct intel_host *intel_host = sdhci_pci_priv(slot);
 	int cntr;
@@ -667,11 +663,6 @@ static void sdhci_intel_set_power(struct sdhci_host *host, unsigned char mode,
 		}
 	}
 
-=======
-	int cntr;
-	u8 reg;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sdhci_set_power(host, mode, vdd);
 
 	if (mode == MMC_POWER_OFF)
@@ -984,7 +975,7 @@ static int glk_emmc_probe_slot(struct sdhci_pci_slot *slot)
 		slot->host->mmc->caps2 |= MMC_CAP2_CQE;
 
 	if (slot->chip->pdev->device != PCI_DEVICE_ID_INTEL_GLK_EMMC) {
-		slot->host->mmc->caps2 |= MMC_CAP2_HS400_ES,
+		slot->host->mmc->caps2 |= MMC_CAP2_HS400_ES;
 		slot->host->mmc_host_ops.hs400_enhanced_strobe =
 						intel_hs400_enhanced_strobe;
 		slot->host->mmc->caps2 |= MMC_CAP2_CQE_DCMD;
@@ -1161,7 +1152,6 @@ static int byt_sdio_probe_slot(struct sdhci_pci_slot *slot)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void byt_needs_pwr_off(struct sdhci_pci_slot *slot)
 {
 	struct intel_host *intel_host = sdhci_pci_priv(slot);
@@ -1170,8 +1160,6 @@ static void byt_needs_pwr_off(struct sdhci_pci_slot *slot)
 	intel_host->needs_pwr_off = reg  & SDHCI_POWER_ON;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int byt_sd_probe_slot(struct sdhci_pci_slot *slot)
 {
 	byt_probe_slot(slot);
@@ -1189,11 +1177,8 @@ static int byt_sd_probe_slot(struct sdhci_pci_slot *slot)
 	    slot->chip->pdev->subsystem_device == PCI_SUBDEVICE_ID_NI_78E3)
 		slot->host->mmc->caps2 |= MMC_CAP2_AVOID_3_3V;
 
-<<<<<<< HEAD
 	byt_needs_pwr_off(slot);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1945,11 +1930,8 @@ static const struct pci_device_id pci_ids[] = {
 	SDHCI_PCI_DEVICE(INTEL, CMLH_SD,   intel_byt_sd),
 	SDHCI_PCI_DEVICE(INTEL, JSL_EMMC,  intel_glk_emmc),
 	SDHCI_PCI_DEVICE(INTEL, JSL_SD,    intel_byt_sd),
-<<<<<<< HEAD
 	SDHCI_PCI_DEVICE(INTEL, LKF_EMMC,  intel_glk_emmc),
 	SDHCI_PCI_DEVICE(INTEL, LKF_SD,    intel_byt_sd),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SDHCI_PCI_DEVICE(O2, 8120,     o2),
 	SDHCI_PCI_DEVICE(O2, 8220,     o2),
 	SDHCI_PCI_DEVICE(O2, 8221,     o2),

@@ -28,13 +28,10 @@ properties:
     $ref: /schemas/types.yaml#/definitions/uint32
     enum: [0, 1, 2]
 
-<<<<<<< HEAD
   qca,disable-smarteee:
     description: Disable Atheros SmartEEE feature.
     type: boolean
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   qca,keep-pll-enabled:
     description: |
       If set, keep the PLL enabled even if there is no link. Useful if you
@@ -43,7 +40,6 @@ properties:
       Only supported on the AR8031.
     type: boolean
 
-<<<<<<< HEAD
   qca,smarteee-tw-us-100m:
     description: EEE Tw parameter for 100M links.
     $ref: /schemas/types.yaml#/definitions/uint32
@@ -56,8 +52,6 @@ properties:
     minimum: 1
     maximum: 255
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   vddio-supply:
     description: |
       RGMII I/O voltage regulator (see regulator/regulator.yaml).

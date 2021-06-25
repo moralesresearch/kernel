@@ -203,13 +203,8 @@ int sxgbe_mdio_register(struct net_device *ndev)
 			case PHY_POLL:
 				irq_str = "POLL";
 				break;
-<<<<<<< HEAD
 			case PHY_MAC_INTERRUPT:
 				irq_str = "MAC";
-=======
-			case PHY_IGNORE_INTERRUPT:
-				irq_str = "IGNORE";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			default:
 				sprintf(irq_num, "%d", phy->irq);

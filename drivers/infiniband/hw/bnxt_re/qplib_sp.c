@@ -650,18 +650,13 @@ int bnxt_qplib_dereg_mrw(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mrw,
 }
 
 int bnxt_qplib_reg_mr(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mr,
-<<<<<<< HEAD
 		      struct ib_umem *umem, int num_pbls, u32 buf_pg_size)
-=======
-		      u64 *pbl_tbl, int num_pbls, bool block, u32 buf_pg_size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
 	struct bnxt_qplib_hwq_attr hwq_attr = {};
 	struct bnxt_qplib_sg_info sginfo = {};
 	struct creq_register_mr_resp resp;
 	struct cmdq_register_mr req;
-<<<<<<< HEAD
 	u16 cmd_flags = 0, level;
 	int pages, rc;
 	u32 pg_size;
@@ -671,44 +666,16 @@ int bnxt_qplib_reg_mr(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mr,
 		/* Allocate memory for the non-leaf pages to store buf ptrs.
 		 * Non-leaf pages always uses system PAGE_SIZE
 		 */
-=======
-	int pg_ptrs, pages, i, rc;
-	u16 cmd_flags = 0, level;
-	dma_addr_t **pbl_ptr;
-	u32 pg_size;
-
-	if (num_pbls) {
-		/* Allocate memory for the non-leaf pages to store buf ptrs.
-		 * Non-leaf pages always uses system PAGE_SIZE
-		 */
-		pg_ptrs = roundup_pow_of_two(num_pbls);
-		pages = pg_ptrs >> MAX_PBL_LVL_1_PGS_SHIFT;
-		if (!pages)
-			pages++;
-
-		if (pages > MAX_PBL_LVL_1_PGS) {
-			dev_err(&res->pdev->dev,
-				"SP: Reg MR: pages requested (0x%x) exceeded max (0x%x)\n",
-				pages, MAX_PBL_LVL_1_PGS);
-			return -ENOMEM;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Free the hwq if it already exist, must be a rereg */
 		if (mr->hwq.max_elements)
 			bnxt_qplib_free_hwq(res, &mr->hwq);
 		/* Use system PAGE_SIZE */
 		hwq_attr.res = res;
 		hwq_attr.depth = pages;
-<<<<<<< HEAD
 		hwq_attr.stride = buf_pg_size;
 		hwq_attr.type = HWQ_TYPE_MR;
 		hwq_attr.sginfo = &sginfo;
 		hwq_attr.sginfo->umem = umem;
-=======
-		hwq_attr.stride = PAGE_SIZE;
-		hwq_attr.type = HWQ_TYPE_MR;
-		hwq_attr.sginfo = &sginfo;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hwq_attr.sginfo->npages = pages;
 		hwq_attr.sginfo->pgsize = PAGE_SIZE;
 		hwq_attr.sginfo->pgshft = PAGE_SHIFT;
@@ -718,14 +685,6 @@ int bnxt_qplib_reg_mr(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mr,
 				"SP: Reg MR memory allocation failed\n");
 			return -ENOMEM;
 		}
-<<<<<<< HEAD
-=======
-		/* Write to the hwq */
-		pbl_ptr = (dma_addr_t **)mr->hwq.pbl_ptr;
-		for (i = 0; i < num_pbls; i++)
-			pbl_ptr[PTR_PG(i)][PTR_IDX(i)] =
-				(pbl_tbl[i] & PAGE_MASK) | PTU_PTE_VALID;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	RCFW_CMD_PREP(req, REGISTER_MR, cmd_flags);
@@ -737,11 +696,7 @@ int bnxt_qplib_reg_mr(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mr,
 		req.pbl = 0;
 		pg_size = PAGE_SIZE;
 	} else {
-<<<<<<< HEAD
 		level = mr->hwq.level;
-=======
-		level = mr->hwq.level + 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		req.pbl = cpu_to_le64(mr->hwq.pbl[PBL_LVL_0].pg_map_arr[0]);
 	}
 	pg_size = buf_pg_size ? buf_pg_size : PAGE_SIZE;
@@ -758,11 +713,7 @@ int bnxt_qplib_reg_mr(struct bnxt_qplib_res *res, struct bnxt_qplib_mrw *mr,
 	req.mr_size = cpu_to_le64(mr->total_size);
 
 	rc = bnxt_qplib_rcfw_send_message(rcfw, (void *)&req,
-<<<<<<< HEAD
 					  (void *)&resp, NULL, false);
-=======
-					  (void *)&resp, NULL, block);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc)
 		goto fail;
 

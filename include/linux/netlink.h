@@ -11,11 +11,8 @@
 
 struct net;
 
-<<<<<<< HEAD
 void do_trace_netlink_extack(const char *msg);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct nlmsghdr *nlmsg_hdr(const struct sk_buff *skb)
 {
 	return (struct nlmsghdr *)skb->data;
@@ -95,11 +92,8 @@ struct netlink_ext_ack {
 	static const char __msg[] = msg;		\
 	struct netlink_ext_ack *__extack = (extack);	\
 							\
-<<<<<<< HEAD
 	do_trace_netlink_extack(__msg);			\
 							\
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (__extack)					\
 		__extack->_msg = __msg;			\
 } while (0)
@@ -120,11 +114,8 @@ struct netlink_ext_ack {
 	static const char __msg[] = msg;			\
 	struct netlink_ext_ack *__extack = (extack);		\
 								\
-<<<<<<< HEAD
 	do_trace_netlink_extack(__msg);				\
 								\
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (__extack) {						\
 		__extack->_msg = __msg;				\
 		__extack->bad_attr = (attr);			\
@@ -138,23 +129,19 @@ struct netlink_ext_ack {
 static inline void nl_set_extack_cookie_u64(struct netlink_ext_ack *extack,
 					    u64 cookie)
 {
-	u64 __cookie = cookie;
-
 	if (!extack)
 		return;
-	memcpy(extack->cookie, &__cookie, sizeof(__cookie));
-	extack->cookie_len = sizeof(__cookie);
+	memcpy(extack->cookie, &cookie, sizeof(cookie));
+	extack->cookie_len = sizeof(cookie);
 }
 
 static inline void nl_set_extack_cookie_u32(struct netlink_ext_ack *extack,
 					    u32 cookie)
 {
-	u32 __cookie = cookie;
-
 	if (!extack)
 		return;
-	memcpy(extack->cookie, &__cookie, sizeof(__cookie));
-	extack->cookie_len = sizeof(__cookie);
+	memcpy(extack->cookie, &cookie, sizeof(cookie));
+	extack->cookie_len = sizeof(cookie);
 }
 
 void netlink_kernel_release(struct sock *sk);

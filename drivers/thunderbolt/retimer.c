@@ -347,11 +347,7 @@ static int tb_retimer_add(struct tb_port *port, u8 index, u32 auth_status)
 	ret = tb_retimer_nvm_add(rt);
 	if (ret) {
 		dev_err(&rt->dev, "failed to add NVM devices: %d\n", ret);
-<<<<<<< HEAD
 		device_unregister(&rt->dev);
-=======
-		device_del(&rt->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
@@ -410,11 +406,7 @@ static struct tb_retimer *tb_port_find_retimer(struct tb_port *port, u8 index)
  */
 int tb_retimer_scan(struct tb_port *port)
 {
-<<<<<<< HEAD
 	u32 status[TB_MAX_RETIMER_INDEX + 1] = {};
-=======
-	u32 status[TB_MAX_RETIMER_INDEX] = {};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret, i, last_idx = 0;
 
 	if (!port->cap_usb4)

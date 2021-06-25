@@ -8,11 +8,8 @@
  */
 
 /dts-v1/;
-<<<<<<< HEAD
 
 #include <dt-bindings/clock/fsl,qoriq-clockgen.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "fsl-ls1028a-kontron-sl28.dts"
 
 / {
@@ -125,12 +122,8 @@
 	mclk: clock-mclk@f130080 {
 		compatible = "fsl,vf610-sai-clock";
 		reg = <0x0 0xf130080 0x0 0x80>;
-<<<<<<< HEAD
 		clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 				    QORIQ_CLK_PLL_DIV(2)>;
-=======
-		clocks = <&clockgen 4 1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		#clock-cells = <0>;
 	};
 };

@@ -75,11 +75,8 @@ static unsigned int pt_regs_offset[PERF_REG_POWERPC_MAX] = {
 static u64 get_ext_regs_value(int idx)
 {
 	switch (idx) {
-<<<<<<< HEAD
 	case PERF_REG_POWERPC_PMC1 ... PERF_REG_POWERPC_PMC6:
 		return get_pmcs_ext_regs(idx - PERF_REG_POWERPC_PMC1);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case PERF_REG_POWERPC_MMCR0:
 		return mfspr(SPRN_MMCR0);
 	case PERF_REG_POWERPC_MMCR1:
@@ -100,16 +97,6 @@ static u64 get_ext_regs_value(int idx)
 
 u64 perf_reg_value(struct pt_regs *regs, int idx)
 {
-<<<<<<< HEAD
-=======
-	u64 perf_reg_extended_max = PERF_REG_POWERPC_MAX;
-
-	if (cpu_has_feature(CPU_FTR_ARCH_31))
-		perf_reg_extended_max = PERF_REG_MAX_ISA_31;
-	else if (cpu_has_feature(CPU_FTR_ARCH_300))
-		perf_reg_extended_max = PERF_REG_MAX_ISA_300;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (idx == PERF_REG_POWERPC_SIER &&
 	   (IS_ENABLED(CONFIG_FSL_EMB_PERF_EVENT) ||
 	    IS_ENABLED(CONFIG_PPC32) ||
@@ -121,22 +108,14 @@ u64 perf_reg_value(struct pt_regs *regs, int idx)
 	    IS_ENABLED(CONFIG_PPC32)))
 		return 0;
 
-<<<<<<< HEAD
 	if (idx >= PERF_REG_POWERPC_MAX && idx < PERF_REG_EXTENDED_MAX)
-=======
-	if (idx >= PERF_REG_POWERPC_MAX && idx < perf_reg_extended_max)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return get_ext_regs_value(idx);
 
 	/*
 	 * If the idx is referring to value beyond the
 	 * supported registers, return 0 with a warning
 	 */
-<<<<<<< HEAD
 	if (WARN_ON_ONCE(idx >= PERF_REG_EXTENDED_MAX))
-=======
-	if (WARN_ON_ONCE(idx >= perf_reg_extended_max))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	return regs_get_register(regs, pt_regs_offset[idx]);

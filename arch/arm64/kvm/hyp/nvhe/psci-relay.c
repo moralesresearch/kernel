@@ -11,6 +11,7 @@
 #include <linux/kvm_host.h>
 #include <uapi/linux/psci.h>
 
+#include <nvhe/memory.h>
 #include <nvhe/trap_handler.h>
 
 void kvm_hyp_cpu_entry(unsigned long r0);
@@ -20,9 +21,6 @@ void __noreturn __host_enter(struct kvm_cpu_context *host_ctxt);
 
 /* Config options set by the host. */
 struct kvm_host_psci_config __ro_after_init kvm_host_psci_config;
-s64 __ro_after_init hyp_physvirt_offset;
-
-#define __hyp_pa(x) ((phys_addr_t)((x)) + hyp_physvirt_offset)
 
 #define INVALID_CPU_ID	UINT_MAX
 
@@ -128,13 +126,8 @@ static int psci_cpu_on(u64 func_id, struct kvm_cpu_context *host_ctxt)
 	if (cpu_id == INVALID_CPU_ID)
 		return PSCI_RET_INVALID_PARAMS;
 
-<<<<<<< HEAD
 	boot_args = per_cpu_ptr(&cpu_on_args, cpu_id);
 	init_params = per_cpu_ptr(&kvm_init_params, cpu_id);
-=======
-	boot_args = per_cpu_ptr(hyp_symbol_addr(cpu_on_args), cpu_id);
-	init_params = per_cpu_ptr(hyp_symbol_addr(kvm_init_params), cpu_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Check if the target CPU is already being booted. */
 	if (!try_acquire_boot_args(boot_args))
@@ -145,11 +138,7 @@ static int psci_cpu_on(u64 func_id, struct kvm_cpu_context *host_ctxt)
 	wmb();
 
 	ret = psci_call(func_id, mpidr,
-<<<<<<< HEAD
 			__hyp_pa(&kvm_hyp_cpu_entry),
-=======
-			__hyp_pa(hyp_symbol_addr(kvm_hyp_cpu_entry)),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__hyp_pa(init_params));
 
 	/* If successful, the lock will be released by the target CPU. */
@@ -168,13 +157,8 @@ static int psci_cpu_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
 	struct psci_boot_args *boot_args;
 	struct kvm_nvhe_init_params *init_params;
 
-<<<<<<< HEAD
 	boot_args = this_cpu_ptr(&suspend_args);
 	init_params = this_cpu_ptr(&kvm_init_params);
-=======
-	boot_args = this_cpu_ptr(hyp_symbol_addr(suspend_args));
-	init_params = this_cpu_ptr(hyp_symbol_addr(kvm_init_params));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * No need to acquire a lock before writing to boot_args because a core
@@ -188,11 +172,7 @@ static int psci_cpu_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
 	 * point if it is a deep sleep state.
 	 */
 	return psci_call(func_id, power_state,
-<<<<<<< HEAD
 			 __hyp_pa(&kvm_hyp_cpu_resume),
-=======
-			 __hyp_pa(hyp_symbol_addr(kvm_hyp_cpu_resume)),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 __hyp_pa(init_params));
 }
 
@@ -204,13 +184,8 @@ static int psci_system_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
 	struct psci_boot_args *boot_args;
 	struct kvm_nvhe_init_params *init_params;
 
-<<<<<<< HEAD
 	boot_args = this_cpu_ptr(&suspend_args);
 	init_params = this_cpu_ptr(&kvm_init_params);
-=======
-	boot_args = this_cpu_ptr(hyp_symbol_addr(suspend_args));
-	init_params = this_cpu_ptr(hyp_symbol_addr(kvm_init_params));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * No need to acquire a lock before writing to boot_args because a core
@@ -221,11 +196,7 @@ static int psci_system_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
 
 	/* Will only return on error. */
 	return psci_call(func_id,
-<<<<<<< HEAD
 			 __hyp_pa(&kvm_hyp_cpu_resume),
-=======
-			 __hyp_pa(hyp_symbol_addr(kvm_hyp_cpu_resume)),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 __hyp_pa(init_params), 0);
 }
 
@@ -234,21 +205,12 @@ asmlinkage void __noreturn kvm_host_psci_cpu_entry(bool is_cpu_on)
 	struct psci_boot_args *boot_args;
 	struct kvm_cpu_context *host_ctxt;
 
-<<<<<<< HEAD
 	host_ctxt = &this_cpu_ptr(&kvm_host_data)->host_ctxt;
 
 	if (is_cpu_on)
 		boot_args = this_cpu_ptr(&cpu_on_args);
 	else
 		boot_args = this_cpu_ptr(&suspend_args);
-=======
-	host_ctxt = &this_cpu_ptr(hyp_symbol_addr(kvm_host_data))->host_ctxt;
-
-	if (is_cpu_on)
-		boot_args = this_cpu_ptr(hyp_symbol_addr(cpu_on_args));
-	else
-		boot_args = this_cpu_ptr(hyp_symbol_addr(suspend_args));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpu_reg(host_ctxt, 0) = boot_args->r0;
 	write_sysreg_el2(boot_args->pc, SYS_ELR);

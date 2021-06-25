@@ -474,7 +474,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &cpsw_port1 {
 	phy-handle = <&ethphy0>;
 	phy-mode = "rmii";
@@ -488,42 +487,16 @@
 };
 
 &mac_sw {
-=======
-&cpsw_emac0 {
-	phy-handle = <&ethphy0>;
-	phy-mode = "rmii";
-	dual_emac_res_vlan = <1>;
-};
-
-&cpsw_emac1 {
-	phy-handle = <&ethphy1>;
-	phy-mode = "rmii";
-	dual_emac_res_vlan = <2>;
-};
-
-&mac {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&cpsw_default>;
 	pinctrl-1 = <&cpsw_sleep>;
 	status = "okay";
-<<<<<<< HEAD
 };
 
 &davinci_mdio_sw {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&davinci_mdio_default>;
 	pinctrl-1 = <&davinci_mdio_sleep>;
-=======
-	dual_emac;
-};
-
-&davinci_mdio {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&davinci_mdio_default>;
-	pinctrl-1 = <&davinci_mdio_sleep>;
-	status = "okay";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
 	reset-delay-us = <2>;   /* PHY datasheet states 1uS min */
 

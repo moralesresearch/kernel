@@ -14,11 +14,7 @@ extern const struct file_operations xfs_dir_file_operations;
 extern ssize_t xfs_vn_listxattr(struct dentry *, char *data, size_t size);
 
 extern void xfs_setattr_time(struct xfs_inode *ip, struct iattr *iattr);
-<<<<<<< HEAD
 int xfs_vn_setattr_size(struct user_namespace *mnt_userns,
 		struct dentry *dentry, struct iattr *vap);
-=======
-extern int xfs_vn_setattr_size(struct dentry *dentry, struct iattr *vap);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __XFS_IOPS_H__ */

@@ -57,24 +57,16 @@ static DEFINE_MUTEX(s3_wmi_lock);
 static int s3_wmi_query_block(const char *guid, int instance, int *ret)
 {
 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
-<<<<<<< HEAD
 	union acpi_object *obj = NULL;
 	acpi_status status;
-=======
-	acpi_status status;
-	union acpi_object *obj;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int error = 0;
 
 	mutex_lock(&s3_wmi_lock);
 	status = wmi_query_block(guid, instance, &output);
-<<<<<<< HEAD
 	if (ACPI_FAILURE(status)) {
 		error = -EIO;
 		goto out_free_unlock;
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	obj = output.pointer;
 

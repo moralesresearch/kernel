@@ -118,11 +118,7 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
-<<<<<<< HEAD
 		model = "LIBRETECH-AC";
-=======
-		model = "GXL-LIBRETECH-S805X-AC";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-widgets = "Speaker", "9J5-3 LEFT",
 				"Speaker", "9J5-2 RIGHT";
 		audio-routing = "9J5-3 LEFT", "ACODEC LOLN",

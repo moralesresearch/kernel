@@ -248,10 +248,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
 
 	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
 	if (ret != 0) {
-<<<<<<< HEAD
 		virtio_gpu_array_put_free(objs);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		virtio_gpu_free_object(&shmem_obj->base);
 		return ret;
 	}

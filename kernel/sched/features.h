@@ -27,7 +27,7 @@ SCHED_FEAT(NEXT_BUDDY, false)
 SCHED_FEAT(LAST_BUDDY, true)
 
 /*
- * Consider buddies to be cache hot, decreases the likelyness of a
+ * Consider buddies to be cache hot, decreases the likeliness of a
  * cache buddy being migrated away, increases cache locality.
  */
 SCHED_FEAT(CACHE_HOT_BUDDY, true)
@@ -38,10 +38,7 @@ SCHED_FEAT(CACHE_HOT_BUDDY, true)
 SCHED_FEAT(WAKEUP_PREEMPTION, true)
 
 SCHED_FEAT(HRTICK, false)
-<<<<<<< HEAD
 SCHED_FEAT(HRTICK_DL, false)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SCHED_FEAT(DOUBLE_TICK, false)
 
 /*
@@ -58,10 +55,6 @@ SCHED_FEAT(TTWU_QUEUE, true)
 /*
  * When doing wakeups, attempt to limit superfluous scans of the LLC domain.
  */
-<<<<<<< HEAD
-=======
-SCHED_FEAT(SIS_AVG_CPU, false)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SCHED_FEAT(SIS_PROP, true)
 
 /*
@@ -97,9 +90,8 @@ SCHED_FEAT(WA_BIAS, true)
  */
 SCHED_FEAT(UTIL_EST, true)
 SCHED_FEAT(UTIL_EST_FASTUP, true)
-<<<<<<< HEAD
+
+SCHED_FEAT(LATENCY_WARN, false)
 
 SCHED_FEAT(ALT_PERIOD, true)
 SCHED_FEAT(BASE_SLICE, true)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

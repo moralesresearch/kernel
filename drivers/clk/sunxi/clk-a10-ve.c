@@ -20,11 +20,7 @@ static DEFINE_SPINLOCK(ve_lock);
 #define SUN4I_VE_DIVIDER_WIDTH	3
 #define SUN4I_VE_RESET		0
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * sunxi_ve_reset... - reset bit in ve clk registers handling
  */
 

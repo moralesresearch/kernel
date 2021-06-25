@@ -434,7 +434,6 @@ static int goya_config_etr(struct hl_device *hdev,
 		WREG32(mmPSOC_ETR_BUFWM, 0x3FFC);
 		WREG32(mmPSOC_ETR_RSZ, input->buffer_size);
 		WREG32(mmPSOC_ETR_MODE, input->sink_mode);
-<<<<<<< HEAD
 		if (hdev->asic_prop.fw_security_disabled) {
 			/* make ETR not privileged */
 			val = FIELD_PREP(PSOC_ETR_AXICTL_PROTCTRLBIT0_MASK, 0);
@@ -444,10 +443,6 @@ static int goya_config_etr(struct hl_device *hdev,
 			val |= FIELD_PREP(PSOC_ETR_AXICTL_WRBURSTLEN_MASK, 7);
 			WREG32(mmPSOC_ETR_AXICTL, val);
 		}
-=======
-		WREG32(mmPSOC_ETR_AXICTL,
-				0x700 | PSOC_ETR_AXICTL_PROTCTRLBIT1_SHIFT);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WREG32(mmPSOC_ETR_DBALO,
 				lower_32_bits(input->buffer_address));
 		WREG32(mmPSOC_ETR_DBAHI,

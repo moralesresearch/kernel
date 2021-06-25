@@ -72,28 +72,17 @@ static void trace_note(struct blk_trace *bt, pid_t pid, int action,
 	struct blk_io_trace *t;
 	struct ring_buffer_event *event = NULL;
 	struct trace_buffer *buffer = NULL;
-<<<<<<< HEAD
 	unsigned int trace_ctx = 0;
-=======
-	int pc = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int cpu = smp_processor_id();
 	bool blk_tracer = blk_tracer_enabled;
 	ssize_t cgid_len = cgid ? sizeof(cgid) : 0;
 
 	if (blk_tracer) {
 		buffer = blk_tr->array_buffer.buffer;
-<<<<<<< HEAD
 		trace_ctx = tracing_gen_ctx_flags(0);
 		event = trace_buffer_lock_reserve(buffer, TRACE_BLK,
 						  sizeof(*t) + len + cgid_len,
 						  trace_ctx);
-=======
-		pc = preempt_count();
-		event = trace_buffer_lock_reserve(buffer, TRACE_BLK,
-						  sizeof(*t) + len + cgid_len,
-						  0, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!event)
 			return;
 		t = ring_buffer_event_data(event);
@@ -118,11 +107,7 @@ record_it:
 		memcpy((void *) t + sizeof(*t) + cgid_len, data, len);
 
 		if (blk_tracer)
-<<<<<<< HEAD
 			trace_buffer_unlock_commit(blk_tr, buffer, event, trace_ctx);
-=======
-			trace_buffer_unlock_commit(blk_tr, buffer, event, 0, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -237,14 +222,9 @@ static void __blk_add_trace(struct blk_trace *bt, sector_t sector, int bytes,
 	struct blk_io_trace *t;
 	unsigned long flags = 0;
 	unsigned long *sequence;
-<<<<<<< HEAD
 	unsigned int trace_ctx = 0;
 	pid_t pid;
 	int cpu;
-=======
-	pid_t pid;
-	int cpu, pc = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool blk_tracer = blk_tracer_enabled;
 	ssize_t cgid_len = cgid ? sizeof(cgid) : 0;
 
@@ -273,17 +253,10 @@ static void __blk_add_trace(struct blk_trace *bt, sector_t sector, int bytes,
 		tracing_record_cmdline(current);
 
 		buffer = blk_tr->array_buffer.buffer;
-<<<<<<< HEAD
 		trace_ctx = tracing_gen_ctx_flags(0);
 		event = trace_buffer_lock_reserve(buffer, TRACE_BLK,
 						  sizeof(*t) + pdu_len + cgid_len,
 						  trace_ctx);
-=======
-		pc = preempt_count();
-		event = trace_buffer_lock_reserve(buffer, TRACE_BLK,
-						  sizeof(*t) + pdu_len + cgid_len,
-						  0, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!event)
 			return;
 		t = ring_buffer_event_data(event);
@@ -329,11 +302,7 @@ record_it:
 			memcpy((void *)t + sizeof(*t) + cgid_len, pdu_data, pdu_len);
 
 		if (blk_tracer) {
-<<<<<<< HEAD
 			trace_buffer_unlock_commit(blk_tr, buffer, event, trace_ctx);
-=======
-			trace_buffer_unlock_commit(blk_tr, buffer, event, 0, pc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return;
 		}
 	}
@@ -343,11 +312,6 @@ record_it:
 
 static void blk_trace_free(struct blk_trace *bt)
 {
-<<<<<<< HEAD
-=======
-	debugfs_remove(bt->msg_file);
-	debugfs_remove(bt->dropped_file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	relay_close(bt->rchan);
 	debugfs_remove(bt->dir);
 	free_percpu(bt->sequence);
@@ -579,15 +543,8 @@ static int do_blk_trace_setup(struct request_queue *q, char *name, dev_t dev,
 	INIT_LIST_HEAD(&bt->running_list);
 
 	ret = -EIO;
-<<<<<<< HEAD
 	debugfs_create_file("dropped", 0444, dir, bt, &blk_dropped_fops);
 	debugfs_create_file("msg", 0222, dir, bt, &blk_msg_fops);
-=======
-	bt->dropped_file = debugfs_create_file("dropped", 0444, dir, bt,
-					       &blk_dropped_fops);
-
-	bt->msg_file = debugfs_create_file("msg", 0222, dir, bt, &blk_msg_fops);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bt->rchan = relay_open("trace", dir, buts->buf_size,
 				buts->buf_nr, &blk_relay_callbacks, bt);
@@ -943,11 +900,7 @@ static void blk_add_trace_bio(struct request_queue *q, struct bio *bio,
 
 static void blk_add_trace_bio_bounce(void *ignore, struct bio *bio)
 {
-<<<<<<< HEAD
 	blk_add_trace_bio(bio->bi_bdev->bd_disk->queue, bio, BLK_TA_BOUNCE, 0);
-=======
-	blk_add_trace_bio(bio->bi_disk->queue, bio, BLK_TA_BOUNCE, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void blk_add_trace_bio_complete(void *ignore,
@@ -959,40 +912,24 @@ static void blk_add_trace_bio_complete(void *ignore,
 
 static void blk_add_trace_bio_backmerge(void *ignore, struct bio *bio)
 {
-<<<<<<< HEAD
 	blk_add_trace_bio(bio->bi_bdev->bd_disk->queue, bio, BLK_TA_BACKMERGE,
 			0);
-=======
-	blk_add_trace_bio(bio->bi_disk->queue, bio, BLK_TA_BACKMERGE, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void blk_add_trace_bio_frontmerge(void *ignore, struct bio *bio)
 {
-<<<<<<< HEAD
 	blk_add_trace_bio(bio->bi_bdev->bd_disk->queue, bio, BLK_TA_FRONTMERGE,
 			0);
-=======
-	blk_add_trace_bio(bio->bi_disk->queue, bio, BLK_TA_FRONTMERGE, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void blk_add_trace_bio_queue(void *ignore, struct bio *bio)
 {
-<<<<<<< HEAD
 	blk_add_trace_bio(bio->bi_bdev->bd_disk->queue, bio, BLK_TA_QUEUE, 0);
-=======
-	blk_add_trace_bio(bio->bi_disk->queue, bio, BLK_TA_QUEUE, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void blk_add_trace_getrq(void *ignore, struct bio *bio)
 {
-<<<<<<< HEAD
 	blk_add_trace_bio(bio->bi_bdev->bd_disk->queue, bio, BLK_TA_GETRQ, 0);
-=======
-	blk_add_trace_bio(bio->bi_disk->queue, bio, BLK_TA_GETRQ, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void blk_add_trace_plug(void *ignore, struct request_queue *q)
@@ -1029,11 +966,7 @@ static void blk_add_trace_unplug(void *ignore, struct request_queue *q,
 
 static void blk_add_trace_split(void *ignore, struct bio *bio, unsigned int pdu)
 {
-<<<<<<< HEAD
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
-=======
-	struct request_queue *q = bio->bi_disk->queue;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct blk_trace *bt;
 
 	rcu_read_lock();
@@ -1063,11 +996,7 @@ static void blk_add_trace_split(void *ignore, struct bio *bio, unsigned int pdu)
 static void blk_add_trace_bio_remap(void *ignore, struct bio *bio, dev_t dev,
 				    sector_t from)
 {
-<<<<<<< HEAD
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
-=======
-	struct request_queue *q = bio->bi_disk->queue;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct blk_trace *bt;
 	struct blk_io_trace_remap r;
 
@@ -1935,7 +1864,6 @@ void blk_trace_remove_sysfs(struct device *dev)
 
 #ifdef CONFIG_EVENT_TRACING
 
-<<<<<<< HEAD
 /**
  * blk_fill_rwbs - Fill the buffer rwbs by mapping op to character string.
  * @rwbs:	buffer to be filled
@@ -1947,9 +1875,6 @@ void blk_trace_remove_sysfs(struct device *dev)
  *
  **/
 void blk_fill_rwbs(char *rwbs, unsigned int op)
-=======
-void blk_fill_rwbs(char *rwbs, unsigned int op, int bytes)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i = 0;
 

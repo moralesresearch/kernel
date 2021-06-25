@@ -18,14 +18,7 @@
 #include <asm/sclp.h>
 #include <asm/nmi.h>
 #include <asm/dis.h>
-<<<<<<< HEAD
 #include <asm/fpu/api.h>
-=======
-<<<<<<< HEAD
-#include <asm/fpu/api.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "kvm-s390.h"
 #include "gaccess.h"
 
@@ -424,14 +417,6 @@ static void unshadow_scb(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 		memcpy((void *)((u64)scb_o + 0xc0),
 		       (void *)((u64)scb_s + 0xc0), 0xf0 - 0xc0);
 		break;
-<<<<<<< HEAD
-=======
-	case ICPT_PARTEXEC:
-		/* MVPG only */
-		memcpy((void *)((u64)scb_o + 0xc0),
-		       (void *)((u64)scb_s + 0xc0), 0xd0 - 0xc0);
-		break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (scb_s->ihcpu != 0xffffU)
@@ -630,17 +615,10 @@ static int map_prefix(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 	/* with mso/msl, the prefix lies at offset *mso* */
 	prefix += scb_s->mso;
 
-<<<<<<< HEAD
 	rc = kvm_s390_shadow_fault(vcpu, vsie_page->gmap, prefix, NULL);
 	if (!rc && (scb_s->ecb & ECB_TE))
 		rc = kvm_s390_shadow_fault(vcpu, vsie_page->gmap,
 					   prefix + PAGE_SIZE, NULL);
-=======
-	rc = kvm_s390_shadow_fault(vcpu, vsie_page->gmap, prefix);
-	if (!rc && (scb_s->ecb & ECB_TE))
-		rc = kvm_s390_shadow_fault(vcpu, vsie_page->gmap,
-					   prefix + PAGE_SIZE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We don't have to mprotect, we will be called for all unshadows.
 	 * SIE will detect if protection applies and trigger a validity.
@@ -931,11 +909,7 @@ static int handle_fault(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 				    current->thread.gmap_addr, 1);
 
 	rc = kvm_s390_shadow_fault(vcpu, vsie_page->gmap,
-<<<<<<< HEAD
 				   current->thread.gmap_addr, NULL);
-=======
-				   current->thread.gmap_addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc > 0) {
 		rc = inject_fault(vcpu, rc,
 				  current->thread.gmap_addr,
@@ -957,11 +931,7 @@ static void handle_last_fault(struct kvm_vcpu *vcpu,
 {
 	if (vsie_page->fault_addr)
 		kvm_s390_shadow_fault(vcpu, vsie_page->gmap,
-<<<<<<< HEAD
 				      vsie_page->fault_addr, NULL);
-=======
-				      vsie_page->fault_addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vsie_page->fault_addr = 0;
 }
 
@@ -1009,7 +979,6 @@ static int handle_stfle(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 }
 
 /*
-<<<<<<< HEAD
  * Get a register for a nested guest.
  * @vcpu the vcpu of the guest
  * @vsie_page the vsie_page for the nested guest
@@ -1102,8 +1071,6 @@ static int vsie_handle_mvpg(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 }
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Run the vsie on a shadow scb and a shadow gmap, without any further
  * sanity checks, handling SIE faults.
  *
@@ -1149,16 +1116,8 @@ static int do_vsie_run(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 	 */
 	vcpu->arch.sie_block->prog0c |= PROG_IN_SIE;
 	barrier();
-<<<<<<< HEAD
 	if (test_cpu_flag(CIF_FPU))
 		load_fpu_regs();
-=======
-<<<<<<< HEAD
-	if (test_cpu_flag(CIF_FPU))
-		load_fpu_regs();
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!kvm_s390_vcpu_sie_inhibited(vcpu))
 		rc = sie64a(scb_s, vcpu->run->s.regs.gprs);
 	barrier();
@@ -1199,13 +1158,10 @@ static int do_vsie_run(struct kvm_vcpu *vcpu, struct vsie_page *vsie_page)
 		if ((scb_s->ipa & 0xf000) != 0xf000)
 			scb_s->ipa += 0x1000;
 		break;
-<<<<<<< HEAD
 	case ICPT_PARTEXEC:
 		if (scb_s->ipa == 0xb254)
 			rc = vsie_handle_mvpg(vcpu, vsie_page);
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return rc;
 }

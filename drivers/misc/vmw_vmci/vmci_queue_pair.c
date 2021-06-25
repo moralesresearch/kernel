@@ -237,19 +237,9 @@ static struct qp_list qp_guest_endpoints = {
 #define QPE_NUM_PAGES(_QPE) ((u32) \
 			     (DIV_ROUND_UP(_QPE.produce_size, PAGE_SIZE) + \
 			      DIV_ROUND_UP(_QPE.consume_size, PAGE_SIZE) + 2))
-<<<<<<< HEAD
 #define QP_SIZES_ARE_VALID(_prod_qsize, _cons_qsize) \
 	((_prod_qsize) + (_cons_qsize) >= max(_prod_qsize, _cons_qsize) && \
 	 (_prod_qsize) + (_cons_qsize) <= VMCI_MAX_GUEST_QP_MEMORY)
-=======
-<<<<<<< HEAD
-#define QP_SIZES_ARE_VALID(_prod_qsize, _cons_qsize) \
-	((_prod_qsize) + (_cons_qsize) >= max(_prod_qsize, _cons_qsize) && \
-	 (_prod_qsize) + (_cons_qsize) <= VMCI_MAX_GUEST_QP_MEMORY)
-=======
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Frees kernel VA space for a given queue and its queue header, and
@@ -540,15 +530,7 @@ static struct vmci_queue *qp_host_alloc_queue(u64 size)
 	u64 num_pages;
 	const size_t queue_size = sizeof(*queue) + sizeof(*(queue->kernel_if));
 
-<<<<<<< HEAD
 	if (size > min_t(size_t, VMCI_MAX_GUEST_QP_MEMORY, SIZE_MAX - PAGE_SIZE))
-=======
-<<<<<<< HEAD
-	if (size > min_t(size_t, VMCI_MAX_GUEST_QP_MEMORY, SIZE_MAX - PAGE_SIZE))
-=======
-	if (size > SIZE_MAX - PAGE_SIZE)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 	num_pages = DIV_ROUND_UP(size, PAGE_SIZE) + 1;
 	if (num_pages > (SIZE_MAX - queue_size) /
@@ -1230,15 +1212,7 @@ static int qp_alloc_guest_work(struct vmci_handle *handle,
 	} else {
 		result = qp_alloc_hypercall(queue_pair_entry);
 		if (result < VMCI_SUCCESS) {
-<<<<<<< HEAD
 			pr_devel("qp_alloc_hypercall result = %d\n", result);
-=======
-<<<<<<< HEAD
-			pr_devel("qp_alloc_hypercall result = %d\n", result);
-=======
-			pr_warn("qp_alloc_hypercall result = %d\n", result);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto error;
 		}
 	}
@@ -1960,18 +1934,9 @@ int vmci_qp_broker_alloc(struct vmci_handle handle,
 			 struct vmci_qp_page_store *page_store,
 			 struct vmci_ctx *context)
 {
-<<<<<<< HEAD
 	if (!QP_SIZES_ARE_VALID(produce_size, consume_size))
 		return VMCI_ERROR_NO_RESOURCES;
 
-=======
-<<<<<<< HEAD
-	if (!QP_SIZES_ARE_VALID(produce_size, consume_size))
-		return VMCI_ERROR_NO_RESOURCES;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return qp_broker_alloc(handle, peer, flags, priv_flags,
 			       produce_size, consume_size,
 			       page_store, context, NULL, NULL, NULL, NULL);
@@ -2728,16 +2693,7 @@ int vmci_qpair_alloc(struct vmci_qp **qpair,
 	 * used by the device is NO_RESOURCES, so use that here too.
 	 */
 
-<<<<<<< HEAD
 	if (!QP_SIZES_ARE_VALID(produce_qsize, consume_qsize))
-=======
-<<<<<<< HEAD
-	if (!QP_SIZES_ARE_VALID(produce_qsize, consume_qsize))
-=======
-	if (produce_qsize + consume_qsize < max(produce_qsize, consume_qsize) ||
-	    produce_qsize + consume_qsize > VMCI_MAX_GUEST_QP_MEMORY)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return VMCI_ERROR_NO_RESOURCES;
 
 	retval = vmci_route(&src, &dst, false, &route);

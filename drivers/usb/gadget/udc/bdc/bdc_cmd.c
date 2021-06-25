@@ -163,11 +163,7 @@ int bdc_config_ep(struct bdc *bdc, struct bdc_ep *ep)
 					usb_endpoint_xfer_isoc(desc)) {
 			param2 |= si;
 			if (usb_endpoint_xfer_isoc(desc) && comp_desc)
-<<<<<<< HEAD
 				mul = comp_desc->bmAttributes;
-=======
-					mul = comp_desc->bmAttributes;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		}
 		param2 |= mul << EPM_SHIFT;

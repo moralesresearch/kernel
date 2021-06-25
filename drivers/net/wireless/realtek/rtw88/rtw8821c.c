@@ -15,29 +15,16 @@
 #include "debug.h"
 #include "bf.h"
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const s8 lna_gain_table_0[8] = {22, 8, -6, -22, -31, -40, -46, -52};
 static const s8 lna_gain_table_1[16] = {10, 6, 2, -2, -6, -10, -14, -17,
 					-20, -24, -28, -31, -34, -37, -40, -44};
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rtw8821ce_efuse_parsing(struct rtw_efuse *efuse,
 				    struct rtw8821c_efuse *map)
 {
 	ether_addr_copy(efuse->addr, map->e.mac_addr);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum rtw8821ce_rf_set {
 	SWITCH_TO_BTG,
 	SWITCH_TO_WLG,
@@ -45,11 +32,6 @@ enum rtw8821ce_rf_set {
 	SWITCH_TO_BT,
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rtw8821c_read_efuse(struct rtw_dev *rtwdev, u8 *log_map)
 {
 	struct rtw_efuse *efuse = &rtwdev->efuse;
@@ -253,10 +235,6 @@ static void rtw8821c_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
 	rtw_write8(rtwdev, REG_LDO_EFUSE_CTRL + 3, ldo_pwr);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rtw8821c_switch_rf_set(struct rtw_dev *rtwdev, u8 rf_set)
 {
 	u32 reg;
@@ -291,11 +269,6 @@ static void rtw8821c_switch_rf_set(struct rtw_dev *rtwdev, u8 rf_set)
 	rtw_write32(rtwdev, REG_RFECTL, reg);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rtw8821c_set_channel_rf(struct rtw_dev *rtwdev, u8 channel, u8 bw)
 {
 	u32 rf_reg18;
@@ -329,10 +302,6 @@ static void rtw8821c_set_channel_rf(struct rtw_dev *rtwdev, u8 channel, u8 bw)
 	}
 
 	if (channel <= 14) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rtwdev->efuse.rfe_option == 0)
 			rtw8821c_switch_rf_set(rtwdev, SWITCH_TO_WLG);
 		else if (rtwdev->efuse.rfe_option == 2)
@@ -341,14 +310,6 @@ static void rtw8821c_set_channel_rf(struct rtw_dev *rtwdev, u8 channel, u8 bw)
 		rtw_write_rf(rtwdev, RF_PATH_A, 0x64, 0xf, 0xf);
 	} else {
 		rtw8821c_switch_rf_set(rtwdev, SWITCH_TO_WLA);
-<<<<<<< HEAD
-=======
-=======
-		rtw_write_rf(rtwdev, RF_PATH_A, RF_LUTDBG, BIT(6), 0x1);
-		rtw_write_rf(rtwdev, RF_PATH_A, 0x64, 0xf, 0xf);
-	} else {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rtw_write_rf(rtwdev, RF_PATH_A, RF_LUTDBG, BIT(6), 0x0);
 	}
 
@@ -515,10 +476,6 @@ static void rtw8821c_set_channel(struct rtw_dev *rtwdev, u8 channel, u8 bw,
 	rtw8821c_set_channel_rxdfir(rtwdev, bw);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static s8 get_cck_rx_pwr(struct rtw_dev *rtwdev, u8 lna_idx, u8 vga_idx)
 {
 	struct rtw_efuse *efuse = &rtwdev->efuse;
@@ -562,22 +519,6 @@ static void query_phy_status_page0(struct rtw_dev *rtwdev, u8 *phy_status,
 	pkt_stat->rssi = rtw_phy_rf_power_2_rssi(pkt_stat->rx_power, 1);
 	pkt_stat->bw = RTW_CHANNEL_WIDTH_20;
 	pkt_stat->signal_power = rx_power;
-<<<<<<< HEAD
-=======
-=======
-static void query_phy_status_page0(struct rtw_dev *rtwdev, u8 *phy_status,
-				   struct rtw_rx_pkt_stat *pkt_stat)
-{
-	s8 min_rx_power = -120;
-	u8 pwdb = GET_PHY_STAT_P0_PWDB(phy_status);
-
-	pkt_stat->rx_power[RF_PATH_A] = pwdb - 100;
-	pkt_stat->rssi = rtw_phy_rf_power_2_rssi(pkt_stat->rx_power, 1);
-	pkt_stat->bw = RTW_CHANNEL_WIDTH_20;
-	pkt_stat->signal_power = max(pkt_stat->rx_power[RF_PATH_A],
-				     min_rx_power);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void query_phy_status_page1(struct rtw_dev *rtwdev, u8 *phy_status,
@@ -640,7 +581,8 @@ static void rtw8821c_query_rx_desc(struct rtw_dev *rtwdev, u8 *rx_desc,
 	pkt_stat->phy_status = GET_RX_DESC_PHYST(rx_desc);
 	pkt_stat->icv_err = GET_RX_DESC_ICV_ERR(rx_desc);
 	pkt_stat->crc_err = GET_RX_DESC_CRC32(rx_desc);
-	pkt_stat->decrypted = !GET_RX_DESC_SWDEC(rx_desc);
+	pkt_stat->decrypted = !GET_RX_DESC_SWDEC(rx_desc) &&
+			      GET_RX_DESC_ENC_TYPE(rx_desc) != RX_DESC_ENC_NONE;
 	pkt_stat->is_c2h = GET_RX_DESC_C2H(rx_desc);
 	pkt_stat->pkt_len = GET_RX_DESC_PKT_LEN(rx_desc);
 	pkt_stat->drv_info_sz = GET_RX_DESC_DRV_INFO_SIZE(rx_desc);
@@ -1163,18 +1105,6 @@ static void rtw8821c_phy_cck_pd_set(struct rtw_dev *rtwdev, u8 new_lvl)
 	u8 pd[CCK_PD_LV_MAX] = {3, 7, 13, 13, 13};
 	u8 cck_n_rx;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	if (dm_info->min_rssi > 60) {
-		new_lvl = 4;
-		pd[4] = 0x1d;
-		goto set_cck_pd;
-	}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtw_dbg(rtwdev, RTW_DBG_PHY, "lv: (%d) -> (%d)\n",
 		dm_info->cck_pd_lv[RTW_CHANNEL_WIDTH_20][RF_PATH_A], new_lvl);
 
@@ -1191,13 +1121,6 @@ static void rtw8821c_phy_cck_pd_set(struct rtw_dev *rtwdev, u8 new_lvl)
 
 	dm_info->cck_fa_avg = CCK_FA_AVG_RESET;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-set_cck_pd:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dm_info->cck_pd_lv[RTW_CHANNEL_WIDTH_20][RF_PATH_A] = new_lvl;
 	rtw_write32_mask(rtwdev, REG_PWRTH, 0x3f0000, pd[new_lvl]);
 	rtw_write32_mask(rtwdev, REG_PWRTH2, 0x1f0000,
@@ -1574,14 +1497,7 @@ static const struct rtw_intf_phy_para_table phy_para_table_8821c = {
 
 static const struct rtw_rfe_def rtw8821c_rfe_defs[] = {
 	[0] = RTW_DEF_RFE(8821c, 0, 0),
-<<<<<<< HEAD
 	[2] = RTW_DEF_RFE_EXT(8821c, 0, 0, 2),
-=======
-<<<<<<< HEAD
-	[2] = RTW_DEF_RFE_EXT(8821c, 0, 0, 2),
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct rtw_hw_reg rtw8821c_dig[] = {

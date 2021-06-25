@@ -1342,7 +1342,6 @@ static const u32 rtw8821c_agc[] = {
 
 RTW_DECL_TABLE_PHY_COND(rtw8821c_agc, rtw_phy_cfg_agc);
 
-<<<<<<< HEAD
 static const u32 rtw8821c_agc_btg_type2[] = {
 	0x80001004,	0x00000000,	0x40000000,	0x00000000,
 	0x81C, 0xFF000013,
@@ -1736,8 +1735,6 @@ static const u32 rtw8821c_agc_btg_type2[] = {
 
 RTW_DECL_TABLE_PHY_COND(rtw8821c_agc_btg_type2, rtw_phy_cfg_agc);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const u32 rtw8821c_bb[] = {
 	0x800, 0x9020D010,
 	0x804, 0x80018180,
@@ -1790,15 +1787,11 @@ static const u32 rtw8821c_bb[] = {
 	0x8C0, 0xFFE04020,
 	0x8C4, 0x47C00000,
 	0x8C8, 0x00025165,
-<<<<<<< HEAD
 	0x82000400,	0x00000000,	0x40000000,	0x00000000,
 	0x8CC, 0x08190492,
 	0xA0000000,	0x00000000,
 	0x8CC, 0x08188492,
 	0xB0000000,	0x00000000,
-=======
-	0x8CC, 0x08188492,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	0x8D0, 0x0000B800,
 	0x8D4, 0x860308A0,
 	0x8D8, 0x290B5612,

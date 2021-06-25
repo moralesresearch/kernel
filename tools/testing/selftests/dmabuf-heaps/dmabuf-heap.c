@@ -130,25 +130,13 @@ static int dmabuf_heap_alloc(int fd, size_t len, unsigned int flags,
 					 dmabuf_fd);
 }
 
-<<<<<<< HEAD
 static int dmabuf_sync(int fd, int start_stop)
-=======
-static void dmabuf_sync(int fd, int start_stop)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dma_buf_sync sync = {
 		.flags = start_stop | DMA_BUF_SYNC_RW,
 	};
-<<<<<<< HEAD
 
 	return ioctl(fd, DMA_BUF_IOCTL_SYNC, &sync);
-=======
-	int ret;
-
-	ret = ioctl(fd, DMA_BUF_IOCTL_SYNC, &sync);
-	if (ret)
-		printf("sync failed %d\n", errno);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define ONE_MEG (1024 * 1024)
@@ -160,26 +148,14 @@ static int test_alloc_and_import(char *heap_name)
 	void *p = NULL;
 	int ret;
 
-<<<<<<< HEAD
-=======
-	printf("Testing heap: %s\n", heap_name);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	heap_fd = dmabuf_heap_open(heap_name);
 	if (heap_fd < 0)
 		return -1;
 
-<<<<<<< HEAD
 	printf("  Testing allocation and importing:  ");
 	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0, &dmabuf_fd);
 	if (ret) {
 		printf("FAIL (Allocation Failed!)\n");
-=======
-	printf("Allocating 1 MEG\n");
-	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0, &dmabuf_fd);
-	if (ret) {
-		printf("Allocation Failed!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -1;
 		goto out;
 	}
@@ -191,18 +167,10 @@ static int test_alloc_and_import(char *heap_name)
 		 dmabuf_fd,
 		 0);
 	if (p == MAP_FAILED) {
-<<<<<<< HEAD
 		printf("FAIL (mmap() failed)\n");
 		ret = -1;
 		goto out;
 	}
-=======
-		printf("mmap() failed: %m\n");
-		ret = -1;
-		goto out;
-	}
-	printf("mmap passed\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
 	memset(p, 1, ONE_MEG / 2);
@@ -212,7 +180,6 @@ static int test_alloc_and_import(char *heap_name)
 	importer_fd = open_vgem();
 	if (importer_fd < 0) {
 		ret = importer_fd;
-<<<<<<< HEAD
 		printf("(Could not open vgem - skipping):  ");
 	} else {
 		ret = import_vgem_fd(importer_fd, dmabuf_fd, &handle);
@@ -238,27 +205,6 @@ static int test_alloc_and_import(char *heap_name)
 	close_handle(importer_fd, handle);
 	ret = 0;
 	printf(" OK\n");
-=======
-		printf("Failed to open vgem\n");
-		goto out;
-	}
-
-	ret = import_vgem_fd(importer_fd, dmabuf_fd, &handle);
-	if (ret < 0) {
-		printf("Failed to import buffer\n");
-		goto out;
-	}
-	printf("import passed\n");
-
-	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
-	memset(p, 0xff, ONE_MEG);
-	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_END);
-	printf("syncs passed\n");
-
-	close_handle(importer_fd, handle);
-	ret = 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	if (p)
 		munmap(p, ONE_MEG);
@@ -272,7 +218,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int test_alloc_zeroed(char *heap_name, size_t size)
 {
 	int heap_fd = -1, dmabuf_fd[32];
@@ -351,8 +296,6 @@ out:
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Test the ioctl version compatibility w/ a smaller structure then expected */
 static int dmabuf_heap_alloc_older(int fd, size_t len, unsigned int flags,
 				   int *dmabuf_fd)
@@ -427,22 +370,14 @@ static int test_alloc_compat(char *heap_name)
 	if (heap_fd < 0)
 		return -1;
 
-<<<<<<< HEAD
 	printf("  Testing (theoretical)older alloc compat:  ");
 	ret = dmabuf_heap_alloc_older(heap_fd, ONE_MEG, 0, &dmabuf_fd);
 	if (ret) {
 		printf("FAIL (Older compat allocation failed!)\n");
-=======
-	printf("Testing (theoretical)older alloc compat\n");
-	ret = dmabuf_heap_alloc_older(heap_fd, ONE_MEG, 0, &dmabuf_fd);
-	if (ret) {
-		printf("Older compat allocation failed!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -1;
 		goto out;
 	}
 	close(dmabuf_fd);
-<<<<<<< HEAD
 	printf("OK\n");
 
 	printf("  Testing (theoretical)newer alloc compat:  ");
@@ -453,17 +388,6 @@ static int test_alloc_compat(char *heap_name)
 		goto out;
 	}
 	printf("OK\n");
-=======
-
-	printf("Testing (theoretical)newer alloc compat\n");
-	ret = dmabuf_heap_alloc_newer(heap_fd, ONE_MEG, 0, &dmabuf_fd);
-	if (ret) {
-		printf("Newer compat allocation failed!\n");
-		ret = -1;
-		goto out;
-	}
-	printf("Ioctl compatibility tests passed\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	if (dmabuf_fd >= 0)
 		close(dmabuf_fd);
@@ -482,28 +406,17 @@ static int test_alloc_errors(char *heap_name)
 	if (heap_fd < 0)
 		return -1;
 
-<<<<<<< HEAD
 	printf("  Testing expected error cases:  ");
 	ret = dmabuf_heap_alloc(0, ONE_MEG, 0x111111, &dmabuf_fd);
 	if (!ret) {
 		printf("FAIL (Did not see expected error (invalid fd)!)\n");
-=======
-	printf("Testing expected error cases\n");
-	ret = dmabuf_heap_alloc(0, ONE_MEG, 0x111111, &dmabuf_fd);
-	if (!ret) {
-		printf("Did not see expected error (invalid fd)!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -1;
 		goto out;
 	}
 
 	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0x111111, &dmabuf_fd);
 	if (!ret) {
-<<<<<<< HEAD
 		printf("FAIL (Did not see expected error (invalid heap flags)!)\n");
-=======
-		printf("Did not see expected error (invalid heap flags)!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -1;
 		goto out;
 	}
@@ -511,20 +424,12 @@ static int test_alloc_errors(char *heap_name)
 	ret = dmabuf_heap_alloc_fdflags(heap_fd, ONE_MEG,
 					~(O_RDWR | O_CLOEXEC), 0, &dmabuf_fd);
 	if (!ret) {
-<<<<<<< HEAD
 		printf("FAIL (Did not see expected error (invalid fd flags)!)\n");
-=======
-		printf("Did not see expected error (invalid fd flags)!\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -1;
 		goto out;
 	}
 
-<<<<<<< HEAD
 	printf("OK\n");
-=======
-	printf("Expected error checking passed\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = 0;
 out:
 	if (dmabuf_fd >= 0)
@@ -553,16 +458,12 @@ int main(void)
 		if (!strncmp(dir->d_name, "..", 3))
 			continue;
 
-<<<<<<< HEAD
 		printf("Testing heap: %s\n", dir->d_name);
 		printf("=======================================\n");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = test_alloc_and_import(dir->d_name);
 		if (ret)
 			break;
 
-<<<<<<< HEAD
 		ret = test_alloc_zeroed(dir->d_name, 4 * 1024);
 		if (ret)
 			break;
@@ -571,8 +472,6 @@ int main(void)
 		if (ret)
 			break;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = test_alloc_compat(dir->d_name);
 		if (ret)
 			break;

@@ -44,6 +44,7 @@
 #include "smp.h"
 #include "leds.h"
 #include "msft.h"
+#include "aosp.h"
 
 static void hci_rx_work(struct work_struct *work);
 static void hci_cmd_work(struct work_struct *work);
@@ -1586,6 +1587,7 @@ setup_failed:
 		ret = hdev->set_diag(hdev, true);
 
 	msft_do_open(hdev);
+	aosp_do_open(hdev);
 
 	clear_bit(HCI_INIT, &hdev->flags);
 
@@ -1608,7 +1610,6 @@ setup_failed:
 	} else {
 		/* Init failed, cleanup */
 		flush_work(&hdev->tx_work);
-<<<<<<< HEAD
 
 		/* Since hci_rx_work() is possible to awake new cmd_work
 		 * it should be flushed first to avoid unexpected call of
@@ -1616,10 +1617,6 @@ setup_failed:
 		 */
 		flush_work(&hdev->rx_work);
 		flush_work(&hdev->cmd_work);
-=======
-		flush_work(&hdev->cmd_work);
-		flush_work(&hdev->rx_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		skb_queue_purge(&hdev->cmd_q);
 		skb_queue_purge(&hdev->rx_q);
@@ -1792,6 +1789,7 @@ int hci_dev_do_close(struct hci_dev *hdev)
 
 	hci_sock_dev_event(hdev, HCI_DEV_DOWN);
 
+	aosp_do_close(hdev);
 	msft_do_close(hdev);
 
 	if (hdev->flush)
@@ -3063,33 +3061,15 @@ void hci_adv_monitors_clear(struct hci_dev *hdev)
 	int handle;
 
 	idr_for_each_entry(&hdev->adv_monitors_idr, monitor, handle)
-<<<<<<< HEAD
 		hci_free_adv_monitor(hdev, monitor);
-=======
-<<<<<<< HEAD
-		hci_free_adv_monitor(hdev, monitor);
-=======
-		hci_free_adv_monitor(monitor);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	idr_destroy(&hdev->adv_monitors_idr);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Frees the monitor structure and do some bookkeepings.
  * This function requires the caller holds hdev->lock.
  */
 void hci_free_adv_monitor(struct hci_dev *hdev, struct adv_monitor *monitor)
-<<<<<<< HEAD
-=======
-=======
-void hci_free_adv_monitor(struct adv_monitor *monitor)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct adv_pattern *pattern;
 	struct adv_pattern *tmp;
@@ -3097,10 +3077,6 @@ void hci_free_adv_monitor(struct adv_monitor *monitor)
 	if (!monitor)
 		return;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_safe(pattern, tmp, &monitor->patterns, list) {
 		list_del(&pattern->list);
 		kfree(pattern);
@@ -3113,21 +3089,10 @@ void hci_free_adv_monitor(struct adv_monitor *monitor)
 		hdev->adv_monitors_cnt--;
 		mgmt_adv_monitor_removed(hdev, monitor->handle);
 	}
-<<<<<<< HEAD
-=======
-=======
-	list_for_each_entry_safe(pattern, tmp, &monitor->patterns, list)
-		kfree(pattern);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(monitor);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int hci_add_adv_patterns_monitor_complete(struct hci_dev *hdev, u8 status)
 {
 	return mgmt_add_adv_patterns_monitor_complete(hdev, status);
@@ -3154,27 +3119,11 @@ bool hci_add_adv_monitor(struct hci_dev *hdev, struct adv_monitor *monitor,
 		*err = -EINVAL;
 		return false;
 	}
-<<<<<<< HEAD
-=======
-=======
-/* This function requires the caller holds hdev->lock */
-int hci_add_adv_monitor(struct hci_dev *hdev, struct adv_monitor *monitor)
-{
-	int min, max, handle;
-
-	if (!monitor)
-		return -EINVAL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	min = HCI_MIN_ADV_MONITOR_HANDLE;
 	max = HCI_MIN_ADV_MONITOR_HANDLE + HCI_MAX_ADV_MONITOR_NUM_HANDLES;
 	handle = idr_alloc(&hdev->adv_monitors_idr, monitor, min, max,
 			   GFP_KERNEL);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (handle < 0) {
 		*err = handle;
 		return false;
@@ -3289,55 +3238,6 @@ bool hci_remove_all_adv_monitor(struct hci_dev *hdev, int *err)
 		   hdev->name, *err, pending ? "" : "not ");
 
 	return pending;
-<<<<<<< HEAD
-=======
-=======
-	if (handle < 0)
-		return handle;
-
-	hdev->adv_monitors_cnt++;
-	monitor->handle = handle;
-
-	hci_update_background_scan(hdev);
-
-	return 0;
-}
-
-static int free_adv_monitor(int id, void *ptr, void *data)
-{
-	struct hci_dev *hdev = data;
-	struct adv_monitor *monitor = ptr;
-
-	idr_remove(&hdev->adv_monitors_idr, monitor->handle);
-	hci_free_adv_monitor(monitor);
-	hdev->adv_monitors_cnt--;
-
-	return 0;
-}
-
-/* This function requires the caller holds hdev->lock */
-int hci_remove_adv_monitor(struct hci_dev *hdev, u16 handle)
-{
-	struct adv_monitor *monitor;
-
-	if (handle) {
-		monitor = idr_find(&hdev->adv_monitors_idr, handle);
-		if (!monitor)
-			return -ENOENT;
-
-		idr_remove(&hdev->adv_monitors_idr, monitor->handle);
-		hci_free_adv_monitor(monitor);
-		hdev->adv_monitors_cnt--;
-	} else {
-		/* Remove all monitors if handle is 0. */
-		idr_for_each(&hdev->adv_monitors_idr, &free_adv_monitor, hdev);
-	}
-
-	hci_update_background_scan(hdev);
-
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* This function requires the caller holds hdev->lock */
@@ -3346,10 +3246,6 @@ bool hci_is_adv_monitoring(struct hci_dev *hdev)
 	return !idr_is_empty(&hdev->adv_monitors_idr);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int hci_get_adv_monitor_offload_ext(struct hci_dev *hdev)
 {
 	if (msft_monitor_supported(hdev))
@@ -3358,11 +3254,6 @@ int hci_get_adv_monitor_offload_ext(struct hci_dev *hdev)
 	return HCI_ADV_MONITOR_EXT_NONE;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bdaddr_list *hci_bdaddr_list_lookup(struct list_head *bdaddr_list,
 					 bdaddr_t *bdaddr, u8 type)
 {
@@ -3877,6 +3768,8 @@ struct hci_dev *hci_alloc_dev(void)
 	hdev->le_scan_window_suspend = 0x0012;
 	hdev->le_scan_int_discovery = DISCOV_LE_SCAN_INT;
 	hdev->le_scan_window_discovery = DISCOV_LE_SCAN_WIN;
+	hdev->le_scan_int_adv_monitor = 0x0060;
+	hdev->le_scan_window_adv_monitor = 0x0030;
 	hdev->le_scan_int_connect = 0x0060;
 	hdev->le_scan_window_connect = 0x0060;
 	hdev->le_conn_min_interval = 0x0018;

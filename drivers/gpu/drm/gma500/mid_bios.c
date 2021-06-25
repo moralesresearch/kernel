@@ -19,14 +19,9 @@
 static void mid_get_fuse_settings(struct drm_device *dev)
 {
 	struct drm_psb_private *dev_priv = dev->dev_private;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
 	struct pci_dev *pci_root =
 		pci_get_domain_bus_and_slot(pci_domain_nr(pdev->bus),
-=======
-	struct pci_dev *pci_root =
-		pci_get_domain_bus_and_slot(pci_domain_nr(dev->pdev->bus),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    0, 0);
 	uint32_t fuse_value = 0;
 	uint32_t fuse_value_tmp = 0;
@@ -99,12 +94,8 @@ static void mid_get_fuse_settings(struct drm_device *dev)
 static void mid_get_pci_revID(struct drm_psb_private *dev_priv)
 {
 	uint32_t platform_rev_id = 0;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev_priv->dev->dev);
 	int domain = pci_domain_nr(pdev->bus);
-=======
-	int domain = pci_domain_nr(dev_priv->dev->pdev->bus);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct pci_dev *pci_gfx_root =
 		pci_get_domain_bus_and_slot(domain, 0, PCI_DEVFN(2, 0));
 
@@ -280,19 +271,12 @@ out:
 static void mid_get_vbt_data(struct drm_psb_private *dev_priv)
 {
 	struct drm_device *dev = dev_priv->dev;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 addr;
 	u8 __iomem *vbt_virtual;
 	struct mid_vbt_header vbt_header;
 	struct pci_dev *pci_gfx_root =
-<<<<<<< HEAD
 		pci_get_domain_bus_and_slot(pci_domain_nr(pdev->bus),
-=======
-		pci_get_domain_bus_and_slot(pci_domain_nr(dev->pdev->bus),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    0, PCI_DEVFN(2, 0));
 	int ret = -1;
 

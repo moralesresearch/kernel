@@ -1,42 +1,8 @@
-<<<<<<< HEAD
 // SPDX-License-Identifier: BSD-3-Clause OR GPL-2.0
 /*
  * Mellanox i2c driver
  *
  * Copyright (C) 2016-2020 Mellanox Technologies
-=======
-/*
- * Copyright (c) 2016 Mellanox Technologies. All rights reserved.
- * Copyright (c) 2016 Michael Shych <michaels@mellanox.com>
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the names of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * Alternatively, this software may be distributed under the terms of the
- * GNU General Public License ("GPL") version 2 as published by the Free
- * Software Foundation.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/delay.h>
@@ -45,13 +11,9 @@
 #include <linux/io.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-<<<<<<< HEAD
 #include <linux/platform_data/mlxreg.h>
 #include <linux/platform_device.h>
 #include <linux/regmap.h>
-=======
-#include <linux/platform_device.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* General defines */
 #define MLXPLAT_CPLD_LPC_I2C_BASE_ADDR	0x2000
@@ -65,11 +27,7 @@
 #define MLXCPLD_I2C_MAX_ADDR_LEN	4
 #define MLXCPLD_I2C_RETR_NUM		2
 #define MLXCPLD_I2C_XFER_TO		500000 /* usec */
-<<<<<<< HEAD
 #define MLXCPLD_I2C_POLL_TIME		400   /* usec */
-=======
-#define MLXCPLD_I2C_POLL_TIME		2000   /* usec */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* LPC I2C registers */
 #define MLXCPLD_LPCI2C_CPBLTY_REG	0x0
@@ -90,7 +48,6 @@
 #define MLXCPLD_LPCI2C_ACK_IND		1
 #define MLXCPLD_LPCI2C_NACK_IND		2
 
-<<<<<<< HEAD
 #define MLXCPLD_I2C_FREQ_1000KHZ_SET	0x04
 #define MLXCPLD_I2C_FREQ_400KHZ_SET	0x0f
 #define MLXCPLD_I2C_FREQ_100KHZ_SET	0x42
@@ -101,8 +58,6 @@ enum mlxcpld_i2c_frequency {
 	MLXCPLD_I2C_FREQ_100KHZ = 3,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct  mlxcpld_i2c_curr_xfer {
 	u8 cmd;
 	u8 addr_width;
@@ -520,7 +475,6 @@ static struct i2c_adapter mlxcpld_i2c_adapter = {
 	.nr		= MLXCPLD_I2C_BUS_NUM,
 };
 
-<<<<<<< HEAD
 static int
 mlxcpld_i2c_set_frequency(struct mlxcpld_i2c_priv *priv,
 			  struct mlxreg_core_hotplug_platform_data *pdata)
@@ -560,10 +514,6 @@ mlxcpld_i2c_set_frequency(struct mlxcpld_i2c_priv *priv,
 static int mlxcpld_i2c_probe(struct platform_device *pdev)
 {
 	struct mlxreg_core_hotplug_platform_data *pdata;
-=======
-static int mlxcpld_i2c_probe(struct platform_device *pdev)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlxcpld_i2c_priv *priv;
 	int err;
 	u8 val;
@@ -578,7 +528,6 @@ static int mlxcpld_i2c_probe(struct platform_device *pdev)
 	priv->dev = &pdev->dev;
 	priv->base_addr = MLXPLAT_CPLD_LPC_I2C_BASE_ADDR;
 
-<<<<<<< HEAD
 	/* Set I2C bus frequency if platform data provides this info. */
 	pdata = dev_get_platdata(&pdev->dev);
 	if (pdata) {
@@ -587,8 +536,6 @@ static int mlxcpld_i2c_probe(struct platform_device *pdev)
 			goto mlxcpld_i2_probe_failed;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Register with i2c layer */
 	mlxcpld_i2c_adapter.timeout = usecs_to_jiffies(MLXCPLD_I2C_XFER_TO);
 	/* Read capability register */
@@ -607,17 +554,12 @@ static int mlxcpld_i2c_probe(struct platform_device *pdev)
 
 	err = i2c_add_numbered_adapter(&priv->adap);
 	if (err)
-<<<<<<< HEAD
 		goto mlxcpld_i2_probe_failed;
 
 	return 0;
 
 mlxcpld_i2_probe_failed:
 	mutex_destroy(&priv->lock);
-=======
-		mutex_destroy(&priv->lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

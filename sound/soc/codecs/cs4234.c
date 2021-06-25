@@ -585,11 +585,7 @@ static struct snd_soc_dai_driver cs4234_dai[] = {
 			.formats = CS4234_FORMATS,
 		},
 		.ops = &cs4234_dai_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

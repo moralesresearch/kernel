@@ -120,32 +120,14 @@ struct inet_connection_sock {
 		__u16		  rcv_mss;	 /* MSS used for delayed ACK decisions	   */
 	} icsk_ack;
 	struct {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		int		  enabled;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Range of MTUs to search */
 		int		  search_high;
 		int		  search_low;
 
 		/* Information on the current probe. */
-<<<<<<< HEAD
 		u32		  probe_size:31,
 		/* Is the MTUP feature enabled for this connection? */
 				  enabled:1;
-=======
-<<<<<<< HEAD
-		u32		  probe_size:31,
-		/* Is the MTUP feature enabled for this connection? */
-				  enabled:1;
-=======
-		int		  probe_size;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		u32		  probe_timestamp;
 	} icsk_mtup;
@@ -159,13 +141,6 @@ struct inet_connection_sock {
 #define ICSK_TIME_RETRANS	1	/* Retransmit timer */
 #define ICSK_TIME_DACK		2	/* Delayed ack timer */
 #define ICSK_TIME_PROBE0	3	/* Zero window probe timer */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#define ICSK_TIME_EARLY_RETRANS 4	/* Early retransmit timer */
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICSK_TIME_LOSS_PROBE	5	/* Tail loss probe timer */
 #define ICSK_TIME_REO_TIMEOUT	6	/* Reordering timer */
 
@@ -251,16 +226,7 @@ static inline void inet_csk_reset_xmit_timer(struct sock *sk, const int what,
 	}
 
 	if (what == ICSK_TIME_RETRANS || what == ICSK_TIME_PROBE0 ||
-<<<<<<< HEAD
 	    what == ICSK_TIME_LOSS_PROBE || what == ICSK_TIME_REO_TIMEOUT) {
-=======
-<<<<<<< HEAD
-	    what == ICSK_TIME_LOSS_PROBE || what == ICSK_TIME_REO_TIMEOUT) {
-=======
-	    what == ICSK_TIME_EARLY_RETRANS || what == ICSK_TIME_LOSS_PROBE ||
-	    what == ICSK_TIME_REO_TIMEOUT) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		icsk->icsk_pending = what;
 		icsk->icsk_timeout = jiffies + when;
 		sk_reset_timer(sk, &icsk->icsk_retransmit_timer, icsk->icsk_timeout);

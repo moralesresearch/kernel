@@ -26,6 +26,17 @@
 		stdout-path = "serial0:115200n8";
 	};
 
+	connector {
+		compatible = "hdmi-connector";
+		type = "c";
+
+		port {
+			hdmi_con_in: endpoint {
+				remote-endpoint = <&hdmi_out_con>;
+			};
+		};
+	};
+
 	leds {
 		compatible = "gpio-leds";
 
@@ -62,7 +73,6 @@
 		states = <1100000 0>, <1300000 1>;
 	};
 
-<<<<<<< HEAD
 	reg_vcc_dram: vcc-dram {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc-dram";
@@ -92,8 +102,6 @@
 		cpu-supply = <&reg_vcc1v2>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wifi_pwrseq: wifi_pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
@@ -106,8 +114,22 @@
 	cpu-supply = <&reg_vdd_cpux>;
 };
 
+&de {
+	status = "okay";
+};
+
 &ehci0 {
 	status = "okay";
+};
+
+&hdmi {
+	status = "okay";
+};
+
+&hdmi_out {
+	hdmi_out_con: endpoint {
+		remote-endpoint = <&hdmi_con_in>;
+	};
 };
 
 &mmc0 {
@@ -157,10 +179,7 @@
 
 	bluetooth {
 		compatible = "brcm,bcm43438-bt";
-<<<<<<< HEAD
 		max-speed = <1500000>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		clocks = <&rtc 1>;
 		clock-names = "lpo";
 		vbat-supply = <&reg_vcc3v3>;

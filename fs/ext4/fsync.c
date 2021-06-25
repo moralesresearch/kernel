@@ -174,11 +174,7 @@ int ext4_sync_file(struct file *file, loff_t start, loff_t end, int datasync)
 		ret = ext4_fsync_journal(inode, datasync, &needs_barrier);
 
 	if (needs_barrier) {
-<<<<<<< HEAD
 		err = blkdev_issue_flush(inode->i_sb->s_bdev);
-=======
-		err = blkdev_issue_flush(inode->i_sb->s_bdev, GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret)
 			ret = err;
 	}

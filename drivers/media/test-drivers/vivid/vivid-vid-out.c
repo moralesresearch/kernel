@@ -1021,11 +1021,7 @@ int vivid_vid_out_s_fbuf(struct file *file, void *fh,
 		return -EINVAL;
 	}
 	dev->fbuf_out_flags &= ~(chroma_flags | alpha_flags);
-<<<<<<< HEAD
 	dev->fbuf_out_flags |= a->flags & (chroma_flags | alpha_flags);
-=======
-	dev->fbuf_out_flags = a->flags & (chroma_flags | alpha_flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

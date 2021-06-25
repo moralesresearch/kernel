@@ -12,7 +12,6 @@
 #include <linux/security.h>
 #include <linux/cdev.h>
 #include <linux/memblock.h>
-#include <linux/fscrypt.h>
 #include <linux/fsnotify.h>
 #include <linux/mount.h>
 #include <linux/posix_acl.h>
@@ -142,10 +141,7 @@ int inode_init_always(struct super_block *sb, struct inode *inode)
 	atomic_set(&inode->i_count, 1);
 	inode->i_op = &empty_iops;
 	inode->i_fop = &no_open_fops;
-<<<<<<< HEAD
 	inode->i_ino = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->__i_nlink = 1;
 	inode->i_opflags = 0;
 	if (sb->s_xattr)
@@ -533,7 +529,14 @@ void clear_inode(struct inode *inode)
 	 */
 	xa_lock_irq(&inode->i_data.i_pages);
 	BUG_ON(inode->i_data.nrpages);
-	BUG_ON(inode->i_data.nrexceptional);
+	/*
+	 * Almost always, mapping_empty(&inode->i_data) here; but there are
+	 * two known and long-standing ways in which nodes may get left behind
+	 * (when deep radix-tree node allocation failed partway; or when THP
+	 * collapse_file() failed). Until those two known cases are cleaned up,
+	 * or a cleanup function is called here, do not BUG_ON(!mapping_empty),
+	 * nor even WARN_ON(!mapping_empty).
+	 */
 	xa_unlock_irq(&inode->i_data.i_pages);
 	BUG_ON(!list_empty(&inode->i_data.private_list));
 	BUG_ON(!(inode->i_state & I_FREEING));
@@ -1497,11 +1500,7 @@ struct inode *find_inode_rcu(struct super_block *sb, unsigned long hashval,
 EXPORT_SYMBOL(find_inode_rcu);
 
 /**
-<<<<<<< HEAD
  * find_inode_by_ino_rcu - Find an inode in the inode cache
-=======
- * find_inode_by_rcu - Find an inode in the inode cache
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sb:		Super block of file system to search
  * @ino:	The inode number to match
  *
@@ -1751,7 +1750,6 @@ static int relatime_need_update(struct vfsmount *mnt, struct inode *inode,
 
 int generic_update_time(struct inode *inode, struct timespec64 *time, int flags)
 {
-<<<<<<< HEAD
 	int dirty_flags = 0;
 
 	if (flags & (S_ATIME | S_CTIME | S_MTIME)) {
@@ -1772,26 +1770,6 @@ int generic_update_time(struct inode *inode, struct timespec64 *time, int flags)
 		dirty_flags |= I_DIRTY_SYNC;
 
 	__mark_inode_dirty(inode, dirty_flags);
-=======
-	int iflags = I_DIRTY_TIME;
-	bool dirty = false;
-
-	if (flags & S_ATIME)
-		inode->i_atime = *time;
-	if (flags & S_VERSION)
-		dirty = inode_maybe_inc_iversion(inode, false);
-	if (flags & S_CTIME)
-		inode->i_ctime = *time;
-	if (flags & S_MTIME)
-		inode->i_mtime = *time;
-	if ((flags & (S_ATIME | S_CTIME | S_MTIME)) &&
-	    !(inode->i_sb->s_flags & SB_LAZYTIME))
-		dirty = true;
-
-	if (dirty)
-		iflags |= I_DIRTY_SYNC;
-	__mark_inode_dirty(inode, iflags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(generic_update_time);
@@ -1808,11 +1786,7 @@ static int update_time(struct inode *inode, struct timespec64 *time, int flags)
 }
 
 /**
-<<<<<<< HEAD
  *	atime_needs_update	-	update the access time
-=======
- *	touch_atime	-	update the access time
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@path: the &struct path to update
  *	@inode: inode to update
  *
@@ -1831,11 +1805,7 @@ bool atime_needs_update(const struct path *path, struct inode *inode)
 	/* Atime updates will likely cause i_uid and i_gid to be written
 	 * back improprely if their true value is unknown to the vfs.
 	 */
-<<<<<<< HEAD
 	if (HAS_UNMAPPED_ID(mnt_user_ns(mnt), inode))
-=======
-	if (HAS_UNMAPPED_ID(inode))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	if (IS_NOATIME(inode))
@@ -1942,12 +1912,8 @@ int dentry_needs_remove_privs(struct dentry *dentry)
 	return mask;
 }
 
-<<<<<<< HEAD
 static int __remove_privs(struct user_namespace *mnt_userns,
 			  struct dentry *dentry, int kill)
-=======
-static int __remove_privs(struct dentry *dentry, int kill)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iattr newattrs;
 
@@ -1956,11 +1922,7 @@ static int __remove_privs(struct dentry *dentry, int kill)
 	 * Note we call this on write, so notify_change will not
 	 * encounter any conflicting delegations:
 	 */
-<<<<<<< HEAD
 	return notify_change(mnt_userns, dentry, &newattrs, NULL);
-=======
-	return notify_change(dentry, &newattrs, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1987,11 +1949,7 @@ int file_remove_privs(struct file *file)
 	if (kill < 0)
 		return kill;
 	if (kill)
-<<<<<<< HEAD
 		error = __remove_privs(file_mnt_user_ns(file), dentry, kill);
-=======
-		error = __remove_privs(dentry, kill);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!error)
 		inode_has_no_xattr(inode);
 
@@ -2182,7 +2140,6 @@ EXPORT_SYMBOL(init_special_inode);
 
 /**
  * inode_init_owner - Init uid,gid,mode for new inode according to posix standards
-<<<<<<< HEAD
  * @mnt_userns:	User namespace of the mount the inode was created from
  * @inode: New inode
  * @dir: Directory inode
@@ -2197,17 +2154,7 @@ EXPORT_SYMBOL(init_special_inode);
 void inode_init_owner(struct user_namespace *mnt_userns, struct inode *inode,
 		      const struct inode *dir, umode_t mode)
 {
-	inode->i_uid = fsuid_into_mnt(mnt_userns);
-=======
- * @inode: New inode
- * @dir: Directory inode
- * @mode: mode of the new inode
- */
-void inode_init_owner(struct inode *inode, const struct inode *dir,
-			umode_t mode)
-{
-	inode->i_uid = current_fsuid();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	inode_fsuid_set(inode, mnt_userns);
 	if (dir && dir->i_mode & S_ISGID) {
 		inode->i_gid = dir->i_gid;
 
@@ -2215,34 +2162,22 @@ void inode_init_owner(struct inode *inode, const struct inode *dir,
 		if (S_ISDIR(mode))
 			mode |= S_ISGID;
 		else if ((mode & (S_ISGID | S_IXGRP)) == (S_ISGID | S_IXGRP) &&
-<<<<<<< HEAD
 			 !in_group_p(i_gid_into_mnt(mnt_userns, dir)) &&
 			 !capable_wrt_inode_uidgid(mnt_userns, dir, CAP_FSETID))
 			mode &= ~S_ISGID;
 	} else
-		inode->i_gid = fsgid_into_mnt(mnt_userns);
-=======
-			 !in_group_p(inode->i_gid) &&
-			 !capable_wrt_inode_uidgid(dir, CAP_FSETID))
-			mode &= ~S_ISGID;
-	} else
-		inode->i_gid = current_fsgid();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+		inode_fsgid_set(inode, mnt_userns);
 	inode->i_mode = mode;
 }
 EXPORT_SYMBOL(inode_init_owner);
 
 /**
  * inode_owner_or_capable - check current task permissions to inode
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: inode being checked
  *
  * Return true if current either has CAP_FOWNER in a namespace with the
  * inode owner uid mapped, or owns the file.
-<<<<<<< HEAD
  *
  * If the inode has been found through an idmapped mount the user namespace of
  * the vfsmount must be passed through @mnt_userns. This function will then take
@@ -2262,18 +2197,6 @@ bool inode_owner_or_capable(struct user_namespace *mnt_userns,
 
 	ns = current_user_ns();
 	if (kuid_has_mapping(ns, i_uid) && ns_capable(ns, CAP_FOWNER))
-=======
- */
-bool inode_owner_or_capable(const struct inode *inode)
-{
-	struct user_namespace *ns;
-
-	if (uid_eq(current_fsuid(), inode->i_uid))
-		return true;
-
-	ns = current_user_ns();
-	if (kuid_has_mapping(ns, inode->i_uid) && ns_capable(ns, CAP_FOWNER))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
@@ -2397,89 +2320,3 @@ struct timespec64 current_time(struct inode *inode)
 	return timestamp_truncate(now, inode);
 }
 EXPORT_SYMBOL(current_time);
-
-/*
- * Generic function to check FS_IOC_SETFLAGS values and reject any invalid
- * configurations.
- *
- * Note: the caller should be holding i_mutex, or else be sure that they have
- * exclusive access to the inode structure.
- */
-int vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
-			     unsigned int flags)
-{
-	/*
-	 * The IMMUTABLE and APPEND_ONLY flags can only be changed by
-	 * the relevant capability.
-	 *
-	 * This test looks nicer. Thanks to Pauline Middelink
-	 */
-	if ((flags ^ oldflags) & (FS_APPEND_FL | FS_IMMUTABLE_FL) &&
-	    !capable(CAP_LINUX_IMMUTABLE))
-		return -EPERM;
-
-	return fscrypt_prepare_setflags(inode, oldflags, flags);
-}
-EXPORT_SYMBOL(vfs_ioc_setflags_prepare);
-
-/*
- * Generic function to check FS_IOC_FSSETXATTR values and reject any invalid
- * configurations.
- *
- * Note: the caller should be holding i_mutex, or else be sure that they have
- * exclusive access to the inode structure.
- */
-int vfs_ioc_fssetxattr_check(struct inode *inode, const struct fsxattr *old_fa,
-			     struct fsxattr *fa)
-{
-	/*
-	 * Can't modify an immutable/append-only file unless we have
-	 * appropriate permission.
-	 */
-	if ((old_fa->fsx_xflags ^ fa->fsx_xflags) &
-			(FS_XFLAG_IMMUTABLE | FS_XFLAG_APPEND) &&
-	    !capable(CAP_LINUX_IMMUTABLE))
-		return -EPERM;
-
-	/*
-	 * Project Quota ID state is only allowed to change from within the init
-	 * namespace. Enforce that restriction only if we are trying to change
-	 * the quota ID state. Everything else is allowed in user namespaces.
-	 */
-	if (current_user_ns() != &init_user_ns) {
-		if (old_fa->fsx_projid != fa->fsx_projid)
-			return -EINVAL;
-		if ((old_fa->fsx_xflags ^ fa->fsx_xflags) &
-				FS_XFLAG_PROJINHERIT)
-			return -EINVAL;
-	}
-
-	/* Check extent size hints. */
-	if ((fa->fsx_xflags & FS_XFLAG_EXTSIZE) && !S_ISREG(inode->i_mode))
-		return -EINVAL;
-
-	if ((fa->fsx_xflags & FS_XFLAG_EXTSZINHERIT) &&
-			!S_ISDIR(inode->i_mode))
-		return -EINVAL;
-
-	if ((fa->fsx_xflags & FS_XFLAG_COWEXTSIZE) &&
-	    !S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
-		return -EINVAL;
-
-	/*
-	 * It is only valid to set the DAX flag on regular files and
-	 * directories on filesystems.
-	 */
-	if ((fa->fsx_xflags & FS_XFLAG_DAX) &&
-	    !(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode)))
-		return -EINVAL;
-
-	/* Extent size hints of zero turn off the flags. */
-	if (fa->fsx_extsize == 0)
-		fa->fsx_xflags &= ~(FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT);
-	if (fa->fsx_cowextsize == 0)
-		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
-
-	return 0;
-}
-EXPORT_SYMBOL(vfs_ioc_fssetxattr_check);

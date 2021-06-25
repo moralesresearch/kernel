@@ -2,10 +2,7 @@
 /*
  * Copyright (C) 2020, Google LLC.
  */
-<<<<<<< HEAD
 #include <inttypes.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "kvm_util.h"
 #include "perf_test_util.h"
@@ -53,12 +50,8 @@ static void guest_code(uint32_t vcpu_id)
 }
 
 struct kvm_vm *perf_test_create_vm(enum vm_guest_mode mode, int vcpus,
-<<<<<<< HEAD
 				   uint64_t vcpu_memory_bytes,
 				   enum vm_mem_backing_src_type backing_src)
-=======
-				   uint64_t vcpu_memory_bytes)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct kvm_vm *vm;
 	uint64_t guest_num_pages;
@@ -76,7 +69,7 @@ struct kvm_vm *perf_test_create_vm(enum vm_guest_mode mode, int vcpus,
 	TEST_ASSERT(vcpu_memory_bytes % perf_test_args.guest_page_size == 0,
 		    "Guest memory size is not guest page size aligned.");
 
-	vm = vm_create_with_vcpus(mode, vcpus,
+	vm = vm_create_with_vcpus(mode, vcpus, DEFAULT_GUEST_PHY_PAGES,
 				  (vcpus * vcpu_memory_bytes) / perf_test_args.guest_page_size,
 				  0, guest_code, NULL);
 
@@ -88,12 +81,8 @@ struct kvm_vm *perf_test_create_vm(enum vm_guest_mode mode, int vcpus,
 	 */
 	TEST_ASSERT(guest_num_pages < vm_get_max_gfn(vm),
 		    "Requested more guest memory than address space allows.\n"
-<<<<<<< HEAD
 		    "    guest pages: %" PRIx64 " max gfn: %" PRIx64
 		    " vcpus: %d wss: %" PRIx64 "]\n",
-=======
-		    "    guest pages: %lx max gfn: %x vcpus: %d wss: %lx]\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    guest_num_pages, vm_get_max_gfn(vm), vcpus,
 		    vcpu_memory_bytes);
 
@@ -107,12 +96,7 @@ struct kvm_vm *perf_test_create_vm(enum vm_guest_mode mode, int vcpus,
 	pr_info("guest physical test memory offset: 0x%lx\n", guest_test_phys_mem);
 
 	/* Add an extra memory slot for testing */
-<<<<<<< HEAD
 	vm_userspace_mem_region_add(vm, backing_src, guest_test_phys_mem,
-=======
-	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-				    guest_test_phys_mem,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    PERF_TEST_MEM_SLOT_INDEX,
 				    guest_num_pages, 0);
 
@@ -130,13 +114,9 @@ void perf_test_destroy_vm(struct kvm_vm *vm)
 	kvm_vm_free(vm);
 }
 
-<<<<<<< HEAD
 void perf_test_setup_vcpus(struct kvm_vm *vm, int vcpus,
 			   uint64_t vcpu_memory_bytes,
 			   bool partition_vcpu_memory_access)
-=======
-void perf_test_setup_vcpus(struct kvm_vm *vm, int vcpus, uint64_t vcpu_memory_bytes)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	vm_paddr_t vcpu_gpa;
 	struct perf_test_vcpu_args *vcpu_args;
@@ -146,7 +126,6 @@ void perf_test_setup_vcpus(struct kvm_vm *vm, int vcpus, uint64_t vcpu_memory_by
 		vcpu_args = &perf_test_args.vcpu_args[vcpu_id];
 
 		vcpu_args->vcpu_id = vcpu_id;
-<<<<<<< HEAD
 		if (partition_vcpu_memory_access) {
 			vcpu_args->gva = guest_test_virt_mem +
 					 (vcpu_id * vcpu_memory_bytes);
@@ -164,15 +143,5 @@ void perf_test_setup_vcpus(struct kvm_vm *vm, int vcpus, uint64_t vcpu_memory_by
 		pr_debug("Added VCPU %d with test mem gpa [%lx, %lx)\n",
 			 vcpu_id, vcpu_gpa, vcpu_gpa +
 			 (vcpu_args->pages * perf_test_args.guest_page_size));
-=======
-		vcpu_args->gva = guest_test_virt_mem +
-				 (vcpu_id * vcpu_memory_bytes);
-		vcpu_args->pages = vcpu_memory_bytes /
-				   perf_test_args.guest_page_size;
-
-		vcpu_gpa = guest_test_phys_mem + (vcpu_id * vcpu_memory_bytes);
-		pr_debug("Added VCPU %d with test mem gpa [%lx, %lx)\n",
-			 vcpu_id, vcpu_gpa, vcpu_gpa + vcpu_memory_bytes);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }

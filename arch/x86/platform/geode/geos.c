@@ -20,10 +20,7 @@
 #include <linux/platform_device.h>
 #include <linux/input.h>
 #include <linux/gpio_keys.h>
-<<<<<<< HEAD
 #include <linux/gpio/machine.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/dmi.h>
 
 #include <asm/geode.h>
@@ -57,7 +54,6 @@ static struct platform_device geos_buttons_dev = {
 static struct gpio_led geos_leds[] = {
 	{
 		.name = "geos:1",
-<<<<<<< HEAD
 		.default_trigger = "default-on",
 	},
 	{
@@ -67,23 +63,6 @@ static struct gpio_led geos_leds[] = {
 	{
 		.name = "geos:3",
 		.default_trigger = "default-off",
-=======
-		.gpio = 6,
-		.default_trigger = "default-on",
-		.active_low = 1,
-	},
-	{
-		.name = "geos:2",
-		.gpio = 25,
-		.default_trigger = "default-off",
-		.active_low = 1,
-	},
-	{
-		.name = "geos:3",
-		.gpio = 27,
-		.default_trigger = "default-off",
-		.active_low = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -92,7 +71,6 @@ static struct gpio_led_platform_data geos_leds_data = {
 	.leds = geos_leds,
 };
 
-<<<<<<< HEAD
 static struct gpiod_lookup_table geos_leds_gpio_table = {
 	.dev_id = "leds-gpio",
 	.table = {
@@ -104,8 +82,6 @@ static struct gpiod_lookup_table geos_leds_gpio_table = {
 	},
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct platform_device geos_leds_dev = {
 	.name = "leds-gpio",
 	.id = -1,
@@ -120,10 +96,7 @@ static struct platform_device *geos_devs[] __initdata = {
 static void __init register_geos(void)
 {
 	/* Setup LED control through leds-gpio driver */
-<<<<<<< HEAD
 	gpiod_add_lookup_table(&geos_leds_gpio_table);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_add_devices(geos_devs, ARRAY_SIZE(geos_devs));
 }
 

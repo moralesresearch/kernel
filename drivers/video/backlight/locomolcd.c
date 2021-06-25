@@ -208,11 +208,7 @@ static int locomolcd_probe(struct locomo_dev *ldev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static void locomolcd_remove(struct locomo_dev *dev)
-=======
-static int locomolcd_remove(struct locomo_dev *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 
@@ -224,10 +220,6 @@ static int locomolcd_remove(struct locomo_dev *dev)
 	local_irq_save(flags);
 	locomolcd_dev = NULL;
 	local_irq_restore(flags);
-<<<<<<< HEAD
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct locomo_driver poodle_lcd_driver = {

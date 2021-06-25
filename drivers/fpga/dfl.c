@@ -10,10 +10,7 @@
  *   Wu Hao <hao.wu@intel.com>
  *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
  */
-<<<<<<< HEAD
 #include <linux/dfl.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/fpga-dfl.h>
 #include <linux/module.h>
 #include <linux/uaccess.h>
@@ -302,12 +299,7 @@ static int dfl_bus_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
 	struct dfl_device *ddev = to_dfl_dev(dev);
 
-<<<<<<< HEAD
 	return add_uevent_var(env, "MODALIAS=dfl:t%04Xf%04X",
-=======
-	/* The type has 4 valid bits and feature_id has 12 valid bits */
-	return add_uevent_var(env, "MODALIAS=dfl:t%01Xf%03X",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      ddev->type, ddev->feature_id);
 }
 

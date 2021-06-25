@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-/* -*- mode: c; c-basic-offset: 8; -*-
- * vim: noexpandtab sw=8 ts=8 sts=0:
- *
+/*
  * symlink.c - operations for configfs symlinks.
  *
  * Based on sysfs:
@@ -139,12 +137,8 @@ static int get_target(const char *symname, struct path *path,
 }
 
 
-<<<<<<< HEAD
 int configfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 		     struct dentry *dentry, const char *symname)
-=======
-int configfs_symlink(struct inode *dir, struct dentry *dentry, const char *symname)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct path path;
@@ -202,12 +196,8 @@ int configfs_symlink(struct inode *dir, struct dentry *dentry, const char *symna
 	if (dentry->d_inode || d_unhashed(dentry))
 		ret = -EEXIST;
 	else
-<<<<<<< HEAD
 		ret = inode_permission(&init_user_ns, dir,
 				       MAY_WRITE | MAY_EXEC);
-=======
-		ret = inode_permission(dir, MAY_WRITE | MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ret)
 		ret = type->ct_item_ops->allow_link(parent_item, target_item);
 	if (!ret) {

@@ -22,10 +22,6 @@
 MODULE_AUTHOR("Stephane Grosjean <s.grosjean@peak-system.com>");
 MODULE_DESCRIPTION("CAN driver for PEAK-System PCAN-PC Cards");
 MODULE_LICENSE("GPL v2");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("PEAK PCAN-PC Card");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* PEAK-System PCMCIA driver name */
 #define PCC_NAME		"peak_pcmcia"

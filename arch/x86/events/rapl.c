@@ -454,22 +454,9 @@ static struct attribute *rapl_events_cores[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static struct attribute_group rapl_events_cores_group = {
 	.name  = "events",
 	.attrs = rapl_events_cores,
-=======
-static umode_t
-rapl_not_visible(struct kobject *kobj, struct attribute *attr, int i)
-{
-	return 0;
-}
-
-static struct attribute_group rapl_events_cores_group = {
-	.name  = "events",
-	.attrs = rapl_events_cores,
-	.is_visible = rapl_not_visible,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct attribute *rapl_events_pkg[] = {
@@ -482,10 +469,6 @@ static struct attribute *rapl_events_pkg[] = {
 static struct attribute_group rapl_events_pkg_group = {
 	.name  = "events",
 	.attrs = rapl_events_pkg,
-<<<<<<< HEAD
-=======
-	.is_visible = rapl_not_visible,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct attribute *rapl_events_ram[] = {
@@ -498,10 +481,6 @@ static struct attribute *rapl_events_ram[] = {
 static struct attribute_group rapl_events_ram_group = {
 	.name  = "events",
 	.attrs = rapl_events_ram,
-<<<<<<< HEAD
-=======
-	.is_visible = rapl_not_visible,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct attribute *rapl_events_gpu[] = {
@@ -514,10 +493,6 @@ static struct attribute *rapl_events_gpu[] = {
 static struct attribute_group rapl_events_gpu_group = {
 	.name  = "events",
 	.attrs = rapl_events_gpu,
-<<<<<<< HEAD
-=======
-	.is_visible = rapl_not_visible,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct attribute *rapl_events_psys[] = {
@@ -530,10 +505,6 @@ static struct attribute *rapl_events_psys[] = {
 static struct attribute_group rapl_events_psys_group = {
 	.name  = "events",
 	.attrs = rapl_events_psys,
-<<<<<<< HEAD
-=======
-	.is_visible = rapl_not_visible,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static bool test_msr(int idx, void *data)
@@ -541,7 +512,6 @@ static bool test_msr(int idx, void *data)
 	return test_bit(idx, (unsigned long *) data);
 }
 
-<<<<<<< HEAD
 /* Only lower 32bits of the MSR represents the energy counter */
 #define RAPL_MSR_MASK 0xFFFFFFFF
 
@@ -559,14 +529,6 @@ static struct perf_msr intel_rapl_spr_msrs[] = {
 	[PERF_RAPL_RAM]  = { MSR_DRAM_ENERGY_STATUS,     &rapl_events_ram_group,   test_msr, false, RAPL_MSR_MASK },
 	[PERF_RAPL_PP1]  = { MSR_PP1_ENERGY_STATUS,      &rapl_events_gpu_group,   test_msr, false, RAPL_MSR_MASK },
 	[PERF_RAPL_PSYS] = { MSR_PLATFORM_ENERGY_STATUS, &rapl_events_psys_group,  test_msr, true, RAPL_MSR_MASK },
-=======
-static struct perf_msr intel_rapl_msrs[] = {
-	[PERF_RAPL_PP0]  = { MSR_PP0_ENERGY_STATUS,      &rapl_events_cores_group, test_msr },
-	[PERF_RAPL_PKG]  = { MSR_PKG_ENERGY_STATUS,      &rapl_events_pkg_group,   test_msr },
-	[PERF_RAPL_RAM]  = { MSR_DRAM_ENERGY_STATUS,     &rapl_events_ram_group,   test_msr },
-	[PERF_RAPL_PP1]  = { MSR_PP1_ENERGY_STATUS,      &rapl_events_gpu_group,   test_msr },
-	[PERF_RAPL_PSYS] = { MSR_PLATFORM_ENERGY_STATUS, &rapl_events_psys_group,  test_msr },
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -799,11 +761,7 @@ static struct rapl_model model_spr = {
 			  BIT(PERF_RAPL_PSYS),
 	.unit_quirk	= RAPL_UNIT_QUIRK_INTEL_SPR,
 	.msr_power_unit = MSR_RAPL_POWER_UNIT,
-<<<<<<< HEAD
 	.rapl_msrs      = intel_rapl_spr_msrs,
-=======
-	.rapl_msrs      = intel_rapl_msrs,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct rapl_model model_amd_fam17h = {
@@ -842,6 +800,8 @@ static const struct x86_cpu_id rapl_model_match[] __initconst = {
 	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X,		&model_hsx),
 	X86_MATCH_INTEL_FAM6_MODEL(COMETLAKE_L,		&model_skl),
 	X86_MATCH_INTEL_FAM6_MODEL(COMETLAKE,		&model_skl),
+	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE,		&model_skl),
+	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE_L,		&model_skl),
 	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X,	&model_spr),
 	X86_MATCH_VENDOR_FAM(AMD,	0x17,		&model_amd_fam17h),
 	X86_MATCH_VENDOR_FAM(HYGON,	0x18,		&model_amd_fam17h),

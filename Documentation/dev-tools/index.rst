@@ -7,6 +7,9 @@ be used to work on the kernel. For now, the documents have been pulled
 together without any significant effort to integrate them into a coherent
 whole; patches welcome!
 
+A brief overview of testing-specific tools can be found in
+Documentation/dev-tools/testing-overview.rst
+
 .. class:: toc-title
 
 	   Table of contents
@@ -14,6 +17,8 @@ whole; patches welcome!
 .. toctree::
    :maxdepth: 2
 
+   testing-overview
+   checkpatch
    coccinelle
    sparse
    kcov
@@ -22,10 +27,7 @@ whole; patches welcome!
    ubsan
    kmemleak
    kcsan
-<<<<<<< HEAD
    kfence
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    gdb-kernel-debugging
    kgdb
    kselftest

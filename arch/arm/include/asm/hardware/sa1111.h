@@ -403,11 +403,7 @@ struct sa1111_driver {
 	struct device_driver	drv;
 	unsigned int		devid;
 	int (*probe)(struct sa1111_dev *);
-<<<<<<< HEAD
 	void (*remove)(struct sa1111_dev *);
-=======
-	int (*remove)(struct sa1111_dev *);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define SA1111_DRV(_d)	container_of((_d), struct sa1111_driver, drv)

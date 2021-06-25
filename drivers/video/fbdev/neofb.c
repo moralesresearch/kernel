@@ -1843,10 +1843,6 @@ static int neo_init_hw(struct fb_info *info)
 	struct neofb_par *par = info->par;
 	int videoRam = 896;
 	int maxClock = 65000;
-<<<<<<< HEAD
-=======
-	int CursorMem = 1024;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int CursorOff = 0x100;
 
 	DBG("neo_init_hw");
@@ -1898,28 +1894,16 @@ static int neo_init_hw(struct fb_info *info)
 	case FB_ACCEL_NEOMAGIC_NM2070:
 	case FB_ACCEL_NEOMAGIC_NM2090:
 	case FB_ACCEL_NEOMAGIC_NM2093:
-<<<<<<< HEAD
-=======
-		CursorMem = 2048;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		CursorOff = 0x100;
 		break;
 	case FB_ACCEL_NEOMAGIC_NM2097:
 	case FB_ACCEL_NEOMAGIC_NM2160:
-<<<<<<< HEAD
-=======
-		CursorMem = 1024;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		CursorOff = 0x100;
 		break;
 	case FB_ACCEL_NEOMAGIC_NM2200:
 	case FB_ACCEL_NEOMAGIC_NM2230:
 	case FB_ACCEL_NEOMAGIC_NM2360:
 	case FB_ACCEL_NEOMAGIC_NM2380:
-<<<<<<< HEAD
-=======
-		CursorMem = 1024;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		CursorOff = 0x1000;
 
 		par->neo2200 = (Neo2200 __iomem *) par->mmio_vbase;

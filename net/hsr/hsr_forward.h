@@ -23,16 +23,9 @@ struct sk_buff *hsr_get_untagged_frame(struct hsr_frame_info *frame,
 struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
 				       struct hsr_port *port);
 bool prp_drop_frame(struct hsr_frame_info *frame, struct hsr_port *port);
-<<<<<<< HEAD
 bool hsr_drop_frame(struct hsr_frame_info *frame, struct hsr_port *port);
 int prp_fill_frame_info(__be16 proto, struct sk_buff *skb,
 			struct hsr_frame_info *frame);
 int hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
 			struct hsr_frame_info *frame);
-=======
-void prp_fill_frame_info(__be16 proto, struct sk_buff *skb,
-			 struct hsr_frame_info *frame);
-void hsr_fill_frame_info(__be16 proto, struct sk_buff *skb,
-			 struct hsr_frame_info *frame);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __HSR_FORWARD_H */

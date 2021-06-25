@@ -285,14 +285,6 @@ static irqreturn_t pcf85363_rtc_handle_irq(int irq, void *dev_id)
 static const struct rtc_class_ops rtc_ops = {
 	.read_time	= pcf85363_rtc_read_time,
 	.set_time	= pcf85363_rtc_set_time,
-<<<<<<< HEAD
-=======
-};
-
-static const struct rtc_class_ops rtc_ops_alarm = {
-	.read_time	= pcf85363_rtc_read_time,
-	.set_time	= pcf85363_rtc_set_time,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.read_alarm	= pcf85363_rtc_read_alarm,
 	.set_alarm	= pcf85363_rtc_set_alarm,
 	.alarm_irq_enable = pcf85363_rtc_alarm_irq_enable,
@@ -406,10 +398,7 @@ static int pcf85363_probe(struct i2c_client *client,
 	pcf85363->rtc->ops = &rtc_ops;
 	pcf85363->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
 	pcf85363->rtc->range_max = RTC_TIMESTAMP_END_2099;
-<<<<<<< HEAD
 	clear_bit(RTC_FEATURE_ALARM, pcf85363->rtc->features);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (client->irq > 0) {
 		regmap_write(pcf85363->regmap, CTRL_FLAGS, 0);
@@ -422,11 +411,7 @@ static int pcf85363_probe(struct i2c_client *client,
 		if (ret)
 			dev_warn(&client->dev, "unable to request IRQ, alarms disabled\n");
 		else
-<<<<<<< HEAD
 			set_bit(RTC_FEATURE_ALARM, pcf85363->rtc->features);
-=======
-			pcf85363->rtc->ops = &rtc_ops_alarm;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = devm_rtc_register_device(pcf85363->rtc);
@@ -439,11 +424,7 @@ static int pcf85363_probe(struct i2c_client *client,
 	return ret;
 }
 
-<<<<<<< HEAD
 static const __maybe_unused struct of_device_id dev_ids[] = {
-=======
-static const struct of_device_id dev_ids[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "nxp,pcf85263", .data = &pcf_85263_config },
 	{ .compatible = "nxp,pcf85363", .data = &pcf_85363_config },
 	{ /* sentinel */ }

@@ -268,7 +268,6 @@ static void node_init_cache_dev(struct node *node)
 	if (!dev)
 		return;
 
-<<<<<<< HEAD
 	device_initialize(dev);
 	dev->parent = &node->dev;
 	dev->release = node_cache_release;
@@ -277,28 +276,12 @@ static void node_init_cache_dev(struct node *node)
 
 	if (device_add(dev))
 		goto put_device;
-=======
-	dev->parent = &node->dev;
-	dev->release = node_cache_release;
-	if (dev_set_name(dev, "memory_side_cache"))
-		goto free_dev;
-
-	if (device_register(dev))
-		goto free_name;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pm_runtime_no_callbacks(dev);
 	node->cache_dev = dev;
 	return;
-<<<<<<< HEAD
 put_device:
 	put_device(dev);
-=======
-free_name:
-	kfree_const(dev->kobj.name);
-free_dev:
-	kfree(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -335,15 +318,11 @@ void node_add_cache(unsigned int nid, struct node_cache_attrs *cache_attrs)
 		return;
 
 	dev = &info->dev;
-<<<<<<< HEAD
 	device_initialize(dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->parent = node->cache_dev;
 	dev->release = node_cacheinfo_release;
 	dev->groups = cache_groups;
 	if (dev_set_name(dev, "index%d", cache_attrs->level))
-<<<<<<< HEAD
 		goto put_device;
 
 	info->cache_attrs = *cache_attrs;
@@ -351,28 +330,12 @@ void node_add_cache(unsigned int nid, struct node_cache_attrs *cache_attrs)
 		dev_warn(&node->dev, "failed to add cache level:%d\n",
 			 cache_attrs->level);
 		goto put_device;
-=======
-		goto free_cache;
-
-	info->cache_attrs = *cache_attrs;
-	if (device_register(dev)) {
-		dev_warn(&node->dev, "failed to add cache level:%d\n",
-			 cache_attrs->level);
-		goto free_name;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	pm_runtime_no_callbacks(dev);
 	list_add_tail(&info->node, &node->cache_attrs);
 	return;
-<<<<<<< HEAD
 put_device:
 	put_device(dev);
-=======
-free_name:
-	kfree_const(dev->kobj.name);
-free_cache:
-	kfree(info);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void node_remove_caches(struct node *node)
@@ -407,28 +370,19 @@ static ssize_t node_read_meminfo(struct device *dev,
 	struct pglist_data *pgdat = NODE_DATA(nid);
 	struct sysinfo i;
 	unsigned long sreclaimable, sunreclaimable;
-<<<<<<< HEAD
 	unsigned long swapcached = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	si_meminfo_node(&i, nid);
 	sreclaimable = node_page_state_pages(pgdat, NR_SLAB_RECLAIMABLE_B);
 	sunreclaimable = node_page_state_pages(pgdat, NR_SLAB_UNRECLAIMABLE_B);
-<<<<<<< HEAD
 #ifdef CONFIG_SWAP
 	swapcached = node_page_state_pages(pgdat, NR_SWAPCACHE);
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	len = sysfs_emit_at(buf, len,
 			    "Node %d MemTotal:       %8lu kB\n"
 			    "Node %d MemFree:        %8lu kB\n"
 			    "Node %d MemUsed:        %8lu kB\n"
-<<<<<<< HEAD
 			    "Node %d SwapCached:     %8lu kB\n"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    "Node %d Active:         %8lu kB\n"
 			    "Node %d Inactive:       %8lu kB\n"
 			    "Node %d Active(anon):   %8lu kB\n"
@@ -440,10 +394,7 @@ static ssize_t node_read_meminfo(struct device *dev,
 			    nid, K(i.totalram),
 			    nid, K(i.freeram),
 			    nid, K(i.totalram - i.freeram),
-<<<<<<< HEAD
 			    nid, K(swapcached),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    nid, K(node_page_state(pgdat, NR_ACTIVE_ANON) +
 				   node_page_state(pgdat, NR_ACTIVE_FILE)),
 			    nid, K(node_page_state(pgdat, NR_INACTIVE_ANON) +
@@ -514,24 +465,11 @@ static ssize_t node_read_meminfo(struct device *dev,
 			     nid, K(sunreclaimable)
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 			     ,
-<<<<<<< HEAD
 			     nid, K(node_page_state(pgdat, NR_ANON_THPS)),
 			     nid, K(node_page_state(pgdat, NR_SHMEM_THPS)),
 			     nid, K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
 			     nid, K(node_page_state(pgdat, NR_FILE_THPS)),
 			     nid, K(node_page_state(pgdat, NR_FILE_PMDMAPPED))
-=======
-			     nid, K(node_page_state(pgdat, NR_ANON_THPS) *
-				    HPAGE_PMD_NR),
-			     nid, K(node_page_state(pgdat, NR_SHMEM_THPS) *
-				    HPAGE_PMD_NR),
-			     nid, K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED) *
-				    HPAGE_PMD_NR),
-			     nid, K(node_page_state(pgdat, NR_FILE_THPS) *
-				    HPAGE_PMD_NR),
-			     nid, K(node_page_state(pgdat, NR_FILE_PMDMAPPED) *
-				    HPAGE_PMD_NR)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 			    );
 	len += hugetlb_report_node_meminfo(buf, len, nid);
@@ -580,7 +518,6 @@ static ssize_t node_read_vmstat(struct device *dev,
 				     sum_zone_numa_state(nid, i));
 
 #endif
-<<<<<<< HEAD
 	for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++) {
 		unsigned long pages = node_page_state_pages(pgdat, i);
 
@@ -589,12 +526,6 @@ static ssize_t node_read_vmstat(struct device *dev,
 		len += sysfs_emit_at(buf, len, "%s %lu\n", node_stat_name(i),
 				     pages);
 	}
-=======
-	for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++)
-		len += sysfs_emit_at(buf, len, "%s %lu\n",
-				     node_stat_name(i),
-				     node_page_state_pages(pgdat, i));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return len;
 }

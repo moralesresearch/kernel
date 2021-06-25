@@ -233,11 +233,7 @@ struct net_device *wilc_wfi_init_mon_interface(struct wilc *wl,
 	wl->monitor_dev->netdev_ops = &wilc_wfi_netdev_ops;
 	wl->monitor_dev->needs_free_netdev = true;
 
-<<<<<<< HEAD
 	if (cfg80211_register_netdevice(wl->monitor_dev)) {
-=======
-	if (register_netdevice(wl->monitor_dev)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		netdev_err(real_dev, "register_netdevice failed\n");
 		free_netdev(wl->monitor_dev);
 		return NULL;
@@ -255,11 +251,7 @@ void wilc_wfi_deinit_mon_interface(struct wilc *wl, bool rtnl_locked)
 		return;
 
 	if (rtnl_locked)
-<<<<<<< HEAD
 		cfg80211_unregister_netdevice(wl->monitor_dev);
-=======
-		unregister_netdevice(wl->monitor_dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		unregister_netdev(wl->monitor_dev);
 	wl->monitor_dev = NULL;

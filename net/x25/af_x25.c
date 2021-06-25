@@ -536,11 +536,7 @@ static int x25_create(struct net *net, struct socket *sock, int protocol,
 	if (protocol)
 		goto out;
 
-<<<<<<< HEAD
 	rc = -ENOMEM;
-=======
-	rc = -ENOBUFS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((sk = x25_alloc_socket(net, kern)) == NULL)
 		goto out;
 
@@ -1022,7 +1018,7 @@ int x25_rx_call_request(struct sk_buff *skb, struct x25_neigh *nb,
 
 	/*
 	 * current neighbour/link might impose additional limits
-	 * on certain facilties
+	 * on certain facilities
 	 */
 
 	x25_limit_facilities(&facilities, nb);

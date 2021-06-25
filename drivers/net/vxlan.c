@@ -2725,10 +2725,6 @@ static void vxlan_xmit_one(struct sk_buff *skb, struct net_device *dev,
 			goto tx_error;
 		} else if (err) {
 			if (info) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				struct ip_tunnel_info *unclone;
 				struct in_addr src, dst;
 
@@ -2740,17 +2736,6 @@ static void vxlan_xmit_one(struct sk_buff *skb, struct net_device *dev,
 				dst = local_ip.sin.sin_addr;
 				unclone->key.u.ipv4.src = src.s_addr;
 				unclone->key.u.ipv4.dst = dst.s_addr;
-<<<<<<< HEAD
-=======
-=======
-				struct in_addr src, dst;
-
-				src = remote_ip.sin.sin_addr;
-				dst = local_ip.sin.sin_addr;
-				info->key.u.ipv4.src = src.s_addr;
-				info->key.u.ipv4.dst = dst.s_addr;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			vxlan_encap_bypass(skb, vxlan, vxlan, vni, false);
 			dst_release(ndst);
@@ -2801,10 +2786,6 @@ static void vxlan_xmit_one(struct sk_buff *skb, struct net_device *dev,
 			goto tx_error;
 		} else if (err) {
 			if (info) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				struct ip_tunnel_info *unclone;
 				struct in6_addr src, dst;
 
@@ -2816,17 +2797,6 @@ static void vxlan_xmit_one(struct sk_buff *skb, struct net_device *dev,
 				dst = local_ip.sin6.sin6_addr;
 				unclone->key.u.ipv6.src = src;
 				unclone->key.u.ipv6.dst = dst;
-<<<<<<< HEAD
-=======
-=======
-				struct in6_addr src, dst;
-
-				src = remote_ip.sin6.sin6_addr;
-				dst = local_ip.sin6.sin6_addr;
-				info->key.u.ipv6.src = src;
-				info->key.u.ipv6.dst = dst;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 
 			vxlan_encap_bypass(skb, vxlan, vxlan, vni, false);
@@ -3323,30 +3293,13 @@ static void vxlan_setup(struct net_device *dev)
 	SET_NETDEV_DEVTYPE(dev, &vxlan_type);
 
 	dev->features	|= NETIF_F_LLTX;
-<<<<<<< HEAD
 	dev->features	|= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
-=======
-<<<<<<< HEAD
-	dev->features	|= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
-=======
-	dev->features	|= NETIF_F_SG | NETIF_F_HW_CSUM;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->features   |= NETIF_F_RXCSUM;
 	dev->features   |= NETIF_F_GSO_SOFTWARE;
 
 	dev->vlan_features = dev->features;
-<<<<<<< HEAD
 	dev->hw_features |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
 	dev->hw_features |= NETIF_F_RXCSUM;
-=======
-<<<<<<< HEAD
-	dev->hw_features |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
-	dev->hw_features |= NETIF_F_RXCSUM;
-=======
-	dev->hw_features |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_RXCSUM;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->hw_features |= NETIF_F_GSO_SOFTWARE;
 	netif_keep_dst(dev);
 	dev->priv_flags |= IFF_NO_QUEUE;
@@ -3541,6 +3494,7 @@ static struct socket *vxlan_create_sock(struct net *net, bool ipv6,
 	if (err < 0)
 		return ERR_PTR(err);
 
+	udp_allow_gso(sock->sk);
 	return sock;
 }
 
@@ -3760,6 +3714,7 @@ static int vxlan_config_validate(struct net *src_net, struct vxlan_config *conf,
 #if IS_ENABLED(CONFIG_IPV6)
 		if (use_ipv6) {
 			struct inet6_dev *idev = __in6_dev_get(lowerdev);
+
 			if (idev && idev->cnf.disable_ipv6) {
 				NL_SET_ERR_MSG(extack,
 					       "IPv6 support disabled by administrator");
@@ -4579,32 +4534,12 @@ static int vxlan_netdevice_event(struct notifier_block *unused,
 	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
 	struct vxlan_net *vn = net_generic(dev_net(dev), vxlan_net_id);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (event == NETDEV_UNREGISTER)
 		vxlan_handle_lowerdev_unregister(vn, dev);
 	else if (event == NETDEV_UDP_TUNNEL_PUSH_INFO)
 		vxlan_offload_rx_ports(dev, true);
 	else if (event == NETDEV_UDP_TUNNEL_DROP_INFO)
 		vxlan_offload_rx_ports(dev, false);
-<<<<<<< HEAD
-=======
-=======
-	if (event == NETDEV_UNREGISTER) {
-		if (!dev->udp_tunnel_nic_info)
-			vxlan_offload_rx_ports(dev, false);
-		vxlan_handle_lowerdev_unregister(vn, dev);
-	} else if (event == NETDEV_REGISTER) {
-		if (!dev->udp_tunnel_nic_info)
-			vxlan_offload_rx_ports(dev, true);
-	} else if (event == NETDEV_UDP_TUNNEL_PUSH_INFO ||
-		   event == NETDEV_UDP_TUNNEL_DROP_INFO) {
-		vxlan_offload_rx_ports(dev, event == NETDEV_UDP_TUNNEL_PUSH_INFO);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return NOTIFY_DONE;
 }

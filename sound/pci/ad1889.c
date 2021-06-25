@@ -43,10 +43,6 @@
 MODULE_AUTHOR("Kyle McMartin <kyle@parisc-linux.org>, Thibaut Varene <t-bone@parisc-linux.org>");
 MODULE_DESCRIPTION("Analog Devices AD1889 ALSA sound driver");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Analog Devices,AD1889}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
 module_param_array(index, int, NULL, 0444);
@@ -860,12 +856,7 @@ snd_ad1889_create(struct snd_card *card,
 		return err;
 
 	/* check PCI availability (32bit DMA) */
-<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32))) {
-=======
-	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(32)) < 0 ||
-	    dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(32)) < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(card->dev, "error setting 32-bit DMA mask.\n");
 		pci_disable_device(pci);
 		return -ENXIO;

@@ -25,11 +25,7 @@ struct fwnode_handle;
 struct v4l2_async_notifier;
 struct v4l2_async_subdev;
 
-<<<<<<< HEAD
 #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	8
-=======
-#define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct v4l2_fwnode_bus_mipi_csi2 - MIPI CSI-2 bus data structure
@@ -218,7 +214,6 @@ struct v4l2_fwnode_connector {
 };
 
 /**
-<<<<<<< HEAD
  * enum v4l2_fwnode_bus_type - Video bus types defined by firmware properties
  * @V4L2_FWNODE_BUS_TYPE_GUESS: Default value if no bus-type fwnode property
  * @V4L2_FWNODE_BUS_TYPE_CSI2_CPHY: MIPI CSI-2 bus, C-PHY physical layer
@@ -241,8 +236,6 @@ enum v4l2_fwnode_bus_type {
 };
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
  * @fwnode: pointer to the endpoint's fwnode handle
  * @vep: pointer to the V4L2 fwnode data structure
@@ -482,13 +475,10 @@ typedef int (*parse_endpoint_func)(struct device *dev,
  * @parse_endpoint: Driver's callback function called on each V4L2 fwnode
  *		    endpoint. Optional.
  *
-<<<<<<< HEAD
  * DEPRECATED! This function is deprecated. Don't use it in new drivers.
  * Instead see an example in cio2_parse_firmware() function in
  * drivers/media/pci/intel/ipu3/ipu3-cio2.c .
  *
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Parse the fwnode endpoints of the @dev device and populate the async sub-
  * devices list in the notifier. The @parse_endpoint callback function is
  * called for each endpoint with the corresponding async sub-device pointer to
@@ -519,27 +509,6 @@ v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
 					   struct v4l2_async_notifier *notifier,
 					   size_t asd_struct_size,
 					   parse_endpoint_func parse_endpoint);
-
-/**
- * v4l2_async_notifier_parse_fwnode_sensor_common - parse common references on
- *					       sensors for async sub-devices
- * @dev: the device node the properties of which are parsed for references
- * @notifier: the async notifier where the async subdevs will be added
- *
- * Parse common sensor properties for remote devices related to the
- * sensor and set up async sub-devices for them.
- *
- * Any notifier populated using this function must be released with a call to
- * v4l2_async_notifier_release() after it has been unregistered and the async
- * sub-devices are no longer in use, even in the case the function returned an
- * error.
- *
- * Return: 0 on success
- *	   -ENOMEM if memory allocation failed
- *	   -EINVAL if property parsing failed
- */
-int v4l2_async_notifier_parse_fwnode_sensor_common(struct device *dev,
-						   struct v4l2_async_notifier *notifier);
 
 /* Helper macros to access the connector links. */
 

@@ -1,13 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-<<<<<<< HEAD
 /*
-=======
-<<<<<<< HEAD
-/*
-=======
-/**
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i2c-exynos5.c - Samsung Exynos5 I2C Controller Driver
  *
  * Copyright (C) 2013 Samsung Electronics Co., Ltd.

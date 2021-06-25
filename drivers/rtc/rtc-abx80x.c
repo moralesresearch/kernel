@@ -117,7 +117,6 @@ struct abx80x_priv {
 	struct watchdog_device wdog;
 };
 
-<<<<<<< HEAD
 static int abx80x_write_config_key(struct i2c_client *client, u8 key)
 {
 	if (i2c_smbus_write_byte_data(client, ABX8XX_REG_CFG_KEY, key) < 0) {
@@ -128,8 +127,6 @@ static int abx80x_write_config_key(struct i2c_client *client, u8 key)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int abx80x_is_rc_mode(struct i2c_client *client)
 {
 	int flags = 0;
@@ -153,17 +150,8 @@ static int abx80x_enable_trickle_charger(struct i2c_client *client,
 	 * Write the configuration key register to enable access to the Trickle
 	 * register
 	 */
-<<<<<<< HEAD
 	if (abx80x_write_config_key(client, ABX8XX_CFG_KEY_MISC) < 0)
 		return -EIO;
-=======
-	err = i2c_smbus_write_byte_data(client, ABX8XX_REG_CFG_KEY,
-					ABX8XX_CFG_KEY_MISC);
-	if (err < 0) {
-		dev_err(&client->dev, "Unable to write configuration key\n");
-		return -EIO;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = i2c_smbus_write_byte_data(client, ABX8XX_REG_TRICKLE,
 					ABX8XX_TRICKLE_CHARGE_ENABLE |
@@ -376,17 +364,8 @@ static int abx80x_rtc_set_autocalibration(struct device *dev,
 	}
 
 	/* Unlock write access to Oscillator Control Register */
-<<<<<<< HEAD
 	if (abx80x_write_config_key(client, ABX8XX_CFG_KEY_OSC) < 0)
 		return -EIO;
-=======
-	retval = i2c_smbus_write_byte_data(client, ABX8XX_REG_CFG_KEY,
-					   ABX8XX_CFG_KEY_OSC);
-	if (retval < 0) {
-		dev_err(dev, "Failed to write CONFIG_KEY register\n");
-		return retval;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	retval = i2c_smbus_write_byte_data(client, ABX8XX_REG_OSC, flags);
 
@@ -473,17 +452,8 @@ static ssize_t oscillator_store(struct device *dev,
 		flags |= (ABX8XX_OSC_OSEL);
 
 	/* Unlock write access on Oscillator Control register */
-<<<<<<< HEAD
 	if (abx80x_write_config_key(client, ABX8XX_CFG_KEY_OSC) < 0)
 		return -EIO;
-=======
-	retval = i2c_smbus_write_byte_data(client, ABX8XX_REG_CFG_KEY,
-					   ABX8XX_CFG_KEY_OSC);
-	if (retval < 0) {
-		dev_err(dev, "Failed to write CONFIG_KEY register\n");
-		return retval;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	retval = i2c_smbus_write_byte_data(client, ABX8XX_REG_OSC, flags);
 	if (retval < 0) {
@@ -790,18 +760,8 @@ static int abx80x_probe(struct i2c_client *client,
 		 * Write the configuration key register to enable access to
 		 * the config2 register
 		 */
-<<<<<<< HEAD
 		if (abx80x_write_config_key(client, ABX8XX_CFG_KEY_MISC) < 0)
 			return -EIO;
-=======
-		err = i2c_smbus_write_byte_data(client, ABX8XX_REG_CFG_KEY,
-						ABX8XX_CFG_KEY_MISC);
-		if (err < 0) {
-			dev_err(&client->dev,
-				"Unable to write configuration key\n");
-			return -EIO;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		err = i2c_smbus_write_byte_data(client, ABX8XX_REG_OUT_CTRL,
 						data | ABX8XX_OUT_CTRL_EXDS);

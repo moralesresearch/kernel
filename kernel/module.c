@@ -87,16 +87,7 @@
  * 3) module_addr_min/module_addr_max.
  * (delete and add uses RCU list operations).
  */
-<<<<<<< HEAD
 static DEFINE_MUTEX(module_mutex);
-=======
-<<<<<<< HEAD
-static DEFINE_MUTEX(module_mutex);
-=======
-DEFINE_MUTEX(module_mutex);
-EXPORT_SYMBOL_GPL(module_mutex);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static LIST_HEAD(modules);
 
 /* Work queue for freeing init sections in success case */
@@ -264,17 +255,6 @@ static void mod_update_bounds(struct module *mod)
 struct list_head *kdb_modules = &modules; /* kdb needs the list of modules */
 #endif /* CONFIG_KGDB_KDB */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static void module_assert_mutex(void)
-{
-	lockdep_assert_held(&module_mutex);
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void module_assert_mutex_or_preempt(void)
 {
 #ifdef CONFIG_LOCKDEP
@@ -428,29 +408,8 @@ extern const struct kernel_symbol __start___ksymtab[];
 extern const struct kernel_symbol __stop___ksymtab[];
 extern const struct kernel_symbol __start___ksymtab_gpl[];
 extern const struct kernel_symbol __stop___ksymtab_gpl[];
-<<<<<<< HEAD
 extern const s32 __start___kcrctab[];
 extern const s32 __start___kcrctab_gpl[];
-=======
-<<<<<<< HEAD
-extern const s32 __start___kcrctab[];
-extern const s32 __start___kcrctab_gpl[];
-=======
-extern const struct kernel_symbol __start___ksymtab_gpl_future[];
-extern const struct kernel_symbol __stop___ksymtab_gpl_future[];
-extern const s32 __start___kcrctab[];
-extern const s32 __start___kcrctab_gpl[];
-extern const s32 __start___kcrctab_gpl_future[];
-#ifdef CONFIG_UNUSED_SYMBOLS
-extern const struct kernel_symbol __start___ksymtab_unused[];
-extern const struct kernel_symbol __stop___ksymtab_unused[];
-extern const struct kernel_symbol __start___ksymtab_unused_gpl[];
-extern const struct kernel_symbol __stop___ksymtab_unused_gpl[];
-extern const s32 __start___kcrctab_unused[];
-extern const s32 __start___kcrctab_unused_gpl[];
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifndef CONFIG_MODVERSIONS
 #define symversion(base, idx) NULL
@@ -458,10 +417,6 @@ extern const s32 __start___kcrctab_unused_gpl[];
 #define symversion(base, idx) ((base != NULL) ? ((base) + (idx)) : NULL)
 #endif
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct symsearch {
 	const struct kernel_symbol *start, *stop;
 	const s32 *crcs;
@@ -470,92 +425,6 @@ struct symsearch {
 		GPL_ONLY,
 	} license;
 };
-<<<<<<< HEAD
-=======
-=======
-static bool each_symbol_in_section(const struct symsearch *arr,
-				   unsigned int arrsize,
-				   struct module *owner,
-				   bool (*fn)(const struct symsearch *syms,
-					      struct module *owner,
-					      void *data),
-				   void *data)
-{
-	unsigned int j;
-
-	for (j = 0; j < arrsize; j++) {
-		if (fn(&arr[j], owner, data))
-			return true;
-	}
-
-	return false;
-}
-
-/* Returns true as soon as fn returns true, otherwise false. */
-static bool each_symbol_section(bool (*fn)(const struct symsearch *arr,
-				    struct module *owner,
-				    void *data),
-			 void *data)
-{
-	struct module *mod;
-	static const struct symsearch arr[] = {
-		{ __start___ksymtab, __stop___ksymtab, __start___kcrctab,
-		  NOT_GPL_ONLY, false },
-		{ __start___ksymtab_gpl, __stop___ksymtab_gpl,
-		  __start___kcrctab_gpl,
-		  GPL_ONLY, false },
-		{ __start___ksymtab_gpl_future, __stop___ksymtab_gpl_future,
-		  __start___kcrctab_gpl_future,
-		  WILL_BE_GPL_ONLY, false },
-#ifdef CONFIG_UNUSED_SYMBOLS
-		{ __start___ksymtab_unused, __stop___ksymtab_unused,
-		  __start___kcrctab_unused,
-		  NOT_GPL_ONLY, true },
-		{ __start___ksymtab_unused_gpl, __stop___ksymtab_unused_gpl,
-		  __start___kcrctab_unused_gpl,
-		  GPL_ONLY, true },
-#endif
-	};
-
-	module_assert_mutex_or_preempt();
-
-	if (each_symbol_in_section(arr, ARRAY_SIZE(arr), NULL, fn, data))
-		return true;
-
-	list_for_each_entry_rcu(mod, &modules, list,
-				lockdep_is_held(&module_mutex)) {
-		struct symsearch arr[] = {
-			{ mod->syms, mod->syms + mod->num_syms, mod->crcs,
-			  NOT_GPL_ONLY, false },
-			{ mod->gpl_syms, mod->gpl_syms + mod->num_gpl_syms,
-			  mod->gpl_crcs,
-			  GPL_ONLY, false },
-			{ mod->gpl_future_syms,
-			  mod->gpl_future_syms + mod->num_gpl_future_syms,
-			  mod->gpl_future_crcs,
-			  WILL_BE_GPL_ONLY, false },
-#ifdef CONFIG_UNUSED_SYMBOLS
-			{ mod->unused_syms,
-			  mod->unused_syms + mod->num_unused_syms,
-			  mod->unused_crcs,
-			  NOT_GPL_ONLY, true },
-			{ mod->unused_gpl_syms,
-			  mod->unused_gpl_syms + mod->num_unused_gpl_syms,
-			  mod->unused_gpl_crcs,
-			  GPL_ONLY, true },
-#endif
-		};
-
-		if (mod->state == MODULE_STATE_UNFORMED)
-			continue;
-
-		if (each_symbol_in_section(arr, ARRAY_SIZE(arr), mod, fn, data))
-			return true;
-	}
-	return false;
-}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct find_symbol_arg {
 	/* Input */
@@ -576,38 +445,8 @@ static bool check_exported_symbol(const struct symsearch *syms,
 {
 	struct find_symbol_arg *fsa = data;
 
-<<<<<<< HEAD
 	if (!fsa->gplok && syms->license == GPL_ONLY)
 		return false;
-=======
-<<<<<<< HEAD
-	if (!fsa->gplok && syms->license == GPL_ONLY)
-		return false;
-=======
-	if (!fsa->gplok) {
-		if (syms->license == GPL_ONLY)
-			return false;
-		if (syms->license == WILL_BE_GPL_ONLY && fsa->warn) {
-			pr_warn("Symbol %s is being used by a non-GPL module, "
-				"which will not be allowed in the future\n",
-				fsa->name);
-		}
-	}
-
-#ifdef CONFIG_UNUSED_SYMBOLS
-	if (syms->unused && fsa->warn) {
-		pr_warn("Symbol %s is marked as UNUSED, however this module is "
-			"using it.\n", fsa->name);
-		pr_warn("This symbol will go away in the future.\n");
-		pr_warn("Please evaluate if this is the right api to use and "
-			"if it really is, submit a report to the linux kernel "
-			"mailing list together with submitting your code for "
-			"inclusion.\n");
-	}
-#endif
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fsa->owner = owner;
 	fsa->crc = symversion(syms->crcs, symnum);
 	fsa->sym = &syms->start[symnum];
@@ -670,10 +509,6 @@ static bool find_exported_symbol_in_section(const struct symsearch *syms,
  * Find an exported symbol and return it, along with, (optional) crc and
  * (optional) module which owns it.  Needs preempt disabled or module_mutex.
  */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool find_symbol(struct find_symbol_arg *fsa)
 {
 	static const struct symsearch arr[] = {
@@ -712,36 +547,6 @@ static bool find_symbol(struct find_symbol_arg *fsa)
 
 	pr_debug("Failed to find symbol %s\n", fsa->name);
 	return false;
-<<<<<<< HEAD
-=======
-=======
-static const struct kernel_symbol *find_symbol(const char *name,
-					struct module **owner,
-					const s32 **crc,
-					enum mod_license *license,
-					bool gplok,
-					bool warn)
-{
-	struct find_symbol_arg fsa;
-
-	fsa.name = name;
-	fsa.gplok = gplok;
-	fsa.warn = warn;
-
-	if (each_symbol_section(find_exported_symbol_in_section, &fsa)) {
-		if (owner)
-			*owner = fsa.owner;
-		if (crc)
-			*crc = fsa.crc;
-		if (license)
-			*license = fsa.license;
-		return fsa.sym;
-	}
-
-	pr_debug("Failed to find symbol %s\n", name);
-	return NULL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -767,20 +572,8 @@ static struct module *find_module_all(const char *name, size_t len,
 
 struct module *find_module(const char *name)
 {
-<<<<<<< HEAD
 	return find_module_all(name, strlen(name), false);
 }
-=======
-<<<<<<< HEAD
-	return find_module_all(name, strlen(name), false);
-}
-=======
-	module_assert_mutex();
-	return find_module_all(name, strlen(name), false);
-}
-EXPORT_SYMBOL_GPL(find_module);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_SMP
 
@@ -1215,10 +1008,6 @@ static inline void print_unload_info(struct seq_file *m, struct module *mod)
 
 void __symbol_put(const char *symbol)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct find_symbol_arg fsa = {
 		.name	= symbol,
 		.gplok	= true,
@@ -1228,17 +1017,6 @@ void __symbol_put(const char *symbol)
 	if (!find_symbol(&fsa))
 		BUG();
 	module_put(fsa.owner);
-<<<<<<< HEAD
-=======
-=======
-	struct module *owner;
-
-	preempt_disable();
-	if (!find_symbol(symbol, &owner, NULL, NULL, true, false))
-		BUG();
-	module_put(owner);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	preempt_enable();
 }
 EXPORT_SYMBOL(__symbol_put);
@@ -1507,48 +1285,22 @@ bad_version:
 static inline int check_modstruct_version(const struct load_info *info,
 					  struct module *mod)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct find_symbol_arg fsa = {
 		.name	= "module_layout",
 		.gplok	= true,
 	};
-<<<<<<< HEAD
-=======
-=======
-	const s32 *crc;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Since this should be found in kernel (which can't be removed), no
 	 * locking is necessary -- use preempt_disable() to placate lockdep.
 	 */
 	preempt_disable();
-<<<<<<< HEAD
 	if (!find_symbol(&fsa)) {
-=======
-<<<<<<< HEAD
-	if (!find_symbol(&fsa)) {
-=======
-	if (!find_symbol("module_layout", NULL, &crc, NULL, true, false)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		preempt_enable();
 		BUG();
 	}
 	preempt_enable();
-<<<<<<< HEAD
 	return check_version(info, "module_layout", mod, fsa.crc);
-=======
-<<<<<<< HEAD
-	return check_version(info, "module_layout", mod, fsa.crc);
-=======
-	return check_version(info, "module_layout", mod, crc);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* First part is kernel version, which we ignore if module has crcs. */
@@ -1642,24 +1394,11 @@ static const struct kernel_symbol *resolve_symbol(struct module *mod,
 						  const char *name,
 						  char ownername[])
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct find_symbol_arg fsa = {
 		.name	= name,
 		.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
 		.warn	= true,
 	};
-<<<<<<< HEAD
-=======
-=======
-	struct module *owner;
-	const struct kernel_symbol *sym;
-	const s32 *crc;
-	enum mod_license license;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	/*
@@ -1669,10 +1408,6 @@ static const struct kernel_symbol *resolve_symbol(struct module *mod,
 	 */
 	sched_annotate_sleep();
 	mutex_lock(&module_mutex);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!find_symbol(&fsa))
 		goto unlock;
 
@@ -1698,60 +1433,15 @@ static const struct kernel_symbol *resolve_symbol(struct module *mod,
 	err = ref_module(mod, fsa.owner);
 	if (err) {
 		fsa.sym = ERR_PTR(err);
-<<<<<<< HEAD
-=======
-=======
-	sym = find_symbol(name, &owner, &crc, &license,
-			  !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)), true);
-	if (!sym)
-		goto unlock;
-
-	if (license == GPL_ONLY)
-		mod->using_gplonly_symbols = true;
-
-	if (!inherit_taint(mod, owner)) {
-		sym = NULL;
-		goto getname;
-	}
-
-	if (!check_version(info, name, mod, crc)) {
-		sym = ERR_PTR(-EINVAL);
-		goto getname;
-	}
-
-	err = verify_namespace_is_imported(info, sym, mod);
-	if (err) {
-		sym = ERR_PTR(err);
-		goto getname;
-	}
-
-	err = ref_module(mod, owner);
-	if (err) {
-		sym = ERR_PTR(err);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto getname;
 	}
 
 getname:
 	/* We must make copy under the lock if we failed to get ref. */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	strncpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
 unlock:
 	mutex_unlock(&module_mutex);
 	return fsa.sym;
-<<<<<<< HEAD
-=======
-=======
-	strncpy(ownername, module_name(owner), MODULE_NAME_LEN);
-unlock:
-	mutex_unlock(&module_mutex);
-	return sym;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct kernel_symbol *
@@ -2456,6 +2146,8 @@ void __weak module_arch_freeing_init(struct module *mod)
 {
 }
 
+static void cfi_cleanup(struct module *mod);
+
 /* Free a module, remove from lists, etc. */
 static void free_module(struct module *mod)
 {
@@ -2497,6 +2189,9 @@ static void free_module(struct module *mod)
 	synchronize_rcu();
 	mutex_unlock(&module_mutex);
 
+	/* Clean up CFI for the module. */
+	cfi_cleanup(mod);
+
 	/* This may be empty, but that's OK */
 	module_arch_freeing_init(mod);
 	module_memfree(mod->init_layout.base);
@@ -2512,10 +2207,6 @@ static void free_module(struct module *mod)
 
 void *__symbol_get(const char *symbol)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct find_symbol_arg fsa = {
 		.name	= symbol,
 		.gplok	= true,
@@ -2529,21 +2220,6 @@ void *__symbol_get(const char *symbol)
 	}
 	preempt_enable();
 	return (void *)kernel_symbol_value(fsa.sym);
-<<<<<<< HEAD
-=======
-=======
-	struct module *owner;
-	const struct kernel_symbol *sym;
-
-	preempt_disable();
-	sym = find_symbol(symbol, &owner, NULL, NULL, true, true);
-	if (sym && strong_try_module_get(owner))
-		sym = NULL;
-	preempt_enable();
-
-	return sym ? (void *)kernel_symbol_value(sym) : NULL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(__symbol_get);
 
@@ -2556,13 +2232,6 @@ EXPORT_SYMBOL_GPL(__symbol_get);
 static int verify_exported_symbols(struct module *mod)
 {
 	unsigned int i;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	struct module *owner;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct kernel_symbol *s;
 	struct {
 		const struct kernel_symbol *sym;
@@ -2570,25 +2239,10 @@ static int verify_exported_symbols(struct module *mod)
 	} arr[] = {
 		{ mod->syms, mod->num_syms },
 		{ mod->gpl_syms, mod->num_gpl_syms },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		{ mod->gpl_future_syms, mod->num_gpl_future_syms },
-#ifdef CONFIG_UNUSED_SYMBOLS
-		{ mod->unused_syms, mod->num_unused_syms },
-		{ mod->unused_gpl_syms, mod->num_unused_gpl_syms },
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	for (i = 0; i < ARRAY_SIZE(arr); i++) {
 		for (s = arr[i].sym; s < arr[i].sym + arr[i].num; s++) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct find_symbol_arg fsa = {
 				.name	= kernel_symbol_name(s),
 				.gplok	= true,
@@ -2598,17 +2252,6 @@ static int verify_exported_symbols(struct module *mod)
 				       " (owned by %s)\n",
 				       mod->name, kernel_symbol_name(s),
 				       module_name(fsa.owner));
-<<<<<<< HEAD
-=======
-=======
-			if (find_symbol(kernel_symbol_name(s), &owner, NULL,
-					NULL, true, false)) {
-				pr_err("%s: exports duplicate symbol %s"
-				       " (owned by %s)\n",
-				       mod->name, kernel_symbol_name(s),
-				       module_name(owner));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -ENOEXEC;
 			}
 		}
@@ -2758,6 +2401,15 @@ static long get_offset(struct module *mod, unsigned int *size,
 	return ret;
 }
 
+static bool module_init_layout_section(const char *sname)
+{
+#ifndef CONFIG_MODULE_UNLOAD
+	if (module_exit_section(sname))
+		return true;
+#endif
+	return module_init_section(sname);
+}
+
 /*
  * Lay out the SHF_ALLOC sections in a way not dissimilar to how ld
  * might -- code, read-only data, read-write data, small data.  Tally
@@ -2792,7 +2444,7 @@ static void layout_sections(struct module *mod, struct load_info *info)
 			if ((s->sh_flags & masks[m][0]) != masks[m][0]
 			    || (s->sh_flags & masks[m][1])
 			    || s->sh_entsize != ~0UL
-			    || module_init_section(sname))
+			    || module_init_layout_section(sname))
 				continue;
 			s->sh_entsize = get_offset(mod, &mod->core_layout.size, s, i);
 			pr_debug("\t%s\n", sname);
@@ -2825,7 +2477,7 @@ static void layout_sections(struct module *mod, struct load_info *info)
 			if ((s->sh_flags & masks[m][0]) != masks[m][0]
 			    || (s->sh_flags & masks[m][1])
 			    || s->sh_entsize != ~0UL
-			    || !module_init_section(sname))
+			    || !module_init_layout_section(sname))
 				continue;
 			s->sh_entsize = (get_offset(mod, &mod->init_layout.size, s, i)
 					 | INIT_OFFSET_MASK);
@@ -3478,11 +3130,6 @@ static int rewrite_section_headers(struct load_info *info, int flags)
 		 */
 		shdr->sh_addr = (size_t)info->hdr + shdr->sh_offset;
 
-#ifndef CONFIG_MODULE_UNLOAD
-		/* Don't load .exit sections */
-		if (module_exit_section(info->secstrings+shdr->sh_name))
-			shdr->sh_flags &= ~(unsigned long)SHF_ALLOC;
-#endif
 	}
 
 	/* Track but don't keep modinfo and version sections. */
@@ -3607,30 +3254,7 @@ static int find_module_sections(struct module *mod, struct load_info *info)
 				     sizeof(*mod->gpl_syms),
 				     &mod->num_gpl_syms);
 	mod->gpl_crcs = section_addr(info, "__kcrctab_gpl");
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
-	mod->gpl_future_syms = section_objs(info,
-					    "__ksymtab_gpl_future",
-					    sizeof(*mod->gpl_future_syms),
-					    &mod->num_gpl_future_syms);
-	mod->gpl_future_crcs = section_addr(info, "__kcrctab_gpl_future");
-
-#ifdef CONFIG_UNUSED_SYMBOLS
-	mod->unused_syms = section_objs(info, "__ksymtab_unused",
-					sizeof(*mod->unused_syms),
-					&mod->num_unused_syms);
-	mod->unused_crcs = section_addr(info, "__kcrctab_unused");
-	mod->unused_gpl_syms = section_objs(info, "__ksymtab_unused_gpl",
-					    sizeof(*mod->unused_gpl_syms),
-					    &mod->num_unused_gpl_syms);
-	mod->unused_gpl_crcs = section_addr(info, "__kcrctab_unused_gpl");
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_CONSTRUCTORS
 	mod->ctors = section_objs(info, ".ctors",
 				  sizeof(*mod->ctors), &mod->num_ctors);
@@ -3811,24 +3435,8 @@ static int check_module_license_and_versions(struct module *mod)
 		pr_warn("%s: module license taints kernel.\n", mod->name);
 
 #ifdef CONFIG_MODVERSIONS
-<<<<<<< HEAD
 	if ((mod->num_syms && !mod->crcs) ||
 	    (mod->num_gpl_syms && !mod->gpl_crcs)) {
-=======
-<<<<<<< HEAD
-	if ((mod->num_syms && !mod->crcs) ||
-	    (mod->num_gpl_syms && !mod->gpl_crcs)) {
-=======
-	if ((mod->num_syms && !mod->crcs)
-	    || (mod->num_gpl_syms && !mod->gpl_crcs)
-	    || (mod->num_gpl_future_syms && !mod->gpl_future_crcs)
-#ifdef CONFIG_UNUSED_SYMBOLS
-	    || (mod->num_unused_syms && !mod->unused_crcs)
-	    || (mod->num_unused_gpl_syms && !mod->unused_gpl_crcs)
-#endif
-		) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return try_to_force_load(mod,
 					 "no versions for exported symbols");
 	}
@@ -4267,6 +3875,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
 	return 0;
 }
 
+static void cfi_init(struct module *mod);
+
 /*
  * Allocate and load the module: note that size of section 0 is always
  * zero, and we rely on this for optional sections.
@@ -4398,6 +4008,9 @@ static int load_module(struct load_info *info, const char __user *uargs,
 
 	flush_module_icache(mod);
 
+	/* Setup CFI for the module. */
+	cfi_init(mod);
+
 	/* Now copy in args */
 	mod->args = strndup_user(uargs, ~0UL >> 1);
 	if (IS_ERR(mod->args)) {
@@ -4471,6 +4084,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	synchronize_rcu();
 	kfree(mod->args);
  free_arch_cleanup:
+	cfi_cleanup(mod);
 	module_arch_cleanup(mod);
  free_modinfo:
 	free_modinfo(mod);
@@ -4782,36 +4396,16 @@ unsigned long module_kallsyms_lookup_name(const char *name)
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_LIVEPATCH
-=======
-<<<<<<< HEAD
-#ifdef CONFIG_LIVEPATCH
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 					     struct module *, unsigned long),
 				   void *data)
 {
 	struct module *mod;
 	unsigned int i;
-<<<<<<< HEAD
 	int ret = 0;
 
 	mutex_lock(&module_mutex);
-=======
-<<<<<<< HEAD
-	int ret = 0;
-
-	mutex_lock(&module_mutex);
-=======
-	int ret;
-
-	module_assert_mutex();
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry(mod, &modules, list) {
 		/* We hold module_mutex: no need for rcu_dereference_sched */
 		struct mod_kallsyms *kallsyms = mod->kallsyms;
@@ -4827,10 +4421,6 @@ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 			ret = fn(data, kallsyms_symbol_name(kallsyms, i),
 				 mod, kallsyms_symbol_value(sym));
 			if (ret != 0)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 		}
 	}
@@ -4838,17 +4428,39 @@ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 	return ret;
 }
 #endif /* CONFIG_LIVEPATCH */
-<<<<<<< HEAD
-=======
-=======
-				return ret;
-		}
-	}
-	return 0;
-}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_KALLSYMS */
+
+static void cfi_init(struct module *mod)
+{
+#ifdef CONFIG_CFI_CLANG
+	initcall_t *init;
+	exitcall_t *exit;
+
+	rcu_read_lock_sched();
+	mod->cfi_check = (cfi_check_fn)
+		find_kallsyms_symbol_value(mod, "__cfi_check");
+	init = (initcall_t *)
+		find_kallsyms_symbol_value(mod, "__cfi_jt_init_module");
+	exit = (exitcall_t *)
+		find_kallsyms_symbol_value(mod, "__cfi_jt_cleanup_module");
+	rcu_read_unlock_sched();
+
+	/* Fix init/exit functions to point to the CFI jump table */
+	if (init)
+		mod->init = *init;
+	if (exit)
+		mod->exit = *exit;
+
+	cfi_module_add(mod, module_addr_min);
+#endif
+}
+
+static void cfi_cleanup(struct module *mod)
+{
+#ifdef CONFIG_CFI_CLANG
+	cfi_module_remove(mod, module_addr_min);
+#endif
+}
 
 /* Maximum number of characters written by module_flags() */
 #define MODULE_FLAGS_BUF_SIZE (TAINT_FLAGS_COUNT + 4)

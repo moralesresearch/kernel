@@ -162,10 +162,7 @@ err_out:
 
 /**
  * ima_get_action - appraise & measure decision based on policy.
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: pointer to the inode associated with the object being validated
  * @cred: pointer to credentials structure to validate
  * @secid: secid of the task being validated
@@ -174,51 +171,31 @@ err_out:
  * @func: caller identifier
  * @pcr: pointer filled in if matched measure policy sets pcr=
  * @template_desc: pointer filled in if matched measure policy sets template=
-<<<<<<< HEAD
  * @func_data: func specific data, may be NULL
-=======
- * @keyring: keyring name used to determine the action
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The policy is defined in terms of keypairs:
  *		subj=, obj=, type=, func=, mask=, fsmagic=
  *	subj,obj, and type: are LSM specific.
  *	func: FILE_CHECK | BPRM_CHECK | CREDS_CHECK | MMAP_CHECK | MODULE_CHECK
-<<<<<<< HEAD
  *	| KEXEC_CMDLINE | KEY_CHECK | CRITICAL_DATA
-=======
- *	| KEXEC_CMDLINE | KEY_CHECK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	mask: contains the permission mask
  *	fsmagic: hex value
  *
  * Returns IMA_MEASURE, IMA_APPRAISE mask.
  *
  */
-<<<<<<< HEAD
 int ima_get_action(struct user_namespace *mnt_userns, struct inode *inode,
 		   const struct cred *cred, u32 secid, int mask,
 		   enum ima_hooks func, int *pcr,
 		   struct ima_template_desc **template_desc,
 		   const char *func_data)
-=======
-int ima_get_action(struct inode *inode, const struct cred *cred, u32 secid,
-		   int mask, enum ima_hooks func, int *pcr,
-		   struct ima_template_desc **template_desc,
-		   const char *keyring)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int flags = IMA_MEASURE | IMA_AUDIT | IMA_APPRAISE | IMA_HASH;
 
 	flags &= ima_policy_flag;
 
-<<<<<<< HEAD
 	return ima_match_policy(mnt_userns, inode, cred, secid, func, mask,
 				flags, pcr, template_desc, func_data);
-=======
-	return ima_match_policy(inode, cred, secid, func, mask, flags, pcr,
-				template_desc, keyring);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

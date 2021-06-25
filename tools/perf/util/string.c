@@ -293,7 +293,6 @@ char *strdup_esc(const char *str)
 
 	return ret;
 }
-<<<<<<< HEAD
 
 unsigned int hex(char c)
 {
@@ -303,5 +302,3 @@ unsigned int hex(char c)
 		return c - 'a' + 10;
 	return c - 'A' + 10;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

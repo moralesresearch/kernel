@@ -54,12 +54,8 @@ static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
 	}
 
 	if (pci->device == PCI_DEVICE_ID_INTEL_CHERRYVIEW_XHCI) {
-<<<<<<< HEAD
 		ret = device_create_managed_software_node(&pdev->dev, role_switch_props,
 							  NULL);
-=======
-		ret = platform_device_add_properties(pdev, role_switch_props);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			dev_err(dev, "failed to register device properties\n");
 			platform_device_put(pdev);
