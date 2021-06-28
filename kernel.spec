@@ -2,7 +2,7 @@
 
 Name:           kernel
 Version:        5.13
-Release:        1%{?dist}.sol
+Release:        1%{?dist}
 Summary:       The MR-Sun Kernel 
 
 #Group:          
