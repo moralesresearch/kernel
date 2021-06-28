@@ -161,11 +161,7 @@ static int pca_isa_probe(struct device *dev, unsigned int id)
 	return -ENODEV;
 }
 
-<<<<<<< HEAD
 static void pca_isa_remove(struct device *dev, unsigned int id)
-=======
-static int pca_isa_remove(struct device *dev, unsigned int id)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	i2c_del_adapter(&pca_isa_ops);
 
@@ -174,11 +170,6 @@ static int pca_isa_remove(struct device *dev, unsigned int id)
 		free_irq(irq, &pca_isa_ops);
 	}
 	release_region(base, IO_SIZE);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver pca_isa_driver = {

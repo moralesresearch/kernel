@@ -26,15 +26,7 @@ asmlinkage void mach_irq_dispatch(unsigned int pending)
 	if (pending & CAUSEF_IP7)
 		do_IRQ(MIPS_CPU_IRQ_BASE + 7);
 	else if (pending & CAUSEF_IP6) /* perf counter loverflow */
-<<<<<<< HEAD
 		return;
-=======
-<<<<<<< HEAD
-		return;
-=======
-		do_perfcnt_IRQ();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (pending & CAUSEF_IP5)
 		i8259_irqdispatch();
 	else if (pending & CAUSEF_IP2)

@@ -4,10 +4,6 @@
 #
 
 menuconfig NET_IFE
-<<<<<<< HEAD
-=======
-	depends on NET
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tristate "Inter-FE based on IETF ForCES InterFE LFB"
 	default n
 	help

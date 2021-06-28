@@ -5,18 +5,12 @@
  */
 
 #include <linux/dma-fence-array.h>
-<<<<<<< HEAD
 #include <linux/dma-fence-chain.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/jiffies.h>
 
 #include "gt/intel_engine.h"
 
-<<<<<<< HEAD
 #include "dma_resv_utils.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "i915_gem_ioctls.h"
 #include "i915_gem_object.h"
 
@@ -51,12 +45,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
 		unsigned int count, i;
 		int ret;
 
-<<<<<<< HEAD
 		ret = dma_resv_get_fences_rcu(resv, &excl, &count, &shared);
-=======
-		ret = dma_resv_get_fences_rcu(resv,
-							&excl, &count, &shared);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			return ret;
 
@@ -96,27 +85,14 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
 	 * Opportunistically prune the fences iff we know they have *all* been
 	 * signaled.
 	 */
-<<<<<<< HEAD
 	if (prune_fences)
 		dma_resv_prune(resv);
-=======
-	if (prune_fences && dma_resv_trylock(resv)) {
-		if (dma_resv_test_signaled_rcu(resv, true))
-			dma_resv_add_excl_fence(resv, NULL);
-		dma_resv_unlock(resv);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return timeout;
 }
 
-<<<<<<< HEAD
 static void fence_set_priority(struct dma_fence *fence,
 			       const struct i915_sched_attr *attr)
-=======
-static void __fence_set_priority(struct dma_fence *fence,
-				 const struct i915_sched_attr *attr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct i915_request *rq;
 	struct intel_engine_cs *engine;
@@ -127,15 +103,10 @@ static void __fence_set_priority(struct dma_fence *fence,
 	rq = to_request(fence);
 	engine = rq->engine;
 
-<<<<<<< HEAD
-=======
-	local_bh_disable();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock(); /* RCU serialisation for set-wedged protection */
 	if (engine->schedule)
 		engine->schedule(rq, attr);
 	rcu_read_unlock();
-<<<<<<< HEAD
 }
 
 static inline bool __dma_fence_is_chain(const struct dma_fence *fence)
@@ -151,21 +122,12 @@ void i915_gem_fence_wait_priority(struct dma_fence *fence,
 
 	local_bh_disable();
 
-=======
-	local_bh_enable(); /* kick the tasklets if queues were reprioritised */
-}
-
-static void fence_set_priority(struct dma_fence *fence,
-			       const struct i915_sched_attr *attr)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Recurse once into a fence-array */
 	if (dma_fence_is_array(fence)) {
 		struct dma_fence_array *array = to_dma_fence_array(fence);
 		int i;
 
 		for (i = 0; i < array->num_fences; i++)
-<<<<<<< HEAD
 			fence_set_priority(array->fences[i], attr);
 	} else if (__dma_fence_is_chain(fence)) {
 		struct dma_fence *iter;
@@ -182,12 +144,6 @@ static void fence_set_priority(struct dma_fence *fence,
 	}
 
 	local_bh_enable(); /* kick the tasklets if queues were reprioritised */
-=======
-			__fence_set_priority(array->fences[i], attr);
-	} else {
-		__fence_set_priority(fence, attr);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int
@@ -203,20 +159,12 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
 		int ret;
 
 		ret = dma_resv_get_fences_rcu(obj->base.resv,
-<<<<<<< HEAD
 					      &excl, &count, &shared);
-=======
-							&excl, &count, &shared);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			return ret;
 
 		for (i = 0; i < count; i++) {
-<<<<<<< HEAD
 			i915_gem_fence_wait_priority(shared[i], attr);
-=======
-			fence_set_priority(shared[i], attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma_fence_put(shared[i]);
 		}
 
@@ -226,11 +174,7 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
 	}
 
 	if (excl) {
-<<<<<<< HEAD
 		i915_gem_fence_wait_priority(excl, attr);
-=======
-		fence_set_priority(excl, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dma_fence_put(excl);
 	}
 	return 0;

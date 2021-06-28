@@ -90,30 +90,15 @@ static inline void crash_prepare_suspend(void) {}
 static inline void crash_post_resume(void) {}
 #endif
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_KEXEC_FILE
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ARCH_HAS_KIMAGE_ARCH
 
 struct kimage_arch {
 	void *dtb;
-<<<<<<< HEAD
 	phys_addr_t dtb_mem;
 	phys_addr_t kern_reloc;
-=======
-	unsigned long dtb_mem;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	/* Core ELF header buffer */
-	void *elf_headers;
-	unsigned long elf_headers_mem;
-	unsigned long elf_headers_sz;
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_KEXEC_FILE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct kexec_file_ops kexec_image_ops;
 
 struct kimage;

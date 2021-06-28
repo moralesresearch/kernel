@@ -2,11 +2,7 @@
 /*
  * Copyright (c) 2015-2020, Oracle and/or its affiliates.
  *
-<<<<<<< HEAD
  * Support for reverse-direction RPCs on RPC/RDMA.
-=======
- * Support for backward direction RPCs on RPC/RDMA.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/sunrpc/xprt.h>
@@ -159,9 +155,11 @@ void xprt_rdma_bc_destroy(struct rpc_xprt *xprt, unsigned int reqs)
 void xprt_rdma_bc_free_rqst(struct rpc_rqst *rqst)
 {
 	struct rpcrdma_req *req = rpcr_to_rdmar(rqst);
+	struct rpcrdma_rep *rep = req->rl_reply;
 	struct rpc_xprt *xprt = rqst->rq_xprt;
+	struct rpcrdma_xprt *r_xprt = rpcx_to_rdmax(xprt);
 
-	rpcrdma_recv_buffer_put(req->rl_reply);
+	rpcrdma_rep_put(&r_xprt->rx_buf, rep);
 	req->rl_reply = NULL;
 
 	spin_lock(&xprt->bc_pa_lock);
@@ -212,11 +210,7 @@ create_req:
 }
 
 /**
-<<<<<<< HEAD
  * rpcrdma_bc_receive_call - Handle a reverse-direction Call
-=======
- * rpcrdma_bc_receive_call - Handle a backward direction call
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @r_xprt: transport receiving the call
  * @rep: receive buffer containing the call
  *

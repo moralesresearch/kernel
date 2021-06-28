@@ -199,10 +199,6 @@ static const struct mtk_mdp_fmt *mtk_mdp_try_fmt_mplane(struct mtk_mdp_ctx *ctx,
 		pix_mp->ycbcr_enc = ctx->ycbcr_enc;
 		pix_mp->quantization = ctx->quant;
 	}
-<<<<<<< HEAD
-=======
-	memset(pix_mp->reserved, 0, sizeof(pix_mp->reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	max_w = variant->pix_max->target_rot_dis_w;
 	max_h = variant->pix_max->target_rot_dis_h;
@@ -250,11 +246,6 @@ static const struct mtk_mdp_fmt *mtk_mdp_try_fmt_mplane(struct mtk_mdp_ctx *ctx,
 		pix_mp->plane_fmt[i].bytesperline = bpl;
 		if (pix_mp->plane_fmt[i].sizeimage < sizeimage)
 			pix_mp->plane_fmt[i].sizeimage = sizeimage;
-<<<<<<< HEAD
-=======
-		memset(pix_mp->plane_fmt[i].reserved, 0,
-		       sizeof(pix_mp->plane_fmt[i].reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mtk_mdp_dbg(2, "[%d] p%d, bpl:%d, sizeimage:%u (%u)", ctx->id,
 			    i, bpl, pix_mp->plane_fmt[i].sizeimage, sizeimage);
 	}

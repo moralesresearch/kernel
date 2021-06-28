@@ -572,10 +572,7 @@ static int init_vudc_hw(struct vudc *udc)
 	init_waitqueue_head(&udc->tx_waitq);
 
 	spin_lock_init(&ud->lock);
-<<<<<<< HEAD
 	mutex_init(&ud->sysfs_lock);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ud->status = SDEV_ST_AVAILABLE;
 	ud->side = USBIP_VUDC;
 

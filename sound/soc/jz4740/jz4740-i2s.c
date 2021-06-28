@@ -455,11 +455,7 @@ static struct snd_soc_dai_driver jz4740_i2s_dai = {
 		.rates = SNDRV_PCM_RATE_8000_48000,
 		.formats = JZ4740_I2S_FMTS,
 	},
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ops = &jz4740_i2s_dai_ops,
 };
 

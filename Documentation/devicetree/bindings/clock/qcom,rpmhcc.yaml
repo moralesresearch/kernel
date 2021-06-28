@@ -18,11 +18,8 @@ properties:
   compatible:
     enum:
       - qcom,sc7180-rpmh-clk
-<<<<<<< HEAD
       - qcom,sc7280-rpmh-clk
       - qcom,sc8180x-rpmh-clk
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - qcom,sdm845-rpmh-clk
       - qcom,sdx55-rpmh-clk
       - qcom,sm8150-rpmh-clk

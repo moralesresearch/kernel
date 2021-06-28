@@ -1079,8 +1079,6 @@ static int sun4i_i2s_dai_probe(struct snd_soc_dai *dai)
 				  &i2s->playback_dma_data,
 				  &i2s->capture_dma_data);
 
-	snd_soc_dai_set_drvdata(dai, i2s);
-
 	return 0;
 }
 
@@ -1105,11 +1103,7 @@ static struct snd_soc_dai_driver sun4i_i2s_dai = {
 		.formats = SUN4I_FORMATS,
 	},
 	.ops = &sun4i_i2s_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver sun4i_i2s_component = {

@@ -66,21 +66,13 @@ int sclp_early_cmd(sclp_cmdw_t cmd, void *sccb)
 	unsigned long flags;
 	int rc;
 
-<<<<<<< HEAD
 	flags = arch_local_irq_save();
-=======
-	raw_local_irq_save(flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = sclp_service_call(cmd, sccb);
 	if (rc)
 		goto out;
 	sclp_early_wait_irq();
 out:
-<<<<<<< HEAD
 	arch_local_irq_restore(flags);
-=======
-	raw_local_irq_restore(flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 

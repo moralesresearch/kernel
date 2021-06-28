@@ -145,11 +145,7 @@ static const struct clk_ops clk_half_divider_ops = {
 	.set_rate = clk_half_divider_set_rate,
 };
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Register a clock branch.
  * Most clock branches have a form like
  *

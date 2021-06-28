@@ -131,11 +131,7 @@ u64 module_emit_veneer_for_adrp(struct module *mod, Elf64_Shdr *sechdrs,
 }
 #endif
 
-<<<<<<< HEAD
 #define cmp_3way(a, b)	((a) < (b) ? -1 : (a) > (b))
-=======
-#define cmp_3way(a,b)	((a) < (b) ? -1 : (a) > (b))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int cmp_rela(const void *a, const void *b)
 {

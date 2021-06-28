@@ -15,7 +15,6 @@ properties:
 
   compatible:
     oneOf:
-<<<<<<< HEAD
       - enum:
           - ingenic,jz4770-codec
           - ingenic,jz4760-codec
@@ -24,11 +23,6 @@ properties:
       - items:
           - const: ingenic,jz4760b-codec
           - const: ingenic,jz4760-codec
-=======
-      - const: ingenic,jz4770-codec
-      - const: ingenic,jz4725b-codec
-      - const: ingenic,jz4740-codec
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1

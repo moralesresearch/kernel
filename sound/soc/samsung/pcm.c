@@ -452,11 +452,7 @@ static int s3c_pcm_dai_probe(struct snd_soc_dai *dai)
 #define S3C_PCM_RATES  SNDRV_PCM_RATE_8000_96000
 
 #define S3C_PCM_DAI_DECLARE			\
-<<<<<<< HEAD
 	.symmetric_rate = 1,					\
-=======
-	.symmetric_rates = 1,					\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.probe = s3c_pcm_dai_probe,				\
 	.ops = &s3c_pcm_dai_ops,				\
 	.playback = {						\

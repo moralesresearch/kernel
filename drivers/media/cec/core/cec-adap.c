@@ -1296,11 +1296,7 @@ static int cec_config_log_addr(struct cec_adapter *adap,
 	/*
 	 * If we are unable to get an OK or a NACK after max_retries attempts
 	 * (and note that each attempt already consists of four polls), then
-<<<<<<< HEAD
 	 * we assume that something is really weird and that it is not a
-=======
-	 * then we assume that something is really weird and that it is not a
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * good idea to try and claim this logical address.
 	 */
 	if (i == max_retries)
@@ -1739,11 +1735,7 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
 		const u8 feature_sz = ARRAY_SIZE(log_addrs->features[0]);
 		u8 *features = log_addrs->features[i];
 		bool op_is_dev_features = false;
-<<<<<<< HEAD
 		unsigned int j;
-=======
-		unsigned j;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
 		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {

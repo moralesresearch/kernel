@@ -5,9 +5,7 @@
 #ifndef __ASM_SPARSEMEM_H
 #define __ASM_SPARSEMEM_H
 
-#ifdef CONFIG_SPARSEMEM
 #define MAX_PHYSMEM_BITS	CONFIG_ARM64_PA_BITS
-<<<<<<< HEAD
 
 /*
  * Section size must be at least 512MB for 64K base
@@ -27,11 +25,5 @@
  */
 #define SECTION_SIZE_BITS 27
 #endif /* CONFIG_ARM64_64K_PAGES */
-
-#endif /* CONFIG_SPARSEMEM*/
-=======
-#define SECTION_SIZE_BITS	30
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

@@ -344,10 +344,6 @@ xfs_extent_busy_trim(
 	ASSERT(*len > 0);
 
 	spin_lock(&args->pag->pagb_lock);
-<<<<<<< HEAD
-=======
-restart:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fbno = *bno;
 	flen = *len;
 	rbp = args->pag->pagb_tree.rb_node;
@@ -366,22 +362,6 @@ restart:
 			continue;
 		}
 
-<<<<<<< HEAD
-=======
-		/*
-		 * If this is a metadata allocation, try to reuse the busy
-		 * extent instead of trimming the allocation.
-		 */
-		if (!(args->datatype & XFS_ALLOC_USERDATA) &&
-		    !(busyp->flags & XFS_EXTENT_BUSY_DISCARDED)) {
-			if (!xfs_extent_busy_update_extent(args->mp, args->pag,
-							  busyp, fbno, flen,
-							  false))
-				goto restart;
-			continue;
-		}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (bbno <= fbno) {
 			/* start overlap */
 
@@ -649,8 +629,8 @@ xfs_extent_busy_wait_all(
 int
 xfs_extent_busy_ag_cmp(
 	void			*priv,
-	struct list_head	*l1,
-	struct list_head	*l2)
+	const struct list_head	*l1,
+	const struct list_head	*l2)
 {
 	struct xfs_extent_busy	*b1 =
 		container_of(l1, struct xfs_extent_busy, list);

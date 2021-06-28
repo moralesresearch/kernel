@@ -285,10 +285,9 @@ struct inode *gfs2_lookup_simple(struct inode *dip, const char *name)
 
 /**
  * gfs2_lookupi - Look up a filename in a directory and return its inode
- * @d_gh: An initialized holder for the directory glock
+ * @dir: The inode of the directory containing the inode to look-up
  * @name: The name of the inode to look for
  * @is_root: If 1, ignore the caller's permissions
- * @i_gh: An uninitialized holder for the new inode glock
  *
  * This can be called via the VFS filldir function when NFS is doing
  * a readdirplus and the inode which its intending to stat isn't
@@ -325,11 +324,7 @@ struct inode *gfs2_lookupi(struct inode *dir, const struct qstr *name,
 	}
 
 	if (!is_root) {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, dir, MAY_EXEC);
-=======
-		error = gfs2_permission(dir, MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out;
 	}
@@ -359,12 +354,8 @@ static int create_ok(struct gfs2_inode *dip, const struct qstr *name,
 {
 	int error;
 
-<<<<<<< HEAD
 	error = gfs2_permission(&init_user_ns, &dip->i_inode,
 				MAY_WRITE | MAY_EXEC);
-=======
-	error = gfs2_permission(&dip->i_inode, MAY_WRITE | MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -484,7 +475,6 @@ static void gfs2_init_xattr(struct gfs2_inode *ip)
  * @dip: The directory this inode is being created in
  * @ip: The inode
  * @symname: The symlink destination (if a symlink)
- * @bhp: The buffer head (returned to caller)
  *
  */
 
@@ -499,13 +489,8 @@ static void init_dinode(struct gfs2_inode *dip, struct gfs2_inode *ip,
 	di = (struct gfs2_dinode *)dibh->b_data;
 	gfs2_dinode_out(ip, di);
 
-<<<<<<< HEAD
 	di->di_major = cpu_to_be32(imajor(&ip->i_inode));
 	di->di_minor = cpu_to_be32(iminor(&ip->i_inode));
-=======
-	di->di_major = cpu_to_be32(MAJOR(ip->i_inode.i_rdev));
-	di->di_minor = cpu_to_be32(MINOR(ip->i_inode.i_rdev));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	di->__pad1 = 0;
 	di->__pad2 = 0;
 	di->__pad3 = 0;
@@ -527,7 +512,7 @@ static void init_dinode(struct gfs2_inode *dip, struct gfs2_inode *ip,
 }
 
 /**
- * gfs2_trans_da_blocks - Calculate number of blocks to link inode
+ * gfs2_trans_da_blks - Calculate number of blocks to link inode
  * @dip: The directory we are linking into
  * @da: The dir add information
  * @nr_inodes: The number of inodes involved
@@ -608,6 +593,7 @@ static int gfs2_initxattrs(struct inode *inode, const struct xattr *xattr_array,
  * @dev: For device nodes, this is the device number
  * @symname: For symlinks, this is the link destination
  * @size: The initial size of the inode (ignored for directories)
+ * @excl: Force fail if inode exists
  *
  * Returns: 0 on success, or error code
  */
@@ -850,20 +836,17 @@ fail:
 
 /**
  * gfs2_create - Create a file
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @dir: The directory in which to create the file
  * @dentry: The dentry of the new file
  * @mode: The mode of the new file
+ * @excl: Force fail if inode exists
  *
  * Returns: errno
  */
 
-<<<<<<< HEAD
 static int gfs2_create(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode, bool excl)
-=======
-static int gfs2_create(struct inode *dir, struct dentry *dentry,
-		       umode_t mode, bool excl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return gfs2_create_inode(dir, dentry, NULL, S_IFREG | mode, 0, NULL, 0, excl);
 }
@@ -970,11 +953,7 @@ static int gfs2_link(struct dentry *old_dentry, struct inode *dir,
 	if (inode->i_nlink == 0)
 		goto out_gunlock;
 
-<<<<<<< HEAD
 	error = gfs2_permission(&init_user_ns, dir, MAY_WRITE | MAY_EXEC);
-=======
-	error = gfs2_permission(dir, MAY_WRITE | MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_gunlock;
 
@@ -984,6 +963,7 @@ static int gfs2_link(struct dentry *old_dentry, struct inode *dir,
 		break;
 	case 0:
 		error = -EEXIST;
+		goto out_gunlock;
 	default:
 		goto out_gunlock;
 	}
@@ -1091,12 +1071,8 @@ static int gfs2_unlink_ok(struct gfs2_inode *dip, const struct qstr *name,
 	if (IS_APPEND(&dip->i_inode))
 		return -EPERM;
 
-<<<<<<< HEAD
 	error = gfs2_permission(&init_user_ns, &dip->i_inode,
 				MAY_WRITE | MAY_EXEC);
-=======
-	error = gfs2_permission(&dip->i_inode, MAY_WRITE | MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -1106,8 +1082,7 @@ static int gfs2_unlink_ok(struct gfs2_inode *dip, const struct qstr *name,
 /**
  * gfs2_unlink_inode - Removes an inode from its parent dir and unlinks it
  * @dip: The parent directory
- * @name: The name of the entry in the parent directory
- * @inode: The inode to be removed
+ * @dentry: The dentry to unlink
  *
  * Called with all the locks and in a transaction. This will only be
  * called for a directory after it has been checked to ensure it is empty.
@@ -1173,11 +1148,7 @@ static int gfs2_unlink(struct inode *dir, struct dentry *dentry)
 	if (!rgd)
 		goto out_inodes;
 
-<<<<<<< HEAD
 	gfs2_holder_init(rgd->rd_gl, LM_ST_EXCLUSIVE, LM_FLAG_NODE_SCOPE, ghs + 2);
-=======
-	gfs2_holder_init(rgd->rd_gl, LM_ST_EXCLUSIVE, 0, ghs + 2);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 	error = gfs2_glock_nq(ghs); /* parent */
@@ -1229,6 +1200,7 @@ out_inodes:
 
 /**
  * gfs2_symlink - Create a symlink
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @dir: The directory to create the symlink in
  * @dentry: The dentry to put the symlink in
  * @symname: The thing which the link points to
@@ -1236,13 +1208,8 @@ out_inodes:
  * Returns: errno
  */
 
-<<<<<<< HEAD
 static int gfs2_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, const char *symname)
-=======
-static int gfs2_symlink(struct inode *dir, struct dentry *dentry,
-			const char *symname)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int size;
 
@@ -1255,6 +1222,7 @@ static int gfs2_symlink(struct inode *dir, struct dentry *dentry,
 
 /**
  * gfs2_mkdir - Make a directory
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @dir: The parent directory of the new one
  * @dentry: The dentry of the new directory
  * @mode: The mode of the new directory
@@ -1262,12 +1230,8 @@ static int gfs2_symlink(struct inode *dir, struct dentry *dentry,
  * Returns: errno
  */
 
-<<<<<<< HEAD
 static int gfs2_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode)
-=======
-static int gfs2_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned dsize = gfs2_max_stuffed_size(GFS2_I(dir));
 	return gfs2_create_inode(dir, dentry, NULL, S_IFDIR | mode, 0, NULL, dsize, 0);
@@ -1275,6 +1239,7 @@ static int gfs2_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
 
 /**
  * gfs2_mknod - Make a special file
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @dir: The directory in which the special file will reside
  * @dentry: The dentry of the special file
  * @mode: The mode of the special file
@@ -1282,13 +1247,8 @@ static int gfs2_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
  *
  */
 
-<<<<<<< HEAD
 static int gfs2_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode, dev_t dev)
-=======
-static int gfs2_mknod(struct inode *dir, struct dentry *dentry, umode_t mode,
-		      dev_t dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return gfs2_create_inode(dir, dentry, NULL, mode, dev, NULL, 0, 0);
 }
@@ -1497,13 +1457,8 @@ static int gfs2_rename(struct inode *odir, struct dentry *odentry,
 			error = -ENOENT;
 			goto out_gunlock;
 		}
-<<<<<<< HEAD
 		error = gfs2_glock_nq_init(nrgd->rd_gl, LM_ST_EXCLUSIVE,
 					   LM_FLAG_NODE_SCOPE, &rd_gh);
-=======
-		error = gfs2_glock_nq_init(nrgd->rd_gl, LM_ST_EXCLUSIVE, 0,
-					   &rd_gh);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_gunlock;
 	}
@@ -1542,12 +1497,8 @@ static int gfs2_rename(struct inode *odir, struct dentry *odentry,
 			}
 		}
 	} else {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, ndir,
 					MAY_WRITE | MAY_EXEC);
-=======
-		error = gfs2_permission(ndir, MAY_WRITE | MAY_EXEC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_gunlock;
 
@@ -1558,6 +1509,7 @@ static int gfs2_rename(struct inode *odir, struct dentry *odentry,
 			break;
 		case 0:
 			error = -EEXIST;
+			goto out_gunlock;
 		default:
 			goto out_gunlock;
 		}
@@ -1582,12 +1534,8 @@ static int gfs2_rename(struct inode *odir, struct dentry *odentry,
 	/* Check out the dir to be renamed */
 
 	if (dir_rename) {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, d_inode(odentry),
 					MAY_WRITE);
-=======
-		error = gfs2_permission(d_inode(odentry), MAY_WRITE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_gunlock;
 	}
@@ -1750,22 +1698,14 @@ static int gfs2_exchange(struct inode *odir, struct dentry *odentry,
 		goto out_gunlock;
 
 	if (S_ISDIR(old_mode)) {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, odentry->d_inode,
 					MAY_WRITE);
-=======
-		error = gfs2_permission(odentry->d_inode, MAY_WRITE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_gunlock;
 	}
 	if (S_ISDIR(new_mode)) {
-<<<<<<< HEAD
 		error = gfs2_permission(&init_user_ns, ndentry->d_inode,
 					MAY_WRITE);
-=======
-		error = gfs2_permission(ndentry->d_inode, MAY_WRITE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_gunlock;
 	}
@@ -1819,15 +1759,9 @@ out:
 	return error;
 }
 
-<<<<<<< HEAD
 static int gfs2_rename2(struct user_namespace *mnt_userns, struct inode *odir,
 			struct dentry *odentry, struct inode *ndir,
 			struct dentry *ndentry, unsigned int flags)
-=======
-static int gfs2_rename2(struct inode *odir, struct dentry *odentry,
-			struct inode *ndir, struct dentry *ndentry,
-			unsigned int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	flags &= ~RENAME_NOREPLACE;
 
@@ -1899,10 +1833,10 @@ out:
 }
 
 /**
- * gfs2_permission -
+ * gfs2_permission
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @inode: The inode
  * @mask: The mask to be tested
- * @flags: Indicates whether this is an RCU path walk or not
  *
  * This may be called from the VFS directly, or from within GFS2 with the
  * inode locked, so we look to see if the glock is already locked and only
@@ -1911,12 +1845,8 @@ out:
  * Returns: errno
  */
 
-<<<<<<< HEAD
 int gfs2_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		    int mask)
-=======
-int gfs2_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gfs2_inode *ip;
 	struct gfs2_holder i_gh;
@@ -1935,11 +1865,7 @@ int gfs2_permission(struct inode *inode, int mask)
 	if ((mask & MAY_WRITE) && IS_IMMUTABLE(inode))
 		error = -EPERM;
 	else
-<<<<<<< HEAD
 		error = generic_permission(&init_user_ns, inode, mask);
-=======
-		error = generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gfs2_holder_initialized(&i_gh))
 		gfs2_glock_dq_uninit(&i_gh);
 
@@ -1948,24 +1874,12 @@ int gfs2_permission(struct inode *inode, int mask)
 
 static int __gfs2_setattr_simple(struct inode *inode, struct iattr *attr)
 {
-<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attr);
-=======
-	setattr_copy(inode, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }
 
-/**
- * gfs2_setattr_simple -
- * @ip:
- * @attr:
- *
- * Returns: errno
- */
-
-int gfs2_setattr_simple(struct inode *inode, struct iattr *attr)
+static int gfs2_setattr_simple(struct inode *inode, struct iattr *attr)
 {
 	int error;
 
@@ -2045,6 +1959,7 @@ out:
 
 /**
  * gfs2_setattr - Change attributes on an inode
+ * @mnt_userns: User namespace of the mount the inode was found from
  * @dentry: The dentry which is changing
  * @attr: The structure describing the change
  *
@@ -2054,12 +1969,8 @@ out:
  * Returns: errno
  */
 
-<<<<<<< HEAD
 static int gfs2_setattr(struct user_namespace *mnt_userns,
 			struct dentry *dentry, struct iattr *attr)
-=======
-static int gfs2_setattr(struct dentry *dentry, struct iattr *attr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct gfs2_inode *ip = GFS2_I(inode);
@@ -2078,11 +1989,7 @@ static int gfs2_setattr(struct dentry *dentry, struct iattr *attr)
 	if (IS_IMMUTABLE(inode) || IS_APPEND(inode))
 		goto error;
 
-<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
-=======
-	error = setattr_prepare(dentry, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto error;
 
@@ -2093,12 +2000,8 @@ static int gfs2_setattr(struct dentry *dentry, struct iattr *attr)
 	else {
 		error = gfs2_setattr_simple(inode, attr);
 		if (!error && attr->ia_valid & ATTR_MODE)
-<<<<<<< HEAD
 			error = posix_acl_chmod(&init_user_ns, inode,
 						inode->i_mode);
-=======
-			error = posix_acl_chmod(inode, inode->i_mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 error:
@@ -2112,10 +2015,7 @@ out:
 
 /**
  * gfs2_getattr - Read out an inode's attributes
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @path: Object to query
  * @stat: The inode's stats
  * @request_mask: Mask of STATX_xxx flags indicating the caller's interests
@@ -2130,12 +2030,8 @@ out:
  * Returns: errno
  */
 
-<<<<<<< HEAD
 static int gfs2_getattr(struct user_namespace *mnt_userns,
 			const struct path *path, struct kstat *stat,
-=======
-static int gfs2_getattr(const struct path *path, struct kstat *stat,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			u32 request_mask, unsigned int flags)
 {
 	struct inode *inode = d_inode(path->dentry);
@@ -2163,11 +2059,7 @@ static int gfs2_getattr(const struct path *path, struct kstat *stat,
 				  STATX_ATTR_IMMUTABLE |
 				  STATX_ATTR_NODUMP);
 
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (gfs2_holder_initialized(&gh))
 		gfs2_glock_dq_uninit(&gh);
@@ -2263,6 +2155,8 @@ static const struct inode_operations gfs2_file_iops = {
 	.get_acl = gfs2_get_acl,
 	.set_acl = gfs2_set_acl,
 	.update_time = gfs2_update_time,
+	.fileattr_get = gfs2_fileattr_get,
+	.fileattr_set = gfs2_fileattr_set,
 };
 
 static const struct inode_operations gfs2_dir_iops = {
@@ -2284,6 +2178,8 @@ static const struct inode_operations gfs2_dir_iops = {
 	.set_acl = gfs2_set_acl,
 	.update_time = gfs2_update_time,
 	.atomic_open = gfs2_atomic_open,
+	.fileattr_get = gfs2_fileattr_get,
+	.fileattr_set = gfs2_fileattr_set,
 };
 
 static const struct inode_operations gfs2_symlink_iops = {

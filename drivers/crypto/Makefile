@@ -19,10 +19,6 @@ obj-$(CONFIG_CRYPTO_DEV_HIFN_795X) += hifn_795x.o
 obj-$(CONFIG_CRYPTO_DEV_IMGTEC_HASH) += img-hash.o
 obj-$(CONFIG_CRYPTO_DEV_IXP4XX) += ixp4xx_crypto.o
 obj-$(CONFIG_CRYPTO_DEV_MARVELL) += marvell/
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_CRYPTO_DEV_MEDIATEK) += mediatek/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_CRYPTO_DEV_MXS_DCP) += mxs-dcp.o
 obj-$(CONFIG_CRYPTO_DEV_NIAGARA2) += n2_crypto.o
 n2_crypto-y := n2_core.o n2_asm.o
@@ -34,10 +30,6 @@ obj-$(CONFIG_CRYPTO_DEV_OMAP_DES) += omap-des.o
 obj-$(CONFIG_CRYPTO_DEV_OMAP_SHAM) += omap-sham.o
 obj-$(CONFIG_CRYPTO_DEV_PADLOCK_AES) += padlock-aes.o
 obj-$(CONFIG_CRYPTO_DEV_PADLOCK_SHA) += padlock-sha.o
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_CRYPTO_DEV_PICOXCELL) += picoxcell_crypto.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_CRYPTO_DEV_PPC4XX) += amcc/
 obj-$(CONFIG_CRYPTO_DEV_QAT) += qat/
 obj-$(CONFIG_CRYPTO_DEV_QCE) += qce/

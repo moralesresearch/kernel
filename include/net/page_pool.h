@@ -65,7 +65,7 @@
 #define PP_ALLOC_CACHE_REFILL	64
 struct pp_alloc_cache {
 	u32 count;
-	void *cache[PP_ALLOC_CACHE_SIZE];
+	struct page *cache[PP_ALLOC_CACHE_SIZE];
 };
 
 struct page_pool_params {
@@ -198,7 +198,6 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
 
 static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
 {
-<<<<<<< HEAD
 	dma_addr_t ret = page->dma_addr[0];
 	if (sizeof(dma_addr_t) > sizeof(unsigned long))
 		ret |= (dma_addr_t)page->dma_addr[1] << 16 << 16;
@@ -210,9 +209,6 @@ static inline void page_pool_set_dma_addr(struct page *page, dma_addr_t addr)
 	page->dma_addr[0] = addr;
 	if (sizeof(dma_addr_t) > sizeof(unsigned long))
 		page->dma_addr[1] = upper_32_bits(addr);
-=======
-	return page->dma_addr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool is_page_pool_compiled_in(void)

@@ -89,7 +89,6 @@ static void mv_cesa_skcipher_std_step(struct skcipher_request *req)
 			    CESA_SA_SRAM_PAYLOAD_SIZE);
 
 	mv_cesa_adjust_op(engine, &sreq->op);
-<<<<<<< HEAD
 	if (engine->pool)
 		memcpy(engine->sram_pool, &sreq->op, sizeof(sreq->op));
 	else
@@ -98,20 +97,12 @@ static void mv_cesa_skcipher_std_step(struct skcipher_request *req)
 	len = mv_cesa_sg_copy_to_sram(engine, req->src, creq->src_nents,
 				      CESA_SA_DATA_SRAM_OFFSET, len,
 				      sreq->offset);
-=======
-	memcpy_toio(engine->sram, &sreq->op, sizeof(sreq->op));
-
-	len = sg_pcopy_to_buffer(req->src, creq->src_nents,
-				 engine->sram + CESA_SA_DATA_SRAM_OFFSET,
-				 len, sreq->offset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sreq->size = len;
 	mv_cesa_set_crypt_op_len(&sreq->op, len);
 
 	/* FIXME: only update enc_len field */
 	if (!sreq->skip_ctx) {
-<<<<<<< HEAD
 		if (engine->pool)
 			memcpy(engine->sram_pool, &sreq->op, sizeof(sreq->op));
 		else
@@ -121,13 +112,6 @@ static void mv_cesa_skcipher_std_step(struct skcipher_request *req)
 		memcpy(engine->sram_pool, &sreq->op, sizeof(sreq->op.desc));
 	else
 		memcpy_toio(engine->sram, &sreq->op, sizeof(sreq->op.desc));
-=======
-		memcpy_toio(engine->sram, &sreq->op, sizeof(sreq->op));
-		sreq->skip_ctx = true;
-	} else {
-		memcpy_toio(engine->sram, &sreq->op, sizeof(sreq->op.desc));
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mv_cesa_set_int_mask(engine, CESA_SA_INT_ACCEL0_DONE);
 	writel_relaxed(CESA_SA_CFG_PARA_DIS, engine->regs + CESA_SA_CFG);
@@ -144,15 +128,9 @@ static int mv_cesa_skcipher_std_process(struct skcipher_request *req,
 	struct mv_cesa_engine *engine = creq->base.engine;
 	size_t len;
 
-<<<<<<< HEAD
 	len = mv_cesa_sg_copy_from_sram(engine, req->dst, creq->dst_nents,
 					CESA_SA_DATA_SRAM_OFFSET, sreq->size,
 					sreq->offset);
-=======
-	len = sg_pcopy_from_buffer(req->dst, creq->dst_nents,
-				   engine->sram + CESA_SA_DATA_SRAM_OFFSET,
-				   sreq->size, sreq->offset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sreq->offset += len;
 	if (sreq->offset < req->cryptlen)
@@ -243,7 +221,6 @@ mv_cesa_skcipher_complete(struct crypto_async_request *req)
 		basereq = &creq->base;
 		memcpy(skreq->iv, basereq->chain.last->op->ctx.skcipher.iv,
 		       ivsize);
-<<<<<<< HEAD
 	} else if (engine->pool)
 		memcpy(skreq->iv,
 		       engine->sram_pool + CESA_SA_CRYPT_IV_SRAM_OFFSET,
@@ -252,13 +229,6 @@ mv_cesa_skcipher_complete(struct crypto_async_request *req)
 		memcpy_fromio(skreq->iv,
 			      engine->sram + CESA_SA_CRYPT_IV_SRAM_OFFSET,
 			      ivsize);
-=======
-	} else {
-		memcpy_fromio(skreq->iv,
-			      engine->sram + CESA_SA_CRYPT_IV_SRAM_OFFSET,
-			      ivsize);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct mv_cesa_req_ops mv_cesa_skcipher_req_ops = {

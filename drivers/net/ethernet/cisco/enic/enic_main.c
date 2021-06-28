@@ -768,11 +768,7 @@ static inline int enic_queue_wq_skb_encap(struct enic *enic, struct vnic_wq *wq,
 	return err;
 }
 
-<<<<<<< HEAD
 static inline int enic_queue_wq_skb(struct enic *enic,
-=======
-static inline void enic_queue_wq_skb(struct enic *enic,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vnic_wq *wq, struct sk_buff *skb)
 {
 	unsigned int mss = skb_shinfo(skb)->gso_size;
@@ -818,10 +814,7 @@ static inline void enic_queue_wq_skb(struct enic *enic,
 		wq->to_use = buf->next;
 		dev_kfree_skb(skb);
 	}
-<<<<<<< HEAD
 	return err;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* netif_tx_lock held, process context with BHs disabled, or BH */
@@ -865,12 +858,8 @@ static netdev_tx_t enic_hard_start_xmit(struct sk_buff *skb,
 		return NETDEV_TX_BUSY;
 	}
 
-<<<<<<< HEAD
 	if (enic_queue_wq_skb(enic, wq, skb))
 		goto error;
-=======
-	enic_queue_wq_skb(enic, wq, skb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (vnic_wq_desc_avail(wq) < MAX_SKB_FRAGS + ENIC_DESC_MAX_SPLITS)
 		netif_tx_stop_queue(txq);
@@ -878,10 +867,7 @@ static netdev_tx_t enic_hard_start_xmit(struct sk_buff *skb,
 	if (!netdev_xmit_more() || netif_xmit_stopped(txq))
 		vnic_wq_doorbell(wq);
 
-<<<<<<< HEAD
 error:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&enic->wq_lock[txq_map]);
 
 	return NETDEV_TX_OK;
@@ -2526,11 +2512,6 @@ static const struct net_device_ops enic_netdev_dynamic_ops = {
 #ifdef CONFIG_RFS_ACCEL
 	.ndo_rx_flow_steer	= enic_rx_flow_steer,
 #endif
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= enic_features_check,
 };
 
@@ -2555,11 +2536,6 @@ static const struct net_device_ops enic_netdev_ops = {
 #ifdef CONFIG_RFS_ACCEL
 	.ndo_rx_flow_steer	= enic_rx_flow_steer,
 #endif
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= enic_features_check,
 };
 
@@ -3067,15 +3043,4 @@ static struct pci_driver enic_driver = {
 	.remove = enic_remove,
 };
 
-static int __init enic_init_module(void)
-{
-	return pci_register_driver(&enic_driver);
-}
-
-static void __exit enic_cleanup_module(void)
-{
-	pci_unregister_driver(&enic_driver);
-}
-
-module_init(enic_init_module);
-module_exit(enic_cleanup_module);
+module_pci_driver(enic_driver);

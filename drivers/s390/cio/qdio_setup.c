@@ -30,10 +30,7 @@ struct qaob *qdio_allocate_aob(void)
 {
 	return kmem_cache_zalloc(qdio_aob_cache, GFP_ATOMIC);
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(qdio_allocate_aob);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void qdio_release_aob(struct qaob *aob)
 {
@@ -251,11 +248,6 @@ static void setup_queues(struct qdio_irq *irq_ptr,
 			 struct qdio_initialize *qdio_init)
 {
 	struct qdio_q *q;
-<<<<<<< HEAD
-=======
-	struct qdio_outbuf_state *output_sbal_state_array =
-				  qdio_init->output_sbal_state_array;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	for_each_input_queue(irq_ptr, q, i) {
@@ -266,39 +258,17 @@ static void setup_queues(struct qdio_irq *irq_ptr,
 
 		setup_storage_lists(q, irq_ptr,
 				    qdio_init->input_sbal_addr_array[i], i);
-<<<<<<< HEAD
-=======
-
-		if (is_thinint_irq(irq_ptr)) {
-			tasklet_init(&q->tasklet, tiqdio_inbound_processing,
-				     (unsigned long) q);
-		} else {
-			tasklet_init(&q->tasklet, qdio_inbound_processing,
-				     (unsigned long) q);
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	for_each_output_queue(irq_ptr, q, i) {
 		DBF_EVENT("outq:%1d", i);
 		setup_queues_misc(q, irq_ptr, qdio_init->output_handler, i);
 
-<<<<<<< HEAD
-=======
-		q->u.out.sbal_state = output_sbal_state_array;
-		output_sbal_state_array += QDIO_MAX_BUFFERS_PER_Q;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		q->is_input_q = 0;
 		setup_storage_lists(q, irq_ptr,
 				    qdio_init->output_sbal_addr_array[i], i);
 
-<<<<<<< HEAD
 		tasklet_setup(&q->u.out.tasklet, qdio_outbound_tasklet);
-=======
-		tasklet_init(&q->tasklet, qdio_outbound_processing,
-			     (unsigned long) q);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		timer_setup(&q->u.out.timer, qdio_outbound_timer, 0);
 	}
 }
@@ -398,33 +368,6 @@ void qdio_setup_ssqd_info(struct qdio_irq *irq_ptr)
 	DBF_EVENT("3:%4x qib:%4x", irq_ptr->ssqd_desc.qdioac3, irq_ptr->qib.ac);
 }
 
-<<<<<<< HEAD
-=======
-void qdio_free_async_data(struct qdio_irq *irq_ptr)
-{
-	struct qdio_q *q;
-	int i;
-
-	for (i = 0; i < irq_ptr->max_output_qs; i++) {
-		q = irq_ptr->output_qs[i];
-		if (q->u.out.use_cq) {
-			unsigned int n;
-
-			for (n = 0; n < QDIO_MAX_BUFFERS_PER_Q; n++) {
-				struct qaob *aob = q->u.out.aobs[n];
-
-				if (aob) {
-					qdio_release_aob(aob);
-					q->u.out.aobs[n] = NULL;
-				}
-			}
-
-			qdio_disable_async_operation(&q->u.out);
-		}
-	}
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void qdio_fill_qdr_desc(struct qdesfmt0 *desc, struct qdio_q *queue)
 {
 	desc->sliba = virt_to_phys(queue->slib);
@@ -503,17 +446,8 @@ int qdio_setup_irq(struct qdio_irq *irq_ptr, struct qdio_initialize *init_data)
 	ccw_device_get_schid(cdev, &irq_ptr->schid);
 	setup_queues(irq_ptr, init_data);
 
-<<<<<<< HEAD
 	irq_ptr->irq_poll = init_data->irq_poll;
 	set_bit(QDIO_IRQ_DISABLED, &irq_ptr->poll_state);
-=======
-	if (init_data->irq_poll) {
-		irq_ptr->irq_poll = init_data->irq_poll;
-		set_bit(QDIO_IRQ_DISABLED, &irq_ptr->poll_state);
-	} else {
-		irq_ptr->irq_poll = NULL;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	setup_qib(irq_ptr, init_data);
 	set_impl_params(irq_ptr, init_data->qib_param_field_format,
@@ -583,28 +517,6 @@ void qdio_print_subchannel_info(struct qdio_irq *irq_ptr)
 	printk(KERN_INFO "%s", s);
 }
 
-<<<<<<< HEAD
-=======
-int qdio_enable_async_operation(struct qdio_output_q *outq)
-{
-	outq->aobs = kcalloc(QDIO_MAX_BUFFERS_PER_Q, sizeof(struct qaob *),
-			     GFP_KERNEL);
-	if (!outq->aobs) {
-		outq->use_cq = 0;
-		return -ENOMEM;
-	}
-	outq->use_cq = 1;
-	return 0;
-}
-
-void qdio_disable_async_operation(struct qdio_output_q *q)
-{
-	kfree(q->aobs);
-	q->aobs = NULL;
-	q->use_cq = 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __init qdio_setup_init(void)
 {
 	int rc;

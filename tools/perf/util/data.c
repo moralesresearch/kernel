@@ -35,11 +35,7 @@ void perf_data__close_dir(struct perf_data *data)
 int perf_data__create_dir(struct perf_data *data, int nr)
 {
 	struct perf_data_file *files = NULL;
-<<<<<<< HEAD
 	int i, ret;
-=======
-	int i, ret = -1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (WARN_ON(!data->is_dir))
 		return -EINVAL;
@@ -55,12 +51,8 @@ int perf_data__create_dir(struct perf_data *data, int nr)
 	for (i = 0; i < nr; i++) {
 		struct perf_data_file *file = &files[i];
 
-<<<<<<< HEAD
 		ret = asprintf(&file->path, "%s/data.%d", data->path, i);
 		if (ret < 0)
-=======
-		if (asprintf(&file->path, "%s/data.%d", data->path, i) < 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto out_err;
 
 		ret = open(file->path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);

@@ -24,11 +24,12 @@ config REMOTEPROC_CDEV
 	  It's safe to say N if you don't want to use this interface.
 
 config IMX_REMOTEPROC
-	tristate "IMX6/7 remoteproc support"
+	tristate "i.MX remoteproc support"
 	depends on ARCH_MXC
+	select MAILBOX
 	help
-	  Say y here to support iMX's remote processors (Cortex M4
-	  on iMX7D) via the remote processor framework.
+	  Say y here to support iMX's remote processors via the remote
+	  processor framework.
 
 	  It's safe to say N here.
 
@@ -155,10 +156,7 @@ config QCOM_Q6V5_ADSP
 	depends on RPMSG_QCOM_SMD || (COMPILE_TEST && RPMSG_QCOM_SMD=n)
 	depends on RPMSG_QCOM_GLINK_SMEM || RPMSG_QCOM_GLINK_SMEM=n
 	depends on QCOM_SYSMON || QCOM_SYSMON=n
-<<<<<<< HEAD
 	depends on RPMSG_QCOM_GLINK || RPMSG_QCOM_GLINK=n
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select MFD_SYSCON
 	select QCOM_PIL_INFO
 	select QCOM_MDT_LOADER
@@ -166,13 +164,9 @@ config QCOM_Q6V5_ADSP
 	select QCOM_RPROC_COMMON
 	help
 	  Say y here to support the Peripheral Image Loader
-<<<<<<< HEAD
 	  for the non-TrustZone part of Qualcomm Technology Inc. ADSP and CDSP
 	  remote processors. The TrustZone part is handled by QCOM_Q6V5_PAS
 	  driver.
-=======
-	  for the Qualcomm Technology Inc. ADSP remote processors.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config QCOM_Q6V5_MSS
 	tristate "Qualcomm Hexagon V5 self-authenticating modem subsystem support"
@@ -181,10 +175,7 @@ config QCOM_Q6V5_MSS
 	depends on RPMSG_QCOM_SMD || (COMPILE_TEST && RPMSG_QCOM_SMD=n)
 	depends on RPMSG_QCOM_GLINK_SMEM || RPMSG_QCOM_GLINK_SMEM=n
 	depends on QCOM_SYSMON || QCOM_SYSMON=n
-<<<<<<< HEAD
 	depends on RPMSG_QCOM_GLINK || RPMSG_QCOM_GLINK=n
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select MFD_SYSCON
 	select QCOM_MDT_LOADER
 	select QCOM_PIL_INFO
@@ -193,12 +184,8 @@ config QCOM_Q6V5_MSS
 	select QCOM_SCM
 	help
 	  Say y here to support the Qualcomm self-authenticating modem
-<<<<<<< HEAD
 	  subsystem based on Hexagon V5. The TrustZone based system is
 	  handled by QCOM_Q6V5_PAS driver.
-=======
-	  subsystem based on Hexagon V5.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config QCOM_Q6V5_PAS
 	tristate "Qualcomm Hexagon v5 Peripheral Authentication Service support"
@@ -207,10 +194,7 @@ config QCOM_Q6V5_PAS
 	depends on RPMSG_QCOM_SMD || (COMPILE_TEST && RPMSG_QCOM_SMD=n)
 	depends on RPMSG_QCOM_GLINK_SMEM || RPMSG_QCOM_GLINK_SMEM=n
 	depends on QCOM_SYSMON || QCOM_SYSMON=n
-<<<<<<< HEAD
 	depends on RPMSG_QCOM_GLINK || RPMSG_QCOM_GLINK=n
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select MFD_SYSCON
 	select QCOM_PIL_INFO
 	select QCOM_MDT_LOADER
@@ -220,13 +204,9 @@ config QCOM_Q6V5_PAS
 	help
 	  Say y here to support the TrustZone based Peripheral Image Loader
 	  for the Qualcomm Hexagon v5 based remote processors. This is commonly
-<<<<<<< HEAD
 	  used to control subsystems such as ADSP (Audio DSP),
 	  CDSP (Compute DSP), MPSS (Modem Peripheral SubSystem), and
 	  SLPI (Sensor Low Power Island).
-=======
-	  used to control subsystems such as ADSP, Compute and Sensor.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config QCOM_Q6V5_WCSS
 	tristate "Qualcomm Hexagon based WCSS Peripheral Image Loader"
@@ -235,10 +215,7 @@ config QCOM_Q6V5_WCSS
 	depends on RPMSG_QCOM_SMD || (COMPILE_TEST && RPMSG_QCOM_SMD=n)
 	depends on RPMSG_QCOM_GLINK_SMEM || RPMSG_QCOM_GLINK_SMEM=n
 	depends on QCOM_SYSMON || QCOM_SYSMON=n
-<<<<<<< HEAD
 	depends on RPMSG_QCOM_GLINK || RPMSG_QCOM_GLINK=n
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select MFD_SYSCON
 	select QCOM_MDT_LOADER
 	select QCOM_PIL_INFO
@@ -247,12 +224,8 @@ config QCOM_Q6V5_WCSS
 	select QCOM_SCM
 	help
 	  Say y here to support the Qualcomm Peripheral Image Loader for the
-<<<<<<< HEAD
 	  Hexagon V5 based WCSS remote processors on e.g. IPQ8074.  This is
 	  a non-TrustZone wireless subsystem.
-=======
-	  Hexagon V5 based WCSS remote processors.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config QCOM_SYSMON
 	tristate "Qualcomm sysmon driver"
@@ -276,24 +249,16 @@ config QCOM_WCNSS_PIL
 	depends on RPMSG_QCOM_GLINK_SMEM || RPMSG_QCOM_GLINK_SMEM=n
 	depends on QCOM_SMEM
 	depends on QCOM_SYSMON || QCOM_SYSMON=n
-<<<<<<< HEAD
 	depends on RPMSG_QCOM_GLINK || RPMSG_QCOM_GLINK=n
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select QCOM_MDT_LOADER
 	select QCOM_PIL_INFO
 	select QCOM_RPROC_COMMON
 	select QCOM_SCM
 	help
-<<<<<<< HEAD
 	  Say y here to support the Peripheral Image Loader for loading WCNSS
 	  firmware and boot the core on e.g. MSM8974, MSM8916. The firmware is
 	  verified and booted with the help of the Peripheral Authentication
 	  System (PAS) in TrustZone.
-=======
-	  Say y here to support the Peripheral Image Loader for the Qualcomm
-	  Wireless Connectivity Subsystem.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config ST_REMOTEPROC
 	tristate "ST remoteproc support"

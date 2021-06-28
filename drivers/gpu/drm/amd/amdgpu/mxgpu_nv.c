@@ -276,10 +276,7 @@ static void xgpu_nv_mailbox_flr_work(struct work_struct *work)
 	if (!down_read_trylock(&adev->reset_sem))
 		return;
 
-<<<<<<< HEAD
 	amdgpu_virt_fini_data_exchange(adev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&adev->in_gpu_reset, 1);
 
 	do {

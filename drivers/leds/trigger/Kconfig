@@ -144,7 +144,6 @@ config LEDS_TRIGGER_AUDIO
 	  the audio mute and mic-mute changes.
 	  If unsure, say N
 
-<<<<<<< HEAD
 config LEDS_TRIGGER_TTY
 	tristate "LED Trigger for TTY devices"
 	depends on TTY
@@ -154,6 +153,4 @@ config LEDS_TRIGGER_TTY
 
 	  When build as a module this driver will be called ledtrig-tty.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif # LEDS_TRIGGERS

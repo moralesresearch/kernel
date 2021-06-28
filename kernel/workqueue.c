@@ -50,10 +50,7 @@
 #include <linux/uaccess.h>
 #include <linux/sched/isolation.h>
 #include <linux/nmi.h>
-<<<<<<< HEAD
 #include <linux/kvm_para.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "workqueue_internal.h"
 
@@ -1416,10 +1413,6 @@ static void __queue_work(int cpu, struct workqueue_struct *wq,
 	 */
 	lockdep_assert_irqs_disabled();
 
-<<<<<<< HEAD
-=======
-	debug_work_activate(work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* if draining, only works from the same workqueue are allowed */
 	if (unlikely(wq->flags & __WQ_DRAINING) &&
@@ -1501,10 +1494,7 @@ retry:
 		worklist = &pwq->delayed_works;
 	}
 
-<<<<<<< HEAD
 	debug_work_activate(work);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	insert_work(pwq, work, worklist, work_flags);
 
 out:
@@ -1641,7 +1631,7 @@ static void __queue_delayed_work(int cpu, struct workqueue_struct *wq,
 	struct work_struct *work = &dwork->work;
 
 	WARN_ON_ONCE(!wq);
-	WARN_ON_ONCE(timer->function != delayed_work_timer_fn);
+	WARN_ON_FUNCTION_MISMATCH(timer->function, delayed_work_timer_fn);
 	WARN_ON_ONCE(timer_pending(timer));
 	WARN_ON_ONCE(!list_empty(&work->entry));
 
@@ -2975,13 +2965,8 @@ reflush:
 
 		if (++flush_cnt == 10 ||
 		    (flush_cnt % 100 == 0 && flush_cnt <= 1000))
-<<<<<<< HEAD
 			pr_warn("workqueue %s: %s() isn't complete after %u tries\n",
 				wq->name, __func__, flush_cnt);
-=======
-			pr_warn("workqueue %s: drain_workqueue() isn't complete after %u tries\n",
-				wq->name, flush_cnt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		mutex_unlock(&wq->mutex);
 		goto reflush;
@@ -5788,10 +5773,7 @@ static void wq_watchdog_timer_fn(struct timer_list *unused)
 {
 	unsigned long thresh = READ_ONCE(wq_watchdog_thresh) * HZ;
 	bool lockup_detected = false;
-<<<<<<< HEAD
 	unsigned long now = jiffies;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct worker_pool *pool;
 	int pi;
 
@@ -5806,7 +5788,6 @@ static void wq_watchdog_timer_fn(struct timer_list *unused)
 		if (list_empty(&pool->worklist))
 			continue;
 
-<<<<<<< HEAD
 		/*
 		 * If a virtual machine is stopped by the host it can look to
 		 * the watchdog like a stall.
@@ -5819,41 +5800,19 @@ static void wq_watchdog_timer_fn(struct timer_list *unused)
 		else
 			touched = READ_ONCE(wq_watchdog_touched);
 		pool_ts = READ_ONCE(pool->watchdog_ts);
-=======
-		/* get the latest of pool and touched timestamps */
-		pool_ts = READ_ONCE(pool->watchdog_ts);
-		touched = READ_ONCE(wq_watchdog_touched);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (time_after(pool_ts, touched))
 			ts = pool_ts;
 		else
 			ts = touched;
 
-<<<<<<< HEAD
 		/* did we stall? */
 		if (time_after(now, ts + thresh)) {
-=======
-		if (pool->cpu >= 0) {
-			unsigned long cpu_touched =
-				READ_ONCE(per_cpu(wq_watchdog_touched_cpu,
-						  pool->cpu));
-			if (time_after(cpu_touched, ts))
-				ts = cpu_touched;
-		}
-
-		/* did we stall? */
-		if (time_after(jiffies, ts + thresh)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			lockup_detected = true;
 			pr_emerg("BUG: workqueue lockup - pool");
 			pr_cont_pool_info(pool);
 			pr_cont(" stuck for %us!\n",
-<<<<<<< HEAD
 				jiffies_to_msecs(now - pool_ts) / 1000);
-=======
-				jiffies_to_msecs(jiffies - pool_ts) / 1000);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -5870,13 +5829,8 @@ notrace void wq_watchdog_touch(int cpu)
 {
 	if (cpu >= 0)
 		per_cpu(wq_watchdog_touched_cpu, cpu) = jiffies;
-<<<<<<< HEAD
 
 	wq_watchdog_touched = jiffies;
-=======
-	else
-		wq_watchdog_touched = jiffies;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void wq_watchdog_set_thresh(unsigned long thresh)

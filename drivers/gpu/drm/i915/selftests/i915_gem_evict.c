@@ -38,13 +38,8 @@ static void quirk_add(struct drm_i915_gem_object *obj,
 		      struct list_head *objects)
 {
 	/* quirk is only for live tiled objects, use it to declare ownership */
-<<<<<<< HEAD
 	GEM_BUG_ON(i915_gem_object_has_tiling_quirk(obj));
 	i915_gem_object_set_tiling_quirk(obj);
-=======
-	GEM_BUG_ON(obj->mm.quirked);
-	obj->mm.quirked = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add(&obj->st_link, objects);
 }
 
@@ -90,11 +85,7 @@ static void unpin_ggtt(struct i915_ggtt *ggtt)
 	struct i915_vma *vma;
 
 	list_for_each_entry(vma, &ggtt->vm.bound_list, vm_link)
-<<<<<<< HEAD
 		if (i915_gem_object_has_tiling_quirk(vma->obj))
-=======
-		if (vma->obj->mm.quirked)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			i915_vma_unpin(vma);
 }
 
@@ -103,13 +94,8 @@ static void cleanup_objects(struct i915_ggtt *ggtt, struct list_head *list)
 	struct drm_i915_gem_object *obj, *on;
 
 	list_for_each_entry_safe(obj, on, list, st_link) {
-<<<<<<< HEAD
 		GEM_BUG_ON(!i915_gem_object_has_tiling_quirk(obj));
 		i915_gem_object_set_tiling_quirk(obj);
-=======
-		GEM_BUG_ON(!obj->mm.quirked);
-		obj->mm.quirked = false;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i915_gem_object_put(obj);
 	}
 
@@ -456,45 +442,22 @@ static int igt_evict_contexts(void *arg)
 	/* Overfill the GGTT with context objects and so try to evict one. */
 	for_each_engine(engine, gt, id) {
 		struct i915_sw_fence fence;
-<<<<<<< HEAD
-=======
-		struct file *file;
-
-		file = mock_file(i915);
-		if (IS_ERR(file)) {
-			err = PTR_ERR(file);
-			break;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		count = 0;
 		onstack_fence_init(&fence);
 		do {
-<<<<<<< HEAD
 			struct intel_context *ce;
 			struct i915_request *rq;
 
 			ce = intel_context_create(engine);
 			if (IS_ERR(ce))
-=======
-			struct i915_request *rq;
-			struct i915_gem_context *ctx;
-
-			ctx = live_context(i915, file);
-			if (IS_ERR(ctx))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 
 			/* We will need some GGTT space for the rq's context */
 			igt_evict_ctl.fail_if_busy = true;
-<<<<<<< HEAD
 			rq = intel_context_create_request(ce);
 			igt_evict_ctl.fail_if_busy = false;
 			intel_context_put(ce);
-=======
-			rq = igt_request_alloc(ctx, engine);
-			igt_evict_ctl.fail_if_busy = false;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (IS_ERR(rq)) {
 				/* When full, fail_if_busy will trigger EBUSY */
@@ -521,11 +484,6 @@ static int igt_evict_contexts(void *arg)
 		onstack_fence_fini(&fence);
 		pr_info("Submitted %lu contexts/requests on %s\n",
 			count, engine->name);
-<<<<<<< HEAD
-=======
-
-		fput(file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			break;
 	}

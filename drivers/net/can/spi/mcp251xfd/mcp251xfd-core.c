@@ -2,8 +2,8 @@
 //
 // mcp251xfd - Microchip MCP251xFD Family CAN controller driver
 //
-// Copyright (c) 2019, 2020 Pengutronix,
-//                          Marc Kleine-Budde <kernel@pengutronix.de>
+// Copyright (c) 2019, 2020, 2021 Pengutronix,
+//               Marc Kleine-Budde <kernel@pengutronix.de>
 //
 // Based on:
 //
@@ -16,7 +16,6 @@
 #include <linux/clk.h>
 #include <linux/device.h>
 #include <linux/module.h>
-#include <linux/netdevice.h>
 #include <linux/of.h>
 #include <linux/of_device.h>
 #include <linux/pm_runtime.h>
@@ -330,10 +329,13 @@ static void mcp251xfd_ring_init(struct mcp251xfd_priv *priv)
 	struct mcp251xfd_tx_ring *tx_ring;
 	struct mcp251xfd_rx_ring *rx_ring, *prev_rx_ring = NULL;
 	struct mcp251xfd_tx_obj *tx_obj;
+	struct spi_transfer *xfer;
 	u32 val;
 	u16 addr;
 	u8 len;
 	int i, j;
+
+	netdev_reset_queue(priv->ndev);
 
 	/* TEF */
 	tef_ring = priv->tef;
@@ -347,8 +349,6 @@ static void mcp251xfd_ring_init(struct mcp251xfd_priv *priv)
 					      addr, val, val);
 
 	for (j = 0; j < ARRAY_SIZE(tef_ring->uinc_xfer); j++) {
-		struct spi_transfer *xfer;
-
 		xfer = &tef_ring->uinc_xfer[j];
 		xfer->tx_buf = &tef_ring->uinc_buf;
 		xfer->len = len;
@@ -356,6 +356,15 @@ static void mcp251xfd_ring_init(struct mcp251xfd_priv *priv)
 		xfer->cs_change_delay.value = 0;
 		xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
 	}
+
+	/* "cs_change == 1" on the last transfer results in an active
+	 * chip select after the complete SPI message. This causes the
+	 * controller to interpret the next register access as
+	 * data. Set "cs_change" of the last transfer to "0" to
+	 * properly deactivate the chip select at the end of the
+	 * message.
+	 */
+	xfer->cs_change = 0;
 
 	/* TX */
 	tx_ring = priv->tx;
@@ -397,8 +406,6 @@ static void mcp251xfd_ring_init(struct mcp251xfd_priv *priv)
 						      addr, val, val);
 
 		for (j = 0; j < ARRAY_SIZE(rx_ring->uinc_xfer); j++) {
-			struct spi_transfer *xfer;
-
 			xfer = &rx_ring->uinc_xfer[j];
 			xfer->tx_buf = &rx_ring->uinc_buf;
 			xfer->len = len;
@@ -406,6 +413,15 @@ static void mcp251xfd_ring_init(struct mcp251xfd_priv *priv)
 			xfer->cs_change_delay.value = 0;
 			xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
 		}
+
+		/* "cs_change == 1" on the last transfer results in an
+		 * active chip select after the complete SPI
+		 * message. This causes the controller to interpret
+		 * the next register access as data. Set "cs_change"
+		 * of the last transfer to "0" to properly deactivate
+		 * the chip select at the end of the message.
+		 */
+		xfer->cs_change = 0;
 	}
 }
 
@@ -594,23 +610,9 @@ static int mcp251xfd_chip_clock_enable(const struct mcp251xfd_priv *priv)
 			   "Timeout waiting for Oscillator Ready (osc=0x%08x, osc_reference=0x%08x)\n",
 			   osc, osc_reference);
 		return -ETIMEDOUT;
-<<<<<<< HEAD
 	}
 
 	return err;
-=======
-<<<<<<< HEAD
-	}
-
-	return err;
-=======
-	} else if (err) {
-		return err;
-	}
-
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mcp251xfd_chip_softreset_do(const struct mcp251xfd_priv *priv)
@@ -661,15 +663,7 @@ static int mcp251xfd_chip_softreset_check(const struct mcp251xfd_priv *priv)
 
 	if (osc != osc_reference) {
 		netdev_info(priv->ndev,
-<<<<<<< HEAD
 			    "Controller failed to reset. osc=0x%08x, reference value=0x%08x.\n",
-=======
-<<<<<<< HEAD
-			    "Controller failed to reset. osc=0x%08x, reference value=0x%08x.\n",
-=======
-			    "Controller failed to reset. osc=0x%08x, reference value=0x%08x\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    osc, osc_reference);
 		return -ETIMEDOUT;
 	}
@@ -684,15 +678,7 @@ static int mcp251xfd_chip_softreset(const struct mcp251xfd_priv *priv)
 	for (i = 0; i < MCP251XFD_SOFTRESET_RETRIES_MAX; i++) {
 		if (i)
 			netdev_info(priv->ndev,
-<<<<<<< HEAD
 				    "Retrying to reset controller.\n");
-=======
-<<<<<<< HEAD
-				    "Retrying to reset controller.\n");
-=======
-				    "Retrying to reset Controller.\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		err = mcp251xfd_chip_softreset_do(priv);
 		if (err == -ETIMEDOUT)
@@ -1127,6 +1113,7 @@ static int mcp251xfd_chip_start(struct mcp251xfd_priv *priv)
 	return 0;
 
  out_chip_stop:
+	mcp251xfd_dump(priv);
 	mcp251xfd_chip_stop(priv, CAN_STATE_STOPPED);
 
 	return err;
@@ -1265,15 +1252,7 @@ mcp251xfd_handle_tefif_recover(const struct mcp251xfd_priv *priv, const u32 seq)
 	}
 
 	netdev_info(priv->ndev,
-<<<<<<< HEAD
 		    "Transmit Event FIFO buffer %s. (seq=0x%08x, tef_tail=0x%08x, tef_head=0x%08x, tx_head=0x%08x).\n",
-=======
-<<<<<<< HEAD
-		    "Transmit Event FIFO buffer %s. (seq=0x%08x, tef_tail=0x%08x, tef_head=0x%08x, tx_head=0x%08x).\n",
-=======
-		    "Transmit Event FIFO buffer %s. (seq=0x%08x, tef_tail=0x%08x, tef_head=0x%08x, tx_head=0x%08x)\n",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    tef_sta & MCP251XFD_REG_TEFSTA_TEFFIF ?
 		    "full" : tef_sta & MCP251XFD_REG_TEFSTA_TEFNEIF ?
 		    "not empty" : "empty",
@@ -1285,10 +1264,12 @@ mcp251xfd_handle_tefif_recover(const struct mcp251xfd_priv *priv, const u32 seq)
 
 static int
 mcp251xfd_handle_tefif_one(struct mcp251xfd_priv *priv,
-			   const struct mcp251xfd_hw_tef_obj *hw_tef_obj)
+			   const struct mcp251xfd_hw_tef_obj *hw_tef_obj,
+			   unsigned int *frame_len_ptr)
 {
 	struct net_device_stats *stats = &priv->ndev->stats;
-	u32 seq, seq_masked, tef_tail_masked;
+	struct sk_buff *skb;
+	u32 seq, seq_masked, tef_tail_masked, tef_tail;
 
 	seq = FIELD_GET(MCP251XFD_OBJ_FLAGS_SEQ_MCP2518FD_MASK,
 			hw_tef_obj->flags);
@@ -1304,18 +1285,14 @@ mcp251xfd_handle_tefif_one(struct mcp251xfd_priv *priv,
 	if (seq_masked != tef_tail_masked)
 		return mcp251xfd_handle_tefif_recover(priv, seq);
 
+	tef_tail = mcp251xfd_get_tef_tail(priv);
+	skb = priv->can.echo_skb[tef_tail];
+	if (skb)
+		mcp251xfd_skb_set_timestamp(priv, skb, hw_tef_obj->ts);
 	stats->tx_bytes +=
 		can_rx_offload_get_echo_skb(&priv->offload,
-					    mcp251xfd_get_tef_tail(priv),
-<<<<<<< HEAD
-					    hw_tef_obj->ts, NULL);
-=======
-<<<<<<< HEAD
-					    hw_tef_obj->ts, NULL);
-=======
-					    hw_tef_obj->ts);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+					    tef_tail, hw_tef_obj->ts,
+					    frame_len_ptr);
 	stats->tx_packets++;
 	priv->tef->tail++;
 
@@ -1352,14 +1329,7 @@ mcp251xfd_tef_obj_read(const struct mcp251xfd_priv *priv,
 		       const u8 offset, const u8 len)
 {
 	const struct mcp251xfd_tx_ring *tx_ring = priv->tx;
-<<<<<<< HEAD
 	const int val_bytes = regmap_get_val_bytes(priv->map_rx);
-=======
-<<<<<<< HEAD
-	const int val_bytes = regmap_get_val_bytes(priv->map_rx);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (IS_ENABLED(CONFIG_CAN_MCP251XFD_SANITY) &&
 	    (offset > tx_ring->obj_num ||
@@ -1374,20 +1344,13 @@ mcp251xfd_tef_obj_read(const struct mcp251xfd_priv *priv,
 	return regmap_bulk_read(priv->map_rx,
 				mcp251xfd_get_tef_obj_addr(offset),
 				hw_tef_obj,
-<<<<<<< HEAD
 				sizeof(*hw_tef_obj) / val_bytes * len);
-=======
-<<<<<<< HEAD
-				sizeof(*hw_tef_obj) / val_bytes * len);
-=======
-				sizeof(*hw_tef_obj) / sizeof(u32) * len);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mcp251xfd_handle_tefif(struct mcp251xfd_priv *priv)
 {
 	struct mcp251xfd_hw_tef_obj hw_tef_obj[MCP251XFD_TX_OBJ_NUM_MAX];
+	unsigned int total_frame_len = 0;
 	u8 tef_tail, len, l;
 	int err, i;
 
@@ -1409,7 +1372,9 @@ static int mcp251xfd_handle_tefif(struct mcp251xfd_priv *priv)
 	}
 
 	for (i = 0; i < len; i++) {
-		err = mcp251xfd_handle_tefif_one(priv, &hw_tef_obj[i]);
+		unsigned int frame_len = 0;
+
+		err = mcp251xfd_handle_tefif_one(priv, &hw_tef_obj[i], &frame_len);
 		/* -EAGAIN means the Sequence Number in the TEF
 		 * doesn't match our tef_tail. This can happen if we
 		 * read the TEF objects too early. Leave loop let the
@@ -1419,6 +1384,8 @@ static int mcp251xfd_handle_tefif(struct mcp251xfd_priv *priv)
 			goto out_netif_wake_queue;
 		if (err)
 			return err;
+
+		total_frame_len += frame_len;
 	}
 
  out_netif_wake_queue:
@@ -1426,29 +1393,25 @@ static int mcp251xfd_handle_tefif(struct mcp251xfd_priv *priv)
 	if (len) {
 		struct mcp251xfd_tef_ring *ring = priv->tef;
 		struct mcp251xfd_tx_ring *tx_ring = priv->tx;
-		struct spi_transfer *last_xfer;
+		int offset;
 
 		/* Increment the TEF FIFO tail pointer 'len' times in
 		 * a single SPI message.
 		 *
 		 * Note:
-		 *
-		 * "cs_change == 1" on the last transfer results in an
-		 * active chip select after the complete SPI
-		 * message. This causes the controller to interpret
-		 * the next register access as data. Temporary set
-		 * "cs_change" of the last transfer to "0" to properly
-		 * deactivate the chip select at the end of the
-		 * message.
+		 * Calculate offset, so that the SPI transfer ends on
+		 * the last message of the uinc_xfer array, which has
+		 * "cs_change == 0", to properly deactivate the chip
+		 * select.
 		 */
-		last_xfer = &ring->uinc_xfer[len - 1];
-		last_xfer->cs_change = 0;
-		err = spi_sync_transfer(priv->spi, ring->uinc_xfer, len);
-		last_xfer->cs_change = 1;
+		offset = ARRAY_SIZE(ring->uinc_xfer) - len;
+		err = spi_sync_transfer(priv->spi,
+					ring->uinc_xfer + offset, len);
 		if (err)
 			return err;
 
 		tx_ring->tail += len;
+		netdev_completed_queue(priv->ndev, len, total_frame_len);
 
 		err = mcp251xfd_check_tef_tail(priv);
 		if (err)
@@ -1493,19 +1456,12 @@ mcp251xfd_rx_ring_update(const struct mcp251xfd_priv *priv,
 }
 
 static void
-mcp251xfd_hw_rx_obj_to_skb(const struct mcp251xfd_priv *priv,
+mcp251xfd_hw_rx_obj_to_skb(struct mcp251xfd_priv *priv,
 			   const struct mcp251xfd_hw_rx_obj_canfd *hw_rx_obj,
 			   struct sk_buff *skb)
 {
 	struct canfd_frame *cfd = (struct canfd_frame *)skb->data;
-<<<<<<< HEAD
 	u8 dlc;
-=======
-<<<<<<< HEAD
-	u8 dlc;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_IDE) {
 		u32 sid, eid;
@@ -1521,22 +1477,10 @@ mcp251xfd_hw_rx_obj_to_skb(const struct mcp251xfd_priv *priv,
 					hw_rx_obj->id);
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dlc = FIELD_GET(MCP251XFD_OBJ_FLAGS_DLC_MASK, hw_rx_obj->flags);
 
 	/* CANFD */
 	if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_FDF) {
-<<<<<<< HEAD
-=======
-=======
-	/* CANFD */
-	if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_FDF) {
-		u8 dlc;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_ESI)
 			cfd->flags |= CANFD_ESI;
@@ -1544,38 +1488,19 @@ mcp251xfd_hw_rx_obj_to_skb(const struct mcp251xfd_priv *priv,
 		if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_BRS)
 			cfd->flags |= CANFD_BRS;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		dlc = FIELD_GET(MCP251XFD_OBJ_FLAGS_DLC, hw_rx_obj->flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cfd->len = can_fd_dlc2len(dlc);
 	} else {
 		if (hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_RTR)
 			cfd->can_id |= CAN_RTR_FLAG;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		can_frame_set_cc_len((struct can_frame *)cfd, dlc,
 				     priv->can.ctrlmode);
 	}
 
 	if (!(hw_rx_obj->flags & MCP251XFD_OBJ_FLAGS_RTR))
 		memcpy(cfd->data, hw_rx_obj->data, cfd->len);
-<<<<<<< HEAD
-=======
-=======
-		cfd->len = can_cc_dlc2len(FIELD_GET(MCP251XFD_OBJ_FLAGS_DLC,
-						 hw_rx_obj->flags));
-	}
 
-	memcpy(cfd->data, hw_rx_obj->data, cfd->len);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	mcp251xfd_skb_set_timestamp(priv, skb, hw_rx_obj->ts);
 }
 
 static int
@@ -1612,28 +1537,13 @@ mcp251xfd_rx_obj_read(const struct mcp251xfd_priv *priv,
 		      struct mcp251xfd_hw_rx_obj_canfd *hw_rx_obj,
 		      const u8 offset, const u8 len)
 {
-<<<<<<< HEAD
 	const int val_bytes = regmap_get_val_bytes(priv->map_rx);
-=======
-<<<<<<< HEAD
-	const int val_bytes = regmap_get_val_bytes(priv->map_rx);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	err = regmap_bulk_read(priv->map_rx,
 			       mcp251xfd_get_rx_obj_addr(ring, offset),
 			       hw_rx_obj,
-<<<<<<< HEAD
 			       len * ring->obj_size / val_bytes);
-=======
-<<<<<<< HEAD
-			       len * ring->obj_size / val_bytes);
-=======
-			       len * ring->obj_size / sizeof(u32));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -1651,7 +1561,7 @@ mcp251xfd_handle_rxif_ring(struct mcp251xfd_priv *priv,
 		return err;
 
 	while ((len = mcp251xfd_get_rx_linear_len(ring))) {
-		struct spi_transfer *last_xfer;
+		int offset;
 
 		rx_tail = mcp251xfd_get_rx_tail(ring);
 
@@ -1672,19 +1582,14 @@ mcp251xfd_handle_rxif_ring(struct mcp251xfd_priv *priv,
 		 * single SPI message.
 		 *
 		 * Note:
-		 *
-		 * "cs_change == 1" on the last transfer results in an
-		 * active chip select after the complete SPI
-		 * message. This causes the controller to interpret
-		 * the next register access as data. Temporary set
-		 * "cs_change" of the last transfer to "0" to properly
-		 * deactivate the chip select at the end of the
-		 * message.
+		 * Calculate offset, so that the SPI transfer ends on
+		 * the last message of the uinc_xfer array, which has
+		 * "cs_change == 0", to properly deactivate the chip
+		 * select.
 		 */
-		last_xfer = &ring->uinc_xfer[len - 1];
-		last_xfer->cs_change = 0;
-		err = spi_sync_transfer(priv->spi, ring->uinc_xfer, len);
-		last_xfer->cs_change = 1;
+		offset = ARRAY_SIZE(ring->uinc_xfer) - len;
+		err = spi_sync_transfer(priv->spi,
+					ring->uinc_xfer + offset, len);
 		if (err)
 			return err;
 
@@ -1708,23 +1613,22 @@ static int mcp251xfd_handle_rxif(struct mcp251xfd_priv *priv)
 	return 0;
 }
 
-static inline int mcp251xfd_get_timestamp(const struct mcp251xfd_priv *priv,
-					  u32 *timestamp)
-{
-	return regmap_read(priv->map_reg, MCP251XFD_REG_TBC, timestamp);
-}
-
 static struct sk_buff *
-mcp251xfd_alloc_can_err_skb(const struct mcp251xfd_priv *priv,
+mcp251xfd_alloc_can_err_skb(struct mcp251xfd_priv *priv,
 			    struct can_frame **cf, u32 *timestamp)
 {
+	struct sk_buff *skb;
 	int err;
 
 	err = mcp251xfd_get_timestamp(priv, timestamp);
 	if (err)
 		return NULL;
 
-	return alloc_can_err_skb(priv->ndev, cf);
+	skb = alloc_can_err_skb(priv->ndev, cf);
+	if (skb)
+		mcp251xfd_skb_set_timestamp(priv, skb, *timestamp);
+
+	return skb;
 }
 
 static int mcp251xfd_handle_rxovif(struct mcp251xfd_priv *priv)
@@ -1876,6 +1780,7 @@ static int mcp251xfd_handle_ivmif(struct mcp251xfd_priv *priv)
 	if (!cf)
 		return 0;
 
+	mcp251xfd_skb_set_timestamp(priv, skb, timestamp);
 	err = can_rx_offload_queue_sorted(&priv->offload, skb, timestamp);
 	if (err)
 		stats->rx_fifo_errors++;
@@ -1995,15 +1900,7 @@ mcp251xfd_handle_modif(const struct mcp251xfd_priv *priv, bool *set_normal_mode)
 			   "Controller changed into %s Mode (%u).\n",
 			   mcp251xfd_get_mode_str(mode), mode);
 
-<<<<<<< HEAD
 	/* After the application requests Normal mode, the controller
-=======
-<<<<<<< HEAD
-	/* After the application requests Normal mode, the controller
-=======
-	/* After the application requests Normal mode, the Controller
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * will automatically attempt to retransmit the message that
 	 * caused the TX MAB underflow.
 	 *
@@ -2263,14 +2160,7 @@ static int mcp251xfd_handle_spicrcif(struct mcp251xfd_priv *priv)
 static irqreturn_t mcp251xfd_irq(int irq, void *dev_id)
 {
 	struct mcp251xfd_priv *priv = dev_id;
-<<<<<<< HEAD
 	const int val_bytes = regmap_get_val_bytes(priv->map_reg);
-=======
-<<<<<<< HEAD
-	const int val_bytes = regmap_get_val_bytes(priv->map_reg);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	irqreturn_t handled = IRQ_NONE;
 	int err;
 
@@ -2296,15 +2186,7 @@ static irqreturn_t mcp251xfd_irq(int irq, void *dev_id)
 		err = regmap_bulk_read(priv->map_reg, MCP251XFD_REG_INT,
 				       &priv->regs_status,
 				       sizeof(priv->regs_status) /
-<<<<<<< HEAD
 				       val_bytes);
-=======
-<<<<<<< HEAD
-				       val_bytes);
-=======
-				       sizeof(u32));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out_fail;
 
@@ -2416,6 +2298,7 @@ static irqreturn_t mcp251xfd_irq(int irq, void *dev_id)
  out_fail:
 	netdev_err(priv->ndev, "IRQ handler returned %d (intf=0x%08x).\n",
 		   err, priv->regs_status.intf);
+	mcp251xfd_dump(priv);
 	mcp251xfd_chip_interrupts_disable(priv);
 
 	return handled;
@@ -2442,15 +2325,7 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 	union mcp251xfd_tx_obj_load_buf *load_buf;
 	u8 dlc;
 	u32 id, flags;
-<<<<<<< HEAD
 	int len_sanitized = 0, len;
-=======
-<<<<<<< HEAD
-	int len_sanitized = 0, len;
-=======
-	int offset, len;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cfd->can_id & CAN_EFF_FLAG) {
 		u32 sid, eid;
@@ -2471,27 +2346,12 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 	 * harm, only the lower 7 bits will be transferred into the
 	 * TEF object.
 	 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flags |= FIELD_PREP(MCP251XFD_OBJ_FLAGS_SEQ_MCP2518FD_MASK, seq);
 
 	if (cfd->can_id & CAN_RTR_FLAG)
 		flags |= MCP251XFD_OBJ_FLAGS_RTR;
 	else
 		len_sanitized = canfd_sanitize_len(cfd->len);
-<<<<<<< HEAD
-=======
-=======
-	dlc = can_fd_len2dlc(cfd->len);
-	flags |= FIELD_PREP(MCP251XFD_OBJ_FLAGS_SEQ_MCP2518FD_MASK, seq) |
-		FIELD_PREP(MCP251XFD_OBJ_FLAGS_DLC, dlc);
-
-	if (cfd->can_id & CAN_RTR_FLAG)
-		flags |= MCP251XFD_OBJ_FLAGS_RTR;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* CANFD */
 	if (can_is_canfd_skb(skb)) {
@@ -2502,10 +2362,6 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 
 		if (cfd->flags & CANFD_BRS)
 			flags |= MCP251XFD_OBJ_FLAGS_BRS;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		dlc = can_fd_len2dlc(cfd->len);
 	} else {
@@ -2515,13 +2371,6 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 
 	flags |= FIELD_PREP(MCP251XFD_OBJ_FLAGS_DLC_MASK, dlc);
 
-<<<<<<< HEAD
-=======
-=======
-	}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	load_buf = &tx_obj->buf;
 	if (priv->devtype_data.quirks & MCP251XFD_QUIRK_CRC_TX)
 		hw_tx_obj = &load_buf->crc.hw_tx_obj;
@@ -2531,10 +2380,6 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 	put_unaligned_le32(id, &hw_tx_obj->id);
 	put_unaligned_le32(flags, &hw_tx_obj->flags);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Copy data */
 	memcpy(hw_tx_obj->data, cfd->data, cfd->len);
 
@@ -2551,22 +2396,6 @@ mcp251xfd_tx_obj_from_skb(const struct mcp251xfd_priv *priv,
 	len = sizeof(hw_tx_obj->id) + sizeof(hw_tx_obj->flags);
 	if (MCP251XFD_SANITIZE_CAN)
 		len += round_up(len_sanitized, sizeof(u32));
-<<<<<<< HEAD
-=======
-=======
-	/* Clear data at end of CAN frame */
-	offset = round_down(cfd->len, sizeof(u32));
-	len = round_up(can_fd_dlc2len(dlc), sizeof(u32)) - offset;
-	if (MCP251XFD_SANITIZE_CAN && len)
-		memset(hw_tx_obj->data + offset, 0x0, len);
-	memcpy(hw_tx_obj->data, cfd->data, cfd->len);
-
-	/* Number of bytes to be written into the RAM of the controller */
-	len = sizeof(hw_tx_obj->id) + sizeof(hw_tx_obj->flags);
-	if (MCP251XFD_SANITIZE_CAN)
-		len += round_up(can_fd_dlc2len(dlc), sizeof(u32));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		len += round_up(cfd->len, sizeof(u32));
 
@@ -2626,6 +2455,7 @@ static netdev_tx_t mcp251xfd_start_xmit(struct sk_buff *skb,
 	struct mcp251xfd_priv *priv = netdev_priv(ndev);
 	struct mcp251xfd_tx_ring *tx_ring = priv->tx;
 	struct mcp251xfd_tx_obj *tx_obj;
+	unsigned int frame_len;
 	u8 tx_head;
 	int err;
 
@@ -2641,23 +2471,13 @@ static netdev_tx_t mcp251xfd_start_xmit(struct sk_buff *skb,
 	/* Stop queue if we occupy the complete TX FIFO */
 	tx_head = mcp251xfd_get_tx_head(tx_ring);
 	tx_ring->head++;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mcp251xfd_get_tx_free(tx_ring) == 0)
 		netif_stop_queue(ndev);
 
-	can_put_echo_skb(skb, ndev, tx_head, 0);
-<<<<<<< HEAD
-=======
-=======
-	if (tx_ring->head - tx_ring->tail >= tx_ring->obj_num)
-		netif_stop_queue(ndev);
-
-	can_put_echo_skb(skb, ndev, tx_head);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	frame_len = can_skb_get_frame_len(skb);
+	err = can_put_echo_skb(skb, ndev, tx_head, frame_len);
+	if (!err)
+		netdev_sent_queue(priv->ndev, frame_len);
 
 	err = mcp251xfd_tx_obj_write(priv, tx_obj);
 	if (err)
@@ -2699,6 +2519,7 @@ static int mcp251xfd_open(struct net_device *ndev)
 	if (err)
 		goto out_transceiver_disable;
 
+	mcp251xfd_timestamp_init(priv);
 	can_rx_offload_enable(&priv->offload);
 
 	err = request_threaded_irq(spi->irq, NULL, mcp251xfd_irq,
@@ -2719,6 +2540,7 @@ static int mcp251xfd_open(struct net_device *ndev)
 	free_irq(spi->irq, priv);
  out_can_rx_offload_disable:
 	can_rx_offload_disable(&priv->offload);
+	mcp251xfd_timestamp_stop(priv);
  out_transceiver_disable:
 	mcp251xfd_transceiver_disable(priv);
  out_mcp251xfd_ring_free:
@@ -2740,6 +2562,7 @@ static int mcp251xfd_stop(struct net_device *ndev)
 	mcp251xfd_chip_interrupts_disable(priv);
 	free_irq(ndev->irq, priv);
 	can_rx_offload_disable(&priv->offload);
+	mcp251xfd_timestamp_stop(priv);
 	mcp251xfd_chip_stop(priv, CAN_STATE_STOPPED);
 	mcp251xfd_transceiver_disable(priv);
 	mcp251xfd_ring_free(priv);
@@ -3042,10 +2865,6 @@ static int mcp251xfd_probe(struct spi_device *spi)
 
 	rx_int = devm_gpiod_get_optional(&spi->dev, "microchip,rx-int",
 					 GPIOD_IN);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(rx_int))
 		return dev_err_probe(&spi->dev, PTR_ERR(rx_int),
 				     "Failed to get RX-INT!\n");
@@ -3066,41 +2885,8 @@ static int mcp251xfd_probe(struct spi_device *spi)
 
 	clk = devm_clk_get(&spi->dev, NULL);
 	if (IS_ERR(clk))
-<<<<<<< HEAD
 		return dev_err_probe(&spi->dev, PTR_ERR(clk),
 				     "Failed to get Oscillator (clock)!\n");
-=======
-		dev_err_probe(&spi->dev, PTR_ERR(clk),
-			      "Failed to get Oscillator (clock)!\n");
-=======
-	if (PTR_ERR(rx_int) == -EPROBE_DEFER)
-		return -EPROBE_DEFER;
-	else if (IS_ERR(rx_int))
-		return PTR_ERR(rx_int);
-
-	reg_vdd = devm_regulator_get_optional(&spi->dev, "vdd");
-	if (PTR_ERR(reg_vdd) == -EPROBE_DEFER)
-		return -EPROBE_DEFER;
-	else if (PTR_ERR(reg_vdd) == -ENODEV)
-		reg_vdd = NULL;
-	else if (IS_ERR(reg_vdd))
-		return PTR_ERR(reg_vdd);
-
-	reg_xceiver = devm_regulator_get_optional(&spi->dev, "xceiver");
-	if (PTR_ERR(reg_xceiver) == -EPROBE_DEFER)
-		return -EPROBE_DEFER;
-	else if (PTR_ERR(reg_xceiver) == -ENODEV)
-		reg_xceiver = NULL;
-	else if (IS_ERR(reg_xceiver))
-		return PTR_ERR(reg_xceiver);
-
-	clk = devm_clk_get(&spi->dev, NULL);
-	if (IS_ERR(clk)) {
-		dev_err(&spi->dev, "No Oscillator (clock) defined.\n");
-		return PTR_ERR(clk);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	freq = clk_get_rate(clk);
 
 	/* Sanity check */
@@ -3139,17 +2925,8 @@ static int mcp251xfd_probe(struct spi_device *spi)
 	priv->can.data_bittiming_const = &mcp251xfd_data_bittiming_const;
 	priv->can.ctrlmode_supported = CAN_CTRLMODE_LOOPBACK |
 		CAN_CTRLMODE_LISTENONLY | CAN_CTRLMODE_BERR_REPORTING |
-<<<<<<< HEAD
 		CAN_CTRLMODE_FD | CAN_CTRLMODE_FD_NON_ISO |
 		CAN_CTRLMODE_CC_LEN8_DLC;
-=======
-<<<<<<< HEAD
-		CAN_CTRLMODE_FD | CAN_CTRLMODE_FD_NON_ISO |
-		CAN_CTRLMODE_CC_LEN8_DLC;
-=======
-		CAN_CTRLMODE_FD | CAN_CTRLMODE_FD_NON_ISO;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv->ndev = ndev;
 	priv->spi = spi;
 	priv->rx_int = rx_int;
@@ -3178,10 +2955,6 @@ static int mcp251xfd_probe(struct spi_device *spi)
 	 * Ensure that FSCK is less than or equal to 0.85 *
 	 * (FSYSCLK/2).
 	 *
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Known good combinations are:
 	 *
 	 * MCP	ext-clk	SoC			SPI			SPI-clk		max-clk	parent-clk	config
@@ -3192,23 +2965,6 @@ static int mcp251xfd_probe(struct spi_device *spi)
 	 * 2518	40 MHz	atmel,sama5d27		atmel,at91rm9200-spi	16400000 Hz	 82.00%	 82000000 Hz	default
 	 * 2518	40 MHz	fsl,imx6dl		fsl,imx51-ecspi		15000000 Hz	 75.00%	 30000000 Hz	default
 	 * 2517	20 MHz	fsl,imx8mm		fsl,imx51-ecspi		 8333333 Hz	 83.33%	 16666667 Hz	assigned-clocks = <&clk IMX8MM_CLK_ECSPIx_ROOT>
-<<<<<<< HEAD
-=======
-=======
-	 * Known good and bad combinations are:
-	 *
-	 * MCP	ext-clk	SoC			SPI			SPI-clk		max-clk	parent-clk	Status	config
-	 *
-	 * 2518	20 MHz	allwinner,sun8i-h3	allwinner,sun8i-h3-spi	 8333333 Hz	 83.33%	600000000 Hz	good	assigned-clocks = <&ccu CLK_SPIx>
-	 * 2518	20 MHz	allwinner,sun8i-h3	allwinner,sun8i-h3-spi	 9375000 Hz	 93.75%	600000000 Hz	bad	assigned-clocks = <&ccu CLK_SPIx>
-	 * 2518	40 MHz	allwinner,sun8i-h3	allwinner,sun8i-h3-spi	16666667 Hz	 83.33%	600000000 Hz	good	assigned-clocks = <&ccu CLK_SPIx>
-	 * 2518	40 MHz	allwinner,sun8i-h3	allwinner,sun8i-h3-spi	18750000 Hz	 93.75%	600000000 Hz	bad	assigned-clocks = <&ccu CLK_SPIx>
-	 * 2517	20 MHz	fsl,imx8mm		fsl,imx51-ecspi		 8333333 Hz	 83.33%	 16666667 Hz	good	assigned-clocks = <&clk IMX8MM_CLK_ECSPIx_ROOT>
-	 * 2517	20 MHz	fsl,imx8mm		fsl,imx51-ecspi		 9523809 Hz	 95.34%	 28571429 Hz	bad	assigned-clocks = <&clk IMX8MM_CLK_ECSPIx_ROOT>
-	 * 2517 40 MHz	atmel,sama5d27		atmel,at91rm9200-spi	16400000 Hz	 82.00%	 82000000 Hz	good	default
-	 * 2518 40 MHz	atmel,sama5d27		atmel,at91rm9200-spi	16400000 Hz	 82.00%	 82000000 Hz	good	default
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 */
 	priv->spi_max_speed_hz_orig = spi->max_speed_hz;
@@ -3230,19 +2986,12 @@ static int mcp251xfd_probe(struct spi_device *spi)
 
 	err = mcp251xfd_register(priv);
 	if (err)
-<<<<<<< HEAD
 		goto out_can_rx_offload_del;
 
 	return 0;
 
  out_can_rx_offload_del:
 	can_rx_offload_del(&priv->offload);
-=======
-		goto out_free_candev;
-
-	return 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  out_free_candev:
 	spi->max_speed_hz = priv->spi_max_speed_hz_orig;
 

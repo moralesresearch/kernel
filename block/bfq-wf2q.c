@@ -137,12 +137,6 @@ static bool bfq_update_next_in_service(struct bfq_sched_data *sd,
 
 	sd->next_in_service = next_in_service;
 
-<<<<<<< HEAD
-=======
-	if (!next_in_service)
-		return parent_sched_may_change;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return parent_sched_may_change;
 }
 
@@ -1712,4 +1706,12 @@ void bfq_add_bfqq_busy(struct bfq_data *bfqd, struct bfq_queue *bfqq)
 
 	if (bfqq->wr_coeff > 1)
 		bfqd->wr_busy_queues++;
+
+	/* Move bfqq to the head of the woken list of its waker */
+	if (!hlist_unhashed(&bfqq->woken_list_node) &&
+	    &bfqq->woken_list_node != bfqq->waker_bfqq->woken_list.first) {
+		hlist_del_init(&bfqq->woken_list_node);
+		hlist_add_head(&bfqq->woken_list_node,
+			       &bfqq->waker_bfqq->woken_list);
+	}
 }

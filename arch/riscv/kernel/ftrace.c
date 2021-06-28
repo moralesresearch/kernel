@@ -72,7 +72,6 @@ static int __ftrace_modify_call(unsigned long hook_pos, unsigned long target,
 	return 0;
 }
 
-<<<<<<< HEAD
 /*
  * Put 5 instructions with 16 bytes at the front of function within
  * patchable function entry nops' area.
@@ -112,40 +111,17 @@ int ftrace_make_call(struct dyn_ftrace *rec, unsigned long addr)
 		return -EPERM;
 
 	return 0;
-=======
-int ftrace_make_call(struct dyn_ftrace *rec, unsigned long addr)
-{
-	int ret = ftrace_check_current_call(rec->ip, NULL);
-
-	if (ret)
-		return ret;
-
-	return __ftrace_modify_call(rec->ip, addr, true);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int ftrace_make_nop(struct module *mod, struct dyn_ftrace *rec,
 		    unsigned long addr)
 {
-<<<<<<< HEAD
 	unsigned int nops[4] = {NOP4, NOP4, NOP4, NOP4};
 
 	if (patch_text_nosync((void *)rec->ip, nops, FUNC_ENTRY_SIZE))
 		return -EPERM;
 
 	return 0;
-=======
-	unsigned int call[2];
-	int ret;
-
-	make_call(rec->ip, addr, call);
-	ret = ftrace_check_current_call(rec->ip, call);
-
-	if (ret)
-		return ret;
-
-	return __ftrace_modify_call(rec->ip, addr, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -190,27 +166,16 @@ int ftrace_modify_call(struct dyn_ftrace *rec, unsigned long old_addr,
 		       unsigned long addr)
 {
 	unsigned int call[2];
-<<<<<<< HEAD
 	unsigned long caller = rec->ip + FUNC_ENTRY_JMP;
 	int ret;
 
 	make_call(caller, old_addr, call);
 	ret = ftrace_check_current_call(caller, call);
-=======
-	int ret;
-
-	make_call(rec->ip, old_addr, call);
-	ret = ftrace_check_current_call(rec->ip, call);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	return __ftrace_modify_call(caller, addr, true);
-=======
-	return __ftrace_modify_call(rec->ip, addr, true);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
@@ -239,7 +204,6 @@ void prepare_ftrace_return(unsigned long *parent, unsigned long self_addr,
 
 #ifdef CONFIG_DYNAMIC_FTRACE
 extern void ftrace_graph_call(void);
-<<<<<<< HEAD
 extern void ftrace_graph_regs_call(void);
 int ftrace_enable_ftrace_graph_caller(void)
 {
@@ -251,40 +215,11 @@ int ftrace_enable_ftrace_graph_caller(void)
 		return ret;
 
 	return __ftrace_modify_call((unsigned long)&ftrace_graph_regs_call,
-=======
-int ftrace_enable_ftrace_graph_caller(void)
-{
-	unsigned int call[2];
-	static int init_graph = 1;
-	int ret;
-
-	make_call(&ftrace_graph_call, &ftrace_stub, call);
-
-	/*
-	 * When enabling graph tracer for the first time, ftrace_graph_call
-	 * should contains a call to ftrace_stub.  Once it has been disabled,
-	 * the 8-bytes at the position becomes NOPs.
-	 */
-	if (init_graph) {
-		ret = ftrace_check_current_call((unsigned long)&ftrace_graph_call,
-						call);
-		init_graph = 0;
-	} else {
-		ret = ftrace_check_current_call((unsigned long)&ftrace_graph_call,
-						NULL);
-	}
-
-	if (ret)
-		return ret;
-
-	return __ftrace_modify_call((unsigned long)&ftrace_graph_call,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    (unsigned long)&prepare_ftrace_return, true);
 }
 
 int ftrace_disable_ftrace_graph_caller(void)
 {
-<<<<<<< HEAD
 	int ret;
 
 	ret = __ftrace_modify_call((unsigned long)&ftrace_graph_call,
@@ -293,24 +228,6 @@ int ftrace_disable_ftrace_graph_caller(void)
 		return ret;
 
 	return __ftrace_modify_call((unsigned long)&ftrace_graph_regs_call,
-=======
-	unsigned int call[2];
-	int ret;
-
-	make_call(&ftrace_graph_call, &prepare_ftrace_return, call);
-
-	/*
-	 * This is to make sure that ftrace_enable_ftrace_graph_caller
-	 * did the right thing.
-	 */
-	ret = ftrace_check_current_call((unsigned long)&ftrace_graph_call,
-					call);
-
-	if (ret)
-		return ret;
-
-	return __ftrace_modify_call((unsigned long)&ftrace_graph_call,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    (unsigned long)&prepare_ftrace_return, false);
 }
 #endif /* CONFIG_DYNAMIC_FTRACE */

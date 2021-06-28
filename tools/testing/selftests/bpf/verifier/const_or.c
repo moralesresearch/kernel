@@ -23,11 +23,7 @@
 	BPF_EMIT_CALL(BPF_FUNC_probe_read_kernel),
 	BPF_EXIT_INSN(),
 	},
-<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R1 off=-48 size=58",
-=======
-	.errstr = "invalid stack type R1 off=-48 access_size=58",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },
@@ -58,11 +54,7 @@
 	BPF_EMIT_CALL(BPF_FUNC_probe_read_kernel),
 	BPF_EXIT_INSN(),
 	},
-<<<<<<< HEAD
 	.errstr = "invalid indirect access to stack R1 off=-48 size=58",
-=======
-	.errstr = "invalid stack type R1 off=-48 access_size=58",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result = REJECT,
 	.prog_type = BPF_PROG_TYPE_TRACEPOINT,
 },

@@ -26,11 +26,7 @@
 #include <xen/platform_pci.h>
 
 #include <asm/xen/swiotlb-xen.h>
-<<<<<<< HEAD
 
-=======
-#define INVALID_GRANT_REF (0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define INVALID_EVTCHN    (-1)
 
 struct pci_bus_entry {
@@ -46,11 +42,7 @@ struct pcifront_device {
 	struct list_head root_buses;
 
 	int evtchn;
-<<<<<<< HEAD
 	grant_ref_t gnt_ref;
-=======
-	int gnt_ref;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	int irq;
 
@@ -701,7 +693,7 @@ static int pcifront_connect_and_init_dma(struct pcifront_device *pdev)
 
 	spin_unlock(&pcifront_dev_lock);
 
-	if (!err && !swiotlb_nr_tbl()) {
+	if (!err && !is_swiotlb_active()) {
 		err = pci_xen_swiotlb_init_late();
 		if (err)
 			dev_err(&pdev->xdev->dev, "Could not setup SWIOTLB!\n");

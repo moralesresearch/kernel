@@ -198,11 +198,7 @@ static void gbe_reset(void)
 static void gbe_turn_off(void)
 {
 	int i;
-<<<<<<< HEAD
 	unsigned int val, y, vpixen_off;
-=======
-	unsigned int val, x, y, vpixen_off;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gbe_turned_on = 0;
 
@@ -253,10 +249,6 @@ static void gbe_turn_off(void)
 
 	for (i = 0; i < 100000; i++) {
 		val = gbe->vt_xy;
-<<<<<<< HEAD
-=======
-		x = GET_GBE_FIELD(VT_XY, X, val);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		y = GET_GBE_FIELD(VT_XY, Y, val);
 		if (y < vpixen_off)
 			break;
@@ -267,10 +259,6 @@ static void gbe_turn_off(void)
 		       "gbefb: wait for vpixen_off timed out\n");
 	for (i = 0; i < 10000; i++) {
 		val = gbe->vt_xy;
-<<<<<<< HEAD
-=======
-		x = GET_GBE_FIELD(VT_XY, X, val);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		y = GET_GBE_FIELD(VT_XY, Y, val);
 		if (y > vpixen_off)
 			break;

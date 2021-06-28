@@ -110,16 +110,8 @@ int __evlist__add_default_attrs(struct evlist *evlist,
 #define evlist__add_default_attrs(evlist, array) \
 	__evlist__add_default_attrs(evlist, array, ARRAY_SIZE(array))
 
-<<<<<<< HEAD
 int arch_evlist__add_default_attrs(struct evlist *evlist);
 
-=======
-<<<<<<< HEAD
-int arch_evlist__add_default_attrs(struct evlist *evlist);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int evlist__add_dummy(struct evlist *evlist);
 
 int evlist__add_sb_event(struct evlist *evlist, struct perf_event_attr *attr,
@@ -344,18 +336,9 @@ struct evsel *evlist__reset_weak_group(struct evlist *evlist, struct evsel *evse
 #define EVLIST_CTL_CMD_DISABLE_TAG "disable"
 #define EVLIST_CTL_CMD_ACK_TAG     "ack\n"
 #define EVLIST_CTL_CMD_SNAPSHOT_TAG "snapshot"
-<<<<<<< HEAD
 #define EVLIST_CTL_CMD_EVLIST_TAG "evlist"
 #define EVLIST_CTL_CMD_STOP_TAG "stop"
 #define EVLIST_CTL_CMD_PING_TAG "ping"
-=======
-<<<<<<< HEAD
-#define EVLIST_CTL_CMD_EVLIST_TAG "evlist"
-#define EVLIST_CTL_CMD_STOP_TAG "stop"
-#define EVLIST_CTL_CMD_PING_TAG "ping"
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define EVLIST_CTL_CMD_MAX_LEN 64
 
@@ -365,18 +348,9 @@ enum evlist_ctl_cmd {
 	EVLIST_CTL_CMD_DISABLE,
 	EVLIST_CTL_CMD_ACK,
 	EVLIST_CTL_CMD_SNAPSHOT,
-<<<<<<< HEAD
 	EVLIST_CTL_CMD_EVLIST,
 	EVLIST_CTL_CMD_STOP,
 	EVLIST_CTL_CMD_PING,
-=======
-<<<<<<< HEAD
-	EVLIST_CTL_CMD_EVLIST,
-	EVLIST_CTL_CMD_STOP,
-	EVLIST_CTL_CMD_PING,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int evlist__parse_control(const char *str, int *ctl_fd, int *ctl_fd_ack, bool *ctl_fd_close);
@@ -391,4 +365,6 @@ int evlist__ctlfd_ack(struct evlist *evlist);
 #define EVLIST_DISABLED_MSG "Events disabled\n"
 
 struct evsel *evlist__find_evsel(struct evlist *evlist, int idx);
+
+int evlist__scnprintf_evsels(struct evlist *evlist, size_t size, char *bf);
 #endif /* __PERF_EVLIST_H */

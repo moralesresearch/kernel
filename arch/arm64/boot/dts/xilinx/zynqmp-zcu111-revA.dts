@@ -13,10 +13,7 @@
 #include "zynqmp-clk-ccf.dtsi"
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/gpio/gpio.h>
-<<<<<<< HEAD
 #include <dt-bindings/phy/phy.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	model = "ZynqMP ZCU111 RevA";
@@ -120,7 +117,6 @@
 		compatible = "iio-hwmon";
 		io-channels = <&u79 0>, <&u79 1>, <&u79 2>, <&u79 3>;
 	};
-<<<<<<< HEAD
 
 	/* 48MHz reference crystal */
 	ref48: ref48M {
@@ -128,8 +124,6 @@
 		#clock-cells = <0>;
 		clock-frequency = <48000000>;
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &dcc {
@@ -388,7 +382,6 @@
 			#size-cells = <0>;
 			reg = <1>;
 			si5341: clock-generator@36 { /* SI5341 - u46 */
-<<<<<<< HEAD
 				compatible = "silabs,si5341";
 				reg = <0x36>;
 				#clock-cells = <2>;
@@ -429,11 +422,6 @@
 					always-on;
 				};
 			};
-=======
-				reg = <0x36>;
-			};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 		i2c@2 {
 			#address-cells = <1>;
@@ -467,11 +455,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <4>;
-<<<<<<< HEAD
 			si5382: clock-generator@69 { /* SI5382 - u48 */
-=======
-			si5328: clock-generator@69 { /* SI5328 - u48 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				reg = <0x69>;
 			};
 		};
@@ -558,7 +542,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &psgtr {
 	status = "okay";
 	/* nc, sata, usb3, dp */
@@ -566,8 +549,6 @@
 	clock-names = "ref1", "ref2", "ref3";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &rtc {
 	status = "okay";
 };
@@ -583,21 +564,15 @@
 	ceva,p1-comwake-params = /bits/ 8 <0x06 0x14 0x08 0x0E>;
 	ceva,p1-burst-params = /bits/ 8 <0x13 0x08 0x4A 0x06>;
 	ceva,p1-retry-params = /bits/ 16 <0x96A4 0x3FFC>;
-<<<<<<< HEAD
 	phy-names = "sata-phy";
 	phys = <&psgtr 3 PHY_TYPE_SATA 1 1>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* SD1 with level shifter */
 &sdhci1 {
 	status = "okay";
 	no-1-8-v;
-<<<<<<< HEAD
 	xlnx,mio-bank = <1>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &uart0 {
@@ -609,7 +584,6 @@
 	status = "okay";
 	dr_mode = "host";
 };
-<<<<<<< HEAD
 
 &zynqmp_dpdma {
 	status = "okay";
@@ -621,5 +595,3 @@
 	phys = <&psgtr 1 PHY_TYPE_DP 0 1>,
 	       <&psgtr 0 PHY_TYPE_DP 1 1>;
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

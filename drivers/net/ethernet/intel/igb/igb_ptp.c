@@ -856,27 +856,16 @@ static void igb_ptp_tx_hwtstamp(struct igb_adapter *adapter)
 	dev_kfree_skb_any(skb);
 }
 
-<<<<<<< HEAD
-=======
-#define IGB_RET_PTP_DISABLED 1
-#define IGB_RET_PTP_INVALID 2
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * igb_ptp_rx_pktstamp - retrieve Rx per packet timestamp
  * @q_vector: Pointer to interrupt specific structure
  * @va: Pointer to address containing Rx buffer
-<<<<<<< HEAD
  * @timestamp: Pointer where timestamp will be stored
-=======
- * @skb: Buffer containing timestamp and packet
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This function is meant to retrieve a timestamp from the first buffer of an
  * incoming frame.  The value is stored in little endian format starting on
  * byte 8
  *
-<<<<<<< HEAD
  * Returns: The timestamp header length or 0 if not available
  **/
 int igb_ptp_rx_pktstamp(struct igb_q_vector *q_vector, void *va,
@@ -884,23 +873,11 @@ int igb_ptp_rx_pktstamp(struct igb_q_vector *q_vector, void *va,
 {
 	struct igb_adapter *adapter = q_vector->adapter;
 	struct skb_shared_hwtstamps ts;
-=======
- * Returns: 0 if success, nonzero if failure
- **/
-int igb_ptp_rx_pktstamp(struct igb_q_vector *q_vector, void *va,
-			struct sk_buff *skb)
-{
-	struct igb_adapter *adapter = q_vector->adapter;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__le64 *regval = (__le64 *)va;
 	int adjust = 0;
 
 	if (!(adapter->ptp_flags & IGB_PTP_ENABLED))
-<<<<<<< HEAD
 		return 0;
-=======
-		return IGB_RET_PTP_DISABLED;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The timestamp is recorded in little endian format.
 	 * DWORD: 0        1        2        3
@@ -909,16 +886,9 @@ int igb_ptp_rx_pktstamp(struct igb_q_vector *q_vector, void *va,
 
 	/* check reserved dwords are zero, be/le doesn't matter for zero */
 	if (regval[0])
-<<<<<<< HEAD
 		return 0;
 
 	igb_ptp_systim_to_hwtstamp(adapter, &ts, le64_to_cpu(regval[1]));
-=======
-		return IGB_RET_PTP_INVALID;
-
-	igb_ptp_systim_to_hwtstamp(adapter, skb_hwtstamps(skb),
-				   le64_to_cpu(regval[1]));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* adjust timestamp for the RX latency based on link speed */
 	if (adapter->hw.mac.type == e1000_i210) {
@@ -934,17 +904,10 @@ int igb_ptp_rx_pktstamp(struct igb_q_vector *q_vector, void *va,
 			break;
 		}
 	}
-<<<<<<< HEAD
 
 	*timestamp = ktime_sub_ns(ts.hwtstamp, adjust);
 
 	return IGB_TS_HDR_LEN;
-=======
-	skb_hwtstamps(skb)->hwtstamp =
-		ktime_sub_ns(skb_hwtstamps(skb)->hwtstamp, adjust);
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1059,6 +1022,7 @@ static int igb_ptp_set_timestamp_mode(struct igb_adapter *adapter,
 	switch (config->tx_type) {
 	case HWTSTAMP_TX_OFF:
 		tsync_tx_ctl = 0;
+		break;
 	case HWTSTAMP_TX_ON:
 		break;
 	default:

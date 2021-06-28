@@ -107,23 +107,15 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 int btrfs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		  struct posix_acl *acl, int type)
-=======
-int btrfs_set_acl(struct inode *inode, struct posix_acl *acl, int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	umode_t old_mode = inode->i_mode;
 
 	if (type == ACL_TYPE_ACCESS && acl) {
-<<<<<<< HEAD
 		ret = posix_acl_update_mode(&init_user_ns, inode,
 					    &inode->i_mode, &acl);
-=======
-		ret = posix_acl_update_mode(inode, &inode->i_mode, &acl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			return ret;
 	}

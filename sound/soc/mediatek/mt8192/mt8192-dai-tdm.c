@@ -740,15 +740,7 @@ static struct mtk_afe_tdm_priv *init_tdm_priv_data(struct mtk_base_afe *afe)
 	if (!tdm_priv)
 		return NULL;
 
-<<<<<<< HEAD
 	tdm_priv->mclk_multiple = 512;
-=======
-<<<<<<< HEAD
-	tdm_priv->mclk_multiple = 512;
-=======
-	tdm_priv->mclk_multiple = 128;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tdm_priv->bck_id = MT8192_I2S4_BCK;
 	tdm_priv->mclk_id = MT8192_I2S4_MCK;
 	tdm_priv->id = MT8192_DAI_TDM;

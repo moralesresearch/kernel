@@ -450,11 +450,7 @@ static void cfg80211_mgmt_registrations_update(struct wireless_dev *wdev)
 	struct cfg80211_mgmt_registration *reg;
 	struct mgmt_frame_regs upd = {};
 
-<<<<<<< HEAD
 	lockdep_assert_held(&rdev->wiphy.mtx);
-=======
-	ASSERT_RTNL();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_bh(&wdev->mgmt_registrations_lock);
 	if (!wdev->mgmt_registrations_need_update) {
@@ -496,17 +492,10 @@ void cfg80211_mgmt_registrations_update_wk(struct work_struct *wk)
 	rdev = container_of(wk, struct cfg80211_registered_device,
 			    mgmt_registrations_update_wk);
 
-<<<<<<< HEAD
 	wiphy_lock(&rdev->wiphy);
 	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list)
 		cfg80211_mgmt_registrations_update(wdev);
 	wiphy_unlock(&rdev->wiphy);
-=======
-	rtnl_lock();
-	list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list)
-		cfg80211_mgmt_registrations_update(wdev);
-	rtnl_unlock();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int cfg80211_mlme_register_mgmt(struct wireless_dev *wdev, u32 snd_portid,

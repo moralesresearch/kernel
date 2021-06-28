@@ -66,30 +66,18 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		red {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label ="licheepi:red:usr";
 			gpios = <&pio 2 5 GPIO_ACTIVE_LOW>;
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label ="licheepi:green:usr";
 			gpios = <&pio 2 19 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
-<<<<<<< HEAD
 		led-2 {
-=======
-		blue {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label ="licheepi:blue:usr";
 			gpios = <&pio 2 4 GPIO_ACTIVE_LOW>;
 		};

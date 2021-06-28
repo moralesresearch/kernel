@@ -311,15 +311,12 @@ static struct net_device *hwsim_mon; /* global monitor netdev */
 	.hw_value = (_freq), \
 }
 
-<<<<<<< HEAD
 #define CHAN6G(_freq) { \
 	.band = NL80211_BAND_6GHZ, \
 	.center_freq = (_freq), \
 	.hw_value = (_freq), \
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ieee80211_channel hwsim_channels_2ghz[] = {
 	CHAN2G(2412), /* Channel 1 */
 	CHAN2G(2417), /* Channel 2 */
@@ -386,7 +383,6 @@ static const struct ieee80211_channel hwsim_channels_5ghz[] = {
 	CHAN5G(5925), /* Channel 185 */
 };
 
-<<<<<<< HEAD
 static const struct ieee80211_channel hwsim_channels_6ghz[] = {
 	CHAN6G(5955), /* Channel 1 */
 	CHAN6G(5975), /* Channel 5 */
@@ -449,8 +445,6 @@ static const struct ieee80211_channel hwsim_channels_6ghz[] = {
 	CHAN6G(7115), /* Channel 233 */
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NUM_S1G_CHANS_US 51
 static struct ieee80211_channel hwsim_channels_s1g[NUM_S1G_CHANS_US];
 
@@ -602,7 +596,7 @@ static const struct nl80211_vendor_cmd_info mac80211_hwsim_vendor_events[] = {
 	{ .vendor_id = OUI_QCA, .subcmd = 1 },
 };
 
-static spinlock_t hwsim_radio_lock;
+static DEFINE_SPINLOCK(hwsim_radio_lock);
 static LIST_HEAD(hwsim_radios);
 static struct rhashtable hwsim_radios_rht;
 static int hwsim_radio_idx;
@@ -622,10 +616,7 @@ struct mac80211_hwsim_data {
 	struct ieee80211_supported_band bands[NUM_NL80211_BANDS];
 	struct ieee80211_channel channels_2ghz[ARRAY_SIZE(hwsim_channels_2ghz)];
 	struct ieee80211_channel channels_5ghz[ARRAY_SIZE(hwsim_channels_5ghz)];
-<<<<<<< HEAD
 	struct ieee80211_channel channels_6ghz[ARRAY_SIZE(hwsim_channels_6ghz)];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ieee80211_channel channels_s1g[ARRAY_SIZE(hwsim_channels_s1g)];
 	struct ieee80211_rate rates[ARRAY_SIZE(hwsim_rates)];
 	struct ieee80211_iface_combination if_combination;
@@ -656,12 +647,8 @@ struct mac80211_hwsim_data {
 		struct ieee80211_channel *channel;
 		unsigned long next_start, start, end;
 	} survey_data[ARRAY_SIZE(hwsim_channels_2ghz) +
-<<<<<<< HEAD
 		      ARRAY_SIZE(hwsim_channels_5ghz) +
 		      ARRAY_SIZE(hwsim_channels_6ghz)];
-=======
-		      ARRAY_SIZE(hwsim_channels_5ghz)];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct ieee80211_channel *channel;
 	u64 beacon_int	/* beacon interval in us */;
@@ -776,7 +763,7 @@ static const struct nla_policy hwsim_genl_policy[HWSIM_ATTR_MAX + 1] = {
 /* MAC80211_HWSIM virtio queues */
 static struct virtqueue *hwsim_vqs[HWSIM_NUM_VQS];
 static bool hwsim_virtio_enabled;
-static spinlock_t hwsim_virtio_lock;
+static DEFINE_SPINLOCK(hwsim_virtio_lock);
 
 static void hwsim_virtio_rx_work(struct work_struct *work);
 static DECLARE_WORK(hwsim_virtio_rx, hwsim_virtio_rx_work);
@@ -1706,8 +1693,13 @@ static int mac80211_hwsim_start(struct ieee80211_hw *hw)
 static void mac80211_hwsim_stop(struct ieee80211_hw *hw)
 {
 	struct mac80211_hwsim_data *data = hw->priv;
+
 	data->started = false;
 	hrtimer_cancel(&data->beacon_timer);
+
+	while (!skb_queue_empty(&data->pending))
+		ieee80211_free_txskb(hw, skb_dequeue(&data->pending));
+
 	wiphy_dbg(hw->wiphy, "%s\n", __func__);
 }
 
@@ -2808,8 +2800,8 @@ static const struct ieee80211_sband_iftype_data he_capa_2ghz[] = {
 					IEEE80211_HE_MAC_CAP2_ACK_EN,
 				.mac_cap_info[3] =
 					IEEE80211_HE_MAC_CAP3_OMI_CONTROL |
-					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_VHT_2,
-				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMDSU_IN_AMPDU,
+					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_EXT_3,
+				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMSDU_IN_AMPDU,
 				.phy_cap_info[1] =
 					IEEE80211_HE_PHY_CAP1_PREAMBLE_PUNC_RX_MASK |
 					IEEE80211_HE_PHY_CAP1_DEVICE_CLASS_A |
@@ -2852,8 +2844,8 @@ static const struct ieee80211_sband_iftype_data he_capa_2ghz[] = {
 					IEEE80211_HE_MAC_CAP2_ACK_EN,
 				.mac_cap_info[3] =
 					IEEE80211_HE_MAC_CAP3_OMI_CONTROL |
-					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_VHT_2,
-				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMDSU_IN_AMPDU,
+					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_EXT_3,
+				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMSDU_IN_AMPDU,
 				.phy_cap_info[1] =
 					IEEE80211_HE_PHY_CAP1_PREAMBLE_PUNC_RX_MASK |
 					IEEE80211_HE_PHY_CAP1_DEVICE_CLASS_A |
@@ -2898,8 +2890,8 @@ static const struct ieee80211_sband_iftype_data he_capa_5ghz[] = {
 					IEEE80211_HE_MAC_CAP2_ACK_EN,
 				.mac_cap_info[3] =
 					IEEE80211_HE_MAC_CAP3_OMI_CONTROL |
-					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_VHT_2,
-				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMDSU_IN_AMPDU,
+					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_EXT_3,
+				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMSDU_IN_AMPDU,
 				.phy_cap_info[0] =
 					IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G |
 					IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G |
@@ -2946,8 +2938,8 @@ static const struct ieee80211_sband_iftype_data he_capa_5ghz[] = {
 					IEEE80211_HE_MAC_CAP2_ACK_EN,
 				.mac_cap_info[3] =
 					IEEE80211_HE_MAC_CAP3_OMI_CONTROL |
-					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_VHT_2,
-				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMDSU_IN_AMPDU,
+					IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_EXT_3,
+				.mac_cap_info[4] = IEEE80211_HE_MAC_CAP4_AMSDU_IN_AMPDU,
 				.phy_cap_info[0] =
 					IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G |
 					IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G |
@@ -3232,11 +3224,8 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
 		sizeof(hwsim_channels_2ghz));
 	memcpy(data->channels_5ghz, hwsim_channels_5ghz,
 		sizeof(hwsim_channels_5ghz));
-<<<<<<< HEAD
 	memcpy(data->channels_6ghz, hwsim_channels_6ghz,
 		sizeof(hwsim_channels_6ghz));
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(data->channels_s1g, hwsim_channels_s1g,
 	       sizeof(hwsim_channels_s1g));
 	memcpy(data->rates, hwsim_rates, sizeof(hwsim_rates));
@@ -4426,8 +4415,6 @@ static struct virtio_driver virtio_hwsim = {
 
 static int hwsim_register_virtio_driver(void)
 {
-	spin_lock_init(&hwsim_virtio_lock);
-
 	return register_virtio_driver(&virtio_hwsim);
 }
 
@@ -4455,8 +4442,6 @@ static int __init init_mac80211_hwsim(void)
 
 	if (channels < 1)
 		return -EINVAL;
-
-	spin_lock_init(&hwsim_radio_lock);
 
 	err = rhashtable_init(&hwsim_radios_rht, &hwsim_rht_params);
 	if (err)

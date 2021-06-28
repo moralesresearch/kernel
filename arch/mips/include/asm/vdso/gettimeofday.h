@@ -20,15 +20,12 @@
 
 #define VDSO_HAS_CLOCK_GETRES		1
 
-<<<<<<< HEAD
 #if MIPS_ISA_REV < 6
 #define VDSO_SYSCALL_CLOBBERS "hi", "lo",
 #else
 #define VDSO_SYSCALL_CLOBBERS
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline long gettimeofday_fallback(
 				struct __kernel_old_timeval *_tv,
 				struct timezone *_tz)
@@ -44,13 +41,9 @@ static __always_inline long gettimeofday_fallback(
 	: "=r" (ret), "=r" (error)
 	: "r" (tv), "r" (tz), "r" (nr)
 	: "$1", "$3", "$8", "$9", "$10", "$11", "$12", "$13",
-<<<<<<< HEAD
 	  "$14", "$15", "$24", "$25",
 	  VDSO_SYSCALL_CLOBBERS
 	  "memory");
-=======
-	  "$14", "$15", "$24", "$25", "hi", "lo", "memory");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error ? -ret : ret;
 }
@@ -74,13 +67,9 @@ static __always_inline long clock_gettime_fallback(
 	: "=r" (ret), "=r" (error)
 	: "r" (clkid), "r" (ts), "r" (nr)
 	: "$1", "$3", "$8", "$9", "$10", "$11", "$12", "$13",
-<<<<<<< HEAD
 	  "$14", "$15", "$24", "$25",
 	  VDSO_SYSCALL_CLOBBERS
 	  "memory");
-=======
-	  "$14", "$15", "$24", "$25", "hi", "lo", "memory");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error ? -ret : ret;
 }
@@ -104,13 +93,9 @@ static __always_inline int clock_getres_fallback(
 	: "=r" (ret), "=r" (error)
 	: "r" (clkid), "r" (ts), "r" (nr)
 	: "$1", "$3", "$8", "$9", "$10", "$11", "$12", "$13",
-<<<<<<< HEAD
 	  "$14", "$15", "$24", "$25",
 	  VDSO_SYSCALL_CLOBBERS
 	  "memory");
-=======
-	  "$14", "$15", "$24", "$25", "hi", "lo", "memory");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error ? -ret : ret;
 }
@@ -132,13 +117,9 @@ static __always_inline long clock_gettime32_fallback(
 	: "=r" (ret), "=r" (error)
 	: "r" (clkid), "r" (ts), "r" (nr)
 	: "$1", "$3", "$8", "$9", "$10", "$11", "$12", "$13",
-<<<<<<< HEAD
 	  "$14", "$15", "$24", "$25",
 	  VDSO_SYSCALL_CLOBBERS
 	  "memory");
-=======
-	  "$14", "$15", "$24", "$25", "hi", "lo", "memory");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error ? -ret : ret;
 }
@@ -158,13 +139,9 @@ static __always_inline int clock_getres32_fallback(
 	: "=r" (ret), "=r" (error)
 	: "r" (clkid), "r" (ts), "r" (nr)
 	: "$1", "$3", "$8", "$9", "$10", "$11", "$12", "$13",
-<<<<<<< HEAD
 	  "$14", "$15", "$24", "$25",
 	  VDSO_SYSCALL_CLOBBERS
 	  "memory");
-=======
-	  "$14", "$15", "$24", "$25", "hi", "lo", "memory");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return error ? -ret : ret;
 }

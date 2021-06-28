@@ -25,21 +25,13 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		pwr {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "nanopi:green:pwr";
 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		status {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "nanopi:red:status";
 			gpios = <&pio 0 20 GPIO_ACTIVE_HIGH>;
 		};

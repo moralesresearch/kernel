@@ -329,11 +329,7 @@ static int rawsock_create(struct net *net, struct socket *sock,
 		return -ESOCKTNOSUPPORT;
 
 	if (sock->type == SOCK_RAW) {
-<<<<<<< HEAD
 		if (!ns_capable(net->user_ns, CAP_NET_RAW))
-=======
-		if (!capable(CAP_NET_RAW))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EPERM;
 		sock->ops = &rawsock_raw_ops;
 	} else {

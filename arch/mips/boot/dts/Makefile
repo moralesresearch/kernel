@@ -14,14 +14,7 @@ subdir-$(CONFIG_FIT_IMAGE_FDT_NI169445)	+= ni
 subdir-$(CONFIG_MACH_PIC32)		+= pic32
 subdir-$(CONFIG_ATH79)			+= qca
 subdir-$(CONFIG_RALINK)			+= ralink
-<<<<<<< HEAD
 subdir-$(CONFIG_MACH_REALTEK_RTL)	+= realtek
-=======
-<<<<<<< HEAD
-subdir-$(CONFIG_MACH_REALTEK_RTL)	+= realtek
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 subdir-$(CONFIG_FIT_IMAGE_FDT_XILFPGA)	+= xilfpga
 
 obj-$(CONFIG_BUILTIN_DTB)	:= $(addsuffix /, $(subdir-y))

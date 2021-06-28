@@ -264,23 +264,14 @@ static int write_inline_data(struct log_writes_c *lc, void *entry,
 			     size_t entrylen, void *data, size_t datalen,
 			     sector_t sector)
 {
-<<<<<<< HEAD
 	int bio_pages, pg_datalen, pg_sectorlen, i;
-=======
-	int num_pages, bio_pages, pg_datalen, pg_sectorlen, i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct page *page;
 	struct bio *bio;
 	size_t ret;
 	void *ptr;
 
 	while (datalen) {
-<<<<<<< HEAD
 		bio_pages = bio_max_segs(DIV_ROUND_UP(datalen, PAGE_SIZE));
-=======
-		num_pages = ALIGN(datalen, PAGE_SIZE) >> PAGE_SHIFT;
-		bio_pages = min(num_pages, BIO_MAX_PAGES);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		atomic_inc(&lc->io_blocks);
 
@@ -372,11 +363,7 @@ static int log_one_block(struct log_writes_c *lc,
 		goto out;
 
 	atomic_inc(&lc->io_blocks);
-<<<<<<< HEAD
 	bio = bio_alloc(GFP_KERNEL, bio_max_segs(block->vec_cnt));
-=======
-	bio = bio_alloc(GFP_KERNEL, min(block->vec_cnt, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!bio) {
 		DMERR("Couldn't alloc log bio");
 		goto error;
@@ -398,12 +385,8 @@ static int log_one_block(struct log_writes_c *lc,
 		if (ret != block->vecs[i].bv_len) {
 			atomic_inc(&lc->io_blocks);
 			submit_bio(bio);
-<<<<<<< HEAD
 			bio = bio_alloc(GFP_KERNEL,
 					bio_max_segs(block->vec_cnt - i));
-=======
-			bio = bio_alloc(GFP_KERNEL, min(block->vec_cnt - i, BIO_MAX_PAGES));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!bio) {
 				DMERR("Couldn't alloc log bio");
 				goto error;

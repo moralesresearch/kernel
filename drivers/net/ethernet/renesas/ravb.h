@@ -165,11 +165,7 @@ enum ravb_reg {
 	GTO2	= 0x03A8,
 	GIC	= 0x03AC,
 	GIS	= 0x03B0,
-<<<<<<< HEAD
 	GCPT	= 0x03B4,	/* Documented for R-Car Gen3 only */
-=======
-	GCPT	= 0x03B4,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GCT0	= 0x03B8,
 	GCT1	= 0x03BC,
 	GCT2	= 0x03C0,
@@ -229,11 +225,7 @@ enum CSR_BIT {
 	CSR_OPS_RESET	= 0x00000001,
 	CSR_OPS_CONFIG	= 0x00000002,
 	CSR_OPS_OPERATION = 0x00000004,
-<<<<<<< HEAD
 	CSR_OPS_STANDBY	= 0x00000008,	/* Documented for R-Car Gen3 only */
-=======
-	CSR_OPS_STANDBY	= 0x00000008,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CSR_DTS		= 0x00000100,
 	CSR_TPO0	= 0x00010000,
 	CSR_TPO1	= 0x00020000,
@@ -249,22 +241,12 @@ enum ESR_BIT {
 	ESR_EIL		= 0x00001000,
 };
 
-<<<<<<< HEAD
 /* APSR (R-Car Gen3 only) */
 enum APSR_BIT {
 	APSR_MEMS	= 0x00000002,	/* Undocumented */
 	APSR_CMSW	= 0x00000010,
 	APSR_RDM	= 0x00002000,
 	APSR_TDM	= 0x00004000,
-=======
-/* APSR */
-enum APSR_BIT {
-	APSR_MEMS		= 0x00000002,
-	APSR_CMSW		= 0x00000010,
-	APSR_DM			= 0x00006000,	/* Undocumented? */
-	APSR_DM_RDM		= 0x00002000,
-	APSR_DM_TDM		= 0x00004000,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* RCR */
@@ -547,26 +529,16 @@ enum RIS2_BIT {
 
 /* TIC */
 enum TIC_BIT {
-<<<<<<< HEAD
 	TIC_FTE0	= 0x00000001,	/* Documented for R-Car Gen3 only */
 	TIC_FTE1	= 0x00000002,	/* Documented for R-Car Gen3 only */
-=======
-	TIC_FTE0	= 0x00000001,	/* Undocumented? */
-	TIC_FTE1	= 0x00000002,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TIC_TFUE	= 0x00000100,
 	TIC_TFWE	= 0x00000200,
 };
 
 /* TIS */
 enum TIS_BIT {
-<<<<<<< HEAD
 	TIS_FTF0	= 0x00000001,	/* Documented for R-Car Gen3 only */
 	TIS_FTF1	= 0x00000002,	/* Documented for R-Car Gen3 only */
-=======
-	TIS_FTF0	= 0x00000001,	/* Undocumented? */
-	TIS_FTF1	= 0x00000002,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TIS_TFUF	= 0x00000100,
 	TIS_TFWF	= 0x00000200,
 	TIS_RESERVED	= (GENMASK(31, 20) | GENMASK(15, 12) | GENMASK(7, 4))
@@ -574,13 +546,8 @@ enum TIS_BIT {
 
 /* ISS */
 enum ISS_BIT {
-<<<<<<< HEAD
 	ISS_FRS		= 0x00000001,	/* Documented for R-Car Gen3 only */
 	ISS_FTS		= 0x00000004,	/* Documented for R-Car Gen3 only */
-=======
-	ISS_FRS		= 0x00000001,	/* Undocumented? */
-	ISS_FTS		= 0x00000004,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ISS_ES		= 0x00000040,
 	ISS_MS		= 0x00000080,
 	ISS_TFUS	= 0x00000100,
@@ -640,21 +607,13 @@ enum GTI_BIT {
 
 /* GIC */
 enum GIC_BIT {
-<<<<<<< HEAD
 	GIC_PTCE	= 0x00000001,	/* Documented for R-Car Gen3 only */
-=======
-	GIC_PTCE	= 0x00000001,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GIC_PTME	= 0x00000004,
 };
 
 /* GIS */
 enum GIS_BIT {
-<<<<<<< HEAD
 	GIS_PTCF	= 0x00000001,	/* Documented for R-Car Gen3 only */
-=======
-	GIS_PTCF	= 0x00000001,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GIS_PTMF	= 0x00000004,
 	GIS_RESERVED	= GENMASK(15, 10),
 };
@@ -848,17 +807,10 @@ enum ECMR_BIT {
 	ECMR_TE		= 0x00000020,
 	ECMR_RE		= 0x00000040,
 	ECMR_MPDE	= 0x00000200,
-<<<<<<< HEAD
 	ECMR_TXF	= 0x00010000,	/* Documented for R-Car Gen3 only */
 	ECMR_RXF	= 0x00020000,
 	ECMR_PFR	= 0x00040000,
 	ECMR_ZPF	= 0x00080000,	/* Documented for R-Car Gen3 only */
-=======
-	ECMR_TXF	= 0x00010000,	/* Undocumented? */
-	ECMR_RXF	= 0x00020000,
-	ECMR_PFR	= 0x00040000,
-	ECMR_ZPF	= 0x00080000,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ECMR_RZPF	= 0x00100000,
 	ECMR_DPAD	= 0x00200000,
 	ECMR_RCSC	= 0x00800000,
@@ -877,11 +829,7 @@ enum ECSR_BIT {
 enum ECSIPR_BIT {
 	ECSIPR_ICDIP	= 0x00000001,
 	ECSIPR_MPDIP	= 0x00000002,
-<<<<<<< HEAD
 	ECSIPR_LCHNGIP	= 0x00000004,
-=======
-	ECSIPR_LCHNGIP	= 0x00000004,	/* Undocumented? */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* PIR */
@@ -1045,6 +993,7 @@ struct ravb_private {
 	struct platform_device *pdev;
 	void __iomem *addr;
 	struct clk *clk;
+	struct clk *refclk;
 	struct mdiobb_ctrl mdiobb;
 	u32 num_rx_ring[NUM_RX_QUEUE];
 	u32 num_tx_ring[NUM_TX_QUEUE];

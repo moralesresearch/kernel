@@ -22,26 +22,12 @@
 #include <linux/module.h>
 #include <linux/soundwire/sdw.h>
 #include <linux/soundwire/sdw_intel.h>
-<<<<<<< HEAD
 #include <sound/intel-dsp-config.h>
-=======
-<<<<<<< HEAD
-#include <sound/intel-dsp-config.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <sound/intel-nhlt.h>
 #include <sound/sof.h>
 #include <sound/sof/xtensa.h>
 #include "../sof-audio.h"
-<<<<<<< HEAD
 #include "../sof-pci-dev.h"
-=======
-<<<<<<< HEAD
-#include "../sof-pci-dev.h"
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../ops.h"
 #include "hda.h"
 
@@ -301,10 +287,6 @@ static char *hda_model;
 module_param(hda_model, charp, 0444);
 MODULE_PARM_DESC(hda_model, "Use the given HDA board model.");
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA) || IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
 static int hda_dmic_num = -1;
 module_param_named(dmic_num, hda_dmic_num, int, 0444);
@@ -312,16 +294,6 @@ MODULE_PARM_DESC(dmic_num, "SOF HDA DMIC number");
 #endif
 
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA)
-<<<<<<< HEAD
-=======
-=======
-#if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA)
-static int hda_dmic_num = -1;
-module_param_named(dmic_num, hda_dmic_num, int, 0444);
-MODULE_PARM_DESC(dmic_num, "SOF HDA DMIC number");
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool hda_codec_use_common_hdmi = IS_ENABLED(CONFIG_SND_HDA_CODEC_HDMI);
 module_param_named(use_common_hdmi, hda_codec_use_common_hdmi, bool, 0444);
 MODULE_PARM_DESC(use_common_hdmi, "SOF HDA use common HDMI codec driver");
@@ -349,32 +321,6 @@ static const struct hda_dsp_msg_code hda_dsp_rom_msg[] = {
 	{HDA_DSP_ROM_NULL_FW_ENTRY,	"error: null FW entry point"},
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static void hda_dsp_get_status_skl(struct snd_sof_dev *sdev)
-{
-	u32 status;
-	int i;
-
-	status = snd_sof_dsp_read(sdev, HDA_DSP_BAR,
-				  HDA_ADSP_FW_STATUS_SKL);
-
-	for (i = 0; i < ARRAY_SIZE(hda_dsp_rom_msg); i++) {
-		if (status == hda_dsp_rom_msg[i].code) {
-			dev_err(sdev->dev, "%s - code %8.8x\n",
-				hda_dsp_rom_msg[i].msg, status);
-			return;
-		}
-	}
-
-	/* not for us, must be generic sof message */
-	dev_dbg(sdev->dev, "unknown ROM status value %8.8x\n", status);
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void hda_dsp_get_status(struct snd_sof_dev *sdev)
 {
 	u32 status;
@@ -423,42 +369,6 @@ static void hda_dsp_get_registers(struct snd_sof_dev *sdev,
 		       stack_words * sizeof(u32));
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void hda_dsp_dump_skl(struct snd_sof_dev *sdev, u32 flags)
-{
-	struct sof_ipc_dsp_oops_xtensa xoops;
-	struct sof_ipc_panic_info panic_info;
-	u32 stack[HDA_DSP_STACK_DUMP_SIZE];
-	u32 status, panic;
-
-	/* try APL specific status message types first */
-	hda_dsp_get_status_skl(sdev);
-
-	/* now try generic SOF status messages */
-	status = snd_sof_dsp_read(sdev, HDA_DSP_BAR,
-				  HDA_ADSP_ERROR_CODE_SKL);
-
-	/*TODO: Check: there is no define in spec, but it is used in the code*/
-	panic = snd_sof_dsp_read(sdev, HDA_DSP_BAR,
-				 HDA_ADSP_ERROR_CODE_SKL + 0x4);
-
-	if (sdev->fw_state == SOF_FW_BOOT_COMPLETE) {
-		hda_dsp_get_registers(sdev, &xoops, &panic_info, stack,
-				      HDA_DSP_STACK_DUMP_SIZE);
-		snd_sof_get_status(sdev, status, panic, &xoops, &panic_info,
-				   stack, HDA_DSP_STACK_DUMP_SIZE);
-	} else {
-		dev_err(sdev->dev, "error: status = 0x%8.8x panic = 0x%8.8x\n",
-			status, panic);
-		hda_dsp_get_status_skl(sdev);
-	}
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* dump the first 8 dwords representing the extended ROM status */
 static void hda_dsp_dump_ext_rom_status(struct snd_sof_dev *sdev, u32 flags)
 {
@@ -599,15 +509,7 @@ static int hda_init(struct snd_sof_dev *sdev)
 	return ret;
 }
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA) || IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
-=======
-<<<<<<< HEAD
-#if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA) || IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
-=======
-#if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int check_nhlt_dmic(struct snd_sof_dev *sdev)
 {
@@ -631,31 +533,14 @@ static const char *fixup_tplg_name(struct snd_sof_dev *sdev,
 				   const char *dmic_str)
 {
 	const char *tplg_filename = NULL;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char *filename, *tmp;
 	const char *split_ext;
 
 	filename = kstrdup(sof_tplg_filename, GFP_KERNEL);
-<<<<<<< HEAD
-=======
-=======
-	char *filename;
-	char *split_ext;
-
-	filename = devm_kstrdup(sdev->dev, sof_tplg_filename, GFP_KERNEL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!filename)
 		return NULL;
 
 	/* this assumes a .tplg extension */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tmp = filename;
 	split_ext = strsep(&tmp, ".");
 	if (split_ext)
@@ -718,22 +603,6 @@ static int dmic_topology_fixup(struct snd_sof_dev *sdev,
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-=======
-	split_ext = strsep(&filename, ".");
-	if (split_ext) {
-		tplg_filename = devm_kasprintf(sdev->dev, GFP_KERNEL,
-					       "%s%s%s.tplg",
-					       split_ext, idisp_str, dmic_str);
-		if (!tplg_filename)
-			return NULL;
-	}
-	return tplg_filename;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int hda_init_caps(struct snd_sof_dev *sdev)
@@ -746,8 +615,6 @@ static int hda_init_caps(struct snd_sof_dev *sdev)
 	struct sof_intel_hda_dev *hdev = pdata->hw_pdata;
 	u32 link_mask;
 	int ret = 0;
-
-	device_disable_async_suspend(bus->dev);
 
 	/* check if dsp is there */
 	if (bus->ppcap)
@@ -945,25 +812,9 @@ int hda_dsp_probe(struct snd_sof_dev *sdev)
 	sdev->mailbox_bar = HDA_DSP_BAR;
 
 	/* allow 64bit DMA address if supported by H/W */
-<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(64))) {
 		dev_dbg(sdev->dev, "DMA mask is 32 bit\n");
 		dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32));
-=======
-<<<<<<< HEAD
-	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(64))) {
-		dev_dbg(sdev->dev, "DMA mask is 32 bit\n");
-		dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32));
-=======
-	if (!dma_set_mask(&pci->dev, DMA_BIT_MASK(64))) {
-		dev_dbg(sdev->dev, "DMA mask is 64 bit\n");
-		dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(64));
-	} else {
-		dev_dbg(sdev->dev, "DMA mask is 32 bit\n");
-		dma_set_mask(&pci->dev, DMA_BIT_MASK(32));
-		dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(32));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* init streams */
@@ -1081,15 +932,7 @@ int hda_dsp_remove(struct snd_sof_dev *sdev)
 
 	/* disable cores */
 	if (chip)
-<<<<<<< HEAD
 		snd_sof_dsp_core_power_down(sdev, chip->host_managed_cores_mask);
-=======
-<<<<<<< HEAD
-		snd_sof_dsp_core_power_down(sdev, chip->host_managed_cores_mask);
-=======
-		hda_dsp_core_reset_power_down(sdev, chip->host_managed_cores_mask);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* disable DSP */
 	snd_sof_dsp_update_bits(sdev, HDA_DSP_PP_BAR, SOF_HDA_REG_PP_PPCTL,
@@ -1124,21 +967,9 @@ static int hda_generic_machine_select(struct snd_sof_dev *sdev)
 	struct snd_sof_pdata *pdata = sdev->pdata;
 	const char *tplg_filename;
 	const char *idisp_str;
-<<<<<<< HEAD
 	int dmic_num = 0;
 	int codec_num = 0;
 	int ret;
-=======
-<<<<<<< HEAD
-	int dmic_num = 0;
-	int codec_num = 0;
-	int ret;
-=======
-	const char *dmic_str;
-	int dmic_num = 0;
-	int codec_num = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	/* codec detection */
@@ -1163,16 +994,6 @@ static int hda_generic_machine_select(struct snd_sof_dev *sdev)
 		if (!pdata->machine && codec_num <= 2) {
 			hda_mach = snd_soc_acpi_intel_hda_machines;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-			/* topology: use the info from hda_machines */
-			pdata->tplg_filename =
-				hda_mach->sof_tplg_filename;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_info(bus->dev, "using HDA machine driver %s now\n",
 				 hda_mach->drv_name);
 
@@ -1181,10 +1002,6 @@ static int hda_generic_machine_select(struct snd_sof_dev *sdev)
 			else
 				idisp_str = "";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* topology: use the info from hda_machines */
 			tplg_filename = hda_mach->sof_tplg_filename;
 			ret = dmic_topology_fixup(sdev, &tplg_filename, idisp_str, &dmic_num);
@@ -1192,47 +1009,6 @@ static int hda_generic_machine_select(struct snd_sof_dev *sdev)
 				return ret;
 
 			hda_mach->mach_params.dmic_num = dmic_num;
-<<<<<<< HEAD
-=======
-=======
-			/* first check NHLT for DMICs */
-			dmic_num = check_nhlt_dmic(sdev);
-
-			/* allow for module parameter override */
-			if (hda_dmic_num != -1)
-				dmic_num = hda_dmic_num;
-
-			switch (dmic_num) {
-			case 1:
-				dmic_str = "-1ch";
-				break;
-			case 2:
-				dmic_str = "-2ch";
-				break;
-			case 3:
-				dmic_str = "-3ch";
-				break;
-			case 4:
-				dmic_str = "-4ch";
-				break;
-			default:
-				dmic_num = 0;
-				dmic_str = "";
-				break;
-			}
-
-			tplg_filename = pdata->tplg_filename;
-			tplg_filename = fixup_tplg_name(sdev, tplg_filename,
-							idisp_str, dmic_str);
-			if (!tplg_filename)
-				return -EINVAL;
-
-			dev_info(bus->dev,
-				 "DMICs detected in NHLT tables: %d\n",
-				 dmic_num);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pdata->machine = hda_mach;
 			pdata->tplg_filename = tplg_filename;
 		}
@@ -1244,13 +1020,6 @@ static int hda_generic_machine_select(struct snd_sof_dev *sdev)
 			&pdata->machine->mach_params;
 		mach_params->codec_mask = bus->codec_mask;
 		mach_params->common_hdmi_codec_drv = hda_codec_use_common_hdmi;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		mach_params->dmic_num = dmic_num;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1272,32 +1041,15 @@ static bool link_slaves_found(struct snd_sof_dev *sdev,
 	struct sdw_intel_slave_id *ids = sdw->ids;
 	int num_slaves = sdw->num_slaves;
 	unsigned int part_id, link_id, unique_id, mfg_id;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, j, k;
 
 	for (i = 0; i < link->num_adr; i++) {
 		u64 adr = link->adr_d[i].adr;
 		int reported_part_count = 0;
-<<<<<<< HEAD
-=======
-=======
-	int i, j;
-
-	for (i = 0; i < link->num_adr; i++) {
-		u64 adr = link->adr_d[i].adr;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		mfg_id = SDW_MFG_ID(adr);
 		part_id = SDW_PART_ID(adr);
 		link_id = SDW_DISCO_LINK_ID(adr);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		for (j = 0; j < num_slaves; j++) {
 			/* find out how many identical parts were reported on that link */
@@ -1310,20 +1062,10 @@ static bool link_slaves_found(struct snd_sof_dev *sdev,
 		for (j = 0; j < num_slaves; j++) {
 			int expected_part_count = 0;
 
-<<<<<<< HEAD
-=======
-=======
-		for (j = 0; j < num_slaves; j++) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ids[j].link_id != link_id ||
 			    ids[j].id.part_id != part_id ||
 			    ids[j].id.mfg_id != mfg_id)
 				continue;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* find out how many identical parts are expected */
 			for (k = 0; k < link->num_adr; k++) {
@@ -1356,24 +1098,6 @@ static bool link_slaves_found(struct snd_sof_dev *sdev,
 			} else {
 				dev_dbg(bus->dev, "part %x reported %d expected %d on link %d, skipping\n",
 					part_id, reported_part_count, expected_part_count, link_id);
-<<<<<<< HEAD
-=======
-=======
-			/*
-			 * we have to check unique id
-			 * if there is more than one
-			 * Slave on the link
-			 */
-			unique_id = SDW_UNIQUE_ID(adr);
-			if (link->num_adr == 1 ||
-			    ids[j].id.unique_id == SDW_IGNORED_UNIQUE_ID ||
-			    ids[j].id.unique_id == unique_id) {
-				dev_dbg(bus->dev,
-					"found %x at link %d\n",
-					part_id, link_id);
-				break;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 		if (j == num_slaves) {
@@ -1390,13 +1114,6 @@ static int hda_sdw_machine_select(struct snd_sof_dev *sdev)
 {
 	struct snd_sof_pdata *pdata = sdev->pdata;
 	const struct snd_soc_acpi_link_adr *link;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	struct hdac_bus *bus = sof_to_bus(sdev);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_soc_acpi_mach *mach;
 	struct sof_intel_hda_dev *hdev;
 	u32 link_mask;
@@ -1444,28 +1161,12 @@ static int hda_sdw_machine_select(struct snd_sof_dev *sdev)
 				break;
 		}
 		if (mach && mach->link_mask) {
-<<<<<<< HEAD
 			int dmic_num = 0;
 
-=======
-<<<<<<< HEAD
-			int dmic_num = 0;
-
-=======
-			dev_dbg(bus->dev,
-				"SoundWire machine driver %s topology %s\n",
-				mach->drv_name,
-				mach->sof_tplg_filename);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pdata->machine = mach;
 			mach->mach_params.links = mach->links;
 			mach->mach_params.link_mask = mach->link_mask;
 			mach->mach_params.platform = dev_name(sdev->dev);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (mach->sof_fw_filename)
 				pdata->fw_filename = mach->sof_fw_filename;
 			else
@@ -1496,13 +1197,6 @@ static int hda_sdw_machine_select(struct snd_sof_dev *sdev)
 				"SoundWire machine driver %s topology %s\n",
 				mach->drv_name,
 				pdata->tplg_filename);
-<<<<<<< HEAD
-=======
-=======
-			pdata->fw_filename = mach->sof_fw_filename;
-			pdata->tplg_filename = mach->sof_tplg_filename;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			dev_info(sdev->dev,
 				 "No SoundWire machine driver found\n");
@@ -1519,12 +1213,16 @@ static int hda_sdw_machine_select(struct snd_sof_dev *sdev)
 #endif
 
 void hda_set_mach_params(const struct snd_soc_acpi_mach *mach,
-			 struct device *dev)
+			 struct snd_sof_dev *sdev)
 {
+	struct snd_sof_pdata *pdata = sdev->pdata;
+	const struct sof_dev_desc *desc = pdata->desc;
 	struct snd_soc_acpi_mach_params *mach_params;
 
 	mach_params = (struct snd_soc_acpi_mach_params *)&mach->mach_params;
-	mach_params->platform = dev_name(dev);
+	mach_params->platform = dev_name(sdev->dev);
+	mach_params->num_dai_drivers = desc->ops->num_drv;
+	mach_params->dai_drivers = desc->ops->drv;
 }
 
 void hda_machine_select(struct snd_sof_dev *sdev)
@@ -1565,10 +1263,6 @@ void hda_machine_select(struct snd_sof_dev *sdev)
 		dev_warn(sdev->dev, "warning: No matching ASoC machine driver found\n");
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int hda_pci_intel_probe(struct pci_dev *pci, const struct pci_device_id *pci_id)
 {
 	int ret;
@@ -1589,13 +1283,4 @@ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
 MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
 MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
 MODULE_IMPORT_NS(SND_INTEL_SOUNDWIRE_ACPI);
-<<<<<<< HEAD
-=======
-=======
-MODULE_LICENSE("Dual BSD/GPL");
-MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
-MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
-MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_IMPORT_NS(SOUNDWIRE_INTEL_INIT);

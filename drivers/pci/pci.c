@@ -693,6 +693,36 @@ u8 pci_find_ht_capability(struct pci_dev *dev, int ht_cap)
 EXPORT_SYMBOL_GPL(pci_find_ht_capability);
 
 /**
+ * pci_find_vsec_capability - Find a vendor-specific extended capability
+ * @dev: PCI device to query
+ * @vendor: Vendor ID for which capability is defined
+ * @cap: Vendor-specific capability ID
+ *
+ * If @dev has Vendor ID @vendor, search for a VSEC capability with
+ * VSEC ID @cap. If found, return the capability offset in
+ * config space; otherwise return 0.
+ */
+u16 pci_find_vsec_capability(struct pci_dev *dev, u16 vendor, int cap)
+{
+	u16 vsec = 0;
+	u32 header;
+
+	if (vendor != dev->vendor)
+		return 0;
+
+	while ((vsec = pci_find_next_ext_capability(dev, vsec,
+						     PCI_EXT_CAP_ID_VNDR))) {
+		if (pci_read_config_dword(dev, vsec + PCI_VNDR_HEADER,
+					  &header) == PCIBIOS_SUCCESSFUL &&
+		    PCI_VNDR_HEADER_ID(header) == cap)
+			return vsec;
+	}
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(pci_find_vsec_capability);
+
+/**
  * pci_find_parent_resource - return resource region of parent bus of given
  *			      region
  * @dev: PCI device structure contains resources to be searched
@@ -1643,15 +1673,7 @@ static void pci_restore_rebar_state(struct pci_dev *pdev)
 		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
 		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
 		res = pdev->resource + bar_idx;
-<<<<<<< HEAD
 		size = pci_rebar_bytes_to_size(resource_size(res));
-=======
-<<<<<<< HEAD
-		size = pci_rebar_bytes_to_size(resource_size(res));
-=======
-		size = ilog2(resource_size(res)) - 20;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
 		ctrl |= size << PCI_REBAR_CTRL_BAR_SHIFT;
 		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
@@ -1878,13 +1900,6 @@ static int pci_enable_device_flags(struct pci_dev *dev, unsigned long flags)
 	int err;
 	int i, bars = 0;
 
-<<<<<<< HEAD
-	if (atomic_inc_return(&dev->enable_cnt) > 1) {
-		pci_update_current_state(dev, dev->current_state);
-		return 0;		/* already enabled */
-	}
-
-=======
 	/*
 	 * Power state could be unknown at this point, either due to a fresh
 	 * boot or a device removal call.  So get the current power state
@@ -1900,7 +1915,6 @@ static int pci_enable_device_flags(struct pci_dev *dev, unsigned long flags)
 	if (atomic_inc_return(&dev->enable_cnt) > 1)
 		return 0;		/* already enabled */
 
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bridge = pci_upstream_bridge(dev);
 	if (bridge)
 		pci_enable_bridge(bridge);
@@ -3621,14 +3635,7 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
 
 	return cap >> 4;
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
-=======
-<<<<<<< HEAD
-EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * pci_rebar_get_current_size - get the current size of a BAR
@@ -4075,6 +4082,7 @@ phys_addr_t pci_pio_to_address(unsigned long pio)
 
 	return address;
 }
+EXPORT_SYMBOL_GPL(pci_pio_to_address);
 
 unsigned long __weak pci_address_to_pio(phys_addr_t address)
 {
@@ -4135,7 +4143,7 @@ void pci_unmap_iospace(struct resource *res)
 #if defined(PCI_IOBASE) && defined(CONFIG_MMU)
 	unsigned long vaddr = (unsigned long)PCI_IOBASE + res->start;
 
-	unmap_kernel_range(vaddr, resource_size(res));
+	vunmap_range(vaddr, vaddr + resource_size(res));
 #endif
 }
 EXPORT_SYMBOL(pci_unmap_iospace);
@@ -4475,6 +4483,23 @@ void pci_clear_mwi(struct pci_dev *dev)
 #endif
 }
 EXPORT_SYMBOL(pci_clear_mwi);
+
+/**
+ * pci_disable_parity - disable parity checking for device
+ * @dev: the PCI device to operate on
+ *
+ * Disable parity checking for device @dev
+ */
+void pci_disable_parity(struct pci_dev *dev)
+{
+	u16 cmd;
+
+	pci_read_config_word(dev, PCI_COMMAND, &cmd);
+	if (cmd & PCI_COMMAND_PARITY) {
+		cmd &= ~PCI_COMMAND_PARITY;
+		pci_write_config_word(dev, PCI_COMMAND, cmd);
+	}
+}
 
 /**
  * pci_intx - enables/disables PCI INTx for device dev

@@ -17,34 +17,17 @@ struct btrfs_space_info {
 	u64 bytes_may_use;	/* number of bytes that may be used for
 				   delalloc/allocations */
 	u64 bytes_readonly;	/* total bytes that are read only */
-<<<<<<< HEAD
 	u64 bytes_zone_unusable;	/* total bytes that are unusable until
 					   resetting the device zone */
-=======
-<<<<<<< HEAD
-	u64 bytes_zone_unusable;	/* total bytes that are unusable until
-					   resetting the device zone */
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u64 max_extent_size;	/* This will hold the maximum extent size of
 				   the space info if we had an ENOSPC in the
 				   allocator. */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int clamp;		/* Used to scale our threshold for preemptive
 				   flushing. The value is >> clamp, so turns
 				   out to be a 2^clamp divisor. */
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int full:1;	/* indicates that we cannot allocate any more
 				   chunks for this space */
 	unsigned int chunk_alloc:1;	/* set if we are allocating a chunk */
@@ -142,15 +125,7 @@ DECLARE_SPACE_INFO_UPDATE(bytes_pinned, "pinned");
 int btrfs_init_space_info(struct btrfs_fs_info *fs_info);
 void btrfs_update_space_info(struct btrfs_fs_info *info, u64 flags,
 			     u64 total_bytes, u64 bytes_used,
-<<<<<<< HEAD
 			     u64 bytes_readonly, u64 bytes_zone_unusable,
-=======
-<<<<<<< HEAD
-			     u64 bytes_readonly, u64 bytes_zone_unusable,
-=======
-			     u64 bytes_readonly,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     struct btrfs_space_info **space_info);
 struct btrfs_space_info *btrfs_find_space_info(struct btrfs_fs_info *info,
 					       u64 flags);

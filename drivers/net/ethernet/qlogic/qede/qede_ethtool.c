@@ -819,12 +819,7 @@ out:
 	return rc;
 }
 
-<<<<<<< HEAD
 int qede_set_coalesce(struct net_device *dev, struct ethtool_coalesce *coal)
-=======
-static int qede_set_coalesce(struct net_device *dev,
-			     struct ethtool_coalesce *coal)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qede_dev *edev = netdev_priv(dev);
 	struct qede_fastpath *fp;
@@ -859,11 +854,8 @@ static int qede_set_coalesce(struct net_device *dev,
 					"Set RX coalesce error, rc = %d\n", rc);
 				return rc;
 			}
-<<<<<<< HEAD
 			edev->coal_entry[i].rxc = rxc;
 			edev->coal_entry[i].isvalid = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (edev->fp_array[i].type & QEDE_FASTPATH_TX) {
@@ -883,11 +875,8 @@ static int qede_set_coalesce(struct net_device *dev,
 					"Set TX coalesce error, rc = %d\n", rc);
 				return rc;
 			}
-<<<<<<< HEAD
 			edev->coal_entry[i].txc = txc;
 			edev->coal_entry[i].isvalid = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -2119,7 +2108,6 @@ err:
 	return rc;
 }
 
-<<<<<<< HEAD
 int qede_set_per_coalesce(struct net_device *dev, u32 queue,
 			  struct ethtool_coalesce *coal)
 {
@@ -2243,8 +2231,6 @@ out:
 	return rc;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ethtool_ops qede_ethtool_ops = {
 	.supported_coalesce_params	= ETHTOOL_COALESCE_USECS,
 	.get_link_ksettings		= qede_get_link_ksettings,
@@ -2288,11 +2274,8 @@ static const struct ethtool_ops qede_ethtool_ops = {
 	.set_fecparam			= qede_set_fecparam,
 	.get_tunable			= qede_get_tunable,
 	.set_tunable			= qede_set_tunable,
-<<<<<<< HEAD
 	.get_per_queue_coalesce		= qede_get_per_coalesce,
 	.set_per_queue_coalesce		= qede_set_per_coalesce,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flash_device			= qede_flash_device,
 	.get_dump_flag			= qede_get_dump_flag,
 	.get_dump_data			= qede_get_dump_data,
@@ -2322,11 +2305,8 @@ static const struct ethtool_ops qede_vf_ethtool_ops = {
 	.set_rxfh			= qede_set_rxfh,
 	.get_channels			= qede_get_channels,
 	.set_channels			= qede_set_channels,
-<<<<<<< HEAD
 	.get_per_queue_coalesce		= qede_get_per_coalesce,
 	.set_per_queue_coalesce		= qede_set_per_coalesce,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_tunable			= qede_get_tunable,
 	.set_tunable			= qede_set_tunable,
 };

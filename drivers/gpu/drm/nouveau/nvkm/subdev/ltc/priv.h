@@ -5,13 +5,8 @@
 #include <subdev/ltc.h>
 #include <core/enum.h>
 
-<<<<<<< HEAD
 int nvkm_ltc_new_(const struct nvkm_ltc_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		  struct nvkm_ltc **);
-=======
-int nvkm_ltc_new_(const struct nvkm_ltc_func *, struct nvkm_device *,
-		  int index, struct nvkm_ltc **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_ltc_func {
 	int  (*oneinit)(struct nvkm_ltc *);

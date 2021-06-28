@@ -286,7 +286,6 @@ static const struct seq_operations task_file_seq_ops = {
 	.show	= task_file_seq_show,
 };
 
-<<<<<<< HEAD
 struct bpf_iter_seq_task_vma_info {
 	/* The first field must be struct bpf_iter_seq_task_common.
 	 * this is assumed by {init, fini}_seq_pidns() callback functions.
@@ -529,11 +528,6 @@ BTF_ID_LIST(btf_task_file_ids)
 BTF_ID(struct, task_struct)
 BTF_ID(struct, file)
 BTF_ID(struct, vm_area_struct)
-=======
-BTF_ID_LIST(btf_task_file_ids)
-BTF_ID(struct, task_struct)
-BTF_ID(struct, file)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct bpf_iter_seq_info task_seq_info = {
 	.seq_ops		= &task_seq_ops,
@@ -573,7 +567,6 @@ static struct bpf_iter_reg task_file_reg_info = {
 	.seq_info		= &task_file_seq_info,
 };
 
-<<<<<<< HEAD
 static const struct bpf_iter_seq_info task_vma_seq_info = {
 	.seq_ops		= &task_vma_seq_ops,
 	.init_seq_private	= init_seq_pidns,
@@ -594,8 +587,6 @@ static struct bpf_iter_reg task_vma_reg_info = {
 	.seq_info		= &task_vma_seq_info,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init task_iter_init(void)
 {
 	int ret;
@@ -607,7 +598,6 @@ static int __init task_iter_init(void)
 
 	task_file_reg_info.ctx_arg_info[0].btf_id = btf_task_file_ids[0];
 	task_file_reg_info.ctx_arg_info[1].btf_id = btf_task_file_ids[1];
-<<<<<<< HEAD
 	ret =  bpf_iter_reg_target(&task_file_reg_info);
 	if (ret)
 		return ret;
@@ -615,8 +605,5 @@ static int __init task_iter_init(void)
 	task_vma_reg_info.ctx_arg_info[0].btf_id = btf_task_file_ids[0];
 	task_vma_reg_info.ctx_arg_info[1].btf_id = btf_task_file_ids[2];
 	return bpf_iter_reg_target(&task_vma_reg_info);
-=======
-	return bpf_iter_reg_target(&task_file_reg_info);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 late_initcall(task_iter_init);

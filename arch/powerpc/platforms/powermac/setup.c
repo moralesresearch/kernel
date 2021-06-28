@@ -298,12 +298,6 @@ static void __init pmac_setup_arch(void)
 		of_node_put(ic);
 	}
 
-<<<<<<< HEAD
-=======
-	/* Lookup PCI hosts */
-	pmac_pci_init();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PPC32
 	ohare_init();
 	l2cr_init();
@@ -603,10 +597,7 @@ define_machine(powermac) {
 	.name			= "PowerMac",
 	.probe			= pmac_probe,
 	.setup_arch		= pmac_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs		= pmac_pci_init,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.show_cpuinfo		= pmac_show_cpuinfo,
 	.init_IRQ		= pmac_pic_init,
 	.get_irq		= NULL,	/* changed later */

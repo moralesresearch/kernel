@@ -9,13 +9,8 @@ struct gf100_pm_func {
 	const struct nvkm_specdom *doms_part;
 };
 
-<<<<<<< HEAD
 int gf100_pm_new_(const struct gf100_pm_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		  struct nvkm_pm **);
-=======
-int gf100_pm_new_(const struct gf100_pm_func *, struct nvkm_device *,
-		  int index, struct nvkm_pm **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern const struct nvkm_funcdom gf100_perfctr_func;
 extern const struct nvkm_specdom gf100_pm_gpc[];

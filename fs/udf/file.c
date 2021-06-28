@@ -183,11 +183,7 @@ long udf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	long old_block, new_block;
 	int result;
 
-<<<<<<< HEAD
 	if (file_permission(filp, MAY_READ) != 0) {
-=======
-	if (inode_permission(inode, MAY_READ) != 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		udf_debug("no permission to access inode %lu\n", inode->i_ino);
 		return -EPERM;
 	}
@@ -257,22 +253,14 @@ const struct file_operations udf_file_operations = {
 	.llseek			= generic_file_llseek,
 };
 
-<<<<<<< HEAD
 static int udf_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		       struct iattr *attr)
-=======
-static int udf_setattr(struct dentry *dentry, struct iattr *attr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct super_block *sb = inode->i_sb;
 	int error;
 
-<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
-=======
-	error = setattr_prepare(dentry, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -295,11 +283,7 @@ static int udf_setattr(struct dentry *dentry, struct iattr *attr)
 	if (attr->ia_valid & ATTR_MODE)
 		udf_update_extra_perms(inode, attr->ia_mode);
 
-<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attr);
-=======
-	setattr_copy(inode, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }

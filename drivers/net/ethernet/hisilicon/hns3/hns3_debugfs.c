@@ -7,11 +7,7 @@
 #include "hnae3.h"
 #include "hns3_enet.h"
 
-<<<<<<< HEAD
 #define HNS3_DBG_READ_LEN 65536
-=======
-#define HNS3_DBG_READ_LEN 256
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HNS3_DBG_WRITE_LEN 1024
 
 static struct dentry *hns3_dbgfs_root;
@@ -166,11 +162,7 @@ static int hns3_dbg_queue_map(struct hnae3_handle *h)
 			continue;
 
 		dev_info(&h->pdev->dev,
-<<<<<<< HEAD
 			 "      %4d            %4u            %4d\n",
-=======
-			 "      %4d            %4d            %4d\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 i, global_qid, priv->ring[i].tqp_vector->vector_irq);
 	}
 
@@ -370,6 +362,11 @@ static void hns3_dbg_dev_caps(struct hnae3_handle *h)
 	dev_info(&h->pdev->dev, "support UDP tunnel csum: %s\n",
 		 test_bit(HNAE3_DEV_SUPPORT_UDP_TUNNEL_CSUM_B, caps) ?
 		 "yes" : "no");
+	dev_info(&h->pdev->dev, "support PAUSE: %s\n",
+		 test_bit(HNAE3_DEV_SUPPORT_PAUSE_B, ae_dev->caps) ?
+		 "yes" : "no");
+	dev_info(&h->pdev->dev, "support imp-controlled PHY: %s\n",
+		 test_bit(HNAE3_DEV_SUPPORT_PHY_IMP_B, caps) ? "yes" : "no");
 }
 
 static void hns3_dbg_dev_specs(struct hnae3_handle *h)
@@ -397,12 +394,9 @@ static void hns3_dbg_dev_specs(struct hnae3_handle *h)
 		 kinfo->tc_info.num_tc);
 	dev_info(priv->dev, "MAX INT QL: %u\n", dev_specs->int_ql_max);
 	dev_info(priv->dev, "MAX INT GL: %u\n", dev_specs->max_int_gl);
-<<<<<<< HEAD
 	dev_info(priv->dev, "MAX frame size: %u\n", dev_specs->max_frm_size);
 	dev_info(priv->dev, "MAX TM RATE: %uMbps\n", dev_specs->max_tm_rate);
 	dev_info(priv->dev, "MAX QSET number: %u\n", dev_specs->max_qset_num);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t hns3_dbg_cmd_read(struct file *filp, char __user *buffer,
@@ -434,7 +428,6 @@ static ssize_t hns3_dbg_cmd_read(struct file *filp, char __user *buffer,
 	return (*ppos = len);
 }
 
-<<<<<<< HEAD
 static int hns3_dbg_check_cmd(struct hnae3_handle *handle, char *cmd_buf)
 {
 	int ret = 0;
@@ -459,8 +452,6 @@ static int hns3_dbg_check_cmd(struct hnae3_handle *handle, char *cmd_buf)
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t hns3_dbg_cmd_write(struct file *filp, const char __user *buffer,
 				  size_t count, loff_t *ppos)
 {
@@ -468,11 +459,7 @@ static ssize_t hns3_dbg_cmd_write(struct file *filp, const char __user *buffer,
 	struct hns3_nic_priv *priv  = handle->priv;
 	char *cmd_buf, *cmd_buf_tmp;
 	int uncopied_bytes;
-<<<<<<< HEAD
 	int ret;
-=======
-	int ret = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (*ppos != 0)
 		return 0;
@@ -503,27 +490,7 @@ static ssize_t hns3_dbg_cmd_write(struct file *filp, const char __user *buffer,
 		count = cmd_buf_tmp - cmd_buf + 1;
 	}
 
-<<<<<<< HEAD
 	ret = hns3_dbg_check_cmd(handle, cmd_buf);
-=======
-	if (strncmp(cmd_buf, "help", 4) == 0)
-		hns3_dbg_help(handle);
-	else if (strncmp(cmd_buf, "queue info", 10) == 0)
-		ret = hns3_dbg_queue_info(handle, cmd_buf);
-	else if (strncmp(cmd_buf, "queue map", 9) == 0)
-		ret = hns3_dbg_queue_map(handle);
-	else if (strncmp(cmd_buf, "bd info", 7) == 0)
-		ret = hns3_dbg_bd_info(handle, cmd_buf);
-	else if (strncmp(cmd_buf, "dev capability", 14) == 0)
-		hns3_dbg_dev_caps(handle);
-	else if (strncmp(cmd_buf, "dev spec", 8) == 0)
-		hns3_dbg_dev_specs(handle);
-	else if (handle->ae_algo->ops->dbg_run_cmd)
-		ret = handle->ae_algo->ops->dbg_run_cmd(handle, cmd_buf);
-	else
-		ret = -EOPNOTSUPP;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		hns3_dbg_help(handle);
 
@@ -533,7 +500,6 @@ static ssize_t hns3_dbg_cmd_write(struct file *filp, const char __user *buffer,
 	return count;
 }
 
-<<<<<<< HEAD
 static ssize_t hns3_dbg_read(struct file *filp, char __user *buffer,
 			     size_t count, loff_t *ppos)
 {
@@ -567,8 +533,6 @@ out:
 	return size;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct file_operations hns3_dbg_cmd_fops = {
 	.owner = THIS_MODULE,
 	.open  = simple_open,
@@ -576,7 +540,6 @@ static const struct file_operations hns3_dbg_cmd_fops = {
 	.write = hns3_dbg_cmd_write,
 };
 
-<<<<<<< HEAD
 static const struct file_operations hns3_dbg_fops = {
 	.owner = THIS_MODULE,
 	.open  = simple_open,
@@ -588,17 +551,11 @@ void hns3_dbg_init(struct hnae3_handle *handle)
 	struct hnae3_ae_dev *ae_dev = pci_get_drvdata(handle->pdev);
 	const char *name = pci_name(handle->pdev);
 	struct dentry *entry_dir;
-=======
-void hns3_dbg_init(struct hnae3_handle *handle)
-{
-	const char *name = pci_name(handle->pdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	handle->hnae3_dbgfs = debugfs_create_dir(name, hns3_dbgfs_root);
 
 	debugfs_create_file("cmd", 0600, handle->hnae3_dbgfs, handle,
 			    &hns3_dbg_cmd_fops);
-<<<<<<< HEAD
 
 	entry_dir = debugfs_create_dir("tm", handle->hnae3_dbgfs);
 	if (ae_dev->dev_version > HNAE3_DEVICE_VERSION_V2)
@@ -608,8 +565,6 @@ void hns3_dbg_init(struct hnae3_handle *handle)
 			    &hns3_dbg_fops);
 	debugfs_create_file(HNAE3_DBG_TM_QSET, 0600, entry_dir, handle,
 			    &hns3_dbg_fops);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hns3_dbg_uninit(struct hnae3_handle *handle)

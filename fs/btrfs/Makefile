@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
 
-<<<<<<< HEAD
 # Subset of W=1 warnings
 subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
 subdir-ccflags-y += -Wmissing-declarations
@@ -19,8 +18,6 @@ subdir-ccflags-y += -Wno-missing-field-initializers
 subdir-ccflags-y += -Wno-sign-compare
 subdir-ccflags-y += -Wno-type-limits
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_BTRFS_FS) := btrfs.o
 
 btrfs-y += super.o ctree.o extent-tree.o print-tree.o root-tree.o dir-item.o \
@@ -32,12 +29,8 @@ btrfs-y += super.o ctree.o extent-tree.o print-tree.o root-tree.o dir-item.o \
 	   compression.o delayed-ref.o relocation.o delayed-inode.o scrub.o \
 	   reada.o backref.o ulist.o qgroup.o send.o dev-replace.o raid56.o \
 	   uuid-tree.o props.o free-space-tree.o tree-checker.o space-info.o \
-<<<<<<< HEAD
 	   block-rsv.o delalloc-space.o block-group.o discard.o reflink.o \
-	   subpage.o
-=======
-	   block-rsv.o delalloc-space.o block-group.o discard.o reflink.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	   subpage.o tree-mod-log.o
 
 btrfs-$(CONFIG_BTRFS_FS_POSIX_ACL) += acl.o
 btrfs-$(CONFIG_BTRFS_FS_CHECK_INTEGRITY) += check-integrity.o

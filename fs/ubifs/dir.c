@@ -94,11 +94,7 @@ struct inode *ubifs_new_inode(struct ubifs_info *c, struct inode *dir,
 	 */
 	inode->i_flags |= S_NOCMTIME;
 
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, dir, mode);
-=======
-	inode_init_owner(inode, dir, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_mtime = inode->i_atime = inode->i_ctime =
 			 current_time(inode);
 	inode->i_mapping->nrpages = 0;
@@ -284,13 +280,8 @@ static int ubifs_prepare_create(struct inode *dir, struct dentry *dentry,
 	return fscrypt_setup_filename(dir, &dentry->d_name, 0, nm);
 }
 
-<<<<<<< HEAD
 static int ubifs_create(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode, bool excl)
-=======
-static int ubifs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
-			bool excl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct ubifs_info *c = dir->i_sb->s_fs_info;
@@ -450,13 +441,8 @@ out_budg:
 	return err;
 }
 
-<<<<<<< HEAD
 static int ubifs_tmpfile(struct user_namespace *mnt_userns, struct inode *dir,
 			 struct dentry *dentry, umode_t mode)
-=======
-static int ubifs_tmpfile(struct inode *dir, struct dentry *dentry,
-			 umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return do_tmpfile(dir, dentry, mode, NULL);
 }
@@ -956,12 +942,8 @@ out_fname:
 	return err;
 }
 
-<<<<<<< HEAD
 static int ubifs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
-=======
-static int ubifs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct ubifs_inode *dir_ui = ubifs_inode(dir);
@@ -1032,13 +1014,8 @@ out_budg:
 	return err;
 }
 
-<<<<<<< HEAD
 static int ubifs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode, dev_t rdev)
-=======
-static int ubifs_mknod(struct inode *dir, struct dentry *dentry,
-		       umode_t mode, dev_t rdev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct ubifs_inode *ui;
@@ -1126,13 +1103,8 @@ out_budg:
 	return err;
 }
 
-<<<<<<< HEAD
 static int ubifs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			 struct dentry *dentry, const char *symname)
-=======
-static int ubifs_symlink(struct inode *dir, struct dentry *dentry,
-			 const char *symname)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct ubifs_inode *ui;
@@ -1571,12 +1543,8 @@ static int ubifs_xrename(struct inode *old_dir, struct dentry *old_dentry,
 	return err;
 }
 
-<<<<<<< HEAD
 static int ubifs_rename(struct user_namespace *mnt_userns,
 			struct inode *old_dir, struct dentry *old_dentry,
-=======
-static int ubifs_rename(struct inode *old_dir, struct dentry *old_dentry,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct inode *new_dir, struct dentry *new_dentry,
 			unsigned int flags)
 {
@@ -1600,13 +1568,8 @@ static int ubifs_rename(struct inode *old_dir, struct dentry *old_dentry,
 	return do_rename(old_dir, old_dentry, new_dir, new_dentry, flags);
 }
 
-<<<<<<< HEAD
 int ubifs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		  struct kstat *stat, u32 request_mask, unsigned int flags)
-=======
-int ubifs_getattr(const struct path *path, struct kstat *stat,
-		  u32 request_mask, unsigned int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	loff_t size;
 	struct inode *inode = d_inode(path->dentry);
@@ -1628,11 +1591,7 @@ int ubifs_getattr(const struct path *path, struct kstat *stat,
 				STATX_ATTR_ENCRYPTED |
 				STATX_ATTR_IMMUTABLE);
 
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->blksize = UBIFS_BLOCK_SIZE;
 	stat->size = ui->ui_size;
 
@@ -1678,6 +1637,8 @@ const struct inode_operations ubifs_dir_inode_operations = {
 	.listxattr   = ubifs_listxattr,
 	.update_time = ubifs_update_time,
 	.tmpfile     = ubifs_tmpfile,
+	.fileattr_get = ubifs_fileattr_get,
+	.fileattr_set = ubifs_fileattr_set,
 };
 
 const struct file_operations ubifs_dir_operations = {

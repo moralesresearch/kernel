@@ -267,11 +267,7 @@ DATA PATH
 Tx
 --
 
-<<<<<<< HEAD
 ena_start_xmit() is called by the stack. This function does the following:
-=======
-end_start_xmit() is called by the stack. This function does the following:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 - Maps data buffers (skb->data and frags).
 - Populates ena_buf for the push buffer (if the driver and device are

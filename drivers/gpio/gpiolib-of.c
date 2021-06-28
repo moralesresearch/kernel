@@ -1039,17 +1039,16 @@ void of_gpiochip_remove(struct gpio_chip *chip)
 {
 	of_node_put(chip->of_node);
 }
-<<<<<<< HEAD
 
 void of_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev)
 {
+	/* Set default OF node to parent's one if present */
+	if (gc->parent)
+		gdev->dev.of_node = gc->parent->of_node;
+
 	/* If the gpiochip has an assigned OF node this takes precedence */
 	if (gc->of_node)
 		gdev->dev.of_node = gc->of_node;
 	else
 		gc->of_node = gdev->dev.of_node;
-	if (gdev->dev.of_node)
-		gdev->dev.fwnode = of_fwnode_handle(gdev->dev.of_node);
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

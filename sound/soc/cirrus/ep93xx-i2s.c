@@ -404,11 +404,7 @@ static const struct snd_soc_dai_ops ep93xx_i2s_dai_ops = {
 #define EP93XX_I2S_FORMATS (SNDRV_PCM_FMTBIT_S32_LE)
 
 static struct snd_soc_dai_driver ep93xx_i2s_dai = {
-<<<<<<< HEAD
 	.symmetric_rate	= 1,
-=======
-	.symmetric_rates= 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.probe		= ep93xx_i2s_dai_probe,
 	.playback	= {
 		.channels_min	= 2,

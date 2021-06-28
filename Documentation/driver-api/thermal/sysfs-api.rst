@@ -54,11 +54,7 @@ temperature) and throttle appropriate devices.
     trips:
 	the total number of trip points this thermal zone supports.
     mask:
-<<<<<<< HEAD
 	Bit string: If 'n'th bit is set, then trip point 'n' is writable.
-=======
-	Bit string: If 'n'th bit is set, then trip point 'n' is writeable.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     devdata:
 	device private data
     ops:
@@ -410,11 +406,7 @@ Thermal cooling device sys I/F, created once it's registered::
     |---stats/reset:		Writing any value resets the statistics
     |---stats/time_in_state_ms:	Time (msec) spent in various cooling states
     |---stats/total_trans:	Total number of times cooling state is changed
-<<<<<<< HEAD
     |---stats/trans_table:	Cooling state transition table
-=======
-    |---stats/trans_table:	Cooing state transition table
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 Then next two dynamic attributes are created/removed in pairs. They represent
@@ -528,22 +520,6 @@ available_policies
 
 	RW, Optional
 
-<<<<<<< HEAD
-=======
-passive
-	Attribute is only present for zones in which the passive cooling
-	policy is not supported by native thermal driver. Default is zero
-	and can be set to a temperature (in millidegrees) to enable a
-	passive trip point for the zone. Activation is done by polling with
-	an interval of 1 second.
-
-	Unit: millidegrees Celsius
-
-	Valid values: 0 (disabled) or greater than 1000
-
-	RW, Optional
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 emul_temp
 	Interface to set the emulated temperature method in thermal zone
 	(sensor). After setting this temperature, the thermal zone may pass
@@ -754,17 +730,7 @@ This function returns the thermal_instance corresponding to a given
 {thermal_zone, cooling_device, trip_point} combination. Returns NULL
 if such an instance does not exist.
 
-4.3. thermal_notify_framework
------------------------------
-
-This function handles the trip events from sensor drivers. It starts
-throttling the cooling devices according to the policy configured.
-For CRITICAL and HOT trip points, this notifies the respective drivers,
-and does actual throttling for other trip points i.e ACTIVE and PASSIVE.
-The throttling policy is based on the configured platform data; if no
-platform data is provided, this uses the step_wise throttling policy.
-
-4.4. thermal_cdev_update
+4.3. thermal_cdev_update
 ------------------------
 
 This function serves as an arbitrator to set the state of a cooling
@@ -790,9 +756,5 @@ emergency poweroff kicks in after the delay has elapsed and shuts down
 the system.
 
 If set to 0 emergency poweroff will not be supported. So a carefully
-<<<<<<< HEAD
 profiled non-zero positive value is a must for emergency poweroff to be
-=======
-profiled non-zero positive value is a must for emergerncy poweroff to be
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 triggered.

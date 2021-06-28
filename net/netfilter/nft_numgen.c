@@ -16,11 +16,7 @@
 static DEFINE_PER_CPU(struct rnd_state, nft_numgen_prandom_state);
 
 struct nft_ng_inc {
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers      dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			modulus;
 	atomic_t		counter;
 	u32			offset;
@@ -70,18 +66,10 @@ static int nft_ng_inc_init(const struct nft_ctx *ctx,
 	if (priv->offset + priv->modulus - 1 < priv->offset)
 		return -EOVERFLOW;
 
-<<<<<<< HEAD
 	atomic_set(&priv->counter, priv->modulus - 1);
 
 	return nft_parse_register_store(ctx, tb[NFTA_NG_DREG], &priv->dreg,
 					NULL, NFT_DATA_VALUE, sizeof(u32));
-=======
-	priv->dreg = nft_parse_register(tb[NFTA_NG_DREG]);
-	atomic_set(&priv->counter, priv->modulus - 1);
-
-	return nft_validate_register_store(ctx, priv->dreg, NULL,
-					   NFT_DATA_VALUE, sizeof(u32));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nft_ng_dump(struct sk_buff *skb, enum nft_registers dreg,
@@ -111,11 +99,7 @@ static int nft_ng_inc_dump(struct sk_buff *skb, const struct nft_expr *expr)
 }
 
 struct nft_ng_random {
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers      dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			modulus;
 	u32			offset;
 };
@@ -155,15 +139,8 @@ static int nft_ng_random_init(const struct nft_ctx *ctx,
 
 	prandom_init_once(&nft_numgen_prandom_state);
 
-<<<<<<< HEAD
 	return nft_parse_register_store(ctx, tb[NFTA_NG_DREG], &priv->dreg,
 					NULL, NFT_DATA_VALUE, sizeof(u32));
-=======
-	priv->dreg = nft_parse_register(tb[NFTA_NG_DREG]);
-
-	return nft_validate_register_store(ctx, priv->dreg, NULL,
-					   NFT_DATA_VALUE, sizeof(u32));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nft_ng_random_dump(struct sk_buff *skb, const struct nft_expr *expr)

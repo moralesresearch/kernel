@@ -4,10 +4,6 @@
 #
 
 menuconfig NET_9P
-<<<<<<< HEAD
-=======
-	depends on NET
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tristate "Plan 9 Resource Sharing Support (9P2000)"
 	help
 	  If you say Y here, you will get experimental support for

@@ -21,6 +21,7 @@
 		serial1 = &duart1;
 		mmc0 = &esdhc;
 		mmc1 = &esdhc1;
+		rtc1 = &ftm_alarm0;
 	};
 
 	chosen {
@@ -85,7 +86,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &can0 {
 	status = "okay";
 
@@ -102,8 +102,6 @@
 	};
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &esdhc {
 	sd-uhs-sdr104;
 	sd-uhs-sdr50;

@@ -1,6 +1,5 @@
+// SPDX-License-Identifier: MIT
 /*
- * SPDX-License-Identifier: MIT
- *
  * Copyright © 2019 Intel Corporation
  */
 
@@ -11,10 +10,7 @@
 #include "intel_breadcrumbs.h"
 #include "intel_gt.h"
 #include "intel_gt_irq.h"
-<<<<<<< HEAD
 #include "intel_lrc_reg.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_uncore.h"
 #include "intel_rps.h"
 

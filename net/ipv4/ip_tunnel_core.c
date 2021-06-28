@@ -222,11 +222,7 @@ static int iptunnel_pmtud_build_icmp(struct sk_buff *skb, int mtu)
 		.code			= ICMP_FRAG_NEEDED,
 		.checksum		= 0,
 		.un.frag.__unused	= 0,
-<<<<<<< HEAD
 		.un.frag.mtu		= htons(mtu),
-=======
-		.un.frag.mtu		= ntohs(mtu),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	icmph->checksum = ip_compute_csum(icmph, len);
 	skb_reset_transport_header(skb);
@@ -249,11 +245,7 @@ static int iptunnel_pmtud_build_icmp(struct sk_buff *skb, int mtu)
 
 	skb->ip_summed = CHECKSUM_NONE;
 
-<<<<<<< HEAD
 	eth_header(skb, skb->dev, ntohs(eh.h_proto), eh.h_source, eh.h_dest, 0);
-=======
-	eth_header(skb, skb->dev, htons(eh.h_proto), eh.h_source, eh.h_dest, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_reset_mac_header(skb);
 
 	return skb->len;
@@ -346,11 +338,7 @@ static int iptunnel_pmtud_build_icmpv6(struct sk_buff *skb, int mtu)
 
 	skb->ip_summed = CHECKSUM_NONE;
 
-<<<<<<< HEAD
 	eth_header(skb, skb->dev, ntohs(eh.h_proto), eh.h_source, eh.h_dest, 0);
-=======
-	eth_header(skb, skb->dev, htons(eh.h_proto), eh.h_source, eh.h_dest, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_reset_mac_header(skb);
 
 	return skb->len;
@@ -595,14 +583,9 @@ static int ip_tun_parse_opts_erspan(struct nlattr *attr,
 static int ip_tun_parse_opts(struct nlattr *attr, struct ip_tunnel_info *info,
 			     struct netlink_ext_ack *extack)
 {
-<<<<<<< HEAD
 	int err, rem, opt_len, opts_len = 0;
 	struct nlattr *nla;
 	__be16 type = 0;
-=======
-	int err, rem, opt_len, opts_len = 0, type = 0;
-	struct nlattr *nla;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!attr)
 		return 0;

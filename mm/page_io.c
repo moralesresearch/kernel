@@ -26,31 +26,6 @@
 #include <linux/uio.h>
 #include <linux/sched/task.h>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static struct bio *get_swap_bio(gfp_t gfp_flags,
-				struct page *page, bio_end_io_t end_io)
-{
-	struct bio *bio;
-
-	bio = bio_alloc(gfp_flags, 1);
-	if (bio) {
-		struct block_device *bdev;
-
-		bio->bi_iter.bi_sector = map_swap_page(page, &bdev);
-		bio_set_dev(bio, bdev);
-		bio->bi_iter.bi_sector <<= PAGE_SHIFT - 9;
-		bio->bi_end_io = end_io;
-
-		bio_add_page(bio, page, thp_size(page), 0);
-	}
-	return bio;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void end_swap_bio_write(struct bio *bio)
 {
 	struct page *page = bio_first_page_all(bio);
@@ -66,21 +41,9 @@ void end_swap_bio_write(struct bio *bio)
 		 * Also clear PG_reclaim to avoid rotate_reclaimable_page()
 		 */
 		set_page_dirty(page);
-<<<<<<< HEAD
 		pr_alert_ratelimited("Write-error on swap-device (%u:%u:%llu)\n",
 				     MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
 				     (unsigned long long)bio->bi_iter.bi_sector);
-=======
-<<<<<<< HEAD
-		pr_alert_ratelimited("Write-error on swap-device (%u:%u:%llu)\n",
-				     MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
-				     (unsigned long long)bio->bi_iter.bi_sector);
-=======
-		pr_alert("Write-error on swap-device (%u:%u:%llu)\n",
-			 MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
-			 (unsigned long long)bio->bi_iter.bi_sector);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ClearPageReclaim(page);
 	}
 	end_page_writeback(page);
@@ -143,21 +106,9 @@ static void end_swap_bio_read(struct bio *bio)
 	if (bio->bi_status) {
 		SetPageError(page);
 		ClearPageUptodate(page);
-<<<<<<< HEAD
 		pr_alert_ratelimited("Read-error on swap-device (%u:%u:%llu)\n",
 				     MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
 				     (unsigned long long)bio->bi_iter.bi_sector);
-=======
-<<<<<<< HEAD
-		pr_alert_ratelimited("Read-error on swap-device (%u:%u:%llu)\n",
-				     MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
-				     (unsigned long long)bio->bi_iter.bi_sector);
-=======
-		pr_alert("Read-error on swap-device (%u:%u:%llu)\n",
-			 MAJOR(bio_dev(bio)), MINOR(bio_dev(bio)),
-			 (unsigned long long)bio->bi_iter.bi_sector);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -386,10 +337,6 @@ int __swap_writepage(struct page *page, struct writeback_control *wbc,
 		return 0;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio = bio_alloc(GFP_NOIO, 1);
 	bio_set_dev(bio, sis->bdev);
 	bio->bi_iter.bi_sector = swap_page_sector(page);
@@ -397,18 +344,6 @@ int __swap_writepage(struct page *page, struct writeback_control *wbc,
 	bio->bi_end_io = end_write_func;
 	bio_add_page(bio, page, thp_size(page), 0);
 
-<<<<<<< HEAD
-=======
-=======
-	bio = get_swap_bio(GFP_NOIO, page, end_write_func);
-	if (bio == NULL) {
-		set_page_dirty(page);
-		unlock_page(page);
-		return -ENOMEM;
-	}
-	bio->bi_opf = REQ_OP_WRITE | REQ_SWAP | wbc_to_write_flags(wbc);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio_associate_blkg_from_page(bio, page);
 	count_swpout_vm_event(page);
 	set_page_writeback(page);
@@ -468,10 +403,6 @@ int swap_readpage(struct page *page, bool synchronous)
 	}
 
 	ret = 0;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio = bio_alloc(GFP_KERNEL, 1);
 	bio_set_dev(bio, sis->bdev);
 	bio->bi_opf = REQ_OP_READ;
@@ -480,29 +411,10 @@ int swap_readpage(struct page *page, bool synchronous)
 	bio_add_page(bio, page, thp_size(page), 0);
 
 	disk = bio->bi_bdev->bd_disk;
-<<<<<<< HEAD
-=======
-=======
-	bio = get_swap_bio(GFP_KERNEL, page, end_swap_bio_read);
-	if (bio == NULL) {
-		unlock_page(page);
-		ret = -ENOMEM;
-		goto out;
-	}
-	disk = bio->bi_disk;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Keep this task valid during swap readpage because the oom killer may
 	 * attempt to access it in the page fault retry time check.
 	 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	bio_set_op_attrs(bio, REQ_OP_READ, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (synchronous) {
 		bio->bi_opf |= REQ_HIPRI;
 		get_task_struct(current);

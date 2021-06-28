@@ -99,14 +99,7 @@ int nmi_alloc_per_cpu(struct lowcore *lc);
 void nmi_free_per_cpu(struct lowcore *lc);
 
 void s390_handle_mcck(void);
-<<<<<<< HEAD
 void __s390_handle_mcck(void);
-=======
-<<<<<<< HEAD
-void __s390_handle_mcck(void);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int s390_do_machine_check(struct pt_regs *regs);
 
 #endif /* __ASSEMBLY__ */

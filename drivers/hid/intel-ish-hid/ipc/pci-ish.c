@@ -5,10 +5,7 @@
  * Copyright (c) 2014-2016, Intel Corporation.
  */
 
-<<<<<<< HEAD
 #include <linux/acpi.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/kernel.h>
@@ -41,12 +38,9 @@ static const struct pci_device_id ish_pci_tbl[] = {
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CMP_H_DEVICE_ID)},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_LP_DEVICE_ID)},
-<<<<<<< HEAD
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_H_DEVICE_ID)},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ADL_S_DEVICE_ID)},
 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ADL_P_DEVICE_ID)},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{0, }
 };
 MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
@@ -121,7 +115,6 @@ static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
 	return !pm_resume_via_firmware() || pdev->device == CHV_DEVICE_ID;
 }
 
-<<<<<<< HEAD
 static int enable_gpe(struct device *dev)
 {
 #ifdef CONFIG_ACPI
@@ -158,8 +151,6 @@ static void enable_pme_wake(struct pci_dev *pdev)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * ish_probe() - PCI driver probe callback
  * @pdev:	pci device
@@ -228,13 +219,10 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 	init_waitqueue_head(&ishtp->suspend_wait);
 	init_waitqueue_head(&ishtp->resume_wait);
 
-<<<<<<< HEAD
 	/* Enable PME for EHL */
 	if (pdev->device == EHL_Ax_DEVICE_ID)
 		enable_pme_wake(pdev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ish_init(ishtp);
 	if (ret)
 		return ret;
@@ -274,7 +262,6 @@ static void __maybe_unused ish_resume_handler(struct work_struct *work)
 {
 	struct pci_dev *pdev = to_pci_dev(ish_resume_device);
 	struct ishtp_device *dev = pci_get_drvdata(pdev);
-<<<<<<< HEAD
 	uint32_t fwsts = dev->ops->get_fw_status(dev);
 	int ret;
 
@@ -284,13 +271,6 @@ static void __maybe_unused ish_resume_handler(struct work_struct *work)
 
 		ish_set_host_ready(dev);
 
-=======
-	int ret;
-
-	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
-		disable_irq_wake(pdev->irq);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ishtp_send_resume(dev);
 
 		/* Waiting to get resume response */
@@ -385,7 +365,6 @@ static int __maybe_unused ish_resume(struct device *device)
 	struct pci_dev *pdev = to_pci_dev(device);
 	struct ishtp_device *dev = pci_get_drvdata(pdev);
 
-<<<<<<< HEAD
 	/* add this to finish power flow for EHL */
 	if (dev->pdev->device == EHL_Ax_DEVICE_ID) {
 		pci_set_power_state(pdev, PCI_D0);
@@ -393,8 +372,6 @@ static int __maybe_unused ish_resume(struct device *device)
 		dev_dbg(dev->devc, "set power state to D0 for ehl\n");
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ish_resume_device = device;
 	dev->resume_flag = 1;
 

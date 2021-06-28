@@ -22,6 +22,7 @@
 #include <linux/mm.h>
 #include <linux/dma-map-ops.h>
 #include <linux/kobject.h>
+#include <linux/kexec.h>
 
 #include <asm/iommu.h>
 #include <asm/dma.h>
@@ -1261,10 +1262,6 @@ static int vio_bus_remove(struct device *dev)
 	struct vio_dev *viodev = to_vio_dev(dev);
 	struct vio_driver *viodrv = to_vio_driver(dev->driver);
 	struct device *devptr;
-<<<<<<< HEAD
-=======
-	int ret = 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Hold a reference to the device after the remove function is called
@@ -1273,7 +1270,6 @@ static int vio_bus_remove(struct device *dev)
 	devptr = get_device(dev);
 
 	if (viodrv->remove)
-<<<<<<< HEAD
 		viodrv->remove(viodev);
 
 	if (firmware_has_feature(FW_FEATURE_CMO))
@@ -1281,15 +1277,20 @@ static int vio_bus_remove(struct device *dev)
 
 	put_device(devptr);
 	return 0;
-=======
-		ret = viodrv->remove(viodev);
+}
 
-	if (!ret && firmware_has_feature(FW_FEATURE_CMO))
-		vio_cmo_bus_remove(viodev);
+static void vio_bus_shutdown(struct device *dev)
+{
+	struct vio_dev *viodev = to_vio_dev(dev);
+	struct vio_driver *viodrv;
 
-	put_device(devptr);
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	if (dev->driver) {
+		viodrv = to_vio_driver(dev->driver);
+		if (viodrv->shutdown)
+			viodrv->shutdown(viodev);
+		else if (kexec_in_progress)
+			vio_bus_remove(dev);
+	}
 }
 
 /**
@@ -1299,13 +1300,10 @@ static int vio_bus_remove(struct device *dev)
 int __vio_register_driver(struct vio_driver *viodrv, struct module *owner,
 			  const char *mod_name)
 {
-<<<<<<< HEAD
 	// vio_bus_type is only initialised for pseries
 	if (!machine_is(pseries))
 		return -ENODEV;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_debug("%s: driver %s registering\n", __func__, viodrv->name);
 
 	/* fill in 'struct driver' fields */
@@ -1634,6 +1632,7 @@ struct bus_type vio_bus_type = {
 	.match = vio_bus_match,
 	.probe = vio_bus_probe,
 	.remove = vio_bus_remove,
+	.shutdown = vio_bus_shutdown,
 };
 
 /**

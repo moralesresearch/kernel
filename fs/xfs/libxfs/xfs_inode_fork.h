@@ -22,20 +22,11 @@ struct xfs_ifork {
 		char		*if_data;	/* inline file data */
 	} if_u1;
 	short			if_broot_bytes;	/* bytes allocated for root */
-	unsigned char		if_flags;	/* per-fork flags */
 	int8_t			if_format;	/* format of this fork */
 	xfs_extnum_t		if_nextents;	/* # of extents in this fork */
 };
 
 /*
- * Per-fork incore inode flags.
- */
-#define	XFS_IFINLINE	0x01	/* Inline data is read in */
-#define	XFS_IFEXTENTS	0x02	/* All extent pointers are read in */
-#define	XFS_IFBROOT	0x04	/* i_broot points to the bmap b-tree root */
-
-/*
-<<<<<<< HEAD
  * Worst-case increase in the fork extent count when we're adding a single
  * extent to a fork and there's no possibility of splitting an existing mapping.
  */
@@ -97,13 +88,11 @@ struct xfs_ifork {
 #define XFS_IEXT_SWAP_RMAP_CNT		(1)
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Fork handling.
  */
 
-#define XFS_IFORK_Q(ip)			((ip)->i_d.di_forkoff != 0)
-#define XFS_IFORK_BOFF(ip)		((int)((ip)->i_d.di_forkoff << 3))
+#define XFS_IFORK_Q(ip)			((ip)->i_forkoff != 0)
+#define XFS_IFORK_BOFF(ip)		((int)((ip)->i_forkoff << 3))
 
 #define XFS_IFORK_PTR(ip,w)		\
 	((w) == XFS_DATA_FORK ? \
@@ -144,6 +133,8 @@ static inline int8_t xfs_ifork_format(struct xfs_ifork *ifp)
 	return ifp->if_format;
 }
 
+struct xfs_ifork *xfs_ifork_alloc(enum xfs_dinode_fmt format,
+				xfs_extnum_t nextents);
 struct xfs_ifork *xfs_iext_state_to_fork(struct xfs_inode *ip, int state);
 
 int		xfs_iformat_data_fork(struct xfs_inode *, struct xfs_dinode *);
@@ -236,10 +227,13 @@ extern void xfs_ifork_init_cow(struct xfs_inode *ip);
 
 int xfs_ifork_verify_local_data(struct xfs_inode *ip);
 int xfs_ifork_verify_local_attr(struct xfs_inode *ip);
-<<<<<<< HEAD
 int xfs_iext_count_may_overflow(struct xfs_inode *ip, int whichfork,
 		int nr_to_add);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+/* returns true if the fork has extents but they are not read in yet. */
+static inline bool xfs_need_iread_extents(struct xfs_ifork *ifp)
+{
+	return ifp->if_format == XFS_DINODE_FMT_BTREE && ifp->if_height == 0;
+}
 
 #endif	/* __XFS_INODE_FORK_H__ */

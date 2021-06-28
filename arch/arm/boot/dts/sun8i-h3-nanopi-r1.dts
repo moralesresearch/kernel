@@ -39,13 +39,8 @@
 		regulator-ramp-delay = <50>;
 		gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
 		gpios-states = <0x1>;
-<<<<<<< HEAD
 		states = <1100000 0x0>,
 			 <1300000 0x1>;
-=======
-		states = <1100000 0x0
-			  1300000 0x1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	wifi_pwrseq: wifi_pwrseq {

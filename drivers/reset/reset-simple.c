@@ -146,11 +146,8 @@ static const struct of_device_id reset_simple_dt_ids[] = {
 	{ .compatible = "aspeed,ast2500-lpc-reset" },
 	{ .compatible = "bitmain,bm1880-reset",
 		.data = &reset_simple_active_low },
-<<<<<<< HEAD
 	{ .compatible = "brcm,bcm4908-misc-pcie-reset",
 		.data = &reset_simple_active_low },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "snps,dw-high-reset" },
 	{ .compatible = "snps,dw-low-reset",
 		.data = &reset_simple_active_low },

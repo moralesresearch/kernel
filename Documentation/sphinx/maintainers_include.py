@@ -61,11 +61,6 @@ class MaintainersInclude(Include):
         field_content = ""
 
         for line in open(path):
-<<<<<<< HEAD
-=======
-            if sys.version_info.major == 2:
-                line = unicode(line, 'utf-8')
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             # Have we reached the end of the preformatted Descriptions text?
             if descriptions and line.startswith('Maintainers'):
                 descriptions = False

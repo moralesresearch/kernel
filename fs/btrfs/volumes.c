@@ -421,15 +421,7 @@ static struct btrfs_device *__alloc_device(struct btrfs_fs_info *fs_info)
 	 * Preallocate a bio that's always going to be used for flushing device
 	 * barriers and matches the device lifespan
 	 */
-<<<<<<< HEAD
 	dev->flush_bio = bio_kmalloc(GFP_KERNEL, 0);
-=======
-<<<<<<< HEAD
-	dev->flush_bio = bio_kmalloc(GFP_KERNEL, 0);
-=======
-	dev->flush_bio = bio_alloc_bioset(GFP_KERNEL, 0, NULL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dev->flush_bio) {
 		kfree(dev);
 		return ERR_PTR(-ENOMEM);
@@ -677,16 +669,6 @@ static int btrfs_open_one_device(struct btrfs_fs_devices *fs_devices,
 	clear_bit(BTRFS_DEV_STATE_IN_FS_METADATA, &device->dev_state);
 	device->mode = flags;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	ret = btrfs_get_dev_zone_info(device);
-	if (ret != 0)
-		goto error_free_page;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fs_devices->open_devices++;
 	if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state) &&
 	    device->devid != BTRFS_DEV_REPLACE_DEVID) {
@@ -1242,7 +1224,8 @@ static int open_fs_devices(struct btrfs_fs_devices *fs_devices,
 	return 0;
 }
 
-static int devid_cmp(void *priv, struct list_head *a, struct list_head *b)
+static int devid_cmp(void *priv, const struct list_head *a,
+		     const struct list_head *b)
 {
 	struct btrfs_device *dev1, *dev2;
 
@@ -1432,10 +1415,6 @@ static u64 dev_extent_search_start(struct btrfs_device *device, u64 start)
 		 * make sure to start at an offset of at least 1MB.
 		 */
 		return max_t(u64, start, SZ_1M);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case BTRFS_CHUNK_ALLOC_ZONED:
 		/*
 		 * We don't care about the starting region like regular
@@ -1443,20 +1422,11 @@ static u64 dev_extent_search_start(struct btrfs_device *device, u64 start)
 		 * for superblock logging.
 		 */
 		return ALIGN(start, device->zone_info->zone_size);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool dev_extent_hole_check_zoned(struct btrfs_device *device,
 					u64 *hole_start, u64 *hole_size,
 					u64 num_bytes)
@@ -1490,7 +1460,7 @@ static bool dev_extent_hole_check_zoned(struct btrfs_device *device,
 		if (ret == -ERANGE) {
 			*hole_start += *hole_size;
 			*hole_size = 0;
-			return 1;
+			return true;
 		}
 
 		*hole_start += zone_size;
@@ -1501,11 +1471,6 @@ static bool dev_extent_hole_check_zoned(struct btrfs_device *device,
 	return changed;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * dev_extent_hole_check - check if specified hole is suitable for allocation
  * @device:	the device which we have the hole
@@ -1513,15 +1478,7 @@ static bool dev_extent_hole_check_zoned(struct btrfs_device *device,
  * @hole_size:	the size of the hole
  * @num_bytes:	the size of the free space that we need
  *
-<<<<<<< HEAD
  * This function may modify @hole_start and @hole_size to reflect the suitable
-=======
-<<<<<<< HEAD
- * This function may modify @hole_start and @hole_size to reflect the suitable
-=======
- * This function may modify @hole_start and @hole_end to reflect the suitable
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * position for allocation. Returns 1 if hole position is updated, 0 otherwise.
  */
 static bool dev_extent_hole_check(struct btrfs_device *device, u64 *hole_start,
@@ -1530,10 +1487,6 @@ static bool dev_extent_hole_check(struct btrfs_device *device, u64 *hole_start,
 	bool changed = false;
 	u64 hole_end = *hole_start + *hole_size;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (;;) {
 		/*
 		 * Check before we set max_hole_start, otherwise we could end up
@@ -1567,29 +1520,6 @@ static bool dev_extent_hole_check(struct btrfs_device *device, u64 *hole_start,
 		}
 
 		break;
-<<<<<<< HEAD
-=======
-=======
-	/*
-	 * Check before we set max_hole_start, otherwise we could end up
-	 * sending back this offset anyway.
-	 */
-	if (contains_pending_extent(device, hole_start, *hole_size)) {
-		if (hole_end >= *hole_start)
-			*hole_size = hole_end - *hole_start;
-		else
-			*hole_size = 0;
-		changed = true;
-	}
-
-	switch (device->fs_devices->chunk_alloc_policy) {
-	case BTRFS_CHUNK_ALLOC_REGULAR:
-		/* No extra check */
-		break;
-	default:
-		BUG();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return changed;
@@ -1642,18 +1572,9 @@ static int find_free_dev_extent_start(struct btrfs_device *device,
 
 	search_start = dev_extent_search_start(device, search_start);
 
-<<<<<<< HEAD
 	WARN_ON(device->zone_info &&
 		!IS_ALIGNED(num_bytes, device->zone_info->zone_size));
 
-=======
-<<<<<<< HEAD
-	WARN_ON(device->zone_info &&
-		!IS_ALIGNED(num_bytes, device->zone_info->zone_size));
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	path = btrfs_alloc_path();
 	if (!path)
 		return -ENOMEM;
@@ -3178,11 +3099,12 @@ out:
 	return ret;
 }
 
-static int btrfs_relocate_chunk(struct btrfs_fs_info *fs_info, u64 chunk_offset)
+int btrfs_relocate_chunk(struct btrfs_fs_info *fs_info, u64 chunk_offset)
 {
 	struct btrfs_root *root = fs_info->chunk_root;
 	struct btrfs_trans_handle *trans;
 	struct btrfs_block_group *block_group;
+	u64 length;
 	int ret;
 
 	/*
@@ -3197,7 +3119,7 @@ static int btrfs_relocate_chunk(struct btrfs_fs_info *fs_info, u64 chunk_offset)
 	 * we release the path used to search the chunk/dev tree and before
 	 * the current task acquires this mutex and calls us.
 	 */
-	lockdep_assert_held(&fs_info->delete_unused_bgs_mutex);
+	lockdep_assert_held(&fs_info->reclaim_bgs_lock);
 
 	/* step one, relocate all the extents inside this chunk */
 	btrfs_scrub_pause(fs_info);
@@ -3210,7 +3132,22 @@ static int btrfs_relocate_chunk(struct btrfs_fs_info *fs_info, u64 chunk_offset)
 	if (!block_group)
 		return -ENOENT;
 	btrfs_discard_cancel_work(&fs_info->discard_ctl, block_group);
+	length = block_group->length;
 	btrfs_put_block_group(block_group);
+
+	/*
+	 * On a zoned file system, discard the whole block group, this will
+	 * trigger a REQ_OP_ZONE_RESET operation on the device zone. If
+	 * resetting the zone fails, don't treat it as a fatal problem from the
+	 * filesystem's point of view.
+	 */
+	if (btrfs_is_zoned(fs_info)) {
+		ret = btrfs_discard_extent(fs_info, chunk_offset, length, NULL);
+		if (ret)
+			btrfs_info(fs_info,
+				"failed to reset zone %llu after relocation",
+				chunk_offset);
+	}
 
 	trans = btrfs_start_trans_remove_block_group(root->fs_info,
 						     chunk_offset);
@@ -3252,10 +3189,10 @@ again:
 	key.type = BTRFS_CHUNK_ITEM_KEY;
 
 	while (1) {
-		mutex_lock(&fs_info->delete_unused_bgs_mutex);
+		mutex_lock(&fs_info->reclaim_bgs_lock);
 		ret = btrfs_search_slot(NULL, chunk_root, &key, path, 0, 0);
 		if (ret < 0) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto error;
 		}
 		BUG_ON(ret == 0); /* Corruption */
@@ -3263,7 +3200,7 @@ again:
 		ret = btrfs_previous_item(chunk_root, path, key.objectid,
 					  key.type);
 		if (ret)
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 		if (ret < 0)
 			goto error;
 		if (ret > 0)
@@ -3284,7 +3221,7 @@ again:
 			else
 				BUG_ON(ret);
 		}
-		mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+		mutex_unlock(&fs_info->reclaim_bgs_lock);
 
 		if (found_key.offset == 0)
 			break;
@@ -3824,10 +3761,10 @@ again:
 			goto error;
 		}
 
-		mutex_lock(&fs_info->delete_unused_bgs_mutex);
+		mutex_lock(&fs_info->reclaim_bgs_lock);
 		ret = btrfs_search_slot(NULL, chunk_root, &key, path, 0, 0);
 		if (ret < 0) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto error;
 		}
 
@@ -3841,7 +3778,7 @@ again:
 		ret = btrfs_previous_item(chunk_root, path, 0,
 					  BTRFS_CHUNK_ITEM_KEY);
 		if (ret) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			ret = 0;
 			break;
 		}
@@ -3851,7 +3788,7 @@ again:
 		btrfs_item_key_to_cpu(leaf, &found_key, slot);
 
 		if (found_key.objectid != key.objectid) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			break;
 		}
 
@@ -3868,12 +3805,12 @@ again:
 
 		btrfs_release_path(path);
 		if (!ret) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto loop;
 		}
 
 		if (counting) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			spin_lock(&fs_info->balance_lock);
 			bctl->stat.expected++;
 			spin_unlock(&fs_info->balance_lock);
@@ -3898,7 +3835,7 @@ again:
 					count_meta < bctl->meta.limit_min)
 				|| ((chunk_type & BTRFS_BLOCK_GROUP_SYSTEM) &&
 					count_sys < bctl->sys.limit_min)) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto loop;
 		}
 
@@ -3912,7 +3849,7 @@ again:
 			ret = btrfs_may_alloc_data_chunk(fs_info,
 							 found_key.offset);
 			if (ret < 0) {
-				mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+				mutex_unlock(&fs_info->reclaim_bgs_lock);
 				goto error;
 			} else if (ret == 1) {
 				chunk_reserved = 1;
@@ -3920,7 +3857,7 @@ again:
 		}
 
 		ret = btrfs_relocate_chunk(fs_info, found_key.offset);
-		mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+		mutex_unlock(&fs_info->reclaim_bgs_lock);
 		if (ret == -ENOSPC) {
 			enospc_errors++;
 		} else if (ret == -ETXTBSY) {
@@ -4805,32 +4742,18 @@ again:
 	key.type = BTRFS_DEV_EXTENT_KEY;
 
 	do {
-		mutex_lock(&fs_info->delete_unused_bgs_mutex);
+		mutex_lock(&fs_info->reclaim_bgs_lock);
 		ret = btrfs_search_slot(NULL, root, &key, path, 0, 0);
 		if (ret < 0) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto done;
 		}
 
 		ret = btrfs_previous_item(root, path, 0, key.type);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			if (ret < 0)
 				goto done;
-<<<<<<< HEAD
-=======
-=======
-		if (ret)
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
-		if (ret < 0)
-			goto done;
-		if (ret) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = 0;
 			btrfs_release_path(path);
 			break;
@@ -4841,7 +4764,7 @@ again:
 		btrfs_item_key_to_cpu(l, &key, path->slots[0]);
 
 		if (key.objectid != device->devid) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			btrfs_release_path(path);
 			break;
 		}
@@ -4850,7 +4773,7 @@ again:
 		length = btrfs_dev_extent_length(l, dev_extent);
 
 		if (key.offset + length <= new_size) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			btrfs_release_path(path);
 			break;
 		}
@@ -4866,12 +4789,12 @@ again:
 		 */
 		ret = btrfs_may_alloc_data_chunk(fs_info, chunk_offset);
 		if (ret < 0) {
-			mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+			mutex_unlock(&fs_info->reclaim_bgs_lock);
 			goto done;
 		}
 
 		ret = btrfs_relocate_chunk(fs_info, chunk_offset);
-		mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+		mutex_unlock(&fs_info->reclaim_bgs_lock);
 		if (ret == -ENOSPC) {
 			failed++;
 		} else if (ret) {
@@ -5062,10 +4985,6 @@ static void init_alloc_chunk_ctl_policy_regular(
 	ctl->dev_extent_min = BTRFS_STRIPE_LEN * ctl->dev_stripes;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void init_alloc_chunk_ctl_policy_zoned(
 				      struct btrfs_fs_devices *fs_devices,
 				      struct alloc_chunk_ctl *ctl)
@@ -5087,11 +5006,8 @@ static void init_alloc_chunk_ctl_policy_zoned(
 		ctl->max_chunk_size = 2 * ctl->max_stripe_size;
 		ctl->devs_max = min_t(int, ctl->devs_max,
 				      BTRFS_MAX_DEVS_SYS_CHUNK);
-<<<<<<< HEAD
 	} else {
 		BUG();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* We don't want a chunk larger than 10% of writable space */
@@ -5102,11 +5018,6 @@ static void init_alloc_chunk_ctl_policy_zoned(
 	ctl->dev_extent_min = zone_size * ctl->dev_stripes;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void init_alloc_chunk_ctl(struct btrfs_fs_devices *fs_devices,
 				 struct alloc_chunk_ctl *ctl)
 {
@@ -5127,18 +5038,9 @@ static void init_alloc_chunk_ctl(struct btrfs_fs_devices *fs_devices,
 	case BTRFS_CHUNK_ALLOC_REGULAR:
 		init_alloc_chunk_ctl_policy_regular(fs_devices, ctl);
 		break;
-<<<<<<< HEAD
 	case BTRFS_CHUNK_ALLOC_ZONED:
 		init_alloc_chunk_ctl_policy_zoned(fs_devices, ctl);
 		break;
-=======
-<<<<<<< HEAD
-	case BTRFS_CHUNK_ALLOC_ZONED:
-		init_alloc_chunk_ctl_policy_zoned(fs_devices, ctl);
-		break;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -5265,10 +5167,6 @@ static int decide_stripe_size_regular(struct alloc_chunk_ctl *ctl,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int decide_stripe_size_zoned(struct alloc_chunk_ctl *ctl,
 				    struct btrfs_device_info *devices_info)
 {
@@ -5301,11 +5199,6 @@ static int decide_stripe_size_zoned(struct alloc_chunk_ctl *ctl,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int decide_stripe_size(struct btrfs_fs_devices *fs_devices,
 			      struct alloc_chunk_ctl *ctl,
 			      struct btrfs_device_info *devices_info)
@@ -5333,16 +5226,8 @@ static int decide_stripe_size(struct btrfs_fs_devices *fs_devices,
 	switch (fs_devices->chunk_alloc_policy) {
 	case BTRFS_CHUNK_ALLOC_REGULAR:
 		return decide_stripe_size_regular(ctl, devices_info);
-<<<<<<< HEAD
 	case BTRFS_CHUNK_ALLOC_ZONED:
 		return decide_stripe_size_zoned(ctl, devices_info);
-=======
-<<<<<<< HEAD
-	case BTRFS_CHUNK_ALLOC_ZONED:
-		return decide_stripe_size_zoned(ctl, devices_info);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		BUG();
 	}
@@ -6107,10 +5992,6 @@ static int get_extra_mirror_from_replace(struct btrfs_fs_info *fs_info,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool is_block_group_to_copy(struct btrfs_fs_info *fs_info, u64 logical)
 {
 	struct btrfs_block_group *cache;
@@ -6134,14 +6015,6 @@ static void handle_ops_on_dev_replace(enum btrfs_map_op op,
 				      struct btrfs_bio **bbio_ret,
 				      struct btrfs_dev_replace *dev_replace,
 				      u64 logical,
-<<<<<<< HEAD
-=======
-=======
-static void handle_ops_on_dev_replace(enum btrfs_map_op op,
-				      struct btrfs_bio **bbio_ret,
-				      struct btrfs_dev_replace *dev_replace,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      int *num_stripes_ret, int *max_errors_ret)
 {
 	struct btrfs_bio *bbio = *bbio_ret;
@@ -6155,10 +6028,6 @@ static void handle_ops_on_dev_replace(enum btrfs_map_op op,
 		int index_where_to_add;
 
 		/*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * A block group which have "to_copy" set will eventually
 		 * copied by dev-replace process. We can avoid cloning IO here.
 		 */
@@ -6166,11 +6035,6 @@ static void handle_ops_on_dev_replace(enum btrfs_map_op op,
 			return;
 
 		/*
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * duplicate the write operations while the dev replace
 		 * procedure is running. Since the copying of the old disk to
 		 * the new disk takes place at run time while the filesystem is
@@ -6255,10 +6119,6 @@ static bool need_full_stripe(enum btrfs_map_op op)
 }
 
 /*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Calculate the geometry of a particular (address, len) tuple. This
  * information is used to calculate how big a particular bio can get before it
  * straddles a stripe.
@@ -6269,41 +6129,14 @@ static bool need_full_stripe(enum btrfs_map_op op)
  * @logical: address that we want to figure out the geometry of
  * @len:     the length of IO we are going to perform, starting at @logical
  * @io_geom: pointer used to return values
-<<<<<<< HEAD
-=======
-=======
- * btrfs_get_io_geometry - calculates the geomery of a particular (address, len)
- *		       tuple. This information is used to calculate how big a
- *		       particular bio can get before it straddles a stripe.
- *
- * @fs_info - the filesystem
- * @logical - address that we want to figure out the geometry of
- * @len	    - the length of IO we are going to perform, starting at @logical
- * @op      - type of operation - write or read
- * @io_geom - pointer used to return values
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns < 0 in case a chunk for the given logical address cannot be found,
  * usually shouldn't happen unless @logical is corrupted, 0 otherwise.
  */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, struct extent_map *em,
 			  enum btrfs_map_op op, u64 logical, u64 len,
 			  struct btrfs_io_geometry *io_geom)
 {
-<<<<<<< HEAD
-=======
-=======
-int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
-			u64 logical, u64 len, struct btrfs_io_geometry *io_geom)
-{
-	struct extent_map *em;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct map_lookup *map;
 	u64 offset;
 	u64 stripe_offset;
@@ -6311,26 +6144,9 @@ int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 	u64 stripe_len;
 	u64 raid56_full_stripe_start = (u64)-1;
 	int data_stripes;
-<<<<<<< HEAD
 
 	ASSERT(op != BTRFS_MAP_DISCARD);
 
-=======
-<<<<<<< HEAD
-
-	ASSERT(op != BTRFS_MAP_DISCARD);
-
-=======
-	int ret = 0;
-
-	ASSERT(op != BTRFS_MAP_DISCARD);
-
-	em = btrfs_get_chunk_map(fs_info, logical, len);
-	if (IS_ERR(em))
-		return PTR_ERR(em);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	map = em->map_lookup;
 	/* Offset of this logical address in the chunk */
 	offset = logical - em->start;
@@ -6344,16 +6160,7 @@ int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 		btrfs_crit(fs_info,
 "stripe math has gone wrong, stripe_offset=%llu offset=%llu start=%llu logical=%llu stripe_len=%llu",
 			stripe_offset, offset, em->start, logical, stripe_len);
-<<<<<<< HEAD
 		return -EINVAL;
-=======
-<<<<<<< HEAD
-		return -EINVAL;
-=======
-		ret = -EINVAL;
-		goto out;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* stripe_offset is the offset of this block in its stripe */
@@ -6400,18 +6207,7 @@ int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 	io_geom->stripe_offset = stripe_offset;
 	io_geom->raid56_stripe_offset = raid56_full_stripe_start;
 
-<<<<<<< HEAD
 	return 0;
-=======
-<<<<<<< HEAD
-	return 0;
-=======
-out:
-	/* once for us */
-	free_extent_map(em);
-	return ret;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __btrfs_map_block(struct btrfs_fs_info *fs_info,
@@ -6444,10 +6240,6 @@ static int __btrfs_map_block(struct btrfs_fs_info *fs_info,
 	ASSERT(bbio_ret);
 	ASSERT(op != BTRFS_MAP_DISCARD);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	em = btrfs_get_chunk_map(fs_info, logical, *length);
 	ASSERT(!IS_ERR(em));
 
@@ -6455,17 +6247,6 @@ static int __btrfs_map_block(struct btrfs_fs_info *fs_info,
 	if (ret < 0)
 		return ret;
 
-<<<<<<< HEAD
-=======
-=======
-	ret = btrfs_get_io_geometry(fs_info, op, logical, *length, &geom);
-	if (ret < 0)
-		return ret;
-
-	em = btrfs_get_chunk_map(fs_info, logical, *length);
-	ASSERT(!IS_ERR(em));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	map = em->map_lookup;
 
 	*length = geom.len;
@@ -6641,18 +6422,8 @@ static int __btrfs_map_block(struct btrfs_fs_info *fs_info,
 
 	if (dev_replace_is_ongoing && dev_replace->tgtdev != NULL &&
 	    need_full_stripe(op)) {
-<<<<<<< HEAD
 		handle_ops_on_dev_replace(op, &bbio, dev_replace, logical,
 					  &num_stripes, &max_errors);
-=======
-<<<<<<< HEAD
-		handle_ops_on_dev_replace(op, &bbio, dev_replace, logical,
-					  &num_stripes, &max_errors);
-=======
-		handle_ops_on_dev_replace(op, &bbio, dev_replace, &num_stripes,
-					  &max_errors);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	*bbio_ret = bbio;
@@ -6723,15 +6494,7 @@ static void btrfs_end_bio(struct bio *bio)
 			struct btrfs_device *dev = btrfs_io_bio(bio)->device;
 
 			ASSERT(dev->bdev);
-<<<<<<< HEAD
 			if (btrfs_op(bio) == BTRFS_MAP_WRITE)
-=======
-<<<<<<< HEAD
-			if (btrfs_op(bio) == BTRFS_MAP_WRITE)
-=======
-			if (bio_op(bio) == REQ_OP_WRITE)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				btrfs_dev_stat_inc_and_print(dev,
 						BTRFS_DEV_STAT_WRITE_ERRS);
 			else if (!(bio->bi_opf & REQ_RAHEAD))
@@ -6783,10 +6546,6 @@ static void submit_stripe_bio(struct btrfs_bio *bbio, struct bio *bio,
 	btrfs_io_bio(bio)->device = dev;
 	bio->bi_end_io = btrfs_end_bio;
 	bio->bi_iter.bi_sector = physical >> 9;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * For zone append writing, bi_sector must point the beginning of the
 	 * zone
@@ -6801,11 +6560,6 @@ static void submit_stripe_bio(struct btrfs_bio *bbio, struct bio *bio,
 			bio->bi_opf |= REQ_OP_WRITE;
 		}
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	btrfs_debug_in_rcu(fs_info,
 	"btrfs_map_bio: rw %d 0x%x, sector=%llu, dev=%lu (%s id %llu), size=%u",
 		bio_op(bio), bio->bi_opf, bio->bi_iter.bi_sector,
@@ -6867,23 +6621,10 @@ blk_status_t btrfs_map_bio(struct btrfs_fs_info *fs_info, struct bio *bio,
 	atomic_set(&bbio->stripes_pending, bbio->num_stripes);
 
 	if ((bbio->map_type & BTRFS_BLOCK_GROUP_RAID56_MASK) &&
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    ((btrfs_op(bio) == BTRFS_MAP_WRITE) || (mirror_num > 1))) {
 		/* In this case, map_length has been set to the length of
 		   a single stripe; not the whole write */
 		if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
-<<<<<<< HEAD
-=======
-=======
-	    ((bio_op(bio) == REQ_OP_WRITE) || (mirror_num > 1))) {
-		/* In this case, map_length has been set to the length of
-		   a single stripe; not the whole write */
-		if (bio_op(bio) == REQ_OP_WRITE) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = raid56_parity_write(fs_info, bio, bbio,
 						  map_length);
 		} else {
@@ -6906,15 +6647,7 @@ blk_status_t btrfs_map_bio(struct btrfs_fs_info *fs_info, struct bio *bio,
 		dev = bbio->stripes[dev_nr].dev;
 		if (!dev || !dev->bdev || test_bit(BTRFS_DEV_STATE_MISSING,
 						   &dev->dev_state) ||
-<<<<<<< HEAD
 		    (btrfs_op(first_bio) == BTRFS_MAP_WRITE &&
-=======
-<<<<<<< HEAD
-		    (btrfs_op(first_bio) == BTRFS_MAP_WRITE &&
-=======
-		    (bio_op(first_bio) == REQ_OP_WRITE &&
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    !test_bit(BTRFS_DEV_STATE_WRITEABLE, &dev->dev_state))) {
 			bbio_error(bbio, first_bio, logical);
 			continue;
@@ -7073,6 +6806,46 @@ static u64 calc_stripe_length(u64 type, u64 chunk_len, int num_stripes)
 	return div_u64(chunk_len, data_stripes);
 }
 
+#if BITS_PER_LONG == 32
+/*
+ * Due to page cache limit, metadata beyond BTRFS_32BIT_MAX_FILE_SIZE
+ * can't be accessed on 32bit systems.
+ *
+ * This function do mount time check to reject the fs if it already has
+ * metadata chunk beyond that limit.
+ */
+static int check_32bit_meta_chunk(struct btrfs_fs_info *fs_info,
+				  u64 logical, u64 length, u64 type)
+{
+	if (!(type & BTRFS_BLOCK_GROUP_METADATA))
+		return 0;
+
+	if (logical + length < MAX_LFS_FILESIZE)
+		return 0;
+
+	btrfs_err_32bit_limit(fs_info);
+	return -EOVERFLOW;
+}
+
+/*
+ * This is to give early warning for any metadata chunk reaching
+ * BTRFS_32BIT_EARLY_WARN_THRESHOLD.
+ * Although we can still access the metadata, it's not going to be possible
+ * once the limit is reached.
+ */
+static void warn_32bit_meta_chunk(struct btrfs_fs_info *fs_info,
+				  u64 logical, u64 length, u64 type)
+{
+	if (!(type & BTRFS_BLOCK_GROUP_METADATA))
+		return;
+
+	if (logical + length < BTRFS_32BIT_EARLY_WARN_THRESHOLD)
+		return;
+
+	btrfs_warn_32bit_limit(fs_info);
+}
+#endif
+
 static int read_one_chunk(struct btrfs_key *key, struct extent_buffer *leaf,
 			  struct btrfs_chunk *chunk)
 {
@@ -7083,6 +6856,7 @@ static int read_one_chunk(struct btrfs_key *key, struct extent_buffer *leaf,
 	u64 logical;
 	u64 length;
 	u64 devid;
+	u64 type;
 	u8 uuid[BTRFS_UUID_SIZE];
 	int num_stripes;
 	int ret;
@@ -7090,7 +6864,15 @@ static int read_one_chunk(struct btrfs_key *key, struct extent_buffer *leaf,
 
 	logical = key->offset;
 	length = btrfs_chunk_length(leaf, chunk);
+	type = btrfs_chunk_type(leaf, chunk);
 	num_stripes = btrfs_chunk_num_stripes(leaf, chunk);
+
+#if BITS_PER_LONG == 32
+	ret = check_32bit_meta_chunk(fs_info, logical, length, type);
+	if (ret < 0)
+		return ret;
+	warn_32bit_meta_chunk(fs_info, logical, length, type);
+#endif
 
 	/*
 	 * Only need to verify chunk item if we're reading from sys chunk array,
@@ -7135,10 +6917,10 @@ static int read_one_chunk(struct btrfs_key *key, struct extent_buffer *leaf,
 	map->io_width = btrfs_chunk_io_width(leaf, chunk);
 	map->io_align = btrfs_chunk_io_align(leaf, chunk);
 	map->stripe_len = btrfs_chunk_stripe_len(leaf, chunk);
-	map->type = btrfs_chunk_type(leaf, chunk);
+	map->type = type;
 	map->sub_stripes = btrfs_chunk_sub_stripes(leaf, chunk);
 	map->verified_stripes = 0;
-	em->orig_block_len = calc_stripe_length(map->type, em->len,
+	em->orig_block_len = calc_stripe_length(type, em->len,
 						map->num_stripes);
 	for (i = 0; i < num_stripes; i++) {
 		map->stripes[i].physical =
@@ -8099,10 +7881,6 @@ static int verify_one_dev_extent(struct btrfs_fs_info *fs_info,
 		ret = -EUCLEAN;
 		goto out;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dev->zone_info) {
 		u64 zone_size = dev->zone_info->zone_size;
@@ -8117,11 +7895,6 @@ static int verify_one_dev_extent(struct btrfs_fs_info *fs_info,
 		}
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	free_extent_map(em);
 	return ret;
@@ -8278,10 +8051,6 @@ bool btrfs_pinned_by_swapfile(struct btrfs_fs_info *fs_info, void *ptr)
 	spin_unlock(&fs_info->swapfile_pins_lock);
 	return node != NULL;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int relocating_repair_kthread(void *data)
 {
@@ -8300,7 +8069,7 @@ static int relocating_repair_kthread(void *data)
 		return -EBUSY;
 	}
 
-	mutex_lock(&fs_info->delete_unused_bgs_mutex);
+	mutex_lock(&fs_info->reclaim_bgs_lock);
 
 	/* Ensure block group still exists */
 	cache = btrfs_lookup_block_group(fs_info, target);
@@ -8322,7 +8091,7 @@ static int relocating_repair_kthread(void *data)
 out:
 	if (cache)
 		btrfs_put_block_group(cache);
-	mutex_unlock(&fs_info->delete_unused_bgs_mutex);
+	mutex_unlock(&fs_info->reclaim_bgs_lock);
 	btrfs_exclop_finish(fs_info);
 
 	return ret;
@@ -8354,8 +8123,3 @@ int btrfs_repair_one_zone(struct btrfs_fs_info *fs_info, u64 logical)
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

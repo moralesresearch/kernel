@@ -20,7 +20,6 @@
 		{ SYNCHRONIZE_CACHE,	"SYNC" },			\
 		{ UNMAP,		"UNMAP" })
 
-<<<<<<< HEAD
 #define UFS_LINK_STATES						\
 	EM(UIC_LINK_OFF_STATE,		"UIC_LINK_OFF_STATE")		\
 	EM(UIC_LINK_ACTIVE_STATE,	"UIC_LINK_ACTIVE_STATE")	\
@@ -54,44 +53,18 @@
 	EM(UFS_TSF_OSF,		"OSF")		                \
 	EM(UFS_TSF_TM_INPUT,	"TM_INPUT")                     \
 	EMe(UFS_TSF_TM_OUTPUT,	"TM_OUTPUT")
-=======
-#define UFS_LINK_STATES			\
-	EM(UIC_LINK_OFF_STATE)		\
-	EM(UIC_LINK_ACTIVE_STATE)	\
-	EMe(UIC_LINK_HIBERN8_STATE)
-
-#define UFS_PWR_MODES			\
-	EM(UFS_ACTIVE_PWR_MODE)		\
-	EM(UFS_SLEEP_PWR_MODE)		\
-	EM(UFS_POWERDOWN_PWR_MODE)	\
-	EMe(UFS_DEEPSLEEP_PWR_MODE)
-
-#define UFSCHD_CLK_GATING_STATES	\
-	EM(CLKS_OFF)			\
-	EM(CLKS_ON)			\
-	EM(REQ_CLKS_OFF)		\
-	EMe(REQ_CLKS_ON)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Enums require being exported to userspace, for user tool parsing */
 #undef EM
 #undef EMe
-<<<<<<< HEAD
 #define EM(a, b)	TRACE_DEFINE_ENUM(a);
 #define EMe(a, b)	TRACE_DEFINE_ENUM(a);
-=======
-#define EM(a)	TRACE_DEFINE_ENUM(a);
-#define EMe(a)	TRACE_DEFINE_ENUM(a);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 UFS_LINK_STATES;
 UFS_PWR_MODES;
 UFSCHD_CLK_GATING_STATES;
-<<<<<<< HEAD
 UFS_CMD_TRACE_STRINGS
 UFS_CMD_TRACE_TSF_TYPES
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Now redefine the EM() and EMe() macros to map the enums to the strings
@@ -99,7 +72,6 @@ UFS_CMD_TRACE_TSF_TYPES
  */
 #undef EM
 #undef EMe
-<<<<<<< HEAD
 #define EM(a, b)	{a, b},
 #define EMe(a, b)	{a, b}
 
@@ -107,10 +79,6 @@ UFS_CMD_TRACE_TSF_TYPES
 				__print_symbolic(str_t, UFS_CMD_TRACE_STRINGS)
 #define show_ufs_cmd_trace_tsf(tsf)	\
 				__print_symbolic(tsf, UFS_CMD_TRACE_TSF_TYPES)
-=======
-#define EM(a)	{ a, #a },
-#define EMe(a)	{ a, #a }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 TRACE_EVENT(ufshcd_clk_gating,
 
@@ -279,28 +247,16 @@ DEFINE_EVENT(ufshcd_template, ufshcd_init,
 	     TP_ARGS(dev_name, err, usecs, dev_state, link_state));
 
 TRACE_EVENT(ufshcd_command,
-<<<<<<< HEAD
 	TP_PROTO(const char *dev_name, enum ufs_trace_str_t str_t,
 		 unsigned int tag, u32 doorbell, int transfer_len, u32 intr,
 		 u64 lba, u8 opcode, u8 group_id),
 
 	TP_ARGS(dev_name, str_t, tag, doorbell, transfer_len,
-=======
-	TP_PROTO(const char *dev_name, const char *str, unsigned int tag,
-			u32 doorbell, int transfer_len, u32 intr, u64 lba,
-			u8 opcode, u8 group_id),
-
-	TP_ARGS(dev_name, str, tag, doorbell, transfer_len,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				intr, lba, opcode, group_id),
 
 	TP_STRUCT__entry(
 		__string(dev_name, dev_name)
-<<<<<<< HEAD
 		__field(enum ufs_trace_str_t, str_t)
-=======
-		__string(str, str)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__field(unsigned int, tag)
 		__field(u32, doorbell)
 		__field(int, transfer_len)
@@ -312,11 +268,7 @@ TRACE_EVENT(ufshcd_command,
 
 	TP_fast_assign(
 		__assign_str(dev_name, dev_name);
-<<<<<<< HEAD
 		__entry->str_t = str_t;
-=======
-		__assign_str(str, str);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->tag = tag;
 		__entry->doorbell = doorbell;
 		__entry->transfer_len = transfer_len;
@@ -328,20 +280,14 @@ TRACE_EVENT(ufshcd_command,
 
 	TP_printk(
 		"%s: %s: tag: %u, DB: 0x%x, size: %d, IS: %u, LBA: %llu, opcode: 0x%x (%s), group_id: 0x%x",
-<<<<<<< HEAD
 		show_ufs_cmd_trace_str(__entry->str_t), __get_str(dev_name),
 		__entry->tag, __entry->doorbell, __entry->transfer_len,
-=======
-		__get_str(str), __get_str(dev_name), __entry->tag,
-		__entry->doorbell, __entry->transfer_len,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->intr, __entry->lba, (u32)__entry->opcode,
 		str_opcode(__entry->opcode), (u32)__entry->group_id
 	)
 );
 
 TRACE_EVENT(ufshcd_uic_command,
-<<<<<<< HEAD
 	TP_PROTO(const char *dev_name, enum ufs_trace_str_t str_t, u32 cmd,
 		 u32 arg1, u32 arg2, u32 arg3),
 
@@ -350,16 +296,6 @@ TRACE_EVENT(ufshcd_uic_command,
 	TP_STRUCT__entry(
 		__string(dev_name, dev_name)
 		__field(enum ufs_trace_str_t, str_t)
-=======
-	TP_PROTO(const char *dev_name, const char *str, u32 cmd,
-		 u32 arg1, u32 arg2, u32 arg3),
-
-	TP_ARGS(dev_name, str, cmd, arg1, arg2, arg3),
-
-	TP_STRUCT__entry(
-		__string(dev_name, dev_name)
-		__string(str, str)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__field(u32, cmd)
 		__field(u32, arg1)
 		__field(u32, arg2)
@@ -368,11 +304,7 @@ TRACE_EVENT(ufshcd_uic_command,
 
 	TP_fast_assign(
 		__assign_str(dev_name, dev_name);
-<<<<<<< HEAD
 		__entry->str_t = str_t;
-=======
-		__assign_str(str, str);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__entry->cmd = cmd;
 		__entry->arg1 = arg1;
 		__entry->arg2 = arg2;
@@ -381,18 +313,12 @@ TRACE_EVENT(ufshcd_uic_command,
 
 	TP_printk(
 		"%s: %s: cmd: 0x%x, arg1: 0x%x, arg2: 0x%x, arg3: 0x%x",
-<<<<<<< HEAD
 		show_ufs_cmd_trace_str(__entry->str_t), __get_str(dev_name),
 		__entry->cmd, __entry->arg1, __entry->arg2, __entry->arg3
-=======
-		__get_str(str), __get_str(dev_name), __entry->cmd,
-		__entry->arg1, __entry->arg2, __entry->arg3
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	)
 );
 
 TRACE_EVENT(ufshcd_upiu,
-<<<<<<< HEAD
 	TP_PROTO(const char *dev_name, enum ufs_trace_str_t str_t, void *hdr,
 		 void *tsf, enum ufs_trace_tsf_t tsf_t),
 
@@ -404,22 +330,10 @@ TRACE_EVENT(ufshcd_upiu,
 		__array(unsigned char, hdr, 12)
 		__array(unsigned char, tsf, 16)
 		__field(enum ufs_trace_tsf_t, tsf_t)
-=======
-	TP_PROTO(const char *dev_name, const char *str, void *hdr, void *tsf),
-
-	TP_ARGS(dev_name, str, hdr, tsf),
-
-	TP_STRUCT__entry(
-		__string(dev_name, dev_name)
-		__string(str, str)
-		__array(unsigned char, hdr, 12)
-		__array(unsigned char, tsf, 16)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 
 	TP_fast_assign(
 		__assign_str(dev_name, dev_name);
-<<<<<<< HEAD
 		__entry->str_t = str_t;
 		memcpy(__entry->hdr, hdr, sizeof(__entry->hdr));
 		memcpy(__entry->tsf, tsf, sizeof(__entry->tsf));
@@ -431,18 +345,28 @@ TRACE_EVENT(ufshcd_upiu,
 		show_ufs_cmd_trace_str(__entry->str_t), __get_str(dev_name),
 		__print_hex(__entry->hdr, sizeof(__entry->hdr)),
 		show_ufs_cmd_trace_tsf(__entry->tsf_t),
-=======
-		__assign_str(str, str);
-		memcpy(__entry->hdr, hdr, sizeof(__entry->hdr));
-		memcpy(__entry->tsf, tsf, sizeof(__entry->tsf));
+		__print_hex(__entry->tsf, sizeof(__entry->tsf))
+	)
+);
+
+TRACE_EVENT(ufshcd_exception_event,
+
+	TP_PROTO(const char *dev_name, u16 status),
+
+	TP_ARGS(dev_name, status),
+
+	TP_STRUCT__entry(
+		__string(dev_name, dev_name)
+		__field(u16, status)
 	),
 
-	TP_printk(
-		"%s: %s: HDR:%s, CDB:%s",
-		__get_str(str), __get_str(dev_name),
-		__print_hex(__entry->hdr, sizeof(__entry->hdr)),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		__print_hex(__entry->tsf, sizeof(__entry->tsf))
+	TP_fast_assign(
+		__assign_str(dev_name, dev_name);
+		__entry->status = status;
+	),
+
+	TP_printk("%s: status 0x%x",
+		__get_str(dev_name), __entry->status
 	)
 );
 

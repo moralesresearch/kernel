@@ -149,11 +149,7 @@ static void asm_emit_align(void *e, int a)
 static void asm_emit_data(void *e, struct data d)
 {
 	FILE *f = e;
-<<<<<<< HEAD
 	unsigned int off = 0;
-=======
-	int off = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct marker *m = d.markers;
 
 	for_each_marker_of_type(m, LABEL)
@@ -223,11 +219,7 @@ static struct emitter asm_emitter = {
 
 static int stringtable_insert(struct data *d, const char *str)
 {
-<<<<<<< HEAD
 	unsigned int i;
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* FIXME: do this more efficiently? */
 
@@ -353,11 +345,7 @@ static void make_fdt_header(struct fdt_header *fdt,
 void dt_to_blob(FILE *f, struct dt_info *dti, int version)
 {
 	struct version_info *vi = NULL;
-<<<<<<< HEAD
 	unsigned int i;
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct data blob       = empty_data;
 	struct data reservebuf = empty_data;
 	struct data dtbuf      = empty_data;
@@ -458,11 +446,7 @@ static void dump_stringtable_asm(FILE *f, struct data strbuf)
 void dt_to_asm(FILE *f, struct dt_info *dti, int version)
 {
 	struct version_info *vi = NULL;
-<<<<<<< HEAD
 	unsigned int i;
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct data strbuf = empty_data;
 	struct reserve_info *re;
 	const char *symprefix = "dt";

@@ -484,11 +484,7 @@ int ieee80211_wx_get_name(struct ieee80211_device *ieee,
 			     struct iw_request_info *info,
 			     union iwreq_data *wrqu, char *extra)
 {
-<<<<<<< HEAD
 	strscpy(wrqu->name, "802.11", IFNAMSIZ);
-=======
-	strlcpy(wrqu->name, "802.11", IFNAMSIZ);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ieee->modulation & IEEE80211_CCK_MODULATION) {
 		strlcat(wrqu->name, "b", IFNAMSIZ);
 		if (ieee->modulation & IEEE80211_OFDM_MODULATION)

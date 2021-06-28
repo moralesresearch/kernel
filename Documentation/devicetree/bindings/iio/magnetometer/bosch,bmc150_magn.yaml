@@ -30,12 +30,9 @@ properties:
   reg:
     maxItems: 1
 
-<<<<<<< HEAD
   vdd-supply: true
   vddio-supply: true
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   interrupts:
     maxItems: 1
 

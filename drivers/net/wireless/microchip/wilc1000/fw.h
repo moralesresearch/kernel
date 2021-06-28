@@ -44,32 +44,20 @@ struct wilc_drv_handler {
 struct wilc_wep_key {
 	u8 index;
 	u8 key_len;
-<<<<<<< HEAD
 	u8 key[];
-=======
-	u8 key[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct wilc_sta_wpa_ptk {
 	u8 mac_addr[ETH_ALEN];
 	u8 key_len;
-<<<<<<< HEAD
 	u8 key[];
-=======
-	u8 key[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct wilc_ap_wpa_ptk {
 	u8 mac_addr[ETH_ALEN];
 	u8 index;
 	u8 key_len;
-<<<<<<< HEAD
 	u8 key[];
-=======
-	u8 key[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct wilc_gtk_key {
@@ -77,11 +65,7 @@ struct wilc_gtk_key {
 	u8 rsc[8];
 	u8 index;
 	u8 key_len;
-<<<<<<< HEAD
 	u8 key[];
-=======
-	u8 key[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 struct wilc_op_mode {

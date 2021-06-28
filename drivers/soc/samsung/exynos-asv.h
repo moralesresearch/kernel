@@ -68,9 +68,6 @@ static inline u32 exynos_asv_opp_get_frequency(const struct exynos_asv_subsys *s
 	return __asv_get_table_entry(&subsys->table, level, 0);
 }
 
-<<<<<<< HEAD
 int exynos_asv_init(struct device *dev, struct regmap *regmap);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_SOC_EXYNOS_ASV_H */

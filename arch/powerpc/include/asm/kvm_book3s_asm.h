@@ -74,19 +74,6 @@ struct kvm_split_mode {
 	u8		do_nap;
 	u8		napped[MAX_SMT_THREADS];
 	struct kvmppc_vcore *vc[MAX_SUBCORES];
-<<<<<<< HEAD
-=======
-	/* Bits for changing lpcr on P9 */
-	unsigned long	lpcr_req;
-	unsigned long	lpidr_req;
-	unsigned long	host_lpcr;
-	u32		do_set;
-	u32		do_restore;
-	union {
-		u32	allphases;
-		u8	phase[4];
-	} lpcr_sync;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -113,10 +100,6 @@ struct kvmppc_host_state {
 	u8 hwthread_state;
 	u8 host_ipi;
 	u8 ptid;		/* thread number within subcore when split */
-<<<<<<< HEAD
-=======
-	u8 tid;			/* thread number within whole core */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 fake_suspend;
 	struct kvm_vcpu *kvm_vcpu;
 	struct kvmppc_vcore *kvm_vcore;

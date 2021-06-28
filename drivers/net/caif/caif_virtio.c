@@ -598,15 +598,9 @@ err:
 	return NETDEV_TX_OK;
 }
 
-<<<<<<< HEAD
 static void cfv_tx_release_tasklet(struct tasklet_struct *t)
 {
 	struct cfv_info *cfv = from_tasklet(cfv, t, tx_release_tasklet);
-=======
-static void cfv_tx_release_tasklet(unsigned long drv)
-{
-	struct cfv_info *cfv = (struct cfv_info *)drv;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cfv_release_used_buf(cfv->vq_tx);
 }
 
@@ -722,13 +716,7 @@ static int cfv_probe(struct virtio_device *vdev)
 	cfv->ctx.head = USHRT_MAX;
 	netif_napi_add(netdev, &cfv->napi, cfv_rx_poll, CFV_DEFAULT_QUOTA);
 
-<<<<<<< HEAD
 	tasklet_setup(&cfv->tx_release_tasklet, cfv_tx_release_tasklet);
-=======
-	tasklet_init(&cfv->tx_release_tasklet,
-		     cfv_tx_release_tasklet,
-		     (unsigned long)cfv);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Carrier is off until netdevice is opened */
 	netif_carrier_off(netdev);

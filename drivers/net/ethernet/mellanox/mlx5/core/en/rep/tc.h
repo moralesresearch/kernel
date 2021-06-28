@@ -27,13 +27,9 @@ void mlx5e_rep_update_flows(struct mlx5e_priv *priv,
 			    unsigned char ha[ETH_ALEN]);
 
 int mlx5e_rep_encap_entry_attach(struct mlx5e_priv *priv,
-<<<<<<< HEAD
 				 struct mlx5e_encap_entry *e,
 				 struct mlx5e_neigh *m_neigh,
 				 struct net_device *neigh_dev);
-=======
-				 struct mlx5e_encap_entry *e);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_rep_encap_entry_detach(struct mlx5e_priv *priv,
 				  struct mlx5e_encap_entry *e);
 

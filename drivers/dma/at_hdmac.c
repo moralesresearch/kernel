@@ -54,7 +54,6 @@ module_param(init_nr_desc_per_channel, uint, 0644);
 MODULE_PARM_DESC(init_nr_desc_per_channel,
 		 "initial descriptors per channel (default: 64)");
 
-<<<<<<< HEAD
 /**
  * struct at_dma_platform_data - Controller configuration parameters
  * @nr_channels: Number of channels supported by hardware (max 8)
@@ -74,8 +73,6 @@ struct at_dma_slave {
 	struct device		*dma_dev;
 	u32			cfg;
 };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* prototypes */
 static dma_cookie_t atc_tx_submit(struct dma_async_tx_descriptor *tx);

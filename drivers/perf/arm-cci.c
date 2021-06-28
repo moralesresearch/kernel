@@ -306,7 +306,7 @@ static ssize_t cci400_pmu_cycle_event_show(struct device *dev,
 {
 	struct dev_ext_attribute *eattr = container_of(attr,
 				struct dev_ext_attribute, attr);
-	return snprintf(buf, PAGE_SIZE, "config=0x%lx\n", (unsigned long)eattr->var);
+	return sysfs_emit(buf, "config=0x%lx\n", (unsigned long)eattr->var);
 }
 
 static int cci400_get_event_idx(struct cci_pmu *cci_pmu,
@@ -525,8 +525,8 @@ static ssize_t cci5xx_pmu_global_event_show(struct device *dev,
 	struct dev_ext_attribute *eattr = container_of(attr,
 					struct dev_ext_attribute, attr);
 	/* Global events have single fixed source code */
-	return snprintf(buf, PAGE_SIZE, "event=0x%lx,source=0x%x\n",
-				(unsigned long)eattr->var, CCI5xx_PORT_GLOBAL);
+	return sysfs_emit(buf, "event=0x%lx,source=0x%x\n",
+			  (unsigned long)eattr->var, CCI5xx_PORT_GLOBAL);
 }
 
 /*
@@ -696,7 +696,7 @@ static ssize_t cci_pmu_format_show(struct device *dev,
 {
 	struct dev_ext_attribute *eattr = container_of(attr,
 				struct dev_ext_attribute, attr);
-	return snprintf(buf, PAGE_SIZE, "%s\n", (char *)eattr->var);
+	return sysfs_emit(buf, "%s\n", (char *)eattr->var);
 }
 
 static ssize_t cci_pmu_event_show(struct device *dev,
@@ -705,8 +705,8 @@ static ssize_t cci_pmu_event_show(struct device *dev,
 	struct dev_ext_attribute *eattr = container_of(attr,
 				struct dev_ext_attribute, attr);
 	/* source parameter is mandatory for normal PMU events */
-	return snprintf(buf, PAGE_SIZE, "source=?,event=0x%lx\n",
-					 (unsigned long)eattr->var);
+	return sysfs_emit(buf, "source=?,event=0x%lx\n",
+			  (unsigned long)eattr->var);
 }
 
 static int pmu_is_valid_counter(struct cci_pmu *cci_pmu, int idx)
@@ -1026,19 +1026,11 @@ static void pmu_event_set_period(struct perf_event *event)
 
 static irqreturn_t pmu_handle_irq(int irq_num, void *dev)
 {
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cci_pmu *cci_pmu = dev;
 	struct cci_pmu_hw_events *events = &cci_pmu->hw_events;
 	int idx, handled = IRQ_NONE;
 
-<<<<<<< HEAD
 	raw_spin_lock(&events->pmu_lock);
-=======
-	raw_spin_lock_irqsave(&events->pmu_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable the PMU while we walk through the counters */
 	__cci_pmu_disable(cci_pmu);
@@ -1068,11 +1060,7 @@ static irqreturn_t pmu_handle_irq(int irq_num, void *dev)
 
 	/* Enable the PMU and sync possibly overflowed counters */
 	__cci_pmu_enable_sync(cci_pmu);
-<<<<<<< HEAD
 	raw_spin_unlock(&events->pmu_lock);
-=======
-	raw_spin_unlock_irqrestore(&events->pmu_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_RETVAL(handled);
 }
@@ -1387,11 +1375,7 @@ static struct attribute *pmu_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group pmu_attr_group = {
-=======
-static struct attribute_group pmu_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = pmu_attrs,
 };
 

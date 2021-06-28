@@ -554,11 +554,7 @@ static int mes_v10_1_allocate_eop_buf(struct amdgpu_device *adev)
 		return r;
 	}
 
-<<<<<<< HEAD
 	memset(eop, 0, adev->mes.eop_gpu_obj->tbo.base.size);
-=======
-	memset(eop, 0, adev->mes.eop_gpu_obj->tbo.mem.size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	amdgpu_bo_kunmap(adev->mes.eop_gpu_obj);
 	amdgpu_bo_unreserve(adev->mes.eop_gpu_obj);
@@ -852,7 +848,8 @@ static int mes_v10_1_ring_init(struct amdgpu_device *adev)
 	ring->no_scheduler = true;
 	sprintf(ring->name, "mes_%d.%d.%d", ring->me, ring->pipe, ring->queue);
 
-	return amdgpu_ring_init(adev, ring, 1024, NULL, 0, AMDGPU_RING_PRIO_DEFAULT);
+	return amdgpu_ring_init(adev, ring, 1024, NULL, 0,
+				AMDGPU_RING_PRIO_DEFAULT, NULL);
 }
 
 static int mes_v10_1_mqd_sw_init(struct amdgpu_device *adev)

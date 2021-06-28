@@ -3,11 +3,7 @@
  *
  * Module Name: exfldio - Aml Field I/O
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -438,11 +434,7 @@ acpi_ex_field_datum_io(union acpi_operand_object *obj_desc,
 		 * region_field case and write the datum to the Operation Region
 		 */
 
-<<<<<<< HEAD
 		ACPI_FALLTHROUGH;
-=======
-		/*lint -fallthrough */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	case ACPI_TYPE_LOCAL_REGION_FIELD:
 		/*

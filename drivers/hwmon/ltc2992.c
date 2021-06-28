@@ -900,7 +900,6 @@ static int ltc2992_parse_dt(struct ltc2992_state *st)
 
 	fwnode_for_each_available_child_node(fwnode, child) {
 		ret = fwnode_property_read_u32(child, "reg", &addr);
-<<<<<<< HEAD
 		if (ret < 0) {
 			fwnode_handle_put(child);
 			return ret;
@@ -910,13 +909,6 @@ static int ltc2992_parse_dt(struct ltc2992_state *st)
 			fwnode_handle_put(child);
 			return -EINVAL;
 		}
-=======
-		if (ret < 0)
-			return ret;
-
-		if (addr > 1)
-			return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = fwnode_property_read_u32(child, "shunt-resistor-micro-ohms", &val);
 		if (!ret)

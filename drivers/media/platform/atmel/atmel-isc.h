@@ -41,10 +41,7 @@ struct isc_buffer {
 struct isc_subdev_entity {
 	struct v4l2_subdev		*sd;
 	struct v4l2_async_subdev	*asd;
-<<<<<<< HEAD
 	struct device_node		*epn;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_async_notifier      notifier;
 
 	u32 pfe_cfg0;

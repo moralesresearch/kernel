@@ -240,7 +240,6 @@ static struct rds_connection *__rds_conn_create(struct net *net,
 	if (loop_trans) {
 		rds_trans_put(loop_trans);
 		conn->c_loopback = 1;
-<<<<<<< HEAD
 		if (trans->t_prefer_loopback) {
 			if (likely(is_outgoing)) {
 				/* "outgoing" connection to local address.
@@ -258,14 +257,6 @@ static struct rds_connection *__rds_conn_create(struct net *net,
 				conn = ERR_PTR(-EOPNOTSUPP);
 				goto out;
 			}
-=======
-		if (is_outgoing && trans->t_prefer_loopback) {
-			/* "outgoing" connection - and the transport
-			 * says it wants the connection handled by the
-			 * loopback transport. This is what TCP does.
-			 */
-			trans = &rds_loop_transport;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 

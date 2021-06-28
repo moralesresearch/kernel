@@ -845,10 +845,7 @@ enum htt_security_types {
 
 #define ATH10K_HTT_TXRX_PEER_SECURITY_MAX 2
 #define ATH10K_TXRX_NUM_EXT_TIDS 19
-<<<<<<< HEAD
 #define ATH10K_TXRX_NON_QOS_TID 16
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum htt_security_flags {
 #define HTT_SECURITY_TYPE_MASK 0x7F
@@ -2245,11 +2242,7 @@ struct htt_rx_chan_info {
  * Should be: sizeof(struct htt_host_rx_desc) + max rx MSDU size,
  * rounded up to a cache line size.
  */
-<<<<<<< HEAD
 #define HTT_RX_BUF_SIZE 2048
-=======
-#define HTT_RX_BUF_SIZE 1920
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HTT_RX_MSDU_SIZE (HTT_RX_BUF_SIZE - (int)sizeof(struct htt_rx_desc))
 
 /* Refill a bunch of RX buffers for each refill round so that FW/HW can handle

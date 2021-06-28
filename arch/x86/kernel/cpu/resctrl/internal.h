@@ -572,10 +572,7 @@ union cpuid_0x10_x_edx {
 
 void rdt_last_cmd_clear(void);
 void rdt_last_cmd_puts(const char *s);
-<<<<<<< HEAD
 __printf(1, 2)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rdt_last_cmd_printf(const char *fmt, ...);
 
 void rdt_ctrl_update(void *arg);

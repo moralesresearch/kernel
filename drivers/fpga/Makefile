@@ -44,10 +44,7 @@ dfl-fme-objs += dfl-fme-perf.o
 dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o
 dfl-afu-objs += dfl-afu-error.o
 
-<<<<<<< HEAD
 obj-$(CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000)	+= dfl-n3000-nios.o
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Drivers for FPGAs which implement DFL
 obj-$(CONFIG_FPGA_DFL_PCI)		+= dfl-pci.o

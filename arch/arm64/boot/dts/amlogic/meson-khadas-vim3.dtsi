@@ -43,14 +43,14 @@
 	leds {
 		compatible = "gpio-leds";
 
-		white {
+		led-white {
 			color = <LED_COLOR_ID_WHITE>;
 			function = LED_FUNCTION_STATUS;
 			gpios = <&gpio_ao GPIOAO_4 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
 		};
 
-		red {
+		led-red {
 			color = <LED_COLOR_ID_RED>;
 			function = LED_FUNCTION_STATUS;
 			gpios = <&gpio_expander 5 GPIO_ACTIVE_HIGH>;
@@ -170,11 +170,7 @@
 
 	sound {
 		compatible = "amlogic,axg-sound-card";
-<<<<<<< HEAD
 		model = "KHADAS-VIM3";
-=======
-		model = "G12B-KHADAS-VIM3";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		audio-aux-devs = <&tdmout_a>;
 		audio-routing = "TDMOUT_A IN 0", "FRDDR_A OUT 0",
 				"TDMOUT_A IN 1", "FRDDR_B OUT 0",
@@ -287,21 +283,12 @@
 };
 
 &ethmac {
-<<<<<<< HEAD
 	pinctrl-0 = <&eth_pins>, <&eth_rgmii_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 	phy-mode = "rgmii";
 	phy-handle = <&external_phy>;
 	amlogic,tx-delay-ns = <2>;
-=======
-        pinctrl-0 = <&eth_pins>, <&eth_rgmii_pins>;
-        pinctrl-names = "default";
-        status = "okay";
-        phy-mode = "rgmii";
-        phy-handle = <&external_phy>;
-        amlogic,tx-delay-ns = <2>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &frddr_a {
@@ -367,15 +354,9 @@
 };
 
 &pwm_ef {
-<<<<<<< HEAD
 	status = "okay";
 	pinctrl-0 = <&pwm_e_pins>;
 	pinctrl-names = "default";
-=======
-        status = "okay";
-        pinctrl-0 = <&pwm_e_pins>;
-        pinctrl-names = "default";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &saradc {
@@ -469,10 +450,6 @@
 	};
 };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &tdmif_a {
 	status = "okay";
 };

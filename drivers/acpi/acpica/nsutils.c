@@ -4,11 +4,7 @@
  * Module Name: nsutils - Utilities for accessing ACPI namespace, accessing
  *                        parents and siblings and Scope manipulation
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 

@@ -12,7 +12,7 @@ Guidelines for GPIOs consumers
 
 Drivers that can't work without standard GPIO calls should have Kconfig entries
 that depend on GPIOLIB or select GPIOLIB. The functions that allow a driver to
-obtain and use GPIOs are available by including the following file:
+obtain and use GPIOs are available by including the following file::
 
 	#include <linux/gpio/consumer.h>
 
@@ -361,21 +361,13 @@ corresponding chip driver. In that case a significantly improved performance
 can be expected. If simultaneous access is not possible the GPIOs will be
 accessed sequentially.
 
-<<<<<<< HEAD
 The functions take four arguments:
 
-=======
-The functions take three arguments:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	* array_size	- the number of array elements
 	* desc_array	- an array of GPIO descriptors
 	* array_info	- optional information obtained from gpiod_get_array()
 	* value_bitmap	- a bitmap to store the GPIOs' values (get) or
-<<<<<<< HEAD
           a bitmap of values to assign to the GPIOs (set)
-=======
-			  a bitmap of values to assign to the GPIOs (set)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The descriptor array can be obtained using the gpiod_get_array() function
 or one of its variants. If the group of descriptors returned by that function

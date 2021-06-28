@@ -22,14 +22,6 @@
 MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_DESCRIPTION("Yamaha OPL3SA2+");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Yamaha,YMF719E-S},"
-		"{Genius,Sound Maker 3DX},"
-		"{Yamaha,OPL3SA3},"
-		"{Intel,AL440LX sound},"
-	        "{NeoMagic,MagicWave 3DX}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */
@@ -881,18 +873,10 @@ static int snd_opl3sa2_isa_probe(struct device *pdev,
 	return 0;
 }
 
-<<<<<<< HEAD
 static void snd_opl3sa2_isa_remove(struct device *devptr,
 				  unsigned int dev)
 {
 	snd_card_free(dev_get_drvdata(devptr));
-=======
-static int snd_opl3sa2_isa_remove(struct device *devptr,
-				  unsigned int dev)
-{
-	snd_card_free(dev_get_drvdata(devptr));
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

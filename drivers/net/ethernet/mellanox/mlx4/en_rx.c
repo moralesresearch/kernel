@@ -682,12 +682,7 @@ int mlx4_en_process_rx_cq(struct net_device *dev, struct mlx4_en_cq *cq, int bud
 	/* Protect accesses to: ring->xdp_prog, priv->mac_hash list */
 	rcu_read_lock();
 	xdp_prog = rcu_dereference(ring->xdp_prog);
-<<<<<<< HEAD
 	xdp_init_buff(&xdp, priv->frag_info[0].frag_stride, &ring->xdp_rxq);
-=======
-	xdp.rxq = &ring->xdp_rxq;
-	xdp.frame_sz = priv->frag_info[0].frag_stride;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	doorbell_pending = false;
 
 	/* We assume a 1:1 mapping between CQEs and Rx descriptors, so Rx
@@ -781,15 +776,8 @@ int mlx4_en_process_rx_cq(struct net_device *dev, struct mlx4_en_cq *cq, int bud
 						priv->frag_info[0].frag_size,
 						DMA_FROM_DEVICE);
 
-<<<<<<< HEAD
 			xdp_prepare_buff(&xdp, va - frags[0].page_offset,
 					 frags[0].page_offset, length, false);
-=======
-			xdp.data_hard_start = va - frags[0].page_offset;
-			xdp.data = va;
-			xdp_set_data_meta_invalid(&xdp);
-			xdp.data_end = xdp.data + length;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			orig_data = xdp.data;
 
 			act = bpf_prog_run_xdp(xdp_prog, &xdp);

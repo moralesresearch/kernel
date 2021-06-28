@@ -45,11 +45,7 @@
 #include <asm/system_misc.h>
 #include <asm/sysreg.h>
 
-<<<<<<< HEAD
 static const char *handler[] = {
-=======
-static const char *handler[]= {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	"Synchronous Abort",
 	"IRQ",
 	"FIQ",

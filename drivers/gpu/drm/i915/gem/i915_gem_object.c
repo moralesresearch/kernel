@@ -25,20 +25,13 @@
 #include <linux/sched/mm.h>
 
 #include "display/intel_frontbuffer.h"
-<<<<<<< HEAD
-=======
-#include "gt/intel_gt.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "i915_drv.h"
 #include "i915_gem_clflush.h"
 #include "i915_gem_context.h"
 #include "i915_gem_mman.h"
 #include "i915_gem_object.h"
 #include "i915_globals.h"
-<<<<<<< HEAD
 #include "i915_memcpy.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "i915_trace.h"
 
 static struct i915_global_object {
@@ -67,10 +60,8 @@ void i915_gem_object_free(struct drm_i915_gem_object *obj)
 
 void i915_gem_object_init(struct drm_i915_gem_object *obj,
 			  const struct drm_i915_gem_object_ops *ops,
-			  struct lock_class_key *key)
+			  struct lock_class_key *key, unsigned flags)
 {
-	__mutex_init(&obj->mm.lock, ops->name ?: "obj->mm.lock", key);
-
 	spin_lock_init(&obj->vma.lock);
 	INIT_LIST_HEAD(&obj->vma.list);
 
@@ -85,16 +76,14 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
 	init_rcu_head(&obj->rcu);
 
 	obj->ops = ops;
+	GEM_BUG_ON(flags & ~I915_BO_ALLOC_FLAGS);
+	obj->flags = flags;
 
 	obj->mm.madv = I915_MADV_WILLNEED;
 	INIT_RADIX_TREE(&obj->mm.get_page.radix, GFP_KERNEL | __GFP_NOWARN);
 	mutex_init(&obj->mm.get_page.lock);
 	INIT_RADIX_TREE(&obj->mm.get_dma_page.radix, GFP_KERNEL | __GFP_NOWARN);
 	mutex_init(&obj->mm.get_dma_page.lock);
-
-	if (IS_ENABLED(CONFIG_LOCKDEP) && i915_gem_object_is_shrinkable(obj))
-		i915_gem_shrinker_taints_mutex(to_i915(obj->base.dev),
-					       &obj->mm.lock);
 }
 
 /**
@@ -320,55 +309,6 @@ static void i915_gem_free_object(struct drm_gem_object *gem_obj)
 		queue_work(i915->wq, &i915->mm.free_work);
 }
 
-<<<<<<< HEAD
-=======
-static bool gpu_write_needs_clflush(struct drm_i915_gem_object *obj)
-{
-	return !(obj->cache_level == I915_CACHE_NONE ||
-		 obj->cache_level == I915_CACHE_WT);
-}
-
-void
-i915_gem_object_flush_write_domain(struct drm_i915_gem_object *obj,
-				   unsigned int flush_domains)
-{
-	struct i915_vma *vma;
-
-	assert_object_held(obj);
-
-	if (!(obj->write_domain & flush_domains))
-		return;
-
-	switch (obj->write_domain) {
-	case I915_GEM_DOMAIN_GTT:
-		spin_lock(&obj->vma.lock);
-		for_each_ggtt_vma(vma, obj) {
-			if (i915_vma_unset_ggtt_write(vma))
-				intel_gt_flush_ggtt_writes(vma->vm->gt);
-		}
-		spin_unlock(&obj->vma.lock);
-
-		i915_gem_object_flush_frontbuffer(obj, ORIGIN_CPU);
-		break;
-
-	case I915_GEM_DOMAIN_WC:
-		wmb();
-		break;
-
-	case I915_GEM_DOMAIN_CPU:
-		i915_gem_clflush_object(obj, I915_CLFLUSH_SYNC);
-		break;
-
-	case I915_GEM_DOMAIN_RENDER:
-		if (gpu_write_needs_clflush(obj))
-			obj->cache_dirty = true;
-		break;
-	}
-
-	obj->write_domain = 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __i915_gem_object_flush_frontbuffer(struct drm_i915_gem_object *obj,
 					 enum fb_op_origin origin)
 {
@@ -393,7 +333,6 @@ void __i915_gem_object_invalidate_frontbuffer(struct drm_i915_gem_object *obj,
 	}
 }
 
-<<<<<<< HEAD
 static void
 i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
 {
@@ -458,8 +397,6 @@ int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, 
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void i915_gem_init__objects(struct drm_i915_private *i915)
 {
 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);

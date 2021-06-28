@@ -104,11 +104,7 @@ acpi_status acpi_ut_convert_decimal_string(char *string, u64 *return_value_ptr)
 		 * 1) Runtime: terminate with no error, per the ACPI spec
 		 * 2) Compiler: return an error
 		 */
-<<<<<<< HEAD
 		if (!isdigit((int)*string)) {
-=======
-		if (!isdigit(*string)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef ACPI_ASL_COMPILER
 			status = AE_BAD_DECIMAL_CONSTANT;
 #endif
@@ -162,11 +158,7 @@ acpi_status acpi_ut_convert_hex_string(char *string, u64 *return_value_ptr)
 		 * 1) Runtime: terminate with no error, per the ACPI spec
 		 * 2) Compiler: return an error
 		 */
-<<<<<<< HEAD
 		if (!isxdigit((int)*string)) {
-=======
-		if (!isxdigit(*string)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef ACPI_ASL_COMPILER
 			status = AE_BAD_HEX_CONSTANT;
 #endif

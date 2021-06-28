@@ -1,24 +1,6 @@
+// SPDX-License-Identifier: MIT
 /*
  * Copyright © 2008-2015 Intel Corporation
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
  */
 
 #include "i915_drv.h"
@@ -331,10 +313,6 @@ void i915_vma_revoke_fence(struct i915_vma *vma)
 		fence_write(fence);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool fence_is_active(const struct i915_fence_reg *fence)
 {
 	return fence->vma && i915_vma_is_active(fence->vma);
@@ -360,18 +338,6 @@ static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
 			continue;
 		}
 
-<<<<<<< HEAD
-=======
-=======
-static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
-{
-	struct i915_fence_reg *fence;
-
-	list_for_each_entry(fence, &ggtt->fence_list, link) {
-		GEM_BUG_ON(fence->vma && fence->vma->fence != fence);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (atomic_read(&fence->pin_count))
 			continue;
 
@@ -625,6 +591,7 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
 			}
 		} else {
 			u32 dimm_c0, dimm_c1;
+
 			dimm_c0 = intel_uncore_read(uncore, MAD_DIMM_C0);
 			dimm_c1 = intel_uncore_read(uncore, MAD_DIMM_C1);
 			dimm_c0 &= MAD_DIMM_A_SIZE_MASK | MAD_DIMM_B_SIZE_MASK;
@@ -686,13 +653,8 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
 		 * banks of memory are paired and unswizzled on the
 		 * uneven portion, so leave that as unknown.
 		 */
-<<<<<<< HEAD
 		if (intel_uncore_read16(uncore, C0DRB3) ==
 		    intel_uncore_read16(uncore, C1DRB3)) {
-=======
-		if (intel_uncore_read(uncore, C0DRB3) ==
-		    intel_uncore_read(uncore, C1DRB3)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			swizzle_x = I915_BIT_6_SWIZZLE_9_10;
 			swizzle_y = I915_BIT_6_SWIZZLE_9;
 		}
@@ -819,10 +781,12 @@ i915_gem_object_do_bit_17_swizzle(struct drm_i915_gem_object *obj,
 	i = 0;
 	for_each_sgt_page(page, sgt_iter, pages) {
 		char new_bit_17 = page_to_phys(page) >> 17;
+
 		if ((new_bit_17 & 0x1) != (test_bit(i, obj->bit_17) != 0)) {
 			swizzle_page(page);
 			set_page_dirty(page);
 		}
+
 		i++;
 	}
 }

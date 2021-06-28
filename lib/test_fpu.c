@@ -63,11 +63,7 @@ static int test_fpu_get(void *data, u64 *val)
 	return status;
 }
 
-<<<<<<< HEAD
 DEFINE_DEBUGFS_ATTRIBUTE(test_fpu_fops, test_fpu_get, NULL, "%lld\n");
-=======
-DEFINE_SIMPLE_ATTRIBUTE(test_fpu_fops, test_fpu_get, NULL, "%lld\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dentry *selftest_dir;
 
 static int __init test_fpu_init(void)
@@ -76,13 +72,8 @@ static int __init test_fpu_init(void)
 	if (!selftest_dir)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	debugfs_create_file_unsafe("test_fpu", 0444, selftest_dir, NULL,
 				   &test_fpu_fops);
-=======
-	debugfs_create_file("test_fpu", 0444, selftest_dir, NULL,
-			    &test_fpu_fops);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

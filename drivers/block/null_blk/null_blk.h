@@ -22,10 +22,7 @@ struct nullb_cmd {
 	blk_status_t error;
 	struct nullb_queue *nq;
 	struct hrtimer timer;
-<<<<<<< HEAD
 	bool fake_timeout;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nullb_queue {
@@ -100,6 +97,7 @@ struct nullb_device {
 	bool memory_backed; /* if data is stored in memory */
 	bool discard; /* if support discard */
 	bool zoned; /* if device is zoned */
+	bool virt_boundary; /* virtual boundary on/off for the device */
 };
 
 struct nullb {

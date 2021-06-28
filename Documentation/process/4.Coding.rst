@@ -242,11 +242,7 @@ and try to avoid "fixes" which make the warning go away without addressing
 its cause.
 
 Note that not all compiler warnings are enabled by default.  Build the
-<<<<<<< HEAD
 kernel with "make KCFLAGS=-W" to get the full set.
-=======
-kernel with "make EXTRA_CFLAGS=-W" to get the full set.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The kernel provides several configuration options which turn on debugging
 features; most of these are found in the "kernel hacking" submenu.  Several

@@ -3,13 +3,9 @@
  * Copyright (c) 2015, Linaro Limited
  */
 #include <linux/linkage.h>
-<<<<<<< HEAD
 #include <linux/arm-smccc.h>
 
 #include <asm/asm-offsets.h>
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/opcodes-sec.h>
 #include <asm/opcodes-virt.h>
 #include <asm/unwind.h>
@@ -33,7 +29,6 @@ UNWIND(	.fnstart)
 UNWIND(	.save	{r4-r7})
 	ldm	r12, {r4-r7}
 	\instr
-<<<<<<< HEAD
 	ldr	r4, [sp, #36]
 	cmp	r4, #0
 	beq	1f			// No quirk structure
@@ -42,9 +37,6 @@ UNWIND(	.save	{r4-r7})
 	bne	1f			// No quirk present
 	str	r6, [r4, #ARM_SMCCC_QUIRK_STATE_OFFS]
 1:	pop	{r4-r7}
-=======
-	pop	{r4-r7}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ldr	r12, [sp, #(4 * 4)]
 	stm	r12, {r0-r3}
 	bx	lr

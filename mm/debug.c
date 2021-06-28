@@ -110,14 +110,11 @@ void __dump_page(struct page *page, const char *reason)
 					head_compound_mapcount(head));
 		}
 	}
-<<<<<<< HEAD
 
 #ifdef CONFIG_MEMCG
 	if (head->memcg_data)
 		pr_warn("memcg:%lx\n", head->memcg_data);
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (PageKsm(page))
 		type = "ksm ";
 	else if (PageAnon(page))
@@ -188,14 +185,6 @@ hex_only:
 
 	if (reason)
 		pr_warn("page dumped because: %s\n", reason);
-<<<<<<< HEAD
-=======
-
-#ifdef CONFIG_MEMCG
-	if (!page_poisoned && page->memcg_data)
-		pr_warn("pages's memcg:%lx\n", page->memcg_data);
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void dump_page(struct page *page, const char *reason)

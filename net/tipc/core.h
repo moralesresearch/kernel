@@ -91,12 +91,6 @@ extern unsigned int tipc_net_id __read_mostly;
 extern int sysctl_tipc_rmem[3] __read_mostly;
 extern int sysctl_tipc_named_timeout __read_mostly;
 
-struct tipc_net_work {
-	struct work_struct work;
-	struct net *net;
-	u32 addr;
-};
-
 struct tipc_net {
 	u8  node_id[NODE_ID_LEN];
 	u32 node_addr;
@@ -148,12 +142,9 @@ struct tipc_net {
 	struct tipc_crypto *crypto_tx;
 #endif
 	/* Work item for net finalize */
-	struct tipc_net_work final_work;
-<<<<<<< HEAD
+	struct work_struct work;
 	/* The numbers of work queues in schedule */
 	atomic_t wq_count;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct tipc_net *tipc_net(struct net *net)

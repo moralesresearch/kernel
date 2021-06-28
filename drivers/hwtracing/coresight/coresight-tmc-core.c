@@ -33,30 +33,20 @@ DEFINE_CORESIGHT_DEVLIST(etr_devs, "tmc_etr");
 
 void tmc_wait_for_tmcready(struct tmc_drvdata *drvdata)
 {
-<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
 	struct csdev_access *csa = &csdev->access;
 
 	/* Ensure formatter, unformatter and hardware fifo are empty */
 	if (coresight_timeout(csa, TMC_STS, TMC_STS_TMCREADY_BIT, 1)) {
 		dev_err(&csdev->dev,
-=======
-	/* Ensure formatter, unformatter and hardware fifo are empty */
-	if (coresight_timeout(drvdata->base,
-			      TMC_STS, TMC_STS_TMCREADY_BIT, 1)) {
-		dev_err(&drvdata->csdev->dev,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"timeout while waiting for TMC to be Ready\n");
 	}
 }
 
 void tmc_flush_and_stop(struct tmc_drvdata *drvdata)
 {
-<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
 	struct csdev_access *csa = &csdev->access;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 ffcr;
 
 	ffcr = readl_relaxed(drvdata->base + TMC_FFCR);
@@ -65,14 +55,8 @@ void tmc_flush_and_stop(struct tmc_drvdata *drvdata)
 	ffcr |= BIT(TMC_FFCR_FLUSHMAN_BIT);
 	writel_relaxed(ffcr, drvdata->base + TMC_FFCR);
 	/* Ensure flush completes */
-<<<<<<< HEAD
 	if (coresight_timeout(csa, TMC_FFCR, TMC_FFCR_FLUSHMAN_BIT, 0)) {
 		dev_err(&csdev->dev,
-=======
-	if (coresight_timeout(drvdata->base,
-			      TMC_FFCR, TMC_FFCR_FLUSHMAN_BIT, 0)) {
-		dev_err(&drvdata->csdev->dev,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		"timeout while waiting for completion of Manual Flush\n");
 	}
 
@@ -475,10 +459,7 @@ static int tmc_probe(struct amba_device *adev, const struct amba_id *id)
 	}
 
 	drvdata->base = base;
-<<<<<<< HEAD
 	desc.access = CSDEV_ACCESS_IOMEM(base);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_init(&drvdata->spinlock);
 
@@ -582,11 +563,7 @@ out:
 	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 }
 
-<<<<<<< HEAD
 static void tmc_remove(struct amba_device *adev)
-=======
-static int tmc_remove(struct amba_device *adev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tmc_drvdata *drvdata = dev_get_drvdata(&adev->dev);
 
@@ -597,11 +574,6 @@ static int tmc_remove(struct amba_device *adev)
 	 */
 	misc_deregister(&drvdata->miscdev);
 	coresight_unregister(drvdata->csdev);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id tmc_ids[] = {

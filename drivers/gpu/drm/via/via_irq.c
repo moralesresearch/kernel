@@ -308,11 +308,7 @@ int via_driver_irq_postinstall(struct drm_device *dev)
 	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
 	u32 status;
 
-<<<<<<< HEAD
 	DRM_DEBUG("fun: %s\n", __func__);
-=======
-	DRM_DEBUG("via_driver_irq_postinstall\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dev_priv)
 		return -EINVAL;
 

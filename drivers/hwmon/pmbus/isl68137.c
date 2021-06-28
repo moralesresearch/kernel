@@ -244,13 +244,8 @@ static int isl68137_probe(struct i2c_client *client)
 		info->read_word_data = raa_dmpvr2_read_word_data;
 		break;
 	case raa_dmpvr2_2rail_nontc:
-<<<<<<< HEAD
 		info->func[0] &= ~PMBUS_HAVE_TEMP3;
 		info->func[1] &= ~PMBUS_HAVE_TEMP3;
-=======
-		info->func[0] &= ~PMBUS_HAVE_TEMP;
-		info->func[1] &= ~PMBUS_HAVE_TEMP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fallthrough;
 	case raa_dmpvr2_2rail:
 		info->pages = 2;
@@ -337,3 +332,4 @@ module_i2c_driver(isl68137_driver);
 MODULE_AUTHOR("Maxim Sloyko <maxims@google.com>");
 MODULE_DESCRIPTION("PMBus driver for Renesas digital multiphase voltage regulators");
 MODULE_LICENSE("GPL");
+MODULE_IMPORT_NS(PMBUS);

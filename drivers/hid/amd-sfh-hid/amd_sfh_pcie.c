@@ -10,10 +10,7 @@
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/dma-mapping.h>
-<<<<<<< HEAD
 #include <linux/dmi.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/interrupt.h>
 #include <linux/io-64-nonatomic-lo-hi.h>
 #include <linux/module.h>
@@ -26,7 +23,6 @@
 
 #define ACEL_EN		BIT(0)
 #define GYRO_EN		BIT(1)
-<<<<<<< HEAD
 #define MAGNO_EN	BIT(2)
 #define ALS_EN		BIT(19)
 
@@ -34,11 +30,6 @@ static int sensor_mask_override = -1;
 module_param_named(sensor_mask, sensor_mask_override, int, 0444);
 MODULE_PARM_DESC(sensor_mask, "override the detected sensors mask");
 
-=======
-#define MAGNO_EN		BIT(2)
-#define ALS_EN		BIT(19)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info)
 {
 	union sfh_cmd_param cmd_param;
@@ -87,7 +78,6 @@ void amd_stop_all_sensors(struct amd_mp2_dev *privdata)
 	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
 }
 
-<<<<<<< HEAD
 static const struct dmi_system_id dmi_sensor_mask_overrides[] = {
 	{
 		.matches = {
@@ -123,14 +113,6 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
 		activestatus = activecontrolstatus >> 4;
 	}
 
-=======
-int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
-{
-	int activestatus, num_of_sensors = 0;
-
-	privdata->activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
-	activestatus = privdata->activecontrolstatus >> 4;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ACEL_EN  & activestatus)
 		sensor_id[num_of_sensors++] = accel_idx;
 

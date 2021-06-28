@@ -193,7 +193,6 @@
 #define HNS_ROCE_AEQE_EVENT_CE_EVENT_CEQE_CEQN_S 0
 #define HNS_ROCE_AEQE_EVENT_CE_EVENT_CEQE_CEQN_M GENMASK(4, 0)
 
-<<<<<<< HEAD
 /* Local Work Queue Catastrophic Error,SUBTYPE 0x5 */
 enum {
 	HNS_ROCE_LWQCE_QPC_ERROR = 1,
@@ -237,8 +236,6 @@ enum {
 	HNS_ROCE_PORT_UP,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct hns_roce_cq_context {
 	__le32 cqc_byte_4;
 	__le32 cq_bt_l;

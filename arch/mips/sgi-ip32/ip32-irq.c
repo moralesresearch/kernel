@@ -343,15 +343,7 @@ static void ip32_unknown_interrupt(void)
 	printk("Register dump:\n");
 	show_regs(get_irq_regs());
 
-<<<<<<< HEAD
 	printk("Please mail this report to linux-mips@vger.kernel.org\n");
-=======
-<<<<<<< HEAD
-	printk("Please mail this report to linux-mips@vger.kernel.org\n");
-=======
-	printk("Please mail this report to linux-mips@linux-mips.org\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	printk("Spinning...");
 	while(1) ;
 }

@@ -441,13 +441,9 @@ int wil_cid_fill_sinfo(struct wil6210_vif *vif, int cid,
 	} __packed reply;
 	struct wil_net_stats *stats = &wil->sta[cid].stats;
 	int rc;
-<<<<<<< HEAD
 	u8 tx_mcs, rx_mcs;
 	u8 tx_rate_flag = RATE_INFO_FLAGS_DMG;
 	u8 rx_rate_flag = RATE_INFO_FLAGS_DMG;
-=======
-	u8 txflag = RATE_INFO_FLAGS_DMG;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(&reply, 0, sizeof(reply));
 
@@ -457,24 +453,15 @@ int wil_cid_fill_sinfo(struct wil6210_vif *vif, int cid,
 	if (rc)
 		return rc;
 
-<<<<<<< HEAD
 	tx_mcs = le16_to_cpu(reply.evt.bf_mcs);
 
 	wil_dbg_wmi(wil, "Link status for CID %d MID %d: {\n"
 		    "  MCS %s TSF 0x%016llx\n"
-=======
-	wil_dbg_wmi(wil, "Link status for CID %d MID %d: {\n"
-		    "  MCS %d TSF 0x%016llx\n"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    "  BF status 0x%08x RSSI %d SQI %d%%\n"
 		    "  Tx Tpt %d goodput %d Rx goodput %d\n"
 		    "  Sectors(rx:tx) my %d:%d peer %d:%d\n"
 		    "  Tx mode %d}\n",
-<<<<<<< HEAD
 		    cid, vif->mid, WIL_EXTENDED_MCS_CHECK(tx_mcs),
-=======
-		    cid, vif->mid, le16_to_cpu(reply.evt.bf_mcs),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    le64_to_cpu(reply.evt.tsf), reply.evt.status,
 		    reply.evt.rssi,
 		    reply.evt.sqi,
@@ -498,7 +485,6 @@ int wil_cid_fill_sinfo(struct wil6210_vif *vif, int cid,
 			BIT_ULL(NL80211_STA_INFO_RX_DROP_MISC) |
 			BIT_ULL(NL80211_STA_INFO_TX_FAILED);
 
-<<<<<<< HEAD
 	if (wil->use_enhanced_dma_hw && reply.evt.tx_mode != WMI_TX_MODE_DMG) {
 		tx_rate_flag = RATE_INFO_FLAGS_EDMG;
 		rx_rate_flag = RATE_INFO_FLAGS_EDMG;
@@ -523,14 +509,6 @@ int wil_cid_fill_sinfo(struct wil6210_vif *vif, int cid,
 	sinfo->txrate.mcs = tx_mcs;
 	sinfo->rxrate.mcs = rx_mcs;
 
-=======
-	if (wil->use_enhanced_dma_hw && reply.evt.tx_mode != WMI_TX_MODE_DMG)
-		txflag = RATE_INFO_FLAGS_EDMG;
-
-	sinfo->txrate.flags = txflag;
-	sinfo->txrate.mcs = le16_to_cpu(reply.evt.bf_mcs);
-	sinfo->rxrate.mcs = stats->last_mcs_rx;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sinfo->txrate.n_bonded_ch =
 				  wil_tx_cb_mode_to_n_bonded(reply.evt.tx_mode);
 	sinfo->rxrate.n_bonded_ch =
@@ -2864,13 +2842,9 @@ void wil_p2p_wdev_free(struct wil6210_priv *wil)
 	wil->radio_wdev = wil->main_ndev->ieee80211_ptr;
 	mutex_unlock(&wil->vif_mutex);
 	if (p2p_wdev) {
-<<<<<<< HEAD
 		wiphy_lock(wil->wiphy);
 		cfg80211_unregister_wdev(p2p_wdev);
 		wiphy_unlock(wil->wiphy);
-=======
-		cfg80211_unregister_wdev(p2p_wdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(p2p_wdev);
 	}
 }

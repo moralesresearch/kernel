@@ -302,19 +302,11 @@
 		};
 
 		gsbi@16500000 {
-<<<<<<< HEAD
 			status = "okay";
 			qcom,mode = <GSBI_PROT_I2C_UART>;
 
 			serial@16540000 {
 				status = "okay";
-=======
-			status = "ok";
-			qcom,mode = <GSBI_PROT_I2C_UART>;
-
-			serial@16540000 {
-				status = "ok";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				pinctrl-names = "default";
 				pinctrl-0 = <&gsbi6_uart_4pins>;
@@ -322,17 +314,10 @@
 		};
 
 		gsbi@16600000 {
-<<<<<<< HEAD
 			status = "okay";
 			qcom,mode = <GSBI_PROT_I2C_UART>;
 			serial@16640000 {
 				status = "okay";
-=======
-			status = "ok";
-			qcom,mode = <GSBI_PROT_I2C_UART>;
-			serial@16640000 {
-				status = "ok";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 

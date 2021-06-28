@@ -581,10 +581,7 @@
 #define FTDI_NT_ORIONLXM_PID		0x7c90	/* OrionLXm Substation Automation Platform */
 #define FTDI_NT_ORIONLX_PLUS_PID	0x7c91	/* OrionLX+ Substation Automation Platform */
 #define FTDI_NT_ORION_IO_PID		0x7c92	/* Orion I/O */
-<<<<<<< HEAD
 #define FTDI_NT_ORIONMX_PID		0x7c93	/* OrionMX */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Synapse Wireless product ids (FTDI_VID)
@@ -1572,7 +1569,6 @@
 #define UNJO_ISODEBUG_V1_PID		0x150D
 
 /*
-<<<<<<< HEAD
  * IDS GmbH
  */
 #define IDS_VID				0x2CAF
@@ -1580,8 +1576,6 @@
 #define IDS_CM31A_PID			0x13A3
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * U-Blox products (http://www.u-blox.com).
  */
 #define UBLOX_VID			0x1546

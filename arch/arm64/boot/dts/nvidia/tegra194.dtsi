@@ -609,7 +609,6 @@
 			status = "disabled";
 		};
 
-<<<<<<< HEAD
 		spi@3270000 {
 			compatible = "nvidia,tegra194-qspi";
 			reg = <0x3270000 0x1000>;
@@ -638,8 +637,6 @@
 			status = "disabled";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pwm1: pwm@3280000 {
 			compatible = "nvidia,tegra194-pwm",
 				     "nvidia,tegra186-pwm";
@@ -2354,7 +2351,6 @@
 		method = "smc";
 	};
 
-<<<<<<< HEAD
 	sound {
 		status = "disabled";
 
@@ -2375,8 +2371,6 @@
 		assigned-clock-rates = <258000000>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tcu: tcu {
 		compatible = "nvidia,tegra194-tcu";
 		mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM TEGRA_HSP_SM_RX(0)>,

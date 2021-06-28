@@ -72,11 +72,8 @@
 #include "gt/intel_context_param.h"
 #include "gt/intel_engine_heartbeat.h"
 #include "gt/intel_engine_user.h"
-<<<<<<< HEAD
 #include "gt/intel_execlists_submission.h" /* virtual_engine */
 #include "gt/intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_ring.h"
 
 #include "i915_gem_context.h"
@@ -235,6 +232,8 @@ static void intel_context_set_gem(struct intel_context *ce,
 	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
 	    intel_engine_has_timeslices(ce->engine))
 		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+
+	intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
 }
 
 static void __free_engines(struct i915_gem_engines *e, unsigned int count)
@@ -338,7 +337,6 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx)
 	return e;
 }
 
-<<<<<<< HEAD
 void i915_gem_context_release(struct kref *ref)
 {
 	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
@@ -346,16 +344,6 @@ void i915_gem_context_release(struct kref *ref)
 	trace_i915_context_free(ctx);
 	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
 
-=======
-static void i915_gem_context_free(struct i915_gem_context *ctx)
-{
-	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
-
-	spin_lock(&ctx->i915->gem.contexts.lock);
-	list_del(&ctx->link);
-	spin_unlock(&ctx->i915->gem.contexts.lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&ctx->engines_mutex);
 	mutex_destroy(&ctx->lut_mutex);
 
@@ -368,40 +356,6 @@ static void i915_gem_context_free(struct i915_gem_context *ctx)
 	kfree_rcu(ctx, rcu);
 }
 
-<<<<<<< HEAD
-=======
-static void contexts_free_all(struct llist_node *list)
-{
-	struct i915_gem_context *ctx, *cn;
-
-	llist_for_each_entry_safe(ctx, cn, list, free_link)
-		i915_gem_context_free(ctx);
-}
-
-static void contexts_flush_free(struct i915_gem_contexts *gc)
-{
-	contexts_free_all(llist_del_all(&gc->free_list));
-}
-
-static void contexts_free_worker(struct work_struct *work)
-{
-	struct i915_gem_contexts *gc =
-		container_of(work, typeof(*gc), free_work);
-
-	contexts_flush_free(gc);
-}
-
-void i915_gem_context_release(struct kref *ref)
-{
-	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
-	struct i915_gem_contexts *gc = &ctx->i915->gem.contexts;
-
-	trace_i915_context_free(ctx);
-	if (llist_add(&ctx->free_link, &gc->free_list))
-		schedule_work(&gc->free_work);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct i915_gem_engines *
 __context_engines_static(const struct i915_gem_context *ctx)
 {
@@ -434,53 +388,14 @@ static bool __cancel_engine(struct intel_engine_cs *engine)
 	return intel_engine_pulse(engine) == 0;
 }
 
-static bool
-__active_engine(struct i915_request *rq, struct intel_engine_cs **active)
-{
-	struct intel_engine_cs *engine, *locked;
-	bool ret = false;
-
-	/*
-	 * Serialise with __i915_request_submit() so that it sees
-	 * is-banned?, or we know the request is already inflight.
-	 *
-	 * Note that rq->engine is unstable, and so we double
-	 * check that we have acquired the lock on the final engine.
-	 */
-	locked = READ_ONCE(rq->engine);
-	spin_lock_irq(&locked->active.lock);
-	while (unlikely(locked != (engine = READ_ONCE(rq->engine)))) {
-		spin_unlock(&locked->active.lock);
-		locked = engine;
-		spin_lock(&locked->active.lock);
-	}
-
-	if (i915_request_is_active(rq)) {
-<<<<<<< HEAD
-		if (!__i915_request_is_complete(rq))
-=======
-		if (!i915_request_completed(rq))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-			*active = locked;
-		ret = true;
-	}
-
-	spin_unlock_irq(&locked->active.lock);
-
-	return ret;
-}
-
 static struct intel_engine_cs *active_engine(struct intel_context *ce)
 {
 	struct intel_engine_cs *engine = NULL;
 	struct i915_request *rq;
 
-<<<<<<< HEAD
 	if (intel_context_has_inflight(ce))
 		return intel_context_inflight(ce);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ce->timeline)
 		return NULL;
 
@@ -500,7 +415,7 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
 		/* Check with the backend if the request is inflight */
 		found = true;
 		if (likely(rcu_access_pointer(rq->timeline) == ce->timeline))
-			found = __active_engine(rq, &engine);
+			found = i915_request_active_engine(rq, &engine);
 
 		i915_request_put(rq);
 		if (found)
@@ -660,13 +575,10 @@ static void context_close(struct i915_gem_context *ctx)
 	 */
 	lut_close(ctx);
 
-<<<<<<< HEAD
 	spin_lock(&ctx->i915->gem.contexts.lock);
 	list_del(&ctx->link);
 	spin_unlock(&ctx->i915->gem.contexts.lock);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&ctx->mutex);
 
 	/*
@@ -737,7 +649,7 @@ __create_context(struct drm_i915_private *i915)
 
 	kref_init(&ctx->ref);
 	ctx->i915 = i915;
-	ctx->sched.priority = I915_USER_PRIORITY(I915_PRIORITY_NORMAL);
+	ctx->sched.priority = I915_PRIORITY_NORMAL;
 	mutex_init(&ctx->mutex);
 	INIT_LIST_HEAD(&ctx->link);
 
@@ -775,12 +687,8 @@ err_free:
 }
 
 static inline struct i915_gem_engines *
-<<<<<<< HEAD
 __context_engines_await(const struct i915_gem_context *ctx,
 			bool *user_engines)
-=======
-__context_engines_await(const struct i915_gem_context *ctx)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct i915_gem_engines *engines;
 
@@ -789,13 +697,10 @@ __context_engines_await(const struct i915_gem_context *ctx)
 		engines = rcu_dereference(ctx->engines);
 		GEM_BUG_ON(!engines);
 
-<<<<<<< HEAD
 		if (user_engines)
 			*user_engines = i915_gem_context_user_engines(ctx);
 
 		/* successful await => strong mb */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(!i915_sw_fence_await(&engines->fence)))
 			continue;
 
@@ -819,11 +724,7 @@ context_apply_all(struct i915_gem_context *ctx,
 	struct intel_context *ce;
 	int err = 0;
 
-<<<<<<< HEAD
 	e = __context_engines_await(ctx, NULL);
-=======
-	e = __context_engines_await(ctx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for_each_gem_engine(ce, e, it) {
 		err = fn(ce, data);
 		if (err)
@@ -891,6 +792,41 @@ static void __assign_timeline(struct i915_gem_context *ctx,
 	context_apply_all(ctx, __apply_timeline, timeline);
 }
 
+static int __apply_watchdog(struct intel_context *ce, void *timeout_us)
+{
+	return intel_context_set_watchdog_us(ce, (uintptr_t)timeout_us);
+}
+
+static int
+__set_watchdog(struct i915_gem_context *ctx, unsigned long timeout_us)
+{
+	int ret;
+
+	ret = context_apply_all(ctx, __apply_watchdog,
+				(void *)(uintptr_t)timeout_us);
+	if (!ret)
+		ctx->watchdog.timeout_us = timeout_us;
+
+	return ret;
+}
+
+static void __set_default_fence_expiry(struct i915_gem_context *ctx)
+{
+	struct drm_i915_private *i915 = ctx->i915;
+	int ret;
+
+	if (!IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) ||
+	    !i915->params.request_timeout_ms)
+		return;
+
+	/* Default expiry for user fences. */
+	ret = __set_watchdog(ctx, i915->params.request_timeout_ms * 1000);
+	if (ret)
+		drm_notice(&i915->drm,
+			   "Failed to configure default fence expiry! (%d)",
+			   ret);
+}
+
 static struct i915_gem_context *
 i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
 {
@@ -900,12 +836,6 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
 	    !HAS_EXECLISTS(i915))
 		return ERR_PTR(-EINVAL);
 
-<<<<<<< HEAD
-=======
-	/* Reap the stale contexts */
-	contexts_flush_free(&i915->gem.contexts);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx = __create_context(i915);
 	if (IS_ERR(ctx))
 		return ctx;
@@ -941,6 +871,8 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
 		intel_timeline_put(timeline);
 	}
 
+	__set_default_fence_expiry(ctx);
+
 	trace_i915_context_create(ctx);
 
 	return ctx;
@@ -950,29 +882,11 @@ static void init_contexts(struct i915_gem_contexts *gc)
 {
 	spin_lock_init(&gc->lock);
 	INIT_LIST_HEAD(&gc->list);
-<<<<<<< HEAD
-=======
-
-	INIT_WORK(&gc->free_work, contexts_free_worker);
-	init_llist_head(&gc->free_list);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void i915_gem_init__contexts(struct drm_i915_private *i915)
 {
 	init_contexts(&i915->gem.contexts);
-<<<<<<< HEAD
-=======
-	drm_dbg(&i915->drm, "%s context support initialized\n",
-		DRIVER_CAPS(i915)->has_logical_contexts ?
-		"logical" : "fake");
-}
-
-void i915_gem_driver_release__contexts(struct drm_i915_private *i915)
-{
-	flush_work(&i915->gem.contexts.free_work);
-	rcu_barrier(); /* and flush the left over RCU frees */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int gem_context_register(struct i915_gem_context *ctx,
@@ -1048,10 +962,6 @@ err:
 void i915_gem_context_close(struct drm_file *file)
 {
 	struct drm_i915_file_private *file_priv = file->driver_priv;
-<<<<<<< HEAD
-=======
-	struct drm_i915_private *i915 = file_priv->dev_priv;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i915_address_space *vm;
 	struct i915_gem_context *ctx;
 	unsigned long idx;
@@ -1063,11 +973,6 @@ void i915_gem_context_close(struct drm_file *file)
 	xa_for_each(&file_priv->vm_xa, idx, vm)
 		i915_vm_put(vm);
 	xa_destroy(&file_priv->vm_xa);
-<<<<<<< HEAD
-=======
-
-	contexts_flush_free(&i915->gem.contexts);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
@@ -1182,11 +1087,7 @@ static int context_barrier_task(struct i915_gem_context *ctx,
 		return err;
 	}
 
-<<<<<<< HEAD
 	e = __context_engines_await(ctx, NULL);
-=======
-	e = __context_engines_await(ctx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!e) {
 		i915_active_release(&cb->base);
 		return -ENOENT;
@@ -1949,30 +1850,6 @@ replace:
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-static struct i915_gem_engines *
-__copy_engines(struct i915_gem_engines *e)
-{
-	struct i915_gem_engines *copy;
-	unsigned int n;
-
-	copy = alloc_engines(e->num_engines);
-	if (!copy)
-		return ERR_PTR(-ENOMEM);
-
-	for (n = 0; n < e->num_engines; n++) {
-		if (e->engines[n])
-			copy->engines[n] = intel_context_get(e->engines[n]);
-		else
-			copy->engines[n] = NULL;
-	}
-	copy->num_engines = n;
-
-	return copy;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int
 get_engines(struct i915_gem_context *ctx,
 	    struct drm_i915_gem_context_param *args)
@@ -1980,7 +1857,6 @@ get_engines(struct i915_gem_context *ctx,
 	struct i915_context_param_engines __user *user;
 	struct i915_gem_engines *e;
 	size_t n, count, size;
-<<<<<<< HEAD
 	bool user_engines;
 	int err = 0;
 
@@ -1992,21 +1868,6 @@ get_engines(struct i915_gem_context *ctx,
 		i915_sw_fence_complete(&e->fence);
 		args->size = 0;
 		return 0;
-=======
-	int err = 0;
-
-	err = mutex_lock_interruptible(&ctx->engines_mutex);
-	if (err)
-		return err;
-
-	e = NULL;
-	if (i915_gem_context_user_engines(ctx))
-		e = __copy_engines(i915_gem_context_engines(ctx));
-	mutex_unlock(&ctx->engines_mutex);
-	if (IS_ERR_OR_NULL(e)) {
-		args->size = 0;
-		return PTR_ERR_OR_ZERO(e);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	count = e->num_engines;
@@ -2057,11 +1918,7 @@ get_engines(struct i915_gem_context *ctx,
 	args->size = size;
 
 err_free:
-<<<<<<< HEAD
 	i915_sw_fence_complete(&e->fence);
-=======
-	free_engines(e);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -2109,7 +1966,7 @@ static int set_priority(struct i915_gem_context *ctx,
 	    !capable(CAP_SYS_NICE))
 		return -EPERM;
 
-	ctx->sched.priority = I915_USER_PRIORITY(priority);
+	ctx->sched.priority = priority;
 	context_apply_all(ctx, __apply_priority, ctx);
 
 	return 0;
@@ -2227,7 +2084,6 @@ static int copy_ring_size(struct intel_context *dst,
 static int clone_engines(struct i915_gem_context *dst,
 			 struct i915_gem_context *src)
 {
-<<<<<<< HEAD
 	struct i915_gem_engines *clone, *e;
 	bool user_engines;
 	unsigned long n;
@@ -2236,13 +2092,6 @@ static int clone_engines(struct i915_gem_context *dst,
 	if (!e)
 		return -ENOENT;
 
-=======
-	struct i915_gem_engines *e = i915_gem_context_lock_engines(src);
-	struct i915_gem_engines *clone;
-	bool user_engines;
-	unsigned long n;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clone = alloc_engines(e->num_engines);
 	if (!clone)
 		goto err_unlock;
@@ -2284,13 +2133,7 @@ static int clone_engines(struct i915_gem_context *dst,
 		}
 	}
 	clone->num_engines = n;
-<<<<<<< HEAD
 	i915_sw_fence_complete(&e->fence);
-=======
-
-	user_engines = i915_gem_context_user_engines(src);
-	i915_gem_context_unlock_engines(src);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Serialised by constructor */
 	engines_idle_release(dst, rcu_replace_pointer(dst->engines, clone, 1));
@@ -2301,11 +2144,7 @@ static int clone_engines(struct i915_gem_context *dst,
 	return 0;
 
 err_unlock:
-<<<<<<< HEAD
 	i915_sw_fence_complete(&e->fence);
-=======
-	i915_gem_context_unlock_engines(src);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -ENOMEM;
 }
 
@@ -2631,7 +2470,7 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
 
 	case I915_CONTEXT_PARAM_PRIORITY:
 		args->size = 0;
-		args->value = ctx->sched.priority >> I915_USER_PRIORITY_SHIFT;
+		args->value = ctx->sched.priority;
 		break;
 
 	case I915_CONTEXT_PARAM_SSEU:

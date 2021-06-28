@@ -672,11 +672,7 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
 	int irq;
 
 	hdmi.pdev = pdev;
-<<<<<<< HEAD
 	platform_set_drvdata(pdev, &hdmi);
-=======
-	dev_set_drvdata(&pdev->dev, &hdmi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_init(&hdmi.lock);
 	spin_lock_init(&hdmi.audio_playing_lock);

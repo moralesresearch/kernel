@@ -485,20 +485,12 @@ static int meson_probe_remote(struct platform_device *pdev,
 static void meson_drv_shutdown(struct platform_device *pdev)
 {
 	struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
-<<<<<<< HEAD
 
 	if (!priv)
 		return;
 
 	drm_kms_helper_poll_fini(priv->drm);
 	drm_atomic_helper_shutdown(priv->drm);
-=======
-	struct drm_device *drm = priv->drm;
-
-	DRM_DEBUG_DRIVER("\n");
-	drm_kms_helper_poll_fini(drm);
-	drm_atomic_helper_shutdown(drm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int meson_drv_probe(struct platform_device *pdev)

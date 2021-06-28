@@ -9,23 +9,14 @@
 #include <linux/bitops.h>
 #include <linux/device.h>
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_MTK_SMI)
-=======
-#ifdef CONFIG_MTK_SMI
-
-#define MTK_LARB_NR_MAX		16
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MTK_SMI_MMU_EN(port)	BIT(port)
 
 struct mtk_smi_larb_iommu {
 	struct device *dev;
 	unsigned int   mmu;
-<<<<<<< HEAD
 	unsigned char  bank[32];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*

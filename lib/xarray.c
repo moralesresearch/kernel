@@ -987,11 +987,7 @@ static void node_set_marks(struct xa_node *node, unsigned int offset,
  * xas_split_alloc() - Allocate memory for splitting an entry.
  * @xas: XArray operation state.
  * @entry: New entry which will be stored in the array.
-<<<<<<< HEAD
  * @order: Current entry order.
-=======
- * @order: New entry order.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @gfp: Memory allocation flags.
  *
  * This function should be called before calling xas_split().
@@ -1015,11 +1011,7 @@ void xas_split_alloc(struct xa_state *xas, void *entry, unsigned int order,
 
 	do {
 		unsigned int i;
-<<<<<<< HEAD
 		void *sibling = NULL;
-=======
-		void *sibling;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct xa_node *node;
 
 		node = kmem_cache_alloc(radix_tree_node_cachep, gfp);
@@ -1029,11 +1021,7 @@ void xas_split_alloc(struct xa_state *xas, void *entry, unsigned int order,
 		for (i = 0; i < XA_CHUNK_SIZE; i++) {
 			if ((i & mask) == 0) {
 				RCU_INIT_POINTER(node->slots[i], entry);
-<<<<<<< HEAD
 				sibling = xa_mk_sibling(i);
-=======
-				sibling = xa_mk_sibling(0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else {
 				RCU_INIT_POINTER(node->slots[i], sibling);
 			}
@@ -1053,16 +1041,10 @@ EXPORT_SYMBOL_GPL(xas_split_alloc);
  * xas_split() - Split a multi-index entry into smaller entries.
  * @xas: XArray operation state.
  * @entry: New entry to store in the array.
-<<<<<<< HEAD
  * @order: Current entry order.
  *
  * The size of the new entries is set in @xas.  The value in @entry is
  * copied to all the replacement entries.
-=======
- * @order: New entry order.
- *
- * The value in the entry is copied to all the replacement entries.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Context: Any context.  The caller should hold the xa_lock.
  */

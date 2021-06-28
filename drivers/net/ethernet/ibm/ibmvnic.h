@@ -412,77 +412,6 @@ struct ibmvnic_control_ip_offload {
 	struct ibmvnic_rc rc;
 } __packed __aligned(8);
 
-struct ibmvnic_request_dump_size {
-	u8 first;
-	u8 cmd;
-	u8 reserved[6];
-	__be32 len;
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
-struct ibmvnic_request_dump {
-	u8 first;
-	u8 cmd;
-	u8 reserved1[2];
-	__be32 ioba;
-	__be32 len;
-	u8 reserved2[4];
-} __packed __aligned(8);
-
-struct ibmvnic_request_dump_rsp {
-	u8 first;
-	u8 cmd;
-	u8 reserved[6];
-	__be32 dumped_len;
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
-struct ibmvnic_request_ras_comp_num {
-	u8 first;
-	u8 cmd;
-	u8 reserved1[2];
-	__be32 num_components;
-	u8 reserved2[4];
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
-struct ibmvnic_request_ras_comps {
-	u8 first;
-	u8 cmd;
-	u8 reserved[2];
-	__be32 ioba;
-	__be32 len;
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
-struct ibmvnic_control_ras {
-	u8 first;
-	u8 cmd;
-	u8 correlator;
-	u8 level;
-	u8 op;
-#define IBMVNIC_TRACE_LEVEL	1
-#define IBMVNIC_ERROR_LEVEL	2
-#define IBMVNIC_TRACE_PAUSE	3
-#define IBMVNIC_TRACE_RESUME	4
-#define IBMVNIC_TRACE_ON		5
-#define IBMVNIC_TRACE_OFF		6
-#define IBMVNIC_CHG_TRACE_BUFF_SZ	7
-	u8 trace_buff_sz[3];
-	u8 reserved[4];
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
-struct ibmvnic_collect_fw_trace {
-	u8 first;
-	u8 cmd;
-	u8 correlator;
-	u8 reserved;
-	__be32 ioba;
-	__be32 len;
-	struct ibmvnic_rc rc;
-} __packed __aligned(8);
-
 struct ibmvnic_request_statistics {
 	u8 first;
 	u8 cmd;
@@ -492,15 +421,6 @@ struct ibmvnic_request_statistics {
 	__be32 ioba;
 	__be32 len;
 	u8 reserved[4];
-} __packed __aligned(8);
-
-struct ibmvnic_request_debug_stats {
-	u8 first;
-	u8 cmd;
-	u8 reserved[2];
-	__be32 ioba;
-	__be32 len;
-	struct ibmvnic_rc rc;
 } __packed __aligned(8);
 
 struct ibmvnic_error_indication {
@@ -677,22 +597,8 @@ union ibmvnic_crq {
 	struct ibmvnic_query_ip_offload query_ip_offload_rsp;
 	struct ibmvnic_control_ip_offload control_ip_offload;
 	struct ibmvnic_control_ip_offload control_ip_offload_rsp;
-	struct ibmvnic_request_dump_size request_dump_size;
-	struct ibmvnic_request_dump_size request_dump_size_rsp;
-	struct ibmvnic_request_dump request_dump;
-	struct ibmvnic_request_dump_rsp request_dump_rsp;
-	struct ibmvnic_request_ras_comp_num request_ras_comp_num;
-	struct ibmvnic_request_ras_comp_num request_ras_comp_num_rsp;
-	struct ibmvnic_request_ras_comps request_ras_comps;
-	struct ibmvnic_request_ras_comps request_ras_comps_rsp;
-	struct ibmvnic_control_ras control_ras;
-	struct ibmvnic_control_ras control_ras_rsp;
-	struct ibmvnic_collect_fw_trace collect_fw_trace;
-	struct ibmvnic_collect_fw_trace collect_fw_trace_rsp;
 	struct ibmvnic_request_statistics request_statistics;
 	struct ibmvnic_generic_crq request_statistics_rsp;
-	struct ibmvnic_request_debug_stats request_debug_stats;
-	struct ibmvnic_request_debug_stats request_debug_stats_rsp;
 	struct ibmvnic_error_indication error_indication;
 	struct ibmvnic_link_state_indication link_state_indication;
 	struct ibmvnic_change_mac_addr change_mac_addr;
@@ -845,14 +751,7 @@ struct ibmvnic_crq_queue {
 	union ibmvnic_crq *msgs;
 	int size, cur;
 	dma_addr_t msg_token;
-<<<<<<< HEAD
 	/* Used for serialization of msgs, cur */
-=======
-<<<<<<< HEAD
-	/* Used for serialization of msgs, cur */
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t lock;
 	bool active;
 	char name[32];
@@ -884,14 +783,7 @@ struct ibmvnic_sub_crq_queue {
 	unsigned int irq;
 	unsigned int pool_index;
 	int scrq_num;
-<<<<<<< HEAD
 	/* Used for serialization of msgs, cur */
-=======
-<<<<<<< HEAD
-	/* Used for serialization of msgs, cur */
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spinlock_t lock;
 	struct sk_buff *rx_skb_top;
 	struct ibmvnic_adapter *adapter;
@@ -1001,13 +893,6 @@ struct ibmvnic_adapter {
 	struct ibmvnic_statistics stats;
 	dma_addr_t stats_token;
 	struct completion stats_done;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	spinlock_t stats_lock;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int replenish_no_mem;
 	int replenish_add_buff_success;
 	int replenish_add_buff_failure;
@@ -1102,10 +987,6 @@ struct ibmvnic_adapter {
 
 	struct tasklet_struct tasklet;
 	enum vnic_state state;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Used for serialization of state field. When taking both state
 	 * and rwi locks, take state lock first.
 	 */
@@ -1116,15 +997,6 @@ struct ibmvnic_adapter {
 	 * and rwi locks, take state lock first
 	 */
 	spinlock_t rwi_lock;
-<<<<<<< HEAD
-=======
-=======
-	enum ibmvnic_reset_reason reset_reason;
-	/* when taking both state and rwi locks, take state lock first */
-	spinlock_t rwi_lock;
-	struct list_head rwi_list;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct work_struct ibmvnic_reset;
 	struct delayed_work ibmvnic_delayed_reset;
 	unsigned long resetting;
@@ -1138,15 +1010,4 @@ struct ibmvnic_adapter {
 
 	struct ibmvnic_tunables desired;
 	struct ibmvnic_tunables fallback;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-	/* Used for serialization of state field. When taking both state
-	 * and rwi locks, take state lock first.
-	 */
-	spinlock_t state_lock;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

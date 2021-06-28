@@ -92,10 +92,6 @@ struct mipid02_dev {
 	u64 link_frequency;
 	struct v4l2_fwnode_endpoint tx;
 	/* remote source */
-<<<<<<< HEAD
-=======
-	struct v4l2_async_subdev asd;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_async_notifier notifier;
 	struct v4l2_subdev *s_subdev;
 	/* registers */
@@ -847,10 +843,7 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
 {
 	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
 	struct i2c_client *client = bridge->i2c_client;
-<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_node *ep_node;
 	int ret;
 
@@ -882,7 +875,6 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
 	bridge->rx = ep;
 
 	/* register async notifier so we get noticed when sensor is connected */
-<<<<<<< HEAD
 	v4l2_async_notifier_init(&bridge->notifier);
 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
 					&bridge->notifier,
@@ -894,20 +886,6 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
 		dev_err(&client->dev, "fail to register asd to notifier %ld",
 			PTR_ERR(asd));
 		return PTR_ERR(asd);
-=======
-	bridge->asd.match.fwnode =
-		fwnode_graph_get_remote_port_parent(of_fwnode_handle(ep_node));
-	bridge->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-	of_node_put(ep_node);
-
-	v4l2_async_notifier_init(&bridge->notifier);
-	ret = v4l2_async_notifier_add_subdev(&bridge->notifier, &bridge->asd);
-	if (ret) {
-		dev_err(&client->dev, "fail to register asd to notifier %d",
-			ret);
-		fwnode_handle_put(bridge->asd.match.fwnode);
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	bridge->notifier.ops = &mipid02_notifier_ops;
 

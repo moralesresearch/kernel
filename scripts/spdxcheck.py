@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #!/usr/bin/env python3
-=======
-#!/usr/bin/env python
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # SPDX-License-Identifier: GPL-2.0
 # Copyright Thomas Gleixner <tglx@linutronix.de>
 
@@ -247,7 +243,7 @@ if __name__ == '__main__':
         # Initialize SPDX data
         spdx = read_spdxdata(repo)
 
-        # Initilize the parser
+        # Initialize the parser
         parser = id_parser(spdx)
 
     except SPDXException as se:

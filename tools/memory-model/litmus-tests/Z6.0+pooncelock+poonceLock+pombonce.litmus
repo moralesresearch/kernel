@@ -9,16 +9,7 @@ C Z6.0+pooncelock+poonceLock+pombonce
  * by CPUs not holding that lock.
  *)
 
-<<<<<<< HEAD
 {}
-=======
-{
-	spinlock_t mylock;
-	int x;
-	int y;
-	int z;
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 P0(int *x, int *y, spinlock_t *mylock)
 {

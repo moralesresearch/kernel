@@ -66,12 +66,9 @@ struct pcc_regs {
 #define PCC_INT_ENAB		0x08
 
 #define PCC_TIMER_INT_CLR	0x80
-<<<<<<< HEAD
 
 #define PCC_TIMER_TIC_EN	0x01
 #define PCC_TIMER_COC_EN	0x02
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PCC_TIMER_CLR_OVF	0x04
 
 #define PCC_LEVEL_ABORT		0x07

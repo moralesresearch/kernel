@@ -29,11 +29,7 @@
 #include "kasan.h"
 #include "../slab.h"
 
-<<<<<<< HEAD
 const char *kasan_get_bug_type(struct kasan_access_info *info)
-=======
-const char *get_bug_type(struct kasan_access_info *info)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
 	struct kasan_alloc_meta *alloc_meta;
@@ -76,11 +72,7 @@ const char *get_bug_type(struct kasan_access_info *info)
 	return "invalid-access";
 }
 
-<<<<<<< HEAD
 void *kasan_find_first_bad_addr(void *addr, size_t size)
-=======
-void *find_first_bad_addr(void *addr, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 tag = get_tag(addr);
 	void *p = kasan_reset_tag(addr);
@@ -91,20 +83,12 @@ void *find_first_bad_addr(void *addr, size_t size)
 	return p;
 }
 
-<<<<<<< HEAD
 void kasan_metadata_fetch_row(char *buffer, void *row)
-=======
-void metadata_fetch_row(char *buffer, void *row)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	memcpy(buffer, kasan_mem_to_shadow(row), META_BYTES_PER_ROW);
 }
 
-<<<<<<< HEAD
 void kasan_print_tags(u8 addr_tag, const void *addr)
-=======
-void print_tags(u8 addr_tag, const void *addr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 *shadow = (u8 *)kasan_mem_to_shadow(addr);
 

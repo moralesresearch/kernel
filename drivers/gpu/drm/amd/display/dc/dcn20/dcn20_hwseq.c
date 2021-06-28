@@ -1551,18 +1551,8 @@ static void dcn20_update_dchubp_dpp(
 
 
 
-<<<<<<< HEAD
-	if (is_pipe_tree_visible(pipe_ctx))
-		dc->hwss.set_hubp_blank(dc, pipe_ctx, false);
-=======
-<<<<<<< HEAD
-	if (is_pipe_tree_visible(pipe_ctx))
-		dc->hwss.set_hubp_blank(dc, pipe_ctx, false);
-=======
 	if (pipe_ctx->update_flags.bits.enable)
 		hubp->funcs->set_blank(hubp, false);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -1756,23 +1746,23 @@ void dcn20_post_unlock_program_front_end(
 		}
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
 		struct pipe_ctx *pipe = &context->res_ctx.pipe_ctx[i];
+		struct pipe_ctx *mpcc_pipe;
 
 		if (pipe->vtp_locked) {
-			dc->hwss.set_hubp_blank(dc, pipe, true);
+			dc->hwseq->funcs.wait_for_blank_complete(pipe->stream_res.opp);
+			pipe->plane_res.hubp->funcs->set_blank(pipe->plane_res.hubp, true);
 			pipe->vtp_locked = false;
+
+			for (mpcc_pipe = pipe->bottom_pipe; mpcc_pipe; mpcc_pipe = mpcc_pipe->bottom_pipe)
+				mpcc_pipe->plane_res.hubp->funcs->set_blank(mpcc_pipe->plane_res.hubp, true);
+
+			for (i = 0; i < dc->res_pool->pipe_count; i++)
+				if (context->res_ctx.pipe_ctx[i].update_flags.bits.disable)
+					dc->hwss.disable_plane(dc, &dc->current_state->res_ctx.pipe_ctx[i]);
 		}
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* WA to apply WM setting*/
 	if (hwseq->wa.DEGVIDCN21)
 		dc->res_pool->hubbub->funcs->apply_DEDCN21_147_wa(dc->res_pool->hubbub);

@@ -8,11 +8,8 @@
 #ifndef _LINUX_VERIFICATION_H
 #define _LINUX_VERIFICATION_H
 
-<<<<<<< HEAD
 #include <linux/types.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Indicate that both builtin trusted keys and secondary trusted keys
  * should be used.

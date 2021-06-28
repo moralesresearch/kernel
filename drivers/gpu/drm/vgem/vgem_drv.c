@@ -356,12 +356,7 @@ static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
 	}
 
 	obj->pages_pin_count++; /* perma-pinned */
-<<<<<<< HEAD
 	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
-=======
-	drm_prime_sg_to_page_addr_arrays(obj->table, obj->pages, NULL,
-					npages);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return &obj->base;
 }
 

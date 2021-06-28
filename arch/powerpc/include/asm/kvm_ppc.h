@@ -281,11 +281,10 @@ struct kvmppc_ops {
 				     const struct kvm_memory_slot *old,
 				     const struct kvm_memory_slot *new,
 				     enum kvm_mr_change change);
-	int (*unmap_hva_range)(struct kvm *kvm, unsigned long start,
-			   unsigned long end);
-	int (*age_hva)(struct kvm *kvm, unsigned long start, unsigned long end);
-	int (*test_age_hva)(struct kvm *kvm, unsigned long hva);
-	void (*set_spte_hva)(struct kvm *kvm, unsigned long hva, pte_t pte);
+	bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
+	bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+	bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+	bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
 	void (*free_memslot)(struct kvm_memory_slot *slot);
 	int (*init_vm)(struct kvm *kvm);
 	void (*destroy_vm)(struct kvm *kvm);
@@ -314,11 +313,8 @@ struct kvmppc_ops {
 			      int size);
 	int (*enable_svm)(struct kvm *kvm);
 	int (*svm_off)(struct kvm *kvm);
-<<<<<<< HEAD
 	int (*enable_dawr1)(struct kvm *kvm);
 	bool (*hash_v3_possible)(void);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern struct kvmppc_ops *kvmppc_hv_ops;
@@ -632,15 +628,9 @@ extern int h_ipi_redirect;
 static inline struct kvmppc_passthru_irqmap *kvmppc_get_passthru_irqmap(
 				struct kvm *kvm)
 	{ return NULL; }
-<<<<<<< HEAD
 static inline void kvmppc_alloc_host_rm_ops(void) {}
 static inline void kvmppc_free_host_rm_ops(void) {}
 static inline void kvmppc_free_pimap(struct kvm *kvm) {}
-=======
-static inline void kvmppc_alloc_host_rm_ops(void) {};
-static inline void kvmppc_free_host_rm_ops(void) {};
-static inline void kvmppc_free_pimap(struct kvm *kvm) {};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int kvmppc_xics_rm_complete(struct kvm_vcpu *vcpu, u32 hcall)
 	{ return 0; }
 static inline int kvmppc_xics_enabled(struct kvm_vcpu *vcpu)
@@ -776,8 +766,7 @@ long kvmppc_h_remove(struct kvm_vcpu *vcpu, unsigned long flags,
                      unsigned long pte_index, unsigned long avpn);
 long kvmppc_h_bulk_remove(struct kvm_vcpu *vcpu);
 long kvmppc_h_protect(struct kvm_vcpu *vcpu, unsigned long flags,
-                      unsigned long pte_index, unsigned long avpn,
-                      unsigned long va);
+                      unsigned long pte_index, unsigned long avpn);
 long kvmppc_h_read(struct kvm_vcpu *vcpu, unsigned long flags,
                    unsigned long pte_index);
 long kvmppc_h_clear_ref(struct kvm_vcpu *vcpu, unsigned long flags,
@@ -892,15 +881,9 @@ static inline void kvmppc_mmu_flush_icache(kvm_pfn_t pfn)
 
 	/* Clear i-cache for new pages */
 	page = pfn_to_page(pfn);
-<<<<<<< HEAD
 	if (!test_bit(PG_dcache_clean, &page->flags)) {
 		flush_dcache_icache_page(page);
 		set_bit(PG_dcache_clean, &page->flags);
-=======
-	if (!test_bit(PG_arch_1, &page->flags)) {
-		flush_dcache_icache_page(page);
-		set_bit(PG_arch_1, &page->flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

@@ -84,14 +84,8 @@ gf100_mmu = {
 };
 
 int
-<<<<<<< HEAD
 gf100_mmu_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_mmu **pmmu)
 {
 	return nvkm_mmu_new_(&gf100_mmu, device, type, inst, pmmu);
-=======
-gf100_mmu_new(struct nvkm_device *device, int index, struct nvkm_mmu **pmmu)
-{
-	return nvkm_mmu_new_(&gf100_mmu, device, index, pmmu);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

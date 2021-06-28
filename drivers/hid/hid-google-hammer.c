@@ -392,7 +392,6 @@ static int hammer_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 	return 0;
 }
 
-<<<<<<< HEAD
 static void hammer_folded_event(struct hid_device *hdev, bool folded)
 {
 	unsigned long flags;
@@ -421,32 +420,6 @@ static int hammer_event(struct hid_device *hid, struct hid_field *field,
 {
 	if (usage->hid == HID_USAGE_KBD_FOLDED) {
 		hammer_folded_event(hid, value);
-=======
-static int hammer_event(struct hid_device *hid, struct hid_field *field,
-			struct hid_usage *usage, __s32 value)
-{
-	unsigned long flags;
-
-	if (usage->hid == HID_USAGE_KBD_FOLDED) {
-		spin_lock_irqsave(&cbas_ec_lock, flags);
-
-		/*
-		 * If we are getting events from Whiskers that means that it
-		 * is attached to the lid.
-		 */
-		cbas_ec.base_present = true;
-		cbas_ec.base_folded = value;
-		hid_dbg(hid, "%s: base: %d, folded: %d\n", __func__,
-			cbas_ec.base_present, cbas_ec.base_folded);
-
-		if (cbas_ec.input) {
-			input_report_switch(cbas_ec.input,
-					    SW_TABLET_MODE, value);
-			input_sync(cbas_ec.input);
-		}
-
-		spin_unlock_irqrestore(&cbas_ec_lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1; /* We handled this event */
 	}
 
@@ -488,7 +461,6 @@ static bool hammer_has_backlight_control(struct hid_device *hdev)
 				HID_GD_KEYBOARD, HID_AD_BRIGHTNESS);
 }
 
-<<<<<<< HEAD
 static void hammer_get_folded_state(struct hid_device *hdev)
 {
 	struct hid_report *report;
@@ -530,8 +502,6 @@ out:
 	kfree(buf);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hammer_probe(struct hid_device *hdev,
 			const struct hid_device_id *id)
 {
@@ -556,11 +526,8 @@ static int hammer_probe(struct hid_device *hdev,
 		error = hid_hw_open(hdev);
 		if (error)
 			return error;
-<<<<<<< HEAD
 
 		hammer_get_folded_state(hdev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (hammer_has_backlight_control(hdev)) {
@@ -607,11 +574,8 @@ static void hammer_remove(struct hid_device *hdev)
 
 static const struct hid_device_id hammer_devices[] = {
 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-<<<<<<< HEAD
 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_MAGNEMITE) },

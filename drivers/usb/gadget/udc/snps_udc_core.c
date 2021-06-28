@@ -36,10 +36,6 @@
 #include <asm/unaligned.h>
 #include "amd5536udc.h"
 
-<<<<<<< HEAD
-=======
-static void udc_tasklet_disconnect(unsigned long);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void udc_setup_endpoints(struct udc *dev);
 static void udc_soft_reset(struct udc *dev);
 static struct udc_request *udc_alloc_bna_dummy(struct udc_ep *ep);
@@ -98,12 +94,6 @@ static struct timer_list udc_pollstall_timer;
 static int stop_pollstall_timer;
 static DECLARE_COMPLETION(on_pollstall_exit);
 
-<<<<<<< HEAD
-=======
-/* tasklet for usb disconnect */
-static DECLARE_TASKLET_OLD(disconnect_tasklet, udc_tasklet_disconnect);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* endpoint names used for print */
 static const char ep0_string[] = "ep0in";
 static const struct {
@@ -1643,11 +1633,8 @@ static void usb_connect(struct udc *dev)
  */
 static void usb_disconnect(struct udc *dev)
 {
-<<<<<<< HEAD
 	u32 tmp;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Return if already disconnected */
 	if (!dev->connected)
 		return;
@@ -1659,26 +1646,6 @@ static void usb_disconnect(struct udc *dev)
 	/* mask interrupts */
 	udc_mask_unused_interrupts(dev);
 
-<<<<<<< HEAD
-=======
-	/* REVISIT there doesn't seem to be a point to having this
-	 * talk to a tasklet ... do it directly, we already hold
-	 * the spinlock needed to process the disconnect.
-	 */
-
-	tasklet_schedule(&disconnect_tasklet);
-}
-
-/* Tasklet for disconnect to be outside of interrupt context */
-static void udc_tasklet_disconnect(unsigned long par)
-{
-	struct udc *dev = udc;
-	u32 tmp;
-
-	DBG(dev, "Tasklet disconnect\n");
-	spin_lock_irq(&dev->lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dev->driver) {
 		spin_unlock(&dev->lock);
 		dev->driver->disconnect(&dev->gadget);
@@ -1687,20 +1654,10 @@ static void udc_tasklet_disconnect(unsigned long par)
 		/* empty queues */
 		for (tmp = 0; tmp < UDC_EP_NUM; tmp++)
 			empty_req_queue(&dev->ep[tmp]);
-<<<<<<< HEAD
 	}
 
 	/* disable ep0 */
 	ep_init(dev->regs, &dev->ep[UDC_EP0IN_IX]);
-=======
-
-	}
-
-	/* disable ep0 */
-	ep_init(dev->regs,
-			&dev->ep[UDC_EP0IN_IX]);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!soft_reset_occured) {
 		/* init controller by soft reset */
@@ -1716,11 +1673,6 @@ static void udc_tasklet_disconnect(unsigned long par)
 		tmp = AMD_ADDBITS(tmp, UDC_DEVCFG_SPD_FS, UDC_DEVCFG_SPD);
 		writel(tmp, &dev->regs->cfg);
 	}
-<<<<<<< HEAD
-=======
-
-	spin_unlock_irq(&dev->lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Reset the UDC core */

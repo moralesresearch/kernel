@@ -977,20 +977,13 @@ static void pSeries_lpar_hpte_updateboltedpp(unsigned long newpp,
 	slot = pSeries_lpar_hpte_find(vpn, psize, ssize);
 	BUG_ON(slot == -1);
 
-<<<<<<< HEAD
 	flags = newpp & (HPTE_R_PP | HPTE_R_N);
-=======
-	flags = newpp & 7;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mmu_has_feature(MMU_FTR_KERNEL_RO))
 		/* Move pp0 into bit 8 (IBM 55) */
 		flags |= (newpp & HPTE_R_PP0) >> 55;
 
-<<<<<<< HEAD
 	flags |= ((newpp & HPTE_R_KEY_HI) >> 48) | (newpp & HPTE_R_KEY_LO);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lpar_rc = plpar_pte_protect(flags, slot, 0);
 
 	BUG_ON(lpar_rc != H_SUCCESS);
@@ -1639,7 +1632,7 @@ static int pseries_lpar_resize_hpt(unsigned long shift)
 		}
 		msleep(delay);
 		rc = plpar_resize_hpt_prepare(0, shift);
-	};
+	}
 
 	switch (rc) {
 	case H_SUCCESS:
@@ -1836,34 +1829,28 @@ void hcall_tracepoint_unregfunc(void)
 #endif
 
 /*
- * Since the tracing code might execute hcalls we need to guard against
-<<<<<<< HEAD
- * recursion.
-=======
- * recursion. One example of this are spinlocks calling H_YIELD on
- * shared processor partitions.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+ * Keep track of hcall tracing depth and prevent recursion. Warn if any is
+ * detected because it may indicate a problem. This will not catch all
+ * problems with tracing code making hcalls, because the tracing might have
+ * been invoked from a non-hcall, so the first hcall could recurse into it
+ * without warning here, but this better than nothing.
+ *
+ * Hcalls with specific problems being traced should use the _notrace
+ * plpar_hcall variants.
  */
 static DEFINE_PER_CPU(unsigned int, hcall_trace_depth);
 
 
-void __trace_hcall_entry(unsigned long opcode, unsigned long *args)
+notrace void __trace_hcall_entry(unsigned long opcode, unsigned long *args)
 {
 	unsigned long flags;
 	unsigned int *depth;
-
-	/*
-	 * We cannot call tracepoints inside RCU idle regions which
-	 * means we must not trace H_CEDE.
-	 */
-	if (opcode == H_CEDE)
-		return;
 
 	local_irq_save(flags);
 
 	depth = this_cpu_ptr(&hcall_trace_depth);
 
-	if (*depth)
+	if (WARN_ON_ONCE(*depth))
 		goto out;
 
 	(*depth)++;
@@ -1875,19 +1862,16 @@ out:
 	local_irq_restore(flags);
 }
 
-void __trace_hcall_exit(long opcode, long retval, unsigned long *retbuf)
+notrace void __trace_hcall_exit(long opcode, long retval, unsigned long *retbuf)
 {
 	unsigned long flags;
 	unsigned int *depth;
-
-	if (opcode == H_CEDE)
-		return;
 
 	local_irq_save(flags);
 
 	depth = this_cpu_ptr(&hcall_trace_depth);
 
-	if (*depth)
+	if (*depth) /* Don't warn again on the way out */
 		goto out;
 
 	(*depth)++;

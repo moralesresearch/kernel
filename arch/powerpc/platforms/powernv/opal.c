@@ -624,11 +624,7 @@ static int opal_recover_mce(struct pt_regs *regs,
 			 */
 			recovered = 0;
 		} else {
-<<<<<<< HEAD
 			die_mce("Machine check", regs, SIGBUS);
-=======
-			die("Machine check", regs, SIGBUS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			recovered = 1;
 		}
 	}

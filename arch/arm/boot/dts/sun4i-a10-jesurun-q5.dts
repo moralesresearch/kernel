@@ -63,11 +63,7 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "q5:green:usr";
 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;  /* PH20 */
 		};

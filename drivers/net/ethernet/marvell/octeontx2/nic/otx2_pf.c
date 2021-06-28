@@ -1,13 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 /* Marvell OcteonTx2 RVU Physical Function ethernet driver
-=======
-<<<<<<< HEAD
-/* Marvell OcteonTx2 RVU Physical Function ethernet driver
-=======
-/* Marvell OcteonTx2 RVU Physcial Function ethernet driver
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Copyright (C) 2020 Marvell International Ltd.
  *
@@ -30,24 +22,11 @@
 #include "otx2_txrx.h"
 #include "otx2_struct.h"
 #include "otx2_ptp.h"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "cn10k.h"
 #include <rvu_trace.h>
 
 #define DRV_NAME	"rvu_nicpf"
 #define DRV_STRING	"Marvell RVU NIC Physical Function Driver"
-<<<<<<< HEAD
-=======
-=======
-#include <rvu_trace.h>
-
-#define DRV_NAME	"octeontx2-nicpf"
-#define DRV_STRING	"Marvell OcteonTX2 NIC Physical Function Driver"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Supported devices */
 static const struct pci_device_id otx2_pf_id_table[] = {
@@ -607,10 +586,6 @@ static int otx2_pfvf_mbox_init(struct otx2_nic *pf, int numvfs)
 	if (!pf->mbox_pfvf_wq)
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* On CN10K platform, PF <-> VF mailbox region follows after
 	 * PF <-> AF mailbox region.
 	 */
@@ -622,14 +597,6 @@ static int otx2_pfvf_mbox_init(struct otx2_nic *pf, int numvfs)
 					      RVU_PF_VF_BAR4_ADDR));
 
 	hwbase = ioremap_wc(base, MBOX_SIZE * pf->total_vfs);
-<<<<<<< HEAD
-=======
-=======
-	base = readq((void __iomem *)((u64)pf->reg_base + RVU_PF_VF_BAR4_ADDR));
-	hwbase = ioremap_wc(base, MBOX_SIZE * pf->total_vfs);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!hwbase) {
 		err = -ENOMEM;
 		goto free_wq;
@@ -821,18 +788,9 @@ static void otx2_process_pfaf_mbox_msg(struct otx2_nic *pf,
 	case MBOX_MSG_CGX_STATS:
 		mbox_handler_cgx_stats(pf, (struct cgx_stats_rsp *)msg);
 		break;
-<<<<<<< HEAD
 	case MBOX_MSG_CGX_FEC_STATS:
 		mbox_handler_cgx_fec_stats(pf, (struct cgx_fec_stats_rsp *)msg);
 		break;
-=======
-<<<<<<< HEAD
-	case MBOX_MSG_CGX_FEC_STATS:
-		mbox_handler_cgx_fec_stats(pf, (struct cgx_fec_stats_rsp *)msg);
-		break;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		if (msg->rc)
 			dev_err(pf->dev,
@@ -1093,15 +1051,7 @@ static int otx2_pfaf_mbox_init(struct otx2_nic *pf)
 	 * device memory to allow unaligned accesses.
 	 */
 	hwbase = ioremap_wc(pci_resource_start(pf->pdev, PCI_MBOX_BAR_NUM),
-<<<<<<< HEAD
 			    MBOX_SIZE);
-=======
-<<<<<<< HEAD
-			    MBOX_SIZE);
-=======
-			    pci_resource_len(pf->pdev, PCI_MBOX_BAR_NUM));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!hwbase) {
 		dev_err(pf->dev, "Unable to map PFAF mailbox region\n");
 		err = -ENOMEM;
@@ -1338,10 +1288,6 @@ static void otx2_free_sq_res(struct otx2_nic *pf)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int otx2_get_rbuf_size(struct otx2_nic *pf, int mtu)
 {
 	int frame_size;
@@ -1369,11 +1315,6 @@ static int otx2_get_rbuf_size(struct otx2_nic *pf, int mtu)
 	return ALIGN(rbuf_size, 2048);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int otx2_init_hw_resources(struct otx2_nic *pf)
 {
 	struct nix_lf_free_req *free_req;
@@ -1390,21 +1331,9 @@ static int otx2_init_hw_resources(struct otx2_nic *pf)
 	hw->sqpool_cnt = hw->tx_queues;
 	hw->pool_cnt = hw->rqpool_cnt + hw->sqpool_cnt;
 
-<<<<<<< HEAD
 	pf->max_frs = pf->netdev->mtu + OTX2_ETH_HLEN + OTX2_HW_TIMESTAMP_LEN;
 
 	pf->rbsize = otx2_get_rbuf_size(pf, pf->netdev->mtu);
-=======
-<<<<<<< HEAD
-	pf->max_frs = pf->netdev->mtu + OTX2_ETH_HLEN + OTX2_HW_TIMESTAMP_LEN;
-
-	pf->rbsize = otx2_get_rbuf_size(pf, pf->netdev->mtu);
-=======
-	/* Get the size of receive buffers to allocate */
-	pf->rbsize = RCV_FRAG_LEN(OTX2_HW_TIMESTAMP_LEN + pf->netdev->mtu +
-				  OTX2_ETH_HLEN);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&mbox->lock);
 	/* NPA init */
@@ -1597,10 +1526,6 @@ int otx2_open(struct net_device *netdev)
 	if (!qset->rq)
 		goto err_free_mem;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test_bit(CN10K_LMTST, &pf->hw.cap_flag)) {
 		/* Reserve LMT lines for NPA AURA batch free */
 		pf->hw.npa_lmt_base = (__force u64 *)pf->hw.lmt_base;
@@ -1609,11 +1534,6 @@ int otx2_open(struct net_device *netdev)
 				      (NIX_LMTID_BASE * LMT_LINE_SIZE));
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = otx2_init_hw_resources(pf);
 	if (err)
 		goto err_free_mem;
@@ -1845,6 +1765,24 @@ static netdev_tx_t otx2_xmit(struct sk_buff *skb, struct net_device *netdev)
 	return NETDEV_TX_OK;
 }
 
+static netdev_features_t otx2_fix_features(struct net_device *dev,
+					   netdev_features_t features)
+{
+	/* check if n-tuple filters are ON */
+	if ((features & NETIF_F_HW_TC) && (dev->features & NETIF_F_NTUPLE)) {
+		netdev_info(dev, "Disabling n-tuple filters\n");
+		features &= ~NETIF_F_NTUPLE;
+	}
+
+	/* check if tc hw offload is ON */
+	if ((features & NETIF_F_NTUPLE) && (dev->features & NETIF_F_HW_TC)) {
+		netdev_info(dev, "Disabling TC hardware offload\n");
+		features &= ~NETIF_F_HW_TC;
+	}
+
+	return features;
+}
+
 static void otx2_set_rx_mode(struct net_device *netdev)
 {
 	struct otx2_nic *pf = netdev_priv(netdev);
@@ -1906,6 +1844,12 @@ static int otx2_set_features(struct net_device *netdev,
 
 	if ((changed & NETIF_F_NTUPLE) && !ntuple)
 		otx2_destroy_ntuple_flows(pf);
+
+	if ((netdev->features & NETIF_F_HW_TC) > (features & NETIF_F_HW_TC) &&
+	    pf->tc_info.num_entries) {
+		netdev_err(netdev, "Can't disable TC hardware offload while flows are active\n");
+		return -EBUSY;
+	}
 
 	return 0;
 }
@@ -2305,6 +2249,7 @@ static const struct net_device_ops otx2_netdev_ops = {
 	.ndo_open		= otx2_open,
 	.ndo_stop		= otx2_stop,
 	.ndo_start_xmit		= otx2_xmit,
+	.ndo_fix_features	= otx2_fix_features,
 	.ndo_set_mac_address    = otx2_set_mac_address,
 	.ndo_change_mtu		= otx2_change_mtu,
 	.ndo_set_rx_mode	= otx2_set_rx_mode,
@@ -2315,6 +2260,7 @@ static const struct net_device_ops otx2_netdev_ops = {
 	.ndo_set_vf_mac		= otx2_set_vf_mac,
 	.ndo_set_vf_vlan	= otx2_set_vf_vlan,
 	.ndo_get_vf_config	= otx2_get_vf_config,
+	.ndo_setup_tc		= otx2_setup_tc,
 };
 
 static int otx2_wq_init(struct otx2_nic *pf)
@@ -2457,16 +2403,8 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		goto err_free_netdev;
 	}
 
-<<<<<<< HEAD
 	otx2_setup_dev_hw_settings(pf);
 
-=======
-<<<<<<< HEAD
-	otx2_setup_dev_hw_settings(pf);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Init PF <=> AF mailbox stuff */
 	err = otx2_pfaf_mbox_init(pf);
 	if (err)
@@ -2492,19 +2430,9 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	if (err)
 		goto err_detach_rsrc;
 
-<<<<<<< HEAD
 	err = cn10k_pf_lmtst_init(pf);
 	if (err)
 		goto err_detach_rsrc;
-=======
-<<<<<<< HEAD
-	err = cn10k_pf_lmtst_init(pf);
-	if (err)
-		goto err_detach_rsrc;
-=======
-	otx2_setup_dev_hw_settings(pf);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Assign default mac address */
 	otx2_get_mac_from_af(netdev);
@@ -2552,6 +2480,10 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 				       NETIF_F_HW_VLAN_STAG_RX;
 	netdev->features |= netdev->hw_features;
 
+	/* HW supports tc offload but mutually exclusive with n-tuple filters */
+	if (pf->flags & OTX2_FLAG_TC_FLOWER_SUPPORT)
+		netdev->hw_features |= NETIF_F_HW_TC;
+
 	netdev->gso_max_segs = OTX2_MAX_GSO_SEGS;
 	netdev->watchdog_timeo = OTX2_TX_TIMEOUT;
 
@@ -2559,15 +2491,7 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	/* MTU range: 64 - 9190 */
 	netdev->min_mtu = OTX2_MIN_MTU;
-<<<<<<< HEAD
 	netdev->max_mtu = otx2_get_max_mtu(pf);
-=======
-<<<<<<< HEAD
-	netdev->max_mtu = otx2_get_max_mtu(pf);
-=======
-	netdev->max_mtu = OTX2_MAX_MTU;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = register_netdev(netdev);
 	if (err) {
@@ -2581,6 +2505,10 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	otx2_set_ethtool_ops(netdev);
 
+	err = otx2_init_tc(pf);
+	if (err)
+		goto err_mcam_flow_del;
+
 	/* Enable link notifications */
 	otx2_cgx_config_linkevents(pf, true);
 
@@ -2590,6 +2518,8 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	return 0;
 
+err_mcam_flow_del:
+	otx2_mcam_flow_del(pf);
 err_unreg_netdev:
 	unregister_netdev(netdev);
 err_del_mcam_entries:
@@ -2597,16 +2527,8 @@ err_del_mcam_entries:
 err_ptp_destroy:
 	otx2_ptp_destroy(pf);
 err_detach_rsrc:
-<<<<<<< HEAD
 	if (hw->lmt_base)
 		iounmap(hw->lmt_base);
-=======
-<<<<<<< HEAD
-	if (hw->lmt_base)
-		iounmap(hw->lmt_base);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	otx2_detach_resources(&pf->mbox);
 err_disable_mbox_intr:
 	otx2_disable_mbox_intr(pf);
@@ -2765,19 +2687,11 @@ static void otx2_remove(struct pci_dev *pdev)
 
 	otx2_ptp_destroy(pf);
 	otx2_mcam_flow_del(pf);
+	otx2_shutdown_tc(pf);
 	otx2_detach_resources(&pf->mbox);
-<<<<<<< HEAD
 	if (pf->hw.lmt_base)
 		iounmap(pf->hw.lmt_base);
 
-=======
-<<<<<<< HEAD
-	if (pf->hw.lmt_base)
-		iounmap(pf->hw.lmt_base);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	otx2_disable_mbox_intr(pf);
 	otx2_pfaf_mbox_destroy(pf);
 	pci_free_irq_vectors(pf->pdev);

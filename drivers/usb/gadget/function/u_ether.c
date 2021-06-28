@@ -80,10 +80,7 @@ struct eth_dev {
 
 	bool			zlp;
 	bool			no_skb_reserve;
-<<<<<<< HEAD
 	bool			ifname_set;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			host_mac[ETH_ALEN];
 	u8			dev_mac[ETH_ALEN];
 };
@@ -1008,25 +1005,17 @@ EXPORT_SYMBOL_GPL(gether_get_qmult);
 
 int gether_get_ifname(struct net_device *net, char *name, int len)
 {
-<<<<<<< HEAD
 	struct eth_dev *dev = netdev_priv(net);
 	int ret;
 
 	rtnl_lock();
 	ret = scnprintf(name, len, "%s\n",
 			dev->ifname_set ? net->name : netdev_name(net));
-=======
-	int ret;
-
-	rtnl_lock();
-	ret = scnprintf(name, len, "%s\n", netdev_name(net));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtnl_unlock();
 	return ret;
 }
 EXPORT_SYMBOL_GPL(gether_get_ifname);
 
-<<<<<<< HEAD
 int gether_set_ifname(struct net_device *net, const char *name, int len)
 {
 	struct eth_dev *dev = netdev_priv(net);
@@ -1055,8 +1044,6 @@ int gether_set_ifname(struct net_device *net, const char *name, int len)
 }
 EXPORT_SYMBOL_GPL(gether_set_ifname);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * gether_cleanup - remove Ethernet-over-USB device
  * Context: may sleep

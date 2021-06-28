@@ -306,11 +306,7 @@ static uint32_t dp_vswing_premph_table[] = {
 };
 /**
  * is_edp - is the given port attached to an eDP panel (either CPU or PCH)
-<<<<<<< HEAD
  * @encoder: GMA encoder struct
-=======
- * @intel_dp: DP struct
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * If a CPU or PCH DP output is attached to an eDP panel, this function
  * will return true, and false otherwise.
@@ -1691,11 +1687,7 @@ static enum drm_connector_status cdv_dp_detect(struct gma_encoder *encoder)
 	return status;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Uses CRT_HOTPLUG_EN and CRT_HOTPLUG_STAT to detect DP connection.
  *
  * \return true if DP port is connected.

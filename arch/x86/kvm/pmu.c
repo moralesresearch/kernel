@@ -373,11 +373,7 @@ int kvm_pmu_rdpmc(struct kvm_vcpu *vcpu, unsigned idx, u64 *data)
 		return 1;
 
 	if (!(kvm_read_cr4(vcpu) & X86_CR4_PCE) &&
-<<<<<<< HEAD
 	    (static_call(kvm_x86_get_cpl)(vcpu) != 0) &&
-=======
-	    (kvm_x86_ops.get_cpl(vcpu) != 0) &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (kvm_read_cr0(vcpu) & X86_CR0_PE))
 		return 1;
 
@@ -387,16 +383,11 @@ int kvm_pmu_rdpmc(struct kvm_vcpu *vcpu, unsigned idx, u64 *data)
 
 void kvm_pmu_deliver_pmi(struct kvm_vcpu *vcpu)
 {
-<<<<<<< HEAD
 	if (lapic_in_kernel(vcpu)) {
 		if (kvm_x86_ops.pmu_ops->deliver_pmi)
 			kvm_x86_ops.pmu_ops->deliver_pmi(vcpu);
 		kvm_apic_local_deliver(vcpu->arch.apic, APIC_LVTPC);
 	}
-=======
-	if (lapic_in_kernel(vcpu))
-		kvm_apic_local_deliver(vcpu->arch.apic, APIC_LVTPC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool kvm_pmu_is_valid_msr(struct kvm_vcpu *vcpu, u32 msr)
@@ -485,12 +476,9 @@ void kvm_pmu_cleanup(struct kvm_vcpu *vcpu)
 			pmc_stop_counter(pmc);
 	}
 
-<<<<<<< HEAD
 	if (kvm_x86_ops.pmu_ops->cleanup)
 		kvm_x86_ops.pmu_ops->cleanup(vcpu);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bitmap_zero(pmu->pmc_in_use, X86_PMC_IDX_MAX);
 }
 

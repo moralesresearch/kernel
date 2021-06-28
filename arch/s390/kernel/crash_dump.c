@@ -365,15 +365,7 @@ static void *fill_cpu_elf_notes(void *ptr, int cpu, struct save_area *sa)
 	memcpy(&nt_prstatus.pr_reg.gprs, sa->gprs, sizeof(sa->gprs));
 	memcpy(&nt_prstatus.pr_reg.psw, sa->psw, sizeof(sa->psw));
 	memcpy(&nt_prstatus.pr_reg.acrs, sa->acrs, sizeof(sa->acrs));
-<<<<<<< HEAD
 	nt_prstatus.common.pr_pid = cpu;
-=======
-<<<<<<< HEAD
-	nt_prstatus.common.pr_pid = cpu;
-=======
-	nt_prstatus.pr_pid = cpu;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Prepare fpregset (floating point) note */
 	memset(&nt_fpregset, 0, sizeof(nt_fpregset));
 	memcpy(&nt_fpregset.fpc, &sa->fpc, sizeof(sa->fpc));

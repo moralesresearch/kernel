@@ -196,14 +196,9 @@ Now add the following to ``drivers/misc/Kconfig``:
 .. code-block:: kconfig
 
 	config MISC_EXAMPLE_TEST
-<<<<<<< HEAD
 		tristate "Test for my example" if !KUNIT_ALL_TESTS
 		depends on MISC_EXAMPLE && KUNIT=y
 		default KUNIT_ALL_TESTS
-=======
-		bool "Test for my example"
-		depends on MISC_EXAMPLE && KUNIT=y
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 and the following to ``drivers/misc/Makefile``:
 
@@ -239,11 +234,7 @@ Congrats! You just wrote your first KUnit test!
 
 Next Steps
 ==========
-<<<<<<< HEAD
 *   Check out the :doc:`tips` page for tips on
     writing idiomatic KUnit tests.
 *   Optional: see the :doc:`usage` page for a more
-=======
-*   Check out the :doc:`usage` page for a more
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     in-depth explanation of KUnit.

@@ -363,7 +363,7 @@ static bool fsl_ssi_is_i2s_cbm_cfs(struct fsl_ssi *ssi)
 }
 
 /**
- * fsl_ssi_irq - Interrupt handler to gather states
+ * fsl_ssi_isr - Interrupt handler to gather states
  * @irq: irq number
  * @dev_id: context
  */
@@ -747,7 +747,7 @@ static int fsl_ssi_set_bclk(struct snd_pcm_substream *substream,
 		sub *= 100000;
 		do_div(sub, freq);
 
-		if (sub < savesub && !(i == 0 && psr == 0 && div2 == 0)) {
+		if (sub < savesub && !(i == 0)) {
 			baudrate = tmprate;
 			savesub = sub;
 			pm = i;
@@ -764,8 +764,7 @@ static int fsl_ssi_set_bclk(struct snd_pcm_substream *substream,
 		return -EINVAL;
 	}
 
-	stccr = SSI_SxCCR_PM(pm + 1) | (div2 ? SSI_SxCCR_DIV2 : 0) |
-		(psr ? SSI_SxCCR_PSR : 0);
+	stccr = SSI_SxCCR_PM(pm + 1);
 	mask = SSI_SxCCR_PM_MASK | SSI_SxCCR_DIV2 | SSI_SxCCR_PSR;
 
 	/* STCCR is used for RX in synchronous mode */
@@ -1399,30 +1398,11 @@ static int fsl_ssi_probe_from_dt(struct fsl_ssi *ssi)
 {
 	struct device *dev = ssi->dev;
 	struct device_node *np = dev->of_node;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	const struct of_device_id *of_id;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *p, *sprop;
 	const __be32 *iprop;
 	u32 dmas[4];
 	int ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	of_id = of_match_device(fsl_ssi_ids, dev);
-	if (!of_id || !of_id->data)
-		return -EINVAL;
-
-	ssi->soc = of_id->data;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = of_property_match_string(np, "clock-names", "ipg");
 	/* Get error code if not found */
 	ssi->has_ipg_clk_name = ret >= 0;
@@ -1506,14 +1486,7 @@ static int fsl_ssi_probe(struct platform_device *pdev)
 		return -ENOMEM;
 
 	ssi->dev = dev;
-<<<<<<< HEAD
 	ssi->soc = of_device_get_match_data(&pdev->dev);
-=======
-<<<<<<< HEAD
-	ssi->soc = of_device_get_match_data(&pdev->dev);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Probe from DT */
 	ret = fsl_ssi_probe_from_dt(ssi);
@@ -1559,21 +1532,9 @@ static int fsl_ssi_probe(struct platform_device *pdev)
 
 	/* Set software limitations for synchronous mode except AC97 */
 	if (ssi->synchronous && !fsl_ssi_is_ac97(ssi)) {
-<<<<<<< HEAD
 		ssi->cpu_dai_drv.symmetric_rate = 1;
 		ssi->cpu_dai_drv.symmetric_channels = 1;
 		ssi->cpu_dai_drv.symmetric_sample_bits = 1;
-=======
-<<<<<<< HEAD
-		ssi->cpu_dai_drv.symmetric_rate = 1;
-		ssi->cpu_dai_drv.symmetric_channels = 1;
-		ssi->cpu_dai_drv.symmetric_sample_bits = 1;
-=======
-		ssi->cpu_dai_drv.symmetric_rates = 1;
-		ssi->cpu_dai_drv.symmetric_channels = 1;
-		ssi->cpu_dai_drv.symmetric_samplebits = 1;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*

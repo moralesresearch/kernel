@@ -409,10 +409,6 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
 
 int dp_panel_init_panel_info(struct dp_panel *dp_panel)
 {
-<<<<<<< HEAD
-=======
-	int rc = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_display_mode *drm_mode;
 
 	drm_mode = &dp_panel->dp_mode.drm_mode;
@@ -439,11 +435,7 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
 					min_t(u32, dp_panel->dp_mode.bpp, 30));
 	DRM_DEBUG_DP("updated bpp = %d\n", dp_panel->dp_mode.bpp);
 
-<<<<<<< HEAD
 	return 0;
-=======
-	return rc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct dp_panel *dp_panel_get(struct dp_panel_in *in)

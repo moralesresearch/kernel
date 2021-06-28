@@ -1,9 +1,6 @@
 config SF_PDMA
 	tristate "Sifive PDMA controller driver"
-<<<<<<< HEAD
 	depends on HAS_IOMEM
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select DMA_ENGINE
 	select DMA_VIRTUAL_CHANNELS
 	help

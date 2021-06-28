@@ -21,7 +21,6 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
 
 unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_entries);
 
-<<<<<<< HEAD
 #ifdef CONFIG_STACKDEPOT
 int stack_depot_init(void);
 #else
@@ -31,6 +30,4 @@ static inline int stack_depot_init(void)
 }
 #endif	/* CONFIG_STACKDEPOT */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

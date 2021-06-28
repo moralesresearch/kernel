@@ -664,13 +664,8 @@ static int sctp_v6_available(union sctp_addr *addr, struct sctp_sock *sp)
 	if (!(type & IPV6_ADDR_UNICAST))
 		return 0;
 
-<<<<<<< HEAD
 	return ipv6_can_nonlocal_bind(net, &sp->inet) ||
 	       ipv6_chk_addr(net, in6, NULL, 0);
-=======
-	return sp->inet.freebind || net->ipv6.sysctl.ip_nonlocal_bind ||
-		ipv6_chk_addr(net, in6, NULL, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* This function checks if the address is a valid address to be used for
@@ -959,12 +954,7 @@ static int sctp_inet6_bind_verify(struct sctp_sock *opt, union sctp_addr *addr)
 			net = sock_net(&opt->inet.sk);
 			rcu_read_lock();
 			dev = dev_get_by_index_rcu(net, addr->v6.sin6_scope_id);
-<<<<<<< HEAD
 			if (!dev || !(ipv6_can_nonlocal_bind(net, &opt->inet) ||
-=======
-			if (!dev || !(opt->inet.freebind ||
-				      net->ipv6.sysctl.ip_nonlocal_bind ||
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      ipv6_chk_addr(net, &addr->v6.sin6_addr,
 						    dev, 0))) {
 				rcu_read_unlock();

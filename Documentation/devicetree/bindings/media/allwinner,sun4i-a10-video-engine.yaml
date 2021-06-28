@@ -53,10 +53,7 @@ properties:
     maxItems: 1
 
   memory-region:
-<<<<<<< HEAD
     maxItems: 1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       CMA pool to use for buffers allocation instead of the default
       CMA pool.

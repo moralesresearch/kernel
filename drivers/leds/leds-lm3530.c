@@ -346,13 +346,8 @@ static void lm3530_brightness_set(struct led_classdev *led_cdev,
 	}
 }
 
-<<<<<<< HEAD
 static ssize_t mode_show(struct device *dev,
 			 struct device_attribute *attr, char *buf)
-=======
-static ssize_t lm3530_mode_get(struct device *dev,
-		struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct lm3530_data *drvdata;
@@ -370,13 +365,8 @@ static ssize_t lm3530_mode_get(struct device *dev,
 	return len;
 }
 
-<<<<<<< HEAD
 static ssize_t mode_store(struct device *dev, struct device_attribute
 			  *attr, const char *buf, size_t size)
-=======
-static ssize_t lm3530_mode_set(struct device *dev, struct device_attribute
-				   *attr, const char *buf, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct lm3530_data *drvdata;
@@ -407,11 +397,7 @@ static ssize_t lm3530_mode_set(struct device *dev, struct device_attribute
 
 	return sizeof(drvdata->mode);
 }
-<<<<<<< HEAD
 static DEVICE_ATTR_RW(mode);
-=======
-static DEVICE_ATTR(mode, 0644, lm3530_mode_get, lm3530_mode_set);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *lm3530_attrs[] = {
 	&dev_attr_mode.attr,

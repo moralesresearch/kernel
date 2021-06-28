@@ -52,10 +52,7 @@
  * @idev: registered input device
  * @work: a work item used to scan the device
  * @dev: a pointer back to the MFD cell struct device*
-<<<<<<< HEAD
  * @prop: Touchscreen properties
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @ave_ctrl: Sample average control
  * (0 -> 1 sample, 1 -> 2 samples, 2 -> 4 samples, 3 -> 8 samples)
  * @touch_det_delay: Touch detect interrupt delay

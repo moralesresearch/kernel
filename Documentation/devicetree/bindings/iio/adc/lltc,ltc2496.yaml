@@ -20,11 +20,7 @@ properties:
     description: Power supply for the reference voltage
 
   reg:
-<<<<<<< HEAD
     maxItems: 1
-=======
-    description: spi chipselect number according to the usual spi bindings
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   spi-max-frequency:
     description: maximal spi bus frequency supported

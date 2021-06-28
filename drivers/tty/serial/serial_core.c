@@ -759,8 +759,6 @@ static int uart_get_info(struct tty_port *port, struct serial_struct *retinfo)
 	struct uart_port *uport;
 	int ret = -ENODEV;
 
-	memset(retinfo, 0, sizeof(*retinfo));
-
 	/*
 	 * Ensure the state we copy is consistent and no hardware changes
 	 * occur as we go
@@ -865,17 +863,11 @@ static int uart_set_info(struct tty_struct *tty, struct tty_port *port,
 		goto check_and_exit;
 	}
 
-<<<<<<< HEAD
 	if (change_irq || change_port) {
 		retval = security_locked_down(LOCKDOWN_TIOCSSERIAL);
 		if (retval)
 			goto exit;
 	}
-=======
-	retval = security_locked_down(LOCKDOWN_TIOCSSERIAL);
-	if (retval && (change_irq || change_port))
-		goto exit;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Ask the low level driver to verify the settings.
@@ -983,10 +975,6 @@ static int uart_set_info(struct tty_struct *tty, struct tty_port *port,
 	port->closing_wait    = closing_wait;
 	if (new_info->xmit_fifo_size)
 		uport->fifosize = new_info->xmit_fifo_size;
-<<<<<<< HEAD
-=======
-	port->low_latency = (uport->flags & UPF_LOW_LATENCY) ? 1 : 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
  check_and_exit:
 	retval = 0;
@@ -1317,11 +1305,7 @@ static int uart_set_rs485_config(struct uart_port *port,
 	unsigned long flags;
 
 	if (!port->rs485_config)
-<<<<<<< HEAD
 		return -ENOTTY;
-=======
-		return -ENOIOCTLCMD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&rs485, rs485_user, sizeof(*rs485_user)))
 		return -EFAULT;
@@ -1345,11 +1329,7 @@ static int uart_get_iso7816_config(struct uart_port *port,
 	struct serial_iso7816 aux;
 
 	if (!port->iso7816_config)
-<<<<<<< HEAD
 		return -ENOTTY;
-=======
-		return -ENOIOCTLCMD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irqsave(&port->lock, flags);
 	aux = port->iso7816;
@@ -1369,11 +1349,7 @@ static int uart_set_iso7816_config(struct uart_port *port,
 	unsigned long flags;
 
 	if (!port->iso7816_config)
-<<<<<<< HEAD
 		return -ENOTTY;
-=======
-		return -ENOIOCTLCMD;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (copy_from_user(&iso7816, iso7816_user, sizeof(*iso7816_user)))
 		return -EFAULT;
@@ -1818,11 +1794,6 @@ static int uart_port_activate(struct tty_port *port, struct tty_struct *tty)
 	if (!uport || uport->flags & UPF_DEAD)
 		return -ENXIO;
 
-<<<<<<< HEAD
-=======
-	port->low_latency = (uport->flags & UPF_LOW_LATENCY) ? 1 : 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Start up the serial port.
 	 */
@@ -2877,11 +2848,8 @@ static const struct attribute_group tty_dev_attr_group = {
  *	@drv: pointer to the uart low level driver structure for this port
  *	@uport: uart port structure to use for this port.
  *
-<<<<<<< HEAD
  *	Context: task context, might sleep
  *
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	This allows the driver to register its own uart_port structure
  *	with the core driver.  The main purpose is to allow the low
  *	level uart drivers to expand uart_port, rather than having yet
@@ -2895,11 +2863,6 @@ int uart_add_one_port(struct uart_driver *drv, struct uart_port *uport)
 	struct device *tty_dev;
 	int num_groups;
 
-<<<<<<< HEAD
-=======
-	BUG_ON(in_interrupt());
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (uport->line >= drv->nr)
 		return -EINVAL;
 
@@ -2988,11 +2951,8 @@ int uart_add_one_port(struct uart_driver *drv, struct uart_port *uport)
  *	@drv: pointer to the uart low level driver structure for this port
  *	@uport: uart port structure for this port
  *
-<<<<<<< HEAD
  *	Context: task context, might sleep
  *
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	This unhooks (and hangs up) the specified port structure from the
  *	core driver.  No further calls will be made to the low-level code
  *	for this port.
@@ -3005,11 +2965,6 @@ int uart_remove_one_port(struct uart_driver *drv, struct uart_port *uport)
 	struct tty_struct *tty;
 	int ret = 0;
 
-<<<<<<< HEAD
-=======
-	BUG_ON(in_interrupt());
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&port_mutex);
 
 	/*

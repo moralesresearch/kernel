@@ -309,12 +309,9 @@ static void do_signal(struct pt_regs *regs)
 asmlinkage __visible void do_notify_resume(struct pt_regs *regs,
 					   unsigned long thread_info_flags)
 {
-<<<<<<< HEAD
 	if (thread_info_flags & _TIF_UPROBE)
 		uprobe_notify_resume(regs);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Handle pending signal delivery */
 	if (thread_info_flags & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
 		do_signal(regs);

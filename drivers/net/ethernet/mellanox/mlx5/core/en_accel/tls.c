@@ -231,15 +231,6 @@ int mlx5e_tls_init(struct mlx5e_priv *priv)
 	if (!tls)
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-	tls->rx_wq = create_singlethread_workqueue("mlx5e_tls_rx");
-	if (!tls->rx_wq) {
-		kfree(tls);
-		return -ENOMEM;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv->tls = tls;
 	return 0;
 }
@@ -251,10 +242,6 @@ void mlx5e_tls_cleanup(struct mlx5e_priv *priv)
 	if (!tls)
 		return;
 
-<<<<<<< HEAD
-=======
-	destroy_workqueue(tls->rx_wq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(tls);
 	priv->tls = NULL;
 }

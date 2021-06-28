@@ -200,10 +200,7 @@ static const unsigned char SiS310_TVDelayCompensation_651302LV[] =	/* M650, 651,
 	0x33,0x33
 };
 
-<<<<<<< HEAD
 #if 0 /* Not used */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const unsigned char SiS_TVDelay661_301[] =			/* 661, 301 */
 {
 	0x44,0x44,
@@ -223,10 +220,7 @@ static const unsigned char SiS_TVDelay661_301B[] =			/* 661, 301B et al */
 	0x44,0x44,
 	0x44,0x44
 };
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const unsigned char SiS310_TVDelayCompensation_LVDS[] =		/* LVDS */
 {

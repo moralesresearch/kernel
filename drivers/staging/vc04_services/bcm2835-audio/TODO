@@ -5,10 +5,6 @@
 *****************************************************************************
 
 1) Revisit multi-cards options and PCM route mixer control (as per comment
-<<<<<<< HEAD
 https://lore.kernel.org/lkml/s5hd0to5598.wl-tiwai@suse.de)
-=======
-https://lkml.org/lkml/2018/9/8/200)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 2) Fix the remaining checkpatch.pl errors and warnings.

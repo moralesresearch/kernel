@@ -569,11 +569,7 @@ static int add_new_ctl(struct usb_mixer_interface *mixer,
 	}
 	kctl->private_free = snd_usb_mixer_elem_free;
 
-<<<<<<< HEAD
 	strscpy(kctl->id.name, name, sizeof(kctl->id.name));
-=======
-	strlcpy(kctl->id.name, name, sizeof(kctl->id.name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = snd_usb_mixer_add_control(&elem->head, kctl);
 	if (err < 0)

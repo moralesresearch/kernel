@@ -147,12 +147,7 @@ static void dsa_master_get_strings(struct net_device *dev, uint32_t stringset,
 	struct dsa_switch *ds = cpu_dp->ds;
 	int port = cpu_dp->index;
 	int len = ETH_GSTRING_LEN;
-<<<<<<< HEAD
 	int mcount = 0, count, i;
-=======
-	int mcount = 0, count;
-	unsigned int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint8_t pfx[4];
 	uint8_t *ndata;
 
@@ -182,11 +177,8 @@ static void dsa_master_get_strings(struct net_device *dev, uint32_t stringset,
 		 */
 		ds->ops->get_strings(ds, port, stringset, ndata);
 		count = ds->ops->get_sset_count(ds, port, stringset);
-<<<<<<< HEAD
 		if (count < 0)
 			return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < count; i++) {
 			memmove(ndata + (i * len + sizeof(pfx)),
 				ndata + i * len, len - sizeof(pfx));
@@ -289,7 +281,6 @@ static ssize_t tagging_show(struct device *d, struct device_attribute *attr,
 	return sprintf(buf, "%s\n",
 		       dsa_tag_protocol_to_str(cpu_dp->tag_ops));
 }
-<<<<<<< HEAD
 
 static ssize_t tagging_store(struct device *d, struct device_attribute *attr,
 			     const char *buf, size_t count)
@@ -328,9 +319,6 @@ out:
 	return count;
 }
 static DEVICE_ATTR_RW(tagging);
-=======
-static DEVICE_ATTR_RO(tagging);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *dsa_slave_attrs[] = {
 	&dev_attr_tagging.attr,

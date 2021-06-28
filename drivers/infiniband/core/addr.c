@@ -76,13 +76,9 @@ static struct workqueue_struct *addr_wq;
 
 static const struct nla_policy ib_nl_addr_policy[LS_NLA_TYPE_MAX] = {
 	[LS_NLA_TYPE_DGID] = {.type = NLA_BINARY,
-<<<<<<< HEAD
 		.len = sizeof(struct rdma_nla_ls_gid),
 		.validation_type = NLA_VALIDATE_MIN,
 		.min = sizeof(struct rdma_nla_ls_gid)},
-=======
-		.len = sizeof(struct rdma_nla_ls_gid)},
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline bool ib_nl_is_good_ip_resp(const struct nlmsghdr *nlh)

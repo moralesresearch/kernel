@@ -59,15 +59,7 @@ static DECLARE_COMPLETION(cpu_starting);
 static DECLARE_COMPLETION(cpu_running);
 
 /*
-<<<<<<< HEAD
  * A logical cpu mask containing only one VPE per core to
-=======
-<<<<<<< HEAD
- * A logical cpu mask containing only one VPE per core to
-=======
- * A logcal cpu mask containing only one VPE per core to
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * reduce the number of IPIs on large MT systems.
  */
 cpumask_t cpu_foreign_map[NR_CPUS] __read_mostly;
@@ -518,18 +510,8 @@ static inline void smp_on_each_tlb(void (*func) (void *info), void *info)
  * address spaces, a new context is obtained on the current cpu, and tlb
  * context on other cpus are invalidated to force a new context allocation
  * at switch_mm time, should the mm ever be used on other cpus. For
-<<<<<<< HEAD
  * multithreaded address spaces, inter-CPU interrupts have to be sent.
  * Another case where inter-CPU interrupts are required is when the target
-=======
-<<<<<<< HEAD
- * multithreaded address spaces, inter-CPU interrupts have to be sent.
- * Another case where inter-CPU interrupts are required is when the target
-=======
- * multithreaded address spaces, intercpu interrupts have to be sent.
- * Another case where intercpu interrupts are required is when the target
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * mm might be active on another cpu (eg debuggers doing the flushes on
  * behalf of debugees, kswapd stealing pages from another process etc).
  * Kanoj 07/00.

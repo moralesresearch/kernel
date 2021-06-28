@@ -353,11 +353,7 @@ static struct snd_soc_dai_driver pxa_i2s_dai = {
 		.rates = PXA2XX_I2S_RATES,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE,},
 	.ops = &pxa_i2s_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver pxa_i2s_component = {

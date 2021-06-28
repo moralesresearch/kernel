@@ -1368,13 +1368,8 @@ static struct snd_soc_dai_driver cs47l35_dai[] = {
 			.formats = MADERA_FORMATS,
 		 },
 		.ops = &madera_dai_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_sample_bits = 1,
-=======
-		.symmetric_rates = 1,
-		.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs47l35-aif2",
@@ -1395,13 +1390,8 @@ static struct snd_soc_dai_driver cs47l35_dai[] = {
 			.formats = MADERA_FORMATS,
 		 },
 		.ops = &madera_dai_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_sample_bits = 1,
-=======
-		.symmetric_rates = 1,
-		.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs47l35-aif3",
@@ -1422,13 +1412,8 @@ static struct snd_soc_dai_driver cs47l35_dai[] = {
 			.formats = MADERA_FORMATS,
 		 },
 		.ops = &madera_dai_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_sample_bits = 1,
-=======
-		.symmetric_rates = 1,
-		.symmetric_samplebits = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs47l35-slim1",

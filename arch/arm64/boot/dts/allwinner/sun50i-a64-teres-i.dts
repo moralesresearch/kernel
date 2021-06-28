@@ -52,20 +52,12 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		capslock {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "teres-i:green:capslock";
 			gpios = <&pio 2 7 GPIO_ACTIVE_HIGH>; /* PC7 */
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		numlock {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "teres-i:green:numlock";
 			gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>; /* PC4 */
 		};
@@ -213,7 +205,7 @@
 		compatible = "x-powers,axp803";
 		reg = <0x3a3>;
 		interrupt-parent = <&r_intc>;
-		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
 		wakeup-source;
 	};
 };

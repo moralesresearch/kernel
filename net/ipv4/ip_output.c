@@ -34,7 +34,7 @@
  *		Andi Kleen	: 	Replace ip_reply with ip_send_reply.
  *		Andi Kleen	:	Split fast and slow ip_build_xmit path
  *					for decreased register pressure on x86
- *					and more readibility.
+ *					and more readability.
  *		Marc Boucher	:	When call_out_firewall returns FW_QUEUE,
  *					silently drop skb instead of failing with -EPERM.
  *		Detlev Wengorz	:	Copy protocol for fragments.
@@ -262,7 +262,7 @@ static int ip_finish_output_gso(struct net *net, struct sock *sk,
 	 *    interface with a smaller MTU.
 	 *  - Arriving GRO skb (or GSO skb in a virtualized environment) that is
 	 *    bridged to a NETIF_F_TSO tunnel stacked over an interface with an
-	 *    insufficent MTU.
+	 *    insufficient MTU.
 	 */
 	features = netif_skb_features(skb);
 	BUILD_BUG_ON(sizeof(*IPCB(skb)) > SKB_GSO_CB_OFFSET);
@@ -434,10 +434,7 @@ int ip_output(struct net *net, struct sock *sk, struct sk_buff *skb)
 			    ip_finish_output,
 			    !(IPCB(skb)->flags & IPSKB_REROUTED));
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL(ip_output);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * copy saddr and daddr, possibly using 64bit load/stores
@@ -1022,11 +1019,7 @@ static int __ip_append_data(struct sock *sk,
 		csummode = CHECKSUM_PARTIAL;
 
 	if (flags & MSG_ZEROCOPY && length && sock_flag(sk, SOCK_ZEROCOPY)) {
-<<<<<<< HEAD
 		uarg = msg_zerocopy_realloc(sk, length, skb_zcopy(skb));
-=======
-		uarg = sock_zerocopy_realloc(sk, length, skb_zcopy(skb));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!uarg)
 			return -ENOBUFS;
 		extra_uref = !skb_zcopy(skb);	/* only ref on new uarg */
@@ -1238,12 +1231,7 @@ alloc_new_skb:
 error_efault:
 	err = -EFAULT;
 error:
-<<<<<<< HEAD
 	net_zcopy_put_abort(uarg, extra_uref);
-=======
-	if (uarg)
-		sock_zerocopy_put_abort(uarg, extra_uref);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cork->length -= length;
 	IP_INC_STATS(sock_net(sk), IPSTATS_MIB_OUTDISCARDS);
 	refcount_add(wmem_alloc_delta, &sk->sk_wmem_alloc);

@@ -738,15 +738,7 @@ int set_foreign_p2m_mapping(struct gnttab_map_grant_ref *map_ops,
 		map_ops[i].status = GNTST_general_error;
 		unmap[0].host_addr = map_ops[i].host_addr,
 		unmap[0].handle = map_ops[i].handle;
-<<<<<<< HEAD
 		map_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-<<<<<<< HEAD
-		map_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-		map_ops[i].handle = ~0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (map_ops[i].flags & GNTMAP_device_map)
 			unmap[0].dev_bus_addr = map_ops[i].dev_bus_addr;
 		else
@@ -756,15 +748,7 @@ int set_foreign_p2m_mapping(struct gnttab_map_grant_ref *map_ops,
 			kmap_ops[i].status = GNTST_general_error;
 			unmap[1].host_addr = kmap_ops[i].host_addr,
 			unmap[1].handle = kmap_ops[i].handle;
-<<<<<<< HEAD
 			kmap_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-<<<<<<< HEAD
-			kmap_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-			kmap_ops[i].handle = ~0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (kmap_ops[i].flags & GNTMAP_device_map)
 				unmap[1].dev_bus_addr = kmap_ops[i].dev_bus_addr;
 			else
@@ -789,13 +773,6 @@ int set_foreign_p2m_mapping(struct gnttab_map_grant_ref *map_ops,
 out:
 	return ret;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(set_foreign_p2m_mapping);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int clear_foreign_p2m_mapping(struct gnttab_unmap_grant_ref *unmap_ops,
 			      struct gnttab_unmap_grant_ref *kunmap_ops,
@@ -821,13 +798,6 @@ int clear_foreign_p2m_mapping(struct gnttab_unmap_grant_ref *unmap_ops,
 
 	return ret;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(clear_foreign_p2m_mapping);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_XEN_DEBUG_FS
 #include <linux/debugfs.h>

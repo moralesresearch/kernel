@@ -1849,11 +1849,8 @@ static int r8a66597_probe(struct platform_device *pdev)
 		return PTR_ERR(reg);
 
 	ires = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-<<<<<<< HEAD
 	if (!ires)
 		return -EINVAL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	irq = ires->start;
 	irq_trigger = ires->flags & IRQF_TRIGGER_MASK;
 

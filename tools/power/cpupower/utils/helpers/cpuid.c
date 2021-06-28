@@ -128,7 +128,6 @@ out:
 	/* AMD or Hygon Boost state enable/disable register */
 	if (cpu_info->vendor == X86_VENDOR_AMD ||
 	    cpu_info->vendor == X86_VENDOR_HYGON) {
-<<<<<<< HEAD
 		if (ext_cpuid_level >= 0x80000007) {
 			if (cpuid_edx(0x80000007) & (1 << 9)) {
 				cpu_info->caps |= CPUPOWER_CAP_AMD_CPB;
@@ -146,11 +145,6 @@ out:
 					cpu_info->caps |= CPUPOWER_CAP_AMD_PSTATEDEF;
 			}
 		}
-=======
-		if (ext_cpuid_level >= 0x80000007 &&
-		    (cpuid_edx(0x80000007) & (1 << 9)))
-			cpu_info->caps |= CPUPOWER_CAP_AMD_CBP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (ext_cpuid_level >= 0x80000008 &&
 		    cpuid_ebx(0x80000008) & (1 << 4))

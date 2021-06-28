@@ -376,7 +376,6 @@ xfs_reflink_allocate_cow(
 	resblks = XFS_DIOSTRAT_SPACE_RES(mp, resaligned);
 
 	xfs_iunlock(ip, *lockmode);
-<<<<<<< HEAD
 	*lockmode = 0;
 
 	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, resblks, 0,
@@ -385,18 +384,6 @@ xfs_reflink_allocate_cow(
 		return error;
 
 	*lockmode = XFS_ILOCK_EXCL;
-=======
-	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, resblks, 0, 0, &tp);
-	*lockmode = XFS_ILOCK_EXCL;
-	xfs_ilock(ip, *lockmode);
-
-	if (error)
-		return error;
-
-	error = xfs_qm_dqattach_locked(ip, false);
-	if (error)
-		goto out_trans_cancel;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Check for an overlapping extent again now that we dropped the ilock.
@@ -409,27 +396,13 @@ xfs_reflink_allocate_cow(
 		goto convert;
 	}
 
-<<<<<<< HEAD
-=======
-	error = xfs_trans_reserve_quota_nblks(tp, ip, resblks, 0,
-			XFS_QMOPT_RES_REGBLKS);
-	if (error)
-		goto out_trans_cancel;
-
-	xfs_trans_ijoin(tp, ip, 0);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Allocate the entire reservation as unwritten blocks. */
 	nimaps = 1;
 	error = xfs_bmapi_write(tp, ip, imap->br_startoff, imap->br_blockcount,
 			XFS_BMAPI_COWFORK | XFS_BMAPI_PREALLOC, 0, cmap,
 			&nimaps);
 	if (error)
-<<<<<<< HEAD
 		goto out_trans_cancel;
-=======
-		goto out_unreserve;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xfs_inode_set_cowblocks_tag(ip);
 	error = xfs_trans_commit(tp);
@@ -454,12 +427,6 @@ convert:
 	trace_xfs_reflink_convert_cow(ip, cmap);
 	return xfs_reflink_convert_cow_locked(ip, offset_fsb, count_fsb);
 
-<<<<<<< HEAD
-=======
-out_unreserve:
-	xfs_trans_unreserve_quota_nblks(tp, ip, (long)resblks, 0,
-			XFS_QMOPT_RES_REGBLKS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_trans_cancel:
 	xfs_trans_cancel(tp);
 	return error;
@@ -529,14 +496,8 @@ xfs_reflink_cancel_cow_blocks(
 			xfs_bmap_del_extent_cow(ip, &icur, &got, &del);
 
 			/* Remove the quota reservation */
-<<<<<<< HEAD
 			error = xfs_quota_unreserve_blkres(ip,
 					del.br_blockcount);
-=======
-			error = xfs_trans_reserve_quota_nblks(NULL, ip,
-					-(long)del.br_blockcount, 0,
-					XFS_QMOPT_RES_REGBLKS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (error)
 				break;
 		} else {
@@ -654,14 +615,11 @@ xfs_reflink_end_cow_extent(
 	xfs_ilock(ip, XFS_ILOCK_EXCL);
 	xfs_trans_ijoin(tp, ip, 0);
 
-<<<<<<< HEAD
 	error = xfs_iext_count_may_overflow(ip, XFS_DATA_FORK,
 			XFS_IEXT_REFLINK_END_COW_CNT);
 	if (error)
 		goto out_cancel;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * In case of racing, overlapping AIO writes no COW extents might be
 	 * left by the time I/O completes for the loser of the race.  In that
@@ -916,7 +874,7 @@ xfs_reflink_set_inode_flag(
 	if (!xfs_is_reflink_inode(src)) {
 		trace_xfs_reflink_set_inode_flag(src);
 		xfs_trans_ijoin(tp, src, XFS_ILOCK_EXCL);
-		src->i_d.di_flags2 |= XFS_DIFLAG2_REFLINK;
+		src->i_diflags2 |= XFS_DIFLAG2_REFLINK;
 		xfs_trans_log_inode(tp, src, XFS_ILOG_CORE);
 		xfs_ifork_init_cow(src);
 	} else
@@ -928,7 +886,7 @@ xfs_reflink_set_inode_flag(
 	if (!xfs_is_reflink_inode(dest)) {
 		trace_xfs_reflink_set_inode_flag(dest);
 		xfs_trans_ijoin(tp, dest, XFS_ILOCK_EXCL);
-		dest->i_d.di_flags2 |= XFS_DIFLAG2_REFLINK;
+		dest->i_diflags2 |= XFS_DIFLAG2_REFLINK;
 		xfs_trans_log_inode(tp, dest, XFS_ILOG_CORE);
 		xfs_ifork_init_cow(dest);
 	} else
@@ -972,12 +930,12 @@ xfs_reflink_update_dest(
 	if (newlen > i_size_read(VFS_I(dest))) {
 		trace_xfs_reflink_update_inode_size(dest, newlen);
 		i_size_write(VFS_I(dest), newlen);
-		dest->i_d.di_size = newlen;
+		dest->i_disk_size = newlen;
 	}
 
 	if (cowextsize) {
-		dest->i_d.di_cowextsize = cowextsize;
-		dest->i_d.di_flags2 |= XFS_DIFLAG2_COWEXTSIZE;
+		dest->i_cowextsize = cowextsize;
+		dest->i_diflags2 |= XFS_DIFLAG2_COWEXTSIZE;
 	}
 
 	xfs_trans_log_inode(tp, dest, XFS_ILOG_CORE);
@@ -1031,7 +989,6 @@ xfs_reflink_remap_extent(
 	struct xfs_mount	*mp = ip->i_mount;
 	struct xfs_trans	*tp;
 	xfs_off_t		newlen;
-<<<<<<< HEAD
 	int64_t			qdelta = 0;
 	unsigned int		resblks;
 	bool			quota_reserved = true;
@@ -1073,24 +1030,6 @@ xfs_reflink_remap_extent(
 	if (error)
 		goto out;
 
-=======
-	int64_t			qres, qdelta;
-	unsigned int		resblks;
-	bool			smap_real;
-	bool			dmap_written = xfs_bmap_is_written_extent(dmap);
-	int			nimaps;
-	int			error;
-
-	/* Start a rolling transaction to switch the mappings */
-	resblks = XFS_EXTENTADD_SPACE_RES(mp, XFS_DATA_FORK);
-	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, resblks, 0, 0, &tp);
-	if (error)
-		goto out;
-
-	xfs_ilock(ip, XFS_ILOCK_EXCL);
-	xfs_trans_ijoin(tp, ip, 0);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Read what's currently mapped in the destination file into smap.
 	 * If smap isn't a hole, we will have to remove it before we can add
@@ -1138,21 +1077,9 @@ xfs_reflink_remap_extent(
 	}
 
 	/*
-<<<<<<< HEAD
 	 * Increase quota reservation if we think the quota block counter for
 	 * this file could increase.
 	 *
-=======
-	 * Compute quota reservation if we think the quota block counter for
-	 * this file could increase.
-	 *
-	 * Adding a written extent to the extent map can cause a bmbt split,
-	 * and removing a mapped extent from the extent can cause a bmbt split.
-	 * The two operations cannot both cause a split since they operate on
-	 * the same index in the bmap btree, so we only need a reservation for
-	 * one bmbt split if either thing is happening.
-	 *
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * If we are mapping a written extent into the file, we need to have
 	 * enough quota block count reservation to handle the blocks in that
 	 * extent.  We log only the delta to the quota block counts, so if the
@@ -1165,7 +1092,6 @@ xfs_reflink_remap_extent(
 	 * count.  This is suboptimal, but the VFS flushed the dest range
 	 * before we started.  That should have removed all the delalloc
 	 * reservations, but we code defensively.
-<<<<<<< HEAD
 	 *
 	 * xfs_trans_alloc_inode above already tried to grab an even larger
 	 * quota reservation, and kicked off a blockgc scan if it couldn't.
@@ -1175,22 +1101,10 @@ xfs_reflink_remap_extent(
 	if (!quota_reserved && !smap_real && dmap_written) {
 		error = xfs_trans_reserve_quota_nblks(tp, ip,
 				dmap->br_blockcount, 0, false);
-=======
-	 */
-	qres = qdelta = 0;
-	if (smap_real || dmap_written)
-		qres = XFS_EXTENTADD_SPACE_RES(mp, XFS_DATA_FORK);
-	if (!smap_real && dmap_written)
-		qres += dmap->br_blockcount;
-	if (qres > 0) {
-		error = xfs_trans_reserve_quota_nblks(tp, ip, qres, 0,
-				XFS_QMOPT_RES_REGBLKS);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_cancel;
 	}
 
-<<<<<<< HEAD
 	if (smap_real)
 		++iext_delta;
 
@@ -1201,8 +1115,6 @@ xfs_reflink_remap_extent(
 	if (error)
 		goto out_cancel;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (smap_real) {
 		/*
 		 * If the extent we're unmapping is backed by storage (written
@@ -1244,7 +1156,7 @@ xfs_reflink_remap_extent(
 	if (newlen > i_size_read(VFS_I(ip))) {
 		trace_xfs_reflink_update_inode_size(ip, newlen);
 		i_size_write(VFS_I(ip), newlen);
-		ip->i_d.di_size = newlen;
+		ip->i_disk_size = newlen;
 		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
 	}
 
@@ -1480,11 +1392,9 @@ xfs_reflink_inode_has_shared_extents(
 	int				error;
 
 	ifp = XFS_IFORK_PTR(ip, XFS_DATA_FORK);
-	if (!(ifp->if_flags & XFS_IFEXTENTS)) {
-		error = xfs_iread_extents(tp, ip, XFS_DATA_FORK);
-		if (error)
-			return error;
-	}
+	error = xfs_iread_extents(tp, ip, XFS_DATA_FORK);
+	if (error)
+		return error;
 
 	*has_shared = false;
 	found = xfs_iext_lookup_extent(ip, ifp, 0, &icur, &got);
@@ -1543,7 +1453,7 @@ xfs_reflink_clear_inode_flag(
 
 	/* Clear the inode flag. */
 	trace_xfs_reflink_unset_inode_flag(ip);
-	ip->i_d.di_flags2 &= ~XFS_DIFLAG2_REFLINK;
+	ip->i_diflags2 &= ~XFS_DIFLAG2_REFLINK;
 	xfs_inode_clear_cowblocks_tag(ip);
 	xfs_trans_log_inode(*tpp, ip, XFS_ILOG_CORE);
 
@@ -1612,7 +1522,8 @@ xfs_reflink_unshare(
 	if (error)
 		goto out;
 
-	error = filemap_write_and_wait_range(inode->i_mapping, offset, len);
+	error = filemap_write_and_wait_range(inode->i_mapping, offset,
+			offset + len - 1);
 	if (error)
 		goto out;
 

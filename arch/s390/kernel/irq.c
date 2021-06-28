@@ -21,28 +21,14 @@
 #include <linux/init.h>
 #include <linux/cpu.h>
 #include <linux/irq.h>
-<<<<<<< HEAD
 #include <linux/entry-common.h>
-=======
-<<<<<<< HEAD
-#include <linux/entry-common.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/irq_regs.h>
 #include <asm/cputime.h>
 #include <asm/lowcore.h>
 #include <asm/irq.h>
 #include <asm/hw_irq.h>
 #include <asm/stacktrace.h>
-<<<<<<< HEAD
 #include <asm/softirq_stack.h>
-=======
-<<<<<<< HEAD
-#include <asm/softirq_stack.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "entry.h"
 
 DEFINE_PER_CPU_SHARED_ALIGNED(struct irq_stat, irq_stat);
@@ -111,31 +97,13 @@ static const struct irq_class irqclass_sub_desc[] = {
 	{.irq = CPU_RST,    .name = "RST", .desc = "[CPU] CPU Restart"},
 };
 
-<<<<<<< HEAD
 static void do_IRQ(struct pt_regs *regs, int irq)
 {
-=======
-<<<<<<< HEAD
-static void do_IRQ(struct pt_regs *regs, int irq)
-{
-=======
-void do_IRQ(struct pt_regs *regs, int irq)
-{
-	struct pt_regs *old_regs;
-
-	old_regs = set_irq_regs(regs);
-	irq_enter();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tod_after_eq(S390_lowcore.int_clock,
 			 S390_lowcore.clock_comparator))
 		/* Serve timer interrupts first. */
 		clock_comparator_work();
 	generic_handle_irq(irq);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int on_async_stack(void)
@@ -220,13 +188,6 @@ void noinstr do_ext_irq(struct pt_regs *regs)
 
 	if (from_idle)
 		regs->psw.mask &= ~(PSW_MASK_EXT | PSW_MASK_IO | PSW_MASK_WAIT);
-<<<<<<< HEAD
-=======
-=======
-	irq_exit();
-	set_irq_regs(old_regs);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void show_msi_interrupt(struct seq_file *p, int irq)

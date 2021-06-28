@@ -122,24 +122,12 @@ Don't forget to cleanup the media entity before the sub-device is destroyed:
 
 	media_entity_cleanup(&sd->entity);
 
-<<<<<<< HEAD
 If a sub-device driver implements sink pads, the subdev driver may set the
 link_validate field in :c:type:`v4l2_subdev_pad_ops` to provide its own link
 validation function. For every link in the pipeline, the link_validate pad
 operation of the sink end of the link is called. In both cases the driver is
 still responsible for validating the correctness of the format configuration
 between sub-devices and video nodes.
-=======
-If the subdev driver intends to process video and integrate with the media
-framework, it must implement format related functionality using
-:c:type:`v4l2_subdev_pad_ops` instead of :c:type:`v4l2_subdev_video_ops`.
-
-In that case, the subdev driver may set the link_validate field to provide
-its own link validation function. The link validation function is called for
-every link in the pipeline where both of the ends of the links are V4L2
-sub-devices. The driver is still responsible for validating the correctness
-of the format configuration between sub-devices and video nodes.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 If link_validate op is not set, the default function
 :c:func:`v4l2_subdev_link_validate_default` is used instead. This function
@@ -209,7 +197,6 @@ unregister the notifier the driver has to call
 takes two arguments: a pointer to struct :c:type:`v4l2_device` and a
 pointer to struct :c:type:`v4l2_async_notifier`.
 
-<<<<<<< HEAD
 Before registering the notifier, bridge drivers must do two things: first, the
 notifier must be initialized using the :c:func:`v4l2_async_notifier_init`.
 Second, bridge drivers can then begin to form a list of subdevice descriptors
@@ -221,7 +208,7 @@ the needs of the driver.
 :c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
 registering their async sub-devices with the notifier.
 
-:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
+:c:func:`v4l2_async_register_subdev_sensor` is a helper function for
 sensor drivers registering their own async sub-device, but it also registers a
 notifier and further registers async sub-devices for lens and flash devices
 found in firmware. The notifier for the sub-device is unregistered with the
@@ -249,17 +236,6 @@ These functions allocate an async sub-device descriptor which is of type struct
 
 	if (IS_ERR(asd))
 		return PTR_ERR(asd);
-=======
-Before registering the notifier, bridge drivers must do two things:
-first, the notifier must be initialized using the
-:c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
-begin to form a list of subdevice descriptors that the bridge device
-needs for its operation. Subdevice descriptors are added to the notifier
-using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-and a pointer to the subdevice descripter, which is of type struct
-:c:type:`v4l2_async_subdev`.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The V4L2 core will then use these descriptors to match asynchronously
 registered subdevices to them. If a match is detected the ``.bound()``
@@ -276,7 +252,7 @@ contain several subdevs that use an I2C bus, but also a subdev that is
 controlled through GPIO pins. This distinction is only relevant when setting
 up the device, but once the subdev is registered it is completely transparent.
 
-Once te subdev has been registered you can call an ops function either
+Once the subdev has been registered you can call an ops function either
 directly:
 
 .. code-block:: c

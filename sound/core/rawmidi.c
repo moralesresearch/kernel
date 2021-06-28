@@ -1686,11 +1686,7 @@ int snd_rawmidi_new(struct snd_card *card, char *id, int device,
 	INIT_LIST_HEAD(&rmidi->streams[SNDRV_RAWMIDI_STREAM_OUTPUT].substreams);
 
 	if (id != NULL)
-<<<<<<< HEAD
 		strscpy(rmidi->id, id, sizeof(rmidi->id));
-=======
-		strlcpy(rmidi->id, id, sizeof(rmidi->id));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	snd_device_initialize(&rmidi->dev, card);
 	rmidi->dev.release = release_rawmidi_device;

@@ -1528,25 +1528,7 @@ static int nbd_dbg_tasks_show(struct seq_file *s, void *unused)
 	return 0;
 }
 
-<<<<<<< HEAD
 DEFINE_SHOW_ATTRIBUTE(nbd_dbg_tasks);
-=======
-<<<<<<< HEAD
-DEFINE_SHOW_ATTRIBUTE(nbd_dbg_tasks);
-=======
-static int nbd_dbg_tasks_open(struct inode *inode, struct file *file)
-{
-	return single_open(file, nbd_dbg_tasks_show, inode->i_private);
-}
-
-static const struct file_operations nbd_dbg_tasks_ops = {
-	.open = nbd_dbg_tasks_open,
-	.read = seq_read,
-	.llseek = seq_lseek,
-	.release = single_release,
-};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int nbd_dbg_flags_show(struct seq_file *s, void *unused)
 {
@@ -1571,25 +1553,7 @@ static int nbd_dbg_flags_show(struct seq_file *s, void *unused)
 	return 0;
 }
 
-<<<<<<< HEAD
 DEFINE_SHOW_ATTRIBUTE(nbd_dbg_flags);
-=======
-<<<<<<< HEAD
-DEFINE_SHOW_ATTRIBUTE(nbd_dbg_flags);
-=======
-static int nbd_dbg_flags_open(struct inode *inode, struct file *file)
-{
-	return single_open(file, nbd_dbg_flags_show, inode->i_private);
-}
-
-static const struct file_operations nbd_dbg_flags_ops = {
-	.open = nbd_dbg_flags_open,
-	.read = seq_read,
-	.llseek = seq_lseek,
-	.release = single_release,
-};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int nbd_dev_dbg_init(struct nbd_device *nbd)
 {
@@ -1607,25 +1571,11 @@ static int nbd_dev_dbg_init(struct nbd_device *nbd)
 	}
 	config->dbg_dir = dir;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	debugfs_create_file("tasks", 0444, dir, nbd, &nbd_dbg_tasks_fops);
 	debugfs_create_u64("size_bytes", 0444, dir, &config->bytesize);
 	debugfs_create_u32("timeout", 0444, dir, &nbd->tag_set.timeout);
 	debugfs_create_u64("blocksize", 0444, dir, &config->blksize);
 	debugfs_create_file("flags", 0444, dir, nbd, &nbd_dbg_flags_fops);
-<<<<<<< HEAD
-=======
-=======
-	debugfs_create_file("tasks", 0444, dir, nbd, &nbd_dbg_tasks_ops);
-	debugfs_create_u64("size_bytes", 0444, dir, &config->bytesize);
-	debugfs_create_u32("timeout", 0444, dir, &nbd->tag_set.timeout);
-	debugfs_create_u64("blocksize", 0444, dir, &config->blksize);
-	debugfs_create_file("flags", 0444, dir, nbd, &nbd_dbg_flags_ops);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -2030,12 +1980,8 @@ static void nbd_disconnect_and_put(struct nbd_device *nbd)
 	 * config ref and try to destroy the workqueue from inside the work
 	 * queue.
 	 */
-<<<<<<< HEAD
 	if (nbd->recv_workq)
 		flush_workqueue(nbd->recv_workq);
-=======
-	flush_workqueue(nbd->recv_workq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test_and_clear_bit(NBD_RT_HAS_CONFIG_REF,
 			       &nbd->config->runtime_flags))
 		nbd_config_put(nbd);
@@ -2069,12 +2015,11 @@ static int nbd_genl_disconnect(struct sk_buff *skb, struct genl_info *info)
 		return -EINVAL;
 	}
 	mutex_unlock(&nbd_index_mutex);
-	if (!refcount_inc_not_zero(&nbd->config_refs)) {
-		nbd_put(nbd);
-		return 0;
-	}
+	if (!refcount_inc_not_zero(&nbd->config_refs))
+		goto put_nbd;
 	nbd_disconnect_and_put(nbd);
 	nbd_config_put(nbd);
+put_nbd:
 	nbd_put(nbd);
 	return 0;
 }

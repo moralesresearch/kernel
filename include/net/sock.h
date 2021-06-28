@@ -226,11 +226,7 @@ struct sock_common {
 		struct hlist_nulls_node skc_nulls_node;
 	};
 	unsigned short		skc_tx_queue_mapping;
-<<<<<<< HEAD
 #ifdef CONFIG_SOCK_RX_QUEUE_MAPPING
-=======
-#ifdef CONFIG_XPS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned short		skc_rx_queue_mapping;
 #endif
 	union {
@@ -360,11 +356,7 @@ struct sock {
 #define sk_nulls_node		__sk_common.skc_nulls_node
 #define sk_refcnt		__sk_common.skc_refcnt
 #define sk_tx_queue_mapping	__sk_common.skc_tx_queue_mapping
-<<<<<<< HEAD
 #ifdef CONFIG_SOCK_RX_QUEUE_MAPPING
-=======
-#ifdef CONFIG_XPS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define sk_rx_queue_mapping	__sk_common.skc_rx_queue_mapping
 #endif
 
@@ -942,13 +934,10 @@ static inline void sk_acceptq_added(struct sock *sk)
 	WRITE_ONCE(sk->sk_ack_backlog, sk->sk_ack_backlog + 1);
 }
 
-<<<<<<< HEAD
 /* Note: If you think the test should be:
  *	return READ_ONCE(sk->sk_ack_backlog) >= READ_ONCE(sk->sk_max_ack_backlog);
  * Then please take a look at commit 64a146513f8f ("[NET]: Revert incorrect accept queue backlog changes.")
  */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool sk_acceptq_is_full(const struct sock *sk)
 {
 	return READ_ONCE(sk->sk_ack_backlog) > READ_ONCE(sk->sk_max_ack_backlog);
@@ -1129,6 +1118,7 @@ struct inet_hashinfo;
 struct raw_hashinfo;
 struct smc_hashinfo;
 struct module;
+struct sk_psock;
 
 /*
  * caches using SLAB_TYPESAFE_BY_RCU should let .next pointer from nulls nodes
@@ -1189,11 +1179,8 @@ struct proto {
 
 	int			(*backlog_rcv) (struct sock *sk,
 						struct sk_buff *skb);
-<<<<<<< HEAD
 	bool			(*bpf_bypass_getsockopt)(int level,
 							 int optname);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	void		(*release_cb)(struct sock *sk);
 
@@ -1202,6 +1189,11 @@ struct proto {
 	void			(*unhash)(struct sock *sk);
 	void			(*rehash)(struct sock *sk);
 	int			(*get_port)(struct sock *sk, unsigned short snum);
+#ifdef CONFIG_BPF_SYSCALL
+	int			(*psock_update_sk_prot)(struct sock *sk,
+							struct sk_psock *psock,
+							bool restore);
+#endif
 
 	/* Keeping track of sockets in use */
 #ifdef CONFIG_PROC_FS
@@ -1370,28 +1362,18 @@ sk_memory_allocated_sub(struct sock *sk, int amt)
 	atomic_long_sub(amt, sk->sk_prot->memory_allocated);
 }
 
-<<<<<<< HEAD
 #define SK_ALLOC_PERCPU_COUNTER_BATCH 16
 
 static inline void sk_sockets_allocated_dec(struct sock *sk)
 {
 	percpu_counter_add_batch(sk->sk_prot->sockets_allocated, -1,
 				 SK_ALLOC_PERCPU_COUNTER_BATCH);
-=======
-static inline void sk_sockets_allocated_dec(struct sock *sk)
-{
-	percpu_counter_dec(sk->sk_prot->sockets_allocated);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void sk_sockets_allocated_inc(struct sock *sk)
 {
-<<<<<<< HEAD
 	percpu_counter_add_batch(sk->sk_prot->sockets_allocated, 1,
 				 SK_ALLOC_PERCPU_COUNTER_BATCH);
-=======
-	percpu_counter_inc(sk->sk_prot->sockets_allocated);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline u64
@@ -1868,11 +1850,7 @@ static inline int sk_tx_queue_get(const struct sock *sk)
 
 static inline void sk_rx_queue_set(struct sock *sk, const struct sk_buff *skb)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_SOCK_RX_QUEUE_MAPPING
-=======
-#ifdef CONFIG_XPS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (skb_rx_queue_recorded(skb)) {
 		u16 rx_queue = skb_get_rx_queue(skb);
 
@@ -1886,16 +1864,11 @@ static inline void sk_rx_queue_set(struct sock *sk, const struct sk_buff *skb)
 
 static inline void sk_rx_queue_clear(struct sock *sk)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_SOCK_RX_QUEUE_MAPPING
-=======
-#ifdef CONFIG_XPS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sk->sk_rx_queue_mapping = NO_QUEUE_MAPPING;
 #endif
 }
 
-<<<<<<< HEAD
 static inline int sk_rx_queue_get(const struct sock *sk)
 {
 #ifdef CONFIG_SOCK_RX_QUEUE_MAPPING
@@ -1905,17 +1878,6 @@ static inline int sk_rx_queue_get(const struct sock *sk)
 
 	return -1;
 }
-=======
-#ifdef CONFIG_XPS
-static inline int sk_rx_queue_get(const struct sock *sk)
-{
-	if (sk && sk->sk_rx_queue_mapping != NO_QUEUE_MAPPING)
-		return sk->sk_rx_queue_mapping;
-
-	return -1;
-}
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void sk_set_socket(struct sock *sk, struct socket *sock)
 {
@@ -1972,7 +1934,8 @@ static inline u32 net_tx_rndhash(void)
 
 static inline void sk_set_txhash(struct sock *sk)
 {
-	sk->sk_txhash = net_tx_rndhash();
+	/* This pairs with READ_ONCE() in skb_set_hash_from_sk() */
+	WRITE_ONCE(sk->sk_txhash, net_tx_rndhash());
 }
 
 static inline bool sk_rethink_txhash(struct sock *sk)
@@ -2244,9 +2207,12 @@ static inline void sock_poll_wait(struct file *filp, struct socket *sock,
 
 static inline void skb_set_hash_from_sk(struct sk_buff *skb, struct sock *sk)
 {
-	if (sk->sk_txhash) {
+	/* This pairs with WRITE_ONCE() in sk_set_txhash() */
+	u32 txhash = READ_ONCE(sk->sk_txhash);
+
+	if (txhash) {
 		skb->l4_hash = 1;
-		skb->hash = sk->sk_txhash;
+		skb->hash = txhash;
 	}
 }
 
@@ -2269,7 +2235,6 @@ static inline void skb_set_owner_r(struct sk_buff *skb, struct sock *sk)
 	sk_mem_charge(sk, skb->truesize);
 }
 
-<<<<<<< HEAD
 static inline __must_check bool skb_set_owner_sk_safe(struct sk_buff *skb, struct sock *sk)
 {
 	if (sk && refcount_inc_not_zero(&sk->sk_refcnt)) {
@@ -2281,8 +2246,6 @@ static inline __must_check bool skb_set_owner_sk_safe(struct sk_buff *skb, struc
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sk_reset_timer(struct sock *sk, struct timer_list *timer,
 		    unsigned long expires);
 
@@ -2307,8 +2270,13 @@ struct sk_buff *sock_dequeue_err_skb(struct sock *sk);
 static inline int sock_error(struct sock *sk)
 {
 	int err;
-	if (likely(!sk->sk_err))
+
+	/* Avoid an atomic operation for the common case.
+	 * This is racy since another cpu/thread can change sk_err under us.
+	 */
+	if (likely(data_race(!sk->sk_err)))
 		return 0;
+
 	err = xchg(&sk->sk_err, 0);
 	return -err;
 }

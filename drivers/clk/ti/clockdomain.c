@@ -97,11 +97,7 @@ void omap2_clkops_disable_clkdm(struct clk_hw *hw)
 
 /**
  * omap2_init_clk_clkdm - look up a clockdomain name, store pointer in clk
-<<<<<<< HEAD
  * @hw: Pointer to clk_hw_omap used to obtain OMAP clock struct ptr to use
-=======
- * @clk: OMAP clock struct ptr to use
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Convert a clockdomain name stored in a struct clk 'clk' into a
  * clockdomain pointer, and save it into the struct clk.  Intended to be

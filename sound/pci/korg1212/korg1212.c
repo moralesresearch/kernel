@@ -388,10 +388,6 @@ struct snd_korg1212 {
 
 MODULE_DESCRIPTION("korg1212");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{KORG,korg1212}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE("korg/k1212.dsp");
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;     /* Index 0-MAX */

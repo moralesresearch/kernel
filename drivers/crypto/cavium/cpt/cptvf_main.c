@@ -233,17 +233,10 @@ static int alloc_command_queues(struct cpt_vf *cptvf,
 
 			c_size = (rem_q_size > qcsize_bytes) ? qcsize_bytes :
 					rem_q_size;
-<<<<<<< HEAD
 			curr->head = dma_alloc_coherent(&pdev->dev,
 							c_size + CPT_NEXT_CHUNK_PTR_SIZE,
 							&curr->dma_addr,
 							GFP_KERNEL);
-=======
-			curr->head = (u8 *)dma_alloc_coherent(&pdev->dev,
-							      c_size + CPT_NEXT_CHUNK_PTR_SIZE,
-							      &curr->dma_addr,
-							      GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!curr->head) {
 				dev_err(&pdev->dev, "Command Q (%d) chunk (%d) allocation failed\n",
 					i, queue->nchunks);

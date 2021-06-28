@@ -12,10 +12,6 @@ struct page_counter {
 	unsigned long low;
 	unsigned long high;
 	unsigned long max;
-<<<<<<< HEAD
-=======
-	struct page_counter *parent;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* effective memory.min and memory.min usage tracking */
 	unsigned long emin;
@@ -30,7 +26,6 @@ struct page_counter {
 	/* legacy */
 	unsigned long watermark;
 	unsigned long failcnt;
-<<<<<<< HEAD
 
 	/*
 	 * 'parent' is placed here to be far from 'usage' to reduce
@@ -39,8 +34,6 @@ struct page_counter {
 	 * counting nature.
 	 */
 	struct page_counter *parent;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #if BITS_PER_LONG == 32

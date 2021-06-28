@@ -281,7 +281,6 @@ static u32 aty_pll_to_var_ct(const struct fb_info *info, const union aty_pll *pl
 void aty_set_pll_ct(const struct fb_info *info, const union aty_pll *pll)
 {
 	struct atyfb_par *par = (struct atyfb_par *) info->par;
-<<<<<<< HEAD
 	u32 crtc_gen_cntl;
 	u8 tmp, tmp2;
 
@@ -289,12 +288,6 @@ void aty_set_pll_ct(const struct fb_info *info, const union aty_pll *pll)
 	u32 lcd_gen_cntrl = 0;
 #endif
 
-=======
-	u32 crtc_gen_cntl, lcd_gen_cntrl;
-	u8 tmp, tmp2;
-
-	lcd_gen_cntrl = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef DEBUG
 	printk("atyfb(%s): about to program:\n"
 		"pll_ext_cntl=0x%02x pll_gen_cntl=0x%02x pll_vclk_cntl=0x%02x\n",
@@ -412,11 +405,7 @@ static int aty_init_pll_ct(const struct fb_info *info, union aty_pll *pll)
 	struct atyfb_par *par = (struct atyfb_par *) info->par;
 	u8 mpost_div, xpost_div, sclk_post_div_real;
 	u32 q, memcntl, trp;
-<<<<<<< HEAD
 	u32 dsp_config;
-=======
-	u32 dsp_config, dsp_on_off, vga_dsp_config, vga_dsp_on_off;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef DEBUG
 	int pllmclk, pllsclk;
 #endif
@@ -502,15 +491,9 @@ static int aty_init_pll_ct(const struct fb_info *info, union aty_pll *pll)
 
 	/* Allow BIOS to override */
 	dsp_config = aty_ld_le32(DSP_CONFIG, par);
-<<<<<<< HEAD
 	aty_ld_le32(DSP_ON_OFF, par);
 	aty_ld_le32(VGA_DSP_CONFIG, par);
 	aty_ld_le32(VGA_DSP_ON_OFF, par);
-=======
-	dsp_on_off = aty_ld_le32(DSP_ON_OFF, par);
-	vga_dsp_config = aty_ld_le32(VGA_DSP_CONFIG, par);
-	vga_dsp_on_off = aty_ld_le32(VGA_DSP_ON_OFF, par);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dsp_config)
 		pll->ct.dsp_loop_latency = (dsp_config & DSP_LOOP_LATENCY) >> 16;

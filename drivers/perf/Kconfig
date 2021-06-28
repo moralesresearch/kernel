@@ -62,11 +62,7 @@ config ARM_PMU_ACPI
 
 config ARM_SMMU_V3_PMU
 	 tristate "ARM SMMUv3 Performance Monitors Extension"
-<<<<<<< HEAD
 	 depends on ARM64 && ACPI
-=======
-	 depends on ARM64 && ACPI && ARM_SMMU_V3
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	   help
 	   Provides support for the ARM SMMUv3 Performance Monitor Counter
 	   Groups (PMCG), which provide monitoring of transactions passing

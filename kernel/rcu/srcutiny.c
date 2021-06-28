@@ -34,10 +34,7 @@ static int init_srcu_struct_fields(struct srcu_struct *ssp)
 	ssp->srcu_gp_running = false;
 	ssp->srcu_gp_waiting = false;
 	ssp->srcu_idx = 0;
-<<<<<<< HEAD
 	ssp->srcu_idx_max = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_WORK(&ssp->srcu_work, srcu_drive_gp);
 	INIT_LIST_HEAD(&ssp->srcu_work.entry);
 	return 0;
@@ -88,11 +85,8 @@ void cleanup_srcu_struct(struct srcu_struct *ssp)
 	WARN_ON(ssp->srcu_gp_waiting);
 	WARN_ON(ssp->srcu_cb_head);
 	WARN_ON(&ssp->srcu_cb_head != ssp->srcu_cb_tail);
-<<<<<<< HEAD
 	WARN_ON(ssp->srcu_idx != ssp->srcu_idx_max);
 	WARN_ON(ssp->srcu_idx & 0x1);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
 
@@ -123,11 +117,7 @@ void srcu_drive_gp(struct work_struct *wp)
 	struct srcu_struct *ssp;
 
 	ssp = container_of(wp, struct srcu_struct, srcu_work);
-<<<<<<< HEAD
 	if (ssp->srcu_gp_running || USHORT_CMP_GE(ssp->srcu_idx, READ_ONCE(ssp->srcu_idx_max)))
-=======
-	if (ssp->srcu_gp_running || !READ_ONCE(ssp->srcu_cb_head))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return; /* Already running or nothing to do. */
 
 	/* Remove recently arrived callbacks and wait for readers. */
@@ -137,20 +127,12 @@ void srcu_drive_gp(struct work_struct *wp)
 	ssp->srcu_cb_head = NULL;
 	ssp->srcu_cb_tail = &ssp->srcu_cb_head;
 	local_irq_enable();
-<<<<<<< HEAD
 	idx = (ssp->srcu_idx & 0x2) / 2;
 	WRITE_ONCE(ssp->srcu_idx, ssp->srcu_idx + 1);
 	WRITE_ONCE(ssp->srcu_gp_waiting, true);  /* srcu_read_unlock() wakes! */
 	swait_event_exclusive(ssp->srcu_wq, !READ_ONCE(ssp->srcu_lock_nesting[idx]));
 	WRITE_ONCE(ssp->srcu_gp_waiting, false); /* srcu_read_unlock() cheap. */
 	WRITE_ONCE(ssp->srcu_idx, ssp->srcu_idx + 1);
-=======
-	idx = ssp->srcu_idx;
-	WRITE_ONCE(ssp->srcu_idx, !ssp->srcu_idx);
-	WRITE_ONCE(ssp->srcu_gp_waiting, true);  /* srcu_read_unlock() wakes! */
-	swait_event_exclusive(ssp->srcu_wq, !READ_ONCE(ssp->srcu_lock_nesting[idx]));
-	WRITE_ONCE(ssp->srcu_gp_waiting, false); /* srcu_read_unlock() cheap. */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Invoke the callbacks we removed above. */
 	while (lh) {
@@ -168,16 +150,11 @@ void srcu_drive_gp(struct work_struct *wp)
 	 * straighten that out.
 	 */
 	WRITE_ONCE(ssp->srcu_gp_running, false);
-<<<<<<< HEAD
 	if (USHORT_CMP_LT(ssp->srcu_idx, READ_ONCE(ssp->srcu_idx_max)))
-=======
-	if (READ_ONCE(ssp->srcu_cb_head))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		schedule_work(&ssp->srcu_work);
 }
 EXPORT_SYMBOL_GPL(srcu_drive_gp);
 
-<<<<<<< HEAD
 static void srcu_gp_start_if_needed(struct srcu_struct *ssp)
 {
 	unsigned short cookie;
@@ -194,8 +171,6 @@ static void srcu_gp_start_if_needed(struct srcu_struct *ssp)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Enqueue an SRCU callback on the specified srcu_struct structure,
  * initiating grace-period processing if it is not already running.
@@ -211,16 +186,7 @@ void call_srcu(struct srcu_struct *ssp, struct rcu_head *rhp,
 	*ssp->srcu_cb_tail = rhp;
 	ssp->srcu_cb_tail = &rhp->next;
 	local_irq_restore(flags);
-<<<<<<< HEAD
 	srcu_gp_start_if_needed(ssp);
-=======
-	if (!READ_ONCE(ssp->srcu_gp_running)) {
-		if (likely(srcu_init_done))
-			schedule_work(&ssp->srcu_work);
-		else if (list_empty(&ssp->srcu_work.entry))
-			list_add(&ssp->srcu_work.entry, &srcu_boot_list);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(call_srcu);
 
@@ -239,7 +205,6 @@ void synchronize_srcu(struct srcu_struct *ssp)
 }
 EXPORT_SYMBOL_GPL(synchronize_srcu);
 
-<<<<<<< HEAD
 /*
  * get_state_synchronize_srcu - Provide an end-of-grace-period cookie
  */
@@ -282,8 +247,6 @@ bool poll_state_synchronize_srcu(struct srcu_struct *ssp, unsigned long cookie)
 }
 EXPORT_SYMBOL_GPL(poll_state_synchronize_srcu);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Lockdep diagnostics.  */
 void __init rcu_scheduler_starting(void)
 {

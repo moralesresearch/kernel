@@ -30,11 +30,7 @@ void
 gp100_fault_buffer_intr(struct nvkm_fault_buffer *buffer, bool enable)
 {
 	struct nvkm_device *device = buffer->fault->subdev.device;
-<<<<<<< HEAD
 	nvkm_mc_intr_mask(device, NVKM_SUBDEV_FAULT, 0, enable);
-=======
-	nvkm_mc_intr_mask(device, NVKM_SUBDEV_FAULT, enable);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void
@@ -86,15 +82,8 @@ gp100_fault = {
 };
 
 int
-<<<<<<< HEAD
 gp100_fault_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		struct nvkm_fault **pfault)
 {
 	return nvkm_fault_new_(&gp100_fault, device, type, inst, pfault);
-=======
-gp100_fault_new(struct nvkm_device *device, int index,
-		struct nvkm_fault **pfault)
-{
-	return nvkm_fault_new_(&gp100_fault, device, index, pfault);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

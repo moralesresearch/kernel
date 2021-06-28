@@ -32,16 +32,10 @@ gk20a_bar_func = {
 };
 
 int
-<<<<<<< HEAD
 gk20a_bar_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_bar **pbar)
 {
 	int ret = gf100_bar_new_(&gk20a_bar_func, device, type, inst, pbar);
-=======
-gk20a_bar_new(struct nvkm_device *device, int index, struct nvkm_bar **pbar)
-{
-	int ret = gf100_bar_new_(&gk20a_bar_func, device, index, pbar);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret == 0)
 		(*pbar)->iomap_uncached = true;
 	return ret;

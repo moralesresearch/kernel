@@ -13,14 +13,7 @@
 #include <linux/netdevice.h>
 #include <linux/list.h>
 #include <linux/if_vlan.h>
-<<<<<<< HEAD
 #include <linux/if_hsr.h>
-=======
-<<<<<<< HEAD
-#include <linux/if_hsr.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Time constants as specified in the HSR specification (IEC-62439-3 2010)
  * Table 8.
@@ -180,19 +173,6 @@ struct hsr_port {
 	enum hsr_port_type	type;
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-/* used by driver internally to differentiate various protocols */
-enum hsr_version {
-	HSR_V0 = 0,
-	HSR_V1,
-	PRP_V1,
-};
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct hsr_frame_info;
 struct hsr_node;
 
@@ -206,13 +186,8 @@ struct hsr_proto_ops {
 					       struct hsr_port *port);
 	struct sk_buff * (*create_tagged_frame)(struct hsr_frame_info *frame,
 						struct hsr_port *port);
-<<<<<<< HEAD
 	int (*fill_frame_info)(__be16 proto, struct sk_buff *skb,
 			       struct hsr_frame_info *frame);
-=======
-	void (*fill_frame_info)(__be16 proto, struct sk_buff *skb,
-				struct hsr_frame_info *frame);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool (*invalid_dan_ingress_frame)(__be16 protocol);
 	void (*update_san_info)(struct hsr_node *node, bool is_sup);
 };

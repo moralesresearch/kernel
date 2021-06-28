@@ -166,11 +166,7 @@ static int gbaudio_remove_controls(struct snd_card *card, struct device *dev,
 			snprintf(id.name, sizeof(id.name), "%s %s", prefix,
 				 control->name);
 		else
-<<<<<<< HEAD
 			strscpy(id.name, control->name, sizeof(id.name));
-=======
-			strlcpy(id.name, control->name, sizeof(id.name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		id.numid = 0;
 		id.iface = control->iface;
 		id.device = control->device;

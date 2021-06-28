@@ -53,16 +53,10 @@
 
 #define ACPI_WGDS_TABLE_SIZE		3
 
-#define ACPI_PPAG_WIFI_DATA_SIZE	((IWL_NUM_CHAIN_LIMITS * \
-<<<<<<< HEAD
-					  IWL_NUM_SUB_BANDS) + 2)
+#define ACPI_PPAG_WIFI_DATA_SIZE_V1	((IWL_NUM_CHAIN_LIMITS * \
+					  IWL_NUM_SUB_BANDS_V1) + 2)
 #define ACPI_PPAG_WIFI_DATA_SIZE_V2	((IWL_NUM_CHAIN_LIMITS * \
 					  IWL_NUM_SUB_BANDS_V2) + 2)
-=======
-					IWL_NUM_SUB_BANDS) + 3)
-#define ACPI_PPAG_WIFI_DATA_SIZE_V2	((IWL_NUM_CHAIN_LIMITS * \
-					IWL_NUM_SUB_BANDS_V2) + 3)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* PPAG gain value bounds in 1/8 dBm */
 #define ACPI_PPAG_MIN_LB -16
@@ -83,6 +77,7 @@ enum iwl_dsm_funcs_rev_0 {
 	DSM_FUNC_QUERY = 0,
 	DSM_FUNC_DISABLE_SRD = 1,
 	DSM_FUNC_ENABLE_INDONESIA_5G2 = 2,
+	DSM_FUNC_11AX_ENABLEMENT = 6,
 };
 
 enum iwl_dsm_values_srd {
@@ -99,7 +94,6 @@ enum iwl_dsm_values_indonesia {
 	DSM_VALUE_INDONESIA_MAX
 };
 
-<<<<<<< HEAD
 /* DSM RFI uses a different GUID, so need separate definitions */
 
 #define DSM_RFI_FUNC_ENABLE 3
@@ -110,13 +104,10 @@ enum iwl_dsm_values_rfi {
 	DSM_VALUE_RFI_MAX
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_ACPI
 
 struct iwl_fw_runtime;
 
-<<<<<<< HEAD
 extern const guid_t iwl_guid;
 extern const guid_t iwl_rfi_guid;
 
@@ -124,11 +115,6 @@ void *iwl_acpi_get_object(struct device *dev, acpi_string method);
 
 int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func,
 			const guid_t *guid, u8 *value);
-=======
-void *iwl_acpi_get_object(struct device *dev, acpi_string method);
-
-int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func, u8 *value);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 union acpi_object *iwl_acpi_get_wifi_pkg(struct device *dev,
 					 union acpi_object *data,
@@ -175,6 +161,8 @@ int iwl_sar_geo_init(struct iwl_fw_runtime *fwrt,
 int iwl_acpi_get_tas(struct iwl_fw_runtime *fwrt, __le32 *block_list_array,
 		     int *block_list_size);
 
+__le32 iwl_acpi_get_lari_config_bitmap(struct iwl_fw_runtime *fwrt);
+
 #else /* CONFIG_ACPI */
 
 static inline void *iwl_acpi_get_object(struct device *dev, acpi_string method)
@@ -188,13 +176,8 @@ static inline void *iwl_acpi_get_dsm_object(struct device *dev, int rev,
 	return ERR_PTR(-ENOENT);
 }
 
-<<<<<<< HEAD
 static inline int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func,
 				      const guid_t *guid, u8 *value)
-=======
-static inline
-int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func, u8 *value)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return -ENOENT;
 }
@@ -255,5 +238,11 @@ static inline int iwl_acpi_get_tas(struct iwl_fw_runtime *fwrt,
 {
 	return -ENOENT;
 }
+
+static inline __le32 iwl_acpi_get_lari_config_bitmap(struct iwl_fw_runtime *fwrt)
+{
+	return 0;
+}
+
 #endif /* CONFIG_ACPI */
 #endif /* __iwl_fw_acpi__ */

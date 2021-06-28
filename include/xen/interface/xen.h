@@ -598,13 +598,9 @@ struct shared_info {
 	 * their gettimeofday() syscall on this wallclock-base value.
 	 */
 	struct pvclock_wall_clock wc;
-<<<<<<< HEAD
 #ifndef CONFIG_X86_32
 	uint32_t wc_sec_hi;
 #endif
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct arch_shared_info arch;
 
 };

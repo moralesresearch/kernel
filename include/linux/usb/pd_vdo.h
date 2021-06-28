@@ -21,37 +21,24 @@
  * ----------
  * <31:16>  :: SVID
  * <15>     :: VDM type ( 1b == structured, 0b == unstructured )
-<<<<<<< HEAD
  * <14:13>  :: Structured VDM version
-=======
- * <14:13>  :: Structured VDM version (can only be 00 == 1.0 currently)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * <12:11>  :: reserved
  * <10:8>   :: object position (1-7 valid ... used for enter/exit mode only)
  * <7:6>    :: command type (SVDM only?)
  * <5>      :: reserved (SVDM), command type (UVDM)
  * <4:0>    :: command
  */
-<<<<<<< HEAD
 #define VDO(vid, type, ver, custom)			\
 	(((vid) << 16) |				\
 	 ((type) << 15) |				\
 	 ((ver) << 13) |				\
-=======
-#define VDO(vid, type, custom)				\
-	(((vid) << 16) |				\
-	 ((type) << 15) |				\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 ((custom) & 0x7FFF))
 
 #define VDO_SVDM_TYPE		(1 << 15)
 #define VDO_SVDM_VERS(x)	((x) << 13)
 #define VDO_OPOS(x)		((x) << 8)
 #define VDO_CMDT(x)		((x) << 6)
-<<<<<<< HEAD
 #define VDO_SVDM_VERS_MASK	VDO_SVDM_VERS(0x3)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define VDO_OPOS_MASK		VDO_OPOS(0x7)
 #define VDO_CMDT_MASK		VDO_CMDT(0x3)
 
@@ -89,10 +76,7 @@
 
 #define PD_VDO_VID(vdo)		((vdo) >> 16)
 #define PD_VDO_SVDM(vdo)	(((vdo) >> 15) & 1)
-<<<<<<< HEAD
 #define PD_VDO_SVDM_VER(vdo)	(((vdo) >> 13) & 0x3)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PD_VDO_OPOS(vdo)	(((vdo) >> 8) & 0x7)
 #define PD_VDO_CMD(vdo)		((vdo) & 0x1f)
 #define PD_VDO_CMDT(vdo)	(((vdo) >> 6) & 0x3)
@@ -122,7 +106,6 @@
  * --------------------
  * <31>     :: data capable as a USB host
  * <30>     :: data capable as a USB device
-<<<<<<< HEAD
  * <29:27>  :: product type (UFP / Cable / VPD)
  * <26>     :: modal operation supported (1b == yes)
  * <25:23>  :: product type (DFP) (SVDM version 2.0+ only; set to zero in version 1.0)
@@ -136,20 +119,11 @@
 
 /* SOP Product Type (UFP) */
 #define IDH_PTYPE_NOT_UFP	0
-=======
- * <29:27>  :: product type (UFP / Cable)
- * <26>     :: modal operation supported (1b == yes)
- * <25:16>  :: product type (DFP)
- * <15:0>   :: USB-IF assigned VID for this cable vendor
- */
-#define IDH_PTYPE_UNDEF		0
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IDH_PTYPE_HUB		1
 #define IDH_PTYPE_PERIPH	2
 #define IDH_PTYPE_PSD		3
 #define IDH_PTYPE_AMA		5
 
-<<<<<<< HEAD
 /* SOP' Product Type (Cable Plug / VPD) */
 #define IDH_PTYPE_NOT_CABLE	0
 #define IDH_PTYPE_PCABLE	3
@@ -170,29 +144,12 @@
 	((usbh) << 31 | (usbd) << 30 | ((ufp_cable) & 0x7) << 27		\
 	 | (is_modal) << 26 | ((dfp) & 0x7) << 23 | ((conn) & 0x3) << 21	\
 	 | ((vid) & 0xffff))
-=======
-#define IDH_PTYPE_PCABLE	3
-#define IDH_PTYPE_ACABLE	4
-
-#define IDH_PTYPE_DFP_UNDEF	0
-#define IDH_PTYPE_DFP_HUB	1
-#define IDH_PTYPE_DFP_HOST	2
-#define IDH_PTYPE_DFP_PB	3
-#define IDH_PTYPE_DFP_AMC	4
-
-#define VDO_IDH(usbh, usbd, ptype, is_modal, vid)		\
-	((usbh) << 31 | (usbd) << 30 | ((ptype) & 0x7) << 27	\
-	 | (is_modal) << 26 | ((vid) & 0xffff))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PD_IDH_PTYPE(vdo)	(((vdo) >> 27) & 0x7)
 #define PD_IDH_VID(vdo)		((vdo) & 0xffff)
 #define PD_IDH_MODAL_SUPP(vdo)	((vdo) & (1 << 26))
 #define PD_IDH_DFP_PTYPE(vdo)	(((vdo) >> 23) & 0x7)
-<<<<<<< HEAD
 #define PD_IDH_CONN_TYPE(vdo)	(((vdo) >> 21) & 0x3)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Cert Stat VDO
@@ -200,10 +157,7 @@
  * <31:0>  : USB-IF assigned XID for this cable
  */
 #define PD_CSTAT_XID(vdo)	(vdo)
-<<<<<<< HEAD
 #define VDO_CERT(xid)		((xid) & 0xffffffff)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Product VDO
@@ -215,16 +169,11 @@
 #define PD_PRODUCT_PID(vdo)	(((vdo) >> 16) & 0xffff)
 
 /*
-<<<<<<< HEAD
  * UFP VDO (PD Revision 3.0+ only)
-=======
- * UFP VDO1
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * --------
  * <31:29> :: UFP VDO version
  * <28>    :: Reserved
  * <27:24> :: Device capability
-<<<<<<< HEAD
  * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
  * <21:11> :: Reserved
  * <10:8>  :: Vconn power (AMA only)
@@ -239,20 +188,11 @@
 #define UFP_VDO_VER1_2		2
 
 /* Device Capability */
-=======
- * <23:6>  :: Reserved
- * <5:3>   :: Alternate modes
- * <2:0>   :: USB highest speed
- */
-#define PD_VDO1_UFP_DEVCAP(vdo)	(((vdo) & GENMASK(27, 24)) >> 24)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DEV_USB2_CAPABLE	BIT(0)
 #define DEV_USB2_BILLBOARD	BIT(1)
 #define DEV_USB3_CAPABLE	BIT(2)
 #define DEV_USB4_CAPABLE	BIT(3)
 
-<<<<<<< HEAD
 /* Connector Type */
 #define UFP_RECEPTACLE		2
 #define UFP_CAPTIVE		3
@@ -293,25 +233,16 @@
 
 /*
  * DFP VDO (PD Revision 3.0+ only)
-=======
-/*
- * DFP VDO
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * --------
  * <31:29> :: DFP VDO version
  * <28:27> :: Reserved
  * <26:24> :: Host capability
-<<<<<<< HEAD
  * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
  * <21:5>  :: Reserved
-=======
- * <23:5>  :: Reserved
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * <4:0>   :: Port number
  */
 #define PD_VDO_DFP_HOSTCAP(vdo)	(((vdo) & GENMASK(26, 24)) >> 24)
 
-<<<<<<< HEAD
 #define DFP_VDO_VER1_1		1
 #define HOST_USB2_CAPABLE	BIT(0)
 #define HOST_USB3_CAPABLE	BIT(1)
@@ -325,31 +256,18 @@
 
 /*
  * Cable VDO (for both Passive and Active Cable VDO in PD Rev2.0)
-=======
-#define HOST_USB2_CAPABLE	BIT(0)
-#define HOST_USB3_CAPABLE	BIT(1)
-#define HOST_USB4_CAPABLE	BIT(2)
-
-/*
- * Cable VDO
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ---------
  * <31:28> :: Cable HW version
  * <27:24> :: Cable FW version
  * <23:20> :: Reserved, Shall be set to zero
  * <19:18> :: type-C to Type-A/B/C/Captive (00b == A, 01 == B, 10 == C, 11 == Captive)
-<<<<<<< HEAD
  * <17>    :: Reserved, Shall be set to zero
-=======
- * <17>    :: Type-C to Plug/Receptacle (0b == plug, 1b == receptacle)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * <16:13> :: cable latency (0001 == <10ns(~1m length))
  * <12:11> :: cable termination type (11b == both ends active VCONN req)
  * <10>    :: SSTX1 Directionality support (0b == fixed, 1b == cfgable)
  * <9>     :: SSTX2 Directionality support
  * <8>     :: SSRX1 Directionality support
  * <7>     :: SSRX2 Directionality support
-<<<<<<< HEAD
  * <6:5>   :: Vbus current handling capability (01b == 3A, 10b == 5A)
  * <4>     :: Vbus through cable (0b == no, 1b == yes)
  * <3>     :: SOP" controller present? (0b == no, 1b == yes)
@@ -394,18 +312,10 @@
 #define CABLE_VDO_VER1_3	3
 
 /* Connector Type (_ATYPE and _BTYPE are for PD Rev2.0 only) */
-=======
- * <6:5>   :: Vbus current handling capability
- * <4>     :: Vbus through cable (0b == no, 1b == yes)
- * <3>     :: SOP" controller present? (0b == no, 1b == yes)
- * <2:0>   :: USB SS Signaling support
- */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define CABLE_ATYPE		0
 #define CABLE_BTYPE		1
 #define CABLE_CTYPE		2
 #define CABLE_CAPTIVE		3
-<<<<<<< HEAD
 
 /* Cable Latency */
 #define CABLE_LATENCY_1M	1
@@ -524,27 +434,6 @@
 
 /*
  * AMA VDO (PD Rev2.0)
-=======
-#define CABLE_PLUG		0
-#define CABLE_RECEPTACLE	1
-#define CABLE_CURR_1A5		0
-#define CABLE_CURR_3A		1
-#define CABLE_CURR_5A		2
-#define CABLE_USBSS_U2_ONLY	0
-#define CABLE_USBSS_U31_GEN1	1
-#define CABLE_USBSS_U31_GEN2	2
-#define VDO_CABLE(hw, fw, cbl, gdr, lat, term, tx1d, tx2d, rx1d, rx2d, cur,\
-		  vps, sopp, usbss) \
-	(((hw) & 0x7) << 28 | ((fw) & 0x7) << 24 | ((cbl) & 0x3) << 18	\
-	 | (gdr) << 17 | ((lat) & 0x7) << 13 | ((term) & 0x3) << 11	\
-	 | (tx1d) << 10 | (tx2d) << 9 | (rx1d) << 8 | (rx2d) << 7	\
-	 | ((cur) & 0x3) << 5 | (vps) << 4 | (sopp) << 3		\
-	 | ((usbss) & 0x7))
-#define VDO_TYPEC_CABLE_TYPE(vdo)	(((vdo) >> 18) & 0x3)
-
-/*
- * AMA VDO
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ---------
  * <31:28> :: Cable HW version
  * <27:24> :: Cable FW version
@@ -567,23 +456,12 @@
 #define PD_VDO_AMA_VCONN_REQ(vdo)	(((vdo) >> 4) & 1)
 #define PD_VDO_AMA_VBUS_REQ(vdo)	(((vdo) >> 3) & 1)
 
-<<<<<<< HEAD
-=======
-#define AMA_VCONN_PWR_1W	0
-#define AMA_VCONN_PWR_1W5	1
-#define AMA_VCONN_PWR_2W	2
-#define AMA_VCONN_PWR_3W	3
-#define AMA_VCONN_PWR_4W	4
-#define AMA_VCONN_PWR_5W	5
-#define AMA_VCONN_PWR_6W	6
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define AMA_USBSS_U2_ONLY	0
 #define AMA_USBSS_U31_GEN1	1
 #define AMA_USBSS_U31_GEN2	2
 #define AMA_USBSS_BBONLY	3
 
 /*
-<<<<<<< HEAD
  * VPD VDO
  * ---------
  * <31:28> :: HW version
@@ -613,8 +491,6 @@
 	 | ((gi) & 0x3f) << 1 | (ct))
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * SVDM Discover SVIDs request -> response
  *
  * Request is properly formatted VDM Header with discover SVIDs command.

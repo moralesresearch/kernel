@@ -449,11 +449,7 @@ static int __gb_power_supply_set_name(char *init_name, char *name, size_t len)
 
 	if (!strlen(init_name))
 		init_name = "gb_power_supply";
-<<<<<<< HEAD
 	strscpy(name, init_name, len);
-=======
-	strlcpy(name, init_name, len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while ((ret < len) && (psy = power_supply_get_by_name(name))) {
 		power_supply_put(psy);

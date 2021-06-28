@@ -57,10 +57,6 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
 MODULE_AUTHOR("Levent Guendogdu, Tobias Gehrig, Matthias Koenig");
 MODULE_DESCRIPTION("Midiman Portman2x4");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Midiman,Portman2x4}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*********************************************************************
  * Chip specific

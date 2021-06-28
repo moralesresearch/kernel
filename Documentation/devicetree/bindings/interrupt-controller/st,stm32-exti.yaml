@@ -36,11 +36,8 @@ properties:
       Reference to a phandle of a hardware spinlock provider node.
 
   interrupts:
-<<<<<<< HEAD
     minItems: 1
     maxItems: 96
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       Interrupts references to primary interrupt controller
 

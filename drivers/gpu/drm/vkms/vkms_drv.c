@@ -34,7 +34,6 @@
 #define DRIVER_MAJOR	1
 #define DRIVER_MINOR	0
 
-<<<<<<< HEAD
 static struct vkms_config *default_config;
 
 static bool enable_cursor = true;
@@ -45,14 +44,6 @@ static bool enable_writeback = true;
 module_param_named(enable_writeback, enable_writeback, bool, 0444);
 MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
 
-=======
-static struct vkms_device *vkms_device;
-
-bool enable_cursor = true;
-module_param_named(enable_cursor, enable_cursor, bool, 0444);
-MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
 
 static void vkms_release(struct drm_device *dev)
@@ -126,31 +117,20 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
 	dev->mode_config.max_height = YRES_MAX;
 	dev->mode_config.cursor_width = 512;
 	dev->mode_config.cursor_height = 512;
-<<<<<<< HEAD
 	/* FIXME: There's a confusion between bpp and depth between this and
 	 * fbdev helpers. We have to go with 0, meaning "pick the default",
 	 * which ix XRGB8888 in all cases. */
 	dev->mode_config.preferred_depth = 0;
-=======
-	dev->mode_config.preferred_depth = 32;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->mode_config.helper_private = &vkms_mode_config_helpers;
 
 	return vkms_output_init(vkmsdev, 0);
 }
 
-<<<<<<< HEAD
 static int vkms_create(struct vkms_config *config)
 {
 	int ret;
 	struct platform_device *pdev;
 	struct vkms_device *vkms_device;
-=======
-static int __init vkms_init(void)
-{
-	int ret;
-	struct platform_device *pdev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
 	if (IS_ERR(pdev))
@@ -168,11 +148,8 @@ static int __init vkms_init(void)
 		goto out_devres;
 	}
 	vkms_device->platform = pdev;
-<<<<<<< HEAD
 	vkms_device->config = config;
 	config->dev = vkms_device;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
 					   DMA_BIT_MASK(64));
@@ -209,7 +186,6 @@ out_unregister:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int __init vkms_init(void)
 {
 	struct vkms_config *config;
@@ -231,18 +207,10 @@ static void vkms_destroy(struct vkms_config *config)
 	struct platform_device *pdev;
 
 	if (!config->dev) {
-=======
-static void __exit vkms_exit(void)
-{
-	struct platform_device *pdev;
-
-	if (!vkms_device) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DRM_INFO("vkms_device is NULL.\n");
 		return;
 	}
 
-<<<<<<< HEAD
 	pdev = config->dev->platform;
 
 	drm_dev_unregister(&config->dev->drm);
@@ -259,14 +227,6 @@ static void __exit vkms_exit(void)
 		vkms_destroy(default_config);
 
 	kfree(default_config);
-=======
-	pdev = vkms_device->platform;
-
-	drm_dev_unregister(&vkms_device->drm);
-	drm_atomic_helper_shutdown(&vkms_device->drm);
-	devres_release_group(&pdev->dev, NULL);
-	platform_device_unregister(pdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 module_init(vkms_init);

@@ -160,10 +160,7 @@ static int lidar_get_measurement(struct lidar_data *data, u16 *reg)
 	ret = lidar_write_control(data, LIDAR_REG_CONTROL_ACQUIRE);
 	if (ret < 0) {
 		dev_err(&client->dev, "cannot send start measurement command");
-<<<<<<< HEAD
 		pm_runtime_put_noidle(&client->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 

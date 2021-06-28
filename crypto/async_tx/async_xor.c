@@ -233,11 +233,8 @@ async_xor_offs(struct page *dest, unsigned int offset,
 		if (submit->flags & ASYNC_TX_XOR_DROP_DST) {
 			src_cnt--;
 			src_list++;
-<<<<<<< HEAD
 			if (src_offs)
 				src_offs++;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		/* wait for any prerequisite operations */

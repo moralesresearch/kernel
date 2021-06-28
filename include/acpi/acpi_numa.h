@@ -30,13 +30,10 @@ static inline int pxm_to_node(int pxm)
 {
 	return 0;
 }
-<<<<<<< HEAD
 static inline int node_to_pxm(int node)
 {
 	return 0;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif				/* CONFIG_ACPI_NUMA */
 
 #ifdef CONFIG_ACPI_HMAT

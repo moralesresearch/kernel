@@ -61,11 +61,7 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led {
-=======
-		blue {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "m9:blue:pwr";
 			gpios = <&pio 7 13 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
@@ -119,12 +115,8 @@
 	axp22x: pmic@68 {
 		compatible = "x-powers,axp221";
 		reg = <0x68>;
-<<<<<<< HEAD
 		interrupt-parent = <&r_intc>;
-=======
-		interrupt-parent = <&nmi_intc>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
 	};
 };
 

@@ -35,20 +35,11 @@ static int __init_cache_level(unsigned int cpu)
 
 	leaves += (c->icache.waysize) ? 2 : 1;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (c->vcache.waysize) {
 		levels++;
 		leaves++;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (c->scache.waysize) {
 		levels++;
 		leaves++;
@@ -88,10 +79,6 @@ static int __populate_cache_leaves(unsigned int cpu)
 	struct cpuinfo_mips *c = &current_cpu_data;
 	struct cpu_cacheinfo *this_cpu_ci = get_cpu_cacheinfo(cpu);
 	struct cacheinfo *this_leaf = this_cpu_ci->info_list;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int level = 1;
 
 	if (c->icache.waysize) {
@@ -122,30 +109,6 @@ static int __populate_cache_leaves(unsigned int cpu)
 
 	if (c->tcache.waysize)
 		populate_cache(tcache, this_leaf, level, CACHE_TYPE_UNIFIED);
-<<<<<<< HEAD
-=======
-=======
-
-	if (c->icache.waysize) {
-		/* L1 caches are per core */
-		fill_cpumask_siblings(cpu, &this_leaf->shared_cpu_map);
-		populate_cache(dcache, this_leaf, 1, CACHE_TYPE_DATA);
-		fill_cpumask_siblings(cpu, &this_leaf->shared_cpu_map);
-		populate_cache(icache, this_leaf, 1, CACHE_TYPE_INST);
-	} else {
-		populate_cache(dcache, this_leaf, 1, CACHE_TYPE_UNIFIED);
-	}
-
-	if (c->scache.waysize) {
-		/* L2 cache is per cluster */
-		fill_cpumask_cluster(cpu, &this_leaf->shared_cpu_map);
-		populate_cache(scache, this_leaf, 2, CACHE_TYPE_UNIFIED);
-	}
-
-	if (c->tcache.waysize)
-		populate_cache(tcache, this_leaf, 3, CACHE_TYPE_UNIFIED);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	this_cpu_ci->cpu_map_populated = true;
 

@@ -54,15 +54,11 @@ properties:
     description: phandle of a companion.
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |
       any connector to the data bus of this controller should be modelled
       using the OF graph bindings specified, if the "usb-role-switch"
       property is used.
-<<<<<<< HEAD
 
     properties:
       port@0:
@@ -71,16 +67,6 @@ properties:
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
-    properties:
-      port@0:
-        type: object
-        description: High Speed (HS) data bus.
-
-      port@1:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: Super Speed (SS) data bus.
 
     required:

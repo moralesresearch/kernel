@@ -44,11 +44,7 @@ static int ring_interrupt_index(struct tb_ring *ring)
 	return bit;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ring_interrupt_active() - activate/deactivate interrupts for a single ring
  *
  * ring->nhi->lock must be held.
@@ -109,11 +105,7 @@ static void ring_interrupt_active(struct tb_ring *ring, bool active)
 	iowrite32(new, ring->nhi->iobase + reg);
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * nhi_disable_interrupts() - disable interrupts for all rings
  *
  * Use only during init and shutdown.
@@ -190,11 +182,7 @@ static bool ring_empty(struct tb_ring *ring)
 	return ring->head == ring->tail;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ring_write_descriptors() - post frames from ring->queue to the controller
  *
  * ring->lock is held.
@@ -224,11 +212,7 @@ static void ring_write_descriptors(struct tb_ring *ring)
 	}
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ring_work() - progress completed frames
  *
  * If the ring is shutting down then all frames are marked as canceled and
@@ -608,10 +592,7 @@ EXPORT_SYMBOL_GPL(tb_ring_alloc_rx);
 
 /**
  * tb_ring_start() - enable a ring
-<<<<<<< HEAD
  * @ring: Ring to start
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Must not be invoked in parallel with tb_ring_stop().
  */
@@ -687,10 +668,7 @@ EXPORT_SYMBOL_GPL(tb_ring_start);
 
 /**
  * tb_ring_stop() - shutdown a ring
-<<<<<<< HEAD
  * @ring: Ring to stop
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Must not be invoked from a callback.
  *
@@ -778,11 +756,7 @@ void tb_ring_free(struct tb_ring *ring)
 	dev_dbg(&ring->nhi->pdev->dev, "freeing %s %d\n", RING_TYPE(ring),
 		ring->hop);
 
-<<<<<<< HEAD
 	/*
-=======
-	/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * ring->work can no longer be scheduled (it is scheduled only
 	 * by nhi_interrupt_work, ring_stop and ring_msix). Wait for it
 	 * to finish before freeing the ring.
@@ -1216,7 +1190,6 @@ static void tb_apple_add_links(struct tb_nhi *nhi)
 	}
 }
 
-<<<<<<< HEAD
 static struct tb *nhi_select_cm(struct tb_nhi *nhi)
 {
 	struct tb *tb;
@@ -1240,8 +1213,6 @@ static struct tb *nhi_select_cm(struct tb_nhi *nhi)
 	return tb;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 {
 	struct tb_nhi *nhi;
@@ -1310,13 +1281,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	tb_apple_add_links(nhi);
 	tb_acpi_add_links(nhi);
 
-<<<<<<< HEAD
 	tb = nhi_select_cm(nhi);
-=======
-	tb = icm_probe(nhi);
-	if (!tb)
-		tb = tb_probe(nhi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!tb) {
 		dev_err(&nhi->pdev->dev,
 			"failed to determine connection manager, aborting\n");

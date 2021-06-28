@@ -7,11 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
 title: Freescale i.MX Universal Asynchronous Receiver/Transmitter (UART)
 
 maintainers:
-<<<<<<< HEAD
   - Fabio Estevam <festevam@gmail.com>
-=======
-  - Fabio Estevam <fabio.estevam@nxp.com>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 allOf:
   - $ref: "serial.yaml"

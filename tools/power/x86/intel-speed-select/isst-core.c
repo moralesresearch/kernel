@@ -665,7 +665,6 @@ int isst_get_fact_info(int cpu, int level, int fact_bucket, struct isst_fact_inf
 	return 0;
 }
 
-<<<<<<< HEAD
 int isst_get_trl(int cpu, unsigned long long *trl)
 {
 	int ret;
@@ -677,8 +676,6 @@ int isst_get_trl(int cpu, unsigned long long *trl)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int isst_set_trl(int cpu, unsigned long long trl)
 {
 	int ret;

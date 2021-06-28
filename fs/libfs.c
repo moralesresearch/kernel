@@ -27,20 +27,12 @@
 
 #include "internal.h"
 
-<<<<<<< HEAD
 int simple_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		   struct kstat *stat, u32 request_mask,
 		   unsigned int query_flags)
 {
 	struct inode *inode = d_inode(path->dentry);
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-int simple_getattr(const struct path *path, struct kstat *stat,
-		   u32 request_mask, unsigned int query_flags)
-{
-	struct inode *inode = d_inode(path->dentry);
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->blocks = inode->i_mapping->nrpages << (PAGE_SHIFT - 9);
 	return 0;
 }
@@ -456,15 +448,9 @@ int simple_rmdir(struct inode *dir, struct dentry *dentry)
 }
 EXPORT_SYMBOL(simple_rmdir);
 
-<<<<<<< HEAD
 int simple_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
 		  struct dentry *old_dentry, struct inode *new_dir,
 		  struct dentry *new_dentry, unsigned int flags)
-=======
-int simple_rename(struct inode *old_dir, struct dentry *old_dentry,
-		  struct inode *new_dir, struct dentry *new_dentry,
-		  unsigned int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(old_dentry);
 	int they_are_dirs = d_is_dir(old_dentry);
@@ -495,6 +481,7 @@ EXPORT_SYMBOL(simple_rename);
 
 /**
  * simple_setattr - setattr for simple filesystem
+ * @mnt_userns: user namespace of the target mount
  * @dentry: dentry
  * @iattr: iattr structure
  *
@@ -507,31 +494,19 @@ EXPORT_SYMBOL(simple_rename);
  * on simple regular filesystems.  Anything that needs to change on-disk
  * or wire state on size changes needs its own setattr method.
  */
-<<<<<<< HEAD
 int simple_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		   struct iattr *iattr)
-=======
-int simple_setattr(struct dentry *dentry, struct iattr *iattr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int error;
 
-<<<<<<< HEAD
 	error = setattr_prepare(mnt_userns, dentry, iattr);
-=======
-	error = setattr_prepare(dentry, iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
 	if (iattr->ia_valid & ATTR_SIZE)
 		truncate_setsize(inode, iattr->ia_size);
-<<<<<<< HEAD
 	setattr_copy(mnt_userns, inode, iattr);
-=======
-	setattr_copy(inode, iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }
@@ -1145,11 +1120,7 @@ int generic_file_fsync(struct file *file, loff_t start, loff_t end,
 	err = __generic_file_fsync(file, start, end, datasync);
 	if (err)
 		return err;
-<<<<<<< HEAD
 	return blkdev_issue_flush(inode->i_sb->s_bdev);
-=======
-	return blkdev_issue_flush(inode->i_sb->s_bdev, GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(generic_file_fsync);
 
@@ -1246,14 +1217,6 @@ static int anon_set_page_dirty(struct page *page)
 	return 0;
 };
 
-<<<<<<< HEAD
-=======
-/*
- * A single inode exists for all anon_inode files. Contrary to pipes,
- * anon_inode inodes have no associated per-instance data, so we need
- * only allocate one of them.
- */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct inode *alloc_anon_inode(struct super_block *s)
 {
 	static const struct address_space_operations anon_aops = {
@@ -1335,7 +1298,6 @@ static struct dentry *empty_dir_lookup(struct inode *dir, struct dentry *dentry,
 	return ERR_PTR(-ENOENT);
 }
 
-<<<<<<< HEAD
 static int empty_dir_getattr(struct user_namespace *mnt_userns,
 			     const struct path *path, struct kstat *stat,
 			     u32 request_mask, unsigned int query_flags)
@@ -1347,17 +1309,6 @@ static int empty_dir_getattr(struct user_namespace *mnt_userns,
 
 static int empty_dir_setattr(struct user_namespace *mnt_userns,
 			     struct dentry *dentry, struct iattr *attr)
-=======
-static int empty_dir_getattr(const struct path *path, struct kstat *stat,
-			     u32 request_mask, unsigned int query_flags)
-{
-	struct inode *inode = d_inode(path->dentry);
-	generic_fillattr(inode, stat);
-	return 0;
-}
-
-static int empty_dir_setattr(struct dentry *dentry, struct iattr *attr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return -EPERM;
 }
@@ -1437,13 +1388,8 @@ static bool needs_casefold(const struct inode *dir)
  *
  * Return: 0 if names match, 1 if mismatch, or -ERRNO
  */
-<<<<<<< HEAD
 static int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
 				const char *str, const struct qstr *name)
-=======
-int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
-			  const char *str, const struct qstr *name)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct dentry *parent = READ_ONCE(dentry->d_parent);
 	const struct inode *dir = READ_ONCE(parent->d_inode);
@@ -1480,10 +1426,6 @@ fallback:
 		return 1;
 	return !!memcmp(str, name->name, len);
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(generic_ci_d_compare);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * generic_ci_d_hash - generic d_hash implementation for casefolding filesystems
@@ -1492,11 +1434,7 @@ EXPORT_SYMBOL(generic_ci_d_compare);
  *
  * Return: 0 if hash was successful or unchanged, and -EINVAL on error
  */
-<<<<<<< HEAD
 static int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
-=======
-int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct inode *dir = READ_ONCE(dentry->d_inode);
 	struct super_block *sb = dentry->d_sb;
@@ -1511,10 +1449,6 @@ int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
 		return -EINVAL;
 	return 0;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(generic_ci_d_hash);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct dentry_operations generic_ci_dentry_ops = {
 	.d_hash = generic_ci_d_hash,

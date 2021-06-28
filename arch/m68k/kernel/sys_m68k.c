@@ -388,11 +388,8 @@ sys_cacheflush (unsigned long addr, int scope, int cache, unsigned long len)
 		ret = -EPERM;
 		if (!capable(CAP_SYS_ADMIN))
 			goto out;
-<<<<<<< HEAD
 
 		mmap_read_lock(current->mm);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		struct vm_area_struct *vma;
 

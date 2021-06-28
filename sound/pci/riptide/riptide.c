@@ -103,10 +103,6 @@
 MODULE_AUTHOR("Peter Gruber <nokos@gmx.net>");
 MODULE_DESCRIPTION("riptide");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Conexant,Riptide}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE("riptide.hex");
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;

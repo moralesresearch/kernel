@@ -97,15 +97,9 @@
 	.popsection
 	.subsection 1
 663:	\insn2
-<<<<<<< HEAD
 664:	.org	. - (664b-663b) + (662b-661b)
 	.org	. - (662b-661b) + (664b-663b)
 	.previous
-=======
-664:	.previous
-	.org	. - (664b-663b) + (662b-661b)
-	.org	. - (662b-661b) + (664b-663b)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.endif
 .endm
 
@@ -175,19 +169,11 @@
  */
 .macro alternative_endif
 664:
-<<<<<<< HEAD
 	.org	. - (664b-663b) + (662b-661b)
 	.org	. - (662b-661b) + (664b-663b)
 	.if .Lasm_alt_mode==0
 	.previous
 	.endif
-=======
-	.if .Lasm_alt_mode==0
-	.previous
-	.endif
-	.org	. - (664b-663b) + (662b-661b)
-	.org	. - (662b-661b) + (664b-663b)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .endm
 
 /*

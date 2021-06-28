@@ -762,11 +762,7 @@ void hci_sock_dev_event(struct hci_dev *hdev, int event)
 		/* Detach sockets from device */
 		read_lock(&hci_sk_list.lock);
 		sk_for_each(sk, &hci_sk_list.head) {
-<<<<<<< HEAD
 			lock_sock(sk);
-=======
-			bh_lock_sock_nested(sk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (hci_pi(sk)->hdev == hdev) {
 				hci_pi(sk)->hdev = NULL;
 				sk->sk_err = EPIPE;
@@ -775,11 +771,7 @@ void hci_sock_dev_event(struct hci_dev *hdev, int event)
 
 				hci_dev_put(hdev);
 			}
-<<<<<<< HEAD
 			release_sock(sk);
-=======
-			bh_unlock_sock(sk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		read_unlock(&hci_sk_list.lock);
 	}

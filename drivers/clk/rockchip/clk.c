@@ -24,11 +24,7 @@
 #include <linux/rational.h>
 #include "clk.h"
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Register a clock branch.
  * Most clock branches have a form like
  *
@@ -174,11 +170,7 @@ static int rockchip_clk_frac_notifier_cb(struct notifier_block *nb,
 	return notifier_from_errno(ret);
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * fractional divider must set that denominator is 20 times larger than
  * numerator to generate precise clock frequency.
  */

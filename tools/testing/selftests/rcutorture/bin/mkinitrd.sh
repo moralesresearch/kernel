@@ -70,11 +70,7 @@ if echo -e "#if __x86_64__||__i386__||__i486__||__i586__||__i686__" \
 	# architecture supported by nolibc
         ${CROSS_COMPILE}gcc -fno-asynchronous-unwind-tables -fno-ident \
 		-nostdlib -include ../../../../include/nolibc/nolibc.h \
-<<<<<<< HEAD
 		-s -static -Os -o init init.c -lgcc
-=======
-		-lgcc -s -static -Os -o init init.c
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 else
 	${CROSS_COMPILE}gcc -s -static -Os -o init init.c
 fi

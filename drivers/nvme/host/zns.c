@@ -96,7 +96,7 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
 		dev_warn(ns->ctrl->device,
 			"zone operations:%x not supported for namespace:%u\n",
 			le16_to_cpu(id->zoc), ns->head->ns_id);
-		status = -EINVAL;
+		status = -ENODEV;
 		goto free_data;
 	}
 
@@ -105,15 +105,11 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
 		dev_warn(ns->ctrl->device,
 			"invalid zone size:%llu for namespace:%u\n",
 			ns->zsze, ns->head->ns_id);
-		status = -EINVAL;
+		status = -ENODEV;
 		goto free_data;
 	}
 
-<<<<<<< HEAD
 	blk_queue_set_zoned(ns->disk, BLK_ZONED_HM);
-=======
-	q->limits.zoned = BLK_ZONED_HM;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
 	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
 	blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);

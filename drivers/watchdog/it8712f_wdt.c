@@ -31,10 +31,6 @@
 #include <linux/io.h>
 #include <linux/ioport.h>
 
-<<<<<<< HEAD
-=======
-#define DEBUG
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NAME "it8712f_wdt"
 
 MODULE_AUTHOR("Jorge Boncompte - DTI2 <jorge@dti2.net>");

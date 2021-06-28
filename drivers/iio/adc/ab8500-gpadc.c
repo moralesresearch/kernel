@@ -1108,10 +1108,6 @@ static int ab8500_gpadc_probe(struct platform_device *pdev)
 		return gpadc->irq_sw;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_ab8500(gpadc->ab8500)) {
 		gpadc->irq_hw = platform_get_irq_byname(pdev, "HW_CONV_END");
 		if (gpadc->irq_hw < 0) {
@@ -1120,15 +1116,6 @@ static int ab8500_gpadc_probe(struct platform_device *pdev)
 		}
 	} else {
 		gpadc->irq_hw = 0;
-<<<<<<< HEAD
-=======
-=======
-	gpadc->irq_hw = platform_get_irq_byname(pdev, "HW_CONV_END");
-	if (gpadc->irq_hw < 0) {
-		dev_err(dev, "failed to get platform hw_conv_end irq\n");
-		return gpadc->irq_hw;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Initialize completion used to notify completion of conversion */
@@ -1145,10 +1132,6 @@ static int ab8500_gpadc_probe(struct platform_device *pdev)
 		return ret;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gpadc->irq_hw) {
 		ret = devm_request_threaded_irq(dev, gpadc->irq_hw, NULL,
 			ab8500_bm_gpadcconvend_handler,	IRQF_NO_SUSPEND | IRQF_ONESHOT,
@@ -1159,19 +1142,6 @@ static int ab8500_gpadc_probe(struct platform_device *pdev)
 				gpadc->irq_hw);
 			return ret;
 		}
-<<<<<<< HEAD
-=======
-=======
-	ret = devm_request_threaded_irq(dev, gpadc->irq_hw, NULL,
-		ab8500_bm_gpadcconvend_handler,	IRQF_NO_SUSPEND | IRQF_ONESHOT,
-		"ab8500-gpadc-hw", gpadc);
-	if (ret < 0) {
-		dev_err(dev,
-			"Failed to request hw conversion irq: %d\n",
-			gpadc->irq_hw);
-		return ret;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* The VTVout LDO used to power the AB8500 GPADC */

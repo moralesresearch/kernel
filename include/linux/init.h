@@ -47,7 +47,7 @@
 
 /* These are for everybody (although not all archs will actually
    discard it in modules) */
-#define __init		__section(".init.text") __cold  __latent_entropy __noinitretpoline
+#define __init		__section(".init.text") __cold  __latent_entropy __noinitretpoline __nocfi
 #define __initdata	__section(".init.data")
 #define __initconst	__section(".init.rodata")
 #define __exitdata	__section(".exit.data")
@@ -184,7 +184,6 @@ extern bool initcall_debug;
  * as KEEP() in the linker script.
  */
 
-<<<<<<< HEAD
 /* Format: <modname>__<counter>_<line>_<fn> */
 #define __initcall_id(fn)					\
 	__PASTE(__KBUILD_MODNAME,				\
@@ -221,8 +220,8 @@ extern bool initcall_debug;
 	__initcall_name(initstub, __iid, id)
 
 #define __define_initcall_stub(__stub, fn)			\
-	int __init __stub(void);				\
-	int __init __stub(void)					\
+	int __init __cficanonical __stub(void);			\
+	int __init __cficanonical __stub(void)			\
 	{ 							\
 		return fn();					\
 	}							\
@@ -243,7 +242,8 @@ extern bool initcall_debug;
 	asm(".section	\"" __sec "\", \"a\"		\n"	\
 	    __stringify(__name) ":			\n"	\
 	    ".long	" __stringify(__stub) " - .	\n"	\
-	    ".previous					\n");
+	    ".previous					\n");	\
+	static_assert(__same_type(initcall_t, &fn));
 #else
 #define ____define_initcall(fn, __unused, __name, __sec)	\
 	static initcall_t __name __used 			\
@@ -259,21 +259,6 @@ extern bool initcall_debug;
 #define ___define_initcall(fn, id, __sec)			\
 	__unique_initcall(fn, id, __sec, __initcall_id(fn))
 
-=======
-#ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
-#define ___define_initcall(fn, id, __sec)			\
-	__ADDRESSABLE(fn)					\
-	asm(".section	\"" #__sec ".init\", \"a\"	\n"	\
-	"__initcall_" #fn #id ":			\n"	\
-	    ".long	" #fn " - .			\n"	\
-	    ".previous					\n");
-#else
-#define ___define_initcall(fn, id, __sec) \
-	static initcall_t __initcall_##fn##id __used \
-		__attribute__((__section__(#__sec ".init"))) = fn;
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
 
 /*
@@ -313,11 +298,7 @@ extern bool initcall_debug;
 #define __exitcall(fn)						\
 	static exitcall_t __exitcall_##fn __exit_call = fn
 
-<<<<<<< HEAD
 #define console_initcall(fn)	___define_initcall(fn, con, .con_initcall)
-=======
-#define console_initcall(fn)	___define_initcall(fn,, .con_initcall)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct obs_kernel_param {
 	const char *str;
@@ -358,22 +339,14 @@ struct obs_kernel_param {
 		var = 1;						\
 		return 0;						\
 	}								\
-<<<<<<< HEAD
 	early_param(str_on, parse_##var##_on);				\
-=======
-	__setup_param(str_on, parse_##var##_on, parse_##var##_on, 1);	\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 	static int __init parse_##var##_off(char *arg)			\
 	{								\
 		var = 0;						\
 		return 0;						\
 	}								\
-<<<<<<< HEAD
 	early_param(str_off, parse_##var##_off)
-=======
-	__setup_param(str_off, parse_##var##_off, parse_##var##_off, 1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Relies on boot_command_line being set */
 void __init parse_early_param(void);

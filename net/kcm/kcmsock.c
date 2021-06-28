@@ -663,7 +663,7 @@ do_frag:
 
 				/* Hard failure in sending message, abort this
 				 * psock since it has lost framing
-				 * synchonization and retry sending the
+				 * synchronization and retry sending the
 				 * message from the beginning.
 				 */
 				kcm_abort_tx_psock(psock, ret ? -ret : EPIPE,
@@ -786,11 +786,7 @@ static ssize_t kcm_sendpage(struct socket *sock, struct page *page,
 
 		if (skb_can_coalesce(skb, i, page, offset)) {
 			skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], size);
-<<<<<<< HEAD
 			skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
-=======
-			skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto coalesced;
 		}
 
@@ -838,11 +834,7 @@ static ssize_t kcm_sendpage(struct socket *sock, struct page *page,
 
 	get_page(page);
 	skb_fill_page_desc(skb, i, page, offset, size);
-<<<<<<< HEAD
 	skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
-=======
-	skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 coalesced:
 	skb->len += size;
@@ -1427,7 +1419,7 @@ static int kcm_attach(struct socket *sock, struct socket *csock,
 
 	write_lock_bh(&csk->sk_callback_lock);
 
-	/* Check if sk_user_data is aready by KCM or someone else.
+	/* Check if sk_user_data is already by KCM or someone else.
 	 * Must be done under lock to prevent race conditions.
 	 */
 	if (csk->sk_user_data) {
@@ -1504,11 +1496,7 @@ static int kcm_attach_ioctl(struct socket *sock, struct kcm_attach *info)
 
 	return 0;
 out:
-<<<<<<< HEAD
 	sockfd_put(csock);
-=======
-	fput(csock->file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -1656,11 +1644,7 @@ static int kcm_unattach_ioctl(struct socket *sock, struct kcm_unattach *info)
 	spin_unlock_bh(&mux->lock);
 
 out:
-<<<<<<< HEAD
 	sockfd_put(csock);
-=======
-	fput(csock->file);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 

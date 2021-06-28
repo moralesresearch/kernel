@@ -134,7 +134,6 @@ struct bpf_insn;
 		.off   = OFF,					\
 		.imm   = 0 })
 
-<<<<<<< HEAD
 /*
  * Atomic operations:
  *
@@ -160,17 +159,6 @@ struct bpf_insn;
 
 /* Legacy alias */
 #define BPF_STX_XADD(SIZE, DST, SRC, OFF) BPF_ATOMIC_OP(SIZE, BPF_ADD, DST, SRC, OFF)
-=======
-/* Atomic memory add, *(uint *)(dst_reg + off16) += src_reg */
-
-#define BPF_STX_XADD(SIZE, DST, SRC, OFF)			\
-	((struct bpf_insn) {					\
-		.code  = BPF_STX | BPF_SIZE(SIZE) | BPF_XADD,	\
-		.dst_reg = DST,					\
-		.src_reg = SRC,					\
-		.off   = OFF,					\
-		.imm   = 0 })
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Memory store, *(uint *) (dst_reg + off16) = imm32 */
 

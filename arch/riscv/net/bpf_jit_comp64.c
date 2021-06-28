@@ -1027,7 +1027,6 @@ out_be:
 		emit_add(RV_REG_T1, RV_REG_T1, rd, ctx);
 		emit_sd(RV_REG_T1, 0, rs, ctx);
 		break;
-<<<<<<< HEAD
 	case BPF_STX | BPF_ATOMIC | BPF_W:
 	case BPF_STX | BPF_ATOMIC | BPF_DW:
 		if (insn->imm != BPF_ADD) {
@@ -1040,12 +1039,6 @@ out_be:
 		 * atomic_add: lock *(u64 *)(dst + off) += src
 		 */
 
-=======
-	/* STX XADD: lock *(u32 *)(dst + off) += src */
-	case BPF_STX | BPF_XADD | BPF_W:
-	/* STX XADD: lock *(u64 *)(dst + off) += src */
-	case BPF_STX | BPF_XADD | BPF_DW:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (off) {
 			if (is_12b_int(off)) {
 				emit_addi(RV_REG_T1, rd, off, ctx);
@@ -1154,17 +1147,4 @@ void bpf_jit_build_prologue(struct rv_jit_context *ctx)
 void bpf_jit_build_epilogue(struct rv_jit_context *ctx)
 {
 	__build_epilogue(false, ctx);
-}
-
-void *bpf_jit_alloc_exec(unsigned long size)
-{
-	return __vmalloc_node_range(size, PAGE_SIZE, BPF_JIT_REGION_START,
-				    BPF_JIT_REGION_END, GFP_KERNEL,
-				    PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
-				    __builtin_return_address(0));
-}
-
-void bpf_jit_free_exec(void *addr)
-{
-	return vfree(addr);
 }

@@ -13,10 +13,6 @@ What:		/sys/devices/system/memory/memoryX/removable
 Date:		June 2008
 Contact:	Badari Pulavarty <pbadari@us.ibm.com>
 Description:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		The file /sys/devices/system/memory/memoryX/removable is a
 		legacy interface used to indicated whether a memory block is
 		likely to be offlineable or not.  Newer kernel versions return
@@ -24,18 +20,6 @@ Description:
 Users:		hotplug memory remove tools
 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
 		lsmem/chmem part of util-linux
-<<<<<<< HEAD
-=======
-=======
-		The file /sys/devices/system/memory/memoryX/removable
-		indicates whether this memory block is removable or not.
-		This is useful for a user-level agent to determine
-		identify removable sections of the memory before attempting
-		potentially expensive hot-remove memory operation
-Users:		hotplug memory remove tools
-		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 What:		/sys/devices/system/memory/memoryX/phys_device
 Date:		September 2008
@@ -60,32 +44,14 @@ Date:		September 2008
 Contact:	Badari Pulavarty <pbadari@us.ibm.com>
 Description:
 		The file /sys/devices/system/memory/memoryX/state
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		is read-write.  When read, it returns the online/offline
 		state of the memory block.  When written, root can toggle
 		the online/offline state of a memory block using the following
 		commands::
-<<<<<<< HEAD
-=======
-=======
-		is read-write.  When read, its contents show the
-		online/offline state of the memory section.  When written,
-		root can toggle the the online/offline state of a removable
-		memory section (see removable file description above)
-		using the following commands::
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		  # echo online > /sys/devices/system/memory/memoryX/state
 		  # echo offline > /sys/devices/system/memory/memoryX/state
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		On newer kernel versions, advanced states can be specified
 		when onlining to select a target zone: "online_movable"
 		selects the movable zone.  "online_kernel" selects the
@@ -97,19 +63,6 @@ Description:
 		While onlining is unlikely to fail, there are no guarantees
 		that offlining will succeed.  Offlining is more likely to
 		succeed if "valid_zones" indicates "Movable".
-<<<<<<< HEAD
-=======
-=======
-		For example, if /sys/devices/system/memory/memory22/removable
-		contains a value of 1 and
-		/sys/devices/system/memory/memory22/state contains the
-		string "online" the following command can be executed by
-		by root to offline that section::
-
-		  # echo offline > /sys/devices/system/memory/memory22/state
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Users:		hotplug memory remove tools
 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
 
@@ -119,10 +72,6 @@ Date:           July 2014
 Contact:	Zhang Zhen <zhenzhang.zhang@huawei.com>
 Description:
 		The file /sys/devices/system/memory/memoryX/valid_zones	is
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		read-only.
 
 		For online memory blocks, it returns in which zone memory
@@ -136,13 +85,6 @@ Description:
 		the state of an offline memory block to "online".  Only one of
 		the kernel zones (DMA, DMA32, Normal) is applicable for a single
 		memory block.
-<<<<<<< HEAD
-=======
-=======
-		read-only and is designed to show which zone this memory
-		block can be onlined to.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 What:		/sys/devices/system/memoryX/nodeY
 Date:		October 2009

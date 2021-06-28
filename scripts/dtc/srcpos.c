@@ -20,11 +20,7 @@ struct search_path {
 static struct search_path *search_path_head, **search_path_tail;
 
 /* Detect infinite include recursion. */
-<<<<<<< HEAD
 #define MAX_SRCFILE_DEPTH     (200)
-=======
-#define MAX_SRCFILE_DEPTH     (100)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int srcfile_depth; /* = 0 */
 
 static char *get_dirname(const char *path)

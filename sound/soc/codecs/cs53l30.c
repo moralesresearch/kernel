@@ -869,11 +869,7 @@ static struct snd_soc_dai_driver cs53l30_dai = {
 		.formats = CS53L30_FORMATS,
 	},
 	.ops = &cs53l30_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cs53l30_component_probe(struct snd_soc_component *component)
@@ -916,6 +912,9 @@ static struct regmap_config cs53l30_regmap = {
 	.writeable_reg = cs53l30_writeable_register,
 	.readable_reg = cs53l30_readable_register,
 	.cache_type = REGCACHE_RBTREE,
+
+	.use_single_read = true,
+	.use_single_write = true,
 };
 
 static int cs53l30_i2c_probe(struct i2c_client *client,

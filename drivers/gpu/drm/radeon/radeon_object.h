@@ -109,20 +109,12 @@ static inline u64 radeon_bo_gpu_offset(struct radeon_bo *bo)
 
 static inline unsigned long radeon_bo_size(struct radeon_bo *bo)
 {
-<<<<<<< HEAD
 	return bo->tbo.base.size;
-=======
-	return bo->tbo.num_pages << PAGE_SHIFT;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned radeon_bo_ngpu_pages(struct radeon_bo *bo)
 {
-<<<<<<< HEAD
 	return bo->tbo.base.size / RADEON_GPU_PAGE_SIZE;
-=======
-	return (bo->tbo.num_pages << PAGE_SHIFT) / RADEON_GPU_PAGE_SIZE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned radeon_bo_gpu_page_alignment(struct radeon_bo *bo)

@@ -260,11 +260,7 @@ int iwl_mvm_init_fw_regd(struct iwl_mvm *mvm)
 	int ret;
 	bool changed;
 	const struct ieee80211_regdomain *r =
-<<<<<<< HEAD
 			wiphy_dereference(mvm->hw->wiphy, mvm->hw->wiphy->regd);
-=======
-			rtnl_dereference(mvm->hw->wiphy->regd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!r)
 		return -ENOENT;
@@ -286,11 +282,7 @@ int iwl_mvm_init_fw_regd(struct iwl_mvm *mvm)
 
 	/* update cfg80211 if the regdomain was changed */
 	if (changed)
-<<<<<<< HEAD
 		ret = regulatory_set_wiphy_regd_sync(mvm->hw->wiphy, regd);
-=======
-		ret = regulatory_set_wiphy_regd_sync_rtnl(mvm->hw->wiphy, regd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		ret = 0;
 
@@ -480,14 +472,11 @@ int iwl_mvm_mac_setup_register(struct iwl_mvm *mvm)
 		hw->wiphy->pmsr_capa = &iwl_mvm_pmsr_capa;
 	}
 
-<<<<<<< HEAD
 	if (fw_has_capa(&mvm->fw->ucode_capa,
 			IWL_UCODE_TLV_CAPA_BIGTK_SUPPORT))
 		wiphy_ext_feature_set(hw->wiphy,
 				      NL80211_EXT_FEATURE_BEACON_PROTECTION_CLIENT);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ieee80211_hw_set(hw, SINGLE_SCAN_ON_ALL_BANDS);
 	hw->wiphy->features |=
 		NL80211_FEATURE_SCHED_SCAN_RANDOM_MAC_ADDR |
@@ -832,12 +821,7 @@ void iwl_mvm_mac_itxq_xmit(struct ieee80211_hw *hw, struct ieee80211_txq *txq)
 	rcu_read_lock();
 	do {
 		while (likely(!mvmtxq->stopped &&
-<<<<<<< HEAD
 			      !test_bit(IWL_MVM_STATUS_IN_D3, &mvm->status))) {
-=======
-			      (mvm->trans->system_pm_mode ==
-			       IWL_PLAT_PM_MODE_DISABLED))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			skb = ieee80211_tx_dequeue(hw, txq);
 
 			if (!skb) {
@@ -1115,6 +1099,8 @@ int __iwl_mvm_mac_start(struct iwl_mvm *mvm)
 	iwl_dbg_tlv_time_point(&mvm->fwrt, IWL_FW_INI_TIME_POINT_PERIODIC,
 			       NULL);
 
+	mvm->last_reset_or_resume_time_jiffies = jiffies;
+
 	if (ret && test_bit(IWL_MVM_STATUS_IN_HW_RESTART, &mvm->status)) {
 		/* Something went wrong - we need to finish some cleanup
 		 * that normally iwl_mvm_mac_restart_complete() below
@@ -1388,23 +1374,13 @@ static void iwl_mvm_abort_channel_switch(struct ieee80211_hw *hw,
 
 static void iwl_mvm_channel_switch_disconnect_wk(struct work_struct *wk)
 {
-<<<<<<< HEAD
-=======
-	struct iwl_mvm *mvm;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_mvm_vif *mvmvif;
 	struct ieee80211_vif *vif;
 
 	mvmvif = container_of(wk, struct iwl_mvm_vif, csa_work.work);
 	vif = container_of((void *)mvmvif, struct ieee80211_vif, drv_priv);
-<<<<<<< HEAD
 
 	/* Trigger disconnect (should clear the CSA state) */
-=======
-	mvm = mvmvif->mvm;
-
-	iwl_mvm_abort_channel_switch(mvm->hw, vif);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ieee80211_chswitch_done(vif, false);
 }
 
@@ -2033,7 +2009,6 @@ static void iwl_mvm_cfg_he_sta(struct iwl_mvm *mvm,
 	struct ieee80211_sta *sta;
 	u32 flags;
 	int i;
-<<<<<<< HEAD
 	const struct ieee80211_sta_he_cap *own_he_cap = NULL;
 	struct ieee80211_chanctx_conf *chanctx_conf;
 	const struct ieee80211_supported_band *sband;
@@ -2049,11 +2024,6 @@ static void iwl_mvm_cfg_he_sta(struct iwl_mvm *mvm,
 	sband = mvm->hw->wiphy->bands[chanctx_conf->def.chan->band];
 	own_he_cap = ieee80211_get_he_iftype_cap(sband, vif->type);
 
-=======
-
-	rcu_read_lock();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sta = rcu_dereference(mvm->fw_id_to_mac_id[sta_ctxt_cmd.sta_id]);
 	if (IS_ERR_OR_NULL(sta)) {
 		rcu_read_unlock();
@@ -2240,13 +2210,10 @@ static void iwl_mvm_cfg_he_sta(struct iwl_mvm *mvm,
 			(vif->bss_conf.uora_ocw_range >> 3) & 0x7;
 	}
 
-<<<<<<< HEAD
 	if (own_he_cap && !(own_he_cap->he_cap_elem.mac_cap_info[2] &
 			    IEEE80211_HE_MAC_CAP2_ACK_EN))
 		flags |= STA_CTXT_HE_NIC_NOT_ACK_ENABLED;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vif->bss_conf.nontransmitted) {
 		flags |= STA_CTXT_HE_REF_BSSID_VALID;
 		ether_addr_copy(sta_ctxt_cmd.ref_bssid_addr,
@@ -2457,15 +2424,6 @@ static void iwl_mvm_bss_info_changed_station(struct iwl_mvm *mvm,
 			IWL_ERR(mvm, "failed to update power mode\n");
 	}
 
-<<<<<<< HEAD
-=======
-	if (changes & BSS_CHANGED_TXPOWER) {
-		IWL_DEBUG_CALIB(mvm, "Changing TX Power to %d\n",
-				bss_conf->txpower);
-		iwl_mvm_set_tx_power(mvm, vif, bss_conf->txpower);
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (changes & BSS_CHANGED_CQM) {
 		IWL_DEBUG_MAC80211(mvm, "cqm info_changed\n");
 		/* reset cqm events tracking */
@@ -2697,15 +2655,6 @@ iwl_mvm_bss_info_changed_ap_ibss(struct iwl_mvm *mvm,
 	    iwl_mvm_mac_ctxt_beacon_changed(mvm, vif))
 		IWL_WARN(mvm, "Failed updating beacon data\n");
 
-<<<<<<< HEAD
-=======
-	if (changes & BSS_CHANGED_TXPOWER) {
-		IWL_DEBUG_CALIB(mvm, "Changing TX Power to %d\n",
-				bss_conf->txpower);
-		iwl_mvm_set_tx_power(mvm, vif, bss_conf->txpower);
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (changes & BSS_CHANGED_FTM_RESPONDER) {
 		int ret = iwl_mvm_ftm_start_responder(mvm, vif);
 
@@ -2745,15 +2694,12 @@ static void iwl_mvm_bss_info_changed(struct ieee80211_hw *hw,
 		WARN_ON_ONCE(1);
 	}
 
-<<<<<<< HEAD
 	if (changes & BSS_CHANGED_TXPOWER) {
 		IWL_DEBUG_CALIB(mvm, "Changing TX Power to %d dBm\n",
 				bss_conf->txpower);
 		iwl_mvm_set_tx_power(mvm, vif, bss_conf->txpower);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&mvm->mutex);
 }
 
@@ -3077,7 +3023,6 @@ static void iwl_mvm_check_he_obss_narrow_bw_ru(struct ieee80211_hw *hw,
 	mvmvif->he_ru_2mhz_block = !iter_data.tolerated;
 }
 
-<<<<<<< HEAD
 static void iwl_mvm_reset_cca_40mhz_workaround(struct iwl_mvm *mvm,
 					       struct ieee80211_vif *vif)
 {
@@ -3111,8 +3056,6 @@ static void iwl_mvm_reset_cca_40mhz_workaround(struct iwl_mvm *mvm,
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int iwl_mvm_mac_sta_state(struct ieee80211_hw *hw,
 				 struct ieee80211_vif *vif,
 				 struct ieee80211_sta *sta,
@@ -3152,15 +3095,12 @@ static int iwl_mvm_mac_sta_state(struct ieee80211_hw *hw,
 		 * No need to make sure deferred TX indication is off since the
 		 * worker will already remove it if it was on
 		 */
-<<<<<<< HEAD
 
 		/*
 		 * Additionally, reset the 40 MHz capability if we disconnected
 		 * from the AP now.
 		 */
 		iwl_mvm_reset_cca_40mhz_workaround(mvm, vif);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	mutex_lock(&mvm->mutex);
@@ -3502,13 +3442,10 @@ static int __iwl_mvm_mac_set_key(struct ieee80211_hw *hw,
 
 	switch (cmd) {
 	case SET_KEY:
-<<<<<<< HEAD
 		if (keyidx == 6 || keyidx == 7)
 			rcu_assign_pointer(mvmvif->bcn_prot.keys[keyidx - 6],
 					   key);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((vif->type == NL80211_IFTYPE_ADHOC ||
 		     vif->type == NL80211_IFTYPE_AP) && !sta) {
 			/*
@@ -3617,13 +3554,10 @@ static int __iwl_mvm_mac_set_key(struct ieee80211_hw *hw,
 
 		break;
 	case DISABLE_KEY:
-<<<<<<< HEAD
 		if (keyidx == 6 || keyidx == 7)
 			RCU_INIT_POINTER(mvmvif->bcn_prot.keys[keyidx - 6],
 					 NULL);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -ENOENT;
 		for (i = 0; i < ARRAY_SIZE(mvmvif->ap_early_keys); i++) {
 			if (mvmvif->ap_early_keys[i] == key) {
@@ -4678,6 +4612,16 @@ static int iwl_mvm_pre_channel_switch(struct ieee80211_hw *hw,
 
 		break;
 	case NL80211_IFTYPE_STATION:
+		/*
+		 * We haven't configured the firmware to be associated yet since
+		 * we don't know the dtim period. In this case, the firmware can't
+		 * track the beacons.
+		 */
+		if (!vif->bss_conf.assoc || !vif->bss_conf.dtim_period) {
+			ret = -EBUSY;
+			goto out_unlock;
+		}
+
 		if (chsw->delay > IWL_MAX_CSA_BLOCK_TX)
 			schedule_delayed_work(&mvmvif->csa_work, 0);
 
@@ -4758,12 +4702,8 @@ static void iwl_mvm_channel_switch_rx_beacon(struct ieee80211_hw *hw,
 	if (mvmvif->csa_failed)
 		goto out_unlock;
 
-<<<<<<< HEAD
 	IWL_DEBUG_MAC80211(mvm, "Modify CSA on mac %d count = %d mode = %d\n",
 			   mvmvif->id, chsw->count, chsw->block_tx);
-=======
-	IWL_DEBUG_MAC80211(mvm, "Modify CSA on mac %d\n", mvmvif->id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	WARN_ON(iwl_mvm_send_cmd_pdu(mvm,
 				     WIDE_ID(MAC_CONF_GROUP,
 					     CHANNEL_SWITCH_TIME_EVENT_CMD),
@@ -4780,11 +4720,7 @@ static void iwl_mvm_flush_no_vif(struct iwl_mvm *mvm, u32 queues, bool drop)
 		if (drop) {
 			mutex_lock(&mvm->mutex);
 			iwl_mvm_flush_tx_path(mvm,
-<<<<<<< HEAD
 				iwl_mvm_flushable_queues(mvm) & queues);
-=======
-				iwl_mvm_flushable_queues(mvm) & queues, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mutex_unlock(&mvm->mutex);
 		} else {
 			iwl_trans_wait_tx_queues_empty(mvm->trans, queues);
@@ -4802,11 +4738,7 @@ static void iwl_mvm_flush_no_vif(struct iwl_mvm *mvm, u32 queues, bool drop)
 			continue;
 
 		if (drop)
-<<<<<<< HEAD
 			iwl_mvm_flush_sta_tids(mvm, i, 0xFFFF);
-=======
-			iwl_mvm_flush_sta_tids(mvm, i, 0xFFFF, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			iwl_mvm_wait_sta_queues_empty(mvm,
 					iwl_mvm_sta_from_mac80211(sta));
@@ -5088,7 +5020,6 @@ static void iwl_mvm_mac_sta_statistics(struct ieee80211_hw *hw,
 	mutex_unlock(&mvm->mutex);
 }
 
-<<<<<<< HEAD
 static void iwl_mvm_event_mlme_callback_ini(struct iwl_mvm *mvm,
 					    struct ieee80211_vif *vif,
 					    const  struct ieee80211_mlme_event *mlme)
@@ -5117,8 +5048,6 @@ static void iwl_mvm_event_mlme_callback_ini(struct iwl_mvm *mvm,
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void iwl_mvm_event_mlme_callback(struct iwl_mvm *mvm,
 					struct ieee80211_vif *vif,
 					const struct ieee80211_event *event)
@@ -5133,14 +5062,11 @@ static void iwl_mvm_event_mlme_callback(struct iwl_mvm *mvm,
 	struct iwl_fw_dbg_trigger_tlv *trig;
 	struct iwl_fw_dbg_trigger_mlme *trig_mlme;
 
-<<<<<<< HEAD
 	if (iwl_trans_dbg_ini_valid(mvm->trans)) {
 		iwl_mvm_event_mlme_callback_ini(mvm, vif, &event->u.mlme);
 		return;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trig = iwl_fw_dbg_trigger_on(&mvm->fwrt, ieee80211_vif_to_wdev(vif),
 				     FW_DBG_TRIGGER_MLME);
 	if (!trig)
@@ -5220,28 +5146,50 @@ static void iwl_mvm_mac_event_callback(struct ieee80211_hw *hw,
 }
 
 void iwl_mvm_sync_rx_queues_internal(struct iwl_mvm *mvm,
-				     struct iwl_mvm_internal_rxq_notif *notif,
-				     u32 size)
+				     enum iwl_mvm_rxq_notif_type type,
+				     bool sync,
+				     const void *data, u32 size)
 {
-	u32 qmask = BIT(mvm->trans->num_rx_queues) - 1;
+	struct {
+		struct iwl_rxq_sync_cmd cmd;
+		struct iwl_mvm_internal_rxq_notif notif;
+	} __packed cmd = {
+		.cmd.rxq_mask = cpu_to_le32(BIT(mvm->trans->num_rx_queues) - 1),
+		.cmd.count =
+			cpu_to_le32(sizeof(struct iwl_mvm_internal_rxq_notif) +
+				    size),
+		.notif.type = type,
+		.notif.sync = sync,
+	};
+	struct iwl_host_cmd hcmd = {
+		.id = WIDE_ID(DATA_PATH_GROUP, TRIGGER_RX_QUEUES_NOTIF_CMD),
+		.data[0] = &cmd,
+		.len[0] = sizeof(cmd),
+		.data[1] = data,
+		.len[1] = size,
+		.flags = sync ? 0 : CMD_ASYNC,
+	};
 	int ret;
 
+	/* size must be a multiple of DWORD */
+	if (WARN_ON(cmd.cmd.count & cpu_to_le32(3)))
+		return;
 
 	if (!iwl_mvm_has_new_rx_api(mvm))
 		return;
 
-	if (notif->sync) {
-		notif->cookie = mvm->queue_sync_cookie;
+	if (sync) {
+		cmd.notif.cookie = mvm->queue_sync_cookie;
 		mvm->queue_sync_state = (1 << mvm->trans->num_rx_queues) - 1;
 	}
 
-	ret = iwl_mvm_notify_rx_queue(mvm, qmask, notif, size, !notif->sync);
+	ret = iwl_mvm_send_cmd(mvm, &hcmd);
 	if (ret) {
 		IWL_ERR(mvm, "Failed to trigger RX queues sync (%d)\n", ret);
 		goto out;
 	}
 
-	if (notif->sync) {
+	if (sync) {
 		lockdep_assert_held(&mvm->mutex);
 		ret = wait_event_timeout(mvm->rx_sync_waitq,
 					 READ_ONCE(mvm->queue_sync_state) == 0 ||
@@ -5253,21 +5201,18 @@ void iwl_mvm_sync_rx_queues_internal(struct iwl_mvm *mvm,
 	}
 
 out:
-	mvm->queue_sync_state = 0;
-	if (notif->sync)
+	if (sync) {
+		mvm->queue_sync_state = 0;
 		mvm->queue_sync_cookie++;
+	}
 }
 
 static void iwl_mvm_sync_rx_queues(struct ieee80211_hw *hw)
 {
 	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
-	struct iwl_mvm_internal_rxq_notif data = {
-		.type = IWL_MVM_RXQ_EMPTY,
-		.sync = 1,
-	};
 
 	mutex_lock(&mvm->mutex);
-	iwl_mvm_sync_rx_queues_internal(mvm, &data, sizeof(data));
+	iwl_mvm_sync_rx_queues_internal(mvm, IWL_MVM_RXQ_EMPTY, true, NULL, 0);
 	mutex_unlock(&mvm->mutex);
 }
 

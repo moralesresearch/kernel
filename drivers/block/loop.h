@@ -22,6 +22,7 @@ enum {
 	Lo_unbound,
 	Lo_bound,
 	Lo_rundown,
+	Lo_deleting,
 };
 
 struct loop_func_table;
@@ -62,10 +63,7 @@ struct loop_device {
 	struct request_queue	*lo_queue;
 	struct blk_mq_tag_set	tag_set;
 	struct gendisk		*lo_disk;
-<<<<<<< HEAD
 	struct mutex		lo_mutex;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct loop_cmd {

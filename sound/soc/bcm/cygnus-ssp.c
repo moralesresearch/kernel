@@ -1310,7 +1310,7 @@ static int cygnus_ssp_probe(struct platform_device *pdev)
 	struct device_node *child_node;
 	struct resource *res;
 	struct cygnus_audio *cygaud;
-	int err = -EINVAL;
+	int err;
 	int node_count;
 	int active_port_count;
 
@@ -1348,15 +1348,10 @@ static int cygnus_ssp_probe(struct platform_device *pdev)
 					&cygnus_ssp_dai[active_port_count]);
 
 		/* negative is err, 0 is active and good, 1 is disabled */
-<<<<<<< HEAD
 		if (err < 0) {
 			of_node_put(child_node);
 			return err;
 		}
-=======
-		if (err < 0)
-			return err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else if (!err) {
 			dev_dbg(dev, "Activating DAI: %s\n",
 				cygnus_ssp_dai[active_port_count].name);

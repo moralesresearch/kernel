@@ -10,11 +10,8 @@
  */
 
 #include <linux/interrupt.h>
-<<<<<<< HEAD
 
 #include <asm/acrn.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/apic.h>
 #include <asm/cpufeatures.h>
 #include <asm/desc.h>
@@ -24,11 +21,7 @@
 
 static u32 __init acrn_detect(void)
 {
-<<<<<<< HEAD
 	return acrn_cpuid_base();
-=======
-	return hypervisor_cpuid_base("ACRNACRNACRN", 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init acrn_init_platform(void)
@@ -64,7 +57,6 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_acrn_hv_callback)
 	set_irq_regs(old_regs);
 }
 
-<<<<<<< HEAD
 void acrn_setup_intr_handler(void (*handler)(void))
 {
 	acrn_intr_handler = handler;
@@ -77,8 +69,6 @@ void acrn_remove_intr_handler(void)
 }
 EXPORT_SYMBOL_GPL(acrn_remove_intr_handler);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const __initconst struct hypervisor_x86 x86_hyper_acrn = {
 	.name                   = "ACRN",
 	.detect                 = acrn_detect,

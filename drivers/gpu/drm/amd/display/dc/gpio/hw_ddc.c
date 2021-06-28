@@ -107,22 +107,12 @@ static enum gpio_result set_config(
 					msleep(3);
 			}
 		} else {
-<<<<<<< HEAD
 			uint32_t sda_pd_dis = 0;
 			uint32_t scl_pd_dis = 0;
 
 			REG_GET_2(gpio.MASK_reg,
 				  DC_GPIO_SDA_PD_DIS, &sda_pd_dis,
 				  DC_GPIO_SCL_PD_DIS, &scl_pd_dis);
-=======
-			uint32_t reg2;
-			uint32_t sda_pd_dis = 0;
-			uint32_t scl_pd_dis = 0;
-
-			reg2 = REG_GET_2(gpio.MASK_reg,
-					DC_GPIO_SDA_PD_DIS, &sda_pd_dis,
-					DC_GPIO_SCL_PD_DIS, &scl_pd_dis);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (sda_pd_dis) {
 				REG_SET(gpio.MASK_reg, regval,

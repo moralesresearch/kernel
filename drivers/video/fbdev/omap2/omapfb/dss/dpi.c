@@ -55,11 +55,7 @@ static struct dpi_data *dpi_get_data_from_dssdev(struct omap_dss_device *dssdev)
 /* only used in non-DT mode */
 static struct dpi_data *dpi_get_data_from_pdev(struct platform_device *pdev)
 {
-<<<<<<< HEAD
 	return platform_get_drvdata(pdev);
-=======
-	return dev_get_drvdata(&pdev->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct dss_pll *dpi_get_pll(enum omap_channel channel)
@@ -788,11 +784,7 @@ static int dpi_bind(struct device *dev, struct device *master, void *data)
 
 	dpi->pdev = pdev;
 
-<<<<<<< HEAD
 	platform_set_drvdata(pdev, dpi);
-=======
-	dev_set_drvdata(&pdev->dev, dpi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_init(&dpi->lock);
 

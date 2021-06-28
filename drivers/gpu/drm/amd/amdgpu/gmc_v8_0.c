@@ -59,10 +59,7 @@ MODULE_FIRMWARE("amdgpu/tonga_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris11_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris10_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris12_mc.bin");
-<<<<<<< HEAD
 MODULE_FIRMWARE("amdgpu/polaris12_32_mc.bin");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE("amdgpu/polaris11_k_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris10_k_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris12_k_mc.bin");
@@ -247,7 +244,6 @@ static int gmc_v8_0_init_microcode(struct amdgpu_device *adev)
 			chip_name = "polaris10";
 		break;
 	case CHIP_POLARIS12:
-<<<<<<< HEAD
 		if (ASICID_IS_P23(adev->pdev->device, adev->pdev->revision)) {
 			chip_name = "polaris12_k";
 		} else {
@@ -258,12 +254,6 @@ static int gmc_v8_0_init_microcode(struct amdgpu_device *adev)
 			else
 				chip_name = "polaris12";
 		}
-=======
-		if (ASICID_IS_P23(adev->pdev->device, adev->pdev->revision))
-			chip_name = "polaris12_k";
-		else
-			chip_name = "polaris12";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CHIP_FIJI:
 	case CHIP_CARRIZO:
@@ -616,6 +606,7 @@ static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
 		adev->gmc.gart_size = (u64)amdgpu_gart_size << 20;
 	}
 
+	adev->gmc.gart_size += adev->pm.smu_prv_buffer_size;
 	gmc_v8_0_vram_gtt_location(adev, &adev->gmc);
 
 	return 0;

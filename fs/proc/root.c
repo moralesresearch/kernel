@@ -308,18 +308,11 @@ void __init proc_root_init(void)
 	register_filesystem(&proc_fs_type);
 }
 
-<<<<<<< HEAD
 static int proc_root_getattr(struct user_namespace *mnt_userns,
 			     const struct path *path, struct kstat *stat,
 			     u32 request_mask, unsigned int query_flags)
 {
 	generic_fillattr(&init_user_ns, d_inode(path->dentry), stat);
-=======
-static int proc_root_getattr(const struct path *path, struct kstat *stat,
-			     u32 request_mask, unsigned int query_flags)
-{
-	generic_fillattr(d_inode(path->dentry), stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stat->nlink = proc_root.nlink + nr_processes();
 	return 0;
 }

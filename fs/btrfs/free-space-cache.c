@@ -11,6 +11,7 @@
 #include <linux/ratelimit.h>
 #include <linux/error-injection.h>
 #include <linux/sched/mm.h>
+#include "misc.h"
 #include "ctree.h"
 #include "free-space-cache.h"
 #include "transaction.h"
@@ -198,15 +199,7 @@ int create_free_space_inode(struct btrfs_trans_handle *trans,
 	int ret;
 	u64 ino;
 
-<<<<<<< HEAD
 	ret = btrfs_get_free_objectid(trans->fs_info->tree_root, &ino);
-=======
-<<<<<<< HEAD
-	ret = btrfs_get_free_objectid(trans->fs_info->tree_root, &ino);
-=======
-	ret = btrfs_find_free_objectid(trans->fs_info->tree_root, &ino);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -439,25 +432,13 @@ static int io_ctl_prepare_pages(struct btrfs_io_ctl *io_ctl, bool uptodate)
 	int i;
 
 	for (i = 0; i < io_ctl->num_pages; i++) {
-<<<<<<< HEAD
 		int ret;
 
-=======
-<<<<<<< HEAD
-		int ret;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		page = find_or_create_page(inode->i_mapping, i, mask);
 		if (!page) {
 			io_ctl_drop_pages(io_ctl);
 			return -ENOMEM;
 		}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = set_page_extent_mapped(page);
 		if (ret < 0) {
@@ -467,11 +448,6 @@ static int io_ctl_prepare_pages(struct btrfs_io_ctl *io_ctl, bool uptodate)
 			return ret;
 		}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		io_ctl->pages[i] = page;
 		if (uptodate && !PageUptodate(page)) {
 			btrfs_readpage(NULL, page);
@@ -491,20 +467,8 @@ static int io_ctl_prepare_pages(struct btrfs_io_ctl *io_ctl, bool uptodate)
 		}
 	}
 
-<<<<<<< HEAD
 	for (i = 0; i < io_ctl->num_pages; i++)
 		clear_page_dirty_for_io(io_ctl->pages[i]);
-=======
-<<<<<<< HEAD
-	for (i = 0; i < io_ctl->num_pages; i++)
-		clear_page_dirty_for_io(io_ctl->pages[i]);
-=======
-	for (i = 0; i < io_ctl->num_pages; i++) {
-		clear_page_dirty_for_io(io_ctl->pages[i]);
-		set_page_extent_mapped(io_ctl->pages[i]);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -1345,10 +1309,6 @@ int btrfs_wait_cache_io(struct btrfs_trans_handle *trans,
 }
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Write out cached info to an inode
  *
  * @root:        root the inode belongs to
@@ -1357,16 +1317,6 @@ int btrfs_wait_cache_io(struct btrfs_trans_handle *trans,
  * @block_group: block_group for this cache if it belongs to a block_group
  * @io_ctl:      holds context for the io
  * @trans:       the trans handle
-<<<<<<< HEAD
-=======
-=======
- * __btrfs_write_out_cache - write out cached info to an inode
- * @root - the root the inode belongs to
- * @ctl - the free space cache we are going to write out
- * @block_group - the block_group for this cache if it belongs to a block_group
- * @trans - the trans handle
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This function writes out a free space cache struct to disk for quick recovery
  * on mount.  This will return 0 if it was successful in writing the cache out,
@@ -2528,16 +2478,8 @@ int __btrfs_add_free_space(struct btrfs_fs_info *fs_info,
 	int ret = 0;
 	u64 filter_bytes = bytes;
 
-<<<<<<< HEAD
 	ASSERT(!btrfs_is_zoned(fs_info));
 
-=======
-<<<<<<< HEAD
-	ASSERT(!btrfs_is_zoned(fs_info));
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info = kmem_cache_zalloc(btrfs_free_space_cachep, GFP_NOFS);
 	if (!info)
 		return -ENOMEM;
@@ -2595,13 +2537,10 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __btrfs_add_free_space_zoned(struct btrfs_block_group *block_group,
 					u64 bytenr, u64 size, bool used)
 {
+	struct btrfs_fs_info *fs_info = block_group->fs_info;
 	struct btrfs_free_space_ctl *ctl = block_group->free_space_ctl;
 	u64 offset = bytenr - block_group->start;
 	u64 to_free, to_unusable;
@@ -2632,35 +2571,26 @@ static int __btrfs_add_free_space_zoned(struct btrfs_block_group *block_group,
 	}
 
 	/* All the region is now unusable. Mark it as unused and reclaim */
-	if (block_group->zone_unusable == block_group->length)
+	if (block_group->zone_unusable == block_group->length) {
 		btrfs_mark_bg_unused(block_group);
+	} else if (block_group->zone_unusable >=
+		   div_factor_fine(block_group->length,
+				   fs_info->bg_reclaim_threshold)) {
+		btrfs_mark_bg_to_reclaim(block_group);
+	}
 
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_add_free_space(struct btrfs_block_group *block_group,
 			 u64 bytenr, u64 size)
 {
 	enum btrfs_trim_state trim_state = BTRFS_TRIM_STATE_UNTRIMMED;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (btrfs_is_zoned(block_group->fs_info))
 		return __btrfs_add_free_space_zoned(block_group, bytenr, size,
 						    true);
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (btrfs_test_opt(block_group->fs_info, DISCARD_SYNC))
 		trim_state = BTRFS_TRIM_STATE_TRIMMED;
 
@@ -2669,10 +2599,6 @@ int btrfs_add_free_space(struct btrfs_block_group *block_group,
 				      bytenr, size, trim_state);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_add_free_space_unused(struct btrfs_block_group *block_group,
 				u64 bytenr, u64 size)
 {
@@ -2683,11 +2609,6 @@ int btrfs_add_free_space_unused(struct btrfs_block_group *block_group,
 	return btrfs_add_free_space(block_group, bytenr, size);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This is a subtle distinction because when adding free space back in general,
  * we want it to be added as untrimmed for async. But in the case where we add
@@ -2698,19 +2619,10 @@ int btrfs_add_free_space_async_trimmed(struct btrfs_block_group *block_group,
 {
 	enum btrfs_trim_state trim_state = BTRFS_TRIM_STATE_UNTRIMMED;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (btrfs_is_zoned(block_group->fs_info))
 		return __btrfs_add_free_space_zoned(block_group, bytenr, size,
 						    true);
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (btrfs_test_opt(block_group->fs_info, DISCARD_SYNC) ||
 	    btrfs_test_opt(block_group->fs_info, DISCARD_ASYNC))
 		trim_state = BTRFS_TRIM_STATE_TRIMMED;
@@ -2728,10 +2640,6 @@ int btrfs_remove_free_space(struct btrfs_block_group *block_group,
 	int ret;
 	bool re_search = false;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (btrfs_is_zoned(block_group->fs_info)) {
 		/*
 		 * This can happen with conventional zones when replaying log.
@@ -2749,11 +2657,6 @@ int btrfs_remove_free_space(struct btrfs_block_group *block_group,
 		return 0;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&ctl->tree_lock);
 
 again:
@@ -2848,10 +2751,6 @@ void btrfs_dump_free_space(struct btrfs_block_group *block_group,
 	struct rb_node *n;
 	int count = 0;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Zoned btrfs does not use free space tree and cluster. Just print
 	 * out the free space after the allocation offset.
@@ -2862,11 +2761,6 @@ void btrfs_dump_free_space(struct btrfs_block_group *block_group,
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&ctl->tree_lock);
 	for (n = rb_first(&ctl->free_space_offset); n; n = rb_next(n)) {
 		info = rb_entry(n, struct btrfs_free_space, offset_index);
@@ -3060,16 +2954,8 @@ u64 btrfs_find_space_for_alloc(struct btrfs_block_group *block_group,
 	u64 align_gap_len = 0;
 	enum btrfs_trim_state align_gap_trim_state = BTRFS_TRIM_STATE_UNTRIMMED;
 
-<<<<<<< HEAD
 	ASSERT(!btrfs_is_zoned(block_group->fs_info));
 
-=======
-<<<<<<< HEAD
-	ASSERT(!btrfs_is_zoned(block_group->fs_info));
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&ctl->tree_lock);
 	entry = find_free_space(ctl, &offset, &bytes_search,
 				block_group->full_stripe_len, max_extent_size);
@@ -3201,16 +3087,8 @@ u64 btrfs_alloc_from_cluster(struct btrfs_block_group *block_group,
 	struct rb_node *node;
 	u64 ret = 0;
 
-<<<<<<< HEAD
 	ASSERT(!btrfs_is_zoned(block_group->fs_info));
 
-=======
-<<<<<<< HEAD
-	ASSERT(!btrfs_is_zoned(block_group->fs_info));
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&cluster->lock);
 	if (bytes > cluster->max_size)
 		goto out;
@@ -3989,16 +3867,8 @@ int btrfs_trim_block_group(struct btrfs_block_group *block_group,
 	int ret;
 	u64 rem = 0;
 
-<<<<<<< HEAD
 	ASSERT(!btrfs_is_zoned(block_group->fs_info));
 
-=======
-<<<<<<< HEAD
-	ASSERT(!btrfs_is_zoned(block_group->fs_info));
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*trimmed = 0;
 
 	spin_lock(&block_group->lock);
@@ -4079,11 +3949,7 @@ static int cleanup_free_space_cache_v1(struct btrfs_fs_info *fs_info,
 {
 	struct btrfs_block_group *block_group;
 	struct rb_node *node;
-<<<<<<< HEAD
 	int ret = 0;
-=======
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	btrfs_info(fs_info, "cleaning free space cache v1");
 

@@ -44,17 +44,10 @@
  * @pll_op_clk_freq_hz: PLL output clock frequency
  */
 struct ccs_pll_branch_fr {
-<<<<<<< HEAD
 	u16 pre_pll_clk_div;
 	u16 pll_multiplier;
 	u32 pll_ip_clk_freq_hz;
 	u32 pll_op_clk_freq_hz;
-=======
-	uint16_t pre_pll_clk_div;
-	uint16_t pll_multiplier;
-	uint32_t pll_ip_clk_freq_hz;
-	uint32_t pll_op_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -68,17 +61,10 @@ struct ccs_pll_branch_fr {
  * @pix_clk_freq_hz: Pixel clock frequency
  */
 struct ccs_pll_branch_bk {
-<<<<<<< HEAD
 	u16 sys_clk_div;
 	u16 pix_clk_div;
 	u32 sys_clk_freq_hz;
 	u32 pix_clk_freq_hz;
-=======
-	uint16_t sys_clk_div;
-	uint16_t pix_clk_div;
-	uint32_t sys_clk_freq_hz;
-	uint32_t pix_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -111,7 +97,6 @@ struct ccs_pll_branch_bk {
  */
 struct ccs_pll {
 	/* input values */
-<<<<<<< HEAD
 	u8 bus_type;
 	u8 op_lanes;
 	u8 vt_lanes;
@@ -127,23 +112,6 @@ struct ccs_pll {
 	u16 flags;
 	u32 link_freq;
 	u32 ext_clk_freq_hz;
-=======
-	uint8_t bus_type;
-	uint8_t op_lanes;
-	uint8_t vt_lanes;
-	struct {
-		uint8_t lanes;
-	} csi2;
-	uint8_t binning_horizontal;
-	uint8_t binning_vertical;
-	uint8_t scale_m;
-	uint8_t scale_n;
-	uint8_t bits_per_pixel;
-	uint8_t op_bits_per_lane;
-	uint16_t flags;
-	uint32_t link_freq;
-	uint32_t ext_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* output values */
 	struct ccs_pll_branch_fr vt_fr;
@@ -151,13 +119,8 @@ struct ccs_pll {
 	struct ccs_pll_branch_fr op_fr;
 	struct ccs_pll_branch_bk op_bk;
 
-<<<<<<< HEAD
 	u32 pixel_rate_csi;
 	u32 pixel_rate_pixel_array;
-=======
-	uint32_t pixel_rate_csi;
-	uint32_t pixel_rate_pixel_array;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -173,7 +136,6 @@ struct ccs_pll {
  * @max_pll_op_clk_freq_hz: Maximum PLL output clock frequency
  */
 struct ccs_pll_branch_limits_fr {
-<<<<<<< HEAD
 	u16 min_pre_pll_clk_div;
 	u16 max_pre_pll_clk_div;
 	u32 min_pll_ip_clk_freq_hz;
@@ -182,16 +144,6 @@ struct ccs_pll_branch_limits_fr {
 	u16 max_pll_multiplier;
 	u32 min_pll_op_clk_freq_hz;
 	u32 max_pll_op_clk_freq_hz;
-=======
-	uint16_t min_pre_pll_clk_div;
-	uint16_t max_pre_pll_clk_div;
-	uint32_t min_pll_ip_clk_freq_hz;
-	uint32_t max_pll_ip_clk_freq_hz;
-	uint16_t min_pll_multiplier;
-	uint16_t max_pll_multiplier;
-	uint32_t min_pll_op_clk_freq_hz;
-	uint32_t max_pll_op_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -207,7 +159,6 @@ struct ccs_pll_branch_limits_fr {
  * @max_pix_clk_freq_hz: Maximum pixel clock frequency
  */
 struct ccs_pll_branch_limits_bk {
-<<<<<<< HEAD
 	u16 min_sys_clk_div;
 	u16 max_sys_clk_div;
 	u32 min_sys_clk_freq_hz;
@@ -216,16 +167,6 @@ struct ccs_pll_branch_limits_bk {
 	u16 max_pix_clk_div;
 	u32 min_pix_clk_freq_hz;
 	u32 max_pix_clk_freq_hz;
-=======
-	uint16_t min_sys_clk_div;
-	uint16_t max_sys_clk_div;
-	uint32_t min_sys_clk_freq_hz;
-	uint32_t max_sys_clk_freq_hz;
-	uint16_t min_pix_clk_div;
-	uint16_t max_pix_clk_div;
-	uint32_t min_pix_clk_freq_hz;
-	uint32_t max_pix_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -242,13 +183,8 @@ struct ccs_pll_branch_limits_bk {
  */
 struct ccs_pll_limits {
 	/* Strict PLL limits */
-<<<<<<< HEAD
 	u32 min_ext_clk_freq_hz;
 	u32 max_ext_clk_freq_hz;
-=======
-	uint32_t min_ext_clk_freq_hz;
-	uint32_t max_ext_clk_freq_hz;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct ccs_pll_branch_limits_fr vt_fr;
 	struct ccs_pll_branch_limits_bk vt_bk;
@@ -256,13 +192,8 @@ struct ccs_pll_limits {
 	struct ccs_pll_branch_limits_bk op_bk;
 
 	/* Other relevant limits */
-<<<<<<< HEAD
 	u32 min_line_length_pck_bin;
 	u32 min_line_length_pck;
-=======
-	uint32_t min_line_length_pck_bin;
-	uint32_t min_line_length_pck;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct device;

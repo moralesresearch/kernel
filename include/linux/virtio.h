@@ -132,11 +132,6 @@ bool is_virtio_device(struct device *dev);
 void virtio_break_device(struct virtio_device *dev);
 
 void virtio_config_changed(struct virtio_device *dev);
-<<<<<<< HEAD
-=======
-void virtio_config_disable(struct virtio_device *dev);
-void virtio_config_enable(struct virtio_device *dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int virtio_finalize_features(struct virtio_device *dev);
 #ifdef CONFIG_PM_SLEEP
 int virtio_device_freeze(struct virtio_device *dev);

@@ -277,11 +277,8 @@
 #define CSR_HW_RFID_DASH(_val)         (((_val) & 0x00000F0) >> 4)
 #define CSR_HW_RFID_STEP(_val)         (((_val) & 0x0000F00) >> 8)
 #define CSR_HW_RFID_TYPE(_val)         (((_val) & 0x0FFF000) >> 12)
-<<<<<<< HEAD
 #define CSR_HW_RFID_IS_CDB(_val)       (((_val) & 0x10000000) >> 28)
 #define CSR_HW_RFID_IS_JACKET(_val)    (((_val) & 0x20000000) >> 29)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  *  hw_rev values
@@ -580,6 +577,9 @@ enum msix_fh_int_causes {
 	MSIX_FH_INT_CAUSES_S2D			= BIT(19),
 	MSIX_FH_INT_CAUSES_FH_ERR		= BIT(21),
 };
+
+/* The low 16 bits are for rx data queue indication */
+#define MSIX_FH_INT_CAUSES_DATA_QUEUE 0xffff
 
 /*
  * Causes for the HW register interrupts

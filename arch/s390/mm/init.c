@@ -209,8 +209,6 @@ void __init mem_init(void)
 	setup_zero_pages();	/* Setup zeroed pages. */
 
 	cmma_init_nodat();
-
-	mem_init_print_info(NULL);
 }
 
 void free_initmem(void)
@@ -297,14 +295,7 @@ int arch_add_memory(int nid, u64 start, u64 size,
 	if (WARN_ON_ONCE(params->pgprot.pgprot != PAGE_KERNEL.pgprot))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	VM_BUG_ON(!mhp_range_allowed(start, size, true));
-=======
-<<<<<<< HEAD
-	VM_BUG_ON(!mhp_range_allowed(start, size, true));
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = vmem_add_mapping(start, size);
 	if (rc)
 		return rc;

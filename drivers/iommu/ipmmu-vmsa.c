@@ -734,7 +734,6 @@ static int ipmmu_init_platform_device(struct device *dev,
 	return 0;
 }
 
-<<<<<<< HEAD
 static const struct soc_device_attribute soc_needs_opt_in[] = {
 	{ .family = "R-Car Gen3", },
 	{ .family = "RZ/G2", },
@@ -757,44 +756,10 @@ static const char * const devices_allowlist[] = {
 };
 
 static bool ipmmu_device_is_allowed(struct device *dev)
-=======
-static const struct soc_device_attribute soc_rcar_gen3[] = {
-	{ .soc_id = "r8a774a1", },
-	{ .soc_id = "r8a774b1", },
-	{ .soc_id = "r8a774c0", },
-	{ .soc_id = "r8a774e1", },
-	{ .soc_id = "r8a7795", },
-	{ .soc_id = "r8a77961", },
-	{ .soc_id = "r8a7796", },
-	{ .soc_id = "r8a77965", },
-	{ .soc_id = "r8a77970", },
-	{ .soc_id = "r8a77990", },
-	{ .soc_id = "r8a77995", },
-	{ /* sentinel */ }
-};
-
-static const struct soc_device_attribute soc_rcar_gen3_whitelist[] = {
-	{ .soc_id = "r8a774b1", },
-	{ .soc_id = "r8a774c0", },
-	{ .soc_id = "r8a774e1", },
-	{ .soc_id = "r8a7795", .revision = "ES3.*" },
-	{ .soc_id = "r8a77961", },
-	{ .soc_id = "r8a77965", },
-	{ .soc_id = "r8a77990", },
-	{ .soc_id = "r8a77995", },
-	{ /* sentinel */ }
-};
-
-static const char * const rcar_gen3_slave_whitelist[] = {
-};
-
-static bool ipmmu_slave_whitelist(struct device *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int i;
 
 	/*
-<<<<<<< HEAD
 	 * R-Car Gen3 and RZ/G2 use the allow list to opt-in devices.
 	 * For Other SoCs, this returns true anyway.
 	 */
@@ -808,21 +773,6 @@ static bool ipmmu_slave_whitelist(struct device *dev)
 	/* Check whether this device can work with the IPMMU */
 	for (i = 0; i < ARRAY_SIZE(devices_allowlist); i++) {
 		if (!strcmp(dev_name(dev), devices_allowlist[i]))
-=======
-	 * For R-Car Gen3 use a white list to opt-in slave devices.
-	 * For Other SoCs, this returns true anyway.
-	 */
-	if (!soc_device_match(soc_rcar_gen3))
-		return true;
-
-	/* Check whether this R-Car Gen3 can use the IPMMU correctly or not */
-	if (!soc_device_match(soc_rcar_gen3_whitelist))
-		return false;
-
-	/* Check whether this slave device can work with the IPMMU */
-	for (i = 0; i < ARRAY_SIZE(rcar_gen3_slave_whitelist); i++) {
-		if (!strcmp(dev_name(dev), rcar_gen3_slave_whitelist[i]))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return true;
 	}
 
@@ -833,11 +783,7 @@ static bool ipmmu_slave_whitelist(struct device *dev)
 static int ipmmu_of_xlate(struct device *dev,
 			  struct of_phandle_args *spec)
 {
-<<<<<<< HEAD
 	if (!ipmmu_device_is_allowed(dev))
-=======
-	if (!ipmmu_slave_whitelist(dev))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 
 	iommu_fwspec_add_ids(dev, spec->args, 1);
@@ -1130,11 +1076,7 @@ static int ipmmu_probe(struct platform_device *pdev)
 		if (ret)
 			return ret;
 
-		iommu_device_set_ops(&mmu->iommu, &ipmmu_ops);
-		iommu_device_set_fwnode(&mmu->iommu,
-					&pdev->dev.of_node->fwnode);
-
-		ret = iommu_device_register(&mmu->iommu);
+		ret = iommu_device_register(&mmu->iommu, &ipmmu_ops, &pdev->dev);
 		if (ret)
 			return ret;
 

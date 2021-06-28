@@ -1008,11 +1008,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
 		printk(KERN_ERR "%s() failed (errno = %d), NO PCI configuration\n",
 			__func__, result);
 		result = -ENOMEM;
-<<<<<<< HEAD
 		goto fail_pci;
-=======
-		goto failed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Establish encoder defaults here */
@@ -1066,11 +1062,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
 			  100000, ENCODER_DEF_BITRATE);
 	if (hdl->error) {
 		result = hdl->error;
-<<<<<<< HEAD
 		goto fail_hdl;
-=======
-		goto failed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	port->std = V4L2_STD_NTSC_M;
@@ -1088,11 +1080,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
 		printk(KERN_INFO "%s: can't allocate mpeg device\n",
 			dev->name);
 		result = -ENOMEM;
-<<<<<<< HEAD
 		goto fail_hdl;
-=======
-		goto failed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	port->v4l_device->ctrl_handler = hdl;
@@ -1103,14 +1091,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
 	if (result < 0) {
 		printk(KERN_INFO "%s: can't register mpeg device\n",
 			dev->name);
-<<<<<<< HEAD
 		goto fail_reg;
-=======
-		/* TODO: We're going to leak here if we don't dealloc
-		 The buffers above. The unreg function can't deal wit it.
-		*/
-		goto failed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	printk(KERN_INFO "%s: registered device video%d [mpeg]\n",
@@ -1132,7 +1113,6 @@ int saa7164_encoder_register(struct saa7164_port *port)
 
 	saa7164_api_set_encoder(port);
 	saa7164_api_get_encoder(port);
-<<<<<<< HEAD
 	return 0;
 
 fail_reg:
@@ -1141,11 +1121,6 @@ fail_reg:
 fail_hdl:
 	v4l2_ctrl_handler_free(hdl);
 fail_pci:
-=======
-
-	result = 0;
-failed:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return result;
 }
 

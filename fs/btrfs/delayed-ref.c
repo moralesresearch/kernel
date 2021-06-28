@@ -11,6 +11,7 @@
 #include "transaction.h"
 #include "qgroup.h"
 #include "space-info.h"
+#include "tree-mod-log.h"
 
 struct kmem_cache *btrfs_delayed_ref_head_cachep;
 struct kmem_cache *btrfs_delayed_tree_ref_cachep;
@@ -69,22 +70,10 @@ int btrfs_should_throttle_delayed_refs(struct btrfs_trans_handle *trans)
 }
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Release a ref head's reservation
  *
  * @fs_info:  the filesystem
  * @nr:       number of items to drop
-<<<<<<< HEAD
-=======
-=======
- * btrfs_delayed_refs_rsv_release - release a ref head's reservation.
- * @fs_info - the fs_info for our fs.
- * @nr - the number of items to drop.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This drops the delayed ref head's count from the delayed refs rsv and frees
  * any excess reservation we had.
@@ -127,24 +116,11 @@ void btrfs_update_delayed_refs_rsv(struct btrfs_trans_handle *trans)
 }
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Transfer bytes to our delayed refs rsv
  *
  * @fs_info:   the filesystem
  * @src:       source block rsv to transfer from
  * @num_bytes: number of bytes to transfer
-<<<<<<< HEAD
-=======
-=======
- * btrfs_migrate_to_delayed_refs_rsv - transfer bytes to our delayed refs rsv.
- * @fs_info - the fs info for our fs.
- * @src - the source block rsv to transfer from.
- * @num_bytes - the number of bytes to transfer.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This transfers up to the num_bytes amount from the src rsv to the
  * delayed_refs_rsv.  Any extra bytes are returned to the space info.
@@ -189,22 +165,10 @@ void btrfs_migrate_to_delayed_refs_rsv(struct btrfs_fs_info *fs_info,
 }
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Refill based on our delayed refs usage
  *
  * @fs_info: the filesystem
  * @flush:   control how we can flush for this reservation.
-<<<<<<< HEAD
-=======
-=======
- * btrfs_delayed_refs_rsv_refill - refill based on our delayed refs usage.
- * @fs_info - the fs_info for our fs.
- * @flush - control how we can flush for this reservation.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This will refill the delayed block_rsv up to 1 items size worth of space and
  * will return -ENOSPC if we can't make the reservation.
@@ -531,16 +495,7 @@ void btrfs_merge_delayed_refs(struct btrfs_trans_handle *trans,
 	if (head->is_data)
 		return;
 
-	read_lock(&fs_info->tree_mod_log_lock);
-	if (!list_empty(&fs_info->tree_mod_seq_list)) {
-		struct seq_list *elem;
-
-		elem = list_first_entry(&fs_info->tree_mod_seq_list,
-					struct seq_list, list);
-		seq = elem->seq;
-	}
-	read_unlock(&fs_info->tree_mod_log_lock);
-
+	seq = btrfs_tree_mod_log_lowest_seq(fs_info);
 again:
 	for (node = rb_first_cached(&head->ref_tree); node;
 	     node = rb_next(node)) {
@@ -554,23 +509,16 @@ again:
 
 int btrfs_check_delayed_seq(struct btrfs_fs_info *fs_info, u64 seq)
 {
-	struct seq_list *elem;
 	int ret = 0;
+	u64 min_seq = btrfs_tree_mod_log_lowest_seq(fs_info);
 
-	read_lock(&fs_info->tree_mod_log_lock);
-	if (!list_empty(&fs_info->tree_mod_seq_list)) {
-		elem = list_first_entry(&fs_info->tree_mod_seq_list,
-					struct seq_list, list);
-		if (seq >= elem->seq) {
-			btrfs_debug(fs_info,
-				"holding back delayed_ref %#x.%x, lowest is %#x.%x",
-				(u32)(seq >> 32), (u32)seq,
-				(u32)(elem->seq >> 32), (u32)elem->seq);
-			ret = 1;
-		}
+	if (min_seq != 0 && seq >= min_seq) {
+		btrfs_debug(fs_info,
+			    "holding back delayed_ref %llu, lowest is %llu",
+			    seq, min_seq);
+		ret = 1;
 	}
 
-	read_unlock(&fs_info->tree_mod_log_lock);
 	return ret;
 }
 

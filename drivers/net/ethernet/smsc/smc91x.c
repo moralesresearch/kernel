@@ -2191,11 +2191,7 @@ static const struct of_device_id smc91x_match[] = {
 MODULE_DEVICE_TABLE(of, smc91x_match);
 
 /**
-<<<<<<< HEAD
  * try_toggle_control_gpio - configure a gpio if it exists
-=======
- * of_try_set_control_gpio - configure a gpio if it exists
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dev: net device
  * @desc: where to store the GPIO descriptor, if it exists
  * @name: name of the GPIO in DT
@@ -2208,7 +2204,7 @@ static int try_toggle_control_gpio(struct device *dev,
 				   const char *name, int index,
 				   int value, unsigned int nsdelay)
 {
-	struct gpio_desc *gpio = *desc;
+	struct gpio_desc *gpio;
 	enum gpiod_flags flags = value ? GPIOD_OUT_LOW : GPIOD_OUT_HIGH;
 
 	gpio = devm_gpiod_get_index_optional(dev, name, index, flags);

@@ -12,10 +12,7 @@
 #include <linux/sunrpc/svc.h>
 #include <uapi/linux/nfsd/nfsfh.h>
 #include <linux/iversion.h>
-<<<<<<< HEAD
 #include <linux/exportfs.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline __u32 ino_t_to_u32(ino_t ino)
 {
@@ -85,7 +82,7 @@ enum fsid_source {
 	FSIDSOURCE_FSID,
 	FSIDSOURCE_UUID,
 };
-extern enum fsid_source fsid_source(struct svc_fh *fhp);
+extern enum fsid_source fsid_source(const struct svc_fh *fhp);
 
 
 /*
@@ -268,13 +265,9 @@ fh_clear_wcc(struct svc_fh *fhp)
 static inline u64 nfsd4_change_attribute(struct kstat *stat,
 					 struct inode *inode)
 {
-<<<<<<< HEAD
 	if (inode->i_sb->s_export_op->fetch_iversion)
 		return inode->i_sb->s_export_op->fetch_iversion(inode);
 	else if (IS_I_VERSION(inode)) {
-=======
-	if (IS_I_VERSION(inode)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64 chattr;
 
 		chattr =  stat->ctime.tv_sec;

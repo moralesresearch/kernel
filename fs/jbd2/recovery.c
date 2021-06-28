@@ -245,7 +245,6 @@ static int fc_do_one_pass(journal_t *journal,
 		return 0;
 
 	while (next_fc_block <= journal->j_fc_last) {
-<<<<<<< HEAD
 		jbd_debug(3, "Fast commit replay: next block %ld\n",
 			  next_fc_block);
 		err = jread(&bh, journal, next_fc_block);
@@ -254,17 +253,6 @@ static int fc_do_one_pass(journal_t *journal,
 			break;
 		}
 
-=======
-		jbd_debug(3, "Fast commit replay: next block %ld",
-			  next_fc_block);
-		err = jread(&bh, journal, next_fc_block);
-		if (err) {
-			jbd_debug(3, "Fast commit replay: read error");
-			break;
-		}
-
-		jbd_debug(3, "Processing fast commit blk with seq %d");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = journal->j_fc_replay_callback(journal, bh, pass,
 					next_fc_block - journal->j_fc_first,
 					expected_commit_id);
@@ -337,11 +325,7 @@ int jbd2_journal_recover(journal_t *journal)
 		err = err2;
 	/* Make sure all replayed data is on permanent storage */
 	if (journal->j_flags & JBD2_BARRIER) {
-<<<<<<< HEAD
 		err2 = blkdev_issue_flush(journal->j_fs_dev);
-=======
-		err2 = blkdev_issue_flush(journal->j_fs_dev, GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!err)
 			err = err2;
 	}

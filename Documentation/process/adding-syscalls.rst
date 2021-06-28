@@ -501,11 +501,7 @@ table, but not from elsewhere in the kernel.  If the syscall functionality is
 useful to be used within the kernel, needs to be shared between an old and a
 new syscall, or needs to be shared between a syscall and its compatibility
 variant, it should be implemented by means of a "helper" function (such as
-<<<<<<< HEAD
 ``ksys_xyzzy()``).  This kernel function may then be called within the
-=======
-``kern_xyzzy()``).  This kernel function may then be called within the
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 syscall stub (``sys_xyzzy()``), the compatibility syscall stub
 (``compat_sys_xyzzy()``), and/or other kernel code.
 
@@ -552,7 +548,6 @@ References and Sources
    https://lwn.net/Articles/486306/
  - Recommendation from Andrew Morton that all related information for a new
    system call should come in the same email thread:
-<<<<<<< HEAD
    https://lore.kernel.org/r/20140724144747.3041b208832bbdf9fbce5d96@linux-foundation.org
  - Recommendation from Michael Kerrisk that a new system call should come with
    a man page: https://lore.kernel.org/r/CAKgNAkgMA39AfoSoA5Pe1r9N+ZzfYQNvNPvcRN7tOvRb8+v06Q@mail.gmail.com
@@ -565,20 +560,6 @@ References and Sources
  - Suggestion from Ingo Molnar that system calls that involve multiple
    arguments should encapsulate those arguments in a struct, which includes a
    size field for future extensibility: https://lore.kernel.org/r/20150730083831.GA22182@gmail.com
-=======
-   https://lkml.org/lkml/2014/7/24/641
- - Recommendation from Michael Kerrisk that a new system call should come with
-   a man page: https://lkml.org/lkml/2014/6/13/309
- - Suggestion from Thomas Gleixner that x86 wire-up should be in a separate
-   commit: https://lkml.org/lkml/2014/11/19/254
- - Suggestion from Greg Kroah-Hartman that it's good for new system calls to
-   come with a man-page & selftest: https://lkml.org/lkml/2014/3/19/710
- - Discussion from Michael Kerrisk of new system call vs. :manpage:`prctl(2)` extension:
-   https://lkml.org/lkml/2014/6/3/411
- - Suggestion from Ingo Molnar that system calls that involve multiple
-   arguments should encapsulate those arguments in a struct, which includes a
-   size field for future extensibility: https://lkml.org/lkml/2015/7/30/117
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  - Numbering oddities arising from (re-)use of O_* numbering space flags:
 
     - commit 75069f2b5bfb ("vfs: renumber FMODE_NONOTIFY and add to uniqueness
@@ -588,18 +569,9 @@ References and Sources
     - commit bb458c644a59 ("Safer ABI for O_TMPFILE")
 
  - Discussion from Matthew Wilcox about restrictions on 64-bit arguments:
-<<<<<<< HEAD
    https://lore.kernel.org/r/20081212152929.GM26095@parisc-linux.org
  - Recommendation from Greg Kroah-Hartman that unknown flags should be
    policed: https://lore.kernel.org/r/20140717193330.GB4703@kroah.com
  - Recommendation from Linus Torvalds that x32 system calls should prefer
    compatibility with 64-bit versions rather than 32-bit versions:
    https://lore.kernel.org/r/CA+55aFxfmwfB7jbbrXxa=K7VBYPfAvmu3XOkGrLbB1UFjX1+Ew@mail.gmail.com
-=======
-   https://lkml.org/lkml/2008/12/12/187
- - Recommendation from Greg Kroah-Hartman that unknown flags should be
-   policed: https://lkml.org/lkml/2014/7/17/577
- - Recommendation from Linus Torvalds that x32 system calls should prefer
-   compatibility with 64-bit versions rather than 32-bit versions:
-   https://lkml.org/lkml/2011/8/31/244
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

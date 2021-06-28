@@ -615,7 +615,7 @@ static ssize_t l3cache_pmu_format_show(struct device *dev,
 	struct dev_ext_attribute *eattr;
 
 	eattr = container_of(attr, struct dev_ext_attribute, attr);
-	return sprintf(buf, "%s\n", (char *) eattr->var);
+	return sysfs_emit(buf, "%s\n", (char *) eattr->var);
 }
 
 #define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				      \
@@ -630,11 +630,7 @@ static struct attribute *qcom_l3_cache_pmu_formats[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_format_group = {
-=======
-static struct attribute_group qcom_l3_cache_pmu_format_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = qcom_l3_cache_pmu_formats,
 };
@@ -647,7 +643,7 @@ static ssize_t l3cache_pmu_event_show(struct device *dev,
 	struct perf_pmu_events_attr *pmu_attr;
 
 	pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
-	return sprintf(page, "event=0x%02llx\n", pmu_attr->id);
+	return sysfs_emit(page, "event=0x%02llx\n", pmu_attr->id);
 }
 
 #define L3CACHE_EVENT_ATTR(_name, _id)					     \
@@ -667,11 +663,7 @@ static struct attribute *qcom_l3_cache_pmu_events[] = {
 	NULL
 };
 
-<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_events_group = {
-=======
-static struct attribute_group qcom_l3_cache_pmu_events_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = qcom_l3_cache_pmu_events,
 };
@@ -693,11 +685,7 @@ static struct attribute *qcom_l3_cache_pmu_cpumask_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_cpumask_attr_group = {
-=======
-static struct attribute_group qcom_l3_cache_pmu_cpumask_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = qcom_l3_cache_pmu_cpumask_attrs,
 };
 

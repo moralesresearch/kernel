@@ -235,7 +235,6 @@ void hv_fcopy_onchannelcallback(void *context)
 	if (fcopy_transaction.state > HVUTIL_READY)
 		return;
 
-<<<<<<< HEAD
 	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen, &requestid)) {
 		pr_err_ratelimited("Fcopy request received. Could not read into recv buf\n");
 		return;
@@ -257,17 +256,6 @@ void hv_fcopy_onchannelcallback(void *context)
 	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
 		if (vmbus_prep_negotiate_resp(icmsghdr,
 				recv_buffer, recvlen,
-=======
-	vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen,
-			 &requestid);
-	if (recvlen <= 0)
-		return;
-
-	icmsghdr = (struct icmsg_hdr *)&recv_buffer[
-			sizeof(struct vmbuspipe_hdr)];
-	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
-		if (vmbus_prep_negotiate_resp(icmsghdr, recv_buffer,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				fw_versions, FW_VER_COUNT,
 				fcopy_versions, FCOPY_VER_COUNT,
 				NULL, &fcopy_srv_version)) {
@@ -276,7 +264,6 @@ void hv_fcopy_onchannelcallback(void *context)
 				fcopy_srv_version >> 16,
 				fcopy_srv_version & 0xFFFF);
 		}
-<<<<<<< HEAD
 	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
 		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
 		if (recvlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
@@ -285,12 +272,6 @@ void hv_fcopy_onchannelcallback(void *context)
 			return;
 		}
 		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[ICMSG_HDR];
-=======
-	} else {
-		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[
-				sizeof(struct vmbuspipe_hdr) +
-				sizeof(struct icmsg_hdr)];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Stash away this global state for completing the
@@ -315,13 +296,10 @@ void hv_fcopy_onchannelcallback(void *context)
 		schedule_delayed_work(&fcopy_timeout_work,
 				      HV_UTIL_TIMEOUT * HZ);
 		return;
-<<<<<<< HEAD
 	} else {
 		pr_err_ratelimited("Fcopy request received. Invalid msg type: %d\n",
 				   icmsghdr->icmsgtype);
 		return;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
 	vmbus_sendpacket(channel, recv_buffer, recvlen, requestid,

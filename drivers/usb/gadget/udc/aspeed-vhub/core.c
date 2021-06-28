@@ -36,10 +36,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
 		   int status)
 {
 	bool internal = req->internal;
-<<<<<<< HEAD
 	struct ast_vhub *vhub = ep->vhub;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	EPVDBG(ep, "completing request @%p, status %d\n", req, status);
 
@@ -50,11 +47,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
 
 	if (req->req.dma) {
 		if (!WARN_ON(!ep->dev))
-<<<<<<< HEAD
 			usb_gadget_unmap_request_by_dev(&vhub->pdev->dev,
-=======
-			usb_gadget_unmap_request(&ep->dev->gadget,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						 &req->req, ep->epn.is_in);
 		req->req.dma = 0;
 	}

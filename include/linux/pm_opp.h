@@ -98,12 +98,9 @@ unsigned long dev_pm_opp_get_freq(struct dev_pm_opp *opp);
 
 unsigned int dev_pm_opp_get_level(struct dev_pm_opp *opp);
 
-<<<<<<< HEAD
 unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
 					    unsigned int index);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dev_pm_opp_is_turbo(struct dev_pm_opp *opp);
 
 int dev_pm_opp_get_opp_count(struct device *dev);
@@ -117,11 +114,8 @@ struct dev_pm_opp *dev_pm_opp_find_freq_exact(struct device *dev,
 					      bool available);
 struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
 					       unsigned int level);
-<<<<<<< HEAD
 struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
 					      unsigned int *level);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
 					      unsigned long *freq);
@@ -150,59 +144,39 @@ int dev_pm_opp_unregister_notifier(struct device *dev, struct notifier_block *nb
 
 struct opp_table *dev_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
 void dev_pm_opp_put_supported_hw(struct opp_table *opp_table);
+int devm_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
 struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name);
 void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
 struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
 void dev_pm_opp_put_regulators(struct opp_table *opp_table);
-<<<<<<< HEAD
+int devm_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
 struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name);
 void dev_pm_opp_put_clkname(struct opp_table *opp_table);
+int devm_pm_opp_set_clkname(struct device *dev, const char *name);
 struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
 void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
-struct opp_table *devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
+int devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
 struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
 void dev_pm_opp_detach_genpd(struct opp_table *opp_table);
-struct opp_table *devm_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
+int devm_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
 struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
 int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
 int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
 int dev_pm_opp_set_opp(struct device *dev, struct dev_pm_opp *opp);
-=======
-struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char * name);
-void dev_pm_opp_put_clkname(struct opp_table *opp_table);
-struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
-void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
-struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-void dev_pm_opp_detach_genpd(struct opp_table *opp_table);
-int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
-int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
-int dev_pm_opp_set_bw(struct device *dev, struct dev_pm_opp *opp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, const struct cpumask *cpumask);
 int dev_pm_opp_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask);
 void dev_pm_opp_remove_table(struct device *dev);
 void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
-<<<<<<< HEAD
 int dev_pm_opp_sync_regulators(struct device *dev);
 #else
 static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
 {
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-#else
-static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
-{
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct opp_table *dev_pm_opp_get_opp_table_indexed(struct device *dev, int index)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put_opp_table(struct opp_table *opp_table) {}
@@ -222,7 +196,6 @@ static inline unsigned int dev_pm_opp_get_level(struct dev_pm_opp *opp)
 	return 0;
 }
 
-<<<<<<< HEAD
 static inline
 unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
 					    unsigned int index)
@@ -230,8 +203,6 @@ unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool dev_pm_opp_is_turbo(struct dev_pm_opp *opp)
 {
 	return false;
@@ -265,17 +236,12 @@ static inline unsigned long dev_pm_opp_get_suspend_opp_freq(struct device *dev)
 static inline struct dev_pm_opp *dev_pm_opp_find_freq_exact(struct device *dev,
 					unsigned long freq, bool available)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
 					unsigned int level)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
 }
 
@@ -283,39 +249,24 @@ static inline struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
 					unsigned int *level)
 {
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
 					unsigned long *freq)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct dev_pm_opp *dev_pm_opp_find_freq_ceil_by_volt(struct device *dev,
 					unsigned long u_volt)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct dev_pm_opp *dev_pm_opp_find_freq_ceil(struct device *dev,
 					unsigned long *freq)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put(struct dev_pm_opp *opp) {}
@@ -323,11 +274,7 @@ static inline void dev_pm_opp_put(struct dev_pm_opp *opp) {}
 static inline int dev_pm_opp_add(struct device *dev, unsigned long freq,
 					unsigned long u_volt)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_remove(struct device *dev, unsigned long freq)
@@ -358,107 +305,89 @@ static inline int dev_pm_opp_disable(struct device *dev, unsigned long freq)
 
 static inline int dev_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int dev_pm_opp_unregister_notifier(struct device *dev, struct notifier_block *nb)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct opp_table *dev_pm_opp_set_supported_hw(struct device *dev,
 							    const u32 *versions,
 							    unsigned int count)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put_supported_hw(struct opp_table *opp_table) {}
 
+static inline int devm_pm_opp_set_supported_hw(struct device *dev,
+					       const u32 *versions,
+					       unsigned int count)
+{
+	return -EOPNOTSUPP;
+}
+
 static inline struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev,
 			int (*set_opp)(struct dev_pm_set_opp_data *data))
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table) {}
 
-<<<<<<< HEAD
-static inline struct opp_table *
-devm_pm_opp_register_set_opp_helper(struct device *dev,
+static inline int devm_pm_opp_register_set_opp_helper(struct device *dev,
 				    int (*set_opp)(struct dev_pm_set_opp_data *data))
 {
-	return ERR_PTR(-EOPNOTSUPP);
+	return -EOPNOTSUPP;
 }
 
 static inline struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
 {
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-static inline struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
-{
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put_prop_name(struct opp_table *opp_table) {}
 
 static inline struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put_regulators(struct opp_table *opp_table) {}
 
-<<<<<<< HEAD
+static inline int devm_pm_opp_set_regulators(struct device *dev,
+					     const char * const names[],
+					     unsigned int count)
+{
+	return -EOPNOTSUPP;
+}
+
 static inline struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name)
 {
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-static inline struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char * name)
-{
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_put_clkname(struct opp_table *opp_table) {}
 
+static inline int devm_pm_opp_set_clkname(struct device *dev, const char *name)
+{
+	return -EOPNOTSUPP;
+}
+
 static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
 {
-<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
-=======
-	return ERR_PTR(-ENOTSUPP);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_detach_genpd(struct opp_table *opp_table) {}
 
-<<<<<<< HEAD
-static inline struct opp_table *devm_pm_opp_attach_genpd(struct device *dev,
-				const char **names, struct device ***virt_devs)
+static inline int devm_pm_opp_attach_genpd(struct device *dev,
+					   const char **names,
+					   struct device ***virt_devs)
 {
-	return ERR_PTR(-EOPNOTSUPP);
+	return -EOPNOTSUPP;
 }
 
 static inline struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table,
@@ -470,37 +399,21 @@ static inline struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table 
 static inline int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate)
 {
 	return -EOPNOTSUPP;
-=======
-static inline int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate)
-{
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
 }
 
 static inline int dev_pm_opp_set_opp(struct device *dev, struct dev_pm_opp *opp)
-=======
-	return -ENOTSUPP;
-}
-
-static inline int dev_pm_opp_set_bw(struct device *dev, struct dev_pm_opp *opp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return -EOPNOTSUPP;
 }
 
 static inline int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, const struct cpumask *cpumask)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int dev_pm_opp_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
@@ -516,24 +429,19 @@ static inline void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask
 {
 }
 
-<<<<<<< HEAD
 static inline int dev_pm_opp_sync_regulators(struct device *dev)
 {
 	return -EOPNOTSUPP;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif		/* CONFIG_PM_OPP */
 
 #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
 int dev_pm_opp_of_add_table(struct device *dev);
 int dev_pm_opp_of_add_table_indexed(struct device *dev, int index);
-<<<<<<< HEAD
 int dev_pm_opp_of_add_table_noclk(struct device *dev, int index);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dev_pm_opp_of_remove_table(struct device *dev);
+int devm_pm_opp_of_add_table(struct device *dev);
 int dev_pm_opp_of_cpumask_add_table(const struct cpumask *cpumask);
 void dev_pm_opp_of_cpumask_remove_table(const struct cpumask *cpumask);
 int dev_pm_opp_of_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask);
@@ -549,38 +457,31 @@ static inline void dev_pm_opp_of_unregister_em(struct device *dev)
 #else
 static inline int dev_pm_opp_of_add_table(struct device *dev)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int dev_pm_opp_of_add_table_indexed(struct device *dev, int index)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
 }
 
 static inline int dev_pm_opp_of_add_table_noclk(struct device *dev, int index)
 {
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_of_remove_table(struct device *dev)
 {
 }
 
+static inline int devm_pm_opp_of_add_table(struct device *dev)
+{
+	return -EOPNOTSUPP;
+}
+
 static inline int dev_pm_opp_of_cpumask_add_table(const struct cpumask *cpumask)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_of_cpumask_remove_table(const struct cpumask *cpumask)
@@ -589,11 +490,7 @@ static inline void dev_pm_opp_of_cpumask_remove_table(const struct cpumask *cpum
 
 static inline int dev_pm_opp_of_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct device_node *dev_pm_opp_of_get_opp_desc_node(struct device *dev)
@@ -609,11 +506,7 @@ static inline struct device_node *dev_pm_opp_get_of_node(struct dev_pm_opp *opp)
 static inline int dev_pm_opp_of_register_em(struct device *dev,
 					    struct cpumask *cpus)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void dev_pm_opp_of_unregister_em(struct device *dev)
@@ -622,20 +515,12 @@ static inline void dev_pm_opp_of_unregister_em(struct device *dev)
 
 static inline int of_get_required_opp_performance_state(struct device_node *np, int index)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int dev_pm_opp_of_find_icc_paths(struct device *dev, struct opp_table *opp_table)
 {
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
-=======
-	return -ENOTSUPP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 

@@ -109,11 +109,7 @@ Mountpoints
 AFS has a concept of mountpoints. In AFS terms, these are specially formatted
 symbolic links (of the same form as the "device name" passed to mount).  kAFS
 presents these to the user as directories that have a follow-link capability
-<<<<<<< HEAD
 (i.e.: symbolic link semantics).  If anyone attempts to access them, they will
-=======
-(ie: symbolic link semantics).  If anyone attempts to access them, they will
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 automatically cause the target volume to be mounted (if possible) on that site.
 
 Automatically mounted filesystems will be automatically unmounted approximately
@@ -148,11 +144,7 @@ looks up a cell of the same name, for example::
 Proc Filesystem
 ===============
 
-<<<<<<< HEAD
 The AFS module creates a "/proc/fs/afs/" directory and populates it:
-=======
-The AFS modules creates a "/proc/fs/afs/" directory and populates it:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   (*) A "cells" file that lists cells currently known to the afs module and
       their usage counts::
@@ -209,11 +201,7 @@ And then run as::
 	./klog
 
 Assuming it's successful, this adds a key of type RxRPC, named for the service
-<<<<<<< HEAD
 and cell, e.g.: "afs@<cellname>".  This can be viewed with the keyctl program or
-=======
-and cell, eg: "afs@<cellname>".  This can be viewed with the keyctl program or
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 by cat'ing /proc/keys::
 
 	[root@andromeda ~]# keyctl show
@@ -223,11 +211,7 @@ by cat'ing /proc/keys::
 	111416553 --als--v      0     0   \_ rxrpc: afs@CAMBRIDGE.REDHAT.COM
 
 Currently the username, realm, password and proposed ticket lifetime are
-<<<<<<< HEAD
 compiled into the program.
-=======
-compiled in to the program.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 It is not required to acquire a key before using AFS facilities, but if one is
 not acquired then all operations will be governed by the anonymous user parts

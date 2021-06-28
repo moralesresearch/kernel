@@ -73,13 +73,8 @@
  * add other 93Cx6 functions.
  */
 struct seeprom_cmd {
-<<<<<<< HEAD
 	uint8_t len;
 	uint8_t bits[11];
-=======
-  	uint8_t len;
- 	uint8_t bits[11];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Short opcodes for the c46 */

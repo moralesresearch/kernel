@@ -26,34 +26,21 @@ void nf_tables_core_module_exit(void);
 struct nft_bitwise_fast_expr {
 	u32			mask;
 	u32			xor;
-<<<<<<< HEAD
 	u8			sreg;
 	u8			dreg;
-=======
-	enum nft_registers	sreg:8;
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nft_cmp_fast_expr {
 	u32			data;
 	u32			mask;
-<<<<<<< HEAD
 	u8			sreg;
-=======
-	enum nft_registers	sreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			len;
 	bool			inv;
 };
 
 struct nft_immediate_expr {
 	struct nft_data		data;
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			dlen;
 };
 
@@ -73,22 +60,14 @@ struct nft_payload {
 	enum nft_payload_bases	base:8;
 	u8			offset;
 	u8			len;
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct nft_payload_set {
 	enum nft_payload_bases	base:8;
 	u8			offset;
 	u8			len;
-<<<<<<< HEAD
 	u8			sreg;
-=======
-	enum nft_registers	sreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			csum_type;
 	u8			csum_offset;
 	u8			csum_flags;

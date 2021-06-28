@@ -154,7 +154,6 @@ static const struct of_device_id mvme5100_of_bus_ids[] __initconst = {
  */
 static void __init mvme5100_setup_arch(void)
 {
-<<<<<<< HEAD
 	if (ppc_md.progress)
 		ppc_md.progress("mvme5100_setup_arch()", 0);
 
@@ -169,20 +168,6 @@ static void __init mvme5100_setup_pci(void)
 		mvme5100_add_bridge(np);
 }
 
-=======
-	struct device_node *np;
-
-	if (ppc_md.progress)
-		ppc_md.progress("mvme5100_setup_arch()", 0);
-
-	for_each_compatible_node(np, "pci", "hawk-pci")
-		mvme5100_add_bridge(np);
-
-	restart = ioremap(BOARD_MODRST_REG, 4);
-}
-
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mvme5100_show_cpuinfo(struct seq_file *m)
 {
 	seq_puts(m, "Vendor\t\t: Motorola/Emerson\n");
@@ -222,10 +207,7 @@ define_machine(mvme5100) {
 	.name			= "MVME5100",
 	.probe			= mvme5100_probe,
 	.setup_arch		= mvme5100_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs		= mvme5100_setup_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= mvme5100_pic_init,
 	.show_cpuinfo		= mvme5100_show_cpuinfo,
 	.get_irq		= mpic_get_irq,

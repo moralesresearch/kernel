@@ -181,10 +181,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
 	struct nvif_device *device = &drm->client.device;
 	struct nvkm_gr *gr = nvxx_gr(device);
 	struct drm_nouveau_getparam *getparam = data;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (getparam->param) {
 	case NOUVEAU_GETPARAM_CHIPSET_ID:
@@ -192,21 +189,13 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
 		break;
 	case NOUVEAU_GETPARAM_PCI_VENDOR:
 		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
-<<<<<<< HEAD
 			getparam->value = pdev->vendor;
-=======
-			getparam->value = dev->pdev->vendor;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			getparam->value = 0;
 		break;
 	case NOUVEAU_GETPARAM_PCI_DEVICE:
 		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
-<<<<<<< HEAD
 			getparam->value = pdev->device;
-=======
-			getparam->value = dev->pdev->device;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			getparam->value = 0;
 		break;
@@ -217,11 +206,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
 		case NV_DEVICE_INFO_V0_PCIE: getparam->value = 2; break;
 		case NV_DEVICE_INFO_V0_SOC : getparam->value = 3; break;
 		case NV_DEVICE_INFO_V0_IGP :
-<<<<<<< HEAD
 			if (!pci_is_pcie(pdev))
-=======
-			if (!pci_is_pcie(dev->pdev))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				getparam->value = 1;
 			else
 				getparam->value = 2;
@@ -284,34 +269,19 @@ nouveau_abi16_ioctl_channel_alloc(ABI16_IOCTL_ARGS)
 	if (device->info.family >= NV_DEVICE_INFO_V0_KEPLER) {
 		if (init->fb_ctxdma_handle == ~0) {
 			switch (init->tt_ctxdma_handle) {
-<<<<<<< HEAD
 			case 0x01: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR    ; break;
 			case 0x02: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPDEC; break;
 			case 0x04: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPPP ; break;
 			case 0x08: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSVLD ; break;
 			case 0x30: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_CE    ; break;
-=======
-			case 0x01: engine = NV_DEVICE_INFO_ENGINE_GR    ; break;
-			case 0x02: engine = NV_DEVICE_INFO_ENGINE_MSPDEC; break;
-			case 0x04: engine = NV_DEVICE_INFO_ENGINE_MSPPP ; break;
-			case 0x08: engine = NV_DEVICE_INFO_ENGINE_MSVLD ; break;
-			case 0x30: engine = NV_DEVICE_INFO_ENGINE_CE    ; break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			default:
 				return nouveau_abi16_put(abi16, -ENOSYS);
 			}
 		} else {
-<<<<<<< HEAD
 			engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR;
 		}
 
 		if (engine != NV_DEVICE_HOST_RUNLIST_ENGINES_CE)
-=======
-			engine = NV_DEVICE_INFO_ENGINE_GR;
-		}
-
-		if (engine != NV_DEVICE_INFO_ENGINE_CE)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			engine = nvif_fifo_runlist(device, engine);
 		else
 			engine = nvif_fifo_runlist_ce(device);

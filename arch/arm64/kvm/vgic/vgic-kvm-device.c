@@ -87,13 +87,8 @@ int kvm_vgic_addr(struct kvm *kvm, unsigned long type, u64 *addr, bool write)
 			r = vgic_v3_set_redist_base(kvm, 0, *addr, 0);
 			goto out;
 		}
-<<<<<<< HEAD
 		rdreg = list_first_entry_or_null(&vgic->rd_regions,
 						 struct vgic_redist_region, list);
-=======
-		rdreg = list_first_entry(&vgic->rd_regions,
-					 struct vgic_redist_region, list);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!rdreg)
 			addr_ptr = &undef_value;
 		else
@@ -231,12 +226,9 @@ static int vgic_get_common_attr(struct kvm_device *dev,
 		u64 addr;
 		unsigned long type = (unsigned long)attr->attr;
 
-<<<<<<< HEAD
 		if (copy_from_user(&addr, uaddr, sizeof(addr)))
 			return -EFAULT;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		r = kvm_vgic_addr(dev->kvm, type, &addr, false);
 		if (r)
 			return (r == -ENODEV) ? -ENXIO : r;

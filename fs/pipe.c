@@ -171,11 +171,7 @@ EXPORT_SYMBOL(generic_pipe_buf_try_steal);
  *
  * Description:
  *	This function grabs an extra reference to @buf. It's used in
-<<<<<<< HEAD
  *	the tee() system call, when we duplicate the buffers in one
-=======
- *	in the tee() system call, when we duplicate the buffers in one
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	pipe into another.
  */
 bool generic_pipe_buf_get(struct pipe_inode_info *pipe, struct pipe_buffer *buf)

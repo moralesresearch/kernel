@@ -860,11 +860,6 @@ int core_alua_check_nonop_delay(
 {
 	if (!(cmd->se_cmd_flags & SCF_ALUA_NON_OPTIMIZED))
 		return 0;
-<<<<<<< HEAD
-=======
-	if (in_interrupt())
-		return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * The ALUA Active/NonOptimized access state delay can be disabled
 	 * in via configfs with a value of zero

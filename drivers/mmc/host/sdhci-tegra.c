@@ -119,13 +119,10 @@
 /* SDMMC CQE Base Address for Tegra Host Ver 4.1 and Higher */
 #define SDHCI_TEGRA_CQE_BASE_ADDR			0xF000
 
-<<<<<<< HEAD
 #define SDHCI_TEGRA_CQE_TRNS_MODE	(SDHCI_TRNS_MULTI | \
 					 SDHCI_TRNS_BLK_CNT_EN | \
 					 SDHCI_TRNS_DMA)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct sdhci_tegra_soc_data {
 	const struct sdhci_pltfm_data *pdata;
 	u64 dma_mask;
@@ -603,49 +600,49 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
 			&tegra_host->autocal_offsets;
 	int err;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-3v3",
 			&autocal->pull_up_3v3);
 	if (err)
 		autocal->pull_up_3v3 = 0;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-3v3",
 			&autocal->pull_down_3v3);
 	if (err)
 		autocal->pull_down_3v3 = 0;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-1v8",
 			&autocal->pull_up_1v8);
 	if (err)
 		autocal->pull_up_1v8 = 0;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-1v8",
 			&autocal->pull_down_1v8);
 	if (err)
 		autocal->pull_down_1v8 = 0;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-sdr104",
 			&autocal->pull_up_sdr104);
 	if (err)
 		autocal->pull_up_sdr104 = autocal->pull_up_1v8;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-sdr104",
 			&autocal->pull_down_sdr104);
 	if (err)
 		autocal->pull_down_sdr104 = autocal->pull_down_1v8;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-hs400",
 			&autocal->pull_up_hs400);
 	if (err)
 		autocal->pull_up_hs400 = autocal->pull_up_1v8;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-hs400",
 			&autocal->pull_down_hs400);
 	if (err)
@@ -660,7 +657,7 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
 	if (!(tegra_host->soc_data->nvquirks & NVQUIRK_NEEDS_PAD_CONTROL))
 		return;
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-3v3-timeout",
 			&autocal->pull_up_3v3_timeout);
 	if (err) {
@@ -671,7 +668,7 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
 		autocal->pull_up_3v3_timeout = 0;
 	}
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-3v3-timeout",
 			&autocal->pull_down_3v3_timeout);
 	if (err) {
@@ -682,7 +679,7 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
 		autocal->pull_down_3v3_timeout = 0;
 	}
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-up-offset-1v8-timeout",
 			&autocal->pull_up_1v8_timeout);
 	if (err) {
@@ -693,7 +690,7 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
 		autocal->pull_up_1v8_timeout = 0;
 	}
 
-	err = device_property_read_u32(host->mmc->parent,
+	err = device_property_read_u32(mmc_dev(host->mmc),
 			"nvidia,pad-autocal-pull-down-offset-1v8-timeout",
 			&autocal->pull_down_1v8_timeout);
 	if (err) {
@@ -727,17 +724,17 @@ static void tegra_sdhci_parse_tap_and_trim(struct sdhci_host *host)
 	struct sdhci_tegra *tegra_host = sdhci_pltfm_priv(pltfm_host);
 	int err;
 
-	err = device_property_read_u32(host->mmc->parent, "nvidia,default-tap",
+	err = device_property_read_u32(mmc_dev(host->mmc), "nvidia,default-tap",
 				       &tegra_host->default_tap);
 	if (err)
 		tegra_host->default_tap = 0;
 
-	err = device_property_read_u32(host->mmc->parent, "nvidia,default-trim",
+	err = device_property_read_u32(mmc_dev(host->mmc), "nvidia,default-trim",
 				       &tegra_host->default_trim);
 	if (err)
 		tegra_host->default_trim = 0;
 
-	err = device_property_read_u32(host->mmc->parent, "nvidia,dqs-trim",
+	err = device_property_read_u32(mmc_dev(host->mmc), "nvidia,dqs-trim",
 				       &tegra_host->dqs_trim);
 	if (err)
 		tegra_host->dqs_trim = 0x11;
@@ -748,7 +745,7 @@ static void tegra_sdhci_parse_dt(struct sdhci_host *host)
 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
 	struct sdhci_tegra *tegra_host = sdhci_pltfm_priv(pltfm_host);
 
-	if (device_property_read_bool(host->mmc->parent, "supports-cqe"))
+	if (device_property_read_bool(mmc_dev(host->mmc), "supports-cqe"))
 		tegra_host->enable_hwcq = true;
 	else
 		tegra_host->enable_hwcq = false;
@@ -1163,10 +1160,7 @@ static void tegra_sdhci_voltage_switch(struct sdhci_host *host)
 static void tegra_cqhci_writel(struct cqhci_host *cq_host, u32 val, int reg)
 {
 	struct mmc_host *mmc = cq_host->mmc;
-<<<<<<< HEAD
 	struct sdhci_host *host = mmc_priv(mmc);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 ctrl;
 	ktime_t timeout;
 	bool timed_out;
@@ -1181,10 +1175,7 @@ static void tegra_cqhci_writel(struct cqhci_host *cq_host, u32 val, int reg)
 	 */
 	if (reg == CQHCI_CTL && !(val & CQHCI_HALT) &&
 	    cqhci_readl(cq_host, CQHCI_CTL) & CQHCI_HALT) {
-<<<<<<< HEAD
 		sdhci_writew(host, SDHCI_TEGRA_CQE_TRNS_MODE, SDHCI_TRANSFER_MODE);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sdhci_cqe_enable(mmc);
 		writel(val, cq_host->mmio + reg);
 		timeout = ktime_add_us(ktime_get(), 50);
@@ -1220,10 +1211,7 @@ static void sdhci_tegra_update_dcmd_desc(struct mmc_host *mmc,
 static void sdhci_tegra_cqe_enable(struct mmc_host *mmc)
 {
 	struct cqhci_host *cq_host = mmc->cqe_private;
-<<<<<<< HEAD
 	struct sdhci_host *host = mmc_priv(mmc);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 val;
 
 	/*
@@ -1237,10 +1225,7 @@ static void sdhci_tegra_cqe_enable(struct mmc_host *mmc)
 		if (val & CQHCI_ENABLE)
 			cqhci_writel(cq_host, (val & ~CQHCI_ENABLE),
 				     CQHCI_CFG);
-<<<<<<< HEAD
 		sdhci_writew(host, SDHCI_TEGRA_CQE_TRNS_MODE, SDHCI_TRANSFER_MODE);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sdhci_cqe_enable(mmc);
 		if (val & CQHCI_ENABLE)
 			cqhci_writel(cq_host, val, CQHCI_CFG);
@@ -1304,7 +1289,6 @@ static void tegra_sdhci_set_timeout(struct sdhci_host *host,
 	__sdhci_set_timeout(host, cmd);
 }
 
-<<<<<<< HEAD
 static void sdhci_tegra_cqe_pre_enable(struct mmc_host *mmc)
 {
 	struct cqhci_host *cq_host = mmc->cqe_private;
@@ -1327,19 +1311,14 @@ static void sdhci_tegra_cqe_post_disable(struct mmc_host *mmc)
 	sdhci_writew(host, 0x0, SDHCI_TRANSFER_MODE);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
 	.write_l    = tegra_cqhci_writel,
 	.enable	= sdhci_tegra_cqe_enable,
 	.disable = sdhci_cqe_disable,
 	.dumpregs = sdhci_tegra_dumpregs,
 	.update_dcmd_desc = sdhci_tegra_update_dcmd_desc,
-<<<<<<< HEAD
 	.pre_enable = sdhci_tegra_cqe_pre_enable,
 	.post_disable = sdhci_tegra_cqe_post_disable,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int tegra_sdhci_set_dma_mask(struct sdhci_host *host)
@@ -1582,7 +1561,7 @@ static int sdhci_tegra_add_host(struct sdhci_host *host)
 
 	host->mmc->caps2 |= MMC_CAP2_CQE | MMC_CAP2_CQE_DCMD;
 
-	cq_host = devm_kzalloc(host->mmc->parent,
+	cq_host = devm_kzalloc(mmc_dev(host->mmc),
 				sizeof(*cq_host), GFP_KERNEL);
 	if (!cq_host) {
 		ret = -ENOMEM;

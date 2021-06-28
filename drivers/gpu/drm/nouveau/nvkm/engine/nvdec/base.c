@@ -37,11 +37,7 @@ nvkm_nvdec = {
 
 int
 nvkm_nvdec_new_(const struct nvkm_nvdec_fwif *fwif, struct nvkm_device *device,
-<<<<<<< HEAD
 		enum nvkm_subdev_type type, int inst, struct nvkm_nvdec **pnvdec)
-=======
-		int index, struct nvkm_nvdec **pnvdec)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_nvdec *nvdec;
 	int ret;
@@ -49,11 +45,7 @@ nvkm_nvdec_new_(const struct nvkm_nvdec_fwif *fwif, struct nvkm_device *device,
 	if (!(nvdec = *pnvdec = kzalloc(sizeof(*nvdec), GFP_KERNEL)))
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	ret = nvkm_engine_ctor(&nvkm_nvdec, device, type, inst, true,
-=======
-	ret = nvkm_engine_ctor(&nvkm_nvdec, device, index, true,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       &nvdec->engine);
 	if (ret)
 		return ret;
@@ -65,9 +57,5 @@ nvkm_nvdec_new_(const struct nvkm_nvdec_fwif *fwif, struct nvkm_device *device,
 	nvdec->func = fwif->func;
 
 	return nvkm_falcon_ctor(nvdec->func->flcn, &nvdec->engine.subdev,
-<<<<<<< HEAD
 				nvdec->engine.subdev.name, 0, &nvdec->falcon);
-=======
-				nvkm_subdev_name[index], 0, &nvdec->falcon);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

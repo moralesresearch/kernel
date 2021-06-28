@@ -458,11 +458,8 @@ static ssize_t export_store(struct class *class,
 	long			gpio;
 	struct gpio_desc	*desc;
 	int			status;
-<<<<<<< HEAD
 	struct gpio_chip	*gc;
 	int			offset;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = kstrtol(buf, 0, &gpio);
 	if (status < 0)
@@ -474,15 +471,12 @@ static ssize_t export_store(struct class *class,
 		pr_warn("%s: invalid GPIO %ld\n", __func__, gpio);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
 	gc = desc->gdev->chip;
 	offset = gpio_chip_hwgpio(desc);
 	if (!gpiochip_line_is_valid(gc, offset)) {
 		pr_warn("%s: GPIO %ld masked\n", __func__, gpio);
 		return -EINVAL;
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* No extra locking here; FLAG_SYSFS just signifies that the
 	 * request and export were done by on behalf of userspace, so

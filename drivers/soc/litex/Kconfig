@@ -12,16 +12,11 @@ config LITEX_SOC_CONTROLLER
 	select LITEX
 	help
 	  This option enables the SoC Controller Driver which verifies
-<<<<<<< HEAD
 	  LiteX CSR access and provides common litex_[read|write]*
-=======
-	  LiteX CSR access and provides common litex_get_reg/litex_set_reg
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  accessors.
 	  All drivers that use functions from litex.h must depend on
 	  LITEX.
 
-<<<<<<< HEAD
 config LITEX_SUBREG_SIZE
 	int "Size of a LiteX CSR subregister, in bytes"
 	depends on LITEX
@@ -34,6 +29,4 @@ config LITEX_SUBREG_SIZE
 	this to select the appropriate size (1 or 4 bytes) matching
 	your particular LiteX build.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endmenu

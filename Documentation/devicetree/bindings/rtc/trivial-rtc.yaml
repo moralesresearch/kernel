@@ -48,17 +48,8 @@ properties:
       - microcrystal,rv3029
       # Real Time Clock
       - microcrystal,rv8523
-<<<<<<< HEAD
       - nxp,pca2129
       - nxp,pcf2129
-=======
-      # Real-time clock
-      - nxp,pcf2127
-      # Real-time clock
-      - nxp,pcf2129
-      # Real-time clock
-      - nxp,pca2129
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       # Real-time Clock Module
       - pericom,pt7c4338
       # I2C bus SERIAL INTERFACE REAL-TIME CLOCK IC

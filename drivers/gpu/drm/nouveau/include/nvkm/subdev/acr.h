@@ -59,21 +59,12 @@ struct nvkm_acr {
 bool nvkm_acr_managed_falcon(struct nvkm_device *, enum nvkm_acr_lsf_id);
 int nvkm_acr_bootstrap_falcons(struct nvkm_device *, unsigned long mask);
 
-<<<<<<< HEAD
 int gm200_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
 int gm20b_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
 int gp102_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
 int gp108_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
 int gp10b_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
 int tu102_acr_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_acr **);
-=======
-int gm200_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
-int gm20b_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
-int gp102_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
-int gp108_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
-int gp10b_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
-int tu102_acr_new(struct nvkm_device *, int, struct nvkm_acr **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_acr_lsfw {
 	const struct nvkm_acr_lsf_func *func;

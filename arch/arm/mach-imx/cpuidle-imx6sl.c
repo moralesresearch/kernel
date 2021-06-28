@@ -3,10 +3,7 @@
  * Copyright (C) 2014 Freescale Semiconductor, Inc.
  */
 
-<<<<<<< HEAD
 #include <linux/clk/imx.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/cpuidle.h>
 #include <linux/module.h>
 #include <asm/cpuidle.h>

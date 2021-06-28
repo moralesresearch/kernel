@@ -636,7 +636,6 @@
 		interrupt-controller@702f9000 {
 			status = "okay";
 		};
-<<<<<<< HEAD
 
 		ahub@702d0800 {
 			status = "okay";
@@ -793,8 +792,6 @@
 			spi-tx-bus-width = <2>;
 			spi-rx-bus-width = <2>;
 		};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	clk32k_in: clock@0 {
@@ -1029,7 +1026,6 @@
 
 		vin-supply = <&vdd_5v0_sys>;
 	};
-<<<<<<< HEAD
 
 	sound {
 		compatible = "nvidia,tegra210-audio-graph-card";
@@ -1049,6 +1045,4 @@
 
 		label = "jetson-nano-ape";
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

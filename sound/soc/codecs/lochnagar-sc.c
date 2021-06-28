@@ -166,13 +166,8 @@ static struct snd_soc_dai_driver lochnagar_sc_dai[] = {
 			.formats = SNDRV_PCM_FMTBIT_S32_LE,
 		},
 		.ops = &lochnagar_sc_line_ops,
-<<<<<<< HEAD
 		.symmetric_rate = true,
 		.symmetric_sample_bits = true,
-=======
-		.symmetric_rates = true,
-		.symmetric_samplebits = true,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "lochnagar-usb1",
@@ -191,13 +186,8 @@ static struct snd_soc_dai_driver lochnagar_sc_dai[] = {
 			.formats = SNDRV_PCM_FMTBIT_S32_LE,
 		},
 		.ops = &lochnagar_sc_usb_ops,
-<<<<<<< HEAD
 		.symmetric_rate = true,
 		.symmetric_sample_bits = true,
-=======
-		.symmetric_rates = true,
-		.symmetric_samplebits = true,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "lochnagar-usb2",
@@ -216,13 +206,8 @@ static struct snd_soc_dai_driver lochnagar_sc_dai[] = {
 			.formats = SNDRV_PCM_FMTBIT_S32_LE,
 		},
 		.ops = &lochnagar_sc_usb_ops,
-<<<<<<< HEAD
 		.symmetric_rate = true,
 		.symmetric_sample_bits = true,
-=======
-		.symmetric_rates = true,
-		.symmetric_samplebits = true,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

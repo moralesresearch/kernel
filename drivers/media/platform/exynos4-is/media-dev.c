@@ -401,10 +401,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
 	int index = fmd->num_sensors;
 	struct fimc_source_info *pd = &fmd->sensor[index].pdata;
 	struct device_node *rem, *np;
-<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_fwnode_endpoint endpoint = { .bus_type = 0 };
 	int ret;
 
@@ -422,17 +419,10 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
 	pd->mux_id = (endpoint.base.port - 1) & 0x1;
 
 	rem = of_graph_get_remote_port_parent(ep);
-<<<<<<< HEAD
 	if (rem == NULL) {
 		v4l2_info(&fmd->v4l2_dev, "Remote device at %pOF not found\n",
 							ep);
 		of_node_put(ep);
-=======
-	of_node_put(ep);
-	if (rem == NULL) {
-		v4l2_info(&fmd->v4l2_dev, "Remote device at %pOF not found\n",
-							ep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -461,10 +451,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
 	 * checking parent's node name.
 	 */
 	np = of_get_parent(rem);
-<<<<<<< HEAD
 	of_node_put(rem);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (of_node_name_eq(np, "i2c-isp"))
 		pd->fimc_bus_type = FIMC_BUS_TYPE_ISP_WRITEBACK;
@@ -473,7 +460,6 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
 	of_node_put(np);
 
 	if (WARN_ON(index >= ARRAY_SIZE(fmd->sensor))) {
-<<<<<<< HEAD
 		of_node_put(ep);
 		return -EINVAL;
 	}
@@ -488,22 +474,6 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
 		return PTR_ERR(asd);
 
 	fmd->sensor[index].asd = asd;
-=======
-		of_node_put(rem);
-		return -EINVAL;
-	}
-
-	fmd->sensor[index].asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-	fmd->sensor[index].asd.match.fwnode = of_fwnode_handle(rem);
-
-	ret = v4l2_async_notifier_add_subdev(&fmd->subdev_notifier,
-					     &fmd->sensor[index].asd);
-	if (ret) {
-		of_node_put(rem);
-		return ret;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fmd->num_sensors++;
 
 	return 0;
@@ -518,8 +488,10 @@ static int fimc_md_parse_port_node(struct fimc_md *fmd,
 
 	for_each_child_of_node(port, ep) {
 		ret = fimc_md_parse_one_endpoint(fmd, ep);
-		if (ret < 0)
+		if (ret < 0) {
+			of_node_put(ep);
 			return ret;
+		}
 	}
 
 	return 0;
@@ -836,7 +808,7 @@ static void fimc_md_unregister_entities(struct fimc_md *fmd)
 }
 
 /**
- * __fimc_md_create_fimc_links - create links to all FIMC entities
+ * __fimc_md_create_fimc_sink_links - create links to all FIMC entities
  * @fmd: fimc media device
  * @source: the source entity to create links to all fimc entities from
  * @sensor: sensor subdev linked to FIMC[fimc_id] entity, may be null
@@ -1413,12 +1385,8 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
 
 	/* Find platform data for this sensor subdev */
 	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
-<<<<<<< HEAD
 		if (fmd->sensor[i].asd &&
 		    fmd->sensor[i].asd->match.fwnode ==
-=======
-		if (fmd->sensor[i].asd.match.fwnode ==
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    of_fwnode_handle(subdev->dev->of_node))
 			si = &fmd->sensor[i];
 

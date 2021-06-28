@@ -82,10 +82,7 @@ enum nfs_param {
 	Opt_v,
 	Opt_vers,
 	Opt_wsize,
-<<<<<<< HEAD
 	Opt_write,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -117,7 +114,6 @@ static const struct constant_table nfs_param_enums_lookupcache[] = {
 	{}
 };
 
-<<<<<<< HEAD
 enum {
 	Opt_write_lazy,
 	Opt_write_eager,
@@ -131,8 +127,6 @@ static const struct constant_table nfs_param_enums_write[] = {
 	{}
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct fs_parameter_spec nfs_fs_parameters[] = {
 	fsparam_flag_no("ac",		Opt_ac),
 	fsparam_u32   ("acdirmax",	Opt_acdirmax),
@@ -191,10 +185,7 @@ static const struct fs_parameter_spec nfs_fs_parameters[] = {
 	fsparam_flag  ("v4.1",		Opt_v),
 	fsparam_flag  ("v4.2",		Opt_v),
 	fsparam_string("vers",		Opt_vers),
-<<<<<<< HEAD
 	fsparam_enum  ("write",		Opt_write, nfs_param_enums_write),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fsparam_u32   ("wsize",		Opt_wsize),
 	{}
 };
@@ -292,20 +283,40 @@ static int nfs_verify_server_address(struct sockaddr *addr)
 	return 0;
 }
 
+#ifdef CONFIG_NFS_DISABLE_UDP_SUPPORT
+static bool nfs_server_transport_udp_invalid(const struct nfs_fs_context *ctx)
+{
+	return true;
+}
+#else
+static bool nfs_server_transport_udp_invalid(const struct nfs_fs_context *ctx)
+{
+	if (ctx->version == 4)
+		return true;
+	return false;
+}
+#endif
+
 /*
  * Sanity check the NFS transport protocol.
- *
  */
-static void nfs_validate_transport_protocol(struct nfs_fs_context *ctx)
+static int nfs_validate_transport_protocol(struct fs_context *fc,
+					   struct nfs_fs_context *ctx)
 {
 	switch (ctx->nfs_server.protocol) {
 	case XPRT_TRANSPORT_UDP:
+		if (nfs_server_transport_udp_invalid(ctx))
+			goto out_invalid_transport_udp;
+		break;
 	case XPRT_TRANSPORT_TCP:
 	case XPRT_TRANSPORT_RDMA:
 		break;
 	default:
 		ctx->nfs_server.protocol = XPRT_TRANSPORT_TCP;
 	}
+	return 0;
+out_invalid_transport_udp:
+	return nfs_invalf(fc, "NFS: Unsupported transport protocol udp");
 }
 
 /*
@@ -314,8 +325,6 @@ static void nfs_validate_transport_protocol(struct nfs_fs_context *ctx)
  */
 static void nfs_set_mount_transport_protocol(struct nfs_fs_context *ctx)
 {
-	nfs_validate_transport_protocol(ctx);
-
 	if (ctx->mount_server.protocol == XPRT_TRANSPORT_UDP ||
 	    ctx->mount_server.protocol == XPRT_TRANSPORT_TCP)
 			return;
@@ -471,6 +480,9 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
 	opt = fs_parse(fc, nfs_fs_parameters, param, &result);
 	if (opt < 0)
 		return ctx->sloppy ? 1 : opt;
+
+	if (fc->security)
+		ctx->has_sec_mnt_opts = 1;
 
 	switch (opt) {
 	case Opt_source:
@@ -794,7 +806,6 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
 			goto out_invalid_value;
 		}
 		break;
-<<<<<<< HEAD
 	case Opt_write:
 		switch (result.uint_32) {
 		case Opt_write_lazy:
@@ -813,8 +824,6 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
 			goto out_invalid_value;
 		}
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Special options
@@ -941,6 +950,7 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 	struct nfs_fh *mntfh = ctx->mntfh;
 	struct sockaddr *sap = (struct sockaddr *)&ctx->nfs_server.address;
 	int extra_flags = NFS_MOUNT_LEGACY_INTERFACE;
+	int ret;
 
 	if (data == NULL)
 		goto out_no_data;
@@ -986,7 +996,6 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 			       sizeof(mntfh->data) - mntfh->size);
 
 		/*
-<<<<<<< HEAD
 		 * for proto == XPRT_TRANSPORT_UDP, which is what uses
 		 * to_exponential, implying shift: limit the shift value
 		 * to BITS_PER_LONG (majortimeo is unsigned long)
@@ -996,8 +1005,6 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 				goto out_invalid_data;
 
 		/*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * Translate to nfs_fs_context, which nfs_fill_super
 		 * can deal with.
 		 */
@@ -1069,6 +1076,10 @@ static int nfs23_parse_monolithic(struct fs_context *fc,
 		goto generic;
 	}
 
+	ret = nfs_validate_transport_protocol(fc, ctx);
+	if (ret)
+		return ret;
+
 	ctx->skip_reconfig_option_check = true;
 	return 0;
 
@@ -1097,12 +1108,9 @@ out_no_address:
 
 out_invalid_fh:
 	return nfs_invalf(fc, "NFS: invalid root filehandle");
-<<<<<<< HEAD
 
 out_invalid_data:
 	return nfs_invalf(fc, "NFS: invalid binary mount data");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #if IS_ENABLED(CONFIG_NFS_V4)
@@ -1173,6 +1181,7 @@ static int nfs4_parse_monolithic(struct fs_context *fc,
 {
 	struct nfs_fs_context *ctx = nfs_fc2context(fc);
 	struct sockaddr *sap = (struct sockaddr *)&ctx->nfs_server.address;
+	int ret;
 	char *c;
 
 	if (!data) {
@@ -1245,9 +1254,9 @@ static int nfs4_parse_monolithic(struct fs_context *fc,
 	ctx->acdirmin	= data->acdirmin;
 	ctx->acdirmax	= data->acdirmax;
 	ctx->nfs_server.protocol = data->proto;
-	nfs_validate_transport_protocol(ctx);
-	if (ctx->nfs_server.protocol == XPRT_TRANSPORT_UDP)
-		goto out_invalid_transport_udp;
+	ret = nfs_validate_transport_protocol(fc, ctx);
+	if (ret)
+		return ret;
 done:
 	ctx->skip_reconfig_option_check = true;
 	return 0;
@@ -1258,9 +1267,6 @@ out_inval_auth:
 
 out_no_address:
 	return nfs_invalf(fc, "NFS4: mount program didn't pass remote address");
-
-out_invalid_transport_udp:
-	return nfs_invalf(fc, "NFS: Unsupported transport protocol udp");
 }
 #endif
 
@@ -1325,6 +1331,10 @@ static int nfs_fs_context_validate(struct fs_context *fc)
 	if (!nfs_verify_server_address(sap))
 		goto out_no_address;
 
+	ret = nfs_validate_transport_protocol(fc, ctx);
+	if (ret)
+		return ret;
+
 	if (ctx->version == 4) {
 		if (IS_ENABLED(CONFIG_NFS_V4)) {
 			if (ctx->nfs_server.protocol == XPRT_TRANSPORT_RDMA)
@@ -1333,9 +1343,6 @@ static int nfs_fs_context_validate(struct fs_context *fc)
 				port = NFS_PORT;
 			max_namelen = NFS4_MAXNAMLEN;
 			max_pathlen = NFS4_MAXPATHLEN;
-			nfs_validate_transport_protocol(ctx);
-			if (ctx->nfs_server.protocol == XPRT_TRANSPORT_UDP)
-				goto out_invalid_transport_udp;
 			ctx->flags &= ~(NFS_MOUNT_NONLM | NFS_MOUNT_NOACL |
 					NFS_MOUNT_VER3 | NFS_MOUNT_LOCAL_FLOCK |
 					NFS_MOUNT_LOCAL_FCNTL);
@@ -1344,10 +1351,6 @@ static int nfs_fs_context_validate(struct fs_context *fc)
 		}
 	} else {
 		nfs_set_mount_transport_protocol(ctx);
-#ifdef CONFIG_NFS_DISABLE_UDP_SUPPORT
-	       if (ctx->nfs_server.protocol == XPRT_TRANSPORT_UDP)
-		       goto out_invalid_transport_udp;
-#endif
 		if (ctx->nfs_server.protocol == XPRT_TRANSPORT_RDMA)
 			port = NFS_RDMA_PORT;
 	}
@@ -1381,8 +1384,6 @@ out_no_device_name:
 out_v4_not_compiled:
 	nfs_errorf(fc, "NFS: NFSv4 is not compiled into kernel");
 	return -EPROTONOSUPPORT;
-out_invalid_transport_udp:
-	return nfs_invalf(fc, "NFS: Unsupported transport protocol udp");
 out_no_address:
 	return nfs_invalf(fc, "NFS: mount program didn't pass remote address");
 out_mountproto_mismatch:
@@ -1542,11 +1543,8 @@ static int nfs_init_fs_context(struct fs_context *fc)
 		ctx->selected_flavor	= RPC_AUTH_MAXFLAVOR;
 		ctx->minorversion	= 0;
 		ctx->need_mount		= true;
-<<<<<<< HEAD
 
 		fc->s_iflags		|= SB_I_STABLE_WRITES;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	fc->fs_private = ctx;
 	fc->ops = &nfs_fs_context_ops;

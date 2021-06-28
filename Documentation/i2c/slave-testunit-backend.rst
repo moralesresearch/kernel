@@ -22,14 +22,9 @@ Instantiating the device is regular. Example for bus 0, address 0x30:
 
 After that, you will have a write-only device listening. Reads will just return
 an 8-bit version number of the testunit. When writing, the device consists of 4
-<<<<<<< HEAD
 8-bit registers and, except for some "partial" commands, all registers must be
 written to start a testcase, i.e. you usually write 4 bytes to the device. The
 registers are:
-=======
-8-bit registers and all must be written to start a testcase, i.e. you must
-always write 4 bytes to the device. The registers are:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 0x00 CMD   - which test to trigger
 0x01 DATAL - configuration byte 1 for the test
@@ -73,7 +68,6 @@ status word is currently ignored in the Linux Kernel. Example to send a
 notification after 10ms:
 
 # i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
-<<<<<<< HEAD
 
 0x03 SMBUS_BLOCK_PROC_CALL (partial command)
    DATAL - must be '1', i.e. one further byte will be written
@@ -92,5 +86,3 @@ i2ctransfer (you need i2c-tools v4.2 or later):
 
 # i2ctransfer -y 0 w3@0x30 0x03 0x01 0x10 r?
 0x10 0x0f 0x0e 0x0d 0x0c 0x0b 0x0a 0x09 0x08 0x07 0x06 0x05 0x04 0x03 0x02 0x01 0x00
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

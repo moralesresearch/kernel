@@ -18,10 +18,7 @@ properties:
     enum:
       - intel,keembay-i2s
       - intel,keembay-tdm
-<<<<<<< HEAD
       - intel,keembay-hdmi-i2s
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   "#sound-dai-cells":
     const: 0
@@ -49,7 +46,6 @@ properties:
       - const: osc
       - const: apb_clk
 
-<<<<<<< HEAD
   dmas:
     items:
       - description: DMA TX channel
@@ -60,8 +56,6 @@ properties:
       - const: tx
       - const: rx
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - "#sound-dai-cells"
@@ -87,9 +81,6 @@ examples:
          interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
          clock-names = "osc", "apb_clk";
          clocks = <&scmi_clk KEEM_BAY_PSS_AUX_I2S3>, <&scmi_clk KEEM_BAY_PSS_I2S3>;
-<<<<<<< HEAD
-         dmas = <&axi_dma0 29 &axi_dma0 33>;
+         dmas = <&axi_dma0 29>, <&axi_dma0 33>;
          dma-names = "tx", "rx";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
      };

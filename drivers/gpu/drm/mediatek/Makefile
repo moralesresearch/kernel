@@ -1,19 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0
 
-<<<<<<< HEAD
 mediatek-drm-y := mtk_disp_ccorr.o \
 		  mtk_disp_color.o \
 		  mtk_disp_gamma.o \
 		  mtk_disp_ovl.o \
 		  mtk_disp_rdma.o \
 		  mtk_drm_crtc.o \
-=======
-mediatek-drm-y := mtk_disp_color.o \
-		  mtk_disp_ovl.o \
-		  mtk_disp_rdma.o \
-		  mtk_drm_crtc.o \
-		  mtk_drm_ddp.o \
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  mtk_drm_ddp_comp.o \
 		  mtk_drm_drv.o \
 		  mtk_drm_gem.o \

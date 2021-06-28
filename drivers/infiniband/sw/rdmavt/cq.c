@@ -371,11 +371,7 @@ int rvt_req_notify_cq(struct ib_cq *ibcq, enum ib_cq_notify_flags notify_flags)
 	return ret;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * rvt_resize_cq - change the size of the CQ
  * @ibcq: the completion queue
  *

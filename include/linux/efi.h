@@ -29,23 +29,10 @@
 #include <asm/page.h>
 
 #define EFI_SUCCESS		0
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define EFI_LOAD_ERROR		( 1 | (1UL << (BITS_PER_LONG-1)))
 #define EFI_INVALID_PARAMETER	( 2 | (1UL << (BITS_PER_LONG-1)))
 #define EFI_UNSUPPORTED		( 3 | (1UL << (BITS_PER_LONG-1)))
 #define EFI_BAD_BUFFER_SIZE	( 4 | (1UL << (BITS_PER_LONG-1)))
-<<<<<<< HEAD
-=======
-=======
-#define EFI_LOAD_ERROR          ( 1 | (1UL << (BITS_PER_LONG-1)))
-#define EFI_INVALID_PARAMETER	( 2 | (1UL << (BITS_PER_LONG-1)))
-#define EFI_UNSUPPORTED		( 3 | (1UL << (BITS_PER_LONG-1)))
-#define EFI_BAD_BUFFER_SIZE     ( 4 | (1UL << (BITS_PER_LONG-1)))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define EFI_BUFFER_TOO_SMALL	( 5 | (1UL << (BITS_PER_LONG-1)))
 #define EFI_NOT_READY		( 6 | (1UL << (BITS_PER_LONG-1)))
 #define EFI_DEVICE_ERROR	( 7 | (1UL << (BITS_PER_LONG-1)))
@@ -182,14 +169,6 @@ struct capsule_info {
 
 int __efi_capsule_setup_info(struct capsule_info *cap_info);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-typedef int (*efi_freemem_callback_t) (u64 start, u64 end, void *arg);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Types and defines for Time Services
  */
@@ -626,16 +605,6 @@ efi_guid_to_str(efi_guid_t *guid, char *out)
 }
 
 extern void efi_init (void);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-extern void *efi_get_pal_addr (void);
-extern void efi_map_pal_code (void);
-extern void efi_memmap_walk (efi_freemem_callback_t callback, void *arg);
-extern void efi_gettimeofday (struct timespec64 *ts);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_EFI
 extern void efi_enter_virtual_mode (void);	/* switch EFI to virtual mode, if possible */
 #else
@@ -1137,19 +1106,6 @@ enum efi_secureboot_mode efi_get_secureboot_mode(efi_get_variable_t *get_var)
 	return efi_secureboot_mode_enabled;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_RESET_ATTACK_MITIGATION
-void efi_enable_reset_attack_mitigation(void);
-#else
-static inline void
-efi_enable_reset_attack_mitigation(void) { }
-#endif
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
 void efi_check_for_embedded_firmwares(void);
 #else
@@ -1158,14 +1114,6 @@ static inline void efi_check_for_embedded_firmwares(void) { }
 
 efi_status_t efi_random_get_seed(void);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void efi_retrieve_tpm2_eventlog(void);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Arch code can implement the following three template macros, avoiding
  * reptition for the void/non-void return cases of {__,}efi_call_virt():

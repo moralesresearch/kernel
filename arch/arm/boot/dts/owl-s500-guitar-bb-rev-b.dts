@@ -18,21 +18,8 @@
 	chosen {
 		stdout-path = "serial3:115200n8";
 	};
-<<<<<<< HEAD
-=======
-
-	uart3_clk: uart3-clk {
-		compatible = "fixed-clock";
-		clock-frequency = <921600>;
-		#clock-cells = <0>;
-	};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &uart3 {
 	status = "okay";
-<<<<<<< HEAD
-=======
-	clocks = <&uart3_clk>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

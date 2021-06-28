@@ -249,7 +249,6 @@
 	proc-supply = <&mt6358_vproc11_reg>;
 };
 
-<<<<<<< HEAD
 &dsi0 {
 	status = "okay";
 	#address-cells = <1>;
@@ -280,8 +279,6 @@
 	};
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &i2c0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c0_pins>;
@@ -323,13 +320,10 @@
 	clock-frequency = <100000>;
 };
 
-<<<<<<< HEAD
 &mipi_tx0 {
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &mmc0 {
 	status = "okay";
 	pinctrl-names = "default", "state_uhs";
@@ -587,7 +581,6 @@
 		};
 	};
 
-<<<<<<< HEAD
 	panel_pins_default: panel_pins_default {
 		panel_reset {
 			pinmux = <PINMUX_GPIO45__FUNC_GPIO45>;
@@ -596,8 +589,6 @@
 		};
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pwm0_pin_default: pwm0_pin_default {
 		pins1 {
 			pinmux = <PINMUX_GPIO176__FUNC_GPIO176>;
@@ -760,13 +751,10 @@
 	};
 };
 
-<<<<<<< HEAD
 &mfg {
 	domain-supply = <&mt6358_vgpu_reg>;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &soc_data {
 	status = "okay";
 };

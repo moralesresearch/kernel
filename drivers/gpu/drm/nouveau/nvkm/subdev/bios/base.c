@@ -140,12 +140,8 @@ nvkm_bios = {
 };
 
 int
-<<<<<<< HEAD
 nvkm_bios_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_bios **pbios)
-=======
-nvkm_bios_new(struct nvkm_device *device, int index, struct nvkm_bios **pbios)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_bios *bios;
 	struct nvbios_image image;
@@ -154,11 +150,7 @@ nvkm_bios_new(struct nvkm_device *device, int index, struct nvkm_bios **pbios)
 
 	if (!(bios = *pbios = kzalloc(sizeof(*bios), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_bios, device, type, inst, &bios->subdev);
-=======
-	nvkm_subdev_ctor(&nvkm_bios, device, index, &bios->subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = nvbios_shadow(bios);
 	if (ret)

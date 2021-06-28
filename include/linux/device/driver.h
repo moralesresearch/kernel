@@ -75,11 +75,7 @@ enum probe_type {
  * @resume:	Called to bring a device from sleep mode.
  * @groups:	Default attributes that get created by the driver core
  *		automatically.
-<<<<<<< HEAD
  * @dev_groups:	Additional attributes attached to device instance once
-=======
- * @dev_groups:	Additional attributes attached to device instance once the
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *		it is bound to the driver.
  * @pm:		Power management operations of the device which matched
  *		this driver.

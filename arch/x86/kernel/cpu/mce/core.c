@@ -529,7 +529,7 @@ static void mce_irq_work_cb(struct irq_work *entry)
  * Check if the address reported by the CPU is in a format we can parse.
  * It would be possible to add code for most other cases, but all would
  * be somewhat complicated (e.g. segment offset would require an instruction
- * parser). So only support physical addresses up to page granuality for now.
+ * parser). So only support physical addresses up to page granularity for now.
  */
 int mce_usable_address(struct mce *m)
 {
@@ -878,15 +878,12 @@ static atomic_t mce_executing;
 static atomic_t mce_callin;
 
 /*
-<<<<<<< HEAD
  * Track which CPUs entered the MCA broadcast synchronization and which not in
  * order to print holdouts.
  */
 static cpumask_t mce_missing_cpus = CPU_MASK_ALL;
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Check if a timeout waiting for other CPUs happened.
  */
 static int mce_timed_out(u64 *t, const char *msg)
@@ -903,17 +900,12 @@ static int mce_timed_out(u64 *t, const char *msg)
 	if (!mca_cfg.monarch_timeout)
 		goto out;
 	if ((s64)*t < SPINUNIT) {
-<<<<<<< HEAD
 		if (mca_cfg.tolerant <= 1) {
 			if (cpumask_and(&mce_missing_cpus, cpu_online_mask, &mce_missing_cpus))
 				pr_emerg("CPUs not responding to MCE broadcast (may include false positives): %*pbl\n",
 					 cpumask_pr_args(&mce_missing_cpus));
 			mce_panic(msg, NULL, NULL);
 		}
-=======
-		if (mca_cfg.tolerant <= 1)
-			mce_panic(msg, NULL, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpu_missing = 1;
 		return 1;
 	}
@@ -1024,10 +1016,7 @@ static int mce_start(int *no_way_out)
 	 * is updated before mce_callin.
 	 */
 	order = atomic_inc_return(&mce_callin);
-<<<<<<< HEAD
 	cpumask_clear_cpu(smp_processor_id(), &mce_missing_cpus);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Wait for everyone.
@@ -1136,10 +1125,7 @@ static int mce_end(int order)
 reset:
 	atomic_set(&global_nwo, 0);
 	atomic_set(&mce_callin, 0);
-<<<<<<< HEAD
 	cpumask_setall(&mce_missing_cpus);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	barrier();
 
 	/*
@@ -2204,10 +2190,6 @@ __setup("mce", mcheck_enable);
 
 int __init mcheck_init(void)
 {
-<<<<<<< HEAD
-=======
-	mcheck_intel_therm_init();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mce_register_decode_chain(&early_nb);
 	mce_register_decode_chain(&mce_uc_nb);
 	mce_register_decode_chain(&mce_default_nb);
@@ -2742,10 +2724,7 @@ static void mce_reset(void)
 	atomic_set(&mce_executing, 0);
 	atomic_set(&mce_callin, 0);
 	atomic_set(&global_nwo, 0);
-<<<<<<< HEAD
 	cpumask_setall(&mce_missing_cpus);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int fake_panic_get(void *data, u64 *val)

@@ -3,11 +3,7 @@
  *
  * Module Name: psloop - Main AML parse loop
  *
-<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
-=======
- * Copyright (C) 2000 - 2020, Intel Corp.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -268,12 +264,7 @@ acpi_status acpi_ps_parse_loop(struct acpi_walk_state *walk_state)
 								ACPI_TO_POINTER
 								(TRUE));
 				if (ACPI_FAILURE(status)
-<<<<<<< HEAD
 				    && !ACPI_CNTL_EXCEPTION(status)) {
-=======
-				    && ((status & AE_CODE_MASK) !=
-					AE_CODE_CONTROL)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					if (status == AE_AML_NO_RETURN_VALUE) {
 						ACPI_EXCEPTION((AE_INFO, status,
 								"Invoked method did not return a value"));

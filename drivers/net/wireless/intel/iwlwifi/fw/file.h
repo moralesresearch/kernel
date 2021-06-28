@@ -93,10 +93,7 @@ enum iwl_ucode_tlv_type {
 	IWL_UCODE_TLV_FW_RECOVERY_INFO	= 57,
 	IWL_UCODE_TLV_HW_TYPE			= 58,
 	IWL_UCODE_TLV_FW_FSEQ_VERSION		= 60,
-<<<<<<< HEAD
 	IWL_UCODE_TLV_PHY_INTEGRATION_VERSION	= 61,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	IWL_UCODE_TLV_PNVM_VERSION		= 62,
 	IWL_UCODE_TLV_PNVM_SKU			= 64,
@@ -365,6 +362,8 @@ typedef unsigned int __bitwise iwl_ucode_tlv_capa_t;
  * @IWL_UCODE_TLV_CAPA_PROTECTED_TWT: Supports protection of TWT action frames
  * @IWL_UCODE_TLV_CAPA_FW_RESET_HANDSHAKE: Supports the firmware handshake in
  *	reset flow
+ * @IWL_UCODE_TLV_CAPA_PASSIVE_6GHZ_SCAN: Support for passive scan on 6GHz PSC
+ *      channels even when these are not enabled.
  *
  * @NUM_IWL_UCODE_TLV_CAPA: number of bits used
  */
@@ -411,6 +410,7 @@ enum iwl_ucode_tlv_capa {
 	IWL_UCODE_TLV_CAPA_SESSION_PROT_CMD		= (__force iwl_ucode_tlv_capa_t)54,
 	IWL_UCODE_TLV_CAPA_PROTECTED_TWT		= (__force iwl_ucode_tlv_capa_t)56,
 	IWL_UCODE_TLV_CAPA_FW_RESET_HANDSHAKE		= (__force iwl_ucode_tlv_capa_t)57,
+	IWL_UCODE_TLV_CAPA_PASSIVE_6GHZ_SCAN		= (__force iwl_ucode_tlv_capa_t)58,
 
 	/* set 2 */
 	IWL_UCODE_TLV_CAPA_EXTENDED_DTS_MEASURE		= (__force iwl_ucode_tlv_capa_t)64,
@@ -443,12 +443,9 @@ enum iwl_ucode_tlv_capa {
 	 */
 	IWL_UCODE_TLV_CAPA_PSC_CHAN_SUPPORT		= (__force iwl_ucode_tlv_capa_t)98,
 
-<<<<<<< HEAD
 	IWL_UCODE_TLV_CAPA_BIGTK_SUPPORT		= (__force iwl_ucode_tlv_capa_t)100,
 	IWL_UCODE_TLV_CAPA_RFIM_SUPPORT			= (__force iwl_ucode_tlv_capa_t)102,
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NUM_IWL_UCODE_TLV_CAPA
 #ifdef __CHECKER__
 		/* sparse says it cannot increment the previous enum member */
@@ -876,11 +873,7 @@ struct iwl_fw_dbg_trigger_time_event {
  * tx_bar: tid bitmap to configure on what tid the trigger should occur
  *	when a BAR is send (for an Rx BlocAck session).
  * frame_timeout: tid bitmap to configure on what tid the trigger should occur
-<<<<<<< HEAD
  *	when a frame times out in the reordering buffer.
-=======
- *	when a frame times out in the reodering buffer.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct iwl_fw_dbg_trigger_ba {
 	__le16 rx_ba_start;

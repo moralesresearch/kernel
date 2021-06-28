@@ -292,11 +292,7 @@ nvkm_fifo_info(struct nvkm_engine *engine, u64 mthd, u64 *data)
 {
 	struct nvkm_fifo *fifo = nvkm_fifo(engine);
 	switch (mthd) {
-<<<<<<< HEAD
 	case NV_DEVICE_HOST_CHANNELS: *data = fifo->nr; return 0;
-=======
-	case NV_DEVICE_FIFO_CHANNELS: *data = fifo->nr; return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		if (fifo->func->info)
 			return fifo->func->info(fifo, mthd, data);
@@ -317,11 +313,7 @@ nvkm_fifo_oneinit(struct nvkm_engine *engine)
 static void
 nvkm_fifo_preinit(struct nvkm_engine *engine)
 {
-<<<<<<< HEAD
 	nvkm_mc_reset(engine->subdev.device, NVKM_ENGINE_FIFO, 0);
-=======
-	nvkm_mc_reset(engine->subdev.device, NVKM_ENGINE_FIFO);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -342,10 +334,7 @@ nvkm_fifo_dtor(struct nvkm_engine *engine)
 	nvkm_event_fini(&fifo->kevent);
 	nvkm_event_fini(&fifo->cevent);
 	nvkm_event_fini(&fifo->uevent);
-<<<<<<< HEAD
 	mutex_destroy(&fifo->mutex);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return data;
 }
 
@@ -363,21 +352,14 @@ nvkm_fifo = {
 
 int
 nvkm_fifo_ctor(const struct nvkm_fifo_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	       enum nvkm_subdev_type type, int inst, int nr, struct nvkm_fifo *fifo)
-=======
-	       int index, int nr, struct nvkm_fifo *fifo)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 
 	fifo->func = func;
 	INIT_LIST_HEAD(&fifo->chan);
 	spin_lock_init(&fifo->lock);
-<<<<<<< HEAD
 	mutex_init(&fifo->mutex);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (WARN_ON(fifo->nr > NVKM_FIFO_CHID_NR))
 		fifo->nr = NVKM_FIFO_CHID_NR;
@@ -385,11 +367,7 @@ nvkm_fifo_ctor(const struct nvkm_fifo_func *func, struct nvkm_device *device,
 		fifo->nr = nr;
 	bitmap_clear(fifo->mask, 0, fifo->nr);
 
-<<<<<<< HEAD
 	ret = nvkm_engine_ctor(&nvkm_fifo, device, type, inst, true, &fifo->engine);
-=======
-	ret = nvkm_engine_ctor(&nvkm_fifo, device, index, true, &fifo->engine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 

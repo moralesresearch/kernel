@@ -51,10 +51,6 @@
 
 #define XENBUS_MAX_RING_GRANT_ORDER 4
 #define XENBUS_MAX_RING_GRANTS      (1U << XENBUS_MAX_RING_GRANT_ORDER)
-<<<<<<< HEAD
-=======
-#define INVALID_GRANT_HANDLE       (~0U)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Register callback to watch this node. */
 struct xenbus_watch
@@ -91,7 +87,6 @@ struct xenbus_device {
 	struct completion down;
 	struct work_struct work;
 	struct semaphore reclaim_sem;
-<<<<<<< HEAD
 
 	/* Event channel based statistics and settings. */
 	atomic_t event_channels;
@@ -99,8 +94,6 @@ struct xenbus_device {
 	atomic_t spurious_events;
 	atomic_t jiffies_eoi_delayed;
 	unsigned int spurious_threshold;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct xenbus_device *to_xenbus_device(struct device *dev)

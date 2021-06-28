@@ -276,21 +276,13 @@ static struct dentry *proc_lookupfd(struct inode *dir, struct dentry *dentry,
  * /proc/pid/fd needs a special permission handler so that a process can still
  * access /proc/self/fd after it has executed a setuid().
  */
-<<<<<<< HEAD
 int proc_fd_permission(struct user_namespace *mnt_userns,
 		       struct inode *inode, int mask)
-=======
-int proc_fd_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct task_struct *p;
 	int rv;
 
-<<<<<<< HEAD
 	rv = generic_permission(&init_user_ns, inode, mask);
-=======
-	rv = generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rv == 0)
 		return rv;
 

@@ -23,10 +23,7 @@
 #define PP_WR_PTR_IRQ                   0x024
 #define PP_OUT_LINE_COUNT               0x028
 #define PP_LINE_COUNT                   0x02C
-<<<<<<< HEAD
 #define PP_AUTOREFRESH_CONFIG           0x030
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PP_FBC_MODE                     0x034
 #define PP_FBC_BUDGET_CTL               0x038
@@ -124,7 +121,6 @@ static int dpu_hw_pp_setup_te_config(struct dpu_hw_pingpong *pp,
 	return 0;
 }
 
-<<<<<<< HEAD
 static void dpu_hw_pp_setup_autorefresh_config(struct dpu_hw_pingpong *pp,
 					       u32 frame_count, bool enable)
 {
@@ -148,8 +144,6 @@ static bool dpu_hw_pp_get_autorefresh_config(struct dpu_hw_pingpong *pp,
 	return !!((val & BIT(31)) >> 31);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int dpu_hw_pp_poll_timeout_wr_ptr(struct dpu_hw_pingpong *pp,
 		u32 timeout_us)
 {
@@ -258,11 +252,8 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
 	c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
 	c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
 	c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
-<<<<<<< HEAD
 	c->ops.setup_autorefresh = dpu_hw_pp_setup_autorefresh_config;
 	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
 	c->ops.get_line_count = dpu_hw_pp_get_line_count;
 

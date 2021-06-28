@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /* Copyright (c) 2020 Facebook */
-<<<<<<< HEAD
 #include <errno.h>
-=======
-#include <argp.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

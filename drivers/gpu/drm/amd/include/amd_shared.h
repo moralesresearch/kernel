@@ -213,10 +213,13 @@ enum PP_FEATURE_MASK {
 	PP_ACG_MASK = 0x10000,
 	PP_STUTTER_MODE = 0x20000,
 	PP_AVFS_MASK = 0x40000,
-<<<<<<< HEAD
 	PP_GFX_DCS_MASK = 0x80000,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+};
+
+enum amd_harvest_ip_mask {
+    AMD_HARVEST_IP_VCN_MASK = 0x1,
+    AMD_HARVEST_IP_JPEG_MASK = 0x2,
+    AMD_HARVEST_IP_DMU_MASK = 0x4,
 };
 
 enum DC_FEATURE_MASK {

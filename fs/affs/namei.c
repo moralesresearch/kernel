@@ -242,17 +242,8 @@ affs_unlink(struct inode *dir, struct dentry *dentry)
 }
 
 int
-<<<<<<< HEAD
 affs_create(struct user_namespace *mnt_userns, struct inode *dir,
 	    struct dentry *dentry, umode_t mode, bool excl)
-=======
-<<<<<<< HEAD
-affs_create(struct user_namespace *mnt_userns, struct inode *dir,
-	    struct dentry *dentry, umode_t mode, bool excl)
-=======
-affs_create(struct inode *dir, struct dentry *dentry, umode_t mode, bool excl)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block *sb = dir->i_sb;
 	struct inode	*inode;
@@ -283,17 +274,8 @@ affs_create(struct inode *dir, struct dentry *dentry, umode_t mode, bool excl)
 }
 
 int
-<<<<<<< HEAD
 affs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 	   struct dentry *dentry, umode_t mode)
-=======
-<<<<<<< HEAD
-affs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
-	   struct dentry *dentry, umode_t mode)
-=======
-affs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode		*inode;
 	int			 error;
@@ -331,17 +313,8 @@ affs_rmdir(struct inode *dir, struct dentry *dentry)
 }
 
 int
-<<<<<<< HEAD
 affs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 	     struct dentry *dentry, const char *symname)
-=======
-<<<<<<< HEAD
-affs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
-	     struct dentry *dentry, const char *symname)
-=======
-affs_symlink(struct inode *dir, struct dentry *dentry, const char *symname)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block	*sb = dir->i_sb;
 	struct buffer_head	*bh;
@@ -530,21 +503,9 @@ done:
 	return retval;
 }
 
-<<<<<<< HEAD
 int affs_rename2(struct user_namespace *mnt_userns, struct inode *old_dir,
 		 struct dentry *old_dentry, struct inode *new_dir,
 		 struct dentry *new_dentry, unsigned int flags)
-=======
-<<<<<<< HEAD
-int affs_rename2(struct user_namespace *mnt_userns, struct inode *old_dir,
-		 struct dentry *old_dentry, struct inode *new_dir,
-		 struct dentry *new_dentry, unsigned int flags)
-=======
-int affs_rename2(struct inode *old_dir, struct dentry *old_dentry,
-			struct inode *new_dir, struct dentry *new_dentry,
-			unsigned int flags)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 
 	if (flags & ~(RENAME_NOREPLACE | RENAME_EXCHANGE))

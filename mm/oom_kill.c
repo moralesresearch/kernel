@@ -74,7 +74,7 @@ static inline bool is_memcg_oom(struct oom_control *oc)
 
 #ifdef CONFIG_NUMA
 /**
- * oom_cpuset_eligible() - check task eligiblity for kill
+ * oom_cpuset_eligible() - check task eligibility for kill
  * @start: task struct of which task to consider
  * @oc: pointer to struct oom_control
  *
@@ -170,11 +170,7 @@ static bool oom_unkillable_task(struct task_struct *p)
 	return false;
 }
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Check whether unreclaimable slab amount is greater than
  * all user memory(LRU pages).
  * dump_unreclaimable_slab() could help in the case that
@@ -399,14 +395,8 @@ static int dump_task(struct task_struct *p, void *arg)
 	task = find_lock_task_mm(p);
 	if (!task) {
 		/*
-<<<<<<< HEAD
 		 * All of p's threads have already detached their mm's. There's
 		 * no need to report them; they can't be oom killed anyway.
-=======
-		 * This is a kthread or all of p's threads have already
-		 * detached their mm's.  There's no need to report
-		 * them; they can't be oom killed anyway.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		return 0;
 	}
@@ -555,25 +545,15 @@ bool __oom_reap_task_mm(struct mm_struct *mm)
 			mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0,
 						vma, mm, vma->vm_start,
 						vma->vm_end);
-<<<<<<< HEAD
 			tlb_gather_mmu(&tlb, mm);
 			if (mmu_notifier_invalidate_range_start_nonblock(&range)) {
 				tlb_finish_mmu(&tlb);
-=======
-			tlb_gather_mmu(&tlb, mm, range.start, range.end);
-			if (mmu_notifier_invalidate_range_start_nonblock(&range)) {
-				tlb_finish_mmu(&tlb, range.start, range.end);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ret = false;
 				continue;
 			}
 			unmap_page_range(&tlb, vma, range.start, range.end, NULL);
 			mmu_notifier_invalidate_range_end(&range);
-<<<<<<< HEAD
 			tlb_finish_mmu(&tlb);
-=======
-			tlb_finish_mmu(&tlb, range.start, range.end);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -1013,7 +993,7 @@ static void oom_kill_process(struct oom_control *oc, const char *message)
 	if (oom_group) {
 		mem_cgroup_print_oom_group(oom_group);
 		mem_cgroup_scan_tasks(oom_group, oom_kill_memcg_member,
-				      (void*)message);
+				      (void *)message);
 		mem_cgroup_put(oom_group);
 	}
 }

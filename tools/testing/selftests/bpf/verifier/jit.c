@@ -105,7 +105,6 @@
 	.result = ACCEPT,
 	.retval = 2,
 },
-<<<<<<< HEAD
 {
 	"jit: torturous jumps, imm8 nop jmp and pure jump padding",
 	.insns = { },
@@ -130,5 +129,3 @@
 	.result = ACCEPT,
 	.retval = 3,
 },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

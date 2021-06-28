@@ -41,10 +41,7 @@ static __always_inline void boot_init_stack_canary(void)
 #endif
 	ptrauth_thread_init_kernel(current);
 	ptrauth_thread_switch_kernel(current);
-<<<<<<< HEAD
 	ptrauth_enable();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif	/* _ASM_STACKPROTECTOR_H */

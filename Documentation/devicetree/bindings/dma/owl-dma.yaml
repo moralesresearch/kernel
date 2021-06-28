@@ -8,13 +8,8 @@ title: Actions Semi Owl SoCs DMA controller
 
 description: |
   The OWL DMA is a general-purpose direct memory access controller capable of
-<<<<<<< HEAD
   supporting 10 independent DMA channels for the Actions Semi S700 SoC and 12
   independent DMA channels for the S500 and S900 SoC variants.
-=======
-  supporting 10 and 12 independent DMA channels for S700 and S900 SoCs
-  respectively.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 maintainers:
   - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
@@ -25,14 +20,9 @@ allOf:
 properties:
   compatible:
     enum:
-<<<<<<< HEAD
       - actions,s500-dma
       - actions,s700-dma
       - actions,s900-dma
-=======
-      - actions,s900-dma
-      - actions,s700-dma
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1

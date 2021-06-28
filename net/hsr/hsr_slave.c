@@ -48,7 +48,6 @@ static rx_handler_result_t hsr_handle_frame(struct sk_buff **pskb)
 		goto finish_consume;
 	}
 
-<<<<<<< HEAD
 	/* For HSR, only tagged frames are expected (unless the device offloads
 	 * HSR tag removal), but for PRP there could be non tagged frames as
 	 * well from Single attached nodes (SANs).
@@ -57,32 +56,15 @@ static rx_handler_result_t hsr_handle_frame(struct sk_buff **pskb)
 
 	if (!(port->dev->features & NETIF_F_HW_HSR_TAG_RM) &&
 	    hsr->proto_ops->invalid_dan_ingress_frame &&
-=======
-	/* For HSR, only tagged frames are expected, but for PRP
-	 * there could be non tagged frames as well from Single
-	 * attached nodes (SANs).
-	 */
-	protocol = eth_hdr(skb)->h_proto;
-	if (hsr->proto_ops->invalid_dan_ingress_frame &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    hsr->proto_ops->invalid_dan_ingress_frame(protocol))
 		goto finish_pass;
 
 	skb_push(skb, ETH_HLEN);
-<<<<<<< HEAD
 	skb_reset_mac_header(skb);
 	if ((!hsr->prot_version && protocol == htons(ETH_P_PRP)) ||
 	    protocol == htons(ETH_P_HSR))
 		skb_set_network_header(skb, ETH_HLEN + HSR_HLEN);
 	skb_reset_mac_len(skb);
-=======
-
-	if (skb_mac_header(skb) != skb->data) {
-		WARN_ONCE(1, "%s:%d: Malformed frame at source port %s)\n",
-			  __func__, __LINE__, port->dev->name);
-		goto finish_consume;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hsr_forward_skb(skb, port);
 

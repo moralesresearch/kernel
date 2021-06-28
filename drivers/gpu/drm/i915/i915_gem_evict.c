@@ -61,7 +61,6 @@ mark_free(struct drm_mm_scan *scan,
 	return drm_mm_scan_add_block(scan, &vma->node);
 }
 
-<<<<<<< HEAD
 static bool defer_evict(struct i915_vma *vma)
 {
 	if (i915_vma_is_active(vma))
@@ -73,8 +72,6 @@ static bool defer_evict(struct i915_vma *vma)
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * i915_gem_evict_something - Evict vmas to make room for binding a new one
  * @vm: address space to evict from
@@ -164,11 +161,7 @@ search_again:
 		 * To notice when we complete one full cycle, we record the
 		 * first active element seen, before moving it to the tail.
 		 */
-<<<<<<< HEAD
 		if (active != ERR_PTR(-EAGAIN) && defer_evict(vma)) {
-=======
-		if (active != ERR_PTR(-EAGAIN) && i915_vma_is_active(vma)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!active)
 				active = vma;
 

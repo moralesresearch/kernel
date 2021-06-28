@@ -1,14 +1,10 @@
+// SPDX-License-Identifier: MIT
 /*
- * SPDX-License-Identifier: MIT
- *
  * Copyright © 2019 Intel Corporation
  */
 
 #include "gt/intel_engine_pm.h"
-<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "i915_selftest.h"
 
 #include "gem/selftests/mock_context.h"
@@ -16,8 +12,9 @@
 #include "selftests/igt_spinner.h"
 
 struct live_mocs {
-	struct drm_i915_mocs_table mocs;
-	struct drm_i915_mocs_table l3cc;
+	struct drm_i915_mocs_table table;
+	struct drm_i915_mocs_table *mocs;
+	struct drm_i915_mocs_table *l3cc;
 	struct i915_vma *scratch;
 	void *vaddr;
 };
@@ -60,63 +57,29 @@ static int request_add_spin(struct i915_request *rq, struct igt_spinner *spin)
 	return err;
 }
 
-<<<<<<< HEAD
-=======
-static struct i915_vma *create_scratch(struct intel_gt *gt)
-{
-	struct drm_i915_gem_object *obj;
-	struct i915_vma *vma;
-	int err;
-
-	obj = i915_gem_object_create_internal(gt->i915, PAGE_SIZE);
-	if (IS_ERR(obj))
-		return ERR_CAST(obj);
-
-	i915_gem_object_set_cache_coherency(obj, I915_CACHING_CACHED);
-
-	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
-	if (IS_ERR(vma)) {
-		i915_gem_object_put(obj);
-		return vma;
-	}
-
-	err = i915_vma_pin(vma, 0, 0, PIN_GLOBAL);
-	if (err) {
-		i915_gem_object_put(obj);
-		return ERR_PTR(err);
-	}
-
-	return vma;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int live_mocs_init(struct live_mocs *arg, struct intel_gt *gt)
 {
-	struct drm_i915_mocs_table table;
 	unsigned int flags;
 	int err;
 
 	memset(arg, 0, sizeof(*arg));
 
-	flags = get_mocs_settings(gt->i915, &table);
+	flags = get_mocs_settings(gt->i915, &arg->table);
 	if (!flags)
 		return -EINVAL;
 
 	if (flags & HAS_RENDER_L3CC)
-		arg->l3cc = table;
+		arg->l3cc = &arg->table;
 
 	if (flags & (HAS_GLOBAL_MOCS | HAS_ENGINE_MOCS))
-		arg->mocs = table;
+		arg->mocs = &arg->table;
 
-<<<<<<< HEAD
-	arg->scratch = __vm_create_scratch_for_read(&gt->ggtt->vm, PAGE_SIZE);
-=======
-	arg->scratch = create_scratch(gt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	arg->scratch =
+		__vm_create_scratch_for_read_pinned(&gt->ggtt->vm, PAGE_SIZE);
 	if (IS_ERR(arg->scratch))
 		return PTR_ERR(arg->scratch);
 
-	arg->vaddr = i915_gem_object_pin_map(arg->scratch->obj, I915_MAP_WB);
+	arg->vaddr = i915_gem_object_pin_map_unlocked(arg->scratch->obj, I915_MAP_WB);
 	if (IS_ERR(arg->vaddr)) {
 		err = PTR_ERR(arg->vaddr);
 		goto err_scratch;
@@ -136,11 +99,7 @@ static void live_mocs_fini(struct live_mocs *arg)
 
 static int read_regs(struct i915_request *rq,
 		     u32 addr, unsigned int count,
-<<<<<<< HEAD
 		     u32 *offset)
-=======
-		     uint32_t *offset)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int i;
 	u32 *cs;
@@ -168,13 +127,12 @@ static int read_regs(struct i915_request *rq,
 
 static int read_mocs_table(struct i915_request *rq,
 			   const struct drm_i915_mocs_table *table,
-<<<<<<< HEAD
 			   u32 *offset)
-=======
-			   uint32_t *offset)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 addr;
+
+	if (!table)
+		return 0;
 
 	if (HAS_GLOBAL_MOCS_REGISTERS(rq->engine->i915))
 		addr = global_mocs_offset();
@@ -186,27 +144,25 @@ static int read_mocs_table(struct i915_request *rq,
 
 static int read_l3cc_table(struct i915_request *rq,
 			   const struct drm_i915_mocs_table *table,
-<<<<<<< HEAD
 			   u32 *offset)
-=======
-			   uint32_t *offset)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 addr = i915_mmio_reg_offset(GEN9_LNCFCMOCS(0));
+
+	if (!table)
+		return 0;
 
 	return read_regs(rq, addr, (table->n_entries + 1) / 2, offset);
 }
 
 static int check_mocs_table(struct intel_engine_cs *engine,
 			    const struct drm_i915_mocs_table *table,
-<<<<<<< HEAD
 			    u32 **vaddr)
-=======
-			    uint32_t **vaddr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int i;
 	u32 expect;
+
+	if (!table)
+		return 0;
 
 	for_each_mocs(expect, table, i) {
 		if (**vaddr != expect) {
@@ -232,16 +188,15 @@ static bool mcr_range(struct drm_i915_private *i915, u32 offset)
 
 static int check_l3cc_table(struct intel_engine_cs *engine,
 			    const struct drm_i915_mocs_table *table,
-<<<<<<< HEAD
 			    u32 **vaddr)
-=======
-			    uint32_t **vaddr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Can we read the MCR range 0xb00 directly? See intel_workarounds! */
 	u32 reg = i915_mmio_reg_offset(GEN9_LNCFCMOCS(0));
 	unsigned int i;
 	u32 expect;
+
+	if (!table)
+		return 0;
 
 	for_each_l3cc(expect, table, i) {
 		if (!mcr_range(engine->i915, reg) && **vaddr != expect) {
@@ -280,9 +235,9 @@ static int check_mocs_engine(struct live_mocs *arg,
 	/* Read the mocs tables back using SRM */
 	offset = i915_ggtt_offset(vma);
 	if (!err)
-		err = read_mocs_table(rq, &arg->mocs, &offset);
+		err = read_mocs_table(rq, arg->mocs, &offset);
 	if (!err && ce->engine->class == RENDER_CLASS)
-		err = read_l3cc_table(rq, &arg->l3cc, &offset);
+		err = read_l3cc_table(rq, arg->l3cc, &offset);
 	offset -= i915_ggtt_offset(vma);
 	GEM_BUG_ON(offset > PAGE_SIZE);
 
@@ -293,9 +248,9 @@ static int check_mocs_engine(struct live_mocs *arg,
 	/* Compare the results against the expected tables */
 	vaddr = arg->vaddr;
 	if (!err)
-		err = check_mocs_table(ce->engine, &arg->mocs, &vaddr);
+		err = check_mocs_table(ce->engine, arg->mocs, &vaddr);
 	if (!err && ce->engine->class == RENDER_CLASS)
-		err = check_l3cc_table(ce->engine, &arg->l3cc, &vaddr);
+		err = check_l3cc_table(ce->engine, arg->l3cc, &vaddr);
 	if (err)
 		return err;
 
@@ -392,7 +347,6 @@ static int active_engine_reset(struct intel_context *ce,
 static int __live_mocs_reset(struct live_mocs *mocs,
 			     struct intel_context *ce)
 {
-<<<<<<< HEAD
 	struct intel_gt *gt = ce->engine->gt;
 	int err;
 
@@ -421,31 +375,6 @@ static int __live_mocs_reset(struct live_mocs *mocs,
 		if (err)
 			return err;
 	}
-=======
-	int err;
-
-	err = intel_engine_reset(ce->engine, "mocs");
-	if (err)
-		return err;
-
-	err = check_mocs_engine(mocs, ce);
-	if (err)
-		return err;
-
-	err = active_engine_reset(ce, "mocs");
-	if (err)
-		return err;
-
-	err = check_mocs_engine(mocs, ce);
-	if (err)
-		return err;
-
-	intel_gt_reset(ce->engine->gt, ce->engine->mask, "mocs");
-
-	err = check_mocs_engine(mocs, ce);
-	if (err)
-		return err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -460,12 +389,6 @@ static int live_mocs_reset(void *arg)
 
 	/* Check the mocs setup is retained over per-engine and global resets */
 
-<<<<<<< HEAD
-=======
-	if (!intel_has_reset_engine(gt))
-		return 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = live_mocs_init(&mocs, gt);
 	if (err)
 		return err;

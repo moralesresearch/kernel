@@ -11,11 +11,8 @@
 struct device;
 struct firmware;
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_QCOM_MDT_LOADER)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ssize_t qcom_mdt_get_size(const struct firmware *fw);
 int qcom_mdt_load(struct device *dev, const struct firmware *fw,
 		  const char *fw_name, int pas_id, void *mem_region,
@@ -28,7 +25,6 @@ int qcom_mdt_load_no_init(struct device *dev, const struct firmware *fw,
 			  phys_addr_t *reloc_base);
 void *qcom_mdt_read_metadata(const struct firmware *fw, size_t *data_len);
 
-<<<<<<< HEAD
 #else /* !IS_ENABLED(CONFIG_QCOM_MDT_LOADER) */
 
 static inline ssize_t qcom_mdt_get_size(const struct firmware *fw)
@@ -62,6 +58,4 @@ static inline void *qcom_mdt_read_metadata(const struct firmware *fw,
 
 #endif /* !IS_ENABLED(CONFIG_QCOM_MDT_LOADER) */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

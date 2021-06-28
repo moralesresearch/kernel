@@ -339,10 +339,7 @@ static int parse_options(char *options, struct iso9660_options *popt)
 {
 	char *p;
 	int option;
-<<<<<<< HEAD
 	unsigned int uv;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	popt->map = 'n';
 	popt->rock = 1;
@@ -438,29 +435,17 @@ static int parse_options(char *options, struct iso9660_options *popt)
 		case Opt_ignore:
 			break;
 		case Opt_uid:
-<<<<<<< HEAD
 			if (match_uint(&args[0], &uv))
 				return 0;
 			popt->uid = make_kuid(current_user_ns(), uv);
-=======
-			if (match_int(&args[0], &option))
-				return 0;
-			popt->uid = make_kuid(current_user_ns(), option);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!uid_valid(popt->uid))
 				return 0;
 			popt->uid_set = 1;
 			break;
 		case Opt_gid:
-<<<<<<< HEAD
 			if (match_uint(&args[0], &uv))
 				return 0;
 			popt->gid = make_kgid(current_user_ns(), uv);
-=======
-			if (match_int(&args[0], &option))
-				return 0;
-			popt->gid = make_kgid(current_user_ns(), option);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (!gid_valid(popt->gid))
 				return 0;
 			popt->gid_set = 1;

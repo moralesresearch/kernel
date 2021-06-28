@@ -18,13 +18,8 @@ static ssize_t manager_sysfs_add_store(struct kobject *kobj,
 	struct gb_audio_manager_module_descriptor desc = { {0} };
 
 	int num = sscanf(buf,
-<<<<<<< HEAD
 			"name=%" GB_AUDIO_MANAGER_MODULE_NAME_LEN_SSCANF
 			"s vid=%d pid=%d intf_id=%d i/p devices=0x%X o/p devices=0x%X",
-=======
-			"name=%" GB_AUDIO_MANAGER_MODULE_NAME_LEN_SSCANF "s "
-			"vid=%d pid=%d intf_id=%d i/p devices=0x%X o/p devices=0x%X",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			desc.name, &desc.vid, &desc.pid, &desc.intf_id,
 			&desc.ip_devices, &desc.op_devices);
 

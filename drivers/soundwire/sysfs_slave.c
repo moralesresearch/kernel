@@ -130,11 +130,7 @@ static struct attribute *slave_dev_attrs[] = {
  * we don't use ATTRIBUTES_GROUP here since we want to add a subdirectory
  * for device-level properties
  */
-<<<<<<< HEAD
 static const struct attribute_group sdw_slave_dev_attr_group = {
-=======
-static struct attribute_group sdw_slave_dev_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs	= slave_dev_attrs,
 	.name = "dev-properties",
 };

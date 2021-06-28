@@ -56,14 +56,6 @@
  *  more details.
  */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#undef FBCONDEBUG
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/types.h>
 #include <linux/fs.h>
@@ -88,18 +80,6 @@
 
 #include "fbcon.h"
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#ifdef FBCONDEBUG
-#  define DPRINTK(fmt, args...) printk(KERN_DEBUG "%s: " fmt, __func__ , ## args)
-#else
-#  define DPRINTK(fmt, args...)
-#endif
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * FIXME: Locking
  *
@@ -1027,25 +1007,11 @@ static const char *fbcon_startup(void)
 	rows /= vc->vc_font.height;
 	vc_resize(vc, cols, rows);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_debug("mode:   %s\n", info->fix.id);
 	pr_debug("visual: %d\n", info->fix.visual);
 	pr_debug("res:    %dx%d-%d\n", info->var.xres,
 		 info->var.yres,
 		 info->var.bits_per_pixel);
-<<<<<<< HEAD
-=======
-=======
-	DPRINTK("mode:   %s\n", info->fix.id);
-	DPRINTK("visual: %d\n", info->fix.visual);
-	DPRINTK("res:    %dx%d-%d\n", info->var.xres,
-		info->var.yres,
-		info->var.bits_per_pixel);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fbcon_add_cursor_timer(info);
 	return display_desc;
@@ -2042,15 +2008,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
 	    y_diff < 0 || y_diff > virt_fh) {
 		const struct fb_videomode *mode;
 
-<<<<<<< HEAD
 		pr_debug("attempting resize %ix%i\n", var.xres, var.yres);
-=======
-<<<<<<< HEAD
-		pr_debug("attempting resize %ix%i\n", var.xres, var.yres);
-=======
-		DPRINTK("attempting resize %ix%i\n", var.xres, var.yres);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mode = fb_find_best_mode(&var, &info->modelist);
 		if (mode == NULL)
 			return -EINVAL;
@@ -2060,17 +2018,8 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
 		if (virt_w > var.xres/virt_fw || virt_h > var.yres/virt_fh)
 			return -EINVAL;
 
-<<<<<<< HEAD
 		pr_debug("resize now %ix%i\n", var.xres, var.yres);
 		if (con_is_visible(vc) && vc->vc_mode == KD_TEXT) {
-=======
-<<<<<<< HEAD
-		pr_debug("resize now %ix%i\n", var.xres, var.yres);
-=======
-		DPRINTK("resize now %ix%i\n", var.xres, var.yres);
->>>>>>> stable
-		if (con_is_visible(vc)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			var.activate = FB_ACTIVATE_NOW |
 				FB_ACTIVATE_FORCE;
 			fb_set_var(info, &var);
@@ -3345,16 +3294,7 @@ static void fbcon_exit(void)
 
 		if (info->queue.func)
 			pending = cancel_work_sync(&info->queue);
-<<<<<<< HEAD
 		pr_debug("fbcon: %s pending work\n", (pending ? "canceled" : "no"));
-=======
-<<<<<<< HEAD
-		pr_debug("fbcon: %s pending work\n", (pending ? "canceled" : "no"));
-=======
-		DPRINTK("fbcon: %s pending work\n", (pending ? "canceled" :
-			"no"));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		for (j = first_fb_vc; j <= last_fb_vc; j++) {
 			if (con2fb_map[j] == i) {

@@ -304,11 +304,7 @@ static int locomokbd_probe(struct locomo_dev *dev)
 	return err;
 }
 
-<<<<<<< HEAD
 static void locomokbd_remove(struct locomo_dev *dev)
-=======
-static int locomokbd_remove(struct locomo_dev *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct locomokbd *locomokbd = locomo_get_drvdata(dev);
 
@@ -322,11 +318,6 @@ static int locomokbd_remove(struct locomo_dev *dev)
 	release_mem_region((unsigned long) dev->mapbase, dev->length);
 
 	kfree(locomokbd);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct locomo_driver keyboard_driver = {

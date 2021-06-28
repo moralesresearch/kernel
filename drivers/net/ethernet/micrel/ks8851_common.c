@@ -8,11 +8,6 @@
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
-<<<<<<< HEAD
-=======
-#define DEBUG
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/interrupt.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -26,10 +21,7 @@
 
 #include <linux/gpio.h>
 #include <linux/of_gpio.h>
-<<<<<<< HEAD
 #include <linux/of_mdio.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/of_net.h>
 
 #include "ks8851.h"
@@ -201,11 +193,10 @@ static void ks8851_read_mac_addr(struct net_device *dev)
 static void ks8851_init_mac(struct ks8851_net *ks, struct device_node *np)
 {
 	struct net_device *dev = ks->netdev;
-	const u8 *mac_addr;
+	int ret;
 
-	mac_addr = of_get_mac_address(np);
-	if (!IS_ERR(mac_addr)) {
-		ether_addr_copy(dev->dev_addr, mac_addr);
+	ret = of_get_mac_address(np, dev->dev_addr);
+	if (!ret) {
 		ks8851_write_mac_addr(dev);
 		return;
 	}
@@ -939,7 +930,6 @@ static int ks8851_phy_reg(int reg)
 		return KS_P1ANLPR;
 	}
 
-<<<<<<< HEAD
 	return -EOPNOTSUPP;
 }
 
@@ -959,9 +949,6 @@ static int ks8851_phy_read_common(struct net_device *dev, int phy_addr, int reg)
 	ks8851_unlock(ks, &flags);
 
 	return result;
-=======
-	return 0x0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -981,7 +968,6 @@ static int ks8851_phy_read_common(struct net_device *dev, int phy_addr, int reg)
  */
 static int ks8851_phy_read(struct net_device *dev, int phy_addr, int reg)
 {
-<<<<<<< HEAD
 	int ret;
 
 	ret = ks8851_phy_read_common(dev, phy_addr, reg);
@@ -989,22 +975,6 @@ static int ks8851_phy_read(struct net_device *dev, int phy_addr, int reg)
 		return 0x0;	/* no error return allowed, so use zero */
 
 	return ret;
-=======
-	struct ks8851_net *ks = netdev_priv(dev);
-	unsigned long flags;
-	int ksreg;
-	int result;
-
-	ksreg = ks8851_phy_reg(reg);
-	if (!ksreg)
-		return 0x0;	/* no error return allowed, so use zero */
-
-	ks8851_lock(ks, &flags);
-	result = ks8851_rdreg16(ks, ksreg);
-	ks8851_unlock(ks, &flags);
-
-	return result;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ks8851_phy_write(struct net_device *dev,
@@ -1015,18 +985,13 @@ static void ks8851_phy_write(struct net_device *dev,
 	int ksreg;
 
 	ksreg = ks8851_phy_reg(reg);
-<<<<<<< HEAD
 	if (ksreg >= 0) {
-=======
-	if (ksreg) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ks8851_lock(ks, &flags);
 		ks8851_wrreg16(ks, ksreg, value);
 		ks8851_unlock(ks, &flags);
 	}
 }
 
-<<<<<<< HEAD
 static int ks8851_mdio_read(struct mii_bus *bus, int phy_id, int reg)
 {
 	struct ks8851_net *ks = bus->priv;
@@ -1051,8 +1016,6 @@ static int ks8851_mdio_write(struct mii_bus *bus, int phy_id, int reg, u16 val)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * ks8851_read_selftest - read the selftest memory info.
  * @ks: The device state
@@ -1116,7 +1079,6 @@ int ks8851_resume(struct device *dev)
 }
 #endif
 
-<<<<<<< HEAD
 static int ks8851_register_mdiobus(struct ks8851_net *ks, struct device *dev)
 {
 	struct mii_bus *mii_bus;
@@ -1153,8 +1115,6 @@ static void ks8851_unregister_mdiobus(struct ks8851_net *ks)
 	mdiobus_free(ks->mii_bus);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 			int msg_en)
 {
@@ -1213,11 +1173,8 @@ int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 
 	INIT_WORK(&ks->rxctrl_work, ks8851_rxctrl_work);
 
-<<<<<<< HEAD
 	SET_NETDEV_DEV(netdev, dev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* setup EEPROM state */
 	ks->eeprom.data = ks;
 	ks->eeprom.width = PCI_EEPROM_WIDTH_93C46;
@@ -1234,13 +1191,10 @@ int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 
 	dev_info(dev, "message enable is %d\n", msg_en);
 
-<<<<<<< HEAD
 	ret = ks8851_register_mdiobus(ks, dev);
 	if (ret)
 		goto err_mdio;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* set the default message enable */
 	ks->msg_enable = netif_msg_init(msg_en, NETIF_MSG_DRV |
 						NETIF_MSG_PROBE |
@@ -1249,10 +1203,6 @@ int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 	skb_queue_head_init(&ks->txq);
 
 	netdev->ethtool_ops = &ks8851_ethtool_ops;
-<<<<<<< HEAD
-=======
-	SET_NETDEV_DEV(netdev, dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_set_drvdata(dev, ks);
 
@@ -1280,11 +1230,7 @@ int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 	ret = register_netdev(netdev);
 	if (ret) {
 		dev_err(dev, "failed to register network device\n");
-<<<<<<< HEAD
 		goto err_id;
-=======
-		goto err_netdev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	netdev_info(netdev, "revision %d, MAC %pM, IRQ %d, %s EEPROM\n",
@@ -1293,14 +1239,9 @@ int ks8851_probe_common(struct net_device *netdev, struct device *dev,
 
 	return 0;
 
-<<<<<<< HEAD
 err_id:
 	ks8851_unregister_mdiobus(ks);
 err_mdio:
-=======
-err_netdev:
-err_id:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (gpio_is_valid(gpio))
 		gpio_set_value(gpio, 0);
 	regulator_disable(ks->vdd_reg);
@@ -1314,11 +1255,8 @@ int ks8851_remove_common(struct device *dev)
 {
 	struct ks8851_net *priv = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
 	ks8851_unregister_mdiobus(priv);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (netif_msg_drv(priv))
 		dev_info(dev, "remove\n");
 

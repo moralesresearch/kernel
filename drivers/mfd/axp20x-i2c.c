@@ -54,13 +54,9 @@ static int axp20x_i2c_remove(struct i2c_client *i2c)
 {
 	struct axp20x_dev *axp20x = i2c_get_clientdata(i2c);
 
-<<<<<<< HEAD
 	axp20x_device_remove(axp20x);
 
 	return 0;
-=======
-	return axp20x_device_remove(axp20x);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_OF

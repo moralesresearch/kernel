@@ -301,9 +301,9 @@ static void ieee80211_tx_query_agg_cap(struct ieee80211_device *ieee,
 	if (is_multicast_ether_addr(hdr->addr1))
 		return;
 	//check packet and mode later
-	if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
+	if (!ieee->GetNmodeSupportBySecCfg(ieee->dev))
 		return;
-	}
+
 	if (pHTInfo->bCurrentAMPDUEnable) {
 		if (!GetTs(ieee, (struct ts_common_info **)(&pTxTs), hdr->addr1, skb->priority, TX_DIR, true)) {
 			printk("===>can't get TS\n");
@@ -327,7 +327,6 @@ static void ieee80211_tx_query_agg_cap(struct ieee80211_device *ieee,
 	}
 FORCED_AGG_SETTING:
 	switch (pHTInfo->ForcedAMPDUMode) {
-<<<<<<< HEAD
 	case HT_AGG_AUTO:
 		break;
 
@@ -342,22 +341,6 @@ FORCED_AGG_SETTING:
 		tcb_desc->ampdu_density = 0;
 		tcb_desc->ampdu_factor = 0;
 		break;
-=======
-		case HT_AGG_AUTO:
-			break;
-
-		case HT_AGG_FORCE_ENABLE:
-			tcb_desc->bAMPDUEnable = true;
-			tcb_desc->ampdu_density = pHTInfo->ForcedMPDUDensity;
-			tcb_desc->ampdu_factor = pHTInfo->ForcedAMPDUFactor;
-			break;
-
-		case HT_AGG_FORCE_DISABLE:
-			tcb_desc->bAMPDUEnable = false;
-			tcb_desc->ampdu_density = 0;
-			tcb_desc->ampdu_factor = 0;
-			break;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	}
 		return;

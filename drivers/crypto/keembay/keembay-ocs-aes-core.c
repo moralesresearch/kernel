@@ -1623,10 +1623,8 @@ static int kmb_ocs_aes_probe(struct platform_device *pdev)
 	}
 
 	aes_dev->base_reg = devm_ioremap_resource(&pdev->dev, aes_mem);
-	if (IS_ERR(aes_dev->base_reg)) {
-		dev_err(dev, "Failed to get base address\n");
+	if (IS_ERR(aes_dev->base_reg))
 		return PTR_ERR(aes_dev->base_reg);
-	}
 
 	/* Get and request IRQ */
 	aes_dev->irq = platform_get_irq(pdev, 0);
@@ -1649,15 +1647,10 @@ static int kmb_ocs_aes_probe(struct platform_device *pdev)
 
 	/* Initialize crypto engine */
 	aes_dev->engine = crypto_engine_alloc_init(dev, true);
-<<<<<<< HEAD
 	if (!aes_dev->engine) {
 		rc = -ENOMEM;
 		goto list_del;
 	}
-=======
-	if (!aes_dev->engine)
-		goto list_del;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = crypto_engine_start(aes_dev->engine);
 	if (rc) {

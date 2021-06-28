@@ -30,14 +30,10 @@ static struct drbd_request *drbd_req_new(struct drbd_device *device, struct bio 
 		return NULL;
 	memset(req, 0, sizeof(*req));
 
-<<<<<<< HEAD
 	req->private_bio = bio_clone_fast(bio_src, GFP_NOIO, &drbd_io_bio_set);
 	req->private_bio->bi_private = req;
 	req->private_bio->bi_end_io = drbd_request_endio;
 
-=======
-	drbd_req_make_private_bio(req, bio_src);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	req->rq_state = (bio_data_dir(bio_src) == WRITE ? RQ_WRITE : 0)
 		      | (bio_op(bio_src) == REQ_OP_WRITE_SAME ? RQ_WSAME : 0)
 		      | (bio_op(bio_src) == REQ_OP_WRITE_ZEROES ? RQ_ZEROES : 0)
@@ -757,6 +753,7 @@ int __req_mod(struct drbd_request *req, enum drbd_req_event what,
 
 	case WRITE_ACKED_BY_PEER_AND_SIS:
 		req->rq_state |= RQ_NET_SIS;
+		fallthrough;
 	case WRITE_ACKED_BY_PEER:
 		/* Normal operation protocol C: successfully written on peer.
 		 * During resync, even in protocol != C,
@@ -1195,11 +1192,7 @@ static void drbd_queue_write(struct drbd_device *device, struct drbd_request *re
  * Returns ERR_PTR(-ENOMEM) if we cannot allocate a drbd_request.
  */
 static struct drbd_request *
-<<<<<<< HEAD
 drbd_request_prepare(struct drbd_device *device, struct bio *bio)
-=======
-drbd_request_prepare(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const int rw = bio_data_dir(bio);
 	struct drbd_request *req;
@@ -1427,15 +1420,9 @@ out:
 		complete_master_bio(device, &m);
 }
 
-<<<<<<< HEAD
 void __drbd_make_request(struct drbd_device *device, struct bio *bio)
 {
 	struct drbd_request *req = drbd_request_prepare(device, bio);
-=======
-void __drbd_make_request(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
-{
-	struct drbd_request *req = drbd_request_prepare(device, bio, start_jif);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR_OR_NULL(req))
 		return;
 	drbd_send_and_submit(device, req);
@@ -1612,31 +1599,17 @@ void do_submit(struct work_struct *ws)
 
 blk_qc_t drbd_submit_bio(struct bio *bio)
 {
-<<<<<<< HEAD
 	struct drbd_device *device = bio->bi_bdev->bd_disk->private_data;
 
 	blk_queue_split(&bio);
 
-=======
-	struct drbd_device *device = bio->bi_disk->private_data;
-	unsigned long start_jif;
-
-	blk_queue_split(&bio);
-
-	start_jif = jiffies;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * what we "blindly" assume:
 	 */
 	D_ASSERT(device, IS_ALIGNED(bio->bi_iter.bi_size, 512));
 
 	inc_ap_bio(device);
-<<<<<<< HEAD
 	__drbd_make_request(device, bio);
-=======
-	__drbd_make_request(device, bio, start_jif);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return BLK_QC_T_NONE;
 }
 

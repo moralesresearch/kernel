@@ -137,11 +137,7 @@ static int ide_cmd_ioctl(ide_drive_t *drive, void __user *argp)
 
 		rq = blk_get_request(drive->queue, REQ_OP_DRV_IN, 0);
 		ide_req(rq)->type = ATA_PRIV_TASKFILE;
-<<<<<<< HEAD
 		blk_execute_rq(NULL, rq, 0);
-=======
-		blk_execute_rq(drive->queue, NULL, rq, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = scsi_req(rq)->result ? -EIO : 0;
 		blk_put_request(rq);
 
@@ -239,11 +235,7 @@ static int generic_drive_reset(ide_drive_t *drive)
 	ide_req(rq)->type = ATA_PRIV_MISC;
 	scsi_req(rq)->cmd_len = 1;
 	scsi_req(rq)->cmd[0] = REQ_DRIVE_RESET;
-<<<<<<< HEAD
 	blk_execute_rq(NULL, rq, 1);
-=======
-	blk_execute_rq(drive->queue, NULL, rq, 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = scsi_req(rq)->result;
 	blk_put_request(rq);
 	return ret;

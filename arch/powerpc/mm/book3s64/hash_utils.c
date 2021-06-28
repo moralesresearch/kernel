@@ -38,10 +38,7 @@
 #include <linux/pgtable.h>
 
 #include <asm/debugfs.h>
-<<<<<<< HEAD
 #include <asm/interrupt.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/processor.h>
 #include <asm/mmu.h>
 #include <asm/mmu_context.h>
@@ -341,11 +338,7 @@ repeat:
 int htab_remove_mapping(unsigned long vstart, unsigned long vend,
 		      int psize, int ssize)
 {
-<<<<<<< HEAD
 	unsigned long vaddr, time_limit;
-=======
-	unsigned long vaddr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int step, shift;
 	int rc;
 	int ret = 0;
@@ -358,7 +351,6 @@ int htab_remove_mapping(unsigned long vstart, unsigned long vend,
 
 	/* Unmap the full range specificied */
 	vaddr = ALIGN_DOWN(vstart, step);
-<<<<<<< HEAD
 	time_limit = jiffies + HZ;
 
 	for (;vaddr < vend; vaddr += step) {
@@ -372,10 +364,6 @@ int htab_remove_mapping(unsigned long vstart, unsigned long vend,
 			cond_resched();
 			time_limit = jiffies + HZ;
 		}
-=======
-	for (;vaddr < vend; vaddr += step) {
-		rc = mmu_hash_ops.hpte_removebolted(vaddr, psize, ssize);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc == -ENOENT) {
 			ret = -ENOENT;
 			continue;
@@ -1167,17 +1155,10 @@ unsigned int hash_page_do_lazy_icache(unsigned int pp, pte_t pte, int trap)
 	page = pte_page(pte);
 
 	/* page is dirty */
-<<<<<<< HEAD
 	if (!test_bit(PG_dcache_clean, &page->flags) && !PageReserved(page)) {
-		if (trap == 0x400) {
+		if (trap == INTERRUPT_INST_STORAGE) {
 			flush_dcache_icache_page(page);
 			set_bit(PG_dcache_clean, &page->flags);
-=======
-	if (!test_bit(PG_arch_1, &page->flags) && !PageReserved(page)) {
-		if (trap == 0x400) {
-			flush_dcache_icache_page(page);
-			set_bit(PG_arch_1, &page->flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else
 			pp |= HPTE_R_N;
 	}
@@ -1319,10 +1300,6 @@ int hash_page_mm(struct mm_struct *mm, unsigned long ea,
 		 unsigned long flags)
 {
 	bool is_thp;
-<<<<<<< HEAD
-=======
-	enum ctx_state prev_state = exception_enter();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pgd_t *pgdir;
 	unsigned long vsid;
 	pte_t *ptep;
@@ -1524,10 +1501,6 @@ int hash_page_mm(struct mm_struct *mm, unsigned long ea,
 	DBG_LOW(" -> rc=%d\n", rc);
 
 bail:
-<<<<<<< HEAD
-=======
-	exception_exit(prev_state);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 EXPORT_SYMBOL_GPL(hash_page_mm);
@@ -1549,7 +1522,6 @@ int hash_page(unsigned long ea, unsigned long access, unsigned long trap,
 }
 EXPORT_SYMBOL_GPL(hash_page);
 
-<<<<<<< HEAD
 DECLARE_INTERRUPT_HANDLER_RET(__do_hash_fault);
 DEFINE_INTERRUPT_HANDLER_RET(__do_hash_fault)
 {
@@ -1566,18 +1538,6 @@ DEFINE_INTERRUPT_HANDLER_RET(__do_hash_fault)
 		mm = &init_mm;
 	else
 		mm = current->mm;
-=======
-int __hash_page(unsigned long trap, unsigned long ea, unsigned long dsisr,
-		unsigned long msr)
-{
-	unsigned long access = _PAGE_PRESENT | _PAGE_READ;
-	unsigned long flags = 0;
-	struct mm_struct *mm = current->mm;
-	unsigned int region_id = get_region_id(ea);
-
-	if ((region_id == VMALLOC_REGION_ID) || (region_id == IO_REGION_ID))
-		mm = &init_mm;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dsisr & DSISR_NOHPTE)
 		flags |= HPTE_NOHPTE_UPDATE;
@@ -1593,11 +1553,10 @@ int __hash_page(unsigned long trap, unsigned long ea, unsigned long dsisr,
 	 * 2) user space access kernel space.
 	 */
 	access |= _PAGE_PRIVILEGED;
-<<<<<<< HEAD
 	if (user_mode(regs) || (region_id == USER_REGION_ID))
 		access &= ~_PAGE_PRIVILEGED;
 
-	if (TRAP(regs) == 0x400)
+	if (TRAP(regs) == INTERRUPT_INST_STORAGE)
 		access |= _PAGE_EXEC;
 
 	err = hash_page_mm(mm, ea, access, TRAP(regs), flags);
@@ -1624,10 +1583,11 @@ int __hash_page(unsigned long trap, unsigned long ea, unsigned long dsisr,
 DEFINE_INTERRUPT_HANDLER_RAW(do_hash_fault)
 {
 	unsigned long dsisr = regs->dsisr;
-	long err;
 
-	if (unlikely(dsisr & (DSISR_BAD_FAULT_64S | DSISR_KEYFAULT)))
-		goto page_fault;
+	if (unlikely(dsisr & (DSISR_BAD_FAULT_64S | DSISR_KEYFAULT))) {
+		hash__do_page_fault(regs);
+		return 0;
+	}
 
 	/*
 	 * If we are in an "NMI" (e.g., an interrupt when soft-disabled), then
@@ -1647,22 +1607,10 @@ DEFINE_INTERRUPT_HANDLER_RAW(do_hash_fault)
 		return 0;
 	}
 
-	err = __do_hash_fault(regs);
-	if (err) {
-page_fault:
-		err = hash__do_page_fault(regs);
-	}
+	if (__do_hash_fault(regs))
+		hash__do_page_fault(regs);
 
-	return err;
-=======
-	if ((msr & MSR_PR) || (region_id == USER_REGION_ID))
-		access &= ~_PAGE_PRIVILEGED;
-
-	if (trap == 0x400)
-		access |= _PAGE_EXEC;
-
-	return hash_page_mm(mm, ea, access, trap, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	return 0;
 }
 
 #ifdef CONFIG_PPC_MM_SLICES
@@ -1962,30 +1910,6 @@ void flush_hash_range(unsigned long number, int local)
 	}
 }
 
-<<<<<<< HEAD
-=======
-/*
- * low_hash_fault is called when we the low level hash code failed
- * to instert a PTE due to an hypervisor error
- */
-void low_hash_fault(struct pt_regs *regs, unsigned long address, int rc)
-{
-	enum ctx_state prev_state = exception_enter();
-
-	if (user_mode(regs)) {
-#ifdef CONFIG_PPC_SUBPAGE_PROT
-		if (rc == -2)
-			_exception(SIGSEGV, regs, SEGV_ACCERR, address);
-		else
-#endif
-			_exception(SIGBUS, regs, BUS_ADRERR, address);
-	} else
-		bad_page_fault(regs, address, SIGBUS);
-
-	exception_exit(prev_state);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 long hpte_insert_repeating(unsigned long hash, unsigned long vpn,
 			   unsigned long pa, unsigned long rflags,
 			   unsigned long vflags, int psize, int ssize)

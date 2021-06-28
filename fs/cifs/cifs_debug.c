@@ -17,15 +17,14 @@
 #include "cifsproto.h"
 #include "cifs_debug.h"
 #include "cifsfs.h"
+#include "fs_context.h"
 #ifdef CONFIG_CIFS_DFS_UPCALL
 #include "dfs_cache.h"
 #endif
 #ifdef CONFIG_CIFS_SMB_DIRECT
 #include "smbdirect.h"
 #endif
-#ifdef CONFIG_CIFS_SWN_UPCALL
 #include "cifs_swn.h"
-#endif
 
 void
 cifs_dump_mem(char *label, void *data, int length)
@@ -118,10 +117,8 @@ static void cifs_debug_tcon(struct seq_file *m, struct cifs_tcon *tcon)
 		seq_printf(m, " POSIX Extensions");
 	if (tcon->ses->server->ops->dump_share_caps)
 		tcon->ses->server->ops->dump_share_caps(m, tcon);
-#ifdef CONFIG_CIFS_SWN_UPCALL
 	if (tcon->use_witness)
 		seq_puts(m, " Witness");
-#endif
 
 	if (tcon->need_reconnect)
 		seq_puts(m, "\tDISCONNECTED ");
@@ -133,20 +130,12 @@ cifs_dump_channel(struct seq_file *m, int i, struct cifs_chan *chan)
 {
 	struct TCP_Server_Info *server = chan->server;
 
-<<<<<<< HEAD
 	seq_printf(m, "\n\n\t\tChannel: %d ConnectionId: 0x%llx"
 		   "\n\t\tNumber of credits: %d Dialect 0x%x"
 		   "\n\t\tTCP status: %d Instance: %d"
 		   "\n\t\tLocal Users To Server: %d SecMode: 0x%x Req On Wire: %d"
 		   "\n\t\tIn Send: %d In MaxReq Wait: %d",
 		   i+1, server->conn_id,
-=======
-	seq_printf(m, "\t\tChannel %d Number of credits: %d Dialect 0x%x "
-		   "TCP status: %d Instance: %d Local Users To Server: %d "
-		   "SecMode: 0x%x Req On Wire: %d In Send: %d "
-		   "In MaxReq Wait: %d\n",
-		   i+1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   server->credits,
 		   server->dialect,
 		   server->tcpStatus,
@@ -206,26 +195,16 @@ static int cifs_debug_files_proc_show(struct seq_file *m, void *v)
 					cfile = list_entry(tmp2, struct cifsFileInfo,
 						     tlist);
 					seq_printf(m,
-<<<<<<< HEAD
 						"0x%x 0x%llx 0x%x %d %d %d %pd",
-=======
-						"0x%x 0x%llx 0x%x %d %d %d %s",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						tcon->tid,
 						cfile->fid.persistent_fid,
 						cfile->f_flags,
 						cfile->count,
 						cfile->pid,
 						from_kuid(&init_user_ns, cfile->uid),
-<<<<<<< HEAD
 						cfile->dentry);
 #ifdef CONFIG_CIFS_DEBUG2
 					seq_printf(m, " %llu\n", cfile->fid.mid);
-=======
-						cfile->dentry->d_name.name);
-#ifdef CONFIG_CIFS_DEBUG2
-					seq_printf(m, " 0x%llx\n", cfile->fid.mid);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 					seq_printf(m, "\n");
 #endif /* CIFS_DEBUG2 */
@@ -246,11 +225,7 @@ static int cifs_debug_data_proc_show(struct seq_file *m, void *v)
 	struct TCP_Server_Info *server;
 	struct cifs_ses *ses;
 	struct cifs_tcon *tcon;
-<<<<<<< HEAD
 	int c, i, j;
-=======
-	int i, j;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_puts(m,
 		    "Display Internal CIFS Data Structures for Debugging\n"
@@ -298,22 +273,15 @@ static int cifs_debug_data_proc_show(struct seq_file *m, void *v)
 	seq_putc(m, '\n');
 	seq_printf(m, "CIFSMaxBufSize: %d\n", CIFSMaxBufSize);
 	seq_printf(m, "Active VFS Requests: %d\n", GlobalTotalActiveXid);
-<<<<<<< HEAD
 
 	seq_printf(m, "\nServers: ");
 
 	c = 0;
-=======
-	seq_printf(m, "Servers:");
-
-	i = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&cifs_tcp_ses_lock);
 	list_for_each(tmp1, &cifs_tcp_ses_list) {
 		server = list_entry(tmp1, struct TCP_Server_Info,
 				    tcp_ses_list);
 
-<<<<<<< HEAD
 		/* channel info will be printed as a part of sessions below */
 		if (server->is_channel)
 			continue;
@@ -324,8 +292,6 @@ static int cifs_debug_data_proc_show(struct seq_file *m, void *v)
 
 		if (server->hostname)
 			seq_printf(m, "Hostname: %s ", server->hostname);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_CIFS_SMB_DIRECT
 		if (!server->rdma)
 			goto skip_rdma;
@@ -405,7 +371,6 @@ skip_rdma:
 		if (server->posix_ext_supported)
 			seq_printf(m, " posix");
 
-<<<<<<< HEAD
 		if (server->rdma)
 			seq_printf(m, "\nRDMA ");
 		seq_printf(m, "\nTCP status: %d Instance: %d"
@@ -441,54 +406,13 @@ skip_rdma:
 				    "\n\tNOS: %s\tCapability: 0x%x"
 					"\n\tSMB session status: %d ",
 				i, ses->ip_addr, ses->serverDomain,
-=======
-		i++;
-		list_for_each(tmp2, &server->smb_ses_list) {
-			ses = list_entry(tmp2, struct cifs_ses,
-					 smb_ses_list);
-			if ((ses->serverDomain == NULL) ||
-				(ses->serverOS == NULL) ||
-				(ses->serverNOS == NULL)) {
-				seq_printf(m, "\n%d) Name: %s Uses: %d Capability: 0x%x\tSession Status: %d ",
-					i, ses->serverName, ses->ses_count,
-					ses->capabilities, ses->status);
-				if (ses->session_flags & SMB2_SESSION_FLAG_IS_GUEST)
-					seq_printf(m, "Guest\t");
-				else if (ses->session_flags & SMB2_SESSION_FLAG_IS_NULL)
-					seq_printf(m, "Anonymous\t");
-			} else {
-				seq_printf(m,
-				    "\n%d) Name: %s  Domain: %s Uses: %d OS:"
-				    " %s\n\tNOS: %s\tCapability: 0x%x\n\tSMB"
-				    " session status: %d ",
-				i, ses->serverName, ses->serverDomain,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ses->ses_count, ses->serverOS, ses->serverNOS,
 				ses->capabilities, ses->status);
 			}
 
-<<<<<<< HEAD
 			seq_printf(m, "\n\tSecurity type: %s ",
 				get_security_type_str(server->ops->select_sectype(server, ses->sectype)));
 
-=======
-			seq_printf(m,"Security type: %s\n",
-				get_security_type_str(server->ops->select_sectype(server, ses->sectype)));
-
-			if (server->rdma)
-				seq_printf(m, "RDMA\n\t");
-			seq_printf(m, "TCP status: %d Instance: %d\n\tLocal Users To "
-				   "Server: %d SecMode: 0x%x Req On Wire: %d",
-				   server->tcpStatus,
-				   server->reconnect_instance,
-				   server->srv_count,
-				   server->sec_mode, in_flight(server));
-
-			seq_printf(m, " In Send: %d In MaxReq Wait: %d",
-				atomic_read(&server->in_send),
-				atomic_read(&server->num_waiters));
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* dump session id helpful for use with network trace */
 			seq_printf(m, " SessionId: 0x%llx", ses->Suid);
 			if (ses->session_flags & SMB2_SESSION_FLAG_ENCRYPT_DATA)
@@ -501,21 +425,13 @@ skip_rdma:
 				   from_kuid(&init_user_ns, ses->cred_uid));
 
 			if (ses->chan_count > 1) {
-<<<<<<< HEAD
 				seq_printf(m, "\n\n\tExtra Channels: %zu ",
-=======
-				seq_printf(m, "\n\n\tExtra Channels: %zu\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   ses->chan_count-1);
 				for (j = 1; j < ses->chan_count; j++)
 					cifs_dump_channel(m, j, &ses->chans[j]);
 			}
 
-<<<<<<< HEAD
 			seq_puts(m, "\n\n\tShares: ");
-=======
-			seq_puts(m, "\n\n\tShares:");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			j = 0;
 
 			seq_printf(m, "\n\t%d) IPC: ", j);
@@ -532,48 +448,21 @@ skip_rdma:
 				cifs_debug_tcon(m, tcon);
 			}
 
-<<<<<<< HEAD
 			spin_lock(&ses->iface_lock);
 			if (ses->iface_count)
 				seq_printf(m, "\n\n\tServer interfaces: %zu",
-=======
-			seq_puts(m, "\n\tMIDs:\n");
-
-			spin_lock(&GlobalMid_Lock);
-			list_for_each(tmp3, &server->pending_mid_q) {
-				mid_entry = list_entry(tmp3, struct mid_q_entry,
-					qhead);
-				seq_printf(m, "\tState: %d com: %d pid:"
-					      " %d cbdata: %p mid %llu\n",
-					      mid_entry->mid_state,
-					      le16_to_cpu(mid_entry->command),
-					      mid_entry->pid,
-					      mid_entry->callback_data,
-					      mid_entry->mid);
-			}
-			spin_unlock(&GlobalMid_Lock);
-
-			spin_lock(&ses->iface_lock);
-			if (ses->iface_count)
-				seq_printf(m, "\n\tServer interfaces: %zu\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					   ses->iface_count);
 			for (j = 0; j < ses->iface_count; j++) {
 				struct cifs_server_iface *iface;
 
 				iface = &ses->iface_list[j];
-<<<<<<< HEAD
 				seq_printf(m, "\n\t%d)", j+1);
-=======
-				seq_printf(m, "\t%d)", j);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cifs_dump_iface(m, iface);
 				if (is_ses_using_iface(ses, iface))
 					seq_puts(m, "\t\t[CONNECTED]\n");
 			}
 			spin_unlock(&ses->iface_lock);
 		}
-<<<<<<< HEAD
 		if (i == 0)
 			seq_printf(m, "\n\t\t[NONE]");
 
@@ -596,15 +485,10 @@ skip_rdma:
 	if (c == 0)
 		seq_printf(m, "\n\t[NONE]");
 
-=======
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&cifs_tcp_ses_lock);
 	seq_putc(m, '\n');
-
-#ifdef CONFIG_CIFS_SWN_UPCALL
 	cifs_swn_dump(m);
-#endif
+
 	/* BB add code to dump additional info such as TCP session info now */
 	return 0;
 }
@@ -813,6 +697,7 @@ static const struct proc_ops cifs_lookup_cache_proc_ops;
 static const struct proc_ops traceSMB_proc_ops;
 static const struct proc_ops cifs_security_flags_proc_ops;
 static const struct proc_ops cifs_linux_ext_proc_ops;
+static const struct proc_ops cifs_mount_params_proc_ops;
 
 void
 cifs_proc_init(void)
@@ -836,6 +721,8 @@ cifs_proc_init(void)
 		    &cifs_security_flags_proc_ops);
 	proc_create("LookupCacheEnabled", 0644, proc_fs_cifs,
 		    &cifs_lookup_cache_proc_ops);
+
+	proc_create("mount_params", 0444, proc_fs_cifs, &cifs_mount_params_proc_ops);
 
 #ifdef CONFIG_CIFS_DFS_UPCALL
 	proc_create("dfscache", 0644, proc_fs_cifs, &dfscache_proc_ops);
@@ -875,6 +762,7 @@ cifs_proc_clean(void)
 	remove_proc_entry("SecurityFlags", proc_fs_cifs);
 	remove_proc_entry("LinuxExtensionsEnabled", proc_fs_cifs);
 	remove_proc_entry("LookupCacheEnabled", proc_fs_cifs);
+	remove_proc_entry("mount_params", proc_fs_cifs);
 
 #ifdef CONFIG_CIFS_DFS_UPCALL
 	remove_proc_entry("dfscache", proc_fs_cifs);
@@ -1134,6 +1022,51 @@ static const struct proc_ops cifs_security_flags_proc_ops = {
 	.proc_release	= single_release,
 	.proc_write	= cifs_security_flags_proc_write,
 };
+
+/* To make it easier to debug, can help to show mount params */
+static int cifs_mount_params_proc_show(struct seq_file *m, void *v)
+{
+	const struct fs_parameter_spec *p;
+	const char *type;
+
+	for (p = smb3_fs_parameters; p->name; p++) {
+		/* cannot use switch with pointers... */
+		if (!p->type) {
+			if (p->flags == fs_param_neg_with_no)
+				type = "noflag";
+			else
+				type = "flag";
+		} else if (p->type == fs_param_is_bool)
+			type = "bool";
+		else if (p->type == fs_param_is_u32)
+			type = "u32";
+		else if (p->type == fs_param_is_u64)
+			type = "u64";
+		else if (p->type == fs_param_is_string)
+			type = "string";
+		else
+			type = "unknown";
+
+		seq_printf(m, "%s:%s\n", p->name, type);
+	}
+
+	return 0;
+}
+
+static int cifs_mount_params_proc_open(struct inode *inode, struct file *file)
+{
+	return single_open(file, cifs_mount_params_proc_show, NULL);
+}
+
+static const struct proc_ops cifs_mount_params_proc_ops = {
+	.proc_open	= cifs_mount_params_proc_open,
+	.proc_read	= seq_read,
+	.proc_lseek	= seq_lseek,
+	.proc_release	= single_release,
+	/* No need for write for now */
+	/* .proc_write	= cifs_mount_params_proc_write, */
+};
+
 #else
 inline void cifs_proc_init(void)
 {

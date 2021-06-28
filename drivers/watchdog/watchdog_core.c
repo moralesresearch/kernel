@@ -158,11 +158,7 @@ static int watchdog_reboot_notifier(struct notifier_block *nb,
 
 	wdd = container_of(nb, struct watchdog_device, reboot_nb);
 	if (code == SYS_DOWN || code == SYS_HALT) {
-<<<<<<< HEAD
 		if (watchdog_active(wdd) || watchdog_hw_running(wdd)) {
-=======
-		if (watchdog_active(wdd)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			int ret;
 
 			ret = wdd->ops->stop(wdd);

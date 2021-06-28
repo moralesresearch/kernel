@@ -36,14 +36,9 @@
 static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
 	.free = drm_gem_cma_free_object,
 	.print_info = drm_gem_cma_print_info,
-<<<<<<< HEAD
 	.get_sg_table = drm_gem_cma_get_sg_table,
 	.vmap = drm_gem_cma_vmap,
 	.mmap = drm_gem_cma_mmap,
-=======
-	.get_sg_table = drm_gem_cma_prime_get_sg_table,
-	.vmap = drm_gem_cma_prime_vmap,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.vm_ops = &drm_gem_cma_vm_ops,
 };
 
@@ -283,65 +278,6 @@ const struct vm_operations_struct drm_gem_cma_vm_ops = {
 };
 EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
 
-<<<<<<< HEAD
-=======
-static int drm_gem_cma_mmap_obj(struct drm_gem_cma_object *cma_obj,
-				struct vm_area_struct *vma)
-{
-	int ret;
-
-	/*
-	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
-	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
-	 * the whole buffer.
-	 */
-	vma->vm_flags &= ~VM_PFNMAP;
-	vma->vm_pgoff = 0;
-
-	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
-			  cma_obj->paddr, vma->vm_end - vma->vm_start);
-	if (ret)
-		drm_gem_vm_close(vma);
-
-	return ret;
-}
-
-/**
- * drm_gem_cma_mmap - memory-map a CMA GEM object
- * @filp: file object
- * @vma: VMA for the area to be mapped
- *
- * This function implements an augmented version of the GEM DRM file mmap
- * operation for CMA objects: In addition to the usual GEM VMA setup it
- * immediately faults in the entire object instead of using on-demaind
- * faulting. Drivers which employ the CMA helpers should use this function
- * as their ->mmap() handler in the DRM device file's file_operations
- * structure.
- *
- * Instead of directly referencing this function, drivers should use the
- * DEFINE_DRM_GEM_CMA_FOPS().macro.
- *
- * Returns:
- * 0 on success or a negative error code on failure.
- */
-int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
-{
-	struct drm_gem_cma_object *cma_obj;
-	struct drm_gem_object *gem_obj;
-	int ret;
-
-	ret = drm_gem_mmap(filp, vma);
-	if (ret)
-		return ret;
-
-	gem_obj = vma->vm_private_data;
-	cma_obj = to_drm_gem_cma_obj(gem_obj);
-
-	return drm_gem_cma_mmap_obj(cma_obj, vma);
-}
-EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef CONFIG_MMU
 /**
  * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
@@ -433,30 +369,18 @@ void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
 EXPORT_SYMBOL(drm_gem_cma_print_info);
 
 /**
-<<<<<<< HEAD
  * drm_gem_cma_get_sg_table - provide a scatter/gather table of pinned
  *     pages for a CMA GEM object
  * @obj: GEM object
  *
  * This function exports a scatter/gather table by
-=======
- * drm_gem_cma_prime_get_sg_table - provide a scatter/gather table of pinned
- *     pages for a CMA GEM object
- * @obj: GEM object
- *
- * This function exports a scatter/gather table suitable for PRIME usage by
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * calling the standard DMA mapping API. Drivers using the CMA helpers should
  * set this as their &drm_gem_object_funcs.get_sg_table callback.
  *
  * Returns:
  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
  */
-<<<<<<< HEAD
 struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj)
-=======
-struct sg_table *drm_gem_cma_prime_get_sg_table(struct drm_gem_object *obj)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
 	struct sg_table *sgt;
@@ -477,11 +401,7 @@ out:
 	kfree(sgt);
 	return ERR_PTR(ret);
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(drm_gem_cma_get_sg_table);
-=======
-EXPORT_SYMBOL_GPL(drm_gem_cma_prime_get_sg_table);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * drm_gem_cma_prime_import_sg_table - produce a CMA GEM object from another
@@ -526,7 +446,6 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
 EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
 
 /**
-<<<<<<< HEAD
  * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
  *     address space
  * @obj: GEM object
@@ -588,59 +507,6 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
 	return ret;
 }
 EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-=======
- * drm_gem_cma_prime_mmap - memory-map an exported CMA GEM object
- * @obj: GEM object
- * @vma: VMA for the area to be mapped
- *
- * This function maps a buffer imported via DRM PRIME into a userspace
- * process's address space. Drivers that use the CMA helpers should set this
- * as their &drm_driver.gem_prime_mmap callback.
- *
- * Returns:
- * 0 on success or a negative error code on failure.
- */
-int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
-			   struct vm_area_struct *vma)
-{
-	struct drm_gem_cma_object *cma_obj;
-	int ret;
-
-	ret = drm_gem_mmap_obj(obj, obj->size, vma);
-	if (ret < 0)
-		return ret;
-
-	cma_obj = to_drm_gem_cma_obj(obj);
-	return drm_gem_cma_mmap_obj(cma_obj, vma);
-}
-EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
-
-/**
- * drm_gem_cma_prime_vmap - map a CMA GEM object into the kernel's virtual
- *     address space
- * @obj: GEM object
- * @map: Returns the kernel virtual address of the CMA GEM object's backing
- *       store.
- *
- * This function maps a buffer exported via DRM PRIME into the kernel's
- * virtual address space. Since the CMA buffers are already mapped into the
- * kernel virtual address space this simply returns the cached virtual
- * address. Drivers using the CMA helpers should set this as their DRM
- * driver's &drm_gem_object_funcs.vmap callback.
- *
- * Returns:
- * 0 on success, or a negative error code otherwise.
- */
-int drm_gem_cma_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-{
-	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-
-	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vmap);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's

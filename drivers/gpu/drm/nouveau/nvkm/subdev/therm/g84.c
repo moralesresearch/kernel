@@ -223,21 +223,13 @@ g84_therm = {
 };
 
 int
-<<<<<<< HEAD
 g84_therm_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_therm **ptherm)
-=======
-g84_therm_new(struct nvkm_device *device, int index, struct nvkm_therm **ptherm)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_therm *therm;
 	int ret;
 
-<<<<<<< HEAD
 	ret = nvkm_therm_new_(&g84_therm, device, type, inst, &therm);
-=======
-	ret = nvkm_therm_new_(&g84_therm, device, index, &therm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*ptherm = therm;
 	if (ret)
 		return ret;

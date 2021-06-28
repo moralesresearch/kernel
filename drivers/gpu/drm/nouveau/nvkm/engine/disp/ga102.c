@@ -40,14 +40,8 @@ ga102_disp = {
 };
 
 int
-<<<<<<< HEAD
 ga102_disp_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_disp **pdisp)
 {
 	return nv50_disp_new_(&ga102_disp, device, type, inst, pdisp);
-=======
-ga102_disp_new(struct nvkm_device *device, int index, struct nvkm_disp **pdisp)
-{
-	return nv50_disp_new_(&ga102_disp, device, index, pdisp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

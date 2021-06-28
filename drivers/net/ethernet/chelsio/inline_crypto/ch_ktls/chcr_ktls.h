@@ -75,11 +75,8 @@ struct chcr_ktls_ofld_ctx_tx {
 struct chcr_ktls_uld_ctx {
 	struct list_head entry;
 	struct cxgb4_lld_info lldi;
-<<<<<<< HEAD
 	struct xarray tid_list;
 	bool detach;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct chcr_ktls_ofld_ctx_tx *

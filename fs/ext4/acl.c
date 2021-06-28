@@ -222,12 +222,8 @@ __ext4_set_acl(handle_t *handle, struct inode *inode, int type,
 }
 
 int
-<<<<<<< HEAD
 ext4_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 	     struct posix_acl *acl, int type)
-=======
-ext4_set_acl(struct inode *inode, struct posix_acl *acl, int type)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	handle_t *handle;
 	int error, credits, retries = 0;
@@ -250,11 +246,7 @@ retry:
 	ext4_fc_start_update(inode);
 
 	if ((type == ACL_TYPE_ACCESS) && acl) {
-<<<<<<< HEAD
 		error = posix_acl_update_mode(mnt_userns, inode, &mode, &acl);
-=======
-		error = posix_acl_update_mode(inode, &mode, &acl);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (error)
 			goto out_stop;
 		if (mode != inode->i_mode)

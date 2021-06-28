@@ -42,10 +42,7 @@ static void _kexec_image_info(const char *func, int line,
 	pr_debug("    start:       %lx\n", kimage->start);
 	pr_debug("    head:        %lx\n", kimage->head);
 	pr_debug("    nr_segments: %lu\n", kimage->nr_segments);
-<<<<<<< HEAD
 	pr_debug("    kern_reloc: %pa\n", &kimage->arch.kern_reloc);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < kimage->nr_segments; i++) {
 		pr_debug("      segment[%lu]: %016lx - %016lx, 0x%lx bytes, %lu pages\n",
@@ -62,7 +59,6 @@ void machine_kexec_cleanup(struct kimage *kimage)
 	/* Empty routine needed to avoid build errors. */
 }
 
-<<<<<<< HEAD
 int machine_kexec_post_load(struct kimage *kimage)
 {
 	void *reloc_code = page_to_virt(kimage->control_code_page);
@@ -80,8 +76,6 @@ int machine_kexec_post_load(struct kimage *kimage)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * machine_kexec_prepare - Prepare for a kexec reboot.
  *
@@ -91,11 +85,6 @@ int machine_kexec_post_load(struct kimage *kimage)
  */
 int machine_kexec_prepare(struct kimage *kimage)
 {
-<<<<<<< HEAD
-=======
-	kexec_image_info(kimage);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (kimage->type != KEXEC_TYPE_CRASH && cpus_are_stuck_in_kernel()) {
 		pr_err("Can't kexec: CPUs are stuck in the kernel.\n");
 		return -EBUSY;
@@ -170,11 +159,6 @@ static void kexec_segment_flush(const struct kimage *kimage)
  */
 void machine_kexec(struct kimage *kimage)
 {
-<<<<<<< HEAD
-=======
-	phys_addr_t reboot_code_buffer_phys;
-	void *reboot_code_buffer;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool in_kexec_crash = (kimage == kexec_crash_image);
 	bool stuck_cpus = cpus_are_stuck_in_kernel();
 
@@ -185,34 +169,6 @@ void machine_kexec(struct kimage *kimage)
 	WARN(in_kexec_crash && (stuck_cpus || smp_crash_stop_failed()),
 		"Some CPUs may be stale, kdump will be unreliable.\n");
 
-<<<<<<< HEAD
-=======
-	reboot_code_buffer_phys = page_to_phys(kimage->control_code_page);
-	reboot_code_buffer = phys_to_virt(reboot_code_buffer_phys);
-
-	kexec_image_info(kimage);
-
-	/*
-	 * Copy arm64_relocate_new_kernel to the reboot_code_buffer for use
-	 * after the kernel is shut down.
-	 */
-	memcpy(reboot_code_buffer, arm64_relocate_new_kernel,
-		arm64_relocate_new_kernel_size);
-
-	/* Flush the reboot_code_buffer in preparation for its execution. */
-	__flush_dcache_area(reboot_code_buffer, arm64_relocate_new_kernel_size);
-
-	/*
-	 * Although we've killed off the secondary CPUs, we don't update
-	 * the online mask if we're handling a crash kernel and consequently
-	 * need to avoid flush_icache_range(), which will attempt to IPI
-	 * the offline CPUs. Therefore, we must use the __* variant here.
-	 */
-	__flush_icache_range((uintptr_t)reboot_code_buffer,
-			     (uintptr_t)reboot_code_buffer +
-			     arm64_relocate_new_kernel_size);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Flush the kimage list and its buffers. */
 	kexec_list_flush(kimage);
 
@@ -226,11 +182,7 @@ void machine_kexec(struct kimage *kimage)
 
 	/*
 	 * cpu_soft_restart will shutdown the MMU, disable data caches, then
-<<<<<<< HEAD
 	 * transfer control to the kern_reloc which contains a copy of
-=======
-	 * transfer control to the reboot_code_buffer which contains a copy of
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * the arm64_relocate_new_kernel routine.  arm64_relocate_new_kernel
 	 * uses physical addressing to relocate the new image to its final
 	 * position and transfers control to the image entry point when the
@@ -240,17 +192,8 @@ void machine_kexec(struct kimage *kimage)
 	 * userspace (kexec-tools).
 	 * In kexec_file case, the kernel starts directly without purgatory.
 	 */
-<<<<<<< HEAD
 	cpu_soft_restart(kimage->arch.kern_reloc, kimage->head, kimage->start,
 			 kimage->arch.dtb_mem);
-=======
-	cpu_soft_restart(reboot_code_buffer_phys, kimage->head, kimage->start,
-#ifdef CONFIG_KEXEC_FILE
-						kimage->arch.dtb_mem);
-#else
-						0);
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	BUG(); /* Should never get here. */
 }

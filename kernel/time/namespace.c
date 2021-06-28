@@ -465,12 +465,3 @@ struct time_namespace init_time_ns = {
 	.ns.ops		= &timens_operations,
 	.frozen_offsets	= true,
 };
-<<<<<<< HEAD
-=======
-
-static int __init time_ns_init(void)
-{
-	return 0;
-}
-subsys_initcall(time_ns_init);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

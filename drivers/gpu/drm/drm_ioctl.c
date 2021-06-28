@@ -118,7 +118,6 @@ int drm_getunique(struct drm_device *dev, void *data,
 		  struct drm_file *file_priv)
 {
 	struct drm_unique *u = data;
-<<<<<<< HEAD
 	struct drm_master *master;
 
 	mutex_lock(&dev->master_mutex);
@@ -126,23 +125,11 @@ int drm_getunique(struct drm_device *dev, void *data,
 	if (u->unique_len >= master->unique_len) {
 		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
 			mutex_unlock(&dev->master_mutex);
-=======
-	struct drm_master *master = file_priv->master;
-
-	mutex_lock(&master->dev->master_mutex);
-	if (u->unique_len >= master->unique_len) {
-		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
-			mutex_unlock(&master->dev->master_mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EFAULT;
 		}
 	}
 	u->unique_len = master->unique_len;
-<<<<<<< HEAD
 	mutex_unlock(&dev->master_mutex);
-=======
-	mutex_unlock(&master->dev->master_mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

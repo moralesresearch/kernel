@@ -55,10 +55,7 @@
  * i40iw_arp_table - manage arp table
  * @iwdev: iwarp device
  * @ip_addr: ip address for device
-<<<<<<< HEAD
  * @ipv4: flag indicating IPv4 when true
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @mac_addr: mac address ptr
  * @action: modify, delete or add
  */
@@ -142,11 +139,7 @@ inline u32 i40iw_rd32(struct i40iw_hw *hw, u32 reg)
 
 /**
  * i40iw_inetaddr_event - system notifier for ipv4 addr events
-<<<<<<< HEAD
  * @notifier: not used
-=======
- * @notfier: not used
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @event: event for notifier
  * @ptr: if address
  */
@@ -222,11 +215,7 @@ int i40iw_inetaddr_event(struct notifier_block *notifier,
 
 /**
  * i40iw_inet6addr_event - system notifier for ipv6 addr events
-<<<<<<< HEAD
  * @notifier: not used
-=======
- * @notfier: not used
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @event: event for notifier
  * @ptr: if address
  */
@@ -277,11 +266,7 @@ int i40iw_inet6addr_event(struct notifier_block *notifier,
 
 /**
  * i40iw_net_event - system notifier for netevents
-<<<<<<< HEAD
  * @notifier: not used
-=======
- * @notfier: not used
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @event: event for notifier
  * @ptr: neighbor
  */
@@ -326,11 +311,7 @@ int i40iw_net_event(struct notifier_block *notifier, unsigned long event, void *
 
 /**
  * i40iw_netdevice_event - system notifier for netdev events
-<<<<<<< HEAD
  * @notifier: not used
-=======
- * @notfier: not used
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @event: event for notifier
  * @ptr: netdev
  */
@@ -672,10 +653,7 @@ struct ib_qp *i40iw_get_qp(struct ib_device *device, int qpn)
  * i40iw_debug_buf - print debug msg and buffer is mask set
  * @dev: hardware control device structure
  * @mask: mask to compare if to print debug buffer
-<<<<<<< HEAD
  * @desc: identifying string
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @buf: points buffer addr
  * @size: saize of buffer to print
  */
@@ -808,11 +786,7 @@ enum i40iw_status_code i40iw_free_virt_mem(struct i40iw_hw *hw,
 /**
  * i40iw_cqp_sds_cmd - create cqp command for sd
  * @dev: hardware control device structure
-<<<<<<< HEAD
  * @sdinfo: information  for sd cqp
-=======
- * @sd_info: information  for sd cqp
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  */
 enum i40iw_status_code i40iw_cqp_sds_cmd(struct i40iw_sc_dev *dev,
@@ -916,12 +890,8 @@ void i40iw_terminate_done(struct i40iw_sc_qp *qp, int timeout_occurred)
 }
 
 /**
- * i40iw_terminate_imeout - timeout happened
-<<<<<<< HEAD
+ * i40iw_terminate_timeout - timeout happened
  * @t: points to iwarp qp
-=======
- * @context: points to iwarp qp
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void i40iw_terminate_timeout(struct timer_list *t)
 {
@@ -975,11 +945,7 @@ static void i40iw_cqp_generic_worker(struct work_struct *work)
 
 /**
  * i40iw_cqp_spawn_worker - spawn worket thread
-<<<<<<< HEAD
  * @dev: device struct pointer
-=======
- * @iwdev: device struct pointer
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @work_info: work request info
  * @iw_vf_idx: virtual function index
  */
@@ -1084,11 +1050,7 @@ enum i40iw_status_code i40iw_cqp_manage_hmc_fcn_cmd(struct i40iw_sc_dev *dev,
 
 /**
  * i40iw_cqp_query_fpm_values_cmd - send cqp command for fpm
-<<<<<<< HEAD
  * @dev: function device struct
-=======
- * @iwdev: function device struct
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @values_mem: buffer for fpm
  * @hmc_fn_id: function id for fpm
  */
@@ -1154,11 +1116,7 @@ enum i40iw_status_code i40iw_cqp_commit_fpm_values_cmd(struct i40iw_sc_dev *dev,
 
 /**
  * i40iw_vf_wait_vchnl_resp - wait for channel msg
-<<<<<<< HEAD
  * @dev: function's device struct
-=======
- * @iwdev: function's device struct
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum i40iw_status_code i40iw_vf_wait_vchnl_resp(struct i40iw_sc_dev *dev)
 {
@@ -1505,11 +1463,7 @@ enum i40iw_status_code i40iw_puda_get_tcpip_info(struct i40iw_puda_completion_in
 
 /**
  * i40iw_hw_stats_timeout - Stats timer-handler which updates all HW stats
-<<<<<<< HEAD
  * @t: Timer context containing pointer to the vsi structure
-=======
- * @vsi: pointer to the vsi structure
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void i40iw_hw_stats_timeout(struct timer_list *t)
 {

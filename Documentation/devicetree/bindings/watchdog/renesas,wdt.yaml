@@ -50,10 +50,7 @@ properties:
               - renesas,r8a77980-wdt     # R-Car V3H
               - renesas,r8a77990-wdt     # R-Car E3
               - renesas,r8a77995-wdt     # R-Car D3
-<<<<<<< HEAD
               - renesas,r8a779a0-wdt     # R-Car V3U
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: renesas,rcar-gen3-wdt # R-Car Gen3 and RZ/G2
 
   reg:

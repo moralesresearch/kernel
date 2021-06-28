@@ -709,7 +709,6 @@ tc_cls_common_offload_init(struct flow_cls_common_offload *cls_common,
 		cls_common->extack = extack;
 }
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_NET_TC_SKB_EXT)
 static inline struct tc_skb_ext *tc_skb_ext_alloc(struct sk_buff *skb)
 {
@@ -721,8 +720,6 @@ static inline struct tc_skb_ext *tc_skb_ext_alloc(struct sk_buff *skb)
 }
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum tc_matchall_command {
 	TC_CLSMATCHALL_REPLACE,
 	TC_CLSMATCHALL_DESTROY,
@@ -797,7 +794,6 @@ struct tc_mq_qopt_offload {
 	};
 };
 
-<<<<<<< HEAD
 enum tc_htb_command {
 	/* Root */
 	TC_HTB_CREATE, /* Initialize HTB offload. */
@@ -834,8 +830,6 @@ struct tc_htb_qopt_offload {
 
 #define TC_HTB_CLASSID_ROOT U32_MAX
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum tc_red_command {
 	TC_RED_REPLACE,
 	TC_RED_DESTROY,

@@ -94,13 +94,7 @@ static void surface3_spi_report_touch(struct surface3_ts_data *ts_data,
 
 static void surface3_spi_process_touch(struct surface3_ts_data *ts_data, u8 *data)
 {
-<<<<<<< HEAD
 	unsigned int i;
-=======
-	u16 timestamp;
-	unsigned int i;
-	timestamp = get_unaligned_le16(&data[15]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < 13; i++) {
 		struct surface3_ts_data_finger *finger;

@@ -110,7 +110,7 @@ static ssize_t ddr_perf_identifier_show(struct device *dev,
 {
 	struct ddr_pmu *pmu = dev_get_drvdata(dev);
 
-	return sprintf(page, "%s\n", pmu->devtype_data->identifier);
+	return sysfs_emit(page, "%s\n", pmu->devtype_data->identifier);
 }
 
 static umode_t ddr_perf_identifier_attr_visible(struct kobject *kobj,
@@ -133,11 +133,7 @@ static struct attribute *ddr_perf_identifier_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group ddr_perf_identifier_attr_group = {
-=======
-static struct attribute_group ddr_perf_identifier_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = ddr_perf_identifier_attrs,
 	.is_visible = ddr_perf_identifier_attr_visible,
 };
@@ -174,8 +170,7 @@ static ssize_t ddr_perf_filter_cap_show(struct device *dev,
 		container_of(attr, struct dev_ext_attribute, attr);
 	int cap = (long)ea->var;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n",
-			ddr_perf_filter_cap_get(pmu, cap));
+	return sysfs_emit(buf, "%u\n", ddr_perf_filter_cap_get(pmu, cap));
 }
 
 #define PERF_EXT_ATTR_ENTRY(_name, _func, _var)				\
@@ -192,11 +187,7 @@ static struct attribute *ddr_perf_filter_cap_attr[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group ddr_perf_filter_cap_attr_group = {
-=======
-static struct attribute_group ddr_perf_filter_cap_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "caps",
 	.attrs = ddr_perf_filter_cap_attr,
 };
@@ -217,11 +208,7 @@ static struct attribute *ddr_perf_cpumask_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group ddr_perf_cpumask_attr_group = {
-=======
-static struct attribute_group ddr_perf_cpumask_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = ddr_perf_cpumask_attrs,
 };
 
@@ -232,7 +219,7 @@ ddr_pmu_event_show(struct device *dev, struct device_attribute *attr,
 	struct perf_pmu_events_attr *pmu_attr;
 
 	pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
-	return sprintf(page, "event=0x%02llx\n", pmu_attr->id);
+	return sysfs_emit(page, "event=0x%02llx\n", pmu_attr->id);
 }
 
 #define IMX8_DDR_PMU_EVENT_ATTR(_name, _id)				\
@@ -277,11 +264,7 @@ static struct attribute *ddr_perf_events_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group ddr_perf_events_attr_group = {
-=======
-static struct attribute_group ddr_perf_events_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = ddr_perf_events_attrs,
 };
@@ -297,11 +280,7 @@ static struct attribute *ddr_perf_format_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group ddr_perf_format_attr_group = {
-=======
-static struct attribute_group ddr_perf_format_attr_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = ddr_perf_format_attrs,
 };

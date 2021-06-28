@@ -3,14 +3,7 @@ config RTLLIB
 	tristate "Support for rtllib wireless devices"
 	depends on WLAN && m
 	select LIB80211
-<<<<<<< HEAD
 	select CRC32
-=======
-<<<<<<< HEAD
-	select CRC32
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  If you have a wireless card that uses rtllib, say
 	  Y. Currently the only card is the rtl8192e.

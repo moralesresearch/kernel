@@ -1683,10 +1683,6 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	memset(pix->reserved, 0, sizeof(pix->reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < pix->num_planes; i++) {
 		plane_fmt = &pix->plane_fmt[i];
 		depth = fmt->vpdma_fmt[i]->depth;
@@ -1716,10 +1712,6 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
 					       plane_fmt->bytesperline *
 					       depth) >> 3;
 		}
-<<<<<<< HEAD
-=======
-		memset(plane_fmt->reserved, 0, sizeof(plane_fmt->reserved));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

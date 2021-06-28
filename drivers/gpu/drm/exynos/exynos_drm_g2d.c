@@ -205,12 +205,8 @@ struct g2d_cmdlist_userptr {
 	dma_addr_t		dma_addr;
 	unsigned long		userptr;
 	unsigned long		size;
-<<<<<<< HEAD
 	struct page		**pages;
 	unsigned int		npages;
-=======
-	struct frame_vector	*vec;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sg_table		*sgt;
 	atomic_t		refcount;
 	bool			in_pool;
@@ -383,10 +379,6 @@ static void g2d_userptr_put_dma_addr(struct g2d_data *g2d,
 					bool force)
 {
 	struct g2d_cmdlist_userptr *g2d_userptr = obj;
-<<<<<<< HEAD
-=======
-	struct page **pages;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!obj)
 		return;
@@ -406,21 +398,9 @@ out:
 	dma_unmap_sgtable(to_dma_dev(g2d->drm_dev), g2d_userptr->sgt,
 			  DMA_BIDIRECTIONAL, 0);
 
-<<<<<<< HEAD
 	unpin_user_pages_dirty_lock(g2d_userptr->pages, g2d_userptr->npages,
 				    true);
 	kvfree(g2d_userptr->pages);
-=======
-	pages = frame_vector_pages(g2d_userptr->vec);
-	if (!IS_ERR(pages)) {
-		int i;
-
-		for (i = 0; i < frame_vector_count(g2d_userptr->vec); i++)
-			set_page_dirty_lock(pages[i]);
-	}
-	put_vaddr_frames(g2d_userptr->vec);
-	frame_vector_destroy(g2d_userptr->vec);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!g2d_userptr->out_of_list)
 		list_del_init(&g2d_userptr->list);
@@ -488,64 +468,35 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
 	offset = userptr & ~PAGE_MASK;
 	end = PAGE_ALIGN(userptr + size);
 	npages = (end - start) >> PAGE_SHIFT;
-<<<<<<< HEAD
 	g2d_userptr->pages = kvmalloc_array(npages, sizeof(*g2d_userptr->pages),
 					    GFP_KERNEL);
 	if (!g2d_userptr->pages) {
-=======
-	g2d_userptr->vec = frame_vector_create(npages);
-	if (!g2d_userptr->vec) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = -ENOMEM;
 		goto err_free;
 	}
 
-<<<<<<< HEAD
 	ret = pin_user_pages_fast(start, npages,
 				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
 				  g2d_userptr->pages);
-=======
-	ret = get_vaddr_frames(start, npages, FOLL_FORCE | FOLL_WRITE,
-		g2d_userptr->vec);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret != npages) {
 		DRM_DEV_ERROR(g2d->dev,
 			      "failed to get user pages from userptr.\n");
 		if (ret < 0)
-<<<<<<< HEAD
 			goto err_destroy_pages;
 		npages = ret;
 		ret = -EFAULT;
 		goto err_unpin_pages;
 	}
 	g2d_userptr->npages = npages;
-=======
-			goto err_destroy_framevec;
-		ret = -EFAULT;
-		goto err_put_framevec;
-	}
-	if (frame_vector_to_pages(g2d_userptr->vec) < 0) {
-		ret = -EFAULT;
-		goto err_put_framevec;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
 	if (!sgt) {
 		ret = -ENOMEM;
-<<<<<<< HEAD
 		goto err_unpin_pages;
 	}
 
 	ret = sg_alloc_table_from_pages(sgt,
 					g2d_userptr->pages,
-=======
-		goto err_put_framevec;
-	}
-
-	ret = sg_alloc_table_from_pages(sgt,
-					frame_vector_pages(g2d_userptr->vec),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					npages, offset, size, GFP_KERNEL);
 	if (ret < 0) {
 		DRM_DEV_ERROR(g2d->dev, "failed to get sgt from pages.\n");
@@ -581,19 +532,11 @@ err_sg_free_table:
 err_free_sgt:
 	kfree(sgt);
 
-<<<<<<< HEAD
 err_unpin_pages:
 	unpin_user_pages(g2d_userptr->pages, npages);
 
 err_destroy_pages:
 	kvfree(g2d_userptr->pages);
-=======
-err_put_framevec:
-	put_vaddr_frames(g2d_userptr->vec);
-
-err_destroy_framevec:
-	frame_vector_destroy(g2d_userptr->vec);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 err_free:
 	kfree(g2d_userptr);

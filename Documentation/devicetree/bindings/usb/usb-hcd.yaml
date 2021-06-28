@@ -9,7 +9,6 @@ title: Generic USB Host Controller Device Tree Bindings
 maintainers:
   - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-<<<<<<< HEAD
 allOf:
   - $ref: usb.yaml#
 
@@ -35,20 +34,6 @@ patternProperties:
     description: The hard wired USB devices
     type: object
     $ref: /usb/usb-device.yaml
-=======
-properties:
-  $nodename:
-    pattern: "^usb(@.*)?"
-
-  phys:
-    $ref: /schemas/types.yaml#/definitions/phandle-array
-    description:
-      List of all the USB PHYs on this HCD
-
-  phy-names:
-    description:
-      Name specifier for the USB PHY
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 additionalProperties: true
 
@@ -57,7 +42,6 @@ examples:
     usb {
         phys = <&usb2_phy1>, <&usb3_phy1>;
         phy-names = "usb";
-<<<<<<< HEAD
         #address-cells = <1>;
         #size-cells = <0>;
 
@@ -65,6 +49,4 @@ examples:
             compatible = "usb5e3,610";
             reg = <1>;
         };
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     };

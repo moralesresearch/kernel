@@ -375,9 +375,8 @@ static void _rtl92e_update_beacon(void *data)
 
 	if (ieee->pHTInfo->bCurrentHTSupport)
 		HT_update_self_and_peer_setting(ieee, net);
-	ieee->pHTInfo->bCurrentRT2RTLongSlotTime =
-		 net->bssht.bdRT2RTLongSlotTime;
-	ieee->pHTInfo->RT2RT_HT_Mode = net->bssht.RT2RT_HT_Mode;
+	ieee->pHTInfo->bCurrentRT2RTLongSlotTime = net->bssht.bd_rt2rt_long_slot_time;
+	ieee->pHTInfo->RT2RT_HT_Mode = net->bssht.rt2rt_ht_mode;
 	_rtl92e_update_cap(dev, net->capability);
 }
 
@@ -1389,11 +1388,7 @@ static void _rtl92e_watchdog_wq_cb(void *data)
 
 	rtl92e_dm_watchdog(dev);
 
-<<<<<<< HEAD
 	if (!rtllib_act_scanning(priv->rtllib, false)) {
-=======
-	if (rtllib_act_scanning(priv->rtllib, false) == false) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((ieee->iw_mode == IW_MODE_INFRA) && (ieee->state ==
 		     RTLLIB_NOLINK) &&
 		     (ieee->eRFPowerState == eRfOn) && !ieee->is_set_key &&
@@ -2475,11 +2470,7 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
 
 	priv->ops = ops;
 
-<<<<<<< HEAD
 	if (!rtl92e_check_adapter(pdev, dev))
-=======
-	if (rtl92e_check_adapter(pdev, dev) == false)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_unmap;
 
 	dev->irq = pdev->irq;

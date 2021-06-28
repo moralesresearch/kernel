@@ -30,14 +30,7 @@
 #include <linux/delay.h>
 #include <linux/interrupt.h>
 #include <linux/irqflags.h>
-<<<<<<< HEAD
 #include <linux/irq_work.h>
-=======
-<<<<<<< HEAD
-#include <linux/irq_work.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/cpu.h>
 #include <linux/slab.h>
 #include <linux/sched/hotplug.h>
@@ -70,14 +63,7 @@ enum {
 	ec_call_function_single,
 	ec_stop_cpu,
 	ec_mcck_pending,
-<<<<<<< HEAD
 	ec_irq_work,
-=======
-<<<<<<< HEAD
-	ec_irq_work,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -205,15 +191,7 @@ static void pcpu_ec_call(struct pcpu *pcpu, int ec_bit)
 
 static int pcpu_alloc_lowcore(struct pcpu *pcpu, int cpu)
 {
-<<<<<<< HEAD
 	unsigned long async_stack, nodat_stack, mcck_stack;
-=======
-<<<<<<< HEAD
-	unsigned long async_stack, nodat_stack, mcck_stack;
-=======
-	unsigned long async_stack, nodat_stack;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct lowcore *lc;
 
 	if (pcpu != &pcpu_devices[0]) {
@@ -226,33 +204,15 @@ static int pcpu_alloc_lowcore(struct pcpu *pcpu, int cpu)
 		nodat_stack = pcpu->lowcore->nodat_stack - STACK_INIT_OFFSET;
 	}
 	async_stack = stack_alloc();
-<<<<<<< HEAD
 	mcck_stack = stack_alloc();
 	if (!async_stack || !mcck_stack)
 		goto out_stack;
-=======
-<<<<<<< HEAD
-	mcck_stack = stack_alloc();
-	if (!async_stack || !mcck_stack)
-		goto out_stack;
-=======
-	if (!async_stack)
-		goto out;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lc = pcpu->lowcore;
 	memcpy(lc, &S390_lowcore, 512);
 	memset((char *) lc + 512, 0, sizeof(*lc) - 512);
 	lc->async_stack = async_stack + STACK_INIT_OFFSET;
 	lc->nodat_stack = nodat_stack + STACK_INIT_OFFSET;
-<<<<<<< HEAD
 	lc->mcck_stack = mcck_stack + STACK_INIT_OFFSET;
-=======
-<<<<<<< HEAD
-	lc->mcck_stack = mcck_stack + STACK_INIT_OFFSET;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lc->cpu_nr = cpu;
 	lc->spinlock_lockval = arch_spin_lockval(cpu);
 	lc->spinlock_index = 0;
@@ -260,30 +220,13 @@ static int pcpu_alloc_lowcore(struct pcpu *pcpu, int cpu)
 	lc->return_lpswe = gen_lpswe(__LC_RETURN_PSW);
 	lc->return_mcck_lpswe = gen_lpswe(__LC_RETURN_MCCK_PSW);
 	if (nmi_alloc_per_cpu(lc))
-<<<<<<< HEAD
 		goto out_stack;
-=======
-<<<<<<< HEAD
-		goto out_stack;
-=======
-		goto out_async;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lowcore_ptr[cpu] = lc;
 	pcpu_sigp_retry(pcpu, SIGP_SET_PREFIX, (u32)(unsigned long) lc);
 	return 0;
 
-<<<<<<< HEAD
 out_stack:
 	stack_free(mcck_stack);
-=======
-<<<<<<< HEAD
-out_stack:
-	stack_free(mcck_stack);
-=======
-out_async:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stack_free(async_stack);
 out:
 	if (pcpu != &pcpu_devices[0]) {
@@ -295,38 +238,18 @@ out:
 
 static void pcpu_free_lowcore(struct pcpu *pcpu)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long async_stack, nodat_stack, mcck_stack, lowcore;
 
 	nodat_stack = pcpu->lowcore->nodat_stack - STACK_INIT_OFFSET;
 	async_stack = pcpu->lowcore->async_stack - STACK_INIT_OFFSET;
 	mcck_stack = pcpu->lowcore->mcck_stack - STACK_INIT_OFFSET;
-<<<<<<< HEAD
-=======
-=======
-	unsigned long async_stack, nodat_stack, lowcore;
-
-	nodat_stack = pcpu->lowcore->nodat_stack - STACK_INIT_OFFSET;
-	async_stack = pcpu->lowcore->async_stack - STACK_INIT_OFFSET;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lowcore = (unsigned long) pcpu->lowcore;
 
 	pcpu_sigp_retry(pcpu, SIGP_SET_PREFIX, 0);
 	lowcore_ptr[pcpu - pcpu_devices] = NULL;
 	nmi_free_per_cpu(pcpu->lowcore);
 	stack_free(async_stack);
-<<<<<<< HEAD
 	stack_free(mcck_stack);
-=======
-<<<<<<< HEAD
-	stack_free(mcck_stack);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pcpu == &pcpu_devices[0])
 		return;
 	free_pages(nodat_stack, THREAD_SIZE_ORDER);
@@ -506,6 +429,7 @@ void notrace smp_yield_cpu(int cpu)
 	asm volatile("diag %0,0,0x9c"
 		     : : "d" (pcpu_devices[cpu].address));
 }
+EXPORT_SYMBOL_GPL(smp_yield_cpu);
 
 /*
  * Send cpus emergency shutdown signal. This gives the cpus the
@@ -513,25 +437,12 @@ void notrace smp_yield_cpu(int cpu)
  */
 void notrace smp_emergency_stop(void)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	static arch_spinlock_t lock = __ARCH_SPIN_LOCK_UNLOCKED;
 	static cpumask_t cpumask;
 	u64 end;
 	int cpu;
 
 	arch_spin_lock(&lock);
-<<<<<<< HEAD
-=======
-=======
-	cpumask_t cpumask;
-	u64 end;
-	int cpu;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cpumask_copy(&cpumask, cpu_online_mask);
 	cpumask_clear_cpu(smp_processor_id(), &cpumask);
 
@@ -552,14 +463,7 @@ void notrace smp_emergency_stop(void)
 			break;
 		cpu_relax();
 	}
-<<<<<<< HEAD
 	arch_spin_unlock(&lock);
-=======
-<<<<<<< HEAD
-	arch_spin_unlock(&lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 NOKPROBE_SYMBOL(smp_emergency_stop);
 
@@ -606,19 +510,9 @@ static void smp_handle_ext_call(void)
 	if (test_bit(ec_call_function_single, &bits))
 		generic_smp_call_function_single_interrupt();
 	if (test_bit(ec_mcck_pending, &bits))
-<<<<<<< HEAD
 		__s390_handle_mcck();
 	if (test_bit(ec_irq_work, &bits))
 		irq_work_run();
-=======
-<<<<<<< HEAD
-		__s390_handle_mcck();
-	if (test_bit(ec_irq_work, &bits))
-		irq_work_run();
-=======
-		s390_handle_mcck();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void do_ext_call_interrupt(struct ext_code ext_code,
@@ -651,10 +545,6 @@ void smp_send_reschedule(int cpu)
 	pcpu_ec_call(pcpu_devices + cpu, ec_schedule);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_IRQ_WORK
 void arch_irq_work_raise(void)
 {
@@ -662,11 +552,6 @@ void arch_irq_work_raise(void)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * parameter area for the set/clear control bit callbacks
  */
@@ -910,16 +795,8 @@ static int __smp_rescan_cpus(struct sclp_core_info *info, bool early)
 	u16 core_id;
 	int nr, i;
 
-<<<<<<< HEAD
 	get_online_cpus();
 	mutex_lock(&smp_cpu_state_mutex);
-=======
-<<<<<<< HEAD
-	get_online_cpus();
-	mutex_lock(&smp_cpu_state_mutex);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr = 0;
 	cpumask_xor(&avail, cpu_possible_mask, cpu_present_mask);
 	/*
@@ -940,16 +817,8 @@ static int __smp_rescan_cpus(struct sclp_core_info *info, bool early)
 		configured = i < info->configured;
 		nr += smp_add_core(&info->core[i], &avail, configured, early);
 	}
-<<<<<<< HEAD
 	mutex_unlock(&smp_cpu_state_mutex);
 	put_online_cpus();
-=======
-<<<<<<< HEAD
-	mutex_unlock(&smp_cpu_state_mutex);
-	put_online_cpus();
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return nr;
 }
 
@@ -997,17 +866,7 @@ void __init smp_detect_cpus(void)
 	pr_info("%d configured CPUs, %d standby CPUs\n", c_cpus, s_cpus);
 
 	/* Add CPUs present at boot */
-<<<<<<< HEAD
 	__smp_rescan_cpus(info, true);
-=======
-<<<<<<< HEAD
-	__smp_rescan_cpus(info, true);
-=======
-	get_online_cpus();
-	__smp_rescan_cpus(info, true);
-	put_online_cpus();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memblock_free_early((unsigned long)info, sizeof(*info));
 }
 
@@ -1336,19 +1195,7 @@ int __ref smp_rescan_cpus(void)
 	if (!info)
 		return -ENOMEM;
 	smp_get_core_info(info, 0);
-<<<<<<< HEAD
 	nr = __smp_rescan_cpus(info, false);
-=======
-<<<<<<< HEAD
-	nr = __smp_rescan_cpus(info, false);
-=======
-	get_online_cpus();
-	mutex_lock(&smp_cpu_state_mutex);
-	nr = __smp_rescan_cpus(info, false);
-	mutex_unlock(&smp_cpu_state_mutex);
-	put_online_cpus();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(info);
 	if (nr)
 		topology_schedule_update();

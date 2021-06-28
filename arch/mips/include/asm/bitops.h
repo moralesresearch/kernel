@@ -26,15 +26,7 @@
 #include <asm/war.h>
 
 #define __bit_op(mem, insn, inputs...) do {			\
-<<<<<<< HEAD
 	unsigned long __temp;					\
-=======
-<<<<<<< HEAD
-	unsigned long __temp;					\
-=======
-	unsigned long temp;					\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								\
 	asm volatile(						\
 	"	.set		push			\n"	\
@@ -45,29 +37,13 @@
 	"	" __SC		"%0, %1			\n"	\
 	"	" __SC_BEQZ	"%0, 1b			\n"	\
 	"	.set		pop			\n"	\
-<<<<<<< HEAD
 	: "=&r"(__temp), "+" GCC_OFF_SMALL_ASM()(mem)		\
-=======
-<<<<<<< HEAD
-	: "=&r"(__temp), "+" GCC_OFF_SMALL_ASM()(mem)		\
-=======
-	: "=&r"(temp), "+" GCC_OFF_SMALL_ASM()(mem)		\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	: inputs						\
 	: __LLSC_CLOBBER);					\
 } while (0)
 
 #define __test_bit_op(mem, ll_dst, insn, inputs...) ({		\
-<<<<<<< HEAD
 	unsigned long __orig, __temp;				\
-=======
-<<<<<<< HEAD
-	unsigned long __orig, __temp;				\
-=======
-	unsigned long orig, temp;				\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								\
 	asm volatile(						\
 	"	.set		push			\n"	\
@@ -78,28 +54,12 @@
 	"	" __SC		"%1, %2			\n"	\
 	"	" __SC_BEQZ	"%1, 1b			\n"	\
 	"	.set		pop			\n"	\
-<<<<<<< HEAD
 	: "=&r"(__orig), "=&r"(__temp),				\
-=======
-<<<<<<< HEAD
-	: "=&r"(__orig), "=&r"(__temp),				\
-=======
-	: "=&r"(orig), "=&r"(temp),				\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  "+" GCC_OFF_SMALL_ASM()(mem)				\
 	: inputs						\
 	: __LLSC_CLOBBER);					\
 								\
-<<<<<<< HEAD
 	__orig;							\
-=======
-<<<<<<< HEAD
-	__orig;							\
-=======
-	orig;							\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 /*
@@ -475,15 +435,7 @@ static inline int fls(unsigned int x)
  *
  * This is defined the same way as
  * the libc and compiler builtin ffs routines, therefore
-<<<<<<< HEAD
  * differs in spirit from the below ffz (man ffs).
-=======
-<<<<<<< HEAD
- * differs in spirit from the below ffz (man ffs).
-=======
- * differs in spirit from the above ffz (man ffs).
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static inline int ffs(int word)
 {

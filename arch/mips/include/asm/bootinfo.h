@@ -107,15 +107,11 @@ extern void (*free_init_pages_eva)(void *begin, void *end);
 extern char arcs_cmdline[COMMAND_LINE_SIZE];
 
 /*
- * Registers a0, a1, a3 and a4 as passed to the kernel entry by firmware
+ * Registers a0, a1, a2 and a3 as passed to the kernel entry by firmware
  */
 extern unsigned long fw_arg0, fw_arg1, fw_arg2, fw_arg3;
 
 #ifdef CONFIG_USE_OF
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/libfdt.h>
 #include <linux/of_fdt.h>
 
@@ -137,12 +133,6 @@ static inline void *get_fdt(void)
 
 	return NULL;
 }
-<<<<<<< HEAD
-=======
-=======
-extern unsigned long fw_passed_dtb;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /*

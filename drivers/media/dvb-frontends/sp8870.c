@@ -281,11 +281,7 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
 
 	// read status reg in order to clear pending irqs
 	err = sp8870_readreg(state, 0x200);
-<<<<<<< HEAD
 	if (err < 0)
-=======
-	if (err)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return err;
 
 	// system controller start

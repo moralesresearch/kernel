@@ -14,10 +14,7 @@
 #include <asm/perf_event_server.h>
 #else
 static inline bool is_sier_available(void) { return false; }
-<<<<<<< HEAD
 static inline unsigned long get_pmcs_ext_regs(int idx) { return 0; }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_FSL_EMB_PERF_EVENT
@@ -44,10 +41,7 @@ static inline unsigned long get_pmcs_ext_regs(int idx) { return 0; }
 
 /* To support perf_regs sier update */
 extern bool is_sier_available(void);
-<<<<<<< HEAD
 extern unsigned long get_pmcs_ext_regs(int idx);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* To define perf extended regs mask value */
 extern u64 PERF_REG_EXTENDED_MASK;
 #define PERF_REG_EXTENDED_MASK	PERF_REG_EXTENDED_MASK

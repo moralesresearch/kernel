@@ -57,11 +57,6 @@ struct sk_buff *mlx5e_ipsec_handle_rx_skb(struct net_device *netdev,
 					  struct sk_buff *skb, u32 *cqe_bcnt);
 
 void mlx5e_ipsec_inverse_table_init(void);
-<<<<<<< HEAD
-=======
-bool mlx5e_ipsec_feature_check(struct sk_buff *skb, struct net_device *netdev,
-			       netdev_features_t features);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_ipsec_set_iv_esn(struct sk_buff *skb, struct xfrm_state *x,
 			    struct xfrm_offload *xo);
 void mlx5e_ipsec_set_iv(struct sk_buff *skb, struct xfrm_state *x,
@@ -90,7 +85,6 @@ static inline bool mlx5e_ipsec_is_tx_flow(struct mlx5e_accel_tx_ipsec_state *ips
 	return ipsec_st->x;
 }
 
-<<<<<<< HEAD
 static inline bool mlx5e_ipsec_eseg_meta(struct mlx5_wqe_eth_seg *eseg)
 {
 	return eseg->flow_table_metadata & cpu_to_be32(MLX5_ETH_WQE_FT_META_IPSEC);
@@ -113,10 +107,6 @@ static inline bool mlx5e_ipsec_feature_check(struct sk_buff *skb, struct net_dev
 	return false;
 }
 
-=======
-void mlx5e_ipsec_tx_build_eseg(struct mlx5e_priv *priv, struct sk_buff *skb,
-			       struct mlx5_wqe_eth_seg *eseg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline
 void mlx5e_ipsec_offload_handle_rx_skb(struct net_device *netdev,
@@ -124,7 +114,6 @@ void mlx5e_ipsec_offload_handle_rx_skb(struct net_device *netdev,
 				       struct mlx5_cqe64 *cqe)
 {}
 
-<<<<<<< HEAD
 static inline bool mlx5e_ipsec_eseg_meta(struct mlx5_wqe_eth_seg *eseg)
 {
 	return false;
@@ -133,9 +122,6 @@ static inline bool mlx5e_ipsec_eseg_meta(struct mlx5_wqe_eth_seg *eseg)
 static inline bool mlx5_ipsec_is_rx_flow(struct mlx5_cqe64 *cqe) { return false; }
 static inline bool mlx5e_ipsec_feature_check(struct sk_buff *skb, struct net_device *netdev,
 					     netdev_features_t features) { return false; }
-=======
-static inline bool mlx5_ipsec_is_rx_flow(struct mlx5_cqe64 *cqe) { return false; }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_MLX5_EN_IPSEC */
 
 #endif /* __MLX5E_IPSEC_RXTX_H__ */

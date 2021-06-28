@@ -51,11 +51,7 @@ RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
 # Detects a reference to a documentation page of the form Documentation/... with
 # an optional extension
 #
-<<<<<<< HEAD
 RE_doc = re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.(rst|txt)')
-=======
-RE_doc = re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
 
@@ -238,14 +234,10 @@ def markup_doc_ref(docname, app, match):
     #
     # Go through the dance of getting an xref out of the std domain
     #
-<<<<<<< HEAD
     absolute = match.group(1)
     target = match.group(2)
     if absolute:
        target = "/" + target
-=======
-    target = match.group(1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     xref = None
     pxref = addnodes.pending_xref('', refdomain = 'std', reftype = 'doc',
                                   reftarget = target, modname = None,

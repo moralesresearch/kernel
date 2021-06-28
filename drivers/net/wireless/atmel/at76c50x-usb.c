@@ -101,11 +101,7 @@ do {									\
 static uint at76_debug = DBG_DEFAULTS;
 
 /* Protect against concurrent firmware loading and parsing */
-<<<<<<< HEAD
 static DEFINE_MUTEX(fw_mutex);
-=======
-static struct mutex fw_mutex;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct fwentry firmwares[] = {
 	[0] = { "" },
@@ -2576,11 +2572,6 @@ static int __init at76_mod_init(void)
 
 	printk(KERN_INFO DRIVER_DESC " " DRIVER_VERSION " loading\n");
 
-<<<<<<< HEAD
-=======
-	mutex_init(&fw_mutex);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* register this driver with the USB subsystem */
 	result = usb_register(&at76_driver);
 	if (result < 0)

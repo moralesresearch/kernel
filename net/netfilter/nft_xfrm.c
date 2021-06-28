@@ -24,11 +24,7 @@ static const struct nla_policy nft_xfrm_policy[NFTA_XFRM_MAX + 1] = {
 
 struct nft_xfrm {
 	enum nft_xfrm_keys	key:8;
-<<<<<<< HEAD
 	u8			dreg;
-=======
-	enum nft_registers	dreg:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			dir;
 	u8			spnum;
 };
@@ -90,14 +86,8 @@ static int nft_xfrm_get_init(const struct nft_ctx *ctx,
 
 	priv->spnum = spnum;
 
-<<<<<<< HEAD
 	return nft_parse_register_store(ctx, tb[NFTA_XFRM_DREG], &priv->dreg,
 					NULL, NFT_DATA_VALUE, len);
-=======
-	priv->dreg = nft_parse_register(tb[NFTA_XFRM_DREG]);
-	return nft_validate_register_store(ctx, priv->dreg, NULL,
-					   NFT_DATA_VALUE, len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Return true if key asks for daddr/saddr and current

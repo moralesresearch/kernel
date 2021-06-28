@@ -1181,11 +1181,7 @@ static struct snd_soc_dai_driver cs42l73_dai[] = {
 			.formats = CS42L73_FORMATS,
 		},
 		.ops = &cs42l73_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 },
 	{
 		.name = "cs42l73-asp",
@@ -1205,11 +1201,7 @@ static struct snd_soc_dai_driver cs42l73_dai[] = {
 			.formats = CS42L73_FORMATS,
 		},
 		.ops = &cs42l73_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 },
 	{
 		.name = "cs42l73-vsp",
@@ -1229,11 +1221,7 @@ static struct snd_soc_dai_driver cs42l73_dai[] = {
 			.formats = CS42L73_FORMATS,
 		},
 		.ops = &cs42l73_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 }
 };
 
@@ -1280,6 +1268,9 @@ static const struct regmap_config cs42l73_regmap = {
 	.volatile_reg = cs42l73_volatile_register,
 	.readable_reg = cs42l73_readable_register,
 	.cache_type = REGCACHE_RBTREE,
+
+	.use_single_read = true,
+	.use_single_write = true,
 };
 
 static int cs42l73_i2c_probe(struct i2c_client *i2c_client,

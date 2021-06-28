@@ -44,7 +44,6 @@ struct cros_typec_port {
 	/* Initial capabilities for the port. */
 	struct typec_capability caps;
 	struct typec_partner *partner;
-<<<<<<< HEAD
 	struct typec_cable *cable;
 	/* SOP' plug. */
 	struct typec_plug *plug;
@@ -52,10 +51,6 @@ struct cros_typec_port {
 	struct usb_pd_identity p_identity;
 	/* Port cable PD identity info. */
 	struct usb_pd_identity c_identity;
-=======
-	/* Port partner PD identity info. */
-	struct usb_pd_identity p_identity;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct typec_switch *ori_sw;
 	struct typec_mux *mux;
 	struct usb_role_switch *role_sw;
@@ -63,23 +58,17 @@ struct cros_typec_port {
 	/* Variables keeping track of switch state. */
 	struct typec_mux_state state;
 	uint8_t mux_flags;
+	uint8_t role;
 
 	/* Port alt modes. */
 	struct typec_altmode p_altmode[CROS_EC_ALTMODE_MAX];
 
-<<<<<<< HEAD
 	/* Flag indicating that PD partner discovery data parsing is completed. */
 	bool sop_disc_done;
 	bool sop_prime_disc_done;
 	struct ec_response_typec_discovery *disc_data;
 	struct list_head partner_mode_list;
 	struct list_head plug_mode_list;
-=======
-	/* Flag indicating that PD discovery data parsing is completed. */
-	bool disc_done;
-	struct ec_response_typec_discovery *sop_disc;
-	struct list_head partner_mode_list;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Platform-specific data for the Chrome OS EC Type C controller. */
@@ -93,10 +82,7 @@ struct cros_typec_data {
 	struct notifier_block nb;
 	struct work_struct port_work;
 	bool typec_cmd_supported;
-<<<<<<< HEAD
 	bool needs_mux_ack;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cros_typec_parse_port_props(struct typec_capability *cap,
@@ -203,7 +189,6 @@ static int cros_typec_add_partner(struct cros_typec_data *typec, int port_num,
 	return ret;
 }
 
-<<<<<<< HEAD
 static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int port_num,
 					   bool is_partner)
 {
@@ -213,39 +198,20 @@ static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int po
 
 	head = is_partner ? &port->partner_mode_list : &port->plug_mode_list;
 	list_for_each_entry_safe(node, tmp, head, list) {
-=======
-static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int port_num)
-{
-	struct cros_typec_port *port = typec->ports[port_num];
-	struct cros_typec_altmode_node *node, *tmp;
-
-	list_for_each_entry_safe(node, tmp, &port->partner_mode_list, list) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		list_del(&node->list);
 		typec_unregister_altmode(node->amode);
 		devm_kfree(typec->dev, node);
 	}
 }
 
-<<<<<<< HEAD
 static int cros_typec_usb_disconnect_state(struct cros_typec_port *port)
 {
-=======
-static void cros_typec_remove_partner(struct cros_typec_data *typec,
-				     int port_num)
-{
-	struct cros_typec_port *port = typec->ports[port_num];
-
-	cros_typec_unregister_altmodes(typec, port_num);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->state.alt = NULL;
 	port->state.mode = TYPEC_STATE_USB;
 	port->state.data = NULL;
 
 	usb_role_switch_set_role(port->role_sw, USB_ROLE_NONE);
 	typec_switch_set(port->ori_sw, TYPEC_ORIENTATION_NONE);
-<<<<<<< HEAD
 
 	return typec_mux_set(port->mux, &port->state);
 }
@@ -255,17 +221,16 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
 {
 	struct cros_typec_port *port = typec->ports[port_num];
 
+	if (!port->partner)
+		return;
+
 	cros_typec_unregister_altmodes(typec, port_num, true);
 
 	cros_typec_usb_disconnect_state(port);
-=======
-	typec_mux_set(port->mux, &port->state);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	typec_unregister_partner(port->partner);
 	port->partner = NULL;
 	memset(&port->p_identity, 0, sizeof(port->p_identity));
-<<<<<<< HEAD
 	port->sop_disc_done = false;
 }
 
@@ -273,6 +238,9 @@ static void cros_typec_remove_cable(struct cros_typec_data *typec,
 				    int port_num)
 {
 	struct cros_typec_port *port = typec->ports[port_num];
+
+	if (!port->cable)
+		return;
 
 	cros_typec_unregister_altmodes(typec, port_num, false);
 
@@ -282,9 +250,6 @@ static void cros_typec_remove_cable(struct cros_typec_data *typec,
 	port->cable = NULL;
 	memset(&port->c_identity, 0, sizeof(port->c_identity));
 	port->sop_prime_disc_done = false;
-=======
-	port->disc_done = false;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void cros_unregister_ports(struct cros_typec_data *typec)
@@ -295,15 +260,9 @@ static void cros_unregister_ports(struct cros_typec_data *typec)
 		if (!typec->ports[i])
 			continue;
 
-		if (typec->ports[i]->partner)
-			cros_typec_remove_partner(typec, i);
+		cros_typec_remove_partner(typec, i);
+		cros_typec_remove_cable(typec, i);
 
-<<<<<<< HEAD
-		if (typec->ports[i]->cable)
-			cros_typec_remove_cable(typec, i);
-
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usb_role_switch_put(typec->ports[i]->role_sw);
 		typec_switch_put(typec->ports[i]->ori_sw);
 		typec_mux_put(typec->ports[i]->mux);
@@ -403,22 +362,14 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
 
 		cros_typec_register_port_altmodes(typec, port_num);
 
-<<<<<<< HEAD
 		cros_port->disc_data = devm_kzalloc(dev, EC_PROTO2_MAX_RESPONSE_SIZE, GFP_KERNEL);
 		if (!cros_port->disc_data) {
-=======
-		cros_port->sop_disc = devm_kzalloc(dev, EC_PROTO2_MAX_RESPONSE_SIZE, GFP_KERNEL);
-		if (!cros_port->sop_disc) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = -ENOMEM;
 			goto unregister_ports;
 		}
 
 		INIT_LIST_HEAD(&cros_port->partner_mode_list);
-<<<<<<< HEAD
 		INIT_LIST_HEAD(&cros_port->plug_mode_list);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -536,14 +487,11 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
 		return -ENOTSUPP;
 	}
 
-<<<<<<< HEAD
 	if (!pd_ctrl->dp_mode) {
 		dev_err(typec->dev, "No valid DP mode provided.\n");
 		return -EINVAL;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Status VDO. */
 	dp_data.status = DP_STATUS_ENABLED;
 	if (port->mux_flags & USB_PD_MUX_HPD_IRQ)
@@ -599,7 +547,6 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
 				struct ec_response_usb_pd_control_v2 *pd_ctrl)
 {
 	struct cros_typec_port *port = typec->ports[port_num];
-<<<<<<< HEAD
 	struct ec_params_usb_pd_mux_ack mux_ack;
 	enum typec_orientation orientation;
 	int ret;
@@ -608,13 +555,6 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
 		ret = cros_typec_usb_disconnect_state(port);
 		goto mux_ack;
 	}
-=======
-	enum typec_orientation orientation;
-	int ret;
-
-	if (!port->partner)
-		return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (mux_flags & USB_PD_MUX_POLARITY_INVERTED)
 		orientation = TYPEC_ORIENTATION_REVERSE;
@@ -649,7 +589,6 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
 			mux_flags);
 	}
 
-<<<<<<< HEAD
 mux_ack:
 	if (!typec->needs_mux_ack)
 		return ret;
@@ -663,8 +602,6 @@ mux_ack:
 			 "Failed to send Mux ACK to EC for port: %d\n",
 			 port_num);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -719,17 +656,8 @@ static void cros_typec_set_port_params_v1(struct cros_typec_data *typec,
 				 "Failed to register partner on port: %d\n",
 				 port_num);
 	} else {
-<<<<<<< HEAD
-		if (typec->ports[port_num]->partner)
-			cros_typec_remove_partner(typec, port_num);
-
-		if (typec->ports[port_num]->cable)
-			cros_typec_remove_cable(typec, port_num);
-=======
-		if (!typec->ports[port_num]->partner)
-			return;
 		cros_typec_remove_partner(typec, port_num);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+		cros_typec_remove_cable(typec, port_num);
 	}
 }
 
@@ -744,7 +672,6 @@ static int cros_typec_get_mux_info(struct cros_typec_data *typec, int port_num,
 				     sizeof(req), resp, sizeof(*resp));
 }
 
-<<<<<<< HEAD
 /*
  * Helper function to register partner/plug altmodes.
  */
@@ -757,15 +684,6 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
 	struct typec_altmode_desc desc;
 	struct typec_altmode *amode;
 	int num_altmodes = 0;
-=======
-static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_num)
-{
-	struct cros_typec_port *port = typec->ports[port_num];
-	struct ec_response_typec_discovery *sop_disc = port->sop_disc;
-	struct cros_typec_altmode_node *node;
-	struct typec_altmode_desc desc;
-	struct typec_altmode *amode;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 	int i, j;
 
@@ -776,15 +694,11 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
 			desc.mode = j;
 			desc.vdo = sop_disc->svids[i].mode_vdo[j];
 
-<<<<<<< HEAD
 			if (is_partner)
 				amode = typec_partner_register_altmode(port->partner, &desc);
 			else
 				amode = typec_plug_register_altmode(port->plug, &desc);
 
-=======
-			amode = typec_partner_register_altmode(port->partner, &desc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (IS_ERR(amode)) {
 				ret = PTR_ERR(amode);
 				goto err_cleanup;
@@ -799,7 +713,6 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
 			}
 
 			node->amode = amode;
-<<<<<<< HEAD
 
 			if (is_partner)
 				list_add_tail(&node->list, &port->partner_mode_list);
@@ -929,32 +842,11 @@ static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_nu
 {
 	struct cros_typec_port *port = typec->ports[port_num];
 	struct ec_response_typec_discovery *sop_disc = port->disc_data;
-=======
-			list_add_tail(&node->list, &port->partner_mode_list);
-		}
-	}
-
-	return 0;
-
-err_cleanup:
-	cros_typec_unregister_altmodes(typec, port_num);
-	return ret;
-}
-
-static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_num)
-{
-	struct cros_typec_port *port = typec->ports[port_num];
-	struct ec_response_typec_discovery *sop_disc = port->sop_disc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ec_params_typec_discovery req = {
 		.port = port_num,
 		.partner_type = TYPEC_PARTNER_SOP,
 	};
 	int ret = 0;
-<<<<<<< HEAD
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!port->partner) {
 		dev_err(typec->dev,
@@ -964,11 +856,8 @@ static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_nu
 		goto disc_exit;
 	}
 
-<<<<<<< HEAD
 	typec_partner_set_pd_revision(port->partner, pd_revision);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memset(sop_disc, 0, EC_PROTO2_MAX_RESPONSE_SIZE);
 	ret = cros_typec_ec_command(typec, 0, EC_CMD_TYPEC_DISCOVERY, &req, sizeof(req),
 				    sop_disc, EC_PROTO2_MAX_RESPONSE_SIZE);
@@ -977,21 +866,7 @@ static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_nu
 		goto disc_exit;
 	}
 
-<<<<<<< HEAD
 	cros_typec_parse_pd_identity(&port->p_identity, sop_disc);
-=======
-	/* First, update the PD identity VDOs for the partner. */
-	if (sop_disc->identity_count > 0)
-		port->p_identity.id_header = sop_disc->discovery_vdo[0];
-	if (sop_disc->identity_count > 1)
-		port->p_identity.cert_stat = sop_disc->discovery_vdo[1];
-	if (sop_disc->identity_count > 2)
-		port->p_identity.product = sop_disc->discovery_vdo[2];
-
-	/* Copy the remaining identity VDOs till a maximum of 6. */
-	for (i = 3; i < sop_disc->identity_count && i < VDO_MAX_OBJECTS; i++)
-		port->p_identity.vdo[i - 3] = sop_disc->discovery_vdo[i];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = typec_partner_set_identity(port->partner);
 	if (ret < 0) {
@@ -999,11 +874,7 @@ static int cros_typec_handle_sop_disc(struct cros_typec_data *typec, int port_nu
 		goto disc_exit;
 	}
 
-<<<<<<< HEAD
 	ret = cros_typec_register_altmodes(typec, port_num, true);
-=======
-	ret = cros_typec_register_altmodes(typec, port_num);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		dev_err(typec->dev, "Failed to register partner altmodes, port: %d\n", port_num);
 		goto disc_exit;
@@ -1013,7 +884,6 @@ disc_exit:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int cros_typec_send_clear_event(struct cros_typec_data *typec, int port_num, u32 events_mask)
 {
 	struct ec_params_typec_control req = {
@@ -1026,8 +896,6 @@ static int cros_typec_send_clear_event(struct cros_typec_data *typec, int port_n
 				     sizeof(req), NULL, 0);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num)
 {
 	struct ec_response_typec_status resp;
@@ -1043,7 +911,19 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
 		return;
 	}
 
-<<<<<<< HEAD
+	/* If we got a hard reset, unregister everything and return. */
+	if (resp.events & PD_STATUS_EVENT_HARD_RESET) {
+		cros_typec_remove_partner(typec, port_num);
+		cros_typec_remove_cable(typec, port_num);
+
+		ret = cros_typec_send_clear_event(typec, port_num,
+						  PD_STATUS_EVENT_HARD_RESET);
+		if (ret < 0)
+			dev_warn(typec->dev,
+				 "Failed hard reset event clear, port: %d\n", port_num);
+		return;
+	}
+
 	/* Handle any events appropriately. */
 	if (resp.events & PD_STATUS_EVENT_SOP_DISC_DONE && !typec->ports[port_num]->sop_disc_done) {
 		u16 sop_revision;
@@ -1082,20 +962,6 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
 				dev_warn(typec->dev,
 					 "Failed SOP Disc event clear, port: %d\n", port_num);
 		}
-=======
-	if (typec->ports[port_num]->disc_done)
-		return;
-
-	/* Handle any events appropriately. */
-	if (resp.events & PD_STATUS_EVENT_SOP_DISC_DONE) {
-		ret = cros_typec_handle_sop_disc(typec, port_num);
-		if (ret < 0) {
-			dev_err(typec->dev, "Couldn't parse SOP Disc data, port: %d\n", port_num);
-			return;
-		}
-
-		typec->ports[port_num]->disc_done = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -1148,10 +1014,12 @@ static int cros_typec_port_update(struct cros_typec_data *typec, int port_num)
 	}
 
 	/* No change needs to be made, let's exit early. */
-	if (typec->ports[port_num]->mux_flags == mux_resp.flags)
+	if (typec->ports[port_num]->mux_flags == mux_resp.flags &&
+	    typec->ports[port_num]->role == resp.role)
 		return 0;
 
 	typec->ports[port_num]->mux_flags = mux_resp.flags;
+	typec->ports[port_num]->role = resp.role;
 	ret = cros_typec_configure_mux(typec, port_num, mux_resp.flags, &resp);
 	if (ret)
 		dev_warn(typec->dev, "Configure muxes failed, err = %d\n", ret);
@@ -1180,19 +1048,14 @@ static int cros_typec_get_cmd_version(struct cros_typec_data *typec)
 	else
 		typec->pd_ctrl_ver = 0;
 
-	dev_dbg(typec->dev, "PD Control has version mask 0x%hhx\n",
-		typec->pd_ctrl_ver);
+	dev_dbg(typec->dev, "PD Control has version mask 0x%02x\n",
+		typec->pd_ctrl_ver & 0xff);
 
 	return 0;
 }
 
-<<<<<<< HEAD
 /* Check the EC feature flags to see if TYPEC_* features are supported. */
 static int cros_typec_feature_supported(struct cros_typec_data *typec, enum ec_feature_code feature)
-=======
-/* Check the EC feature flags to see if TYPEC_* commands are supported. */
-static int cros_typec_cmds_supported(struct cros_typec_data *typec)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ec_response_get_features resp = {};
 	int ret;
@@ -1201,20 +1064,12 @@ static int cros_typec_cmds_supported(struct cros_typec_data *typec)
 				    &resp, sizeof(resp));
 	if (ret < 0) {
 		dev_warn(typec->dev,
-<<<<<<< HEAD
 			 "Failed to get features, assuming typec feature=%d unsupported.\n",
 			 feature);
 		return 0;
 	}
 
 	return resp.flags[feature / 32] & EC_FEATURE_MASK_1(feature);
-=======
-			 "Failed to get features, assuming typec commands unsupported.\n");
-		return 0;
-	}
-
-	return resp.flags[EC_FEATURE_TYPEC_CMD / 32] & EC_FEATURE_MASK_1(EC_FEATURE_TYPEC_CMD);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void cros_typec_port_work(struct work_struct *work)
@@ -1234,10 +1089,7 @@ static int cros_ec_typec_event(struct notifier_block *nb,
 {
 	struct cros_typec_data *typec = container_of(nb, struct cros_typec_data, nb);
 
-<<<<<<< HEAD
 	flush_work(&typec->port_work);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	schedule_work(&typec->port_work);
 
 	return NOTIFY_OK;
@@ -1280,14 +1132,10 @@ static int cros_typec_probe(struct platform_device *pdev)
 		return ret;
 	}
 
-<<<<<<< HEAD
 	typec->typec_cmd_supported = !!cros_typec_feature_supported(typec,
 					EC_FEATURE_TYPEC_CMD);
 	typec->needs_mux_ack = !!cros_typec_feature_supported(typec,
 					EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK);
-=======
-	typec->typec_cmd_supported = !!cros_typec_cmds_supported(typec);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = cros_typec_ec_command(typec, 0, EC_CMD_USB_PD_PORTS, NULL, 0,
 				    &resp, sizeof(resp));

@@ -34,10 +34,7 @@ enum ath10k_debug_mask {
 	ATH10K_DBG_USB_BULK	= 0x00080000,
 	ATH10K_DBG_SNOC		= 0x00100000,
 	ATH10K_DBG_QMI		= 0x00200000,
-<<<<<<< HEAD
 	ATH10K_DBG_STA		= 0x00400000,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ATH10K_DBG_ANY		= 0xffffffff,
 };
 

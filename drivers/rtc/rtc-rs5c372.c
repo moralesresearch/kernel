@@ -83,11 +83,7 @@ static const struct i2c_device_id rs5c372_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, rs5c372_id);
 
-<<<<<<< HEAD
 static const __maybe_unused struct of_device_id rs5c372_of_match[] = {
-=======
-static const struct of_device_id rs5c372_of_match[] = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{
 		.compatible = "ricoh,r2025sd",
 		.data = (void *)rtc_r2025sd

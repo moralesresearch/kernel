@@ -127,11 +127,7 @@ static inline void drm_legacy_master_rmmaps(struct drm_device *dev,
 static inline void drm_legacy_rmmaps(struct drm_device *dev) {}
 #endif
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_DRM_LEGACY)
-=======
-#if IS_ENABLED(CONFIG_DRM_VM) && IS_ENABLED(CONFIG_DRM_LEGACY)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void drm_legacy_vma_flush(struct drm_device *d);
 #else
 static inline void drm_legacy_vma_flush(struct drm_device *d)

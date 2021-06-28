@@ -369,11 +369,7 @@ int fsverity_ioctl_enable(struct file *filp, const void __user *uarg)
 	 * has verity enabled, and to stabilize the data being hashed.
 	 */
 
-<<<<<<< HEAD
 	err = file_permission(filp, MAY_WRITE);
-=======
-	err = inode_permission(inode, MAY_WRITE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 

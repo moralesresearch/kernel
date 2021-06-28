@@ -6,7 +6,6 @@
 #ifndef __RC_MINSTREL_HT_H
 #define __RC_MINSTREL_HT_H
 
-<<<<<<< HEAD
 #include <linux/bitfield.h>
 
 /* number of highest throughput rates to consider*/
@@ -36,8 +35,6 @@
 #define MINSTREL_AVG_COEFF2		0x00001499
 #define MINSTREL_AVG_COEFF3		-0x0000092e
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The number of streams can be changed to 2 to reduce code
  * size and memory footprint.
@@ -50,7 +47,6 @@
 				 MINSTREL_HT_STREAM_GROUPS)
 #define MINSTREL_VHT_GROUPS_NB	(MINSTREL_MAX_STREAMS *		\
 				 MINSTREL_VHT_STREAM_GROUPS)
-<<<<<<< HEAD
 #define MINSTREL_LEGACY_GROUPS_NB	2
 #define MINSTREL_GROUPS_NB	(MINSTREL_HT_GROUPS_NB +	\
 				 MINSTREL_VHT_GROUPS_NB +	\
@@ -100,19 +96,6 @@ struct minstrel_priv {
 };
 
 
-=======
-#define MINSTREL_CCK_GROUPS_NB	1
-#define MINSTREL_GROUPS_NB	(MINSTREL_HT_GROUPS_NB +	\
-				 MINSTREL_VHT_GROUPS_NB +	\
-				 MINSTREL_CCK_GROUPS_NB)
-
-#define MINSTREL_HT_GROUP_0	0
-#define MINSTREL_CCK_GROUP	(MINSTREL_HT_GROUP_0 + MINSTREL_HT_GROUPS_NB)
-#define MINSTREL_VHT_GROUP_0	(MINSTREL_CCK_GROUP + 1)
-
-#define MCS_GROUP_RATES		10
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mcs_group {
 	u16 flags;
 	u8 streams;
@@ -121,7 +104,6 @@ struct mcs_group {
 	u16 duration[MCS_GROUP_RATES];
 };
 
-<<<<<<< HEAD
 extern const s16 minstrel_cck_bitrates[4];
 extern const s16 minstrel_ofdm_bitrates[8];
 extern const struct mcs_group minstrel_mcs_groups[];
@@ -152,10 +134,6 @@ enum minstrel_sample_type {
 	__MINSTREL_SAMPLE_TYPE_MAX
 };
 
-=======
-extern const struct mcs_group minstrel_mcs_groups[];
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct minstrel_mcs_group_data {
 	u8 index;
 	u8 column;
@@ -168,17 +146,10 @@ struct minstrel_mcs_group_data {
 	struct minstrel_rate_stats rates[MCS_GROUP_RATES];
 };
 
-<<<<<<< HEAD
 struct minstrel_sample_category {
 	u8 sample_group;
 	u16 sample_rates[MINSTREL_SAMPLE_RATES];
 	u16 cur_sample_rates[MINSTREL_SAMPLE_RATES];
-=======
-enum minstrel_sample_mode {
-	MINSTREL_SAMPLE_IDLE,
-	MINSTREL_SAMPLE_ACTIVE,
-	MINSTREL_SAMPLE_PENDING,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct minstrel_ht_sta {
@@ -201,22 +172,15 @@ struct minstrel_ht_sta {
 	/* overhead time in usec for each frame */
 	unsigned int overhead;
 	unsigned int overhead_rtscts;
-<<<<<<< HEAD
 	unsigned int overhead_legacy;
 	unsigned int overhead_legacy_rtscts;
 
-=======
-
-	unsigned int total_packets_last;
-	unsigned int total_packets_cur;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int total_packets;
 	unsigned int sample_packets;
 
 	/* tx flags to add for frames for this sta */
 	u32 tx_flags;
 
-<<<<<<< HEAD
 	u8 band;
 
 	u8 sample_seq;
@@ -224,21 +188,6 @@ struct minstrel_ht_sta {
 
 	unsigned long sample_time;
 	struct minstrel_sample_category sample[__MINSTREL_SAMPLE_TYPE_MAX];
-=======
-	u8 sample_wait;
-	u8 sample_tries;
-	u8 sample_count;
-	u8 sample_slow;
-
-	enum minstrel_sample_mode sample_mode;
-	u16 sample_rate;
-
-	/* current MCS group to be sampled */
-	u8 sample_group;
-
-	u8 cck_supported;
-	u8 cck_supported_short;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Bitfield of supported MCS rates of all groups */
 	u16 supported[MINSTREL_GROUPS_NB];
@@ -247,19 +196,6 @@ struct minstrel_ht_sta {
 	struct minstrel_mcs_group_data groups[MINSTREL_GROUPS_NB];
 };
 
-<<<<<<< HEAD
-=======
-struct minstrel_ht_sta_priv {
-	union {
-		struct minstrel_ht_sta ht;
-		struct minstrel_sta_info legacy;
-	};
-	void *ratelist;
-	void *sample_table;
-	bool is_ht;
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void minstrel_ht_add_sta_debugfs(void *priv, void *priv_sta, struct dentry *dir);
 int minstrel_ht_get_tp_avg(struct minstrel_ht_sta *mi, int group, int rate,
 			   int prob_avg);

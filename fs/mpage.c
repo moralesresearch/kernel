@@ -304,13 +304,7 @@ alloc_new:
 				goto out;
 		}
 		args->bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
-<<<<<<< HEAD
 					bio_max_segs(args->nr_pages), gfp);
-=======
-					min_t(int, args->nr_pages,
-					      BIO_MAX_PAGES),
-					gfp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (args->bio == NULL)
 			goto confused;
 	}
@@ -622,11 +616,7 @@ alloc_new:
 				goto out;
 		}
 		bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
-<<<<<<< HEAD
 				BIO_MAX_VECS, GFP_NOFS|__GFP_HIGH);
-=======
-				BIO_MAX_PAGES, GFP_NOFS|__GFP_HIGH);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (bio == NULL)
 			goto confused;
 

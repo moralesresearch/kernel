@@ -55,7 +55,6 @@ static struct file_system_type anon_inode_fs_type = {
 	.kill_sb	= kill_anon_super,
 };
 
-<<<<<<< HEAD
 static struct inode *anon_inode_make_secure_inode(
 	const char *name,
 	const struct inode *context_inode)
@@ -113,53 +112,11 @@ static struct file *__anon_inode_getfile(const char *name,
 		goto err_iput;
 
 	file->f_mapping = inode->i_mapping;
-=======
-/**
- * anon_inode_getfile - creates a new file instance by hooking it up to an
- *                      anonymous inode, and a dentry that describe the "class"
- *                      of the file
- *
- * @name:    [in]    name of the "class" of the new file
- * @fops:    [in]    file operations for the new file
- * @priv:    [in]    private data for the new file (will be file's private_data)
- * @flags:   [in]    flags
- *
- * Creates a new file by hooking it on a single inode. This is useful for files
- * that do not need to have a full-fledged inode in order to operate correctly.
- * All the files created with anon_inode_getfile() will share a single inode,
- * hence saving memory and avoiding code duplication for the file/inode/dentry
- * setup.  Returns the newly created file* or an error pointer.
- */
-struct file *anon_inode_getfile(const char *name,
-				const struct file_operations *fops,
-				void *priv, int flags)
-{
-	struct file *file;
-
-	if (IS_ERR(anon_inode_inode))
-		return ERR_PTR(-ENODEV);
-
-	if (fops->owner && !try_module_get(fops->owner))
-		return ERR_PTR(-ENOENT);
-
-	/*
-	 * We know the anon_inode inode count is always greater than zero,
-	 * so ihold() is safe.
-	 */
-	ihold(anon_inode_inode);
-	file = alloc_file_pseudo(anon_inode_inode, anon_inode_mnt, name,
-				 flags & (O_ACCMODE | O_NONBLOCK), fops);
-	if (IS_ERR(file))
-		goto err;
-
-	file->f_mapping = anon_inode_inode->i_mapping;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	file->private_data = priv;
 
 	return file;
 
-<<<<<<< HEAD
 err_iput:
 	iput(inode);
 err:
@@ -171,19 +128,6 @@ err:
  * anon_inode_getfile - creates a new file instance by hooking it up to an
  *                      anonymous inode, and a dentry that describe the "class"
  *                      of the file
-=======
-err:
-	iput(anon_inode_inode);
-	module_put(fops->owner);
-	return file;
-}
-EXPORT_SYMBOL_GPL(anon_inode_getfile);
-
-/**
- * anon_inode_getfd - creates a new file instance by hooking it up to an
- *                    anonymous inode, and a dentry that describe the "class"
- *                    of the file
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @name:    [in]    name of the "class" of the new file
  * @fops:    [in]    file operations for the new file
@@ -192,7 +136,6 @@ EXPORT_SYMBOL_GPL(anon_inode_getfile);
  *
  * Creates a new file by hooking it on a single inode. This is useful for files
  * that do not need to have a full-fledged inode in order to operate correctly.
-<<<<<<< HEAD
  * All the files created with anon_inode_getfile() will share a single inode,
  * hence saving memory and avoiding code duplication for the file/inode/dentry
  * setup.  Returns the newly created file* or an error pointer.
@@ -210,14 +153,6 @@ static int __anon_inode_getfd(const char *name,
 			      void *priv, int flags,
 			      const struct inode *context_inode,
 			      bool secure)
-=======
- * All the files created with anon_inode_getfd() will share a single inode,
- * hence saving memory and avoiding code duplication for the file/inode/dentry
- * setup.  Returns new descriptor or an error code.
- */
-int anon_inode_getfd(const char *name, const struct file_operations *fops,
-		     void *priv, int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error, fd;
 	struct file *file;
@@ -227,12 +162,8 @@ int anon_inode_getfd(const char *name, const struct file_operations *fops,
 		return error;
 	fd = error;
 
-<<<<<<< HEAD
 	file = __anon_inode_getfile(name, fops, priv, flags, context_inode,
 				    secure);
-=======
-	file = anon_inode_getfile(name, fops, priv, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(file)) {
 		error = PTR_ERR(file);
 		goto err_put_unused_fd;
@@ -245,7 +176,6 @@ err_put_unused_fd:
 	put_unused_fd(fd);
 	return error;
 }
-<<<<<<< HEAD
 
 /**
  * anon_inode_getfd - creates a new file instance by hooking it up to
@@ -295,10 +225,6 @@ int anon_inode_getfd_secure(const char *name, const struct file_operations *fops
 }
 EXPORT_SYMBOL_GPL(anon_inode_getfd_secure);
 
-=======
-EXPORT_SYMBOL_GPL(anon_inode_getfd);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init anon_inode_init(void)
 {
 	anon_inode_mnt = kern_mount(&anon_inode_fs_type);

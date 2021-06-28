@@ -390,10 +390,7 @@ static int m88rs2000_tab_set(struct m88rs2000_state *state,
 		case 0xff:
 			if (tab[i].reg == 0xaa && tab[i].val == 0xff)
 				return 0;
-<<<<<<< HEAD
 			break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case 0x00:
 			break;
 		default:

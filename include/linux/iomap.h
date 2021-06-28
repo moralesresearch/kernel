@@ -55,10 +55,7 @@ struct vm_fault;
 #define IOMAP_F_SHARED		0x04
 #define IOMAP_F_MERGED		0x08
 #define IOMAP_F_BUFFER_HEAD	0x10
-<<<<<<< HEAD
 #define IOMAP_F_ZONE_APPEND	0x20
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Flags set by the core iomap code during operations:
@@ -126,10 +123,7 @@ struct iomap_page_ops {
 #define IOMAP_FAULT		(1 << 3) /* mapping for page fault */
 #define IOMAP_DIRECT		(1 << 4) /* direct I/O */
 #define IOMAP_NOWAIT		(1 << 5) /* do not block */
-<<<<<<< HEAD
 #define IOMAP_OVERWRITE_ONLY	(1 << 6) /* only pure overwrites allowed */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct iomap_ops {
 	/*
@@ -204,7 +198,6 @@ struct iomap_ioend {
 	struct inode		*io_inode;	/* file being written to */
 	size_t			io_size;	/* size of the extent */
 	loff_t			io_offset;	/* offset in the file */
-	void			*io_private;	/* file system private data */
 	struct bio		*io_bio;	/* bio being built */
 	struct bio		io_inline_bio;	/* MUST BE LAST! */
 };
@@ -240,9 +233,7 @@ struct iomap_writepage_ctx {
 
 void iomap_finish_ioends(struct iomap_ioend *ioend, int error);
 void iomap_ioend_try_merge(struct iomap_ioend *ioend,
-		struct list_head *more_ioends,
-		void (*merge_private)(struct iomap_ioend *ioend,
-				struct iomap_ioend *next));
+		struct list_head *more_ioends);
 void iomap_sort_ioends(struct list_head *ioend_list);
 int iomap_writepage(struct page *page, struct writeback_control *wbc,
 		struct iomap_writepage_ctx *wpc,
@@ -264,7 +255,6 @@ struct iomap_dio_ops {
 			struct bio *bio, loff_t file_offset);
 };
 
-<<<<<<< HEAD
 /*
  * Wait for the I/O to complete in iomap_dio_rw even if the kiocb is not
  * synchronous.
@@ -284,14 +274,6 @@ ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
 struct iomap_dio *__iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
 		const struct iomap_ops *ops, const struct iomap_dio_ops *dops,
 		unsigned int dio_flags);
-=======
-ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
-		const struct iomap_ops *ops, const struct iomap_dio_ops *dops,
-		bool wait_for_completion);
-struct iomap_dio *__iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
-		const struct iomap_ops *ops, const struct iomap_dio_ops *dops,
-		bool wait_for_completion);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ssize_t iomap_dio_complete(struct iomap_dio *dio);
 int iomap_dio_iopoll(struct kiocb *kiocb, bool spin);
 

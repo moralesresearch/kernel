@@ -1287,15 +1287,7 @@ static u64 __calculate_sltime(struct kvm_vcpu *vcpu)
 			/* already expired? */
 			if (cputm >> 63)
 				return 0;
-<<<<<<< HEAD
 			return min_t(u64, sltime, tod_to_ns(cputm));
-=======
-<<<<<<< HEAD
-			return min_t(u64, sltime, tod_to_ns(cputm));
-=======
-			return min(sltime, tod_to_ns(cputm));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (cpu_timer_interrupts_enabled(vcpu)) {
 		sltime = kvm_s390_get_cpu_timer(vcpu);

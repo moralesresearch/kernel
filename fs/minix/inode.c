@@ -652,22 +652,13 @@ static int minix_write_inode(struct inode *inode, struct writeback_control *wbc)
 	return err;
 }
 
-<<<<<<< HEAD
 int minix_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		  struct kstat *stat, u32 request_mask, unsigned int flags)
-=======
-int minix_getattr(const struct path *path, struct kstat *stat,
-		  u32 request_mask, unsigned int flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct super_block *sb = path->dentry->d_sb;
 	struct inode *inode = d_inode(path->dentry);
 
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (INODE_VERSION(inode) == MINIX_V1)
 		stat->blocks = (BLOCK_SIZE / 512) * V1_minix_blocks(stat->size, sb);
 	else

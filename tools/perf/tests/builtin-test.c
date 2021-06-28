@@ -339,13 +339,10 @@ static struct test generic_tests[] = {
 		.func = test__demangle_java,
 	},
 	{
-<<<<<<< HEAD
 		.desc = "Demangle OCaml",
 		.func = test__demangle_ocaml,
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.desc = "Parse and process metrics",
 		.func = test__parse_metric,
 	},

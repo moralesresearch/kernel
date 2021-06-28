@@ -25,29 +25,14 @@
 #include <linux/quota.h>
 #include <linux/unicode.h>
 #include <linux/part_stat.h>
-<<<<<<< HEAD
 #include <linux/zstd.h>
 #include <linux/lz4.h>
-=======
-<<<<<<< HEAD
-#include <linux/zstd.h>
-#include <linux/lz4.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "f2fs.h"
 #include "node.h"
 #include "segment.h"
 #include "xattr.h"
 #include "gc.h"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include "trace.h"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/f2fs.h>
@@ -61,13 +46,6 @@ const char *f2fs_fault_name[FAULT_MAX] = {
 	[FAULT_KVMALLOC]	= "kvmalloc",
 	[FAULT_PAGE_ALLOC]	= "page alloc",
 	[FAULT_PAGE_GET]	= "page get",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	[FAULT_ALLOC_BIO]	= "alloc bio",
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[FAULT_ALLOC_NID]	= "alloc nid",
 	[FAULT_ORPHAN]		= "orphan",
 	[FAULT_BLOCK]		= "no more block",
@@ -165,22 +143,16 @@ enum {
 	Opt_checkpoint_disable_cap,
 	Opt_checkpoint_disable_cap_perc,
 	Opt_checkpoint_enable,
-<<<<<<< HEAD
 	Opt_checkpoint_merge,
 	Opt_nocheckpoint_merge,
-=======
-<<<<<<< HEAD
-	Opt_checkpoint_merge,
-	Opt_nocheckpoint_merge,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	Opt_compress_algorithm,
 	Opt_compress_log_size,
 	Opt_compress_extension,
 	Opt_compress_chksum,
 	Opt_compress_mode,
 	Opt_atgc,
+	Opt_gc_merge,
+	Opt_nogc_merge,
 	Opt_err,
 };
 
@@ -245,22 +217,16 @@ static match_table_t f2fs_tokens = {
 	{Opt_checkpoint_disable_cap, "checkpoint=disable:%u"},
 	{Opt_checkpoint_disable_cap_perc, "checkpoint=disable:%u%%"},
 	{Opt_checkpoint_enable, "checkpoint=enable"},
-<<<<<<< HEAD
 	{Opt_checkpoint_merge, "checkpoint_merge"},
 	{Opt_nocheckpoint_merge, "nocheckpoint_merge"},
-=======
-<<<<<<< HEAD
-	{Opt_checkpoint_merge, "checkpoint_merge"},
-	{Opt_nocheckpoint_merge, "nocheckpoint_merge"},
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{Opt_compress_algorithm, "compress_algorithm=%s"},
 	{Opt_compress_log_size, "compress_log_size=%u"},
 	{Opt_compress_extension, "compress_extension=%s"},
 	{Opt_compress_chksum, "compress_chksum"},
 	{Opt_compress_mode, "compress_mode=%s"},
 	{Opt_atgc, "atgc"},
+	{Opt_gc_merge, "gc_merge"},
+	{Opt_nogc_merge, "nogc_merge"},
 	{Opt_err, NULL},
 };
 
@@ -506,10 +472,6 @@ static int f2fs_set_test_dummy_encryption(struct super_block *sb,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_F2FS_FS_COMPRESSION
 #ifdef CONFIG_F2FS_FS_LZ4
 static int f2fs_set_lz4hc_level(struct f2fs_sb_info *sbi, const char *str)
@@ -578,11 +540,6 @@ static int f2fs_set_zstd_level(struct f2fs_sb_info *sbi, const char *str)
 #endif
 #endif
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int parse_options(struct super_block *sb, char *options, bool is_remount)
 {
 	struct f2fs_sb_info *sbi = F2FS_SB(sb);
@@ -602,6 +559,7 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 
 	while ((p = strsep(&options, ",")) != NULL) {
 		int token;
+
 		if (!*p)
 			continue;
 		/*
@@ -800,21 +758,9 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 		case Opt_io_size_bits:
 			if (args->from && match_int(args, &arg))
 				return -EINVAL;
-<<<<<<< HEAD
 			if (arg <= 0 || arg > __ilog2_u32(BIO_MAX_VECS)) {
 				f2fs_warn(sbi, "Not support %d, larger than %d",
 					  1 << arg, BIO_MAX_VECS);
-=======
-<<<<<<< HEAD
-			if (arg <= 0 || arg > __ilog2_u32(BIO_MAX_VECS)) {
-				f2fs_warn(sbi, "Not support %d, larger than %d",
-					  1 << arg, BIO_MAX_VECS);
-=======
-			if (arg <= 0 || arg > __ilog2_u32(BIO_MAX_PAGES)) {
-				f2fs_warn(sbi, "Not support %d, larger than %d",
-					  1 << arg, BIO_MAX_PAGES);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -EINVAL;
 			}
 			F2FS_OPTION(sbi).write_io_size_bits = arg;
@@ -1003,21 +949,12 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 		case Opt_checkpoint_enable:
 			clear_opt(sbi, DISABLE_CHECKPOINT);
 			break;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case Opt_checkpoint_merge:
 			set_opt(sbi, MERGE_CHECKPOINT);
 			break;
 		case Opt_nocheckpoint_merge:
 			clear_opt(sbi, MERGE_CHECKPOINT);
 			break;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_F2FS_FS_COMPRESSION
 		case Opt_compress_algorithm:
 			if (!f2fs_sb_has_compression(sbi)) {
@@ -1028,10 +965,6 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 			if (!name)
 				return -ENOMEM;
 			if (!strcmp(name, "lzo")) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_F2FS_FS_LZO
 				F2FS_OPTION(sbi).compress_level = 0;
 				F2FS_OPTION(sbi).compress_algorithm =
@@ -1071,22 +1004,6 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 #else
 				f2fs_info(sbi, "kernel doesn't support lzorle compression");
 #endif
-<<<<<<< HEAD
-=======
-=======
-				F2FS_OPTION(sbi).compress_algorithm =
-								COMPRESS_LZO;
-			} else if (!strcmp(name, "lz4")) {
-				F2FS_OPTION(sbi).compress_algorithm =
-								COMPRESS_LZ4;
-			} else if (!strcmp(name, "zstd")) {
-				F2FS_OPTION(sbi).compress_algorithm =
-								COMPRESS_ZSTD;
-			} else if (!strcmp(name, "lzo-rle")) {
-				F2FS_OPTION(sbi).compress_algorithm =
-								COMPRESS_LZORLE;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else {
 				kfree(name);
 				return -EINVAL;
@@ -1160,6 +1077,12 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
 #endif
 		case Opt_atgc:
 			set_opt(sbi, ATGC);
+			break;
+		case Opt_gc_merge:
+			set_opt(sbi, GC_MERGE);
+			break;
+		case Opt_nogc_merge:
+			clear_opt(sbi, GC_MERGE);
 			break;
 		default:
 			f2fs_err(sbi, "Unrecognized mount option \"%s\" or missing value",
@@ -1270,14 +1193,6 @@ static struct inode *f2fs_alloc_inode(struct super_block *sb)
 	/* Will be used by directory only */
 	fi->i_dir_level = F2FS_SB(sb)->dir_level;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	fi->ra_offset = -1;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return &fi->vfs_inode;
 }
 
@@ -1396,15 +1311,6 @@ static void f2fs_dirty_inode(struct inode *inode, int flags)
 			inode->i_ino == F2FS_META_INO(sbi))
 		return;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	if (flags == I_DIRTY_TIME)
-		return;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_inode_flag_set(inode, FI_AUTO_RECOVER))
 		clear_inode_flag(inode, FI_AUTO_RECOVER);
 
@@ -1452,21 +1358,12 @@ static void f2fs_put_super(struct super_block *sb)
 	mutex_lock(&sbi->umount_mutex);
 
 	/*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * flush all issued checkpoints and stop checkpoint issue thread.
 	 * after then, all checkpoints should be done by each process context.
 	 */
 	f2fs_stop_ckpt_thread(sbi);
 
 	/*
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * We don't need to do checkpoint when superblock is clean.
 	 * But, the previous checkpoint was not done by umount, it needs to do
 	 * clean checkpoint again.
@@ -1564,26 +1461,8 @@ int f2fs_sync_fs(struct super_block *sb, int sync)
 	if (unlikely(is_sbi_flag_set(sbi, SBI_POR_DOING)))
 		return -EAGAIN;
 
-<<<<<<< HEAD
 	if (sync)
 		err = f2fs_issue_checkpoint(sbi);
-=======
-<<<<<<< HEAD
-	if (sync)
-		err = f2fs_issue_checkpoint(sbi);
-=======
-	if (sync) {
-		struct cp_control cpc;
-
-		cpc.reason = __get_cp_reason(sbi);
-
-		down_write(&sbi->gc_lock);
-		err = f2fs_write_checkpoint(sbi, &cpc);
-		up_write(&sbi->gc_lock);
-	}
-	f2fs_trace_ios(NULL, 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }
@@ -1600,19 +1479,10 @@ static int f2fs_freeze(struct super_block *sb)
 	/* must be clean, since sync_filesystem() was already called */
 	if (is_sbi_flag_set(F2FS_SB(sb), SBI_IS_DIRTY))
 		return -EINVAL;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* ensure no checkpoint required */
 	if (!llist_empty(&F2FS_SB(sb)->cprc_info.issue_list))
 		return -EINVAL;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1757,6 +1627,7 @@ static inline void f2fs_show_quota_options(struct seq_file *seq,
 #endif
 }
 
+#ifdef CONFIG_F2FS_FS_COMPRESSION
 static inline void f2fs_show_compress_options(struct seq_file *seq,
 							struct super_block *sb)
 {
@@ -1783,18 +1654,9 @@ static inline void f2fs_show_compress_options(struct seq_file *seq,
 	}
 	seq_printf(seq, ",compress_algorithm=%s", algtype);
 
-<<<<<<< HEAD
 	if (F2FS_OPTION(sbi).compress_level)
 		seq_printf(seq, ":%d", F2FS_OPTION(sbi).compress_level);
 
-=======
-<<<<<<< HEAD
-	if (F2FS_OPTION(sbi).compress_level)
-		seq_printf(seq, ":%d", F2FS_OPTION(sbi).compress_level);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(seq, ",compress_log_size=%u",
 			F2FS_OPTION(sbi).compress_log_size);
 
@@ -1811,6 +1673,7 @@ static inline void f2fs_show_compress_options(struct seq_file *seq,
 	else if (F2FS_OPTION(sbi).compress_mode == COMPR_MODE_USER)
 		seq_printf(seq, ",compress_mode=%s", "user");
 }
+#endif
 
 static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
 {
@@ -1822,6 +1685,9 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
 		seq_printf(seq, ",background_gc=%s", "on");
 	else if (F2FS_OPTION(sbi).bggc_mode == BGGC_MODE_OFF)
 		seq_printf(seq, ",background_gc=%s", "off");
+
+	if (test_opt(sbi, GC_MERGE))
+		seq_puts(seq, ",gc_merge");
 
 	if (test_opt(sbi, DISABLE_ROLL_FORWARD))
 		seq_puts(seq, ",disable_roll_forward");
@@ -1930,19 +1796,10 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
 	if (test_opt(sbi, DISABLE_CHECKPOINT))
 		seq_printf(seq, ",checkpoint=disable:%u",
 				F2FS_OPTION(sbi).unusable_cap);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test_opt(sbi, MERGE_CHECKPOINT))
 		seq_puts(seq, ",checkpoint_merge");
 	else
 		seq_puts(seq, ",nocheckpoint_merge");
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (F2FS_OPTION(sbi).fsync_mode == FSYNC_MODE_POSIX)
 		seq_printf(seq, ",fsync_mode=%s", "posix");
 	else if (F2FS_OPTION(sbi).fsync_mode == FSYNC_MODE_STRICT)
@@ -1983,6 +1840,7 @@ static void default_options(struct f2fs_sb_info *sbi)
 	set_opt(sbi, EXTENT_CACHE);
 	set_opt(sbi, NOHEAP);
 	clear_opt(sbi, DISABLE_CHECKPOINT);
+	set_opt(sbi, MERGE_CHECKPOINT);
 	F2FS_OPTION(sbi).unusable_cap = 0;
 	sbi->sb->s_flags |= SB_LAZYTIME;
 	set_opt(sbi, FLUSH_MERGE);
@@ -2024,11 +1882,7 @@ static int f2fs_disable_checkpoint(struct f2fs_sb_info *sbi)
 
 	while (!f2fs_time_over(sbi, DISABLE_TIME)) {
 		down_write(&sbi->gc_lock);
-<<<<<<< HEAD
 		err = f2fs_gc(sbi, true, false, false, NULL_SEGNO);
-=======
-		err = f2fs_gc(sbi, true, false, NULL_SEGNO);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err == -ENODATA) {
 			err = 0;
 			break;
@@ -2039,7 +1893,7 @@ static int f2fs_disable_checkpoint(struct f2fs_sb_info *sbi)
 
 	ret = sync_filesystem(sbi->sb);
 	if (ret || err) {
-		err = ret ? ret: err;
+		err = ret ? ret : err;
 		goto restore_flag;
 	}
 
@@ -2088,8 +1942,9 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
 	struct f2fs_mount_info org_mount_opt;
 	unsigned long old_sb_flags;
 	int err;
-	bool need_restart_gc = false;
-	bool need_stop_gc = false;
+	bool need_restart_gc = false, need_stop_gc = false;
+	bool need_restart_ckpt = false, need_stop_ckpt = false;
+	bool need_restart_flush = false, need_stop_flush = false;
 	bool no_extent_cache = !test_opt(sbi, EXTENT_CACHE);
 	bool disable_checkpoint = test_opt(sbi, DISABLE_CHECKPOINT);
 	bool no_io_align = !F2FS_IO_ALIGNED(sbi);
@@ -2198,7 +2053,8 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
 	 * option. Also sync the filesystem.
 	 */
 	if ((*flags & SB_RDONLY) ||
-			F2FS_OPTION(sbi).bggc_mode == BGGC_MODE_OFF) {
+			(F2FS_OPTION(sbi).bggc_mode == BGGC_MODE_OFF &&
+			!test_opt(sbi, GC_MERGE))) {
 		if (sbi->gc_thread) {
 			f2fs_stop_gc_thread(sbi);
 			need_restart_gc = true;
@@ -2220,22 +2076,11 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
 		clear_sbi_flag(sbi, SBI_IS_CLOSE);
 	}
 
-	if (checkpoint_changed) {
-		if (test_opt(sbi, DISABLE_CHECKPOINT)) {
-			err = f2fs_disable_checkpoint(sbi);
-			if (err)
-				goto restore_gc;
-		} else {
-			f2fs_enable_checkpoint(sbi);
-		}
-	}
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	if (!test_opt(sbi, DISABLE_CHECKPOINT) &&
-			test_opt(sbi, MERGE_CHECKPOINT)) {
+	if ((*flags & SB_RDONLY) || test_opt(sbi, DISABLE_CHECKPOINT) ||
+			!test_opt(sbi, MERGE_CHECKPOINT)) {
+		f2fs_stop_ckpt_thread(sbi);
+		need_restart_ckpt = true;
+	} else {
 		err = f2fs_start_ckpt_thread(sbi);
 		if (err) {
 			f2fs_err(sbi,
@@ -2243,15 +2088,9 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
 			    err);
 			goto restore_gc;
 		}
-	} else {
-		f2fs_stop_ckpt_thread(sbi);
+		need_stop_ckpt = true;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We stop issue flush thread if FS is mounted as RO
 	 * or if flush_merge is not passed in mount option.
@@ -2259,11 +2098,24 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
 	if ((*flags & SB_RDONLY) || !test_opt(sbi, FLUSH_MERGE)) {
 		clear_opt(sbi, FLUSH_MERGE);
 		f2fs_destroy_flush_cmd_control(sbi, false);
+		need_restart_flush = true;
 	} else {
 		err = f2fs_create_flush_cmd_control(sbi);
 		if (err)
-			goto restore_gc;
+			goto restore_ckpt;
+		need_stop_flush = true;
 	}
+
+	if (checkpoint_changed) {
+		if (test_opt(sbi, DISABLE_CHECKPOINT)) {
+			err = f2fs_disable_checkpoint(sbi);
+			if (err)
+				goto restore_flush;
+		} else {
+			f2fs_enable_checkpoint(sbi);
+		}
+	}
+
 skip:
 #ifdef CONFIG_QUOTA
 	/* Release old quota file names */
@@ -2278,6 +2130,21 @@ skip:
 	adjust_unusable_cap_perc(sbi);
 	*flags = (*flags & ~SB_LAZYTIME) | (sb->s_flags & SB_LAZYTIME);
 	return 0;
+restore_flush:
+	if (need_restart_flush) {
+		if (f2fs_create_flush_cmd_control(sbi))
+			f2fs_warn(sbi, "background flush thread has stopped");
+	} else if (need_stop_flush) {
+		clear_opt(sbi, FLUSH_MERGE);
+		f2fs_destroy_flush_cmd_control(sbi, false);
+	}
+restore_ckpt:
+	if (need_restart_ckpt) {
+		if (f2fs_start_ckpt_thread(sbi))
+			f2fs_warn(sbi, "background ckpt thread has stopped");
+	} else if (need_stop_ckpt) {
+		f2fs_stop_ckpt_thread(sbi);
+	}
 restore_gc:
 	if (need_restart_gc) {
 		if (f2fs_start_gc_thread(sbi))
@@ -2936,23 +2803,10 @@ static const struct export_operations f2fs_export_ops = {
 	.get_parent = f2fs_get_parent,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 loff_t max_file_blocks(struct inode *inode)
 {
 	loff_t result = 0;
 	loff_t leaf_count;
-<<<<<<< HEAD
-=======
-=======
-static loff_t max_file_blocks(void)
-{
-	loff_t result = 0;
-	loff_t leaf_count = DEF_ADDRS_PER_BLOCK;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * note: previously, result is equal to (DEF_ADDRS_PER_INODE -
@@ -2961,20 +2815,11 @@ static loff_t max_file_blocks(void)
 	 * result as zero.
 	 */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (inode && f2fs_compressed_file(inode))
 		leaf_count = ADDRS_PER_BLOCK(inode);
 	else
 		leaf_count = DEF_ADDRS_PER_BLOCK;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* two direct node blocks */
 	result += (leaf_count * 2);
 
@@ -3858,16 +3703,7 @@ try_onemore:
 	if (err)
 		goto free_options;
 
-<<<<<<< HEAD
 	sb->s_maxbytes = max_file_blocks(NULL) <<
-=======
-<<<<<<< HEAD
-	sb->s_maxbytes = max_file_blocks(NULL) <<
-=======
-	sbi->max_file_blocks = max_file_blocks();
-	sb->s_maxbytes = sbi->max_file_blocks <<
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				le32_to_cpu(raw_super->log_blocksize);
 	sb->s_max_links = F2FS_LINK_MAX;
 
@@ -3922,7 +3758,7 @@ try_onemore:
 	sbi->iostat_period_ms = DEFAULT_IOSTAT_PERIOD_MS;
 
 	for (i = 0; i < NR_PAGE_TYPE; i++) {
-		int n = (i == META) ? 1: NR_TEMP_TYPE;
+		int n = (i == META) ? 1 : NR_TEMP_TYPE;
 		int j;
 
 		sbi->write_io[i] =
@@ -4034,13 +3870,9 @@ try_onemore:
 
 	f2fs_init_fsync_node_info(sbi);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* setup checkpoint request control and start checkpoint issue thread */
 	f2fs_init_ckpt_req_control(sbi);
-	if (!test_opt(sbi, DISABLE_CHECKPOINT) &&
+	if (!f2fs_readonly(sb) && !test_opt(sbi, DISABLE_CHECKPOINT) &&
 			test_opt(sbi, MERGE_CHECKPOINT)) {
 		err = f2fs_start_ckpt_thread(sbi);
 		if (err) {
@@ -4051,11 +3883,6 @@ try_onemore:
 		}
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* setup f2fs internal modules */
 	err = f2fs_build_segment_manager(sbi);
 	if (err) {
@@ -4141,7 +3968,6 @@ try_onemore:
 		 * previous checkpoint was not done by clean system shutdown.
 		 */
 		if (f2fs_hw_is_readonly(sbi)) {
-<<<<<<< HEAD
 			if (!is_set_ckpt_flags(sbi, CP_UMOUNT_FLAG)) {
 				err = f2fs_recover_fsync_data(sbi, true);
 				if (err > 0) {
@@ -4154,21 +3980,6 @@ try_onemore:
 					goto free_meta;
 			}
 			f2fs_info(sbi, "write access unavailable, skipping recovery");
-=======
-<<<<<<< HEAD
-			if (!is_set_ckpt_flags(sbi, CP_UMOUNT_FLAG))
-				f2fs_err(sbi, "Need to recover fsync data, but write access unavailable");
-			else
-				f2fs_info(sbi, "write access unavailable, skipping recovery");
-=======
-			if (!is_set_ckpt_flags(sbi, CP_UMOUNT_FLAG)) {
-				err = -EROFS;
-				f2fs_err(sbi, "Need to recover fsync data, but write access unavailable");
-				goto free_meta;
-			}
-			f2fs_info(sbi, "write access unavailable, skipping recovery");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto reset_checkpoint;
 		}
 
@@ -4225,7 +4036,8 @@ reset_checkpoint:
 	 * If filesystem is not mounted as read-only then
 	 * do start the gc_thread.
 	 */
-	if (F2FS_OPTION(sbi).bggc_mode != BGGC_MODE_OFF && !f2fs_readonly(sb)) {
+	if ((F2FS_OPTION(sbi).bggc_mode != BGGC_MODE_OFF ||
+		test_opt(sbi, GC_MERGE)) && !f2fs_readonly(sb)) {
 		/* After POR, we can run background GC thread.*/
 		err = f2fs_start_gc_thread(sbi);
 		if (err)
@@ -4287,16 +4099,8 @@ free_nm:
 free_sm:
 	f2fs_destroy_segment_manager(sbi);
 	f2fs_destroy_post_read_wq(sbi);
-<<<<<<< HEAD
 stop_ckpt_thread:
 	f2fs_stop_ckpt_thread(sbi);
-=======
-<<<<<<< HEAD
-stop_ckpt_thread:
-	f2fs_stop_ckpt_thread(sbi);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 free_devices:
 	destroy_device_list(sbi);
 	kvfree(sbi->ckpt);
@@ -4411,14 +4215,6 @@ static int __init init_f2fs_fs(void)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	f2fs_build_trace_ios();
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = init_inodecache();
 	if (err)
 		goto fail;
@@ -4511,13 +4307,6 @@ static void __exit exit_f2fs_fs(void)
 	f2fs_destroy_segment_manager_caches();
 	f2fs_destroy_node_manager_caches();
 	destroy_inodecache();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	f2fs_destroy_trace_ios();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 module_init(init_f2fs_fs)

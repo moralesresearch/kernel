@@ -1423,18 +1423,8 @@ jeq_common:
 	case BPF_STX | BPF_H | BPF_MEM:
 	case BPF_STX | BPF_W | BPF_MEM:
 	case BPF_STX | BPF_DW | BPF_MEM:
-<<<<<<< HEAD
 	case BPF_STX | BPF_W | BPF_ATOMIC:
 	case BPF_STX | BPF_DW | BPF_ATOMIC:
-=======
-<<<<<<< HEAD
-	case BPF_STX | BPF_W | BPF_ATOMIC:
-	case BPF_STX | BPF_DW | BPF_ATOMIC:
-=======
-	case BPF_STX | BPF_W | BPF_XADD:
-	case BPF_STX | BPF_DW | BPF_XADD:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (insn->dst_reg == BPF_REG_10) {
 			ctx->flags |= EBPF_SEEN_FP;
 			dst = MIPS_R_SP;
@@ -1448,22 +1438,12 @@ jeq_common:
 		src = ebpf_to_mips_reg(ctx, insn, src_reg_no_fp);
 		if (src < 0)
 			return src;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (BPF_MODE(insn->code) == BPF_ATOMIC) {
 			if (insn->imm != BPF_ADD) {
 				pr_err("ATOMIC OP %02x NOT HANDLED\n", insn->imm);
 				return -EINVAL;
 			}
 
-<<<<<<< HEAD
-=======
-=======
-		if (BPF_MODE(insn->code) == BPF_XADD) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * If mem_off does not fit within the 9 bit ll/sc
 			 * instruction immediate field, use a temp reg.

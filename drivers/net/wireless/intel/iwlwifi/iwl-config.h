@@ -325,16 +325,6 @@ struct iwl_fw_mon_regs {
  * @features: hw features, any combination of feature_passlist
  * @pwr_tx_backoffs: translation table between power limits and backoffs
  * @max_tx_agg_size: max TX aggregation size of the ADDBA request/response
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
- * @max_ht_ampdu_factor: the exponent of the max length of A-MPDU that the
- *	station can receive in HT
- * @max_vht_ampdu_exponent: the exponent of the max length of A-MPDU that the
- *	station can receive in VHT
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dccm_offset: offset from which DCCM begins
  * @dccm_len: length of DCCM (including runtime stack CCM)
  * @dccm2_offset: offset from which the second DCCM begins
@@ -401,14 +391,6 @@ struct iwl_cfg {
 	u8 non_shared_ant;
 	u8 nvm_hw_section_num;
 	u8 max_tx_agg_size;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	u8 max_ht_ampdu_exponent;
-	u8 max_vht_ampdu_exponent;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 ucode_api_max;
 	u8 ucode_api_min;
 	u16 num_rbds;
@@ -432,15 +414,9 @@ struct iwl_cfg {
 #define IWL_CFG_MAC_TYPE_QNJ		0x36
 #define IWL_CFG_MAC_TYPE_SO		0x37
 #define IWL_CFG_MAC_TYPE_SNJ		0x42
-<<<<<<< HEAD
 #define IWL_CFG_MAC_TYPE_SOF		0x43
-=======
-<<<<<<< HEAD
-#define IWL_CFG_MAC_TYPE_SOF		0x43
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_CFG_MAC_TYPE_MA		0x44
+#define IWL_CFG_MAC_TYPE_BZ		0x46
 
 #define IWL_CFG_RF_TYPE_TH		0x105
 #define IWL_CFG_RF_TYPE_TH1		0x108
@@ -465,18 +441,9 @@ struct iwl_cfg {
 #define IWL_CFG_CORES_BT		0x0
 #define IWL_CFG_CORES_BT_GNSS		0x5
 
-<<<<<<< HEAD
 #define IWL_CFG_NO_CDB			0x0
 #define IWL_CFG_CDB			0x1
 
-=======
-<<<<<<< HEAD
-#define IWL_CFG_NO_CDB			0x0
-#define IWL_CFG_CDB			0x1
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_SUBDEVICE_RF_ID(subdevice)	((u16)((subdevice) & 0x00F0) >> 4)
 #define IWL_SUBDEVICE_NO_160(subdevice)	((u16)((subdevice) & 0x0200) >> 9)
 #define IWL_SUBDEVICE_CORES(subdevice)	((u16)((subdevice) & 0x1C00) >> 10)
@@ -490,14 +457,7 @@ struct iwl_dev_info {
 	u8 rf_id;
 	u8 no_160;
 	u8 cores;
-<<<<<<< HEAD
 	u8 cdb;
-=======
-<<<<<<< HEAD
-	u8 cdb;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct iwl_cfg *cfg;
 	const char *name;
 };
@@ -514,19 +474,11 @@ extern const struct iwl_cfg_trans_params iwl_qu_trans_cfg;
 extern const struct iwl_cfg_trans_params iwl_qu_medium_latency_trans_cfg;
 extern const struct iwl_cfg_trans_params iwl_qu_long_latency_trans_cfg;
 extern const struct iwl_cfg_trans_params iwl_ax200_trans_cfg;
-<<<<<<< HEAD
 extern const struct iwl_cfg_trans_params iwl_snj_trans_cfg;
 extern const struct iwl_cfg_trans_params iwl_so_trans_cfg;
 extern const struct iwl_cfg_trans_params iwl_so_long_latency_trans_cfg;
-=======
-<<<<<<< HEAD
-extern const struct iwl_cfg_trans_params iwl_snj_trans_cfg;
-extern const struct iwl_cfg_trans_params iwl_so_trans_cfg;
-extern const struct iwl_cfg_trans_params iwl_so_long_latency_trans_cfg;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct iwl_cfg_trans_params iwl_ma_trans_cfg;
+extern const struct iwl_cfg_trans_params iwl_bz_trans_cfg;
 extern const char iwl9162_name[];
 extern const char iwl9260_name[];
 extern const char iwl9260_1_name[];
@@ -551,8 +503,10 @@ extern const char iwl_ax200_killer_1650w_name[];
 extern const char iwl_ax200_killer_1650x_name[];
 extern const char iwl_ax201_killer_1650s_name[];
 extern const char iwl_ax201_killer_1650i_name[];
-extern const char iwl_ma_name[];
+extern const char iwl_ax210_killer_1675w_name[];
+extern const char iwl_ax210_killer_1675x_name[];
 extern const char iwl_ax211_name[];
+extern const char iwl_ax221_name[];
 extern const char iwl_ax411_name[];
 #if IS_ENABLED(CONFIG_IWLDVM)
 extern const struct iwl_cfg iwl5300_agn_cfg;
@@ -644,7 +598,7 @@ extern const struct iwl_cfg killer1650i_2ax_cfg_qu_c0_hr_b0;
 extern const struct iwl_cfg killer1650x_2ax_cfg;
 extern const struct iwl_cfg killer1650w_2ax_cfg;
 extern const struct iwl_cfg iwl_qnj_b0_hr_b0_cfg;
-extern const struct iwl_cfg iwlax210_2ax_cfg_so_jf_a0;
+extern const struct iwl_cfg iwlax210_2ax_cfg_so_jf_b0;
 extern const struct iwl_cfg iwlax210_2ax_cfg_so_hr_a0;
 extern const struct iwl_cfg iwlax211_2ax_cfg_so_gf_a0;
 extern const struct iwl_cfg iwlax211_2ax_cfg_so_gf_a0_long;
@@ -653,26 +607,19 @@ extern const struct iwl_cfg iwlax411_2ax_cfg_so_gf4_a0;
 extern const struct iwl_cfg iwlax411_2ax_cfg_so_gf4_a0_long;
 extern const struct iwl_cfg iwlax411_2ax_cfg_sosnj_gf4_a0;
 extern const struct iwl_cfg iwlax211_cfg_snj_gf_a0;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct iwl_cfg iwl_cfg_snj_hr_b0;
 extern const struct iwl_cfg iwl_cfg_snj_a0_jf_b0;
 extern const struct iwl_cfg iwl_cfg_ma_a0_hr_b0;
 extern const struct iwl_cfg iwl_cfg_ma_a0_gf_a0;
 extern const struct iwl_cfg iwl_cfg_ma_a0_gf4_a0;
-<<<<<<< HEAD
-=======
-=======
-extern const struct iwl_cfg iwlax201_cfg_snj_hr_b0;
-extern const struct iwl_cfg iwl_cfg_ma_a0_gf_a0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct iwl_cfg iwl_cfg_ma_a0_mr_a0;
 extern const struct iwl_cfg iwl_cfg_snj_a0_mr_a0;
 extern const struct iwl_cfg iwl_cfg_so_a0_hr_a0;
 extern const struct iwl_cfg iwl_cfg_quz_a0_hr_b0;
+extern const struct iwl_cfg iwl_cfg_bz_a0_hr_b0;
+extern const struct iwl_cfg iwl_cfg_bz_a0_gf_a0;
+extern const struct iwl_cfg iwl_cfg_bz_a0_gf4_a0;
+extern const struct iwl_cfg iwl_cfg_bz_a0_mr_a0;
 #endif /* CONFIG_IWLMVM */
 
 #endif /* __IWL_CONFIG_H__ */

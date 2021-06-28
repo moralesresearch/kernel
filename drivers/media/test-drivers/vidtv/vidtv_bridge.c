@@ -17,11 +17,8 @@
 #include <linux/time.h>
 #include <linux/types.h>
 #include <linux/workqueue.h>
-<<<<<<< HEAD
 #include <media/dvbdev.h>
 #include <media/media-device.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "vidtv_bridge.h"
 #include "vidtv_common.h"
@@ -419,10 +416,7 @@ static int vidtv_bridge_dvb_init(struct vidtv_dvb *dvb)
 	ret = vidtv_bridge_register_adap(dvb);
 	if (ret < 0)
 		goto fail_adapter;
-<<<<<<< HEAD
 	dvb_register_media_controller(&dvb->adapter, &dvb->mdev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < NUM_FE; ++i) {
 		ret = vidtv_bridge_probe_demod(dvb, i);
@@ -502,7 +496,6 @@ static int vidtv_bridge_probe(struct platform_device *pdev)
 
 	dvb->pdev = pdev;
 
-<<<<<<< HEAD
 #ifdef CONFIG_MEDIA_CONTROLLER_DVB
 	dvb->mdev.dev = &pdev->dev;
 
@@ -512,8 +505,6 @@ static int vidtv_bridge_probe(struct platform_device *pdev)
 	media_device_init(&dvb->mdev);
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = vidtv_bridge_dvb_init(dvb);
 	if (ret < 0)
 		goto err_dvb;
@@ -522,7 +513,6 @@ static int vidtv_bridge_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, dvb);
 
-<<<<<<< HEAD
 #ifdef CONFIG_MEDIA_CONTROLLER_DVB
 	ret = media_device_register(&dvb->mdev);
 	if (ret) {
@@ -539,11 +529,6 @@ static int vidtv_bridge_probe(struct platform_device *pdev)
 err_media_device_register:
 	media_device_cleanup(&dvb->mdev);
 #endif /* CONFIG_MEDIA_CONTROLLER_DVB */
-=======
-	dev_info(&pdev->dev, "Successfully initialized vidtv!\n");
-	return ret;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_dvb:
 	kfree(dvb);
 	return ret;
@@ -556,14 +541,11 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
 
 	dvb = platform_get_drvdata(pdev);
 
-<<<<<<< HEAD
 #ifdef CONFIG_MEDIA_CONTROLLER_DVB
 	media_device_unregister(&dvb->mdev);
 	media_device_cleanup(&dvb->mdev);
 #endif /* CONFIG_MEDIA_CONTROLLER_DVB */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&dvb->feed_lock);
 
 	for (i = 0; i < NUM_FE; ++i) {
@@ -575,10 +557,7 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
 	dvb_dmxdev_release(&dvb->dmx_dev);
 	dvb_dmx_release(&dvb->demux);
 	dvb_unregister_adapter(&dvb->adapter);
-<<<<<<< HEAD
 	dev_info(&pdev->dev, "Successfully removed vidtv\n");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -588,22 +567,13 @@ static void vidtv_bridge_dev_release(struct device *dev)
 }
 
 static struct platform_device vidtv_bridge_dev = {
-<<<<<<< HEAD
 	.name		= VIDTV_PDEV_NAME,
-=======
-	.name		= "vidtv_bridge",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.dev.release	= vidtv_bridge_dev_release,
 };
 
 static struct platform_driver vidtv_bridge_driver = {
 	.driver = {
-<<<<<<< HEAD
 		.name = VIDTV_PDEV_NAME,
-=======
-		.name                = "vidtv_bridge",
-		.suppress_bind_attrs = true,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.probe    = vidtv_bridge_probe,
 	.remove   = vidtv_bridge_remove,

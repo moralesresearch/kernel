@@ -532,7 +532,7 @@ struct xhci_ep_ctx *xhci_get_ep_ctx(struct xhci_hcd *xhci,
 	return (struct xhci_ep_ctx *)
 		(ctx->bytes + (ep_index * CTX_SIZE(xhci->hcc_params)));
 }
-
+EXPORT_SYMBOL_GPL(xhci_get_ep_ctx);
 
 /***************** Streams structures manipulation *************************/
 
@@ -592,26 +592,6 @@ struct xhci_ring *xhci_dma_to_transfer_ring(
 	return ep->ring;
 }
 
-<<<<<<< HEAD
-=======
-struct xhci_ring *xhci_stream_id_to_ring(
-		struct xhci_virt_device *dev,
-		unsigned int ep_index,
-		unsigned int stream_id)
-{
-	struct xhci_virt_ep *ep = &dev->eps[ep_index];
-
-	if (stream_id == 0)
-		return ep->ring;
-	if (!ep->stream_info)
-		return NULL;
-
-	if (stream_id >= ep->stream_info->num_streams)
-		return NULL;
-	return ep->stream_info->stream_rings[stream_id];
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Change an endpoint's internal structure so it supports stream IDs.  The
  * number of requested streams includes stream 0, which cannot be used by device
@@ -997,11 +977,8 @@ int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id,
 	if (!dev)
 		return 0;
 
-<<<<<<< HEAD
 	dev->slot_id = slot_id;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Allocate the (output) device context that will be used in the HC. */
 	dev->out_ctx = xhci_alloc_container_ctx(xhci, XHCI_CTX_TYPE_DEVICE, flags);
 	if (!dev->out_ctx)
@@ -1020,11 +997,8 @@ int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id,
 
 	/* Initialize the cancellation list and watchdog timers for each ep */
 	for (i = 0; i < 31; i++) {
-<<<<<<< HEAD
 		dev->eps[i].ep_index = i;
 		dev->eps[i].vdev = dev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xhci_init_endpoint_timer(xhci, &dev->eps[i]);
 		INIT_LIST_HEAD(&dev->eps[i].cancelled_td_list);
 		INIT_LIST_HEAD(&dev->eps[i].bw_endpoint_list);
@@ -2155,7 +2129,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
 
 	if (major_revision == 0x03) {
 		rhub = &xhci->usb3_rhub;
-<<<<<<< HEAD
 		/*
 		 * Some hosts incorrectly use sub-minor version for minor
 		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
@@ -2165,8 +2138,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
 		 */
 		if (minor_revision > 0x00 && minor_revision < 0x10)
 			minor_revision <<= 4;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (major_revision <= 0x02) {
 		rhub = &xhci->usb2_rhub;
 	} else {
@@ -2278,12 +2249,9 @@ static void xhci_create_rhub_port_array(struct xhci_hcd *xhci,
 		return;
 	rhub->ports = kcalloc_node(rhub->num_ports, sizeof(*rhub->ports),
 			flags, dev_to_node(dev));
-<<<<<<< HEAD
 	if (!rhub->ports)
 		return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < HCS_MAX_PORTS(xhci->hcs_params1); i++) {
 		if (xhci->hw_ports[i].rhub != rhub ||
 		    xhci->hw_ports[i].hcd_portnum == DUPLICATE_ENTRY)

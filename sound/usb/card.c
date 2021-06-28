@@ -58,14 +58,6 @@
 MODULE_AUTHOR("Takashi Iwai <tiwai@suse.de>");
 MODULE_DESCRIPTION("USB Audio");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("{{Generic,USB Audio}}");
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */
@@ -189,14 +181,8 @@ static int snd_usb_create_stream(struct snd_usb_audio *chip, int ctrlif, int int
 				ctrlif, interface);
 			return -EINVAL;
 		}
-<<<<<<< HEAD
 		return usb_driver_claim_interface(&usb_audio_driver, iface,
 						  USB_AUDIO_IFACE_UNUSED);
-=======
-		usb_driver_claim_interface(&usb_audio_driver, iface, (void *)-1L);
-
-		return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if ((altsd->bInterfaceClass != USB_CLASS_AUDIO &&
@@ -216,12 +202,8 @@ static int snd_usb_create_stream(struct snd_usb_audio *chip, int ctrlif, int int
 
 	if (! snd_usb_parse_audio_interface(chip, interface)) {
 		usb_set_interface(dev, interface, 0); /* reset the current interface */
-<<<<<<< HEAD
 		return usb_driver_claim_interface(&usb_audio_driver, iface,
 						  USB_AUDIO_IFACE_UNUSED);
-=======
-		usb_driver_claim_interface(&usb_audio_driver, iface, (void *)-1L);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -488,15 +470,7 @@ static void usb_audio_make_shortname(struct usb_device *dev,
 	else if (quirk && quirk->product_name)
 		s = quirk->product_name;
 	if (s && *s) {
-<<<<<<< HEAD
 		strscpy(card->shortname, s, sizeof(card->shortname));
-=======
-<<<<<<< HEAD
-		strscpy(card->shortname, s, sizeof(card->shortname));
-=======
-		strlcpy(card->shortname, s, sizeof(card->shortname));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -528,15 +502,7 @@ static void usb_audio_make_longname(struct usb_device *dev,
 	if (preset && preset->profile_name)
 		s = preset->profile_name;
 	if (s && *s) {
-<<<<<<< HEAD
 		strscpy(card->longname, s, sizeof(card->longname));
-=======
-<<<<<<< HEAD
-		strscpy(card->longname, s, sizeof(card->longname));
-=======
-		strlcpy(card->longname, s, sizeof(card->longname));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -544,10 +510,6 @@ static void usb_audio_make_longname(struct usb_device *dev,
 		s = preset->vendor_name;
 	else if (quirk && quirk->vendor_name)
 		s = quirk->vendor_name;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*card->longname = 0;
 	if (s && *s) {
 		strscpy(card->longname, s, sizeof(card->longname));
@@ -559,23 +521,6 @@ static void usb_audio_make_longname(struct usb_device *dev,
 		/* we don't really care if there isn't any vendor string */
 	}
 	if (*card->longname) {
-<<<<<<< HEAD
-=======
-=======
-	if (s && *s) {
-		len = strlcpy(card->longname, s, sizeof(card->longname));
-	} else {
-		/* retrieve the vendor and device strings as longname */
-		if (dev->descriptor.iManufacturer)
-			len = usb_string(dev, dev->descriptor.iManufacturer,
-					 card->longname, sizeof(card->longname));
-		else
-			len = 0;
-		/* we don't really care if there isn't any vendor string */
-	}
-	if (len > 0) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		strim(card->longname);
 		if (*card->longname)
 			strlcat(card->longname, " ", sizeof(card->longname));
@@ -768,6 +713,8 @@ static int usb_audio_probe(struct usb_interface *intf,
 		quirk = get_alias_quirk(dev, id);
 	if (quirk && quirk->ifnum >= 0 && ifnum != quirk->ifnum)
 		return -ENXIO;
+	if (quirk && quirk->ifnum == QUIRK_NODEV_INTERFACE)
+		return -ENODEV;
 
 	err = snd_usb_apply_boot_quirk(dev, intf, quirk, id);
 	if (err < 0)
@@ -917,11 +864,7 @@ static void usb_audio_disconnect(struct usb_interface *intf)
 	struct snd_card *card;
 	struct list_head *p;
 
-<<<<<<< HEAD
 	if (chip == USB_AUDIO_IFACE_UNUSED)
-=======
-	if (chip == (void *)-1L)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	card = chip->card;
@@ -1051,11 +994,7 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
 	struct usb_mixer_interface *mixer;
 	struct list_head *p;
 
-<<<<<<< HEAD
 	if (chip == USB_AUDIO_IFACE_UNUSED)
-=======
-	if (chip == (void *)-1L)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	if (!chip->num_suspended_intf++) {
@@ -1085,11 +1024,7 @@ static int __usb_audio_resume(struct usb_interface *intf, bool reset_resume)
 	struct list_head *p;
 	int err = 0;
 
-<<<<<<< HEAD
 	if (chip == USB_AUDIO_IFACE_UNUSED)
-=======
-	if (chip == (void *)-1L)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	atomic_inc(&chip->active); /* avoid autopm */

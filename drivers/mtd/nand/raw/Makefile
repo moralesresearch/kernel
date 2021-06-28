@@ -10,10 +10,6 @@ obj-$(CONFIG_MTD_NAND_DENALI_PCI)	+= denali_pci.o
 obj-$(CONFIG_MTD_NAND_DENALI_DT)	+= denali_dt.o
 obj-$(CONFIG_MTD_NAND_AU1550)		+= au1550nd.o
 obj-$(CONFIG_MTD_NAND_S3C2410)		+= s3c2410.o
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_MTD_NAND_TANGO)		+= tango_nand.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_MTD_NAND_DAVINCI)		+= davinci_nand.o
 obj-$(CONFIG_MTD_NAND_DISKONCHIP)	+= diskonchip.o
 obj-$(CONFIG_MTD_NAND_FSMC)		+= fsmc_nand.o

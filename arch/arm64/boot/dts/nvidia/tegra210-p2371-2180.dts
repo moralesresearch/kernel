@@ -126,7 +126,6 @@
 		interrupt-controller@702f9000 {
 			status = "okay";
 		};
-<<<<<<< HEAD
 
 		ahub@702d0800 {
 			status = "okay";
@@ -426,7 +425,5 @@
 		       <&i2s5_port>, <&dmic1_port>, <&dmic2_port>, <&dmic3_port>;
 
 		label = "jetson-tx1-ape";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

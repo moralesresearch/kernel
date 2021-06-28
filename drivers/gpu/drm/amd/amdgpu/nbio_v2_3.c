@@ -34,7 +34,6 @@
 #define smnCPM_CONTROL		0x11180460
 #define smnPCIE_CNTL2		0x11180070
 #define smnPCIE_LC_CNTL		0x11140280
-<<<<<<< HEAD
 #define smnPCIE_LC_CNTL3	0x111402d4
 #define smnPCIE_LC_CNTL6	0x111402ec
 #define smnPCIE_LC_CNTL7	0x111402f0
@@ -43,8 +42,6 @@
 #define smnBIF_CFG_DEV0_EPF0_PCIE_LTR_CAP	0x10140324
 #define smnPSWUSP0_PCIE_LC_CNTL2		0x111402c4
 #define smnNBIF_MGCG_CTRL_LCLK			0x1013a21c
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define mmBIF_SDMA2_DOORBELL_RANGE		0x01d6
 #define mmBIF_SDMA2_DOORBELL_RANGE_BASE_IDX	2
@@ -91,18 +88,6 @@ static void nbio_v2_3_mc_access_enable(struct amdgpu_device *adev, bool enable)
 		WREG32_SOC15(NBIO, 0, mmBIF_FB_EN, 0);
 }
 
-<<<<<<< HEAD
-=======
-static void nbio_v2_3_hdp_flush(struct amdgpu_device *adev,
-				struct amdgpu_ring *ring)
-{
-	if (!ring || !ring->funcs->emit_wreg)
-		WREG32_NO_KIQ((adev->rmmio_remap.reg_offset + KFD_MMIO_REMAP_HDP_MEM_FLUSH_CNTL) >> 2, 0);
-	else
-		amdgpu_ring_emit_wreg(ring, (adev->rmmio_remap.reg_offset + KFD_MMIO_REMAP_HDP_MEM_FLUSH_CNTL) >> 2, 0);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 nbio_v2_3_get_memsize(struct amdgpu_device *adev)
 {
 	return RREG32_SOC15(NBIO, 0, mmRCC_DEV0_EPF0_RCC_CONFIG_MEMSIZE);
@@ -373,7 +358,6 @@ static void nbio_v2_3_enable_aspm(struct amdgpu_device *adev,
 		WREG32_PCIE(smnPCIE_LC_CNTL, data);
 }
 
-<<<<<<< HEAD
 static void nbio_v2_3_program_ltr(struct amdgpu_device *adev)
 {
 	uint32_t def, data;
@@ -479,8 +463,6 @@ static void nbio_v2_3_program_aspm(struct amdgpu_device *adev)
 		WREG32_PCIE(smnPCIE_LC_CNTL3, data);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct amdgpu_nbio_funcs nbio_v2_3_funcs = {
 	.get_hdp_flush_req_offset = nbio_v2_3_get_hdp_flush_req_offset,
 	.get_hdp_flush_done_offset = nbio_v2_3_get_hdp_flush_done_offset,
@@ -488,10 +470,6 @@ const struct amdgpu_nbio_funcs nbio_v2_3_funcs = {
 	.get_pcie_data_offset = nbio_v2_3_get_pcie_data_offset,
 	.get_rev_id = nbio_v2_3_get_rev_id,
 	.mc_access_enable = nbio_v2_3_mc_access_enable,
-<<<<<<< HEAD
-=======
-	.hdp_flush = nbio_v2_3_hdp_flush,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_memsize = nbio_v2_3_get_memsize,
 	.sdma_doorbell_range = nbio_v2_3_sdma_doorbell_range,
 	.vcn_doorbell_range = nbio_v2_3_vcn_doorbell_range,
@@ -505,8 +483,5 @@ const struct amdgpu_nbio_funcs nbio_v2_3_funcs = {
 	.init_registers = nbio_v2_3_init_registers,
 	.remap_hdp_registers = nbio_v2_3_remap_hdp_registers,
 	.enable_aspm = nbio_v2_3_enable_aspm,
-<<<<<<< HEAD
 	.program_aspm =  nbio_v2_3_program_aspm,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

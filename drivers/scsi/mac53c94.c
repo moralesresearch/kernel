@@ -326,10 +326,6 @@ static void mac53c94_interrupt(int irq, void *dev_id)
 		}
 		cmd->SCp.Status = readb(&regs->fifo);
 		cmd->SCp.Message = readb(&regs->fifo);
-<<<<<<< HEAD
-=======
-		cmd->result = CMD_ACCEPT_MSG;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		writeb(CMD_ACCEPT_MSG, &regs->command);
 		state->phase = busfreeing;
 		break;
@@ -350,7 +346,7 @@ static void cmd_done(struct fsc_state *state, int result)
 	struct scsi_cmnd *cmd;
 
 	cmd = state->current_req;
-	if (cmd != 0) {
+	if (cmd) {
 		cmd->result = result;
 		(*cmd->scsi_done)(cmd);
 		state->current_req = NULL;
@@ -471,12 +467,13 @@ static int mac53c94_probe(struct macio_dev *mdev, const struct of_device_id *mat
        	dma_cmd_space = kmalloc_array(host->sg_tablesize + 2,
 					     sizeof(struct dbdma_cmd),
 					     GFP_KERNEL);
-       	if (dma_cmd_space == 0) {
-       		printk(KERN_ERR "mac53c94: couldn't allocate dma "
-       		       "command space for %pOF\n", node);
+	if (!dma_cmd_space) {
+		printk(KERN_ERR "mac53c94: couldn't allocate dma "
+		       "command space for %pOF\n", node);
 		rc = -ENOMEM;
-       		goto out_free;
-       	}
+		goto out_free;
+	}
+
 	state->dma_cmds = (struct dbdma_cmd *)DBDMA_ALIGN(dma_cmd_space);
 	memset(state->dma_cmds, 0, (host->sg_tablesize + 1)
 	       * sizeof(struct dbdma_cmd));

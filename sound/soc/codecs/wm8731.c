@@ -567,11 +567,7 @@ static struct snd_soc_dai_driver wm8731_dai = {
 		.rates = WM8731_RATES,
 		.formats = WM8731_FORMATS,},
 	.ops = &wm8731_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int wm8731_request_supplies(struct device *dev,

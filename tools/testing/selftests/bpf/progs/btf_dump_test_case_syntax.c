@@ -174,15 +174,12 @@ struct struct_in_struct {
 	};
 };
 
-<<<<<<< HEAD
 struct struct_in_array {};
 
 struct struct_in_array_typed {};
 
 typedef struct struct_in_array_typed struct_in_array_t[2];
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct struct_with_embedded_stuff {
 	int a;
 	struct {
@@ -212,11 +209,14 @@ struct struct_with_embedded_stuff {
 	} r[5];
 	struct struct_in_struct s[10];
 	int t[11];
-<<<<<<< HEAD
 	struct struct_in_array (*u)[2];
 	struct_in_array_t *v;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+};
+
+struct float_struct {
+	float f;
+	const double *d;
+	volatile long double *ld;
 };
 
 struct root_struct {
@@ -233,6 +233,7 @@ struct root_struct {
 	union_fwd_t *_12;
 	union_fwd_ptr_t _13;
 	struct struct_with_embedded_stuff _14;
+	struct float_struct _15;
 };
 
 /* ------ END-EXPECTED-OUTPUT ------ */

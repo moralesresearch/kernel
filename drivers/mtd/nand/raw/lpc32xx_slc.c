@@ -27,10 +27,7 @@
 #include <linux/of.h>
 #include <linux/of_gpio.h>
 #include <linux/mtd/lpc32xx_slc.h>
-<<<<<<< HEAD
 #include <linux/mtd/nand-ecc-sw-hamming.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define LPC32XX_MODNAME		"lpc32xx-nand"
 
@@ -349,7 +346,6 @@ static int lpc32xx_nand_ecc_calculate(struct nand_chip *chip,
 }
 
 /*
-<<<<<<< HEAD
  * Corrects the data
  */
 static int lpc32xx_nand_ecc_correct(struct nand_chip *chip,
@@ -362,8 +358,6 @@ static int lpc32xx_nand_ecc_correct(struct nand_chip *chip,
 }
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Read a single byte from NAND device
  */
 static uint8_t lpc32xx_nand_read_byte(struct nand_chip *chip)
@@ -821,11 +815,7 @@ static int lpc32xx_nand_attach_chip(struct nand_chip *chip)
 	chip->ecc.write_oob = lpc32xx_nand_write_oob_syndrome;
 	chip->ecc.read_oob = lpc32xx_nand_read_oob_syndrome;
 	chip->ecc.calculate = lpc32xx_nand_ecc_calculate;
-<<<<<<< HEAD
 	chip->ecc.correct = lpc32xx_nand_ecc_correct;
-=======
-	chip->ecc.correct = rawnand_sw_hamming_correct;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	chip->ecc.hwctl = lpc32xx_nand_ecc_enable;
 
 	/*

@@ -117,21 +117,13 @@ gf100_fb_dtor(struct nvkm_fb *base)
 
 int
 gf100_fb_new_(const struct nvkm_fb_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	      enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
-=======
-	      int index, struct nvkm_fb **pfb)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gf100_fb *fb;
 
 	if (!(fb = kzalloc(sizeof(*fb), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_fb_ctor(func, device, type, inst, &fb->base);
-=======
-	nvkm_fb_ctor(func, device, index, &fb->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*pfb = &fb->base;
 
 	return 0;
@@ -149,13 +141,7 @@ gf100_fb = {
 };
 
 int
-<<<<<<< HEAD
 gf100_fb_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
 {
 	return gf100_fb_new_(&gf100_fb, device, type, inst, pfb);
-=======
-gf100_fb_new(struct nvkm_device *device, int index, struct nvkm_fb **pfb)
-{
-	return gf100_fb_new_(&gf100_fb, device, index, pfb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

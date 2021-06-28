@@ -440,10 +440,7 @@ static int fsl_spi_setup(struct spi_device *spi)
 {
 	struct mpc8xxx_spi *mpc8xxx_spi;
 	struct fsl_spi_reg __iomem *reg_base;
-<<<<<<< HEAD
 	bool initial_setup = false;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int retval;
 	u32 hw_mode;
 	struct spi_mpc8xxx_cs *cs = spi_get_ctldata(spi);
@@ -456,10 +453,7 @@ static int fsl_spi_setup(struct spi_device *spi)
 		if (!cs)
 			return -ENOMEM;
 		spi_set_ctldata(spi, cs);
-<<<<<<< HEAD
 		initial_setup = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	mpc8xxx_spi = spi_master_get_devdata(spi->master);
 
@@ -483,11 +477,8 @@ static int fsl_spi_setup(struct spi_device *spi)
 	retval = fsl_spi_setup_transfer(spi, NULL);
 	if (retval < 0) {
 		cs->hw_mode = hw_mode; /* Restore settings */
-<<<<<<< HEAD
 		if (initial_setup)
 			kfree(cs);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return retval;
 	}
 
@@ -720,14 +711,11 @@ static int of_fsl_spi_probe(struct platform_device *ofdev)
 	struct resource mem;
 	int irq, type;
 	int ret;
-<<<<<<< HEAD
 	bool spisel_boot = false;
 #if IS_ENABLED(CONFIG_FSL_SOC)
 	struct mpc8xxx_spi_probe_info *pinfo = NULL;
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = of_mpc8xxx_spi_probe(ofdev);
 	if (ret)
@@ -736,14 +724,8 @@ static int of_fsl_spi_probe(struct platform_device *ofdev)
 	type = fsl_spi_get_type(&ofdev->dev);
 	if (type == TYPE_FSL) {
 		struct fsl_spi_platform_data *pdata = dev_get_platdata(dev);
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_FSL_SOC)
 		pinfo = to_of_pinfo(pdata);
-=======
-		bool spisel_boot = false;
-#if IS_ENABLED(CONFIG_FSL_SOC)
-		struct mpc8xxx_spi_probe_info *pinfo = to_of_pinfo(pdata);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		spisel_boot = of_property_read_bool(np, "fsl,spisel_boot");
 		if (spisel_boot) {
@@ -772,7 +754,6 @@ static int of_fsl_spi_probe(struct platform_device *ofdev)
 
 	ret = of_address_to_resource(np, 0, &mem);
 	if (ret)
-<<<<<<< HEAD
 		goto unmap_out;
 
 	irq = platform_get_irq(ofdev, 0);
@@ -780,18 +761,10 @@ static int of_fsl_spi_probe(struct platform_device *ofdev)
 		ret = irq;
 		goto unmap_out;
 	}
-=======
-		return ret;
-
-	irq = platform_get_irq(ofdev, 0);
-	if (irq < 0)
-		return irq;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	master = fsl_spi_probe(dev, &mem, irq);
 
 	return PTR_ERR_OR_ZERO(master);
-<<<<<<< HEAD
 
 unmap_out:
 #if IS_ENABLED(CONFIG_FSL_SOC)
@@ -799,8 +772,6 @@ unmap_out:
 		iounmap(pinfo->immr_spi_cs);
 #endif
 	return ret;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int of_fsl_spi_remove(struct platform_device *ofdev)

@@ -32,11 +32,8 @@ struct dp_aux_private {
 	struct drm_dp_aux dp_aux;
 };
 
-<<<<<<< HEAD
 #define MAX_AUX_RETRIES			5
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const char *dp_aux_get_error(u32 aux_error)
 {
 	switch (aux_error) {
@@ -341,10 +338,6 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
 	ssize_t ret;
 	int const aux_cmd_native_max = 16;
 	int const aux_cmd_i2c_max = 128;
-<<<<<<< HEAD
-=======
-	int const retry_count = 5;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dp_aux_private *aux = container_of(dp_aux,
 		struct dp_aux_private, dp_aux);
 
@@ -388,14 +381,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
 	if (ret < 0) {
 		if (aux->native) {
 			aux->retry_cnt++;
-<<<<<<< HEAD
 			if (!(aux->retry_cnt % MAX_AUX_RETRIES))
 				dp_catalog_aux_update_cfg(aux->catalog);
-=======
-			if (!(aux->retry_cnt % retry_count))
-				dp_catalog_aux_update_cfg(aux->catalog);
-			dp_catalog_aux_reset(aux->catalog);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		usleep_range(400, 500); /* at least 400us to next try */
 		goto unlock_exit;

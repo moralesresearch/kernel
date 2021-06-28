@@ -1,6 +1,5 @@
+/* SPDX-License-Identifier: MIT */
 /*
- * SPDX-License-Identifier: MIT
- *
  * Copyright © 2008-2018 Intel Corporation
  */
 
@@ -34,11 +33,8 @@ void intel_gt_reset(struct intel_gt *gt,
 		    const char *reason);
 int intel_engine_reset(struct intel_engine_cs *engine,
 		       const char *reason);
-<<<<<<< HEAD
 int __intel_engine_reset_bh(struct intel_engine_cs *engine,
 			    const char *reason);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void __i915_request_reset(struct i915_request *rq, bool guilty);
 

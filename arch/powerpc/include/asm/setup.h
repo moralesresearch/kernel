@@ -58,11 +58,7 @@ void do_rfi_flush_fixups(enum l1d_flush_type types);
 #ifdef CONFIG_PPC_BARRIER_NOSPEC
 void setup_barrier_nospec(void);
 #else
-<<<<<<< HEAD
 static inline void setup_barrier_nospec(void) { }
-=======
-static inline void setup_barrier_nospec(void) { };
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 void do_uaccess_flush_fixups(enum l1d_flush_type types);
 void do_entry_flush_fixups(enum l1d_flush_type types);
@@ -72,21 +68,13 @@ extern bool barrier_nospec_enabled;
 #ifdef CONFIG_PPC_BARRIER_NOSPEC
 void do_barrier_nospec_fixups_range(bool enable, void *start, void *end);
 #else
-<<<<<<< HEAD
 static inline void do_barrier_nospec_fixups_range(bool enable, void *start, void *end) { }
-=======
-static inline void do_barrier_nospec_fixups_range(bool enable, void *start, void *end) { };
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifdef CONFIG_PPC_FSL_BOOK3E
 void setup_spectre_v2(void);
 #else
-<<<<<<< HEAD
 static inline void setup_spectre_v2(void) {}
-=======
-static inline void setup_spectre_v2(void) {};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 void do_btb_flush_fixups(void);
 

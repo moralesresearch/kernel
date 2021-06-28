@@ -8,10 +8,7 @@
  */
 /dts-v1/;
 #include "sam9x60.dtsi"
-<<<<<<< HEAD
 #include <dt-bindings/input/input.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	model = "Microchip SAM9X60-EK";
@@ -88,11 +85,7 @@
 		sw1 {
 			label = "SW1";
 			gpios = <&pioD 18 GPIO_ACTIVE_LOW>;
-<<<<<<< HEAD
 			linux,code=<KEY_PROG1>;
-=======
-			linux,code=<0x104>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wakeup-source;
 		};
 	};

@@ -98,13 +98,9 @@ struct tegra_hsp {
 	unsigned int num_ss;
 	unsigned int num_db;
 	unsigned int num_si;
-<<<<<<< HEAD
 
 	spinlock_t lock;
 	struct lock_class_key lock_key;
-=======
-	spinlock_t lock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head doorbells;
 	struct tegra_hsp_mailbox *mailboxes;
@@ -781,7 +777,6 @@ static int tegra_hsp_probe(struct platform_device *pdev)
 			return err;
 	}
 
-<<<<<<< HEAD
 	lockdep_register_key(&hsp->lock_key);
 	lockdep_set_class(&hsp->lock, &hsp->lock_key);
 
@@ -794,8 +789,6 @@ static int tegra_hsp_remove(struct platform_device *pdev)
 
 	lockdep_unregister_key(&hsp->lock_key);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -855,10 +848,7 @@ static struct platform_driver tegra_hsp_driver = {
 		.pm = &tegra_hsp_pm_ops,
 	},
 	.probe = tegra_hsp_probe,
-<<<<<<< HEAD
 	.remove = tegra_hsp_remove,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init tegra_hsp_init(void)

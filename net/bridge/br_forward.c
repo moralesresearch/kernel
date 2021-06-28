@@ -39,12 +39,7 @@ int br_dev_queue_push_xmit(struct net *net, struct sock *sk, struct sk_buff *skb
 	br_drop_fake_rtable(skb);
 
 	if (skb->ip_summed == CHECKSUM_PARTIAL &&
-<<<<<<< HEAD
 	    eth_type_vlan(skb->protocol)) {
-=======
-	    (skb->protocol == htons(ETH_P_8021Q) ||
-	     skb->protocol == htons(ETH_P_8021AD))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		int depth;
 
 		if (!__vlan_get_protocol(skb, skb->protocol, &depth))

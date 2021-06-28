@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 #include <errno.h>
 #include <regex.h>
 #include <string.h>
@@ -8,8 +7,6 @@
 
 #include "../../../util/debug.h"
 #include "../../../util/event.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../../../util/perf_regs.h"
 
 const struct sample_reg sample_reg_masks[] = {
@@ -48,7 +45,6 @@ const struct sample_reg sample_reg_masks[] = {
 	SMPL_REG(pc, PERF_REG_ARM64_PC),
 	SMPL_REG_END
 };
-<<<<<<< HEAD
 
 /* %xNUM */
 #define SDT_OP_REGEX1  "^(x[1-2]?[0-9]|3[0-1])$"
@@ -112,7 +108,7 @@ int arch_sdt_arg_parse_op(char *old_op, char **new_op)
 		/* [sp], [sp, NUM] or [sp,NUM] */
 		new_len = 7;	/* + ( % s p ) NULL */
 
-		/* If the arugment is [sp], need to fill offset '0' */
+		/* If the argument is [sp], need to fill offset '0' */
 		if (rm[2].rm_so == -1)
 			new_len += 1;
 		else
@@ -135,5 +131,3 @@ int arch_sdt_arg_parse_op(char *old_op, char **new_op)
 
 	return SDT_ARG_VALID;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

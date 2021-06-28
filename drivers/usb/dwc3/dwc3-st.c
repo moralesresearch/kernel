@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0+
-/**
+/*
  * dwc3-st.c Support for dwc3 platform devices on ST Microelectronics platforms
  *
  * This is a small driver for the dwc3 to provide the glue logic
@@ -274,11 +274,7 @@ static int st_dwc3_probe(struct platform_device *pdev)
 
 	dwc3_data->dr_mode = usb_get_dr_mode(&child_pdev->dev);
 	of_node_put(child);
-<<<<<<< HEAD
 	platform_device_put(child_pdev);
-=======
-	of_dev_put(child_pdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Configure the USB port as device or host according to the static

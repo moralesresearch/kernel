@@ -461,7 +461,6 @@ void drm_display_mode_from_videomode(const struct videomode *vm,
 void drm_display_mode_to_videomode(const struct drm_display_mode *dmode,
 				   struct videomode *vm);
 void drm_bus_flags_from_videomode(const struct videomode *vm, u32 *bus_flags);
-<<<<<<< HEAD
 
 #if defined(CONFIG_OF)
 int of_get_drm_display_mode(struct device_node *np,
@@ -475,11 +474,6 @@ static inline int of_get_drm_display_mode(struct device_node *np,
 	return -EINVAL;
 }
 #endif
-=======
-int of_get_drm_display_mode(struct device_node *np,
-			    struct drm_display_mode *dmode, u32 *bus_flags,
-			    int index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void drm_mode_set_name(struct drm_display_mode *mode);
 int drm_mode_vrefresh(const struct drm_display_mode *mode);

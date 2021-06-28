@@ -10,7 +10,6 @@
 / {
 	model = "ZII Ultra RMB3 Board";
 	compatible = "zii,imx8mq-ultra-rmb3", "zii,imx8mq-ultra", "fsl,imx8mq";
-<<<<<<< HEAD
 
 	sound1 {
 		compatible = "simple-audio-card";
@@ -61,8 +60,6 @@
 			clocks = <&cs2000>;
 		};
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &ecspi1 {
@@ -80,7 +77,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &hpa2 {
 	sound-name-prefix = "HPA1";
 };
@@ -102,8 +98,6 @@
 	};
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &i2c2 {
 	temp-sense@48 {
 		compatible = "national,lm75";
@@ -133,11 +127,8 @@
 			touchscreen-inverted-x;
 			touchscreen-swapped-x-y;
 			syna,sensor-type = <1>;
-<<<<<<< HEAD
 			syna,delta-x-threshold = <5>;
 			syna,delta-y-threshold = <10>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		rmi4-f12@12 {
@@ -161,29 +152,23 @@
 	};
 };
 
-<<<<<<< HEAD
 &sai3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_sai3>;
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &usbhub {
 	swap-dx-lanes = <0>;
 };
 
 &iomuxc {
-<<<<<<< HEAD
 	pinctrl_codec2: dac2grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_NAND_CE3_B_GPIO3_IO4		0x41
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_ecspi1: ecspi1grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_ECSPI1_SS0_GPIO5_IO9	0x19
@@ -192,7 +177,6 @@
 			MX8MQ_IOMUXC_ECSPI1_MOSI_ECSPI1_MOSI	0x82
 		>;
 	};
-<<<<<<< HEAD
 
 	pinctrl_sai3: sai3grp {
 		fsl,pins = <
@@ -201,6 +185,4 @@
 			MX8MQ_IOMUXC_SAI3_TXD_SAI3_TX_DATA0		0xd6
 		>;
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

@@ -779,15 +779,7 @@ static netdev_tx_t kvaser_pciefd_start_xmit(struct sk_buff *skb,
 	spin_lock_irqsave(&can->echo_lock, irq_flags);
 
 	/* Prepare and save echo skb in internal slot */
-<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, can->echo_idx, 0);
-=======
-<<<<<<< HEAD
-	can_put_echo_skb(skb, netdev, can->echo_idx, 0);
-=======
-	can_put_echo_skb(skb, netdev, can->echo_idx);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Move echo index to the next slot */
 	can->echo_idx = (can->echo_idx + 1) % can->can.echo_skb_max;
@@ -1479,15 +1471,7 @@ static int kvaser_pciefd_handle_eack_packet(struct kvaser_pciefd *pcie,
 				  can->reg_base + KVASER_PCIEFD_KCAN_CTRL_REG);
 	} else {
 		int echo_idx = p->header[0] & KVASER_PCIEFD_PACKET_SEQ_MSK;
-<<<<<<< HEAD
 		int dlc = can_get_echo_skb(can->can.dev, echo_idx, NULL);
-=======
-<<<<<<< HEAD
-		int dlc = can_get_echo_skb(can->can.dev, echo_idx, NULL);
-=======
-		int dlc = can_get_echo_skb(can->can.dev, echo_idx);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct net_device_stats *stats = &can->can.dev->stats;
 
 		stats->tx_bytes += dlc;
@@ -1553,15 +1537,7 @@ static int kvaser_pciefd_handle_ack_packet(struct kvaser_pciefd *pcie,
 		netdev_dbg(can->can.dev, "Packet was flushed\n");
 	} else {
 		int echo_idx = p->header[0] & KVASER_PCIEFD_PACKET_SEQ_MSK;
-<<<<<<< HEAD
 		int dlc = can_get_echo_skb(can->can.dev, echo_idx, NULL);
-=======
-<<<<<<< HEAD
-		int dlc = can_get_echo_skb(can->can.dev, echo_idx, NULL);
-=======
-		int dlc = can_get_echo_skb(can->can.dev, echo_idx);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u8 count = ioread32(can->reg_base +
 				    KVASER_PCIEFD_KCAN_TX_NPACKETS_REG) & 0xff;
 

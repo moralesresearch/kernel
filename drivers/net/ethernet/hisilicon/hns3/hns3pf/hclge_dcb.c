@@ -176,32 +176,6 @@ static int hclge_map_update(struct hclge_dev *hdev)
 	return hclge_rss_init_hw(hdev);
 }
 
-<<<<<<< HEAD
-=======
-static int hclge_client_setup_tc(struct hclge_dev *hdev)
-{
-	struct hclge_vport *vport = hdev->vport;
-	struct hnae3_client *client;
-	struct hnae3_handle *handle;
-	int ret;
-	u32 i;
-
-	for (i = 0; i < hdev->num_vmdq_vport + 1; i++) {
-		handle = &vport[i].nic;
-		client = handle->client;
-
-		if (!client || !client->ops || !client->ops->setup_tc)
-			continue;
-
-		ret = client->ops->setup_tc(handle, hdev->tm_info.num_tc);
-		if (ret)
-			return ret;
-	}
-
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hclge_notify_down_uinit(struct hclge_dev *hdev)
 {
 	int ret;
@@ -260,13 +234,6 @@ static int hclge_ieee_setets(struct hnae3_handle *h, struct ieee_ets *ets)
 		if (ret)
 			goto err_out;
 
-<<<<<<< HEAD
-=======
-		ret = hclge_client_setup_tc(hdev);
-		if (ret)
-			goto err_out;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = hclge_notify_init_up(hdev);
 		if (ret)
 			return ret;

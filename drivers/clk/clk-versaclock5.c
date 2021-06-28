@@ -759,7 +759,6 @@ static int vc5_update_power(struct device_node *np_output,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int vc5_map_cap_value(u32 femtofarads)
 {
 	int mapped_value;
@@ -817,8 +816,6 @@ static int vc5_update_cap_load(struct device_node *node, struct vc5_driver_data 
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vc5_update_slew(struct device_node *np_output,
 			   struct vc5_out_data *clk_out)
 {
@@ -944,7 +941,6 @@ static int vc5_probe(struct i2c_client *client, const struct i2c_device_id *id)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	/* Configure Optional Loading Capacitance for external XTAL */
 	if (!(vc5->chip_info->flags & VC5_HAS_INTERNAL_XTAL)) {
 		ret = vc5_update_cap_load(client->dev.of_node, vc5);
@@ -952,8 +948,6 @@ static int vc5_probe(struct i2c_client *client, const struct i2c_device_id *id)
 			goto err_clk_register;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init.name = kasprintf(GFP_KERNEL, "%pOFn.mux", client->dev.of_node);
 	init.ops = &vc5_mux_ops;
 	init.flags = 0;

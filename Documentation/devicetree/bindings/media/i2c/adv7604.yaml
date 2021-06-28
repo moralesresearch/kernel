@@ -64,24 +64,12 @@ properties:
     description:
       Select which input is selected after reset.
 
-<<<<<<< HEAD
   ports: true
-=======
-  ports:
-    type: object
-    description:
-      A node containing input and output port nodes with endpoint definitions
-      as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible
   - reg
-<<<<<<< HEAD
   - ports
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 additionalProperties: false
 
@@ -94,7 +82,6 @@ allOf:
     then:
       properties:
         ports:
-<<<<<<< HEAD
           $ref: /schemas/graph.yaml#/properties/ports
           properties:
             port@0:
@@ -103,31 +90,11 @@ allOf:
 
             port@1:
               $ref: /schemas/graph.yaml#/properties/port
-=======
-          properties:
-            '#address-cells':
-              const: 1
-            '#size-cells':
-              const: 0
-            port@0:
-              type: object
-              description: Input port
-            port@1:
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Output port
 
           required:
             - port@1
 
-<<<<<<< HEAD
-=======
-          additionalProperties: false
-
-      required:
-        - ports
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   - if:
       properties:
         compatible:
@@ -136,42 +103,20 @@ allOf:
     then:
       properties:
         ports:
-<<<<<<< HEAD
           $ref: /schemas/graph.yaml#/properties/ports
           properties:
             port@2:
               $ref: /schemas/graph.yaml#/properties/port
-=======
-          properties:
-            '#address-cells':
-              const: 1
-            '#size-cells':
-              const: 0
-            port@2:
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Output port
 
           patternProperties:
             "^port@[0-1]$":
-<<<<<<< HEAD
               $ref: /schemas/graph.yaml#/properties/port
-=======
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Input port
 
           required:
             - port@2
 
-<<<<<<< HEAD
-=======
-          additionalProperties: false
-
-      required:
-        - ports
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 examples:
   - |
     #include <dt-bindings/gpio/gpio.h>

@@ -62,16 +62,11 @@ properties:
             $ref: "/schemas/types.yaml#/definitions/uint32"
             minimum: 2100
             maximum: 4500
-<<<<<<< HEAD
             deprecated: true
             description:
               BUCK regulators current limit in mA.
               This property is deprecated, please use
               "regulator-max-microamp" instead.
-=======
-            description:
-              BUCK regulators current limit in mA.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
               Listed current limits in mA are,
               2100 (default)
@@ -81,29 +76,11 @@ properties:
 
           nxp,phase-shift:
             $ref: "/schemas/types.yaml#/definitions/uint32"
-<<<<<<< HEAD
             default: 0
             enum: [ 0, 45, 90, 135, 180, 225, 270, 315 ]
             description:
               BUCK regulators phase shift control in degrees.
 
-=======
-            minimum: 45
-            maximum: 0
-            description:
-              BUCK regulators phase shift control in degrees.
-
-              Listed phase shift control values in degrees are,
-              45
-              90
-              135
-              180
-              225
-              270
-              315
-              0 (default)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         unevaluatedProperties: false
 
       "^vsnvs$":

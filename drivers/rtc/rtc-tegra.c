@@ -232,11 +232,7 @@ static irqreturn_t tegra_rtc_irq_handler(int irq, void *data)
 {
 	struct device *dev = data;
 	struct tegra_rtc_info *info = dev_get_drvdata(dev);
-<<<<<<< HEAD
 	unsigned long events = 0;
-=======
-	unsigned long events = 0, flags;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 status;
 
 	status = readl(info->base + TEGRA_RTC_REG_INTR_STATUS);
@@ -244,17 +240,10 @@ static irqreturn_t tegra_rtc_irq_handler(int irq, void *data)
 		/* clear the interrupt masks and status on any IRQ */
 		tegra_rtc_wait_while_busy(dev);
 
-<<<<<<< HEAD
 		spin_lock(&info->lock);
 		writel(0, info->base + TEGRA_RTC_REG_INTR_MASK);
 		writel(status, info->base + TEGRA_RTC_REG_INTR_STATUS);
 		spin_unlock(&info->lock);
-=======
-		spin_lock_irqsave(&info->lock, flags);
-		writel(0, info->base + TEGRA_RTC_REG_INTR_MASK);
-		writel(status, info->base + TEGRA_RTC_REG_INTR_STATUS);
-		spin_unlock_irqrestore(&info->lock, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* check if alarm */

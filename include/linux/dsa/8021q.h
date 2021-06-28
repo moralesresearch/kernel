@@ -64,13 +64,10 @@ int dsa_8021q_rx_source_port(u16 vid);
 
 u16 dsa_8021q_rx_subvlan(u16 vid);
 
-<<<<<<< HEAD
 bool vid_is_dsa_8021q_rxvlan(u16 vid);
 
 bool vid_is_dsa_8021q_txvlan(u16 vid);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool vid_is_dsa_8021q(u16 vid);
 
 #else
@@ -130,7 +127,6 @@ u16 dsa_8021q_rx_subvlan(u16 vid)
 	return 0;
 }
 
-<<<<<<< HEAD
 bool vid_is_dsa_8021q_rxvlan(u16 vid)
 {
 	return false;
@@ -141,8 +137,6 @@ bool vid_is_dsa_8021q_txvlan(u16 vid)
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool vid_is_dsa_8021q(u16 vid)
 {
 	return false;

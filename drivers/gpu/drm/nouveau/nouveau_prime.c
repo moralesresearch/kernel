@@ -30,15 +30,9 @@
 struct sg_table *nouveau_gem_prime_get_sg_table(struct drm_gem_object *obj)
 {
 	struct nouveau_bo *nvbo = nouveau_gem_object(obj);
-<<<<<<< HEAD
 
 	return drm_prime_pages_to_sg(obj->dev, nvbo->bo.ttm->pages,
 				     nvbo->bo.ttm->num_pages);
-=======
-	int npages = nvbo->bo.num_pages;
-
-	return drm_prime_pages_to_sg(obj->dev, nvbo->bo.ttm->pages, npages);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct drm_gem_object *nouveau_gem_prime_import_sg_table(struct drm_device *dev,
@@ -99,7 +93,22 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
 	if (ret)
 		return -EINVAL;
 
-	return 0;
+	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
+	if (ret)
+		goto error;
+
+	if (nvbo->bo.moving)
+		ret = dma_fence_wait(nvbo->bo.moving, true);
+
+	ttm_bo_unreserve(&nvbo->bo);
+	if (ret)
+		goto error;
+
+	return ret;
+
+error:
+	nouveau_bo_unpin(nvbo);
+	return ret;
 }
 
 void nouveau_gem_prime_unpin(struct drm_gem_object *obj)

@@ -1401,11 +1401,7 @@ err_free:
 }
 
 
-<<<<<<< HEAD
 static void garmin_port_remove(struct usb_serial_port *port)
-=======
-static int garmin_port_remove(struct usb_serial_port *port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct garmin_data *garmin_data_p = usb_get_serial_port_data(port);
 
@@ -1413,10 +1409,6 @@ static int garmin_port_remove(struct usb_serial_port *port)
 	usb_kill_urb(port->interrupt_in_urb);
 	del_timer_sync(&garmin_data_p->timer);
 	kfree(garmin_data_p);
-<<<<<<< HEAD
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 

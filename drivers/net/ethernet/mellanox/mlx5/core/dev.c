@@ -58,9 +58,6 @@ static bool is_eth_supported(struct mlx5_core_dev *dev)
 	if (!IS_ENABLED(CONFIG_MLX5_CORE_EN))
 		return false;
 
-	if (is_eth_rep_supported(dev))
-		return false;
-
 	if (MLX5_CAP_GEN(dev, port_type) != MLX5_CAP_PORT_TYPE_ETH)
 		return false;
 
@@ -191,21 +188,12 @@ static bool is_ib_supported(struct mlx5_core_dev *dev)
 }
 
 enum {
-<<<<<<< HEAD
 	MLX5_INTERFACE_PROTOCOL_ETH,
 	MLX5_INTERFACE_PROTOCOL_ETH_REP,
 
 	MLX5_INTERFACE_PROTOCOL_IB,
 	MLX5_INTERFACE_PROTOCOL_IB_REP,
 	MLX5_INTERFACE_PROTOCOL_MPIB,
-=======
-	MLX5_INTERFACE_PROTOCOL_ETH_REP,
-	MLX5_INTERFACE_PROTOCOL_ETH,
-
-	MLX5_INTERFACE_PROTOCOL_IB_REP,
-	MLX5_INTERFACE_PROTOCOL_MPIB,
-	MLX5_INTERFACE_PROTOCOL_IB,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	MLX5_INTERFACE_PROTOCOL_VNET,
 };
@@ -315,10 +303,7 @@ int mlx5_attach_device(struct mlx5_core_dev *dev)
 	int ret = 0, i;
 
 	mutex_lock(&mlx5_intf_mutex);
-<<<<<<< HEAD
 	priv->flags &= ~MLX5_PRIV_FLAGS_DETACH;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < ARRAY_SIZE(mlx5_adev_devices); i++) {
 		if (!priv->adev[i]) {
 			bool is_supported = false;
@@ -336,7 +321,6 @@ int mlx5_attach_device(struct mlx5_core_dev *dev)
 			}
 		} else {
 			adev = &priv->adev[i]->adev;
-<<<<<<< HEAD
 
 			/* Pay attention that this is not PCI driver that
 			 * mlx5_core_dev is connected, but auxiliary driver.
@@ -347,8 +331,6 @@ int mlx5_attach_device(struct mlx5_core_dev *dev)
 			 */
 			if (!adev->dev.driver)
 				continue;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			adrv = to_auxiliary_drv(adev->dev.driver);
 
 			if (adrv->resume)
@@ -379,13 +361,10 @@ void mlx5_detach_device(struct mlx5_core_dev *dev)
 			continue;
 
 		adev = &priv->adev[i]->adev;
-<<<<<<< HEAD
 		/* Auxiliary driver was unbind manually through sysfs */
 		if (!adev->dev.driver)
 			goto skip_suspend;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		adrv = to_auxiliary_drv(adev->dev.driver);
 
 		if (adrv->suspend) {
@@ -393,17 +372,11 @@ void mlx5_detach_device(struct mlx5_core_dev *dev)
 			continue;
 		}
 
-<<<<<<< HEAD
 skip_suspend:
 		del_adev(&priv->adev[i]->adev);
 		priv->adev[i] = NULL;
 	}
 	priv->flags |= MLX5_PRIV_FLAGS_DETACH;
-=======
-		del_adev(&priv->adev[i]->adev);
-		priv->adev[i] = NULL;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&mlx5_intf_mutex);
 }
 
@@ -492,11 +465,8 @@ int mlx5_rescan_drivers_locked(struct mlx5_core_dev *dev)
 	struct mlx5_priv *priv = &dev->priv;
 
 	lockdep_assert_held(&mlx5_intf_mutex);
-<<<<<<< HEAD
 	if (priv->flags & MLX5_PRIV_FLAGS_DETACH)
 		return 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	delete_drivers(dev);
 	if (priv->flags & MLX5_PRIV_FLAGS_DISABLE_ALL_ADEV)

@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
-=======
-/* Copyright (C) 2014-2020  B.A.T.M.A.N. contributors:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Linus Lüssing
  */
@@ -458,8 +454,9 @@ batadv_mcast_mla_softif_get_ipv6(struct net_device *dev,
 		return 0;
 	}
 
-	read_lock_bh(&in6_dev->lock);
-	for (pmc6 = in6_dev->mc_list; pmc6; pmc6 = pmc6->next) {
+	for (pmc6 = rcu_dereference(in6_dev->mc_list);
+	     pmc6;
+	     pmc6 = rcu_dereference(pmc6->next)) {
 		if (IPV6_ADDR_MC_SCOPE(&pmc6->mca_addr) <
 		    IPV6_ADDR_SCOPE_LINKLOCAL)
 			continue;
@@ -488,7 +485,6 @@ batadv_mcast_mla_softif_get_ipv6(struct net_device *dev,
 		hlist_add_head(&new->list, mcast_list);
 		ret++;
 	}
-	read_unlock_bh(&in6_dev->lock);
 	rcu_read_unlock();
 
 	return ret;
@@ -832,11 +828,7 @@ batadv_mcast_bridge_log(struct batadv_priv *bat_priv,
 }
 
 /**
-<<<<<<< HEAD
  * batadv_mcast_flags_log() - output debug information about mcast flag changes
-=======
- * batadv_mcast_flags_logs() - output debug information about mcast flag changes
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bat_priv: the bat priv with all the soft interface information
  * @flags: TVLV flags indicating the new multicast state
  *

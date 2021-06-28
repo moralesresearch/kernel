@@ -488,13 +488,8 @@
 		};
 
 		twl_power: power {
-<<<<<<< HEAD
 			compatible = "ti,twl4030-power-idle";
 			ti,system-power-controller;
-=======
-			compatible = "ti,twl4030-power";
-			ti,use_poweroff;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

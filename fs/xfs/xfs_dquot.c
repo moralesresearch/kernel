@@ -314,7 +314,6 @@ xfs_dquot_disk_alloc(
 		return -ESRCH;
 	}
 
-<<<<<<< HEAD
 	xfs_trans_ijoin(tp, quotip, XFS_ILOCK_EXCL);
 
 	error = xfs_iext_count_may_overflow(quotip, XFS_DATA_FORK,
@@ -323,10 +322,6 @@ xfs_dquot_disk_alloc(
 		return error;
 
 	/* Create the block mapping. */
-=======
-	/* Create the block mapping. */
-	xfs_trans_ijoin(tp, quotip, XFS_ILOCK_EXCL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = xfs_bmapi_write(tp, quotip, dqp->q_fileoffset,
 			XFS_DQUOT_CLUSTER_SIZE_FSB, XFS_BMAPI_METADATA, 0, &map,
 			&nmaps);
@@ -511,7 +506,6 @@ xfs_dquot_alloc(
 	return dqp;
 }
 
-<<<<<<< HEAD
 /* Check the ondisk dquot's id and type match what the incore dquot expects. */
 static bool
 xfs_dquot_check_type(
@@ -548,8 +542,6 @@ xfs_dquot_check_type(
 	return ddqp_type == XFS_DQTYPE_GROUP || ddqp_type == XFS_DQTYPE_PROJ;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Copy the in-core quota fields in from the on-disk buffer. */
 STATIC int
 xfs_dquot_from_disk(
@@ -562,12 +554,7 @@ xfs_dquot_from_disk(
 	 * Ensure that we got the type and ID we were looking for.
 	 * Everything else was checked by the dquot buffer verifier.
 	 */
-<<<<<<< HEAD
 	if (!xfs_dquot_check_type(dqp, ddqp)) {
-=======
-	if ((ddqp->d_type & XFS_DQTYPE_REC_MASK) != xfs_dquot_type(dqp) ||
-	    be32_to_cpu(ddqp->d_id) != dqp->q_id) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		xfs_alert_tag(bp->b_mount, XFS_PTAG_VERIFIER_ERROR,
 			  "Metadata corruption detected at %pS, quota %u",
 			  __this_address, dqp->q_id);
@@ -761,11 +748,9 @@ xfs_dq_get_next_id(
 	start = (xfs_fsblock_t)next_id / mp->m_quotainfo->qi_dqperchunk;
 
 	lock_flags = xfs_ilock_data_map_shared(quotip);
-	if (!(quotip->i_df.if_flags & XFS_IFEXTENTS)) {
-		error = xfs_iread_extents(NULL, quotip, XFS_DATA_FORK);
-		if (error)
-			return error;
-	}
+	error = xfs_iread_extents(NULL, quotip, XFS_DATA_FORK);
+	if (error)
+		return error;
 
 	if (xfs_iext_lookup_extent(quotip, &quotip->i_df, start, &cur, &got)) {
 		/* contiguous chunk, bump startoff for the id calculation */
@@ -966,7 +951,7 @@ xfs_qm_id_for_quotatype(
 	case XFS_DQTYPE_GROUP:
 		return i_gid_read(VFS_I(ip));
 	case XFS_DQTYPE_PROJ:
-		return ip->i_d.di_projid;
+		return ip->i_projid;
 	}
 	ASSERT(0);
 	return 0;

@@ -10,13 +10,8 @@
 #include <linux/linkage.h>
 
 .text
-<<<<<<< HEAD
 .arch armv7-a
 .fpu neon
-=======
-.fpu neon
-.arch armv7-a
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .align 4
 
 ENTRY(curve25519_neon)

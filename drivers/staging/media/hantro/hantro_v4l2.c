@@ -316,11 +316,7 @@ hantro_reset_fmt(struct v4l2_pix_format_mplane *fmt,
 
 	fmt->pixelformat = vpu_fmt->fourcc;
 	fmt->field = V4L2_FIELD_NONE;
-<<<<<<< HEAD
 	fmt->colorspace = V4L2_COLORSPACE_JPEG;
-=======
-	fmt->colorspace = V4L2_COLORSPACE_JPEG,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
 	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
 	fmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;

@@ -5,16 +5,12 @@ DT_MK_SCHEMA ?= dt-mk-schema
 
 DT_SCHEMA_LINT = $(shell which yamllint)
 
-DT_SCHEMA_MIN_VERSION = 2020.8.1
+DT_SCHEMA_MIN_VERSION = 2021.2.1
 
 PHONY += check_dtschema_version
 check_dtschema_version:
 	@{ echo $(DT_SCHEMA_MIN_VERSION); \
-<<<<<<< HEAD
 	$(DT_DOC_CHECKER) --version 2>/dev/null || echo 0; } | sort -Vc >/dev/null || \
-=======
-	$(DT_DOC_CHECKER) --version 2>/dev/null || echo 0; } | sort -VC || \
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ echo "ERROR: dtschema minimum version is v$(DT_SCHEMA_MIN_VERSION)" >&2; false; }
 
 quiet_cmd_extract_ex = DTEX    $@
@@ -52,12 +48,15 @@ define rule_chkdt
 	$(call cmd,mk_schema)
 endef
 
-DT_DOCS = $(shell $(find_cmd) | sed -e 's|^$(srctree)/||')
+DT_DOCS = $(patsubst $(srctree)/%,%,$(shell $(find_cmd)))
 
 override DTC_FLAGS := \
 	-Wno-avoid_unnecessary_addr_size \
 	-Wno-graph_child_address \
 	-Wno-interrupt_provider
+
+# Disable undocumented compatible checks until warning free
+override DT_CHECKER_FLAGS ?=
 
 $(obj)/processed-schema-examples.json: $(DT_DOCS) $(src)/.yamllint check_dtschema_version FORCE
 	$(call if_changed_rule,chkdt)
@@ -82,17 +81,10 @@ $(obj)/processed-schema.json: $(DT_SCHEMA_FILES) check_dtschema_version FORCE
 
 endif
 
-<<<<<<< HEAD
 always-$(CHECK_DT_BINDING) += processed-schema-examples.json
 always-$(CHECK_DTBS)       += processed-schema.json
 always-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
 always-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
-=======
-extra-$(CHECK_DT_BINDING) += processed-schema-examples.json
-extra-$(CHECK_DTBS) += processed-schema.json
-extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Hack: avoid 'Argument list too long' error for 'make clean'. Remove most of
 # build artifacts here before they are processed by scripts/Makefile.clean

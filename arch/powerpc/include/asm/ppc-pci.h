@@ -13,13 +13,6 @@
 
 extern unsigned long isa_io_base;
 
-<<<<<<< HEAD
-=======
-extern void pci_setup_phb_io(struct pci_controller *hose, int primary);
-extern void pci_setup_phb_io_dynamic(struct pci_controller *hose, int primary);
-
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern struct list_head hose_list;
 
 extern struct pci_dev *isa_bridge_pcidev;	/* may be NULL if no ISA bus */
@@ -35,12 +28,6 @@ struct pci_dn;
 void *pci_traverse_device_nodes(struct device_node *start,
 				void *(*fn)(struct device_node *, void *),
 				void *data);
-<<<<<<< HEAD
-=======
-void *traverse_pci_dn(struct pci_dn *root,
-		      void *(*fn)(struct pci_dn *, void *),
-		      void *data);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void pci_devs_phb_init_dynamic(struct pci_controller *phb);
 
 /* From rtas_pci.h */

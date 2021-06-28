@@ -29,10 +29,7 @@ struct mmc_bus_ops {
 	int (*shutdown)(struct mmc_host *);
 	int (*hw_reset)(struct mmc_host *);
 	int (*sw_reset)(struct mmc_host *);
-<<<<<<< HEAD
 	bool (*cache_enabled)(struct mmc_host *);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void mmc_attach_bus(struct mmc_host *host, const struct mmc_bus_ops *ops);
@@ -97,17 +94,6 @@ int mmc_execute_tuning(struct mmc_card *card);
 int mmc_hs200_to_hs400(struct mmc_card *card);
 int mmc_hs400_to_hs200(struct mmc_card *card);
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PM_SLEEP
-void mmc_register_pm_notifier(struct mmc_host *host);
-void mmc_unregister_pm_notifier(struct mmc_host *host);
-#else
-static inline void mmc_register_pm_notifier(struct mmc_host *host) { }
-static inline void mmc_unregister_pm_notifier(struct mmc_host *host) { }
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mmc_wait_for_req_done(struct mmc_host *host, struct mmc_request *mrq);
 bool mmc_is_req_done(struct mmc_host *host, struct mmc_request *mrq);
 
@@ -178,7 +164,6 @@ static inline void mmc_post_req(struct mmc_host *host, struct mmc_request *mrq,
 		host->ops->post_req(host, mrq, err);
 }
 
-<<<<<<< HEAD
 static inline bool mmc_cache_enabled(struct mmc_host *host)
 {
 	if (host->bus_ops->cache_enabled)
@@ -187,6 +172,4 @@ static inline bool mmc_cache_enabled(struct mmc_host *host)
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

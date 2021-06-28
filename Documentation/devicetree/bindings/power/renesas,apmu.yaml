@@ -52,9 +52,5 @@ examples:
     apmu@e6152000 {
             compatible = "renesas,r8a7791-apmu", "renesas,apmu";
             reg = <0xe6152000 0x188>;
-<<<<<<< HEAD
             cpus = <&cpu0>, <&cpu1>;
-=======
-            cpus = <&cpu0 &cpu1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     };

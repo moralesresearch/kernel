@@ -1282,7 +1282,6 @@ struct fw_rx_desc_base {
 #define FW_RX_DESC_UDP              (1 << 6)
 
 struct fw_rx_desc_hl {
-<<<<<<< HEAD
 	union {
 		struct {
 		u8 discard:1,
@@ -1296,9 +1295,6 @@ struct fw_rx_desc_hl {
 		u8 info0;
 	} u;
 
-=======
-	u8 info0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 version;
 	u8 len;
 	u8 flags;

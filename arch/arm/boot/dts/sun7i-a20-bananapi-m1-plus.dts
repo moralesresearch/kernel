@@ -74,20 +74,12 @@
 	leds {
 		compatible = "gpio-leds";
 
-<<<<<<< HEAD
 		led-0 {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bananapi-m1-plus:green:usr";
 			gpios = <&pio 7 24 GPIO_ACTIVE_HIGH>;
 		};
 
-<<<<<<< HEAD
 		led-1 {
-=======
-		pwr {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bananapi-m1-plus:pwr:usr";
 			gpios = <&pio 7 25 GPIO_ACTIVE_HIGH>;
 			default-state = "on";

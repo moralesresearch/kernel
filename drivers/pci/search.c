@@ -168,10 +168,6 @@ struct pci_bus *pci_find_next_bus(const struct pci_bus *from)
 	struct list_head *n;
 	struct pci_bus *b = NULL;
 
-<<<<<<< HEAD
-=======
-	WARN_ON(in_interrupt());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_read(&pci_bus_sem);
 	n = from ? from->node.next : pci_root_buses.next;
 	if (n != &pci_root_buses)
@@ -199,10 +195,6 @@ struct pci_dev *pci_get_slot(struct pci_bus *bus, unsigned int devfn)
 {
 	struct pci_dev *dev;
 
-<<<<<<< HEAD
-=======
-	WARN_ON(in_interrupt());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_read(&pci_bus_sem);
 
 	list_for_each_entry(dev, &bus->devices, bus_list) {
@@ -280,10 +272,6 @@ static struct pci_dev *pci_get_dev_by_id(const struct pci_device_id *id,
 	struct device *dev_start = NULL;
 	struct pci_dev *pdev = NULL;
 
-<<<<<<< HEAD
-=======
-	WARN_ON(in_interrupt());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (from)
 		dev_start = &from->dev;
 	dev = bus_find_device(&pci_bus_type, dev_start, (void *)id,
@@ -390,10 +378,6 @@ int pci_dev_present(const struct pci_device_id *ids)
 {
 	struct pci_dev *found = NULL;
 
-<<<<<<< HEAD
-=======
-	WARN_ON(in_interrupt());
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (ids->vendor || ids->subvendor || ids->class_mask) {
 		found = pci_get_dev_by_id(ids, NULL);
 		if (found) {

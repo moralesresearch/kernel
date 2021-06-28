@@ -22,7 +22,6 @@
 
 struct hdmi_codec_channel_map_table {
 	unsigned char map;	/* ALSA API channel map position */
-	unsigned long spk_mask;		/* speaker position bit mask */
 };
 
 /*
@@ -489,10 +488,7 @@ static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
 	hp.sample_rate = params_rate(params);
 	hp.channels = params_channels(params);
 
-<<<<<<< HEAD
 	cf->bit_fmt = params_format(params);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
 				       cf, &hp);
 }
@@ -621,12 +617,8 @@ static const struct snd_soc_dai_ops hdmi_codec_spdif_dai_ops = {
 			 SNDRV_PCM_FMTBIT_S20_3LE | SNDRV_PCM_FMTBIT_S20_3BE |\
 			 SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_3BE |\
 			 SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |\
-<<<<<<< HEAD
 			 SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE |\
 			 SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE)
-=======
-			 SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int hdmi_codec_pcm_new(struct snd_soc_pcm_runtime *rtd,
 			      struct snd_soc_dai *dai)
@@ -742,7 +734,7 @@ static int hdmi_codec_set_jack(struct snd_soc_component *component,
 
 static int hdmi_dai_spdif_probe(struct snd_soc_dai *dai)
 {
-	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
+	struct hdmi_codec_daifmt *cf;
 	int ret;
 
 	ret = hdmi_dai_probe(dai);

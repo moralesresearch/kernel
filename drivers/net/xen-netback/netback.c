@@ -557,18 +557,8 @@ check_frags:
 	}
 
 	if (skb_has_frag_list(skb) && !first_shinfo) {
-<<<<<<< HEAD
 		first_shinfo = shinfo;
 		shinfo = skb_shinfo(shinfo->frag_list);
-=======
-<<<<<<< HEAD
-		first_shinfo = shinfo;
-		shinfo = skb_shinfo(shinfo->frag_list);
-=======
-		first_shinfo = skb_shinfo(skb);
-		shinfo = skb_shinfo(skb_shinfo(skb)->frag_list);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nr_frags = shinfo->nr_frags;
 
 		goto check_frags;
@@ -1101,15 +1091,7 @@ static int xenvif_handle_frag_list(struct xenvif_queue *queue, struct sk_buff *s
 	uarg = skb_shinfo(skb)->destructor_arg;
 	/* increase inflight counter to offset decrement in callback */
 	atomic_inc(&queue->inflight_packets);
-<<<<<<< HEAD
 	uarg->callback(NULL, uarg, true);
-=======
-<<<<<<< HEAD
-	uarg->callback(NULL, uarg, true);
-=======
-	uarg->callback(uarg, true);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_shinfo(skb)->destructor_arg = NULL;
 
 	/* Fill the skb with the new (local) frags. */
@@ -1246,17 +1228,8 @@ static int xenvif_tx_submit(struct xenvif_queue *queue)
 	return work_done;
 }
 
-<<<<<<< HEAD
 void xenvif_zerocopy_callback(struct sk_buff *skb, struct ubuf_info *ubuf,
 			      bool zerocopy_success)
-=======
-<<<<<<< HEAD
-void xenvif_zerocopy_callback(struct sk_buff *skb, struct ubuf_info *ubuf,
-			      bool zerocopy_success)
-=======
-void xenvif_zerocopy_callback(struct ubuf_info *ubuf, bool zerocopy_success)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 	pending_ring_idx_t index;

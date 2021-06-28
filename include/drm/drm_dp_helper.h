@@ -411,7 +411,6 @@ struct drm_device;
 # define DP_DS_10BPC		            1
 # define DP_DS_12BPC		            2
 # define DP_DS_16BPC		            3
-<<<<<<< HEAD
 /* HDMI2.1 PCON FRL CONFIGURATION */
 # define DP_PCON_MAX_FRL_BW                 (7 << 2)
 # define DP_PCON_MAX_0GBPS                  (0 << 2)
@@ -423,8 +422,6 @@ struct drm_device;
 # define DP_PCON_MAX_48GBPS                 (6 << 2)
 # define DP_PCON_SOURCE_CTL_MODE            (1 << 5)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* offset 3 for DVI */
 # define DP_DS_DVI_DUAL_LINK		    (1 << 1)
 # define DP_DS_DVI_HIGH_COLOR_DEPTH	    (1 << 2)
@@ -435,7 +432,6 @@ struct drm_device;
 # define DP_DS_HDMI_YCBCR444_TO_422_CONV    (1 << 3)
 # define DP_DS_HDMI_YCBCR444_TO_420_CONV    (1 << 4)
 
-<<<<<<< HEAD
 /*
  * VESA DP-to-HDMI PCON Specification adds caps for colorspace
  * conversion in DFP cap DPCD 83h. Sec6.1 Table-3.
@@ -447,8 +443,6 @@ struct drm_device;
 # define DP_DS_HDMI_BT709_RGB_YCBCR_CONV    (1 << 6)
 # define DP_DS_HDMI_BT2020_RGB_YCBCR_CONV   (1 << 7)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DP_MAX_DOWNSTREAM_PORTS		    0x10
 
 /* DP Forward error Correction Registers */
@@ -458,7 +452,6 @@ struct drm_device;
 # define DP_FEC_CORR_BLK_ERROR_COUNT_CAP    (1 << 2)
 # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
 
-<<<<<<< HEAD
 /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
 #define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
 #define DP_PCON_DSC_ENCODER                 0x092
@@ -537,8 +530,6 @@ struct drm_device;
 # define DP_PCON_DSC_ONE_HALF_BPP	    3
 # define DP_PCON_DSC_ONE_BPP		    4
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* DP Extended DSC Capabilities */
 #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_0  0x0a0   /* DP 1.4a SCR */
 #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1
@@ -1025,6 +1016,11 @@ struct drm_device;
 #define DP_EDP_REGIONAL_BACKLIGHT_BASE      0x740    /* eDP 1.4 */
 #define DP_EDP_REGIONAL_BACKLIGHT_0	    0x741    /* eDP 1.4 */
 
+#define DP_EDP_MSO_LINK_CAPABILITIES        0x7a4    /* eDP 1.4 */
+# define DP_EDP_MSO_NUMBER_OF_LINKS_MASK    (7 << 0)
+# define DP_EDP_MSO_NUMBER_OF_LINKS_SHIFT   0
+# define DP_EDP_MSO_INDEPENDENT_LINK_BIT    (1 << 3)
+
 /* Sideband MSG Buffers */
 #define DP_SIDEBAND_MSG_DOWN_REQ_BASE	    0x1000   /* 1.2 MST */
 #define DP_SIDEBAND_MSG_UP_REP_BASE	    0x1200   /* 1.2 MST */
@@ -1044,14 +1040,11 @@ struct drm_device;
 # define DP_CEC_IRQ                          (1 << 2)
 
 #define DP_LINK_SERVICE_IRQ_VECTOR_ESI0     0x2005   /* 1.2 */
-<<<<<<< HEAD
 # define RX_CAP_CHANGED                      (1 << 0)
 # define LINK_STATUS_CHANGED                 (1 << 1)
 # define STREAM_STATUS_CHANGED               (1 << 2)
 # define HDMI_LINK_STATUS_CHANGED            (1 << 3)
 # define CONNECTED_OFF_ENTRY_REQUESTED       (1 << 4)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DP_PSR_ERROR_STATUS                 0x2006  /* XXX 1.2? */
 # define DP_PSR_LINK_CRC_ERROR              (1 << 0)
@@ -1171,7 +1164,6 @@ struct drm_device;
 #define DP_CEC_TX_MESSAGE_BUFFER               0x3020
 #define DP_CEC_MESSAGE_BUFFER_LENGTH             0x10
 
-<<<<<<< HEAD
 /* PCON CONFIGURE-1 FRL FOR HDMI SINK */
 #define DP_PCON_HDMI_LINK_CONFIG_1             0x305A
 # define DP_PCON_ENABLE_MAX_FRL_BW             (7 << 0)
@@ -1184,6 +1176,7 @@ struct drm_device;
 # define DP_PCON_ENABLE_MAX_BW_48GBPS	       6
 # define DP_PCON_ENABLE_SOURCE_CTL_MODE       (1 << 3)
 # define DP_PCON_ENABLE_CONCURRENT_LINK       (1 << 4)
+# define DP_PCON_ENABLE_SEQUENTIAL_LINK       (0 << 4)
 # define DP_PCON_ENABLE_LINK_FRL_MODE         (1 << 5)
 # define DP_PCON_ENABLE_HPD_READY	      (1 << 6)
 # define DP_PCON_ENABLE_HDMI_LINK             (1 << 7)
@@ -1198,6 +1191,7 @@ struct drm_device;
 # define DP_PCON_FRL_BW_MASK_40GBPS           (1 << 4)
 # define DP_PCON_FRL_BW_MASK_48GBPS           (1 << 5)
 # define DP_PCON_FRL_LINK_TRAIN_EXTENDED      (1 << 6)
+# define DP_PCON_FRL_LINK_TRAIN_NORMAL        (0 << 6)
 
 /* PCON HDMI LINK STATUS */
 #define DP_PCON_HDMI_TX_LINK_STATUS           0x303B
@@ -1217,8 +1211,6 @@ struct drm_device;
 # define DP_PCON_FRL_TRAINED_BW_40GBPS	      (1 << 5)
 # define DP_PCON_FRL_TRAINED_BW_48GBPS	      (1 << 6)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DP_PROTOCOL_CONVERTER_CONTROL_0		0x3050 /* DP 1.3 */
 # define DP_HDMI_DVI_OUTPUT_CONFIG		(1 << 0) /* DP 1.3 */
 #define DP_PROTOCOL_CONVERTER_CONTROL_1		0x3051 /* DP 1.3 */
@@ -1228,7 +1220,6 @@ struct drm_device;
 # define DP_HDMI_FORCE_SCRAMBLING		(1 << 3) /* DP 1.4 */
 #define DP_PROTOCOL_CONVERTER_CONTROL_2		0x3052 /* DP 1.3 */
 # define DP_CONVERSION_TO_YCBCR422_ENABLE	(1 << 0) /* DP 1.3 */
-<<<<<<< HEAD
 # define DP_PCON_ENABLE_DSC_ENCODER	        (1 << 1)
 # define DP_PCON_ENCODER_PPS_OVERRIDE_MASK	(0x3 << 2)
 # define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
@@ -1271,8 +1262,6 @@ struct drm_device;
  * Offset-1 2MSBs of the bits_per_pixel.
  */
 #define DP_PCON_HDMI_PPS_OVRD_BPP	     0x3184
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* HDCP 1.3 and HDCP 2.2 */
 #define DP_AUX_HDCP_BKSV		0x68000
@@ -1857,34 +1846,34 @@ struct drm_dp_aux_cec {
  * @crc_count: counter of captured frame CRCs
  * @transfer: transfers a message representing a single AUX transaction
  *
- * The .dev field should be set to a pointer to the device that implements
- * the AUX channel.
+ * The @dev field should be set to a pointer to the device that implements the
+ * AUX channel.
  *
- * The .name field may be used to specify the name of the I2C adapter. If set to
- * NULL, dev_name() of .dev will be used.
+ * The @name field may be used to specify the name of the I2C adapter. If set to
+ * %NULL, dev_name() of @dev will be used.
  *
- * Drivers provide a hardware-specific implementation of how transactions
- * are executed via the .transfer() function. A pointer to a drm_dp_aux_msg
+ * Drivers provide a hardware-specific implementation of how transactions are
+ * executed via the @transfer() function. A pointer to a &drm_dp_aux_msg
  * structure describing the transaction is passed into this function. Upon
- * success, the implementation should return the number of payload bytes
- * that were transferred, or a negative error-code on failure. Helpers
- * propagate errors from the .transfer() function, with the exception of
- * the -EBUSY error, which causes a transaction to be retried. On a short,
- * helpers will return -EPROTO to make it simpler to check for failure.
+ * success, the implementation should return the number of payload bytes that
+ * were transferred, or a negative error-code on failure. Helpers propagate
+ * errors from the @transfer() function, with the exception of the %-EBUSY
+ * error, which causes a transaction to be retried. On a short, helpers will
+ * return %-EPROTO to make it simpler to check for failure.
  *
  * An AUX channel can also be used to transport I2C messages to a sink. A
- * typical application of that is to access an EDID that's present in the
- * sink device. The .transfer() function can also be used to execute such
- * transactions. The drm_dp_aux_register() function registers an I2C
- * adapter that can be passed to drm_probe_ddc(). Upon removal, drivers
- * should call drm_dp_aux_unregister() to remove the I2C adapter.
- * The I2C adapter uses long transfers by default; if a partial response is
- * received, the adapter will drop down to the size given by the partial
- * response for this transaction only.
+ * typical application of that is to access an EDID that's present in the sink
+ * device. The @transfer() function can also be used to execute such
+ * transactions. The drm_dp_aux_register() function registers an I2C adapter
+ * that can be passed to drm_probe_ddc(). Upon removal, drivers should call
+ * drm_dp_aux_unregister() to remove the I2C adapter. The I2C adapter uses long
+ * transfers by default; if a partial response is received, the adapter will
+ * drop down to the size given by the partial response for this transaction
+ * only.
  *
- * Note that the aux helper code assumes that the .transfer() function
- * only modifies the reply field of the drm_dp_aux_msg structure.  The
- * retry logic and i2c helpers assume this is the case.
+ * Note that the aux helper code assumes that the @transfer() function only
+ * modifies the reply field of the &drm_dp_aux_msg structure. The retry logic
+ * and i2c helpers assume this is the case.
  */
 struct drm_dp_aux {
 	const char *name;
@@ -2047,23 +2036,13 @@ struct drm_dp_desc {
 
 int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
 		     bool is_branch);
-<<<<<<< HEAD
-=======
-u32 drm_dp_get_edid_quirks(const struct edid *edid);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum drm_dp_quirk - Display Port sink/branch device specific quirks
  *
  * Display Port sink and branch devices in the wild have a variety of bugs, try
  * to collect them here. The quirks are shared, but it's up to the drivers to
-<<<<<<< HEAD
  * implement workarounds for them.
-=======
- * implement workarounds for them. Note that because some devices have
- * unreliable OUIDs, the EDID of sinks should also be checked for quirks using
- * drm_dp_get_edid_quirks().
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum drm_dp_quirk {
 	/**
@@ -2096,19 +2075,6 @@ enum drm_dp_quirk {
 	 */
 	DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD,
 	/**
-<<<<<<< HEAD
-=======
-	 * @DP_QUIRK_FORCE_DPCD_BACKLIGHT:
-	 *
-	 * The device is telling the truth when it says that it uses DPCD
-	 * backlight controls, even if the system's firmware disagrees. This
-	 * quirk should be checked against both the ident and panel EDID.
-	 * When present, the driver should honor the DPCD backlight
-	 * capabilities advertised.
-	 */
-	DP_QUIRK_FORCE_DPCD_BACKLIGHT,
-	/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * @DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS:
 	 *
 	 * The device supports a link rate of 3.24 Gbps (multiplier 0xc) despite
@@ -2120,25 +2086,14 @@ enum drm_dp_quirk {
 /**
  * drm_dp_has_quirk() - does the DP device have a specific quirk
  * @desc: Device descriptor filled by drm_dp_read_desc()
-<<<<<<< HEAD
-=======
- * @edid_quirks: Optional quirk bitmask filled by drm_dp_get_edid_quirks()
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @quirk: Quirk to query for
  *
  * Return true if DP device identified by @desc has @quirk.
  */
 static inline bool
-<<<<<<< HEAD
 drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
 {
 	return desc->quirks & BIT(quirk);
-=======
-drm_dp_has_quirk(const struct drm_dp_desc *desc, u32 edid_quirks,
-		 enum drm_dp_quirk quirk)
-{
-	return (desc->quirks | edid_quirks) & BIT(quirk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_DRM_DP_CEC
@@ -2196,15 +2151,14 @@ int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
 				struct drm_dp_phy_test_params *data);
 int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
 				struct drm_dp_phy_test_params *data, u8 dp_rev);
-<<<<<<< HEAD
 int drm_dp_get_pcon_max_frl_bw(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
 			       const u8 port_cap[4]);
 int drm_dp_pcon_frl_prepare(struct drm_dp_aux *aux, bool enable_frl_ready_hpd);
 bool drm_dp_pcon_is_frl_ready(struct drm_dp_aux *aux);
 int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
-				bool concurrent_mode);
+				u8 frl_mode);
 int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
-				bool extended_train_mode);
+				u8 frl_type);
 int drm_dp_pcon_reset_frl_config(struct drm_dp_aux *aux);
 int drm_dp_pcon_frl_enable(struct drm_dp_aux *aux);
 
@@ -2223,6 +2177,4 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
 					       const u8 port_cap[4], u8 color_spc);
 int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _DRM_DP_HELPER_H_ */

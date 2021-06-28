@@ -5,10 +5,7 @@
 #include <linux/sched.h>
 #include <linux/wait.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
 #include <linux/mm.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/percpu-refcount.h>
 
 /*
@@ -172,10 +169,7 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 			struct percpu_ref_data, rcu);
 	struct percpu_ref *ref = data->ref;
 	unsigned long __percpu *percpu_count = percpu_count_ptr(ref);
-<<<<<<< HEAD
 	static atomic_t underflows;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long count = 0;
 	int cpu;
 
@@ -199,7 +193,6 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 	 */
 	atomic_long_add((long)count - PERCPU_COUNT_BIAS, &data->count);
 
-<<<<<<< HEAD
 	if (WARN_ONCE(atomic_long_read(&data->count) <= 0,
 		      "percpu ref (%ps) <= 0 (%ld) after switching to atomic",
 		      data->release, atomic_long_read(&data->count)) &&
@@ -207,11 +200,6 @@ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
 		pr_err("%s(): percpu_ref underflow", __func__);
 		mem_dump_obj(data);
 	}
-=======
-	WARN_ONCE(atomic_long_read(&data->count) <= 0,
-		  "percpu ref (%ps) <= 0 (%ld) after switching to atomic",
-		  data->release, atomic_long_read(&data->count));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* @ref is viewed as dead on all CPUs, send out switch confirmation */
 	percpu_ref_call_confirm_rcu(rcu);
@@ -287,7 +275,7 @@ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
 	wait_event_lock_irq(percpu_ref_switch_waitq, !data->confirm_switch,
 			    percpu_ref_switch_lock);
 
-	if (data->force_atomic || (ref->percpu_count_ptr & __PERCPU_REF_DEAD))
+	if (data->force_atomic || percpu_ref_is_dying(ref))
 		__percpu_ref_switch_to_atomic(ref, confirm_switch);
 	else
 		__percpu_ref_switch_to_percpu(ref);
@@ -397,7 +385,7 @@ void percpu_ref_kill_and_confirm(struct percpu_ref *ref,
 
 	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
 
-	WARN_ONCE(ref->percpu_count_ptr & __PERCPU_REF_DEAD,
+	WARN_ONCE(percpu_ref_is_dying(ref),
 		  "%s called more than once on %ps!", __func__,
 		  ref->data->release);
 
@@ -477,7 +465,7 @@ void percpu_ref_resurrect(struct percpu_ref *ref)
 
 	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
 
-	WARN_ON_ONCE(!(ref->percpu_count_ptr & __PERCPU_REF_DEAD));
+	WARN_ON_ONCE(!percpu_ref_is_dying(ref));
 	WARN_ON_ONCE(__ref_is_percpu(ref, &percpu_count));
 
 	ref->percpu_count_ptr &= ~__PERCPU_REF_DEAD;

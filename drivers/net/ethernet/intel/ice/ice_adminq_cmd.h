@@ -695,7 +695,6 @@ struct ice_aqc_sched_elem_cmd {
 	__le32 addr_low;
 };
 
-<<<<<<< HEAD
 struct ice_aqc_txsched_move_grp_info_hdr {
 	__le32 src_parent_teid;
 	__le32 dest_parent_teid;
@@ -708,8 +707,6 @@ struct ice_aqc_move_elem {
 	__le32 teid[];
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ice_aqc_elem_info_bw {
 	__le16 bw_profile_idx;
 	__le16 bw_alloc;
@@ -880,16 +877,18 @@ struct ice_aqc_get_phy_caps {
 	__le16 param0;
 	/* 18.0 - Report qualified modules */
 #define ICE_AQC_GET_PHY_RQM		BIT(0)
-	/* 18.1 - 18.2 : Report mode
-	 * 00b - Report NVM capabilities
-	 * 01b - Report topology capabilities
-	 * 10b - Report SW configured
+	/* 18.1 - 18.3 : Report mode
+	 * 000b - Report NVM capabilities
+	 * 001b - Report topology capabilities
+	 * 010b - Report SW configured
+	 * 100b - Report default capabilities
 	 */
-#define ICE_AQC_REPORT_MODE_S		1
-#define ICE_AQC_REPORT_MODE_M		(3 << ICE_AQC_REPORT_MODE_S)
-#define ICE_AQC_REPORT_NVM_CAP		0
-#define ICE_AQC_REPORT_TOPO_CAP		BIT(1)
-#define ICE_AQC_REPORT_SW_CFG		BIT(2)
+#define ICE_AQC_REPORT_MODE_S			1
+#define ICE_AQC_REPORT_MODE_M			(7 << ICE_AQC_REPORT_MODE_S)
+#define ICE_AQC_REPORT_TOPO_CAP_NO_MEDIA	0
+#define ICE_AQC_REPORT_TOPO_CAP_MEDIA		BIT(1)
+#define ICE_AQC_REPORT_ACTIVE_CFG		BIT(2)
+#define ICE_AQC_REPORT_DFLT_CFG		BIT(3)
 	__le32 reserved1;
 	__le32 addr_high;
 	__le32 addr_low;
@@ -1349,36 +1348,6 @@ struct ice_aqc_nvm_checksum {
 	u8 rsvd2[12];
 };
 
-<<<<<<< HEAD
-=======
-/* The result of netlist NVM read comes in a TLV format. The actual data
- * (netlist header) starts from word offset 1 (byte 2). The FW strips
- * out the type field from the TLV header so all the netlist fields
- * should adjust their offset value by 1 word (2 bytes) in order to map
- * their correct location.
- */
-#define ICE_AQC_NVM_LINK_TOPO_NETLIST_MOD_ID		0x11B
-#define ICE_AQC_NVM_LINK_TOPO_NETLIST_LEN_OFFSET	1
-#define ICE_AQC_NVM_LINK_TOPO_NETLIST_LEN		2 /* In bytes */
-#define ICE_AQC_NVM_NETLIST_NODE_COUNT_OFFSET		2
-#define ICE_AQC_NVM_NETLIST_NODE_COUNT_LEN		2 /* In bytes */
-#define ICE_AQC_NVM_NETLIST_NODE_COUNT_M		ICE_M(0x3FF, 0)
-#define ICE_AQC_NVM_NETLIST_ID_BLK_START_OFFSET		5
-#define ICE_AQC_NVM_NETLIST_ID_BLK_LEN			0x30 /* In words */
-
-/* netlist ID block field offsets (word offsets) */
-#define ICE_AQC_NVM_NETLIST_ID_BLK_MAJOR_VER_LOW	2
-#define ICE_AQC_NVM_NETLIST_ID_BLK_MAJOR_VER_HIGH	3
-#define ICE_AQC_NVM_NETLIST_ID_BLK_MINOR_VER_LOW	4
-#define ICE_AQC_NVM_NETLIST_ID_BLK_MINOR_VER_HIGH	5
-#define ICE_AQC_NVM_NETLIST_ID_BLK_TYPE_LOW		6
-#define ICE_AQC_NVM_NETLIST_ID_BLK_TYPE_HIGH		7
-#define ICE_AQC_NVM_NETLIST_ID_BLK_REV_LOW		8
-#define ICE_AQC_NVM_NETLIST_ID_BLK_REV_HIGH		9
-#define ICE_AQC_NVM_NETLIST_ID_BLK_SHA_HASH		0xA
-#define ICE_AQC_NVM_NETLIST_ID_BLK_CUST_VER		0x2F
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Used for NVM Set Package Data command - 0x070A */
 struct ice_aqc_nvm_pkg_data {
 	u8 reserved[3];
@@ -1440,8 +1409,7 @@ struct ice_aqc_nvm_comp_tbl {
 	u8 cvs[]; /* Component Version String */
 } __packed;
 
-/*
- * Send to PF command (indirect 0x0801) ID is only used by PF
+/* Send to PF command (indirect 0x0801) ID is only used by PF
  *
  * Send to VF command (indirect 0x0802) ID is only used by PF
  *
@@ -1573,7 +1541,6 @@ struct ice_aqc_lldp_stop_start_specific_agent {
 	u8 reserved[15];
 };
 
-<<<<<<< HEAD
 /* LLDP Filter Control (direct 0x0A0A) */
 struct ice_aqc_lldp_filter_ctrl {
 	u8 cmd_flags;
@@ -1584,8 +1551,6 @@ struct ice_aqc_lldp_filter_ctrl {
 	u8 reserved2[12];
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Get/Set RSS key (indirect 0x0B04/0x0B02) */
 struct ice_aqc_get_set_rss_key {
 #define ICE_AQC_GSET_RSS_KEY_VSI_VALID	BIT(15)
@@ -1826,6 +1791,7 @@ struct ice_pkg_ver {
 };
 
 #define ICE_PKG_NAME_SIZE	32
+#define ICE_SEG_ID_SIZE		28
 #define ICE_SEG_NAME_SIZE	28
 
 struct ice_aqc_get_pkg_info {
@@ -1909,10 +1875,7 @@ struct ice_aq_desc {
 		struct ice_aqc_lldp_start lldp_start;
 		struct ice_aqc_lldp_set_local_mib lldp_set_mib;
 		struct ice_aqc_lldp_stop_start_specific_agent lldp_agent_ctrl;
-<<<<<<< HEAD
 		struct ice_aqc_lldp_filter_ctrl lldp_filter_ctrl;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct ice_aqc_get_set_rss_lut get_set_rss_lut;
 		struct ice_aqc_get_set_rss_key get_set_rss_key;
 		struct ice_aqc_add_txqs add_txqs;
@@ -2012,10 +1975,7 @@ enum ice_adminq_opc {
 	ice_aqc_opc_add_sched_elems			= 0x0401,
 	ice_aqc_opc_cfg_sched_elems			= 0x0403,
 	ice_aqc_opc_get_sched_elems			= 0x0404,
-<<<<<<< HEAD
 	ice_aqc_opc_move_sched_elems			= 0x0408,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ice_aqc_opc_suspend_sched_elems			= 0x0409,
 	ice_aqc_opc_resume_sched_elems			= 0x040A,
 	ice_aqc_opc_query_port_ets			= 0x040E,
@@ -2057,10 +2017,7 @@ enum ice_adminq_opc {
 	ice_aqc_opc_get_cee_dcb_cfg			= 0x0A07,
 	ice_aqc_opc_lldp_set_local_mib			= 0x0A08,
 	ice_aqc_opc_lldp_stop_start_specific_agent	= 0x0A09,
-<<<<<<< HEAD
 	ice_aqc_opc_lldp_filter_ctrl			= 0x0A0A,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* RSS commands */
 	ice_aqc_opc_set_rss_key				= 0x0B02,

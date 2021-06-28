@@ -301,14 +301,8 @@ gv100_fifo = {
 };
 
 int
-<<<<<<< HEAD
 gv100_fifo_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_fifo **pfifo)
 {
 	return gk104_fifo_new_(&gv100_fifo, device, type, inst, 4096, pfifo);
-=======
-gv100_fifo_new(struct nvkm_device *device, int index, struct nvkm_fifo **pfifo)
-{
-	return gk104_fifo_new_(&gv100_fifo, device, index, 4096, pfifo);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

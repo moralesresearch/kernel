@@ -2,12 +2,8 @@ TODO:
 	- support for fractional multiplier
 	- support for fractional divider (output 0 only)
 	- support for set_rate() operations (may benefit from Stephen Boyd's
-<<<<<<< HEAD
 	  refactoring of the clk primitives:
 	  https://lore.kernel.org/lkml/1409957256-23729-1-git-send-email-sboyd@codeaurora.org)
-=======
-	  refactoring of the clk primitives: https://lkml.org/lkml/2014/9/5/766)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	- review arithmetic
 	  - overflow after multiplication?
 	  - maximize accuracy before divisions

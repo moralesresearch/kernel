@@ -10,10 +10,7 @@
 #include <linux/acpi.h>
 #include <linux/bitfield.h>
 #include <linux/extable.h>
-<<<<<<< HEAD
 #include <linux/kfence.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/signal.h>
 #include <linux/mm.h>
 #include <linux/hardirq.h>
@@ -306,7 +303,6 @@ static void die_kernel_fault(const char *msg, unsigned long addr,
 static void report_tag_fault(unsigned long addr, unsigned int esr,
 			     struct pt_regs *regs)
 {
-<<<<<<< HEAD
 	static bool reported;
 	bool is_write;
 
@@ -319,18 +315,12 @@ static void report_tag_fault(unsigned long addr, unsigned int esr,
 	 */
 	if (mte_report_once())
 		WRITE_ONCE(reported, true);
-=======
-	bool is_write  = ((esr & ESR_ELx_WNR) >> ESR_ELx_WNR_SHIFT) != 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * SAS bits aren't set for all faults reported in EL1, so we can't
 	 * find out access size.
 	 */
-<<<<<<< HEAD
 	is_write = !!(esr & ESR_ELx_WNR);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kasan_report(addr, 0, is_write, regs->pc);
 }
 #else
@@ -342,17 +332,8 @@ static inline void report_tag_fault(unsigned long addr, unsigned int esr,
 static void do_tag_recovery(unsigned long addr, unsigned int esr,
 			   struct pt_regs *regs)
 {
-<<<<<<< HEAD
 
 	report_tag_fault(addr, esr, regs);
-=======
-	static bool reported;
-
-	if (!READ_ONCE(reported)) {
-		report_tag_fault(addr, esr, regs);
-		WRITE_ONCE(reported, true);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Disable MTE Tag Checking on the local CPU for the current EL.
@@ -409,12 +390,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
 	} else if (addr < PAGE_SIZE) {
 		msg = "NULL pointer dereference";
 	} else {
-<<<<<<< HEAD
 		if (kfence_handle_page_fault(addr, esr & ESR_ELx_WNR, regs))
 			return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		msg = "paging request";
 	}
 
@@ -549,7 +527,7 @@ static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
 	const struct fault_info *inf;
 	struct mm_struct *mm = current->mm;
 	vm_fault_t fault;
-	unsigned long vm_flags = VM_ACCESS_FLAGS;
+	unsigned long vm_flags;
 	unsigned int mm_flags = FAULT_FLAG_DEFAULT;
 	unsigned long addr = untagged_addr(far);
 
@@ -566,12 +544,28 @@ static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
 	if (user_mode(regs))
 		mm_flags |= FAULT_FLAG_USER;
 
+	/*
+	 * vm_flags tells us what bits we must have in vma->vm_flags
+	 * for the fault to be benign, __do_page_fault() would check
+	 * vma->vm_flags & vm_flags and returns an error if the
+	 * intersection is empty
+	 */
 	if (is_el0_instruction_abort(esr)) {
+		/* It was exec fault */
 		vm_flags = VM_EXEC;
 		mm_flags |= FAULT_FLAG_INSTRUCTION;
 	} else if (is_write_abort(esr)) {
+		/* It was write fault */
 		vm_flags = VM_WRITE;
 		mm_flags |= FAULT_FLAG_WRITE;
+	} else {
+		/* It was read fault */
+		vm_flags = VM_READ;
+		/* Write implies read */
+		vm_flags |= VM_WRITE;
+		/* If EPAN is absent then exec implies read */
+		if (!cpus_have_const_cap(ARM64_HAS_EPAN))
+			vm_flags |= VM_EXEC;
 	}
 
 	if (is_ttbr0_addr(addr) && is_el1_permission_fault(addr, esr, regs)) {
@@ -598,11 +592,7 @@ retry:
 		mmap_read_lock(mm);
 	} else {
 		/*
-<<<<<<< HEAD
 		 * The above mmap_read_trylock() might have succeeded in which
-=======
-		 * The above down_read_trylock() might have succeeded in which
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * case, we'll have missed the might_sleep() from down_read().
 		 */
 		might_sleep();
@@ -913,50 +903,12 @@ static void debug_exception_exit(struct pt_regs *regs)
 }
 NOKPROBE_SYMBOL(debug_exception_exit);
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_ARM64_ERRATUM_1463225
-DECLARE_PER_CPU(int, __in_cortex_a76_erratum_1463225_wa);
-
-static int cortex_a76_erratum_1463225_debug_handler(struct pt_regs *regs)
-{
-	if (user_mode(regs))
-		return 0;
-
-	if (!__this_cpu_read(__in_cortex_a76_erratum_1463225_wa))
-		return 0;
-
-	/*
-	 * We've taken a dummy step exception from the kernel to ensure
-	 * that interrupts are re-enabled on the syscall path. Return back
-	 * to cortex_a76_erratum_1463225_svc_handler() with debug exceptions
-	 * masked so that we can safely restore the mdscr and get on with
-	 * handling the syscall.
-	 */
-	regs->pstate |= PSR_D_BIT;
-	return 1;
-}
-#else
-static int cortex_a76_erratum_1463225_debug_handler(struct pt_regs *regs)
-{
-	return 0;
-}
-#endif /* CONFIG_ARM64_ERRATUM_1463225 */
-NOKPROBE_SYMBOL(cortex_a76_erratum_1463225_debug_handler);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void do_debug_exception(unsigned long addr_if_watchpoint, unsigned int esr,
 			struct pt_regs *regs)
 {
 	const struct fault_info *inf = esr_to_debug_fault_info(esr);
 	unsigned long pc = instruction_pointer(regs);
 
-<<<<<<< HEAD
-=======
-	if (cortex_a76_erratum_1463225_debug_handler(regs))
-		return;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	debug_exception_enter(regs);
 
 	if (user_mode(regs) && !is_ttbr0_addr(pc))

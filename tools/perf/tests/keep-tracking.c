@@ -154,16 +154,9 @@ out_err:
 	if (evlist) {
 		evlist__disable(evlist);
 		evlist__delete(evlist);
-<<<<<<< HEAD
 	}
 	perf_cpu_map__put(cpus);
 	perf_thread_map__put(threads);
-=======
-	} else {
-		perf_cpu_map__put(cpus);
-		perf_thread_map__put(threads);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return err;
 }

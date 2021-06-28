@@ -271,11 +271,7 @@ test_span_gre_fdb_roaming()
 
 	while ((RET == 0)); do
 		bridge fdb del dev $swp3 $h3mac vlan 555 master 2>/dev/null
-<<<<<<< HEAD
 		bridge fdb add dev $swp2 $h3mac vlan 555 master static
-=======
-		bridge fdb add dev $swp2 $h3mac vlan 555 master
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sleep 1
 		fail_test_span_gre_dir $tundev ingress
 

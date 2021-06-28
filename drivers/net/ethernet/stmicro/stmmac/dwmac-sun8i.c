@@ -239,6 +239,22 @@ static const struct emac_variant emac_variant_h6 = {
 #define EMAC_RX_EARLY_INT       BIT(13)
 #define EMAC_RGMII_STA_INT      BIT(16)
 
+#define EMAC_INT_MSK_COMMON	EMAC_RGMII_STA_INT
+#define EMAC_INT_MSK_TX		(EMAC_TX_INT | \
+				 EMAC_TX_DMA_STOP_INT | \
+				 EMAC_TX_BUF_UA_INT | \
+				 EMAC_TX_TIMEOUT_INT | \
+				 EMAC_TX_UNDERFLOW_INT | \
+				 EMAC_TX_EARLY_INT |\
+				 EMAC_INT_MSK_COMMON)
+#define EMAC_INT_MSK_RX		(EMAC_RX_INT | \
+				 EMAC_RX_BUF_UA_INT | \
+				 EMAC_RX_DMA_STOP_INT | \
+				 EMAC_RX_TIMEOUT_INT | \
+				 EMAC_RX_OVERFLOW_INT | \
+				 EMAC_RX_EARLY_INT | \
+				 EMAC_INT_MSK_COMMON)
+
 #define MAC_ADDR_TYPE_DST BIT(31)
 
 /* H3 specific bits for EPHY */
@@ -412,12 +428,18 @@ static void sun8i_dwmac_dma_stop_rx(void __iomem *ioaddr, u32 chan)
 }
 
 static int sun8i_dwmac_dma_interrupt(void __iomem *ioaddr,
-				     struct stmmac_extra_stats *x, u32 chan)
+				     struct stmmac_extra_stats *x, u32 chan,
+				     u32 dir)
 {
 	u32 v;
 	int ret = 0;
 
 	v = readl(ioaddr + EMAC_INT_STA);
+
+	if (dir == DMA_DIR_RX)
+		v &= EMAC_INT_MSK_RX;
+	else if (dir == DMA_DIR_TX)
+		v &= EMAC_INT_MSK_TX;
 
 	if (v & EMAC_TX_INT) {
 		ret |= handle_tx;
@@ -805,27 +827,12 @@ static int sun8i_dwmac_power_internal_phy(struct stmmac_priv *priv)
 
 	/* Make sure the EPHY is properly reseted, as U-Boot may leave
 	 * it at deasserted state, and thus it may fail to reset EMAC.
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * This assumes the driver has exclusive access to the EPHY reset.
 	 */
 	ret = reset_control_reset(gmac->rst_ephy);
 	if (ret) {
 		dev_err(priv->device, "Cannot reset internal PHY\n");
-<<<<<<< HEAD
-=======
-=======
-	 */
-	reset_control_assert(gmac->rst_ephy);
-
-	ret = reset_control_deassert(gmac->rst_ephy);
-	if (ret) {
-		dev_err(priv->device, "Cannot deassert internal phy\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		clk_disable_unprepare(gmac->ephy_clk);
 		return ret;
 	}
@@ -835,34 +842,14 @@ static int sun8i_dwmac_power_internal_phy(struct stmmac_priv *priv)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sun8i_dwmac_unpower_internal_phy(struct sunxi_priv_data *gmac)
 {
 	if (!gmac->internal_phy_powered)
 		return;
-<<<<<<< HEAD
-=======
-=======
-static int sun8i_dwmac_unpower_internal_phy(struct sunxi_priv_data *gmac)
-{
-	if (!gmac->internal_phy_powered)
-		return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_disable_unprepare(gmac->ephy_clk);
 	reset_control_assert(gmac->rst_ephy);
 	gmac->internal_phy_powered = false;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* MDIO multiplexing switch function
@@ -1053,20 +1040,8 @@ static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
 {
 	struct sunxi_priv_data *gmac = priv;
 
-<<<<<<< HEAD
 	if (gmac->variant->soc_has_internal_phy)
 		sun8i_dwmac_unpower_internal_phy(gmac);
-=======
-<<<<<<< HEAD
-	if (gmac->variant->soc_has_internal_phy)
-		sun8i_dwmac_unpower_internal_phy(gmac);
-=======
-	if (gmac->variant->soc_has_internal_phy) {
-		if (gmac->internal_phy_powered)
-			sun8i_dwmac_unpower_internal_phy(gmac);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_disable_unprepare(gmac->tx_clk);
 
@@ -1246,7 +1221,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
 	if (ret)
 		return -EINVAL;
 
-	plat_dat = stmmac_probe_config_dt(pdev, &stmmac_res.mac);
+	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
 	if (IS_ERR(plat_dat))
 		return PTR_ERR(plat_dat);
 
@@ -1278,14 +1253,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
 
 	ndev = dev_get_drvdata(&pdev->dev);
 	priv = netdev_priv(ndev);
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* The mux must be registered after parent MDIO
 	 * so after stmmac_dvr_probe()
 	 */
@@ -1304,17 +1272,8 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
 			goto dwmac_remove;
 	}
 
-<<<<<<< HEAD
 	return 0;
 
-=======
-<<<<<<< HEAD
-	return 0;
-
-=======
-	return ret;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 dwmac_mux:
 	reset_control_put(gmac->rst_ephy);
 	clk_put(gmac->ephy_clk);
@@ -1349,10 +1308,6 @@ static int sun8i_dwmac_remove(struct platform_device *pdev)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void sun8i_dwmac_shutdown(struct platform_device *pdev)
 {
 	struct net_device *ndev = platform_get_drvdata(pdev);
@@ -1362,11 +1317,6 @@ static void sun8i_dwmac_shutdown(struct platform_device *pdev)
 	sun8i_dwmac_exit(pdev, gmac);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id sun8i_dwmac_match[] = {
 	{ .compatible = "allwinner,sun8i-h3-emac",
 		.data = &emac_variant_h3 },
@@ -1387,14 +1337,7 @@ MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
 static struct platform_driver sun8i_dwmac_driver = {
 	.probe  = sun8i_dwmac_probe,
 	.remove = sun8i_dwmac_remove,
-<<<<<<< HEAD
 	.shutdown = sun8i_dwmac_shutdown,
-=======
-<<<<<<< HEAD
-	.shutdown = sun8i_dwmac_shutdown,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver = {
 		.name           = "dwmac-sun8i",
 		.pm		= &stmmac_pltfr_pm_ops,

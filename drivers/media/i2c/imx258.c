@@ -2,10 +2,7 @@
 // Copyright (C) 2018 Intel Corporation
 
 #include <linux/acpi.h>
-<<<<<<< HEAD
 #include <linux/clk.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/i2c.h>
 #include <linux/module.h>
@@ -64,6 +61,15 @@
 #define IMX258_DGTL_GAIN_DEFAULT	1024
 #define IMX258_DGTL_GAIN_STEP		1
 
+/* HDR control */
+#define IMX258_REG_HDR			0x0220
+#define IMX258_HDR_ON			BIT(0)
+#define IMX258_REG_HDR_RATIO		0x0222
+#define IMX258_HDR_RATIO_MIN		0
+#define IMX258_HDR_RATIO_MAX		5
+#define IMX258_HDR_RATIO_STEP		1
+#define IMX258_HDR_RATIO_DEFAULT	0x0
+
 /* Test Pattern Control */
 #define IMX258_REG_TEST_PATTERN		0x0600
 
@@ -72,12 +78,9 @@
 #define REG_CONFIG_MIRROR_FLIP		0x03
 #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
 
-<<<<<<< HEAD
 /* Input clock frequency in Hz */
 #define IMX258_INPUT_CLOCK_FREQ		19200000
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct imx258_reg {
 	u16 address;
 	u8 val;
@@ -620,11 +623,8 @@ struct imx258 {
 
 	/* Streaming on/off */
 	bool streaming;
-<<<<<<< HEAD
 
 	struct clk *clk;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct imx258 *to_imx258(struct v4l2_subdev *_sd)
@@ -785,6 +785,22 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
 				IMX258_REG_VALUE_08BIT,
 				!ctrl->val ? REG_CONFIG_MIRROR_FLIP :
 				REG_CONFIG_FLIP_TEST_PATTERN);
+		break;
+	case V4L2_CID_WIDE_DYNAMIC_RANGE:
+		if (!ctrl->val) {
+			ret = imx258_write_reg(imx258, IMX258_REG_HDR,
+					       IMX258_REG_VALUE_08BIT,
+					       IMX258_HDR_RATIO_MIN);
+		} else {
+			ret = imx258_write_reg(imx258, IMX258_REG_HDR,
+					       IMX258_REG_VALUE_08BIT,
+					       IMX258_HDR_ON);
+			if (ret)
+				break;
+			ret = imx258_write_reg(imx258, IMX258_REG_HDR_RATIO,
+					       IMX258_REG_VALUE_08BIT,
+					       BIT(IMX258_HDR_RATIO_MAX));
+		}
 		break;
 	default:
 		dev_info(&client->dev,
@@ -987,7 +1003,6 @@ static int imx258_stop_streaming(struct imx258 *imx258)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int imx258_power_on(struct device *dev)
 {
 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
@@ -1011,8 +1026,6 @@ static int imx258_power_off(struct device *dev)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int imx258_set_stream(struct v4l2_subdev *sd, int enable)
 {
 	struct imx258 *imx258 = to_imx258(sd);
@@ -1059,12 +1072,7 @@ err_unlock:
 
 static int __maybe_unused imx258_suspend(struct device *dev)
 {
-<<<<<<< HEAD
 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-=======
-	struct i2c_client *client = to_i2c_client(dev);
-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct imx258 *imx258 = to_imx258(sd);
 
 	if (imx258->streaming)
@@ -1075,12 +1083,7 @@ static int __maybe_unused imx258_suspend(struct device *dev)
 
 static int __maybe_unused imx258_resume(struct device *dev)
 {
-<<<<<<< HEAD
 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-=======
-	struct i2c_client *client = to_i2c_client(dev);
-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct imx258 *imx258 = to_imx258(sd);
 	int ret;
 
@@ -1215,6 +1218,9 @@ static int imx258_init_controls(struct imx258 *imx258)
 				IMX258_DGTL_GAIN_STEP,
 				IMX258_DGTL_GAIN_DEFAULT);
 
+	v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops, V4L2_CID_WIDE_DYNAMIC_RANGE,
+				0, 1, 1, IMX258_HDR_RATIO_DEFAULT);
+
 	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx258_ctrl_ops,
 				V4L2_CID_TEST_PATTERN,
 				ARRAY_SIZE(imx258_test_pattern_menu) - 1,
@@ -1250,7 +1256,6 @@ static int imx258_probe(struct i2c_client *client)
 	int ret;
 	u32 val = 0;
 
-<<<<<<< HEAD
 	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
 	if (!imx258)
 		return -ENOMEM;
@@ -1271,11 +1276,6 @@ static int imx258_probe(struct i2c_client *client)
 		dev_err(&client->dev, "input clock frequency not supported\n");
 		return -EINVAL;
 	}
-=======
-	device_property_read_u32(&client->dev, "clock-frequency", &val);
-	if (val != 19200000)
-		return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Check that the device is mounted upside down. The driver only
@@ -1285,7 +1285,6 @@ static int imx258_probe(struct i2c_client *client)
 	if (ret || val != 180)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	/* Initialize subdev */
 	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
 
@@ -1298,30 +1297,13 @@ static int imx258_probe(struct i2c_client *client)
 	ret = imx258_identify_module(imx258);
 	if (ret)
 		goto error_identify;
-=======
-	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
-	if (!imx258)
-		return -ENOMEM;
-
-	/* Initialize subdev */
-	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-
-	/* Check module identity */
-	ret = imx258_identify_module(imx258);
-	if (ret)
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Set default mode to max resolution */
 	imx258->cur_mode = &supported_modes[0];
 
 	ret = imx258_init_controls(imx258);
 	if (ret)
-<<<<<<< HEAD
 		goto error_identify;
-=======
-		return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Initialize subdev */
 	imx258->sd.internal_ops = &imx258_internal_ops;
@@ -1335,7 +1317,7 @@ static int imx258_probe(struct i2c_client *client)
 	if (ret)
 		goto error_handler_free;
 
-	ret = v4l2_async_register_subdev_sensor_common(&imx258->sd);
+	ret = v4l2_async_register_subdev_sensor(&imx258->sd);
 	if (ret < 0)
 		goto error_media_entity;
 
@@ -1351,12 +1333,9 @@ error_media_entity:
 error_handler_free:
 	imx258_free_controls(imx258);
 
-<<<<<<< HEAD
 error_identify:
 	imx258_power_off(&client->dev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1370,11 +1349,8 @@ static int imx258_remove(struct i2c_client *client)
 	imx258_free_controls(imx258);
 
 	pm_runtime_disable(&client->dev);
-<<<<<<< HEAD
 	if (!pm_runtime_status_suspended(&client->dev))
 		imx258_power_off(&client->dev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_set_suspended(&client->dev);
 
 	return 0;
@@ -1382,10 +1358,7 @@ static int imx258_remove(struct i2c_client *client)
 
 static const struct dev_pm_ops imx258_pm_ops = {
 	SET_SYSTEM_SLEEP_PM_OPS(imx258_suspend, imx258_resume)
-<<<<<<< HEAD
 	SET_RUNTIME_PM_OPS(imx258_power_off, imx258_power_on, NULL)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #ifdef CONFIG_ACPI
@@ -1397,24 +1370,18 @@ static const struct acpi_device_id imx258_acpi_ids[] = {
 MODULE_DEVICE_TABLE(acpi, imx258_acpi_ids);
 #endif
 
-<<<<<<< HEAD
 static const struct of_device_id imx258_dt_ids[] = {
 	{ .compatible = "sony,imx258" },
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, imx258_dt_ids);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct i2c_driver imx258_i2c_driver = {
 	.driver = {
 		.name = "imx258",
 		.pm = &imx258_pm_ops,
 		.acpi_match_table = ACPI_PTR(imx258_acpi_ids),
-<<<<<<< HEAD
 		.of_match_table	= imx258_dt_ids,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.probe_new = imx258_probe,
 	.remove = imx258_remove,

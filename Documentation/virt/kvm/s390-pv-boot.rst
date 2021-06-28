@@ -80,9 +80,5 @@ Keys
 ----
 Every CEC will have a unique public key to enable tooling to build
 encrypted images.
-<<<<<<< HEAD
 See  `s390-tools <https://github.com/ibm-s390-linux/s390-tools/>`_
-=======
-See  `s390-tools <https://github.com/ibm-s390-tools/s390-tools/>`_
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 for the tooling.

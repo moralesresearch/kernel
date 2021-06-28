@@ -696,7 +696,6 @@ static void hclge_dbg_dump_tm_map(struct hclge_dev *hdev,
 	u32 qset_mapping[HCLGE_BP_EXT_GRP_NUM];
 	struct hclge_qs_to_pri_link_cmd *map;
 	struct hclge_tqp_tx_queue_tc_cmd *tc;
-<<<<<<< HEAD
 	u16 group_id, queue_id, qset_id;
 	enum hclge_opcode_type cmd;
 	u8 grp_num, pri_id, tc_id;
@@ -707,19 +706,6 @@ static void hclge_dbg_dump_tm_map(struct hclge_dev *hdev,
 	u32 i;
 
 	ret = kstrtou16(cmd_buf, 0, &queue_id);
-=======
-	enum hclge_opcode_type cmd;
-	struct hclge_desc desc;
-	int queue_id, group_id;
-	int tc_id, qset_id;
-	int pri_id, ret;
-	u16 qs_id_l;
-	u16 qs_id_h;
-	u8 grp_num;
-	u32 i;
-
-	ret = kstrtouint(cmd_buf, 0, &queue_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	queue_id = (ret != 0) ? 0 : queue_id;
 
 	cmd = HCLGE_OPC_TM_NQ_TO_QS_LINK;
@@ -767,11 +753,7 @@ static void hclge_dbg_dump_tm_map(struct hclge_dev *hdev,
 	tc_id = tc->tc_id & 0x7;
 
 	dev_info(&hdev->pdev->dev, "queue_id | qset_id | pri_id | tc_id\n");
-<<<<<<< HEAD
 	dev_info(&hdev->pdev->dev, "%04u     | %04u    | %02u     | %02u\n",
-=======
-	dev_info(&hdev->pdev->dev, "%04d     | %04d    | %02d     | %02d\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 queue_id, qset_id, pri_id, tc_id);
 
 	if (!hnae3_dev_dcb_supported(hdev)) {
@@ -817,7 +799,6 @@ err_tm_map_cmd_send:
 		cmd, ret);
 }
 
-<<<<<<< HEAD
 static int hclge_dbg_dump_tm_nodes(struct hclge_dev *hdev, char *buf, int len)
 {
 	struct hclge_tm_nodes_cmd *nodes;
@@ -952,8 +933,6 @@ static int hclge_dbg_dump_tm_qset(struct hclge_dev *hdev, char *buf, int len)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void hclge_dbg_dump_qos_pause_cfg(struct hclge_dev *hdev)
 {
 	struct hclge_cfg_pause_param_cmd *pause_param;
@@ -1005,7 +984,6 @@ static void hclge_dbg_dump_qos_pri_map(struct hclge_dev *hdev)
 	dev_info(&hdev->pdev->dev, "pri_7_to_tc: 0x%x\n", pri_map->pri7_tc);
 }
 
-<<<<<<< HEAD
 static int hclge_dbg_dump_tx_buf_cfg(struct hclge_dev *hdev)
 {
 	struct hclge_tx_buff_alloc_cmd *tx_buf_cmd;
@@ -1019,34 +997,10 @@ static int hclge_dbg_dump_tx_buf_cfg(struct hclge_dev *hdev)
 
 	dev_info(&hdev->pdev->dev, "dump qos buf cfg\n");
 	tx_buf_cmd = (struct hclge_tx_buff_alloc_cmd *)desc.data;
-=======
-static void hclge_dbg_dump_qos_buf_cfg(struct hclge_dev *hdev)
-{
-	struct hclge_tx_buff_alloc_cmd *tx_buf_cmd;
-	struct hclge_rx_priv_buff_cmd *rx_buf_cmd;
-	struct hclge_rx_priv_wl_buf *rx_priv_wl;
-	struct hclge_rx_com_wl *rx_packet_cnt;
-	struct hclge_rx_com_thrd *rx_com_thrd;
-	struct hclge_rx_com_wl *rx_com_wl;
-	enum hclge_opcode_type cmd;
-	struct hclge_desc desc[2];
-	int i, ret;
-
-	cmd = HCLGE_OPC_TX_BUFF_ALLOC;
-	hclge_cmd_setup_basic_desc(desc, cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 1);
-	if (ret)
-		goto err_qos_cmd_send;
-
-	dev_info(&hdev->pdev->dev, "dump qos buf cfg\n");
-
-	tx_buf_cmd = (struct hclge_tx_buff_alloc_cmd *)desc[0].data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < HCLGE_MAX_TC_NUM; i++)
 		dev_info(&hdev->pdev->dev, "tx_packet_buf_tc_%d: 0x%x\n", i,
 			 le16_to_cpu(tx_buf_cmd->tx_pkt_buff[i]));
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -1063,16 +1017,6 @@ static int hclge_dbg_dump_rx_priv_buf_cfg(struct hclge_dev *hdev)
 
 	dev_info(&hdev->pdev->dev, "\n");
 	rx_buf_cmd = (struct hclge_rx_priv_buff_cmd *)desc.data;
-=======
-	cmd = HCLGE_OPC_RX_PRIV_BUFF_ALLOC;
-	hclge_cmd_setup_basic_desc(desc, cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 1);
-	if (ret)
-		goto err_qos_cmd_send;
-
-	dev_info(&hdev->pdev->dev, "\n");
-	rx_buf_cmd = (struct hclge_rx_priv_buff_cmd *)desc[0].data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < HCLGE_MAX_TC_NUM; i++)
 		dev_info(&hdev->pdev->dev, "rx_packet_buf_tc_%d: 0x%x\n", i,
 			 le16_to_cpu(rx_buf_cmd->buf_num[i]));
@@ -1080,7 +1024,6 @@ static int hclge_dbg_dump_rx_priv_buf_cfg(struct hclge_dev *hdev)
 	dev_info(&hdev->pdev->dev, "rx_share_buf: 0x%x\n",
 		 le16_to_cpu(rx_buf_cmd->shared_buf));
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -1096,21 +1039,11 @@ static int hclge_dbg_dump_rx_common_wl_cfg(struct hclge_dev *hdev)
 		return ret;
 
 	rx_com_wl = (struct hclge_rx_com_wl *)desc.data;
-=======
-	cmd = HCLGE_OPC_RX_COM_WL_ALLOC;
-	hclge_cmd_setup_basic_desc(desc, cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 1);
-	if (ret)
-		goto err_qos_cmd_send;
-
-	rx_com_wl = (struct hclge_rx_com_wl *)desc[0].data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_info(&hdev->pdev->dev, "\n");
 	dev_info(&hdev->pdev->dev, "rx_com_wl: high: 0x%x, low: 0x%x\n",
 		 le16_to_cpu(rx_com_wl->com_wl.high),
 		 le16_to_cpu(rx_com_wl->com_wl.low));
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -1126,20 +1059,10 @@ static int hclge_dbg_dump_rx_global_pkt_cnt(struct hclge_dev *hdev)
 		return ret;
 
 	rx_packet_cnt = (struct hclge_rx_com_wl *)desc.data;
-=======
-	cmd = HCLGE_OPC_RX_GBL_PKT_CNT;
-	hclge_cmd_setup_basic_desc(desc, cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 1);
-	if (ret)
-		goto err_qos_cmd_send;
-
-	rx_packet_cnt = (struct hclge_rx_com_wl *)desc[0].data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_info(&hdev->pdev->dev,
 		 "rx_global_packet_cnt: high: 0x%x, low: 0x%x\n",
 		 le16_to_cpu(rx_packet_cnt->com_wl.high),
 		 le16_to_cpu(rx_packet_cnt->com_wl.low));
-<<<<<<< HEAD
 
 	return 0;
 }
@@ -1156,22 +1079,6 @@ static int hclge_dbg_dump_rx_priv_wl_buf_cfg(struct hclge_dev *hdev)
 	ret = hclge_cmd_send(&hdev->hw, desc, 2);
 	if (ret)
 		return ret;
-=======
-	dev_info(&hdev->pdev->dev, "\n");
-
-	if (!hnae3_dev_dcb_supported(hdev)) {
-		dev_info(&hdev->pdev->dev,
-			 "Only DCB-supported dev supports rx priv wl\n");
-		return;
-	}
-	cmd = HCLGE_OPC_RX_PRIV_WL_ALLOC;
-	hclge_cmd_setup_basic_desc(&desc[0], cmd, true);
-	desc[0].flag |= cpu_to_le16(HCLGE_CMD_FLAG_NEXT);
-	hclge_cmd_setup_basic_desc(&desc[1], cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 2);
-	if (ret)
-		goto err_qos_cmd_send;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rx_priv_wl = (struct hclge_rx_priv_wl_buf *)desc[0].data;
 	for (i = 0; i < HCLGE_TC_NUM_ONE_DESC; i++)
@@ -1188,7 +1095,6 @@ static int hclge_dbg_dump_rx_priv_wl_buf_cfg(struct hclge_dev *hdev)
 			 le16_to_cpu(rx_priv_wl->tc_wl[i].high),
 			 le16_to_cpu(rx_priv_wl->tc_wl[i].low));
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -1204,15 +1110,6 @@ static int hclge_dbg_dump_rx_common_threshold_cfg(struct hclge_dev *hdev)
 	ret = hclge_cmd_send(&hdev->hw, desc, 2);
 	if (ret)
 		return ret;
-=======
-	cmd = HCLGE_OPC_RX_COM_THRD_ALLOC;
-	hclge_cmd_setup_basic_desc(&desc[0], cmd, true);
-	desc[0].flag |= cpu_to_le16(HCLGE_CMD_FLAG_NEXT);
-	hclge_cmd_setup_basic_desc(&desc[1], cmd, true);
-	ret = hclge_cmd_send(&hdev->hw, desc, 2);
-	if (ret)
-		goto err_qos_cmd_send;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_info(&hdev->pdev->dev, "\n");
 	rx_com_thrd = (struct hclge_rx_com_thrd *)desc[0].data;
@@ -1229,7 +1126,6 @@ static int hclge_dbg_dump_rx_common_threshold_cfg(struct hclge_dev *hdev)
 			 i + HCLGE_TC_NUM_ONE_DESC,
 			 le16_to_cpu(rx_com_thrd->com_thrd[i].high),
 			 le16_to_cpu(rx_com_thrd->com_thrd[i].low));
-<<<<<<< HEAD
 
 	return 0;
 }
@@ -1276,8 +1172,6 @@ static void hclge_dbg_dump_qos_buf_cfg(struct hclge_dev *hdev)
 	if (ret)
 		goto err_qos_cmd_send;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 
 err_qos_cmd_send:
@@ -1647,18 +1541,17 @@ static void hclge_dbg_dump_ncl_config(struct hclge_dev *hdev,
 	}
 }
 
-static void hclge_dbg_dump_loopback(struct hclge_dev *hdev,
-				    const char *cmd_buf)
+static void hclge_dbg_dump_loopback(struct hclge_dev *hdev)
 {
 	struct phy_device *phydev = hdev->hw.mac.phydev;
 	struct hclge_config_mac_mode_cmd *req_app;
-	struct hclge_serdes_lb_cmd *req_serdes;
+	struct hclge_common_lb_cmd *req_common;
 	struct hclge_desc desc;
 	u8 loopback_en;
 	int ret;
 
 	req_app = (struct hclge_config_mac_mode_cmd *)desc.data;
-	req_serdes = (struct hclge_serdes_lb_cmd *)desc.data;
+	req_common = (struct hclge_common_lb_cmd *)desc.data;
 
 	dev_info(&hdev->pdev->dev, "mac id: %u\n", hdev->hw.mac.mac_id);
 
@@ -1675,27 +1568,33 @@ static void hclge_dbg_dump_loopback(struct hclge_dev *hdev,
 	dev_info(&hdev->pdev->dev, "app loopback: %s\n",
 		 loopback_en ? "on" : "off");
 
-	hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_SERDES_LOOPBACK, true);
+	hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_COMMON_LOOPBACK, true);
 	ret = hclge_cmd_send(&hdev->hw, &desc, 1);
 	if (ret) {
 		dev_err(&hdev->pdev->dev,
-			"failed to dump serdes loopback status, ret = %d\n",
+			"failed to dump common loopback status, ret = %d\n",
 			ret);
 		return;
 	}
 
-	loopback_en = req_serdes->enable & HCLGE_CMD_SERDES_SERIAL_INNER_LOOP_B;
+	loopback_en = req_common->enable & HCLGE_CMD_SERDES_SERIAL_INNER_LOOP_B;
 	dev_info(&hdev->pdev->dev, "serdes serial loopback: %s\n",
 		 loopback_en ? "on" : "off");
 
-	loopback_en = req_serdes->enable &
+	loopback_en = req_common->enable &
 			HCLGE_CMD_SERDES_PARALLEL_INNER_LOOP_B;
 	dev_info(&hdev->pdev->dev, "serdes parallel loopback: %s\n",
 		 loopback_en ? "on" : "off");
 
-	if (phydev)
+	if (phydev) {
 		dev_info(&hdev->pdev->dev, "phy loopback: %s\n",
 			 phydev->loopback_enabled ? "on" : "off");
+	} else if (hnae3_dev_phy_imp_supported(hdev)) {
+		loopback_en = req_common->enable &
+			      HCLGE_CMD_GE_PHY_INNER_LOOP_B;
+		dev_info(&hdev->pdev->dev, "phy loopback: %s\n",
+			 loopback_en ? "on" : "off");
+	}
 }
 
 /* hclge_dbg_dump_mac_tnl_status: print message about mac tnl interrupt
@@ -1776,11 +1675,6 @@ static void hclge_dbg_dump_qs_shaper_all(struct hclge_dev *hdev)
 static void hclge_dbg_dump_qs_shaper(struct hclge_dev *hdev,
 				     const char *cmd_buf)
 {
-<<<<<<< HEAD
-=======
-#define HCLGE_MAX_QSET_NUM 1024
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 qsid;
 	int ret;
 
@@ -1790,15 +1684,9 @@ static void hclge_dbg_dump_qs_shaper(struct hclge_dev *hdev,
 		return;
 	}
 
-<<<<<<< HEAD
 	if (qsid >= hdev->ae_dev->dev_specs.max_qset_num) {
 		dev_err(&hdev->pdev->dev, "qsid(%u) out of range[0-%u]\n",
 			qsid, hdev->ae_dev->dev_specs.max_qset_num - 1);
-=======
-	if (qsid >= HCLGE_MAX_QSET_NUM) {
-		dev_err(&hdev->pdev->dev, "qsid(%u) out of range[0-1023]\n",
-			qsid);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -1889,7 +1777,7 @@ int hclge_dbg_run_cmd(struct hnae3_handle *handle, const char *cmd_buf)
 		hclge_dbg_dump_mac_tnl_status(hdev);
 	} else if (strncmp(cmd_buf, DUMP_LOOPBACK,
 		   strlen(DUMP_LOOPBACK)) == 0) {
-		hclge_dbg_dump_loopback(hdev, &cmd_buf[sizeof(DUMP_LOOPBACK)]);
+		hclge_dbg_dump_loopback(hdev);
 	} else if (strncmp(cmd_buf, "dump qs shaper", 14) == 0) {
 		hclge_dbg_dump_qs_shaper(hdev,
 					 &cmd_buf[sizeof("dump qs shaper")]);
@@ -1911,7 +1799,6 @@ int hclge_dbg_run_cmd(struct hnae3_handle *handle, const char *cmd_buf)
 
 	return 0;
 }
-<<<<<<< HEAD
 
 int hclge_dbg_read_cmd(struct hnae3_handle *handle, const char *cmd_buf,
 		       char *buf, int len)
@@ -1931,5 +1818,3 @@ int hclge_dbg_read_cmd(struct hnae3_handle *handle, const char *cmd_buf,
 
 	return -EINVAL;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -52,8 +52,8 @@
 
 #define LINK_WIDTH_MAX				6
 #define LINK_SPEED_MAX				3
-static int link_width[] = {0, 1, 2, 4, 8, 12, 16};
-static int link_speed[] = {25, 50, 80, 160};
+static const int link_width[] = {0, 1, 2, 4, 8, 12, 16};
+static const int link_speed[] = {25, 50, 80, 160};
 
 static int vega12_force_clock_level(struct pp_hwmgr *hwmgr,
 		enum pp_clock_type type, uint32_t mask);
@@ -803,26 +803,11 @@ static int vega12_save_default_power_profile(struct pp_hwmgr *hwmgr)
 #endif
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Initializes the SMC table and uploads it
  *
  * @hwmgr:  the address of the powerplay hardware manager.
  * return:  always 0
  */
-<<<<<<< HEAD
-=======
-=======
-* Initializes the SMC table and uploads it
-*
-* @param    hwmgr  the address of the powerplay hardware manager.
-* @param    pInput  the pointer to input data (PowerState)
-* @return   always 0
-*/
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega12_init_smc_table(struct pp_hwmgr *hwmgr)
 {
 	int result;
@@ -1534,7 +1519,7 @@ static int vega12_read_sensor(struct pp_hwmgr *hwmgr, int idx,
 			*size = 8;
 		break;
 	default:
-		ret = -EINVAL;
+		ret = -EOPNOTSUPP;
 		break;
 	}
 	return ret;

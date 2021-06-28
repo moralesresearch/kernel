@@ -171,11 +171,7 @@ static int htcpen_isa_probe(struct device *dev, unsigned int id)
 	return err;
 }
 
-<<<<<<< HEAD
 static void htcpen_isa_remove(struct device *dev, unsigned int id)
-=======
-static int htcpen_isa_remove(struct device *dev, unsigned int id)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct input_dev *htcpen_dev = dev_get_drvdata(dev);
 
@@ -186,11 +182,6 @@ static int htcpen_isa_remove(struct device *dev, unsigned int id)
 	release_region(HTCPEN_PORT_INDEX, 2);
 	release_region(HTCPEN_PORT_INIT, 1);
 	release_region(HTCPEN_PORT_IRQ_CLEAR, 1);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

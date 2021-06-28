@@ -388,11 +388,7 @@ static int snd_sb_csp_riff_load(struct snd_sb_csp * p,
 				return err;
 
 			/* fill in codec header */
-<<<<<<< HEAD
 			strscpy(p->codec_name, info.codec_name, sizeof(p->codec_name));
-=======
-			strlcpy(p->codec_name, info.codec_name, sizeof(p->codec_name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			p->func_nr = func_nr;
 			p->mode = le16_to_cpu(funcdesc_h.flags_play_rec);
 			switch (le16_to_cpu(funcdesc_h.VOC_type)) {
@@ -1049,7 +1045,6 @@ static int snd_sb_qsound_build(struct snd_sb_csp * p)
 
 	spin_lock_init(&p->q_lock);
 
-<<<<<<< HEAD
 	if ((err = snd_ctl_add(card, p->qsound_switch = snd_ctl_new1(&snd_sb_qsound_switch, p))) < 0) {
 		p->qsound_switch = NULL;
 		goto __error;
@@ -1058,12 +1053,6 @@ static int snd_sb_qsound_build(struct snd_sb_csp * p)
 		p->qsound_space = NULL;
 		goto __error;
 	}
-=======
-	if ((err = snd_ctl_add(card, p->qsound_switch = snd_ctl_new1(&snd_sb_qsound_switch, p))) < 0)
-		goto __error;
-	if ((err = snd_ctl_add(card, p->qsound_space = snd_ctl_new1(&snd_sb_qsound_space, p))) < 0)
-		goto __error;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 

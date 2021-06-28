@@ -2072,18 +2072,6 @@ static int igbvf_tso(struct igbvf_ring *tx_ring,
 	return 1;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool igbvf_ipv6_csum_is_sctp(struct sk_buff *skb)
-{
-	unsigned int offset = 0;
-
-	ipv6_find_hdr(skb, &offset, IPPROTO_SCTP, NULL, NULL);
-
-	return offset == skb_checksum_start_offset(skb);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool igbvf_tx_csum(struct igbvf_ring *tx_ring, struct sk_buff *skb,
 			  u32 tx_flags, __be16 protocol)
 {
@@ -2105,14 +2093,7 @@ csum_failed:
 		break;
 	case offsetof(struct sctphdr, checksum):
 		/* validate that this is actually an SCTP request */
-<<<<<<< HEAD
 		if (skb_csum_is_sctp(skb)) {
-=======
-		if (((protocol == htons(ETH_P_IP)) &&
-		     (ip_hdr(skb)->protocol == IPPROTO_SCTP)) ||
-		    ((protocol == htons(ETH_P_IPV6)) &&
-		     igbvf_ipv6_csum_is_sctp(skb))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			type_tucmd = E1000_ADVTXD_TUCMD_L4T_SCTP;
 			break;
 		}

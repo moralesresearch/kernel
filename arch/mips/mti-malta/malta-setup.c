@@ -13,18 +13,8 @@
 #include <linux/pci.h>
 #include <linux/screen_info.h>
 #include <linux/time.h>
-<<<<<<< HEAD
 #include <linux/dma-map-ops.h> /* for dma_default_coherent */
 
-=======
-<<<<<<< HEAD
-#include <linux/dma-map-ops.h> /* for dma_default_coherent */
-
-=======
-
-#include <asm/dma-coherence.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/fw/fw.h>
 #include <asm/mips-cps.h>
 #include <asm/mips-boards/generic.h>
@@ -100,34 +90,15 @@ static void __init fd_activate(void)
 }
 #endif
 
-<<<<<<< HEAD
 static void __init plat_setup_iocoherency(void)
 {
-=======
-<<<<<<< HEAD
-static void __init plat_setup_iocoherency(void)
-{
-=======
-static int __init plat_enable_iocoherency(void)
-{
-	int supported = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 cfg;
 
 	if (mips_revision_sconid == MIPS_REVISION_SCON_BONITO) {
 		if (BONITO_PCICACHECTRL & BONITO_PCICACHECTRL_CPUCOH_PRES) {
 			BONITO_PCICACHECTRL |= BONITO_PCICACHECTRL_CPUCOH_EN;
 			pr_info("Enabled Bonito CPU coherency\n");
-<<<<<<< HEAD
 			dma_default_coherent = true;
-=======
-<<<<<<< HEAD
-			dma_default_coherent = true;
-=======
-			supported = 1;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		if (strstr(fw_getcmdline(), "iobcuncached")) {
 			BONITO_PCICACHECTRL &= ~BONITO_PCICACHECTRL_IOBCCOH_EN;
@@ -146,10 +117,6 @@ static int __init plat_enable_iocoherency(void)
 		/* Nothing special needs to be done to enable coherency */
 		pr_info("CMP IOCU detected\n");
 		cfg = __raw_readl((u32 *)CKSEG1ADDR(ROCIT_CONFIG_GEN0));
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (cfg & ROCIT_CONFIG_GEN0_PCI_IOCU)
 			dma_default_coherent = true;
 		else
@@ -160,34 +127,6 @@ static int __init plat_enable_iocoherency(void)
 		pr_info("Hardware DMA cache coherency enabled\n");
 	else
 		pr_info("Software DMA cache coherency enabled\n");
-<<<<<<< HEAD
-=======
-=======
-		if (!(cfg & ROCIT_CONFIG_GEN0_PCI_IOCU)) {
-			pr_crit("IOCU OPERATION DISABLED BY SWITCH - DEFAULTING TO SW IO COHERENCY\n");
-			return 0;
-		}
-		supported = 1;
-	}
-	hw_coherentio = supported;
-	return supported;
-}
-
-static void __init plat_setup_iocoherency(void)
-{
-	if (plat_enable_iocoherency()) {
-		if (coherentio == IO_COHERENCE_DISABLED)
-			pr_info("Hardware DMA cache coherency disabled\n");
-		else
-			pr_info("Hardware DMA cache coherency enabled\n");
-	} else {
-		if (coherentio == IO_COHERENCE_ENABLED)
-			pr_info("Hardware DMA cache coherency unsupported, but enabled from command line!\n");
-		else
-			pr_info("Software DMA cache coherency enabled\n");
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init pci_clock_check(void)

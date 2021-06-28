@@ -37,25 +37,12 @@ static int diag8_noresponse(int cmdlen)
 
 static int diag8_response(int cmdlen, char *response, int *rlen)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long _cmdlen = cmdlen | 0x40000000L;
 	unsigned long _rlen = *rlen;
 	register unsigned long reg2 asm ("2") = (addr_t) cpcmd_buf;
 	register unsigned long reg3 asm ("3") = (addr_t) response;
 	register unsigned long reg4 asm ("4") = _cmdlen;
 	register unsigned long reg5 asm ("5") = _rlen;
-<<<<<<< HEAD
-=======
-=======
-	register unsigned long reg2 asm ("2") = (addr_t) cpcmd_buf;
-	register unsigned long reg3 asm ("3") = (addr_t) response;
-	register unsigned long reg4 asm ("4") = cmdlen | 0x40000000L;
-	register unsigned long reg5 asm ("5") = *rlen;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	asm volatile(
 		"	diag	%2,%0,0x8\n"

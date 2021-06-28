@@ -319,8 +319,8 @@ static void cachefiles_drop_object(struct fscache_object *_object)
 /*
  * dispose of a reference to an object
  */
-static void cachefiles_put_object(struct fscache_object *_object,
-				  enum fscache_obj_ref_trace why)
+void cachefiles_put_object(struct fscache_object *_object,
+			   enum fscache_obj_ref_trace why)
 {
 	struct cachefiles_object *object;
 	struct fscache_cache *cache;
@@ -470,22 +470,14 @@ static int cachefiles_attr_changed(struct fscache_object *_object)
 		_debug("discard tail %llx", oi_size);
 		newattrs.ia_valid = ATTR_SIZE;
 		newattrs.ia_size = oi_size & PAGE_MASK;
-<<<<<<< HEAD
 		ret = notify_change(&init_user_ns, object->backer, &newattrs, NULL);
-=======
-		ret = notify_change(object->backer, &newattrs, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			goto truncate_failed;
 	}
 
 	newattrs.ia_valid = ATTR_SIZE;
 	newattrs.ia_size = ni_size;
-<<<<<<< HEAD
 	ret = notify_change(&init_user_ns, object->backer, &newattrs, NULL);
-=======
-	ret = notify_change(object->backer, &newattrs, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 truncate_failed:
 	inode_unlock(d_inode(object->backer));
@@ -576,4 +568,5 @@ const struct fscache_cache_ops cachefiles_cache_ops = {
 	.uncache_page		= cachefiles_uncache_page,
 	.dissociate_pages	= cachefiles_dissociate_pages,
 	.check_consistency	= cachefiles_check_consistency,
+	.begin_read_operation	= cachefiles_begin_read_operation,
 };

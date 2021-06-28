@@ -36,10 +36,6 @@ struct sel_netif {
 };
 
 static u32 sel_netif_total;
-<<<<<<< HEAD
-=======
-static LIST_HEAD(sel_netif_list);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_SPINLOCK(sel_netif_lock);
 static struct list_head sel_netif_hash[SEL_NETIF_HASH_SIZE];
 

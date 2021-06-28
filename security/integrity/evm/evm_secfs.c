@@ -219,11 +219,7 @@ static ssize_t evm_write_xattrs(struct file *file, const char __user *buf,
 		newattrs.ia_valid = ATTR_MODE;
 		inode = evm_xattrs->d_inode;
 		inode_lock(inode);
-<<<<<<< HEAD
 		err = simple_setattr(&init_user_ns, evm_xattrs, &newattrs);
-=======
-		err = simple_setattr(evm_xattrs, &newattrs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode_unlock(inode);
 		if (!err)
 			err = count;

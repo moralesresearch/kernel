@@ -14,10 +14,7 @@
 #include <linux/etherdevice.h>
 #include <linux/log2.h>
 #include <linux/net_tstamp.h>
-<<<<<<< HEAD
 #include <linux/linkmode.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "otx2_common.h"
 #include "otx2_ptp.h"
@@ -36,7 +33,6 @@ struct otx2_stat {
 	.index = offsetof(struct otx2_dev_stats, stat) / sizeof(u64), \
 }
 
-<<<<<<< HEAD
 /* Physical link config */
 #define OTX2_ETHTOOL_SUPPORTED_MODES 0x638CCBF //110001110001100110010111111
 
@@ -45,8 +41,6 @@ enum link_mode {
 	OTX2_MODE_ADVERTISED
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct otx2_stat otx2_dev_stats[] = {
 	OTX2_DEV_STAT(rx_ucast_frames),
 	OTX2_DEV_STAT(rx_bcast_frames),
@@ -81,11 +75,8 @@ static const unsigned int otx2_n_dev_stats = ARRAY_SIZE(otx2_dev_stats);
 static const unsigned int otx2_n_drv_stats = ARRAY_SIZE(otx2_drv_stats);
 static const unsigned int otx2_n_queue_stats = ARRAY_SIZE(otx2_queue_stats);
 
-<<<<<<< HEAD
 static struct cgx_fw_data *otx2_get_fwdata(struct otx2_nic *pfvf);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void otx2_get_drvinfo(struct net_device *netdev,
 			     struct ethtool_drvinfo *info)
 {
@@ -148,13 +139,10 @@ static void otx2_get_strings(struct net_device *netdev, u32 sset, u8 *data)
 
 	strcpy(data, "reset_count");
 	data += ETH_GSTRING_LEN;
-<<<<<<< HEAD
 	sprintf(data, "Fec Corrected Errors: ");
 	data += ETH_GSTRING_LEN;
 	sprintf(data, "Fec Uncorrected Errors: ");
 	data += ETH_GSTRING_LEN;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void otx2_get_qset_stats(struct otx2_nic *pfvf,
@@ -187,7 +175,6 @@ static void otx2_get_qset_stats(struct otx2_nic *pfvf,
 	}
 }
 
-<<<<<<< HEAD
 static int otx2_get_phy_fec_stats(struct otx2_nic *pfvf)
 {
 	struct msg_req *req;
@@ -205,18 +192,13 @@ end:
 	return rc;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Get device and per queue statistics */
 static void otx2_get_ethtool_stats(struct net_device *netdev,
 				   struct ethtool_stats *stats, u64 *data)
 {
 	struct otx2_nic *pfvf = netdev_priv(netdev);
-<<<<<<< HEAD
 	u64 fec_corr_blks, fec_uncorr_blks;
 	struct cgx_fw_data *rsp;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int stat;
 
 	otx2_get_dev_stats(pfvf);
@@ -235,7 +217,6 @@ static void otx2_get_ethtool_stats(struct net_device *netdev,
 	for (stat = 0; stat < CGX_TX_STATS_COUNT; stat++)
 		*(data++) = pfvf->hw.cgx_tx_stats[stat];
 	*(data++) = pfvf->reset_count;
-<<<<<<< HEAD
 
 	fec_corr_blks = pfvf->hw.cgx_fec_corr_blks;
 	fec_uncorr_blks = pfvf->hw.cgx_fec_uncorr_blks;
@@ -262,8 +243,6 @@ static void otx2_get_ethtool_stats(struct net_device *netdev,
 
 	*(data++) = fec_corr_blks;
 	*(data++) = fec_uncorr_blks;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int otx2_get_sset_count(struct net_device *netdev, int sset)
@@ -276,17 +255,11 @@ static int otx2_get_sset_count(struct net_device *netdev, int sset)
 
 	qstats_count = otx2_n_queue_stats *
 		       (pfvf->hw.rx_queues + pfvf->hw.tx_queues);
-<<<<<<< HEAD
 	otx2_update_lmac_fec_stats(pfvf);
 
 	return otx2_n_dev_stats + otx2_n_drv_stats + qstats_count +
 	       CGX_RX_STATS_COUNT + CGX_TX_STATS_COUNT + OTX2_FEC_STATS_CNT
 	       + 1;
-=======
-
-	return otx2_n_dev_stats + otx2_n_drv_stats + qstats_count +
-		CGX_RX_STATS_COUNT + CGX_TX_STATS_COUNT + 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Get no of queues device supports and current queue count */
@@ -537,7 +510,6 @@ static int otx2_get_rss_hash_opts(struct otx2_nic *pfvf,
 			nfc->data |= RXH_L4_B_0_1 | RXH_L4_B_2_3;
 		break;
 	case AH_ESP_V4_FLOW:
-<<<<<<< HEAD
 	case AH_ESP_V6_FLOW:
 		if (rss->flowkey_cfg & NIX_FLOW_KEY_TYPE_ESP)
 			nfc->data |= RXH_L4_B_0_1 | RXH_L4_B_2_3;
@@ -546,12 +518,6 @@ static int otx2_get_rss_hash_opts(struct otx2_nic *pfvf,
 	case ESP_V4_FLOW:
 	case IPV4_FLOW:
 		break;
-=======
-	case AH_V4_FLOW:
-	case ESP_V4_FLOW:
-	case IPV4_FLOW:
-	case AH_ESP_V6_FLOW:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case AH_V6_FLOW:
 	case ESP_V6_FLOW:
 	case IPV6_FLOW:
@@ -559,10 +525,7 @@ static int otx2_get_rss_hash_opts(struct otx2_nic *pfvf,
 	default:
 		return -EINVAL;
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -631,7 +594,6 @@ static int otx2_set_rss_hash_opts(struct otx2_nic *pfvf,
 			return -EINVAL;
 		}
 		break;
-<<<<<<< HEAD
 	case AH_ESP_V4_FLOW:
 	case AH_ESP_V6_FLOW:
 		switch (nfc->data & rxh_l4) {
@@ -662,8 +624,6 @@ static int otx2_set_rss_hash_opts(struct otx2_nic *pfvf,
 			return -EINVAL;
 		}
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case IPV4_FLOW:
 	case IPV6_FLOW:
 		rss_cfg = NIX_FLOW_KEY_TYPE_IPV4 | NIX_FLOW_KEY_TYPE_IPV6;
@@ -718,11 +678,7 @@ static int otx2_set_rxnfc(struct net_device *dev, struct ethtool_rxnfc *nfc)
 		break;
 	case ETHTOOL_SRXCLSRLINS:
 		if (netif_running(dev) && ntuple)
-<<<<<<< HEAD
 			ret = otx2_add_flow(pfvf, nfc);
-=======
-			ret = otx2_add_flow(pfvf, &nfc->fs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case ETHTOOL_SRXCLSRLDEL:
 		if (netif_running(dev) && ntuple)
@@ -782,7 +738,6 @@ static u32 otx2_get_rxfh_key_size(struct net_device *netdev)
 
 static u32 otx2_get_rxfh_indir_size(struct net_device *dev)
 {
-<<<<<<< HEAD
 	return  MAX_RSS_INDIR_TBL_SIZE;
 }
 
@@ -814,38 +769,10 @@ static int otx2_rss_ctx_create(struct otx2_nic *pfvf,
 	if (!rss->rss_ctx[ctx])
 		return -ENOMEM;
 	*rss_context = ctx;
-=======
-	struct otx2_nic *pfvf = netdev_priv(dev);
-
-	return pfvf->hw.rss_info.rss_size;
-}
-
-/* Get RSS configuration */
-static int otx2_get_rxfh(struct net_device *dev, u32 *indir,
-			 u8 *hkey, u8 *hfunc)
-{
-	struct otx2_nic *pfvf = netdev_priv(dev);
-	struct otx2_rss_info *rss;
-	int idx;
-
-	rss = &pfvf->hw.rss_info;
-
-	if (indir) {
-		for (idx = 0; idx < rss->rss_size; idx++)
-			indir[idx] = rss->ind_tbl[idx];
-	}
-
-	if (hkey)
-		memcpy(hkey, rss->key, sizeof(rss->key));
-
-	if (hfunc)
-		*hfunc = ETH_RSS_HASH_TOP;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
-<<<<<<< HEAD
 /* RSS context configuration */
 static int otx2_set_rxfh_context(struct net_device *dev, const u32 *indir,
 				 const u8 *hkey, const u8 hfunc,
@@ -855,26 +782,14 @@ static int otx2_set_rxfh_context(struct net_device *dev, const u32 *indir,
 	struct otx2_rss_ctx *rss_ctx;
 	struct otx2_rss_info *rss;
 	int ret, idx;
-=======
-/* Configure RSS table and hash key */
-static int otx2_set_rxfh(struct net_device *dev, const u32 *indir,
-			 const u8 *hkey, const u8 hfunc)
-{
-	struct otx2_nic *pfvf = netdev_priv(dev);
-	struct otx2_rss_info *rss;
-	int idx;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (hfunc != ETH_RSS_HASH_NO_CHANGE && hfunc != ETH_RSS_HASH_TOP)
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	if (*rss_context != ETH_RXFH_CONTEXT_ALLOC &&
 	    *rss_context >= MAX_RSS_GROUPS)
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rss = &pfvf->hw.rss_info;
 
 	if (!rss->enable) {
@@ -882,7 +797,6 @@ static int otx2_set_rxfh(struct net_device *dev, const u32 *indir,
 		return -EIO;
 	}
 
-<<<<<<< HEAD
 	if (hkey) {
 		memcpy(rss->key, hkey, sizeof(rss->key));
 		otx2_set_rss_key(pfvf);
@@ -962,22 +876,6 @@ static int otx2_set_rxfh(struct net_device *dev, const u32 *indir,
 	return otx2_set_rxfh_context(dev, indir, hkey, hfunc, &rss_context, 0);
 }
 
-=======
-	if (indir) {
-		for (idx = 0; idx < rss->rss_size; idx++)
-			rss->ind_tbl[idx] = indir[idx];
-	}
-
-	if (hkey) {
-		memcpy(rss->key, hkey, sizeof(rss->key));
-		otx2_set_rss_key(pfvf);
-	}
-
-	otx2_set_rss_table(pfvf);
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 otx2_get_msglevel(struct net_device *netdev)
 {
 	struct otx2_nic *pfvf = netdev_priv(netdev);
@@ -1027,7 +925,6 @@ static int otx2_get_ts_info(struct net_device *netdev,
 	return 0;
 }
 
-<<<<<<< HEAD
 static struct cgx_fw_data *otx2_get_fwdata(struct otx2_nic *pfvf)
 {
 	struct cgx_fw_data *rsp = NULL;
@@ -1326,8 +1223,6 @@ end:
 	return err;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ethtool_ops otx2_ethtool_ops = {
 	.supported_coalesce_params = ETHTOOL_COALESCE_USECS |
 				     ETHTOOL_COALESCE_MAX_FRAMES,
@@ -1348,23 +1243,17 @@ static const struct ethtool_ops otx2_ethtool_ops = {
 	.get_rxfh_indir_size	= otx2_get_rxfh_indir_size,
 	.get_rxfh		= otx2_get_rxfh,
 	.set_rxfh		= otx2_set_rxfh,
-<<<<<<< HEAD
 	.get_rxfh_context	= otx2_get_rxfh_context,
 	.set_rxfh_context	= otx2_set_rxfh_context,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_msglevel		= otx2_get_msglevel,
 	.set_msglevel		= otx2_set_msglevel,
 	.get_pauseparam		= otx2_get_pauseparam,
 	.set_pauseparam		= otx2_set_pauseparam,
 	.get_ts_info		= otx2_get_ts_info,
-<<<<<<< HEAD
 	.get_fecparam		= otx2_get_fecparam,
 	.set_fecparam		= otx2_set_fecparam,
 	.get_link_ksettings     = otx2_get_link_ksettings,
 	.set_link_ksettings     = otx2_set_link_ksettings,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void otx2_set_ethtool_ops(struct net_device *netdev)
@@ -1439,7 +1328,6 @@ static int otx2vf_get_sset_count(struct net_device *netdev, int sset)
 	return otx2_n_dev_stats + otx2_n_drv_stats + qstats_count + 1;
 }
 
-<<<<<<< HEAD
 static int otx2vf_get_link_ksettings(struct net_device *netdev,
 				     struct ethtool_link_ksettings *cmd)
 {
@@ -1454,8 +1342,6 @@ static int otx2vf_get_link_ksettings(struct net_device *netdev,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ethtool_ops otx2vf_ethtool_ops = {
 	.supported_coalesce_params = ETHTOOL_COALESCE_USECS |
 				     ETHTOOL_COALESCE_MAX_FRAMES,
@@ -1472,11 +1358,8 @@ static const struct ethtool_ops otx2vf_ethtool_ops = {
 	.get_rxfh_indir_size	= otx2_get_rxfh_indir_size,
 	.get_rxfh		= otx2_get_rxfh,
 	.set_rxfh		= otx2_set_rxfh,
-<<<<<<< HEAD
 	.get_rxfh_context	= otx2_get_rxfh_context,
 	.set_rxfh_context	= otx2_set_rxfh_context,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_ringparam		= otx2_get_ringparam,
 	.set_ringparam		= otx2_set_ringparam,
 	.get_coalesce		= otx2_get_coalesce,
@@ -1485,10 +1368,7 @@ static const struct ethtool_ops otx2vf_ethtool_ops = {
 	.set_msglevel		= otx2_set_msglevel,
 	.get_pauseparam		= otx2_get_pauseparam,
 	.set_pauseparam		= otx2_set_pauseparam,
-<<<<<<< HEAD
 	.get_link_ksettings     = otx2vf_get_link_ksettings,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void otx2vf_set_ethtool_ops(struct net_device *netdev)

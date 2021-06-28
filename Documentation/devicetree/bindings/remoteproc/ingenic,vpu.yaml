@@ -44,11 +44,7 @@ properties:
       - const: vpu
 
   interrupts:
-<<<<<<< HEAD
     maxItems: 1
-=======
-    description: VPU hardware interrupt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible

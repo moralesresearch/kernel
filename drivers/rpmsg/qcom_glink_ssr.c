@@ -8,27 +8,16 @@
 #include <linux/module.h>
 #include <linux/notifier.h>
 #include <linux/rpmsg.h>
-<<<<<<< HEAD
 #include <linux/rpmsg/qcom_glink.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/remoteproc/qcom_rproc.h>
 
 /**
  * struct do_cleanup_msg - The data structure for an SSR do_cleanup message
-<<<<<<< HEAD
  * @version:	The G-Link SSR protocol version
  * @command:	The G-Link SSR command - do_cleanup
  * @seq_num:	Sequence number
  * @name_len:	Length of the name of the subsystem being restarted
  * @name:	G-Link edge name of the subsystem being restarted
-=======
- * version:     The G-Link SSR protocol version
- * command:     The G-Link SSR command - do_cleanup
- * seq_num:     Sequence number
- * name_len:    Length of the name of the subsystem being restarted
- * name:        G-Link edge name of the subsystem being restarted
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct do_cleanup_msg {
 	__le32 version;
@@ -40,15 +29,9 @@ struct do_cleanup_msg {
 
 /**
  * struct cleanup_done_msg - The data structure for an SSR cleanup_done message
-<<<<<<< HEAD
  * @version:	The G-Link SSR protocol version
  * @response:	The G-Link SSR response to a do_cleanup command, cleanup_done
  * @seq_num:	Sequence number
-=======
- * version:     The G-Link SSR protocol version
- * response:    The G-Link SSR response to a do_cleanup command, cleanup_done
- * seq_num:     Sequence number
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct cleanup_done_msg {
 	__le32 version;

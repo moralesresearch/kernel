@@ -201,11 +201,7 @@ static int block_total_cycles_pct_entry(struct perf_hpp_fmt *fmt,
 	double ratio = 0.0;
 
 	if (block_fmt->total_cycles)
-<<<<<<< HEAD
 		ratio = (double)bi->cycles_aggr / (double)block_fmt->total_cycles;
-=======
-		ratio = (double)bi->cycles / (double)block_fmt->total_cycles;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return color_pct(hpp, block_fmt->width, 100.0 * ratio);
 }
@@ -220,15 +216,9 @@ static int64_t block_total_cycles_pct_sort(struct perf_hpp_fmt *fmt,
 	double l, r;
 
 	if (block_fmt->total_cycles) {
-<<<<<<< HEAD
 		l = ((double)bi_l->cycles_aggr /
 			(double)block_fmt->total_cycles) * 100000.0;
 		r = ((double)bi_r->cycles_aggr /
-=======
-		l = ((double)bi_l->cycles /
-			(double)block_fmt->total_cycles) * 100000.0;
-		r = ((double)bi_r->cycles /
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			(double)block_fmt->total_cycles) * 100000.0;
 		return (int64_t)l - (int64_t)r;
 	}

@@ -122,18 +122,6 @@ config REGULATOR_AAT2870
 	  If you have a AnalogicTech AAT2870 say Y to enable the
 	  regulator driver.
 
-<<<<<<< HEAD
-=======
-config REGULATOR_AB3100
-	tristate "ST-Ericsson AB3100 Regulator functions"
-	depends on AB3100_CORE
-	default y if AB3100_CORE
-	help
-	 These regulators correspond to functionality in the
-	 AB3100 analog baseband dealing with power regulators
-	 for the system.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_AB8500
 	bool "ST-Ericsson AB8500 Power Regulators"
 	depends on AB8500_CORE
@@ -182,7 +170,6 @@ config REGULATOR_AS3722
 	  AS3722 PMIC. This will enable support for all the software
 	  controllable DCDC/LDO regulators.
 
-<<<<<<< HEAD
 config REGULATOR_ATC260X
 	tristate "Actions Semi ATC260x PMIC Regulators"
 	depends on MFD_ATC260X
@@ -191,8 +178,6 @@ config REGULATOR_ATC260X
 	  ATC260x PMICs. This will enable support for all the software
 	  controllable DCDC/LDO regulators.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_AXP20X
 	tristate "X-POWERS AXP20X PMIC Regulators"
 	depends on MFD_AXP20X
@@ -218,6 +203,17 @@ config REGULATOR_BD70528
 
 	  This driver can also be built as a module. If so, the module
 	  will be called bd70528-regulator.
+
+config REGULATOR_BD71815
+	tristate "ROHM BD71815 Power Regulator"
+	depends on MFD_ROHM_BD71828
+	help
+	  This driver supports voltage regulators on ROHM BD71815 PMIC.
+	  This will enable support for the software controllable buck
+	  and LDO regulators and a current regulator for LEDs.
+
+	  This driver can also be built as a module. If so, the module
+	  will be called bd71815-regulator.
 
 config REGULATOR_BD71828
 	tristate "ROHM BD71828 Power Regulator"
@@ -436,6 +432,15 @@ config REGULATOR_HI655X
 	help
 	  This driver provides support for the voltage regulators of the
 	  Hisilicon Hi655x PMIC device.
+
+config REGULATOR_HI6421V600
+	tristate "HiSilicon Hi6421v600 PMIC voltage regulator support"
+	depends on MFD_HI6421_SPMI && OF
+	select REGMAP
+	help
+	  This driver provides support for the voltage regulators on
+	  HiSilicon Hi6421v600 PMU / Codec IC.
+	  This is used on Kirin 3670 boards, like HiKey 970.
 
 config REGULATOR_ISL9305
 	tristate "Intersil ISL9305 regulator"
@@ -746,7 +751,6 @@ config REGULATOR_MT6311
 	  This driver supports the control of different power rails of device
 	  through regulator interface.
 
-<<<<<<< HEAD
 config REGULATOR_MT6315
 	tristate "MediaTek MT6315 PMIC"
 	depends on SPMI
@@ -757,8 +761,6 @@ config REGULATOR_MT6315
 	  This driver supports the control of different power rails of device
 	  through regulator interface.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_MT6323
 	tristate "MediaTek MT6323 PMIC"
 	depends on MFD_MT6397
@@ -804,7 +806,6 @@ config REGULATOR_MT6397
 	  This driver supports the control of different power rails of device
 	  through regulator interface.
 
-<<<<<<< HEAD
 config REGULATOR_MTK_DVFSRC
 	tristate "MediaTek DVFSRC regulator driver"
 	depends on MTK_DVFSRC
@@ -815,8 +816,6 @@ config REGULATOR_MTK_DVFSRC
 	  of Mediatek. It allows for voting on regulator state
 	  between multiple users.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_PALMAS
 	tristate "TI Palmas PMIC Regulators"
 	depends on MFD_PALMAS
@@ -868,13 +867,10 @@ config REGULATOR_PF8X00
 	  Say y here to support the regulators found on the NXP
 	  PF8100/PF8121A/PF8200 PMIC.
 
-<<<<<<< HEAD
 	  Say M here if you want to support for the regulators found
 	  on the NXP PF8100/PF8121A/PF8200 PMIC. The module will be named
 	  "pf8x00-regulator".
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_PFUZE100
 	tristate "Freescale PFUZE100/200/3000/3001 regulator driver"
 	depends on I2C && OF
@@ -1016,7 +1012,6 @@ config REGULATOR_RT4801
 	  This adds support for voltage regulators in Richtek RT4801 Display Bias IC.
 	  The device supports two regulators (DSVP/DSVN).
 
-<<<<<<< HEAD
 config REGULATOR_RT4831
 	tristate "Richtek RT4831 DSV Regulators"
 	depends on MFD_RT4831
@@ -1027,8 +1022,6 @@ config REGULATOR_RT4831
 	  And DSVP/DSVN is the real Vout range from 4V to 6.5V.
 	  It's common used to provide the power for the display panel.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REGULATOR_RT5033
 	tristate "Richtek RT5033 Regulators"
 	depends on MFD_RT5033
@@ -1038,7 +1031,7 @@ config REGULATOR_RT5033
 	  current source, LDO and Buck.
 
 config REGULATOR_RTMV20
-	tristate "RTMV20 Laser Diode Regulator"
+	tristate "Richtek RTMV20 Laser Diode Regulator"
 	depends on I2C
 	select REGMAP_I2C
 	help

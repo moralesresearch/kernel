@@ -7,11 +7,7 @@
 
 #include <stdbool.h>
 #include <errno.h>
-<<<<<<< HEAD
 #include <objtool/objtool.h>
-=======
-#include "objtool.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define UNSUPPORTED(name)						\
 ({									\
@@ -29,16 +25,7 @@ int __weak orc_dump(const char *_objname)
 	UNSUPPORTED("orc");
 }
 
-<<<<<<< HEAD
 int __weak orc_create(struct objtool_file *file)
-=======
-int __weak create_orc(struct objtool_file *file)
-{
-	UNSUPPORTED("orc");
-}
-
-int __weak create_orc_sections(struct objtool_file *file)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	UNSUPPORTED("orc");
 }

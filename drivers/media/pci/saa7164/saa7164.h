@@ -24,11 +24,7 @@
 	saa7164_bus..() : Manage a read/write memory ring buffer in the
 		|	: PCIe Address space.
 		|
-<<<<<<< HEAD
 		|		saa7164_fw...()	: Load any firmware
-=======
-		|		saa7164_fw...()	: Load any frimware
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		|			|	: direct into the device
 		V			V
 	<- ----------------- PCIe address space -------------------- ->

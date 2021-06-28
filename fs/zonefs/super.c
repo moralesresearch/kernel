@@ -24,18 +24,9 @@
 
 #include "zonefs.h"
 
-<<<<<<< HEAD
 #define CREATE_TRACE_POINTS
 #include "trace.h"
 
-=======
-<<<<<<< HEAD
-#define CREATE_TRACE_POINTS
-#include "trace.h"
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int zonefs_zone_mgmt(struct inode *inode,
 				   enum req_opf op)
 {
@@ -44,14 +35,7 @@ static inline int zonefs_zone_mgmt(struct inode *inode,
 
 	lockdep_assert_held(&zi->i_truncate_mutex);
 
-<<<<<<< HEAD
 	trace_zonefs_zone_mgmt(inode, op);
-=======
-<<<<<<< HEAD
-	trace_zonefs_zone_mgmt(inode, op);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = blkdev_zone_mgmt(inode->i_sb->s_bdev, op, zi->i_zsector,
 			       zi->i_zone_size >> SECTOR_SHIFT, GFP_NOFS);
 	if (ret) {
@@ -120,16 +104,8 @@ static int zonefs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
 	iomap->bdev = inode->i_sb->s_bdev;
 	iomap->addr = (zi->i_zsector << SECTOR_SHIFT) + iomap->offset;
 
-<<<<<<< HEAD
 	trace_zonefs_iomap_begin(inode, iomap);
 
-=======
-<<<<<<< HEAD
-	trace_zonefs_iomap_begin(inode, iomap);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -529,17 +505,8 @@ unlock:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int zonefs_inode_setattr(struct user_namespace *mnt_userns,
 				struct dentry *dentry, struct iattr *iattr)
-=======
-<<<<<<< HEAD
-static int zonefs_inode_setattr(struct user_namespace *mnt_userns,
-				struct dentry *dentry, struct iattr *iattr)
-=======
-static int zonefs_inode_setattr(struct dentry *dentry, struct iattr *iattr)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int ret;
@@ -547,15 +514,7 @@ static int zonefs_inode_setattr(struct dentry *dentry, struct iattr *iattr)
 	if (unlikely(IS_IMMUTABLE(inode)))
 		return -EPERM;
 
-<<<<<<< HEAD
 	ret = setattr_prepare(&init_user_ns, dentry, iattr);
-=======
-<<<<<<< HEAD
-	ret = setattr_prepare(&init_user_ns, dentry, iattr);
-=======
-	ret = setattr_prepare(dentry, iattr);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -583,15 +542,7 @@ static int zonefs_inode_setattr(struct dentry *dentry, struct iattr *iattr)
 			return ret;
 	}
 
-<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, iattr);
-=======
-<<<<<<< HEAD
-	setattr_copy(&init_user_ns, inode, iattr);
-=======
-	setattr_copy(inode, iattr);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -616,15 +567,7 @@ static int zonefs_file_fsync(struct file *file, loff_t start, loff_t end,
 	if (ZONEFS_I(inode)->i_ztype == ZONEFS_ZTYPE_CNV)
 		ret = file_write_and_wait_range(file, start, end);
 	if (!ret)
-<<<<<<< HEAD
 		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
-=======
-<<<<<<< HEAD
-		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
-=======
-		ret = blkdev_issue_flush(inode->i_sb->s_bdev, GFP_KERNEL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret)
 		zonefs_io_error(inode, true);
@@ -757,25 +700,11 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
 	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
 	iov_iter_truncate(from, max);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nr_pages = iov_iter_npages(from, BIO_MAX_VECS);
 	if (!nr_pages)
 		return 0;
 
 	bio = bio_alloc(GFP_NOFS, nr_pages);
-<<<<<<< HEAD
-=======
-=======
-	nr_pages = iov_iter_npages(from, BIO_MAX_PAGES);
-	if (!nr_pages)
-		return 0;
-
-	bio = bio_alloc_bioset(GFP_NOFS, nr_pages, &fs_bio_set);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!bio)
 		return -ENOMEM;
 
@@ -800,14 +729,7 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
 	ret = submit_bio_wait(bio);
 
 	zonefs_file_write_dio_end_io(iocb, size, ret, 0);
-<<<<<<< HEAD
 	trace_zonefs_file_dio_append(inode, size, ret);
-=======
-<<<<<<< HEAD
-	trace_zonefs_file_dio_append(inode, size, ret);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out_release:
 	bio_release_pages(bio, false);
@@ -945,15 +867,7 @@ static ssize_t zonefs_file_dio_write(struct kiocb *iocb, struct iov_iter *from)
 		ret = zonefs_file_dio_append(iocb, from);
 	else
 		ret = iomap_dio_rw(iocb, from, &zonefs_iomap_ops,
-<<<<<<< HEAD
 				   &zonefs_write_dio_ops, 0);
-=======
-<<<<<<< HEAD
-				   &zonefs_write_dio_ops, 0);
-=======
-				   &zonefs_write_dio_ops, sync);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (zi->i_ztype == ZONEFS_ZTYPE_SEQ &&
 	    (ret > 0 || ret == -EIOCBQUEUED)) {
 		if (ret > 0)
@@ -1088,15 +1002,7 @@ static ssize_t zonefs_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
 		}
 		file_accessed(iocb->ki_filp);
 		ret = iomap_dio_rw(iocb, to, &zonefs_iomap_ops,
-<<<<<<< HEAD
 				   &zonefs_read_dio_ops, 0);
-=======
-<<<<<<< HEAD
-				   &zonefs_read_dio_ops, 0);
-=======
-				   &zonefs_read_dio_ops, is_sync_kiocb(iocb));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		ret = generic_file_read_iter(iocb, to);
 		if (ret == -EIO)
@@ -1271,7 +1177,6 @@ static int zonefs_statfs(struct dentry *dentry, struct kstatfs *buf)
 	struct super_block *sb = dentry->d_sb;
 	struct zonefs_sb_info *sbi = ZONEFS_SB(sb);
 	enum zonefs_ztype t;
-	u64 fsid;
 
 	buf->f_type = ZONEFS_MAGIC;
 	buf->f_bsize = sb->s_blocksize;
@@ -1294,9 +1199,7 @@ static int zonefs_statfs(struct dentry *dentry, struct kstatfs *buf)
 
 	spin_unlock(&sbi->s_lock);
 
-	fsid = le64_to_cpup((void *)sbi->s_uuid.b) ^
-		le64_to_cpup((void *)sbi->s_uuid.b + sizeof(u64));
-	buf->f_fsid = u64_to_fsid(fsid);
+	buf->f_fsid = uuid_to_fsid(sbi->s_uuid.b);
 
 	return 0;
 }
@@ -1401,15 +1304,7 @@ static void zonefs_init_dir_inode(struct inode *parent, struct inode *inode,
 	struct super_block *sb = parent->i_sb;
 
 	inode->i_ino = blkdev_nr_zones(sb->s_bdev->bd_disk) + type + 1;
-<<<<<<< HEAD
 	inode_init_owner(&init_user_ns, inode, parent, S_IFDIR | 0555);
-=======
-<<<<<<< HEAD
-	inode_init_owner(&init_user_ns, inode, parent, S_IFDIR | 0555);
-=======
-	inode_init_owner(inode, parent, S_IFDIR | 0555);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode->i_op = &zonefs_dir_inode_operations;
 	inode->i_fop = &simple_dir_operations;
 	set_nlink(inode, 2);
@@ -1767,26 +1662,11 @@ static int zonefs_fill_super(struct super_block *sb, void *data, int silent)
 	sb->s_time_gran	= 1;
 
 	/*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * The block size is set to the device zone write granularity to ensure
 	 * that write operations are always aligned according to the device
 	 * interface constraints.
 	 */
 	sb_set_blocksize(sb, bdev_zone_write_granularity(sb->s_bdev));
-<<<<<<< HEAD
-=======
-=======
-	 * The block size is set to the device physical sector size to ensure
-	 * that write operations on 512e devices (512B logical block and 4KB
-	 * physical block) are always aligned to the device physical blocks,
-	 * as mandated by the ZBC/ZAC specifications.
-	 */
-	sb_set_blocksize(sb, bdev_physical_block_size(sb->s_bdev));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sbi->s_zone_sectors_shift = ilog2(bdev_zone_sectors(sb->s_bdev));
 	sbi->s_uid = GLOBAL_ROOT_UID;
 	sbi->s_gid = GLOBAL_ROOT_GID;

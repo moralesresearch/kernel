@@ -4,15 +4,7 @@ Generic Bluetooth controller over USB (btusb driver)
 Required properties:
 
   - compatible : should comply with the format "usbVID,PID" specified in
-<<<<<<< HEAD
 		 Documentation/devicetree/bindings/usb/usb-device.yaml
-=======
-<<<<<<< HEAD
-		 Documentation/devicetree/bindings/usb/usb-device.yaml
-=======
-		 Documentation/devicetree/bindings/usb/usb-device.txt
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 At the time of writing, the only OF supported devices
 		 (more may be added later) are:
 

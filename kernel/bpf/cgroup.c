@@ -19,11 +19,7 @@
 
 #include "../cgroup/cgroup-internal.h"
 
-<<<<<<< HEAD
 DEFINE_STATIC_KEY_ARRAY_FALSE(cgroup_bpf_enabled_key, MAX_BPF_ATTACH_TYPE);
-=======
-DEFINE_STATIC_KEY_FALSE(cgroup_bpf_enabled_key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL(cgroup_bpf_enabled_key);
 
 void cgroup_bpf_offline(struct cgroup *cgrp)
@@ -132,11 +128,7 @@ static void cgroup_bpf_release(struct work_struct *work)
 			if (pl->link)
 				bpf_cgroup_link_auto_detach(pl->link);
 			kfree(pl);
-<<<<<<< HEAD
 			static_branch_dec(&cgroup_bpf_enabled_key[type]);
-=======
-			static_branch_dec(&cgroup_bpf_enabled_key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		old_array = rcu_dereference_protected(
 				cgrp->bpf.effective[type],
@@ -507,11 +499,7 @@ int __cgroup_bpf_attach(struct cgroup *cgrp,
 	if (old_prog)
 		bpf_prog_put(old_prog);
 	else
-<<<<<<< HEAD
 		static_branch_inc(&cgroup_bpf_enabled_key[type]);
-=======
-		static_branch_inc(&cgroup_bpf_enabled_key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bpf_cgroup_storages_link(new_storage, cgrp, type);
 	return 0;
 
@@ -710,11 +698,7 @@ int __cgroup_bpf_detach(struct cgroup *cgrp, struct bpf_prog *prog,
 		cgrp->bpf.flags[type] = 0;
 	if (old_prog)
 		bpf_prog_put(old_prog);
-<<<<<<< HEAD
 	static_branch_dec(&cgroup_bpf_enabled_key[type]);
-=======
-	static_branch_dec(&cgroup_bpf_enabled_key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 cleanup:
@@ -1071,11 +1055,8 @@ EXPORT_SYMBOL(__cgroup_bpf_run_filter_sk);
  * @uaddr: sockaddr struct provided by user
  * @type: The type of program to be exectuted
  * @t_ctx: Pointer to attach type specific context
-<<<<<<< HEAD
  * @flags: Pointer to u32 which contains higher bits of BPF program
  *         return value (OR'ed together).
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * socket is expected to be of type INET or INET6.
  *
@@ -1085,12 +1066,8 @@ EXPORT_SYMBOL(__cgroup_bpf_run_filter_sk);
 int __cgroup_bpf_run_filter_sock_addr(struct sock *sk,
 				      struct sockaddr *uaddr,
 				      enum bpf_attach_type type,
-<<<<<<< HEAD
 				      void *t_ctx,
 				      u32 *flags)
-=======
-				      void *t_ctx)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct bpf_sock_addr_kern ctx = {
 		.sk = sk,
@@ -1113,12 +1090,8 @@ int __cgroup_bpf_run_filter_sock_addr(struct sock *sk,
 	}
 
 	cgrp = sock_cgroup_ptr(&sk->sk_cgrp_data);
-<<<<<<< HEAD
 	ret = BPF_PROG_RUN_ARRAY_FLAGS(cgrp->bpf.effective[type], &ctx,
 				       BPF_PROG_RUN, flags);
-=======
-	ret = BPF_PROG_RUN_ARRAY(cgrp->bpf.effective[type], &ctx, BPF_PROG_RUN);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret == 1 ? 0 : -EPERM;
 }
@@ -1329,12 +1302,8 @@ static bool __cgroup_bpf_prog_array_is_empty(struct cgroup *cgrp,
 	return empty;
 }
 
-<<<<<<< HEAD
 static int sockopt_alloc_buf(struct bpf_sockopt_kern *ctx, int max_optlen,
 			     struct bpf_sockopt_buf *buf)
-=======
-static int sockopt_alloc_buf(struct bpf_sockopt_kern *ctx, int max_optlen)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (unlikely(max_optlen < 0))
 		return -EINVAL;
@@ -1346,7 +1315,6 @@ static int sockopt_alloc_buf(struct bpf_sockopt_kern *ctx, int max_optlen)
 		max_optlen = PAGE_SIZE;
 	}
 
-<<<<<<< HEAD
 	if (max_optlen <= sizeof(buf->data)) {
 		/* When the optval fits into BPF_SOCKOPT_KERN_BUF_SIZE
 		 * bytes avoid the cost of kzalloc.
@@ -1356,8 +1324,6 @@ static int sockopt_alloc_buf(struct bpf_sockopt_kern *ctx, int max_optlen)
 		return max_optlen;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctx->optval = kzalloc(max_optlen, GFP_USER);
 	if (!ctx->optval)
 		return -ENOMEM;
@@ -1367,7 +1333,6 @@ static int sockopt_alloc_buf(struct bpf_sockopt_kern *ctx, int max_optlen)
 	return max_optlen;
 }
 
-<<<<<<< HEAD
 static void sockopt_free_buf(struct bpf_sockopt_kern *ctx,
 			     struct bpf_sockopt_buf *buf)
 {
@@ -1382,22 +1347,12 @@ static bool sockopt_buf_allocated(struct bpf_sockopt_kern *ctx,
 	return ctx->optval != buf->data;
 }
 
-=======
-static void sockopt_free_buf(struct bpf_sockopt_kern *ctx)
-{
-	kfree(ctx->optval);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __cgroup_bpf_run_filter_setsockopt(struct sock *sk, int *level,
 				       int *optname, char __user *optval,
 				       int *optlen, char **kernel_optval)
 {
 	struct cgroup *cgrp = sock_cgroup_ptr(&sk->sk_cgrp_data);
-<<<<<<< HEAD
 	struct bpf_sockopt_buf buf = {};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bpf_sockopt_kern ctx = {
 		.sk = sk,
 		.level = *level,
@@ -1409,12 +1364,7 @@ int __cgroup_bpf_run_filter_setsockopt(struct sock *sk, int *level,
 	 * attached to the hook so we don't waste time allocating
 	 * memory and locking the socket.
 	 */
-<<<<<<< HEAD
 	if (__cgroup_bpf_prog_array_is_empty(cgrp, BPF_CGROUP_SETSOCKOPT))
-=======
-	if (!cgroup_bpf_enabled ||
-	    __cgroup_bpf_prog_array_is_empty(cgrp, BPF_CGROUP_SETSOCKOPT))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	/* Allocate a bit more than the initial user buffer for
@@ -1423,11 +1373,7 @@ int __cgroup_bpf_run_filter_setsockopt(struct sock *sk, int *level,
 	 */
 	max_optlen = max_t(int, 16, *optlen);
 
-<<<<<<< HEAD
 	max_optlen = sockopt_alloc_buf(&ctx, max_optlen, &buf);
-=======
-	max_optlen = sockopt_alloc_buf(&ctx, max_optlen);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (max_optlen < 0)
 		return max_optlen;
 
@@ -1467,7 +1413,6 @@ int __cgroup_bpf_run_filter_setsockopt(struct sock *sk, int *level,
 		 */
 		if (ctx.optlen != 0) {
 			*optlen = ctx.optlen;
-<<<<<<< HEAD
 			/* We've used bpf_sockopt_kern->buf as an intermediary
 			 * storage, but the BPF program indicates that we need
 			 * to pass this data to the kernel setsockopt handler.
@@ -1486,20 +1431,13 @@ int __cgroup_bpf_run_filter_setsockopt(struct sock *sk, int *level,
 			} else {
 				*kernel_optval = ctx.optval;
 			}
-=======
-			*kernel_optval = ctx.optval;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* export and don't free sockopt buf */
 			return 0;
 		}
 	}
 
 out:
-<<<<<<< HEAD
 	sockopt_free_buf(&ctx, &buf);
-=======
-	sockopt_free_buf(&ctx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1509,10 +1447,7 @@ int __cgroup_bpf_run_filter_getsockopt(struct sock *sk, int level,
 				       int retval)
 {
 	struct cgroup *cgrp = sock_cgroup_ptr(&sk->sk_cgrp_data);
-<<<<<<< HEAD
 	struct bpf_sockopt_buf buf = {};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bpf_sockopt_kern ctx = {
 		.sk = sk,
 		.level = level,
@@ -1525,21 +1460,12 @@ int __cgroup_bpf_run_filter_getsockopt(struct sock *sk, int level,
 	 * attached to the hook so we don't waste time allocating
 	 * memory and locking the socket.
 	 */
-<<<<<<< HEAD
 	if (__cgroup_bpf_prog_array_is_empty(cgrp, BPF_CGROUP_GETSOCKOPT))
-=======
-	if (!cgroup_bpf_enabled ||
-	    __cgroup_bpf_prog_array_is_empty(cgrp, BPF_CGROUP_GETSOCKOPT))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return retval;
 
 	ctx.optlen = max_optlen;
 
-<<<<<<< HEAD
 	max_optlen = sockopt_alloc_buf(&ctx, max_optlen, &buf);
-=======
-	max_optlen = sockopt_alloc_buf(&ctx, max_optlen);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (max_optlen < 0)
 		return max_optlen;
 
@@ -1602,7 +1528,6 @@ int __cgroup_bpf_run_filter_getsockopt(struct sock *sk, int level,
 	ret = ctx.retval;
 
 out:
-<<<<<<< HEAD
 	sockopt_free_buf(&ctx, &buf);
 	return ret;
 }
@@ -1652,11 +1577,6 @@ int __cgroup_bpf_run_filter_getsockopt_kern(struct sock *sk, int level,
 
 	return ctx.retval;
 }
-=======
-	sockopt_free_buf(&ctx);
-	return ret;
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static ssize_t sysctl_cpy_dir(const struct ctl_dir *dir, char **bufp,

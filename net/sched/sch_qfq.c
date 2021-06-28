@@ -529,12 +529,8 @@ static void qfq_destroy_class(struct Qdisc *sch, struct qfq_class *cl)
 	kfree(cl);
 }
 
-<<<<<<< HEAD
 static int qfq_delete_class(struct Qdisc *sch, unsigned long arg,
 			    struct netlink_ext_ack *extack)
-=======
-static int qfq_delete_class(struct Qdisc *sch, unsigned long arg)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct qfq_sched *q = qdisc_priv(sch);
 	struct qfq_class *cl = (struct qfq_class *)arg;

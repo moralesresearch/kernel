@@ -56,11 +56,7 @@ static struct snd_soc_dai_driver ak4554_dai = {
 		.rates = SNDRV_PCM_RATE_8000_48000,
 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
 	},
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver soc_component_dev_ak4554 = {

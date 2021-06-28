@@ -34,10 +34,7 @@
 #define IMA_PCR		0x0100
 #define IMA_FSNAME	0x0200
 #define IMA_KEYRINGS	0x0400
-<<<<<<< HEAD
 #define IMA_LABEL	0x0800
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define UNKNOWN		0
 #define MEASURE		0x0001	/* same as IMA_MEASURE */
@@ -89,10 +86,7 @@ struct ima_rule_entry {
 	} lsm[MAX_LSM_RULES];
 	char *fsname;
 	struct ima_rule_opt_list *keyrings; /* Measure keys added to these keyrings */
-<<<<<<< HEAD
 	struct ima_rule_opt_list *label; /* Measure data grouped under this label */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ima_template_desc *template;
 };
 
@@ -212,13 +206,10 @@ static struct ima_rule_entry secure_boot_rules[] __ro_after_init = {
 	 .flags = IMA_FUNC | IMA_DIGSIG_REQUIRED},
 };
 
-<<<<<<< HEAD
 static struct ima_rule_entry critical_data_rules[] __ro_after_init = {
 	{.action = MEASURE, .func = CRITICAL_DATA, .flags = IMA_FUNC},
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* An array of architecture specific rules */
 static struct ima_rule_entry *arch_policy_entry __ro_after_init;
 
@@ -241,10 +232,7 @@ __setup("ima_tcb", default_measure_policy_setup);
 
 static bool ima_use_appraise_tcb __initdata;
 static bool ima_use_secure_boot __initdata;
-<<<<<<< HEAD
 static bool ima_use_critical_data __initdata;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool ima_fail_unverifiable_sigs __ro_after_init;
 static int __init policy_setup(char *str)
 {
@@ -259,11 +247,8 @@ static int __init policy_setup(char *str)
 			ima_use_appraise_tcb = true;
 		else if (strcmp(p, "secure_boot") == 0)
 			ima_use_secure_boot = true;
-<<<<<<< HEAD
 		else if (strcmp(p, "critical_data") == 0)
 			ima_use_critical_data = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else if (strcmp(p, "fail_securely") == 0)
 			ima_fail_unverifiable_sigs = true;
 		else
@@ -477,7 +462,6 @@ int ima_lsm_policy_change(struct notifier_block *nb, unsigned long event,
 }
 
 /**
-<<<<<<< HEAD
  * ima_match_rule_data - determine whether func_data matches the policy rule
  * @rule: a pointer to a rule
  * @func_data: data to match against the measure rule data
@@ -490,25 +474,12 @@ static bool ima_match_rule_data(struct ima_rule_entry *rule,
 				const struct cred *cred)
 {
 	const struct ima_rule_opt_list *opt_list = NULL;
-=======
- * ima_match_keyring - determine whether the keyring matches the measure rule
- * @rule: a pointer to a rule
- * @keyring: name of the keyring to match against the measure rule
- * @cred: a pointer to a credentials structure for user validation
- *
- * Returns true if keyring matches one in the rule, false otherwise.
- */
-static bool ima_match_keyring(struct ima_rule_entry *rule,
-			      const char *keyring, const struct cred *cred)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool matched = false;
 	size_t i;
 
 	if ((rule->flags & IMA_UID) && !rule->uid_op(cred->uid, rule->uid))
 		return false;
 
-<<<<<<< HEAD
 	switch (rule->func) {
 	case KEY_CHECK:
 		if (!rule->keyrings)
@@ -531,16 +502,6 @@ static bool ima_match_keyring(struct ima_rule_entry *rule,
 
 	for (i = 0; i < opt_list->count; i++) {
 		if (!strcmp(opt_list->items[i], func_data)) {
-=======
-	if (!rule->keyrings)
-		return true;
-
-	if (!keyring)
-		return false;
-
-	for (i = 0; i < rule->keyrings->count; i++) {
-		if (!strcmp(rule->keyrings->items[i], keyring)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			matched = true;
 			break;
 		}
@@ -552,16 +513,12 @@ static bool ima_match_keyring(struct ima_rule_entry *rule,
 /**
  * ima_match_rules - determine whether an inode matches the policy rule.
  * @rule: a pointer to a rule
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: a pointer to an inode
  * @cred: a pointer to a credentials structure for user validation
  * @secid: the secid of the task to be validated
  * @func: LIM hook identifier
  * @mask: requested action (MAY_READ | MAY_WRITE | MAY_APPEND | MAY_EXEC)
-<<<<<<< HEAD
  * @func_data: func specific data, may be NULL
  *
  * Returns true on rule match, false on failure.
@@ -587,26 +544,6 @@ static bool ima_match_rules(struct ima_rule_entry *rule,
 		break;
 	}
 
-=======
- * @keyring: keyring name to check in policy for KEY_CHECK func
- *
- * Returns true on rule match, false on failure.
- */
-static bool ima_match_rules(struct ima_rule_entry *rule, struct inode *inode,
-			    const struct cred *cred, u32 secid,
-			    enum ima_hooks func, int mask,
-			    const char *keyring)
-{
-	int i;
-
-	if (func == KEY_CHECK) {
-		return (rule->flags & IMA_FUNC) && (rule->func == func) &&
-		       ima_match_keyring(rule, keyring, cred);
-	}
-	if ((rule->flags & IMA_FUNC) &&
-	    (rule->func != func && func != POST_SETATTR))
-		return false;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((rule->flags & IMA_MASK) &&
 	    (rule->mask != mask && func != POST_SETATTR))
 		return false;
@@ -635,11 +572,7 @@ static bool ima_match_rules(struct ima_rule_entry *rule, struct inode *inode,
 	}
 
 	if ((rule->flags & IMA_FOWNER) &&
-<<<<<<< HEAD
 	    !rule->fowner_op(i_uid_into_mnt(mnt_userns, inode), rule->fowner))
-=======
-	    !rule->fowner_op(inode->i_uid, rule->fowner))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 	for (i = 0; i < MAX_LSM_RULES; i++) {
 		int rc = 0;
@@ -666,6 +599,7 @@ static bool ima_match_rules(struct ima_rule_entry *rule, struct inode *inode,
 			rc = ima_filter_rule_match(secid, rule->lsm[i].type,
 						   Audit_equal,
 						   rule->lsm[i].rule);
+			break;
 		default:
 			break;
 		}
@@ -702,10 +636,7 @@ static int get_subaction(struct ima_rule_entry *rule, enum ima_hooks func)
 
 /**
  * ima_match_policy - decision based on LSM and other conditions
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @inode: pointer to an inode for which the policy decision is being made
  * @cred: pointer to a credentials structure for which the policy decision is
  *        being made
@@ -714,12 +645,7 @@ static int get_subaction(struct ima_rule_entry *rule, enum ima_hooks func)
  * @mask: requested action (MAY_READ | MAY_WRITE | MAY_APPEND | MAY_EXEC)
  * @pcr: set the pcr to extend
  * @template_desc: the template that should be used for this rule
-<<<<<<< HEAD
  * @func_data: func specific data, may be NULL
-=======
- * @keyring: the keyring name, if given, to be used to check in the policy.
- *           keyring can be NULL if func is anything other than KEY_CHECK.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Measure decision based on func/mask/fsmagic and LSM(subj/obj/type)
  * conditions.
@@ -728,18 +654,11 @@ static int get_subaction(struct ima_rule_entry *rule, enum ima_hooks func)
  * list when walking it.  Reads are many orders of magnitude more numerous
  * than writes so ima_match_policy() is classical RCU candidate.
  */
-<<<<<<< HEAD
 int ima_match_policy(struct user_namespace *mnt_userns, struct inode *inode,
 		     const struct cred *cred, u32 secid, enum ima_hooks func,
 		     int mask, int flags, int *pcr,
 		     struct ima_template_desc **template_desc,
 		     const char *func_data)
-=======
-int ima_match_policy(struct inode *inode, const struct cred *cred, u32 secid,
-		     enum ima_hooks func, int mask, int flags, int *pcr,
-		     struct ima_template_desc **template_desc,
-		     const char *keyring)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ima_rule_entry *entry;
 	int action = 0, actmask = flags | (flags << 1);
@@ -753,13 +672,8 @@ int ima_match_policy(struct inode *inode, const struct cred *cred, u32 secid,
 		if (!(entry->action & actmask))
 			continue;
 
-<<<<<<< HEAD
 		if (!ima_match_rules(entry, mnt_userns, inode, cred, secid,
 				     func, mask, func_data))
-=======
-		if (!ima_match_rules(entry, inode, cred, secid, func, mask,
-				     keyring))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		action |= entry->flags & IMA_ACTION_FLAGS;
@@ -923,6 +837,7 @@ void __init ima_init_policy(void)
 		add_rules(default_measurement_rules,
 			  ARRAY_SIZE(default_measurement_rules),
 			  IMA_DEFAULT_POLICY);
+		break;
 	default:
 		break;
 	}
@@ -969,14 +884,11 @@ void __init ima_init_policy(void)
 			  ARRAY_SIZE(default_appraise_rules),
 			  IMA_DEFAULT_POLICY);
 
-<<<<<<< HEAD
 	if (ima_use_critical_data)
 		add_rules(critical_data_rules,
 			  ARRAY_SIZE(critical_data_rules),
 			  IMA_DEFAULT_POLICY);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ima_update_policy_flag();
 }
 
@@ -1036,11 +948,7 @@ enum {
 	Opt_uid_lt, Opt_euid_lt, Opt_fowner_lt,
 	Opt_appraise_type, Opt_appraise_flag,
 	Opt_permit_directio, Opt_pcr, Opt_template, Opt_keyrings,
-<<<<<<< HEAD
 	Opt_label, Opt_err
-=======
-	Opt_err
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const match_table_t policy_tokens = {
@@ -1077,10 +985,7 @@ static const match_table_t policy_tokens = {
 	{Opt_pcr, "pcr=%s"},
 	{Opt_template, "template=%s"},
 	{Opt_keyrings, "keyrings=%s"},
-<<<<<<< HEAD
 	{Opt_label, "label=%s"},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{Opt_err, NULL}
 };
 
@@ -1244,7 +1149,6 @@ static bool ima_validate_rule(struct ima_rule_entry *entry)
 			return false;
 
 		break;
-<<<<<<< HEAD
 	case CRITICAL_DATA:
 		if (entry->action & ~(MEASURE | DONT_MEASURE))
 			return false;
@@ -1257,8 +1161,6 @@ static bool ima_validate_rule(struct ima_rule_entry *entry)
 			return false;
 
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return false;
 	}
@@ -1390,11 +1292,8 @@ static int ima_parse_rule(char *rule, struct ima_rule_entry *entry)
 			else if (IS_ENABLED(CONFIG_IMA_MEASURE_ASYMMETRIC_KEYS) &&
 				 strcmp(args[0].from, "KEY_CHECK") == 0)
 				entry->func = KEY_CHECK;
-<<<<<<< HEAD
 			else if (strcmp(args[0].from, "CRITICAL_DATA") == 0)
 				entry->func = CRITICAL_DATA;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			else
 				result = -EINVAL;
 			if (!result)
@@ -1465,7 +1364,6 @@ static int ima_parse_rule(char *rule, struct ima_rule_entry *entry)
 
 			entry->flags |= IMA_KEYRINGS;
 			break;
-<<<<<<< HEAD
 		case Opt_label:
 			ima_log_string(ab, "label", args[0].from);
 
@@ -1483,8 +1381,6 @@ static int ima_parse_rule(char *rule, struct ima_rule_entry *entry)
 
 			entry->flags |= IMA_LABEL;
 			break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case Opt_fsuuid:
 			ima_log_string(ab, "fsuuid", args[0].from);
 
@@ -1865,15 +1761,12 @@ int ima_policy_show(struct seq_file *m, void *v)
 		seq_puts(m, " ");
 	}
 
-<<<<<<< HEAD
 	if (entry->flags & IMA_LABEL) {
 		seq_puts(m, "label=");
 		ima_show_rule_opt_list(m, entry->label);
 		seq_puts(m, " ");
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (entry->flags & IMA_PCR) {
 		snprintf(tbuf, sizeof(tbuf), "%d", entry->pcr);
 		seq_printf(m, pt(Opt_pcr), tbuf);

@@ -284,12 +284,9 @@ The following sysctls are available for the XFS filesystem:
 	removes unused preallocation from clean inodes and releases
 	the unused space back to the free pool.
 
-<<<<<<< HEAD
   fs.xfs.speculative_cow_prealloc_lifetime
 	This is an alias for speculative_prealloc_lifetime.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   fs.xfs.error_level		(Min: 0  Default: 3  Max: 11)
 	A volume knob for error reporting when internal errors occur.
 	This will generate detailed messages & backtraces for filesystem
@@ -362,7 +359,6 @@ The following sysctls are available for the XFS filesystem:
 Deprecated Sysctls
 ==================
 
-<<<<<<< HEAD
 ===========================================     ================
   Name                                          Removal Schedule
 ===========================================     ================
@@ -370,14 +366,6 @@ fs.xfs.irix_sgid_inherit                        September 2025
 fs.xfs.irix_symlink_mode                        September 2025
 fs.xfs.speculative_cow_prealloc_lifetime        September 2025
 ===========================================     ================
-=======
-===========================     ================
-  Name				Removal Schedule
-===========================     ================
-fs.xfs.irix_sgid_inherit        September 2025
-fs.xfs.irix_symlink_mode        September 2025
-===========================     ================
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 Removed Sysctls
@@ -511,7 +499,6 @@ the class and error context. For example, the default values for
 "metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
 to "fail immediately" behaviour. This is done because ENODEV is a fatal,
 unrecoverable error no matter how many times the metadata IO is retried.
-<<<<<<< HEAD
 
 Workqueue Concurrency
 =====================
@@ -535,7 +522,7 @@ and the short name of the data device.  They all can be found in:
 ================  ===========
   xfs_iwalk-$pid  Inode scans of the entire filesystem. Currently limited to
                   mount time quotacheck.
-  xfs-blockgc     Background garbage collection of disk space that have been
+  xfs-gc          Background garbage collection of disk space that have been
                   speculatively allocated beyond EOF or for staging copy on
                   write operations.
 ================  ===========
@@ -554,5 +541,3 @@ The interesting knobs for XFS workqueues are as follows:
   nice           Relative priority of scheduling the threads.  These are the
                  same nice levels that can be applied to userspace processes.
 ============     ===========
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

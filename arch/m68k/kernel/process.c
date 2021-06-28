@@ -157,15 +157,7 @@ int copy_thread(unsigned long clone_flags, unsigned long usp, unsigned long arg,
 	 */
 	p->thread.fs = get_fs().seg;
 
-<<<<<<< HEAD
 	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
-=======
-<<<<<<< HEAD
-	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
-=======
-	if (unlikely(p->flags & PF_KTHREAD)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* kernel thread */
 		memset(frame, 0, sizeof(struct fork_frame));
 		frame->regs.sr = PS_S;

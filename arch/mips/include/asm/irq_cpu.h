@@ -10,14 +10,6 @@
 #define _ASM_IRQ_CPU_H
 
 extern void mips_cpu_irq_init(void);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-extern void rm7k_cpu_irq_init(void);
-extern void rm9k_cpu_irq_init(void);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_IRQ_DOMAIN
 struct device_node;

@@ -43,11 +43,6 @@ void ufshcd_init_crypto(struct ufs_hba *hba);
 void ufshcd_crypto_setup_rq_keyslot_manager(struct ufs_hba *hba,
 					    struct request_queue *q);
 
-<<<<<<< HEAD
-=======
-void ufshcd_crypto_destroy_keyslot_manager(struct ufs_hba *hba);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_SCSI_UFS_CRYPTO */
 
 static inline void ufshcd_prepare_lrbp_crypto(struct request *rq,
@@ -72,12 +67,6 @@ static inline void ufshcd_init_crypto(struct ufs_hba *hba) { }
 static inline void ufshcd_crypto_setup_rq_keyslot_manager(struct ufs_hba *hba,
 						struct request_queue *q) { }
 
-<<<<<<< HEAD
-=======
-static inline void ufshcd_crypto_destroy_keyslot_manager(struct ufs_hba *hba)
-{ }
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_SCSI_UFS_CRYPTO */
 
 #endif /* _UFSHCD_CRYPTO_H */

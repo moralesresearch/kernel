@@ -98,6 +98,8 @@
 			reg = <1>;
 			eee-broken-1000t;
 			reset-gpios = <&gpio4 2 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
 		};
 	};
 };
@@ -127,7 +129,6 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
 &usb3_phy1 {
 	status = "okay";
 };
@@ -143,8 +144,6 @@
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &usdhc2 {
 	assigned-clocks = <&clk IMX8MP_CLK_USDHC2>;
 	assigned-clock-rates = <400000000>;
@@ -250,15 +249,12 @@
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_usb1_vbus: usb1grp {
 		fsl,pins = <
 			MX8MP_IOMUXC_GPIO1_IO14__USB2_OTG_PWR	0x19
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_usdhc2: usdhc2grp {
 		fsl,pins = <
 			MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK	0x190

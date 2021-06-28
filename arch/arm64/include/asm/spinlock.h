@@ -5,13 +5,8 @@
 #ifndef __ASM_SPINLOCK_H
 #define __ASM_SPINLOCK_H
 
-<<<<<<< HEAD
 #include <asm/qspinlock.h>
 #include <asm/qrwlock.h>
-=======
-#include <asm/qrwlock.h>
-#include <asm/qspinlock.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* See include/linux/spinlock.h */
 #define smp_mb__after_spinlock()	smp_mb()

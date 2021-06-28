@@ -341,28 +341,15 @@ int rtl8366_init_vlan(struct realtek_smi *smi)
 EXPORT_SYMBOL_GPL(rtl8366_init_vlan);
 
 int rtl8366_vlan_filtering(struct dsa_switch *ds, int port, bool vlan_filtering,
-<<<<<<< HEAD
 			   struct netlink_ext_ack *extack)
-=======
-			   struct switchdev_trans *trans)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct realtek_smi *smi = ds->priv;
 	struct rtl8366_vlan_4k vlan4k;
 	int ret;
 
 	/* Use VLAN nr port + 1 since VLAN0 is not valid */
-<<<<<<< HEAD
 	if (!smi->ops->is_vlan_valid(smi, port + 1))
 		return -EINVAL;
-=======
-	if (switchdev_trans_ph_prepare(trans)) {
-		if (!smi->ops->is_vlan_valid(smi, port + 1))
-			return -EINVAL;
-
-		return 0;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_info(smi->dev, "%s filtering on port %d\n",
 		 vlan_filtering ? "enable" : "disable",
@@ -388,7 +375,6 @@ int rtl8366_vlan_filtering(struct dsa_switch *ds, int port, bool vlan_filtering,
 }
 EXPORT_SYMBOL_GPL(rtl8366_vlan_filtering);
 
-<<<<<<< HEAD
 int rtl8366_vlan_add(struct dsa_switch *ds, int port,
 		     const struct switchdev_obj_port_vlan *vlan,
 		     struct netlink_ext_ack *extack)
@@ -404,26 +390,11 @@ int rtl8366_vlan_add(struct dsa_switch *ds, int port,
 		NL_SET_ERR_MSG_MOD(extack, "VLAN ID not valid");
 		return -EINVAL;
 	}
-=======
-int rtl8366_vlan_prepare(struct dsa_switch *ds, int port,
-			 const struct switchdev_obj_port_vlan *vlan)
-{
-	struct realtek_smi *smi = ds->priv;
-	u16 vid;
-
-	for (vid = vlan->vid_begin; vid < vlan->vid_end; vid++)
-		if (!smi->ops->is_vlan_valid(smi, vid))
-			return -EINVAL;
-
-	dev_info(smi->dev, "prepare VLANs %04x..%04x\n",
-		 vlan->vid_begin, vlan->vid_end);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Enable VLAN in the hardware
 	 * FIXME: what's with this 4k business?
 	 * Just rtl8366_enable_vlan() seems inconclusive.
 	 */
-<<<<<<< HEAD
 	ret = rtl8366_enable_vlan4k(smi, true);
 	if (ret) {
 		NL_SET_ERR_MSG_MOD(extack, "Failed to enable VLAN 4K");
@@ -432,37 +403,11 @@ int rtl8366_vlan_prepare(struct dsa_switch *ds, int port,
 
 	dev_info(smi->dev, "add VLAN %d on port %d, %s, %s\n",
 		 vlan->vid, port, untagged ? "untagged" : "tagged",
-=======
-	return rtl8366_enable_vlan4k(smi, true);
-}
-EXPORT_SYMBOL_GPL(rtl8366_vlan_prepare);
-
-void rtl8366_vlan_add(struct dsa_switch *ds, int port,
-		      const struct switchdev_obj_port_vlan *vlan)
-{
-	bool untagged = !!(vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED);
-	bool pvid = !!(vlan->flags & BRIDGE_VLAN_INFO_PVID);
-	struct realtek_smi *smi = ds->priv;
-	u32 member = 0;
-	u32 untag = 0;
-	u16 vid;
-	int ret;
-
-	for (vid = vlan->vid_begin; vid < vlan->vid_end; vid++)
-		if (!smi->ops->is_vlan_valid(smi, vid))
-			return;
-
-	dev_info(smi->dev, "add VLAN %d on port %d, %s, %s\n",
-		 vlan->vid_begin,
-		 port,
-		 untagged ? "untagged" : "tagged",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 pvid ? " PVID" : "no PVID");
 
 	if (dsa_is_dsa_port(ds, port) || dsa_is_cpu_port(ds, port))
 		dev_err(smi->dev, "port is DSA or CPU port\n");
 
-<<<<<<< HEAD
 	member |= BIT(port);
 
 	if (untagged)
@@ -485,33 +430,6 @@ void rtl8366_vlan_add(struct dsa_switch *ds, int port,
 	}
 
 	return 0;
-=======
-	for (vid = vlan->vid_begin; vid <= vlan->vid_end; vid++) {
-		member |= BIT(port);
-
-		if (untagged)
-			untag |= BIT(port);
-
-		ret = rtl8366_set_vlan(smi, vid, member, untag, 0);
-		if (ret)
-			dev_err(smi->dev,
-				"failed to set up VLAN %04x",
-				vid);
-
-		if (!pvid)
-			continue;
-
-		ret = rtl8366_set_pvid(smi, port, vid);
-		if (ret)
-			dev_err(smi->dev,
-				"failed to set PVID on port %d to VLAN %04x",
-				port, vid);
-
-		if (!ret)
-			dev_dbg(smi->dev, "VLAN add: added VLAN %d with PVID on port %d\n",
-				vid, port);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(rtl8366_vlan_add);
 
@@ -519,7 +437,6 @@ int rtl8366_vlan_del(struct dsa_switch *ds, int port,
 		     const struct switchdev_obj_port_vlan *vlan)
 {
 	struct realtek_smi *smi = ds->priv;
-<<<<<<< HEAD
 	int ret, i;
 
 	dev_info(smi->dev, "del VLAN %04x on port %d\n", vlan->vid, port);
@@ -553,48 +470,6 @@ int rtl8366_vlan_del(struct dsa_switch *ds, int port,
 				return ret;
 			}
 			break;
-=======
-	u16 vid;
-	int ret;
-
-	dev_info(smi->dev, "del VLAN on port %d\n", port);
-
-	for (vid = vlan->vid_begin; vid <= vlan->vid_end; ++vid) {
-		int i;
-
-		dev_info(smi->dev, "del VLAN %04x\n", vid);
-
-		for (i = 0; i < smi->num_vlan_mc; i++) {
-			struct rtl8366_vlan_mc vlanmc;
-
-			ret = smi->ops->get_vlan_mc(smi, i, &vlanmc);
-			if (ret)
-				return ret;
-
-			if (vid == vlanmc.vid) {
-				/* Remove this port from the VLAN */
-				vlanmc.member &= ~BIT(port);
-				vlanmc.untag &= ~BIT(port);
-				/*
-				 * If no ports are members of this VLAN
-				 * anymore then clear the whole member
-				 * config so it can be reused.
-				 */
-				if (!vlanmc.member && vlanmc.untag) {
-					vlanmc.vid = 0;
-					vlanmc.priority = 0;
-					vlanmc.fid = 0;
-				}
-				ret = smi->ops->set_vlan_mc(smi, i, &vlanmc);
-				if (ret) {
-					dev_err(smi->dev,
-						"failed to remove VLAN %04x\n",
-						vid);
-					return ret;
-				}
-				break;
-			}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 

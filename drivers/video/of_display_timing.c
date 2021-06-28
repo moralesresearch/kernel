@@ -52,10 +52,7 @@ static int parse_timing_property(const struct device_node *np, const char *name,
 /**
  * of_parse_display_timing - parse display_timing entry from device_node
  * @np: device_node with the properties
-<<<<<<< HEAD
  * @dt: display_timing that contains the result. I may be partially written in case of errors
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  **/
 static int of_parse_display_timing(const struct device_node *np,
 		struct display_timing *dt)

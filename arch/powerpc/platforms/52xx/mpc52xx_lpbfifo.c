@@ -229,11 +229,7 @@ static irqreturn_t mpc52xx_lpbfifo_irq(int irq, void *dev_id)
 	int dma, write, poll_dma;
 
 	spin_lock_irqsave(&lpbfifo.lock, flags);
-<<<<<<< HEAD
 	ts = mftb();
-=======
-	ts = get_tbl();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req = lpbfifo.req;
 	if (!req) {
@@ -311,11 +307,7 @@ static irqreturn_t mpc52xx_lpbfifo_irq(int irq, void *dev_id)
 	if (irq != 0) /* don't increment on polled case */
 		req->irq_count++;
 
-<<<<<<< HEAD
 	req->irq_ticks += mftb() - ts;
-=======
-	req->irq_ticks += get_tbl() - ts;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&lpbfifo.lock, flags);
 
 	/* Spinlock is released; it is now safe to call the callback */
@@ -338,11 +330,7 @@ static irqreturn_t mpc52xx_lpbfifo_bcom_irq(int irq, void *dev_id)
 	u32 ts;
 
 	spin_lock_irqsave(&lpbfifo.lock, flags);
-<<<<<<< HEAD
 	ts = mftb();
-=======
-	ts = get_tbl();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req = lpbfifo.req;
 	if (!req || (req->flags & MPC52XX_LPBFIFO_FLAG_NO_DMA)) {
@@ -373,11 +361,7 @@ static irqreturn_t mpc52xx_lpbfifo_bcom_irq(int irq, void *dev_id)
 	lpbfifo.req = NULL;
 
 	/* Release the lock before calling out to the callback. */
-<<<<<<< HEAD
 	req->irq_ticks += mftb() - ts;
-=======
-	req->irq_ticks += get_tbl() - ts;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&lpbfifo.lock, flags);
 
 	if (req->callback)

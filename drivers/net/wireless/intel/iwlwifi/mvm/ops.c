@@ -146,7 +146,6 @@ static void iwl_mvm_nic_config(struct iwl_op_mode *op_mode)
 				       ~APMG_PS_CTRL_EARLY_PWR_OFF_RESET_DIS);
 }
 
-<<<<<<< HEAD
 static void iwl_mvm_rx_monitor_notif(struct iwl_mvm *mvm,
 				     struct iwl_rx_cmd_buffer *rxb)
 {
@@ -211,8 +210,6 @@ static void iwl_mvm_rx_monitor_notif(struct iwl_mvm *mvm,
 	ieee80211_disconnect(vif, true);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * enum iwl_rx_handler_context context for Rx handler
  * @RX_HANDLER_SYNC : this means that it will be called in the Rx path
@@ -236,16 +233,11 @@ enum iwl_rx_handler_context {
  * @fn: the function is called when notification is received
  */
 struct iwl_rx_handlers {
-<<<<<<< HEAD
 	u16 cmd_id, min_size;
-=======
-	u16 cmd_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum iwl_rx_handler_context context;
 	void (*fn)(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb);
 };
 
-<<<<<<< HEAD
 #define RX_HANDLER_NO_SIZE(_cmd_id, _fn, _context)		\
 	{ .cmd_id = _cmd_id, .fn = _fn, .context = _context, }
 #define RX_HANDLER_GRP_NO_SIZE(_grp, _cmd, _fn, _context)	\
@@ -256,12 +248,6 @@ struct iwl_rx_handlers {
 #define RX_HANDLER_GRP(_grp, _cmd, _fn, _context, _struct)	\
 	{ .cmd_id = WIDE_ID(_grp, _cmd), .fn = _fn,		\
 	  .context = _context, .min_size = sizeof(_struct), }
-=======
-#define RX_HANDLER(_cmd_id, _fn, _context)	\
-	{ .cmd_id = _cmd_id, .fn = _fn, .context = _context }
-#define RX_HANDLER_GRP(_grp, _cmd, _fn, _context)	\
-	{ .cmd_id = WIDE_ID(_grp, _cmd), .fn = _fn, .context = _context }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Handlers for fw notifications
@@ -271,7 +257,6 @@ struct iwl_rx_handlers {
  * The handler can be one from three contexts, see &iwl_rx_handler_context
  */
 static const struct iwl_rx_handlers iwl_mvm_rx_handlers[] = {
-<<<<<<< HEAD
 	RX_HANDLER(TX_CMD, iwl_mvm_rx_tx_cmd, RX_HANDLER_SYNC,
 		   struct iwl_mvm_tx_resp),
 	RX_HANDLER(BA_NOTIF, iwl_mvm_rx_ba_notif, RX_HANDLER_SYNC,
@@ -373,87 +358,6 @@ static const struct iwl_rx_handlers iwl_mvm_rx_handlers[] = {
 	RX_HANDLER_GRP(DATA_PATH_GROUP, MONITOR_NOTIF,
 		       iwl_mvm_rx_monitor_notif, RX_HANDLER_ASYNC_LOCKED,
 		       struct iwl_datapath_monitor_notif),
-=======
-	RX_HANDLER(TX_CMD, iwl_mvm_rx_tx_cmd, RX_HANDLER_SYNC),
-	RX_HANDLER(BA_NOTIF, iwl_mvm_rx_ba_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER_GRP(DATA_PATH_GROUP, TLC_MNG_UPDATE_NOTIF,
-		       iwl_mvm_tlc_update_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER(BT_PROFILE_NOTIFICATION, iwl_mvm_rx_bt_coex_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER(BEACON_NOTIFICATION, iwl_mvm_rx_beacon_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER(STATISTICS_NOTIFICATION, iwl_mvm_rx_statistics,
-		   RX_HANDLER_ASYNC_LOCKED),
-
-	RX_HANDLER(BA_WINDOW_STATUS_NOTIFICATION_ID,
-		   iwl_mvm_window_status_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER(TIME_EVENT_NOTIFICATION, iwl_mvm_rx_time_event_notif,
-		   RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(MAC_CONF_GROUP, SESSION_PROTECTION_NOTIF,
-		       iwl_mvm_rx_session_protect_notif, RX_HANDLER_SYNC),
-	RX_HANDLER(MCC_CHUB_UPDATE_CMD, iwl_mvm_rx_chub_update_mcc,
-		   RX_HANDLER_ASYNC_LOCKED),
-
-	RX_HANDLER(EOSP_NOTIFICATION, iwl_mvm_rx_eosp_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER(SCAN_ITERATION_COMPLETE,
-		   iwl_mvm_rx_lmac_scan_iter_complete_notif, RX_HANDLER_SYNC),
-	RX_HANDLER(SCAN_OFFLOAD_COMPLETE,
-		   iwl_mvm_rx_lmac_scan_complete_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER(MATCH_FOUND_NOTIFICATION, iwl_mvm_rx_scan_match_found,
-		   RX_HANDLER_SYNC),
-	RX_HANDLER(SCAN_COMPLETE_UMAC, iwl_mvm_rx_umac_scan_complete_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER(SCAN_ITERATION_COMPLETE_UMAC,
-		   iwl_mvm_rx_umac_scan_iter_complete_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER(CARD_STATE_NOTIFICATION, iwl_mvm_rx_card_state_notif,
-		   RX_HANDLER_SYNC),
-
-	RX_HANDLER(MISSED_BEACONS_NOTIFICATION, iwl_mvm_rx_missed_beacons_notif,
-		   RX_HANDLER_SYNC),
-
-	RX_HANDLER(REPLY_ERROR, iwl_mvm_rx_fw_error, RX_HANDLER_SYNC),
-	RX_HANDLER(PSM_UAPSD_AP_MISBEHAVING_NOTIFICATION,
-		   iwl_mvm_power_uapsd_misbehaving_ap_notif, RX_HANDLER_SYNC),
-	RX_HANDLER(DTS_MEASUREMENT_NOTIFICATION, iwl_mvm_temp_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER_GRP(PHY_OPS_GROUP, DTS_MEASUREMENT_NOTIF_WIDE,
-		       iwl_mvm_temp_notif, RX_HANDLER_ASYNC_UNLOCKED),
-	RX_HANDLER_GRP(PHY_OPS_GROUP, CT_KILL_NOTIFICATION,
-		       iwl_mvm_ct_kill_notif, RX_HANDLER_SYNC),
-
-	RX_HANDLER(TDLS_CHANNEL_SWITCH_NOTIFICATION, iwl_mvm_rx_tdls_notif,
-		   RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER(MFUART_LOAD_NOTIFICATION, iwl_mvm_rx_mfuart_notif,
-		   RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(LOCATION_GROUP, TOF_RESPONDER_STATS,
-		       iwl_mvm_ftm_responder_stats, RX_HANDLER_ASYNC_LOCKED),
-
-	RX_HANDLER_GRP(LOCATION_GROUP, TOF_RANGE_RESPONSE_NOTIF,
-		       iwl_mvm_ftm_range_resp, RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER_GRP(LOCATION_GROUP, TOF_LC_NOTIF,
-		       iwl_mvm_ftm_lc_notif, RX_HANDLER_ASYNC_LOCKED),
-
-	RX_HANDLER_GRP(DEBUG_GROUP, MFU_ASSERT_DUMP_NTF,
-		       iwl_mvm_mfu_assert_dump_notif, RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(PROT_OFFLOAD_GROUP, STORED_BEACON_NTF,
-		       iwl_mvm_rx_stored_beacon_notif, RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(DATA_PATH_GROUP, MU_GROUP_MGMT_NOTIF,
-		       iwl_mvm_mu_mimo_grp_notif, RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(DATA_PATH_GROUP, STA_PM_NOTIF,
-		       iwl_mvm_sta_pm_notif, RX_HANDLER_SYNC),
-	RX_HANDLER_GRP(MAC_CONF_GROUP, PROBE_RESPONSE_DATA_NOTIF,
-		       iwl_mvm_probe_resp_data_notif,
-		       RX_HANDLER_ASYNC_LOCKED),
-	RX_HANDLER_GRP(MAC_CONF_GROUP, CHANNEL_SWITCH_NOA_NOTIF,
-		       iwl_mvm_channel_switch_noa_notif,
-		       RX_HANDLER_SYNC),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 #undef RX_HANDLER
 #undef RX_HANDLER_GRP
@@ -598,10 +502,7 @@ static const struct iwl_hcmd_names iwl_mvm_data_path_names[] = {
 	HCMD_NAME(RFH_QUEUE_CONFIG_CMD),
 	HCMD_NAME(TLC_MNG_CONFIG_CMD),
 	HCMD_NAME(CHEST_COLLECTOR_FILTER_CONFIG_CMD),
-<<<<<<< HEAD
 	HCMD_NAME(MONITOR_NOTIF),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	HCMD_NAME(STA_PM_NOTIF),
 	HCMD_NAME(MU_GROUP_MGMT_NOTIF),
 	HCMD_NAME(RX_QUEUES_NOTIFICATION),
@@ -744,7 +645,6 @@ static const struct iwl_fw_runtime_ops iwl_mvm_fwrt_ops = {
 	.d3_debug_enable = iwl_mvm_d3_debug_enable,
 };
 
-<<<<<<< HEAD
 static int iwl_mvm_start_get_nvm(struct iwl_mvm *mvm)
 {
 	int ret;
@@ -783,8 +683,6 @@ static int iwl_mvm_start_post_nvm(struct iwl_mvm *mvm)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct iwl_op_mode *
 iwl_op_mode_mvm_start(struct iwl_trans *trans, const struct iwl_cfg *cfg,
 		      const struct iwl_fw *fw, struct dentry *dbgfs_dir)
@@ -1006,21 +904,6 @@ iwl_op_mode_mvm_start(struct iwl_trans *trans, const struct iwl_cfg *cfg,
 	if (err)
 		goto out_free;
 
-<<<<<<< HEAD
-=======
-	mutex_lock(&mvm->mutex);
-	err = iwl_run_init_mvm_ucode(mvm);
-	if (err && err != -ERFKILL)
-		iwl_fw_dbg_error_collect(&mvm->fwrt, FW_DBG_TRIGGER_DRIVER);
-	if (!iwlmvm_mod_params.init_dbg || !err)
-		iwl_mvm_stop_device(mvm);
-	mutex_unlock(&mvm->mutex);
-	if (err < 0) {
-		IWL_ERR(mvm, "Failed to run INIT ucode: %d\n", err);
-		goto out_free;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scan_size = iwl_mvm_scan_size(mvm);
 
 	mvm->scan_cmd = kmalloc(scan_size, GFP_KERNEL);
@@ -1034,29 +917,15 @@ iwl_op_mode_mvm_start(struct iwl_trans *trans, const struct iwl_cfg *cfg,
 	/* Set EBS as successful as long as not stated otherwise by the FW. */
 	mvm->last_ebs_successful = true;
 
-<<<<<<< HEAD
 	min_backoff = iwl_mvm_min_backoff(mvm);
 	iwl_mvm_thermal_initialize(mvm, min_backoff);
 
-=======
-	err = iwl_mvm_mac_setup_register(mvm);
-	if (err)
-		goto out_free;
-	mvm->hw_registered = true;
-
-	min_backoff = iwl_mvm_min_backoff(mvm);
-	iwl_mvm_thermal_initialize(mvm, min_backoff);
-
-	iwl_mvm_dbgfs_register(mvm, dbgfs_dir);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!iwl_mvm_has_new_rx_stats_api(mvm))
 		memset(&mvm->rx_stats_v3, 0,
 		       sizeof(struct mvm_statistics_rx_v3));
 	else
 		memset(&mvm->rx_stats, 0, sizeof(struct mvm_statistics_rx));
 
-<<<<<<< HEAD
 	mvm->debugfs_dir = dbgfs_dir;
 
 	if (iwl_mvm_start_get_nvm(mvm))
@@ -1069,12 +938,6 @@ iwl_op_mode_mvm_start(struct iwl_trans *trans, const struct iwl_cfg *cfg,
 
  out_thermal_exit:
 	iwl_mvm_thermal_exit(mvm);
-=======
-	iwl_mvm_toggle_tx_ant(mvm, &mvm->mgmt_last_antenna_idx);
-
-	return op_mode;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  out_free:
 	iwl_fw_flush_dumps(&mvm->fwrt);
 	iwl_fw_runtime_free(&mvm->fwrt);
@@ -1221,10 +1084,7 @@ static void iwl_mvm_rx_common(struct iwl_mvm *mvm,
 			      struct iwl_rx_cmd_buffer *rxb,
 			      struct iwl_rx_packet *pkt)
 {
-<<<<<<< HEAD
 	unsigned int pkt_len = iwl_rx_packet_payload_len(pkt);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 	union iwl_dbg_tlv_tp_data tp_data = { .fw_pkt = pkt };
 
@@ -1246,12 +1106,9 @@ static void iwl_mvm_rx_common(struct iwl_mvm *mvm,
 		if (rx_h->cmd_id != WIDE_ID(pkt->hdr.group_id, pkt->hdr.cmd))
 			continue;
 
-<<<<<<< HEAD
 		if (unlikely(pkt_len < rx_h->min_size))
 			return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rx_h->context == RX_HANDLER_SYNC) {
 			rx_h->fn(mvm, rxb);
 			return;
@@ -1291,15 +1148,9 @@ static void iwl_mvm_rx(struct iwl_op_mode *op_mode,
 		iwl_mvm_rx_common(mvm, rxb, pkt);
 }
 
-<<<<<<< HEAD
 void iwl_mvm_rx_mq(struct iwl_op_mode *op_mode,
 		   struct napi_struct *napi,
 		   struct iwl_rx_cmd_buffer *rxb)
-=======
-static void iwl_mvm_rx_mq(struct iwl_op_mode *op_mode,
-			  struct napi_struct *napi,
-			  struct iwl_rx_cmd_buffer *rxb)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
 	struct iwl_mvm *mvm = IWL_OP_MODE_GET_MVM(op_mode);
@@ -1588,7 +1439,6 @@ static void iwl_mvm_cmd_queue_full(struct iwl_op_mode *op_mode)
 	iwl_mvm_nic_restart(mvm, true);
 }
 
-<<<<<<< HEAD
 static void iwl_op_mode_mvm_time_point(struct iwl_op_mode *op_mode,
 				       enum iwl_fw_ini_time_point tp_id,
 				       union iwl_dbg_tlv_tp_data *tp_data)
@@ -1598,8 +1448,6 @@ static void iwl_op_mode_mvm_time_point(struct iwl_op_mode *op_mode,
 	iwl_dbg_tlv_time_point(&mvm->fwrt, tp_id, tp_data);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IWL_MVM_COMMON_OPS					\
 	/* these could be differentiated */			\
 	.async_cb = iwl_mvm_async_cb,				\
@@ -1612,12 +1460,8 @@ static void iwl_op_mode_mvm_time_point(struct iwl_op_mode *op_mode,
 	.nic_config = iwl_mvm_nic_config,			\
 	/* as we only register one, these MUST be common! */	\
 	.start = iwl_op_mode_mvm_start,				\
-<<<<<<< HEAD
 	.stop = iwl_op_mode_mvm_stop,				\
 	.time_point = iwl_op_mode_mvm_time_point
-=======
-	.stop = iwl_op_mode_mvm_stop
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct iwl_op_mode_ops iwl_mvm_ops = {
 	IWL_MVM_COMMON_OPS,

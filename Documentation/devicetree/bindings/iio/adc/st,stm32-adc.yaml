@@ -41,11 +41,8 @@ properties:
     maxItems: 2
 
   clocks:
-<<<<<<< HEAD
     minItems: 1
     maxItems: 2
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |
       Core can use up to two clocks, depending on part used:
         - "adc" clock: for the analog circuitry, common to all ADCs.

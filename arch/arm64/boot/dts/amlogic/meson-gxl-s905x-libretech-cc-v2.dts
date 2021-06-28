@@ -159,11 +159,7 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
-<<<<<<< HEAD
 		model = "LIBRETECH-CC-V2";
-=======
-		model = "GXL-LIBRETECH-S905X-CC-V2";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&clkc CLKID_MPLL0>,
 				  <&clkc CLKID_MPLL1>,
 				  <&clkc CLKID_MPLL2>;

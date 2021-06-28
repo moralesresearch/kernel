@@ -1916,11 +1916,7 @@ static int xgene_edac_probe(struct platform_device *pdev)
 		int i;
 
 		for (i = 0; i < 3; i++) {
-<<<<<<< HEAD
 			irq = platform_get_irq_optional(pdev, i);
-=======
-			irq = platform_get_irq(pdev, i);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (irq < 0) {
 				dev_err(&pdev->dev, "No IRQ resource\n");
 				rc = -EINVAL;

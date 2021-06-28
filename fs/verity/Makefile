@@ -5,10 +5,7 @@ obj-$(CONFIG_FS_VERITY) += enable.o \
 			   init.o \
 			   measure.o \
 			   open.o \
-<<<<<<< HEAD
 			   read_metadata.o \
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   verify.o
 
 obj-$(CONFIG_FS_VERITY_BUILTIN_SIGNATURES) += signature.o

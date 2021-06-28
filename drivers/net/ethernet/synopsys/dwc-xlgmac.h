@@ -379,11 +379,7 @@ struct xlgmac_channel {
 } ____cacheline_aligned;
 
 struct xlgmac_desc_ops {
-<<<<<<< HEAD
 	int (*alloc_channels_and_rings)(struct xlgmac_pdata *pdata);
-=======
-	int (*alloc_channles_and_rings)(struct xlgmac_pdata *pdata);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*free_channels_and_rings)(struct xlgmac_pdata *pdata);
 	int (*map_tx_skb)(struct xlgmac_channel *channel,
 			  struct sk_buff *skb);

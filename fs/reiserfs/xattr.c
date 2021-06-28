@@ -66,22 +66,14 @@
 static int xattr_create(struct inode *dir, struct dentry *dentry, int mode)
 {
 	BUG_ON(!inode_is_locked(dir));
-<<<<<<< HEAD
 	return dir->i_op->create(&init_user_ns, dir, dentry, mode, true);
-=======
-	return dir->i_op->create(dir, dentry, mode, true);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
 static int xattr_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
 {
 	BUG_ON(!inode_is_locked(dir));
-<<<<<<< HEAD
 	return dir->i_op->mkdir(&init_user_ns, dir, dentry, mode);
-=======
-	return dir->i_op->mkdir(dir, dentry, mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -360,11 +352,7 @@ static int chown_one_xattr(struct dentry *dentry, void *data)
 	 * ATTR_MODE is set.
 	 */
 	attrs->ia_valid &= (ATTR_UID|ATTR_GID);
-<<<<<<< HEAD
 	err = reiserfs_setattr(&init_user_ns, dentry, attrs);
-=======
-	err = reiserfs_setattr(dentry, attrs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	attrs->ia_valid = ia_valid;
 
 	return err;
@@ -616,11 +604,7 @@ reiserfs_xattr_set_handle(struct reiserfs_transaction_handle *th,
 		inode_lock_nested(d_inode(dentry), I_MUTEX_XATTR);
 		inode_dio_wait(d_inode(dentry));
 
-<<<<<<< HEAD
 		err = reiserfs_setattr(&init_user_ns, dentry, &newattrs);
-=======
-		err = reiserfs_setattr(dentry, &newattrs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode_unlock(d_inode(dentry));
 	} else
 		update_ctime(inode);
@@ -964,12 +948,8 @@ static int xattr_mount_check(struct super_block *s)
 	return 0;
 }
 
-<<<<<<< HEAD
 int reiserfs_permission(struct user_namespace *mnt_userns, struct inode *inode,
 			int mask)
-=======
-int reiserfs_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * We don't do permission checks on the internal objects.
@@ -978,11 +958,7 @@ int reiserfs_permission(struct inode *inode, int mask)
 	if (IS_PRIVATE(inode))
 		return 0;
 
-<<<<<<< HEAD
 	return generic_permission(&init_user_ns, inode, mask);
-=======
-	return generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int xattr_hide_revalidate(struct dentry *dentry, unsigned int flags)

@@ -265,6 +265,7 @@ static dma_addr_t __vmw_piter_sg_addr(struct vmw_piter *viter)
  *
  * @viter: Pointer to the iterator to initialize
  * @vsgt: Pointer to a struct vmw_sg_table to initialize from
+ * @p_offset: Pointer offset used to update current array position
  *
  * Note that we're following the convention of __sg_page_iter_start, so that
  * the iterator doesn't point to a valid page after initialization; it has
@@ -309,11 +310,7 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
  */
 static void vmw_ttm_unmap_from_dma(struct vmw_ttm_tt *vmw_tt)
 {
-<<<<<<< HEAD
 	struct device *dev = vmw_tt->dev_priv->drm.dev;
-=======
-	struct device *dev = vmw_tt->dev_priv->dev->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dma_unmap_sgtable(dev, &vmw_tt->sgt, DMA_BIDIRECTIONAL, 0);
 	vmw_tt->sgt.nents = vmw_tt->sgt.orig_nents;
@@ -334,11 +331,7 @@ static void vmw_ttm_unmap_from_dma(struct vmw_ttm_tt *vmw_tt)
  */
 static int vmw_ttm_map_for_dma(struct vmw_ttm_tt *vmw_tt)
 {
-<<<<<<< HEAD
 	struct device *dev = vmw_tt->dev_priv->drm.dev;
-=======
-	struct device *dev = vmw_tt->dev_priv->dev->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return dma_map_sgtable(dev, &vmw_tt->sgt, DMA_BIDIRECTIONAL, 0);
 }
@@ -393,11 +386,7 @@ static int vmw_ttm_map_dma(struct vmw_ttm_tt *vmw_tt)
 		sg = __sg_alloc_table_from_pages(&vmw_tt->sgt, vsgt->pages,
 				vsgt->num_pages, 0,
 				(unsigned long) vsgt->num_pages << PAGE_SHIFT,
-<<<<<<< HEAD
 				dma_get_max_seg_size(dev_priv->drm.dev),
-=======
-				dma_get_max_seg_size(dev_priv->dev->dev),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				NULL, 0, GFP_KERNEL);
 		if (IS_ERR(sg)) {
 			ret = PTR_ERR(sg);
@@ -494,7 +483,7 @@ const struct vmw_sg_table *vmw_bo_sg_table(struct ttm_buffer_object *bo)
 }
 
 
-static int vmw_ttm_bind(struct ttm_bo_device *bdev,
+static int vmw_ttm_bind(struct ttm_device *bdev,
 			struct ttm_tt *ttm, struct ttm_resource *bo_mem)
 {
 	struct vmw_ttm_tt *vmw_be =
@@ -538,7 +527,7 @@ static int vmw_ttm_bind(struct ttm_bo_device *bdev,
 	return ret;
 }
 
-static void vmw_ttm_unbind(struct ttm_bo_device *bdev,
+static void vmw_ttm_unbind(struct ttm_device *bdev,
 			   struct ttm_tt *ttm)
 {
 	struct vmw_ttm_tt *vmw_be =
@@ -564,7 +553,7 @@ static void vmw_ttm_unbind(struct ttm_bo_device *bdev,
 }
 
 
-static void vmw_ttm_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
 {
 	struct vmw_ttm_tt *vmw_be =
 		container_of(ttm, struct vmw_ttm_tt, dma_ttm);
@@ -584,21 +573,42 @@ static void vmw_ttm_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
 }
 
 
-static int vmw_ttm_populate(struct ttm_bo_device *bdev,
+static int vmw_ttm_populate(struct ttm_device *bdev,
 			    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
 {
+	unsigned int i;
+	int ret;
+
 	/* TODO: maybe completely drop this ? */
 	if (ttm_tt_is_populated(ttm))
 		return 0;
 
-	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
+	ret = ttm_pool_alloc(&bdev->pool, ttm, ctx);
+	if (ret)
+		return ret;
+
+	for (i = 0; i < ttm->num_pages; ++i) {
+		ret = ttm_mem_global_alloc_page(&ttm_mem_glob, ttm->pages[i],
+						PAGE_SIZE, ctx);
+		if (ret)
+			goto error;
+	}
+	return 0;
+
+error:
+	while (i--)
+		ttm_mem_global_free_page(&ttm_mem_glob, ttm->pages[i],
+					 PAGE_SIZE);
+	ttm_pool_free(&bdev->pool, ttm);
+	return ret;
 }
 
-static void vmw_ttm_unpopulate(struct ttm_bo_device *bdev,
+static void vmw_ttm_unpopulate(struct ttm_device *bdev,
 			       struct ttm_tt *ttm)
 {
 	struct vmw_ttm_tt *vmw_tt = container_of(ttm, struct vmw_ttm_tt,
 						 dma_ttm);
+	unsigned int i;
 
 	if (vmw_tt->mob) {
 		vmw_mob_destroy(vmw_tt->mob);
@@ -606,6 +616,11 @@ static void vmw_ttm_unpopulate(struct ttm_bo_device *bdev,
 	}
 
 	vmw_ttm_unmap_dma(vmw_tt);
+
+	for (i = 0; i < ttm->num_pages; ++i)
+		ttm_mem_global_free_page(&ttm_mem_glob, ttm->pages[i],
+					 PAGE_SIZE);
+
 	ttm_pool_free(&bdev->pool, ttm);
 }
 
@@ -623,13 +638,8 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
 	vmw_be->mob = NULL;
 
 	if (vmw_be->dev_priv->map_mode == vmw_dma_alloc_coherent)
-<<<<<<< HEAD
 		ret = ttm_sg_tt_init(&vmw_be->dma_ttm, bo, page_flags,
 				     ttm_cached);
-=======
-		ret = ttm_dma_tt_init(&vmw_be->dma_ttm, bo, page_flags,
-				      ttm_cached);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
 				  ttm_cached);
@@ -656,7 +666,7 @@ static int vmw_verify_access(struct ttm_buffer_object *bo, struct file *filp)
 	return vmw_user_bo_verify_access(bo, tfile);
 }
 
-static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *mem)
+static int vmw_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
 {
 	struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
 
@@ -681,20 +691,19 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resourc
  * vmw_move_notify - TTM move_notify_callback
  *
  * @bo: The TTM buffer object about to move.
- * @mem: The struct ttm_resource indicating to what memory
+ * @old_mem: The old memory where we move from
+ * @new_mem: The struct ttm_resource indicating to what memory
  *       region the move is taking place.
  *
  * Calls move_notify for all subsystems needing it.
  * (currently only resources).
  */
 static void vmw_move_notify(struct ttm_buffer_object *bo,
-			    bool evict,
-			    struct ttm_resource *mem)
+			    struct ttm_resource *old_mem,
+			    struct ttm_resource *new_mem)
 {
-	if (!mem)
-		return;
-	vmw_bo_move_notify(bo, mem);
-	vmw_query_move_notify(bo, mem);
+	vmw_bo_move_notify(bo, new_mem);
+	vmw_query_move_notify(bo, old_mem, new_mem);
 }
 
 
@@ -725,7 +734,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
 			return ret;
 	}
 
-	vmw_move_notify(bo, evict, new_mem);
+	vmw_move_notify(bo, &bo->mem, new_mem);
 
 	if (old_man->use_tt && new_man->use_tt) {
 		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
@@ -747,19 +756,11 @@ static int vmw_move(struct ttm_buffer_object *bo,
 	}
 	return 0;
 fail:
-	swap(*new_mem, bo->mem);
-	vmw_move_notify(bo, false, new_mem);
-	swap(*new_mem, bo->mem);
+	vmw_move_notify(bo, new_mem, &bo->mem);
 	return ret;
 }
 
-static void
-vmw_delete_mem_notify(struct ttm_buffer_object *bo)
-{
-	vmw_move_notify(bo, false, NULL);
-}
-
-struct ttm_bo_driver vmw_bo_driver = {
+struct ttm_device_funcs vmw_bo_driver = {
 	.ttm_tt_create = &vmw_ttm_tt_create,
 	.ttm_tt_populate = &vmw_ttm_populate,
 	.ttm_tt_unpopulate = &vmw_ttm_unpopulate,
@@ -768,7 +769,6 @@ struct ttm_bo_driver vmw_bo_driver = {
 	.evict_flags = vmw_evict_flags,
 	.move = vmw_move,
 	.verify_access = vmw_verify_access,
-	.delete_mem_notify = vmw_delete_mem_notify,
 	.swap_notify = vmw_swap_notify,
 	.io_mem_reserve = &vmw_ttm_io_mem_reserve,
 };

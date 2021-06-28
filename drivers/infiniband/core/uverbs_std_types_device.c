@@ -117,13 +117,8 @@ static int UVERBS_HANDLER(UVERBS_METHOD_INFO_HANDLES)(
 		return ret;
 
 	uapi_object = uapi_get_object(attrs->ufile->device->uapi, object_id);
-<<<<<<< HEAD
 	if (IS_ERR(uapi_object))
 		return PTR_ERR(uapi_object);
-=======
-	if (!uapi_object)
-		return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	handles = gather_objects_handle(attrs->ufile, uapi_object, attrs,
 					out_len, &total);
@@ -336,12 +331,9 @@ static int UVERBS_HANDLER(UVERBS_METHOD_QUERY_GID_TABLE)(
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	if (!user_entry_size)
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	max_entries = uverbs_attr_ptr_get_array_size(
 		attrs, UVERBS_ATTR_QUERY_GID_TABLE_RESP_ENTRIES,
 		user_entry_size);

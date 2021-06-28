@@ -25,7 +25,6 @@
 #include <linux/regulator/of_regulator.h>
 #include <linux/regulator/driver.h>
 #include <linux/regulator/machine.h>
-<<<<<<< HEAD
 #include <linux/slab.h>
 
 /* AB8500 regulators */
@@ -143,11 +142,6 @@ enum ab8505_regulator_reg {
 	AB8505_NUM_REGULATOR_REGISTERS,
 };
 
-=======
-#include <linux/regulator/ab8500.h>
-#include <linux/slab.h>
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * struct ab8500_shared_mode - is used when mode is shared between
  * two regulators.

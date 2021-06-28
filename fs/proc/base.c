@@ -67,10 +67,6 @@
 #include <linux/mm.h>
 #include <linux/swap.h>
 #include <linux/rcupdate.h>
-<<<<<<< HEAD
-=======
-#include <linux/kallsyms.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/stacktrace.h>
 #include <linux/resource.h>
 #include <linux/module.h>
@@ -389,7 +385,6 @@ static int proc_pid_wchan(struct seq_file *m, struct pid_namespace *ns,
 			  struct pid *pid, struct task_struct *task)
 {
 	unsigned long wchan;
-<<<<<<< HEAD
 
 	if (ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS))
 		wchan = get_wchan(task);
@@ -401,21 +396,6 @@ static int proc_pid_wchan(struct seq_file *m, struct pid_namespace *ns,
 	else
 		seq_putc(m, '0');
 
-=======
-	char symname[KSYM_NAME_LEN];
-
-	if (!ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS))
-		goto print0;
-
-	wchan = get_wchan(task);
-	if (wchan && !lookup_symbol_name(wchan, symname)) {
-		seq_puts(m, symname);
-		return 0;
-	}
-
-print0:
-	seq_putc(m, '0');
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 #endif /* CONFIG_KALLSYMS */
@@ -702,12 +682,8 @@ static int proc_fd_access_allowed(struct inode *inode)
 	return allowed;
 }
 
-<<<<<<< HEAD
 int proc_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		 struct iattr *attr)
-=======
-int proc_setattr(struct dentry *dentry, struct iattr *attr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int error;
 	struct inode *inode = d_inode(dentry);
@@ -715,19 +691,11 @@ int proc_setattr(struct dentry *dentry, struct iattr *attr)
 	if (attr->ia_valid & ATTR_MODE)
 		return -EPERM;
 
-<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
 	if (error)
 		return error;
 
 	setattr_copy(&init_user_ns, inode, attr);
-=======
-	error = setattr_prepare(dentry, attr);
-	if (error)
-		return error;
-
-	setattr_copy(inode, attr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }
@@ -756,12 +724,8 @@ static bool has_pid_permissions(struct proc_fs_info *fs_info,
 }
 
 
-<<<<<<< HEAD
 static int proc_pid_permission(struct user_namespace *mnt_userns,
 			       struct inode *inode, int mask)
-=======
-static int proc_pid_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct proc_fs_info *fs_info = proc_sb_info(inode->i_sb);
 	struct task_struct *task;
@@ -786,11 +750,7 @@ static int proc_pid_permission(struct inode *inode, int mask)
 
 		return -EPERM;
 	}
-<<<<<<< HEAD
 	return generic_permission(&init_user_ns, inode, mask);
-=======
-	return generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 
@@ -1966,23 +1926,14 @@ out_unlock:
 	return NULL;
 }
 
-<<<<<<< HEAD
 int pid_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		struct kstat *stat, u32 request_mask, unsigned int query_flags)
-=======
-int pid_getattr(const struct path *path, struct kstat *stat,
-		u32 request_mask, unsigned int query_flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(path->dentry);
 	struct proc_fs_info *fs_info = proc_sb_info(inode->i_sb);
 	struct task_struct *task;
 
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	stat->uid = GLOBAL_ROOT_UID;
 	stat->gid = GLOBAL_ROOT_GID;
@@ -2723,7 +2674,6 @@ out:
 }
 
 #ifdef CONFIG_SECURITY
-<<<<<<< HEAD
 static int proc_pid_attr_open(struct inode *inode, struct file *file)
 {
 	file->private_data = NULL;
@@ -2731,8 +2681,6 @@ static int proc_pid_attr_open(struct inode *inode, struct file *file)
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t proc_pid_attr_read(struct file * file, char __user * buf,
 				  size_t count, loff_t *ppos)
 {
@@ -2762,13 +2710,10 @@ static ssize_t proc_pid_attr_write(struct file * file, const char __user * buf,
 	void *page;
 	int rv;
 
-<<<<<<< HEAD
 	/* A task may only write when it was the opener. */
 	if (file->private_data != current->mm)
 		return -EPERM;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_lock();
 	task = pid_task(proc_pid(inode), PIDTYPE_PID);
 	if (!task) {
@@ -2816,17 +2761,11 @@ out:
 }
 
 static const struct file_operations proc_pid_attr_operations = {
-<<<<<<< HEAD
 	.open		= proc_pid_attr_open,
 	.read		= proc_pid_attr_read,
 	.write		= proc_pid_attr_write,
 	.llseek		= generic_file_llseek,
 	.release	= mem_release,
-=======
-	.read		= proc_pid_attr_read,
-	.write		= proc_pid_attr_write,
-	.llseek		= generic_file_llseek,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define LSM_DIR_OPS(LSM) \
@@ -3546,12 +3485,8 @@ int proc_pid_readdir(struct file *file, struct dir_context *ctx)
  * This function makes sure that the node is always accessible for members of
  * same thread group.
  */
-<<<<<<< HEAD
 static int proc_tid_comm_permission(struct user_namespace *mnt_userns,
 				    struct inode *inode, int mask)
-=======
-static int proc_tid_comm_permission(struct inode *inode, int mask)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool is_same_tgroup;
 	struct task_struct *task;
@@ -3570,11 +3505,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
 		return 0;
 	}
 
-<<<<<<< HEAD
 	return generic_permission(&init_user_ns, inode, mask);
-=======
-	return generic_permission(inode, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct inode_operations proc_tid_comm_inode_operations = {
@@ -3880,21 +3811,13 @@ static int proc_task_readdir(struct file *file, struct dir_context *ctx)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int proc_task_getattr(struct user_namespace *mnt_userns,
 			     const struct path *path, struct kstat *stat,
-=======
-static int proc_task_getattr(const struct path *path, struct kstat *stat,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     u32 request_mask, unsigned int query_flags)
 {
 	struct inode *inode = d_inode(path->dentry);
 	struct task_struct *p = get_proc_task(inode);
-<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
-=======
-	generic_fillattr(inode, stat);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (p) {
 		stat->nlink += get_nr_threads(p);

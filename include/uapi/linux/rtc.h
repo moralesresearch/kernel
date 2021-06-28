@@ -110,14 +110,11 @@ struct rtc_pll_info {
 #define RTC_AF 0x20	/* Alarm interrupt */
 #define RTC_UF 0x10	/* Update interrupt for 1Hz RTC */
 
-<<<<<<< HEAD
 /* feature list */
 #define RTC_FEATURE_ALARM		0
 #define RTC_FEATURE_ALARM_RES_MINUTE	1
 #define RTC_FEATURE_NEED_WEEK_DAY	2
 #define RTC_FEATURE_CNT			3
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define RTC_MAX_FREQ	8192
 

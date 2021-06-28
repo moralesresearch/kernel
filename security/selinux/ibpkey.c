@@ -40,10 +40,6 @@ struct sel_ib_pkey {
 	struct rcu_head rcu;
 };
 
-<<<<<<< HEAD
-=======
-static LIST_HEAD(sel_ib_pkey_list);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_SPINLOCK(sel_ib_pkey_lock);
 static struct sel_ib_pkey_bkt sel_ib_pkey_hash[SEL_PKEY_HASH_SIZE];
 

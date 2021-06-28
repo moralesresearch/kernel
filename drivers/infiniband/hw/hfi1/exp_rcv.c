@@ -49,12 +49,8 @@
 #include "trace.h"
 
 /**
- * exp_tid_group_init - initialize exp_tid_set
-<<<<<<< HEAD
+ * hfi1_exp_tid_set_init - initialize exp_tid_set
  * @set: the set
-=======
- * @set - the set
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void hfi1_exp_tid_set_init(struct exp_tid_set *set)
 {
@@ -64,11 +60,7 @@ static void hfi1_exp_tid_set_init(struct exp_tid_set *set)
 
 /**
  * hfi1_exp_tid_group_init - initialize rcd expected receive
-<<<<<<< HEAD
  * @rcd: the rcd
-=======
- * @rcd - the rcd
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void hfi1_exp_tid_group_init(struct hfi1_ctxtdata *rcd)
 {
@@ -78,12 +70,8 @@ void hfi1_exp_tid_group_init(struct hfi1_ctxtdata *rcd)
 }
 
 /**
- * alloc_ctxt_rcv_groups - initialize expected receive groups
-<<<<<<< HEAD
+ * hfi1_alloc_ctxt_rcv_groups - initialize expected receive groups
  * @rcd: the context to add the groupings to
-=======
- * @rcd - the context to add the groupings to
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int hfi1_alloc_ctxt_rcv_groups(struct hfi1_ctxtdata *rcd)
 {
@@ -112,12 +100,8 @@ int hfi1_alloc_ctxt_rcv_groups(struct hfi1_ctxtdata *rcd)
 }
 
 /**
- * free_ctxt_rcv_groups - free  expected receive groups
-<<<<<<< HEAD
+ * hfi1_free_ctxt_rcv_groups - free  expected receive groups
  * @rcd: the context to free
-=======
- * @rcd - the context to free
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The routine dismantles the expect receive linked
  * list and clears any tids associated with the receive

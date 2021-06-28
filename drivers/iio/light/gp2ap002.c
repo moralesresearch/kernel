@@ -465,8 +465,7 @@ static int gp2ap002_probe(struct i2c_client *client,
 
 	regmap = devm_regmap_init(dev, &gp2ap002_regmap_bus, dev, &config);
 	if (IS_ERR(regmap)) {
-		dev_err(dev, "Failed to register i2c regmap %d\n",
-			(int)PTR_ERR(regmap));
+		dev_err(dev, "Failed to register i2c regmap %ld\n", PTR_ERR(regmap));
 		return PTR_ERR(regmap);
 	}
 	gp2ap002->map = regmap;
@@ -583,11 +582,7 @@ static int gp2ap002_probe(struct i2c_client *client,
 					"gp2ap002", indio_dev);
 	if (ret) {
 		dev_err(dev, "unable to request IRQ\n");
-<<<<<<< HEAD
 		goto out_put_pm;
-=======
-		goto out_disable_vio;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	gp2ap002->irq = client->irq;
 
@@ -617,14 +612,9 @@ static int gp2ap002_probe(struct i2c_client *client,
 
 	return 0;
 
-<<<<<<< HEAD
 out_put_pm:
 	pm_runtime_put_noidle(dev);
 out_disable_pm:
-=======
-out_disable_pm:
-	pm_runtime_put_noidle(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_disable(dev);
 out_disable_vio:
 	regulator_disable(gp2ap002->vio);

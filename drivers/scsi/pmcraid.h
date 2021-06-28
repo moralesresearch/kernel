@@ -244,11 +244,7 @@ struct pmcraid_ioarcb {
 	__u8  hrrq_id;
 	__u8  cdb[PMCRAID_MAX_CDB_LEN];
 	struct pmcraid_ioarcb_add_data add_data;
-<<<<<<< HEAD
 };
-=======
-} __attribute__((packed, aligned(PMCRAID_IOARCB_ALIGNMENT)));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* well known resource handle values */
 #define PMCRAID_IOA_RES_HANDLE        0xffffffff
@@ -1044,13 +1040,8 @@ struct pmcraid_passthrough_ioctl_buffer {
 	struct pmcraid_ioctl_header ioctl_header;
 	struct pmcraid_ioarcb ioarcb;
 	struct pmcraid_ioasa  ioasa;
-<<<<<<< HEAD
 	u8  request_buffer[];
 } __attribute__ ((packed, aligned(PMCRAID_IOARCB_ALIGNMENT)));
-=======
-	u8  request_buffer[1];
-} __attribute__ ((packed));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * keys to differentiate between driver handled IOCTLs and passthrough

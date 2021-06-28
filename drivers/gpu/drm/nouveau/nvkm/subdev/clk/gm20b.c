@@ -908,11 +908,7 @@ gm20b_clk = {
 };
 
 static int
-<<<<<<< HEAD
 gm20b_clk_new_speedo0(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
-=======
-gm20b_clk_new_speedo0(struct nvkm_device *device, int index,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      struct nvkm_clk **pclk)
 {
 	struct gk20a_clk *clk;
@@ -923,18 +919,9 @@ gm20b_clk_new_speedo0(struct nvkm_device *device, int index,
 		return -ENOMEM;
 	*pclk = &clk->base;
 
-<<<<<<< HEAD
 	ret = gk20a_clk_ctor(device, type, inst, &gm20b_clk_speedo0, &gm20b_pllg_params, clk);
 	clk->pl_to_div = pl_to_div;
 	clk->div_to_pl = div_to_pl;
-=======
-	ret = gk20a_clk_ctor(device, index, &gm20b_clk_speedo0,
-			     &gm20b_pllg_params, clk);
-
-	clk->pl_to_div = pl_to_div;
-	clk->div_to_pl = div_to_pl;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1024,12 +1011,8 @@ gm20b_clk_init_safe_fmax(struct gm20b_clk *clk)
 }
 
 int
-<<<<<<< HEAD
 gm20b_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_clk **pclk)
-=======
-gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_device_tegra *tdev = device->func->tegra(device);
 	struct gm20b_clk *clk;
@@ -1039,11 +1022,7 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
 
 	/* Speedo 0 GPUs cannot use noise-aware PLL */
 	if (tdev->gpu_speedo_id == 0)
-<<<<<<< HEAD
 		return gm20b_clk_new_speedo0(device, type, inst, pclk);
-=======
-		return gm20b_clk_new_speedo0(device, index, pclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Speedo >= 1, use NAPLL */
 	clk = kzalloc(sizeof(*clk) + sizeof(*clk_params), GFP_KERNEL);
@@ -1055,12 +1034,7 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
 	/* duplicate the clock parameters since we will patch them below */
 	clk_params = (void *) (clk + 1);
 	*clk_params = gm20b_pllg_params;
-<<<<<<< HEAD
 	ret = gk20a_clk_ctor(device, type, inst, &gm20b_clk, clk_params, &clk->base);
-=======
-	ret = gk20a_clk_ctor(device, index, &gm20b_clk, clk_params,
-			     &clk->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -1073,11 +1047,7 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
 	if (clk_params->max_m == 0) {
 		nvkm_warn(subdev, "cannot use NAPLL, using legacy clock...\n");
 		kfree(clk);
-<<<<<<< HEAD
 		return gm20b_clk_new_speedo0(device, type, inst, pclk);
-=======
-		return gm20b_clk_new_speedo0(device, index, pclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	clk->base.pl_to_div = pl_to_div;

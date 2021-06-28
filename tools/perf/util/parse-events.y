@@ -89,10 +89,7 @@ static void inc_group_count(struct list_head *list,
 %type <str> PE_EVENT_NAME
 %type <str> PE_PMU_EVENT_PRE PE_PMU_EVENT_SUF PE_KERNEL_PMU_EVENT PE_PMU_EVENT_FAKE
 %type <str> PE_DRV_CFG_TERM
-<<<<<<< HEAD
 %type <str> event_pmu_name
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 %destructor { free ($$); } <str>
 %type <term> event_term
 %destructor { parse_events_term__delete ($$); } <term>
@@ -276,16 +273,11 @@ event_def: event_pmu |
 	   event_legacy_raw sep_dc |
 	   event_bpf_file
 
-<<<<<<< HEAD
 event_pmu_name:
 PE_NAME | PE_PMU_EVENT_PRE
 
 event_pmu:
 event_pmu_name opt_pmu_config
-=======
-event_pmu:
-PE_NAME opt_pmu_config
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct parse_events_state *parse_state = _parse_state;
 	struct parse_events_error *error = parse_state->error;
@@ -462,7 +454,8 @@ PE_NAME_CACHE_TYPE '-' PE_NAME_CACHE_OP_RESULT '-' PE_NAME_CACHE_OP_RESULT opt_e
 
 	list = alloc_list();
 	ABORT_ON(!list);
-	err = parse_events_add_cache(list, &parse_state->idx, $1, $3, $5, error, $6);
+	err = parse_events_add_cache(list, &parse_state->idx, $1, $3, $5, error, $6,
+				     parse_state);
 	parse_events_terms__delete($6);
 	free($1);
 	free($3);
@@ -483,7 +476,8 @@ PE_NAME_CACHE_TYPE '-' PE_NAME_CACHE_OP_RESULT opt_event_config
 
 	list = alloc_list();
 	ABORT_ON(!list);
-	err = parse_events_add_cache(list, &parse_state->idx, $1, $3, NULL, error, $4);
+	err = parse_events_add_cache(list, &parse_state->idx, $1, $3, NULL, error, $4,
+				     parse_state);
 	parse_events_terms__delete($4);
 	free($1);
 	free($3);
@@ -503,7 +497,8 @@ PE_NAME_CACHE_TYPE opt_event_config
 
 	list = alloc_list();
 	ABORT_ON(!list);
-	err = parse_events_add_cache(list, &parse_state->idx, $1, NULL, NULL, error, $2);
+	err = parse_events_add_cache(list, &parse_state->idx, $1, NULL, NULL, error, $2,
+				     parse_state);
 	parse_events_terms__delete($2);
 	free($1);
 	if (err) {

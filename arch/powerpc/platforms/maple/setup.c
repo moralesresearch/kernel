@@ -179,12 +179,6 @@ static void __init maple_setup_arch(void)
 #ifdef CONFIG_SMP
 	smp_ops = &maple_smp_ops;
 #endif
-<<<<<<< HEAD
-=======
-	/* Lookup PCI hosts */
-       	maple_pci_init();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	maple_use_rtas_reboot_and_halt_if_present();
 
 	printk(KERN_DEBUG "Using native/NAP idle loop\n");
@@ -354,10 +348,7 @@ define_machine(maple) {
 	.name			= "Maple",
 	.probe			= maple_probe,
 	.setup_arch		= maple_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs		= maple_pci_init,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= maple_init_IRQ,
 	.pci_irq_fixup		= maple_pci_irq_fixup,
 	.pci_get_legacy_ide_irq	= maple_pci_get_legacy_ide_irq,

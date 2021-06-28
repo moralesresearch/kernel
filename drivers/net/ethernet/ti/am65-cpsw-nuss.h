@@ -6,20 +6,14 @@
 #ifndef AM65_CPSW_NUSS_H_
 #define AM65_CPSW_NUSS_H_
 
-<<<<<<< HEAD
 #include <linux/if_ether.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/netdevice.h>
 #include <linux/phy.h>
 #include <linux/platform_device.h>
 #include <linux/soc/ti/k3-ringacc.h>
-<<<<<<< HEAD
 #include <net/devlink.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "am65-cpsw-qos.h"
 
 struct am65_cpts;
@@ -30,11 +24,8 @@ struct am65_cpts;
 #define AM65_CPSW_MAX_RX_QUEUES	1
 #define AM65_CPSW_MAX_RX_FLOWS	1
 
-<<<<<<< HEAD
 #define AM65_CPSW_PORT_VLAN_REG_OFFSET	0x014
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct am65_cpsw_slave_data {
 	bool				mac_only;
 	struct cpsw_sl			*mac_sl;
@@ -45,10 +36,7 @@ struct am65_cpsw_slave_data {
 	bool				rx_pause;
 	bool				tx_pause;
 	u8				mac_addr[ETH_ALEN];
-<<<<<<< HEAD
 	int				port_vlan;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct am65_cpsw_port {
@@ -64,10 +52,7 @@ struct am65_cpsw_port {
 	bool				tx_ts_enabled;
 	bool				rx_ts_enabled;
 	struct am65_cpsw_qos		qos;
-<<<<<<< HEAD
 	struct devlink_port		devlink_port;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct am65_cpsw_host {
@@ -77,10 +62,7 @@ struct am65_cpsw_host {
 };
 
 struct am65_cpsw_tx_chn {
-<<<<<<< HEAD
 	struct device *dma_dev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct napi_struct napi_tx;
 	struct am65_cpsw_common	*common;
 	struct k3_cppi_desc_pool *desc_pool;
@@ -94,10 +76,7 @@ struct am65_cpsw_tx_chn {
 
 struct am65_cpsw_rx_chn {
 	struct device *dev;
-<<<<<<< HEAD
 	struct device *dma_dev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct k3_cppi_desc_pool *desc_pool;
 	struct k3_udma_glue_rx_channel *rx_chn;
 	u32 descs_num;
@@ -112,7 +91,6 @@ struct am65_cpsw_pdata {
 	const char	*ale_dev_id;
 };
 
-<<<<<<< HEAD
 enum cpsw_devlink_param_id {
 	AM65_CPSW_DEVLINK_PARAM_ID_BASE = DEVLINK_PARAM_GENERIC_ID_MAX,
 	AM65_CPSW_DL_PARAM_SWITCH_MODE,
@@ -122,8 +100,6 @@ struct am65_cpsw_devlink {
 	struct am65_cpsw_common *common;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct am65_cpsw_common {
 	struct device		*dev;
 	struct device		*mdio_dev;
@@ -156,7 +132,6 @@ struct am65_cpsw_common {
 	bool			pf_p0_rx_ptype_rrobin;
 	struct am65_cpts	*cpts;
 	int			est_enabled;
-<<<<<<< HEAD
 
 	bool		is_emac_mode;
 	u16			br_members;
@@ -165,8 +140,6 @@ struct am65_cpsw_common {
 	struct net_device *hw_bridge_dev;
 	struct notifier_block am65_cpsw_netdevice_nb;
 	unsigned char switch_id[MAX_PHYS_ITEM_ID_LEN];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct am65_cpsw_ndev_stats {
@@ -181,10 +154,7 @@ struct am65_cpsw_ndev_priv {
 	u32			msg_enable;
 	struct am65_cpsw_port	*port;
 	struct am65_cpsw_ndev_stats __percpu *stats;
-<<<<<<< HEAD
 	bool offload_fwd_mark;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define am65_ndev_to_priv(ndev) \
@@ -212,9 +182,6 @@ void am65_cpsw_nuss_set_p0_ptype(struct am65_cpsw_common *common);
 void am65_cpsw_nuss_remove_tx_chns(struct am65_cpsw_common *common);
 int am65_cpsw_nuss_update_tx_chns(struct am65_cpsw_common *common, int num_tx);
 
-<<<<<<< HEAD
 bool am65_cpsw_port_dev_check(const struct net_device *dev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* AM65_CPSW_NUSS_H_ */

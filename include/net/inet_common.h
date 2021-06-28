@@ -41,11 +41,8 @@ int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len);
 #define BIND_WITH_LOCK			(1 << 1)
 /* Called from BPF program. */
 #define BIND_FROM_BPF			(1 << 2)
-<<<<<<< HEAD
 /* Skip CAP_NET_BIND_SERVICE check. */
 #define BIND_NO_CAP_NET_BIND_SERVICE	(1 << 3)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __inet_bind(struct sock *sk, struct sockaddr *uaddr, int addr_len,
 		u32 flags);
 int inet_getname(struct socket *sock, struct sockaddr *uaddr,

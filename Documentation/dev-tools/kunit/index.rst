@@ -13,10 +13,7 @@ KUnit - Unit Testing for the Linux Kernel
 	api/index
 	style
 	faq
-<<<<<<< HEAD
 	tips
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 What is KUnit?
 ==============
@@ -92,10 +89,7 @@ How do I use it?
 ================
 
 *   :doc:`start` - for new users of KUnit
-<<<<<<< HEAD
 *   :doc:`tips` - for short examples of best practices
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 *   :doc:`usage` - for a more detailed explanation of KUnit features
 *   :doc:`api/index` - for the list of KUnit APIs used for testing
 *   :doc:`kunit-tool` - for more information on the kunit_tool helper script

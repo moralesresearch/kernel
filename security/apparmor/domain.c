@@ -10,20 +10,14 @@
 
 #include <linux/errno.h>
 #include <linux/fdtable.h>
-<<<<<<< HEAD
 #include <linux/fs.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/file.h>
 #include <linux/mount.h>
 #include <linux/syscalls.h>
 #include <linux/tracehook.h>
 #include <linux/personality.h>
 #include <linux/xattr.h>
-<<<<<<< HEAD
 #include <linux/user_namespace.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "include/audit.h"
 #include "include/apparmorfs.h"
@@ -332,13 +326,8 @@ static int aa_xattrs_match(const struct linux_binprm *bprm,
 	d = bprm->file->f_path.dentry;
 
 	for (i = 0; i < profile->xattr_count; i++) {
-<<<<<<< HEAD
 		size = vfs_getxattr_alloc(&init_user_ns, d, profile->xattrs[i],
 					  &value, value_size, GFP_KERNEL);
-=======
-		size = vfs_getxattr_alloc(d, profile->xattrs[i], &value,
-					  value_size, GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (size >= 0) {
 			u32 perm;
 
@@ -871,15 +860,10 @@ int apparmor_bprm_creds_for_exec(struct linux_binprm *bprm)
 	const char *info = NULL;
 	int error = 0;
 	bool unsafe = false;
-<<<<<<< HEAD
 	kuid_t i_uid = i_uid_into_mnt(file_mnt_user_ns(bprm->file),
 				      file_inode(bprm->file));
 	struct path_cond cond = {
 		i_uid,
-=======
-	struct path_cond cond = {
-		file_inode(bprm->file)->i_uid,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		file_inode(bprm->file)->i_mode
 	};
 
@@ -987,12 +971,7 @@ audit:
 	error = fn_for_each(label, profile,
 			aa_audit_file(profile, &nullperms, OP_EXEC, MAY_EXEC,
 				      bprm->filename, NULL, new,
-<<<<<<< HEAD
 				      i_uid, info, error));
-=======
-				      file_inode(bprm->file)->i_uid, info,
-				      error));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	aa_put_label(new);
 	goto done;
 }

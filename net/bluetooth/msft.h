@@ -12,20 +12,17 @@
 
 #if IS_ENABLED(CONFIG_BT_MSFTEXT)
 
-<<<<<<< HEAD
 bool msft_monitor_supported(struct hci_dev *hdev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void msft_do_open(struct hci_dev *hdev);
 void msft_do_close(struct hci_dev *hdev);
 void msft_vendor_evt(struct hci_dev *hdev, struct sk_buff *skb);
 __u64 msft_get_features(struct hci_dev *hdev);
-<<<<<<< HEAD
 int msft_add_monitor_pattern(struct hci_dev *hdev, struct adv_monitor *monitor);
 int msft_remove_monitor(struct hci_dev *hdev, struct adv_monitor *monitor,
 			u16 handle);
 void msft_req_add_set_filter_enable(struct hci_request *req, bool enable);
 int msft_set_filter_enable(struct hci_dev *hdev, bool enable);
+bool msft_curve_validity(struct hci_dev *hdev);
 
 #else
 
@@ -34,16 +31,10 @@ static inline bool msft_monitor_supported(struct hci_dev *hdev)
 	return false;
 }
 
-=======
-
-#else
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void msft_do_open(struct hci_dev *hdev) {}
 static inline void msft_do_close(struct hci_dev *hdev) {}
 static inline void msft_vendor_evt(struct hci_dev *hdev, struct sk_buff *skb) {}
 static inline __u64 msft_get_features(struct hci_dev *hdev) { return 0; }
-<<<<<<< HEAD
 static inline int msft_add_monitor_pattern(struct hci_dev *hdev,
 					   struct adv_monitor *monitor)
 {
@@ -63,7 +54,10 @@ static inline int msft_set_filter_enable(struct hci_dev *hdev, bool enable)
 {
 	return -EOPNOTSUPP;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+static inline bool msft_curve_validity(struct hci_dev *hdev)
+{
+	return false;
+}
 
 #endif

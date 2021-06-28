@@ -25,10 +25,7 @@
 		emmc2bus = &emmc2bus;
 		ethernet0 = &genet;
 		pcie0 = &pcie0;
-<<<<<<< HEAD
 		blconfig = &blconfig;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	leds {
@@ -222,7 +219,6 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
 &rmem {
 	/*
 	 * RPi4's co-processor will copy the board's bootloader configuration
@@ -239,8 +235,6 @@
 	};
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* SDHCI is used to control the SDIO for wireless */
 &sdhci {
 	#address-cells = <1>;

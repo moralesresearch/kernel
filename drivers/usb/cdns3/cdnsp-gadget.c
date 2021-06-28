@@ -422,7 +422,6 @@ unmap:
 int cdnsp_ep_dequeue(struct cdnsp_ep *pep, struct cdnsp_request *preq)
 {
 	struct cdnsp_device *pdev = pep->pdev;
-<<<<<<< HEAD
 	int ret_stop = 0;
 	int ret_rem;
 
@@ -434,19 +433,6 @@ int cdnsp_ep_dequeue(struct cdnsp_ep *pep, struct cdnsp_request *preq)
 	ret_rem = cdnsp_remove_request(pdev, preq, pep);
 
 	return ret_rem ? ret_rem : ret_stop;
-=======
-	int ret;
-
-	trace_cdnsp_request_dequeue(preq);
-
-	if (GET_EP_CTX_STATE(pep->out_ctx) == EP_STATE_RUNNING) {
-		ret = cdnsp_cmd_stop_ep(pdev, pep);
-		if (ret)
-			return ret;
-	}
-
-	return cdnsp_remove_request(pdev, preq, pep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void cdnsp_zero_in_ctx(struct cdnsp_device *pdev)
@@ -741,11 +727,7 @@ int cdnsp_reset_device(struct cdnsp_device *pdev)
 	 * are in Disabled state.
 	 */
 	for (i = 1; i < CDNSP_ENDPOINTS_NUM; ++i)
-<<<<<<< HEAD
 		pdev->eps[i].ep_state |= EP_STOPPED | EP_UNCONFIGURED;
-=======
-		pdev->eps[i].ep_state |= EP_STOPPED;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trace_cdnsp_handle_cmd_reset_dev(slot_ctx);
 
@@ -960,10 +942,7 @@ static int cdnsp_gadget_ep_enable(struct usb_ep *ep,
 
 	pep = to_cdnsp_ep(ep);
 	pdev = pep->pdev;
-<<<<<<< HEAD
 	pep->ep_state &= ~EP_UNCONFIGURED;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dev_WARN_ONCE(pdev->dev, pep->ep_state & EP_ENABLED,
 			  "%s is already enabled\n", pep->name))
@@ -1045,7 +1024,6 @@ static int cdnsp_gadget_ep_disable(struct usb_ep *ep)
 		goto finish;
 	}
 
-<<<<<<< HEAD
 	pep->ep_state |= EP_DIS_IN_RROGRESS;
 
 	/* Endpoint was unconfigured by Reset Device command. */
@@ -1053,11 +1031,6 @@ static int cdnsp_gadget_ep_disable(struct usb_ep *ep)
 		cdnsp_cmd_stop_ep(pdev, pep);
 		cdnsp_cmd_flush_ep(pdev, pep);
 	}
-=======
-	cdnsp_cmd_stop_ep(pdev, pep);
-	pep->ep_state |= EP_DIS_IN_RROGRESS;
-	cdnsp_cmd_flush_ep(pdev, pep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Remove all queued USB requests. */
 	while (!list_empty(&pep->pending_list)) {
@@ -1075,19 +1048,12 @@ static int cdnsp_gadget_ep_disable(struct usb_ep *ep)
 
 	cdnsp_endpoint_zero(pdev, pep);
 
-<<<<<<< HEAD
 	if (!(pep->ep_state & EP_UNCONFIGURED))
 		ret = cdnsp_update_eps_configuration(pdev, pep);
 
 	cdnsp_free_endpoint_rings(pdev, pep);
 
 	pep->ep_state &= ~(EP_ENABLED | EP_UNCONFIGURED);
-=======
-	ret = cdnsp_update_eps_configuration(pdev, pep);
-	cdnsp_free_endpoint_rings(pdev, pep);
-
-	pep->ep_state &= ~EP_ENABLED;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pep->ep_state |= EP_STOPPED;
 
 finish:

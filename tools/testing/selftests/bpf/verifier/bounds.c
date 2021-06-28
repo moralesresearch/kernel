@@ -261,11 +261,6 @@
 	},
 	.fixup_map_hash_8b = { 3 },
 	/* not actually fully unbounded, but the bound is very high */
-<<<<<<< HEAD
-=======
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds, pointer arithmetic with it prohibited for !root",
-	.result_unpriv = REJECT,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "value -4294967168 makes map_value pointer be out of bounds",
 	.result = REJECT,
 },
@@ -301,12 +296,6 @@
 	BPF_EXIT_INSN(),
 	},
 	.fixup_map_hash_8b = { 3 },
-<<<<<<< HEAD
-=======
-	/* not actually fully unbounded, but the bound is very high */
-	.errstr_unpriv = "R1 has unknown scalar with mixed signed bounds, pointer arithmetic with it prohibited for !root",
-	.result_unpriv = REJECT,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "value -4294967168 makes map_value pointer be out of bounds",
 	.result = REJECT,
 },
@@ -519,6 +508,8 @@
 	BPF_LDX_MEM(BPF_DW, BPF_REG_0, BPF_REG_0, -1),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 invalid mem access 'inv'",
+	.result_unpriv = REJECT,
 	.result = ACCEPT
 },
 {
@@ -539,6 +530,8 @@
 	BPF_LDX_MEM(BPF_DW, BPF_REG_0, BPF_REG_0, -1),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 invalid mem access 'inv'",
+	.result_unpriv = REJECT,
 	.result = ACCEPT
 },
 {
@@ -580,6 +573,8 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 min value is outside of the allowed memory range",
+	.result_unpriv = REJECT,
 	.fixup_map_hash_8b = { 3 },
 	.result = ACCEPT,
 },
@@ -600,6 +595,8 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 min value is outside of the allowed memory range",
+	.result_unpriv = REJECT,
 	.fixup_map_hash_8b = { 3 },
 	.result = ACCEPT,
 },
@@ -620,6 +617,8 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 min value is outside of the allowed memory range",
+	.result_unpriv = REJECT,
 	.fixup_map_hash_8b = { 3 },
 	.result = ACCEPT,
 },
@@ -685,6 +684,8 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 min value is outside of the allowed memory range",
+	.result_unpriv = REJECT,
 	.fixup_map_hash_8b = { 3 },
 	.result = ACCEPT,
 },
@@ -706,6 +707,8 @@
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 	},
+	.errstr_unpriv = "R0 min value is outside of the allowed memory range",
+	.result_unpriv = REJECT,
 	.fixup_map_hash_8b = { 3 },
 	.result = ACCEPT,
 },

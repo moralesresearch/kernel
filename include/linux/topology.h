@@ -48,10 +48,7 @@ int arch_update_cpu_topology(void);
 /* Conform to ACPI 2.0 SLIT distance definitions */
 #define LOCAL_DISTANCE		10
 #define REMOTE_DISTANCE		20
-<<<<<<< HEAD
 #define DISTANCE_BITS           8
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef node_distance
 #define node_distance(from,to)	((from) == (to) ? LOCAL_DISTANCE : REMOTE_DISTANCE)
 #endif

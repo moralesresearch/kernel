@@ -12,20 +12,13 @@ Contents
 - `Enabling the driver and kconfig options`_
 - `Devlink info`_
 - `Devlink parameters`_
-<<<<<<< HEAD
 - `mlx5 subfunction`_
 - `mlx5 function attributes`_
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - `Devlink health reporters`_
 - `mlx5 tracepoints`_
 
 Enabling the driver and kconfig options
-<<<<<<< HEAD
 =======================================
-=======
-================================================
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 | mlx5 core is modular and most of the major mlx5 core driver features can be selected (compiled in/out)
 | at build time via kernel Kconfig flags.
@@ -106,14 +99,11 @@ Enabling the driver and kconfig options
 
 |   Provides low-level InfiniBand/RDMA and `RoCE <https://community.mellanox.com/s/article/recommended-network-configuration-examples-for-roce-deployment>`_ support.
 
-<<<<<<< HEAD
 **CONFIG_MLX5_SF=(y/n)**
 
 |   Build support for subfunction.
 |   Subfunctons are more light weight than PCI SRIOV VFs. Choosing this option
 |   will enable support for creating subfunction devices.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 **External options** ( Choose if the corresponding mlx5 feature is required )
 
@@ -193,7 +183,40 @@ User command examples:
       values:
          cmode driverinit value true
 
-<<<<<<< HEAD
+esw_port_metadata: Eswitch port metadata state
+----------------------------------------------
+When applicable, disabling Eswitch metadata can increase packet rate
+up to 20% depending on the use case and packet sizes.
+
+Eswitch port metadata state controls whether to internally tag packets with
+metadata. Metadata tagging must be enabled for multi-port RoCE, failover
+between representors and stacked devices.
+By default metadata is enabled on the supported devices in E-switch.
+Metadata is applicable only for E-switch in switchdev mode and
+users may disable it when NONE of the below use cases will be in use:
+1. HCA is in Dual/multi-port RoCE mode.
+2. VF/SF representor bonding (Usually used for Live migration)
+3. Stacked devices
+
+When metadata is disabled, the above use cases will fail to initialize if
+users try to enable them.
+
+- Show eswitch port metadata::
+
+    $ devlink dev param show pci/0000:06:00.0 name esw_port_metadata
+      pci/0000:06:00.0:
+        name esw_port_metadata type driver-specific
+          values:
+            cmode runtime value true
+
+- Disable eswitch port metadata::
+
+    $ devlink dev param set pci/0000:06:00.0 name esw_port_metadata value false cmode runtime
+
+- Change eswitch mode to switchdev mode where after choosing the metadata value::
+
+    $ devlink dev eswitch set pci/0000:06:00.0 mode switchdev
+
 mlx5 subfunction
 ================
 mlx5 supports subfunction management using devlink port (see :ref:`Documentation/networking/devlink/devlink-port.rst <devlink_port>`) interface.
@@ -402,8 +425,6 @@ safe to delete the SF port for graceful termination of the subfunction.
       function:
         hw_addr 00:00:00:00:88:88 state active opstate attached
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Devlink health reporters
 ========================
 

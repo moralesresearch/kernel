@@ -337,7 +337,6 @@ static const struct attribute_group tpm2_dev_group = {
 	.attrs = tpm2_dev_attrs,
 };
 
-<<<<<<< HEAD
 struct tpm_pcr_attr {
 	int alg_id;
 	int pcr;
@@ -481,16 +480,10 @@ void tpm_sysfs_add_device(struct tpm_chip *chip)
 
 	WARN_ON(chip->groups_cnt != 0);
 
-=======
-void tpm_sysfs_add_device(struct tpm_chip *chip)
-{
-	WARN_ON(chip->groups_cnt != 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (chip->flags & TPM_CHIP_FLAG_TPM2)
 		chip->groups[chip->groups_cnt++] = &tpm2_dev_group;
 	else
 		chip->groups[chip->groups_cnt++] = &tpm1_dev_group;
-<<<<<<< HEAD
 
 	/* add one group for each bank hash */
 	for (i = 0; i < chip->nr_allocated_banks; i++) {
@@ -530,6 +523,4 @@ void tpm_sysfs_add_device(struct tpm_chip *chip)
 	 * TPM_MAX_HASHES.
 	 */
 	WARN_ON(chip->groups_cnt > TPM_MAX_HASHES + 1);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

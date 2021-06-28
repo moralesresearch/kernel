@@ -11,7 +11,6 @@
 #include <linux/idr.h>
 #include <linux/slab.h>
 #include <linux/vdpa.h>
-<<<<<<< HEAD
 #include <uapi/linux/vdpa.h>
 #include <net/genetlink.h>
 #include <linux/mod_devicetable.h>
@@ -23,11 +22,6 @@ static DEFINE_IDA(vdpa_index_ida);
 
 static struct genl_family vdpa_nl_family;
 
-=======
-
-static DEFINE_IDA(vdpa_index_ida);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vdpa_dev_probe(struct device *d)
 {
 	struct vdpa_device *vdev = dev_to_vdpa(d);
@@ -75,28 +69,18 @@ static void vdpa_release_dev(struct device *d)
  * initialized but before registered.
  * @parent: the parent device
  * @config: the bus operations that is supported by this device
-<<<<<<< HEAD
  * @size: size of the parent structure that contains private data
  * @name: name of the vdpa device; optional.
-=======
- * @nvqs: number of virtqueues supported by this device
- * @size: size of the parent structure that contains private data
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Driver should use vdpa_alloc_device() wrapper macro instead of
  * using this directly.
  *
- * Returns an error when parent/config/dma_dev is not set or fail to get
- * ida.
+ * Return: Returns an error when parent/config/dma_dev is not set or fail to get
+ *	   ida.
  */
 struct vdpa_device *__vdpa_alloc_device(struct device *parent,
 					const struct vdpa_config_ops *config,
-<<<<<<< HEAD
 					size_t size, const char *name)
-=======
-					int nvqs,
-					size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct vdpa_device *vdev;
 	int err = -EINVAL;
@@ -122,17 +106,11 @@ struct vdpa_device *__vdpa_alloc_device(struct device *parent,
 	vdev->index = err;
 	vdev->config = config;
 	vdev->features_valid = false;
-<<<<<<< HEAD
 
 	if (name)
 		err = dev_set_name(&vdev->dev, "%s", name);
 	else
 		err = dev_set_name(&vdev->dev, "vdpa%u", vdev->index);
-=======
-	vdev->nvqs = nvqs;
-
-	err = dev_set_name(&vdev->dev, "vdpa%u", vdev->index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_name;
 
@@ -149,7 +127,6 @@ err:
 }
 EXPORT_SYMBOL_GPL(__vdpa_alloc_device);
 
-<<<<<<< HEAD
 static int vdpa_name_match(struct device *dev, const void *data)
 {
 	struct vdpa_device *vdev = container_of(dev, struct vdpa_device, dev);
@@ -180,7 +157,7 @@ static int __vdpa_register_device(struct vdpa_device *vdev, int nvqs)
  * @vdev: the vdpa device to be registered to vDPA bus
  * @nvqs: number of virtqueues supported by this device
  *
- * Returns an error when fail to add device to vDPA bus
+ * Return: Returns an error when fail to add device to vDPA bus
  */
 int _vdpa_register_device(struct vdpa_device *vdev, int nvqs)
 {
@@ -191,16 +168,13 @@ int _vdpa_register_device(struct vdpa_device *vdev, int nvqs)
 }
 EXPORT_SYMBOL_GPL(_vdpa_register_device);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * vdpa_register_device - register a vDPA device
  * Callers must have a succeed call of vdpa_alloc_device() before.
  * @vdev: the vdpa device to be registered to vDPA bus
-<<<<<<< HEAD
  * @nvqs: number of virtqueues supported by this device
  *
- * Returns an error when fail to add to vDPA bus
+ * Return: Returns an error when fail to add to vDPA bus
  */
 int vdpa_register_device(struct vdpa_device *vdev, int nvqs)
 {
@@ -210,19 +184,10 @@ int vdpa_register_device(struct vdpa_device *vdev, int nvqs)
 	err = __vdpa_register_device(vdev, nvqs);
 	mutex_unlock(&vdpa_dev_mutex);
 	return err;
-=======
- *
- * Returns an error when fail to add to vDPA bus
- */
-int vdpa_register_device(struct vdpa_device *vdev)
-{
-	return device_add(&vdev->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(vdpa_register_device);
 
 /**
-<<<<<<< HEAD
  * _vdpa_unregister_device - unregister a vDPA device
  * Caller must invoke this routine as part of management device dev_del()
  * callback.
@@ -237,20 +202,14 @@ void _vdpa_unregister_device(struct vdpa_device *vdev)
 EXPORT_SYMBOL_GPL(_vdpa_unregister_device);
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * vdpa_unregister_device - unregister a vDPA device
  * @vdev: the vdpa device to be unregisted from vDPA bus
  */
 void vdpa_unregister_device(struct vdpa_device *vdev)
 {
-<<<<<<< HEAD
 	mutex_lock(&vdpa_dev_mutex);
 	device_unregister(&vdev->dev);
 	mutex_unlock(&vdpa_dev_mutex);
-=======
-	device_unregister(&vdev->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(vdpa_unregister_device);
 
@@ -259,7 +218,7 @@ EXPORT_SYMBOL_GPL(vdpa_unregister_device);
  * @drv: the vdpa device driver to be registered
  * @owner: module owner of the driver
  *
- * Returns an err when fail to do the registration
+ * Return: Returns an err when fail to do the registration
  */
 int __vdpa_register_driver(struct vdpa_driver *drv, struct module *owner)
 {
@@ -280,13 +239,14 @@ void vdpa_unregister_driver(struct vdpa_driver *drv)
 }
 EXPORT_SYMBOL_GPL(vdpa_unregister_driver);
 
-<<<<<<< HEAD
 /**
  * vdpa_mgmtdev_register - register a vdpa management device
  *
  * @mdev: Pointer to vdpa management device
  * vdpa_mgmtdev_register() register a vdpa management device which supports
  * vdpa device management.
+ * Return: Returns 0 on success or failure when required callback ops are not
+ *         initialized.
  */
 int vdpa_mgmtdev_register(struct vdpa_mgmt_dev *mdev)
 {
@@ -706,19 +666,11 @@ static int vdpa_init(void)
 err:
 	bus_unregister(&vdpa_bus);
 	return err;
-=======
-static int vdpa_init(void)
-{
-	return bus_register(&vdpa_bus);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __exit vdpa_exit(void)
 {
-<<<<<<< HEAD
 	genl_unregister_family(&vdpa_nl_family);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bus_unregister(&vdpa_bus);
 	ida_destroy(&vdpa_index_ida);
 }

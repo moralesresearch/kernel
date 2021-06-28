@@ -30,11 +30,8 @@
 
 #include <linux/export.h>
 #include <linux/highmem.h>
-<<<<<<< HEAD
 #include <linux/mem_encrypt.h>
 #include <xen/xen.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <drm/drm_cache.h>
 
@@ -181,7 +178,6 @@ drm_clflush_virt_range(void *addr, unsigned long length)
 #endif
 }
 EXPORT_SYMBOL(drm_clflush_virt_range);
-<<<<<<< HEAD
 
 bool drm_need_swiotlb(int dma_bits)
 {
@@ -213,5 +209,3 @@ bool drm_need_swiotlb(int dma_bits)
 	return max_iomem > ((u64)1 << dma_bits);
 }
 EXPORT_SYMBOL(drm_need_swiotlb);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

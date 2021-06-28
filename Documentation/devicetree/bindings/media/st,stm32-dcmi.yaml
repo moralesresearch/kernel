@@ -37,7 +37,6 @@ properties:
     maxItems: 1
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/$defs/port-base
     unevaluatedProperties: false
     description:
@@ -47,18 +46,6 @@ properties:
       endpoint:
         $ref: video-interfaces.yaml#
         unevaluatedProperties: false
-=======
-    type: object
-    description:
-      DCMI supports a single port node with parallel bus. It should contain
-      one 'port' child node with child 'endpoint' node. Please refer to the
-      bindings defined in
-      Documentation/devicetree/bindings/media/video-interfaces.txt.
-
-    properties:
-      endpoint:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         properties:
           bus-type:
@@ -69,11 +56,6 @@ properties:
             enum: [8, 10, 12, 14]
             default: 8
 
-<<<<<<< HEAD
-=======
-          remote-endpoint: true
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         allOf:
           - if:
               properties:
@@ -88,20 +70,9 @@ properties:
                   enum: [8]
 
         required:
-<<<<<<< HEAD
           - bus-type
           - pclk-sample
 
-=======
-          - remote-endpoint
-          - bus-type
-          - pclk-sample
-
-        unevaluatedProperties: false
-
-    additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

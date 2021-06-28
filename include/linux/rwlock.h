@@ -128,7 +128,6 @@ do {								\
 	1 : ({ local_irq_restore(flags); 0; }); \
 })
 
-<<<<<<< HEAD
 #ifdef arch_rwlock_is_contended
 #define rwlock_is_contended(lock) \
 	 arch_rwlock_is_contended(&(lock)->raw_lock)
@@ -136,6 +135,4 @@ do {								\
 #define rwlock_is_contended(lock)	((void)(lock), 0)
 #endif /* arch_rwlock_is_contended */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_RWLOCK_H */

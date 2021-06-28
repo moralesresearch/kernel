@@ -14,10 +14,7 @@
 
 #include "rvu.h"
 #include "cgx.h"
-<<<<<<< HEAD
 #include "lmac_common.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "rvu_reg.h"
 #include "rvu_trace.h"
 
@@ -46,7 +43,6 @@ static struct _req_type __maybe_unused					\
 MBOX_UP_CGX_MESSAGES
 #undef M
 
-<<<<<<< HEAD
 bool is_mac_feature_supported(struct rvu *rvu, int pf, int feature)
 {
 	u8 cgx_id, lmac_id;
@@ -61,8 +57,6 @@ bool is_mac_feature_supported(struct rvu *rvu, int pf, int feature)
 	return  (cgx_features_get(cgxd) & feature);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Returns bitmap of mapped PFs */
 static u16 cgxlmac_to_pfmap(struct rvu *rvu, u8 cgx_id, u8 lmac_id)
 {
@@ -95,7 +89,6 @@ void *rvu_cgx_pdata(u8 cgx_id, struct rvu *rvu)
 	return rvu->cgx_idmap[cgx_id];
 }
 
-<<<<<<< HEAD
 /* Return first enabled CGX instance if none are enabled then return NULL */
 void *rvu_first_cgx_pdata(struct rvu *rvu)
 {
@@ -111,8 +104,6 @@ void *rvu_first_cgx_pdata(struct rvu *rvu)
 	return cgxd;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Based on P2X connectivity find mapped NIX block for a PF */
 static void rvu_map_cgx_nix_block(struct rvu *rvu, int pf,
 				  int cgx_id, int lmac_id)
@@ -131,16 +122,10 @@ static int rvu_map_cgx_lmac_pf(struct rvu *rvu)
 {
 	struct npc_pkind *pkind = &rvu->hw->pkind;
 	int cgx_cnt_max = rvu->cgx_cnt_max;
-<<<<<<< HEAD
 	int pf = PF_CGXMAP_BASE;
 	unsigned long lmac_bmap;
 	int size, free_pkind;
 	int cgx, lmac, iter;
-=======
-	int cgx, lmac_cnt, lmac;
-	int pf = PF_CGXMAP_BASE;
-	int size, free_pkind;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!cgx_cnt_max)
 		return 0;
@@ -171,25 +156,17 @@ static int rvu_map_cgx_lmac_pf(struct rvu *rvu)
 	for (cgx = 0; cgx < cgx_cnt_max; cgx++) {
 		if (!rvu_cgx_pdata(cgx, rvu))
 			continue;
-<<<<<<< HEAD
 		lmac_bmap = cgx_get_lmac_bmap(rvu_cgx_pdata(cgx, rvu));
 		for_each_set_bit(iter, &lmac_bmap, MAX_LMAC_PER_CGX) {
 			lmac = cgx_get_lmacid(rvu_cgx_pdata(cgx, rvu),
 					      iter);
-=======
-		lmac_cnt = cgx_get_lmac_cnt(rvu_cgx_pdata(cgx, rvu));
-		for (lmac = 0; lmac < lmac_cnt; lmac++, pf++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rvu->pf2cgxlmac_map[pf] = cgxlmac_id_to_bmap(cgx, lmac);
 			rvu->cgxlmac2pf_map[CGX_OFFSET(cgx) + lmac] = 1 << pf;
 			free_pkind = rvu_alloc_rsrc(&pkind->rsrc);
 			pkind->pfchan_map[free_pkind] = ((pf) & 0x3F) << 16;
 			rvu_map_cgx_nix_block(rvu, pf, cgx, lmac);
 			rvu->cgx_mapped_pfs++;
-<<<<<<< HEAD
 			pf++;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	return 0;
@@ -211,15 +188,10 @@ static int rvu_cgx_send_link_info(int cgx_id, int lmac_id, struct rvu *rvu)
 				&qentry->link_event.link_uinfo);
 	qentry->link_event.cgx_id = cgx_id;
 	qentry->link_event.lmac_id = lmac_id;
-<<<<<<< HEAD
 	if (err) {
 		kfree(qentry);
 		goto skip_add;
 	}
-=======
-	if (err)
-		goto skip_add;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add_tail(&qentry->evq_node, &rvu->cgx_evq_head);
 skip_add:
 	spin_unlock_irqrestore(&rvu->cgx_evq_lock, flags);
@@ -315,10 +287,7 @@ static void cgx_evhandler_task(struct work_struct *work)
 
 static int cgx_lmac_event_handler_init(struct rvu *rvu)
 {
-<<<<<<< HEAD
 	unsigned long lmac_bmap;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cgx_event_cb cb;
 	int cgx, lmac, err;
 	void *cgxd;
@@ -339,12 +308,8 @@ static int cgx_lmac_event_handler_init(struct rvu *rvu)
 		cgxd = rvu_cgx_pdata(cgx, rvu);
 		if (!cgxd)
 			continue;
-<<<<<<< HEAD
 		lmac_bmap = cgx_get_lmac_bmap(cgxd);
 		for_each_set_bit(lmac, &lmac_bmap, MAX_LMAC_PER_CGX) {
-=======
-		for (lmac = 0; lmac < cgx_get_lmac_cnt(cgxd); lmac++) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = cgx_lmac_evh_register(&cb, cgxd, lmac);
 			if (err)
 				dev_err(rvu->dev,
@@ -422,10 +387,7 @@ int rvu_cgx_init(struct rvu *rvu)
 
 int rvu_cgx_exit(struct rvu *rvu)
 {
-<<<<<<< HEAD
 	unsigned long lmac_bmap;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int cgx, lmac;
 	void *cgxd;
 
@@ -433,12 +395,8 @@ int rvu_cgx_exit(struct rvu *rvu)
 		cgxd = rvu_cgx_pdata(cgx, rvu);
 		if (!cgxd)
 			continue;
-<<<<<<< HEAD
 		lmac_bmap = cgx_get_lmac_bmap(cgxd);
 		for_each_set_bit(lmac, &lmac_bmap, MAX_LMAC_PER_CGX)
-=======
-		for (lmac = 0; lmac < cgx_get_lmac_cnt(cgxd); lmac++)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cgx_lmac_evh_unregister(cgxd, lmac);
 	}
 
@@ -463,10 +421,7 @@ static bool is_cgx_config_permitted(struct rvu *rvu, u16 pcifunc)
 
 void rvu_cgx_enadis_rx_bp(struct rvu *rvu, int pf, bool enable)
 {
-<<<<<<< HEAD
 	struct mac_ops *mac_ops;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 cgx_id, lmac_id;
 	void *cgxd;
 
@@ -476,20 +431,12 @@ void rvu_cgx_enadis_rx_bp(struct rvu *rvu, int pf, bool enable)
 	rvu_get_cgx_lmac_id(rvu->pf2cgxlmac_map[pf], &cgx_id, &lmac_id);
 	cgxd = rvu_cgx_pdata(cgx_id, rvu);
 
-<<<<<<< HEAD
 	mac_ops = get_mac_ops(cgxd);
 	/* Set / clear CTL_BCK to control pause frame forwarding to NIX */
 	if (enable)
 		mac_ops->mac_enadis_rx_pause_fwding(cgxd, lmac_id, true);
 	else
 		mac_ops->mac_enadis_rx_pause_fwding(cgxd, lmac_id, false);
-=======
-	/* Set / clear CTL_BCK to control pause frame forwarding to NIX */
-	if (enable)
-		cgx_lmac_enadis_rx_pause_fwding(cgxd, lmac_id, true);
-	else
-		cgx_lmac_enadis_rx_pause_fwding(cgxd, lmac_id, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int rvu_cgx_config_rxtx(struct rvu *rvu, u16 pcifunc, bool start)
@@ -521,18 +468,11 @@ int rvu_mbox_handler_cgx_stop_rxtx(struct rvu *rvu, struct msg_req *req,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int rvu_lmac_get_stats(struct rvu *rvu, struct msg_req *req,
 			      void *rsp)
 {
 	int pf = rvu_get_pf(req->hdr.pcifunc);
 	struct mac_ops *mac_ops;
-=======
-int rvu_mbox_handler_cgx_stats(struct rvu *rvu, struct msg_req *req,
-			       struct cgx_stats_rsp *rsp)
-{
-	int pf = rvu_get_pf(req->hdr.pcifunc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int stat = 0, err = 0;
 	u64 tx_stat, rx_stat;
 	u8 cgx_idx, lmac;
@@ -543,7 +483,6 @@ int rvu_mbox_handler_cgx_stats(struct rvu *rvu, struct msg_req *req,
 
 	rvu_get_cgx_lmac_id(rvu->pf2cgxlmac_map[pf], &cgx_idx, &lmac);
 	cgxd = rvu_cgx_pdata(cgx_idx, rvu);
-<<<<<<< HEAD
 	mac_ops = get_mac_ops(cgxd);
 
 	/* Rx stats */
@@ -555,21 +494,11 @@ int rvu_mbox_handler_cgx_stats(struct rvu *rvu, struct msg_req *req,
 			((struct rpm_stats_rsp *)rsp)->rx_stats[stat] = rx_stat;
 		else
 			((struct cgx_stats_rsp *)rsp)->rx_stats[stat] = rx_stat;
-=======
-
-	/* Rx stats */
-	while (stat < CGX_RX_STATS_COUNT) {
-		err = cgx_get_rx_stats(cgxd, lmac, stat, &rx_stat);
-		if (err)
-			return err;
-		rsp->rx_stats[stat] = rx_stat;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stat++;
 	}
 
 	/* Tx stats */
 	stat = 0;
-<<<<<<< HEAD
 	while (stat < mac_ops->tx_stats_cnt) {
 		err = mac_ops->mac_get_tx_stats(cgxd, lmac, stat, &tx_stat);
 		if (err)
@@ -578,19 +507,11 @@ int rvu_mbox_handler_cgx_stats(struct rvu *rvu, struct msg_req *req,
 			((struct rpm_stats_rsp *)rsp)->tx_stats[stat] = tx_stat;
 		else
 			((struct cgx_stats_rsp *)rsp)->tx_stats[stat] = tx_stat;
-=======
-	while (stat < CGX_TX_STATS_COUNT) {
-		err = cgx_get_tx_stats(cgxd, lmac, stat, &tx_stat);
-		if (err)
-			return err;
-		rsp->tx_stats[stat] = tx_stat;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stat++;
 	}
 	return 0;
 }
 
-<<<<<<< HEAD
 int rvu_mbox_handler_cgx_stats(struct rvu *rvu, struct msg_req *req,
 			       struct cgx_stats_rsp *rsp)
 {
@@ -619,8 +540,6 @@ int rvu_mbox_handler_cgx_fec_stats(struct rvu *rvu,
 	return cgx_get_fec_stats(cgxd, lmac, rsp);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rvu_mbox_handler_cgx_mac_addr_set(struct rvu *rvu,
 				      struct cgx_mac_addr_set_or_get *req,
 				      struct cgx_mac_addr_set_or_get *rsp)
@@ -697,12 +616,9 @@ static int rvu_cgx_ptp_rx_cfg(struct rvu *rvu, u16 pcifunc, bool enable)
 	u8 cgx_id, lmac_id;
 	void *cgxd;
 
-<<<<<<< HEAD
 	if (!is_mac_feature_supported(rvu, pf, RVU_LMAC_FEAT_PTP))
 		return 0;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This msg is expected only from PFs that are mapped to CGX LMACs,
 	 * if received from other PF/VF simply ACK, nothing to do.
 	 */
@@ -789,7 +705,6 @@ int rvu_mbox_handler_cgx_get_linkinfo(struct rvu *rvu, struct msg_req *req,
 	return err;
 }
 
-<<<<<<< HEAD
 int rvu_mbox_handler_cgx_features_get(struct rvu *rvu,
 				      struct msg_req *req,
 				      struct cgx_features_info_msg *rsp)
@@ -823,25 +738,15 @@ static int rvu_cgx_config_intlbk(struct rvu *rvu, u16 pcifunc, bool en)
 {
 	int pf = rvu_get_pf(pcifunc);
 	struct mac_ops *mac_ops;
-=======
-static int rvu_cgx_config_intlbk(struct rvu *rvu, u16 pcifunc, bool en)
-{
-	int pf = rvu_get_pf(pcifunc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 cgx_id, lmac_id;
 
 	if (!is_cgx_config_permitted(rvu, pcifunc))
 		return -EPERM;
 
 	rvu_get_cgx_lmac_id(rvu->pf2cgxlmac_map[pf], &cgx_id, &lmac_id);
-<<<<<<< HEAD
 	mac_ops = get_mac_ops(rvu_cgx_pdata(cgx_id, rvu));
 
 	return mac_ops->mac_lmac_intl_lbk(rvu_cgx_pdata(cgx_id, rvu),
-=======
-
-	return cgx_lmac_internal_loopback(rvu_cgx_pdata(cgx_id, rvu),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  lmac_id, en);
 }
 
@@ -864,16 +769,12 @@ int rvu_mbox_handler_cgx_cfg_pause_frm(struct rvu *rvu,
 				       struct cgx_pause_frm_cfg *rsp)
 {
 	int pf = rvu_get_pf(req->hdr.pcifunc);
-<<<<<<< HEAD
 	struct mac_ops *mac_ops;
 	u8 cgx_id, lmac_id;
 	void *cgxd;
 
 	if (!is_mac_feature_supported(rvu, pf, RVU_LMAC_FEAT_FC))
 		return 0;
-=======
-	u8 cgx_id, lmac_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* This msg is expected only from PF/VFs that are mapped to CGX LMACs,
 	 * if received from other PF/VF simply ACK, nothing to do.
@@ -882,7 +783,6 @@ int rvu_mbox_handler_cgx_cfg_pause_frm(struct rvu *rvu,
 		return -ENODEV;
 
 	rvu_get_cgx_lmac_id(rvu->pf2cgxlmac_map[pf], &cgx_id, &lmac_id);
-<<<<<<< HEAD
 	cgxd = rvu_cgx_pdata(cgx_id, rvu);
 	mac_ops = get_mac_ops(cgxd);
 
@@ -909,18 +809,6 @@ int rvu_mbox_handler_cgx_get_phy_fec_stats(struct rvu *rvu, struct msg_req *req,
 	return cgx_get_phy_fec_stats(rvu_cgx_pdata(cgx_id, rvu), lmac_id);
 }
 
-=======
-
-	if (req->set)
-		cgx_lmac_set_pause_frm(rvu_cgx_pdata(cgx_id, rvu), lmac_id,
-				       req->tx_pause, req->rx_pause);
-	else
-		cgx_lmac_get_pause_frm(rvu_cgx_pdata(cgx_id, rvu), lmac_id,
-				       &rsp->tx_pause, &rsp->rx_pause);
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Finds cumulative status of NIX rx/tx counters from LF of a PF and those
  * from its VFs as well. ie. NIX rx/tx counters at the CGX port level
  */
@@ -1012,7 +900,6 @@ exit:
 	mutex_unlock(&rvu->cgx_cfg_lock);
 	return err;
 }
-<<<<<<< HEAD
 
 int rvu_mbox_handler_cgx_set_fec_param(struct rvu *rvu,
 				       struct fec_mode *req,
@@ -1066,5 +953,3 @@ int rvu_mbox_handler_cgx_set_link_mode(struct rvu *rvu,
 	rsp->status = cgx_set_link_mode(cgxd, req->args, cgx_idx, lmac);
 	return 0;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

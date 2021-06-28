@@ -222,10 +222,7 @@ drop:
 /**
  * qib_make_ud_req - construct a UD request packet
  * @qp: the QP
-<<<<<<< HEAD
  * @flags: flags to modify and pass back to caller
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Assumes the s_lock is held.
  *

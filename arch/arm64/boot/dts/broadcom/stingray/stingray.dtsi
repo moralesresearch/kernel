@@ -285,10 +285,6 @@
 	};
 
 	#include "stingray-fs4.dtsi"
-<<<<<<< HEAD
-=======
-	#include "stingray-sata.dtsi"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	#include "stingray-pcie.dtsi"
 	#include "stingray-usb.dtsi"
 
@@ -312,15 +308,6 @@
 				#size-cells = <0>;
 			};
 
-<<<<<<< HEAD
-=======
-			mdio@2 { /* SATA */
-				reg = <0x2>;
-				#address-cells = <1>;
-				#size-cells = <0>;
-			};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mdio@3 { /* USB */
 				reg = <0x3>;
 				#address-cells = <1>;

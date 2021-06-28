@@ -465,11 +465,7 @@ int fscrypt_ioctl_set_policy(struct file *filp, const void __user *arg)
 		return -EFAULT;
 	policy.version = version;
 
-<<<<<<< HEAD
 	if (!inode_owner_or_capable(&init_user_ns, inode))
-=======
-	if (!inode_owner_or_capable(inode))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EACCES;
 
 	ret = mnt_want_write_file(filp);

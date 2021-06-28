@@ -172,28 +172,22 @@ static int arm_spe_read_record(struct arm_spe_decoder *decoder)
 				decoder->record.from_ip = ip;
 			else if (idx == SPE_ADDR_PKT_HDR_INDEX_BRANCH)
 				decoder->record.to_ip = ip;
-<<<<<<< HEAD
 			else if (idx == SPE_ADDR_PKT_HDR_INDEX_DATA_VIRT)
 				decoder->record.virt_addr = ip;
 			else if (idx == SPE_ADDR_PKT_HDR_INDEX_DATA_PHYS)
 				decoder->record.phys_addr = ip;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case ARM_SPE_COUNTER:
 			break;
 		case ARM_SPE_CONTEXT:
 			break;
 		case ARM_SPE_OP_TYPE:
-<<<<<<< HEAD
 			if (idx == SPE_OP_PKT_HDR_CLASS_LD_ST_ATOMIC) {
 				if (payload & 0x1)
 					decoder->record.op = ARM_SPE_ST;
 				else
 					decoder->record.op = ARM_SPE_LD;
 			}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case ARM_SPE_EVENTS:
 			if (payload & BIT(EV_L1D_REFILL))

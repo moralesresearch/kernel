@@ -28,13 +28,6 @@ struct drm_agp_head {
 
 #if IS_ENABLED(CONFIG_AGP)
 
-<<<<<<< HEAD
-=======
-void drm_free_agp(struct agp_memory * handle, int pages);
-int drm_bind_agp(struct agp_memory * handle, unsigned int start);
-int drm_unbind_agp(struct agp_memory * handle);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct drm_agp_head *drm_agp_init(struct drm_device *dev);
 void drm_legacy_agp_clear(struct drm_device *dev);
 int drm_agp_acquire(struct drm_device *dev);
@@ -64,23 +57,6 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
 
 #else /* CONFIG_AGP */
 
-<<<<<<< HEAD
-=======
-static inline void drm_free_agp(struct agp_memory * handle, int pages)
-{
-}
-
-static inline int drm_bind_agp(struct agp_memory * handle, unsigned int start)
-{
-	return -ENODEV;
-}
-
-static inline int drm_unbind_agp(struct agp_memory * handle)
-{
-	return -ENODEV;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct drm_agp_head *drm_agp_init(struct drm_device *dev)
 {
 	return NULL;

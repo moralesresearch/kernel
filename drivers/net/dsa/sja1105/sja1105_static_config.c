@@ -85,11 +85,7 @@ u32 sja1105_crc32(const void *buf, size_t len)
 	/* seed */
 	crc = ~0;
 	for (i = 0; i < len; i += 4) {
-<<<<<<< HEAD
 		sja1105_unpack(buf + i, &word, 31, 0, 4);
-=======
-		sja1105_unpack((void *)buf + i, &word, 31, 0, 4);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		crc = crc32_le(crc, (u8 *)&word, 4);
 	}
 	return ~crc;

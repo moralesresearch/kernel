@@ -36,10 +36,7 @@ obj-$(CONFIG_IP_VS_SH) += ip_vs_sh.o
 obj-$(CONFIG_IP_VS_MH) += ip_vs_mh.o
 obj-$(CONFIG_IP_VS_SED) += ip_vs_sed.o
 obj-$(CONFIG_IP_VS_NQ) += ip_vs_nq.o
-<<<<<<< HEAD
 obj-$(CONFIG_IP_VS_TWOS) += ip_vs_twos.o
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # IPVS application helpers
 obj-$(CONFIG_IP_VS_FTP) += ip_vs_ftp.o

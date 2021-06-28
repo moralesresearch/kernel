@@ -421,17 +421,10 @@ nvkm_therm = {
 };
 
 void
-<<<<<<< HEAD
 nvkm_therm_ctor(struct nvkm_therm *therm, struct nvkm_device *device, enum nvkm_subdev_type type,
 		int inst, const struct nvkm_therm_func *func)
 {
 	nvkm_subdev_ctor(&nvkm_therm, device, type, inst, &therm->subdev);
-=======
-nvkm_therm_ctor(struct nvkm_therm *therm, struct nvkm_device *device,
-		int index, const struct nvkm_therm_func *func)
-{
-	nvkm_subdev_ctor(&nvkm_therm, device, index, &therm->subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	therm->func = func;
 
 	nvkm_alarm_init(&therm->alarm, nvkm_therm_alarm);
@@ -450,21 +443,13 @@ nvkm_therm_ctor(struct nvkm_therm *therm, struct nvkm_device *device,
 
 int
 nvkm_therm_new_(const struct nvkm_therm_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 		enum nvkm_subdev_type type, int inst, struct nvkm_therm **ptherm)
-=======
-		int index, struct nvkm_therm **ptherm)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_therm *therm;
 
 	if (!(therm = *ptherm = kzalloc(sizeof(*therm), GFP_KERNEL)))
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	nvkm_therm_ctor(therm, device, type, inst, func);
-=======
-	nvkm_therm_ctor(therm, device, index, func);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

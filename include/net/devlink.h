@@ -94,21 +94,20 @@ struct devlink_port_pci_vf_attrs {
 };
 
 /**
-<<<<<<< HEAD
  * struct devlink_port_pci_sf_attrs - devlink port's PCI SF attributes
  * @controller: Associated controller number
  * @sf: Associated PCI SF for of the PCI PF for this port.
  * @pf: Associated PCI PF number for this port.
+ * @external: when set, indicates if a port is for an external controller
  */
 struct devlink_port_pci_sf_attrs {
 	u32 controller;
 	u32 sf;
 	u16 pf;
+	u8 external:1;
 };
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct devlink_port_attrs - devlink port object
  * @flavour: flavour of the port
  * @split: indicates if this is split port
@@ -118,10 +117,7 @@ struct devlink_port_pci_sf_attrs {
  * @phys: physical port attributes
  * @pci_pf: PCI PF port attributes
  * @pci_vf: PCI VF port attributes
-<<<<<<< HEAD
  * @pci_sf: PCI SF port attributes
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct devlink_port_attrs {
 	u8 split:1,
@@ -133,10 +129,7 @@ struct devlink_port_attrs {
 		struct devlink_port_phys_attrs phys;
 		struct devlink_port_pci_pf_attrs pci_pf;
 		struct devlink_port_pci_vf_attrs pci_vf;
-<<<<<<< HEAD
 		struct devlink_port_pci_sf_attrs pci_sf;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 
@@ -161,7 +154,6 @@ struct devlink_port {
 	struct mutex reporters_lock; /* Protects reporter_list */
 };
 
-<<<<<<< HEAD
 struct devlink_port_new_attrs {
 	enum devlink_port_flavour flavour;
 	unsigned int port_index;
@@ -173,8 +165,6 @@ struct devlink_port_new_attrs {
 	   sfnum_valid:1;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct devlink_sb_pool_info {
 	enum devlink_sb_pool_type pool_type;
 	u32 size;
@@ -417,11 +407,8 @@ struct devlink_resource {
 
 #define DEVLINK_RESOURCE_ID_PARENT_TOP 0
 
-<<<<<<< HEAD
 #define DEVLINK_RESOURCE_GENERIC_NAME_PORTS "physical_ports"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __DEVLINK_PARAM_MAX_STRING_VALUE 32
 enum devlink_param_type {
 	DEVLINK_PARAM_TYPE_U8,
@@ -878,10 +865,7 @@ enum devlink_trap_generic_id {
 	DEVLINK_TRAP_GENERIC_ID_GTP_PARSING,
 	DEVLINK_TRAP_GENERIC_ID_ESP_PARSING,
 	DEVLINK_TRAP_GENERIC_ID_BLACKHOLE_NEXTHOP,
-<<<<<<< HEAD
 	DEVLINK_TRAP_GENERIC_ID_DMAC_FILTER,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Add new generic trap IDs above */
 	__DEVLINK_TRAP_GENERIC_ID_MAX,
@@ -1107,11 +1091,8 @@ enum devlink_trap_group_generic_id {
 	"esp_parsing"
 #define DEVLINK_TRAP_GENERIC_NAME_BLACKHOLE_NEXTHOP \
 	"blackhole_nexthop"
-<<<<<<< HEAD
 #define DEVLINK_TRAP_GENERIC_NAME_DMAC_FILTER \
 	"dmac_filter"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DEVLINK_TRAP_GROUP_GENERIC_NAME_L2_DROPS \
 	"l2_drops"
@@ -1399,7 +1380,6 @@ struct devlink_ops {
 	int (*port_function_hw_addr_set)(struct devlink *devlink, struct devlink_port *port,
 					 const u8 *hw_addr, int hw_addr_len,
 					 struct netlink_ext_ack *extack);
-<<<<<<< HEAD
 	/**
 	 * port_new() - Add a new port function of a specified flavor
 	 * @devlink: Devlink instance
@@ -1473,8 +1453,6 @@ struct devlink_ops {
 				 struct devlink_port *port,
 				 enum devlink_port_fn_state state,
 				 struct netlink_ext_ack *extack);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline void *devlink_priv(struct devlink *devlink)
@@ -1531,11 +1509,9 @@ void devlink_port_attrs_pci_pf_set(struct devlink_port *devlink_port, u32 contro
 				   u16 pf, bool external);
 void devlink_port_attrs_pci_vf_set(struct devlink_port *devlink_port, u32 controller,
 				   u16 pf, u16 vf, bool external);
-<<<<<<< HEAD
 void devlink_port_attrs_pci_sf_set(struct devlink_port *devlink_port,
-				   u32 controller, u16 pf, u32 sf);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+				   u32 controller, u16 pf, u32 sf,
+				   bool external);
 int devlink_sb_register(struct devlink *devlink, unsigned int sb_index,
 			u32 size, u16 ingress_pools_count,
 			u16 egress_pools_count, u16 ingress_tc_count,

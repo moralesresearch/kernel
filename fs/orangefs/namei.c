@@ -15,12 +15,8 @@
 /*
  * Get a newly allocated inode to go with a negative dentry.
  */
-<<<<<<< HEAD
 static int orangefs_create(struct user_namespace *mnt_userns,
 			struct inode *dir,
-=======
-static int orangefs_create(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct dentry *dentry,
 			umode_t mode,
 			bool exclusive)
@@ -220,12 +216,8 @@ static int orangefs_unlink(struct inode *dir, struct dentry *dentry)
 	return ret;
 }
 
-<<<<<<< HEAD
 static int orangefs_symlink(struct user_namespace *mnt_userns,
 		         struct inode *dir,
-=======
-static int orangefs_symlink(struct inode *dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 struct dentry *dentry,
 			 const char *symname)
 {
@@ -313,12 +305,8 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int orangefs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 			  struct dentry *dentry, umode_t mode)
-=======
-static int orangefs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct orangefs_inode_s *parent = ORANGEFS_I(dir);
 	struct orangefs_kernel_op_s *new_op;
@@ -387,12 +375,8 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int orangefs_rename(struct user_namespace *mnt_userns,
 			struct inode *old_dir,
-=======
-static int orangefs_rename(struct inode *old_dir,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			struct dentry *old_dentry,
 			struct inode *new_dir,
 			struct dentry *new_dentry,

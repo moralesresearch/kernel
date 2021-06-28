@@ -15,12 +15,9 @@ description: |
   interface. Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
   maximum throughput of 1.2Gbps/lane.
 
-<<<<<<< HEAD
 allOf:
   - $ref: ../video-interface-devices.yaml#
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   compatible:
     const: sony,imx214
@@ -50,7 +47,6 @@ properties:
   vddd-supply:
     description: Chip digital core regulator (1.12V).
 
-<<<<<<< HEAD
   flash-leds: true
   lens-focus: true
 
@@ -66,27 +62,6 @@ properties:
 
         properties:
           data-lanes:
-=======
-  flash-leds:
-    description: See ../video-interfaces.txt
-
-  lens-focus:
-    description: See ../video-interfaces.txt
-
-  port:
-    type: object
-    description: |
-      Video output port. See ../video-interfaces.txt.
-
-    properties:
-      endpoint:
-        type: object
-
-        properties:
-          data-lanes:
-            $ref: /schemas/types.yaml#/definitions/uint32-array
-            description: See ../video-interfaces.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             anyOf:
               - items:
                   - const: 1
@@ -97,23 +72,12 @@ properties:
                   - const: 3
                   - const: 4
 
-<<<<<<< HEAD
           link-frequencies: true
-=======
-          link-frequencies:
-            $ref: /schemas/types.yaml#/definitions/uint64-array
-            description: See ../video-interfaces.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         required:
           - data-lanes
           - link-frequencies
 
-<<<<<<< HEAD
-=======
-        unevaluatedProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     additionalProperties: false
 
 required:

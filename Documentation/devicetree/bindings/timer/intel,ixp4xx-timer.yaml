@@ -18,11 +18,7 @@ properties:
       - const: intel,ixp4xx-timer
 
   reg:
-<<<<<<< HEAD
     maxItems: 1
-=======
-    description: Should contain registers location and length
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   interrupts:
     minItems: 1

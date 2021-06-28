@@ -585,7 +585,6 @@
 			resets = <&cpg 407>;
 		};
 
-<<<<<<< HEAD
 		tmu0: timer@e61e0000 {
 			compatible = "renesas,tmu-r8a7796", "renesas,tmu";
 			reg = <0 0xe61e0000 0 0x30>;
@@ -651,8 +650,6 @@
 			status = "disabled";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i2c0: i2c@e6500000 {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -2764,6 +2761,10 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 
+				port@0 {
+					reg = <0>;
+				};
+
 				port@1 {
 					#address-cells = <1>;
 					#size-cells = <0>;
@@ -2818,6 +2819,10 @@
 			ports {
 				#address-cells = <1>;
 				#size-cells = <0>;
+
+				port@0 {
+					reg = <0>;
+				};
 
 				port@1 {
 					#address-cells = <1>;

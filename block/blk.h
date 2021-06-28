@@ -6,6 +6,7 @@
 #include <linux/blk-mq.h>
 #include <linux/part_stat.h>
 #include <linux/blk-crypto.h>
+#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
 #include <xen/xen.h>
 #include "blk-crypto-internal.h"
 #include "blk-mq.h"
@@ -55,14 +56,11 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
 
 void blk_freeze_queue(struct request_queue *q);
 
-<<<<<<< HEAD
 #define BIO_INLINE_VECS 4
 struct bio_vec *bvec_alloc(mempool_t *pool, unsigned short *nr_vecs,
 		gfp_t gfp_mask);
 void bvec_free(mempool_t *pool, struct bio_vec *bv, unsigned short nr_vecs);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool biovec_phys_mergeable(struct request_queue *q,
 		struct bio_vec *vec1, struct bio_vec *vec2)
 {
@@ -210,11 +208,6 @@ static inline void elevator_exit(struct request_queue *q,
 	__elevator_exit(q, e);
 }
 
-<<<<<<< HEAD
-=======
-struct block_device *__disk_get_part(struct gendisk *disk, int partno);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ssize_t part_size_show(struct device *dev, struct device_attribute *attr,
 		char *buf);
 ssize_t part_stat_show(struct device *dev, struct device_attribute *attr,
@@ -319,18 +312,20 @@ static inline void blk_throtl_bio_endio(struct bio *bio) { }
 static inline void blk_throtl_stat_add(struct request *rq, u64 time) { }
 #endif
 
-#ifdef CONFIG_BOUNCE
-extern int init_emergency_isa_pool(void);
-extern void blk_queue_bounce(struct request_queue *q, struct bio **bio);
-#else
-static inline int init_emergency_isa_pool(void)
+void __blk_queue_bounce(struct request_queue *q, struct bio **bio);
+
+static inline bool blk_queue_may_bounce(struct request_queue *q)
 {
-	return 0;
+	return IS_ENABLED(CONFIG_BOUNCE) &&
+		q->limits.bounce == BLK_BOUNCE_HIGH &&
+		max_low_pfn >= max_pfn;
 }
+
 static inline void blk_queue_bounce(struct request_queue *q, struct bio **bio)
 {
+	if (unlikely(blk_queue_may_bounce(q) && bio_has_data(*bio)))
+		__blk_queue_bounce(q, bio);	
 }
-#endif /* CONFIG_BOUNCE */
 
 #ifdef CONFIG_BLK_CGROUP_IOLATENCY
 extern int blk_iolatency_init(struct request_queue *q);
@@ -342,37 +337,23 @@ struct bio *blk_next_bio(struct bio *bio, unsigned int nr_pages, gfp_t gfp);
 
 #ifdef CONFIG_BLK_DEV_ZONED
 void blk_queue_free_zone_bitmaps(struct request_queue *q);
-<<<<<<< HEAD
 void blk_queue_clear_zone_settings(struct request_queue *q);
 #else
 static inline void blk_queue_free_zone_bitmaps(struct request_queue *q) {}
 static inline void blk_queue_clear_zone_settings(struct request_queue *q) {}
 #endif
 
-=======
-#else
-static inline void blk_queue_free_zone_bitmaps(struct request_queue *q) {}
-#endif
-
-struct block_device *disk_map_sector_rcu(struct gendisk *disk, sector_t sector);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int blk_alloc_devt(struct block_device *part, dev_t *devt);
 void blk_free_devt(dev_t devt);
 char *disk_name(struct gendisk *hd, int partno, char *buf);
 #define ADDPART_FLAG_NONE	0
 #define ADDPART_FLAG_RAID	1
 #define ADDPART_FLAG_WHOLEDISK	2
-void delete_partition(struct block_device *part);
 int bdev_add_partition(struct block_device *bdev, int partno,
 		sector_t start, sector_t length);
 int bdev_del_partition(struct block_device *bdev, int partno);
 int bdev_resize_partition(struct block_device *bdev, int partno,
 		sector_t start, sector_t length);
-<<<<<<< HEAD
-=======
-int disk_expand_part_tbl(struct gendisk *disk, int target);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int bio_add_hw_page(struct request_queue *q, struct bio *bio,
 		struct page *page, unsigned int len, unsigned int offset,

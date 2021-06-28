@@ -5,7 +5,6 @@
 
 #include <net/bluetooth/bluetooth.h>
 #include <net/bluetooth/hci_core.h>
-<<<<<<< HEAD
 #include <net/bluetooth/mgmt.h>
 
 #include "hci_request.h"
@@ -16,11 +15,6 @@
 #define MSFT_RSSI_THRESHOLD_VALUE_MAX		20
 #define MSFT_RSSI_LOW_TIMEOUT_MAX		0x3C
 
-=======
-
-#include "msft.h"
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MSFT_OP_READ_SUPPORTED_FEATURES		0x00
 struct msft_cp_read_supported_features {
 	__u8   sub_opcode;
@@ -34,7 +28,6 @@ struct msft_rp_read_supported_features {
 	__u8   evt_prefix[];
 } __packed;
 
-<<<<<<< HEAD
 #define MSFT_OP_LE_MONITOR_ADVERTISEMENT	0x03
 #define MSFT_MONITOR_ADVERTISEMENT_TYPE_PATTERN	0x01
 struct msft_le_monitor_advertisement_pattern {
@@ -93,13 +86,10 @@ struct msft_monitor_advertisement_handle_data {
 	struct list_head list;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct msft_data {
 	__u64 features;
 	__u8  evt_prefix_len;
 	__u8  *evt_prefix;
-<<<<<<< HEAD
 	struct list_head handle_map;
 	__u16 pending_add_handle;
 	__u16 pending_remove_handle;
@@ -115,10 +105,6 @@ bool msft_monitor_supported(struct hci_dev *hdev)
 	return !!(msft_get_features(hdev) & MSFT_FEATURE_MASK_LE_ADV_MONITOR);
 }
 
-=======
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool read_supported_features(struct hci_dev *hdev,
 				    struct msft_data *msft)
 {
@@ -156,6 +142,9 @@ static bool read_supported_features(struct hci_dev *hdev,
 	msft->evt_prefix_len = rp->evt_prefix_len;
 	msft->features = __le64_to_cpu(rp->features);
 
+	if (msft->features & MSFT_FEATURE_MASK_CURVE_VALIDITY)
+		hdev->msft_curve_validity = true;
+
 	kfree_skb(skb);
 	return true;
 
@@ -164,7 +153,6 @@ failed:
 	return false;
 }
 
-<<<<<<< HEAD
 /* This function requires the caller holds hdev->lock */
 static void reregister_monitor_on_restart(struct hci_dev *hdev, int handle)
 {
@@ -194,8 +182,6 @@ static void reregister_monitor_on_restart(struct hci_dev *hdev, int handle)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void msft_do_open(struct hci_dev *hdev)
 {
 	struct msft_data *msft;
@@ -214,7 +200,6 @@ void msft_do_open(struct hci_dev *hdev)
 		return;
 	}
 
-<<<<<<< HEAD
 	INIT_LIST_HEAD(&msft->handle_map);
 	hdev->msft_data = msft;
 
@@ -223,19 +208,13 @@ void msft_do_open(struct hci_dev *hdev)
 		msft_set_filter_enable(hdev, true);
 		reregister_monitor_on_restart(hdev, 0);
 	}
-=======
-	hdev->msft_data = msft;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void msft_do_close(struct hci_dev *hdev)
 {
 	struct msft_data *msft = hdev->msft_data;
-<<<<<<< HEAD
 	struct msft_monitor_advertisement_handle_data *handle_data, *tmp;
 	struct adv_monitor *monitor;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!msft)
 		return;
@@ -244,7 +223,6 @@ void msft_do_close(struct hci_dev *hdev)
 
 	hdev->msft_data = NULL;
 
-<<<<<<< HEAD
 	list_for_each_entry_safe(handle_data, tmp, &msft->handle_map, list) {
 		monitor = idr_find(&hdev->adv_monitors_idr,
 				   handle_data->mgmt_handle);
@@ -256,8 +234,6 @@ void msft_do_close(struct hci_dev *hdev)
 		kfree(handle_data);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(msft->evt_prefix);
 	kfree(msft);
 }
@@ -299,7 +275,6 @@ __u64 msft_get_features(struct hci_dev *hdev)
 {
 	struct msft_data *msft = hdev->msft_data;
 
-<<<<<<< HEAD
 	return msft ? msft->features : 0;
 }
 
@@ -632,7 +607,9 @@ int msft_set_filter_enable(struct hci_dev *hdev, bool enable)
 	err = hci_req_run_skb(&req, msft_le_set_advertisement_filter_enable_cb);
 
 	return err;
-=======
-	return  msft ? msft->features : 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+}
+
+bool msft_curve_validity(struct hci_dev *hdev)
+{
+	return hdev->msft_curve_validity;
 }

@@ -370,20 +370,6 @@ enum _burst_mode {
 	BURST_MEM32 = 2,
 };
 
-<<<<<<< HEAD
-=======
-/**************************************************************************
- * SCSI messaage
- */
-#define MSG_COMMAND_COMPLETE 0x00
-#define MSG_EXTENDED         0x01
-#define MSG_ABORT            0x06
-#define MSG_NO_OPERATION     0x08
-#define MSG_BUS_DEVICE_RESET 0x0c
-
-#define MSG_EXT_SDTR         0x01
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* scatter-gather table */
 #  define BUFFER_ADDR ((char *)((sg_virt(SCpnt->SCp.buffer))))
 

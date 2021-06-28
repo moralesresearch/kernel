@@ -794,11 +794,8 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
 	char *ret = NULL;
 	int i, args_count, err;
 	unsigned long long ref_ctr_offset;
-<<<<<<< HEAD
 	char *arg;
 	int arg_idx = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (strbuf_init(&buf, 32) < 0)
 		return NULL;
@@ -823,7 +820,6 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
 		if (args == NULL)
 			goto error;
 
-<<<<<<< HEAD
 		for (i = 0; i < args_count; ) {
 			/*
 			 * FIXUP: Arm64 ELF section '.note.stapsdt' uses string
@@ -861,13 +857,6 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
 
 			free(arg);
 			arg_idx++;
-=======
-		for (i = 0; i < args_count; ++i) {
-			if (synthesize_sdt_probe_arg(&buf, i, args[i]) < 0) {
-				argv_free(args);
-				goto error;
-			}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		argv_free(args);

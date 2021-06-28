@@ -821,7 +821,6 @@ exit:
 	ieee80211_free_txskb(hw, skb);
 }
 
-<<<<<<< HEAD
 static bool ath9k_txq_list_has_key(struct list_head *txq_list, u32 keyix)
 {
 	struct ath_buf *bf;
@@ -889,18 +888,13 @@ static void ath9k_pending_key_del(struct ath_softc *sc, u8 keyix)
 	ath_key_delete(common, keyix);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ath9k_stop(struct ieee80211_hw *hw)
 {
 	struct ath_softc *sc = hw->priv;
 	struct ath_hw *ah = sc->sc_ah;
 	struct ath_common *common = ath9k_hw_common(ah);
 	bool prev_idle;
-<<<<<<< HEAD
 	int i;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ath9k_deinit_channel_context(sc);
 
@@ -968,7 +962,6 @@ static void ath9k_stop(struct ieee80211_hw *hw)
 
 	spin_unlock_bh(&sc->sc_pcu_lock);
 
-<<<<<<< HEAD
 	for (i = 0; i < ATH_KEYMAX; i++)
 		ath9k_pending_key_del(sc, i);
 
@@ -977,8 +970,6 @@ static void ath9k_stop(struct ieee80211_hw *hw)
 	 */
 	ath9k_cmn_init_crypto(sc->sc_ah);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ath9k_ps_restore(sc);
 
 	sc->ps_idle = prev_idle;
@@ -1623,19 +1614,11 @@ static void ath9k_del_ps_key(struct ath_softc *sc,
 {
 	struct ath_common *common = ath9k_hw_common(sc->sc_ah);
 	struct ath_node *an = (struct ath_node *) sta->drv_priv;
-<<<<<<< HEAD
-=======
-	struct ieee80211_key_conf ps_key = { .hw_key_idx = an->ps_key };
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!an->ps_key)
 	    return;
 
-<<<<<<< HEAD
 	ath_key_delete(common, an->ps_key);
-=======
-	ath_key_delete(common, &ps_key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	an->ps_key = 0;
 	an->key_idx[0] = 0;
 }
@@ -1806,15 +1789,12 @@ static int ath9k_set_key(struct ieee80211_hw *hw,
 	if (sta)
 		an = (struct ath_node *)sta->drv_priv;
 
-<<<<<<< HEAD
 	/* Delete pending key cache entries if no more frames are pointing to
 	 * them in TXQs.
 	 */
 	for (i = 0; i < ATH_KEYMAX; i++)
 		ath9k_pending_key_del(sc, i);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (cmd) {
 	case SET_KEY:
 		if (sta)
@@ -1844,7 +1824,6 @@ static int ath9k_set_key(struct ieee80211_hw *hw,
 		}
 		break;
 	case DISABLE_KEY:
-<<<<<<< HEAD
 		if (ath9k_txq_has_key(sc, key->hw_key_idx)) {
 			/* Delay key cache entry deletion until there are no
 			 * remaining TXQ frames pointing to this entry.
@@ -1854,9 +1833,6 @@ static int ath9k_set_key(struct ieee80211_hw *hw,
 		} else {
 			ath_key_delete(common, key->hw_key_idx);
 		}
-=======
-		ath_key_delete(common, key);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (an) {
 			for (i = 0; i < ARRAY_SIZE(an->key_idx); i++) {
 				if (an->key_idx[i] != key->hw_key_idx)

@@ -34,10 +34,7 @@ struct thread_struct {
 	unsigned long sp;	/* Kernel mode stack */
 	unsigned long s[12];	/* s[0]: frame pointer */
 	struct __riscv_d_ext_state fstate;
-<<<<<<< HEAD
 	unsigned long bad_cause;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define INIT_THREAD {					\
@@ -74,10 +71,7 @@ int riscv_of_processor_hartid(struct device_node *node);
 int riscv_of_parent_hartid(struct device_node *node);
 
 extern void riscv_fill_hwcap(void);
-<<<<<<< HEAD
 extern int arch_dup_task_struct(struct task_struct *dst, struct task_struct *src);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __ASSEMBLY__ */
 

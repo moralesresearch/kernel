@@ -37,11 +37,6 @@ extern int distribute_irqs;
 
 struct pt_regs;
 
-<<<<<<< HEAD
-=======
-#define __ARCH_HAS_DO_SOFTIRQ
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_BOOKE) || defined(CONFIG_40x)
 /*
  * Per-cpu stacks for handling critical, debug and machine check
@@ -58,8 +53,6 @@ extern void *mcheckirq_ctx[NR_CPUS];
 extern void *hardirq_ctx[NR_CPUS];
 extern void *softirq_ctx[NR_CPUS];
 
-void call_do_softirq(void *sp);
-void call_do_irq(struct pt_regs *regs, void *sp);
 extern void do_IRQ(struct pt_regs *regs);
 extern void __init init_IRQ(void);
 extern void __do_irq(struct pt_regs *regs);

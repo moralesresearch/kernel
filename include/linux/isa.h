@@ -13,11 +13,7 @@
 struct isa_driver {
 	int (*match)(struct device *, unsigned int);
 	int (*probe)(struct device *, unsigned int);
-<<<<<<< HEAD
 	void (*remove)(struct device *, unsigned int);
-=======
-	int (*remove)(struct device *, unsigned int);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*shutdown)(struct device *, unsigned int);
 	int (*suspend)(struct device *, unsigned int, pm_message_t);
 	int (*resume)(struct device *, unsigned int);

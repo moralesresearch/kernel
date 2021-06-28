@@ -132,11 +132,9 @@ properties:
           - enum:
               - friendlyarm,nanopc-t4
               - friendlyarm,nanopi-m4
-<<<<<<< HEAD
               - friendlyarm,nanopi-m4b
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               - friendlyarm,nanopi-neo4
+              - friendlyarm,nanopi-r4s
           - const: rockchip,rk3399
 
       - description: GeekBuying GeekBox
@@ -471,14 +469,11 @@ properties:
           - const: radxa,rockpi4
           - const: rockchip,rk3399
 
-<<<<<<< HEAD
       - description: Radxa ROCK Pi E
         items:
           - const: radxa,rockpi-e
           - const: rockchip,rk3328
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - description: Radxa ROCK Pi N8
         items:
           - const: radxa,rockpi-n8

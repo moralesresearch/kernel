@@ -18,15 +18,9 @@ static void _rtl92e_ethtool_get_drvinfo(struct net_device *dev,
 {
 	struct r8192_priv *priv = rtllib_priv(dev);
 
-<<<<<<< HEAD
 	strscpy(info->driver, DRV_NAME, sizeof(info->driver));
 	strscpy(info->version, DRV_VERSION, sizeof(info->version));
 	strscpy(info->bus_info, pci_name(priv->pdev), sizeof(info->bus_info));
-=======
-	strlcpy(info->driver, DRV_NAME, sizeof(info->driver));
-	strlcpy(info->version, DRV_VERSION, sizeof(info->version));
-	strlcpy(info->bus_info, pci_name(priv->pdev), sizeof(info->bus_info));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u32 _rtl92e_ethtool_get_link(struct net_device *dev)

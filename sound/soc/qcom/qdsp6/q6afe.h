@@ -233,14 +233,10 @@ void q6afe_cdc_dma_port_prepare(struct q6afe_port *port,
 int q6afe_port_set_sysclk(struct q6afe_port *port, int clk_id,
 			  int clk_src, int clk_root,
 			  unsigned int freq, int dir);
-int q6afe_set_lpass_clock(struct device *dev, int clk_id, int clk_src,
+int q6afe_set_lpass_clock(struct device *dev, int clk_id, int attri,
 			  int clk_root, unsigned int freq);
 int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
-<<<<<<< HEAD
 			     const char *client_name, uint32_t *client_handle);
-=======
-			     char *client_name, uint32_t *client_handle);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int q6afe_unvote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
 			       uint32_t client_handle);
 #endif /* __Q6AFE_H__ */

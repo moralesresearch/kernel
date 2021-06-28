@@ -326,22 +326,16 @@ static int pch_get_trip_temp(struct thermal_zone_device *tzd, int trip, int *tem
 	return 0;
 }
 
-<<<<<<< HEAD
 static void pch_critical(struct thermal_zone_device *tzd)
 {
 	dev_dbg(&tzd->device, "%s: critical temperature reached\n", tzd->type);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct thermal_zone_device_ops tzd_ops = {
 	.get_temp = pch_thermal_get_temp,
 	.get_trip_type = pch_get_trip_type,
 	.get_trip_temp = pch_get_trip_temp,
-<<<<<<< HEAD
 	.critical = pch_critical,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum board_ids {

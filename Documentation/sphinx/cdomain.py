@@ -236,17 +236,7 @@ class CObject(Base_CObject):
 
         indextext = self.get_index_text(name)
         if indextext:
-<<<<<<< HEAD
             self.indexnode['entries'].append(
-=======
-            if major == 1 and minor < 4:
-                # indexnode's tuple changed in 1.4
-                # https://github.com/sphinx-doc/sphinx/commit/e6a5a3a92e938fcd75866b4227db9e0524d58f7c
-                self.indexnode['entries'].append(
-                    ('single', indextext, targetname, ''))
-            else:
-                self.indexnode['entries'].append(
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                     ('single', indextext, targetname, '', None))
 
 class CDomain(Base_CDomain):

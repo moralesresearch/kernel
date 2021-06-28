@@ -16,11 +16,7 @@ static int mt76x0e_start(struct ieee80211_hw *hw)
 
 	mt76x02_mac_start(dev);
 	mt76x0_phy_calibrate(dev, true);
-<<<<<<< HEAD
 	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->mphy.mac_work,
-=======
-	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->mt76.mac_work,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     MT_MAC_WORK_INTERVAL);
 	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->cal_work,
 				     MT_CALIBRATE_INTERVAL);
@@ -32,11 +28,7 @@ static int mt76x0e_start(struct ieee80211_hw *hw)
 static void mt76x0e_stop_hw(struct mt76x02_dev *dev)
 {
 	cancel_delayed_work_sync(&dev->cal_work);
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&dev->mphy.mac_work);
-=======
-	cancel_delayed_work_sync(&dev->mt76.mac_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clear_bit(MT76_RESTART, &dev->mphy.state);
 
 	if (!mt76_poll(dev, MT_WPDMA_GLO_CFG, MT_WPDMA_GLO_CFG_TX_DMA_BUSY,
@@ -95,11 +87,7 @@ static const struct ieee80211_ops mt76x0e_ops = {
 	.reconfig_complete = mt76x02_reconfig_complete,
 };
 
-<<<<<<< HEAD
 static int mt76x0e_init_hardware(struct mt76x02_dev *dev, bool resume)
-=======
-static int mt76x0e_register_device(struct mt76x02_dev *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
@@ -112,17 +100,11 @@ static int mt76x0e_register_device(struct mt76x02_dev *dev)
 	if (err < 0)
 		return err;
 
-<<<<<<< HEAD
 	if (!resume) {
 		err = mt76x02_dma_init(dev);
 		if (err < 0)
 			return err;
 	}
-=======
-	err = mt76x02_dma_init(dev);
-	if (err < 0)
-		return err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mt76x0_init_hardware(dev);
 	if (err < 0)
@@ -143,7 +125,6 @@ static int mt76x0e_register_device(struct mt76x02_dev *dev)
 	mt76_clear(dev, 0x110, BIT(9));
 	mt76_set(dev, MT_MAX_LEN_CFG, BIT(13));
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -155,8 +136,6 @@ static int mt76x0e_register_device(struct mt76x02_dev *dev)
 	if (err < 0)
 		return err;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = mt76x0_register_device(dev);
 	if (err < 0)
 		return err;
@@ -201,11 +180,8 @@ mt76x0e_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	mt76_pci_disable_aspm(pdev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mdev = mt76_alloc_device(&pdev->dev, sizeof(*dev), &mt76x0e_ops,
 				 &drv_ops);
 	if (!mdev)
@@ -259,7 +235,6 @@ mt76x0e_remove(struct pci_dev *pdev)
 	mt76_free_device(mdev);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_PM
 static int mt76x0e_suspend(struct pci_dev *pdev, pm_message_t state)
 {
@@ -314,12 +289,10 @@ static int mt76x0e_resume(struct pci_dev *pdev)
 }
 #endif /* CONFIG_PM */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct pci_device_id mt76x0e_device_table[] = {
-	{ PCI_DEVICE(0x14c3, 0x7610) },
-	{ PCI_DEVICE(0x14c3, 0x7630) },
-	{ PCI_DEVICE(0x14c3, 0x7650) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7610) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7630) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, 0x7650) },
 	{ },
 };
 
@@ -333,13 +306,10 @@ static struct pci_driver mt76x0e_driver = {
 	.id_table	= mt76x0e_device_table,
 	.probe		= mt76x0e_probe,
 	.remove		= mt76x0e_remove,
-<<<<<<< HEAD
 #ifdef CONFIG_PM
 	.suspend	= mt76x0e_suspend,
 	.resume		= mt76x0e_resume,
 #endif /* CONFIG_PM */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 module_pci_driver(mt76x0e_driver);

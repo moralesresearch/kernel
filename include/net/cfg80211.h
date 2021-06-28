@@ -11,6 +11,7 @@
  */
 
 #include <linux/ethtool.h>
+#include <uapi/linux/rfkill.h>
 #include <linux/netdevice.h>
 #include <linux/debugfs.h>
 #include <linux/list.h>
@@ -359,7 +360,7 @@ struct ieee80211_sta_he_cap {
 };
 
 /**
- * struct ieee80211_sband_iftype_data
+ * struct ieee80211_sband_iftype_data - sband data per interface type
  *
  * This structure encapsulates sband data that is relevant for the
  * interface types defined in @types_mask.  Each type in the
@@ -1460,10 +1461,7 @@ int cfg80211_check_station_change(struct wiphy *wiphy,
  * @RATE_INFO_FLAGS_DMG: 60GHz MCS
  * @RATE_INFO_FLAGS_HE_MCS: HE MCS information
  * @RATE_INFO_FLAGS_EDMG: 60GHz MCS in EDMG mode
-<<<<<<< HEAD
  * @RATE_INFO_FLAGS_EXTENDED_SC_DMG: 60GHz extended SC MCS
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum rate_info_flags {
 	RATE_INFO_FLAGS_MCS			= BIT(0),
@@ -1472,10 +1470,7 @@ enum rate_info_flags {
 	RATE_INFO_FLAGS_DMG			= BIT(3),
 	RATE_INFO_FLAGS_HE_MCS			= BIT(4),
 	RATE_INFO_FLAGS_EDMG			= BIT(5),
-<<<<<<< HEAD
 	RATE_INFO_FLAGS_EXTENDED_SC_DMG		= BIT(6),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -2589,20 +2584,14 @@ struct cfg80211_auth_request {
  *	authentication capability. Drivers can offload authentication to
  *	userspace if this flag is set. Only applicable for cfg80211_connect()
  *	request (connect callback).
-<<<<<<< HEAD
  * @ASSOC_REQ_DISABLE_HE:  Disable HE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum cfg80211_assoc_req_flags {
 	ASSOC_REQ_DISABLE_HT			= BIT(0),
 	ASSOC_REQ_DISABLE_VHT			= BIT(1),
 	ASSOC_REQ_USE_RRM			= BIT(2),
 	CONNECT_REQ_EXTERNAL_AUTH_SUPPORT	= BIT(3),
-<<<<<<< HEAD
 	ASSOC_REQ_DISABLE_HE			= BIT(4),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**
@@ -3532,6 +3521,8 @@ struct cfg80211_pmsr_result {
  * @non_trigger_based: use non trigger based ranging for the measurement
  *		 If neither @trigger_based nor @non_trigger_based is set,
  *		 EDCA based ranging will be used.
+ * @lmr_feedback: negotiate for I2R LMR feedback. Only valid if either
+ *	@trigger_based or @non_trigger_based is set.
  *
  * See also nl80211 for the respective attribute documentation.
  */
@@ -3543,7 +3534,8 @@ struct cfg80211_pmsr_ftm_request_peer {
 	   request_lci:1,
 	   request_civicloc:1,
 	   trigger_based:1,
-	   non_trigger_based:1;
+	   non_trigger_based:1,
+	   lmr_feedback:1;
 	u8 num_bursts_exp;
 	u8 burst_duration;
 	u8 ftms_per_burst;
@@ -3646,16 +3638,10 @@ struct mgmt_frame_regs {
  * All callbacks except where otherwise noted should return 0
  * on success or a negative error code.
  *
-<<<<<<< HEAD
  * All operations are invoked with the wiphy mutex held. The RTNL may be
  * held in addition (due to wireless extensions) but this cannot be relied
  * upon except in cases where documented below. Note that due to ordering,
  * the RTNL also cannot be acquired in any handlers.
-=======
- * All operations are currently invoked under rtnl for consistency with the
- * wireless extensions but this is subject to reevaluation as soon as this
- * code is used more widely and we have a first user without wext.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @suspend: wiphy device needs to be suspended. The variable @wow will
  *	be %NULL or contain the enabled Wake-on-Wireless triggers that are
@@ -3670,7 +3656,6 @@ struct mgmt_frame_regs {
  *	the new netdev in the wiphy's network namespace! Returns the struct
  *	wireless_dev, or an ERR_PTR. For P2P device wdevs, the driver must
  *	also set the address member in the wdev.
-<<<<<<< HEAD
  *	This additionally holds the RTNL to be able to do netdev changes.
  *
  * @del_virtual_intf: remove the virtual interface
@@ -3679,13 +3664,6 @@ struct mgmt_frame_regs {
  * @change_virtual_intf: change type/configuration of virtual interface,
  *	keep the struct wireless_dev's iftype updated.
  *	This additionally holds the RTNL to be able to do netdev changes.
-=======
- *
- * @del_virtual_intf: remove the virtual interface
- *
- * @change_virtual_intf: change type/configuration of virtual interface,
- *	keep the struct wireless_dev's iftype updated.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @add_key: add a key with the given parameters. @mac_addr will be %NULL
  *	when adding a group key.
@@ -4775,10 +4753,7 @@ struct wiphy_iftype_akm_suites {
 
 /**
  * struct wiphy - wireless hardware description
-<<<<<<< HEAD
  * @mtx: mutex for the data (structures) of this device
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @reg_notifier: the driver's regulatory notification callback,
  *	note that if your driver uses wiphy_apply_custom_regulatory()
  *	the reg_notifier's request can be passed as NULL
@@ -4972,11 +4947,8 @@ struct wiphy_iftype_akm_suites {
  * @sar_capa: SAR control capabilities
  */
 struct wiphy {
-<<<<<<< HEAD
 	struct mutex mtx;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* assign these fields before you register the wiphy */
 
 	u8 perm_addr[ETH_ALEN];
@@ -5229,7 +5201,6 @@ static inline struct wiphy *wiphy_new(const struct cfg80211_ops *ops,
  */
 int wiphy_register(struct wiphy *wiphy);
 
-<<<<<<< HEAD
 /* this is a define for better error reporting (file/line) */
 #define lockdep_assert_wiphy(wiphy) lockdep_assert_held(&(wiphy)->mtx)
 
@@ -5261,8 +5232,6 @@ int wiphy_register(struct wiphy *wiphy);
  */
 const struct ieee80211_regdomain *get_wiphy_regdom(struct wiphy *wiphy);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * wiphy_unregister - deregister a wiphy from cfg80211
  *
@@ -5288,7 +5257,6 @@ struct cfg80211_cached_keys;
 struct cfg80211_cqm_config;
 
 /**
-<<<<<<< HEAD
  * wiphy_lock - lock the wiphy
  * @wiphy: the wiphy to lock
  *
@@ -5318,22 +5286,16 @@ static inline void wiphy_unlock(struct wiphy *wiphy)
 }
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct wireless_dev - wireless device state
  *
  * For netdevs, this structure must be allocated by the driver
  * that uses the ieee80211_ptr field in struct net_device (this
  * is intentional so it can be allocated along with the netdev.)
  * It need not be registered then as netdev registration will
-<<<<<<< HEAD
  * be intercepted by cfg80211 to see the new wireless device,
  * however, drivers must lock the wiphy before registering or
  * unregistering netdevs if they pre-create any netdevs (in ops
  * called from cfg80211, the wiphy is already locked.)
-=======
- * be intercepted by cfg80211 to see the new wireless device.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * For non-netdev uses, it must also be allocated by the driver
  * in response to the cfg80211 callbacks that require it, as
@@ -5342,12 +5304,9 @@ static inline void wiphy_unlock(struct wiphy *wiphy)
  *
  * @wiphy: pointer to hardware description
  * @iftype: interface type
-<<<<<<< HEAD
  * @registered: is this wdev already registered with cfg80211
  * @registering: indicates we're doing registration under wiphy lock
  *	for the notifier
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @list: (private) Used to collect the interfaces
  * @netdev: (private) Used to reference back to the netdev, may be %NULL
  * @identifier: (private) Identifier used in nl80211 to identify this
@@ -5431,11 +5390,7 @@ struct wireless_dev {
 
 	struct mutex mtx;
 
-<<<<<<< HEAD
 	bool use_4addr, is_running, registered, registering;
-=======
-	bool use_4addr, is_running;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u8 address[ETH_ALEN] __aligned(sizeof(u16));
 
@@ -5655,7 +5610,7 @@ static inline bool cfg80211_channel_is_psc(struct ieee80211_channel *chan)
  * which is, for this function, given as a bitmap of indices of
  * rates in the band's bitrate table.
  */
-struct ieee80211_rate *
+const struct ieee80211_rate *
 ieee80211_get_response_rate(struct ieee80211_supported_band *sband,
 			    u32 basic_rates, int bitrate);
 
@@ -5805,11 +5760,7 @@ unsigned int ieee80211_get_mesh_hdrlen(struct ieee80211s_hdr *meshhdr);
  */
 int ieee80211_data_to_8023_exthdr(struct sk_buff *skb, struct ethhdr *ehdr,
 				  const u8 *addr, enum nl80211_iftype iftype,
-<<<<<<< HEAD
 				  u8 data_offset, bool is_amsdu);
-=======
-				  u8 data_offset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * ieee80211_data_to_8023 - convert an 802.11 data frame to 802.3
@@ -5821,11 +5772,7 @@ int ieee80211_data_to_8023_exthdr(struct sk_buff *skb, struct ethhdr *ehdr,
 static inline int ieee80211_data_to_8023(struct sk_buff *skb, const u8 *addr,
 					 enum nl80211_iftype iftype)
 {
-<<<<<<< HEAD
 	return ieee80211_data_to_8023_exthdr(skb, NULL, addr, iftype, 0, false);
-=======
-	return ieee80211_data_to_8023_exthdr(skb, NULL, addr, iftype, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -6112,7 +6059,6 @@ int regulatory_set_wiphy_regd(struct wiphy *wiphy,
 			      struct ieee80211_regdomain *rd);
 
 /**
-<<<<<<< HEAD
  * regulatory_set_wiphy_regd_sync - set regdom for self-managed drivers
  * @wiphy: the wireless device we want to process the regulatory domain on
  * @rd: the regulatory domain information to use for this wiphy
@@ -6125,20 +6071,6 @@ int regulatory_set_wiphy_regd(struct wiphy *wiphy,
  */
 int regulatory_set_wiphy_regd_sync(struct wiphy *wiphy,
 				   struct ieee80211_regdomain *rd);
-=======
- * regulatory_set_wiphy_regd_sync_rtnl - set regdom for self-managed drivers
- * @wiphy: the wireless device we want to process the regulatory domain on
- * @rd: the regulatory domain information to use for this wiphy
- *
- * This functions requires the RTNL to be held and applies the new regdomain
- * synchronously to this wiphy. For more details see
- * regulatory_set_wiphy_regd().
- *
- * Return: 0 on success. -EINVAL, -EPERM
- */
-int regulatory_set_wiphy_regd_sync_rtnl(struct wiphy *wiphy,
-					struct ieee80211_regdomain *rd);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * wiphy_apply_custom_regulatory - apply a custom driver regulatory domain
@@ -6256,11 +6188,7 @@ void cfg80211_sched_scan_results(struct wiphy *wiphy, u64 reqid);
 void cfg80211_sched_scan_stopped(struct wiphy *wiphy, u64 reqid);
 
 /**
-<<<<<<< HEAD
  * cfg80211_sched_scan_stopped_locked - notify that the scheduled scan has stopped
-=======
- * cfg80211_sched_scan_stopped_rtnl - notify that the scheduled scan has stopped
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @wiphy: the wiphy on which the scheduled scan stopped
  * @reqid: identifier for the related scheduled scan request
@@ -6268,15 +6196,9 @@ void cfg80211_sched_scan_stopped(struct wiphy *wiphy, u64 reqid);
  * The driver can call this function to inform cfg80211 that the
  * scheduled scan had to be stopped, for whatever reason.  The driver
  * is then called back via the sched_scan_stop operation when done.
-<<<<<<< HEAD
  * This function should be called with the wiphy mutex held.
  */
 void cfg80211_sched_scan_stopped_locked(struct wiphy *wiphy, u64 reqid);
-=======
- * This function should be called with rtnl locked.
- */
-void cfg80211_sched_scan_stopped_rtnl(struct wiphy *wiphy, u64 reqid);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * cfg80211_inform_bss_frame_data - inform cfg80211 of a received BSS frame
@@ -6715,11 +6637,19 @@ void cfg80211_notify_new_peer_candidate(struct net_device *dev,
  */
 
 /**
- * wiphy_rfkill_set_hw_state - notify cfg80211 about hw block state
+ * wiphy_rfkill_set_hw_state_reason - notify cfg80211 about hw block state
  * @wiphy: the wiphy
  * @blocked: block status
+ * @reason: one of reasons in &enum rfkill_hard_block_reasons
  */
-void wiphy_rfkill_set_hw_state(struct wiphy *wiphy, bool blocked);
+void wiphy_rfkill_set_hw_state_reason(struct wiphy *wiphy, bool blocked,
+				      enum rfkill_hard_block_reasons reason);
+
+static inline void wiphy_rfkill_set_hw_state(struct wiphy *wiphy, bool blocked)
+{
+	wiphy_rfkill_set_hw_state_reason(wiphy, blocked,
+					 RFKILL_HARD_BLOCK_SIGNAL);
+}
 
 /**
  * wiphy_rfkill_start_polling - start polling rfkill
@@ -6813,7 +6743,7 @@ cfg80211_vendor_cmd_alloc_reply_skb(struct wiphy *wiphy, int approxlen)
 int cfg80211_vendor_cmd_reply(struct sk_buff *skb);
 
 /**
- * cfg80211_vendor_cmd_get_sender
+ * cfg80211_vendor_cmd_get_sender - get the current sender netlink ID
  * @wiphy: the wiphy
  *
  * Return the current netlink port ID in a vendor command handler.
@@ -7713,11 +7643,7 @@ bool cfg80211_reg_can_beacon(struct wiphy *wiphy,
  * also checks if IR-relaxation conditions apply, to allow beaconing under
  * more permissive conditions.
  *
-<<<<<<< HEAD
  * Requires the wiphy mutex to be held.
-=======
- * Requires the RTNL to be held.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool cfg80211_reg_can_beacon_relax(struct wiphy *wiphy,
 				   struct cfg80211_chan_def *chandef,
@@ -7815,7 +7741,6 @@ u32 cfg80211_calculate_bitrate(struct rate_info *rate);
  * cfg80211_unregister_wdev - remove the given wdev
  * @wdev: struct wireless_dev to remove
  *
-<<<<<<< HEAD
  * This function removes the device so it can no longer be used. It is necessary
  * to call this function even when cfg80211 requests the removal of the device
  * by calling the del_virtual_intf() callback. The function must also be called
@@ -7823,22 +7748,10 @@ u32 cfg80211_calculate_bitrate(struct rate_info *rate);
  * is unbound from the driver.
  *
  * Requires the RTNL and wiphy mutex to be held.
-=======
- * Call this function only for wdevs that have no netdev assigned,
- * e.g. P2P Devices. It removes the device from the list so that
- * it can no longer be used. It is necessary to call this function
- * even when cfg80211 requests the removal of the interface by
- * calling the del_virtual_intf() callback. The function must also
- * be called when the driver wishes to unregister the wdev, e.g.
- * when the device is unbound from the driver.
- *
- * Requires the RTNL to be held.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void cfg80211_unregister_wdev(struct wireless_dev *wdev);
 
 /**
-<<<<<<< HEAD
  * cfg80211_register_netdevice - register the given netdev
  * @dev: the netdev to register
  *
@@ -7868,8 +7781,6 @@ static inline void cfg80211_unregister_netdevice(struct net_device *dev)
 }
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct cfg80211_ft_event_params - FT Information Elements
  * @ies: FT IEs
  * @ies_len: length of the FT IE in bytes

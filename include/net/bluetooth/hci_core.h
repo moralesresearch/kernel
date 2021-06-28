@@ -105,11 +105,8 @@ enum suspend_tasks {
 	SUSPEND_POWERING_DOWN,
 
 	SUSPEND_PREPARE_NOTIFIER,
-<<<<<<< HEAD
 
 	SUSPEND_SET_ADV_FILTER,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__SUSPEND_NUM_TASKS
 };
 
@@ -255,7 +252,6 @@ struct adv_pattern {
 	__u8 value[HCI_MAX_AD_LENGTH];
 };
 
-<<<<<<< HEAD
 struct adv_rssi_thresholds {
 	__s8 low_threshold;
 	__s8 high_threshold;
@@ -281,17 +277,6 @@ struct adv_monitor {
 #define HCI_MAX_ADV_MONITOR_NUM_PATTERNS	16
 #define HCI_ADV_MONITOR_EXT_NONE		1
 #define HCI_ADV_MONITOR_EXT_MSFT		2
-=======
-struct adv_monitor {
-	struct list_head patterns;
-	bool		active;
-	__u16		handle;
-};
-
-#define HCI_MIN_ADV_MONITOR_HANDLE		1
-#define HCI_MAX_ADV_MONITOR_NUM_HANDLES	32
-#define HCI_MAX_ADV_MONITOR_NUM_PATTERNS	16
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define HCI_MAX_SHORT_NAME_LENGTH	10
 
@@ -599,6 +584,11 @@ struct hci_dev {
 #if IS_ENABLED(CONFIG_BT_MSFTEXT)
 	__u16			msft_opcode;
 	void			*msft_data;
+	bool			msft_curve_validity;
+#endif
+
+#if IS_ENABLED(CONFIG_BT_AOSPEXT)
+	bool			aosp_capable;
 #endif
 
 	int (*open)(struct hci_dev *hdev);
@@ -719,10 +709,7 @@ struct hci_chan {
 	struct sk_buff_head data_q;
 	unsigned int	sent;
 	__u8		state;
-<<<<<<< HEAD
 	bool		amp;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct hci_conn_params {
@@ -1257,6 +1244,13 @@ static inline void hci_set_msft_opcode(struct hci_dev *hdev, __u16 opcode)
 #endif
 }
 
+static inline void hci_set_aosp_capable(struct hci_dev *hdev)
+{
+#if IS_ENABLED(CONFIG_BT_AOSPEXT)
+	hdev->aosp_capable = true;
+#endif
+}
+
 int hci_dev_open(__u16 dev);
 int hci_dev_close(__u16 dev);
 int hci_dev_do_close(struct hci_dev *hdev);
@@ -1353,7 +1347,6 @@ int hci_remove_adv_instance(struct hci_dev *hdev, u8 instance);
 void hci_adv_instances_set_rpa_expired(struct hci_dev *hdev, bool rpa_expired);
 
 void hci_adv_monitors_clear(struct hci_dev *hdev);
-<<<<<<< HEAD
 void hci_free_adv_monitor(struct hci_dev *hdev, struct adv_monitor *monitor);
 int hci_add_adv_patterns_monitor_complete(struct hci_dev *hdev, u8 status);
 int hci_remove_adv_monitor_complete(struct hci_dev *hdev, u8 status);
@@ -1363,12 +1356,6 @@ bool hci_remove_single_adv_monitor(struct hci_dev *hdev, u16 handle, int *err);
 bool hci_remove_all_adv_monitor(struct hci_dev *hdev, int *err);
 bool hci_is_adv_monitoring(struct hci_dev *hdev);
 int hci_get_adv_monitor_offload_ext(struct hci_dev *hdev);
-=======
-void hci_free_adv_monitor(struct adv_monitor *monitor);
-int hci_add_adv_monitor(struct hci_dev *hdev, struct adv_monitor *monitor);
-int hci_remove_adv_monitor(struct hci_dev *hdev, u16 handle);
-bool hci_is_adv_monitoring(struct hci_dev *hdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void hci_event_packet(struct hci_dev *hdev, struct sk_buff *skb);
 
@@ -1391,10 +1378,7 @@ void hci_conn_del_sysfs(struct hci_conn *conn);
 #define lmp_le_capable(dev)        ((dev)->features[0][4] & LMP_LE)
 #define lmp_sniffsubr_capable(dev) ((dev)->features[0][5] & LMP_SNIFF_SUBR)
 #define lmp_pause_enc_capable(dev) ((dev)->features[0][5] & LMP_PAUSE_ENC)
-<<<<<<< HEAD
 #define lmp_esco_2m_capable(dev)   ((dev)->features[0][5] & LMP_EDR_ESCO_2M)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define lmp_ext_inq_capable(dev)   ((dev)->features[0][6] & LMP_EXT_INQ)
 #define lmp_le_br_capable(dev)     (!!((dev)->features[0][6] & LMP_SIMUL_LE_BR))
 #define lmp_ssp_capable(dev)       ((dev)->features[0][6] & LMP_SIMPLE_PAIR)
@@ -1771,8 +1755,8 @@ void hci_mgmt_chan_unregister(struct hci_mgmt_chan *c);
 #define DISCOV_INTERLEAVED_INQUIRY_LEN	0x04
 #define DISCOV_BREDR_INQUIRY_LEN	0x08
 #define DISCOV_LE_RESTART_DELAY		msecs_to_jiffies(200)	/* msec */
-#define DISCOV_LE_FAST_ADV_INT_MIN     100     /* msec */
-#define DISCOV_LE_FAST_ADV_INT_MAX     150     /* msec */
+#define DISCOV_LE_FAST_ADV_INT_MIN	0x00A0	/* 100 msec */
+#define DISCOV_LE_FAST_ADV_INT_MAX	0x00F0	/* 150 msec */
 
 void mgmt_fill_version_info(void *ver);
 int mgmt_new_settings(struct hci_dev *hdev);
@@ -1847,14 +1831,10 @@ void mgmt_advertising_added(struct sock *sk, struct hci_dev *hdev,
 			    u8 instance);
 void mgmt_advertising_removed(struct sock *sk, struct hci_dev *hdev,
 			      u8 instance);
-<<<<<<< HEAD
 void mgmt_adv_monitor_removed(struct hci_dev *hdev, u16 handle);
 int mgmt_phy_configuration_changed(struct hci_dev *hdev, struct sock *skip);
 int mgmt_add_adv_patterns_monitor_complete(struct hci_dev *hdev, u8 status);
 int mgmt_remove_adv_monitor_complete(struct hci_dev *hdev, u8 status);
-=======
-int mgmt_phy_configuration_changed(struct hci_dev *hdev, struct sock *skip);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 u8 hci_le_conn_update(struct hci_conn *conn, u16 min, u16 max, u16 latency,
 		      u16 to_multiplier);

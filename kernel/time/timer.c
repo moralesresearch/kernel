@@ -894,7 +894,7 @@ static inline void forward_timer_base(struct timer_base *base)
 	/*
 	 * No need to forward if we are close enough below jiffies.
 	 * Also while executing timers, base->clk is 1 offset ahead
-	 * of jiffies to avoid endless requeuing to current jffies.
+	 * of jiffies to avoid endless requeuing to current jiffies.
 	 */
 	if ((long)(jnow - base->clk) < 1)
 		return;
@@ -1237,7 +1237,6 @@ int try_to_del_timer_sync(struct timer_list *timer)
 }
 EXPORT_SYMBOL(try_to_del_timer_sync);
 
-<<<<<<< HEAD
 bool timer_curr_running(struct timer_list *timer)
 {
 	int i;
@@ -1252,8 +1251,6 @@ bool timer_curr_running(struct timer_list *timer)
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PREEMPT_RT
 static __init void timer_base_init_expiry_lock(struct timer_base *base)
 {
@@ -1274,7 +1271,7 @@ static inline void timer_base_unlock_expiry(struct timer_base *base)
  * The counterpart to del_timer_wait_running().
  *
  * If there is a waiter for base->expiry_lock, then it was waiting for the
- * timer callback to finish. Drop expiry_lock and reaquire it. That allows
+ * timer callback to finish. Drop expiry_lock and reacquire it. That allows
  * the waiter to acquire the lock and make progress.
  */
 static void timer_sync_wait_running(struct timer_base *base)

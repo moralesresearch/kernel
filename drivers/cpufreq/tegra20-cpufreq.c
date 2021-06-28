@@ -32,7 +32,6 @@ static bool cpu0_node_has_opp_v2_prop(void)
 	return ret;
 }
 
-<<<<<<< HEAD
 static void tegra20_cpufreq_put_supported_hw(void *opp_table)
 {
 	dev_pm_opp_put_supported_hw(opp_table);
@@ -43,8 +42,6 @@ static void tegra20_cpufreq_dt_unregister(void *cpufreq_dt)
 	platform_device_unregister(cpufreq_dt);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tegra20_cpufreq_probe(struct platform_device *pdev)
 {
 	struct platform_device *cpufreq_dt;
@@ -81,21 +78,17 @@ static int tegra20_cpufreq_probe(struct platform_device *pdev)
 		return err;
 	}
 
-<<<<<<< HEAD
 	err = devm_add_action_or_reset(&pdev->dev,
 				       tegra20_cpufreq_put_supported_hw,
 				       opp_table);
 	if (err)
 		return err;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cpufreq_dt = platform_device_register_simple("cpufreq-dt", -1, NULL, 0);
 	err = PTR_ERR_OR_ZERO(cpufreq_dt);
 	if (err) {
 		dev_err(&pdev->dev,
 			"failed to create cpufreq-dt device: %d\n", err);
-<<<<<<< HEAD
 		return err;
 	}
 
@@ -104,42 +97,12 @@ static int tegra20_cpufreq_probe(struct platform_device *pdev)
 				       cpufreq_dt);
 	if (err)
 		return err;
-=======
-		goto err_put_supported_hw;
-	}
-
-	platform_set_drvdata(pdev, cpufreq_dt);
-
-	return 0;
-
-err_put_supported_hw:
-	dev_pm_opp_put_supported_hw(opp_table);
-
-	return err;
-}
-
-static int tegra20_cpufreq_remove(struct platform_device *pdev)
-{
-	struct platform_device *cpufreq_dt;
-	struct opp_table *opp_table;
-
-	cpufreq_dt = platform_get_drvdata(pdev);
-	platform_device_unregister(cpufreq_dt);
-
-	opp_table = dev_pm_opp_get_opp_table(get_cpu_device(0));
-	dev_pm_opp_put_supported_hw(opp_table);
-	dev_pm_opp_put_opp_table(opp_table);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
 static struct platform_driver tegra20_cpufreq_driver = {
 	.probe		= tegra20_cpufreq_probe,
-<<<<<<< HEAD
-=======
-	.remove		= tegra20_cpufreq_remove,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver		= {
 		.name	= "tegra20-cpufreq",
 	},

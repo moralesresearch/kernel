@@ -122,11 +122,7 @@ nvkm_fb_oneinit(struct nvkm_subdev *subdev)
 		nvkm_debug(subdev, "%d comptags\n", tags);
 	}
 
-<<<<<<< HEAD
 	return nvkm_mm_init(&fb->tags.mm, 0, 0, tags, 1);
-=======
-	return nvkm_mm_init(&fb->tags, 0, 0, tags, 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -209,13 +205,9 @@ nvkm_fb_dtor(struct nvkm_subdev *subdev)
 	for (i = 0; i < fb->tile.regions; i++)
 		fb->func->tile.fini(fb, i, &fb->tile.region[i]);
 
-<<<<<<< HEAD
 	nvkm_mm_fini(&fb->tags.mm);
 	mutex_destroy(&fb->tags.mutex);
 
-=======
-	nvkm_mm_fini(&fb->tags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nvkm_ram_del(&fb->ram);
 
 	nvkm_blob_dtor(&fb->vpr_scrubber);
@@ -235,7 +227,6 @@ nvkm_fb = {
 
 void
 nvkm_fb_ctor(const struct nvkm_fb_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_fb *fb)
 {
 	nvkm_subdev_ctor(&nvkm_fb, device, type, inst, &fb->subdev);
@@ -243,31 +234,14 @@ nvkm_fb_ctor(const struct nvkm_fb_func *func, struct nvkm_device *device,
 	fb->tile.regions = fb->func->tile.regions;
 	fb->page = nvkm_longopt(device->cfgopt, "NvFbBigPage", fb->func->default_bigpage);
 	mutex_init(&fb->tags.mutex);
-=======
-	     int index, struct nvkm_fb *fb)
-{
-	nvkm_subdev_ctor(&nvkm_fb, device, index, &fb->subdev);
-	fb->func = func;
-	fb->tile.regions = fb->func->tile.regions;
-	fb->page = nvkm_longopt(device->cfgopt, "NvFbBigPage",
-				fb->func->default_bigpage);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int
 nvkm_fb_new_(const struct nvkm_fb_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_fb **pfb)
 {
 	if (!(*pfb = kzalloc(sizeof(**pfb), GFP_KERNEL)))
 		return -ENOMEM;
 	nvkm_fb_ctor(func, device, type, inst, *pfb);
-=======
-	     int index, struct nvkm_fb **pfb)
-{
-	if (!(*pfb = kzalloc(sizeof(**pfb), GFP_KERNEL)))
-		return -ENOMEM;
-	nvkm_fb_ctor(func, device, index, *pfb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

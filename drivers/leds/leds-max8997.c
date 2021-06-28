@@ -160,13 +160,8 @@ static void max8997_led_brightness_set(struct led_classdev *led_cdev,
 	}
 }
 
-<<<<<<< HEAD
 static ssize_t mode_show(struct device *dev,
 			 struct device_attribute *attr, char *buf)
-=======
-static ssize_t max8997_led_show_mode(struct device *dev,
-				struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct max8997_led *led =
@@ -198,15 +193,9 @@ static ssize_t max8997_led_show_mode(struct device *dev,
 	return ret;
 }
 
-<<<<<<< HEAD
 static ssize_t mode_store(struct device *dev,
 			  struct device_attribute *attr,
 			  const char *buf, size_t size)
-=======
-static ssize_t max8997_led_store_mode(struct device *dev,
-				struct device_attribute *attr,
-				const char *buf, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	struct max8997_led *led =
@@ -233,11 +222,7 @@ static ssize_t max8997_led_store_mode(struct device *dev,
 	return size;
 }
 
-<<<<<<< HEAD
 static DEVICE_ATTR_RW(mode);
-=======
-static DEVICE_ATTR(mode, 0644, max8997_led_show_mode, max8997_led_store_mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *max8997_attrs[] = {
 	&dev_attr_mode.attr,

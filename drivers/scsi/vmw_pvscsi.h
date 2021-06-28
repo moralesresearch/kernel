@@ -17,11 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
-<<<<<<< HEAD
-=======
- * Maintained by: Jim Gill <jgill@vmware.com>
- *
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef _VMW_PVSCSI_H_

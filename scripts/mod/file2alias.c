@@ -1375,7 +1375,6 @@ static int do_auxiliary_entry(const char *filename, void *symval, char *alias)
 	return 1;
 }
 
-<<<<<<< HEAD
 /*
  * Looks like: ssam:dNcNtNiNfN
  *
@@ -1410,8 +1409,6 @@ static int do_dfl_entry(const char *filename, void *symval, char *alias)
 	return 1;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Does namelen bytes of name exactly match the symbol? */
 static bool sym_is(const char *name, unsigned namelen, const char *symbol)
 {
@@ -1487,11 +1484,8 @@ static const struct devtable devtable[] = {
 	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
 	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
 	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
-<<<<<<< HEAD
 	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Create MODULE_ALIAS() statements.

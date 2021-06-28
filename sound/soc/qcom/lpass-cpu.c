@@ -93,7 +93,6 @@ static void lpass_cpu_daiops_shutdown(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
 {
 	struct lpass_data *drvdata = snd_soc_dai_get_drvdata(dai);
-<<<<<<< HEAD
 	struct lpaif_i2sctl *i2sctl = drvdata->i2sctl;
 	unsigned int id = dai->driver->id;
 
@@ -118,10 +117,6 @@ static void lpass_cpu_daiops_shutdown(struct snd_pcm_substream *substream,
 		clk_disable(drvdata->mi2s_bit_clk[dai->driver->id]);
 	}
 
-=======
-
-	clk_disable_unprepare(drvdata->mi2s_osr_clk[dai->driver->id]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_unprepare(drvdata->mi2s_bit_clk[dai->driver->id]);
 }
 
@@ -302,7 +297,6 @@ static int lpass_cpu_daiops_trigger(struct snd_pcm_substream *substream,
 	case SNDRV_PCM_TRIGGER_START:
 	case SNDRV_PCM_TRIGGER_RESUME:
 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-<<<<<<< HEAD
 		/*
 		 * Ensure lpass BCLK/LRCLK is enabled during
 		 * device resume as lpass_cpu_daiops_prepare() is not called
@@ -315,8 +309,6 @@ static int lpass_cpu_daiops_trigger(struct snd_pcm_substream *substream,
 		 *     turn off the shared BCLK while other devices are using
 		 *     it.
 		 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 			ret = regmap_fields_write(i2sctl->spken, id,
 						 LPAIF_I2SCTL_SPKEN_ENABLE);
@@ -338,13 +330,10 @@ static int lpass_cpu_daiops_trigger(struct snd_pcm_substream *substream,
 	case SNDRV_PCM_TRIGGER_STOP:
 	case SNDRV_PCM_TRIGGER_SUSPEND:
 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-<<<<<<< HEAD
 		/*
 		 * To ensure lpass BCLK/LRCLK is disabled during
 		 * device suspend.
 		 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 			ret = regmap_fields_write(i2sctl->spken, id,
 						 LPAIF_I2SCTL_SPKEN_DISABLE);
@@ -364,7 +353,6 @@ static int lpass_cpu_daiops_trigger(struct snd_pcm_substream *substream,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int lpass_cpu_daiops_prepare(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
 {
@@ -405,18 +393,13 @@ static int lpass_cpu_daiops_prepare(struct snd_pcm_substream *substream,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct snd_soc_dai_ops asoc_qcom_lpass_cpu_dai_ops = {
 	.set_sysclk	= lpass_cpu_daiops_set_sysclk,
 	.startup	= lpass_cpu_daiops_startup,
 	.shutdown	= lpass_cpu_daiops_shutdown,
 	.hw_params	= lpass_cpu_daiops_hw_params,
 	.trigger	= lpass_cpu_daiops_trigger,
-<<<<<<< HEAD
 	.prepare	= lpass_cpu_daiops_prepare,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 EXPORT_SYMBOL_GPL(asoc_qcom_lpass_cpu_dai_ops);
 
@@ -436,7 +419,7 @@ int asoc_qcom_lpass_cpu_dai_probe(struct snd_soc_dai *dai)
 EXPORT_SYMBOL_GPL(asoc_qcom_lpass_cpu_dai_probe);
 
 static int asoc_qcom_of_xlate_dai_name(struct snd_soc_component *component,
-				   struct of_phandle_args *args,
+				   const struct of_phandle_args *args,
 				   const char **dai_name)
 {
 	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
@@ -571,14 +554,7 @@ static bool lpass_cpu_regmap_volatile(struct device *dev, unsigned int reg)
 }
 
 static struct regmap_config lpass_cpu_regmap_config = {
-<<<<<<< HEAD
 	.name = "lpass_cpu",
-=======
-<<<<<<< HEAD
-	.name = "lpass_cpu",
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reg_bits = 32,
 	.reg_stride = 4,
 	.val_bits = 32,
@@ -779,14 +755,7 @@ static bool lpass_hdmi_regmap_volatile(struct device *dev, unsigned int reg)
 }
 
 static struct regmap_config lpass_hdmi_regmap_config = {
-<<<<<<< HEAD
 	.name = "lpass_hdmi",
-=======
-<<<<<<< HEAD
-	.name = "lpass_hdmi",
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reg_bits = 32,
 	.reg_stride = 4,
 	.val_bits = 32,
@@ -899,21 +868,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-lpaif");
 
 	drvdata->lpaif = devm_ioremap_resource(dev, res);
-<<<<<<< HEAD
 	if (IS_ERR(drvdata->lpaif))
 		return PTR_ERR(drvdata->lpaif);
-=======
-<<<<<<< HEAD
-	if (IS_ERR(drvdata->lpaif))
-		return PTR_ERR(drvdata->lpaif);
-=======
-	if (IS_ERR((void const __force *)drvdata->lpaif)) {
-		dev_err(dev, "error mapping reg resource: %ld\n",
-				PTR_ERR((void const __force *)drvdata->lpaif));
-		return PTR_ERR((void const __force *)drvdata->lpaif);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	lpass_cpu_regmap_config.max_register = LPAIF_WRDMAPER_REG(variant,
 						variant->wrdma_channels +
@@ -931,21 +887,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
 		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-hdmiif");
 
 		drvdata->hdmiif = devm_ioremap_resource(dev, res);
-<<<<<<< HEAD
 		if (IS_ERR(drvdata->hdmiif))
 			return PTR_ERR(drvdata->hdmiif);
-=======
-<<<<<<< HEAD
-		if (IS_ERR(drvdata->hdmiif))
-			return PTR_ERR(drvdata->hdmiif);
-=======
-		if (IS_ERR((void const __force *)drvdata->hdmiif)) {
-			dev_err(dev, "error mapping reg resource: %ld\n",
-					PTR_ERR((void const __force *)drvdata->hdmiif));
-			return PTR_ERR((void const __force *)drvdata->hdmiif);
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		lpass_hdmi_regmap_config.max_register = LPAIF_HDMI_RDMAPER_REG(variant,
 					variant->hdmi_rdma_channels - 1);
@@ -971,23 +914,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
 		if (dai_id == LPASS_DP_RX)
 			continue;
 
-<<<<<<< HEAD
 		drvdata->mi2s_osr_clk[dai_id] = devm_clk_get_optional(dev,
 					     variant->dai_osr_clk_names[i]);
-=======
-		drvdata->mi2s_osr_clk[dai_id] = devm_clk_get(dev,
-					     variant->dai_osr_clk_names[i]);
-		if (IS_ERR(drvdata->mi2s_osr_clk[dai_id])) {
-			dev_warn(dev,
-				"%s() error getting optional %s: %ld\n",
-				__func__,
-				variant->dai_osr_clk_names[i],
-				PTR_ERR(drvdata->mi2s_osr_clk[dai_id]));
-
-			drvdata->mi2s_osr_clk[dai_id] = NULL;
-		}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		drvdata->mi2s_bit_clk[dai_id] = devm_clk_get(dev,
 						variant->dai_bit_clk_names[i]);
 		if (IS_ERR(drvdata->mi2s_bit_clk[dai_id])) {

@@ -92,12 +92,6 @@ static const struct xfrmdev_ops ch_ipsec_xfrmdev_ops = {
 
 static struct cxgb4_uld_info ch_ipsec_uld_info = {
 	.name = CHIPSEC_DRV_MODULE_NAME,
-<<<<<<< HEAD
-=======
-	.nrxq = MAX_ULD_QSETS,
-	/* Max ntxq will be derived from fw config file*/
-	.rxq_size = 1024,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.add = ch_ipsec_uld_add,
 	.state_change = ch_ipsec_uld_state_change,
 	.tx_handler = ch_ipsec_xmit,

@@ -163,16 +163,8 @@ struct max9286_priv {
 	unsigned int mux_channel;
 	bool mux_open;
 
-<<<<<<< HEAD
 	u32 reverse_channel_mv;
 
-=======
-<<<<<<< HEAD
-	u32 reverse_channel_mv;
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_ctrl_handler ctrls;
 	struct v4l2_ctrl *pixelrate;
 
@@ -346,10 +338,6 @@ static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
 	usleep_range(3000, 5000);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void max9286_reverse_channel_setup(struct max9286_priv *priv,
 					  unsigned int chan_amplitude)
 {
@@ -375,11 +363,6 @@ static void max9286_reverse_channel_setup(struct max9286_priv *priv,
 	usleep_range(2000, 2500);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * max9286_check_video_links() - Make sure video links are detected and locked
  *
@@ -575,30 +558,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
 	 * All enabled sources have probed and enabled their reverse control
 	 * channels:
 	 *
-<<<<<<< HEAD
 	 * - Increase the reverse channel amplitude to compensate for the
 	 *   remote ends high threshold, if not done already
-=======
-<<<<<<< HEAD
-	 * - Increase the reverse channel amplitude to compensate for the
-	 *   remote ends high threshold, if not done already
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * - Verify all configuration links are properly detected
 	 * - Disable auto-ack as communication on the control channel are now
 	 *   stable.
 	 */
-<<<<<<< HEAD
 	if (priv->reverse_channel_mv < 170)
 		max9286_reverse_channel_setup(priv, 170);
-=======
-<<<<<<< HEAD
-	if (priv->reverse_channel_mv < 170)
-		max9286_reverse_channel_setup(priv, 170);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	max9286_check_config_link(priv, priv->source_mask);
 
 	/*
@@ -640,10 +607,6 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
 
 	for_each_source(priv, source) {
 		unsigned int i = to_index(priv, source);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct max9286_asd *mas;
 
 		mas = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
@@ -657,24 +620,6 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
 		}
 
 		mas->source = source;
-<<<<<<< HEAD
-=======
-=======
-		struct v4l2_async_subdev *asd;
-
-		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-							    source->fwnode,
-							    sizeof(struct max9286_asd));
-		if (IS_ERR(asd)) {
-			dev_err(dev, "Failed to add subdev for source %u: %ld",
-				i, PTR_ERR(asd));
-			v4l2_async_notifier_cleanup(&priv->notifier);
-			return PTR_ERR(asd);
-		}
-
-		to_max9286_asd(asd)->source = source;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	priv->notifier.ops = &max9286_notify_ops;
@@ -1027,27 +972,7 @@ static int max9286_setup(struct max9286_priv *priv)
 	 * only. This should be disabled after the mux is initialised.
 	 */
 	max9286_configure_i2c(priv, true);
-<<<<<<< HEAD
 	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
-=======
-<<<<<<< HEAD
-	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
-=======
-
-	/*
-	 * Reverse channel setup.
-	 *
-	 * - Enable custom reverse channel configuration (through register 0x3f)
-	 *   and set the first pulse length to 35 clock cycles.
-	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-	 *   high threshold enabled by the serializer driver.
-	 */
-	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-		      MAX9286_REV_AMP_X);
-	usleep_range(2000, 2500);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Enable GMSL links, mask unused ones and autodetect link
@@ -1211,14 +1136,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
 	struct device_node *i2c_mux;
 	struct device_node *node = NULL;
 	unsigned int i2c_mux_mask = 0;
-<<<<<<< HEAD
 	u32 reverse_channel_microvolt;
-=======
-<<<<<<< HEAD
-	u32 reverse_channel_microvolt;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Balance the of_node_put() performed by of_find_node_by_name(). */
 	of_node_get(dev->of_node);
@@ -1309,10 +1227,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
 	}
 	of_node_put(node);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Parse the initial value of the reverse channel amplitude from
 	 * the firmware interface and convert it to millivolts.
@@ -1327,11 +1241,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
 	else
 		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	priv->route_mask = priv->source_mask;
 
 	return 0;

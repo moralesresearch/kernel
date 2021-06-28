@@ -16,12 +16,8 @@ struct nvkm_devinit_func {
 };
 
 void nvkm_devinit_ctor(const struct nvkm_devinit_func *, struct nvkm_device *,
-<<<<<<< HEAD
 		       enum nvkm_subdev_type, int inst, struct nvkm_devinit *);
 u64 nvkm_devinit_disable(struct nvkm_devinit *);
-=======
-		       int index, struct nvkm_devinit *);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int nv04_devinit_post(struct nvkm_devinit *, bool);
 int tu102_devinit_post(struct nvkm_devinit *, bool);

@@ -32,10 +32,7 @@
 
 #include <crypto/b128ops.h>
 #include <crypto/chacha.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/hash.h>
 #include <crypto/internal/poly1305.h>
 #include <crypto/internal/skcipher.h>
@@ -620,7 +617,4 @@ MODULE_DESCRIPTION("Adiantum length-preserving encryption mode");
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Eric Biggers <ebiggers@google.com>");
 MODULE_ALIAS_CRYPTO("adiantum");
-<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

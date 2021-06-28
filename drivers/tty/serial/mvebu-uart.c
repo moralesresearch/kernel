@@ -818,12 +818,6 @@ static int mvebu_uart_probe(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-	if (!match)
-		return -ENODEV;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Assume that all UART ports have a DT alias or none has */
 	id = of_alias_get_id(pdev->dev.of_node, "serial");
 	if (!pdev->dev.of_node || id < 0)

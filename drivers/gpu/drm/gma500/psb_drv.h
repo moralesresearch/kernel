@@ -40,30 +40,16 @@ enum {
 	CHIP_PSB_8108 = 0,		/* Poulsbo */
 	CHIP_PSB_8109 = 1,		/* Poulsbo */
 	CHIP_MRST_4100 = 2,		/* Moorestown/Oaktrail */
-<<<<<<< HEAD
 };
 
 #define IS_PSB(drm) ((to_pci_dev((drm)->dev)->device & 0xfffe) == 0x8108)
 #define IS_MRST(drm) ((to_pci_dev((drm)->dev)->device & 0xfff0) == 0x4100)
 #define IS_CDV(drm) ((to_pci_dev((drm)->dev)->device & 0xfff0) == 0x0be0)
-=======
-	CHIP_MFLD_0130 = 3,		/* Medfield */
-};
-
-#define IS_PSB(dev) (((dev)->pdev->device & 0xfffe) == 0x8108)
-#define IS_MRST(dev) (((dev)->pdev->device & 0xfff0) == 0x4100)
-#define IS_MFLD(dev) (((dev)->pdev->device & 0xfff8) == 0x0130)
-#define IS_CDV(dev) (((dev)->pdev->device & 0xfff0) == 0x0be0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Hardware offsets */
 #define PSB_VDC_OFFSET		 0x00000000
 #define PSB_VDC_SIZE		 0x000080000
 #define MRST_MMIO_SIZE		 0x0000C0000
-<<<<<<< HEAD
-=======
-#define MDFLD_MMIO_SIZE          0x000100000
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PSB_SGX_SIZE		 0x8000
 #define PSB_SGX_OFFSET		 0x00040000
 #define MRST_SGX_OFFSET		 0x00080000
@@ -120,11 +106,6 @@ enum {
 #define _PSB_DPST_PIPEA_FLAG      (1<<6)
 #define _PSB_PIPEA_EVENT_FLAG     (1<<6)
 #define _PSB_VSYNC_PIPEA_FLAG	  (1<<7)
-<<<<<<< HEAD
-=======
-#define _MDFLD_MIPIA_FLAG	  (1<<16)
-#define _MDFLD_MIPIC_FLAG	  (1<<17)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _PSB_IRQ_DISP_HOTSYNC	  (1<<17)
 #define _PSB_IRQ_SGX_FLAG	  (1<<18)
 #define _PSB_IRQ_MSVDX_FLAG	  (1<<19)
@@ -133,16 +114,6 @@ enum {
 #define _PSB_PIPE_EVENT_FLAG	(_PSB_VSYNC_PIPEA_FLAG | \
 				 _PSB_VSYNC_PIPEB_FLAG)
 
-<<<<<<< HEAD
-=======
-/* This flag includes all the display IRQ bits excepts the vblank irqs. */
-#define _MDFLD_DISP_ALL_IRQ_FLAG (_MDFLD_PIPEC_EVENT_FLAG | \
-				  _MDFLD_PIPEB_EVENT_FLAG | \
-				  _PSB_PIPEA_EVENT_FLAG | \
-				  _PSB_VSYNC_PIPEA_FLAG | \
-				  _MDFLD_MIPIA_FLAG | \
-				  _MDFLD_MIPIC_FLAG)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PSB_INT_IDENTITY_R	  0x20A4
 #define PSB_INT_MASK_R		  0x20A8
 #define PSB_INT_ENABLE_R	  0x20A0
@@ -208,28 +179,6 @@ enum {
 #define PSB_WATCHDOG_DELAY (HZ * 2)
 #define PSB_LID_DELAY (HZ / 10)
 
-<<<<<<< HEAD
-=======
-#define MDFLD_PNW_B0 0x04
-#define MDFLD_PNW_C0 0x08
-
-#define MDFLD_DSR_2D_3D_0 	(1 << 0)
-#define MDFLD_DSR_2D_3D_2 	(1 << 1)
-#define MDFLD_DSR_CURSOR_0 	(1 << 2)
-#define MDFLD_DSR_CURSOR_2	(1 << 3)
-#define MDFLD_DSR_OVERLAY_0 	(1 << 4)
-#define MDFLD_DSR_OVERLAY_2 	(1 << 5)
-#define MDFLD_DSR_MIPI_CONTROL	(1 << 6)
-#define MDFLD_DSR_DAMAGE_MASK_0	((1 << 0) | (1 << 2) | (1 << 4))
-#define MDFLD_DSR_DAMAGE_MASK_2	((1 << 1) | (1 << 3) | (1 << 5))
-#define MDFLD_DSR_2D_3D 	(MDFLD_DSR_2D_3D_0 | MDFLD_DSR_2D_3D_2)
-
-#define MDFLD_DSR_RR		45
-#define MDFLD_DPU_ENABLE 	(1 << 31)
-#define MDFLD_DSR_FULLSCREEN 	(1 << 30)
-#define MDFLD_DSR_DELAY		(HZ / MDFLD_DSR_RR)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PSB_PWR_STATE_ON		1
 #define PSB_PWR_STATE_OFF		2
 
@@ -402,19 +351,6 @@ struct psb_state {
 	uint32_t savePWM_CONTROL_LOGIC;
 };
 
-<<<<<<< HEAD
-=======
-struct medfield_state {
-	uint32_t saveMIPI;
-	uint32_t saveMIPI_C;
-
-	uint32_t savePFIT_CONTROL;
-	uint32_t savePFIT_PGM_RATIOS;
-	uint32_t saveHDMIPHYMISCCTL;
-	uint32_t saveHDMIB_CONTROL;
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct cdv_state {
 	uint32_t saveDSPCLK_GATE_D;
 	uint32_t saveRAMCLK_GATE_D;
@@ -440,10 +376,6 @@ struct psb_save_area {
 	uint32_t saveVBT;
 	union {
 	        struct psb_state psb;
-<<<<<<< HEAD
-=======
-		struct medfield_state mdfld;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct cdv_state cdv;
 	};
 	uint32_t saveBLC_PWM_CTL2;
@@ -454,11 +386,8 @@ struct psb_ops;
 
 #define PSB_NUM_PIPE		3
 
-<<<<<<< HEAD
 struct intel_scu_ipc_dev;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct drm_psb_private {
 	struct drm_device *dev;
 	struct pci_dev *aux_pdev; /* Currently only used by mrst */
@@ -598,10 +527,7 @@ struct drm_psb_private {
 	 * Used for modifying backlight from
 	 * xrandr -- consider removing and using HAL instead
 	 */
-<<<<<<< HEAD
 	struct intel_scu_ipc_dev *scu;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct backlight_device *backlight_device;
 	struct drm_property *backlight_property;
 	bool backlight_enabled;
@@ -625,11 +551,6 @@ struct drm_psb_private {
 	u32 pipeconf[3];
 	u32 dspcntr[3];
 
-<<<<<<< HEAD
-=======
-	int mdfld_panel_id;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool dplla_96mhz;	/* DPLL data from the VBT */
 
 	struct {
@@ -704,13 +625,9 @@ static inline struct drm_psb_private *psb_priv(struct drm_device *dev)
 
 /* psb_irq.c */
 extern irqreturn_t psb_irq_handler(int irq, void *arg);
-extern int psb_irq_enable_dpst(struct drm_device *dev);
-extern int psb_irq_disable_dpst(struct drm_device *dev);
 extern void psb_irq_preinstall(struct drm_device *dev);
 extern int psb_irq_postinstall(struct drm_device *dev);
 extern void psb_irq_uninstall(struct drm_device *dev);
-extern void psb_irq_turn_on_dpst(struct drm_device *dev);
-extern void psb_irq_turn_off_dpst(struct drm_device *dev);
 
 extern void psb_irq_uninstall_islands(struct drm_device *dev, int hw_islands);
 extern int psb_vblank_wait2(struct drm_device *dev, unsigned int *sequence);
@@ -758,7 +675,7 @@ extern void oaktrail_lvds_init(struct drm_device *dev,
 
 /* psb_intel_display.c */
 extern const struct drm_crtc_helper_funcs psb_intel_helper_funcs;
-extern const struct drm_crtc_funcs psb_intel_crtc_funcs;
+extern const struct drm_crtc_funcs gma_intel_crtc_funcs;
 
 /* psb_intel_lvds.c */
 extern const struct drm_connector_helper_funcs
@@ -775,12 +692,6 @@ extern const struct psb_ops psb_chip_ops;
 /* oaktrail_device.c */
 extern const struct psb_ops oaktrail_chip_ops;
 
-<<<<<<< HEAD
-=======
-/* mdlfd_device.c */
-extern const struct psb_ops mdfld_chip_ops;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* cdv_device.c */
 extern const struct psb_ops cdv_chip_ops;
 
@@ -820,28 +731,6 @@ static inline void MRST_MSG_WRITE32(int domain, uint port, uint offset,
 	pci_write_config_dword(pci_root, 0xD0, mcr);
 	pci_dev_put(pci_root);
 }
-<<<<<<< HEAD
-=======
-static inline u32 MDFLD_MSG_READ32(int domain, uint port, uint offset)
-{
-	int mcr = (0x10<<24) | (port << 16) | (offset << 8);
-	uint32_t ret_val = 0;
-	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
-	pci_write_config_dword(pci_root, 0xD0, mcr);
-	pci_read_config_dword(pci_root, 0xD4, &ret_val);
-	pci_dev_put(pci_root);
-	return ret_val;
-}
-static inline void MDFLD_MSG_WRITE32(int domain, uint port, uint offset,
-				     u32 value)
-{
-	int mcr = (0x11<<24) | (port << 16) | (offset << 8) | 0xF0;
-	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
-	pci_write_config_dword(pci_root, 0xD4, value);
-	pci_write_config_dword(pci_root, 0xD0, mcr);
-	pci_dev_put(pci_root);
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline uint32_t REGISTER_READ(struct drm_device *dev, uint32_t reg)
 {

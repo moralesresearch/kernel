@@ -154,15 +154,9 @@ struct tipc_media {
  * care of initializing all other fields.
  */
 struct tipc_bearer {
-<<<<<<< HEAD
 	void __rcu *media_ptr;			/* initialized by media */
 	u32 mtu;				/* initialized by media */
 	struct tipc_media_addr addr;		/* initialized by media */
-=======
-	void __rcu *media_ptr;			/* initalized by media */
-	u32 mtu;				/* initalized by media */
-	struct tipc_media_addr addr;		/* initalized by media */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char name[TIPC_MAX_BEARER_NAME];
 	struct tipc_media *media;
 	struct tipc_media_addr bcast_addr;

@@ -19,7 +19,6 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-<<<<<<< HEAD
 #define tu102_mc(p) container_of((p), struct tu102_mc, base)
 #include "priv.h"
 
@@ -102,30 +101,10 @@ tu102_mc_intr_stat(struct nvkm_mc *mc)
 }
 
 
-=======
-#include "priv.h"
-
-static void
-tu102_mc_intr_hack(struct nvkm_mc *mc, bool *handled)
-{
-	struct nvkm_device *device = mc->subdev.device;
-	u32 stat = nvkm_rd32(device, 0xb81010);
-	if (stat & 0x00000050) {
-		struct nvkm_subdev *subdev =
-			nvkm_device_subdev(device, NVKM_SUBDEV_FAULT);
-		nvkm_wr32(device, 0xb81010, stat & 0x00000050);
-		if (subdev)
-			nvkm_subdev_intr(subdev);
-		*handled = true;
-	}
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct nvkm_mc_func
 tu102_mc = {
 	.init = nv50_mc_init,
 	.intr = gp100_mc_intr,
-<<<<<<< HEAD
 	.intr_unarm = tu102_mc_intr_unarm,
 	.intr_rearm = tu102_mc_intr_rearm,
 	.intr_mask = tu102_mc_intr_mask,
@@ -154,18 +133,4 @@ int
 tu102_mc_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_mc **pmc)
 {
 	return tu102_mc_new_(&tu102_mc, device, type, inst, pmc);
-=======
-	.intr_unarm = gp100_mc_intr_unarm,
-	.intr_rearm = gp100_mc_intr_rearm,
-	.intr_mask = gp100_mc_intr_mask,
-	.intr_stat = gf100_mc_intr_stat,
-	.intr_hack = tu102_mc_intr_hack,
-	.reset = gk104_mc_reset,
-};
-
-int
-tu102_mc_new(struct nvkm_device *device, int index, struct nvkm_mc **pmc)
-{
-	return gp100_mc_new_(&tu102_mc, device, index, pmc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

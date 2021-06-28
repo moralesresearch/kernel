@@ -59,11 +59,7 @@ static inline void sunxi_rsb_device_set_drvdata(struct sunxi_rsb_device *rdev,
 struct sunxi_rsb_driver {
 	struct device_driver driver;
 	int (*probe)(struct sunxi_rsb_device *rdev);
-<<<<<<< HEAD
 	void (*remove)(struct sunxi_rsb_device *rdev);
-=======
-	int (*remove)(struct sunxi_rsb_device *rdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct sunxi_rsb_driver *to_sunxi_rsb_driver(struct device_driver *d)

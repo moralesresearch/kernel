@@ -81,20 +81,12 @@ properties:
     description: phandle to an external 5V regulator to power the HDMI logic
 
   port@0:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       A port node pointing to the VENC Input port node.
 
   port@1:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       A port node pointing to the TMDS Output port node.
 

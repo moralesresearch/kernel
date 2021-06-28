@@ -45,16 +45,11 @@ int iwl_mvm_send_cmd(struct iwl_mvm *mvm, struct iwl_host_cmd *cmd)
 	if (cmd->flags & CMD_WANT_SKB)
 		return ret;
 
-<<<<<<< HEAD
 	/*
 	 * Silently ignore failures if RFKILL is asserted or
 	 * we are in suspend\resume process
 	 */
 	if (!ret || ret == -ERFKILL || ret == -EHOSTDOWN)
-=======
-	/* Silently ignore failures if RFKILL is asserted */
-	if (!ret || ret == -ERFKILL)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	return ret;
 }
@@ -504,7 +499,6 @@ static void iwl_mvm_dump_lmac_error_log(struct iwl_mvm *mvm, u8 lmac_num)
 static void iwl_mvm_dump_iml_error_log(struct iwl_mvm *mvm)
 {
 	struct iwl_trans *trans = mvm->trans;
-<<<<<<< HEAD
 	u32 error, data1;
 
 	if (mvm->trans->trans_cfg->device_family >= IWL_DEVICE_FAMILY_22000) {
@@ -517,16 +511,12 @@ static void iwl_mvm_dump_iml_error_log(struct iwl_mvm *mvm)
 	} else {
 		return;
 	}
-=======
-	u32 error;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	error = iwl_read_umac_prph(trans, UMAG_SB_CPU_2_STATUS);
 
 	IWL_ERR(trans, "IML/ROM dump:\n");
 
 	if (error & 0xFFFF0000)
-<<<<<<< HEAD
 		IWL_ERR(trans, "0x%04X | IML/ROM SYSASSERT\n", error >> 16);
 
 	IWL_ERR(mvm, "0x%08X | IML/ROM error/state\n", error);
@@ -536,13 +526,6 @@ static void iwl_mvm_dump_iml_error_log(struct iwl_mvm *mvm)
 	if (mvm->trans->trans_cfg->device_family >= IWL_DEVICE_FAMILY_22000)
 		IWL_ERR(mvm, "0x%08X | IML/ROM WFPM_AUTH_KEY_0\n",
 			iwl_read_umac_prph(trans, SB_MODIFY_CFG_FLAG));
-=======
-		IWL_ERR(trans, "IML/ROM SYSASSERT:\n");
-
-	IWL_ERR(mvm, "0x%08X | IML/ROM error/state\n", error);
-	IWL_ERR(mvm, "0x%08X | IML/ROM data1\n",
-		iwl_read_umac_prph(trans, UMAG_SB_CPU_1_STATUS));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void iwl_mvm_dump_nic_error_log(struct iwl_mvm *mvm)
@@ -560,12 +543,7 @@ void iwl_mvm_dump_nic_error_log(struct iwl_mvm *mvm)
 
 	iwl_mvm_dump_umac_error_log(mvm);
 
-<<<<<<< HEAD
 	iwl_mvm_dump_iml_error_log(mvm);
-=======
-	if (mvm->trans->trans_cfg->device_family >= IWL_DEVICE_FAMILY_AX210)
-		iwl_mvm_dump_iml_error_log(mvm);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iwl_fw_error_print_fseq_regs(&mvm->fwrt);
 }
@@ -871,7 +849,6 @@ struct ieee80211_vif *iwl_mvm_get_bss_vif(struct iwl_mvm *mvm)
 	return bss_iter_data.vif;
 }
 
-<<<<<<< HEAD
 struct iwl_bss_find_iter_data {
 	struct ieee80211_vif *vif;
 	u32 macid;
@@ -902,8 +879,6 @@ struct ieee80211_vif *iwl_mvm_get_vif_by_macid(struct iwl_mvm *mvm, u32 macid)
 	return data.vif;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct iwl_sta_iter_data {
 	bool assoc;
 };
@@ -1055,15 +1030,9 @@ iwl_mvm_tcm_load(struct iwl_mvm *mvm, u32 airtime, unsigned long elapsed)
 	return IWL_MVM_TRAFFIC_LOW;
 }
 
-struct iwl_mvm_tcm_iter_data {
-	struct iwl_mvm *mvm;
-	bool any_sent;
-};
-
 static void iwl_mvm_tcm_iter(void *_data, u8 *mac, struct ieee80211_vif *vif)
 {
-	struct iwl_mvm_tcm_iter_data *data = _data;
-	struct iwl_mvm *mvm = data->mvm;
+	struct iwl_mvm *mvm = _data;
 	struct iwl_mvm_vif *mvmvif = iwl_mvm_vif_from_mac80211(vif);
 	bool low_latency, prev = mvmvif->low_latency & LOW_LATENCY_TRAFFIC;
 
@@ -1085,22 +1054,15 @@ static void iwl_mvm_tcm_iter(void *_data, u8 *mac, struct ieee80211_vif *vif)
 	} else {
 		iwl_mvm_update_quotas(mvm, false, NULL);
 	}
-
-	data->any_sent = true;
 }
 
 static void iwl_mvm_tcm_results(struct iwl_mvm *mvm)
 {
-	struct iwl_mvm_tcm_iter_data data = {
-		.mvm = mvm,
-		.any_sent = false,
-	};
-
 	mutex_lock(&mvm->mutex);
 
 	ieee80211_iterate_active_interfaces(
 		mvm->hw, IEEE80211_IFACE_ITER_NORMAL,
-		iwl_mvm_tcm_iter, &data);
+		iwl_mvm_tcm_iter, mvm);
 
 	if (fw_has_capa(&mvm->fw->ucode_capa, IWL_UCODE_TLV_CAPA_UMAC_SCAN))
 		iwl_mvm_config_scan(mvm);
@@ -1282,7 +1244,6 @@ static unsigned long iwl_mvm_calc_tcm_stats(struct iwl_mvm *mvm,
 	}
 
 	load = iwl_mvm_tcm_load(mvm, total_airtime, elapsed);
-	mvm->tcm.result.global_change = load != mvm->tcm.result.global_load;
 	mvm->tcm.result.global_load = load;
 
 	for (i = 0; i < NUM_NL80211_BANDS; i++) {

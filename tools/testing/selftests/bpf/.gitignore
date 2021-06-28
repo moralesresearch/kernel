@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
+bpf-helpers*
+bpf-syscall*
 test_verifier
 test_maps
 test_lru_map
@@ -17,10 +19,6 @@ test_sockmap
 test_lirc_mode2_user
 get_cgroup_id_user
 test_skb_cgroup_id_user
-<<<<<<< HEAD
-=======
-test_socket_cookie
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 test_cgroup_storage
 test_flow_dissector
 flow_dissector_load
@@ -29,10 +27,6 @@ test_tcpnotify_user
 test_libbpf
 test_tcp_check_syncookie_user
 test_sysctl
-<<<<<<< HEAD
-=======
-test_current_pid_tgid_new_ns
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 xdping
 test_cpp
 *.skel.h

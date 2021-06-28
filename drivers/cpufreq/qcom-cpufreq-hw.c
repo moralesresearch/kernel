@@ -55,15 +55,7 @@ static int qcom_cpufreq_set_bw(struct cpufreq_policy *policy,
 	if (IS_ERR(opp))
 		return PTR_ERR(opp);
 
-<<<<<<< HEAD
 	ret = dev_pm_opp_set_opp(dev, opp);
-=======
-<<<<<<< HEAD
-	ret = dev_pm_opp_set_opp(dev, opp);
-=======
-	ret = dev_pm_opp_set_bw(dev, opp);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_pm_opp_put(opp);
 	return ret;
 }
@@ -372,21 +364,12 @@ static int qcom_cpufreq_hw_cpu_init(struct cpufreq_policy *policy)
 
 	dev_pm_opp_of_register_em(cpu_dev, policy->cpus);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (policy_has_boost_freq(policy)) {
 		ret = cpufreq_enable_boost_support();
 		if (ret)
 			dev_warn(cpu_dev, "failed to enable boost: %d\n", ret);
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 error:
 	kfree(data);
@@ -421,15 +404,7 @@ static struct freq_attr *qcom_cpufreq_hw_attr[] = {
 };
 
 static struct cpufreq_driver cpufreq_qcom_hw_driver = {
-<<<<<<< HEAD
 	.flags		= CPUFREQ_NEED_INITIAL_FREQ_CHECK |
-=======
-<<<<<<< HEAD
-	.flags		= CPUFREQ_NEED_INITIAL_FREQ_CHECK |
-=======
-	.flags		= CPUFREQ_STICKY | CPUFREQ_NEED_INITIAL_FREQ_CHECK |
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
 			  CPUFREQ_IS_COOLING_DEV,
 	.verify		= cpufreq_generic_frequency_table_verify,

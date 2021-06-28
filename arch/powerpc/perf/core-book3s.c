@@ -17,6 +17,7 @@
 #include <asm/firmware.h>
 #include <asm/ptrace.h>
 #include <asm/code-patching.h>
+#include <asm/interrupt.h>
 
 #ifdef CONFIG_PPC64
 #include "internal.h"
@@ -54,18 +55,9 @@ struct cpu_hw_events {
 	struct	perf_branch_stack	bhrb_stack;
 	struct	perf_branch_entry	bhrb_entries[BHRB_MAX_ENTRIES];
 	u64				ic_init;
-<<<<<<< HEAD
 
 	/* Store the PMC values */
 	unsigned long pmcs[MAX_HWEVENTS];
-=======
-<<<<<<< HEAD
-
-	/* Store the PMC values */
-	unsigned long pmcs[MAX_HWEVENTS];
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static DEFINE_PER_CPU(struct cpu_hw_events, cpu_hw_events);
@@ -122,16 +114,6 @@ static inline void perf_read_regs(struct pt_regs *regs)
 {
 	regs->result = 0;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static inline int perf_intr_is_nmi(struct pt_regs *regs)
-{
-	return 0;
-}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int siar_valid(struct pt_regs *regs)
 {
@@ -165,10 +147,6 @@ bool is_sier_available(void)
 	return false;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Return PMC value corresponding to the
  * index passed.
@@ -180,11 +158,6 @@ unsigned long get_pmcs_ext_regs(int idx)
 	return cpuhw->pmcs[idx];
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool regs_use_siar(struct pt_regs *regs)
 {
 	/*
@@ -196,7 +169,7 @@ static bool regs_use_siar(struct pt_regs *regs)
 	 * they have not been setup using perf_read_regs() and so regs->result
 	 * is something random.
 	 */
-	return ((TRAP(regs) == 0xf00) && regs->result);
+	return ((TRAP(regs) == INTERRUPT_PERFMON) && regs->result);
 }
 
 /*
@@ -375,7 +348,7 @@ static inline void perf_read_regs(struct pt_regs *regs)
 	 * hypervisor samples as well as samples in the kernel with
 	 * interrupts off hence the userspace check.
 	 */
-	if (TRAP(regs) != 0xf00)
+	if (TRAP(regs) != INTERRUPT_PERFMON)
 		use_siar = 0;
 	else if ((ppmu->flags & PPMU_NO_SIAR))
 		use_siar = 0;
@@ -392,21 +365,6 @@ static inline void perf_read_regs(struct pt_regs *regs)
 }
 
 /*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
- * If interrupts were soft-disabled when a PMU interrupt occurs, treat
- * it as an NMI.
- */
-static inline int perf_intr_is_nmi(struct pt_regs *regs)
-{
-	return (regs->softe & IRQS_DISABLED);
-}
-
-/*
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * On processors like P7+ that have the SIAR-Valid bit, marked instructions
  * must be sampled only if the SIAR-valid bit is set.
  *
@@ -959,15 +917,7 @@ void perf_event_print_debug(void)
  */
 static int power_check_constraints(struct cpu_hw_events *cpuhw,
 				   u64 event_id[], unsigned int cflags[],
-<<<<<<< HEAD
 				   int n_ev, struct perf_event **event)
-=======
-<<<<<<< HEAD
-				   int n_ev, struct perf_event **event)
-=======
-				   int n_ev)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long mask, value, nv;
 	unsigned long smasks[MAX_HWEVENTS], svalues[MAX_HWEVENTS];
@@ -990,15 +940,7 @@ static int power_check_constraints(struct cpu_hw_events *cpuhw,
 			event_id[i] = cpuhw->alternatives[i][0];
 		}
 		if (ppmu->get_constraint(event_id[i], &cpuhw->amasks[i][0],
-<<<<<<< HEAD
 					 &cpuhw->avalues[i][0], event[i]->attr.config1))
-=======
-<<<<<<< HEAD
-					 &cpuhw->avalues[i][0], event[i]->attr.config1))
-=======
-					 &cpuhw->avalues[i][0]))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -1;
 	}
 	value = mask = 0;
@@ -1033,17 +975,8 @@ static int power_check_constraints(struct cpu_hw_events *cpuhw,
 		for (j = 1; j < n_alt[i]; ++j)
 			ppmu->get_constraint(cpuhw->alternatives[i][j],
 					     &cpuhw->amasks[i][j],
-<<<<<<< HEAD
 					     &cpuhw->avalues[i][j],
 					     event[i]->attr.config1);
-=======
-<<<<<<< HEAD
-					     &cpuhw->avalues[i][j],
-					     event[i]->attr.config1);
-=======
-					     &cpuhw->avalues[i][j]);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* enumerate all possibilities and see if any will work */
@@ -1461,15 +1394,7 @@ static void power_pmu_enable(struct pmu *pmu)
 	memset(&cpuhw->mmcr, 0, sizeof(cpuhw->mmcr));
 
 	if (ppmu->compute_mmcr(cpuhw->events, cpuhw->n_events, hwc_index,
-<<<<<<< HEAD
 			       &cpuhw->mmcr, cpuhw->event, ppmu->flags)) {
-=======
-<<<<<<< HEAD
-			       &cpuhw->mmcr, cpuhw->event, ppmu->flags)) {
-=======
-			       &cpuhw->mmcr, cpuhw->event)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* shouldn't ever get here */
 		printk(KERN_ERR "oops compute_mmcr failed\n");
 		goto out;
@@ -1657,15 +1582,7 @@ static int power_pmu_add(struct perf_event *event, int ef_flags)
 
 	if (check_excludes(cpuhw->event, cpuhw->flags, n0, 1))
 		goto out;
-<<<<<<< HEAD
 	if (power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n0 + 1, cpuhw->event))
-=======
-<<<<<<< HEAD
-	if (power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n0 + 1, cpuhw->event))
-=======
-	if (power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n0 + 1))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	event->hw.config = cpuhw->events[n0];
 
@@ -1875,15 +1792,7 @@ static int power_pmu_commit_txn(struct pmu *pmu)
 	n = cpuhw->n_events;
 	if (check_excludes(cpuhw->event, cpuhw->flags, 0, n))
 		return -EAGAIN;
-<<<<<<< HEAD
 	i = power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n, cpuhw->event);
-=======
-<<<<<<< HEAD
-	i = power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n, cpuhw->event);
-=======
-	i = power_check_constraints(cpuhw, cpuhw->events, cpuhw->flags, n);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (i < 0)
 		return -EAGAIN;
 
@@ -2055,6 +1964,17 @@ static int power_pmu_event_init(struct perf_event *event)
 		return -ENOENT;
 	}
 
+	/*
+	 * PMU config registers have fields that are
+	 * reserved and some specific values for bit fields are reserved.
+	 * For ex., MMCRA[61:62] is Randome Sampling Mode (SM)
+	 * and value of 0b11 to this field is reserved.
+	 * Check for invalid values in attr.config.
+	 */
+	if (ppmu->check_attr_config &&
+	    ppmu->check_attr_config(event))
+		return -EINVAL;
+
 	event->hw.config_base = ev;
 	event->hw.idx = 0;
 
@@ -2121,15 +2041,7 @@ static int power_pmu_event_init(struct perf_event *event)
 	local_irq_save(irq_flags);
 	cpuhw = this_cpu_ptr(&cpu_hw_events);
 
-<<<<<<< HEAD
 	err = power_check_constraints(cpuhw, events, cflags, n + 1, ctrs);
-=======
-<<<<<<< HEAD
-	err = power_check_constraints(cpuhw, events, cflags, n + 1, ctrs);
-=======
-	err = power_check_constraints(cpuhw, events, cflags, n + 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (has_branch_stack(event)) {
 		u64 bhrb_filter = -1;
@@ -2306,17 +2218,9 @@ static void record_and_restart(struct perf_event *event, unsigned long val,
 						ppmu->get_mem_data_src)
 			ppmu->get_mem_data_src(&data.data_src, ppmu->flags, regs);
 
-		if (event->attr.sample_type & PERF_SAMPLE_WEIGHT &&
+		if (event->attr.sample_type & PERF_SAMPLE_WEIGHT_TYPE &&
 						ppmu->get_mem_weight)
-<<<<<<< HEAD
-			ppmu->get_mem_weight(&data.weight.full);
-=======
-<<<<<<< HEAD
-			ppmu->get_mem_weight(&data.weight.full);
-=======
-			ppmu->get_mem_weight(&data.weight);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+			ppmu->get_mem_weight(&data.weight.full, event->attr.sample_type);
 
 		if (perf_event_overflow(event, &data, regs))
 			power_pmu_stop(event, 0);
@@ -2350,11 +2254,7 @@ unsigned long perf_instruction_pointer(struct pt_regs *regs)
 	bool use_siar = regs_use_siar(regs);
 	unsigned long siar = mfspr(SPRN_SIAR);
 
-<<<<<<< HEAD
 	if (ppmu && (ppmu->flags & PPMU_P10_DD1)) {
-=======
-	if (ppmu->flags & PPMU_P10_DD1) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (siar)
 			return siar;
 		else
@@ -2402,17 +2302,7 @@ static void __perf_event_interrupt(struct pt_regs *regs)
 	int i, j;
 	struct cpu_hw_events *cpuhw = this_cpu_ptr(&cpu_hw_events);
 	struct perf_event *event;
-<<<<<<< HEAD
 	int found, active;
-=======
-<<<<<<< HEAD
-	int found, active;
-=======
-	unsigned long val[8];
-	int found, active;
-	int nmi;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cpuhw->n_limited)
 		freeze_limited_counters(cpuhw, mfspr(SPRN_PMC5),
@@ -2420,46 +2310,14 @@ static void __perf_event_interrupt(struct pt_regs *regs)
 
 	perf_read_regs(regs);
 
-<<<<<<< HEAD
 	/* Read all the PMCs since we'll need them a bunch of times */
 	for (i = 0; i < ppmu->n_counter; ++i)
 		cpuhw->pmcs[i] = read_pmc(i + 1);
-=======
-<<<<<<< HEAD
-	/* Read all the PMCs since we'll need them a bunch of times */
-	for (i = 0; i < ppmu->n_counter; ++i)
-		cpuhw->pmcs[i] = read_pmc(i + 1);
-=======
-	/*
-	 * If perf interrupts hit in a local_irq_disable (soft-masked) region,
-	 * we consider them as NMIs. This is required to prevent hash faults on
-	 * user addresses when reading callchains. See the NMI test in
-	 * do_hash_page.
-	 */
-	nmi = perf_intr_is_nmi(regs);
-	if (nmi)
-		nmi_enter();
-	else
-		irq_enter();
-
-	/* Read all the PMCs since we'll need them a bunch of times */
-	for (i = 0; i < ppmu->n_counter; ++i)
-		val[i] = read_pmc(i + 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Try to find what caused the IRQ */
 	found = 0;
 	for (i = 0; i < ppmu->n_counter; ++i) {
-<<<<<<< HEAD
 		if (!pmc_overflow(cpuhw->pmcs[i]))
-=======
-<<<<<<< HEAD
-		if (!pmc_overflow(cpuhw->pmcs[i]))
-=======
-		if (!pmc_overflow(val[i]))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 		if (is_limited_pmc(i + 1))
 			continue; /* these won't generate IRQs */
@@ -2474,15 +2332,7 @@ static void __perf_event_interrupt(struct pt_regs *regs)
 			event = cpuhw->event[j];
 			if (event->hw.idx == (i + 1)) {
 				active = 1;
-<<<<<<< HEAD
 				record_and_restart(event, cpuhw->pmcs[i], regs);
-=======
-<<<<<<< HEAD
-				record_and_restart(event, cpuhw->pmcs[i], regs);
-=======
-				record_and_restart(event, val[i], regs);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			}
 		}
@@ -2496,41 +2346,17 @@ static void __perf_event_interrupt(struct pt_regs *regs)
 			event = cpuhw->event[i];
 			if (!event->hw.idx || is_limited_pmc(event->hw.idx))
 				continue;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (pmc_overflow_power7(cpuhw->pmcs[event->hw.idx - 1])) {
 				/* event has overflowed in a buggy way*/
 				found = 1;
 				record_and_restart(event,
 						   cpuhw->pmcs[event->hw.idx - 1],
-<<<<<<< HEAD
-=======
-=======
-			if (pmc_overflow_power7(val[event->hw.idx - 1])) {
-				/* event has overflowed in a buggy way*/
-				found = 1;
-				record_and_restart(event,
-						   val[event->hw.idx - 1],
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						   regs);
 			}
 		}
 	}
-<<<<<<< HEAD
 	if (unlikely(!found) && !arch_irq_disabled_regs(regs))
 		printk_ratelimited(KERN_WARNING "Can't find PMC that caused IRQ\n");
-=======
-<<<<<<< HEAD
-	if (unlikely(!found) && !arch_irq_disabled_regs(regs))
-		printk_ratelimited(KERN_WARNING "Can't find PMC that caused IRQ\n");
-=======
-	if (!found && !nmi && printk_ratelimit())
-		printk(KERN_WARNING "Can't find PMC that caused IRQ\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Reset MMCR0 to its normal value.  This will set PMXE and
@@ -2541,22 +2367,9 @@ static void __perf_event_interrupt(struct pt_regs *regs)
 	 */
 	write_mmcr0(cpuhw, cpuhw->mmcr.mmcr0);
 
-<<<<<<< HEAD
 	/* Clear the cpuhw->pmcs */
 	memset(&cpuhw->pmcs, 0, sizeof(cpuhw->pmcs));
 
-=======
-<<<<<<< HEAD
-	/* Clear the cpuhw->pmcs */
-	memset(&cpuhw->pmcs, 0, sizeof(cpuhw->pmcs));
-
-=======
-	if (nmi)
-		nmi_exit();
-	else
-		irq_exit();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void perf_event_interrupt(struct pt_regs *regs)

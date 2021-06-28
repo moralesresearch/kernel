@@ -18,13 +18,6 @@
 #define or_softirq_pending(x)  (S390_lowcore.softirq_pending |= (x))
 
 #define __ARCH_IRQ_STAT
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#define __ARCH_HAS_DO_SOFTIRQ
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __ARCH_IRQ_EXIT_IRQS_DISABLED
 
 static inline void ack_bad_irq(unsigned int irq)

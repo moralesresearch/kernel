@@ -5,18 +5,14 @@ config DRM_OMAP
 	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
 	select OMAP2_DSS
 	select DRM_KMS_HELPER
-<<<<<<< HEAD
 	select VIDEOMODE_HELPERS
 	select HDMI
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default n
 	help
 	  DRM display driver for OMAP2/3/4 based boards.
 
 if DRM_OMAP
 
-<<<<<<< HEAD
 config OMAP2_DSS_DEBUG
 	bool "Debug support"
 	default n
@@ -133,9 +129,5 @@ config OMAP2_DSS_SLEEP_AFTER_VENC_RESET
 
 	  This option enables the sleep, and is enabled by default. You can
 	  disable the sleep if it doesn't cause problems on your platform.
-=======
-source "drivers/gpu/drm/omapdrm/dss/Kconfig"
-source "drivers/gpu/drm/omapdrm/displays/Kconfig"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 endif

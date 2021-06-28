@@ -87,11 +87,7 @@ extern spinlock_t pcpu_lock;
 
 extern struct list_head *pcpu_chunk_lists;
 extern int pcpu_nr_slots;
-<<<<<<< HEAD
 extern int pcpu_nr_empty_pop_pages[];
-=======
-extern int pcpu_nr_empty_pop_pages;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern struct pcpu_chunk *pcpu_first_chunk;
 extern struct pcpu_chunk *pcpu_reserved_chunk;
@@ -174,7 +170,7 @@ struct percpu_stats {
 	u64 nr_max_alloc;	/* max # of live allocations */
 	u32 nr_chunks;		/* current # of live chunks */
 	u32 nr_max_chunks;	/* max # of live chunks */
-	size_t min_alloc_size;	/* min allocaiton size */
+	size_t min_alloc_size;	/* min allocation size */
 	size_t max_alloc_size;	/* max allocation size */
 };
 

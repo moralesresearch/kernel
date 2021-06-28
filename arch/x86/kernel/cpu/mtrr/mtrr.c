@@ -31,11 +31,6 @@
     System Programming Guide; Section 9.11. (1997 edition - PPro).
 */
 
-<<<<<<< HEAD
-=======
-#define DEBUG
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/types.h> /* FIXME: kvm_para.h needs this */
 
 #include <linux/stop_machine.h>
@@ -804,7 +799,7 @@ void mtrr_ap_init(void)
 	 *
 	 * This routine is called in two cases:
 	 *
-	 *   1. very earily time of software resume, when there absolutely
+	 *   1. very early time of software resume, when there absolutely
 	 *      isn't mtrr entry changes;
 	 *
 	 *   2. cpu hotadd time. We let mtrr_add/del_page hold cpuhotplug

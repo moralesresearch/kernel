@@ -45,11 +45,7 @@ static bool nvmet_is_port_enabled(struct nvmet_port *p, const char *caller)
 {
 	if (p->enabled)
 		pr_err("Disable port '%u' before changing attribute in %s\n",
-<<<<<<< HEAD
 		       le16_to_cpu(p->disc_addr.portid), caller);
-=======
-				le16_to_cpu(p->disc_addr.portid), caller);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return p->enabled;
 }
 
@@ -270,15 +266,8 @@ static ssize_t nvmet_param_pi_enable_store(struct config_item *item,
 	if (strtobool(page, &val))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (nvmet_is_port_enabled(port, __func__))
 		return -EACCES;
-=======
-	if (port->enabled) {
-		pr_err("Disable port before setting pi_enable value.\n");
-		return -EACCES;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	port->pi_enable = val;
 	return count;
@@ -1129,25 +1118,12 @@ static ssize_t nvmet_subsys_attr_model_show(struct config_item *item,
 					    char *page)
 {
 	struct nvmet_subsys *subsys = to_subsys(item);
-<<<<<<< HEAD
 	int ret;
 
 	mutex_lock(&subsys->lock);
 	ret = snprintf(page, PAGE_SIZE, "%s\n", subsys->model_number ?
 			subsys->model_number : NVMET_DEFAULT_CTRL_MODEL);
 	mutex_unlock(&subsys->lock);
-=======
-	struct nvmet_subsys_model *subsys_model;
-	char *model = NVMET_DEFAULT_CTRL_MODEL;
-	int ret;
-
-	rcu_read_lock();
-	subsys_model = rcu_dereference(subsys->model);
-	if (subsys_model)
-		model = subsys_model->number;
-	ret = snprintf(page, PAGE_SIZE, "%s\n", model);
-	rcu_read_unlock();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -1158,7 +1134,6 @@ static bool nvmet_is_ascii(const char c)
 	return c >= 0x20 && c <= 0x7e;
 }
 
-<<<<<<< HEAD
 static ssize_t nvmet_subsys_attr_model_store_locked(struct nvmet_subsys *subsys,
 		const char *page, size_t count)
 {
@@ -1170,26 +1145,21 @@ static ssize_t nvmet_subsys_attr_model_store_locked(struct nvmet_subsys *subsys,
 		return -EINVAL;
 	}
 
-=======
-static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
-					     const char *page, size_t count)
-{
-	struct nvmet_subsys *subsys = to_subsys(item);
-	struct nvmet_subsys_model *new_model;
-	char *new_model_number;
-	int pos = 0, len;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	len = strcspn(page, "\n");
 	if (!len)
 		return -EINVAL;
+
+	if (len > NVMET_MN_MAX_SIZE) {
+		pr_err("Model number size can not exceed %d Bytes\n",
+		       NVMET_MN_MAX_SIZE);
+		return -EINVAL;
+	}
 
 	for (pos = 0; pos < len; pos++) {
 		if (!nvmet_is_ascii(page[pos]))
 			return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	subsys->model_number = kmemdup_nul(page, len, GFP_KERNEL);
 	if (!subsys->model_number)
 		return -ENOMEM;
@@ -1209,30 +1179,6 @@ static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
 	up_write(&nvmet_config_sem);
 
 	return ret;
-=======
-	new_model_number = kmemdup_nul(page, len, GFP_KERNEL);
-	if (!new_model_number)
-		return -ENOMEM;
-
-	new_model = kzalloc(sizeof(*new_model) + len + 1, GFP_KERNEL);
-	if (!new_model) {
-		kfree(new_model_number);
-		return -ENOMEM;
-	}
-	memcpy(new_model->number, new_model_number, len);
-
-	down_write(&nvmet_config_sem);
-	mutex_lock(&subsys->lock);
-	new_model = rcu_replace_pointer(subsys->model, new_model,
-					mutex_is_locked(&subsys->lock));
-	mutex_unlock(&subsys->lock);
-	up_write(&nvmet_config_sem);
-
-	kfree_rcu(new_model, rcuhead);
-	kfree(new_model_number);
-
-	return count;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 CONFIGFS_ATTR(nvmet_subsys_, attr_model);
 

@@ -75,7 +75,7 @@ struct thread;
 
 /* map__for_each_symbol - iterate over the symbols in the given map
  *
- * @map: the 'struct map *' in which symbols itereated
+ * @map: the 'struct map *' in which symbols are iterated
  * @pos: the 'struct symbol *' to use as a loop cursor
  * @n: the 'struct rb_node *' to use as a temporary storage
  * Note: caller must ensure map->dso is not NULL (map is loaded).
@@ -86,7 +86,7 @@ struct thread;
 /* map__for_each_symbol_with_name - iterate over the symbols in the given map
  *                                  that have the given name
  *
- * @map: the 'struct map *' in which symbols itereated
+ * @map: the 'struct map *' in which symbols are iterated
  * @sym_name: the symbol name
  * @pos: the 'struct symbol *' to use as a loop cursor
  */
@@ -104,18 +104,11 @@ void map__init(struct map *map,
 	       u64 start, u64 end, u64 pgoff, struct dso *dso);
 
 struct dso_id;
-<<<<<<< HEAD
 struct build_id;
 
 struct map *map__new(struct machine *machine, u64 start, u64 len,
 		     u64 pgoff, struct dso_id *id, u32 prot, u32 flags,
 		     struct build_id *bid, char *filename, struct thread *thread);
-=======
-
-struct map *map__new(struct machine *machine, u64 start, u64 len,
-		     u64 pgoff, struct dso_id *id, u32 prot, u32 flags,
-		     char *filename, struct thread *thread);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct map *map__new2(u64 start, struct dso *dso);
 void map__delete(struct map *map);
 struct map *map__clone(struct map *map);

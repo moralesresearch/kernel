@@ -42,14 +42,7 @@ config BONDING
 	tristate "Bonding driver support"
 	depends on INET
 	depends on IPV6 || IPV6=n
-<<<<<<< HEAD
 	depends on TLS || TLS_DEVICE=n
-=======
-<<<<<<< HEAD
-	depends on TLS || TLS_DEVICE=n
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Say 'Y' or 'M' if you wish to be able to 'bond' multiple Ethernet
 	  Channels together. This is called 'Etherchannel' by Cisco,
@@ -98,14 +91,7 @@ config WIREGUARD
 	select CRYPTO_CHACHA20_NEON if ARM || (ARM64 && KERNEL_MODE_NEON)
 	select CRYPTO_POLY1305_NEON if ARM64 && KERNEL_MODE_NEON
 	select CRYPTO_POLY1305_ARM if ARM
-<<<<<<< HEAD
 	select CRYPTO_BLAKE2S_ARM if ARM
-=======
-<<<<<<< HEAD
-	select CRYPTO_BLAKE2S_ARM if ARM
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select CRYPTO_CURVE25519_NEON if ARM && KERNEL_MODE_NEON
 	select CRYPTO_CHACHA_MIPS if CPU_MIPS32_R2
 	select CRYPTO_POLY1305_MIPS if MIPS
@@ -516,6 +502,8 @@ source "drivers/net/wan/Kconfig"
 
 source "drivers/net/ieee802154/Kconfig"
 
+source "drivers/net/wwan/Kconfig"
+
 config XEN_NETDEV_FRONTEND
 	tristate "Xen network device frontend driver"
 	depends on XEN
@@ -593,6 +581,7 @@ config NETDEVSIM
 	depends on DEBUG_FS
 	depends on INET
 	depends on IPV6 || IPV6=n
+	depends on PSAMPLE || PSAMPLE=n
 	select NET_DEVLINK
 	help
 	  This driver is a developer testing tool and software model that can

@@ -193,12 +193,7 @@ get_queue_num:
 		if (recontend_queue)
 			goto get_queue_num;
 
-<<<<<<< HEAD
 		return INVALID_QUEUE;
-=======
-		q_num = INVALID_QUEUE;
-		return q_num;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	common->selected_qnum = q_num;

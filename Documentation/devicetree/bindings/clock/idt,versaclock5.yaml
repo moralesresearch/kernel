@@ -59,15 +59,11 @@ properties:
     minItems: 1
     maxItems: 2
 
-<<<<<<< HEAD
   idt,xtal-load-femtofarads:
-    $ref: /schemas/types.yaml#/definitions/uint32
     minimum: 9000
     maximum: 22760
     description: Optional load capacitor for XTAL1 and XTAL2
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 patternProperties:
   "^OUT[1-4]$":
     type: object
@@ -87,7 +83,6 @@ patternProperties:
         enum: [ 1800000, 2500000, 3300000 ]
       idt,slew-percent:
         description: The Slew rate control for CMOS single-ended.
-        $ref: /schemas/types.yaml#/definitions/uint32
         enum: [ 80, 85, 90, 100 ]
 
 required:

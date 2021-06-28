@@ -342,15 +342,12 @@ void __mod_node_page_state(struct pglist_data *pgdat, enum node_stat_item item,
 	long t;
 
 	if (vmstat_item_in_bytes(item)) {
-<<<<<<< HEAD
 		/*
 		 * Only cgroups use subpage accounting right now; at
 		 * the global level, these items still change in
 		 * multiples of whole pages. Store them as pages
 		 * internally to keep the per-cpu counters compact.
 		 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		VM_WARN_ON_ONCE(delta & (PAGE_SIZE - 1));
 		delta >>= PAGE_SHIFT;
 	}
@@ -560,15 +557,12 @@ static inline void mod_node_state(struct pglist_data *pgdat,
 	long o, n, t, z;
 
 	if (vmstat_item_in_bytes(item)) {
-<<<<<<< HEAD
 		/*
 		 * Only cgroups use subpage accounting right now; at
 		 * the global level, these items still change in
 		 * multiples of whole pages. Store them as pages
 		 * internally to keep the per-cpu counters compact.
 		 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		VM_WARN_ON_ONCE(delta & (PAGE_SIZE - 1));
 		delta >>= PAGE_SHIFT;
 	}
@@ -940,7 +934,7 @@ void cpu_vm_stats_fold(int cpu)
 
 /*
  * this is only called if !populated_zone(zone), which implies no other users of
- * pset->vm_stat_diff[] exsist.
+ * pset->vm_stat_diff[] exist.
  */
 void drain_zonestat(struct zone *zone, struct per_cpu_pageset *pset)
 {
@@ -1233,12 +1227,9 @@ const char * const vmstat_text[] = {
 	"nr_shadow_call_stack",
 #endif
 	"nr_page_table_pages",
-<<<<<<< HEAD
 #ifdef CONFIG_SWAP
 	"nr_swapcached",
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* enum writeback_stat_item counters */
 	"nr_dirty_threshold",
@@ -1322,6 +1313,10 @@ const char * const vmstat_text[] = {
 	"htlb_buddy_alloc_success",
 	"htlb_buddy_alloc_fail",
 #endif
+#ifdef CONFIG_CMA
+	"cma_alloc_success",
+	"cma_alloc_fail",
+#endif
 	"unevictable_pgs_culled",
 	"unevictable_pgs_scanned",
 	"unevictable_pgs_rescued",
@@ -1373,6 +1368,10 @@ const char * const vmstat_text[] = {
 #ifdef CONFIG_SWAP
 	"swap_ra",
 	"swap_ra_hit",
+#endif
+#ifdef CONFIG_X86
+	"direct_map_level2_splits",
+	"direct_map_level3_splits",
 #endif
 #endif /* CONFIG_VM_EVENT_COUNTERS || CONFIG_MEMCG */
 };
@@ -1643,17 +1642,12 @@ static void zoneinfo_show_print(struct seq_file *m, pg_data_t *pgdat,
 	if (is_zone_first_populated(pgdat, zone)) {
 		seq_printf(m, "\n  per-node stats");
 		for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++) {
-<<<<<<< HEAD
 			unsigned long pages = node_page_state_pages(pgdat, i);
 
 			if (vmstat_item_print_in_thp(i))
 				pages /= HPAGE_PMD_NR;
 			seq_printf(m, "\n      %-12s %lu", node_stat_name(i),
 				   pages);
-=======
-			seq_printf(m, "\n      %-12s %lu", node_stat_name(i),
-				   node_page_state_pages(pgdat, i));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	seq_printf(m,
@@ -1663,24 +1657,16 @@ static void zoneinfo_show_print(struct seq_file *m, pg_data_t *pgdat,
 		   "\n        high     %lu"
 		   "\n        spanned  %lu"
 		   "\n        present  %lu"
-<<<<<<< HEAD
 		   "\n        managed  %lu"
 		   "\n        cma      %lu",
-=======
-		   "\n        managed  %lu",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   zone_page_state(zone, NR_FREE_PAGES),
 		   min_wmark_pages(zone),
 		   low_wmark_pages(zone),
 		   high_wmark_pages(zone),
 		   zone->spanned_pages,
 		   zone->present_pages,
-<<<<<<< HEAD
 		   zone_managed_pages(zone),
 		   zone_cma_pages(zone));
-=======
-		   zone_managed_pages(zone));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(m,
 		   "\n        protection: (%ld",
@@ -1783,16 +1769,11 @@ static void *vmstat_start(struct seq_file *m, loff_t *pos)
 	v += NR_VM_NUMA_STAT_ITEMS;
 #endif
 
-<<<<<<< HEAD
 	for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++) {
 		v[i] = global_node_page_state_pages(i);
 		if (vmstat_item_print_in_thp(i))
 			v[i] /= HPAGE_PMD_NR;
 	}
-=======
-	for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++)
-		v[i] = global_node_page_state_pages(i);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v += NR_VM_NODE_STAT_ITEMS;
 
 	global_dirty_limits(v + NR_DIRTY_BG_THRESHOLD,
@@ -1881,25 +1862,34 @@ int vmstat_refresh(struct ctl_table *table, int write,
 	if (err)
 		return err;
 	for (i = 0; i < NR_VM_ZONE_STAT_ITEMS; i++) {
+		/*
+		 * Skip checking stats known to go negative occasionally.
+		 */
+		switch (i) {
+		case NR_ZONE_WRITE_PENDING:
+		case NR_FREE_CMA_PAGES:
+			continue;
+		}
 		val = atomic_long_read(&vm_zone_stat[i]);
 		if (val < 0) {
 			pr_warn("%s: %s %ld\n",
 				__func__, zone_stat_name(i), val);
-			err = -EINVAL;
 		}
 	}
-#ifdef CONFIG_NUMA
-	for (i = 0; i < NR_VM_NUMA_STAT_ITEMS; i++) {
-		val = atomic_long_read(&vm_numa_stat[i]);
+	for (i = 0; i < NR_VM_NODE_STAT_ITEMS; i++) {
+		/*
+		 * Skip checking stats known to go negative occasionally.
+		 */
+		switch (i) {
+		case NR_WRITEBACK:
+			continue;
+		}
+		val = atomic_long_read(&vm_node_stat[i]);
 		if (val < 0) {
 			pr_warn("%s: %s %ld\n",
-				__func__, numa_stat_name(i), val);
-			err = -EINVAL;
+				__func__, node_stat_name(i), val);
 		}
 	}
-#endif
-	if (err)
-		return err;
 	if (write)
 		*ppos += *lenp;
 	else
@@ -1933,24 +1923,12 @@ static void vmstat_update(struct work_struct *w)
  */
 static bool need_update(int cpu)
 {
-<<<<<<< HEAD
 	pg_data_t *last_pgdat = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct zone *zone;
 
 	for_each_populated_zone(zone) {
 		struct per_cpu_pageset *p = per_cpu_ptr(zone->pageset, cpu);
-<<<<<<< HEAD
 		struct per_cpu_nodestat *n;
-=======
-
-		BUILD_BUG_ON(sizeof(p->vm_stat_diff[0]) != 1);
-#ifdef CONFIG_NUMA
-		BUILD_BUG_ON(sizeof(p->vm_numa_stat_diff[0]) != 2);
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The fast way of checking if there are any vmstat diffs.
 		 */
@@ -1962,7 +1940,6 @@ static bool need_update(int cpu)
 			       sizeof(p->vm_numa_stat_diff[0])))
 			return true;
 #endif
-<<<<<<< HEAD
 		if (last_pgdat == zone->zone_pgdat)
 			continue;
 		last_pgdat = zone->zone_pgdat;
@@ -1970,8 +1947,6 @@ static bool need_update(int cpu)
 		if (memchr_inv(n->vm_node_stat_diff, 0, NR_VM_NODE_STAT_ITEMS *
 			       sizeof(n->vm_node_stat_diff[0])))
 		    return true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return false;
 }
@@ -2022,11 +1997,8 @@ static void vmstat_shepherd(struct work_struct *w)
 
 		if (!delayed_work_pending(dw) && need_update(cpu))
 			queue_delayed_work_on(cpu, mm_percpu_wq, dw, 0);
-<<<<<<< HEAD
 
 		cond_resched();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	put_online_cpus();
 

@@ -66,11 +66,7 @@ static int rt4801_enable(struct regulator_dev *rdev)
 	struct gpio_descs *gpios = priv->enable_gpios;
 	int id = rdev_get_id(rdev), ret;
 
-<<<<<<< HEAD
 	if (!gpios || gpios->ndescs <= id) {
-=======
-	if (gpios->ndescs <= id) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_warn(&rdev->dev, "no dedicated gpio can control\n");
 		goto bypass_gpio;
 	}
@@ -92,11 +88,7 @@ static int rt4801_disable(struct regulator_dev *rdev)
 	struct gpio_descs *gpios = priv->enable_gpios;
 	int id = rdev_get_id(rdev);
 
-<<<<<<< HEAD
 	if (!gpios || gpios->ndescs <= id) {
-=======
-	if (gpios->ndescs <= id) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_warn(&rdev->dev, "no dedicated gpio can control\n");
 		goto bypass_gpio;
 	}

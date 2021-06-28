@@ -17,11 +17,7 @@ static DEFINE_IDA(fpga_bridge_ida);
 static struct class *fpga_bridge_class;
 
 /* Lock for adding/removing bridges to linked lists*/
-<<<<<<< HEAD
 static DEFINE_SPINLOCK(bridge_list_lock);
-=======
-static spinlock_t bridge_list_lock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * fpga_bridge_enable - Enable transactions on the bridge
@@ -483,11 +479,6 @@ static void fpga_bridge_dev_release(struct device *dev)
 
 static int __init fpga_bridge_dev_init(void)
 {
-<<<<<<< HEAD
-=======
-	spin_lock_init(&bridge_list_lock);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fpga_bridge_class = class_create(THIS_MODULE, "fpga_bridge");
 	if (IS_ERR(fpga_bridge_class))
 		return PTR_ERR(fpga_bridge_class);

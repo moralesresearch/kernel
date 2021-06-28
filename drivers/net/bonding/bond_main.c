@@ -83,12 +83,9 @@
 #include <net/bonding.h>
 #include <net/bond_3ad.h>
 #include <net/bond_alb.h>
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_TLS_DEVICE)
 #include <net/tls.h>
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "bonding_priv.h"
 
@@ -170,11 +167,7 @@ module_param(xmit_hash_policy, charp, 0);
 MODULE_PARM_DESC(xmit_hash_policy, "balance-alb, balance-tlb, balance-xor, 802.3ad hashing method; "
 				   "0 for layer 2 (default), 1 for layer 3+4, "
 				   "2 for layer 2+3, 3 for encap layer 2+3, "
-<<<<<<< HEAD
 				   "4 for encap layer 3+4, 5 for vlan+srcmac");
-=======
-				   "4 for encap layer 3+4");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 module_param(arp_interval, int, 0);
 MODULE_PARM_DESC(arp_interval, "arp interval in milliseconds");
 module_param_array(arp_ip_target, charp, NULL, 0);
@@ -311,7 +304,6 @@ netdev_tx_t bond_dev_queue_xmit(struct bonding *bond, struct sk_buff *skb,
 	return dev_queue_xmit(skb);
 }
 
-<<<<<<< HEAD
 bool bond_sk_check(struct bonding *bond)
 {
 	switch (BOND_MODE(bond)) {
@@ -325,8 +317,6 @@ bool bond_sk_check(struct bonding *bond)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*---------------------------------- VLAN -----------------------------------*/
 
 /* In the following 2 functions, bond_vlan_rx_add_vid and bond_vlan_rx_kill_vid,
@@ -974,7 +964,7 @@ static bool bond_should_notify_peers(struct bonding *bond)
 }
 
 /**
- * change_active_interface - change the active slave into the specified one
+ * bond_change_active_slave - change the active slave into the specified one
  * @bond: our bonding struct
  * @new_active: the new slave to make the active one
  *
@@ -1238,7 +1228,6 @@ static netdev_features_t bond_fix_features(struct net_device *dev,
 	netdev_features_t mask;
 	struct slave *slave;
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_TLS_DEVICE)
 	if (bond_sk_check(bond))
 		features |= BOND_TLS_FEATURES;
@@ -1246,8 +1235,6 @@ static netdev_features_t bond_fix_features(struct net_device *dev,
 		features &= ~BOND_TLS_FEATURES;
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mask = features;
 
 	features &= ~NETIF_F_ONE_FOR_ALL;
@@ -1470,11 +1457,8 @@ static enum netdev_lag_hash bond_lag_hash_type(struct bonding *bond,
 		return NETDEV_LAG_HASH_E23;
 	case BOND_XMIT_POLICY_ENCAP34:
 		return NETDEV_LAG_HASH_E34;
-<<<<<<< HEAD
 	case BOND_XMIT_POLICY_VLAN_SRCMAC:
 		return NETDEV_LAG_HASH_VLAN_SRCMAC;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return NETDEV_LAG_HASH_UNKNOWN;
 	}
@@ -1542,10 +1526,7 @@ static struct slave *bond_alloc_slave(struct bonding *bond,
 
 	slave->bond = bond;
 	slave->dev = slave_dev;
-<<<<<<< HEAD
 	INIT_DELAYED_WORK(&slave->notify_work, bond_netdev_notify_work);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bond_kobj_init(slave))
 		return NULL;
@@ -1558,10 +1539,6 @@ static struct slave *bond_alloc_slave(struct bonding *bond,
 			return NULL;
 		}
 	}
-<<<<<<< HEAD
-=======
-	INIT_DELAYED_WORK(&slave->notify_work, bond_netdev_notify_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return slave;
 }
@@ -1970,11 +1947,8 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
 		goto err_unregister;
 	}
 
-<<<<<<< HEAD
 	bond_lower_state_changed(new_slave);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	res = bond_sysfs_slave_add(new_slave);
 	if (res) {
 		slave_dbg(bond_dev, slave_dev, "Error %d calling bond_sysfs_slave_add\n", res);
@@ -3547,7 +3521,6 @@ static bool bond_flow_ip(struct sk_buff *skb, struct flow_keys *fk,
 	return true;
 }
 
-<<<<<<< HEAD
 static u32 bond_vlan_srcmac_hash(struct sk_buff *skb)
 {
 	struct ethhdr *mac_hdr = (struct ethhdr *)skb_mac_header(skb);
@@ -3569,8 +3542,6 @@ static u32 bond_vlan_srcmac_hash(struct sk_buff *skb)
 	return vlan ^ srcmac_vendor ^ srcmac_dev;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Extract the appropriate headers based on bond's xmit policy */
 static bool bond_flow_dissect(struct bonding *bond, struct sk_buff *skb,
 			      struct flow_keys *fk)
@@ -3578,7 +3549,6 @@ static bool bond_flow_dissect(struct bonding *bond, struct sk_buff *skb,
 	bool l34 = bond->params.xmit_policy == BOND_XMIT_POLICY_LAYER34;
 	int noff, proto = -1;
 
-<<<<<<< HEAD
 	switch (bond->params.xmit_policy) {
 	case BOND_XMIT_POLICY_ENCAP23:
 	case BOND_XMIT_POLICY_ENCAP34:
@@ -3587,12 +3557,6 @@ static bool bond_flow_dissect(struct bonding *bond, struct sk_buff *skb,
 					  fk, NULL, 0, 0, 0, 0);
 	default:
 		break;
-=======
-	if (bond->params.xmit_policy > BOND_XMIT_POLICY_LAYER23) {
-		memset(fk, 0, sizeof(*fk));
-		return __skb_flow_dissect(NULL, skb, &flow_keys_bonding,
-					  fk, NULL, 0, 0, 0, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	fk->ports.ports = 0;
@@ -3627,7 +3591,6 @@ static bool bond_flow_dissect(struct bonding *bond, struct sk_buff *skb,
 	return true;
 }
 
-<<<<<<< HEAD
 static u32 bond_ip_hash(u32 hash, struct flow_keys *flow)
 {
 	hash ^= (__force u32)flow_get_u32_dst(flow) ^
@@ -3638,8 +3601,6 @@ static u32 bond_ip_hash(u32 hash, struct flow_keys *flow)
 	return hash >> 1;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * bond_xmit_hash - generate a hash value based on the xmit policy
  * @bond: bonding device
@@ -3657,12 +3618,9 @@ u32 bond_xmit_hash(struct bonding *bond, struct sk_buff *skb)
 	    skb->l4_hash)
 		return skb->hash;
 
-<<<<<<< HEAD
 	if (bond->params.xmit_policy == BOND_XMIT_POLICY_VLAN_SRCMAC)
 		return bond_vlan_srcmac_hash(skb);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bond->params.xmit_policy == BOND_XMIT_POLICY_LAYER2 ||
 	    !bond_flow_dissect(bond, skb, &flow))
 		return bond_eth_hash(skb);
@@ -3676,17 +3634,8 @@ u32 bond_xmit_hash(struct bonding *bond, struct sk_buff *skb)
 		else
 			memcpy(&hash, &flow.ports.ports, sizeof(hash));
 	}
-<<<<<<< HEAD
 
 	return bond_ip_hash(hash, &flow);
-=======
-	hash ^= (__force u32)flow_get_u32_dst(&flow) ^
-		(__force u32)flow_get_u32_src(&flow);
-	hash ^= (hash >> 16);
-	hash ^= (hash >> 8);
-
-	return hash >> 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*-------------------------- Device entry points ----------------------------*/
@@ -4442,9 +4391,7 @@ int bond_update_slave_arr(struct bonding *bond, struct slave *skipslave)
 	int agg_id = 0;
 	int ret = 0;
 
-#ifdef CONFIG_LOCKDEP
-	WARN_ON(lockdep_is_held(&bond->mode_lock));
-#endif
+	might_sleep();
 
 	usable_slaves = kzalloc(struct_size(usable_slaves, arr,
 					    bond->slave_cnt), GFP_KERNEL);
@@ -4457,7 +4404,9 @@ int bond_update_slave_arr(struct bonding *bond, struct slave *skipslave)
 	if (BOND_MODE(bond) == BOND_MODE_8023AD) {
 		struct ad_info ad_info;
 
+		spin_lock_bh(&bond->mode_lock);
 		if (bond_3ad_get_active_agg_info(bond, &ad_info)) {
+			spin_unlock_bh(&bond->mode_lock);
 			pr_debug("bond_3ad_get_active_agg_info failed\n");
 			/* No active aggragator means it's not safe to use
 			 * the previous array.
@@ -4465,6 +4414,7 @@ int bond_update_slave_arr(struct bonding *bond, struct slave *skipslave)
 			bond_reset_slave_arr(bond);
 			goto out;
 		}
+		spin_unlock_bh(&bond->mode_lock);
 		agg_id = ad_info.aggregator_id;
 	}
 	bond_for_each_slave(bond, slave, iter) {
@@ -4659,7 +4609,6 @@ static struct net_device *bond_xmit_get_slave(struct net_device *master_dev,
 	return NULL;
 }
 
-<<<<<<< HEAD
 static void bond_sk_to_flow(struct sock *sk, struct flow_keys *flow)
 {
 	switch (sk->sk_family) {
@@ -4749,8 +4698,6 @@ static netdev_tx_t bond_tls_device_xmit(struct bonding *bond, struct sk_buff *sk
 }
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static netdev_tx_t __bond_start_xmit(struct sk_buff *skb, struct net_device *dev)
 {
 	struct bonding *bond = netdev_priv(dev);
@@ -4759,14 +4706,11 @@ static netdev_tx_t __bond_start_xmit(struct sk_buff *skb, struct net_device *dev
 	    !bond_slave_override(bond, skb))
 		return NETDEV_TX_OK;
 
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_TLS_DEVICE)
 	if (skb->sk && tls_is_sk_tx_device_offloaded(skb->sk))
 		return bond_tls_device_xmit(bond, skb, dev);
 #endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (BOND_MODE(bond)) {
 	case BOND_MODE_ROUNDROBIN:
 		return bond_xmit_roundrobin(skb, dev);
@@ -4895,10 +4839,7 @@ static const struct net_device_ops bond_netdev_ops = {
 	.ndo_fix_features	= bond_fix_features,
 	.ndo_features_check	= passthru_features_check,
 	.ndo_get_xmit_slave	= bond_xmit_get_slave,
-<<<<<<< HEAD
 	.ndo_sk_get_lower_dev	= bond_sk_get_lower_dev,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct device_type bond_type = {
@@ -4970,13 +4911,10 @@ void bond_setup(struct net_device *bond_dev)
 	if (BOND_MODE(bond) == BOND_MODE_ACTIVEBACKUP)
 		bond_dev->features |= BOND_XFRM_FEATURES;
 #endif /* CONFIG_XFRM_OFFLOAD */
-<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_TLS_DEVICE)
 	if (bond_sk_check(bond))
 		bond_dev->features |= BOND_TLS_FEATURES;
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Destroy a bonding device.

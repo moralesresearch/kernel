@@ -123,10 +123,6 @@ static void __flush_svm_range_dev(struct intel_svm *svm,
 				  unsigned long address,
 				  unsigned long pages, int ih)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device_domain_info *info = get_domain_info(sdev->dev);
 
 	if (WARN_ON(!pages))
@@ -137,58 +133,6 @@ static void __flush_svm_range_dev(struct intel_svm *svm,
 		qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
 					 svm->pasid, sdev->qdep, address,
 					 order_base_2(pages));
-<<<<<<< HEAD
-=======
-=======
-	struct qi_desc desc;
-
-	if (pages == -1) {
-		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
-			QI_EIOTLB_DID(sdev->did) |
-			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) |
-			QI_EIOTLB_TYPE;
-		desc.qw1 = 0;
-	} else {
-		int mask = ilog2(__roundup_pow_of_two(pages));
-
-		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
-				QI_EIOTLB_DID(sdev->did) |
-				QI_EIOTLB_GRAN(QI_GRAN_PSI_PASID) |
-				QI_EIOTLB_TYPE;
-		desc.qw1 = QI_EIOTLB_ADDR(address) |
-				QI_EIOTLB_IH(ih) |
-				QI_EIOTLB_AM(mask);
-	}
-	desc.qw2 = 0;
-	desc.qw3 = 0;
-	qi_submit_sync(sdev->iommu, &desc, 1, 0);
-
-	if (sdev->dev_iotlb) {
-		desc.qw0 = QI_DEV_EIOTLB_PASID(svm->pasid) |
-				QI_DEV_EIOTLB_SID(sdev->sid) |
-				QI_DEV_EIOTLB_QDEP(sdev->qdep) |
-				QI_DEIOTLB_TYPE;
-		if (pages == -1) {
-			desc.qw1 = QI_DEV_EIOTLB_ADDR(-1ULL >> 1) |
-					QI_DEV_EIOTLB_SIZE;
-		} else if (pages > 1) {
-			/* The least significant zero bit indicates the size. So,
-			 * for example, an "address" value of 0x12345f000 will
-			 * flush from 0x123440000 to 0x12347ffff (256KiB). */
-			unsigned long last = address + ((unsigned long)(pages - 1) << VTD_PAGE_SHIFT);
-			unsigned long mask = __rounddown_pow_of_two(address ^ last);
-
-			desc.qw1 = QI_DEV_EIOTLB_ADDR((address & ~mask) |
-					(mask - 1)) | QI_DEV_EIOTLB_SIZE;
-		} else {
-			desc.qw1 = QI_DEV_EIOTLB_ADDR(address);
-		}
-		desc.qw2 = 0;
-		desc.qw3 = 0;
-		qi_submit_sync(sdev->iommu, &desc, 1, 0);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void intel_flush_svm_range_dev(struct intel_svm *svm,
@@ -518,13 +462,12 @@ static void load_pasid(struct mm_struct *mm, u32 pasid)
 /* Caller must hold pasid_mutex, mm reference */
 static int
 intel_svm_bind_mm(struct device *dev, unsigned int flags,
-		  struct svm_dev_ops *ops,
 		  struct mm_struct *mm, struct intel_svm_dev **sd)
 {
 	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
+	struct intel_svm *svm = NULL, *t;
 	struct device_domain_info *info;
 	struct intel_svm_dev *sdev;
-	struct intel_svm *svm = NULL;
 	unsigned long iflags;
 	int pasid_max;
 	int ret;
@@ -550,34 +493,26 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
 		}
 	}
 
-	if (!(flags & SVM_FLAG_PRIVATE_PASID)) {
-		struct intel_svm *t;
+	list_for_each_entry(t, &global_svm_list, list) {
+		if (t->mm != mm)
+			continue;
 
-		list_for_each_entry(t, &global_svm_list, list) {
-			if (t->mm != mm || (t->flags & SVM_FLAG_PRIVATE_PASID))
-				continue;
-
-			svm = t;
-			if (svm->pasid >= pasid_max) {
-				dev_warn(dev,
-					 "Limited PASID width. Cannot use existing PASID %d\n",
-					 svm->pasid);
-				ret = -ENOSPC;
-				goto out;
-			}
-
-			/* Find the matching device in svm list */
-			for_each_svm_dev(sdev, svm, dev) {
-				if (sdev->ops != ops) {
-					ret = -EBUSY;
-					goto out;
-				}
-				sdev->users++;
-				goto success;
-			}
-
-			break;
+		svm = t;
+		if (svm->pasid >= pasid_max) {
+			dev_warn(dev,
+				 "Limited PASID width. Cannot use existing PASID %d\n",
+				 svm->pasid);
+			ret = -ENOSPC;
+			goto out;
 		}
+
+		/* Find the matching device in svm list */
+		for_each_svm_dev(sdev, svm, dev) {
+			sdev->users++;
+			goto success;
+		}
+
+		break;
 	}
 
 	sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
@@ -606,7 +541,6 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
 
 	/* Finish the setup now we know we're keeping it */
 	sdev->users = 1;
-	sdev->ops = ops;
 	init_rcu_head(&sdev->rcu);
 
 	if (!svm) {
@@ -918,11 +852,7 @@ intel_svm_prq_report(struct device *dev, struct page_req_dsc *desc)
 	/* Fill in event data for device specific processing */
 	memset(&event, 0, sizeof(struct iommu_fault_event));
 	event.fault.type = IOMMU_FAULT_PAGE_REQ;
-<<<<<<< HEAD
 	event.fault.prm.addr = (u64)desc->addr << VTD_PAGE_SHIFT;
-=======
-	event.fault.prm.addr = desc->addr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	event.fault.prm.pasid = desc->pasid;
 	event.fault.prm.grpid = desc->prg_index;
 	event.fault.prm.perm = prq_to_iommu_prot(desc);
@@ -955,6 +885,7 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 	struct intel_iommu *iommu = d;
 	struct intel_svm *svm = NULL;
 	int head, tail, handled = 0;
+	unsigned int flags = 0;
 
 	/* Clear PPR bit before reading head/tail registers, to
 	 * ensure that we get a new interrupt if needed. */
@@ -971,20 +902,8 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 		u64 address;
 
 		handled = 1;
-<<<<<<< HEAD
 		req = &iommu->prq[head / sizeof(*req)];
 		result = QI_RESP_INVALID;
-=======
-<<<<<<< HEAD
-		req = &iommu->prq[head / sizeof(*req)];
-		result = QI_RESP_INVALID;
-=======
-
-		req = &iommu->prq[head / sizeof(*req)];
-
-		result = QI_RESP_FAILURE;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		address = (u64)req->addr << VTD_PAGE_SHIFT;
 		if (!req->pasid_present) {
 			pr_err("%s: Page request without PASID: %08llx %08llx\n",
@@ -992,7 +911,6 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 			       ((unsigned long long *)req)[1]);
 			goto no_pasid;
 		}
-<<<<<<< HEAD
 		/* We shall not receive page request for supervisor SVM */
 		if (req->pm_req && (req->rd_req | req->wr_req)) {
 			pr_err("Unexpected page request in Privilege Mode");
@@ -1004,9 +922,6 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 			pr_err("Execution request not supported\n");
 			goto no_pasid;
 		}
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!svm || svm->pasid != req->pasid) {
 			rcu_read_lock();
 			svm = ioasid_find(NULL, req->pasid, NULL);
@@ -1036,13 +951,6 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 			rcu_read_unlock();
 		}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		result = QI_RESP_INVALID;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Since we're using init_mm.pgd directly, we should never take
 		 * any faults on kernel addresses. */
 		if (!svm->mm)
@@ -1075,9 +983,11 @@ static irqreturn_t prq_event_thread(int irq, void *d)
 		if (access_error(vma, req))
 			goto invalid;
 
-		ret = handle_mm_fault(vma, address,
-				      req->wr_req ? FAULT_FLAG_WRITE : 0,
-				      NULL);
+		flags = FAULT_FLAG_USER | FAULT_FLAG_REMOTE;
+		if (req->wr_req)
+			flags |= FAULT_FLAG_WRITE;
+
+		ret = handle_mm_fault(vma, address, flags, NULL);
 		if (ret & VM_FAULT_ERROR)
 			goto invalid;
 
@@ -1086,13 +996,6 @@ invalid:
 		mmap_read_unlock(svm->mm);
 		mmput(svm->mm);
 bad_req:
-		WARN_ON(!sdev);
-		if (sdev && sdev->ops && sdev->ops->fault_cb) {
-			int rwxp = (req->rd_req << 3) | (req->wr_req << 2) |
-				(req->exe_req << 1) | (req->pm_req);
-			sdev->ops->fault_cb(sdev->dev, req->pasid, req->addr,
-					    req->priv_data, rwxp, result);
-		}
 		/* We get here in the error case where the PASID lookup failed,
 		   and these can be NULL. Do not use them below this point! */
 		sdev = NULL;
@@ -1114,20 +1017,12 @@ no_pasid:
 				QI_PGRP_RESP_TYPE;
 			resp.qw1 = QI_PGRP_IDX(req->prg_index) |
 				QI_PGRP_LPIG(req->lpig);
-<<<<<<< HEAD
 			resp.qw2 = 0;
 			resp.qw3 = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (req->priv_data_present)
 				memcpy(&resp.qw2, req->priv_data,
 				       sizeof(req->priv_data));
-<<<<<<< HEAD
-=======
-			resp.qw2 = 0;
-			resp.qw3 = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			qi_submit_sync(iommu, &resp, 1, 0);
 		}
 prq_advance:
@@ -1175,7 +1070,7 @@ intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
 	if (drvdata)
 		flags = *(unsigned int *)drvdata;
 	mutex_lock(&pasid_mutex);
-	ret = intel_svm_bind_mm(dev, flags, NULL, mm, &sdev);
+	ret = intel_svm_bind_mm(dev, flags, mm, &sdev);
 	if (ret)
 		sva = ERR_PTR(ret);
 	else if (sdev)

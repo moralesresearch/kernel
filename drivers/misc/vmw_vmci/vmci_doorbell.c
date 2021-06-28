@@ -326,11 +326,7 @@ int vmci_dbell_host_context_notify(u32 src_cid, struct vmci_handle handle)
 bool vmci_dbell_register_notification_bitmap(u64 bitmap_ppn)
 {
 	int result;
-<<<<<<< HEAD
 	struct vmci_notify_bm_set_msg bitmap_set_msg = { };
-=======
-	struct vmci_notify_bm_set_msg bitmap_set_msg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bitmap_set_msg.hdr.dst = vmci_make_handle(VMCI_HYPERVISOR_CONTEXT_ID,
 						  VMCI_SET_NOTIFY_BITMAP);

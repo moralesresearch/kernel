@@ -47,16 +47,9 @@ typedef struct FW_ATT_RECORD
 	uint16_t AttFwIdV2;              /* V2 FW ID field */
 	uint32_t AttFWVersion;           /* FW Version */
 	uint16_t AttFWActiveFunctionID;  /* The VF ID (only in VF Attestation Table) */
-<<<<<<< HEAD
 	uint8_t  AttSource;              /* FW source indicator */
 	uint8_t  RecordValid;            /* Indicates whether the record is a valid entry */
 	uint32_t AttFwTaId;              /* Ta ID (only in TA Attestation Table) */
-=======
-	uint16_t AttSource;              /* FW source indicator */
-	uint16_t RecordValid;            /* Indicates whether the record is a valid entry */
-	uint8_t  AttFwTaId;              /* Ta ID (only in TA Attestation Table) */
-	uint8_t  Reserved;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } FW_ATT_RECORD;
 
 static ssize_t amdgpu_fw_attestation_debugfs_read(struct file *f,

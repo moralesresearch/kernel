@@ -629,10 +629,6 @@ int close_fd(unsigned fd)
 }
 EXPORT_SYMBOL(close_fd); /* for ksys_close() */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * last_fd - return last valid index into fd table
  * @cur_fds: files struct
@@ -646,37 +642,17 @@ static inline unsigned last_fd(struct fdtable *fdt)
 	return fdt->max_fds - 1;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void __range_cloexec(struct files_struct *cur_fds,
 				   unsigned int fd, unsigned int max_fd)
 {
 	struct fdtable *fdt;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* make sure we're using the correct maximum value */
 	spin_lock(&cur_fds->file_lock);
 	fdt = files_fdtable(cur_fds);
 	max_fd = min(last_fd(fdt), max_fd);
 	if (fd <= max_fd)
 		bitmap_set(fdt->close_on_exec, fd, max_fd - fd + 1);
-<<<<<<< HEAD
-=======
-=======
-	if (fd > max_fd)
-		return;
-
-	spin_lock(&cur_fds->file_lock);
-	fdt = files_fdtable(cur_fds);
-	bitmap_set(fdt->close_on_exec, fd, max_fd - fd + 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&cur_fds->file_lock);
 }
 
@@ -1105,8 +1081,6 @@ out_unlock:
 
 /**
  * __receive_fd() - Install received file into file descriptor table
- *
- * @fd: fd to install into (if negative, a new fd will be allocated)
  * @file: struct file that was received from another process
  * @ufd: __user pointer to write new fd number to
  * @o_flags: the O_* flags to apply to the new fd entry
@@ -1120,7 +1094,7 @@ out_unlock:
  *
  * Returns newly install fd or -ve on error.
  */
-int __receive_fd(int fd, struct file *file, int __user *ufd, unsigned int o_flags)
+int __receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
 {
 	int new_fd;
 	int error;
@@ -1129,32 +1103,33 @@ int __receive_fd(int fd, struct file *file, int __user *ufd, unsigned int o_flag
 	if (error)
 		return error;
 
-	if (fd < 0) {
-		new_fd = get_unused_fd_flags(o_flags);
-		if (new_fd < 0)
-			return new_fd;
-	} else {
-		new_fd = fd;
-	}
+	new_fd = get_unused_fd_flags(o_flags);
+	if (new_fd < 0)
+		return new_fd;
 
 	if (ufd) {
 		error = put_user(new_fd, ufd);
 		if (error) {
-			if (fd < 0)
-				put_unused_fd(new_fd);
+			put_unused_fd(new_fd);
 			return error;
 		}
 	}
 
-	if (fd < 0) {
-		fd_install(new_fd, get_file(file));
-	} else {
-		error = replace_fd(new_fd, file, o_flags);
-		if (error)
-			return error;
-	}
+	fd_install(new_fd, get_file(file));
+	__receive_sock(file);
+	return new_fd;
+}
 
-	/* Bump the sock usage counts, if any. */
+int receive_fd_replace(int new_fd, struct file *file, unsigned int o_flags)
+{
+	int error;
+
+	error = security_file_receive(file);
+	if (error)
+		return error;
+	error = replace_fd(new_fd, file, o_flags);
+	if (error)
+		return error;
 	__receive_sock(file);
 	return new_fd;
 }

@@ -12,10 +12,7 @@
 #include <linux/console.h>
 #include <linux/delay.h>
 #include <linux/io.h>
-<<<<<<< HEAD
 #include <linux/iopoll.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/platform_device.h>
@@ -66,12 +63,9 @@
 #define OWL_UART_STAT_TRFL_MASK		GENMASK(16, 11)
 #define OWL_UART_STAT_UTBB		BIT(17)
 
-<<<<<<< HEAD
 #define OWL_UART_POLL_USEC		5
 #define OWL_UART_TIMEOUT_USEC		10000
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct uart_driver owl_uart_driver;
 
 struct owl_uart_info {
@@ -253,9 +247,7 @@ static void owl_uart_receive_chars(struct uart_port *port)
 		stat = owl_uart_read(port, OWL_UART_STAT);
 	}
 
-	spin_unlock(&port->lock);
 	tty_flip_buffer_push(&port->state->port);
-	spin_lock(&port->lock);
 }
 
 static irqreturn_t owl_uart_irq(int irq, void *dev_id)
@@ -471,7 +463,6 @@ static void owl_uart_config_port(struct uart_port *port, int flags)
 	}
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_CONSOLE_POLL
 
 static int owl_uart_poll_get_char(struct uart_port *port)
@@ -502,8 +493,6 @@ static void owl_uart_poll_put_char(struct uart_port *port, unsigned char ch)
 
 #endif /* CONFIG_CONSOLE_POLL */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct uart_ops owl_uart_ops = {
 	.set_mctrl = owl_uart_set_mctrl,
 	.get_mctrl = owl_uart_get_mctrl,
@@ -519,13 +508,10 @@ static const struct uart_ops owl_uart_ops = {
 	.request_port = owl_uart_request_port,
 	.release_port = owl_uart_release_port,
 	.verify_port = owl_uart_verify_port,
-<<<<<<< HEAD
 #ifdef CONFIG_CONSOLE_POLL
 	.poll_get_char = owl_uart_poll_get_char,
 	.poll_put_char = owl_uart_poll_put_char,
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #ifdef CONFIG_SERIAL_OWL_CONSOLE

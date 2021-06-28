@@ -28,10 +28,6 @@
 
 #define KVM_MAX_VCPUS		NR_CPUS
 #define KVM_MAX_VCORES		NR_CPUS
-<<<<<<< HEAD
-=======
-#define KVM_USER_MEM_SLOTS	512
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/cputhreads.h>
 
@@ -55,17 +51,11 @@
 /* PPC-specific vcpu->requests bit members */
 #define KVM_REQ_WATCHDOG	KVM_ARCH_REQ(0)
 #define KVM_REQ_EPR_EXIT	KVM_ARCH_REQ(1)
+#define KVM_REQ_PENDING_TIMER	KVM_ARCH_REQ(2)
 
 #include <linux/mmu_notifier.h>
 
 #define KVM_ARCH_WANT_MMU_NOTIFIER
-
-extern int kvm_unmap_hva_range(struct kvm *kvm,
-			       unsigned long start, unsigned long end,
-			       unsigned flags);
-extern int kvm_age_hva(struct kvm *kvm, unsigned long start, unsigned long end);
-extern int kvm_test_age_hva(struct kvm *kvm, unsigned long hva);
-extern int kvm_set_spte_hva(struct kvm *kvm, unsigned long hva, pte_t pte);
 
 #define HPTEG_CACHE_NUM			(1 << 15)
 #define HPTEG_HASH_BITS_PTE		13
@@ -310,10 +300,7 @@ struct kvm_arch {
 	u8 svm_enabled;
 	bool threads_indep;
 	bool nested_enable;
-<<<<<<< HEAD
 	bool dawr1_enabled;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pgd_t *pgtable;
 	u64 process_table;
 	struct dentry *debugfs_dir;
@@ -591,15 +578,10 @@ struct kvm_vcpu_arch {
 	u32 ctrl;
 	u32 dabrx;
 	ulong dabr;
-<<<<<<< HEAD
 	ulong dawr0;
 	ulong dawrx0;
 	ulong dawr1;
 	ulong dawrx1;
-=======
-	ulong dawr;
-	ulong dawrx;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ulong ciabr;
 	ulong cfar;
 	ulong ppr;

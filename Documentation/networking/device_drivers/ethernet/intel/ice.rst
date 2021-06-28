@@ -1,25 +1,15 @@
 .. SPDX-License-Identifier: GPL-2.0+
 
-<<<<<<< HEAD
 =================================================================
 Linux Base Driver for the Intel(R) Ethernet Controller 800 Series
 =================================================================
 
 Intel ice Linux driver.
 Copyright(c) 2018-2021 Intel Corporation.
-=======
-==================================================================
-Linux Base Driver for the Intel(R) Ethernet Connection E800 Series
-==================================================================
-
-Intel ice Linux driver.
-Copyright(c) 2018 Intel Corporation.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Contents
 ========
 
-<<<<<<< HEAD
 - Overview
 - Identifying Your Adapter
 - Important Notes
@@ -1019,49 +1009,18 @@ helpful to optimize performance in VMs.
 
     # ethtool -L <virt_interface> rx <max> tx <max>
 
-=======
-- Enabling the driver
-- Support
-
-The driver in this release supports Intel's E800 Series of products. For
-more information, visit Intel's support page at https://support.intel.com.
-
-Enabling the driver
-===================
-The driver is enabled via the standard kernel configuration system,
-using the make command::
-
-  make oldconfig/menuconfig/etc.
-
-The driver is located in the menu structure at:
-
-  -> Device Drivers
-    -> Network device support (NETDEVICES [=y])
-      -> Ethernet driver support
-        -> Intel devices
-          -> Intel(R) Ethernet Connection E800 Series Support
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Support
 =======
 For general information, go to the Intel support website at:
-<<<<<<< HEAD
 https://www.intel.com/support/
 
 or the Intel Wired Networking project hosted by Sourceforge at:
-=======
-
-https://www.intel.com/support/
-
-or the Intel Wired Networking project hosted by Sourceforge at:
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 https://sourceforge.net/projects/e1000
 
 If an issue is identified with the released source code on a supported kernel
 with a supported adapter, email the specific information related to the issue
 to e1000-devel@lists.sf.net.
-<<<<<<< HEAD
 
 
 Trademarks
@@ -1070,5 +1029,3 @@ Intel is a trademark or registered trademark of Intel Corporation or its
 subsidiaries in the United States and/or other countries.
 
 * Other names and brands may be claimed as the property of others.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

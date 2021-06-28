@@ -13,12 +13,8 @@
 			      <&gpadc 0x08>, /* Main battery voltage */
 			      <&gpadc 0x09>, /* VBUS */
 			      <&gpadc 0x0b>, /* Charger current */
-<<<<<<< HEAD
 			      <&gpadc 0x0c>, /* Backup battery voltage */
 			      <&gpadc 0x0d>; /* Die temperature */
-=======
-			      <&gpadc 0x0c>; /* Backup battery voltage */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	soc {
@@ -50,14 +46,8 @@
 
 				gpadc: ab8500-gpadc {
 					compatible = "stericsson,ab8500-gpadc";
-<<<<<<< HEAD
 					interrupts = <39 IRQ_TYPE_LEVEL_HIGH>;
 					interrupt-names = "SW_CONV_END";
-=======
-					interrupts = <32 IRQ_TYPE_LEVEL_HIGH
-						      39 IRQ_TYPE_LEVEL_HIGH>;
-					interrupt-names = "HW_CONV_END", "SW_CONV_END";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					vddadc-supply = <&ab8500_ldo_adc_reg>;
 					#address-cells = <1>;
 					#size-cells = <0>;
@@ -94,30 +84,22 @@
 					bk_bat_v: channel@0c {
 						reg = <0x0c>;
 					};
-<<<<<<< HEAD
 					die_temp: channel@0d {
 						reg = <0x0d>;
 					};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					usb_id: channel@0e {
 						reg = <0x0e>;
 					};
 				};
 
 				ab8500_battery: ab8500_battery {
-<<<<<<< HEAD
 					stericsson,battery-type = "LIPO";
-=======
-					status = "disabled";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					thermistor-on-batctrl;
 				};
 
 				ab8500_fg {
 					status = "disabled";
 					compatible = "stericsson,ab8500-fg";
-<<<<<<< HEAD
 					interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
 						     <8 IRQ_TYPE_LEVEL_HIGH>,
 						     <28 IRQ_TYPE_LEVEL_HIGH>,
@@ -131,17 +113,11 @@
 					battery = <&ab8500_battery>;
 					io-channels = <&gpadc 0x08>;
 					io-channel-names = "main_bat_v";
-=======
-					battery = <&ab8500_battery>;
-					io-channels = <&gpadc 0x08>;
-					io-channel-name = "main_bat_v";
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				};
 
 				ab8500_btemp {
 					status = "disabled";
 					compatible = "stericsson,ab8500-btemp";
-<<<<<<< HEAD
 					interrupts = <20 IRQ_TYPE_LEVEL_HIGH>,
 						     <80 IRQ_TYPE_LEVEL_HIGH>,
 						     <83 IRQ_TYPE_LEVEL_HIGH>,
@@ -156,19 +132,12 @@
 					io-channels = <&gpadc 0x02>,
 						      <&gpadc 0x01>;
 					io-channel-names = "btemp_ball",
-=======
-					battery = <&ab8500_battery>;
-					io-channels = <&gpadc 0x02>,
-						      <&gpadc 0x01>;
-					io-channel-name = "btemp_ball",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							  "bat_ctrl";
 				};
 
 				ab8500_charger {
 					status = "disabled";
 					compatible = "stericsson,ab8500-charger";
-<<<<<<< HEAD
 					interrupts = <10 IRQ_TYPE_LEVEL_HIGH>,
 						     <11 IRQ_TYPE_LEVEL_HIGH>,
 						     <0 IRQ_TYPE_LEVEL_HIGH>,
@@ -197,17 +166,11 @@
 							  "VBUS_OVV",
 							  "CH_WD_EXP",
 							  "VBUS_CH_DROP_END";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					battery = <&ab8500_battery>;
 					vddadc-supply = <&ab8500_ldo_adc_reg>;
 					io-channels = <&gpadc 0x09>,
 						      <&gpadc 0x0b>;
-<<<<<<< HEAD
 					io-channel-names = "vbus_v",
-=======
-					io-channel-name = "vbus_v",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							  "usb_charger_c";
 				};
 

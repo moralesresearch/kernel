@@ -18,13 +18,13 @@
 #include <linux/i2c.h>
 #include <linux/workqueue.h>
 #include <linux/mfd/abx500/ab8500.h>
-#include <linux/mfd/abx500/ab8500-bm.h>
-#include <linux/mfd/abx500/ux500_chargalg.h>
 #include <linux/pm2301_charger.h>
 #include <linux/gpio.h>
 #include <linux/pm_runtime.h>
 #include <linux/pm.h>
 
+#include "ab8500-bm.h"
+#include "ab8500-chargalg.h"
 #include "pm2301_charger.h"
 
 #define to_pm2xxx_charger_ac_device_info(x) container_of((x), \
@@ -1089,11 +1089,7 @@ static int pm2xxx_wall_charger_probe(struct i2c_client *i2c_client,
 	ret = request_threaded_irq(gpio_to_irq(pm2->pdata->gpio_irq_number),
 				NULL,
 				pm2xxx_charger_irq[0].isr,
-<<<<<<< HEAD
 				pm2->pdata->irq_type | IRQF_ONESHOT,
-=======
-				pm2->pdata->irq_type,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				pm2xxx_charger_irq[0].name, pm2);
 
 	if (ret != 0) {

@@ -145,11 +145,7 @@ static bool run_test(int wr_size, int wp_size, int wr, int wp)
 
 	if (ptrace(PTRACE_CONT, pid, NULL, NULL) < 0) {
 		ksft_print_msg(
-<<<<<<< HEAD
 			"ptrace(PTRACE_CONT) failed: %s\n",
-=======
-			"ptrace(PTRACE_SINGLESTEP) failed: %s\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			strerror(errno));
 		return false;
 	}
@@ -163,11 +159,7 @@ static bool run_test(int wr_size, int wp_size, int wr, int wp)
 	}
 	alarm(0);
 	if (WIFEXITED(status)) {
-<<<<<<< HEAD
 		ksft_print_msg("child exited prematurely\n");
-=======
-		ksft_print_msg("child did not single-step\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 	}
 	if (!WIFSTOPPED(status)) {

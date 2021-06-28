@@ -27,11 +27,7 @@ $(OUTPUT)cpufreq-bench: $(OBJS)
 
 all: $(OUTPUT)cpufreq-bench
 
-<<<<<<< HEAD
 install: $(OUTPUT)cpufreq-bench
-=======
-install:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mkdir -p $(DESTDIR)/$(sbindir)
 	mkdir -p $(DESTDIR)/$(bindir)
 	mkdir -p $(DESTDIR)/$(docdir)

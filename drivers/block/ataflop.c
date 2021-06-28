@@ -729,17 +729,12 @@ static int do_format(int drive, int type, struct atari_format_descr *desc)
 	unsigned long	flags;
 	int ret;
 
-<<<<<<< HEAD
 	if (type) {
 		type--;
 		if (type >= NUM_DISK_MINORS ||
 		    minor2disktype[type].drive_types > DriveType)
 			return -EINVAL;
 	}
-=======
-	if (type)
-		type--;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	q = unit[drive].disk[type]->queue;
 	blk_mq_freeze_queue(q);
@@ -751,14 +746,6 @@ static int do_format(int drive, int type, struct atari_format_descr *desc)
 	local_irq_restore(flags);
 
 	if (type) {
-<<<<<<< HEAD
-=======
-		if (type >= NUM_DISK_MINORS ||
-		    minor2disktype[type].drive_types > DriveType) {
-			ret = -EINVAL;
-			goto out;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		type = minor2disktype[type].index;
 		UDT = &atari_disk_type[type];
 	}
@@ -2014,14 +2001,10 @@ static void ataflop_probe(dev_t dev)
 	int drive = MINOR(dev) & 3;
 	int type  = MINOR(dev) >> 2;
 
-<<<<<<< HEAD
 	if (type)
 		type--;
 
 	if (drive >= FD_MAX_UNITS || type >= NUM_DISK_MINORS)
-=======
-	if (drive >= FD_MAX_UNITS || type > NUM_DISK_MINORS)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	mutex_lock(&ataflop_probe_lock);
 	if (!unit[drive].disk[type]) {

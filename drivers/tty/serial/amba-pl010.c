@@ -159,9 +159,7 @@ static void pl010_rx_chars(struct uart_amba_port *uap)
 	ignore_char:
 		status = readb(uap->port.membase + UART01x_FR);
 	}
-	spin_unlock(&uap->port.lock);
 	tty_flip_buffer_push(&uap->port.state->port);
-	spin_lock(&uap->port.lock);
 }
 
 static void pl010_tx_chars(struct uart_amba_port *uap)
@@ -754,11 +752,7 @@ static int pl010_probe(struct amba_device *dev, const struct amba_id *id)
 	return ret;
 }
 
-<<<<<<< HEAD
 static void pl010_remove(struct amba_device *dev)
-=======
-static int pl010_remove(struct amba_device *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct uart_amba_port *uap = amba_get_drvdata(dev);
 	int i;
@@ -774,11 +768,6 @@ static int pl010_remove(struct amba_device *dev)
 
 	if (!busy)
 		uart_unregister_driver(&amba_reg);
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM_SLEEP

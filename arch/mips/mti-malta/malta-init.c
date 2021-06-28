@@ -90,13 +90,6 @@ static void __init console_config(void)
 static void __init mips_nmi_setup(void)
 {
 	void *base;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	extern char except_vec_nmi[];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	base = cpu_has_veic ?
 		(void *)(CAC_BASE + 0xa80) :

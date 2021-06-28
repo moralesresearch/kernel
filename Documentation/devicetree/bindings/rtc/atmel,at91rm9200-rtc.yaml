@@ -20,10 +20,7 @@ properties:
       - atmel,sama5d4-rtc
       - atmel,sama5d2-rtc
       - microchip,sam9x60-rtc
-<<<<<<< HEAD
       - microchip,sama7g5-rtc
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   reg:
     maxItems: 1

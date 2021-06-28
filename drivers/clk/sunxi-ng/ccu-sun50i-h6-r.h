@@ -14,10 +14,6 @@
 
 #define CLK_R_APB2	3
 
-<<<<<<< HEAD
 #define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
-=======
-#define CLK_NUMBER	(CLK_W1 + 1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _CCU_SUN50I_H6_R_H */

@@ -33,12 +33,9 @@ description: |
   corresponding PRUSS node. The node should be named "interrupt-controller".
 
 properties:
-<<<<<<< HEAD
   $nodename:
     pattern: "^interrupt-controller@[0-9a-f]+$"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   compatible:
     enum:
       - ti,pruss-intc

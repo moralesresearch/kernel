@@ -514,11 +514,7 @@ static int advk_pcie_wait_pio(struct advk_pcie *pcie)
 		udelay(PIO_RETRY_DELAY);
 	}
 
-<<<<<<< HEAD
 	dev_err(dev, "PIO read/write transfer time out\n");
-=======
-	dev_err(dev, "config read/write timed out\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -ETIMEDOUT;
 }
 
@@ -661,7 +657,6 @@ static bool advk_pcie_valid_device(struct advk_pcie *pcie, struct pci_bus *bus,
 	return true;
 }
 
-<<<<<<< HEAD
 static bool advk_pcie_pio_is_running(struct advk_pcie *pcie)
 {
 	struct device *dev = &pcie->pdev->dev;
@@ -691,8 +686,6 @@ static bool advk_pcie_pio_is_running(struct advk_pcie *pcie)
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int advk_pcie_rd_conf(struct pci_bus *bus, u32 devfn,
 			     int where, int size, u32 *val)
 {
@@ -709,16 +702,10 @@ static int advk_pcie_rd_conf(struct pci_bus *bus, u32 devfn,
 		return pci_bridge_emul_conf_read(&pcie->bridge, where,
 						 size, val);
 
-<<<<<<< HEAD
 	if (advk_pcie_pio_is_running(pcie)) {
 		*val = 0xffffffff;
 		return PCIBIOS_SET_FAILED;
 	}
-=======
-	/* Start PIO */
-	advk_writel(pcie, 0, PIO_START);
-	advk_writel(pcie, 1, PIO_ISR);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Program the control register */
 	reg = advk_readl(pcie, PIO_CTRL);
@@ -737,12 +724,8 @@ static int advk_pcie_rd_conf(struct pci_bus *bus, u32 devfn,
 	/* Program the data strobe */
 	advk_writel(pcie, 0xf, PIO_WR_DATA_STRB);
 
-<<<<<<< HEAD
 	/* Clear PIO DONE ISR and start the transfer */
 	advk_writel(pcie, 1, PIO_ISR);
-=======
-	/* Start the transfer */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	advk_writel(pcie, 1, PIO_START);
 
 	ret = advk_pcie_wait_pio(pcie);
@@ -782,14 +765,8 @@ static int advk_pcie_wr_conf(struct pci_bus *bus, u32 devfn,
 	if (where % size)
 		return PCIBIOS_SET_FAILED;
 
-<<<<<<< HEAD
 	if (advk_pcie_pio_is_running(pcie))
 		return PCIBIOS_SET_FAILED;
-=======
-	/* Start PIO */
-	advk_writel(pcie, 0, PIO_START);
-	advk_writel(pcie, 1, PIO_ISR);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Program the control register */
 	reg = advk_readl(pcie, PIO_CTRL);
@@ -816,12 +793,8 @@ static int advk_pcie_wr_conf(struct pci_bus *bus, u32 devfn,
 	/* Program the data strobe */
 	advk_writel(pcie, data_strobe, PIO_WR_DATA_STRB);
 
-<<<<<<< HEAD
 	/* Clear PIO DONE ISR and start the transfer */
 	advk_writel(pcie, 1, PIO_ISR);
-=======
-	/* Start the transfer */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	advk_writel(pcie, 1, PIO_START);
 
 	ret = advk_pcie_wait_pio(pcie);

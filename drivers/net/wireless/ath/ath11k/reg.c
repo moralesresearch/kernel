@@ -247,13 +247,9 @@ int ath11k_regd_update(struct ath11k *ar, bool init)
 	}
 
 	rtnl_lock();
-<<<<<<< HEAD
 	wiphy_lock(ar->hw->wiphy);
 	ret = regulatory_set_wiphy_regd_sync(ar->hw->wiphy, regd_copy);
 	wiphy_unlock(ar->hw->wiphy);
-=======
-	ret = regulatory_set_wiphy_regd_sync_rtnl(ar->hw->wiphy, regd_copy);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtnl_unlock();
 
 	kfree(regd_copy);

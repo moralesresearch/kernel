@@ -538,10 +538,7 @@
 				fsl,num-tx-queues = <1>;
 				fsl,num-rx-queues = <1>;
 				fsl,stop-mode = <&gpr 0x10 4>;
-<<<<<<< HEAD
 				fsl,magic-packet;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				status = "disabled";
 			};
 
@@ -889,10 +886,7 @@
 				fsl,num-tx-queues = <1>;
 				fsl,num-rx-queues = <1>;
 				fsl,stop-mode = <&gpr 0x10 3>;
-<<<<<<< HEAD
 				fsl,magic-packet;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				status = "disabled";
 			};
 

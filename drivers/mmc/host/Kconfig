@@ -168,7 +168,6 @@ config MMC_SDHCI_OF_ASPEED
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
 config MMC_SDHCI_OF_ASPEED_TEST
 	bool "Tests for the ASPEED SDHCI driver"
 	depends on MMC_SDHCI_OF_ASPEED && KUNIT=y
@@ -183,8 +182,6 @@ config MMC_SDHCI_OF_ASPEED_TEST
 
 	  If unsure, say N.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config MMC_SDHCI_OF_AT91
 	tristate "SDHCI OF support for the Atmel SDMMC controller"
 	depends on MMC_SDHCI_PLTFM
@@ -281,6 +278,7 @@ config MMC_SDHCI_ESDHC_IMX
 	tristate "SDHCI support for the Freescale eSDHC/uSDHC i.MX controller"
 	depends on ARCH_MXC || COMPILE_TEST
 	depends on MMC_SDHCI_PLTFM
+	depends on OF
 	select MMC_SDHCI_IO_ACCESSORS
 	select MMC_CQHCI
 	help
@@ -329,21 +327,6 @@ config MMC_SDHCI_S3C
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
-=======
-config MMC_SDHCI_SIRF
-	tristate "SDHCI support on CSR SiRFprimaII and SiRFmarco SoCs"
-	depends on ARCH_SIRF || COMPILE_TEST
-	depends on MMC_SDHCI_PLTFM
-	select MMC_SDHCI_IO_ACCESSORS
-	help
-	  This selects the SDHCI support for SiRF System-on-Chip devices.
-
-	  If you have a controller with this interface, say Y or M here.
-
-	  If unsure, say N.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config MMC_SDHCI_PXAV3
 	tristate "Marvell MMP2 SD Host Controller support (PXAV3)"
 	depends on CLKDEV_LOOKUP
@@ -564,10 +547,7 @@ config MMC_SDHCI_MSM
 	depends on MMC_SDHCI_PLTFM
 	select MMC_SDHCI_IO_ACCESSORS
 	select MMC_CQHCI
-<<<<<<< HEAD
 	select QCOM_SCM if MMC_CRYPTO && ARCH_QCOM
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This selects the Secure Digital Host Controller Interface (SDHCI)
 	  support present in Qualcomm SOCs. The controller supports
@@ -632,16 +612,6 @@ config MMC_DAVINCI
 	  If you have an DAVINCI board with a Multimedia Card slot,
 	  say Y or M here.  If unsure, say N.
 
-<<<<<<< HEAD
-=======
-config MMC_GOLDFISH
-	tristate "goldfish qemu Multimedia Card Interface support"
-	depends on GOLDFISH || COMPILE_TEST
-	help
-	  This selects the Goldfish Multimedia card Interface emulation
-	  found on the Goldfish Android virtual device emulation.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config MMC_SPI
 	tristate "MMC/SD/SDIO over SPI"
 	depends on SPI_MASTER
@@ -738,6 +708,7 @@ config MMC_SDHI
 	tristate "Renesas SDHI SD/SDIO controller support"
 	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
 	select MMC_TMIO_CORE
+	select RESET_CONTROLLER if ARCH_RENESAS
 	help
 	  This provides support for the SDHI SD/SDIO controller found in
 	  Renesas SuperH, ARM and ARM64 based SoCs
@@ -895,18 +866,6 @@ config MMC_DW_ROCKCHIP
 	  Synopsys DesignWare Memory Card Interface driver. Select this option
 	  for platforms based on RK3066, RK3188 and RK3288 SoC's.
 
-<<<<<<< HEAD
-=======
-config MMC_DW_ZX
-	tristate "ZTE specific extensions for Synopsys DW Memory Card Interface"
-	depends on MMC_DW && ARCH_ZX
-	select MMC_DW_PLTFM
-	help
-	  This selects support for ZTE SoC specific extensions to the
-	  Synopsys DesignWare Memory Card Interface driver. Select this option
-	  for platforms based on ZX296718 SoC's.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config MMC_SH_MMCIF
 	tristate "SuperH Internal MMCIF support"
 	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST

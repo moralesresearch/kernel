@@ -72,13 +72,8 @@ nilfs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
  * If the create succeeds, we fill in the inode information
  * with d_instantiate().
  */
-<<<<<<< HEAD
 static int nilfs_create(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, umode_t mode, bool excl)
-=======
-static int nilfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
-			bool excl)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct nilfs_transaction_info ti;
@@ -105,12 +100,8 @@ static int nilfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
 }
 
 static int
-<<<<<<< HEAD
 nilfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 	    struct dentry *dentry, umode_t mode, dev_t rdev)
-=======
-nilfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t rdev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct nilfs_transaction_info ti;
@@ -134,13 +125,8 @@ nilfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t rdev)
 	return err;
 }
 
-<<<<<<< HEAD
 static int nilfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			 struct dentry *dentry, const char *symname)
-=======
-static int nilfs_symlink(struct inode *dir, struct dentry *dentry,
-			 const char *symname)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nilfs_transaction_info ti;
 	struct super_block *sb = dir->i_sb;
@@ -216,12 +202,8 @@ static int nilfs_link(struct dentry *old_dentry, struct inode *dir,
 	return err;
 }
 
-<<<<<<< HEAD
 static int nilfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode)
-=======
-static int nilfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	struct nilfs_transaction_info ti;
@@ -358,14 +340,9 @@ static int nilfs_rmdir(struct inode *dir, struct dentry *dentry)
 	return err;
 }
 
-<<<<<<< HEAD
 static int nilfs_rename(struct user_namespace *mnt_userns,
 			struct inode *old_dir, struct dentry *old_dentry,
 			struct inode *new_dir, struct dentry *new_dentry,
-=======
-static int nilfs_rename(struct inode *old_dir, struct dentry *old_dentry,
-			struct inode *new_dir,	struct dentry *new_dentry,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			unsigned int flags)
 {
 	struct inode *old_inode = d_inode(old_dentry);
@@ -463,10 +440,9 @@ static struct dentry *nilfs_get_parent(struct dentry *child)
 {
 	unsigned long ino;
 	struct inode *inode;
-	struct qstr dotdot = QSTR_INIT("..", 2);
 	struct nilfs_root *root;
 
-	ino = nilfs_inode_by_name(d_inode(child), &dotdot);
+	ino = nilfs_inode_by_name(d_inode(child), &dotdot_name);
 	if (!ino)
 		return ERR_PTR(-ENOENT);
 
@@ -575,6 +551,8 @@ const struct inode_operations nilfs_dir_inode_operations = {
 	.setattr	= nilfs_setattr,
 	.permission	= nilfs_permission,
 	.fiemap		= nilfs_fiemap,
+	.fileattr_get	= nilfs_fileattr_get,
+	.fileattr_set	= nilfs_fileattr_set,
 };
 
 const struct inode_operations nilfs_special_inode_operations = {

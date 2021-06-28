@@ -51,11 +51,7 @@ static int vmw_gmr2_bind(struct vmw_private *dev_priv,
 	uint32_t cmd_size = define_size + remap_size;
 	uint32_t i;
 
-<<<<<<< HEAD
 	cmd_orig = cmd = VMW_CMD_RESERVE(dev_priv, cmd_size);
-=======
-	cmd_orig = cmd = VMW_FIFO_RESERVE(dev_priv, cmd_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -102,11 +98,7 @@ static int vmw_gmr2_bind(struct vmw_private *dev_priv,
 
 	BUG_ON(cmd != cmd_orig + cmd_size / sizeof(*cmd));
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, cmd_size);
-=======
-	vmw_fifo_commit(dev_priv, cmd_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -118,11 +110,7 @@ static void vmw_gmr2_unbind(struct vmw_private *dev_priv,
 	uint32_t define_size = sizeof(define_cmd) + 4;
 	uint32_t *cmd;
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, define_size);
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, define_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return;
 
@@ -132,11 +120,7 @@ static void vmw_gmr2_unbind(struct vmw_private *dev_priv,
 	*cmd++ = SVGA_CMD_DEFINE_GMR2;
 	memcpy(cmd, &define_cmd, sizeof(define_cmd));
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, define_size);
-=======
-	vmw_fifo_commit(dev_priv, define_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 

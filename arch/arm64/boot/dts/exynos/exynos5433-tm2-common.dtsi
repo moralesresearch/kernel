@@ -793,15 +793,7 @@
 		compatible = "samsung,s3fwrn5-i2c";
 		reg = <0x27>;
 		interrupt-parent = <&gpa1>;
-<<<<<<< HEAD
 		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
-=======
-<<<<<<< HEAD
-		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
-=======
-		interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		en-gpios = <&gpf1 4 GPIO_ACTIVE_HIGH>;
 		wake-gpios = <&gpj0 2 GPIO_ACTIVE_HIGH>;
 	};
@@ -1010,7 +1002,7 @@
 		ppmu_event0_d1_general: ppmu-event0-d1-general {
 		       event-name = "ppmu-event0-d1-general";
 	       };
-       };
+	};
 };
 
 &pinctrl_alive {

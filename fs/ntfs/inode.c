@@ -2854,14 +2854,7 @@ void ntfs_truncate_vfs(struct inode *vi) {
 
 /**
  * ntfs_setattr - called from notify_change() when an attribute is being changed
-<<<<<<< HEAD
  * @mnt_userns:	user namespace of the mount the inode was found from
-=======
-<<<<<<< HEAD
- * @mnt_userns:	user namespace of the mount the inode was found from
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dentry:	dentry whose attributes to change
  * @attr:	structure describing the attributes and the changes
  *
@@ -2874,31 +2867,14 @@ void ntfs_truncate_vfs(struct inode *vi) {
  *
  * Called with ->i_mutex held.
  */
-<<<<<<< HEAD
 int ntfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		 struct iattr *attr)
-=======
-<<<<<<< HEAD
-int ntfs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
-		 struct iattr *attr)
-=======
-int ntfs_setattr(struct dentry *dentry, struct iattr *attr)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *vi = d_inode(dentry);
 	int err;
 	unsigned int ia_valid = attr->ia_valid;
 
-<<<<<<< HEAD
 	err = setattr_prepare(&init_user_ns, dentry, attr);
-=======
-<<<<<<< HEAD
-	err = setattr_prepare(&init_user_ns, dentry, attr);
-=======
-	err = setattr_prepare(dentry, attr);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto out;
 	/* We do not support NTFS ACLs yet. */

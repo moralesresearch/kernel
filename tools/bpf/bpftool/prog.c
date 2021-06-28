@@ -76,6 +76,7 @@ enum dump_mode {
 static const char * const attach_type_strings[] = {
 	[BPF_SK_SKB_STREAM_PARSER] = "stream_parser",
 	[BPF_SK_SKB_STREAM_VERDICT] = "stream_verdict",
+	[BPF_SK_SKB_VERDICT] = "skb_verdict",
 	[BPF_SK_MSG_VERDICT] = "msg_verdict",
 	[BPF_FLOW_DISSECTOR] = "flow_dissector",
 	[__MAX_BPF_ATTACH_TYPE] = NULL,
@@ -368,11 +369,8 @@ static void print_prog_header_json(struct bpf_prog_info *info)
 		jsonw_uint_field(json_wtr, "run_time_ns", info->run_time_ns);
 		jsonw_uint_field(json_wtr, "run_cnt", info->run_cnt);
 	}
-<<<<<<< HEAD
 	if (info->recursion_misses)
 		jsonw_uint_field(json_wtr, "recursion_misses", info->recursion_misses);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void print_prog_json(struct bpf_prog_info *info, int fd)
@@ -451,11 +449,8 @@ static void print_prog_header_plain(struct bpf_prog_info *info)
 	if (info->run_time_ns)
 		printf(" run_time_ns %lld run_cnt %lld",
 		       info->run_time_ns, info->run_cnt);
-<<<<<<< HEAD
 	if (info->recursion_misses)
 		printf(" recursion_misses %lld", info->recursion_misses);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	printf("\n");
 }
 
@@ -2143,11 +2138,7 @@ static int do_help(int argc, char **argv)
 		"                 cgroup/getpeername4 | cgroup/getpeername6 |\n"
 		"                 cgroup/getsockname4 | cgroup/getsockname6 | cgroup/sendmsg4 |\n"
 		"                 cgroup/sendmsg6 | cgroup/recvmsg4 | cgroup/recvmsg6 |\n"
-<<<<<<< HEAD
 		"                 cgroup/getsockopt | cgroup/setsockopt | cgroup/sock_release |\n"
-=======
-		"                 cgroup/getsockopt | cgroup/setsockopt |\n"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		"                 struct_ops | fentry | fexit | freplace | sk_lookup }\n"
 		"       ATTACH_TYPE := { msg_verdict | stream_verdict | stream_parser |\n"
 		"                        flow_dissector }\n"

@@ -1,12 +1,7 @@
 # SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 
-<<<<<<< HEAD
 snd-sof-acpi-intel-byt-objs := byt.o
 snd-sof-acpi-intel-bdw-objs := bdw.o
-=======
-snd-sof-intel-byt-objs := byt.o
-snd-sof-intel-bdw-objs := bdw.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 snd-sof-intel-ipc-objs := intel-ipc.o
 
@@ -18,7 +13,6 @@ snd-sof-intel-hda-common-$(CONFIG_SND_SOC_SOF_HDA_PROBES) += hda-compress.o
 
 snd-sof-intel-hda-objs := hda-codec.o
 
-<<<<<<< HEAD
 obj-$(CONFIG_SND_SOC_SOF_INTEL_ATOM_HIFI_EP) += snd-sof-acpi-intel-byt.o
 obj-$(CONFIG_SND_SOC_SOF_BROADWELL) += snd-sof-acpi-intel-bdw.o
 obj-$(CONFIG_SND_SOC_SOF_INTEL_HIFI_EP_IPC) += snd-sof-intel-ipc.o
@@ -36,10 +30,3 @@ obj-$(CONFIG_SND_SOC_SOF_INTEL_APL) += snd-sof-pci-intel-apl.o
 obj-$(CONFIG_SND_SOC_SOF_INTEL_CNL) += snd-sof-pci-intel-cnl.o
 obj-$(CONFIG_SND_SOC_SOF_INTEL_ICL) += snd-sof-pci-intel-icl.o
 obj-$(CONFIG_SND_SOC_SOF_INTEL_TGL) += snd-sof-pci-intel-tgl.o
-=======
-obj-$(CONFIG_SND_SOC_SOF_INTEL_ATOM_HIFI_EP) += snd-sof-intel-byt.o
-obj-$(CONFIG_SND_SOC_SOF_BROADWELL) += snd-sof-intel-bdw.o
-obj-$(CONFIG_SND_SOC_SOF_INTEL_HIFI_EP_IPC) += snd-sof-intel-ipc.o
-obj-$(CONFIG_SND_SOC_SOF_HDA_COMMON) += snd-sof-intel-hda-common.o
-obj-$(CONFIG_SND_SOC_SOF_HDA) += snd-sof-intel-hda.o
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

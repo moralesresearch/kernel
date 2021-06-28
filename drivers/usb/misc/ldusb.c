@@ -117,10 +117,6 @@ MODULE_DEVICE_TABLE(usb, ld_usb_table);
 MODULE_AUTHOR("Michael Hund <mhund@ld-didactic.de>");
 MODULE_DESCRIPTION("LD USB Driver");
 MODULE_LICENSE("GPL");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("LD USB Devices");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* All interrupt in transfers are collected in a ring buffer to
  * avoid racing conditions and get better performance of the driver.

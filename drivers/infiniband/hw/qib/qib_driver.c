@@ -151,11 +151,7 @@ int qib_count_units(int *npresentp, int *nupp)
 
 /**
  * qib_wait_linkstate - wait for an IB link state change to occur
-<<<<<<< HEAD
  * @ppd: the qlogic_ib device
-=======
- * @dd: the qlogic_ib device
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @state: the state to wait for
  * @msecs: the number of milliseconds to wait
  *

@@ -75,11 +75,7 @@ static void dispc_dump_irqs(struct seq_file *s)
 
 	seq_printf(s, "irqs %d\n", stats.irq_count);
 #define PIS(x) \
-<<<<<<< HEAD
 	seq_printf(s, "%-20s %10d\n", #x, stats.irqs[ffs(DISPC_IRQ_##x)-1])
-=======
-	seq_printf(s, "%-20s %10d\n", #x, stats.irqs[ffs(DISPC_IRQ_##x)-1]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	PIS(FRAMEDONE);
 	PIS(VSYNC);

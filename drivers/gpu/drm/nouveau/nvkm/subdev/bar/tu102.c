@@ -92,14 +92,8 @@ tu102_bar = {
 };
 
 int
-<<<<<<< HEAD
 tu102_bar_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_bar **pbar)
 {
 	return gf100_bar_new_(&tu102_bar, device, type, inst, pbar);
-=======
-tu102_bar_new(struct nvkm_device *device, int index, struct nvkm_bar **pbar)
-{
-	return gf100_bar_new_(&tu102_bar, device, index, pbar);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -49,7 +49,6 @@ static int i2c_mux_gpio_deselect(struct i2c_mux_core *muxc, u32 chan)
 	return 0;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_ACPI
 
 static int i2c_mux_gpio_get_acpi_adr(struct device *dev,
@@ -122,35 +121,12 @@ static int i2c_mux_gpio_probe_fw(struct gpiomux *mux,
 		adapter = i2c_acpi_find_adapter_by_handle(dev_handle);
 	}
 
-=======
-#ifdef CONFIG_OF
-static int i2c_mux_gpio_probe_dt(struct gpiomux *mux,
-					struct platform_device *pdev)
-{
-	struct device_node *np = pdev->dev.of_node;
-	struct device_node *adapter_np, *child;
-	struct i2c_adapter *adapter;
-	unsigned *values;
-	int i = 0;
-
-	if (!np)
-		return -ENODEV;
-
-	adapter_np = of_parse_phandle(np, "i2c-parent", 0);
-	if (!adapter_np) {
-		dev_err(&pdev->dev, "Cannot parse i2c-parent\n");
-		return -ENODEV;
-	}
-	adapter = of_find_i2c_adapter_by_node(adapter_np);
-	of_node_put(adapter_np);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!adapter)
 		return -EPROBE_DEFER;
 
 	mux->data.parent = i2c_adapter_id(adapter);
 	put_device(&adapter->dev);
 
-<<<<<<< HEAD
 	mux->data.n_values = device_get_child_node_count(dev);
 	values = devm_kcalloc(dev,
 			      mux->data.n_values, sizeof(*mux->data.values),
@@ -170,43 +146,15 @@ static int i2c_mux_gpio_probe_dt(struct gpiomux *mux,
 				return rc;
 		}
 
-=======
-	mux->data.n_values = of_get_child_count(np);
-
-	values = devm_kcalloc(&pdev->dev,
-			      mux->data.n_values, sizeof(*mux->data.values),
-			      GFP_KERNEL);
-	if (!values) {
-		dev_err(&pdev->dev, "Cannot allocate values array");
-		return -ENOMEM;
-	}
-
-	for_each_child_of_node(np, child) {
-		of_property_read_u32(child, "reg", values + i);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i++;
 	}
 	mux->data.values = values;
 
-<<<<<<< HEAD
 	if (fwnode_property_read_u32(dev->fwnode, "idle-state", &mux->data.idle))
-=======
-	if (of_property_read_u32(np, "idle-state", &mux->data.idle))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mux->data.idle = I2C_MUX_GPIO_NO_IDLE;
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-#else
-static int i2c_mux_gpio_probe_dt(struct gpiomux *mux,
-					struct platform_device *pdev)
-{
-	return 0;
-}
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int i2c_mux_gpio_probe(struct platform_device *pdev)
 {
@@ -222,11 +170,7 @@ static int i2c_mux_gpio_probe(struct platform_device *pdev)
 		return -ENOMEM;
 
 	if (!dev_get_platdata(&pdev->dev)) {
-<<<<<<< HEAD
 		ret = i2c_mux_gpio_probe_fw(mux, pdev);
-=======
-		ret = i2c_mux_gpio_probe_dt(mux, pdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0)
 			return ret;
 	} else {

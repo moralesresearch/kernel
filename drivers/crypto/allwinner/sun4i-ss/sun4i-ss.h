@@ -154,16 +154,8 @@ struct sun4i_ss_ctx {
 #ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
 	u32 seed[SS_SEED_LEN / BITS_PER_LONG];
 #endif
-<<<<<<< HEAD
 	struct dentry *dbgfs_dir;
 	struct dentry *dbgfs_stats;
-=======
-<<<<<<< HEAD
-	struct dentry *dbgfs_dir;
-	struct dentry *dbgfs_stats;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct sun4i_ss_alg_template {
@@ -175,19 +167,10 @@ struct sun4i_ss_alg_template {
 		struct rng_alg rng;
 	} alg;
 	struct sun4i_ss_ctx *ss;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long stat_req;
 	unsigned long stat_fb;
 	unsigned long stat_bytes;
 	unsigned long stat_opti;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct sun4i_tfm_ctx {

@@ -88,22 +88,12 @@ int
 nvkm_falcon_enable(struct nvkm_falcon *falcon)
 {
 	struct nvkm_device *device = falcon->owner->device;
-<<<<<<< HEAD
 	int ret;
 
 	nvkm_mc_enable(device, falcon->owner->type, falcon->owner->inst);
 	ret = falcon->func->enable(falcon);
 	if (ret) {
 		nvkm_mc_disable(device, falcon->owner->type, falcon->owner->inst);
-=======
-	enum nvkm_devidx id = falcon->owner->index;
-	int ret;
-
-	nvkm_mc_enable(device, id);
-	ret = falcon->func->enable(falcon);
-	if (ret) {
-		nvkm_mc_disable(device, id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
@@ -114,25 +104,14 @@ void
 nvkm_falcon_disable(struct nvkm_falcon *falcon)
 {
 	struct nvkm_device *device = falcon->owner->device;
-<<<<<<< HEAD
 
 	/* already disabled, return or wait_idle will timeout */
 	if (!nvkm_mc_enabled(device, falcon->owner->type, falcon->owner->inst))
-=======
-	enum nvkm_devidx id = falcon->owner->index;
-
-	/* already disabled, return or wait_idle will timeout */
-	if (!nvkm_mc_enabled(device, id))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	falcon->func->disable(falcon);
 
-<<<<<<< HEAD
 	nvkm_mc_disable(device, falcon->owner->type, falcon->owner->inst);
-=======
-	nvkm_mc_disable(device, id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int
@@ -162,11 +141,7 @@ nvkm_falcon_oneinit(struct nvkm_falcon *falcon)
 	u32 reg;
 
 	if (!falcon->addr) {
-<<<<<<< HEAD
 		falcon->addr = nvkm_top_addr(subdev->device, subdev->type, subdev->inst);
-=======
-		falcon->addr = nvkm_top_addr(subdev->device, subdev->index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (WARN_ON(!falcon->addr))
 			return -ENODEV;
 	}
@@ -211,11 +186,7 @@ nvkm_falcon_get(struct nvkm_falcon *falcon, const struct nvkm_subdev *user)
 	mutex_lock(&falcon->mutex);
 	if (falcon->user) {
 		nvkm_error(user, "%s falcon already acquired by %s!\n",
-<<<<<<< HEAD
 			   falcon->name, falcon->user->name);
-=======
-			   falcon->name, nvkm_subdev_name[falcon->user->index]);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mutex_unlock(&falcon->mutex);
 		return -EBUSY;
 	}

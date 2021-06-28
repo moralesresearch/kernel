@@ -1286,7 +1286,6 @@ enum ec_feature_code {
 	EC_FEATURE_ISH = 40,
 	/* New TCPMv2 TYPEC_ prefaced commands supported */
 	EC_FEATURE_TYPEC_CMD = 41,
-<<<<<<< HEAD
 	/*
 	 * The EC will wait for direction from the AP to enter Type-C alternate
 	 * modes or USB4.
@@ -1297,8 +1296,6 @@ enum ec_feature_code {
 	 * mux.
 	 */
 	EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK = 43,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define EC_FEATURE_MASK_0(event_code) BIT(event_code % 32)
@@ -3470,6 +3467,7 @@ struct ec_response_get_next_event_v1 {
 #define EC_MKBP_LID_OPEN	0
 #define EC_MKBP_TABLET_MODE	1
 #define EC_MKBP_BASE_ATTACHED	2
+#define EC_MKBP_FRONT_PROXIMITY	3
 
 /* Run keyboard factory test scanning */
 #define EC_CMD_KEYBOARD_FACTORY_TEST 0x0068
@@ -4613,10 +4611,7 @@ enum ec_codec_i2s_rx_subcmd {
 	EC_CODEC_I2S_RX_SET_SAMPLE_DEPTH = 0x2,
 	EC_CODEC_I2S_RX_SET_DAIFMT = 0x3,
 	EC_CODEC_I2S_RX_SET_BCLK = 0x4,
-<<<<<<< HEAD
 	EC_CODEC_I2S_RX_RESET = 0x5,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	EC_CODEC_I2S_RX_SUBCMD_COUNT,
 };
 
@@ -4748,10 +4743,7 @@ enum ec_reboot_cmd {
 	EC_REBOOT_DISABLE_JUMP = 5,  /* Disable jump until next reboot */
 	EC_REBOOT_HIBERNATE = 6,     /* Hibernate EC */
 	EC_REBOOT_HIBERNATE_CLEAR_AP_OFF = 7, /* and clears AP_OFF flag */
-<<<<<<< HEAD
 	EC_REBOOT_COLD_AP_OFF = 8,   /* Cold-reboot and don't boot AP */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Flags for ec_params_reboot_ec.reboot_flags */
@@ -5588,7 +5580,6 @@ struct ec_response_typec_discovery {
 	struct svid_mode_info svids[0];
 } __ec_align1;
 
-<<<<<<< HEAD
 /* USB Type-C commands for AP-controlled device policy. */
 #define EC_CMD_TYPEC_CONTROL 0x0132
 
@@ -5615,8 +5606,6 @@ struct ec_params_typec_control {
 	};
 } __ec_align1;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Gather all status information for a port.
  *
@@ -5690,6 +5679,7 @@ enum tcpc_cc_polarity {
 
 #define PD_STATUS_EVENT_SOP_DISC_DONE		BIT(0)
 #define PD_STATUS_EVENT_SOP_PRIME_DISC_DONE	BIT(1)
+#define PD_STATUS_EVENT_HARD_RESET		BIT(2)
 
 struct ec_params_typec_status {
 	uint8_t port;
@@ -6104,7 +6094,6 @@ struct ec_params_charger_control {
 	uint8_t allow_charging;
 } __ec_align_size1;
 
-<<<<<<< HEAD
 /* Get ACK from the USB-C SS muxes */
 #define EC_CMD_USB_PD_MUX_ACK 0x0603
 
@@ -6112,8 +6101,6 @@ struct ec_params_usb_pd_mux_ack {
 	uint8_t port; /* USB-C port number */
 } __ec_align1;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*****************************************************************************/
 /*
  * Reserve a range of host commands for board-specific, experimental, or

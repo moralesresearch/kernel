@@ -112,11 +112,7 @@ static void acpi_ut_delete_internal_obj(union acpi_operand_object *object)
 						       gpe_block);
 		}
 
-<<<<<<< HEAD
 		ACPI_FALLTHROUGH;
-=======
-		/*lint -fallthrough */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	case ACPI_TYPE_PROCESSOR:
 	case ACPI_TYPE_THERMAL:
@@ -289,7 +285,6 @@ static void acpi_ut_delete_internal_obj(union acpi_operand_object *object)
 		}
 		break;
 
-<<<<<<< HEAD
 	case ACPI_TYPE_LOCAL_ADDRESS_HANDLER:
 
 		ACPI_DEBUG_PRINT((ACPI_DB_ALLOCATIONS,
@@ -298,8 +293,6 @@ static void acpi_ut_delete_internal_obj(union acpi_operand_object *object)
 		acpi_os_delete_mutex(object->address_space.context_mutex);
 		break;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 
 		break;

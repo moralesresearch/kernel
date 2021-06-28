@@ -26,16 +26,11 @@
 #include <linux/tracepoint-defs.h>
 #include <linux/srcu.h>
 #include <linux/static_call_types.h>
+#include <linux/cfi.h>
 
 #include <linux/percpu.h>
 #include <asm/module.h>
 
-<<<<<<< HEAD
-=======
-/* Not Yet Implemented */
-#define MODULE_SUPPORTED_DEVICE(name)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MODULE_NAME_LEN MAX_PARAM_PREFIX_LEN
 
 struct modversion_info {
@@ -134,13 +129,17 @@ extern void cleanup_module(void);
 #define module_init(initfn)					\
 	static inline initcall_t __maybe_unused __inittest(void)		\
 	{ return initfn; }					\
-	int init_module(void) __copy(initfn) __attribute__((alias(#initfn)));
+	int init_module(void) __copy(initfn)			\
+		__attribute__((alias(#initfn)));		\
+	__CFI_ADDRESSABLE(init_module, __initdata);
 
 /* This is only required if you want to be unloadable. */
 #define module_exit(exitfn)					\
 	static inline exitcall_t __maybe_unused __exittest(void)		\
 	{ return exitfn; }					\
-	void cleanup_module(void) __copy(exitfn) __attribute__((alias(#exitfn)));
+	void cleanup_module(void) __copy(exitfn)		\
+		__attribute__((alias(#exitfn)));		\
+	__CFI_ADDRESSABLE(cleanup_module, __exitdata);
 
 #endif
 
@@ -382,6 +381,10 @@ struct module {
 	const s32 *crcs;
 	unsigned int num_syms;
 
+#ifdef CONFIG_CFI_CLANG
+	cfi_check_fn cfi_check;
+#endif
+
 	/* Kernel parameters. */
 #ifdef CONFIG_SYSFS
 	struct mutex param_lock;
@@ -395,21 +398,6 @@ struct module {
 	const s32 *gpl_crcs;
 	bool using_gplonly_symbols;
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_UNUSED_SYMBOLS
-	/* unused exported symbols. */
-	const struct kernel_symbol *unused_syms;
-	const s32 *unused_crcs;
-	unsigned int num_unused_syms;
-
-	/* GPL-only, unused exported symbols. */
-	unsigned int num_unused_gpl_syms;
-	const struct kernel_symbol *unused_gpl_syms;
-	const s32 *unused_gpl_crcs;
-#endif
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_MODULE_SIG
 	/* Signature was verified. */
 	bool sig_ok;
@@ -417,14 +405,6 @@ struct module {
 
 	bool async_probe_requested;
 
-<<<<<<< HEAD
-=======
-	/* symbols that will be GPL-only in the near future. */
-	const struct kernel_symbol *gpl_future_syms;
-	const s32 *gpl_future_crcs;
-	unsigned int num_gpl_future_syms;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Exception table */
 	unsigned int num_exentries;
 	struct exception_table_entry *extable;
@@ -559,11 +539,6 @@ static inline unsigned long kallsyms_symbol_value(const Elf_Sym *sym)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-extern struct mutex module_mutex;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* FIXME: It'd be nice to isolate modules during init, too, so they
    aren't used before they (may) fail.  But presently too much code
    (IDE & SCSI) require entry into the module during init.*/
@@ -598,26 +573,9 @@ static inline bool within_module(unsigned long addr, const struct module *mod)
 	return within_module_init(addr, mod) || within_module_core(addr, mod);
 }
 
-<<<<<<< HEAD
 /* Search for module by name: must be in a RCU-sched critical section. */
 struct module *find_module(const char *name);
 
-=======
-/* Search for module by name: must hold module_mutex. */
-struct module *find_module(const char *name);
-
-struct symsearch {
-	const struct kernel_symbol *start, *stop;
-	const s32 *crcs;
-	enum mod_license {
-		NOT_GPL_ONLY,
-		GPL_ONLY,
-		WILL_BE_GPL_ONLY,
-	} license;
-	bool unused;
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Returns 0 and fills in value, defined and namebuf, or -ERANGE if
    symnum out of range. */
 int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
@@ -626,13 +584,6 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
 /* Look for this name: can be of form module:name. */
 unsigned long module_kallsyms_lookup_name(const char *name);
 
-<<<<<<< HEAD
-=======
-int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
-					     struct module *, unsigned long),
-				   void *data);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void __noreturn __module_put_and_exit(struct module *mod,
 			long code);
 #define module_put_and_exit(code) __module_put_and_exit(THIS_MODULE, code)
@@ -816,17 +767,6 @@ static inline unsigned long module_kallsyms_lookup_name(const char *name)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-static inline int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
-							   struct module *,
-							   unsigned long),
-						 void *data)
-{
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int register_module_notifier(struct notifier_block *nb)
 {
 	/* no events will happen anyway, so this can always succeed */
@@ -915,11 +855,8 @@ static inline bool module_sig_ok(struct module *module)
 }
 #endif	/* CONFIG_MODULE_SIG */
 
-<<<<<<< HEAD
 int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
 					     struct module *, unsigned long),
 				   void *data);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _LINUX_MODULE_H */

@@ -214,11 +214,7 @@ static struct snd_soc_dai_driver jz4740_codec_dai = {
 		.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S8,
 	},
 	.ops = &jz4740_codec_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void jz4740_codec_wakeup(struct regmap *regmap)

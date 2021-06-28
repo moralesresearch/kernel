@@ -28,23 +28,6 @@
 #include "iscsi_target_util.h"
 #include "iscsi_target.h"
 
-#define PRINT_BUFF(buff, len)					\
-{								\
-	int zzz;						\
-								\
-	pr_debug("%d:\n", __LINE__);				\
-	for (zzz = 0; zzz < len; zzz++) {			\
-		if (zzz % 16 == 0) {				\
-			if (zzz)				\
-				pr_debug("\n");			\
-			pr_debug("%4i: ", zzz);			\
-		}						\
-		pr_debug("%02x ", (unsigned char) (buff)[zzz]);	\
-	}							\
-	if ((len + 1) % 16)					\
-		pr_debug("\n");					\
-}
-
 extern struct list_head g_tiqn_list;
 extern spinlock_t tiqn_lock;
 
@@ -779,18 +762,13 @@ void iscsit_free_cmd(struct iscsi_cmd *cmd, bool shutdown)
 }
 EXPORT_SYMBOL(iscsit_free_cmd);
 
-<<<<<<< HEAD
 bool iscsit_check_session_usage_count(struct iscsi_session *sess,
 				      bool can_sleep)
-=======
-int iscsit_check_session_usage_count(struct iscsi_session *sess)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	spin_lock_bh(&sess->session_usage_lock);
 	if (sess->session_usage_count != 0) {
 		sess->session_waiting_on_uc = 1;
 		spin_unlock_bh(&sess->session_usage_lock);
-<<<<<<< HEAD
 		if (!can_sleep)
 			return true;
 
@@ -800,17 +778,6 @@ int iscsit_check_session_usage_count(struct iscsi_session *sess)
 	spin_unlock_bh(&sess->session_usage_lock);
 
 	return false;
-=======
-		if (in_interrupt())
-			return 2;
-
-		wait_for_completion(&sess->session_waiting_on_uc_comp);
-		return 1;
-	}
-	spin_unlock_bh(&sess->session_usage_lock);
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void iscsit_dec_session_usage_count(struct iscsi_session *sess)

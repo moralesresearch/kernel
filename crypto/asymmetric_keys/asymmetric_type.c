@@ -152,12 +152,8 @@ EXPORT_SYMBOL_GPL(asymmetric_key_generate_id);
 
 /**
  * asymmetric_key_id_same - Return true if two asymmetric keys IDs are the same.
-<<<<<<< HEAD
  * @kid1: The key ID to compare
  * @kid2: The key ID to compare
-=======
- * @kid_1, @kid_2: The key IDs to compare
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool asymmetric_key_id_same(const struct asymmetric_key_id *kid1,
 			    const struct asymmetric_key_id *kid2)
@@ -173,12 +169,8 @@ EXPORT_SYMBOL_GPL(asymmetric_key_id_same);
 /**
  * asymmetric_key_id_partial - Return true if two asymmetric keys IDs
  * partially match
-<<<<<<< HEAD
  * @kid1: The key ID to compare
  * @kid2: The key ID to compare
-=======
- * @kid_1, @kid_2: The key IDs to compare
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 bool asymmetric_key_id_partial(const struct asymmetric_key_id *kid1,
 			       const struct asymmetric_key_id *kid2)

@@ -182,7 +182,6 @@ stricter than Hardware LRO.  A packet stream merged by Hardware GRO must
 be re-segmentable by GSO or TSO back to the exact original packet stream.
 Hardware GRO is dependent on RXCSUM since every packet successfully merged
 by hardware must also have the checksum verified by hardware.
-<<<<<<< HEAD
 
 * hsr-tag-ins-offload
 
@@ -204,5 +203,3 @@ Redundancy) frames from one port to another in hardware.
 This should be set for devices which duplicate outgoing HSR (High-availability
 Seamless Redundancy) or PRP (Parallel Redundancy Protocol) tags automatically
 frames in hardware.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

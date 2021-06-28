@@ -1324,12 +1324,7 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
 		}
 
 		omap_obj->pages = pages;
-<<<<<<< HEAD
 		ret = drm_prime_sg_to_page_array(sgt, pages, npages);
-=======
-		ret = drm_prime_sg_to_page_addr_arrays(sgt, pages, NULL,
-						       npages);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			omap_gem_free_object(obj);
 			obj = ERR_PTR(-ENOMEM);

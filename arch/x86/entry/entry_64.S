@@ -46,17 +46,6 @@
 .code64
 .section .entry.text, "ax"
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PARAVIRT_XXL
-SYM_CODE_START(native_usergs_sysret64)
-	UNWIND_HINT_EMPTY
-	swapgs
-	sysretq
-SYM_CODE_END(native_usergs_sysret64)
-#endif /* CONFIG_PARAVIRT_XXL */
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * 64-bit SYSCALL instruction entry. Up to 6 arguments in registers.
  *
@@ -126,16 +115,12 @@ SYM_INNER_LABEL(entry_SYSCALL_64_after_hwframe, SYM_L_GLOBAL)
 	 * Try to use SYSRET instead of IRET if we're returning to
 	 * a completely clean 64-bit userspace context.  If we're not,
 	 * go to the slow exit path.
-<<<<<<< HEAD
 	 * In the Xen PV case we must use iret anyway.
 	 */
 
 	ALTERNATIVE "", "jmp	swapgs_restore_regs_and_return_to_usermode", \
 		X86_FEATURE_XENPV
 
-=======
-	 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	movq	RCX(%rsp), %rcx
 	movq	RIP(%rsp), %r11
 
@@ -227,12 +212,8 @@ syscall_return_via_sysret:
 
 	popq	%rdi
 	popq	%rsp
-<<<<<<< HEAD
 	swapgs
 	sysretq
-=======
-	USERGS_SYSRET64
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 SYM_CODE_END(entry_SYSCALL_64)
 
 /*
@@ -324,7 +305,7 @@ SYM_CODE_END(ret_from_fork)
 .macro DEBUG_ENTRY_ASSERT_IRQS_OFF
 #ifdef CONFIG_DEBUG_ENTRY
 	pushq %rax
-	SAVE_FLAGS(CLBR_RAX)
+	SAVE_FLAGS
 	testl $X86_EFLAGS_IF, %eax
 	jz .Lokay_\@
 	ud2
@@ -530,7 +511,7 @@ SYM_CODE_START(\asmsym)
 	/*
 	 * No need to switch back to the IST stack. The current stack is either
 	 * identical to the stack in the IRET frame or the VC fall-back stack,
-	 * so it is definitly mapped even with PTI enabled.
+	 * so it is definitely mapped even with PTI enabled.
 	 */
 	jmp	paranoid_exit
 
@@ -686,11 +667,7 @@ native_irq_return_ldt:
 	 */
 
 	pushq	%rdi				/* Stash user RDI */
-<<<<<<< HEAD
 	swapgs					/* to kernel GS */
-=======
-	SWAPGS					/* to kernel GS */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SWITCH_TO_KERNEL_CR3 scratch_reg=%rdi	/* to kernel CR3 */
 
 	movq	PER_CPU_VAR(espfix_waddr), %rdi
@@ -720,11 +697,7 @@ native_irq_return_ldt:
 	orq	PER_CPU_VAR(espfix_stack), %rax
 
 	SWITCH_TO_USER_CR3_STACK scratch_reg=%rdi
-<<<<<<< HEAD
 	swapgs					/* to user GS */
-=======
-	SWAPGS					/* to user GS */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	popq	%rdi				/* Restore user RDI */
 
 	movq	%rax, %rsp
@@ -781,50 +754,6 @@ SYM_CODE_START_LOCAL_NOALIGN(.Lbad_gs)
 SYM_CODE_END(.Lbad_gs)
 	.previous
 
-<<<<<<< HEAD
-=======
-/*
- * rdi: New stack pointer points to the top word of the stack
- * rsi: Function pointer
- * rdx: Function argument (can be NULL if none)
- */
-SYM_FUNC_START(asm_call_on_stack)
-SYM_INNER_LABEL(asm_call_sysvec_on_stack, SYM_L_GLOBAL)
-SYM_INNER_LABEL(asm_call_irq_on_stack, SYM_L_GLOBAL)
-	/*
-	 * Save the frame pointer unconditionally. This allows the ORC
-	 * unwinder to handle the stack switch.
-	 */
-	pushq		%rbp
-	mov		%rsp, %rbp
-
-	/*
-	 * The unwinder relies on the word at the top of the new stack
-	 * page linking back to the previous RSP.
-	 */
-	mov		%rsp, (%rdi)
-	mov		%rdi, %rsp
-	/* Move the argument to the right place */
-	mov		%rdx, %rdi
-
-1:
-	.pushsection .discard.instr_begin
-	.long 1b - .
-	.popsection
-
-	CALL_NOSPEC	rsi
-
-2:
-	.pushsection .discard.instr_end
-	.long 2b - .
-	.popsection
-
-	/* Restore the previous stack pointer from RBP. */
-	leaveq
-	ret
-SYM_FUNC_END(asm_call_on_stack)
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_XEN_PV
 /*
  * A note on the "critical region" in our callback handler.
@@ -971,11 +900,7 @@ SYM_CODE_START_LOCAL(paranoid_entry)
 	ret
 
 .Lparanoid_entry_swapgs:
-<<<<<<< HEAD
 	swapgs
-=======
-	SWAPGS
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * The above SAVE_AND_SWITCH_TO_KERNEL_CR3 macro doesn't do an
@@ -1033,11 +958,7 @@ SYM_CODE_START_LOCAL(paranoid_exit)
 	jnz		restore_regs_and_return_to_kernel
 
 	/* We are returning to a context with user GSBASE */
-<<<<<<< HEAD
 	swapgs
-=======
-	SWAPGS_UNSAFE_STACK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	jmp		restore_regs_and_return_to_kernel
 SYM_CODE_END(paranoid_exit)
 
@@ -1462,11 +1383,7 @@ nmi_no_fsgsbase:
 	jnz	nmi_restore
 
 nmi_swapgs:
-<<<<<<< HEAD
 	swapgs
-=======
-	SWAPGS_UNSAFE_STACK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 nmi_restore:
 	POP_REGS

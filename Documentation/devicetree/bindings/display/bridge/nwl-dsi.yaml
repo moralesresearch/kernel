@@ -84,28 +84,16 @@ properties:
       - const: pclk
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/$defs/port-base
-=======
-    type: object
-    description:
-      A node containing DSI input & output port nodes with endpoint
-      definitions as documented in
-      Documentation/devicetree/bindings/graph.txt.
-    properties:
-      port@0:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           Input port node to receive pixel data from the
           display controller. Exactly one endpoint must be
           specified.
         properties:
-<<<<<<< HEAD
           endpoint@0:
             $ref: /schemas/graph.yaml#/properties/endpoint
             description: sub-node describing the input from LCDIF
@@ -113,29 +101,6 @@ properties:
           endpoint@1:
             $ref: /schemas/graph.yaml#/properties/endpoint
             description: sub-node describing the input from DCSS
-=======
-          '#address-cells':
-            const: 1
-
-          '#size-cells':
-            const: 0
-
-          endpoint@0:
-            description: sub-node describing the input from LCDIF
-            type: object
-
-          endpoint@1:
-            description: sub-node describing the input from DCSS
-            type: object
-
-          reg:
-            const: 0
-
-        required:
-          - '#address-cells'
-          - '#size-cells'
-          - reg
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         oneOf:
           - required:
@@ -143,42 +108,18 @@ properties:
           - required:
               - endpoint@1
 
-<<<<<<< HEAD
         unevaluatedProperties: false
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
-=======
-        additionalProperties: false
-
-      port@1:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description:
           DSI output port node to the panel or the next bridge
           in the chain
 
-<<<<<<< HEAD
     required:
       - port@0
       - port@1
 
-=======
-      '#address-cells':
-        const: 1
-
-      '#size-cells':
-        const: 0
-
-    required:
-      - '#address-cells'
-      - '#size-cells'
-      - port@0
-      - port@1
-
-    additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - '#address-cells'
   - '#size-cells'

@@ -10,7 +10,6 @@
 	model = "ST-Ericsson HREF (v60+) platform with Device Tree";
 	compatible = "st-ericsson,hrefv60+", "st-ericsson,u8500";
 
-<<<<<<< HEAD
 	thermal-zones {
 		chassis-thermal {
 			/* Poll every 20 seconds */
@@ -69,8 +68,6 @@
 		#thermal-sensor-cells = <0>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	soc {
 		/* Name the GPIO muxed rails on the HREF boards */
 		gpio@8012e000 {
@@ -193,23 +190,10 @@
 		};
 
 		// External Micro SD slot
-<<<<<<< HEAD
 		mmc@80126000 {
 			cd-gpios  = <&gpio2 31 GPIO_ACTIVE_HIGH>; // 95
 		};
 
-=======
-		sdi0_per1@80126000 {
-			cd-gpios  = <&gpio2 31 GPIO_ACTIVE_HIGH>; // 95
-		};
-
-		vmmci: regulator-gpio {
-			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
-			enable-gpio = <&gpio5 9 GPIO_ACTIVE_HIGH>;
-			enable-active-high;
-		};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pinctrl {
 			/*
 			 * Set this up using hogs, as time goes by and as seems fit, these
@@ -234,19 +218,6 @@
 						pins = "GPIO95_E8";
 						ste,config = <&gpio_in_pu>;
 					};
-<<<<<<< HEAD
-=======
-					/* VMMCI level-shifter enable */
-					default_hrefv60_cfg2 {
-						pins = "GPIO169_D22";
-						ste,config = <&gpio_out_hi>;
-					};
-					/* VMMCI level-shifter voltage select */
-					default_hrefv60_cfg3 {
-						pins = "GPIO5_AG6";
-						ste,config = <&gpio_out_hi>;
-					};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				};
 			};
 			ipgpio {

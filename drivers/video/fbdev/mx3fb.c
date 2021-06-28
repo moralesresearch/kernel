@@ -445,10 +445,6 @@ static void sdc_enable_channel(struct mx3fb_info *mx3_fbi)
 static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
 {
 	struct mx3fb_data *mx3fb = mx3_fbi->mx3fb;
-<<<<<<< HEAD
-=======
-	uint32_t enabled;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 
 	if (mx3_fbi->txd == NULL)
@@ -456,11 +452,7 @@ static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
 
 	spin_lock_irqsave(&mx3fb->lock, flags);
 
-<<<<<<< HEAD
 	sdc_fb_uninit(mx3_fbi);
-=======
-	enabled = sdc_fb_uninit(mx3_fbi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_unlock_irqrestore(&mx3fb->lock, flags);
 
@@ -739,11 +731,7 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi);
 
 /**
  * mx3fb_set_fix() - set fixed framebuffer parameters from variable settings.
-<<<<<<< HEAD
  * @fbi:	framebuffer information pointer
-=======
- * @info:	framebuffer information pointer
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @return:	0 on success or negative error code on failure.
  */
 static int mx3fb_set_fix(struct fb_info *fbi)
@@ -751,11 +739,7 @@ static int mx3fb_set_fix(struct fb_info *fbi)
 	struct fb_fix_screeninfo *fix = &fbi->fix;
 	struct fb_var_screeninfo *var = &fbi->var;
 
-<<<<<<< HEAD
 	memcpy(fix->id, "DISP3 BG", 8);
-=======
-	strncpy(fix->id, "DISP3 BG", 8);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fix->line_length = var->xres_virtual * var->bits_per_pixel / 8;
 
@@ -1120,11 +1104,8 @@ static void __blank(int blank, struct fb_info *fbi)
 
 /**
  * mx3fb_blank() - blank the display.
-<<<<<<< HEAD
  * @blank:	blank value for the panel
  * @fbi:	framebuffer information pointer
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int mx3fb_blank(int blank, struct fb_info *fbi)
 {
@@ -1146,11 +1127,7 @@ static int mx3fb_blank(int blank, struct fb_info *fbi)
 /**
  * mx3fb_pan_display() - pan or wrap the display
  * @var:	variable screen buffer information.
-<<<<<<< HEAD
  * @fbi:	framebuffer information pointer.
-=======
- * @info:	framebuffer information pointer.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * We look only at xoffset, yoffset and the FB_VMODE_YWRAP flag
  */
@@ -1411,11 +1388,8 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi)
 
 /**
  * mx3fb_init_fbinfo() - initialize framebuffer information object.
-<<<<<<< HEAD
  * @dev: the device
  * @ops:	framebuffer device operations
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @return:	initialized framebuffer structure.
  */
 static struct fb_info *mx3fb_init_fbinfo(struct device *dev,

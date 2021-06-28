@@ -4,15 +4,10 @@
  */
 
 #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-<<<<<<< HEAD
 #include <linux/delay.h>
 #include "dpu_encoder_phys.h"
 #include "dpu_hw_interrupts.h"
 #include "dpu_hw_pingpong.h"
-=======
-#include "dpu_encoder_phys.h"
-#include "dpu_hw_interrupts.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "dpu_core_irq.h"
 #include "dpu_formats.h"
 #include "dpu_trace.h"
@@ -42,11 +37,8 @@
 
 #define DPU_ENC_WR_PTR_START_TIMEOUT_US 20000
 
-<<<<<<< HEAD
 #define DPU_ENC_MAX_POLL_TIMEOUT_US	2000
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool dpu_encoder_phys_cmd_is_master(struct dpu_encoder_phys *phys_enc)
 {
 	return (phys_enc->split_role != ENC_ROLE_SLAVE) ? true : false;
@@ -380,24 +372,12 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
 	tc_cfg.vsync_count = vsync_hz /
 				(mode->vtotal * drm_mode_vrefresh(mode));
 
-<<<<<<< HEAD
 	/*
 	 * Set the sync_cfg_height to twice vtotal so that if we lose a
 	 * TE event coming from the display TE pin we won't stall immediately
 	 */
 	tc_cfg.hw_vsync_mode = 1;
 	tc_cfg.sync_cfg_height = mode->vtotal * 2;
-=======
-	/* enable external TE after kickoff to avoid premature autorefresh */
-	tc_cfg.hw_vsync_mode = 0;
-
-	/*
-	 * By setting sync_cfg_height to near max register value, we essentially
-	 * disable dpu hw generated TE signal, since hw TE will arrive first.
-	 * Only caveat is if due to error, we hit wrap-around.
-	 */
-	tc_cfg.sync_cfg_height = 0xFFF0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tc_cfg.vsync_init_val = mode->vdisplay;
 	tc_cfg.sync_threshold_start = DEFAULT_TEARCHECK_SYNC_THRESH_START;
 	tc_cfg.sync_threshold_continue = DEFAULT_TEARCHECK_SYNC_THRESH_CONTINUE;
@@ -601,7 +581,6 @@ static void dpu_encoder_phys_cmd_prepare_for_kickoff(
 			atomic_read(&phys_enc->pending_kickoff_cnt));
 }
 
-<<<<<<< HEAD
 static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
 		struct dpu_encoder_phys *phys_enc)
 {
@@ -665,8 +644,6 @@ static void dpu_encoder_phys_cmd_prepare_commit(
 			 "disabled autorefresh\n");
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int _dpu_encoder_phys_cmd_wait_for_ctl_start(
 		struct dpu_encoder_phys *phys_enc)
 {
@@ -708,30 +685,15 @@ static int dpu_encoder_phys_cmd_wait_for_tx_complete(
 static int dpu_encoder_phys_cmd_wait_for_commit_done(
 		struct dpu_encoder_phys *phys_enc)
 {
-<<<<<<< HEAD
-=======
-	int rc = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dpu_encoder_phys_cmd *cmd_enc;
 
 	cmd_enc = to_dpu_encoder_phys_cmd(phys_enc);
 
 	/* only required for master controller */
-<<<<<<< HEAD
 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
 		return 0;
 
 	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
-=======
-	if (dpu_encoder_phys_cmd_is_master(phys_enc))
-		rc = _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
-
-	/* required for both controllers */
-	if (!rc && cmd_enc->serialize_wait4pp)
-		dpu_encoder_phys_cmd_prepare_for_kickoff(phys_enc);
-
-	return rc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dpu_encoder_phys_cmd_wait_for_vblank(
@@ -778,10 +740,7 @@ static void dpu_encoder_phys_cmd_trigger_start(
 static void dpu_encoder_phys_cmd_init_ops(
 		struct dpu_encoder_phys_ops *ops)
 {
-<<<<<<< HEAD
 	ops->prepare_commit = dpu_encoder_phys_cmd_prepare_commit;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ops->is_master = dpu_encoder_phys_cmd_is_master;
 	ops->mode_set = dpu_encoder_phys_cmd_mode_set;
 	ops->mode_fixup = dpu_encoder_phys_cmd_mode_fixup;

@@ -17,20 +17,14 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Alex Hung");
 MODULE_ALIAS("acpi*:HPQ6001:*");
 MODULE_ALIAS("acpi*:WSTADEF:*");
-<<<<<<< HEAD
 MODULE_ALIAS("acpi*:AMDI0051:*");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct input_dev *hpwl_input_dev;
 
 static const struct acpi_device_id hpwl_ids[] = {
 	{"HPQ6001", 0},
 	{"WSTADEF", 0},
-<<<<<<< HEAD
 	{"AMDI0051", 0},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{"", 0},
 };
 

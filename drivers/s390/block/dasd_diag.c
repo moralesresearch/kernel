@@ -642,25 +642,18 @@ static void dasd_diag_setup_blk_queue(struct dasd_block *block)
 	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
 }
 
-<<<<<<< HEAD
 static int dasd_diag_pe_handler(struct dasd_device *device,
 				__u8 tbvpm, __u8 fcsecpm)
 {
 	return dasd_generic_verify_path(device, tbvpm);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dasd_discipline dasd_diag_discipline = {
 	.owner = THIS_MODULE,
 	.name = "DIAG",
 	.ebcname = "DIAG",
 	.check_device = dasd_diag_check_device,
-<<<<<<< HEAD
 	.pe_handler = dasd_diag_pe_handler,
-=======
-	.verify_path = dasd_generic_verify_path,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.fill_geometry = dasd_diag_fill_geometry,
 	.setup_blk_queue = dasd_diag_setup_blk_queue,
 	.start_IO = dasd_start_diag,

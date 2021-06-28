@@ -1603,11 +1603,7 @@ out:
 
 static u32 qup_i2c_func(struct i2c_adapter *adap)
 {
-<<<<<<< HEAD
 	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL_ALL & ~I2C_FUNC_SMBUS_QUICK);
-=======
-	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct i2c_algorithm qup_i2c_algo = {

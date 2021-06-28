@@ -3,11 +3,7 @@
  * OMAP mailbox driver
  *
  * Copyright (C) 2006-2009 Nokia Corporation. All rights reserved.
-<<<<<<< HEAD
  * Copyright (C) 2013-2021 Texas Instruments Incorporated - https://www.ti.com
-=======
- * Copyright (C) 2013-2019 Texas Instruments Incorporated - https://www.ti.com
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Contact: Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
  *          Suman Anna <s-anna@ti.com>
@@ -668,13 +664,10 @@ static const struct of_device_id omap_mailbox_of_match[] = {
 		.data		= &omap4_data,
 	},
 	{
-<<<<<<< HEAD
 		.compatible	= "ti,am64-mailbox",
 		.data		= &omap4_data,
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* end */
 	},
 };

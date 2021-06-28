@@ -17,7 +17,6 @@ static inline struct mtk_clk_mux *to_mtk_clk_mux(struct clk_hw *hw)
 	return container_of(hw, struct mtk_clk_mux, hw);
 }
 
-<<<<<<< HEAD
 static int mtk_clk_mux_enable_setclr(struct clk_hw *hw)
 {
 	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
@@ -48,31 +47,6 @@ static int mtk_clk_mux_enable_setclr(struct clk_hw *hw)
 		__release(mux->lock);
 
 	return 0;
-=======
-static int mtk_clk_mux_enable(struct clk_hw *hw)
-{
-	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
-	u32 mask = BIT(mux->data->gate_shift);
-
-	return regmap_update_bits(mux->regmap, mux->data->mux_ofs,
-			mask, ~mask);
-}
-
-static void mtk_clk_mux_disable(struct clk_hw *hw)
-{
-	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
-	u32 mask = BIT(mux->data->gate_shift);
-
-	regmap_update_bits(mux->regmap, mux->data->mux_ofs, mask, mask);
-}
-
-static int mtk_clk_mux_enable_setclr(struct clk_hw *hw)
-{
-	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
-
-	return regmap_write(mux->regmap, mux->data->clr_ofs,
-			BIT(mux->data->gate_shift));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mtk_clk_mux_disable_setclr(struct clk_hw *hw)
@@ -105,31 +79,6 @@ static u8 mtk_clk_mux_get_parent(struct clk_hw *hw)
 	return val;
 }
 
-<<<<<<< HEAD
-=======
-static int mtk_clk_mux_set_parent_lock(struct clk_hw *hw, u8 index)
-{
-	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
-	u32 mask = GENMASK(mux->data->mux_width - 1, 0);
-	unsigned long flags = 0;
-
-	if (mux->lock)
-		spin_lock_irqsave(mux->lock, flags);
-	else
-		__acquire(mux->lock);
-
-	regmap_update_bits(mux->regmap, mux->data->mux_ofs, mask,
-		index << mux->data->mux_shift);
-
-	if (mux->lock)
-		spin_unlock_irqrestore(mux->lock, flags);
-	else
-		__release(mux->lock);
-
-	return 0;
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mtk_clk_mux_set_parent_setclr_lock(struct clk_hw *hw, u8 index)
 {
 	struct mtk_clk_mux *mux = to_mtk_clk_mux(hw);
@@ -152,17 +101,11 @@ static int mtk_clk_mux_set_parent_setclr_lock(struct clk_hw *hw, u8 index)
 		regmap_write(mux->regmap, mux->data->set_ofs,
 				index << mux->data->mux_shift);
 
-<<<<<<< HEAD
 		if (mux->data->upd_shift >= 0) {
 			regmap_write(mux->regmap, mux->data->upd_ofs,
 					BIT(mux->data->upd_shift));
 			mux->reparent = true;
 		}
-=======
-		if (mux->data->upd_shift >= 0)
-			regmap_write(mux->regmap, mux->data->upd_ofs,
-					BIT(mux->data->upd_shift));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (mux->lock)
@@ -173,29 +116,7 @@ static int mtk_clk_mux_set_parent_setclr_lock(struct clk_hw *hw, u8 index)
 	return 0;
 }
 
-<<<<<<< HEAD
 static const struct clk_ops mtk_mux_ops = {
-=======
-const struct clk_ops mtk_mux_ops = {
-	.get_parent = mtk_clk_mux_get_parent,
-	.set_parent = mtk_clk_mux_set_parent_lock,
-};
-
-const struct clk_ops mtk_mux_clr_set_upd_ops = {
-	.get_parent = mtk_clk_mux_get_parent,
-	.set_parent = mtk_clk_mux_set_parent_setclr_lock,
-};
-
-const struct clk_ops mtk_mux_gate_ops = {
-	.enable = mtk_clk_mux_enable,
-	.disable = mtk_clk_mux_disable,
-	.is_enabled = mtk_clk_mux_is_enabled,
-	.get_parent = mtk_clk_mux_get_parent,
-	.set_parent = mtk_clk_mux_set_parent_lock,
-};
-
-const struct clk_ops mtk_mux_gate_clr_set_upd_ops = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.enable = mtk_clk_mux_enable_setclr,
 	.disable = mtk_clk_mux_disable_setclr,
 	.is_enabled = mtk_clk_mux_is_enabled,
@@ -219,11 +140,7 @@ static struct clk *mtk_clk_register_mux(const struct mtk_mux *mux,
 	init.flags = mux->flags | CLK_SET_RATE_PARENT;
 	init.parent_names = mux->parent_names;
 	init.num_parents = mux->num_parents;
-<<<<<<< HEAD
 	init.ops = &mtk_mux_ops;
-=======
-	init.ops = mux->ops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_mux->regmap = regmap;
 	clk_mux->data = mux;

@@ -255,15 +255,7 @@ static int tegra_pcm_dma_allocate(struct snd_soc_pcm_runtime *rtd,
 	struct snd_pcm *pcm = rtd->pcm;
 	int ret;
 
-<<<<<<< HEAD
 	ret = dma_set_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
-=======
-	ret = dma_set_mask(card->dev, DMA_BIT_MASK(32));
-	if (ret < 0)
-		return ret;
-
-	ret = dma_set_coherent_mask(card->dev, DMA_BIT_MASK(32));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

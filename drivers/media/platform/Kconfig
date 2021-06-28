@@ -186,6 +186,20 @@ config VIDEO_TI_CAL
 	  In TI Technical Reference Manual this module is referred as
 	  Camera Interface Subsystem (CAMSS).
 
+if VIDEO_TI_CAL
+
+config VIDEO_TI_CAL_MC
+	bool "Media Controller centric mode by default"
+	default n
+	help
+	  Enables Media Controller centric mode by default.
+
+	  If set, CAL driver will start in Media Controller mode by
+	  default. Note that this behavior can be overridden via
+	  module parameter 'mc_api'.
+
+endif # VIDEO_TI_CAL
+
 endif # V4L_PLATFORM_DRIVERS
 
 menuconfig V4L_MEM2MEM_DRIVERS
@@ -199,7 +213,6 @@ menuconfig V4L_MEM2MEM_DRIVERS
 
 if V4L_MEM2MEM_DRIVERS
 
-<<<<<<< HEAD
 config VIDEO_ALLEGRO_DVT
 	tristate "Allegro DVT Video IP Core"
 	depends on VIDEO_DEV && VIDEO_V4L2
@@ -215,8 +228,6 @@ config VIDEO_ALLEGRO_DVT
 	  To compile this driver as a module, choose M here: the module
 	  will be called allegro.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config VIDEO_CODA
 	tristate "Chips&Media Coda multi-standard codec IP"
 	depends on VIDEO_DEV && VIDEO_V4L2 && OF && (ARCH_MXC || COMPILE_TEST)
@@ -242,15 +253,14 @@ config VIDEO_IMX_PXP
 	  The i.MX Pixel Pipeline is a memory-to-memory engine for scaling,
 	  color space conversion, and rotation.
 
+source "drivers/media/platform/imx-jpeg/Kconfig"
+
 config VIDEO_MEDIATEK_JPEG
 	tristate "Mediatek JPEG Codec driver"
 	depends on MTK_IOMMU_V1 || MTK_IOMMU || COMPILE_TEST
 	depends on VIDEO_DEV && VIDEO_V4L2
 	depends on ARCH_MEDIATEK || COMPILE_TEST
-<<<<<<< HEAD
 	depends on MTK_SMI || (COMPILE_TEST && MTK_SMI=n)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select VIDEOBUF2_DMA_CONTIG
 	select V4L2_MEM2MEM_DEV
 	help
@@ -278,10 +288,7 @@ config VIDEO_MEDIATEK_MDP
 	depends on MTK_IOMMU || COMPILE_TEST
 	depends on VIDEO_DEV && VIDEO_V4L2
 	depends on ARCH_MEDIATEK || COMPILE_TEST
-<<<<<<< HEAD
 	depends on MTK_SMI || (COMPILE_TEST && MTK_SMI=n)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select VIDEOBUF2_DMA_CONTIG
 	select V4L2_MEM2MEM_DEV
 	select VIDEO_MEDIATEK_VPU
@@ -302,10 +309,7 @@ config VIDEO_MEDIATEK_VCODEC
 	# our dependencies, to avoid missing symbols during link.
 	depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
 	depends on MTK_SCP || !MTK_SCP
-<<<<<<< HEAD
 	depends on MTK_SMI || (COMPILE_TEST && MTK_SMI=n)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select VIDEOBUF2_DMA_CONTIG
 	select V4L2_MEM2MEM_DEV
 	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
@@ -558,18 +562,11 @@ config VIDEO_TI_VPE_DEBUG
 
 config VIDEO_QCOM_VENUS
 	tristate "Qualcomm Venus V4L2 encoder/decoder driver"
-	depends on VIDEO_DEV && VIDEO_V4L2
+	depends on VIDEO_DEV && VIDEO_V4L2 && QCOM_SMEM
 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
-<<<<<<< HEAD
 	select QCOM_MDT_LOADER if ARCH_QCOM
 	select QCOM_SCM if ARCH_QCOM
 	select VIDEOBUF2_DMA_CONTIG
-=======
-	depends on INTERCONNECT || !INTERCONNECT
-	select QCOM_MDT_LOADER if ARCH_QCOM
-	select QCOM_SCM if ARCH_QCOM
-	select VIDEOBUF2_DMA_SG
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select V4L2_MEM2MEM_DEV
 	help
 	  This is a V4L2 driver for Qualcomm Venus video accelerator

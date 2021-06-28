@@ -1,15 +1,7 @@
 #ifndef INTERNAL_IO_WQ_H
 #define INTERNAL_IO_WQ_H
 
-<<<<<<< HEAD
 #include <linux/refcount.h>
-=======
-<<<<<<< HEAD
-#include <linux/refcount.h>
-=======
-#include <linux/io_uring.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct io_wq;
 
@@ -19,19 +11,6 @@ enum {
 	IO_WQ_WORK_UNBOUND	= 4,
 	IO_WQ_WORK_CONCURRENT	= 16,
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	IO_WQ_WORK_FILES	= 32,
-	IO_WQ_WORK_FS		= 64,
-	IO_WQ_WORK_MM		= 128,
-	IO_WQ_WORK_CREDS	= 256,
-	IO_WQ_WORK_BLKCG	= 512,
-	IO_WQ_WORK_FSIZE	= 1024,
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	IO_WQ_HASH_SHIFT	= 24,	/* upper 8 bits are used for hash key */
 };
 
@@ -108,15 +87,7 @@ static inline void wq_list_del(struct io_wq_work_list *list,
 
 struct io_wq_work {
 	struct io_wq_work_node list;
-<<<<<<< HEAD
 	const struct cred *creds;
-=======
-<<<<<<< HEAD
-	const struct cred *creds;
-=======
-	struct io_identity *identity;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned flags;
 };
 
@@ -131,10 +102,6 @@ static inline struct io_wq_work *wq_next_work(struct io_wq_work *work)
 typedef struct io_wq_work *(free_work_fn)(struct io_wq_work *);
 typedef void (io_wq_work_fn)(struct io_wq_work *);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct io_wq_hash {
 	refcount_t refs;
 	unsigned long map;
@@ -149,31 +116,14 @@ static inline void io_wq_put_hash(struct io_wq_hash *hash)
 
 struct io_wq_data {
 	struct io_wq_hash *hash;
-<<<<<<< HEAD
-=======
-=======
-struct io_wq_data {
-	struct user_struct *user;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	struct task_struct *task;
 	io_wq_work_fn *do_work;
 	free_work_fn *free_work;
 };
 
 struct io_wq *io_wq_create(unsigned bounded, struct io_wq_data *data);
-<<<<<<< HEAD
-void io_wq_put(struct io_wq *wq);
+void io_wq_exit_start(struct io_wq *wq);
 void io_wq_put_and_exit(struct io_wq *wq);
-=======
-<<<<<<< HEAD
-void io_wq_put(struct io_wq *wq);
-void io_wq_put_and_exit(struct io_wq *wq);
-=======
-bool io_wq_get(struct io_wq *wq, struct io_wq_data *data);
-void io_wq_destroy(struct io_wq *wq);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void io_wq_enqueue(struct io_wq *wq, struct io_wq_work *work);
 void io_wq_hash_work(struct io_wq_work *work, void *val);
@@ -188,14 +138,6 @@ typedef bool (work_cancel_fn)(struct io_wq_work *, void *);
 enum io_wq_cancel io_wq_cancel_cb(struct io_wq *wq, work_cancel_fn *cancel,
 					void *data, bool cancel_all);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-struct task_struct *io_wq_get_task(struct io_wq *wq);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_IO_WQ)
 extern void io_wq_worker_sleeping(struct task_struct *);
 extern void io_wq_worker_running(struct task_struct *);
@@ -210,16 +152,7 @@ static inline void io_wq_worker_running(struct task_struct *tsk)
 
 static inline bool io_wq_current_is_worker(void)
 {
-<<<<<<< HEAD
 	return in_task() && (current->flags & PF_IO_WORKER) &&
 		current->pf_io_worker;
-=======
-<<<<<<< HEAD
-	return in_task() && (current->flags & PF_IO_WORKER) &&
-		current->pf_io_worker;
-=======
-	return in_task() && (current->flags & PF_IO_WORKER);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif

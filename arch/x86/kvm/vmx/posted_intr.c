@@ -10,7 +10,7 @@
 #include "vmx.h"
 
 /*
- * We maintian a per-CPU linked-list of vCPU, so in wakeup_handler() we
+ * We maintain a per-CPU linked-list of vCPU, so in wakeup_handler() we
  * can find which vCPU should be waken up.
  */
 static DEFINE_PER_CPU(struct list_head, blocked_vcpu_on_cpu);
@@ -54,11 +54,7 @@ void vmx_vcpu_pi_load(struct kvm_vcpu *vcpu, int cpu)
 
 		dest = cpu_physical_id(cpu);
 
-<<<<<<< HEAD
 		if (x2apic_mode)
-=======
-		if (x2apic_enabled())
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;
@@ -108,11 +104,7 @@ static void __pi_post_block(struct kvm_vcpu *vcpu)
 
 		dest = cpu_physical_id(vcpu->cpu);
 
-<<<<<<< HEAD
 		if (x2apic_mode)
-=======
-		if (x2apic_enabled())
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;
@@ -182,11 +174,7 @@ int pi_pre_block(struct kvm_vcpu *vcpu)
 		 */
 		dest = cpu_physical_id(vcpu->pre_pcpu);
 
-<<<<<<< HEAD
 		if (x2apic_mode)
-=======
-		if (x2apic_enabled())
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			new.ndst = dest;
 		else
 			new.ndst = (dest << 8) & 0xFF00;
@@ -248,6 +236,20 @@ bool pi_has_pending_interrupt(struct kvm_vcpu *vcpu)
 		(pi_test_sn(pi_desc) && !pi_is_pir_empty(pi_desc));
 }
 
+
+/*
+ * Bail out of the block loop if the VM has an assigned
+ * device, but the blocking vCPU didn't reconfigure the
+ * PI.NV to the wakeup vector, i.e. the assigned device
+ * came along after the initial check in pi_pre_block().
+ */
+void vmx_pi_start_assignment(struct kvm *kvm)
+{
+	if (!irq_remapping_cap(IRQ_POSTING_CAP))
+		return;
+
+	kvm_make_all_cpus_request(kvm, KVM_REQ_UNBLOCK);
+}
 
 /*
  * pi_update_irte - set IRTE for Posted-Interrupts

@@ -458,11 +458,7 @@ static u8 _rtl92se_halset_sysclk(struct ieee80211_hw *hw, u8 data)
 	tmpvalue = rtl_read_byte(rtlpriv, SYS_CLKR + 1);
 	bresult = ((tmpvalue & BIT(7)) == (data & BIT(7)));
 
-<<<<<<< HEAD
 	if (!(data & (BIT(6) | BIT(7)))) {
-=======
-	if ((data & (BIT(6) | BIT(7))) == false) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		waitcount = 100;
 		tmpvalue = 0;
 
@@ -1272,11 +1268,7 @@ static u8 _rtl92s_set_sysclk(struct ieee80211_hw *hw, u8 data)
 	tmp = rtl_read_byte(rtlpriv, SYS_CLKR + 1);
 	result = ((tmp & BIT(7)) == (data & BIT(7)));
 
-<<<<<<< HEAD
 	if (!(data & (BIT(6) | BIT(7)))) {
-=======
-	if ((data & (BIT(6) | BIT(7))) == false) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		waitcnt = 100;
 		tmp = 0;
 
@@ -1381,11 +1373,7 @@ static void _rtl92se_gen_refreshledstate(struct ieee80211_hw *hw)
 	struct rtl_pci *rtlpci = rtl_pcidev(rtl_pcipriv(hw));
 	struct rtl_led *pled0 = &rtlpriv->ledctl.sw_led0;
 
-<<<<<<< HEAD
 	if (rtlpci->up_first_time)
-=======
-	if (rtlpci->up_first_time == 1)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	if (rtlpriv->psc.rfoff_reason == RF_CHANGE_BY_IPS)
@@ -2314,11 +2302,7 @@ bool rtl92se_gpio_radio_on_off_checking(struct ieee80211_hw *hw, u8 *valid)
 	bool turnonbypowerdomain = false;
 
 	/* just 8191se can check gpio before firstup, 92c/92d have fixed it */
-<<<<<<< HEAD
 	if (rtlpci->up_first_time || rtlpci->being_init_adapter)
-=======
-	if ((rtlpci->up_first_time == 1) || (rtlpci->being_init_adapter))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	if (ppsc->swrf_processing)

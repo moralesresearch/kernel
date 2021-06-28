@@ -11,7 +11,6 @@ enum insn_type {
 	RET = 3,  /* tramp / site cond-tail-call */
 };
 
-<<<<<<< HEAD
 /*
  * data16 data16 xorq %rax, %rax - a single 5 byte instruction that clears %rax
  * The REX.W cancels the effect of any data16.
@@ -21,28 +20,21 @@ static const u8 xor5rax[] = { 0x66, 0x66, 0x48, 0x31, 0xc0 };
 static void __ref __static_call_transform(void *insn, enum insn_type type, void *func)
 {
 	const void *emulate = NULL;
-=======
-static void __ref __static_call_transform(void *insn, enum insn_type type, void *func)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int size = CALL_INSN_SIZE;
 	const void *code;
 
 	switch (type) {
 	case CALL:
 		code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
-<<<<<<< HEAD
 		if (func == &__static_call_return0) {
 			emulate = code;
 			code = &xor5rax;
 		}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case NOP:
-		code = ideal_nops[NOP_ATOMIC5];
+		code = x86_nops[5];
 		break;
 
 	case JMP:
@@ -61,11 +53,7 @@ static void __ref __static_call_transform(void *insn, enum insn_type type, void 
 	if (unlikely(system_state == SYSTEM_BOOTING))
 		return text_poke_early(insn, code, size);
 
-<<<<<<< HEAD
 	text_poke_bp(insn, code, size, emulate);
-=======
-	text_poke_bp(insn, code, size, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __static_call_validate(void *insn, bool tail)
@@ -78,12 +66,8 @@ static void __static_call_validate(void *insn, bool tail)
 			return;
 	} else {
 		if (opcode == CALL_INSN_OPCODE ||
-<<<<<<< HEAD
-		    !memcmp(insn, ideal_nops[NOP_ATOMIC5], 5) ||
+		    !memcmp(insn, x86_nops[5], 5) ||
 		    !memcmp(insn, xor5rax, 5))
-=======
-		    !memcmp(insn, ideal_nops[NOP_ATOMIC5], 5))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return;
 	}
 

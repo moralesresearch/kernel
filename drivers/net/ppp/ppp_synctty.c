@@ -90,15 +90,7 @@ static struct sk_buff* ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *);
 static int ppp_sync_send(struct ppp_channel *chan, struct sk_buff *skb);
 static int ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd,
 			  unsigned long arg);
-<<<<<<< HEAD
 static void ppp_sync_process(struct tasklet_struct *t);
-=======
-<<<<<<< HEAD
-static void ppp_sync_process(struct tasklet_struct *t);
-=======
-static void ppp_sync_process(unsigned long arg);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ppp_sync_push(struct syncppp *ap);
 static void ppp_sync_flush_output(struct syncppp *ap);
 static void ppp_sync_input(struct syncppp *ap, const unsigned char *buf,
@@ -185,15 +177,7 @@ ppp_sync_open(struct tty_struct *tty)
 	ap->raccm = ~0U;
 
 	skb_queue_head_init(&ap->rqueue);
-<<<<<<< HEAD
 	tasklet_setup(&ap->tsk, ppp_sync_process);
-=======
-<<<<<<< HEAD
-	tasklet_setup(&ap->tsk, ppp_sync_process);
-=======
-	tasklet_init(&ap->tsk, ppp_sync_process, (unsigned long) ap);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	refcount_set(&ap->refcnt, 1);
 	init_completion(&ap->dead_cmp);
@@ -381,7 +365,6 @@ ppp_sync_wakeup(struct tty_struct *tty)
 
 static struct tty_ldisc_ops ppp_sync_ldisc = {
 	.owner	= THIS_MODULE,
-	.magic	= TTY_LDISC_MAGIC,
 	.name	= "pppsync",
 	.open	= ppp_sync_open,
 	.close	= ppp_sync_close,
@@ -497,21 +480,9 @@ ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
  * to the ppp_generic code, and to tell the ppp_generic code
  * if we can accept more output now.
  */
-<<<<<<< HEAD
 static void ppp_sync_process(struct tasklet_struct *t)
 {
 	struct syncppp *ap = from_tasklet(ap, t, tsk);
-=======
-<<<<<<< HEAD
-static void ppp_sync_process(struct tasklet_struct *t)
-{
-	struct syncppp *ap = from_tasklet(ap, t, tsk);
-=======
-static void ppp_sync_process(unsigned long arg)
-{
-	struct syncppp *ap = (struct syncppp *) arg;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 
 	/* process received packets */

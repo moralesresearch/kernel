@@ -247,13 +247,8 @@ struct dsa_completion_record {
 			uint32_t	rsvd2:8;
 		};
 
-<<<<<<< HEAD
 		uint32_t	delta_rec_size;
 		uint32_t	crc_val;
-=======
-		uint16_t	delta_rec_size;
-		uint16_t	crc_val;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* DIF check & strip */
 		struct {

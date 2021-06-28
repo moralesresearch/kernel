@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
-<<<<<<< HEAD
  * Copyright (C) 2005-2014, 2018-2020 Intel Corporation
-=======
- * Copyright (C) 2005-2014, 2018-2019 Intel Corporation
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2015 Intel Mobile Communications GmbH
  */
 #include <linux/types.h>
@@ -715,20 +711,11 @@ void iwl_init_ht_hw_capab(struct iwl_trans *trans,
 	if (cfg->ht_params->ldpc)
 		ht_info->cap |= IEEE80211_HT_CAP_LDPC_CODING;
 
-<<<<<<< HEAD
 	if (trans->trans_cfg->mq_rx_supported ||
 	    iwlwifi_mod_params.amsdu_size >= IWL_AMSDU_8K)
 		ht_info->cap |= IEEE80211_HT_CAP_MAX_AMSDU;
 
 	ht_info->ampdu_factor = IEEE80211_HT_MAX_AMPDU_64K;
-=======
-	if ((trans->trans_cfg->mq_rx_supported &&
-	     iwlwifi_mod_params.amsdu_size == IWL_AMSDU_DEF) ||
-	     iwlwifi_mod_params.amsdu_size >= IWL_AMSDU_8K)
-		ht_info->cap |= IEEE80211_HT_CAP_MAX_AMSDU;
-
-	ht_info->ampdu_factor = cfg->max_ht_ampdu_exponent;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ht_info->ampdu_density = IEEE80211_HT_MPDU_DENSITY_4;
 
 	ht_info->mcs.rx_mask[0] = 0xFF;

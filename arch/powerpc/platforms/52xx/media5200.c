@@ -202,11 +202,6 @@ static void __init media5200_setup_arch(void)
 	/* Some mpc5200 & mpc5200b related configuration */
 	mpc5200_setup_xlb_arbiter();
 
-<<<<<<< HEAD
-=======
-	mpc52xx_setup_pci();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	np = of_find_matching_node(NULL, mpc5200_gpio_ids);
 	gpio = of_iomap(np, 0);
 	of_node_put(np);
@@ -247,10 +242,7 @@ define_machine(media5200_platform) {
 	.name		= "media5200-platform",
 	.probe		= media5200_probe,
 	.setup_arch	= media5200_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs	= mpc52xx_setup_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init		= mpc52xx_declare_of_platform_devices,
 	.init_IRQ	= media5200_init_irq,
 	.get_irq	= mpc52xx_get_irq,

@@ -20,22 +20,20 @@ struct dev_rot_state {
 	struct hid_sensor_hub_callbacks callbacks;
 	struct hid_sensor_common common_attributes;
 	struct hid_sensor_hub_attribute_info quaternion;
-<<<<<<< HEAD
 	struct {
 		s32 sampled_vals[4] __aligned(16);
 		u64 timestamp __aligned(8);
 	} scan;
-=======
-	u32 sampled_vals[4];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int scale_pre_decml;
 	int scale_post_decml;
 	int scale_precision;
 	int value_offset;
-<<<<<<< HEAD
 	s64 timestamp;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+};
+
+static const u32 rotation_sensitivity_addresses[] = {
+	HID_USAGE_SENSOR_DATA_ORIENTATION,
+	HID_USAGE_SENSOR_ORIENT_QUATERNION,
 };
 
 /* Channel definitions */
@@ -48,15 +46,10 @@ static const struct iio_chan_spec dev_rot_channels[] = {
 		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SAMP_FREQ) |
 					BIT(IIO_CHAN_INFO_OFFSET) |
 					BIT(IIO_CHAN_INFO_SCALE) |
-<<<<<<< HEAD
 					BIT(IIO_CHAN_INFO_HYSTERESIS),
 		.scan_index = 0
 	},
 	IIO_CHAN_SOFT_TIMESTAMP(1)
-=======
-					BIT(IIO_CHAN_INFO_HYSTERESIS)
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Adjust channel real bits based on report descriptor */
@@ -88,11 +81,7 @@ static int dev_rot_read_raw(struct iio_dev *indio_dev,
 	case IIO_CHAN_INFO_RAW:
 		if (size >= 4) {
 			for (i = 0; i < 4; ++i)
-<<<<<<< HEAD
 				vals[i] = rot_state->scan.sampled_vals[i];
-=======
-				vals[i] = rot_state->sampled_vals[i];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret_type = IIO_VAL_INT_MULTIPLE;
 			*val_len =  4;
 		} else
@@ -154,18 +143,6 @@ static const struct iio_info dev_rot_info = {
 	.write_raw = &dev_rot_write_raw,
 };
 
-<<<<<<< HEAD
-=======
-/* Function to push data to buffer */
-static void hid_sensor_push_data(struct iio_dev *indio_dev, u8 *data, int len)
-{
-	dev_dbg(&indio_dev->dev, "hid_sensor_push_data >>\n");
-	iio_push_to_buffers(indio_dev, (u8 *)data);
-	dev_dbg(&indio_dev->dev, "hid_sensor_push_data <<\n");
-
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Callback handler to send event after all samples are received and captured */
 static int dev_rot_proc_event(struct hid_sensor_hub_device *hsdev,
 				unsigned usage_id,
@@ -175,7 +152,6 @@ static int dev_rot_proc_event(struct hid_sensor_hub_device *hsdev,
 	struct dev_rot_state *rot_state = iio_priv(indio_dev);
 
 	dev_dbg(&indio_dev->dev, "dev_rot_proc_event\n");
-<<<<<<< HEAD
 	if (atomic_read(&rot_state->common_attributes.data_ready)) {
 		if (!rot_state->timestamp)
 			rot_state->timestamp = iio_get_time_ns(indio_dev);
@@ -185,12 +161,6 @@ static int dev_rot_proc_event(struct hid_sensor_hub_device *hsdev,
 
 		rot_state->timestamp = 0;
 	}
-=======
-	if (atomic_read(&rot_state->common_attributes.data_ready))
-		hid_sensor_push_data(indio_dev,
-				(u8 *)rot_state->sampled_vals,
-				sizeof(rot_state->sampled_vals));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -205,7 +175,6 @@ static int dev_rot_capture_sample(struct hid_sensor_hub_device *hsdev,
 	struct dev_rot_state *rot_state = iio_priv(indio_dev);
 
 	if (usage_id == HID_USAGE_SENSOR_ORIENT_QUATERNION) {
-<<<<<<< HEAD
 		if (raw_len / 4 == sizeof(s16)) {
 			rot_state->scan.sampled_vals[0] = ((s16 *)raw_data)[0];
 			rot_state->scan.sampled_vals[1] = ((s16 *)raw_data)[1];
@@ -221,12 +190,6 @@ static int dev_rot_capture_sample(struct hid_sensor_hub_device *hsdev,
 	} else if (usage_id == HID_USAGE_SENSOR_TIME_TIMESTAMP) {
 		rot_state->timestamp = hid_sensor_convert_timestamp(&rot_state->common_attributes,
 								    *(s64 *)raw_data);
-=======
-		memcpy(rot_state->sampled_vals, raw_data,
-					sizeof(rot_state->sampled_vals));
-		dev_dbg(&indio_dev->dev, "Recd Quat len:%zu::%zu\n", raw_len,
-					sizeof(rot_state->sampled_vals));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -262,18 +225,6 @@ static int dev_rot_parse_report(struct platform_device *pdev,
 				hsdev->usage,
 				&st->quaternion,
 				&st->scale_pre_decml, &st->scale_post_decml);
-
-	/* Set Sensitivity field ids, when there is no individual modifier */
-	if (st->common_attributes.sensitivity.index < 0) {
-		sensor_hub_input_get_attribute_info(hsdev,
-			HID_FEATURE_REPORT, usage_id,
-			HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS |
-			HID_USAGE_SENSOR_DATA_ORIENTATION,
-			&st->common_attributes.sensitivity);
-		dev_dbg(&pdev->dev, "Sensitivity index:report %d:%d\n",
-			st->common_attributes.sensitivity.index,
-			st->common_attributes.sensitivity.report_id);
-	}
 
 	return 0;
 }
@@ -312,8 +263,11 @@ static int hid_dev_rot_probe(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
-	ret = hid_sensor_parse_common_attributes(hsdev, hsdev->usage,
-				&rot_state->common_attributes);
+	ret = hid_sensor_parse_common_attributes(hsdev,
+						 hsdev->usage,
+						 &rot_state->common_attributes,
+						 rotation_sensitivity_addresses,
+						 ARRAY_SIZE(rotation_sensitivity_addresses));
 	if (ret) {
 		dev_err(&pdev->dev, "failed to setup common attributes\n");
 		return ret;

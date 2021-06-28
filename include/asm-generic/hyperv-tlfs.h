@@ -88,13 +88,9 @@
 #define HV_CONNECT_PORT				BIT(7)
 #define HV_ACCESS_STATS				BIT(8)
 #define HV_DEBUGGING				BIT(11)
-<<<<<<< HEAD
 #define HV_CPU_MANAGEMENT			BIT(12)
+#define HV_ENABLE_EXTENDED_HYPERCALLS		BIT(20)
 #define HV_ISOLATION				BIT(22)
-=======
-#define HV_CPU_POWER_MANAGEMENT			BIT(12)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-
 
 /*
  * TSC page layout.
@@ -146,12 +142,9 @@ struct ms_hyperv_tsc_page {
 #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
 #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX	0x0014
 #define HVCALL_SEND_IPI_EX			0x0015
-<<<<<<< HEAD
 #define HVCALL_GET_PARTITION_ID			0x0046
 #define HVCALL_DEPOSIT_MEMORY			0x0048
 #define HVCALL_CREATE_VP			0x004e
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HVCALL_GET_VP_REGISTERS			0x0050
 #define HVCALL_SET_VP_REGISTERS			0x0051
 #define HVCALL_POST_MESSAGE			0x005c
@@ -159,20 +152,24 @@ struct ms_hyperv_tsc_page {
 #define HVCALL_POST_DEBUG_DATA			0x0069
 #define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
 #define HVCALL_RESET_DEBUG_SESSION		0x006b
-<<<<<<< HEAD
 #define HVCALL_ADD_LOGICAL_PROCESSOR		0x0076
 #define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
 #define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HVCALL_RETARGET_INTERRUPT		0x007e
 #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
 #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+
+/* Extended hypercalls */
+#define HV_EXT_CALL_QUERY_CAPABILITIES		0x8001
+#define HV_EXT_CALL_MEMORY_HEAT_HINT		0x8003
 
 #define HV_FLUSH_ALL_PROCESSORS			BIT(0)
 #define HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES	BIT(1)
 #define HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY	BIT(2)
 #define HV_FLUSH_USE_EXTENDED_RANGE_FORMAT	BIT(3)
+
+/* Extended capability bits */
+#define HV_EXT_CAPABILITY_MEMORY_COLD_DISCARD_HINT BIT(8)
 
 enum HV_GENERIC_SET_FORMAT {
 	HV_GENERIC_SET_SPARSE_4K,
@@ -229,6 +226,41 @@ enum HV_GENERIC_SET_FORMAT {
 #define HV_MESSAGE_SIZE			(256)
 #define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
 #define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
+
+/*
+ * Define hypervisor message types. Some of the message types
+ * are x86/x64 specific, but there's no good way to separate
+ * them out into the arch-specific version of hyperv-tlfs.h
+ * because C doesn't provide a way to extend enum types.
+ * Keeping them all in the arch neutral hyperv-tlfs.h seems
+ * the least messy compromise.
+ */
+enum hv_message_type {
+	HVMSG_NONE			= 0x00000000,
+
+	/* Memory access messages. */
+	HVMSG_UNMAPPED_GPA		= 0x80000000,
+	HVMSG_GPA_INTERCEPT		= 0x80000001,
+
+	/* Timer notification messages. */
+	HVMSG_TIMER_EXPIRED		= 0x80000010,
+
+	/* Error messages. */
+	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
+	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
+	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
+
+	/* Trace buffer complete messages. */
+	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
+
+	/* Platform-specific processor intercept messages. */
+	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
+	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
+	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
+	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
+	HVMSG_X64_APIC_EOI		= 0x80010004,
+	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
+};
 
 /* Define synthetic interrupt controller message flags. */
 union hv_message_flags {
@@ -383,8 +415,10 @@ struct hv_guest_mapping_flush {
  *  by the bitwidth of "additional_pages" in union hv_gpa_page_range.
  */
 #define HV_MAX_FLUSH_PAGES (2048)
+#define HV_GPA_PAGE_RANGE_PAGE_SIZE_2MB		0
+#define HV_GPA_PAGE_RANGE_PAGE_SIZE_1GB		1
 
-/* HvFlushGuestPhysicalAddressList hypercall */
+/* HvFlushGuestPhysicalAddressList, HvExtCallMemoryHeatHint hypercall */
 union hv_gpa_page_range {
 	u64 address_space;
 	struct {
@@ -392,6 +426,12 @@ union hv_gpa_page_range {
 		u64 largepage:1;
 		u64 basepfn:52;
 	} page;
+	struct {
+		u64 reserved:12;
+		u64 page_size:1;
+		u64 reserved1:8;
+		u64 base_large_pfn:43;
+	};
 };
 
 /*
@@ -424,7 +464,6 @@ struct hv_tlb_flush_ex {
 	u64 gva_list[];
 } __packed;
 
-<<<<<<< HEAD
 /* HvGetPartitionId hypercall (output only) */
 struct hv_get_partition_id {
 	u64 partition_id;
@@ -523,13 +562,10 @@ union hv_msi_data_register {
 	};
 } __packed;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* HvRetargetDeviceInterrupt hypercall */
 union hv_msi_entry {
 	u64 as_uint64;
 	struct {
-<<<<<<< HEAD
 		union hv_msi_address_register address;
 		union hv_msi_data_register data;
 	} __packed;
@@ -566,17 +602,6 @@ struct hv_interrupt_entry {
 		union hv_msi_entry msi_entry;
 		union hv_ioapic_rte ioapic_rte;
 	};
-=======
-		u32 address;
-		u32 data;
-	} __packed;
-};
-
-struct hv_interrupt_entry {
-	u32 source;			/* 1 for MSI(-X) */
-	u32 reserved1;
-	union hv_msi_entry msi_entry;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __packed;
 
 /*
@@ -651,7 +676,6 @@ struct hv_set_vp_registers_input {
 	} element[];
 } __packed;
 
-<<<<<<< HEAD
 enum hv_device_type {
 	HV_DEVICE_TYPE_LOGICAL = 0,
 	HV_DEVICE_TYPE_PCI = 1,
@@ -765,6 +789,20 @@ struct hv_input_unmap_device_interrupt {
 #define HV_SOURCE_SHADOW_NONE               0x0
 #define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+/*
+ * The whole argument should fit in a page to be able to pass to the hypervisor
+ * in one hypercall.
+ */
+#define HV_MEMORY_HINT_MAX_GPA_PAGE_RANGES  \
+	((HV_HYP_PAGE_SIZE - sizeof(struct hv_memory_hint)) / \
+		sizeof(union hv_gpa_page_range))
+
+/* HvExtCallMemoryHeatHint hypercall */
+#define HV_EXT_MEMORY_HEAT_HINT_TYPE_COLD_DISCARD	2
+struct hv_memory_hint {
+	u64 type:2;
+	u64 reserved:62;
+	union hv_gpa_page_range ranges[];
+} __packed;
+
 #endif

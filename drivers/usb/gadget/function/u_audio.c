@@ -23,17 +23,6 @@
 #define PRD_SIZE_MAX	PAGE_SIZE
 #define MIN_PERIODS	4
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-struct uac_req {
-	struct uac_rtd_params *pp; /* parent param */
-	struct usb_request *req;
-};
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Runtime data params for one stream */
 struct uac_rtd_params {
 	struct snd_uac_chip *uac; /* parent chip */
@@ -47,19 +36,8 @@ struct uac_rtd_params {
 	void *rbuf;
 
 	unsigned int max_psize;	/* MaxPacketSize of endpoint */
-<<<<<<< HEAD
 
 	struct usb_request **reqs;
-=======
-<<<<<<< HEAD
-
-	struct usb_request **reqs;
-=======
-	struct uac_req *ureq;
-
-	spinlock_t lock;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct snd_uac_chip {
@@ -95,27 +73,11 @@ static const struct snd_pcm_hardware uac_pcm_hardware = {
 static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
 {
 	unsigned int pending;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int hw_ptr;
 	int status = req->status;
 	struct snd_pcm_substream *substream;
 	struct snd_pcm_runtime *runtime;
 	struct uac_rtd_params *prm = req->context;
-<<<<<<< HEAD
-=======
-=======
-	unsigned long flags, flags2;
-	unsigned int hw_ptr;
-	int status = req->status;
-	struct uac_req *ur = req->context;
-	struct snd_pcm_substream *substream;
-	struct snd_pcm_runtime *runtime;
-	struct uac_rtd_params *prm = ur->pp;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_uac_chip *uac = prm->uac;
 
 	/* i/f shutting down */
@@ -141,10 +103,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
 	if (!substream)
 		goto exit;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snd_pcm_stream_lock(substream);
 
 	runtime = substream->runtime;
@@ -153,21 +111,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
 		goto exit;
 	}
 
-<<<<<<< HEAD
-=======
-=======
-	snd_pcm_stream_lock_irqsave(substream, flags2);
-
-	runtime = substream->runtime;
-	if (!runtime || !snd_pcm_running(substream)) {
-		snd_pcm_stream_unlock_irqrestore(substream, flags2);
-		goto exit;
-	}
-
-	spin_lock_irqsave(&prm->lock, flags);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 		/*
 		 * For each IN packet, take the quotient of the current data
@@ -194,14 +137,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
 
 	hw_ptr = prm->hw_ptr;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	spin_unlock_irqrestore(&prm->lock, flags);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Pack USB load in ALSA ring buffer */
 	pending = runtime->dma_bytes - hw_ptr;
 
@@ -225,25 +160,10 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
 		}
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* update hw_ptr after data is copied to memory */
 	prm->hw_ptr = (hw_ptr + req->actual) % runtime->dma_bytes;
 	hw_ptr = prm->hw_ptr;
 	snd_pcm_stream_unlock(substream);
-<<<<<<< HEAD
-=======
-=======
-	spin_lock_irqsave(&prm->lock, flags);
-	/* update hw_ptr after data is copied to memory */
-	prm->hw_ptr = (hw_ptr + req->actual) % runtime->dma_bytes;
-	hw_ptr = prm->hw_ptr;
-	spin_unlock_irqrestore(&prm->lock, flags);
-	snd_pcm_stream_unlock_irqrestore(substream, flags2);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if ((hw_ptr % snd_pcm_lib_period_bytes(substream)) < req->actual)
 		snd_pcm_period_elapsed(substream);
@@ -259,13 +179,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 	struct uac_rtd_params *prm;
 	struct g_audio *audio_dev;
 	struct uac_params *params;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err = 0;
 
 	audio_dev = uac->audio_dev;
@@ -276,14 +189,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 	else
 		prm = &uac->c_prm;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	spin_lock_irqsave(&prm->lock, flags);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Reset */
 	prm->hw_ptr = 0;
 
@@ -300,14 +205,6 @@ static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 		err = -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	spin_unlock_irqrestore(&prm->lock, flags);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Clear buffer after Play stops */
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK && !prm->ss)
 		memset(prm->rbuf, 0, prm->max_psize * params->req_number);
@@ -328,10 +225,6 @@ static snd_pcm_uframes_t uac_pcm_pointer(struct snd_pcm_substream *substream)
 	return bytes_to_frames(substream->runtime, prm->hw_ptr);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u64 uac_ssize_to_fmt(int ssize)
 {
 	u64 ret;
@@ -351,11 +244,6 @@ static u64 uac_ssize_to_fmt(int ssize)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int uac_pcm_open(struct snd_pcm_substream *substream)
 {
 	struct snd_uac_chip *uac = snd_pcm_substream_chip(substream);
@@ -379,56 +267,14 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
 	runtime->hw = uac_pcm_hardware;
 
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-<<<<<<< HEAD
 		runtime->hw.rate_min = p_srate;
 		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
-=======
-<<<<<<< HEAD
-		runtime->hw.rate_min = p_srate;
-		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
-=======
-		spin_lock_init(&uac->p_prm.lock);
-		runtime->hw.rate_min = p_srate;
-		switch (p_ssize) {
-		case 3:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
-			break;
-		case 4:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
-			break;
-		default:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
-			break;
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		runtime->hw.channels_min = num_channels(p_chmask);
 		runtime->hw.period_bytes_min = 2 * uac->p_prm.max_psize
 						/ runtime->hw.periods_min;
 	} else {
-<<<<<<< HEAD
 		runtime->hw.rate_min = c_srate;
 		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
-=======
-<<<<<<< HEAD
-		runtime->hw.rate_min = c_srate;
-		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
-=======
-		spin_lock_init(&uac->c_prm.lock);
-		runtime->hw.rate_min = c_srate;
-		switch (c_ssize) {
-		case 3:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S24_3LE;
-			break;
-		case 4:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
-			break;
-		default:
-			runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
-			break;
-		}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		runtime->hw.channels_min = num_channels(c_chmask);
 		runtime->hw.period_bytes_min = 2 * uac->c_prm.max_psize
 						/ runtime->hw.periods_min;
@@ -472,36 +318,16 @@ static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
 	params = &audio_dev->params;
 
 	for (i = 0; i < params->req_number; i++) {
-<<<<<<< HEAD
 		if (prm->reqs[i]) {
 			if (usb_ep_dequeue(ep, prm->reqs[i]))
 				usb_ep_free_request(ep, prm->reqs[i]);
-=======
-<<<<<<< HEAD
-		if (prm->reqs[i]) {
-			if (usb_ep_dequeue(ep, prm->reqs[i]))
-				usb_ep_free_request(ep, prm->reqs[i]);
-=======
-		if (prm->ureq[i].req) {
-			if (usb_ep_dequeue(ep, prm->ureq[i].req))
-				usb_ep_free_request(ep, prm->ureq[i].req);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * If usb_ep_dequeue() cannot successfully dequeue the
 			 * request, the request will be freed by the completion
 			 * callback.
 			 */
 
-<<<<<<< HEAD
 			prm->reqs[i] = NULL;
-=======
-<<<<<<< HEAD
-			prm->reqs[i] = NULL;
-=======
-			prm->ureq[i].req = NULL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -530,51 +356,21 @@ int u_audio_start_capture(struct g_audio *audio_dev)
 	usb_ep_enable(ep);
 
 	for (i = 0; i < params->req_number; i++) {
-<<<<<<< HEAD
 		if (!prm->reqs[i]) {
-=======
-<<<<<<< HEAD
-		if (!prm->reqs[i]) {
-=======
-		if (!prm->ureq[i].req) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			req = usb_ep_alloc_request(ep, GFP_ATOMIC);
 			if (req == NULL)
 				return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			prm->reqs[i] = req;
 
 			req->zero = 0;
 			req->context = prm;
-<<<<<<< HEAD
-=======
-=======
-			prm->ureq[i].req = req;
-			prm->ureq[i].pp = prm;
-
-			req->zero = 0;
-			req->context = &prm->ureq[i];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			req->length = req_len;
 			req->complete = u_audio_iso_complete;
 			req->buf = prm->rbuf + i * ep->maxpacket;
 		}
 
-<<<<<<< HEAD
 		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
-=======
-<<<<<<< HEAD
-		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
-=======
-		if (usb_ep_queue(ep, prm->ureq[i].req, GFP_ATOMIC))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
 	}
 
@@ -637,51 +433,21 @@ int u_audio_start_playback(struct g_audio *audio_dev)
 	usb_ep_enable(ep);
 
 	for (i = 0; i < params->req_number; i++) {
-<<<<<<< HEAD
 		if (!prm->reqs[i]) {
-=======
-<<<<<<< HEAD
-		if (!prm->reqs[i]) {
-=======
-		if (!prm->ureq[i].req) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			req = usb_ep_alloc_request(ep, GFP_ATOMIC);
 			if (req == NULL)
 				return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			prm->reqs[i] = req;
 
 			req->zero = 0;
 			req->context = prm;
-<<<<<<< HEAD
-=======
-=======
-			prm->ureq[i].req = req;
-			prm->ureq[i].pp = prm;
-
-			req->zero = 0;
-			req->context = &prm->ureq[i];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			req->length = req_len;
 			req->complete = u_audio_iso_complete;
 			req->buf = prm->rbuf + i * ep->maxpacket;
 		}
 
-<<<<<<< HEAD
 		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
-=======
-<<<<<<< HEAD
-		if (usb_ep_queue(ep, prm->reqs[i], GFP_ATOMIC))
-=======
-		if (usb_ep_queue(ep, prm->ureq[i].req, GFP_ATOMIC))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
 	}
 
@@ -726,22 +492,10 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
 		uac->c_prm.uac = uac;
 		prm->max_psize = g_audio->out_ep_maxpsize;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		prm->reqs = kcalloc(params->req_number,
 				    sizeof(struct usb_request *),
 				    GFP_KERNEL);
 		if (!prm->reqs) {
-<<<<<<< HEAD
-=======
-=======
-		prm->ureq = kcalloc(params->req_number, sizeof(struct uac_req),
-				GFP_KERNEL);
-		if (!prm->ureq) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = -ENOMEM;
 			goto fail;
 		}
@@ -761,22 +515,10 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
 		uac->p_prm.uac = uac;
 		prm->max_psize = g_audio->in_ep_maxpsize;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		prm->reqs = kcalloc(params->req_number,
 				    sizeof(struct usb_request *),
 				    GFP_KERNEL);
 		if (!prm->reqs) {
-<<<<<<< HEAD
-=======
-=======
-		prm->ureq = kcalloc(params->req_number, sizeof(struct uac_req),
-				GFP_KERNEL);
-		if (!prm->ureq) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = -ENOMEM;
 			goto fail;
 		}
@@ -807,15 +549,15 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
 	if (err < 0)
 		goto snd_fail;
 
-	strlcpy(pcm->name, pcm_name, sizeof(pcm->name));
+	strscpy(pcm->name, pcm_name, sizeof(pcm->name));
 	pcm->private_data = uac;
 	uac->pcm = pcm;
 
 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &uac_pcm_ops);
 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &uac_pcm_ops);
 
-	strlcpy(card->driver, card_name, sizeof(card->driver));
-	strlcpy(card->shortname, card_name, sizeof(card->shortname));
+	strscpy(card->driver, card_name, sizeof(card->driver));
+	strscpy(card->shortname, card_name, sizeof(card->shortname));
 	sprintf(card->longname, "%s %i", card_name, card->dev->id);
 
 	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_CONTINUOUS,
@@ -829,18 +571,8 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
 snd_fail:
 	snd_card_free(card);
 fail:
-<<<<<<< HEAD
 	kfree(uac->p_prm.reqs);
 	kfree(uac->c_prm.reqs);
-=======
-<<<<<<< HEAD
-	kfree(uac->p_prm.reqs);
-	kfree(uac->c_prm.reqs);
-=======
-	kfree(uac->p_prm.ureq);
-	kfree(uac->c_prm.ureq);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(uac->p_prm.rbuf);
 	kfree(uac->c_prm.rbuf);
 	kfree(uac);
@@ -862,18 +594,8 @@ void g_audio_cleanup(struct g_audio *g_audio)
 	if (card)
 		snd_card_free(card);
 
-<<<<<<< HEAD
 	kfree(uac->p_prm.reqs);
 	kfree(uac->c_prm.reqs);
-=======
-<<<<<<< HEAD
-	kfree(uac->p_prm.reqs);
-	kfree(uac->c_prm.reqs);
-=======
-	kfree(uac->p_prm.ureq);
-	kfree(uac->c_prm.ureq);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(uac->p_prm.rbuf);
 	kfree(uac->c_prm.rbuf);
 	kfree(uac);

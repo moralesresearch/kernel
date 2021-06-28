@@ -18,10 +18,7 @@
 #include <linux/module.h>
 #include <linux/delay.h>
 #include <linux/mtd/mtd.h>
-<<<<<<< HEAD
 #include <linux/mtd/nand-ecc-sw-hamming.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mtd/rawnand.h>
 #include <linux/mtd/partitions.h>
 #include <linux/iopoll.h>
@@ -244,7 +241,6 @@ static int cs_calculate_ecc(struct nand_chip *this, const u_char *dat,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int cs553x_ecc_correct(struct nand_chip *chip,
 			      unsigned char *buf,
 			      unsigned char *read_ecc,
@@ -254,8 +250,6 @@ static int cs553x_ecc_correct(struct nand_chip *chip,
 				      chip->ecc.size, false);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct cs553x_nand_controller *controllers[4];
 
 static int cs553x_attach_chip(struct nand_chip *chip)
@@ -267,11 +261,7 @@ static int cs553x_attach_chip(struct nand_chip *chip)
 	chip->ecc.bytes = 3;
 	chip->ecc.hwctl  = cs_enable_hwecc;
 	chip->ecc.calculate = cs_calculate_ecc;
-<<<<<<< HEAD
 	chip->ecc.correct  = cs553x_ecc_correct;
-=======
-	chip->ecc.correct  = rawnand_sw_hamming_correct;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	chip->ecc.strength = 1;
 
 	return 0;

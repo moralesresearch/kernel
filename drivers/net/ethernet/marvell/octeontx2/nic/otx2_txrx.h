@@ -24,10 +24,6 @@
 
 #define	OTX2_ETH_HLEN		(VLAN_ETH_HLEN + VLAN_HLEN)
 #define	OTX2_MIN_MTU		64
-<<<<<<< HEAD
-=======
-#define	OTX2_MAX_MTU		(9212 - OTX2_ETH_HLEN)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define OTX2_MAX_GSO_SEGS	255
 #define OTX2_MAX_FRAGS_IN_SQE	9
@@ -117,10 +113,7 @@ struct otx2_cq_poll {
 struct otx2_pool {
 	struct qmem		*stack;
 	struct qmem		*fc_addr;
-<<<<<<< HEAD
 	u64			*lmt_addr;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16			rbsize;
 };
 
@@ -163,13 +156,10 @@ static inline u64 otx2_iova_to_phys(void *iommu_domain, dma_addr_t dma_addr)
 int otx2_napi_handler(struct napi_struct *napi, int budget);
 bool otx2_sq_append_skb(struct net_device *netdev, struct otx2_snd_queue *sq,
 			struct sk_buff *skb, u16 qidx);
-<<<<<<< HEAD
 void cn10k_sqe_flush(void *dev, struct otx2_snd_queue *sq,
 		     int size, int qidx);
 void otx2_sqe_flush(void *dev, struct otx2_snd_queue *sq,
 		    int size, int qidx);
 void otx2_refill_pool_ptrs(void *dev, struct otx2_cq_queue *cq);
 void cn10k_refill_pool_ptrs(void *dev, struct otx2_cq_queue *cq);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* OTX2_TXRX_H */

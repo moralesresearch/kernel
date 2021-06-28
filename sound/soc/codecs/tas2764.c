@@ -457,7 +457,7 @@ static int tas2764_set_dai_tdm_slot(struct snd_soc_dai *dai,
 	return 0;
 }
 
-static struct snd_soc_dai_ops tas2764_dai_ops = {
+static const struct snd_soc_dai_ops tas2764_dai_ops = {
 	.mute_stream = tas2764_mute,
 	.hw_params  = tas2764_hw_params,
 	.set_fmt    = tas2764_set_fmt,
@@ -490,11 +490,7 @@ static struct snd_soc_dai_driver tas2764_dai_driver[] = {
 			.formats = TAS2764_FORMATS,
 		},
 		.ops = &tas2764_dai_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

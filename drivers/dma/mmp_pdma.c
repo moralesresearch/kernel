@@ -18,10 +18,6 @@
 #include <linux/of_device.h>
 #include <linux/of_dma.h>
 #include <linux/of.h>
-<<<<<<< HEAD
-=======
-#include <linux/dma/mmp-pdma.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "dmaengine.h"
 
@@ -1151,22 +1147,6 @@ static struct platform_driver mmp_pdma_driver = {
 	.remove		= mmp_pdma_remove,
 };
 
-<<<<<<< HEAD
-=======
-bool mmp_pdma_filter_fn(struct dma_chan *chan, void *param)
-{
-	struct mmp_pdma_chan *c = to_mmp_pdma_chan(chan);
-
-	if (chan->device->dev->driver != &mmp_pdma_driver.driver)
-		return false;
-
-	c->drcmr = *(unsigned int *)param;
-
-	return true;
-}
-EXPORT_SYMBOL_GPL(mmp_pdma_filter_fn);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 module_platform_driver(mmp_pdma_driver);
 
 MODULE_DESCRIPTION("MARVELL MMP Peripheral DMA Driver");

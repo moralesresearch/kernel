@@ -536,11 +536,7 @@ static struct snd_soc_dai_driver wm8804_dai = {
 		.formats = WM8804_FORMATS,
 	},
 	.ops = &wm8804_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1
-=======
-	.symmetric_rates = 1
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver soc_component_dev_wm8804 = {

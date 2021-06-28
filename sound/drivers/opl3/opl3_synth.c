@@ -290,11 +290,7 @@ int snd_opl3_load_patch(struct snd_opl3 *opl3,
 	}
 
 	if (name)
-<<<<<<< HEAD
 		strscpy(patch->name, name, sizeof(patch->name));
-=======
-		strlcpy(patch->name, name, sizeof(patch->name));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

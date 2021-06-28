@@ -2226,11 +2226,7 @@ static s32 adpt_scsi_to_i2o(adpt_hba* pHba, struct scsi_cmnd* cmd, struct adpt_d
 		default:
 			printk(KERN_WARNING"%s: scsi opcode 0x%x not supported.\n",
 			     pHba->name, cmd->cmnd[0]);
-<<<<<<< HEAD
 			cmd->result = (DID_ERROR <<16);
-=======
-			cmd->result = (DID_OK <<16) | (INITIATOR_ERROR << 8);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cmd->scsi_done(cmd);
 			return 	0;
 		}

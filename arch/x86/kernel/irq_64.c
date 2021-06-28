@@ -20,10 +20,7 @@
 #include <linux/sched/task_stack.h>
 
 #include <asm/cpu_entry_area.h>
-<<<<<<< HEAD
 #include <asm/softirq_stack.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/irq_stack.h>
 #include <asm/io_apic.h>
 #include <asm/apic.h>
@@ -52,12 +49,8 @@ static int map_irq_stack(unsigned int cpu)
 	if (!va)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	/* Store actual TOS to avoid adjustment in the hotpath */
 	per_cpu(hardirq_stack_ptr, cpu) = va + IRQ_STACK_SIZE - 8;
-=======
-	per_cpu(hardirq_stack_ptr, cpu) = va + IRQ_STACK_SIZE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 #else
@@ -69,12 +62,8 @@ static int map_irq_stack(unsigned int cpu)
 {
 	void *va = per_cpu_ptr(&irq_stack_backing_store, cpu);
 
-<<<<<<< HEAD
 	/* Store actual TOS to avoid adjustment in the hotpath */
 	per_cpu(hardirq_stack_ptr, cpu) = va + IRQ_STACK_SIZE - 8;
-=======
-	per_cpu(hardirq_stack_ptr, cpu) = va + IRQ_STACK_SIZE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 #endif
@@ -85,11 +74,3 @@ int irq_init_percpu_irqstack(unsigned int cpu)
 		return 0;
 	return map_irq_stack(cpu);
 }
-<<<<<<< HEAD
-=======
-
-void do_softirq_own_stack(void)
-{
-	run_on_irqstack_cond(__do_softirq, NULL);
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

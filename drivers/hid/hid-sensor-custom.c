@@ -4,10 +4,7 @@
  * Copyright (c) 2015, Intel Corporation.
  */
 
-<<<<<<< HEAD
 #include <linux/ctype.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -25,10 +22,7 @@
 #define HID_CUSTOM_TOTAL_ATTRS		(HID_CUSTOM_MAX_CORE_ATTRS + 1)
 #define HID_CUSTOM_FIFO_SIZE		4096
 #define HID_CUSTOM_MAX_FEATURE_BYTES	64
-<<<<<<< HEAD
 #define HID_SENSOR_USAGE_LENGTH (4 + 1)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct hid_sensor_custom_field {
 	int report_id;
@@ -58,10 +52,7 @@ struct hid_sensor_custom {
 	struct kfifo data_fifo;
 	unsigned long misc_opened;
 	wait_queue_head_t wait;
-<<<<<<< HEAD
 	struct platform_device *custom_pdev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Header for each sample to user space via dev interface */
@@ -396,7 +387,7 @@ static ssize_t store_value(struct device *dev, struct device_attribute *attr,
 	struct hid_sensor_custom *sensor_inst = dev_get_drvdata(dev);
 	int index, field_index, usage;
 	char name[HID_CUSTOM_NAME_LENGTH];
-	int value;
+	int value, ret;
 
 	if (sscanf(attr->attr.name, "feature-%x-%x-%s", &index, &usage,
 		   name) == 3) {
@@ -406,7 +397,6 @@ static ssize_t store_value(struct device *dev, struct device_attribute *attr,
 
 	if (!strncmp(name, "value", strlen("value"))) {
 		u32 report_id;
-		int ret;
 
 		if (kstrtoint(buf, 0, &value) != 0)
 			return -EINVAL;
@@ -415,6 +405,8 @@ static ssize_t store_value(struct device *dev, struct device_attribute *attr,
 								report_id;
 		ret = sensor_hub_set_feature(sensor_inst->hsdev, report_id,
 					     index, sizeof(value), &value);
+		if (ret)
+			return ret;
 	} else
 		return -EINVAL;
 
@@ -758,7 +750,6 @@ static void hid_sensor_custom_dev_if_remove(struct hid_sensor_custom
 
 }
 
-<<<<<<< HEAD
 /* luid defined in FW (e.g. ISH).  Maybe used to identify sensor. */
 static const char *const known_sensor_luid[] = { "020B000000000000" };
 
@@ -877,17 +868,12 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
 	return custom_pdev;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hid_sensor_custom_probe(struct platform_device *pdev)
 {
 	struct hid_sensor_custom *sensor_inst;
 	struct hid_sensor_hub_device *hsdev = pdev->dev.platform_data;
 	int ret;
-<<<<<<< HEAD
 	int index;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sensor_inst = devm_kzalloc(&pdev->dev, sizeof(*sensor_inst),
 				   GFP_KERNEL);
@@ -901,7 +887,6 @@ static int hid_sensor_custom_probe(struct platform_device *pdev)
 	sensor_inst->pdev = pdev;
 	mutex_init(&sensor_inst->mutex);
 	platform_set_drvdata(pdev, sensor_inst);
-<<<<<<< HEAD
 
 	index = get_known_custom_sensor_index(hsdev);
 	if (index >= 0 && index < ARRAY_SIZE(known_sensor_luid)) {
@@ -918,8 +903,6 @@ static int hid_sensor_custom_probe(struct platform_device *pdev)
 		return 0;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = sensor_hub_register_callback(hsdev, hsdev->usage,
 					   &sensor_inst->callbacks);
 	if (ret < 0) {
@@ -958,14 +941,11 @@ static int hid_sensor_custom_remove(struct platform_device *pdev)
 	struct hid_sensor_custom *sensor_inst = platform_get_drvdata(pdev);
 	struct hid_sensor_hub_device *hsdev = pdev->dev.platform_data;
 
-<<<<<<< HEAD
 	if (sensor_inst->custom_pdev) {
 		platform_device_unregister(sensor_inst->custom_pdev);
 		return 0;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hid_sensor_custom_dev_if_remove(sensor_inst);
 	hid_sensor_custom_remove_attributes(sensor_inst);
 	sysfs_remove_group(&sensor_inst->pdev->dev.kobj,

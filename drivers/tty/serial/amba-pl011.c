@@ -937,12 +937,10 @@ static void pl011_dma_rx_chars(struct uart_amba_port *uap,
 		fifotaken = pl011_fifo_to_tty(uap);
 	}
 
-	spin_unlock(&uap->port.lock);
 	dev_vdbg(uap->port.dev,
 		 "Took %d chars from DMA buffer and %d chars from the FIFO\n",
 		 dma_count, fifotaken);
 	tty_flip_buffer_push(port);
-	spin_lock(&uap->port.lock);
 }
 
 static void pl011_dma_rx_irq(struct uart_amba_port *uap)
@@ -2679,20 +2677,12 @@ static int pl011_probe(struct amba_device *dev, const struct amba_id *id)
 	return pl011_register_port(uap);
 }
 
-<<<<<<< HEAD
 static void pl011_remove(struct amba_device *dev)
-=======
-static int pl011_remove(struct amba_device *dev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct uart_amba_port *uap = amba_get_drvdata(dev);
 
 	uart_remove_one_port(&amba_reg, &uap->port);
 	pl011_unregister_port(uap);
-<<<<<<< HEAD
-=======
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM_SLEEP

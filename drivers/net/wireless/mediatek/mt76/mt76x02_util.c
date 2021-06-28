@@ -149,11 +149,7 @@ void mt76x02_init_device(struct mt76x02_dev *dev)
 	struct ieee80211_hw *hw = mt76_hw(dev);
 	struct wiphy *wiphy = hw->wiphy;
 
-<<<<<<< HEAD
 	INIT_DELAYED_WORK(&dev->mphy.mac_work, mt76x02_mac_work);
-=======
-	INIT_DELAYED_WORK(&dev->mt76.mac_work, mt76x02_mac_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hw->queues = 4;
 	hw->max_rates = 1;
@@ -201,17 +197,10 @@ void mt76x02_init_device(struct mt76x02_dev *dev)
 				IEEE80211_HT_CAP_LDPC_CODING;
 		dev->mphy.sband_5g.sband.ht_cap.cap |=
 				IEEE80211_HT_CAP_LDPC_CODING;
-<<<<<<< HEAD
 		dev->mphy.chainmask = 0x202;
 		dev->mphy.antenna_mask = 3;
 	} else {
 		dev->mphy.chainmask = 0x101;
-=======
-		dev->chainmask = 0x202;
-		dev->mphy.antenna_mask = 3;
-	} else {
-		dev->chainmask = 0x101;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev->mphy.antenna_mask = 1;
 	}
 }
@@ -315,11 +304,7 @@ mt76x02_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
 	unsigned int idx = 0;
 
 	/* Allow to change address in HW if we create first interface. */
-<<<<<<< HEAD
 	if (!dev->mt76.vif_mask &&
-=======
-	if (!dev->mphy.vif_mask &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (((vif->addr[0] ^ dev->mphy.macaddr[0]) & ~GENMASK(4, 1)) ||
 	     memcmp(vif->addr + 1, dev->mphy.macaddr + 1, ETH_ALEN - 1)))
 		mt76x02_mac_setaddr(dev, vif->addr);
@@ -344,19 +329,11 @@ mt76x02_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
 		idx += 8;
 
 	/* vif is already set or idx is 8 for AP/Mesh/... */
-<<<<<<< HEAD
 	if (dev->mt76.vif_mask & BIT(idx) ||
 	    (vif->type != NL80211_IFTYPE_STATION && idx > 7))
 		return -EBUSY;
 
 	dev->mt76.vif_mask |= BIT(idx);
-=======
-	if (dev->mphy.vif_mask & BIT(idx) ||
-	    (vif->type != NL80211_IFTYPE_STATION && idx > 7))
-		return -EBUSY;
-
-	dev->mphy.vif_mask |= BIT(idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mt76x02_vif_init(dev, vif, idx);
 	return 0;
@@ -369,11 +346,7 @@ void mt76x02_remove_interface(struct ieee80211_hw *hw,
 	struct mt76x02_dev *dev = hw->priv;
 	struct mt76x02_vif *mvif = (struct mt76x02_vif *)vif->drv_priv;
 
-<<<<<<< HEAD
 	dev->mt76.vif_mask &= ~BIT(mvif->idx);
-=======
-	dev->mphy.vif_mask &= ~BIT(mvif->idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(mt76x02_remove_interface);
 
@@ -474,13 +447,10 @@ int mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
 		return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 	/* MT76x0 GTK offloading does not work with more than one VIF */
 	if (is_mt76x0(dev) && !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
 		return -EOPNOTSUPP;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msta = sta ? (struct mt76x02_sta *)sta->drv_priv : NULL;
 	wcid = msta ? &msta->wcid : &mvif->group_wcid;
 

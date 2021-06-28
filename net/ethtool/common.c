@@ -68,14 +68,11 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
 	[NETIF_F_HW_TLS_RX_BIT] =	 "tls-hw-rx-offload",
 	[NETIF_F_GRO_FRAGLIST_BIT] =	 "rx-gro-list",
 	[NETIF_F_HW_MACSEC_BIT] =	 "macsec-hw-offload",
-<<<<<<< HEAD
 	[NETIF_F_GRO_UDP_FWD_BIT] =	 "rx-udp-gro-forwarding",
 	[NETIF_F_HW_HSR_TAG_INS_BIT] =	 "hsr-tag-ins-offload",
 	[NETIF_F_HW_HSR_TAG_RM_BIT] =	 "hsr-tag-rm-offload",
 	[NETIF_F_HW_HSR_FWD_BIT] =	 "hsr-fwd-offload",
 	[NETIF_F_HW_HSR_DUP_BIT] =	 "hsr-dup-offload",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 const char
@@ -205,7 +202,6 @@ const char link_mode_names[][ETH_GSTRING_LEN] = {
 };
 static_assert(ARRAY_SIZE(link_mode_names) == __ETHTOOL_LINK_MODE_MASK_NBITS);
 
-<<<<<<< HEAD
 #define __LINK_MODE_LANES_CR		1
 #define __LINK_MODE_LANES_CR2		2
 #define __LINK_MODE_LANES_CR4		4
@@ -354,8 +350,6 @@ const struct link_mode_info link_mode_params[] = {
 };
 static_assert(ARRAY_SIZE(link_mode_params) == __ETHTOOL_LINK_MODE_MASK_NBITS);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char netif_msg_class_names[][ETH_GSTRING_LEN] = {
 	[NETIF_MSG_DRV_BIT]		= "drv",
 	[NETIF_MSG_PROBE_BIT]		= "probe",
@@ -569,7 +563,6 @@ void ethtool_set_ethtool_phy_ops(const struct ethtool_phy_ops *ops)
 	rtnl_unlock();
 }
 EXPORT_SYMBOL_GPL(ethtool_set_ethtool_phy_ops);
-<<<<<<< HEAD
 
 void
 ethtool_params_from_link_mode(struct ethtool_link_ksettings *link_ksettings,
@@ -586,5 +579,3 @@ ethtool_params_from_link_mode(struct ethtool_link_ksettings *link_ksettings,
 	link_ksettings->base.duplex = link_info->duplex;
 }
 EXPORT_SYMBOL_GPL(ethtool_params_from_link_mode);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

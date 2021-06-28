@@ -132,7 +132,6 @@ mpt3sas_process_trigger_data(struct MPT3SAS_ADAPTER *ioc,
 		    &issue_reset);
 	}
 
-<<<<<<< HEAD
 	ioc->htb_rel.buffer_rel_condition = MPT3_DIAG_BUFFER_REL_TRIGGER;
 	if (event_data) {
 		ioc->htb_rel.trigger_type = event_data->trigger_type;
@@ -162,8 +161,6 @@ mpt3sas_process_trigger_data(struct MPT3SAS_ADAPTER *ioc,
 			break;
 		}
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	_mpt3sas_raise_sigio(ioc, event_data);
 
 	dTriggerDiagPrintk(ioc, ioc_info(ioc, "%s: exit\n",
@@ -233,7 +230,6 @@ mpt3sas_trigger_master(struct MPT3SAS_ADAPTER *ioc, u32 trigger_bitmask)
 	event_data.u.master.MasterData = trigger_bitmask;
 
 	if (trigger_bitmask & MASTER_TRIGGER_FW_FAULT ||
-<<<<<<< HEAD
 	    trigger_bitmask & MASTER_TRIGGER_ADAPTER_RESET) {
 		ioc->htb_rel.trigger_type = MPT3SAS_TRIGGER_MASTER;
 		ioc->htb_rel.trigger_info_dwords[0] = trigger_bitmask;
@@ -242,11 +238,6 @@ mpt3sas_trigger_master(struct MPT3SAS_ADAPTER *ioc, u32 trigger_bitmask)
 			    MPT_DIAG_RESET_ISSUED_BY_USER;
 		_mpt3sas_raise_sigio(ioc, &event_data);
 	} else
-=======
-	    trigger_bitmask & MASTER_TRIGGER_ADAPTER_RESET)
-		_mpt3sas_raise_sigio(ioc, &event_data);
-	else
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mpt3sas_send_trigger_data_event(ioc, &event_data);
 
  out:

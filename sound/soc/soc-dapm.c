@@ -2528,7 +2528,6 @@ static struct snd_soc_dapm_widget *dapm_find_widget(
 {
 	struct snd_soc_dapm_widget *w;
 	struct snd_soc_dapm_widget *fallback = NULL;
-<<<<<<< HEAD
 	char prefixed_pin[80];
 	const char *pin_name;
 	const char *prefix = soc_dapm_prefix(dapm);
@@ -2543,11 +2542,6 @@ static struct snd_soc_dapm_widget *dapm_find_widget(
 
 	for_each_card_widgets(dapm->card, w) {
 		if (!strcmp(w->name, pin_name)) {
-=======
-
-	for_each_card_widgets(dapm->card, w) {
-		if (!strcmp(w->name, pin)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (w->dapm == dapm)
 				return w;
 			else
@@ -3837,11 +3831,9 @@ snd_soc_dai_link_event_pre_pmu(struct snd_soc_dapm_widget *w,
 		source = path->source->priv;
 
 		ret = snd_soc_dai_startup(source, substream);
-		if (ret < 0) {
-			dev_err(source->dev,
-				"ASoC: startup() failed: %d\n", ret);
+		if (ret < 0)
 			goto out;
-		}
+
 		snd_soc_dai_activate(source, substream->stream);
 	}
 
@@ -3850,11 +3842,9 @@ snd_soc_dai_link_event_pre_pmu(struct snd_soc_dapm_widget *w,
 		sink = path->sink->priv;
 
 		ret = snd_soc_dai_startup(sink, substream);
-		if (ret < 0) {
-			dev_err(sink->dev,
-				"ASoC: startup() failed: %d\n", ret);
+		if (ret < 0)
 			goto out;
-		}
+
 		snd_soc_dai_activate(sink, substream->stream);
 	}
 
@@ -3949,11 +3939,7 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 		snd_soc_dapm_widget_for_each_sink_path(w, path) {
 			sink = path->sink->priv;
 
-			ret = snd_soc_dai_digital_mute(sink, 0,
-						       SNDRV_PCM_STREAM_PLAYBACK);
-			if (ret != 0 && ret != -ENOTSUPP)
-				dev_warn(sink->dev,
-					 "ASoC: Failed to unmute: %d\n", ret);
+			snd_soc_dai_digital_mute(sink, 0, SNDRV_PCM_STREAM_PLAYBACK);
 			ret = 0;
 		}
 		break;
@@ -3962,11 +3948,7 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 		snd_soc_dapm_widget_for_each_sink_path(w, path) {
 			sink = path->sink->priv;
 
-			ret = snd_soc_dai_digital_mute(sink, 1,
-						       SNDRV_PCM_STREAM_PLAYBACK);
-			if (ret != 0 && ret != -ENOTSUPP)
-				dev_warn(sink->dev,
-					 "ASoC: Failed to mute: %d\n", ret);
+			snd_soc_dai_digital_mute(sink, 1, SNDRV_PCM_STREAM_PLAYBACK);
 			ret = 0;
 		}
 

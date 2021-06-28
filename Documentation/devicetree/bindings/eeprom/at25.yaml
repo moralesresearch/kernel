@@ -39,12 +39,7 @@ properties:
           - const: atmel,at25
 
   reg:
-<<<<<<< HEAD
     maxItems: 1
-=======
-    description:
-      Chip select number.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   spi-max-frequency: true
 

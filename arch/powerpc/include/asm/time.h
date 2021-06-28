@@ -102,11 +102,8 @@ DECLARE_PER_CPU(u64, decrementers_next_tb);
 /* Convert timebase ticks to nanoseconds */
 unsigned long long tb_to_ns(unsigned long long tb_ticks);
 
-<<<<<<< HEAD
 void timer_broadcast_interrupt(void);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* SPLPAR */
 void accumulate_stolen_time(void);
 

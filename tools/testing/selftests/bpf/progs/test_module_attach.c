@@ -17,7 +17,6 @@ int BPF_PROG(handle_raw_tp,
 	return 0;
 }
 
-<<<<<<< HEAD
 __u32 raw_tp_bare_write_sz = 0;
 
 SEC("raw_tp/bpf_testmod_test_write_bare")
@@ -28,8 +27,6 @@ int BPF_PROG(handle_raw_tp_bare,
 	return 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __u32 tp_btf_read_sz = 0;
 
 SEC("tp_btf/bpf_testmod_test_read")

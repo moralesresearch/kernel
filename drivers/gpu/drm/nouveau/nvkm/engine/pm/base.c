@@ -628,17 +628,10 @@ nvkm_perfmon_dtor(struct nvkm_object *object)
 {
 	struct nvkm_perfmon *perfmon = nvkm_perfmon(object);
 	struct nvkm_pm *pm = perfmon->pm;
-<<<<<<< HEAD
 	spin_lock(&pm->client.lock);
 	if (pm->client.object == &perfmon->object)
 		pm->client.object = NULL;
 	spin_unlock(&pm->client.lock);
-=======
-	mutex_lock(&pm->engine.subdev.mutex);
-	if (pm->perfmon == &perfmon->object)
-		pm->perfmon = NULL;
-	mutex_unlock(&pm->engine.subdev.mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return perfmon;
 }
 
@@ -678,19 +671,11 @@ nvkm_pm_oclass_new(struct nvkm_device *device, const struct nvkm_oclass *oclass,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	spin_lock(&pm->client.lock);
 	if (pm->client.object == NULL)
 		pm->client.object = *pobject;
 	ret = (pm->client.object == *pobject) ? 0 : -EBUSY;
 	spin_unlock(&pm->client.lock);
-=======
-	mutex_lock(&pm->engine.subdev.mutex);
-	if (pm->perfmon == NULL)
-		pm->perfmon = *pobject;
-	ret = (pm->perfmon == *pobject) ? 0 : -EBUSY;
-	mutex_unlock(&pm->engine.subdev.mutex);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -873,19 +858,11 @@ nvkm_pm = {
 
 int
 nvkm_pm_ctor(const struct nvkm_pm_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_pm *pm)
-=======
-	     int index, struct nvkm_pm *pm)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	pm->func = func;
 	INIT_LIST_HEAD(&pm->domains);
 	INIT_LIST_HEAD(&pm->sources);
-<<<<<<< HEAD
 	spin_lock_init(&pm->client.lock);
 	return nvkm_engine_ctor(&nvkm_pm, device, type, inst, true, &pm->engine);
-=======
-	return nvkm_engine_ctor(&nvkm_pm, device, index, true, &pm->engine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -27,7 +27,7 @@
 /* Data structure and operations for quarantine queues. */
 
 /*
- * Each queue is a signle-linked list, which also stores the total size of
+ * Each queue is a single-linked list, which also stores the total size of
  * objects inside of it.
  */
 struct qlist_head {
@@ -138,7 +138,7 @@ static void qlink_free(struct qlist_node *qlink, struct kmem_cache *cache)
 		local_irq_save(flags);
 
 	/*
-	 * As the object now gets freed from the quaratine, assume that its
+	 * As the object now gets freed from the quarantine, assume that its
 	 * free track is no longer valid.
 	 */
 	*(u8 *)kasan_mem_to_shadow(object) = KASAN_KMALLOC_FREE;
@@ -168,11 +168,7 @@ static void qlist_free_all(struct qlist_head *q, struct kmem_cache *cache)
 	qlist_init(q);
 }
 
-<<<<<<< HEAD
 bool kasan_quarantine_put(struct kmem_cache *cache, void *object)
-=======
-bool quarantine_put(struct kmem_cache *cache, void *object)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 	struct qlist_head *q;
@@ -188,19 +184,11 @@ bool quarantine_put(struct kmem_cache *cache, void *object)
 
 	/*
 	 * Note: irq must be disabled until after we move the batch to the
-<<<<<<< HEAD
 	 * global quarantine. Otherwise kasan_quarantine_remove_cache() can
 	 * miss some objects belonging to the cache if they are in our local
 	 * temp list. kasan_quarantine_remove_cache() executes on_each_cpu()
 	 * at the beginning which ensures that it either sees the objects in
 	 * per-cpu lists or in the global quarantine.
-=======
-	 * global quarantine. Otherwise quarantine_remove_cache() can miss
-	 * some objects belonging to the cache if they are in our local temp
-	 * list. quarantine_remove_cache() executes on_each_cpu() at the
-	 * beginning which ensures that it either sees the objects in per-cpu
-	 * lists or in the global quarantine.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	local_irq_save(flags);
 
@@ -234,11 +222,7 @@ bool quarantine_put(struct kmem_cache *cache, void *object)
 	return true;
 }
 
-<<<<<<< HEAD
 void kasan_quarantine_reduce(void)
-=======
-void quarantine_reduce(void)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	size_t total_size, new_quarantine_size, percpu_quarantines;
 	unsigned long flags;
@@ -250,11 +234,7 @@ void quarantine_reduce(void)
 		return;
 
 	/*
-<<<<<<< HEAD
 	 * srcu critical section ensures that kasan_quarantine_remove_cache()
-=======
-	 * srcu critical section ensures that quarantine_remove_cache()
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * will not miss objects belonging to the cache while they are in our
 	 * local to_free list. srcu is chosen because (1) it gives us private
 	 * grace period domain that does not interfere with anything else,
@@ -329,24 +309,15 @@ static void per_cpu_remove_cache(void *arg)
 }
 
 /* Free all quarantined objects belonging to cache. */
-<<<<<<< HEAD
 void kasan_quarantine_remove_cache(struct kmem_cache *cache)
-=======
-void quarantine_remove_cache(struct kmem_cache *cache)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags, i;
 	struct qlist_head to_free = QLIST_INIT;
 
 	/*
 	 * Must be careful to not miss any objects that are being moved from
-<<<<<<< HEAD
 	 * per-cpu list to the global quarantine in kasan_quarantine_put(),
 	 * nor objects being freed in kasan_quarantine_reduce(). on_each_cpu()
-=======
-	 * per-cpu list to the global quarantine in quarantine_put(),
-	 * nor objects being freed in quarantine_reduce(). on_each_cpu()
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * achieves the first goal, while synchronize_srcu() achieves the
 	 * second.
 	 */

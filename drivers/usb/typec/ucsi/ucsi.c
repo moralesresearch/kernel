@@ -63,7 +63,7 @@ static int ucsi_read_error(struct ucsi *ucsi)
 	u16 error;
 	int ret;
 
-	/* Acknowlege the command that failed */
+	/* Acknowledge the command that failed */
 	ret = ucsi_acknowledge_command(ucsi);
 	if (ret)
 		return ret;
@@ -495,12 +495,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
 	}
 }
 
-<<<<<<< HEAD
 static int ucsi_get_pdos(struct ucsi_connector *con, int is_partner,
 			 u32 *pdos, int offset, int num_pdos)
-=======
-static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ucsi *ucsi = con->ucsi;
 	u64 command;
@@ -508,7 +504,6 @@ static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
 
 	command = UCSI_COMMAND(UCSI_GET_PDOS) | UCSI_CONNECTOR_NUMBER(con->num);
 	command |= UCSI_GET_PDOS_PARTNER_PDO(is_partner);
-<<<<<<< HEAD
 	command |= UCSI_GET_PDOS_PDO_OFFSET(offset);
 	command |= UCSI_GET_PDOS_NUM_PDOS(num_pdos - 1);
 	command |= UCSI_GET_PDOS_SRC_PDOS;
@@ -542,19 +537,6 @@ static void ucsi_get_src_pdos(struct ucsi_connector *con, int is_partner)
 		return;
 
 	con->num_pdos += ret / sizeof(u32);
-=======
-	command |= UCSI_GET_PDOS_NUM_PDOS(UCSI_MAX_PDOS - 1);
-	command |= UCSI_GET_PDOS_SRC_PDOS;
-	ret = ucsi_send_command(ucsi, command, con->src_pdos,
-			       sizeof(con->src_pdos));
-	if (ret < 0) {
-		dev_err(ucsi->dev, "UCSI_GET_PDOS failed (%d)\n", ret);
-		return;
-	}
-	con->num_pdos = ret / sizeof(u32); /* number of bytes to 32-bit PDOs */
-	if (ret == 0)
-		dev_warn(ucsi->dev, "UCSI_GET_PDOS returned 0 bytes\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
@@ -563,11 +545,7 @@ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
 	case UCSI_CONSTAT_PWR_OPMODE_PD:
 		con->rdo = con->status.request_data_obj;
 		typec_set_pwr_opmode(con->port, TYPEC_PWR_MODE_PD);
-<<<<<<< HEAD
 		ucsi_get_src_pdos(con, 1);
-=======
-		ucsi_get_pdos(con, 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case UCSI_CONSTAT_PWR_OPMODE_TYPEC1_5:
 		con->rdo = 0;
@@ -633,10 +611,7 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
 
 static void ucsi_partner_change(struct ucsi_connector *con)
 {
-<<<<<<< HEAD
 	enum usb_role u_role = USB_ROLE_NONE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (!con->partner)
@@ -644,7 +619,6 @@ static void ucsi_partner_change(struct ucsi_connector *con)
 
 	switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
 	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
-<<<<<<< HEAD
 	case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
 		u_role = USB_ROLE_HOST;
 		fallthrough;
@@ -653,13 +627,6 @@ static void ucsi_partner_change(struct ucsi_connector *con)
 		break;
 	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
 		u_role = USB_ROLE_DEVICE;
-=======
-	case UCSI_CONSTAT_PARTNER_TYPE_CABLE:
-	case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
-		typec_set_data_role(con->port, TYPEC_HOST);
-		break;
-	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		typec_set_data_role(con->port, TYPEC_DEVICE);
 		break;
 	default:
@@ -670,7 +637,6 @@ static void ucsi_partner_change(struct ucsi_connector *con)
 	if (!completion_done(&con->complete))
 		complete(&con->complete);
 
-<<<<<<< HEAD
 	/* Only notify USB controller if partner supports USB data */
 	if (!(UCSI_CONSTAT_PARTNER_FLAGS(con->status.flags) & UCSI_CONSTAT_PARTNER_FLAG_USB))
 		u_role = USB_ROLE_NONE;
@@ -680,8 +646,6 @@ static void ucsi_partner_change(struct ucsi_connector *con)
 		dev_err(con->ucsi->dev, "con:%d: failed to set usb role:%d\n",
 			con->num, u_role);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Can't rely on Partner Flags field. Always checking the alt modes. */
 	ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
 	if (ret)
@@ -700,10 +664,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 	struct ucsi_connector_status pre_ack_status;
 	struct ucsi_connector_status post_ack_status;
 	enum typec_role role;
-<<<<<<< HEAD
 	enum usb_role u_role = USB_ROLE_NONE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 inferred_changes;
 	u16 changed_flags;
 	u64 command;
@@ -756,13 +717,8 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 	ucsi_send_command(con->ucsi, command, NULL, 0);
 
 	/* 3. ACK connector change */
-<<<<<<< HEAD
 	ret = ucsi_acknowledge_connector_change(ucsi);
 	clear_bit(EVENT_PENDING, &ucsi->flags);
-=======
-	clear_bit(EVENT_PENDING, &ucsi->flags);
-	ret = ucsi_acknowledge_connector_change(ucsi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
 		goto out_unlock;
@@ -834,7 +790,6 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 
 		switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
 		case UCSI_CONSTAT_PARTNER_TYPE_UFP:
-<<<<<<< HEAD
 		case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
 			u_role = USB_ROLE_HOST;
 			fallthrough;
@@ -843,13 +798,6 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 			break;
 		case UCSI_CONSTAT_PARTNER_TYPE_DFP:
 			u_role = USB_ROLE_DEVICE;
-=======
-		case UCSI_CONSTAT_PARTNER_TYPE_CABLE:
-		case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
-			typec_set_data_role(con->port, TYPEC_HOST);
-			break;
-		case UCSI_CONSTAT_PARTNER_TYPE_DFP:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			typec_set_data_role(con->port, TYPEC_DEVICE);
 			break;
 		default:
@@ -862,7 +810,6 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 			ucsi_unregister_partner(con);
 
 		ucsi_port_psy_changed(con);
-<<<<<<< HEAD
 
 		/* Only notify USB controller if partner supports USB data */
 		if (!(UCSI_CONSTAT_PARTNER_FLAGS(con->status.flags) &
@@ -873,8 +820,6 @@ static void ucsi_handle_connector_change(struct work_struct *work)
 		if (ret)
 			dev_err(ucsi->dev, "con:%d: failed to set usb role:%d\n",
 				con->num, u_role);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE)
@@ -1077,10 +1022,7 @@ static const struct typec_operations ucsi_ops = {
 	.pr_set = ucsi_pr_swap
 };
 
-<<<<<<< HEAD
 /* Caller must call fwnode_handle_put() after use */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct fwnode_handle *ucsi_find_fwnode(struct ucsi_connector *con)
 {
 	struct fwnode_handle *fwnode;
@@ -1097,10 +1039,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 	struct ucsi_connector *con = &ucsi->connector[index];
 	struct typec_capability *cap = &con->typec_cap;
 	enum typec_accessory *accessory = cap->accessory;
-<<<<<<< HEAD
 	enum usb_role u_role = USB_ROLE_NONE;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 command;
 	int ret;
 
@@ -1118,11 +1057,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 	command |= UCSI_CONNECTOR_NUMBER(con->num);
 	ret = ucsi_send_command(ucsi, command, &con->cap, sizeof(con->cap));
 	if (ret < 0)
-<<<<<<< HEAD
 		goto out_unlock;
-=======
-		goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (con->cap.op_mode & UCSI_CONCAP_OPMODE_DRP)
 		cap->data = TYPEC_PORT_DRD;
@@ -1141,10 +1076,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 
 	cap->revision = ucsi->cap.typec_version;
 	cap->pd_revision = ucsi->cap.pd_version;
-<<<<<<< HEAD
 	cap->svdm_version = SVDM_VER_2_0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cap->prefer_role = TYPEC_NO_PREFERRED_ROLE;
 
 	if (con->cap.op_mode & UCSI_CONCAP_OPMODE_AUDIO_ACCESSORY)
@@ -1187,7 +1119,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 
 	switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
 	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
-<<<<<<< HEAD
 	case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
 		u_role = USB_ROLE_HOST;
 		fallthrough;
@@ -1196,13 +1127,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 		break;
 	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
 		u_role = USB_ROLE_DEVICE;
-=======
-	case UCSI_CONSTAT_PARTNER_TYPE_CABLE:
-	case UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP:
-		typec_set_data_role(con->port, TYPEC_HOST);
-		break;
-	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		typec_set_data_role(con->port, TYPEC_DEVICE);
 		break;
 	default:
@@ -1218,7 +1142,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 		ucsi_port_psy_changed(con);
 	}
 
-<<<<<<< HEAD
 	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
 	if (IS_ERR(con->usb_role_sw)) {
 		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n",
@@ -1237,8 +1160,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 		ret = 0;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (con->partner) {
 		ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
 		if (ret) {
@@ -1254,11 +1175,8 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
 	trace_ucsi_register_port(con->num, &con->status);
 
 out:
-<<<<<<< HEAD
 	fwnode_handle_put(cap->fwnode);
 out_unlock:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&con->lock);
 	return ret;
 }
@@ -1335,10 +1253,7 @@ err_unregister:
 	}
 
 err_reset:
-<<<<<<< HEAD
 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ucsi_reset_ppm(ucsi);
 err:
 	return ret;

@@ -681,10 +681,6 @@ static int hdmi5_init_output(struct omap_hdmi *hdmi)
 	out->type = OMAP_DISPLAY_TYPE_HDMI;
 	out->name = "hdmi.0";
 	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
-<<<<<<< HEAD
-=======
-	out->owner = THIS_MODULE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	out->of_port = 0;
 
 	r = omapdss_device_init_output(out, &hdmi->bridge);

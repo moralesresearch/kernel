@@ -2,14 +2,9 @@
 CFS Bandwidth Control
 =====================
 
-<<<<<<< HEAD
 .. note::
    This document only discusses CPU bandwidth control for SCHED_NORMAL.
    The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst
-=======
-[ This document only discusses CPU bandwidth control for SCHED_NORMAL.
-  The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst ]
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
 specification of the maximum CPU bandwidth available to a group or hierarchy.
@@ -31,7 +26,6 @@ Management
 ----------
 Quota and period are managed within the cpu subsystem via cgroupfs.
 
-<<<<<<< HEAD
 .. note::
    The cgroupfs files described in this section are only applicable
    to cgroup v1. For cgroup v2, see
@@ -41,11 +35,6 @@ Quota and period are managed within the cpu subsystem via cgroupfs.
   microseconds)
 - cpu.cfs_period_us: the length of a period (in microseconds)
 - cpu.stat: exports throttling statistics [explained further below]
-=======
-cpu.cfs_quota_us: the total available run-time within a period (in microseconds)
-cpu.cfs_period_us: the length of a period (in microseconds)
-cpu.stat: exports throttling statistics [explained further below]
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The default values are::
 

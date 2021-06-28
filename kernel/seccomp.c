@@ -119,8 +119,11 @@ struct seccomp_kaddfd {
 	int fd;
 	unsigned int flags;
 
-	/* To only be set on reply */
-	int ret;
+	union {
+		bool setfd;
+		/* To only be set on reply */
+		int ret;
+	};
 	struct completion completion;
 	struct list_head list;
 };
@@ -817,7 +820,7 @@ static void seccomp_cache_prepare_bitmap(struct seccomp_filter *sfilter,
 }
 
 /**
- * seccomp_cache_prepare - emulate the filter to find cachable syscalls
+ * seccomp_cache_prepare - emulate the filter to find cacheable syscalls
  * @sfilter: The seccomp filter
  *
  * Returns 0 if successful or -errno if error occurred.
@@ -1069,7 +1072,11 @@ static void seccomp_handle_addfd(struct seccomp_kaddfd *addfd)
 	 * that it has been handled.
 	 */
 	list_del_init(&addfd->list);
-	addfd->ret = receive_fd_replace(addfd->fd, addfd->file, addfd->flags);
+	if (!addfd->setfd)
+		addfd->ret = receive_fd(addfd->file, addfd->flags);
+	else
+		addfd->ret = receive_fd_replace(addfd->fd, addfd->file,
+						addfd->flags);
 	complete(&addfd->completion);
 }
 
@@ -1098,15 +1105,10 @@ static int seccomp_do_user_notification(int this_syscall,
 
 	up(&match->notif->request);
 	wake_up_poll(&match->wqh, EPOLLIN | EPOLLRDNORM);
-<<<<<<< HEAD
-=======
-	mutex_unlock(&match->notify_lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * This is where we wait for a reply from userspace.
 	 */
-<<<<<<< HEAD
 	do {
 		mutex_unlock(&match->notify_lock);
 		err = wait_for_completion_interruptible(&n.ready);
@@ -1127,25 +1129,6 @@ static int seccomp_do_user_notification(int this_syscall,
 	flags = n.flags;
 
 interrupted:
-=======
-wait:
-	err = wait_for_completion_interruptible(&n.ready);
-	mutex_lock(&match->notify_lock);
-	if (err == 0) {
-		/* Check if we were woken up by a addfd message */
-		addfd = list_first_entry_or_null(&n.addfd,
-						 struct seccomp_kaddfd, list);
-		if (addfd && n.state != SECCOMP_NOTIFY_REPLIED) {
-			seccomp_handle_addfd(addfd);
-			mutex_unlock(&match->notify_lock);
-			goto wait;
-		}
-		ret = n.val;
-		err = n.error;
-		flags = n.flags;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* If there were any pending addfd calls, clear them out */
 	list_for_each_entry_safe(addfd, tmp, &n.addfd, list) {
 		/* The process went away before we got a chance to handle it */
@@ -1190,15 +1173,7 @@ static int __seccomp_filter(int this_syscall, const struct seccomp_data *sd,
 	 * Make sure that any changes to mode from another thread have
 	 * been seen after SYSCALL_WORK_SECCOMP was seen.
 	 */
-<<<<<<< HEAD
 	smp_rmb();
-=======
-<<<<<<< HEAD
-	smp_rmb();
-=======
-	rmb();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!sd) {
 		populate_seccomp_data(&sd_local);
@@ -1617,8 +1592,8 @@ static long seccomp_notify_addfd(struct seccomp_filter *filter,
 		return -EBADF;
 
 	kaddfd.flags = addfd.newfd_flags;
-	kaddfd.fd = (addfd.flags & SECCOMP_ADDFD_FLAG_SETFD) ?
-		    addfd.newfd : -1;
+	kaddfd.setfd = addfd.flags & SECCOMP_ADDFD_FLAG_SETFD;
+	kaddfd.fd = addfd.newfd;
 	init_completion(&kaddfd.completion);
 
 	ret = mutex_lock_interruptible(&filter->notify_lock);

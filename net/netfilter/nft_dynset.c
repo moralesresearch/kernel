@@ -16,13 +16,8 @@ struct nft_dynset {
 	struct nft_set			*set;
 	struct nft_set_ext_tmpl		tmpl;
 	enum nft_dynset_ops		op:8;
-<<<<<<< HEAD
 	u8				sreg_key;
 	u8				sreg_data;
-=======
-	enum nft_registers		sreg_key:8;
-	enum nft_registers		sreg_data:8;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool				invert;
 	bool				expr;
 	u8				num_exprs;
@@ -166,13 +161,14 @@ static int nft_dynset_init(const struct nft_ctx *ctx,
 			   const struct nft_expr *expr,
 			   const struct nlattr * const tb[])
 {
+	struct nftables_pernet *nft_net = nft_pernet(ctx->net);
 	struct nft_dynset *priv = nft_expr_priv(expr);
 	u8 genmask = nft_genmask_next(ctx->net);
 	struct nft_set *set;
 	u64 timeout;
 	int err, i;
 
-	lockdep_assert_held(&ctx->net->nft.commit_mutex);
+	lockdep_assert_held(&nft_net->commit_mutex);
 
 	if (tb[NFTA_DYNSET_SET_NAME] == NULL ||
 	    tb[NFTA_DYNSET_OP] == NULL ||
@@ -224,13 +220,8 @@ static int nft_dynset_init(const struct nft_ctx *ctx,
 			return err;
 	}
 
-<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_DYNSET_SREG_KEY], &priv->sreg_key,
 				      set->klen);
-=======
-	priv->sreg_key = nft_parse_register(tb[NFTA_DYNSET_SREG_KEY]);
-	err = nft_validate_register_load(priv->sreg_key, set->klen);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -240,13 +231,8 @@ static int nft_dynset_init(const struct nft_ctx *ctx,
 		if (set->dtype == NFT_DATA_VERDICT)
 			return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 		err = nft_parse_register_load(tb[NFTA_DYNSET_SREG_DATA],
 					      &priv->sreg_data, set->dlen);
-=======
-		priv->sreg_data = nft_parse_register(tb[NFTA_DYNSET_SREG_DATA]);
-		err = nft_validate_register_load(priv->sreg_data, set->dlen);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0)
 			return err;
 	} else if (set->flags & NFT_SET_MAP)

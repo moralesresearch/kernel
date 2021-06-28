@@ -844,11 +844,7 @@ struct fw_cdev_queue_iso {
  * struct fw_cdev_start_iso - Start an isochronous transmission or reception
  * @cycle:	Cycle in which to start I/O.  If @cycle is greater than or
  *		equal to 0, the I/O will start on that cycle.
-<<<<<<< HEAD
  * @sync:	Determines the value to wait for receive packets that have
-=======
- * @sync:	Determines the value to wait for for receive packets that have
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *		the %FW_CDEV_ISO_SYNC bit set
  * @tags:	Tag filter bit mask.  Only valid for isochronous reception.
  *		Determines the tag values for which packets will be accepted.

@@ -23,11 +23,8 @@
 # Makefile for the 'controller' sub-component of DAL.
 # It provides the control and status of HW CRTC block.
 
-<<<<<<< HEAD
 CFLAGS_$(AMDDALPATH)/dc/dce112/dce112_resource.o = $(call cc-disable-warning, override-init)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DCE112 = dce112_compressor.o dce112_hw_sequencer.o \
 dce112_resource.o
 

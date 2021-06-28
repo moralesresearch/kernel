@@ -350,16 +350,9 @@ static irqreturn_t mcp795_irq(int irq, void *data)
 {
 	struct spi_device *spi = data;
 	struct rtc_device *rtc = spi_get_drvdata(spi);
-<<<<<<< HEAD
 	int ret;
 
 	rtc_lock(rtc);
-=======
-	struct mutex *lock = &rtc->ops_lock;
-	int ret;
-
-	mutex_lock(lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable alarm.
 	 * There is no need to clear ALM0IF (Alarm 0 Interrupt Flag) bit,
@@ -371,11 +364,7 @@ static irqreturn_t mcp795_irq(int irq, void *data)
 			"Failed to disable alarm in IRQ (ret=%d)\n", ret);
 	rtc_update_irq(rtc, 1, RTC_AF | RTC_IRQF);
 
-<<<<<<< HEAD
 	rtc_unlock(rtc);
-=======
-	mutex_unlock(lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }

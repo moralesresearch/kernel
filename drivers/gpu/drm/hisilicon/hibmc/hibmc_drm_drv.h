@@ -37,19 +37,11 @@ struct hibmc_drm_private {
 	resource_size_t  fb_size;
 
 	/* drm */
-<<<<<<< HEAD
 	struct drm_device dev;
-=======
-	struct drm_device  *dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_plane primary_plane;
 	struct drm_crtc crtc;
 	struct drm_encoder encoder;
 	struct hibmc_connector connector;
-<<<<<<< HEAD
-=======
-	bool mode_config_initialized;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
@@ -59,11 +51,7 @@ static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *c
 
 static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
 {
-<<<<<<< HEAD
 	return container_of(dev, struct hibmc_drm_private, dev);
-=======
-	return dev->dev_private;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hibmc_set_power_mode(struct hibmc_drm_private *priv,
@@ -75,16 +63,6 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
 int hibmc_vdac_init(struct hibmc_drm_private *priv);
 
 int hibmc_mm_init(struct hibmc_drm_private *hibmc);
-<<<<<<< HEAD
 int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
 
-=======
-void hibmc_mm_fini(struct hibmc_drm_private *hibmc);
-int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
-		      struct drm_mode_create_dumb *args);
-int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
-
-extern const struct drm_mode_config_funcs hibmc_mode_funcs;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

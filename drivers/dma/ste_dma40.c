@@ -78,11 +78,7 @@ static int dma40_memcpy_channels[] = {
 	DB8500_DMA_MEMCPY_EV_5,
 };
 
-<<<<<<< HEAD
 /* Default configuration for physical memcpy */
-=======
-/* Default configuration for physcial memcpy */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct stedma40_chan_cfg dma40_memcpy_conf_phy = {
 	.mode = STEDMA40_MODE_PHYSICAL,
 	.dir = DMA_MEM_TO_MEM,
@@ -3679,12 +3675,9 @@ static int __init d40_probe(struct platform_device *pdev)
 
 	kfree(base->lcla_pool.base_unaligned);
 
-<<<<<<< HEAD
 	if (base->lcpa_base)
 		iounmap(base->lcpa_base);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (base->phy_lcpa)
 		release_mem_region(base->phy_lcpa,
 				   base->lcpa_size);

@@ -25,10 +25,7 @@
 #include <drm/drm_probe_helper.h>
 #include <drm/drm_simple_kms_helper.h>
 
-<<<<<<< HEAD
 #include "mtk_disp_drv.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mtk_drm_ddp_comp.h"
 
 #define DSI_START		0x00
@@ -182,10 +179,6 @@ struct mtk_dsi_driver_data {
 };
 
 struct mtk_dsi {
-<<<<<<< HEAD
-=======
-	struct mtk_ddp_comp ddp_comp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev;
 	struct mipi_dsi_host host;
 	struct drm_encoder encoder;
@@ -408,8 +401,11 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
 		break;
 	}
 
-	tmp_reg |= (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) << 6;
-	tmp_reg |= (dsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET) >> 3;
+	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+		tmp_reg |= HSTX_CKLP_EN;
+
+	if (!(dsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET))
+		tmp_reg |= DIS_EOT;
 
 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
 }
@@ -485,6 +481,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
 			  timing->da_hs_zero + timing->da_hs_exit + 3;
 
 	delta = dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ? 18 : 12;
+	delta += dsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET ? 2 : 0;
 
 	horizontal_frontporch_byte = vm->hfront_porch * dsi_tmp_buf_bpp;
 	horizontal_front_back_byte = horizontal_frontporch_byte + horizontal_backporch_byte;
@@ -774,40 +771,20 @@ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
 	.mode_set = mtk_dsi_bridge_mode_set,
 };
 
-<<<<<<< HEAD
 void mtk_dsi_ddp_start(struct device *dev)
 {
 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-=======
-static void mtk_dsi_ddp_start(struct mtk_ddp_comp *comp)
-{
-	struct mtk_dsi *dsi = container_of(comp, struct mtk_dsi, ddp_comp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mtk_dsi_poweron(dsi);
 }
 
-<<<<<<< HEAD
 void mtk_dsi_ddp_stop(struct device *dev)
 {
 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-=======
-static void mtk_dsi_ddp_stop(struct mtk_ddp_comp *comp)
-{
-	struct mtk_dsi *dsi = container_of(comp, struct mtk_dsi, ddp_comp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mtk_dsi_poweroff(dsi);
 }
 
-<<<<<<< HEAD
-=======
-static const struct mtk_ddp_comp_funcs mtk_dsi_funcs = {
-	.start = mtk_dsi_ddp_start,
-	.stop = mtk_dsi_ddp_stop,
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
 			       struct mipi_dsi_device *device)
 {
@@ -974,11 +951,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
 		return ret;
 	}
 
-<<<<<<< HEAD
 	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-=======
-	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->ddp_comp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
@@ -1006,43 +979,17 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
 	struct drm_device *drm = data;
 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
 	ret = mtk_dsi_encoder_init(drm, dsi);
 
-=======
-	ret = mtk_ddp_comp_register(drm, &dsi->ddp_comp);
-	if (ret < 0) {
-		dev_err(dev, "Failed to register component %pOF: %d\n",
-			dev->of_node, ret);
-		return ret;
-	}
-
-	ret = mtk_dsi_encoder_init(drm, dsi);
-	if (ret)
-		goto err_unregister;
-
-	return 0;
-
-err_unregister:
-	mtk_ddp_comp_unregister(drm, &dsi->ddp_comp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
 static void mtk_dsi_unbind(struct device *dev, struct device *master,
 			   void *data)
 {
-<<<<<<< HEAD
 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
 
 	drm_encoder_cleanup(&dsi->encoder);
-=======
-	struct drm_device *drm = data;
-	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-
-	drm_encoder_cleanup(&dsi->encoder);
-	mtk_ddp_comp_unregister(drm, &dsi->ddp_comp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct component_ops mtk_dsi_component_ops = {
@@ -1057,10 +1004,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
 	struct drm_panel *panel;
 	struct resource *regs;
 	int irq_num;
-<<<<<<< HEAD
-=======
-	int comp_id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
@@ -1130,23 +1073,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
 		goto err_unregister_host;
 	}
 
-<<<<<<< HEAD
-=======
-	comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DSI);
-	if (comp_id < 0) {
-		dev_err(dev, "Failed to identify by alias: %d\n", comp_id);
-		ret = comp_id;
-		goto err_unregister_host;
-	}
-
-	ret = mtk_ddp_comp_init(dev, dev->of_node, &dsi->ddp_comp, comp_id,
-				&mtk_dsi_funcs);
-	if (ret) {
-		dev_err(dev, "Failed to initialize component: %d\n", ret);
-		goto err_unregister_host;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	irq_num = platform_get_irq(pdev, 0);
 	if (irq_num < 0) {
 		dev_err(&pdev->dev, "failed to get dsi irq_num: %d\n", irq_num);
@@ -1154,14 +1080,8 @@ static int mtk_dsi_probe(struct platform_device *pdev)
 		goto err_unregister_host;
 	}
 
-<<<<<<< HEAD
 	ret = devm_request_irq(&pdev->dev, irq_num, mtk_dsi_irq,
 			       IRQF_TRIGGER_NONE, dev_name(&pdev->dev), dsi);
-=======
-	irq_set_status_flags(irq_num, IRQ_TYPE_LEVEL_LOW);
-	ret = devm_request_irq(&pdev->dev, irq_num, mtk_dsi_irq,
-			       IRQF_TRIGGER_LOW, dev_name(&pdev->dev), dsi);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(&pdev->dev, "failed to request mediatek dsi irq\n");
 		goto err_unregister_host;
@@ -1225,6 +1145,7 @@ static const struct of_device_id mtk_dsi_of_match[] = {
 	  .data = &mt8183_dsi_driver_data },
 	{ },
 };
+MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
 
 struct platform_driver mtk_dsi_driver = {
 	.probe = mtk_dsi_probe,

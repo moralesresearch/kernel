@@ -331,11 +331,7 @@ static enum bp_state reserve_additional_memory(void)
 	mutex_unlock(&balloon_mutex);
 	/* add_memory_resource() requires the device_hotplug lock */
 	lock_device_hotplug();
-<<<<<<< HEAD
 	rc = add_memory_resource(nid, resource, MHP_MERGE_RESOURCE);
-=======
-	rc = add_memory_resource(nid, resource, MEMHP_MERGE_RESOURCE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unlock_device_hotplug();
 	mutex_lock(&balloon_mutex);
 

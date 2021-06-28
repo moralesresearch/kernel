@@ -632,28 +632,11 @@ static void _dev_comp_vect_cpu_mask_clean_up(struct hfi1_devdata *dd,
  */
 int hfi1_dev_affinity_init(struct hfi1_devdata *dd)
 {
-<<<<<<< HEAD
-=======
-	int node = pcibus_to_node(dd->pcidev->bus);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hfi1_affinity_node *entry;
 	const struct cpumask *local_mask;
 	int curr_cpu, possible, i, ret;
 	bool new_entry = false;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * If the BIOS does not have the NUMA node information set, select
-	 * NUMA 0 so we get consistent performance.
-	 */
-	if (node < 0) {
-		dd_dev_err(dd, "Invalid PCI NUMA node. Performance may be affected\n");
-		node = 0;
-	}
-	dd->node = node;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	local_mask = cpumask_of_node(dd->node);
 	if (cpumask_first(local_mask) >= nr_cpu_ids)
 		local_mask = topology_core_cpumask(0);
@@ -666,11 +649,7 @@ int hfi1_dev_affinity_init(struct hfi1_devdata *dd)
 	 * create an entry in the global affinity structure and initialize it.
 	 */
 	if (!entry) {
-<<<<<<< HEAD
 		entry = node_affinity_allocate(dd->node);
-=======
-		entry = node_affinity_allocate(node);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!entry) {
 			dd_dev_err(dd,
 				   "Unable to allocate global affinity node\n");
@@ -761,10 +740,7 @@ int hfi1_dev_affinity_init(struct hfi1_devdata *dd)
 	if (new_entry)
 		node_affinity_add_tail(entry);
 
-<<<<<<< HEAD
 	dd->affinity_entry = entry;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&node_affinity.lock);
 
 	return 0;
@@ -780,16 +756,9 @@ void hfi1_dev_affinity_clean_up(struct hfi1_devdata *dd)
 {
 	struct hfi1_affinity_node *entry;
 
-<<<<<<< HEAD
 	mutex_lock(&node_affinity.lock);
 	if (!dd->affinity_entry)
 		goto unlock;
-=======
-	if (dd->node < 0)
-		return;
-
-	mutex_lock(&node_affinity.lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	entry = node_affinity_lookup(dd->node);
 	if (!entry)
 		goto unlock;
@@ -800,13 +769,8 @@ void hfi1_dev_affinity_clean_up(struct hfi1_devdata *dd)
 	 */
 	_dev_comp_vect_cpu_mask_clean_up(dd, entry);
 unlock:
-<<<<<<< HEAD
 	dd->affinity_entry = NULL;
 	mutex_unlock(&node_affinity.lock);
-=======
-	mutex_unlock(&node_affinity.lock);
-	dd->node = NUMA_NO_NODE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -998,7 +962,6 @@ void hfi1_put_irq_affinity(struct hfi1_devdata *dd,
 			   struct hfi1_msix_entry *msix)
 {
 	struct cpu_mask_set *set = NULL;
-	struct hfi1_ctxtdata *rcd;
 	struct hfi1_affinity_node *entry;
 
 	mutex_lock(&node_affinity.lock);
@@ -1012,14 +975,15 @@ void hfi1_put_irq_affinity(struct hfi1_devdata *dd,
 	case IRQ_GENERAL:
 		/* Don't do accounting for general contexts */
 		break;
-	case IRQ_RCVCTXT:
-		rcd = (struct hfi1_ctxtdata *)msix->arg;
+	case IRQ_RCVCTXT: {
+		struct hfi1_ctxtdata *rcd = msix->arg;
+
 		/* Don't do accounting for control contexts */
 		if (rcd->ctxt != HFI1_CTRL_CTXT)
 			set = &entry->rcv_intr;
 		break;
+	}
 	case IRQ_NETDEVCTXT:
-		rcd = (struct hfi1_ctxtdata *)msix->arg;
 		set = &entry->def_intr;
 		break;
 	default:

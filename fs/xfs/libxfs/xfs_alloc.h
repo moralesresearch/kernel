@@ -75,12 +75,9 @@ typedef struct xfs_alloc_arg {
 	char		wasfromfl;	/* set if allocation is from freelist */
 	struct xfs_owner_info	oinfo;	/* owner of blocks being allocated */
 	enum xfs_ag_resv_type	resv;	/* block reservation to use */
-<<<<<<< HEAD
 #ifdef DEBUG
 	bool		alloc_minlen_only; /* allocate exact minlen extent */
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } xfs_alloc_arg_t;
 
 /*

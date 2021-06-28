@@ -6,11 +6,7 @@
  */
 
 #include <linux/module.h>
-<<<<<<< HEAD
 #include <linux/gpio/consumer.h>
-=======
-#include <linux/gpio.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/i2c.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
@@ -22,10 +18,7 @@
 
 struct z2_charger {
 	struct z2_battery_info		*info;
-<<<<<<< HEAD
 	struct gpio_desc		*charge_gpiod;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int				bat_status;
 	struct i2c_client		*client;
 	struct power_supply		*batt_ps;
@@ -97,19 +90,11 @@ static void z2_batt_ext_power_changed(struct power_supply *batt_ps)
 static void z2_batt_update(struct z2_charger *charger)
 {
 	int old_status = charger->bat_status;
-	struct z2_battery_info *info;
-
-	info = charger->info;
 
 	mutex_lock(&charger->work_lock);
 
-<<<<<<< HEAD
 	charger->bat_status = charger->charge_gpiod ?
 		(gpiod_get_value(charger->charge_gpiod) ?
-=======
-	charger->bat_status = (info->charge_gpio >= 0) ?
-		(gpio_get_value(info->charge_gpio) ?
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		POWER_SUPPLY_STATUS_CHARGING :
 		POWER_SUPPLY_STATUS_DISCHARGING) :
 		POWER_SUPPLY_STATUS_UNKNOWN;
@@ -144,11 +129,7 @@ static int z2_batt_ps_init(struct z2_charger *charger, int props)
 	enum power_supply_property *prop;
 	struct z2_battery_info *info = charger->info;
 
-<<<<<<< HEAD
 	if (charger->charge_gpiod)
-=======
-	if (info->charge_gpio >= 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		props++;	/* POWER_SUPPLY_PROP_STATUS */
 	if (info->batt_tech >= 0)
 		props++;	/* POWER_SUPPLY_PROP_TECHNOLOGY */
@@ -164,11 +145,7 @@ static int z2_batt_ps_init(struct z2_charger *charger, int props)
 		return -ENOMEM;
 
 	prop[i++] = POWER_SUPPLY_PROP_PRESENT;
-<<<<<<< HEAD
 	if (charger->charge_gpiod)
-=======
-	if (info->charge_gpio >= 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		prop[i++] = POWER_SUPPLY_PROP_STATUS;
 	if (info->batt_tech >= 0)
 		prop[i++] = POWER_SUPPLY_PROP_TECHNOLOGY;
@@ -227,7 +204,6 @@ static int z2_batt_probe(struct i2c_client *client,
 
 	mutex_init(&charger->work_lock);
 
-<<<<<<< HEAD
 	charger->charge_gpiod = devm_gpiod_get_optional(&client->dev,
 							NULL, GPIOD_IN);
 	if (IS_ERR(charger->charge_gpiod))
@@ -245,24 +221,6 @@ static int z2_batt_probe(struct i2c_client *client,
 				"AC Detect", charger);
 		if (ret)
 			goto err;
-=======
-	if (info->charge_gpio >= 0 && gpio_is_valid(info->charge_gpio)) {
-		ret = gpio_request(info->charge_gpio, "BATT CHRG");
-		if (ret)
-			goto err;
-
-		ret = gpio_direction_input(info->charge_gpio);
-		if (ret)
-			goto err2;
-
-		irq_set_irq_type(gpio_to_irq(info->charge_gpio),
-				 IRQ_TYPE_EDGE_BOTH);
-		ret = request_irq(gpio_to_irq(info->charge_gpio),
-				z2_charge_switch_irq, 0,
-				"AC Detect", charger);
-		if (ret)
-			goto err3;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = z2_batt_ps_init(charger, props);
@@ -286,16 +244,8 @@ static int z2_batt_probe(struct i2c_client *client,
 err4:
 	kfree(charger->batt_ps_desc.properties);
 err3:
-<<<<<<< HEAD
 	if (charger->charge_gpiod)
 		free_irq(gpiod_to_irq(charger->charge_gpiod), charger);
-=======
-	if (info->charge_gpio >= 0 && gpio_is_valid(info->charge_gpio))
-		free_irq(gpio_to_irq(info->charge_gpio), charger);
-err2:
-	if (info->charge_gpio >= 0 && gpio_is_valid(info->charge_gpio))
-		gpio_free(info->charge_gpio);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err:
 	kfree(charger);
 	return ret;
@@ -304,24 +254,13 @@ err:
 static int z2_batt_remove(struct i2c_client *client)
 {
 	struct z2_charger *charger = i2c_get_clientdata(client);
-<<<<<<< HEAD
-=======
-	struct z2_battery_info *info = charger->info;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cancel_work_sync(&charger->bat_work);
 	power_supply_unregister(charger->batt_ps);
 
 	kfree(charger->batt_ps_desc.properties);
-<<<<<<< HEAD
 	if (charger->charge_gpiod)
 		free_irq(gpiod_to_irq(charger->charge_gpiod), charger);
-=======
-	if (info->charge_gpio >= 0 && gpio_is_valid(info->charge_gpio)) {
-		free_irq(gpio_to_irq(info->charge_gpio), charger);
-		gpio_free(info->charge_gpio);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(charger);
 

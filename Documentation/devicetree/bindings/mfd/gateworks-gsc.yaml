@@ -83,14 +83,9 @@ properties:
                 2 - scaled voltage based on an optional resistor divider
                     and optional offset
                 3 - pre-scaled 16-bit voltage value
-<<<<<<< HEAD
                 4 - fan tach input to report RPM's
             $ref: /schemas/types.yaml#/definitions/uint32
             enum: [0, 1, 2, 3, 4]
-=======
-            $ref: /schemas/types.yaml#/definitions/uint32
-            enum: [0, 1, 2, 3]
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
           gw,voltage-divider-ohms:
             description: Values of resistors for divider on raw ADC input

@@ -1289,10 +1289,7 @@ void iwl_mvm_rx_beacon_notif(struct iwl_mvm *mvm,
 			     struct iwl_rx_cmd_buffer *rxb)
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
-<<<<<<< HEAD
 	unsigned int pkt_len = iwl_rx_packet_payload_len(pkt);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_extended_beacon_notif *beacon = (void *)pkt->data;
 	struct iwl_extended_beacon_notif_v5 *beacon_v5 = (void *)pkt->data;
 	struct ieee80211_vif *csa_vif;
@@ -1308,12 +1305,9 @@ void iwl_mvm_rx_beacon_notif(struct iwl_mvm *mvm,
 		struct iwl_mvm_tx_resp *beacon_notify_hdr =
 			&beacon_v5->beacon_notify_hdr;
 
-<<<<<<< HEAD
 		if (unlikely(pkt_len < sizeof(*beacon_v5)))
 			return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mvm->ibss_manager = beacon_v5->ibss_mgr_status != 0;
 		agg_status = iwl_mvm_get_agg_status(mvm, beacon_notify_hdr);
 		status = le16_to_cpu(agg_status->status) & TX_STATUS_MSK;
@@ -1324,12 +1318,9 @@ void iwl_mvm_rx_beacon_notif(struct iwl_mvm *mvm,
 			     mvm->ap_last_beacon_gp2,
 			     le32_to_cpu(beacon_notify_hdr->initial_rate));
 	} else {
-<<<<<<< HEAD
 		if (unlikely(pkt_len < sizeof(*beacon)))
 			return;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mvm->ibss_manager = beacon->ibss_mgr_status != 0;
 		status = le32_to_cpu(beacon->status) & TX_STATUS_MSK;
 		IWL_DEBUG_RX(mvm,
@@ -1435,20 +1426,13 @@ void iwl_mvm_rx_stored_beacon_notif(struct iwl_mvm *mvm,
 				    struct iwl_rx_cmd_buffer *rxb)
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
-<<<<<<< HEAD
 	unsigned int pkt_len = iwl_rx_packet_payload_len(pkt);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_stored_beacon_notif *sb = (void *)pkt->data;
 	struct ieee80211_rx_status rx_status;
 	struct sk_buff *skb;
 	u32 size = le32_to_cpu(sb->byte_count);
 
-<<<<<<< HEAD
 	if (size == 0 || pkt_len < struct_size(sb, data, size))
-=======
-	if (size == 0)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	skb = alloc_skb(size, GFP_ATOMIC);
@@ -1484,20 +1468,10 @@ void iwl_mvm_probe_resp_data_notif(struct iwl_mvm *mvm,
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
 	struct iwl_probe_resp_data_notif *notif = (void *)pkt->data;
 	struct iwl_probe_resp_data *old_data, *new_data;
-<<<<<<< HEAD
-=======
-	int len = iwl_rx_packet_payload_len(pkt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 id = le32_to_cpu(notif->mac_id);
 	struct ieee80211_vif *vif;
 	struct iwl_mvm_vif *mvmvif;
 
-<<<<<<< HEAD
-=======
-	if (WARN_ON_ONCE(len < sizeof(*notif)))
-		return;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	IWL_DEBUG_INFO(mvm, "Probe response data notif: noa %d, csa %d\n",
 		       notif->noa_active, notif->csa_counter);
 
@@ -1544,17 +1518,8 @@ void iwl_mvm_channel_switch_noa_notif(struct iwl_mvm *mvm,
 	struct iwl_channel_switch_noa_notif *notif = (void *)pkt->data;
 	struct ieee80211_vif *csa_vif, *vif;
 	struct iwl_mvm_vif *mvmvif;
-<<<<<<< HEAD
 	u32 id_n_color, csa_id, mac_id;
 
-=======
-	int len = iwl_rx_packet_payload_len(pkt);
-	u32 id_n_color, csa_id, mac_id;
-
-	if (WARN_ON_ONCE(len < sizeof(*notif)))
-		return;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	id_n_color = le32_to_cpu(notif->id_and_color);
 	mac_id = id_n_color & FW_CTXT_ID_MSK;
 

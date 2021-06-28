@@ -156,11 +156,7 @@ static const struct snd_soc_dai_ops axi_i2s_dai_ops = {
 static struct snd_soc_dai_driver axi_i2s_dai = {
 	.probe = axi_i2s_dai_probe,
 	.ops = &axi_i2s_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver axi_i2s_component = {

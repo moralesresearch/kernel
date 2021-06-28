@@ -37,7 +37,6 @@ properties:
     maxItems: 1
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/$defs/port-base
     description: |
       Video output port.
@@ -46,15 +45,6 @@ properties:
       endpoint:
         $ref: /schemas/media/video-interfaces.yaml#
         unevaluatedProperties: false
-=======
-    type: object
-    description: |
-      Video output port. See ../video-interfaces.txt.
-
-    properties:
-      endpoint:
-        type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         properties:
           bus-type:
@@ -102,11 +92,6 @@ properties:
         required:
           - bus-type
 
-<<<<<<< HEAD
-=======
-        unevaluatedProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     additionalProperties: false
 
 required:

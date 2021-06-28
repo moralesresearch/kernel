@@ -15,14 +15,7 @@
 #include <linux/pm_runtime.h>
 #include <soc/mediatek/smi.h>
 #include <dt-bindings/memory/mt2701-larb-port.h>
-<<<<<<< HEAD
 #include <dt-bindings/memory/mtk-memory-port.h>
-=======
-<<<<<<< HEAD
-#include <dt-bindings/memory/mtk-memory-port.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* mt8173 */
 #define SMI_LARB_MMU_EN		0xf00
@@ -51,19 +44,10 @@
 /* mt2712 */
 #define SMI_LARB_NONSEC_CON(id)	(0x380 + ((id) * 4))
 #define F_MMU_EN		BIT(0)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BANK_SEL(id)		({			\
 	u32 _id = (id) & 0x3;				\
 	(_id << 8 | _id << 10 | _id << 12 | _id << 14);	\
 })
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* SMI COMMON */
 #define SMI_BUS_SEL			0x220
@@ -108,14 +92,7 @@ struct mtk_smi_larb { /* larb: local arbiter */
 	const struct mtk_smi_larb_gen	*larb_gen;
 	int				larbid;
 	u32				*mmu;
-<<<<<<< HEAD
 	unsigned char			*bank;
-=======
-<<<<<<< HEAD
-	unsigned char			*bank;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int mtk_smi_clk_enable(const struct mtk_smi *smi)
@@ -182,14 +159,7 @@ mtk_smi_larb_bind(struct device *dev, struct device *master, void *data)
 		if (dev == larb_mmu[i].dev) {
 			larb->larbid = i;
 			larb->mmu = &larb_mmu[i].mmu;
-<<<<<<< HEAD
 			larb->bank = larb_mmu[i].bank;
-=======
-<<<<<<< HEAD
-			larb->bank = larb_mmu[i].bank;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 		}
 	}
@@ -208,14 +178,7 @@ static void mtk_smi_larb_config_port_gen2_general(struct device *dev)
 	for_each_set_bit(i, (unsigned long *)larb->mmu, 32) {
 		reg = readl_relaxed(larb->base + SMI_LARB_NONSEC_CON(i));
 		reg |= F_MMU_EN;
-<<<<<<< HEAD
 		reg |= BANK_SEL(larb->bank[i]);
-=======
-<<<<<<< HEAD
-		reg |= BANK_SEL(larb->bank[i]);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		writel(reg, larb->base + SMI_LARB_NONSEC_CON(i));
 	}
 }
@@ -356,6 +319,7 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct device_node *smi_node;
 	struct platform_device *smi_pdev;
+	struct device_link *link;
 
 	larb = devm_kzalloc(dev, sizeof(*larb), GFP_KERNEL);
 	if (!larb)
@@ -395,6 +359,12 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
 		if (!platform_get_drvdata(smi_pdev))
 			return -EPROBE_DEFER;
 		larb->smi_common_dev = &smi_pdev->dev;
+		link = device_link_add(dev, larb->smi_common_dev,
+				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+		if (!link) {
+			dev_err(dev, "Unable to link smi-common dev\n");
+			return -ENODEV;
+		}
 	} else {
 		dev_err(dev, "Failed to get the smi_common device\n");
 		return -EINVAL;
@@ -407,6 +377,9 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
 
 static int mtk_smi_larb_remove(struct platform_device *pdev)
 {
+	struct mtk_smi_larb *larb = platform_get_drvdata(pdev);
+
+	device_link_remove(&pdev->dev, larb->smi_common_dev);
 	pm_runtime_disable(&pdev->dev);
 	component_del(&pdev->dev, &mtk_smi_larb_component_ops);
 	return 0;
@@ -418,17 +391,9 @@ static int __maybe_unused mtk_smi_larb_resume(struct device *dev)
 	const struct mtk_smi_larb_gen *larb_gen = larb->larb_gen;
 	int ret;
 
-	/* Power on smi-common. */
-	ret = pm_runtime_resume_and_get(larb->smi_common_dev);
-	if (ret < 0) {
-		dev_err(dev, "Failed to pm get for smi-common(%d).\n", ret);
-		return ret;
-	}
-
 	ret = mtk_smi_clk_enable(&larb->smi);
 	if (ret < 0) {
 		dev_err(dev, "Failed to enable clock(%d).\n", ret);
-		pm_runtime_put_sync(larb->smi_common_dev);
 		return ret;
 	}
 
@@ -443,7 +408,6 @@ static int __maybe_unused mtk_smi_larb_suspend(struct device *dev)
 	struct mtk_smi_larb *larb = dev_get_drvdata(dev);
 
 	mtk_smi_clk_disable(&larb->smi);
-	pm_runtime_put_sync(larb->smi_common_dev);
 	return 0;
 }
 
@@ -632,10 +596,6 @@ static struct platform_driver mtk_smi_common_driver = {
 	}
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct platform_driver * const smidrivers[] = {
 	&mtk_smi_common_driver,
 	&mtk_smi_larb_driver,
@@ -655,31 +615,3 @@ module_exit(mtk_smi_exit);
 
 MODULE_DESCRIPTION("MediaTek SMI driver");
 MODULE_LICENSE("GPL v2");
-<<<<<<< HEAD
-=======
-=======
-static int __init mtk_smi_init(void)
-{
-	int ret;
-
-	ret = platform_driver_register(&mtk_smi_common_driver);
-	if (ret != 0) {
-		pr_err("Failed to register SMI driver\n");
-		return ret;
-	}
-
-	ret = platform_driver_register(&mtk_smi_larb_driver);
-	if (ret != 0) {
-		pr_err("Failed to register SMI-LARB driver\n");
-		goto err_unreg_smi;
-	}
-	return ret;
-
-err_unreg_smi:
-	platform_driver_unregister(&mtk_smi_common_driver);
-	return ret;
-}
-
-module_init(mtk_smi_init);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

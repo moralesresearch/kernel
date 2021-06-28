@@ -7,10 +7,6 @@ struct cache_stat_collector {
 	atomic_t cache_misses;
 	atomic_t cache_bypass_hits;
 	atomic_t cache_bypass_misses;
-<<<<<<< HEAD
-=======
-	atomic_t cache_readaheads;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_t cache_miss_collisions;
 	atomic_t sectors_bypassed;
 };

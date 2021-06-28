@@ -373,11 +373,7 @@ static int rockchip_i2s_hw_params(struct snd_pcm_substream *substream,
 			   I2S_DMACR_RDL(16));
 
 	val = I2S_CKR_TRCM_TXRX;
-<<<<<<< HEAD
 	if (dai->driver->symmetric_rate && rtd->dai_link->symmetric_rate)
-=======
-	if (dai->driver->symmetric_rates && rtd->dai_link->symmetric_rates)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		val = I2S_CKR_TRCM_TXONLY;
 
 	regmap_update_bits(i2s->regmap, I2S_CKR,
@@ -475,11 +471,7 @@ static struct snd_soc_dai_driver rockchip_i2s_dai = {
 			    SNDRV_PCM_FMTBIT_S32_LE),
 	},
 	.ops = &rockchip_i2s_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct snd_soc_component_driver rockchip_i2s_component = {

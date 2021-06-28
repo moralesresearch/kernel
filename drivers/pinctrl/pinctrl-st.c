@@ -541,10 +541,6 @@ static void st_pinconf_set_retime_packed(struct st_pinctrl *info,
 	st_regmap_field_bit_set_clear_pin(rt_p->delay_0, delay & 0x1, pin);
 	/* 2 bit delay, msb */
 	st_regmap_field_bit_set_clear_pin(rt_p->delay_1, delay & 0x2, pin);
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void st_pinconf_set_retime_dedicated(struct st_pinctrl *info,

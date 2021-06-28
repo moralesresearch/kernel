@@ -879,8 +879,8 @@ static void tcp_v6_send_response(const struct sock *sk, struct sk_buff *skb, u32
 	struct net *net = sk ? sock_net(sk) : dev_net(skb_dst(skb)->dev);
 	struct sock *ctl_sk = net->ipv6.tcp_sk;
 	unsigned int tot_len = sizeof(struct tcphdr);
+	__be32 mrst = 0, *topt;
 	struct dst_entry *dst;
-	__be32 *topt;
 	__u32 mark = 0;
 
 	if (tsecr)
@@ -888,6 +888,15 @@ static void tcp_v6_send_response(const struct sock *sk, struct sk_buff *skb, u32
 #ifdef CONFIG_TCP_MD5SIG
 	if (key)
 		tot_len += TCPOLEN_MD5SIG_ALIGNED;
+#endif
+
+#ifdef CONFIG_MPTCP
+	if (rst && !key) {
+		mrst = mptcp_reset_option(skb);
+
+		if (mrst)
+			tot_len += sizeof(__be32);
+	}
 #endif
 
 	buff = alloc_skb(MAX_HEADER + sizeof(struct ipv6hdr) + tot_len,
@@ -919,6 +928,9 @@ static void tcp_v6_send_response(const struct sock *sk, struct sk_buff *skb, u32
 		*topt++ = htonl(tsval);
 		*topt++ = htonl(tsecr);
 	}
+
+	if (mrst)
+		*topt++ = mrst;
 
 #ifdef CONFIG_TCP_MD5SIG
 	if (key) {
@@ -1425,16 +1437,8 @@ out:
 	return NULL;
 }
 
-<<<<<<< HEAD
 INDIRECT_CALLABLE_DECLARE(struct dst_entry *ipv4_dst_check(struct dst_entry *,
 							   u32));
-=======
-<<<<<<< HEAD
-INDIRECT_CALLABLE_DECLARE(struct dst_entry *ipv4_dst_check(struct dst_entry *,
-							   u32));
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* The socket must have it's spinlock held when we get
  * here, unless it is a TCP_LISTEN socket.
  *
@@ -1488,17 +1492,8 @@ static int tcp_v6_do_rcv(struct sock *sk, struct sk_buff *skb)
 		sk_mark_napi_id(sk, skb);
 		if (dst) {
 			if (inet_sk(sk)->rx_dst_ifindex != skb->skb_iif ||
-<<<<<<< HEAD
 			    INDIRECT_CALL_1(dst->ops->check, ip6_dst_check,
 					    dst, np->rx_dst_cookie) == NULL) {
-=======
-<<<<<<< HEAD
-			    INDIRECT_CALL_1(dst->ops->check, ip6_dst_check,
-					    dst, np->rx_dst_cookie) == NULL) {
-=======
-			    dst->ops->check(dst, np->rx_dst_cookie) == NULL) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dst_release(dst);
 				sk->sk_rx_dst = NULL;
 			}
@@ -2146,14 +2141,7 @@ struct proto tcpv6_prot = {
 	.shutdown		= tcp_shutdown,
 	.setsockopt		= tcp_setsockopt,
 	.getsockopt		= tcp_getsockopt,
-<<<<<<< HEAD
 	.bpf_bypass_getsockopt	= tcp_bpf_bypass_getsockopt,
-=======
-<<<<<<< HEAD
-	.bpf_bypass_getsockopt	= tcp_bpf_bypass_getsockopt,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.keepalive		= tcp_set_keepalive,
 	.recvmsg		= tcp_recvmsg,
 	.sendmsg		= tcp_sendmsg,
@@ -2163,6 +2151,9 @@ struct proto tcpv6_prot = {
 	.hash			= inet6_hash,
 	.unhash			= inet_unhash,
 	.get_port		= inet_csk_get_port,
+#ifdef CONFIG_BPF_SYSCALL
+	.psock_update_sk_prot	= tcp_bpf_update_proto,
+#endif
 	.enter_memory_pressure	= tcp_enter_memory_pressure,
 	.leave_memory_pressure	= tcp_leave_memory_pressure,
 	.stream_memory_free	= tcp_stream_memory_free,

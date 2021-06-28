@@ -182,12 +182,9 @@ struct arch_shared_info {
 	unsigned long p2m_cr3;		/* cr3 value of the p2m address space */
 	unsigned long p2m_vaddr;	/* virtual address of the p2m list */
 	unsigned long p2m_generation;	/* generation count of p2m mapping */
-<<<<<<< HEAD
 #ifdef CONFIG_X86_32
 	uint32_t wc_sec_hi;
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 #endif	/* !__ASSEMBLY__ */
 

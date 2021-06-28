@@ -199,6 +199,7 @@
  * must end with any of these keywords:
  *   break;
  *   fallthrough;
+ *   continue;
  *   goto <label>;
  *   return [expression];
  *
@@ -211,15 +212,12 @@
 #endif
 
 /*
-<<<<<<< HEAD
  * gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#Common-Function-Attributes
  * clang: https://clang.llvm.org/docs/AttributeReference.html#flatten
  */
 # define __flatten			__attribute__((flatten))
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Note the missing underscores.
  *
  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noinline-function-attribute

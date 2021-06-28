@@ -514,13 +514,8 @@ static void aspeed_video_off(struct aspeed_video *video)
 	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
 
 	/* Turn off the relevant clocks */
-<<<<<<< HEAD
 	clk_disable(video->eclk);
 	clk_disable(video->vclk);
-=======
-	clk_disable(video->vclk);
-	clk_disable(video->eclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clear_bit(VIDEO_CLOCKS_ON, &video->flags);
 }
@@ -531,13 +526,8 @@ static void aspeed_video_on(struct aspeed_video *video)
 		return;
 
 	/* Turn on the relevant clocks */
-<<<<<<< HEAD
 	clk_enable(video->vclk);
 	clk_enable(video->eclk);
-=======
-	clk_enable(video->eclk);
-	clk_enable(video->vclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	set_bit(VIDEO_CLOCKS_ON, &video->flags);
 }
@@ -1729,16 +1719,11 @@ static int aspeed_video_probe(struct platform_device *pdev)
 		return rc;
 
 	rc = aspeed_video_setup_video(video);
-<<<<<<< HEAD
 	if (rc) {
 		clk_unprepare(video->vclk);
 		clk_unprepare(video->eclk);
 		return rc;
 	}
-=======
-	if (rc)
-		return rc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

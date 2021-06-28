@@ -235,15 +235,7 @@ static int smu7_get_current_pcie_lane_number(struct pp_hwmgr *hwmgr)
 /**
  * smu7_enable_smc_voltage_controller - Enable voltage control
  *
-<<<<<<< HEAD
  * @hwmgr:  the address of the powerplay hardware manager.
-=======
-<<<<<<< HEAD
- * @hwmgr:  the address of the powerplay hardware manager.
-=======
- * @hwmgr  the address of the powerplay hardware manager.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Return:   always PP_Result_OK
  */
 static int smu7_enable_smc_voltage_controller(struct pp_hwmgr *hwmgr)
@@ -1232,17 +1224,8 @@ static int smu7_enable_sclk_mclk_dpm(struct pp_hwmgr *hwmgr)
 		    (hwmgr->chip_id == CHIP_POLARIS10) ||
 		    (hwmgr->chip_id == CHIP_POLARIS11) ||
 		    (hwmgr->chip_id == CHIP_POLARIS12) ||
-<<<<<<< HEAD
 		    (hwmgr->chip_id == CHIP_TONGA) ||
 		    (hwmgr->chip_id == CHIP_TOPAZ))
-=======
-<<<<<<< HEAD
-		    (hwmgr->chip_id == CHIP_TONGA) ||
-		    (hwmgr->chip_id == CHIP_TOPAZ))
-=======
-		    (hwmgr->chip_id == CHIP_TONGA))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			PHM_WRITE_FIELD(hwmgr->device, MC_SEQ_CNTL_3, CAC_EN, 0x1);
 
 
@@ -1318,7 +1301,7 @@ static int smu7_start_dpm(struct pp_hwmgr *hwmgr)
 				(0 == smum_send_msg_to_smc(hwmgr,
 						PPSMC_MSG_PCIeDPM_Disable,
 						NULL)),
-				"Failed to disble pcie DPM during DPM Start Function!",
+				"Failed to disable pcie DPM during DPM Start Function!",
 				return -EINVAL);
 	}
 
@@ -4018,7 +4001,7 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
 		*((uint32_t *)value) = (uint32_t)convert_to_vddc(val_vid);
 		return 0;
 	default:
-		return -EINVAL;
+		return -EOPNOTSUPP;
 	}
 }
 
@@ -4574,15 +4557,7 @@ static int smu7_display_configuration_changed_task(struct pp_hwmgr *hwmgr)
  * smu7_set_max_fan_rpm_output - Set maximum target operating fan output RPM
  *
  * @hwmgr:  the address of the powerplay hardware manager.
-<<<<<<< HEAD
  * @us_max_fan_rpm:  max operating fan RPM value.
-=======
-<<<<<<< HEAD
- * @us_max_fan_rpm:  max operating fan RPM value.
-=======
- * @usMaxFanRpm:  max operating fan RPM value.
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Return:   The response that came from the SMC.
  */
 static int smu7_set_max_fan_rpm_output(struct pp_hwmgr *hwmgr, uint16_t us_max_fan_rpm)

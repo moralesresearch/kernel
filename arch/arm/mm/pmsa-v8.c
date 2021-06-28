@@ -95,18 +95,11 @@ void __init pmsav8_adjust_lowmem_bounds(void)
 {
 	phys_addr_t mem_end;
 	phys_addr_t reg_start, reg_end;
-<<<<<<< HEAD
 	bool first = true;
 	u64 i;
 
 	for_each_mem_range(i, &reg_start, &reg_end) {
 		if (first) {
-=======
-	u64 i;
-
-	for_each_mem_range(i, &reg_start, &reg_end) {
-		if (i == 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			phys_addr_t phys_offset = PHYS_OFFSET;
 
 			/*
@@ -115,10 +108,7 @@ void __init pmsav8_adjust_lowmem_bounds(void)
 			if (reg_start != phys_offset)
 				panic("First memory bank must be contiguous from PHYS_OFFSET");
 			mem_end = reg_end;
-<<<<<<< HEAD
 			first = false;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			/*
 			 * memblock auto merges contiguous blocks, remove

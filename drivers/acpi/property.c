@@ -564,15 +564,7 @@ int acpi_node_prop_get(const struct fwnode_handle *fwnode,
 
 /**
  * acpi_data_get_property_array - return an ACPI array property with given name
-<<<<<<< HEAD
  * @data: ACPI data object to get the property from
-=======
-<<<<<<< HEAD
- * @data: ACPI data object to get the property from
-=======
- * @adev: ACPI data object to get the property from
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @name: Name of the property
  * @type: Expected type of array elements
  * @obj: Location to store a pointer to the property value (if not NULL)
@@ -849,26 +841,6 @@ static int acpi_data_prop_read_single(const struct acpi_device_data *data,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-int acpi_dev_prop_read_single(struct acpi_device *adev, const char *propname,
-			      enum dev_prop_type proptype, void *val)
-{
-	int ret;
-
-	if (!adev || !val)
-		return -EINVAL;
-
-	ret = acpi_data_prop_read_single(&adev->data, propname, proptype, val);
-	if (ret < 0 || proptype != ACPI_TYPE_STRING)
-		return ret;
-	return 0;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int acpi_copy_property_array_u8(const union acpi_object *items, u8 *val,
 				       size_t nval)
 {
@@ -1009,18 +981,6 @@ static int acpi_data_prop_read(const struct acpi_device_data *data,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-int acpi_dev_prop_read(const struct acpi_device *adev, const char *propname,
-		       enum dev_prop_type proptype, void *val, size_t nval)
-{
-	return adev ? acpi_data_prop_read(&adev->data, propname, proptype, val, nval) : -EINVAL;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * acpi_node_prop_read - retrieve the value of an ACPI property with given name.
  * @fwnode: Firmware node to get the property from.
@@ -1033,21 +993,9 @@ int acpi_dev_prop_read(const struct acpi_device *adev, const char *propname,
  * of the property.  Otherwise, read at most @nval values to the array at the
  * location pointed to by @val.
  */
-<<<<<<< HEAD
 static int acpi_node_prop_read(const struct fwnode_handle *fwnode,
 			       const char *propname, enum dev_prop_type proptype,
 			       void *val, size_t nval)
-=======
-<<<<<<< HEAD
-static int acpi_node_prop_read(const struct fwnode_handle *fwnode,
-			       const char *propname, enum dev_prop_type proptype,
-			       void *val, size_t nval)
-=======
-int acpi_node_prop_read(const struct fwnode_handle *fwnode,
-			const char *propname, enum dev_prop_type proptype,
-			void *val, size_t nval)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return acpi_data_prop_read(acpi_device_data_of_node(fwnode),
 				   propname, proptype, val, nval);
@@ -1264,16 +1212,7 @@ static struct fwnode_handle *acpi_graph_get_child_prop_value(
 
 /**
  * acpi_graph_get_remote_endpoint - Parses and returns remote end of an endpoint
-<<<<<<< HEAD
  * @__fwnode: Endpoint firmware node pointing to a remote device
-=======
-<<<<<<< HEAD
- * @__fwnode: Endpoint firmware node pointing to a remote device
-=======
- * @fwnode: Endpoint firmware node pointing to a remote device
- * @endpoint: Firmware node of remote endpoint is filled here if not %NULL
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Returns the remote endpoint corresponding to @__fwnode. NULL on error.
  */

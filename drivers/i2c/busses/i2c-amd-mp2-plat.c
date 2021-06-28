@@ -88,12 +88,7 @@ static void i2c_amd_cmd_completion(struct amd_i2c_common *i2c_common)
 	union i2c_event *event = &i2c_common->eventval;
 
 	if (event->r.status == i2c_readcomplete_event)
-<<<<<<< HEAD
 		dev_dbg(&i2c_dev->pdev->dev, "readdata:%*ph\n", event->r.length,
-=======
-		dev_dbg(&i2c_dev->pdev->dev, "%s readdata:%*ph\n",
-			__func__, event->r.length,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			i2c_common->msg->buf);
 
 	complete(&i2c_dev->cmd_complete);

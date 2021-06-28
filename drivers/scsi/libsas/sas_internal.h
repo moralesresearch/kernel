@@ -48,17 +48,7 @@ int sas_show_oob_mode(enum sas_oob_mode oob_mode, char *buf);
 int  sas_register_phys(struct sas_ha_struct *sas_ha);
 void sas_unregister_phys(struct sas_ha_struct *sas_ha);
 
-<<<<<<< HEAD
 struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy, gfp_t gfp_flags);
-=======
-<<<<<<< HEAD
-struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy, gfp_t gfp_flags);
-=======
-struct asd_sas_event *sas_alloc_event(struct asd_sas_phy *phy);
-struct asd_sas_event *sas_alloc_event_gfp(struct asd_sas_phy *phy,
-					  gfp_t gfp_flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sas_free_event(struct asd_sas_event *event);
 
 int  sas_register_ports(struct sas_ha_struct *sas_ha);
@@ -86,19 +76,8 @@ int sas_smp_phy_control(struct domain_device *dev, int phy_id,
 			enum phy_func phy_func, struct sas_phy_linkrates *);
 int sas_smp_get_phy_events(struct sas_phy *phy);
 
-<<<<<<< HEAD
 int sas_notify_phy_event(struct asd_sas_phy *phy, enum phy_event event,
 			 gfp_t flags);
-=======
-<<<<<<< HEAD
-int sas_notify_phy_event(struct asd_sas_phy *phy, enum phy_event event,
-			 gfp_t flags);
-=======
-int sas_notify_phy_event(struct asd_sas_phy *phy, enum phy_event event);
-int sas_notify_phy_event_gfp(struct asd_sas_phy *phy, enum phy_event event,
-			     gfp_t flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void sas_device_set_phy(struct domain_device *dev, struct sas_port *port);
 struct domain_device *sas_find_dev_by_rphy(struct sas_rphy *rphy);
 struct domain_device *sas_ex_to_ata(struct domain_device *ex_dev, int phy_id);

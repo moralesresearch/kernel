@@ -586,13 +586,8 @@ int qedr_gsi_post_send(struct ib_qp *ibqp, const struct ib_send_wr *wr,
 		qp->wqe_wr_id[qp->sq.prod].wr_id = wr->wr_id;
 		qedr_inc_sw_prod(&qp->sq);
 		DP_DEBUG(qp->dev, QEDR_MSG_GSI,
-<<<<<<< HEAD
 			 "gsi post send: opcode=%d, wr_id=%llx\n", wr->opcode,
 			 wr->wr_id);
-=======
-			 "gsi post send: opcode=%d, in_irq=%ld, irqs_disabled=%d, wr_id=%llx\n",
-			 wr->opcode, in_irq(), irqs_disabled(), wr->wr_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		DP_ERR(dev, "gsi post send: failed to transmit (rc=%d)\n", rc);
 		rc = -EAGAIN;

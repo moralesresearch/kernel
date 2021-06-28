@@ -7,11 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
 title: Clock bindings for Freescale i.MX5
 
 maintainers:
-<<<<<<< HEAD
   - Fabio Estevam <festevam@gmail.com>
-=======
-  - Fabio Estevam <fabio.estevam@nxp.com>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 description: |
   The clock consumer should specify the desired clock by having the clock

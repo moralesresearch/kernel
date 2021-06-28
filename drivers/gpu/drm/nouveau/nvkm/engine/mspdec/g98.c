@@ -43,15 +43,8 @@ g98_mspdec = {
 };
 
 int
-<<<<<<< HEAD
 g98_mspdec_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_engine **pengine)
 {
 	return nvkm_mspdec_new_(&g98_mspdec, device, type, inst, pengine);
-=======
-g98_mspdec_new(struct nvkm_device *device, int index,
-	     struct nvkm_engine **pengine)
-{
-	return nvkm_mspdec_new_(&g98_mspdec, device, index, pengine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

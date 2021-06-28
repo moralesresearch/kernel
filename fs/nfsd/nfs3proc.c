@@ -124,25 +124,17 @@ nfsd3_proc_access(struct svc_rqst *rqstp)
 static __be32
 nfsd3_proc_readlink(struct svc_rqst *rqstp)
 {
-<<<<<<< HEAD
 	struct nfsd_fhandle *argp = rqstp->rq_argp;
 	struct nfsd3_readlinkres *resp = rqstp->rq_resp;
-	char *buffer = page_address(*(rqstp->rq_next_page++));
-=======
-	struct nfsd3_readlinkargs *argp = rqstp->rq_argp;
-	struct nfsd3_readlinkres *resp = rqstp->rq_resp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("nfsd: READLINK(3) %s\n", SVCFH_fmt(&argp->fh));
 
 	/* Read the symlink. */
 	fh_copy(&resp->fh, &argp->fh);
 	resp->len = NFS3_MAXPATHLEN;
-<<<<<<< HEAD
-	resp->status = nfsd_readlink(rqstp, &resp->fh, buffer, &resp->len);
-=======
-	resp->status = nfsd_readlink(rqstp, &resp->fh, argp->buffer, &resp->len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	resp->pages = rqstp->rq_next_page++;
+	resp->status = nfsd_readlink(rqstp, &resp->fh,
+				     page_address(*resp->pages), &resp->len);
 	return rpc_success;
 }
 
@@ -154,25 +146,20 @@ nfsd3_proc_read(struct svc_rqst *rqstp)
 {
 	struct nfsd3_readargs *argp = rqstp->rq_argp;
 	struct nfsd3_readres *resp = rqstp->rq_resp;
-<<<<<<< HEAD
 	u32 max_blocksize = svc_max_payload(rqstp);
 	unsigned int len;
 	int v;
 
 	argp->count = min_t(u32, argp->count, max_blocksize);
-=======
-	u32	max_blocksize = svc_max_payload(rqstp);
-	unsigned long cnt = min(argp->count, max_blocksize);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("nfsd: READ(3) %s %lu bytes at %Lu\n",
 				SVCFH_fmt(&argp->fh),
 				(unsigned long) argp->count,
 				(unsigned long long) argp->offset);
 
-<<<<<<< HEAD
 	v = 0;
 	len = argp->count;
+	resp->pages = rqstp->rq_next_page;
 	while (len > 0) {
 		struct page *page = *(rqstp->rq_next_page++);
 
@@ -182,27 +169,16 @@ nfsd3_proc_read(struct svc_rqst *rqstp)
 		v++;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Obtain buffer pointer for payload.
 	 * 1 (status) + 22 (post_op_attr) + 1 (count) + 1 (eof)
 	 * + 1 (xdr opaque byte count) = 26
 	 */
-<<<<<<< HEAD
 	resp->count = argp->count;
-=======
-	resp->count = cnt;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	svc_reserve_auth(rqstp, ((1 + NFS3_POST_OP_ATTR_WORDS + 3)<<2) + resp->count +4);
 
 	fh_copy(&resp->fh, &argp->fh);
 	resp->status = nfsd_read(rqstp, &resp->fh, argp->offset,
-<<<<<<< HEAD
 				 rqstp->rq_vec, v, &resp->count, &resp->eof);
-=======
-				 rqstp->rq_vec, argp->vlen, &resp->count,
-				 &resp->eof);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rpc_success;
 }
 
@@ -461,26 +437,36 @@ nfsd3_proc_link(struct svc_rqst *rqstp)
 	return rpc_success;
 }
 
-<<<<<<< HEAD
 static void nfsd3_init_dirlist_pages(struct svc_rqst *rqstp,
 				     struct nfsd3_readdirres *resp,
 				     int count)
 {
+	struct xdr_buf *buf = &resp->dirlist;
+	struct xdr_stream *xdr = &resp->xdr;
+
 	count = min_t(u32, count, svc_max_payload(rqstp));
 
-	/* Convert byte count to number of words (i.e. >> 2),
-	 * and reserve room for the NULL ptr & eof flag (-2 words) */
-	resp->buflen = (count >> 2) - 2;
+	memset(buf, 0, sizeof(*buf));
 
-	resp->buffer = page_address(*rqstp->rq_next_page);
+	/* Reserve room for the NULL ptr & eof flag (-2 words) */
+	buf->buflen = count - XDR_UNIT * 2;
+	buf->pages = rqstp->rq_next_page;
 	while (count > 0) {
 		rqstp->rq_next_page++;
 		count -= PAGE_SIZE;
 	}
+
+	/* This is xdr_init_encode(), but it assumes that
+	 * the head kvec has already been consumed. */
+	xdr_set_scratch_buffer(xdr, NULL, 0);
+	xdr->buf = buf;
+	xdr->page_ptr = buf->pages;
+	xdr->iov = NULL;
+	xdr->p = page_address(*buf->pages);
+	xdr->end = xdr->p + (PAGE_SIZE >> 2);
+	xdr->rqst = NULL;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Read a portion of a directory.
  */
@@ -489,72 +475,26 @@ nfsd3_proc_readdir(struct svc_rqst *rqstp)
 {
 	struct nfsd3_readdirargs *argp = rqstp->rq_argp;
 	struct nfsd3_readdirres  *resp = rqstp->rq_resp;
-	int		count = 0;
-<<<<<<< HEAD
 	loff_t		offset;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-	struct page	**p;
-	caddr_t		page_addr = NULL;
 
 	dprintk("nfsd: READDIR(3)  %s %d bytes at %d\n",
 				SVCFH_fmt(&argp->fh),
 				argp->count, (u32) argp->cookie);
 
-<<<<<<< HEAD
 	nfsd3_init_dirlist_pages(rqstp, resp, argp->count);
-=======
-	/* Make sure we've room for the NULL ptr & eof flag, and shrink to
-	 * client read size */
-	count = (argp->count >> 2) - 2;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
-	/* Read directory and encode entries on the fly */
 	fh_copy(&resp->fh, &argp->fh);
-
-<<<<<<< HEAD
 	resp->common.err = nfs_ok;
+	resp->cookie_offset = 0;
 	resp->rqstp = rqstp;
 	offset = argp->cookie;
-
 	resp->status = nfsd_readdir(rqstp, &resp->fh, &offset,
-=======
-	resp->buflen = count;
-	resp->common.err = nfs_ok;
-	resp->buffer = argp->buffer;
-	resp->rqstp = rqstp;
-	resp->status = nfsd_readdir(rqstp, &resp->fh, (loff_t *)&argp->cookie,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-				    &resp->common, nfs3svc_encode_entry);
+				    &resp->common, nfs3svc_encode_entry3);
 	memcpy(resp->verf, argp->verf, 8);
-	count = 0;
-	for (p = rqstp->rq_respages + 1; p < rqstp->rq_next_page; p++) {
-		page_addr = page_address(*p);
+	nfs3svc_encode_cookie3(resp, offset);
 
-		if (((caddr_t)resp->buffer >= page_addr) &&
-		    ((caddr_t)resp->buffer < page_addr + PAGE_SIZE)) {
-			count += (caddr_t)resp->buffer - page_addr;
-			break;
-		}
-		count += PAGE_SIZE;
-	}
-	resp->count = count >> 2;
-	if (resp->offset) {
-<<<<<<< HEAD
-=======
-		loff_t offset = argp->cookie;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		if (unlikely(resp->offset1)) {
-			/* we ended up with offset on a page boundary */
-			*resp->offset = htonl(offset >> 32);
-			*resp->offset1 = htonl(offset & 0xffffffff);
-			resp->offset1 = NULL;
-		} else {
-			xdr_encode_hyper(resp->offset, offset);
-		}
-		resp->offset = NULL;
-	}
+	/* Recycle only pages that were part of the reply */
+	rqstp->rq_next_page = resp->xdr.page_ptr + 1;
 
 	return rpc_success;
 }
@@ -568,32 +508,17 @@ nfsd3_proc_readdirplus(struct svc_rqst *rqstp)
 {
 	struct nfsd3_readdirargs *argp = rqstp->rq_argp;
 	struct nfsd3_readdirres  *resp = rqstp->rq_resp;
-	int	count = 0;
 	loff_t	offset;
-	struct page **p;
-	caddr_t	page_addr = NULL;
 
 	dprintk("nfsd: READDIR+(3) %s %d bytes at %d\n",
 				SVCFH_fmt(&argp->fh),
 				argp->count, (u32) argp->cookie);
 
-<<<<<<< HEAD
 	nfsd3_init_dirlist_pages(rqstp, resp, argp->count);
-=======
-	/* Convert byte count to number of words (i.e. >> 2),
-	 * and reserve room for the NULL ptr & eof flag (-2 words) */
-	resp->count = (argp->count >> 2) - 2;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
-	/* Read directory and encode entries on the fly */
 	fh_copy(&resp->fh, &argp->fh);
-
 	resp->common.err = nfs_ok;
-<<<<<<< HEAD
-=======
-	resp->buffer = argp->buffer;
-	resp->buflen = resp->count;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	resp->cookie_offset = 0;
 	resp->rqstp = rqstp;
 	offset = argp->cookie;
 
@@ -607,30 +532,12 @@ nfsd3_proc_readdirplus(struct svc_rqst *rqstp)
 	}
 
 	resp->status = nfsd_readdir(rqstp, &resp->fh, &offset,
-				    &resp->common, nfs3svc_encode_entry_plus);
+				    &resp->common, nfs3svc_encode_entryplus3);
 	memcpy(resp->verf, argp->verf, 8);
-	for (p = rqstp->rq_respages + 1; p < rqstp->rq_next_page; p++) {
-		page_addr = page_address(*p);
+	nfs3svc_encode_cookie3(resp, offset);
 
-		if (((caddr_t)resp->buffer >= page_addr) &&
-		    ((caddr_t)resp->buffer < page_addr + PAGE_SIZE)) {
-			count += (caddr_t)resp->buffer - page_addr;
-			break;
-		}
-		count += PAGE_SIZE;
-	}
-	resp->count = count >> 2;
-	if (resp->offset) {
-		if (unlikely(resp->offset1)) {
-			/* we ended up with offset on a page boundary */
-			*resp->offset = htonl(offset >> 32);
-			*resp->offset1 = htonl(offset & 0xffffffff);
-			resp->offset1 = NULL;
-		} else {
-			xdr_encode_hyper(resp->offset, offset);
-		}
-		resp->offset = NULL;
-	}
+	/* Recycle only pages that were part of the reply */
+	rqstp->rq_next_page = resp->xdr.page_ptr + 1;
 
 out:
 	return rpc_success;
@@ -769,10 +676,6 @@ out:
  * NFSv3 Server procedures.
  * Only the results of non-idempotent operations are cached.
  */
-<<<<<<< HEAD
-=======
-#define nfs3svc_decode_fhandleargs	nfs3svc_decode_fhandle
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define nfs3svc_encode_attrstatres	nfs3svc_encode_attrstat
 #define nfs3svc_encode_wccstatres	nfs3svc_encode_wccstat
 #define nfsd3_mkdirargs			nfsd3_createargs
@@ -797,28 +700,18 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd_voidres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST,
-<<<<<<< HEAD
 		.pc_name = "NULL",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_GETATTR] = {
 		.pc_func = nfsd3_proc_getattr,
 		.pc_decode = nfs3svc_decode_fhandleargs,
-		.pc_encode = nfs3svc_encode_attrstatres,
+		.pc_encode = nfs3svc_encode_getattrres,
 		.pc_release = nfs3svc_release_fhandle,
-<<<<<<< HEAD
 		.pc_argsize = sizeof(struct nfsd_fhandle),
 		.pc_ressize = sizeof(struct nfsd3_attrstatres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+AT,
 		.pc_name = "GETATTR",
-=======
-		.pc_argsize = sizeof(struct nfsd3_fhandleargs),
-		.pc_ressize = sizeof(struct nfsd3_attrstatres),
-		.pc_cachetype = RC_NOCACHE,
-		.pc_xdrressize = ST+AT,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_SETATTR] = {
 		.pc_func = nfsd3_proc_setattr,
@@ -829,24 +722,18 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_wccstatres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+WC,
-<<<<<<< HEAD
 		.pc_name = "SETATTR",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_LOOKUP] = {
 		.pc_func = nfsd3_proc_lookup,
 		.pc_decode = nfs3svc_decode_diropargs,
-		.pc_encode = nfs3svc_encode_diropres,
+		.pc_encode = nfs3svc_encode_lookupres,
 		.pc_release = nfs3svc_release_fhandle2,
 		.pc_argsize = sizeof(struct nfsd3_diropargs),
 		.pc_ressize = sizeof(struct nfsd3_diropres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+FH+pAT+pAT,
-<<<<<<< HEAD
 		.pc_name = "LOOKUP",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_ACCESS] = {
 		.pc_func = nfsd3_proc_access,
@@ -857,7 +744,6 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_accessres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+1,
-<<<<<<< HEAD
 		.pc_name = "ACCESS",
 	},
 	[NFS3PROC_READLINK] = {
@@ -870,18 +756,6 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+1+NFS3_MAXPATHLEN/4,
 		.pc_name = "READLINK",
-=======
-	},
-	[NFS3PROC_READLINK] = {
-		.pc_func = nfsd3_proc_readlink,
-		.pc_decode = nfs3svc_decode_readlinkargs,
-		.pc_encode = nfs3svc_encode_readlinkres,
-		.pc_release = nfs3svc_release_fhandle,
-		.pc_argsize = sizeof(struct nfsd3_readlinkargs),
-		.pc_ressize = sizeof(struct nfsd3_readlinkres),
-		.pc_cachetype = RC_NOCACHE,
-		.pc_xdrressize = ST+pAT+1+NFS3_MAXPATHLEN/4,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_READ] = {
 		.pc_func = nfsd3_proc_read,
@@ -892,10 +766,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_readres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+4+NFSSVC_MAXBLKSIZE/4,
-<<<<<<< HEAD
 		.pc_name = "READ",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_WRITE] = {
 		.pc_func = nfsd3_proc_write,
@@ -906,10 +777,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_writeres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+WC+4,
-<<<<<<< HEAD
 		.pc_name = "WRITE",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_CREATE] = {
 		.pc_func = nfsd3_proc_create,
@@ -920,10 +788,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_createres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+(1+FH+pAT)+WC,
-<<<<<<< HEAD
 		.pc_name = "CREATE",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_MKDIR] = {
 		.pc_func = nfsd3_proc_mkdir,
@@ -934,10 +799,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_createres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+(1+FH+pAT)+WC,
-<<<<<<< HEAD
 		.pc_name = "MKDIR",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_SYMLINK] = {
 		.pc_func = nfsd3_proc_symlink,
@@ -948,10 +810,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_createres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+(1+FH+pAT)+WC,
-<<<<<<< HEAD
 		.pc_name = "SYMLINK",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_MKNOD] = {
 		.pc_func = nfsd3_proc_mknod,
@@ -962,10 +821,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_createres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+(1+FH+pAT)+WC,
-<<<<<<< HEAD
 		.pc_name = "MKNOD",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_REMOVE] = {
 		.pc_func = nfsd3_proc_remove,
@@ -976,10 +832,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_wccstatres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+WC,
-<<<<<<< HEAD
 		.pc_name = "REMOVE",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_RMDIR] = {
 		.pc_func = nfsd3_proc_rmdir,
@@ -990,10 +843,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_wccstatres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+WC,
-<<<<<<< HEAD
 		.pc_name = "RMDIR",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_RENAME] = {
 		.pc_func = nfsd3_proc_rename,
@@ -1004,10 +854,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_renameres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+WC+WC,
-<<<<<<< HEAD
 		.pc_name = "RENAME",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_LINK] = {
 		.pc_func = nfsd3_proc_link,
@@ -1018,10 +865,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_linkres),
 		.pc_cachetype = RC_REPLBUFF,
 		.pc_xdrressize = ST+pAT+WC,
-<<<<<<< HEAD
 		.pc_name = "LINK",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_READDIR] = {
 		.pc_func = nfsd3_proc_readdir,
@@ -1031,10 +875,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_argsize = sizeof(struct nfsd3_readdirargs),
 		.pc_ressize = sizeof(struct nfsd3_readdirres),
 		.pc_cachetype = RC_NOCACHE,
-<<<<<<< HEAD
 		.pc_name = "READDIR",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_READDIRPLUS] = {
 		.pc_func = nfsd3_proc_readdirplus,
@@ -1044,10 +885,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_argsize = sizeof(struct nfsd3_readdirplusargs),
 		.pc_ressize = sizeof(struct nfsd3_readdirres),
 		.pc_cachetype = RC_NOCACHE,
-<<<<<<< HEAD
 		.pc_name = "READDIRPLUS",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_FSSTAT] = {
 		.pc_func = nfsd3_proc_fsstat,
@@ -1057,10 +895,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_fsstatres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+2*6+1,
-<<<<<<< HEAD
 		.pc_name = "FSSTAT",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_FSINFO] = {
 		.pc_func = nfsd3_proc_fsinfo,
@@ -1070,10 +905,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_fsinfores),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+12,
-<<<<<<< HEAD
 		.pc_name = "FSINFO",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_PATHCONF] = {
 		.pc_func = nfsd3_proc_pathconf,
@@ -1083,10 +915,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_pathconfres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+pAT+6,
-<<<<<<< HEAD
 		.pc_name = "PATHCONF",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFS3PROC_COMMIT] = {
 		.pc_func = nfsd3_proc_commit,
@@ -1097,10 +926,7 @@ static const struct svc_procedure nfsd_procedures3[22] = {
 		.pc_ressize = sizeof(struct nfsd3_commitres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = ST+WC+2,
-<<<<<<< HEAD
 		.pc_name = "COMMIT",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

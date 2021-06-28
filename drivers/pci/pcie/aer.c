@@ -129,7 +129,7 @@ static const char * const ecrc_policy_str[] = {
 };
 
 /**
- * enable_ercr_checking - enable PCIe ECRC checking for a device
+ * enable_ecrc_checking - enable PCIe ECRC checking for a device
  * @dev: the PCI device
  *
  * Returns 0 on success, or negative on failure.
@@ -153,7 +153,7 @@ static int enable_ecrc_checking(struct pci_dev *dev)
 }
 
 /**
- * disable_ercr_checking - disables PCIe ECRC checking for a device
+ * disable_ecrc_checking - disables PCIe ECRC checking for a device
  * @dev: the PCI device
  *
  * Returns 0 on success, or negative on failure.
@@ -1388,11 +1388,7 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
 	if (type == PCI_EXP_TYPE_RC_END)
 		root = dev->rcec;
 	else
-<<<<<<< HEAD
 		root = pcie_find_root_port(dev);
-=======
-		root = dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * If the platform retained control of AER, an RCiEP may not have
@@ -1418,12 +1414,8 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
 		}
 	} else {
 		rc = pci_bus_error_reset(dev);
-<<<<<<< HEAD
 		pci_info(dev, "%s Port link has been reset (%d)\n",
 			pci_is_root_bus(dev->bus) ? "Root" : "Downstream", rc);
-=======
-		pci_info(dev, "Root Port link has been reset (%d)\n", rc);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if ((host->native_aer || pcie_ports_native) && aer) {
@@ -1450,7 +1442,7 @@ static struct pcie_port_service_driver aerdriver = {
 };
 
 /**
- * aer_service_init - register AER root service driver
+ * pcie_aer_init - register AER root service driver
  *
  * Invoked when AER root service driver is loaded.
  */

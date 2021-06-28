@@ -223,20 +223,12 @@ static const struct hwmon_chip_info nvme_hwmon_chip_info = {
 
 int nvme_hwmon_init(struct nvme_ctrl *ctrl)
 {
-<<<<<<< HEAD
 	struct device *dev = ctrl->device;
-=======
-	struct device *dev = ctrl->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvme_hwmon_data *data;
 	struct device *hwmon;
 	int err;
 
-<<<<<<< HEAD
 	data = kzalloc(sizeof(*data), GFP_KERNEL);
-=======
-	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!data)
 		return 0;
 
@@ -245,7 +237,6 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
 
 	err = nvme_hwmon_get_smart_log(data);
 	if (err) {
-<<<<<<< HEAD
 		dev_warn(dev, "Failed to read smart log (error %d)\n", err);
 		kfree(data);
 		return err;
@@ -273,21 +264,4 @@ void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
 		ctrl->hwmon_device = NULL;
 		kfree(data);
 	}
-=======
-		dev_warn(ctrl->device,
-			"Failed to read smart log (error %d)\n", err);
-		devm_kfree(dev, data);
-		return err;
-	}
-
-	hwmon = devm_hwmon_device_register_with_info(dev, "nvme", data,
-						     &nvme_hwmon_chip_info,
-						     NULL);
-	if (IS_ERR(hwmon)) {
-		dev_warn(dev, "Failed to instantiate hwmon device\n");
-		devm_kfree(dev, data);
-	}
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

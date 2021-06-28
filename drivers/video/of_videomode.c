@@ -14,15 +14,9 @@
 
 /**
  * of_get_videomode - get the videomode #<index> from devicetree
-<<<<<<< HEAD
  * @np: devicenode with the display_timings
  * @vm: set to return value
  * @index: index into list of display_timings
-=======
- * @np - devicenode with the display_timings
- * @vm - set to return value
- * @index - index into list of display_timings
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	    (Set this to OF_USE_NATIVE_MODE to use whatever mode is
  *	     specified as native mode in the DT.)
  *

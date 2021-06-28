@@ -13,10 +13,7 @@
 #include <crypto/sha3.h>
 #include <crypto/skcipher.h>
 #include <crypto/sm3.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/device.h>
 #include <linux/dma-mapping.h>
 #include <linux/dmapool.h>

@@ -353,15 +353,7 @@ static int sg_io(struct request_queue *q, struct gendisk *bd_disk,
 
 	start_time = jiffies;
 
-	/* ignore return value. All information is passed back to caller
-	 * (if he doesn't check that is his problem).
-	 * N.B. a non-zero SCSI status is _not_ necessarily an error.
-	 */
-<<<<<<< HEAD
 	blk_execute_rq(bd_disk, rq, at_head);
-=======
-	blk_execute_rq(q, bd_disk, rq, at_head);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hdr->duration = jiffies_to_msecs(jiffies - start_time);
 
@@ -435,7 +427,7 @@ int sg_scsi_ioctl(struct request_queue *q, struct gendisk *disk, fmode_t mode,
 
 	bytes = max(in_len, out_len);
 	if (bytes) {
-		buffer = kzalloc(bytes, q->bounce_gfp | GFP_USER| __GFP_NOWARN);
+		buffer = kzalloc(bytes, GFP_NOIO | GFP_USER | __GFP_NOWARN);
 		if (!buffer)
 			return -ENOMEM;
 
@@ -497,11 +489,7 @@ int sg_scsi_ioctl(struct request_queue *q, struct gendisk *disk, fmode_t mode,
 		goto error;
 	}
 
-<<<<<<< HEAD
 	blk_execute_rq(disk, rq, 0);
-=======
-	blk_execute_rq(q, disk, rq, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = req->result & 0xff;	/* only 8 bit SCSI status */
 	if (err) {
@@ -540,11 +528,7 @@ static int __blk_send_generic(struct request_queue *q, struct gendisk *bd_disk,
 	scsi_req(rq)->cmd[0] = cmd;
 	scsi_req(rq)->cmd[4] = data;
 	scsi_req(rq)->cmd_len = 6;
-<<<<<<< HEAD
 	blk_execute_rq(bd_disk, rq, 0);
-=======
-	blk_execute_rq(q, bd_disk, rq, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = scsi_req(rq)->result ? -EIO : 0;
 	blk_put_request(rq);
 

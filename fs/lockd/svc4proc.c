@@ -512,10 +512,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_void),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "NULL",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_TEST] = {
 		.pc_func = nlm4svc_proc_test,
@@ -524,10 +521,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St+2+No+Rg,
-<<<<<<< HEAD
 		.pc_name = "TEST",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_LOCK] = {
 		.pc_func = nlm4svc_proc_lock,
@@ -536,10 +530,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St,
-<<<<<<< HEAD
 		.pc_name = "LOCK",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_CANCEL] = {
 		.pc_func = nlm4svc_proc_cancel,
@@ -548,10 +539,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St,
-<<<<<<< HEAD
 		.pc_name = "CANCEL",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_UNLOCK] = {
 		.pc_func = nlm4svc_proc_unlock,
@@ -560,10 +548,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St,
-<<<<<<< HEAD
 		.pc_name = "UNLOCK",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_GRANTED] = {
 		.pc_func = nlm4svc_proc_granted,
@@ -572,10 +557,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St,
-<<<<<<< HEAD
 		.pc_name = "GRANTED",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_TEST_MSG] = {
 		.pc_func = nlm4svc_proc_test_msg,
@@ -584,10 +566,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "TEST_MSG",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_LOCK_MSG] = {
 		.pc_func = nlm4svc_proc_lock_msg,
@@ -596,10 +575,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "LOCK_MSG",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_CANCEL_MSG] = {
 		.pc_func = nlm4svc_proc_cancel_msg,
@@ -608,10 +584,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "CANCEL_MSG",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_UNLOCK_MSG] = {
 		.pc_func = nlm4svc_proc_unlock_msg,
@@ -620,10 +593,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "UNLOCK_MSG",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_GRANTED_MSG] = {
 		.pc_func = nlm4svc_proc_granted_msg,
@@ -632,10 +602,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "GRANTED_MSG",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_TEST_RES] = {
 		.pc_func = nlm4svc_proc_null,
@@ -644,10 +611,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_res),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "TEST_RES",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_LOCK_RES] = {
 		.pc_func = nlm4svc_proc_null,
@@ -656,10 +620,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_res),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "LOCK_RES",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_CANCEL_RES] = {
 		.pc_func = nlm4svc_proc_null,
@@ -668,10 +629,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_res),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "CANCEL_RES",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_UNLOCK_RES] = {
 		.pc_func = nlm4svc_proc_null,
@@ -680,10 +638,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_res),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "UNLOCK_RES",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_GRANTED_RES] = {
 		.pc_func = nlm4svc_proc_granted_res,
@@ -692,10 +647,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_res),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "GRANTED_RES",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_NSM_NOTIFY] = {
 		.pc_func = nlm4svc_proc_sm_notify,
@@ -704,10 +656,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_reboot),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "SM_NOTIFY",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[17] = {
 		.pc_func = nlm4svc_proc_unused,
@@ -716,10 +665,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_void),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = 0,
-<<<<<<< HEAD
 		.pc_name = "UNUSED",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[18] = {
 		.pc_func = nlm4svc_proc_unused,
@@ -728,10 +674,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_void),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = 0,
-<<<<<<< HEAD
 		.pc_name = "UNUSED",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[19] = {
 		.pc_func = nlm4svc_proc_unused,
@@ -740,10 +683,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_void),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = 0,
-<<<<<<< HEAD
 		.pc_name = "UNUSED",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_SHARE] = {
 		.pc_func = nlm4svc_proc_share,
@@ -752,10 +692,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St+1,
-<<<<<<< HEAD
 		.pc_name = "SHARE",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_UNSHARE] = {
 		.pc_func = nlm4svc_proc_unshare,
@@ -764,10 +701,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St+1,
-<<<<<<< HEAD
 		.pc_name = "UNSHARE",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_NM_LOCK] = {
 		.pc_func = nlm4svc_proc_nm_lock,
@@ -776,10 +710,7 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_res),
 		.pc_xdrressize = Ck+St,
-<<<<<<< HEAD
 		.pc_name = "NM_LOCK",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NLMPROC_FREE_ALL] = {
 		.pc_func = nlm4svc_proc_free_all,
@@ -788,9 +719,6 @@ const struct svc_procedure nlmsvc_procedures4[24] = {
 		.pc_argsize = sizeof(struct nlm_args),
 		.pc_ressize = sizeof(struct nlm_void),
 		.pc_xdrressize = St,
-<<<<<<< HEAD
 		.pc_name = "FREE_ALL",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };

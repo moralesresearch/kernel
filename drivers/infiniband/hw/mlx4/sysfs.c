@@ -798,11 +798,7 @@ static void unregister_pkey_tree(struct mlx4_ib_dev *device)
 
 int mlx4_ib_device_register_sysfs(struct mlx4_ib_dev *dev)
 {
-<<<<<<< HEAD
 	unsigned int i;
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	if (!mlx4_is_master(dev->dev))
@@ -821,11 +817,7 @@ int mlx4_ib_device_register_sysfs(struct mlx4_ib_dev *dev)
 		goto err_ports;
 	}
 
-<<<<<<< HEAD
 	rdma_for_each_port(&dev->ib_dev, i) {
-=======
-	for (i = 1; i <= dev->ib_dev.phys_port_cnt; ++i) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = add_port_entries(dev, i);
 		if (ret)
 			goto err_add_entries;

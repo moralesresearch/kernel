@@ -121,20 +121,11 @@ struct udma_oes_offsets {
 #define UDMA_FLAG_PDMA_ACC32		BIT(0)
 #define UDMA_FLAG_PDMA_BURST		BIT(1)
 #define UDMA_FLAG_TDTYPE		BIT(2)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define UDMA_FLAG_BURST_SIZE		BIT(3)
 #define UDMA_FLAGS_J7_CLASS		(UDMA_FLAG_PDMA_ACC32 | \
 					 UDMA_FLAG_PDMA_BURST | \
 					 UDMA_FLAG_TDTYPE | \
 					 UDMA_FLAG_BURST_SIZE)
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct udma_match_data {
 	enum k3_dma_type type;
@@ -142,14 +133,7 @@ struct udma_match_data {
 	bool enable_memcpy_support;
 	u32 flags;
 	u32 statictr_z_mask;
-<<<<<<< HEAD
 	u8 burst_size[3];
-=======
-<<<<<<< HEAD
-	u8 burst_size[3];
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct udma_soc_data {
@@ -458,10 +442,6 @@ static void k3_configure_chan_coherency(struct dma_chan *chan, u32 asel)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u8 udma_get_chan_tpl_index(struct udma_tpl *tpl_map, int chan_id)
 {
 	int i;
@@ -474,11 +454,6 @@ static u8 udma_get_chan_tpl_index(struct udma_tpl *tpl_map, int chan_id)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void udma_reset_uchan(struct udma_chan *uc)
 {
 	memset(&uc->config, 0, sizeof(uc->config));
@@ -1854,40 +1829,21 @@ static int udma_tisci_m2m_channel_config(struct udma_chan *uc)
 	const struct ti_sci_rm_udmap_ops *tisci_ops = tisci_rm->tisci_udmap_ops;
 	struct udma_tchan *tchan = uc->tchan;
 	struct udma_rchan *rchan = uc->rchan;
-<<<<<<< HEAD
 	u8 burst_size = 0;
 	int ret;
 	u8 tpl;
-=======
-<<<<<<< HEAD
-	u8 burst_size = 0;
-	int ret;
-	u8 tpl;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Non synchronized - mem to mem type of transfer */
 	int tc_ring = k3_ringacc_get_ring_id(tchan->tc_ring);
 	struct ti_sci_msg_rm_udmap_tx_ch_cfg req_tx = { 0 };
 	struct ti_sci_msg_rm_udmap_rx_ch_cfg req_rx = { 0 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ud->match_data->flags & UDMA_FLAG_BURST_SIZE) {
 		tpl = udma_get_chan_tpl_index(&ud->tchan_tpl, tchan->id);
 
 		burst_size = ud->match_data->burst_size[tpl];
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	req_tx.valid_params = TISCI_UDMA_TCHAN_VALID_PARAMS;
 	req_tx.nav_id = tisci_rm->tisci_dev_id;
 	req_tx.index = tchan->id;
@@ -1895,19 +1851,10 @@ static int udma_tisci_m2m_channel_config(struct udma_chan *uc)
 	req_tx.tx_fetch_size = sizeof(struct cppi5_desc_hdr_t) >> 2;
 	req_tx.txcq_qnum = tc_ring;
 	req_tx.tx_atype = ud->atype;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (burst_size) {
 		req_tx.valid_params |= TI_SCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID;
 		req_tx.tx_burst_size = burst_size;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = tisci_ops->tx_ch_cfg(tisci_rm->tisci, &req_tx);
 	if (ret) {
@@ -1922,19 +1869,10 @@ static int udma_tisci_m2m_channel_config(struct udma_chan *uc)
 	req_rx.rxcq_qnum = tc_ring;
 	req_rx.rx_chan_type = TI_SCI_RM_UDMAP_CHAN_TYPE_3RDP_BCOPY_PBRR;
 	req_rx.rx_atype = ud->atype;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (burst_size) {
 		req_rx.valid_params |= TI_SCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID;
 		req_rx.rx_burst_size = burst_size;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = tisci_ops->rx_ch_cfg(tisci_rm->tisci, &req_rx);
 	if (ret)
@@ -1950,10 +1888,6 @@ static int bcdma_tisci_m2m_channel_config(struct udma_chan *uc)
 	const struct ti_sci_rm_udmap_ops *tisci_ops = tisci_rm->tisci_udmap_ops;
 	struct ti_sci_msg_rm_udmap_tx_ch_cfg req_tx = { 0 };
 	struct udma_bchan *bchan = uc->bchan;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 burst_size = 0;
 	int ret;
 	u8 tpl;
@@ -1963,30 +1897,15 @@ static int bcdma_tisci_m2m_channel_config(struct udma_chan *uc)
 
 		burst_size = ud->match_data->burst_size[tpl];
 	}
-<<<<<<< HEAD
-=======
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req_tx.valid_params = TISCI_BCDMA_BCHAN_VALID_PARAMS;
 	req_tx.nav_id = tisci_rm->tisci_dev_id;
 	req_tx.extended_ch_type = TI_SCI_RM_BCDMA_EXTENDED_CH_TYPE_BCHAN;
 	req_tx.index = bchan->id;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (burst_size) {
 		req_tx.valid_params |= TI_SCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID;
 		req_tx.tx_burst_size = burst_size;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = tisci_ops->tx_ch_cfg(tisci_rm->tisci, &req_tx);
 	if (ret)
@@ -2004,15 +1923,7 @@ static int udma_tisci_tx_channel_config(struct udma_chan *uc)
 	int tc_ring = k3_ringacc_get_ring_id(tchan->tc_ring);
 	struct ti_sci_msg_rm_udmap_tx_ch_cfg req_tx = { 0 };
 	u32 mode, fetch_size;
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (uc->config.pkt_mode) {
 		mode = TI_SCI_RM_UDMAP_CHAN_TYPE_PKT_PBRR;
@@ -2053,15 +1964,7 @@ static int bcdma_tisci_tx_channel_config(struct udma_chan *uc)
 	const struct ti_sci_rm_udmap_ops *tisci_ops = tisci_rm->tisci_udmap_ops;
 	struct udma_tchan *tchan = uc->tchan;
 	struct ti_sci_msg_rm_udmap_tx_ch_cfg req_tx = { 0 };
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req_tx.valid_params = TISCI_BCDMA_TCHAN_VALID_PARAMS;
 	req_tx.nav_id = tisci_rm->tisci_dev_id;
@@ -2094,15 +1997,7 @@ static int udma_tisci_rx_channel_config(struct udma_chan *uc)
 	struct ti_sci_msg_rm_udmap_rx_ch_cfg req_rx = { 0 };
 	struct ti_sci_msg_rm_udmap_flow_cfg flow_req = { 0 };
 	u32 mode, fetch_size;
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (uc->config.pkt_mode) {
 		mode = TI_SCI_RM_UDMAP_CHAN_TYPE_PKT_PBRR;
@@ -2179,15 +2074,7 @@ static int bcdma_tisci_rx_channel_config(struct udma_chan *uc)
 	const struct ti_sci_rm_udmap_ops *tisci_ops = tisci_rm->tisci_udmap_ops;
 	struct udma_rchan *rchan = uc->rchan;
 	struct ti_sci_msg_rm_udmap_rx_ch_cfg req_rx = { 0 };
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req_rx.valid_params = TISCI_BCDMA_RCHAN_VALID_PARAMS;
 	req_rx.nav_id = tisci_rm->tisci_dev_id;
@@ -2207,15 +2094,7 @@ static int pktdma_tisci_rx_channel_config(struct udma_chan *uc)
 	const struct ti_sci_rm_udmap_ops *tisci_ops = tisci_rm->tisci_udmap_ops;
 	struct ti_sci_msg_rm_udmap_rx_ch_cfg req_rx = { 0 };
 	struct ti_sci_msg_rm_udmap_flow_cfg flow_req = { 0 };
-<<<<<<< HEAD
 	int ret;
-=======
-<<<<<<< HEAD
-	int ret;
-=======
-	int ret = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	req_rx.valid_params = TISCI_BCDMA_RCHAN_VALID_PARAMS;
 	req_rx.nav_id = tisci_rm->tisci_dev_id;
@@ -4335,20 +4214,11 @@ static struct udma_match_data am654_main_data = {
 	.psil_base = 0x1000,
 	.enable_memcpy_support = true,
 	.statictr_z_mask = GENMASK(11, 0),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.burst_size = {
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_64_BYTES, /* Normal Channels */
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_64_BYTES, /* H Channels */
 		0, /* No UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct udma_match_data am654_mcu_data = {
@@ -4356,30 +4226,17 @@ static struct udma_match_data am654_mcu_data = {
 	.psil_base = 0x6000,
 	.enable_memcpy_support = false,
 	.statictr_z_mask = GENMASK(11, 0),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.burst_size = {
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_64_BYTES, /* Normal Channels */
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_64_BYTES, /* H Channels */
 		0, /* No UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct udma_match_data j721e_main_data = {
 	.type = DMA_TYPE_UDMA,
 	.psil_base = 0x1000,
 	.enable_memcpy_support = true,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flags = UDMA_FLAGS_J7_CLASS,
 	.statictr_z_mask = GENMASK(23, 0),
 	.burst_size = {
@@ -4387,23 +4244,12 @@ static struct udma_match_data j721e_main_data = {
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_256_BYTES, /* H Channels */
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_256_BYTES, /* UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
-	.flags = UDMA_FLAG_PDMA_ACC32 | UDMA_FLAG_PDMA_BURST | UDMA_FLAG_TDTYPE,
-	.statictr_z_mask = GENMASK(23, 0),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct udma_match_data j721e_mcu_data = {
 	.type = DMA_TYPE_UDMA,
 	.psil_base = 0x6000,
 	.enable_memcpy_support = false, /* MEM_TO_MEM is slow via MCU UDMA */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flags = UDMA_FLAGS_J7_CLASS,
 	.statictr_z_mask = GENMASK(23, 0),
 	.burst_size = {
@@ -4411,23 +4257,12 @@ static struct udma_match_data j721e_mcu_data = {
 		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_128_BYTES, /* H Channels */
 		0, /* No UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
-	.flags = UDMA_FLAG_PDMA_ACC32 | UDMA_FLAG_PDMA_BURST | UDMA_FLAG_TDTYPE,
-	.statictr_z_mask = GENMASK(23, 0),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct udma_match_data am64_bcdma_data = {
 	.type = DMA_TYPE_BCDMA,
 	.psil_base = 0x2000, /* for tchan and rchan, not applicable to bchan */
 	.enable_memcpy_support = true, /* Supported via bchan */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flags = UDMA_FLAGS_J7_CLASS,
 	.statictr_z_mask = GENMASK(23, 0),
 	.burst_size = {
@@ -4435,23 +4270,12 @@ static struct udma_match_data am64_bcdma_data = {
 		0, /* No H Channels */
 		0, /* No UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
-	.flags = UDMA_FLAG_PDMA_ACC32 | UDMA_FLAG_PDMA_BURST | UDMA_FLAG_TDTYPE,
-	.statictr_z_mask = GENMASK(23, 0),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct udma_match_data am64_pktdma_data = {
 	.type = DMA_TYPE_PKTDMA,
 	.psil_base = 0x1000,
 	.enable_memcpy_support = false, /* PKTDMA does not support MEM_TO_MEM */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flags = UDMA_FLAGS_J7_CLASS,
 	.statictr_z_mask = GENMASK(23, 0),
 	.burst_size = {
@@ -4459,13 +4283,6 @@ static struct udma_match_data am64_pktdma_data = {
 		0, /* No H Channels */
 		0, /* No UH Channels */
 	},
-<<<<<<< HEAD
-=======
-=======
-	.flags = UDMA_FLAG_PDMA_ACC32 | UDMA_FLAG_PDMA_BURST | UDMA_FLAG_TDTYPE,
-	.statictr_z_mask = GENMASK(23, 0),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct of_device_id udma_of_match[] = {
@@ -5306,10 +5123,6 @@ static void udma_dbg_summary_show(struct seq_file *s,
 }
 #endif /* CONFIG_DEBUG_FS */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum dmaengine_alignment udma_get_copy_align(struct udma_dev *ud)
 {
 	const struct udma_match_data *match_data = ud->match_data;
@@ -5338,11 +5151,6 @@ static enum dmaengine_alignment udma_get_copy_align(struct udma_dev *ud)
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TI_UDMAC_BUSWIDTHS	(BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) | \
 				 BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) | \
 				 BIT(DMA_SLAVE_BUSWIDTH_3_BYTES) | \
@@ -5499,13 +5307,6 @@ static int udma_probe(struct platform_device *pdev)
 	ud->ddev.dst_addr_widths = TI_UDMAC_BUSWIDTHS;
 	ud->ddev.directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
 	ud->ddev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	ud->ddev.copy_align = DMAENGINE_ALIGN_8_BYTES;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ud->ddev.desc_metadata_modes = DESC_METADATA_CLIENT |
 				       DESC_METADATA_ENGINE;
 	if (ud->match_data->enable_memcpy_support &&
@@ -5587,18 +5388,9 @@ static int udma_probe(struct platform_device *pdev)
 		INIT_DELAYED_WORK(&uc->tx_drain.work, udma_check_tx_completion);
 	}
 
-<<<<<<< HEAD
 	/* Configure the copy_align to the maximum burst size the device supports */
 	ud->ddev.copy_align = udma_get_copy_align(ud);
 
-=======
-<<<<<<< HEAD
-	/* Configure the copy_align to the maximum burst size the device supports */
-	ud->ddev.copy_align = udma_get_copy_align(ud);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = dma_async_device_register(&ud->ddev);
 	if (ret) {
 		dev_err(dev, "failed to register slave DMA engine: %d\n", ret);

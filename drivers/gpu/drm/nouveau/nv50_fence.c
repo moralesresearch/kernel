@@ -39,11 +39,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
 	struct nv10_fence_chan *fctx;
 	struct ttm_resource *reg = &priv->bo->bo.mem;
 	u32 start = reg->start * PAGE_SIZE;
-<<<<<<< HEAD
 	u32 limit = start + priv->bo->bo.base.size - 1;
-=======
-	u32 limit = start + reg->size - 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	fctx = chan->fence = kzalloc(sizeof(*fctx), GFP_KERNEL);

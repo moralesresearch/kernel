@@ -23,11 +23,8 @@
 #include "xfs_da_btree.h"
 #include "xfs_dir2_priv.h"
 #include "xfs_attr_leaf.h"
-<<<<<<< HEAD
 #include "xfs_types.h"
 #include "xfs_errortag.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 kmem_zone_t *xfs_ifork_zone;
 
@@ -63,8 +60,6 @@ xfs_init_local_fork(
 	}
 
 	ifp->if_bytes = size;
-	ifp->if_flags &= ~(XFS_IFEXTENTS | XFS_IFBROOT);
-	ifp->if_flags |= XFS_IFINLINE;
 }
 
 /*
@@ -154,7 +149,6 @@ xfs_iformat_extents(
 			xfs_iext_next(ifp, &icur);
 		}
 	}
-	ifp->if_flags |= XFS_IFEXTENTS;
 	return 0;
 }
 
@@ -197,8 +191,8 @@ xfs_iformat_btree(
 		     nrecs == 0 ||
 		     XFS_BMDR_SPACE_CALC(nrecs) >
 					XFS_DFORK_SIZE(dip, mp, whichfork) ||
-		     ifp->if_nextents > ip->i_d.di_nblocks) ||
-		     level == 0 || level > XFS_BTREE_MAXLEVELS) {
+		     ifp->if_nextents > ip->i_nblocks) ||
+		     level == 0 || level > XFS_BM_MAXLEVELS(mp, whichfork)) {
 		xfs_warn(mp, "corrupt inode %Lu (btree).",
 					(unsigned long long) ip->i_ino);
 		xfs_inode_verifier_error(ip, -EFSCORRUPTED,
@@ -216,8 +210,6 @@ xfs_iformat_btree(
 	 */
 	xfs_bmdr_to_bmbt(ip, dfp, XFS_DFORK_SIZE(dip, ip->i_mount, whichfork),
 			 ifp->if_broot, size);
-	ifp->if_flags &= ~XFS_IFEXTENTS;
-	ifp->if_flags |= XFS_IFBROOT;
 
 	ifp->if_bytes = 0;
 	ifp->if_u1.if_root = NULL;
@@ -245,7 +237,7 @@ xfs_iformat_data_fork(
 	case S_IFCHR:
 	case S_IFBLK:
 	case S_IFSOCK:
-		ip->i_d.di_size = 0;
+		ip->i_disk_size = 0;
 		inode->i_rdev = xfs_to_linux_dev_t(xfs_dinode_get_rdev(dip));
 		return 0;
 	case S_IFREG:
@@ -285,6 +277,19 @@ xfs_dfork_attr_shortform_size(
 	return be16_to_cpu(atp->hdr.totsize);
 }
 
+struct xfs_ifork *
+xfs_ifork_alloc(
+	enum xfs_dinode_fmt	format,
+	xfs_extnum_t		nextents)
+{
+	struct xfs_ifork	*ifp;
+
+	ifp = kmem_cache_zalloc(xfs_ifork_zone, GFP_NOFS | __GFP_NOFAIL);
+	ifp->if_format = format;
+	ifp->if_nextents = nextents;
+	return ifp;
+}
+
 int
 xfs_iformat_attr_fork(
 	struct xfs_inode	*ip,
@@ -296,11 +301,8 @@ xfs_iformat_attr_fork(
 	 * Initialize the extent count early, as the per-format routines may
 	 * depend on it.
 	 */
-	ip->i_afp = kmem_cache_zalloc(xfs_ifork_zone, GFP_NOFS | __GFP_NOFAIL);
-	ip->i_afp->if_format = dip->di_aformat;
-	if (unlikely(ip->i_afp->if_format == 0)) /* pre IRIX 6.2 file system */
-		ip->i_afp->if_format = XFS_DINODE_FMT_EXTENTS;
-	ip->i_afp->if_nextents = be16_to_cpu(dip->di_anextents);
+	ip->i_afp = xfs_ifork_alloc(dip->di_aformat,
+				be16_to_cpu(dip->di_anextents));
 
 	switch (ip->i_afp->if_format) {
 	case XFS_DINODE_FMT_LOCAL:
@@ -426,7 +428,6 @@ xfs_iroot_realloc(
 			XFS_BMBT_BLOCK_LEN(ip->i_mount));
 	} else {
 		new_broot = NULL;
-		ifp->if_flags &= ~XFS_IFBROOT;
 	}
 
 	/*
@@ -515,17 +516,16 @@ xfs_idestroy_fork(
 		ifp->if_broot = NULL;
 	}
 
-	/*
-	 * If the format is local, then we can't have an extents array so just
-	 * look for an inline data array.  If we're not local then we may or may
-	 * not have an extents list, so check and free it up if we do.
-	 */
-	if (ifp->if_format == XFS_DINODE_FMT_LOCAL) {
+	switch (ifp->if_format) {
+	case XFS_DINODE_FMT_LOCAL:
 		kmem_free(ifp->if_u1.if_data);
 		ifp->if_u1.if_data = NULL;
-	} else if (ifp->if_flags & XFS_IFEXTENTS) {
+		break;
+	case XFS_DINODE_FMT_EXTENTS:
+	case XFS_DINODE_FMT_BTREE:
 		if (ifp->if_height)
 			xfs_iext_destroy(ifp);
+		break;
 	}
 }
 
@@ -619,8 +619,6 @@ xfs_iflush_fork(
 		break;
 
 	case XFS_DINODE_FMT_EXTENTS:
-		ASSERT((ifp->if_flags & XFS_IFEXTENTS) ||
-		       !(iip->ili_fields & extflag[whichfork]));
 		if ((iip->ili_fields & extflag[whichfork]) &&
 		    (ifp->if_bytes > 0)) {
 			ASSERT(ifp->if_nextents > 0);
@@ -680,7 +678,6 @@ xfs_ifork_init_cow(
 
 	ip->i_cowfp = kmem_cache_zalloc(xfs_ifork_zone,
 				       GFP_NOFS | __GFP_NOFAIL);
-	ip->i_cowfp->if_flags = XFS_IFEXTENTS;
 	ip->i_cowfp->if_format = XFS_DINODE_FMT_EXTENTS;
 }
 
@@ -733,7 +730,6 @@ xfs_ifork_verify_local_attr(
 
 	return 0;
 }
-<<<<<<< HEAD
 
 int
 xfs_iext_count_may_overflow(
@@ -759,5 +755,3 @@ xfs_iext_count_may_overflow(
 
 	return 0;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

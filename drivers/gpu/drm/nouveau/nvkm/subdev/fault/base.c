@@ -170,20 +170,12 @@ nvkm_fault = {
 
 int
 nvkm_fault_new_(const struct nvkm_fault_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 		enum nvkm_subdev_type type, int inst, struct nvkm_fault **pfault)
-=======
-		int index, struct nvkm_fault **pfault)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_fault *fault;
 	if (!(fault = *pfault = kzalloc(sizeof(*fault), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_subdev_ctor(&nvkm_fault, device, type, inst, &fault->subdev);
-=======
-	nvkm_subdev_ctor(&nvkm_fault, device, index, &fault->subdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fault->func = func;
 	fault->user.ctor = nvkm_ufault_new;
 	fault->user.base = func->user.base;

@@ -633,7 +633,6 @@ config USB_SERIAL_UPD78F0730
 	  To compile this driver as a module, choose M here: the
 	  module will be called upd78f0730.
 
-<<<<<<< HEAD
 config USB_SERIAL_XR
 	tristate "USB MaxLinear/Exar USB to Serial driver"
 	help
@@ -643,8 +642,6 @@ config USB_SERIAL_XR
 	  To compile this driver as a module, choose M here: the
 	  module will be called xr_serial.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config USB_SERIAL_DEBUG
 	tristate "USB Debugging Device"
 	help

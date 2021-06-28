@@ -94,29 +94,13 @@ struct devx_umem {
 	struct mlx5_core_dev		*mdev;
 	struct ib_umem			*umem;
 	u32				dinlen;
-<<<<<<< HEAD
 	u32				dinbox[MLX5_ST_SZ_DW(destroy_umem_in)];
-=======
-<<<<<<< HEAD
-	u32				dinbox[MLX5_ST_SZ_DW(destroy_umem_in)];
-=======
-	u32				dinbox[MLX5_ST_SZ_DW(general_obj_in_cmd_hdr)];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct devx_umem_reg_cmd {
 	void				*in;
 	u32				inlen;
-<<<<<<< HEAD
 	u32				out[MLX5_ST_SZ_DW(create_umem_out)];
-=======
-<<<<<<< HEAD
-	u32				out[MLX5_ST_SZ_DW(create_umem_out)];
-=======
-	u32				out[MLX5_ST_SZ_DW(general_obj_out_cmd_hdr)];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct mlx5_ib_ucontext *
@@ -127,18 +111,8 @@ devx_ufile2uctx(const struct uverbs_attr_bundle *attrs)
 
 int mlx5_ib_devx_create(struct mlx5_ib_dev *dev, bool is_user)
 {
-<<<<<<< HEAD
 	u32 in[MLX5_ST_SZ_DW(create_uctx_in)] = {};
 	u32 out[MLX5_ST_SZ_DW(create_uctx_out)] = {};
-=======
-<<<<<<< HEAD
-	u32 in[MLX5_ST_SZ_DW(create_uctx_in)] = {};
-	u32 out[MLX5_ST_SZ_DW(create_uctx_out)] = {};
-=======
-	u32 in[MLX5_ST_SZ_DW(create_uctx_in)] = {0};
-	u32 out[MLX5_ST_SZ_DW(general_obj_out_cmd_hdr)] = {0};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *uctx;
 	int err;
 	u16 uid;
@@ -164,32 +138,14 @@ int mlx5_ib_devx_create(struct mlx5_ib_dev *dev, bool is_user)
 	if (err)
 		return err;
 
-<<<<<<< HEAD
 	uid = MLX5_GET(create_uctx_out, out, uid);
-=======
-<<<<<<< HEAD
-	uid = MLX5_GET(create_uctx_out, out, uid);
-=======
-	uid = MLX5_GET(general_obj_out_cmd_hdr, out, obj_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return uid;
 }
 
 void mlx5_ib_devx_destroy(struct mlx5_ib_dev *dev, u16 uid)
 {
-<<<<<<< HEAD
 	u32 in[MLX5_ST_SZ_DW(destroy_uctx_in)] = {};
 	u32 out[MLX5_ST_SZ_DW(destroy_uctx_out)] = {};
-=======
-<<<<<<< HEAD
-	u32 in[MLX5_ST_SZ_DW(destroy_uctx_in)] = {};
-	u32 out[MLX5_ST_SZ_DW(destroy_uctx_out)] = {};
-=======
-	u32 in[MLX5_ST_SZ_DW(destroy_uctx_in)] = {0};
-	u32 out[MLX5_ST_SZ_DW(general_obj_out_cmd_hdr)] = {0};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	MLX5_SET(destroy_uctx_in, in, opcode, MLX5_CMD_OP_DESTROY_UCTX);
 	MLX5_SET(destroy_uctx_in, in, uid, uid);
@@ -332,10 +288,6 @@ static u64 get_enc_obj_id(u32 opcode, u32 obj_id)
 	return ((u64)opcode << 32) | obj_id;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 devx_get_created_obj_id(const void *in, const void *out, u16 opcode)
 {
 	switch (opcode) {
@@ -410,11 +362,6 @@ static u32 devx_get_created_obj_id(const void *in, const void *out, u16 opcode)
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u64 devx_get_obj_id(const void *in)
 {
 	u16 opcode = MLX5_GET(general_obj_in_cmd_hdr, in, opcode);
@@ -526,18 +473,8 @@ static u64 devx_get_obj_id(const void *in)
 		break;
 	case MLX5_CMD_OP_QUERY_MODIFY_HEADER_CONTEXT:
 		obj_id = get_enc_obj_id(MLX5_CMD_OP_ALLOC_MODIFY_HEADER_CONTEXT,
-<<<<<<< HEAD
 					MLX5_GET(query_modify_header_context_in,
 						 in, modify_header_id));
-=======
-<<<<<<< HEAD
-					MLX5_GET(query_modify_header_context_in,
-						 in, modify_header_id));
-=======
-					MLX5_GET(general_obj_in_cmd_hdr, in,
-						 obj_id));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case MLX5_CMD_OP_QUERY_SCHEDULING_ELEMENT:
 		obj_id = get_enc_obj_id(MLX5_CMD_OP_CREATE_SCHEDULING_ELEMENT,
@@ -693,14 +630,8 @@ static bool devx_is_valid_obj_id(struct uverbs_attr_bundle *attrs,
 	case UVERBS_OBJECT_QP:
 	{
 		struct mlx5_ib_qp *qp = to_mqp(uobj->object);
-<<<<<<< HEAD
 
 		if (qp->type == IB_QPT_RAW_PACKET ||
-=======
-		enum ib_qp_type	qp_type = qp->ibqp.qp_type;
-
-		if (qp_type == IB_QPT_RAW_PACKET ||
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    (qp->flags & IB_QP_CREATE_SOURCE_QPN)) {
 			struct mlx5_ib_raw_packet_qp *raw_packet_qp =
 							 &qp->raw_packet_qp;
@@ -717,16 +648,9 @@ static bool devx_is_valid_obj_id(struct uverbs_attr_bundle *attrs,
 					       sq->tisn) == obj_id);
 		}
 
-<<<<<<< HEAD
 		if (qp->type == MLX5_IB_QPT_DCT)
 			return get_enc_obj_id(MLX5_CMD_OP_CREATE_DCT,
 					      qp->dct.mdct.mqp.qpn) == obj_id;
-=======
-		if (qp_type == MLX5_IB_QPT_DCT)
-			return get_enc_obj_id(MLX5_CMD_OP_CREATE_DCT,
-					      qp->dct.mdct.mqp.qpn) == obj_id;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return get_enc_obj_id(MLX5_CMD_OP_CREATE_QP,
 				      qp->ibqp.qp_num) == obj_id;
 	}
@@ -1167,10 +1091,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 				       u32 *dinlen,
 				       u32 *obj_id)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 opcode = MLX5_GET(general_obj_in_cmd_hdr, in, opcode);
 	u16 uid = MLX5_GET(general_obj_in_cmd_hdr, in, uid);
 
@@ -1227,65 +1147,10 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		MLX5_SET(destroy_rqt_in, din, rqtn, *obj_id);
 		break;
 	case MLX5_CMD_OP_CREATE_TIR:
-<<<<<<< HEAD
-=======
-=======
-	u16 obj_type = MLX5_GET(general_obj_in_cmd_hdr, in, obj_type);
-	u16 uid = MLX5_GET(general_obj_in_cmd_hdr, in, uid);
-
-	*obj_id = MLX5_GET(general_obj_out_cmd_hdr, out, obj_id);
-	*dinlen = MLX5_ST_SZ_BYTES(general_obj_in_cmd_hdr);
-
-	MLX5_SET(general_obj_in_cmd_hdr, din, obj_id, *obj_id);
-	MLX5_SET(general_obj_in_cmd_hdr, din, uid, uid);
-
-	switch (MLX5_GET(general_obj_in_cmd_hdr, in, opcode)) {
-	case MLX5_CMD_OP_CREATE_GENERAL_OBJECT:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_GENERAL_OBJECT);
-		MLX5_SET(general_obj_in_cmd_hdr, din, obj_type, obj_type);
-		break;
-
-	case MLX5_CMD_OP_CREATE_UMEM:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DESTROY_UMEM);
-		break;
-	case MLX5_CMD_OP_CREATE_MKEY:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_MKEY);
-		break;
-	case MLX5_CMD_OP_CREATE_CQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_CQ);
-		break;
-	case MLX5_CMD_OP_ALLOC_PD:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DEALLOC_PD);
-		break;
-	case MLX5_CMD_OP_ALLOC_TRANSPORT_DOMAIN:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DEALLOC_TRANSPORT_DOMAIN);
-		break;
-	case MLX5_CMD_OP_CREATE_RMP:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_RMP);
-		break;
-	case MLX5_CMD_OP_CREATE_SQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_SQ);
-		break;
-	case MLX5_CMD_OP_CREATE_RQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_RQ);
-		break;
-	case MLX5_CMD_OP_CREATE_RQT:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_RQT);
-		break;
-	case MLX5_CMD_OP_CREATE_TIR:
-		*obj_id = MLX5_GET(create_tir_out, out, tirn);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(destroy_tir_in, din, opcode, MLX5_CMD_OP_DESTROY_TIR);
 		MLX5_SET(destroy_tir_in, din, tirn, *obj_id);
 		break;
 	case MLX5_CMD_OP_CREATE_TIS:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(destroy_tis_in, din, opcode, MLX5_CMD_OP_DESTROY_TIS);
 		MLX5_SET(destroy_tis_in, din, tisn, *obj_id);
 		break;
@@ -1296,20 +1161,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		break;
 	case MLX5_CMD_OP_CREATE_FLOW_TABLE:
 		*dinlen = MLX5_ST_SZ_BYTES(destroy_flow_table_in);
-<<<<<<< HEAD
-=======
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_TIS);
-		break;
-	case MLX5_CMD_OP_ALLOC_Q_COUNTER:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DEALLOC_Q_COUNTER);
-		break;
-	case MLX5_CMD_OP_CREATE_FLOW_TABLE:
-		*dinlen = MLX5_ST_SZ_BYTES(destroy_flow_table_in);
-		*obj_id = MLX5_GET(create_flow_table_out, out, table_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(destroy_flow_table_in, din, other_vport,
 			 MLX5_GET(create_flow_table_in,  in, other_vport));
 		MLX5_SET(destroy_flow_table_in, din, vport_number,
@@ -1317,26 +1168,11 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		MLX5_SET(destroy_flow_table_in, din, table_type,
 			 MLX5_GET(create_flow_table_in,  in, table_type));
 		MLX5_SET(destroy_flow_table_in, din, table_id, *obj_id);
-<<<<<<< HEAD
 		MLX5_SET(destroy_flow_table_in, din, opcode,
-=======
-<<<<<<< HEAD
-		MLX5_SET(destroy_flow_table_in, din, opcode,
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 MLX5_CMD_OP_DESTROY_FLOW_TABLE);
 		break;
 	case MLX5_CMD_OP_CREATE_FLOW_GROUP:
 		*dinlen = MLX5_ST_SZ_BYTES(destroy_flow_group_in);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		*obj_id = MLX5_GET(create_flow_group_out, out, group_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(destroy_flow_group_in, din, other_vport,
 			 MLX5_GET(create_flow_group_in, in, other_vport));
 		MLX5_SET(destroy_flow_group_in, din, vport_number,
@@ -1346,26 +1182,11 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		MLX5_SET(destroy_flow_group_in, din, table_id,
 			 MLX5_GET(create_flow_group_in, in, table_id));
 		MLX5_SET(destroy_flow_group_in, din, group_id, *obj_id);
-<<<<<<< HEAD
 		MLX5_SET(destroy_flow_group_in, din, opcode,
-=======
-<<<<<<< HEAD
-		MLX5_SET(destroy_flow_group_in, din, opcode,
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 MLX5_CMD_OP_DESTROY_FLOW_GROUP);
 		break;
 	case MLX5_CMD_OP_SET_FLOW_TABLE_ENTRY:
 		*dinlen = MLX5_ST_SZ_BYTES(delete_fte_in);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		*obj_id = MLX5_GET(set_fte_in, in, flow_index);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(delete_fte_in, din, other_vport,
 			 MLX5_GET(set_fte_in,  in, other_vport));
 		MLX5_SET(delete_fte_in, din, vport_number,
@@ -1375,10 +1196,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		MLX5_SET(delete_fte_in, din, table_id,
 			 MLX5_GET(set_fte_in, in, table_id));
 		MLX5_SET(delete_fte_in, din, flow_index, *obj_id);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(delete_fte_in, din, opcode,
 			 MLX5_CMD_OP_DELETE_FLOW_TABLE_ENTRY);
 		break;
@@ -1402,70 +1219,23 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		break;
 	case MLX5_CMD_OP_CREATE_SCHEDULING_ELEMENT:
 		*dinlen = MLX5_ST_SZ_BYTES(destroy_scheduling_element_in);
-<<<<<<< HEAD
-=======
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DELETE_FLOW_TABLE_ENTRY);
-		break;
-	case MLX5_CMD_OP_ALLOC_FLOW_COUNTER:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DEALLOC_FLOW_COUNTER);
-		break;
-	case MLX5_CMD_OP_ALLOC_PACKET_REFORMAT_CONTEXT:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DEALLOC_PACKET_REFORMAT_CONTEXT);
-		break;
-	case MLX5_CMD_OP_ALLOC_MODIFY_HEADER_CONTEXT:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DEALLOC_MODIFY_HEADER_CONTEXT);
-		break;
-	case MLX5_CMD_OP_CREATE_SCHEDULING_ELEMENT:
-		*dinlen = MLX5_ST_SZ_BYTES(destroy_scheduling_element_in);
-		*obj_id = MLX5_GET(create_scheduling_element_out, out,
-				   scheduling_element_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(destroy_scheduling_element_in, din,
 			 scheduling_hierarchy,
 			 MLX5_GET(create_scheduling_element_in, in,
 				  scheduling_hierarchy));
 		MLX5_SET(destroy_scheduling_element_in, din,
 			 scheduling_element_id, *obj_id);
-<<<<<<< HEAD
 		MLX5_SET(destroy_scheduling_element_in, din, opcode,
-=======
-<<<<<<< HEAD
-		MLX5_SET(destroy_scheduling_element_in, din, opcode,
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 MLX5_CMD_OP_DESTROY_SCHEDULING_ELEMENT);
 		break;
 	case MLX5_CMD_OP_ADD_VXLAN_UDP_DPORT:
 		*dinlen = MLX5_ST_SZ_BYTES(delete_vxlan_udp_dport_in);
-<<<<<<< HEAD
 		MLX5_SET(delete_vxlan_udp_dport_in, din, vxlan_udp_port, *obj_id);
 		MLX5_SET(delete_vxlan_udp_dport_in, din, opcode,
-=======
-<<<<<<< HEAD
-		MLX5_SET(delete_vxlan_udp_dport_in, din, vxlan_udp_port, *obj_id);
-		MLX5_SET(delete_vxlan_udp_dport_in, din, opcode,
-=======
-		*obj_id = MLX5_GET(add_vxlan_udp_dport_in, in, vxlan_udp_port);
-		MLX5_SET(delete_vxlan_udp_dport_in, din, vxlan_udp_port, *obj_id);
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 MLX5_CMD_OP_DELETE_VXLAN_UDP_DPORT);
 		break;
 	case MLX5_CMD_OP_SET_L2_TABLE_ENTRY:
 		*dinlen = MLX5_ST_SZ_BYTES(delete_l2_table_entry_in);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(delete_l2_table_entry_in, din, table_index, *obj_id);
 		MLX5_SET(delete_l2_table_entry_in, din, opcode,
 			 MLX5_CMD_OP_DELETE_L2_TABLE_ENTRY);
@@ -1490,31 +1260,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 	case MLX5_CMD_OP_CREATE_XRQ:
 		MLX5_SET(destroy_xrq_in, din, opcode, MLX5_CMD_OP_DESTROY_XRQ);
 		MLX5_SET(destroy_xrq_in, din, xrqn, *obj_id);
-<<<<<<< HEAD
-=======
-=======
-		*obj_id = MLX5_GET(set_l2_table_entry_in, in, table_index);
-		MLX5_SET(delete_l2_table_entry_in, din, table_index, *obj_id);
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DELETE_L2_TABLE_ENTRY);
-		break;
-	case MLX5_CMD_OP_CREATE_QP:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_QP);
-		break;
-	case MLX5_CMD_OP_CREATE_SRQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_SRQ);
-		break;
-	case MLX5_CMD_OP_CREATE_XRC_SRQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DESTROY_XRC_SRQ);
-		break;
-	case MLX5_CMD_OP_CREATE_DCT:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_DCT);
-		break;
-	case MLX5_CMD_OP_CREATE_XRQ:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DESTROY_XRQ);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case MLX5_CMD_OP_ATTACH_TO_MCG:
 		*dinlen = MLX5_ST_SZ_BYTES(detach_from_mcg_in);
@@ -1523,10 +1268,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		memcpy(MLX5_ADDR_OF(detach_from_mcg_in, din, multicast_gid),
 		       MLX5_ADDR_OF(attach_to_mcg_in, in, multicast_gid),
 		       MLX5_FLD_SZ_BYTES(attach_to_mcg_in, multicast_gid));
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		MLX5_SET(detach_from_mcg_in, din, opcode,
 			 MLX5_CMD_OP_DETACH_FROM_MCG);
 		MLX5_SET(detach_from_mcg_in, din, qpn, *obj_id);
@@ -1540,21 +1281,6 @@ static void devx_obj_build_destroy_cmd(void *in, void *out, void *din,
 		MLX5_SET(destroy_psv_in, din, opcode,
 			 MLX5_CMD_OP_DESTROY_PSV);
 		MLX5_SET(destroy_psv_in, din, psvn, *obj_id);
-<<<<<<< HEAD
-=======
-=======
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DETACH_FROM_MCG);
-		break;
-	case MLX5_CMD_OP_ALLOC_XRCD:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode, MLX5_CMD_OP_DEALLOC_XRCD);
-		break;
-	case MLX5_CMD_OP_CREATE_PSV:
-		MLX5_SET(general_obj_in_cmd_hdr, din, opcode,
-			 MLX5_CMD_OP_DESTROY_PSV);
-		MLX5_SET(destroy_psv_in, din, psvn,
-			 MLX5_GET(create_psv_out, out, psv0_index));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		/* The entry must match to one of the devx_is_obj_create_cmd */
@@ -1582,21 +1308,9 @@ static int devx_handle_mkey_indirect(struct devx_obj *obj,
 	mkey->size = MLX5_GET64(mkc, mkc, len);
 	mkey->pd = MLX5_GET(mkc, mkc, pd);
 	devx_mr->ndescs = MLX5_GET(mkc, mkc, translations_octword_size);
-<<<<<<< HEAD
 	init_waitqueue_head(&mkey->wait);
 
 	return mlx5r_store_odp_mkey(dev, mkey);
-=======
-<<<<<<< HEAD
-	init_waitqueue_head(&mkey->wait);
-
-	return mlx5r_store_odp_mkey(dev, mkey);
-=======
-
-	return xa_err(xa_store(&dev->odp_mkeys, mlx5_base_mkey(mkey->key), mkey,
-			       GFP_KERNEL));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int devx_handle_mkey_create(struct mlx5_ib_dev *dev,
@@ -1669,36 +1383,15 @@ static int devx_obj_cleanup(struct ib_uobject *uobject,
 	int ret;
 
 	dev = mlx5_udata_to_mdev(&attrs->driver_udata);
-<<<<<<< HEAD
 	if (obj->flags & DEVX_OBJ_FLAGS_INDIRECT_MKEY &&
 	    xa_erase(&obj->ib_dev->odp_mkeys,
 		     mlx5_base_mkey(obj->devx_mr.mmkey.key)))
-=======
-<<<<<<< HEAD
-	if (obj->flags & DEVX_OBJ_FLAGS_INDIRECT_MKEY &&
-	    xa_erase(&obj->ib_dev->odp_mkeys,
-		     mlx5_base_mkey(obj->devx_mr.mmkey.key)))
-=======
-	if (obj->flags & DEVX_OBJ_FLAGS_INDIRECT_MKEY) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The pagefault_single_data_segment() does commands against
 		 * the mmkey, we must wait for that to stop before freeing the
 		 * mkey, as another allocation could get the same mkey #.
 		 */
-<<<<<<< HEAD
 		mlx5r_deref_wait_odp_mkey(&obj->devx_mr.mmkey);
-=======
-<<<<<<< HEAD
-		mlx5r_deref_wait_odp_mkey(&obj->devx_mr.mmkey);
-=======
-		xa_erase(&obj->ib_dev->odp_mkeys,
-			 mlx5_base_mkey(obj->devx_mr.mmkey.key));
-		synchronize_srcu(&dev->odp_srcu);
-	}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (obj->flags & DEVX_OBJ_FLAGS_DCT)
 		ret = mlx5_core_destroy_dct(obj->ib_dev, &obj->core_dct);
@@ -1744,10 +1437,6 @@ out:
 	rcu_read_unlock();
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool is_apu_thread_cq(struct mlx5_ib_dev *dev, const void *in)
 {
 	if (!MLX5_CAP_GEN(dev->mdev, apu) ||
@@ -1758,11 +1447,6 @@ static bool is_apu_thread_cq(struct mlx5_ib_dev *dev, const void *in)
 	return true;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int UVERBS_HANDLER(MLX5_IB_METHOD_DEVX_OBJ_CREATE)(
 	struct uverbs_attr_bundle *attrs)
 {
@@ -1816,17 +1500,8 @@ static int UVERBS_HANDLER(MLX5_IB_METHOD_DEVX_OBJ_CREATE)(
 		obj->flags |= DEVX_OBJ_FLAGS_DCT;
 		err = mlx5_core_create_dct(dev, &obj->core_dct, cmd_in,
 					   cmd_in_len, cmd_out, cmd_out_len);
-<<<<<<< HEAD
 	} else if (opcode == MLX5_CMD_OP_CREATE_CQ &&
 		   !is_apu_thread_cq(dev, cmd_in)) {
-=======
-<<<<<<< HEAD
-	} else if (opcode == MLX5_CMD_OP_CREATE_CQ &&
-		   !is_apu_thread_cq(dev, cmd_in)) {
-=======
-	} else if (opcode == MLX5_CMD_OP_CREATE_CQ) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		obj->flags |= DEVX_OBJ_FLAGS_CQ;
 		obj->core_cq.comp = devx_cq_comp;
 		err = mlx5_core_create_cq(dev->mdev, &obj->core_cq,
@@ -2508,27 +2183,69 @@ static int devx_umem_get(struct mlx5_ib_dev *dev, struct ib_ucontext *ucontext,
 	return 0;
 }
 
+static unsigned int devx_umem_find_best_pgsize(struct ib_umem *umem,
+					       unsigned long pgsz_bitmap)
+{
+	unsigned long page_size;
+
+	/* Don't bother checking larger page sizes as offset must be zero and
+	 * total DEVX umem length must be equal to total umem length.
+	 */
+	pgsz_bitmap &= GENMASK_ULL(max_t(u64, order_base_2(umem->length),
+					 PAGE_SHIFT),
+				   MLX5_ADAPTER_PAGE_SHIFT);
+	if (!pgsz_bitmap)
+		return 0;
+
+	page_size = ib_umem_find_best_pgoff(umem, pgsz_bitmap, U64_MAX);
+	if (!page_size)
+		return 0;
+
+	/* If the page_size is less than the CPU page size then we can use the
+	 * offset and create a umem which is a subset of the page list.
+	 * For larger page sizes we can't be sure the DMA  list reflects the
+	 * VA so we must ensure that the umem extent is exactly equal to the
+	 * page list. Reduce the page size until one of these cases is true.
+	 */
+	while ((ib_umem_dma_offset(umem, page_size) != 0 ||
+		(umem->length % page_size) != 0) &&
+		page_size > PAGE_SIZE)
+		page_size /= 2;
+
+	return page_size;
+}
+
 static int devx_umem_reg_cmd_alloc(struct mlx5_ib_dev *dev,
 				   struct uverbs_attr_bundle *attrs,
 				   struct devx_umem *obj,
 				   struct devx_umem_reg_cmd *cmd)
 {
+	unsigned long pgsz_bitmap;
 	unsigned int page_size;
 	__be64 *mtt;
 	void *umem;
+	int ret;
 
 	/*
-	 * We don't know what the user intends to use this umem for, but the HW
-	 * restrictions must be met. MR, doorbell records, QP, WQ and CQ all
-	 * have different requirements. Since we have no idea how to sort this
-	 * out, only support PAGE_SIZE with the expectation that userspace will
-	 * provide the necessary alignments inside the known PAGE_SIZE and that
-	 * FW will check everything.
+	 * If the user does not pass in pgsz_bitmap then the user promises not
+	 * to use umem_offset!=0 in any commands that allocate on top of the
+	 * umem.
+	 *
+	 * If the user wants to use a umem_offset then it must pass in
+	 * pgsz_bitmap which guides the maximum page size and thus maximum
+	 * object alignment inside the umem. See the PRM.
+	 *
+	 * Users are not allowed to use IOVA here, mkeys are not supported on
+	 * umem.
 	 */
-	page_size = ib_umem_find_best_pgoff(
-		obj->umem, PAGE_SIZE,
-		__mlx5_page_offset_to_bitmask(__mlx5_bit_sz(umem, page_offset),
-					      0));
+	ret = uverbs_get_const_default(&pgsz_bitmap, attrs,
+			MLX5_IB_ATTR_DEVX_UMEM_REG_PGSZ_BITMAP,
+			GENMASK_ULL(63,
+				    min(PAGE_SHIFT, MLX5_ADAPTER_PAGE_SHIFT)));
+	if (ret)
+		return ret;
+
+	page_size = devx_umem_find_best_pgsize(obj->umem, pgsz_bitmap);
 	if (!page_size)
 		return -EINVAL;
 
@@ -3114,6 +2831,8 @@ DECLARE_UVERBS_NAMED_METHOD(
 			   UA_MANDATORY),
 	UVERBS_ATTR_FLAGS_IN(MLX5_IB_ATTR_DEVX_UMEM_REG_ACCESS,
 			     enum ib_access_flags),
+	UVERBS_ATTR_CONST_IN(MLX5_IB_ATTR_DEVX_UMEM_REG_PGSZ_BITMAP,
+			     u64),
 	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_DEVX_UMEM_REG_OUT_ID,
 			    UVERBS_ATTR_TYPE(u32),
 			    UA_MANDATORY));

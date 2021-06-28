@@ -276,10 +276,6 @@ static int st_nci_hci_apdu_reader_event_received(struct nci_dev *ndev,
 						   u8 event,
 						   struct sk_buff *skb)
 {
-<<<<<<< HEAD
-=======
-	int r = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct st_nci_info *info = nci_get_drvdata(ndev);
 
 	pr_debug("apdu reader gate event: %x\n", event);
@@ -301,11 +297,7 @@ static int st_nci_hci_apdu_reader_event_received(struct nci_dev *ndev,
 	}
 
 	kfree_skb(skb);
-<<<<<<< HEAD
 	return 0;
-=======
-	return r;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

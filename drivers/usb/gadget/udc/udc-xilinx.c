@@ -843,13 +843,8 @@ static int __xudc_ep_enable(struct xusb_ep *ep,
 		break;
 	}
 
-<<<<<<< HEAD
 	ep->buffer0ready = false;
 	ep->buffer1ready = false;
-=======
-	ep->buffer0ready = 0;
-	ep->buffer1ready = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ep->curbufnum = 0;
 	ep->rambase = rambase[ep->epnumber];
 	xudc_epconfig(ep, udc);
@@ -873,19 +868,11 @@ static int __xudc_ep_enable(struct xusb_ep *ep,
 	if (ep->epnumber && !ep->is_in) {
 		udc->write_fn(udc->addr, XUSB_BUFFREADY_OFFSET,
 			      1 << ep->epnumber);
-<<<<<<< HEAD
 		ep->buffer0ready = true;
 		udc->write_fn(udc->addr, XUSB_BUFFREADY_OFFSET,
 			     (1 << (ep->epnumber +
 			      XUSB_STATUS_EP_BUFF2_SHIFT)));
 		ep->buffer1ready = true;
-=======
-		ep->buffer0ready = 1;
-		udc->write_fn(udc->addr, XUSB_BUFFREADY_OFFSET,
-			     (1 << (ep->epnumber +
-			      XUSB_STATUS_EP_BUFF2_SHIFT)));
-		ep->buffer1ready = 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1967,11 +1954,7 @@ static void xudc_nonctrl_ep_handler(struct xusb_udc *udc, u8 epnum,
 	if (intrstatus & (XUSB_STATUS_EP0_BUFF1_COMP_MASK << epnum))
 		ep->buffer0ready = 0;
 	if (intrstatus & (XUSB_STATUS_EP0_BUFF2_COMP_MASK << epnum))
-<<<<<<< HEAD
 		ep->buffer1ready = false;
-=======
-		ep->buffer1ready = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (list_empty(&ep->queue))
 		return;

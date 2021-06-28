@@ -9,23 +9,11 @@
         "ArchStdEvent": "BR_INDIRECT_SPEC"
     },
     {
-<<<<<<< HEAD
         "ArchStdEvent": "BR_MIS_PRED",
         "BriefDescription": "Branch mispredicted"
     },
     {
         "ArchStdEvent": "BR_PRED",
-=======
-        "PublicDescription": "Mispredicted or not predicted branch speculatively executed",
-        "EventCode": "0x10",
-        "EventName": "BR_MIS_PRED",
-        "BriefDescription": "Branch mispredicted"
-    },
-    {
-        "PublicDescription": "Predictable branch speculatively executed",
-        "EventCode": "0x12",
-        "EventName": "BR_PRED",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         "BriefDescription": "Predictable branch"
     }
 ]

@@ -12,10 +12,7 @@
 #include "maps.h"
 #include "symbol.h"
 #include "symsrc.h"
-<<<<<<< HEAD
 #include "demangle-ocaml.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "demangle-java.h"
 #include "demangle-rust.h"
 #include "machine.h"
@@ -255,17 +252,12 @@ static char *demangle_sym(struct dso *dso, int kmodule, const char *elf_name)
 	    return demangled;
 
 	demangled = bfd_demangle(NULL, elf_name, demangle_flags);
-<<<<<<< HEAD
 	if (demangled == NULL) {
 		demangled = ocaml_demangle_sym(elf_name);
 		if (demangled == NULL) {
 			demangled = java_demangle_sym(elf_name, JAVA_DEMANGLE_NORET);
 		}
 	}
-=======
-	if (demangled == NULL)
-		demangled = java_demangle_sym(elf_name, JAVA_DEMANGLE_NORET);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (rust_is_mangled(demangled))
 		/*
 		    * Input to Rust demangling is the BFD-demangled
@@ -1066,7 +1058,7 @@ static int dso__process_kernel_symbol(struct dso *dso, struct map *map,
 		curr_dso->symtab_type = dso->symtab_type;
 		maps__insert(kmaps, curr_map);
 		/*
-		 * Add it before we drop the referece to curr_map, i.e. while
+		 * Add it before we drop the reference to curr_map, i.e. while
 		 * we still are sure to have a reference to this DSO via
 		 * *curr_map->dso.
 		 */
@@ -1239,17 +1231,12 @@ int dso__load_sym(struct dso *dso, struct map *map, struct symsrc *syms_ss,
 		if (sym.st_shndx == SHN_ABS)
 			continue;
 
-<<<<<<< HEAD
 		sec = elf_getscn(syms_ss->elf, sym.st_shndx);
-=======
-		sec = elf_getscn(runtime_ss->elf, sym.st_shndx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!sec)
 			goto out_elf_end;
 
 		gelf_getshdr(sec, &shdr);
 
-<<<<<<< HEAD
 		/*
 		 * We have to fallback to runtime when syms' section header has
 		 * NOBITS set. NOBITS results in file offset (sh_offset) not
@@ -1264,8 +1251,6 @@ int dso__load_sym(struct dso *dso, struct map *map, struct symsrc *syms_ss,
 			gelf_getshdr(sec, &shdr);
 		}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (is_label && !elf_sec__filter(&shdr, secstrs))
 			continue;
 
@@ -2427,6 +2412,7 @@ int cleanup_sdt_note_list(struct list_head *sdt_notes)
 
 	list_for_each_entry_safe(pos, tmp, sdt_notes, note_list) {
 		list_del_init(&pos->note_list);
+		zfree(&pos->args);
 		zfree(&pos->name);
 		zfree(&pos->provider);
 		free(pos);

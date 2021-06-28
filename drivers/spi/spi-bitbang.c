@@ -60,7 +60,8 @@ static unsigned bitbang_txrx_8(
 	unsigned		ns,
 	struct spi_transfer	*t,
 	unsigned flags
-) {
+)
+{
 	unsigned		bits = t->bits_per_word;
 	unsigned		count = t->len;
 	const u8		*tx = t->tx_buf;
@@ -88,7 +89,8 @@ static unsigned bitbang_txrx_16(
 	unsigned		ns,
 	struct spi_transfer	*t,
 	unsigned flags
-) {
+)
+{
 	unsigned		bits = t->bits_per_word;
 	unsigned		count = t->len;
 	const u16		*tx = t->tx_buf;
@@ -116,7 +118,8 @@ static unsigned bitbang_txrx_32(
 	unsigned		ns,
 	struct spi_transfer	*t,
 	unsigned flags
-) {
+)
+{
 	unsigned		bits = t->bits_per_word;
 	unsigned		count = t->len;
 	const u32		*tx = t->tx_buf;
@@ -181,11 +184,8 @@ int spi_bitbang_setup(struct spi_device *spi)
 {
 	struct spi_bitbang_cs	*cs = spi->controller_state;
 	struct spi_bitbang	*bitbang;
-<<<<<<< HEAD
 	bool			initial_setup = false;
 	int			retval;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bitbang = spi_master_get_devdata(spi->master);
 
@@ -194,15 +194,11 @@ int spi_bitbang_setup(struct spi_device *spi)
 		if (!cs)
 			return -ENOMEM;
 		spi->controller_state = cs;
-<<<<<<< HEAD
 		initial_setup = true;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* per-word shift register access, in hardware or bitbanging */
 	cs->txrx_word = bitbang->txrx_word[spi->mode & (SPI_CPOL|SPI_CPHA)];
-<<<<<<< HEAD
 	if (!cs->txrx_word) {
 		retval = -EINVAL;
 		goto err_free;
@@ -212,28 +208,16 @@ int spi_bitbang_setup(struct spi_device *spi)
 		retval = bitbang->setup_transfer(spi, NULL);
 		if (retval < 0)
 			goto err_free;
-=======
-	if (!cs->txrx_word)
-		return -EINVAL;
-
-	if (bitbang->setup_transfer) {
-		int retval = bitbang->setup_transfer(spi, NULL);
-		if (retval < 0)
-			return retval;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_dbg(&spi->dev, "%s, %u nsec/bit\n", __func__, 2 * cs->nsecs);
 
 	return 0;
-<<<<<<< HEAD
 
 err_free:
 	if (initial_setup)
 		kfree(cs);
 	return retval;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(spi_bitbang_setup);
 

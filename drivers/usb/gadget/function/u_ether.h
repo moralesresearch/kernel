@@ -244,7 +244,6 @@ unsigned gether_get_qmult(struct net_device *net);
  */
 int gether_get_ifname(struct net_device *net, char *name, int len);
 
-<<<<<<< HEAD
 /**
  * gether_set_ifname - set an ethernet-over-usb link interface name
  * @net: device representing this link
@@ -257,8 +256,6 @@ int gether_get_ifname(struct net_device *net, char *name, int len);
  */
 int gether_set_ifname(struct net_device *net, const char *name, int len);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void gether_cleanup(struct eth_dev *dev);
 
 /* connect/disconnect is handled by individual functions */

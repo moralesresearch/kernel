@@ -258,13 +258,7 @@ __acquires(&port->port_lock)
 		list_del(&req->list);
 		req->zero = kfifo_is_empty(&port->port_write_buf);
 
-<<<<<<< HEAD
 		pr_vdebug("ttyGS%d: tx len=%d, %3ph ...\n", port->port_num, len, req->buf);
-=======
-		pr_vdebug("ttyGS%d: tx len=%d, 0x%02x 0x%02x 0x%02x ...\n",
-			  port->port_num, len, *((u8 *)req->buf),
-			  *((u8 *)req->buf+1), *((u8 *)req->buf+2));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Drop lock while we call out of driver; completions
 		 * could be issued while we do so.  Disconnection may
@@ -350,11 +344,7 @@ __acquires(&port->port_lock)
 }
 
 /*
-<<<<<<< HEAD
  * RX work takes data out of the RX queue and hands it up to the TTY
-=======
- * RX tasklet takes data out of the RX queue and hands it up to the TTY
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * layer until it refuses to take any more data (or is throttled back).
  * Then it issues reads for any further data.
  *
@@ -717,11 +707,7 @@ raced_with_open:
 
 	/* Iff we're disconnected, there can be no I/O in flight so it's
 	 * ok to free the circular buffer; else just scrub it.  And don't
-<<<<<<< HEAD
 	 * let the push async work fire again until we're re-opened.
-=======
-	 * let the push tasklet fire again until we're re-opened.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (gser == NULL)
 		kfifo_free(&port->port_write_buf);

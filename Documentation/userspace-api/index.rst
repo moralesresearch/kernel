@@ -18,16 +18,15 @@ place where this information is gathered.
 
    no_new_privs
    seccomp_filter
+   landlock
    unshare
    spec_ctrl
    accelerators/ocxl
+   ebpf/index
    ioctl/index
    iommu
    media/index
-<<<<<<< HEAD
    sysfs-platform_profile
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 .. only::  subproject and html
 

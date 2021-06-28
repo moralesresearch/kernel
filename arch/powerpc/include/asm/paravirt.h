@@ -28,7 +28,6 @@ static inline u32 yield_count_of(int cpu)
 	return be32_to_cpu(yield_count);
 }
 
-<<<<<<< HEAD
 /*
  * Spinlock code confers and prods, so don't trace the hcalls because the
  * tracing code takes spinlocks which can cause recursion deadlocks.
@@ -48,29 +47,16 @@ static inline u32 yield_count_of(int cpu)
 static inline void yield_to_preempted(int cpu, u32 yield_count)
 {
 	plpar_hcall_norets_notrace(H_CONFER, get_hard_smp_processor_id(cpu), yield_count);
-=======
-static inline void yield_to_preempted(int cpu, u32 yield_count)
-{
-	plpar_hcall_norets(H_CONFER, get_hard_smp_processor_id(cpu), yield_count);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void prod_cpu(int cpu)
 {
-<<<<<<< HEAD
 	plpar_hcall_norets_notrace(H_PROD, get_hard_smp_processor_id(cpu));
-=======
-	plpar_hcall_norets(H_PROD, get_hard_smp_processor_id(cpu));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void yield_to_any(void)
 {
-<<<<<<< HEAD
 	plpar_hcall_norets_notrace(H_CONFER, -1, 0);
-=======
-	plpar_hcall_norets(H_CONFER, -1, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #else
 static inline bool is_shared_processor(void)

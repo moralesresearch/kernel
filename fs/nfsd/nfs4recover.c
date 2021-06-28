@@ -233,11 +233,7 @@ nfsd4_create_clid_dir(struct nfs4_client *clp)
 		 * as well be forgiving and just succeed silently.
 		 */
 		goto out_put;
-<<<<<<< HEAD
 	status = vfs_mkdir(&init_user_ns, d_inode(dir), dentry, S_IRWXU);
-=======
-	status = vfs_mkdir(d_inode(dir), dentry, S_IRWXU);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_put:
 	dput(dentry);
 out_unlock:
@@ -357,11 +353,7 @@ nfsd4_unlink_clid_dir(char *name, int namlen, struct nfsd_net *nn)
 	status = -ENOENT;
 	if (d_really_is_negative(dentry))
 		goto out;
-<<<<<<< HEAD
 	status = vfs_rmdir(&init_user_ns, d_inode(dir), dentry);
-=======
-	status = vfs_rmdir(d_inode(dir), dentry);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	dput(dentry);
 out_unlock:
@@ -451,11 +443,7 @@ purge_old(struct dentry *parent, struct dentry *child, struct nfsd_net *nn)
 	if (nfs4_has_reclaimed_state(name, nn))
 		goto out_free;
 
-<<<<<<< HEAD
 	status = vfs_rmdir(&init_user_ns, d_inode(parent), child);
-=======
-	status = vfs_rmdir(d_inode(parent), child);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		printk("failed to remove client recovery directory %pd\n",
 				child);
@@ -638,7 +626,7 @@ nfsd4_legacy_tracking_init(struct net *net)
 	status = nfsd4_load_reboot_recovery_data(net);
 	if (status)
 		goto err;
-	printk("NFSD: Using legacy client tracking operations.\n");
+	pr_info("NFSD: Using legacy client tracking operations.\n");
 	return 0;
 
 err:
@@ -1040,7 +1028,7 @@ nfsd4_init_cld_pipe(struct net *net)
 
 	status = __nfsd4_init_cld_pipe(net);
 	if (!status)
-		printk("NFSD: Using old nfsdcld client tracking operations.\n");
+		pr_info("NFSD: Using old nfsdcld client tracking operations.\n");
 	return status;
 }
 
@@ -1617,7 +1605,7 @@ nfsd4_cld_tracking_init(struct net *net)
 		nfs4_release_reclaim(nn);
 		goto err_remove;
 	} else
-		printk("NFSD: Using nfsdcld client tracking operations.\n");
+		pr_info("NFSD: Using nfsdcld client tracking operations.\n");
 	return 0;
 
 err_remove:
@@ -1876,7 +1864,7 @@ nfsd4_umh_cltrack_init(struct net *net)
 	ret = nfsd4_umh_cltrack_upcall("init", NULL, grace_start, NULL);
 	kfree(grace_start);
 	if (!ret)
-		printk("NFSD: Using UMH upcall client tracking operations.\n");
+		pr_info("NFSD: Using UMH upcall client tracking operations.\n");
 	return ret;
 }
 

@@ -68,6 +68,7 @@
 #include <linux/sort.h>
 #include <linux/stop_machine.h>
 #include <linux/types.h>
+#include <linux/minmax.h>
 #include <linux/mm.h>
 #include <linux/cpu.h>
 #include <linux/kasan.h>
@@ -352,24 +353,12 @@ static const struct arm64_ftr_bits ftr_ctr[] = {
 	ARM64_FTR_END,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct arm64_ftr_override __ro_after_init no_override = { };
 
 struct arm64_ftr_reg arm64_ftr_reg_ctrel0 = {
 	.name		= "SYS_CTR_EL0",
 	.ftr_bits	= ftr_ctr,
 	.override	= &no_override,
-<<<<<<< HEAD
-=======
-=======
-struct arm64_ftr_reg arm64_ftr_reg_ctrel0 = {
-	.name		= "SYS_CTR_EL0",
-	.ftr_bits	= ftr_ctr
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
@@ -395,13 +384,6 @@ static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
 	 * of support.
 	 */
 	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_EXACT, ID_AA64DFR0_PMUVER_SHIFT, 4, 0),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_EXACT, ID_AA64DFR0_TRACEVER_SHIFT, 4, 0),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_EXACT, ID_AA64DFR0_DEBUGVER_SHIFT, 4, 0x6),
 	ARM64_FTR_END,
 };
@@ -565,10 +547,6 @@ static const struct arm64_ftr_bits ftr_raz[] = {
 	ARM64_FTR_END,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ARM64_FTR_REG_OVERRIDE(id, table, ovr) {		\
 		.sys_id = id,					\
 		.reg = 	&(struct arm64_ftr_reg){		\
@@ -583,18 +561,6 @@ struct arm64_ftr_override __ro_after_init id_aa64mmfr1_override;
 struct arm64_ftr_override __ro_after_init id_aa64pfr1_override;
 struct arm64_ftr_override __ro_after_init id_aa64isar1_override;
 
-<<<<<<< HEAD
-=======
-=======
-#define ARM64_FTR_REG(id, table) {		\
-	.sys_id = id,				\
-	.reg = 	&(struct arm64_ftr_reg){	\
-		.name = #id,			\
-		.ftr_bits = &((table)[0]),	\
-	}}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct __ftr_reg_entry {
 	u32			sys_id;
 	struct arm64_ftr_reg 	*reg;
@@ -629,17 +595,8 @@ static const struct __ftr_reg_entry {
 
 	/* Op1 = 0, CRn = 0, CRm = 4 */
 	ARM64_FTR_REG(SYS_ID_AA64PFR0_EL1, ftr_id_aa64pfr0),
-<<<<<<< HEAD
 	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64PFR1_EL1, ftr_id_aa64pfr1,
 			       &id_aa64pfr1_override),
-=======
-<<<<<<< HEAD
-	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64PFR1_EL1, ftr_id_aa64pfr1,
-			       &id_aa64pfr1_override),
-=======
-	ARM64_FTR_REG(SYS_ID_AA64PFR1_EL1, ftr_id_aa64pfr1),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ARM64_FTR_REG(SYS_ID_AA64ZFR0_EL1, ftr_id_aa64zfr0),
 
 	/* Op1 = 0, CRn = 0, CRm = 5 */
@@ -648,10 +605,6 @@ static const struct __ftr_reg_entry {
 
 	/* Op1 = 0, CRn = 0, CRm = 6 */
 	ARM64_FTR_REG(SYS_ID_AA64ISAR0_EL1, ftr_id_aa64isar0),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR1_EL1, ftr_id_aa64isar1,
 			       &id_aa64isar1_override),
 
@@ -659,16 +612,6 @@ static const struct __ftr_reg_entry {
 	ARM64_FTR_REG(SYS_ID_AA64MMFR0_EL1, ftr_id_aa64mmfr0),
 	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64MMFR1_EL1, ftr_id_aa64mmfr1,
 			       &id_aa64mmfr1_override),
-<<<<<<< HEAD
-=======
-=======
-	ARM64_FTR_REG(SYS_ID_AA64ISAR1_EL1, ftr_id_aa64isar1),
-
-	/* Op1 = 0, CRn = 0, CRm = 7 */
-	ARM64_FTR_REG(SYS_ID_AA64MMFR0_EL1, ftr_id_aa64mmfr0),
-	ARM64_FTR_REG(SYS_ID_AA64MMFR1_EL1, ftr_id_aa64mmfr1),
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ARM64_FTR_REG(SYS_ID_AA64MMFR2_EL1, ftr_id_aa64mmfr2),
 
 	/* Op1 = 0, CRn = 1, CRm = 2 */
@@ -752,14 +695,14 @@ static s64 arm64_ftr_safe_value(const struct arm64_ftr_bits *ftrp, s64 new,
 		ret = ftrp->safe_val;
 		break;
 	case FTR_LOWER_SAFE:
-		ret = new < cur ? new : cur;
+		ret = min(new, cur);
 		break;
 	case FTR_HIGHER_OR_ZERO_SAFE:
 		if (!cur || !new)
 			break;
 		fallthrough;
 	case FTR_HIGHER_SAFE:
-		ret = new > cur ? new : cur;
+		ret = max(new, cur);
 		break;
 	default:
 		BUG();
@@ -840,10 +783,6 @@ static void __init init_cpu_ftr_reg(u32 sys_reg, u64 new)
 	for (ftrp = reg->ftr_bits; ftrp->width; ftrp++) {
 		u64 ftr_mask = arm64_ftr_mask(ftrp);
 		s64 ftr_new = arm64_ftr_value(ftrp, new);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		s64 ftr_ovr = arm64_ftr_value(ftrp, reg->override->val);
 
 		if ((ftr_mask & reg->override->mask) == ftr_mask) {
@@ -870,12 +809,13 @@ static void __init init_cpu_ftr_reg(u32 sys_reg, u64 new)
 					reg->name,
 					ftrp->shift + ftrp->width - 1,
 					ftrp->shift, str, tmp);
+		} else if ((ftr_mask & reg->override->val) == ftr_mask) {
+			reg->override->val &= ~ftr_mask;
+			pr_warn("%s[%d:%d]: impossible override, ignored\n",
+				reg->name,
+				ftrp->shift + ftrp->width - 1,
+				ftrp->shift);
 		}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		val = arm64_ftr_set_value(ftrp, val, ftr_new);
 
@@ -1221,36 +1161,17 @@ u64 read_sanitised_ftr_reg(u32 id)
 EXPORT_SYMBOL_GPL(read_sanitised_ftr_reg);
 
 #define read_sysreg_case(r)	\
-<<<<<<< HEAD
 	case r:		val = read_sysreg_s(r); break;
-=======
-<<<<<<< HEAD
-	case r:		val = read_sysreg_s(r); break;
-=======
-	case r:		return read_sysreg_s(r)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * __read_sysreg_by_encoding() - Used by a STARTING cpu before cpuinfo is populated.
  * Read the system register on the current CPU
  */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u64 __read_sysreg_by_encoding(u32 sys_id)
 {
 	struct arm64_ftr_reg *regp;
 	u64 val;
 
-<<<<<<< HEAD
-=======
-=======
-static u64 __read_sysreg_by_encoding(u32 sys_id)
-{
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (sys_id) {
 	read_sysreg_case(SYS_ID_PFR0_EL1);
 	read_sysreg_case(SYS_ID_PFR1_EL1);
@@ -1293,10 +1214,6 @@ static u64 __read_sysreg_by_encoding(u32 sys_id)
 		BUG();
 		return 0;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	regp  = get_arm64_ftr_reg(sys_id);
 	if (regp) {
@@ -1305,11 +1222,6 @@ static u64 __read_sysreg_by_encoding(u32 sys_id)
 	}
 
 	return val;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #include <linux/irqchip/arm-gic-v3.h>
@@ -1540,7 +1452,7 @@ static bool unmap_kernel_at_el0(const struct arm64_cpu_capabilities *entry,
 }
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
-static void
+static void __nocfi
 kpti_install_ng_mappings(const struct arm64_cpu_capabilities *__unused)
 {
 	typedef void (kpti_remap_fn)(int, int, phys_addr_t);
@@ -1557,7 +1469,7 @@ kpti_install_ng_mappings(const struct arm64_cpu_capabilities *__unused)
 	if (arm64_use_ng_mappings)
 		return;
 
-	remap_fn = (void *)__pa_symbol(idmap_kpti_install_ng_mappings);
+	remap_fn = (void *)__pa_symbol(function_nocfi(idmap_kpti_install_ng_mappings));
 
 	cpu_install_idmap();
 	remap_fn(cpu, num_online_cpus(), __pa_symbol(swapper_pg_dir));
@@ -1714,7 +1626,6 @@ int get_cpu_with_amu_feat(void)
 }
 #endif
 
-#ifdef CONFIG_ARM64_VHE
 static bool runs_at_el2(const struct arm64_cpu_capabilities *entry, int __unused)
 {
 	return is_kernel_in_hyp_mode();
@@ -1733,7 +1644,6 @@ static void cpu_copy_el2regs(const struct arm64_cpu_capabilities *__unused)
 	if (!alternative_is_applied(ARM64_HAS_VIRT_HOST_EXTN))
 		write_sysreg(read_sysreg(tpidr_el1), tpidr_el2);
 }
-#endif
 
 static void cpu_has_fwb(const struct arm64_cpu_capabilities *__unused)
 {
@@ -1918,6 +1828,18 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
 		.cpu_enable = cpu_enable_pan,
 	},
 #endif /* CONFIG_ARM64_PAN */
+#ifdef CONFIG_ARM64_EPAN
+	{
+		.desc = "Enhanced Privileged Access Never",
+		.capability = ARM64_HAS_EPAN,
+		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+		.matches = has_cpuid_feature,
+		.sys_reg = SYS_ID_AA64MMFR1_EL1,
+		.field_pos = ID_AA64MMFR1_PAN_SHIFT,
+		.sign = FTR_UNSIGNED,
+		.min_field_value = 3,
+	},
+#endif /* CONFIG_ARM64_EPAN */
 #ifdef CONFIG_ARM64_LSE_ATOMICS
 	{
 		.desc = "LSE atomic instructions",
@@ -1936,7 +1858,6 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
 		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
 		.matches = has_no_hw_prefetch,
 	},
-#ifdef CONFIG_ARM64_VHE
 	{
 		.desc = "Virtualization Host Extensions",
 		.capability = ARM64_HAS_VIRT_HOST_EXTN,
@@ -1944,7 +1865,6 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
 		.matches = runs_at_el2,
 		.cpu_enable = cpu_copy_el2regs,
 	},
-#endif	/* CONFIG_ARM64_VHE */
 	{
 		.desc = "32-bit EL0 Support",
 		.capability = ARM64_HAS_32BIT_EL0,

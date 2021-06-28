@@ -837,7 +837,6 @@ EXPORT_SYMBOL_GPL(fwnode_handle_put);
 /**
  * fwnode_device_is_available - check if a device is available for use
  * @fwnode: Pointer to the fwnode of the device.
-<<<<<<< HEAD
  *
  * For fwnode node types that don't implement the .device_is_available()
  * operation, this function returns true.
@@ -847,11 +846,6 @@ bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
 	if (!fwnode_has_op(fwnode, device_is_available))
 		return true;
 
-=======
- */
-bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return fwnode_call_bool_op(fwnode, device_is_available);
 }
 EXPORT_SYMBOL_GPL(fwnode_device_is_available);
@@ -1221,7 +1215,6 @@ fwnode_graph_get_endpoint_by_id(const struct fwnode_handle *fwnode,
 		best_ep_id = fwnode_ep.id;
 	}
 
-<<<<<<< HEAD
 	if (best_ep)
 		return best_ep;
 
@@ -1230,9 +1223,6 @@ fwnode_graph_get_endpoint_by_id(const struct fwnode_handle *fwnode,
 						       endpoint, flags);
 
 	return NULL;
-=======
-	return best_ep;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(fwnode_graph_get_endpoint_by_id);
 

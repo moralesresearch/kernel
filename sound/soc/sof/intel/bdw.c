@@ -15,17 +15,12 @@
 #include <linux/module.h>
 #include <sound/sof.h>
 #include <sound/sof/xtensa.h>
-<<<<<<< HEAD
 #include <sound/soc-acpi.h>
 #include <sound/soc-acpi-intel-match.h>
 #include <sound/intel-dsp-config.h>
 #include "../ops.h"
 #include "shim.h"
 #include "../sof-acpi-dev.h"
-=======
-#include "../ops.h"
-#include "shim.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../sof-audio.h"
 
 /* BARs */
@@ -564,12 +559,16 @@ static void bdw_machine_select(struct snd_sof_dev *sdev)
 }
 
 static void bdw_set_mach_params(const struct snd_soc_acpi_mach *mach,
-				struct device *dev)
+				struct snd_sof_dev *sdev)
 {
+	struct snd_sof_pdata *pdata = sdev->pdata;
+	const struct sof_dev_desc *desc = pdata->desc;
 	struct snd_soc_acpi_mach_params *mach_params;
 
 	mach_params = (struct snd_soc_acpi_mach_params *)&mach->mach_params;
-	mach_params->platform = dev_name(dev);
+	mach_params->platform = dev_name(sdev->dev);
+	mach_params->num_dai_drivers = desc->ops->num_drv;
+	mach_params->dai_drivers = desc->ops->drv;
 }
 
 /* Broadwell DAIs */
@@ -599,11 +598,7 @@ static struct snd_soc_dai_driver bdw_dai[] = {
 };
 
 /* broadwell ops */
-<<<<<<< HEAD
 static const struct snd_sof_dsp_ops sof_bdw_ops = {
-=======
-const struct snd_sof_dsp_ops sof_bdw_ops = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*Device init */
 	.probe          = bdw_probe,
 
@@ -664,7 +659,6 @@ const struct snd_sof_dsp_ops sof_bdw_ops = {
 
 	.arch_ops = &sof_xtensa_arch_ops,
 };
-<<<<<<< HEAD
 
 static const struct sof_intel_dsp_desc bdw_chip_info = {
 	.cores_num = 1,
@@ -726,20 +720,8 @@ static struct platform_driver snd_sof_acpi_intel_bdw_driver = {
 	},
 };
 module_platform_driver(snd_sof_acpi_intel_bdw_driver);
-=======
-EXPORT_SYMBOL_NS(sof_bdw_ops, SND_SOC_SOF_BROADWELL);
-
-const struct sof_intel_dsp_desc bdw_chip_info = {
-	.cores_num = 1,
-	.host_managed_cores_mask = 1,
-};
-EXPORT_SYMBOL_NS(bdw_chip_info, SND_SOC_SOF_BROADWELL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
 MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
-<<<<<<< HEAD
 MODULE_IMPORT_NS(SND_SOC_SOF_ACPI_DEV);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

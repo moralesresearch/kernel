@@ -15,10 +15,7 @@
 #include <linux/platform_data/gpio-omap.h>
 
 #include <asm/assembler.h>
-<<<<<<< HEAD
 #include <asm/irq.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ams-delta-fiq.h"
 #include "board-ams-delta.h"

@@ -919,11 +919,7 @@ struct radeon_i2c_chan *radeon_i2c_create(struct drm_device *dev,
 	i2c->rec = *rec;
 	i2c->adapter.owner = THIS_MODULE;
 	i2c->adapter.class = I2C_CLASS_DDC;
-<<<<<<< HEAD
 	i2c->adapter.dev.parent = dev->dev;
-=======
-	i2c->adapter.dev.parent = &dev->pdev->dev;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c->dev = dev;
 	i2c_set_adapdata(&i2c->adapter, i2c);
 	mutex_init(&i2c->mutex);

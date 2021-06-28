@@ -22,10 +22,7 @@
 #include <linux/mtd/ndfc.h>
 #include <linux/slab.h>
 #include <linux/mtd/mtd.h>
-<<<<<<< HEAD
 #include <linux/mtd/nand-ecc-sw-hamming.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/of_address.h>
 #include <linux/of_platform.h>
 #include <asm/io.h>
@@ -104,7 +101,6 @@ static int ndfc_calculate_ecc(struct nand_chip *chip,
 	return 0;
 }
 
-<<<<<<< HEAD
 static int ndfc_correct_ecc(struct nand_chip *chip,
 			    unsigned char *buf,
 			    unsigned char *read_ecc,
@@ -114,8 +110,6 @@ static int ndfc_correct_ecc(struct nand_chip *chip,
 				      chip->ecc.size, false);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Speedups for buffer read/write/verify
  *
@@ -161,11 +155,7 @@ static int ndfc_chip_init(struct ndfc_controller *ndfc,
 	chip->controller = &ndfc->ndfc_control;
 	chip->legacy.read_buf = ndfc_read_buf;
 	chip->legacy.write_buf = ndfc_write_buf;
-<<<<<<< HEAD
 	chip->ecc.correct = ndfc_correct_ecc;
-=======
-	chip->ecc.correct = rawnand_sw_hamming_correct;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	chip->ecc.hwctl = ndfc_enable_hwecc;
 	chip->ecc.calculate = ndfc_calculate_ecc;
 	chip->ecc.engine_type = NAND_ECC_ENGINE_TYPE_ON_HOST;

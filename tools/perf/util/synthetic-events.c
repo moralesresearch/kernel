@@ -24,13 +24,6 @@
 #include <linux/perf_event.h>
 #include <asm/bug.h>
 #include <perf/evsel.h>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include <internal/cpumap.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <perf/cpumap.h>
 #include <internal/lib.h> // page_size
 #include <internal/threadmap.h>
@@ -75,50 +68,22 @@ int perf_tool__process_synth_event(struct perf_tool *tool,
  * Assumes that the first 4095 bytes of /proc/pid/stat contains
  * the comm, tgid and ppid.
  */
-<<<<<<< HEAD
 static int perf_event__get_comm_ids(pid_t pid, pid_t tid, char *comm, size_t len,
 				    pid_t *tgid, pid_t *ppid, bool *kernel)
-=======
-<<<<<<< HEAD
-static int perf_event__get_comm_ids(pid_t pid, pid_t tid, char *comm, size_t len,
-				    pid_t *tgid, pid_t *ppid, bool *kernel)
-=======
-static int perf_event__get_comm_ids(pid_t pid, char *comm, size_t len,
-				    pid_t *tgid, pid_t *ppid)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	char bf[4096];
 	int fd;
 	size_t size = 0;
 	ssize_t n;
-<<<<<<< HEAD
 	char *name, *tgids, *ppids, *vmpeak, *threads;
-=======
-<<<<<<< HEAD
-	char *name, *tgids, *ppids, *vmpeak, *threads;
-=======
-	char *name, *tgids, *ppids;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*tgid = -1;
 	*ppid = -1;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pid)
 		snprintf(bf, sizeof(bf), "/proc/%d/task/%d/status", pid, tid);
 	else
 		snprintf(bf, sizeof(bf), "/proc/%d/status", tid);
-<<<<<<< HEAD
-=======
-=======
-	snprintf(bf, sizeof(bf), "/proc/%d/status", pid);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	fd = open(bf, O_RDONLY);
 	if (fd < 0) {
@@ -130,24 +95,12 @@ static int perf_event__get_comm_ids(pid_t pid, char *comm, size_t len,
 	close(fd);
 	if (n <= 0) {
 		pr_warning("Couldn't get COMM, tigd and ppid for pid %d\n",
-<<<<<<< HEAD
 			   tid);
-=======
-<<<<<<< HEAD
-			   tid);
-=======
-			   pid);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -1;
 	}
 	bf[n] = '\0';
 
 	name = strstr(bf, "Name:");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tgids = strstr(name ?: bf, "Tgid:");
 	ppids = strstr(tgids ?: bf, "PPid:");
 	vmpeak = strstr(ppids ?: bf, "VmPeak:");
@@ -156,13 +109,6 @@ static int perf_event__get_comm_ids(pid_t pid, char *comm, size_t len,
 		threads = NULL;
 	else
 		threads = strstr(ppids ?: bf, "Threads:");
-<<<<<<< HEAD
-=======
-=======
-	tgids = strstr(bf, "Tgid:");
-	ppids = strstr(bf, "PPid:");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (name) {
 		char *nl;
@@ -178,40 +124,20 @@ static int perf_event__get_comm_ids(pid_t pid, char *comm, size_t len,
 		memcpy(comm, name, size);
 		comm[size] = '\0';
 	} else {
-<<<<<<< HEAD
 		pr_debug("Name: string not found for pid %d\n", tid);
-=======
-<<<<<<< HEAD
-		pr_debug("Name: string not found for pid %d\n", tid);
-=======
-		pr_debug("Name: string not found for pid %d\n", pid);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (tgids) {
 		tgids += 5;  /* strlen("Tgid:") */
 		*tgid = atoi(tgids);
 	} else {
-<<<<<<< HEAD
 		pr_debug("Tgid: string not found for pid %d\n", tid);
-=======
-<<<<<<< HEAD
-		pr_debug("Tgid: string not found for pid %d\n", tid);
-=======
-		pr_debug("Tgid: string not found for pid %d\n", pid);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (ppids) {
 		ppids += 5;  /* strlen("PPid:") */
 		*ppid = atoi(ppids);
 	} else {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_debug("PPid: string not found for pid %d\n", tid);
 	}
 
@@ -226,20 +152,6 @@ static int perf_event__get_comm_ids(pid_t pid, char *comm, size_t len,
 static int perf_event__prepare_comm(union perf_event *event, pid_t pid, pid_t tid,
 				    struct machine *machine,
 				    pid_t *tgid, pid_t *ppid, bool *kernel)
-<<<<<<< HEAD
-=======
-=======
-		pr_debug("PPid: string not found for pid %d\n", pid);
-	}
-
-	return 0;
-}
-
-static int perf_event__prepare_comm(union perf_event *event, pid_t pid,
-				    struct machine *machine,
-				    pid_t *tgid, pid_t *ppid)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	size_t size;
 
@@ -248,21 +160,9 @@ static int perf_event__prepare_comm(union perf_event *event, pid_t pid,
 	memset(&event->comm, 0, sizeof(event->comm));
 
 	if (machine__is_host(machine)) {
-<<<<<<< HEAD
 		if (perf_event__get_comm_ids(pid, tid, event->comm.comm,
 					     sizeof(event->comm.comm),
 					     tgid, ppid, kernel) != 0) {
-=======
-<<<<<<< HEAD
-		if (perf_event__get_comm_ids(pid, tid, event->comm.comm,
-					     sizeof(event->comm.comm),
-					     tgid, ppid, kernel) != 0) {
-=======
-		if (perf_event__get_comm_ids(pid, event->comm.comm,
-					     sizeof(event->comm.comm),
-					     tgid, ppid) != 0) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -1;
 		}
 	} else {
@@ -281,15 +181,7 @@ static int perf_event__prepare_comm(union perf_event *event, pid_t pid,
 	event->comm.header.size = (sizeof(event->comm) -
 				(sizeof(event->comm.comm) - size) +
 				machine->id_hdr_size);
-<<<<<<< HEAD
 	event->comm.tid = tid;
-=======
-<<<<<<< HEAD
-	event->comm.tid = tid;
-=======
-	event->comm.tid = pid;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -300,21 +192,10 @@ pid_t perf_event__synthesize_comm(struct perf_tool *tool,
 					 struct machine *machine)
 {
 	pid_t tgid, ppid;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool kernel_thread;
 
 	if (perf_event__prepare_comm(event, 0, pid, machine, &tgid, &ppid,
 				     &kernel_thread) != 0)
-<<<<<<< HEAD
-=======
-=======
-
-	if (perf_event__prepare_comm(event, pid, machine, &tgid, &ppid) != 0)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -1;
 
 	if (perf_tool__process_synth_event(tool, event, machine, process) != 0)
@@ -481,10 +362,6 @@ static bool read_proc_maps_line(struct io *io, __u64 *start, __u64 *end,
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void perf_record_mmap2__read_build_id(struct perf_record_mmap2 *event,
 					     bool is_kernel)
 {
@@ -510,11 +387,6 @@ static void perf_record_mmap2__read_build_id(struct perf_record_mmap2 *event,
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int perf_event__synthesize_mmap_events(struct perf_tool *tool,
 				       union perf_event *event,
 				       pid_t pid, pid_t tgid,
@@ -622,18 +494,9 @@ out:
 		event->mmap2.pid = tgid;
 		event->mmap2.tid = pid;
 
-<<<<<<< HEAD
 		if (symbol_conf.buildid_mmap2)
 			perf_record_mmap2__read_build_id(&event->mmap2, false);
 
-=======
-<<<<<<< HEAD
-		if (symbol_conf.buildid_mmap2)
-			perf_record_mmap2__read_build_id(&event->mmap2, false);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (perf_tool__process_synth_event(tool, event, machine, process) != 0) {
 			rc = -1;
 			break;
@@ -777,36 +640,17 @@ int perf_event__synthesize_modules(struct perf_tool *tool, perf_event__handler_t
 	int rc = 0;
 	struct map *pos;
 	struct maps *maps = machine__kernel_maps(machine);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union perf_event *event;
 	size_t size = symbol_conf.buildid_mmap2 ?
 			sizeof(event->mmap2) : sizeof(event->mmap);
 
 	event = zalloc(size + machine->id_hdr_size);
-<<<<<<< HEAD
-=======
-=======
-	union perf_event *event = zalloc((sizeof(event->mmap) +
-					  machine->id_hdr_size));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (event == NULL) {
 		pr_debug("Not enough memory synthesizing mmap event "
 			 "for kernel modules\n");
 		return -1;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	event->header.type = PERF_RECORD_MMAP;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * kernel uses 0 for user space maps, see kernel/perf_event.c
 	 * __perf_event_mmap
@@ -817,10 +661,6 @@ int perf_event__synthesize_modules(struct perf_tool *tool, perf_event__handler_t
 		event->header.misc = PERF_RECORD_MISC_GUEST_KERNEL;
 
 	maps__for_each_entry(maps, pos) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!__map__is_kmodule(pos))
 			continue;
 
@@ -854,28 +694,6 @@ int perf_event__synthesize_modules(struct perf_tool *tool, perf_event__handler_t
 			       pos->dso->long_name_len + 1);
 		}
 
-<<<<<<< HEAD
-=======
-=======
-		size_t size;
-
-		if (!__map__is_kmodule(pos))
-			continue;
-
-		size = PERF_ALIGN(pos->dso->long_name_len + 1, sizeof(u64));
-		event->mmap.header.type = PERF_RECORD_MMAP;
-		event->mmap.header.size = (sizeof(event->mmap) -
-				        (sizeof(event->mmap.filename) - size));
-		memset(event->mmap.filename + size, 0, machine->id_hdr_size);
-		event->mmap.header.size += machine->id_hdr_size;
-		event->mmap.start = pos->start;
-		event->mmap.len   = pos->end - pos->start;
-		event->mmap.pid   = machine->pid;
-
-		memcpy(event->mmap.filename, pos->dso->long_name,
-		       pos->dso->long_name_len + 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (perf_tool__process_synth_event(tool, event, machine, process) != 0) {
 			rc = -1;
 			break;
@@ -886,20 +704,11 @@ int perf_event__synthesize_modules(struct perf_tool *tool, perf_event__handler_t
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int filter_task(const struct dirent *dirent)
 {
 	return isdigit(dirent->d_name[0]);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __event__synthesize_thread(union perf_event *comm_event,
 				      union perf_event *mmap_event,
 				      union perf_event *fork_event,
@@ -908,23 +717,10 @@ static int __event__synthesize_thread(union perf_event *comm_event,
 				      struct perf_tool *tool, struct machine *machine, bool mmap_data)
 {
 	char filename[PATH_MAX];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dirent **dirent;
 	pid_t tgid, ppid;
 	int rc = 0;
 	int i, n;
-<<<<<<< HEAD
-=======
-=======
-	DIR *tasks;
-	struct dirent *dirent;
-	pid_t tgid, ppid;
-	int rc = 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* special case: only send one comm event using passed in pid */
 	if (!full) {
@@ -956,10 +752,6 @@ static int __event__synthesize_thread(union perf_event *comm_event,
 	snprintf(filename, sizeof(filename), "%s/proc/%d/task",
 		 machine->root_dir, pid);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	n = scandir(filename, &dirent, filter_task, alphasort);
 	if (n < 0)
 		return n;
@@ -970,38 +762,12 @@ static int __event__synthesize_thread(union perf_event *comm_event,
 		bool kernel_thread = false;
 
 		_pid = strtol(dirent[i]->d_name, &end, 10);
-<<<<<<< HEAD
-=======
-=======
-	tasks = opendir(filename);
-	if (tasks == NULL) {
-		pr_debug("couldn't open %s\n", filename);
-		return 0;
-	}
-
-	while ((dirent = readdir(tasks)) != NULL) {
-		char *end;
-		pid_t _pid;
-
-		_pid = strtol(dirent->d_name, &end, 10);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (*end)
 			continue;
 
 		rc = -1;
-<<<<<<< HEAD
 		if (perf_event__prepare_comm(comm_event, pid, _pid, machine,
 					     &tgid, &ppid, &kernel_thread) != 0)
-=======
-<<<<<<< HEAD
-		if (perf_event__prepare_comm(comm_event, pid, _pid, machine,
-					     &tgid, &ppid, &kernel_thread) != 0)
-=======
-		if (perf_event__prepare_comm(comm_event, _pid, machine,
-					     &tgid, &ppid) != 0)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		if (perf_event__synthesize_fork(tool, fork_event, _pid, tgid,
@@ -1019,15 +785,7 @@ static int __event__synthesize_thread(union perf_event *comm_event,
 			break;
 
 		rc = 0;
-<<<<<<< HEAD
 		if (_pid == pid && !kernel_thread) {
-=======
-<<<<<<< HEAD
-		if (_pid == pid && !kernel_thread) {
-=======
-		if (_pid == pid) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* process the parent's maps too */
 			rc = perf_event__synthesize_mmap_events(tool, mmap_event, pid, tgid,
 						process, machine, mmap_data);
@@ -1036,20 +794,10 @@ static int __event__synthesize_thread(union perf_event *comm_event,
 		}
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < n; i++)
 		zfree(&dirent[i]);
 	free(dirent);
 
-<<<<<<< HEAD
-=======
-=======
-	closedir(tasks);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -1234,15 +982,7 @@ int perf_event__synthesize_threads(struct perf_tool *tool,
 		return 0;
 
 	snprintf(proc_path, sizeof(proc_path), "%s/proc", machine->root_dir);
-<<<<<<< HEAD
 	n = scandir(proc_path, &dirent, filter_task, alphasort);
-=======
-<<<<<<< HEAD
-	n = scandir(proc_path, &dirent, filter_task, alphasort);
-=======
-	n = scandir(proc_path, &dirent, 0, alphasort);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (n < 0)
 		return err;
 
@@ -1319,26 +1059,12 @@ static int __perf_event__synthesize_kernel_mmap(struct perf_tool *tool,
 						perf_event__handler_t process,
 						struct machine *machine)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union perf_event *event;
 	size_t size = symbol_conf.buildid_mmap2 ?
 			sizeof(event->mmap2) : sizeof(event->mmap);
 	struct map *map = machine__kernel_map(machine);
 	struct kmap *kmap;
 	int err;
-<<<<<<< HEAD
-=======
-=======
-	size_t size;
-	struct map *map = machine__kernel_map(machine);
-	struct kmap *kmap;
-	int err;
-	union perf_event *event;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (map == NULL)
 		return -1;
@@ -1352,15 +1078,7 @@ static int __perf_event__synthesize_kernel_mmap(struct perf_tool *tool,
 	 * available use this, and after it is use this as a fallback for older
 	 * kernels.
 	 */
-<<<<<<< HEAD
 	event = zalloc(size + machine->id_hdr_size);
-=======
-<<<<<<< HEAD
-	event = zalloc(size + machine->id_hdr_size);
-=======
-	event = zalloc((sizeof(event->mmap) + machine->id_hdr_size));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (event == NULL) {
 		pr_debug("Not enough memory synthesizing mmap event "
 			 "for kernel modules\n");
@@ -1377,10 +1095,6 @@ static int __perf_event__synthesize_kernel_mmap(struct perf_tool *tool,
 		event->header.misc = PERF_RECORD_MISC_GUEST_KERNEL;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (symbol_conf.buildid_mmap2) {
 		size = snprintf(event->mmap2.filename, sizeof(event->mmap2.filename),
 				"%s%s", machine->mmap_name, kmap->ref_reloc_sym->name) + 1;
@@ -1406,21 +1120,6 @@ static int __perf_event__synthesize_kernel_mmap(struct perf_tool *tool,
 		event->mmap.len   = map->end - event->mmap.start;
 		event->mmap.pid   = machine->pid;
 	}
-<<<<<<< HEAD
-=======
-=======
-	size = snprintf(event->mmap.filename, sizeof(event->mmap.filename),
-			"%s%s", machine->mmap_name, kmap->ref_reloc_sym->name) + 1;
-	size = PERF_ALIGN(size, sizeof(u64));
-	event->mmap.header.type = PERF_RECORD_MMAP;
-	event->mmap.header.size = (sizeof(event->mmap) -
-			(sizeof(event->mmap.filename) - size) + machine->id_hdr_size);
-	event->mmap.pgoff = kmap->ref_reloc_sym->addr;
-	event->mmap.start = map->start;
-	event->mmap.len   = map->end - event->mmap.start;
-	event->mmap.pid   = machine->pid;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = perf_tool__process_synth_event(tool, event, machine, process);
 	free(event);
@@ -1512,7 +1211,7 @@ static size_t mask_size(struct perf_cpu_map *map, int *max)
 	*max = 0;
 
 	for (i = 0; i < map->nr; i++) {
-		/* bit possition of the cpu is + 1 */
+		/* bit position of the cpu is + 1 */
 		int bit = map->map[i] + 1;
 
 		if (bit > *max)
@@ -1538,7 +1237,7 @@ void *cpu_map_data__alloc(struct perf_cpu_map *map, size_t *size, u16 *type, int
 	 *   mask  = size of 'struct perf_record_record_cpu_map' +
 	 *           maximum cpu bit converted to size of longs
 	 *
-	 * and finaly + the size of 'struct perf_record_cpu_map_data'.
+	 * and finally + the size of 'struct perf_record_cpu_map_data'.
 	 */
 	size_cpus = cpus_size(map);
 	size_mask = mask_size(map, max);
@@ -1769,15 +1468,7 @@ size_t perf_event__sample_event_size(const struct perf_sample *sample, u64 type,
 		}
 	}
 
-<<<<<<< HEAD
 	if (type & PERF_SAMPLE_WEIGHT_TYPE)
-=======
-<<<<<<< HEAD
-	if (type & PERF_SAMPLE_WEIGHT_TYPE)
-=======
-	if (type & PERF_SAMPLE_WEIGHT)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		result += sizeof(u64);
 
 	if (type & PERF_SAMPLE_DATA_SRC)
@@ -1805,18 +1496,9 @@ size_t perf_event__sample_event_size(const struct perf_sample *sample, u64 type,
 	if (type & PERF_SAMPLE_DATA_PAGE_SIZE)
 		result += sizeof(u64);
 
-<<<<<<< HEAD
 	if (type & PERF_SAMPLE_CODE_PAGE_SIZE)
 		result += sizeof(u64);
 
-=======
-<<<<<<< HEAD
-	if (type & PERF_SAMPLE_CODE_PAGE_SIZE)
-		result += sizeof(u64);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type & PERF_SAMPLE_AUX) {
 		result += sizeof(u64);
 		result += sample->aux_sample.size;
@@ -1825,21 +1507,12 @@ size_t perf_event__sample_event_size(const struct perf_sample *sample, u64 type,
 	return result;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __weak arch_perf_synthesize_sample_weight(const struct perf_sample *data,
 					       __u64 *array, u64 type __maybe_unused)
 {
 	*array = data->weight;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int perf_event__synthesize_sample(union perf_event *event, u64 type, u64 read_format,
 				  const struct perf_sample *sample)
 {
@@ -1975,18 +1648,8 @@ int perf_event__synthesize_sample(union perf_event *event, u64 type, u64 read_fo
 		}
 	}
 
-<<<<<<< HEAD
 	if (type & PERF_SAMPLE_WEIGHT_TYPE) {
 		arch_perf_synthesize_sample_weight(sample, array, type);
-=======
-<<<<<<< HEAD
-	if (type & PERF_SAMPLE_WEIGHT_TYPE) {
-		arch_perf_synthesize_sample_weight(sample, array, type);
-=======
-	if (type & PERF_SAMPLE_WEIGHT) {
-		*array = sample->weight;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		array++;
 	}
 
@@ -2026,20 +1689,11 @@ int perf_event__synthesize_sample(union perf_event *event, u64 type, u64 read_fo
 		array++;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type & PERF_SAMPLE_CODE_PAGE_SIZE) {
 		*array = sample->code_page_size;
 		array++;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (type & PERF_SAMPLE_AUX) {
 		sz = sample->aux_sample.size;
 		*array++ = sz;

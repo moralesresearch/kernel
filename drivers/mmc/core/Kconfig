@@ -81,7 +81,6 @@ config MMC_TEST
 	  This driver is only of interest to those developing or
 	  testing a host driver. Most people should say N here.
 
-<<<<<<< HEAD
 config MMC_CRYPTO
 	bool "MMC Crypto Engine Support"
 	depends on BLK_INLINE_ENCRYPTION
@@ -90,5 +89,3 @@ config MMC_CRYPTO
 	  Enabling this makes it possible for the kernel to use the crypto
 	  capabilities of the MMC device (if present) to perform crypto
 	  operations on data being transferred to/from the device.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -13,19 +13,10 @@ ENTRY(_start)
 
 SECTIONS
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PROVIDE(_vdso_data = . - __VVAR_PAGES * PAGE_SIZE);
 #ifdef CONFIG_TIME_NS
 	PROVIDE(_timens_data = _vdso_data + PAGE_SIZE);
 #endif
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	. = VDSO64_LBASE + SIZEOF_HEADERS;
 
 	.hash		: { *(.hash) }			:text
@@ -107,15 +98,6 @@ SECTIONS
 	.debug_ranges	0 : { *(.debug_ranges) }
 	.gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	. = ALIGN(PAGE_SIZE);
-	PROVIDE(_vdso_data = .);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/DISCARD/	: {
 		*(.note.GNU-stack)
 		*(.branch_lt)

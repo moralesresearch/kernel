@@ -127,11 +127,7 @@ static void cdv_intel_crt_mode_set(struct drm_encoder *encoder,
 }
 
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Uses CRT_HOTPLUG_EN and CRT_HOTPLUG_STAT to detect CRT presence.
  *
  * \return true if CRT is connected.
@@ -252,8 +248,6 @@ void cdv_intel_crt_init(struct drm_device *dev,
 	struct drm_connector *connector;
 	struct drm_encoder *encoder;
 
-	u32 i2c_reg;
-
 	gma_encoder = kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
 	if (!gma_encoder)
 		return;
@@ -273,29 +267,13 @@ void cdv_intel_crt_init(struct drm_device *dev,
 	gma_connector_attach_encoder(gma_connector, gma_encoder);
 
 	/* Set up the DDC bus. */
-	i2c_reg = GPIOA;
-	/* Remove the following code for CDV */
-	/*
-	if (dev_priv->crt_ddc_bus != 0)
-		i2c_reg = dev_priv->crt_ddc_bus;
-	}*/
-	gma_encoder->ddc_bus = psb_intel_i2c_create(dev,
-							  i2c_reg, "CRTDDC_A");
+	gma_encoder->ddc_bus = psb_intel_i2c_create(dev, GPIOA, "CRTDDC_A");
 	if (!gma_encoder->ddc_bus) {
-<<<<<<< HEAD
 		dev_printk(KERN_ERR, dev->dev, "DDC bus registration failed.\n");
-=======
-		dev_printk(KERN_ERR, &dev->pdev->dev, "DDC bus registration "
-			   "failed.\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto failed_ddc;
 	}
 
 	gma_encoder->type = INTEL_OUTPUT_ANALOG;
-	/*
-	psb_intel_output->clone_mask = (1 << INTEL_ANALOG_CLONE_BIT);
-	psb_intel_output->crtc_mask = (1 << 0) | (1 << 1);
-	*/
 	connector->interlace_allowed = 0;
 	connector->doublescan_allowed = 0;
 

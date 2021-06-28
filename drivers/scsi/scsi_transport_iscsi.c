@@ -1705,20 +1705,8 @@ static const char *iscsi_session_state_name(int state)
 
 int iscsi_session_chkready(struct iscsi_cls_session *session)
 {
-<<<<<<< HEAD
 	int err;
 
-=======
-<<<<<<< HEAD
-	int err;
-
-=======
-	unsigned long flags;
-	int err;
-
-	spin_lock_irqsave(&session->lock, flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (session->state) {
 	case ISCSI_SESSION_LOGGED_IN:
 		err = 0;
@@ -1733,13 +1721,6 @@ int iscsi_session_chkready(struct iscsi_cls_session *session)
 		err = DID_NO_CONNECT << 16;
 		break;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	spin_unlock_irqrestore(&session->lock, flags);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 EXPORT_SYMBOL_GPL(iscsi_session_chkready);
@@ -2493,10 +2474,6 @@ static void iscsi_if_stop_conn(struct iscsi_cls_conn *conn, int flag)
 	 * it works.
 	 */
 	mutex_lock(&conn_mutex);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (flag) {
 	case STOP_CONN_RECOVER:
 		conn->state = ISCSI_CONN_FAILED;
@@ -2513,14 +2490,6 @@ static void iscsi_if_stop_conn(struct iscsi_cls_conn *conn, int flag)
 	conn->transport->stop_conn(conn, flag);
 unlock:
 	mutex_unlock(&conn_mutex);
-<<<<<<< HEAD
-=======
-=======
-	conn->transport->stop_conn(conn, flag);
-	mutex_unlock(&conn_mutex);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void stop_conn_work_fn(struct work_struct *work)
@@ -2945,10 +2914,6 @@ iscsi_set_param(struct iscsi_transport *transport, struct iscsi_uevent *ev)
 	default:
 		err = transport->set_param(conn, ev->u.set_param.param,
 					   data, ev->u.set_param.len);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((conn->state == ISCSI_CONN_BOUND) ||
 			(conn->state == ISCSI_CONN_UP)) {
 			err = transport->set_param(conn, ev->u.set_param.param,
@@ -2956,11 +2921,6 @@ iscsi_set_param(struct iscsi_transport *transport, struct iscsi_uevent *ev)
 		} else {
 			return -ENOTCONN;
 		}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return err;
@@ -3020,14 +2980,7 @@ static int iscsi_if_ep_disconnect(struct iscsi_transport *transport,
 		mutex_lock(&conn->ep_mutex);
 		conn->ep = NULL;
 		mutex_unlock(&conn->ep_mutex);
-<<<<<<< HEAD
 		conn->state = ISCSI_CONN_FAILED;
-=======
-<<<<<<< HEAD
-		conn->state = ISCSI_CONN_FAILED;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	transport->ep_disconnect(ep);
@@ -3795,16 +3748,8 @@ iscsi_if_recv_msg(struct sk_buff *skb, struct nlmsghdr *nlh, uint32_t *group)
 		ev->r.retcode =	transport->bind_conn(session, conn,
 						ev->u.b_conn.transport_eph,
 						ev->u.b_conn.is_leading);
-<<<<<<< HEAD
 		if (!ev->r.retcode)
 			conn->state = ISCSI_CONN_BOUND;
-=======
-<<<<<<< HEAD
-		if (!ev->r.retcode)
-			conn->state = ISCSI_CONN_BOUND;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mutex_unlock(&conn_mutex);
 
 		if (ev->r.retcode || !transport->ep_connect)
@@ -4044,17 +3989,8 @@ iscsi_conn_attr(local_ipaddr, ISCSI_PARAM_LOCAL_IPADDR);
 static const char *const connection_state_names[] = {
 	[ISCSI_CONN_UP] = "up",
 	[ISCSI_CONN_DOWN] = "down",
-<<<<<<< HEAD
 	[ISCSI_CONN_FAILED] = "failed",
 	[ISCSI_CONN_BOUND] = "bound"
-=======
-<<<<<<< HEAD
-	[ISCSI_CONN_FAILED] = "failed",
-	[ISCSI_CONN_BOUND] = "bound"
-=======
-	[ISCSI_CONN_FAILED] = "failed"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static ssize_t show_conn_state(struct device *dev,

@@ -117,20 +117,14 @@ rw_attribute(writeback_running);
 rw_attribute(writeback_percent);
 rw_attribute(writeback_delay);
 rw_attribute(writeback_rate);
-<<<<<<< HEAD
 rw_attribute(writeback_consider_fragment);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 rw_attribute(writeback_rate_update_seconds);
 rw_attribute(writeback_rate_i_term_inverse);
 rw_attribute(writeback_rate_p_term_inverse);
-<<<<<<< HEAD
 rw_attribute(writeback_rate_fp_term_low);
 rw_attribute(writeback_rate_fp_term_mid);
 rw_attribute(writeback_rate_fp_term_high);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 rw_attribute(writeback_rate_minimum);
 read_attribute(writeback_rate_debug);
 
@@ -143,10 +137,6 @@ rw_attribute(io_disable);
 rw_attribute(discard);
 rw_attribute(running);
 rw_attribute(label);
-<<<<<<< HEAD
-=======
-rw_attribute(readahead);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 rw_attribute(errors);
 rw_attribute(io_error_limit);
 rw_attribute(io_error_halflife);
@@ -208,10 +198,7 @@ SHOW(__bch_cached_dev)
 	var_printf(bypass_torture_test,	"%i");
 	var_printf(writeback_metadata,	"%i");
 	var_printf(writeback_running,	"%i");
-<<<<<<< HEAD
 	var_printf(writeback_consider_fragment,	"%i");
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	var_print(writeback_delay);
 	var_print(writeback_percent);
 	sysfs_hprint(writeback_rate,
@@ -222,12 +209,9 @@ SHOW(__bch_cached_dev)
 	var_print(writeback_rate_update_seconds);
 	var_print(writeback_rate_i_term_inverse);
 	var_print(writeback_rate_p_term_inverse);
-<<<<<<< HEAD
 	var_print(writeback_rate_fp_term_low);
 	var_print(writeback_rate_fp_term_mid);
 	var_print(writeback_rate_fp_term_high);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	var_print(writeback_rate_minimum);
 
 	if (attr == &sysfs_writeback_rate_debug) {
@@ -275,10 +259,6 @@ SHOW(__bch_cached_dev)
 	var_printf(partial_stripes_expensive,	"%u");
 
 	var_hprint(sequential_cutoff);
-<<<<<<< HEAD
-=======
-	var_hprint(readahead);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sysfs_print(running,		atomic_read(&dc->running));
 	sysfs_print(state,		states[BDEV_STATE(&dc->sb)]);
@@ -329,10 +309,7 @@ STORE(__cached_dev)
 	sysfs_strtoul_bool(bypass_torture_test, dc->bypass_torture_test);
 	sysfs_strtoul_bool(writeback_metadata, dc->writeback_metadata);
 	sysfs_strtoul_bool(writeback_running, dc->writeback_running);
-<<<<<<< HEAD
 	sysfs_strtoul_bool(writeback_consider_fragment, dc->writeback_consider_fragment);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sysfs_strtoul_clamp(writeback_delay, dc->writeback_delay, 0, UINT_MAX);
 
 	sysfs_strtoul_clamp(writeback_percent, dc->writeback_percent,
@@ -361,7 +338,6 @@ STORE(__cached_dev)
 	sysfs_strtoul_clamp(writeback_rate_p_term_inverse,
 			    dc->writeback_rate_p_term_inverse,
 			    1, UINT_MAX);
-<<<<<<< HEAD
 	sysfs_strtoul_clamp(writeback_rate_fp_term_low,
 			    dc->writeback_rate_fp_term_low,
 			    1, dc->writeback_rate_fp_term_mid - 1);
@@ -372,8 +348,6 @@ STORE(__cached_dev)
 	sysfs_strtoul_clamp(writeback_rate_fp_term_high,
 			    dc->writeback_rate_fp_term_high,
 			    dc->writeback_rate_fp_term_mid + 1, UINT_MAX);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sysfs_strtoul_clamp(writeback_rate_minimum,
 			    dc->writeback_rate_minimum,
 			    1, UINT_MAX);
@@ -389,10 +363,6 @@ STORE(__cached_dev)
 	sysfs_strtoul_clamp(sequential_cutoff,
 			    dc->sequential_cutoff,
 			    0, UINT_MAX);
-<<<<<<< HEAD
-=======
-	d_strtoi_h(readahead);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (attr == &sysfs_clear_stats)
 		bch_cache_accounting_clear(&dc->accounting);
@@ -545,7 +515,6 @@ static struct attribute *bch_cached_dev_files[] = {
 	&sysfs_writeback_delay,
 	&sysfs_writeback_percent,
 	&sysfs_writeback_rate,
-<<<<<<< HEAD
 	&sysfs_writeback_consider_fragment,
 	&sysfs_writeback_rate_update_seconds,
 	&sysfs_writeback_rate_i_term_inverse,
@@ -553,11 +522,6 @@ static struct attribute *bch_cached_dev_files[] = {
 	&sysfs_writeback_rate_fp_term_low,
 	&sysfs_writeback_rate_fp_term_mid,
 	&sysfs_writeback_rate_fp_term_high,
-=======
-	&sysfs_writeback_rate_update_seconds,
-	&sysfs_writeback_rate_i_term_inverse,
-	&sysfs_writeback_rate_p_term_inverse,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&sysfs_writeback_rate_minimum,
 	&sysfs_writeback_rate_debug,
 	&sysfs_io_errors,
@@ -571,10 +535,6 @@ static struct attribute *bch_cached_dev_files[] = {
 	&sysfs_running,
 	&sysfs_state,
 	&sysfs_label,
-<<<<<<< HEAD
-=======
-	&sysfs_readahead,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BCACHE_DEBUG
 	&sysfs_verify,
 	&sysfs_bypass_torture_test,
@@ -1130,15 +1090,10 @@ SHOW(__bch_cache)
 			--n;
 
 		while (cached < p + n &&
-<<<<<<< HEAD
 		       *cached == BTREE_PRIO) {
 			cached++;
 			n--;
 		}
-=======
-		       *cached == BTREE_PRIO)
-			cached++, n--;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		for (i = 0; i < n; i++)
 			sum += INITIAL_PRIO - cached[i];

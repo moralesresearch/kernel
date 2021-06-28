@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
-<<<<<<< HEAD
 include ../../scripts/Makefile.include
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 FILES=                                          \
          test-all.bin                           \
          test-backtrace.bin                     \
@@ -39,6 +36,7 @@ FILES=                                          \
          test-libpython-version.bin             \
          test-libslang.bin                      \
          test-libslang-include-subdir.bin       \
+         test-libtraceevent.bin                 \
          test-libcrypto.bin                     \
          test-libunwind.bin                     \
          test-libunwind-debug-frame.bin         \
@@ -81,11 +79,6 @@ FILES=                                          \
 FILES := $(addprefix $(OUTPUT),$(FILES))
 
 PKG_CONFIG ?= $(CROSS_COMPILE)pkg-config
-<<<<<<< HEAD
-=======
-LLVM_CONFIG ?= llvm-config
-CLANG ?= clang
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 all: $(FILES)
 
@@ -203,6 +196,9 @@ $(OUTPUT)test-libslang.bin:
 
 $(OUTPUT)test-libslang-include-subdir.bin:
 	$(BUILD) -lslang
+
+$(OUTPUT)test-libtraceevent.bin:
+	$(BUILD) -ltraceevent
 
 $(OUTPUT)test-libcrypto.bin:
 	$(BUILD) -lcrypto

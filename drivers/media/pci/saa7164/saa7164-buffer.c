@@ -103,7 +103,6 @@ struct saa7164_buffer *saa7164_buffer_alloc(struct saa7164_port *port,
 	buf->pt_size = (SAA7164_PT_ENTRIES * sizeof(u64)) + 0x1000;
 
 	/* Allocate contiguous memory */
-<<<<<<< HEAD
 	buf->cpu = dma_alloc_coherent(&port->dev->pci->dev, buf->pci_size,
 				      &buf->dma, GFP_KERNEL);
 	if (!buf->cpu)
@@ -111,15 +110,6 @@ struct saa7164_buffer *saa7164_buffer_alloc(struct saa7164_port *port,
 
 	buf->pt_cpu = dma_alloc_coherent(&port->dev->pci->dev, buf->pt_size,
 					 &buf->pt_dma, GFP_KERNEL);
-=======
-	buf->cpu = pci_alloc_consistent(port->dev->pci, buf->pci_size,
-		&buf->dma);
-	if (!buf->cpu)
-		goto fail1;
-
-	buf->pt_cpu = pci_alloc_consistent(port->dev->pci, buf->pt_size,
-		&buf->pt_dma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!buf->pt_cpu)
 		goto fail2;
 
@@ -147,12 +137,8 @@ struct saa7164_buffer *saa7164_buffer_alloc(struct saa7164_port *port,
 	goto ret;
 
 fail2:
-<<<<<<< HEAD
 	dma_free_coherent(&port->dev->pci->dev, buf->pci_size, buf->cpu,
 			  buf->dma);
-=======
-	pci_free_consistent(port->dev->pci, buf->pci_size, buf->cpu, buf->dma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fail1:
 	kfree(buf);
 
@@ -175,14 +161,9 @@ int saa7164_buffer_dealloc(struct saa7164_buffer *buf)
 	if (buf->flags != SAA7164_BUFFER_FREE)
 		log_warn(" freeing a non-free buffer\n");
 
-<<<<<<< HEAD
 	dma_free_coherent(&dev->pci->dev, buf->pci_size, buf->cpu, buf->dma);
 	dma_free_coherent(&dev->pci->dev, buf->pt_size, buf->pt_cpu,
 			  buf->pt_dma);
-=======
-	pci_free_consistent(dev->pci, buf->pci_size, buf->cpu, buf->dma);
-	pci_free_consistent(dev->pci, buf->pt_size, buf->pt_cpu, buf->pt_dma);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(buf);
 

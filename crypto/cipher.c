@@ -9,10 +9,7 @@
  */
 
 #include <crypto/algapi.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/crypto.h>
 #include <linux/errno.h>
@@ -57,11 +54,7 @@ int crypto_cipher_setkey(struct crypto_cipher *tfm,
 
 	return cia->cia_setkey(crypto_cipher_tfm(tfm), key, keylen);
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_NS_GPL(crypto_cipher_setkey, CRYPTO_INTERNAL);
-=======
-EXPORT_SYMBOL_GPL(crypto_cipher_setkey);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void cipher_crypt_one(struct crypto_cipher *tfm,
 				    u8 *dst, const u8 *src, bool enc)
@@ -89,19 +82,11 @@ void crypto_cipher_encrypt_one(struct crypto_cipher *tfm,
 {
 	cipher_crypt_one(tfm, dst, src, true);
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_NS_GPL(crypto_cipher_encrypt_one, CRYPTO_INTERNAL);
-=======
-EXPORT_SYMBOL_GPL(crypto_cipher_encrypt_one);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void crypto_cipher_decrypt_one(struct crypto_cipher *tfm,
 			       u8 *dst, const u8 *src)
 {
 	cipher_crypt_one(tfm, dst, src, false);
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_NS_GPL(crypto_cipher_decrypt_one, CRYPTO_INTERNAL);
-=======
-EXPORT_SYMBOL_GPL(crypto_cipher_decrypt_one);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

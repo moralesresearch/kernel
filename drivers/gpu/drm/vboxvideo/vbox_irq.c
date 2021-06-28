@@ -170,19 +170,12 @@ static void vbox_hotplug_worker(struct work_struct *work)
 
 int vbox_irq_init(struct vbox_private *vbox)
 {
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(vbox->ddev.dev);
 
 	INIT_WORK(&vbox->hotplug_work, vbox_hotplug_worker);
 	vbox_update_mode_hints(vbox);
 
 	return drm_irq_install(&vbox->ddev, pdev->irq);
-=======
-	INIT_WORK(&vbox->hotplug_work, vbox_hotplug_worker);
-	vbox_update_mode_hints(vbox);
-
-	return drm_irq_install(&vbox->ddev, vbox->ddev.pdev->irq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void vbox_irq_fini(struct vbox_private *vbox)

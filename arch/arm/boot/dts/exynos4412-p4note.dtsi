@@ -146,11 +146,7 @@
 			pinctrl-0 = <&fuel_alert_irq>;
 			pinctrl-names = "default";
 			interrupt-parent = <&gpx2>;
-<<<<<<< HEAD
 			interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-=======
-			interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			maxim,rsns-microohm = <10000>;
 			maxim,over-heat-temp = <600>;
 			maxim,over-volt = <4300>;
@@ -326,11 +322,7 @@
 	max77686: pmic@9 {
 		compatible = "maxim,max77686";
 		interrupt-parent = <&gpx0>;
-<<<<<<< HEAD
 		interrupts = <7 IRQ_TYPE_LEVEL_LOW>;
-=======
-		interrupts = <7 IRQ_TYPE_NONE>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pinctrl-0 = <&max77686_irq>;
 		pinctrl-names = "default";
 		reg = <0x09>;

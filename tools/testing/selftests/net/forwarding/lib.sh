@@ -42,7 +42,6 @@ check_tc_version()
 	fi
 }
 
-<<<<<<< HEAD
 # Old versions of tc don't understand "mpls_uc"
 check_tc_mpls_support()
 {
@@ -84,8 +83,6 @@ check_tc_mpls_lse_stats()
 	fi
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 check_tc_shblock_support()
 {
 	tc filter help 2>&1 | grep block &> /dev/null
@@ -113,7 +110,6 @@ check_tc_action_hw_stats_support()
 	fi
 }
 
-<<<<<<< HEAD
 check_ethtool_lanes_support()
 {
 	ethtool --help 2>&1| grep lanes &> /dev/null
@@ -123,8 +119,6 @@ check_ethtool_lanes_support()
 	fi
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 if [[ "$(id -u)" -ne 0 ]]; then
 	echo "SKIP: need root privileges"
 	exit 0
@@ -319,7 +313,6 @@ not()
 	[[ $? != 0 ]]
 }
 
-<<<<<<< HEAD
 get_max()
 {
 	local arr=("$@")
@@ -334,8 +327,6 @@ get_max()
 	echo $max
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 grep_bridge_fdb()
 {
 	local addr=$1; shift
@@ -352,17 +343,19 @@ grep_bridge_fdb()
 	$@ | grep $addr | grep $flag "$word"
 }
 
-<<<<<<< HEAD
 wait_for_port_up()
 {
 	"$@" | grep -q "Link detected: yes"
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 wait_for_offload()
 {
 	"$@" | grep -q offload
+}
+
+wait_for_trap()
+{
+	"$@" | grep -q trap
 }
 
 until_counter_is()
@@ -777,6 +770,15 @@ rate()
 	local interval=$1; shift
 
 	echo $((8 * (t1 - t0) / interval))
+}
+
+packets_rate()
+{
+	local t0=$1; shift
+	local t1=$1; shift
+	local interval=$1; shift
+
+	echo $(((t1 - t0) / interval))
 }
 
 mac_get()

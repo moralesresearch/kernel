@@ -36,23 +36,9 @@ properties:
     maxItems: 1
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
 
   ports: true
-=======
-    type: object
-    description:
-      A node containing a single endpoint as doucmented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
-
-  ports:
-    type: object
-    description:
-      A node containing input and output port nodes with endpoint definitions
-      as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 additionalProperties: false
 
@@ -86,39 +72,20 @@ allOf:
     then:
       properties:
         ports:
-<<<<<<< HEAD
           $ref: /schemas/graph.yaml#/properties/ports
           properties:
             port@3:
               $ref: /schemas/graph.yaml#/properties/port
-=======
-          properties:
-            '#address-cells':
-              const: 1
-            '#size-cells':
-              const: 0
-            port@3:
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Output port
 
           patternProperties:
             "^port@[0-2]$":
-<<<<<<< HEAD
               $ref: /schemas/graph.yaml#/properties/port
-=======
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Input port
 
           required:
             - port@3
 
-<<<<<<< HEAD
-=======
-          additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       required:
         - ports
 
@@ -130,39 +97,20 @@ allOf:
     then:
       properties:
         ports:
-<<<<<<< HEAD
           $ref: /schemas/graph.yaml#/properties/ports
           properties:
             port@6:
               $ref: /schemas/graph.yaml#/properties/port
-=======
-          properties:
-            '#address-cells':
-              const: 1
-            '#size-cells':
-              const: 0
-            port@6:
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Output port
 
           patternProperties:
             "^port@[0-5]$":
-<<<<<<< HEAD
               $ref: /schemas/graph.yaml#/properties/port
-=======
-              type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               description: Input port
 
           required:
             - port@6
 
-<<<<<<< HEAD
-=======
-          additionalProperties: false
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       required:
         - ports
 

@@ -138,13 +138,10 @@ int fsverity_file_open(struct inode *inode, struct file *filp);
 int fsverity_prepare_setattr(struct dentry *dentry, struct iattr *attr);
 void fsverity_cleanup_inode(struct inode *inode);
 
-<<<<<<< HEAD
 /* read_metadata.c */
 
 int fsverity_ioctl_read_metadata(struct file *filp, const void __user *uarg);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* verify.c */
 
 bool fsverity_verify_page(struct page *page);
@@ -190,7 +187,6 @@ static inline void fsverity_cleanup_inode(struct inode *inode)
 {
 }
 
-<<<<<<< HEAD
 /* read_metadata.c */
 
 static inline int fsverity_ioctl_read_metadata(struct file *filp,
@@ -199,8 +195,6 @@ static inline int fsverity_ioctl_read_metadata(struct file *filp,
 	return -EOPNOTSUPP;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* verify.c */
 
 static inline bool fsverity_verify_page(struct page *page)

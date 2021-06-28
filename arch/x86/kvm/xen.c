@@ -673,11 +673,7 @@ int kvm_xen_hypercall(struct kvm_vcpu *vcpu)
 	bool longmode;
 	u64 input, params[6];
 
-<<<<<<< HEAD
-	input = (u64)kvm_register_readl(vcpu, VCPU_REGS_RAX);
-=======
 	input = (u64)kvm_register_read(vcpu, VCPU_REGS_RAX);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Hyper-V hypercalls get bit 31 set in EAX */
 	if ((input & 0x80000000) &&

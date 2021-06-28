@@ -17,12 +17,6 @@ maintainers:
   - Jon Hunter <jonathanh@nvidia.com>
   - Sameer Pujar <spujar@nvidia.com>
 
-<<<<<<< HEAD
-allOf:
-  - $ref: audio-graph-port.yaml#
-
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   $nodename:
     pattern: "^dspk@[0-9a-f]*$"
@@ -61,22 +55,23 @@ properties:
       The name can be "DSPK1" or "DSPKx", where x depends on the maximum
       available instances on a Tegra SoC.
 
-<<<<<<< HEAD
   ports:
-    type: object
+    $ref: /schemas/graph.yaml#/properties/ports
     properties:
       port@0:
+        $ref: audio-graph-port.yaml#
+        unevaluatedProperties: false
         description: |
           DSPK ACIF (Audio Client Interface) port connected to the
           corresponding AHUB (Audio Hub) ACIF port.
 
       port@1:
+        $ref: audio-graph-port.yaml#
+        unevaluatedProperties: false
         description: |
           DSPK DAP (Digital Audio Port) interface which can be connected
           to external audio codec for playback.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg
@@ -86,11 +81,7 @@ required:
   - assigned-clock-parents
   - sound-name-prefix
 
-<<<<<<< HEAD
-unevaluatedProperties: false
-=======
 additionalProperties: false
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 examples:
   - |

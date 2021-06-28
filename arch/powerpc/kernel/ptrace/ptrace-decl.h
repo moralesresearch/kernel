@@ -165,27 +165,8 @@ int ptrace_put_reg(struct task_struct *task, int regno, unsigned long data);
 extern const struct user_regset_view user_ppc_native_view;
 
 /* ptrace-fpu */
-<<<<<<< HEAD
 int ptrace_get_fpr(struct task_struct *child, int index, unsigned long *data);
 int ptrace_put_fpr(struct task_struct *child, int index, unsigned long data);
-=======
-#ifdef CONFIG_PPC_FPU_REGS
-int ptrace_get_fpr(struct task_struct *child, int index, unsigned long *data);
-int ptrace_put_fpr(struct task_struct *child, int index, unsigned long data);
-#else
-static inline int
-ptrace_get_fpr(struct task_struct *child, int index, unsigned long *data)
-{
-	return -EIO;
-}
-
-static inline int
-ptrace_put_fpr(struct task_struct *child, int index, unsigned long data)
-{
-	return -EIO;
-}
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* ptrace-(no)adv */
 void ppc_gethwdinfo(struct ppc_debug_info *dbginfo);

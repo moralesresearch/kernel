@@ -20,10 +20,7 @@
 #include <linux/input/mt.h>
 #include <linux/input/touchscreen.h>
 #include <linux/pm.h>
-<<<<<<< HEAD
 #include <linux/pm_runtime.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/irq.h>
 #include <linux/regulator/consumer.h>
 
@@ -339,15 +336,8 @@ static int silead_ts_get_id(struct i2c_client *client)
 
 	error = i2c_smbus_read_i2c_block_data(client, SILEAD_REG_ID,
 					      sizeof(chip_id), (u8 *)&chip_id);
-<<<<<<< HEAD
 	if (error < 0)
 		return error;
-=======
-	if (error < 0) {
-		dev_err(&client->dev, "Chip ID read error %d\n", error);
-		return error;
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	data->chip_id = le32_to_cpu(chip_id);
 	dev_info(&client->dev, "Silead chip ID: 0x%8X", data->chip_id);
@@ -360,7 +350,6 @@ static int silead_ts_setup(struct i2c_client *client)
 	int error;
 	u32 status;
 
-<<<<<<< HEAD
 	/*
 	 * Some buggy BIOS-es bring up the chip in a stuck state where it
 	 * blocks the I2C bus. The following steps are necessary to
@@ -396,21 +385,14 @@ static int silead_ts_setup(struct i2c_client *client)
 		pm_runtime_disable(&client->dev);
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	silead_ts_set_power(client, SILEAD_POWER_OFF);
 	silead_ts_set_power(client, SILEAD_POWER_ON);
 
 	error = silead_ts_get_id(client);
-<<<<<<< HEAD
 	if (error) {
 		dev_err(&client->dev, "Chip ID read error %d\n", error);
 		return error;
 	}
-=======
-	if (error)
-		return error;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	error = silead_ts_init(client);
 	if (error)
@@ -540,7 +522,7 @@ static int silead_ts_probe(struct i2c_client *client,
 
 	silead_ts_read_props(client);
 
-	/* We must have the IRQ provided by DT or ACPI subsytem */
+	/* We must have the IRQ provided by DT or ACPI subsystem */
 	if (client->irq <= 0)
 		return -ENODEV;
 

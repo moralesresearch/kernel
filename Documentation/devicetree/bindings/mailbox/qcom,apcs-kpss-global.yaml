@@ -24,10 +24,7 @@ properties:
       - qcom,msm8998-apcs-hmss-global
       - qcom,qcs404-apcs-apps-global
       - qcom,sc7180-apss-shared
-<<<<<<< HEAD
       - qcom,sc8180x-apss-shared
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - qcom,sdm660-apcs-hmss-global
       - qcom,sdm845-apss-shared
       - qcom,sm8150-apss-shared
@@ -37,17 +34,11 @@ properties:
 
   clocks:
     description: phandles to the parent clocks of the clock driver
-<<<<<<< HEAD
     minItems: 2
     items:
       - description: primary pll parent of the clock driver
       - description: auxiliary parent
       - description: reference clock
-=======
-    items:
-      - description: primary pll parent of the clock driver
-      - description: auxiliary parent
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   '#mbox-cells':
     const: 1
@@ -56,17 +47,11 @@ properties:
     const: 0
 
   clock-names:
-<<<<<<< HEAD
     minItems: 2
     items:
       - const: pll
       - const: aux
       - const: ref
-=======
-    items:
-      - const: pll
-      - const: aux
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible
@@ -75,7 +60,6 @@ required:
 
 additionalProperties: false
 
-<<<<<<< HEAD
 allOf:
   - if:
       properties:
@@ -105,8 +89,6 @@ allOf:
       properties:
         clocks:
           maxItems: 3
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 examples:
 
   # Example apcs with msm8996

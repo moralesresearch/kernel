@@ -55,15 +55,7 @@
 #include <net/net_namespace.h>
 
 #define RTNL_MAX_TYPE		50
-<<<<<<< HEAD
 #define RTNL_SLAVE_MAX_TYPE	40
-=======
-<<<<<<< HEAD
-#define RTNL_SLAVE_MAX_TYPE	40
-=======
-#define RTNL_SLAVE_MAX_TYPE	36
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct rtnl_link {
 	rtnl_doit_func		doit;
@@ -1885,6 +1877,7 @@ static const struct nla_policy ifla_policy[IFLA_MAX+1] = {
 				    .len = ALTIFNAMSIZ - 1 },
 	[IFLA_PERM_ADDRESS]	= { .type = NLA_REJECT },
 	[IFLA_PROTO_DOWN_REASON] = { .type = NLA_NESTED },
+	[IFLA_NEW_IFINDEX]	= NLA_POLICY_MIN(NLA_S32, 1),
 };
 
 static const struct nla_policy ifla_info_policy[IFLA_INFO_MAX+1] = {
@@ -2155,15 +2148,7 @@ out:
 out_err:
 	cb->args[1] = idx;
 	cb->args[0] = h;
-<<<<<<< HEAD
 	cb->seq = tgt_net->dev_base_seq;
-=======
-<<<<<<< HEAD
-	cb->seq = tgt_net->dev_base_seq;
-=======
-	cb->seq = net->dev_base_seq;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nl_dump_check_consistent(cb, nlmsg_hdr(skb));
 	if (netnsid >= 0)
 		put_net(tgt_net);
@@ -2619,14 +2604,22 @@ static int do_setlink(const struct sk_buff *skb,
 		return err;
 
 	if (tb[IFLA_NET_NS_PID] || tb[IFLA_NET_NS_FD] || tb[IFLA_TARGET_NETNSID]) {
-		struct net *net = rtnl_link_get_net_capable(skb, dev_net(dev),
-							    tb, CAP_NET_ADMIN);
+		struct net *net;
+		int new_ifindex;
+
+		net = rtnl_link_get_net_capable(skb, dev_net(dev),
+						tb, CAP_NET_ADMIN);
 		if (IS_ERR(net)) {
 			err = PTR_ERR(net);
 			goto errout;
 		}
 
-		err = dev_change_net_namespace(dev, net, ifname);
+		if (tb[IFLA_NEW_IFINDEX])
+			new_ifindex = nla_get_s32(tb[IFLA_NEW_IFINDEX]);
+		else
+			new_ifindex = 0;
+
+		err = __dev_change_net_namespace(dev, net, ifname, new_ifindex);
 		put_net(net);
 		if (err)
 			goto errout;
@@ -2879,15 +2872,7 @@ static int do_setlink(const struct sk_buff *skb,
 
 			BUG_ON(!(af_ops = rtnl_af_lookup(nla_type(af))));
 
-<<<<<<< HEAD
 			err = af_ops->set_link_af(dev, af, extack);
-=======
-<<<<<<< HEAD
-			err = af_ops->set_link_af(dev, af, extack);
-=======
-			err = af_ops->set_link_af(dev, af);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err < 0) {
 				rcu_read_unlock();
 				goto errout;
@@ -4857,13 +4842,10 @@ static int rtnl_bridge_notify(struct net_device *dev)
 	if (err < 0)
 		goto errout;
 
-<<<<<<< HEAD
 	/* Notification info is only filled for bridge ports, not the bridge
 	 * device itself. Therefore, a zero notification length is valid and
 	 * should not result in an error.
 	 */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb->len)
 		goto errout;
 

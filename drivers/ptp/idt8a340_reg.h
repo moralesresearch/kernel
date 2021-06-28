@@ -122,11 +122,8 @@
 #define OTP_SCSR_CONFIG_SELECT            0x0022
 
 #define STATUS                            0xc03c
-<<<<<<< HEAD
 #define DPLL_SYS_STATUS                   0x0020
 #define DPLL_SYS_APLL_STATUS              0x0021
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define USER_GPIO0_TO_7_STATUS            0x008a
 #define USER_GPIO8_TO_15_STATUS           0x008b
 
@@ -712,7 +709,6 @@
 /* Bit definitions for the DPLL_CTRL_COMBO_MASTER_CFG register */
 #define COMBO_MASTER_HOLD                 BIT(0)
 
-<<<<<<< HEAD
 /* Bit definitions for DPLL_SYS_STATUS register */
 #define DPLL_SYS_STATE_MASK               (0xf)
 
@@ -721,6 +717,4 @@
 #define SYS_APLL_LOSS_LOCK_LIVE_LOCKED     0
 #define SYS_APLL_LOSS_LOCK_LIVE_UNLOCKED   1
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

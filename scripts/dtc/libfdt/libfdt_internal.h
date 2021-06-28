@@ -46,7 +46,6 @@ static inline struct fdt_reserve_entry *fdt_mem_rsv_w_(void *fdt, int n)
 	return (void *)(uintptr_t)fdt_mem_rsv_(fdt, n);
 }
 
-<<<<<<< HEAD
 /*
  * Internal helpers to access tructural elements of the device tree
  * blob (rather than for exaple reading integers from within property
@@ -66,8 +65,6 @@ static inline uint64_t fdt64_ld_(const fdt64_t *p)
 	return fdt64_to_cpu(*p);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define FDT_SW_MAGIC		(~FDT_MAGIC)
 
 /**********************************************************************/

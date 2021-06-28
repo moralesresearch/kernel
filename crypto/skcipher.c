@@ -10,10 +10,7 @@
  */
 
 #include <crypto/internal/aead.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/skcipher.h>
 #include <crypto/scatterwalk.h>
 #include <linux/bug.h>
@@ -494,15 +491,6 @@ int skcipher_walk_virt(struct skcipher_walk *walk,
 }
 EXPORT_SYMBOL_GPL(skcipher_walk_virt);
 
-<<<<<<< HEAD
-=======
-void skcipher_walk_atomise(struct skcipher_walk *walk)
-{
-	walk->flags &= ~SKCIPHER_WALK_SLEEP;
-}
-EXPORT_SYMBOL_GPL(skcipher_walk_atomise);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int skcipher_walk_async(struct skcipher_walk *walk,
 			struct skcipher_request *req)
 {
@@ -993,7 +981,4 @@ EXPORT_SYMBOL_GPL(skcipher_alloc_instance_simple);
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Symmetric key cipher type");
-<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

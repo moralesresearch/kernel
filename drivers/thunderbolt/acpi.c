@@ -115,7 +115,6 @@ void tb_acpi_add_links(struct tb_nhi *nhi)
 	if (ACPI_FAILURE(status))
 		dev_warn(&nhi->pdev->dev, "failed to enumerate tunneled ports\n");
 }
-<<<<<<< HEAD
 
 /**
  * tb_acpi_is_native() - Did the platform grant native TBT/USB4 control
@@ -181,5 +180,3 @@ bool tb_acpi_is_xdomain_allowed(void)
 		return osc_sb_native_usb4_control & OSC_USB_XDOMAIN;
 	return true;
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

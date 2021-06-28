@@ -82,14 +82,8 @@ nv40_timer = {
 };
 
 int
-<<<<<<< HEAD
 nv40_timer_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_timer **ptmr)
 {
 	return nvkm_timer_new_(&nv40_timer, device, type, inst, ptmr);
-=======
-nv40_timer_new(struct nvkm_device *device, int index, struct nvkm_timer **ptmr)
-{
-	return nvkm_timer_new_(&nv40_timer, device, index, ptmr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

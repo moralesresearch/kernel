@@ -208,11 +208,7 @@ xpnet_receive(short partid, int channel, struct xpnet_message *msg)
 	} else {
 		dst = (void *)((u64)skb->data & ~(L1_CACHE_BYTES - 1));
 		dev_dbg(xpnet, "transferring buffer to the skb->data area;\n\t"
-<<<<<<< HEAD
 			"xp_remote_memcpy(0x%p, 0x%p, %u)\n", dst,
-=======
-			"xp_remote_memcpy(0x%p, 0x%p, %hu)\n", dst,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					  (void *)msg->buf_pa, msg->size);
 
 		ret = xp_remote_memcpy(xp_pa(dst), msg->buf_pa, msg->size);
@@ -222,11 +218,7 @@ xpnet_receive(short partid, int channel, struct xpnet_message *msg)
 			 * !!! appears in_use and we can't just call
 			 * !!! dev_kfree_skb.
 			 */
-<<<<<<< HEAD
 			dev_err(xpnet, "xp_remote_memcpy(0x%p, 0x%p, 0x%x) "
-=======
-			dev_err(xpnet, "xp_remote_memcpy(0x%p, 0x%p, 0x%hx) "
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"returned error=0x%x\n", dst,
 				(void *)msg->buf_pa, msg->size, ret);
 

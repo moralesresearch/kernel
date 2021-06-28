@@ -63,14 +63,7 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
 
 		dev_info(dev, "stub up\n");
 
-<<<<<<< HEAD
 		mutex_lock(&sdev->ud.sysfs_lock);
-=======
-<<<<<<< HEAD
-		mutex_lock(&sdev->ud.sysfs_lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_lock_irq(&sdev->ud.lock);
 
 		if (sdev->ud.status != SDEV_ST_AVAILABLE) {
@@ -95,29 +88,13 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
 		tcp_rx = kthread_create(stub_rx_loop, &sdev->ud, "stub_rx");
 		if (IS_ERR(tcp_rx)) {
 			sockfd_put(socket);
-<<<<<<< HEAD
 			goto unlock_mutex;
-=======
-<<<<<<< HEAD
-			goto unlock_mutex;
-=======
-			return -EINVAL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		tcp_tx = kthread_create(stub_tx_loop, &sdev->ud, "stub_tx");
 		if (IS_ERR(tcp_tx)) {
 			kthread_stop(tcp_rx);
 			sockfd_put(socket);
-<<<<<<< HEAD
 			goto unlock_mutex;
-=======
-<<<<<<< HEAD
-			goto unlock_mutex;
-=======
-			return -EINVAL;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		/* get task structs now */
@@ -136,16 +113,8 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
 		wake_up_process(sdev->ud.tcp_rx);
 		wake_up_process(sdev->ud.tcp_tx);
 
-<<<<<<< HEAD
 		mutex_unlock(&sdev->ud.sysfs_lock);
 
-=======
-<<<<<<< HEAD
-		mutex_unlock(&sdev->ud.sysfs_lock);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		dev_info(dev, "stub down\n");
 
@@ -156,14 +125,7 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
 		spin_unlock_irq(&sdev->ud.lock);
 
 		usbip_event_add(&sdev->ud, SDEV_EVENT_DOWN);
-<<<<<<< HEAD
 		mutex_unlock(&sdev->ud.sysfs_lock);
-=======
-<<<<<<< HEAD
-		mutex_unlock(&sdev->ud.sysfs_lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return count;
@@ -172,16 +134,8 @@ sock_err:
 	sockfd_put(socket);
 err:
 	spin_unlock_irq(&sdev->ud.lock);
-<<<<<<< HEAD
 unlock_mutex:
 	mutex_unlock(&sdev->ud.sysfs_lock);
-=======
-<<<<<<< HEAD
-unlock_mutex:
-	mutex_unlock(&sdev->ud.sysfs_lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EINVAL;
 }
 static DEVICE_ATTR_WO(usbip_sockfd);
@@ -322,14 +276,7 @@ static struct stub_device *stub_device_alloc(struct usb_device *udev)
 	sdev->ud.side		= USBIP_STUB;
 	sdev->ud.status		= SDEV_ST_AVAILABLE;
 	spin_lock_init(&sdev->ud.lock);
-<<<<<<< HEAD
 	mutex_init(&sdev->ud.sysfs_lock);
-=======
-<<<<<<< HEAD
-	mutex_init(&sdev->ud.sysfs_lock);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sdev->ud.tcp_socket	= NULL;
 	sdev->ud.sockfd		= -1;
 

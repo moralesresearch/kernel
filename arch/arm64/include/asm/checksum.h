@@ -37,11 +37,7 @@ static inline __sum16 ip_fast_csum(const void *iph, unsigned int ihl)
 	} while (--n > 0);
 
 	sum += ((sum >> 32) | (sum << 32));
-<<<<<<< HEAD
 	return csum_fold((__force __wsum)(sum >> 32));
-=======
-	return csum_fold((__force u32)(sum >> 32));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #define ip_fast_csum ip_fast_csum
 

@@ -368,15 +368,7 @@ static inline struct ap_queue_status ap_dqap(ap_qid_t qid,
 #if IS_ENABLED(CONFIG_ZCRYPT)
 void ap_bus_cfg_chg(void);
 #else
-<<<<<<< HEAD
 static inline void ap_bus_cfg_chg(void){}
-=======
-<<<<<<< HEAD
-static inline void ap_bus_cfg_chg(void){}
-=======
-static inline void ap_bus_cfg_chg(void){};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* _ASM_S390_AP_H_ */

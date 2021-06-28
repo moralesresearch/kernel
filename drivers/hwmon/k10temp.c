@@ -448,12 +448,8 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		data->is_zen = true;
 
 		switch (boot_cpu_data.x86_model) {
-<<<<<<< HEAD
 		case 0x0 ... 0x1:	/* Zen3 SP3/TR */
 		case 0x21:		/* Zen3 Ryzen Desktop */
-=======
-		case 0x0 ... 0x1:	/* Zen3 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			k10temp_get_ccd_support(pdev, data, 8);
 			break;
 		}

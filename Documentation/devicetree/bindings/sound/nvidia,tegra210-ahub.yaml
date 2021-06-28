@@ -17,12 +17,6 @@ maintainers:
   - Jon Hunter <jonathanh@nvidia.com>
   - Sameer Pujar <spujar@nvidia.com>
 
-<<<<<<< HEAD
-allOf:
-  - $ref: audio-graph-port.yaml#
-
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   $nodename:
     pattern: "^ahub@[0-9a-f]*$"
@@ -62,16 +56,35 @@ properties:
 
   ranges: true
 
-<<<<<<< HEAD
   ports:
+    $ref: /schemas/graph.yaml#/properties/ports
     description: |
       Contains list of ACIF (Audio CIF) port nodes for AHUB (Audio Hub).
       These are connected to ACIF interfaces of AHUB clients. Thus the
       number of port nodes depend on the number of clients that AHUB may
       have depending on the SoC revision.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+    patternProperties:
+      '^port@[0-9]':
+        $ref: audio-graph-port.yaml#
+        unevaluatedProperties: false
+
+patternProperties:
+  '^i2s@[0-9a-f]+$':
+    type: object
+
+  '^dmic@[0-9a-f]+$':
+    type: object
+    $ref: nvidia,tegra210-dmic.yaml#
+
+  '^admaif@[0-9a-f]+$':
+    type: object
+    $ref: nvidia,tegra210-admaif.yaml#
+
+  '^dspk@[0-9a-f]+$':
+    type: object
+    $ref: nvidia,tegra186-dspk.yaml#
+
 required:
   - compatible
   - reg
@@ -83,12 +96,7 @@ required:
   - "#size-cells"
   - ranges
 
-<<<<<<< HEAD
-unevaluatedProperties: false
-=======
-additionalProperties:
-  type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+additionalProperties: false
 
 examples:
   - |

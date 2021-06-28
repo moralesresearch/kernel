@@ -2167,10 +2167,6 @@ static void __exit scc_cleanup_driver(void)
 
 MODULE_AUTHOR("Joerg Reuter <jreuter@yaina.de>");
 MODULE_DESCRIPTION("AX.25 Device Driver for Z8530 based HDLC cards");
-<<<<<<< HEAD
-=======
-MODULE_SUPPORTED_DEVICE("Z8530 based SCC cards for Amateur Radio");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 module_init(scc_init_driver);
 module_exit(scc_cleanup_driver);

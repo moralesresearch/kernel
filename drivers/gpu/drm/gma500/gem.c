@@ -16,10 +16,7 @@
 #include <drm/drm.h>
 #include <drm/drm_vma_manager.h>
 
-<<<<<<< HEAD
 #include "gem.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "psb_drv.h"
 
 static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
@@ -53,11 +50,8 @@ const struct drm_gem_object_funcs psb_gem_object_funcs = {
  *	@dev: our device
  *	@size: the size requested
  *	@handlep: returned handle (opaque number)
-<<<<<<< HEAD
  *	@stolen: unused
  *	@align: unused
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	Create a GEM object, fill in the boilerplate and attach a handle to
  *	it so that userspace can speak about it. This does the core work
@@ -106,11 +100,7 @@ int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
 
 /**
  *	psb_gem_dumb_create	-	create a dumb buffer
-<<<<<<< HEAD
  *	@file: our client file
-=======
- *	@drm_file: our client file
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@dev: our device
  *	@args: the requested arguments copied from userspace
  *
@@ -129,10 +119,6 @@ int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
 
 /**
  *	psb_gem_fault		-	pagefault handler for GEM objects
-<<<<<<< HEAD
-=======
- *	@vma: the VMA of the GEM object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@vmf: fault detail
  *
  *	Invoked when a fault occurs on an mmap of a GEM managed area. GEM

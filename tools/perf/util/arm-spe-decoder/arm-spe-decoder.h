@@ -24,7 +24,6 @@ enum arm_spe_sample_type {
 	ARM_SPE_REMOTE_ACCESS	= 1 << 7,
 };
 
-<<<<<<< HEAD
 enum arm_spe_op_type {
 	ARM_SPE_LD		= 1 << 0,
 	ARM_SPE_ST		= 1 << 1,
@@ -39,14 +38,6 @@ struct arm_spe_record {
 	u64 timestamp;
 	u64 virt_addr;
 	u64 phys_addr;
-=======
-struct arm_spe_record {
-	enum arm_spe_sample_type type;
-	int err;
-	u64 from_ip;
-	u64 to_ip;
-	u64 timestamp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct arm_spe_insn;

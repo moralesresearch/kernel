@@ -87,7 +87,6 @@ static notrace inline void account_cpu_user_exit(void)
 	acct->starttime_user = tb;
 }
 
-<<<<<<< HEAD
 static notrace inline void account_stolen_time(void)
 {
 #ifdef CONFIG_PPC_SPLPAR
@@ -99,8 +98,6 @@ static notrace inline void account_stolen_time(void)
 	}
 #endif
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* __KERNEL__ */
 #else /* CONFIG_VIRT_CPU_ACCOUNTING_NATIVE */
@@ -110,11 +107,8 @@ static inline void account_cpu_user_entry(void)
 static inline void account_cpu_user_exit(void)
 {
 }
-<<<<<<< HEAD
 static notrace inline void account_stolen_time(void)
 {
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_VIRT_CPU_ACCOUNTING_NATIVE */
 #endif /* __POWERPC_CPUTIME_H */

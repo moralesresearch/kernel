@@ -36,11 +36,7 @@ properties:
     maxItems: 1
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
-=======
-    type: object
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: Display output node to DSI.
 
 required:

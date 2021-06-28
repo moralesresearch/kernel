@@ -5,16 +5,13 @@
  * Copyright (C) 2007-2019 Vmware, Inc. All rights reservedd.
  */
 #include "vmwgfx_drv.h"
-<<<<<<< HEAD
-=======
-#include <drm/ttm/ttm_module.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
 
 /**
  * struct vmw_thp_manager - Range manager implementing huge page alignment
  *
+ * @manager: TTM resource manager.
  * @mm: The underlying range manager. Protected by @lock.
  * @lock: Manager lock.
  */

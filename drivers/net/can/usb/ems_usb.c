@@ -518,11 +518,7 @@ static void ems_usb_write_bulk_callback(struct urb *urb)
 	netdev->stats.tx_packets++;
 	netdev->stats.tx_bytes += context->dlc;
 
-<<<<<<< HEAD
 	can_get_echo_skb(netdev, context->echo_index, NULL);
-=======
-	can_get_echo_skb(netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Release context */
 	context->echo_index = MAX_TX_URBS;
@@ -805,17 +801,13 @@ static netdev_tx_t ems_usb_start_xmit(struct sk_buff *skb, struct net_device *ne
 	urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 	usb_anchor_urb(urb, &dev->tx_submitted);
 
-<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, context->echo_index, 0);
-=======
-	can_put_echo_skb(skb, netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&dev->active_tx_urbs);
 
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (unlikely(err)) {
-		can_free_echo_skb(netdev, context->echo_index);
+		can_free_echo_skb(netdev, context->echo_index, NULL);
 
 		usb_unanchor_urb(urb);
 		usb_free_coherent(dev->udev, size, buf, urb->transfer_dma);

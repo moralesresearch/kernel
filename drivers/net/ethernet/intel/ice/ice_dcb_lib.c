@@ -28,11 +28,7 @@ void ice_vsi_cfg_netdev_tc(struct ice_vsi *vsi, u8 ena_tc)
 	if (netdev_set_num_tc(netdev, vsi->tc_cfg.numtc))
 		return;
 
-<<<<<<< HEAD
 	dcbcfg = &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
-=======
-	dcbcfg = &pf->hw.port_info->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ice_for_each_traffic_class(i)
 		if (vsi->tc_cfg.ena_tc & BIT(i))
@@ -138,11 +134,7 @@ static u8 ice_dcb_get_mode(struct ice_port_info *port_info, bool host)
 	else
 		mode = DCB_CAP_DCBX_LLD_MANAGED;
 
-<<<<<<< HEAD
 	if (port_info->qos_cfg.local_dcbx_cfg.dcbx_mode & ICE_DCBX_MODE_CEE)
-=======
-	if (port_info->local_dcbx_cfg.dcbx_mode & ICE_DCBX_MODE_CEE)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return mode | DCB_CAP_DCBX_VER_CEE;
 	else
 		return mode | DCB_CAP_DCBX_VER_IEEE;
@@ -285,17 +277,10 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct ice_dcbx_cfg *new_cfg, bool locked)
 	int ret = ICE_DCB_NO_HW_CHG;
 	struct ice_vsi *pf_vsi;
 
-<<<<<<< HEAD
 	curr_cfg = &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
 
 	/* FW does not care if change happened */
 	if (!pf->hw.port_info->qos_cfg.is_sw_lldp)
-=======
-	curr_cfg = &pf->hw.port_info->local_dcbx_cfg;
-
-	/* FW does not care if change happened */
-	if (!pf->hw.port_info->is_sw_lldp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = ICE_DCB_HW_CHG_RST;
 
 	/* Enable DCB tagging only when more than one TC */
@@ -342,11 +327,7 @@ int ice_pf_dcb_cfg(struct ice_pf *pf, struct ice_dcbx_cfg *new_cfg, bool locked)
 	/* Only send new config to HW if we are in SW LLDP mode. Otherwise,
 	 * the new config came from the HW in the first place.
 	 */
-<<<<<<< HEAD
 	if (pf->hw.port_info->qos_cfg.is_sw_lldp) {
-=======
-	if (pf->hw.port_info->is_sw_lldp) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = ice_set_dcb_cfg(pf->hw.port_info);
 		if (ret) {
 			dev_err(dev, "Set DCB Config failed\n");
@@ -379,11 +360,7 @@ free_cfg:
  */
 static void ice_cfg_etsrec_defaults(struct ice_port_info *pi)
 {
-<<<<<<< HEAD
 	struct ice_dcbx_cfg *dcbcfg = &pi->qos_cfg.local_dcbx_cfg;
-=======
-	struct ice_dcbx_cfg *dcbcfg = &pi->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 i;
 
 	/* Ensure ETS recommended DCB configuration is not already set */
@@ -469,11 +446,7 @@ void ice_dcb_rebuild(struct ice_pf *pf)
 
 	mutex_lock(&pf->tc_mutex);
 
-<<<<<<< HEAD
 	if (!pf->hw.port_info->qos_cfg.is_sw_lldp)
-=======
-	if (!pf->hw.port_info->is_sw_lldp)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ice_cfg_etsrec_defaults(pf->hw.port_info);
 
 	ret = ice_set_dcb_cfg(pf->hw.port_info);
@@ -482,15 +455,9 @@ void ice_dcb_rebuild(struct ice_pf *pf)
 		goto dcb_error;
 	}
 
-<<<<<<< HEAD
 	if (!pf->hw.port_info->qos_cfg.is_sw_lldp) {
 		ret = ice_cfg_lldp_mib_change(&pf->hw, true);
 		if (ret && !pf->hw.port_info->qos_cfg.is_sw_lldp) {
-=======
-	if (!pf->hw.port_info->is_sw_lldp) {
-		ret = ice_cfg_lldp_mib_change(&pf->hw, true);
-		if (ret && !pf->hw.port_info->is_sw_lldp) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "Failed to register for MIB changes\n");
 			goto dcb_error;
 		}
@@ -543,20 +510,12 @@ static int ice_dcb_init_cfg(struct ice_pf *pf, bool locked)
 	int ret = 0;
 
 	pi = pf->hw.port_info;
-<<<<<<< HEAD
 	newcfg = kmemdup(&pi->qos_cfg.local_dcbx_cfg, sizeof(*newcfg),
 			 GFP_KERNEL);
 	if (!newcfg)
 		return -ENOMEM;
 
 	memset(&pi->qos_cfg.local_dcbx_cfg, 0, sizeof(*newcfg));
-=======
-	newcfg = kmemdup(&pi->local_dcbx_cfg, sizeof(*newcfg), GFP_KERNEL);
-	if (!newcfg)
-		return -ENOMEM;
-
-	memset(&pi->local_dcbx_cfg, 0, sizeof(*newcfg));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_info(ice_pf_to_dev(pf), "Configuring initial DCB values\n");
 	if (ice_pf_dcb_cfg(pf, newcfg, locked))
@@ -587,11 +546,7 @@ static int ice_dcb_sw_dflt_cfg(struct ice_pf *pf, bool ets_willing, bool locked)
 	if (!dcbcfg)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	memset(&pi->qos_cfg.local_dcbx_cfg, 0, sizeof(*dcbcfg));
-=======
-	memset(&pi->local_dcbx_cfg, 0, sizeof(*dcbcfg));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dcbcfg->etscfg.willing = ets_willing ? 1 : 0;
 	dcbcfg->etscfg.maxtcs = hw->func_caps.common_cap.maxtc;
@@ -608,7 +563,7 @@ static int ice_dcb_sw_dflt_cfg(struct ice_pf *pf, bool ets_willing, bool locked)
 	dcbcfg->numapps = 1;
 	dcbcfg->app[0].selector = ICE_APP_SEL_ETHTYPE;
 	dcbcfg->app[0].priority = 3;
-	dcbcfg->app[0].prot_id = ICE_APP_PROT_ID_FCOE;
+	dcbcfg->app[0].prot_id = ETH_P_FCOE;
 
 	ret = ice_pf_dcb_cfg(pf, dcbcfg, locked);
 	kfree(dcbcfg);
@@ -654,11 +609,7 @@ static bool ice_dcb_tc_contig(u8 *prio_table)
  */
 static int ice_dcb_noncontig_cfg(struct ice_pf *pf)
 {
-<<<<<<< HEAD
 	struct ice_dcbx_cfg *dcbcfg = &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
-=======
-	struct ice_dcbx_cfg *dcbcfg = &pf->hw.port_info->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = ice_pf_to_dev(pf);
 	int ret;
 
@@ -688,11 +639,7 @@ static int ice_dcb_noncontig_cfg(struct ice_pf *pf)
  */
 void ice_pf_dcb_recfg(struct ice_pf *pf)
 {
-<<<<<<< HEAD
 	struct ice_dcbx_cfg *dcbcfg = &pf->hw.port_info->qos_cfg.local_dcbx_cfg;
-=======
-	struct ice_dcbx_cfg *dcbcfg = &pf->hw.port_info->local_dcbx_cfg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 tc_map = 0;
 	int v, ret;
 
@@ -745,11 +692,7 @@ int ice_init_pf_dcb(struct ice_pf *pf, bool locked)
 	port_info = hw->port_info;
 
 	err = ice_init_dcb(hw, false);
-<<<<<<< HEAD
 	if (err && !port_info->qos_cfg.is_sw_lldp) {
-=======
-	if (err && !port_info->is_sw_lldp) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dev, "Error initializing DCB %d\n", err);
 		goto dcb_init_err;
 	}
@@ -916,11 +859,7 @@ ice_dcb_process_lldp_set_mib_change(struct ice_pf *pf,
 		/* Update the remote cached instance and return */
 		ret = ice_aq_get_dcb_cfg(pi->hw, ICE_AQ_LLDP_MIB_REMOTE,
 					 ICE_AQ_LLDP_BRID_TYPE_NEAREST_BRID,
-<<<<<<< HEAD
 					 &pi->qos_cfg.remote_dcbx_cfg);
-=======
-					 &pi->remote_dcbx_cfg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret) {
 			dev_err(dev, "Failed to get remote DCB config\n");
 			return;
@@ -930,18 +869,11 @@ ice_dcb_process_lldp_set_mib_change(struct ice_pf *pf,
 	mutex_lock(&pf->tc_mutex);
 
 	/* store the old configuration */
-<<<<<<< HEAD
 	tmp_dcbx_cfg = pf->hw.port_info->qos_cfg.local_dcbx_cfg;
 
 	/* Reset the old DCBX configuration data */
 	memset(&pi->qos_cfg.local_dcbx_cfg, 0,
 	       sizeof(pi->qos_cfg.local_dcbx_cfg));
-=======
-	tmp_dcbx_cfg = pf->hw.port_info->local_dcbx_cfg;
-
-	/* Reset the old DCBX configuration data */
-	memset(&pi->local_dcbx_cfg, 0, sizeof(pi->local_dcbx_cfg));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get updated DCBX data from firmware */
 	ret = ice_get_dcb_cfg(pf->hw.port_info);
@@ -951,12 +883,8 @@ ice_dcb_process_lldp_set_mib_change(struct ice_pf *pf,
 	}
 
 	/* No change detected in DCBX configs */
-<<<<<<< HEAD
 	if (!memcmp(&tmp_dcbx_cfg, &pi->qos_cfg.local_dcbx_cfg,
 		    sizeof(tmp_dcbx_cfg))) {
-=======
-	if (!memcmp(&tmp_dcbx_cfg, &pi->local_dcbx_cfg, sizeof(tmp_dcbx_cfg))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_dbg(dev, "No change detected in DCBX configuration.\n");
 		goto out;
 	}
@@ -964,22 +892,13 @@ ice_dcb_process_lldp_set_mib_change(struct ice_pf *pf,
 	pf->dcbx_cap = ice_dcb_get_mode(pi, false);
 
 	need_reconfig = ice_dcb_need_recfg(pf, &tmp_dcbx_cfg,
-<<<<<<< HEAD
 					   &pi->qos_cfg.local_dcbx_cfg);
 	ice_dcbnl_flush_apps(pf, &tmp_dcbx_cfg, &pi->qos_cfg.local_dcbx_cfg);
-=======
-					   &pi->local_dcbx_cfg);
-	ice_dcbnl_flush_apps(pf, &tmp_dcbx_cfg, &pi->local_dcbx_cfg);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!need_reconfig)
 		goto out;
 
 	/* Enable DCB tagging only when more than one TC */
-<<<<<<< HEAD
 	if (ice_dcb_get_num_tc(&pi->qos_cfg.local_dcbx_cfg) > 1) {
-=======
-	if (ice_dcb_get_num_tc(&pi->local_dcbx_cfg) > 1) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_dbg(dev, "DCB tagging enabled (num TC > 1)\n");
 		set_bit(ICE_FLAG_DCB_ENA, pf->flags);
 	} else {

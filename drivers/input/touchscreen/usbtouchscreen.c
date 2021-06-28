@@ -1044,10 +1044,7 @@ static void nexio_exit(struct usbtouch_usb *usbtouch)
 
 static int nexio_read_data(struct usbtouch_usb *usbtouch, unsigned char *pkt)
 {
-<<<<<<< HEAD
 	struct device *dev = &usbtouch->interface->dev;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nexio_touch_packet *packet = (void *) pkt;
 	struct nexio_priv *priv = usbtouch->priv;
 	unsigned int data_len = be16_to_cpu(packet->data_len);
@@ -1066,11 +1063,8 @@ static int nexio_read_data(struct usbtouch_usb *usbtouch, unsigned char *pkt)
 
 	/* send ACK */
 	ret = usb_submit_urb(priv->ack, GFP_ATOMIC);
-<<<<<<< HEAD
 	if (ret)
 		dev_warn(dev, "Failed to submit ACK URB: %d\n", ret);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!usbtouch->type->max_xc) {
 		usbtouch->type->max_xc = 2 * x_len;

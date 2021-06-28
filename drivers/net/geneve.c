@@ -461,6 +461,7 @@ static struct socket *geneve_create_sock(struct net *net, bool ipv6,
 	if (err < 0)
 		return ERR_PTR(err);
 
+	udp_allow_gso(sock->sk);
 	return sock;
 }
 
@@ -891,12 +892,9 @@ static int geneve_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 	__be16 sport;
 	int err;
 
-<<<<<<< HEAD
 	if (!pskb_inet_may_pull(skb))
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sport = udp_flow_src_port(geneve->net, skb, 1, USHRT_MAX, true);
 	rt = geneve_get_v4_rt(skb, dev, gs4, &fl4, info,
 			      geneve->cfg.info.key.tp_dst, sport);
@@ -914,7 +912,6 @@ static int geneve_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 
 		info = skb_tunnel_info(skb);
 		if (info) {
-<<<<<<< HEAD
 			struct ip_tunnel_info *unclone;
 
 			unclone = skb_tunnel_info_unclone(skb);
@@ -925,10 +922,6 @@ static int geneve_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 
 			unclone->key.u.ipv4.dst = fl4.saddr;
 			unclone->key.u.ipv4.src = fl4.daddr;
-=======
-			info->key.u.ipv4.dst = fl4.saddr;
-			info->key.u.ipv4.src = fl4.daddr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (!pskb_may_pull(skb, ETH_HLEN)) {
@@ -996,12 +989,9 @@ static int geneve6_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 	__be16 sport;
 	int err;
 
-<<<<<<< HEAD
 	if (!pskb_inet_may_pull(skb))
 		return -EINVAL;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sport = udp_flow_src_port(geneve->net, skb, 1, USHRT_MAX, true);
 	dst = geneve_get_v6_dst(skb, dev, gs6, &fl6, info,
 				geneve->cfg.info.key.tp_dst, sport);
@@ -1018,7 +1008,6 @@ static int geneve6_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 		struct ip_tunnel_info *info = skb_tunnel_info(skb);
 
 		if (info) {
-<<<<<<< HEAD
 			struct ip_tunnel_info *unclone;
 
 			unclone = skb_tunnel_info_unclone(skb);
@@ -1029,10 +1018,6 @@ static int geneve6_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 
 			unclone->key.u.ipv6.dst = fl6.saddr;
 			unclone->key.u.ipv6.src = fl6.daddr;
-=======
-			info->key.u.ipv6.dst = fl6.saddr;
-			info->key.u.ipv6.src = fl6.daddr;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (!pskb_may_pull(skb, ETH_HLEN)) {
@@ -1235,20 +1220,12 @@ static void geneve_setup(struct net_device *dev)
 	SET_NETDEV_DEVTYPE(dev, &geneve_type);
 
 	dev->features    |= NETIF_F_LLTX;
-<<<<<<< HEAD
 	dev->features    |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
 	dev->features    |= NETIF_F_RXCSUM;
 	dev->features    |= NETIF_F_GSO_SOFTWARE;
 
 	dev->hw_features |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_FRAGLIST;
 	dev->hw_features |= NETIF_F_RXCSUM;
-=======
-	dev->features    |= NETIF_F_SG | NETIF_F_HW_CSUM;
-	dev->features    |= NETIF_F_RXCSUM;
-	dev->features    |= NETIF_F_GSO_SOFTWARE;
-
-	dev->hw_features |= NETIF_F_SG | NETIF_F_HW_CSUM | NETIF_F_RXCSUM;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->hw_features |= NETIF_F_GSO_SOFTWARE;
 
 	/* MTU range: 68 - (something less than 65535) */
@@ -1898,23 +1875,10 @@ static int geneve_netdevice_event(struct notifier_block *unused,
 {
 	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
 
-<<<<<<< HEAD
 	if (event == NETDEV_UDP_TUNNEL_PUSH_INFO)
 		geneve_offload_rx_ports(dev, true);
 	else if (event == NETDEV_UDP_TUNNEL_DROP_INFO)
 		geneve_offload_rx_ports(dev, false);
-=======
-	if (event == NETDEV_UDP_TUNNEL_PUSH_INFO ||
-	    event == NETDEV_UDP_TUNNEL_DROP_INFO) {
-		geneve_offload_rx_ports(dev, event == NETDEV_UDP_TUNNEL_PUSH_INFO);
-	} else if (event == NETDEV_UNREGISTER) {
-		if (!dev->udp_tunnel_nic_info)
-			geneve_offload_rx_ports(dev, false);
-	} else if (event == NETDEV_REGISTER) {
-		if (!dev->udp_tunnel_nic_info)
-			geneve_offload_rx_ports(dev, true);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return NOTIFY_DONE;
 }

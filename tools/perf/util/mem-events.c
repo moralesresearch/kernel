@@ -56,14 +56,11 @@ char * __weak perf_mem_events__name(int i)
 	return (char *)e->name;
 }
 
-<<<<<<< HEAD
 __weak bool is_mem_loads_aux_event(struct evsel *leader __maybe_unused)
 {
 	return false;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int perf_mem_events__parse(const char *str)
 {
 	char *tok, *saveptr = NULL;
@@ -340,7 +337,6 @@ int perf_mem__lck_scnprintf(char *out, size_t sz, struct mem_info *mem_info)
 	return l;
 }
 
-<<<<<<< HEAD
 int perf_mem__blk_scnprintf(char *out, size_t sz, struct mem_info *mem_info)
 {
 	size_t l = 0;
@@ -364,8 +360,6 @@ int perf_mem__blk_scnprintf(char *out, size_t sz, struct mem_info *mem_info)
 	return l;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int perf_script__meminfo_scnprintf(char *out, size_t sz, struct mem_info *mem_info)
 {
 	int i = 0;
@@ -377,11 +371,8 @@ int perf_script__meminfo_scnprintf(char *out, size_t sz, struct mem_info *mem_in
 	i += perf_mem__tlb_scnprintf(out + i, sz - i, mem_info);
 	i += scnprintf(out + i, sz - i, "|LCK ");
 	i += perf_mem__lck_scnprintf(out + i, sz - i, mem_info);
-<<<<<<< HEAD
 	i += scnprintf(out + i, sz - i, "|BLK ");
 	i += perf_mem__blk_scnprintf(out + i, sz - i, mem_info);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return i;
 }
@@ -394,10 +385,7 @@ int c2c_decode_stats(struct c2c_stats *stats, struct mem_info *mi)
 	u64 lvl    = data_src->mem_lvl;
 	u64 snoop  = data_src->mem_snoop;
 	u64 lock   = data_src->mem_lock;
-<<<<<<< HEAD
 	u64 blk    = data_src->mem_blk;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Skylake might report unknown remote level via this
 	 * bit, consider it when evaluating remote HITMs.
@@ -417,12 +405,9 @@ do {				\
 
 	if (lock & P(LOCK, LOCKED)) stats->locks++;
 
-<<<<<<< HEAD
 	if (blk & P(BLK, DATA)) stats->blk_data++;
 	if (blk & P(BLK, ADDR)) stats->blk_addr++;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (op & P(OP, LOAD)) {
 		/* load */
 		stats->load++;
@@ -534,11 +519,8 @@ void c2c_add_stats(struct c2c_stats *stats, struct c2c_stats *add)
 	stats->rmt_hit		+= add->rmt_hit;
 	stats->lcl_dram		+= add->lcl_dram;
 	stats->rmt_dram		+= add->rmt_dram;
-<<<<<<< HEAD
 	stats->blk_data		+= add->blk_data;
 	stats->blk_addr		+= add->blk_addr;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stats->nomap		+= add->nomap;
 	stats->noparse		+= add->noparse;
 }

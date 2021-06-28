@@ -535,7 +535,6 @@ static int stm32_adc_core_hw_start(struct device *dev)
 		goto err_switches_dis;
 	}
 
-<<<<<<< HEAD
 	ret = clk_prepare_enable(priv->bclk);
 	if (ret < 0) {
 		dev_err(dev, "bus clk enable failed\n");
@@ -546,22 +545,6 @@ static int stm32_adc_core_hw_start(struct device *dev)
 	if (ret < 0) {
 		dev_err(dev, "adc clk enable failed\n");
 		goto err_bclk_disable;
-=======
-	if (priv->bclk) {
-		ret = clk_prepare_enable(priv->bclk);
-		if (ret < 0) {
-			dev_err(dev, "bus clk enable failed\n");
-			goto err_regulator_disable;
-		}
-	}
-
-	if (priv->aclk) {
-		ret = clk_prepare_enable(priv->aclk);
-		if (ret < 0) {
-			dev_err(dev, "adc clk enable failed\n");
-			goto err_bclk_disable;
-		}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	writel_relaxed(priv->ccr_bak, priv->common.base + priv->cfg->regs->ccr);
@@ -569,12 +552,7 @@ static int stm32_adc_core_hw_start(struct device *dev)
 	return 0;
 
 err_bclk_disable:
-<<<<<<< HEAD
 	clk_disable_unprepare(priv->bclk);
-=======
-	if (priv->bclk)
-		clk_disable_unprepare(priv->bclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_regulator_disable:
 	regulator_disable(priv->vref);
 err_switches_dis:
@@ -592,15 +570,8 @@ static void stm32_adc_core_hw_stop(struct device *dev)
 
 	/* Backup CCR that may be lost (depends on power state to achieve) */
 	priv->ccr_bak = readl_relaxed(priv->common.base + priv->cfg->regs->ccr);
-<<<<<<< HEAD
 	clk_disable_unprepare(priv->aclk);
 	clk_disable_unprepare(priv->bclk);
-=======
-	if (priv->aclk)
-		clk_disable_unprepare(priv->aclk);
-	if (priv->bclk)
-		clk_disable_unprepare(priv->bclk);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regulator_disable(priv->vref);
 	stm32_adc_core_switches_supply_dis(priv);
 	regulator_disable(priv->vdda);

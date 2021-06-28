@@ -46,21 +46,13 @@ gf117_volt = {
 };
 
 int
-<<<<<<< HEAD
 gf117_volt_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_volt **pvolt)
-=======
-gf117_volt_new(struct nvkm_device *device, int index, struct nvkm_volt **pvolt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvkm_volt *volt;
 	int ret;
 
-<<<<<<< HEAD
 	ret = nvkm_volt_new_(&gf117_volt, device, type, inst, &volt);
-=======
-	ret = nvkm_volt_new_(&gf117_volt, device, index, &volt);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*pvolt = volt;
 	if (ret)
 		return ret;

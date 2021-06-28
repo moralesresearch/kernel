@@ -1053,21 +1053,9 @@ static int axienet_open(struct net_device *ndev)
 	 * including the MDIO. MDIO must be disabled before resetting.
 	 * Hold MDIO bus lock to avoid MDIO accesses during the reset.
 	 */
-<<<<<<< HEAD
 	axienet_lock_mii(lp);
 	ret = axienet_device_reset(ndev);
 	axienet_unlock_mii(lp);
-=======
-<<<<<<< HEAD
-	axienet_lock_mii(lp);
-	ret = axienet_device_reset(ndev);
-	axienet_unlock_mii(lp);
-=======
-	mutex_lock(&lp->mii_bus->mdio_lock);
-	ret = axienet_device_reset(ndev);
-	mutex_unlock(&lp->mii_bus->mdio_lock);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = phylink_of_phy_connect(lp->phylink, lp->dev->of_node, 0);
 	if (ret) {
@@ -1160,21 +1148,9 @@ static int axienet_stop(struct net_device *ndev)
 	}
 
 	/* Do a reset to ensure DMA is really stopped */
-<<<<<<< HEAD
 	axienet_lock_mii(lp);
 	__axienet_device_reset(lp);
 	axienet_unlock_mii(lp);
-=======
-<<<<<<< HEAD
-	axienet_lock_mii(lp);
-	__axienet_device_reset(lp);
-	axienet_unlock_mii(lp);
-=======
-	mutex_lock(&lp->mii_bus->mdio_lock);
-	__axienet_device_reset(lp);
-	mutex_unlock(&lp->mii_bus->mdio_lock);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cancel_work_sync(&lp->dma_err_task);
 
@@ -1493,10 +1469,6 @@ axienet_ethtools_set_link_ksettings(struct net_device *ndev,
 	return phylink_ethtool_ksettings_set(lp->phylink, cmd);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int axienet_ethtools_nway_reset(struct net_device *dev)
 {
 	struct axienet_local *lp = netdev_priv(dev);
@@ -1504,11 +1476,6 @@ static int axienet_ethtools_nway_reset(struct net_device *dev)
 	return phylink_ethtool_nway_reset(lp->phylink);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ethtool_ops axienet_ethtool_ops = {
 	.supported_coalesce_params = ETHTOOL_COALESCE_MAX_FRAMES,
 	.get_drvinfo    = axienet_ethtools_get_drvinfo,
@@ -1523,14 +1490,7 @@ static const struct ethtool_ops axienet_ethtool_ops = {
 	.set_coalesce   = axienet_ethtools_set_coalesce,
 	.get_link_ksettings = axienet_ethtools_get_link_ksettings,
 	.set_link_ksettings = axienet_ethtools_set_link_ksettings,
-<<<<<<< HEAD
 	.nway_reset	= axienet_ethtools_nway_reset,
-=======
-<<<<<<< HEAD
-	.nway_reset	= axienet_ethtools_nway_reset,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void axienet_validate(struct phylink_config *config,
@@ -1542,10 +1502,6 @@ static void axienet_validate(struct phylink_config *config,
 	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = { 0, };
 
 	/* Only support the mode we are configured for */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (state->interface) {
 	case PHY_INTERFACE_MODE_NA:
 		break;
@@ -1562,18 +1518,6 @@ static void axienet_validate(struct phylink_config *config,
 			bitmap_zero(supported, __ETHTOOL_LINK_MODE_MASK_NBITS);
 			return;
 		}
-<<<<<<< HEAD
-=======
-=======
-	if (state->interface != PHY_INTERFACE_MODE_NA &&
-	    state->interface != lp->phy_mode) {
-		netdev_warn(ndev, "Cannot use PHY mode %s, supported: %s\n",
-			    phy_modes(state->interface),
-			    phy_modes(lp->phy_mode));
-		bitmap_zero(supported, __ETHTOOL_LINK_MODE_MASK_NBITS);
-		return;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	phylink_set(mask, Autoneg);
@@ -1633,10 +1577,6 @@ static void axienet_mac_an_restart(struct phylink_config *config)
 	phylink_mii_c22_pcs_an_restart(lp->pcs_phy);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int axienet_mac_prepare(struct phylink_config *config, unsigned int mode,
 			       phy_interface_t iface)
 {
@@ -1664,11 +1604,6 @@ static int axienet_mac_prepare(struct phylink_config *config, unsigned int mode,
 	}
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void axienet_mac_config(struct phylink_config *config, unsigned int mode,
 			       const struct phylink_link_state *state)
 {
@@ -1746,14 +1681,7 @@ static const struct phylink_mac_ops axienet_phylink_ops = {
 	.validate = axienet_validate,
 	.mac_pcs_get_state = axienet_mac_pcs_get_state,
 	.mac_an_restart = axienet_mac_an_restart,
-<<<<<<< HEAD
 	.mac_prepare = axienet_mac_prepare,
-=======
-<<<<<<< HEAD
-	.mac_prepare = axienet_mac_prepare,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.mac_config = axienet_mac_config,
 	.mac_link_down = axienet_mac_link_down,
 	.mac_link_up = axienet_mac_link_up,
@@ -1781,21 +1709,9 @@ static void axienet_dma_err_handler(struct work_struct *work)
 	 * including the MDIO. MDIO must be disabled before resetting.
 	 * Hold MDIO bus lock to avoid MDIO accesses during the reset.
 	 */
-<<<<<<< HEAD
 	axienet_lock_mii(lp);
 	__axienet_device_reset(lp);
 	axienet_unlock_mii(lp);
-=======
-<<<<<<< HEAD
-	axienet_lock_mii(lp);
-	__axienet_device_reset(lp);
-	axienet_unlock_mii(lp);
-=======
-	mutex_lock(&lp->mii_bus->mdio_lock);
-	__axienet_device_reset(lp);
-	mutex_unlock(&lp->mii_bus->mdio_lock);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < lp->tx_bd_num; i++) {
 		cur_p = &lp->tx_bd_v[i];
@@ -1919,8 +1835,8 @@ static int axienet_probe(struct platform_device *pdev)
 	struct device_node *np;
 	struct axienet_local *lp;
 	struct net_device *ndev;
-	const void *mac_addr;
 	struct resource *ethres;
+	u8 mac_addr[ETH_ALEN];
 	int addr_width = 32;
 	u32 value;
 
@@ -1947,22 +1863,39 @@ static int axienet_probe(struct platform_device *pdev)
 	lp->rx_bd_num = RX_BD_NUM_DEFAULT;
 	lp->tx_bd_num = TX_BD_NUM_DEFAULT;
 
-	lp->clk = devm_clk_get_optional(&pdev->dev, NULL);
-	if (IS_ERR(lp->clk)) {
-		ret = PTR_ERR(lp->clk);
+	lp->axi_clk = devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
+	if (!lp->axi_clk) {
+		/* For backward compatibility, if named AXI clock is not present,
+		 * treat the first clock specified as the AXI clock.
+		 */
+		lp->axi_clk = devm_clk_get_optional(&pdev->dev, NULL);
+	}
+	if (IS_ERR(lp->axi_clk)) {
+		ret = PTR_ERR(lp->axi_clk);
 		goto free_netdev;
 	}
-	ret = clk_prepare_enable(lp->clk);
+	ret = clk_prepare_enable(lp->axi_clk);
 	if (ret) {
-		dev_err(&pdev->dev, "Unable to enable clock: %d\n", ret);
+		dev_err(&pdev->dev, "Unable to enable AXI clock: %d\n", ret);
 		goto free_netdev;
 	}
+
+	lp->misc_clks[0].id = "axis_clk";
+	lp->misc_clks[1].id = "ref_clk";
+	lp->misc_clks[2].id = "mgt_clk";
+
+	ret = devm_clk_bulk_get_optional(&pdev->dev, XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+	if (ret)
+		goto cleanup_clk;
+
+	ret = clk_bulk_prepare_enable(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+	if (ret)
+		goto cleanup_clk;
 
 	/* Map device registers */
 	ethres = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	lp->regs = devm_ioremap_resource(&pdev->dev, ethres);
 	if (IS_ERR(lp->regs)) {
-		dev_err(&pdev->dev, "could not map Axi Ethernet regs.\n");
 		ret = PTR_ERR(lp->regs);
 		goto cleanup_clk;
 	}
@@ -2017,18 +1950,9 @@ static int axienet_probe(struct platform_device *pdev)
 	 */
 	of_property_read_u32(pdev->dev.of_node, "xlnx,rxmem", &lp->rxmem);
 
-<<<<<<< HEAD
 	lp->switch_x_sgmii = of_property_read_bool(pdev->dev.of_node,
 						   "xlnx,switch-x-sgmii");
 
-=======
-<<<<<<< HEAD
-	lp->switch_x_sgmii = of_property_read_bool(pdev->dev.of_node,
-						   "xlnx,switch-x-sgmii");
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Start with the proprietary, and broken phy_type */
 	ret = of_property_read_u32(pdev->dev.of_node, "xlnx,phy-type", &value);
 	if (!ret) {
@@ -2058,21 +1982,12 @@ static int axienet_probe(struct platform_device *pdev)
 		if (ret)
 			goto cleanup_clk;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (lp->switch_x_sgmii && lp->phy_mode != PHY_INTERFACE_MODE_SGMII &&
 	    lp->phy_mode != PHY_INTERFACE_MODE_1000BASEX) {
 		dev_err(&pdev->dev, "xlnx,switch-x-sgmii only supported with SGMII or 1000BaseX\n");
 		ret = -EINVAL;
 		goto cleanup_clk;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Find the DMA node, map the DMA registers, and decode the DMA IRQs */
 	np = of_parse_phandle(pdev->dev.of_node, "axistream-connected", 0);
@@ -2147,13 +2062,14 @@ static int axienet_probe(struct platform_device *pdev)
 		dev_info(&pdev->dev, "Ethernet core IRQ not defined\n");
 
 	/* Retrieve the MAC address */
-	mac_addr = of_get_mac_address(pdev->dev.of_node);
-	if (IS_ERR(mac_addr)) {
-		dev_warn(&pdev->dev, "could not find MAC address property: %ld\n",
-			 PTR_ERR(mac_addr));
-		mac_addr = NULL;
+	ret = of_get_mac_address(pdev->dev.of_node, mac_addr);
+	if (!ret) {
+		axienet_set_mac_address(ndev, mac_addr);
+	} else {
+		dev_warn(&pdev->dev, "could not find MAC address property: %d\n",
+			 ret);
+		axienet_set_mac_address(ndev, NULL);
 	}
-	axienet_set_mac_address(ndev, mac_addr);
 
 	lp->coalesce_count_rx = XAXIDMA_DFT_RX_THRESHOLD;
 	lp->coalesce_count_tx = XAXIDMA_DFT_TX_THRESHOLD;
@@ -2211,7 +2127,8 @@ cleanup_mdio:
 	of_node_put(lp->phy_node);
 
 cleanup_clk:
-	clk_disable_unprepare(lp->clk);
+	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+	clk_disable_unprepare(lp->axi_clk);
 
 free_netdev:
 	free_netdev(ndev);
@@ -2234,7 +2151,8 @@ static int axienet_remove(struct platform_device *pdev)
 
 	axienet_mdio_teardown(lp);
 
-	clk_disable_unprepare(lp->clk);
+	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+	clk_disable_unprepare(lp->axi_clk);
 
 	of_node_put(lp->phy_node);
 	lp->phy_node = NULL;

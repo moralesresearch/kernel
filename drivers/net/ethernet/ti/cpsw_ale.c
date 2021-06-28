@@ -1256,7 +1256,6 @@ static const struct cpsw_ale_dev_id cpsw_ale_id_match[] = {
 		.major_ver_mask = 0x7,
 		.vlan_entry_tbl = vlan_entry_k3_cpswxg,
 	},
-<<<<<<< HEAD
 	{
 		.dev_id = "am64-cpswxg",
 		.features = CPSW_ALE_F_STATUS_REG | CPSW_ALE_F_HW_AUTOAGING,
@@ -1264,8 +1263,6 @@ static const struct cpsw_ale_dev_id cpsw_ale_id_match[] = {
 		.vlan_entry_tbl = vlan_entry_k3_cpswxg,
 		.tbl_entries = 512,
 	},
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ },
 };
 

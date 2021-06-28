@@ -26,13 +26,9 @@
 #include <linux/delay.h>
 #include <linux/smp.h>
 
-<<<<<<< HEAD
 #include <asm/interrupt.h>
 #include <asm/paca.h>
 #include <asm/nmi.h>
-=======
-#include <asm/paca.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * The powerpc watchdog ensures that each CPU is able to service timers.
@@ -253,28 +249,17 @@ static void watchdog_timer_interrupt(int cpu)
 		watchdog_smp_panic(cpu, tb);
 }
 
-<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER_NMI(soft_nmi_interrupt)
-=======
-void soft_nmi_interrupt(struct pt_regs *regs)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 	int cpu = raw_smp_processor_id();
 	u64 tb;
 
-<<<<<<< HEAD
 	/* should only arrive from kernel, with irqs disabled */
 	WARN_ON_ONCE(!arch_irq_disabled_regs(regs));
 
 	if (!cpumask_test_cpu(cpu, &wd_cpus_enabled))
 		return 0;
-=======
-	if (!cpumask_test_cpu(cpu, &wd_cpus_enabled))
-		return;
-
-	nmi_enter();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__this_cpu_inc(irq_stat.soft_nmi_irqs);
 
@@ -283,11 +268,7 @@ void soft_nmi_interrupt(struct pt_regs *regs)
 		wd_smp_lock(&flags);
 		if (cpumask_test_cpu(cpu, &wd_smp_cpus_stuck)) {
 			wd_smp_unlock(&flags);
-<<<<<<< HEAD
 			return 0;
-=======
-			goto out;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		set_cpu_stuck(cpu, tb);
 
@@ -311,12 +292,7 @@ void soft_nmi_interrupt(struct pt_regs *regs)
 	if (wd_panic_timeout_tb < 0x7fffffff)
 		mtspr(SPRN_DEC, wd_panic_timeout_tb);
 
-<<<<<<< HEAD
 	return 0;
-=======
-out:
-	nmi_exit();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)

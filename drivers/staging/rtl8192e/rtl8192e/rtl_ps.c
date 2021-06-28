@@ -290,11 +290,7 @@ void rtl92e_leisure_ps_leave(struct net_device *dev)
 				if (priv->rtllib->SetFwCmdHandler)
 					priv->rtllib->SetFwCmdHandler(dev,
 							 FW_CMD_LPS_LEAVE);
-<<<<<<< HEAD
 			}
-=======
-		    }
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 }

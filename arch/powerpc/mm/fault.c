@@ -32,12 +32,11 @@
 #include <linux/context_tracking.h>
 #include <linux/hugetlb.h>
 #include <linux/uaccess.h>
+#include <linux/kfence.h>
+#include <linux/pkeys.h>
 
 #include <asm/firmware.h>
-<<<<<<< HEAD
 #include <asm/interrupt.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/page.h>
 #include <asm/mmu.h>
 #include <asm/mmu_context.h>
@@ -90,7 +89,6 @@ static noinline int bad_area(struct pt_regs *regs, unsigned long address)
 	return __bad_area(regs, address, SEGV_MAPERR);
 }
 
-#ifdef CONFIG_PPC_MEM_KEYS
 static noinline int bad_access_pkey(struct pt_regs *regs, unsigned long address,
 				    struct vm_area_struct *vma)
 {
@@ -130,7 +128,6 @@ static noinline int bad_access_pkey(struct pt_regs *regs, unsigned long address,
 
 	return 0;
 }
-#endif
 
 static noinline int bad_access(struct pt_regs *regs, unsigned long address)
 {
@@ -200,7 +197,7 @@ static int mm_fault_error(struct pt_regs *regs, unsigned long addr,
 static bool bad_kernel_fault(struct pt_regs *regs, unsigned long error_code,
 			     unsigned long address, bool is_write)
 {
-	int is_exec = TRAP(regs) == 0x400;
+	int is_exec = TRAP(regs) == INTERRUPT_INST_STORAGE;
 
 	/* NX faults set DSISR_PROTFAULT on the 8xx, DSISR_NOEXEC_OR_G on others */
 	if (is_exec && (error_code & (DSISR_NOEXEC_OR_G | DSISR_KEYFAULT |
@@ -237,7 +234,6 @@ static bool bad_kernel_fault(struct pt_regs *regs, unsigned long error_code,
 	return false;
 }
 
-#ifdef CONFIG_PPC_MEM_KEYS
 static bool access_pkey_error(bool is_write, bool is_exec, bool is_pkey,
 			      struct vm_area_struct *vma)
 {
@@ -251,7 +247,6 @@ static bool access_pkey_error(bool is_write, bool is_exec, bool is_pkey,
 
 	return false;
 }
-#endif
 
 static bool access_error(bool is_write, bool is_exec, struct vm_area_struct *vma)
 {
@@ -381,36 +376,22 @@ static void sanity_check_fault(bool is_write, bool is_user,
 
 /*
  * For 600- and 800-family processors, the error_code parameter is DSISR
-<<<<<<< HEAD
  * for a data fault, SRR1 for an instruction fault.
  * For 400-family processors the error_code parameter is ESR for a data fault,
  * 0 for an instruction fault.
  * For 64-bit processors, the error_code parameter is DSISR for a data access
  * fault, SRR1 & 0x08000000 for an instruction access fault.
-=======
- * for a data fault, SRR1 for an instruction fault. For 400-family processors
- * the error_code parameter is ESR for a data fault, 0 for an instruction
- * fault.
- * For 64-bit processors, the error_code parameter is
- *  - DSISR for a non-SLB data access fault,
- *  - SRR1 & 0x08000000 for a non-SLB instruction access fault
- *  - 0 any SLB fault.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * The return value is 0 if the fault was handled, or the signal
  * number if this is a kernel fault that can't be handled here.
  */
-<<<<<<< HEAD
 static int ___do_page_fault(struct pt_regs *regs, unsigned long address,
-=======
-static int __do_page_fault(struct pt_regs *regs, unsigned long address,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   unsigned long error_code)
 {
 	struct vm_area_struct * vma;
 	struct mm_struct *mm = current->mm;
 	unsigned int flags = FAULT_FLAG_DEFAULT;
- 	int is_exec = TRAP(regs) == 0x400;
+	int is_exec = TRAP(regs) == INTERRUPT_INST_STORAGE;
 	int is_user = user_mode(regs);
 	int is_write = page_fault_is_write(error_code);
 	vm_fault_t fault, major = 0;
@@ -435,8 +416,12 @@ static int __do_page_fault(struct pt_regs *regs, unsigned long address,
 	 * take a page fault to a kernel address or a page fault to a user
 	 * address outside of dedicated places
 	 */
-	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, is_write)))
+	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, is_write))) {
+		if (kfence_handle_page_fault(address, is_write, regs))
+			return 0;
+
 		return SIGSEGV;
+	}
 
 	/*
 	 * If we're in an interrupt, have no user context or are running
@@ -451,13 +436,7 @@ static int __do_page_fault(struct pt_regs *regs, unsigned long address,
 		return bad_area_nosemaphore(regs, address);
 	}
 
-<<<<<<< HEAD
 	interrupt_cond_local_irq_enable(regs);
-=======
-	/* We restore the interrupt state now */
-	if (!arch_irq_disabled_regs(regs))
-		local_irq_enable();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 
@@ -515,11 +494,9 @@ retry:
 			return bad_area(regs, address);
 	}
 
-#ifdef CONFIG_PPC_MEM_KEYS
 	if (unlikely(access_pkey_error(is_write, is_exec,
 				       (error_code & DSISR_KEYFAULT), vma)))
 		return bad_access_pkey(regs, address, vma);
-#endif /* CONFIG_PPC_MEM_KEYS */
 
 	if (unlikely(access_error(is_write, is_exec, vma)))
 		return bad_access(regs, address);
@@ -560,99 +537,57 @@ retry:
 
 	return 0;
 }
-<<<<<<< HEAD
 NOKPROBE_SYMBOL(___do_page_fault);
 
-static long __do_page_fault(struct pt_regs *regs)
+static __always_inline void __do_page_fault(struct pt_regs *regs)
 {
-	const struct exception_table_entry *entry;
 	long err;
 
 	err = ___do_page_fault(regs, regs->dar, regs->dsisr);
-	if (likely(!err))
-		return err;
-
-	entry = search_exception_tables(regs->nip);
-	if (likely(entry)) {
-		instruction_pointer_set(regs, extable_fixup(entry));
-		return 0;
-	} else if (IS_ENABLED(CONFIG_PPC_BOOK3S_64)) {
-		__bad_page_fault(regs, err);
-		return 0;
-	} else {
-		/* 32 and 64e handle the bad page fault in asm */
-		return err;
-	}
+	if (unlikely(err))
+		bad_page_fault(regs, err);
 }
-NOKPROBE_SYMBOL(__do_page_fault);
 
-DEFINE_INTERRUPT_HANDLER_RET(do_page_fault)
+DEFINE_INTERRUPT_HANDLER(do_page_fault)
 {
-	return __do_page_fault(regs);
+	__do_page_fault(regs);
 }
 
 #ifdef CONFIG_PPC_BOOK3S_64
 /* Same as do_page_fault but interrupt entry has already run in do_hash_fault */
-long hash__do_page_fault(struct pt_regs *regs)
+void hash__do_page_fault(struct pt_regs *regs)
 {
-	return __do_page_fault(regs);
+	__do_page_fault(regs);
 }
 NOKPROBE_SYMBOL(hash__do_page_fault);
 #endif
-=======
-NOKPROBE_SYMBOL(__do_page_fault);
-
-int do_page_fault(struct pt_regs *regs, unsigned long address,
-		  unsigned long error_code)
-{
-	const struct exception_table_entry *entry;
-	enum ctx_state prev_state = exception_enter();
-	int rc = __do_page_fault(regs, address, error_code);
-	exception_exit(prev_state);
-	if (likely(!rc))
-		return 0;
-
-	entry = search_exception_tables(regs->nip);
-	if (unlikely(!entry))
-		return rc;
-
-	instruction_pointer_set(regs, extable_fixup(entry));
-
-	return 0;
-}
-NOKPROBE_SYMBOL(do_page_fault);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * bad_page_fault is called when we have a bad access from the kernel.
  * It is called from the DSI and ISI handlers in head.S and from some
  * of the procedures in traps.c.
  */
-<<<<<<< HEAD
-void __bad_page_fault(struct pt_regs *regs, int sig)
-=======
-void __bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+static void __bad_page_fault(struct pt_regs *regs, int sig)
 {
 	int is_write = page_fault_is_write(regs->dsisr);
 
 	/* kernel has accessed a bad area */
 
 	switch (TRAP(regs)) {
-	case 0x300:
-	case 0x380:
-	case 0xe00:
+	case INTERRUPT_DATA_STORAGE:
+	case INTERRUPT_DATA_SEGMENT:
+	case INTERRUPT_H_DATA_STORAGE:
 		pr_alert("BUG: %s on %s at 0x%08lx\n",
 			 regs->dar < PAGE_SIZE ? "Kernel NULL pointer dereference" :
 			 "Unable to handle kernel data access",
 			 is_write ? "write" : "read", regs->dar);
 		break;
-	case 0x400:
-	case 0x480:
+	case INTERRUPT_INST_STORAGE:
+	case INTERRUPT_INST_SEGMENT:
 		pr_alert("BUG: Unable to handle kernel instruction fetch%s",
 			 regs->nip < PAGE_SIZE ? " (NULL pointer?)\n" : "\n");
 		break;
-	case 0x600:
+	case INTERRUPT_ALIGNMENT:
 		pr_alert("BUG: Unable to handle kernel unaligned access at 0x%08lx\n",
 			 regs->dar);
 		break;
@@ -670,11 +605,7 @@ void __bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
 	die("Kernel access of bad area", regs, sig);
 }
 
-<<<<<<< HEAD
 void bad_page_fault(struct pt_regs *regs, int sig)
-=======
-void bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct exception_table_entry *entry;
 
@@ -683,7 +614,6 @@ void bad_page_fault(struct pt_regs *regs, unsigned long address, int sig)
 	if (entry)
 		instruction_pointer_set(regs, extable_fixup(entry));
 	else
-<<<<<<< HEAD
 		__bad_page_fault(regs, sig);
 }
 
@@ -693,7 +623,3 @@ DEFINE_INTERRUPT_HANDLER(do_bad_page_fault_segv)
 	bad_page_fault(regs, SIGSEGV);
 }
 #endif
-=======
-		__bad_page_fault(regs, address, sig);
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

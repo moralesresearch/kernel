@@ -60,12 +60,9 @@
 #define RTL_LPADV_5000FULL			BIT(6)
 #define RTL_LPADV_2500FULL			BIT(5)
 
-<<<<<<< HEAD
 #define RTL9000A_GINMR				0x14
 #define RTL9000A_GINMR_LINK_STATUS		BIT(4)
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define RTLGEN_SPEED_MASK			0x0630
 
 #define RTL_GENERIC_PHYID			0x001cc800
@@ -661,7 +658,6 @@ static int rtlgen_resume(struct phy_device *phydev)
 	return ret;
 }
 
-<<<<<<< HEAD
 static int rtl9000a_config_init(struct phy_device *phydev)
 {
 	phydev->autoneg = AUTONEG_DISABLE;
@@ -778,8 +774,6 @@ static irqreturn_t rtl9000a_handle_interrupt(struct phy_device *phydev)
 	return IRQ_HANDLED;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct phy_driver realtek_drvs[] = {
 	{
 		PHY_ID_MATCH_EXACT(0x00008201),
@@ -948,7 +942,6 @@ static struct phy_driver realtek_drvs[] = {
 		.handle_interrupt = genphy_handle_interrupt_no_ack,
 		.suspend	= genphy_suspend,
 		.resume		= genphy_resume,
-<<<<<<< HEAD
 	}, {
 		PHY_ID_MATCH_EXACT(0x001ccb00),
 		.name		= "RTL9000AA_RTL9000AN Ethernet",
@@ -962,8 +955,6 @@ static struct phy_driver realtek_drvs[] = {
 		.resume		= genphy_resume,
 		.read_page	= rtl821x_read_page,
 		.write_page	= rtl821x_write_page,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

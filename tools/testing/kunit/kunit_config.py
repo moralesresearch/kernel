@@ -41,10 +41,6 @@ class Kconfig(object):
 		self._entries.append(entry)
 
 	def is_subset_of(self, other: 'Kconfig') -> bool:
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		other_dict = {e.name: e.value for e in other.entries()}
 		for a in self.entries():
 			b = other_dict.get(a.name)
@@ -53,20 +49,6 @@ class Kconfig(object):
 					continue
 				return False
 			elif a.value != b:
-<<<<<<< HEAD
-=======
-=======
-		for a in self.entries():
-			found = False
-			for b in other.entries():
-				if a.name != b.name:
-					continue
-				if a.value != b.value:
-					return False
-				found = True
-			if a.value != 'n' and found == False:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return False
 		return True
 

@@ -16,11 +16,7 @@ void mt76x02_phy_set_rxpath(struct mt76x02_dev *dev)
 	val = mt76_rr(dev, MT_BBP(AGC, 0));
 	val &= ~BIT(4);
 
-<<<<<<< HEAD
 	switch (dev->mphy.chainmask & 0xf) {
-=======
-	switch (dev->chainmask & 0xf) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 2:
 		val |= BIT(3);
 		break;
@@ -39,11 +35,7 @@ void mt76x02_phy_set_txdac(struct mt76x02_dev *dev)
 {
 	int txpath;
 
-<<<<<<< HEAD
 	txpath = (dev->mphy.chainmask >> 8) & 0xf;
-=======
-	txpath = (dev->chainmask >> 8) & 0xf;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (txpath) {
 	case 2:
 		mt76_set(dev, MT_BBP(TXBE, 5), 0x3);

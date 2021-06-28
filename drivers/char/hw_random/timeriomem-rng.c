@@ -169,15 +169,7 @@ static int timeriomem_rng_probe(struct platform_device *pdev)
 	priv->present = 1;
 	complete(&priv->completion);
 
-<<<<<<< HEAD
 	err = devm_hwrng_register(&pdev->dev, &priv->rng_ops);
-=======
-<<<<<<< HEAD
-	err = devm_hwrng_register(&pdev->dev, &priv->rng_ops);
-=======
-	err = hwrng_register(&priv->rng_ops);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		dev_err(&pdev->dev, "problem registering\n");
 		return err;
@@ -193,13 +185,6 @@ static int timeriomem_rng_remove(struct platform_device *pdev)
 {
 	struct timeriomem_rng_private *priv = platform_get_drvdata(pdev);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	hwrng_unregister(&priv->rng_ops);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hrtimer_cancel(&priv->timer);
 
 	return 0;

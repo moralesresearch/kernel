@@ -8,11 +8,8 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_endian.h>
 
-<<<<<<< HEAD
 #include <bpf_sockopt_helpers.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SRC1_IP4		0xAC100001U /* 172.16.0.1 */
 #define SRC2_IP4		0x00000000U
 #define SRC_REWRITE_IP4		0x7f000004U
@@ -26,7 +23,6 @@ int _version SEC("version") = 1;
 SEC("cgroup/sendmsg4")
 int sendmsg_v4_prog(struct bpf_sock_addr *ctx)
 {
-<<<<<<< HEAD
 	int prio;
 
 	if (ctx->type != SOCK_DGRAM)
@@ -35,11 +31,6 @@ int sendmsg_v4_prog(struct bpf_sock_addr *ctx)
 	if (!get_set_sk_priority(ctx))
 		return 0;
 
-=======
-	if (ctx->type != SOCK_DGRAM)
-		return 0;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Rewrite source. */
 	if (ctx->msg_src_ip4 == bpf_htonl(SRC1_IP4) ||
 	    ctx->msg_src_ip4 == bpf_htonl(SRC2_IP4)) {

@@ -542,11 +542,7 @@ static int stm32_cryp_hw_init(struct stm32_cryp *cryp)
 	int ret;
 	u32 cfg, hw_mode;
 
-<<<<<<< HEAD
 	pm_runtime_resume_and_get(cryp->dev);
-=======
-	pm_runtime_get_sync(cryp->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable interrupt */
 	stm32_cryp_write(cryp, CRYP_IMSCR, 0);
@@ -1233,11 +1229,7 @@ static void stm32_cryp_check_ctr_counter(struct stm32_cryp *cryp)
 		cr = stm32_cryp_read(cryp, CRYP_CR);
 		stm32_cryp_write(cryp, CRYP_CR, cr & ~CR_CRYPEN);
 
-<<<<<<< HEAD
 		stm32_cryp_hw_write_iv(cryp, (__be32 *)cryp->last_ctr);
-=======
-		stm32_cryp_hw_write_iv(cryp, (u32 *)cryp->last_ctr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		stm32_cryp_write(cryp, CRYP_CR, cr);
 	}
@@ -2051,11 +2043,7 @@ static int stm32_cryp_remove(struct platform_device *pdev)
 	if (!cryp)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	ret = pm_runtime_resume_and_get(cryp->dev);
-=======
-	ret = pm_runtime_get_sync(cryp->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

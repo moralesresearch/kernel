@@ -185,11 +185,7 @@ static struct attribute *controller_attributes[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 static const struct attribute_group controller_attribute_group = {
-=======
-static struct attribute_group controller_attribute_group = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = controller_attributes,
 };
 
@@ -210,11 +206,7 @@ static int can_power_is_enabled(struct regulator_dev *rdev)
 	return !(readb(cd->cpld_base + CPLD_STATUS1) & CPLD_STATUS1_CAN_POWER);
 }
 
-<<<<<<< HEAD
 static const struct regulator_ops can_power_ops = {
-=======
-static struct regulator_ops can_power_ops = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.is_enabled = can_power_is_enabled,
 };
 

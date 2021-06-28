@@ -137,13 +137,8 @@ static int spi_check_buswidth_req(struct spi_mem *mem, u8 buswidth, bool tx)
 	return -ENOTSUPP;
 }
 
-<<<<<<< HEAD
 static bool spi_mem_check_buswidth(struct spi_mem *mem,
 				   const struct spi_mem_op *op)
-=======
-bool spi_mem_default_supports_op(struct spi_mem *mem,
-				 const struct spi_mem_op *op)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (spi_check_buswidth_req(mem, op->cmd.buswidth, true))
 		return false;
@@ -161,7 +156,6 @@ bool spi_mem_default_supports_op(struct spi_mem *mem,
 				   op->data.dir == SPI_MEM_DATA_OUT))
 		return false;
 
-<<<<<<< HEAD
 	return true;
 }
 
@@ -178,19 +172,13 @@ EXPORT_SYMBOL_GPL(spi_mem_dtr_supports_op);
 bool spi_mem_default_supports_op(struct spi_mem *mem,
 				 const struct spi_mem_op *op)
 {
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (op->cmd.dtr || op->addr.dtr || op->dummy.dtr || op->data.dtr)
 		return false;
 
 	if (op->cmd.nbytes != 1)
 		return false;
 
-<<<<<<< HEAD
 	return spi_mem_check_buswidth(mem, op);
-=======
-	return true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(spi_mem_default_supports_op);
 
@@ -382,10 +370,7 @@ int spi_mem_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
 		xfers[xferpos].tx_buf = tmpbuf + op->addr.nbytes + 1;
 		xfers[xferpos].len = op->dummy.nbytes;
 		xfers[xferpos].tx_nbits = op->dummy.buswidth;
-<<<<<<< HEAD
 		xfers[xferpos].dummy_data = 1;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spi_message_add_tail(&xfers[xferpos], &msg);
 		xferpos++;
 		totalxferlen += op->dummy.nbytes;
@@ -636,10 +621,10 @@ EXPORT_SYMBOL_GPL(devm_spi_mem_dirmap_create);
 
 static int devm_spi_mem_dirmap_match(struct device *dev, void *res, void *data)
 {
-        struct spi_mem_dirmap_desc **ptr = res;
+	struct spi_mem_dirmap_desc **ptr = res;
 
-        if (WARN_ON(!ptr || !*ptr))
-                return 0;
+	if (WARN_ON(!ptr || !*ptr))
+		return 0;
 
 	return *ptr == data;
 }

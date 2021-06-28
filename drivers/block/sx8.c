@@ -539,11 +539,7 @@ static int carm_array_info (struct carm_host *host, unsigned int array_idx)
 	spin_unlock_irq(&host->lock);
 
 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
-<<<<<<< HEAD
 	blk_execute_rq_nowait(NULL, rq, true, NULL);
-=======
-	blk_execute_rq_nowait(host->oob_q, NULL, rq, true, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -582,11 +578,7 @@ static int carm_send_special (struct carm_host *host, carm_sspc_t func)
 	crq->msg_bucket = (u32) rc;
 
 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
-<<<<<<< HEAD
 	blk_execute_rq_nowait(NULL, rq, true, NULL);
-=======
-	blk_execute_rq_nowait(host->oob_q, NULL, rq, true, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

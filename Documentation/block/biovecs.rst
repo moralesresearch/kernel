@@ -40,11 +40,8 @@ normal code doesn't have to deal with bi_bvec_done.
    There is a lower level advance function - bvec_iter_advance() - which takes
    a pointer to a biovec, not a bio; this is used by the bio integrity code.
 
-<<<<<<< HEAD
 As of 5.12 bvec segments with zero bv_len are not supported.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 What's all this get us?
 =======================
 

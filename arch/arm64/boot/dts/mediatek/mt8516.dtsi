@@ -276,7 +276,6 @@
 				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
 		};
 
-<<<<<<< HEAD
 		apdma: dma-controller@11000480 {
 			compatible = "mediatek,mt8516-uart-dma",
 				     "mediatek,mt6577-uart-dma";
@@ -298,8 +297,6 @@
 			#dma-cells = <1>;
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		uart0: serial@11005000 {
 			compatible = "mediatek,mt8516-uart",
 				     "mediatek,mt6577-uart";
@@ -308,12 +305,9 @@
 			clocks = <&topckgen CLK_TOP_UART0_SEL>,
 				 <&topckgen CLK_TOP_UART0>;
 			clock-names = "baud", "bus";
-<<<<<<< HEAD
 			dmas = <&apdma 0
 				&apdma 1>;
 			dma-names = "tx", "rx";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -325,12 +319,9 @@
 			clocks = <&topckgen CLK_TOP_UART1_SEL>,
 				 <&topckgen CLK_TOP_UART1>;
 			clock-names = "baud", "bus";
-<<<<<<< HEAD
 			dmas = <&apdma 2
 				&apdma 3>;
 			dma-names = "tx", "rx";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -342,12 +333,9 @@
 			clocks = <&topckgen CLK_TOP_UART2_SEL>,
 				 <&topckgen CLK_TOP_UART2>;
 			clock-names = "baud", "bus";
-<<<<<<< HEAD
 			dmas = <&apdma 4
 				&apdma 5>;
 			dma-names = "tx", "rx";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -492,7 +480,7 @@
 		};
 
 		usb0: usb@11100000 {
-			compatible = "mediatek,mtk-musb";
+			compatible = "mediatek,mt8516-musb", "mediatek,mtk-musb";
 			reg = <0 0x11100000 0 0x1000>;
 			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
 			interrupt-names = "mc";
@@ -505,7 +493,7 @@
 		};
 
 		usb1: usb@11190000 {
-			compatible = "mediatek,mtk-musb";
+			compatible = "mediatek,mt8516-musb", "mediatek,mtk-musb";
 			reg = <0 0x11190000 0 0x1000>;
 			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
 			interrupt-names = "mc";
@@ -518,8 +506,9 @@
 			status = "disabled";
 		};
 
-		usb_phy: usb@11110000 {
-			compatible = "mediatek,generic-tphy-v1";
+		usb_phy: t-phy@11110000 {
+			compatible = "mediatek,mt8516-tphy",
+				     "mediatek,generic-tphy-v1";
 			reg = <0 0x11110000 0 0x800>;
 			#address-cells = <2>;
 			#size-cells = <2>;

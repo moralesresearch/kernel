@@ -99,13 +99,8 @@ patternProperties:
 
       '#interrupt-cells':
         description:
-<<<<<<< HEAD
           Specifies the pin (port and bit) and flags, as defined in
           defined in include/dt-bindings/interrupt-controller/irq.h
-=======
-         Specifies the pin (port and bit) and flags, as defined in
-         defined in include/dt-bindings/interrupt-controller/irq.h
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         const: 3
 
       ngpios:

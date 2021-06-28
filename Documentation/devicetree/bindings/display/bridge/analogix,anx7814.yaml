@@ -42,7 +42,6 @@ properties:
     description: Regulator for 1.0V digital core power.
 
   ports:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
@@ -55,33 +54,6 @@ properties:
         description:
           Video port for SlimPort, DisplayPort, eDP or MyDP output.
 
-=======
-    type: object
-    description:
-      A node containing input and output port nodes with endpoint
-      definitions as documented in
-      Documentation/devicetree/bindings/media/video-interfaces.txt
-      Documentation/devicetree/bindings/graph.txt
-
-    properties:
-      port@0:
-        type: object
-        description: Video port for HDMI input.
-
-        properties:
-          reg:
-            const: 0
-
-      port@1:
-        type: object
-        description:
-          Video port for SlimPort, DisplayPort, eDP or MyDP output.
-
-        properties:
-          reg:
-            const: 1
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     required:
       - port@0
       - port@1

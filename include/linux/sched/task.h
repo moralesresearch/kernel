@@ -31,10 +31,7 @@ struct kernel_clone_args {
 	/* Number of elements in *set_tid */
 	size_t set_tid_size;
 	int cgroup;
-<<<<<<< HEAD
 	int io_thread;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cgroup *cgrp;
 	struct css_set *cset;
 };
@@ -86,10 +83,7 @@ extern void exit_files(struct task_struct *);
 extern void exit_itimers(struct signal_struct *);
 
 extern pid_t kernel_clone(struct kernel_clone_args *kargs);
-<<<<<<< HEAD
 struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct task_struct *fork_idle(int);
 struct mm_struct *copy_init_mm(void);
 extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags);

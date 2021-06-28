@@ -50,13 +50,6 @@ bool ppc_breakpoint_available(void);
 #ifdef CONFIG_PPC_ADV_DEBUG_REGS
 extern void do_send_trap(struct pt_regs *regs, unsigned long address,
 			 unsigned long error_code, int brkpt);
-<<<<<<< HEAD
-=======
-#else
-
-extern void do_break(struct pt_regs *regs, unsigned long address,
-		     unsigned long error_code);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* _ASM_POWERPC_DEBUG_H */

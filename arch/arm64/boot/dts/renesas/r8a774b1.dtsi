@@ -709,7 +709,6 @@
 			status = "disabled";
 		};
 
-<<<<<<< HEAD
 		usb2_clksel: clock-controller@e6590630 {
 			compatible = "renesas,r8a774b1-rcar-usb2-clock-sel",
 				     "renesas,rcar-gen3-usb2-clock-sel";
@@ -725,8 +724,6 @@
 			status = "disabled";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		usb_dmac0: dma-controller@e65a0000 {
 			compatible = "renesas,r8a774b1-usb-dmac",
 				     "renesas,usb-dmac";
@@ -2178,7 +2175,6 @@
 			status = "disabled";
 		};
 
-<<<<<<< HEAD
 		rpc: spi@ee200000 {
 			compatible = "renesas,r8a774b1-rpc-if",
 				     "renesas,rcar-gen3-rpc-if";
@@ -2196,8 +2192,6 @@
 			status = "disabled";
 		};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sata: sata@ee300000 {
 			compatible = "renesas,sata-r8a774b1",
 				     "renesas,rcar-gen3-sata";
@@ -2425,6 +2419,10 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 
+				port@0 {
+					reg = <0>;
+				};
+
 				port@1 {
 					#address-cells = <1>;
 					#size-cells = <0>;
@@ -2479,6 +2477,10 @@
 			ports {
 				#address-cells = <1>;
 				#size-cells = <0>;
+
+				port@0 {
+					reg = <0>;
+				};
 
 				port@1 {
 					#address-cells = <1>;

@@ -511,12 +511,8 @@ static void i40iw_puda_qp_setctx(struct i40iw_puda_rsrc *rsrc)
 
 /**
  * i40iw_puda_qp_wqe - setup wqe for qp create
-<<<<<<< HEAD
  * @dev: iwarp device
  * @qp: resource for qp
-=======
- * @rsrc: resource for qp
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static enum i40iw_status_code i40iw_puda_qp_wqe(struct i40iw_sc_dev *dev, struct i40iw_sc_qp *qp)
 {
@@ -628,12 +624,8 @@ static enum i40iw_status_code i40iw_puda_qp_create(struct i40iw_puda_rsrc *rsrc)
 
 /**
  * i40iw_puda_cq_wqe - setup wqe for cq create
-<<<<<<< HEAD
  * @dev: iwarp device
  * @cq: cq to setup
-=======
- * @rsrc: resource for cq
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static enum i40iw_status_code i40iw_puda_cq_wqe(struct i40iw_sc_dev *dev, struct i40iw_sc_cq *cq)
 {
@@ -792,11 +784,7 @@ static void i40iw_puda_free_cq(struct i40iw_puda_rsrc *rsrc)
 
 /**
  * i40iw_puda_dele_resources - delete all resources during close
-<<<<<<< HEAD
  * @vsi: pointer to vsi structure
-=======
- * @dev: iwarp device
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @type: type of resource to dele
  * @reset: true if reset chip
  */
@@ -890,11 +878,7 @@ static enum i40iw_status_code i40iw_puda_allocbufs(struct i40iw_puda_rsrc *rsrc,
 
 /**
  * i40iw_puda_create_rsrc - create resouce (ilq or ieq)
-<<<<<<< HEAD
  * @vsi: pointer to vsi structure
-=======
- * @dev: iwarp device
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @info: resource information
  */
 enum i40iw_status_code i40iw_puda_create_rsrc(struct i40iw_sc_vsi *vsi,
@@ -1016,7 +1000,7 @@ static void i40iw_ilq_putback_rcvbuf(struct i40iw_sc_qp *qp, u32 wqe_idx)
 }
 
 /**
- * i40iw_ieq_get_fpdu - given length return fpdu length
+ * i40iw_ieq_get_fpdu_length - given length return fpdu length
  * @length: length if fpdu
  */
 static u16 i40iw_ieq_get_fpdu_length(u16 length)
@@ -1139,10 +1123,7 @@ static void  i40iw_ieq_compl_pfpdu(struct i40iw_puda_rsrc *ieq,
 
 /**
  * i40iw_ieq_create_pbufl - create buffer list for single fpdu
-<<<<<<< HEAD
  * @pfpdu: partial management per user qp
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @rxlist: resource list for receive ieq buffes
  * @pbufl: temp. list for buffers for fpddu
  * @buf: first receive buffer
@@ -1456,11 +1437,7 @@ static void i40iw_ieq_handle_exception(struct i40iw_puda_rsrc *ieq,
 
 /**
  * i40iw_ieq_receive - received exception buffer
-<<<<<<< HEAD
  * @vsi: pointer to vsi structure
-=======
- * @dev: iwarp device
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @buf: exception buffer received
  */
 static void i40iw_ieq_receive(struct i40iw_sc_vsi *vsi,

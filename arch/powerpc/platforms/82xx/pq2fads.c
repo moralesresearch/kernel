@@ -150,11 +150,6 @@ static void __init pq2fads_setup_arch(void)
 	/* Enable external IRQs */
 	clrbits32(&cpm2_immr->im_siu_conf.siu_82xx.sc_siumcr, 0x0c000000);
 
-<<<<<<< HEAD
-=======
-	pq2_init_pci();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ppc_md.progress)
 		ppc_md.progress("pq2fads_setup_arch(), finish", 0);
 }
@@ -187,10 +182,7 @@ define_machine(pq2fads)
 	.name = "Freescale PQ2FADS",
 	.probe = pq2fads_probe,
 	.setup_arch = pq2fads_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs = pq2_init_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ = pq2fads_pic_init,
 	.get_irq = cpm2_get_irq,
 	.calibrate_decr = generic_calibrate_decr,

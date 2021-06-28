@@ -3,11 +3,7 @@
  * Copyright 2002-2005, Devicescape Software, Inc.
  * Copyright 2013-2014  Intel Mobile Communications GmbH
  * Copyright(c) 2015-2017 Intel Deutschland GmbH
-<<<<<<< HEAD
  * Copyright(c) 2020-2021 Intel Corporation
-=======
- * Copyright(c) 2020 Intel Corporation
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef STA_INFO_H
@@ -75,10 +71,7 @@
  *	until pending frames are delivered
  * @WLAN_STA_USES_ENCRYPTION: This station was configured for encryption,
  *	so drop all packets without a key later.
-<<<<<<< HEAD
  * @WLAN_STA_DECAP_OFFLOAD: This station uses rx decap offload
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * @NUM_WLAN_STA_FLAGS: number of defined flags
  */
@@ -110,10 +103,7 @@ enum ieee80211_sta_info_flags {
 	WLAN_STA_MPSP_RECIPIENT,
 	WLAN_STA_PS_DELIVER,
 	WLAN_STA_USES_ENCRYPTION,
-<<<<<<< HEAD
 	WLAN_STA_DECAP_OFFLOAD,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	NUM_WLAN_STA_FLAGS,
 };
@@ -449,7 +439,6 @@ struct ieee80211_sta_rx_stats {
 };
 
 /*
-<<<<<<< HEAD
  * IEEE 802.11-2016 (10.6 "Defragmentation") recommends support for "concurrent
  * reception of at least one MSDU per access category per associated STA"
  * on APs, or "at least one MSDU per access category" on other interface types.
@@ -478,8 +467,6 @@ struct ieee80211_fragment_cache {
 };
 
 /*
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * The bandwidth threshold below which the per-station CoDel parameters will be
  * scaled to be more lenient (to prevent starvation of slow stations). This
  * value will be scaled by the number of active stations when it is being
@@ -572,10 +559,7 @@ struct ieee80211_fragment_cache {
  * @status_stats.last_ack_signal: last ACK signal
  * @status_stats.ack_signal_filled: last ACK signal validity
  * @status_stats.avg_ack_signal: average ACK signal
-<<<<<<< HEAD
  * @frags: fragment cache
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct sta_info {
 	/* General information, mostly static */
@@ -684,11 +668,8 @@ struct sta_info {
 
 	struct cfg80211_chan_def tdls_chandef;
 
-<<<<<<< HEAD
 	struct ieee80211_fragment_cache frags;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* keep last! */
 	struct ieee80211_sta sta;
 };

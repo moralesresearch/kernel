@@ -627,11 +627,7 @@ err:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void debug_remove(struct amba_device *adev)
-=======
-static int debug_remove(struct amba_device *adev)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device *dev = &adev->dev;
 	struct debug_drvdata *drvdata = amba_get_drvdata(adev);
@@ -646,11 +642,6 @@ static int debug_remove(struct amba_device *adev)
 
 	if (!--debug_count)
 		debug_func_exit();
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_cs_uci_id uci_id_debug[] = {

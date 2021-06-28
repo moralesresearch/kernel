@@ -43,20 +43,14 @@ properties:
     maxItems: 2
 
   power-domains:
-<<<<<<< HEAD
     maxItems: 1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: Should contain a phandle to a PM domain provider node
       and an args specifier containing the USB device id
       value. This property is as per the binding,
       Documentation/devicetree/bindings/soc/ti/sci-pm-domain.txt
 
   phys:
-<<<<<<< HEAD
     maxItems: 1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       PHY specifier for the USB3.0 PHY. Some SoCs need the USB3.0 PHY
       to be turned on before the controller.
@@ -72,13 +66,7 @@ properties:
 
 patternProperties:
   "usb@[a-f0-9]+$":
-<<<<<<< HEAD
     $ref: snps,dwc3.yaml#
-=======
-    type: object
-    description: This is the node representing the DWC3 controller instance
-      Documentation/devicetree/bindings/usb/dwc3.txt
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 required:
   - compatible

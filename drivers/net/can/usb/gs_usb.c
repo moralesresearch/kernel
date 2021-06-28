@@ -370,11 +370,7 @@ static void gs_usb_receive_bulk_callback(struct urb *urb)
 			goto resubmit_urb;
 		}
 
-<<<<<<< HEAD
 		can_get_echo_skb(netdev, hf->echo_id, NULL);
-=======
-		can_get_echo_skb(netdev, hf->echo_id);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		gs_free_tx_context(txc);
 
@@ -529,11 +525,7 @@ static netdev_tx_t gs_can_start_xmit(struct sk_buff *skb,
 	urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 	usb_anchor_urb(urb, &dev->tx_submitted);
 
-<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, idx, 0);
-=======
-	can_put_echo_skb(skb, netdev, idx);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&dev->active_tx_urbs);
 
@@ -541,7 +533,7 @@ static netdev_tx_t gs_can_start_xmit(struct sk_buff *skb,
 	if (unlikely(rc)) {			/* usb send failed */
 		atomic_dec(&dev->active_tx_urbs);
 
-		can_free_echo_skb(netdev, idx);
+		can_free_echo_skb(netdev, idx, NULL);
 		gs_free_tx_context(txc);
 
 		usb_unanchor_urb(urb);

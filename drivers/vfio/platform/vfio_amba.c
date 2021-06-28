@@ -66,33 +66,20 @@ static int vfio_amba_probe(struct amba_device *adev, const struct amba_id *id)
 	if (ret) {
 		kfree(vdev->name);
 		kfree(vdev);
+		return ret;
 	}
 
-	return ret;
+	dev_set_drvdata(&adev->dev, vdev);
+	return 0;
 }
 
-<<<<<<< HEAD
 static void vfio_amba_remove(struct amba_device *adev)
 {
-	struct vfio_platform_device *vdev =
-		vfio_platform_remove_common(&adev->dev);
+	struct vfio_platform_device *vdev = dev_get_drvdata(&adev->dev);
 
+	vfio_platform_remove_common(vdev);
 	kfree(vdev->name);
 	kfree(vdev);
-=======
-static int vfio_amba_remove(struct amba_device *adev)
-{
-	struct vfio_platform_device *vdev;
-
-	vdev = vfio_platform_remove_common(&adev->dev);
-	if (vdev) {
-		kfree(vdev->name);
-		kfree(vdev);
-		return 0;
-	}
-
-	return -EINVAL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id pl330_ids[] = {

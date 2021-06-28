@@ -118,15 +118,12 @@ static int cachefiles_daemon_add_cache(struct cachefiles_cache *cache)
 	cache->mnt = path.mnt;
 	root = path.dentry;
 
-<<<<<<< HEAD
 	ret = -EINVAL;
 	if (mnt_user_ns(path.mnt) != &init_user_ns) {
 		pr_warn("File cache on idmapped mounts not supported");
 		goto error_unsupported;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* check parameters */
 	ret = -EOPNOTSUPP;
 	if (d_is_negative(root) ||

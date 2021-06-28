@@ -33,10 +33,10 @@
 #include "gem/i915_gem_context.h"
 #include "gt/intel_breadcrumbs.h"
 #include "gt/intel_context.h"
-<<<<<<< HEAD
+#include "gt/intel_engine.h"
+#include "gt/intel_engine_heartbeat.h"
 #include "gt/intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+#include "gt/intel_reset.h"
 #include "gt/intel_ring.h"
 #include "gt/intel_rps.h"
 
@@ -247,6 +247,50 @@ static void __i915_request_fill(struct i915_request *rq, u8 val)
 	memset(vaddr + head, val, rq->postfix - head);
 }
 
+/**
+ * i915_request_active_engine
+ * @rq: request to inspect
+ * @active: pointer in which to return the active engine
+ *
+ * Fills the currently active engine to the @active pointer if the request
+ * is active and still not completed.
+ *
+ * Returns true if request was active or false otherwise.
+ */
+bool
+i915_request_active_engine(struct i915_request *rq,
+			   struct intel_engine_cs **active)
+{
+	struct intel_engine_cs *engine, *locked;
+	bool ret = false;
+
+	/*
+	 * Serialise with __i915_request_submit() so that it sees
+	 * is-banned?, or we know the request is already inflight.
+	 *
+	 * Note that rq->engine is unstable, and so we double
+	 * check that we have acquired the lock on the final engine.
+	 */
+	locked = READ_ONCE(rq->engine);
+	spin_lock_irq(&locked->active.lock);
+	while (unlikely(locked != (engine = READ_ONCE(rq->engine)))) {
+		spin_unlock(&locked->active.lock);
+		locked = engine;
+		spin_lock(&locked->active.lock);
+	}
+
+	if (i915_request_is_active(rq)) {
+		if (!__i915_request_is_complete(rq))
+			*active = locked;
+		ret = true;
+	}
+
+	spin_unlock_irq(&locked->active.lock);
+
+	return ret;
+}
+
+
 static void remove_from_engine(struct i915_request *rq)
 {
 	struct intel_engine_cs *engine, *locked;
@@ -277,13 +321,57 @@ static void remove_from_engine(struct i915_request *rq)
 	__notify_execute_cb_imm(rq);
 }
 
+static void __rq_init_watchdog(struct i915_request *rq)
+{
+	rq->watchdog.timer.function = NULL;
+}
+
+static enum hrtimer_restart __rq_watchdog_expired(struct hrtimer *hrtimer)
+{
+	struct i915_request *rq =
+		container_of(hrtimer, struct i915_request, watchdog.timer);
+	struct intel_gt *gt = rq->engine->gt;
+
+	if (!i915_request_completed(rq)) {
+		if (llist_add(&rq->watchdog.link, &gt->watchdog.list))
+			schedule_work(&gt->watchdog.work);
+	} else {
+		i915_request_put(rq);
+	}
+
+	return HRTIMER_NORESTART;
+}
+
+static void __rq_arm_watchdog(struct i915_request *rq)
+{
+	struct i915_request_watchdog *wdg = &rq->watchdog;
+	struct intel_context *ce = rq->context;
+
+	if (!ce->watchdog.timeout_us)
+		return;
+
+	i915_request_get(rq);
+
+	hrtimer_init(&wdg->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+	wdg->timer.function = __rq_watchdog_expired;
+	hrtimer_start_range_ns(&wdg->timer,
+			       ns_to_ktime(ce->watchdog.timeout_us *
+					   NSEC_PER_USEC),
+			       NSEC_PER_MSEC,
+			       HRTIMER_MODE_REL);
+}
+
+static void __rq_cancel_watchdog(struct i915_request *rq)
+{
+	struct i915_request_watchdog *wdg = &rq->watchdog;
+
+	if (wdg->timer.function && hrtimer_try_to_cancel(&wdg->timer) > 0)
+		i915_request_put(rq);
+}
+
 bool i915_request_retire(struct i915_request *rq)
 {
-<<<<<<< HEAD
 	if (!__i915_request_is_complete(rq))
-=======
-	if (!i915_request_completed(rq))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	RQ_TRACE(rq, "\n");
@@ -291,6 +379,8 @@ bool i915_request_retire(struct i915_request *rq)
 	GEM_BUG_ON(!i915_sw_fence_signaled(&rq->submit));
 	trace_i915_request_retire(rq);
 	i915_request_mark_complete(rq);
+
+	__rq_cancel_watchdog(rq);
 
 	/*
 	 * We know the GPU must have read the request to have
@@ -314,15 +404,8 @@ bool i915_request_retire(struct i915_request *rq)
 		spin_unlock_irq(&rq->lock);
 	}
 
-<<<<<<< HEAD
 	if (test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags))
 		atomic_dec(&rq->engine->gt->rps.num_waiters);
-=======
-	if (i915_request_has_waitboost(rq)) {
-		GEM_BUG_ON(!atomic_read(&rq->engine->gt->rps.num_waiters));
-		atomic_dec(&rq->engine->gt->rps.num_waiters);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We only loosely track inflight requests across preemption,
@@ -334,12 +417,8 @@ bool i915_request_retire(struct i915_request *rq)
 	 * after removing the breadcrumb and signaling it, so that we do not
 	 * inadvertently attach the breadcrumb to a completed request.
 	 */
-<<<<<<< HEAD
 	if (!list_empty(&rq->sched.link))
 		remove_from_engine(rq);
-=======
-	remove_from_engine(rq);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GEM_BUG_ON(!llist_empty(&rq->execute_cb));
 
 	__list_del_entry(&rq->link); /* poison neither prev/next (RCU walks) */
@@ -360,12 +439,7 @@ void i915_request_retire_upto(struct i915_request *rq)
 	struct i915_request *tmp;
 
 	RQ_TRACE(rq, "\n");
-<<<<<<< HEAD
 	GEM_BUG_ON(!__i915_request_is_complete(rq));
-=======
-
-	GEM_BUG_ON(!i915_request_completed(rq));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	do {
 		tmp = list_first_entry(&tl->requests, typeof(*tmp), link);
@@ -510,11 +584,8 @@ void __i915_request_skip(struct i915_request *rq)
 	if (rq->infix == rq->postfix)
 		return;
 
-<<<<<<< HEAD
 	RQ_TRACE(rq, "error: %d\n", rq->fence.error);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * As this request likely depends on state from the lost
 	 * context, clear out all the user operations leaving the
@@ -524,36 +595,40 @@ void __i915_request_skip(struct i915_request *rq)
 	rq->infix = rq->postfix;
 }
 
-void i915_request_set_error_once(struct i915_request *rq, int error)
+bool i915_request_set_error_once(struct i915_request *rq, int error)
 {
 	int old;
 
 	GEM_BUG_ON(!IS_ERR_VALUE((long)error));
 
 	if (i915_request_signaled(rq))
-		return;
+		return false;
 
 	old = READ_ONCE(rq->fence.error);
 	do {
 		if (fatal_error(old))
-			return;
+			return false;
 	} while (!try_cmpxchg(&rq->fence.error, &old, error));
+
+	return true;
 }
 
-<<<<<<< HEAD
-void i915_request_mark_eio(struct i915_request *rq)
+struct i915_request *i915_request_mark_eio(struct i915_request *rq)
 {
 	if (__i915_request_is_complete(rq))
-		return;
+		return NULL;
 
 	GEM_BUG_ON(i915_request_signaled(rq));
 
+	/* As soon as the request is completed, it may be retired */
+	rq = i915_request_get(rq);
+
 	i915_request_set_error_once(rq, -EIO);
 	i915_request_mark_complete(rq);
+
+	return rq;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool __i915_request_submit(struct i915_request *request)
 {
 	struct intel_engine_cs *engine = request->engine;
@@ -580,19 +655,10 @@ bool __i915_request_submit(struct i915_request *request)
 	 * dropped upon retiring. (Otherwise if resubmit a *retired*
 	 * request, this would be a horrible use-after-free.)
 	 */
-<<<<<<< HEAD
 	if (__i915_request_is_complete(request)) {
 		list_del_init(&request->sched.link);
 		goto active;
 	}
-=======
-	if (i915_request_completed(request))
-		goto xfer;
-
-	if (unlikely(intel_context_is_closed(request->context) &&
-		     !intel_engine_has_heartbeat(engine)))
-		intel_context_set_banned(request->context);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(intel_context_is_banned(request->context)))
 		i915_request_set_error_once(request, -EIO);
@@ -627,19 +693,11 @@ bool __i915_request_submit(struct i915_request *request)
 	engine->serial++;
 	result = true;
 
-<<<<<<< HEAD
 	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
 	list_move_tail(&request->sched.link, &engine->active.requests);
 active:
 	clear_bit(I915_FENCE_FLAG_PQUEUE, &request->fence.flags);
 	set_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags);
-=======
-xfer:
-	if (!test_and_set_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags)) {
-		list_move_tail(&request->sched.link, &engine->active.requests);
-		clear_bit(I915_FENCE_FLAG_PQUEUE, &request->fence.flags);
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * XXX Rollback bonded-execution on __i915_request_unsubmit()?
@@ -699,11 +757,7 @@ void __i915_request_unsubmit(struct i915_request *request)
 		i915_request_cancel_breadcrumb(request);
 
 	/* We've already spun, don't charge on resubmitting. */
-<<<<<<< HEAD
 	if (request->sched.semaphores && __i915_request_has_started(request))
-=======
-	if (request->sched.semaphores && i915_request_started(request))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		request->sched.semaphores = 0;
 
 	/*
@@ -728,6 +782,28 @@ void i915_request_unsubmit(struct i915_request *request)
 	spin_unlock_irqrestore(&engine->active.lock, flags);
 }
 
+static void __cancel_request(struct i915_request *rq)
+{
+	struct intel_engine_cs *engine = NULL;
+
+	i915_request_active_engine(rq, &engine);
+
+	if (engine && intel_engine_pulse(engine))
+		intel_gt_handle_error(engine->gt, engine->mask, 0,
+				      "request cancellation by %s",
+				      current->comm);
+}
+
+void i915_request_cancel(struct i915_request *rq, int error)
+{
+	if (!i915_request_set_error_once(rq, error))
+		return;
+
+	set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
+
+	__cancel_request(rq);
+}
+
 static int __i915_sw_fence_call
 submit_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify state)
 {
@@ -740,6 +816,8 @@ submit_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify state)
 
 		if (unlikely(fence->error))
 			i915_request_set_error_once(request, fence->error);
+		else
+			__rq_arm_watchdog(request);
 
 		/*
 		 * We need to serialize use of the submit_request() callback
@@ -913,13 +991,8 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
 	rq->fence.seqno = seqno;
 
 	RCU_INIT_POINTER(rq->timeline, tl);
-	RCU_INIT_POINTER(rq->hwsp_cacheline, tl->hwsp_cacheline);
 	rq->hwsp_seqno = tl->hwsp_seqno;
-<<<<<<< HEAD
 	GEM_BUG_ON(__i915_request_is_complete(rq));
-=======
-	GEM_BUG_ON(i915_request_completed(rq));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rq->rcustate = get_state_synchronize_rcu(); /* acts as smp_mb() */
 
@@ -931,6 +1004,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
 
 	/* No zalloc, everything must be cleared after use */
 	rq->batch = NULL;
+	__rq_init_watchdog(rq);
 	GEM_BUG_ON(rq->capture_list);
 	GEM_BUG_ON(!llist_empty(&rq->execute_cb));
 
@@ -1025,7 +1099,6 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 	if (i915_request_started(signal))
 		return 0;
 
-<<<<<<< HEAD
 	/*
 	 * The caller holds a reference on @signal, but we do not serialise
 	 * against it being retired and removed from the lists.
@@ -1036,21 +1109,12 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 	 */
 	fence = NULL;
 	rcu_read_lock();
-=======
-	fence = NULL;
-	rcu_read_lock();
-	spin_lock_irq(&signal->lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		struct list_head *pos = READ_ONCE(signal->link.prev);
 		struct i915_request *prev;
 
 		/* Confirm signal has not been retired, the link is valid */
-<<<<<<< HEAD
 		if (unlikely(__i915_request_has_started(signal)))
-=======
-		if (unlikely(i915_request_started(signal)))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		/* Is signal the earliest request on its timeline? */
@@ -1075,10 +1139,6 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 
 		fence = &prev->fence;
 	} while (0);
-<<<<<<< HEAD
-=======
-	spin_unlock_irq(&signal->lock);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_unlock();
 	if (!fence)
 		return 0;
@@ -1174,9 +1234,6 @@ emit_semaphore_wait(struct i915_request *to,
 		goto await_fence;
 
 	if (i915_request_has_initial_breadcrumb(to))
-		goto await_fence;
-
-	if (!rcu_access_pointer(from->hwsp_cacheline))
 		goto await_fence;
 
 	/*
@@ -1595,11 +1652,7 @@ __i915_request_add_to_timeline(struct i915_request *rq)
 	 */
 	prev = to_request(__i915_active_fence_set(&timeline->last_request,
 						  &rq->fence));
-<<<<<<< HEAD
 	if (prev && !__i915_request_is_complete(prev)) {
-=======
-	if (prev && !i915_request_completed(prev)) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The requests are supposed to be kept in order. However,
 		 * we need to be wary in case the timeline->last_request
@@ -1670,15 +1723,12 @@ struct i915_request *__i915_request_commit(struct i915_request *rq)
 	return __i915_request_add_to_timeline(rq);
 }
 
-<<<<<<< HEAD
 void __i915_request_queue_bh(struct i915_request *rq)
 {
 	i915_sw_fence_commit(&rq->semaphore);
 	i915_sw_fence_commit(&rq->submit);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __i915_request_queue(struct i915_request *rq,
 			  const struct i915_sched_attr *attr)
 {
@@ -1695,15 +1745,10 @@ void __i915_request_queue(struct i915_request *rq,
 	 */
 	if (attr && rq->engine->schedule)
 		rq->engine->schedule(rq, attr);
-<<<<<<< HEAD
 
 	local_bh_disable();
 	__i915_request_queue_bh(rq);
 	local_bh_enable(); /* kick tasklets */
-=======
-	i915_sw_fence_commit(&rq->semaphore);
-	i915_sw_fence_commit(&rq->submit);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void i915_request_add(struct i915_request *rq)
@@ -1927,11 +1972,7 @@ long i915_request_wait(struct i915_request *rq,
 	 * for unhappy HW.
 	 */
 	if (i915_request_is_ready(rq))
-<<<<<<< HEAD
 		__intel_engine_flush_submission(rq->engine, false);
-=======
-		intel_engine_flush_submission(rq->engine);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (;;) {
 		set_current_state(state);
@@ -1963,7 +2004,6 @@ out:
 	return timeout;
 }
 
-<<<<<<< HEAD
 static int print_sched_attr(const struct i915_sched_attr *attr,
 			    char *buf, int x, int len)
 {
@@ -2064,8 +2104,6 @@ void i915_request_show(struct drm_printer *m,
 		   name);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
 #include "selftests/mock_request.c"
 #include "selftests/i915_request.c"

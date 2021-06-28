@@ -568,11 +568,7 @@ gk20a_instmem = {
 };
 
 int
-<<<<<<< HEAD
 gk20a_instmem_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
-=======
-gk20a_instmem_new(struct nvkm_device *device, int index,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  struct nvkm_instmem **pimem)
 {
 	struct nvkm_device_tegra *tdev = device->func->tegra(device);
@@ -580,11 +576,7 @@ gk20a_instmem_new(struct nvkm_device *device, int index,
 
 	if (!(imem = kzalloc(sizeof(*imem), GFP_KERNEL)))
 		return -ENOMEM;
-<<<<<<< HEAD
 	nvkm_instmem_ctor(&gk20a_instmem, device, type, inst, &imem->base);
-=======
-	nvkm_instmem_ctor(&gk20a_instmem, device, index, &imem->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_init(&imem->lock);
 	*pimem = &imem->base;
 

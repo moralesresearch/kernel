@@ -213,39 +213,17 @@ unsigned int get_c0_compare_int(void)
 
 void __init plat_mem_setup(void)
 {
-<<<<<<< HEAD
 	void *dtb;
-=======
-<<<<<<< HEAD
-	void *dtb;
-=======
-	unsigned long fdt_start;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	set_io_port_base(KSEG1);
 
 	/* Get the position of the FDT passed by the bootloader */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dtb = (void *)fw_getenvl("fdt_start");
 	if (dtb == NULL)
 		dtb = get_fdt();
 
 	if (dtb)
 		__dt_setup_arch((void *)KSEG0ADDR(dtb));
-<<<<<<< HEAD
-=======
-=======
-	fdt_start = fw_getenvl("fdt_start");
-	if (fdt_start)
-		__dt_setup_arch((void *)KSEG0ADDR(fdt_start));
-	else if (fw_passed_dtb)
-		__dt_setup_arch((void *)KSEG0ADDR(fw_passed_dtb));
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ath79_reset_base = ioremap(AR71XX_RESET_BASE,
 					   AR71XX_RESET_SIZE);

@@ -290,11 +290,7 @@ int snd_seq_event_dup(struct snd_seq_pool *pool, struct snd_seq_event *event,
 	extlen = 0;
 	if (snd_seq_ev_is_variable(event)) {
 		extlen = event->data.ext.len & ~SNDRV_SEQ_EXT_MASK;
-<<<<<<< HEAD
 		ncells = DIV_ROUND_UP(extlen, sizeof(struct snd_seq_event));
-=======
-		ncells = (extlen + sizeof(struct snd_seq_event) - 1) / sizeof(struct snd_seq_event);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (ncells >= pool->total_elements)
 		return -ENOMEM;

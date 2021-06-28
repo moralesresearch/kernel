@@ -717,11 +717,8 @@ be removed.  Switch while you still can; the old one won't stay.
 **mandatory**
 
 ->setxattr() and xattr_handler.set() get dentry and inode passed separately.
-<<<<<<< HEAD
 The xattr_handler.set() gets passed the user namespace of the mount the inode
 is seen from so filesystems can idmap the i_uid and i_gid accordingly.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 dentry might be yet to be attached to inode, so do _not_ use its ->d_inode
 in the instances.  Rationale: !@#!@# security_d_instantiate() needs to be
 called before we attach dentry to inode and !@#!@##!@$!$#!@#$!@$!@$ smack
@@ -870,7 +867,6 @@ no matter what.  Everything is handled by the caller.
 
 clone_private_mount() returns a longterm mount now, so the proper destructor of
 its result is kern_unmount() or kern_unmount_array().
-<<<<<<< HEAD
 
 ---
 
@@ -894,5 +890,3 @@ been called or returned with non -EIOCBQUEUED code.
 
 mnt_want_write_file() can now only be paired with mnt_drop_write_file(),
 whereas previously it could be paired with mnt_drop_write() as well.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

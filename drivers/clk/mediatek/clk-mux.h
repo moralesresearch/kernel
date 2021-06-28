@@ -14,10 +14,7 @@ struct mtk_clk_mux {
 	struct regmap *regmap;
 	const struct mtk_mux *data;
 	spinlock_t *lock;
-<<<<<<< HEAD
 	bool reparent;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mtk_mux {
@@ -36,28 +33,12 @@ struct mtk_mux {
 	u8 gate_shift;
 	s8 upd_shift;
 
-<<<<<<< HEAD
 	signed char num_parents;
 };
 
 #define GATE_CLR_SET_UPD_FLAGS(_id, _name, _parents, _mux_ofs,		\
 			_mux_set_ofs, _mux_clr_ofs, _shift, _width,	\
 			_gate, _upd_ofs, _upd, _flags) {		\
-=======
-	const struct clk_ops *ops;
-
-	signed char num_parents;
-};
-
-extern const struct clk_ops mtk_mux_ops;
-extern const struct clk_ops mtk_mux_clr_set_upd_ops;
-extern const struct clk_ops mtk_mux_gate_ops;
-extern const struct clk_ops mtk_mux_gate_clr_set_upd_ops;
-
-#define GATE_CLR_SET_UPD_FLAGS(_id, _name, _parents, _mux_ofs,		\
-			_mux_set_ofs, _mux_clr_ofs, _shift, _width,	\
-			_gate, _upd_ofs, _upd, _flags, _ops) {		\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.id = _id,						\
 		.name = _name,						\
 		.mux_ofs = _mux_ofs,					\
@@ -71,10 +52,6 @@ extern const struct clk_ops mtk_mux_gate_clr_set_upd_ops;
 		.parent_names = _parents,				\
 		.num_parents = ARRAY_SIZE(_parents),			\
 		.flags = _flags,					\
-<<<<<<< HEAD
-=======
-		.ops = &_ops,						\
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 #define MUX_GATE_CLR_SET_UPD_FLAGS(_id, _name, _parents, _mux_ofs,	\
@@ -82,12 +59,7 @@ extern const struct clk_ops mtk_mux_gate_clr_set_upd_ops;
 			_gate, _upd_ofs, _upd, _flags)			\
 		GATE_CLR_SET_UPD_FLAGS(_id, _name, _parents, _mux_ofs,	\
 			_mux_set_ofs, _mux_clr_ofs, _shift, _width,	\
-<<<<<<< HEAD
 			_gate, _upd_ofs, _upd, _flags)			\
-=======
-			_gate, _upd_ofs, _upd, _flags,			\
-			mtk_mux_gate_clr_set_upd_ops)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MUX_GATE_CLR_SET_UPD(_id, _name, _parents, _mux_ofs,		\
 			_mux_set_ofs, _mux_clr_ofs, _shift, _width,	\

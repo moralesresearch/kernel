@@ -30,21 +30,15 @@
 #include "intel_display_types.h"
 #include "intel_dp.h"
 #include "intel_lspcon.h"
-<<<<<<< HEAD
 #include "intel_hdmi.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* LSPCON OUI Vendor ID(signatures) */
 #define LSPCON_VENDOR_PARADE_OUI 0x001CF8
 #define LSPCON_VENDOR_MCA_OUI 0x0060AD
 
-<<<<<<< HEAD
 #define DPCD_MCA_LSPCON_HDR_STATUS	0x70003
 #define DPCD_PARADE_LSPCON_HDR_STATUS	0x00511
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* AUX addresses to write MCA AVI IF */
 #define LSPCON_MCA_AVI_IF_WRITE_OFFSET 0x5C0
 #define LSPCON_MCA_AVI_IF_CTRL 0x5DF
@@ -114,7 +108,6 @@ static bool lspcon_detect_vendor(struct intel_lspcon *lspcon)
 	return true;
 }
 
-<<<<<<< HEAD
 static u32 get_hdr_status_reg(struct intel_lspcon *lspcon)
 {
 	if (lspcon->vendor == LSPCON_VENDOR_MCA)
@@ -144,8 +137,6 @@ void lspcon_detect_hdr_capability(struct intel_lspcon *lspcon)
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
 {
 	enum drm_lspcon_mode current_mode;
@@ -460,7 +451,6 @@ void lspcon_write_infoframe(struct intel_encoder *encoder,
 			    unsigned int type,
 			    const void *frame, ssize_t len)
 {
-<<<<<<< HEAD
 	bool ret = true;
 	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
 	struct intel_lspcon *lspcon = enc_to_intel_lspcon(encoder);
@@ -487,29 +477,6 @@ void lspcon_write_infoframe(struct intel_encoder *encoder,
 		DRM_ERROR("Failed to write infoframes\n");
 		return;
 	}
-=======
-	bool ret;
-	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-	struct intel_lspcon *lspcon = enc_to_intel_lspcon(encoder);
-
-	/* LSPCON only needs AVI IF */
-	if (type != HDMI_INFOFRAME_TYPE_AVI)
-		return;
-
-	if (lspcon->vendor == LSPCON_VENDOR_MCA)
-		ret = _lspcon_write_avi_infoframe_mca(&intel_dp->aux,
-						      frame, len);
-	else
-		ret = _lspcon_write_avi_infoframe_parade(&intel_dp->aux,
-							 frame, len);
-
-	if (!ret) {
-		DRM_ERROR("Failed to write AVI infoframes\n");
-		return;
-	}
-
-	DRM_DEBUG_DRIVER("AVI infoframes updated successfully\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void lspcon_read_infoframe(struct intel_encoder *encoder,
@@ -517,14 +484,10 @@ void lspcon_read_infoframe(struct intel_encoder *encoder,
 			   unsigned int type,
 			   void *frame, ssize_t len)
 {
-<<<<<<< HEAD
 	/* FIXME implement for AVI Infoframe as well */
 	if (type == HDMI_PACKET_TYPE_GAMUT_METADATA)
 		hsw_read_infoframe(encoder, crtc_state, type,
 				   frame, len);
-=======
-	/* FIXME implement this */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void lspcon_set_infoframes(struct intel_encoder *encoder,
@@ -569,7 +532,6 @@ void lspcon_set_infoframes(struct intel_encoder *encoder,
 	else
 		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
 
-<<<<<<< HEAD
 	/* Set the Colorspace as per the HDMI spec */
 	drm_hdmi_avi_infoframe_colorspace(&frame.avi, conn_state);
 
@@ -590,14 +552,6 @@ void lspcon_set_infoframes(struct intel_encoder *encoder,
 	}
 
 	drm_hdmi_avi_infoframe_content_type(&frame.avi, conn_state);
-=======
-	drm_hdmi_avi_infoframe_quant_range(&frame.avi,
-					   conn_state->connector,
-					   adjusted_mode,
-					   crtc_state->limited_color_range ?
-					   HDMI_QUANTIZATION_RANGE_LIMITED :
-					   HDMI_QUANTIZATION_RANGE_FULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = hdmi_infoframe_pack(&frame, buf, sizeof(buf));
 	if (ret < 0) {
@@ -609,7 +563,6 @@ void lspcon_set_infoframes(struct intel_encoder *encoder,
 				  buf, ret);
 }
 
-<<<<<<< HEAD
 static bool _lspcon_read_avi_infoframe_enabled_mca(struct drm_dp_aux *aux)
 {
 	int ret;
@@ -668,13 +621,6 @@ u32 lspcon_infoframes_enabled(struct intel_encoder *encoder,
 	}
 
 	return val;
-=======
-u32 lspcon_infoframes_enabled(struct intel_encoder *encoder,
-			      const struct intel_crtc_state *pipe_config)
-{
-	/* FIXME actually read this from the hw */
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
@@ -682,11 +628,7 @@ void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
 	lspcon_wait_mode(lspcon, DRM_LSPCON_MODE_PCON);
 }
 
-<<<<<<< HEAD
 bool lspcon_init(struct intel_digital_port *dig_port)
-=======
-static bool lspcon_init(struct intel_digital_port *dig_port)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_dp *dp = &dig_port->dp;
 	struct intel_lspcon *lspcon = &dig_port->lspcon;
@@ -716,7 +658,6 @@ static bool lspcon_init(struct intel_digital_port *dig_port)
 	return true;
 }
 
-<<<<<<< HEAD
 u32 intel_lspcon_infoframes_enabled(struct intel_encoder *encoder,
 				    const struct intel_crtc_state *pipe_config)
 {
@@ -725,8 +666,6 @@ u32 intel_lspcon_infoframes_enabled(struct intel_encoder *encoder,
 	return dig_port->infoframes_enabled(encoder, pipe_config);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void lspcon_resume(struct intel_digital_port *dig_port)
 {
 	struct intel_lspcon *lspcon = &dig_port->lspcon;

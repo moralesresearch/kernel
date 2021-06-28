@@ -16,10 +16,6 @@
  * Register offsets from the data sheet must be multiplied by 4 before
  * adding them to the base address to get the right value.
  */
-<<<<<<< HEAD
-=======
-#define HHI_MIPI_CNTL0			0x00
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HHI_GP0_PLL_CNTL		0x40
 #define HHI_GP0_PLL_CNTL2		0x44
 #define HHI_GP0_PLL_CNTL3		0x48

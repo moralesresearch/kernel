@@ -429,11 +429,7 @@ nv40_gr_init(struct nvkm_gr *base)
 
 int
 nv40_gr_new_(const struct nvkm_gr_func *func, struct nvkm_device *device,
-<<<<<<< HEAD
 	     enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
-=======
-	     int index, struct nvkm_gr **pgr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv40_gr *gr;
 
@@ -442,11 +438,7 @@ nv40_gr_new_(const struct nvkm_gr_func *func, struct nvkm_device *device,
 	*pgr = &gr->base;
 	INIT_LIST_HEAD(&gr->chan);
 
-<<<<<<< HEAD
 	return nvkm_gr_ctor(func, device, type, inst, true, &gr->base);
-=======
-	return nvkm_gr_ctor(func, device, index, true, &gr->base);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct nvkm_gr_func
@@ -478,13 +470,7 @@ nv40_gr = {
 };
 
 int
-<<<<<<< HEAD
 nv40_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
 {
 	return nv40_gr_new_(&nv40_gr, device, type, inst, pgr);
-=======
-nv40_gr_new(struct nvkm_device *device, int index, struct nvkm_gr **pgr)
-{
-	return nv40_gr_new_(&nv40_gr, device, index, pgr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -36,14 +36,7 @@
 #include <linux/types.h>
 #include <linux/pinctrl/consumer.h>
 #include <linux/reset.h>
-<<<<<<< HEAD
 #include <linux/gpio/consumer.h>
-=======
-<<<<<<< HEAD
-#include <linux/gpio/consumer.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/div64.h>
 #include <asm/io.h>
@@ -1900,10 +1893,6 @@ static struct mmc_host_ops mmci_ops = {
 	.start_signal_voltage_switch = mmci_sig_volt_switch,
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mmci_probe_level_translator(struct mmc_host *mmc)
 {
 	struct device *dev = mmc_dev(mmc);
@@ -1963,11 +1952,6 @@ exit_cmd:
 	pinctrl_select_default_state(dev);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mmci_of_parse(struct device_node *np, struct mmc_host *mmc)
 {
 	struct mmci_host *host = mmc_priv(mmc);
@@ -1993,15 +1977,7 @@ static int mmci_of_parse(struct device_node *np, struct mmc_host *mmc)
 	if (of_get_property(np, "st,neg-edge", NULL))
 		host->clk_reg_add |= MCI_STM32_CLK_NEGEDGE;
 	if (of_get_property(np, "st,use-ckin", NULL))
-<<<<<<< HEAD
 		mmci_probe_level_translator(mmc);
-=======
-<<<<<<< HEAD
-		mmci_probe_level_translator(mmc);
-=======
-		host->clk_reg_add |= MCI_STM32_CLK_SELCKIN;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (of_get_property(np, "mmc-cap-mmc-highspeed", NULL))
 		mmc->caps |= MMC_CAP_MMC_HIGHSPEED;
@@ -2037,34 +2013,15 @@ static int mmci_probe(struct amba_device *dev,
 	if (!mmc)
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	ret = mmci_of_parse(np, mmc);
-	if (ret)
-		goto host_free;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	host = mmc_priv(mmc);
 	host->mmc = mmc;
 	host->mmc_ops = &mmci_ops;
 	mmc->ops = &mmci_ops;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = mmci_of_parse(np, mmc);
 	if (ret)
 		goto host_free;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Some variant (STM32) doesn't have opendrain bit, nevertheless
 	 * pins can be set accordingly using pinctrl
@@ -2306,15 +2263,7 @@ static int mmci_probe(struct amba_device *dev,
 	return ret;
 }
 
-<<<<<<< HEAD
 static void mmci_remove(struct amba_device *dev)
-=======
-<<<<<<< HEAD
-static void mmci_remove(struct amba_device *dev)
-=======
-static int mmci_remove(struct amba_device *dev)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mmc_host *mmc = amba_get_drvdata(dev);
 
@@ -2342,14 +2291,6 @@ static int mmci_remove(struct amba_device *dev)
 		clk_disable_unprepare(host->clk);
 		mmc_free_host(mmc);
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

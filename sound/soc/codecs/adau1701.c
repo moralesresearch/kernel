@@ -653,11 +653,7 @@ static struct snd_soc_dai_driver adau1701_dai = {
 		.formats = ADAU1701_FORMATS,
 	},
 	.ops = &adau1701_dai_ops,
-<<<<<<< HEAD
 	.symmetric_rate = 1,
-=======
-	.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #ifdef CONFIG_OF

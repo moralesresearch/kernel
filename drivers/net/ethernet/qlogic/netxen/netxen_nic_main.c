@@ -243,13 +243,8 @@ static int nx_set_dma_mask(struct netxen_adapter *adapter)
 		cmask = mask;
 	}
 
-<<<<<<< HEAD
 	if (dma_set_mask(&pdev->dev, mask) == 0 &&
 	    dma_set_coherent_mask(&pdev->dev, cmask) == 0) {
-=======
-	if (pci_set_dma_mask(pdev, mask) == 0 &&
-		pci_set_consistent_dma_mask(pdev, cmask) == 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		adapter->pci_using_dac = 1;
 		return 0;
 	}
@@ -282,21 +277,13 @@ nx_update_dma_mask(struct netxen_adapter *adapter)
 
 		mask = DMA_BIT_MASK(32+shift);
 
-<<<<<<< HEAD
 		err = dma_set_mask(&pdev->dev, mask);
-=======
-		err = pci_set_dma_mask(pdev, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto err_out;
 
 		if (NX_IS_REVISION_P3(adapter->ahw.revision_id)) {
 
-<<<<<<< HEAD
 			err = dma_set_coherent_mask(&pdev->dev, mask);
-=======
-			err = pci_set_consistent_dma_mask(pdev, mask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err)
 				goto err_out;
 		}
@@ -306,13 +293,8 @@ nx_update_dma_mask(struct netxen_adapter *adapter)
 	return 0;
 
 err_out:
-<<<<<<< HEAD
 	dma_set_mask(&pdev->dev, old_mask);
 	dma_set_coherent_mask(&pdev->dev, old_cmask);
-=======
-	pci_set_dma_mask(pdev, old_mask);
-	pci_set_consistent_dma_mask(pdev, old_cmask);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -1620,11 +1602,8 @@ err_out_free_netdev:
 	free_netdev(netdev);
 
 err_out_free_res:
-<<<<<<< HEAD
 	if (NX_IS_REVISION_P3(pdev->revision))
 		pci_disable_pcie_error_reporting(pdev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_release_regions(pdev);
 
 err_out_disable_pdev:
@@ -2001,15 +1980,9 @@ netxen_map_tx_skb(struct pci_dev *pdev,
 	nr_frags = skb_shinfo(skb)->nr_frags;
 	nf = &pbuf->frag_array[0];
 
-<<<<<<< HEAD
 	map = dma_map_single(&pdev->dev, skb->data, skb_headlen(skb),
 			     DMA_TO_DEVICE);
 	if (dma_mapping_error(&pdev->dev, map))
-=======
-	map = pci_map_single(pdev, skb->data,
-			skb_headlen(skb), PCI_DMA_TODEVICE);
-	if (pci_dma_mapping_error(pdev, map))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out_err;
 
 	nf->dma = map;
@@ -2033,20 +2006,12 @@ netxen_map_tx_skb(struct pci_dev *pdev,
 unwind:
 	while (--i >= 0) {
 		nf = &pbuf->frag_array[i+1];
-<<<<<<< HEAD
 		dma_unmap_page(&pdev->dev, nf->dma, nf->length, DMA_TO_DEVICE);
-=======
-		pci_unmap_page(pdev, nf->dma, nf->length, PCI_DMA_TODEVICE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nf->dma = 0ULL;
 	}
 
 	nf = &pbuf->frag_array[0];
-<<<<<<< HEAD
 	dma_unmap_single(&pdev->dev, nf->dma, skb_headlen(skb), DMA_TO_DEVICE);
-=======
-	pci_unmap_single(pdev, nf->dma, skb_headlen(skb), PCI_DMA_TODEVICE);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nf->dma = 0ULL;
 
 out_err:

@@ -647,11 +647,7 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
 		return PTR_ERR(opp);
 	}
 
-<<<<<<< HEAD
 	ret = dev_pm_opp_set_opp(dev, opp);
-=======
-	ret = dev_pm_opp_set_bw(dev, opp);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_pm_opp_put(opp);
 
 	return ret;
@@ -853,11 +849,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
 		return err;
 	}
 
-<<<<<<< HEAD
 	err = dev_pm_opp_of_add_table_noclk(&pdev->dev, 0);
-=======
-	err = dev_pm_opp_of_add_table(&pdev->dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
 		goto put_hw;

@@ -47,6 +47,8 @@
 #include "util/util.h"
 #include "util/pfm.h"
 #include "util/clockid.h"
+#include "util/pmu-hybrid.h"
+#include "util/evlist-hybrid.h"
 #include "asm/bug.h"
 #include "perf.h"
 
@@ -102,14 +104,7 @@ struct record {
 	bool			no_buildid_cache;
 	bool			no_buildid_cache_set;
 	bool			buildid_all;
-<<<<<<< HEAD
 	bool			buildid_mmap;
-=======
-<<<<<<< HEAD
-	bool			buildid_mmap;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool			timestamp_filename;
 	bool			timestamp_boundary;
 	struct switch_output	switch_output;
@@ -738,16 +733,8 @@ static int record__auxtrace_init(struct record *rec)
 	if (err)
 		return err;
 
-<<<<<<< HEAD
 	auxtrace_regroup_aux_output(rec->evlist);
 
-=======
-<<<<<<< HEAD
-	auxtrace_regroup_aux_output(rec->evlist);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return auxtrace_parse_filters(rec->evlist);
 }
 
@@ -1618,6 +1605,32 @@ static void hit_auxtrace_snapshot_trigger(struct record *rec)
 	}
 }
 
+static void record__uniquify_name(struct record *rec)
+{
+	struct evsel *pos;
+	struct evlist *evlist = rec->evlist;
+	char *new_name;
+	int ret;
+
+	if (!perf_pmu__has_hybrid())
+		return;
+
+	evlist__for_each_entry(evlist, pos) {
+		if (!evsel__is_hybrid(pos))
+			continue;
+
+		if (strchr(pos->name, '/'))
+			continue;
+
+		ret = asprintf(&new_name, "%s/%s/",
+			       pos->pmu_name, pos->name);
+		if (ret) {
+			free(pos->name);
+			pos->name = new_name;
+		}
+	}
+}
+
 static int __cmd_record(struct record *rec, int argc, const char **argv)
 {
 	int err;
@@ -1721,6 +1734,8 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 	 */
 	if (data->is_pipe && rec->evlist->core.nr_entries == 1)
 		rec->opts.sample_id = true;
+
+	record__uniquify_name(rec);
 
 	if (record__open(rec) != 0) {
 		err = -1;
@@ -1955,26 +1970,10 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 
 		if (evlist__ctlfd_process(rec->evlist, &cmd) > 0) {
 			switch (cmd) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-			case EVLIST_CTL_CMD_ENABLE:
-				pr_info(EVLIST_ENABLED_MSG);
-				break;
-			case EVLIST_CTL_CMD_DISABLE:
-				pr_info(EVLIST_DISABLED_MSG);
-				break;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case EVLIST_CTL_CMD_SNAPSHOT:
 				hit_auxtrace_snapshot_trigger(rec);
 				evlist__ctlfd_ack(rec->evlist);
 				break;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case EVLIST_CTL_CMD_STOP:
 				done = 1;
 				break;
@@ -1984,13 +1983,6 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 			case EVLIST_CTL_CMD_DISABLE:
 			case EVLIST_CTL_CMD_EVLIST:
 			case EVLIST_CTL_CMD_PING:
-<<<<<<< HEAD
-=======
-=======
-			case EVLIST_CTL_CMD_ACK:
-			case EVLIST_CTL_CMD_UNSUPPORTED:
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			default:
 				break;
 			}
@@ -2015,9 +2007,13 @@ static int __cmd_record(struct record *rec, int argc, const char **argv)
 		record__auxtrace_snapshot_exit(rec);
 
 	if (forks && workload_exec_errno) {
-		char msg[STRERR_BUFSIZE];
+		char msg[STRERR_BUFSIZE], strevsels[2048];
 		const char *emsg = str_error_r(workload_exec_errno, msg, sizeof(msg));
-		pr_err("Workload failed: %s\n", emsg);
+
+		evlist__scnprintf_evsels(rec->evlist, sizeof(strevsels), strevsels);
+
+		pr_err("Failed to collect '%s' for the '%s' workload: %s\n",
+			strevsels, argv[0], emsg);
 		err = -1;
 		goto out_child;
 	}
@@ -2177,16 +2173,8 @@ static int perf_record_config(const char *var, const char *value, void *cb)
 			rec->no_buildid_cache = true;
 		else if (!strcmp(value, "skip"))
 			rec->no_buildid = true;
-<<<<<<< HEAD
 		else if (!strcmp(value, "mmap"))
 			rec->buildid_mmap = true;
-=======
-<<<<<<< HEAD
-		else if (!strcmp(value, "mmap"))
-			rec->buildid_mmap = true;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		else
 			return -1;
 		return 0;
@@ -2526,16 +2514,8 @@ static struct option __record_options[] = {
 		    "Record the sample physical addresses"),
 	OPT_BOOLEAN(0, "data-page-size", &record.opts.sample_data_page_size,
 		    "Record the sampled data address data page size"),
-<<<<<<< HEAD
 	OPT_BOOLEAN(0, "code-page-size", &record.opts.sample_code_page_size,
 		    "Record the sampled code address (ip) page size"),
-=======
-<<<<<<< HEAD
-	OPT_BOOLEAN(0, "code-page-size", &record.opts.sample_code_page_size,
-		    "Record the sampled code address (ip) page size"),
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN(0, "sample-cpu", &record.opts.sample_cpu, "Record the sample cpu"),
 	OPT_BOOLEAN_SET('T', "timestamp", &record.opts.sample_time,
 			&record.opts.sample_time_set,
@@ -2614,16 +2594,8 @@ static struct option __record_options[] = {
 		   "file", "vmlinux pathname"),
 	OPT_BOOLEAN(0, "buildid-all", &record.buildid_all,
 		    "Record build-id of all DSOs regardless of hits"),
-<<<<<<< HEAD
 	OPT_BOOLEAN(0, "buildid-mmap", &record.buildid_mmap,
 		    "Record build-id in map events"),
-=======
-<<<<<<< HEAD
-	OPT_BOOLEAN(0, "buildid-mmap", &record.buildid_mmap,
-		    "Record build-id in map events"),
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_BOOLEAN(0, "timestamp-filename", &record.timestamp_filename,
 		    "append timestamp to output filename"),
 	OPT_BOOLEAN(0, "timestamp-boundary", &record.timestamp_boundary,
@@ -2727,10 +2699,6 @@ int cmd_record(int argc, const char **argv)
 
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rec->buildid_mmap) {
 		if (!perf_can_record_build_id()) {
 			pr_err("Failed: no support to record build id in mmap events, update your kernel.\n");
@@ -2746,11 +2714,12 @@ int cmd_record(int argc, const char **argv)
 		rec->no_buildid = true;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	if (rec->opts.record_cgroup && !perf_can_record_cgroup()) {
+		pr_err("Kernel has no cgroup sampling support.\n");
+		err = -EINVAL;
+		goto out_opts;
+	}
+
 	if (rec->opts.kcore)
 		rec->data.is_dir = true;
 
@@ -2857,10 +2826,19 @@ int cmd_record(int argc, const char **argv)
 	if (record.opts.overwrite)
 		record.opts.tail_synthesize = true;
 
-	if (rec->evlist->core.nr_entries == 0 &&
-	    __evlist__add_default(rec->evlist, !record.opts.no_samples) < 0) {
-		pr_err("Not enough memory for event selector list\n");
-		goto out;
+	if (rec->evlist->core.nr_entries == 0) {
+		if (perf_pmu__has_hybrid()) {
+			err = evlist__add_default_hybrid(rec->evlist,
+							 !record.opts.no_samples);
+		} else {
+			err = __evlist__add_default(rec->evlist,
+						    !record.opts.no_samples);
+		}
+
+		if (err < 0) {
+			pr_err("Not enough memory for event selector list\n");
+			goto out;
+		}
 	}
 
 	if (rec->opts.target.tid && !rec->opts.no_inherit_set)

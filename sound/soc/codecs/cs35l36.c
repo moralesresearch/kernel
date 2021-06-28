@@ -995,11 +995,7 @@ static struct snd_soc_dai_driver cs35l36_dai[] = {
 			.formats = CS35L36_TX_FORMATS,
 		},
 		.ops = &cs35l36_ops,
-<<<<<<< HEAD
 		.symmetric_rate = 1,
-=======
-		.symmetric_rates = 1,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -1725,7 +1721,7 @@ static int cs35l36_i2c_probe(struct i2c_client *i2c_client,
 	if (IS_ERR(cs35l36->regmap)) {
 		ret = PTR_ERR(cs35l36->regmap);
 		dev_err(dev, "regmap_init() failed: %d\n", ret);
-		goto err;
+		return ret;
 	}
 
 	cs35l36->num_supplies = ARRAY_SIZE(cs35l36_supplies);

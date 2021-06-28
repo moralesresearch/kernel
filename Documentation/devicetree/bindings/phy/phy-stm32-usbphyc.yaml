@@ -45,15 +45,16 @@ properties:
   "#size-cells":
     const: 0
 
-<<<<<<< HEAD
   vdda1v1-supply:
     description: regulator providing 1V1 power supply to the PLL block
 
   vdda1v8-supply:
     description: regulator providing 1V8 power supply to the PLL block
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+  '#clock-cells':
+    description: number of clock cells for ck_usbo_48m consumer
+    const: 0
+
 #Required child nodes:
 
 patternProperties:
@@ -70,15 +71,6 @@ patternProperties:
       phy-supply:
         description: regulator providing 3V3 power supply to the PHY.
 
-<<<<<<< HEAD
-=======
-      vdda1v1-supply:
-        description: regulator providing 1V1 power supply to the PLL block
-
-      vdda1v8-supply:
-        description: regulator providing 1V8 power supply to the PLL block
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       "#phy-cells":
         enum: [ 0x0, 0x1 ]
 
@@ -102,11 +94,6 @@ patternProperties:
     required:
       - reg
       - phy-supply
-<<<<<<< HEAD
-=======
-      - vdda1v1-supply
-      - vdda1v8-supply
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - "#phy-cells"
 
     additionalProperties: false
@@ -117,11 +104,8 @@ required:
   - clocks
   - "#address-cells"
   - "#size-cells"
-<<<<<<< HEAD
   - vdda1v1-supply
   - vdda1v8-supply
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   - usb-phy@0
   - usb-phy@1
 
@@ -136,33 +120,21 @@ examples:
         reg = <0x5a006000 0x1000>;
         clocks = <&rcc USBPHY_K>;
         resets = <&rcc USBPHY_R>;
-<<<<<<< HEAD
         vdda1v1-supply = <&reg11>;
         vdda1v8-supply = <&reg18>;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         #address-cells = <1>;
         #size-cells = <0>;
+        #clock-cells = <0>;
 
         usbphyc_port0: usb-phy@0 {
             reg = <0>;
             phy-supply = <&vdd_usb>;
-<<<<<<< HEAD
-=======
-            vdda1v1-supply = <&reg11>;
-            vdda1v8-supply = <&reg18>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             #phy-cells = <0>;
         };
 
         usbphyc_port1: usb-phy@1 {
             reg = <1>;
             phy-supply = <&vdd_usb>;
-<<<<<<< HEAD
-=======
-            vdda1v1-supply = <&reg11>;
-            vdda1v8-supply = <&reg18>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             #phy-cells = <1>;
         };
     };

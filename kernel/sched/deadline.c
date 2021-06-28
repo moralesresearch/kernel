@@ -245,7 +245,7 @@ static void dl_change_utilization(struct task_struct *p, u64 new_bw)
 		p->dl.dl_non_contending = 0;
 		/*
 		 * If the timer handler is currently running and the
-		 * timer cannot be cancelled, inactive_task_timer()
+		 * timer cannot be canceled, inactive_task_timer()
 		 * will see that dl_not_contending is not set, and
 		 * will not touch the rq's active utilization,
 		 * so we are still safe.
@@ -267,7 +267,7 @@ static void dl_change_utilization(struct task_struct *p, u64 new_bw)
  * fires.
  *
  * If the task wakes up again before the inactive timer fires,
- * the timer is cancelled, whereas if the task wakes up after the
+ * the timer is canceled, whereas if the task wakes up after the
  * inactive timer fired (and running_bw has been decreased) the
  * task's utilization has to be added to running_bw again.
  * A flag in the deadline scheduling entity (dl_non_contending)
@@ -385,7 +385,7 @@ static void task_contending(struct sched_dl_entity *dl_se, int flags)
 		dl_se->dl_non_contending = 0;
 		/*
 		 * If the timer handler is currently running and the
-		 * timer cannot be cancelled, inactive_task_timer()
+		 * timer cannot be canceled, inactive_task_timer()
 		 * will see that dl_not_contending is not set, and
 		 * will not touch the rq's active utilization,
 		 * so we are still safe.
@@ -517,7 +517,6 @@ static void dec_dl_migration(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
 	update_dl_migration(dl_rq);
 }
 
-<<<<<<< HEAD
 #define __node_2_pdl(node) \
 	rb_entry((node), struct task_struct, pushable_dl_tasks)
 
@@ -526,15 +525,12 @@ static inline bool __pushable_less(struct rb_node *a, const struct rb_node *b)
 	return dl_entity_preempt(&__node_2_pdl(a)->dl, &__node_2_pdl(b)->dl);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * The list of pushable -deadline task is not a plist, like in
  * sched_rt.c, it is an rb-tree with tasks ordered by deadline.
  */
 static void enqueue_pushable_dl_task(struct rq *rq, struct task_struct *p)
 {
-<<<<<<< HEAD
 	struct rb_node *leftmost;
 
 	BUG_ON(!RB_EMPTY_NODE(&p->pushable_dl_tasks));
@@ -544,66 +540,21 @@ static void enqueue_pushable_dl_task(struct rq *rq, struct task_struct *p)
 				 __pushable_less);
 	if (leftmost)
 		rq->dl.earliest_dl.next = p->dl.deadline;
-=======
-	struct dl_rq *dl_rq = &rq->dl;
-	struct rb_node **link = &dl_rq->pushable_dl_tasks_root.rb_root.rb_node;
-	struct rb_node *parent = NULL;
-	struct task_struct *entry;
-	bool leftmost = true;
-
-	BUG_ON(!RB_EMPTY_NODE(&p->pushable_dl_tasks));
-
-	while (*link) {
-		parent = *link;
-		entry = rb_entry(parent, struct task_struct,
-				 pushable_dl_tasks);
-		if (dl_entity_preempt(&p->dl, &entry->dl))
-			link = &parent->rb_left;
-		else {
-			link = &parent->rb_right;
-			leftmost = false;
-		}
-	}
-
-	if (leftmost)
-		dl_rq->earliest_dl.next = p->dl.deadline;
-
-	rb_link_node(&p->pushable_dl_tasks, parent, link);
-	rb_insert_color_cached(&p->pushable_dl_tasks,
-			       &dl_rq->pushable_dl_tasks_root, leftmost);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void dequeue_pushable_dl_task(struct rq *rq, struct task_struct *p)
 {
 	struct dl_rq *dl_rq = &rq->dl;
-<<<<<<< HEAD
 	struct rb_root_cached *root = &dl_rq->pushable_dl_tasks_root;
 	struct rb_node *leftmost;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (RB_EMPTY_NODE(&p->pushable_dl_tasks))
 		return;
 
-<<<<<<< HEAD
 	leftmost = rb_erase_cached(&p->pushable_dl_tasks, root);
 	if (leftmost)
 		dl_rq->earliest_dl.next = __node_2_pdl(leftmost)->dl.deadline;
 
-=======
-	if (dl_rq->pushable_dl_tasks_root.rb_leftmost == &p->pushable_dl_tasks) {
-		struct rb_node *next_node;
-
-		next_node = rb_next(&p->pushable_dl_tasks);
-		if (next_node) {
-			dl_rq->earliest_dl.next = rb_entry(next_node,
-				struct task_struct, pushable_dl_tasks)->dl.deadline;
-		}
-	}
-
-	rb_erase_cached(&p->pushable_dl_tasks, &dl_rq->pushable_dl_tasks_root);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RB_CLEAR_NODE(&p->pushable_dl_tasks);
 }
 
@@ -1255,7 +1206,7 @@ extern bool sched_rt_bandwidth_account(struct rt_rq *rt_rq);
  * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
  * multiplied by 2^BW_SHIFT, the result has to be shifted right by
  * BW_SHIFT.
- * Since rq->dl.bw_ratio contains 1 / Umax multipled by 2^RATIO_SHIFT,
+ * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT,
  * dl_bw is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
  * Since delta is a 64 bit variable, to have an overflow its value
  * should be larger than 2^(64 - 20 - 8), which is more than 64 seconds.
@@ -1513,7 +1464,6 @@ void dec_dl_tasks(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
 	dec_dl_migration(dl_se, dl_rq);
 }
 
-<<<<<<< HEAD
 #define __node_2_dle(node) \
 	rb_entry((node), struct sched_dl_entity, rb_node)
 
@@ -1529,31 +1479,6 @@ static void __enqueue_dl_entity(struct sched_dl_entity *dl_se)
 	BUG_ON(!RB_EMPTY_NODE(&dl_se->rb_node));
 
 	rb_add_cached(&dl_se->rb_node, &dl_rq->root, __dl_less);
-=======
-static void __enqueue_dl_entity(struct sched_dl_entity *dl_se)
-{
-	struct dl_rq *dl_rq = dl_rq_of_se(dl_se);
-	struct rb_node **link = &dl_rq->root.rb_root.rb_node;
-	struct rb_node *parent = NULL;
-	struct sched_dl_entity *entry;
-	int leftmost = 1;
-
-	BUG_ON(!RB_EMPTY_NODE(&dl_se->rb_node));
-
-	while (*link) {
-		parent = *link;
-		entry = rb_entry(parent, struct sched_dl_entity, rb_node);
-		if (dl_time_before(dl_se->deadline, entry->deadline))
-			link = &parent->rb_left;
-		else {
-			link = &parent->rb_right;
-			leftmost = 0;
-		}
-	}
-
-	rb_link_node(&dl_se->rb_node, parent, link);
-	rb_insert_color_cached(&dl_se->rb_node, &dl_rq->root, leftmost);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	inc_dl_tasks(dl_se, dl_rq);
 }
@@ -1566,10 +1491,7 @@ static void __dequeue_dl_entity(struct sched_dl_entity *dl_se)
 		return;
 
 	rb_erase_cached(&dl_se->rb_node, &dl_rq->root);
-<<<<<<< HEAD
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RB_CLEAR_NODE(&dl_se->rb_node);
 
 	dec_dl_tasks(dl_se, dl_rq);
@@ -1815,7 +1737,7 @@ static void migrate_task_rq_dl(struct task_struct *p, int new_cpu __maybe_unused
 		p->dl.dl_non_contending = 0;
 		/*
 		 * If the timer handler is currently running and the
-		 * timer cannot be cancelled, inactive_task_timer()
+		 * timer cannot be canceled, inactive_task_timer()
 		 * will see that dl_not_contending is not set, and
 		 * will not touch the rq's active utilization,
 		 * so we are still safe.
@@ -1910,11 +1832,7 @@ static void set_next_task_dl(struct rq *rq, struct task_struct *p, bool first)
 	if (!first)
 		return;
 
-<<<<<<< HEAD
 	if (hrtick_enabled_dl(rq))
-=======
-	if (hrtick_enabled(rq))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		start_hrtick_dl(rq, p);
 
 	if (rq->curr->sched_class != &dl_sched_class)
@@ -1977,11 +1895,7 @@ static void task_tick_dl(struct rq *rq, struct task_struct *p, int queued)
 	 * not being the leftmost task anymore. In that case NEED_RESCHED will
 	 * be set and schedule() will start a new hrtick for the next task.
 	 */
-<<<<<<< HEAD
 	if (hrtick_enabled_dl(rq) && queued && p->dl.runtime > 0 &&
-=======
-	if (hrtick_enabled(rq) && queued && p->dl.runtime > 0 &&
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    is_leftmost(p, &rq->dl))
 		start_hrtick_dl(rq, p);
 }
@@ -2474,7 +2388,6 @@ void dl_add_task_root_domain(struct task_struct *p)
 	struct rq *rq;
 	struct dl_bw *dl_b;
 
-<<<<<<< HEAD
 	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
 	if (!dl_task(p)) {
 		raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
@@ -2482,11 +2395,6 @@ void dl_add_task_root_domain(struct task_struct *p)
 	}
 
 	rq = __task_rq_lock(p, &rf);
-=======
-	rq = task_rq_lock(p, &rf);
-	if (!dl_task(p))
-		goto unlock;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dl_b = &rq->rd->dl_bw;
 	raw_spin_lock(&dl_b->lock);
@@ -2495,10 +2403,6 @@ void dl_add_task_root_domain(struct task_struct *p)
 
 	raw_spin_unlock(&dl_b->lock);
 
-<<<<<<< HEAD
-=======
-unlock:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	task_rq_unlock(rq, p, &rf);
 }
 
@@ -2592,11 +2496,7 @@ static void switched_to_dl(struct rq *rq, struct task_struct *p)
 static void prio_changed_dl(struct rq *rq, struct task_struct *p,
 			    int oldprio)
 {
-<<<<<<< HEAD
 	if (task_on_rq_queued(p) || task_current(rq, p)) {
-=======
-	if (task_on_rq_queued(p) || rq->curr == p) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 		/*
 		 * This might be too much, but unfortunately
@@ -2845,7 +2745,7 @@ void __getparam_dl(struct task_struct *p, struct sched_attr *attr)
 
 /*
  * Default limits for DL period; on the top end we guard against small util
- * tasks still getting rediculous long effective runtimes, on the bottom end we
+ * tasks still getting ridiculously long effective runtimes, on the bottom end we
  * guard against timer DoS.
  */
 unsigned int sysctl_sched_dl_period_max = 1 << 22; /* ~4 seconds */

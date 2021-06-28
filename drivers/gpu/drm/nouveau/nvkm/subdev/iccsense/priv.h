@@ -22,11 +22,6 @@ struct nvkm_iccsense_rail {
 	u8 mohm;
 };
 
-<<<<<<< HEAD
 void nvkm_iccsense_ctor(struct nvkm_device *, enum nvkm_subdev_type, int, struct nvkm_iccsense *);
 int nvkm_iccsense_new_(struct nvkm_device *, enum nvkm_subdev_type, int, struct nvkm_iccsense **);
-=======
-void nvkm_iccsense_ctor(struct nvkm_device *, int, struct nvkm_iccsense *);
-int nvkm_iccsense_new_(struct nvkm_device *, int, struct nvkm_iccsense **);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

@@ -28,10 +28,7 @@
 #include <linux/v4l2-mediabus.h>
 #include <media/v4l2-fwnode.h>
 #include <media/v4l2-device.h>
-<<<<<<< HEAD
 #include <uapi/linux/ccs.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "ccs.h"
 
@@ -386,7 +383,6 @@ static int ccs_pll_configure(struct ccs_sensor *sensor)
 	if (rval < 0)
 		return rval;
 
-<<<<<<< HEAD
 	if (!(CCS_LIM(sensor, PHY_CTRL_CAPABILITY) &
 	      CCS_PHY_CTRL_CAPABILITY_AUTO_PHY_CTL)) {
 		/* Lane op clock ratio does not apply here. */
@@ -403,17 +399,6 @@ static int ccs_pll_configure(struct ccs_sensor *sensor)
 
 	if (sensor->pll.flags & CCS_PLL_FLAG_NO_OP_CLOCKS)
 		return 0;
-=======
-	/* Lane op clock ratio does not apply here. */
-	rval = ccs_write(sensor, REQUESTED_LINK_RATE,
-			 DIV_ROUND_UP(pll->op_bk.sys_clk_freq_hz,
-				      1000000 / 256 / 256) *
-			 (pll->flags & CCS_PLL_FLAG_LANE_SPEED_MODEL ?
-			  sensor->pll.csi2.lanes : 1) <<
-			 (pll->flags & CCS_PLL_FLAG_OP_SYS_DDR ? 1 : 0));
-	if (rval < 0 || sensor->pll.flags & CCS_PLL_FLAG_NO_OP_CLOCKS)
-		return rval;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rval = ccs_write(sensor, OP_PIX_CLK_DIV, pll->op_bk.pix_clk_div);
 	if (rval < 0)
@@ -694,7 +679,6 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
 		rval = ccs_write(sensor, ANALOG_GAIN_CODE_GLOBAL, ctrl->val);
 
 		break;
-<<<<<<< HEAD
 
 	case V4L2_CID_CCS_ANALOGUE_LINEAR_GAIN:
 		rval = ccs_write(sensor, ANALOG_LINEAR_GAIN_GLOBAL, ctrl->val);
@@ -738,8 +722,6 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
 				      ctrl->val);
 
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_EXPOSURE:
 		rval = ccs_write(sensor, COARSE_INTEGRATION_TIME, ctrl->val);
 
@@ -782,7 +764,6 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
 		rval = ccs_write(sensor, TEST_DATA_GREENB, ctrl->val);
 
 		break;
-<<<<<<< HEAD
 	case V4L2_CID_CCS_SHADING_CORRECTION:
 		rval = ccs_write(sensor, SHADING_CORRECTION_EN,
 				 ctrl->val ? CCS_SHADING_CORRECTION_EN_ENABLE :
@@ -796,8 +777,6 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
 		rval = ccs_write(sensor, LUMINANCE_CORRECTION_LEVEL, ctrl->val);
 
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case V4L2_CID_PIXEL_RATE:
 		/* For v4l2_ctrl_s_ctrl_int64() used internally. */
 		rval = 0;
@@ -824,17 +803,12 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
 	int rval;
 
-<<<<<<< HEAD
 	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 17);
-=======
-	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 12);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rval)
 		return rval;
 
 	sensor->pixel_array->ctrl_handler.lock = &sensor->mutex;
 
-<<<<<<< HEAD
 	switch (CCS_LIM(sensor, ANALOG_GAIN_CAPABILITY)) {
 	case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL: {
 		struct {
@@ -967,15 +941,6 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
 				  max(CCS_LIM(sensor, DIGITAL_GAIN_STEP_SIZE),
 				      1U),
 				  0x100);
-=======
-	sensor->analog_gain = v4l2_ctrl_new_std(
-		&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-		V4L2_CID_ANALOGUE_GAIN,
-		CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN),
-		CCS_LIM(sensor, ANALOG_GAIN_CODE_MAX),
-		max(CCS_LIM(sensor, ANALOG_GAIN_CODE_STEP), 1U),
-		CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Exposure limits will be updated soon, use just something here. */
 	sensor->exposure = v4l2_ctrl_new_std(
@@ -1225,11 +1190,7 @@ static void ccs_update_blanking(struct ccs_sensor *sensor)
 {
 	struct v4l2_ctrl *vblank = sensor->vblank;
 	struct v4l2_ctrl *hblank = sensor->hblank;
-<<<<<<< HEAD
 	u16 min_fll, max_fll, min_llp, max_llp, min_lbp;
-=======
-	uint16_t min_fll, max_fll, min_llp, max_llp, min_lbp;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int min, max;
 
 	if (sensor->binning_vertical > 1 || sensor->binning_horizontal > 1) {
@@ -1550,7 +1511,6 @@ static int ccs_write_msr_regs(struct ccs_sensor *sensor)
 				   sensor->mdata.num_module_manufacturer_regs);
 }
 
-<<<<<<< HEAD
 static int ccs_update_phy_ctrl(struct ccs_sensor *sensor)
 {
 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
@@ -1573,8 +1533,6 @@ static int ccs_update_phy_ctrl(struct ccs_sensor *sensor)
 	return ccs_write(sensor, PHY_CTRL, val);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ccs_power_on(struct device *dev)
 {
 	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
@@ -1586,10 +1544,6 @@ static int ccs_power_on(struct device *dev)
 	struct ccs_sensor *sensor =
 		container_of(ssd, struct ccs_sensor, ssds[0]);
 	const struct ccs_device *ccsdev = device_get_match_data(dev);
-<<<<<<< HEAD
-=======
-	unsigned int sleep;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rval;
 
 	rval = regulator_bulk_enable(ARRAY_SIZE(ccs_regulators),
@@ -1599,7 +1553,6 @@ static int ccs_power_on(struct device *dev)
 		return rval;
 	}
 
-<<<<<<< HEAD
 	if (sensor->reset || sensor->xshutdown || sensor->ext_clk) {
 		unsigned int sleep;
 
@@ -1619,23 +1572,6 @@ static int ccs_power_on(struct device *dev)
 
 		usleep_range(sleep, sleep);
 	}
-=======
-	rval = clk_prepare_enable(sensor->ext_clk);
-	if (rval < 0) {
-		dev_dbg(dev, "failed to enable xclk\n");
-		goto out_xclk_fail;
-	}
-
-	gpiod_set_value(sensor->reset, 0);
-	gpiod_set_value(sensor->xshutdown, 1);
-
-	if (ccsdev->flags & CCS_DEVICE_FLAG_IS_SMIA)
-		sleep = SMIAPP_RESET_DELAY(sensor->hwcfg.ext_clk);
-	else
-		sleep = 5000;
-
-	usleep_range(sleep, sleep);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Failures to respond to the address change command have been noticed.
@@ -1648,7 +1584,6 @@ static int ccs_power_on(struct device *dev)
 	 * is found.
 	 */
 
-<<<<<<< HEAD
 	if (!sensor->reset && !sensor->xshutdown) {
 		u8 retry = 100;
 		u32 reset;
@@ -1670,20 +1605,6 @@ static int ccs_power_on(struct device *dev)
 
 		if (!reset)
 			return -EIO;
-=======
-	if (sensor->hwcfg.i2c_addr_alt) {
-		rval = ccs_change_cci_addr(sensor);
-		if (rval) {
-			dev_err(dev, "cci address change error\n");
-			goto out_cci_addr_fail;
-		}
-	}
-
-	rval = ccs_write(sensor, SOFTWARE_RESET, CCS_SOFTWARE_RESET_ON);
-	if (rval < 0) {
-		dev_err(dev, "software reset failed\n");
-		goto out_cci_addr_fail;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (sensor->hwcfg.i2c_addr_alt) {
@@ -1728,12 +1649,7 @@ static int ccs_power_on(struct device *dev)
 		goto out_cci_addr_fail;
 	}
 
-<<<<<<< HEAD
 	rval = ccs_update_phy_ctrl(sensor);
-=======
-	/* DPHY control done by sensor based on requested link rate */
-	rval = ccs_write(sensor, PHY_CTRL, CCS_PHY_CTRL_UI);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rval < 0)
 		goto out_cci_addr_fail;
 
@@ -3214,12 +3130,8 @@ static int ccs_get_hwconfig(struct ccs_sensor *sensor, struct device *dev)
 	int i;
 	int rval;
 
-<<<<<<< HEAD
 	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0,
 					     FWNODE_GRAPH_ENDPOINT_NEXT);
-=======
-	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ep)
 		return -ENODEV;
 
@@ -3391,14 +3303,11 @@ static int ccs_probe(struct i2c_client *client)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (!sensor->hwcfg.ext_clk) {
 		dev_err(&client->dev, "cannot work with xclk frequency 0\n");
 		return -EINVAL;
 	}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sensor->reset = devm_gpiod_get_optional(&client->dev, "reset",
 						GPIOD_OUT_HIGH);
 	if (IS_ERR(sensor->reset))
@@ -3467,13 +3376,10 @@ static int ccs_probe(struct i2c_client *client)
 		goto out_free_ccs_limits;
 	}
 
-<<<<<<< HEAD
 	rval = ccs_update_phy_ctrl(sensor);
 	if (rval < 0)
 		goto out_free_ccs_limits;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Handle Sensor Module orientation on the board.
 	 *
@@ -3616,19 +3522,11 @@ static int ccs_probe(struct i2c_client *client)
 	sensor->pll.scale_n = CCS_LIM(sensor, SCALER_N_MIN);
 
 	ccs_create_subdev(sensor, sensor->scaler, " scaler", 2,
-<<<<<<< HEAD
 			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
 	ccs_create_subdev(sensor, sensor->binner, " binner", 2,
 			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
 	ccs_create_subdev(sensor, sensor->pixel_array, " pixel_array", 1,
 			  MEDIA_ENT_F_CAM_SENSOR);
-=======
-			  MEDIA_ENT_F_CAM_SENSOR);
-	ccs_create_subdev(sensor, sensor->binner, " binner", 2,
-			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
-	ccs_create_subdev(sensor, sensor->pixel_array, " pixel_array", 1,
-			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rval = ccs_init_controls(sensor);
 	if (rval < 0)
@@ -3674,7 +3572,7 @@ static int ccs_probe(struct i2c_client *client)
 	pm_runtime_get_noresume(&client->dev);
 	pm_runtime_enable(&client->dev);
 
-	rval = v4l2_async_register_subdev_sensor_common(&sensor->src->sd);
+	rval = v4l2_async_register_subdev_sensor(&sensor->src->sd);
 	if (rval < 0)
 		goto out_disable_runtime_pm;
 

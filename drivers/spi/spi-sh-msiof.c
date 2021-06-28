@@ -259,7 +259,6 @@ static const u32 sh_msiof_spi_div_array[] = {
 };
 
 static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
-<<<<<<< HEAD
 				      struct spi_transfer *t)
 {
 	unsigned long parent_rate = clk_get_rate(p->clk);
@@ -267,13 +266,6 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
 	u32 spi_hz = t->speed_hz;
 	unsigned long div;
 	u32 brps, scr;
-=======
-				      unsigned long parent_rate, u32 spi_hz)
-{
-	unsigned long div;
-	u32 brps, scr;
-	unsigned int div_pow = p->min_div_pow;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!spi_hz || !parent_rate) {
 		WARN(1, "Invalid clock rate parameters %lu and %u\n",
@@ -302,11 +294,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
 		brps = 32;
 	}
 
-<<<<<<< HEAD
 	t->effective_speed_hz = parent_rate / (brps << div_pow);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scr = sh_msiof_spi_div_array[div_pow] | SISCR_BRPS(brps);
 	sh_msiof_write(p, SITSCR, scr);
 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
@@ -938,11 +927,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
 
 	/* setup clocks (clock already enabled in chipselect()) */
 	if (!spi_controller_is_slave(p->ctlr))
-<<<<<<< HEAD
 		sh_msiof_spi_set_clk_regs(p, t);
-=======
-		sh_msiof_spi_set_clk_regs(p, clk_get_rate(p->clk), t->speed_hz);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (ctlr->dma_tx && len > 15) {
 		/*
@@ -1277,10 +1262,7 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
 	const struct sh_msiof_chipdata *chipdata;
 	struct sh_msiof_spi_info *info;
 	struct sh_msiof_spi_priv *p;
-<<<<<<< HEAD
 	unsigned long clksrc;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 	int ret;
 
@@ -1356,12 +1338,9 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
 	/* init controller code */
 	ctlr->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
 	ctlr->mode_bits |= SPI_LSB_FIRST | SPI_3WIRE;
-<<<<<<< HEAD
 	clksrc = clk_get_rate(p->clk);
 	ctlr->min_speed_hz = DIV_ROUND_UP(clksrc, 1024);
 	ctlr->max_speed_hz = DIV_ROUND_UP(clksrc, 1 << p->min_div_pow);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctlr->flags = chipdata->ctlr_flags;
 	ctlr->bus_num = pdev->id;
 	ctlr->num_chipselect = p->info->num_chipselect;

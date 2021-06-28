@@ -966,18 +966,9 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
 	video_unregister_device(&vin->vdev);
 }
 
-<<<<<<< HEAD
 static void rvin_notify_video_device(struct rvin_dev *vin,
 				     unsigned int notification, void *arg)
 {
-=======
-static void rvin_notify(struct v4l2_subdev *sd,
-			unsigned int notification, void *arg)
-{
-	struct rvin_dev *vin =
-		container_of(sd->v4l2_dev, struct rvin_dev, v4l2_dev);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (notification) {
 	case V4L2_DEVICE_NOTIFY_EVENT:
 		v4l2_event_queue(&vin->vdev, arg);
@@ -987,7 +978,6 @@ static void rvin_notify(struct v4l2_subdev *sd,
 	}
 }
 
-<<<<<<< HEAD
 static void rvin_notify(struct v4l2_subdev *sd,
 			unsigned int notification, void *arg)
 {
@@ -1023,8 +1013,6 @@ static void rvin_notify(struct v4l2_subdev *sd,
 	}
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rvin_v4l2_register(struct rvin_dev *vin)
 {
 	struct video_device *vdev = &vin->vdev;

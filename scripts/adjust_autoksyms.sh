@@ -34,12 +34,6 @@ case "$KBUILD_VERBOSE" in
 	;;
 esac
 
-<<<<<<< HEAD
-=======
-# We need access to CONFIG_ symbols
-. include/config/auto.conf
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Generate a new symbol list file
 $CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh "$new_ksyms_file"
 

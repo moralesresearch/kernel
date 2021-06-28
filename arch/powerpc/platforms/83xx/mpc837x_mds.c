@@ -93,10 +93,7 @@ define_machine(mpc837x_mds) {
 	.name			= "MPC837x MDS",
 	.probe			= mpc837x_mds_probe,
 	.setup_arch		= mpc837x_mds_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs  	= mpc83xx_setup_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ		= mpc83xx_ipic_init_IRQ,
 	.get_irq		= ipic_get_irq,
 	.restart		= mpc83xx_restart,

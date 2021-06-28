@@ -808,11 +808,7 @@ struct mwl8k_dma_data {
 	__le16 fwlen;
 	struct ieee80211_hdr wh;
 	char data[];
-<<<<<<< HEAD
 } __packed __aligned(2);
-=======
-} __packed;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Routines to add/remove DMA header from skb.  */
 static inline void mwl8k_remove_dma_header(struct sk_buff *skb, __le16 qos)
@@ -1212,14 +1208,8 @@ static int rxq_refill(struct ieee80211_hw *hw, int index, int limit)
 {
 	struct mwl8k_priv *priv = hw->priv;
 	struct mwl8k_rx_queue *rxq = priv->rxq + index;
-<<<<<<< HEAD
 	int refilled = 0;
 
-=======
-	int refilled;
-
-	refilled = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (rxq->rxd_count < MWL8K_RX_DESCS && limit--) {
 		struct sk_buff *skb;
 		dma_addr_t addr;
@@ -1483,10 +1473,7 @@ static int mwl8k_txq_init(struct ieee80211_hw *hw, int index)
 	if (txq->skb == NULL) {
 		dma_free_coherent(&priv->pdev->dev, size, txq->txd,
 				  txq->txd_dma);
-<<<<<<< HEAD
 		txq->txd = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOMEM;
 	}
 

@@ -17,6 +17,8 @@
  * This function has to be called before the following functions:
  *	- dpni_set_rx_tc_dist()
  *	- dpni_set_qos_table()
+ *
+ * Return:	'0' on Success; Error code otherwise.
  */
 int dpni_prepare_key_cfg(const struct dpkg_profile_cfg *cfg, u8 *key_cfg_buf)
 {
@@ -1225,7 +1227,6 @@ int dpni_get_port_mac_addr(struct fsl_mc_io *mc_io,
 }
 
 /**
-<<<<<<< HEAD
  * dpni_enable_vlan_filter() - Enable/disable VLAN filtering mode
  * @mc_io:	Pointer to MC portal's I/O object
  * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
@@ -1319,8 +1320,6 @@ int dpni_remove_vlan_id(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
 }
 
 /**
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dpni_add_mac_addr() - Add MAC address filter
  * @mc_io:	Pointer to MC portal's I/O object
  * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
@@ -1796,6 +1795,8 @@ int dpni_get_api_version(struct fsl_mc_io *mc_io,
  * If cfg.enable is set to 0 the command will clear flow steering table.
  * The packets will be classified according to settings made in
  * dpni_set_rx_hash_dist()
+ *
+ * Return:	'0' on Success; Error code otherwise.
  */
 int dpni_set_rx_fs_dist(struct fsl_mc_io *mc_io,
 			u32 cmd_flags,
@@ -1829,6 +1830,8 @@ int dpni_set_rx_fs_dist(struct fsl_mc_io *mc_io,
  * If cfg.enable is set to 1 the packets will be classified using a hash
  * function based on the key received in cfg.key_cfg_iova parameter.
  * If cfg.enable is set to 0 the packets will be sent to the default queue
+ *
+ * Return:	'0' on Success; Error code otherwise.
  */
 int dpni_set_rx_hash_dist(struct fsl_mc_io *mc_io,
 			  u32 cmd_flags,

@@ -9,10 +9,7 @@
 #include "gem/i915_gem_context.h"
 #include "gem/i915_gem_pm.h"
 #include "gt/intel_context.h"
-<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt.h"
 #include "i915_vma.h"
 #include "i915_drv.h"
@@ -58,7 +55,7 @@ igt_emit_store_dw(struct i915_vma *vma,
 	if (IS_ERR(obj))
 		return ERR_CAST(obj);
 
-	cmd = i915_gem_object_pin_map(obj, I915_MAP_WC);
+	cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
 	if (IS_ERR(cmd)) {
 		err = PTR_ERR(cmd);
 		goto err;

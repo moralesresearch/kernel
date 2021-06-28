@@ -5,10 +5,7 @@
  */
 
 #include "display/intel_frontbuffer.h"
-<<<<<<< HEAD
 #include "gt/intel_gt.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "i915_drv.h"
 #include "i915_gem_clflush.h"
@@ -19,7 +16,6 @@
 #include "i915_gem_lmem.h"
 #include "i915_gem_mman.h"
 
-<<<<<<< HEAD
 static bool gpu_write_needs_clflush(struct drm_i915_gem_object *obj)
 {
 	return !(obj->cache_level == I915_CACHE_NONE ||
@@ -65,19 +61,13 @@ flush_write_domain(struct drm_i915_gem_object *obj, unsigned int flush_domains)
 	obj->write_domain = 0;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __i915_gem_object_flush_for_display(struct drm_i915_gem_object *obj)
 {
 	/*
 	 * We manually flush the CPU domain so that we can override and
 	 * force the flush for the display, and perform it asyncrhonously.
 	 */
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (obj->cache_dirty)
 		i915_gem_clflush_object(obj, I915_CLFLUSH_FORCE);
 	obj->write_domain = 0;
@@ -136,11 +126,7 @@ i915_gem_object_set_to_wc_domain(struct drm_i915_gem_object *obj, bool write)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_WC);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_WC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Serialise direct access to this object with the barriers for
 	 * coherent writes from the GPU, by effectively invalidating the
@@ -201,11 +187,7 @@ i915_gem_object_set_to_gtt_domain(struct drm_i915_gem_object *obj, bool write)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_GTT);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_GTT);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Serialise direct access to this object with the barriers for
 	 * coherent writes from the GPU, by effectively invalidating the
@@ -353,7 +335,14 @@ int i915_gem_set_caching_ioctl(struct drm_device *dev, void *data,
 	 * not allowed to be changed by userspace.
 	 */
 	if (i915_gem_object_is_proxy(obj)) {
-		ret = -ENXIO;
+		/*
+		 * Silently allow cached for userptr; the vulkan driver
+		 * sets all objects to cached
+		 */
+		if (!i915_gem_object_is_userptr(obj) ||
+		    args->caching != I915_CACHING_CACHED)
+			ret = -ENXIO;
+
 		goto out;
 	}
 
@@ -377,12 +366,12 @@ out:
  */
 struct i915_vma *
 i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
+				     struct i915_gem_ww_ctx *ww,
 				     u32 alignment,
 				     const struct i915_ggtt_view *view,
 				     unsigned int flags)
 {
 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-	struct i915_gem_ww_ctx ww;
 	struct i915_vma *vma;
 	int ret;
 
@@ -390,11 +379,6 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
 	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj))
 		return ERR_PTR(-EINVAL);
 
-	i915_gem_ww_ctx_init(&ww, true);
-retry:
-	ret = i915_gem_object_lock(obj, &ww);
-	if (ret)
-		goto err;
 	/*
 	 * The display engine is not coherent with the LLC cache on gen6.  As
 	 * a result, we make sure that the pinning that is about to occur is
@@ -409,7 +393,7 @@ retry:
 					      HAS_WT(i915) ?
 					      I915_CACHE_WT : I915_CACHE_NONE);
 	if (ret)
-		goto err;
+		return ERR_PTR(ret);
 
 	/*
 	 * As the user may map the buffer once pinned in the display plane
@@ -422,35 +406,19 @@ retry:
 	vma = ERR_PTR(-ENOSPC);
 	if ((flags & PIN_MAPPABLE) == 0 &&
 	    (!view || view->type == I915_GGTT_VIEW_NORMAL))
-		vma = i915_gem_object_ggtt_pin_ww(obj, &ww, view, 0, alignment,
+		vma = i915_gem_object_ggtt_pin_ww(obj, ww, view, 0, alignment,
 						  flags | PIN_MAPPABLE |
 						  PIN_NONBLOCK);
 	if (IS_ERR(vma) && vma != ERR_PTR(-EDEADLK))
-		vma = i915_gem_object_ggtt_pin_ww(obj, &ww, view, 0,
+		vma = i915_gem_object_ggtt_pin_ww(obj, ww, view, 0,
 						  alignment, flags);
-	if (IS_ERR(vma)) {
-		ret = PTR_ERR(vma);
-		goto err;
-	}
+	if (IS_ERR(vma))
+		return vma;
 
 	vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
-<<<<<<< HEAD
 	i915_vma_mark_scanout(vma);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	i915_gem_object_flush_if_display_locked(obj);
-
-err:
-	if (ret == -EDEADLK) {
-		ret = i915_gem_ww_ctx_backoff(&ww);
-		if (!ret)
-			goto retry;
-	}
-	i915_gem_ww_ctx_fini(&ww);
-
-	if (ret)
-		return ERR_PTR(ret);
 
 	return vma;
 }
@@ -477,11 +445,7 @@ i915_gem_object_set_to_cpu_domain(struct drm_i915_gem_object *obj, bool write)
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Flush the CPU cache if it's still invalid. */
 	if ((obj->read_domains & I915_GEM_DOMAIN_CPU) == 0) {
@@ -551,6 +515,21 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
 	if (err)
 		goto out;
 
+	if (i915_gem_object_is_userptr(obj)) {
+		/*
+		 * Try to grab userptr pages, iris uses set_domain to check
+		 * userptr validity
+		 */
+		err = i915_gem_object_userptr_validate(obj);
+		if (!err)
+			err = i915_gem_object_wait(obj,
+						   I915_WAIT_INTERRUPTIBLE |
+						   I915_WAIT_PRIORITY |
+						   (write_domain ? I915_WAIT_ALL : 0),
+						   MAX_SCHEDULE_TIMEOUT);
+		goto out;
+	}
+
 	/*
 	 * Proxy objects do not control access to the backing storage, ergo
 	 * they cannot be used as a means to manipulate the cache domain
@@ -561,6 +540,10 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
 		err = -ENXIO;
 		goto out;
 	}
+
+	err = i915_gem_object_lock_interruptible(obj, NULL);
+	if (err)
+		goto out;
 
 	/*
 	 * Flush and acquire obj->pages so that we are coherent through
@@ -573,7 +556,7 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
 	 */
 	err = i915_gem_object_pin_pages(obj);
 	if (err)
-		goto out;
+		goto out_unlock;
 
 	/*
 	 * Already in the desired write domain? Nothing for us to do!
@@ -588,10 +571,6 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
 	if (READ_ONCE(obj->write_domain) == read_domains)
 		goto out_unpin;
 
-	err = i915_gem_object_lock_interruptible(obj, NULL);
-	if (err)
-		goto out_unpin;
-
 	if (read_domains & I915_GEM_DOMAIN_WC)
 		err = i915_gem_object_set_to_wc_domain(obj, write_domain);
 	else if (read_domains & I915_GEM_DOMAIN_GTT)
@@ -599,13 +578,15 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
 	else
 		err = i915_gem_object_set_to_cpu_domain(obj, write_domain);
 
-	i915_gem_object_unlock(obj);
-
-	if (write_domain)
-		i915_gem_object_invalidate_frontbuffer(obj, ORIGIN_CPU);
-
 out_unpin:
 	i915_gem_object_unpin_pages(obj);
+
+out_unlock:
+	i915_gem_object_unlock(obj);
+
+	if (!err && write_domain)
+		i915_gem_object_invalidate_frontbuffer(obj, ORIGIN_CPU);
+
 out:
 	i915_gem_object_put(obj);
 	return err;
@@ -646,11 +627,7 @@ int i915_gem_object_prepare_read(struct drm_i915_gem_object *obj,
 			goto out;
 	}
 
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If we're not in the cpu read domain, set ourself into the gtt
 	 * read domain and manually flush cachelines (if required). This
@@ -701,11 +678,7 @@ int i915_gem_object_prepare_write(struct drm_i915_gem_object *obj,
 			goto out;
 	}
 
-<<<<<<< HEAD
 	flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
-=======
-	i915_gem_object_flush_write_domain(obj, ~I915_GEM_DOMAIN_CPU);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If we're not in the cpu write domain, set ourself into the
 	 * gtt write domain and manually flush cachelines (as required).

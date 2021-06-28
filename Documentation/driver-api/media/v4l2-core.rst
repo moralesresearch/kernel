@@ -15,10 +15,6 @@ Video4Linux devices
     v4l2-controls
     v4l2-videobuf
     v4l2-videobuf2
-<<<<<<< HEAD
-=======
-    v4l2-clocks
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     v4l2-dv-timings
     v4l2-flash-led-class
     v4l2-mc

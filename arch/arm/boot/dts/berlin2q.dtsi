@@ -252,11 +252,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 					interrupt-controller;
 					#interrupt-cells = <2>;
@@ -274,11 +270,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 					interrupt-controller;
 					#interrupt-cells = <2>;
@@ -296,11 +288,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 					interrupt-controller;
 					#interrupt-cells = <2>;
@@ -318,11 +306,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 					interrupt-controller;
 					#interrupt-cells = <2>;
@@ -568,11 +552,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 				};
 			};
@@ -633,11 +613,7 @@
 					compatible = "snps,dw-apb-gpio-port";
 					gpio-controller;
 					#gpio-cells = <2>;
-<<<<<<< HEAD
 					ngpios = <32>;
-=======
-					snps,nr-gpios = <32>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					reg = <0>;
 				};
 			};

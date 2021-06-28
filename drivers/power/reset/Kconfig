@@ -39,7 +39,6 @@ config POWER_RESET_AT91_SAMA5D2_SHDWC
 	  This driver supports the alternate shutdown controller for some Atmel
 	  SAMA5 SoCs. It is present for example on SAMA5D2 SoC.
 
-<<<<<<< HEAD
 config POWER_RESET_ATC260X
 	tristate "Actions Semi ATC260x PMIC power-off driver"
 	depends on MFD_ATC260X
@@ -47,8 +46,6 @@ config POWER_RESET_ATC260X
 	  This driver provides power-off and restart support for a system
 	  through Actions Semi ATC260x series PMICs.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config POWER_RESET_AXXIA
 	bool "LSI Axxia reset driver"
 	depends on ARCH_AXXIA
@@ -261,16 +258,6 @@ config POWER_RESET_RMOBILE
 	help
 	  Reboot support for Renesas R-Mobile and SH-Mobile SoCs.
 
-<<<<<<< HEAD
-=======
-config POWER_RESET_ZX
-	tristate "ZTE SoCs reset driver"
-	depends on ARCH_ZX || COMPILE_TEST
-	depends on HAS_IOMEM
-	help
-	  Reboot support for ZTE SoCs.
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config REBOOT_MODE
 	tristate
 
@@ -305,7 +292,3 @@ config NVMEM_REBOOT_MODE
 	  action according to the mode.
 
 endif
-<<<<<<< HEAD
-=======
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

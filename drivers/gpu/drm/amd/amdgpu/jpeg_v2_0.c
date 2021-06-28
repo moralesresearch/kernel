@@ -108,7 +108,7 @@ static int jpeg_v2_0_sw_init(void *handle)
 	ring->doorbell_index = (adev->doorbell_index.vcn.vcn_ring0_1 << 1) + 1;
 	sprintf(ring->name, "jpeg_dec");
 	r = amdgpu_ring_init(adev, ring, 512, &adev->jpeg.inst->irq,
-			     0, AMDGPU_RING_PRIO_DEFAULT);
+			     0, AMDGPU_RING_PRIO_DEFAULT, NULL);
 	if (r)
 		return r;
 
@@ -172,11 +172,8 @@ static int jpeg_v2_0_hw_fini(void *handle)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&adev->vcn.idle_work);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adev->jpeg.cur_state != AMD_PG_STATE_GATE &&
 	      RREG32_SOC15(JPEG, 0, mmUVD_JRBC_STATUS))
 		jpeg_v2_0_set_powergating_state(adev, AMD_PG_STATE_GATE);

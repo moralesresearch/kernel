@@ -399,10 +399,7 @@ static int init_bios_attributes(int attr_type, const char *guid)
 	union acpi_object *obj = NULL;
 	union acpi_object *elements;
 	struct kset *tmp_set;
-<<<<<<< HEAD
 	int min_elements;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* instance_id needs to be reset for each type GUID
 	 * also, instance IDs are unique within GUID but not across
@@ -413,7 +410,6 @@ static int init_bios_attributes(int attr_type, const char *guid)
 	retval = alloc_attributes_data(attr_type);
 	if (retval)
 		return retval;
-<<<<<<< HEAD
 
 	switch (attr_type) {
 	case ENUM:	min_elements = 8;	break;
@@ -446,16 +442,6 @@ static int init_bios_attributes(int attr_type, const char *guid)
 
 		elements = obj->package.elements;
 
-=======
-	/* need to use specific instance_id and guid combination to get right data */
-	obj = get_wmiobj_pointer(instance_id, guid);
-	if (!obj || obj->type != ACPI_TYPE_PACKAGE)
-		return -ENODEV;
-	elements = obj->package.elements;
-
-	mutex_lock(&wmi_priv.mutex);
-	while (elements) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* sanity checking */
 		if (elements[ATTR_NAME].type != ACPI_TYPE_STRING) {
 			pr_debug("incorrect element type\n");
@@ -520,10 +506,6 @@ nextobj:
 		kfree(obj);
 		instance_id++;
 		obj = get_wmiobj_pointer(instance_id, guid);
-<<<<<<< HEAD
-=======
-		elements = obj ? obj->package.elements : NULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	mutex_unlock(&wmi_priv.mutex);
@@ -646,7 +628,7 @@ static void __exit sysman_exit(void)
 module_init(sysman_init);
 module_exit(sysman_exit);
 
-MODULE_AUTHOR("Mario Limonciello <mario.limonciello@dell.com>");
+MODULE_AUTHOR("Mario Limonciello <mario.limonciello@outlook.com>");
 MODULE_AUTHOR("Prasanth Ksr <prasanth.ksr@dell.com>");
 MODULE_AUTHOR("Divya Bharathi <divya.bharathi@dell.com>");
 MODULE_DESCRIPTION("Dell platform setting control interface");

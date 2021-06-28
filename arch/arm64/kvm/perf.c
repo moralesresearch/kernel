@@ -11,11 +11,8 @@
 
 #include <asm/kvm_emulate.h>
 
-<<<<<<< HEAD
 DEFINE_STATIC_KEY_FALSE(kvm_arm_pmu_available);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int kvm_is_in_guest(void)
 {
         return kvm_get_running_vcpu() != NULL;
@@ -53,17 +50,9 @@ static struct perf_guest_info_callbacks kvm_guest_cbs = {
 
 int kvm_perf_init(void)
 {
-<<<<<<< HEAD
-	/*
-	 * Check if HW_PERF_EVENTS are supported by checking the number of
-	 * hardware performance counters. This could ensure the presence of
-	 * a physical PMU and CONFIG_PERF_EVENT is selected.
-	 */
-	if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
+	if (kvm_pmu_probe_pmuver() != 0xf && !is_protected_kvm_enabled())
 		static_branch_enable(&kvm_arm_pmu_available);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return perf_register_guest_info_callbacks(&kvm_guest_cbs);
 }
 

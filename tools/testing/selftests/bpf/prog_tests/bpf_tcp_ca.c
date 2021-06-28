@@ -2,17 +2,11 @@
 /* Copyright (c) 2019 Facebook */
 
 #include <linux/err.h>
-<<<<<<< HEAD
 #include <netinet/tcp.h>
 #include <test_progs.h>
 #include "bpf_dctcp.skel.h"
 #include "bpf_cubic.skel.h"
 #include "bpf_tcp_nogpl.skel.h"
-=======
-#include <test_progs.h>
-#include "bpf_dctcp.skel.h"
-#include "bpf_cubic.skel.h"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
@@ -234,7 +228,6 @@ static void test_dctcp(void)
 	bpf_dctcp__destroy(dctcp_skel);
 }
 
-<<<<<<< HEAD
 static char *err_str;
 static bool found;
 
@@ -276,17 +269,12 @@ static void test_invalid_license(void)
 	libbpf_set_print(old_print_fn);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void test_bpf_tcp_ca(void)
 {
 	if (test__start_subtest("dctcp"))
 		test_dctcp();
 	if (test__start_subtest("cubic"))
 		test_cubic();
-<<<<<<< HEAD
 	if (test__start_subtest("invalid_license"))
 		test_invalid_license();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

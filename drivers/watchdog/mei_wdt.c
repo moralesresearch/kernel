@@ -620,15 +620,7 @@ err_out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void mei_wdt_remove(struct mei_cl_device *cldev)
-=======
-<<<<<<< HEAD
-static void mei_wdt_remove(struct mei_cl_device *cldev)
-=======
-static int mei_wdt_remove(struct mei_cl_device *cldev)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mei_wdt *wdt = mei_cldev_get_drvdata(cldev);
 
@@ -645,14 +637,6 @@ static int mei_wdt_remove(struct mei_cl_device *cldev)
 	dbgfs_unregister(wdt);
 
 	kfree(wdt);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-	return 0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define MEI_UUID_WD UUID_LE(0x05B79A6F, 0x4628, 0x4D7F, \

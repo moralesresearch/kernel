@@ -86,13 +86,8 @@ int v9fs_file_open(struct inode *inode, struct file *file)
 		 * to work.
 		 */
 		writeback_fid = v9fs_writeback_fid(file_dentry(file));
-<<<<<<< HEAD
 		if (IS_ERR(writeback_fid)) {
 			err = PTR_ERR(writeback_fid);
-=======
-		if (IS_ERR(fid)) {
-			err = PTR_ERR(fid);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mutex_unlock(&v9inode->v_mutex);
 			goto out_error;
 		}

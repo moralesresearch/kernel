@@ -1784,12 +1784,6 @@ set_tct(struct idt77252_dev *card, struct vc_map *vc)
 /*****************************************************************************/
 
 static __inline__ int
-idt77252_fbq_level(struct idt77252_dev *card, int queue)
-{
-	return (readl(SAR_REG_STAT) >> (16 + (queue << 2))) & 0x0f;
-}
-
-static __inline__ int
 idt77252_fbq_full(struct idt77252_dev *card, int queue)
 {
 	return (readl(SAR_REG_STAT) >> (16 + (queue << 2))) == 0x0f;
@@ -3743,20 +3737,7 @@ static int __init idt77252_init(void)
 	struct sk_buff *skb;
 
 	printk("%s: at %p\n", __func__, idt77252_init);
-<<<<<<< HEAD
 	BUILD_BUG_ON(sizeof(skb->cb) < sizeof(struct idt77252_skb_prv) + sizeof(struct atm_skb_data));
-=======
-
-	if (sizeof(skb->cb) < sizeof(struct atm_skb_data) +
-			      sizeof(struct idt77252_skb_prv)) {
-		printk(KERN_ERR "%s: skb->cb is too small (%lu < %lu)\n",
-		       __func__, (unsigned long) sizeof(skb->cb),
-		       (unsigned long) sizeof(struct atm_skb_data) +
-				       sizeof(struct idt77252_skb_prv));
-		return -EIO;
-	}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pci_register_driver(&idt77252_driver);
 }
 

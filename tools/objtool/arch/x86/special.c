@@ -1,18 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include <string.h>
 
-<<<<<<< HEAD
 #include <objtool/special.h>
 #include <objtool/builtin.h>
-=======
-<<<<<<< HEAD
-#include <objtool/special.h>
-#include <objtool/builtin.h>
-=======
-#include "../../special.h"
-#include "../../builtin.h"
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define X86_FEATURE_POPCNT (4 * 32 + 23)
 #define X86_FEATURE_SMAP   (9 * 32 + 20)

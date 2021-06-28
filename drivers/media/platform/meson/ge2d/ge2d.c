@@ -757,11 +757,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
 
 		if (ctrl->val == 90) {
 			ctx->hflip = 0;
-<<<<<<< HEAD
 			ctx->vflip = 1;
-=======
-			ctx->vflip = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ctx->xy_swap = 1;
 		} else if (ctrl->val == 180) {
 			ctx->hflip = 1;
@@ -769,11 +765,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
 			ctx->xy_swap = 0;
 		} else if (ctrl->val == 270) {
 			ctx->hflip = 1;
-<<<<<<< HEAD
 			ctx->vflip = 0;
-=======
-			ctx->vflip = 1;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ctx->xy_swap = 1;
 		} else {
 			ctx->hflip = 0;
@@ -996,10 +988,7 @@ static int ge2d_probe(struct platform_device *pdev)
 	vfd = video_device_alloc();
 	if (!vfd) {
 		v4l2_err(&ge2d->v4l2_dev, "Failed to allocate video device\n");
-<<<<<<< HEAD
 		ret = -ENOMEM;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unreg_v4l2_dev;
 	}
 

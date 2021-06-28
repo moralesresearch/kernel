@@ -233,16 +233,7 @@ extern char elf_platform[];
 do {								\
 	set_personality(PER_LINUX |				\
 		(current->personality & (~PER_MASK)));		\
-<<<<<<< HEAD
 	current->thread.sys_call_table = sys_call_table;	\
-=======
-<<<<<<< HEAD
-	current->thread.sys_call_table = sys_call_table;	\
-=======
-	current->thread.sys_call_table =			\
-		(unsigned long) &sys_call_table;		\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } while (0)
 #else /* CONFIG_COMPAT */
 #define SET_PERSONALITY(ex)					\
@@ -253,25 +244,11 @@ do {								\
 	if ((ex).e_ident[EI_CLASS] == ELFCLASS32) {		\
 		set_thread_flag(TIF_31BIT);			\
 		current->thread.sys_call_table =		\
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sys_call_table_emu;			\
 	} else {						\
 		clear_thread_flag(TIF_31BIT);			\
 		current->thread.sys_call_table =		\
 			sys_call_table;				\
-<<<<<<< HEAD
-=======
-=======
-			(unsigned long)	&sys_call_table_emu;	\
-	} else {						\
-		clear_thread_flag(TIF_31BIT);			\
-		current->thread.sys_call_table =		\
-			(unsigned long) &sys_call_table;	\
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}							\
 } while (0)
 #endif /* CONFIG_COMPAT */

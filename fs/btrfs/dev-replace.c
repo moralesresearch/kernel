@@ -22,14 +22,7 @@
 #include "dev-replace.h"
 #include "sysfs.h"
 #include "zoned.h"
-<<<<<<< HEAD
 #include "block-group.h"
-=======
-<<<<<<< HEAD
-#include "block-group.h"
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Device replace overview
@@ -470,10 +463,6 @@ static char* btrfs_dev_name(struct btrfs_device *device)
 		return rcu_str_deref(device->name);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mark_block_group_to_copy(struct btrfs_fs_info *fs_info,
 				    struct btrfs_device *src_dev)
 {
@@ -653,11 +642,6 @@ bool btrfs_finish_block_group_to_copy(struct btrfs_device *srcdev,
 	return true;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int btrfs_dev_replace_start(struct btrfs_fs_info *fs_info,
 		const char *tgtdev_name, u64 srcdevid, const char *srcdev_name,
 		int read_src)
@@ -699,19 +683,10 @@ static int btrfs_dev_replace_start(struct btrfs_fs_info *fs_info,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = mark_block_group_to_copy(fs_info, src_device);
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_write(&dev_replace->rwsem);
 	switch (dev_replace->replace_state) {
 	case BTRFS_IOCTL_DEV_REPLACE_STATE_NEVER_STARTED:
@@ -927,15 +902,7 @@ static int btrfs_dev_replace_finishing(struct btrfs_fs_info *fs_info,
 	 * flush all outstanding I/O and inode extent mappings before the
 	 * copy operation is declared as being finished
 	 */
-<<<<<<< HEAD
 	ret = btrfs_start_delalloc_roots(fs_info, LONG_MAX, false);
-=======
-<<<<<<< HEAD
-	ret = btrfs_start_delalloc_roots(fs_info, LONG_MAX, false);
-=======
-	ret = btrfs_start_delalloc_roots(fs_info, U64_MAX, false);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		mutex_unlock(&dev_replace->lock_finishing_cancel_unmount);
 		return ret;

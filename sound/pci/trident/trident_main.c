@@ -678,11 +678,7 @@ static unsigned int snd_trident_convert_rate(unsigned int rate)
 	else if (rate == 48000)
 		delta = 0x1000;
 	else
-<<<<<<< HEAD
 		delta = DIV_ROUND_CLOSEST(rate << 12, 48000) & 0x0000ffff;
-=======
-		delta = (((rate << 12) + 24000) / 48000) & 0x0000ffff;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return delta;
 }
 
@@ -1038,11 +1034,7 @@ static int snd_trident_capture_prepare(struct snd_pcm_substream *substream)
 	ESO_bytes++;
 
 	// Set channel sample rate, 4.12 format
-<<<<<<< HEAD
 	val = DIV_ROUND_CLOSEST(48000U << 12, runtime->rate);
-=======
-	val = (((unsigned int) 48000L << 12) + (runtime->rate/2)) / runtime->rate;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	outw(val, TRID_REG(trident, T4D_SBDELTA_DELTA_R));
 
 	// Set channel interrupt blk length
@@ -3505,12 +3497,7 @@ int snd_trident_create(struct snd_card *card,
 	if ((err = pci_enable_device(pci)) < 0)
 		return err;
 	/* check, if we can restrict PCI DMA transfers to 30 bits */
-<<<<<<< HEAD
 	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(30))) {
-=======
-	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(30)) < 0 ||
-	    dma_set_coherent_mask(&pci->dev, DMA_BIT_MASK(30)) < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(card->dev,
 			"architecture does not support 30bit PCI busmaster DMA\n");
 		pci_disable_device(pci);

@@ -866,26 +866,19 @@ struct drm_connector_helper_funcs {
 	 * The usual way to implement this is to cache the EDID retrieved in the
 	 * probe callback somewhere in the driver-private connector structure.
 	 * In this function drivers then parse the modes in the EDID and add
-<<<<<<< HEAD
 	 * them by calling drm_add_edid_modes(). But connectors that drive a
-=======
-	 * them by calling drm_add_edid_modes(). But connectors that driver a
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * fixed panel can also manually add specific modes using
 	 * drm_mode_probed_add(). Drivers which manually add modes should also
 	 * make sure that the &drm_connector.display_info,
 	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
 	 * filled in.
 	 *
-<<<<<<< HEAD
 	 * Note that the caller function will automatically add standard VESA
 	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
 	 * no mode and if the connector status is connector_status_connected or
 	 * connector_status_unknown. There is no need to call
 	 * drm_add_modes_noedid() manually in that case.
 	 *
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Virtual drivers that just want some standard VESA mode with a given
 	 * resolution can call drm_add_modes_noedid(), and mark the preferred
 	 * one using drm_set_preferred_mode().
@@ -1186,7 +1179,7 @@ struct drm_plane_helper_funcs {
 	 * members in the plane structure.
 	 *
 	 * Drivers which always have their buffers pinned should use
-	 * drm_gem_fb_prepare_fb() for this hook.
+	 * drm_gem_plane_helper_prepare_fb() for this hook.
 	 *
 	 * The helpers will call @cleanup_fb with matching arguments for every
 	 * successful call to this hook.
@@ -1240,9 +1233,8 @@ struct drm_plane_helper_funcs {
 	 * NOTE:
 	 *
 	 * This function is called in the check phase of an atomic update. The
-	 * driver is not allowed to change anything outside of the free-standing
-	 * state objects passed-in or assembled in the overall &drm_atomic_state
-	 * update tracking structure.
+	 * driver is not allowed to change anything outside of the
+	 * &drm_atomic_state update tracking structure.
 	 *
 	 * RETURNS:
 	 *
@@ -1252,7 +1244,7 @@ struct drm_plane_helper_funcs {
 	 * deadlock.
 	 */
 	int (*atomic_check)(struct drm_plane *plane,
-			    struct drm_plane_state *state);
+			    struct drm_atomic_state *state);
 
 	/**
 	 * @atomic_update:
@@ -1270,7 +1262,7 @@ struct drm_plane_helper_funcs {
 	 * transitional plane helpers, but it is optional.
 	 */
 	void (*atomic_update)(struct drm_plane *plane,
-			      struct drm_plane_state *old_state);
+			      struct drm_atomic_state *state);
 	/**
 	 * @atomic_disable:
 	 *
@@ -1294,14 +1286,14 @@ struct drm_plane_helper_funcs {
 	 * transitional plane helpers, but it is optional.
 	 */
 	void (*atomic_disable)(struct drm_plane *plane,
-			       struct drm_plane_state *old_state);
+			       struct drm_atomic_state *state);
 
 	/**
 	 * @atomic_async_check:
 	 *
-	 * Drivers should set this function pointer to check if the plane state
-	 * can be updated in a async fashion. Here async means "not vblank
-	 * synchronized".
+	 * Drivers should set this function pointer to check if the plane's
+	 * atomic state can be updated in a async fashion. Here async means
+	 * "not vblank synchronized".
 	 *
 	 * This hook is called by drm_atomic_async_check() to establish if a
 	 * given update can be committed asynchronously, that is, if it can
@@ -1313,7 +1305,7 @@ struct drm_plane_helper_funcs {
 	 * can not be applied in asynchronous manner.
 	 */
 	int (*atomic_async_check)(struct drm_plane *plane,
-				  struct drm_plane_state *state);
+				  struct drm_atomic_state *state);
 
 	/**
 	 * @atomic_async_update:
@@ -1329,11 +1321,9 @@ struct drm_plane_helper_funcs {
 	 * update won't happen if there is an outstanding commit modifying
 	 * the same plane.
 	 *
-	 * Note that unlike &drm_plane_helper_funcs.atomic_update this hook
-	 * takes the new &drm_plane_state as parameter. When doing async_update
-	 * drivers shouldn't replace the &drm_plane_state but update the
-	 * current one with the new plane configurations in the new
-	 * plane_state.
+	 * When doing async_update drivers shouldn't replace the
+	 * &drm_plane_state but update the current one with the new plane
+	 * configurations in the new plane_state.
 	 *
 	 * Drivers should also swap the framebuffers between current plane
 	 * state (&drm_plane.state) and new_state.
@@ -1352,7 +1342,7 @@ struct drm_plane_helper_funcs {
 	 *    for deferring if needed, until a common solution is created.
 	 */
 	void (*atomic_async_update)(struct drm_plane *plane,
-				    struct drm_plane_state *new_state);
+				    struct drm_atomic_state *state);
 };
 
 /**
@@ -1408,7 +1398,6 @@ struct drm_mode_config_helper_funcs {
 	 * drm_atomic_helper_commit_tail().
 	 */
 	void (*atomic_commit_tail)(struct drm_atomic_state *state);
-<<<<<<< HEAD
 
 	/**
 	 * @atomic_commit_setup:
@@ -1430,8 +1419,6 @@ struct drm_mode_config_helper_funcs {
 	 * This hook is optional.
 	 */
 	int (*atomic_commit_setup)(struct drm_atomic_state *state);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #endif

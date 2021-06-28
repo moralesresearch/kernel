@@ -87,12 +87,9 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(devlink_trap_report);
 
 static const struct nla_policy devlink_function_nl_policy[DEVLINK_PORT_FUNCTION_ATTR_MAX + 1] = {
 	[DEVLINK_PORT_FUNCTION_ATTR_HW_ADDR] = { .type = NLA_BINARY },
-<<<<<<< HEAD
 	[DEVLINK_PORT_FN_ATTR_STATE] =
 		NLA_POLICY_RANGE(NLA_U8, DEVLINK_PORT_FN_STATE_INACTIVE,
 				 DEVLINK_PORT_FN_STATE_ACTIVE),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static LIST_HEAD(devlink_list);
@@ -696,7 +693,6 @@ static int devlink_nl_port_attrs_put(struct sk_buff *msg,
 		if (nla_put_u8(msg, DEVLINK_ATTR_PORT_EXTERNAL, attrs->pci_vf.external))
 			return -EMSGSIZE;
 		break;
-<<<<<<< HEAD
 	case DEVLINK_PORT_FLAVOUR_PCI_SF:
 		if (nla_put_u32(msg, DEVLINK_ATTR_PORT_CONTROLLER_NUMBER,
 				attrs->pci_sf.controller) ||
@@ -709,12 +705,6 @@ static int devlink_nl_port_attrs_put(struct sk_buff *msg,
 	case DEVLINK_PORT_FLAVOUR_PHYSICAL:
 	case DEVLINK_PORT_FLAVOUR_CPU:
 	case DEVLINK_PORT_FLAVOUR_DSA:
-=======
-	case DEVLINK_PORT_FLAVOUR_PHYSICAL:
-	case DEVLINK_PORT_FLAVOUR_CPU:
-	case DEVLINK_PORT_FLAVOUR_DSA:
-	case DEVLINK_PORT_FLAVOUR_VIRTUAL:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (nla_put_u32(msg, DEVLINK_ATTR_PORT_NUMBER,
 				attrs->phys.port_number))
 			return -EMSGSIZE;
@@ -734,7 +724,6 @@ static int devlink_nl_port_attrs_put(struct sk_buff *msg,
 }
 
 static int
-<<<<<<< HEAD
 devlink_port_fn_hw_addr_fill(struct devlink *devlink, const struct devlink_ops *ops,
 			     struct devlink_port *port, struct sk_buff *msg,
 			     struct netlink_ext_ack *extack, bool *msg_updated)
@@ -812,28 +801,20 @@ devlink_port_fn_state_fill(struct devlink *devlink,
 }
 
 static int
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 devlink_nl_port_function_attrs_put(struct sk_buff *msg, struct devlink_port *port,
 				   struct netlink_ext_ack *extack)
 {
 	struct devlink *devlink = port->devlink;
 	const struct devlink_ops *ops;
 	struct nlattr *function_attr;
-<<<<<<< HEAD
 	bool msg_updated = false;
 	int err;
-=======
-	bool empty_nest = true;
-	int err = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	function_attr = nla_nest_start_noflag(msg, DEVLINK_ATTR_PORT_FUNCTION);
 	if (!function_attr)
 		return -EMSGSIZE;
 
 	ops = devlink->ops;
-<<<<<<< HEAD
 	err = devlink_port_fn_hw_addr_fill(devlink, ops, port, msg,
 					   extack, &msg_updated);
 	if (err)
@@ -842,30 +823,6 @@ devlink_nl_port_function_attrs_put(struct sk_buff *msg, struct devlink_port *por
 					 &msg_updated);
 out:
 	if (err || !msg_updated)
-=======
-	if (ops->port_function_hw_addr_get) {
-		int hw_addr_len;
-		u8 hw_addr[MAX_ADDR_LEN];
-
-		err = ops->port_function_hw_addr_get(devlink, port, hw_addr, &hw_addr_len, extack);
-		if (err == -EOPNOTSUPP) {
-			/* Port function attributes are optional for a port. If port doesn't
-			 * support function attribute, returning -EOPNOTSUPP is not an error.
-			 */
-			err = 0;
-			goto out;
-		} else if (err) {
-			goto out;
-		}
-		err = nla_put(msg, DEVLINK_PORT_FUNCTION_ATTR_HW_ADDR, hw_addr_len, hw_addr);
-		if (err)
-			goto out;
-		empty_nest = false;
-	}
-
-out:
-	if (err || empty_nest)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nla_nest_cancel(msg, function_attr);
 	else
 		nla_nest_end(msg, function_attr);
@@ -1103,10 +1060,6 @@ devlink_port_function_hw_addr_set(struct devlink *devlink, struct devlink_port *
 	const struct devlink_ops *ops;
 	const u8 *hw_addr;
 	int hw_addr_len;
-<<<<<<< HEAD
-=======
-	int err;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hw_addr = nla_data(attr);
 	hw_addr_len = nla_len(attr);
@@ -1131,7 +1084,6 @@ devlink_port_function_hw_addr_set(struct devlink *devlink, struct devlink_port *
 		return -EOPNOTSUPP;
 	}
 
-<<<<<<< HEAD
 	return ops->port_function_hw_addr_set(devlink, port, hw_addr, hw_addr_len, extack);
 }
 
@@ -1151,14 +1103,6 @@ static int devlink_port_fn_state_set(struct devlink *devlink,
 		return -EOPNOTSUPP;
 	}
 	return ops->port_fn_state_set(devlink, port, state, extack);
-=======
-	err = ops->port_function_hw_addr_set(devlink, port, hw_addr, hw_addr_len, extack);
-	if (err)
-		return err;
-
-	devlink_port_notify(port, DEVLINK_CMD_PORT_NEW);
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -1176,7 +1120,6 @@ devlink_port_function_set(struct devlink *devlink, struct devlink_port *port,
 	}
 
 	attr = tb[DEVLINK_PORT_FUNCTION_ATTR_HW_ADDR];
-<<<<<<< HEAD
 	if (attr) {
 		err = devlink_port_function_hw_addr_set(devlink, port, attr, extack);
 		if (err)
@@ -1192,11 +1135,6 @@ devlink_port_function_set(struct devlink *devlink, struct devlink_port *port,
 
 	if (!err)
 		devlink_port_notify(port, DEVLINK_CMD_PORT_NEW);
-=======
-	if (attr)
-		err = devlink_port_function_hw_addr_set(devlink, port, attr, extack);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -1296,7 +1234,6 @@ static int devlink_nl_cmd_port_unsplit_doit(struct sk_buff *skb,
 	return devlink_port_unsplit(devlink, port_index, info->extack);
 }
 
-<<<<<<< HEAD
 static int devlink_port_new_notifiy(struct devlink *devlink,
 				    unsigned int port_index,
 				    struct genl_info *info)
@@ -1402,8 +1339,6 @@ static int devlink_nl_cmd_port_del_doit(struct sk_buff *skb,
 	return devlink->ops->port_del(devlink, port_index, extack);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int devlink_nl_sb_fill(struct sk_buff *msg, struct devlink *devlink,
 			      struct devlink_sb *devlink_sb,
 			      enum devlink_command cmd, u32 portid,
@@ -7862,13 +7797,10 @@ static const struct nla_policy devlink_nl_policy[DEVLINK_ATTR_MAX + 1] = {
 	[DEVLINK_ATTR_RELOAD_ACTION] = NLA_POLICY_RANGE(NLA_U8, DEVLINK_RELOAD_ACTION_DRIVER_REINIT,
 							DEVLINK_RELOAD_ACTION_MAX),
 	[DEVLINK_ATTR_RELOAD_LIMITS] = NLA_POLICY_BITFIELD32(DEVLINK_RELOAD_LIMITS_VALID_MASK),
-<<<<<<< HEAD
 	[DEVLINK_ATTR_PORT_FLAVOUR] = { .type = NLA_U16 },
 	[DEVLINK_ATTR_PORT_PCI_PF_NUMBER] = { .type = NLA_U16 },
 	[DEVLINK_ATTR_PORT_PCI_SF_NUMBER] = { .type = NLA_U32 },
 	[DEVLINK_ATTR_PORT_CONTROLLER_NUMBER] = { .type = NLA_U32 },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct genl_small_ops devlink_nl_ops[] = {
@@ -7909,7 +7841,6 @@ static const struct genl_small_ops devlink_nl_ops[] = {
 		.internal_flags = DEVLINK_NL_FLAG_NO_LOCK,
 	},
 	{
-<<<<<<< HEAD
 		.cmd = DEVLINK_CMD_PORT_NEW,
 		.doit = devlink_nl_cmd_port_new_doit,
 		.flags = GENL_ADMIN_PERM,
@@ -7922,8 +7853,6 @@ static const struct genl_small_ops devlink_nl_ops[] = {
 		.internal_flags = DEVLINK_NL_FLAG_NO_LOCK,
 	},
 	{
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.cmd = DEVLINK_CMD_SB_GET,
 		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
 		.doit = devlink_nl_cmd_sb_get_doit,
@@ -8662,7 +8591,6 @@ void devlink_port_attrs_pci_vf_set(struct devlink_port *devlink_port, u32 contro
 }
 EXPORT_SYMBOL_GPL(devlink_port_attrs_pci_vf_set);
 
-<<<<<<< HEAD
 /**
  *	devlink_port_attrs_pci_sf_set - Set PCI SF port attributes
  *
@@ -8670,9 +8598,10 @@ EXPORT_SYMBOL_GPL(devlink_port_attrs_pci_vf_set);
  *	@controller: associated controller number for the devlink port instance
  *	@pf: associated PF for the devlink port instance
  *	@sf: associated SF of a PF for the devlink port instance
+ *	@external: indicates if the port is for an external controller
  */
 void devlink_port_attrs_pci_sf_set(struct devlink_port *devlink_port, u32 controller,
-				   u16 pf, u32 sf)
+				   u16 pf, u32 sf, bool external)
 {
 	struct devlink_port_attrs *attrs = &devlink_port->attrs;
 	int ret;
@@ -8686,11 +8615,10 @@ void devlink_port_attrs_pci_sf_set(struct devlink_port *devlink_port, u32 contro
 	attrs->pci_sf.controller = controller;
 	attrs->pci_sf.pf = pf;
 	attrs->pci_sf.sf = sf;
+	attrs->pci_sf.external = external;
 }
 EXPORT_SYMBOL_GPL(devlink_port_attrs_pci_sf_set);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
 					     char *name, size_t len)
 {
@@ -8702,10 +8630,6 @@ static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
 
 	switch (attrs->flavour) {
 	case DEVLINK_PORT_FLAVOUR_PHYSICAL:
-<<<<<<< HEAD
-=======
-	case DEVLINK_PORT_FLAVOUR_VIRTUAL:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!attrs->split)
 			n = snprintf(name, len, "p%u", attrs->phys.port_number);
 		else
@@ -8742,15 +8666,19 @@ static int __devlink_port_phys_port_name_get(struct devlink_port *devlink_port,
 		n = snprintf(name, len, "pf%uvf%u",
 			     attrs->pci_vf.pf, attrs->pci_vf.vf);
 		break;
-<<<<<<< HEAD
 	case DEVLINK_PORT_FLAVOUR_PCI_SF:
+		if (attrs->pci_sf.external) {
+			n = snprintf(name, len, "c%u", attrs->pci_sf.controller);
+			if (n >= len)
+				return -EINVAL;
+			len -= n;
+			name += n;
+		}
 		n = snprintf(name, len, "pf%usf%u", attrs->pci_sf.pf,
 			     attrs->pci_sf.sf);
 		break;
 	case DEVLINK_PORT_FLAVOUR_VIRTUAL:
 		return -EOPNOTSUPP;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (n >= len)
@@ -8948,13 +8876,10 @@ EXPORT_SYMBOL_GPL(devlink_dpipe_table_unregister);
  *	@resource_id: resource's id
  *	@parent_resource_id: resource's parent id
  *	@size_params: size parameters
-<<<<<<< HEAD
  *
  *	Generic resources should reuse the same names across drivers.
  *	Please see the generic resources list at:
  *	Documentation/networking/devlink/devlink-resource.rst
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int devlink_resource_register(struct devlink *devlink,
 			      const char *resource_name,
@@ -9846,10 +9771,7 @@ static const struct devlink_trap devlink_trap_generic[] = {
 	DEVLINK_TRAP(GTP_PARSING, DROP),
 	DEVLINK_TRAP(ESP_PARSING, DROP),
 	DEVLINK_TRAP(BLACKHOLE_NEXTHOP, DROP),
-<<<<<<< HEAD
 	DEVLINK_TRAP(DMAC_FILTER, DROP),
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define DEVLINK_TRAP_GROUP(_id)						      \

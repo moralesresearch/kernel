@@ -35,21 +35,9 @@
 struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object *obj)
 {
 	struct radeon_bo *bo = gem_to_radeon_bo(obj);
-<<<<<<< HEAD
 
 	return drm_prime_pages_to_sg(obj->dev, bo->tbo.ttm->pages,
 				     bo->tbo.ttm->num_pages);
-=======
-<<<<<<< HEAD
-
-	return drm_prime_pages_to_sg(obj->dev, bo->tbo.ttm->pages,
-				     bo->tbo.ttm->num_pages);
-=======
-	int npages = bo->tbo.num_pages;
-
-	return drm_prime_pages_to_sg(obj->dev, bo->tbo.ttm->pages, npages);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct drm_gem_object *radeon_gem_prime_import_sg_table(struct drm_device *dev,
@@ -89,9 +77,19 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
 
 	/* pin buffer into GTT */
 	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
-	if (likely(ret == 0))
-		bo->prime_shared_count++;
+	if (unlikely(ret))
+		goto error;
 
+	if (bo->tbo.moving) {
+		ret = dma_fence_wait(bo->tbo.moving, false);
+		if (unlikely(ret)) {
+			radeon_bo_unpin(bo);
+			goto error;
+		}
+	}
+
+	bo->prime_shared_count++;
+error:
 	radeon_bo_unreserve(bo);
 	return ret;
 }

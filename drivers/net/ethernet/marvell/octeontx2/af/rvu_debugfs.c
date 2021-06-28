@@ -19,14 +19,7 @@
 #include "rvu_reg.h"
 #include "rvu.h"
 #include "cgx.h"
-<<<<<<< HEAD
 #include "lmac_common.h"
-=======
-<<<<<<< HEAD
-#include "lmac_common.h"
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "npc.h"
 
 #define DEBUGFS_DIR_NAME "octeontx2"
@@ -117,10 +110,6 @@ static char *cgx_tx_stats_fields[] = {
 	[CGX_STAT17]	= "Control/PAUSE packets sent",
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static char *rpm_rx_stats_fields[] = {
 	"Octets of received packets",
 	"Octets of received packets with out error",
@@ -204,11 +193,6 @@ static char *rpm_tx_stats_fields[] = {
 	"Total frames sent on the interface"
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum cpt_eng_type {
 	CPT_AE_TYPE = 1,
 	CPT_SE_TYPE = 2,
@@ -348,14 +332,7 @@ static int rvu_dbg_rvu_pf_cgx_map_display(struct seq_file *filp, void *unused)
 {
 	struct rvu *rvu = filp->private;
 	struct pci_dev *pdev = NULL;
-<<<<<<< HEAD
 	struct mac_ops *mac_ops;
-=======
-<<<<<<< HEAD
-	struct mac_ops *mac_ops;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char cgx[10], lmac[10];
 	struct rvu_pfvf *pfvf;
 	int pf, domain, blkid;
@@ -363,22 +340,12 @@ static int rvu_dbg_rvu_pf_cgx_map_display(struct seq_file *filp, void *unused)
 	u16 pcifunc;
 
 	domain = 2;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mac_ops = get_mac_ops(rvu_first_cgx_pdata(rvu));
 	/* There can be no CGX devices at all */
 	if (!mac_ops)
 		return 0;
 	seq_printf(filp, "PCI dev\t\tRVU PF Func\tNIX block\t%s\tLMAC\n",
 		   mac_ops->name);
-<<<<<<< HEAD
-=======
-=======
-	seq_puts(filp, "PCI dev\t\tRVU PF Func\tNIX block\tCGX\tLMAC\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (pf = 0; pf < rvu->hw->total_pfs; pf++) {
 		if (!is_pf_cgxmapped(rvu, pf))
 			continue;
@@ -399,15 +366,7 @@ static int rvu_dbg_rvu_pf_cgx_map_display(struct seq_file *filp, void *unused)
 
 		rvu_get_cgx_lmac_id(rvu->pf2cgxlmac_map[pf], &cgx_id,
 				    &lmac_id);
-<<<<<<< HEAD
 		sprintf(cgx, "%s%d", mac_ops->name, cgx_id);
-=======
-<<<<<<< HEAD
-		sprintf(cgx, "%s%d", mac_ops->name, cgx_id);
-=======
-		sprintf(cgx, "CGX%d", cgx_id);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sprintf(lmac, "LMAC%d", lmac_id);
 		seq_printf(filp, "%s\t0x%x\t\tNIX%d\t\t%s\t%s\n",
 			   dev_name(&pdev->dev), pcifunc, blkid, cgx, lmac);
@@ -594,14 +553,7 @@ RVU_DEBUG_SEQ_FOPS(npa_qsize, npa_qsize_display, npa_qsize_write);
 static void print_npa_aura_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 {
 	struct npa_aura_s *aura = &rsp->aura;
-<<<<<<< HEAD
 	struct rvu *rvu = m->private;
-=======
-<<<<<<< HEAD
-	struct rvu *rvu = m->private;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(m, "W0: Pool addr\t\t%llx\n", aura->pool_addr);
 
@@ -621,18 +573,9 @@ static void print_npa_aura_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 
 	seq_printf(m, "W3: limit\t\t%llu\nW3: bp\t\t\t%d\nW3: fc_ena\t\t%d\n",
 		   (u64)aura->limit, aura->bp, aura->fc_ena);
-<<<<<<< HEAD
 
 	if (!is_rvu_otx2(rvu))
 		seq_printf(m, "W3: fc_be\t\t%d\n", aura->fc_be);
-=======
-<<<<<<< HEAD
-
-	if (!is_rvu_otx2(rvu))
-		seq_printf(m, "W3: fc_be\t\t%d\n", aura->fc_be);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(m, "W3: fc_up_crossing\t%d\nW3: fc_stype\t\t%d\n",
 		   aura->fc_up_crossing, aura->fc_stype);
 	seq_printf(m, "W3: fc_hyst_bits\t%d\n", aura->fc_hyst_bits);
@@ -650,30 +593,15 @@ static void print_npa_aura_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 	seq_printf(m, "W5: err_qint_idx \t%d\n", aura->err_qint_idx);
 
 	seq_printf(m, "W6: thresh\t\t%llu\n", (u64)aura->thresh);
-<<<<<<< HEAD
 	if (!is_rvu_otx2(rvu))
 		seq_printf(m, "W6: fc_msh_dst\t\t%d\n", aura->fc_msh_dst);
-=======
-<<<<<<< HEAD
-	if (!is_rvu_otx2(rvu))
-		seq_printf(m, "W6: fc_msh_dst\t\t%d\n", aura->fc_msh_dst);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Dumps given NPA Pool's context */
 static void print_npa_pool_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 {
 	struct npa_pool_s *pool = &rsp->pool;
-<<<<<<< HEAD
 	struct rvu *rvu = m->private;
-=======
-<<<<<<< HEAD
-	struct rvu *rvu = m->private;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(m, "W0: Stack base\t\t%llx\n", pool->stack_base);
 
@@ -695,16 +623,8 @@ static void print_npa_pool_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 		   pool->avg_con, pool->fc_ena, pool->fc_stype);
 	seq_printf(m, "W4: fc_hyst_bits\t%d\nW4: fc_up_crossing\t%d\n",
 		   pool->fc_hyst_bits, pool->fc_up_crossing);
-<<<<<<< HEAD
 	if (!is_rvu_otx2(rvu))
 		seq_printf(m, "W4: fc_be\t\t%d\n", pool->fc_be);
-=======
-<<<<<<< HEAD
-	if (!is_rvu_otx2(rvu))
-		seq_printf(m, "W4: fc_be\t\t%d\n", pool->fc_be);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(m, "W4: update_time\t\t%d\n", pool->update_time);
 
 	seq_printf(m, "W5: fc_addr\t\t%llx\n", pool->fc_addr);
@@ -718,21 +638,10 @@ static void print_npa_pool_ctx(struct seq_file *m, struct npa_aq_enq_rsp *rsp)
 	seq_printf(m, "W8: thresh_int\t\t%d\n", pool->thresh_int);
 	seq_printf(m, "W8: thresh_int_ena\t%d\nW8: thresh_up\t\t%d\n",
 		   pool->thresh_int_ena, pool->thresh_up);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(m, "W8: thresh_qint_idx\t%d\nW8: err_qint_idx\t%d\n",
 		   pool->thresh_qint_idx, pool->err_qint_idx);
 	if (!is_rvu_otx2(rvu))
 		seq_printf(m, "W8: fc_msh_dst\t\t%d\n", pool->fc_msh_dst);
-<<<<<<< HEAD
-=======
-=======
-	seq_printf(m, "W8: thresh_qint_idx\t%d\nW8: err_qint_idx\t\t%d\n",
-		   pool->thresh_qint_idx, pool->err_qint_idx);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Reads aura/pool's ctx from admin queue */
@@ -1116,10 +1025,6 @@ static int rvu_dbg_nix_ndc_tx_hits_miss_display(struct seq_file *filp,
 
 RVU_DEBUG_SEQ_FOPS(nix_ndc_tx_hits_miss, nix_ndc_tx_hits_miss_display, NULL);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void print_nix_cn10k_sq_ctx(struct seq_file *m,
 				   struct nix_cn10k_sq_ctx_s *sq_ctx)
 {
@@ -1181,19 +1086,10 @@ static void print_nix_cn10k_sq_ctx(struct seq_file *m,
 		   (u64)sq_ctx->dropped_pkts);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Dumps given nix_sq's context */
 static void print_nix_sq_ctx(struct seq_file *m, struct nix_aq_enq_rsp *rsp)
 {
 	struct nix_sq_ctx_s *sq_ctx = &rsp->sq;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nix_hw *nix_hw = m->private;
 	struct rvu *rvu = nix_hw->rvu;
 
@@ -1201,12 +1097,6 @@ static void print_nix_sq_ctx(struct seq_file *m, struct nix_aq_enq_rsp *rsp)
 		print_nix_cn10k_sq_ctx(m, (struct nix_cn10k_sq_ctx_s *)sq_ctx);
 		return;
 	}
-<<<<<<< HEAD
-=======
-=======
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(m, "W0: sqe_way_mask \t\t%d\nW0: cq \t\t\t\t%d\n",
 		   sq_ctx->sqe_way_mask, sq_ctx->cq);
 	seq_printf(m, "W0: sdp_mcast \t\t\t%d\nW0: substream \t\t\t0x%03x\n",
@@ -1266,10 +1156,6 @@ static void print_nix_sq_ctx(struct seq_file *m, struct nix_aq_enq_rsp *rsp)
 		   (u64)sq_ctx->dropped_pkts);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void print_nix_cn10k_rq_ctx(struct seq_file *m,
 				   struct nix_cn10k_rq_ctx_s *rq_ctx)
 {
@@ -1347,19 +1233,10 @@ static void print_nix_cn10k_rq_ctx(struct seq_file *m,
 	seq_printf(m, "W10: re_pkts \t\t\t%llu\n", (u64)rq_ctx->re_pkts);
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Dumps given nix_rq's context */
 static void print_nix_rq_ctx(struct seq_file *m, struct nix_aq_enq_rsp *rsp)
 {
 	struct nix_rq_ctx_s *rq_ctx = &rsp->rq;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nix_hw *nix_hw = m->private;
 	struct rvu *rvu = nix_hw->rvu;
 
@@ -1367,11 +1244,6 @@ static void print_nix_rq_ctx(struct seq_file *m, struct nix_aq_enq_rsp *rsp)
 		print_nix_cn10k_rq_ctx(m, (struct nix_cn10k_rq_ctx_s *)rq_ctx);
 		return;
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(m, "W0: wqe_aura \t\t\t%d\nW0: substream \t\t\t0x%03x\n",
 		   rq_ctx->wqe_aura, rq_ctx->substream);
@@ -1833,14 +1705,7 @@ static void rvu_dbg_npa_init(struct rvu *rvu)
 static int cgx_print_stats(struct seq_file *s, int lmac_id)
 {
 	struct cgx_link_user_info linfo;
-<<<<<<< HEAD
 	struct mac_ops *mac_ops;
-=======
-<<<<<<< HEAD
-	struct mac_ops *mac_ops;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *cgxd = s->private;
 	u64 ucast, mcast, bcast;
 	int stat = 0, err = 0;
@@ -1852,20 +1717,11 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 	if (!rvu)
 		return -ENODEV;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mac_ops = get_mac_ops(cgxd);
 
 	if (!mac_ops)
 		return 0;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Link status */
 	seq_puts(s, "\n=======Link Status======\n\n");
 	err = cgx_get_link_info(cgxd, lmac_id, &linfo);
@@ -1875,17 +1731,8 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 		   linfo.link_up ? "UP" : "DOWN", linfo.speed);
 
 	/* Rx stats */
-<<<<<<< HEAD
 	seq_printf(s, "\n=======NIX RX_STATS(%s port level)======\n\n",
 		   mac_ops->name);
-=======
-<<<<<<< HEAD
-	seq_printf(s, "\n=======NIX RX_STATS(%s port level)======\n\n",
-		   mac_ops->name);
-=======
-	seq_puts(s, "\n=======NIX RX_STATS(CGX port level)======\n\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ucast = PRINT_CGX_CUML_NIXRX_STATUS(RX_UCAST, "rx_ucast_frames");
 	if (err)
 		return err;
@@ -1907,17 +1754,8 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 		return err;
 
 	/* Tx stats */
-<<<<<<< HEAD
 	seq_printf(s, "\n=======NIX TX_STATS(%s port level)======\n\n",
 		   mac_ops->name);
-=======
-<<<<<<< HEAD
-	seq_printf(s, "\n=======NIX TX_STATS(%s port level)======\n\n",
-		   mac_ops->name);
-=======
-	seq_puts(s, "\n=======NIX TX_STATS(CGX port level)======\n\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ucast = PRINT_CGX_CUML_NIXTX_STATUS(TX_UCAST, "tx_ucast_frames");
 	if (err)
 		return err;
@@ -1936,10 +1774,6 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 		return err;
 
 	/* Rx stats */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(s, "\n=======%s RX_STATS======\n\n", mac_ops->name);
 	while (stat < mac_ops->rx_stats_cnt) {
 		err = mac_ops->mac_get_rx_stats(cgxd, lmac_id, stat, &rx_stat);
@@ -1951,26 +1785,11 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 		else
 			seq_printf(s, "%s: %llu\n", rpm_rx_stats_fields[stat],
 				   rx_stat);
-<<<<<<< HEAD
-=======
-=======
-	seq_puts(s, "\n=======CGX RX_STATS======\n\n");
-	while (stat < CGX_RX_STATS_COUNT) {
-		err = cgx_get_rx_stats(cgxd, lmac_id, stat, &rx_stat);
-		if (err)
-			return err;
-		seq_printf(s, "%s: %llu\n", cgx_rx_stats_fields[stat], rx_stat);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stat++;
 	}
 
 	/* Tx stats */
 	stat = 0;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(s, "\n=======%s TX_STATS======\n\n", mac_ops->name);
 	while (stat < mac_ops->tx_stats_cnt) {
 		err = mac_ops->mac_get_tx_stats(cgxd, lmac_id, stat, &tx_stat);
@@ -1984,18 +1803,6 @@ static int cgx_print_stats(struct seq_file *s, int lmac_id)
 		seq_printf(s, "%s: %llu\n", rpm_tx_stats_fields[stat],
 			   tx_stat);
 	stat++;
-<<<<<<< HEAD
-=======
-=======
-	seq_puts(s, "\n=======CGX TX_STATS======\n\n");
-	while (stat < CGX_TX_STATS_COUNT) {
-		err = cgx_get_tx_stats(cgxd, lmac_id, stat, &tx_stat);
-		if (err)
-			return err;
-		seq_printf(s, "%s: %llu\n", cgx_tx_stats_fields[stat], tx_stat);
-		stat++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return err;
@@ -2025,24 +1832,12 @@ RVU_DEBUG_SEQ_FOPS(cgx_stat, cgx_stat_display, NULL);
 
 static void rvu_dbg_cgx_init(struct rvu *rvu)
 {
-<<<<<<< HEAD
 	struct mac_ops *mac_ops;
 	unsigned long lmac_bmap;
-=======
-<<<<<<< HEAD
-	struct mac_ops *mac_ops;
-	unsigned long lmac_bmap;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, lmac_id;
 	char dname[20];
 	void *cgx;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cgx_get_cgxcnt_max())
 		return;
 
@@ -2052,21 +1847,11 @@ static void rvu_dbg_cgx_init(struct rvu *rvu)
 
 	rvu->rvu_dbg.cgx_root = debugfs_create_dir(mac_ops->name,
 						   rvu->rvu_dbg.root);
-<<<<<<< HEAD
-=======
-=======
-	rvu->rvu_dbg.cgx_root = debugfs_create_dir("cgx", rvu->rvu_dbg.root);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < cgx_get_cgxcnt_max(); i++) {
 		cgx = rvu_cgx_pdata(i, rvu);
 		if (!cgx)
 			continue;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lmac_bmap = cgx_get_lmac_bmap(cgx);
 		/* cgx debugfs dir */
 		sprintf(dname, "%s%d", mac_ops->name, i);
@@ -2074,16 +1859,6 @@ static void rvu_dbg_cgx_init(struct rvu *rvu)
 						      rvu->rvu_dbg.cgx_root);
 
 		for_each_set_bit(lmac_id, &lmac_bmap, MAX_LMAC_PER_CGX) {
-<<<<<<< HEAD
-=======
-=======
-		/* cgx debugfs dir */
-		sprintf(dname, "cgx%d", i);
-		rvu->rvu_dbg.cgx = debugfs_create_dir(dname,
-						      rvu->rvu_dbg.cgx_root);
-		for (lmac_id = 0; lmac_id < cgx_get_lmac_cnt(cgx); lmac_id++) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* lmac debugfs dir */
 			sprintf(dname, "lmac%d", lmac_id);
 			rvu->rvu_dbg.lmac =
@@ -2242,7 +2017,7 @@ static void rvu_dbg_npc_mcam_show_flows(struct seq_file *s,
 			seq_printf(s, "mask 0x%x\n", ntohs(rule->mask.etype));
 			break;
 		case NPC_OUTER_VID:
-			seq_printf(s, "%d ", ntohs(rule->packet.vlan_tci));
+			seq_printf(s, "0x%x ", ntohs(rule->packet.vlan_tci));
 			seq_printf(s, "mask 0x%x\n",
 				   ntohs(rule->mask.vlan_tci));
 			break;
@@ -2279,14 +2054,7 @@ static void rvu_dbg_npc_mcam_show_flows(struct seq_file *s,
 			seq_printf(s, "mask 0x%x\n", ntohs(rule->mask.dport));
 			break;
 		default:
-<<<<<<< HEAD
 			seq_puts(s, "\n");
-=======
-<<<<<<< HEAD
-			seq_puts(s, "\n");
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
@@ -2315,15 +2083,7 @@ static void rvu_dbg_npc_mcam_show_action(struct seq_file *s,
 			break;
 		default:
 			break;
-<<<<<<< HEAD
 		}
-=======
-<<<<<<< HEAD
-		}
-=======
-		};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		switch (rule->rx_action.op) {
 		case NIX_RX_ACTIONOP_DROP:
@@ -2344,15 +2104,7 @@ static void rvu_dbg_npc_mcam_show_action(struct seq_file *s,
 			break;
 		default:
 			break;
-<<<<<<< HEAD
 		}
-=======
-<<<<<<< HEAD
-		}
-=======
-		};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2408,7 +2160,7 @@ static int rvu_dbg_npc_mcam_show_rules(struct seq_file *s, void *unused)
 		seq_printf(s, "\tmcam entry: %d\n", iter->entry);
 
 		rvu_dbg_npc_mcam_show_flows(s, iter);
-		if (iter->intf == NIX_INTF_RX) {
+		if (is_npc_intf_rx(iter->intf)) {
 			target = iter->rx_action.pf_func;
 			pf = (target >> RVU_PFVF_PF_SHIFT) & RVU_PFVF_PF_MASK;
 			seq_printf(s, "\tForward to: PF%d ", pf);
@@ -2449,10 +2201,6 @@ static void rvu_dbg_npc_init(struct rvu *rvu)
 			    &rvu_dbg_npc_rx_miss_act_fops);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int cpt_eng_sts_display(struct seq_file *filp, u8 eng_type)
 {
 	struct cpt_ctx *ctx = filp->private;
@@ -2463,25 +2211,6 @@ static int cpt_eng_sts_display(struct seq_file *filp, u8 eng_type)
 	int blkaddr = ctx->blkaddr;
 	u64 reg;
 
-<<<<<<< HEAD
-=======
-=======
-/* CPT debugfs APIs */
-static int cpt_eng_sts_display(struct seq_file *filp, u8 eng_type)
-{
-	struct rvu *rvu = filp->private;
-	u64 busy_sts = 0, free_sts = 0;
-	u32 e_min = 0, e_max = 0, e, i;
-	u16 max_ses, max_ies, max_aes;
-	int blkaddr;
-	u64 reg;
-
-	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
-	if (blkaddr < 0)
-		return -ENODEV;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = rvu_read64(rvu, blkaddr, CPT_AF_CONSTANTS1);
 	max_ses = reg & 0xffff;
 	max_ies = (reg >> 16) & 0xffff;
@@ -2541,10 +2270,6 @@ RVU_DEBUG_SEQ_FOPS(cpt_ie_sts, cpt_ie_sts_display, NULL);
 
 static int rvu_dbg_cpt_engines_info_display(struct seq_file *filp, void *unused)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cpt_ctx *ctx = filp->private;
 	u16 max_ses, max_ies, max_aes;
 	struct rvu *rvu = ctx->rvu;
@@ -2552,21 +2277,6 @@ static int rvu_dbg_cpt_engines_info_display(struct seq_file *filp, void *unused)
 	u32 e_max, e;
 	u64 reg;
 
-<<<<<<< HEAD
-=======
-=======
-	struct rvu *rvu = filp->private;
-	u16 max_ses, max_ies, max_aes;
-	u32 e_max, e;
-	int blkaddr;
-	u64 reg;
-
-	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
-	if (blkaddr < 0)
-		return -ENODEV;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = rvu_read64(rvu, blkaddr, CPT_AF_CONSTANTS1);
 	max_ses = reg & 0xffff;
 	max_ies = (reg >> 16) & 0xffff;
@@ -2594,10 +2304,6 @@ RVU_DEBUG_SEQ_FOPS(cpt_engines_info, cpt_engines_info_display, NULL);
 
 static int rvu_dbg_cpt_lfs_info_display(struct seq_file *filp, void *unused)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cpt_ctx *ctx = filp->private;
 	int blkaddr = ctx->blkaddr;
 	struct rvu *rvu = ctx->rvu;
@@ -2607,22 +2313,6 @@ static int rvu_dbg_cpt_lfs_info_display(struct seq_file *filp, void *unused)
 	u32 lf;
 
 	hw = rvu->hw;
-<<<<<<< HEAD
-=======
-=======
-	struct rvu *rvu = filp->private;
-	struct rvu_hwinfo *hw = rvu->hw;
-	struct rvu_block *block;
-	int blkaddr;
-	u64 reg;
-	u32 lf;
-
-	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
-	if (blkaddr < 0)
-		return -ENODEV;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	block = &hw->block[blkaddr];
 	if (!block->lf.bmap)
 		return -ENODEV;
@@ -2647,26 +2337,10 @@ RVU_DEBUG_SEQ_FOPS(cpt_lfs_info, cpt_lfs_info_display, NULL);
 
 static int rvu_dbg_cpt_err_info_display(struct seq_file *filp, void *unused)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cpt_ctx *ctx = filp->private;
 	struct rvu *rvu = ctx->rvu;
 	int blkaddr = ctx->blkaddr;
 	u64 reg0, reg1;
-<<<<<<< HEAD
-=======
-=======
-	struct rvu *rvu = filp->private;
-	u64 reg0, reg1;
-	int blkaddr;
-
-	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
-	if (blkaddr < 0)
-		return -ENODEV;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	reg0 = rvu_read64(rvu, blkaddr, CPT_AF_FLTX_INT(0));
 	reg1 = rvu_read64(rvu, blkaddr, CPT_AF_FLTX_INT(1));
@@ -2690,29 +2364,11 @@ RVU_DEBUG_SEQ_FOPS(cpt_err_info, cpt_err_info_display, NULL);
 
 static int rvu_dbg_cpt_pc_display(struct seq_file *filp, void *unused)
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cpt_ctx *ctx = filp->private;
 	struct rvu *rvu = ctx->rvu;
 	int blkaddr = ctx->blkaddr;
 	u64 reg;
 
-<<<<<<< HEAD
-=======
-=======
-	struct rvu *rvu;
-	int blkaddr;
-	u64 reg;
-
-	rvu = filp->private;
-	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
-	if (blkaddr < 0)
-		return -ENODEV;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	reg = rvu_read64(rvu, blkaddr, CPT_AF_INST_REQ_PC);
 	seq_printf(filp, "CPT instruction requests   %llu\n", reg);
 	reg = rvu_read64(rvu, blkaddr, CPT_AF_INST_LATENCY_PC);
@@ -2733,10 +2389,6 @@ static int rvu_dbg_cpt_pc_display(struct seq_file *filp, void *unused)
 
 RVU_DEBUG_SEQ_FOPS(cpt_pc, cpt_pc_display, NULL);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rvu_dbg_cpt_init(struct rvu *rvu, int blkaddr)
 {
 	struct cpt_ctx *ctx;
@@ -2799,60 +2451,14 @@ void rvu_dbg_init(struct rvu *rvu)
 				    rvu, &rvu_dbg_rvu_pf_cgx_map_fops);
 
 create:
-<<<<<<< HEAD
-=======
-=======
-static void rvu_dbg_cpt_init(struct rvu *rvu)
-{
-	if (!is_block_implemented(rvu->hw, BLKADDR_CPT0))
-		return;
-
-	rvu->rvu_dbg.cpt = debugfs_create_dir("cpt", rvu->rvu_dbg.root);
-
-	debugfs_create_file("cpt_pc", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_pc_fops);
-	debugfs_create_file("cpt_ae_sts", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_ae_sts_fops);
-	debugfs_create_file("cpt_se_sts", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_se_sts_fops);
-	debugfs_create_file("cpt_ie_sts", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_ie_sts_fops);
-	debugfs_create_file("cpt_engines_info", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_engines_info_fops);
-	debugfs_create_file("cpt_lfs_info", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_lfs_info_fops);
-	debugfs_create_file("cpt_err_info", 0600, rvu->rvu_dbg.cpt, rvu,
-			    &rvu_dbg_cpt_err_info_fops);
-}
-
-void rvu_dbg_init(struct rvu *rvu)
-{
-	rvu->rvu_dbg.root = debugfs_create_dir(DEBUGFS_DIR_NAME, NULL);
-
-	debugfs_create_file("rsrc_alloc", 0444, rvu->rvu_dbg.root, rvu,
-			    &rvu_dbg_rsrc_status_fops);
-	debugfs_create_file("rvu_pf_cgx_map", 0444, rvu->rvu_dbg.root, rvu,
-			    &rvu_dbg_rvu_pf_cgx_map_fops);
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rvu_dbg_npa_init(rvu);
 	rvu_dbg_nix_init(rvu, BLKADDR_NIX0);
 
 	rvu_dbg_nix_init(rvu, BLKADDR_NIX1);
 	rvu_dbg_cgx_init(rvu);
 	rvu_dbg_npc_init(rvu);
-<<<<<<< HEAD
 	rvu_dbg_cpt_init(rvu, BLKADDR_CPT0);
 	rvu_dbg_cpt_init(rvu, BLKADDR_CPT1);
-=======
-<<<<<<< HEAD
-	rvu_dbg_cpt_init(rvu, BLKADDR_CPT0);
-	rvu_dbg_cpt_init(rvu, BLKADDR_CPT1);
-=======
-	rvu_dbg_cpt_init(rvu);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void rvu_dbg_exit(struct rvu *rvu)

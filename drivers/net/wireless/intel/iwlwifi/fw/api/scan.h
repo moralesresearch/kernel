@@ -542,12 +542,8 @@ struct iwl_scan_config_v2 {
  * struct iwl_scan_config
  * @enable_cam_mode: whether to enable CAM mode.
  * @enable_promiscouos_mode: whether to enable promiscouos mode
-<<<<<<< HEAD
  * @bcast_sta_id: the index of the station in the fw. Deprecated starting with
  *     API version 5.
-=======
- * @bcast_sta_id: the index of the station in the fw
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @reserved: reserved
  * @tx_chains: valid_tx antenna - ANT_* definitions
  * @rx_chains: valid_rx antenna - ANT_* definitions
@@ -559,11 +555,7 @@ struct iwl_scan_config {
 	u8 reserved;
 	__le32 tx_chains;
 	__le32 rx_chains;
-<<<<<<< HEAD
 } __packed; /* SCAN_CONFIG_DB_CMD_API_S_5 */
-=======
-} __packed; /* SCAN_CONFIG_DB_CMD_API_S_3 */
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum iwl_umac_scan_flags - UMAC scan flags
@@ -642,6 +634,12 @@ enum iwl_umac_scan_general_flags2 {
  * @IWL_UMAC_SCAN_GEN_FLAGS_V2_TRIGGER_UHB_SCAN: at the end of 2.4GHz and
  *		5.2Ghz bands scan, trigger scan on 6GHz band to discover
  *		the reported collocated APs
+ * @IWL_UMAC_SCAN_GEN_FLAGS_V2_6GHZ_PASSIVE_SCAN: at the end of 2.4GHz and 5GHz
+ *      bands scan, if not APs were discovered, allow scan to conitnue and scan
+ *      6GHz PSC channels in order to discover country information.
+ * @IWL_UMAC_SCAN_GEN_FLAGS_V2_6GHZ_PASSIVE_SCAN_FILTER_IN: in case
+ *      &IWL_UMAC_SCAN_GEN_FLAGS_V2_6GHZ_PASSIVE_SCAN is enabled and scan is
+ *      activated over 6GHz PSC channels, filter in beacons and probe responses.
  */
 enum iwl_umac_scan_general_flags_v2 {
 	IWL_UMAC_SCAN_GEN_FLAGS_V2_PERIODIC             = BIT(0),
@@ -657,6 +655,8 @@ enum iwl_umac_scan_general_flags_v2 {
 	IWL_UMAC_SCAN_GEN_FLAGS_V2_MULTI_SSID           = BIT(10),
 	IWL_UMAC_SCAN_GEN_FLAGS_V2_FORCE_PASSIVE        = BIT(11),
 	IWL_UMAC_SCAN_GEN_FLAGS_V2_TRIGGER_UHB_SCAN     = BIT(12),
+	IWL_UMAC_SCAN_GEN_FLAGS_V2_6GHZ_PASSIVE_SCAN    = BIT(13),
+	IWL_UMAC_SCAN_GEN_FLAGS_V2_6GHZ_PASSIVE_SCAN_FILTER_IN = BIT(14),
 };
 
 /**

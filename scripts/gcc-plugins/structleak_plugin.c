@@ -170,10 +170,6 @@ static void initialize(tree var)
 static unsigned int structleak_execute(void)
 {
 	basic_block bb;
-<<<<<<< HEAD
-=======
-	unsigned int ret = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tree var;
 	unsigned int i;
 
@@ -203,11 +199,7 @@ static unsigned int structleak_execute(void)
 			initialize(var);
 	}
 
-<<<<<<< HEAD
 	return 0;
-=======
-	return ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define PASS_NAME structleak

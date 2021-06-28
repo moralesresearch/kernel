@@ -404,17 +404,6 @@ void __init prom_meminit(void)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void __init prom_free_prom_memory(void)
-{
-	/* We got nothing to free here ...  */
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void setup_zero_pages(void);
 
 void __init paging_init(void)
@@ -431,5 +420,4 @@ void __init mem_init(void)
 	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
 	memblock_free_all();
 	setup_zero_pages();	/* This comes from node 0 */
-	mem_init_print_info(NULL);
 }

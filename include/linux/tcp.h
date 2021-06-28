@@ -496,12 +496,8 @@ static inline u32 tcp_saved_syn_len(const struct saved_syn *saved_syn)
 }
 
 struct sk_buff *tcp_get_timestamping_opt_stats(const struct sock *sk,
-<<<<<<< HEAD
 					       const struct sk_buff *orig_skb,
 					       const struct sk_buff *ack_skb);
-=======
-					       const struct sk_buff *orig_skb);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline u16 tcp_mss_clamp(const struct tcp_sock *tp, u16 mss)
 {

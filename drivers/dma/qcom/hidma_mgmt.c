@@ -418,7 +418,6 @@ static int __init hidma_mgmt_init(void)
 		hidma_mgmt_of_populate_channels(child);
 	}
 #endif
-<<<<<<< HEAD
 	/*
 	 * We do not check for return value here, as it is assumed that
 	 * platform_driver_register must not fail. The reason for this is that
@@ -436,10 +435,6 @@ static int __init hidma_mgmt_init(void)
 	platform_driver_register(&hidma_mgmt_driver);
 
 	return 0;
-=======
-	return platform_driver_register(&hidma_mgmt_driver);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 module_init(hidma_mgmt_init);
 MODULE_LICENSE("GPL v2");

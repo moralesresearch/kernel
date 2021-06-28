@@ -16,10 +16,7 @@
 #include <linux/types.h>
 #include <linux/spinlock.h>
 #include <linux/mm.h>
-<<<<<<< HEAD
 #include <linux/user_namespace.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <uapi/linux/xattr.h>
 
 struct inode;
@@ -38,12 +35,8 @@ struct xattr_handler {
 	int (*get)(const struct xattr_handler *, struct dentry *dentry,
 		   struct inode *inode, const char *name, void *buffer,
 		   size_t size);
-<<<<<<< HEAD
 	int (*set)(const struct xattr_handler *,
 		   struct user_namespace *mnt_userns, struct dentry *dentry,
-=======
-	int (*set)(const struct xattr_handler *, struct dentry *dentry,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   struct inode *inode, const char *name, const void *buffer,
 		   size_t size, int flags);
 };
@@ -57,7 +50,6 @@ struct xattr {
 };
 
 ssize_t __vfs_getxattr(struct dentry *, struct inode *, const char *, void *, size_t);
-<<<<<<< HEAD
 ssize_t vfs_getxattr(struct user_namespace *, struct dentry *, const char *,
 		     void *, size_t);
 ssize_t vfs_listxattr(struct dentry *d, char *list, size_t size);
@@ -78,20 +70,6 @@ int vfs_removexattr(struct user_namespace *, struct dentry *, const char *);
 ssize_t generic_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size);
 ssize_t vfs_getxattr_alloc(struct user_namespace *mnt_userns,
 			   struct dentry *dentry, const char *name,
-=======
-ssize_t vfs_getxattr(struct dentry *, const char *, void *, size_t);
-ssize_t vfs_listxattr(struct dentry *d, char *list, size_t size);
-int __vfs_setxattr(struct dentry *, struct inode *, const char *, const void *, size_t, int);
-int __vfs_setxattr_noperm(struct dentry *, const char *, const void *, size_t, int);
-int __vfs_setxattr_locked(struct dentry *, const char *, const void *, size_t, int, struct inode **);
-int vfs_setxattr(struct dentry *, const char *, const void *, size_t, int);
-int __vfs_removexattr(struct dentry *, const char *);
-int __vfs_removexattr_locked(struct dentry *, const char *, struct inode **);
-int vfs_removexattr(struct dentry *, const char *);
-
-ssize_t generic_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size);
-ssize_t vfs_getxattr_alloc(struct dentry *dentry, const char *name,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   char **xattr_value, size_t size, gfp_t flags);
 
 int xattr_supported_namespace(struct inode *inode, const char *prefix);

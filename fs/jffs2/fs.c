@@ -190,31 +190,19 @@ int jffs2_do_setattr (struct inode *inode, struct iattr *iattr)
 	return 0;
 }
 
-<<<<<<< HEAD
 int jffs2_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		  struct iattr *iattr)
-=======
-int jffs2_setattr(struct dentry *dentry, struct iattr *iattr)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int rc;
 
-<<<<<<< HEAD
 	rc = setattr_prepare(&init_user_ns, dentry, iattr);
-=======
-	rc = setattr_prepare(dentry, iattr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc)
 		return rc;
 
 	rc = jffs2_do_setattr(inode, iattr);
 	if (!rc && (iattr->ia_valid & ATTR_MODE))
-<<<<<<< HEAD
 		rc = posix_acl_chmod(&init_user_ns, inode, inode->i_mode);
-=======
-		rc = posix_acl_chmod(inode, inode->i_mode);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return rc;
 }

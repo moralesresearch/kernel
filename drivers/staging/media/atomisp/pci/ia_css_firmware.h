@@ -20,10 +20,7 @@
  * This file contains firmware loading/unloading support functionality
  */
 
-<<<<<<< HEAD
 #include <linux/device.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "ia_css_err.h"
 #include "ia_css_env.h"
 
@@ -33,6 +30,8 @@ struct ia_css_fw {
 	void	    *data;  /** pointer to the firmware data */
 	unsigned int bytes; /** length in bytes of firmware data */
 };
+
+struct device;
 
 /* @brief Loads the firmware
  * @param[in]	env		Environment, provides functions to access the

@@ -7,14 +7,11 @@ ifneq ($(CONFIG_SND_SOC_TOPOLOGY),)
 snd-soc-core-objs += soc-topology.o
 endif
 
-<<<<<<< HEAD
-ifneq ($(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TESTS),)
+ifneq ($(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST),)
 # snd-soc-test-objs := soc-topology-test.o
-obj-$(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TESTS) := soc-topology-test.o
+obj-$(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST) := soc-topology-test.o
 endif
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ifneq ($(CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM),)
 snd-soc-core-objs += soc-generic-dmaengine-pcm.o
 endif
@@ -53,10 +50,6 @@ obj-$(CONFIG_SND_SOC)	+= qcom/
 obj-$(CONFIG_SND_SOC)	+= rockchip/
 obj-$(CONFIG_SND_SOC)	+= samsung/
 obj-$(CONFIG_SND_SOC)	+= sh/
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_SND_SOC)	+= sirf/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SND_SOC)	+= sof/
 obj-$(CONFIG_SND_SOC)	+= spear/
 obj-$(CONFIG_SND_SOC)	+= sprd/
@@ -65,15 +58,7 @@ obj-$(CONFIG_SND_SOC)	+= stm/
 obj-$(CONFIG_SND_SOC)	+= sunxi/
 obj-$(CONFIG_SND_SOC)	+= tegra/
 obj-$(CONFIG_SND_SOC)	+= ti/
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_SND_SOC)	+= txx9/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SND_SOC)	+= uniphier/
 obj-$(CONFIG_SND_SOC)	+= ux500/
 obj-$(CONFIG_SND_SOC)	+= xilinx/
 obj-$(CONFIG_SND_SOC)	+= xtensa/
-<<<<<<< HEAD
-=======
-obj-$(CONFIG_SND_SOC)	+= zte/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

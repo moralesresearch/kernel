@@ -360,8 +360,8 @@ U != 0, K = unlimited:
 
 U != 0, K < U:
     Kernel memory is a subset of the user memory. This setup is useful in
-    deployments where the total amount of memory per-cgroup is overcommited.
-    Overcommiting kernel memory limits is definitely not recommended, since the
+    deployments where the total amount of memory per-cgroup is overcommitted.
+    Overcommitting kernel memory limits is definitely not recommended, since the
     box can still run out of non-reclaimable memory.
     In this case, the admin could set up K so that the sum of all groups is
     never greater than the total memory, and freely set U at the cost of his
@@ -851,6 +851,9 @@ At reading, current status of OOM is shown.
 	  (if 1, oom-killer is disabled)
 	- under_oom	   0 or 1
 	  (if 1, the memory cgroup is under OOM, tasks may be stopped.)
+        - oom_kill         integer counter
+          The number of processes belonging to this cgroup killed by any
+          kind of OOM killer.
 
 11. Memory Pressure
 ===================
@@ -963,24 +966,15 @@ References
 2. Singh, Balbir. Memory Controller (RSS Control),
    http://lwn.net/Articles/222762/
 3. Emelianov, Pavel. Resource controllers based on process cgroups
-<<<<<<< HEAD
    https://lore.kernel.org/r/45ED7DEC.7010403@sw.ru
 4. Emelianov, Pavel. RSS controller based on process cgroups (v2)
    https://lore.kernel.org/r/461A3010.90403@sw.ru
 5. Emelianov, Pavel. RSS controller based on process cgroups (v3)
    https://lore.kernel.org/r/465D9739.8070209@openvz.org
-=======
-   http://lkml.org/lkml/2007/3/6/198
-4. Emelianov, Pavel. RSS controller based on process cgroups (v2)
-   http://lkml.org/lkml/2007/4/9/78
-5. Emelianov, Pavel. RSS controller based on process cgroups (v3)
-   http://lkml.org/lkml/2007/5/30/244
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 6. Menage, Paul. Control Groups v10, http://lwn.net/Articles/236032/
 7. Vaidyanathan, Srinivasan, Control Groups: Pagecache accounting and control
    subsystem (v3), http://lwn.net/Articles/235534/
 8. Singh, Balbir. RSS controller v2 test results (lmbench),
-<<<<<<< HEAD
    https://lore.kernel.org/r/464C95D4.7070806@linux.vnet.ibm.com
 9. Singh, Balbir. RSS controller v2 AIM9 results
    https://lore.kernel.org/r/464D267A.50107@linux.vnet.ibm.com
@@ -988,14 +982,5 @@ References
     https://lore.kernel.org/r/20070819094658.654.84837.sendpatchset@balbir-laptop
 11. Singh, Balbir. Memory controller introduction (v6),
     https://lore.kernel.org/r/20070817084228.26003.12568.sendpatchset@balbir-laptop
-=======
-   http://lkml.org/lkml/2007/5/17/232
-9. Singh, Balbir. RSS controller v2 AIM9 results
-   http://lkml.org/lkml/2007/5/18/1
-10. Singh, Balbir. Memory controller v6 test results,
-    http://lkml.org/lkml/2007/8/19/36
-11. Singh, Balbir. Memory controller introduction (v6),
-    http://lkml.org/lkml/2007/8/17/69
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 12. Corbet, Jonathan, Controlling memory use in cgroups,
     http://lwn.net/Articles/243795/

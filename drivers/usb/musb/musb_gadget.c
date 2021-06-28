@@ -451,11 +451,7 @@ void musb_g_tx(struct musb *musb, u8 epnum)
 		return;
 	}
 
-<<<<<<< HEAD
 	if (req) {
-=======
-	if (request) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		trace_musb_req_tx(req);
 

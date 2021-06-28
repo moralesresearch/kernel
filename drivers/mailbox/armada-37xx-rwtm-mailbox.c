@@ -2,11 +2,7 @@
 /*
  * rWTM BIU Mailbox driver for Armada 37xx
  *
-<<<<<<< HEAD
  * Author: Marek Behún <kabel@kernel.org>
-=======
- * Author: Marek Behun <marek.behun@nic.cz>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/device.h>
@@ -207,8 +203,4 @@ module_platform_driver(armada_37xx_mbox_driver);
 
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("rWTM BIU Mailbox driver for Armada 37xx");
-<<<<<<< HEAD
 MODULE_AUTHOR("Marek Behun <kabel@kernel.org>");
-=======
-MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

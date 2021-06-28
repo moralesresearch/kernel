@@ -260,10 +260,7 @@ static inline void hfi1_make_ruc_bth(struct rvt_qp *qp,
  * @qp: the queue pair
  * @ohdr: a pointer to the destination header memory
  * @bth0: bth0 passed in from the RC/UC builder
-<<<<<<< HEAD
  * @bth1: bth1 passed in from the RC/UC builder
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bth2: bth2 passed in from the RC/UC builder
  * @middle: non zero implies indicates ahg "could" be used
  * @ps: the current packet state
@@ -352,10 +349,7 @@ static inline void hfi1_make_ruc_header_16B(struct rvt_qp *qp,
  * @qp: the queue pair
  * @ohdr: a pointer to the destination header memory
  * @bth0: bth0 passed in from the RC/UC builder
-<<<<<<< HEAD
  * @bth1: bth1 passed in from the RC/UC builder
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bth2: bth2 passed in from the RC/UC builder
  * @middle: non zero implies indicates ahg "could" be used
  * @ps: the current packet state
@@ -463,18 +457,10 @@ void hfi1_make_ruc_header(struct rvt_qp *qp, struct ib_other_headers *ohdr,
 /**
  * hfi1_schedule_send_yield - test for a yield required for QP
  * send engine
-<<<<<<< HEAD
  * @qp: a pointer to QP
  * @ps: a pointer to a structure with commonly lookup values for
  *      the the send engine progress
  * @tid: true if it is the tid leg
-=======
- * @timeout: Final time for timeout slice for jiffies
- * @qp: a pointer to QP
- * @ps: a pointer to a structure with commonly lookup values for
- *      the the send engine progress
- * @tid - true if it is the tid leg
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This routine checks if the time slice for the QP has expired
  * for RC QPs, if so an additional work entry is queued. At this

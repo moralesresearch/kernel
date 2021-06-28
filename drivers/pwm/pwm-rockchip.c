@@ -72,19 +72,10 @@ static void rockchip_pwm_get_state(struct pwm_chip *chip,
 	if (ret)
 		return;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = clk_enable(pc->clk);
 	if (ret)
 		return;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_rate = clk_get_rate(pc->clk);
 
 	tmp = readl_relaxed(pc->base + pc->data->regs.period);
@@ -103,14 +94,7 @@ static void rockchip_pwm_get_state(struct pwm_chip *chip,
 	else
 		state->polarity = PWM_POLARITY_NORMAL;
 
-<<<<<<< HEAD
 	clk_disable(pc->clk);
-=======
-<<<<<<< HEAD
-	clk_disable(pc->clk);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable(pc->pclk);
 }
 
@@ -210,19 +194,10 @@ static int rockchip_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = clk_enable(pc->clk);
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pwm_get_state(pwm, &curstate);
 	enabled = curstate.enabled;
 
@@ -242,14 +217,7 @@ static int rockchip_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
 	}
 
 out:
-<<<<<<< HEAD
 	clk_disable(pc->clk);
-=======
-<<<<<<< HEAD
-	clk_disable(pc->clk);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable(pc->pclk);
 
 	return ret;
@@ -350,15 +318,7 @@ static int rockchip_pwm_probe(struct platform_device *pdev)
 		pc->clk = devm_clk_get(&pdev->dev, NULL);
 		if (IS_ERR(pc->clk))
 			return dev_err_probe(&pdev->dev, PTR_ERR(pc->clk),
-<<<<<<< HEAD
 					     "Can't get PWM clk\n");
-=======
-<<<<<<< HEAD
-					     "Can't get PWM clk\n");
-=======
-					     "Can't get bus clk\n");
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	count = of_count_phandle_with_args(pdev->dev.of_node,
@@ -377,15 +337,7 @@ static int rockchip_pwm_probe(struct platform_device *pdev)
 
 	ret = clk_prepare_enable(pc->clk);
 	if (ret) {
-<<<<<<< HEAD
 		dev_err(&pdev->dev, "Can't prepare enable PWM clk: %d\n", ret);
-=======
-<<<<<<< HEAD
-		dev_err(&pdev->dev, "Can't prepare enable PWM clk: %d\n", ret);
-=======
-		dev_err(&pdev->dev, "Can't prepare enable bus clk: %d\n", ret);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 
@@ -400,7 +352,6 @@ static int rockchip_pwm_probe(struct platform_device *pdev)
 	pc->data = id->data;
 	pc->chip.dev = &pdev->dev;
 	pc->chip.ops = &rockchip_pwm_ops;
-	pc->chip.base = -1;
 	pc->chip.npwm = 1;
 
 	if (pc->data->supports_polarity) {

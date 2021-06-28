@@ -2,11 +2,7 @@
 //
 // Device Tree file for LX2160ARDB
 //
-<<<<<<< HEAD
 // Copyright 2018-2020 NXP
-=======
-// Copyright 2018 NXP
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /dts-v1/;
 
@@ -18,11 +14,8 @@
 
 	aliases {
 		crypto = &crypto;
-<<<<<<< HEAD
 		mmc0 = &esdhc0;
 		mmc1 = &esdhc1;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		serial0 = &uart0;
 	};
 
@@ -96,7 +89,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &can0 {
 	status = "okay";
 
@@ -113,8 +105,6 @@
 	};
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &esdhc0 {
 	sd-uhs-sdr104;
 	sd-uhs-sdr50;
@@ -203,13 +193,8 @@
 	rtc@51 {
 		compatible = "nxp,pcf2129";
 		reg = <0x51>;
-<<<<<<< HEAD
 		/* IRQ_RTC_B -> IRQ08, active low */
 		interrupts-extended = <&extirq 8 IRQ_TYPE_LEVEL_LOW>;
-=======
-		// IRQ10_B
-		interrupts = <0 150 0x4>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 

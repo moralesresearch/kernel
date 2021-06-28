@@ -1166,10 +1166,6 @@
 		reg = <0x0 0xa0040000 0x0 0x20000>;
 		#iommu-cells = <1>;
 		dma-coherent;
-<<<<<<< HEAD
-=======
-		smmu-cb-memtype = <0x0 0x1>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hisilicon,broken-prefetch-cmd;
 		status = "disabled";
 	};
@@ -1184,10 +1180,6 @@
 		#iommu-cells = <1>;
 		dma-coherent;
 		hisilicon,broken-prefetch-cmd;
-<<<<<<< HEAD
-=======
-		/* smmu-cb-memtype = <0x0 0x1>;*/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	p0_smmu_alg_b: iommu@8d0040000 {
 		compatible = "arm,smmu-v3";
@@ -1200,10 +1192,6 @@
 		#iommu-cells = <1>;
 		dma-coherent;
 		hisilicon,broken-prefetch-cmd;
-<<<<<<< HEAD
-=======
-		/* smmu-cb-memtype = <0x0 0x1>;*/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	p1_smmu_alg_a: iommu@400d0040000 {
 		compatible = "arm,smmu-v3";
@@ -1216,10 +1204,6 @@
 		#iommu-cells = <1>;
 		dma-coherent;
 		hisilicon,broken-prefetch-cmd;
-<<<<<<< HEAD
-=======
-		/* smmu-cb-memtype = <0x0 0x1>;*/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	p1_smmu_alg_b: iommu@408d0040000 {
 		compatible = "arm,smmu-v3";
@@ -1232,10 +1216,6 @@
 		#iommu-cells = <1>;
 		dma-coherent;
 		hisilicon,broken-prefetch-cmd;
-<<<<<<< HEAD
-=======
-		/* smmu-cb-memtype = <0x0 0x1>;*/
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	soc {
@@ -1723,13 +1703,8 @@
 			#size-cells = <2>;
 			device_type = "pci";
 			dma-coherent;
-<<<<<<< HEAD
 			ranges = <0x02000000 0 0xa8000000 0 0xa8000000 0 0x77f0000>,
 				 <0x01000000 0 0 0 0xaf7f0000 0 0x10000>;
-=======
-			ranges = <0x02000000 0 0xa8000000 0 0xa8000000 0 0x77f0000
-				  0x01000000 0 0 0 0xaf7f0000 0 0x10000>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			#interrupt-cells = <1>;
 			interrupt-map-mask = <0xf800 0 0 7>;
 			interrupt-map = <0x0 0 0 1 &mbigen_pcie2_a 671 4

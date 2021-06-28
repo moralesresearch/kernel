@@ -33,41 +33,6 @@ config HOTPLUG_SMT
 config GENERIC_ENTRY
        bool
 
-<<<<<<< HEAD
-=======
-config OPROFILE
-	tristate "OProfile system profiling"
-	depends on PROFILING
-	depends on HAVE_OPROFILE
-	select RING_BUFFER
-	select RING_BUFFER_ALLOW_SWAP
-	help
-	  OProfile is a profiling system capable of profiling the
-	  whole system, include the kernel, kernel modules, libraries,
-	  and applications.
-
-	  If unsure, say N.
-
-config OPROFILE_EVENT_MULTIPLEX
-	bool "OProfile multiplexing support (EXPERIMENTAL)"
-	default n
-	depends on OPROFILE && X86
-	help
-	  The number of hardware counters is limited. The multiplexing
-	  feature enables OProfile to gather more events than counters
-	  are provided by the hardware. This is realized by switching
-	  between events at a user specified time interval.
-
-	  If unsure, say N.
-
-config HAVE_OPROFILE
-	bool
-
-config OPROFILE_NMI_TIMER
-	def_bool y
-	depends on PERF_EVENTS && HAVE_PERF_EVENTS_NMI && !PPC64
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config KPROBES
 	bool "Kprobes"
 	depends on MODULES
@@ -159,13 +124,8 @@ config HAVE_64BIT_ALIGNED_ACCESS
 	  accesses are required to be 64 bit aligned in this way even
 	  though it is not a 64 bit architecture.
 
-<<<<<<< HEAD
 	  See Documentation/core-api/unaligned-memory-access.rst for
 	  more information on the topic of unaligned memory accesses.
-=======
-	  See Documentation/unaligned-memory-access.txt for more
-	  information on the topic of unaligned memory accesses.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config HAVE_EFFICIENT_UNALIGNED_ACCESS
 	bool
@@ -335,13 +295,10 @@ config ARCH_32BIT_OFF_T
 	  still support 32-bit off_t. This option is enabled for all such
 	  architectures explicitly.
 
-<<<<<<< HEAD
 # Selected by 64 bit architectures which have a 32 bit f_tinode in struct ustat
 config ARCH_32BIT_USTAT_F_TINODE
 	bool
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config HAVE_ASM_MODVERSIONS
 	bool
 	help
@@ -646,7 +603,6 @@ config SHADOW_CALL_STACK
 	  reading and writing arbitrary memory may be able to locate them
 	  and hijack control flow by modifying the stacks.
 
-<<<<<<< HEAD
 config LTO
 	bool
 	help
@@ -675,8 +631,7 @@ config ARCH_SUPPORTS_LTO_CLANG_THIN
 config HAS_LTO_CLANG
 	def_bool y
 	# Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
-	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
-	depends on $(success,test $(LLVM_IAS) -eq 1)
+	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD && AS_IS_LLVM
 	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
 	depends on ARCH_SUPPORTS_LTO_CLANG
@@ -736,8 +691,51 @@ config LTO_CLANG_THIN
 	  If unsure, say Y.
 endchoice
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+config ARCH_SUPPORTS_CFI_CLANG
+	bool
+	help
+	  An architecture should select this option if it can support Clang's
+	  Control-Flow Integrity (CFI) checking.
+
+config CFI_CLANG
+	bool "Use Clang's Control Flow Integrity (CFI)"
+	depends on LTO_CLANG && ARCH_SUPPORTS_CFI_CLANG
+	# Clang >= 12:
+	# - https://bugs.llvm.org/show_bug.cgi?id=46258
+	# - https://bugs.llvm.org/show_bug.cgi?id=47479
+	depends on CLANG_VERSION >= 120000
+	select KALLSYMS
+	help
+	  This option enables Clang’s forward-edge Control Flow Integrity
+	  (CFI) checking, where the compiler injects a runtime check to each
+	  indirect function call to ensure the target is a valid function with
+	  the correct static type. This restricts possible call targets and
+	  makes it more difficult for an attacker to exploit bugs that allow
+	  the modification of stored function pointers. More information can be
+	  found from Clang's documentation:
+
+	    https://clang.llvm.org/docs/ControlFlowIntegrity.html
+
+config CFI_CLANG_SHADOW
+	bool "Use CFI shadow to speed up cross-module checks"
+	default y
+	depends on CFI_CLANG && MODULES
+	help
+	  If you select this option, the kernel builds a fast look-up table of
+	  CFI check functions in loaded modules to reduce performance overhead.
+
+	  If unsure, say Y.
+
+config CFI_PERMISSIVE
+	bool "Use CFI in permissive mode"
+	depends on CFI_CLANG
+	help
+	  When selected, Control Flow Integrity (CFI) violations result in a
+	  warning instead of a kernel panic. This option should only be used
+	  for finding indirect call type mismatches during development.
+
+	  If unsure, say N.
+
 config HAVE_ARCH_WITHIN_STACK_FRAMES
 	bool
 	help
@@ -831,6 +829,17 @@ config HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
 config HAVE_ARCH_HUGE_VMAP
 	bool
 
+#
+#  Archs that select this would be capable of PMD-sized vmaps (i.e.,
+#  arch_vmap_pmd_supported() returns true), and they must make no assumptions
+#  that vmalloc memory is mapped with PAGE_SIZE ptes. The VM_NO_HUGE_VMAP flag
+#  can be used to prohibit arch-specific allocations from using hugepages to
+#  help with this (e.g., modules may require it).
+#
+config HAVE_ARCH_HUGE_VMALLOC
+	depends on HAVE_ARCH_HUGE_VMAP
+	bool
+
 config ARCH_WANT_HUGE_PMD_SHARE
 	bool
 
@@ -866,15 +875,12 @@ config HAVE_IRQ_EXIT_ON_IRQ_STACK
 	  This spares a stack switch and improves cache usage on softirq
 	  processing.
 
-<<<<<<< HEAD
 config HAVE_SOFTIRQ_ON_OWN_STACK
 	bool
 	help
 	  Architecture provides a function to run __do_softirq() on a
 	  seperate stack.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config PGTABLE_LEVELS
 	int
 	default 2
@@ -1062,6 +1068,13 @@ config COMPAT_32BIT_TIME
 config ARCH_NO_PREEMPT
 	bool
 
+config ARCH_EPHEMERAL_INODES
+	def_bool n
+	help
+	  An arch should select this symbol if it doesn't keep track of inode
+	  instances on its own, but instead relies on something else (e.g. the
+	  host kernel for an UML kernel).
+
 config ARCH_SUPPORTS_RT
 	bool
 
@@ -1102,6 +1115,29 @@ config VMAP_STACK
 	  To use this with software KASAN modes, the architecture must support
 	  backing virtual mappings with real shadow memory, and KASAN_VMALLOC
 	  must be enabled.
+
+config HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET
+	def_bool n
+	help
+	  An arch should select this symbol if it can support kernel stack
+	  offset randomization with calls to add_random_kstack_offset()
+	  during syscall entry and choose_random_kstack_offset() during
+	  syscall exit. Careful removal of -fstack-protector-strong and
+	  -fstack-protector should also be applied to the entry code and
+	  closely examined, as the artificial stack bump looks like an array
+	  to the compiler, so it will attempt to add canary checks regardless
+	  of the static branch state.
+
+config RANDOMIZE_KSTACK_OFFSET_DEFAULT
+	bool "Randomize kernel stack offset on syscall entry"
+	depends on HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET
+	help
+	  The kernel stack offset can be randomized (after pt_regs) by
+	  roughly 5 bits of entropy, frustrating memory corruption
+	  attacks that depend on stack address determinism or
+	  cross-syscall address exposures. This feature is controlled
+	  by kernel boot param "randomize_kstack_offset=on/off", and this
+	  config chooses the default boot state.
 
 config ARCH_OPTIONAL_KERNEL_RWX
 	def_bool n
@@ -1206,7 +1242,6 @@ config HAVE_STATIC_CALL_INLINE
 	bool
 	depends on HAVE_STATIC_CALL
 
-<<<<<<< HEAD
 config HAVE_PREEMPT_DYNAMIC
 	bool
 	depends on HAVE_STATIC_CALL
@@ -1216,8 +1251,6 @@ config HAVE_PREEMPT_DYNAMIC
 	   on top of static calls. It is strongly advised to support inline
 	   static call to avoid any overhead.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ARCH_WANT_LD_ORPHAN_WARN
 	bool
 	help
@@ -1239,12 +1272,9 @@ config ARCH_SPLIT_ARG64
 	   If a 32-bit architecture requires 64-bit arguments to be split into
 	   pairs of 32-bit arguments, select this option.
 
-<<<<<<< HEAD
 config ARCH_HAS_ELFCORE_COMPAT
 	bool
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "kernel/gcov/Kconfig"
 
 source "scripts/gcc-plugins/Kconfig"

@@ -1,9 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0 */
-<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
-=======
-/* Copyright (C) 2007-2020  B.A.T.M.A.N. contributors:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Marek Lindner, Simon Wunderlich
  */
@@ -17,11 +13,7 @@
 #define BATADV_DRIVER_DEVICE "batman-adv"
 
 #ifndef BATADV_SOURCE_VERSION
-<<<<<<< HEAD
 #define BATADV_SOURCE_VERSION "2021.1"
-=======
-#define BATADV_SOURCE_VERSION "2021.0"
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /* B.A.T.M.A.N. parameters */

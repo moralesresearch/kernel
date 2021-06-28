@@ -88,10 +88,7 @@ static struct cmd_struct commands[] = {
 	{ "mem",	cmd_mem,	0 },
 	{ "data",	cmd_data,	0 },
 	{ "ftrace",	cmd_ftrace,	0 },
-<<<<<<< HEAD
 	{ "daemon",	cmd_daemon,	0 },
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct pager_config {
@@ -446,11 +443,8 @@ int main(int argc, const char **argv)
 	const char *cmd;
 	char sbuf[STRERR_BUFSIZE];
 
-<<<<<<< HEAD
 	perf_debug_setup();
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* libsubcmd init */
 	exec_cmd_init("perf", PREFIX, PERF_EXEC_PATH, EXEC_PATH_ENVIRONMENT);
 	pager_init(PERF_PAGER_ENVIRONMENT);
@@ -539,11 +533,6 @@ int main(int argc, const char **argv)
 	 */
 	pthread__block_sigwinch();
 
-<<<<<<< HEAD
-=======
-	perf_debug_setup();
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	while (1) {
 		static int done_help;
 

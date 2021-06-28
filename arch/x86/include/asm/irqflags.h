@@ -35,18 +35,6 @@ extern __always_inline unsigned long native_save_fl(void)
 	return flags;
 }
 
-<<<<<<< HEAD
-=======
-extern inline void native_restore_fl(unsigned long flags);
-extern inline void native_restore_fl(unsigned long flags)
-{
-	asm volatile("push %0 ; popf"
-		     : /* no output */
-		     :"g" (flags)
-		     :"memory", "cc");
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline void native_irq_disable(void)
 {
 	asm volatile("cli": : :"memory");
@@ -82,14 +70,6 @@ static __always_inline unsigned long arch_local_save_flags(void)
 	return native_save_fl();
 }
 
-<<<<<<< HEAD
-=======
-static __always_inline void arch_local_irq_restore(unsigned long flags)
-{
-	native_restore_fl(flags);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline void arch_local_irq_disable(void)
 {
 	native_irq_disable();
@@ -129,40 +109,13 @@ static __always_inline unsigned long arch_local_irq_save(void)
 }
 #else
 
-#define ENABLE_INTERRUPTS(x)	sti
-#define DISABLE_INTERRUPTS(x)	cli
-
 #ifdef CONFIG_X86_64
 #ifdef CONFIG_DEBUG_ENTRY
-#define SAVE_FLAGS(x)		pushfq; popq %rax
+#define SAVE_FLAGS		pushfq; popq %rax
 #endif
 
-<<<<<<< HEAD
 #define INTERRUPT_RETURN	jmp native_iret
-=======
-#define SWAPGS	swapgs
-/*
- * Currently paravirt can't handle swapgs nicely when we
- * don't have a stack we can rely on (such as a user space
- * stack).  So we either find a way around these or just fault
- * and emulate if a guest tries to call swapgs directly.
- *
- * Either way, this is a good way to document that we don't
- * have a reliable stack. x86_64 only.
- */
-#define SWAPGS_UNSAFE_STACK	swapgs
 
-#define INTERRUPT_RETURN	jmp native_iret
-#define USERGS_SYSRET64				\
-	swapgs;					\
-	sysretq;
-#define USERGS_SYSRET32				\
-	swapgs;					\
-	sysretl
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-
-#else
-#define INTERRUPT_RETURN		iret
 #endif
 
 #endif /* __ASSEMBLY__ */
@@ -180,7 +133,6 @@ static __always_inline int arch_irqs_disabled(void)
 
 	return arch_irqs_disabled_flags(flags);
 }
-<<<<<<< HEAD
 
 static __always_inline void arch_local_irq_restore(unsigned long flags)
 {
@@ -195,8 +147,6 @@ static __always_inline void arch_local_irq_restore(unsigned long flags)
 #define SWAPGS	swapgs
 #endif
 #endif
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* !__ASSEMBLY__ */
 
 #endif

@@ -175,10 +175,6 @@ void __kernel_fpu_end(struct kernel_fpu *state, u32 flags)
 		: "1", "cc");
 }
 EXPORT_SYMBOL(__kernel_fpu_end);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void __load_fpu_regs(void)
 {
@@ -267,8 +263,3 @@ out:
 	local_irq_restore(flags);
 }
 EXPORT_SYMBOL(save_fpu_regs);
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

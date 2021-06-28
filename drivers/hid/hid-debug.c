@@ -417,6 +417,7 @@ static const struct hid_usage_entry hid_usage_table[] = {
     { 0x85, 0x44, "Charging" },
     { 0x85, 0x45, "Discharging" },
     { 0x85, 0x4b, "NeedReplacement" },
+    { 0x85, 0x65, "AbsoluteStateOfCharge" },
     { 0x85, 0x66, "RemainingCapacity" },
     { 0x85, 0x68, "RunTimeToEmpty" },
     { 0x85, 0x6a, "AverageTimeToFull" },
@@ -929,10 +930,9 @@ static const char *keys[KEY_MAX + 1] = {
 	[KEY_APPSELECT] = "AppSelect",
 	[KEY_SCREENSAVER] = "ScreenSaver",
 	[KEY_VOICECOMMAND] = "VoiceCommand",
-<<<<<<< HEAD
+	[KEY_ASSISTANT] = "Assistant",
+	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
 	[KEY_EMOJI_PICKER] = "EmojiPicker",
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",

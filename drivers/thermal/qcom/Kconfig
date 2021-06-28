@@ -10,7 +10,6 @@ config QCOM_TSENS
 	  Also able to set threshold temperature for both hot and cold and update
 	  when a threshold is reached.
 
-<<<<<<< HEAD
 config QCOM_SPMI_ADC_TM5
 	tristate "Qualcomm SPMI PMIC Thermal Monitor ADC5"
 	depends on OF && SPMI && IIO
@@ -22,8 +21,6 @@ config QCOM_SPMI_ADC_TM5
 	  Thermal client sets threshold temperature for both warm and cool and
 	  gets updated when a threshold is reached.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config QCOM_SPMI_TEMP_ALARM
 	tristate "Qualcomm SPMI PMIC Temperature Alarm"
 	depends on OF && SPMI && IIO

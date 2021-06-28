@@ -220,7 +220,6 @@
 		bias-disable;
 	};
 
-<<<<<<< HEAD
 	i2c3_default: i2c3-default {
 		pins = "gpio10", "gpio11";
 		function = "blsp_i2c3";
@@ -237,8 +236,6 @@
 		bias-disable;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c4_default: i2c4-default {
 		pins = "gpio14", "gpio15";
 		function = "blsp_i2c4";

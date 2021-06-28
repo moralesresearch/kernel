@@ -525,16 +525,8 @@ int tb_port_state(struct tb_port *port)
 
 /**
  * tb_wait_for_port() - wait for a port to become ready
-<<<<<<< HEAD
  * @port: Port to wait
  * @wait_if_unplugged: Wait also when port is unplugged
-=======
-<<<<<<< HEAD
- * @port: Port to wait
- * @wait_if_unplugged: Wait also when port is unplugged
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Wait up to 1 second for a port to reach state TB_PORT_UP. If
  * wait_if_unplugged is set then we also wait if the port is in state
@@ -599,16 +591,8 @@ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
 
 /**
  * tb_port_add_nfc_credits() - add/remove non flow controlled credits to port
-<<<<<<< HEAD
  * @port: Port to add/remove NFC credits
  * @credits: Credits to add/remove
-=======
-<<<<<<< HEAD
- * @port: Port to add/remove NFC credits
- * @credits: Credits to add/remove
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Change the number of NFC credits allocated to @port by @credits. To remove
  * NFC credits pass a negative amount of credits.
@@ -643,39 +627,9 @@ int tb_port_add_nfc_credits(struct tb_port *port, int credits)
 }
 
 /**
- * tb_port_set_initial_credits() - Set initial port link credits allocated
- * @port: Port to set the initial credits
- * @credits: Number of credits to to allocate
- *
- * Set initial credits value to be used for ingress shared buffering.
- */
-int tb_port_set_initial_credits(struct tb_port *port, u32 credits)
-{
-	u32 data;
-	int ret;
-
-	ret = tb_port_read(port, &data, TB_CFG_PORT, ADP_CS_5, 1);
-	if (ret)
-		return ret;
-
-	data &= ~ADP_CS_5_LCA_MASK;
-	data |= (credits << ADP_CS_5_LCA_SHIFT) & ADP_CS_5_LCA_MASK;
-
-	return tb_port_write(port, &data, TB_CFG_PORT, ADP_CS_5, 1);
-}
-
-/**
  * tb_port_clear_counter() - clear a counter in TB_CFG_COUNTER
-<<<<<<< HEAD
  * @port: Port whose counters to clear
  * @counter: Counter index to clear
-=======
-<<<<<<< HEAD
- * @port: Port whose counters to clear
- * @counter: Counter index to clear
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: Returns 0 on success or an error code on failure.
  */
@@ -748,15 +702,7 @@ int tb_port_disable(struct tb_port *port)
 	return __tb_port_enable(port, false);
 }
 
-<<<<<<< HEAD
 /*
-=======
-<<<<<<< HEAD
-/*
-=======
-/**
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * tb_init_port() - initialize a port
  *
  * This is a helper method for tb_switch_alloc. Does not check or initialize
@@ -1097,10 +1043,6 @@ void tb_port_lane_bonding_disable(struct tb_port *port)
 	tb_port_set_link_width(port, 1);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tb_port_start_lane_initialization(struct tb_port *port)
 {
 	int ret;
@@ -1112,11 +1054,6 @@ static int tb_port_start_lane_initialization(struct tb_port *port)
 	return ret == -EINVAL ? 0 : ret;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * tb_port_is_enabled() - Is the adapter port enabled
  * @port: Port to check
@@ -1354,15 +1291,7 @@ static void tb_dump_switch(const struct tb *tb, const struct tb_switch *sw)
 }
 
 /**
-<<<<<<< HEAD
  * tb_switch_reset() - reconfigure route, enable and send TB_CFG_PKG_RESET
-=======
-<<<<<<< HEAD
- * tb_switch_reset() - reconfigure route, enable and send TB_CFG_PKG_RESET
-=======
- * reset_switch() - reconfigure route, enable and send TB_CFG_PKG_RESET
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sw: Switch to reset
  *
  * Return: Returns 0 on success or an error code on failure.
@@ -1380,21 +1309,13 @@ int tb_switch_reset(struct tb_switch *sw)
 			      TB_CFG_SWITCH, 2, 2);
 	if (res.err)
 		return res.err;
-	res = tb_cfg_reset(sw->tb->ctl, tb_route(sw), TB_CFG_DEFAULT_TIMEOUT);
+	res = tb_cfg_reset(sw->tb->ctl, tb_route(sw));
 	if (res.err > 0)
 		return -EIO;
 	return res.err;
 }
 
-<<<<<<< HEAD
 /*
-=======
-<<<<<<< HEAD
-/*
-=======
-/**
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * tb_plug_events_active() - enable/disable plug events on a switch
  *
  * Also configures a sane plug_events_delay of 255ms.
@@ -1444,10 +1365,6 @@ static ssize_t authorized_show(struct device *dev,
 	return sprintf(buf, "%u\n", sw->authorized);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int disapprove_switch(struct device *dev, void *not_used)
 {
 	struct tb_switch *sw;
@@ -1472,11 +1389,6 @@ static int disapprove_switch(struct device *dev, void *not_used)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tb_switch_set_authorized(struct tb_switch *sw, unsigned int val)
 {
 	int ret = -EINVAL;
@@ -1484,10 +1396,6 @@ static int tb_switch_set_authorized(struct tb_switch *sw, unsigned int val)
 	if (!mutex_trylock(&sw->tb->lock))
 		return restart_syscall();
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!!sw->authorized == !!val)
 		goto unlock;
 
@@ -1500,15 +1408,6 @@ static int tb_switch_set_authorized(struct tb_switch *sw, unsigned int val)
 		}
 		break;
 
-<<<<<<< HEAD
-=======
-=======
-	if (sw->authorized)
-		goto unlock;
-
-	switch (val) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Approve switch */
 	case 1:
 		if (sw->key)
@@ -1841,27 +1740,30 @@ static struct attribute *switch_attrs[] = {
 	NULL,
 };
 
+static bool has_port(const struct tb_switch *sw, enum tb_port_type type)
+{
+	const struct tb_port *port;
+
+	tb_switch_for_each_port(sw, port) {
+		if (!port->disabled && port->config.type == type)
+			return true;
+	}
+
+	return false;
+}
+
 static umode_t switch_attr_is_visible(struct kobject *kobj,
 				      struct attribute *attr, int n)
 {
 	struct device *dev = kobj_to_dev(kobj);
 	struct tb_switch *sw = tb_to_switch(dev);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (attr == &dev_attr_authorized.attr) {
 		if (sw->tb->security_level == TB_SECURITY_NOPCIE ||
-		    sw->tb->security_level == TB_SECURITY_DPONLY)
+		    sw->tb->security_level == TB_SECURITY_DPONLY ||
+		    !has_port(sw, TB_TYPE_PCIE_UP))
 			return 0;
 	} else if (attr == &dev_attr_device.attr) {
-<<<<<<< HEAD
-=======
-=======
-	if (attr == &dev_attr_device.attr) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!sw->device)
 			return 0;
 	} else if (attr == &dev_attr_device_name.attr) {
@@ -1907,15 +1809,7 @@ static umode_t switch_attr_is_visible(struct kobject *kobj,
 	return sw->safe_mode ? 0 : attr->mode;
 }
 
-<<<<<<< HEAD
 static const struct attribute_group switch_group = {
-=======
-<<<<<<< HEAD
-static const struct attribute_group switch_group = {
-=======
-static struct attribute_group switch_group = {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.is_visible = switch_attr_is_visible,
 	.attrs = switch_attrs,
 };
@@ -1944,6 +1838,39 @@ static void tb_switch_release(struct device *dev)
 	kfree(sw->drom);
 	kfree(sw->key);
 	kfree(sw);
+}
+
+static int tb_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
+{
+	struct tb_switch *sw = tb_to_switch(dev);
+	const char *type;
+
+	if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
+		if (add_uevent_var(env, "USB4_VERSION=1.0"))
+			return -ENOMEM;
+	}
+
+	if (!tb_route(sw)) {
+		type = "host";
+	} else {
+		const struct tb_port *port;
+		bool hub = false;
+
+		/* Device is hub if it has any downstream ports */
+		tb_switch_for_each_port(sw, port) {
+			if (!port->disabled && !tb_is_upstream_port(port) &&
+			     tb_port_is_null(port)) {
+				hub = true;
+				break;
+			}
+		}
+
+		type = hub ? "hub" : "device";
+	}
+
+	if (add_uevent_var(env, "USB4_TYPE=%s", type))
+		return -ENOMEM;
+	return 0;
 }
 
 /*
@@ -1979,6 +1906,7 @@ static const struct dev_pm_ops tb_switch_pm_ops = {
 struct device_type tb_switch_type = {
 	.name = "thunderbolt_device",
 	.release = tb_switch_release,
+	.uevent = tb_switch_uevent,
 	.pm = &tb_switch_pm_ops,
 };
 
@@ -2639,6 +2567,8 @@ int tb_switch_add(struct tb_switch *sw)
 		}
 		tb_sw_dbg(sw, "uid: %#llx\n", sw->uid);
 
+		tb_check_quirks(sw);
+
 		ret = tb_switch_set_uuid(sw);
 		if (ret) {
 			dev_err(&sw->dev, "failed to set UUID\n");
@@ -2754,14 +2684,7 @@ void tb_switch_remove(struct tb_switch *sw)
 
 /**
  * tb_sw_set_unplugged() - set is_unplugged on switch and downstream switches
-<<<<<<< HEAD
  * @sw: Router to mark unplugged
-=======
-<<<<<<< HEAD
- * @sw: Router to mark unplugged
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void tb_sw_set_unplugged(struct tb_switch *sw)
 {
@@ -2850,10 +2773,6 @@ int tb_switch_resume(struct tb_switch *sw)
 
 	/* check for surviving downstream switches */
 	tb_switch_for_each_port(sw, port) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!tb_port_has_remote(port) && !port->xdomain) {
 			/*
 			 * For disconnected downstream lane adapters
@@ -2870,13 +2789,6 @@ int tb_switch_resume(struct tb_switch *sw)
 			 */
 			tb_port_start_lane_initialization(port);
 		}
-<<<<<<< HEAD
-=======
-=======
-		if (!tb_port_has_remote(port) && !port->xdomain)
-			continue;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (tb_wait_for_port(port, true) <= 0) {
 			tb_port_warn(port,

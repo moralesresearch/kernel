@@ -27,23 +27,16 @@ struct gfs2_glock;
  * block, or all of the blocks in the rg, whichever is smaller */
 static inline unsigned int gfs2_rg_blocks(const struct gfs2_inode *ip, unsigned requested)
 {
-<<<<<<< HEAD
 	struct gfs2_rgrpd *rgd = ip->i_res.rs_rgd;
-=======
-	struct gfs2_rgrpd *rgd = ip->i_res.rs_rbm.rgd;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (requested < rgd->rd_length)
 		return requested + 1;
 	return rgd->rd_length;
 }
 
-<<<<<<< HEAD
 extern int __gfs2_trans_begin(struct gfs2_trans *tr, struct gfs2_sbd *sdp,
 			      unsigned int blocks, unsigned int revokes,
 			      unsigned long ip);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int gfs2_trans_begin(struct gfs2_sbd *sdp, unsigned int blocks,
 			    unsigned int revokes);
 

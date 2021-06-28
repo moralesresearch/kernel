@@ -1276,25 +1276,15 @@ static int clk_cpu_div_set_rate(struct clk_hw *hw, unsigned long rate,
 	struct clk_fepll *pll = to_clk_fepll(hw);
 	const struct freq_tbl *f;
 	u32 mask;
-<<<<<<< HEAD
-=======
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	f = qcom_find_freq(pll->freq_tbl, rate);
 	if (!f)
 		return -EINVAL;
 
 	mask = (BIT(pll->cdiv.width) - 1) << pll->cdiv.shift;
-<<<<<<< HEAD
 	regmap_update_bits(pll->cdiv.clkr.regmap,
 			   pll->cdiv.reg, mask,
 			   f->pre_div << pll->cdiv.shift);
-=======
-	ret = regmap_update_bits(pll->cdiv.clkr.regmap,
-				 pll->cdiv.reg, mask,
-				 f->pre_div << pll->cdiv.shift);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * There is no status bit which can be checked for successful CPU
 	 * divider update operation so using delay for the same.

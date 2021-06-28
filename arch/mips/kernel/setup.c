@@ -27,18 +27,8 @@
 #include <linux/dma-map-ops.h>
 #include <linux/decompress/generic.h>
 #include <linux/of_fdt.h>
-<<<<<<< HEAD
 #include <linux/dmi.h>
 #include <linux/crash_dump.h>
-=======
-<<<<<<< HEAD
-#include <linux/dmi.h>
-#include <linux/crash_dump.h>
-=======
-#include <linux/of_reserved_mem.h>
-#include <linux/dmi.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/addrspace.h>
 #include <asm/bootinfo.h>
@@ -47,28 +37,13 @@
 #include <asm/cdmm.h>
 #include <asm/cpu.h>
 #include <asm/debug.h>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include <asm/dma-coherence.h>
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/sections.h>
 #include <asm/setup.h>
 #include <asm/smp-ops.h>
 #include <asm/prom.h>
 
 #ifdef CONFIG_MIPS_ELF_APPENDED_DTB
-<<<<<<< HEAD
 char __section(".appended_dtb") __appended_dtb[0x100000];
-=======
-<<<<<<< HEAD
-char __section(".appended_dtb") __appended_dtb[0x100000];
-=======
-const char __section(".appended_dtb") __appended_dtb[0x100000];
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_MIPS_ELF_APPENDED_DTB */
 
 struct cpuinfo_mips cpu_data[NR_CPUS] __read_mostly;
@@ -431,10 +406,6 @@ static int __init early_parse_memmap(char *p)
 }
 early_param("memmap", early_parse_memmap);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init mips_reserve_vmcore(void)
 {
 #ifdef CONFIG_PROC_VMCORE
@@ -461,39 +432,6 @@ static void __init mips_reserve_vmcore(void)
 	memblock_reserve(elfcorehdr_addr, elfcorehdr_size);
 #endif
 }
-<<<<<<< HEAD
-=======
-=======
-#ifdef CONFIG_PROC_VMCORE
-static unsigned long setup_elfcorehdr, setup_elfcorehdr_size;
-static int __init early_parse_elfcorehdr(char *p)
-{
-	phys_addr_t start, end;
-	u64 i;
-
-	setup_elfcorehdr = memparse(p, &p);
-
-	for_each_mem_range(i, &start, &end) {
-		if (setup_elfcorehdr >= start && setup_elfcorehdr < end) {
-			/*
-			 * Reserve from the elf core header to the end of
-			 * the memory segment, that should all be kdump
-			 * reserved memory.
-			 */
-			setup_elfcorehdr_size = end - setup_elfcorehdr;
-			break;
-		}
-	}
-	/*
-	 * If we don't find it in the memory map, then we shouldn't
-	 * have to worry about it, as the new kernel won't use it.
-	 */
-	return 0;
-}
-early_param("elfcorehdr", early_parse_elfcorehdr);
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_KEXEC
 
@@ -715,21 +653,7 @@ static void __init arch_mem_init(char **cmdline_p)
 	 */
 	memblock_set_current_limit(PFN_PHYS(max_low_pfn));
 
-<<<<<<< HEAD
 	mips_reserve_vmcore();
-=======
-<<<<<<< HEAD
-	mips_reserve_vmcore();
-=======
-#ifdef CONFIG_PROC_VMCORE
-	if (setup_elfcorehdr && setup_elfcorehdr_size) {
-		printk(KERN_INFO "kdump reserved memory at %lx-%lx\n",
-		       setup_elfcorehdr, setup_elfcorehdr_size);
-		memblock_reserve(setup_elfcorehdr, setup_elfcorehdr_size);
-	}
-#endif
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mips_parse_crashkernel();
 #ifdef CONFIG_KEXEC
@@ -756,14 +680,6 @@ static void __init arch_mem_init(char **cmdline_p)
 	memblock_reserve(__pa_symbol(&__nosave_begin),
 		__pa_symbol(&__nosave_end) - __pa_symbol(&__nosave_begin));
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	fdt_init_reserved_mem();
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	early_memtest(PFN_PHYS(ARCH_PFN_OFFSET), PFN_PHYS(max_low_pfn));
 }
 
@@ -868,16 +784,6 @@ void __init setup_arch(char **cmdline_p)
 unsigned long kernelsp[NR_CPUS];
 unsigned long fw_arg0, fw_arg1, fw_arg2, fw_arg3;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_USE_OF
-unsigned long fw_passed_dtb;
-#endif
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DEBUG_FS
 struct dentry *mips_debugfs_dir;
 static int __init debugfs_mips(void)
@@ -888,28 +794,10 @@ static int __init debugfs_mips(void)
 arch_initcall(debugfs_mips);
 #endif
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DMA_NONCOHERENT
 static int __init setcoherentio(char *str)
 {
 	dma_default_coherent = true;
-<<<<<<< HEAD
-=======
-=======
-#ifdef CONFIG_DMA_MAYBE_COHERENT
-/* User defined DMA coherency from command line. */
-enum coherent_io_user_state coherentio = IO_COHERENCE_DEFAULT;
-EXPORT_SYMBOL_GPL(coherentio);
-int hw_coherentio;	/* Actual hardware supported DMA coherency setting. */
-
-static int __init setcoherentio(char *str)
-{
-	coherentio = IO_COHERENCE_ENABLED;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_info("Hardware DMA cache coherency (command line)\n");
 	return 0;
 }
@@ -917,15 +805,7 @@ early_param("coherentio", setcoherentio);
 
 static int __init setnocoherentio(char *str)
 {
-<<<<<<< HEAD
 	dma_default_coherent = true;
-=======
-<<<<<<< HEAD
-	dma_default_coherent = true;
-=======
-	coherentio = IO_COHERENCE_DISABLED;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_info("Software DMA cache coherency (command line)\n");
 	return 0;
 }

@@ -171,10 +171,6 @@ static void __init mpc8272_ads_setup_arch(void)
 	iounmap(bcsr);
 
 	init_ioports();
-<<<<<<< HEAD
-=======
-	pq2_init_pci();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ppc_md.progress)
 		ppc_md.progress("mpc8272_ads_setup_arch(), finish", 0);
@@ -208,10 +204,7 @@ define_machine(mpc8272_ads)
 	.name = "Freescale MPC8272 ADS",
 	.probe = mpc8272_ads_probe,
 	.setup_arch = mpc8272_ads_setup_arch,
-<<<<<<< HEAD
 	.discover_phbs = pq2_init_pci,
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.init_IRQ = mpc8272_ads_pic_init,
 	.get_irq = cpm2_get_irq,
 	.calibrate_decr = generic_calibrate_decr,

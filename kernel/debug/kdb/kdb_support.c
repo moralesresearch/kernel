@@ -39,7 +39,6 @@
  */
 int kdbgetsymval(const char *symname, kdb_symtab_t *symtab)
 {
-<<<<<<< HEAD
 	kdb_dbg_printf(AR, "symname=%s, symtab=%px\n", symname, symtab);
 	memset(symtab, 0, sizeof(*symtab));
 	symtab->sym_start = kallsyms_lookup_name(symname);
@@ -49,22 +48,6 @@ int kdbgetsymval(const char *symname, kdb_symtab_t *symtab)
 		return 1;
 	}
 	kdb_dbg_printf(AR, "returns 0\n");
-=======
-	if (KDB_DEBUG(AR))
-		kdb_printf("kdbgetsymval: symname=%s, symtab=%px\n", symname,
-			   symtab);
-	memset(symtab, 0, sizeof(*symtab));
-	symtab->sym_start = kallsyms_lookup_name(symname);
-	if (symtab->sym_start) {
-		if (KDB_DEBUG(AR))
-			kdb_printf("kdbgetsymval: returns 1, "
-				   "symtab->sym_start=0x%lx\n",
-				   symtab->sym_start);
-		return 1;
-	}
-	if (KDB_DEBUG(AR))
-		kdb_printf("kdbgetsymval: returns 0\n");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(kdbgetsymval);
@@ -99,24 +82,14 @@ int kdbnearsym(unsigned long addr, kdb_symtab_t *symtab)
 #define knt1_size 128		/* must be >= kallsyms table size */
 	char *knt1 = NULL;
 
-<<<<<<< HEAD
 	kdb_dbg_printf(AR, "addr=0x%lx, symtab=%px\n", addr, symtab);
-=======
-	if (KDB_DEBUG(AR))
-		kdb_printf("kdbnearsym: addr=0x%lx, symtab=%px\n", addr, symtab);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memset(symtab, 0, sizeof(*symtab));
 
 	if (addr < 4096)
 		goto out;
 	knt1 = debug_kmalloc(knt1_size, GFP_ATOMIC);
 	if (!knt1) {
-<<<<<<< HEAD
 		kdb_func_printf("addr=0x%lx cannot kmalloc knt1\n", addr);
-=======
-		kdb_printf("kdbnearsym: addr=0x%lx cannot kmalloc knt1\n",
-			   addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 	symtab->sym_name = kallsyms_lookup(addr, &symbolsize , &offset,
@@ -167,16 +140,8 @@ int kdbnearsym(unsigned long addr, kdb_symtab_t *symtab)
 
 	if (symtab->mod_name == NULL)
 		symtab->mod_name = "kernel";
-<<<<<<< HEAD
 	kdb_dbg_printf(AR, "returns %d symtab->sym_start=0x%lx, symtab->mod_name=%px, symtab->sym_name=%px (%s)\n",
 		       ret, symtab->sym_start, symtab->mod_name, symtab->sym_name, symtab->sym_name);
-=======
-	if (KDB_DEBUG(AR))
-		kdb_printf("kdbnearsym: returns %d symtab->sym_start=0x%lx, "
-		   "symtab->mod_name=%px, symtab->sym_name=%px (%s)\n", ret,
-		   symtab->sym_start, symtab->mod_name, symtab->sym_name,
-		   symtab->sym_name);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	debug_kfree(knt1);
@@ -353,11 +318,7 @@ int kdb_getarea_size(void *res, unsigned long addr, size_t size)
 	int ret = copy_from_kernel_nofault((char *)res, (char *)addr, size);
 	if (ret) {
 		if (!KDB_STATE(SUPPRESS)) {
-<<<<<<< HEAD
 			kdb_func_printf("Bad address 0x%lx\n", addr);
-=======
-			kdb_printf("kdb_getarea: Bad address 0x%lx\n", addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			KDB_STATE_SET(SUPPRESS);
 		}
 		ret = KDB_BADADDR;
@@ -382,11 +343,7 @@ int kdb_putarea_size(unsigned long addr, void *res, size_t size)
 	int ret = copy_from_kernel_nofault((char *)addr, (char *)res, size);
 	if (ret) {
 		if (!KDB_STATE(SUPPRESS)) {
-<<<<<<< HEAD
 			kdb_func_printf("Bad address 0x%lx\n", addr);
-=======
-			kdb_printf("kdb_putarea: Bad address 0x%lx\n", addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			KDB_STATE_SET(SUPPRESS);
 		}
 		ret = KDB_BADADDR;
@@ -468,11 +425,7 @@ int kdb_getphysword(unsigned long *word, unsigned long addr, size_t size)
 		fallthrough;
 	default:
 		diag = KDB_BADWIDTH;
-<<<<<<< HEAD
 		kdb_func_printf("bad width %zu\n", size);
-=======
-		kdb_printf("kdb_getphysword: bad width %ld\n", (long) size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return diag;
 }
@@ -521,11 +474,7 @@ int kdb_getword(unsigned long *word, unsigned long addr, size_t size)
 		fallthrough;
 	default:
 		diag = KDB_BADWIDTH;
-<<<<<<< HEAD
 		kdb_func_printf("bad width %zu\n", size);
-=======
-		kdb_printf("kdb_getword: bad width %ld\n", (long) size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return diag;
 }
@@ -569,11 +518,7 @@ int kdb_putword(unsigned long addr, unsigned long word, size_t size)
 		fallthrough;
 	default:
 		diag = KDB_BADWIDTH;
-<<<<<<< HEAD
 		kdb_func_printf("bad width %zu\n", size);
-=======
-		kdb_printf("kdb_putword: bad width %ld\n", (long) size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return diag;
 }
@@ -647,12 +592,7 @@ unsigned long kdb_task_state_string(const char *s)
 			res = ~0UL;
 			break;
 		default:
-<<<<<<< HEAD
 			  kdb_func_printf("unknown flag '%c' ignored\n", *s);
-=======
-			  kdb_printf("%s: unknown flag '%c' ignored\n",
-				     __func__, *s);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  break;
 		}
 		++s;
@@ -712,24 +652,6 @@ unsigned long kdb_task_state(const struct task_struct *p, unsigned long mask)
 {
 	char state[] = { kdb_task_state_char(p), '\0' };
 	return (mask & kdb_task_state_string(state)) != 0;
-}
-
-/*
- * kdb_print_nameval - Print a name and its value, converting the
- *	value to a symbol lookup if possible.
- * Inputs:
- *	name	field name to print
- *	val	value of field
- */
-void kdb_print_nameval(const char *name, unsigned long val)
-{
-	kdb_symtab_t symtab;
-	kdb_printf("  %-11.11s ", name);
-	if (kdbnearsym(val, &symtab))
-		kdb_symbol_print(val, &symtab,
-				 KDB_SP_VALUE|KDB_SP_SYMSIZE|KDB_SP_NEWLINE);
-	else
-		kdb_printf("0x%lx\n", val);
 }
 
 /* Last ditch allocator for debugging, so we can still debug even when
@@ -933,30 +855,16 @@ void debug_kusage(void)
 	if (!debug_kusage_one_time)
 		goto out;
 	debug_kusage_one_time = 0;
-<<<<<<< HEAD
 	kdb_func_printf("debug_kmalloc memory leak dah_first %d\n", dah_first);
 	if (dah_first) {
 		h_used = (struct debug_alloc_header *)debug_alloc_pool;
 		kdb_func_printf("h_used %px size %d\n", h_used, h_used->size);
-=======
-	kdb_printf("%s: debug_kmalloc memory leak dah_first %d\n",
-		   __func__, dah_first);
-	if (dah_first) {
-		h_used = (struct debug_alloc_header *)debug_alloc_pool;
-		kdb_printf("%s: h_used %px size %d\n", __func__, h_used,
-			   h_used->size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	do {
 		h_used = (struct debug_alloc_header *)
 			  ((char *)h_free + dah_overhead + h_free->size);
-<<<<<<< HEAD
 		kdb_func_printf("h_used %px size %d caller %px\n",
 				h_used, h_used->size, h_used->caller);
-=======
-		kdb_printf("%s: h_used %px size %d caller %px\n",
-			   __func__, h_used, h_used->size, h_used->caller);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		h_free = (struct debug_alloc_header *)
 			  (debug_alloc_pool + h_free->next);
 	} while (h_free->next);
@@ -964,13 +872,8 @@ void debug_kusage(void)
 		  ((char *)h_free + dah_overhead + h_free->size);
 	if ((char *)h_used - debug_alloc_pool !=
 	    sizeof(debug_alloc_pool_aligned))
-<<<<<<< HEAD
 		kdb_func_printf("h_used %px size %d caller %px\n",
 				h_used, h_used->size, h_used->caller);
-=======
-		kdb_printf("%s: h_used %px size %d caller %px\n",
-			   __func__, h_used, h_used->size, h_used->caller);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	spin_unlock(&dap_lock);
 }

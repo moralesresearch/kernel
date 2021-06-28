@@ -174,12 +174,8 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
 				     struct net_device *dev);
 struct fib6_info *rt6_add_dflt_router(struct net *net,
 				     const struct in6_addr *gwaddr,
-<<<<<<< HEAD
 				     struct net_device *dev, unsigned int pref,
 				     u32 defrtr_usr_metric);
-=======
-				     struct net_device *dev, unsigned int pref);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void rt6_purge_dflt_routers(struct net *net);
 

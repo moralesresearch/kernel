@@ -22,10 +22,6 @@
 #include <linux/syscalls.h>
 #include <linux/mmu_notifier.h>
 #include <linux/uaccess.h>
-<<<<<<< HEAD
-=======
-#include <linux/mm-arch-hooks.h>
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/userfaultfd_k.h>
 
 #include <asm/cacheflush.h>
@@ -549,7 +545,7 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 	if (moved_len < old_len) {
 		err = -ENOMEM;
 	} else if (vma->vm_ops && vma->vm_ops->mremap) {
-		err = vma->vm_ops->mremap(new_vma, flags);
+		err = vma->vm_ops->mremap(new_vma);
 	}
 
 	if (unlikely(err)) {
@@ -566,11 +562,6 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 		new_addr = err;
 	} else {
 		mremap_userfaultfd_prep(new_vma, uf);
-<<<<<<< HEAD
-=======
-		arch_remap(mm, old_addr, old_addr + old_len,
-			   new_addr, new_addr + new_len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Conceal VM_ACCOUNT so old reservation is not undone */
@@ -602,7 +593,6 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
 		vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
 
-<<<<<<< HEAD
 		/*
 		 * anon_vma links of the old vma is no longer needed after its page
 		 * table has been moved.
@@ -611,8 +601,6 @@ static unsigned long move_vma(struct vm_area_struct *vma,
 			vma->vm_end == (old_addr + old_len))
 			unlink_anon_vmas(vma);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Because we won't unmap we don't need to touch locked_vm */
 		return new_addr;
 	}
@@ -665,8 +653,8 @@ static struct vm_area_struct *vma_to_resize(unsigned long addr,
 		return ERR_PTR(-EINVAL);
 	}
 
-	if (flags & MREMAP_DONTUNMAP && (!vma_is_anonymous(vma) ||
-			vma->vm_flags & VM_SHARED))
+	if ((flags & MREMAP_DONTUNMAP) &&
+			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
 		return ERR_PTR(-EINVAL);
 
 	if (is_vm_hugetlb_page(vma))
@@ -742,7 +730,7 @@ static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
 	 * So, to avoid such scenario we can pre-compute if the whole
 	 * operation has high chances to success map-wise.
 	 * Worst-scenario case is when both vma's (new_addr and old_addr) get
-	 * split in 3 before unmaping it.
+	 * split in 3 before unmapping it.
 	 * That means 2 more maps (1 for each) to the ones we already hold.
 	 * Check whether current map count plus 2 still leads us to 4 maps below
 	 * the threshold, otherwise return -ENOMEM here to be more safe.

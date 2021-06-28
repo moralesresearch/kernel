@@ -33,11 +33,7 @@ Contact:	xfs@oss.sgi.com
 Description:
 		The current state of the log write grant head. It
 		represents the total log reservation of all currently
-<<<<<<< HEAD
 		outstanding transactions, including regrants due to
-=======
-		oustanding transactions, including regrants due to
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rolling transactions. The grant head is exported in
 		"cycle:bytes" format.
 Users:		xfstests

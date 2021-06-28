@@ -445,43 +445,19 @@ static int hisi_sas_task_prep(struct sas_task *task,
 		}
 	}
 
-<<<<<<< HEAD
 	if (scmd) {
-=======
-<<<<<<< HEAD
-	if (scmd) {
-=======
-	if (scmd && hisi_hba->shost->nr_hw_queues) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned int dq_index;
 		u32 blk_tag;
 
 		blk_tag = blk_mq_unique_tag(scmd->request);
 		dq_index = blk_mq_unique_tag_to_hwq(blk_tag);
 		*dq_pointer = dq = &hisi_hba->dq[dq_index];
-<<<<<<< HEAD
 	} else {
-=======
-<<<<<<< HEAD
-	} else {
-=======
-	} else if (hisi_hba->shost->nr_hw_queues)  {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct Scsi_Host *shost = hisi_hba->shost;
 		struct blk_mq_queue_map *qmap = &shost->tag_set.map[HCTX_TYPE_DEFAULT];
 		int queue = qmap->mq_map[raw_smp_processor_id()];
 
 		*dq_pointer = dq = &hisi_hba->dq[queue];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	} else {
-		*dq_pointer = dq = sas_dev->dq;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	port = to_hisi_sas_port(sas_port);
@@ -634,17 +610,8 @@ static int hisi_sas_task_exec(struct sas_task *task, gfp_t gfp_flags,
 	return rc;
 }
 
-<<<<<<< HEAD
 static void hisi_sas_bytes_dmaed(struct hisi_hba *hisi_hba, int phy_no,
 				 gfp_t gfp_flags)
-=======
-<<<<<<< HEAD
-static void hisi_sas_bytes_dmaed(struct hisi_hba *hisi_hba, int phy_no,
-				 gfp_t gfp_flags)
-=======
-static void hisi_sas_bytes_dmaed(struct hisi_hba *hisi_hba, int phy_no)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hisi_sas_phy *phy = &hisi_hba->phy[phy_no];
 	struct asd_sas_phy *sas_phy = &phy->sas_phy;
@@ -658,15 +625,7 @@ static void hisi_sas_bytes_dmaed(struct hisi_hba *hisi_hba, int phy_no)
 		return;
 	}
 
-<<<<<<< HEAD
 	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE, gfp_flags);
-=======
-<<<<<<< HEAD
-	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE, gfp_flags);
-=======
-	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (sas_phy->phy) {
 		struct sas_phy *sphy = sas_phy->phy;
@@ -694,15 +653,7 @@ static void hisi_sas_bytes_dmaed(struct hisi_hba *hisi_hba, int phy_no)
 	}
 
 	sas_phy->frame_rcvd_size = phy->frame_rcvd_size;
-<<<<<<< HEAD
 	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, gfp_flags);
-=======
-<<<<<<< HEAD
-	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED, gfp_flags);
-=======
-	sas_notify_port_event(sas_phy, PORTE_BYTES_DMAED);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct hisi_sas_device *hisi_sas_alloc_dev(struct domain_device *device)
@@ -908,15 +859,7 @@ static void hisi_sas_phyup_work(struct work_struct *work)
 
 	if (phy->identify.target_port_protocols == SAS_PROTOCOL_SSP)
 		hisi_hba->hw->sl_notify_ssp(hisi_hba, phy_no);
-<<<<<<< HEAD
 	hisi_sas_bytes_dmaed(hisi_hba, phy_no, GFP_KERNEL);
-=======
-<<<<<<< HEAD
-	hisi_sas_bytes_dmaed(hisi_hba, phy_no, GFP_KERNEL);
-=======
-	hisi_sas_bytes_dmaed(hisi_hba, phy_no);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void hisi_sas_linkreset_work(struct work_struct *work)
@@ -1398,10 +1341,12 @@ static int hisi_sas_softreset_ata_disk(struct domain_device *device)
 			rc = hisi_sas_exec_internal_tmf_task(device, fis,
 							     s, NULL);
 			if (rc != TMF_RESP_FUNC_COMPLETE)
-				dev_err(dev, "ata disk de-reset failed\n");
+				dev_err(dev, "ata disk %016llx de-reset failed\n",
+					SAS_ADDR(device->sas_addr));
 		}
 	} else {
-		dev_err(dev, "ata disk reset failed\n");
+		dev_err(dev, "ata disk %016llx reset failed\n",
+			SAS_ADDR(device->sas_addr));
 	}
 
 	if (rc == TMF_RESP_FUNC_COMPLETE)
@@ -1486,24 +1431,11 @@ static void hisi_sas_rescan_topology(struct hisi_hba *hisi_hba, u32 state)
 
 				if (dev_is_expander(dev->dev_type))
 					sas_notify_port_event(sas_phy,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							PORTE_BROADCAST_RCVD,
 							GFP_KERNEL);
 			}
 		} else {
 			hisi_sas_phy_down(hisi_hba, phy_no, 0, GFP_KERNEL);
-<<<<<<< HEAD
-=======
-=======
-							PORTE_BROADCAST_RCVD);
-			}
-		} else {
-			hisi_sas_phy_down(hisi_hba, phy_no, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 }
@@ -1638,20 +1570,25 @@ void hisi_sas_controller_reset_done(struct hisi_hba *hisi_hba)
 }
 EXPORT_SYMBOL_GPL(hisi_sas_controller_reset_done);
 
-static int hisi_sas_controller_reset(struct hisi_hba *hisi_hba)
+static int hisi_sas_controller_prereset(struct hisi_hba *hisi_hba)
 {
-	struct device *dev = hisi_hba->dev;
-	struct Scsi_Host *shost = hisi_hba->shost;
-	int rc;
-
-	if (hisi_sas_debugfs_enable && hisi_hba->debugfs_itct[0].itct)
-		queue_work(hisi_hba->wq, &hisi_hba->debugfs_work);
-
 	if (!hisi_hba->hw->soft_reset)
 		return -1;
 
 	if (test_and_set_bit(HISI_SAS_RESET_BIT, &hisi_hba->flags))
 		return -1;
+
+	if (hisi_sas_debugfs_enable && hisi_hba->debugfs_itct[0].itct)
+		hisi_hba->hw->debugfs_snapshot_regs(hisi_hba);
+
+	return 0;
+}
+
+static int hisi_sas_controller_reset(struct hisi_hba *hisi_hba)
+{
+	struct device *dev = hisi_hba->dev;
+	struct Scsi_Host *shost = hisi_hba->shost;
+	int rc;
 
 	dev_info(dev, "controller resetting...\n");
 	hisi_sas_controller_reset_prepare(hisi_hba);
@@ -1857,15 +1794,7 @@ static int hisi_sas_debug_I_T_nexus_reset(struct domain_device *device)
 
 		/* report PHY down if timed out */
 		if (!ret)
-<<<<<<< HEAD
 			hisi_sas_phy_down(hisi_hba, sas_phy->id, 0, GFP_KERNEL);
-=======
-<<<<<<< HEAD
-			hisi_sas_phy_down(hisi_hba, sas_phy->id, 0, GFP_KERNEL);
-=======
-			hisi_sas_phy_down(hisi_hba, sas_phy->id, 0);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (sas_dev->dev_status != HISI_SAS_DEV_INIT) {
 		/*
 		 * If in init state, we rely on caller to wait for link to be
@@ -2265,17 +2194,8 @@ static void hisi_sas_phy_disconnected(struct hisi_sas_phy *phy)
 	spin_unlock_irqrestore(&phy->lock, flags);
 }
 
-<<<<<<< HEAD
 void hisi_sas_phy_down(struct hisi_hba *hisi_hba, int phy_no, int rdy,
 		       gfp_t gfp_flags)
-=======
-<<<<<<< HEAD
-void hisi_sas_phy_down(struct hisi_hba *hisi_hba, int phy_no, int rdy,
-		       gfp_t gfp_flags)
-=======
-void hisi_sas_phy_down(struct hisi_hba *hisi_hba, int phy_no, int rdy)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hisi_sas_phy *phy = &hisi_hba->phy[phy_no];
 	struct asd_sas_phy *sas_phy = &phy->sas_phy;
@@ -2283,15 +2203,7 @@ void hisi_sas_phy_down(struct hisi_hba *hisi_hba, int phy_no, int rdy)
 
 	if (rdy) {
 		/* Phy down but ready */
-<<<<<<< HEAD
 		hisi_sas_bytes_dmaed(hisi_hba, phy_no, gfp_flags);
-=======
-<<<<<<< HEAD
-		hisi_sas_bytes_dmaed(hisi_hba, phy_no, gfp_flags);
-=======
-		hisi_sas_bytes_dmaed(hisi_hba, phy_no);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hisi_sas_port_notify_formed(sas_phy);
 	} else {
 		struct hisi_sas_port *port  = phy->port;
@@ -2302,15 +2214,7 @@ void hisi_sas_phy_down(struct hisi_hba *hisi_hba, int phy_no, int rdy)
 			return;
 		}
 		/* Phy down and not ready */
-<<<<<<< HEAD
 		sas_notify_phy_event(sas_phy, PHYE_LOSS_OF_SIGNAL, gfp_flags);
-=======
-<<<<<<< HEAD
-		sas_notify_phy_event(sas_phy, PHYE_LOSS_OF_SIGNAL, gfp_flags);
-=======
-		sas_notify_phy_event(sas_phy, PHYE_LOSS_OF_SIGNAL);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sas_phy_disconnected(sas_phy);
 
 		if (port) {
@@ -2574,6 +2478,9 @@ void hisi_sas_rst_work_handler(struct work_struct *work)
 	struct hisi_hba *hisi_hba =
 		container_of(work, struct hisi_hba, rst_work);
 
+	if (hisi_sas_controller_prereset(hisi_hba))
+		return;
+
 	hisi_sas_controller_reset(hisi_hba);
 }
 EXPORT_SYMBOL_GPL(hisi_sas_rst_work_handler);
@@ -2583,8 +2490,12 @@ void hisi_sas_sync_rst_work_handler(struct work_struct *work)
 	struct hisi_sas_rst *rst =
 		container_of(work, struct hisi_sas_rst, work);
 
+	if (hisi_sas_controller_prereset(rst->hisi_hba))
+		goto rst_complete;
+
 	if (!hisi_sas_controller_reset(rst->hisi_hba))
 		rst->done = true;
+rst_complete:
 	complete(rst->completion);
 }
 EXPORT_SYMBOL_GPL(hisi_sas_sync_rst_work_handler);
@@ -2792,12 +2703,14 @@ int hisi_sas_probe(struct platform_device *pdev,
 
 	rc = hisi_hba->hw->hw_init(hisi_hba);
 	if (rc)
-		goto err_out_register_ha;
+		goto err_out_hw_init;
 
 	scsi_scan_host(shost);
 
 	return 0;
 
+err_out_hw_init:
+	sas_unregister_ha(sha);
 err_out_register_ha:
 	scsi_remove_host(shost);
 err_out_ha:
@@ -2825,10 +2738,6 @@ int hisi_sas_remove(struct platform_device *pdev)
 }
 EXPORT_SYMBOL_GPL(hisi_sas_remove);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_SCSI_HISI_SAS_DEBUGFS_DEFAULT_ENABLE)
 #define DEBUGFS_ENABLE_DEFAULT  "enabled"
 bool hisi_sas_debugfs_enable = true;
@@ -2844,17 +2753,6 @@ module_param_named(debugfs_enable, hisi_sas_debugfs_enable, bool, 0444);
 MODULE_PARM_DESC(hisi_sas_debugfs_enable,
 		 "Enable driver debugfs (default "DEBUGFS_ENABLE_DEFAULT")");
 
-<<<<<<< HEAD
-=======
-=======
-bool hisi_sas_debugfs_enable;
-EXPORT_SYMBOL_GPL(hisi_sas_debugfs_enable);
-module_param_named(debugfs_enable, hisi_sas_debugfs_enable, bool, 0444);
-MODULE_PARM_DESC(hisi_sas_debugfs_enable, "Enable driver debugfs (default disabled)");
-
-u32 hisi_sas_debugfs_dump_count = 1;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL_GPL(hisi_sas_debugfs_dump_count);
 module_param_named(debugfs_dump_count, hisi_sas_debugfs_dump_count, uint, 0444);
 MODULE_PARM_DESC(hisi_sas_debugfs_dump_count, "Number of debugfs dumps to allow");

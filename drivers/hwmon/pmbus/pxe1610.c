@@ -41,7 +41,6 @@ static int pxe1610_identify(struct i2c_client *client,
 				info->vrm_version[i] = vr13;
 				break;
 			default:
-<<<<<<< HEAD
 				/*
 				 * If prior pages are available limit operation
 				 * to them
@@ -51,8 +50,6 @@ static int pxe1610_identify(struct i2c_client *client,
 					return 0;
 				}
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return -ENODEV;
 			}
 		}
@@ -151,3 +148,4 @@ module_i2c_driver(pxe1610_driver);
 MODULE_AUTHOR("Vijay Khemka <vijaykhemka@fb.com>");
 MODULE_DESCRIPTION("PMBus driver for Infineon PXE1610, PXE1110 and PXM1310");
 MODULE_LICENSE("GPL");
+MODULE_IMPORT_NS(PMBUS);

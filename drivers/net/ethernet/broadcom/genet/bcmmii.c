@@ -63,19 +63,11 @@ void bcmgenet_mii_setup(struct net_device *dev)
 
 		/* speed */
 		if (phydev->speed == SPEED_1000)
-<<<<<<< HEAD
 			cmd_bits = CMD_SPEED_1000;
 		else if (phydev->speed == SPEED_100)
 			cmd_bits = CMD_SPEED_100;
 		else
 			cmd_bits = CMD_SPEED_10;
-=======
-			cmd_bits = UMAC_SPEED_1000;
-		else if (phydev->speed == SPEED_100)
-			cmd_bits = UMAC_SPEED_100;
-		else
-			cmd_bits = UMAC_SPEED_10;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cmd_bits <<= CMD_SPEED_SHIFT;
 
 		/* duplex */
@@ -367,11 +359,7 @@ int bcmgenet_mii_probe(struct net_device *dev)
 	 * those versions of GENET.
 	 */
 	if (priv->internal_phy && !GENET_IS_V5(priv))
-<<<<<<< HEAD
 		dev->phydev->irq = PHY_MAC_INTERRUPT;
-=======
-		dev->phydev->irq = PHY_IGNORE_INTERRUPT;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

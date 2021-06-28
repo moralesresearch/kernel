@@ -466,6 +466,8 @@ static int amdgpu_virt_read_pf2vf_data(struct amdgpu_device *adev)
 			((struct amd_sriov_msg_pf2vf_info *)pf2vf_info)->vf2pf_update_interval_ms;
 		adev->virt.gim_feature =
 			((struct amd_sriov_msg_pf2vf_info *)pf2vf_info)->feature_flags.all;
+		adev->virt.reg_access =
+			((struct amd_sriov_msg_pf2vf_info *)pf2vf_info)->reg_access_flags.all;
 
 		break;
 	default:
@@ -575,18 +577,8 @@ void amdgpu_virt_fini_data_exchange(struct amdgpu_device *adev)
 {
 	if (adev->virt.vf2pf_update_interval_ms != 0) {
 		DRM_INFO("clean up the vf2pf work item\n");
-<<<<<<< HEAD
 		cancel_delayed_work_sync(&adev->virt.vf2pf_work);
 		adev->virt.vf2pf_update_interval_ms = 0;
-=======
-<<<<<<< HEAD
-		cancel_delayed_work_sync(&adev->virt.vf2pf_work);
-		adev->virt.vf2pf_update_interval_ms = 0;
-=======
-		flush_delayed_work(&adev->virt.vf2pf_work);
-		cancel_delayed_work_sync(&adev->virt.vf2pf_work);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -627,6 +619,14 @@ void amdgpu_virt_init_data_exchange(struct amdgpu_device *adev)
 				if (adev->virt.ras_init_done)
 					amdgpu_virt_add_bad_page(adev, bp_block_offset, bp_block_size);
 			}
+	} else if (adev->bios != NULL) {
+		adev->virt.fw_reserve.p_pf2vf =
+			(struct amd_sriov_msg_pf2vf_info_header *)
+			(adev->bios + (AMD_SRIOV_MSG_PF2VF_OFFSET_KB << 10));
+
+		amdgpu_virt_read_pf2vf_data(adev);
+
+		return;
 	}
 
 	if (adev->virt.vf2pf_update_interval_ms != 0) {
@@ -650,6 +650,7 @@ void amdgpu_detect_virtualization(struct amdgpu_device *adev)
 	case CHIP_NAVI12:
 	case CHIP_SIENNA_CICHLID:
 	case CHIP_ARCTURUS:
+	case CHIP_ALDEBARAN:
 		reg = RREG32(mmRCC_IOV_FUNC_IDENTIFIER);
 		break;
 	default: /* other chip doesn't support SRIOV */

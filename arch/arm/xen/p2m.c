@@ -11,14 +11,7 @@
 
 #include <xen/xen.h>
 #include <xen/interface/memory.h>
-<<<<<<< HEAD
 #include <xen/grant_table.h>
-=======
-<<<<<<< HEAD
-#include <xen/grant_table.h>
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <xen/page.h>
 #include <xen/swiotlb-xen.h>
 
@@ -117,15 +110,7 @@ int set_foreign_p2m_mapping(struct gnttab_map_grant_ref *map_ops,
 		map_ops[i].status = GNTST_general_error;
 		unmap.host_addr = map_ops[i].host_addr,
 		unmap.handle = map_ops[i].handle;
-<<<<<<< HEAD
 		map_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-<<<<<<< HEAD
-		map_ops[i].handle = INVALID_GRANT_HANDLE;
-=======
-		map_ops[i].handle = ~0;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (map_ops[i].flags & GNTMAP_device_map)
 			unmap.dev_bus_addr = map_ops[i].dev_bus_addr;
 		else
@@ -146,13 +131,6 @@ int set_foreign_p2m_mapping(struct gnttab_map_grant_ref *map_ops,
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(set_foreign_p2m_mapping);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int clear_foreign_p2m_mapping(struct gnttab_unmap_grant_ref *unmap_ops,
 			      struct gnttab_unmap_grant_ref *kunmap_ops,
@@ -167,13 +145,6 @@ int clear_foreign_p2m_mapping(struct gnttab_unmap_grant_ref *unmap_ops,
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(clear_foreign_p2m_mapping);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool __set_phys_to_machine_multi(unsigned long pfn,
 		unsigned long mfn, unsigned long nr_pages)

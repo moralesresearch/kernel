@@ -271,11 +271,7 @@ static int mt76x2_init_hardware(struct mt76x02_dev *dev)
 void mt76x2_stop_hardware(struct mt76x02_dev *dev)
 {
 	cancel_delayed_work_sync(&dev->cal_work);
-<<<<<<< HEAD
 	cancel_delayed_work_sync(&dev->mphy.mac_work);
-=======
-	cancel_delayed_work_sync(&dev->mt76.mac_work);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cancel_delayed_work_sync(&dev->wdt_work);
 	clear_bit(MT76_RESTART, &dev->mphy.state);
 	mt76x02_mcu_set_radio_state(dev, false);

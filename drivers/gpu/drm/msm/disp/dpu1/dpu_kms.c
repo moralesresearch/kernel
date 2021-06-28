@@ -14,6 +14,7 @@
 
 #include <drm/drm_crtc.h>
 #include <drm/drm_file.h>
+#include <drm/drm_vblank.h>
 
 #include "msm_drv.h"
 #include "msm_mmu.h"
@@ -751,15 +752,7 @@ static void _dpu_kms_set_encoder_mode(struct msm_kms *kms,
 	case DRM_MODE_ENCODER_TMDS:
 		info.num_of_h_tiles = 1;
 		break;
-<<<<<<< HEAD
 	}
-=======
-<<<<<<< HEAD
-	}
-=======
-	};
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = dpu_encoder_setup(encoder->dev, encoder, &info);
 	if (rc)
@@ -941,12 +934,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
 		DPU_DEBUG("REG_DMA is not defined");
 	}
 
-<<<<<<< HEAD
 	dpu_kms_parse_data_bus_icc_path(dpu_kms);
-=======
-	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
-		dpu_kms_parse_data_bus_icc_path(dpu_kms);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
 
@@ -1036,6 +1024,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
 	 * Support format modifiers for compression etc.
 	 */
 	dev->mode_config.allow_fb_modifiers = true;
+
+	dev->max_vblank_count = 0xffffffff;
+	/* Disable vblank irqs aggressively for power-saving */
+	dev->vblank_disable_immediate = true;
 
 	/*
 	 * _dpu_kms_drm_obj_init should create the DRM related objects
@@ -1233,6 +1225,9 @@ static const struct dev_pm_ops dpu_pm_ops = {
 static const struct of_device_id dpu_dt_match[] = {
 	{ .compatible = "qcom,sdm845-dpu", },
 	{ .compatible = "qcom,sc7180-dpu", },
+	{ .compatible = "qcom,sc7280-dpu", },
+	{ .compatible = "qcom,sm8150-dpu", },
+	{ .compatible = "qcom,sm8250-dpu", },
 	{}
 };
 MODULE_DEVICE_TABLE(of, dpu_dt_match);

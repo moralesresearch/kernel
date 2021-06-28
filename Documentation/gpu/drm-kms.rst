@@ -319,7 +319,6 @@ CRTC Functions Reference
 .. kernel-doc:: drivers/gpu/drm/drm_crtc.c
    :export:
 
-<<<<<<< HEAD
 Color Management Functions Reference
 ------------------------------------
 
@@ -329,8 +328,6 @@ Color Management Functions Reference
 .. kernel-doc:: include/drm/drm_color_mgmt.h
    :internal:
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Frame Buffer Abstraction
 ========================
 
@@ -382,7 +379,6 @@ Plane Functions Reference
 .. kernel-doc:: drivers/gpu/drm/drm_plane.c
    :export:
 
-<<<<<<< HEAD
 Plane Composition Functions Reference
 -------------------------------------
 
@@ -398,8 +394,6 @@ Plane Damage Tracking Functions Reference
 .. kernel-doc:: include/drm/drm_damage_helper.h
    :internal:
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Display Modes Function Reference
 ================================
 
@@ -466,12 +460,9 @@ KMS Locking
 KMS Properties
 ==============
 
-<<<<<<< HEAD
 This section of the documentation is primarily aimed at user-space developers.
 For the driver APIs, see the other sections.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Property Types and Blob Property Support
 ----------------------------------------
 
@@ -502,59 +493,30 @@ Standard CRTC Properties
 .. kernel-doc:: drivers/gpu/drm/drm_crtc.c
    :doc: standard CRTC properties
 
-<<<<<<< HEAD
 Standard Plane Properties
 -------------------------
 
 .. kernel-doc:: drivers/gpu/drm/drm_plane.c
    :doc: standard plane properties
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Plane Composition Properties
 ----------------------------
 
 .. kernel-doc:: drivers/gpu/drm/drm_blend.c
    :doc: overview
 
-<<<<<<< HEAD
 Damage Tracking Properties
 --------------------------
-=======
-.. kernel-doc:: drivers/gpu/drm/drm_blend.c
-   :export:
-
-FB_DAMAGE_CLIPS
-~~~~~~~~~~~~~~~
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 .. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
    :doc: overview
 
-<<<<<<< HEAD
-=======
-.. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
-   :export:
-
-.. kernel-doc:: include/drm/drm_damage_helper.h
-   :internal:
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Color Management Properties
 ---------------------------
 
 .. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
    :doc: overview
 
-<<<<<<< HEAD
-=======
-.. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
-   :export:
-
-.. kernel-doc:: include/drm/drm_color_mgmt.h
-   :internal:
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Tile Group Property
 -------------------
 

@@ -213,11 +213,7 @@
 		};
 
 		// External Micro SD slot
-<<<<<<< HEAD
 		mmc@80126000 {
-=======
-		sdi0_per1@80126000 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 			max-frequency = <100000000>;
 			bus-width = <4>;
@@ -245,11 +241,7 @@
 		};
 
 		// WLAN SDIO channel
-<<<<<<< HEAD
 		mmc@80118000 {
-=======
-		sdi1_per2@80118000 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 			max-frequency = <100000000>;
 			bus-width = <4>;
@@ -261,11 +253,7 @@
 		};
 
 		// Unused PoP eMMC - register and put it to sleep by default */
-<<<<<<< HEAD
 		mmc@80005000 {
-=======
-		sdi2_per3@80005000 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&mc2_a_1_sleep>;
@@ -274,11 +262,7 @@
 		};
 
 		// On-board eMMC
-<<<<<<< HEAD
 		mmc@80114000 {
-=======
-		sdi4_per2@80114000 {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			arm,primecell-periphid = <0x10480180>;
 		        max-frequency = <100000000>;
 			bus-width = <8>;

@@ -112,7 +112,7 @@ static const struct vmw_res_func vmw_dx_context_func = {
 	.unbind = vmw_dx_context_unbind
 };
 
-/**
+/*
  * Context management:
  */
 
@@ -163,11 +163,7 @@ static void vmw_hw_context_destroy(struct vmw_resource *res)
 	}
 
 	vmw_execbuf_release_pinned_bo(dev_priv);
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return;
 
@@ -175,11 +171,7 @@ static void vmw_hw_context_destroy(struct vmw_resource *res)
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmw_fifo_resource_dec(dev_priv);
 }
 
@@ -273,11 +265,7 @@ static int vmw_context_init(struct vmw_private *dev_priv,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		vmw_resource_unreference(&res);
 		return -ENOMEM;
@@ -287,11 +275,7 @@ static int vmw_context_init(struct vmw_private *dev_priv,
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmw_fifo_resource_inc(dev_priv);
 	res->hw_destroy = vmw_hw_context_destroy;
 	return 0;
@@ -332,11 +316,7 @@ static int vmw_gb_context_create(struct vmw_resource *res)
 		goto out_no_fifo;
 	}
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		ret = -ENOMEM;
 		goto out_no_fifo;
@@ -345,11 +325,7 @@ static int vmw_gb_context_create(struct vmw_resource *res)
 	cmd->header.id = SVGA_3D_CMD_DEFINE_GB_CONTEXT;
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmw_fifo_resource_inc(dev_priv);
 
 	return 0;
@@ -372,11 +348,7 @@ static int vmw_gb_context_bind(struct vmw_resource *res,
 
 	BUG_ON(bo->mem.mem_type != VMW_PL_MOB);
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -386,11 +358,7 @@ static int vmw_gb_context_bind(struct vmw_resource *res,
 	cmd->body.mobid = bo->mem.start;
 	cmd->body.validContents = res->backup_dirty;
 	res->backup_dirty = false;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -424,11 +392,7 @@ static int vmw_gb_context_unbind(struct vmw_resource *res,
 
 	submit_size = sizeof(*cmd2) + (readback ? sizeof(*cmd1) : 0);
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, submit_size);
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, submit_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		mutex_unlock(&dev_priv->binding_mutex);
 		return -ENOMEM;
@@ -447,11 +411,7 @@ static int vmw_gb_context_unbind(struct vmw_resource *res,
 	cmd2->body.cid = res->id;
 	cmd2->body.mobid = SVGA3D_INVALID_ID;
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, submit_size);
-=======
-	vmw_fifo_commit(dev_priv, submit_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dev_priv->binding_mutex);
 
 	/*
@@ -480,22 +440,14 @@ static int vmw_gb_context_destroy(struct vmw_resource *res)
 	if (likely(res->id == -1))
 		return 0;
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
 	cmd->header.id = SVGA_3D_CMD_DESTROY_GB_CONTEXT;
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dev_priv->query_cid == res->id)
 		dev_priv->query_cid_valid = false;
 	vmw_resource_release_id(res);
@@ -531,11 +483,7 @@ static int vmw_dx_context_create(struct vmw_resource *res)
 		goto out_no_fifo;
 	}
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		ret = -ENOMEM;
 		goto out_no_fifo;
@@ -544,11 +492,7 @@ static int vmw_dx_context_create(struct vmw_resource *res)
 	cmd->header.id = SVGA_3D_CMD_DX_DEFINE_CONTEXT;
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmw_fifo_resource_inc(dev_priv);
 
 	return 0;
@@ -571,11 +515,7 @@ static int vmw_dx_context_bind(struct vmw_resource *res,
 
 	BUG_ON(bo->mem.mem_type != VMW_PL_MOB);
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -585,11 +525,7 @@ static int vmw_dx_context_bind(struct vmw_resource *res,
 	cmd->body.mobid = bo->mem.start;
 	cmd->body.validContents = res->backup_dirty;
 	res->backup_dirty = false;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 	return 0;
@@ -672,11 +608,7 @@ static int vmw_dx_context_unbind(struct vmw_resource *res,
 
 	submit_size = sizeof(*cmd2) + (readback ? sizeof(*cmd1) : 0);
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, submit_size);
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, submit_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL)) {
 		mutex_unlock(&dev_priv->binding_mutex);
 		return -ENOMEM;
@@ -695,11 +627,7 @@ static int vmw_dx_context_unbind(struct vmw_resource *res,
 	cmd2->body.cid = res->id;
 	cmd2->body.mobid = SVGA3D_INVALID_ID;
 
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, submit_size);
-=======
-	vmw_fifo_commit(dev_priv, submit_size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&dev_priv->binding_mutex);
 
 	/*
@@ -728,22 +656,14 @@ static int vmw_dx_context_destroy(struct vmw_resource *res)
 	if (likely(res->id == -1))
 		return 0;
 
-<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
-=======
-	cmd = VMW_FIFO_RESERVE(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
 	cmd->header.id = SVGA_3D_CMD_DX_DESTROY_CONTEXT;
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid = res->id;
-<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
-=======
-	vmw_fifo_commit(dev_priv, sizeof(*cmd));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dev_priv->query_cid == res->id)
 		dev_priv->query_cid_valid = false;
 	vmw_resource_release_id(res);
@@ -752,7 +672,7 @@ static int vmw_dx_context_destroy(struct vmw_resource *res)
 	return 0;
 }
 
-/**
+/*
  * User-space context management:
  */
 
@@ -778,7 +698,7 @@ static void vmw_user_context_free(struct vmw_resource *res)
 			    vmw_user_context_size);
 }
 
-/**
+/*
  * This function is called when user space has no more references on the
  * base object. It releases the base-object's reference on the resource object.
  */

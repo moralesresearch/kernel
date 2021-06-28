@@ -314,12 +314,6 @@ static const struct dw_pcie_host_ops al_pcie_host_ops = {
 	.host_init = al_pcie_host_init,
 };
 
-<<<<<<< HEAD
-=======
-static const struct dw_pcie_ops dw_pcie_ops = {
-};
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int al_pcie_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
@@ -337,10 +331,6 @@ static int al_pcie_probe(struct platform_device *pdev)
 		return -ENOMEM;
 
 	pci->dev = dev;
-<<<<<<< HEAD
-=======
-	pci->ops = &dw_pcie_ops;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci->pp.ops = &al_pcie_host_ops;
 
 	al_pcie->pci = pci;

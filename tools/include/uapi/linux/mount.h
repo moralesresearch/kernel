@@ -1,11 +1,8 @@
 #ifndef _UAPI_LINUX_MOUNT_H
 #define _UAPI_LINUX_MOUNT_H
 
-<<<<<<< HEAD
 #include <linux/types.h>
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * These are the fs-independent mount-flags: up to 32 flags are supported
  *
@@ -122,7 +119,6 @@ enum fsconfig_command {
 #define MOUNT_ATTR_NOATIME	0x00000010 /* - Do not update access times. */
 #define MOUNT_ATTR_STRICTATIME	0x00000020 /* - Always perform atime updates */
 #define MOUNT_ATTR_NODIRATIME	0x00000080 /* Do not update directory access times */
-<<<<<<< HEAD
 #define MOUNT_ATTR_IDMAP	0x00100000 /* Idmap mount to @userns_fd in struct mount_attr. */
 
 /*
@@ -137,7 +133,5 @@ struct mount_attr {
 
 /* List of all mount_attr versions. */
 #define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _UAPI_LINUX_MOUNT_H */

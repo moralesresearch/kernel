@@ -61,10 +61,7 @@ properties:
     maxItems: 8
 
   calxeda,sgpio-gpio:
-<<<<<<< HEAD
     maxItems: 3
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: |
       phandle-gpio bank, bit offset, and default on or off, which indicates
       that the driver supports SGPIO indicator lights using the indicated

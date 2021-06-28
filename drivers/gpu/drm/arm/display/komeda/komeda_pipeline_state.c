@@ -1231,23 +1231,15 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
 	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
 	struct komeda_component_state *c_st;
 	struct komeda_component *c;
-<<<<<<< HEAD
 	u32 id;
 	unsigned long disabling_comps;
-=======
-	u32 disabling_comps, id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	WARN_ON(!old);
 
 	disabling_comps = (~new->active_comps) & old->active_comps;
 
 	/* unbound all disabling component */
-<<<<<<< HEAD
 	for_each_set_bit(id, &disabling_comps, 32) {
-=======
-	dp_for_each_set_bit(id, disabling_comps) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		c = komeda_pipeline_get_component(pipe, id);
 		c_st = komeda_component_get_state_and_set_user(c,
 				drm_st, NULL, new->crtc);
@@ -1295,12 +1287,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
 	struct komeda_pipeline_state *old;
 	struct komeda_component *c;
 	struct komeda_component_state *c_st;
-<<<<<<< HEAD
 	u32 id;
 	unsigned long disabling_comps;
-=======
-	u32 id, disabling_comps = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	old = komeda_pipeline_get_old_state(pipe, old_state);
 
@@ -1310,17 +1298,10 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
 		disabling_comps = old->active_comps &
 				  pipe->standalone_disabled_comps;
 
-<<<<<<< HEAD
 	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
 			 pipe->id, old->active_comps, disabling_comps);
 
 	for_each_set_bit(id, &disabling_comps, 32) {
-=======
-	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
-			 pipe->id, old->active_comps, disabling_comps);
-
-	dp_for_each_set_bit(id, disabling_comps) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		c = komeda_pipeline_get_component(pipe, id);
 		c_st = priv_to_comp_st(c->obj.state);
 
@@ -1351,28 +1332,17 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
 	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
 	struct komeda_pipeline_state *old;
 	struct komeda_component *c;
-<<<<<<< HEAD
 	u32 id;
 	unsigned long changed_comps;
-=======
-	u32 id, changed_comps = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	old = komeda_pipeline_get_old_state(pipe, old_state);
 
 	changed_comps = new->active_comps | old->active_comps;
 
-<<<<<<< HEAD
 	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
 			 pipe->id, new->active_comps, changed_comps);
 
 	for_each_set_bit(id, &changed_comps, 32) {
-=======
-	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
-			 pipe->id, new->active_comps, changed_comps);
-
-	dp_for_each_set_bit(id, changed_comps) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		c = komeda_pipeline_get_component(pipe, id);
 
 		if (new->active_comps & BIT(c->id))

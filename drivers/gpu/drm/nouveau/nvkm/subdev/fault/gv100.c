@@ -228,15 +228,8 @@ gv100_fault = {
 };
 
 int
-<<<<<<< HEAD
 gv100_fault_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		struct nvkm_fault **pfault)
 {
 	return nvkm_fault_new_(&gv100_fault, device, type, inst, pfault);
-=======
-gv100_fault_new(struct nvkm_device *device, int index,
-		struct nvkm_fault **pfault)
-{
-	return nvkm_fault_new_(&gv100_fault, device, index, pfault);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

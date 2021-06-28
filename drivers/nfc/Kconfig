@@ -49,7 +49,6 @@ config NFC_PORT100
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
 config NFC_VIRTUAL_NCI
 	tristate "NCI device simulator driver"
 	depends on NFC_NCI
@@ -61,8 +60,6 @@ config NFC_VIRTUAL_NCI
 
 	  If unsure, say N.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 source "drivers/nfc/fdp/Kconfig"
 source "drivers/nfc/pn544/Kconfig"
 source "drivers/nfc/pn533/Kconfig"

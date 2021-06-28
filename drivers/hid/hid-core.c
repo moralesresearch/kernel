@@ -2005,12 +2005,9 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
 	case BUS_I2C:
 		bus = "I2C";
 		break;
-<<<<<<< HEAD
 	case BUS_VIRTUAL:
 		bus = "VIRTUAL";
 		break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		bus = "<UNKNOWN>";
 	}
@@ -2135,7 +2132,7 @@ struct hid_dynid {
 };
 
 /**
- * store_new_id - add a new HID device ID to this driver and re-probe devices
+ * new_id_store - add a new HID device ID to this driver and re-probe devices
  * @drv: target device driver
  * @buf: buffer for scanning device ID data
  * @count: input size
@@ -2594,7 +2591,6 @@ int hid_check_keys_pressed(struct hid_device *hid)
 
 	return 0;
 }
-
 EXPORT_SYMBOL_GPL(hid_check_keys_pressed);
 
 static int __init hid_init(void)

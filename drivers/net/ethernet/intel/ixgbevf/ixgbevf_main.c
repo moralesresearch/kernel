@@ -781,26 +781,13 @@ static void ixgbevf_reuse_rx_page(struct ixgbevf_ring *rx_ring,
 	new_buff->pagecnt_bias = old_buff->pagecnt_bias;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool ixgbevf_page_is_reserved(struct page *page)
-{
-	return (page_to_nid(page) != numa_mem_id()) || page_is_pfmemalloc(page);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool ixgbevf_can_reuse_rx_page(struct ixgbevf_rx_buffer *rx_buffer)
 {
 	unsigned int pagecnt_bias = rx_buffer->pagecnt_bias;
 	struct page *page = rx_buffer->page;
 
-<<<<<<< HEAD
 	/* avoid re-using remote and pfmemalloc pages */
 	if (!dev_page_is_reusable(page))
-=======
-	/* avoid re-using remote pages */
-	if (unlikely(ixgbevf_page_is_reserved(page)))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 #if (PAGE_SIZE < 8192)
@@ -1080,20 +1067,14 @@ static struct sk_buff *ixgbevf_run_xdp(struct ixgbevf_adapter *adapter,
 	case XDP_TX:
 		xdp_ring = adapter->xdp_ring[rx_ring->queue_index];
 		result = ixgbevf_xmit_xdp_ring(xdp_ring, xdp);
-<<<<<<< HEAD
 		if (result == IXGBEVF_XDP_CONSUMED)
 			goto out_failure;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		bpf_warn_invalid_xdp_action(act);
 		fallthrough;
 	case XDP_ABORTED:
-<<<<<<< HEAD
 out_failure:
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
 		fallthrough; /* handle aborts by dropping packet */
 	case XDP_DROP:
@@ -1138,31 +1119,18 @@ static int ixgbevf_clean_rx_irq(struct ixgbevf_q_vector *q_vector,
 				struct ixgbevf_ring *rx_ring,
 				int budget)
 {
-<<<<<<< HEAD
 	unsigned int total_rx_bytes = 0, total_rx_packets = 0, frame_sz = 0;
-=======
-	unsigned int total_rx_bytes = 0, total_rx_packets = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ixgbevf_adapter *adapter = q_vector->adapter;
 	u16 cleaned_count = ixgbevf_desc_unused(rx_ring);
 	struct sk_buff *skb = rx_ring->skb;
 	bool xdp_xmit = false;
 	struct xdp_buff xdp;
 
-<<<<<<< HEAD
 	/* Frame size depend on rx_ring setup when PAGE_SIZE=4K */
 #if (PAGE_SIZE < 8192)
 	frame_sz = ixgbevf_rx_frame_truesize(rx_ring, 0);
 #endif
 	xdp_init_buff(&xdp, frame_sz, &rx_ring->xdp_rxq);
-=======
-	xdp.rxq = &rx_ring->xdp_rxq;
-
-	/* Frame size depend on rx_ring setup when PAGE_SIZE=4K */
-#if (PAGE_SIZE < 8192)
-	xdp.frame_sz = ixgbevf_rx_frame_truesize(rx_ring, 0);
-#endif
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (likely(total_rx_packets < budget)) {
 		struct ixgbevf_rx_buffer *rx_buffer;
@@ -1190,21 +1158,12 @@ static int ixgbevf_clean_rx_irq(struct ixgbevf_q_vector *q_vector,
 
 		/* retrieve a buffer from the ring */
 		if (!skb) {
-<<<<<<< HEAD
 			unsigned int offset = ixgbevf_rx_offset(rx_ring);
 			unsigned char *hard_start;
 
 			hard_start = page_address(rx_buffer->page) +
 				     rx_buffer->page_offset - offset;
 			xdp_prepare_buff(&xdp, hard_start, offset, size, true);
-=======
-			xdp.data = page_address(rx_buffer->page) +
-				   rx_buffer->page_offset;
-			xdp.data_meta = xdp.data;
-			xdp.data_hard_start = xdp.data -
-					      ixgbevf_rx_offset(rx_ring);
-			xdp.data_end = xdp.data + size;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if (PAGE_SIZE > 4096)
 			/* At larger PAGE_SIZE, frame_sz depend on len size */
 			xdp.frame_sz = ixgbevf_rx_frame_truesize(rx_ring, size);
@@ -2677,6 +2636,7 @@ static void ixgbevf_set_num_queues(struct ixgbevf_adapter *adapter)
 			adapter->num_rx_queues = rss;
 			adapter->num_tx_queues = rss;
 			adapter->num_xdp_queues = adapter->xdp_prog ? rss : 0;
+			break;
 		default:
 			break;
 		}
@@ -3882,18 +3842,6 @@ static int ixgbevf_tso(struct ixgbevf_ring *tx_ring,
 	return 1;
 }
 
-<<<<<<< HEAD
-=======
-static inline bool ixgbevf_ipv6_csum_is_sctp(struct sk_buff *skb)
-{
-	unsigned int offset = 0;
-
-	ipv6_find_hdr(skb, &offset, IPPROTO_SCTP, NULL, NULL);
-
-	return offset == skb_checksum_start_offset(skb);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ixgbevf_tx_csum(struct ixgbevf_ring *tx_ring,
 			    struct ixgbevf_tx_buffer *first,
 			    struct ixgbevf_ipsec_tx_data *itd)
@@ -3914,14 +3862,7 @@ static void ixgbevf_tx_csum(struct ixgbevf_ring *tx_ring,
 		break;
 	case offsetof(struct sctphdr, checksum):
 		/* validate that this is actually an SCTP request */
-<<<<<<< HEAD
 		if (skb_csum_is_sctp(skb)) {
-=======
-		if (((first->protocol == htons(ETH_P_IP)) &&
-		     (ip_hdr(skb)->protocol == IPPROTO_SCTP)) ||
-		    ((first->protocol == htons(ETH_P_IPV6)) &&
-		     ixgbevf_ipv6_csum_is_sctp(skb))) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			type_tucmd = IXGBE_ADVTXD_TUCMD_L4T_SCTP;
 			break;
 		}

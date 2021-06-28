@@ -137,6 +137,7 @@ static int kmb_hw_init(struct drm_device *drm, unsigned long flags)
 	/* Allocate LCD interrupt resources */
 	irq_lcd = platform_get_irq(pdev, 0);
 	if (irq_lcd < 0) {
+		ret = irq_lcd;
 		drm_err(&kmb->drm, "irq_lcd not found");
 		goto setup_fail;
 	}
@@ -400,11 +401,7 @@ static void kmb_irq_reset(struct drm_device *drm)
 
 DEFINE_DRM_GEM_CMA_FOPS(fops);
 
-<<<<<<< HEAD
 static const struct drm_driver kmb_driver = {
-=======
-static struct drm_driver kmb_driver = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver_features = DRIVER_GEM |
 	    DRIVER_MODESET | DRIVER_ATOMIC,
 	.irq_handler = kmb_isr,
@@ -560,11 +557,7 @@ MODULE_DEVICE_TABLE(of, kmb_of_match);
 static int __maybe_unused kmb_pm_suspend(struct device *dev)
 {
 	struct drm_device *drm = dev_get_drvdata(dev);
-<<<<<<< HEAD
 	struct kmb_drm_private *kmb = to_kmb(drm);
-=======
-	struct kmb_drm_private *kmb = drm ? to_kmb(drm) : NULL;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_kms_helper_poll_disable(drm);
 

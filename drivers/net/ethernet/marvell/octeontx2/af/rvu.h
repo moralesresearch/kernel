@@ -19,7 +19,6 @@
 #include "common.h"
 #include "mbox.h"
 #include "npc.h"
-<<<<<<< HEAD
 #include "rvu_reg.h"
 
 /* PCI device IDs */
@@ -29,14 +28,6 @@
 /* Subsystem Device ID */
 #define PCI_SUBSYS_DEVID_96XX                  0xB200
 #define PCI_SUBSYS_DEVID_CN10K_A	       0xB900
-=======
-
-/* PCI device IDs */
-#define	PCI_DEVID_OCTEONTX2_RVU_AF		0xA065
-
-/* Subsystem Device ID */
-#define PCI_SUBSYS_DEVID_96XX                  0xB200
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* PCI BAR nos */
 #define	PCI_AF_REG_BAR_NUM			0
@@ -45,10 +36,7 @@
 
 #define NAME_SIZE				32
 #define MAX_NIX_BLKS				2
-<<<<<<< HEAD
 #define MAX_CPT_BLKS				2
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* PF_FUNC */
 #define RVU_PFVF_PF_SHIFT	10
@@ -63,14 +51,11 @@ struct dump_ctx {
 	bool	all;
 };
 
-<<<<<<< HEAD
 struct cpt_ctx {
 	int blkaddr;
 	struct rvu *rvu;
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct rvu_debugfs {
 	struct dentry *root;
 	struct dentry *cgx_root;
@@ -85,10 +70,7 @@ struct rvu_debugfs {
 	struct dump_ctx nix_cq_ctx;
 	struct dump_ctx nix_rq_ctx;
 	struct dump_ctx nix_sq_ctx;
-<<<<<<< HEAD
 	struct cpt_ctx cpt_ctx[MAX_CPT_BLKS];
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int npa_qsize_id;
 	int nix_qsize_id;
 };
@@ -324,11 +306,8 @@ struct hw_cap {
 	bool	nix_shaping;		 /* Is shaping and coloring supported */
 	bool	nix_tx_link_bp;		 /* Can link backpressure TL queues ? */
 	bool	nix_rx_multicast;	 /* Rx packet replication support */
-<<<<<<< HEAD
 	bool	per_pf_mbox_regs; /* PF mbox specified in per PF registers ? */
 	bool	programmable_chans; /* Channels programmable ? */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct rvu_hwinfo {
@@ -337,7 +316,6 @@ struct rvu_hwinfo {
 	u16	max_vfs_per_pf; /* Max VFs that can be attached to a PF */
 	u8	cgx;
 	u8	lmac_per_cgx;
-<<<<<<< HEAD
 	u16	cgx_chan_base;	/* CGX base channel number */
 	u16	lbk_chan_base;	/* LBK base channel number */
 	u16	sdp_chan_base;	/* SDP base channel number */
@@ -346,20 +324,12 @@ struct rvu_hwinfo {
 	u8	lbk_links;
 	u8	sdp_links;
 	u8	cpt_links;	/* Number of CPT links */
-=======
-	u8	cgx_links;
-	u8	lbk_links;
-	u8	sdp_links;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8	npc_kpus;          /* No of parser units */
 	u8	npc_pkinds;        /* No of port kinds */
 	u8	npc_intfs;         /* No of interfaces */
 	u8	npc_kpu_entries;   /* No of KPU entries */
 	u16	npc_counters;	   /* No of match stats counters */
-<<<<<<< HEAD
 	u32	lbk_bufsize;	   /* FIFO size supported by LBK */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool	npc_ext_set;	   /* Extended register set */
 
 	struct hw_cap    cap;
@@ -398,13 +368,10 @@ struct rvu_fwdata {
 	u64 msixtr_base;
 #define FWDATA_RESERVED_MEM 1023
 	u64 reserved[FWDATA_RESERVED_MEM];
-<<<<<<< HEAD
 #define CGX_MAX         5
 #define CGX_LMACS_MAX   4
 	struct cgx_lmac_fwdata_s cgx_fw_data[CGX_MAX][CGX_LMACS_MAX];
 	/* Do not add new fields below this line */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ptp;
@@ -520,7 +487,6 @@ static inline bool is_rvu_96xx_B0(struct rvu *rvu)
 		(pdev->subsystem_device == PCI_SUBSYS_DEVID_96XX);
 }
 
-<<<<<<< HEAD
 /* REVID for PCIe devices.
  * Bits 0..1: minor pass, bit 3..2: major pass
  * bits 7..4: midr id
@@ -574,14 +540,18 @@ static inline u16 rvu_nix_chan_cpt(struct rvu *rvu, u8 chan)
 	return rvu->hw->cpt_chan_base + chan;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Function Prototypes
  * RVU
  */
 static inline int is_afvf(u16 pcifunc)
 {
 	return !(pcifunc & ~RVU_PFVF_FUNC_MASK);
+}
+
+/* check if PF_FUNC is AF */
+static inline bool is_pffunc_af(u16 pcifunc)
+{
+	return !pcifunc;
 }
 
 static inline bool is_rvu_fwdata_valid(struct rvu *rvu)
@@ -676,7 +646,8 @@ int npc_config_ts_kpuaction(struct rvu *rvu, int pf, u16 pcifunc, bool en);
 void rvu_npc_install_ucast_entry(struct rvu *rvu, u16 pcifunc,
 				 int nixlf, u64 chan, u8 *mac_addr);
 void rvu_npc_install_promisc_entry(struct rvu *rvu, u16 pcifunc,
-				   int nixlf, u64 chan, bool allmulti);
+				   int nixlf, u64 chan, u8 chan_cnt,
+				   bool allmulti);
 void rvu_npc_disable_promisc_entry(struct rvu *rvu, u16 pcifunc, int nixlf);
 void rvu_npc_enable_promisc_entry(struct rvu *rvu, u16 pcifunc, int nixlf);
 void rvu_npc_install_bcast_match_entry(struct rvu *rvu, u16 pcifunc,
@@ -701,9 +672,6 @@ int rvu_npc_get_tx_nibble_cfg(struct rvu *rvu, u64 nibble_ena);
 int npc_mcam_verify_channel(struct rvu *rvu, u16 pcifunc, u8 intf, u16 channel);
 int npc_flow_steering_init(struct rvu *rvu, int blkaddr);
 const char *npc_get_field_name(u8 hdr);
-bool rvu_npc_write_default_rule(struct rvu *rvu, int blkaddr, int nixlf,
-				u16 pcifunc, u8 intf, struct mcam_entry *entry,
-				int *entry_index);
 int npc_get_bank(struct npc_mcam *mcam, int index);
 void npc_mcam_enable_flows(struct rvu *rvu, u16 target);
 void npc_mcam_disable_flows(struct rvu *rvu, u16 target);
@@ -712,10 +680,14 @@ void npc_enable_mcam_entry(struct rvu *rvu, struct npc_mcam *mcam,
 void npc_read_mcam_entry(struct rvu *rvu, struct npc_mcam *mcam,
 			 int blkaddr, u16 src, struct mcam_entry *entry,
 			 u8 *intf, u8 *ena);
-<<<<<<< HEAD
 bool is_mac_feature_supported(struct rvu *rvu, int pf, int feature);
 u32  rvu_cgx_get_fifolen(struct rvu *rvu);
 void *rvu_first_cgx_pdata(struct rvu *rvu);
+
+int npc_get_nixlf_mcam_index(struct npc_mcam *mcam, u16 pcifunc, int nixlf,
+			     int type);
+bool is_mcam_entry_enabled(struct rvu *rvu, struct npc_mcam *mcam, int blkaddr,
+			   int index);
 
 /* CPT APIs */
 int rvu_cpt_lf_teardown(struct rvu *rvu, u16 pcifunc, int lf, int slot);
@@ -723,8 +695,6 @@ int rvu_cpt_lf_teardown(struct rvu *rvu, u16 pcifunc, int lf, int slot);
 /* CN10K RVU */
 int rvu_set_channels_base(struct rvu *rvu);
 void rvu_program_channels(struct rvu *rvu);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_DEBUG_FS
 void rvu_dbg_init(struct rvu *rvu);

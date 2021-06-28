@@ -3,9 +3,6 @@
 #
 obj-$(CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4) += keembay-ocs-aes.o
 keembay-ocs-aes-objs := keembay-ocs-aes-core.o ocs-aes.o
-<<<<<<< HEAD
 
 obj-$(CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU) += keembay-ocs-hcu.o
 keembay-ocs-hcu-objs := keembay-ocs-hcu-core.o ocs-hcu.o
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

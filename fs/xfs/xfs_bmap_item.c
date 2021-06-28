@@ -265,8 +265,8 @@ xfs_trans_log_finish_bmap_update(
 static int
 xfs_bmap_update_diff_items(
 	void				*priv,
-	struct list_head		*a,
-	struct list_head		*b)
+	const struct list_head		*a,
+	const struct list_head		*b)
 {
 	struct xfs_bmap_intent		*ba;
 	struct xfs_bmap_intent		*bb;
@@ -471,10 +471,7 @@ xfs_bui_item_recover(
 	xfs_exntst_t			state;
 	unsigned int			bui_type;
 	int				whichfork;
-<<<<<<< HEAD
 	int				iext_delta;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int				error = 0;
 
 	if (!xfs_bui_validate(mp, buip)) {
@@ -512,7 +509,6 @@ xfs_bui_item_recover(
 	xfs_ilock(ip, XFS_ILOCK_EXCL);
 	xfs_trans_ijoin(tp, ip, 0);
 
-<<<<<<< HEAD
 	if (bui_type == XFS_BMAP_MAP)
 		iext_delta = XFS_IEXT_ADD_NOSPLIT_CNT;
 	else
@@ -522,8 +518,6 @@ xfs_bui_item_recover(
 	if (error)
 		goto err_cancel;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	count = bmap->me_len;
 	error = xfs_trans_log_finish_bmap_update(tp, budp, bui_type, ip,
 			whichfork, bmap->me_startoff, bmap->me_startblock,

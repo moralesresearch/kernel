@@ -26,11 +26,7 @@
 
 #define BITS_PER_U64	(sizeof(u64) * 8)
 
-<<<<<<< HEAD
 static struct kmem_cache *ebitmap_node_cachep __ro_after_init;
-=======
-static struct kmem_cache *ebitmap_node_cachep;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int ebitmap_cmp(struct ebitmap *e1, struct ebitmap *e2)
 {

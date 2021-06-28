@@ -39,30 +39,13 @@ void __init *plat_get_fdt(void)
 		/* Already set up */
 		return (void *)fdt;
 
-<<<<<<< HEAD
 	fdt = (void *)get_fdt();
 	if (fdt && !fdt_check_header(fdt)) {
-=======
-<<<<<<< HEAD
-	fdt = (void *)get_fdt();
-	if (fdt && !fdt_check_header(fdt)) {
-=======
-	if (fw_passed_dtb && !fdt_check_header((void *)fw_passed_dtb)) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * We have been provided with the appropriate device tree for
 		 * the board. Make use of it & search for any machine struct
 		 * based upon the root compatible string.
 		 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-		fdt = (void *)fw_passed_dtb;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for_each_mips_machine(check_mach) {
 			match = mips_machine_is_compatible(check_mach, fdt);
 			if (match) {
@@ -218,13 +201,3 @@ void __init arch_init_irq(void)
 
 	irqchip_init();
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-void __init prom_free_prom_memory(void)
-{
-}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

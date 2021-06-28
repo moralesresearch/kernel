@@ -44,14 +44,7 @@ static const struct key_entry intel_vbtn_keymap[] = {
 	{ KE_IGNORE, 0xC7, { KEY_VOLUMEDOWN } },	/* volume-down key release */
 	{ KE_KEY,    0xC8, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key press */
 	{ KE_KEY,    0xC9, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key release */
-<<<<<<< HEAD
 	{ KE_END }
-=======
-<<<<<<< HEAD
-	{ KE_END }
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct key_entry intel_vbtn_switchmap[] = {
@@ -67,32 +60,12 @@ static const struct key_entry intel_vbtn_switchmap[] = {
 	{ KE_IGNORE, 0xCB, { .sw = { SW_DOCK, 0 } } },		/* Undocked */
 	{ KE_SW,     0xCC, { .sw = { SW_TABLET_MODE, 1 } } },	/* Tablet */
 	{ KE_SW,     0xCD, { .sw = { SW_TABLET_MODE, 0 } } },	/* Laptop */
-<<<<<<< HEAD
 	{ KE_END }
-=======
-<<<<<<< HEAD
-	{ KE_END }
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
-#define KEYMAP_LEN \
-	(ARRAY_SIZE(intel_vbtn_keymap) + ARRAY_SIZE(intel_vbtn_switchmap) + 1)
-
 struct intel_vbtn_priv {
-<<<<<<< HEAD
 	struct input_dev *buttons_dev;
 	struct input_dev *switches_dev;
-=======
-<<<<<<< HEAD
-	struct input_dev *buttons_dev;
-	struct input_dev *switches_dev;
-=======
-	struct key_entry keymap[KEYMAP_LEN];
-	struct input_dev *input_dev;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool has_buttons;
 	bool has_switches;
 	bool wakeup_mode;
@@ -111,10 +84,6 @@ static void detect_tablet_mode(struct platform_device *device)
 		return;
 
 	m = !(vgbs & VGBS_TABLET_MODE_FLAGS);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	input_report_switch(priv->switches_dev, SW_TABLET_MODE, m);
 	m = (vgbs & VGBS_DOCK_MODE_FLAG) ? 1 : 0;
 	input_report_switch(priv->switches_dev, SW_DOCK, m);
@@ -171,53 +140,6 @@ static int intel_vbtn_input_setup(struct platform_device *device)
 	}
 
 	return 0;
-<<<<<<< HEAD
-=======
-=======
-	input_report_switch(priv->input_dev, SW_TABLET_MODE, m);
-	m = (vgbs & VGBS_DOCK_MODE_FLAG) ? 1 : 0;
-	input_report_switch(priv->input_dev, SW_DOCK, m);
-}
-
-static int intel_vbtn_input_setup(struct platform_device *device)
-{
-	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
-	int ret, keymap_len = 0;
-
-	if (priv->has_buttons) {
-		memcpy(&priv->keymap[keymap_len], intel_vbtn_keymap,
-		       ARRAY_SIZE(intel_vbtn_keymap) *
-		       sizeof(struct key_entry));
-		keymap_len += ARRAY_SIZE(intel_vbtn_keymap);
-	}
-
-	if (priv->has_switches) {
-		memcpy(&priv->keymap[keymap_len], intel_vbtn_switchmap,
-		       ARRAY_SIZE(intel_vbtn_switchmap) *
-		       sizeof(struct key_entry));
-		keymap_len += ARRAY_SIZE(intel_vbtn_switchmap);
-	}
-
-	priv->keymap[keymap_len].type = KE_END;
-
-	priv->input_dev = devm_input_allocate_device(&device->dev);
-	if (!priv->input_dev)
-		return -ENOMEM;
-
-	ret = sparse_keymap_setup(priv->input_dev, priv->keymap, NULL);
-	if (ret)
-		return ret;
-
-	priv->input_dev->dev.parent = &device->dev;
-	priv->input_dev->name = "Intel Virtual Button driver";
-	priv->input_dev->id.bustype = BUS_HOST;
-
-	if (priv->has_switches)
-		detect_tablet_mode(device);
-
-	return input_register_device(priv->input_dev);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void notify_handler(acpi_handle handle, u32 event, void *context)
@@ -226,10 +148,6 @@ static void notify_handler(acpi_handle handle, u32 event, void *context)
 	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
 	unsigned int val = !(event & 1); /* Even=press, Odd=release */
 	const struct key_entry *ke, *ke_rel;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct input_dev *input_dev;
 	bool autorelease;
 	int ret;
@@ -264,66 +182,16 @@ static void notify_handler(acpi_handle handle, u32 event, void *context)
 		 */
 		if (ke->type == KE_KEY)
 			return;
-<<<<<<< HEAD
-=======
-=======
-	bool autorelease;
-
-	if (priv->wakeup_mode) {
-		ke = sparse_keymap_entry_from_scancode(priv->input_dev, event);
-		if (ke) {
-			pm_wakeup_hard_event(&device->dev);
-
-			/*
-			 * Switch events like tablet mode will wake the device
-			 * and report the new switch position to the input
-			 * subsystem.
-			 */
-			if (ke->type == KE_SW)
-				sparse_keymap_report_event(priv->input_dev,
-							   event,
-							   val,
-							   0);
-			return;
-		}
-		goto out_unknown;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
 	 * Even press events are autorelease if there is no corresponding odd
 	 * release event, or if the odd event is KE_IGNORE.
 	 */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ke_rel = sparse_keymap_entry_from_scancode(input_dev, event | 1);
 	autorelease = val && (!ke_rel || ke_rel->type == KE_IGNORE);
 
 	sparse_keymap_report_event(input_dev, event, val, autorelease);
-<<<<<<< HEAD
-=======
-=======
-	ke_rel = sparse_keymap_entry_from_scancode(priv->input_dev, event | 1);
-	autorelease = val && (!ke_rel || ke_rel->type == KE_IGNORE);
-
-	if (sparse_keymap_report_event(priv->input_dev, event, val, autorelease))
-		return;
-
-out_unknown:
-	dev_dbg(&device->dev, "unknown event index 0x%x\n", event);
-}
-
-static bool intel_vbtn_has_buttons(acpi_handle handle)
-{
-	acpi_status status;
-
-	status = acpi_evaluate_object(handle, "VBDL", NULL, NULL);
-	return ACPI_SUCCESS(status);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -400,15 +268,7 @@ static int intel_vbtn_probe(struct platform_device *device)
 	acpi_status status;
 	int err;
 
-<<<<<<< HEAD
 	has_buttons = acpi_has_method(handle, "VBDL");
-=======
-<<<<<<< HEAD
-	has_buttons = acpi_has_method(handle, "VBDL");
-=======
-	has_buttons = intel_vbtn_has_buttons(handle);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	has_switches = intel_vbtn_has_switches(handle);
 
 	if (!has_buttons && !has_switches) {
@@ -437,21 +297,12 @@ static int intel_vbtn_probe(struct platform_device *device)
 	if (ACPI_FAILURE(status))
 		return -EBUSY;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (has_buttons) {
 		status = acpi_evaluate_object(handle, "VBDL", NULL, NULL);
 		if (ACPI_FAILURE(status))
 			dev_err(&device->dev, "Error VBDL failed with ACPI status %d\n", status);
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	device_init_wakeup(&device->dev, true);
 	/*
 	 * In order for system wakeup to work, the EC GPE has to be marked as

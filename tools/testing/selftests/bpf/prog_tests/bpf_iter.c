@@ -7,10 +7,7 @@
 #include "bpf_iter_task.skel.h"
 #include "bpf_iter_task_stack.skel.h"
 #include "bpf_iter_task_file.skel.h"
-<<<<<<< HEAD
 #include "bpf_iter_task_vma.skel.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "bpf_iter_task_btf.skel.h"
 #include "bpf_iter_tcp4.skel.h"
 #include "bpf_iter_tcp6.skel.h"
@@ -68,7 +65,6 @@ free_link:
 	bpf_link__destroy(link);
 }
 
-<<<<<<< HEAD
 static int read_fd_into_buffer(int fd, char *buf, int size)
 {
 	int bufleft = size;
@@ -85,8 +81,6 @@ static int read_fd_into_buffer(int fd, char *buf, int size)
 	return len < 0 ? len : size - bufleft;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void test_ipv6_route(void)
 {
 	struct bpf_iter_ipv6_route *skel;
@@ -153,6 +147,7 @@ static void test_task_stack(void)
 		return;
 
 	do_dummy_read(skel->progs.dump_task_stack);
+	do_dummy_read(skel->progs.get_task_user_stacks);
 
 	bpf_iter_task_stack__destroy(skel);
 }
@@ -200,11 +195,7 @@ static int do_btf_read(struct bpf_iter_task_btf *skel)
 {
 	struct bpf_program *prog = skel->progs.dump_task_struct;
 	struct bpf_iter_task_btf__bss *bss = skel->bss;
-<<<<<<< HEAD
 	int iter_fd = -1, err;
-=======
-	int iter_fd = -1, len = 0, bufleft = TASKBUFSZ;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bpf_link *link;
 	char *buf = taskbuf;
 	int ret = 0;
@@ -217,18 +208,7 @@ static int do_btf_read(struct bpf_iter_task_btf *skel)
 	if (CHECK(iter_fd < 0, "create_iter", "create_iter failed\n"))
 		goto free_link;
 
-<<<<<<< HEAD
 	err = read_fd_into_buffer(iter_fd, buf, TASKBUFSZ);
-=======
-	do {
-		len = read(iter_fd, buf, bufleft);
-		if (len > 0) {
-			buf += len;
-			bufleft -= len;
-		}
-	} while (len > 0);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bss->skip) {
 		printf("%s:SKIP:no __builtin_btf_type_id\n", __func__);
 		ret = 1;
@@ -236,11 +216,7 @@ static int do_btf_read(struct bpf_iter_task_btf *skel)
 		goto free_link;
 	}
 
-<<<<<<< HEAD
 	if (CHECK(err < 0, "read", "read failed: %s\n", strerror(errno)))
-=======
-	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto free_link;
 
 	CHECK(strstr(taskbuf, "(struct task_struct)") == NULL,
@@ -1168,7 +1144,6 @@ static void test_buf_neg_offset(void)
 		bpf_iter_test_kern6__destroy(skel);
 }
 
-<<<<<<< HEAD
 #define CMP_BUFFER_SIZE 1024
 static char task_vma_output[CMP_BUFFER_SIZE];
 static char proc_maps_output[CMP_BUFFER_SIZE];
@@ -1255,8 +1230,6 @@ out:
 	bpf_iter_task_vma__destroy(skel);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void test_bpf_iter(void)
 {
 	if (test__start_subtest("btf_id_or_null"))
@@ -1273,11 +1246,8 @@ void test_bpf_iter(void)
 		test_task_stack();
 	if (test__start_subtest("task_file"))
 		test_task_file();
-<<<<<<< HEAD
 	if (test__start_subtest("task_vma"))
 		test_task_vma();
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test__start_subtest("task_btf"))
 		test_task_btf();
 	if (test__start_subtest("tcp4"))

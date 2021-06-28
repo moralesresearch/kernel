@@ -46,17 +46,8 @@ struct mlx5e_ktls_offload_context_rx {
 	struct tls12_crypto_info_aes_gcm_128 crypto_info;
 	struct accel_rule rule;
 	struct sock *sk;
-<<<<<<< HEAD
 	struct mlx5e_rq_stats *rq_stats;
 	struct mlx5e_tls_sw_stats *sw_stats;
-=======
-<<<<<<< HEAD
-	struct mlx5e_rq_stats *rq_stats;
-	struct mlx5e_tls_sw_stats *sw_stats;
-=======
-	struct mlx5e_rq_stats *stats;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct completion add_ctx;
 	u32 tirn;
 	u32 key_id;
@@ -65,6 +56,7 @@ struct mlx5e_ktls_offload_context_rx {
 
 	/* resync */
 	struct mlx5e_ktls_rx_resync_ctx resync;
+	struct list_head list;
 };
 
 static bool mlx5e_ktls_priv_rx_put(struct mlx5e_ktls_offload_context_rx *priv_rx)
@@ -81,6 +73,32 @@ static void mlx5e_ktls_priv_rx_get(struct mlx5e_ktls_offload_context_rx *priv_rx
 	refcount_inc(&priv_rx->resync.refcnt);
 }
 
+struct mlx5e_ktls_resync_resp {
+	/* protects list changes */
+	spinlock_t lock;
+	struct list_head list;
+};
+
+void mlx5e_ktls_rx_resync_destroy_resp_list(struct mlx5e_ktls_resync_resp *resp_list)
+{
+	kvfree(resp_list);
+}
+
+struct mlx5e_ktls_resync_resp *
+mlx5e_ktls_rx_resync_create_resp_list(void)
+{
+	struct mlx5e_ktls_resync_resp *resp_list;
+
+	resp_list = kvzalloc(sizeof(*resp_list), GFP_KERNEL);
+	if (!resp_list)
+		return ERR_PTR(-ENOMEM);
+
+	INIT_LIST_HEAD(&resp_list->list);
+	spin_lock_init(&resp_list->lock);
+
+	return resp_list;
+}
+
 static int mlx5e_ktls_create_tir(struct mlx5_core_dev *mdev, u32 *tirn, u32 rqtn)
 {
 	int err, inlen;
@@ -94,7 +112,7 @@ static int mlx5e_ktls_create_tir(struct mlx5_core_dev *mdev, u32 *tirn, u32 rqtn
 
 	tirc = MLX5_ADDR_OF(create_tir_in, in, ctx);
 
-	MLX5_SET(tirc, tirc, transport_domain, mdev->mlx5e_res.td.tdn);
+	MLX5_SET(tirc, tirc, transport_domain, mdev->mlx5e_res.hw_objs.td.tdn);
 	MLX5_SET(tirc, tirc, disp_type, MLX5_TIRC_DISP_TYPE_INDIRECT);
 	MLX5_SET(tirc, tirc, rx_hash_fn, MLX5_RX_HASH_FN_INVERTED_XOR8);
 	MLX5_SET(tirc, tirc, indirect_table, rqtn);
@@ -128,8 +146,7 @@ out:
 	complete(&priv_rx->add_ctx);
 }
 
-static void accel_rule_init(struct accel_rule *rule, struct mlx5e_priv *priv,
-			    struct sock *sk)
+static void accel_rule_init(struct accel_rule *rule, struct mlx5e_priv *priv)
 {
 	INIT_WORK(&rule->work, accel_rule_handle_work);
 	rule->priv = priv;
@@ -147,24 +164,10 @@ post_static_params(struct mlx5e_icosq *sq,
 {
 	struct mlx5e_set_tls_static_params_wqe *wqe;
 	struct mlx5e_icosq_wqe_info wi;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 pi, num_wqebbs;
 
 	num_wqebbs = MLX5E_TLS_SET_STATIC_PARAMS_WQEBBS;
 	if (unlikely(!mlx5e_icosq_can_post_wqe(sq, num_wqebbs)))
-<<<<<<< HEAD
-=======
-=======
-	u16 pi, num_wqebbs, room;
-
-	num_wqebbs = MLX5E_TLS_SET_STATIC_PARAMS_WQEBBS;
-	room = mlx5e_stop_room_for_wqe(num_wqebbs);
-	if (unlikely(!mlx5e_wqc_has_room_for(&sq->wq, sq->cc, sq->pc, room)))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ERR_PTR(-ENOSPC);
 
 	pi = mlx5e_icosq_get_next_pi(sq, num_wqebbs);
@@ -191,24 +194,10 @@ post_progress_params(struct mlx5e_icosq *sq,
 {
 	struct mlx5e_set_tls_progress_params_wqe *wqe;
 	struct mlx5e_icosq_wqe_info wi;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 pi, num_wqebbs;
 
 	num_wqebbs = MLX5E_TLS_SET_PROGRESS_PARAMS_WQEBBS;
 	if (unlikely(!mlx5e_icosq_can_post_wqe(sq, num_wqebbs)))
-<<<<<<< HEAD
-=======
-=======
-	u16 pi, num_wqebbs, room;
-
-	num_wqebbs = MLX5E_TLS_SET_PROGRESS_PARAMS_WQEBBS;
-	room = mlx5e_stop_room_for_wqe(num_wqebbs);
-	if (unlikely(!mlx5e_wqc_has_room_for(&sq->wq, sq->cc, sq->pc, room)))
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ERR_PTR(-ENOSPC);
 
 	pi = mlx5e_icosq_get_next_pi(sq, num_wqebbs);
@@ -254,15 +243,7 @@ unlock:
 	return err;
 
 err_out:
-<<<<<<< HEAD
 	priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-<<<<<<< HEAD
-	priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-	priv_rx->stats->tls_resync_req_skip++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = PTR_ERR(cseg);
 	complete(&priv_rx->add_ctx);
 	goto unlock;
@@ -321,37 +302,15 @@ resync_post_get_progress_params(struct mlx5e_icosq *sq,
 
 	buf->priv_rx = priv_rx;
 
-<<<<<<< HEAD
 	spin_lock_bh(&sq->channel->async_icosq_lock);
 
 	if (unlikely(!mlx5e_icosq_can_post_wqe(sq, MLX5E_KTLS_GET_PROGRESS_WQEBBS))) {
-=======
-<<<<<<< HEAD
-	spin_lock_bh(&sq->channel->async_icosq_lock);
-
-	if (unlikely(!mlx5e_icosq_can_post_wqe(sq, MLX5E_KTLS_GET_PROGRESS_WQEBBS))) {
-=======
-	BUILD_BUG_ON(MLX5E_KTLS_GET_PROGRESS_WQEBBS != 1);
-
-	spin_lock_bh(&sq->channel->async_icosq_lock);
-
-	if (unlikely(!mlx5e_wqc_has_room_for(&sq->wq, sq->cc, sq->pc, 1))) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock_bh(&sq->channel->async_icosq_lock);
 		err = -ENOSPC;
 		goto err_dma_unmap;
 	}
 
-<<<<<<< HEAD
 	pi = mlx5e_icosq_get_next_pi(sq, MLX5E_KTLS_GET_PROGRESS_WQEBBS);
-=======
-<<<<<<< HEAD
-	pi = mlx5e_icosq_get_next_pi(sq, MLX5E_KTLS_GET_PROGRESS_WQEBBS);
-=======
-	pi = mlx5e_icosq_get_next_pi(sq, 1);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wqe = MLX5E_TLS_FETCH_GET_PROGRESS_PARAMS_WQE(sq, pi);
 
 #define GET_PSV_DS_CNT (DIV_ROUND_UP(sizeof(*wqe), MLX5_SEND_WQE_DS))
@@ -371,15 +330,7 @@ resync_post_get_progress_params(struct mlx5e_icosq *sq,
 
 	wi = (struct mlx5e_icosq_wqe_info) {
 		.wqe_type = MLX5E_ICOSQ_WQE_GET_PSV_TLS,
-<<<<<<< HEAD
 		.num_wqebbs = MLX5E_KTLS_GET_PROGRESS_WQEBBS,
-=======
-<<<<<<< HEAD
-		.num_wqebbs = MLX5E_KTLS_GET_PROGRESS_WQEBBS,
-=======
-		.num_wqebbs = 1,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.tls_get_params.buf = buf,
 	};
 	icosq_fill_wi(sq, pi, &wi);
@@ -394,15 +345,7 @@ err_dma_unmap:
 err_free:
 	kfree(buf);
 err_out:
-<<<<<<< HEAD
 	priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-<<<<<<< HEAD
-	priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-	priv_rx->stats->tls_resync_req_skip++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -442,49 +385,32 @@ static void resync_init(struct mlx5e_ktls_rx_resync_ctx *resync,
 /* Function can be called with the refcount being either elevated or not.
  * It does not affect the refcount.
  */
-static int resync_handle_seq_match(struct mlx5e_ktls_offload_context_rx *priv_rx,
-				   struct mlx5e_channel *c)
+static void resync_handle_seq_match(struct mlx5e_ktls_offload_context_rx *priv_rx,
+				    struct mlx5e_channel *c)
 {
 	struct tls12_crypto_info_aes_gcm_128 *info = &priv_rx->crypto_info;
-	struct mlx5_wqe_ctrl_seg *cseg;
+	struct mlx5e_ktls_resync_resp *ktls_resync;
 	struct mlx5e_icosq *sq;
-	int err;
+	bool trigger_poll;
 
 	memcpy(info->rec_seq, &priv_rx->resync.sw_rcd_sn_be, sizeof(info->rec_seq));
-	err = 0;
 
 	sq = &c->async_icosq;
-	spin_lock_bh(&c->async_icosq_lock);
+	ktls_resync = sq->ktls_resync;
 
-	cseg = post_static_params(sq, priv_rx);
-	if (IS_ERR(cseg)) {
-<<<<<<< HEAD
-		priv_rx->rq_stats->tls_resync_res_skip++;
-=======
-<<<<<<< HEAD
-		priv_rx->rq_stats->tls_resync_res_skip++;
-=======
-		priv_rx->stats->tls_resync_res_skip++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-		err = PTR_ERR(cseg);
-		goto unlock;
+	spin_lock_bh(&ktls_resync->lock);
+	list_add_tail(&priv_rx->list, &ktls_resync->list);
+	trigger_poll = !test_and_set_bit(MLX5E_SQ_STATE_PENDING_TLS_RX_RESYNC, &sq->state);
+	spin_unlock_bh(&ktls_resync->lock);
+
+	if (!trigger_poll)
+		return;
+
+	if (!napi_if_scheduled_mark_missed(&c->napi)) {
+		spin_lock_bh(&c->async_icosq_lock);
+		mlx5e_trigger_irq(sq);
+		spin_unlock_bh(&c->async_icosq_lock);
 	}
-	/* Do not increment priv_rx refcnt, CQE handling is empty */
-	mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, cseg);
-<<<<<<< HEAD
-	priv_rx->rq_stats->tls_resync_res_ok++;
-=======
-<<<<<<< HEAD
-	priv_rx->rq_stats->tls_resync_res_ok++;
-=======
-	priv_rx->stats->tls_resync_res_ok++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
-unlock:
-	spin_unlock_bh(&c->async_icosq_lock);
-
-	return err;
 }
 
 /* Function can be called with the refcount being either elevated or not.
@@ -516,29 +442,13 @@ void mlx5e_ktls_handle_get_psv_completion(struct mlx5e_icosq_wqe_info *wi,
 	auth_state = MLX5_GET(tls_progress_params, ctx, auth_state);
 	if (tracker_state != MLX5E_TLS_PROGRESS_PARAMS_RECORD_TRACKER_STATE_TRACKING ||
 	    auth_state != MLX5E_TLS_PROGRESS_PARAMS_AUTH_STATE_NO_OFFLOAD) {
-<<<<<<< HEAD
 		priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-<<<<<<< HEAD
-		priv_rx->rq_stats->tls_resync_req_skip++;
-=======
-		priv_rx->stats->tls_resync_req_skip++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
 	hw_seq = MLX5_GET(tls_progress_params, ctx, hw_resync_tcp_sn);
 	tls_offload_rx_resync_async_request_end(priv_rx->sk, cpu_to_be32(hw_seq));
-<<<<<<< HEAD
 	priv_rx->rq_stats->tls_resync_req_end++;
-=======
-<<<<<<< HEAD
-	priv_rx->rq_stats->tls_resync_req_end++;
-=======
-	priv_rx->stats->tls_resync_req_end++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	mlx5e_ktls_priv_rx_put(priv_rx);
 	dma_unmap_single(dev, buf->dma_addr, PROGRESS_PARAMS_PADDED_SIZE, DMA_FROM_DEVICE);
@@ -721,17 +631,8 @@ int mlx5e_ktls_add_rx(struct net_device *netdev, struct sock *sk,
 	priv_rx->rxq = rxq;
 	priv_rx->sk = sk;
 
-<<<<<<< HEAD
 	priv_rx->rq_stats = &priv->channel_stats[rxq].rq;
 	priv_rx->sw_stats = &priv->tls->sw_stats;
-=======
-<<<<<<< HEAD
-	priv_rx->rq_stats = &priv->channel_stats[rxq].rq;
-	priv_rx->sw_stats = &priv->tls->sw_stats;
-=======
-	priv_rx->stats = &priv->channel_stats[rxq].rq;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5e_set_ktls_rx_priv_ctx(tls_ctx, priv_rx);
 
 	rqtn = priv->direct_tir[rxq].rqt.rqtn;
@@ -742,7 +643,7 @@ int mlx5e_ktls_add_rx(struct net_device *netdev, struct sock *sk,
 
 	init_completion(&priv_rx->add_ctx);
 
-	accel_rule_init(&priv_rx->rule, priv, sk);
+	accel_rule_init(&priv_rx->rule, priv);
 	resync = &priv_rx->resync;
 	resync_init(resync, priv);
 	tls_offload_ctx_rx(tls_ctx)->resync_async = &resync->core;
@@ -752,15 +653,7 @@ int mlx5e_ktls_add_rx(struct net_device *netdev, struct sock *sk,
 	if (err)
 		goto err_post_wqes;
 
-<<<<<<< HEAD
 	atomic64_inc(&priv_rx->sw_stats->rx_tls_ctx);
-=======
-<<<<<<< HEAD
-	atomic64_inc(&priv_rx->sw_stats->rx_tls_ctx);
-=======
-	priv_rx->stats->tls_ctx++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -796,15 +689,7 @@ void mlx5e_ktls_del_rx(struct net_device *netdev, struct tls_context *tls_ctx)
 	if (cancel_work_sync(&resync->work))
 		mlx5e_ktls_priv_rx_put(priv_rx);
 
-<<<<<<< HEAD
 	atomic64_inc(&priv_rx->sw_stats->rx_tls_del);
-=======
-<<<<<<< HEAD
-	atomic64_inc(&priv_rx->sw_stats->rx_tls_del);
-=======
-	priv_rx->stats->tls_del++;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (priv_rx->rule.rule)
 		mlx5e_accel_fs_del_sk(priv_rx->rule.rule);
 
@@ -815,4 +700,66 @@ void mlx5e_ktls_del_rx(struct net_device *netdev, struct tls_context *tls_ctx)
 	 * processed.
 	 */
 	mlx5e_ktls_priv_rx_put(priv_rx);
+}
+
+bool mlx5e_ktls_rx_handle_resync_list(struct mlx5e_channel *c, int budget)
+{
+	struct mlx5e_ktls_offload_context_rx *priv_rx, *tmp;
+	struct mlx5e_ktls_resync_resp *ktls_resync;
+	struct mlx5_wqe_ctrl_seg *db_cseg;
+	struct mlx5e_icosq *sq;
+	LIST_HEAD(local_list);
+	int i, j;
+
+	sq = &c->async_icosq;
+
+	if (unlikely(!test_bit(MLX5E_SQ_STATE_ENABLED, &sq->state)))
+		return false;
+
+	ktls_resync = sq->ktls_resync;
+	db_cseg = NULL;
+	i = 0;
+
+	spin_lock(&ktls_resync->lock);
+	list_for_each_entry_safe(priv_rx, tmp, &ktls_resync->list, list) {
+		list_move(&priv_rx->list, &local_list);
+		if (++i == budget)
+			break;
+	}
+	if (list_empty(&ktls_resync->list))
+		clear_bit(MLX5E_SQ_STATE_PENDING_TLS_RX_RESYNC, &sq->state);
+	spin_unlock(&ktls_resync->lock);
+
+	spin_lock(&c->async_icosq_lock);
+	for (j = 0; j < i; j++) {
+		struct mlx5_wqe_ctrl_seg *cseg;
+
+		priv_rx = list_first_entry(&local_list,
+					   struct mlx5e_ktls_offload_context_rx,
+					   list);
+		cseg = post_static_params(sq, priv_rx);
+		if (IS_ERR(cseg))
+			break;
+		list_del(&priv_rx->list);
+		db_cseg = cseg;
+	}
+	if (db_cseg)
+		mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, db_cseg);
+	spin_unlock(&c->async_icosq_lock);
+
+	priv_rx->rq_stats->tls_resync_res_ok += j;
+
+	if (!list_empty(&local_list)) {
+		/* This happens only if ICOSQ is full.
+		 * There is no need to mark busy or explicitly ask for a NAPI cycle,
+		 * it will be triggered by the outstanding ICOSQ completions.
+		 */
+		spin_lock(&ktls_resync->lock);
+		list_splice(&local_list, &ktls_resync->list);
+		set_bit(MLX5E_SQ_STATE_PENDING_TLS_RX_RESYNC, &sq->state);
+		spin_unlock(&ktls_resync->lock);
+		priv_rx->rq_stats->tls_resync_res_retry++;
+	}
+
+	return i == budget;
 }

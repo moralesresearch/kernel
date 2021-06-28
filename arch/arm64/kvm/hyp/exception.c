@@ -296,11 +296,7 @@ static void enter_exception32(struct kvm_vcpu *vcpu, u32 mode, u32 vect_offset)
 	*vcpu_pc(vcpu) = vect_offset;
 }
 
-<<<<<<< HEAD
 static void kvm_inject_exception(struct kvm_vcpu *vcpu)
-=======
-void kvm_inject_exception(struct kvm_vcpu *vcpu)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (vcpu_el1_is_32bit(vcpu)) {
 		switch (vcpu->arch.flags & KVM_ARM64_EXCEPT_MASK) {
@@ -333,7 +329,6 @@ void kvm_inject_exception(struct kvm_vcpu *vcpu)
 		}
 	}
 }
-<<<<<<< HEAD
 
 /*
  * Adjust the guest PC (and potentially exception state) depending on
@@ -350,5 +345,3 @@ void __kvm_adjust_pc(struct kvm_vcpu *vcpu)
 		vcpu->arch.flags &= ~KVM_ARM64_INCREMENT_PC;
 	}
 }
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

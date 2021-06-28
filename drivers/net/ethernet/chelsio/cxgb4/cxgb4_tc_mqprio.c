@@ -589,12 +589,8 @@ int cxgb4_setup_tc_mqprio(struct net_device *dev,
 	 * down before configuring tc params.
 	 */
 	if (netif_running(dev)) {
-<<<<<<< HEAD
 		netif_tx_stop_all_queues(dev);
 		netif_carrier_off(dev);
-=======
-		cxgb_close(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		needs_bring_up = true;
 	}
 
@@ -620,15 +616,10 @@ int cxgb4_setup_tc_mqprio(struct net_device *dev,
 	}
 
 out:
-<<<<<<< HEAD
 	if (needs_bring_up) {
 		netif_tx_start_all_queues(dev);
 		netif_carrier_on(dev);
 	}
-=======
-	if (needs_bring_up)
-		cxgb_open(dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&adap->tc_mqprio->mqprio_mutex);
 	return ret;

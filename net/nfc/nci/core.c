@@ -579,19 +579,11 @@ static int nci_close_device(struct nci_dev *ndev)
 
 	clear_bit(NCI_INIT, &ndev->flags);
 
-<<<<<<< HEAD
 	/* Flush cmd wq */
 	flush_workqueue(ndev->cmd_wq);
 
 	del_timer_sync(&ndev->cmd_timer);
 
-=======
-	del_timer_sync(&ndev->cmd_timer);
-
-	/* Flush cmd wq */
-	flush_workqueue(ndev->cmd_wq);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Clear flags */
 	ndev->flags = 0;
 
@@ -1199,10 +1191,7 @@ EXPORT_SYMBOL(nci_allocate_device);
 void nci_free_device(struct nci_dev *ndev)
 {
 	nfc_free_device(ndev->nfc_dev);
-<<<<<<< HEAD
 	nci_hci_deallocate(ndev);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(ndev);
 }
 EXPORT_SYMBOL(nci_free_device);
@@ -1519,7 +1508,7 @@ static void nci_rx_work(struct work_struct *work)
 		}
 	}
 
-	/* check if a data exchange timout has occurred */
+	/* check if a data exchange timeout has occurred */
 	if (test_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags)) {
 		/* complete the data exchange transaction, if exists */
 		if (test_bit(NCI_DATA_EXCHANGE, &ndev->flags))

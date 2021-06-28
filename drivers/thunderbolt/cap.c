@@ -178,11 +178,7 @@ int tb_switch_next_cap(struct tb_switch *sw, unsigned int offset)
 
 /**
  * tb_switch_find_cap() - Find switch capability
-<<<<<<< HEAD
  * @sw: Switch to find the capability for
-=======
- * @sw Switch to find the capability for
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @cap: Capability to look
  *
  * Returns offset to start of capability or %-ENOENT if no such

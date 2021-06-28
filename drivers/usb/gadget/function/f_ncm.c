@@ -583,11 +583,7 @@ static void ncm_do_notify(struct f_ncm *ncm)
 		data[0] = cpu_to_le32(ncm_bitrate(cdev->gadget));
 		data[1] = data[0];
 
-<<<<<<< HEAD
 		DBG(cdev, "notify speed %u\n", ncm_bitrate(cdev->gadget));
-=======
-		DBG(cdev, "notify speed %d\n", ncm_bitrate(cdev->gadget));
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ncm->notify_state = NCM_NOTIFY_CONNECT;
 		break;
 	}
@@ -1105,21 +1101,12 @@ static struct sk_buff *ncm_wrap_ntb(struct gether *port,
 			ncm->ndp_dgram_count = 1;
 
 			/* Note: we skip opts->next_ndp_index */
-<<<<<<< HEAD
 
 			/* Start the timer. */
 			hrtimer_start(&ncm->task_timer, TX_TIMEOUT_NSECS,
 				      HRTIMER_MODE_REL_SOFT);
 		}
 
-=======
-		}
-
-		/* Delay the timer. */
-		hrtimer_start(&ncm->task_timer, TX_TIMEOUT_NSECS,
-			      HRTIMER_MODE_REL_SOFT);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Add the datagram position entries */
 		ntb_ndp = skb_put_zero(ncm->skb_tx_ndp, dgram_idx_len);
 

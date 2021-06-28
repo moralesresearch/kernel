@@ -270,7 +270,6 @@ static void __maybe_unused pcs_writel(unsigned val, void __iomem *reg)
 	writel(val, reg);
 }
 
-<<<<<<< HEAD
 static unsigned int pcs_pin_reg_offset_get(struct pcs_device *pcs,
 					   unsigned int pin)
 {
@@ -292,35 +291,23 @@ static unsigned int pcs_pin_shift_reg_get(struct pcs_device *pcs,
 	return (pin % (pcs->width / pcs->bits_per_pin)) * pcs->bits_per_pin;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void pcs_pin_dbg_show(struct pinctrl_dev *pctldev,
 					struct seq_file *s,
 					unsigned pin)
 {
 	struct pcs_device *pcs;
-<<<<<<< HEAD
 	unsigned int val;
-=======
-	unsigned val, mux_bytes;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long offset;
 	size_t pa;
 
 	pcs = pinctrl_dev_get_drvdata(pctldev);
 
-<<<<<<< HEAD
 	offset = pcs_pin_reg_offset_get(pcs, pin);
 	val = pcs->read(pcs->base + offset);
 
 	if (pcs->bits_per_mux)
 		val &= pcs->fmask << pcs_pin_shift_reg_get(pcs, pin);
 
-=======
-	mux_bytes = pcs->width / BITS_PER_BYTE;
-	offset = pin * mux_bytes;
-	val = pcs->read(pcs->base + offset);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pa = pcs->res->start + offset;
 
 	seq_printf(s, "%zx %08x %s ", pa, val, DRIVER_NAME);
@@ -421,10 +408,6 @@ static int pcs_request_gpio(struct pinctrl_dev *pctldev,
 	struct pcs_device *pcs = pinctrl_dev_get_drvdata(pctldev);
 	struct pcs_gpiofunc_range *frange = NULL;
 	struct list_head *pos, *tmp;
-<<<<<<< HEAD
-=======
-	int mux_bytes = 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned data;
 
 	/* If function mask is null, return directly. */
@@ -432,49 +415,27 @@ static int pcs_request_gpio(struct pinctrl_dev *pctldev,
 		return -ENOTSUPP;
 
 	list_for_each_safe(pos, tmp, &pcs->gpiofuncs) {
-<<<<<<< HEAD
 		u32 offset;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		frange = list_entry(pos, struct pcs_gpiofunc_range, node);
 		if (pin >= frange->offset + frange->npins
 			|| pin < frange->offset)
 			continue;
-<<<<<<< HEAD
 
 		offset = pcs_pin_reg_offset_get(pcs, pin);
 
 		if (pcs->bits_per_mux) {
 			int pin_shift = pcs_pin_shift_reg_get(pcs, pin);
-=======
-		mux_bytes = pcs->width / BITS_PER_BYTE;
-
-		if (pcs->bits_per_mux) {
-			int byte_num, offset, pin_shift;
-
-			byte_num = (pcs->bits_per_pin * pin) / BITS_PER_BYTE;
-			offset = (byte_num / mux_bytes) * mux_bytes;
-			pin_shift = pin % (pcs->width / pcs->bits_per_pin) *
-				    pcs->bits_per_pin;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			data = pcs->read(pcs->base + offset);
 			data &= ~(pcs->fmask << pin_shift);
 			data |= frange->gpiofunc << pin_shift;
 			pcs->write(data, pcs->base + offset);
 		} else {
-<<<<<<< HEAD
 			data = pcs->read(pcs->base + offset);
 			data &= ~pcs->fmask;
 			data |= frange->gpiofunc;
 			pcs->write(data, pcs->base + offset);
-=======
-			data = pcs->read(pcs->base + pin * mux_bytes);
-			data &= ~pcs->fmask;
-			data |= frange->gpiofunc;
-			pcs->write(data, pcs->base + pin * mux_bytes);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		break;
 	}
@@ -572,7 +533,7 @@ static int pcs_pinconf_get(struct pinctrl_dev *pctldev,
 			break;
 		case PIN_CONFIG_DRIVE_STRENGTH:
 		case PIN_CONFIG_SLEW_RATE:
-		case PIN_CONFIG_LOW_POWER_MODE:
+		case PIN_CONFIG_MODE_LOW_POWER:
 		default:
 			*config = data;
 			break;
@@ -610,7 +571,7 @@ static int pcs_pinconf_set(struct pinctrl_dev *pctldev,
 			case PIN_CONFIG_INPUT_SCHMITT:
 			case PIN_CONFIG_DRIVE_STRENGTH:
 			case PIN_CONFIG_SLEW_RATE:
-			case PIN_CONFIG_LOW_POWER_MODE:
+			case PIN_CONFIG_MODE_LOW_POWER:
 				shift = ffs(func->conf[i].mask) - 1;
 				data &= ~func->conf[i].mask;
 				data |= (arg << shift) & func->conf[i].mask;
@@ -716,15 +677,8 @@ static const struct pinconf_ops pcs_pinconf_ops = {
  * pcs_add_pin() - add a pin to the static per controller pin array
  * @pcs: pcs driver instance
  * @offset: register offset from base
-<<<<<<< HEAD
  */
 static int pcs_add_pin(struct pcs_device *pcs, unsigned int offset)
-=======
- * @pin_pos: unused
- */
-static int pcs_add_pin(struct pcs_device *pcs, unsigned offset,
-		unsigned pin_pos)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pcs_soc_data *pcs_soc = &pcs->socdata;
 	struct pinctrl_pin_desc *pin;
@@ -768,14 +722,12 @@ static int pcs_add_pin(struct pcs_device *pcs, unsigned offset,
 static int pcs_allocate_pin_table(struct pcs_device *pcs)
 {
 	int mux_bytes, nr_pins, i;
-	int num_pins_in_register = 0;
 
 	mux_bytes = pcs->width / BITS_PER_BYTE;
 
 	if (pcs->bits_per_mux) {
 		pcs->bits_per_pin = fls(pcs->fmask);
 		nr_pins = (pcs->size * BITS_PER_BYTE) / pcs->bits_per_pin;
-		num_pins_in_register = pcs->width / pcs->bits_per_pin;
 	} else {
 		nr_pins = pcs->size / mux_bytes;
 	}
@@ -793,23 +745,9 @@ static int pcs_allocate_pin_table(struct pcs_device *pcs)
 	for (i = 0; i < pcs->desc.npins; i++) {
 		unsigned offset;
 		int res;
-<<<<<<< HEAD
 
 		offset = pcs_pin_reg_offset_get(pcs, i);
 		res = pcs_add_pin(pcs, offset);
-=======
-		int byte_num;
-		int pin_pos = 0;
-
-		if (pcs->bits_per_mux) {
-			byte_num = (pcs->bits_per_pin * i) / BITS_PER_BYTE;
-			offset = (byte_num / mux_bytes) * mux_bytes;
-			pin_pos = i % num_pins_in_register;
-		} else {
-			offset = i * mux_bytes;
-		}
-		res = pcs_add_pin(pcs, offset, pin_pos);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (res < 0) {
 			dev_err(pcs->dev, "error adding pins: %i\n", res);
 			return res;
@@ -848,10 +786,7 @@ static int pcs_add_function(struct pcs_device *pcs,
 
 	function->vals = vals;
 	function->nvals = nvals;
-<<<<<<< HEAD
 	function->name = name;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	selector = pinmux_generic_add_function(pcs->pctl, name,
 					       pgnames, npgnames,
@@ -984,7 +919,7 @@ static int pcs_parse_pinconf(struct pcs_device *pcs, struct device_node *np,
 		{ "pinctrl-single,drive-strength", PIN_CONFIG_DRIVE_STRENGTH, },
 		{ "pinctrl-single,slew-rate", PIN_CONFIG_SLEW_RATE, },
 		{ "pinctrl-single,input-schmitt", PIN_CONFIG_INPUT_SCHMITT, },
-		{ "pinctrl-single,low-power-mode", PIN_CONFIG_LOW_POWER_MODE, },
+		{ "pinctrl-single,low-power-mode", PIN_CONFIG_MODE_LOW_POWER, },
 	};
 	static const struct pcs_conf_type prop4[] = {
 		{ "pinctrl-single,bias-pullup", PIN_CONFIG_BIAS_PULL_UP, },

@@ -82,11 +82,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&led_pins_olinuxino>;
 
-<<<<<<< HEAD
 		led {
-=======
-		green {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "a20-olinuxino-micro:green:usr";
 			gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>;
 			default-state = "on";

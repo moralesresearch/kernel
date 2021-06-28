@@ -45,7 +45,6 @@ static const struct counter_desc mlx5e_tls_sw_stats_desc[] = {
 	{ MLX5E_DECLARE_STAT(struct mlx5e_tls_sw_stats, tx_tls_drop_bypass_required) },
 };
 
-<<<<<<< HEAD
 static const struct counter_desc mlx5e_ktls_sw_stats_desc[] = {
 	{ MLX5E_DECLARE_STAT(struct mlx5e_tls_sw_stats, tx_tls_ctx) },
 	{ MLX5E_DECLARE_STAT(struct mlx5e_tls_sw_stats, rx_tls_ctx) },
@@ -62,37 +61,19 @@ static const struct counter_desc *get_tls_atomic_stats(struct mlx5e_priv *priv)
 	if (mlx5_accel_is_ktls_device(priv->mdev))
 		return mlx5e_ktls_sw_stats_desc;
 	return mlx5e_tls_sw_stats_desc;
-=======
-#define MLX5E_READ_CTR_ATOMIC64(ptr, dsc, i) \
-	atomic64_read((atomic64_t *)((char *)(ptr) + (dsc)[i].offset))
-
-#define NUM_TLS_SW_COUNTERS ARRAY_SIZE(mlx5e_tls_sw_stats_desc)
-
-static bool is_tls_atomic_stats(struct mlx5e_priv *priv)
-{
-	return priv->tls && !mlx5_accel_is_ktls_device(priv->mdev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int mlx5e_tls_get_count(struct mlx5e_priv *priv)
 {
-<<<<<<< HEAD
 	if (!priv->tls)
 		return 0;
 	if (mlx5_accel_is_ktls_device(priv->mdev))
 		return ARRAY_SIZE(mlx5e_ktls_sw_stats_desc);
 	return ARRAY_SIZE(mlx5e_tls_sw_stats_desc);
-=======
-	if (!is_tls_atomic_stats(priv))
-		return 0;
-
-	return NUM_TLS_SW_COUNTERS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int mlx5e_tls_get_strings(struct mlx5e_priv *priv, uint8_t *data)
 {
-<<<<<<< HEAD
 	const struct counter_desc *stats_desc;
 	unsigned int i, n, idx = 0;
 
@@ -104,23 +85,10 @@ int mlx5e_tls_get_strings(struct mlx5e_priv *priv, uint8_t *data)
 		       stats_desc[i].format);
 
 	return n;
-=======
-	unsigned int i, idx = 0;
-
-	if (!is_tls_atomic_stats(priv))
-		return 0;
-
-	for (i = 0; i < NUM_TLS_SW_COUNTERS; i++)
-		strcpy(data + (idx++) * ETH_GSTRING_LEN,
-		       mlx5e_tls_sw_stats_desc[i].format);
-
-	return NUM_TLS_SW_COUNTERS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int mlx5e_tls_get_stats(struct mlx5e_priv *priv, u64 *data)
 {
-<<<<<<< HEAD
 	const struct counter_desc *stats_desc;
 	unsigned int i, n, idx = 0;
 
@@ -133,17 +101,4 @@ int mlx5e_tls_get_stats(struct mlx5e_priv *priv, u64 *data)
 					    stats_desc, i);
 
 	return n;
-=======
-	int i, idx = 0;
-
-	if (!is_tls_atomic_stats(priv))
-		return 0;
-
-	for (i = 0; i < NUM_TLS_SW_COUNTERS; i++)
-		data[idx++] =
-		    MLX5E_READ_CTR_ATOMIC64(&priv->tls->sw_stats,
-					    mlx5e_tls_sw_stats_desc, i);
-
-	return NUM_TLS_SW_COUNTERS;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

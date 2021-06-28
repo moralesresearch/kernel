@@ -4,13 +4,8 @@
 #define nvkm_pm(p) container_of((p), struct nvkm_pm, engine)
 #include <engine/pm.h>
 
-<<<<<<< HEAD
 int nvkm_pm_ctor(const struct nvkm_pm_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		 struct nvkm_pm *);
-=======
-int nvkm_pm_ctor(const struct nvkm_pm_func *, struct nvkm_device *,
-		 int index, struct nvkm_pm *);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct nvkm_pm_func {
 	void (*fini)(struct nvkm_pm *);

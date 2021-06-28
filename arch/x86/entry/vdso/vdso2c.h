@@ -35,11 +35,7 @@ static void BITSFUNC(extract)(const unsigned char *data, size_t data_len,
 	if (offset + len > data_len)
 		fail("section to extract overruns input data");
 
-<<<<<<< HEAD
 	fprintf(outfile, "static const unsigned char %s[%zu] = {", name, len);
-=======
-	fprintf(outfile, "static const unsigned char %s[%lu] = {", name, len);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BITSFUNC(copy)(outfile, data + offset, len);
 	fprintf(outfile, "\n};\n\n");
 }

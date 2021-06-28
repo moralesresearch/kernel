@@ -41,8 +41,6 @@ struct mm_struct;
 
 #ifndef __ASSEMBLY__
 
-#include <asm/tlbflush.h>
-
 /* Keep these as a macros to avoid include dependency mess */
 #define pte_page(x)		pfn_to_page(pte_pfn(x))
 #define mk_pte(page, pgprot)	pfn_pte(page_to_pfn(page), (pgprot))
@@ -162,12 +160,9 @@ static inline bool is_ioremap_addr(const void *x)
 
 	return addr >= IOREMAP_BASE && addr < IOREMAP_END;
 }
-<<<<<<< HEAD
 
 struct seq_file;
 void arch_report_meminfo(struct seq_file *m);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_PPC64 */
 
 #endif /* __ASSEMBLY__ */

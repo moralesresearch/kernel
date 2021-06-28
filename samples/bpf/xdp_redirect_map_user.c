@@ -14,13 +14,10 @@
 #include <unistd.h>
 #include <libgen.h>
 #include <sys/resource.h>
-<<<<<<< HEAD
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "bpf_util.h"
 #include <bpf/bpf.h>
@@ -29,10 +26,7 @@
 static int ifindex_in;
 static int ifindex_out;
 static bool ifindex_out_xdp_dummy_attached = true;
-<<<<<<< HEAD
 static bool xdp_devmap_attached;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __u32 prog_id;
 static __u32 dummy_prog_id;
 
@@ -94,7 +88,6 @@ static void poll_stats(int interval, int ifindex)
 	}
 }
 
-<<<<<<< HEAD
 static int get_mac_addr(unsigned int ifindex_out, void *mac_addr)
 {
 	char ifname[IF_NAMESIZE];
@@ -121,8 +114,6 @@ err_out:
 	return ret;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void usage(const char *prog)
 {
 	fprintf(stderr,
@@ -130,19 +121,14 @@ static void usage(const char *prog)
 		"OPTS:\n"
 		"    -S    use skb-mode\n"
 		"    -N    enforce native mode\n"
-<<<<<<< HEAD
 		"    -F    force loading prog\n"
 		"    -X    load xdp program on egress\n",
-=======
-		"    -F    force loading prog\n",
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		prog);
 }
 
 int main(int argc, char **argv)
 {
 	struct bpf_prog_load_attr prog_load_attr = {
-<<<<<<< HEAD
 		.prog_type	= BPF_PROG_TYPE_UNSPEC,
 	};
 	struct bpf_program *prog, *dummy_prog, *devmap_prog;
@@ -155,19 +141,6 @@ int main(int argc, char **argv)
 	struct bpf_object *obj;
 	int ret, opt, key = 0;
 	char filename[256];
-=======
-		.prog_type	= BPF_PROG_TYPE_XDP,
-	};
-	struct bpf_program *prog, *dummy_prog;
-	struct bpf_prog_info info = {};
-	__u32 info_len = sizeof(info);
-	int prog_fd, dummy_prog_fd;
-	const char *optstr = "FSN";
-	struct bpf_object *obj;
-	int ret, opt, key = 0;
-	char filename[256];
-	int tx_port_map_fd;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while ((opt = getopt(argc, argv, optstr)) != -1) {
 		switch (opt) {
@@ -180,29 +153,21 @@ int main(int argc, char **argv)
 		case 'F':
 			xdp_flags &= ~XDP_FLAGS_UPDATE_IF_NOEXIST;
 			break;
-<<<<<<< HEAD
 		case 'X':
 			xdp_devmap_attached = true;
 			break;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		default:
 			usage(basename(argv[0]));
 			return 1;
 		}
 	}
 
-<<<<<<< HEAD
 	if (!(xdp_flags & XDP_FLAGS_SKB_MODE)) {
 		xdp_flags |= XDP_FLAGS_DRV_MODE;
 	} else if (xdp_devmap_attached) {
 		printf("Load xdp program on egress with SKB mode not supported yet\n");
 		return 1;
 	}
-=======
-	if (!(xdp_flags & XDP_FLAGS_SKB_MODE))
-		xdp_flags |= XDP_FLAGS_DRV_MODE;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (optind == argc) {
 		printf("usage: %s <IFNAME|IFINDEX>_IN <IFNAME|IFINDEX>_OUT\n", argv[0]);
@@ -225,7 +190,6 @@ int main(int argc, char **argv)
 	if (bpf_prog_load_xattr(&prog_load_attr, &obj, &prog_fd))
 		return 1;
 
-<<<<<<< HEAD
 	if (xdp_flags & XDP_FLAGS_SKB_MODE) {
 		prog = bpf_object__find_program_by_name(obj, "xdp_redirect_map_general");
 		tx_port_map_fd = bpf_object__find_map_fd_by_name(obj, "tx_port_general");
@@ -241,32 +205,13 @@ int main(int argc, char **argv)
 	prog_fd = bpf_program__fd(prog);
 	dummy_prog_fd = bpf_program__fd(dummy_prog);
 	if (prog_fd < 0 || dummy_prog_fd < 0 || tx_port_map_fd < 0) {
-=======
-	prog = bpf_program__next(NULL, obj);
-	dummy_prog = bpf_program__next(prog, obj);
-	if (!prog || !dummy_prog) {
-		printf("finding a prog in obj file failed\n");
-		return 1;
-	}
-	/* bpf_prog_load_xattr gives us the pointer to first prog's fd,
-	 * so we're missing only the fd for dummy prog
-	 */
-	dummy_prog_fd = bpf_program__fd(dummy_prog);
-	if (prog_fd < 0 || dummy_prog_fd < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		printf("bpf_prog_load_xattr: %s\n", strerror(errno));
 		return 1;
 	}
 
-<<<<<<< HEAD
 	tx_mac_map_fd = bpf_object__find_map_fd_by_name(obj, "tx_mac");
 	rxcnt_map_fd = bpf_object__find_map_fd_by_name(obj, "rxcnt");
 	if (tx_mac_map_fd < 0 || rxcnt_map_fd < 0) {
-=======
-	tx_port_map_fd = bpf_object__find_map_fd_by_name(obj, "tx_port");
-	rxcnt_map_fd = bpf_object__find_map_fd_by_name(obj, "rxcnt");
-	if (tx_port_map_fd < 0 || rxcnt_map_fd < 0) {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		printf("bpf_object__find_map_fd_by_name failed\n");
 		return 1;
 	}
@@ -298,7 +243,6 @@ int main(int argc, char **argv)
 	}
 	dummy_prog_id = info.id;
 
-<<<<<<< HEAD
 	/* Load 2nd xdp prog on egress. */
 	if (xdp_devmap_attached) {
 		unsigned char mac_addr[6];
@@ -332,13 +276,6 @@ int main(int argc, char **argv)
 	devmap_val.ifindex = ifindex_out;
 	devmap_val.bpf_prog.fd = devmap_prog_fd;
 	ret = bpf_map_update_elem(tx_port_map_fd, &key, &devmap_val, 0);
-=======
-	signal(SIGINT, int_exit);
-	signal(SIGTERM, int_exit);
-
-	/* populate virtual to physical port map */
-	ret = bpf_map_update_elem(tx_port_map_fd, &key, &ifindex_out, 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		perror("bpf_update_elem");
 		goto out;

@@ -47,17 +47,9 @@ properties:
     const: dphy
 
   port:
-<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/port
     description:
       The port should be the input endpoint, usually coming from the
-=======
-    type: object
-    description:
-      A port node with endpoint definitions as defined in
-      Documentation/devicetree/bindings/media/video-interfaces.txt. That
-      port should be the input endpoint, usually coming from the
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       associated TCON.
 
 required:

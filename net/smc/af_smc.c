@@ -1076,7 +1076,6 @@ static int smc_connect(struct socket *sock, struct sockaddr *addr,
 		rc = -EISCONN;
 		goto out;
 	case SMC_INIT:
-		rc = 0;
 		break;
 	}
 
@@ -2162,12 +2161,9 @@ static int smc_setsockopt(struct socket *sock, int level, int optname,
 	struct smc_sock *smc;
 	int val, rc;
 
-<<<<<<< HEAD
 	if (level == SOL_TCP && optname == TCP_ULP)
 		return -EOPNOTSUPP;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smc = smc_sk(sk);
 
 	/* generic setsockopts reaching us here always apply to the
@@ -2192,10 +2188,6 @@ static int smc_setsockopt(struct socket *sock, int level, int optname,
 	if (rc || smc->use_fallback)
 		goto out;
 	switch (optname) {
-<<<<<<< HEAD
-=======
-	case TCP_ULP:
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case TCP_FASTOPEN:
 	case TCP_FASTOPEN_CONNECT:
 	case TCP_FASTOPEN_KEY:

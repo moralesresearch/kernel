@@ -1124,7 +1124,7 @@ static int tx_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
 	return 0;
 }
 
-static struct snd_soc_dai_ops tx_macro_dai_ops = {
+static const struct snd_soc_dai_ops tx_macro_dai_ops = {
 	.hw_params = tx_macro_hw_params,
 	.get_channel_map = tx_macro_get_channel_map,
 	.mute_stream = tx_macro_digital_mute,
@@ -1846,10 +1846,7 @@ static const struct of_device_id tx_macro_dt_match[] = {
 	{ .compatible = "qcom,sm8250-lpass-tx-macro" },
 	{ }
 };
-<<<<<<< HEAD
 MODULE_DEVICE_TABLE(of, tx_macro_dt_match);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct platform_driver tx_macro_driver = {
 	.driver = {
 		.name = "tx_macro",

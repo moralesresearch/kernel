@@ -12,15 +12,9 @@
 #include "intel_gt.h"
 
 /* Write pde (index) from the page directory @pd to the page table @pt */
-<<<<<<< HEAD
 static void gen6_write_pde(const struct gen6_ppgtt *ppgtt,
 			   const unsigned int pde,
 			   const struct i915_page_table *pt)
-=======
-static inline void gen6_write_pde(const struct gen6_ppgtt *ppgtt,
-				  const unsigned int pde,
-				  const struct i915_page_table *pt)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	dma_addr_t addr = pt ? px_dma(pt) : px_dma(ppgtt->base.vm.scratch[1]);
 
@@ -33,11 +27,6 @@ void gen7_ppgtt_enable(struct intel_gt *gt)
 {
 	struct drm_i915_private *i915 = gt->i915;
 	struct intel_uncore *uncore = gt->uncore;
-<<<<<<< HEAD
-=======
-	struct intel_engine_cs *engine;
-	enum intel_engine_id id;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 ecochk;
 
 	intel_uncore_rmw(uncore, GAC_ECO_BITS, 0, ECOBITS_PPGTT_CACHE64B);
@@ -50,16 +39,6 @@ void gen7_ppgtt_enable(struct intel_gt *gt)
 		ecochk &= ~ECOCHK_PPGTT_GFDT_IVB;
 	}
 	intel_uncore_write(uncore, GAM_ECOCHK, ecochk);
-<<<<<<< HEAD
-=======
-
-	for_each_engine(engine, gt, id) {
-		/* GFX_MODE is per-ring on gen7+ */
-		ENGINE_WRITE(engine,
-			     RING_MODE_GEN7,
-			     _MASKED_BIT_ENABLE(GFX_PPGTT_ENABLE));
-	}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void gen6_ppgtt_enable(struct intel_gt *gt)

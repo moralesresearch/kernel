@@ -6,22 +6,14 @@
  **************************************************************************/
 
 #include "psb_drv.h"
-<<<<<<< HEAD
 #include "gma_device.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void gma_get_core_freq(struct drm_device *dev)
 {
 	uint32_t clock;
-<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
 	struct pci_dev *pci_root =
 		pci_get_domain_bus_and_slot(pci_domain_nr(pdev->bus),
-=======
-	struct pci_dev *pci_root =
-		pci_get_domain_bus_and_slot(pci_domain_nr(dev->pdev->bus),
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    0, 0);
 	struct drm_psb_private *dev_priv = dev->dev_private;
 

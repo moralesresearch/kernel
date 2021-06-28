@@ -113,11 +113,8 @@ struct vio_driver {
 	const char *name;
 	const struct vio_device_id *id_table;
 	int (*probe)(struct vio_dev *dev, const struct vio_device_id *id);
-<<<<<<< HEAD
 	void (*remove)(struct vio_dev *dev);
-=======
-	int (*remove)(struct vio_dev *dev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	void (*shutdown)(struct vio_dev *dev);
 	/* A driver must have a get_desired_dma() function to
 	 * be loaded in a CMO environment if it uses DMA.
 	 */

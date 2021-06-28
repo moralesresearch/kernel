@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
-<<<<<<< HEAD
  * Copyright (C) 2018-2021 Intel Corporation
-=======
- * Copyright (C) 2018-2020 Intel Corporation
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #include <linux/firmware.h>
 #include "iwl-drv.h"
@@ -65,12 +61,8 @@ dbg_ver_table[IWL_DBG_TLV_TYPE_NUM] = {
 	[IWL_DBG_TLV_TYPE_TRIGGER]	= {.min_ver = 1, .max_ver = 1,},
 };
 
-<<<<<<< HEAD
 static int iwl_dbg_tlv_add(const struct iwl_ucode_tlv *tlv,
 			   struct list_head *list)
-=======
-static int iwl_dbg_tlv_add(struct iwl_ucode_tlv *tlv, struct list_head *list)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 len = le32_to_cpu(tlv->length);
 	struct iwl_dbg_tlv_node *node;
@@ -85,15 +77,9 @@ static int iwl_dbg_tlv_add(struct iwl_ucode_tlv *tlv, struct list_head *list)
 	return 0;
 }
 
-<<<<<<< HEAD
 static bool iwl_dbg_tlv_ver_support(const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_header *hdr = (const void *)&tlv->data[0];
-=======
-static bool iwl_dbg_tlv_ver_support(struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_header *hdr = (void *)&tlv->data[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 type = le32_to_cpu(tlv->type);
 	u32 tlv_idx = type - IWL_UCODE_TLV_DEBUG_BASE;
 	u32 ver = le32_to_cpu(hdr->version);
@@ -106,15 +92,9 @@ static bool iwl_dbg_tlv_ver_support(struct iwl_ucode_tlv *tlv)
 }
 
 static int iwl_dbg_tlv_alloc_debug_info(struct iwl_trans *trans,
-<<<<<<< HEAD
 					const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_debug_info_tlv *debug_info = (const void *)tlv->data;
-=======
-					struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_debug_info_tlv *debug_info = (void *)tlv->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (le32_to_cpu(tlv->length) != sizeof(*debug_info))
 		return -EINVAL;
@@ -126,15 +106,9 @@ static int iwl_dbg_tlv_alloc_debug_info(struct iwl_trans *trans,
 }
 
 static int iwl_dbg_tlv_alloc_buf_alloc(struct iwl_trans *trans,
-<<<<<<< HEAD
 				       const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_allocation_tlv *alloc = (const void *)tlv->data;
-=======
-				       struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_allocation_tlv *alloc = (void *)tlv->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 buf_location;
 	u32 alloc_id;
 
@@ -172,15 +146,9 @@ err:
 }
 
 static int iwl_dbg_tlv_alloc_hcmd(struct iwl_trans *trans,
-<<<<<<< HEAD
 				  const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_hcmd_tlv *hcmd = (const void *)tlv->data;
-=======
-				  struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_hcmd_tlv *hcmd = (void *)tlv->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 tp = le32_to_cpu(hcmd->time_point);
 
 	if (le32_to_cpu(tlv->length) <= sizeof(*hcmd))
@@ -202,15 +170,9 @@ static int iwl_dbg_tlv_alloc_hcmd(struct iwl_trans *trans,
 }
 
 static int iwl_dbg_tlv_alloc_region(struct iwl_trans *trans,
-<<<<<<< HEAD
 				    const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_region_tlv *reg = (const void *)tlv->data;
-=======
-				    struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_region_tlv *reg = (void *)tlv->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct iwl_ucode_tlv **active_reg;
 	u32 id = le32_to_cpu(reg->id);
 	u32 type = le32_to_cpu(reg->type);
@@ -253,16 +215,10 @@ static int iwl_dbg_tlv_alloc_region(struct iwl_trans *trans,
 }
 
 static int iwl_dbg_tlv_alloc_trigger(struct iwl_trans *trans,
-<<<<<<< HEAD
 				     const struct iwl_ucode_tlv *tlv)
 {
 	const struct iwl_fw_ini_trigger_tlv *trig = (const void *)tlv->data;
 	struct iwl_fw_ini_trigger_tlv *dup_trig;
-=======
-				     struct iwl_ucode_tlv *tlv)
-{
-	struct iwl_fw_ini_trigger_tlv *trig = (void *)tlv->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 tp = le32_to_cpu(trig->time_point);
 	struct iwl_ucode_tlv *dup = NULL;
 	int ret;
@@ -283,13 +239,8 @@ static int iwl_dbg_tlv_alloc_trigger(struct iwl_trans *trans,
 				GFP_KERNEL);
 		if (!dup)
 			return -ENOMEM;
-<<<<<<< HEAD
 		dup_trig = (void *)dup->data;
 		dup_trig->occurrences = cpu_to_le32(-1);
-=======
-		trig = (void *)dup->data;
-		trig->occurrences = cpu_to_le32(-1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tlv = dup;
 	}
 
@@ -300,11 +251,7 @@ static int iwl_dbg_tlv_alloc_trigger(struct iwl_trans *trans,
 }
 
 static int (*dbg_tlv_alloc[])(struct iwl_trans *trans,
-<<<<<<< HEAD
 			      const struct iwl_ucode_tlv *tlv) = {
-=======
-			      struct iwl_ucode_tlv *tlv) = {
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[IWL_DBG_TLV_TYPE_DEBUG_INFO]	= iwl_dbg_tlv_alloc_debug_info,
 	[IWL_DBG_TLV_TYPE_BUF_ALLOC]	= iwl_dbg_tlv_alloc_buf_alloc,
 	[IWL_DBG_TLV_TYPE_HCMD]		= iwl_dbg_tlv_alloc_hcmd,
@@ -312,17 +259,10 @@ static int (*dbg_tlv_alloc[])(struct iwl_trans *trans,
 	[IWL_DBG_TLV_TYPE_TRIGGER]	= iwl_dbg_tlv_alloc_trigger,
 };
 
-<<<<<<< HEAD
 void iwl_dbg_tlv_alloc(struct iwl_trans *trans, const struct iwl_ucode_tlv *tlv,
 		       bool ext)
 {
 	const struct iwl_fw_ini_header *hdr = (const void *)&tlv->data[0];
-=======
-void iwl_dbg_tlv_alloc(struct iwl_trans *trans, struct iwl_ucode_tlv *tlv,
-		       bool ext)
-{
-	struct iwl_fw_ini_header *hdr = (void *)&tlv->data[0];
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 type = le32_to_cpu(tlv->type);
 	u32 tlv_idx = type - IWL_UCODE_TLV_DEBUG_BASE;
 	u32 domain = le32_to_cpu(hdr->domain);
@@ -458,11 +398,7 @@ void iwl_dbg_tlv_free(struct iwl_trans *trans)
 static int iwl_dbg_tlv_parse_bin(struct iwl_trans *trans, const u8 *data,
 				 size_t len)
 {
-<<<<<<< HEAD
 	const struct iwl_ucode_tlv *tlv;
-=======
-	struct iwl_ucode_tlv *tlv;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 tlv_len;
 
 	while (len >= sizeof(*tlv)) {
@@ -490,12 +426,8 @@ void iwl_dbg_tlv_load_bin(struct device *dev, struct iwl_trans *trans)
 	const struct firmware *fw;
 	int res;
 
-<<<<<<< HEAD
 	if (!iwlwifi_mod_params.enable_ini ||
 	    trans->trans_cfg->device_family <= IWL_DEVICE_FAMILY_9000)
-=======
-	if (!iwlwifi_mod_params.enable_ini)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	res = firmware_request_nowarn(&fw, "iwl-debug-yoyo.bin", dev);
@@ -808,21 +740,12 @@ static void iwl_dbg_tlv_set_periodic_trigs(struct iwl_fw_runtime *fwrt)
 	}
 }
 
-<<<<<<< HEAD
 static bool is_trig_data_contained(const struct iwl_ucode_tlv *new,
 				   const struct iwl_ucode_tlv *old)
 {
 	const struct iwl_fw_ini_trigger_tlv *new_trig = (const void *)new->data;
 	const struct iwl_fw_ini_trigger_tlv *old_trig = (const void *)old->data;
 	const __le32 *new_data = new_trig->data, *old_data = old_trig->data;
-=======
-static bool is_trig_data_contained(struct iwl_ucode_tlv *new,
-				   struct iwl_ucode_tlv *old)
-{
-	struct iwl_fw_ini_trigger_tlv *new_trig = (void *)new->data;
-	struct iwl_fw_ini_trigger_tlv *old_trig = (void *)old->data;
-	__le32 *new_data = new_trig->data, *old_data = old_trig->data;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 new_dwords_num = iwl_tlv_array_len(new, new_trig, data);
 	u32 old_dwords_num = iwl_tlv_array_len(old, old_trig, data);
 	int i, j;
@@ -1037,10 +960,7 @@ static void iwl_dbg_tlv_init_cfg(struct iwl_fw_runtime *fwrt)
 {
 	enum iwl_fw_ini_buffer_location *ini_dest = &fwrt->trans->dbg.ini_dest;
 	int ret, i;
-<<<<<<< HEAD
 	u32 failed_alloc = 0;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (*ini_dest != IWL_FW_INI_LOCATION_INVALID)
 		return;
@@ -1072,7 +992,6 @@ static void iwl_dbg_tlv_init_cfg(struct iwl_fw_runtime *fwrt)
 			continue;
 
 		ret = iwl_dbg_tlv_alloc_fragments(fwrt, i);
-<<<<<<< HEAD
 
 		if (ret) {
 			IWL_WARN(fwrt,
@@ -1110,12 +1029,6 @@ static void iwl_dbg_tlv_init_cfg(struct iwl_fw_runtime *fwrt)
 
 		kfree(*active_reg);
 		*active_reg = NULL;
-=======
-		if (ret)
-			IWL_WARN(fwrt,
-				 "WRT: Failed to allocate DRAM buffer for allocation id %d, ret=%d\n",
-				 i, ret);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

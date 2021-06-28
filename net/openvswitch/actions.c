@@ -827,30 +827,17 @@ static void ovs_fragment(struct net *net, struct vport *vport,
 	}
 
 	if (key->eth.type == htons(ETH_P_IP)) {
-<<<<<<< HEAD
 		struct rtable ovs_rt = { 0 };
-=======
-		struct dst_entry ovs_dst;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long orig_dst;
 
 		prepare_frag(vport, skb, orig_network_offset,
 			     ovs_key_mac_proto(key));
-<<<<<<< HEAD
 		dst_init(&ovs_rt.dst, &ovs_dst_ops, NULL, 1,
 			 DST_OBSOLETE_NONE, DST_NOCOUNT);
 		ovs_rt.dst.dev = vport->dev;
 
 		orig_dst = skb->_skb_refdst;
 		skb_dst_set_noref(skb, &ovs_rt.dst);
-=======
-		dst_init(&ovs_dst, &ovs_dst_ops, NULL, 1,
-			 DST_OBSOLETE_NONE, DST_NOCOUNT);
-		ovs_dst.dev = vport->dev;
-
-		orig_dst = skb->_skb_refdst;
-		skb_dst_set_noref(skb, &ovs_dst);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IPCB(skb)->frag_max_size = mru;
 
 		ip_do_fragment(net, skb->sk, skb, ovs_vport_output);
@@ -970,22 +957,14 @@ static int output_userspace(struct datapath *dp, struct sk_buff *skb,
 
 static int dec_ttl_exception_handler(struct datapath *dp, struct sk_buff *skb,
 				     struct sw_flow_key *key,
-<<<<<<< HEAD
 				     const struct nlattr *attr)
-=======
-				     const struct nlattr *attr, bool last)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* The first attribute is always 'OVS_DEC_TTL_ATTR_ACTION'. */
 	struct nlattr *actions = nla_data(attr);
 
 	if (nla_len(actions))
 		return clone_execute(dp, skb, key, 0, nla_data(actions),
-<<<<<<< HEAD
 				     nla_len(actions), true, false);
-=======
-				     nla_len(actions), last, false);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	consume_skb(skb);
 	return 0;
@@ -1439,17 +1418,9 @@ static int do_execute_actions(struct datapath *dp, struct sk_buff *skb,
 
 		case OVS_ACTION_ATTR_DEC_TTL:
 			err = execute_dec_ttl(skb, key);
-<<<<<<< HEAD
 			if (err == -EHOSTUNREACH)
 				return dec_ttl_exception_handler(dp, skb,
 								 key, a);
-=======
-			if (err == -EHOSTUNREACH) {
-				err = dec_ttl_exception_handler(dp, skb, key,
-								a, true);
-				return err;
-			}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 

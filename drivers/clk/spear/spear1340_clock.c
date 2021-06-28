@@ -12,10 +12,7 @@
  */
 
 #include <linux/clkdev.h>
-<<<<<<< HEAD
 #include <linux/clk/spear.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/err.h>
 #include <linux/io.h>
 #include <linux/of_platform.h>

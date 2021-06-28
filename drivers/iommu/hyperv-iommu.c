@@ -20,10 +20,7 @@
 #include <asm/io_apic.h>
 #include <asm/irq_remapping.h>
 #include <asm/hypervisor.h>
-<<<<<<< HEAD
 #include <asm/mshyperv.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "irq_remapping.h"
 
@@ -119,26 +116,19 @@ static const struct irq_domain_ops hyperv_ir_domain_ops = {
 	.free = hyperv_irq_remapping_free,
 };
 
-<<<<<<< HEAD
 static const struct irq_domain_ops hyperv_root_ir_domain_ops;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init hyperv_prepare_irq_remapping(void)
 {
 	struct fwnode_handle *fn;
 	int i;
-<<<<<<< HEAD
 	const char *name;
 	const struct irq_domain_ops *ops;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
 	    x86_init.hyper.msi_ext_dest_id() ||
 	    !x2apic_supported())
 		return -ENODEV;
 
-<<<<<<< HEAD
 	if (hv_root_partition) {
 		name = "HYPERV-ROOT-IR";
 		ops = &hyperv_root_ir_domain_ops;
@@ -148,32 +138,21 @@ static int __init hyperv_prepare_irq_remapping(void)
 	}
 
 	fn = irq_domain_alloc_named_id_fwnode(name, 0);
-=======
-	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fn)
 		return -ENOMEM;
 
 	ioapic_ir_domain =
 		irq_domain_create_hierarchy(arch_get_ir_parent_domain(),
-<<<<<<< HEAD
 				0, IOAPIC_REMAPPING_ENTRY, fn, ops, NULL);
-=======
-				0, IOAPIC_REMAPPING_ENTRY, fn,
-				&hyperv_ir_domain_ops, NULL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!ioapic_ir_domain) {
 		irq_domain_free_fwnode(fn);
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	if (hv_root_partition)
 		return 0; /* The rest is only relevant to guests */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Hyper-V doesn't provide irq remapping function for
 	 * IO-APIC and so IO-APIC only accepts 8-bit APIC ID.
@@ -201,7 +180,6 @@ struct irq_remap_ops hyperv_irq_remap_ops = {
 	.enable			= hyperv_enable_irq_remapping,
 };
 
-<<<<<<< HEAD
 /* IRQ remapping domain when Linux runs as the root partition */
 struct hyperv_root_ir_data {
 	u8 ioapic_id;
@@ -359,6 +337,4 @@ static const struct irq_domain_ops hyperv_root_ir_domain_ops = {
 	.free = hyperv_root_irq_remapping_free,
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

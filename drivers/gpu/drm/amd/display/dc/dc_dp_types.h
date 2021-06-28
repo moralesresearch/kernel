@@ -451,12 +451,9 @@ struct dpcd_amd_signature {
 	uint8_t AMD_IEEE_TxSignature_byte1;
 	uint8_t AMD_IEEE_TxSignature_byte2;
 	uint8_t AMD_IEEE_TxSignature_byte3;
-<<<<<<< HEAD
 };
 
 struct dpcd_amd_device_id {
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint8_t device_id_byte1;
 	uint8_t device_id_byte2;
 	uint8_t zero[4];

@@ -499,15 +499,7 @@ int fib6_tables_dump(struct net *net, struct notifier_block *nb,
 
 		hlist_for_each_entry_rcu(tb, head, tb6_hlist) {
 			err = fib6_table_dump(net, tb, w);
-<<<<<<< HEAD
 			if (err)
-=======
-<<<<<<< HEAD
-			if (err)
-=======
-			if (err < 0)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto out;
 		}
 	}
@@ -515,17 +507,8 @@ int fib6_tables_dump(struct net *net, struct notifier_block *nb,
 out:
 	kfree(w);
 
-<<<<<<< HEAD
 	/* The tree traversal function should never return a positive value. */
 	return err > 0 ? -EINVAL : err;
-=======
-<<<<<<< HEAD
-	/* The tree traversal function should never return a positive value. */
-	return err > 0 ? -EINVAL : err;
-=======
-	return err;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int fib6_dump_node(struct fib6_walker *w)

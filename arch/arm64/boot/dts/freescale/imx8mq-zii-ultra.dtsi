@@ -45,13 +45,8 @@
 	reg_12p0_main: regulator-12p0-main {
 		compatible = "regulator-fixed";
 		regulator-name = "12V_MAIN";
-<<<<<<< HEAD
 		regulator-min-microvolt = <12000000>;
 		regulator-max-microvolt = <12000000>;
-=======
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		regulator-always-on;
 	};
 
@@ -107,7 +102,6 @@
 		           900000 0x0>;
 		regulator-always-on;
 	};
-<<<<<<< HEAD
 
 	cs2000_ref: cs2000-ref {
 		compatible = "fixed-clock";
@@ -120,8 +114,6 @@
 		#clock-cells = <0>;
 		clock-frequency = <0>;
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &A53_0 {
@@ -303,7 +295,6 @@
 		reg = <0x32>;
 		interrupt-parent = <&gpio3>;
 		interrupts = <17 IRQ_TYPE_EDGE_BOTH>,
-<<<<<<< HEAD
 		             <18 IRQ_TYPE_EDGE_FALLING>;
 		interrupt-names = "a_det", "alert";
 	};
@@ -317,11 +308,6 @@
 		Vdd-supply = <&reg_5p0_main>;
 		sound-name-prefix = "HPA2";
 	};
-=======
-		             <18 IRQ_TYPE_EDGE_BOTH>;
-		interrupt-names = "a_det", "alert";
-	};
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &i2c2 {
@@ -414,7 +400,6 @@
 		};
 	};
 
-<<<<<<< HEAD
 	codec1: codec@18 {
 		compatible = "ti,tlv320dac3100";
 		pinctrl-names = "default";
@@ -430,14 +415,11 @@
 		reset-gpios = <&gpio3 3 GPIO_ACTIVE_LOW>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	eeprom@54 {
 		compatible = "atmel,24c128";
 		reg = <0x54>;
 	};
 
-<<<<<<< HEAD
 	hpa1: amp@60 {
 		compatible = "ti,tpa6130a2";
 		pinctrl-names = "default";
@@ -448,8 +430,6 @@
 		sound-name-prefix = "HPA1";
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ds1341: rtc@68 {
 		compatible = "dallas,ds1341";
 		reg = <0x68>;
@@ -474,7 +454,6 @@
 		compatible = "zii,rave-wdt";
 		reg = <0x38>;
 	};
-<<<<<<< HEAD
 
 	cs2000: clkgen@4e {
 		compatible = "cirrus,cs2000-cp";
@@ -485,8 +464,6 @@
 		assigned-clocks = <&cs2000>;
 		assigned-clock-rates = <24000000>;
 	};
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &i2c4 {
@@ -496,15 +473,12 @@
 	status = "okay";
 };
 
-<<<<<<< HEAD
 &sai2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_sai2>;
 	status = "okay";
 };
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &uart1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart1>;
@@ -557,10 +531,7 @@
 
 &usb_dwc3_0 {
 	dr_mode = "host";
-<<<<<<< HEAD
 	maximum-speed = "high-speed";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 };
 
@@ -571,10 +542,7 @@
 
 &usb_dwc3_1 {
 	dr_mode = "host";
-<<<<<<< HEAD
 	maximum-speed = "high-speed";
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = "okay";
 };
 
@@ -648,15 +616,12 @@
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_codec1: dac1grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_NAND_CE2_B_GPIO3_IO3		0x41
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_fec1: fec1grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_ENET_MDC_ENET1_MDC			0x3
@@ -689,49 +654,29 @@
 
 	pinctrl_i2c1: i2c1grp {
 		fsl,pins = <
-<<<<<<< HEAD
 			MX8MQ_IOMUXC_I2C1_SCL_I2C1_SCL			0x40000022
 			MX8MQ_IOMUXC_I2C1_SDA_I2C1_SDA			0x400000a2
-=======
-			MX8MQ_IOMUXC_I2C1_SCL_I2C1_SCL			0x4000007f
-			MX8MQ_IOMUXC_I2C1_SDA_I2C1_SDA			0x4000007f
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		>;
 	};
 
 	pinctrl_i2c2: i2c2grp {
 		fsl,pins = <
-<<<<<<< HEAD
 			MX8MQ_IOMUXC_I2C2_SCL_I2C2_SCL			0x40000022
 			MX8MQ_IOMUXC_I2C2_SDA_I2C2_SDA			0x400000a2
-=======
-			MX8MQ_IOMUXC_I2C2_SCL_I2C2_SCL			0x4000007f
-			MX8MQ_IOMUXC_I2C2_SDA_I2C2_SDA			0x4000007f
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		>;
 	};
 
 	pinctrl_i2c3: i2c3grp {
 		fsl,pins = <
-<<<<<<< HEAD
 			MX8MQ_IOMUXC_I2C3_SCL_I2C3_SCL			0x40000022
 			MX8MQ_IOMUXC_I2C3_SDA_I2C3_SDA			0x400000a2
-=======
-			MX8MQ_IOMUXC_I2C3_SCL_I2C3_SCL			0x4000007f
-			MX8MQ_IOMUXC_I2C3_SDA_I2C3_SDA			0x4000007f
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		>;
 	};
 
 	pinctrl_i2c4: i2c4grp {
 		fsl,pins = <
-<<<<<<< HEAD
 			MX8MQ_IOMUXC_I2C4_SCL_I2C4_SCL			0x40000022
 			MX8MQ_IOMUXC_I2C4_SDA_I2C4_SDA			0x400000a2
-=======
-			MX8MQ_IOMUXC_I2C4_SCL_I2C4_SCL			0x4000007f
-			MX8MQ_IOMUXC_I2C4_SDA_I2C4_SDA			0x4000007f
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		>;
 	};
 
@@ -768,7 +713,6 @@
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_sai2: sai2grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_SAI2_TXFS_SAI2_TX_SYNC		0xd6
@@ -777,15 +721,12 @@
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_switch_irq: switchgrp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_GPIO1_IO15_GPIO1_IO15		0x41
 		>;
 	};
 
-<<<<<<< HEAD
 	pinctrl_tpa1: tpa6130-1grp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_SAI1_TXFS_GPIO4_IO10		0x41
@@ -798,8 +739,6 @@
 		>;
 	};
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pinctrl_ts: tsgrp {
 		fsl,pins = <
 			MX8MQ_IOMUXC_GPIO1_IO11_GPIO1_IO11		0x96

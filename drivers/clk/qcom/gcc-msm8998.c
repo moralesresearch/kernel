@@ -1341,10 +1341,6 @@ static struct clk_branch gcc_boot_rom_ahb_clk = {
 	},
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct clk_branch gcc_mmss_gpll0_clk = {
 	.halt_check = BRANCH_HALT_DELAY,
 	.clkr = {
@@ -1361,11 +1357,6 @@ static struct clk_branch gcc_mmss_gpll0_clk = {
 	},
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct clk_branch gcc_mss_gpll0_div_clk_src = {
 	.halt_check = BRANCH_HALT_DELAY,
 	.clkr = {
@@ -2090,21 +2081,12 @@ static struct clk_branch gcc_gpu_cfg_ahb_clk = {
 		.hw.init = &(struct clk_init_data){
 			.name = "gcc_gpu_cfg_ahb_clk",
 			.ops = &clk_branch2_ops,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/*
 			 * The GPU IOMMU depends on this clock and hypervisor
 			 * will crash the SoC if this clock goes down, due to
 			 * secure contexts protection.
 			 */
 			.flags = CLK_IS_CRITICAL,
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 	},
 };
@@ -2184,10 +2166,6 @@ static struct clk_branch gcc_hmss_trig_clk = {
 	},
 };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct freq_tbl ftbl_hmss_gpll0_clk_src[] = {
 	F( 300000000, P_GPLL0_OUT_MAIN, 2, 0, 0),
 	F( 600000000, P_GPLL0_OUT_MAIN, 1, 0, 0),
@@ -2207,11 +2185,6 @@ static struct clk_rcg2 hmss_gpll0_clk_src = {
 	},
 };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct clk_branch gcc_mmss_noc_cfg_ahb_clk = {
 	.halt_reg = 0x9004,
 	.halt_check = BRANCH_HALT,
@@ -3012,16 +2985,8 @@ static struct clk_regmap *gcc_msm8998_clocks[] = {
 	[GCC_MSS_GPLL0_DIV_CLK_SRC] = &gcc_mss_gpll0_div_clk_src.clkr,
 	[GCC_MSS_SNOC_AXI_CLK] = &gcc_mss_snoc_axi_clk.clkr,
 	[GCC_MSS_MNOC_BIMC_AXI_CLK] = &gcc_mss_mnoc_bimc_axi_clk.clkr,
-<<<<<<< HEAD
 	[GCC_MMSS_GPLL0_CLK] = &gcc_mmss_gpll0_clk.clkr,
 	[HMSS_GPLL0_CLK_SRC] = &hmss_gpll0_clk_src.clkr,
-=======
-<<<<<<< HEAD
-	[GCC_MMSS_GPLL0_CLK] = &gcc_mmss_gpll0_clk.clkr,
-	[HMSS_GPLL0_CLK_SRC] = &hmss_gpll0_clk_src.clkr,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct gdsc *gcc_msm8998_gdscs[] = {

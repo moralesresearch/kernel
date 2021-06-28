@@ -37,6 +37,8 @@ static void noinstr enter_from_kernel_mode(struct pt_regs *regs)
 	lockdep_hardirqs_off(CALLER_ADDR0);
 	rcu_irq_enter_check_tick();
 	trace_hardirqs_off_finish();
+
+	mte_check_tfsr_entry();
 }
 
 /*
@@ -46,6 +48,8 @@ static void noinstr enter_from_kernel_mode(struct pt_regs *regs)
 static void noinstr exit_to_kernel_mode(struct pt_regs *regs)
 {
 	lockdep_assert_irqs_disabled();
+
+	mte_check_tfsr_exit();
 
 	if (interrupts_enabled(regs)) {
 		if (regs->exit_rcu) {
@@ -109,7 +113,6 @@ asmlinkage void noinstr exit_el1_irq_or_nmi(struct pt_regs *regs)
 		exit_to_kernel_mode(regs);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_ARM64_ERRATUM_1463225
 static DEFINE_PER_CPU(int, __in_cortex_a76_erratum_1463225_wa);
 
@@ -159,8 +162,6 @@ static bool cortex_a76_erratum_1463225_debug_handler(struct pt_regs *regs)
 }
 #endif /* CONFIG_ARM64_ERRATUM_1463225 */
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void noinstr el1_abort(struct pt_regs *regs, unsigned long esr)
 {
 	unsigned long far = read_sysreg(far_el1);
@@ -229,22 +230,9 @@ static void noinstr el1_dbg(struct pt_regs *regs, unsigned long esr)
 {
 	unsigned long far = read_sysreg(far_el1);
 
-<<<<<<< HEAD
 	arm64_enter_el1_dbg(regs);
 	if (!cortex_a76_erratum_1463225_debug_handler(regs))
 		do_debug_exception(far, esr, regs);
-=======
-	/*
-	 * The CPU masked interrupts, and we are leaving them masked during
-	 * do_debug_exception(). Update PMR as if we had called
-	 * local_daif_mask().
-	 */
-	if (system_uses_irq_prio_masking())
-		gic_write_pmr(GIC_PRIO_IRQON | GIC_PRIO_PSR_I_SET);
-
-	arm64_enter_el1_dbg(regs);
-	do_debug_exception(far, esr, regs);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arm64_exit_el1_dbg(regs);
 }
 
@@ -301,6 +289,8 @@ asmlinkage void noinstr enter_from_user_mode(void)
 
 asmlinkage void noinstr exit_to_user_mode(void)
 {
+	mte_check_tfsr_exit();
+
 	trace_hardirqs_on_prepare();
 	lockdep_hardirqs_on_prepare(CALLER_ADDR0);
 	user_enter_irqoff();
@@ -406,12 +396,6 @@ static void noinstr el0_dbg(struct pt_regs *regs, unsigned long esr)
 	/* Only watchpoints write FAR_EL1, otherwise its UNKNOWN */
 	unsigned long far = read_sysreg(far_el1);
 
-<<<<<<< HEAD
-=======
-	if (system_uses_irq_prio_masking())
-		gic_write_pmr(GIC_PRIO_IRQON | GIC_PRIO_PSR_I_SET);
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enter_from_user_mode();
 	do_debug_exception(far, esr, regs);
 	local_daif_restore(DAIF_PROCCTX_NOIRQ);
@@ -419,15 +403,8 @@ static void noinstr el0_dbg(struct pt_regs *regs, unsigned long esr)
 
 static void noinstr el0_svc(struct pt_regs *regs)
 {
-<<<<<<< HEAD
 	enter_from_user_mode();
 	cortex_a76_erratum_1463225_svc_handler();
-=======
-	if (system_uses_irq_prio_masking())
-		gic_write_pmr(GIC_PRIO_IRQON | GIC_PRIO_PSR_I_SET);
-
-	enter_from_user_mode();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do_el0_svc(regs);
 }
 
@@ -501,15 +478,8 @@ static void noinstr el0_cp15(struct pt_regs *regs, unsigned long esr)
 
 static void noinstr el0_svc_compat(struct pt_regs *regs)
 {
-<<<<<<< HEAD
 	enter_from_user_mode();
 	cortex_a76_erratum_1463225_svc_handler();
-=======
-	if (system_uses_irq_prio_masking())
-		gic_write_pmr(GIC_PRIO_IRQON | GIC_PRIO_PSR_I_SET);
-
-	enter_from_user_mode();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do_el0_svc_compat(regs);
 }
 

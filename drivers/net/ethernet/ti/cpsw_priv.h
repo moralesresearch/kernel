@@ -438,11 +438,7 @@ int cpsw_ndo_bpf(struct net_device *ndev, struct netdev_bpf *bpf);
 int cpsw_xdp_tx_frame(struct cpsw_priv *priv, struct xdp_frame *xdpf,
 		      struct page *page, int port);
 int cpsw_run_xdp(struct cpsw_priv *priv, int ch, struct xdp_buff *xdp,
-<<<<<<< HEAD
 		 struct page *page, int port, int *len);
-=======
-		 struct page *page, int port);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 irqreturn_t cpsw_tx_interrupt(int irq, void *dev_id);
 irqreturn_t cpsw_rx_interrupt(int irq, void *dev_id);
 irqreturn_t cpsw_misc_interrupt(int irq, void *dev_id);

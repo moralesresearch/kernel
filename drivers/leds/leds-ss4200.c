@@ -441,13 +441,8 @@ static void set_power_light_amber_noblink(void)
 	nasgpio_led_set_brightness(&amber->led_cdev, LED_FULL);
 }
 
-<<<<<<< HEAD
 static ssize_t blink_show(struct device *dev,
 			  struct device_attribute *attr, char *buf)
-=======
-static ssize_t nas_led_blink_show(struct device *dev,
-				  struct device_attribute *attr, char *buf)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct led_classdev *led = dev_get_drvdata(dev);
 	int blinking = 0;
@@ -456,15 +451,9 @@ static ssize_t nas_led_blink_show(struct device *dev,
 	return sprintf(buf, "%u\n", blinking);
 }
 
-<<<<<<< HEAD
 static ssize_t blink_store(struct device *dev,
 			   struct device_attribute *attr,
 			   const char *buf, size_t size)
-=======
-static ssize_t nas_led_blink_store(struct device *dev,
-				   struct device_attribute *attr,
-				   const char *buf, size_t size)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct led_classdev *led = dev_get_drvdata(dev);
@@ -479,11 +468,7 @@ static ssize_t nas_led_blink_store(struct device *dev,
 	return size;
 }
 
-<<<<<<< HEAD
 static DEVICE_ATTR_RW(blink);
-=======
-static DEVICE_ATTR(blink, 0644, nas_led_blink_show, nas_led_blink_store);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *nasgpio_led_attrs[] = {
 	&dev_attr_blink.attr,
@@ -493,10 +478,6 @@ ATTRIBUTE_GROUPS(nasgpio_led);
 
 static int register_nasgpio_led(int led_nr)
 {
-<<<<<<< HEAD
-=======
-	int ret;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nasgpio_led *nas_led = &nasgpio_leds[led_nr];
 	struct led_classdev *led = get_classdev_for_led_nr(led_nr);
 
@@ -507,16 +488,8 @@ static int register_nasgpio_led(int led_nr)
 	led->brightness_set = nasgpio_led_set_brightness;
 	led->blink_set = nasgpio_led_set_blink;
 	led->groups = nasgpio_led_groups;
-<<<<<<< HEAD
 
 	return led_classdev_register(&nas_gpio_pci_dev->dev, led);
-=======
-	ret = led_classdev_register(&nas_gpio_pci_dev->dev, led);
-	if (ret)
-		return ret;
-
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void unregister_nasgpio_led(int led_nr)

@@ -119,13 +119,8 @@ static void xp_disable_drv_zc(struct xsk_buff_pool *pool)
 	}
 }
 
-<<<<<<< HEAD
 int xp_assign_dev(struct xsk_buff_pool *pool,
 		  struct net_device *netdev, u16 queue_id, u16 flags)
-=======
-static int __xp_assign_dev(struct xsk_buff_pool *pool,
-			   struct net_device *netdev, u16 queue_id, u16 flags)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool force_zc, force_copy;
 	struct netdev_bpf bpf;
@@ -196,15 +191,6 @@ err_unreg_pool:
 	return err;
 }
 
-<<<<<<< HEAD
-=======
-int xp_assign_dev(struct xsk_buff_pool *pool, struct net_device *dev,
-		  u16 queue_id, u16 flags)
-{
-	return __xp_assign_dev(pool, dev, queue_id, flags);
-}
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int xp_assign_dev_shared(struct xsk_buff_pool *pool, struct xdp_umem *umem,
 			 struct net_device *dev, u16 queue_id)
 {
@@ -218,11 +204,7 @@ int xp_assign_dev_shared(struct xsk_buff_pool *pool, struct xdp_umem *umem,
 	if (pool->uses_need_wakeup)
 		flags |= XDP_USE_NEED_WAKEUP;
 
-<<<<<<< HEAD
 	return xp_assign_dev(pool, dev, queue_id, flags);
-=======
-	return __xp_assign_dev(pool, dev, queue_id, flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void xp_clear_dev(struct xsk_buff_pool *pool)

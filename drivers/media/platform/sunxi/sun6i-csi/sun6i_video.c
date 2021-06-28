@@ -151,15 +151,10 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
 	}
 
 	subdev = sun6i_video_remote_subdev(video, NULL);
-<<<<<<< HEAD
 	if (!subdev) {
 		ret = -EINVAL;
 		goto stop_media_pipeline;
 	}
-=======
-	if (!subdev)
-		goto stop_media_pipeline;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	config.pixelformat = video->fmt.fmt.pix.pixelformat;
 	config.code = video->mbus_code;

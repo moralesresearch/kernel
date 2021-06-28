@@ -351,11 +351,7 @@
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz>;
 	cd-gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
 	bus-width = <4>;
-<<<<<<< HEAD
 	fsl,tuning-step = <2>;
-=======
-	tuning-step = <2>;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmmc-supply = <&reg_3p3v>;
 	wakeup-source;
 	no-1-8-v;

@@ -8,14 +8,7 @@ C LB+poacquireonce+pooncerelease
  * to the other?
  *)
 
-<<<<<<< HEAD
 {}
-=======
-{
-	int x;
-	int y;
-}
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 P0(int *x, int *y)
 {

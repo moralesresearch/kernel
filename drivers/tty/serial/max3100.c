@@ -521,12 +521,6 @@ max3100_set_termios(struct uart_port *port, struct ktermios *termios,
 			MAX3100_STATUS_PE | MAX3100_STATUS_FE |
 			MAX3100_STATUS_OE;
 
-<<<<<<< HEAD
-=======
-	/* we are sending char from a workqueue so enable */
-	s->port.state->port.low_latency = 1;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (s->poll_time > 0)
 		del_timer_sync(&s->timer);
 

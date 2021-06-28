@@ -11,11 +11,7 @@ struct nv50_gr {
 	u32 size;
 };
 
-<<<<<<< HEAD
 int nv50_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
-=======
-int nv50_gr_new_(const struct nvkm_gr_func *, struct nvkm_device *, int index,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 struct nvkm_gr **);
 int nv50_gr_init(struct nvkm_gr *);
 void nv50_gr_intr(struct nvkm_gr *);

@@ -11,7 +11,6 @@
 
 #include <asm-generic/kprobes.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_KPROBES
 #include <linux/types.h>
 #include <linux/ptrace.h>
@@ -52,6 +51,4 @@ void kretprobe_trampoline(void);
 void __kprobes *trampoline_probe_handler(struct pt_regs *regs);
 
 #endif /* CONFIG_KPROBES */
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _ASM_RISCV_KPROBES_H */

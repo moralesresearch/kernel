@@ -347,14 +347,7 @@ struct napi_struct {
 	struct list_head	dev_list;
 	struct hlist_node	napi_hash_node;
 	unsigned int		napi_id;
-<<<<<<< HEAD
 	struct task_struct	*thread;
-=======
-<<<<<<< HEAD
-	struct task_struct	*thread;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -366,16 +359,8 @@ enum {
 	NAPI_STATE_NO_BUSY_POLL,	/* Do not add in napi_hash, no busy polling */
 	NAPI_STATE_IN_BUSY_POLL,	/* sk_busy_loop() owns this NAPI */
 	NAPI_STATE_PREFER_BUSY_POLL,	/* prefer busy-polling over softirq processing*/
-<<<<<<< HEAD
 	NAPI_STATE_THREADED,		/* The poll is performed inside its own thread*/
 	NAPI_STATE_SCHED_THREADED,	/* Napi is currently scheduled in threaded mode */
-=======
-<<<<<<< HEAD
-	NAPI_STATE_THREADED,		/* The poll is performed inside its own thread*/
-	NAPI_STATE_SCHED_THREADED,	/* Napi is currently scheduled in threaded mode */
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -387,16 +372,8 @@ enum {
 	NAPIF_STATE_NO_BUSY_POLL	= BIT(NAPI_STATE_NO_BUSY_POLL),
 	NAPIF_STATE_IN_BUSY_POLL	= BIT(NAPI_STATE_IN_BUSY_POLL),
 	NAPIF_STATE_PREFER_BUSY_POLL	= BIT(NAPI_STATE_PREFER_BUSY_POLL),
-<<<<<<< HEAD
 	NAPIF_STATE_THREADED		= BIT(NAPI_STATE_THREADED),
 	NAPIF_STATE_SCHED_THREADED	= BIT(NAPI_STATE_SCHED_THREADED),
-=======
-<<<<<<< HEAD
-	NAPIF_STATE_THREADED		= BIT(NAPI_STATE_THREADED),
-	NAPIF_STATE_SCHED_THREADED	= BIT(NAPI_STATE_SCHED_THREADED),
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum gro_result {
@@ -404,13 +381,6 @@ enum gro_result {
 	GRO_MERGED_FREE,
 	GRO_HELD,
 	GRO_NORMAL,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	GRO_DROP,
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GRO_CONSUMED,
 };
 typedef enum gro_result gro_result_t;
@@ -529,16 +499,8 @@ static inline bool napi_complete(struct napi_struct *n)
 	return napi_complete_done(n, 0);
 }
 
-<<<<<<< HEAD
 int dev_set_threaded(struct net_device *dev, bool threaded);
 
-=======
-<<<<<<< HEAD
-int dev_set_threaded(struct net_device *dev, bool threaded);
-
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  *	napi_disable - prevent NAPI from scheduling
  *	@n: NAPI context
@@ -548,28 +510,7 @@ int dev_set_threaded(struct net_device *dev, bool threaded);
  */
 void napi_disable(struct napi_struct *n);
 
-<<<<<<< HEAD
 void napi_enable(struct napi_struct *n);
-=======
-<<<<<<< HEAD
-void napi_enable(struct napi_struct *n);
-=======
-/**
- *	napi_enable - enable NAPI scheduling
- *	@n: NAPI context
- *
- * Resume NAPI from being scheduled on this context.
- * Must be paired with napi_disable.
- */
-static inline void napi_enable(struct napi_struct *n)
-{
-	BUG_ON(!test_bit(NAPI_STATE_SCHED, &n->state));
-	smp_mb__before_atomic();
-	clear_bit(NAPI_STATE_SCHED, &n->state);
-	clear_bit(NAPI_STATE_NPSVC, &n->state);
-}
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  *	napi_synchronize - wait until NAPI is not running
@@ -815,6 +756,13 @@ struct rx_queue_attribute {
 			 const char *buf, size_t len);
 };
 
+/* XPS map type and offset of the xps map within net_device->xps_maps[]. */
+enum xps_map_type {
+	XPS_CPUS = 0,
+	XPS_RXQS,
+	XPS_MAPS_MAX,
+};
+
 #ifdef CONFIG_XPS
 /*
  * This structure holds an XPS map which can be of variable length.  The
@@ -832,9 +780,19 @@ struct xps_map {
 
 /*
  * This structure holds all XPS maps for device.  Maps are indexed by CPU.
+ *
+ * We keep track of the number of cpus/rxqs used when the struct is allocated,
+ * in nr_ids. This will help not accessing out-of-bound memory.
+ *
+ * We keep track of the number of traffic classes used when the struct is
+ * allocated, in num_tc. This will be used to navigate the maps, to ensure we're
+ * not crossing its upper bound, as the original dev->num_tc can be updated in
+ * the meantime.
  */
 struct xps_dev_maps {
 	struct rcu_head rcu;
+	unsigned int nr_ids;
+	s16 num_tc;
 	struct xps_map __rcu *attr_map[]; /* Either CPUs map or RXQs map */
 };
 
@@ -892,6 +850,59 @@ typedef u16 (*select_queue_fallback_t)(struct net_device *dev,
 				       struct sk_buff *skb,
 				       struct net_device *sb_dev);
 
+enum net_device_path_type {
+	DEV_PATH_ETHERNET = 0,
+	DEV_PATH_VLAN,
+	DEV_PATH_BRIDGE,
+	DEV_PATH_PPPOE,
+	DEV_PATH_DSA,
+};
+
+struct net_device_path {
+	enum net_device_path_type	type;
+	const struct net_device		*dev;
+	union {
+		struct {
+			u16		id;
+			__be16		proto;
+			u8		h_dest[ETH_ALEN];
+		} encap;
+		struct {
+			enum {
+				DEV_PATH_BR_VLAN_KEEP,
+				DEV_PATH_BR_VLAN_TAG,
+				DEV_PATH_BR_VLAN_UNTAG,
+				DEV_PATH_BR_VLAN_UNTAG_HW,
+			}		vlan_mode;
+			u16		vlan_id;
+			__be16		vlan_proto;
+		} bridge;
+		struct {
+			int port;
+			u16 proto;
+		} dsa;
+	};
+};
+
+#define NET_DEVICE_PATH_STACK_MAX	5
+#define NET_DEVICE_PATH_VLAN_MAX	2
+
+struct net_device_path_stack {
+	int			num_paths;
+	struct net_device_path	path[NET_DEVICE_PATH_STACK_MAX];
+};
+
+struct net_device_path_ctx {
+	const struct net_device *dev;
+	const u8		*daddr;
+
+	int			num_vlans;
+	struct {
+		u16		id;
+		__be16		proto;
+	} vlan[NET_DEVICE_PATH_VLAN_MAX];
+};
+
 enum tc_setup_type {
 	TC_SETUP_QDISC_MQPRIO,
 	TC_SETUP_CLSU32,
@@ -911,14 +922,7 @@ enum tc_setup_type {
 	TC_SETUP_QDISC_ETS,
 	TC_SETUP_QDISC_TBF,
 	TC_SETUP_QDISC_FIFO,
-<<<<<<< HEAD
 	TC_SETUP_QDISC_HTB,
-=======
-<<<<<<< HEAD
-	TC_SETUP_QDISC_HTB,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* These structures hold the attributes of bpf state that are being passed
@@ -1273,25 +1277,6 @@ struct netdev_net_notifier {
  *				 struct netdev_phys_item_id *ppid)
  *	Called to get the parent ID of the physical port of this device.
  *
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
- * void (*ndo_udp_tunnel_add)(struct net_device *dev,
- *			      struct udp_tunnel_info *ti);
- *	Called by UDP tunnel to notify a driver about the UDP port and socket
- *	address family that a UDP tunnel is listnening to. It is called only
- *	when a new port starts listening. The operation is protected by the
- *	RTNL.
- *
- * void (*ndo_udp_tunnel_del)(struct net_device *dev,
- *			      struct udp_tunnel_info *ti);
- *	Called by UDP tunnel to notify the driver about a UDP port and socket
- *	address family that the UDP tunnel is not listening to anymore. The
- *	operation is protected by the RTNL.
- *
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * void* (*ndo_dfwd_add_station)(struct net_device *pdev,
  *				 struct net_device *dev)
  *	Called by upper layer devices to accelerate switching or other
@@ -1352,6 +1337,8 @@ struct netdev_net_notifier {
  * struct net_device *(*ndo_get_peer_dev)(struct net_device *dev);
  *	If a device is paired with a peer device, return the peer instance.
  *	The caller must be under RCU read context.
+ * int (*ndo_fill_forward_path)(struct net_device_path_ctx *ctx, struct net_device_path *path);
+ *     Get the forwarding path to reach the real device from the HW destination address
  */
 struct net_device_ops {
 	int			(*ndo_init)(struct net_device *dev);
@@ -1478,16 +1465,8 @@ struct net_device_ops {
 	struct net_device*	(*ndo_get_xmit_slave)(struct net_device *dev,
 						      struct sk_buff *skb,
 						      bool all_slaves);
-<<<<<<< HEAD
 	struct net_device*	(*ndo_sk_get_lower_dev)(struct net_device *dev,
 							struct sock *sk);
-=======
-<<<<<<< HEAD
-	struct net_device*	(*ndo_sk_get_lower_dev)(struct net_device *dev,
-							struct sock *sk);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netdev_features_t	(*ndo_fix_features)(struct net_device *dev,
 						    netdev_features_t features);
 	int			(*ndo_set_features)(struct net_device *dev,
@@ -1540,16 +1519,6 @@ struct net_device_ops {
 							  struct netdev_phys_item_id *ppid);
 	int			(*ndo_get_phys_port_name)(struct net_device *dev,
 							  char *name, size_t len);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	void			(*ndo_udp_tunnel_add)(struct net_device *dev,
-						      struct udp_tunnel_info *ti);
-	void			(*ndo_udp_tunnel_del)(struct net_device *dev,
-						      struct udp_tunnel_info *ti);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void*			(*ndo_dfwd_add_station)(struct net_device *pdev,
 							struct net_device *dev);
 	void			(*ndo_dfwd_del_station)(struct net_device *pdev,
@@ -1576,6 +1545,8 @@ struct net_device_ops {
 	int			(*ndo_tunnel_ctl)(struct net_device *dev,
 						  struct ip_tunnel_parm *p, int cmd);
 	struct net_device *	(*ndo_get_peer_dev)(struct net_device *dev);
+	int                     (*ndo_fill_forward_path)(struct net_device_path_ctx *ctx,
+                                                         struct net_device_path *path);
 };
 
 /**
@@ -1623,6 +1594,8 @@ struct net_device_ops {
  * @IFF_FAILOVER_SLAVE: device is lower dev of a failover master device
  * @IFF_L3MDEV_RX_HANDLER: only invoke the rx handler of L3 master device
  * @IFF_LIVE_RENAME_OK: rename is allowed while device is up and running
+ * @IFF_TX_SKB_NO_LINEAR: device/driver is capable of xmitting frames with
+ *	skb_headlen(skb) == 0 (data starts from frag0)
  */
 enum netdev_priv_flags {
 	IFF_802_1Q_VLAN			= 1<<0,
@@ -1656,6 +1629,7 @@ enum netdev_priv_flags {
 	IFF_FAILOVER_SLAVE		= 1<<28,
 	IFF_L3MDEV_RX_HANDLER		= 1<<29,
 	IFF_LIVE_RENAME_OK		= 1<<30,
+	IFF_TX_SKB_NO_LINEAR		= 1<<31,
 };
 
 #define IFF_802_1Q_VLAN			IFF_802_1Q_VLAN
@@ -1682,12 +1656,14 @@ enum netdev_priv_flags {
 #define IFF_L3MDEV_SLAVE		IFF_L3MDEV_SLAVE
 #define IFF_TEAM			IFF_TEAM
 #define IFF_RXFH_CONFIGURED		IFF_RXFH_CONFIGURED
+#define IFF_PHONY_HEADROOM		IFF_PHONY_HEADROOM
 #define IFF_MACSEC			IFF_MACSEC
 #define IFF_NO_RX_HANDLER		IFF_NO_RX_HANDLER
 #define IFF_FAILOVER			IFF_FAILOVER
 #define IFF_FAILOVER_SLAVE		IFF_FAILOVER_SLAVE
 #define IFF_L3MDEV_RX_HANDLER		IFF_L3MDEV_RX_HANDLER
 #define IFF_LIVE_RENAME_OK		IFF_LIVE_RENAME_OK
+#define IFF_TX_SKB_NO_LINEAR		IFF_TX_SKB_NO_LINEAR
 
 /* Specifies the type of the struct net_device::ml_priv pointer */
 enum netdev_ml_priv_type {
@@ -1863,8 +1839,7 @@ enum netdev_ml_priv_type {
  *	@tx_queue_len:		Max frames per queue allowed
  *	@tx_global_lock: 	XXX: need comments on this one
  *	@xdp_bulkq:		XDP device bulk queue
- *	@xps_cpus_map:		all CPUs map for XPS device
- *	@xps_rxqs_map:		all RXQs map for XPS device
+ *	@xps_maps:		all CPUs/RXQs maps for XPS device
  *
  *	@xps_maps:	XXX: need comments on this one
  *	@miniq_egress:		clsact qdisc specific data for
@@ -1876,6 +1851,7 @@ enum netdev_ml_priv_type {
  *
  *	@proto_down_reason:	reason a netdev interface is held down
  *	@pcpu_refcnt:		Number of references to this device
+ *	@dev_refcnt:		Number of references to this device
  *	@todo_list:		Delayed register/unregister
  *	@link_watch_list:	XXX: need comments on this one
  *
@@ -1931,16 +1907,8 @@ enum netdev_ml_priv_type {
  *
  *	@wol_enabled:	Wake-on-LAN is enabled
  *
-<<<<<<< HEAD
  *	@threaded:	napi threaded mode is enabled
  *
-=======
-<<<<<<< HEAD
- *	@threaded:	napi threaded mode is enabled
- *
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	@net_notifier_list:	List of per-net netdev notifier block
  *				that follow this device when it is moved
  *				to another network namespace.
@@ -1972,13 +1940,6 @@ struct net_device {
 	unsigned long		mem_end;
 	unsigned long		mem_start;
 	unsigned long		base_addr;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	int			irq;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 *	Some hardware also needs these fields (state,dev_list,
@@ -2000,10 +1961,6 @@ struct net_device {
 		struct list_head lower;
 	} adj_list;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Read-mostly cache-line for fast-path access */
 	unsigned int		flags;
 	unsigned int		priv_flags;
@@ -2021,11 +1978,6 @@ struct net_device {
 	unsigned short		needed_headroom;
 	unsigned short		needed_tailroom;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netdev_features_t	features;
 	netdev_features_t	hw_features;
 	netdev_features_t	wanted_features;
@@ -2034,10 +1986,6 @@ struct net_device {
 	netdev_features_t	mpls_features;
 	netdev_features_t	gso_partial_features;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int		min_mtu;
 	unsigned int		max_mtu;
 	unsigned short		type;
@@ -2047,15 +1995,6 @@ struct net_device {
 	int			group;
 
 	struct net_device_stats	stats; /* not used by modern drivers */
-<<<<<<< HEAD
-=======
-=======
-	int			ifindex;
-	int			group;
-
-	struct net_device_stats	stats;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_long_t		rx_dropped;
 	atomic_long_t		tx_dropped;
@@ -2069,13 +2008,6 @@ struct net_device {
 	const struct iw_handler_def *wireless_handlers;
 	struct iw_public_data	*wireless_data;
 #endif
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	const struct net_device_ops *netdev_ops;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const struct ethtool_ops *ethtool_ops;
 #ifdef CONFIG_NET_L3_MASTER_DEV
 	const struct l3mdev_ops	*l3mdev_ops;
@@ -2094,46 +2026,12 @@ struct net_device {
 
 	const struct header_ops *header_ops;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	unsigned int		flags;
-	unsigned int		priv_flags;
-
-	unsigned short		gflags;
-	unsigned short		padded;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char		operstate;
 	unsigned char		link_mode;
 
 	unsigned char		if_port;
 	unsigned char		dma;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-	/* Note : dev->mtu is often read without holding a lock.
-	 * Writers usually hold RTNL.
-	 * It is recommended to use READ_ONCE() to annotate the reads,
-	 * and to use WRITE_ONCE() to annotate the writes.
-	 */
-	unsigned int		mtu;
-	unsigned int		min_mtu;
-	unsigned int		max_mtu;
-	unsigned short		type;
-	unsigned short		hard_header_len;
-	unsigned char		min_header_len;
-	unsigned char		name_assign_type;
-
-	unsigned short		needed_headroom;
-	unsigned short		needed_tailroom;
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Interface address info. */
 	unsigned char		perm_addr[MAX_ADDR_LEN];
 	unsigned char		addr_assign_type;
@@ -2144,20 +2042,10 @@ struct net_device {
 	unsigned short		neigh_priv_len;
 	unsigned short          dev_id;
 	unsigned short          dev_port;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned short		padded;
 
 	spinlock_t		addr_list_lock;
 	int			irq;
-<<<<<<< HEAD
-=======
-=======
-	spinlock_t		addr_list_lock;
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct netdev_hw_addr_list	uc;
 	struct netdev_hw_addr_list	mc;
@@ -2248,8 +2136,7 @@ struct net_device {
 	struct xdp_dev_bulk_queue __percpu *xdp_bulkq;
 
 #ifdef CONFIG_XPS
-	struct xps_dev_maps __rcu *xps_cpus_map;
-	struct xps_dev_maps __rcu *xps_rxqs_map;
+	struct xps_dev_maps __rcu *xps_maps[XPS_MAPS_MAX];
 #endif
 #ifdef CONFIG_NET_CLS_ACT
 	struct mini_Qdisc __rcu	*miniq_egress;
@@ -2265,7 +2152,12 @@ struct net_device {
 	u32                     proto_down_reason;
 
 	struct list_head	todo_list;
+
+#ifdef CONFIG_PCPU_DEV_REFCNT
 	int __percpu		*pcpu_refcnt;
+#else
+	refcount_t		dev_refcnt;
+#endif
 
 	struct list_head	link_watch_list;
 
@@ -2341,14 +2233,7 @@ struct net_device {
 	struct lock_class_key	*qdisc_running_key;
 	bool			proto_down;
 	unsigned		wol_enabled:1;
-<<<<<<< HEAD
 	unsigned		threaded:1;
-=======
-<<<<<<< HEAD
-	unsigned		threaded:1;
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head	net_notifier_list;
 
@@ -2846,14 +2731,7 @@ enum netdev_lag_hash {
 	NETDEV_LAG_HASH_L23,
 	NETDEV_LAG_HASH_E23,
 	NETDEV_LAG_HASH_E34,
-<<<<<<< HEAD
 	NETDEV_LAG_HASH_VLAN_SRCMAC,
-=======
-<<<<<<< HEAD
-	NETDEV_LAG_HASH_VLAN_SRCMAC,
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NETDEV_LAG_HASH_UNKNOWN,
 };
 
@@ -3051,6 +2929,8 @@ void dev_remove_offload(struct packet_offload *po);
 
 int dev_get_iflink(const struct net_device *dev);
 int dev_fill_metadata_dst(struct net_device *dev, struct sk_buff *skb);
+int dev_fill_forward_path(const struct net_device *dev, const u8 *daddr,
+			  struct net_device_path_stack *stack);
 struct net_device *__dev_get_by_flags(struct net *net, unsigned short flags,
 				      unsigned short mask);
 struct net_device *dev_get_by_name(struct net *net, const char *name);
@@ -3097,16 +2977,8 @@ int init_dummy_netdev(struct net_device *dev);
 struct net_device *netdev_get_xmit_slave(struct net_device *dev,
 					 struct sk_buff *skb,
 					 bool all_slaves);
-<<<<<<< HEAD
 struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
 					    struct sock *sk);
-=======
-<<<<<<< HEAD
-struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
-					    struct sock *sk);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct net_device *dev_get_by_index(struct net *net, int ifindex);
 struct net_device *__dev_get_by_index(struct net *net, int ifindex);
 struct net_device *dev_get_by_index_rcu(struct net *net, int ifindex);
@@ -3637,6 +3509,24 @@ netif_xmit_frozen_or_drv_stopped(const struct netdev_queue *dev_queue)
 }
 
 /**
+ *	netdev_queue_set_dql_min_limit - set dql minimum limit
+ *	@dev_queue: pointer to transmit queue
+ *	@min_limit: dql minimum limit
+ *
+ * Forces xmit_more() to return true until the minimum threshold
+ * defined by @min_limit is reached (or until the tx queue is
+ * empty). Warning: to be use with care, misuse will impact the
+ * latency.
+ */
+static inline void netdev_queue_set_dql_min_limit(struct netdev_queue *dev_queue,
+						  unsigned int min_limit)
+{
+#ifdef CONFIG_BQL
+	dev_queue->dql.min_limit = min_limit;
+#endif
+}
+
+/**
  *	netdev_txq_bql_enqueue_prefetchw - prefetch bql data for write
  *	@dev_queue: pointer to transmit queue
  *
@@ -3901,7 +3791,7 @@ static inline void netif_wake_subqueue(struct net_device *dev, u16 queue_index)
 int netif_set_xps_queue(struct net_device *dev, const struct cpumask *mask,
 			u16 index);
 int __netif_set_xps_queue(struct net_device *dev, const unsigned long *mask,
-			  u16 index, bool is_rxqs_map);
+			  u16 index, enum xps_map_type type);
 
 /**
  *	netif_attr_test_mask - Test a CPU or Rx queue set in a mask
@@ -3996,7 +3886,7 @@ static inline int netif_set_xps_queue(struct net_device *dev,
 
 static inline int __netif_set_xps_queue(struct net_device *dev,
 					const unsigned long *mask,
-					u16 index, bool is_rxqs_map)
+					u16 index, enum xps_map_type type)
 {
 	return 0;
 }
@@ -4136,7 +4026,14 @@ void __dev_notify_flags(struct net_device *, unsigned int old_flags,
 int dev_change_name(struct net_device *, const char *);
 int dev_set_alias(struct net_device *, const char *, size_t);
 int dev_get_alias(const struct net_device *, char *, size_t);
-int dev_change_net_namespace(struct net_device *, struct net *, const char *);
+int __dev_change_net_namespace(struct net_device *dev, struct net *net,
+			       const char *pat, int new_ifindex);
+static inline
+int dev_change_net_namespace(struct net_device *dev, struct net *net,
+			     const char *pat)
+{
+	return __dev_change_net_namespace(dev, net, pat, 0);
+}
 int __dev_set_mtu(struct net_device *, int);
 int dev_validate_mtu(struct net_device *dev, int mtu,
 		     struct netlink_ext_ack *extack);
@@ -4174,10 +4071,6 @@ int dev_change_xdp_fd(struct net_device *dev, struct netlink_ext_ack *extack,
 int bpf_xdp_link_attach(const union bpf_attr *attr, struct bpf_prog *prog);
 u32 dev_xdp_prog_id(struct net_device *dev, enum bpf_xdp_mode mode);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
 int dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
 int dev_forward_skb_nomtu(struct net_device *dev, struct sk_buff *skb);
@@ -4216,23 +4109,6 @@ static __always_inline int ____dev_forward_skb(struct net_device *dev,
 {
 	if (skb_orphan_frags(skb, GFP_ATOMIC) ||
 	    unlikely(!__is_skb_forwardable(dev, skb, check_mtu))) {
-<<<<<<< HEAD
-=======
-=======
-int xdp_umem_query(struct net_device *dev, u16 queue_id);
-
-int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
-int dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
-bool is_skb_forwardable(const struct net_device *dev,
-			const struct sk_buff *skb);
-
-static __always_inline int ____dev_forward_skb(struct net_device *dev,
-					       struct sk_buff *skb)
-{
-	if (skb_orphan_frags(skb, GFP_ATOMIC) ||
-	    unlikely(!is_skb_forwardable(dev, skb))) {
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		atomic_long_inc(&dev->rx_dropped);
 		kfree_skb(skb);
 		return NET_RX_DROP;
@@ -4260,7 +4136,11 @@ void netdev_run_todo(void);
  */
 static inline void dev_put(struct net_device *dev)
 {
+#ifdef CONFIG_PCPU_DEV_REFCNT
 	this_cpu_dec(*dev->pcpu_refcnt);
+#else
+	refcount_dec(&dev->dev_refcnt);
+#endif
 }
 
 /**
@@ -4271,7 +4151,11 @@ static inline void dev_put(struct net_device *dev)
  */
 static inline void dev_hold(struct net_device *dev)
 {
+#ifdef CONFIG_PCPU_DEV_REFCNT
 	this_cpu_inc(*dev->pcpu_refcnt);
+#else
+	refcount_inc(&dev->dev_refcnt);
+#endif
 }
 
 /* Carrier loss detection, dial on demand. The functions netif_carrier_on
@@ -4406,7 +4290,7 @@ static inline bool netif_oper_up(const struct net_device *dev)
  *
  * Check if device has not been removed from system.
  */
-static inline bool netif_device_present(struct net_device *dev)
+static inline bool netif_device_present(const struct net_device *dev)
 {
 	return test_bit(__LINK_STATE_PRESENT, &dev->state);
 }
@@ -4845,6 +4729,7 @@ void dev_get_tstats64(struct net_device *dev, struct rtnl_link_stats64 *s);
 
 extern int		netdev_max_backlog;
 extern int		netdev_tstamp_prequeue;
+extern int		netdev_unregister_timeout_secs;
 extern int		weight_p;
 extern int		dev_weight_rx_bias;
 extern int		dev_weight_tx_bias;
@@ -5520,6 +5405,9 @@ do {								\
  */
 #define PTYPE_HASH_SIZE	(16)
 #define PTYPE_HASH_MASK	(PTYPE_HASH_SIZE - 1)
+
+extern struct list_head ptype_all __read_mostly;
+extern struct list_head ptype_base[PTYPE_HASH_SIZE] __read_mostly;
 
 extern struct net_device *blackhole_netdev;
 

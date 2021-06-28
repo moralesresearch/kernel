@@ -1,20 +1,14 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 .text
 #include <linux/linkage.h>
-<<<<<<< HEAD
 #include <linux/objtool.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/segment.h>
 #include <asm/pgtable_types.h>
 #include <asm/page_types.h>
 #include <asm/msr.h>
 #include <asm/asm-offsets.h>
 #include <asm/frame.h>
-<<<<<<< HEAD
 #include <asm/nospec-branch.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Copyright 2003 Pavel Machek <pavel@suse.cz
 
@@ -47,10 +41,7 @@ SYM_FUNC_START(wakeup_long64)
 	movq	saved_rbp, %rbp
 
 	movq	saved_rip, %rax
-<<<<<<< HEAD
 	ANNOTATE_RETPOLINE_SAFE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	jmp	*%rax
 SYM_FUNC_END(wakeup_long64)
 
@@ -124,11 +115,7 @@ SYM_FUNC_START(do_suspend_lowlevel)
 	movq	pt_regs_r14(%rax), %r14
 	movq	pt_regs_r15(%rax), %r15
 
-<<<<<<< HEAD
 #if defined(CONFIG_KASAN) && defined(CONFIG_KASAN_STACK)
-=======
-#if defined(CONFIG_KASAN) && CONFIG_KASAN_STACK
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * The suspend path may have poisoned some areas deeper in the stack,
 	 * which we now need to unpoison.
@@ -142,10 +129,7 @@ SYM_FUNC_START(do_suspend_lowlevel)
 	FRAME_END
 	jmp	restore_processor_state
 SYM_FUNC_END(do_suspend_lowlevel)
-<<<<<<< HEAD
 STACK_FRAME_NON_STANDARD do_suspend_lowlevel
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 .data
 saved_rbp:		.quad	0

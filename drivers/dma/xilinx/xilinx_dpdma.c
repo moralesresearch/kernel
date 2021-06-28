@@ -113,6 +113,7 @@
 #define XILINX_DPDMA_CH_VDO				0x020
 #define XILINX_DPDMA_CH_PYLD_SZ				0x024
 #define XILINX_DPDMA_CH_DESC_ID				0x028
+#define XILINX_DPDMA_CH_DESC_ID_MASK			GENMASK(15, 0)
 
 /* DPDMA descriptor fields */
 #define XILINX_DPDMA_DESC_CONTROL_PREEMBLE		0xa5
@@ -839,10 +840,7 @@ static void xilinx_dpdma_chan_queue_transfer(struct xilinx_dpdma_chan *chan)
 	struct xilinx_dpdma_tx_desc *desc;
 	struct virt_dma_desc *vdesc;
 	u32 reg, channels;
-<<<<<<< HEAD
 	bool first_frame;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	lockdep_assert_held(&chan->lock);
 
@@ -856,17 +854,6 @@ static void xilinx_dpdma_chan_queue_transfer(struct xilinx_dpdma_chan *chan)
 		chan->running = true;
 	}
 
-<<<<<<< HEAD
-=======
-	if (chan->video_group)
-		channels = xilinx_dpdma_chan_video_group_ready(chan);
-	else
-		channels = BIT(chan->id);
-
-	if (!channels)
-		return;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vdesc = vchan_next_desc(&chan->vchan);
 	if (!vdesc)
 		return;
@@ -880,7 +867,8 @@ static void xilinx_dpdma_chan_queue_transfer(struct xilinx_dpdma_chan *chan)
 	 * will be used, but it should be enough.
 	 */
 	list_for_each_entry(sw_desc, &desc->descriptors, node)
-		sw_desc->hw.desc_id = desc->vdesc.tx.cookie;
+		sw_desc->hw.desc_id = desc->vdesc.tx.cookie
+				    & XILINX_DPDMA_CH_DESC_ID_MASK;
 
 	sw_desc = list_first_entry(&desc->descriptors,
 				   struct xilinx_dpdma_sw_desc, node);
@@ -891,7 +879,6 @@ static void xilinx_dpdma_chan_queue_transfer(struct xilinx_dpdma_chan *chan)
 			    FIELD_PREP(XILINX_DPDMA_CH_DESC_START_ADDRE_MASK,
 				       upper_32_bits(sw_desc->dma_addr)));
 
-<<<<<<< HEAD
 	first_frame = chan->first_frame;
 	chan->first_frame = false;
 
@@ -908,18 +895,10 @@ static void xilinx_dpdma_chan_queue_transfer(struct xilinx_dpdma_chan *chan)
 	}
 
 	if (first_frame)
-=======
-	if (chan->first_frame)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reg = XILINX_DPDMA_GBL_TRIG_MASK(channels);
 	else
 		reg = XILINX_DPDMA_GBL_RETRIG_MASK(channels);
 
-<<<<<<< HEAD
-=======
-	chan->first_frame = false;
-
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dpdma_write(xdev->reg, XILINX_DPDMA_GBL, reg);
 }
 
@@ -1071,21 +1050,14 @@ static int xilinx_dpdma_chan_stop(struct xilinx_dpdma_chan *chan)
  */
 static void xilinx_dpdma_chan_done_irq(struct xilinx_dpdma_chan *chan)
 {
-<<<<<<< HEAD
 	struct xilinx_dpdma_tx_desc *active;
-=======
-	struct xilinx_dpdma_tx_desc *active = chan->desc.active;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 
 	spin_lock_irqsave(&chan->lock, flags);
 
 	xilinx_dpdma_debugfs_desc_done_irq(chan);
 
-<<<<<<< HEAD
 	active = chan->desc.active;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (active)
 		vchan_cyclic_callback(&active->vdesc);
 	else
@@ -1116,7 +1088,8 @@ static void xilinx_dpdma_chan_vsync_irq(struct  xilinx_dpdma_chan *chan)
 	if (!chan->running || !pending)
 		goto out;
 
-	desc_id = dpdma_read(chan->reg, XILINX_DPDMA_CH_DESC_ID);
+	desc_id = dpdma_read(chan->reg, XILINX_DPDMA_CH_DESC_ID)
+		& XILINX_DPDMA_CH_DESC_ID_MASK;
 
 	/* If the retrigger raced with vsync, retry at the next frame. */
 	sw_desc = list_first_entry(&pending->descriptors,
@@ -1489,11 +1462,7 @@ static void xilinx_dpdma_enable_irq(struct xilinx_dpdma_device *xdev)
  */
 static void xilinx_dpdma_disable_irq(struct xilinx_dpdma_device *xdev)
 {
-<<<<<<< HEAD
 	dpdma_write(xdev->reg, XILINX_DPDMA_IDS, XILINX_DPDMA_INTR_ALL);
-=======
-	dpdma_write(xdev->reg, XILINX_DPDMA_IDS, XILINX_DPDMA_INTR_ERR_ALL);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dpdma_write(xdev->reg, XILINX_DPDMA_EIDS, XILINX_DPDMA_EINTR_ALL);
 }
 
@@ -1630,7 +1599,6 @@ static struct dma_chan *of_dma_xilinx_xlate(struct of_phandle_args *dma_spec,
 	return dma_get_slave_channel(&xdev->chan[chan_id]->vchan.chan);
 }
 
-<<<<<<< HEAD
 static void dpdma_hw_init(struct xilinx_dpdma_device *xdev)
 {
 	unsigned int i;
@@ -1651,8 +1619,6 @@ static void dpdma_hw_init(struct xilinx_dpdma_device *xdev)
 	dpdma_write(xdev->reg, XILINX_DPDMA_EISR, XILINX_DPDMA_EINTR_ALL);
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int xilinx_dpdma_probe(struct platform_device *pdev)
 {
 	struct xilinx_dpdma_device *xdev;
@@ -1679,11 +1645,8 @@ static int xilinx_dpdma_probe(struct platform_device *pdev)
 	if (IS_ERR(xdev->reg))
 		return PTR_ERR(xdev->reg);
 
-<<<<<<< HEAD
 	dpdma_hw_init(xdev);
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xdev->irq = platform_get_irq(pdev, 0);
 	if (xdev->irq < 0) {
 		dev_err(xdev->dev, "failed to get platform irq\n");

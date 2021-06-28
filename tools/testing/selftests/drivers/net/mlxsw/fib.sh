@@ -225,7 +225,6 @@ ipv6_local_replace()
 	ip -n $ns link del dev dummy1
 }
 
-<<<<<<< HEAD
 fib_notify_on_flag_change_set()
 {
 	local notify=$1; shift
@@ -236,8 +235,6 @@ fib_notify_on_flag_change_set()
 	log_info "Set fib_notify_on_flag_change to $notify"
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 setup_prepare()
 {
 	ip netns add testns1
@@ -264,13 +261,10 @@ trap cleanup EXIT
 
 setup_prepare
 
-<<<<<<< HEAD
 fib_notify_on_flag_change_set 1
 tests_run
 
 fib_notify_on_flag_change_set 0
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 tests_run
 
 exit $EXIT_STATUS

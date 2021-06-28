@@ -51,10 +51,7 @@ properties:
               - renesas,hscif-r8a77980     # R-Car V3H
               - renesas,hscif-r8a77990     # R-Car E3
               - renesas,hscif-r8a77995     # R-Car D3
-<<<<<<< HEAD
               - renesas,hscif-r8a779a0     # R-Car V3U
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: renesas,rcar-gen3-hscif # R-Car Gen3 and RZ/G2
           - const: renesas,hscif           # generic HSCIF compatible UART
 
@@ -85,11 +82,8 @@ properties:
     maxItems: 1
 
   dmas:
-<<<<<<< HEAD
     minItems: 2
     maxItems: 4
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       Must contain a list of pairs of references to DMA specifiers, one for
       transmission, and one for reception.

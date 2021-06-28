@@ -270,7 +270,6 @@ config SPRD_EFUSE
 	  This driver can also be built as a module. If so, the module
 	  will be called nvmem-sprd-efuse.
 
-<<<<<<< HEAD
 config NVMEM_RMEM
 	tristate "Reserved Memory Based Driver Support"
 	depends on HAS_IOMEM
@@ -280,6 +279,13 @@ config NVMEM_RMEM
 
 	  This driver can also be built as a module. If so, the module
 	  will be called nvmem-rmem.
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+
+config NVMEM_BRCM_NVRAM
+	tristate "Broadcom's NVRAM support"
+	depends on ARCH_BCM_5301X || COMPILE_TEST
+	depends on HAS_IOMEM
+	help
+	  This driver provides support for Broadcom's NVRAM that can be accessed
+	  using I/O mapping.
+
 endif

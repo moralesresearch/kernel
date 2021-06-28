@@ -201,14 +201,7 @@ struct rcu_data {
 	/* 5) Callback offloading. */
 #ifdef CONFIG_RCU_NOCB_CPU
 	struct swait_queue_head nocb_cb_wq; /* For nocb kthreads to sleep on. */
-<<<<<<< HEAD
 	struct swait_queue_head nocb_state_wq; /* For offloading state changes */
-=======
-<<<<<<< HEAD
-	struct swait_queue_head nocb_state_wq; /* For offloading state changes */
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct task_struct *nocb_gp_kthread;
 	raw_spinlock_t nocb_lock;	/* Guard following pair of fields. */
 	atomic_t nocb_lock_contended;	/* Contention experienced. */
@@ -264,14 +257,7 @@ struct rcu_data {
 };
 
 /* Values for nocb_defer_wakeup field in struct rcu_data. */
-<<<<<<< HEAD
 #define RCU_NOCB_WAKE_OFF	-1
-=======
-<<<<<<< HEAD
-#define RCU_NOCB_WAKE_OFF	-1
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define RCU_NOCB_WAKE_NOT	0
 #define RCU_NOCB_WAKE		1
 #define RCU_NOCB_WAKE_FORCE	2

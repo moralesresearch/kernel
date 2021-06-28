@@ -140,11 +140,6 @@ typedef struct xfs_trans {
 	int64_t			t_res_fdblocks_delta; /* on-disk only chg */
 	int64_t			t_frextents_delta;/* superblock freextents chg*/
 	int64_t			t_res_frextents_delta; /* on-disk only chg */
-#if defined(DEBUG) || defined(XFS_WARN)
-	int64_t			t_ag_freeblks_delta; /* debugging counter */
-	int64_t			t_ag_flist_delta; /* debugging counter */
-	int64_t			t_ag_btree_delta; /* debugging counter */
-#endif
 	int64_t			t_dblocks_delta;/* superblock dblocks change */
 	int64_t			t_agcount_delta;/* superblock agcount change */
 	int64_t			t_imaxpct_delta;/* superblock imaxpct change */
@@ -164,16 +159,6 @@ typedef struct xfs_trans {
  * actually macros.
  */
 #define	xfs_trans_set_sync(tp)		((tp)->t_flags |= XFS_TRANS_SYNC)
-
-#if defined(DEBUG) || defined(XFS_WARN)
-#define	xfs_trans_agblocks_delta(tp, d)	((tp)->t_ag_freeblks_delta += (int64_t)d)
-#define	xfs_trans_agflist_delta(tp, d)	((tp)->t_ag_flist_delta += (int64_t)d)
-#define	xfs_trans_agbtree_delta(tp, d)	((tp)->t_ag_btree_delta += (int64_t)d)
-#else
-#define	xfs_trans_agblocks_delta(tp, d)
-#define	xfs_trans_agflist_delta(tp, d)
-#define	xfs_trans_agbtree_delta(tp, d)
-#endif
 
 /*
  * XFS transaction mechanism exported interfaces.
@@ -268,7 +253,6 @@ xfs_trans_item_relog(
 	return lip->li_ops->iop_relog(lip, tp);
 }
 
-<<<<<<< HEAD
 struct xfs_dquot;
 
 int xfs_trans_alloc_inode(struct xfs_inode *ip, struct xfs_trans_res *resv,
@@ -312,6 +296,4 @@ xfs_trans_switch_context(
 	current->journal_info = new_tp;
 }
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif	/* __XFS_TRANS_H__ */

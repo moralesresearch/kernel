@@ -31,21 +31,8 @@ MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
 MODULE_LICENSE("GPL");
 #ifndef SNDRV_SBAWE
 MODULE_DESCRIPTION("Sound Blaster 16");
-<<<<<<< HEAD
 #else
 MODULE_DESCRIPTION("Sound Blaster AWE");
-=======
-MODULE_SUPPORTED_DEVICE("{{Creative Labs,SB 16},"
-		"{Creative Labs,SB Vibra16S},"
-		"{Creative Labs,SB Vibra16C},"
-		"{Creative Labs,SB Vibra16CL},"
-		"{Creative Labs,SB Vibra16X}}");
-#else
-MODULE_DESCRIPTION("Sound Blaster AWE");
-MODULE_SUPPORTED_DEVICE("{{Creative Labs,SB AWE 32},"
-		"{Creative Labs,SB AWE 64},"
-		"{Creative Labs,SB AWE 64 Gold}}");
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #if 0
@@ -552,16 +539,9 @@ static int snd_sb16_isa_probe(struct device *pdev, unsigned int dev)
 	}
 }
 
-<<<<<<< HEAD
 static void snd_sb16_isa_remove(struct device *pdev, unsigned int dev)
 {
 	snd_card_free(dev_get_drvdata(pdev));
-=======
-static int snd_sb16_isa_remove(struct device *pdev, unsigned int dev)
-{
-	snd_card_free(dev_get_drvdata(pdev));
-	return 0;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

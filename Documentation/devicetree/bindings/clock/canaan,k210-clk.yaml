@@ -22,10 +22,7 @@ properties:
     const: canaan,k210-clk
 
   clocks:
-<<<<<<< HEAD
     maxItems: 1
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description:
       Phandle of the SoC 26MHz fixed-rate oscillator clock.
 

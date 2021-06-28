@@ -15,11 +15,7 @@ Camera sensors have an internal clock tree including a PLL and a number of
 divisors. The clock tree is generally configured by the driver based on a few
 input parameters that are specific to the hardware:: the external clock frequency
 and the link frequency. The two parameters generally are obtained from system
-<<<<<<< HEAD
 firmware. **No other frequencies should be used in any circumstances.**
-=======
-firmware. No other frequencies should be used in any circumstances.
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 The reason why the clock frequencies are so important is that the clock signals
 come out of the SoC, and in many cases a specific frequency is designed to be
@@ -27,7 +23,6 @@ used in the system. Using another frequency may cause harmful effects
 elsewhere. Therefore only the pre-determined frequencies are configurable by the
 user.
 
-<<<<<<< HEAD
 ACPI
 ~~~~
 
@@ -46,8 +41,6 @@ hasn't been modified directly or indirectly by another driver, or supported by
 the board's clock tree to begin with. Changes to the Common Clock Framework API
 are required to ensure reliability.
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Frame size
 ----------
 
@@ -151,8 +144,7 @@ of the device. This is because the power state of the device is only changed
 after the power state transition has taken place. The ``s_ctrl`` callback can be
 used to obtain device's power state after the power state transition:
 
-.. c:function::
-	int pm_runtime_get_if_in_use(struct device *dev);
+.. c:function:: int pm_runtime_get_if_in_use(struct device *dev);
 
 The function returns a non-zero value if it succeeded getting the power count or
 runtime PM was disabled, in either of which cases the driver may proceed to

@@ -585,11 +585,7 @@ static void usb_8dev_write_bulk_callback(struct urb *urb)
 	netdev->stats.tx_packets++;
 	netdev->stats.tx_bytes += context->dlc;
 
-<<<<<<< HEAD
 	can_get_echo_skb(netdev, context->echo_index, NULL);
-=======
-	can_get_echo_skb(netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	can_led_event(netdev, CAN_LED_EVENT_TX);
 
@@ -668,11 +664,7 @@ static netdev_tx_t usb_8dev_start_xmit(struct sk_buff *skb,
 	urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 	usb_anchor_urb(urb, &priv->tx_submitted);
 
-<<<<<<< HEAD
 	can_put_echo_skb(skb, netdev, context->echo_index, 0);
-=======
-	can_put_echo_skb(skb, netdev, context->echo_index);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_inc(&priv->active_tx_urbs);
 
@@ -699,7 +691,7 @@ nofreecontext:
 	return NETDEV_TX_BUSY;
 
 failed:
-	can_free_echo_skb(netdev, context->echo_index);
+	can_free_echo_skb(netdev, context->echo_index, NULL);
 
 	usb_unanchor_urb(urb);
 	usb_free_coherent(priv->udev, size, buf, urb->transfer_dma);

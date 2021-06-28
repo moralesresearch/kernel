@@ -25,10 +25,7 @@
 #include <linux/module.h>
 #include <linux/sched/task_stack.h>
 #include <linux/uaccess.h>
-<<<<<<< HEAD
 #include <trace/events/error_report.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/sections.h>
 
@@ -65,11 +62,7 @@ __setup("kasan_multi_shot", kasan_set_multi_shot);
 static void print_error_description(struct kasan_access_info *info)
 {
 	pr_err("BUG: KASAN: %s in %pS\n",
-<<<<<<< HEAD
 		kasan_get_bug_type(info), (void *)info->ip);
-=======
-		get_bug_type(info), (void *)info->ip);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (info->access_size)
 		pr_err("%s of size %zu at addr %px by task %s/%d\n",
 			info->is_write ? "Write" : "Read", info->access_size,
@@ -92,14 +85,10 @@ static void start_report(unsigned long *flags)
 	pr_err("==================================================================\n");
 }
 
-<<<<<<< HEAD
 static void end_report(unsigned long *flags, unsigned long addr)
 {
-	trace_error_report_end(ERROR_DETECTOR_KASAN, addr);
-=======
-static void end_report(unsigned long *flags)
-{
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	if (!kasan_async_mode_enabled())
+		trace_error_report_end(ERROR_DETECTOR_KASAN, addr);
 	pr_err("==================================================================\n");
 	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
 	spin_unlock_irqrestore(&report_lock, *flags);
@@ -261,11 +250,7 @@ static void print_address_description(void *addr, u8 tag)
 		dump_page(page, "kasan: bad access detected");
 	}
 
-<<<<<<< HEAD
 	kasan_print_address_stack_frame(addr);
-=======
-	print_address_stack_frame(addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool meta_row_is_guilty(const void *row, const void *addr)
@@ -311,11 +296,7 @@ static void print_memory_metadata(const void *addr)
 		 * function, because generic functions may try to
 		 * access kasan mapping for the passed address.
 		 */
-<<<<<<< HEAD
 		kasan_metadata_fetch_row(&metadata[0], row);
-=======
-		metadata_fetch_row(&metadata[0], row);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		print_hex_dump(KERN_ERR, buffer,
 			DUMP_PREFIX_NONE, META_BYTES_PER_ROW, 1,
@@ -353,11 +334,7 @@ static void kasan_update_kunit_status(struct kunit *cur_test)
 	}
 
 	kasan_data = (struct kunit_kasan_expectation *)resource->data;
-<<<<<<< HEAD
 	WRITE_ONCE(kasan_data->report_found, true);
-=======
-	kasan_data->report_found = true;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kunit_put_resource(resource);
 }
 #endif /* IS_ENABLED(CONFIG_KUNIT) */
@@ -376,21 +353,32 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
 
 	start_report(&flags);
 	pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void *)ip);
-<<<<<<< HEAD
 	kasan_print_tags(tag, object);
-=======
-	print_tags(tag, object);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_err("\n");
 	print_address_description(object, tag);
 	pr_err("\n");
 	print_memory_metadata(object);
-<<<<<<< HEAD
 	end_report(&flags, (unsigned long)object);
-=======
-	end_report(&flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
+
+#ifdef CONFIG_KASAN_HW_TAGS
+void kasan_report_async(void)
+{
+	unsigned long flags;
+
+#if IS_ENABLED(CONFIG_KUNIT)
+	if (current->kunit_test)
+		kasan_update_kunit_status(current->kunit_test);
+#endif /* IS_ENABLED(CONFIG_KUNIT) */
+
+	start_report(&flags);
+	pr_err("BUG: KASAN: invalid-access\n");
+	pr_err("Asynchronous mode enabled: no access details available\n");
+	pr_err("\n");
+	dump_stack();
+	end_report(&flags, 0);
+}
+#endif /* CONFIG_KASAN_HW_TAGS */
 
 static void __kasan_report(unsigned long addr, size_t size, bool is_write,
 				unsigned long ip)
@@ -412,12 +400,8 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
 
 	info.access_addr = tagged_addr;
 	if (addr_has_metadata(untagged_addr))
-<<<<<<< HEAD
 		info.first_bad_addr =
 			kasan_find_first_bad_addr(tagged_addr, size);
-=======
-		info.first_bad_addr = find_first_bad_addr(tagged_addr, size);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		info.first_bad_addr = untagged_addr;
 	info.access_size = size;
@@ -428,11 +412,7 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
 
 	print_error_description(&info);
 	if (addr_has_metadata(untagged_addr))
-<<<<<<< HEAD
 		kasan_print_tags(get_tag(tagged_addr), info.first_bad_addr);
-=======
-		print_tags(get_tag(tagged_addr), info.first_bad_addr);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pr_err("\n");
 
 	if (addr_has_metadata(untagged_addr)) {
@@ -443,11 +423,7 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
 		dump_stack();
 	}
 
-<<<<<<< HEAD
 	end_report(&flags, addr);
-=======
-	end_report(&flags);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool kasan_report(unsigned long addr, size_t size, bool is_write,

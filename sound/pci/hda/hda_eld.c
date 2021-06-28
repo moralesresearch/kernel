@@ -260,11 +260,7 @@ int snd_hdmi_parse_eld(struct hda_codec *codec, struct parsed_hdmi_eld *e,
 		codec_info(codec, "HDMI: out of range MNL %d\n", mnl);
 		goto out_fail;
 	} else
-<<<<<<< HEAD
 		strscpy(e->monitor_name, buf + ELD_FIXED_BYTES, mnl + 1);
-=======
-		strlcpy(e->monitor_name, buf + ELD_FIXED_BYTES, mnl + 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < e->sad_count; i++) {
 		if (ELD_FIXED_BYTES + mnl + 3 * (i + 1) > size) {

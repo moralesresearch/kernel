@@ -14,10 +14,7 @@
 
 #include "common.h"
 #include "cpuidle.h"
-<<<<<<< HEAD
 #include "hardware.h"
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void __init imx6ul_enet_clk_init(void)
 {
@@ -31,46 +28,16 @@ static void __init imx6ul_enet_clk_init(void)
 		pr_err("failed to find fsl,imx6ul-iomux-gpr regmap\n");
 }
 
-<<<<<<< HEAD
 static inline void imx6ul_enet_init(void)
 {
 	imx6ul_enet_clk_init();
-=======
-static int ksz8081_phy_fixup(struct phy_device *dev)
-{
-	if (dev && dev->interface == PHY_INTERFACE_MODE_MII) {
-		phy_write(dev, 0x1f, 0x8110);
-		phy_write(dev, 0x16, 0x201);
-	} else if (dev && dev->interface == PHY_INTERFACE_MODE_RMII) {
-		phy_write(dev, 0x1f, 0x8190);
-		phy_write(dev, 0x16, 0x202);
-	}
-
-	return 0;
-}
-
-static void __init imx6ul_enet_phy_init(void)
-{
-	if (IS_BUILTIN(CONFIG_PHYLIB))
-		phy_register_fixup_for_uid(PHY_ID_KSZ8081, MICREL_PHY_ID_MASK,
-					   ksz8081_phy_fixup);
-}
-
-static inline void imx6ul_enet_init(void)
-{
-	imx6ul_enet_clk_init();
-	imx6ul_enet_phy_init();
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __init imx6ul_init_machine(void)
 {
-<<<<<<< HEAD
 	imx_print_silicon_rev(cpu_is_imx6ull() ? "i.MX6ULL" : "i.MX6UL",
 		imx_get_soc_revision());
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_platform_default_populate(NULL, NULL, NULL);
 	imx6ul_enet_init();
 	imx_anatop_init();

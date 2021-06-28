@@ -854,10 +854,7 @@ static int bnxt_qplib_alloc_dpi_tbl(struct bnxt_qplib_res     *res,
 
 unmap_io:
 	pci_iounmap(res->pdev, dpit->dbr_bar_reg_iomem);
-<<<<<<< HEAD
 	dpit->dbr_bar_reg_iomem = NULL;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -ENOMEM;
 }
 

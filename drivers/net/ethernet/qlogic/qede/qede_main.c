@@ -7,7 +7,6 @@
 #include <linux/crash_dump.h>
 #include <linux/module.h>
 #include <linux/pci.h>
-#include <linux/version.h>
 #include <linux/device.h>
 #include <linux/netdevice.h>
 #include <linux/etherdevice.h>
@@ -663,11 +662,6 @@ static const struct net_device_ops qede_netdev_ops = {
 	.ndo_get_vf_config	= qede_get_vf_config,
 	.ndo_set_vf_rate	= qede_set_vf_rate,
 #endif
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= qede_features_check,
 	.ndo_bpf		= qede_xdp,
 #ifdef CONFIG_RFS_ACCEL
@@ -691,11 +685,6 @@ static const struct net_device_ops qede_netdev_vf_ops = {
 	.ndo_fix_features	= qede_fix_features,
 	.ndo_set_features	= qede_set_features,
 	.ndo_get_stats64	= qede_get_stats64,
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= qede_features_check,
 };
 
@@ -713,11 +702,6 @@ static const struct net_device_ops qede_netdev_vf_xdp_ops = {
 	.ndo_fix_features	= qede_fix_features,
 	.ndo_set_features	= qede_set_features,
 	.ndo_get_stats64	= qede_get_stats64,
-<<<<<<< HEAD
-=======
-	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
-	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= qede_features_check,
 	.ndo_bpf		= qede_xdp,
 	.ndo_xdp_xmit		= qede_xdp_transmit,
@@ -919,10 +903,7 @@ static int qede_alloc_fp_array(struct qede_dev *edev)
 {
 	u8 fp_combined, fp_rx = edev->fp_num_rx;
 	struct qede_fastpath *fp;
-<<<<<<< HEAD
 	void *mem;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	edev->fp_array = kcalloc(QEDE_QUEUE_CNT(edev),
@@ -932,7 +913,6 @@ static int qede_alloc_fp_array(struct qede_dev *edev)
 		goto err;
 	}
 
-<<<<<<< HEAD
 	mem = krealloc(edev->coal_entry, QEDE_QUEUE_CNT(edev) *
 		       sizeof(*edev->coal_entry), GFP_KERNEL);
 	if (!mem) {
@@ -942,8 +922,6 @@ static int qede_alloc_fp_array(struct qede_dev *edev)
 	}
 	edev->coal_entry = mem;
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fp_combined = QEDE_QUEUE_CNT(edev) - fp_rx - edev->fp_num_tx;
 
 	/* Allocate the FP elements for Rx queues followed by combined and then
@@ -1351,15 +1329,10 @@ static void __qede_remove(struct pci_dev *pdev, enum qede_remove_mode mode)
 	 * [e.g., QED register callbacks] won't break anything when
 	 * accessing the netdevice.
 	 */
-<<<<<<< HEAD
 	if (mode != QEDE_REMOVE_RECOVERY) {
 		kfree(edev->coal_entry);
 		free_netdev(ndev);
 	}
-=======
-	if (mode != QEDE_REMOVE_RECOVERY)
-		free_netdev(ndev);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_info(&pdev->dev, "Ending qede_remove successfully\n");
 }
@@ -2366,14 +2339,9 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
 		     bool is_locked)
 {
 	struct qed_link_params link_params;
-<<<<<<< HEAD
 	struct ethtool_coalesce coal = {};
 	u8 num_tc;
 	int rc, i;
-=======
-	u8 num_tc;
-	int rc;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	DP_INFO(edev, "Starting qede load\n");
 
@@ -2434,7 +2402,6 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
 
 	edev->state = QEDE_STATE_OPEN;
 
-<<<<<<< HEAD
 	coal.rx_coalesce_usecs = QED_DEFAULT_RX_USECS;
 	coal.tx_coalesce_usecs = QED_DEFAULT_TX_USECS;
 
@@ -2447,8 +2414,6 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
 		qede_set_per_coalesce(edev->ndev, i, &coal);
 		__qede_lock(edev);
 	}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	DP_INFO(edev, "Ending successfully qede load\n");
 
 	goto out;

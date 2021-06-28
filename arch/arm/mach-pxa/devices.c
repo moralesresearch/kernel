@@ -4,10 +4,7 @@
 #include <linux/init.h>
 #include <linux/platform_device.h>
 #include <linux/clkdev.h>
-<<<<<<< HEAD
 #include <linux/clk-provider.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/dma-mapping.h>
 #include <linux/dmaengine.h>
 #include <linux/spi/pxa2xx_spi.h>
@@ -638,7 +635,6 @@ static struct platform_device pxa27x_device_camera = {
 
 void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
 {
-<<<<<<< HEAD
 	struct clk *mclk;
 
 	/* Register a fixed-rate clock for camera sensors. */
@@ -646,8 +642,6 @@ void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
 					     info->mclk_10khz * 10000);
 	if (!IS_ERR(mclk))
 		clkdev_create(mclk, "mclk", NULL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pxa_register_device(&pxa27x_device_camera, info);
 }
 

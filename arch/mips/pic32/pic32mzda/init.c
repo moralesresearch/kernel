@@ -21,38 +21,11 @@ const char *get_system_type(void)
 	return "PIC32MZDA";
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-static ulong get_fdtaddr(void)
-{
-	ulong ftaddr = 0;
-
-	if (fw_passed_dtb && !fw_arg2 && !fw_arg3)
-		return (ulong)fw_passed_dtb;
-
-	if (__dtb_start < __dtb_end)
-		ftaddr = (ulong)__dtb_start;
-
-	return ftaddr;
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init plat_mem_setup(void)
 {
 	void *dtb;
 
-<<<<<<< HEAD
 	dtb = get_fdt();
-=======
-<<<<<<< HEAD
-	dtb = get_fdt();
-=======
-	dtb = (void *)get_fdtaddr();
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!dtb) {
 		pr_err("pic32: no DTB found.\n");
 		return;
@@ -105,16 +78,6 @@ void __init prom_init(void)
 	pic32_init_cmdline((int)fw_arg0, (char **)fw_arg1);
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-void __init prom_free_prom_memory(void)
-{
-}
-
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init device_tree_init(void)
 {
 	if (!initial_boot_params)

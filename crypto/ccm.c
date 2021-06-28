@@ -6,10 +6,7 @@
  */
 
 #include <crypto/internal/aead.h>
-<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/hash.h>
 #include <crypto/internal/skcipher.h>
 #include <crypto/scatterwalk.h>
@@ -958,7 +955,4 @@ MODULE_ALIAS_CRYPTO("ccm_base");
 MODULE_ALIAS_CRYPTO("rfc4309");
 MODULE_ALIAS_CRYPTO("ccm");
 MODULE_ALIAS_CRYPTO("cbcmac");
-<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

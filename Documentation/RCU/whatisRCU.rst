@@ -683,11 +683,7 @@ Quick Quiz #1:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This section presents a "toy" RCU implementation that is based on
 "classic RCU".  It is also short on performance (but only for updates) and
-<<<<<<< HEAD
 on features such as hotplug CPU and the ability to run in CONFIG_PREEMPTION
-=======
-on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 kernels.  The definitions of rcu_dereference() and rcu_assign_pointer()
 are the same as those shown in the preceding section, so they are omitted.
 ::
@@ -743,11 +739,7 @@ Quick Quiz #2:
 Quick Quiz #3:
 		If it is illegal to block in an RCU read-side
 		critical section, what the heck do you do in
-<<<<<<< HEAD
 		CONFIG_PREEMPT_RT, where normal spinlocks can block???
-=======
-		PREEMPT_RT, where normal spinlocks can block???
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 :ref:`Answers to Quick Quiz <8_whatisRCU>`
 
@@ -1101,11 +1093,7 @@ Quick Quiz #2:
 		overhead is **negative**.
 
 Answer:
-<<<<<<< HEAD
 		Imagine a single-CPU system with a non-CONFIG_PREEMPTION
-=======
-		Imagine a single-CPU system with a non-CONFIG_PREEMPT
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kernel where a routing table is used by process-context
 		code, but can be updated by irq-context code (for example,
 		by an "ICMP REDIRECT" packet).	The usual way of handling
@@ -1132,17 +1120,10 @@ Answer:
 Quick Quiz #3:
 		If it is illegal to block in an RCU read-side
 		critical section, what the heck do you do in
-<<<<<<< HEAD
 		CONFIG_PREEMPT_RT, where normal spinlocks can block???
 
 Answer:
 		Just as CONFIG_PREEMPT_RT permits preemption of spinlock
-=======
-		PREEMPT_RT, where normal spinlocks can block???
-
-Answer:
-		Just as PREEMPT_RT permits preemption of spinlock
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		critical sections, it permits preemption of RCU
 		read-side critical sections.  It also permits
 		spinlocks blocking while in RCU read-side critical

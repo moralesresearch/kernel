@@ -278,10 +278,9 @@
 #define CPTR_EL2_DEFAULT	CPTR_EL2_RES1
 
 /* Hyp Debug Configuration Register bits */
-<<<<<<< HEAD
+#define MDCR_EL2_E2TB_MASK	(UL(0x3))
+#define MDCR_EL2_E2TB_SHIFT	(UL(24))
 #define MDCR_EL2_TTRF		(1 << 19)
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MDCR_EL2_TPMS		(1 << 14)
 #define MDCR_EL2_E2PB_MASK	(UL(0x3))
 #define MDCR_EL2_E2PB_SHIFT	(UL(12))

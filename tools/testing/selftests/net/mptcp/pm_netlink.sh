@@ -91,11 +91,7 @@ id 3 flags signal,backup 10.0.1.3" "dump addrs after del"
 ip netns exec $ns1 ./pm_nl_ctl add 10.0.1.3
 check "ip netns exec $ns1 ./pm_nl_ctl get 4" "" "duplicate addr"
 
-<<<<<<< HEAD
 ip netns exec $ns1 ./pm_nl_ctl add 10.0.1.4 flags signal
-=======
-ip netns exec $ns1 ./pm_nl_ctl add 10.0.1.4 id 10 flags signal
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 check "ip netns exec $ns1 ./pm_nl_ctl get 4" "id 4 flags signal 10.0.1.4" "id addr increment"
 
 for i in `seq 5 9`; do
@@ -104,18 +100,12 @@ done
 check "ip netns exec $ns1 ./pm_nl_ctl get 9" "id 9 flags signal 10.0.1.9" "hard addr limit"
 check "ip netns exec $ns1 ./pm_nl_ctl get 10" "" "above hard addr limit"
 
-for i in `seq 9 256`; do
+ip netns exec $ns1 ./pm_nl_ctl del 9
+for i in `seq 10 255`; do
+	ip netns exec $ns1 ./pm_nl_ctl add 10.0.0.9 id $i
 	ip netns exec $ns1 ./pm_nl_ctl del $i
-<<<<<<< HEAD
-	ip netns exec $ns1 ./pm_nl_ctl add 10.0.0.9 id $((i+1))
 done
 check "ip netns exec $ns1 ./pm_nl_ctl dump" "id 1 flags  10.0.1.1
-id 2 flags  10.0.0.9
-=======
-	ip netns exec $ns1 ./pm_nl_ctl add 10.0.0.9
-done
-check "ip netns exec $ns1 ./pm_nl_ctl dump" "id 1 flags  10.0.1.1
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 id 3 flags signal,backup 10.0.1.3
 id 4 flags signal 10.0.1.4
 id 5 flags signal 10.0.1.5
@@ -138,7 +128,6 @@ ip netns exec $ns1 ./pm_nl_ctl limits 8 8
 check "ip netns exec $ns1 ./pm_nl_ctl limits" "accept 8
 subflows 8" "set limits"
 
-<<<<<<< HEAD
 ip netns exec $ns1 ./pm_nl_ctl flush
 ip netns exec $ns1 ./pm_nl_ctl add 10.0.1.1
 ip netns exec $ns1 ./pm_nl_ctl add 10.0.1.2
@@ -175,6 +164,4 @@ id 253 flags  10.0.0.5
 id 254 flags  10.0.0.2
 id 255 flags  10.0.0.3" "wrap-around ids"
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 exit $ret

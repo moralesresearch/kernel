@@ -10,10 +10,7 @@ config AMD_IOMMU
 	select IOMMU_API
 	select IOMMU_IOVA
 	select IOMMU_DMA
-<<<<<<< HEAD
 	select IOMMU_IO_PGTABLE
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on X86_64 && PCI && ACPI && HAVE_CMPXCHG_DOUBLE
 	help
 	  With this option you can enable support for AMD IOMMU hardware in

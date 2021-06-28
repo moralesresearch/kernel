@@ -428,15 +428,9 @@ static inline bool is_mbpf_classic_store_pkt(const struct nfp_insn_meta *meta)
 	return is_mbpf_classic_store(meta) && meta->ptr.type == PTR_TO_PACKET;
 }
 
-<<<<<<< HEAD
 static inline bool is_mbpf_atomic(const struct nfp_insn_meta *meta)
 {
 	return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_ATOMIC);
-=======
-static inline bool is_mbpf_xadd(const struct nfp_insn_meta *meta)
-{
-	return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_XADD);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool is_mbpf_mul(const struct nfp_insn_meta *meta)

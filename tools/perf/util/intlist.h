@@ -9,11 +9,7 @@
 
 struct int_node {
 	struct rb_node rb_node;
-<<<<<<< HEAD
 	unsigned long i;
-=======
-	int i;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *priv;
 };
 
@@ -25,7 +21,6 @@ struct intlist *intlist__new(const char *slist);
 void intlist__delete(struct intlist *ilist);
 
 void intlist__remove(struct intlist *ilist, struct int_node *in);
-<<<<<<< HEAD
 int intlist__add(struct intlist *ilist, unsigned long i);
 
 struct int_node *intlist__entry(const struct intlist *ilist, unsigned int idx);
@@ -33,15 +28,6 @@ struct int_node *intlist__find(struct intlist *ilist, unsigned long i);
 struct int_node *intlist__findnew(struct intlist *ilist, unsigned long i);
 
 static inline bool intlist__has_entry(struct intlist *ilist, unsigned long i)
-=======
-int intlist__add(struct intlist *ilist, int i);
-
-struct int_node *intlist__entry(const struct intlist *ilist, unsigned int idx);
-struct int_node *intlist__find(struct intlist *ilist, int i);
-struct int_node *intlist__findnew(struct intlist *ilist, int i);
-
-static inline bool intlist__has_entry(struct intlist *ilist, int i)
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return intlist__find(ilist, i) != NULL;
 }

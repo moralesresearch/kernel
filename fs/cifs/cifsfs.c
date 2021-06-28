@@ -75,7 +75,7 @@ bool enable_oplocks = true;
 bool linuxExtEnabled = true;
 bool lookupCacheEnabled = true;
 bool disable_legacy_dialects; /* false by default */
-bool enable_gcm_256;  /* false by default, change when more servers support it */
+bool enable_gcm_256 = true;
 bool require_gcm_256; /* false by default */
 unsigned int global_secflags = CIFSSEC_DEF;
 /* unsigned int ntlmv2_support = 0; */
@@ -133,6 +133,7 @@ struct workqueue_struct	*cifsiod_wq;
 struct workqueue_struct	*decrypt_wq;
 struct workqueue_struct	*fileinfo_put_wq;
 struct workqueue_struct	*cifsoplockd_wq;
+struct workqueue_struct	*deferredclose_wq;
 __u32 cifs_lock_secret;
 
 /*
@@ -217,8 +218,11 @@ cifs_read_super(struct super_block *sb)
 	rc = super_setup_bdi(sb);
 	if (rc)
 		goto out_no_root;
-	/* tune readahead according to rsize */
-	sb->s_bdi->ra_pages = cifs_sb->ctx->rsize / PAGE_SIZE;
+	/* tune readahead according to rsize if readahead size not set on mount */
+	if (cifs_sb->ctx->rasize)
+		sb->s_bdi->ra_pages = cifs_sb->ctx->rasize / PAGE_SIZE;
+	else
+		sb->s_bdi->ra_pages = cifs_sb->ctx->rsize / PAGE_SIZE;
 
 	sb->s_blocksize = CIFS_MAX_MSGSIZE;
 	sb->s_blocksize_bits = 14;	/* default 2**14 = CIFS_MAX_MSGSIZE */
@@ -257,6 +261,29 @@ out_no_root:
 static void cifs_kill_sb(struct super_block *sb)
 {
 	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
+	struct cifs_tcon *tcon;
+	struct cached_fid *cfid;
+
+	/*
+	 * We ned to release all dentries for the cached directories
+	 * before we kill the sb.
+	 */
+	if (cifs_sb->root) {
+		dput(cifs_sb->root);
+		cifs_sb->root = NULL;
+	}
+	tcon = cifs_sb_master_tcon(cifs_sb);
+	if (tcon) {
+		cfid = &tcon->crfid;
+		mutex_lock(&cfid->fid_mutex);
+		if (cfid->dentry) {
+
+			dput(cfid->dentry);
+			cfid->dentry = NULL;
+		}
+		mutex_unlock(&cfid->fid_mutex);
+	}
+
 	kill_anon_super(sb);
 	cifs_umount(cifs_sb);
 }
@@ -305,17 +332,8 @@ static long cifs_fallocate(struct file *file, int mode, loff_t off, loff_t len)
 	return -EOPNOTSUPP;
 }
 
-<<<<<<< HEAD
 static int cifs_permission(struct user_namespace *mnt_userns,
 			   struct inode *inode, int mask)
-=======
-<<<<<<< HEAD
-static int cifs_permission(struct user_namespace *mnt_userns,
-			   struct inode *inode, int mask)
-=======
-static int cifs_permission(struct inode *inode, int mask)
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cifs_sb_info *cifs_sb;
 
@@ -330,15 +348,7 @@ static int cifs_permission(struct inode *inode, int mask)
 		on the client (above and beyond ACL on servers) for
 		servers which do not support setting and viewing mode bits,
 		so allowing client to check permissions is useful */
-<<<<<<< HEAD
 		return generic_permission(&init_user_ns, inode, mask);
-=======
-<<<<<<< HEAD
-		return generic_permission(&init_user_ns, inode, mask);
-=======
-		return generic_permission(inode, mask);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct kmem_cache *cifs_inode_cachep;
@@ -381,6 +391,8 @@ cifs_alloc_inode(struct super_block *sb)
 	/* cifs_inode->vfs_inode.i_flags = S_NOATIME | S_NOCMTIME; */
 	INIT_LIST_HEAD(&cifs_inode->openFileList);
 	INIT_LIST_HEAD(&cifs_inode->llist);
+	INIT_LIST_HEAD(&cifs_inode->deferred_closes);
+	spin_lock_init(&cifs_inode->deferred_lock);
 	return &cifs_inode->vfs_inode;
 }
 
@@ -493,17 +505,8 @@ static int cifs_show_devname(struct seq_file *m, struct dentry *root)
 		seq_puts(m, "none");
 	else {
 		convert_delimiter(devname, '/');
-<<<<<<< HEAD
 		/* escape all spaces in share names */
 		seq_escape(m, devname, " \t");
-=======
-<<<<<<< HEAD
-		/* escape all spaces in share names */
-		seq_escape(m, devname, " \t");
-=======
-		seq_puts(m, devname);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(devname);
 	}
 	return 0;
@@ -652,6 +655,8 @@ cifs_show_options(struct seq_file *s, struct dentry *root)
 	seq_printf(s, ",rsize=%u", cifs_sb->ctx->rsize);
 	seq_printf(s, ",wsize=%u", cifs_sb->ctx->wsize);
 	seq_printf(s, ",bsize=%u", cifs_sb->ctx->bsize);
+	if (cifs_sb->ctx->rasize)
+		seq_printf(s, ",rasize=%u", cifs_sb->ctx->rasize);
 	if (tcon->ses->server->min_offload)
 		seq_printf(s, ",esize=%u", tcon->ses->server->min_offload);
 	seq_printf(s, ",echo_interval=%lu",
@@ -665,10 +670,6 @@ cifs_show_options(struct seq_file *s, struct dentry *root)
 		seq_printf(s, ",snapshot=%llu", tcon->snapshot_time);
 	if (tcon->handle_timeout)
 		seq_printf(s, ",handletimeout=%u", tcon->handle_timeout);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Display file and directory attribute timeout in seconds.
@@ -681,22 +682,13 @@ cifs_show_options(struct seq_file *s, struct dentry *root)
 		seq_printf(s, ",acdirmax=%lu", cifs_sb->ctx->acdirmax / HZ);
 		seq_printf(s, ",acregmax=%lu", cifs_sb->ctx->acregmax / HZ);
 	}
-<<<<<<< HEAD
-=======
-=======
-	/* convert actimeo and display it in seconds */
-	seq_printf(s, ",actimeo=%lu", cifs_sb->ctx->actimeo / HZ);
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tcon->ses->chan_max > 1)
 		seq_printf(s, ",multichannel,max_channels=%zu",
 			   tcon->ses->chan_max);
 
-#ifdef CONFIG_CIFS_SWN_UPCALL
 	if (tcon->use_witness)
 		seq_puts(s, ",witness");
-#endif
 
 	return 0;
 }
@@ -871,11 +863,7 @@ cifs_smb3_do_mount(struct file_system_type *fs_type,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	rc = cifs_setup_volume_info(cifs_sb->ctx, NULL, NULL);
-=======
-	rc = cifs_setup_volume_info(cifs_sb->ctx, NULL, old_ctx->UNC);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc) {
 		root = ERR_PTR(rc);
 		goto out;
@@ -928,6 +916,9 @@ cifs_smb3_do_mount(struct file_system_type *fs_type,
 	root = cifs_get_root(cifs_sb ? cifs_sb->ctx : old_ctx, sb);
 	if (IS_ERR(root))
 		goto out_super;
+
+	if (cifs_sb)
+		cifs_sb->root = dget(root);
 
 	cifs_dbg(FYI, "dentry root is: %p\n", root);
 	return root;
@@ -1569,23 +1560,12 @@ init_cifs(void)
 	int rc = 0;
 	cifs_proc_init();
 	INIT_LIST_HEAD(&cifs_tcp_ses_list);
-#ifdef CONFIG_CIFS_DNOTIFY_EXPERIMENTAL /* unused temporarily */
-	INIT_LIST_HEAD(&GlobalDnotifyReqList);
-	INIT_LIST_HEAD(&GlobalDnotifyRsp_Q);
-#endif /* was needed for dnotify, and will be needed for inotify when VFS fix */
 /*
  *  Initialize Global counters
  */
 	atomic_set(&sesInfoAllocCount, 0);
 	atomic_set(&tconInfoAllocCount, 0);
-<<<<<<< HEAD
 	atomic_set(&tcpSesNextId, 0);
-=======
-<<<<<<< HEAD
-	atomic_set(&tcpSesNextId, 0);
-=======
->>>>>>> stable
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_set(&tcpSesAllocCount, 0);
 	atomic_set(&tcpSesReconnectCount, 0);
 	atomic_set(&tconInfoReconnectCount, 0);
@@ -1654,9 +1634,16 @@ init_cifs(void)
 		goto out_destroy_fileinfo_put_wq;
 	}
 
+	deferredclose_wq = alloc_workqueue("deferredclose",
+					   WQ_FREEZABLE|WQ_MEM_RECLAIM, 0);
+	if (!deferredclose_wq) {
+		rc = -ENOMEM;
+		goto out_destroy_cifsoplockd_wq;
+	}
+
 	rc = cifs_fscache_register();
 	if (rc)
-		goto out_destroy_cifsoplockd_wq;
+		goto out_destroy_deferredclose_wq;
 
 	rc = cifs_init_inodecache();
 	if (rc)
@@ -1724,6 +1711,8 @@ out_destroy_inodecache:
 	cifs_destroy_inodecache();
 out_unreg_fscache:
 	cifs_fscache_unregister();
+out_destroy_deferredclose_wq:
+	destroy_workqueue(deferredclose_wq);
 out_destroy_cifsoplockd_wq:
 	destroy_workqueue(cifsoplockd_wq);
 out_destroy_fileinfo_put_wq:
@@ -1758,6 +1747,7 @@ exit_cifs(void)
 	cifs_destroy_mids();
 	cifs_destroy_inodecache();
 	cifs_fscache_unregister();
+	destroy_workqueue(deferredclose_wq);
 	destroy_workqueue(cifsoplockd_wq);
 	destroy_workqueue(decrypt_wq);
 	destroy_workqueue(fileinfo_put_wq);

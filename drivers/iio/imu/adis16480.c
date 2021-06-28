@@ -10,10 +10,7 @@
 #include <linux/of_irq.h>
 #include <linux/interrupt.h>
 #include <linux/delay.h>
-<<<<<<< HEAD
 #include <linux/math.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mutex.h>
 #include <linux/device.h>
 #include <linux/kernel.h>
@@ -21,10 +18,7 @@
 #include <linux/slab.h>
 #include <linux/sysfs.h>
 #include <linux/module.h>
-<<<<<<< HEAD
 #include <linux/lcm.h>
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/iio/iio.h>
 #include <linux/iio/sysfs.h>
@@ -178,14 +172,11 @@ static const char * const adis16480_int_pin_names[4] = {
 	[ADIS16480_PIN_DIO4] = "DIO4",
 };
 
-<<<<<<< HEAD
 static bool low_rate_allow;
 module_param(low_rate_allow, bool, 0444);
 MODULE_PARM_DESC(low_rate_allow,
 		 "Allow IMU rates below the minimum advisable when external clk is used in PPS mode (default: N)");
 
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DEBUG_FS
 
 static ssize_t adis16480_show_firmware_revision(struct file *file,
@@ -328,12 +319,8 @@ static int adis16480_debugfs_init(struct iio_dev *indio_dev)
 static int adis16480_set_freq(struct iio_dev *indio_dev, int val, int val2)
 {
 	struct adis16480 *st = iio_priv(indio_dev);
-<<<<<<< HEAD
 	unsigned int t, sample_rate = st->clk_freq;
 	int ret;
-=======
-	unsigned int t, reg;
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (val < 0 || val2 < 0)
 		return -EINVAL;
@@ -342,8 +329,7 @@ static int adis16480_set_freq(struct iio_dev *indio_dev, int val, int val2)
 	if (t == 0)
 		return -EINVAL;
 
-<<<<<<< HEAD
-	mutex_lock(&st->adis.state_lock);
+	adis_dev_lock(&st->adis);
 	/*
 	 * When using PPS mode, the input clock needs to be scaled so that we have an IMU
 	 * sample rate between (optimally) 4000 and 4250. After this, we can use the
@@ -400,32 +386,8 @@ static int adis16480_set_freq(struct iio_dev *indio_dev, int val, int val2)
 
 	ret = __adis_write_reg_16(&st->adis, ADIS16480_REG_DEC_RATE, t);
 error:
-	mutex_unlock(&st->adis.state_lock);
+	adis_dev_unlock(&st->adis);
 	return ret;
-=======
-	/*
-	 * When using PPS mode, the rate of data collection is equal to the
-	 * product of the external clock frequency and the scale factor in the
-	 * SYNC_SCALE register.
-	 * When using sync mode, or internal clock, the output data rate is
-	 * equal with  the clock frequency divided by DEC_RATE + 1.
-	 */
-	if (st->clk_mode == ADIS16480_CLK_PPS) {
-		t = t / st->clk_freq;
-		reg = ADIS16495_REG_SYNC_SCALE;
-	} else {
-		t = st->clk_freq / t;
-		reg = ADIS16480_REG_DEC_RATE;
-	}
-
-	if (t > st->chip_info->max_dec_rate)
-		t = st->chip_info->max_dec_rate;
-
-	if ((t != 0) && (st->clk_mode != ADIS16480_CLK_PPS))
-		t--;
-
-	return adis_write_reg_16(&st->adis, reg, t);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int adis16480_get_freq(struct iio_dev *indio_dev, int *val, int *val2)
@@ -433,10 +395,9 @@ static int adis16480_get_freq(struct iio_dev *indio_dev, int *val, int *val2)
 	struct adis16480 *st = iio_priv(indio_dev);
 	uint16_t t;
 	int ret;
-<<<<<<< HEAD
 	unsigned int freq, sample_rate = st->clk_freq;
 
-	mutex_lock(&st->adis.state_lock);
+	adis_dev_lock(&st->adis);
 
 	if (st->clk_mode == ADIS16480_CLK_PPS) {
 		u16 sync_scale;
@@ -452,45 +413,17 @@ static int adis16480_get_freq(struct iio_dev *indio_dev, int *val, int *val2)
 	if (ret)
 		goto error;
 
-	mutex_unlock(&st->adis.state_lock);
+	adis_dev_unlock(&st->adis);
 
 	freq = DIV_ROUND_CLOSEST(sample_rate, (t + 1));
-=======
-	unsigned int freq;
-	unsigned int reg;
-
-	if (st->clk_mode == ADIS16480_CLK_PPS)
-		reg = ADIS16495_REG_SYNC_SCALE;
-	else
-		reg = ADIS16480_REG_DEC_RATE;
-
-	ret = adis_read_reg_16(&st->adis, reg, &t);
-	if (ret)
-		return ret;
-
-	/*
-	 * When using PPS mode, the rate of data collection is equal to the
-	 * product of the external clock frequency and the scale factor in the
-	 * SYNC_SCALE register.
-	 * When using sync mode, or internal clock, the output data rate is
-	 * equal with  the clock frequency divided by DEC_RATE + 1.
-	 */
-	if (st->clk_mode == ADIS16480_CLK_PPS)
-		freq = st->clk_freq * t;
-	else
-		freq = st->clk_freq / (t + 1);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*val = freq / 1000;
 	*val2 = (freq % 1000) * 1000;
 
 	return IIO_VAL_INT_PLUS_MICRO;
-<<<<<<< HEAD
 error:
-	mutex_unlock(&st->adis.state_lock);
+	adis_dev_unlock(&st->adis);
 	return ret;
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 enum {
@@ -665,7 +598,6 @@ static int adis16480_set_filter_freq(struct iio_dev *indio_dev,
 	const struct iio_chan_spec *chan, unsigned int freq)
 {
 	struct adis16480 *st = iio_priv(indio_dev);
-	struct mutex *slock = &st->adis.state_lock;
 	unsigned int enable_mask, offset, reg;
 	unsigned int diff, best_diff;
 	unsigned int i, best_freq;
@@ -676,7 +608,7 @@ static int adis16480_set_filter_freq(struct iio_dev *indio_dev,
 	offset = ad16480_filter_data[chan->scan_index][1];
 	enable_mask = BIT(offset + 2);
 
-	mutex_lock(slock);
+	adis_dev_lock(&st->adis);
 
 	ret = __adis_read_reg_16(&st->adis, reg, &val);
 	if (ret)
@@ -704,7 +636,7 @@ static int adis16480_set_filter_freq(struct iio_dev *indio_dev,
 
 	ret = __adis_write_reg_16(&st->adis, reg, val);
 out_unlock:
-	mutex_unlock(slock);
+	adis_dev_unlock(&st->adis);
 
 	return ret;
 }
@@ -1391,7 +1323,6 @@ static int adis16480_probe(struct spi_device *spi)
 
 		st->clk_freq = clk_get_rate(st->ext_clk);
 		st->clk_freq *= 1000; /* micro */
-<<<<<<< HEAD
 		if (st->clk_mode == ADIS16480_CLK_PPS) {
 			u16 sync_scale;
 
@@ -1406,8 +1337,6 @@ static int adis16480_probe(struct spi_device *spi)
 			if (ret)
 				return ret;
 		}
-=======
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		st->clk_freq = st->chip_info->int_clk;
 	}

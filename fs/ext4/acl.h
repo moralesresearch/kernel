@@ -56,12 +56,8 @@ static inline int ext4_acl_count(size_t size)
 
 /* acl.c */
 struct posix_acl *ext4_get_acl(struct inode *inode, int type);
-<<<<<<< HEAD
 int ext4_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		 struct posix_acl *acl, int type);
-=======
-int ext4_set_acl(struct inode *inode, struct posix_acl *acl, int type);
->>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int ext4_init_acl(handle_t *, struct inode *, struct inode *);
 
 #else  /* CONFIG_EXT4_FS_POSIX_ACL */
