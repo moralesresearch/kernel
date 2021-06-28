@@ -5,10 +5,10 @@ Version:        5.13.0
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel 
 
-#Group:          
-License:      FRL  
-URL:  https://github.com/Morales-Research-Corporation/kernel          
-Source0:    https://github.com/Morales-Research-Corporation/kernel    
+#Group:
+License:      FRL
+URL:  https://github.com/Morales-Research-Corporation/kernel
+Source0:    https://github.com/Morales-Research-Corporation/kernel.git
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 #BuildRequires:  
