@@ -20,6 +20,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Wed Jul 14 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.2-2
+- Update kernel.spec (abdon.morales13_2022@outlook.com)
+- Update README.md (abdon.morales13_2022@outlook.com)
+- Delete release.yml (abdon.morales13_2022@outlook.com)
+
 * Tue Jul 13 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.2-1
 - Adding new source code for the following linux release
   (39339393+Server2356@users.noreply.github.com)
