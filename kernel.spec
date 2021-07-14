@@ -2,7 +2,7 @@
 
 Name:           kernel
 Version:        5.13.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:       The MR-Sun Kernel 
 
 #Group:
