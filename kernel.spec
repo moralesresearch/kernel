@@ -1,8 +1,8 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        5.13.2
-Release:        2%{?dist}
+Version:        5.13.3
+Release:        1%{?dist}
 Summary:       The MR-Sun Kernel 
 
 #Group:
@@ -20,6 +20,17 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Thu Jul 15 2021 Abdon Morales Jr <abdon.morales@moralesresearch.org> 5.13.3-1
+- Fixed kernel extravers to mark stable release
+  (abdon.morales13_2022@outlook.com)
+- Correcting makefile with stable as extraver
+  (abdon.morales13_2022@outlook.com)
+- Update README.md (abdon.morales13_2022@outlook.com)
+- Adding new patch kernel for v5.13 MR-Linux kernel
+  (abdon.morales13_2022@outlook.com)
+- Removing base stable 5.13.2 kernel for the new 5.13.3 (based on Linux 5.13.2)
+  (abdon.morales13_2022@outlook.com)
+
 * Wed Jul 14 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.2-2
 - Update kernel.spec (abdon.morales13_2022@outlook.com)
 - Update README.md (abdon.morales13_2022@outlook.com)
