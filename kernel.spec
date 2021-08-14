@@ -1,7 +1,7 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        5.13.4
+Version:        5.13.5
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel 
 
