@@ -1,9 +1,9 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        5.13.5
+Version:        5.13.6
 Release:        1%{?dist}
-Summary:       The MR-Sun Kernel 
+Summary:       The MR-Sun Kernel for Linux (Red Hat-based) Distrobutions
 
 #Group:
 License:      FRL
