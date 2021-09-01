@@ -1,7 +1,7 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        5.13.6
+Version:        5.13.7
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel for Linux (Red Hat-based) Distrobutions
 
@@ -20,6 +20,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Tue Aug 31 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.7-1
+- Adding minor patches for final small release for 5.13 and moving foward to
+  release 5.14
+  ------------------------------------------------------------------
+  (abdon.morales13_2022@outlook.com)
+- Removing old revised kernel (5.13.6) (abdon.morales13_2022@outlook.com)
+
 * Sat Aug 28 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.6-1
 - Adding new patched kernel for 5.13 (abdon.morales13_2022@outlook.com)
 
