@@ -1,4 +1,4 @@
-# Sun Kernel v2.1.6 [LTM] (Long Term Maintenance)
+# Sun Kernel v2.2.0 [LTM] (Long Term Maintenance)
 Sun Kernel is a proprietary kernel for Sun/OS and all Linux distrobutions
 There are several guides for kernel developers and users. These guides can
 be rendered in a number of formats, like HTML and PDF. Please read
@@ -14,4 +14,4 @@ several of them using the Restructured Text markup notation.
 
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
-the problems which may result by upgrading your kernel.
+the problems which may result by upgrading your kernel

@@ -235,7 +235,7 @@ static int smu7_get_current_pcie_lane_number(struct pp_hwmgr *hwmgr)
 /**
  * smu7_enable_smc_voltage_controller - Enable voltage control
  *
- * @hwmgr  the address of the powerplay hardware manager.
+ * @hwmgr:  the address of the powerplay hardware manager.
  * Return:   always PP_Result_OK
  */
 static int smu7_enable_smc_voltage_controller(struct pp_hwmgr *hwmgr)
@@ -1224,7 +1224,8 @@ static int smu7_enable_sclk_mclk_dpm(struct pp_hwmgr *hwmgr)
 		    (hwmgr->chip_id == CHIP_POLARIS10) ||
 		    (hwmgr->chip_id == CHIP_POLARIS11) ||
 		    (hwmgr->chip_id == CHIP_POLARIS12) ||
-		    (hwmgr->chip_id == CHIP_TONGA))
+		    (hwmgr->chip_id == CHIP_TONGA) ||
+		    (hwmgr->chip_id == CHIP_TOPAZ))
 			PHM_WRITE_FIELD(hwmgr->device, MC_SEQ_CNTL_3, CAC_EN, 0x1);
 
 
@@ -4556,7 +4557,7 @@ static int smu7_display_configuration_changed_task(struct pp_hwmgr *hwmgr)
  * smu7_set_max_fan_rpm_output - Set maximum target operating fan output RPM
  *
  * @hwmgr:  the address of the powerplay hardware manager.
- * @usMaxFanRpm:  max operating fan RPM value.
+ * @us_max_fan_rpm:  max operating fan RPM value.
  * Return:   The response that came from the SMC.
  */
 static int smu7_set_max_fan_rpm_output(struct pp_hwmgr *hwmgr, uint16_t us_max_fan_rpm)
