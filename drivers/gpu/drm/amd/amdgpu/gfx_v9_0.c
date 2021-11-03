@@ -734,7 +734,7 @@ static const u32 GFX_RLC_SRM_INDEX_CNTL_DATA_OFFSETS[] =
 	mmRLC_SRM_INDEX_CNTL_DATA_7 - mmRLC_SRM_INDEX_CNTL_DATA_0,
 };
 
-static void gfx_v9_0_rlcg_rw(struct amdgpu_device *adev, u32 offset, u32 v, u32 flag)
+static void gfx_v9_0_rlcg_w(struct amdgpu_device *adev, u32 offset, u32 v, u32 flag)
 {
 	static void *scratch_reg0;
 	static void *scratch_reg1;
@@ -787,15 +787,17 @@ static void gfx_v9_0_rlcg_rw(struct amdgpu_device *adev, u32 offset, u32 v, u32 
 
 }
 
-static void gfx_v9_0_rlcg_wreg(struct amdgpu_device *adev, u32 offset, u32 v, u32 flag)
+static void gfx_v9_0_sriov_wreg(struct amdgpu_device *adev, u32 offset,
+			       u32 v, u32 acc_flags, u32 hwip)
 {
-	if (amdgpu_sriov_fullaccess(adev)) {
-		gfx_v9_0_rlcg_rw(adev, offset, v, flag);
+	if ((acc_flags & AMDGPU_REGS_RLC) &&
+	    amdgpu_sriov_fullaccess(adev)) {
+		gfx_v9_0_rlcg_w(adev, offset, v, acc_flags);
 
 		return;
 	}
 
-	if (flag & AMDGPU_REGS_NO_KIQ)
+	if (acc_flags & AMDGPU_REGS_NO_KIQ)
 		WREG32_NO_KIQ(offset, v);
 	else
 		WREG32(offset, v);
@@ -2088,6 +2090,7 @@ static void gfx_v9_0_read_wave_data(struct amdgpu_device *adev, uint32_t simd, u
 	dst[(*no_fields)++] = wave_read_ind(adev, simd, wave, ixSQ_WAVE_IB_STS);
 	dst[(*no_fields)++] = wave_read_ind(adev, simd, wave, ixSQ_WAVE_IB_DBG0);
 	dst[(*no_fields)++] = wave_read_ind(adev, simd, wave, ixSQ_WAVE_M0);
+	dst[(*no_fields)++] = wave_read_ind(adev, simd, wave, ixSQ_WAVE_MODE);
 }
 
 static void gfx_v9_0_read_wave_sgprs(struct amdgpu_device *adev, uint32_t simd,
@@ -3596,7 +3599,7 @@ static int gfx_v9_0_mqd_init(struct amdgpu_ring *ring)
 
 	/* set static priority for a queue/ring */
 	gfx_v9_0_mqd_set_priority(ring, mqd);
-	mqd->cp_hqd_quantum = RREG32(mmCP_HQD_QUANTUM);
+	mqd->cp_hqd_quantum = RREG32_SOC15(GC, 0, mmCP_HQD_QUANTUM);
 
 	/* map_queues packet doesn't need activate the queue,
 	 * so only kiq need set this field.
@@ -3956,7 +3959,8 @@ static void gfx_v9_0_init_tcp_config(struct amdgpu_device *adev)
 {
 	u32 tmp;
 
-	if (adev->asic_type != CHIP_ARCTURUS)
+	if (adev->asic_type != CHIP_ARCTURUS &&
+	    adev->asic_type != CHIP_ALDEBARAN)
 		return;
 
 	tmp = RREG32_SOC15(GC, 0, mmTCP_ADDR_CONFIG);
@@ -4578,8 +4582,7 @@ static int gfx_v9_0_do_edc_gpr_workarounds(struct amdgpu_device *adev)
 	if (!ring->sched.ready)
 		return 0;
 
-	if (adev->asic_type == CHIP_ARCTURUS ||
-	    adev->asic_type == CHIP_ALDEBARAN) {
+	if (adev->asic_type == CHIP_ARCTURUS) {
 		vgpr_init_shader_ptr = vgpr_init_compute_shader_arcturus;
 		vgpr_init_shader_size = sizeof(vgpr_init_compute_shader_arcturus);
 		vgpr_init_regs_ptr = vgpr_init_regs_arcturus;
@@ -4764,7 +4767,11 @@ static int gfx_v9_0_ecc_late_init(void *handle)
 	}
 
 	/* requires IBs so do in late init after IB pool is initialized */
-	r = gfx_v9_0_do_edc_gpr_workarounds(adev);
+	if (adev->asic_type == CHIP_ALDEBARAN)
+		r = gfx_v9_4_2_do_edc_gpr_workarounds(adev);
+	else
+		r = gfx_v9_0_do_edc_gpr_workarounds(adev);
+
 	if (r)
 		return r;
 
@@ -5144,7 +5151,7 @@ static const struct amdgpu_rlc_funcs gfx_v9_0_rlc_funcs = {
 	.reset = gfx_v9_0_rlc_reset,
 	.start = gfx_v9_0_rlc_start,
 	.update_spm_vmid = gfx_v9_0_update_spm_vmid,
-	.rlcg_wreg = gfx_v9_0_rlcg_wreg,
+	.sriov_wreg = gfx_v9_0_sriov_wreg,
 	.is_rlcg_access_range = gfx_v9_0_is_rlcg_access_range,
 };
 

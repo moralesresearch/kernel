@@ -81,6 +81,7 @@ static void imx_drm_atomic_commit_tail(struct drm_atomic_state *state)
 	struct drm_plane_state *old_plane_state, *new_plane_state;
 	bool plane_disabling = false;
 	int i;
+	bool fence_cookie = dma_fence_begin_signalling();
 
 	drm_atomic_helper_commit_modeset_disables(dev, state);
 
@@ -111,6 +112,7 @@ static void imx_drm_atomic_commit_tail(struct drm_atomic_state *state)
 	}
 
 	drm_atomic_helper_commit_hw_done(state);
+	dma_fence_end_signalling(fence_cookie);
 }
 
 static const struct drm_mode_config_helper_funcs imx_drm_mode_config_helpers = {
@@ -206,17 +208,6 @@ static int imx_drm_bind(struct device *dev)
 		return PTR_ERR(drm);
 
 	/*
-	 * enable drm irq mode.
-	 * - with irq_enabled = true, we can use the vblank feature.
-	 *
-	 * P.S. note that we wouldn't use drm irq handler but
-	 *      just specific driver own one instead because
-	 *      drm framework supports only one irq handler and
-	 *      drivers can well take care of their interrupts
-	 */
-	drm->irq_enabled = true;
-
-	/*
 	 * set max width and height as default value(4096x4096).
 	 * this value would be used to check framebuffer size limitation
 	 * at drm_mode_addfb().
@@ -227,7 +218,6 @@ static int imx_drm_bind(struct device *dev)
 	drm->mode_config.max_height = 4096;
 	drm->mode_config.funcs = &imx_drm_mode_config_funcs;
 	drm->mode_config.helper_private = &imx_drm_mode_config_helpers;
-	drm->mode_config.allow_fb_modifiers = true;
 	drm->mode_config.normalize_zpos = true;
 
 	ret = drmm_mode_config_init(drm);
