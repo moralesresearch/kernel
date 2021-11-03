@@ -1,7 +1,7 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           kernel
-Version:        5.13.7
+Version:        5.15.0
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel for Linux (Red Hat-based) Distrobutions
 
@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # This is a placeholder spec in order for tito to package, and we need to build a proper spec for the kernel
 
 %description
-MR-Sun Kernel is a proprietary kernel for Sun/OS Linux and supports all Linux distributions
+Linux Kernel is an open-source kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
 * Tue Aug 31 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.13.7-1
