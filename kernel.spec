@@ -20,6 +20,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Linux Kernel is an open-source kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Mon Nov 22 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.15.3-1
+- Added the new patched kernel from the upstream repository at kernel.org
+  (abdon.morales@moralesresearch.org)
+
 * Mon Nov 22 2021 Abdon Morales <abdon.morales@moralesresearch.org> 5.15.2-1
 - Oops, forgot to change the code name for the kernel
   (abdon.morales13_2022@outlook.com)
